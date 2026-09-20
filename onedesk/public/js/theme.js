@@ -40,6 +40,12 @@ frappe.model?.user_settings
 	.catch(() => {});
 
 frappe.ui.ThemeSwitcher = class OneThemeSwitcher extends frappe.ui.ThemeSwitcher {
+	// `size: "large"` was sized for three cards in a row; ours are two.
+	setup_dialog() {
+		super.setup_dialog();
+		this.dialog.$wrapper.find(".modal-dialog").removeClass("modal-lg");
+	}
+
 	// One card per palette and mode: "One · Dark" is a palette and a mode, and
 	// the dialog is the only place both are chosen.
 	fetch_themes() {
