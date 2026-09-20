@@ -6,7 +6,7 @@ ROOT = Path(__file__).resolve().parent.parent
 APP = ROOT / "onedesk"
 
 SKIP_DIRS = {"__pycache__", "node_modules", "dist", ".git", "locale"}
-SOURCE_SUFFIXES = {".py", ".js", ".ts", ".vue"}
+SOURCE_SUFFIXES = {".py", ".js", ".ts", ".vue", ".css", ".scss"}
 
 
 def sources() -> list[Path]:

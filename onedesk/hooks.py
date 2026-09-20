@@ -8,3 +8,6 @@ app_license = "agpl-3.0"
 # `setup_wizard_url` is ignored while erpnext or hrms are installed.
 setup_wizard_requires = "assets/onedesk/js/setup_wizard.js"
 setup_wizard_stages = "onedesk.one.setup_wizard.get_setup_stages"
+
+app_include_css = "/assets/onedesk/css/theme.css"
+app_include_js = "/assets/onedesk/js/theme.js"

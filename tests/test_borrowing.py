@@ -62,10 +62,17 @@ RULES = [
 ]
 
 
+#: Where a literal colour is the point rather than a mistake: this is the file
+#: that defines the tokens everything else is told to use.
+DEFINES_TOKENS = ("onedesk/public/css/theme.css",)
+
+
 def _offenders(pattern: str, suffixes: set[str]) -> list[str]:
 	found = []
 	for path in tree.sources():
 		if path.suffix not in suffixes:
+			continue
+		if str(path.relative_to(tree.ROOT)) in DEFINES_TOKENS:
 			continue
 		for n, line in enumerate(path.read_text().splitlines(), 1):
 			if _is_comment(line, path.suffix):
