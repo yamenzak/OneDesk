@@ -7,11 +7,23 @@
 
 No doctypes yet.
 
+## OneHR
+
+`onedesk/onehr`
+
+No doctypes yet.
+
+## OneCRM
+
+`onedesk/onecrm`
+
+No doctypes yet.
+
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
-* **sidebar** — one
-* **workspace** — one
+* **sidebar** — one, onecrm, onehr
+* **workspace** — one, onecrm, onehr
 
 ## Whitelisted methods
 

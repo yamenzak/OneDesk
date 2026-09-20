@@ -25,9 +25,9 @@
    "added": 0,
    "hidden": 0,
    "icon": "handshake",
-   "link_to": "CRM",
+   "link_to": "OneCRM",
    "link_type": "Sidebar",
-   "title": "CRM"
+   "title": "OneCRM"
   },
   {
    "added": 0,
@@ -41,12 +41,12 @@
    "added": 0,
    "hidden": 0,
    "icon": "users",
-   "link_to": "HR Setup",
+   "link_to": "OneHR",
    "link_type": "Sidebar",
-   "title": "People"
+   "title": "OneHR"
   }
  ],
- "modified": "2026-09-20 12:00:00.000000",
+ "modified": "2026-09-20 13:30:00.000000",
  "modified_by": "Administrator",
  "name": "onedesk",
  "owner": "Administrator",
