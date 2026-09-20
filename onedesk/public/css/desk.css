@@ -97,14 +97,11 @@
  * message band it sits in is frappe's, and it paints itself blue for a notice;
  * this is a permanent summary rather than a notice, so it takes the page's own
  * surface back. */
-.form-message:has(.one-band),
-.form-message:has(.one-band) * {
-	background-color: transparent !important;
-}
-
 .form-message:has(.one-band) {
-	background-color: var(--surface-elevation-1) !important;
-	color: var(--ink-gray-7);
+	background: var(--surface-elevation-1) !important;
+	border: none !important;
+	border-bottom: 1px solid var(--outline-gray-1) !important;
+	color: var(--ink-gray-7) !important;
 }
 
 .one-band {

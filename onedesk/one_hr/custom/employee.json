@@ -1,0 +1,24 @@
+{
+ "custom_fields": [],
+ "doctype": "Employee",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Employee",
+   "doctype_or_field": "DocField",
+   "field_name": "company",
+   "property": "read_only",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Employee",
+   "doctype_or_field": "DocField",
+   "field_name": "naming_series",
+   "property": "depends_on",
+   "property_type": "Data",
+   "value": "eval:doc.__islocal"
+  }
+ ],
+ "sync_on_migrate": 1
+}
