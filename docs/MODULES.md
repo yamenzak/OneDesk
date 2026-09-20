@@ -27,4 +27,4 @@ No doctypes yet.
 
 ## Whitelisted methods
 
-None yet.
+* `onedesk.one_hr.employee.overview`

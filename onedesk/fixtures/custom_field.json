@@ -1,0 +1,22 @@
+[
+ {
+  "doctype": "Custom Field",
+  "dt": "Employee",
+  "fieldname": "one_overview_tab",
+  "fieldtype": "Tab Break",
+  "label": "Snapshot",
+  "insert_after": "connections_tab",
+  "module": "One HR",
+  "name": "Employee-one_overview_tab"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Employee",
+  "fieldname": "one_overview",
+  "fieldtype": "HTML",
+  "label": "Overview",
+  "insert_after": "one_overview_tab",
+  "module": "One HR",
+  "name": "Employee-one_overview"
+ }
+]
