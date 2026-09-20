@@ -62,3 +62,8 @@
 		margin-left: 0;
 	}
 }
+
+/* Nothing to toggle: the rail does not expand here. */
+.dock-collapse-toggle {
+	display: none;
+}
