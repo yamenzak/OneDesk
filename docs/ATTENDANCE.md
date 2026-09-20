@@ -105,26 +105,51 @@ building carefully, because `<input type="file" capture>` — the obvious
 alternative — is only a *hint* to the browser and a file can still be chosen on
 several platforms.
 
-**The photo cannot tell us where it was taken, and we must not pretend it can.**
-This is the one correction to the design worth making loudly:
+**The photo cannot tell us where it was taken, or which phone took it.** This is
+the one correction to the design worth making loudly, because the obvious answer
+is EXIF and EXIF does not work here:
 
-- A canvas capture has **no EXIF at all** — no GPS, no camera, no timestamp.
-  There is nothing to read.
-- A photo that does carry EXIF is a photo that came from a file, and EXIF is
-  plain text a person can write whatever they like into. GPS coordinates in a
-  file somebody handed us are worth nothing.
-- iOS strips location from photos given to a web page unless the person has
-  granted photo-location permission separately, so even the honest case usually
-  has nothing in it.
+- A canvas capture has **no EXIF at all** — no GPS, no make, no model, no
+  timestamp. There is nothing to read.
+- To get EXIF you have to accept a *file*, and accepting a file is exactly the
+  thing this gate exists to prevent. That is the whole trade: give up "cannot be
+  uploaded from the gallery" in exchange for a make and model string anybody can
+  edit in a text editor in ten seconds.
+- iOS strips location from photos handed to a web page unless the person granted
+  photo-location permission separately, so even the honest case is usually empty.
 
 So the position comes from gate 3, read at the same moment the shutter fires,
-and the time comes from the server. The photo answers **who**, never **where**.
+and the time comes from the server.
+
+**Knowing which phone it was is still worth having — it just does not come from
+the image.** The same browser that opens the camera will say:
+
+- the camera's own name, from `MediaStreamTrack.getSettings()` and
+  `MediaDeviceInfo.label` — "Back Camera", "camera2 0, facing back";
+- the real model string, from
+  `navigator.userAgentData.getHighEntropyValues(["model"])` on Android Chrome;
+- the graphics chip, from WebGL's unmasked renderer — "Apple A16 GPU";
+- screen size and pixel ratio.
+
+All of it arrives on the same request as the photo, none of it requires a file,
+and it goes on the `Employee Device` row as corroboration. It is the evidence
+EXIF was being asked for, from the path that cannot be faked with a file
+someone downloaded.
 
 **And nothing matches the face.** There is no model, no third-party API, no
 biometric template. The photo is evidence a human looks at in the review queue,
-and a deterrent because people know somebody will. That is worth a great deal
-and costs no liability. Face recognition is not on the list — a passkey, later,
-answers the same question using the phone's own biometric, which we never see.
+and a deterrent because people know somebody will.
+
+What makes that cheap to act on is showing the employee's own profile photo
+beside it in the review list. A person compares two faces in under a second,
+which is the entire job, and nothing was computed, stored as a template, or sent
+anywhere. Face recognition is not on the list — a passkey, later, answers the
+same question using the phone's own biometric, which we never see.
+
+And it is worth being clear about what this gate is *for*, because it is the
+only one that says **who**. A device can be handed over, a network can be
+shared, a fence can be stood inside by anybody. A face in front of the camera is
+the one thing a colleague cannot lend you.
 
 **Storing it.** A private `File` attached to the check-in, with a retention
 setting: discard once reviewed, keep for N days, or keep. Default to the
