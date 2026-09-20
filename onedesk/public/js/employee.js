@@ -21,51 +21,95 @@ onedesk.employee.paint = (frm, data) => {
 // lives inside the dashboard, which v17 renders on the Connections tab, so the
 // numbers were only ever visible on the one tab that already lists everything.
 onedesk.employee.band = (data) => {
-	const chips = onedesk.employee.chips(data);
+	const stats = onedesk.employee.stats(data);
 	const heat = onedesk.employee.heat(data.days);
-	if (!heat && !chips.length) return "";
+	if (!heat && !stats.length) return "";
 	return `<div class="one-band">${heat}` +
-		`<div class="one-chips">${chips.join("")}</div></div>`;
+		`<div class="one-stats">${stats.join("")}</div></div>`;
 };
 
-//: What a square can mean, in the order the legend reads them.
+//: What a square can mean, in the order the legend reads them. Five are
+//: Attendance's own statuses; late is its two flags on an otherwise present
+//: day, and holiday is the list rather than the record.
 onedesk.employee.MARKS = () => ({
 	present: __("Present"),
 	wfh: __("From home"),
+	late: __("Late"),
 	half: __("Half day"),
 	leave: __("On leave"),
 	absent: __("Absent"),
-	holiday: __("Holiday"),
+	holiday: __("Closed"),
 });
 
-// `frappe.Chart` ships a heatmap and it is the wrong one: it ramps a *count*
-// through five shades of one hue and labels the scale Less→More, where a day
-// here is one of six named states and absent is not more than present.
+// `frappe.Chart` ships a heatmap and it is the wrong instrument: it ramps a
+// *count* through five shades of one hue and labels the scale Less→More, where
+// a day here is one of seven named states and absent is not more than present.
+// So the geometry is frappe-charts' to the pixel — a ten pixel square, a two
+// pixel gutter, a three pixel radius, a month to a block, the month's name
+// above it — and only what the colours mean is ours.
 onedesk.employee.heat = (days) => {
 	if (!days || !days.length) return "";
 
 	const marks = onedesk.employee.MARKS();
 	const seen = new Set();
-	const squares = days.map((day) => {
+	const months = [];
+
+	days.forEach((day, i) => {
+		const month = moment(day.date);
+		if (!months.length || month.date() === 1) {
+			// The server hands back one run that starts on a week boundary, so a
+			// day's row is its place in that run: no weekday arithmetic here, and
+			// a month opens with blanks down to the weekday it starts on.
+			months.push({ name: month.format("MMM"), cells: new Array(i % 7).fill("") });
+		}
 		seen.add(day.mark);
-		const said = `${frappe.datetime.str_to_user(day.date)} · ${marks[day.mark] || __("Not marked")}`;
-		return `<span class="one-day one-day-${day.mark}" title="${
-			frappe.utils.escape_html(said)}"></span>`;
+		months[months.length - 1].cells.push(onedesk.employee.square(day, marks));
 	});
+
+	const blocks = months.map((month) =>
+		`<div class="one-heat-month"><div class="one-heat-name">${month.name}</div>` +
+		`<div class="one-heat-grid">${month.cells
+			.map((cell) => cell || `<span class="one-day one-day-blank"></span>`)
+			.join("")}</div></div>`);
 
 	const legend = Object.keys(marks)
 		.filter((mark) => seen.has(mark))
 		.map((mark) => `<span class="one-key one-key-${mark}">${marks[mark]}</span>`);
 
-	return `<div class="one-heat"><div class="one-heat-grid">${squares.join("")}</div>` +
+	return `<div class="one-heat"><div class="one-heat-months">${blocks.join("")}</div>` +
 		`<div class="one-heat-legend">${legend.join("")}</div></div>`;
 };
 
-onedesk.employee.chips = (data) => {
-	const chips = [];
+onedesk.employee.square = (day, marks) => {
+	const said = frappe.utils.escape_html(onedesk.employee.said(day, marks).join(" · "));
+	const cls = `one-day one-day-${day.mark}`;
+	return day.doc
+		? `<a class="${cls}" title="${said}" href="/desk/attendance/${
+			encodeURIComponent(day.doc)}"></a>`
+		: `<span class="${cls}" title="${said}"></span>`;
+};
+
+// Everything the day knows, in the order somebody would say it out loud.
+onedesk.employee.said = (day, marks) => {
+	const said = [frappe.datetime.str_to_user(day.date), marks[day.mark] || __("Not marked")];
+	if (day.holiday) said.push(day.holiday);
+	if (day.leave_type) said.push(day.leave_type);
+	if (day.late && day.early) said.push(__("in late, left early"));
+	else if (day.late) said.push(__("in late"));
+	else if (day.early) said.push(__("left early"));
+	if (day.hours) said.push(__("{0} hours", [day.hours]));
+	if (day.shift) said.push(day.shift);
+	return said;
+};
+
+// Label over value, which is the desk's own way of putting a number on screen.
+// A pill each was the first try: seven outlines in a row read as seven controls
+// rather than as one paragraph of numbers.
+onedesk.employee.stats = (data) => {
+	const stats = [];
 
 	if (data.today.checkin) {
-		chips.push(onedesk.employee.chip(
+		stats.push(onedesk.employee.stat(
 			data.today.checkin.log_type === "OUT" ? __("Out") : __("In"),
 			onedesk.employee.when(data.today.checkin.time),
 			`/desk/employee-checkin/${encodeURIComponent(data.today.checkin.name)}`,
@@ -73,16 +117,16 @@ onedesk.employee.chips = (data) => {
 	}
 
 	for (const row of data.leave) {
-		chips.push(onedesk.employee.chip(
+		stats.push(onedesk.employee.stat(
 			row.type.replace(/ Leave$/, ""),
 			__("{0} left", [row.left]),
 			`/desk/leave-application?employee=${encodeURIComponent(cur_frm.doc.name)}`,
-			row.left > 0 ? null : "spent",
+			row.left > 0 ? null : "quiet",
 		));
 	}
 
 	for (const row of data.awaiting) {
-		chips.push(onedesk.employee.chip(
+		stats.push(onedesk.employee.stat(
 			__(row.doctype),
 			__("{0} awaiting", [row.count]),
 			`/desk/${frappe.router.slug(row.doctype)}?employee=${
@@ -92,42 +136,38 @@ onedesk.employee.chips = (data) => {
 	}
 
 	if (data.pay && data.pay.salary_structure) {
-		chips.push(onedesk.employee.chip(__("Paid under"), data.pay.salary_structure,
+		stats.push(onedesk.employee.stat(__("Paid under"), data.pay.salary_structure,
 			`/desk/salary-structure-assignment/${encodeURIComponent(data.pay.name)}`));
 	}
 
 	if (data.tenure.joined) {
-		chips.push(onedesk.employee.chip(__("Here since"),
+		stats.push(onedesk.employee.stat(__("Here since"),
 			frappe.datetime.str_to_user(data.tenure.joined)));
 	}
 
-	return chips;
+	return stats;
 };
 
-// `comment_when` answers in markup, and a chip escapes what it is given, so the
+onedesk.employee.stat = (label, value, route, tone) => {
+	const inner = `<span class="one-stat-label">${frappe.utils.escape_html(label)}</span>` +
+		`<span class="one-stat-value">${frappe.utils.escape_html(String(value))}</span>`;
+	const cls = `one-stat${tone ? " one-stat-" + tone : ""}`;
+	return route
+		? `<a class="${cls}" href="${route}">${inner}</a>`
+		: `<span class="${cls}">${inner}</span>`;
+};
+
+// `comment_when` answers in markup, and a stat escapes what it is given, so the
 // span would print itself. The words are what we want, not the tooltip around
 // them.
 onedesk.employee.when = (stamp) =>
 	$("<div>").html(frappe.datetime.comment_when(stamp, true)).text();
-
-onedesk.employee.chip = (label, value, route, tone) => {
-	const inner = `<span class="one-chip-label">${frappe.utils.escape_html(label)}</span>` +
-		`<span class="one-chip-value">${frappe.utils.escape_html(String(value))}</span>`;
-	// espresso's badge, which is where the theme-aware amber lives. Ours is one
-	// class on top of it, for the two-part label and the link.
-	const attrs = `class="es-badge one-chip${tone === "spent" ? " one-chip-spent" : ""}"` +
-		` data-variant="outline"${tone === "waiting" ? ` data-theme="amber"` : ""}`;
-	return route
-		? `<a ${attrs} href="${route}">${inner}</a>`
-		: `<span ${attrs}>${inner}</span>`;
-};
 
 //: What you can do to a person from their own page, and the doctype that says
 //: whether you may. Each one prefills `employee`, so it is self-service on your
 //: own record and on somebody's behalf on theirs — which is the same control,
 //: because a `User Permission` decides whose record you can open at all.
 onedesk.employee.ACTIONS = [
-	["Employee Checkin", __("Record a check-in")],
 	["Leave Application", __("Apply for leave")],
 	["Expense Claim", __("Claim an expense")],
 ];

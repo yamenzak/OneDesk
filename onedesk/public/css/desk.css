@@ -111,14 +111,31 @@
 	gap: var(--margin-md);
 }
 
-/* A quarter of days, a column a week. Seven rows and column flow is the whole
-   layout: the server starts the run on a week boundary, so every square lands
-   on its own weekday without being told which one it is. */
+/* frappe-charts' heatmap, to the pixel: a ten pixel square, a two pixel
+   gutter, a three pixel radius, a month to a block with its name above it.
+   Seven rows and column flow are the whole layout — the server starts the run
+   on a week boundary and pads each month, so every square lands on its own
+   weekday without being told which one it is. */
+.one-heat-months {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+}
+
+.one-heat-name {
+	margin-bottom: 3px;
+	font-size: 9px;
+	line-height: 1;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--ink-gray-5);
+}
+
 .one-heat-grid {
 	display: grid;
 	grid-auto-flow: column;
-	grid-template-rows: repeat(7, 9px);
-	grid-auto-columns: 9px;
+	grid-template-rows: repeat(7, 10px);
+	grid-auto-columns: 10px;
 	gap: 2px;
 }
 
@@ -137,9 +154,14 @@
 	--mark: var(--surface-green-3);
 }
 
+.one-day-late,
+.one-key-late {
+	--mark: var(--surface-amber-3);
+}
+
 .one-day-half,
 .one-key-half {
-	--mark: var(--surface-amber-4);
+	--mark: var(--surface-amber-5);
 }
 
 .one-day-leave,
@@ -149,24 +171,35 @@
 
 .one-day-absent,
 .one-key-absent {
-	--mark: var(--surface-red-4);
+	--mark: var(--surface-red-5);
 }
 
 .one-day-holiday,
 .one-key-holiday {
-	--mark: var(--surface-gray-5);
+	--mark: var(--surface-gray-4);
 }
 
 .one-day {
 	background: var(--mark);
-	border-radius: 2px;
+	border-radius: 3px;
 }
 
+/* The days before a month begins are drawn by frappe as nothing at all. */
+.one-day-blank {
+	background: none;
+}
+
+a.one-day:hover {
+	outline: 1px solid var(--outline-gray-4);
+}
+
+/* Where frappe puts Less→More. The colours mean seven things rather than five
+   amounts, so the scale is replaced by a key to the ones this quarter used. */
 .one-heat-legend {
 	display: flex;
 	flex-wrap: wrap;
 	gap: var(--margin-sm);
-	margin-top: 6px;
+	margin-top: 8px;
 	font-size: var(--text-xs);
 	color: var(--ink-gray-5);
 }
@@ -181,37 +214,60 @@
 	background: var(--mark);
 }
 
-/* The chips wrap inside their own box rather than dropping the whole row under
-   the quarter, which is what `flex-wrap` on the band would do the moment the
-   two of them add up to a pixel more than the form is wide. */
-.one-chips {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: flex-end;
-	align-content: flex-start;
+/* Label over value, the desk's own way of putting a number on screen. Three
+   columns rather than a wrapping row: a row that wraps puts five numbers on one
+   line and one on the next, and looks like it ran out of room, which it did. */
+.one-stats {
+	display: grid;
+	grid-template-columns: repeat(3, max-content);
+	justify-content: end;
+	align-content: start;
 	flex: 1 1 0;
 	min-width: 0;
-	gap: 6px;
+	gap: var(--margin-sm) var(--margin-lg);
 }
 
-.one-chip {
-	gap: 6px;
+@media (max-width: 900px) {
+	.one-band {
+		flex-wrap: wrap;
+	}
+
+	.one-stats {
+		justify-content: start;
+	}
+}
+
+.one-stat {
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
 	text-decoration: none;
 }
 
-a.one-chip:hover {
-	text-decoration: none;
-	border-color: var(--outline-gray-3);
-}
-
-.one-chip-label {
+.one-stat-label {
+	font-size: var(--text-xs);
+	line-height: 1.2;
 	color: var(--ink-gray-5);
 }
 
-.one-chip-value {
+.one-stat-value {
+	font-size: var(--text-base);
 	font-weight: var(--weight-medium);
+	color: var(--ink-gray-8);
 }
 
-.one-chip-spent .one-chip-value {
+a.one-stat:hover {
+	text-decoration: none;
+}
+
+a.one-stat:hover .one-stat-value {
+	text-decoration: underline;
+}
+
+.one-stat-waiting .one-stat-value {
+	color: var(--ink-amber-8);
+}
+
+.one-stat-quiet .one-stat-value {
 	color: var(--ink-gray-5);
 }

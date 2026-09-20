@@ -14,13 +14,14 @@ HR manager and for the person themselves. Leave is HRMS's own
 
 import frappe
 from frappe import _
-from frappe.utils import add_days, date_diff, get_first_day_of_week, getdate, nowdate
+from frappe.utils import add_days, date_diff, get_first_day_of_week, getdate, nowdate, strip_html
 
 #: Thirteen weeks of squares: one quarter, which is as far back as anybody looks
-#: and as much as sits beside the chips without wrapping.
+#: and as much as sits beside the numbers without wrapping.
 WEEKS = 13
 
-#: Attendance's own statuses, in our words. A day with no row is not one of them.
+#: Attendance's own five statuses, in our words. `late`, `holiday` and `none`
+#: are ours — a flag, a list and an absence of any row.
 MARKS = {
 	"Present": "present",
 	"Work From Home": "wfh",
@@ -148,47 +149,86 @@ def _days(doc) -> list[dict]:
 	"""A quarter of attendance, one square a day, starting on a week boundary.
 
 	Nothing marked and no holiday list is a site that does not keep attendance,
-	and a grid of ninety-five blank squares says that worse than no grid does.
+	and a grid of ninety-odd blank squares says that worse than no grid does.
 
-	A day nobody marked is not absent — attendance is usually written after the
-	fact, and a quarter of squares that called every unwritten day a no-show
-	would be a lie about the person rather than about the data.
+	A day nobody marked is not absent: attendance is written after the fact, and
+	calling every unwritten day a no-show would be a lie about the person rather
+	than about the data. Everything Attendance knows about a day rides along —
+	the shift, the leave type, the hours, whether they were late — because the
+	square is the only place somebody will ever read it.
 	"""
 	start = get_first_day_of_week(add_days(getdate(), -(WEEKS * 7 - 1)), as_str=False)
 	today = getdate()
 	marked = {
-		row["attendance_date"]: row["status"]
+		row["attendance_date"]: row
 		for row in frappe.get_all(
 			"Attendance",
 			filters={"employee": doc.name, "docstatus": 1, "attendance_date": [">=", start]},
-			fields=["attendance_date", "status"],
+			fields=[
+				"name",
+				"attendance_date",
+				"status",
+				"leave_type",
+				"shift",
+				"working_hours",
+				"late_entry",
+				"early_exit",
+			],
 		)
 	}
-	holidays = _holidays(doc, start)
-	if not marked and not holidays:
+	closed = _holidays(doc, start)
+	if not marked and not closed:
 		return []
 
 	days, day = [], start
 	while day <= today:
-		mark = MARKS.get(marked.get(day)) or ("holiday" if day in holidays else "none")
-		days.append({"date": str(day), "mark": mark})
+		days.append(_day(day, marked.get(day), closed.get(day)))
 		day = add_days(day, 1)
 	return days
 
 
-def _holidays(doc, start) -> set:
-	"""Whose list this is is ERPNext's question — the employee's, or the company's."""
+def _day(day, row, closed: str | None) -> dict:
+	"""One square. `late` is not one of Attendance's five statuses — it is two
+	flags on a day that is otherwise present, and it is the thing a manager
+	scans a quarter looking for."""
+	if row:
+		mark = MARKS.get(row["status"], "none")
+		if mark == "present" and (row["late_entry"] or row["early_exit"]):
+			mark = "late"
+		return {
+			"date": str(day),
+			"mark": mark,
+			"doc": row["name"],
+			"status": row["status"],
+			"leave_type": row["leave_type"],
+			"shift": row["shift"],
+			"hours": row["working_hours"],
+			"late": bool(row["late_entry"]),
+			"early": bool(row["early_exit"]),
+		}
+	if closed is not None:
+		return {"date": str(day), "mark": "holiday", "holiday": closed}
+	return {"date": str(day), "mark": "none"}
+
+
+def _holidays(doc, start) -> dict:
+	"""Whose list this is is ERPNext's question — the employee's, or the
+	company's — and a weekly off is a row on it like any other holiday."""
 	from erpnext.setup.doctype.employee.employee import get_holiday_list_for_employee
 
 	name = get_holiday_list_for_employee(doc.name, raise_exception=False)
 	if not name:
-		return set()
+		return {}
 	return {
-		row["holiday_date"]
+		row["holiday_date"]: (
+			_("Weekly off")
+			if row["weekly_off"]
+			else (strip_html(row["description"] or "").strip() or _("Holiday"))
+		)
 		for row in frappe.get_all(
 			"Holiday",
 			filters={"parent": name, "holiday_date": [">=", start]},
-			fields=["holiday_date"],
+			fields=["holiday_date", "description", "weekly_off"],
 		)
 	}
 
