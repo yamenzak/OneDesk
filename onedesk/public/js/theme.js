@@ -62,6 +62,30 @@ frappe.ui.ThemeSwitcher = class OneThemeSwitcher extends frappe.ui.ThemeSwitcher
 		return document.documentElement.getAttribute("data-theme-mode") || "automatic";
 	}
 
+	// super builds the preview from `theme.name`: "automatic" picks the
+	// two-window mockup, anything else becomes data-theme. Our names are
+	// "palette:mode", so it is handed the mode and the palette is added to the
+	// containers afterwards — each card then previews its own palette rather
+	// than the default one.
+	get_preview_html(theme) {
+		const [palette, mode] = theme.name.split(":");
+		const $card = super.get_preview_html({ ...theme, name: mode });
+
+		$card.find(".theme-preview-container").attr("data-one-theme", palette);
+		$card.toggleClass("selected", this.current_theme === theme.name);
+
+		// super's handler closed over the shim, so it would switch the mode and
+		// leave the palette behind.
+		$card.off("click").on("click", () => {
+			if (this.current_theme === theme.name) return;
+			this.themes.forEach((one) => one.$html && one.$html.removeClass("selected"));
+			$card.addClass("selected");
+			this.toggle_theme(theme.name);
+		});
+
+		return $card;
+	}
+
 	toggle_theme(name) {
 		const [palette, mode] = name.split(":");
 		onedesk.theme.apply(palette);

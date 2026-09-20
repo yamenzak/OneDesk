@@ -1,0 +1,25 @@
+/* Six cards do not fit the row frappe's three were built for.
+ *
+ * .theme-grid is `display: flex` with `flex: 1` wrappers, which divides one row
+ * however many cards there are — at six the labels wrap and the cards stop
+ * agreeing on height. A grid wraps instead, and stretch keeps them level. */
+
+.theme-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	align-items: stretch;
+}
+
+.theme-grid .theme-card-wrapper {
+	flex: initial;
+}
+
+.theme-grid .theme-card {
+	height: 100%;
+}
+
+/* The label sits on one line at three-to-a-row, so the footer is a fixed
+   height rather than a wrapping one. */
+.theme-grid .theme-card-footer {
+	white-space: nowrap;
+}
