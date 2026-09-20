@@ -3,12 +3,13 @@
 Written by hand. A plan, not generated reference.
 
 An employee presses **Clock in**. No terminal, no fingerprint reader, no app.
-What makes the press mean something is four gates, in order, each cheaper to
-set up than the one after it, and each switchable on its own.
+What makes the press mean something is three gates — the device, the network,
+the place — each switchable on its own and each cheaper to set up than the one
+after it. A fourth, a live photo, is optional and answers a different question.
 
 The gates run in order and stop at the first failure, so a workspace that turns
-on only the first gets the first, and one that turns on all four gets all four.
-None of them is new science. Most of the parts are already on the bench.
+on only the first gets the first. None of them is new science, and most of the
+parts are already on the bench.
 
 ## What already exists, and is therefore not ours to write
 
@@ -93,69 +94,38 @@ Three details that decide whether it is usable:
 - **A rooted phone can lie about its position**, and there is no defence in a
   browser. This is why the gates are a stack rather than one clever check.
 
-## Gate 4 — the photo
+## Gate 4 — the photo, and why it is not a metadata gate
 
-Turned on by suspicion — an unknown device, a position that does not fit, a
-pattern in the review queue — or always on, for workplaces that want it.
+The idea was a photo as a *carrier*: the employee snaps anything at all, a black
+frame or the ceiling, and we read the EXIF for the time, the device and the
+position. It does not work, and it is worth writing down why so nobody proposes
+it again.
 
-**The camera is opened inside the page** with `getUserMedia`, a frame is drawn
-to a canvas, and that is what is sent. There is no file input anywhere in the
-flow, so there is nothing to upload from the gallery. This is the part worth
-building carefully, because `<input type="file" capture>` — the obvious
-alternative — is only a *hint* to the browser and a file can still be chosen on
-several platforms.
+- **Position.** A canvas capture carries no EXIF at all. A photo that does carry
+  EXIF came from a file, iOS strips the location from files handed to a web page
+  unless the person granted photo-location separately, and EXIF is plain text a
+  person can write anything into. So the position is either absent or forged.
+- **Time.** EXIF's timestamp is the phone's own clock, set by the phone's owner.
+  The server already knows what time the request arrived, which is the only
+  clock worth reading.
+- **Device.** The browser hands over the camera label, the model string on
+  Android Chrome, the WebGL renderer and the screen size on the same request as
+  anything else — no file, nothing to edit.
 
-**The photo cannot tell us where it was taken, or which phone took it.** This is
-the one correction to the design worth making loudly, because the obvious answer
-is EXIF and EXIF does not work here:
+So all three things the photo was going to carry are already known, and known
+better. And without the position, the picture itself proves nothing: the same
+black frame photographs identically from the car park, from home, and from bed.
+As a metadata gate it is out.
 
-- A canvas capture has **no EXIF at all** — no GPS, no make, no model, no
-  timestamp. There is nothing to read.
-- To get EXIF you have to accept a *file*, and accepting a file is exactly the
-  thing this gate exists to prevent. That is the whole trade: give up "cannot be
-  uploaded from the gallery" in exchange for a make and model string anybody can
-  edit in a text editor in ten seconds.
-- iOS strips location from photos handed to a web page unless the person granted
-  photo-location permission separately, so even the honest case is usually empty.
+**What a photo can still do, if a workspace wants it, is answer *who*** — which
+is a different feature and should be described as one. A live frame from
+`getUserMedia` (no file input anywhere, so nothing can be picked from the
+gallery), shown to a human in the review list beside the employee's own profile
+photo. No face recognition, no template, nothing computed. It is a deterrent
+because people know somebody glances at it, and evidence when somebody does.
 
-So the position comes from gate 3, read at the same moment the shutter fires,
-and the time comes from the server.
-
-**Knowing which phone it was is still worth having — it just does not come from
-the image.** The same browser that opens the camera will say:
-
-- the camera's own name, from `MediaStreamTrack.getSettings()` and
-  `MediaDeviceInfo.label` — "Back Camera", "camera2 0, facing back";
-- the real model string, from
-  `navigator.userAgentData.getHighEntropyValues(["model"])` on Android Chrome;
-- the graphics chip, from WebGL's unmasked renderer — "Apple A16 GPU";
-- screen size and pixel ratio.
-
-All of it arrives on the same request as the photo, none of it requires a file,
-and it goes on the `Employee Device` row as corroboration. It is the evidence
-EXIF was being asked for, from the path that cannot be faked with a file
-someone downloaded.
-
-**And nothing matches the face.** There is no model, no third-party API, no
-biometric template. The photo is evidence a human looks at in the review queue,
-and a deterrent because people know somebody will.
-
-What makes that cheap to act on is showing the employee's own profile photo
-beside it in the review list. A person compares two faces in under a second,
-which is the entire job, and nothing was computed, stored as a template, or sent
-anywhere. Face recognition is not on the list — a passkey, later, answers the
-same question using the phone's own biometric, which we never see.
-
-And it is worth being clear about what this gate is *for*, because it is the
-only one that says **who**. A device can be handed over, a network can be
-shared, a fence can be stood inside by anybody. A face in front of the camera is
-the one thing a colleague cannot lend you.
-
-**Storing it.** A private `File` attached to the check-in, with a retention
-setting: discard once reviewed, keep for N days, or keep. Default to the
-shortest. A photograph of somebody's face is personal data everywhere and
-biometric data in several places; the cheapest way to hold that responsibly is
-not to hold it long.
+That is optional, it is off by default, and it is the only reason to build a
+camera into this at all. The gates that do the work are the three above.
 
 ## Sites, and more than one fence
 
@@ -205,7 +175,6 @@ Alongside it, one field on the way out — break, lunch, errand, done for the da
 The dividing line: **refuse on what is certain, flag on what is a guess.**
 
 Refuse: the network is wrong. The position is outside a fence that is a fence.
-The photo was not taken.
 
 Flag: an unfamiliar device. A denied location prompt. A position whose accuracy
 is vaguer than the fence. Two clock-ins far apart in little time. Several people
@@ -246,7 +215,8 @@ reimplementation of the shift maths.
    fence reachable for the first time.
 4. **The review queue.** Every flag above, in one list, with the photo when
    there is one. Without this screen the flags are theatre.
-5. **Gate 4.** In-page camera, no file input, retention setting.
+5. **The live photo, if wanted.** In-page camera, no file input, shown beside
+   the profile photo, retention setting, off by default.
 6. **Sites.** Check every assigned location rather than the first, the child
    table of other places, and the site-not-fence mode.
 7. **Closing the day.** Auto-close, the nudge, the reason on the way out.
@@ -263,3 +233,6 @@ reimplementation of the shift maths.
 - **Anything that trusts the client's clock.** The time on a clock-in is the
   server's, always.
 - **Random presence pings.** See above.
+- **A photo read for its metadata.** The time, the device and the position are
+  all known better without it, and without the position the picture proves
+  nothing.
