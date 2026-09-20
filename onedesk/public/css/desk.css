@@ -48,3 +48,17 @@
 	height: 0;
 	overflow: hidden;
 }
+
+/* The panel's own mark, which the desk hides while there is a rail (dock.scss
+ * puts `.header-logo` to `display: none` and pulls the title left). One product
+ * per row means the rail's mark says which app and the panel's says which
+ * product, so it earns the 28px back. */
+@media (min-width: 768px) {
+	body.dock-active .body-sidebar .sidebar-header .header-logo {
+		display: flex;
+	}
+
+	body.dock-active .body-sidebar .sidebar-header .header-title {
+		margin-left: 0;
+	}
+}
