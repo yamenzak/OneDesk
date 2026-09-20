@@ -81,3 +81,14 @@
 		margin-left: 8px;
 	}
 }
+
+/* ...and a permanent panel belongs in flow. `dock.scss` takes it out of flow
+ * whenever there is a rail, so the page runs full width underneath and the panel
+ * covers it; that is right for something you summon and wrong for a column. Its
+ * container is `fit-content`, so in flow it measures the panel and the page
+ * starts after it. */
+@media (min-width: 768px) {
+	body.dock-active .body-sidebar {
+		position: relative;
+	}
+}

@@ -81,6 +81,20 @@ OVERRIDES = [
 		".sidebar-item-icon {",
 	),
 	(
+		"The panel is a column, not a flyout",
+		"frappe closes it on every load wherever there is a rail; One is worked inside all day",
+		"onedesk/public/js/desk.js",
+		"frappe/frappe/public/js/frappe/ui/sidebar/sidebar.js",
+		"panel_can_close()",
+	),
+	(
+		"A permanent panel is in flow",
+		"out of flow it covers the page, which is right for something summoned and wrong for a column",
+		"onedesk/public/css/desk.css",
+		"frappe/frappe/public/scss/desk/dock.scss",
+		"body.dock-active .body-sidebar {",
+	),
+	(
 		"Framework leaves the apps screen",
 		"it is frappe's own administration and everyone who needs it holds System Manager",
 		"onedesk/one/boot.py",
