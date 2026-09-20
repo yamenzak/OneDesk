@@ -102,8 +102,8 @@ it still catches its own example.
   agrees with the folders.
 - `test_source_style.py` — no comment essays, no file that is mostly comment,
   nothing imported and unused.
-- `test_generated.py` — `docs/` and `docs/FRAMEWORK.md` are current, and
-  upstream was read this fortnight.
+- `test_generated.py` — `docs/` and `docs/FRAMEWORK.md` are current, upstream
+  was read this fortnight, and every line we override is still there.
 
 `python scripts/reference.py` regenerates `docs/FRAMEWORK.md` from the frappe
 checkout. It is pinned to the sha in `upstream.json`, so it describes the
@@ -112,3 +112,10 @@ framework we have rather than the one somebody remembered.
 `python scripts/upstream.py` says what landed in frappe, erpnext and hrms since
 we last looked; `--record` marks today. Run it before starting anything — twice
 now we have rebuilt something that had already shipped.
+
+**`docs/OVERRIDES.md` is every place we lean on somebody else's code** — a CSS
+rule we outweigh, a class we subclass, a seam we hook, a field we write. Each
+row names the upstream line it depends on, and the guard fails when that line is
+gone, so an update that moves it breaks a test rather than a screen. Add a row in
+`scripts/overrides.py` whenever you write one; ordinary use of a documented API
+is not an override.

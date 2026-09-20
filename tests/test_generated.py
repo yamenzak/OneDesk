@@ -33,3 +33,8 @@ def test_upstream_was_read_recently():
 def test_the_icon_fixtures_are_current():
 	out = _run("icons.py", "--check")
 	assert out.returncode == 0, out.stdout + out.stderr
+
+
+def test_nothing_upstream_moved_under_us():
+	out = _run("overrides.py", "--check")
+	assert out.returncode == 0, out.stdout + out.stderr
