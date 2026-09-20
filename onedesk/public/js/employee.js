@@ -77,17 +77,27 @@ onedesk.employee.chip = (label, value, route, tone) => {
 		: `<span class="${cls}">${inner}</span>`;
 };
 
-// The two things a person's record is opened to do. `add_user_action` is the
-// sidebar's own row, so these sit with Assign, Attachments, Tags and Share
-// rather than competing with them.
+//: What you can do to a person from their own page, and the doctype that says
+//: whether you may. Each one prefills `employee`, so it is self-service on your
+//: own record and on somebody's behalf on theirs — which is the same control,
+//: because a `User Permission` decides whose record you can open at all.
+onedesk.employee.ACTIONS = [
+	["Employee Checkin", __("Record a check-in")],
+	["Leave Application", __("Apply for leave")],
+	["Expense Claim", __("Claim an expense")],
+];
+
 onedesk.employee.actions = (frm) => {
 	frm.sidebar.clear_user_actions();
-	frm.sidebar.add_user_action(__("Record a check-in"), () => {
-		frappe.new_doc("Employee Checkin", { employee: frm.doc.name });
-	});
-	frm.sidebar.add_user_action(__("Apply for leave"), () => {
-		frappe.new_doc("Leave Application", { employee: frm.doc.name });
-	});
+	// A person who has left is not applying for anything.
+	if (frm.doc.status !== "Active") return;
+
+	for (const [doctype, label] of onedesk.employee.ACTIONS) {
+		if (!frappe.model.can_create(doctype)) continue;
+		frm.sidebar.add_user_action(label, () => {
+			frappe.new_doc(doctype, { employee: frm.doc.name });
+		});
+	}
 };
 
 frappe.ui.form.on("Employee", {

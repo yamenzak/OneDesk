@@ -18,6 +18,54 @@
    "property": "depends_on",
    "property_type": "Data",
    "value": "eval:doc.__islocal"
+  },
+  {
+   "doc_type": "Employee",
+   "doctype_or_field": "DocField",
+   "field_name": "employee_name",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Employee",
+   "doctype_or_field": "DocField",
+   "field_name": "salutation",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Employee",
+   "doctype_or_field": "DocField",
+   "field_name": "prefered_email",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Employee",
+   "doctype_or_field": "DocField",
+   "field_name": "attendance_device_id",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Device ID"
+  },
+  {
+   "doc_type": "Employee",
+   "doctype_or_field": "DocField",
+   "field_name": "bio",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Bio"
+  },
+  {
+   "doc_type": "Employee",
+   "doctype_or_field": "DocField",
+   "field_name": "reports_to",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Manager"
   }
  ],
  "sync_on_migrate": 1
