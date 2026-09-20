@@ -31,6 +31,22 @@ Which to reach for, when:
 | a colour, a radius, a shadow | an espresso token, never a literal |
 | somewhere to keep a per-user preference | `frappe.model.user_settings` |
 
+## The setup wizard
+
+A tenant configures their whole site here — frappe, erpnext, hr, and every One
+module they turned on. Two different things arrive wearing the same clothes:
+
+- **Real configuration** — company, chart of accounts, financial year, HR
+  settings. It stays. Every module a site enables should contribute its own
+  slide, and a site that does not enable a module should never see it.
+- **Telemetry and vendor questions** — erpnext's `persona` slide asked four
+  required questions that only `capture_user_persona` read, and offered
+  Accounting/Manufacturing/Stock. Spliced out.
+
+`frappe.setup.on("before_load")` gives both moves: `add_slide` to contribute,
+`slides.splice` to replace. Both erpnext and hrms gate on a boot flag — hrms on
+`frappe.boot.hr_only_setup` — so per-site slides are their pattern, not ours.
+
 ## Declare, don't code
 
 Doctypes, Workspaces, Docks, Desktop Icons, Sidebars, Roles, Print Formats,
