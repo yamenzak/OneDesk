@@ -49,9 +49,30 @@ module they turned on. Two different things arrive wearing the same clothes:
 
 ## Declare, don't code
 
-Doctypes, Workspaces, Docks, Desktop Icons, Sidebars, Roles, Print Formats,
-Notifications and Workflows are **fixture JSON in this app**, synced by
-`bench migrate`. A Python file that builds one of those at runtime is a bug.
+Doctypes, Workspaces, Docks, Sidebars, Roles, Print Formats, Notifications and
+Workflows are **fixture JSON in this app**, synced by `bench migrate`. A Python
+file that builds one of those at runtime is a bug.
+
+## Navigation is the Apps screen and the dock
+
+The desk has two navigations. The **Apps screen** — `add_to_apps_screen`, a
+`Dock` of `Sidebar` rows — is the one frappe is building on. The **icon grid** —
+`Desktop Icon`, `Desktop Layout`, `Desktop Settings.desktop_page` — is the one
+`frappe/desk/RETIRING.md` lists for removal in a single batch, and the desk
+itself offers to move people off it.
+
+**We build on the first and ship nothing for the second.** One takes one tile;
+every product is a row in its dock, and that row names a `Sidebar` — ours, or
+another app's, since nothing requires them to match. `tests/test_declarative.py`
+refuses a `Desktop Icon` fixture.
+
+Frappe has not named a date, so this is where the framework is going rather than
+where it has gone. If the grid is still there in a year that changes nothing:
+the dock does the same job on the surface that is not in a removal list.
+
+**A module name is bench-wide.** `frappe.local.module_app` is built by walking
+every app on the bench, not on the site, so two apps that name a module the same
+break each other's imports on sites that carry only one of them.
 
 ## Writing code here
 

@@ -15,7 +15,6 @@ import tree
 DECLARED = (
 	"Workspace",
 	"Dock",
-	"Desktop Icon",
 	"Custom Sidebar",
 	"Sidebar",
 	"Role",
@@ -51,6 +50,32 @@ def test_the_scan_would_catch_one():
 	pattern = _pattern()
 	assert pattern.search('frappe.get_doc({"doctype": "Workspace", "label": "One"})')
 	assert not pattern.search('frappe.get_doc("Task", name)')
+
+
+#: The icon grid, which `frappe/desk/RETIRING.md` lists for removal in one batch.
+#: Navigation here is the Apps screen: `add_to_apps_screen`, a `Dock`, a `Sidebar`.
+RETIRING = ("Desktop Icon", "Desktop Layout", "Workspace Sidebar")
+
+
+def test_we_ship_nothing_for_the_retiring_navigation():
+	hits = [
+		str(path.relative_to(tree.ROOT))
+		for path in tree.fixtures()
+		if _doctype_of(path) in RETIRING
+	]
+	assert not hits, (
+		"the icon grid is on frappe's removal list — put it in the dock instead:\n"
+		+ "\n".join(hits)
+	)
+
+
+def _doctype_of(path: Path) -> str:
+	import json
+
+	try:
+		return json.loads(path.read_text()).get("doctype", "")
+	except (ValueError, UnicodeDecodeError):
+		return ""
 
 
 def test_every_module_in_modules_txt_has_a_folder():
