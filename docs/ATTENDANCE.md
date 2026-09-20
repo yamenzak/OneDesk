@@ -1,265 +1,240 @@
 # Attendance without a machine
 
-A button, and what makes pressing it mean something.
+Written by hand. A plan, not generated reference.
 
-No terminal, no fingerprint reader, no third-party SDK. The premise is that a
-phone and a browser are enough, and that the difference between a toy and a
-system is not one clever trick but a stack of cheap layers, each answering a
-different lie, each switchable, and each honest about what it cannot do.
+An employee presses **Clock in**. No terminal, no fingerprint reader, no app.
+What makes the press mean something is four gates, in order, each cheaper to
+set up than the one after it, and each switchable on its own.
 
-This is the plan. `docs/OVERRIDES.md` records what we lean on; the module's own
-`README.md` will carry what shipped.
+The gates run in order and stop at the first failure, so a workspace that turns
+on only the first gets the first, and one that turns on all four gets all four.
+None of them is new science. Most of the parts are already on the bench.
 
 ## What already exists, and is therefore not ours to write
 
-Most of this is already on the bench. Building it again is the expensive
-mistake, so it is listed first.
-
 **HRMS ships the geofence.** `Shift Location` carries a position and a
 `checkin_radius`; a `Shift Assignment` points an employee's shift at one;
-`EmployeeCheckin.validate_distance_from_shift_location` raises
-`CheckinRadiusExceededError` past it — gated on
-`HR Settings.allow_geolocation_tracking`. It works. What it never had was a
-browser sending a position, which is a UI problem and not a policy one.
+`EmployeeCheckin.validate_distance_from_shift_location` refuses past it, gated
+on `HR Settings.allow_geolocation_tracking`. It works. What it never had was a
+screen that asked the browser for a position.
 
-**HRMS ships the day's arithmetic.** `Shift Type` computes the day from the
-check-in pairs: `working_hours_threshold_for_half_day`,
-`working_hours_threshold_for_absent`, `late_entry_grace_period`,
-`early_exit_grace_period`, `working_hours_calculation_based_on`, and
-`enable_auto_attendance` runs it on a schedule. Half days, late marks and early
-exits are theirs. We do not compute a single one of them.
+**HRMS ships the day's arithmetic.** `Shift Type` turns the check-in pairs into
+a day: `working_hours_threshold_for_half_day`, `..._for_absent`,
+`late_entry_grace_period`, `early_exit_grace_period`,
+`working_hours_calculation_based_on`, and `enable_auto_attendance` to run it.
+Half days, late marks and early exits are theirs. We compute none of them.
 
-**HRMS ships the exceptions.** `Attendance Request` already means "I was working,
-just not here": `reason` is *Work From Home* or *On Duty*, it takes a date range
-and a half-day flag, and it writes Attendance when approved.
+**HRMS ships the exceptions.** `Attendance Request`, with `reason` of *Work From
+Home* or *On Duty*, a date range and a half-day flag.
 
-**HRMS ships two switches we should be reading rather than inventing.**
-`HR Settings.allow_employee_checkin_from_mobile_app` and
-`allow_geolocation_tracking`.
-
-**OneApp already wrote the network rule**, in `oneapp/onehr/place.py`, and the
-argument in that docstring still holds: a browser cannot read an SSID and never
-will, so "the office wifi" is implemented honestly as "the address we see you
-arriving from", read from `frappe.local.request_ip` and never from a header the
-caller sets. It is a Custom Field of IP ranges on `Shift Location`, one per
-line, because a place and the network it has are one fact about an office. That
-file is the thing to port, not to redesign.
+**OneApp already wrote the network gate**, in `oneapp/onehr/place.py`. Its
+argument holds: a browser cannot read an SSID and never will, so "the office
+wifi" is honestly "the address we see you arriving from", read from
+`frappe.local.request_ip` and never from a header the caller sets.
 
 **Frappe ships nothing that identifies a device.** `User Session Display` has an
-ip address and a user agent; `Activity Log` has an ip address. A user agent is
-shared by a hundred million identical phones. There is no WebAuthn in v17 and
-no device registry. So device identity is ours, and §6 says what it can and
-cannot be worth.
+address and a user agent; a user agent is shared by a hundred million identical
+phones. There is no WebAuthn in v17. So gate 1 is entirely ours.
 
-## `attendance_device_id` is not what it sounds like
+## Gate 1 — the device
 
-It is the number a *biometric terminal* knows somebody by — the id that arrives
-on `Employee Checkin.device_id` when a ZKTeco or ESSL box syncs its logs. It is
-not an asset tag and not a phone. Sites that own terminals need it and it stays
-exactly as it is. It is the wrong field for anything below, and the temptation
-to reuse it is the temptation to make one field mean two things.
+**The rule: a device belongs to one employee, and only that employee.**
 
-## The layers
+The first time somebody clocks in, the browser makes a random secret, keeps it,
+and the server stores it as a row: this device is Rania's. From then on every
+clock-in carries it.
 
-Each answers one lie. The column that matters is the last one: a layer that
-**refuses** stops somebody at the door, and a layer that **flags** lets them in
-and tells HR. Refusing on a probabilistic signal is how an attendance system
-becomes the thing everybody hates.
+When the secret does not match, the clock-in **still goes through** and a flag
+is written, and the screen says so plainly: *this is not the device you usually
+clock in on — if you have changed phone, tell HR.* Refusing here would mean a
+new starter with a new phone standing outside unable to start work, which is
+worse than the thing it prevents. A workspace that wants a refusal can have one;
+it is not the default.
 
-| The lie | The layer | Setup cost | Refuse or flag |
-|---|---|---|---|
-| "I was at the office" — wasn't | geofence, `Shift Location` + radius | one click, uses the browser's position | refuse |
-| "I was at the office" — in the car park, on mobile data | network: the office's public egress | one click, "use the address I am on now" | refuse |
-| "my friend pressed it for me" | bound device | nothing, first use registers | refuse or flag, per policy |
-| "I pressed it at nine" | the server's clock, never the browser's | none | refuse |
-| "I scanned it from home" | a rotating code on a screen at the door | a tab open on any screen | refuse |
-| "I was here all day" | a forgotten check-out, auto-closed and nudged | none | flag |
-| "I was in two cities in ten minutes" | impossible travel, computed from rows we already have | none | flag |
-| "the position was a bit off" | accuracy, recorded as reported | none | flag |
+**What this gate actually stops** is the shared office PC. One person signing in
+as five colleagues and clocking them all in fails, because that browser's secret
+belongs to the first of them and the other four each produce a flag naming the
+same device. Five flags on one device inside ten minutes is not a subtle signal.
 
-The four worth arguing for:
+**What it does not stop** is somebody handing over their unlocked phone. Nothing
+short of a face in front of a camera does, which is gate 4.
 
-**A rotating code at the door** is the strongest layer per pound spent and the
-one nobody builds. A tab open on a screen in the office — a spare monitor, a
-tablet, a phone in a stand — shows a QR that changes every thirty seconds and is
-a signed short-lived token. Scanning it proves presence in the room, because the
-code cannot be forwarded and is stale by the time it is. It needs no hardware
-that an office does not already have, and it composes with the geofence rather
-than replacing it. A *printed* QR is not this: a printed code is photographed
-once and used forever, so a static code is only ever a convenience on top of a
-geofence.
+A device is one browser profile on one machine. A person who clocks in from a
+phone and sometimes a laptop has two, which is fine: the rule is that a device
+has one owner, not that an owner has one device. HR sees the list and can retire
+one in a click.
 
-**An NFC sticker at the door** is the same idea for a pound. A tag holds a URL,
-every phone since 2018 reads one without an app, and the URL carries the place.
-It is weaker than the rotating code — the URL can be copied — so it pairs with
-the fence.
+## Gate 2 — the network
 
-**Impossible travel and accuracy** cost nothing because every check-in already
-carries a position and a time. Two logs four hundred kilometres apart twenty
-minutes apart is not a refusal, it is a row in a review queue. So is a position
-the browser reported with a two-kilometre accuracy radius, which is what a
-desktop with no GPS reports and also what a spoofer reports.
+The address the request arrived from has to be in the office's list. One click
+in setup fills it in: *use the address I am on now*. Ranges are allowed, one per
+line.
 
-**The review queue is the feature.** Every layer above writes what it saw
-whether or not it refused. A month of "checked in from an unknown device, two
-hundred metres out, at 08:59" is a conversation a manager can have. A month of
-silent refusals is a month of people ringing HR from the car park.
+Two things to say in the setup screen rather than discover later. A small
+office's internet line may have a **dynamic address** that changes when the
+router reboots, so the gate has to notice a run of failures and say "your office
+address looks like it changed, here is the new one" instead of locking everybody
+out on a Monday. And **mobile data is never the office**, which is the point, but
+it means a workspace that turns this on has told its staff to be on the wifi.
 
-## Who is doing the checking in
+## Gate 3 — the place
 
-This is the hard constraint and it decides the shape of everything else. Three
-populations, and pretending they are one is how these systems end up phishable.
+The browser asks for a position and the server checks it against the fence
+HRMS already enforces. This gate needs the employee's permission, and the
+browser will ask them for it, once.
 
-**People with a login.** They check in from the desk or the phone, signed in as
-themselves. Everything in §5 and §6 applies. This should be most of them.
+Three details that decide whether it is usable:
 
-**People without a login, with a phone.** An employee with no `User` has no
-identity the server can check, so there is nothing to bind and nothing to
-refuse — anybody holding the link is them. The honest answer is that they get a
-login. A Website User costs nothing, carries no desk access, and is what HRMS's
-own PWA already assumes. "Self check-in" and "has an account" are the same
-decision and the setup should say so in one sentence rather than pretending
-otherwise.
+- **Permission denied** is a policy, not an error. Default to a flag, not a
+  refusal, because a denied prompt on somebody's first day is a support call.
+- **Accuracy is reported and recorded.** A desktop with no GPS answers with a
+  two-kilometre radius, and so does a fake. Anything vaguer than the fence is a
+  flag even when the coordinates land inside it.
+- **A rooted phone can lie about its position**, and there is no defence in a
+  browser. This is why the gates are a stack rather than one clever check.
 
-**People without a phone.** A shared tablet by the door in kiosk mode, where
-each person identifies themselves — a PIN, or their own printed code scanned by
-the tablet. The kiosk is a *place*, authenticated once as itself; the person is
-authenticated by what they know or carry. This is the factory and retail answer
-and it is the one case where a shared device is correct rather than a hole.
+## Gate 4 — the photo
 
-Which leaves the fourth: **nobody checks in at all**, and a supervisor marks the
-roll for their team. Not a layer, but for some workplaces it is the only true
-thing, and the product should support it without calling it attendance
-tracking.
+Turned on by suspicion — an unknown device, a position that does not fit, a
+pattern in the review queue — or always on, for workplaces that want it.
 
-## Binding a device, honestly
+**The camera is opened inside the page** with `getUserMedia`, a frame is drawn
+to a canvas, and that is what is sent. There is no file input anywhere in the
+flow, so there is nothing to upload from the gallery. This is the part worth
+building carefully, because `<input type="file" capture>` — the obvious
+alternative — is only a *hint* to the browser and a file can still be chosen on
+several platforms.
 
-There is no device identity in a browser. What there is:
+**The photo cannot tell us where it was taken, and we must not pretend it can.**
+This is the one correction to the design worth making loudly:
 
-- a random token we generate on first check-in, keep in `localStorage` **and** in
-  a long-lived cookie we set, and register as a row against the employee;
-- the user agent and the address, recorded alongside it as corroboration, never
-  as identity.
+- A canvas capture has **no EXIF at all** — no GPS, no camera, no timestamp.
+  There is nothing to read.
+- A photo that does carry EXIF is a photo that came from a file, and EXIF is
+  plain text a person can write whatever they like into. GPS coordinates in a
+  file somebody handed us are worth nothing.
+- iOS strips location from photos given to a web page unless the person has
+  granted photo-location permission separately, so even the honest case usually
+  has nothing in it.
 
-The policy is one field with three values, and **trust on first use** is the
-default because it costs the workspace nothing:
+So the position comes from gate 3, read at the same moment the shutter fires,
+and the time comes from the server. The photo answers **who**, never **where**.
 
-- **any** — no binding. Recorded, never enforced.
-- **first wins** — the first device to check somebody in becomes theirs. A
-  second device is refused with "this is not the phone you check in on", and HR
-  can clear it in one click when somebody buys a phone.
-- **approved** — a new device is registered as Pending and refused until
-  somebody approves it. For sites that mean it.
+**And nothing matches the face.** There is no model, no third-party API, no
+biometric template. The photo is evidence a human looks at in the review queue,
+and a deterrent because people know somebody will. That is worth a great deal
+and costs no liability. Face recognition is not on the list — a passkey, later,
+answers the same question using the phone's own biometric, which we never see.
 
-**What this buys and what it does not.** It raises the cost of a favour from
-"tell me your password" to "hand me your unlocked phone, twice a day, for
-months". It does not stop a determined pair of colleagues and nothing short of a
-face in front of a camera does. Saying so in the setup screen is better product
-than implying otherwise.
+**Storing it.** A private `File` attached to the check-in, with a retention
+setting: discard once reviewed, keep for N days, or keep. Default to the
+shortest. A photograph of somebody's face is personal data everywhere and
+biometric data in several places; the cheapest way to hold that responsibly is
+not to hold it long.
 
-**Passkeys are the honest end state.** A WebAuthn credential is held in the
-phone's secure element and released by *the phone's own* face or fingerprint
-check. We never see a biometric, never store one, never carry the liability —
-the device does the work and tells us it was the owner. It is the fingerprint
-reader everybody already owns. Frappe has no WebAuthn, so it is real work rather
-than a switch, and it belongs at the end of the stages rather than the start.
+## Sites, and more than one fence
 
-## Phone, office PC, kiosk
+For a construction company, a shift is not one place.
 
-"Should it be mobile only?" No, and the instinct behind the question is worth
-taking apart.
+HRMS is nearly there and stops short in a way worth knowing:
+`validate_distance_from_shift_location` collects **every** Shift Location
+assigned to the employee for that shift — and then checks `[0]`. The list is
+built and thrown away. Checking all of them and passing on any is a few lines,
+and it is the difference between one fence and a set.
 
-A check-in from a desktop in the office, on the office network, at a fixed
-address, is *more* corroborated than one from a phone, not less — the phone is
-the surface that can be anywhere. What makes the phone feel safer is that it is
-personal, and that is the binding layer's job, not the form factor's.
+On top of that, one Shift Location gains a child table of **other places this
+shift may clock in from**: the depot plus every live site, maintained in one
+record rather than by giving somebody four overlapping shift assignments.
 
-So the surface is a setting and not a rule: **desk, phone, kiosk**, any
-combination. A workplace where everybody has a computer should allow the
-computer. What is worth refusing by default is the *shared* desktop, which the
-device binding catches anyway — the second person to use it is on somebody
-else's registered device.
+And for genuine field work — a plumber at a customer's house — the fence is the
+wrong verb. A place marked as a **site** records the distance and flags it
+instead of refusing, because a system that locks people out at a customer's door
+is a system they stop using.
 
-## The day: home, offsite, halves and pauses
+## Home office, and how many times a day
 
-**Home office.** The layers are per assignment and not global, which falls out
-of putting them on `Shift Location`: a shift with no location has no fence and
-no network rule, so somebody working from home presses the same button and is
-refused nothing. The day is marked Work From Home through `Attendance Request`,
-which HRMS already writes, and the record already draws it as its own colour.
+**Working from home**, the shift has no location, so gates 2 and 3 do not apply
+and the person just presses the button. The day is marked Work From Home through
+`Attendance Request`, which HRMS already writes.
 
-**Offsite and field work.** A shift whose location is set but whose policy says
-"field" should record the distance and flag it rather than refuse: a plumber
-three miles from the depot is working, and a system that refuses them at a
-customer's house is a system they will stop using. Same data, different verb.
+**Should they clock in more than once?** The mechanism is already there and does
+not need building: `Shift Type.working_hours_calculation_based_on` can sum every
+valid IN/OUT pair rather than the first and last, so lunch is an OUT and an IN
+and the hours come out right. Whether a workplace *requires* that is a sentence
+in their policy, not a feature in ours.
 
-**Half days.** Not ours. `Shift Type.working_hours_threshold_for_half_day` reads
-the pairs and decides, and `half_day_status` on Attendance says which half
-counted. What we owe the half day is *a check-out that actually happened*: the
-single biggest cause of a wrong half day is somebody who forgot, so the shift
-end auto-closes an open log and sends one nudge, and the auto-closed log is
-flagged as such rather than silently equal to a real one.
+What we should not build is a prompt that pings somebody at random to prove they
+are still working. It measures presence at a screen rather than work, everyone
+knows it, and the first thing it produces is a culture that games it.
 
-**Pauses.** A break is already expressible — `Shift Type` can sum every valid
-IN/OUT pair rather than the first and last, so lunch is an OUT and an IN. What is
-missing is *why*, and a day of unexplained gaps is unreadable. One custom field
-on `Employee Checkin` — break, lunch, errand, end of day — offered on the way
-out and never on the way in, which makes a day's row legible and costs nothing
-to compute.
+What we *should* build is the opposite: a day that is closed properly. The
+single biggest cause of a wrong half day is somebody who forgot to clock out, so
+the shift end auto-closes an open log, sends one nudge, and marks the closed log
+as auto-closed rather than letting it look like a real one.
+
+Alongside it, one field on the way out — break, lunch, errand, done for the day
+— which costs nothing and makes a day of gaps readable.
+
+## What gets refused and what gets flagged
+
+The dividing line: **refuse on what is certain, flag on what is a guess.**
+
+Refuse: the network is wrong. The position is outside a fence that is a fence.
+The photo was not taken.
+
+Flag: an unfamiliar device. A denied location prompt. A position whose accuracy
+is vaguer than the fence. Two clock-ins far apart in little time. Several people
+on one device. An auto-closed day.
+
+A month of flags is a conversation a manager can have. A month of silent
+refusals is a month of people ringing HR from the car park, and it is how these
+systems get switched off.
 
 ## Where each setting lives
 
-The rule: a switch that is true of the whole workspace goes on `HR Settings`; a
-rule that is true of a *place* goes on `Shift Location`; a fact about a person's
-phone is a row of its own.
+A switch true of the whole workspace goes on **`HR Settings`** as a custom
+field: self clock-in on or off, which gates are on, whether an unknown device
+refuses or flags, the photo policy and its retention, auto-close on or off.
 
-**`HR Settings`, custom fields.** Self check-in on or off; which surfaces are
-allowed; the device policy (any / first wins / approved); whether a forgotten
-check-out is auto-closed; whether to require a reason on the way out.
+A rule true of a **place** goes on `Shift Location`: the address ranges, the
+other places this shift may clock in from, whether this is a fence or a site.
 
-**`Shift Location`, custom fields.** The networks (already designed, one range
-per line); whether this place issues a rotating code; whether this place is a
-fence or a field site.
+A fact about a **phone** is a row of its own — `Employee Device`: employee,
+label, hashed secret, status, first seen, last seen, last address, last user
+agent. This is the one genuinely new doctype. `attendance_device_id` on Employee
+is **not** it: that is the number a biometric terminal knows somebody by, it
+arrives on `Employee Checkin.device_id` when a box syncs its logs, and reusing
+it here would make one field mean two things.
 
-**One new doctype, `Employee Device`.** Employee, label, token hash, status
-(Pending / Trusted / Blocked), first seen, last seen, last address, last user
-agent. One row per phone. This is the thing that is genuinely missing and cannot
-be a custom field, because a person can have two and a table has to be queryable
-from the check-in path.
-
-**Possibly a second, `Checkin Kiosk`.** A place, a name, and a long-lived token
-for the tablet. Only if the kiosk stage happens; a kiosk that is just a browser
-signed in as a service account may be enough.
-
-Nothing else is new. Every check-in is still an ordinary `Employee Checkin`
-document with HRMS's own validation running — no `ignore_permissions`, no second
-writer, no reimplementation of the shift maths.
+Every clock-in is still an ordinary `Employee Checkin` document with HRMS's own
+validation running. No `ignore_permissions`, no second writer, no
+reimplementation of the shift maths.
 
 ## Stages
 
-1. **The policy, and the switch.** The custom fields above, a setup screen that
-   explains each layer in a sentence, and self check-in off by default.
-2. **Place and network.** Port `place.py`: the one-click "use where I am" and
-   "use the network I am on", and the refusal that reads them.
-3. **The device registry.** `Employee Device`, trust on first use, and the
-   sentence in the setup screen that says what it is worth.
-4. **The record of what was seen.** Every check-in carries address, position,
-   accuracy, device and surface, whether or not anything refused.
-5. **The review queue.** Unknown device, impossible travel, poor accuracy,
-   auto-closed. A screen that is a list of questions, not a list of refusals.
-6. **The rotating code.** A page to leave open on a screen at the door, and the
-   scan that resolves it.
-7. **Breaks and the close-out.** The reason field, the shift-end auto-close, the
-   nudge.
-8. **Passkeys.** The fingerprint reader everybody already owns.
+1. **Gate 1 and the settings.** `Employee Device`, register on first use, flag
+   on mismatch, one owner per device. The switches, and self clock-in off by
+   default.
+2. **Gate 2.** Port `place.py`: one click to learn the office address, the
+   refusal that reads it, and the dynamic-address warning.
+3. **Gate 3.** Ask the browser for a position, record accuracy, and make HRMS's
+   fence reachable for the first time.
+4. **The review queue.** Every flag above, in one list, with the photo when
+   there is one. Without this screen the flags are theatre.
+5. **Gate 4.** In-page camera, no file input, retention setting.
+6. **Sites.** Check every assigned location rather than the first, the child
+   table of other places, and the site-not-fence mode.
+7. **Closing the day.** Auto-close, the nudge, the reason on the way out.
+8. **Passkeys.** The fingerprint reader everybody already owns, doing the
+   biometric we never see.
 
 ## What we are not building
 
-- **Face recognition.** It is the obvious ask and it is a liability, a
-  procurement conversation and a bias problem in one. A passkey answers the same
-  question with the device's own biometric, which we never see.
-- **A native app.** Everything above is a browser and a cookie.
-- **Our own shift maths.** HRMS's is correct and on a schedule.
+- **Face recognition.** Liability, bias, and a procurement conversation, to
+  answer a question a passkey answers better.
+- **A native app.** All of this is a browser.
+- **Our own shift maths.** HRMS's is correct and already runs on a schedule.
 - **An SSID check.** There is no web API for it and there should not be.
-- **Anything that trusts the client's clock.** The time on a check-in is the
+- **Anything that trusts the client's clock.** The time on a clock-in is the
   server's, always.
+- **Random presence pings.** See above.
