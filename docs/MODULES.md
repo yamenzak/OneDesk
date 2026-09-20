@@ -7,18 +7,6 @@
 
 No doctypes yet.
 
-## OneHR
-
-`onedesk/onehr`
-
-No doctypes yet.
-
-## OneCRM
-
-`onedesk/onecrm`
-
-No doctypes yet.
-
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
