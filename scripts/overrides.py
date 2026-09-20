@@ -95,6 +95,13 @@ OVERRIDES = [
 		"body.dock-active .body-sidebar {",
 	),
 	(
+		"The Employee band is not a notice",
+		"`set_headline` paints its band for an alert; this one is a permanent summary",
+		"onedesk/public/css/desk.css",
+		"frappe/frappe/public/js/frappe/form/layout.js",
+		"form-message border-bottom",
+	),
+	(
 		"Framework leaves the apps screen",
 		"it is frappe's own administration and everyone who needs it holds System Manager",
 		"onedesk/one/boot.py",

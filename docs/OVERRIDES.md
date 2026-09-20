@@ -15,6 +15,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | Sidebar rows keep their glyphs | same rule, same reason: the rail's marks are not these rows' marks | `onedesk/public/css/desk.css` | `frappe/frappe/public/scss/desk/dock.scss` | `.sidebar-item-icon {` |
 | The panel is a column, not a flyout | frappe closes it on every load wherever there is a rail; One is worked inside all day | `onedesk/public/js/desk.js` | `frappe/frappe/public/js/frappe/ui/sidebar/sidebar.js` | `panel_can_close()` |
 | A permanent panel is in flow | out of flow it covers the page, which is right for something summoned and wrong for a column | `onedesk/public/css/desk.css` | `frappe/frappe/public/scss/desk/dock.scss` | `body.dock-active .body-sidebar {` |
+| The Employee band is not a notice | `set_headline` paints its band for an alert; this one is a permanent summary | `onedesk/public/css/desk.css` | `frappe/frappe/public/js/frappe/form/layout.js` | `form-message border-bottom` |
 | Framework leaves the apps screen | it is frappe's own administration and everyone who needs it holds System Manager | `onedesk/one/boot.py` | `frappe/frappe/boot.py` | `on_apps_screen` |
 | The site wears One at install | `get_app_logo` reads Website Settings first, then Navbar Settings, then a hook we cannot win | `onedesk/one/brand.py` | `frappe/frappe/core/doctype/navbar_settings/navbar_settings.py` | `def get_app_logo` |
 | Three navbar rows are hidden | Frappe Support, About and erpnext's Delete Demo Data; `sync_table` matches by label, so hiding sticks | `onedesk/one/declutter.py` | `frappe/frappe/core/doctype/navbar_settings/navbar_settings.py` | `def sync_table` |
@@ -23,4 +24,4 @@ Each row is something that would still run but stop working if upstream moved. `
 | One's site layer names every rail row | mounting appends 24 of their rows; a saved layer is the whole rail, so ours are named too | `onedesk/one/companions.py` | `frappe/frappe/desk/doctype/dock/dock.py` | `keep_unnamed=False` |
 | The setup wizard's persona slide is replaced | its four required questions were read only by `capture_user_persona` | `onedesk/public/js/setup_wizard.js` | `erpnext/erpnext/public/js/setup_wizard.js` | `persona` |
 
-17 overrides.
+18 overrides.

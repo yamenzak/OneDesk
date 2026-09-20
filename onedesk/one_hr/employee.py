@@ -13,6 +13,7 @@ HR manager and for the person themselves. Leave is HRMS's own
 """
 
 import frappe
+from frappe import _
 from frappe.utils import add_days, date_diff, getdate, nowdate
 
 #: What a person is waiting on somebody to approve, and the field that says so.
@@ -29,12 +30,70 @@ def overview(employee: str) -> dict:
 	frappe.has_permission("Employee", doc=employee, throw=True)
 	doc = frappe.get_doc("Employee", employee)
 	return {
+		"state": _state(doc),
 		"tenure": _tenure(doc),
 		"today": _today(doc),
 		"leave": _leave(doc),
 		"awaiting": _awaiting(doc),
 		"pay": _pay(doc),
 	}
+
+
+def _state(doc) -> dict:
+	"""Where this person is right now, as one word and a colour.
+
+	Read in the order a person would: somebody who has left is not absent, a
+	holiday is not a no-show, approved leave outranks an unmarked day, and a
+	check-in with no matching out means they are here whatever the day's
+	attendance says, because attendance is usually marked after the fact.
+	"""
+	if doc.status != "Active":
+		return {"label": doc.status, "colour": "red" if doc.status == "Left" else "orange"}
+
+	if _is_holiday(doc):
+		return {"label": _("Holiday"), "colour": "gray"}
+
+	on_leave = frappe.get_all(
+		"Leave Application",
+		filters={
+			"employee": doc.name,
+			"status": "Approved",
+			"docstatus": 1,
+			"from_date": ["<=", nowdate()],
+			"to_date": [">=", nowdate()],
+		},
+		fields=["name", "leave_type"],
+		limit=1,
+	)
+	if on_leave:
+		return {"label": _("On leave"), "colour": "orange", "doc": on_leave[0]["name"]}
+
+	last = frappe.get_all(
+		"Employee Checkin",
+		filters={"employee": doc.name, "time": [">=", nowdate() + " 00:00:00"]},
+		fields=["log_type"],
+		order_by="time desc",
+		limit=1,
+	)
+	if last and last[0]["log_type"] != "OUT":
+		return {"label": _("On duty"), "colour": "green"}
+
+	marked = frappe.get_all(
+		"Attendance",
+		filters={"employee": doc.name, "attendance_date": nowdate(), "docstatus": 1},
+		fields=["status"],
+		limit=1,
+	)
+	if marked:
+		status = marked[0]["status"]
+		return {
+			"label": _(status),
+			"colour": {"Present": "green", "Absent": "red", "On Leave": "orange"}.get(status, "blue"),
+		}
+
+	if last:
+		return {"label": _("Left for the day"), "colour": "blue"}
+	return {"label": _("Not in yet"), "colour": "gray"}
 
 
 def _tenure(doc) -> dict:
