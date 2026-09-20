@@ -22,6 +22,8 @@ Each row is something that would still run but stop working if upstream moved. `
 | erpnext and hrms checklists are marked complete | they are written in erpnext's voice and open over One's own page | `onedesk/one/declutter.py` | `frappe/frappe/desk/desktop.py` | `get_onboarding_doc` |
 | erpnext and hrms mount on One | a companion has no tile and no rail of its own, so their doctypes open in One's shell even cold | `onedesk/one/companions.py` | `frappe/frappe/desk/doctype/dock/dock.py` | `def mounted_apps` |
 | One's site layer names every rail row | mounting appends 24 of their rows; a saved layer is the whole rail, so ours are named too | `onedesk/one/companions.py` | `frappe/frappe/desk/doctype/dock/dock.py` | `keep_unnamed=False` |
+| Employee's fields are reordered | a `field_order` property setter is the only lever that moves a standard field between tabs | `onedesk/one_hr/custom/employee.json` | `frappe/frappe/model/meta.py` | ``field_order` property setter` |
+| The Approvers section rides the holiday list | hrms hangs Default Shift and all three approvers off `holiday_list`, which it then hides | `onedesk/one_hr/custom/employee.json` | `hrms/hrms/setup.py` | `"insert_after": "default_shift"` |
 | The setup wizard's persona slide is replaced | its four required questions were read only by `capture_user_persona` | `onedesk/public/js/setup_wizard.js` | `erpnext/erpnext/public/js/setup_wizard.js` | `persona` |
 
-18 overrides.
+20 overrides.

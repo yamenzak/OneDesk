@@ -144,6 +144,20 @@ OVERRIDES = [
 		"keep_unnamed=False",
 	),
 	(
+		"Employee's fields are reordered",
+		"a `field_order` property setter is the only lever that moves a standard field between tabs",
+		"onedesk/one_hr/custom/employee.json",
+		"frappe/frappe/model/meta.py",
+		"`field_order` property setter",
+	),
+	(
+		"The Approvers section rides the holiday list",
+		"hrms hangs Default Shift and all three approvers off `holiday_list`, which it then hides",
+		"onedesk/one_hr/custom/employee.json",
+		"hrms/hrms/setup.py",
+		'"insert_after": "default_shift"',
+	),
+	(
 		"The setup wizard's persona slide is replaced",
 		"its four required questions were read only by `capture_user_persona`",
 		"onedesk/public/js/setup_wizard.js",
