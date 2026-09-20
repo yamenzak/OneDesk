@@ -2,6 +2,11 @@
 
 A workspace assembled in Python is a workspace nobody can find by looking, and
 one `bench migrate` away from disagreeing with itself.
+
+The rule is about *app content* — a row with `standard` set, which a file on
+disk backs. A site or user layer is the opposite of that by design: it is the
+tenant's arrangement over what an app ships, it has no file, and writing one is
+what the layer exists for. `LAYERS` names the files allowed to do it.
 """
 
 import re
@@ -25,6 +30,9 @@ DECLARED = (
 	"Workflow",
 )
 
+#: Files that write a site or user layer rather than app content.
+LAYERS = ("onedesk/one/companions.py",)
+
 _OPENS = r"frappe\.(get_doc|new_doc|_dict)\s*\(\s*[{'\"]?[^)]*?['\"]("
 _CLOSES = r")['\"]"
 
@@ -38,6 +46,7 @@ def test_desk_furniture_is_not_built_in_python():
 	hits = [
 		f"{path.relative_to(tree.ROOT)}:{n}: {line.strip()}"
 		for path in tree.python()
+		if str(path.relative_to(tree.ROOT)) not in LAYERS
 		for n, line in enumerate(path.read_text().splitlines(), 1)
 		if not line.lstrip().startswith("#") and pattern.search(line)
 	]

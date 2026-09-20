@@ -17,6 +17,8 @@ Each row is something that would still run but stop working if upstream moved. `
 | The site wears One at install | `get_app_logo` reads Website Settings first, then Navbar Settings, then a hook we cannot win | `onedesk/one/brand.py` | `frappe/frappe/core/doctype/navbar_settings/navbar_settings.py` | `def get_app_logo` |
 | Three navbar rows are hidden | Frappe Support, About and erpnext's Delete Demo Data; `sync_table` matches by label, so hiding sticks | `onedesk/one/declutter.py` | `frappe/frappe/core/doctype/navbar_settings/navbar_settings.py` | `def sync_table` |
 | erpnext and hrms checklists are marked complete | they are written in erpnext's voice and open over One's own page | `onedesk/one/declutter.py` | `frappe/frappe/desk/desktop.py` | `get_onboarding_doc` |
+| erpnext and hrms mount on One | a companion has no tile and no rail of its own, so their doctypes open in One's shell even cold | `onedesk/one/companions.py` | `frappe/frappe/desk/doctype/dock/dock.py` | `def mounted_apps` |
+| One's site layer names every rail row | mounting appends 24 of their rows; a saved layer is the whole rail, so ours are named too | `onedesk/one/companions.py` | `frappe/frappe/desk/doctype/dock/dock.py` | `keep_unnamed=False` |
 | The setup wizard's persona slide is replaced | its four required questions were read only by `capture_user_persona` | `onedesk/public/js/setup_wizard.js` | `erpnext/erpnext/public/js/setup_wizard.js` | `persona` |
 
-13 overrides.
+15 overrides.

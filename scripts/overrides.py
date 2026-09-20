@@ -109,6 +109,20 @@ OVERRIDES = [
 		"get_onboarding_doc",
 	),
 	(
+		"erpnext and hrms mount on One",
+		"a companion has no tile and no rail of its own, so their doctypes open in One's shell even cold",
+		"onedesk/one/companions.py",
+		"frappe/frappe/desk/doctype/dock/dock.py",
+		"def mounted_apps",
+	),
+	(
+		"One's site layer names every rail row",
+		"mounting appends 24 of their rows; a saved layer is the whole rail, so ours are named too",
+		"onedesk/one/companions.py",
+		"frappe/frappe/desk/doctype/dock/dock.py",
+		"keep_unnamed=False",
+	),
+	(
 		"The setup wizard's persona slide is replaced",
 		"its four required questions were read only by `capture_user_persona`",
 		"onedesk/public/js/setup_wizard.js",
