@@ -82,8 +82,11 @@ break each other's imports on sites that carry only one of them.
   those go in the commit message.
 - No dead code, no unused exports, no "kept in case". Delete it; git has it.
 - No re-export barrels that defeat tree-shaking; import from the declaring module.
-- Docs in `docs/` are **generated** by `scripts/docs.py`. Never edit them. If a
-  fact has to be typed by hand in two places, one of them is wrong.
+- Reference in `docs/` is **generated** — `MODULES.md`, `UPSTREAM.md`,
+  `FRAMEWORK.md`, `OVERRIDES.md`. Never edit those. If a fact has to be typed by
+  hand in two places, one of them is wrong.
+- A **plan** is written by hand and says so in its first line, because an
+  argument is not a fact and nothing can generate it. `ATTENDANCE.md` is one.
 
 ## The site
 
