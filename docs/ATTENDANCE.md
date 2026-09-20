@@ -3,11 +3,11 @@
 Written by hand. A plan, not generated reference.
 
 An employee presses **Clock in**. No terminal, no fingerprint reader, no app.
-Three gates decide whether the press counts, a fourth check says who was holding
-the phone, and everything each gate saw is written down whether it passed or
-not. What is written down is what lets the system correct itself — new office
-address, moved warehouse gate, replaced phone — without anybody editing a
-settings box.
+Three gates decide whether the press counts — the place, the network, and a
+passkey on their own phone — and everything each gate saw is written down
+whether it passed or not. What is written down is what lets the system correct
+itself: a new office address, a warehouse gate two hundred metres from the door,
+a replaced phone, all without anybody editing a settings box.
 
 ## The three gates
 
@@ -34,48 +34,53 @@ OneApp already wrote this, in `oneapp/onehr/place.py`. The one change: the
 addresses stop being a textarea and become rows, because a textarea cannot
 learn and rows can.
 
-**3. The device.** The first clock-in from a browser makes a random secret,
-keeps it, and registers it as a row: this browser is Rania's. Every clock-in
-after that carries it.
+**3. The device, which is the passkey.** A passkey is a key pair the phone
+creates and keeps in its secure hardware or its keychain. Registering one is a
+prompt; using one is Face ID, a fingerprint or the device PIN, and we ask with
+`userVerification: "required"` so that happens on **every** clock-in, not just
+the first.
 
-A device belongs to **one** employee. That rule is the whole point. One person
-signing in as five colleagues on the reception PC and clocking them all in
-produces five attempts naming one device, which is not a subtle pattern. Without
-the rule the PC just becomes everybody's first device and the gate does nothing.
+Every assertion hands back the credential id, and that id is the device
+identity. It is stable, it is cryptographic, and unlike a cookie it cannot be
+cleared, copied, or stepped around by opening a private window — it lives in the
+operating system's keychain, not in the browser profile.
 
-A mismatch lets the clock-in through and writes a flag, because refusing would
-leave a new starter with a new phone standing outside. Clearing browser data
-loses the secret, which is why it is kept in two places — a server-set cookie
-and browser storage, either restoring the other — and why an installed PWA is
-worth a one-line prompt, since its storage survives clearing the browser.
+**One credential per employee.** A second registration is refused and needs HR
+to reset the first. That rule is what makes the gate work: a colleague who knows
+your password and signs in as you on their own phone finds there is no passkey
+there and cannot make one, so they cannot clock in as you. The only way through
+is your actual phone, in their hand, with your face or PIN — which is a
+different and much larger favour to ask, and not one anybody does.
 
-## The fourth check: who was holding the phone
+Four things to be exact about.
 
-A passkey. This is the one part that is genuinely strong, and it is worth being
-exact about what it does.
+**Registration has to happen on a phone.** If somebody enrols their passkey on
+the office PC through Windows Hello, the whole argument collapses — the device
+is then a shared machine anybody can stand in front of. So registration is
+refused from a desktop browser and the enrolment screen says to use your phone.
 
-A passkey is a key pair created by the phone and kept in its secure hardware or
-its keychain. Registering one is a prompt; using one is Face ID, a fingerprint
-or the device PIN. We ask for it with `userVerification: "required"`, which
-means **every clock-in needs the owner's face or PIN**, not just the first.
+**Passkeys sync.** iCloud Keychain and Google Password Manager copy them across
+that person's own devices, so the same credential id can appear from their
+tablet. It is still them, and the other two gates still apply. The authenticator
+says whether a credential is backed up and we record it.
 
-What that fixes: handing your unlocked phone to a colleague stops being enough.
-They need your face at the moment they press the button, every time. That is the
-borrowed-phone case, which nothing else on this list touches.
+**There is no cookie and no device secret.** An earlier draft had one. It is
+redundant once the passkey is the identity, and it was weak on its own: a
+private window sends no cookie and reads no storage, so anybody avoiding the
+check just opened one. What replaces it for spotting patterns costs nothing —
+the user agent, platform, model, screen and renderer arrive on every request
+anyway and go in the ledger, so five different employees authenticating from
+what is obviously one machine is visible there without a cookie.
 
-Three things to be honest about:
+**Losing the phone is HR's one click.** Somebody with a new or broken phone
+cannot clock in until the credential is reset, which is the point, so the screen
+that refuses them has the button that asks for the reset and HR sees it
+immediately. A workspace that cannot answer that within a morning should run the
+gate as a flag rather than a refusal.
 
-- **A passkey does not identify a device.** All we get back is a credential id,
-  and two employees registering on the same phone produce two unrelated ids with
-  nothing linking them. So the device secret from gate 3 stays: the secret says
-  which browser, the passkey says which person.
-- **Passkeys sync.** iCloud Keychain and Google Password Manager copy them
-  across that person's own devices by default. That is fine — still the same
-  person — but it means "one passkey, one device" is not true. The
-  authenticator tells us whether a credential is synced (`backupEligible`,
-  `backupState`) and we record it.
-- **Frappe has no WebAuthn in v17.** This is real work, not a switch. It is the
-  one thing on this plan we build from scratch.
+**When there is no passkey at all** — a device too old for WebAuthn, or a
+workspace that has not turned the gate on — the other two gates and the ledger
+carry it. Those people are the kiosk-and-supervisor case below.
 
 ## Everyone who clocks themselves in has a login
 
@@ -134,9 +139,10 @@ from one device is a witness. Somebody in their first week is not.
 
 Signals worth having on day one:
 
-- the device is unknown, or belongs to somebody else
-- several employees on one device inside an hour
-- one employee on several devices inside an hour
+- no passkey was presented, where one is required
+- several employees authenticating from what looks like one machine
+- a passkey used from a browser that looks nothing like the one it was
+  registered on
 - the address has never been seen before
 - the position is outside every zone, or its accuracy is vaguer than the fence
 - location permission was refused
@@ -170,11 +176,10 @@ every zone but is used by enough people becomes a **Proposed** `Checkin Zone`
 against that Shift Location — a second circle, not a wider one, because widening
 the radius to cover a car park also covers the road.
 
-**A phone is replaced.** When a new secret appears, compare what we recorded
-against the retired device: user agent, platform, model, screen, renderer, and
-the addresses it used. If they match, the flag reads *same phone, browser was
-cleared* and clears itself. If they do not, it stays for HR. Either way one
-re-registration is noise and four in a week is the actual signal.
+**A phone is replaced.** A reset request carries what the new browser looks like
+and what the old one did, so HR sees *same model, same network, new phone* or
+*different everything* rather than a bare "please reset". It is one click either
+way, and a second reset within a month is the thing worth looking at.
 
 Nothing auto-heals in the direction of *less* security: a proposal can widen
 where people may clock in, never who may. Devices, passkeys and employees are
@@ -194,10 +199,12 @@ never promoted automatically.
 
 **Four new doctypes.**
 
-`Checkin Device` — employee, label, hashed secret, status (Active, Retired,
-Blocked), first and last seen, last address, and the fingerprint: user agent,
-platform, model, screen, renderer. Plus the passkey when there is one:
-credential id, public key, sign count, aaguid, whether it is backed up.
+`Checkin Device` — the passkey, one row per employee: credential id, public key,
+sign count, aaguid, whether it is backed up, status (Active, Reset, Blocked),
+first and last seen, last address, and what the browser looked like at
+registration — user agent, platform, model, screen, renderer. The fingerprint is
+not the identity; it is what makes a reset request recognisable and what shows
+several employees enrolling from one machine.
 
 `Checkin Network` — an address or range, the Shift Location it belongs to (or
 none, for the whole workspace), status (Declared, Proposed, Confirmed,
@@ -290,8 +297,10 @@ systems get switched off.
    attempt, with no gate enforcing anything yet. Everything else reads this, so
    it comes first, and a week of it on a real site is worth more than any
    amount of guessing at thresholds.
-2. **The device.** `Checkin Device`, register on first use, one owner per
-   device, flag on mismatch, cookie and storage, the PWA prompt.
+2. **The passkey.** WebAuthn registration and assertion, one credential per
+   employee, `userVerification: "required"`, registration refused from a
+   desktop, and the reset that HR does in one click. It is the device gate, so
+   it comes before the other two rather than last.
 3. **The network.** `Checkin Network` as rows, one click to learn the office
    address, the refusal that reads it.
 4. **The place.** Ask the browser for a position, record accuracy, `Checkin
@@ -303,8 +312,8 @@ systems get switched off.
    the sentence that explains a refusal.
 7. **Self-healing.** Proposed networks and zones, the thresholds, the
    notification, the device-replacement match.
-8. **Passkeys.** Registration, `userVerification: "required"`, and passwordless
-   login for employees who only ever clock in.
+8. **Passwordless login.** The same credential signs people in, so an employee
+   who only ever clocks in never has a password to forget.
 9. **Closing the day.** Auto-close at shift end, one nudge, the reason on the
    way out, and the auto-closed log marked as such rather than looking real.
 10. **The optional photo**, if anybody still wants it.
