@@ -67,3 +67,17 @@
 .dock-collapse-toggle {
 	display: none;
 }
+
+/* Sidebar rows keep their glyphs. `dock.scss` hides them whenever a rail exists,
+ * because the rail carries the marks; but the rail's marks name products and
+ * these name screens, so hiding one for the other loses the row's glyph without
+ * replacing it. The selector matches theirs so it outweighs it. */
+@media (min-width: 768px) {
+	body.dock-active .body-sidebar .standard-sidebar-item .item-anchor .sidebar-item-icon {
+		display: flex;
+	}
+
+	body.dock-active .body-sidebar .standard-sidebar-item .sidebar-item-label {
+		margin-left: 8px;
+	}
+}
