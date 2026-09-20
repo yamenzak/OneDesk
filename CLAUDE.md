@@ -11,12 +11,25 @@ Before writing any UI, data access, or utility, look for it in this order:
 `frappe` (the desk, the doctype, the workspace) → `@framework/ui` → `frappe-ui`.
 Only then write something, and say in one line why nothing above fit.
 
-This covers: dialogs, toasts and confirms (`frappe.msgprint`, `frappe.show_alert`,
-`frappe.confirm`, `frappe.prompt`, `frappe.ui.Dialog`), fetching (`frappe.call`,
-`frappe.db`, `frappe.client`), formatting and dates (`frappe.format`,
-`frappe.datetime`), realtime (`frappe.realtime`), permissions (`frappe.perm`),
-list and form UI, filters, child tables, notifications, follows, likes,
-workflows, reports, dashboards and web forms.
+**`docs/FRAMEWORK.md` is the list**, generated from the checkout we actually
+have: every `frappe.*` namespace, what is callable directly, `frappe.utils`,
+the `frappe.ui` classes, every `@framework/ui` export, the four ways a page
+gets onto the desk, and the espresso design tokens. Read it before writing UI.
+
+Which to reach for, when:
+
+| you want | use |
+|---|---|
+| a message, a confirm, a prompt | `frappe.msgprint`, `frappe.show_alert`, `frappe.confirm`, `frappe.prompt` |
+| a modal with fields | `frappe.ui.Dialog` |
+| to call the server | `frappe.call`, `frappe.db.get_value`, `frappe.client` |
+| a date or a number on screen | `frappe.datetime`, `frappe.format`, `frappe.utils` |
+| live updates | `frappe.realtime` |
+| to know if someone may | `frappe.perm`, `frappe.has_permission`, and doctype permissions |
+| a list, a form, a filter, a child grid | the desk's own, or `@framework/ui` |
+| a Vue screen inside the desk | an island — `frappe.ui.mount_island` |
+| a colour, a radius, a shadow | an espresso token, never a literal |
+| somewhere to keep a per-user preference | `frappe.model.user_settings` |
 
 ## Declare, don't code
 
@@ -52,7 +65,12 @@ it still catches its own example.
   agrees with the folders.
 - `test_source_style.py` — no comment essays, no file that is mostly comment,
   nothing imported and unused.
-- `test_generated.py` — `docs/` is current and upstream was read this fortnight.
+- `test_generated.py` — `docs/` and `docs/FRAMEWORK.md` are current, and
+  upstream was read this fortnight.
+
+`python scripts/reference.py` regenerates `docs/FRAMEWORK.md` from the frappe
+checkout. It is pinned to the sha in `upstream.json`, so it describes the
+framework we have rather than the one somebody remembered.
 
 `python scripts/upstream.py` says what landed in frappe, erpnext and hrms since
 we last looked; `--record` marks today. Run it before starting anything — twice

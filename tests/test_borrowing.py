@@ -48,6 +48,12 @@ RULES = [
 		{".js", ".ts", ".vue"},
 	),
 	(
+		"colours and sizes",
+		"the espresso tokens — var(--ink-*), var(--surface-*), var(--outline-*)",
+		r"(?<![\w-])#[0-9a-fA-F]{3,8}\b|\brgba?\s*\(",
+		{".vue", ".css", ".scss"},
+	),
+	(
 		"permission checks",
 		"frappe.has_permission, frappe.only_for, doctype permissions",
 		r"\bif\s+frappe\.session\.user\s*(==|!=)\s*['\"](?!Guest)",
@@ -88,6 +94,7 @@ def test_every_rule_would_catch_its_own_example():
 		"dates and numbers": "d.toLocaleDateString('en-GB')",
 		"realtime": "const s = new WebSocket('wss://x')",
 		"per-user state": "localStorage.setItem('tab', tab)",
+		"colours and sizes": "color: #1a1a1a;",
 		"permission checks": "if frappe.session.user == 'admin@example.com':",
 	}
 	for what, _instead, pattern, _suffixes in RULES:

@@ -20,6 +20,11 @@ def test_docs_are_current():
 	assert out.returncode == 0, out.stdout + out.stderr
 
 
+def test_the_framework_reference_is_current():
+	out = _run("reference.py", "--check")
+	assert out.returncode == 0, out.stdout + out.stderr
+
+
 def test_upstream_was_read_recently():
 	out = _run("upstream.py", "--check")
 	assert out.returncode == 0, out.stdout + out.stderr
