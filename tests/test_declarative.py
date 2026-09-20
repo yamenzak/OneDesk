@@ -73,9 +73,13 @@ def _doctype_of(path: Path) -> str:
 	import json
 
 	try:
-		return json.loads(path.read_text()).get("doctype", "")
+		doc = json.loads(path.read_text())
 	except (ValueError, UnicodeDecodeError):
 		return ""
+	# A `fixtures` export is a list of documents rather than one.
+	if isinstance(doc, list):
+		return doc[0].get("doctype", "") if doc else ""
+	return doc.get("doctype", "") if isinstance(doc, dict) else ""
 
 
 def test_every_module_in_modules_txt_has_a_folder():
