@@ -8,7 +8,7 @@
   {
    "added": 0,
    "hidden": 0,
-   "icon": "house",
+   "icon": "one",
    "link_to": "One",
    "link_type": "Sidebar",
    "title": "One"
@@ -16,7 +16,7 @@
   {
    "added": 0,
    "hidden": 0,
-   "icon": "book-open",
+   "icon": "onebook",
    "link_to": "Accounts",
    "link_type": "Sidebar",
    "title": "Books"
@@ -24,7 +24,7 @@
   {
    "added": 0,
    "hidden": 0,
-   "icon": "handshake",
+   "icon": "onecrm",
    "link_to": "OneCRM",
    "link_type": "Sidebar",
    "title": "OneCRM"
@@ -32,7 +32,7 @@
   {
    "added": 0,
    "hidden": 0,
-   "icon": "square-kanban",
+   "icon": "oneproject",
    "link_to": "Projects",
    "link_type": "Sidebar",
    "title": "Projects"
@@ -40,13 +40,13 @@
   {
    "added": 0,
    "hidden": 0,
-   "icon": "users",
+   "icon": "onehr",
    "link_to": "OneHR",
    "link_type": "Sidebar",
    "title": "OneHR"
   }
  ],
- "modified": "2026-09-20 16:45:00.000000",
+ "modified": "2026-09-20 17:30:00.000000",
  "modified_by": "Administrator",
  "name": "onedesk",
  "owner": "Administrator",

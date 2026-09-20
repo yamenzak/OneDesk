@@ -33,3 +33,18 @@
 	color: var(--ink-gray-7);
 	cursor: pointer;
 }
+
+/* A gradient inside a `display: none` subtree has no render object in Chromium,
+ * so it resolves to nothing. `#all-symbols` is such a subtree — a hidden div —
+ * and every One mark paints from a `url(#…)` gradient, so the marks came out
+ * hollow while lucide's icons, which are paths taking their stroke from CSS,
+ * never noticed. Kept out of flow and zero-sized instead of hidden; a `<symbol>`
+ * draws nothing by itself either way. */
+#all-symbols,
+#all-symbols > svg {
+	display: block !important;
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+}
