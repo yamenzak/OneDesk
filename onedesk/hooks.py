@@ -6,9 +6,9 @@ app_email = "hello@4dl.app"
 app_license = "agpl-3.0"
 app_logo_url = "/assets/onedesk/images/one.svg"
 
-# The site wears One from its first boot; after that the logo and name are the
-# tenant's, in Website Settings.
-after_install = "onedesk.one.brand.apply"
+# The site wears One from its first boot and carries nobody else's navbar rows or
+# checklists; after that all of it is the tenant's, in Website and Navbar Settings.
+after_install = ["onedesk.one.brand.apply", "onedesk.one.declutter.apply"]
 extend_bootinfo = "onedesk.one.boot.boot_session"
 
 add_to_apps_screen = [

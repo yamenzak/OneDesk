@@ -1,0 +1,21 @@
+{
+ "action": "Create Entry",
+ "action_label": "Start a project",
+ "creation": "2026-09-20 15:00:00.000000",
+ "description": "Work with a start, an end and people on it. Tasks hang off a project, and time booked against one reaches Books.",
+ "docstatus": 0,
+ "doctype": "Onboarding Step",
+ "idx": 0,
+ "is_complete": 0,
+ "is_single": 0,
+ "is_skipped": 0,
+ "modified": "2026-09-20 15:00:00.000000",
+ "modified_by": "Administrator",
+ "name": "One Start A Project",
+ "owner": "Administrator",
+ "reference_document": "Project",
+ "show_form_tour": 0,
+ "show_full_form": 0,
+ "title": "Start a project",
+ "validate_action": 0
+}

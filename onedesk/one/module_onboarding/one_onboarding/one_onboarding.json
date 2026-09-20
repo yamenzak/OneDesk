@@ -1,0 +1,32 @@
+{
+ "allow_roles": [
+  {
+   "role": "System Manager"
+  }
+ ],
+ "creation": "2026-09-20 15:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Module Onboarding",
+ "idx": 0,
+ "is_complete": 0,
+ "modified": "2026-09-20 15:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One",
+ "name": "One Onboarding",
+ "owner": "Administrator",
+ "steps": [
+  {
+   "step": "One Invite Your Team"
+  },
+  {
+   "step": "One Add An Employee"
+  },
+  {
+   "step": "One Add A Customer"
+  },
+  {
+   "step": "One Start A Project"
+  }
+ ],
+ "title": "Set One up"
+}
