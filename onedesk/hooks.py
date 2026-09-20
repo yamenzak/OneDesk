@@ -9,6 +9,19 @@ app_logo_url = "/assets/onedesk/images/one.svg"
 # The site wears One from its first boot; after that the logo and name are the
 # tenant's, in Website Settings.
 after_install = "onedesk.one.brand.apply"
+extend_bootinfo = "onedesk.one.boot.boot_session"
+
+add_to_apps_screen = [
+	{
+		"name": app_name,
+		"title": app_title,
+		"logo": app_logo_url,
+		"route": "/desk/one",
+		# Ahead of erpnext (1) and hrms (2). Not 0: the boot reads this with `or`,
+		# so a falsy one falls through to the default and lands One mid-row.
+		"sequence_id": 0.5,
+	}
+]
 
 # `setup_wizard_url` is ignored while erpnext or hrms are installed.
 setup_wizard_requires = "assets/onedesk/js/setup_wizard.js"

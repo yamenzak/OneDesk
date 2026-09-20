@@ -9,7 +9,9 @@ No doctypes yet.
 
 ## Desk records shipped as fixtures
 
-None yet.
+* **dock** — onedesk
+* **sidebar** — one
+* **workspace** — one
 
 ## Whitelisted methods
 
