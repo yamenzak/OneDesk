@@ -13,12 +13,15 @@ frappe.provide("onedesk.theme");
 
 onedesk.theme.STORE = "onedesk";
 onedesk.theme.DEFAULT = "one";
-onedesk.theme.MODES = ["automatic", "light", "dark"];
+// Light and dark are the cards; automatic is a checkbox under them, because it
+// is a preference about the two rather than a third thing to look at.
+onedesk.theme.MODES = ["light", "dark"];
 
-// A palette ships a CSS block per mode; `css` is only a label for the reader.
+// The standard palette carries no prefix — the product is One, so "One · Light"
+// says the same word twice. A named palette prefixes its own name.
+// frappe's is not offered: a tenant of One has no use for it.
 onedesk.theme.palettes = {
-	frappe: { label: __("Frappe"), css: "frappe's own" },
-	one: { label: __("One"), css: "onedesk/public/css/theme.css" },
+	one: { label: "" },
 };
 
 onedesk.theme.apply = function (palette) {
@@ -43,14 +46,34 @@ frappe.ui.ThemeSwitcher = class OneThemeSwitcher extends frappe.ui.ThemeSwitcher
 		this.themes = [];
 		for (const [palette, spec] of Object.entries(onedesk.theme.palettes)) {
 			for (const mode of onedesk.theme.MODES) {
+				const named = __(mode[0].toUpperCase() + mode.slice(1));
 				this.themes.push({
 					name: `${palette}:${mode}`,
-					label: `${spec.label} · ${__(mode[0].toUpperCase() + mode.slice(1))}`,
-					info: spec.label,
+					label: spec.label ? `${spec.label} · ${named}` : named,
+					info: spec.label || named,
 				});
 			}
 		}
 		return Promise.resolve(this.themes);
+	}
+
+	// Automatic is still frappe's mode; it just is not a card. Checking it
+	// leaves the palette alone and hands the light/dark choice to the system.
+	render() {
+		super.render();
+		this.$follow = $(`
+			<label class="theme-follow">
+				<input type="checkbox" />
+				<span>${__("Follow my system")}</span>
+			</label>
+		`).appendTo(this.dialog.$body);
+
+		const box = this.$follow.find("input");
+		box.prop("checked", this.mode() === "automatic");
+		box.on("change", () => {
+			if (box.is(":checked")) return super.toggle_theme("automatic");
+			super.toggle_theme(frappe.ui.get_current_theme() || "light");
+		});
 	}
 
 	refresh() {
@@ -92,5 +115,6 @@ frappe.ui.ThemeSwitcher = class OneThemeSwitcher extends frappe.ui.ThemeSwitcher
 		frappe.model.user_settings.save(onedesk.theme.STORE, "palette", palette);
 		super.toggle_theme(mode);
 		this.current_theme = name;
+		this.$follow?.find("input").prop("checked", false);
 	}
 };

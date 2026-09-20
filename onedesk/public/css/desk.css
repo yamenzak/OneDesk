@@ -1,12 +1,12 @@
-/* Six cards do not fit the row frappe's three were built for.
+/* A palette is a row: its light card and its dark card, side by side.
  *
  * .theme-grid is `display: flex` with `flex: 1` wrappers, which divides one row
- * however many cards there are — at six the labels wrap and the cards stop
- * agreeing on height. A grid wraps instead, and stretch keeps them level. */
+ * however many cards there are — so palettes ran together and the cards stopped
+ * agreeing on height. Two columns pairs each palette's modes; stretch levels them. */
 
 .theme-grid {
 	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
+	grid-template-columns: repeat(2, minmax(0, 1fr));
 	align-items: stretch;
 }
 
@@ -18,8 +18,18 @@
 	height: 100%;
 }
 
-/* The label sits on one line at three-to-a-row, so the footer is a fixed
-   height rather than a wrapping one. */
 .theme-grid .theme-card-footer {
 	white-space: nowrap;
+}
+
+/* "Follow my system" sits under the grid, not in it. */
+.theme-follow {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 16px;
+	margin-bottom: 0;
+	font-size: var(--text-sm);
+	color: var(--ink-gray-7);
+	cursor: pointer;
 }
