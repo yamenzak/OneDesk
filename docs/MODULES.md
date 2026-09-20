@@ -11,7 +11,7 @@ No doctypes yet.
 
 * **dock** — onedesk
 * **sidebar** — one, onecrm, onehr
-* **workspace** — one, onecrm, onehr
+* **workspace** — one, onecrm, onehr, onehr_setup
 
 ## Whitelisted methods
 
