@@ -4,6 +4,11 @@ app_publisher = "One"
 app_description = "Every One product, as modules on the Frappe desk"
 app_email = "hello@4dl.app"
 app_license = "agpl-3.0"
+app_logo_url = "/assets/onedesk/images/one.svg"
+
+# The site wears One from its first boot; after that the logo and name are the
+# tenant's, in Website Settings.
+after_install = "onedesk.one.brand.apply"
 
 # `setup_wizard_url` is ignored while erpnext or hrms are installed.
 setup_wizard_requires = "assets/onedesk/js/setup_wizard.js"
