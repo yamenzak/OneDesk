@@ -1,7 +1,7 @@
 {
  "app": "onedesk",
  "charts": [],
- "content": "[{\"id\": \"onehr_head\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>OneHR</b></span>\", \"col\": 12}}]",
+ "content": "[{\"id\": \"onehr_do\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Today</b></span>\", \"col\": 12}}, {\"id\": \"onehr_sc_0\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Check in\", \"col\": 3}}, {\"id\": \"onehr_sc_1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Request leave\", \"col\": 3}}, {\"id\": \"onehr_sc_2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Claim an expense\", \"col\": 3}}, {\"id\": \"onehr_sc_3\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Payslips\", \"col\": 3}}, {\"id\": \"onehr_gap\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"onehr_ql_0\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"Leave\", \"col\": 4}}, {\"id\": \"onehr_ql_1\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"Expenses\", \"col\": 4}}, {\"id\": \"onehr_ql_2\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"Payslips\", \"col\": 4}}]",
  "creation": "2026-09-20 12:00:00.000000",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,7 +13,7 @@
  "is_hidden": 0,
  "label": "OneHR",
  "links": [],
- "modified": "2026-09-20 14:30:00.000000",
+ "modified": "2026-09-20 19:45:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "OneHR",
@@ -21,10 +21,59 @@
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,
- "quick_lists": [],
+ "quick_lists": [
+  {
+   "document_type": "Leave Application",
+   "label": "Leave",
+   "quick_list_filter": "[]"
+  },
+  {
+   "document_type": "Expense Claim",
+   "label": "Expenses",
+   "quick_list_filter": "[]"
+  },
+  {
+   "document_type": "Salary Slip",
+   "label": "Payslips",
+   "quick_list_filter": "[]"
+  }
+ ],
  "restrict_to_domain": "",
  "roles": [],
  "sequence_id": 1.0,
- "shortcuts": [],
+ "shortcuts": [
+  {
+   "color": "Green",
+   "doc_view": "New",
+   "label": "Check in",
+   "link_to": "Employee Checkin",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "New",
+   "label": "Request leave",
+   "link_to": "Leave Application",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "New",
+   "label": "Claim an expense",
+   "link_to": "Expense Claim",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Payslips",
+   "link_to": "Salary Slip",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
  "title": "OneHR"
 }
