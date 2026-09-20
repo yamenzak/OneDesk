@@ -14,7 +14,20 @@ HR manager and for the person themselves. Leave is HRMS's own
 
 import frappe
 from frappe import _
-from frappe.utils import add_days, date_diff, getdate, nowdate
+from frappe.utils import add_days, date_diff, get_first_day_of_week, getdate, nowdate
+
+#: Thirteen weeks of squares: one quarter, which is as far back as anybody looks
+#: and as much as sits beside the chips without wrapping.
+WEEKS = 13
+
+#: Attendance's own statuses, in our words. A day with no row is not one of them.
+MARKS = {
+	"Present": "present",
+	"Work From Home": "wfh",
+	"Half Day": "half",
+	"On Leave": "leave",
+	"Absent": "absent",
+}
 
 #: What a person is waiting on somebody to approve, and the field that says so.
 AWAITING = (
@@ -31,6 +44,7 @@ def overview(employee: str) -> dict:
 	doc = frappe.get_doc("Employee", employee)
 	return {
 		"state": _state(doc),
+		"days": _days(doc),
 		"tenure": _tenure(doc),
 		"today": _today(doc),
 		"leave": _leave(doc),
@@ -130,16 +144,57 @@ def _today(doc) -> dict:
 	}
 
 
-def _is_holiday(doc) -> bool:
-	if not doc.holiday_list:
-		return False
-	return bool(
-		frappe.get_all(
-			"Holiday",
-			filters={"parent": doc.holiday_list, "holiday_date": nowdate()},
-			limit=1,
+def _days(doc) -> list[dict]:
+	"""A quarter of attendance, one square a day, starting on a week boundary.
+
+	Nothing marked and no holiday list is a site that does not keep attendance,
+	and a grid of ninety-five blank squares says that worse than no grid does.
+
+	A day nobody marked is not absent — attendance is usually written after the
+	fact, and a quarter of squares that called every unwritten day a no-show
+	would be a lie about the person rather than about the data.
+	"""
+	start = get_first_day_of_week(add_days(getdate(), -(WEEKS * 7 - 1)), as_str=False)
+	today = getdate()
+	marked = {
+		row["attendance_date"]: row["status"]
+		for row in frappe.get_all(
+			"Attendance",
+			filters={"employee": doc.name, "docstatus": 1, "attendance_date": [">=", start]},
+			fields=["attendance_date", "status"],
 		)
-	)
+	}
+	holidays = _holidays(doc, start)
+	if not marked and not holidays:
+		return []
+
+	days, day = [], start
+	while day <= today:
+		mark = MARKS.get(marked.get(day)) or ("holiday" if day in holidays else "none")
+		days.append({"date": str(day), "mark": mark})
+		day = add_days(day, 1)
+	return days
+
+
+def _holidays(doc, start) -> set:
+	"""Whose list this is is ERPNext's question — the employee's, or the company's."""
+	from erpnext.setup.doctype.employee.employee import get_holiday_list_for_employee
+
+	name = get_holiday_list_for_employee(doc.name, raise_exception=False)
+	if not name:
+		return set()
+	return {
+		row["holiday_date"]
+		for row in frappe.get_all(
+			"Holiday",
+			filters={"parent": name, "holiday_date": [">=", start]},
+			fields=["holiday_date"],
+		)
+	}
+
+
+def _is_holiday(doc) -> bool:
+	return getdate() in _holidays(doc, getdate())
 
 
 def _leave(doc) -> list[dict]:

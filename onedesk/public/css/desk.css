@@ -106,24 +106,102 @@
 
 .one-band {
 	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: var(--margin-md);
+}
+
+/* A quarter of days, a column a week. Seven rows and column flow is the whole
+   layout: the server starts the run on a week boundary, so every square lands
+   on its own weekday without being told which one it is. */
+.one-heat-grid {
+	display: grid;
+	grid-auto-flow: column;
+	grid-template-rows: repeat(7, 9px);
+	grid-auto-columns: 9px;
+	gap: 2px;
+}
+
+.one-day,
+.one-key {
+	--mark: var(--surface-gray-2);
+}
+
+.one-day-present,
+.one-key-present {
+	--mark: var(--surface-green-5);
+}
+
+.one-day-wfh,
+.one-key-wfh {
+	--mark: var(--surface-green-3);
+}
+
+.one-day-half,
+.one-key-half {
+	--mark: var(--surface-amber-4);
+}
+
+.one-day-leave,
+.one-key-leave {
+	--mark: var(--surface-blue-4);
+}
+
+.one-day-absent,
+.one-key-absent {
+	--mark: var(--surface-red-4);
+}
+
+.one-day-holiday,
+.one-key-holiday {
+	--mark: var(--surface-gray-5);
+}
+
+.one-day {
+	background: var(--mark);
+	border-radius: 2px;
+}
+
+.one-heat-legend {
+	display: flex;
 	flex-wrap: wrap;
+	gap: var(--margin-sm);
+	margin-top: 6px;
+	font-size: var(--text-xs);
+	color: var(--ink-gray-5);
+}
+
+.one-key::before {
+	content: "";
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	margin-right: 4px;
+	border-radius: 2px;
+	background: var(--mark);
+}
+
+/* The chips wrap inside their own box rather than dropping the whole row under
+   the quarter, which is what `flex-wrap` on the band would do the moment the
+   two of them add up to a pixel more than the form is wide. */
+.one-chips {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	align-content: flex-start;
+	flex: 1 1 0;
+	min-width: 0;
 	gap: 6px;
 }
 
 .one-chip {
-	display: inline-flex;
-	align-items: baseline;
 	gap: 6px;
-	padding: 2px 8px;
-	border: 1px solid var(--outline-gray-1);
-	border-radius: var(--radius-full);
-	font-size: var(--text-xs);
 	text-decoration: none;
 }
 
 a.one-chip:hover {
-	border-color: var(--outline-gray-3);
 	text-decoration: none;
+	border-color: var(--outline-gray-3);
 }
 
 .one-chip-label {
@@ -131,16 +209,7 @@ a.one-chip:hover {
 }
 
 .one-chip-value {
-	color: var(--ink-gray-8);
 	font-weight: var(--weight-medium);
-}
-
-.one-chip-waiting {
-	border-color: var(--outline-amber-2, var(--outline-gray-3));
-}
-
-.one-chip-waiting .one-chip-value {
-	color: var(--ink-amber-3, var(--ink-gray-8));
 }
 
 .one-chip-spent .one-chip-value {
