@@ -47,17 +47,46 @@ phones and for the person whose device is too old, and attendance marked that
 way is plainly attendance somebody asserted rather than attendance the system
 observed.
 
-Three things are added to it, in `one_hr/marking.py` and
-`public/js/attendance_tool.js`. **Tick Everyone Who Checked In** reads the
-ledger for the date and ticks whoever has an IN log, so a day that is half
-clocked and half asserted is not retyped; a log a reviewer rejected carries
-`skip_auto_attendance` and is left out. **Overtime Type** and **Overtime
-Hours** are written onto each Attendance row the tool creates — they are read
-only on the form because the shift normally computes them from the check-ins,
-so the manual lane sets them before the row is submitted, and `Overtime Slip`
-collects them afterwards without knowing which lane wrote them. And the
-heading reads **Mark Attendance**, which is what the rail calls it; a DocType
-has no label to set, so the last breadcrumb is replaced instead.
+The screen is rearranged into the three steps it actually is — the day, then
+who, then what to mark them as — because hrms interleaves them, and the
+checkboxes that qualify the status sat a screen above it while the six filters
+nobody sets were the first thing on the page. **Tick Everyone Who Checked In**
+reads the ledger for the date and ticks whoever has an IN log, so a day that
+is half clocked and half asserted is not retyped; a log a reviewer rejected
+carries `skip_auto_attendance` and is left out. A **Search** box hides the rows
+that do not match, without touching the ticks, because a department of sixty is
+three columns of checkboxes with no way through it. And the heading reads
+**Mark Attendance**, which is what the rail calls it; a DocType has no label to
+set, so the last breadcrumb is replaced instead.
+
+## Overtime
+
+Overtime lives on the Attendance row — `overtime_type`,
+`actual_overtime_duration` and `standard_working_hours` — and there is one
+place to record it, because a shift writing it from the check-ins and a person
+writing it by hand are two hands on the same three fields. `Overtime Slip`
+collects submitted days marked Present with an Overtime Type and turns them
+into an `Additional Salary`, without knowing which hand wrote them.
+
+The hand is `one_hr/overtime.py` and a dialog, offered from the Employee record
+and from the Attendance itself. It is a dialog rather than a column in the bulk
+tool because overtime is one person's extra hours on one date; a whole
+department rarely works the same two hours. The dialog asks the server what the
+day is before it offers to write anything, so it says "no attendance marked on
+21-09-2026" rather than failing on submit, and it shows the standard day — the
+shift's own length, or `HR Settings.standard_working_hours`, which
+`one_hr/policy.py` starts at eight because zero makes every hour of a shiftless
+day overtime.
+
+The fields are read only on the form and the row is submitted by the time
+anybody notices the overtime, so `record` writes them straight to the row and
+leaves a comment naming who did it. Nothing is posted at Attendance submit, so
+there is no ledger to disagree with.
+
+`Overtime Slip` also lets a row be typed with no Attendance behind it, which is
+the one way to be paid twice for one day. `no_double_pay` refuses a hand-typed
+row whose date already carries overtime on the Attendance, and names the row to
+remove.
 
 Self-service and having an account are the same decision. An employee with no
 `User` has no session, and with no session there is nothing for the server to

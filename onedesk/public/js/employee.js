@@ -226,6 +226,14 @@ onedesk.employee.actions = (frm) => {
 			frappe.new_doc(doctype, { employee: frm.doc.name });
 		});
 	}
+
+	// Not a new doctype: overtime is written onto the day that was worked, so
+	// the action opens the same dialog the Attendance record offers.
+	if (frappe.model.can_write("Attendance")) {
+		frm.sidebar.add_user_action(__("Record Overtime"), () =>
+			onedesk.overtime.ask({ employee: frm.doc.name }),
+		);
+	}
 };
 
 frappe.ui.form.on("Employee", {

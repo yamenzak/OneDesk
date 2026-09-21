@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 12:55+0000\n"
-"PO-Revision-Date: 2026-09-21 12:55+0000\n"
+"POT-Creation-Date: 2026-09-21 13:09+0000\n"
+"PO-Revision-Date: 2026-09-21 13:09+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -265,10 +265,6 @@ msgstr ""
 msgid "Attendance Standing"
 msgstr ""
 
-#: onedesk/public/js/attendance_tool.js:149
-msgid "Attendance marked successfully"
-msgstr ""
-
 #. Label of the aaguid (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Authenticator (AAGUID)"
@@ -359,6 +355,10 @@ msgstr ""
 #. Description of the 'Ask for a Photo' (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Captures a frame from the camera at check-in. Choosing an existing file instead is not allowed."
+msgstr ""
+
+#: onedesk/public/js/attendance.js:8
+msgid "Change the Overtime"
 msgstr ""
 
 #. Label of the signal (Data) field in DocType 'Clock Signal'
@@ -567,6 +567,10 @@ msgstr ""
 msgid "Customer Group"
 msgstr ""
 
+#: onedesk/public/js/overtime.js:25
+msgid "Date"
+msgstr ""
+
 #. Option for the 'Status' (Select) field in DocType 'Clock Network'
 #. Option for the 'Status' (Select) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
@@ -673,7 +677,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
-#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/public/js/overtime.js:14
 msgid "Employee"
 msgstr ""
 
@@ -772,7 +776,7 @@ msgstr ""
 msgid "Ends the Shift"
 msgstr ""
 
-#: onedesk/one_hr/marking.py:97
+#: onedesk/one_hr/overtime.py:89
 msgid "Enter the overtime hours."
 msgstr ""
 
@@ -979,9 +983,7 @@ msgstr ""
 msgid "Hours Utilization"
 msgstr ""
 
-#. Description of the 'Overtime Hours' (Float) field in DocType 'Employee
-#. Attendance Tool'
-#: onedesk/one_hr/custom/employee_attendance_tool.json
+#: onedesk/public/js/overtime.js:47
 msgid "Hours worked beyond the standard day."
 msgstr ""
 
@@ -1244,6 +1246,11 @@ msgstr ""
 msgid "Lifecycle Overview"
 msgstr ""
 
+#. Label of the 'get_employees' field in DocType 'Employee Attendance Tool'
+#: onedesk/one_hr/custom/employee_attendance_tool.json
+msgid "List Everyone Unmarked"
+msgstr ""
+
 #. Label of the place_section (Section Break) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Location"
@@ -1285,17 +1292,15 @@ msgstr ""
 msgid "Manager"
 msgstr ""
 
-#: onedesk/public/js/attendance_tool.js:67
-#: onedesk/public/js/attendance_tool.js:73
-#: onedesk/public/js/attendance_tool.js:79
-#: onedesk/public/js/attendance_tool.js:85
-msgid "Mandatory"
+#. Label of the one_mark_section (Section Break) field in DocType 'Employee
+#. Attendance Tool'
+#: onedesk/one_hr/custom/employee_attendance_tool.json
+msgid "Mark As"
 msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
-#: onedesk/public/js/attendance_tool.js:60
-#: onedesk/public/js/attendance_tool.js:102
+#: onedesk/public/js/attendance_tool.js:69
 msgid "Mark Attendance"
 msgstr ""
 
@@ -1339,6 +1344,12 @@ msgstr ""
 msgid "Name and occupation of parent, spouse and children."
 msgstr ""
 
+#. Label of the 'section_break_ackd' field in DocType 'Employee Attendance
+#. Tool'
+#: onedesk/one_hr/custom/employee_attendance_tool.json
+msgid "Narrow the List"
+msgstr ""
+
 #. Label of the network_section (Section Break) field in DocType 'Clock
 #. Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -1368,7 +1379,7 @@ msgstr ""
 msgid "No such check-in attempt."
 msgstr ""
 
-#: onedesk/public/js/attendance_tool.js:50
+#: onedesk/public/js/attendance_tool.js:47
 msgid "Nobody on this list checked in"
 msgstr ""
 
@@ -1538,10 +1549,12 @@ msgstr ""
 msgid "Outcome"
 msgstr ""
 
-#. Label of the one_overtime_hours (Float) field in DocType 'Employee
-#. Attendance Tool'
-#: onedesk/one_hr/custom/employee_attendance_tool.json
+#: onedesk/public/js/overtime.js:44
 msgid "Overtime Hours"
+msgstr ""
+
+#: onedesk/one_hr/overtime.py:133
+msgid "Overtime Recorded Twice"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -1549,16 +1562,14 @@ msgstr ""
 msgid "Overtime Slip"
 msgstr ""
 
-#. Label of the one_overtime_type (Link) field in DocType 'Employee Attendance
-#. Tool'
 #. Label of a Link in the OneHR Setup Workspace
-#: onedesk/one_hr/custom/employee_attendance_tool.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+#: onedesk/public/js/overtime.js:36
 msgid "Overtime Type"
 msgstr ""
 
-#: onedesk/one_hr/marking.py:95
-msgid "Overtime can only be recorded on a day marked {0}."
+#: onedesk/one_hr/overtime.py:112
+msgid "Overtime recorded by hand: {0} hours, {1}."
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -1649,22 +1660,6 @@ msgstr ""
 msgid "Platform"
 msgstr ""
 
-#: onedesk/public/js/attendance_tool.js:84
-msgid "Please enter the overtime hours."
-msgstr ""
-
-#: onedesk/public/js/attendance_tool.js:78
-msgid "Please select half day attendance status."
-msgstr ""
-
-#: onedesk/public/js/attendance_tool.js:72
-msgid "Please select the attendance status."
-msgstr ""
-
-#: onedesk/public/js/attendance_tool.js:66
-msgid "Please select the employees you want to mark attendance for."
-msgstr ""
-
 #. Label of the weight (Int) field in DocType 'Clock Signal'
 #: onedesk/one_hr/doctype/clock_signal/clock_signal.json
 msgid "Points Lost"
@@ -1739,7 +1734,7 @@ msgstr ""
 msgid "Radius must be greater than 0."
 msgstr ""
 
-#: onedesk/public/js/attendance_tool.js:36
+#: onedesk/public/js/attendance_tool.js:33
 msgid "Reading the check-ins"
 msgstr ""
 
@@ -1761,10 +1756,21 @@ msgstr ""
 msgid "Reasons offered to employees on check out."
 msgstr ""
 
-#. Description of the 'Overtime Type' (Link) field in DocType 'Employee
-#. Attendance Tool'
-#: onedesk/one_hr/custom/employee_attendance_tool.json
-msgid "Recorded on each day marked here, and collected by the employee's Overtime Slip."
+#: onedesk/public/js/overtime.js:50
+msgid "Record"
+msgstr ""
+
+#: onedesk/public/js/attendance.js:8 onedesk/public/js/employee.js:233
+#: onedesk/public/js/overtime.js:10
+msgid "Record Overtime"
+msgstr ""
+
+#: onedesk/public/js/overtime.js:68
+msgid "Recorded on {0}"
+msgstr ""
+
+#: onedesk/public/js/overtime.js:62
+msgid "Recording the overtime"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -1946,6 +1952,11 @@ msgstr ""
 msgid "Screen"
 msgstr ""
 
+#. Label of the one_search (Data) field in DocType 'Employee Attendance Tool'
+#: onedesk/one_hr/custom/employee_attendance_tool.json
+msgid "Search"
+msgstr ""
+
 #. Label of the seen_section (Section Break) field in DocType 'Clock Network'
 #. Label of the seen_section (Section Break) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
@@ -2039,6 +2050,10 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Staffing Plan"
+msgstr ""
+
+#: onedesk/public/js/overtime.js:106
+msgid "Standard day: {0} hours. Anything beyond it is overtime."
 msgstr ""
 
 #. Label of the one_standing (Int) field in DocType 'Employee'
@@ -2142,6 +2157,10 @@ msgid ""
 "{0}"
 msgstr ""
 
+#: onedesk/one_hr/overtime.py:100
+msgid "There is no day to record this against."
+msgstr ""
+
 #: onedesk/one_hr/clock.py:96 onedesk/public/js/desk.js:88
 msgid "There is nothing to check in: you are {0} today."
 msgstr ""
@@ -2180,7 +2199,7 @@ msgstr ""
 msgid "Tick Everyone Who Checked In"
 msgstr ""
 
-#: onedesk/public/js/attendance_tool.js:49
+#: onedesk/public/js/attendance_tool.js:46
 msgid "Ticked {0} of {1}"
 msgstr ""
 
@@ -2196,7 +2215,7 @@ msgstr ""
 msgid "Timesheet"
 msgstr ""
 
-#: onedesk/one_hr/marking.py:73
+#: onedesk/one_hr/overtime.py:95
 msgid "Too Much Overtime"
 msgstr ""
 
@@ -2381,8 +2400,12 @@ msgstr ""
 msgid "no passkey registered"
 msgstr ""
 
-#: onedesk/one_hr/marking.py:72
+#: onedesk/one_hr/overtime.py:94
 msgid "{0} allows at most {1} overtime hours a day."
+msgstr ""
+
+#: onedesk/one_hr/overtime.py:130
+msgid "{0} already records {1} hours of overtime on {2}. Remove this row."
 msgstr ""
 
 #: onedesk/public/js/employee.js:158
@@ -2404,8 +2427,16 @@ msgstr ""
 msgid "{0} could not be marked Left"
 msgstr ""
 
+#: onedesk/one_hr/overtime.py:65
+msgid "{0} has no attendance marked on {1}."
+msgstr ""
+
 #: onedesk/public/js/employee.js:109
 msgid "{0} hours"
+msgstr ""
+
+#: onedesk/one_hr/overtime.py:69
+msgid "{0} is marked {1} on {2}. Overtime is only paid on a day marked {3}."
 msgstr ""
 
 #: onedesk/one_hr/doctype/clock_network/clock_network.py:14

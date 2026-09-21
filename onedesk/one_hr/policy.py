@@ -40,6 +40,10 @@ DEFAULTS = {
 	"one_close_the_day": 1,
 	"one_reason_on_out": 1,
 	"one_keep_photo_days": 7,
+	# hrms's own field rather than one of ours, and the only reading of "how
+	# long is a day" the product has. Left at zero it makes every hour of a
+	# shiftless day overtime, so it starts at eight.
+	"standard_working_hours": 8,
 }
 
 

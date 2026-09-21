@@ -2,33 +2,35 @@
  "custom_fields": [
   {
    "dt": "Employee Attendance Tool",
-   "fieldname": "one_overtime_type",
-   "fieldtype": "Link",
-   "label": "Overtime Type",
-   "module": "One HR",
-   "insert_after": "early_exit",
-   "options": "Overtime Type",
-   "depends_on": "eval:doc.status == 'Present'",
-   "description": "Recorded on each day marked here, and collected by the employee's Overtime Slip."
-  },
-  {
-   "dt": "Employee Attendance Tool",
-   "fieldname": "one_overtime_hours",
-   "fieldtype": "Float",
-   "label": "Overtime Hours",
-   "module": "One HR",
-   "insert_after": "one_overtime_type",
-   "depends_on": "eval:doc.one_overtime_type",
-   "mandatory_depends_on": "eval:doc.one_overtime_type",
-   "description": "Hours worked beyond the standard day."
-  },
-  {
-   "dt": "Employee Attendance Tool",
    "fieldname": "one_from_checkins",
    "fieldtype": "Button",
    "label": "Tick Everyone Who Checked In",
    "module": "One HR",
-   "insert_after": "one_overtime_hours"
+   "insert_after": "unmarked_employee_header"
+  },
+  {
+   "dt": "Employee Attendance Tool",
+   "fieldname": "one_search",
+   "fieldtype": "Data",
+   "label": "Search",
+   "module": "One HR",
+   "insert_after": "one_from_checkins",
+   "placeholder": "Name or ID"
+  },
+  {
+   "dt": "Employee Attendance Tool",
+   "fieldname": "one_mark_section",
+   "fieldtype": "Section Break",
+   "label": "Mark As",
+   "module": "One HR",
+   "insert_after": "half_marked_employees_html"
+  },
+  {
+   "dt": "Employee Attendance Tool",
+   "fieldname": "one_mark_column",
+   "fieldtype": "Column Break",
+   "module": "One HR",
+   "insert_after": "status"
   }
  ],
  "doctype": "Employee Attendance Tool",
@@ -36,10 +38,26 @@
  "property_setters": [
   {
    "doc_type": "Employee Attendance Tool",
+   "doctype_or_field": "DocField",
+   "field_name": "section_break_ackd",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Narrow the List"
+  },
+  {
+   "doc_type": "Employee Attendance Tool",
+   "doctype_or_field": "DocField",
+   "field_name": "get_employees",
+   "property": "label",
+   "property_type": "Data",
+   "value": "List Everyone Unmarked"
+  },
+  {
+   "doc_type": "Employee Attendance Tool",
    "doctype_or_field": "DocType",
    "property": "field_order",
    "property_type": "Text",
-   "value": "[\"date\", \"column_break_gmhs\", \"shift\", \"section_break_ackd\", \"company\", \"branch\", \"department\", \"filter_by_shift\", \"column_break_bhny\", \"employment_type\", \"designation\", \"employee_grade\", \"get_employees\", \"select_employees_section\", \"unmarked_employee_header\", \"status\", \"late_entry\", \"early_exit\", \"one_overtime_type\", \"one_overtime_hours\", \"one_from_checkins\", \"unmarked_employees_html\", \"horizontal_break\", \"half_day_marked_employee_header\", \"half_day_status\", \"half_marked_employees_html\", \"marked_attendance_section\", \"marked_attendance_html\"]"
+   "value": "[\"date\", \"column_break_gmhs\", \"shift\", \"section_break_ackd\", \"company\", \"branch\", \"department\", \"filter_by_shift\", \"column_break_bhny\", \"employment_type\", \"designation\", \"employee_grade\", \"get_employees\", \"select_employees_section\", \"unmarked_employee_header\", \"one_from_checkins\", \"one_search\", \"unmarked_employees_html\", \"horizontal_break\", \"half_day_marked_employee_header\", \"half_marked_employees_html\", \"one_mark_section\", \"status\", \"one_mark_column\", \"late_entry\", \"early_exit\", \"half_day_status\", \"marked_attendance_section\", \"marked_attendance_html\"]"
   }
  ],
  "sync_on_migrate": 1

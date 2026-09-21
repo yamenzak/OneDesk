@@ -1,27 +1,24 @@
 // Loaded after hrms's own employee_attendance_tool.js, so every handler here
 // runs after theirs and has the last word.
+//
+// The screen reads in three steps rather than one: the day, then who, then
+// what to mark them as. hrms interleaves the three, so the checkboxes that
+// qualify the status sat a screen above it and the filters nobody sets were
+// the first thing on the page.
 
 frappe.ui.form.on("Employee Attendance Tool", {
 	refresh(frm) {
 		quiet(frm);
-		frm.trigger("one_no_overtime");
+		hide_field("one_mark_section");
 	},
 
 	date(frm) {
 		quiet(frm);
+		hide_field("one_mark_section");
 	},
 
-	status(frm) {
-		frm.trigger("one_no_overtime");
-	},
-
-	// Overtime Slip only collects days marked Present, so anything else would
-	// write a figure nothing reads.
-	one_no_overtime(frm) {
-		if (frm.doc.status !== "Present" && frm.doc.one_overtime_type) {
-			frm.set_value("one_overtime_type", "");
-			frm.set_value("one_overtime_hours", 0);
-		}
+	onload_post_render(frm) {
+		search(frm);
 	},
 
 	one_from_checkins(frm) {
@@ -53,41 +50,11 @@ frappe.ui.form.on("Employee Attendance Tool", {
 			});
 	},
 
-	// hrms sets the primary action once the employees are on screen. Ours
-	// replaces it so the overtime fields reach the Attendance rows; the half
-	// day list is still theirs to write.
+	// hrms triggers this once the employees are on screen, which is also the
+	// moment there is something to mark them as.
 	set_primary_action(frm) {
-		frm.page.set_primary_action(__("Mark Attendance"), () => {
-			const full_day = frm.get_field("unmarked_employees_multicheck")?.get_checked_options() || [];
-			const half_day = frm.get_field("half_marked_employees_multicheck")?.get_checked_options() || [];
-
-			if (!full_day.length && !half_day.length) {
-				frappe.throw({
-					message: __("Please select the employees you want to mark attendance for."),
-					title: __("Mandatory"),
-				});
-			}
-			if (full_day.length && !frm.doc.status) {
-				frappe.throw({
-					message: __("Please select the attendance status."),
-					title: __("Mandatory"),
-				});
-			}
-			if (half_day.length && !frm.doc.half_day_status) {
-				frappe.throw({
-					message: __("Please select half day attendance status."),
-					title: __("Mandatory"),
-				});
-			}
-			if (frm.doc.one_overtime_type && !frm.doc.one_overtime_hours) {
-				frappe.throw({
-					message: __("Please enter the overtime hours."),
-					title: __("Mandatory"),
-				});
-			}
-
-			mark(frm, full_day, half_day);
-		});
+		unhide_field("one_mark_section");
+		search(frm);
 	},
 });
 
@@ -105,47 +72,19 @@ function quiet(frm) {
 	);
 }
 
-function mark(frm, full_day, half_day) {
-	const ours = full_day.length
-		? frappe.call({
-				method: "onedesk.one_hr.marking.mark",
-				args: {
-					employees: full_day,
-					status: frm.doc.status,
-					date: frm.doc.date,
-					shift: frm.doc.shift,
-					late_entry: frm.doc.late_entry,
-					early_exit: frm.doc.early_exit,
-					overtime_type: frm.doc.one_overtime_type,
-					overtime_hours: frm.doc.one_overtime_hours,
-				},
-		  })
-		: Promise.resolve({});
+// A department of sixty is three columns of checkboxes with no way through it.
+// The rows are hidden rather than removed, so a tick survives a search: the
+// control's own selection is untouched by anything here.
+function search(frm) {
+	const field = frm.get_field("one_search");
+	if (!field || !field.$input || field.$input.data("one-bound")) return;
 
-	ours.then((r) => {
-		if (r.exc) return;
-		if (!half_day.length) return done(frm);
+	field.$input.data("one-bound", true).on("input", () => {
+		const looking = (field.$input.val() || "").toLowerCase().trim();
 
-		frappe
-			.call({
-				method: "hrms.hr.doctype.employee_attendance_tool.employee_attendance_tool.mark_employee_attendance",
-				args: {
-					employee_list: [],
-					status: frm.doc.status,
-					date: frm.doc.date,
-					late_entry: frm.doc.late_entry,
-					early_exit: frm.doc.early_exit,
-					shift: frm.doc.shift,
-					mark_half_day: true,
-					half_day_status: frm.doc.half_day_status,
-					half_day_employee_list: half_day,
-				},
-			})
-			.then((r) => !r.exc && done(frm));
+		frm.$wrapper.find(".employee_wrapper .unit-checkbox").each(function () {
+			const row = $(this);
+			row.toggle(!looking || row.text().toLowerCase().includes(looking));
+		});
 	});
-}
-
-function done(frm) {
-	frappe.show_alert({ message: __("Attendance marked successfully"), indicator: "green" });
-	frm.refresh();
 }

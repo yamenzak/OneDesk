@@ -40,7 +40,8 @@ No doctypes yet.
 * `onedesk.one_hr.clock.ready`
 * `onedesk.one_hr.employee.overview`
 * `onedesk.one_hr.marking.clocked_in`
-* `onedesk.one_hr.marking.mark`
+* `onedesk.one_hr.overtime.day`
+* `onedesk.one_hr.overtime.record`
 * `onedesk.one_hr.passkey.ask_for_a_reset`
 * `onedesk.one_hr.passkey.finish_registration`
 * `onedesk.one_hr.passkey.reset`
