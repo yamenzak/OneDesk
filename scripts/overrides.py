@@ -249,6 +249,20 @@ OVERRIDES = [
 		"def get_overtime_component_amounts",
 	),
 	(
+		"The timesheet timer is ours",
+		"theirs resumes any row with Completed unticked and overwrites the end time that was already there",
+		"onedesk/public/js/timesheet.js",
+		"erpnext/erpnext/projects/doctype/timesheet/timesheet.js",
+		"Resume Timer",
+	),
+	(
+		"The timer stamps one clock",
+		"theirs writes `get_datetime_as_string()` (the operator's machine) and measures against the site's timezone",
+		"onedesk/public/js/timesheet.js",
+		"erpnext/erpnext/public/js/projects/timer.js",
+		"grid_row.doc.to_time = frappe.datetime.get_datetime_as_string()",
+	),
+	(
 		"The setup wizard's persona slide is replaced",
 		"its four required questions were read only by `capture_user_persona`",
 		"onedesk/public/js/setup_wizard.js",

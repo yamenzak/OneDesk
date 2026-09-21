@@ -1,0 +1,167 @@
+{
+ "custom_fields": [],
+ "doctype": "Timesheet",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocType",
+   "property": "field_order",
+   "property_type": "Text",
+   "value": "[\"title\", \"naming_series\", \"company\", \"customer\", \"currency\", \"exchange_rate\", \"sales_invoice\", \"column_break_3\", \"status\", \"parent_project\", \"user\", \"start_date\", \"end_date\", \"employee_detail\", \"employee\", \"department\", \"column_break_9\", \"employee_name\", \"section_break_5\", \"time_logs\", \"working_hours\", \"total_hours\", \"billing_details\", \"total_billable_hours\", \"total_billable_amount\", \"section_break_18\", \"note\", \"amended_from\", \"billing_tab\", \"total_costing_amount\", \"base_total_billable_amount\", \"base_total_costing_amount\", \"column_break_10\", \"total_billed_hours\", \"total_billed_amount\", \"base_total_billed_amount\", \"per_billed\"]"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "currency",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "exchange_rate",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "customer",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "sales_invoice",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "billing_tab",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "total_billed_hours",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "total_billed_amount",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "base_total_billed_amount",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "base_total_billable_amount",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "base_total_costing_amount",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "total_costing_amount",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "per_billed",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "per_billed",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "total_hours",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "billing_details",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Billable"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "total_billable_hours",
+   "property": "description",
+   "property_type": "Text",
+   "value": "The hours above that are ticked Billable. The project decides what they are worth."
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "status",
+   "property": "depends_on",
+   "property_type": "Data",
+   "value": "eval:![\"Draft\", \"Submitted\", \"Cancelled\"].includes(doc.status)"
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "total_hours",
+   "property": "description",
+   "property_type": "Text",
+   "value": "Added up from the rows above."
+  },
+  {
+   "doc_type": "Timesheet",
+   "doctype_or_field": "DocField",
+   "field_name": "total_billable_amount",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  }
+ ],
+ "sync_on_migrate": 1
+}

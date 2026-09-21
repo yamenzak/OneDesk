@@ -529,6 +529,13 @@ and that number appeared nowhere until the Additional Salary existed. Each row
 also keeps the hours actually worked beside the hours paid, because a day past
 the type's daily maximum was trimmed on the way in and nothing said so.
 
+`Timesheet` — each row says when it ran, as "21 Sep 09:00 – 13:00" or
+"21 Sep 23:59 – running", because the grid showed a truncated From Time and a
+number of hours with no end beside it. Currency, exchange rate, customer, the
+sales invoice and the whole billing tab are off the screen: one workspace is one
+company, and the person writing down their hours does not price them. What stays
+is the hours, and how many of them are billable, under the same heading.
+
 `Employee` — attendance standing, read-only, and when it was last computed.
 
 `Employee Checkin` — a link to the attempt that produced it, the attempt's
@@ -615,6 +622,20 @@ only thing it wanted the structure for was the payroll frequency that fills two
 dates; a fixed hourly rate needs no structure, and the refusal printed the date
 it was in the middle of working out, so it read "for date None". Both are
 handled in `one_hr/overtime.py` and both are worth offering back.
+
+**And two in ERPNext's timesheet timer.** It offers to *resume* any row whose
+Completed box is unticked and whose start is in the past — which is every row
+anybody typed by hand, since nothing ticks Completed when you enter a block
+yourself — and on Complete it writes `to_time = now` over the end time that was
+already there: a 09:00–13:00 block opened the timer at fifteen and a half hours
+and would have saved as fifteen and a half. Underneath that, its two clocks
+disagree. It stamps times with `frappe.datetime.get_datetime_as_string()`, which
+is `moment()` on the operator's own machine, and measures elapsed time against
+`frappe.datetime.now_datetime()`, which is the site's timezone. Here (site in
+Asia/Dubai, container in UTC) Complete wrote 20:40 against a start of 23:59 and
+died on "To Time cannot be before From Time"; four hours the other way it would
+have banked four hours nobody worked. `public/js/timesheet.js` is ours for that
+reason: one clock, and the only row it resumes is one with a start and no end.
 
 **One fix upstream.** `validate_distance_from_shift_location` collects every
 Shift Location assigned to the employee for that shift and then checks `[0]` —

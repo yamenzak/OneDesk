@@ -1,0 +1,23 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Timesheet Detail",
+   "fieldname": "one_when",
+   "fieldtype": "Data",
+   "label": "When",
+   "module": "One HR",
+   "insert_after": "from_time",
+   "read_only": 1,
+   "in_list_view": 1,
+   "description": "Read from the two times below."
+  }
+ ],
+ "doctype": "Timesheet Detail",
+ "links": [],
+ "property_setters": [
+  {"doc_type": "Timesheet Detail", "doctype_or_field": "DocField", "field_name": "from_time", "property": "in_list_view", "property_type": "Check", "value": "0"},
+  {"doc_type": "Timesheet Detail", "doctype_or_field": "DocField", "field_name": "expected_hours", "property": "description", "property_type": "Text", "value": "How long you expect this to take. The timer says so when it runs past it. Leave it empty and it never does."},
+  {"doc_type": "Timesheet Detail", "doctype_or_field": "DocField", "field_name": "completed", "property": "description", "property_type": "Text", "value": "Ticked when the timer finished this block, or by hand. An unticked row with no To Time is the one the timer resumes."}
+ ],
+ "sync_on_migrate": 1
+}

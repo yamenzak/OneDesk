@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 20:27+0000\n"
-"PO-Revision-Date: 2026-09-21 20:27+0000\n"
+"POT-Creation-Date: 2026-09-21 20:43+0000\n"
+"PO-Revision-Date: 2026-09-21 20:43+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -112,6 +112,7 @@ msgstr ""
 
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+#: onedesk/public/js/timesheet.js:45
 msgid "Activity Type"
 msgstr ""
 
@@ -125,6 +126,11 @@ msgstr ""
 #. Label of an action in the Onboarding Step 'Add an employee'
 #: onedesk/one/onboarding_step/one_add_an_employee/one_add_an_employee.json
 msgid "Add an employee"
+msgstr ""
+
+#. Description of the 'total_hours' field in DocType 'Timesheet'
+#: onedesk/one_hr/custom/timesheet.json
+msgid "Added up from the rows above."
 msgstr ""
 
 #. Description of the 'total_overtime_duration' field in DocType 'Overtime
@@ -359,6 +365,11 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Benefit Claim"
+msgstr ""
+
+#. Label of the 'billing_details' field in DocType 'Timesheet'
+#: onedesk/one_hr/custom/timesheet.json
+msgid "Billable"
 msgstr ""
 
 #. Label of the 'bio' field in DocType 'Employee'
@@ -616,6 +627,10 @@ msgstr ""
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Company"
+msgstr ""
+
+#: onedesk/public/js/timesheet.js:76
+msgid "Complete"
 msgstr ""
 
 #: onedesk/public/js/learned.js:11
@@ -957,6 +972,10 @@ msgstr ""
 msgid "Exemption Proof"
 msgstr ""
 
+#: onedesk/public/js/timesheet.js:54
+msgid "Expected Hrs"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Expense Claim"
@@ -1174,6 +1193,11 @@ msgstr ""
 #. Details'
 #: onedesk/one_hr/custom/overtime_details.json
 msgid "How long a full day is for this person. Filled from their shift, or from Attendance Settings."
+msgstr ""
+
+#. Description of the 'expected_hours' field in DocType 'Timesheet Detail'
+#: onedesk/one_hr/custom/timesheet_detail.json
+msgid "How long you expect this to take. The timer says so when it runs past it. Leave it empty and it never does."
 msgstr ""
 
 #: onedesk/public/js/setup_wizard.js:19
@@ -1789,6 +1813,10 @@ msgstr ""
 msgid "Optional. The person who asked will see it."
 msgstr ""
 
+#: onedesk/public/js/timesheet.js:55
+msgid "Optional. The timer says so when it runs past this."
+msgstr ""
+
 #. Description of the 'Ask for a Reason on Check Out' (Check) field in DocType
 #. 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -1883,6 +1911,10 @@ msgstr ""
 msgid "Passkey reset"
 msgstr ""
 
+#: onedesk/public/js/timesheet.js:107
+msgid "Past the expected hours."
+msgstr ""
+
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -1973,6 +2005,10 @@ msgstr ""
 msgid "Professional Tax Deductions"
 msgstr ""
 
+#: onedesk/public/js/timesheet.js:49
+msgid "Project"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Promotion"
@@ -2032,6 +2068,11 @@ msgstr ""
 
 #: onedesk/public/js/shift_type.js:24
 msgid "Read Check-ins"
+msgstr ""
+
+#. Description of the 'When' (Data) field in DocType 'Timesheet Detail'
+#: onedesk/one_hr/custom/timesheet_detail.json
+msgid "Read from the two times below."
 msgstr ""
 
 #: onedesk/public/js/attendance_tool.js:33
@@ -2171,6 +2212,15 @@ msgstr ""
 
 #: onedesk/public/js/employee.js:202
 msgid "Reset Passkey"
+msgstr ""
+
+#: onedesk/public/js/timesheet.js:75
+msgid "Resume"
+msgstr ""
+
+#: onedesk/public/js/timesheet.js:23 onedesk/public/js/timesheet.js:27
+#: onedesk/public/js/timesheet.js:40
+msgid "Resume Timer"
 msgstr ""
 
 #. Label of the review_section (Section Break) field in DocType 'Clock Attempt'
@@ -2401,6 +2451,15 @@ msgstr ""
 msgid "Standing"
 msgstr ""
 
+#: onedesk/public/js/timesheet.js:75
+msgid "Start"
+msgstr ""
+
+#: onedesk/public/js/timesheet.js:22 onedesk/public/js/timesheet.js:27
+#: onedesk/public/js/timesheet.js:40
+msgid "Start Timer"
+msgstr ""
+
 #. Title of an Onboarding Step
 #. Label of an action in the Onboarding Step 'Start a project'
 #: onedesk/one/onboarding_step/one_start_a_project/one_start_a_project.json
@@ -2423,6 +2482,10 @@ msgstr ""
 #. Description of the 'Backed Up' (Check) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Synced through iCloud Keychain or Google Password Manager, so it is also present on the employee's other devices."
+msgstr ""
+
+#: onedesk/public/js/timesheet.js:50
+msgid "Task"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -2472,6 +2535,11 @@ msgstr ""
 #. Description of the 'Ends the Shift' (Check) field in DocType 'Clock Reason'
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
 msgid "The employee is not expected back today. A day closed at the shift end is filed under this reason."
+msgstr ""
+
+#. Description of the 'total_billable_hours' field in DocType 'Timesheet'
+#: onedesk/one_hr/custom/timesheet.json
+msgid "The hours above that are ticked Billable. The project decides what they are worth."
 msgstr ""
 
 #. Description of the 'Employee Checkin' (Link) field in DocType 'Clock
@@ -2593,6 +2661,11 @@ msgstr ""
 #. Attendance Tool'
 #: onedesk/one_hr/custom/employee_attendance_tool.json
 msgid "Tick Everyone Who Checked In"
+msgstr ""
+
+#. Description of the 'completed' field in DocType 'Timesheet Detail'
+#: onedesk/one_hr/custom/timesheet_detail.json
+msgid "Ticked when the timer finished this block, or by hand. An unticked row with no To Time is the one the timer resumes."
 msgstr ""
 
 #: onedesk/public/js/attendance_tool.js:46
@@ -2750,6 +2823,11 @@ msgstr ""
 #: onedesk/one_hr/custom/attendance_request.json
 #: onedesk/one_hr/custom/shift_request.json
 msgid "What the person deciding wrote, if anything."
+msgstr ""
+
+#. Label of the one_when (Data) field in DocType 'Timesheet Detail'
+#: onedesk/one_hr/custom/timesheet_detail.json
+msgid "When"
 msgstr ""
 
 #: onedesk/public/js/setup_wizard.js:39
@@ -2935,6 +3013,10 @@ msgstr ""
 
 #: onedesk/public/js/overtime_slip.js:82
 msgid "{0} worked, {1} paid"
+msgstr ""
+
+#: onedesk/one_hr/timesheet.py:40
+msgid "{0} – running"
 msgstr ""
 
 #: onedesk/one_hr/review.py:86

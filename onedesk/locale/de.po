@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 20:27+0000\n"
-"PO-Revision-Date: 2026-09-21 20:27+0000\n"
+"POT-Creation-Date: 2026-09-21 20:43+0000\n"
+"PO-Revision-Date: 2026-09-21 20:43+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -114,6 +114,7 @@ msgstr ""
 
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+#: onedesk/public/js/timesheet.js:45
 msgid "Activity Type"
 msgstr ""
 
@@ -128,6 +129,11 @@ msgstr "Kunden anlegen"
 #: onedesk/one/onboarding_step/one_add_an_employee/one_add_an_employee.json
 msgid "Add an employee"
 msgstr "Mitarbeiter anlegen"
+
+#. Description of the 'total_hours' field in DocType 'Timesheet'
+#: onedesk/one_hr/custom/timesheet.json
+msgid "Added up from the rows above."
+msgstr "Summe der Zeilen oben."
 
 #. Description of the 'total_overtime_duration' field in DocType 'Overtime
 #. Slip'
@@ -362,6 +368,11 @@ msgstr "Antrag auf Zusatzleistung"
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Benefit Claim"
 msgstr "Erstattung von Zusatzleistungen"
+
+#. Label of the 'billing_details' field in DocType 'Timesheet'
+#: onedesk/one_hr/custom/timesheet.json
+msgid "Billable"
+msgstr "Abrechenbar"
 
 #. Label of the 'bio' field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
@@ -618,6 +629,10 @@ msgstr "Automatisch geschlossen"
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Company"
+msgstr ""
+
+#: onedesk/public/js/timesheet.js:76
+msgid "Complete"
 msgstr ""
 
 #: onedesk/public/js/learned.js:11
@@ -959,6 +974,10 @@ msgstr "Freibetragserklärung"
 msgid "Exemption Proof"
 msgstr "Freibetragsnachweis"
 
+#: onedesk/public/js/timesheet.js:54
+msgid "Expected Hrs"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Expense Claim"
@@ -1177,6 +1196,11 @@ msgstr "Die Länge eines Arbeitstags, wo keine Schicht sie vorgibt. Alles darüb
 #: onedesk/one_hr/custom/overtime_details.json
 msgid "How long a full day is for this person. Filled from their shift, or from Attendance Settings."
 msgstr "Wie lang ein voller Arbeitstag für diese Person ist. Aus ihrer Schicht oder den Anwesenheitseinstellungen übernommen."
+
+#. Description of the 'expected_hours' field in DocType 'Timesheet Detail'
+#: onedesk/one_hr/custom/timesheet_detail.json
+msgid "How long you expect this to take. The timer says so when it runs past it. Leave it empty and it never does."
+msgstr "Wie lange Sie dafür veranschlagen. Der Timer meldet sich, wenn er darüber läuft. Bleibt es leer, meldet er sich nie."
 
 #: onedesk/public/js/setup_wizard.js:19
 msgid "How should One look?"
@@ -1791,6 +1815,10 @@ msgstr ""
 msgid "Optional. The person who asked will see it."
 msgstr "Optional. Die antragstellende Person sieht es."
 
+#: onedesk/public/js/timesheet.js:55
+msgid "Optional. The timer says so when it runs past this."
+msgstr "Optional. Der Timer meldet sich, wenn er darüber läuft."
+
 #. Description of the 'Ask for a Reason on Check Out' (Check) field in DocType
 #. 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -1885,6 +1913,10 @@ msgstr "Passkey"
 msgid "Passkey reset"
 msgstr "Passkey zurückgesetzt"
 
+#: onedesk/public/js/timesheet.js:107
+msgid "Past the expected hours."
+msgstr "Über den veranschlagten Stunden."
+
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -1975,6 +2007,10 @@ msgstr ""
 msgid "Professional Tax Deductions"
 msgstr ""
 
+#: onedesk/public/js/timesheet.js:49
+msgid "Project"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Promotion"
@@ -2035,6 +2071,11 @@ msgstr "Anwesenheit auswerten"
 #: onedesk/public/js/shift_type.js:24
 msgid "Read Check-ins"
 msgstr "Einchecken auswerten"
+
+#. Description of the 'When' (Data) field in DocType 'Timesheet Detail'
+#: onedesk/one_hr/custom/timesheet_detail.json
+msgid "Read from the two times below."
+msgstr "Aus den beiden Zeiten unten gelesen."
 
 #: onedesk/public/js/attendance_tool.js:33
 msgid "Reading the check-ins"
@@ -2174,6 +2215,15 @@ msgstr ""
 #: onedesk/public/js/employee.js:202
 msgid "Reset Passkey"
 msgstr "Passkey zurücksetzen"
+
+#: onedesk/public/js/timesheet.js:75
+msgid "Resume"
+msgstr ""
+
+#: onedesk/public/js/timesheet.js:23 onedesk/public/js/timesheet.js:27
+#: onedesk/public/js/timesheet.js:40
+msgid "Resume Timer"
+msgstr ""
 
 #. Label of the review_section (Section Break) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -2403,6 +2453,15 @@ msgstr "Standardarbeitstag: {0} Stunden. Alles darüber sind Überstunden."
 msgid "Standing"
 msgstr "Bewertung"
 
+#: onedesk/public/js/timesheet.js:75
+msgid "Start"
+msgstr ""
+
+#: onedesk/public/js/timesheet.js:22 onedesk/public/js/timesheet.js:27
+#: onedesk/public/js/timesheet.js:40
+msgid "Start Timer"
+msgstr "Timer starten"
+
 #. Title of an Onboarding Step
 #. Label of an action in the Onboarding Step 'Start a project'
 #: onedesk/one/onboarding_step/one_start_a_project/one_start_a_project.json
@@ -2426,6 +2485,10 @@ msgstr "Mit dem Buchen werden {0} für {1} Stunden vergütet."
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Synced through iCloud Keychain or Google Password Manager, so it is also present on the employee's other devices."
 msgstr "Über iCloud-Schlüsselbund oder Google Passwortmanager synchronisiert und daher auch auf den anderen Geräten des Mitarbeiters vorhanden."
+
+#: onedesk/public/js/timesheet.js:50
+msgid "Task"
+msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -2475,6 +2538,11 @@ msgstr "Das Einchecken konnte nicht erfasst werden."
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
 msgid "The employee is not expected back today. A day closed at the shift end is filed under this reason."
 msgstr "Der Mitarbeiter wird heute nicht zurückerwartet. Ein am Schichtende geschlossener Tag wird unter diesem Grund erfasst."
+
+#. Description of the 'total_billable_hours' field in DocType 'Timesheet'
+#: onedesk/one_hr/custom/timesheet.json
+msgid "The hours above that are ticked Billable. The project decides what they are worth."
+msgstr "Die oben als abrechenbar markierten Stunden. Was sie wert sind, entscheidet das Projekt."
 
 #. Description of the 'Employee Checkin' (Link) field in DocType 'Clock
 #. Attempt'
@@ -2599,6 +2667,11 @@ msgstr "In dieser Schicht wird eingecheckt, aber nicht ausgewertet: Es wird kein
 #: onedesk/one_hr/custom/employee_attendance_tool.json
 msgid "Tick Everyone Who Checked In"
 msgstr "Alle ankreuzen, die eingecheckt haben"
+
+#. Description of the 'completed' field in DocType 'Timesheet Detail'
+#: onedesk/one_hr/custom/timesheet_detail.json
+msgid "Ticked when the timer finished this block, or by hand. An unticked row with no To Time is the one the timer resumes."
+msgstr "Gesetzt, wenn der Timer diesen Block beendet hat, oder von Hand. Eine nicht gesetzte Zeile ohne Endzeit ist die, die der Timer fortsetzt."
 
 #: onedesk/public/js/attendance_tool.js:46
 msgid "Ticked {0} of {1}"
@@ -2756,6 +2829,11 @@ msgstr "Wie sich der Browser bei der Registrierung des Passkeys bezeichnet hat."
 #: onedesk/one_hr/custom/shift_request.json
 msgid "What the person deciding wrote, if anything."
 msgstr "Was die entscheidende Person geschrieben hat, sofern etwas."
+
+#. Label of the one_when (Data) field in DocType 'Timesheet Detail'
+#: onedesk/one_hr/custom/timesheet_detail.json
+msgid "When"
+msgstr "Zeitraum"
 
 #: onedesk/public/js/setup_wizard.js:39
 msgid "When do people work?"
@@ -2948,6 +3026,10 @@ msgstr "{0} registriert beim nächsten Einchecken einen neuen Passkey. Der alte 
 #: onedesk/public/js/overtime_slip.js:82
 msgid "{0} worked, {1} paid"
 msgstr "{0} geleistet, {1} vergütet"
+
+#: onedesk/one_hr/timesheet.py:40
+msgid "{0} – running"
+msgstr "{0} – läuft"
 
 #: onedesk/one_hr/review.py:86
 msgid "{0}'s check-in needs a look"
