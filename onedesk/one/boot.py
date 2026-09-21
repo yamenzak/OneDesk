@@ -15,6 +15,11 @@ ADMIN_APPS = ("frappe",)
 
 
 def boot_session(bootinfo) -> None:
+	# A report or dashboard is called what the rail called it; see one/titles.py.
+	from onedesk.one import titles
+
+	bootinfo["one_titles"] = titles.for_boot()
+
 	if "System Manager" in frappe.get_roles():
 		return
 

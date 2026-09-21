@@ -41,4 +41,33 @@ function hide_company(filter) {
 	filter.$wrapper.addClass("one-gone");
 }
 
-frappe.after_ajax(() => onedesk.reports.one_company());
+// The heading is the record's name — "Employee Hours Utilization Based On
+// Timesheet" under a rail row reading "Hours Utilization". The rail's own labels
+// come down in the boot (see one/titles.py), so the page is called what the
+// person clicked.
+onedesk.reports.called_what_the_rail_called_it = () => {
+	const QueryReport = frappe.views && frappe.views.QueryReport;
+	if (!QueryReport || QueryReport.prototype.__one_titles) return;
+	QueryReport.prototype.__one_titles = true;
+
+	// The heading is the last breadcrumb, not `page_title` — `load_report` sets
+	// that and nothing reads it. `set_breadcrumbs` runs late enough in the
+	// serial chain to have the last word.
+	const theirs = QueryReport.prototype.set_breadcrumbs;
+	QueryReport.prototype.set_breadcrumbs = function () {
+		theirs.call(this);
+		const ours = ((frappe.boot.one_titles || {}).Report || {})[this.report_name];
+		if (!ours) return;
+		this.page_title = __(ours);
+		frappe.breadcrumbs.add({
+			type: "Custom",
+			label: __(ours),
+			route: `/app/query-report/${encodeURIComponent(this.report_name)}`,
+		});
+	};
+};
+
+frappe.after_ajax(() => {
+	onedesk.reports.one_company();
+	onedesk.reports.called_what_the_rail_called_it();
+});

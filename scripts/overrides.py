@@ -312,6 +312,13 @@ OVERRIDES = [
 		"setup_filters() {",
 	),
 	(
+		"A report is called what the rail called it",
+		"the heading is the report's own name; `page_title` is set and nothing reads it",
+		"onedesk/public/js/reports.js",
+		"frappe/frappe/public/js/frappe/views/reports/query_report.js",
+		"set_breadcrumbs() {",
+	),
+	(
 		"The setup wizard's persona slide is replaced",
 		"its four required questions were read only by `capture_user_persona`",
 		"onedesk/public/js/setup_wizard.js",
