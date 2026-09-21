@@ -1,0 +1,147 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Attendance Request",
+   "fieldname": "one_reason",
+   "fieldtype": "Link",
+   "label": "Reason",
+   "module": "One HR",
+   "insert_after": "reason",
+   "options": "Attendance Reason",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "Why these days should count as worked. HR keeps the list in Attendance Reason."
+  },
+  {
+   "dt": "Attendance Request",
+   "fieldname": "one_decision_section",
+   "fieldtype": "Section Break",
+   "label": "Decision",
+   "module": "One HR",
+   "insert_after": "explanation",
+   "depends_on": "eval:doc.one_decision"
+  },
+  {
+   "dt": "Attendance Request",
+   "fieldname": "one_decision",
+   "fieldtype": "Select",
+   "label": "Decision",
+   "module": "One HR",
+   "insert_after": "one_decision_section",
+   "options": "\nApproved\nRejected",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "allow_on_submit": 1
+  },
+  {
+   "dt": "Attendance Request",
+   "fieldname": "one_decided_by",
+   "fieldtype": "Link",
+   "label": "Decided By",
+   "module": "One HR",
+   "insert_after": "one_decision",
+   "options": "User",
+   "read_only": 1,
+   "allow_on_submit": 1
+  },
+  {
+   "dt": "Attendance Request",
+   "fieldname": "one_column_decision",
+   "fieldtype": "Column Break",
+   "module": "One HR",
+   "insert_after": "one_decided_by"
+  },
+  {
+   "dt": "Attendance Request",
+   "fieldname": "one_decided_on",
+   "fieldtype": "Datetime",
+   "label": "Decided On",
+   "module": "One HR",
+   "insert_after": "one_column_decision",
+   "read_only": 1,
+   "allow_on_submit": 1
+  },
+  {
+   "dt": "Attendance Request",
+   "fieldname": "one_note",
+   "fieldtype": "Small Text",
+   "label": "Note",
+   "module": "One HR",
+   "insert_after": "one_decided_on",
+   "read_only": 1,
+   "allow_on_submit": 1,
+   "description": "What the person deciding wrote, if anything."
+  }
+ ],
+ "doctype": "Attendance Request",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Attendance Request",
+   "doctype_or_field": "DocField",
+   "field_name": "reason",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Attendance Request",
+   "doctype_or_field": "DocField",
+   "field_name": "reason",
+   "property": "reqd",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Attendance Request",
+   "doctype_or_field": "DocField",
+   "field_name": "reason",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Attendance Request",
+   "doctype_or_field": "DocField",
+   "field_name": "company",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Attendance Request",
+   "doctype_or_field": "DocField",
+   "field_name": "company",
+   "property": "reqd",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Attendance Request",
+   "doctype_or_field": "DocField",
+   "field_name": "include_holidays",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Cover Holidays Too"
+  },
+  {
+   "doc_type": "Attendance Request",
+   "doctype_or_field": "DocField",
+   "field_name": "include_holidays",
+   "property": "description",
+   "property_type": "Text",
+   "value": "Write attendance on the holidays inside these dates as well. Left off, holidays in the range are skipped."
+  },
+  {
+   "doc_type": "Attendance Request",
+   "doctype_or_field": "DocField",
+   "field_name": "explanation",
+   "property": "description",
+   "property_type": "Text",
+   "value": "Anything the person deciding would need to know."
+  }
+ ],
+ "sync_on_migrate": 1
+}

@@ -27,6 +27,8 @@ Each row is something that would still run but stop working if upstream moved. `
 | Every shift location counts, not the first | they collect all of them and then check `[0]`, so a depot and four sites share one fence | `onedesk/one_hr/checkin.py` | `hrms/hrms/hr/doctype/employee_checkin/employee_checkin.py` | `def validate_distance_from_shift_location` |
 | A gated clock-in is not re-judged on distance | a workspace that says network *or* place has settled it; checking again overrules its own setting | `onedesk/one_hr/checkin.py` | `hrms/hrms/hr/doctype/employee_checkin/employee_checkin.py` | `CheckinRadiusExceededError` |
 | The rail carries a clock-in control | `get_shortcuts` is the documented list; One already subclasses Dock to keep the rail collapsed | `onedesk/public/js/desk.js` | `frappe/frappe/public/js/frappe/ui/sidebar/dock.js` | `get_shortcuts()` |
+| The reason on an Attendance Request is a record | their status mapping compares `self.reason` to one literal string, so ours writes that field | `onedesk/one_hr/request.py` | `hrms/hrms/hr/doctype/attendance_request/attendance_request.py` | `elif self.reason == "Work From Home":` |
+| Submitting an Attendance Request is signed, and turning one down is a verb | their whole approval is that Employee has no submit grant; nothing records who decided or said no | `onedesk/one_hr/request.py` | `hrms/hrms/hr/doctype/attendance_request/attendance_request.py` | `def on_submit` |
 | The setup wizard's persona slide is replaced | its four required questions were read only by `capture_user_persona` | `onedesk/public/js/setup_wizard.js` | `erpnext/erpnext/public/js/setup_wizard.js` | `persona` |
 
-23 overrides.
+25 overrides.

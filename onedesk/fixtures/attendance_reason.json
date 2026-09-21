@@ -1,0 +1,42 @@
+[
+ {
+  "description": "Working the day from home.",
+  "doctype": "Attendance Reason",
+  "enabled": 1,
+  "marks_as": "Work From Home",
+  "name": "Work From Home",
+  "reason": "Work From Home"
+ },
+ {
+  "description": "Working away from the office on company business.",
+  "doctype": "Attendance Reason",
+  "enabled": 1,
+  "marks_as": "Present",
+  "name": "On Duty",
+  "reason": "On Duty"
+ },
+ {
+  "description": "The day was spent at a customer's premises.",
+  "doctype": "Attendance Reason",
+  "enabled": 1,
+  "marks_as": "Present",
+  "name": "Customer Site",
+  "reason": "Customer Site"
+ },
+ {
+  "description": "At a course or a conference rather than at a desk.",
+  "doctype": "Attendance Reason",
+  "enabled": 1,
+  "marks_as": "Present",
+  "name": "Training",
+  "reason": "Training"
+ },
+ {
+  "description": "Worked the day, but the clock has no record of it.",
+  "doctype": "Attendance Reason",
+  "enabled": 1,
+  "marks_as": "Present",
+  "name": "Missed the Clock",
+  "reason": "Missed the Clock"
+ }
+]

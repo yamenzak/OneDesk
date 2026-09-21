@@ -22,7 +22,7 @@ import base64
 
 import frappe
 from frappe import _
-from onedesk.one_hr import gates, ledger, own, policy, presence, review, rules
+from onedesk.one_hr import away, gates, ledger, own, policy, presence, review, rules
 
 IN = "IN"
 OUT = "OUT"
@@ -102,8 +102,9 @@ def punch(credential=None, position=None, seen=None, reason=None, photo=None) ->
 	network = gates.network_gate(employee, places)
 	place = gates.place_gate(employee, places, position)
 	history = gates.history_gate(employee, seen, position, when)
+	agreed = away.approved(employee, when)
 
-	signals = _signals(who, network, place, history)
+	signals = _signals(who, network, place, history, agreed)
 	score = rules.confidence(signals)
 	outcome = rules.outcome(
 		score,
@@ -121,6 +122,7 @@ def punch(credential=None, position=None, seen=None, reason=None, photo=None) ->
 		address=network["address"],
 		network=network["network"],
 		session_address=history["session_address"],
+		away=agreed or "",
 		**{k: v for k, v in place.items() if k != "signals"},
 	)
 
@@ -159,16 +161,24 @@ def punch(credential=None, position=None, seen=None, reason=None, photo=None) ->
 	}
 
 
-def _signals(who, network, place, history) -> list[str]:
-	"""Every doubt raised, with the one rule that is about the pair of them.
+def _signals(who, network, place, history, agreed=None) -> list[str]:
+	"""Every doubt raised, with the two rules that are about where somebody is.
 
 	The network and the place prove the same thing two ways. Either satisfying
 	it is the sensible default — demanding both means one poor GPS fix stops
 	somebody working — so where the workspace has not asked for both, a gate
 	that passed cancels the other's complaint.
+
+	An approved Attendance Request comes first and outranks both of them, even
+	where the workspace did ask for both: the workspace has already said in
+	writing that this person is working somewhere else today, and scoring them
+	down for being somewhere else is the gate arguing with its own approval.
 	"""
 	signals = list(who["signals"]) + list(history["signals"])
 	said = list(network["signals"]) + list(place["signals"])
+
+	if agreed:
+		return signals + away.forgive(said)
 
 	if not policy.both_gates():
 		network_passed = bool(network["network"])

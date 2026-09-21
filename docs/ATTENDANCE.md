@@ -188,6 +188,21 @@ hours come out right. Whether a workplace asks for that is a sentence in their
 policy. What we add is the reason on the way out — break, lunch, errand, done
 for the day — which costs nothing and makes a day of gaps readable.
 
+**A day the workspace already agreed to costs nothing.** An approved
+`Attendance Request` is the one thing in the product that says, in advance and
+in writing, that somebody is working somewhere else on a given date — and it is
+exactly the shape gates 2 and 3 are built to catch. So `away.py` reads the
+approval before the score is worked out and drops the four complaints the
+approval predicted: the unknown network, the personal network, being outside
+every location, and no position at all. Nothing else is forgiven — an impossible
+journey, a shared browser, a missing passkey are about the person rather than
+about the place, and an approval has nothing to say about any of them. This
+outranks the either-or-both setting: a workspace that asked for both gates has
+still already said in writing where this person is today, and scoring them down
+for it is the gate arguing with its own approval. The attempt records which
+request explains it, in `away`, so the row reads as an answer rather than as a
+score nobody can account for.
+
 **What the photo does and does not do for a remote worker.** It is not a
 substitute for the office network and it cannot be: there is no location in it.
 A canvas capture carries no EXIF at all, a file that carries EXIF is a file
@@ -297,12 +312,17 @@ with self clock-in off.
 
 - **The employee** clocks in and out, sees their own credential and their own
   attempts.
-- **HR User** resets a credential, works the review queue, and marks attendance
-  by hand with `Employee Attendance Tool`. A handful of actions a month.
+- **HR User** resets a credential, works the review queue, marks attendance by
+  hand with `Employee Attendance Tool`, and answers attendance requests. A
+  handful of actions a month.
 - **HR Manager** sets the policy, blocks a credential, confirms or rejects a
   proposed network or zone, and sets the thresholds.
 - **Never somebody's own manager.** Approving your own team's devices is the
   conflict this system exists to catch.
+- **Who may answer a request is the `submit` grant and nothing else.** A
+  workspace that has given approvals to its own Department Head role has already
+  answered that question in the permission table, and a second list of who may
+  approve is a second answer that will disagree with the first.
 
 ## Before any of it works
 
@@ -446,9 +466,20 @@ deleted by any HR Manager, which would have left every closed day pointing at
 a row that is not there. No reason carries the flag means no reason is set;
 `one_auto_closed` is the part that matters and it is written either way.
 
+`Attendance Reason` — why a day that has no clock-in should still count.
+Reason, description, `Marks the Day As`, and an enabled switch, on exactly the
+shape of `Clock Reason`. HRMS offered two hardcoded words in a Select, which is
+enough for an office and nothing like enough for a workspace whose people are at
+customer sites, on courses, or simply forgot to clock in. The five shipped are
+Work From Home, On Duty, Customer Site, Training and Missed the Clock, and a
+workspace adds its own. `Marks the Day As` is the part that has to be right:
+`AttendanceRequest.get_attendance_status` compares `reason` to the literal
+string "Work From Home" and calls everything else Present, so a reason says
+which of those two it lands on and `request.py` writes HRMS's own field from it.
+
 Frappe hides an autoname field once a record is saved, because the title
 already says it, so the Reason field is not on its own form and Description
-leads.
+leads — for both of them.
 
 **Custom fields on what already exists.**
 
@@ -462,6 +493,16 @@ may be learned at all.
 than refusing), and a child table of other places this shift may clock in from,
 so a depot plus four live sites is one record instead of four overlapping shift
 assignments.
+
+`Attendance Request` — the reason as a Link to the record above, and the
+decision: who answered, when, and what they wrote. HRMS's whole approval is that
+an Employee has no submit grant and HR does, so the decision happens and nothing
+records that it was one. Submitting is still what writes the attendance and it
+is now signed; turning one down is a verb that leaves the draft where it is,
+marked Rejected by a named person, and `before_submit` refuses to submit it
+until somebody approves instead. Company is filled from the employee rather than
+asked for, and Include Holidays says what ticking it does rather than describing
+the situation.
 
 `Employee` — attendance standing, read-only, and when it was last computed.
 
@@ -532,8 +573,9 @@ coordinates that may not exist.
 `Employee Checkin` is still written as an ordinary document with HRMS's
 validation running — no `ignore_permissions`, no second writer. `Shift Type`
 still computes the day: half days, late marks, early exits, absent thresholds,
-all of it. `Attendance Request` is still how a day becomes Work From Home or On
-Duty. `Holiday List` still says when the place is closed. `Employee Attendance
+all of it. `Attendance Request` is still how a day with no clock-in becomes a
+day at work — we add the reason list, the decision and the signature, and its
+`on_submit` still writes every row. `Holiday List` still says when the place is closed. `Employee Attendance
 Tool` is still how HR marks somebody by hand. From frappe: `User` and
 `User Permission` for the account and its scope, `Activity Log` and
 `User Session Display` for corroboration, `File` for the optional photo,

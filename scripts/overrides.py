@@ -179,6 +179,20 @@ OVERRIDES = [
 		"get_shortcuts()",
 	),
 	(
+		"The reason on an Attendance Request is a record",
+		"their status mapping compares `self.reason` to one literal string, so ours writes that field",
+		"onedesk/one_hr/request.py",
+		"hrms/hrms/hr/doctype/attendance_request/attendance_request.py",
+		'elif self.reason == "Work From Home":',
+	),
+	(
+		"Submitting an Attendance Request is signed, and turning one down is a verb",
+		"their whole approval is that Employee has no submit grant; nothing records who decided or said no",
+		"onedesk/one_hr/request.py",
+		"hrms/hrms/hr/doctype/attendance_request/attendance_request.py",
+		"def on_submit",
+	),
+	(
 		"The setup wizard's persona slide is replaced",
 		"its four required questions were read only by `capture_user_persona`",
 		"onedesk/public/js/setup_wizard.js",

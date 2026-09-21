@@ -13,7 +13,8 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Clock Attempt | 40 | document |
+| Attendance Reason | 5 | document |
+| Clock Attempt | 41 | document |
 | Clock Device | 23 | document |
 | Clock Network | 15 | document |
 | Clock Place | 20 | document |
@@ -52,6 +53,8 @@ No doctypes yet.
 * `onedesk.one_hr.passkey.start_registration`
 * `onedesk.one_hr.presence.in_now`
 * `onedesk.one_hr.presence.of`
+* `onedesk.one_hr.request.approve`
+* `onedesk.one_hr.request.reject`
 * `onedesk.one_hr.review.accept`
 * `onedesk.one_hr.review.reject`
 * `onedesk.one_hr.setup.start_reading`
