@@ -87,6 +87,10 @@ break each other's imports on sites that carry only one of them.
   hand in two places, one of them is wrong.
 - A **plan** is written by hand and says so in its first line, because an
   argument is not a fact and nothing can generate it. `ATTENDANCE.md` is one.
+- **`docs/ACCOUNTS.md` is where a company's accounts come from**, and why
+  onboarding must not default to the country's chart of accounts. Read it
+  before touching company setup; the instinct it warns about is the obvious
+  one.
 - **`docs/WORDING.md` is how a label and a description are written**, taken from
   frappe's own JSON rather than invented. Read it before adding a field, and
   remember its last rule: rewording is also a translation change, so the POT and
