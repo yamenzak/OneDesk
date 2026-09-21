@@ -14,7 +14,7 @@ No doctypes yet.
 | Doctype | Fields | Kind |
 |---|--:|---|
 | Clock Attempt | 40 | document |
-| Clock Device | 22 | document |
+| Clock Device | 23 | document |
 | Clock Network | 15 | document |
 | Clock Place | 18 | document |
 | Clock Reason | 5 | document |
@@ -45,6 +45,7 @@ No doctypes yet.
 * `onedesk.one_hr.passkey.ask_for_a_reset`
 * `onedesk.one_hr.passkey.finish_registration`
 * `onedesk.one_hr.passkey.reset`
+* `onedesk.one_hr.passkey.retire`
 * `onedesk.one_hr.passkey.start_assertion`
 * `onedesk.one_hr.passkey.start_registration`
 * `onedesk.one_hr.presence.in_now`

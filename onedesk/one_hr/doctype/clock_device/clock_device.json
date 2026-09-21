@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 0,
- "autoname": "hash",
+ "autoname": "DEV-.YYYY.-.MM.-.#####",
  "creation": "2026-09-21 00:00:00.000000",
  "doctype": "DocType",
  "editable_grid": 0,
@@ -15,12 +15,13 @@
   "registered_on",
   "last_used",
   "credential_section",
+  "sign_count",
+  "backed_up",
+  "column_break_credential",
+  "aaguid",
+  "key_section",
   "credential_id",
   "public_key",
-  "column_break_credential",
-  "sign_count",
-  "aaguid",
-  "backed_up",
   "seen_section",
   "user_agent",
   "platform",
@@ -34,7 +35,6 @@
   {
    "fieldname": "employee",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Employee",
    "options": "Employee",
@@ -70,7 +70,8 @@
    "in_standard_filter": 1,
    "label": "Status",
    "options": "Active\nReset\nBlocked",
-   "search_index": 1
+   "search_index": 1,
+   "read_only": 1
   },
   {
    "fieldname": "registered_on",
@@ -175,21 +176,22 @@
    "fieldtype": "Data",
    "label": "Last Address",
    "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "key_section",
+   "fieldtype": "Section Break",
+   "label": "Credential"
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 0,
- "links": [
-  {
-   "link_doctype": "Clock Attempt",
-   "link_fieldname": "device"
-  }
- ],
- "modified": "2026-09-21 00:00:00.000000",
+ "links": [],
+ "modified": "2026-09-21 22:00:00.000000",
  "modified_by": "Administrator",
  "module": "One HR",
  "name": "Clock Device",
- "naming_rule": "Random",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

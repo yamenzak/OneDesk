@@ -52,6 +52,13 @@ def start_registration() -> dict:
 			_("This employee already has a passkey. HR must reset it before another can be registered.")
 		)
 
+	# `held_by` asks for an Active credential, so without this a blocked
+	# employee would simply register a new passkey and carry on.
+	if is_blocked(employee):
+		frappe.throw(
+			_("This employee's passkey is blocked. HR must reset it before another can be registered.")
+		)
+
 	if policy.on("one_passkey_phone_only") and not rules.is_phone(_agent()):
 		frappe.throw(
 			_(
@@ -237,7 +244,9 @@ def ask_for_a_reset(why: str | None = None) -> dict:
 
 @frappe.whitelist()
 def reset(employee: str) -> dict:
-	"""HR's one click. The old credential is retired, never deleted.
+	"""HR's one click, and the only way a block is lifted.
+
+	The old credential is retired, never deleted.
 
 	Retired rather than removed because a credential that vanishes takes the
 	history of what it did with it, and the second reset inside a month is one
@@ -247,11 +256,20 @@ def reset(employee: str) -> dict:
 		frappe.throw(_("Only HR can reset a passkey."), frappe.PermissionError)
 
 	found = frappe.get_all(
-		"Clock Device", filters={"employee": employee, "status": "Active"}, pluck="name"
+		"Clock Device", filters={"employee": employee, "status": ["!=", "Reset"]}, pluck="name"
 	)
 	for name in found:
 		frappe.db.set_value("Clock Device", name, "status", "Reset")
 	return {"reset": len(found)}
+
+
+def is_blocked(employee: str) -> bool:
+	"""Whether anything this employee holds has been blocked.
+
+	A block is lifted by a reset and by nothing else, which is why `reset`
+	retires a blocked credential as well as an active one.
+	"""
+	return bool(frappe.db.exists("Clock Device", {"employee": employee, "status": "Blocked"}))
 
 
 def block(employee: str) -> int:
@@ -270,6 +288,18 @@ def block(employee: str) -> int:
 	for name in found:
 		frappe.db.set_value("Clock Device", name, "status", "Blocked")
 	return len(found)
+
+
+@frappe.whitelist()
+def retire(employee: str) -> int:
+	"""HR's other click: block instead of reset.
+
+	`block` itself is the offboarding path and runs without a reader, so the
+	door from a screen is here, where the permission is checked.
+	"""
+	if not frappe.has_permission("Clock Device", "write"):
+		frappe.throw(_("Only HR can block a passkey."), frappe.PermissionError)
+	return block(employee)
 
 
 def resets_since(employee: str, since) -> int:

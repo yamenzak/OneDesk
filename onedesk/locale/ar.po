@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 14:00+0000\n"
-"PO-Revision-Date: 2026-09-21 14:00+0000\n"
+"POT-Creation-Date: 2026-09-21 14:13+0000\n"
+"PO-Revision-Date: 2026-09-21 14:13+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -308,6 +308,10 @@ msgstr "مطالبة مزايا"
 msgid "Bio"
 msgstr ""
 
+#: onedesk/one_hr/doctype/clock_device/clock_device.js:22
+msgid "Block"
+msgstr "حظر"
+
 #. Option for the 'Status' (Select) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Blocked"
@@ -462,6 +466,10 @@ msgstr "المطالبة بمصروف"
 msgid "Claim an expense"
 msgstr "المطالبة بمصروف"
 
+#: onedesk/one_hr/doctype/clock_device/clock_device_dashboard.py:9
+msgid "Clock"
+msgstr "التسجيل"
+
 #. Label of the one_attempt (Link) field in DocType 'Employee Checkin'
 #. Name of a DocType
 #. Label of a Sidebar Item
@@ -558,6 +566,11 @@ msgstr ""
 msgid "Counted"
 msgstr "محتسب"
 
+#. Label of the key_section (Section Break) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Credential"
+msgstr "بيانات الاعتماد"
+
 #. Label of the credential_id (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Credential ID"
@@ -644,6 +657,10 @@ msgstr "عدد الموظفين المختلفين، وقد تم التحقق م
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 msgid "Distinct employees, each verified another way, who have checked in from this address."
 msgstr "عدد الموظفين المختلفين، وقد تم التحقق من كل منهم بطريقة أخرى، الذين سجّلوا حضورهم من هذا العنوان."
+
+#: onedesk/one_hr/doctype/clock_device/clock_device.js:36
+msgid "Done"
+msgstr ""
 
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
@@ -1493,7 +1510,11 @@ msgstr "OneHR"
 msgid "OneHR Setup"
 msgstr "إعداد OneHR"
 
-#: onedesk/one_hr/passkey.py:247
+#: onedesk/one_hr/passkey.py:301
+msgid "Only HR can block a passkey."
+msgstr "لا يمكن حظر مفتاح المرور إلا من قبل الموارد البشرية."
+
+#: onedesk/one_hr/passkey.py:256
 msgid "Only HR can reset a passkey."
 msgstr "الموارد البشرية وحدها من يمكنها إعادة تعيين مفتاح المرور."
 
@@ -1505,7 +1526,7 @@ msgstr "مراجعة تسجيل الحضور من صلاحية الموارد ا
 msgid "Only a flagged attempt needs reviewing."
 msgstr "المحاولات المُشار إليها وحدها هي التي تحتاج إلى مراجعة."
 
-#: onedesk/one_hr/passkey.py:208
+#: onedesk/one_hr/passkey.py:215
 msgid "Only an employee can ask for their own passkey to be reset."
 msgstr "لا يمكن طلب إعادة تعيين مفتاح المرور إلا من الموظف نفسه."
 
@@ -1513,7 +1534,7 @@ msgstr "لا يمكن طلب إعادة تعيين مفتاح المرور إل�
 msgid "Only an employee can check in."
 msgstr "لا يمكن تسجيل الحضور إلا للموظفين."
 
-#: onedesk/one_hr/passkey.py:48 onedesk/one_hr/passkey.py:86
+#: onedesk/one_hr/passkey.py:48 onedesk/one_hr/passkey.py:93
 msgid "Only an employee can register a passkey."
 msgstr "لا يمكن تسجيل مفتاح مرور إلا للموظفين."
 
@@ -1825,7 +1846,7 @@ msgstr "سجّل مفتاح مرور قبل تسجيل الحضور."
 msgid "Register a passkey on this phone first?"
 msgstr "هل تريد تسجيل مفتاح مرور على هذا الهاتف أولاً؟"
 
-#: onedesk/one_hr/passkey.py:57
+#: onedesk/one_hr/passkey.py:64
 msgid "Register your passkey on your phone rather than on this computer. A passkey registered on a shared machine can be used by anyone sitting at it."
 msgstr "سجّل مفتاح المرور على هاتفك بدلاً من هذا الحاسوب. فمفتاح المرور المسجَّل على جهاز مشترك يمكن أن يستخدمه أي شخص يجلس إليه."
 
@@ -1874,6 +1895,7 @@ msgid "Requires a User linked to the Employee record."
 msgstr "يتطلب وجود مستخدم مرتبط بسجل الموظف."
 
 #. Option for the 'Status' (Select) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_device/clock_device.js:10
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Reset"
 msgstr ""
@@ -2120,7 +2142,7 @@ msgstr "مفتاح المرور هذا يخص موظفاً ليس له حساب 
 msgid "That passkey could not be verified."
 msgstr "تعذّر التحقق من مفتاح المرور هذا."
 
-#: onedesk/one_hr/passkey.py:99
+#: onedesk/one_hr/passkey.py:106
 msgid "That passkey could not be verified: {0}"
 msgstr "تعذّر التحقق من مفتاح المرور هذا: {0}"
 
@@ -2193,13 +2215,17 @@ msgstr "لا يوجد ما يُسجَّل: أنت {0} اليوم."
 msgid "This attempt was already reviewed."
 msgstr "سبق أن روجعت هذه المحاولة."
 
-#: onedesk/one_hr/passkey.py:88
+#: onedesk/one_hr/passkey.py:95
 msgid "This employee already has a passkey."
 msgstr "لدى هذا الموظف مفتاح مرور بالفعل."
 
 #: onedesk/one_hr/passkey.py:52
 msgid "This employee already has a passkey. HR must reset it before another can be registered."
 msgstr "لدى هذا الموظف مفتاح مرور بالفعل. على الموارد البشرية إعادة تعيينه قبل تسجيل مفتاح آخر."
+
+#: onedesk/one_hr/passkey.py:59
+msgid "This employee's passkey is blocked. HR must reset it before another can be registered."
+msgstr "مفتاح مرور هذا الموظف محظور. على الموارد البشرية إعادة تعيينه قبل تسجيل مفتاح آخر."
 
 #: onedesk/one_hr/rules.py:36
 msgid "This network belongs to you rather than to a workplace."
@@ -2213,7 +2239,7 @@ msgstr "هذه الشبكة ليست من الشبكات التي يجوز لك 
 msgid "This passkey was registered on a different browser."
 msgstr "سُجِّل مفتاح المرور هذا على متصفح مختلف."
 
-#: onedesk/one_hr/passkey.py:308
+#: onedesk/one_hr/passkey.py:338
 msgid "This request expired. Try again."
 msgstr "انتهت صلاحية هذا الطلب. حاول مرة أخرى."
 
@@ -2420,7 +2446,7 @@ msgstr "حضر متأخراً وانصرف مبكراً"
 msgid "left early"
 msgstr "انصرف مبكراً"
 
-#: onedesk/one_hr/passkey.py:217
+#: onedesk/one_hr/passkey.py:224
 msgid "no passkey registered"
 msgstr "لا يوجد مفتاح مرور مسجَّل"
 
@@ -2436,7 +2462,7 @@ msgstr "يسجّل {0} بالفعل {1} ساعة عمل إضافي في {2}. ا�
 msgid "{0} awaiting"
 msgstr "{0} قيد الانتظار"
 
-#: onedesk/one_hr/passkey.py:212
+#: onedesk/one_hr/passkey.py:219
 msgid ""
 "{0} cannot check in and reports that their phone has changed.\n"
 "\n"
@@ -2478,6 +2504,11 @@ msgstr "{0} ليس عنواناً أو نطاقاً صالحاً. مثال: 203.
 msgid "{0} left"
 msgstr "متبقٍ {0}"
 
+#: onedesk/one_hr/doctype/clock_device/clock_device.js:26
+msgid "{0} will not be able to check in or register another passkey."
+msgstr "لن يتمكن {0} من تسجيل الحضور أو تسجيل مفتاح مرور آخر."
+
+#: onedesk/one_hr/doctype/clock_device/clock_device.js:14
 #: onedesk/public/js/employee.js:204
 msgid "{0} will register a new passkey on their next check-in. The old one is retired, not deleted."
 msgstr "سيسجّل {0} مفتاح مرور جديداً عند تسجيل حضوره التالي. ويُسحب المفتاح القديم من الخدمة ولا يُحذف."

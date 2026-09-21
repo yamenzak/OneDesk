@@ -313,7 +313,23 @@ aaguid, whether it is backed up, status (Active, Reset, Blocked), registered and
 last used, last address, and what the browser looked like at registration: user
 agent, platform, model, screen, renderer. The fingerprint is not the identity;
 it is what makes a reset request recognisable and what shows several employees
-enrolling from one machine.
+enrolling from one machine. Named `DEV-YYYY-MM-#####`.
+
+**Status is the only decision on that record, and it is not a dropdown.** It is
+read only, and the form offers Reset and Block, which go through
+`passkey.reset` and `passkey.retire` — the same functions the Employee record
+and offboarding use — rather than letting somebody set a blocked passkey back
+to Active and save.
+
+**A block now blocks.** `held_by` asks for an *Active* credential, so a blocked
+employee simply registered a new passkey and carried on; `start_registration`
+checks `is_blocked` as well. A block is lifted by a reset and by nothing else,
+which is why `reset` retires a blocked credential as well as an active one, and
+why the form offers Reset on anything that is not already Reset.
+
+The credential id and public key are the two fields nobody can act on, so they
+sit in a collapsed Credential section under the ones that mean something: sign
+count, authenticator, backed up.
 
 `Clock Network` — an address or range; the Shift Location it belongs to, or
 the employee it belongs to for a home worker, or neither for the whole
