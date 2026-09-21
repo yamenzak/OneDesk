@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 13:47+0000\n"
-"PO-Revision-Date: 2026-09-21 13:47+0000\n"
+"POT-Creation-Date: 2026-09-21 14:00+0000\n"
+"PO-Revision-Date: 2026-09-21 14:00+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -62,11 +62,11 @@ msgstr "تم اقتراح شبكة أو موقع جديد لتسجيل الحض�
 msgid "Absent"
 msgstr ""
 
-#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:14
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:19
 msgid "Accept"
 msgstr "قبول"
 
-#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:15
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:20
 msgid "Accept this check-in?"
 msgstr "هل تقبل تسجيل الحضور هذا؟"
 
@@ -1411,7 +1411,7 @@ msgid "Not marked"
 msgstr "غير مُسجَّل"
 
 #. Label of the note (Small Text) field in DocType 'Clock Attempt'
-#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:38
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:43
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Note"
 msgstr ""
@@ -1834,11 +1834,11 @@ msgstr "سجّل مفتاح المرور على هاتفك بدلاً من هذ�
 msgid "Registered On"
 msgstr "تاريخ التسجيل"
 
-#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:16
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:21
 msgid "Reject"
 msgstr "رفض"
 
-#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:18
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:23
 msgid "Reject it? The check-in stays on the record and stops counting towards the day."
 msgstr "هل ترفضه؟ يبقى سجل الحضور محفوظاً ولا يُحتسب ضمن اليوم."
 
@@ -1887,7 +1887,7 @@ msgstr "إعادة تعيين مفتاح المرور"
 msgid "Review"
 msgstr ""
 
-#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:42
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:47
 msgid "Reviewed"
 msgstr "تمت المراجعة"
 
@@ -1950,7 +1950,7 @@ msgstr ""
 msgid "Sales Stage"
 msgstr ""
 
-#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:47
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:52
 msgid "Save"
 msgstr ""
 

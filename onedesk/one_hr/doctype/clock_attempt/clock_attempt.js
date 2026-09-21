@@ -8,6 +8,11 @@ frappe.ui.form.on("Clock Attempt", {
 			onedesk.clock_attempt.COLOUR[frm.doc.verdict || frm.doc.outcome] || "gray"
 		);
 
+		// Nothing on this record may be edited, and the grid still draws a
+		// selection box and a pencil per row. `editable_grid: 0` stops the
+		// typing, not the furniture, so the furniture is hidden in desk.css.
+		frm.get_field("signals")?.$wrapper.addClass("one-static-grid");
+
 		if (frm.doc.outcome !== "Flagged" || frm.doc.verdict) return;
 		if (!frappe.model.can_write("Clock Attempt")) return;
 

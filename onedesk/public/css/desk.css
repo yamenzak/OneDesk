@@ -319,3 +319,13 @@ a.one-stat:hover .one-stat-value {
 .one-clock .dock-item-icon {
 	position: relative;
 }
+
+/* A grid nobody may type in. `editable_grid: 0` removes the inline editing and
+   leaves the row checkbox and the open-row pencil behind, which on a read-only
+   record offer an edit that cannot happen. See one_hr/doctype/clock_attempt. */
+.one-static-grid .grid-row-check,
+.one-static-grid .btn-open-row,
+.one-static-grid .grid-footer,
+.one-static-grid .grid-buttons {
+	display: none;
+}

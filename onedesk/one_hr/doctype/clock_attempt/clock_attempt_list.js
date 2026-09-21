@@ -2,7 +2,12 @@
 // ever recorded is a list rather than a queue.
 frappe.listview_settings["Clock Attempt"] = {
 	add_fields: ["outcome", "verdict", "score"],
-	filters: [["outcome", "=", "Flagged"], ["verdict", "in", [""]]],
+	// `verdict in [""]` is dropped on the way to the list, which left every
+	// reviewed attempt in the queue. "is not set" survives.
+	filters: [
+		["outcome", "=", "Flagged"],
+		["verdict", "is", "not set"],
+	],
 	get_indicator(doc) {
 		if (doc.verdict) {
 			return [__(doc.verdict), doc.verdict === "Accepted" ? "green" : "red", `verdict,=,${doc.verdict}`];

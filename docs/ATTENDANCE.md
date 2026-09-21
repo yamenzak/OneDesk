@@ -373,7 +373,35 @@ Geolocation** re-reads the *browser's* position and writes it over where the
 person actually was, so it is offered on a new log only. **Location / Device
 ID** is the biometric-terminal field above, hidden with it. And `Clock Attempt`
 is named `CLK-YYYY-MM-#####` rather than a hash, because the name is what the
-link field on the check-in shows.
+link field on the check-in shows. The naming is written as an expression
+(`CLK-.YYYY.-.MM.-.#####`) rather than `format:`: `format:` parses each braced
+part on its own, so `{#####}` asks for a counter under the empty key, which
+every other `format:`-named doctype shares and which restarts at one.
+
+## The queue
+
+`clock_attempt_list.js` opens the list on what is waiting rather than on
+everything ever recorded: `outcome = Flagged` and no verdict. The second half
+was written `verdict in [""]`, which is dropped on the way to the list, so
+every attempt somebody had already accepted or rejected stayed in the queue.
+`verdict is not set` survives, and covers both the empty string a review leaves
+and the null an untouched row has.
+
+The columns are Employee Name, the verdict or outcome, Log Type and Score.
+Employee was there twice — once as the row's title and once as its id.
+
+**Nothing on the record may be edited**, and the framework draws a selection
+box and an open-row pencil on every grid row anyway; `editable_grid: 0` stops
+the typing, not the furniture, so `one-static-grid` in `desk.css` hides it. The
+Check column holding the signal id (`network-unknown`) is off the grid too: the
+sentence beside it already says what happened, and the id is one row-open away.
+
+**A section with nothing in it says something false.** The Passkey section on
+an attempt where no passkey was presented was one unticked box, and the
+Location section on an attempt with no position was four zeros that read like
+a place. Both hide on what they are about — `doc.device`, `doc.position_state`
+— and Location leads with Position, which is the answer, rather than with
+coordinates that may not exist.
 
 ## What we reuse and do not touch
 

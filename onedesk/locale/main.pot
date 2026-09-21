@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 13:47+0000\n"
-"PO-Revision-Date: 2026-09-21 13:47+0000\n"
+"POT-Creation-Date: 2026-09-21 14:00+0000\n"
+"PO-Revision-Date: 2026-09-21 14:00+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -60,11 +60,11 @@ msgstr ""
 msgid "Absent"
 msgstr ""
 
-#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:14
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:19
 msgid "Accept"
 msgstr ""
 
-#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:15
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:20
 msgid "Accept this check-in?"
 msgstr ""
 
@@ -1409,7 +1409,7 @@ msgid "Not marked"
 msgstr ""
 
 #. Label of the note (Small Text) field in DocType 'Clock Attempt'
-#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:38
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:43
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Note"
 msgstr ""
@@ -1832,11 +1832,11 @@ msgstr ""
 msgid "Registered On"
 msgstr ""
 
-#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:16
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:21
 msgid "Reject"
 msgstr ""
 
-#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:18
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:23
 msgid "Reject it? The check-in stays on the record and stops counting towards the day."
 msgstr ""
 
@@ -1885,7 +1885,7 @@ msgstr ""
 msgid "Review"
 msgstr ""
 
-#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:42
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:47
 msgid "Reviewed"
 msgstr ""
 
@@ -1948,7 +1948,7 @@ msgstr ""
 msgid "Sales Stage"
 msgstr ""
 
-#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:47
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:52
 msgid "Save"
 msgstr ""
 
