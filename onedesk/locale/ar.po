@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 23:30+0000\n"
-"PO-Revision-Date: 2026-09-21 23:30+0000\n"
+"POT-Creation-Date: 2026-09-21 23:43+0000\n"
+"PO-Revision-Date: 2026-09-21 23:43+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -3270,6 +3270,14 @@ msgstr ""
 "العنوان: {3}\n"
 "\n"
 "{4}"
+
+#: onedesk/public/js/exemption.js:36
+msgid "{0} claimed {1} for {2}, and all of it is allowed."
+msgstr "طالب {0} بمبلغ {1} عن {2}، وكله مقبول."
+
+#: onedesk/public/js/exemption.js:43
+msgid "{0} claimed {1} for {2}, of which {3} is allowed — the rest is over a category limit."
+msgstr "طالب {0} بمبلغ {1} عن {2}، المقبول منه {3} — والباقي يتجاوز حد الفئة."
 
 #: onedesk/one_hr/leaving.py:152
 msgid "{0} could not be marked Left"

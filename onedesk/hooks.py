@@ -110,6 +110,8 @@ doctype_js = {
 	"Leave Encashment": "public/js/leave_encashment.js",
 	"Salary Slip": "public/js/salary_slip.js",
 	"Payroll Entry": "public/js/payroll_entry.js",
+	"Employee Tax Exemption Declaration": "public/js/exemption.js",
+	"Employee Tax Exemption Proof Submission": "public/js/exemption.js",
 }
 
 # Loaded after the doctype's own list script, so ours has the last word.

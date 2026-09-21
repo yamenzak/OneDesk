@@ -60,6 +60,7 @@ def set_the_working_day(args):
 
 	_shift(starts, ends, holidays)
 	_leave_period(company, holidays)
+	_payroll_period(company)
 
 
 def _leave_period(company: str | None, holidays: str | None) -> None:
@@ -92,6 +93,29 @@ def _leave_period(company: str | None, holidays: str | None) -> None:
 	# filters, and none of them has a title field to read instead, so the serial
 	# is what a person sees in all five places.
 	frappe.rename_doc("Leave Period", period.name, str(year), force=True)
+
+
+def _payroll_period(company: str | None) -> None:
+	"""The same calendar year again, for the other half of the framework.
+
+	Nothing in HRMS creates a Payroll Period either, and a salary slip asks for
+	one the moment a workspace has an Income Tax Slab: `Salary Slip.payroll_period`
+	is `get_payroll_period(start, end, company)`, and without one there is no
+	period to spread a year's tax across. Its autoname is `Prompt`, so unlike the
+	leave period this one is named at birth rather than renamed after.
+	"""
+	if not company:
+		return
+	year = getdate().year
+	if frappe.db.exists("Payroll Period", {"company": company, "start_date": f"{year}-01-01"}):
+		return
+
+	period = frappe.new_doc("Payroll Period")
+	period.name = str(year)
+	period.company = company
+	period.start_date = f"{year}-01-01"
+	period.end_date = f"{year}-12-31"
+	period.insert(ignore_permissions=True)
 
 
 def _holiday_list(company: str | None, weekly_off: str | None) -> str | None:

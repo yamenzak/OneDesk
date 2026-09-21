@@ -103,7 +103,7 @@ onedesk.reports.one_name = () => {
 	};
 };
 
-// A payroll register opens on the last payroll that was run.
+// A payroll report opens on the last payroll that was run.
 //
 // Salary Register ships `from_date` at today minus a month and `to_date` at
 // today, and its query keeps a slip only when the whole slip sits inside the
@@ -116,7 +116,7 @@ onedesk.reports.one_name = () => {
 // September. So the dates come from the newest submitted slip — the register
 // opens on the run somebody most recently made. It is a default and not a rule:
 // a person who wants another range types one, and nothing resets it.
-const MONTHLY = ["Salary Register"];
+const MONTHLY = ["Salary Register", "Income Tax Deductions", "Professional Tax Deductions"];
 
 onedesk.reports.a_payroll_month = () => {
 	const QueryReport = frappe.views && frappe.views.QueryReport;
@@ -137,7 +137,15 @@ onedesk.reports.a_payroll_month = () => {
 			})
 			.then((found) => {
 				if (!found.length) return;
-				const run = { from_date: found[0].start_date, to_date: found[0].end_date };
+				const on = frappe.datetime.str_to_obj(found[0].end_date);
+				const run = {
+					from_date: found[0].start_date,
+					to_date: found[0].end_date,
+					// The deduction reports take a month and a year rather than two
+					// dates, and default the month to whatever month it is today.
+					month: String(on.getMonth() + 1),
+					year: String(on.getFullYear()),
+				};
 				(report.filters || []).forEach((filter) => {
 					const when = run[filter.df.fieldname];
 					if (when) filter.set_input(when);
@@ -175,10 +183,52 @@ onedesk.reports.dashboards_too = () => {
 	};
 };
 
+// A report that wants a payroll period opens on the one we are in.
+//
+// Income Tax Computation and Accrued Earnings both make `payroll_period`
+// required and default it to nothing, so both open on "Please set filters" with
+// a red box — on a workspace that has exactly one payroll period per year,
+// created by the setup wizard, and almost always wants the current one. The
+// period containing today, or the newest one if today is outside them all.
+onedesk.reports.the_period = () => {
+	const QueryReport = frappe.views && frappe.views.QueryReport;
+	if (!QueryReport || QueryReport.prototype.__one_period) return;
+	QueryReport.prototype.__one_period = true;
+
+	const theirs = QueryReport.prototype.setup_filters;
+	QueryReport.prototype.setup_filters = function () {
+		theirs.call(this);
+		const wants = (this.filters || []).filter(
+			(filter) =>
+				filter.df.fieldtype === "Link" &&
+				filter.df.options === "Payroll Period" &&
+				!filter.get_value()
+		);
+		if (!wants.length) return;
+
+		const report = this;
+		const today = frappe.datetime.get_today();
+		frappe.db
+			.get_list("Payroll Period", {
+				filters: { start_date: ["<=", today] },
+				fields: ["name", "end_date"],
+				order_by: "start_date desc",
+				limit: 5,
+			})
+			.then((found) => {
+				const now = found.find((period) => period.end_date >= today) || found[0];
+				if (!now) return;
+				wants.forEach((filter) => filter.set_input(now.name));
+				report.refresh();
+			});
+	};
+};
+
 frappe.after_ajax(() => {
 	onedesk.reports.one_company();
 	onedesk.reports.one_name();
 	onedesk.reports.a_payroll_month();
+	onedesk.reports.the_period();
 	onedesk.reports.called_what_the_rail_called_it();
 	onedesk.reports.dashboards_too();
 });

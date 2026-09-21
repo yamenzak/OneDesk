@@ -410,3 +410,69 @@ break-up is a pay-confidential figure and the rail entry sits in the Pay group,
 which is the payroll officer's; defaulting it to *them* would be the wrong
 person on every open. The version of this that is right is the `@me` sentinel on
 an ESS screen, which already exists, rather than a default on a payroll one.
+
+## Tax & Benefits
+
+**A question for the product, not a fix.** Every screen in this group was empty,
+and the company on this site is in the **United Arab Emirates**, where there is
+no personal income tax. Six of the eight rows — the two exemption doctypes, the
+two benefit doctypes, Professional Tax Deductions, and the income tax pair —
+exist to model a tax regime a workspace either has or does not. A workspace that
+does not have one is looking at six screens it can never use.
+
+The shape of an answer already exists in this app: `one/company.py` derives from
+what the site *is* rather than from a fixture, and hrms's own income tax
+machinery is driven by whether an **Income Tax Slab** exists. "No slab, no
+income tax here" is a derived condition, not a new setting, and the screens
+would come back the moment somebody wrote one. Benefits are the same shape
+against a salary component marked as a flexible benefit.
+
+**Not done here.** Hiding six rail rows is a decision about what the product is,
+not about what a screen says, and it wants a yes rather than an assumption. What
+follows is the audit of the screens as they stand.
+
+### The payroll year
+
+The same gap as the leave year, in the other half of the framework. Nothing in
+HRMS creates a **Payroll Period**, and `Salary Slip.payroll_period` asks
+`get_payroll_period(start, end, company)` for one the moment a workspace has an
+Income Tax Slab — without it there is no period to spread a year's tax across,
+and two of the four reports in this group make it a required filter with no
+default. `set_the_working_day` now creates the calendar year beside the leave
+period. Its autoname is `Prompt` rather than a series, so unlike the leave
+period this one is named at birth rather than renamed after.
+
+### Exemption Declaration, Exemption Proof
+
+Both open on a Details tab carrying the employee, the payroll period, the
+department and the currency, and put the table and the two totals on a second
+tab — the Salary Slip fault again. And both totals matter rather than one: a
+category carries a `max_amount`, so somebody can claim thirty and be allowed
+twenty, and nothing said which had happened.
+
+Done: one headline for both, out of `public/js/exemption.js` — *Rania Sabbagh
+claimed د.إ 36,000.00 for 2026, and all of it is allowed*, and in orange when
+part of it is over a category limit. Both totals join both lists. The Currency
+field is hidden on both: these are the two the money sweep deliberately left
+because they are neither read-only nor fetched, and the reason is that their own
+form script fills the field from `get_employee_currency`, which is in a `.js`
+file the schema rule cannot see. They are named in `money.ALSO` rather than
+found.
+
+### The four reports
+
+All four now open on something. **Income Tax Computation** and **Accrued
+Earnings** required a payroll period and defaulted it to nothing, so both opened
+on a red box; they now open on the period containing today. **Income Tax
+Deductions** and **Professional Tax Deductions** take a month and a year and
+default the month to whatever month it is today — the Salary Register fault in
+another shape, because payroll for August is read in September; they now open on
+the month of the last payroll run.
+
+All four still show nothing, and that is the honest answer: this workspace's
+salary structure has no deduction components, so no tax was deducted from
+anybody. `Income Tax Deductions` is written for this — it asks
+`erpnext.get_region(company) == "India"` and drops its Indian columns elsewhere.
+
+**Benefit Application and Benefit Claim are not yet walked.** Both need a salary
+component marked as a flexible benefit before there is anything to look at.

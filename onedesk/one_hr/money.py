@@ -17,8 +17,11 @@ What stays visible, and why:
 * **Job Applicant**, **Job Opening** and **Job Opening Template** quote a salary
   range on an advertisement, which is a thing a workspace may genuinely want to
   write in somebody else's currency.
-* **Employee Tax Exemption Declaration** and **Proof Submission** are part of the
-  India-specific tax surface, which gets one decision rather than six.
+* **Employee Tax Exemption Declaration** and **Proof Submission** are neither
+  read-only nor fetched, but their own form script fills the field from
+  `get_employee_currency` when the employee is chosen. They are named in `ALSO`
+  below rather than found by the rule, because the rule reads the schema and
+  this answer is in a `.js` file.
 * **Payroll Entry** is hidden by its own customization instead, because it is
   neither read-only nor fetched — their form script fills it from the company,
   which was checked in the browser rather than read off the schema.
@@ -31,6 +34,13 @@ import frappe
 
 FIELD = "currency"
 MODULES = ("HR", "Payroll", "One HR")
+
+#: Filled by their own form script rather than by the schema, so the rule below
+#: cannot see it. Checked by reading the script, not by assuming.
+ALSO = (
+	"Employee Tax Exemption Declaration",
+	"Employee Tax Exemption Proof Submission",
+)
 
 
 def hide(*_args) -> None:
@@ -58,7 +68,7 @@ def _doctypes() -> list[str]:
 		(FIELD, MODULES),
 		pluck=True,
 	)
-	return sorted(set(rows))
+	return sorted(set(rows) | {dt for dt in ALSO if frappe.db.exists("DocType", dt)})
 
 
 def _written(doctype: str) -> bool:

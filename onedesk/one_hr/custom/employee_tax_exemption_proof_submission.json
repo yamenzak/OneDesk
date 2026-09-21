@@ -1,0 +1,24 @@
+{
+ "custom_fields": [],
+ "doctype": "Employee Tax Exemption Proof Submission",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Employee Tax Exemption Proof Submission",
+   "doctype_or_field": "DocField",
+   "field_name": "total_actual_amount",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Employee Tax Exemption Proof Submission",
+   "doctype_or_field": "DocField",
+   "field_name": "exemption_amount",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  }
+ ],
+ "sync_on_migrate": 1
+}
