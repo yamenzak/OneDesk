@@ -343,6 +343,13 @@ it off nothing records where a check-in came from and the location gate cannot
 run, so it belongs with the gate it governs. What is left of hrms's own tab is
 one shift setting, so it is labelled **Shift**.
 
+**Five tabs, not seven.** Shift was one checkbox on a tab of its own and
+Tenure was two fields about the exit questionnaire. The shift setting joins
+Attendance — which is what hrms called the two together before it split them —
+and the exit questionnaire joins Employee, under Leaving, beside naming and
+retirement age. Both tab breaks are hidden rather than removed, because they
+are hrms's fields and a later version may put something else on them.
+
 **Allow Employee Checkin from Mobile App is hidden.** It is read only by
 hrms's own mobile API; ours is governed by Allow Employees to Check In
 Themselves, two fields above. Two switches that look like the same switch, one

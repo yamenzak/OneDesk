@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 17:15+0000\n"
-"PO-Revision-Date: 2026-09-21 17:15+0000\n"
+"POT-Creation-Date: 2026-09-21 17:33+0000\n"
+"PO-Revision-Date: 2026-09-21 17:33+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1322,6 +1322,11 @@ msgstr "تعيين سياسة الإجازات"
 msgid "Leave Type"
 msgstr ""
 
+#. Label of the 'employee_exit_settings_section' field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Leaving"
+msgstr "ترك العمل"
+
 #. Description of the 'Accounting' (Section Break) field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "Left empty, the advance account falls back to the company’s and the cost centre to the department’s."
@@ -2173,6 +2178,11 @@ msgstr "جدول المناوبات"
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Shift Type"
+msgstr ""
+
+#. Label of the 'shift_settings_section' field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Shifts"
 msgstr ""
 
 #. Label of the sign_count (Int) field in DocType 'Clock Device'
