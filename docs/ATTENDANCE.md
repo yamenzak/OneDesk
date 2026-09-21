@@ -1,6 +1,7 @@
 # Attendance without a machine
 
-Written by hand. A plan, not generated reference.
+Written by hand. A plan, and now also a description: every stage below is
+built. What changed while building it is noted where it happened.
 
 An employee presses **Clock in**. No terminal, no fingerprint reader, no app, no
 hardware of any kind. Who they are is a passkey on their own phone. Where they
@@ -332,7 +333,7 @@ the list is built and thrown away. Checking all of them and passing on any is a
 few lines, it is the difference between one fence and a set, it goes in
 `docs/OVERRIDES.md`, and it is worth offering back to HRMS.
 
-## Stages
+## Stages, all built
 
 1. **The ledger.** `Checkin Attempt` and `Checkin Signal`, written on every
    attempt, enforcing nothing. Everything else reads this, and a week of real
@@ -373,6 +374,22 @@ few lines, it is the difference between one fence and a set, it goes in
   nothing: the same black frame photographs identically from the car park, from
   home and from bed.
 - **A score nobody can explain.**
+
+## Two things the building changed
+
+**Two weights.** The wrong network and outside every fence started at thirty and
+thirty-five, which flagged rather than refused. They are the two things that are
+certain rather than probable, so they now cost sixty and refuse on their own.
+Everything probabilistic still sits under the flag band and needs company to get
+past it.
+
+**A message that was not ours.** Every clock-in after the first put a Duplicate
+Name dialog in front of somebody who had just successfully clocked in: HRMS's
+telemetry claims a milestone row on each check-in and swallows the duplicate in
+a savepoint, but the message survives the savepoint. `clock._write` now discards
+whatever the `after_insert` hooks left in the message log, on the rule that
+anything said after a document was accepted is by definition not about whether
+it was accepted.
 
 ## What this is honestly worth
 
