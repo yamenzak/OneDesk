@@ -1,5 +1,36 @@
 {
- "custom_fields": [],
+ "custom_fields": [
+  {
+   "collapsible": 1,
+   "description": "Computed nightly from the last ninety days of clock-ins. It never refuses anybody \u2014 it decides whose observations count when the system learns a new address or a new place people stand.",
+   "dt": "Employee",
+   "fieldname": "one_attendance_section",
+   "fieldtype": "Section Break",
+   "insert_after": "attendance_device_id",
+   "label": "Attendance standing",
+   "module": "One HR"
+  },
+  {
+   "default": "100",
+   "description": "Out of a hundred.",
+   "dt": "Employee",
+   "fieldname": "one_standing",
+   "fieldtype": "Int",
+   "insert_after": "one_attendance_section",
+   "label": "Standing",
+   "module": "One HR",
+   "read_only": 1
+  },
+  {
+   "dt": "Employee",
+   "fieldname": "one_standing_on",
+   "fieldtype": "Datetime",
+   "insert_after": "one_standing",
+   "label": "Worked Out",
+   "module": "One HR",
+   "read_only": 1
+  }
+ ],
  "doctype": "Employee",
  "links": [
   {
