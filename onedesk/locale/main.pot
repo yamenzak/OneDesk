@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 06:32+0000\n"
-"PO-Revision-Date: 2026-09-21 06:32+0000\n"
+"POT-Creation-Date: 2026-09-21 07:10+0000\n"
+"PO-Revision-Date: 2026-09-21 07:10+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -154,7 +154,7 @@ msgstr ""
 msgid "Appearance"
 msgstr ""
 
-#: onedesk/public/js/employee.js:165
+#: onedesk/public/js/employee.js:183
 msgid "Apply for Leave"
 msgstr ""
 
@@ -390,7 +390,7 @@ msgstr ""
 msgid "Checked Out"
 msgstr ""
 
-#: onedesk/one_hr/employee.py:107 onedesk/one_hr/presence.py:189
+#: onedesk/one_hr/employee.py:136 onedesk/one_hr/presence.py:189
 msgid "Checked in"
 msgstr ""
 
@@ -398,7 +398,7 @@ msgstr ""
 msgid "Checked in {0}"
 msgstr ""
 
-#: onedesk/one_hr/employee.py:123 onedesk/one_hr/presence.py:184
+#: onedesk/one_hr/employee.py:152 onedesk/one_hr/presence.py:184
 msgid "Checked out"
 msgstr ""
 
@@ -419,7 +419,7 @@ msgstr ""
 msgid "Checks"
 msgstr ""
 
-#: onedesk/public/js/employee.js:166
+#: onedesk/public/js/employee.js:184
 msgid "Claim an Expense"
 msgstr ""
 
@@ -895,7 +895,7 @@ msgstr ""
 msgid "Half day"
 msgstr ""
 
-#: onedesk/public/js/employee.js:144
+#: onedesk/public/js/employee.js:162
 msgid "Here since"
 msgstr ""
 
@@ -906,7 +906,7 @@ msgstr ""
 msgid "Hiring"
 msgstr ""
 
-#: onedesk/one_hr/employee.py:82 onedesk/one_hr/employee.py:239
+#: onedesk/one_hr/employee.py:111 onedesk/one_hr/employee.py:268
 #: onedesk/one_hr/presence.py:159 onedesk/public/js/employee.js:41
 msgid "Holiday"
 msgstr ""
@@ -959,7 +959,7 @@ msgstr ""
 msgid "If unchecked, a missing passkey is only flagged."
 msgstr ""
 
-#: onedesk/public/js/employee.js:113
+#: onedesk/public/js/employee.js:131
 msgid "In"
 msgstr ""
 
@@ -1280,7 +1280,7 @@ msgstr ""
 msgid "Not Checked In"
 msgstr ""
 
-#: onedesk/one_hr/employee.py:124
+#: onedesk/one_hr/employee.py:153
 msgid "Not checked in"
 msgstr ""
 
@@ -1308,7 +1308,7 @@ msgstr ""
 msgid "Offered to employees on check out."
 msgstr ""
 
-#: onedesk/one_hr/employee.py:97 onedesk/one_hr/presence.py:128
+#: onedesk/one_hr/employee.py:126 onedesk/one_hr/presence.py:128
 #: onedesk/one_hr/presence.py:230 onedesk/public/js/employee.js:39
 msgid "On leave"
 msgstr ""
@@ -1402,7 +1402,7 @@ msgstr ""
 msgid "Other Shift Locations this one's employees may check in from, without a second Shift Assignment."
 msgstr ""
 
-#: onedesk/public/js/employee.js:113
+#: onedesk/public/js/employee.js:131
 msgid "Out"
 msgstr ""
 
@@ -1433,7 +1433,7 @@ msgstr ""
 msgid "Overview"
 msgstr ""
 
-#: onedesk/public/js/employee.js:139
+#: onedesk/public/js/employee.js:157
 msgid "Paid under"
 msgstr ""
 
@@ -1446,7 +1446,7 @@ msgstr ""
 msgid "Passkey"
 msgstr ""
 
-#: onedesk/public/js/employee.js:183
+#: onedesk/public/js/employee.js:201
 msgid "Passkey reset"
 msgstr ""
 
@@ -1674,7 +1674,7 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#: onedesk/public/js/employee.js:174
+#: onedesk/public/js/employee.js:192
 msgid "Reset Passkey"
 msgstr ""
 
@@ -1831,7 +1831,7 @@ msgid "Staffing Plan"
 msgstr ""
 
 #. Label of the one_standing (Int) field in DocType 'Employee'
-#: onedesk/one_hr/custom/employee.json
+#: onedesk/one_hr/custom/employee.json onedesk/public/js/employee.js:122
 msgid "Standing"
 msgstr ""
 
@@ -2040,7 +2040,7 @@ msgstr ""
 msgid "Verification"
 msgstr ""
 
-#: onedesk/one_hr/employee.py:237
+#: onedesk/one_hr/employee.py:266
 msgid "Weekly off"
 msgstr ""
 
@@ -2130,7 +2130,7 @@ msgstr ""
 msgid "no passkey registered"
 msgstr ""
 
-#: onedesk/public/js/employee.js:131
+#: onedesk/public/js/employee.js:149
 msgid "{0} awaiting"
 msgstr ""
 
@@ -2153,11 +2153,11 @@ msgstr ""
 msgid "{0} is not a valid address or range. Example: 203.0.113.7 or 203.0.113.0/24"
 msgstr ""
 
-#: onedesk/public/js/employee.js:122
+#: onedesk/public/js/employee.js:140
 msgid "{0} left"
 msgstr ""
 
-#: onedesk/public/js/employee.js:176
+#: onedesk/public/js/employee.js:194
 msgid "{0} will register a new passkey on their next check-in. The old one is retired, not deleted."
 msgstr ""
 

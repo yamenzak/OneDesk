@@ -105,8 +105,26 @@ onedesk.employee.said = (day, marks) => {
 // Label over value, which is the desk's own way of putting a number on screen.
 // A pill each was the first try: seven outlines in a row read as seven controls
 // rather than as one paragraph of numbers.
+//: What a standing is worth saying about it, by the band the server put it in.
+//: Only "low" and "watch" get a colour: a number that is fine is a number
+//: nobody has to look at, and painting it green would make the good case the
+//: loud one.
+onedesk.employee.STANDING_TONE = { low: "alarm", watch: "waiting", good: null };
+
 onedesk.employee.stats = (data) => {
 	const stats = [];
+
+	// First, beside the quarter it is worked out from. It is the one number
+	// here about whether the check-ins themselves can be believed, which is a
+	// different question from how many of them there were.
+	if (data.standing) {
+		stats.push(onedesk.employee.stat(
+			__("Standing"),
+			data.standing.score,
+			`/desk/clock-attempt?employee=${encodeURIComponent(cur_frm.doc.name)}`,
+			onedesk.employee.STANDING_TONE[data.standing.band],
+		));
+	}
 
 	if (data.today.checkin) {
 		stats.push(onedesk.employee.stat(

@@ -16,6 +16,8 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, date_diff, get_first_day_of_week, getdate, nowdate, strip_html
 
+from onedesk.one_hr import policy, rules
+
 #: Thirteen weeks of squares: one quarter, which is as far back as anybody looks
 #: and as much as sits beside the numbers without wrapping.
 WEEKS = 13
@@ -46,12 +48,39 @@ def overview(employee: str) -> dict:
 	return {
 		"state": _state(doc),
 		"days": _days(doc),
+		"standing": _standing(doc),
 		"tenure": _tenure(doc),
 		"today": _today(doc),
 		"leave": _leave(doc),
 		"awaiting": _awaiting(doc),
 		"pay": _pay(doc),
 		"passkey": _passkey(doc),
+	}
+
+
+def _standing(doc) -> dict | None:
+	"""The number `healing.standings()` worked out last night, and its band.
+
+	The band is read from HR Settings rather than from the constants, so the
+	colour on the record is the same line the door actually enforces: a site
+	that refuses below 70 should not paint 65 as unremarkable.
+
+	Nothing is returned before the first nightly run has written one. An empty
+	field is not a score of zero and must not be shown as one.
+	"""
+	if not frappe.get_meta("Employee").has_field("one_standing"):
+		return None
+	score = doc.get("one_standing")
+	if score in (None, ""):
+		return None
+
+	score = int(score)
+	refuse = policy.band("refuse_below", rules.REFUSE_BELOW)
+	flag = policy.band("flag_below", rules.FLAG_BELOW)
+	return {
+		"score": score,
+		"on": doc.get("one_standing_on"),
+		"band": "low" if score < refuse else "watch" if score < flag else "good",
 	}
 
 

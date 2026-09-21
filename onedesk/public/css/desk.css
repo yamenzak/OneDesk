@@ -216,15 +216,20 @@ a.one-day:hover {
 
 /* Label over value, the desk's own way of putting a number on screen. Three
    columns rather than a wrapping row: a row that wraps puts five numbers on one
-   line and one on the next, and looks like it ran out of room, which it did. */
+   line and one on the next, and looks like it ran out of room, which it did.
+
+   The gaps are wider than the desk's usual because these are six unrelated
+   numbers rather than one table: at 10 by 20 the labels of adjacent columns
+   nearly touch and read as one phrase, and a minimum column width stops a
+   short value like "1 h" pulling its neighbour in. */
 .one-stats {
 	display: grid;
-	grid-template-columns: repeat(3, max-content);
+	grid-template-columns: repeat(3, minmax(7rem, max-content));
 	justify-content: end;
 	align-content: start;
 	flex: 1 1 0;
 	min-width: 0;
-	gap: var(--margin-sm) var(--margin-lg);
+	gap: var(--margin-md) var(--margin-xl);
 }
 
 @media (max-width: 900px) {
@@ -270,6 +275,10 @@ a.one-stat:hover .one-stat-value {
 
 .one-stat-quiet .one-stat-value {
 	color: var(--ink-gray-5);
+}
+
+.one-stat-alarm .one-stat-value {
+	color: var(--ink-red-8);
 }
 
 /* The clock in the rail. The dot is the state and the icon is the verb, which
