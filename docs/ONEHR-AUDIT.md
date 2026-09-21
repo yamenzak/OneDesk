@@ -32,7 +32,14 @@ in the boot from `one/titles.py`, read from the Sidebar rows rather than typed
 into a list. Dashboards disagree too — Payroll Overview opens "Payroll",
 Expense Overview opens "Expense Claims", Overview opens "Human Resource",
 Recruitment Overview opens "Recruitment", Lifecycle Overview opens "Employee
-Lifecycle" — but the dashboard view draws its heading elsewhere. **Still open.**
+Lifecycle". **Closed during the Pay walk**: a dashboard's heading is the last
+crumb too, but `Dashboard.set_breadcrumbs` passes only
+`{module, doctype, docname}` while `set_dashboard_breadcrumb` beside it reads a
+`label` its own caller never sends. So `frappe.breadcrumbs.add` is wrapped and
+the crumb is labelled on its way through. The browser tab is left as it is:
+`Dashboard.show` calls `set_title` a line after the crumb, and a tab reading
+"Payroll Dashboard" beside a page reading "Payroll Overview" is not worth a
+second patch.
 
 ## Leave
 
@@ -382,3 +389,24 @@ Its **Currency** filter is swept the way Company already was, and only on a
 payroll or HR report, where the answer is always what the company pays in. And
 a **Company** column is dropped from every report's columns, for the same reason
 the filter is.
+
+### Salary Withholding
+
+Found: the **Reason** — why somebody's pay is being held, which is the whole
+point of the record — sat behind a collapsed section; **Status** repeated the
+header's own Withheld pill; and the list showed a **Relieving Date** that is
+empty for everybody who has not left, and neither the period held nor the
+cycles. Done: the reason section opens, Status hidden, and From Date and To
+Date are the list instead.
+
+### CTC Break-up — looked at and left
+
+It opens on *Please set filters* with Employee and Salary Structure Assignment
+outlined in red, and a `Filter missing` thrown in the console behind it. That is
+frappe's own empty state and it says what to do.
+
+**Defaulting the employee to the reader was considered and rejected.** A CTC
+break-up is a pay-confidential figure and the rail entry sits in the Pay group,
+which is the payroll officer's; defaulting it to *them* would be the wrong
+person on every open. The version of this that is right is the `@me` sentinel on
+an ESS screen, which already exists, rather than a default on a payroll one.

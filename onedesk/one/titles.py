@@ -19,14 +19,15 @@ renames a row.
 import frappe
 
 #: What the rail can rename. A doctype's heading is its own and is already
-#: right, and a workspace's is the workspace's own title. Dashboards disagree
-#: too — five of them — but their view draws its heading somewhere else and
-#: nothing here reads a map it cannot use.
-RENAMES = ("Report",)
+#: right, and a workspace's is the workspace's own title. Both of these are
+#: read in `public/js/reports.js`, at two different seams: a report's heading
+#: comes from `QueryReport.set_breadcrumbs`, a dashboard's from the crumb the
+#: dashboard page adds, which honours a `label` the page never passes.
+RENAMES = ("Report", "Dashboard")
 
 
 def for_boot() -> dict[str, dict[str, str]]:
-	"""{"Report": {name: label}} for every row in a One rail that disagrees."""
+	"""{kind: {name: label}} for every row in a One rail that disagrees."""
 	found: dict[str, dict[str, str]] = {kind: {} for kind in RENAMES}
 
 	for sidebar in frappe.get_all("Sidebar", filters={"app": "onedesk"}, pluck="name"):

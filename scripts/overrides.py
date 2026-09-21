@@ -347,6 +347,13 @@ OVERRIDES = [
 		"Please set default template for Leave Status Notification in HR Settings.",
 	),
 	(
+		"A dashboard is called what the rail called it",
+		"`Dashboard.set_breadcrumbs` sends no label, and the crumb renderer beside it reads one",
+		"onedesk/public/js/reports.js",
+		"frappe/frappe/core/page/dashboard_view/dashboard_view.js",
+		'frappe.breadcrumbs.add({ module: "Desk", doctype: "Dashboard", docname: docname });',
+	),
+	(
 		"A payroll run says how many people and how much",
 		"the Overview tab carries the account and two checkboxes; the count is parked in the employee filter and the total is only in the slips",
 		"onedesk/public/js/payroll_entry.js",

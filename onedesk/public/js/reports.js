@@ -147,9 +147,38 @@ onedesk.reports.a_payroll_month = () => {
 	};
 };
 
+// The same for a dashboard, at a different seam.
+//
+// A dashboard's heading is the last crumb too, but `Dashboard.set_breadcrumbs`
+// passes only `{module, doctype, docname}` — and `set_dashboard_breadcrumb`
+// reads a `label` its own caller never sends. So the crumb is labelled on its
+// way through, and the browser tab with it. The Dashboard class is local to
+// frappe's dashboard page and `frappe.dashboard` only exists once one has been
+// drawn, so there is nothing else to wrap.
+//
+// The browser tab is left as it is. `Dashboard.show` calls `set_title` after
+// the crumb, so anything written here is overwritten a line later, and a tab
+// reading "Payroll Dashboard" beside a page reading "Payroll Overview" is not
+// worth a second patch.
+onedesk.reports.dashboards_too = () => {
+	if (!frappe.breadcrumbs || frappe.breadcrumbs.__one_titles) return;
+	frappe.breadcrumbs.__one_titles = true;
+
+	const theirs = frappe.breadcrumbs.add;
+	frappe.breadcrumbs.add = function (module, doctype, type) {
+		const crumb = typeof module === "object" ? module : null;
+		if (crumb && crumb.doctype === "Dashboard" && !crumb.label) {
+			const ours = ((frappe.boot.one_titles || {}).Dashboard || {})[crumb.docname];
+			if (ours) crumb.label = ours;
+		}
+		return theirs.call(this, module, doctype, type);
+	};
+};
+
 frappe.after_ajax(() => {
 	onedesk.reports.one_company();
 	onedesk.reports.one_name();
 	onedesk.reports.a_payroll_month();
 	onedesk.reports.called_what_the_rail_called_it();
+	onedesk.reports.dashboards_too();
 });
