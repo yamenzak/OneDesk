@@ -91,8 +91,33 @@ def _holiday_list(company: str | None, weekly_off: str | None) -> str | None:
 			frappe.clear_last_message()
 	doc.insert(ignore_permissions=True)
 
-	frappe.db.set_value("Company", company, "default_holiday_list", doc.name)
+	_assign(doc.name, company, f"{year}-01-01")
 	return doc.name
+
+
+def _assign(holidays: str, company: str, from_date: str) -> None:
+	"""Tell hrms about the list, which is not the same as telling erpnext.
+
+	`hrms.utils.holiday_list.get_holiday_list_for_employee` replaces erpnext's
+	lookup through the `employee_holiday_list` hook, and reads neither
+	`Employee.holiday_list` nor `Company.default_holiday_list`: only a
+	submitted `Holiday List Assignment`. Without one, every question about
+	whether a date is a holiday throws — leave, attendance requests, and the
+	shift's own processing. `Company.default_holiday_list` is set as well,
+	because erpnext's own reports still read it.
+	"""
+	frappe.db.set_value("Company", company, "default_holiday_list", holidays)
+
+	if frappe.db.exists("Holiday List Assignment", {"assigned_to": company, "docstatus": 1}):
+		return
+
+	doc = frappe.new_doc("Holiday List Assignment")
+	doc.holiday_list = holidays
+	doc.applicable_for = "Company"
+	doc.assigned_to = company
+	doc.from_date = from_date
+	doc.insert(ignore_permissions=True)
+	doc.submit()
 
 
 def _country_code(company: str) -> str | None:

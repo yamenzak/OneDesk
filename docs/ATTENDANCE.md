@@ -327,6 +327,15 @@ every HR Manager once a week about any that are deaf.
 The wizard asks because the alternative is a clock that takes check-ins from
 the first morning and produces nothing until somebody is told why.
 
+**A holiday list is not assigned by setting it on the company.**
+`hrms.utils.holiday_list.get_holiday_list_for_employee` replaces erpnext's
+lookup through the `employee_holiday_list` hook and reads neither
+`Employee.holiday_list` nor `Company.default_holiday_list` — only a submitted
+`Holiday List Assignment`. Without one, everything that asks whether a date is
+a holiday throws: leave, attendance requests, the shift's own processing. The
+wizard writes the assignment as well, and sets the company field too, because
+erpnext's own reports still read that.
+
 ## Where the settings are
 
 The rail's **Attendance Settings** opens `HR Settings`, which is seven tabs
