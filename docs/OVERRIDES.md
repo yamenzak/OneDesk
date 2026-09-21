@@ -41,6 +41,8 @@ Each row is something that would still run but stop working if upstream moved. `
 | The timer stamps one clock | theirs writes `get_datetime_as_string()` (the operator's machine) and measures against the site's timezone | `onedesk/public/js/timesheet.js` | `erpnext/erpnext/public/js/projects/timer.js` | `grid_row.doc.to_time = frappe.datetime.get_datetime_as_string()` |
 | Monthly Attendance is one row per person, and everybody is on it | theirs keys on employee and shift, and skips anybody with no Attendance row at all | `onedesk/one_hr/report/monthly_attendance/monthly_attendance.py` | `hrms/hrms/hr/report/monthly_attendance_sheet/monthly_attendance_sheet.py` | `if not employee_attendance:` |
 | The month sheet is built from their pieces rather than re-implemented | their attendance map, holiday map and status abbreviations decide what a day means; we only reshape | `onedesk/one_hr/report/monthly_attendance/monthly_attendance.py` | `hrms/hrms/hr/report/monthly_attendance_sheet/monthly_attendance_sheet.py` | `def set_defaults_for_summarized_view` |
+| Attendance by Shift keeps every day in the period | their two inner joins dropped 26 of 27 days silently, so every count had lost its denominator | `onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py` | `hrms/hrms/hr/report/shift_attendance/shift_attendance.py` | `.inner_join(shift_type)` |
+| The grace-period arithmetic on a shift day is theirs | late and early are measured against the shift window their own helpers know how to read | `onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py` | `hrms/hrms/hr/report/shift_attendance/shift_attendance.py` | `def update_late_entry` |
 | The setup wizard's persona slide is replaced | its four required questions were read only by `capture_user_persona` | `onedesk/public/js/setup_wizard.js` | `erpnext/erpnext/public/js/setup_wizard.js` | `persona` |
 
-37 overrides.
+39 overrides.

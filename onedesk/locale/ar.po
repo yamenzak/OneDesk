@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 20:56+0000\n"
-"PO-Revision-Date: 2026-09-21 20:56+0000\n"
+"POT-Creation-Date: 2026-09-21 21:12+0000\n"
+"PO-Revision-Date: 2026-09-21 21:12+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -75,7 +75,9 @@ msgstr "تغطي الورقة {0} يوماً على الأكثر."
 
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
-#: onedesk/one_hr/presence.py:249 onedesk/public/js/employee.js:47
+#: onedesk/one_hr/presence.py:249
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:211
+#: onedesk/public/js/employee.js:47
 msgid "Absent"
 msgstr "غائب"
 
@@ -167,6 +169,10 @@ msgstr "العناوين التي يجوز للموظفين تسجيل الحض�
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Allow Employees to Check In Themselves"
 msgstr "السماح للموظفين بتسجيل حضورهم بأنفسهم"
+
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:37
+msgid "Allow the Grace Period"
+msgstr "احتساب فترة السماح"
 
 #. Description of the 'Login with Passkey' (Check) field in DocType 'System
 #. Settings'
@@ -308,6 +314,7 @@ msgstr "إسناد هيكل راتب"
 #. Label of the one_attendance_tab (Tab Break) field in DocType 'HR Settings'
 #. Label of a Sidebar Item
 #: onedesk/one_hr/custom/employee.json onedesk/one_hr/custom/hr_settings.json
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:175
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Attendance"
 msgstr "الحضور"
@@ -337,6 +344,13 @@ msgstr "إعدادات الحضور"
 #: onedesk/one_hr/custom/employee.json
 msgid "Attendance Standing"
 msgstr "تقييم الحضور"
+
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.json
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Attendance by Shift"
+msgstr "الحضور حسب المناوبة"
 
 #: onedesk/public/js/shift_type.js:26
 msgid "Attendance will be written from check-ins on this shift from today onwards."
@@ -710,6 +724,7 @@ msgstr ""
 msgid "Customer Group"
 msgstr ""
 
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:152
 #: onedesk/public/js/overtime.js:25
 msgid "Date"
 msgstr ""
@@ -773,6 +788,8 @@ msgid "Delete Photos After (Days)"
 msgstr "حذف الصور بعد (أيام)"
 
 #. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:29
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:168
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:78
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Department"
@@ -866,6 +883,8 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:19
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:147
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:65
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:166
 #: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/public/js/overtime.js:14
@@ -1102,6 +1121,10 @@ msgstr "مُشار إليه"
 msgid "Follow my system"
 msgstr "اتّباع إعدادات نظامي"
 
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:7
+msgid "From Date"
+msgstr ""
+
 #: onedesk/public/js/employee.js:43
 msgid "From home"
 msgstr "من المنزل"
@@ -1208,6 +1231,7 @@ msgstr ""
 
 #. Label of the one_when (Data) field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/shift_request.json
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:164
 msgid "Hours"
 msgstr ""
 
@@ -1280,6 +1304,7 @@ msgstr "إذا عُطِّل، لا يسجّل أي تسجيل حضور مصدر�
 msgid "If unchecked, a missing passkey is only flagged."
 msgstr "إذا لم يتم تحديده، يُكتفى بالإشارة إلى غياب مفتاح المرور."
 
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:162
 #: onedesk/public/js/employee.js:140
 msgid "In"
 msgstr ""
@@ -1399,9 +1424,18 @@ msgstr "آخر استخدام"
 msgid "Last Worked Out"
 msgstr "آخر احتساب"
 
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:220
 #: onedesk/public/js/employee.js:44
 msgid "Late"
 msgstr "متأخر"
+
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:165
+msgid "Late By"
+msgstr "متأخر بـ"
+
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:33
+msgid "Late Only"
+msgstr "المتأخرون فقط"
 
 #. Label of the latitude (Float) field in DocType 'Clock Attempt'
 #. Label of the latitude (Float) field in DocType 'Clock Place'
@@ -1517,6 +1551,18 @@ msgstr "اتركه فارغاً فلا نهاية للمناوبة: يبقى ا�
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Leaving"
 msgstr "ترك العمل"
+
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:221
+msgid "Left Early"
+msgstr "غادر مبكراً"
+
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:166
+msgid "Left Early By"
+msgstr "غادر مبكراً بـ"
+
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:34
+msgid "Left Early Only"
+msgstr "من غادروا مبكراً فقط"
 
 #. Description of the 'Accounting' (Section Break) field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
@@ -1675,6 +1721,10 @@ msgstr "الشبكة والموقع"
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:38
 msgid "No Location"
 msgstr "لا يوجد موقع"
+
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:222
+msgid "No Shift"
+msgstr "بلا مناوبة"
 
 #. Description of the 'Closed Automatically' (Check) field in DocType 'Employee
 #. Checkin'
@@ -1915,6 +1965,7 @@ msgstr "الهيكل التنظيمي"
 msgid "Other Shift Locations this one's employees may check in from, without a second Shift Assignment."
 msgstr "مواقع المناوبة الأخرى التي يجوز لموظفي هذا الموقع تسجيل الحضور منها، دون الحاجة إلى تعيين مناوبة ثانٍ."
 
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:163
 #: onedesk/public/js/employee.js:140
 msgid "Out"
 msgstr "انصراف"
@@ -2077,6 +2128,7 @@ msgstr ""
 #. Option for the 'Marks the Day As' (Select) field in DocType 'Attendance
 #. Reason'
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:210
 #: onedesk/public/js/employee.js:42
 msgid "Present"
 msgstr "حاضر"
@@ -2468,13 +2520,14 @@ msgstr "الإعداد"
 
 #. Label of the 'shift_and_attendance_tab' field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:20
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:154
 msgid "Shift"
 msgstr ""
 
-#. Label of a Sidebar Item
-#: onedesk/one_hr/sidebar/onehr/onehr.json
-msgid "Shift Attendance"
-msgstr "حضور المناوبات"
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:160
+msgid "Shift Hours"
+msgstr "ساعات المناوبة"
 
 #. Label of the shift_location (Link) field in DocType 'Clock Network'
 #. Label of the shift_location (Link) field in DocType 'Clock Place'
@@ -2565,6 +2618,8 @@ msgstr "بدء مشروع"
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:23
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:161
 msgid "Status"
 msgstr "الحالة"
 
@@ -2782,6 +2837,10 @@ msgstr "الوقت"
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Timesheet"
+msgstr ""
+
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:14
+msgid "To Date"
 msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:147
@@ -3047,6 +3106,11 @@ msgstr "حضر متأخراً"
 msgid "in late, left early"
 msgstr "حضر متأخراً وانصرف مبكراً"
 
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:132
+msgid "late"
+msgstr "متأخر"
+
+#: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:134
 #: onedesk/public/js/employee.js:108
 msgid "left early"
 msgstr "انصرف مبكراً"

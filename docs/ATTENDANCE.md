@@ -584,6 +584,33 @@ counts between nought and three — with every date label rendered as an ellipsi
 above it is one line now, and the two truncated columns that said `HR-EMP-0000…`
 and a clipped name are one column with the name in it, linked.
 
+## Attendance against the shift
+
+`Attendance by Shift` is ours for one reason: HRMS's `Shift Attendance` showed
+**one row where September held twenty-seven**, and said nothing about the
+twenty-six it dropped. Two inner joins did it — `attendance.shift ==
+shift_type.name` throws away every day with no shift on it, and a second onto
+`Employee Checkin` throws away every day with no check-in pointing at it. The
+checkbox that restores the second ("Include Shift Attendance Without Checkins")
+is off by default and reads as if it adds something extra rather than putting
+back what was cut.
+
+A count that has quietly discarded its own denominator is worse than no count:
+"Late Entries 0" looked like nobody was late and meant twenty-six days were
+never looked at. Every join here is a left join, every submitted day in the
+period is a row, and a `No Shift` tile says out loud how many of them carry no
+shift — nineteen of twenty-seven on the dev site, which is the whole
+explanation for the old screen.
+
+The arithmetic stays theirs. `update_late_entry` and `update_early_exit` know
+about grace periods and are called on the rows that have a shift window to
+measure against; a day flagged late with no window says "Present · late" rather
+than leaving an empty Late By cell on a row the Late Only filter just returned.
+
+Sixteen columns are twelve. The four that said when the shift ran — start, end,
+actual start, actual end — are one `Shift Hours` cell; Company is gone with the
+company filter; and `HR-EMP-00005: Maya Khalil` is the name, linked.
+
 ## Reading the log list
 
 The one question asked of `Employee Checkin` is whether a log counted, and the

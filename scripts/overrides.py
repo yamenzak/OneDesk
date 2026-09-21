@@ -277,6 +277,20 @@ OVERRIDES = [
 		"def set_defaults_for_summarized_view",
 	),
 	(
+		"Attendance by Shift keeps every day in the period",
+		"their two inner joins dropped 26 of 27 days silently, so every count had lost its denominator",
+		"onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py",
+		"hrms/hrms/hr/report/shift_attendance/shift_attendance.py",
+		".inner_join(shift_type)",
+	),
+	(
+		"The grace-period arithmetic on a shift day is theirs",
+		"late and early are measured against the shift window their own helpers know how to read",
+		"onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py",
+		"hrms/hrms/hr/report/shift_attendance/shift_attendance.py",
+		"def update_late_entry",
+	),
+	(
 		"The setup wizard's persona slide is replaced",
 		"its four required questions were read only by `capture_user_persona`",
 		"onedesk/public/js/setup_wizard.js",

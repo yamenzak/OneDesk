@@ -18,6 +18,12 @@ import frappe
 #: action for demo data a paying site never had.
 HIDE_ROWS = ("Frappe Support", "About", "Delete Demo Data")
 
+#: Reports One has replaced with one of its own. Disabling rather than deleting:
+#: the row is theirs and a `bench update` would write it back, and this runs on
+#: every migrate so it settles again after one does. A tenant who wants the
+#: original back enables it.
+HIDE_REPORTS = ("Monthly Attendance Sheet", "Shift Attendance")
+
 #: erpnext's per-module checklists. They are written in erpnext's voice, about
 #: erpnext's modules, and they open over whatever One put on the page.
 HIDE_ONBOARDING = ("erpnext", "hrms")
@@ -30,6 +36,10 @@ def apply() -> None:
 			if row.item_label in HIDE_ROWS:
 				row.hidden = 1
 	navbar.save(ignore_permissions=True)
+
+	for name in HIDE_REPORTS:
+		if frappe.db.exists("Report", name):
+			frappe.db.set_value("Report", name, "disabled", 1)
 
 	ours = set(frappe.get_all("Module Def", filters={"app_name": "onedesk"}, pluck="name"))
 	for name, module in frappe.get_all("Module Onboarding", fields=["name", "module"], as_list=True):
