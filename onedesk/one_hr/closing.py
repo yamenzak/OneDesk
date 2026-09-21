@@ -56,6 +56,20 @@ def _open_past_their_shift() -> list[frappe._dict]:
 	]
 
 
+def ending_reason() -> str | None:
+	"""What a closed day is filed under, chosen by the flag rather than by name.
+
+	Whichever enabled `Clock Reason` is marked `ends_the_day`. The name used to
+	be written here as a string, and that row can be renamed or deleted by any
+	HR Manager, which would have left every closed day pointing at a row that
+	is not there. No such reason means no reason: `one_auto_closed` is the part
+	that matters and it is set either way.
+	"""
+	return frappe.db.get_value(
+		"Clock Reason", {"enabled": 1, "ends_the_day": 1}, "name", order_by="creation asc"
+	)
+
+
 def _close(log) -> None:
 	"""One OUT at the shift's end, marked for what it is, and one nudge.
 
@@ -68,7 +82,7 @@ def _close(log) -> None:
 	out.log_type = "OUT"
 	out.time = log.shift_end
 	out.one_auto_closed = 1
-	out.one_reason = "Done for the day"
+	out.one_reason = ending_reason()
 	out.insert(ignore_permissions=True)
 
 	user = frappe.db.get_value("Employee", log.employee, "user_id")

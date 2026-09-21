@@ -66,7 +66,9 @@ onedesk.clock.where = () =>
 onedesk.clock.why = (direction) =>
 	new Promise((resolve) => {
 		if (direction !== "OUT") return resolve(null);
-		frappe.prompt(
+
+		let dialog;
+		dialog = frappe.prompt(
 			{
 				fieldname: "reason",
 				fieldtype: "Link",
@@ -74,11 +76,25 @@ onedesk.clock.why = (direction) =>
 				label: __("Reason"),
 				reqd: 1,
 				get_query: () => ({ filters: { enabled: 1 } }),
+				// The workspace wrote a sentence under each reason and nobody
+				// was ever shown it. It says what the reason means here, which
+				// is the whole point of a workspace defining its own.
+				onchange: () => onedesk.clock.explain(dialog),
 			},
 			({ reason }) => resolve(reason),
 			__("Check Out")
 		);
 	});
+
+onedesk.clock.explain = (dialog) => {
+	const reason = dialog?.get_value("reason");
+	if (!reason) return dialog?.set_df_property("reason", "description", "");
+
+	frappe.db.get_value("Clock Reason", reason, "description").then(({ message }) => {
+		if (dialog.get_value("reason") !== reason) return;
+		dialog.set_df_property("reason", "description", message?.description || "");
+	});
+};
 
 // `comment_when` answers in markup, and anywhere it is put into an attribute or
 // escaped it would print the span rather than the words. The words are what we

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 15:06+0000\n"
-"PO-Revision-Date: 2026-09-21 15:06+0000\n"
+"POT-Creation-Date: 2026-09-21 15:51+0000\n"
+"PO-Revision-Date: 2026-09-21 15:51+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -387,7 +387,7 @@ msgstr ""
 msgid "Check In"
 msgstr ""
 
-#: onedesk/public/js/clock.js:79
+#: onedesk/public/js/clock.js:85
 msgid "Check Out"
 msgstr ""
 
@@ -1820,7 +1820,7 @@ msgstr ""
 #. Label of the reason (Data) field in DocType 'Clock Reason'
 #: onedesk/one_hr/custom/employee_checkin.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
-#: onedesk/public/js/clock.js:74
+#: onedesk/public/js/clock.js:76
 msgid "Reason"
 msgstr ""
 
@@ -2210,7 +2210,7 @@ msgstr ""
 
 #. Description of the 'Ends the Shift' (Check) field in DocType 'Clock Reason'
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
-msgid "The employee is not expected back today."
+msgid "The employee is not expected back today. A day closed at the shift end is filed under this reason."
 msgstr ""
 
 #. Description of the 'Employee Checkin' (Link) field in DocType 'Clock
@@ -2463,11 +2463,11 @@ msgstr ""
 msgid "You can change this later from your own settings."
 msgstr ""
 
-#: onedesk/one_hr/closing.py:85
+#: onedesk/one_hr/closing.py:99
 msgid "You checked in but never checked out, so a check out was written for you at the shift end. Tell HR if that is wrong."
 msgstr ""
 
-#: onedesk/one_hr/closing.py:84
+#: onedesk/one_hr/closing.py:98
 msgid "Your check-in was closed at the end of your shift"
 msgstr ""
 

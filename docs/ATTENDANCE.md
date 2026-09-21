@@ -369,10 +369,26 @@ would otherwise paint the circle a pixel wide.
 
 **Use My Location had no handler at all** and did nothing. It asks the browser,
 reports how accurate the answer was, and on a place that already has a centre
-asks first — pressing it at a desk otherwise moves the fence to the desk. A Shift Location's own circle stays where it
-is; zones are the extra ones, including the learned ones.
+asks first — pressing it at a desk otherwise moves the fence to the desk.
+
+A Shift Location's own circle stays where it is; zones are the extra ones,
+including the learned ones.
 
 `Clock Attempt` — as above, with `Clock Signal` as its child table.
+
+`Clock Reason` — what an employee picks on the way out, with a description and
+two switches. **Both switches now do something.** `Enabled` decides what the
+check-out prompt offers, and the description is shown under the field as soon
+as a reason is chosen, which is why a workspace writes one. `Ends the Shift`
+chooses the reason a day closed at the shift end is filed under: `closing.py`
+used to write the string `"Done for the day"`, and that row can be renamed or
+deleted by any HR Manager, which would have left every closed day pointing at
+a row that is not there. No reason carries the flag means no reason is set;
+`one_auto_closed` is the part that matters and it is written either way.
+
+Frappe hides an autoname field once a record is saved, because the title
+already says it, so the Reason field is not on its own form and Description
+leads.
 
 **Custom fields on what already exists.**
 
