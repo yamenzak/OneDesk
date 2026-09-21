@@ -153,14 +153,11 @@ onedesk.employee.stats = (data) => {
 		));
 	}
 
+	// Date of Joining is a field on the Overview tab two centimetres away, and
+	// six stats fill the grid's two rows exactly where seven left one adrift.
 	if (data.pay && data.pay.salary_structure) {
 		stats.push(onedesk.employee.stat(__("Paid under"), data.pay.salary_structure,
 			`/desk/salary-structure-assignment/${encodeURIComponent(data.pay.name)}`));
-	}
-
-	if (data.tenure.joined) {
-		stats.push(onedesk.employee.stat(__("Here since"),
-			frappe.datetime.str_to_user(data.tenure.joined)));
 	}
 
 	return stats;

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 10:22+0000\n"
-"PO-Revision-Date: 2026-09-21 10:22+0000\n"
+"POT-Creation-Date: 2026-09-21 10:57+0000\n"
+"PO-Revision-Date: 2026-09-21 10:57+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -165,7 +165,7 @@ msgstr ""
 msgid "Appearance"
 msgstr ""
 
-#: onedesk/public/js/employee.js:183
+#: onedesk/public/js/employee.js:180
 msgid "Apply for Leave"
 msgstr ""
 
@@ -219,7 +219,7 @@ msgstr ""
 msgid "Asked on check out only. Options come from Clock Reason."
 msgstr ""
 
-#: onedesk/public/js/employee.js:188
+#: onedesk/public/js/employee.js:185
 msgid "Assign a Salary Structure"
 msgstr ""
 
@@ -434,7 +434,7 @@ msgstr ""
 msgid "Checks"
 msgstr ""
 
-#: onedesk/public/js/employee.js:184
+#: onedesk/public/js/employee.js:181
 msgid "Claim an Expense"
 msgstr ""
 
@@ -923,10 +923,6 @@ msgstr ""
 #. Description of the 'health_details' field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "Height, weight, allergies and medical concerns."
-msgstr ""
-
-#: onedesk/public/js/employee.js:162
-msgid "Here since"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -1494,7 +1490,7 @@ msgstr ""
 msgid "Overview"
 msgstr ""
 
-#: onedesk/public/js/employee.js:157
+#: onedesk/public/js/employee.js:159
 msgid "Paid under"
 msgstr ""
 
@@ -1507,7 +1503,7 @@ msgstr ""
 msgid "Passkey"
 msgstr ""
 
-#: onedesk/public/js/employee.js:205
+#: onedesk/public/js/employee.js:202
 msgid "Passkey reset"
 msgstr ""
 
@@ -1740,7 +1736,7 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#: onedesk/public/js/employee.js:196
+#: onedesk/public/js/employee.js:193
 msgid "Reset Passkey"
 msgstr ""
 
@@ -2253,7 +2249,7 @@ msgstr ""
 msgid "{0} left"
 msgstr ""
 
-#: onedesk/public/js/employee.js:198
+#: onedesk/public/js/employee.js:195
 msgid "{0} will register a new passkey on their next check-in. The old one is retired, not deleted."
 msgstr ""
 

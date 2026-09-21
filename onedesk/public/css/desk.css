@@ -106,7 +106,10 @@
 
 .one-band {
 	display: flex;
-	align-items: flex-start;
+	/* Stretch rather than start, so the numbers are as tall as the quarter
+	   beside them: two short rows floating at the top of a band the heatmap
+	   sets the height of read as an afterthought next to it. */
+	align-items: stretch;
 	justify-content: space-between;
 	gap: var(--margin-md);
 }
@@ -226,7 +229,9 @@ a.one-day:hover {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(7rem, max-content));
 	justify-content: end;
-	align-content: start;
+	/* Spread the rows over whatever height the band ends up being, so the top
+	   row lines up with the first month and the bottom with the legend. */
+	align-content: space-between;
 	flex: 1 1 0;
 	min-width: 0;
 	gap: var(--margin-md) var(--margin-xl);

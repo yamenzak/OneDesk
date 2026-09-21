@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 10:22+0000\n"
-"PO-Revision-Date: 2026-09-21 10:22+0000\n"
+"POT-Creation-Date: 2026-09-21 10:57+0000\n"
+"PO-Revision-Date: 2026-09-21 10:57+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -167,7 +167,7 @@ msgstr "Ein anderer Mitarbeiter hat sich heute bereits von diesem Browser aus ei
 msgid "Appearance"
 msgstr "Erscheinungsbild"
 
-#: onedesk/public/js/employee.js:183
+#: onedesk/public/js/employee.js:180
 msgid "Apply for Leave"
 msgstr "Urlaub beantragen"
 
@@ -221,7 +221,7 @@ msgstr "Beim Auschecken nach einem Grund fragen"
 msgid "Asked on check out only. Options come from Clock Reason."
 msgstr "Wird nur beim Auschecken abgefragt. Die Auswahl stammt aus Einchecken-Grund."
 
-#: onedesk/public/js/employee.js:188
+#: onedesk/public/js/employee.js:185
 msgid "Assign a Salary Structure"
 msgstr "Gehaltsstruktur zuweisen"
 
@@ -436,7 +436,7 @@ msgstr "Selbstständiges Einchecken ist auf dieser Site nicht aktiviert."
 msgid "Checks"
 msgstr "Prüfungen"
 
-#: onedesk/public/js/employee.js:184
+#: onedesk/public/js/employee.js:181
 msgid "Claim an Expense"
 msgstr ""
 
@@ -926,10 +926,6 @@ msgstr "Halbtags"
 #: onedesk/one_hr/custom/employee.json
 msgid "Height, weight, allergies and medical concerns."
 msgstr "Größe, Gewicht, Allergien und medizinische Hinweise."
-
-#: onedesk/public/js/employee.js:162
-msgid "Here since"
-msgstr "Hier seit"
 
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
@@ -1496,7 +1492,7 @@ msgstr "Überstundenart"
 msgid "Overview"
 msgstr ""
 
-#: onedesk/public/js/employee.js:157
+#: onedesk/public/js/employee.js:159
 msgid "Paid under"
 msgstr "Vergütet nach"
 
@@ -1509,7 +1505,7 @@ msgstr "Vergütet nach"
 msgid "Passkey"
 msgstr "Passkey"
 
-#: onedesk/public/js/employee.js:205
+#: onedesk/public/js/employee.js:202
 msgid "Passkey reset"
 msgstr "Passkey zurückgesetzt"
 
@@ -1742,7 +1738,7 @@ msgstr "Erfordert einen Benutzer, der mit dem Mitarbeiterdatensatz verknüpft is
 msgid "Reset"
 msgstr ""
 
-#: onedesk/public/js/employee.js:196
+#: onedesk/public/js/employee.js:193
 msgid "Reset Passkey"
 msgstr "Passkey zurücksetzen"
 
@@ -2265,7 +2261,7 @@ msgstr "{0} ist keine gültige Adresse und kein gültiger Bereich. Beispiel: 203
 msgid "{0} left"
 msgstr "{0} übrig"
 
-#: onedesk/public/js/employee.js:198
+#: onedesk/public/js/employee.js:195
 msgid "{0} will register a new passkey on their next check-in. The old one is retired, not deleted."
 msgstr "{0} registriert beim nächsten Einchecken einen neuen Passkey. Der alte wird stillgelegt, nicht gelöscht."
 
