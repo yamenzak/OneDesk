@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 07:26+0000\n"
-"PO-Revision-Date: 2026-09-21 07:26+0000\n"
+"POT-Creation-Date: 2026-09-21 07:59+0000\n"
+"PO-Revision-Date: 2026-09-21 07:59+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -53,6 +53,12 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/presence.py:227 onedesk/public/js/employee.js:40
 msgid "Absent"
+msgstr ""
+
+#. Label of the one_accounting_section (Section Break) field in DocType
+#. 'Employee'
+#: onedesk/one_hr/custom/employee.json
+msgid "Accounting"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -206,6 +212,10 @@ msgstr ""
 #. Description of the 'Reason' (Link) field in DocType 'Employee Checkin'
 #: onedesk/one_hr/custom/employee_checkin.json
 msgid "Asked on check out only. Options come from Clock Reason."
+msgstr ""
+
+#: onedesk/public/js/employee.js:188
+msgid "Assign a Salary Structure"
 msgstr ""
 
 #. Group in Employee's connections
@@ -1170,6 +1180,11 @@ msgstr ""
 msgid "Leave Type"
 msgstr ""
 
+#. Description of the 'Accounting' (Section Break) field in DocType 'Employee'
+#: onedesk/one_hr/custom/employee.json
+msgid "Left empty, the advance account falls back to the company’s and the cost centre to the department’s."
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Lifecycle Overview"
@@ -1446,7 +1461,7 @@ msgstr ""
 msgid "Passkey"
 msgstr ""
 
-#: onedesk/public/js/employee.js:201
+#: onedesk/public/js/employee.js:205
 msgid "Passkey reset"
 msgstr ""
 
@@ -1674,7 +1689,7 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#: onedesk/public/js/employee.js:192
+#: onedesk/public/js/employee.js:196
 msgid "Reset Passkey"
 msgstr ""
 
@@ -2157,7 +2172,7 @@ msgstr ""
 msgid "{0} left"
 msgstr ""
 
-#: onedesk/public/js/employee.js:194
+#: onedesk/public/js/employee.js:198
 msgid "{0} will register a new passkey on their next check-in. The old one is retired, not deleted."
 msgstr ""
 

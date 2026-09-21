@@ -182,6 +182,10 @@ onedesk.employee.stat = (label, value, route, tone) => {
 onedesk.employee.ACTIONS = [
 	["Leave Application", __("Apply for Leave")],
 	["Expense Claim", __("Claim an Expense")],
+	// What somebody is paid is a Salary Structure Assignment, not the CTC field
+	// on this record, and the only route to one was Connections. `can_create`
+	// is the gate: an employee reading their own page does not have it.
+	["Salary Structure Assignment", __("Assign a Salary Structure")],
 ];
 
 // HR's one click when somebody's phone changes. Offered only where there is a
