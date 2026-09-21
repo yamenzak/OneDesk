@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 11:51+0000\n"
-"PO-Revision-Date: 2026-09-21 11:51+0000\n"
+"POT-Creation-Date: 2026-09-21 12:55+0000\n"
+"PO-Revision-Date: 2026-09-21 12:55+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -266,6 +266,10 @@ msgstr ""
 #: onedesk/one_hr/custom/employee.json
 msgid "Attendance Standing"
 msgstr "Anwesenheitsbewertung"
+
+#: onedesk/public/js/attendance_tool.js:149
+msgid "Attendance marked successfully"
+msgstr "Anwesenheit erfolgreich erfasst"
 
 #. Label of the aaguid (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
@@ -770,6 +774,10 @@ msgstr ""
 msgid "Ends the Shift"
 msgstr "Beendet die Schicht"
 
+#: onedesk/one_hr/marking.py:97
+msgid "Enter the overtime hours."
+msgstr "Überstunden eingeben."
+
 #. Description of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Every check-in attempt, allowed, flagged or refused."
@@ -972,6 +980,12 @@ msgstr ""
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Hours Utilization"
 msgstr "Stundenauslastung"
+
+#. Description of the 'Overtime Hours' (Float) field in DocType 'Employee
+#. Attendance Tool'
+#: onedesk/one_hr/custom/employee_attendance_tool.json
+msgid "Hours worked beyond the standard day."
+msgstr "Stunden über den Standardarbeitstag hinaus."
 
 #. Description of the 'Accuracy (Metres)' (Float) field in DocType 'Clock
 #. Attempt'
@@ -1273,8 +1287,17 @@ msgstr "Länge"
 msgid "Manager"
 msgstr ""
 
+#: onedesk/public/js/attendance_tool.js:67
+#: onedesk/public/js/attendance_tool.js:73
+#: onedesk/public/js/attendance_tool.js:79
+#: onedesk/public/js/attendance_tool.js:85
+msgid "Mandatory"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/public/js/attendance_tool.js:60
+#: onedesk/public/js/attendance_tool.js:102
 msgid "Mark Attendance"
 msgstr ""
 
@@ -1346,6 +1369,10 @@ msgstr "Es wurde keine Position übermittelt."
 #: onedesk/one_hr/review.py:48
 msgid "No such check-in attempt."
 msgstr "Diesen Einchecken-Versuch gibt es nicht."
+
+#: onedesk/public/js/attendance_tool.js:50
+msgid "Nobody on this list checked in"
+msgstr "Niemand auf dieser Liste hat eingecheckt"
 
 #: onedesk/public/js/desk.js:123
 msgid "Not Checked In"
@@ -1513,15 +1540,28 @@ msgstr "Von 100."
 msgid "Outcome"
 msgstr "Ergebnis"
 
+#. Label of the one_overtime_hours (Float) field in DocType 'Employee
+#. Attendance Tool'
+#: onedesk/one_hr/custom/employee_attendance_tool.json
+msgid "Overtime Hours"
+msgstr "Überstunden"
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Overtime Slip"
 msgstr "Überstundenbeleg"
 
+#. Label of the one_overtime_type (Link) field in DocType 'Employee Attendance
+#. Tool'
 #. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/custom/employee_attendance_tool.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Overtime Type"
 msgstr "Überstundenart"
+
+#: onedesk/one_hr/marking.py:95
+msgid "Overtime can only be recorded on a day marked {0}."
+msgstr "Überstunden können nur an einem als {0} erfassten Tag gebucht werden."
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -1611,6 +1651,22 @@ msgstr ""
 msgid "Platform"
 msgstr "Plattform"
 
+#: onedesk/public/js/attendance_tool.js:84
+msgid "Please enter the overtime hours."
+msgstr "Bitte die Überstunden eingeben."
+
+#: onedesk/public/js/attendance_tool.js:78
+msgid "Please select half day attendance status."
+msgstr "Bitte den Anwesenheitsstatus für den halben Tag auswählen."
+
+#: onedesk/public/js/attendance_tool.js:72
+msgid "Please select the attendance status."
+msgstr "Bitte den Anwesenheitsstatus auswählen."
+
+#: onedesk/public/js/attendance_tool.js:66
+msgid "Please select the employees you want to mark attendance for."
+msgstr "Bitte die Mitarbeiter auswählen, für die die Anwesenheit erfasst werden soll."
+
 #. Label of the weight (Int) field in DocType 'Clock Signal'
 #: onedesk/one_hr/doctype/clock_signal/clock_signal.json
 msgid "Points Lost"
@@ -1685,6 +1741,10 @@ msgstr "Radius (Meter)"
 msgid "Radius must be greater than 0."
 msgstr "Der Radius muss größer als 0 sein."
 
+#: onedesk/public/js/attendance_tool.js:36
+msgid "Reading the check-ins"
+msgstr "Einchecken wird gelesen"
+
 #. Label of the one_reason (Link) field in DocType 'Employee Checkin'
 #. Label of the reason (Data) field in DocType 'Clock Reason'
 #: onedesk/one_hr/custom/employee_checkin.json
@@ -1702,6 +1762,12 @@ msgstr "Angezeigter Grund"
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Reasons offered to employees on check out."
 msgstr "Gründe, die Mitarbeitern beim Auschecken angeboten werden."
+
+#. Description of the 'Overtime Type' (Link) field in DocType 'Employee
+#. Attendance Tool'
+#: onedesk/one_hr/custom/employee_attendance_tool.json
+msgid "Recorded on each day marked here, and collected by the employee's Overtime Slip."
+msgstr "Wird an jedem hier erfassten Tag gebucht und vom Überstundenbeleg des Mitarbeiters übernommen."
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -2113,6 +2179,16 @@ msgstr "Dieser Passkey wurde auf einem anderen Browser registriert."
 msgid "This request expired. Try again."
 msgstr "Diese Anfrage ist abgelaufen. Versuchen Sie es erneut."
 
+#. Label of the one_from_checkins (Button) field in DocType 'Employee
+#. Attendance Tool'
+#: onedesk/one_hr/custom/employee_attendance_tool.json
+msgid "Tick Everyone Who Checked In"
+msgstr "Alle ankreuzen, die eingecheckt haben"
+
+#: onedesk/public/js/attendance_tool.js:49
+msgid "Ticked {0} of {1}"
+msgstr "{0} von {1} angekreuzt"
+
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
 #: onedesk/one_hr/attendance.py:15 onedesk/one_hr/sidebar/onehr/onehr.json
@@ -2124,6 +2200,10 @@ msgstr ""
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Timesheet"
 msgstr ""
+
+#: onedesk/one_hr/marking.py:73
+msgid "Too Much Overtime"
+msgstr "Zu viele Überstunden"
 
 #: onedesk/one_hr/rules.py:41
 msgid "Too far from your last check-in for the time in between."
@@ -2305,6 +2385,10 @@ msgstr "früher gegangen"
 #: onedesk/one_hr/passkey.py:217
 msgid "no passkey registered"
 msgstr "kein Passkey registriert"
+
+#: onedesk/one_hr/marking.py:72
+msgid "{0} allows at most {1} overtime hours a day."
+msgstr "{0} erlaubt höchstens {1} Überstunden pro Tag."
 
 #: onedesk/public/js/employee.js:158
 msgid "{0} awaiting"

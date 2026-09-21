@@ -41,11 +41,23 @@ they are a Website User who only ever clocks in or a full desk user in
 accounting. Same gates, same screens.
 
 **Everybody else is marked by HR**, using `Employee Attendance Tool`, which HRMS
-already ships and which already does exactly this: pick a date, a shift, a
-department, tick the people. We add nothing to it. It is the honest answer for
-the warehouse with no phones and for the person whose device is too old, and
-attendance marked that way is plainly attendance somebody asserted rather than
-attendance the system observed.
+already ships and which already does most of this: pick a date, a shift, a
+department, tick the people. It is the honest answer for the warehouse with no
+phones and for the person whose device is too old, and attendance marked that
+way is plainly attendance somebody asserted rather than attendance the system
+observed.
+
+Three things are added to it, in `one_hr/marking.py` and
+`public/js/attendance_tool.js`. **Tick Everyone Who Checked In** reads the
+ledger for the date and ticks whoever has an IN log, so a day that is half
+clocked and half asserted is not retyped; a log a reviewer rejected carries
+`skip_auto_attendance` and is left out. **Overtime Type** and **Overtime
+Hours** are written onto each Attendance row the tool creates — they are read
+only on the form because the shift normally computes them from the check-ins,
+so the manual lane sets them before the row is submitted, and `Overtime Slip`
+collects them afterwards without knowing which lane wrote them. And the
+heading reads **Mark Attendance**, which is what the rail calls it; a DocType
+has no label to set, so the last breadcrumb is replaced instead.
 
 Self-service and having an account are the same decision. An employee with no
 `User` has no session, and with no session there is nothing for the server to

@@ -40,7 +40,10 @@ fixtures = ["Custom Icon", "Clock Reason", "Identification Document Type"]
 
 
 # A record answers before it offers links; see `onedesk/one_hr/employee.py`.
-doctype_js = {"Employee": "public/js/employee.js"}
+doctype_js = {
+	"Employee": "public/js/employee.js",
+	"Employee Attendance Tool": "public/js/attendance_tool.js",
+}
 
 # Loaded after the doctype's own list script, so ours has the last word.
 doctype_list_js = {"Attendance": "public/js/attendance_list.js"}
