@@ -271,3 +271,24 @@ a.one-stat:hover .one-stat-value {
 .one-stat-quiet .one-stat-value {
 	color: var(--ink-gray-5);
 }
+
+/* The clock in the rail. The dot is the state and the icon is the verb, which
+   is why the dot sits on the icon rather than replacing it. */
+.one-clock .one-clock-dot {
+	position: absolute;
+	right: 2px;
+	bottom: 2px;
+	width: 7px;
+	height: 7px;
+	border-radius: var(--radius-full);
+	background: var(--surface-gray-4);
+	border: 1px solid var(--surface-white);
+}
+
+.one-clock .one-clock-dot.one-clock-on {
+	background: var(--surface-green-5);
+}
+
+.one-clock .dock-item-icon {
+	position: relative;
+}

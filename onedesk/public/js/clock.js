@@ -75,3 +75,9 @@ onedesk.clock.why = (direction) =>
 			__("Clocking out")
 		);
 	});
+
+// `comment_when` answers in markup, and anywhere it is put into an attribute or
+// escaped it would print the span rather than the words. The words are what we
+// want, not the tooltip around them.
+onedesk.clock.when = (stamp) =>
+	stamp ? $("<div>").html(frappe.datetime.comment_when(stamp, true)).text() : "";

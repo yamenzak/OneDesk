@@ -111,7 +111,7 @@ onedesk.employee.stats = (data) => {
 	if (data.today.checkin) {
 		stats.push(onedesk.employee.stat(
 			data.today.checkin.log_type === "OUT" ? __("Out") : __("In"),
-			onedesk.employee.when(data.today.checkin.time),
+			onedesk.clock.when(data.today.checkin.time),
 			`/desk/employee-checkin/${encodeURIComponent(data.today.checkin.name)}`,
 		));
 	}
@@ -156,12 +156,6 @@ onedesk.employee.stat = (label, value, route, tone) => {
 		? `<a class="${cls}" href="${route}">${inner}</a>`
 		: `<span class="${cls}">${inner}</span>`;
 };
-
-// `comment_when` answers in markup, and a stat escapes what it is given, so the
-// span would print itself. The words are what we want, not the tooltip around
-// them.
-onedesk.employee.when = (stamp) =>
-	$("<div>").html(frappe.datetime.comment_when(stamp, true)).text();
 
 //: What you can do to a person from their own page, and the doctype that says
 //: whether you may. Each one prefills `employee`, so it is self-service on your

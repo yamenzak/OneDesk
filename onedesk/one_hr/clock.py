@@ -176,6 +176,14 @@ def _refused(attempt: str, score: int, signals: list[str]) -> dict:
 
 
 def _write(employee: str, direction: str, place: dict, reason, attempt: str) -> str:
+	# Anything an `after_insert` hook says is by definition not about whether
+	# the document was accepted, because it was. HRMS's telemetry claims a
+	# milestone row on every check-in and swallows the duplicate in a savepoint
+	# — but the message survives the savepoint, so every clock-in after the
+	# first would put "Duplicate Name" in front of somebody who had just
+	# successfully clocked in.
+	said = len(frappe.local.message_log)
+
 	log = frappe.new_doc("Employee Checkin")
 	log.flags.one_gated = True
 	log.employee = employee
@@ -187,6 +195,7 @@ def _write(employee: str, direction: str, place: dict, reason, attempt: str) -> 
 	if reason and policy.on("one_reason_on_out") and direction == OUT:
 		log.one_reason = reason
 	log.insert()
+	del frappe.local.message_log[said:]
 	return log.name
 
 
