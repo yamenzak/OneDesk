@@ -6,14 +6,6 @@
   {
    "doc_type": "Leave Policy Assignment",
    "doctype_or_field": "DocField",
-   "field_name": "employee",
-   "property": "in_list_view",
-   "property_type": "Check",
-   "value": "0"
-  },
-  {
-   "doc_type": "Leave Policy Assignment",
-   "doctype_or_field": "DocField",
    "field_name": "effective_from",
    "property": "in_list_view",
    "property_type": "Check",

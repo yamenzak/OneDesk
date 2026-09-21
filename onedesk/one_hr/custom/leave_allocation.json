@@ -22,14 +22,6 @@
   {
    "doc_type": "Leave Allocation",
    "doctype_or_field": "DocField",
-   "field_name": "employee",
-   "property": "in_list_view",
-   "property_type": "Check",
-   "value": "0"
-  },
-  {
-   "doc_type": "Leave Allocation",
-   "doctype_or_field": "DocField",
    "field_name": "total_leaves_allocated",
    "property": "in_list_view",
    "property_type": "Check",

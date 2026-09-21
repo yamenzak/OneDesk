@@ -1,0 +1,32 @@
+{
+ "custom_fields": [],
+ "doctype": "Salary Slip",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Salary Slip",
+   "doctype_or_field": "DocField",
+   "field_name": "net_pay",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Salary Slip",
+   "doctype_or_field": "DocField",
+   "field_name": "status",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Salary Slip",
+   "doctype_or_field": "DocField",
+   "field_name": "currency",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  }
+ ],
+ "sync_on_migrate": 1
+}

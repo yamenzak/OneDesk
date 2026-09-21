@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 23:01+0000\n"
-"PO-Revision-Date: 2026-09-21 23:01+0000\n"
+"POT-Creation-Date: 2026-09-21 23:06+0000\n"
+"PO-Revision-Date: 2026-09-21 23:06+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -3261,6 +3261,14 @@ msgstr ""
 
 #: onedesk/public/js/overtime_slip.js:69
 msgid "{0} days read. Save to keep them."
+msgstr ""
+
+#: onedesk/public/js/salary_slip.js:29
+msgid "{0} for {1}, a whole month."
+msgstr ""
+
+#: onedesk/public/js/salary_slip.js:34
+msgid "{0} for {1}: {2} of {3} days paid."
 msgstr ""
 
 #: onedesk/one_hr/overtime.py:85

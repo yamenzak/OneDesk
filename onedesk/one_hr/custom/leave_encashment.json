@@ -46,14 +46,6 @@
   {
    "doc_type": "Leave Encashment",
    "doctype_or_field": "DocField",
-   "field_name": "employee",
-   "property": "in_list_view",
-   "property_type": "Check",
-   "value": "0"
-  },
-  {
-   "doc_type": "Leave Encashment",
-   "doctype_or_field": "DocField",
    "field_name": "encashment_days",
    "property": "in_list_view",
    "property_type": "Check",

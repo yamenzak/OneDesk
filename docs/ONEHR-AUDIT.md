@@ -266,3 +266,49 @@ already.
 Also: the three day counts read 7, 7.000 and 7 — precision 2 on all three; the
 Status field repeated the header's own Draft pill and is hidden; and Currency
 sat beside an amount already formatted in it.
+
+## Pay
+
+### A payroll run could not be made at all
+
+ERPNext's standard chart of accounts creates **Payroll Payable** under Accounts
+Payable with an `account_category` and no `account_type`, and nominates it as
+the company's `default_payroll_payable_account`. HRMS's Payroll Entry then
+refuses: *"Account type should be set **Payable** for payroll payable account
+**Payroll Payable - ONE**, please set and try again"*. So out of the box the
+account exists, the payroll entry is pointed at it, and the run cannot be made
+until somebody who knows what `account_type` is opens the chart of accounts.
+Nothing on the payroll screen says that is where to go.
+
+`one_hr/payroll.ready()` sets the type on every company's nominated account that
+has none. It is not a decision: erpnext named the account and nominated it, and
+this is the missing half of a sentence erpnext started.
+
+### Salary Slip
+
+Found:
+
+1. **The list did not say what anybody is paid** — Employee Name, Status,
+   Employee, Posting Date, Salary Structure, ID, and no money. It also named the
+   person twice, because the `employee` link column now renders the title.
+2. **The record does not either, on the tab it opens on.** The money is on the
+   third and fourth tabs; Details carries Department, Letter Head, Designation,
+   Payroll Frequency, Salary Structure and two dates.
+3. `Status` repeating the header's own Draft pill, and `Currency` beside amounts
+   already formatted in it.
+
+Done: `net_pay` joins the list and `employee` leaves it; the headline reads
+*6,000.00 د.إ for 01-08-2026 – 31-08-2026, a whole month*, and when it was not a
+whole month it says how many of the working days were paid; Status and Currency
+hidden.
+
+**The names sweep grew a second half.** Turning `show_title_field_in_link` on
+made the `employee` column read the person's name, so a list whose title is
+already the name said it twice — *Rania Sabbagh · Draft · Rania Sabbagh*.
+`names.py` now also takes `employee` out of the list view, on the 29 doctypes
+where `employee_name` is the title field and the link is a column. Everywhere
+else the link column stays, because it is the only place the person appears.
+
+Left for the Tax & Benefits walk: **Deduct Tax For Unsubmitted Tax Exemption
+Proof**, alone in an unlabelled section on every payslip, is one of a family of
+India-specific payroll fields that wants one decision rather than six.

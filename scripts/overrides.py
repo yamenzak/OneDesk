@@ -347,6 +347,20 @@ OVERRIDES = [
 		"Please set default template for Leave Status Notification in HR Settings.",
 	),
 	(
+		"A payroll run can be made on a site nobody has edited the accounts on",
+		"erpnext names Payroll Payable and nominates it, and leaves its `account_type` unset, so every payroll entry is refused",
+		"onedesk/one_hr/payroll.py",
+		"hrms/hrms/payroll/doctype/payroll_entry/payroll_entry.py",
+		"Account type should be set {0} for payroll payable account {1}, please set and try again",
+	),
+	(
+		"A payslip says what it pays, on the tab it opens on",
+		"the money is on the third and fourth tabs; the first carries the letter head and the designation",
+		"onedesk/public/js/salary_slip.js",
+		"hrms/hrms/payroll/doctype/salary_slip/salary_slip.json",
+		"rounded_total",
+	),
+	(
 		"An encashable leave type has something to pay with",
 		"HRMS ships Casual Leave with `allow_encashment` on and no earning component, and only says so at submit",
 		"onedesk/one_hr/leave.py",

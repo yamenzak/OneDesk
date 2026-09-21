@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 23:01+0000\n"
-"PO-Revision-Date: 2026-09-21 23:01+0000\n"
+"POT-Creation-Date: 2026-09-21 23:06+0000\n"
+"PO-Revision-Date: 2026-09-21 23:06+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -3274,6 +3274,14 @@ msgstr "{0} konnte nicht als ausgetreten markiert werden"
 #: onedesk/public/js/overtime_slip.js:69
 msgid "{0} days read. Save to keep them."
 msgstr "{0} Tage ausgewertet. Speichern, um sie zu behalten."
+
+#: onedesk/public/js/salary_slip.js:29
+msgid "{0} for {1}, a whole month."
+msgstr "{0} für {1}, ein ganzer Monat."
+
+#: onedesk/public/js/salary_slip.js:34
+msgid "{0} for {1}: {2} of {3} days paid."
+msgstr "{0} für {1}: {2} von {3} Tagen bezahlt."
 
 #: onedesk/one_hr/overtime.py:85
 msgid "{0} has no attendance marked on {1}."

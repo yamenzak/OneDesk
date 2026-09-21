@@ -24,6 +24,13 @@ rather than from the field being visible. Where it is not the title field and
 is `in_list_view`, it is left alone — `Goal` is the one such row — because
 hiding it there would take the person's name off the list and put nothing back.
 
+The other half is the list column. Where `employee_name` is the title field the
+list already opens with the person's name, and the `employee` column beside it
+now reads the name too, because the link renders its title. So a Salary Slip
+list said *Rania Sabbagh · Draft · Rania Sabbagh*. That column comes off — but
+only where the title is the name, because everywhere else it is the only place
+the person appears.
+
 Derived from the site rather than shipped as a fixture, for the same reason
 `one/company.py` is: the set of doctypes depends on which apps the site
 carries, and only the site knows that.
@@ -32,6 +39,7 @@ carries, and only the site knows that.
 import frappe
 
 MIRROR = "employee_name"
+LINK = "employee"
 FETCHED = "employee.employee_name"
 
 
@@ -39,17 +47,22 @@ def hide(*_args) -> None:
 	from frappe.custom.doctype.property_setter.property_setter import make_property_setter
 
 	for doctype in _doctypes():
-		if _written(doctype):
-			continue
-		make_property_setter(
-			doctype,
-			MIRROR,
-			"hidden",
-			"1",
-			"Check",
-			validate_fields_for_doctype=False,
-		)
+		if not _written(doctype, MIRROR, "hidden"):
+			make_property_setter(
+				doctype, MIRROR, "hidden", "1", "Check", validate_fields_for_doctype=False
+			)
+		if _doubled(doctype) and not _written(doctype, LINK, "in_list_view"):
+			make_property_setter(
+				doctype, LINK, "in_list_view", "0", "Check", validate_fields_for_doctype=False
+			)
 	frappe.clear_cache()
+
+
+def _doubled(doctype: str) -> bool:
+	"""Whether the list would name the person twice — as its title and as a column."""
+	meta = frappe.get_meta(doctype)
+	field = meta.get_field(LINK)
+	return bool(meta.title_field == MIRROR and field and field.in_list_view)
 
 
 def _doctypes() -> list[str]:
@@ -72,10 +85,10 @@ def _doctypes() -> list[str]:
 	return sorted(set(out))
 
 
-def _written(doctype: str) -> bool:
+def _written(doctype: str, field: str, prop: str) -> bool:
 	"""Whether anybody has already decided this one, us or the tenant."""
 	return bool(
 		frappe.db.exists(
-			"Property Setter", {"doc_type": doctype, "field_name": MIRROR, "property": "hidden"}
+			"Property Setter", {"doc_type": doctype, "field_name": field, "property": prop}
 		)
 	)
