@@ -22,7 +22,7 @@ import base64
 
 import frappe
 from frappe import _
-from onedesk.one_hr import gates, ledger, own, policy, presence, rules
+from onedesk.one_hr import gates, ledger, own, policy, presence, review, rules
 
 IN = "IN"
 OUT = "OUT"
@@ -145,6 +145,8 @@ def punch(credential=None, position=None, seen=None, reason=None, photo=None) ->
 		return {"ok": False, "attempt": attempt, "score": score, "told": told}
 
 	ledger.mark(attempt, checkin)
+	if outcome == "Flagged":
+		review.tell(attempt, employee, signals)
 	del frappe.local.message_log[said:]
 	return {
 		"ok": True,

@@ -13,7 +13,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Clock Attempt | 34 | document |
+| Clock Attempt | 40 | document |
 | Clock Device | 22 | document |
 | Clock Network | 15 | document |
 | Clock Place | 18 | document |
@@ -45,6 +45,8 @@ No doctypes yet.
 * `onedesk.one_hr.passkey.start_assertion`
 * `onedesk.one_hr.passkey.start_registration`
 * `onedesk.one_hr.presence.of`
+* `onedesk.one_hr.review.accept`
+* `onedesk.one_hr.review.reject`
 * `onedesk.one_hr.signin.begin`
 * `onedesk.one_hr.signin.finish`
 * `onedesk.one_hr.signin.offered`
