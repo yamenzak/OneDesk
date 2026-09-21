@@ -611,6 +611,36 @@ Sixteen columns are twelve. The four that said when the shift ran — start, end
 actual start, actual end — are one `Shift Hours` cell; Company is gone with the
 company filter; and `HR-EMP-00005: Maya Khalil` is the name, linked.
 
+## Hours on a timesheet, against the hours there were
+
+`Hours Utilization` is ours because one line of HRMS's made every percentage on
+the screen wrong:
+
+    TOTAL_HOURS = flt(self.standard_working_hours * self.day_span, 2)
+
+`day_span` is `(to_date - from_date).days` — calendar days. Over 22 August to 22
+September that is thirty-one, so somebody's available hours came out as 8.5 x 31
+= 263.5, which assumes four weekends and every public holiday were days they
+were meant to be working. Here it is working days, per employee, from the
+holiday list actually assigned to them: September 2026 is 26 days, 221 hours.
+
+**Everybody is listed**, the same fix as the other two reports — theirs built
+its rows from the time logs, so the person at nought, who is the reason to open
+it, was the one row it could not produce.
+
+**Drafts do not count** — theirs had no docstatus filter at all — and they are
+not invisible either: a `Still in Draft` tile appears when there are any,
+because that is usually the answer to "why is this so low".
+
+**A timesheet that straddles the period is counted in part.** Theirs required
+both `start_date` and `end_date` inside the range and dropped the rest whole; the
+rows are filtered on the log's own time.
+
+And the summary is one division of totals rather than an average of percentages
+across whoever happened to log time, which went *up* as fewer people filled
+theirs in. No chart, no company filter, the name linked rather than
+`HR-EMP-00006: Samir Aoun`, and a heading that matches the rail.
+
 ## Reading the log list
 
 The one question asked of `Employee Checkin` is whether a log counted, and the

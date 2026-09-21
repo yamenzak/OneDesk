@@ -291,6 +291,20 @@ OVERRIDES = [
 		"def update_late_entry",
 	),
 	(
+		"Available hours are working days, not calendar days",
+		"theirs multiplied the standard day by every date in the range, weekends and holidays included",
+		"onedesk/one_hr/report/hours_utilization/hours_utilization.py",
+		"hrms/hrms/hr/report/employee_hours_utilization_based_on_timesheet/employee_hours_utilization_based_on_timesheet.py",
+		"self.standard_working_hours * self.day_span",
+	),
+	(
+		"Hours Utilization counts submitted timesheets and lists everybody",
+		"theirs had no docstatus filter, and built its rows from the logs so nobody at nought appeared",
+		"onedesk/one_hr/report/hours_utilization/hours_utilization.py",
+		"hrms/hrms/hr/report/employee_hours_utilization_based_on_timesheet/employee_hours_utilization_based_on_timesheet.py",
+		"def generate_stats_by_employee",
+	),
+	(
 		"The setup wizard's persona slide is replaced",
 		"its four required questions were read only by `capture_user_persona`",
 		"onedesk/public/js/setup_wizard.js",

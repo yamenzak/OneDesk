@@ -281,7 +281,7 @@
    "is_default_module": 1,
    "keep_closed": 0,
    "label": "Hours Utilization",
-   "link_to": "Employee Hours Utilization Based On Timesheet",
+   "link_to": "Hours Utilization",
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link"
@@ -1084,7 +1084,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-09-22 08:30:00.000000",
+ "modified": "2026-09-22 09:30:00.000000",
  "modified_by": "Administrator",
  "module": "One HR",
  "name": "OneHR",

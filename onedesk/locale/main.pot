@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 21:12+0000\n"
-"PO-Revision-Date: 2026-09-21 21:12+0000\n"
+"POT-Creation-Date: 2026-09-21 21:31+0000\n"
+"PO-Revision-Date: 2026-09-21 21:31+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -333,6 +333,7 @@ msgid "Attendance Request"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.py:77
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Attendance Settings"
 msgstr ""
@@ -368,6 +369,10 @@ msgstr ""
 msgid "Auto Close Open Check-ins at Shift End"
 msgstr ""
 
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.py:242
+msgid "Available"
+msgstr ""
+
 #. Label of the backed_up (Check) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Backed Up"
@@ -397,6 +402,15 @@ msgstr ""
 #. Label of the 'billing_details' field in DocType 'Timesheet'
 #: onedesk/one_hr/custom/timesheet.json
 msgid "Billable"
+msgstr ""
+
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.py:211
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.py:243
+msgid "Billed"
+msgstr ""
+
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.py:247
+msgid "Billed %"
 msgstr ""
 
 #. Label of the 'bio' field in DocType 'Employee'
@@ -788,6 +802,8 @@ msgstr ""
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:29
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:168
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.js:21
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.py:235
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:78
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Department"
@@ -883,6 +899,8 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:19
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:147
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.js:18
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.py:233
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:65
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:166
 #: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/public/js/overtime.js:14
@@ -1120,6 +1138,7 @@ msgid "Follow my system"
 msgstr ""
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:7
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.js:6
 msgid "From Date"
 msgstr ""
 
@@ -1233,7 +1252,9 @@ msgstr ""
 msgid "Hours"
 msgstr ""
 
+#. Name of a report
 #. Label of a Sidebar Item
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Hours Utilization"
 msgstr ""
@@ -1754,6 +1775,11 @@ msgstr ""
 msgid "Nobody on this list checked in"
 msgstr ""
 
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.py:212
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.py:244
+msgid "Not Billed"
+msgstr ""
+
 #: onedesk/public/js/desk.js:123
 msgid "Not Checked In"
 msgstr ""
@@ -2136,6 +2162,7 @@ msgstr ""
 msgid "Professional Tax Deductions"
 msgstr ""
 
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.js:25
 #: onedesk/public/js/timesheet.js:49
 msgid "Project"
 msgstr ""
@@ -2486,11 +2513,16 @@ msgstr ""
 msgid "Set Standard Working Hours in Attendance Settings before claiming overtime."
 msgstr ""
 
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.py:76
+msgid "Set Standard Working Hours in {0} first. Everything here is measured against it."
+msgstr ""
+
 #. Description of the 'status' field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/shift_request.json
 msgid "Set by Approve and Reject, so it always agrees with who decided."
 msgstr ""
 
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.py:67
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:78
 msgid "Set the date range."
 msgstr ""
@@ -2621,6 +2653,10 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.py:222
+msgid "Still in Draft"
+msgstr ""
+
 #: onedesk/public/js/overtime_slip.js:100
 msgid "Submitting this pays {0} for {1} hours."
 msgstr ""
@@ -2722,6 +2758,7 @@ msgstr ""
 msgid "The resignation date plus the notice days on the Joining tab. The relieving date is the day they actually stop, and the two differ when notice is waived, paid in lieu or extended."
 msgstr ""
 
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.py:69
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:80
 msgid "The start date is after the end date."
 msgstr ""
@@ -2835,6 +2872,7 @@ msgid "Timesheet"
 msgstr ""
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:14
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.js:13
 msgid "To Date"
 msgstr ""
 
@@ -2906,6 +2944,11 @@ msgstr ""
 msgid "Unpaid Expense Claim"
 msgstr ""
 
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.py:214
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.py:245
+msgid "Untracked"
+msgstr ""
+
 #. Label of the fetch_position (Button) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 msgid "Use My Location"
@@ -2921,6 +2964,11 @@ msgstr ""
 #. Label of the verified (Check) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "User Verified"
+msgstr ""
+
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.py:206
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.py:246
+msgid "Utilization"
 msgstr ""
 
 #. Label of a Link in the OneHR Setup Workspace
@@ -3041,6 +3089,10 @@ msgstr ""
 #. 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "Worked out nightly from this employee's Clock Attempt rows over the last 90 days. It never refuses a check-in; it weights whose check-ins count when a network or location is learned."
+msgstr ""
+
+#: onedesk/one_hr/report/hours_utilization/hours_utilization.py:241
+msgid "Working Days"
 msgstr ""
 
 #. Label of a Sidebar Item

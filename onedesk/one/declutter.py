@@ -22,7 +22,11 @@ HIDE_ROWS = ("Frappe Support", "About", "Delete Demo Data")
 #: the row is theirs and a `bench update` would write it back, and this runs on
 #: every migrate so it settles again after one does. A tenant who wants the
 #: original back enables it.
-HIDE_REPORTS = ("Monthly Attendance Sheet", "Shift Attendance")
+HIDE_REPORTS = (
+	"Monthly Attendance Sheet",
+	"Shift Attendance",
+	"Employee Hours Utilization Based On Timesheet",
+)
 
 #: erpnext's per-module checklists. They are written in erpnext's voice, about
 #: erpnext's modules, and they open over whatever One put on the page.
