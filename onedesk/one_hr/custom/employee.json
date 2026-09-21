@@ -181,6 +181,14 @@
    "property": "hidden",
    "property_type": "Check",
    "value": "1"
+  },
+  {
+   "doctype_or_field": "DocField",
+   "doc_type": "Employee",
+   "field_name": "company_email",
+   "property": "description",
+   "property_type": "Small Text",
+   "value": ""
   }
  ],
  "sync_on_migrate": 1
