@@ -42,6 +42,11 @@ fixtures = ["Custom Icon", "Clock Reason", "Identification Document Type"]
 # A record answers before it offers links; see `onedesk/one_hr/employee.py`.
 doctype_js = {"Employee": "public/js/employee.js"}
 
+# Loaded after the doctype's own list script, so ours has the last word.
+doctype_list_js = {"Attendance": "public/js/attendance_list.js"}
+
+override_doctype_dashboards = {"Attendance": ["onedesk.one_hr.attendance.dashboard"]}
+
 # Every shift location counts, not the first. See one_hr/checkin.py.
 override_doctype_class = {"Employee Checkin": "onedesk.one_hr.checkin.OneEmployeeCheckin"}
 

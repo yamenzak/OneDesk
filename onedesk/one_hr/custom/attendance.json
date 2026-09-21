@@ -1,0 +1,32 @@
+{
+ "custom_fields": [],
+ "doctype": "Attendance",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Attendance",
+   "doctype_or_field": "DocField",
+   "field_name": "working_hours",
+   "property": "depends_on",
+   "property_type": "Data",
+   "value": ""
+  },
+  {
+   "doc_type": "Attendance",
+   "doctype_or_field": "DocField",
+   "field_name": "in_time",
+   "property": "depends_on",
+   "property_type": "Data",
+   "value": ""
+  },
+  {
+   "doc_type": "Attendance",
+   "doctype_or_field": "DocField",
+   "field_name": "out_time",
+   "property": "depends_on",
+   "property_type": "Data",
+   "value": ""
+  }
+ ],
+ "sync_on_migrate": 1
+}

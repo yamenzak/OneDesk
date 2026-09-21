@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 11:29+0000\n"
-"PO-Revision-Date: 2026-09-21 11:29+0000\n"
+"POT-Creation-Date: 2026-09-21 11:51+0000\n"
+"PO-Revision-Date: 2026-09-21 11:51+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1271,6 +1271,11 @@ msgstr ""
 msgid "Manager"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Mark Attendance"
+msgstr ""
+
 #: onedesk/one_hr/presence.py:256
 msgid "Marked present"
 msgstr ""
@@ -2105,7 +2110,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
-#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_hr/attendance.py:15 onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Time"
 msgstr ""
