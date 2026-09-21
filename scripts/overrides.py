@@ -347,6 +347,27 @@ OVERRIDES = [
 		"Please set default template for Leave Status Notification in HR Settings.",
 	),
 	(
+		"A benefit application knows its own ceiling",
+		"`max_benefits` is filled by a whitelisted method only their form script calls, and validate compares against it",
+		"onedesk/one_hr/benefit.py",
+		"hrms/hrms/payroll/doctype/employee_benefit_application/employee_benefit_application.py",
+		"def set_benefit_components_and_currency",
+	),
+	(
+		"A benefit application adds up its own table",
+		"`total_amount` and `remaining_benefit` are computed in their form script and nowhere on the server",
+		"onedesk/one_hr/benefit.py",
+		"hrms/hrms/payroll/doctype/employee_benefit_application/employee_benefit_application.js",
+		"doc.remaining_benefit = doc.max_benefits - total_amount;",
+	),
+	(
+		"A benefit claim knows what is left to claim",
+		"`max_amount_eligible` is filled the same way, and validate compares against it",
+		"onedesk/one_hr/benefit.py",
+		"hrms/hrms/payroll/doctype/employee_benefit_claim/employee_benefit_claim.py",
+		"def get_benefit_details",
+	),
+	(
 		"A payroll year exists from the first day",
 		"nothing upstream creates a Payroll Period, and a salary slip asks for one the moment a workspace has an Income Tax Slab",
 		"onedesk/one/setup_wizard.py",

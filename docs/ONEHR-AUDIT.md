@@ -474,5 +474,40 @@ salary structure has no deduction components, so no tax was deducted from
 anybody. `Income Tax Deductions` is written for this — it asks
 `erpnext.get_region(company) == "India"` and drops its Indian columns elsewhere.
 
-**Benefit Application and Benefit Claim are not yet walked.** Both need a salary
-component marked as a flexible benefit before there is anything to look at.
+### Benefit Application, Benefit Claim
+
+The worst of the group, and all of one kind: **a read-only field that only the
+form script fills.**
+
+`max_benefits` on the application and `max_amount_eligible` on the claim are
+both written by a whitelisted method their own `.js` calls, and both are then
+compared against in `validate`. A document made any other way has `None` there,
+and validate does not say so — it reaches
+
+    if rounded(total_benefit_amount, 2) > self.max_benefits:
+
+and raises **`TypeError: '>' not supported between instances of 'float' and
+'NoneType'`**, naming neither the field nor what is missing. It is the same
+fault as `leave_balance` on a Leave Application, and it gets the same answer:
+`one_hr/benefit.py` calls the method upstream already wrote, before validate,
+when the field is empty. With that in place the same insert answers *"Benefit
+amount of component Medical Allowance should be greater than 0"* — a sentence
+somebody can act on.
+
+Worse, and visible on the screen rather than only in an API: **`total_amount`
+and `remaining_benefit` are computed in eleven lines of their form script and
+nowhere on the server.** A submitted application read *Total Amount 0.00* and
+*Remaining Benefits 0.00* above a table holding one row of 9,000 against a
+maximum of 12,000 — three numbers on one screen and two of them wrong. Adding up
+a table is not a decision, so it is done in `before_validate`. A second
+application, made the same way, reads 12,000 / 7,500 / 4,500.
+
+Both totals join the application's list, which said only who and which period.
+
+**The claim could not be exercised end to end, and that is honest rather than
+broken.** `max_amount_eligible` comes from the benefit *ledger*, which salary
+slips write as the benefit accrues; with no slip carrying the component nothing
+has accrued, so nothing is claimable and the form says so. Building that fixture
+means a payroll run carrying a flexible benefit, which is a long way to go for a
+subsystem this workspace may not want at all — see the note at the top of this
+group.

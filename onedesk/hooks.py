@@ -66,6 +66,8 @@ doc_events = {
 	"Timesheet": {"before_validate": "onedesk.one_hr.timesheet.before_validate"},
 	# The third request doctype, answered like the other two. See one_hr/leave.py.
 	"Leave Application": {"before_submit": "onedesk.one_hr.leave.before_submit"},
+	"Employee Benefit Application": {"before_validate": "onedesk.one_hr.benefit.application"},
+	"Employee Benefit Claim": {"before_validate": "onedesk.one_hr.benefit.claim"},
 	# The reason is a record and submitting is an approval. See one_hr/request.py.
 	"Attendance Request": {
 		"before_validate": "onedesk.one_hr.request.before_validate",

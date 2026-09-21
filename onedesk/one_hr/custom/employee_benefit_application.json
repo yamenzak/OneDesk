@@ -1,0 +1,24 @@
+{
+ "custom_fields": [],
+ "doctype": "Employee Benefit Application",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Employee Benefit Application",
+   "doctype_or_field": "DocField",
+   "field_name": "total_amount",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Employee Benefit Application",
+   "doctype_or_field": "DocField",
+   "field_name": "remaining_benefit",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  }
+ ],
+ "sync_on_migrate": 1
+}
