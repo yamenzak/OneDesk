@@ -40,8 +40,12 @@ doc_events = {
 		"validate": "onedesk.one_hr.leaving.notice_ends_on",
 		"on_update": "onedesk.one_hr.leaving.on_employee_update",
 	},
-	# One day's overtime is claimed once. See one_hr/overtime.py.
-	"Overtime Slip": {"validate": "onedesk.one_hr.overtime.no_double_pay"},
+	# One day's overtime is claimed once, and the slip says what it pays.
+	# See one_hr/overtime.py.
+	"Overtime Slip": {
+		"before_validate": "onedesk.one_hr.overtime.before_validate",
+		"validate": "onedesk.one_hr.overtime.no_double_pay",
+	},
 	# The reason is a record and submitting is an approval. See one_hr/request.py.
 	"Attendance Request": {
 		"before_validate": "onedesk.one_hr.request.before_validate",
@@ -77,6 +81,7 @@ doctype_js = {
 	"Shift Type": "public/js/shift_type.js",
 	"Attendance Request": "public/js/attendance_request.js",
 	"Shift Request": "public/js/shift_request.js",
+	"Overtime Slip": "public/js/overtime_slip.js",
 }
 
 # Loaded after the doctype's own list script, so ours has the last word.

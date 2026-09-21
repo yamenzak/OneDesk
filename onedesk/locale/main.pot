@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 19:38+0000\n"
-"PO-Revision-Date: 2026-09-21 19:38+0000\n"
+"POT-Creation-Date: 2026-09-21 20:27+0000\n"
+"PO-Revision-Date: 2026-09-21 20:27+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -125,6 +125,12 @@ msgstr ""
 #. Label of an action in the Onboarding Step 'Add an employee'
 #: onedesk/one/onboarding_step/one_add_an_employee/one_add_an_employee.json
 msgid "Add an employee"
+msgstr ""
+
+#. Description of the 'total_overtime_duration' field in DocType 'Overtime
+#. Slip'
+#: onedesk/one_hr/custom/overtime_slip.json
+msgid "Added up from the rows below."
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -525,6 +531,10 @@ msgstr ""
 msgid "Checks"
 msgstr ""
 
+#: onedesk/public/js/overtime_slip.js:41
+msgid "Choose an employee and a posting date first."
+msgstr ""
+
 #: onedesk/public/js/employee.js:190
 msgid "Claim an Expense"
 msgstr ""
@@ -917,7 +927,7 @@ msgstr ""
 msgid "Ends the Shift"
 msgstr ""
 
-#: onedesk/one_hr/overtime.py:89
+#: onedesk/one_hr/overtime.py:109
 msgid "Enter the overtime hours."
 msgstr ""
 
@@ -997,6 +1007,10 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Feedback"
+msgstr ""
+
+#: onedesk/public/js/overtime_slip.js:15
+msgid "Fetch Overtime Details"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -1136,6 +1150,11 @@ msgstr ""
 msgid "Hours Utilization"
 msgstr ""
 
+#. Label of the one_actual (Float) field in DocType 'Overtime Details'
+#: onedesk/one_hr/custom/overtime_details.json
+msgid "Hours Worked"
+msgstr ""
+
 #: onedesk/public/js/overtime.js:47
 msgid "Hours worked beyond the standard day."
 msgstr ""
@@ -1149,6 +1168,12 @@ msgstr ""
 #. Description of the 'standard_working_hours' field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "How long a day is where a shift does not say. Anything beyond it on a day marked Present is overtime."
+msgstr ""
+
+#. Description of the 'standard_working_hours' field in DocType 'Overtime
+#. Details'
+#: onedesk/one_hr/custom/overtime_details.json
+msgid "How long a full day is for this person. Filled from their shift, or from Attendance Settings."
 msgstr ""
 
 #: onedesk/public/js/setup_wizard.js:19
@@ -1560,6 +1585,10 @@ msgstr ""
 msgid "No one checked out, so this OUT was written at the shift end."
 msgstr ""
 
+#: onedesk/public/js/overtime_slip.js:56
+msgid "No overtime was recorded on any attendance between {0} and {1}."
+msgstr ""
+
 #: onedesk/one_hr/rules.py:31
 msgid "No passkey was presented."
 msgstr ""
@@ -1804,7 +1833,12 @@ msgstr ""
 msgid "Overtime Hours"
 msgstr ""
 
-#: onedesk/one_hr/overtime.py:133
+#. Label of the one_amount (Currency) field in DocType 'Overtime Slip'
+#: onedesk/one_hr/custom/overtime_slip.json
+msgid "Overtime Pay"
+msgstr ""
+
+#: onedesk/one_hr/overtime.py:153
 msgid "Overtime Recorded Twice"
 msgstr ""
 
@@ -1819,7 +1853,11 @@ msgstr ""
 msgid "Overtime Type"
 msgstr ""
 
-#: onedesk/one_hr/overtime.py:112
+#: onedesk/one_hr/overtime.py:301
+msgid "Overtime pay cannot be worked out until this employee has a salary structure."
+msgstr ""
+
+#: onedesk/one_hr/overtime.py:132
 msgid "Overtime recorded by hand: {0} hours, {1}."
 msgstr ""
 
@@ -1986,6 +2024,10 @@ msgstr ""
 
 #: onedesk/one_hr/doctype/clock_place/clock_place.py:9
 msgid "Radius must be greater than 0."
+msgstr ""
+
+#: onedesk/public/js/overtime_slip.js:17
+msgid "Read Attendance"
 msgstr ""
 
 #: onedesk/public/js/shift_type.js:24
@@ -2255,6 +2297,10 @@ msgstr ""
 msgid "Set One up"
 msgstr ""
 
+#: onedesk/one_hr/overtime.py:280
+msgid "Set Standard Working Hours in Attendance Settings before claiming overtime."
+msgstr ""
+
 #. Description of the 'status' field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/shift_request.json
 msgid "Set by Approve and Reject, so it always agrees with who decided."
@@ -2332,6 +2378,10 @@ msgstr ""
 msgid "Sign Count"
 msgstr ""
 
+#: onedesk/public/js/overtime_slip.js:89
+msgid "Some Days Were Trimmed"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Staffing Plan"
@@ -2364,6 +2414,10 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 msgid "Status"
+msgstr ""
+
+#: onedesk/public/js/overtime_slip.js:100
+msgid "Submitting this pays {0} for {1} hours."
 msgstr ""
 
 #. Description of the 'Backed Up' (Check) field in DocType 'Clock Device'
@@ -2426,6 +2480,12 @@ msgstr ""
 msgid "The log this attempt wrote. Empty when the attempt was refused."
 msgstr ""
 
+#. Description of the 'maximum_overtime_hours_allowed' field in DocType
+#. 'Overtime Details'
+#: onedesk/one_hr/custom/overtime_details.json
+msgid "The most this overtime type pays in one day. Anything worked beyond it is not paid."
+msgstr ""
+
 #: onedesk/one_hr/rules.py:32
 msgid "The passkey was not unlocked with a face, fingerprint or PIN."
 msgstr ""
@@ -2461,12 +2521,16 @@ msgid ""
 "{0}"
 msgstr ""
 
-#: onedesk/one_hr/overtime.py:100
+#: onedesk/one_hr/overtime.py:120
 msgid "There is no day to record this against."
 msgstr ""
 
 #: onedesk/one_hr/clock.py:96 onedesk/public/js/desk.js:88
 msgid "There is nothing to check in: you are {0} today."
+msgstr ""
+
+#: onedesk/public/js/overtime_slip.js:90
+msgid "These days go past the overtime type's daily maximum. Only the hours up to it are paid."
 msgstr ""
 
 #: onedesk/public/js/attendance_request.js:18
@@ -2503,6 +2567,10 @@ msgstr ""
 
 #: onedesk/one_hr/rules.py:35
 msgid "This network is not one you may check in from."
+msgstr ""
+
+#: onedesk/one_hr/overtime.py:306
+msgid "This overtime type has no rate set, so it pays nothing."
 msgstr ""
 
 #: onedesk/one_hr/rules.py:33
@@ -2543,7 +2611,7 @@ msgstr ""
 msgid "Timesheet"
 msgstr ""
 
-#: onedesk/one_hr/overtime.py:95
+#: onedesk/one_hr/overtime.py:115
 msgid "Too Much Overtime"
 msgstr ""
 
@@ -2654,10 +2722,22 @@ msgstr ""
 msgid "Weekly off"
 msgstr ""
 
+#. Description of the 'Hours Worked' (Float) field in DocType 'Overtime
+#. Details'
+#: onedesk/one_hr/custom/overtime_details.json
+msgid "What Attendance recorded, before the type's maximum was applied."
+msgstr ""
+
 #. Description of the 'Clock Attempt' (Link) field in DocType 'Employee
 #. Checkin'
 #: onedesk/one_hr/custom/employee_checkin.json
 msgid "What each check saw when this log was written."
+msgstr ""
+
+#. Description of the 'Overtime Pay' (Currency) field in DocType 'Overtime
+#. Slip'
+#: onedesk/one_hr/custom/overtime_slip.json
+msgid "What submitting this will add to the next payroll, from each type's rate and multipliers."
 msgstr ""
 
 #. Description of the 'Device' (Data) field in DocType 'Clock Device'
@@ -2694,6 +2774,11 @@ msgstr ""
 #. Description of the Onboarding Step 'Add a customer'
 #: onedesk/one/onboarding_step/one_add_a_customer/one_add_a_customer.json
 msgid "Who you invoice. OneCRM turns a lead into one of these, and Books bills them."
+msgstr ""
+
+#. Label of the one_pay_note (Small Text) field in DocType 'Overtime Slip'
+#: onedesk/one_hr/custom/overtime_slip.json
+msgid "Why There Is No Figure"
 msgstr ""
 
 #. Description of the 'Reason' (Link) field in DocType 'Attendance Request'
@@ -2780,11 +2865,11 @@ msgstr ""
 msgid "no passkey registered"
 msgstr ""
 
-#: onedesk/one_hr/overtime.py:94
+#: onedesk/one_hr/overtime.py:114
 msgid "{0} allows at most {1} overtime hours a day."
 msgstr ""
 
-#: onedesk/one_hr/overtime.py:130
+#: onedesk/one_hr/overtime.py:150
 msgid "{0} already records {1} hours of overtime on {2}. Remove this row."
 msgstr ""
 
@@ -2807,7 +2892,11 @@ msgstr ""
 msgid "{0} could not be marked Left"
 msgstr ""
 
-#: onedesk/one_hr/overtime.py:65
+#: onedesk/public/js/overtime_slip.js:69
+msgid "{0} days read. Save to keep them."
+msgstr ""
+
+#: onedesk/one_hr/overtime.py:85
 msgid "{0} has no attendance marked on {1}."
 msgstr ""
 
@@ -2815,7 +2904,7 @@ msgstr ""
 msgid "{0} hours"
 msgstr ""
 
-#: onedesk/one_hr/overtime.py:69
+#: onedesk/one_hr/overtime.py:89
 msgid "{0} is marked {1} on {2}. Overtime is only paid on a day marked {3}."
 msgstr ""
 
@@ -2842,6 +2931,10 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:14
 #: onedesk/public/js/employee.js:204
 msgid "{0} will register a new passkey on their next check-in. The old one is retired, not deleted."
+msgstr ""
+
+#: onedesk/public/js/overtime_slip.js:82
+msgid "{0} worked, {1} paid"
 msgstr ""
 
 #: onedesk/one_hr/review.py:86

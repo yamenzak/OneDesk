@@ -43,6 +43,8 @@ No doctypes yet.
 * `onedesk.one_hr.learned.confirm`
 * `onedesk.one_hr.learned.reject`
 * `onedesk.one_hr.marking.clocked_in`
+* `onedesk.one_hr.overtime.collect`
+* `onedesk.one_hr.overtime.dates`
 * `onedesk.one_hr.overtime.day`
 * `onedesk.one_hr.overtime.record`
 * `onedesk.one_hr.passkey.ask_for_a_reset`

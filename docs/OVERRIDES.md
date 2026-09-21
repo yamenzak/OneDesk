@@ -33,6 +33,10 @@ Each row is something that would still run but stop working if upstream moved. `
 | A shift request says what approving it will do | their `show_submit_message` writes a generic line into the one message area after refresh | `onedesk/public/js/decision.js` | `frappe/frappe/public/js/frappe/form/form.js` | `Submit this document to confirm` |
 | Submitting a Shift Request is signed, and the status is set by the buttons | their `on_submit` refuses while the status is Draft, a rule the toolbar button does not carry | `onedesk/one_hr/shift.py` | `hrms/hrms/hr/doctype/shift_request/shift_request.py` | `Only Shift Request with status 'Approved' and 'Rejected' can be submitted` |
 | The Approver field fills itself, or says nobody can | mandatory, and valid only against the employee's own approver and their department's rows | `onedesk/one_hr/shift.py` | `hrms/hrms/hr/doctype/shift_request/shift_request.py` | `def validate_approver` |
+| Reading attendance into an Overtime Slip does not save the slip | their Fetch ends in `self.save()`, so it inserted a record and left the person on a blank form | `onedesk/one_hr/overtime.py` | `hrms/hrms/hr/doctype/overtime_slip/overtime_slip.py` | `def get_emp_and_overtime_details` |
+| An Overtime Slip's dates come from the frequency or the calendar month | theirs threw for anybody without a salary structure, naming the date it was working out | `onedesk/public/js/overtime_slip.js` | `hrms/hrms/hr/doctype/overtime_slip/overtime_slip.js` | `set_frequency_and_dates` |
+| A form event handler of the same name replaces theirs | `frm.events[fieldname]` keeps the last registered handler, and doctype_js loads after the doctype's own | `onedesk/public/js/overtime_slip.js` | `frappe/frappe/public/js/frappe/form/script_manager.js` | `cur_frm.events[fieldname] = _handler` |
+| An Overtime Slip says what it will pay before it is submitted | the figure is theirs, from the method `on_submit` uses, rather than a second copy of the arithmetic | `onedesk/one_hr/overtime.py` | `hrms/hrms/hr/doctype/overtime_slip/overtime_slip.py` | `def get_overtime_component_amounts` |
 | The setup wizard's persona slide is replaced | its four required questions were read only by `capture_user_persona` | `onedesk/public/js/setup_wizard.js` | `erpnext/erpnext/public/js/setup_wizard.js` | `persona` |
 
-29 overrides.
+33 overrides.

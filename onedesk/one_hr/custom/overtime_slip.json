@@ -1,0 +1,46 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Overtime Slip",
+   "fieldname": "one_amount",
+   "fieldtype": "Currency",
+   "label": "Overtime Pay",
+   "module": "One HR",
+   "insert_after": "total_overtime_duration",
+   "read_only": 1,
+   "in_list_view": 1,
+   "description": "What submitting this will add to the next payroll, from each type's rate and multipliers."
+  },
+  {
+   "dt": "Overtime Slip",
+   "fieldname": "one_pay_note",
+   "fieldtype": "Small Text",
+   "label": "Why There Is No Figure",
+   "module": "One HR",
+   "insert_after": "one_amount",
+   "read_only": 1,
+   "depends_on": "eval:doc.one_pay_note"
+  }
+ ],
+ "doctype": "Overtime Slip",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Overtime Slip",
+   "doctype_or_field": "DocField",
+   "field_name": "submitted_via_payroll_entry",
+   "property": "read_only",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Overtime Slip",
+   "doctype_or_field": "DocField",
+   "field_name": "total_overtime_duration",
+   "property": "description",
+   "property_type": "Text",
+   "value": "Added up from the rows below."
+  }
+ ],
+ "sync_on_migrate": 1
+}

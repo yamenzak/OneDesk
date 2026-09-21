@@ -104,6 +104,10 @@ break each other's imports on sites that carry only one of them.
   onboarding must not default to the country's chart of accounts. Read it
   before touching company setup; the instinct it warns about is the obvious
   one.
+- **A child doctype's custom fields go in their own `custom/<child>.json`.**
+  `sync_customizations_for_doctype` inserts the Custom Field rows from a
+  parent's file but runs `updatedb` only on the file's own `doctype`, so the
+  column is never created and the first save fails with "Unknown column".
 - **`docs/WORDING.md` is how a label and a description are written**, taken from
   frappe's own JSON rather than invented. Read it before adding a field, and
   remember its last rule: rewording is also a translation change, so the POT and

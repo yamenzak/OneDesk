@@ -1,0 +1,36 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Overtime Details",
+   "fieldname": "one_actual",
+   "fieldtype": "Float",
+   "label": "Hours Worked",
+   "module": "One HR",
+   "insert_after": "overtime_duration",
+   "read_only": 1,
+   "depends_on": "eval:doc.one_actual",
+   "description": "What Attendance recorded, before the type's maximum was applied."
+  }
+ ],
+ "doctype": "Overtime Details",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Overtime Details",
+   "doctype_or_field": "DocField",
+   "field_name": "standard_working_hours",
+   "property": "description",
+   "property_type": "Text",
+   "value": "How long a full day is for this person. Filled from their shift, or from Attendance Settings."
+  },
+  {
+   "doc_type": "Overtime Details",
+   "doctype_or_field": "DocField",
+   "field_name": "maximum_overtime_hours_allowed",
+   "property": "description",
+   "property_type": "Text",
+   "value": "The most this overtime type pays in one day. Anything worked beyond it is not paid."
+  }
+ ],
+ "sync_on_migrate": 1
+}

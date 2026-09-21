@@ -15,11 +15,31 @@ posted at submit, so there is no ledger to disagree with.
 `no_double_pay` is the other half of having one place: Overtime Slip lets a row
 be typed with no Attendance behind it, and a period holding both would be paid
 twice.
+
+The rest of this file is the slip itself. Three things about HRMS's screen are
+worth knowing before reading it:
+
+**Its Fetch button saved the document.** `get_emp_and_overtime_details` ends in
+`self.save()`, so pressing Fetch on a new form inserted a real slip and left the
+person looking at the unsaved blank one — press it twice and it answers that
+"Overtime Slip: HR-OT-SLIP-00001 has been created" about a record nobody
+knowingly made. `collect` reads the same attendance and *returns* it; the form
+fills the grid and the person saves when they mean to.
+
+**It never said what it would pay.** Everything on the screen is hours, and
+submitting writes Additional Salary from the type's rate and multipliers. The
+amount is worked out before the save and written onto the slip, using HRMS's own
+`get_overtime_component_amounts` rather than a second copy of the arithmetic.
+
+**It refused a slip for anybody with no salary structure**, because the only
+thing it wanted the structure for was the payroll frequency that sets the two
+dates. `dates` falls back to the calendar month, which is what a fixed hourly
+rate needs and all it ever needed.
 """
 
 import frappe
 from frappe import _
-from frappe.utils import flt, format_date, get_link_to_form, getdate
+from frappe.utils import flt, format_date, get_first_day, get_last_day, get_link_to_form, getdate
 
 from hrms.hr.doctype.employee_checkin.employee_checkin import calculate_time_difference
 
@@ -132,3 +152,156 @@ def no_double_pay(doc, method=None) -> None:
 				),
 				title=_("Overtime Recorded Twice"),
 			)
+
+
+def before_validate(doc, method=None) -> None:
+	"""Everything the screen used to leave for somebody to work out."""
+	_dates(doc)
+	_standard_hours(doc)
+	doc.total_overtime_duration = sum(flt(row.overtime_duration) for row in doc.overtime_details)
+	doc.one_amount, doc.one_pay_note = _payable(doc)
+
+
+@frappe.whitelist()
+def dates(employee: str, posting_date: str) -> dict:
+	"""The period this slip covers, without refusing anybody.
+
+	The payroll frequency where the employee has a salary structure, and the
+	calendar month where they do not. HRMS threw here — and named the date it
+	was in the middle of working out, so the message read "for date None" — even
+	though a fixed hourly rate needs no structure at all.
+	"""
+	from hrms.payroll.doctype.payroll_entry.payroll_entry import get_start_end_dates
+	from hrms.payroll.doctype.salary_structure_assignment.salary_structure_assignment import (
+		get_assigned_salary_structure,
+	)
+
+	structure = get_assigned_salary_structure(employee, posting_date)
+	if structure:
+		frequency = frappe.db.get_value("Salary Structure", structure, "payroll_frequency")
+		found = get_start_end_dates(
+			frequency, posting_date, frappe.db.get_value("Employee", employee, "company")
+		)
+		return {"start_date": str(found.start_date), "end_date": str(found.end_date)}
+
+	return {
+		"start_date": str(get_first_day(posting_date)),
+		"end_date": str(get_last_day(posting_date)),
+	}
+
+
+@frappe.whitelist()
+def collect(employee: str, start_date: str, end_date: str) -> dict:
+	"""Every day of overtime in the period, and what the type's maximum trimmed.
+
+	Returns rather than writes. Trimming is reported rather than silent: a
+	six-hour day against a four-hour maximum used to be written as four with
+	nothing anywhere saying the other two were dropped.
+	"""
+	frappe.has_permission("Attendance", "read", throw=True)
+
+	rows, trimmed = [], []
+	most_by_type: dict[str, float] = {}
+
+	for found in _days(employee, start_date, end_date):
+		if found.overtime_type not in most_by_type:
+			most_by_type[found.overtime_type] = flt(
+				frappe.db.get_value("Overtime Type", found.overtime_type, "maximum_overtime_hours_allowed")
+			)
+		most = most_by_type[found.overtime_type]
+		worked = flt(found.actual_overtime_duration)
+		hours = min(worked, most) if most else worked
+		if hours <= 0:
+			continue
+
+		if most and worked > most:
+			trimmed.append({"date": str(found.attendance_date), "worked": worked, "paid": hours})
+
+		rows.append(
+			{
+				"reference_document": found.name,
+				"date": str(found.attendance_date),
+				"overtime_type": found.overtime_type,
+				"overtime_duration": hours,
+				"one_actual": worked,
+				"standard_working_hours": flt(found.standard_working_hours)
+				or standard_hours(found.shift),
+				"maximum_overtime_hours_allowed": most,
+			}
+		)
+
+	return {"rows": rows, "trimmed": trimmed}
+
+
+def _days(employee: str, start_date: str, end_date: str) -> list[frappe._dict]:
+	return frappe.get_all(
+		"Attendance",
+		filters={
+			"employee": employee,
+			"docstatus": 1,
+			"status": COLLECTED,
+			"attendance_date": ["between", [getdate(start_date), getdate(end_date)]],
+			"overtime_type": ["is", "set"],
+		},
+		fields=[
+			"name",
+			"attendance_date",
+			"shift",
+			"overtime_type",
+			"actual_overtime_duration",
+			"standard_working_hours",
+		],
+		order_by="attendance_date asc",
+	)
+
+
+def _dates(doc) -> None:
+	if doc.start_date and doc.end_date:
+		return
+	if not (doc.employee and doc.posting_date):
+		return
+	doc.update(dates(doc.employee, doc.posting_date))
+
+
+def _standard_hours(doc) -> None:
+	"""How long a day is, on every row, whoever typed it.
+
+	Mandatory on HRMS's row with no hint of what to enter, and zero passes a
+	mandatory check — which divides by zero on submit for a type priced off a
+	salary component.
+	"""
+	shift = frappe.db.get_value("Employee", doc.employee, "default_shift") if doc.employee else None
+	for row in doc.overtime_details:
+		if flt(row.standard_working_hours) > 0:
+			continue
+		row.standard_working_hours = standard_hours(shift)
+		if flt(row.standard_working_hours) <= 0:
+			frappe.throw(
+				_("Set Standard Working Hours in Attendance Settings before claiming overtime.")
+			)
+
+
+def _payable(doc) -> tuple[float, str]:
+	"""What submitting this will pay, worked out with HRMS's own arithmetic.
+
+	Its `get_overtime_component_amounts` is the same method `on_submit` uses, so
+	the figure on the screen is the figure that will be written rather than a
+	second implementation that will drift from it. It can legitimately fail —
+	a type priced off a salary component needs a salary structure — and a slip
+	is still worth saving when it does, so the reason is shown instead.
+	"""
+	if not doc.overtime_details:
+		return 0.0, ""
+
+	said = len(frappe.local.message_log)
+	try:
+		amounts = doc.get_overtime_component_amounts()
+	except Exception:
+		del frappe.local.message_log[said:]
+		return 0.0, _("Overtime pay cannot be worked out until this employee has a salary structure.")
+
+	del frappe.local.message_log[said:]
+	total = sum(flt(amount) for amount in amounts.values())
+	if not total:
+		return 0.0, _("This overtime type has no rate set, so it pays nothing.")
+	return total, ""

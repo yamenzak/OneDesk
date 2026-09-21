@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 19:38+0000\n"
-"PO-Revision-Date: 2026-09-21 19:38+0000\n"
+"POT-Creation-Date: 2026-09-21 20:27+0000\n"
+"PO-Revision-Date: 2026-09-21 20:27+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -128,6 +128,12 @@ msgstr "إضافة عميل"
 #: onedesk/one/onboarding_step/one_add_an_employee/one_add_an_employee.json
 msgid "Add an employee"
 msgstr "إضافة موظف"
+
+#. Description of the 'total_overtime_duration' field in DocType 'Overtime
+#. Slip'
+#: onedesk/one_hr/custom/overtime_slip.json
+msgid "Added up from the rows below."
+msgstr "مجموع الصفوف أدناه."
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -527,6 +533,10 @@ msgstr "تسجيل الحضور الذاتي غير مفعَّل في هذا ا�
 msgid "Checks"
 msgstr "عمليات التحقق"
 
+#: onedesk/public/js/overtime_slip.js:41
+msgid "Choose an employee and a posting date first."
+msgstr "اختر الموظف وتاريخ القيد أولاً."
+
 #: onedesk/public/js/employee.js:190
 msgid "Claim an Expense"
 msgstr "المطالبة بمصروف"
@@ -919,7 +929,7 @@ msgstr ""
 msgid "Ends the Shift"
 msgstr "ينهي المناوبة"
 
-#: onedesk/one_hr/overtime.py:89
+#: onedesk/one_hr/overtime.py:109
 msgid "Enter the overtime hours."
 msgstr "أدخل ساعات العمل الإضافي."
 
@@ -1000,6 +1010,10 @@ msgstr "تعذّر إعداد One"
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Feedback"
 msgstr ""
+
+#: onedesk/public/js/overtime_slip.js:15
+msgid "Fetch Overtime Details"
+msgstr "جلب تفاصيل العمل الإضافي"
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -1138,6 +1152,11 @@ msgstr ""
 msgid "Hours Utilization"
 msgstr "استغلال الساعات"
 
+#. Label of the one_actual (Float) field in DocType 'Overtime Details'
+#: onedesk/one_hr/custom/overtime_details.json
+msgid "Hours Worked"
+msgstr "الساعات المعمولة"
+
 #: onedesk/public/js/overtime.js:47
 msgid "Hours worked beyond the standard day."
 msgstr "الساعات التي تتجاوز يوم العمل القياسي."
@@ -1152,6 +1171,12 @@ msgstr "مدى دقة الموقع بحسب ما أفاد به المتصفح."
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "How long a day is where a shift does not say. Anything beyond it on a day marked Present is overtime."
 msgstr "طول يوم العمل حيث لا تحدده المناوبة. وكل ما يتجاوزه في يوم مُسجَّل حاضراً يُعدّ عملاً إضافياً."
+
+#. Description of the 'standard_working_hours' field in DocType 'Overtime
+#. Details'
+#: onedesk/one_hr/custom/overtime_details.json
+msgid "How long a full day is for this person. Filled from their shift, or from Attendance Settings."
+msgstr "طول يوم العمل الكامل لهذا الموظف. يُملأ من مناوبته أو من إعدادات الحضور."
 
 #: onedesk/public/js/setup_wizard.js:19
 msgid "How should One look?"
@@ -1562,6 +1587,10 @@ msgstr "لا يوجد موقع"
 msgid "No one checked out, so this OUT was written at the shift end."
 msgstr "لم يسجّل أحد الانصراف، فكُتب سجل الانصراف هذا عند نهاية المناوبة."
 
+#: onedesk/public/js/overtime_slip.js:56
+msgid "No overtime was recorded on any attendance between {0} and {1}."
+msgstr "لم يُسجَّل أي عمل إضافي في أي حضور بين {0} و{1}."
+
 #: onedesk/one_hr/rules.py:31
 msgid "No passkey was presented."
 msgstr "لم يُقدَّم أي مفتاح مرور."
@@ -1806,7 +1835,12 @@ msgstr "النتيجة"
 msgid "Overtime Hours"
 msgstr "ساعات العمل الإضافي"
 
-#: onedesk/one_hr/overtime.py:133
+#. Label of the one_amount (Currency) field in DocType 'Overtime Slip'
+#: onedesk/one_hr/custom/overtime_slip.json
+msgid "Overtime Pay"
+msgstr "أجر العمل الإضافي"
+
+#: onedesk/one_hr/overtime.py:153
 msgid "Overtime Recorded Twice"
 msgstr "العمل الإضافي مُسجَّل مرتين"
 
@@ -1821,7 +1855,11 @@ msgstr "قسيمة عمل إضافي"
 msgid "Overtime Type"
 msgstr "نوع العمل الإضافي"
 
-#: onedesk/one_hr/overtime.py:112
+#: onedesk/one_hr/overtime.py:301
+msgid "Overtime pay cannot be worked out until this employee has a salary structure."
+msgstr "لا يمكن حساب أجر العمل الإضافي قبل إسناد هيكل راتب لهذا الموظف."
+
+#: onedesk/one_hr/overtime.py:132
 msgid "Overtime recorded by hand: {0} hours, {1}."
 msgstr "عمل إضافي مُسجَّل يدوياً: {0} ساعة، {1}."
 
@@ -1989,6 +2027,10 @@ msgstr "النطاق (بالأمتار)"
 #: onedesk/one_hr/doctype/clock_place/clock_place.py:9
 msgid "Radius must be greater than 0."
 msgstr "يجب أن يكون النطاق أكبر من 0."
+
+#: onedesk/public/js/overtime_slip.js:17
+msgid "Read Attendance"
+msgstr "قراءة الحضور"
 
 #: onedesk/public/js/shift_type.js:24
 msgid "Read Check-ins"
@@ -2257,6 +2299,10 @@ msgstr "عنوان الجلسة"
 msgid "Set One up"
 msgstr "إعداد One"
 
+#: onedesk/one_hr/overtime.py:280
+msgid "Set Standard Working Hours in Attendance Settings before claiming overtime."
+msgstr "اضبط ساعات العمل القياسية في إعدادات الحضور قبل المطالبة بعمل إضافي."
+
 #. Description of the 'status' field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/shift_request.json
 msgid "Set by Approve and Reject, so it always agrees with who decided."
@@ -2334,6 +2380,10 @@ msgstr ""
 msgid "Sign Count"
 msgstr "عدد مرات التوقيع"
 
+#: onedesk/public/js/overtime_slip.js:89
+msgid "Some Days Were Trimmed"
+msgstr "اقتُطعت بعض الأيام"
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Staffing Plan"
@@ -2367,6 +2417,10 @@ msgstr "بدء مشروع"
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 msgid "Status"
 msgstr "الحالة"
+
+#: onedesk/public/js/overtime_slip.js:100
+msgid "Submitting this pays {0} for {1} hours."
+msgstr "باعتماد هذا يُدفع {0} مقابل {1} ساعة."
 
 #. Description of the 'Backed Up' (Check) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
@@ -2428,6 +2482,12 @@ msgstr "لا يُتوقع عودة الموظف اليوم. ويُسجَّل ا�
 msgid "The log this attempt wrote. Empty when the attempt was refused."
 msgstr "السجل الذي كتبته هذه المحاولة. يكون فارغاً عند رفض المحاولة."
 
+#. Description of the 'maximum_overtime_hours_allowed' field in DocType
+#. 'Overtime Details'
+#: onedesk/one_hr/custom/overtime_details.json
+msgid "The most this overtime type pays in one day. Anything worked beyond it is not paid."
+msgstr "أقصى ما يدفعه هذا النوع من العمل الإضافي في اليوم الواحد. وما يُعمل بعده لا يُدفع."
+
 #: onedesk/one_hr/rules.py:32
 msgid "The passkey was not unlocked with a face, fingerprint or PIN."
 msgstr "لم يُفتح مفتاح المرور ببصمة الوجه أو بصمة الإصبع أو رمز PIN."
@@ -2466,13 +2526,17 @@ msgstr ""
 "\n"
 "{0}"
 
-#: onedesk/one_hr/overtime.py:100
+#: onedesk/one_hr/overtime.py:120
 msgid "There is no day to record this against."
 msgstr "لا يوجد يوم يمكن تسجيل هذا عليه."
 
 #: onedesk/one_hr/clock.py:96 onedesk/public/js/desk.js:88
 msgid "There is nothing to check in: you are {0} today."
 msgstr "لا يوجد ما يُسجَّل: أنت {0} اليوم."
+
+#: onedesk/public/js/overtime_slip.js:90
+msgid "These days go past the overtime type's daily maximum. Only the hours up to it are paid."
+msgstr "تتجاوز هذه الأيام الحد اليومي الأقصى لنوع العمل الإضافي. ولا يُدفع إلا حتى ذلك الحد."
 
 #: onedesk/public/js/attendance_request.js:18
 msgid "These days will be marked as worked."
@@ -2509,6 +2573,10 @@ msgstr "هذه الشبكة تخصك أنت لا مكان عمل."
 #: onedesk/one_hr/rules.py:35
 msgid "This network is not one you may check in from."
 msgstr "هذه الشبكة ليست من الشبكات التي يجوز لك تسجيل الحضور منها."
+
+#: onedesk/one_hr/overtime.py:306
+msgid "This overtime type has no rate set, so it pays nothing."
+msgstr "لا يوجد سعر محدد لهذا النوع من العمل الإضافي، فلا يدفع شيئاً."
 
 #: onedesk/one_hr/rules.py:33
 msgid "This passkey was registered on a different browser."
@@ -2548,7 +2616,7 @@ msgstr "الوقت"
 msgid "Timesheet"
 msgstr ""
 
-#: onedesk/one_hr/overtime.py:95
+#: onedesk/one_hr/overtime.py:115
 msgid "Too Much Overtime"
 msgstr "عمل إضافي يتجاوز الحد"
 
@@ -2659,11 +2727,23 @@ msgstr ""
 msgid "Weekly off"
 msgstr "راحة أسبوعية"
 
+#. Description of the 'Hours Worked' (Float) field in DocType 'Overtime
+#. Details'
+#: onedesk/one_hr/custom/overtime_details.json
+msgid "What Attendance recorded, before the type's maximum was applied."
+msgstr "ما سجّله الحضور قبل تطبيق الحد الأقصى للنوع."
+
 #. Description of the 'Clock Attempt' (Link) field in DocType 'Employee
 #. Checkin'
 #: onedesk/one_hr/custom/employee_checkin.json
 msgid "What each check saw when this log was written."
 msgstr "ما رصده كل تحقق عند كتابة هذا السجل."
+
+#. Description of the 'Overtime Pay' (Currency) field in DocType 'Overtime
+#. Slip'
+#: onedesk/one_hr/custom/overtime_slip.json
+msgid "What submitting this will add to the next payroll, from each type's rate and multipliers."
+msgstr "ما سيضيفه اعتماد هذا إلى كشف الرواتب القادم، من سعر كل نوع ومعاملاته."
 
 #. Description of the 'Device' (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
@@ -2700,6 +2780,11 @@ msgstr "المكان الذي كانت تعمل منه جلسة هذا المس�
 #: onedesk/one/onboarding_step/one_add_a_customer/one_add_a_customer.json
 msgid "Who you invoice. OneCRM turns a lead into one of these, and Books bills them."
 msgstr "من تصدر له الفواتير. يحوّل OneCRM العميل المحتمل إلى واحد من هؤلاء، وتتولى Books إصدار فواتيرهم."
+
+#. Label of the one_pay_note (Small Text) field in DocType 'Overtime Slip'
+#: onedesk/one_hr/custom/overtime_slip.json
+msgid "Why There Is No Figure"
+msgstr "سبب غياب الرقم"
 
 #. Description of the 'Reason' (Link) field in DocType 'Attendance Request'
 #: onedesk/one_hr/custom/attendance_request.json
@@ -2785,11 +2870,11 @@ msgstr "انصرف مبكراً"
 msgid "no passkey registered"
 msgstr "لا يوجد مفتاح مرور مسجَّل"
 
-#: onedesk/one_hr/overtime.py:94
+#: onedesk/one_hr/overtime.py:114
 msgid "{0} allows at most {1} overtime hours a day."
 msgstr "يسمح {0} بحد أقصى {1} من ساعات العمل الإضافي يومياً."
 
-#: onedesk/one_hr/overtime.py:130
+#: onedesk/one_hr/overtime.py:150
 msgid "{0} already records {1} hours of overtime on {2}. Remove this row."
 msgstr "يسجّل {0} بالفعل {1} ساعة عمل إضافي في {2}. احذف هذا السطر."
 
@@ -2819,7 +2904,11 @@ msgstr ""
 msgid "{0} could not be marked Left"
 msgstr "تعذّر تعليم {0} بأنه ترك العمل"
 
-#: onedesk/one_hr/overtime.py:65
+#: onedesk/public/js/overtime_slip.js:69
+msgid "{0} days read. Save to keep them."
+msgstr "قُرئ {0} يوماً. احفظ للإبقاء عليها."
+
+#: onedesk/one_hr/overtime.py:85
 msgid "{0} has no attendance marked on {1}."
 msgstr "لا يوجد حضور مُسجَّل لـ {0} في {1}."
 
@@ -2827,7 +2916,7 @@ msgstr "لا يوجد حضور مُسجَّل لـ {0} في {1}."
 msgid "{0} hours"
 msgstr ""
 
-#: onedesk/one_hr/overtime.py:69
+#: onedesk/one_hr/overtime.py:89
 msgid "{0} is marked {1} on {2}. Overtime is only paid on a day marked {3}."
 msgstr "{0} مُسجَّل بحالة {1} في {2}. ولا يُدفع العمل الإضافي إلا في يوم مُسجَّل بحالة {3}."
 
@@ -2855,6 +2944,10 @@ msgstr "لن يتمكن {0} من تسجيل الحضور أو تسجيل مفت�
 #: onedesk/public/js/employee.js:204
 msgid "{0} will register a new passkey on their next check-in. The old one is retired, not deleted."
 msgstr "سيسجّل {0} مفتاح مرور جديداً عند تسجيل حضوره التالي. ويُسحب المفتاح القديم من الخدمة ولا يُحذف."
+
+#: onedesk/public/js/overtime_slip.js:82
+msgid "{0} worked, {1} paid"
+msgstr "عُمل {0}، ودُفع {1}"
 
 #: onedesk/one_hr/review.py:86
 msgid "{0}'s check-in needs a look"

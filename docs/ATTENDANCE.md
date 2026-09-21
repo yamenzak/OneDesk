@@ -521,6 +521,14 @@ mandatory and valid only against the employee's own `shift_request_approver` and
 their department's rows, so the form fills it where there is one and says what
 is missing where there is none.
 
+`Overtime Slip` — what it will pay, worked out before the save with HRMS's own
+`get_overtime_component_amounts`, so the figure on the screen is the figure
+`on_submit` writes rather than a second copy of the arithmetic. The screen was
+otherwise entirely in hours: eight and a half hours on the dev site is 318.75,
+and that number appeared nowhere until the Additional Salary existed. Each row
+also keeps the hours actually worked beside the hours paid, because a day past
+the type's daily maximum was trimmed on the way in and nothing said so.
+
 `Employee` — attendance standing, read-only, and when it was last computed.
 
 `Employee Checkin` — a link to the attempt that produced it, the attempt's
@@ -597,6 +605,16 @@ Tool` is still how HR marks somebody by hand. From frappe: `User` and
 `User Permission` for the account and its scope, `Activity Log` and
 `User Session Display` for corroboration, `File` for the optional photo,
 `Notification` for the nudge and the learned-a-thing message.
+
+**Two things HRMS's Overtime Slip did that are not UI.** Its Fetch button
+called a document method ending in `self.save()`, so pressing it on a new form
+inserted a slip and left the person on the unsaved blank one — press it twice
+and it answers that a record they never knowingly made already covers the
+period. And it refused a slip for anybody with no salary structure, because the
+only thing it wanted the structure for was the payroll frequency that fills two
+dates; a fixed hourly rate needs no structure, and the refusal printed the date
+it was in the middle of working out, so it read "for date None". Both are
+handled in `one_hr/overtime.py` and both are worth offering back.
 
 **One fix upstream.** `validate_distance_from_shift_location` collects every
 Shift Location assigned to the employee for that shift and then checks `[0]` —
