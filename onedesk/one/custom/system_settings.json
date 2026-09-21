@@ -1,0 +1,18 @@
+{
+ "custom_fields": [
+  {
+   "default": "0",
+   "description": "An employee who only ever clocks in has no reason to hold a password, and a password they never type is a password they write down. The same passkey they clock in with signs them in.",
+   "dt": "System Settings",
+   "fieldname": "one_login_with_passkey",
+   "fieldtype": "Check",
+   "insert_after": "login_with_email_link",
+   "label": "Login with Passkey",
+   "module": "One"
+  }
+ ],
+ "doctype": "System Settings",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

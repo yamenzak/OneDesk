@@ -18,6 +18,8 @@ the seat's `create` grant on Employee Checkin is the permission, and `own.py` is
 not a way around one.
 """
 
+import base64
+
 import frappe
 from frappe import _
 from onedesk.one_hr import gates, ledger, own, policy, presence, rules
@@ -64,7 +66,7 @@ def ready() -> dict:
 
 
 @frappe.whitelist(methods=["POST"])
-def punch(credential=None, position=None, seen=None, reason=None) -> dict:
+def punch(credential=None, position=None, seen=None, reason=None, photo=None) -> dict:
 	"""Clock in or out. Every gate is asked; the score decides; the row is written.
 
 	The attempt is written whatever happens, including when a gate refused and
@@ -113,6 +115,9 @@ def punch(credential=None, position=None, seen=None, reason=None) -> dict:
 		session_address=history["session_address"],
 		**{k: v for k, v in place.items() if k != "signals"},
 	)
+
+	if photo:
+		_keep(attempt, photo)
 
 	if outcome == "Refused":
 		return _refused(attempt, score, signals)
@@ -197,6 +202,25 @@ def _write(employee: str, direction: str, place: dict, reason, attempt: str) -> 
 	log.insert()
 	del frappe.local.message_log[said:]
 	return log.name
+
+
+def _keep(attempt: str, photo: str) -> None:
+	"""The frame, as a private file on the attempt.
+
+	Private, and swept by the retention setting in `healing.forget_photos`. A
+	photograph of somebody's face is personal data everywhere and biometric data
+	in several places, and the cheapest way to hold that responsibly is not to
+	hold it long.
+	"""
+	from frappe.utils.file_manager import save_file
+
+	head, _, body = str(photo).partition(",")
+	if "image/jpeg" not in head or not body:
+		return
+	saved = save_file(
+		f"{attempt}.jpg", base64.b64decode(body), "Checkin Attempt", attempt, is_private=1
+	)
+	frappe.db.set_value("Checkin Attempt", attempt, "photo", saved.file_url, update_modified=False)
 
 
 def _at(places: list[str]) -> str:

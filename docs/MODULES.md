@@ -43,3 +43,6 @@ No doctypes yet.
 * `onedesk.one_hr.passkey.start_assertion`
 * `onedesk.one_hr.passkey.start_registration`
 * `onedesk.one_hr.presence.of`
+* `onedesk.one_hr.signin.begin`
+* `onedesk.one_hr.signin.finish`
+* `onedesk.one_hr.signin.offered`

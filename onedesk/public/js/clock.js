@@ -29,12 +29,14 @@ onedesk.clock.punch = async (ready, reason) => {
 	}
 
 	const position = needs.place ? await onedesk.clock.where() : null;
+	const photo = needs.photo ? await onedesk.clock.look() : null;
 
 	return frappe.xcall("onedesk.one_hr.clock.punch", {
 		credential: credential ? JSON.stringify(credential) : null,
 		position: position ? JSON.stringify(position) : null,
 		seen: JSON.stringify(seen),
 		reason: reason || null,
+		photo,
 	});
 };
 
@@ -81,3 +83,43 @@ onedesk.clock.why = (direction) =>
 // want, not the tooltip around them.
 onedesk.clock.when = (stamp) =>
 	stamp ? $("<div>").html(frappe.datetime.comment_when(stamp, true)).text() : "";
+
+// The optional photo. The camera opens inside the page and a frame goes
+// straight from a canvas, so there is no file input anywhere and nothing can be
+// chosen from the gallery — `<input type="file" capture>` is only a hint, and a
+// file can still be picked on several platforms.
+//
+// It answers *who*, never *where*: a canvas capture carries no EXIF at all, and
+// a photo that does came from a file somebody could have written anything into.
+// The position comes from the place gate at the same moment, and the time from
+// the server.
+onedesk.clock.SHOT = { width: 640, height: 480, quality: 0.7 };
+
+onedesk.clock.look = async () => {
+	let stream;
+	try {
+		stream = await navigator.mediaDevices.getUserMedia({
+			video: { facingMode: "user", width: onedesk.clock.SHOT.width },
+			audio: false,
+		});
+	} catch (e) {
+		return null;
+	}
+
+	try {
+		const video = document.createElement("video");
+		video.srcObject = stream;
+		video.muted = true;
+		await video.play();
+		// One frame after the sensor has settled; the first is usually black.
+		await new Promise((done) => setTimeout(done, 600));
+
+		const canvas = document.createElement("canvas");
+		canvas.width = onedesk.clock.SHOT.width;
+		canvas.height = onedesk.clock.SHOT.height;
+		canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+		return canvas.toDataURL("image/jpeg", onedesk.clock.SHOT.quality);
+	} finally {
+		stream.getTracks().forEach((track) => track.stop());
+	}
+};
