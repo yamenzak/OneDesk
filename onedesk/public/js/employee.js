@@ -24,8 +24,15 @@ onedesk.employee.band = (data) => {
 	const stats = onedesk.employee.stats(data);
 	const heat = onedesk.employee.heat(data.days);
 	if (!heat && !stats.length) return "";
-	return `<div class="one-band">${heat}` +
-		`<div class="one-stats">${stats.join("")}</div></div>`;
+	// The legend is a third child rather than part of the chart: seven keys in
+	// a row are wider than four months of squares, so inside the left column it
+	// either shouldered the numbers off the edge or wrapped to three lines and
+	// stretched the band to fit. Across the foot it is one line with room over.
+	return `<div class="one-band">` +
+		(heat ? heat.months : "") +
+		`<div class="one-stats">${stats.join("")}</div>` +
+		(heat ? heat.legend : "") +
+		`</div>`;
 };
 
 //: What a square can mean, in the order the legend reads them. Five are
@@ -76,8 +83,10 @@ onedesk.employee.heat = (days) => {
 		.filter((mark) => seen.has(mark))
 		.map((mark) => `<span class="one-key one-key-${mark}">${marks[mark]}</span>`);
 
-	return `<div class="one-heat"><div class="one-heat-months">${blocks.join("")}</div>` +
-		`<div class="one-heat-legend">${legend.join("")}</div></div>`;
+	return {
+		months: `<div class="one-heat-months">${blocks.join("")}</div>`,
+		legend: `<div class="one-heat-legend">${legend.join("")}</div>`,
+	};
 };
 
 onedesk.employee.square = (day, marks) => {

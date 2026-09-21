@@ -104,14 +104,25 @@
 	color: var(--ink-gray-7) !important;
 }
 
+/* Two panels rather than two things pushed to opposite walls. A flex row with
+   space-between left a dead gap down the middle and let the legend — which is
+   wider than the chart it explains — run into the first column of numbers. A
+   grid sizes the left column to the heatmap and gives the rest to the numbers,
+   and the rule says where one ends and the other starts. */
 .one-band {
-	display: flex;
-	/* Stretch rather than start, so the numbers are as tall as the quarter
-	   beside them: two short rows floating at the top of a band the heatmap
-	   sets the height of read as an afterthought next to it. */
+	display: grid;
+	grid-template-columns: max-content 1fr;
 	align-items: stretch;
-	justify-content: space-between;
-	gap: var(--margin-md);
+	gap: var(--margin-md) var(--margin-lg);
+}
+
+/* The quarter and the numbers share the first row; the legend runs under both. */
+.one-heat-months {
+	grid-column: 1;
+}
+
+.one-heat-legend {
+	grid-column: 1 / -1;
 }
 
 /* frappe-charts' heatmap, to the pixel: a ten pixel square, a two pixel
@@ -201,8 +212,8 @@ a.one-day:hover {
 .one-heat-legend {
 	display: flex;
 	flex-wrap: wrap;
-	gap: var(--margin-sm);
-	margin-top: 8px;
+	/* No margin of its own: the band's row gap already puts it under the two. */
+	gap: 4px var(--margin-sm);
 	font-size: var(--text-xs);
 	color: var(--ink-gray-5);
 }
@@ -228,13 +239,15 @@ a.one-day:hover {
 .one-stats {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(7rem, max-content));
-	justify-content: end;
-	/* Spread the rows over whatever height the band ends up being, so the top
-	   row lines up with the first month and the bottom with the legend. */
+	/* Spread both ways: the columns across the width the grid hands over, the
+	   rows over whatever height the heatmap sets — so the top row lines up
+	   with the first month and the bottom with the legend. */
+	justify-content: space-between;
 	align-content: space-between;
-	flex: 1 1 0;
 	min-width: 0;
-	gap: var(--margin-md) var(--margin-xl);
+	padding-left: var(--margin-lg);
+	border-left: 1px solid var(--outline-gray-2);
+	gap: var(--margin-md) var(--margin-lg);
 }
 
 @media (max-width: 900px) {
