@@ -9,13 +9,14 @@ app_logo_url = "/assets/onedesk/images/one.svg"
 # The site wears One from its first boot and carries nobody else's navbar rows or
 # checklists; after that all of it is the tenant's, in Website and Navbar Settings.
 after_install = [
+	"onedesk.one_hr.policy.seed",
 	"onedesk.one.brand.apply",
 	"onedesk.one.declutter.apply",
 	"onedesk.one.companions.apply",
 ]
 
 # Their dock files do not carry the mount, so a newer erpnext or hrms clears it.
-after_migrate = "onedesk.one.companions.apply"
+after_migrate = ["onedesk.one.companions.apply", "onedesk.one_hr.policy.seed"]
 extend_bootinfo = "onedesk.one.boot.boot_session"
 
 # The One marks, as sprite symbols every Icon field can name.

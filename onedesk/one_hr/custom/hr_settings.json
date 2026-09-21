@@ -1,0 +1,224 @@
+{
+ "custom_fields": [
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_attendance_tab",
+   "fieldtype": "Tab Break",
+   "label": "Attendance",
+   "module": "One HR",
+   "insert_after": "allow_geolocation_tracking"
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_self_checkin_section",
+   "fieldtype": "Section Break",
+   "label": "Clocking in",
+   "module": "One HR",
+   "insert_after": "one_attendance_tab"
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_self_checkin",
+   "fieldtype": "Check",
+   "label": "Employees may clock themselves in",
+   "module": "One HR",
+   "insert_after": "one_self_checkin_section",
+   "default": "0",
+   "description": "Everyone who does needs a login. An employee with no User has no session, so there is nothing to check and no permission to write under."
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_close_the_day",
+   "fieldtype": "Check",
+   "label": "Close an open day at the shift's end",
+   "module": "One HR",
+   "insert_after": "one_self_checkin",
+   "default": "1",
+   "depends_on": "one_self_checkin",
+   "description": "A forgotten clock-out is the commonest cause of a wrong half day. The closed log is marked as automatic rather than left looking real."
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_reason_on_out",
+   "fieldtype": "Check",
+   "label": "Ask why on the way out",
+   "module": "One HR",
+   "insert_after": "one_close_the_day",
+   "default": "1",
+   "depends_on": "one_self_checkin",
+   "description": "Break, lunch, errand, done for the day. It makes a day of gaps readable."
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_gates_section",
+   "fieldtype": "Section Break",
+   "label": "The gates",
+   "module": "One HR",
+   "insert_after": "one_reason_on_out",
+   "depends_on": "one_self_checkin"
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_gate_passkey",
+   "fieldtype": "Check",
+   "label": "A passkey on their own phone",
+   "module": "One HR",
+   "insert_after": "one_gates_section",
+   "default": "1",
+   "description": "Who. One credential per employee; a second needs a reset here."
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_passkey_refuses",
+   "fieldtype": "Check",
+   "label": "No passkey refuses the clock-in",
+   "module": "One HR",
+   "insert_after": "one_gate_passkey",
+   "default": "1",
+   "depends_on": "one_gate_passkey",
+   "description": "Off, a missing passkey is only flagged. Turn it off in a workspace that cannot reset a lost phone the same morning."
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_gate_network",
+   "fieldtype": "Check",
+   "label": "The network they arrived on",
+   "module": "One HR",
+   "insert_after": "one_passkey_refuses",
+   "default": "1",
+   "description": "The address the request came from, against the places below. A browser cannot read a wifi name and never will."
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_gate_place",
+   "fieldtype": "Check",
+   "label": "Where the browser says they are",
+   "module": "One HR",
+   "insert_after": "one_gate_network",
+   "default": "1",
+   "description": "Needs HRMS's own geolocation tracking switched on above, and the employee's permission once."
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_column_gates",
+   "fieldtype": "Column Break",
+   "label": null,
+   "module": "One HR",
+   "insert_after": "one_gate_place"
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_gates_require",
+   "fieldtype": "Select",
+   "label": "Network and place",
+   "module": "One HR",
+   "insert_after": "one_column_gates",
+   "options": "Either\nBoth",
+   "default": "Either",
+   "description": "Either is the sensible default: they prove the same thing two ways, and demanding both means one poor GPS fix stops somebody working."
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_refuse_below",
+   "fieldtype": "Int",
+   "label": "Refuse below",
+   "module": "One HR",
+   "insert_after": "one_gates_require",
+   "default": "50",
+   "description": "Confidence out of a hundred. Below this the clock-in is refused and the reason is shown."
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_flag_below",
+   "fieldtype": "Int",
+   "label": "Flag below",
+   "module": "One HR",
+   "insert_after": "one_refuse_below",
+   "default": "85",
+   "description": "Between the two the clock-in is written and goes in the review queue."
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_gate_photo",
+   "fieldtype": "Check",
+   "label": "Ask for a photo",
+   "module": "One HR",
+   "insert_after": "one_flag_below",
+   "default": "0",
+   "description": "A live frame from the camera, never a file. It says who pressed the button; it cannot say where, because there is no location in a photo."
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_keep_photo_days",
+   "fieldtype": "Int",
+   "label": "Keep photos for",
+   "module": "One HR",
+   "insert_after": "one_gate_photo",
+   "default": "7",
+   "depends_on": "one_gate_photo",
+   "description": "Days, then they are deleted."
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_learning_section",
+   "fieldtype": "Section Break",
+   "label": "What the system may learn",
+   "module": "One HR",
+   "insert_after": "one_keep_photo_days",
+   "depends_on": "one_self_checkin",
+   "description": "Only clock-ins already corroborated another way may teach it anything, so three people in a caf\u00e9 cannot promote the caf\u00e9. Nothing learned ever widens who may clock in, only where."
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_learn_networks",
+   "fieldtype": "Check",
+   "label": "Learn a new office address",
+   "module": "One HR",
+   "insert_after": "one_learning_section",
+   "default": "1",
+   "description": "A router reboot or a second line stops locking everybody out on a Monday."
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_learn_zones",
+   "fieldtype": "Check",
+   "label": "Learn where people actually stand",
+   "module": "One HR",
+   "insert_after": "one_learn_networks",
+   "default": "1",
+   "description": "A warehouse gate two hundred metres from the registered door becomes a second circle, never a wider one."
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_column_learning",
+   "fieldtype": "Column Break",
+   "label": null,
+   "module": "One HR",
+   "insert_after": "one_learn_zones"
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_learn_home",
+   "fieldtype": "Check",
+   "label": "Learn home networks and home zones",
+   "module": "One HR",
+   "insert_after": "one_column_learning",
+   "default": "0",
+   "description": "For remote workers. Off by default because plenty of workplaces would rather not hold somebody's home address."
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_learn_threshold",
+   "fieldtype": "Int",
+   "label": "Proposals need",
+   "module": "One HR",
+   "insert_after": "one_learn_home",
+   "default": "3",
+   "description": "How many different people, and how many clock-ins, before a proposal is confirmed on its own."
+  }
+ ],
+ "doctype": "HR Settings",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

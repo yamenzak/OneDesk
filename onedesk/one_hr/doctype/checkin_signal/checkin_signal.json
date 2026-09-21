@@ -1,0 +1,53 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-09-21 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "signal",
+  "weight",
+  "says"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "signal",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Signal",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "weight",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Weight",
+   "read_only": 1
+  },
+  {
+   "columns": 7,
+   "fieldname": "says",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Says",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-09-21 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One HR",
+ "name": "Checkin Signal",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 0,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

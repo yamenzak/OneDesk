@@ -1,0 +1,309 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-09-21 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "employee",
+  "employee_name",
+  "direction",
+  "column_break_who",
+  "outcome",
+  "score",
+  "checkin",
+  "signals_section",
+  "signals",
+  "gates_tab",
+  "passkey_section",
+  "device",
+  "verified",
+  "column_break_passkey",
+  "user_agent",
+  "platform",
+  "model",
+  "screen",
+  "renderer",
+  "network_section",
+  "address",
+  "network",
+  "column_break_network",
+  "session_address",
+  "place_section",
+  "latitude",
+  "longitude",
+  "accuracy",
+  "column_break_place",
+  "zone",
+  "metres_out",
+  "position_state",
+  "photo_section",
+  "photo"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Employee",
+   "options": "Employee",
+   "read_only": 1,
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "direction",
+   "fieldtype": "Select",
+   "label": "Direction",
+   "options": "\nIN\nOUT",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_who",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "outcome",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Outcome",
+   "options": "Allowed\nFlagged\nRefused",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "score",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Confidence",
+   "read_only": 1
+  },
+  {
+   "description": "The log this attempt wrote, when it wrote one.",
+   "fieldname": "checkin",
+   "fieldtype": "Link",
+   "label": "Check-in",
+   "options": "Employee Checkin",
+   "read_only": 1
+  },
+  {
+   "fieldname": "signals_section",
+   "fieldtype": "Section Break",
+   "label": "What was doubted"
+  },
+  {
+   "fieldname": "signals",
+   "fieldtype": "Table",
+   "options": "Checkin Signal",
+   "read_only": 1
+  },
+  {
+   "fieldname": "gates_tab",
+   "fieldtype": "Tab Break",
+   "label": "What the gates saw"
+  },
+  {
+   "fieldname": "passkey_section",
+   "fieldtype": "Section Break",
+   "label": "The passkey"
+  },
+  {
+   "fieldname": "device",
+   "fieldtype": "Link",
+   "label": "Device",
+   "options": "Checkin Device",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "description": "Whether the phone released the passkey after a face, fingerprint or PIN.",
+   "fieldname": "verified",
+   "fieldtype": "Check",
+   "label": "Verified",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_passkey",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "user_agent",
+   "fieldtype": "Small Text",
+   "label": "User Agent",
+   "read_only": 1
+  },
+  {
+   "fieldname": "platform",
+   "fieldtype": "Data",
+   "label": "Platform",
+   "read_only": 1
+  },
+  {
+   "fieldname": "model",
+   "fieldtype": "Data",
+   "label": "Model",
+   "read_only": 1
+  },
+  {
+   "fieldname": "screen",
+   "fieldtype": "Data",
+   "label": "Screen",
+   "read_only": 1
+  },
+  {
+   "fieldname": "renderer",
+   "fieldtype": "Data",
+   "label": "Graphics",
+   "read_only": 1
+  },
+  {
+   "fieldname": "network_section",
+   "fieldtype": "Section Break",
+   "label": "The network"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Address",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "network",
+   "fieldtype": "Link",
+   "label": "Matched",
+   "options": "Checkin Network",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_network",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Where their desk session was live from, when they have one.",
+   "fieldname": "session_address",
+   "fieldtype": "Data",
+   "label": "Session Address",
+   "read_only": 1
+  },
+  {
+   "fieldname": "place_section",
+   "fieldtype": "Section Break",
+   "label": "The place"
+  },
+  {
+   "fieldname": "latitude",
+   "fieldtype": "Float",
+   "label": "Latitude",
+   "precision": "9",
+   "read_only": 1
+  },
+  {
+   "fieldname": "longitude",
+   "fieldtype": "Float",
+   "label": "Longitude",
+   "precision": "9",
+   "read_only": 1
+  },
+  {
+   "description": "Metres the browser said the position was good to.",
+   "fieldname": "accuracy",
+   "fieldtype": "Float",
+   "label": "Accuracy",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_place",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "zone",
+   "fieldtype": "Link",
+   "label": "Landed in",
+   "options": "Checkin Zone",
+   "read_only": 1
+  },
+  {
+   "description": "How far outside the nearest place, when outside all of them.",
+   "fieldname": "metres_out",
+   "fieldtype": "Float",
+   "label": "Metres Out",
+   "read_only": 1
+  },
+  {
+   "fieldname": "position_state",
+   "fieldtype": "Select",
+   "label": "Position",
+   "options": "\nGiven\nRefused\nAbsent",
+   "read_only": 1
+  },
+  {
+   "fieldname": "photo_section",
+   "fieldtype": "Section Break",
+   "label": "The photo"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "label": "Photo",
+   "read_only": 1
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-21 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One HR",
+ "name": "Checkin Attempt",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "if_owner": 0,
+   "read": 1,
+   "report": 1,
+   "role": "Employee"
+  }
+ ],
+ "quick_entry": 0,
+ "search_fields": "employee_name,outcome,address",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "employee_name",
+ "track_changes": 0
+}

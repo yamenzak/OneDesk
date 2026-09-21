@@ -1,0 +1,166 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-09-21 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "address",
+  "label",
+  "column_break_what",
+  "status",
+  "belongs_to_section",
+  "shift_location",
+  "employee",
+  "column_break_belongs",
+  "employee_name",
+  "seen_section",
+  "first_seen",
+  "last_seen",
+  "column_break_seen",
+  "attempts",
+  "voters"
+ ],
+ "fields": [
+  {
+   "description": "One address or range — 203.0.113.7 or 203.0.113.0/24. A bare address is its own range.",
+   "fieldname": "address",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Address",
+   "read_only_depends_on": "eval:doc.status != 'Declared'",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Called"
+  },
+  {
+   "fieldname": "column_break_what",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Declared",
+   "description": "Declared by a person, Proposed by what the system noticed, Confirmed once enough corroborated clock-ins used it.",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Declared\nProposed\nConfirmed\nRejected",
+   "search_index": 1
+  },
+  {
+   "description": "A place, or one employee's own network, or neither for the whole workspace.",
+   "fieldname": "belongs_to_section",
+   "fieldtype": "Section Break",
+   "label": "Whose"
+  },
+  {
+   "fieldname": "shift_location",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Place",
+   "options": "Shift Location"
+  },
+  {
+   "depends_on": "eval:!doc.shift_location",
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Employee",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "column_break_belongs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "seen_section",
+   "fieldtype": "Section Break",
+   "label": "What has been seen"
+  },
+  {
+   "fieldname": "first_seen",
+   "fieldtype": "Datetime",
+   "label": "First Seen",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_seen",
+   "fieldtype": "Datetime",
+   "label": "Last Seen",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_seen",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "attempts",
+   "fieldtype": "Int",
+   "label": "Clock-ins",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "description": "How many different people, each corroborated another way, have used it.",
+   "fieldname": "voters",
+   "fieldtype": "Int",
+   "label": "People",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-21 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One HR",
+ "name": "Checkin Network",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR User",
+   "share": 1
+  }
+ ],
+ "quick_entry": 1,
+ "search_fields": "address,label,status",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "address",
+ "track_changes": 1
+}

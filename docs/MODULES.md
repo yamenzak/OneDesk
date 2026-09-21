@@ -11,7 +11,13 @@ No doctypes yet.
 
 `onedesk/one_hr`
 
-No doctypes yet.
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Checkin Attempt | 34 | document |
+| Checkin Device | 22 | document |
+| Checkin Network | 15 | document |
+| Checkin Signal | 3 | child |
+| Checkin Zone | 18 | document |
 
 ## One CRM
 

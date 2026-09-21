@@ -1,0 +1,229 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-09-21 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "employee",
+  "employee_name",
+  "label",
+  "column_break_who",
+  "status",
+  "registered_on",
+  "last_used",
+  "credential_section",
+  "credential_id",
+  "public_key",
+  "column_break_credential",
+  "sign_count",
+  "aaguid",
+  "backed_up",
+  "seen_section",
+  "user_agent",
+  "platform",
+  "model",
+  "column_break_seen",
+  "screen",
+  "renderer",
+  "last_address"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Employee",
+   "options": "Employee",
+   "read_only": 1,
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Name",
+   "read_only": 1
+  },
+  {
+   "description": "What the browser called itself when this was registered.",
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Device",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_who",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Active\nReset\nBlocked",
+   "search_index": 1
+  },
+  {
+   "fieldname": "registered_on",
+   "fieldtype": "Datetime",
+   "label": "Registered",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_used",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Last Used",
+   "read_only": 1
+  },
+  {
+   "fieldname": "credential_section",
+   "fieldtype": "Section Break",
+   "label": "The passkey"
+  },
+  {
+   "fieldname": "credential_id",
+   "fieldtype": "Data",
+   "label": "Credential",
+   "read_only": 1,
+   "search_index": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "public_key",
+   "fieldtype": "Small Text",
+   "label": "Public Key",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_credential",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "description": "The authenticator's own counter. Going backwards means a copy.",
+   "fieldname": "sign_count",
+   "fieldtype": "Int",
+   "label": "Sign Count",
+   "read_only": 1
+  },
+  {
+   "description": "Which authenticator made it, by model rather than by instance.",
+   "fieldname": "aaguid",
+   "fieldtype": "Data",
+   "label": "Authenticator",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "description": "Synced through iCloud Keychain or Google Password Manager, so it appears on their other devices too.",
+   "fieldname": "backed_up",
+   "fieldtype": "Check",
+   "label": "Backed Up",
+   "read_only": 1
+  },
+  {
+   "description": "Not the identity — what makes a reset request recognisable, and what shows several people enrolling from one machine.",
+   "fieldname": "seen_section",
+   "fieldtype": "Section Break",
+   "label": "What the browser looked like"
+  },
+  {
+   "fieldname": "user_agent",
+   "fieldtype": "Small Text",
+   "label": "User Agent",
+   "read_only": 1
+  },
+  {
+   "fieldname": "platform",
+   "fieldtype": "Data",
+   "label": "Platform",
+   "read_only": 1
+  },
+  {
+   "fieldname": "model",
+   "fieldtype": "Data",
+   "label": "Model",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_seen",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "screen",
+   "fieldtype": "Data",
+   "label": "Screen",
+   "read_only": 1
+  },
+  {
+   "fieldname": "renderer",
+   "fieldtype": "Data",
+   "label": "Graphics",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_address",
+   "fieldtype": "Data",
+   "label": "Last Address",
+   "read_only": 1
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 0,
+ "links": [
+  {
+   "link_doctype": "Checkin Attempt",
+   "link_fieldname": "device"
+  }
+ ],
+ "modified": "2026-09-21 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One HR",
+ "name": "Checkin Device",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Employee"
+  }
+ ],
+ "quick_entry": 0,
+ "search_fields": "employee_name,label,status",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "employee_name",
+ "track_changes": 1
+}
