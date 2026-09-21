@@ -40,6 +40,11 @@ def write(employee: str, direction: str, seen: dict, signals: list[str], **found
 			"signals", {"signal": name, "weight": rules.weight(name), "says": rules.says(name)}
 		)
 	attempt.insert(ignore_permissions=True)
+	# Committed here rather than with the rest of the request, because the next
+	# thing that happens may be HRMS refusing the check-in and a rollback. The
+	# ledger row is the record of the attempt and must not share the fate of
+	# what the attempt went on to try.
+	frappe.db.commit()
 	return attempt.name
 
 

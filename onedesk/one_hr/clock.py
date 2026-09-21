@@ -1,0 +1,196 @@
+"""Clocking yourself in and out. The one thing here that writes.
+
+**What makes it safe is that it takes no employee.** There is no argument to
+point at a colleague: the row is written for `own.employee_of()` and for nobody
+else, so the whole question of whose clock-in this is has one answer that no
+caller can influence.
+
+**Which way it points is read, not asked.** The browser does not send IN or OUT,
+because a tab open since this morning would send whichever the button said when
+it loaded. The direction is the opposite of where the person already is, and
+somebody on leave or on a holiday is not offered one at all — a badge-in on
+approved leave is a disagreement that writing it would manufacture.
+
+**Everything about the day is HRMS's.** The row goes in as an ordinary document
+so its own validation runs: shift resolution, the duplicate window, the
+geolocation radius, whatever a workspace has added. No `ignore_permissions` —
+the seat's `create` grant on Employee Checkin is the permission, and `own.py` is
+not a way around one.
+"""
+
+import frappe
+from frappe import _
+from onedesk.one_hr import gates, ledger, own, policy, presence, rules
+
+IN = "IN"
+OUT = "OUT"
+
+#: Where somebody has to be for a direction to make sense. On leave or on a
+#: holiday there is no honest answer, so the control is not offered and this
+#: refuses.
+DIRECTIONS = {"in": OUT, "late": OUT, "out": IN, "absent": IN, "unknown": IN}
+
+
+@frappe.whitelist()
+def ready() -> dict:
+	"""What the control should show, and what this clock-in will be asked for.
+
+	Answered before the button is drawn rather than after it is pressed, so a
+	workspace that does not record positions never shows anybody a location
+	prompt, and one that does says which office where somebody can read it
+	instead of refusing them at the turnstile.
+	"""
+	employee = own.employee_of()
+	if not employee or not policy.self_service():
+		return {"direction": "", "why": "off" if employee else "no-employee"}
+
+	from onedesk.one_hr import passkey
+
+	state = presence.of(employee)
+	places = gates.places_of(employee)
+	return {
+		"direction": DIRECTIONS.get(state.get("state"), ""),
+		"state": state.get("state") or "",
+		"since": state.get("since") or "",
+		"why": "" if DIRECTIONS.get(state.get("state")) else state.get("state") or "",
+		"needs": {
+			"passkey": bool(policy.on("one_gate_passkey")),
+			"place": bool(policy.on("one_gate_place")),
+			"photo": bool(policy.on("one_gate_photo")),
+		},
+		"registered": bool(passkey.held_by(employee)),
+		"at": _at(places),
+	}
+
+
+@frappe.whitelist(methods=["POST"])
+def punch(credential=None, position=None, seen=None, reason=None) -> dict:
+	"""Clock in or out. Every gate is asked; the score decides; the row is written.
+
+	The attempt is written whatever happens, including when a gate refused and
+	including when HRMS then threw on the document. A ledger written only on the
+	happy path is a ledger of the wrong half.
+	"""
+	employee = own.employee_of()
+	if not employee:
+		frappe.throw(_("Only an employee can clock in."), frappe.PermissionError)
+	if not policy.self_service():
+		frappe.throw(_("Clocking yourself in is switched off here."))
+
+	seen = frappe.parse_json(seen) if isinstance(seen, str) else (seen or {})
+	position = frappe.parse_json(position) if isinstance(position, str) else (position or {})
+
+	state = presence.of(employee)
+	direction = DIRECTIONS.get(state.get("state"))
+	if not direction:
+		frappe.throw(_("There is no clock-in to make: you are {0} today.").format(state.get("state")))
+
+	when = ledger.stamp()
+	places = gates.places_of(employee)
+
+	who = gates.passkey_gate(employee, credential, seen)
+	network = gates.network_gate(employee, places)
+	place = gates.place_gate(employee, places, position)
+	history = gates.history_gate(employee, seen, position, when)
+
+	signals = _signals(who, network, place, history)
+	score = rules.confidence(signals)
+	outcome = rules.outcome(
+		score,
+		policy.band("refuse_below", rules.REFUSE_BELOW),
+		policy.band("flag_below", rules.FLAG_BELOW),
+	)
+
+	attempt = ledger.write(
+		employee,
+		direction,
+		seen,
+		signals,
+		device=who["device"],
+		verified=who["verified"],
+		address=network["address"],
+		network=network["network"],
+		session_address=history["session_address"],
+		**{k: v for k, v in place.items() if k != "signals"},
+	)
+
+	if outcome == "Refused":
+		return _refused(attempt, score, signals)
+
+	try:
+		checkin = _write(employee, direction, place, reason, attempt)
+	except frappe.ValidationError as refused:
+		# HRMS said no after our gates said yes — its own radius, its duplicate
+		# window, a workspace's own rule. The attempt stands as the record of it
+		# rather than being rolled back into silence.
+		frappe.db.rollback()
+		frappe.db.set_value("Checkin Attempt", attempt, "outcome", "Refused", update_modified=False)
+		frappe.db.commit()
+		return {"ok": False, "attempt": attempt, "score": score, "told": [str(refused)]}
+
+	ledger.mark(attempt, checkin)
+	return {
+		"ok": True,
+		"direction": direction,
+		"checkin": checkin,
+		"attempt": attempt,
+		"score": score,
+		"flagged": outcome == "Flagged",
+		"told": [rules.says(name) for name in signals],
+	}
+
+
+def _signals(who, network, place, history) -> list[str]:
+	"""Every doubt raised, with the one rule that is about the pair of them.
+
+	The network and the place prove the same thing two ways. Either satisfying
+	it is the sensible default — demanding both means one poor GPS fix stops
+	somebody working — so where the workspace has not asked for both, a gate
+	that passed cancels the other's complaint.
+	"""
+	signals = list(who["signals"]) + list(history["signals"])
+	said = list(network["signals"]) + list(place["signals"])
+
+	if not policy.both_gates():
+		network_passed = bool(network["network"])
+		place_passed = place["position_state"] == "Given" and "place-outside" not in place["signals"]
+		if network_passed or place_passed:
+			said = [s for s in said if s not in ("network-unknown", "place-outside", "place-absent")]
+
+	return signals + said
+
+
+def _refused(attempt: str, score: int, signals: list[str]) -> dict:
+	"""Refusing says what was wrong, in sentences, and never more than three.
+
+	A refusal nobody can act on is a phone call to HR, and the three that cost
+	the most confidence are the three worth reading.
+	"""
+	worst = sorted(set(signals), key=rules.weight, reverse=True)[:3]
+	return {
+		"ok": False,
+		"attempt": attempt,
+		"score": score,
+		"told": [rules.says(name) for name in worst],
+	}
+
+
+def _write(employee: str, direction: str, place: dict, reason, attempt: str) -> str:
+	log = frappe.new_doc("Employee Checkin")
+	log.flags.one_gated = True
+	log.employee = employee
+	log.log_type = direction
+	log.one_attempt = attempt
+	if place.get("latitude"):
+		log.latitude = place["latitude"]
+		log.longitude = place["longitude"]
+	if reason and policy.on("one_reason_on_out") and direction == OUT:
+		log.one_reason = reason
+	log.insert()
+	return log.name
+
+
+def _at(places: list[str]) -> str:
+	if not places:
+		return ""
+	return frappe.db.get_value("Shift Location", places[0], "location_name") or ""

@@ -1,0 +1,36 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Shift Location",
+   "fieldname": "one_section",
+   "fieldtype": "Section Break",
+   "label": "Clocking in here",
+   "module": "One HR",
+   "insert_after": "geolocation"
+  },
+  {
+   "dt": "Shift Location",
+   "fieldname": "one_is_site",
+   "fieldtype": "Check",
+   "label": "This is a site, not a fence",
+   "module": "One HR",
+   "insert_after": "one_section",
+   "default": "0",
+   "description": "A fence refuses somebody outside it. A site records how far out they were and lets them through, which is what field work needs \u2014 a system that locks a plumber out at a customer's door is a system they stop using."
+  },
+  {
+   "dt": "Shift Location",
+   "fieldname": "one_also_at",
+   "fieldtype": "Table",
+   "label": "Also clock in from",
+   "module": "One HR",
+   "insert_after": "one_is_site",
+   "options": "Shift Location Place",
+   "description": "A depot plus every live site, in one record rather than four overlapping shift assignments."
+  }
+ ],
+ "doctype": "Shift Location",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

@@ -158,6 +158,27 @@ OVERRIDES = [
 		'"insert_after": "default_shift"',
 	),
 	(
+		"Every shift location counts, not the first",
+		"they collect all of them and then check `[0]`, so a depot and four sites share one fence",
+		"onedesk/one_hr/checkin.py",
+		"hrms/hrms/hr/doctype/employee_checkin/employee_checkin.py",
+		"def validate_distance_from_shift_location",
+	),
+	(
+		"A gated clock-in is not re-judged on distance",
+		"a workspace that says network *or* place has settled it; checking again overrules its own setting",
+		"onedesk/one_hr/checkin.py",
+		"hrms/hrms/hr/doctype/employee_checkin/employee_checkin.py",
+		"CheckinRadiusExceededError",
+	),
+	(
+		"The rail carries a clock-in control",
+		"`get_shortcuts` is the documented list; One already subclasses Dock to keep the rail collapsed",
+		"onedesk/public/js/desk.js",
+		"frappe/frappe/public/js/frappe/ui/sidebar/dock.js",
+		"get_shortcuts()",
+	),
+	(
 		"The setup wizard's persona slide is replaced",
 		"its four required questions were read only by `capture_user_persona`",
 		"onedesk/public/js/setup_wizard.js",

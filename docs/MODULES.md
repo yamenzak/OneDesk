@@ -18,6 +18,7 @@ No doctypes yet.
 | Checkin Network | 15 | document |
 | Checkin Signal | 3 | child |
 | Checkin Zone | 18 | document |
+| Shift Location Place | 1 | child |
 
 ## One CRM
 
@@ -33,9 +34,12 @@ No doctypes yet.
 
 ## Whitelisted methods
 
+* `onedesk.one_hr.clock.punch`
+* `onedesk.one_hr.clock.ready`
 * `onedesk.one_hr.employee.overview`
 * `onedesk.one_hr.passkey.ask_for_a_reset`
 * `onedesk.one_hr.passkey.finish_registration`
 * `onedesk.one_hr.passkey.reset`
 * `onedesk.one_hr.passkey.start_assertion`
 * `onedesk.one_hr.passkey.start_registration`
+* `onedesk.one_hr.presence.of`

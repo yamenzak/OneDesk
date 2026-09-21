@@ -89,8 +89,8 @@ def test_a_zone_with_no_radius_is_not_a_zone():
 	"signals,expected",
 	[
 		([], 100),
-		(["network-unknown"], 70),
-		(["network-unknown", "network-unknown"], 70),
+		(["network-unknown"], 40),
+		(["network-unknown", "network-unknown"], 40),
 		(["no-passkey"], 0),
 		(["place-vague", "place-refused"], 65),
 	],
@@ -107,6 +107,28 @@ def test_the_three_outcomes():
 	assert rules.outcome(100) == "Allowed"
 	assert rules.outcome(70) == "Flagged"
 	assert rules.outcome(10) == "Refused"
+
+
+def test_what_is_certain_refuses_on_its_own():
+	for name in ("no-passkey", "passkey-unverified", "network-unknown", "place-outside"):
+		assert rules.outcome(rules.confidence([name])) == "Refused", name
+
+
+def test_what_is_a_guess_only_flags():
+	for name in (
+		"place-vague",
+		"place-refused",
+		"place-absent",
+		"device-shared",
+		"travel-impossible",
+		"session-elsewhere",
+		"same-second",
+		"reset-recent",
+		"day-auto-closed",
+		"passkey-elsewhere",
+		"network-personal",
+	):
+		assert rules.outcome(rules.confidence([name])) != "Refused", name
 
 
 def test_no_passkey_always_refuses():

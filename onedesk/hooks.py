@@ -27,6 +27,11 @@ fixtures = ["Custom Icon"]
 # A record answers before it offers links; see `onedesk/one_hr/employee.py`.
 doctype_js = {"Employee": "public/js/employee.js"}
 
+# HRMS collects every Shift Location assigned for the shift and then checks
+# `[0]`, so a depot and four sites can only ever have one fence. Ours checks all
+# of them. Recorded in docs/OVERRIDES.md.
+override_doctype_class = {"Employee Checkin": "onedesk.one_hr.checkin.OneEmployeeCheckin"}
+
 add_to_apps_screen = [
 	{
 		"name": app_name,
@@ -48,4 +53,5 @@ app_include_js = [
 	"/assets/onedesk/js/theme.js",
 	"/assets/onedesk/js/desk.js",
 	"/assets/onedesk/js/passkey.js",
+	"/assets/onedesk/js/clock.js",
 ]

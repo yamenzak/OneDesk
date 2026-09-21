@@ -15,14 +15,19 @@ import math
 #: confidence the signal takes away, out of a hundred. Nothing here is learned:
 #: when a clock-in is refused the screen has to name what was wrong, and a
 #: number nobody can explain cannot be named.
+#:
+#: The dividing line is refuse on what is certain and flag on what is a guess,
+#: so the two that are certain — the wrong network, and outside every fence —
+#: are weighted to refuse on their own, while everything probabilistic sits
+#: under the flag band and needs company to get past it.
 SIGNALS = {
 	"no-passkey": (100, "No passkey was presented"),
 	"passkey-unverified": (100, "The passkey was not unlocked with a face, fingerprint or PIN"),
 	"passkey-elsewhere": (25, "Used from a browser unlike the one it was registered on"),
 	"device-shared": (40, "Other people have clocked in from this browser today"),
-	"network-unknown": (30, "This network has not been seen before"),
+	"network-unknown": (60, "This network has not been seen before"),
 	"network-personal": (5, "A network learned from this employee rather than a place"),
-	"place-outside": (35, "Outside every place this shift may clock in from"),
+	"place-outside": (60, "Outside every place this shift may clock in from"),
 	"place-vague": (20, "The position was vaguer than the place it claims"),
 	"place-refused": (15, "Location permission was refused"),
 	"place-absent": (10, "No position was offered"),

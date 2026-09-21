@@ -1,0 +1,41 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Employee Checkin",
+   "fieldname": "one_reason",
+   "fieldtype": "Select",
+   "label": "Why",
+   "module": "One HR",
+   "insert_after": "log_type",
+   "options": "\nBreak\nLunch\nErrand\nDone for the day",
+   "depends_on": "eval:doc.log_type == 'OUT'",
+   "description": "Asked on the way out and never on the way in. A day of unexplained gaps is unreadable."
+  },
+  {
+   "dt": "Employee Checkin",
+   "fieldname": "one_auto_closed",
+   "fieldtype": "Check",
+   "label": "Closed automatically",
+   "module": "One HR",
+   "insert_after": "one_reason",
+   "default": "0",
+   "read_only": 1,
+   "description": "Nobody clocked out, so the shift's end did. Marked rather than left looking like a real one."
+  },
+  {
+   "dt": "Employee Checkin",
+   "fieldname": "one_attempt",
+   "fieldtype": "Link",
+   "label": "Attempt",
+   "module": "One HR",
+   "insert_after": "one_auto_closed",
+   "options": "Checkin Attempt",
+   "read_only": 1,
+   "description": "What every gate saw when this was written."
+  }
+ ],
+ "doctype": "Employee Checkin",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}
