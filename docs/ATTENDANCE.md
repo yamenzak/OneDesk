@@ -304,6 +304,29 @@ with self clock-in off.
 - **Never somebody's own manager.** Approving your own team's devices is the
   conflict this system exists to catch.
 
+## Before any of it works
+
+hrms turns `Employee Checkin` pairs into `Attendance` from one scheduled job,
+and `ShiftType.has_incorrect_shift_config` makes that job return **without a
+word** unless the shift has auto attendance on, a date to process after and a
+last sync. A workspace missing one takes check-ins all week and has an empty
+Attendance list, empty charts, an empty Overtime Slip and no error anywhere.
+`auto_update_last_sync` is the fourth: without it the sync stays where it was
+set and processing quietly stops past that moment.
+
+So the four are set three ways. The **setup wizard** asks when people work —
+start, end and the week's day off — and out of that one answer writes this
+year's `Holiday List` (the weekly off plus the country's public holidays,
+through erpnext's own `get_local_holidays`), sets it as the company's default,
+sets `HR Settings.standard_working_hours` to the length of the day, and creates
+the `Day` shift with all four. The **Shift Type form** says so in a headline and
+offers one button, `Read Check-ins`, where the fix is. And
+`one_hr/setup.nightly` checks the shifts that actually have check-ins and tells
+every HR Manager once a week about any that are deaf.
+
+The wizard asks because the alternative is a clock that takes check-ins from
+the first morning and produces nothing until somebody is told why.
+
 ## The schema
 
 **Four new doctypes.**

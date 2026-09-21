@@ -21,7 +21,11 @@ extend_bootinfo = "onedesk.one.boot.boot_session"
 
 # A pattern is not visible from inside one request. See one_hr/healing.py.
 scheduler_events = {
-	"daily": ["onedesk.one_hr.healing.nightly", "onedesk.one_hr.leaving.nightly"],
+	"daily": [
+		"onedesk.one_hr.healing.nightly",
+		"onedesk.one_hr.leaving.nightly",
+		"onedesk.one_hr.setup.nightly",
+	],
 	"hourly": ["onedesk.one_hr.closing.hourly"],
 }
 
@@ -48,6 +52,7 @@ doctype_js = {
 	"Attendance": "public/js/attendance.js",
 	"Clock Network": "public/js/learned.js",
 	"Clock Place": "public/js/learned.js",
+	"Shift Type": "public/js/shift_type.js",
 }
 
 # Loaded after the doctype's own list script, so ours has the last word.

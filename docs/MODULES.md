@@ -54,6 +54,7 @@ No doctypes yet.
 * `onedesk.one_hr.presence.of`
 * `onedesk.one_hr.review.accept`
 * `onedesk.one_hr.review.reject`
+* `onedesk.one_hr.setup.start_reading`
 * `onedesk.one_hr.signin.begin`
 * `onedesk.one_hr.signin.finish`
 * `onedesk.one_hr.signin.offered`

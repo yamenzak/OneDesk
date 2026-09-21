@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 15:51+0000\n"
-"PO-Revision-Date: 2026-09-21 15:51+0000\n"
+"POT-Creation-Date: 2026-09-21 16:16+0000\n"
+"PO-Revision-Date: 2026-09-21 16:16+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -277,6 +277,10 @@ msgstr ""
 msgid "Attendance Standing"
 msgstr ""
 
+#: onedesk/public/js/shift_type.js:26
+msgid "Attendance will be written from check-ins on this shift from today onwards."
+msgstr ""
+
 #. Label of the aaguid (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Authenticator (AAGUID)"
@@ -426,6 +430,14 @@ msgstr ""
 
 #: onedesk/public/js/learned.js:21
 msgid "Check-ins from {0} will be refused, and it will not be proposed again."
+msgstr ""
+
+#: onedesk/public/js/shift_type.js:18
+msgid "Check-ins on this shift are not becoming attendance."
+msgstr ""
+
+#: onedesk/one_hr/setup.py:101
+msgid "Check-ins on {0} are not becoming attendance"
 msgstr ""
 
 #. Description of the 'Refuse Below Score' (Int) field in DocType 'HR Settings'
@@ -614,6 +626,14 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
+#: onedesk/public/js/setup_wizard.js:52
+msgid "Day Ends"
+msgstr ""
+
+#: onedesk/public/js/setup_wizard.js:44
+msgid "Day Starts"
+msgstr ""
+
 #. Option for the 'Status' (Select) field in DocType 'Clock Network'
 #. Option for the 'Status' (Select) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
@@ -683,7 +703,7 @@ msgid "Distinct employees, each verified another way, who have checked in from t
 msgstr ""
 
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:36
-#: onedesk/public/js/learned.js:34
+#: onedesk/public/js/learned.js:34 onedesk/public/js/shift_type.js:29
 msgid "Done"
 msgstr ""
 
@@ -889,11 +909,15 @@ msgstr ""
 msgid "Failed Checks"
 msgstr ""
 
-#: onedesk/one/setup_wizard.py:16
+#: onedesk/one/setup_wizard.py:21
 msgid "Failed to set the appearance"
 msgstr ""
 
-#: onedesk/one/setup_wizard.py:11
+#: onedesk/one/setup_wizard.py:26
+msgid "Failed to set the working day"
+msgstr ""
+
+#: onedesk/one/setup_wizard.py:16
 msgid "Failed to set up One"
 msgstr ""
 
@@ -1530,6 +1554,10 @@ msgstr ""
 msgid "One passkey per employee. Reset it when a phone changes."
 msgstr ""
 
+#: onedesk/public/js/setup_wizard.js:40
+msgid "One shift and one holiday list to start with. Both can be changed, and more added, later."
+msgstr ""
+
 #. Title of a Sidebar
 #. Name of a Workspace
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -1812,6 +1840,10 @@ msgstr ""
 msgid "Radius must be greater than 0."
 msgstr ""
 
+#: onedesk/public/js/shift_type.js:24
+msgid "Read Check-ins"
+msgstr ""
+
 #: onedesk/public/js/attendance_tool.js:33
 msgid "Reading the check-ins"
 msgstr ""
@@ -2074,7 +2106,7 @@ msgstr ""
 msgid "Set to 0 to keep them indefinitely."
 msgstr ""
 
-#: onedesk/one/setup_wizard.py:10
+#: onedesk/one/setup_wizard.py:15
 msgid "Setting up One"
 msgstr ""
 
@@ -2260,6 +2292,10 @@ msgstr ""
 msgid "This browser will not give a location."
 msgstr ""
 
+#: onedesk/public/js/setup_wizard.js:73
+msgid "This day and your country's public holidays become this year's holiday list."
+msgstr ""
+
 #: onedesk/one_hr/passkey.py:95
 msgid "This employee already has a passkey."
 msgstr ""
@@ -2286,6 +2322,10 @@ msgstr ""
 
 #: onedesk/one_hr/passkey.py:338
 msgid "This request expired. Try again."
+msgstr ""
+
+#: onedesk/one_hr/setup.py:102
+msgid "This shift has check-ins but does not read them, so no Attendance is being written and every count that reads Attendance is empty. Open the shift and press Read Check-ins."
 msgstr ""
 
 #. Label of the one_from_checkins (Button) field in DocType 'Employee
@@ -2405,6 +2445,10 @@ msgstr ""
 msgid "Verification"
 msgstr ""
 
+#: onedesk/public/js/setup_wizard.js:60
+msgid "Weekly Off"
+msgstr ""
+
 #: onedesk/one_hr/employee.py:266
 msgid "Weekly off"
 msgstr ""
@@ -2418,6 +2462,10 @@ msgstr ""
 #. Description of the 'Device' (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "What the browser called itself when the passkey was registered."
+msgstr ""
+
+#: onedesk/public/js/setup_wizard.js:39
+msgid "When do people work?"
 msgstr ""
 
 #. Label of the where_section (Section Break) field in DocType 'Clock Place'

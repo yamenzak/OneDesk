@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 15:51+0000\n"
-"PO-Revision-Date: 2026-09-21 15:51+0000\n"
+"POT-Creation-Date: 2026-09-21 16:16+0000\n"
+"PO-Revision-Date: 2026-09-21 16:16+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -279,6 +279,10 @@ msgstr "إعدادات الحضور"
 msgid "Attendance Standing"
 msgstr "تقييم الحضور"
 
+#: onedesk/public/js/shift_type.js:26
+msgid "Attendance will be written from check-ins on this shift from today onwards."
+msgstr "سيُسجَّل الحضور من تسجيلات الدخول على هذه المناوبة اعتباراً من اليوم."
+
 #. Label of the aaguid (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Authenticator (AAGUID)"
@@ -429,6 +433,14 @@ msgstr "سيُسمح بتسجيل الحضور من {0}."
 #: onedesk/public/js/learned.js:21
 msgid "Check-ins from {0} will be refused, and it will not be proposed again."
 msgstr "سيُرفض تسجيل الحضور من {0}، ولن يُقترح مرة أخرى."
+
+#: onedesk/public/js/shift_type.js:18
+msgid "Check-ins on this shift are not becoming attendance."
+msgstr "لا تتحول تسجيلات الحضور على هذه المناوبة إلى سجلات حضور."
+
+#: onedesk/one_hr/setup.py:101
+msgid "Check-ins on {0} are not becoming attendance"
+msgstr "لا تتحول تسجيلات الحضور على {0} إلى سجلات حضور"
 
 #. Description of the 'Refuse Below Score' (Int) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -616,6 +628,14 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
+#: onedesk/public/js/setup_wizard.js:52
+msgid "Day Ends"
+msgstr "نهاية اليوم"
+
+#: onedesk/public/js/setup_wizard.js:44
+msgid "Day Starts"
+msgstr "بداية اليوم"
+
 #. Option for the 'Status' (Select) field in DocType 'Clock Network'
 #. Option for the 'Status' (Select) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
@@ -685,7 +705,7 @@ msgid "Distinct employees, each verified another way, who have checked in from t
 msgstr "عدد الموظفين المختلفين، وقد تم التحقق من كل منهم بطريقة أخرى، الذين سجّلوا حضورهم من هذا العنوان."
 
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:36
-#: onedesk/public/js/learned.js:34
+#: onedesk/public/js/learned.js:34 onedesk/public/js/shift_type.js:29
 msgid "Done"
 msgstr ""
 
@@ -891,11 +911,15 @@ msgstr ""
 msgid "Failed Checks"
 msgstr "عمليات التحقق المخفقة"
 
-#: onedesk/one/setup_wizard.py:16
+#: onedesk/one/setup_wizard.py:21
 msgid "Failed to set the appearance"
 msgstr "تعذّر ضبط المظهر"
 
-#: onedesk/one/setup_wizard.py:11
+#: onedesk/one/setup_wizard.py:26
+msgid "Failed to set the working day"
+msgstr "تعذّر ضبط يوم العمل"
+
+#: onedesk/one/setup_wizard.py:16
 msgid "Failed to set up One"
 msgstr "تعذّر إعداد One"
 
@@ -1532,6 +1556,10 @@ msgstr "مفتاح مرور واحد لكل موظف، مسجَّل على ها�
 msgid "One passkey per employee. Reset it when a phone changes."
 msgstr "مفتاح مرور واحد لكل موظف. أعد تعيينه عند تغيير الهاتف."
 
+#: onedesk/public/js/setup_wizard.js:40
+msgid "One shift and one holiday list to start with. Both can be changed, and more added, later."
+msgstr "مناوبة واحدة وقائمة عطلات واحدة للبداية. ويمكن تعديلهما وإضافة غيرهما لاحقاً."
+
 #. Title of a Sidebar
 #. Name of a Workspace
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -1814,6 +1842,10 @@ msgstr "النطاق (بالأمتار)"
 msgid "Radius must be greater than 0."
 msgstr "يجب أن يكون النطاق أكبر من 0."
 
+#: onedesk/public/js/shift_type.js:24
+msgid "Read Check-ins"
+msgstr "قراءة تسجيلات الحضور"
+
 #: onedesk/public/js/attendance_tool.js:33
 msgid "Reading the check-ins"
 msgstr "قراءة تسجيلات الحضور"
@@ -2076,7 +2108,7 @@ msgstr "إعداد One"
 msgid "Set to 0 to keep them indefinitely."
 msgstr "اضبطه على 0 للاحتفاظ بها إلى أجل غير مسمى."
 
-#: onedesk/one/setup_wizard.py:10
+#: onedesk/one/setup_wizard.py:15
 msgid "Setting up One"
 msgstr "جارٍ إعداد One"
 
@@ -2265,6 +2297,10 @@ msgstr "سبق أن روجعت هذه المحاولة."
 msgid "This browser will not give a location."
 msgstr "لا يوفر هذا المتصفح الموقع."
 
+#: onedesk/public/js/setup_wizard.js:73
+msgid "This day and your country's public holidays become this year's holiday list."
+msgstr "يصبح هذا اليوم والعطل الرسمية في بلدك قائمة عطلات هذا العام."
+
 #: onedesk/one_hr/passkey.py:95
 msgid "This employee already has a passkey."
 msgstr "لدى هذا الموظف مفتاح مرور بالفعل."
@@ -2292,6 +2328,10 @@ msgstr "سُجِّل مفتاح المرور هذا على متصفح مختلف
 #: onedesk/one_hr/passkey.py:338
 msgid "This request expired. Try again."
 msgstr "انتهت صلاحية هذا الطلب. حاول مرة أخرى."
+
+#: onedesk/one_hr/setup.py:102
+msgid "This shift has check-ins but does not read them, so no Attendance is being written and every count that reads Attendance is empty. Open the shift and press Read Check-ins."
+msgstr "لهذه المناوبة تسجيلات حضور لكنها لا تقرأها، فلا يُكتب أي سجل حضور وتبقى كل الأرقام التي تعتمد عليه فارغة. افتح المناوبة واضغط قراءة تسجيلات الحضور."
 
 #. Label of the one_from_checkins (Button) field in DocType 'Employee
 #. Attendance Tool'
@@ -2410,6 +2450,10 @@ msgstr "القرار"
 msgid "Verification"
 msgstr ""
 
+#: onedesk/public/js/setup_wizard.js:60
+msgid "Weekly Off"
+msgstr ""
+
 #: onedesk/one_hr/employee.py:266
 msgid "Weekly off"
 msgstr "راحة أسبوعية"
@@ -2424,6 +2468,10 @@ msgstr "ما رصده كل تحقق عند كتابة هذا السجل."
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "What the browser called itself when the passkey was registered."
 msgstr "الاسم الذي عرّف به المتصفح نفسه عند تسجيل مفتاح المرور."
+
+#: onedesk/public/js/setup_wizard.js:39
+msgid "When do people work?"
+msgstr "متى يعمل الموظفون؟"
 
 #. Label of the where_section (Section Break) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_place/clock_place.json

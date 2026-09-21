@@ -29,4 +29,51 @@ onedesk.setup.slides = [
 			},
 		],
 	},
+	// Four answers that are really one, asked once. They set the standard day,
+	// this year's holidays, and the shift that turns check-ins into attendance.
+	// A workspace that is never asked gets a Sunday marked absent, every hour of
+	// a shiftless day counted as overtime, and an attendance list that stays
+	// empty without saying why. See one_hr/setup.py.
+	{
+		name: "onedesk_working_day",
+		title: __("When do people work?"),
+		help: __("One shift and one holiday list to start with. Both can be changed, and more added, later."),
+		fields: [
+			{
+				fieldname: "onedesk_day_starts",
+				label: __("Day Starts"),
+				fieldtype: "Time",
+				default: "09:00:00",
+				reqd: 1,
+			},
+			{ fieldtype: "Column Break" },
+			{
+				fieldname: "onedesk_day_ends",
+				label: __("Day Ends"),
+				fieldtype: "Time",
+				default: "17:00:00",
+				reqd: 1,
+			},
+			{ fieldtype: "Section Break" },
+			{
+				fieldname: "onedesk_weekly_off",
+				label: __("Weekly Off"),
+				fieldtype: "Select",
+				options: [
+					"Sunday",
+					"Monday",
+					"Tuesday",
+					"Wednesday",
+					"Thursday",
+					"Friday",
+					"Saturday",
+				].join("\n"),
+				default: "Sunday",
+				reqd: 1,
+				description: __(
+					"This day and your country's public holidays become this year's holiday list."
+				),
+			},
+		],
+	},
 ];
