@@ -1,0 +1,32 @@
+[
+ {
+  "doctype": "Identification Document Type",
+  "identification_document_type": "Passport",
+  "name": "Passport"
+ },
+ {
+  "doctype": "Identification Document Type",
+  "identification_document_type": "National ID",
+  "name": "National ID"
+ },
+ {
+  "doctype": "Identification Document Type",
+  "identification_document_type": "Residence Permit",
+  "name": "Residence Permit"
+ },
+ {
+  "doctype": "Identification Document Type",
+  "identification_document_type": "Work Permit",
+  "name": "Work Permit"
+ },
+ {
+  "doctype": "Identification Document Type",
+  "identification_document_type": "Visa",
+  "name": "Visa"
+ },
+ {
+  "doctype": "Identification Document Type",
+  "identification_document_type": "Driving Licence",
+  "name": "Driving Licence"
+ }
+]

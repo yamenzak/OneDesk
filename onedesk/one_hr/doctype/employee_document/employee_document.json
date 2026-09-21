@@ -1,0 +1,74 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-09-21 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "document_type",
+  "number",
+  "expires_on",
+  "issued_on",
+  "place_of_issue",
+  "attachment"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "document_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Type",
+   "options": "Identification Document Type",
+   "reqd": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Number",
+   "reqd": 1
+  },
+  {
+   "columns": 2,
+   "description": "A document that does not expire, such as a birth certificate, leaves this empty.",
+   "fieldname": "expires_on",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Expires On"
+  },
+  {
+   "columns": 2,
+   "fieldname": "issued_on",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Issued On"
+  },
+  {
+   "columns": 2,
+   "fieldname": "place_of_issue",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Place of Issue"
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Scan"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-09-21 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One HR",
+ "name": "Employee Document",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -19,6 +19,7 @@ No doctypes yet.
 | Clock Place | 18 | document |
 | Clock Reason | 5 | document |
 | Clock Signal | 3 | child |
+| Employee Document | 6 | child |
 | Shift Location Place | 1 | child |
 
 ## One CRM

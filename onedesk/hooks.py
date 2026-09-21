@@ -29,7 +29,7 @@ scheduler_events = {
 # `scripts/icons.py`, with each one's ids rewritten so two marks in one sprite
 # do not share a gradient.
 # The marks, and the four reasons a day pauses. A workspace adds its own.
-fixtures = ["Custom Icon", "Clock Reason"]
+fixtures = ["Custom Icon", "Clock Reason", "Identification Document Type"]
 
 
 # A record answers before it offers links; see `onedesk/one_hr/employee.py`.
