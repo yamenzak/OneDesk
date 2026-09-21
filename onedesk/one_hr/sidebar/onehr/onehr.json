@@ -257,7 +257,7 @@
    "is_default_module": 1,
    "keep_closed": 0,
    "label": "Monthly Attendance",
-   "link_to": "Monthly Attendance Sheet",
+   "link_to": "Monthly Attendance",
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link"
@@ -1084,7 +1084,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-09-21 18:00:00.000000",
+ "modified": "2026-09-22 07:00:00.000000",
  "modified_by": "Administrator",
  "module": "One HR",
  "name": "OneHR",

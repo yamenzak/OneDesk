@@ -263,6 +263,20 @@ OVERRIDES = [
 		"grid_row.doc.to_time = frappe.datetime.get_datetime_as_string()",
 	),
 	(
+		"Monthly Attendance is one row per person, and everybody is on it",
+		"theirs keys on employee and shift, and skips anybody with no Attendance row at all",
+		"onedesk/one_hr/report/monthly_attendance/monthly_attendance.py",
+		"hrms/hrms/hr/report/monthly_attendance_sheet/monthly_attendance_sheet.py",
+		"if not employee_attendance:",
+	),
+	(
+		"The month sheet is built from their pieces rather than re-implemented",
+		"their attendance map, holiday map and status abbreviations decide what a day means; we only reshape",
+		"onedesk/one_hr/report/monthly_attendance/monthly_attendance.py",
+		"hrms/hrms/hr/report/monthly_attendance_sheet/monthly_attendance_sheet.py",
+		"def set_defaults_for_summarized_view",
+	),
+	(
 		"The setup wizard's persona slide is replaced",
 		"its four required questions were read only by `capture_user_persona`",
 		"onedesk/public/js/setup_wizard.js",

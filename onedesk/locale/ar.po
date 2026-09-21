@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 20:43+0000\n"
-"PO-Revision-Date: 2026-09-21 20:43+0000\n"
+"POT-Creation-Date: 2026-09-21 20:56+0000\n"
+"PO-Revision-Date: 2026-09-21 20:56+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -68,11 +68,16 @@ msgstr "تم اقتراح شبكة أو موقع جديد لتسجيل الحض�
 msgid "A place belongs to a Shift Location or to one employee, not to both."
 msgstr "ينتمي الموقع إلى موقع مناوبة أو إلى موظف واحد، لا إلى كليهما."
 
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:146
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:82
+msgid "A sheet covers at most {0} days."
+msgstr "تغطي الورقة {0} يوماً على الأكثر."
+
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/presence.py:249 onedesk/public/js/employee.js:47
 msgid "Absent"
-msgstr ""
+msgstr "غائب"
 
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:19
 msgid "Accept"
@@ -276,6 +281,10 @@ msgstr "الطلب المعتمد"
 msgid "Approving this puts {0} on {1} {2}."
 msgstr "اعتماد هذا يضع {0} على {1} {2}."
 
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:30
+msgid "Apr"
+msgstr ""
+
 #. Label of the one_gate_photo (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Ask for a Photo"
@@ -332,6 +341,10 @@ msgstr "تقييم الحضور"
 #: onedesk/public/js/shift_type.js:26
 msgid "Attendance will be written from check-ins on this shift from today onwards."
 msgstr "سيُسجَّل الحضور من تسجيلات الدخول على هذه المناوبة اعتباراً من اليوم."
+
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:34
+msgid "Aug"
+msgstr ""
 
 #. Label of the aaguid (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
@@ -395,6 +408,7 @@ msgid "Both"
 msgstr ""
 
 #. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:82
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Branch"
 msgstr ""
@@ -543,6 +557,10 @@ msgstr "تسجيل الحضور الذاتي غير مفعَّل في هذا ا�
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Checks"
 msgstr "عمليات التحقق"
+
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:84
+msgid "Choose a month and a year."
+msgstr "اختر شهراً وسنة."
 
 #: onedesk/public/js/overtime_slip.js:41
 msgid "Choose an employee and a posting date first."
@@ -704,6 +722,10 @@ msgstr "نهاية اليوم"
 msgid "Day Starts"
 msgstr "بداية اليوم"
 
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:38
+msgid "Dec"
+msgstr ""
+
 #. Label of the one_decided_by (Link) field in DocType 'Attendance Request'
 #. Label of the one_decided_by (Link) field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/attendance_request.json
@@ -751,6 +773,7 @@ msgid "Delete Photos After (Days)"
 msgstr "حذف الصور بعد (أيام)"
 
 #. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:78
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Department"
 msgstr ""
@@ -843,6 +866,8 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:65
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:166
 #: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/public/js/overtime.js:14
 msgid "Employee"
 msgstr "الموظف"
@@ -932,11 +957,19 @@ msgstr ""
 msgid "Employees"
 msgstr "الموظفون"
 
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:71
+msgid "Employment"
+msgstr "حالة التوظيف"
+
 #. Label of the enabled (Check) field in DocType 'Attendance Reason'
 #. Label of the enabled (Check) field in DocType 'Clock Reason'
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
 msgid "Enabled"
+msgstr ""
+
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:58
+msgid "End Date"
 msgstr ""
 
 #. Label of the ends_the_day (Check) field in DocType 'Clock Reason'
@@ -1025,6 +1058,10 @@ msgstr "تعذّر ضبط يوم العمل"
 msgid "Failed to set up One"
 msgstr "تعذّر إعداد One"
 
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:28
+msgid "Feb"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Feedback"
@@ -1033,6 +1070,10 @@ msgstr ""
 #: onedesk/public/js/overtime_slip.js:15
 msgid "Fetch Overtime Details"
 msgstr "جلب تفاصيل العمل الإضافي"
+
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:7
+msgid "Filter Based On"
+msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -1092,6 +1133,10 @@ msgstr "شكوى"
 msgid "Grievance Type"
 msgstr "نوع الشكوى"
 
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:85
+msgid "Group By"
+msgstr ""
+
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -1143,7 +1188,7 @@ msgstr "التوظيف"
 #: onedesk/one_hr/employee.py:111 onedesk/one_hr/employee.py:268
 #: onedesk/one_hr/presence.py:181 onedesk/public/js/employee.js:48
 msgid "Holiday"
-msgstr ""
+msgstr "عطلة"
 
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
@@ -1280,6 +1325,10 @@ msgstr "دعوة فريقك"
 msgid "Issued On"
 msgstr "تاريخ الإصدار"
 
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:27
+msgid "Jan"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Job Applicant"
@@ -1314,6 +1363,14 @@ msgstr "طلب توظيف"
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Joining & Leaving"
 msgstr "الالتحاق وترك العمل"
+
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:33
+msgid "July"
+msgstr ""
+
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:32
+msgid "June"
+msgstr ""
 
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
@@ -1522,6 +1579,10 @@ msgstr ""
 msgid "Map"
 msgstr ""
 
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:29
+msgid "Mar"
+msgstr ""
+
 #. Label of the one_mark_section (Section Break) field in DocType 'Employee
 #. Attendance Tool'
 #: onedesk/one_hr/custom/employee_attendance_tool.json
@@ -1559,6 +1620,10 @@ msgstr "مطابقة العنوان الذي جاء منه الطلب مع شب�
 msgid "Match the position the browser reports against Clock Place and the Shift Location's own radius. Requires Allow Geolocation Tracking."
 msgstr "مطابقة الموقع الذي يبلّغ عنه المتصفح مع موقع التسجيل ومع النطاق الخاص بموقع المناوبة. يتطلب تفعيل تتبّع الموقع الجغرافي."
 
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:31
+msgid "May"
+msgstr ""
+
 #. Label of the model (Data) field in DocType 'Clock Attempt'
 #. Label of the model (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -1566,7 +1631,13 @@ msgstr "مطابقة الموقع الذي يبلّغ عنه المتصفح مع
 msgid "Model"
 msgstr "الطراز"
 
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:24
+msgid "Month"
+msgstr ""
+
+#. Name of a report
 #. Label of a Sidebar Item
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Monthly Attendance"
 msgstr "الحضور الشهري"
@@ -1675,6 +1746,10 @@ msgstr "لن يُكتب شيء في سجل الحضور."
 msgid "Notice Ends On"
 msgstr "انتهاء مهلة الإشعار"
 
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:37
+msgid "Nov"
+msgstr ""
+
 #. Label of the number (Data) field in DocType 'Employee Document'
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 msgid "Number"
@@ -1689,6 +1764,10 @@ msgstr "عدد الموظفين المختلفين، وعدد تسجيلات ا�
 #. Option for the 'Log Type' (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "OUT"
+msgstr ""
+
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:36
+msgid "Oct"
 msgstr ""
 
 #. Description of the 'approver' field in DocType 'Shift Request'
@@ -2000,7 +2079,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/public/js/employee.js:42
 msgid "Present"
-msgstr ""
+msgstr "حاضر"
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -2334,6 +2413,10 @@ msgstr ""
 msgid "Self Check-in"
 msgstr "تسجيل الحضور الذاتي"
 
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:35
+msgid "Sep"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Separation"
@@ -2357,6 +2440,10 @@ msgstr "اضبط ساعات العمل القياسية في إعدادات ال
 #: onedesk/one_hr/custom/shift_request.json
 msgid "Set by Approve and Reject, so it always agrees with who decided."
 msgstr "يضبطه زرّا الاعتماد والرفض، فيوافق دائماً من بتَّ في الطلب."
+
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:78
+msgid "Set the date range."
+msgstr "حدّد المدة الزمنية."
 
 #. Description of the 'Delete Photos After (Days)' (Int) field in DocType 'HR
 #. Settings'
@@ -2455,6 +2542,10 @@ msgstr "التقييم"
 
 #: onedesk/public/js/timesheet.js:75
 msgid "Start"
+msgstr ""
+
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:51
+msgid "Start Date"
 msgstr ""
 
 #: onedesk/public/js/timesheet.js:22 onedesk/public/js/timesheet.js:27
@@ -2578,6 +2669,10 @@ msgstr "يُغلق الطلب ولا يُكلَّف أحد بشيء."
 msgid "The resignation date plus the notice days on the Joining tab. The relieving date is the day they actually stop, and the two differ when notice is waived, paid in lieu or extended."
 msgstr "تاريخ الاستقالة مضافاً إليه أيام الإشعار المذكورة في تبويب الالتحاق. أما تاريخ إنهاء الخدمة فهو اليوم الذي يتوقف فيه الموظف فعلياً، ويختلف التاريخان عند التنازل عن مهلة الإشعار أو دفع بدل عنها أو تمديدها."
 
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:80
+msgid "The start date is after the end date."
+msgstr "تاريخ البداية بعد تاريخ النهاية."
+
 #. Description of the 'Marks the Day As' (Select) field in DocType 'Attendance
 #. Reason'
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
@@ -2689,6 +2784,10 @@ msgstr "الوقت"
 msgid "Timesheet"
 msgstr ""
 
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:147
+msgid "Too Long"
+msgstr "مدة طويلة جداً"
+
 #: onedesk/one_hr/overtime.py:115
 msgid "Too Much Overtime"
 msgstr "عمل إضافي يتجاوز الحد"
@@ -2696,6 +2795,10 @@ msgstr "عمل إضافي يتجاوز الحد"
 #: onedesk/one_hr/rules.py:41
 msgid "Too far from your last check-in for the time in between."
 msgstr "المسافة من آخر تسجيل حضور لك أبعد مما تسمح به المدة الفاصلة."
+
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:91
+msgid "Totals Only"
+msgstr "المجاميع فقط"
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -2895,6 +2998,10 @@ msgstr "العمل في يوم عطلة"
 #: onedesk/one_hr/custom/attendance_request.json
 msgid "Write attendance on the holidays inside these dates as well. Left off, holidays in the range are skipped."
 msgstr "اكتب الحضور في العطل الواقعة ضمن هذه التواريخ أيضاً. وإن تُرك دون تفعيل، تُتخطى العطل ضمن المدة."
+
+#: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:45
+msgid "Year"
+msgstr ""
 
 #: onedesk/one_hr/rules.py:37
 msgid "You are outside every location this shift may check in from."

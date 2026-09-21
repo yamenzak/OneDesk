@@ -554,6 +554,36 @@ biometric terminal knows somebody by, it arrives on `Employee Checkin.device_id`
 when a box syncs its logs, and reusing it here would make one field mean two
 things. Both are hidden until a site runs a terminal.
 
+## The month sheet
+
+`Monthly Attendance` is ours, built from HRMS's own pieces — its attendance map,
+its holiday map, its status abbreviations — because what a day means is theirs
+and only the shape was wrong.
+
+**One row per person.** Theirs keys on employee *and* shift, so somebody who
+picked up a shift assignment mid-month came out as two rows, one blank-shift and
+one "Day", with half their days on each and neither being their month. The days
+do not overlap, so folding them loses nothing and the Shift column says which
+they were on.
+
+**Everybody is on it.** Theirs reads the Attendance table, so anybody with
+nothing marked all month was not on the sheet at all — six active employees,
+three rows — which is precisely the person a month sheet is opened to find.
+Holidays and weekly offs are still filled in for them, because those are known
+without a single Attendance row; everything else is blank, which is the honest
+answer. `Totals Only` has the same hole in HRMS and gets the same fix: 0 present,
+0 absent, and the rest of the month as unmarked days.
+
+**No company filter**, per `one/company.py`, and no Include Company Descendants
+underneath it.
+
+**And no chart.** Attendance Overview is where the shape of a month is looked
+at. This is the sheet somebody prints and initials, and a three-series line of
+counts between nought and three — with every date label rendered as an ellipsis
+— was a third of the screen in front of it. The eight-code legend that wrapped
+above it is one line now, and the two truncated columns that said `HR-EMP-0000…`
+and a clipped name are one column with the name in it, linked.
+
 ## Reading the log list
 
 The one question asked of `Employee Checkin` is whether a log counted, and the

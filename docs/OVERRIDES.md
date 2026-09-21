@@ -39,6 +39,8 @@ Each row is something that would still run but stop working if upstream moved. `
 | An Overtime Slip says what it will pay before it is submitted | the figure is theirs, from the method `on_submit` uses, rather than a second copy of the arithmetic | `onedesk/one_hr/overtime.py` | `hrms/hrms/hr/doctype/overtime_slip/overtime_slip.py` | `def get_overtime_component_amounts` |
 | The timesheet timer is ours | theirs resumes any row with Completed unticked and overwrites the end time that was already there | `onedesk/public/js/timesheet.js` | `erpnext/erpnext/projects/doctype/timesheet/timesheet.js` | `Resume Timer` |
 | The timer stamps one clock | theirs writes `get_datetime_as_string()` (the operator's machine) and measures against the site's timezone | `onedesk/public/js/timesheet.js` | `erpnext/erpnext/public/js/projects/timer.js` | `grid_row.doc.to_time = frappe.datetime.get_datetime_as_string()` |
+| Monthly Attendance is one row per person, and everybody is on it | theirs keys on employee and shift, and skips anybody with no Attendance row at all | `onedesk/one_hr/report/monthly_attendance/monthly_attendance.py` | `hrms/hrms/hr/report/monthly_attendance_sheet/monthly_attendance_sheet.py` | `if not employee_attendance:` |
+| The month sheet is built from their pieces rather than re-implemented | their attendance map, holiday map and status abbreviations decide what a day means; we only reshape | `onedesk/one_hr/report/monthly_attendance/monthly_attendance.py` | `hrms/hrms/hr/report/monthly_attendance_sheet/monthly_attendance_sheet.py` | `def set_defaults_for_summarized_view` |
 | The setup wizard's persona slide is replaced | its four required questions were read only by `capture_user_persona` | `onedesk/public/js/setup_wizard.js` | `erpnext/erpnext/public/js/setup_wizard.js` | `persona` |
 
-35 overrides.
+37 overrides.
