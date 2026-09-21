@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 10:02+0000\n"
-"PO-Revision-Date: 2026-09-21 10:02+0000\n"
+"POT-Creation-Date: 2026-09-21 10:22+0000\n"
+"PO-Revision-Date: 2026-09-21 10:22+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1343,6 +1343,11 @@ msgstr ""
 msgid "Not marked"
 msgstr ""
 
+#. Label of the one_notice_ends_on (Date) field in DocType 'Employee'
+#: onedesk/one_hr/custom/employee.json
+msgid "Notice Ends On"
+msgstr ""
+
 #. Label of the number (Data) field in DocType 'Employee Document'
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 msgid "Number"
@@ -1989,6 +1994,18 @@ msgstr ""
 msgid "The position was less accurate than the location it matched."
 msgstr ""
 
+#. Description of the 'Notice Ends On' (Date) field in DocType 'Employee'
+#: onedesk/one_hr/custom/employee.json
+msgid "The resignation date plus the notice days on the Joining tab. The relieving date is the day they actually stop, and the two differ when notice is waived, paid in lieu or extended."
+msgstr ""
+
+#: onedesk/one_hr/leaving.py:153
+msgid ""
+"Their passkey and shift assignments have been ended, but the status is still Active:\n"
+"\n"
+"{0}"
+msgstr ""
+
 #: onedesk/one_hr/clock.py:96 onedesk/public/js/desk.js:88
 msgid "There is nothing to check in: you are {0} today."
 msgstr ""
@@ -2013,7 +2030,7 @@ msgstr ""
 msgid "This passkey was registered on a different browser."
 msgstr ""
 
-#: onedesk/one_hr/passkey.py:290
+#: onedesk/one_hr/passkey.py:308
 msgid "This request expired. Try again."
 msgstr ""
 
@@ -2218,6 +2235,10 @@ msgid ""
 "Address: {3}\n"
 "\n"
 "{4}"
+msgstr ""
+
+#: onedesk/one_hr/leaving.py:152
+msgid "{0} could not be marked Left"
 msgstr ""
 
 #: onedesk/public/js/employee.js:100

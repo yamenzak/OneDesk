@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 10:02+0000\n"
-"PO-Revision-Date: 2026-09-21 10:02+0000\n"
+"POT-Creation-Date: 2026-09-21 10:22+0000\n"
+"PO-Revision-Date: 2026-09-21 10:22+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1345,6 +1345,11 @@ msgstr "لا تسجيل حضور اليوم"
 msgid "Not marked"
 msgstr "غير مُسجَّل"
 
+#. Label of the one_notice_ends_on (Date) field in DocType 'Employee'
+#: onedesk/one_hr/custom/employee.json
+msgid "Notice Ends On"
+msgstr "انتهاء مهلة الإشعار"
+
 #. Label of the number (Data) field in DocType 'Employee Document'
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 msgid "Number"
@@ -1991,6 +1996,21 @@ msgstr "لم يُصدر الهاتف مفتاح المرور إلا بعد بص�
 msgid "The position was less accurate than the location it matched."
 msgstr "كان الموقع أقل دقة من الموقع الذي طابقه."
 
+#. Description of the 'Notice Ends On' (Date) field in DocType 'Employee'
+#: onedesk/one_hr/custom/employee.json
+msgid "The resignation date plus the notice days on the Joining tab. The relieving date is the day they actually stop, and the two differ when notice is waived, paid in lieu or extended."
+msgstr "تاريخ الاستقالة مضافاً إليه أيام الإشعار المذكورة في تبويب الالتحاق. أما تاريخ إنهاء الخدمة فهو اليوم الذي يتوقف فيه الموظف فعلياً، ويختلف التاريخان عند التنازل عن مهلة الإشعار أو دفع بدل عنها أو تمديدها."
+
+#: onedesk/one_hr/leaving.py:153
+msgid ""
+"Their passkey and shift assignments have been ended, but the status is still Active:\n"
+"\n"
+"{0}"
+msgstr ""
+"تم إيقاف مفتاح المرور وتعيينات المناوبات، لكن الحالة ما زالت «نشط»:\n"
+"\n"
+"{0}"
+
 #: onedesk/one_hr/clock.py:96 onedesk/public/js/desk.js:88
 msgid "There is nothing to check in: you are {0} today."
 msgstr "لا يوجد ما يُسجَّل: أنت {0} اليوم."
@@ -2015,7 +2035,7 @@ msgstr "هذه الشبكة ليست من الشبكات التي يجوز لك 
 msgid "This passkey was registered on a different browser."
 msgstr "سُجِّل مفتاح المرور هذا على متصفح مختلف."
 
-#: onedesk/one_hr/passkey.py:290
+#: onedesk/one_hr/passkey.py:308
 msgid "This request expired. Try again."
 msgstr "انتهت صلاحية هذا الطلب. حاول مرة أخرى."
 
@@ -2228,6 +2248,10 @@ msgstr ""
 "العنوان: {3}\n"
 "\n"
 "{4}"
+
+#: onedesk/one_hr/leaving.py:152
+msgid "{0} could not be marked Left"
+msgstr "تعذّر تعليم {0} بأنه ترك العمل"
 
 #: onedesk/public/js/employee.js:100
 msgid "{0} hours"

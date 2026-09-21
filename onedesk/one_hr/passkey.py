@@ -254,6 +254,24 @@ def reset(employee: str) -> dict:
 	return {"reset": len(found)}
 
 
+def block(employee: str) -> int:
+	"""Retire every credential this employee holds, for good.
+
+	Blocked rather than Reset: a reset says another phone is coming, and
+	`start_registration` lets them make one. Somebody who has left is not
+	making another.
+	"""
+	found = frappe.get_all(
+		"Clock Device",
+		filters={"employee": employee, "status": ["!=", "Blocked"]},
+		pluck="name",
+		ignore_permissions=True,
+	)
+	for name in found:
+		frappe.db.set_value("Clock Device", name, "status", "Blocked")
+	return len(found)
+
+
 def resets_since(employee: str, since) -> int:
 	return frappe.db.count(
 		"Clock Device", {"employee": employee, "status": "Reset", "modified": [">=", since]}
