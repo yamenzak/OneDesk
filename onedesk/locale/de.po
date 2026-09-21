@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 22:50+0000\n"
-"PO-Revision-Date: 2026-09-21 22:50+0000\n"
+"POT-Creation-Date: 2026-09-21 23:01+0000\n"
+"PO-Revision-Date: 2026-09-21 23:01+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1838,6 +1838,14 @@ msgstr ""
 msgid "Nothing is spent and no attendance is marked."
 msgstr "Es wird nichts abgezogen und keine Anwesenheit erfasst."
 
+#: onedesk/public/js/leave_encashment.js:51
+msgid "Nothing to pay yet: this person has no salary structure on {0}."
+msgstr "Noch nichts auszuzahlen: diese Person hat am {0} kein Gehaltsschema."
+
+#: onedesk/public/js/leave_encashment.js:46
+msgid "Nothing to pay yet: {0} has no Leave Encashment Amount Per Day, so a day is worth nought. Set it on the salary structure or on this person's assignment."
+msgstr "Noch nichts auszuzahlen: {0} hat keinen Tagessatz für Urlaubsabgeltung, also ist ein Tag nichts wert. Setzen Sie ihn im Gehaltsschema oder in der Zuordnung dieser Person."
+
 #: onedesk/public/js/attendance_request.js:19
 msgid "Nothing will be written to attendance."
 msgstr "Es wird keine Anwesenheit erfasst."
@@ -1965,7 +1973,7 @@ msgstr "Nur ein Antrag, der noch offen ist, kann beantwortet werden."
 msgid "Only a request still waiting can be turned down."
 msgstr "Nur ein Antrag, der noch offen ist, kann abgelehnt werden."
 
-#: onedesk/one_hr/leave.py:118
+#: onedesk/one_hr/leave.py:143
 msgid "Only an application still waiting can be answered."
 msgstr "Nur ein Antrag, der noch offen ist, kann beantwortet werden."
 
@@ -2693,6 +2701,10 @@ msgstr "Noch im Entwurf"
 #: onedesk/public/js/overtime_slip.js:100
 msgid "Submitting this pays {0} for {1} hours."
 msgstr "Mit dem Buchen werden {0} für {1} Stunden vergütet."
+
+#: onedesk/public/js/leave_encashment.js:32
+msgid "Submitting this pays {0} {1} for {2} days of {3}."
+msgstr "Das Buchen zahlt {0} {1} für {2} Tage {3}."
 
 #. Description of the 'Backed Up' (Check) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json

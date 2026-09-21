@@ -13,6 +13,7 @@ after_install = [
 	"onedesk.one_hr.names.hide",
 	"onedesk.one_hr.policy.seed",
 	"onedesk.one_hr.leave.templates",
+	"onedesk.one_hr.leave.encashable",
 	"onedesk.one.brand.apply",
 	"onedesk.one.declutter.apply",
 	"onedesk.one.companions.apply",
@@ -26,6 +27,7 @@ after_migrate = [
 	"onedesk.one_hr.names.hide",
 	"onedesk.one_hr.policy.seed",
 	"onedesk.one_hr.leave.templates",
+	"onedesk.one_hr.leave.encashable",
 ]
 extend_bootinfo = "onedesk.one.boot.boot_session"
 
@@ -101,6 +103,7 @@ doctype_js = {
 	"Timesheet": "public/js/timesheet.js",
 	"Leave Application": "public/js/leave_application.js",
 	"Leave Control Panel": "public/js/leave_control_panel.js",
+	"Leave Encashment": "public/js/leave_encashment.js",
 }
 
 # Loaded after the doctype's own list script, so ours has the last word.

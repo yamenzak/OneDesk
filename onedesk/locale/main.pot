@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 22:50+0000\n"
-"PO-Revision-Date: 2026-09-21 22:50+0000\n"
+"POT-Creation-Date: 2026-09-21 23:01+0000\n"
+"PO-Revision-Date: 2026-09-21 23:01+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1836,6 +1836,14 @@ msgstr ""
 msgid "Nothing is spent and no attendance is marked."
 msgstr ""
 
+#: onedesk/public/js/leave_encashment.js:51
+msgid "Nothing to pay yet: this person has no salary structure on {0}."
+msgstr ""
+
+#: onedesk/public/js/leave_encashment.js:46
+msgid "Nothing to pay yet: {0} has no Leave Encashment Amount Per Day, so a day is worth nought. Set it on the salary structure or on this person's assignment."
+msgstr ""
+
 #: onedesk/public/js/attendance_request.js:19
 msgid "Nothing will be written to attendance."
 msgstr ""
@@ -1963,7 +1971,7 @@ msgstr ""
 msgid "Only a request still waiting can be turned down."
 msgstr ""
 
-#: onedesk/one_hr/leave.py:118
+#: onedesk/one_hr/leave.py:143
 msgid "Only an application still waiting can be answered."
 msgstr ""
 
@@ -2690,6 +2698,10 @@ msgstr ""
 
 #: onedesk/public/js/overtime_slip.js:100
 msgid "Submitting this pays {0} for {1} hours."
+msgstr ""
+
+#: onedesk/public/js/leave_encashment.js:32
+msgid "Submitting this pays {0} {1} for {2} days of {3}."
 msgstr ""
 
 #. Description of the 'Backed Up' (Check) field in DocType 'Clock Device'

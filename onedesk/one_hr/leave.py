@@ -40,6 +40,13 @@ TEMPLATES = {
 	"leave_status_notification_template": "Leave Status Notification",
 }
 
+#: What an encashed day is paid as. HRMS ships Casual Leave with
+#: `allow_encashment` on and no earning component, and `create_additional_salary`
+#: throws "Please set Earning Component for Leave type" on *submit* — after the
+#: form has been filled in and the days worked out. The component it is pointed
+#: at is one HRMS installs itself, in `payroll/data/salary_components.json`.
+PAID_AS = "Leave Encashment"
+
 
 def templates() -> None:
 	"""Point the two leave notifications at the templates One ships.
@@ -52,6 +59,24 @@ def templates() -> None:
 			continue
 		if frappe.db.exists("Email Template", template):
 			frappe.db.set_single_value("HR Settings", field, template)
+
+
+def encashable() -> None:
+	"""Give every encashable leave type something to pay an encashed day with.
+
+	Only a leave type that has none is touched, by the same rule as `templates`
+	above: a workspace that chose its own component keeps it. If HRMS's standard
+	component is not on the site, nothing happens and the throw stands — which is
+	the honest answer, because there is nothing to point at.
+	"""
+	if not frappe.db.exists("Salary Component", PAID_AS):
+		return
+	for leave_type in frappe.get_all(
+		"Leave Type",
+		filters={"allow_encashment": 1, "earning_component": ("in", (None, ""))},
+		pluck="name",
+	):
+		frappe.db.set_value("Leave Type", leave_type, "earning_component", PAID_AS)
 
 
 def before_submit(doc, method=None) -> None:

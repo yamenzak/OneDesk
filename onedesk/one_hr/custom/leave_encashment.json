@@ -1,0 +1,64 @@
+{
+ "custom_fields": [],
+ "doctype": "Leave Encashment",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Leave Encashment",
+   "doctype_or_field": "DocField",
+   "field_name": "leave_balance",
+   "property": "precision",
+   "property_type": "Select",
+   "value": "2"
+  },
+  {
+   "doc_type": "Leave Encashment",
+   "doctype_or_field": "DocField",
+   "field_name": "actual_encashable_days",
+   "property": "precision",
+   "property_type": "Select",
+   "value": "2"
+  },
+  {
+   "doc_type": "Leave Encashment",
+   "doctype_or_field": "DocField",
+   "field_name": "encashment_days",
+   "property": "precision",
+   "property_type": "Select",
+   "value": "2"
+  },
+  {
+   "doc_type": "Leave Encashment",
+   "doctype_or_field": "DocField",
+   "field_name": "status",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Leave Encashment",
+   "doctype_or_field": "DocField",
+   "field_name": "currency",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Leave Encashment",
+   "doctype_or_field": "DocField",
+   "field_name": "employee",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Leave Encashment",
+   "doctype_or_field": "DocField",
+   "field_name": "encashment_days",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  }
+ ],
+ "sync_on_migrate": 1
+}

@@ -347,6 +347,20 @@ OVERRIDES = [
 		"Please set default template for Leave Status Notification in HR Settings.",
 	),
 	(
+		"An encashable leave type has something to pay with",
+		"HRMS ships Casual Leave with `allow_encashment` on and no earning component, and only says so at submit",
+		"onedesk/one_hr/leave.py",
+		"hrms/hrms/hr/doctype/leave_encashment/leave_encashment.py",
+		"Please set Earning Component for Leave type: {0}.",
+	),
+	(
+		"An encashment says why it is worth nothing",
+		"the rate is `leave_encashment_amount_per_day` on the structure or the assignment, which nothing fills and nothing asks for",
+		"onedesk/one_hr/encashment.py",
+		"hrms/hrms/hr/doctype/leave_encashment/leave_encashment.py",
+		"leave_encashment_amount_per_day",
+	),
+	(
 		"The leave panel opens with its dates filled",
 		"it sets Dates Based On to the leave period and `from_date` to today in the same breath, and the fetch that would fix that only fires on a change",
 		"onedesk/public/js/leave_control_panel.js",

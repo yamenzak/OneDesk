@@ -232,3 +232,37 @@ a `set_value` of a whole object applies in key order with awaits between, so
 anything written from a trigger fired part-way through is overwritten by the
 rest of the batch. Filling the policy is hung on the clearing of the policy
 itself, which is the last word either way.
+
+### Leave Encashment
+
+The screen could not be used at all, in two places, and neither said so until
+Submit.
+
+1. **The leave type had nothing to pay with.** HRMS's own setup ships Casual
+   Leave with `allow_encashment: 1` and no `earning_component`, and
+   `create_additional_salary` throws *"Please set Earning Component for Leave
+   type"* on submit — after the form has been filled in. `leave.encashable()`
+   points every encashable leave type that has none at HRMS's own **Leave
+   Encashment** salary component, which their payroll data installs. Only a
+   leave type that has none is touched, and if the component is not on the site
+   nothing happens and the throw stands, because there is nothing to point at.
+2. **The amount was 0.00 and the form did not say why.** HRMS reads the rate
+   from `leave_encashment_amount_per_day` on the Salary Structure Assignment, or
+   failing that the Salary Structure. Nothing fills it and nothing asks for it,
+   so every encashment read nought and `before_submit` answered *"You can only
+   submit Leave Encashment for a valid encashment amount"* — a sentence naming
+   neither the field nor where it lives. Now the record says it first: *Nothing
+   to pay yet: One Monthly has no Leave Encashment Amount Per Day, so a day is
+   worth nought. Set it on the salary structure or on this person's assignment.*
+   And once there is a rate: *Submitting this pays Lina Farah د.إ 700.00 for 7
+   days of Casual Leave.*
+
+**Deriving a rate was considered and rejected.** A day's pay is `base / working
+days` or `base / 30` or the basic component alone depending on the contract and
+the country. A product that guesses pays somebody the wrong amount without being
+asked, and the two numbers it would be guessed from are both on the screen
+already.
+
+Also: the three day counts read 7, 7.000 and 7 — precision 2 on all three; the
+Status field repeated the header's own Draft pill and is hidden; and Currency
+sat beside an amount already formatted in it.
