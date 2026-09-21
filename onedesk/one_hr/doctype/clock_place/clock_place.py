@@ -7,4 +7,4 @@ class ClockPlace(Document):
 		if self.radius <= 0:
 			from frappe import throw
 
-			throw(_("A zone with no radius is a circle nothing is inside."))
+			throw(_("Radius must be greater than 0."))

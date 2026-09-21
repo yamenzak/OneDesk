@@ -95,7 +95,7 @@ def of(employee: str) -> dict:
 
 
 def _unknown() -> dict:
-	return {"state": "unknown", "label": _("Not known"), "detail": "", "since": None,
+	return {"state": "unknown", "label": _("Unknown"), "detail": "", "since": None,
 	        "late": False}
 
 
@@ -186,7 +186,7 @@ def _checked_in(employee: str, today) -> dict | None:
 
 	return {
 		"state": "in",
-		"label": _("In"),
+		"label": _("Checked in"),
 		"detail": one.get("shift") or "",
 		"since": str(at),
 		"late": _late(at, one.get("shift_start")),

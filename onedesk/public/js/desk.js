@@ -43,7 +43,7 @@ frappe.ui.Dock = class OneClockDock extends frappe.ui.Dock {
 			{
 				name: "clock",
 				icon: "clock",
-				label: __("Clock in"),
+				label: __("Check In"),
 				css_class: "one-clock hide",
 				badge: `<span class="one-clock-dot"></span>`,
 				on_click: () => onedesk.dock.punch(),
@@ -72,32 +72,32 @@ onedesk.dock.refresh = () =>
 		const on = ready.state === "in" || ready.state === "late";
 		$item.find(".one-clock-dot").toggleClass("one-clock-on", on);
 		const label = on
-			? __("Clocked in {0}", [onedesk.clock.when(ready.since)])
+			? __("Checked in {0}", [onedesk.clock.when(ready.since)])
 			: ready.direction
-				? __("Clock in")
-				: __("Not clocking in today");
+				? __("Check In")
+				: __("Not checking in today");
 		$item.attr("aria-label", label);
 		$item.attr("title", label);
-		$item.find(".dock-item-label").text(on ? __("Clocked in") : __("Clock in"));
+		$item.find(".dock-item-label").text(on ? __("Checked In") : __("Check In"));
 		return ready;
 	});
 
 onedesk.dock.punch = async () => {
 	const ready = onedesk.dock.ready || (await onedesk.dock.refresh());
 	if (!ready.direction) {
-		frappe.show_alert({ message: __("Nothing to clock: you are {0} today.", [ready.state]) });
+		frappe.show_alert({ message: __("There is nothing to check in: you are {0} today.", [ready.state]) });
 		return;
 	}
 
 	const reason = await onedesk.clock.why(ready.direction);
 	if (ready.direction === "OUT" && !reason) return;
 
-	frappe.dom.freeze(ready.direction === "IN" ? __("Clocking in…") : __("Clocking out…"));
+	frappe.dom.freeze(ready.direction === "IN" ? __("Checking in…") : __("Checking out…"));
 	try {
 		const done = await onedesk.clock.punch(ready, reason);
 		onedesk.dock.told(done, ready);
 	} catch (e) {
-		frappe.show_alert({ message: __("That did not go through."), indicator: "red" });
+		frappe.show_alert({ message: __("The check-in could not be recorded."), indicator: "red" });
 	} finally {
 		frappe.dom.unfreeze();
 		onedesk.dock.refresh();
@@ -120,7 +120,7 @@ onedesk.dock.told = (done, ready) => {
 		// and an employee reading their own record gets a permission error back
 		// from it. A refused clock-in says what was wrong with the clock-in.
 		frappe.msgprint({
-			title: __("Not clocked in"),
+			title: __("Not Checked In"),
 			indicator: "red",
 			clear: true,
 			message: (done.told || []).map((one) => frappe.utils.escape_html(one)).join("<br>"),
@@ -128,7 +128,7 @@ onedesk.dock.told = (done, ready) => {
 		return;
 	}
 	frappe.show_alert({
-		message: ready.direction === "IN" ? __("Clocked in") : __("Clocked out"),
+		message: ready.direction === "IN" ? __("Checked In") : __("Checked Out"),
 		indicator: done.flagged ? "orange" : "green",
 	});
 };

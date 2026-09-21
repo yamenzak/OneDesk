@@ -11,7 +11,7 @@ class ClockNetwork(Document):
 		# matching nothing, which is worse than being told at the point of typing.
 		if not rules.networks(self.address):
 			frappe.throw(
-				_("{0} is not an address or a range. Try 203.0.113.7 or 203.0.113.0/24.").format(
+				_("{0} is not a valid address or range. Example: 203.0.113.7 or 203.0.113.0/24").format(
 					self.address
 				)
 			)

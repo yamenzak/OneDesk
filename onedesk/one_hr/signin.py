@@ -49,7 +49,7 @@ def finish(credential: str) -> dict:
 
 	device = _device_for(credential.get("id") or credential.get("rawId"))
 	if not device:
-		frappe.throw(_("That passkey is not registered here."), frappe.AuthenticationError)
+		frappe.throw(_("That passkey is not registered on this site."), frappe.AuthenticationError)
 
 	try:
 		done = webauthn.verify_authentication_response(
@@ -66,7 +66,7 @@ def finish(credential: str) -> dict:
 
 	user = frappe.db.get_value("Employee", device.employee, "user_id")
 	if not user or not frappe.db.get_value("User", user, "enabled"):
-		frappe.throw(_("That passkey belongs to somebody with no account here."), frappe.AuthenticationError)
+		frappe.throw(_("That passkey belongs to an employee with no user account on this site."), frappe.AuthenticationError)
 
 	frappe.db.set_value(
 		"Clock Device",
@@ -103,7 +103,7 @@ SWITCH = "one_login_with_passkey"
 
 def _allowed() -> None:
 	if not offered():
-		frappe.throw(_("Signing in with a passkey is switched off here."))
+		frappe.throw(_("Login with Passkey is not enabled on this site."))
 
 
 @frappe.whitelist(allow_guest=True)

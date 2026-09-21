@@ -14,7 +14,7 @@
    "fieldname": "shift_location",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Place",
+   "label": "Shift Location",
    "options": "Shift Location",
    "reqd": 1
   }

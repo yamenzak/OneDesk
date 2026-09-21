@@ -81,10 +81,10 @@ def _close(log) -> None:
 			"type": "Alert",
 			"document_type": "Employee Checkin",
 			"document_name": out.name,
-			"subject": frappe._("Your day was closed at the end of your shift"),
+			"subject": frappe._("Your check-in was closed at the end of your shift"),
 			"email_content": frappe._(
-				"You clocked in but not out, so the shift's end closed it. "
-				"Tell HR if that is wrong."
+				"You checked in but never checked out, so a check out was written "
+				"for you at the shift end. Tell HR if that is wrong."
 			),
 		}
 	).insert(ignore_permissions=True)

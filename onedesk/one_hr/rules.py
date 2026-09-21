@@ -11,30 +11,37 @@ may — is in the modules that do import frappe.
 import ipaddress
 import math
 
-#: Signals, their weight, and the sentence a person reads. A weight is how much
-#: confidence the signal takes away, out of a hundred. Nothing here is learned:
-#: when a clock-in is refused the screen has to name what was wrong, and a
-#: number nobody can explain cannot be named.
+#: Signals, their weight, and the sentence the employee reads. A weight is how
+#: much the signal takes off the score, out of a hundred. Nothing here is
+#: learned: a refused check-in has to name what was wrong, and a number nobody
+#: can explain cannot be named.
 #:
 #: The dividing line is refuse on what is certain and flag on what is a guess,
-#: so the two that are certain — the wrong network, and outside every fence —
+#: so the two that are certain — the wrong network, and outside every location —
 #: are weighted to refuse on their own, while everything probabilistic sits
 #: under the flag band and needs company to get past it.
+#:
+#: `N_` marks the sentence for extraction without importing frappe, which this
+#: module must not do. `clock.py` translates it at the point it is shown.
+def N_(text: str) -> str:
+	return text
+
+
 SIGNALS = {
-	"no-passkey": (100, "No passkey was presented"),
-	"passkey-unverified": (100, "The passkey was not unlocked with a face, fingerprint or PIN"),
-	"passkey-elsewhere": (25, "Used from a browser unlike the one it was registered on"),
-	"device-shared": (40, "Other people have clocked in from this browser today"),
-	"network-unknown": (60, "This network has not been seen before"),
-	"network-personal": (5, "A network learned from this employee rather than a place"),
-	"place-outside": (60, "Outside every place this shift may clock in from"),
-	"place-vague": (20, "The position was vaguer than the place it claims"),
-	"place-refused": (15, "Location permission was refused"),
-	"place-absent": (10, "No position was offered"),
-	"travel-impossible": (45, "Too far from the last clock-in for the time between them"),
-	"session-elsewhere": (30, "Their desk session is live from a different address"),
-	"same-second": (20, "Landed in the same second as somebody else's"),
-	"reset-recent": (15, "A second passkey reset within a month"),
+	"no-passkey": (100, N_("No passkey was presented.")),
+	"passkey-unverified": (100, N_("The passkey was not unlocked with a face, fingerprint or PIN.")),
+	"passkey-elsewhere": (25, N_("This passkey was registered on a different browser.")),
+	"device-shared": (40, N_("Another employee has already checked in from this browser today.")),
+	"network-unknown": (60, N_("This network is not one you may check in from.")),
+	"network-personal": (5, N_("This network belongs to you rather than to a workplace.")),
+	"place-outside": (60, N_("You are outside every location this shift may check in from.")),
+	"place-vague": (20, N_("The position was less accurate than the location it matched.")),
+	"place-refused": (15, N_("Location permission was refused.")),
+	"place-absent": (10, N_("No position was sent.")),
+	"travel-impossible": (45, N_("Too far from your last check-in for the time in between.")),
+	"session-elsewhere": (30, N_("Your desk session is signed in from a different address.")),
+	"same-second": (20, N_("Another check-in was recorded in the same second.")),
+	"reset-recent": (15, N_("Your passkey has been reset twice within a month.")),
 }
 
 #: Below this a clock-in is refused outright; below the second it is written and

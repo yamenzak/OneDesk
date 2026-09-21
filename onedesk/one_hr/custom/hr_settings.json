@@ -12,7 +12,7 @@
    "dt": "HR Settings",
    "fieldname": "one_self_checkin_section",
    "fieldtype": "Section Break",
-   "label": "Clocking in",
+   "label": "Self Check-in",
    "module": "One HR",
    "insert_after": "one_attendance_tab"
   },
@@ -20,83 +20,84 @@
    "dt": "HR Settings",
    "fieldname": "one_self_checkin",
    "fieldtype": "Check",
-   "label": "Employees may clock themselves in",
+   "label": "Allow Employees to Check In Themselves",
    "module": "One HR",
    "insert_after": "one_self_checkin_section",
    "default": "0",
-   "description": "Everyone who clocks themselves in needs a login."
+   "description": "Requires a User linked to the Employee record."
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_close_the_day",
    "fieldtype": "Check",
-   "label": "Close an open day at the shift's end",
+   "label": "Auto Close Open Check-ins at Shift End",
    "module": "One HR",
    "insert_after": "one_self_checkin",
    "default": "1",
    "depends_on": "one_self_checkin",
-   "description": "A forgotten clock-out is marked automatic, not left looking real."
+   "description": "An employee who never checks out gets an OUT written at the shift end, marked Closed Automatically."
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_reason_on_out",
    "fieldtype": "Check",
-   "label": "Ask why on the way out",
+   "label": "Ask for a Reason on Check Out",
    "module": "One HR",
    "insert_after": "one_close_the_day",
    "default": "1",
    "depends_on": "one_self_checkin",
-   "description": "From Clock Reason. Add your own there."
+   "description": "Options come from Clock Reason."
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_gates_section",
    "fieldtype": "Section Break",
-   "label": "The gates",
+   "label": "Verification",
    "module": "One HR",
    "insert_after": "one_reason_on_out",
-   "depends_on": "one_self_checkin"
+   "depends_on": "one_self_checkin",
+   "description": "Every check-in is scored out of 100 and the score is kept on Clock Attempt. Each check below that fails subtracts from it."
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_gate_passkey",
    "fieldtype": "Check",
-   "label": "A passkey on their own phone",
+   "label": "Require a Passkey",
    "module": "One HR",
    "insert_after": "one_gates_section",
    "default": "1",
-   "description": "Who. One per employee; a second needs a reset."
+   "description": "One passkey per employee, registered on their own phone. Replacing it requires an HR reset."
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_passkey_refuses",
    "fieldtype": "Check",
-   "label": "No passkey refuses the clock-in",
+   "label": "Refuse Check-in Without a Passkey",
    "module": "One HR",
    "insert_after": "one_gate_passkey",
    "default": "1",
    "depends_on": "one_gate_passkey",
-   "description": "Off, a missing passkey is only flagged."
+   "description": "If unchecked, a missing passkey is only flagged."
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_gate_network",
    "fieldtype": "Check",
-   "label": "The network they arrived on",
+   "label": "Check the Network",
    "module": "One HR",
    "insert_after": "one_passkey_refuses",
    "default": "1",
-   "description": "The address the request came from, against the places below."
+   "description": "Match the address the request came from against Clock Network."
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_gate_place",
    "fieldtype": "Check",
-   "label": "Where the browser says they are",
+   "label": "Check the Location",
    "module": "One HR",
    "insert_after": "one_gate_network",
    "default": "1",
-   "description": "Needs HRMS geolocation tracking on, and the employee's permission once."
+   "description": "Match the position the browser reports against Clock Place and the Shift Location's own radius. Requires Allow Geolocation Tracking."
   },
   {
    "dt": "HR Settings",
@@ -110,83 +111,83 @@
    "dt": "HR Settings",
    "fieldname": "one_gates_require",
    "fieldtype": "Select",
-   "label": "Network and place",
+   "label": "Network and Location",
    "module": "One HR",
    "insert_after": "one_column_gates",
    "options": "Either\nBoth",
    "default": "Either",
-   "description": "Either is the default: they prove the same thing two ways."
+   "description": "Either accepts a check-in that passes one of the two. Both requires each of them."
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_refuse_below",
    "fieldtype": "Int",
-   "label": "Refuse below",
+   "label": "Refuse Below Score",
    "module": "One HR",
    "insert_after": "one_gates_require",
    "default": "50",
-   "description": "Out of a hundred. Below this, refused, with the reason shown."
+   "description": "Check-ins scoring below this are refused and no Employee Checkin is written. The failing checks are shown to the employee."
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_flag_below",
    "fieldtype": "Int",
-   "label": "Flag below",
+   "label": "Flag Below Score",
    "module": "One HR",
    "insert_after": "one_refuse_below",
    "default": "85",
-   "description": "Between the two, written and put in the queue."
+   "description": "Check-ins scoring between this and Refuse Below Score are written, and marked Flagged for review."
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_gate_photo",
    "fieldtype": "Check",
-   "label": "Ask for a photo",
+   "label": "Ask for a Photo",
    "module": "One HR",
    "insert_after": "one_flag_below",
    "default": "0",
-   "description": "A live frame from the camera, never a file. Says who, not where."
+   "description": "Captures a frame from the camera at check-in. Choosing an existing file instead is not allowed."
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_keep_photo_days",
    "fieldtype": "Int",
-   "label": "Keep photos for",
+   "label": "Delete Photos After (Days)",
    "module": "One HR",
    "insert_after": "one_gate_photo",
    "default": "7",
    "depends_on": "one_gate_photo",
-   "description": "Days, then deleted."
+   "description": "Set to 0 to keep them indefinitely."
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_learning_section",
    "fieldtype": "Section Break",
-   "label": "What the system may learn",
+   "label": "Learning",
    "module": "One HR",
    "insert_after": "one_keep_photo_days",
    "depends_on": "one_self_checkin",
-   "description": "Only clock-ins corroborated another way teach it anything, and nothing learned widens who may clock in."
+   "description": "Only check-ins that passed another check are counted. Nothing learned widens who may check in."
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_learn_networks",
    "fieldtype": "Check",
-   "label": "Learn a new office address",
+   "label": "Learn New Networks",
    "module": "One HR",
    "insert_after": "one_learning_section",
    "default": "1",
-   "description": "A router reboot stops locking everybody out on a Monday."
+   "description": "Propose a Clock Network when enough employees check in from an address the site does not know."
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_learn_zones",
    "fieldtype": "Check",
-   "label": "Learn where people actually stand",
+   "label": "Learn New Locations",
    "module": "One HR",
    "insert_after": "one_learn_networks",
    "default": "1",
-   "description": "A gate two hundred metres from the door becomes a second circle."
+   "description": "Propose a Clock Place when enough employees check in from just outside an existing one."
   },
   {
    "dt": "HR Settings",
@@ -200,21 +201,21 @@
    "dt": "HR Settings",
    "fieldname": "one_learn_home",
    "fieldtype": "Check",
-   "label": "Learn home networks and home zones",
+   "label": "Include Personal Networks and Locations",
    "module": "One HR",
    "insert_after": "one_column_learning",
    "default": "0",
-   "description": "For remote workers. Off by default."
+   "description": "Also propose networks and locations belonging to a single employee, such as a home."
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_learn_threshold",
    "fieldtype": "Int",
-   "label": "Proposals need",
+   "label": "Confirmation Threshold",
    "module": "One HR",
    "insert_after": "one_learn_home",
    "default": "3",
-   "description": "How many people, and how many clock-ins, before it confirms itself."
+   "description": "Number of distinct employees, and of check-ins each, before a Proposed network or location becomes Confirmed."
   }
  ],
  "doctype": "HR Settings",

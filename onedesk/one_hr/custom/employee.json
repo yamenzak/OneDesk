@@ -2,17 +2,17 @@
  "custom_fields": [
   {
    "collapsible": 1,
-   "description": "Computed nightly from the last ninety days of clock-ins. It never refuses anybody \u2014 it decides whose observations count when the system learns a new address or a new place people stand.",
+   "description": "Worked out nightly from this employee's Clock Attempt rows over the last 90 days. It never refuses a check-in; it weights whose check-ins count when a network or location is learned.",
    "dt": "Employee",
    "fieldname": "one_attendance_section",
    "fieldtype": "Section Break",
    "insert_after": "attendance_device_id",
-   "label": "Attendance standing",
+   "label": "Attendance Standing",
    "module": "One HR"
   },
   {
    "default": "100",
-   "description": "Out of a hundred.",
+   "description": "Out of 100.",
    "dt": "Employee",
    "fieldname": "one_standing",
    "fieldtype": "Int",
@@ -26,7 +26,7 @@
    "fieldname": "one_standing_on",
    "fieldtype": "Datetime",
    "insert_after": "one_standing",
-   "label": "Worked Out",
+   "label": "Last Worked Out",
    "module": "One HR",
    "read_only": 1
   }

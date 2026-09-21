@@ -104,7 +104,7 @@ def _state(doc) -> dict:
 		limit=1,
 	)
 	if last and last[0]["log_type"] != "OUT":
-		return {"label": _("On duty"), "colour": "green"}
+		return {"label": _("Checked in"), "colour": "green"}
 
 	marked = frappe.get_all(
 		"Attendance",
@@ -120,8 +120,8 @@ def _state(doc) -> dict:
 		}
 
 	if last:
-		return {"label": _("Left for the day"), "colour": "blue"}
-	return {"label": _("Not in yet"), "colour": "gray"}
+		return {"label": _("Checked out"), "colour": "blue"}
+	return {"label": _("Not checked in"), "colour": "gray"}
 
 
 def _tenure(doc) -> dict:

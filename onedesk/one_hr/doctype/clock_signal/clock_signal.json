@@ -16,7 +16,7 @@
    "fieldname": "signal",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Signal",
+   "label": "Check",
    "read_only": 1
   },
   {
@@ -24,7 +24,7 @@
    "fieldname": "weight",
    "fieldtype": "Int",
    "in_list_view": 1,
-   "label": "Weight",
+   "label": "Points Lost",
    "read_only": 1
   },
   {
@@ -32,7 +32,7 @@
    "fieldname": "says",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Says",
+   "label": "Reason Shown",
    "read_only": 1
   }
  ],

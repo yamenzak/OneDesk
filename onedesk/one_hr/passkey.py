@@ -49,14 +49,14 @@ def start_registration() -> dict:
 
 	if held_by(employee):
 		frappe.throw(
-			_("This employee already has a passkey. HR resets it when the phone changes.")
+			_("This employee already has a passkey. HR must reset it before another can be registered.")
 		)
 
 	if policy.on("one_passkey_phone_only") and not rules.is_phone(_agent()):
 		frappe.throw(
 			_(
 				"Register your passkey on your phone rather than on this computer. "
-				"A passkey made on a shared machine is a passkey anybody sitting at it can use."
+				"A passkey registered on a shared machine can be used by anyone sitting at it."
 			)
 		)
 
@@ -210,7 +210,8 @@ def ask_for_a_reset(why: str | None = None) -> dict:
 	device = held_by(employee)
 	name = frappe.db.get_value("Employee", employee, "employee_name") or employee
 	told = _(
-		"{0} cannot clock in and says their phone changed.\n\nWas: {1}\nNow: {2}\nFrom: {3}\n\n{4}"
+		"{0} cannot check in and reports that their phone has changed.\n\n"
+		"Registered on: {1}\nAsking from: {2}\nAddress: {3}\n\n{4}"
 	).format(
 		name,
 		(device or {}).get("user_agent") or _("no passkey registered"),
@@ -286,7 +287,7 @@ def _remember(challenge: bytes) -> None:
 def _recall() -> bytes:
 	held = frappe.cache.get_value(_key())
 	if not held:
-		frappe.throw(_("That took too long. Try again."))
+		frappe.throw(_("This request expired. Try again."))
 	frappe.cache.delete_value(_key())
 	return base64.b64decode(held)
 

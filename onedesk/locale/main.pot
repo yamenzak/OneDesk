@@ -1,0 +1,2163 @@
+# Translations template for One.
+# Copyright (C) 2026 One
+# This file is distributed under the same license as the One project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: One VERSION\n"
+"Report-Msgid-Bugs-To: hello@4dl.app\n"
+"POT-Creation-Date: 2026-09-21 06:32+0000\n"
+"PO-Revision-Date: 2026-09-21 06:32+0000\n"
+"Last-Translator: hello@4dl.app\n"
+"Language-Team: hello@4dl.app\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#. Header text in the One Workspace
+#: onedesk/one/workspace/one/one.json
+msgid "<span class=\"h4\"><b>One</b></span>"
+msgstr ""
+
+#. Header text in the OneCRM Workspace
+#: onedesk/one_crm/workspace/onecrm/onecrm.json
+msgid "<span class=\"h4\"><b>OneCRM</b></span>"
+msgstr ""
+
+#. Header text in the OneHR Workspace
+#: onedesk/one_hr/workspace/onehr/onehr.json
+msgid "<span class=\"h4\"><b>Today</b></span>"
+msgstr ""
+
+#. Description of the 'Belongs To' (Section Break) field in DocType 'Clock
+#. Network'
+#. Description of the 'Shift Location' (Link) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "A Shift Location, or a single employee. Leave both empty to apply it site-wide."
+msgstr ""
+
+#. Description of the 'Treat as a Site' (Check) field in DocType 'Shift
+#. Location'
+#: onedesk/one_hr/custom/shift_location.json
+msgid "A check-in from outside the radius is allowed, and the distance is recorded on Clock Attempt. If unchecked, it is refused."
+msgstr ""
+
+#: onedesk/one_hr/healing.py:267
+msgid "A new check-in network or location was proposed"
+msgstr ""
+
+#. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/presence.py:227 onedesk/public/js/employee.js:40
+msgid "Absent"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Accrued Earnings"
+msgstr ""
+
+#. Label of the accuracy (Float) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "Accuracy (Metres)"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Active"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Activity Type"
+msgstr ""
+
+#. Title of an Onboarding Step
+#. Label of an action in the Onboarding Step 'Add a customer'
+#: onedesk/one/onboarding_step/one_add_a_customer/one_add_a_customer.json
+msgid "Add a customer"
+msgstr ""
+
+#. Title of an Onboarding Step
+#. Label of an action in the Onboarding Step 'Add an employee'
+#: onedesk/one/onboarding_step/one_add_an_employee/one_add_an_employee.json
+msgid "Add an employee"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Additional Salary"
+msgstr ""
+
+#. Label of the address (Data) field in DocType 'Clock Attempt'
+#. Label of the address (Data) field in DocType 'Clock Network'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+msgid "Address"
+msgstr ""
+
+#. Description of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Addresses employees may check in from."
+msgstr ""
+
+#. Label of the one_self_checkin (Check) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Allow Employees to Check In Themselves"
+msgstr ""
+
+#. Description of the 'Login with Passkey' (Check) field in DocType 'System
+#. Settings'
+#: onedesk/one/custom/system_settings.json
+msgid "Allow users to log in without a password, using a passkey registered on their own device."
+msgstr ""
+
+#. Option for the 'Outcome' (Select) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "Allowed"
+msgstr ""
+
+#. Label of the one_also_at (Table) field in DocType 'Shift Location'
+#: onedesk/one_hr/custom/shift_location.json
+msgid "Also Allow Check-in From"
+msgstr ""
+
+#. Description of the 'Include Personal Networks and Locations' (Check) field
+#. in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Also propose networks and locations belonging to a single employee, such as a home."
+msgstr ""
+
+#. Description of the Onboarding Step 'Add an employee'
+#: onedesk/one/onboarding_step/one_add_an_employee/one_add_an_employee.json
+msgid "An employee is the person behind the account: their role, their department, what they are paid. OneHR reads this."
+msgstr ""
+
+#. Description of the 'Auto Close Open Check-ins at Shift End' (Check) field in
+#. DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "An employee who never checks out gets an OUT written at the shift end, marked Closed Automatically."
+msgstr ""
+
+#: onedesk/one_hr/rules.py:43
+msgid "Another check-in was recorded in the same second."
+msgstr ""
+
+#: onedesk/one_hr/rules.py:34
+msgid "Another employee has already checked in from this browser today."
+msgstr ""
+
+#: onedesk/public/js/setup_wizard.js:24
+msgid "Appearance"
+msgstr ""
+
+#: onedesk/public/js/employee.js:165
+msgid "Apply for Leave"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Appointment"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Appointment Letter"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Appointment Letter Template"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Appraisal"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Appraisal Cycle"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Appraisal Overview"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Appraisal Template"
+msgstr ""
+
+#. Label of the one_gate_photo (Check) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Ask for a Photo"
+msgstr ""
+
+#. Label of the one_reason_on_out (Check) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Ask for a Reason on Check Out"
+msgstr ""
+
+#. Description of the 'Reason' (Link) field in DocType 'Employee Checkin'
+#: onedesk/one_hr/custom/employee_checkin.json
+msgid "Asked on check out only. Options come from Clock Reason."
+msgstr ""
+
+#. Group in Employee's connections
+#. Label of the one_attendance_tab (Tab Break) field in DocType 'HR Settings'
+#. Label of a Sidebar Item
+#: onedesk/one_hr/custom/employee.json onedesk/one_hr/custom/hr_settings.json
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Attendance"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Attendance Overview"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Attendance Request"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Attendance Settings"
+msgstr ""
+
+#. Label of the one_attendance_section (Section Break) field in DocType
+#. 'Employee'
+#: onedesk/one_hr/custom/employee.json
+msgid "Attendance Standing"
+msgstr ""
+
+#. Label of the aaguid (Data) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Authenticator (AAGUID)"
+msgstr ""
+
+#. Label of the one_close_the_day (Check) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Auto Close Open Check-ins at Shift End"
+msgstr ""
+
+#. Label of the backed_up (Check) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Backed Up"
+msgstr ""
+
+#. Label of the 'profile_tab' field in DocType 'Employee'
+#: onedesk/one_hr/custom/employee.json
+msgid "Background"
+msgstr ""
+
+#. Label of the belongs_to_section (Section Break) field in DocType 'Clock
+#. Network'
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+msgid "Belongs To"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Benefit Application"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Benefit Claim"
+msgstr ""
+
+#. Label of the 'bio' field in DocType 'Employee'
+#: onedesk/one_hr/custom/employee.json
+msgid "Bio"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Blocked"
+msgstr ""
+
+#. Option for the 'Network and Location' (Select) field in DocType 'HR
+#. Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Both"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Branch"
+msgstr ""
+
+#. Label of the seen_section (Section Break) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Browser"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "CRM Settings"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "CTC Break-up"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Campaign"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Campaign Efficiency"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Campaigns"
+msgstr ""
+
+#. Description of the 'Ask for a Photo' (Check) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Captures a frame from the camera at check-in. Choosing an existing file instead is not allowed."
+msgstr ""
+
+#. Label of the signal (Data) field in DocType 'Clock Signal'
+#: onedesk/one_hr/doctype/clock_signal/clock_signal.json
+msgid "Check"
+msgstr ""
+
+#: onedesk/public/js/desk.js:46 onedesk/public/js/desk.js:77
+#: onedesk/public/js/desk.js:81
+msgid "Check In"
+msgstr ""
+
+#: onedesk/public/js/clock.js:79
+msgid "Check Out"
+msgstr ""
+
+#. Label of a shortcut in the OneHR Workspace
+#: onedesk/one_hr/workspace/onehr/onehr.json
+msgid "Check in"
+msgstr ""
+
+#. Label of the one_gate_place (Check) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Check the Location"
+msgstr ""
+
+#. Label of the one_gate_network (Check) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Check the Network"
+msgstr ""
+
+#. Label of the one_section (Section Break) field in DocType 'Shift Location'
+#. Label of a Card Break in the OneHR Setup Workspace
+#: onedesk/one_hr/custom/shift_location.json
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Check-in"
+msgstr ""
+
+#. Label of the attempts (Int) field in DocType 'Clock Network'
+#. Label of the attempts (Int) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "Check-ins"
+msgstr ""
+
+#. Description of the 'Refuse Below Score' (Int) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Check-ins scoring below this are refused and no Employee Checkin is written. The failing checks are shown to the employee."
+msgstr ""
+
+#. Description of the 'Flag Below Score' (Int) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Check-ins scoring between this and Refuse Below Score are written, and marked Flagged for review."
+msgstr ""
+
+#: onedesk/public/js/desk.js:81 onedesk/public/js/desk.js:131
+msgid "Checked In"
+msgstr ""
+
+#: onedesk/public/js/desk.js:131
+msgid "Checked Out"
+msgstr ""
+
+#: onedesk/one_hr/employee.py:107 onedesk/one_hr/presence.py:189
+msgid "Checked in"
+msgstr ""
+
+#: onedesk/public/js/desk.js:75
+msgid "Checked in {0}"
+msgstr ""
+
+#: onedesk/one_hr/employee.py:123 onedesk/one_hr/presence.py:184
+msgid "Checked out"
+msgstr ""
+
+#: onedesk/public/js/desk.js:95
+msgid "Checking in…"
+msgstr ""
+
+#: onedesk/public/js/desk.js:95
+msgid "Checking out…"
+msgstr ""
+
+#: onedesk/one_hr/clock.py:80
+msgid "Checking yourself in is not enabled on this site."
+msgstr ""
+
+#. Label of the gates_tab (Tab Break) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "Checks"
+msgstr ""
+
+#: onedesk/public/js/employee.js:166
+msgid "Claim an Expense"
+msgstr ""
+
+#. Label of a shortcut in the OneHR Workspace
+#: onedesk/one_hr/workspace/onehr/onehr.json
+msgid "Claim an expense"
+msgstr ""
+
+#. Label of the one_attempt (Link) field in DocType 'Employee Checkin'
+#. Name of a DocType
+#. Label of a Sidebar Item
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/custom/employee_checkin.json
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Clock Attempt"
+msgstr ""
+
+#. Label of the device (Link) field in DocType 'Clock Attempt'
+#. Name of a DocType
+#. Label of a Sidebar Item
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Clock Device"
+msgstr ""
+
+#. Label of the network (Link) field in DocType 'Clock Attempt'
+#. Name of a DocType
+#. Label of a Sidebar Item
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Clock Network"
+msgstr ""
+
+#. Label of the zone (Link) field in DocType 'Clock Attempt'
+#. Name of a DocType
+#. Label of a Sidebar Item
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Clock Place"
+msgstr ""
+
+#. Name of a DocType
+#. Label of a Sidebar Item
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/doctype/clock_reason/clock_reason.json
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Clock Reason"
+msgstr ""
+
+#. Name of a DocType
+#: onedesk/one_hr/doctype/clock_signal/clock_signal.json
+msgid "Clock Signal"
+msgstr ""
+
+#. Label of the one_auto_closed (Check) field in DocType 'Employee Checkin'
+#: onedesk/one_hr/custom/employee_checkin.json
+msgid "Closed Automatically"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Company"
+msgstr ""
+
+#. Label of the one_learn_threshold (Int) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Confirmation Threshold"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Clock Network'
+#. Option for the 'Status' (Select) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "Confirmed"
+msgstr ""
+
+#. Label of a Sidebar Item
+#. Label of the 'contact_details' field in DocType 'Employee'
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/one_hr/custom/employee.json
+msgid "Contact"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Contract"
+msgstr ""
+
+#. Label of the credential_id (Data) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Credential ID"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Customer"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Customer Group"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Clock Network'
+#. Option for the 'Status' (Select) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "Declared"
+msgstr ""
+
+#. Description of the 'Status' (Select) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "Declared is entered by a person. Proposed is suggested by Learn New Locations, and becomes Confirmed once the Confirmation Threshold is met. Rejected is never proposed again."
+msgstr ""
+
+#. Description of the 'Status' (Select) field in DocType 'Clock Network'
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+msgid "Declared is entered by a person. Proposed is suggested by Learn New Networks, and becomes Confirmed once the Confirmation Threshold is met. Rejected is never proposed again."
+msgstr ""
+
+#. Label of the one_keep_photo_days (Int) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Delete Photos After (Days)"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Department"
+msgstr ""
+
+#. Label of the description (Small Text) field in DocType 'Clock Reason'
+#: onedesk/one_hr/doctype/clock_reason/clock_reason.json
+msgid "Description"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Designation"
+msgstr ""
+
+#. Label of the label (Data) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Device"
+msgstr ""
+
+#. Label of the 'attendance_device_id' field in DocType 'Employee'
+#: onedesk/one_hr/custom/employee.json
+msgid "Device ID"
+msgstr ""
+
+#. Label of the metres_out (Float) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "Distance Out (Metres)"
+msgstr ""
+
+#. Description of the 'Distance Out (Metres)' (Float) field in DocType 'Clock
+#. Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "Distance from the nearest location, set only when outside all of them."
+msgstr ""
+
+#. Description of the 'Employees' (Int) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "Distinct employees, each verified another way, who have checked in from inside this radius."
+msgstr ""
+
+#. Description of the 'Employees' (Int) field in DocType 'Clock Network'
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+msgid "Distinct employees, each verified another way, who have checked in from this address."
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Driver"
+msgstr ""
+
+#. Option for the 'Network and Location' (Select) field in DocType 'HR
+#. Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Either"
+msgstr ""
+
+#. Description of the 'Network and Location' (Select) field in DocType 'HR
+#. Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Either accepts a check-in that passes one of the two. Both requires each of them."
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Email Campaign"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Email Group"
+msgstr ""
+
+#. Label of the employee (Link) field in DocType 'Clock Attempt'
+#. Name of a role
+#. Label of the employee (Link) field in DocType 'Clock Device'
+#. Label of the employee (Link) field in DocType 'Clock Network'
+#. Label of the employee (Link) field in DocType 'Clock Place'
+#. Label of a Sidebar Item
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+#: onedesk/one_hr/doctype/clock_reason/clock_reason.json
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Employee"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Employee Advance"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Employee Analytics"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Employee Birthday"
+msgstr ""
+
+#. Label of the checkin (Link) field in DocType 'Clock Attempt'
+#. Label of a Sidebar Item
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Employee Checkin"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Employee Exits"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Employee Feedback Criteria"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Employee Grade"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Employee Group"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Employee Information"
+msgstr ""
+
+#. Label of the employee_name (Data) field in DocType 'Clock Attempt'
+#. Label of the employee_name (Data) field in DocType 'Clock Device'
+#. Label of the employee_name (Data) field in DocType 'Clock Network'
+#. Label of the employee_name (Data) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "Employee Name"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Employee Referral"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Employee Skill Map"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Employee Tax Exemption Category"
+msgstr ""
+
+#. Label of the voters (Int) field in DocType 'Clock Network'
+#. Label of the voters (Int) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "Employees"
+msgstr ""
+
+#. Label of the enabled (Check) field in DocType 'Clock Reason'
+#: onedesk/one_hr/doctype/clock_reason/clock_reason.json
+msgid "Enabled"
+msgstr ""
+
+#. Label of the ends_the_day (Check) field in DocType 'Clock Reason'
+#: onedesk/one_hr/doctype/clock_reason/clock_reason.json
+msgid "Ends the Shift"
+msgstr ""
+
+#. Description of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Every check-in attempt, allowed, flagged or refused."
+msgstr ""
+
+#. Description of the 'Verification' (Section Break) field in DocType 'HR
+#. Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Every check-in is scored out of 100 and the score is kept on Clock Attempt. Each check below that fails subtracts from it."
+msgstr ""
+
+#. Description of the Onboarding Step 'Invite your team'
+#: onedesk/one/onboarding_step/one_invite_your_team/one_invite_your_team.json
+msgid "Everyone who works here needs an account. Add them now and they can sign in while you finish setting up."
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Exemption Declaration"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Exemption Proof"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Expense Claim"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Expense Claim Type"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Expense Overview"
+msgstr ""
+
+#. Label of a Sidebar Item
+#. Label of a quick_list in the OneHR Workspace
+#. Label of a Card Break in the OneHR Setup Workspace
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_hr/workspace/onehr/onehr.json
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Expenses"
+msgstr ""
+
+#. Label of the signals_section (Section Break) field in DocType 'Clock
+#. Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "Failed Checks"
+msgstr ""
+
+#: onedesk/one/setup_wizard.py:16
+msgid "Failed to set the appearance"
+msgstr ""
+
+#: onedesk/one/setup_wizard.py:11
+msgid "Failed to set up One"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Feedback"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "First Response Time"
+msgstr ""
+
+#. Label of the first_seen (Datetime) field in DocType 'Clock Network'
+#. Label of the first_seen (Datetime) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "First Seen"
+msgstr ""
+
+#. Label of the one_flag_below (Int) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Flag Below Score"
+msgstr ""
+
+#. Option for the 'Outcome' (Select) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "Flagged"
+msgstr ""
+
+#: onedesk/public/js/theme.js:73
+msgid "Follow my system"
+msgstr ""
+
+#: onedesk/public/js/employee.js:36
+msgid "From home"
+msgstr ""
+
+#. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "Given"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Goal"
+msgstr ""
+
+#. Label of the renderer (Data) field in DocType 'Clock Attempt'
+#. Label of the renderer (Data) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Graphics"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Grievance"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Grievance Type"
+msgstr ""
+
+#. Label of a Sidebar Item
+#. Label of a Card Break in the OneHR Setup Workspace
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Growth"
+msgstr ""
+
+#. Name of a role
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+#: onedesk/one_hr/doctype/clock_reason/clock_reason.json
+msgid "HR Manager"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "HR Settings"
+msgstr ""
+
+#. Name of a role
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+#: onedesk/one_hr/doctype/clock_reason/clock_reason.json
+msgid "HR User"
+msgstr ""
+
+#: onedesk/one_hr/presence.py:128 onedesk/public/js/employee.js:38
+msgid "Half day"
+msgstr ""
+
+#: onedesk/public/js/employee.js:144
+msgid "Here since"
+msgstr ""
+
+#. Label of a Sidebar Item
+#. Label of a Card Break in the OneHR Setup Workspace
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Hiring"
+msgstr ""
+
+#: onedesk/one_hr/employee.py:82 onedesk/one_hr/employee.py:239
+#: onedesk/one_hr/presence.py:159 onedesk/public/js/employee.js:41
+msgid "Holiday"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Holiday List"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Holiday List Assignment"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one/sidebar/one/one.json onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Home"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Hours Utilization"
+msgstr ""
+
+#. Description of the 'Accuracy (Metres)' (Float) field in DocType 'Clock
+#. Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "How good the browser said the position was."
+msgstr ""
+
+#: onedesk/public/js/setup_wizard.js:19
+msgid "How should One look?"
+msgstr ""
+
+#. Option for the 'Log Type' (Select) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "IN"
+msgstr ""
+
+#. Description of the 'Authenticator (AAGUID)' (Data) field in DocType 'Clock
+#. Device'
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Identifies the authenticator's model, not the device itself."
+msgstr ""
+
+#. Description of the 'Refuse Check-in Without a Passkey' (Check) field in
+#. DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "If unchecked, a missing passkey is only flagged."
+msgstr ""
+
+#: onedesk/public/js/employee.js:113
+msgid "In"
+msgstr ""
+
+#. Label of the one_learn_home (Check) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Include Personal Networks and Locations"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Income Tax Computation"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Income Tax Deductions"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Income Tax Slab"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Interview"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Interview Type"
+msgstr ""
+
+#. Title of an Onboarding Step
+#. Label of an action in the Onboarding Step 'Invite your team'
+#: onedesk/one/onboarding_step/one_invite_your_team/one_invite_your_team.json
+msgid "Invite your team"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Job Applicant"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Job Offer"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Job Offer Term Template"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Job Opening"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Job Opening Template"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Job Requisition"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Joining & Leaving"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "KRA"
+msgstr ""
+
+#. Label of the last_address (Data) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Last Address"
+msgstr ""
+
+#. Label of the last_seen (Datetime) field in DocType 'Clock Network'
+#. Label of the last_seen (Datetime) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "Last Seen"
+msgstr ""
+
+#. Label of the last_used (Datetime) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Last Used"
+msgstr ""
+
+#. Label of the one_standing_on (Datetime) field in DocType 'Employee'
+#: onedesk/one_hr/custom/employee.json
+msgid "Last Worked Out"
+msgstr ""
+
+#: onedesk/public/js/employee.js:37
+msgid "Late"
+msgstr ""
+
+#. Label of the latitude (Float) field in DocType 'Clock Attempt'
+#. Label of the latitude (Float) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "Latitude"
+msgstr ""
+
+#: onedesk/one_hr/checkin.py:45
+msgid "Latitude and longitude values are required for checking in."
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Lead"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Lead Source"
+msgstr ""
+
+#. Label of the one_learn_zones (Check) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Learn New Locations"
+msgstr ""
+
+#. Label of the one_learn_networks (Check) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Learn New Networks"
+msgstr ""
+
+#: onedesk/one_hr/healing.py:210
+msgid "Learned from {0} employees"
+msgstr ""
+
+#. Label of the one_learning_section (Section Break) field in DocType 'HR
+#. Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Learning"
+msgstr ""
+
+#. Label of a Sidebar Item
+#. Label of a quick_list in the OneHR Workspace
+#. Label of a Card Break in the OneHR Setup Workspace
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_hr/workspace/onehr/onehr.json
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Leave"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Leave Allocation"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Leave Application"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Leave Balance"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Leave Balance Summary"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Leave Block List"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Leave Control Panel"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Leave Encashment"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Leave Period"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Leave Policy"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Leave Policy Assignment"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Leave Type"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Lifecycle Overview"
+msgstr ""
+
+#. Label of the place_section (Section Break) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "Location"
+msgstr ""
+
+#: onedesk/one_hr/rules.py:39
+msgid "Location permission was refused."
+msgstr ""
+
+#. Description of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Locations employees may check in from, each with a radius."
+msgstr ""
+
+#. Label of the direction (Select) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "Log Type"
+msgstr ""
+
+#. Label of the one_login_with_passkey (Check) field in DocType 'System
+#. Settings'
+#: onedesk/one/custom/system_settings.json
+msgid "Login with Passkey"
+msgstr ""
+
+#: onedesk/one_hr/signin.py:106
+msgid "Login with Passkey is not enabled on this site."
+msgstr ""
+
+#. Label of the longitude (Float) field in DocType 'Clock Attempt'
+#. Label of the longitude (Float) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "Longitude"
+msgstr ""
+
+#. Label of the 'reports_to' field in DocType 'Employee'
+#: onedesk/one_hr/custom/employee.json
+msgid "Manager"
+msgstr ""
+
+#: onedesk/one_hr/presence.py:234
+msgid "Marked present"
+msgstr ""
+
+#. Description of the 'Check the Network' (Check) field in DocType 'HR
+#. Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Match the address the request came from against Clock Network."
+msgstr ""
+
+#. Description of the 'Check the Location' (Check) field in DocType 'HR
+#. Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Match the position the browser reports against Clock Place and the Shift Location's own radius. Requires Allow Geolocation Tracking."
+msgstr ""
+
+#. Label of the model (Data) field in DocType 'Clock Attempt'
+#. Label of the model (Data) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Model"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Monthly Attendance"
+msgstr ""
+
+#. Label of the label (Data) field in DocType 'Clock Network'
+#. Label of the label (Data) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "Name"
+msgstr ""
+
+#. Label of the network_section (Section Break) field in DocType 'Clock
+#. Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "Network"
+msgstr ""
+
+#. Label of the one_gates_require (Select) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Network and Location"
+msgstr ""
+
+#. Description of the 'Closed Automatically' (Check) field in DocType 'Employee
+#. Checkin'
+#: onedesk/one_hr/custom/employee_checkin.json
+msgid "No one checked out, so this OUT was written at the shift end."
+msgstr ""
+
+#: onedesk/one_hr/rules.py:31
+msgid "No passkey was presented."
+msgstr ""
+
+#: onedesk/one_hr/rules.py:40
+msgid "No position was sent."
+msgstr ""
+
+#: onedesk/public/js/desk.js:123
+msgid "Not Checked In"
+msgstr ""
+
+#: onedesk/one_hr/employee.py:124
+msgid "Not checked in"
+msgstr ""
+
+#: onedesk/public/js/desk.js:78
+msgid "Not checking in today"
+msgstr ""
+
+#: onedesk/public/js/employee.js:94
+msgid "Not marked"
+msgstr ""
+
+#. Description of the 'Confirmation Threshold' (Int) field in DocType 'HR
+#. Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Number of distinct employees, and of check-ins each, before a Proposed network or location becomes Confirmed."
+msgstr ""
+
+#. Option for the 'Log Type' (Select) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "OUT"
+msgstr ""
+
+#. Description of the 'Enabled' (Check) field in DocType 'Clock Reason'
+#: onedesk/one_hr/doctype/clock_reason/clock_reason.json
+msgid "Offered to employees on check out."
+msgstr ""
+
+#: onedesk/one_hr/employee.py:97 onedesk/one_hr/presence.py:128
+#: onedesk/one_hr/presence.py:230 onedesk/public/js/employee.js:39
+msgid "On leave"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Onboarding"
+msgstr ""
+
+#. Title of a Sidebar
+#. Name of a Workspace
+#: onedesk/one/sidebar/one/one.json onedesk/one/workspace/one/one.json
+msgid "One"
+msgstr ""
+
+#. Description of the 'Address' (Data) field in DocType 'Clock Network'
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+msgid "One address or a CIDR range. Example: 203.0.113.7 or 203.0.113.0/24"
+msgstr ""
+
+#. Description of the 'Require a Passkey' (Check) field in DocType 'HR
+#. Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "One passkey per employee, registered on their own phone. Replacing it requires an HR reset."
+msgstr ""
+
+#. Description of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "One passkey per employee. Reset it when a phone changes."
+msgstr ""
+
+#. Title of a Sidebar
+#. Name of a Workspace
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/one_crm/workspace/onecrm/onecrm.json
+msgid "OneCRM"
+msgstr ""
+
+#. Title of a Sidebar
+#. Name of a Workspace
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_hr/workspace/onehr/onehr.json
+msgid "OneHR"
+msgstr ""
+
+#. Name of a Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "OneHR Setup"
+msgstr ""
+
+#: onedesk/one_hr/passkey.py:247
+msgid "Only HR can reset a passkey."
+msgstr ""
+
+#: onedesk/one_hr/passkey.py:208
+msgid "Only an employee can ask for their own passkey to be reset."
+msgstr ""
+
+#: onedesk/one_hr/clock.py:78
+msgid "Only an employee can check in."
+msgstr ""
+
+#: onedesk/one_hr/passkey.py:48 onedesk/one_hr/passkey.py:86
+msgid "Only an employee can register a passkey."
+msgstr ""
+
+#. Description of the 'Learning' (Section Break) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Only check-ins that passed another check are counted. Nothing learned widens who may check in."
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Opportunity"
+msgstr ""
+
+#. Description of the 'Ask for a Reason on Check Out' (Check) field in DocType
+#. 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Options come from Clock Reason."
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Org Chart"
+msgstr ""
+
+#. Description of the 'Also Allow Check-in From' (Table) field in DocType
+#. 'Shift Location'
+#: onedesk/one_hr/custom/shift_location.json
+msgid "Other Shift Locations this one's employees may check in from, without a second Shift Assignment."
+msgstr ""
+
+#: onedesk/public/js/employee.js:113
+msgid "Out"
+msgstr ""
+
+#. Description of the 'Standing' (Int) field in DocType 'Employee'
+#. Description of the 'Score' (Int) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/custom/employee.json
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "Out of 100."
+msgstr ""
+
+#. Label of the outcome (Select) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "Outcome"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Overtime Slip"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Overtime Type"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Overview"
+msgstr ""
+
+#: onedesk/public/js/employee.js:139
+msgid "Paid under"
+msgstr ""
+
+#. Label of the passkey_section (Section Break) field in DocType 'Clock
+#. Attempt'
+#. Label of the credential_section (Section Break) field in DocType 'Clock
+#. Device'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Passkey"
+msgstr ""
+
+#: onedesk/public/js/employee.js:183
+msgid "Passkey reset"
+msgstr ""
+
+#. Label of a Sidebar Item
+#. Label of a Card Break in the OneHR Setup Workspace
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Pay"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Payroll Entry"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Payroll Overview"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Payroll Settings"
+msgstr ""
+
+#. Label of a shortcut in the OneHR Workspace
+#. Label of a quick_list in the OneHR Workspace
+#: onedesk/one_hr/workspace/onehr/onehr.json
+msgid "Payslips"
+msgstr ""
+
+#. Label of a Card Break in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "People"
+msgstr ""
+
+#. Label of the 'personal_details' field in DocType 'Employee'
+#: onedesk/one_hr/custom/employee.json
+msgid "Personal"
+msgstr ""
+
+#. Label of the photo_section (Section Break) field in DocType 'Clock Attempt'
+#. Label of the photo (Attach Image) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "Photo"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Pipeline"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Pipeline Analytics"
+msgstr ""
+
+#. Label of the platform (Data) field in DocType 'Clock Attempt'
+#. Label of the platform (Data) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Platform"
+msgstr ""
+
+#. Label of the weight (Int) field in DocType 'Clock Signal'
+#: onedesk/one_hr/doctype/clock_signal/clock_signal.json
+msgid "Points Lost"
+msgstr ""
+
+#. Label of the 'attendance_and_leave_details' field in DocType 'Employee'
+#. Label of the position_state (Select) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/custom/employee.json
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "Position"
+msgstr ""
+
+#: onedesk/public/js/employee.js:35
+msgid "Present"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Professional Tax Deductions"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Promotion"
+msgstr ""
+
+#. Description of the 'Learn New Networks' (Check) field in DocType 'HR
+#. Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Propose a Clock Network when enough employees check in from an address the site does not know."
+msgstr ""
+
+#. Description of the 'Learn New Locations' (Check) field in DocType 'HR
+#. Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Propose a Clock Place when enough employees check in from just outside an existing one."
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Clock Network'
+#. Option for the 'Status' (Select) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "Proposed"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Prospect"
+msgstr ""
+
+#. Label of the public_key (Small Text) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Public Key"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Purpose of Travel"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Quotation"
+msgstr ""
+
+#. Label of the radius (Int) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "Radius (Metres)"
+msgstr ""
+
+#: onedesk/one_hr/doctype/clock_place/clock_place.py:10
+msgid "Radius must be greater than 0."
+msgstr ""
+
+#. Label of the one_reason (Link) field in DocType 'Employee Checkin'
+#. Label of the reason (Data) field in DocType 'Clock Reason'
+#: onedesk/one_hr/custom/employee_checkin.json
+#: onedesk/one_hr/doctype/clock_reason/clock_reason.json
+#: onedesk/public/js/clock.js:74
+msgid "Reason"
+msgstr ""
+
+#. Label of the says (Data) field in DocType 'Clock Signal'
+#: onedesk/one_hr/doctype/clock_signal/clock_signal.json
+msgid "Reason Shown"
+msgstr ""
+
+#. Description of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Reasons offered to employees on check out."
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Recruitment Analytics"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Recruitment Overview"
+msgstr ""
+
+#. Label of the one_refuse_below (Int) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Refuse Below Score"
+msgstr ""
+
+#. Label of the one_passkey_refuses (Check) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Refuse Check-in Without a Passkey"
+msgstr ""
+
+#. Option for the 'Outcome' (Select) field in DocType 'Clock Attempt'
+#. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "Refused"
+msgstr ""
+
+#: onedesk/public/js/clock.js:27
+msgid "Register a passkey before checking in."
+msgstr ""
+
+#: onedesk/public/js/desk.js:111
+msgid "Register a passkey on this phone first?"
+msgstr ""
+
+#: onedesk/one_hr/passkey.py:57
+msgid "Register your passkey on your phone rather than on this computer. A passkey registered on a shared machine can be used by anyone sitting at it."
+msgstr ""
+
+#. Label of the registered_on (Datetime) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Registered On"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Clock Network'
+#. Option for the 'Status' (Select) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "Rejected"
+msgstr ""
+
+#. Label of a shortcut in the OneHR Workspace
+#: onedesk/one_hr/workspace/onehr/onehr.json
+msgid "Request leave"
+msgstr ""
+
+#. Label of the one_gate_passkey (Check) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Require a Passkey"
+msgstr ""
+
+#. Description of the 'Allow Employees to Check In Themselves' (Check) field in
+#. DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Requires a User linked to the Employee record."
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Reset"
+msgstr ""
+
+#: onedesk/public/js/employee.js:174
+msgid "Reset Passkey"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Salary Component"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Salary Register"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Salary Slip"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Salary Structure"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Salary Structure Assignment"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Salary Withholding"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Sales Funnel"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Sales Person"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Sales Stage"
+msgstr ""
+
+#. Label of the score (Int) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "Score"
+msgstr ""
+
+#. Label of the screen (Data) field in DocType 'Clock Attempt'
+#. Label of the screen (Data) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Screen"
+msgstr ""
+
+#. Label of the seen_section (Section Break) field in DocType 'Clock Network'
+#. Label of the seen_section (Section Break) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "Seen"
+msgstr ""
+
+#. Label of the one_self_checkin_section (Section Break) field in DocType 'HR
+#. Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Self Check-in"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Separation"
+msgstr ""
+
+#. Label of the session_address (Data) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "Session Address"
+msgstr ""
+
+#. Title of the Module Onboarding 'One Onboarding'
+#: onedesk/one/module_onboarding/one_onboarding/one_onboarding.json
+msgid "Set One up"
+msgstr ""
+
+#. Description of the 'Delete Photos After (Days)' (Int) field in DocType 'HR
+#. Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Set to 0 to keep them indefinitely."
+msgstr ""
+
+#: onedesk/one/setup_wizard.py:10
+msgid "Setting up One"
+msgstr ""
+
+#. Label of a Card Break in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Settings"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Setup"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Shift Attendance"
+msgstr ""
+
+#. Label of the shift_location (Link) field in DocType 'Clock Network'
+#. Label of the shift_location (Link) field in DocType 'Clock Place'
+#. Label of the shift_location (Link) field in DocType 'Shift Location Place'
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+#: onedesk/one_hr/doctype/shift_location_place/shift_location_place.json
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Shift Location"
+msgstr ""
+
+#. Name of a DocType
+#: onedesk/one_hr/doctype/shift_location_place/shift_location_place.json
+msgid "Shift Location Place"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Shift Request"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Shift Schedule"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Shift Type"
+msgstr ""
+
+#. Label of the sign_count (Int) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Sign Count"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Staffing Plan"
+msgstr ""
+
+#. Label of the one_standing (Int) field in DocType 'Employee'
+#: onedesk/one_hr/custom/employee.json
+msgid "Standing"
+msgstr ""
+
+#. Title of an Onboarding Step
+#. Label of an action in the Onboarding Step 'Start a project'
+#: onedesk/one/onboarding_step/one_start_a_project/one_start_a_project.json
+msgid "Start a project"
+msgstr ""
+
+#. Label of the status (Select) field in DocType 'Clock Device'
+#. Label of the status (Select) field in DocType 'Clock Network'
+#. Label of the status (Select) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+#: onedesk/one_hr/doctype/clock_network/clock_network.json
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "Status"
+msgstr ""
+
+#. Description of the 'Backed Up' (Check) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "Synced through iCloud Keychain or Google Password Manager, so it is also present on the employee's other devices."
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Tax & Benefits"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Territory"
+msgstr ""
+
+#: onedesk/one_hr/signin.py:69
+msgid "That passkey belongs to an employee with no user account on this site."
+msgstr ""
+
+#: onedesk/one_hr/signin.py:65
+msgid "That passkey could not be verified."
+msgstr ""
+
+#: onedesk/one_hr/passkey.py:99
+msgid "That passkey could not be verified: {0}"
+msgstr ""
+
+#: onedesk/one_hr/signin.py:52
+msgid "That passkey is not registered on this site."
+msgstr ""
+
+#. Description of the 'Address' (Data) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "The address the request came from."
+msgstr ""
+
+#. Description of the 'Sign Count' (Int) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "The authenticator's own counter. A value lower than the one stored means the passkey has been cloned."
+msgstr ""
+
+#: onedesk/public/js/desk.js:100
+msgid "The check-in could not be recorded."
+msgstr ""
+
+#. Description of the 'Ends the Shift' (Check) field in DocType 'Clock Reason'
+#: onedesk/one_hr/doctype/clock_reason/clock_reason.json
+msgid "The employee is not expected back today."
+msgstr ""
+
+#. Description of the 'Employee Checkin' (Link) field in DocType 'Clock
+#. Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "The log this attempt wrote. Empty when the attempt was refused."
+msgstr ""
+
+#: onedesk/one_hr/rules.py:32
+msgid "The passkey was not unlocked with a face, fingerprint or PIN."
+msgstr ""
+
+#. Description of the 'User Verified' (Check) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "The phone released the passkey only after a face, fingerprint or PIN."
+msgstr ""
+
+#: onedesk/one_hr/rules.py:38
+msgid "The position was less accurate than the location it matched."
+msgstr ""
+
+#: onedesk/one_hr/clock.py:96 onedesk/public/js/desk.js:88
+msgid "There is nothing to check in: you are {0} today."
+msgstr ""
+
+#: onedesk/one_hr/passkey.py:88
+msgid "This employee already has a passkey."
+msgstr ""
+
+#: onedesk/one_hr/passkey.py:52
+msgid "This employee already has a passkey. HR must reset it before another can be registered."
+msgstr ""
+
+#: onedesk/one_hr/rules.py:36
+msgid "This network belongs to you rather than to a workplace."
+msgstr ""
+
+#: onedesk/one_hr/rules.py:35
+msgid "This network is not one you may check in from."
+msgstr ""
+
+#: onedesk/one_hr/rules.py:33
+msgid "This passkey was registered on a different browser."
+msgstr ""
+
+#: onedesk/one_hr/passkey.py:290
+msgid "This request expired. Try again."
+msgstr ""
+
+#. Label of a Sidebar Item
+#. Label of a Card Break in the OneHR Setup Workspace
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Time"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Timesheet"
+msgstr ""
+
+#: onedesk/one_hr/rules.py:41
+msgid "Too far from your last check-in for the time in between."
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Training Event"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Training Feedback"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Training Program"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Training Result"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Travel Request"
+msgstr ""
+
+#. Label of the one_is_site (Check) field in DocType 'Shift Location'
+#: onedesk/one_hr/custom/shift_location.json
+msgid "Treat as a Site"
+msgstr ""
+
+#: onedesk/one_hr/presence.py:98
+msgid "Unknown"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Unpaid Expense Claim"
+msgstr ""
+
+#. Label of the fetch_position (Button) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "Use My Location"
+msgstr ""
+
+#. Label of the user_agent (Small Text) field in DocType 'Clock Attempt'
+#. Label of the user_agent (Small Text) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "User Agent"
+msgstr ""
+
+#. Label of the verified (Check) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "User Verified"
+msgstr ""
+
+#. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+msgid "Vehicle"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Vehicle Expenses"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Vehicle Log"
+msgstr ""
+
+#. Label of the one_gates_section (Section Break) field in DocType 'HR
+#. Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Verification"
+msgstr ""
+
+#: onedesk/one_hr/employee.py:237
+msgid "Weekly off"
+msgstr ""
+
+#. Description of the 'Clock Attempt' (Link) field in DocType 'Employee
+#. Checkin'
+#: onedesk/one_hr/custom/employee_checkin.json
+msgid "What each check saw when this log was written."
+msgstr ""
+
+#. Description of the 'Device' (Data) field in DocType 'Clock Device'
+#: onedesk/one_hr/doctype/clock_device/clock_device.json
+msgid "What the browser called itself when the passkey was registered."
+msgstr ""
+
+#. Label of the where_section (Section Break) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "Where"
+msgstr ""
+
+#. Description of the 'Session Address' (Data) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "Where this user's desk session was live from, if they had one."
+msgstr ""
+
+#. Description of the Onboarding Step 'Add a customer'
+#: onedesk/one/onboarding_step/one_add_a_customer/one_add_a_customer.json
+msgid "Who you invoice. OneCRM turns a lead into one of these, and Books bills them."
+msgstr ""
+
+#. Description of the Onboarding Step 'Start a project'
+#: onedesk/one/onboarding_step/one_start_a_project/one_start_a_project.json
+msgid "Work with a start, an end and people on it. Tasks hang off a project, and time booked against one reaches Books."
+msgstr ""
+
+#. Description of the 'Attendance Standing' (Section Break) field in DocType
+#. 'Employee'
+#: onedesk/one_hr/custom/employee.json
+msgid "Worked out nightly from this employee's Clock Attempt rows over the last 90 days. It never refuses a check-in; it weights whose check-ins count when a network or location is learned."
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Working on a Holiday"
+msgstr ""
+
+#: onedesk/one_hr/rules.py:37
+msgid "You are outside every location this shift may check in from."
+msgstr ""
+
+#: onedesk/one_hr/checkin.py:66
+msgid "You are {0} metres from the nearest location you may check in from."
+msgstr ""
+
+#: onedesk/public/js/setup_wizard.js:20
+msgid "You can change this later from your own settings."
+msgstr ""
+
+#: onedesk/one_hr/closing.py:85
+msgid "You checked in but never checked out, so a check out was written for you at the shift end. Tell HR if that is wrong."
+msgstr ""
+
+#: onedesk/one_hr/closing.py:84
+msgid "Your check-in was closed at the end of your shift"
+msgstr ""
+
+#: onedesk/one_hr/rules.py:42
+msgid "Your desk session is signed in from a different address."
+msgstr ""
+
+#: onedesk/one_hr/rules.py:44
+msgid "Your passkey has been reset twice within a month."
+msgstr ""
+
+#: onedesk/public/js/employee.js:98
+msgid "in late"
+msgstr ""
+
+#: onedesk/public/js/employee.js:97
+msgid "in late, left early"
+msgstr ""
+
+#: onedesk/public/js/employee.js:99
+msgid "left early"
+msgstr ""
+
+#: onedesk/one_hr/passkey.py:217
+msgid "no passkey registered"
+msgstr ""
+
+#: onedesk/public/js/employee.js:131
+msgid "{0} awaiting"
+msgstr ""
+
+#: onedesk/one_hr/passkey.py:212
+msgid ""
+"{0} cannot check in and reports that their phone has changed.\n"
+"\n"
+"Registered on: {1}\n"
+"Asking from: {2}\n"
+"Address: {3}\n"
+"\n"
+"{4}"
+msgstr ""
+
+#: onedesk/public/js/employee.js:100
+msgid "{0} hours"
+msgstr ""
+
+#: onedesk/one_hr/doctype/clock_network/clock_network.py:14
+msgid "{0} is not a valid address or range. Example: 203.0.113.7 or 203.0.113.0/24"
+msgstr ""
+
+#: onedesk/public/js/employee.js:122
+msgid "{0} left"
+msgstr ""
+
+#: onedesk/public/js/employee.js:176
+msgid "{0} will register a new passkey on their next check-in. The old one is retired, not deleted."
+msgstr ""
+

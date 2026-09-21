@@ -2,7 +2,7 @@
  "custom_fields": [
   {
    "default": "0",
-   "description": "An employee who only ever clocks in has no reason to hold a password, and a password they never type is a password they write down. The same passkey they clock in with signs them in.",
+   "description": "Allow users to log in without a password, using a passkey registered on their own device.",
    "dt": "System Settings",
    "fieldname": "one_login_with_passkey",
    "fieldtype": "Check",

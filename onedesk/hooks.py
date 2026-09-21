@@ -31,6 +31,7 @@ scheduler_events = {
 # The marks, and the four reasons a day pauses. A workspace adds its own.
 fixtures = ["Custom Icon", "Clock Reason"]
 
+
 # A record answers before it offers links; see `onedesk/one_hr/employee.py`.
 doctype_js = {"Employee": "public/js/employee.js"}
 

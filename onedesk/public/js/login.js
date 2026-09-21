@@ -67,7 +67,7 @@ const draw = () => {
 		const $button = document.createElement("button");
 		$button.type = "button";
 		$button.className = "es-button w-full btn-login-option one-passkey-login";
-		$button.textContent = __ ? __("Sign in with a passkey") : "Sign in with a passkey";
+		$button.textContent = __ ? __("Sign in with a Passkey") : "Sign in with a Passkey";
 		$button.addEventListener("click", () => signIn($button));
 		// After frappe's own alternative sign-in, not between the password box and
 		// the button that uses it.

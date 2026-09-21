@@ -63,7 +63,7 @@ class OneEmployeeCheckin(EmployeeCheckin):
 			for zone in zones
 		)
 		frappe.throw(
-			_("You are {0} metres from the nearest place you may clock in from.").format(
+			_("You are {0} metres from the nearest location you may check in from.").format(
 				int(nearest)
 			),
 			exc=CheckinRadiusExceededError,

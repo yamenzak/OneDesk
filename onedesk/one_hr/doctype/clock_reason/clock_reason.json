@@ -25,11 +25,11 @@
   },
   {
    "default": "0",
-   "description": "They are not coming back today.",
+   "description": "The employee is not expected back today.",
    "fieldname": "ends_the_day",
    "fieldtype": "Check",
    "in_list_view": 1,
-   "label": "Ends the day"
+   "label": "Ends the Shift"
   },
   {
    "fieldname": "column_break_what",
@@ -40,7 +40,8 @@
    "fieldname": "enabled",
    "fieldtype": "Check",
    "in_list_view": 1,
-   "label": "Offered"
+   "label": "Enabled",
+   "description": "Offered to employees on check out."
   },
   {
    "fieldname": "description",

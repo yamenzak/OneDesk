@@ -24,7 +24,7 @@ onedesk.clock.punch = async (ready, reason) => {
 
 	let credential = null;
 	if (needs.passkey) {
-		if (!ready.registered) return { ok: false, told: [__("Register a passkey first.")], register: true };
+		if (!ready.registered) return { ok: false, told: [__("Register a passkey before checking in.")], register: true };
 		credential = await onedesk.passkey.sign();
 	}
 
@@ -71,12 +71,12 @@ onedesk.clock.why = (direction) =>
 				fieldname: "reason",
 				fieldtype: "Link",
 				options: "Clock Reason",
-				label: __("Why"),
+				label: __("Reason"),
 				reqd: 1,
 				get_query: () => ({ filters: { enabled: 1 } }),
 			},
 			({ reason }) => resolve(reason),
-			__("Clocking out")
+			__("Check Out")
 		);
 	});
 

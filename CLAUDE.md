@@ -87,6 +87,10 @@ break each other's imports on sites that carry only one of them.
   hand in two places, one of them is wrong.
 - A **plan** is written by hand and says so in its first line, because an
   argument is not a fact and nothing can generate it. `ATTENDANCE.md` is one.
+- **`docs/WORDING.md` is how a label and a description are written**, taken from
+  frappe's own JSON rather than invented. Read it before adding a field, and
+  remember its last rule: rewording is also a translation change, so the POT and
+  `locale/ar.po` and `de.po` move in the same commit.
 
 ## The site
 

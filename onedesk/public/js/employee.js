@@ -38,7 +38,7 @@ onedesk.employee.MARKS = () => ({
 	half: __("Half day"),
 	leave: __("On leave"),
 	absent: __("Absent"),
-	holiday: __("Closed"),
+	holiday: __("Holiday"),
 });
 
 // `frappe.Chart` ships a heatmap and it is the wrong instrument: it ramps a
@@ -162,8 +162,8 @@ onedesk.employee.stat = (label, value, route, tone) => {
 //: own record and on somebody's behalf on theirs — which is the same control,
 //: because a `User Permission` decides whose record you can open at all.
 onedesk.employee.ACTIONS = [
-	["Leave Application", __("Apply for leave")],
-	["Expense Claim", __("Claim an expense")],
+	["Leave Application", __("Apply for Leave")],
+	["Expense Claim", __("Claim an Expense")],
 ];
 
 // HR's one click when somebody's phone changes. Offered only where there is a
@@ -171,9 +171,9 @@ onedesk.employee.ACTIONS = [
 // reader of a colleague's record never sees it.
 onedesk.employee.passkey = (frm, data) => {
 	if (!data.passkey || !frappe.model.can_write("Clock Device")) return;
-	frm.sidebar.add_user_action(__("Reset passkey"), () => {
+	frm.sidebar.add_user_action(__("Reset Passkey"), () => {
 		frappe.confirm(
-			__("{0} will register a new passkey on their next clock-in. The old one is retired, not deleted.", [
+			__("{0} will register a new passkey on their next check-in. The old one is retired, not deleted.", [
 				frm.doc.employee_name,
 			]),
 			() =>

@@ -59,13 +59,13 @@
    "fieldname": "employee_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Name",
+   "label": "Employee Name",
    "read_only": 1
   },
   {
    "fieldname": "direction",
    "fieldtype": "Select",
-   "label": "Direction",
+   "label": "Log Type",
    "options": "\nIN\nOUT",
    "read_only": 1
   },
@@ -87,21 +87,22 @@
    "fieldname": "score",
    "fieldtype": "Int",
    "in_list_view": 1,
-   "label": "Confidence",
-   "read_only": 1
+   "label": "Score",
+   "read_only": 1,
+   "description": "Out of 100."
   },
   {
-   "description": "The log this attempt wrote, when it wrote one.",
+   "description": "The log this attempt wrote. Empty when the attempt was refused.",
    "fieldname": "checkin",
    "fieldtype": "Link",
-   "label": "Check-in",
+   "label": "Employee Checkin",
    "options": "Employee Checkin",
    "read_only": 1
   },
   {
    "fieldname": "signals_section",
    "fieldtype": "Section Break",
-   "label": "What was doubted"
+   "label": "Failed Checks"
   },
   {
    "fieldname": "signals",
@@ -112,26 +113,26 @@
   {
    "fieldname": "gates_tab",
    "fieldtype": "Tab Break",
-   "label": "What the gates saw"
+   "label": "Checks"
   },
   {
    "fieldname": "passkey_section",
    "fieldtype": "Section Break",
-   "label": "The passkey"
+   "label": "Passkey"
   },
   {
    "fieldname": "device",
    "fieldtype": "Link",
-   "label": "Device",
+   "label": "Clock Device",
    "options": "Clock Device",
    "read_only": 1
   },
   {
    "default": "0",
-   "description": "Whether the phone released the passkey after a face, fingerprint or PIN.",
+   "description": "The phone released the passkey only after a face, fingerprint or PIN.",
    "fieldname": "verified",
    "fieldtype": "Check",
-   "label": "Verified",
+   "label": "User Verified",
    "read_only": 1
   },
   {
@@ -171,7 +172,7 @@
   {
    "fieldname": "network_section",
    "fieldtype": "Section Break",
-   "label": "The network"
+   "label": "Network"
   },
   {
    "fieldname": "address",
@@ -179,12 +180,13 @@
    "in_standard_filter": 1,
    "label": "Address",
    "read_only": 1,
-   "search_index": 1
+   "search_index": 1,
+   "description": "The address the request came from."
   },
   {
    "fieldname": "network",
    "fieldtype": "Link",
-   "label": "Matched",
+   "label": "Clock Network",
    "options": "Clock Network",
    "read_only": 1
   },
@@ -193,7 +195,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "description": "Where their desk session was live from, when they have one.",
+   "description": "Where this user's desk session was live from, if they had one.",
    "fieldname": "session_address",
    "fieldtype": "Data",
    "label": "Session Address",
@@ -202,7 +204,7 @@
   {
    "fieldname": "place_section",
    "fieldtype": "Section Break",
-   "label": "The place"
+   "label": "Location"
   },
   {
    "fieldname": "latitude",
@@ -219,10 +221,10 @@
    "read_only": 1
   },
   {
-   "description": "Metres the browser said the position was good to.",
+   "description": "How good the browser said the position was.",
    "fieldname": "accuracy",
    "fieldtype": "Float",
-   "label": "Accuracy",
+   "label": "Accuracy (Metres)",
    "read_only": 1
   },
   {
@@ -232,15 +234,15 @@
   {
    "fieldname": "zone",
    "fieldtype": "Link",
-   "label": "Landed in",
+   "label": "Clock Place",
    "options": "Clock Place",
    "read_only": 1
   },
   {
-   "description": "How far outside the nearest place, when outside all of them.",
+   "description": "Distance from the nearest location, set only when outside all of them.",
    "fieldname": "metres_out",
    "fieldtype": "Float",
-   "label": "Metres Out",
+   "label": "Distance Out (Metres)",
    "read_only": 1
   },
   {
@@ -253,7 +255,7 @@
   {
    "fieldname": "photo_section",
    "fieldtype": "Section Break",
-   "label": "The photo"
+   "label": "Photo"
   },
   {
    "fieldname": "photo",

@@ -75,9 +75,9 @@ def punch(credential=None, position=None, seen=None, reason=None, photo=None) ->
 	"""
 	employee = own.employee_of()
 	if not employee:
-		frappe.throw(_("Only an employee can clock in."), frappe.PermissionError)
+		frappe.throw(_("Only an employee can check in."), frappe.PermissionError)
 	if not policy.self_service():
-		frappe.throw(_("Clocking yourself in is switched off here."))
+		frappe.throw(_("Checking yourself in is not enabled on this site."))
 
 	# This endpoint answers in what it returns and never by msgprint, so nothing
 	# may reach the screen except the sentences `told` carries. Anything a gate
@@ -93,7 +93,7 @@ def punch(credential=None, position=None, seen=None, reason=None, photo=None) ->
 	state = presence.of(employee)
 	direction = DIRECTIONS.get(state.get("state"))
 	if not direction:
-		frappe.throw(_("There is no clock-in to make: you are {0} today.").format(state.get("state")))
+		frappe.throw(_("There is nothing to check in: you are {0} today.").format(state.get("state")))
 
 	when = ledger.stamp()
 	places = gates.places_of(employee)
@@ -153,7 +153,7 @@ def punch(credential=None, position=None, seen=None, reason=None, photo=None) ->
 		"attempt": attempt,
 		"score": score,
 		"flagged": outcome == "Flagged",
-		"told": [rules.says(name) for name in signals],
+		"told": [_(rules.says(name)) for name in signals],
 	}
 
 
@@ -188,7 +188,7 @@ def _refused(attempt: str, score: int, signals: list[str]) -> dict:
 		"ok": False,
 		"attempt": attempt,
 		"score": score,
-		"told": [rules.says(name) for name in worst],
+		"told": [_(rules.says(name)) for name in worst],
 	}
 
 

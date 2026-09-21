@@ -47,11 +47,11 @@
    "fieldname": "employee_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Name",
+   "label": "Employee Name",
    "read_only": 1
   },
   {
-   "description": "What the browser called itself when this was registered.",
+   "description": "What the browser called itself when the passkey was registered.",
    "fieldname": "label",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -75,7 +75,7 @@
   {
    "fieldname": "registered_on",
    "fieldtype": "Datetime",
-   "label": "Registered",
+   "label": "Registered On",
    "read_only": 1
   },
   {
@@ -88,12 +88,12 @@
   {
    "fieldname": "credential_section",
    "fieldtype": "Section Break",
-   "label": "The passkey"
+   "label": "Passkey"
   },
   {
    "fieldname": "credential_id",
    "fieldtype": "Data",
-   "label": "Credential",
+   "label": "Credential ID",
    "read_only": 1,
    "search_index": 1,
    "unique": 1
@@ -110,32 +110,31 @@
   },
   {
    "default": "0",
-   "description": "The authenticator's own counter. Going backwards means a copy.",
+   "description": "The authenticator's own counter. A value lower than the one stored means the passkey has been cloned.",
    "fieldname": "sign_count",
    "fieldtype": "Int",
    "label": "Sign Count",
    "read_only": 1
   },
   {
-   "description": "Which authenticator made it, by model rather than by instance.",
+   "description": "Identifies the authenticator's model, not the device itself.",
    "fieldname": "aaguid",
    "fieldtype": "Data",
-   "label": "Authenticator",
+   "label": "Authenticator (AAGUID)",
    "read_only": 1
   },
   {
    "default": "0",
-   "description": "Synced through iCloud Keychain or Google Password Manager, so it appears on their other devices too.",
+   "description": "Synced through iCloud Keychain or Google Password Manager, so it is also present on the employee's other devices.",
    "fieldname": "backed_up",
    "fieldtype": "Check",
    "label": "Backed Up",
    "read_only": 1
   },
   {
-   "description": "Not the identity — what makes a reset request recognisable, and what shows several people enrolling from one machine.",
    "fieldname": "seen_section",
    "fieldtype": "Section Break",
-   "label": "What the browser looked like"
+   "label": "Browser"
   },
   {
    "fieldname": "user_agent",

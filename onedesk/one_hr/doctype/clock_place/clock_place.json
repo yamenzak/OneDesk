@@ -31,12 +31,12 @@
    "fieldname": "label",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Called",
+   "label": "Name",
    "reqd": 1
   },
   {
    "default": "Declared",
-   "description": "Declared by a person, Proposed by what the system noticed, Confirmed once enough corroborated clock-ins landed here.",
+   "description": "Declared is entered by a person. Proposed is suggested by Learn New Locations, and becomes Confirmed once the Confirmation Threshold is met. Rejected is never proposed again.",
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
@@ -50,12 +50,12 @@
    "fieldtype": "Column Break"
   },
   {
-   "description": "A place this zone belongs to, or one employee's own — their home, if the workspace allows it.",
+   "description": "A Shift Location, or a single employee. Leave both empty to apply it site-wide.",
    "fieldname": "shift_location",
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Place",
+   "label": "Shift Location",
    "options": "Shift Location"
   },
   {
@@ -70,7 +70,7 @@
    "fetch_from": "employee.employee_name",
    "fieldname": "employee_name",
    "fieldtype": "Data",
-   "label": "Name",
+   "label": "Employee Name",
    "read_only": 1
   },
   {
@@ -98,22 +98,21 @@
   },
   {
    "default": "100",
-   "description": "Metres. Wide enough for the whole yard, tight enough to leave the road out.",
    "fieldname": "radius",
    "fieldtype": "Int",
    "in_list_view": 1,
-   "label": "Radius",
+   "label": "Radius (Metres)",
    "reqd": 1
   },
   {
    "fieldname": "fetch_position",
    "fieldtype": "Button",
-   "label": "Use Where I Am"
+   "label": "Use My Location"
   },
   {
    "fieldname": "seen_section",
    "fieldtype": "Section Break",
-   "label": "What has been seen"
+   "label": "Seen"
   },
   {
    "fieldname": "first_seen",
@@ -135,15 +134,15 @@
    "default": "0",
    "fieldname": "attempts",
    "fieldtype": "Int",
-   "label": "Clock-ins",
+   "label": "Check-ins",
    "read_only": 1
   },
   {
    "default": "0",
-   "description": "How many different people, each corroborated another way, have landed here.",
+   "description": "Distinct employees, each verified another way, who have checked in from inside this radius.",
    "fieldname": "voters",
    "fieldtype": "Int",
-   "label": "People",
+   "label": "Employees",
    "read_only": 1
   }
  ],

@@ -207,7 +207,7 @@ def _learn(doctype: str, matching: dict, fields: dict, votes: int, voters: int) 
 		doc.update(
 			{
 				**fields,
-				"label": frappe._("Learned from {0} people").format(voters),
+				"label": frappe._("Learned from {0} employees").format(voters),
 				"status": "Confirmed" if agreed else "Proposed",
 				"first_seen": now_datetime(),
 				"last_seen": now_datetime(),
@@ -264,6 +264,6 @@ def _tell(doc) -> None:
 				"type": "Alert",
 				"document_type": doc.doctype,
 				"document_name": doc.name,
-				"subject": frappe._("One learned a new place people clock in from"),
+				"subject": frappe._("A new check-in network or location was proposed"),
 			}
 		).insert(ignore_permissions=True)

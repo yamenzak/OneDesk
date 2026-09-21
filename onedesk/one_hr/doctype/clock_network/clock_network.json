@@ -25,7 +25,7 @@
  ],
  "fields": [
   {
-   "description": "One address or range — 203.0.113.7 or 203.0.113.0/24. A bare address is its own range.",
+   "description": "One address or a CIDR range. Example: 203.0.113.7 or 203.0.113.0/24",
    "fieldname": "address",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -38,7 +38,7 @@
    "fieldname": "label",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Called"
+   "label": "Name"
   },
   {
    "fieldname": "column_break_what",
@@ -46,7 +46,7 @@
   },
   {
    "default": "Declared",
-   "description": "Declared by a person, Proposed by what the system noticed, Confirmed once enough corroborated clock-ins used it.",
+   "description": "Declared is entered by a person. Proposed is suggested by Learn New Networks, and becomes Confirmed once the Confirmation Threshold is met. Rejected is never proposed again.",
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
@@ -56,17 +56,17 @@
    "search_index": 1
   },
   {
-   "description": "A place, or one employee's own network, or neither for the whole workspace.",
+   "description": "A Shift Location, or a single employee. Leave both empty to apply it site-wide.",
    "fieldname": "belongs_to_section",
    "fieldtype": "Section Break",
-   "label": "Whose"
+   "label": "Belongs To"
   },
   {
    "fieldname": "shift_location",
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Place",
+   "label": "Shift Location",
    "options": "Shift Location"
   },
   {
@@ -85,13 +85,13 @@
    "fetch_from": "employee.employee_name",
    "fieldname": "employee_name",
    "fieldtype": "Data",
-   "label": "Name",
+   "label": "Employee Name",
    "read_only": 1
   },
   {
    "fieldname": "seen_section",
    "fieldtype": "Section Break",
-   "label": "What has been seen"
+   "label": "Seen"
   },
   {
    "fieldname": "first_seen",
@@ -113,15 +113,15 @@
    "default": "0",
    "fieldname": "attempts",
    "fieldtype": "Int",
-   "label": "Clock-ins",
+   "label": "Check-ins",
    "read_only": 1
   },
   {
    "default": "0",
-   "description": "How many different people, each corroborated another way, have used it.",
+   "description": "Distinct employees, each verified another way, who have checked in from this address.",
    "fieldname": "voters",
    "fieldtype": "Int",
-   "label": "People",
+   "label": "Employees",
    "read_only": 1
   }
  ],
