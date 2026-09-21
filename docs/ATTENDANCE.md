@@ -483,6 +483,12 @@ leads — for both of them.
 
 **Custom fields on what already exists.**
 
+**Company is on none of them.** One workspace is one company — a group that runs
+four buys four workspaces — so `one/company.py` hides the field everywhere after
+every migrate and the global default fills it. Attendance Request and Shift
+Request take it from the employee instead, which is the right answer even on a
+site somebody has left a second Company record on.
+
 `HR Settings` — self clock-in on or off; which gates are on; whether gates 2 and
 3 are *either* or *both*; whether a missing passkey refuses or flags; the
 auto-confirm thresholds for networks and zones; whether the day auto-closes; the
@@ -503,6 +509,17 @@ marked Rejected by a named person, and `before_submit` refuses to submit it
 until somebody approves instead. Company is filled from the employee rather than
 asked for, and Include Holidays says what ticking it does rather than describing
 the situation.
+
+`Shift Request` — the shift's hours written onto the record so the form and the
+list both read as a sentence rather than as a name, and the same decision
+fields. HRMS's `status` stays the verdict and is read-only, because Approve and
+Reject set it: submitting with the status still Draft used to throw from
+`on_submit`, which is a rule the toolbar button does not carry. Approving
+creates the Shift Assignment, rejecting closes the request and assigns nobody
+anything, and the headline says which before either is pressed. The Approver is
+mandatory and valid only against the employee's own `shift_request_approver` and
+their department's rows, so the form fills it where there is one and says what
+is missing where there is none.
 
 `Employee` — attendance standing, read-only, and when it was last computed.
 

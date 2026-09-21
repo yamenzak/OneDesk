@@ -105,22 +105,6 @@
   {
    "doc_type": "Attendance Request",
    "doctype_or_field": "DocField",
-   "field_name": "company",
-   "property": "hidden",
-   "property_type": "Check",
-   "value": "1"
-  },
-  {
-   "doc_type": "Attendance Request",
-   "doctype_or_field": "DocField",
-   "field_name": "company",
-   "property": "reqd",
-   "property_type": "Check",
-   "value": "0"
-  },
-  {
-   "doc_type": "Attendance Request",
-   "doctype_or_field": "DocField",
    "field_name": "include_holidays",
    "property": "label",
    "property_type": "Data",

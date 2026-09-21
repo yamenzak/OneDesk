@@ -23,7 +23,8 @@ reasons and HRMS keeps marking the days exactly as it always did.
 
 import frappe
 from frappe import _
-from frappe.utils import now_datetime
+
+from onedesk.one_hr import decision
 
 #: The two strings HRMS's own Select holds, and the only two its status mapping
 #: can tell apart. Every Attendance Reason lands on one of them.
@@ -60,15 +61,14 @@ def before_submit(doc, method=None) -> None:
 			)
 		)
 	doc.one_decision = APPROVED
-	doc.one_decided_by = frappe.session.user
-	doc.one_decided_on = now_datetime()
+	decision.sign(doc)
 
 
 @frappe.whitelist(methods=["POST"])
 def approve(name: str, note: str | None = None) -> None:
 	"""Say yes, which submits, which writes the days."""
 	doc = frappe.get_doc("Attendance Request", name)
-	_may_decide(doc)
+	decision.may_decide(doc)
 	doc.one_decision = ""
 	doc.one_note = note or ""
 	doc.submit()
@@ -85,32 +85,13 @@ def reject(name: str, note: str | None = None) -> None:
 	to submit it until somebody with the same grant approves instead.
 	"""
 	doc = frappe.get_doc("Attendance Request", name)
-	_may_decide(doc)
+	decision.may_decide(doc)
 	if doc.docstatus != 0:
 		frappe.throw(_("Only a request still waiting can be turned down."))
 
-	doc.db_set(
-		{
-			"one_decision": REJECTED,
-			"one_decided_by": frappe.session.user,
-			"one_decided_on": now_datetime(),
-			"one_note": note or "",
-		}
-	)
+	doc.db_set({"one_decision": REJECTED, **decision.signed(note)})
 	doc.add_comment("Workflow", _("Turned down.") + (f" {note}" if note else ""))
 	doc.notify_update()
-
-
-def _may_decide(doc) -> None:
-	"""The submit grant is the decision, so it is the one thing asked for.
-
-	Not a role name: a workspace that has given approvals to its own Department
-	Head role has already answered this question in the permission table, and a
-	second list of who may approve is a second answer that will disagree.
-	"""
-	if not frappe.has_permission("Attendance Request", "submit", doc=doc):
-		frappe.throw(_("Only somebody who can approve attendance requests may answer this one."),
-		             frappe.PermissionError)
 
 
 def _company(doc) -> None:

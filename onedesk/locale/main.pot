@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 18:53+0000\n"
-"PO-Revision-Date: 2026-09-21 18:53+0000\n"
+"POT-Creation-Date: 2026-09-21 19:38+0000\n"
+"PO-Revision-Date: 2026-09-21 19:38+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -29,6 +29,10 @@ msgstr ""
 #. Header text in the OneHR Workspace
 #: onedesk/one_hr/workspace/onehr/onehr.json
 msgid "<span class=\"h4\"><b>Today</b></span>"
+msgstr ""
+
+#: onedesk/public/js/shift_request.js:10
+msgid "A Shift Assignment is created and the employee works this shift."
 msgstr ""
 
 #. Description of the 'Belongs To' (Section Break) field in DocType 'Clock
@@ -240,8 +244,7 @@ msgstr ""
 msgid "Appraisal Template"
 msgstr ""
 
-#: onedesk/public/js/attendance_request.js:26
-#: onedesk/public/js/attendance_request.js:27
+#: onedesk/public/js/decision.js:15 onedesk/public/js/decision.js:16
 msgid "Approve"
 msgstr ""
 
@@ -253,6 +256,10 @@ msgstr ""
 #. Label of the away (Link) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Approved Request"
+msgstr ""
+
+#: onedesk/public/js/shift_request.js:57
+msgid "Approving this puts {0} on {1} {2}."
 msgstr ""
 
 #. Label of the one_gate_photo (Check) field in DocType 'HR Settings'
@@ -671,19 +678,26 @@ msgid "Day Starts"
 msgstr ""
 
 #. Label of the one_decided_by (Link) field in DocType 'Attendance Request'
+#. Label of the one_decided_by (Link) field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/attendance_request.json
+#: onedesk/one_hr/custom/shift_request.json
 msgid "Decided By"
 msgstr ""
 
 #. Label of the one_decided_on (Datetime) field in DocType 'Attendance Request'
+#. Label of the one_decided_on (Datetime) field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/attendance_request.json
+#: onedesk/one_hr/custom/shift_request.json
 msgid "Decided On"
 msgstr ""
 
 #. Label of the one_decision_section (Section Break) field in DocType
 #. 'Attendance Request'
 #. Label of the one_decision (Select) field in DocType 'Attendance Request'
+#. Label of the one_decision_section (Section Break) field in DocType 'Shift
+#. Request'
 #: onedesk/one_hr/custom/attendance_request.json
+#: onedesk/one_hr/custom/shift_request.json
 msgid "Decision"
 msgstr ""
 
@@ -758,7 +772,7 @@ msgid "Distinct employees, each verified another way, who have checked in from t
 msgstr ""
 
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:36
-#: onedesk/public/js/attendance_request.js:47 onedesk/public/js/learned.js:34
+#: onedesk/public/js/decision.js:39 onedesk/public/js/learned.js:34
 #: onedesk/public/js/shift_type.js:29
 msgid "Done"
 msgstr ""
@@ -1112,6 +1126,11 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
+#. Label of the one_when (Data) field in DocType 'Shift Request'
+#: onedesk/one_hr/custom/shift_request.json
+msgid "Hours"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Hours Utilization"
@@ -1381,6 +1400,11 @@ msgstr ""
 msgid "Leave Type"
 msgstr ""
 
+#. Description of the 'to_date' field in DocType 'Shift Request'
+#: onedesk/one_hr/custom/shift_request.json
+msgid "Leave this empty and the shift has no end: the employee stays on it until somebody cancels the assignment."
+msgstr ""
+
 #. Label of the 'employee_exit_settings_section' field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Leaving"
@@ -1548,6 +1572,10 @@ msgstr ""
 msgid "No such check-in attempt."
 msgstr ""
 
+#: onedesk/public/js/shift_request.js:40
+msgid "Nobody can approve a shift request for {0}. Set a Shift Request Approver on their Employee record first."
+msgstr ""
+
 #: onedesk/public/js/attendance_tool.js:47
 msgid "Nobody on this list checked in"
 msgstr ""
@@ -1573,15 +1601,17 @@ msgid "Not marked"
 msgstr ""
 
 #. Label of the one_note (Small Text) field in DocType 'Attendance Request'
+#. Label of the one_note (Small Text) field in DocType 'Shift Request'
 #. Label of the note (Small Text) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/custom/attendance_request.json
+#: onedesk/one_hr/custom/shift_request.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:43
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
-#: onedesk/public/js/attendance_request.js:39
+#: onedesk/public/js/decision.js:31
 msgid "Note"
 msgstr ""
 
-#: onedesk/public/js/attendance_request.js:30
+#: onedesk/public/js/attendance_request.js:19
 msgid "Nothing will be written to attendance."
 msgstr ""
 
@@ -1604,6 +1634,11 @@ msgstr ""
 #. Option for the 'Log Type' (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "OUT"
+msgstr ""
+
+#. Description of the 'approver' field in DocType 'Shift Request'
+#: onedesk/one_hr/custom/shift_request.json
+msgid "Offered from the employee's own Shift Request Approver and their department's."
 msgstr ""
 
 #. Description of the 'Enabled' (Check) field in DocType 'Clock Reason'
@@ -1687,6 +1722,10 @@ msgstr ""
 msgid "Only a flagged attempt needs reviewing."
 msgstr ""
 
+#: onedesk/one_hr/shift.py:116
+msgid "Only a request still waiting can be answered."
+msgstr ""
+
 #: onedesk/one_hr/request.py:90
 msgid "Only a request still waiting can be turned down."
 msgstr ""
@@ -1708,8 +1747,8 @@ msgstr ""
 msgid "Only check-ins that passed another check are counted. Nothing learned widens who may check in."
 msgstr ""
 
-#: onedesk/one_hr/request.py:112
-msgid "Only somebody who can approve attendance requests may answer this one."
+#: onedesk/one_hr/decision.py:32
+msgid "Only somebody who can approve these may answer this one."
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -1717,7 +1756,7 @@ msgstr ""
 msgid "Opportunity"
 msgstr ""
 
-#: onedesk/public/js/attendance_request.js:39
+#: onedesk/public/js/decision.js:32
 msgid "Optional. The person who asked will see it."
 msgstr ""
 
@@ -2040,8 +2079,8 @@ msgid "Registered On"
 msgstr ""
 
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:21
-#: onedesk/public/js/attendance_request.js:29
-#: onedesk/public/js/attendance_request.js:30 onedesk/public/js/learned.js:17
+#: onedesk/public/js/decision.js:18 onedesk/public/js/decision.js:19
+#: onedesk/public/js/learned.js:17
 msgid "Reject"
 msgstr ""
 
@@ -2214,6 +2253,11 @@ msgstr ""
 #. Title of the Module Onboarding 'One Onboarding'
 #: onedesk/one/module_onboarding/one_onboarding/one_onboarding.json
 msgid "Set One up"
+msgstr ""
+
+#. Description of the 'status' field in DocType 'Shift Request'
+#: onedesk/one_hr/custom/shift_request.json
+msgid "Set by Approve and Reject, so it always agrees with who decided."
 msgstr ""
 
 #. Description of the 'Delete Photos After (Days)' (Int) field in DocType 'HR
@@ -2395,6 +2439,10 @@ msgstr ""
 msgid "The position was less accurate than the location it matched."
 msgstr ""
 
+#: onedesk/public/js/shift_request.js:11
+msgid "The request is closed and nobody is assigned anything."
+msgstr ""
+
 #. Description of the 'Notice Ends On' (Date) field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "The resignation date plus the notice days on the Joining tab. The relieving date is the day they actually stop, and the two differ when notice is waived, paid in lieu or extended."
@@ -2421,7 +2469,7 @@ msgstr ""
 msgid "There is nothing to check in: you are {0} today."
 msgstr ""
 
-#: onedesk/public/js/attendance_request.js:27
+#: onedesk/public/js/attendance_request.js:18
 msgid "These days will be marked as worked."
 msgstr ""
 
@@ -2465,7 +2513,7 @@ msgstr ""
 msgid "This request expired. Try again."
 msgstr ""
 
-#: onedesk/one_hr/request.py:58
+#: onedesk/one_hr/request.py:59
 msgid "This request was turned down on {0}. Approve it first if that has changed."
 msgstr ""
 
@@ -2533,11 +2581,11 @@ msgstr ""
 msgid "Treat as a Site"
 msgstr ""
 
-#: onedesk/public/js/attendance_request.js:16
+#: onedesk/public/js/attendance_request.js:11
 msgid "Turned down by {0}."
 msgstr ""
 
-#: onedesk/one_hr/request.py:100
+#: onedesk/one_hr/request.py:93
 msgid "Turned down."
 msgstr ""
 
@@ -2618,12 +2666,19 @@ msgid "What the browser called itself when the passkey was registered."
 msgstr ""
 
 #. Description of the 'Note' (Small Text) field in DocType 'Attendance Request'
+#. Description of the 'Note' (Small Text) field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/attendance_request.json
+#: onedesk/one_hr/custom/shift_request.json
 msgid "What the person deciding wrote, if anything."
 msgstr ""
 
 #: onedesk/public/js/setup_wizard.js:39
 msgid "When do people work?"
+msgstr ""
+
+#. Description of the 'Hours' (Data) field in DocType 'Shift Request'
+#: onedesk/one_hr/custom/shift_request.json
+msgid "When this shift runs, read from the Shift Type."
 msgstr ""
 
 #. Label of the where_section (Section Break) field in DocType 'Clock Place'
@@ -2699,6 +2754,14 @@ msgstr ""
 
 #: onedesk/one_hr/rules.py:44
 msgid "Your passkey has been reset twice within a month."
+msgstr ""
+
+#: onedesk/public/js/shift_request.js:53
+msgid "from {0} to {1}"
+msgstr ""
+
+#: onedesk/public/js/shift_request.js:54
+msgid "from {0}, with no end date"
 msgstr ""
 
 #: onedesk/public/js/employee.js:107

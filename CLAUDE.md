@@ -47,6 +47,19 @@ module they turned on. Two different things arrive wearing the same clothes:
 `slides.splice` to replace. Both erpnext and hrms gate on a boot flag — hrms on
 `frappe.boot.hr_only_setup` — so per-site slides are their pattern, not ours.
 
+## One workspace is one company
+
+**Multi-company is not a thing One does.** A group that runs four companies buys
+four workspaces. There is no consolidation, no inter-company anything, and no
+screen that has to ask whose record this is.
+
+So **every `Company` field is hidden**, on all two hundred-odd doctypes erpnext
+and hrms put one on. `one/company.py` does it after every migrate, the global
+default fills the value, and a document that can do better than the default does
+— an attendance request and a shift request take it from the employee. When you
+add a field or meet a screen that asks which company, the answer is to take the
+question off the screen, not to answer it.
+
 ## Declare, don't code
 
 Doctypes, Workspaces, Docks, Sidebars, Roles, Print Formats, Notifications and

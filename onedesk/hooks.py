@@ -9,14 +9,20 @@ app_logo_url = "/assets/onedesk/images/one.svg"
 # The site wears One from its first boot and carries nobody else's navbar rows or
 # checklists; after that all of it is the tenant's, in Website and Navbar Settings.
 after_install = [
+	"onedesk.one.company.hide",
 	"onedesk.one_hr.policy.seed",
 	"onedesk.one.brand.apply",
 	"onedesk.one.declutter.apply",
 	"onedesk.one.companions.apply",
 ]
 
-# Their dock files do not carry the mount, so a newer erpnext or hrms clears it.
-after_migrate = ["onedesk.one.companions.apply", "onedesk.one_hr.policy.seed"]
+# Their dock files do not carry the mount, so a newer erpnext or hrms clears it,
+# and nobody is ever asked which company; see one/company.py.
+after_migrate = [
+	"onedesk.one.companions.apply",
+	"onedesk.one.company.hide",
+	"onedesk.one_hr.policy.seed",
+]
 extend_bootinfo = "onedesk.one.boot.boot_session"
 
 # A pattern is not visible from inside one request. See one_hr/healing.py.
@@ -40,6 +46,11 @@ doc_events = {
 	"Attendance Request": {
 		"before_validate": "onedesk.one_hr.request.before_validate",
 		"before_submit": "onedesk.one_hr.request.before_submit",
+	},
+	# Submitting is the approval, and it says which shift. See one_hr/shift.py.
+	"Shift Request": {
+		"before_validate": "onedesk.one_hr.shift.before_validate",
+		"before_submit": "onedesk.one_hr.shift.before_submit",
 	},
 }
 
@@ -65,6 +76,7 @@ doctype_js = {
 	"Clock Place": "public/js/learned.js",
 	"Shift Type": "public/js/shift_type.js",
 	"Attendance Request": "public/js/attendance_request.js",
+	"Shift Request": "public/js/shift_request.js",
 }
 
 # Loaded after the doctype's own list script, so ours has the last word.
@@ -104,4 +116,5 @@ app_include_js = [
 	"/assets/onedesk/js/passkey.js",
 	"/assets/onedesk/js/clock.js",
 	"/assets/onedesk/js/overtime.js",
+	"/assets/onedesk/js/decision.js",
 ]

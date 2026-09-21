@@ -1,0 +1,100 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Shift Request",
+   "fieldname": "one_when",
+   "fieldtype": "Data",
+   "label": "Hours",
+   "module": "One HR",
+   "insert_after": "shift_type",
+   "read_only": 1,
+   "in_list_view": 1,
+   "description": "When this shift runs, read from the Shift Type."
+  },
+  {
+   "dt": "Shift Request",
+   "fieldname": "one_decision_section",
+   "fieldtype": "Section Break",
+   "label": "Decision",
+   "module": "One HR",
+   "insert_after": "to_date",
+   "depends_on": "eval:doc.one_decided_by"
+  },
+  {
+   "dt": "Shift Request",
+   "fieldname": "one_decided_by",
+   "fieldtype": "Link",
+   "label": "Decided By",
+   "module": "One HR",
+   "insert_after": "one_decision_section",
+   "options": "User",
+   "read_only": 1,
+   "allow_on_submit": 1
+  },
+  {
+   "dt": "Shift Request",
+   "fieldname": "one_column_decision",
+   "fieldtype": "Column Break",
+   "module": "One HR",
+   "insert_after": "one_decided_by"
+  },
+  {
+   "dt": "Shift Request",
+   "fieldname": "one_decided_on",
+   "fieldtype": "Datetime",
+   "label": "Decided On",
+   "module": "One HR",
+   "insert_after": "one_column_decision",
+   "read_only": 1,
+   "allow_on_submit": 1
+  },
+  {
+   "dt": "Shift Request",
+   "fieldname": "one_note",
+   "fieldtype": "Small Text",
+   "label": "Note",
+   "module": "One HR",
+   "insert_after": "one_decided_on",
+   "read_only": 1,
+   "allow_on_submit": 1,
+   "description": "What the person deciding wrote, if anything."
+  }
+ ],
+ "doctype": "Shift Request",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Shift Request",
+   "doctype_or_field": "DocField",
+   "field_name": "status",
+   "property": "read_only",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Shift Request",
+   "doctype_or_field": "DocField",
+   "field_name": "status",
+   "property": "description",
+   "property_type": "Text",
+   "value": "Set by Approve and Reject, so it always agrees with who decided."
+  },
+  {
+   "doc_type": "Shift Request",
+   "doctype_or_field": "DocField",
+   "field_name": "to_date",
+   "property": "description",
+   "property_type": "Text",
+   "value": "Leave this empty and the shift has no end: the employee stays on it until somebody cancels the assignment."
+  },
+  {
+   "doc_type": "Shift Request",
+   "doctype_or_field": "DocField",
+   "field_name": "approver",
+   "property": "description",
+   "property_type": "Text",
+   "value": "Offered from the employee's own Shift Request Approver and their department's."
+  }
+ ],
+ "sync_on_migrate": 1
+}

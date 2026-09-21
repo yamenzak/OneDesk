@@ -29,6 +29,10 @@ Each row is something that would still run but stop working if upstream moved. `
 | The rail carries a clock-in control | `get_shortcuts` is the documented list; One already subclasses Dock to keep the rail collapsed | `onedesk/public/js/desk.js` | `frappe/frappe/public/js/frappe/ui/sidebar/dock.js` | `get_shortcuts()` |
 | The reason on an Attendance Request is a record | their status mapping compares `self.reason` to one literal string, so ours writes that field | `onedesk/one_hr/request.py` | `hrms/hrms/hr/doctype/attendance_request/attendance_request.py` | `elif self.reason == "Work From Home":` |
 | Submitting an Attendance Request is signed, and turning one down is a verb | their whole approval is that Employee has no submit grant; nothing records who decided or said no | `onedesk/one_hr/request.py` | `hrms/hrms/hr/doctype/attendance_request/attendance_request.py` | `def on_submit` |
+| Every Company field is hidden | One workspace is one company, so two hundred-odd mandatory Links show the same value | `onedesk/one/company.py` | `frappe/frappe/custom/doctype/property_setter/property_setter.py` | `def make_property_setter` |
+| A shift request says what approving it will do | their `show_submit_message` writes a generic line into the one message area after refresh | `onedesk/public/js/decision.js` | `frappe/frappe/public/js/frappe/form/form.js` | `Submit this document to confirm` |
+| Submitting a Shift Request is signed, and the status is set by the buttons | their `on_submit` refuses while the status is Draft, a rule the toolbar button does not carry | `onedesk/one_hr/shift.py` | `hrms/hrms/hr/doctype/shift_request/shift_request.py` | `Only Shift Request with status 'Approved' and 'Rejected' can be submitted` |
+| The Approver field fills itself, or says nobody can | mandatory, and valid only against the employee's own approver and their department's rows | `onedesk/one_hr/shift.py` | `hrms/hrms/hr/doctype/shift_request/shift_request.py` | `def validate_approver` |
 | The setup wizard's persona slide is replaced | its four required questions were read only by `capture_user_persona` | `onedesk/public/js/setup_wizard.js` | `erpnext/erpnext/public/js/setup_wizard.js` | `persona` |
 
-25 overrides.
+29 overrides.
