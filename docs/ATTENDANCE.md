@@ -353,7 +353,23 @@ at once. The record also links to the Clock Attempts from that address, which
 is what you open a proposal to look at.
 
 `Clock Place` — a Shift Location or an employee, coordinates, radius, the same
-four statuses and the same counts. A Shift Location's own circle stays where it
+four statuses and the same counts. Named `PLC-YYYY-MM-#####`, with the same
+read-only status, the same Confirm and Reject buttons out of `learned.py`, the
+same Seen section that hides when the learner wrote nothing, and the same two
+Belongs To fields on screen.
+
+**A place is a circle on the earth, and two Floats do not say whether it covers
+the car park or the road.** A read-only Geolocation field draws it, on a row of
+its own, redrawn from latitude, longitude and radius whenever one of them
+changes — a reading of the three rather than a second place the fence is
+defined. It is written onto the document rather than through `set_value`, so
+opening a record does not mark it unsaved, and the map is told to remeasure
+after its row has a width, because leaflet measures its container once and
+would otherwise paint the circle a pixel wide.
+
+**Use My Location had no handler at all** and did nothing. It asks the browser,
+reports how accurate the answer was, and on a place that already has a centre
+asks first — pressing it at a desk otherwise moves the fence to the desk. A Shift Location's own circle stays where it
 is; zones are the extra ones, including the learned ones.
 
 `Clock Attempt` — as above, with `Clock Signal` as its child table.

@@ -16,7 +16,7 @@ No doctypes yet.
 | Clock Attempt | 40 | document |
 | Clock Device | 23 | document |
 | Clock Network | 15 | document |
-| Clock Place | 18 | document |
+| Clock Place | 20 | document |
 | Clock Reason | 5 | document |
 | Clock Signal | 3 | child |
 | Employee Document | 6 | child |

@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 0,
- "autoname": "hash",
+ "autoname": "PLC-.YYYY.-.MM.-.#####",
  "creation": "2026-09-21 00:00:00.000000",
  "doctype": "DocType",
  "editable_grid": 0,
@@ -19,6 +19,8 @@
   "column_break_where",
   "radius",
   "fetch_position",
+  "map_section",
+  "area",
   "seen_section",
   "first_seen",
   "last_seen",
@@ -36,14 +38,15 @@
   },
   {
    "default": "Declared",
-   "description": "Declared is entered by a person. Proposed is suggested by Learn New Locations, and becomes Confirmed once the Confirmation Threshold is met. Rejected is never proposed again.",
+   "description": "Declared is entered by a person. Proposed is suggested by Learn New Locations, and becomes Confirmed once the Confirmation Threshold is met, or when somebody confirms it here. Rejected is never proposed again.",
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Status",
    "options": "Declared\nProposed\nConfirmed\nRejected",
-   "search_index": 1
+   "search_index": 1,
+   "read_only": 1
   },
   {
    "fieldname": "column_break_what",
@@ -59,7 +62,6 @@
    "options": "Shift Location"
   },
   {
-   "depends_on": "eval:!doc.shift_location",
    "fieldname": "employee",
    "fieldtype": "Link",
    "in_standard_filter": 1,
@@ -112,7 +114,8 @@
   {
    "fieldname": "seen_section",
    "fieldtype": "Section Break",
-   "label": "Seen"
+   "label": "Seen",
+   "depends_on": "eval:doc.first_seen"
   },
   {
    "fieldname": "first_seen",
@@ -144,15 +147,27 @@
    "fieldtype": "Int",
    "label": "Employees",
    "read_only": 1
+  },
+  {
+   "fieldname": "area",
+   "fieldtype": "Geolocation",
+   "label": "Map",
+   "read_only": 1,
+   "no_copy": 1,
+   "depends_on": "eval:doc.latitude || doc.longitude"
+  },
+  {
+   "fieldname": "map_section",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-21 00:00:00.000000",
+ "modified": "2026-09-22 00:45:00.000000",
  "modified_by": "Administrator",
  "module": "One HR",
  "name": "Clock Place",
- "naming_rule": "Random",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

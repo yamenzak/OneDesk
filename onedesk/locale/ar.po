@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 14:26+0000\n"
-"PO-Revision-Date: 2026-09-21 14:26+0000\n"
+"POT-Creation-Date: 2026-09-21 15:06+0000\n"
+"PO-Revision-Date: 2026-09-21 15:06+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -60,6 +60,10 @@ msgstr "تنتمي الشبكة إلى موقع مناوبة أو إلى موظ�
 msgid "A new check-in network or location was proposed"
 msgstr "تم اقتراح شبكة أو موقع جديد لتسجيل الحضور"
 
+#: onedesk/one_hr/doctype/clock_place/clock_place.py:14
+msgid "A place belongs to a Shift Location or to one employee, not to both."
+msgstr "ينتمي الموقع إلى موقع مناوبة أو إلى موظف واحد، لا إلى كليهما."
+
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/presence.py:249 onedesk/public/js/employee.js:47
@@ -94,6 +98,10 @@ msgstr "الأرباح المستحقة"
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Accuracy (Metres)"
 msgstr "الدقة (بالأمتار)"
+
+#: onedesk/one_hr/doctype/clock_place/clock_place.js:31
+msgid "Accurate to about {0} metres."
+msgstr "بدقة تقارب {0} متر."
 
 #. Option for the 'Status' (Select) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
@@ -414,11 +422,11 @@ msgstr "تسجيل الحضور"
 msgid "Check-ins"
 msgstr "تسجيلات الحضور"
 
-#: onedesk/public/js/learned.js:11
+#: onedesk/public/js/learned.js:12
 msgid "Check-ins from {0} will be allowed."
 msgstr "سيُسمح بتسجيل الحضور من {0}."
 
-#: onedesk/public/js/learned.js:20
+#: onedesk/public/js/learned.js:21
 msgid "Check-ins from {0} will be refused, and it will not be proposed again."
 msgstr "سيُرفض تسجيل الحضور من {0}، ولن يُقترح مرة أخرى."
 
@@ -479,7 +487,8 @@ msgid "Claim an expense"
 msgstr "المطالبة بمصروف"
 
 #: onedesk/one_hr/doctype/clock_device/clock_device_dashboard.py:9
-#: onedesk/one_hr/doctype/clock_network/clock_network_dashboard.py:10
+#: onedesk/one_hr/doctype/clock_network/clock_network_dashboard.py:8
+#: onedesk/one_hr/doctype/clock_place/clock_place_dashboard.py:8
 msgid "Clock"
 msgstr "التسجيل"
 
@@ -551,7 +560,7 @@ msgstr "أُغلق تلقائياً"
 msgid "Company"
 msgstr ""
 
-#: onedesk/public/js/learned.js:10
+#: onedesk/public/js/learned.js:11
 msgid "Confirm"
 msgstr ""
 
@@ -616,7 +625,7 @@ msgstr "معلَن"
 
 #. Description of the 'Status' (Select) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
-msgid "Declared is entered by a person. Proposed is suggested by Learn New Locations, and becomes Confirmed once the Confirmation Threshold is met. Rejected is never proposed again."
+msgid "Declared is entered by a person. Proposed is suggested by Learn New Locations, and becomes Confirmed once the Confirmation Threshold is met, or when somebody confirms it here. Rejected is never proposed again."
 msgstr "المعلَن يُدخله شخص. المقترَح تقترحه ميزة تعلّم المواقع الجديدة، ويصبح مؤكَّداً عند بلوغ حد التأكيد. المرفوض لا يُقترح مرة أخرى."
 
 #. Description of the 'Status' (Select) field in DocType 'Clock Network'
@@ -676,7 +685,7 @@ msgid "Distinct employees, each verified another way, who have checked in from t
 msgstr "عدد الموظفين المختلفين، وقد تم التحقق من كل منهم بطريقة أخرى، الذين سجّلوا حضورهم من هذا العنوان."
 
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:36
-#: onedesk/public/js/learned.js:33
+#: onedesk/public/js/learned.js:34
 msgid "Done"
 msgstr ""
 
@@ -1334,6 +1343,11 @@ msgstr "خط الطول"
 msgid "Manager"
 msgstr ""
 
+#. Label of the area (Geolocation) field in DocType 'Clock Place'
+#: onedesk/one_hr/doctype/clock_place/clock_place.json
+msgid "Map"
+msgstr ""
+
 #. Label of the one_mark_section (Section Break) field in DocType 'Employee
 #. Attendance Tool'
 #: onedesk/one_hr/custom/employee_attendance_tool.json
@@ -1406,6 +1420,11 @@ msgstr "الشبكة"
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Network and Location"
 msgstr "الشبكة والموقع"
+
+#: onedesk/one_hr/doctype/clock_place/clock_place.js:19
+#: onedesk/one_hr/doctype/clock_place/clock_place.js:38
+msgid "No Location"
+msgstr "لا يوجد موقع"
 
 #. Description of the 'Closed Automatically' (Check) field in DocType 'Employee
 #. Checkin'
@@ -1791,7 +1810,7 @@ msgstr ""
 msgid "Radius (Metres)"
 msgstr "النطاق (بالأمتار)"
 
-#: onedesk/one_hr/doctype/clock_place/clock_place.py:10
+#: onedesk/one_hr/doctype/clock_place/clock_place.py:9
 msgid "Radius must be greater than 0."
 msgstr "يجب أن يكون النطاق أكبر من 0."
 
@@ -1878,7 +1897,7 @@ msgid "Registered On"
 msgstr "تاريخ التسجيل"
 
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:21
-#: onedesk/public/js/learned.js:16
+#: onedesk/public/js/learned.js:17
 msgid "Reject"
 msgstr "رفض"
 
@@ -2183,6 +2202,10 @@ msgstr "العنوان الذي جاء منه الطلب."
 msgid "The authenticator's own counter. A value lower than the one stored means the passkey has been cloned."
 msgstr "العدّاد الخاص بأداة المصادقة. القيمة الأقل من المخزَّنة تعني أن مفتاح المرور قد استُنسخ."
 
+#: onedesk/one_hr/doctype/clock_place/clock_place.js:37
+msgid "The browser would not say where it is."
+msgstr "لم يفصح المتصفح عن موقعه."
+
 #: onedesk/public/js/desk.js:100
 msgid "The check-in could not be recorded."
 msgstr "تعذّر تسجيل الحضور."
@@ -2237,6 +2260,10 @@ msgstr "لا يوجد ما يُسجَّل: أنت {0} اليوم."
 #: onedesk/one_hr/review.py:50
 msgid "This attempt was already reviewed."
 msgstr "سبق أن روجعت هذه المحاولة."
+
+#: onedesk/one_hr/doctype/clock_place/clock_place.js:18
+msgid "This browser will not give a location."
+msgstr "لا يوفر هذا المتصفح الموقع."
 
 #: onedesk/one_hr/passkey.py:95
 msgid "This employee already has a passkey."
@@ -2530,6 +2557,10 @@ msgstr "{0} ليس مما يقترحه نظام التسجيل."
 #: onedesk/public/js/employee.js:149
 msgid "{0} left"
 msgstr "متبقٍ {0}"
+
+#: onedesk/one_hr/doctype/clock_place/clock_place.js:47
+msgid "{0} will move to where this browser is. Everyone checking in there is measured from the new centre."
+msgstr "سينتقل {0} إلى موقع هذا المتصفح. وتُقاس تسجيلات الحضور هناك من المركز الجديد."
 
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:26
 msgid "{0} will not be able to check in or register another passkey."
