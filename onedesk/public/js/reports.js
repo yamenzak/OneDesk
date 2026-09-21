@@ -67,7 +67,34 @@ onedesk.reports.called_what_the_rail_called_it = () => {
 	};
 };
 
+// An employee column already says the name, so the column beside it does not.
+//
+// `one_hr/names.py` hides the mirror `Employee Name` field on the doctypes that
+// carry one, and `show_title_field_in_link` makes every Employee link read the
+// person's name. A report's columns are neither: they are a list built in
+// Python in another app, and eleven of them in the OneHR rail put Employee and
+// Employee Name side by side, reading "Samir Aoun | Samir Aoun".
+//
+// So the mirror column is dropped wherever the link it mirrors is present. Only
+// then: a report that shows the name and not the link still shows the name.
+onedesk.reports.one_name = () => {
+	const QueryReport = frappe.views && frappe.views.QueryReport;
+	if (!QueryReport || QueryReport.prototype.__one_name) return;
+	QueryReport.prototype.__one_name = true;
+
+	const theirs = QueryReport.prototype.prepare_columns;
+	QueryReport.prototype.prepare_columns = function (columns) {
+		const ready = theirs.call(this, columns);
+		const linked = ready.some(
+			(c) => c.fieldtype === "Link" && c.options === "Employee"
+		);
+		if (!linked) return ready;
+		return ready.filter((c) => c.fieldname !== "employee_name");
+	};
+};
+
 frappe.after_ajax(() => {
 	onedesk.reports.one_company();
+	onedesk.reports.one_name();
 	onedesk.reports.called_what_the_rail_called_it();
 });

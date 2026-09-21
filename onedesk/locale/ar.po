@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 22:38+0000\n"
-"PO-Revision-Date: 2026-09-21 22:38+0000\n"
+"POT-Creation-Date: 2026-09-21 22:50+0000\n"
+"PO-Revision-Date: 2026-09-21 22:50+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -824,6 +824,7 @@ msgstr "حذف الصور بعد (أيام)"
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:235
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:78
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+#: onedesk/public/js/leave_control_panel.js:35
 msgid "Department"
 msgstr ""
 
@@ -921,7 +922,8 @@ msgstr ""
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:233
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:65
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:166
-#: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/public/js/overtime.js:14
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/public/js/leave_control_panel.js:33 onedesk/public/js/overtime.js:14
 msgid "Employee"
 msgstr "الموظف"
 
@@ -1729,6 +1731,7 @@ msgstr "الحضور الشهري"
 #. Label of the label (Data) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
+#: onedesk/public/js/leave_control_panel.js:34
 msgid "Name"
 msgstr ""
 

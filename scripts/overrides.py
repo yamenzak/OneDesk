@@ -347,6 +347,20 @@ OVERRIDES = [
 		"Please set default template for Leave Status Notification in HR Settings.",
 	),
 	(
+		"The leave panel opens with its dates filled",
+		"it sets Dates Based On to the leave period and `from_date` to today in the same breath, and the fetch that would fix that only fires on a change",
+		"onedesk/public/js/leave_control_panel.js",
+		"hrms/hrms/hr/doctype/leave_control_panel/leave_control_panel.js",
+		"from_date: frappe.datetime.get_today(),",
+	),
+	(
+		"The leave panel's employee picker has no Company column",
+		"the table is a datatable built in their form script rather than fields, so `one/company.py` cannot reach it",
+		"onedesk/public/js/leave_control_panel.js",
+		"hrms/hrms/hr/doctype/leave_control_panel/leave_control_panel.js",
+		"get_employees_datatable_columns()",
+	),
+	(
 		"An employee link reads the person's name",
 		"`show_title_field_in_link` is off upstream, so every link read HR-EMP-00004 and erpnext hung a mirror field beside it",
 		"onedesk/one_hr/custom/employee.json",

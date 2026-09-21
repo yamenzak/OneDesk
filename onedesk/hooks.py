@@ -100,6 +100,7 @@ doctype_js = {
 	"Overtime Slip": "public/js/overtime_slip.js",
 	"Timesheet": "public/js/timesheet.js",
 	"Leave Application": "public/js/leave_application.js",
+	"Leave Control Panel": "public/js/leave_control_panel.js",
 }
 
 # Loaded after the doctype's own list script, so ours has the last word.

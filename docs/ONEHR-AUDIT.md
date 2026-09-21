@@ -172,3 +172,63 @@ is not the calendar year is a decision a workspace makes deliberately.
 `set_the_working_day` reading back the working day the wizard was told, not
 HRMS's default leaking through. Flagged during the Time walk as a possible
 defect; it is not one.
+
+### Leave Balance, Leave Balance Summary
+
+Both work and both say something. The only fault was **Employee and Employee
+Name as two columns reading "Samir Aoun | Samir Aoun"** — the report version of
+the mirror field, and neither `names.py` nor `company.py` can reach it, because
+a report's columns are a list built in Python in another app. So
+`public/js/reports.js` drops an `employee_name` column wherever an Employee Link
+column is present in the same report, and only then: a report that shows the
+name and not the link still shows the name.
+
+Left: a report Float reads **21.000**. Frappe formats every report cell with
+`always_show_decimals: true` at the site's float precision of three, so a day
+count and a currency amount are shown the same way. Changing that is a site-wide
+decision and payroll is the other half of it.
+
+### Working on a Holiday
+
+The screen said **Nothing to show** while six days of it existed. Not a defect
+in the report: Rania had a `Holiday List Assignment` of her own, against a
+"One Holidays 2026" list of 52 Sundays that nothing in this app creates, while
+everybody else was on the company's "One 2026" of Fridays and national days. She
+worked six Fridays, and none of them was a holiday *of her list*. Dev-site dirt
+from an earlier run with a different weekly off; the stray assignment and list
+were removed and the report answers 14 rows.
+
+Worth saying once because it is the shape of a real support call: **an employee
+may carry a holiday list that disagrees with the company's, and no screen says
+so.** The report is right and looks broken.
+
+### Leave Control Panel
+
+Found:
+
+1. It opens saying it will allocate **from today until nothing**.
+   `set_leave_details` sets `dates_based_on: "Leave Period"`, a leave period,
+   and `from_date: today, to_date: null` in the same `set_value`. The dates are
+   meant to arrive from the period by `add_fetch`, which fires when somebody
+   *changes* the period — and nobody changes a field that is already filled.
+2. A **Company** column in the employee table, the same company on every row.
+   The doctype's own field is hidden by `one/company.py`, but this table is a
+   datatable built in their form script, so it is not a field.
+3. **Leave Policy** is mandatory and deliberately cleared, so the form opens
+   with a red box before anybody has done anything wrong.
+
+Done: our own form script fills the dates from the period on load and on every
+change of either; drops the Company column by replacing
+`get_employees_datatable_columns`; and fills Leave Policy when the workspace has
+written exactly one. The panel now opens as *Standard · 2026 · 01-01-2026 to
+31-12-2026*, ready to allocate.
+
+Two things about frappe's form scripts that this turned on, and that are worth
+knowing before writing the next one: **field handlers are a list** — ours runs
+alongside theirs, so their `leave_policy` handler still refreshes the employee
+table — while **`frm.events.X` is a slot** holding the last registered, which is
+what lets `get_employees_datatable_columns` be replaced rather than wrapped. And
+a `set_value` of a whole object applies in key order with awaits between, so
+anything written from a trigger fired part-way through is overwritten by the
+rest of the batch. Filling the policy is hung on the clearing of the policy
+itself, which is the last word either way.
