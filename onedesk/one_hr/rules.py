@@ -189,3 +189,41 @@ def _lines(text) -> list[str]:
 	else:
 		raw = str(text).splitlines()
 	return [line.strip() for line in raw if line.strip() and not line.strip().startswith("#")]
+
+
+#: What a mobile browser says about itself. Not a security control — a caller
+#: can send any user agent they like — but somebody who forges one to enrol a
+#: passkey on the office PC has gone out of their way to weaken their own
+#: credential, and the machine they did it on shows up in the ledger anyway.
+PHONES = ("iphone", "ipod", "android", "mobi", "windows phone")
+
+#: iPadOS Safari calls itself a Macintosh, so a tablet needs the second check.
+TABLETS = ("ipad", "tablet")
+
+
+def is_phone(agent: str, touch: int = 0) -> bool:
+	"""Whether this looks like a device one person carries.
+
+	The touch count is the client's answer to `navigator.maxTouchPoints`, which
+	is the only way to tell an iPad from a laptop: since iPadOS 13 the user
+	agent of both says Macintosh, and a laptop answers nought.
+	"""
+	said = (agent or "").lower()
+	if any(one in said for one in PHONES + TABLETS):
+		return True
+	return "macintosh" in said and int(touch or 0) > 1
+
+
+def device_label(seen) -> str:
+	"""What to call a device in a list HR reads.
+
+	The model when the browser gave one, the platform otherwise, and the bare
+	word when it gave neither. Never the user agent, which is ninety characters
+	of version numbers and says less.
+	"""
+	seen = seen or {}
+	for key in ("model", "platform"):
+		said = (seen.get(key) or "").strip()
+		if said:
+			return said[:60]
+	return "Phone"

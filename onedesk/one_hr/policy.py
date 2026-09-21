@@ -30,6 +30,7 @@ DEFAULTS = {
 	# working. A workspace that means it can ask for both.
 	"one_gates_require": "Either",
 	"one_passkey_refuses": 1,
+	"one_passkey_phone_only": 1,
 	"one_learn_networks": 1,
 	"one_learn_zones": 1,
 	"one_learn_home": 0,

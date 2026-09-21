@@ -172,6 +172,27 @@ onedesk.employee.ACTIONS = [
 	["Expense Claim", __("Claim an expense")],
 ];
 
+// HR's one click when somebody's phone changes. Offered only where there is a
+// credential to retire and only to somebody who may write one, so an ordinary
+// reader of a colleague's record never sees it.
+onedesk.employee.passkey = (frm, data) => {
+	if (!data.passkey || !frappe.model.can_write("Checkin Device")) return;
+	frm.sidebar.add_user_action(__("Reset passkey"), () => {
+		frappe.confirm(
+			__("{0} will register a new passkey on their next clock-in. The old one is retired, not deleted.", [
+				frm.doc.employee_name,
+			]),
+			() =>
+				frappe
+					.xcall("onedesk.one_hr.passkey.reset", { employee: frm.doc.name })
+					.then(() => {
+						frappe.show_alert({ message: __("Passkey reset"), indicator: "green" });
+						frm.refresh();
+					})
+		);
+	});
+};
+
 onedesk.employee.actions = (frm) => {
 	frm.sidebar.clear_user_actions();
 	// A person who has left is not applying for anything.
@@ -195,6 +216,7 @@ frappe.ui.form.on("Employee", {
 		}).then(({ message }) => {
 			if (message && frm.doc.name === cur_frm?.doc?.name) {
 				onedesk.employee.paint(frm, message);
+				onedesk.employee.passkey(frm, message);
 			}
 		});
 	},

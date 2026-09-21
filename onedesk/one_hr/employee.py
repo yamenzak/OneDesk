@@ -51,7 +51,20 @@ def overview(employee: str) -> dict:
 		"leave": _leave(doc),
 		"awaiting": _awaiting(doc),
 		"pay": _pay(doc),
+		"passkey": _passkey(doc),
 	}
+
+
+def _passkey(doc) -> dict | None:
+	"""Their credential, for the reset button and for nothing else.
+
+	No public key and no credential id: this answers a screen, and a screen has
+	no use for either.
+	"""
+	from onedesk.one_hr import passkey
+
+	held = passkey.held_by(doc.name)
+	return {"label": held.label} if held else None
 
 
 def _state(doc) -> dict:

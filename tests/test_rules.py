@@ -142,3 +142,29 @@ def test_a_proposal_needs_both_voices_and_repetition():
 	assert not rules.enough(votes=20, voters=1, threshold=3)
 	# Twenty people passing once through an airport.
 	assert not rules.enough(votes=2, voters=20, threshold=3)
+
+
+def test_a_phone_is_recognised_and_a_desktop_is_not():
+	iphone = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15"
+	android = "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 Chrome/120 Mobile"
+	laptop = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120"
+	windows = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120"
+
+	assert rules.is_phone(iphone)
+	assert rules.is_phone(android)
+	assert not rules.is_phone(laptop)
+	assert not rules.is_phone(windows)
+	assert not rules.is_phone("")
+
+
+def test_an_ipad_needs_the_touch_count_because_it_claims_to_be_a_mac():
+	ipad = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 Version/17.0 Safari"
+	assert not rules.is_phone(ipad, touch=0)
+	assert rules.is_phone(ipad, touch=5)
+
+
+def test_a_device_is_called_something_a_person_recognises():
+	assert rules.device_label({"model": "Pixel 8", "platform": "Android"}) == "Pixel 8"
+	assert rules.device_label({"platform": "iPhone"}) == "iPhone"
+	assert rules.device_label({}) == "Phone"
+	assert rules.device_label(None) == "Phone"

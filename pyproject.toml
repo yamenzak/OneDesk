@@ -6,7 +6,12 @@ requires-python = ">=3.11"
 readme = "README.md"
 license = "AGPL-3.0-or-later"
 dynamic = ["version"]
-dependencies = []
+dependencies = [
+    # WebAuthn registration and assertion verification. BSD-3, and the
+    # alternative is writing CBOR parsing and COSE key handling ourselves,
+    # which is security-critical code with no reason to be ours.
+    "webauthn>=2.0,<4",
+]
 
 [build-system]
 requires = ["flit_core >=3.4,<4"]

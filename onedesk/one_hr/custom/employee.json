@@ -1,7 +1,20 @@
 {
  "custom_fields": [],
  "doctype": "Employee",
- "links": [],
+ "links": [
+  {
+   "group": "Attendance",
+   "link_doctype": "Checkin Device",
+   "link_fieldname": "employee",
+   "parent": "Employee"
+  },
+  {
+   "group": "Attendance",
+   "link_doctype": "Checkin Attempt",
+   "link_fieldname": "employee",
+   "parent": "Employee"
+  }
+ ],
  "property_setters": [
   {
    "doc_type": "Employee",

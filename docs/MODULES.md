@@ -34,3 +34,8 @@ No doctypes yet.
 ## Whitelisted methods
 
 * `onedesk.one_hr.employee.overview`
+* `onedesk.one_hr.passkey.ask_for_a_reset`
+* `onedesk.one_hr.passkey.finish_registration`
+* `onedesk.one_hr.passkey.reset`
+* `onedesk.one_hr.passkey.start_assertion`
+* `onedesk.one_hr.passkey.start_registration`
