@@ -16,3 +16,10 @@ class ClockNetwork(Document):
 				)
 			)
 		self.address = str(rules.networks(self.address)[0])
+
+		# The section's own sentence offers one or the other; both set would
+		# read as an intersection and is matched as a union.
+		if self.shift_location and self.employee:
+			frappe.throw(
+				_("A network belongs to a Shift Location or to one employee, not to both.")
+			)

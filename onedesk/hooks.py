@@ -46,6 +46,7 @@ doctype_js = {
 	"Employee": "public/js/employee.js",
 	"Employee Attendance Tool": "public/js/attendance_tool.js",
 	"Attendance": "public/js/attendance.js",
+	"Clock Network": "public/js/learned.js",
 }
 
 # Loaded after the doctype's own list script, so ours has the last word.

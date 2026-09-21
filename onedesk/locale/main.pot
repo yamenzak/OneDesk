@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 14:13+0000\n"
-"PO-Revision-Date: 2026-09-21 14:13+0000\n"
+"POT-Creation-Date: 2026-09-21 14:26+0000\n"
+"PO-Revision-Date: 2026-09-21 14:26+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -48,6 +48,10 @@ msgstr ""
 #. Description of the 'Expires On' (Date) field in DocType 'Employee Document'
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 msgid "A document that does not expire, such as a birth certificate, leaves this empty."
+msgstr ""
+
+#: onedesk/one_hr/doctype/clock_network/clock_network.py:24
+msgid "A network belongs to a Shift Location or to one employee, not to both."
 msgstr ""
 
 #: onedesk/one_hr/healing.py:267
@@ -408,6 +412,14 @@ msgstr ""
 msgid "Check-ins"
 msgstr ""
 
+#: onedesk/public/js/learned.js:11
+msgid "Check-ins from {0} will be allowed."
+msgstr ""
+
+#: onedesk/public/js/learned.js:20
+msgid "Check-ins from {0} will be refused, and it will not be proposed again."
+msgstr ""
+
 #. Description of the 'Refuse Below Score' (Int) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Check-ins scoring below this are refused and no Employee Checkin is written. The failing checks are shown to the employee."
@@ -465,6 +477,7 @@ msgid "Claim an expense"
 msgstr ""
 
 #: onedesk/one_hr/doctype/clock_device/clock_device_dashboard.py:9
+#: onedesk/one_hr/doctype/clock_network/clock_network_dashboard.py:10
 msgid "Clock"
 msgstr ""
 
@@ -536,6 +549,10 @@ msgstr ""
 msgid "Company"
 msgstr ""
 
+#: onedesk/public/js/learned.js:10
+msgid "Confirm"
+msgstr ""
+
 #. Label of the one_learn_threshold (Int) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Confirmation Threshold"
@@ -602,7 +619,7 @@ msgstr ""
 
 #. Description of the 'Status' (Select) field in DocType 'Clock Network'
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
-msgid "Declared is entered by a person. Proposed is suggested by Learn New Networks, and becomes Confirmed once the Confirmation Threshold is met. Rejected is never proposed again."
+msgid "Declared is entered by a person. Proposed is suggested by Learn New Networks, and becomes Confirmed once the Confirmation Threshold is met, or when somebody confirms it here. Rejected is never proposed again."
 msgstr ""
 
 #. Label of the one_keep_photo_days (Int) field in DocType 'HR Settings'
@@ -657,6 +674,7 @@ msgid "Distinct employees, each verified another way, who have checked in from t
 msgstr ""
 
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:36
+#: onedesk/public/js/learned.js:33
 msgid "Done"
 msgstr ""
 
@@ -1330,6 +1348,10 @@ msgstr ""
 msgid "Marked present"
 msgstr ""
 
+#: onedesk/one_hr/learned.py:28
+msgid "Marked {0}."
+msgstr ""
+
 #. Description of the 'Check the Network' (Check) field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -1854,6 +1876,7 @@ msgid "Registered On"
 msgstr ""
 
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:21
+#: onedesk/public/js/learned.js:16
 msgid "Reject"
 msgstr ""
 
@@ -2486,6 +2509,10 @@ msgstr ""
 
 #: onedesk/one_hr/doctype/clock_network/clock_network.py:14
 msgid "{0} is not a valid address or range. Example: 203.0.113.7 or 203.0.113.0/24"
+msgstr ""
+
+#: onedesk/one_hr/learned.py:24
+msgid "{0} is not something the clock proposes."
 msgstr ""
 
 #: onedesk/public/js/employee.js:149

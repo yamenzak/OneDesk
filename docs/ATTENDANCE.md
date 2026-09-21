@@ -334,7 +334,23 @@ count, authenticator, backed up.
 `Clock Network` — an address or range; the Shift Location it belongs to, or
 the employee it belongs to for a home worker, or neither for the whole
 workspace; status (Declared, Proposed, Confirmed, Rejected); first and last
-seen; how many attempts and how many distinct employees have used it.
+seen; how many attempts and how many distinct employees have used it. Named
+`NET-YYYY-MM-#####`.
+
+**Status is read only here too**, and the two decisions are buttons: Confirm on
+a Proposed address, Reject on a Proposed or Confirmed one. They live in
+`one_hr/learned.py` rather than on the doctype because `Clock Place` is the
+same shape with the same four statuses and the same learner, and each write
+leaves a comment on the record. Rejecting is final in the sense that matters:
+`healing._learn` matches a Rejected row and never promotes it again.
+
+The Seen section — first seen, last seen, attempts, employees — is what the
+learner wrote, and only the learner writes it. On an address somebody typed in
+it was four empty fields leaving a hole where the left column should be, so it
+hides unless there is something to show. Both Belongs To fields are on screen,
+because the section's own sentence offers two, and the controller refuses both
+at once. The record also links to the Clock Attempts from that address, which
+is what you open a proposal to look at.
 
 `Clock Place` — a Shift Location or an employee, coordinates, radius, the same
 four statuses and the same counts. A Shift Location's own circle stays where it
