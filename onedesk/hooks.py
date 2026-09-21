@@ -125,4 +125,5 @@ app_include_js = [
 	"/assets/onedesk/js/clock.js",
 	"/assets/onedesk/js/overtime.js",
 	"/assets/onedesk/js/decision.js",
+	"/assets/onedesk/js/reports.js",
 ]

@@ -305,6 +305,13 @@ OVERRIDES = [
 		"def generate_stats_by_employee",
 	),
 	(
+		"No report asks which company",
+		"a report's filters are a list in its own script, so the doctype sweep could not reach them",
+		"onedesk/public/js/reports.js",
+		"frappe/frappe/public/js/frappe/views/reports/query_report.js",
+		"setup_filters() {",
+	),
+	(
 		"The setup wizard's persona slide is replaced",
 		"its four required questions were read only by `capture_user_persona`",
 		"onedesk/public/js/setup_wizard.js",

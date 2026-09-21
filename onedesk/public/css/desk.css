@@ -329,3 +329,10 @@ a.one-stat:hover .one-stat-value {
 .one-static-grid .grid-buttons {
 	display: none;
 }
+
+/* A filter One has answered on the reader's behalf; see public/js/reports.js.
+   Marked by class rather than by fieldname so nothing else can match it, and
+   `!important` because the control's own refresh would otherwise show it again. */
+.one-gone {
+	display: none !important;
+}
