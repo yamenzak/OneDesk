@@ -312,3 +312,73 @@ else the link column stays, because it is the only place the person appears.
 Left for the Tax & Benefits walk: **Deduct Tax For Unsubmitted Tax Exemption
 Proof**, alone in an unlabelled section on every payslip, is one of a family of
 India-specific payroll fields that wants one decision rather than six.
+
+### Payroll Entry
+
+The list said `ID · Status · Currency · Branch` — an empty branch column, three
+letters of currency, and nothing about the run: not the period, not how many
+people, not how much. The record was no better: the Overview tab carries the
+posting date, the currency, the exchange rate, the payable account and two
+checkboxes, and `number_of_employees` is a read-only field parked in the
+employee filter section rather than on it.
+
+Done: `start_date`, `end_date` and `number_of_employees` join the list and
+branch and currency leave it. The headline reads *01-08-2026 – 31-08-2026: 5
+people, 27,500.00 د.إ, in 5 slips still in draft*, and turns green when they are
+all submitted. The total is counted off the slips rather than the `employees`
+table, because the table is who was *selected* and the slips are what was
+actually worked out. Currency, Exchange Rate and Status hidden — the last
+because the header already carries the pill.
+
+### Nobody is asked what currency they are paid in
+
+Twenty-two HR and payroll doctypes carry a `Currency` link, and on a
+single-company site every one shows the same three letters beside an amount
+already formatted in them. `one_hr/money.py` hides the fourteen that are
+`read_only` or have a `fetch_from` — filled by the framework or by their own
+controller, so hiding one cannot stop a document being saved. That is the whole
+test, and it is checked against the schema rather than assumed.
+
+What stays visible, and why: **Salary Structure** declares the currency that
+assignments and slips fetch from, so it is the one place the answer is given;
+**Job Applicant**, **Job Opening** and **Job Opening Template** quote a salary
+range on an advertisement, which a workspace may genuinely want in somebody
+else's currency; the two **Employee Tax Exemption** doctypes belong to the
+India-specific surface, which gets one decision rather than six; and **Payroll
+Entry** is hidden by its own customization instead, because it is neither
+read-only nor fetched — their form script fills it from the company, which was
+checked in the browser rather than read off the schema.
+
+OneBook is deliberately untouched. A single company can still be owed money in
+somebody else's currency.
+
+### Salary Structure Assignment, Additional Salary
+
+Thin. Neither list carried the one number it exists to hold: the assignment
+list read Employee Name, Status, Salary Structure, ID with no **Base**, and the
+additional salary list no **Amount**. Both added, with the date beside them.
+
+A seeding artifact worth writing down because it looked like a defect: every
+assignment read an Annual Gross Earning of 36,000 whatever the base. HRMS
+computes it with `frappe.get_cached_doc("Salary Structure", ...)`, and the
+structure had been edited with `frappe.db.set_value` on a child row, which does
+not clear that cache. The numbers were recomputed and are right. Nothing to fix
+upstream — but it is a good reason never to edit a structure by its rows.
+
+### Salary Register
+
+It opened on **Nothing to show** with five submitted slips in the table. The
+report ships `from_date` at today minus a month and `to_date` at today, and its
+query keeps a slip only when the whole slip sits inside the range — so a
+month-ago-to-today range can never contain a whole payroll month. Calendar
+months do not fix it either, because payroll for August is read in September.
+
+Done: the dates come from the newest submitted slip, so the register opens on
+the run somebody most recently made. A default and not a rule — a person who
+wants another range types one, and nothing resets it. Five rows where there were
+none.
+
+Its **Currency** filter is swept the way Company already was, and only on a
+payroll or HR report, where the answer is always what the company pays in. And
+a **Company** column is dropped from every report's columns, for the same reason
+the filter is.

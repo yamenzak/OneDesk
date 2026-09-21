@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 23:06+0000\n"
-"PO-Revision-Date: 2026-09-21 23:06+0000\n"
+"POT-Creation-Date: 2026-09-21 23:20+0000\n"
+"PO-Revision-Date: 2026-09-21 23:20+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1784,6 +1784,10 @@ msgstr "Es wurde kein Passkey vorgelegt."
 msgid "No position was sent."
 msgstr "Es wurde keine Position übermittelt."
 
+#: onedesk/public/js/payroll_entry.js:26
+msgid "No salary slips yet for {0} to {1}."
+msgstr "Noch keine Gehaltsabrechnungen für {0} bis {1}."
+
 #: onedesk/one_hr/review.py:48
 msgid "No such check-in attempt."
 msgstr "Diesen Einchecken-Versuch gibt es nicht."
@@ -3335,4 +3339,12 @@ msgstr "{0} – läuft"
 #: onedesk/one_hr/review.py:86
 msgid "{0}'s check-in needs a look"
 msgstr "Das Einchecken von {0} muss geprüft werden"
+
+#: onedesk/public/js/payroll_entry.js:45
+msgid "{0}: {1} people, {2}, all submitted."
+msgstr "{0}: {1} Personen, {2}, alle gebucht."
+
+#: onedesk/public/js/payroll_entry.js:39
+msgid "{0}: {1} people, {2}, in {3} slips still in draft."
+msgstr "{0}: {1} Personen, {2}, in {3} Abrechnungen noch im Entwurf."
 

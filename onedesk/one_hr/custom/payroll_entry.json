@@ -1,0 +1,72 @@
+{
+ "custom_fields": [],
+ "doctype": "Payroll Entry",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Payroll Entry",
+   "doctype_or_field": "DocField",
+   "field_name": "branch",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Payroll Entry",
+   "doctype_or_field": "DocField",
+   "field_name": "currency",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Payroll Entry",
+   "doctype_or_field": "DocField",
+   "field_name": "start_date",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Payroll Entry",
+   "doctype_or_field": "DocField",
+   "field_name": "end_date",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Payroll Entry",
+   "doctype_or_field": "DocField",
+   "field_name": "number_of_employees",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Payroll Entry",
+   "doctype_or_field": "DocField",
+   "field_name": "currency",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Payroll Entry",
+   "doctype_or_field": "DocField",
+   "field_name": "exchange_rate",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Payroll Entry",
+   "doctype_or_field": "DocField",
+   "field_name": "status",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  }
+ ],
+ "sync_on_migrate": 1
+}

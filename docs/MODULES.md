@@ -57,6 +57,7 @@ No doctypes yet.
 * `onedesk.one_hr.passkey.retire`
 * `onedesk.one_hr.passkey.start_assertion`
 * `onedesk.one_hr.passkey.start_registration`
+* `onedesk.one_hr.payroll.run`
 * `onedesk.one_hr.presence.in_now`
 * `onedesk.one_hr.presence.of`
 * `onedesk.one_hr.request.approve`

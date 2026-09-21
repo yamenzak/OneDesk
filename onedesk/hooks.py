@@ -11,6 +11,7 @@ app_logo_url = "/assets/onedesk/images/one.svg"
 after_install = [
 	"onedesk.one.company.hide",
 	"onedesk.one_hr.names.hide",
+	"onedesk.one_hr.money.hide",
 	"onedesk.one_hr.policy.seed",
 	"onedesk.one_hr.leave.templates",
 	"onedesk.one_hr.leave.encashable",
@@ -26,6 +27,7 @@ after_migrate = [
 	"onedesk.one.companions.apply",
 	"onedesk.one.company.hide",
 	"onedesk.one_hr.names.hide",
+	"onedesk.one_hr.money.hide",
 	"onedesk.one_hr.policy.seed",
 	"onedesk.one_hr.leave.templates",
 	"onedesk.one_hr.leave.encashable",
@@ -107,6 +109,7 @@ doctype_js = {
 	"Leave Control Panel": "public/js/leave_control_panel.js",
 	"Leave Encashment": "public/js/leave_encashment.js",
 	"Salary Slip": "public/js/salary_slip.js",
+	"Payroll Entry": "public/js/payroll_entry.js",
 }
 
 # Loaded after the doctype's own list script, so ours has the last word.

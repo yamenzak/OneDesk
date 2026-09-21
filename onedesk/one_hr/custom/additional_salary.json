@@ -1,21 +1,21 @@
 {
  "custom_fields": [],
- "doctype": "Salary Slip",
+ "doctype": "Additional Salary",
  "links": [],
  "property_setters": [
   {
-   "doc_type": "Salary Slip",
+   "doc_type": "Additional Salary",
    "doctype_or_field": "DocField",
-   "field_name": "net_pay",
+   "field_name": "amount",
    "property": "in_list_view",
    "property_type": "Check",
    "value": "1"
   },
   {
-   "doc_type": "Salary Slip",
+   "doc_type": "Additional Salary",
    "doctype_or_field": "DocField",
-   "field_name": "status",
-   "property": "hidden",
+   "field_name": "payroll_date",
+   "property": "in_list_view",
    "property_type": "Check",
    "value": "1"
   }

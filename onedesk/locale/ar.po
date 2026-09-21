@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 23:06+0000\n"
-"PO-Revision-Date: 2026-09-21 23:06+0000\n"
+"POT-Creation-Date: 2026-09-21 23:20+0000\n"
+"PO-Revision-Date: 2026-09-21 23:20+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1784,6 +1784,10 @@ msgstr "لم يُقدَّم أي مفتاح مرور."
 msgid "No position was sent."
 msgstr "لم يُرسَل أي موقع."
 
+#: onedesk/public/js/payroll_entry.js:26
+msgid "No salary slips yet for {0} to {1}."
+msgstr "لا توجد كشوف رواتب بعد من {0} إلى {1}."
+
 #: onedesk/one_hr/review.py:48
 msgid "No such check-in attempt."
 msgstr "لا توجد محاولة تسجيل بهذا المعرّف."
@@ -3335,4 +3339,12 @@ msgstr "{0} – جارٍ"
 #: onedesk/one_hr/review.py:86
 msgid "{0}'s check-in needs a look"
 msgstr "تسجيل حضور {0} يحتاج إلى مراجعة"
+
+#: onedesk/public/js/payroll_entry.js:45
+msgid "{0}: {1} people, {2}, all submitted."
+msgstr "{0}: {1} موظفين، {2}، جميعها معتمدة."
+
+#: onedesk/public/js/payroll_entry.js:39
+msgid "{0}: {1} people, {2}, in {3} slips still in draft."
+msgstr "{0}: {1} موظفين، {2}، في {3} كشوف ما زالت مسودة."
 

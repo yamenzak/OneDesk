@@ -347,6 +347,27 @@ OVERRIDES = [
 		"Please set default template for Leave Status Notification in HR Settings.",
 	),
 	(
+		"A payroll run says how many people and how much",
+		"the Overview tab carries the account and two checkboxes; the count is parked in the employee filter and the total is only in the slips",
+		"onedesk/public/js/payroll_entry.js",
+		"hrms/hrms/payroll/doctype/payroll_entry/payroll_entry.json",
+		"number_of_employees",
+	),
+	(
+		"Nobody is asked what currency they are paid in",
+		"twenty-two HR and payroll doctypes carry a Currency link; the fourteen nobody types are hidden",
+		"onedesk/one_hr/money.py",
+		"hrms/hrms/payroll/doctype/salary_slip/salary_slip.json",
+		"salary_structure.currency",
+	),
+	(
+		"The salary register opens on the last payroll that was run",
+		"it ships a month-ago-to-today range, and its query keeps only slips wholly inside it, so it can never contain a payroll month",
+		"onedesk/public/js/reports.js",
+		"hrms/hrms/payroll/report/salary_register/salary_register.js",
+		'default: frappe.datetime.add_months(frappe.datetime.get_today(), -1)',
+	),
+	(
 		"A payroll run can be made on a site nobody has edited the accounts on",
 		"erpnext names Payroll Payable and nominates it, and leaves its `account_type` unset, so every payroll entry is refused",
 		"onedesk/one_hr/payroll.py",

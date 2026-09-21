@@ -15,6 +15,11 @@ frappe.provide("onedesk.reports");
 //: rather than detected: nothing else is hidden by fieldname.
 const ALSO = ["include_company_descendants"];
 
+//: A Currency filter is swept only on a payroll or HR report, where the answer
+//: is always what the company pays in. OneBook's are left alone: a single
+//: company can still be owed money in somebody else's currency.
+const PAID = ["HR", "Payroll", "One HR"];
+
 onedesk.reports.one_company = () => {
 	const QueryReport = frappe.views && frappe.views.QueryReport;
 	if (!QueryReport || QueryReport.prototype.__one_company) return;
@@ -23,19 +28,22 @@ onedesk.reports.one_company = () => {
 	const theirs = QueryReport.prototype.setup_filters;
 	QueryReport.prototype.setup_filters = function () {
 		theirs.call(this);
-		(this.filters || []).forEach(hide_company);
+		const paid = PAID.includes((this.report_doc || {}).module);
+		(this.filters || []).forEach((filter) => hide_company(filter, paid));
 	};
 };
 
-function hide_company(filter) {
+function hide_company(filter, paid) {
 	const df = filter.df || {};
 	const company = df.fieldtype === "Link" && df.options === "Company";
-	if (!company && !ALSO.includes(df.fieldname)) return;
+	const currency = paid && df.fieldtype === "Link" && df.options === "Currency";
+	if (!company && !currency && !ALSO.includes(df.fieldname)) return;
 
-	if (company && !filter.get_value()) {
+	if (!filter.get_value()) {
 		// `set_input` rather than `set_value`: the same one HRMS's own onload
 		// uses, and it does not fire the onchange that would refetch mid-setup.
-		filter.set_input(frappe.defaults.get_user_default("Company"));
+		if (company) filter.set_input(frappe.defaults.get_user_default("Company"));
+		if (currency) filter.set_input(frappe.defaults.get_default("currency"));
 	}
 	df.hidden = 1;
 	filter.$wrapper.addClass("one-gone");
@@ -67,7 +75,8 @@ onedesk.reports.called_what_the_rail_called_it = () => {
 	};
 };
 
-// An employee column already says the name, so the column beside it does not.
+// An employee column already says the name, so the column beside it does not —
+// and no report column says which company.
 //
 // `one_hr/names.py` hides the mirror `Employee Name` field on the doctypes that
 // carry one, and `show_title_field_in_link` makes every Employee link read the
@@ -85,16 +94,62 @@ onedesk.reports.one_name = () => {
 	const theirs = QueryReport.prototype.prepare_columns;
 	QueryReport.prototype.prepare_columns = function (columns) {
 		const ready = theirs.call(this, columns);
-		const linked = ready.some(
-			(c) => c.fieldtype === "Link" && c.options === "Employee"
-		);
-		if (!linked) return ready;
-		return ready.filter((c) => c.fieldname !== "employee_name");
+		// The same company on every row, for the same reason the filter above it
+		// is swept: there is only one.
+		const kept = ready.filter((c) => c.fieldname !== "company");
+		const linked = kept.some((c) => c.fieldtype === "Link" && c.options === "Employee");
+		if (!linked) return kept;
+		return kept.filter((c) => c.fieldname !== "employee_name");
+	};
+};
+
+// A payroll register opens on the last payroll that was run.
+//
+// Salary Register ships `from_date` at today minus a month and `to_date` at
+// today, and its query keeps a slip only when the whole slip sits inside the
+// range. A month-ago-to-today range never contains a whole payroll month, so
+// the report opens on "Nothing to show" however well payroll went — which is
+// how it read here, with five submitted slips for August in the table and the
+// range starting on the 22nd.
+//
+// Calendar months do not fix it either: payroll for August is read in
+// September. So the dates come from the newest submitted slip — the register
+// opens on the run somebody most recently made. It is a default and not a rule:
+// a person who wants another range types one, and nothing resets it.
+const MONTHLY = ["Salary Register"];
+
+onedesk.reports.a_payroll_month = () => {
+	const QueryReport = frappe.views && frappe.views.QueryReport;
+	if (!QueryReport || QueryReport.prototype.__one_month) return;
+	QueryReport.prototype.__one_month = true;
+
+	const theirs = QueryReport.prototype.setup_filters;
+	QueryReport.prototype.setup_filters = function () {
+		theirs.call(this);
+		if (!MONTHLY.includes(this.report_name)) return;
+		const report = this;
+		frappe.db
+			.get_list("Salary Slip", {
+				filters: { docstatus: 1 },
+				fields: ["start_date", "end_date"],
+				order_by: "end_date desc",
+				limit: 1,
+			})
+			.then((found) => {
+				if (!found.length) return;
+				const run = { from_date: found[0].start_date, to_date: found[0].end_date };
+				(report.filters || []).forEach((filter) => {
+					const when = run[filter.df.fieldname];
+					if (when) filter.set_input(when);
+				});
+				report.refresh();
+			});
 	};
 };
 
 frappe.after_ajax(() => {
 	onedesk.reports.one_company();
 	onedesk.reports.one_name();
+	onedesk.reports.a_payroll_month();
 	onedesk.reports.called_what_the_rail_called_it();
 });
