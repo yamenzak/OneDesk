@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 21:59+0000\n"
-"PO-Revision-Date: 2026-09-21 21:59+0000\n"
+"POT-Creation-Date: 2026-09-21 22:08+0000\n"
+"PO-Revision-Date: 2026-09-21 22:08+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -283,6 +283,10 @@ msgstr ""
 msgid "Approved Request"
 msgstr "Genehmigter Antrag"
 
+#: onedesk/public/js/leave_application.js:33
+msgid "Approving this books {0} days of {1} for {2}, {3}, leaving them {4}."
+msgstr "Mit der Genehmigung werden {0} Tage {1} für {2} gebucht, {3}, es bleiben {4}."
+
 #: onedesk/public/js/shift_request.js:57
 msgid "Approving this puts {0} on {1} {2}."
 msgstr "Mit der Genehmigung arbeitet {0} auf {1} {2}."
@@ -300,6 +304,11 @@ msgstr "Foto anfordern"
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Ask for a Reason on Check Out"
 msgstr "Beim Auschecken nach einem Grund fragen"
+
+#. Label of the 'posting_date' field in DocType 'Leave Application'
+#: onedesk/one_hr/custom/leave_application.json
+msgid "Asked For On"
+msgstr "Beantragt am"
 
 #. Description of the 'Reason' (Link) field in DocType 'Employee Checkin'
 #: onedesk/one_hr/custom/employee_checkin.json
@@ -756,15 +765,19 @@ msgid "Dec"
 msgstr ""
 
 #. Label of the one_decided_by (Link) field in DocType 'Attendance Request'
+#. Label of the one_decided_by (Link) field in DocType 'Leave Application'
 #. Label of the one_decided_by (Link) field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/attendance_request.json
+#: onedesk/one_hr/custom/leave_application.json
 #: onedesk/one_hr/custom/shift_request.json
 msgid "Decided By"
 msgstr "Entschieden von"
 
 #. Label of the one_decided_on (Datetime) field in DocType 'Attendance Request'
+#. Label of the one_decided_on (Datetime) field in DocType 'Leave Application'
 #. Label of the one_decided_on (Datetime) field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/attendance_request.json
+#: onedesk/one_hr/custom/leave_application.json
 #: onedesk/one_hr/custom/shift_request.json
 msgid "Decided On"
 msgstr "Entschieden am"
@@ -772,9 +785,12 @@ msgstr "Entschieden am"
 #. Label of the one_decision_section (Section Break) field in DocType
 #. 'Attendance Request'
 #. Label of the one_decision (Select) field in DocType 'Attendance Request'
+#. Label of the one_decision_section (Section Break) field in DocType 'Leave
+#. Application'
 #. Label of the one_decision_section (Section Break) field in DocType 'Shift
 #. Request'
 #: onedesk/one_hr/custom/attendance_request.json
+#: onedesk/one_hr/custom/leave_application.json
 #: onedesk/one_hr/custom/shift_request.json
 msgid "Decision"
 msgstr "Entscheidung"
@@ -1803,15 +1819,21 @@ msgid "Not marked"
 msgstr "Nicht erfasst"
 
 #. Label of the one_note (Small Text) field in DocType 'Attendance Request'
+#. Label of the one_note (Small Text) field in DocType 'Leave Application'
 #. Label of the one_note (Small Text) field in DocType 'Shift Request'
 #. Label of the note (Small Text) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/custom/attendance_request.json
+#: onedesk/one_hr/custom/leave_application.json
 #: onedesk/one_hr/custom/shift_request.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:43
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/public/js/decision.js:31
 msgid "Note"
 msgstr ""
+
+#: onedesk/public/js/leave_application.js:14
+msgid "Nothing is spent and no attendance is marked."
+msgstr "Es wird nichts abgezogen und keine Anwesenheit erfasst."
 
 #: onedesk/public/js/attendance_request.js:19
 msgid "Nothing will be written to attendance."
@@ -1939,6 +1961,10 @@ msgstr "Nur ein Antrag, der noch offen ist, kann beantwortet werden."
 #: onedesk/one_hr/request.py:90
 msgid "Only a request still waiting can be turned down."
 msgstr "Nur ein Antrag, der noch offen ist, kann abgelehnt werden."
+
+#: onedesk/one_hr/leave.py:95
+msgid "Only an application still waiting can be answered."
+msgstr "Nur ein Antrag, der noch offen ist, kann beantwortet werden."
 
 #: onedesk/one_hr/passkey.py:215
 msgid "Only an employee can ask for their own passkey to be reset."
@@ -2519,7 +2545,9 @@ msgstr "Hinterlegen Sie die Standardarbeitszeit in den Anwesenheitseinstellungen
 msgid "Set Standard Working Hours in {0} first. Everything here is measured against it."
 msgstr "Hinterlegen Sie zuerst die Standardarbeitszeit in {0}. Alles hier wird daran gemessen."
 
+#. Description of the 'status' field in DocType 'Leave Application'
 #. Description of the 'status' field in DocType 'Shift Request'
+#: onedesk/one_hr/custom/leave_application.json
 #: onedesk/one_hr/custom/shift_request.json
 msgid "Set by Approve and Reject, so it always agrees with who decided."
 msgstr "Wird von Genehmigen und Ablehnen gesetzt und stimmt damit immer mit der Entscheidung überein."
@@ -2715,6 +2743,10 @@ msgstr "Der Browser hat seinen Standort nicht preisgegeben."
 #: onedesk/public/js/desk.js:100
 msgid "The check-in could not be recorded."
 msgstr "Das Einchecken konnte nicht erfasst werden."
+
+#: onedesk/public/js/leave_application.js:13
+msgid "The days are spent and the attendance is marked."
+msgstr "Die Tage werden abgezogen und die Anwesenheit wird erfasst."
 
 #. Description of the 'Ends the Shift' (Check) field in DocType 'Clock Reason'
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
@@ -3034,11 +3066,18 @@ msgid "What the browser called itself when the passkey was registered."
 msgstr "Wie sich der Browser bei der Registrierung des Passkeys bezeichnet hat."
 
 #. Description of the 'Note' (Small Text) field in DocType 'Attendance Request'
+#. Description of the 'Note' (Small Text) field in DocType 'Leave Application'
 #. Description of the 'Note' (Small Text) field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/attendance_request.json
+#: onedesk/one_hr/custom/leave_application.json
 #: onedesk/one_hr/custom/shift_request.json
 msgid "What the person deciding wrote, if anything."
 msgstr "Was die entscheidende Person geschrieben hat, sofern etwas."
+
+#. Description of the 'leave_balance' field in DocType 'Leave Application'
+#: onedesk/one_hr/custom/leave_application.json
+msgid "What they had left before this application. The table above counts this one as pending rather than spent."
+msgstr "Was vor diesem Antrag noch übrig war. Die Tabelle oben zählt diesen Antrag als offen, nicht als abgezogen."
 
 #. Label of the one_when (Data) field in DocType 'Timesheet Detail'
 #: onedesk/one_hr/custom/timesheet_detail.json
@@ -3232,6 +3271,10 @@ msgstr "{0} wird von der Zeiterfassung nicht vorgeschlagen."
 #: onedesk/public/js/employee.js:149
 msgid "{0} left"
 msgstr "{0} übrig"
+
+#: onedesk/public/js/leave_application.js:29
+msgid "{0} to {1}"
+msgstr ""
 
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:47
 msgid "{0} will move to where this browser is. Everyone checking in there is measured from the new centre."

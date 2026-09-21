@@ -1,0 +1,113 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Leave Application",
+   "fieldname": "one_decision_section",
+   "fieldtype": "Section Break",
+   "label": "Decision",
+   "module": "One HR",
+   "insert_after": "status",
+   "depends_on": "eval:doc.one_decided_by"
+  },
+  {
+   "dt": "Leave Application",
+   "fieldname": "one_decided_by",
+   "fieldtype": "Link",
+   "label": "Decided By",
+   "module": "One HR",
+   "insert_after": "one_decision_section",
+   "options": "User",
+   "read_only": 1,
+   "allow_on_submit": 1
+  },
+  {
+   "dt": "Leave Application",
+   "fieldname": "one_column_decision",
+   "fieldtype": "Column Break",
+   "module": "One HR",
+   "insert_after": "one_decided_by"
+  },
+  {
+   "dt": "Leave Application",
+   "fieldname": "one_decided_on",
+   "fieldtype": "Datetime",
+   "label": "Decided On",
+   "module": "One HR",
+   "insert_after": "one_column_decision",
+   "read_only": 1,
+   "allow_on_submit": 1
+  },
+  {
+   "dt": "Leave Application",
+   "fieldname": "one_note",
+   "fieldtype": "Small Text",
+   "label": "Note",
+   "module": "One HR",
+   "insert_after": "one_decided_on",
+   "read_only": 1,
+   "allow_on_submit": 1,
+   "description": "What the person deciding wrote, if anything."
+  }
+ ],
+ "doctype": "Leave Application",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Leave Application",
+   "doctype_or_field": "DocField",
+   "field_name": "status",
+   "property": "read_only",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Leave Application",
+   "doctype_or_field": "DocField",
+   "field_name": "status",
+   "property": "description",
+   "property_type": "Text",
+   "value": "Set by Approve and Reject, so it always agrees with who decided."
+  },
+  {
+   "doc_type": "Leave Application",
+   "doctype_or_field": "DocField",
+   "field_name": "follow_via_email",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Leave Application",
+   "doctype_or_field": "DocField",
+   "field_name": "leave_approver_name",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Leave Application",
+   "doctype_or_field": "DocField",
+   "field_name": "posting_date",
+   "property": "read_only",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Leave Application",
+   "doctype_or_field": "DocField",
+   "field_name": "posting_date",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Asked For On"
+  },
+  {
+   "doc_type": "Leave Application",
+   "doctype_or_field": "DocField",
+   "field_name": "leave_balance",
+   "property": "description",
+   "property_type": "Text",
+   "value": "What they had left before this application. The table above counts this one as pending rather than spent."
+  }
+ ],
+ "sync_on_migrate": 1
+}

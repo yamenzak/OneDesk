@@ -47,6 +47,8 @@ Each row is something that would still run but stop working if upstream moved. `
 | Hours Utilization counts submitted timesheets and lists everybody | theirs had no docstatus filter, and built its rows from the logs so nobody at nought appeared | `onedesk/one_hr/report/hours_utilization/hours_utilization.py` | `hrms/hrms/hr/report/employee_hours_utilization_based_on_timesheet/employee_hours_utilization_based_on_timesheet.py` | `def generate_stats_by_employee` |
 | No report asks which company | a report's filters are a list in its own script, so the doctype sweep could not reach them | `onedesk/public/js/reports.js` | `frappe/frappe/public/js/frappe/views/reports/query_report.js` | `setup_filters() {` |
 | A report is called what the rail called it | the heading is the report's own name; `page_title` is set and nothing reads it | `onedesk/public/js/reports.js` | `frappe/frappe/public/js/frappe/views/reports/query_report.js` | `set_breadcrumbs() {` |
+| A leave application is answered, and the answer is signed | their `on_submit` throws unless the Status dropdown was set first, which the toolbar does not know | `onedesk/one_hr/leave.py` | `hrms/hrms/hr/doctype/leave_application/leave_application.py` | `Only Leave Applications with status 'Approved' and 'Rejected' can be submitted` |
+| The balance in the headline is worked out, not read | `leave_balance` is filled by their form script, so it is nought on an application made any other way | `onedesk/one_hr/leave.py` | `hrms/hrms/hr/doctype/leave_application/leave_application.py` | `def get_leave_balance_on` |
 | The setup wizard's persona slide is replaced | its four required questions were read only by `capture_user_persona` | `onedesk/public/js/setup_wizard.js` | `erpnext/erpnext/public/js/setup_wizard.js` | `persona` |
 
-43 overrides.
+45 overrides.

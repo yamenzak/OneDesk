@@ -48,6 +48,8 @@ doc_events = {
 	},
 	# A block reads as a block. See one_hr/timesheet.py.
 	"Timesheet": {"before_validate": "onedesk.one_hr.timesheet.before_validate"},
+	# The third request doctype, answered like the other two. See one_hr/leave.py.
+	"Leave Application": {"before_submit": "onedesk.one_hr.leave.before_submit"},
 	# The reason is a record and submitting is an approval. See one_hr/request.py.
 	"Attendance Request": {
 		"before_validate": "onedesk.one_hr.request.before_validate",
@@ -85,6 +87,7 @@ doctype_js = {
 	"Shift Request": "public/js/shift_request.js",
 	"Overtime Slip": "public/js/overtime_slip.js",
 	"Timesheet": "public/js/timesheet.js",
+	"Leave Application": "public/js/leave_application.js",
 }
 
 # Loaded after the doctype's own list script, so ours has the last word.

@@ -42,6 +42,9 @@ No doctypes yet.
 * `onedesk.one_hr.employee.overview`
 * `onedesk.one_hr.learned.confirm`
 * `onedesk.one_hr.learned.reject`
+* `onedesk.one_hr.leave.about`
+* `onedesk.one_hr.leave.approve`
+* `onedesk.one_hr.leave.reject`
 * `onedesk.one_hr.marking.clocked_in`
 * `onedesk.one_hr.overtime.collect`
 * `onedesk.one_hr.overtime.dates`

@@ -319,6 +319,20 @@ OVERRIDES = [
 		"set_breadcrumbs() {",
 	),
 	(
+		"A leave application is answered, and the answer is signed",
+		"their `on_submit` throws unless the Status dropdown was set first, which the toolbar does not know",
+		"onedesk/one_hr/leave.py",
+		"hrms/hrms/hr/doctype/leave_application/leave_application.py",
+		"Only Leave Applications with status 'Approved' and 'Rejected' can be submitted",
+	),
+	(
+		"The balance in the headline is worked out, not read",
+		"`leave_balance` is filled by their form script, so it is nought on an application made any other way",
+		"onedesk/one_hr/leave.py",
+		"hrms/hrms/hr/doctype/leave_application/leave_application.py",
+		"def get_leave_balance_on",
+	),
+	(
 		"The setup wizard's persona slide is replaced",
 		"its four required questions were read only by `capture_user_persona`",
 		"onedesk/public/js/setup_wizard.js",
