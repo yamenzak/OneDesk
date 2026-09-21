@@ -49,7 +49,10 @@ doctype_js = {
 }
 
 # Loaded after the doctype's own list script, so ours has the last word.
-doctype_list_js = {"Attendance": "public/js/attendance_list.js"}
+doctype_list_js = {
+	"Attendance": "public/js/attendance_list.js",
+	"Employee Checkin": "public/js/checkin_list.js",
+}
 
 override_doctype_dashboards = {"Attendance": ["onedesk.one_hr.attendance.dashboard"]}
 

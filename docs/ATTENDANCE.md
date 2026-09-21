@@ -341,8 +341,9 @@ assignments.
 
 `Employee` — attendance standing, read-only, and when it was last computed.
 
-`Employee Checkin` — a link to the attempt that produced it, and the reason on
-the way out.
+`Employee Checkin` — a link to the attempt that produced it, the attempt's
+outcome and score fetched onto the row so a list can read them without a join,
+and the reason on the way out.
 
 `System Settings` — login with passkey, beside the two login-method switches
 already in that section.
@@ -354,7 +355,25 @@ already in that section.
 **`attendance_device_id` on Employee is not part of this.** It is the number a
 biometric terminal knows somebody by, it arrives on `Employee Checkin.device_id`
 when a box syncs its logs, and reusing it here would make one field mean two
-things.
+things. Both are hidden until a site runs a terminal.
+
+## Reading the log list
+
+The one question asked of `Employee Checkin` is whether a log counted, and the
+Status column answered it with a blank, because hrms leaves the indicator alone
+on a doctype that is not submittable. `public/js/checkin_list.js` fills it from
+what the row already carries: **Rejected** when a reviewer set
+`skip_auto_attendance`, **Counted** when `attendance` is set, **Flagged** when
+the attempt was, and **Not counted yet** otherwise — the shift processes the
+day on its own schedule, so a log written minutes ago is waiting rather than
+wrong.
+
+Two things on the form were doing harm rather than nothing. **Fetch
+Geolocation** re-reads the *browser's* position and writes it over where the
+person actually was, so it is offered on a new log only. **Location / Device
+ID** is the biometric-terminal field above, hidden with it. And `Clock Attempt`
+is named `CLK-YYYY-MM-#####` rather than a hash, because the name is what the
+link field on the check-in shows.
 
 ## What we reuse and do not touch
 

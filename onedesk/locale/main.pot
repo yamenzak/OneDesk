@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 13:09+0000\n"
-"PO-Revision-Date: 2026-09-21 13:09+0000\n"
+"POT-Creation-Date: 2026-09-21 13:47+0000\n"
+"PO-Revision-Date: 2026-09-21 13:47+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -552,6 +552,10 @@ msgstr ""
 msgid "Contract"
 msgstr ""
 
+#: onedesk/public/js/checkin_list.js:15
+msgid "Counted"
+msgstr ""
+
 #. Label of the credential_id (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Credential ID"
@@ -873,6 +877,7 @@ msgstr ""
 
 #. Option for the 'Outcome' (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/public/js/checkin_list.js:18
 msgid "Flagged"
 msgstr ""
 
@@ -1395,6 +1400,10 @@ msgstr ""
 msgid "Not checking in today"
 msgstr ""
 
+#: onedesk/public/js/checkin_list.js:22
+msgid "Not counted yet"
+msgstr ""
+
 #: onedesk/public/js/employee.js:103
 msgid "Not marked"
 msgstr ""
@@ -1544,7 +1553,14 @@ msgstr ""
 msgid "Out of 100."
 msgstr ""
 
+#. Description of the 'Score' (Int) field in DocType 'Employee Checkin'
+#: onedesk/one_hr/custom/employee_checkin.json
+msgid "Out of 100. Below the confirmation threshold the log is flagged for review."
+msgstr ""
+
+#. Label of the one_outcome (Data) field in DocType 'Employee Checkin'
 #. Label of the outcome (Select) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/custom/employee_checkin.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Outcome"
 msgstr ""
@@ -1830,6 +1846,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
+#: onedesk/public/js/checkin_list.js:12
 msgid "Rejected"
 msgstr ""
 
@@ -1940,7 +1957,9 @@ msgstr ""
 msgid "Scan"
 msgstr ""
 
+#. Label of the one_score (Int) field in DocType 'Employee Checkin'
 #. Label of the score (Int) field in DocType 'Clock Attempt'
+#: onedesk/one_hr/custom/employee_checkin.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Score"
 msgstr ""

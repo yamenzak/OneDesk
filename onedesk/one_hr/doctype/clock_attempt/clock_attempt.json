@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 0,
- "autoname": "hash",
+ "autoname": "format:CLK-{YYYY}-{MM}-{#####}",
  "creation": "2026-09-21 00:00:00.000000",
  "doctype": "DocType",
  "editable_grid": 0,
@@ -311,11 +311,11 @@
  "in_create": 1,
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-21 00:00:00.000000",
+ "modified": "2026-09-21 20:00:00.000000",
  "modified_by": "Administrator",
  "module": "One HR",
  "name": "Clock Attempt",
- "naming_rule": "Random",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
