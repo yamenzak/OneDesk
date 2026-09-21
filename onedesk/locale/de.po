@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 16:16+0000\n"
-"PO-Revision-Date: 2026-09-21 16:16+0000\n"
+"POT-Creation-Date: 2026-09-21 17:15+0000\n"
+"PO-Revision-Date: 2026-09-21 17:15+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1068,6 +1068,11 @@ msgstr "Stunden über den Standardarbeitstag hinaus."
 msgid "How good the browser said the position was."
 msgstr "Wie genau die Position laut Browser war."
 
+#. Description of the 'standard_working_hours' field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "How long a day is where a shift does not say. Anything beyond it on a day marked Present is overtime."
+msgstr "Die Länge eines Arbeitstags, wo keine Schicht sie vorgibt. Alles darüber an einem als anwesend erfassten Tag sind Überstunden."
+
 #: onedesk/public/js/setup_wizard.js:19
 msgid "How should One look?"
 msgstr "Wie soll One aussehen?"
@@ -1088,6 +1093,12 @@ msgstr "Bezeichnet das Modell des Authenticators, nicht das Gerät selbst."
 #: onedesk/one_hr/custom/employee.json
 msgid "Identity Documents"
 msgstr "Ausweisdokumente"
+
+#. Description of the 'allow_geolocation_tracking' field in DocType 'HR
+#. Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "If disabled, no check-in records where it came from and the location gate cannot run."
+msgstr "Ist dies deaktiviert, erfasst kein Einchecken seine Herkunft und die Standortprüfung kann nicht laufen."
 
 #. Description of the 'Refuse Check-in Without a Passkey' (Check) field in
 #. DocType 'HR Settings'
@@ -2123,6 +2134,11 @@ msgstr ""
 msgid "Setup"
 msgstr ""
 
+#. Label of the 'shift_and_attendance_tab' field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Shift"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Shift Attendance"
@@ -2168,6 +2184,11 @@ msgstr "Signaturzähler"
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Staffing Plan"
 msgstr ""
+
+#. Label of the 'standard_working_hours' field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Standard Working Hours (Per Day)"
+msgstr "Standardarbeitszeit (pro Tag)"
 
 #: onedesk/public/js/overtime.js:106
 msgid "Standard day: {0} hours. Anything beyond it is overtime."

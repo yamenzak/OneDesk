@@ -17,10 +17,11 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "People",
-   "link_count": 8,
+   "link_count": 9,
    "link_type": "DocType",
    "onboard": 0,
-   "type": "Card Break"
+   "type": "Card Break",
+   "idx": 1
   },
   {
    "hidden": 0,
@@ -30,7 +31,8 @@
    "link_to": "Company",
    "link_type": "DocType",
    "onboard": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 2
   },
   {
    "hidden": 0,
@@ -40,7 +42,8 @@
    "link_to": "Branch",
    "link_type": "DocType",
    "onboard": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 3
   },
   {
    "hidden": 0,
@@ -50,7 +53,8 @@
    "link_to": "Department",
    "link_type": "DocType",
    "onboard": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 4
   },
   {
    "hidden": 0,
@@ -60,7 +64,8 @@
    "link_to": "Designation",
    "link_type": "DocType",
    "onboard": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 5
   },
   {
    "hidden": 0,
@@ -70,7 +75,8 @@
    "link_to": "Employee Group",
    "link_type": "DocType",
    "onboard": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 6
   },
   {
    "hidden": 0,
@@ -80,7 +86,8 @@
    "link_to": "Employee Grade",
    "link_type": "DocType",
    "onboard": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 7
   },
   {
    "hidden": 0,
@@ -90,7 +97,8 @@
    "link_to": "Employee Skill Map",
    "link_type": "DocType",
    "onboard": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 8
   },
   {
    "hidden": 0,
@@ -100,320 +108,8 @@
    "link_to": "Grievance Type",
    "link_type": "DocType",
    "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Time",
-   "link_count": 7,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Shift Type",
-   "link_count": 0,
-   "link_to": "Shift Type",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Shift Location",
-   "link_count": 0,
-   "link_to": "Shift Location",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Shift Schedule",
-   "link_count": 0,
-   "link_to": "Shift Schedule",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Activity Type",
-   "link_count": 0,
-   "link_to": "Activity Type",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Overtime Type",
-   "link_count": 0,
-   "link_to": "Overtime Type",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Holiday List",
-   "link_count": 0,
-   "link_to": "Holiday List",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Holiday List Assignment",
-   "link_count": 0,
-   "link_to": "Holiday List Assignment",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Leave",
-   "link_count": 4,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Leave Period",
-   "link_count": 0,
-   "link_to": "Leave Period",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Leave Policy",
-   "link_count": 0,
-   "link_to": "Leave Policy",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Leave Block List",
-   "link_count": 0,
-   "link_to": "Leave Block List",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Leave Type",
-   "link_count": 0,
-   "link_to": "Leave Type",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Pay",
-   "link_count": 4,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Salary Component",
-   "link_count": 0,
-   "link_to": "Salary Component",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Salary Structure",
-   "link_count": 0,
-   "link_to": "Salary Structure",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Income Tax Slab",
-   "link_count": 0,
-   "link_to": "Income Tax Slab",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Employee Tax Exemption Category",
-   "link_count": 0,
-   "link_to": "Employee Tax Exemption Category",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Expenses",
-   "link_count": 3,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Expense Claim Type",
-   "link_count": 0,
-   "link_to": "Expense Claim Type",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Driver",
-   "link_count": 0,
-   "link_to": "Driver",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Vehicle",
-   "link_count": 0,
-   "link_to": "Vehicle",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Hiring",
-   "link_count": 4,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Interview Type",
-   "link_count": 0,
-   "link_to": "Interview Type",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Job Opening Template",
-   "link_count": 0,
-   "link_to": "Job Opening Template",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Appointment Letter Template",
-   "link_count": 0,
-   "link_to": "Appointment Letter Template",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Job Offer Term Template",
-   "link_count": 0,
-   "link_to": "Job Offer Term Template",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Growth",
-   "link_count": 3,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Appraisal Template",
-   "link_count": 0,
-   "link_to": "Appraisal Template",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "KRA",
-   "link_count": 0,
-   "link_to": "KRA",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Employee Feedback Criteria",
-   "link_count": 0,
-   "link_to": "Employee Feedback Criteria",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Settings",
-   "link_count": 2,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
+   "type": "Link",
+   "idx": 9
   },
   {
    "hidden": 0,
@@ -423,7 +119,364 @@
    "link_to": "HR Settings",
    "link_type": "DocType",
    "onboard": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 10
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Time",
+   "link_count": 7,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break",
+   "idx": 11
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Shift Type",
+   "link_count": 0,
+   "link_to": "Shift Type",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 12
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Shift Location",
+   "link_count": 0,
+   "link_to": "Shift Location",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 13
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Shift Schedule",
+   "link_count": 0,
+   "link_to": "Shift Schedule",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 14
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Activity Type",
+   "link_count": 0,
+   "link_to": "Activity Type",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 15
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Overtime Type",
+   "link_count": 0,
+   "link_to": "Overtime Type",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 16
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Holiday List",
+   "link_count": 0,
+   "link_to": "Holiday List",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 17
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Holiday List Assignment",
+   "link_count": 0,
+   "link_to": "Holiday List Assignment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 18
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Leave",
+   "link_count": 4,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break",
+   "idx": 19
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Leave Period",
+   "link_count": 0,
+   "link_to": "Leave Period",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 20
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Leave Policy",
+   "link_count": 0,
+   "link_to": "Leave Policy",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 21
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Leave Block List",
+   "link_count": 0,
+   "link_to": "Leave Block List",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 22
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Leave Type",
+   "link_count": 0,
+   "link_to": "Leave Type",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 23
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Pay",
+   "link_count": 4,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break",
+   "idx": 24
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Salary Component",
+   "link_count": 0,
+   "link_to": "Salary Component",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 25
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Salary Structure",
+   "link_count": 0,
+   "link_to": "Salary Structure",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 26
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Income Tax Slab",
+   "link_count": 0,
+   "link_to": "Income Tax Slab",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 27
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Employee Tax Exemption Category",
+   "link_count": 0,
+   "link_to": "Employee Tax Exemption Category",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 28
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Expenses",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break",
+   "idx": 29
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Expense Claim Type",
+   "link_count": 0,
+   "link_to": "Expense Claim Type",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 30
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Driver",
+   "link_count": 0,
+   "link_to": "Driver",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 31
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Vehicle",
+   "link_count": 0,
+   "link_to": "Vehicle",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 32
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Hiring",
+   "link_count": 4,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break",
+   "idx": 33
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Interview Type",
+   "link_count": 0,
+   "link_to": "Interview Type",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 34
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Job Opening Template",
+   "link_count": 0,
+   "link_to": "Job Opening Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 35
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Appointment Letter Template",
+   "link_count": 0,
+   "link_to": "Appointment Letter Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 36
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Job Offer Term Template",
+   "link_count": 0,
+   "link_to": "Job Offer Term Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 37
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Growth",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break",
+   "idx": 38
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Appraisal Template",
+   "link_count": 0,
+   "link_to": "Appraisal Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 39
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "KRA",
+   "link_count": 0,
+   "link_to": "KRA",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 40
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Employee Feedback Criteria",
+   "link_count": 0,
+   "link_to": "Employee Feedback Criteria",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 41
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Settings",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break",
+   "idx": 42
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "HR Settings",
+   "link_count": 0,
+   "link_to": "HR Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "idx": 43
   },
   {
    "hidden": 0,
@@ -433,7 +486,8 @@
    "link_to": "Payroll Settings",
    "link_type": "DocType",
    "onboard": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 44
   },
   {
    "hidden": 0,
@@ -442,7 +496,8 @@
    "link_count": 5,
    "link_type": "DocType",
    "onboard": 0,
-   "type": "Card Break"
+   "type": "Card Break",
+   "idx": 45
   },
   {
    "dependencies": "",
@@ -453,7 +508,8 @@
    "link_to": "Clock Reason",
    "link_type": "DocType",
    "onboard": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 46
   },
   {
    "dependencies": "",
@@ -464,7 +520,8 @@
    "link_to": "Clock Network",
    "link_type": "DocType",
    "onboard": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 47
   },
   {
    "dependencies": "",
@@ -475,7 +532,8 @@
    "link_to": "Clock Place",
    "link_type": "DocType",
    "onboard": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 48
   },
   {
    "dependencies": "",
@@ -486,7 +544,8 @@
    "link_to": "Clock Device",
    "link_type": "DocType",
    "onboard": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 49
   },
   {
    "dependencies": "",
@@ -497,10 +556,11 @@
    "link_to": "Clock Attempt",
    "link_type": "DocType",
    "onboard": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 50
   }
  ],
- "modified": "2026-09-21 07:10:00.000000",
+ "modified": "2026-09-22 02:00:00.000000",
  "modified_by": "Administrator",
  "module": "One HR",
  "name": "OneHR Setup",

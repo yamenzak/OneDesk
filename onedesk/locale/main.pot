@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 16:16+0000\n"
-"PO-Revision-Date: 2026-09-21 16:16+0000\n"
+"POT-Creation-Date: 2026-09-21 17:15+0000\n"
+"PO-Revision-Date: 2026-09-21 17:15+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1066,6 +1066,11 @@ msgstr ""
 msgid "How good the browser said the position was."
 msgstr ""
 
+#. Description of the 'standard_working_hours' field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "How long a day is where a shift does not say. Anything beyond it on a day marked Present is overtime."
+msgstr ""
+
 #: onedesk/public/js/setup_wizard.js:19
 msgid "How should One look?"
 msgstr ""
@@ -1085,6 +1090,12 @@ msgstr ""
 #. 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "Identity Documents"
+msgstr ""
+
+#. Description of the 'allow_geolocation_tracking' field in DocType 'HR
+#. Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "If disabled, no check-in records where it came from and the location gate cannot run."
 msgstr ""
 
 #. Description of the 'Refuse Check-in Without a Passkey' (Check) field in
@@ -2121,6 +2132,11 @@ msgstr ""
 msgid "Setup"
 msgstr ""
 
+#. Label of the 'shift_and_attendance_tab' field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Shift"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Shift Attendance"
@@ -2165,6 +2181,11 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Staffing Plan"
+msgstr ""
+
+#. Label of the 'standard_working_hours' field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Standard Working Hours (Per Day)"
 msgstr ""
 
 #: onedesk/public/js/overtime.js:106

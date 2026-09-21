@@ -327,6 +327,27 @@ every HR Manager once a week about any that are deaf.
 The wizard asks because the alternative is a clock that takes check-ins from
 the first morning and produces nothing until somebody is told why.
 
+## Where the settings are
+
+The rail's **Attendance Settings** opens `HR Settings`, which is seven tabs
+covering leave, expenses, tenure and recruitment as well. It used to land on
+the Employee tab — naming series, retirement age, birthday reminders — two tabs
+from anything it named. A `field_order` property setter puts the attendance tab
+first, so the row tells the truth and the rest is one click away; the whole of
+HR Settings has its own entry in the Setup workspace.
+
+Two things moved onto that tab. **Standard Working Hours** decides what counts
+as overtime and sat beside Retirement Age with no unit and no description.
+**Allow Geolocation Tracking** is hrms's, and `one_hr/checkin.py` reads it: with
+it off nothing records where a check-in came from and the location gate cannot
+run, so it belongs with the gate it governs. What is left of hrms's own tab is
+one shift setting, so it is labelled **Shift**.
+
+**Allow Employee Checkin from Mobile App is hidden.** It is read only by
+hrms's own mobile API; ours is governed by Allow Employees to Check In
+Themselves, two fields above. Two switches that look like the same switch, one
+of which does nothing here.
+
 ## The schema
 
 **Four new doctypes.**
