@@ -70,9 +70,25 @@ and still counts this application as pending rather than spent. The headline
 answers the question it raises; rewriting the table would mean owning their
 render.
 
-**Open, not yet fixed:** approving prints *"Please set default template for
-Leave Status Notification in HR Settings."* on every approval. HRMS ships
-`send_leave_notification` on and no template to send, so the product promises an
-email it cannot deliver and nags instead. The fix is to ship the two Email
-Templates — Leave Approval and Leave Status — as fixtures, not to switch the
-setting off.
+**The two mails now have something to send.** HRMS ships
+`send_leave_notification` on and no template, so every approval printed *"Please
+set default template for Leave Status Notification in HR Settings."* — the
+product promising an email it could not deliver. `fixtures/email_template.json`
+carries Leave Approval Notification and Leave Status Notification, and
+`leave.templates()` points the two settings at them on migrate, only where a
+workspace has not chosen its own. The note somebody types into the Reject dialog
+reaches the person, because `one_note` is a field like any other in the template
+context. Rendered against the real record they read *"Rania Sabbagh has asked
+for 3 days of Annual Leave"* and *"Your Annual Leave request was approved"*.
+Their content is English only for now.
+
+**And the screen went quiet.** From the second leave application onwards, every
+approval also said *"HR Telemetry Milestone first_leave_applied already
+exists"*. HRMS counts first-time milestones by inserting a row inside
+`savepoint(catch=Exception)` and letting the unique index refuse the second
+attempt — the row rolls back, the message does not, because
+`frappe.local.message_log` is a list on the request rather than part of the
+transaction. The same message lands on expense claims, attendance requests,
+shift requests, job offers, appraisals, interviews, payroll entries and salary
+slips. `one/quiet.py` is hooked on `"*"` for the two events their telemetry
+attaches to and drops only messages naming that doctype.

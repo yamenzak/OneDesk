@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 22:08+0000\n"
-"PO-Revision-Date: 2026-09-21 22:08+0000\n"
+"POT-Creation-Date: 2026-09-21 22:15+0000\n"
+"PO-Revision-Date: 2026-09-21 22:15+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1962,7 +1962,7 @@ msgstr "Nur ein Antrag, der noch offen ist, kann beantwortet werden."
 msgid "Only a request still waiting can be turned down."
 msgstr "Nur ein Antrag, der noch offen ist, kann abgelehnt werden."
 
-#: onedesk/one_hr/leave.py:95
+#: onedesk/one_hr/leave.py:118
 msgid "Only an application still waiting can be answered."
 msgstr "Nur ein Antrag, der noch offen ist, kann beantwortet werden."
 

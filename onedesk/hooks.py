@@ -11,6 +11,7 @@ app_logo_url = "/assets/onedesk/images/one.svg"
 after_install = [
 	"onedesk.one.company.hide",
 	"onedesk.one_hr.policy.seed",
+	"onedesk.one_hr.leave.templates",
 	"onedesk.one.brand.apply",
 	"onedesk.one.declutter.apply",
 	"onedesk.one.companions.apply",
@@ -22,6 +23,7 @@ after_migrate = [
 	"onedesk.one.companions.apply",
 	"onedesk.one.company.hide",
 	"onedesk.one_hr.policy.seed",
+	"onedesk.one_hr.leave.templates",
 ]
 extend_bootinfo = "onedesk.one.boot.boot_session"
 
@@ -36,6 +38,12 @@ scheduler_events = {
 }
 
 doc_events = {
+	# hrms counts milestones by letting an insert fail, and the message outlives
+	# the savepoint. See one/quiet.py.
+	"*": {
+		"on_submit": "onedesk.one.quiet.milestone",
+		"after_insert": "onedesk.one.quiet.milestone",
+	},
 	"Employee": {
 		"validate": "onedesk.one_hr.leaving.notice_ends_on",
 		"on_update": "onedesk.one_hr.leaving.on_employee_update",
@@ -72,6 +80,8 @@ fixtures = [
 	"Clock Reason",
 	"Attendance Reason",
 	"Identification Document Type",
+	# The two leave mails hrms promises and ships nothing to send.
+	"Email Template",
 ]
 
 

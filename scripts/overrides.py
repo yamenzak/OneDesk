@@ -333,6 +333,20 @@ OVERRIDES = [
 		"def get_leave_balance_on",
 	),
 	(
+		"Telemetry bookkeeping is kept off the screen",
+		"their milestone insert fails inside a savepoint and the message outlives the rollback",
+		"onedesk/one/quiet.py",
+		"hrms/hrms/telemetry.py",
+		"def _claim_milestone",
+	),
+	(
+		"The two leave mails have something to send",
+		"`send_leave_notification` ships on with no template, so every approval nagged instead",
+		"onedesk/fixtures/email_template.json",
+		"hrms/hrms/hr/doctype/leave_application/leave_application.py",
+		"Please set default template for Leave Status Notification in HR Settings.",
+	),
+	(
 		"The setup wizard's persona slide is replaced",
 		"its four required questions were read only by `capture_user_persona`",
 		"onedesk/public/js/setup_wizard.js",

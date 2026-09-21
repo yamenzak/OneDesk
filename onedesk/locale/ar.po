@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 22:08+0000\n"
-"PO-Revision-Date: 2026-09-21 22:08+0000\n"
+"POT-Creation-Date: 2026-09-21 22:15+0000\n"
+"PO-Revision-Date: 2026-09-21 22:15+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1962,7 +1962,7 @@ msgstr "لا يُبتّ إلا في طلب ما زال قيد الانتظار."
 msgid "Only a request still waiting can be turned down."
 msgstr "لا يُرفض إلا طلب ما زال قيد الانتظار."
 
-#: onedesk/one_hr/leave.py:95
+#: onedesk/one_hr/leave.py:118
 msgid "Only an application still waiting can be answered."
 msgstr "لا يُبتّ إلا في طلب ما زال قيد الانتظار."
 

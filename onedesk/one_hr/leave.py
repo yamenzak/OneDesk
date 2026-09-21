@@ -30,6 +30,29 @@ OPEN = "Open"
 APPROVED = "Approved"
 REJECTED = "Rejected"
 
+#: The two mails HRMS promises and ships nothing to send. `send_leave_notification`
+#: is on out of the box, so every approval printed "Please set default template
+#: for Leave Status Notification in HR Settings" instead of telling the person
+#: their leave was approved. The templates are fixtures; this points the settings
+#: at them, and only where a workspace has not chosen its own.
+TEMPLATES = {
+	"leave_approval_notification_template": "Leave Approval Notification",
+	"leave_status_notification_template": "Leave Status Notification",
+}
+
+
+def templates() -> None:
+	"""Point the two leave notifications at the templates One ships.
+
+	Only an empty setting is filled. Same rule as `policy.seed`: a default that
+	reasserts itself over a tenant's choice every migrate is not a default.
+	"""
+	for field, template in TEMPLATES.items():
+		if frappe.db.get_single_value("HR Settings", field):
+			continue
+		if frappe.db.exists("Email Template", template):
+			frappe.db.set_single_value("HR Settings", field, template)
+
 
 def before_submit(doc, method=None) -> None:
 	"""Submitting is the approval, so it is signed — and it says which one."""

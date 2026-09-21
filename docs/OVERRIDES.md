@@ -49,6 +49,8 @@ Each row is something that would still run but stop working if upstream moved. `
 | A report is called what the rail called it | the heading is the report's own name; `page_title` is set and nothing reads it | `onedesk/public/js/reports.js` | `frappe/frappe/public/js/frappe/views/reports/query_report.js` | `set_breadcrumbs() {` |
 | A leave application is answered, and the answer is signed | their `on_submit` throws unless the Status dropdown was set first, which the toolbar does not know | `onedesk/one_hr/leave.py` | `hrms/hrms/hr/doctype/leave_application/leave_application.py` | `Only Leave Applications with status 'Approved' and 'Rejected' can be submitted` |
 | The balance in the headline is worked out, not read | `leave_balance` is filled by their form script, so it is nought on an application made any other way | `onedesk/one_hr/leave.py` | `hrms/hrms/hr/doctype/leave_application/leave_application.py` | `def get_leave_balance_on` |
+| Telemetry bookkeeping is kept off the screen | their milestone insert fails inside a savepoint and the message outlives the rollback | `onedesk/one/quiet.py` | `hrms/hrms/telemetry.py` | `def _claim_milestone` |
+| The two leave mails have something to send | `send_leave_notification` ships on with no template, so every approval nagged instead | `onedesk/fixtures/email_template.json` | `hrms/hrms/hr/doctype/leave_application/leave_application.py` | `Please set default template for Leave Status Notification in HR Settings.` |
 | The setup wizard's persona slide is replaced | its four required questions were read only by `capture_user_persona` | `onedesk/public/js/setup_wizard.js` | `erpnext/erpnext/public/js/setup_wizard.js` | `persona` |
 
-45 overrides.
+47 overrides.
