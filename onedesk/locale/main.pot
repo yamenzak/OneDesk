@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 22:15+0000\n"
-"PO-Revision-Date: 2026-09-21 22:15+0000\n"
+"POT-Creation-Date: 2026-09-21 22:38+0000\n"
+"PO-Revision-Date: 2026-09-21 22:38+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2746,6 +2746,12 @@ msgstr ""
 msgid "The days are spent and the attendance is marked."
 msgstr ""
 
+#. Description of the 'new_leaves_allocated' field in DocType 'Leave
+#. Allocation'
+#: onedesk/one_hr/custom/leave_allocation.json
+msgid "The days this allocation grants, before anything carried forward."
+msgstr ""
+
 #. Description of the 'Ends the Shift' (Check) field in DocType 'Clock Reason'
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
 msgid "The employee is not expected back today. A day closed at the shift end is filed under this reason."
@@ -2766,6 +2772,12 @@ msgstr ""
 #. 'Overtime Details'
 #: onedesk/one_hr/custom/overtime_details.json
 msgid "The most this overtime type pays in one day. Anything worked beyond it is not paid."
+msgstr ""
+
+#. Description of the 'total_leaves_allocated' field in DocType 'Leave
+#. Allocation'
+#: onedesk/one_hr/custom/leave_allocation.json
+msgid "The new days plus anything carried forward. Worked out on save, so typing here is overwritten."
 msgstr ""
 
 #: onedesk/one_hr/rules.py:32

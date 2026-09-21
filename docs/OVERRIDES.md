@@ -51,6 +51,10 @@ Each row is something that would still run but stop working if upstream moved. `
 | The balance in the headline is worked out, not read | `leave_balance` is filled by their form script, so it is nought on an application made any other way | `onedesk/one_hr/leave.py` | `hrms/hrms/hr/doctype/leave_application/leave_application.py` | `def get_leave_balance_on` |
 | Telemetry bookkeeping is kept off the screen | their milestone insert fails inside a savepoint and the message outlives the rollback | `onedesk/one/quiet.py` | `hrms/hrms/telemetry.py` | `def _claim_milestone` |
 | The two leave mails have something to send | `send_leave_notification` ships on with no template, so every approval nagged instead | `onedesk/fixtures/email_template.json` | `hrms/hrms/hr/doctype/leave_application/leave_application.py` | `Please set default template for Leave Status Notification in HR Settings.` |
+| An employee link reads the person's name | `show_title_field_in_link` is off upstream, so every link read HR-EMP-00004 and erpnext hung a mirror field beside it | `onedesk/one_hr/custom/employee.json` | `frappe/frappe/boot.py` | `{"show_title_field_in_link": 1}` |
+| The Employee Name mirrors are hidden | forty-seven doctypes say the person's name twice once the link says it itself | `onedesk/one_hr/names.py` | `hrms/hrms/hr/doctype/leave_application/leave_application.json` | `employee.employee_name` |
+| A leave year exists from the first day | nothing upstream creates a Leave Period, and `Employee Leave Balance` dies in its own `onload` without one | `onedesk/one/setup_wizard.py` | `hrms/hrms/hr/report/employee_leave_balance/employee_leave_balance.js` | `data.message[0].from_date` |
+| Total Leaves Allocated is read-only | it is computed on save from the new days plus what was carried forward, so typing in it is overwritten | `onedesk/one_hr/custom/leave_allocation.json` | `hrms/hrms/hr/doctype/leave_allocation/leave_allocation.py` | `def set_total_leaves_allocated` |
 | The setup wizard's persona slide is replaced | its four required questions were read only by `capture_user_persona` | `onedesk/public/js/setup_wizard.js` | `erpnext/erpnext/public/js/setup_wizard.js` | `persona` |
 
-47 overrides.
+51 overrides.

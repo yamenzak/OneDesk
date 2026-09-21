@@ -10,6 +10,7 @@ app_logo_url = "/assets/onedesk/images/one.svg"
 # checklists; after that all of it is the tenant's, in Website and Navbar Settings.
 after_install = [
 	"onedesk.one.company.hide",
+	"onedesk.one_hr.names.hide",
 	"onedesk.one_hr.policy.seed",
 	"onedesk.one_hr.leave.templates",
 	"onedesk.one.brand.apply",
@@ -22,6 +23,7 @@ after_install = [
 after_migrate = [
 	"onedesk.one.companions.apply",
 	"onedesk.one.company.hide",
+	"onedesk.one_hr.names.hide",
 	"onedesk.one_hr.policy.seed",
 	"onedesk.one_hr.leave.templates",
 ]

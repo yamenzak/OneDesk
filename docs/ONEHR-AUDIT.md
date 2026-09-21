@@ -92,3 +92,83 @@ transaction. The same message lands on expense claims, attendance requests,
 shift requests, job offers, appraisals, interviews, payroll entries and salary
 slips. `one/quiet.py` is hooked on `"*"` for the two events their telemetry
 attaches to and drops only messages naming that doctype.
+
+### Leave Allocation
+
+Found:
+
+1. The list is about a number of days and does not say one. Employee Name,
+   Status, **Employee**, Leave Type, ID — three rows all reading *Rania
+   Sabbagh · Submitted · HR-EMP-00001*, and the 7, the 10 and the 21 nowhere.
+2. `Employee Name: Rania Sabbagh` sitting under `Employee: HR-EMP-00001: Rania
+   Sabbagh`, which is the same sentence twice.
+3. `New Leaves Allocated` reads **7.000** and `Total Leaves Allocated`, directly
+   beneath it, reads **7**.
+4. Nothing says what Total Leaves Allocated is or that it is worked out on save.
+
+Done: `total_leaves_allocated` and `from_date` join the list and `employee`
+leaves it, so a row reads *Tarek Nassar · Submitted · Annual Leave · 01-01-2026
+· 21*. Both leave Floats get a precision of 2 rather than the site's 3, which
+is what a day counted in halves and quarters needs. Descriptions on the two
+allocation fields.
+
+Left: `7.00` in the input and `7` in the read-only field still disagree, because
+frappe's Float formatter drops the decimals of a whole number (`formatters.js`,
+"show 1.000000 as 1") and the Data control's `format_for_input` does not. That
+is a framework-wide difference and not this screen's to settle.
+
+**`total_leaves_allocated` is already `read_only` upstream.** A property setter
+restating that was written and then removed: a customization that agrees with
+the thing it customizes is noise, and it would hide the day upstream changed
+its mind.
+
+### An employee link reads the person's name
+
+The mirror field is the finding that recurs everywhere, so it is answered once.
+
+Employee has a title field and `show_title_field_in_link` off, so every link to
+it read `HR-EMP-00004` and erpnext's answer, on doctype after doctype, was a
+read-only `Employee Name` hung beside the link and fetched from the same record.
+Fifty-four doctypes carry one.
+
+Turning the switch on is one property setter in `one_hr/custom/employee.json`,
+and it reaches further than the form: the list, the grid, the link dropdown and
+the printed document all read the title, because print resolves it through
+`__link_titles` in `frappe/www/printview.py` by the same rule. So the mirrors
+have nothing left to say, and `one_hr/names.py` hides the forty-seven of them
+that are literally `fetch_from: employee.employee_name` — a mirror by
+definition. Parent doctypes only: in a grid the mirror *is* the column somebody
+reads. And only where `employee_name` is the doctype's title field or is not in
+the list view, because a list's title column is drawn from `title_field` rather
+than from the field being visible, so hiding it there costs nothing — `Goal` is
+the one row where it would have cost the name, and it is left alone.
+
+### Leave Policy Assignment
+
+Found: `Leave Policy` read `HR-LPOL-2026-00001` and `Leave Period` read
+`HR-LPR-2026-00001`. Neither is a name, and choosing between two policies by
+serial is not choosing. The list repeated the employee id beside the employee
+name, and did not say when the assignment starts.
+
+Done: Leave Policy gets `show_title_field_in_link`, so it reads **Standard**.
+Leave Period has no title field to show, so `setup_wizard._leave_period` renames
+the one it creates to its year — the link, and three report filters, now read
+**2026**. `effective_from` joins the list and `employee` leaves it.
+
+### The leave year
+
+There was no `Leave Period` on the site, and nothing in HRMS creates one.
+`Employee Leave Balance` asks `get_leave_period` for the dates to run between,
+gets `None`, and its `onload` dies on `data.message[0]` — so both mandatory date
+filters stay empty, the report shows nothing, and no part of the screen says
+why. Leave Policy Assignment and the two allocation tools want one too.
+
+Done: `set_the_working_day` creates the calendar year alongside the holiday list
+and the shift, named for its year. The report returns 42 rows where it returned
+none. The calendar year rather than a financial one, because a leave year that
+is not the calendar year is a decision a workspace makes deliberately.
+
+**`standard_working_hours` is 8.5 on this site and that is correct** — it is
+`set_the_working_day` reading back the working day the wizard was told, not
+HRMS's default leaking through. Flagged during the Time walk as a possible
+defect; it is not one.

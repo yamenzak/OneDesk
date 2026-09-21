@@ -1,0 +1,96 @@
+{
+ "custom_fields": [],
+ "doctype": "Leave Allocation",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Leave Allocation",
+   "doctype_or_field": "DocField",
+   "field_name": "total_leaves_allocated",
+   "property": "description",
+   "property_type": "Text",
+   "value": "The new days plus anything carried forward. Worked out on save, so typing here is overwritten."
+  },
+  {
+   "doc_type": "Leave Allocation",
+   "doctype_or_field": "DocField",
+   "field_name": "new_leaves_allocated",
+   "property": "description",
+   "property_type": "Text",
+   "value": "The days this allocation grants, before anything carried forward."
+  },
+  {
+   "doc_type": "Leave Allocation",
+   "doctype_or_field": "DocField",
+   "field_name": "employee",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Leave Allocation",
+   "doctype_or_field": "DocField",
+   "field_name": "total_leaves_allocated",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Leave Allocation",
+   "doctype_or_field": "DocField",
+   "field_name": "from_date",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Leave Allocation",
+   "doctype_or_field": "DocField",
+   "field_name": "to_date",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Leave Allocation",
+   "doctype_or_field": "DocField",
+   "field_name": "new_leaves_allocated",
+   "property": "precision",
+   "property_type": "Select",
+   "value": "2"
+  },
+  {
+   "doc_type": "Leave Allocation",
+   "doctype_or_field": "DocField",
+   "field_name": "total_leaves_allocated",
+   "property": "precision",
+   "property_type": "Select",
+   "value": "2"
+  },
+  {
+   "doc_type": "Leave Allocation",
+   "doctype_or_field": "DocField",
+   "field_name": "unused_leaves",
+   "property": "precision",
+   "property_type": "Select",
+   "value": "2"
+  },
+  {
+   "doc_type": "Leave Allocation",
+   "doctype_or_field": "DocField",
+   "field_name": "total_leaves_encashed",
+   "property": "precision",
+   "property_type": "Select",
+   "value": "2"
+  },
+  {
+   "doc_type": "Leave Allocation",
+   "doctype_or_field": "DocField",
+   "field_name": "carry_forwarded_leaves_count",
+   "property": "precision",
+   "property_type": "Select",
+   "value": "2"
+  }
+ ],
+ "sync_on_migrate": 1
+}

@@ -59,6 +59,39 @@ def set_the_working_day(args):
 	frappe.db.set_single_value("HR Settings", "standard_working_hours", abs(hours))
 
 	_shift(starts, ends, holidays)
+	_leave_period(company, holidays)
+
+
+def _leave_period(company: str | None, holidays: str | None) -> None:
+	"""This calendar year, so leave has a year to be counted against.
+
+	Nothing in HRMS creates one and four things need it. `Employee Leave Balance`
+	asks `get_leave_period` for the dates to run between, gets `None`, and its
+	`onload` dies on `data.message[0]` — so both mandatory date filters stay
+	empty and the report shows nothing at all, with no hint why. Leave Policy
+	Assignment and the two allocation tools want one too.
+
+	The calendar year rather than a financial one: a leave year that is not the
+	calendar year is a decision a workspace makes deliberately, and this is the
+	answer for everybody who has not made it.
+	"""
+	if not company or frappe.db.exists("Leave Period", {"company": company, "is_active": 1}):
+		return
+
+	year = getdate().year
+	period = frappe.new_doc("Leave Period")
+	period.company = company
+	period.from_date = f"{year}-01-01"
+	period.to_date = f"{year}-12-31"
+	period.is_active = 1
+	period.optional_holiday_list = holidays
+	period.insert(ignore_permissions=True)
+
+	# Named for its year rather than left as HR-LPR-2026-00001. Leave Period is
+	# a Link on Leave Policy Assignment, Leave Encashment and three report
+	# filters, and none of them has a title field to read instead, so the serial
+	# is what a person sees in all five places.
+	frappe.rename_doc("Leave Period", period.name, str(year), force=True)
 
 
 def _holiday_list(company: str | None, weekly_off: str | None) -> str | None:

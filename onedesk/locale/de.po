@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 22:15+0000\n"
-"PO-Revision-Date: 2026-09-21 22:15+0000\n"
+"POT-Creation-Date: 2026-09-21 22:38+0000\n"
+"PO-Revision-Date: 2026-09-21 22:38+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -2748,6 +2748,12 @@ msgstr "Das Einchecken konnte nicht erfasst werden."
 msgid "The days are spent and the attendance is marked."
 msgstr "Die Tage werden abgezogen und die Anwesenheit wird erfasst."
 
+#. Description of the 'new_leaves_allocated' field in DocType 'Leave
+#. Allocation'
+#: onedesk/one_hr/custom/leave_allocation.json
+msgid "The days this allocation grants, before anything carried forward."
+msgstr "Die Tage, die diese Zuteilung gewährt, vor allem Übertrag."
+
 #. Description of the 'Ends the Shift' (Check) field in DocType 'Clock Reason'
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
 msgid "The employee is not expected back today. A day closed at the shift end is filed under this reason."
@@ -2769,6 +2775,12 @@ msgstr "Der Eintrag, den dieser Versuch geschrieben hat. Leer, wenn der Versuch 
 #: onedesk/one_hr/custom/overtime_details.json
 msgid "The most this overtime type pays in one day. Anything worked beyond it is not paid."
 msgstr "Das Maximum, das diese Überstundenart an einem Tag vergütet. Darüber hinaus Geleistetes wird nicht bezahlt."
+
+#. Description of the 'total_leaves_allocated' field in DocType 'Leave
+#. Allocation'
+#: onedesk/one_hr/custom/leave_allocation.json
+msgid "The new days plus anything carried forward. Worked out on save, so typing here is overwritten."
+msgstr "Die neuen Tage plus alles Übertragene. Wird beim Speichern berechnet, Eingaben werden überschrieben."
 
 #: onedesk/one_hr/rules.py:32
 msgid "The passkey was not unlocked with a face, fingerprint or PIN."

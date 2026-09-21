@@ -316,6 +316,13 @@
    "property": "description",
    "property_type": "Small Text",
    "value": "Height, weight, allergies and medical concerns."
+  },
+  {
+   "doc_type": "Employee",
+   "doctype_or_field": "DocType",
+   "property": "show_title_field_in_link",
+   "property_type": "Check",
+   "value": "1"
   }
  ],
  "sync_on_migrate": 1
