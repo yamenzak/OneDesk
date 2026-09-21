@@ -1,0 +1,63 @@
+{
+ "creation": "2026-09-21 00:00:00.000000",
+ "modified": "2026-09-21 17:00:00.000000",
+ "modified_by": "Administrator",
+ "owner": "Administrator",
+ "docstatus": 0,
+ "idx": 0,
+ "doctype": "Dashboard",
+ "name": "Attendance Overview",
+ "dashboard_name": "Attendance Overview",
+ "module": "One HR",
+ "is_standard": 1,
+ "is_default": 0,
+ "cards": [
+  {
+   "card": "In Now"
+  },
+  {
+   "card": "Present Today"
+  },
+  {
+   "card": "Absent Today"
+  },
+  {
+   "card": "On Leave Today"
+  },
+  {
+   "card": "Flags Waiting"
+  },
+  {
+   "card": "Total Present (This Month)"
+  },
+  {
+   "card": "Total Absent (This Month)"
+  },
+  {
+   "card": "Late Entry (This Month)"
+  },
+  {
+   "card": "Early Exit (This Month)"
+  }
+ ],
+ "charts": [
+  {
+   "chart": "Attendance Count"
+  },
+  {
+   "chart": "Attendance This Month"
+  },
+  {
+   "chart": "Check-in Outcomes"
+  },
+  {
+   "chart": "Shift Assignment Breakup"
+  },
+  {
+   "chart": "Timesheet Activity Breakup"
+  },
+  {
+   "chart": "Department wise Timesheet Hours"
+  }
+ ]
+}

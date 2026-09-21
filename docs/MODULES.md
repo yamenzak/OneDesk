@@ -44,6 +44,7 @@ No doctypes yet.
 * `onedesk.one_hr.passkey.reset`
 * `onedesk.one_hr.passkey.start_assertion`
 * `onedesk.one_hr.passkey.start_registration`
+* `onedesk.one_hr.presence.in_now`
 * `onedesk.one_hr.presence.of`
 * `onedesk.one_hr.review.accept`
 * `onedesk.one_hr.review.reject`

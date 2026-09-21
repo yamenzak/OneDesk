@@ -1,0 +1,23 @@
+{
+ "creation": "2026-09-21 00:00:00.000000",
+ "modified": "2026-09-21 00:00:00.000000",
+ "modified_by": "Administrator",
+ "owner": "Administrator",
+ "docstatus": 0,
+ "idx": 0,
+ "doctype": "Dashboard Chart",
+ "name": "Check-in Outcomes",
+ "chart_name": "Check-in Outcomes",
+ "module": "One HR",
+ "is_standard": 1,
+ "is_public": 1,
+ "timeseries": 0,
+ "use_report_chart": 0,
+ "number_of_groups": 0,
+ "chart_type": "Group By",
+ "document_type": "Clock Attempt",
+ "group_by_type": "Count",
+ "group_by_based_on": "outcome",
+ "type": "Donut",
+ "filters_json": "[]"
+}

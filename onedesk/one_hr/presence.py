@@ -32,7 +32,7 @@ would be a second writer on the same rows with no lock between them.
 
 import frappe
 from frappe import _
-from frappe.utils import get_datetime, getdate, time_diff_in_seconds
+from frappe.utils import get_datetime, getdate, nowdate, time_diff_in_seconds
 
 #: What a person can be. Ordered by how much they overrule each other, which is
 #: the order `of` asks the questions in.
@@ -92,6 +92,28 @@ def of(employee: str) -> dict:
 		return marked
 
 	return _unknown()
+
+
+@frappe.whitelist()
+def in_now() -> int:
+	"""How many people are checked in this minute. The dashboard's one live number.
+
+	`of()` answers for one person by ranking four doctypes; this only needs the
+	last log of the day per employee, so it reads that and counts the INs. A
+	person on leave who badged in is counted here and shows as on leave there,
+	which is the disagreement `of()` exists to rank rather than an error.
+	"""
+	rows = frappe.get_all(
+		"Employee Checkin",
+		filters={"time": [">=", f"{nowdate()} 00:00:00"]},
+		fields=["employee", "log_type"],
+		order_by="employee asc, time asc",
+		ignore_permissions=True,
+	)
+	last: dict[str, str] = {}
+	for row in rows:
+		last[row.employee] = row.log_type or "IN"
+	return sum(1 for log_type in last.values() if log_type == "IN")
 
 
 def _unknown() -> dict:

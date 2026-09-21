@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 11:14+0000\n"
-"PO-Revision-Date: 2026-09-21 11:14+0000\n"
+"POT-Creation-Date: 2026-09-21 11:29+0000\n"
+"PO-Revision-Date: 2026-09-21 11:29+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -58,7 +58,7 @@ msgstr "Ein neues Einchecken-Netzwerk oder ein neuer Ort wurde vorgeschlagen"
 
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
-#: onedesk/one_hr/presence.py:227 onedesk/public/js/employee.js:47
+#: onedesk/one_hr/presence.py:249 onedesk/public/js/employee.js:47
 msgid "Absent"
 msgstr ""
 
@@ -420,7 +420,7 @@ msgstr "Eingecheckt"
 msgid "Checked Out"
 msgstr "Ausgecheckt"
 
-#: onedesk/one_hr/employee.py:136 onedesk/one_hr/presence.py:189
+#: onedesk/one_hr/employee.py:136 onedesk/one_hr/presence.py:211
 msgid "Checked in"
 msgstr "Eingecheckt"
 
@@ -428,7 +428,7 @@ msgstr "Eingecheckt"
 msgid "Checked in {0}"
 msgstr "Eingecheckt {0}"
 
-#: onedesk/one_hr/employee.py:152 onedesk/one_hr/presence.py:184
+#: onedesk/one_hr/employee.py:152 onedesk/one_hr/presence.py:206
 msgid "Checked out"
 msgstr "Ausgecheckt"
 
@@ -931,7 +931,7 @@ msgstr ""
 msgid "HR User"
 msgstr ""
 
-#: onedesk/one_hr/presence.py:128 onedesk/public/js/employee.js:45
+#: onedesk/one_hr/presence.py:150 onedesk/public/js/employee.js:45
 msgid "Half day"
 msgstr "Halbtags"
 
@@ -948,7 +948,7 @@ msgid "Hiring"
 msgstr "Personalgewinnung"
 
 #: onedesk/one_hr/employee.py:111 onedesk/one_hr/employee.py:268
-#: onedesk/one_hr/presence.py:159 onedesk/public/js/employee.js:48
+#: onedesk/one_hr/presence.py:181 onedesk/public/js/employee.js:48
 msgid "Holiday"
 msgstr ""
 
@@ -1273,7 +1273,7 @@ msgstr "Länge"
 msgid "Manager"
 msgstr ""
 
-#: onedesk/one_hr/presence.py:234
+#: onedesk/one_hr/presence.py:256
 msgid "Marked present"
 msgstr "Als anwesend erfasst"
 
@@ -1390,8 +1390,8 @@ msgstr ""
 msgid "Offered to employees on check out."
 msgstr "Wird Mitarbeitern beim Auschecken angeboten."
 
-#: onedesk/one_hr/employee.py:126 onedesk/one_hr/presence.py:128
-#: onedesk/one_hr/presence.py:230 onedesk/public/js/employee.js:46
+#: onedesk/one_hr/employee.py:126 onedesk/one_hr/presence.py:150
+#: onedesk/one_hr/presence.py:252 onedesk/public/js/employee.js:46
 msgid "On leave"
 msgstr "Im Urlaub"
 
@@ -2159,7 +2159,7 @@ msgstr "Als Einsatzort behandeln"
 msgid "Type"
 msgstr ""
 
-#: onedesk/one_hr/presence.py:98
+#: onedesk/one_hr/presence.py:120
 msgid "Unknown"
 msgstr ""
 
