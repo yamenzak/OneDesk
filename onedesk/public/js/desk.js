@@ -114,9 +114,15 @@ onedesk.dock.told = (done, ready) => {
 		return;
 	}
 	if (!done.ok) {
+		// `clear` because msgprint appends to whatever dialog is already open, and
+		// what is already open may be somebody else's message about something
+		// else — HRMS's own Employee form asks `get_assignable_masters` on load
+		// and an employee reading their own record gets a permission error back
+		// from it. A refused clock-in says what was wrong with the clock-in.
 		frappe.msgprint({
 			title: __("Not clocked in"),
 			indicator: "red",
+			clear: true,
 			message: (done.told || []).map((one) => frappe.utils.escape_html(one)).join("<br>"),
 		});
 		return;

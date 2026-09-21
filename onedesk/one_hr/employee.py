@@ -254,9 +254,16 @@ def _leave(doc) -> list[dict]:
 	"""Every type this person holds an allocation for, as HRMS counts it."""
 	from hrms.hr.doctype.leave_application.leave_application import get_leave_details
 
+	# A caught PermissionError still leaves its message behind, and a message
+	# nobody cleared is shown on the next dialog this session opens — which is
+	# how "Insufficient Permission for Leave Policy" ended up on top of a
+	# refused clock-in. Catching the exception means we have already decided it
+	# is not the reader's problem, so the sentence goes with it.
+	said = len(frappe.local.message_log)
 	try:
 		details = get_leave_details(doc.name, nowdate())
 	except frappe.PermissionError:
+		del frappe.local.message_log[said:]
 		return []
 
 	rows = []

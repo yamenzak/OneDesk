@@ -66,10 +66,14 @@ const draw = () => {
 		if (!yes) return;
 		const $button = document.createElement("button");
 		$button.type = "button";
-		$button.className = "btn btn-default btn-block mt-3 one-passkey-login";
+		$button.className = "es-button w-full btn-login-option one-passkey-login";
 		$button.textContent = __ ? __("Sign in with a passkey") : "Sign in with a passkey";
 		$button.addEventListener("click", () => signIn($button));
-		$card.appendChild($button);
+		// After frappe's own alternative sign-in, not between the password box and
+		// the button that uses it.
+		const $email = $card.querySelector(".btn-login-with-email-link");
+		if ($email) $email.insertAdjacentElement("afterend", $button);
+		else $card.appendChild($button);
 	});
 };
 

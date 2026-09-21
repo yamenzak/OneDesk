@@ -79,6 +79,14 @@ def punch(credential=None, position=None, seen=None, reason=None, photo=None) ->
 	if not policy.self_service():
 		frappe.throw(_("Clocking yourself in is switched off here."))
 
+	# This endpoint answers in what it returns and never by msgprint, so nothing
+	# may reach the screen except the sentences `told` carries. Anything a gate
+	# or a caught permission check leaves behind would otherwise be merged into
+	# the refusal dialog, which is how "Insufficient Permission for Leave
+	# Policy" ended up on top of a clock-in that was refused for two entirely
+	# different reasons.
+	said = len(frappe.local.message_log)
+
 	seen = frappe.parse_json(seen) if isinstance(seen, str) else (seen or {})
 	position = frappe.parse_json(position) if isinstance(position, str) else (position or {})
 
@@ -120,6 +128,7 @@ def punch(credential=None, position=None, seen=None, reason=None, photo=None) ->
 		_keep(attempt, photo)
 
 	if outcome == "Refused":
+		del frappe.local.message_log[said:]
 		return _refused(attempt, score, signals)
 
 	try:
@@ -131,9 +140,12 @@ def punch(credential=None, position=None, seen=None, reason=None, photo=None) ->
 		frappe.db.rollback()
 		frappe.db.set_value("Checkin Attempt", attempt, "outcome", "Refused", update_modified=False)
 		frappe.db.commit()
-		return {"ok": False, "attempt": attempt, "score": score, "told": [str(refused)]}
+		told = [str(refused)]
+		del frappe.local.message_log[said:]
+		return {"ok": False, "attempt": attempt, "score": score, "told": told}
 
 	ledger.mark(attempt, checkin)
+	del frappe.local.message_log[said:]
 	return {
 		"ok": True,
 		"direction": direction,
