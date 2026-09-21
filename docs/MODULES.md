@@ -13,11 +13,12 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Checkin Attempt | 34 | document |
-| Checkin Device | 22 | document |
-| Checkin Network | 15 | document |
-| Checkin Signal | 3 | child |
-| Checkin Zone | 18 | document |
+| Clock Attempt | 34 | document |
+| Clock Device | 22 | document |
+| Clock Network | 15 | document |
+| Clock Place | 18 | document |
+| Clock Reason | 5 | document |
+| Clock Signal | 3 | child |
 | Shift Location Place | 1 | child |
 
 ## One CRM

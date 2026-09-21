@@ -24,7 +24,7 @@
    "module": "One HR",
    "insert_after": "one_self_checkin_section",
    "default": "0",
-   "description": "Everyone who does needs a login. An employee with no User has no session, so there is nothing to check and no permission to write under."
+   "description": "Everyone who clocks themselves in needs a login."
   },
   {
    "dt": "HR Settings",
@@ -35,7 +35,7 @@
    "insert_after": "one_self_checkin",
    "default": "1",
    "depends_on": "one_self_checkin",
-   "description": "A forgotten clock-out is the commonest cause of a wrong half day. The closed log is marked as automatic rather than left looking real."
+   "description": "A forgotten clock-out is marked automatic, not left looking real."
   },
   {
    "dt": "HR Settings",
@@ -46,7 +46,7 @@
    "insert_after": "one_close_the_day",
    "default": "1",
    "depends_on": "one_self_checkin",
-   "description": "Break, lunch, errand, done for the day. It makes a day of gaps readable."
+   "description": "From Clock Reason. Add your own there."
   },
   {
    "dt": "HR Settings",
@@ -65,7 +65,7 @@
    "module": "One HR",
    "insert_after": "one_gates_section",
    "default": "1",
-   "description": "Who. One credential per employee; a second needs a reset here."
+   "description": "Who. One per employee; a second needs a reset."
   },
   {
    "dt": "HR Settings",
@@ -76,7 +76,7 @@
    "insert_after": "one_gate_passkey",
    "default": "1",
    "depends_on": "one_gate_passkey",
-   "description": "Off, a missing passkey is only flagged. Turn it off in a workspace that cannot reset a lost phone the same morning."
+   "description": "Off, a missing passkey is only flagged."
   },
   {
    "dt": "HR Settings",
@@ -86,7 +86,7 @@
    "module": "One HR",
    "insert_after": "one_passkey_refuses",
    "default": "1",
-   "description": "The address the request came from, against the places below. A browser cannot read a wifi name and never will."
+   "description": "The address the request came from, against the places below."
   },
   {
    "dt": "HR Settings",
@@ -96,7 +96,7 @@
    "module": "One HR",
    "insert_after": "one_gate_network",
    "default": "1",
-   "description": "Needs HRMS's own geolocation tracking switched on above, and the employee's permission once."
+   "description": "Needs HRMS geolocation tracking on, and the employee's permission once."
   },
   {
    "dt": "HR Settings",
@@ -115,7 +115,7 @@
    "insert_after": "one_column_gates",
    "options": "Either\nBoth",
    "default": "Either",
-   "description": "Either is the sensible default: they prove the same thing two ways, and demanding both means one poor GPS fix stops somebody working."
+   "description": "Either is the default: they prove the same thing two ways."
   },
   {
    "dt": "HR Settings",
@@ -125,7 +125,7 @@
    "module": "One HR",
    "insert_after": "one_gates_require",
    "default": "50",
-   "description": "Confidence out of a hundred. Below this the clock-in is refused and the reason is shown."
+   "description": "Out of a hundred. Below this, refused, with the reason shown."
   },
   {
    "dt": "HR Settings",
@@ -135,7 +135,7 @@
    "module": "One HR",
    "insert_after": "one_refuse_below",
    "default": "85",
-   "description": "Between the two the clock-in is written and goes in the review queue."
+   "description": "Between the two, written and put in the queue."
   },
   {
    "dt": "HR Settings",
@@ -145,7 +145,7 @@
    "module": "One HR",
    "insert_after": "one_flag_below",
    "default": "0",
-   "description": "A live frame from the camera, never a file. It says who pressed the button; it cannot say where, because there is no location in a photo."
+   "description": "A live frame from the camera, never a file. Says who, not where."
   },
   {
    "dt": "HR Settings",
@@ -156,7 +156,7 @@
    "insert_after": "one_gate_photo",
    "default": "7",
    "depends_on": "one_gate_photo",
-   "description": "Days, then they are deleted."
+   "description": "Days, then deleted."
   },
   {
    "dt": "HR Settings",
@@ -166,7 +166,7 @@
    "module": "One HR",
    "insert_after": "one_keep_photo_days",
    "depends_on": "one_self_checkin",
-   "description": "Only clock-ins already corroborated another way may teach it anything, so three people in a caf\u00e9 cannot promote the caf\u00e9. Nothing learned ever widens who may clock in, only where."
+   "description": "Only clock-ins corroborated another way teach it anything, and nothing learned widens who may clock in."
   },
   {
    "dt": "HR Settings",
@@ -176,7 +176,7 @@
    "module": "One HR",
    "insert_after": "one_learning_section",
    "default": "1",
-   "description": "A router reboot or a second line stops locking everybody out on a Monday."
+   "description": "A router reboot stops locking everybody out on a Monday."
   },
   {
    "dt": "HR Settings",
@@ -186,7 +186,7 @@
    "module": "One HR",
    "insert_after": "one_learn_networks",
    "default": "1",
-   "description": "A warehouse gate two hundred metres from the registered door becomes a second circle, never a wider one."
+   "description": "A gate two hundred metres from the door becomes a second circle."
   },
   {
    "dt": "HR Settings",
@@ -204,7 +204,7 @@
    "module": "One HR",
    "insert_after": "one_column_learning",
    "default": "0",
-   "description": "For remote workers. Off by default because plenty of workplaces would rather not hold somebody's home address."
+   "description": "For remote workers. Off by default."
   },
   {
    "dt": "HR Settings",
@@ -214,7 +214,7 @@
    "module": "One HR",
    "insert_after": "one_learn_home",
    "default": "3",
-   "description": "How many different people, and how many clock-ins, before a proposal is confirmed on its own."
+   "description": "How many people, and how many clock-ins, before it confirms itself."
   }
  ],
  "doctype": "HR Settings",

@@ -53,7 +53,7 @@ def standings() -> None:
 	since = add_to_date(nowdate(), days=-90)
 	for employee in frappe.get_all("Employee", filters={"status": "Active"}, pluck="name"):
 		scores = frappe.get_all(
-			"Checkin Attempt",
+			"Clock Attempt",
 			filters={"employee": employee, "creation": [">=", since]},
 			pluck="score",
 			order_by="creation asc",
@@ -76,7 +76,7 @@ def networks() -> None:
 	"""
 	for address, votes, voters, place in _seen(corroborated="zone"):
 		_learn(
-			"Checkin Network",
+			"Clock Network",
 			{"address": ["in", [address, f"{address}/32"]]},
 			{"address": address, "shift_location": place},
 			votes,
@@ -92,7 +92,7 @@ def zones() -> None:
 	clocks in.
 	"""
 	rows = frappe.get_all(
-		"Checkin Attempt",
+		"Clock Attempt",
 		filters={
 			"creation": [">=", add_to_date(nowdate(), days=-WINDOW_DAYS)],
 			"zone": ["is", "not set"],
@@ -103,7 +103,7 @@ def zones() -> None:
 	)
 	for centre, votes, voters in _clusters(_with_standing(rows)):
 		_learn(
-			"Checkin Zone",
+			"Clock Place",
 			{
 				"latitude": ["between", [centre[0] - 0.001, centre[0] + 0.001]],
 				"longitude": ["between", [centre[1] - 0.001, centre[1] + 0.001]],
@@ -120,20 +120,20 @@ def forget_photos() -> None:
 	if not days:
 		return
 	old = frappe.get_all(
-		"Checkin Attempt",
+		"Clock Attempt",
 		filters={"photo": ["is", "set"], "creation": ["<", add_to_date(nowdate(), days=-int(days))]},
 		fields=["name", "photo"],
 	)
 	for row in old:
 		for file in frappe.get_all("File", filters={"file_url": row.photo}, pluck="name"):
 			frappe.delete_doc("File", file, force=1, ignore_permissions=True)
-		frappe.db.set_value("Checkin Attempt", row.name, "photo", None, update_modified=False)
+		frappe.db.set_value("Clock Attempt", row.name, "photo", None, update_modified=False)
 
 
 def _seen(corroborated: str):
 	"""Addresses nobody declared, from attempts another gate vouched for."""
 	rows = frappe.get_all(
-		"Checkin Attempt",
+		"Clock Attempt",
 		filters={
 			"creation": [">=", add_to_date(nowdate(), days=-WINDOW_DAYS)],
 			"network": ["is", "not set"],
@@ -240,7 +240,7 @@ def _learn(doctype: str, matching: dict, fields: dict, votes: int, voters: int) 
 
 
 def _place_of(zone: str | None) -> str | None:
-	return frappe.db.get_value("Checkin Zone", zone, "shift_location") if zone else None
+	return frappe.db.get_value("Clock Place", zone, "shift_location") if zone else None
 
 
 def _tell(doc) -> None:

@@ -69,7 +69,7 @@ def finish(credential: str) -> dict:
 		frappe.throw(_("That passkey belongs to somebody with no account here."), frappe.AuthenticationError)
 
 	frappe.db.set_value(
-		"Checkin Device",
+		"Clock Device",
 		device.name,
 		{"sign_count": done.new_sign_count, "last_used": now_datetime()},
 		update_modified=False,
@@ -86,7 +86,7 @@ def _device_for(credential_id: str):
 	if not credential_id:
 		return None
 	found = frappe.get_all(
-		"Checkin Device",
+		"Clock Device",
 		filters={"credential_id": credential_id, "status": "Active"},
 		fields=["name", "employee", "public_key", "sign_count"],
 		limit=1,

@@ -219,7 +219,7 @@ def _also_at(place: str) -> list[str]:
 
 def _known_networks(employee: str, places: list[str]) -> list:
 	return frappe.get_all(
-		"Checkin Network",
+		"Clock Network",
 		filters={"status": ["in", ["Declared", "Confirmed"]]},
 		or_filters=[
 			["shift_location", "in", places or [""]],
@@ -259,7 +259,7 @@ def _zones(employee: str, places: list[str]) -> list[dict]:
 			)
 
 	ours = frappe.get_all(
-		"Checkin Zone",
+		"Clock Place",
 		filters={"status": ["in", ["Declared", "Confirmed"]]},
 		or_filters=[["shift_location", "in", places or [""]], ["employee", "=", employee]],
 		fields=["name", "label", "latitude", "longitude", "radius", "shift_location"],

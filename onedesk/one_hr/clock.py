@@ -138,7 +138,7 @@ def punch(credential=None, position=None, seen=None, reason=None, photo=None) ->
 		# window, a workspace's own rule. The attempt stands as the record of it
 		# rather than being rolled back into silence.
 		frappe.db.rollback()
-		frappe.db.set_value("Checkin Attempt", attempt, "outcome", "Refused", update_modified=False)
+		frappe.db.set_value("Clock Attempt", attempt, "outcome", "Refused", update_modified=False)
 		frappe.db.commit()
 		told = [str(refused)]
 		del frappe.local.message_log[said:]
@@ -230,9 +230,9 @@ def _keep(attempt: str, photo: str) -> None:
 	if "image/jpeg" not in head or not body:
 		return
 	saved = save_file(
-		f"{attempt}.jpg", base64.b64decode(body), "Checkin Attempt", attempt, is_private=1
+		f"{attempt}.jpg", base64.b64decode(body), "Clock Attempt", attempt, is_private=1
 	)
-	frappe.db.set_value("Checkin Attempt", attempt, "photo", saved.file_url, update_modified=False)
+	frappe.db.set_value("Clock Attempt", attempt, "photo", saved.file_url, update_modified=False)
 
 
 def _at(places: list[str]) -> str:

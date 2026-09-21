@@ -130,7 +130,7 @@
  "modified": "2026-09-21 00:00:00.000000",
  "modified_by": "Administrator",
  "module": "One HR",
- "name": "Checkin Network",
+ "name": "Clock Network",
  "naming_rule": "Random",
  "owner": "Administrator",
  "permissions": [

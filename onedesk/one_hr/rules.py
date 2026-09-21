@@ -35,7 +35,6 @@ SIGNALS = {
 	"session-elsewhere": (30, "Their desk session is live from a different address"),
 	"same-second": (20, "Landed in the same second as somebody else's"),
 	"reset-recent": (15, "A second passkey reset within a month"),
-	"day-auto-closed": (10, "The day was closed automatically"),
 }
 
 #: Below this a clock-in is refused outright; below the second it is written and

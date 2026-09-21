@@ -1,7 +1,7 @@
 """Every clock-in tried, written down whether it was allowed or refused.
 
 `Employee Checkin` only records successes, and the refusals are the interesting
-ones. So each attempt writes a `Checkin Attempt` of its own carrying what every
+ones. So each attempt writes a `Clock Attempt` of its own carrying what every
 gate saw, and that table is three things at once: the review queue, the evidence
 when somebody disputes a day, and what the self-healing reads.
 
@@ -24,7 +24,7 @@ SEEN = ("user_agent", "platform", "model", "screen", "renderer")
 def write(employee: str, direction: str, seen: dict, signals: list[str], **found) -> str:
 	"""One attempt, with its signals and its score. Returns the row's name."""
 	score = rules.confidence(signals)
-	attempt = frappe.new_doc("Checkin Attempt")
+	attempt = frappe.new_doc("Clock Attempt")
 	attempt.update(
 		{
 			"employee": employee,
@@ -50,7 +50,7 @@ def write(employee: str, direction: str, seen: dict, signals: list[str], **found
 
 def mark(name: str, checkin: str) -> None:
 	"""Point the attempt at the log it produced, once HRMS has accepted it."""
-	frappe.db.set_value("Checkin Attempt", name, "checkin", checkin, update_modified=False)
+	frappe.db.set_value("Clock Attempt", name, "checkin", checkin, update_modified=False)
 
 
 def recent(employee: str, since) -> list[dict]:
@@ -61,7 +61,7 @@ def recent(employee: str, since) -> list[dict]:
 	somebody else's record. Nothing from here reaches a screen.
 	"""
 	return frappe.get_all(
-		"Checkin Attempt",
+		"Clock Attempt",
 		filters={"employee": employee, "creation": [">=", since]},
 		fields=["name", "creation", "outcome", "score", "address", "latitude", "longitude"],
 		order_by="creation asc",
@@ -81,7 +81,7 @@ def others_on(seen: dict, employee: str, since) -> list[str]:
 		return []
 
 	found = frappe.get_all(
-		"Checkin Attempt",
+		"Clock Attempt",
 		filters={**fingerprint, "employee": ["!=", employee], "creation": [">=", since]},
 		pluck="employee",
 		ignore_permissions=True,
@@ -93,7 +93,7 @@ def same_second(when, employee: str) -> bool:
 	"""Whether somebody else's attempt landed in the same second, which is a script."""
 	return bool(
 		frappe.get_all(
-			"Checkin Attempt",
+			"Clock Attempt",
 			filters={
 				"employee": ["!=", employee],
 				"creation": ["between", [when.replace(microsecond=0), when]],

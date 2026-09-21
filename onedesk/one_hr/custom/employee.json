@@ -35,13 +35,13 @@
  "links": [
   {
    "group": "Attendance",
-   "link_doctype": "Checkin Device",
+   "link_doctype": "Clock Device",
    "link_fieldname": "employee",
    "parent": "Employee"
   },
   {
    "group": "Attendance",
-   "link_doctype": "Checkin Attempt",
+   "link_doctype": "Clock Attempt",
    "link_fieldname": "employee",
    "parent": "Employee"
   }

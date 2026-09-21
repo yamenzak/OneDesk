@@ -170,7 +170,7 @@ onedesk.employee.ACTIONS = [
 // credential to retire and only to somebody who may write one, so an ordinary
 // reader of a colleague's record never sees it.
 onedesk.employee.passkey = (frm, data) => {
-	if (!data.passkey || !frappe.model.can_write("Checkin Device")) return;
+	if (!data.passkey || !frappe.model.can_write("Clock Device")) return;
 	frm.sidebar.add_user_action(__("Reset passkey"), () => {
 		frappe.confirm(
 			__("{0} will register a new passkey on their next clock-in. The old one is retired, not deleted.", [

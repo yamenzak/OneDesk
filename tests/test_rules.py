@@ -124,7 +124,6 @@ def test_what_is_a_guess_only_flags():
 		"session-elsewhere",
 		"same-second",
 		"reset-recent",
-		"day-auto-closed",
 		"passkey-elsewhere",
 		"network-personal",
 	):

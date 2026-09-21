@@ -58,20 +58,22 @@ onedesk.clock.where = () =>
 	});
 
 // Asked on the way out and never on the way in, and only where the workspace
-// wants it. Cancelling the dialog cancels the clock-out rather than filing one
-// with no reason, because the prompt is the workspace's question and answering
-// it is not optional once it has been asked.
+// wants it. The options are `Clock Reason` rows rather than four words written
+// here, so a workplace that needs "Client visit" adds one without a deploy.
+// Cancelling cancels the clock-out rather than filing one with no reason: the
+// prompt is the workspace's question and answering it is not optional once it
+// has been asked.
 onedesk.clock.why = (direction) =>
 	new Promise((resolve) => {
 		if (direction !== "OUT") return resolve(null);
 		frappe.prompt(
 			{
 				fieldname: "reason",
-				fieldtype: "Select",
+				fieldtype: "Link",
+				options: "Clock Reason",
 				label: __("Why"),
-				options: ["Break", "Lunch", "Errand", "Done for the day"],
-				default: "Done for the day",
 				reqd: 1,
+				get_query: () => ({ filters: { enabled: 1 } }),
 			},
 			({ reason }) => resolve(reason),
 			__("Clocking out")

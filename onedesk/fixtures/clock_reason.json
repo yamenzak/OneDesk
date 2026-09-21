@@ -1,0 +1,34 @@
+[
+ {
+  "description": "Back shortly.",
+  "doctype": "Clock Reason",
+  "enabled": 1,
+  "ends_the_day": 0,
+  "name": "Break",
+  "reason": "Break"
+ },
+ {
+  "description": "Back after lunch.",
+  "doctype": "Clock Reason",
+  "enabled": 1,
+  "ends_the_day": 0,
+  "name": "Lunch",
+  "reason": "Lunch"
+ },
+ {
+  "description": "Out on something, back today.",
+  "doctype": "Clock Reason",
+  "enabled": 1,
+  "ends_the_day": 0,
+  "name": "Errand",
+  "reason": "Errand"
+ },
+ {
+  "description": "Not coming back today.",
+  "doctype": "Clock Reason",
+  "enabled": 1,
+  "ends_the_day": 1,
+  "name": "Done for the day",
+  "reason": "Done for the day"
+ }
+]

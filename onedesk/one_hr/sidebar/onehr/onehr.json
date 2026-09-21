@@ -125,7 +125,7 @@
    "is_default_module": 1,
    "keep_closed": 0,
    "label": "Clock-in attempts",
-   "link_to": "Checkin Attempt",
+   "link_to": "Clock Attempt",
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link"
@@ -137,7 +137,7 @@
    "is_default_module": 1,
    "keep_closed": 0,
    "label": "Passkeys",
-   "link_to": "Checkin Device",
+   "link_to": "Clock Device",
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link"
@@ -149,7 +149,7 @@
    "is_default_module": 1,
    "keep_closed": 0,
    "label": "Networks",
-   "link_to": "Checkin Network",
+   "link_to": "Clock Network",
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link"
@@ -161,7 +161,31 @@
    "is_default_module": 1,
    "keep_closed": 0,
    "label": "Places",
-   "link_to": "Checkin Zone",
+   "link_to": "Clock Place",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Clock-out reasons",
+   "link_to": "Clock Reason",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Clocking settings",
+   "link_to": "HR Settings",
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link"

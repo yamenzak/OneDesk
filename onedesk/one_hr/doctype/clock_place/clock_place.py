@@ -2,7 +2,7 @@ from frappe import _
 from frappe.model.document import Document
 
 
-class CheckinZone(Document):
+class ClockPlace(Document):
 	def validate(self):
 		if self.radius <= 0:
 			from frappe import throw

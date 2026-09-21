@@ -106,7 +106,7 @@
   {
    "fieldname": "signals",
    "fieldtype": "Table",
-   "options": "Checkin Signal",
+   "options": "Clock Signal",
    "read_only": 1
   },
   {
@@ -123,7 +123,7 @@
    "fieldname": "device",
    "fieldtype": "Link",
    "label": "Device",
-   "options": "Checkin Device",
+   "options": "Clock Device",
    "read_only": 1
   },
   {
@@ -185,7 +185,7 @@
    "fieldname": "network",
    "fieldtype": "Link",
    "label": "Matched",
-   "options": "Checkin Network",
+   "options": "Clock Network",
    "read_only": 1
   },
   {
@@ -233,7 +233,7 @@
    "fieldname": "zone",
    "fieldtype": "Link",
    "label": "Landed in",
-   "options": "Checkin Zone",
+   "options": "Clock Place",
    "read_only": 1
   },
   {
@@ -268,7 +268,7 @@
  "modified": "2026-09-21 00:00:00.000000",
  "modified_by": "Administrator",
  "module": "One HR",
- "name": "Checkin Attempt",
+ "name": "Clock Attempt",
  "naming_rule": "Random",
  "owner": "Administrator",
  "permissions": [

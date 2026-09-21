@@ -99,7 +99,7 @@ def finish_registration(credential: str, seen: str | dict | None = None) -> dict
 		frappe.throw(_("That passkey could not be verified: {0}").format(error))
 
 	seen = frappe.parse_json(seen) if isinstance(seen, str) else (seen or {})
-	device = frappe.new_doc("Checkin Device")
+	device = frappe.new_doc("Clock Device")
 	device.update(
 		{
 			"employee": employee,
@@ -168,7 +168,7 @@ def check(credential, employee: str) -> dict:
 		return {"device": None, "verified": False, "why": "no-passkey"}
 
 	frappe.db.set_value(
-		"Checkin Device",
+		"Clock Device",
 		device.name,
 		{
 			"sign_count": done.new_sign_count,
@@ -185,7 +185,7 @@ def held_by(employee: str):
 	if not employee:
 		return None
 	found = frappe.get_all(
-		"Checkin Device",
+		"Clock Device",
 		filters={"employee": employee, "status": "Active"},
 		fields=["name", "credential_id", "public_key", "sign_count", "label", "user_agent"],
 		order_by="creation desc",
@@ -242,20 +242,20 @@ def reset(employee: str) -> dict:
 	history of what it did with it, and the second reset inside a month is one
 	of the signals worth having.
 	"""
-	if not frappe.has_permission("Checkin Device", "write"):
+	if not frappe.has_permission("Clock Device", "write"):
 		frappe.throw(_("Only HR can reset a passkey."), frappe.PermissionError)
 
 	found = frappe.get_all(
-		"Checkin Device", filters={"employee": employee, "status": "Active"}, pluck="name"
+		"Clock Device", filters={"employee": employee, "status": "Active"}, pluck="name"
 	)
 	for name in found:
-		frappe.db.set_value("Checkin Device", name, "status", "Reset")
+		frappe.db.set_value("Clock Device", name, "status", "Reset")
 	return {"reset": len(found)}
 
 
 def resets_since(employee: str, since) -> int:
 	return frappe.db.count(
-		"Checkin Device", {"employee": employee, "status": "Reset", "modified": [">=", since]}
+		"Clock Device", {"employee": employee, "status": "Reset", "modified": [">=", since]}
 	)
 
 

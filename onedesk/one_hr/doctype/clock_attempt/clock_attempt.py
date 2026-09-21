@@ -1,7 +1,7 @@
 from frappe.model.document import Document
 
 
-class CheckinAttempt(Document):
+class ClockAttempt(Document):
 	"""One row per clock-in tried, whether it was written or refused.
 
 	Nothing here validates: the row is a record of what happened, and a record

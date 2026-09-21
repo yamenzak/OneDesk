@@ -1,5 +1,5 @@
 from frappe.model.document import Document
 
 
-class CheckinDevice(Document):
+class ClockDevice(Document):
 	pass

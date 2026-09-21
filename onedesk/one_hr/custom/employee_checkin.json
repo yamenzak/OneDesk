@@ -3,13 +3,13 @@
   {
    "dt": "Employee Checkin",
    "fieldname": "one_reason",
-   "fieldtype": "Select",
+   "fieldtype": "Link",
    "label": "Why",
    "module": "One HR",
    "insert_after": "log_type",
-   "options": "\nBreak\nLunch\nErrand\nDone for the day",
+   "options": "Clock Reason",
    "depends_on": "eval:doc.log_type == 'OUT'",
-   "description": "Asked on the way out and never on the way in. A day of unexplained gaps is unreadable."
+   "description": "Asked on the way out, never on the way in."
   },
   {
    "dt": "Employee Checkin",
@@ -29,7 +29,7 @@
    "label": "Attempt",
    "module": "One HR",
    "insert_after": "one_auto_closed",
-   "options": "Checkin Attempt",
+   "options": "Clock Attempt",
    "read_only": 1,
    "description": "What every gate saw when this was written."
   }

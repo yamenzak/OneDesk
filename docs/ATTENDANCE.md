@@ -109,7 +109,7 @@ ever clocks in that means no password to forget and none to lend out.
   custom field beside them.
 - **Managing them.** A section on `User` listing that person's credential, when
   it was registered and last used, with a button to remove it. Administrators
-  see everyone's through the `Checkin Device` list.
+  see everyone's through the `Clock Device` list.
 - **The library.** `py_webauthn` (BSD-3, on PyPI as `webauthn`) does the
   registration and assertion verification. We add the dependency rather than
   writing CBOR parsing and COSE key handling ourselves, which is
@@ -121,13 +121,13 @@ ever clocks in that means no password to forget and none to lend out.
 The gates do not change shape; what they point at does.
 
 **The network becomes personal.** A home has a public address that is stable for
-weeks at a time, so the same `Checkin Network` machinery learns it — a row
+weeks at a time, so the same `Clock Network` machinery learns it — a row
 scoped to an employee rather than to a place. First clock-in from home proposes
 it, and after that home is as good a network as the office. When the ISP changes
 it, the same self-healing that handles a router reboot at the office handles it
 here.
 
-**The fence becomes their address**, if they want one. A `Checkin Zone` scoped
+**The fence becomes their address**, if they want one. A `Clock Place` scoped
 to the employee, set from their own position on the first day, with a radius
 loose enough that a home address is not published to the company by accident.
 Opt-in per workspace, because plenty of places do not want to hold it.
@@ -163,14 +163,14 @@ has already doubted.
 `Employee Checkin` only records successes, and the refusals are the interesting
 ones, so every attempt writes its own row.
 
-**`Checkin Attempt`** — employee, the server's time, outcome, score, and what
+**`Clock Attempt`** — employee, the server's time, outcome, score, and what
 each gate saw: the credential and whether user verification happened, the
 address and the network row it matched, the position with its accuracy and the
 zone it landed in, the user agent, platform, model, screen and renderer. A link
 to the `Employee Checkin` when one was written, and to the photo when there is
 one.
 
-Under it, one `Checkin Signal` row per signal that fired: name, weight, and a
+Under it, one `Clock Signal` row per signal that fired: name, weight, and a
 sentence a person can read.
 
 This table is the review queue, the evidence when somebody disputes a day, and
@@ -217,14 +217,14 @@ them was inside a fence or on a known network when they voted.
 different egress, a second line appears for the 5GHz band, a site falls back to
 4G. Today that locks everybody out on a Monday. Instead, an unknown address seen
 from several employees who were each inside the fence, each with standing,
-within a window, becomes a `Checkin Network` row marked **Proposed**, and at the
+within a window, becomes a `Clock Network` row marked **Proposed**, and at the
 workspace's threshold **Confirmed**. HR gets one notification saying what was
 learned and can reject it.
 
 **The fence is in the wrong place.** A warehouse registered at its office door
 has its staff clocking in at the gate; a site moves. Corroborated positions
 cluster, and a cluster outside every zone used by enough people becomes a
-**Proposed** `Checkin Zone` against that Shift Location — a second circle, not a
+**Proposed** `Clock Place` against that Shift Location — a second circle, not a
 wider one, because widening the radius to cover a car park also covers the road.
 
 **A phone is replaced.** The reset request carries what the new browser looks
@@ -267,23 +267,23 @@ with self clock-in off.
 
 **Four new doctypes.**
 
-`Checkin Device` — the passkey. Employee, credential id, public key, sign count,
+`Clock Device` — the passkey. Employee, credential id, public key, sign count,
 aaguid, whether it is backed up, status (Active, Reset, Blocked), registered and
 last used, last address, and what the browser looked like at registration: user
 agent, platform, model, screen, renderer. The fingerprint is not the identity;
 it is what makes a reset request recognisable and what shows several employees
 enrolling from one machine.
 
-`Checkin Network` — an address or range; the Shift Location it belongs to, or
+`Clock Network` — an address or range; the Shift Location it belongs to, or
 the employee it belongs to for a home worker, or neither for the whole
 workspace; status (Declared, Proposed, Confirmed, Rejected); first and last
 seen; how many attempts and how many distinct employees have used it.
 
-`Checkin Zone` — a Shift Location or an employee, coordinates, radius, the same
+`Clock Place` — a Shift Location or an employee, coordinates, radius, the same
 four statuses and the same counts. A Shift Location's own circle stays where it
 is; zones are the extra ones, including the learned ones.
 
-`Checkin Attempt` — as above, with `Checkin Signal` as its child table.
+`Clock Attempt` — as above, with `Clock Signal` as its child table.
 
 **Custom fields on what already exists.**
 
@@ -335,13 +335,13 @@ few lines, it is the difference between one fence and a set, it goes in
 
 ## Stages, all built
 
-1. **The ledger.** `Checkin Attempt` and `Checkin Signal`, written on every
+1. **The ledger.** `Clock Attempt` and `Clock Signal`, written on every
    attempt, enforcing nothing. Everything else reads this, and a week of real
    attempts is worth more than any amount of guessing at thresholds.
-2. **The passkey.** `Checkin Device`, the `webauthn` dependency, registration
+2. **The passkey.** `Clock Device`, the `webauthn` dependency, registration
    refused from a desktop, one credential per employee,
    `userVerification: "required"`, and the reset HR does in one click.
-3. **The network.** `Checkin Network` as rows, one click to learn the office
+3. **The network.** `Clock Network` as rows, one click to learn the office
    address, the refusal that reads it, and personal rows for home workers.
 4. **The place.** Ask the browser for a position, record accuracy, `Checkin
    Zone`, the upstream fix, and the fence-or-site switch.
