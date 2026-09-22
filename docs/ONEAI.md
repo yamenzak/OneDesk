@@ -409,12 +409,38 @@ remembered to write. A top-up and a signup are told apart by what the session
 carries — a signup names the request it came from, a top-up names the workspace
 and the pack.
 
-**AI 7 — tools.** The schema builder off type hints, the Frappe read surface, and
-the rule that every one of them runs as the session user — with the test that
-tries to read past a permission and is refused.
+**AI 7a — the tools, and what they may do.** *Done.* `one_ai/schema.py` reads a
+JSON Schema off a function's signature — `Annotated` carries the description, a
+union with `None` or a default says a parameter may be left out, `Literal` is a
+closed list — so there is no schema beside every function to fall out of step
+with it. `one_ai/tools.py` is the seven; `one_ai/proposals.py` is the card and
+Apply, which is why AI 8 is now only the places a card appears.
 
-**AI 8 — proposals.** `AI Proposal`, the card, and Apply as an ordinary write by
-an ordinary person.
+Every tool runs as the session user. Not as Administrator with a filter bolted
+on, not with `ignore_permissions`, and never through `frappe.get_all` — which
+looks exactly like `get_list`, ignores permissions, and is the single most
+likely way for this rule to be undone by somebody being helpful. A guard names
+all four ways of reading past a caller.
+
+Proved on the site as a user with one role and no permissions: listing
+workspaces refused, reading one refused, *describing the type* refused, and
+proposing to create one refused at the point it was suggested. Then the same
+user creating a ToDo through a card, applying it, and owning the record that
+came out. Plus: somebody else's card is not theirs to answer, and an edit whose
+record moved underneath it is stale.
+
+**AI 7b — the model loop.** Not built. Tool calling needs a conversation — the
+model asks for a tool, the tool runs, the model is called again — and the model
+is on the administrator while the data is on the workspace. The only shape
+consistent with `proxy.py` is the **tenant driving the loop**: it sends a
+prompt, admin answers with a tool request, the tenant runs the tool as the
+session user and sends the result back, and admin calls the model again. Admin
+still never calls a workspace. That, plus each provider's own tool-call shape,
+is a stage of its own.
+
+**AI 8 — where a card appears.** The proposal exists and has a screen of its
+own; what is left is putting it in front of somebody at the moment they would
+act on it, rather than in a list they have to remember to open.
 
 **AI 9 — streaming.** The background run, the run id, the realtime room, and what
 the browser shows while it waits.

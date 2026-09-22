@@ -1,0 +1,199 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "format:PROP-{YY}-{######}",
+ "creation": "2026-09-23 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "naming_rule": "Expression",
+ "title_field": "said",
+ "field_order": [
+  "kind",
+  "for_doctype",
+  "record",
+  "column_break_what",
+  "state",
+  "asked_by",
+  "said",
+  "why_section",
+  "why",
+  "changes_section",
+  "changes",
+  "was",
+  "modified_then",
+  "done_section",
+  "applied_doc",
+  "applied_by",
+  "column_break_done",
+  "applied_on",
+  "reference"
+ ],
+ "fields": [
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Kind",
+   "options": "Create\nEdit\nDelete",
+   "reqd": 1,
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "for_doctype",
+   "fieldtype": "Data",
+   "label": "Record Type",
+   "reqd": 1,
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "record",
+   "fieldtype": "Data",
+   "label": "Record",
+   "read_only": 1,
+   "description": "Empty on a create: there is nothing yet."
+  },
+  {
+   "fieldname": "column_break_what",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Proposed",
+   "fieldname": "state",
+   "fieldtype": "Select",
+   "label": "State",
+   "options": "Proposed\nApplied\nRefused\nStale",
+   "reqd": 1,
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "asked_by",
+   "fieldtype": "Link",
+   "label": "Asked By",
+   "options": "User",
+   "read_only": 1,
+   "in_standard_filter": 1,
+   "description": "Whose permissions were checked when this was written, and whose will be checked again."
+  },
+  {
+   "fieldname": "said",
+   "fieldtype": "Data",
+   "label": "Summary",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "why_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "why",
+   "fieldtype": "Small Text",
+   "label": "Reason",
+   "read_only": 1,
+   "description": "What the model said it was for."
+  },
+  {
+   "fieldname": "changes_section",
+   "fieldtype": "Section Break",
+   "label": "Changes"
+  },
+  {
+   "fieldname": "changes",
+   "fieldtype": "Code",
+   "label": "Proposed",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "fieldname": "was",
+   "fieldtype": "Code",
+   "label": "Currently",
+   "options": "JSON",
+   "read_only": 1,
+   "description": "What those fields held when this was written."
+  },
+  {
+   "fieldname": "modified_then",
+   "fieldtype": "Data",
+   "label": "Record As Of",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "done_section",
+   "fieldtype": "Section Break",
+   "label": "Outcome"
+  },
+  {
+   "fieldname": "applied_doc",
+   "fieldtype": "Data",
+   "label": "Record Written",
+   "read_only": 1
+  },
+  {
+   "fieldname": "applied_by",
+   "fieldtype": "Link",
+   "label": "Applied By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_done",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "applied_on",
+   "fieldtype": "Datetime",
+   "label": "Applied On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reference",
+   "fieldtype": "Data",
+   "label": "Run",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-23 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One AI",
+ "name": "AI Proposal",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 0,
+   "email": 0,
+   "export": 0,
+   "if_owner": 1,
+   "print": 1,
+   "read": 1,
+   "report": 0,
+   "role": "All",
+   "share": 0,
+   "write": 0
+  },
+  {
+   "create": 0,
+   "delete": 1,
+   "email": 0,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 0,
+   "write": 0
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "description": "Something a model suggested doing. Nothing happens until a person presses Apply."
+}

@@ -59,6 +59,7 @@ No doctypes yet.
 |---|--:|---|
 | AI Action | 13 | document |
 | AI Action Setting | 6 | document |
+| AI Proposal | 19 | document |
 
 ## Desk records shipped as fixtures
 
@@ -109,8 +110,13 @@ No doctypes yet.
 * `onedesk.one_admin.signup.available`
 * `onedesk.one_admin.signup.start`
 * `onedesk.one_admin.stripe.webhook`
+* `onedesk.one_ai.run.apply`
 * `onedesk.one_ai.run.models`
+* `onedesk.one_ai.run.refuse`
+* `onedesk.one_ai.run.tools`
 * `onedesk.one_ai.run.try_it`
+* `onedesk.one_ai.run.use`
+* `onedesk.one_ai.run.waiting`
 * `onedesk.one_hr.clock.punch`
 * `onedesk.one_hr.clock.ready`
 * `onedesk.one_hr.employee.overview`

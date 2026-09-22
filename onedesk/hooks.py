@@ -191,6 +191,8 @@ doctype_js = {
 	"AI Model": "public/js/ai_model.js",
 	# The model list comes from the account, filtered to what the action needs.
 	"AI Action Setting": "public/js/ai_action_setting.js",
+	# Read-only with two verbs: nothing happened yet, and it is yours to decide.
+	"AI Proposal": "public/js/ai_proposal.js",
 	"Employee": "public/js/employee.js",
 	"Employee Attendance Tool": "public/js/attendance_tool.js",
 	"Attendance": "public/js/attendance.js",
@@ -220,6 +222,8 @@ doctype_list_js = {
 	"AI Model": "public/js/ai_model_list.js",
 	# Which way each row moved money, which is all a ledger list is for.
 	"Credit Ledger Entry": "public/js/credit_ledger_entry_list.js",
+	# A queue: the one thing a row says is whether anybody still has to answer it.
+	"AI Proposal": "public/js/ai_proposal_list.js",
 	"Attendance": "public/js/attendance_list.js",
 	"Employee Checkin": "public/js/checkin_list.js",
 }

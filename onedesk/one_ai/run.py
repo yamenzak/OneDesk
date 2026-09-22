@@ -56,3 +56,53 @@ def try_it(action: str, text: str) -> dict:
 	"""
 	frappe.only_for("System Manager")
 	return ask(action, text, reference=frappe.session.user)
+
+
+@frappe.whitelist()
+def tools() -> list[dict]:
+	"""Every tool, as a provider's function declaration.
+
+	Whitelisted so the tenant can hand the list to the account with a call. The
+	account never calls a tool: the tools run here, as the person asking, which
+	is the only place their permissions mean anything.
+	"""
+	from onedesk.one_ai import tools as surface
+
+	return surface.declared()
+
+
+@frappe.whitelist()
+def use(tool: str, args: dict | None = None) -> dict:
+	"""Call one tool as whoever is signed in.
+
+	Not `allow_guest`, not as Administrator, and with no `ignore_permissions`
+	anywhere beneath it — see `one_ai/tools.py`.
+	"""
+	from onedesk.one_ai import tools as surface
+
+	if isinstance(args, str):
+		args = frappe.parse_json(args)
+	return surface.run(tool, args or {})
+
+
+@frappe.whitelist()
+def waiting() -> list[dict]:
+	"""What a model has suggested and nobody has answered yet."""
+	from onedesk.one_ai import proposals
+
+	return proposals.mine()
+
+
+@frappe.whitelist()
+def apply(proposal: str) -> dict:
+	"""Do what was suggested, as the person pressing the button."""
+	from onedesk.one_ai import proposals
+
+	return proposals.apply(proposal)
+
+
+@frappe.whitelist()
+def refuse(proposal: str) -> dict:
+	from onedesk.one_ai import proposals
+
+	return proposals.refuse(proposal)

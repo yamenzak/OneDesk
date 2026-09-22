@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 17:24+0000\n"
-"PO-Revision-Date: 2026-09-22 17:24+0000\n"
+"POT-Creation-Date: 2026-09-22 17:37+0000\n"
+"PO-Revision-Date: 2026-09-22 17:37+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -181,6 +181,10 @@ msgstr ""
 msgid "A {0} does not carry {1}."
 msgstr ""
 
+#: onedesk/one_ai/proposals.py:161
+msgid "A {0} has to name a record."
+msgstr ""
+
 #: onedesk/one_admin/doctype/ai_model/ai_model.py:38
 msgid "A {0} model cannot be the default for {1}."
 msgstr ""
@@ -218,6 +222,11 @@ msgstr ""
 #. Name of a DocType
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "AI Model Rate"
+msgstr ""
+
+#. Name of a DocType
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "AI Proposal"
 msgstr ""
 
 #. Label of the press_token (Password) field in DocType 'One Admin Settings'
@@ -396,6 +405,7 @@ msgstr ""
 
 #. Name of a role
 #: onedesk/one/doctype/workspace_account/workspace_account.json
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "All"
 msgstr ""
 
@@ -492,8 +502,24 @@ msgstr ""
 msgid "Applicants"
 msgstr ""
 
+#. Option for the 'State' (Select) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:208
 msgid "Applied"
+msgstr ""
+
+#. Label of the applied_by (Link) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "Applied By"
+msgstr ""
+
+#. Label of the applied_on (Datetime) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "Applied On"
+msgstr ""
+
+#: onedesk/public/js/ai_proposal.js:12
+msgid "Apply"
 msgstr ""
 
 #: onedesk/public/js/employee.js:189
@@ -605,6 +631,11 @@ msgstr ""
 #. Label of the one_reason_on_out (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Ask for a Reason on Check Out"
+msgstr ""
+
+#. Label of the asked_by (Link) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "Asked By"
 msgstr ""
 
 #. Label of the 'posting_date' field in DocType 'Leave Application'
@@ -947,6 +978,15 @@ msgstr ""
 msgid "Change the Overtime"
 msgstr ""
 
+#: onedesk/one_ai/proposals.py:192
+msgid "Change {0} on {1}"
+msgstr ""
+
+#. Label of the changes_section (Section Break) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "Changes"
+msgstr ""
+
 #: onedesk/public/js/offering.js:40
 msgid "Changing a price or a quota here does not change theirs."
 msgstr ""
@@ -1240,6 +1280,15 @@ msgstr ""
 msgid "Cover Holidays Too"
 msgstr ""
 
+#. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "Create"
+msgstr ""
+
+#: onedesk/one_ai/proposals.py:189
+msgid "Create a {0}"
+msgstr ""
+
 #: onedesk/public/js/account_request.js:46
 msgid "Create {0} for {1} now?"
 msgstr ""
@@ -1313,6 +1362,11 @@ msgstr ""
 #. Label of the currency (Link) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Currency"
+msgstr ""
+
+#. Label of the was (Code) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "Currently"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -1418,9 +1472,18 @@ msgstr ""
 msgid "Default Markup"
 msgstr ""
 
+#. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "Delete"
+msgstr ""
+
 #. Label of the one_keep_photo_days (Int) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Delete Photos After (Days)"
+msgstr ""
+
+#: onedesk/one_ai/proposals.py:191
+msgid "Delete {0}"
 msgstr ""
 
 #. Description of a DocType
@@ -1493,6 +1556,10 @@ msgstr ""
 msgid "Distinct employees, each verified another way, who have checked in from this address."
 msgstr ""
 
+#: onedesk/public/js/ai_proposal.js:60
+msgid "Do this now, as you?"
+msgstr ""
+
 #. Label of the domain (Data) field in DocType 'Workspace Account'
 #. Label of the domain (Data) field in DocType 'Workspace Domain'
 #. Label of the domain (Data) field in DocType 'Tenant'
@@ -1528,11 +1595,16 @@ msgstr ""
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:21
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:36
-#: onedesk/public/js/account_request.js:24 onedesk/public/js/decision.js:39
+#: onedesk/public/js/account_request.js:24 onedesk/public/js/ai_proposal.js:23
+#: onedesk/public/js/ai_proposal_list.js:10 onedesk/public/js/decision.js:39
 #: onedesk/public/js/job.js:27 onedesk/public/js/job.js:44
 #: onedesk/public/js/job.js:49 onedesk/public/js/learned.js:34
 #: onedesk/public/js/shift_type.js:29
 msgid "Done"
+msgstr ""
+
+#: onedesk/public/js/ai_proposal.js:42 onedesk/public/js/ai_proposal.js:69
+msgid "Done. It wrote {0}."
 msgstr ""
 
 #. Label of the against_section (Section Break) field in DocType 'Credit Ledger
@@ -1575,6 +1647,11 @@ msgstr ""
 #. Label of the bucket_eu (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "EU Bucket"
+msgstr ""
+
+#. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "Edit"
 msgstr ""
 
 #. Option for the 'Network and Location' (Select) field in DocType 'HR
@@ -1725,6 +1802,11 @@ msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:71
 msgid "Employment"
+msgstr ""
+
+#. Description of the 'Record' (Data) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "Empty on a create: there is nothing yet."
 msgstr ""
 
 #. Description of the 'Grant' (Link) field in DocType 'Credit Ledger Entry'
@@ -2460,11 +2542,13 @@ msgstr ""
 #. Label of the kind (Select) field in DocType 'Offering'
 #. Label of the kind (Select) field in DocType 'Provisioning Job'
 #. Label of the kind (Select) field in DocType 'Tenant Event'
+#. Label of the kind (Select) field in DocType 'AI Proposal'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "Kind"
 msgstr ""
 
@@ -3099,6 +3183,10 @@ msgstr ""
 msgid "Nothing changes for the workspace during this period."
 msgstr ""
 
+#: onedesk/public/js/ai_proposal.js:49
+msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
+msgstr ""
+
 #: onedesk/public/js/leave_application.js:14
 msgid "Nothing is spent and no attendance is marked."
 msgstr ""
@@ -3434,8 +3522,14 @@ msgstr ""
 msgid "Out of 100. Below the confirmation threshold the log is flagged for review."
 msgstr ""
 
+#: onedesk/public/js/ai_proposal.js:25 onedesk/public/js/ai_proposal_list.js:12
+msgid "Out of date"
+msgstr ""
+
+#. Label of the done_section (Section Break) field in DocType 'AI Proposal'
 #. Label of the one_outcome (Data) field in DocType 'Employee Checkin'
 #. Label of the outcome (Select) field in DocType 'Clock Attempt'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_hr/custom/employee_checkin.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Outcome"
@@ -3801,8 +3895,11 @@ msgstr ""
 msgid "Propose a Clock Place when enough employees check in from just outside an existing one."
 msgstr ""
 
+#. Option for the 'State' (Select) field in DocType 'AI Proposal'
+#. Label of the changes (Code) field in DocType 'AI Proposal'
 #. Option for the 'Status' (Select) field in DocType 'Clock Network'
 #. Option for the 'Status' (Select) field in DocType 'Clock Place'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 msgid "Proposed"
@@ -3936,10 +4033,12 @@ msgstr ""
 msgid "Reading the check-ins"
 msgstr ""
 
+#. Label of the why (Small Text) field in DocType 'AI Proposal'
 #. Label of the one_reason (Link) field in DocType 'Attendance Request'
 #. Label of the one_reason (Link) field in DocType 'Employee Checkin'
 #. Label of the reason (Data) field in DocType 'Attendance Reason'
 #. Label of the reason (Data) field in DocType 'Clock Reason'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_hr/custom/attendance_request.json
 #: onedesk/one_hr/custom/employee_checkin.json
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
@@ -3958,13 +4057,30 @@ msgstr ""
 msgid "Reasons offered to employees on check out."
 msgstr ""
 
+#. Label of the record (Data) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/public/js/overtime.js:50
 msgid "Record"
+msgstr ""
+
+#. Label of the modified_then (Data) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "Record As Of"
 msgstr ""
 
 #: onedesk/public/js/attendance.js:8 onedesk/public/js/employee.js:233
 #: onedesk/public/js/overtime.js:10
 msgid "Record Overtime"
+msgstr ""
+
+#. Label of the for_doctype (Data) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "Record Type"
+msgstr ""
+
+#. Label of the applied_doc (Data) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "Record Written"
 msgstr ""
 
 #: onedesk/public/js/overtime.js:68
@@ -4011,6 +4127,10 @@ msgstr ""
 msgid "Refunded"
 msgstr ""
 
+#: onedesk/public/js/ai_proposal.js:15
+msgid "Refuse"
+msgstr ""
+
 #. Label of the one_refuse_below (Int) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Refuse Below Score"
@@ -4021,9 +4141,12 @@ msgstr ""
 msgid "Refuse Check-in Without a Passkey"
 msgstr ""
 
+#. Option for the 'State' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Outcome' (Select) field in DocType 'Clock Attempt'
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/public/js/ai_proposal.js:24 onedesk/public/js/ai_proposal_list.js:11
 msgid "Refused"
 msgstr ""
 
@@ -4188,7 +4311,9 @@ msgid "Row {0}: {1} expires before it was issued."
 msgstr ""
 
 #. Option for the 'Source' (Select) field in DocType 'Credit Ledger Entry'
+#. Label of the reference (Data) field in DocType 'AI Proposal'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/public/js/ai_action_setting.js:82
 msgid "Run"
 msgstr ""
@@ -4253,6 +4378,10 @@ msgstr ""
 
 #: onedesk/public/js/admin_settings.js:24 onedesk/public/js/ai_model.js:69
 msgid "Say hello in one short sentence."
+msgstr ""
+
+#: onedesk/public/js/ai_proposal.js:61
+msgid "Say no to this?"
 msgstr ""
 
 #. Label of the attachment (Attach) field in DocType 'Employee Document'
@@ -4478,6 +4607,11 @@ msgstr ""
 msgid "Some Days Were Trimmed"
 msgstr ""
 
+#. Description of a DocType
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "Something a model suggested doing. Nothing happens until a person presses Apply."
+msgstr ""
+
 #. Label of the source (Select) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:217
@@ -4501,6 +4635,11 @@ msgstr ""
 
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:209
 msgid "Stage"
+msgstr ""
+
+#. Option for the 'State' (Select) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "Stale"
 msgstr ""
 
 #. Label of the 'standard_working_hours' field in DocType 'HR Settings'
@@ -4550,7 +4689,9 @@ msgid "Starts"
 msgstr ""
 
 #. Label of the state (Select) field in DocType 'Credit Reservation'
+#. Label of the state (Select) field in DocType 'AI Proposal'
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "State"
 msgstr ""
 
@@ -4691,6 +4832,20 @@ msgstr ""
 msgid "Submitting this pays {0} {1} for {2} days of {3}."
 msgstr ""
 
+#: onedesk/one_ai/tools.py:178
+msgid "Suggested. It happens when somebody approves it."
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one/sidebar/one/one.json
+msgid "Suggestions"
+msgstr ""
+
+#. Label of the said (Data) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "Summary"
+msgstr ""
+
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 msgid "Suspend"
@@ -4728,6 +4883,7 @@ msgstr ""
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "System Manager"
 msgstr ""
 
@@ -5394,6 +5550,10 @@ msgstr ""
 msgid "Waiting for the payment to settle."
 msgstr ""
 
+#: onedesk/public/js/ai_proposal.js:22 onedesk/public/js/ai_proposal_list.js:9
+msgid "Waiting for you"
+msgstr ""
+
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:9
 msgid "Waiting on DNS"
 msgstr ""
@@ -5494,6 +5654,11 @@ msgstr ""
 msgid "What the hold is priced from. The settle replaces it."
 msgstr ""
 
+#. Description of the 'Reason' (Small Text) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "What the model said it was for."
+msgstr ""
+
 #. Description of the 'Note' (Small Text) field in DocType 'Attendance Request'
 #. Description of the 'Note' (Small Text) field in DocType 'Expense Claim'
 #. Description of the 'Note' (Small Text) field in DocType 'Leave Application'
@@ -5523,6 +5688,11 @@ msgstr ""
 #. Description of a DocType
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
 msgid "What this workspace wants one action to run on, and what it wants added to it."
+msgstr ""
+
+#. Description of the 'Currently' (Code) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "What those fields held when this was written."
 msgstr ""
 
 #. Label of the one_when (Data) field in DocType 'Timesheet Detail'
@@ -5577,6 +5747,11 @@ msgstr ""
 #. Description of the Onboarding Step 'Add a customer'
 #: onedesk/one/onboarding_step/one_add_a_customer/one_add_a_customer.json
 msgid "Who you invoice. OneCRM turns a lead into one of these, and Books bills them."
+msgstr ""
+
+#. Description of the 'Asked By' (Link) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "Whose permissions were checked when this was written, and whose will be checked again."
 msgstr ""
 
 #. Label of the one_pay_note (Small Text) field in DocType 'Overtime Slip'
@@ -5707,6 +5882,14 @@ msgstr ""
 
 #: onedesk/one_hr/closing.py:99
 msgid "You checked in but never checked out, so a check out was written for you at the shift end. Tell HR if that is wrong."
+msgstr ""
+
+#: onedesk/one_ai/tools.py:96
+msgid "You may not read {0}."
+msgstr ""
+
+#: onedesk/one_ai/proposals.py:166
+msgid "You may not {0} {1}."
 msgstr ""
 
 #. Label of the extra_section (Section Break) field in DocType 'AI Action
@@ -5925,6 +6108,10 @@ msgid ""
 "{4}"
 msgstr ""
 
+#: onedesk/public/js/ai_proposal.js:35
+msgid "{0} changed after this was suggested, so it no longer applies."
+msgstr ""
+
 #: onedesk/public/js/exemption.js:36
 msgid "{0} claimed {1} for {2}, and all of it is allowed."
 msgstr ""
@@ -5990,6 +6177,10 @@ msgstr ""
 msgid "{0} for {1}: {2} of {3} days paid."
 msgstr ""
 
+#: onedesk/one_ai/proposals.py:97
+msgid "{0} has changed since this was suggested, so it no longer applies."
+msgstr ""
+
 #: onedesk/one_admin/stripe.py:61 onedesk/one_admin/stripe.py:164
 msgid "{0} has no Stripe price."
 msgstr ""
@@ -6042,6 +6233,10 @@ msgstr ""
 msgid "{0} is not a rung an operator sets."
 msgstr ""
 
+#: onedesk/one_ai/tools.py:169
+msgid "{0} is not a tool."
+msgstr ""
+
 #: onedesk/one_hr/doctype/clock_network/clock_network.py:14
 msgid "{0} is not a valid address or range. Example: 203.0.113.7 or 203.0.113.0/24"
 msgstr ""
@@ -6056,6 +6251,10 @@ msgstr ""
 
 #: onedesk/one_admin/domains.py:222
 msgid "{0} is not on this workspace."
+msgstr ""
+
+#: onedesk/one_ai/proposals.py:156
+msgid "{0} is not something that can be proposed."
 msgstr ""
 
 #: onedesk/one_hr/learned.py:24
@@ -6143,7 +6342,8 @@ msgstr ""
 msgid "{0} to {1}"
 msgstr ""
 
-#: onedesk/one_admin/ledger.py:165
+#: onedesk/one_admin/ledger.py:165 onedesk/one_ai/proposals.py:85
+#: onedesk/one_ai/proposals.py:116
 msgid "{0} was already {1}."
 msgstr ""
 
