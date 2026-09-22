@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-21 23:52+0000\n"
-"PO-Revision-Date: 2026-09-21 23:52+0000\n"
+"POT-Creation-Date: 2026-09-22 00:01+0000\n"
+"PO-Revision-Date: 2026-09-22 00:01+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -283,6 +283,14 @@ msgstr ""
 
 #: onedesk/public/js/leave_application.js:33
 msgid "Approving this books {0} days of {1} for {2}, {3}, leaving them {4}."
+msgstr ""
+
+#: onedesk/public/js/expense_claim.js:39
+msgid "Approving this pays {0} back {1}, across {2} expenses."
+msgstr ""
+
+#: onedesk/public/js/expense_claim.js:44
+msgid "Approving this pays {0} back {1}."
 msgstr ""
 
 #: onedesk/public/js/shift_request.js:57
@@ -763,18 +771,22 @@ msgid "Dec"
 msgstr ""
 
 #. Label of the one_decided_by (Link) field in DocType 'Attendance Request'
+#. Label of the one_decided_by (Link) field in DocType 'Expense Claim'
 #. Label of the one_decided_by (Link) field in DocType 'Leave Application'
 #. Label of the one_decided_by (Link) field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/attendance_request.json
+#: onedesk/one_hr/custom/expense_claim.json
 #: onedesk/one_hr/custom/leave_application.json
 #: onedesk/one_hr/custom/shift_request.json
 msgid "Decided By"
 msgstr ""
 
 #. Label of the one_decided_on (Datetime) field in DocType 'Attendance Request'
+#. Label of the one_decided_on (Datetime) field in DocType 'Expense Claim'
 #. Label of the one_decided_on (Datetime) field in DocType 'Leave Application'
 #. Label of the one_decided_on (Datetime) field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/attendance_request.json
+#: onedesk/one_hr/custom/expense_claim.json
 #: onedesk/one_hr/custom/leave_application.json
 #: onedesk/one_hr/custom/shift_request.json
 msgid "Decided On"
@@ -783,11 +795,14 @@ msgstr ""
 #. Label of the one_decision_section (Section Break) field in DocType
 #. 'Attendance Request'
 #. Label of the one_decision (Select) field in DocType 'Attendance Request'
+#. Label of the one_decision_section (Section Break) field in DocType 'Expense
+#. Claim'
 #. Label of the one_decision_section (Section Break) field in DocType 'Leave
 #. Application'
 #. Label of the one_decision_section (Section Break) field in DocType 'Shift
 #. Request'
 #: onedesk/one_hr/custom/attendance_request.json
+#: onedesk/one_hr/custom/expense_claim.json
 #: onedesk/one_hr/custom/leave_application.json
 #: onedesk/one_hr/custom/shift_request.json
 msgid "Decision"
@@ -902,12 +917,14 @@ msgstr ""
 msgid "Email Group"
 msgstr ""
 
+#. Label of the 'employee' field in DocType 'Expense Claim'
 #. Name of a role
 #. Label of the employee (Link) field in DocType 'Clock Attempt'
 #. Label of the employee (Link) field in DocType 'Clock Device'
 #. Label of the employee (Link) field in DocType 'Clock Network'
 #. Label of the employee (Link) field in DocType 'Clock Place'
 #. Label of a Sidebar Item
+#: onedesk/one_hr/custom/expense_claim.json
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
@@ -1824,10 +1841,12 @@ msgid "Not marked"
 msgstr ""
 
 #. Label of the one_note (Small Text) field in DocType 'Attendance Request'
+#. Label of the one_note (Small Text) field in DocType 'Expense Claim'
 #. Label of the one_note (Small Text) field in DocType 'Leave Application'
 #. Label of the one_note (Small Text) field in DocType 'Shift Request'
 #. Label of the note (Small Text) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/custom/attendance_request.json
+#: onedesk/one_hr/custom/expense_claim.json
 #: onedesk/one_hr/custom/leave_application.json
 #: onedesk/one_hr/custom/shift_request.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:43
@@ -1961,6 +1980,10 @@ msgstr ""
 
 #: onedesk/one_hr/review.py:42
 msgid "Only HR can review a check-in."
+msgstr ""
+
+#: onedesk/one_hr/expense.py:95
+msgid "Only a claim still waiting can be answered."
 msgstr ""
 
 #: onedesk/one_hr/review.py:52
@@ -2558,8 +2581,10 @@ msgstr ""
 msgid "Set Standard Working Hours in {0} first. Everything here is measured against it."
 msgstr ""
 
+#. Description of the 'approval_status' field in DocType 'Expense Claim'
 #. Description of the 'status' field in DocType 'Leave Application'
 #. Description of the 'status' field in DocType 'Shift Request'
+#: onedesk/one_hr/custom/expense_claim.json
 #: onedesk/one_hr/custom/leave_application.json
 #: onedesk/one_hr/custom/shift_request.json
 msgid "Set by Approve and Reject, so it always agrees with who decided."
@@ -2855,6 +2880,10 @@ msgstr ""
 msgid "These days will be marked as worked."
 msgstr ""
 
+#: onedesk/public/js/expense_claim.js:56
+msgid "They claimed {0} and {1} was sanctioned."
+msgstr ""
+
 #: onedesk/one_hr/review.py:50
 msgid "This attempt was already reviewed."
 msgstr ""
@@ -3092,9 +3121,11 @@ msgid "What the browser called itself when the passkey was registered."
 msgstr ""
 
 #. Description of the 'Note' (Small Text) field in DocType 'Attendance Request'
+#. Description of the 'Note' (Small Text) field in DocType 'Expense Claim'
 #. Description of the 'Note' (Small Text) field in DocType 'Leave Application'
 #. Description of the 'Note' (Small Text) field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/attendance_request.json
+#: onedesk/one_hr/custom/expense_claim.json
 #: onedesk/one_hr/custom/leave_application.json
 #: onedesk/one_hr/custom/shift_request.json
 msgid "What the person deciding wrote, if anything."
@@ -3305,6 +3336,10 @@ msgstr ""
 
 #: onedesk/public/js/employee.js:149
 msgid "{0} left"
+msgstr ""
+
+#: onedesk/public/js/expense_claim.js:49
+msgid "{0} of it is already covered by an advance."
 msgstr ""
 
 #: onedesk/public/js/leave_application.js:29

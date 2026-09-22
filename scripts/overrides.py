@@ -347,6 +347,20 @@ OVERRIDES = [
 		"Please set default template for Leave Status Notification in HR Settings.",
 	),
 	(
+		"An expense claim is answered, and the answer is signed",
+		"its verdict is a Select the approver edits by hand, and `on_submit` throws if they forgot — a rule the Submit button does not carry",
+		"onedesk/one_hr/expense.py",
+		"hrms/hrms/hr/doctype/expense_claim/expense_claim.py",
+		"Approval Status must be 'Approved' or 'Rejected'",
+	),
+	(
+		"Every expense row gets the one cost centre there is",
+		"it is required to book the claim and filled only by their form script, from the claim, from the company",
+		"onedesk/one_hr/expense.py",
+		"hrms/hrms/hr/doctype/expense_claim/expense_claim.js",
+		"set_child_cost_center: function (frm) {",
+	),
+	(
 		"A benefit application knows its own ceiling",
 		"`max_benefits` is filled by a whitelisted method only their form script calls, and validate compares against it",
 		"onedesk/one_hr/benefit.py",

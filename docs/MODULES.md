@@ -41,6 +41,9 @@ No doctypes yet.
 * `onedesk.one_hr.clock.ready`
 * `onedesk.one_hr.employee.overview`
 * `onedesk.one_hr.encashment.rate`
+* `onedesk.one_hr.expense.about`
+* `onedesk.one_hr.expense.approve`
+* `onedesk.one_hr.expense.reject`
 * `onedesk.one_hr.learned.confirm`
 * `onedesk.one_hr.learned.reject`
 * `onedesk.one_hr.leave.about`

@@ -66,6 +66,10 @@ doc_events = {
 	"Timesheet": {"before_validate": "onedesk.one_hr.timesheet.before_validate"},
 	# The third request doctype, answered like the other two. See one_hr/leave.py.
 	"Leave Application": {"before_submit": "onedesk.one_hr.leave.before_submit"},
+	"Expense Claim": {
+		"before_validate": "onedesk.one_hr.expense.before_validate",
+		"before_submit": "onedesk.one_hr.expense.before_submit",
+	},
 	"Employee Benefit Application": {"before_validate": "onedesk.one_hr.benefit.application"},
 	"Employee Benefit Claim": {"before_validate": "onedesk.one_hr.benefit.claim"},
 	# The reason is a record and submitting is an approval. See one_hr/request.py.
@@ -112,6 +116,7 @@ doctype_js = {
 	"Leave Encashment": "public/js/leave_encashment.js",
 	"Salary Slip": "public/js/salary_slip.js",
 	"Payroll Entry": "public/js/payroll_entry.js",
+	"Expense Claim": "public/js/expense_claim.js",
 	"Employee Tax Exemption Declaration": "public/js/exemption.js",
 	"Employee Tax Exemption Proof Submission": "public/js/exemption.js",
 }

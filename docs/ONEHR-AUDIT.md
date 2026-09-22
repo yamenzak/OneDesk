@@ -511,3 +511,47 @@ has accrued, so nothing is claimable and the form says so. Building that fixture
 means a payroll run carrying a flexible benefit, which is a long way to go for a
 subsystem this workspace may not want at all — see the note at the top of this
 group.
+
+## Expenses
+
+### Expense Claim
+
+**The fourth request doctype, and the fourth approval shape.** HRMS gives this
+one an `approval_status` Select — Draft, Approved, Rejected — that the approver
+edits by hand, and then `on_submit` throws *"Approval Status must be 'Approved'
+or 'Rejected'"* if they forgot, which is a rule the toolbar's own Submit button
+does not carry. Attendance Request had no way to say no at all, Shift Request
+had a dropdown, Leave Application had a dropdown and a throw. This is the last
+of the four, and it now has the same two buttons, the same note dialog and the
+same three signed fields, out of `one_hr/decision.py`.
+
+The headline says what approving pays: *Approving this pays Omar Haddad back
+د.إ 420.00.* It counts the rows only when there is more than one, names an
+advance when one covers part of it, and says both numbers when the sanctioned
+amount differs from the claimed. HRMS's own `validate_for_self_approval` still
+runs and still refuses: nobody approves their own claim, whatever they press.
+
+Measured: `HR-EXP-2026-00001` went to Approved, signed by the approver with the
+note, and HRMS's own status moved to Unpaid.
+
+Also found:
+
+1. **`cost_center` is required on every expense row to book the claim**, and it
+   is filled by their form script — from the claim, which is filled from the
+   company. A claim made any other way fails on submit with *"Row 1: Cost Center
+   is required in the expenses table"*. It is a better message than most in this
+   audit and still a field nobody typed, because a workspace has one cost
+   centre. `before_validate` fills the claim's from the company and each row's
+   from the claim.
+2. **Three money columns in the list**, two of them the same number and one that
+   stays at nought until the status beside it says Paid. Grand Total stays,
+   Total Claimed Amount and Total Amount Reimbursed go, and Posting Date — which
+   had a filter and no column — joins them.
+3. **`From Employee`** is the person every other screen in OneHR calls the
+   employee. Relabelled.
+
+Left: the Totals block still stacks six fields — sanctioned, advance, grand
+total, claimed, taxes, reimbursed — and on a single-row claim four of them are
+the same number and two are nought. They are not redundant in general (an
+advance and a tax make them differ), so the headline answers the question
+instead of the layout being rewritten.
