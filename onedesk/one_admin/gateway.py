@@ -32,13 +32,11 @@ from onedesk.one_admin.faults import Again, Refused
 #: the same escape hatch `press.py` has, for the same reason.
 URL = "https://gateway.ai.cloudflare.com/v1"
 
-#: **Every provider's key is stored in the gateway, including Cloudflare's own.**
-#: Proven against the real gateway: with a Google key saved there, a call carries
-#: only `cf-aig-authorization` and Gemini answers — no Google key on this site at
-#: all, which is the whole point of the dependency. Workers AI is not exempt from
-#: needing one: the gateway attaches nothing it has not been given, so a Workers
-#: AI key has to be stored there too or the provider answers 401. An operator
-#: setting an account up stores a key per provider; this module never holds one.
+#: **Every provider's key is stored in the gateway.** Proven against the real
+#: gateway: with a Google key saved there, a call carries only
+#: `cf-aig-authorization` and Gemini answers — no Google key on this site at all,
+#: which is the whole point of the dependency. An operator setting an account up
+#: stores a key per provider; this module never holds one.
 
 #: Long. A generation is two to forty seconds and a timeout here is a call we
 #: paid for and threw away. AI 9 moves this off the web worker entirely.
@@ -63,8 +61,14 @@ TAG = "cf-aig-metadata"
 #: the gateway's own provider slugs and are not ours to choose.
 PROVIDERS = {
 	"workers-ai": {
-		"path": lambda model: model,
-		"talk": lambda system, turns, tools, most: {
+		# One path for every model, with the model in the body — Cloudflare's
+		# OpenAI-compatible endpoint. Measured: the per-model path the direct
+		# API uses, `/workers-ai/@cf/vendor/model`, answers 401 *through the
+		# gateway* with a token that works on the direct API, which reads as a
+		# credential problem and is a path problem.
+		"path": lambda model: "v1/chat/completions",
+		"talk": lambda model, system, turns, tools, most: {
+			"model": model,
 			"messages": (
 				([{"role": "system", "content": system}] if system else [])
 				+ [_openai_turn(one) for one in turns]
@@ -85,7 +89,7 @@ PROVIDERS = {
 		# models from v1beta — one version for both, so what is listed is what
 		# can be called.
 		"path": lambda model: f"v1beta/models/{model}:generateContent",
-		"talk": lambda system, turns, tools, most: {
+		"talk": lambda model, system, turns, tools, most: {
 			"contents": [_gemini_turn(one) for one in turns],
 			"generationConfig": {"maxOutputTokens": most},
 			**({"systemInstruction": {"parts": [{"text": system}]}} if system else {}),
@@ -157,7 +161,7 @@ def through(
 		answer = requests.post(
 			where,
 			headers=headers,
-			data=json.dumps(spoken["talk"](system, turns, tools, most)),
+			data=json.dumps(spoken["talk"](model, system, turns, tools, most)),
 			timeout=TIMEOUT,
 		)
 	except requests.Timeout as raised:
@@ -404,14 +408,24 @@ def _workers_ai_said(body: dict | None) -> str | None:
 	loud, it is not an answer, and putting it on screen as one is how a person
 	is shown working notes and told they are a reply.
 	"""
-	result = (body or {}).get("result") or {}
+	# Three shapes now. `result.response` and `result.choices` come off the
+	# direct API's `/ai/run`; the gateway's OpenAI-compatible endpoint answers
+	# with `choices` at the top level and no `result` wrapper at all.
+	result = (body or {}).get("result") or body or {}
 	if result.get("response") is not None:
 		return result["response"]
-	for choice in result.get("choices") or []:
+
+	# A choice that came back at all is an answer, even an empty one: a
+	# reasoning model given a small budget spends it all on `reasoning_content`
+	# and omits `content` entirely, and that is the model saying nothing rather
+	# than a shape nobody has seen. `None` is kept for the second case, which is
+	# what makes the guard in `_answered` worth having.
+	choices = result.get("choices") or []
+	for choice in choices:
 		said = (choice.get("message") or {}).get("content")
 		if said is not None:
 			return said
-	return None
+	return "" if choices else None
 
 
 def _openai_calls(body: dict | None) -> list[dict]:
@@ -422,9 +436,10 @@ def _openai_calls(body: dict | None) -> list[dict]:
 	are read, because a provider changing which one it sends is not a thing we
 	would find out about in advance.
 	"""
-	result = (body or {}).get("result") or {}
-	# Both shapes again: `result.tool_calls` on the classic models, and
-	# `result.choices[].message.tool_calls` on the OpenAI-compatible ones.
+	result = (body or {}).get("result") or body or {}
+	# The same three: `result.tool_calls` on the classic models, and
+	# `choices[].message.tool_calls` wrapped in `result` or not, depending on
+	# whether the answer came from `/ai/run` or the gateway's own endpoint.
 	asked = list(result.get("tool_calls") or [])
 	for choice in result.get("choices") or []:
 		asked.extend((choice.get("message") or {}).get("tool_calls") or [])

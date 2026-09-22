@@ -672,12 +672,28 @@ permission from managing one: Read and Edit govern the gateway's configuration,
 the app's token should carry — a leaked one buys somebody the rate limit rather
 than the ability to turn logging off.
 
-**Workers AI is not exempt.** The gateway attaches nothing it has not been given,
-so a Workers AI key has to be stored there like any other provider's; without
-one the provider answers 401 while the gateway hop itself succeeds. The two
-errors are told apart by their shape: a bad gateway token comes back as
-`AiGatewayError` code 2009, a missing provider key as Cloudflare's own code
-10000.
+**Workers AI needs the gateway's own path, and this one cost an hour of blaming
+the wrong thing.** `/workers-ai/@cf/vendor/model` — the path the direct API uses
+— answers **401 through the gateway** with a token that answers 200 on the
+direct API a second earlier. That reads as a credential problem and is a path
+problem: behind the gateway Workers AI is the OpenAI-compatible endpoint,
+`/workers-ai/v1/chat/completions`, with the model in the body. Same token, same
+gateway, 200.
+
+It also answers in a third shape: `choices` and `usage` at the top level, no
+`result` wrapper, where `/ai/run` wraps both. Reading one shape only is a call
+that answers fine and then bills its hold because nothing could be metered.
+
+**A reasoning model that says nothing has still answered.** Given a small output
+budget, gemma-4 spends all of it on `reasoning_content` and omits `content`
+altogether — and the guard that exists to catch a provider changing its response
+shape fired on it. A choice that came back at all is an answer, even an empty
+one; `None` is kept for a body with no choices in it, which is the case the
+guard is actually for.
+
+The two authentication failures are told apart by shape rather than status, both
+being 401: a bad gateway token comes back as `AiGatewayError` code 2009, and
+anything the provider refuses as Cloudflare's own code 10000.
 
 **And the gateway is rate limited** — `one-gateway` is set to 50 requests per 60
 seconds, which a five-round tool loop brushes against with two people asking at

@@ -24,6 +24,7 @@ FAULTS = tree.APP / "one_admin" / "faults.py"
 PROXY = tree.APP / "one_admin" / "proxy.py"
 CATALOGUE = tree.APP / "one_admin" / "catalogue.py"
 MODEL = tree.APP / "one_admin" / "doctype" / "ai_model" / "ai_model.py"
+METER = tree.APP / "one_admin" / "meter.py"
 
 #: The two readers, lifted out of `gateway.py` — they touch nothing but `json`.
 LIFTED = ("_workers_ai_said", "_openai_calls", "_gemini_calls", "_gemini_turn")
@@ -72,6 +73,36 @@ def test_thinking_out_loud_is_not_an_answer():
 	"""
 	body = {"result": {"choices": [{"message": {"content": "", "reasoning_content": "The user said hi."}}]}}
 	assert readers()["_workers_ai_said"](body) == ""
+
+
+def test_a_reasoning_model_that_says_nothing_has_still_answered():
+	"""gemma-4 given a small budget spends it on `reasoning_content` and omits
+	`content` altogether. That is the model saying nothing, not a shape nobody
+	has seen — and the difference decides whether a paid call raises."""
+	room = readers()
+	spent = {"choices": [{"finish_reason": "length", "message": {"reasoning_content": "hm"}}]}
+	assert room["_workers_ai_said"](spent) == ""
+	# A body with no choices at all is still unreadable, which is the case the
+	# guard in `_answered` exists for.
+	assert room["_workers_ai_said"]({"oops": True}) is None
+
+
+def test_the_gateway_answers_without_a_result_wrapper():
+	"""Cloudflare's OpenAI-compatible endpoint puts `choices` and `usage` at the
+	top level; `/ai/run` wraps both in `result`. Reading one shape only is a
+	call that answers fine and bills its hold because nothing was metered."""
+	room = readers()
+	assert room["_workers_ai_said"]({"choices": [{"message": {"content": "hi"}}]}) == "hi"
+	assert "body or {}" in spoken(METER, "_workers_ai")
+
+
+def test_workers_ai_goes_through_the_gateways_own_path():
+	"""Measured: the direct API's per-model path answers 401 *through the
+	gateway* with a token that works on the direct API — which reads as a
+	credential problem and is a path problem."""
+	source = GATEWAY.read_text(encoding="utf-8")
+	assert '"path": lambda model: "v1/chat/completions"' in source
+	assert '"model": model,' in source, "the model has to travel in the body now"
 
 
 def test_a_tool_call_is_found_in_either_shape():

@@ -54,8 +54,14 @@ def read(provider: str, body: dict, asked: list[Use] | None = None) -> tuple[lis
 
 
 def _workers_ai(body: dict) -> list[Use]:
-	"""`result.usage`, which carries text tokens and nothing else."""
-	usage = ((body or {}).get("result") or {}).get("usage") or {}
+	"""`usage`, which carries text tokens and nothing else.
+
+	Wrapped in `result` on the direct API and at the top level on the gateway's
+	OpenAI-compatible endpoint. Reading only one of them is a call that answers
+	fine and bills its hold because nothing could be metered.
+	"""
+	said = (body or {}).get("result") or body or {}
+	usage = said.get("usage") or {}
 	found = []
 	for key, kind in (("prompt_tokens", "input"), ("completion_tokens", "output")):
 		count = usage.get(key)
