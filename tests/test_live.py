@@ -26,7 +26,7 @@ CATALOGUE = tree.APP / "one_admin" / "catalogue.py"
 MODEL = tree.APP / "one_admin" / "doctype" / "ai_model" / "ai_model.py"
 
 #: The two readers, lifted out of `gateway.py` — they touch nothing but `json`.
-LIFTED = ("_workers_ai_said", "_openai_calls")
+LIFTED = ("_workers_ai_said", "_openai_calls", "_gemini_calls", "_gemini_turn")
 
 
 def readers():
@@ -105,6 +105,39 @@ def test_function_calling_asks_for_the_version_that_has_it():
 	source = GATEWAY.read_text(encoding="utf-8")
 	assert "v1beta/models/{model}:generateContent" in source
 	assert "v1/models/{model}:generateContent" not in source.replace("v1beta/models", "")
+
+
+def test_gemini_threes_thought_signature_is_carried_back():
+	"""Gemini 3 answers a functionCall with a `thoughtSignature` and refuses the
+	next request without it: "Function call is missing a thought_signature in
+	functionCall parts". 2.5 sends none and needs none, so it is carried when
+	there is one and left off when there is not."""
+	room = readers()
+	body = {
+		"candidates": [
+			{
+				"content": {
+					"parts": [
+						{
+							"functionCall": {"name": "count_records", "args": {"doctype": "ToDo"}, "id": "call_1"},
+							"thoughtSignature": "EuIDCt8D",
+						}
+					]
+				}
+			}
+		]
+	}
+	asked = room["_gemini_calls"](body)
+	assert asked == [
+		{"id": "call_1", "tool": "count_records", "args": {"doctype": "ToDo"}, "signature": "EuIDCt8D"}
+	]
+
+	back = room["_gemini_turn"]({"role": "model", "text": "", "calls": asked})
+	assert back["parts"][0]["thoughtSignature"] == "EuIDCt8D"
+
+	# And nothing invented where the model sent none.
+	asked[0]["signature"] = None
+	assert "thoughtSignature" not in room["_gemini_turn"]({"role": "model", "calls": asked})["parts"][0]
 
 
 # ------------------------------------------ a refusal keeps its name and words

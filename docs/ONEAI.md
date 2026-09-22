@@ -599,10 +599,10 @@ same thing again, because a failed run that clears the box is a question
 retyped. While it runs it says what it is doing — thinking, then looking things
 up — rather than showing a spinner that says nothing for twenty seconds.
 
-**LIVE — the real providers, and the six things the stand-in hid.** *Done.*
+**LIVE — the real providers, and the seven things the stand-in hid.** *Done.*
 Wired to a real Cloudflare account and a real Gemini key. The catalogue is now
 the providers' own: 65 Workers AI models, 54 priced, and 50 Gemini models, 18
-priced. Six failures, none of which a stand-in could have shown, because a
+priced. Seven failures, none of which a stand-in could have shown, because a
 stand-in answers in whatever shape it was written to answer in:
 
 **Workers AI has two response shapes.** `result.response` on the classic text
@@ -639,13 +639,24 @@ the default for Text Generation, and then held that default against every
 replacement — each attempt refused by a row for a model that no longer exists.
 Withdrawal clears the default, and a withdrawn model no longer holds one.
 
+**Gemini 3 will not talk to you twice without its own signature.** Every
+`functionCall` part comes back with a `thoughtSignature`, and the next request
+is refused without it — "Function call is missing a thought_signature in
+functionCall parts". It is opaque and it is the model's; our turn carries it
+only so it can be handed back on the same part it arrived on. Gemini 2.5 sends
+none and needs none, which is exactly why testing one Gemini model was not
+testing Gemini.
+
 Measured on real models, same question, same tools: **gemma-4** answers in two
 rounds with one `count_records` for 0.68 credits; **gpt-oss-20b** in two for
 1.58; **gemini-2.5-flash-lite** in two for 0.53. All three reached for counting
-rather than listing, which is the instruction from AI 8c landing. **llama-3.2-3b**
-cannot: it asks for two tools at once and Workers AI answers "This model only
-supports single tool-calls at once!" — a model limitation, now legible, and a
-reason not to offer it rather than something to code around.
+rather than listing, which is the instruction from AI 8c landing. **gemini-3.1-flash-lite** in two for 1.55, and
+**gemini-3.8-flash** in five for 16.17 — it counted, then described the type,
+then listed, then read one record, and hit the round cap having already had the
+answer. Thorough is not free. **llama-3.2-3b** cannot do this at all: it asks
+for two tools at once and Workers AI answers "This model only supports single
+tool-calls at once!" — a model limitation, now legible, and a reason not to
+offer it rather than something to code around.
 
 **AI 8d — the upload.** Not built. A file dropped on the panel attaches to the
 `AI Chat` and goes to the model with the question, which is how "make a

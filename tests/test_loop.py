@@ -169,7 +169,12 @@ def test_gemini_calls_and_words_come_out_of_the_same_parts():
 	}
 	assert room["_first_part"](body) == "looking"
 	assert room["_gemini_calls"](body) == [
-		{"id": "count_records", "tool": "count_records", "args": {"doctype": "ToDo"}}
+		{
+			"id": "count_records",
+			"tool": "count_records",
+			"args": {"doctype": "ToDo"},
+			"signature": None,
+		}
 	]
 
 

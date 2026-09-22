@@ -454,18 +454,35 @@ def _gemini_turn(one: dict) -> dict:
 	if one.get("text"):
 		parts.append({"text": one["text"]})
 	for call in one.get("calls") or []:
-		parts.append({"functionCall": {"name": call["tool"], "args": call.get("args") or {}}})
+		said = {"functionCall": {"name": call["tool"], "args": call.get("args") or {}}}
+		if call.get("signature"):
+			# Verbatim and on the same part it came back on. Gemini 3 checks it.
+			said["thoughtSignature"] = call["signature"]
+		parts.append(said)
 	return {"role": "model" if one.get("role") == "model" else "user", "parts": parts or [{"text": ""}]}
 
 
 def _gemini_calls(body: dict | None) -> list[dict]:
+	"""What Gemini asked for, and the signature it has to be handed back with.
+
+	Gemini 3 returns a `thoughtSignature` beside every `functionCall` and
+	refuses the next request without it: "Function call is missing a
+	thought_signature in functionCall parts". It is opaque, it is the model's
+	own, and it is carried on our turn only so it can be given back — which is
+	why 2.5 works without one and 3.x does not.
+	"""
 	found = []
 	for candidate in ((body or {}).get("candidates") or []):
 		for part in ((candidate.get("content") or {}).get("parts") or []):
 			call = part.get("functionCall")
 			if call and call.get("name"):
 				found.append(
-					{"id": call["name"], "tool": call["name"], "args": call.get("args") or {}}
+					{
+						"id": call.get("id") or call["name"],
+						"tool": call["name"],
+						"args": call.get("args") or {},
+						"signature": part.get("thoughtSignature"),
+					}
 				)
 	return found
 
