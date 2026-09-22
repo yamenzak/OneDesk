@@ -276,6 +276,23 @@ somebody may keep.
 **INFRA 7 — the portal.** Signup, Stripe checkout, the webhook, the warm pool,
 and a customer going from a card to a working workspace without anyone helping.
 
+**Trials are card-up-front, and cost one field.** `Offering.trial_days` puts
+`subscription_data[trial_period_days]` on the checkout session and nothing else
+changes anywhere: Stripe still takes the card, still completes the session, and
+still sends `checkout.session.completed`, with the subscription starting in
+`trialing` against a zero invoice. So `signup.accept` builds the workspace on a
+trial exactly as it does on a payment, and when the trial ends the first real
+invoice arrives as `invoice.paid` or `invoice.payment_failed` — which is the
+ladder that was already there. A trial needs a recurring offering, because
+Stripe carries it on the subscription and there is nowhere to put one on a
+single payment; the price list refuses it rather than letting Stripe refuse it
+in front of a customer holding a card.
+
+**A card-less trial is a different thing and is not built.** It would mean a
+workspace provisioned with no Stripe customer at all, which the ladder has no
+rung for and nothing counts an expiry against. Everything above assumes a
+payment method exists from the first minute.
+
 **INFRA 8 — domains.** *Done.* `hosts.py` decides what a workspace may claim
 and is pure, like `keys.py` and for the same reason. `cloudflare.py` writes the
 one KV key. `domains.py` relays add, check, drop and make-primary to press and

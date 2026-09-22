@@ -110,3 +110,68 @@ def test_a_plan_gives_the_gigabytes_it_advertises():
 	}
 	assert 1024 not in numbers, "storage is sold in decimal gigabytes"
 	assert 1000 in numbers
+
+
+OFFERING = tree.APP / "one_admin" / "doctype" / "offering" / "offering.py"
+WELCOME = tree.APP / "www" / "welcome.py"
+
+
+def test_a_trial_only_ever_goes_on_a_subscription():
+	"""Stripe carries a trial on the subscription, so there is nowhere to put
+	one on a single payment — and a session that sends the field anyway is
+	refused by Stripe in front of a customer holding a card."""
+	body = ast.parse(STRIPE.read_text(encoding="utf-8"))
+	checkout = next(
+		node
+		for node in ast.walk(body)
+		if isinstance(node, ast.FunctionDef) and node.name == "checkout"
+	)
+	guards = [
+		node
+		for node in ast.walk(checkout)
+		if isinstance(node, ast.If)
+		and "recurring" in ast.unparse(node.test)
+		and "trial_days" in ast.unparse(node.test)
+	]
+	assert guards, "trial_period_days is not behind `recurring and trial_days`"
+	assert ast.unparse(checkout).count("trial_period_days") == 1
+	assert "trial_period_days" in ast.unparse(guards[0])
+
+
+def test_the_price_list_refuses_a_trial_it_cannot_honour():
+	"""The same rule at the other end, so the operator is told when they set it
+	rather than the customer when they try to pay."""
+	source = OFFERING.read_text(encoding="utf-8")
+	assert "self.trial_days and not self.recurring" in source
+
+
+def _sentences(source: str, name: str) -> dict[str, str]:
+	"""A `{status: lambda: _("...")}` table read back as `{status: text}`."""
+	table = next(
+		node.value
+		for node in ast.parse(source).body
+		if isinstance(node, ast.Assign)
+		and any(t.id == name for t in node.targets if isinstance(t, ast.Name))
+	)
+	said = {}
+	for key, value in zip(table.keys, table.values, strict=True):
+		words = [
+			child.value
+			for child in ast.walk(value)
+			if isinstance(child, ast.Constant) and isinstance(child.value, str)
+		]
+		said[key.value] = " ".join(words)
+	return said
+
+
+def test_a_trialling_customer_is_never_told_a_payment_landed():
+	"""The screen Stripe sends somebody back to. With a trial nothing was
+	charged — the card was taken and the first invoice is days away — so every
+	status that would otherwise claim a payment has to be answered again."""
+	source = WELCOME.read_text(encoding="utf-8")
+	plain, on_trial = _sentences(source, "SAYS"), _sentences(source, "ON_TRIAL")
+
+	claims = {status for status, said in plain.items() if "Payment received" in said}
+	assert claims, "SAYS no longer says this, so this guard is reading the wrong thing"
+	assert claims <= set(on_trial), f"{claims - set(on_trial)} would tell a trial it paid"
+	assert not any("Payment received" in said for said in on_trial.values())

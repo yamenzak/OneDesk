@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 15:20+0000\n"
-"PO-Revision-Date: 2026-09-22 15:20+0000\n"
+"POT-Creation-Date: 2026-09-22 15:37+0000\n"
+"PO-Revision-Date: 2026-09-22 15:37+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1025,7 +1025,7 @@ msgstr ""
 msgid "Contact"
 msgstr ""
 
-#: onedesk/www/start.html:59
+#: onedesk/www/start.html:60
 msgid "Continue to payment"
 msgstr ""
 
@@ -1691,6 +1691,15 @@ msgstr ""
 
 #: onedesk/public/js/tenant_domain.js:53
 msgid "Frappe Cloud no longer has this domain."
+msgstr ""
+
+#. Label of the trial_days (Int) field in DocType 'Offering'
+#: onedesk/one_admin/doctype/offering/offering.json
+msgid "Free Trial (Days)"
+msgstr ""
+
+#: onedesk/www/start.py:87
+msgid "Free for {0} days"
 msgstr ""
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:7
@@ -2781,6 +2790,10 @@ msgstr ""
 msgid "Only a flagged attempt needs reviewing."
 msgstr ""
 
+#: onedesk/one_admin/doctype/offering/offering.py:41
+msgid "Only a recurring offering can have a trial."
+msgstr ""
+
 #: onedesk/one_hr/shift.py:116
 msgid "Only a request still waiting can be answered."
 msgstr ""
@@ -3015,7 +3028,11 @@ msgstr ""
 msgid "Payload"
 msgstr ""
 
-#: onedesk/www/start.html:61
+#: onedesk/www/start.py:50
+msgid "Payment is taken by Stripe. A plan with a trial takes your card now and charges it when the trial ends."
+msgstr ""
+
+#: onedesk/www/start.py:54
 msgid "Payment is taken by Stripe. Nothing is charged until it is confirmed there."
 msgstr ""
 
@@ -3085,7 +3102,7 @@ msgid "Photo"
 msgstr ""
 
 #: onedesk/www/start.html:20
-msgid "Pick a name and a plan. The workspace is built as soon as the payment goes through."
+msgid "Pick a name and a plan. The workspace is built as soon as the card is accepted."
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -3974,7 +3991,7 @@ msgstr ""
 msgid "Stripe Webhook Event"
 msgstr ""
 
-#: onedesk/one_admin/stripe.py:245
+#: onedesk/one_admin/stripe.py:251
 msgid "Stripe is not configured. Set it in One Admin Settings."
 msgstr ""
 
@@ -4070,7 +4087,7 @@ msgstr ""
 msgid "Territory"
 msgstr ""
 
-#: onedesk/www/start.html:100
+#: onedesk/www/start.html:101
 msgid "That did not work."
 msgstr ""
 
@@ -4837,8 +4854,17 @@ msgstr ""
 msgid "Your passkey has been reset twice within a month."
 msgstr ""
 
+#: onedesk/www/welcome.py:29 onedesk/www/welcome.py:30
+msgid "Your trial has started. The workspace is being built."
+msgstr ""
+
 #: onedesk/www/welcome.html:2
 msgid "Your workspace"
+msgstr ""
+
+#. Description of the 'Free Trial (Days)' (Int) field in DocType 'Offering'
+#: onedesk/one_admin/doctype/offering/offering.json
+msgid "Zero means no trial. The card is taken at checkout either way."
 msgstr ""
 
 #. Description of the 'Seats' (Int) field in DocType 'Workspace Account'
@@ -4915,15 +4941,15 @@ msgstr ""
 msgid "units"
 msgstr ""
 
-#: onedesk/www/start.py:71
+#: onedesk/www/start.py:105
 msgid "{0} AI credits a month"
 msgstr ""
 
-#: onedesk/www/start.py:67
+#: onedesk/www/start.py:101
 msgid "{0} GB storage"
 msgstr ""
 
-#: onedesk/www/start.py:52
+#: onedesk/www/start.py:83
 msgid "{0} a month"
 msgstr ""
 
@@ -5095,7 +5121,7 @@ msgstr ""
 msgid "{0} over the {1} this plan allows."
 msgstr ""
 
-#: onedesk/www/start.py:69
+#: onedesk/www/start.py:103
 msgid "{0} people"
 msgstr ""
 

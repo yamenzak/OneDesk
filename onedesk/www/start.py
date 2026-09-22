@@ -35,22 +35,56 @@ def get_context(context):
 	context.no_cache = 1
 	context.offerings = [_drawn(one) for one in _plans()]
 	context.jurisdictions = [(key, frappe._(label)) for key, label in WHERE.items()]
+	context.pay_note = _pay_note(context.offerings)
 	return context
+
+
+def _pay_note(offerings: list[dict]) -> str:
+	"""The line under the button, which has to be true of whatever is picked.
+
+	Two sentences rather than one when any plan has a trial, because "nothing is
+	charged until it is confirmed" is the wrong reassurance there: the card is
+	taken at checkout and the charge comes days later.
+	"""
+	if any(one.get("trial_days") for one in offerings):
+		return frappe._(
+			"Payment is taken by Stripe. A plan with a trial takes your card now "
+			"and charges it when the trial ends."
+		)
+	return frappe._("Payment is taken by Stripe. Nothing is charged until it is confirmed there.")
 
 
 def _plans() -> list[dict]:
 	return frappe.get_all(
 		"Offering",
 		filters={"kind": "Plan", "enabled": 1},
-		fields=["name", "label", "description", "currency", "amount", "storage_gb", "seats", "credits_a_month"],
+		fields=[
+			"name",
+			"label",
+			"description",
+			"currency",
+			"amount",
+			"trial_days",
+			"storage_gb",
+			"seats",
+			"credits_a_month",
+		],
 		order_by="amount asc",
 	)
 
 
 def _drawn(one: dict) -> dict:
-	"""A plan with the two lines the page shows written out."""
+	"""A plan with the lines the page shows written out.
+
+	The trial is its own line rather than part of the price, because the price
+	is right-aligned against the plan's name and "Free for 14 days, then $49.00
+	a month" does not belong in that column.
+	"""
 	one["price"] = frappe._("{0} a month").format(
 		frappe.utils.fmt_money(one["amount"], currency=one["currency"])
+	)
+	one["trial"] = (
+		frappe._("Free for {0} days").format(one["trial_days"]) if one.get("trial_days") else None
 	)
 	one["quota"] = " · ".join(_quota(one))
 	return one

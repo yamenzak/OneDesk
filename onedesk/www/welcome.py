@@ -21,6 +21,15 @@ SAYS = {
 	"Failed": lambda: frappe._("The workspace could not be built. Somebody has been told and will be in touch."),
 }
 
+#: What the same two statuses say when the plan carried a trial. Nothing was
+#: charged, so "Payment received" is simply false — the card was taken and the
+#: first invoice is days away. Done is not here: "The workspace is ready" is
+#: already the whole answer on the screen somebody opens to click Open it.
+ON_TRIAL = {
+	"Paid": lambda: frappe._("Your trial has started. The workspace is being built."),
+	"Provisioning": lambda: frappe._("Your trial has started. The workspace is being built."),
+}
+
 
 def get_context(context):
 	if not site.is_admin():
@@ -31,11 +40,18 @@ def get_context(context):
 	asked = frappe.db.get_value(
 		"Account Request",
 		frappe.form_dict.get("request"),
-		["workspace_name", "status", "tenant", "email"],
+		["workspace_name", "status", "tenant", "email", "offering"],
 		as_dict=True,
 	)
 	context.asked = asked
-	says = SAYS.get(asked.status) if asked else None
+	trial = (
+		frappe.db.get_value("Offering", asked.offering, "trial_days")
+		if asked and asked.offering
+		else 0
+	)
+	says = None
+	if asked:
+		says = (ON_TRIAL.get(asked.status) if trial else None) or SAYS.get(asked.status)
 	context.said = says() if says else None
 	context.domain = (
 		frappe.db.get_value("Tenant", asked.tenant, "domain") if asked and asked.tenant else None

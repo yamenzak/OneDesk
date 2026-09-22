@@ -17,6 +17,7 @@
   "amount",
   "column_break_price",
   "recurring",
+  "trial_days",
   "stripe_price",
   "quota_section",
   "storage_gb",
@@ -95,6 +96,13 @@
    "fieldtype": "Check",
    "label": "Recurring",
    "description": "Clear for a one-time purchase such as a credit pack."
+  },
+  {
+   "default": "0",
+   "description": "Zero means no trial. The card is taken at checkout either way.",
+   "fieldname": "trial_days",
+   "fieldtype": "Int",
+   "label": "Free Trial (Days)"
   },
   {
    "description": "The Stripe price charged at checkout. Must match the amount above.",

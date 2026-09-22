@@ -145,6 +145,15 @@
 	white-space: nowrap;
 }
 
+.one-portal .one-choice__trial {
+	display: block;
+	font-size: 0.8125rem;
+	font-weight: 500;
+	margin-top: 0.25rem;
+	margin-left: 1.5rem;
+	color: var(--ink);
+}
+
 .one-portal .one-choice__about,
 .one-portal .one-choice__quota {
 	display: block;

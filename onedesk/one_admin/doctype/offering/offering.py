@@ -34,3 +34,8 @@ class Offering(Document):
 				)
 		if self.kind == "Credit Pack" and self.recurring:
 			frappe.throw(frappe._("A credit pack is bought once, so it does not recur."))
+		if self.trial_days and not self.recurring:
+			# Stripe carries a trial on the subscription, so there is nowhere to
+			# put one on a single payment. A trial here would be a number that
+			# shows on the signup page and changes nothing at checkout.
+			frappe.throw(frappe._("Only a recurring offering can have a trial."))

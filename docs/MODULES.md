@@ -39,7 +39,7 @@ No doctypes yet.
 | Doctype | Fields | Kind |
 |---|--:|---|
 | Account Request | 16 | document |
-| Offering | 18 | document |
+| Offering | 19 | document |
 | One Admin Settings | 28 | single |
 | Provisioning Job | 12 | document |
 | Stripe Webhook Event | 7 | document |

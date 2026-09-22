@@ -17,7 +17,7 @@
 	{% if not offerings %}
 		<p class="one-portal__lede">{{ _("No plan is on offer at the moment.") }}</p>
 	{% else %}
-	<p class="one-portal__lede">{{ _("Pick a name and a plan. The workspace is built as soon as the payment goes through.") }}</p>
+	<p class="one-portal__lede">{{ _("Pick a name and a plan. The workspace is built as soon as the card is accepted.") }}</p>
 
 	<form id="one-start">
 		<label class="one-field" for="workspace_name">
@@ -50,6 +50,7 @@
 					<span><input type="radio" name="offering" value="{{ one.name }}" {% if loop.first %}checked{% endif %}>{{ one.label }}</span>
 					<span class="one-choice__price">{{ one.price }}</span>
 				</span>
+				{% if one.trial %}<small class="one-choice__trial">{{ one.trial }}</small>{% endif %}
 				{% if one.description %}<small class="one-choice__about">{{ one.description }}</small>{% endif %}
 				{% if one.quota %}<small class="one-choice__quota">{{ one.quota }}</small>{% endif %}
 			</label>
@@ -58,7 +59,7 @@
 
 		<button type="submit" class="one-go">{{ _("Continue to payment") }}</button>
 		<p class="one-said" id="one-said"></p>
-		<small class="one-note">{{ _("Payment is taken by Stripe. Nothing is charged until it is confirmed there.") }}</small>
+		<small class="one-note">{{ pay_note }}</small>
 	</form>
 	{% endif %}
 </div>

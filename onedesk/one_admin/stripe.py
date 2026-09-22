@@ -60,19 +60,25 @@ def checkout(request: str) -> str:
 	if not sold.stripe_price:
 		frappe.throw(frappe._("{0} has no Stripe price.").format(sold.name))
 
-	made = _post(
-		"checkout/sessions",
-		{
-			"mode": "subscription" if sold.recurring else "payment",
-			"line_items[0][price]": sold.stripe_price,
-			"line_items[0][quantity]": 1,
-			"customer_email": asked.email,
-			"client_reference_id": asked.name,
-			"metadata[request]": asked.name,
-			"success_url": _back_to(asked, "done"),
-			"cancel_url": _back_to(asked, "cancelled"),
-		},
-	)
+	form = {
+		"mode": "subscription" if sold.recurring else "payment",
+		"line_items[0][price]": sold.stripe_price,
+		"line_items[0][quantity]": 1,
+		"customer_email": asked.email,
+		"client_reference_id": asked.name,
+		"metadata[request]": asked.name,
+		"success_url": _back_to(asked, "done"),
+		"cancel_url": _back_to(asked, "cancelled"),
+	}
+	if sold.recurring and sold.trial_days:
+		# A trial changes nothing downstream. Stripe still takes the card, still
+		# completes the session, and still sends `checkout.session.completed` —
+		# the subscription simply starts in `trialing` with a zero invoice. So
+		# the workspace is built here exactly as a paid one is, and when the
+		# trial ends the first real invoice arrives as `invoice.paid` or
+		# `invoice.payment_failed`, which is the ladder we already have.
+		form["subscription_data[trial_period_days]"] = int(sold.trial_days)
+	made = _post("checkout/sessions", form)
 	asked.db_set({"status": "Paying", "stripe_session": made.get("id")})
 	return made.get("url")
 
