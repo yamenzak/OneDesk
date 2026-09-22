@@ -186,3 +186,30 @@ def test_a_shipped_instruction_says_what_not_to_do():
 	for row in _spec(FIXTURE):
 		said = row["instruction"].lower()
 		assert any(word in said for word in ("do not", "only")), row["key"]
+
+
+# ------------------------------------------- the instruction is not a workspace's
+
+
+def test_a_workspace_holds_no_copy_of_the_instruction():
+	"""`AI Action` is a fixture, so every site gets the row — the label, the
+	capability and the caps, which is what a workspace needs to pick a model.
+	The instruction is not part of that, and shipping it while declining to
+	render it would be a curtain rather than a wall: the row would be in the
+	workspace's database and `frappe.client.get` reads it."""
+	said = (tree.APP / "one_ai" / "instructions.py").read_text(encoding="utf-8")
+	assert "site.is_admin()" in said
+	assert '"instruction", ""' in said
+
+	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+	for when in ("after_install", "after_migrate"):
+		at = hooks.index(when)
+		block = hooks[at : hooks.index("]", at)]
+		assert "onedesk.one_ai.instructions.trim" in block, f"{when} does not trim"
+		# After the flag is applied, because what it does depends on it.
+		assert block.index("site.apply") < block.index("instructions.trim")
+
+
+def test_the_setting_screen_does_not_print_the_instruction():
+	said = (tree.APP / "public" / "js" / "ai_action_setting.js").read_text(encoding="utf-8")
+	assert "asked.instruction" not in said, "the instruction is rendered to a workspace"

@@ -62,10 +62,13 @@ onedesk.action.pick = (frm, models) => {
 onedesk.action.ours = (frm, asked) => {
 	const field = frm.get_field("extra");
 	if (!field) return;
+	// Not the instruction itself — that is the account's and a workspace has no
+	// copy of it. What a person needs here is that theirs is added to something
+	// rather than replacing it, which the headline already says.
 	frm.set_df_property(
 		"extra",
 		"description",
-		__("Added after this:") + "\n" + (asked.instruction || ""),
+		__("Added to what {0} already does. It is never replaced.", [asked.label]),
 	);
 	frm.refresh_field("extra");
 };

@@ -745,6 +745,23 @@ for 0.49; `gemini-2.5-flash-lite` for 0.53. Gemma 4, the current default, costs
 which is a hundred and twenty times the cheapest correct answer to the same
 question.
 
+**THE INSTRUCTION IS THE ACCOUNT'S.** *Done.* A workspace configures each
+action we register: it picks a model from what the account offers, and it adds
+to the prompt. It does not see the prompt.
+
+`AI Action` stays a fixture, because a new action has to arrive with a migrate
+and a workspace needs the row — the label, the capability, the token caps — to
+draw a picker at all. The instruction is not part of that, and shipping it while
+declining to render it would be a curtain rather than a wall: the row sits in
+the workspace's own database and `frappe.client.get` reads it. So `trim` empties
+the field on a workspace after every migrate and leaves the account's copy
+alone. `proxy.ai_run` was already reading the account's copy and ignoring
+anything sent with a call; now there is nothing on the other side to send.
+
+`ready` writes a setting per enabled action at the same time, so all four have a
+screen from the start — a setting that only exists once somebody saves it is a
+setting nobody knows is there.
+
 **AI 8d — the upload.** Not built. A file dropped on the panel attaches to the
 `AI Chat` and goes to the model with the question, which is how "make a
 quotation from this PDF" works. There is no PDF text extractor on the bench, so

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 21:31+0000\n"
-"PO-Revision-Date: 2026-09-22 21:31+0000\n"
+"POT-Creation-Date: 2026-09-22 21:55+0000\n"
+"PO-Revision-Date: 2026-09-22 21:55+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -360,10 +360,6 @@ msgstr ""
 msgid "Added Instructions"
 msgstr ""
 
-#: onedesk/public/js/ai_action_setting.js:68
-msgid "Added after this:"
-msgstr ""
-
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.py:27
 msgid "Added instructions are {0} characters; the most is {1}."
 msgstr ""
@@ -372,6 +368,10 @@ msgstr ""
 #. Action Setting'
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
 msgid "Added to the instruction this action already carries. It is never replaced."
+msgstr ""
+
+#: onedesk/public/js/ai_action_setting.js:71
+msgid "Added to what {0} already does. It is never replaced."
 msgstr ""
 
 #. Description of the 'total_hours' field in DocType 'Timesheet'
@@ -690,7 +690,7 @@ msgid "Asking {0}…"
 msgstr ""
 
 #: onedesk/public/js/admin_settings.js:31
-#: onedesk/public/js/ai_action_setting.js:85 onedesk/public/js/ai_model.js:83
+#: onedesk/public/js/ai_action_setting.js:88 onedesk/public/js/ai_model.js:83
 msgid "Asking…"
 msgstr ""
 
@@ -4441,7 +4441,7 @@ msgstr ""
 #. Label of the reference (Data) field in DocType 'AI Proposal'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/public/js/ai_action_setting.js:82
+#: onedesk/public/js/ai_action_setting.js:85
 msgid "Run"
 msgstr ""
 
@@ -5095,7 +5095,7 @@ msgstr ""
 
 #. Label of the reads_text (Check) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
-#: onedesk/public/js/ai_action_setting.js:79
+#: onedesk/public/js/ai_action_setting.js:82
 msgid "Text"
 msgstr ""
 
@@ -5599,7 +5599,7 @@ msgid "Try again"
 msgstr ""
 
 #: onedesk/public/js/ai_action_setting.js:11
-#: onedesk/public/js/ai_action_setting.js:77
+#: onedesk/public/js/ai_action_setting.js:80
 msgid "Try it"
 msgstr ""
 
@@ -6380,7 +6380,7 @@ msgstr ""
 msgid "{0} credits — the hold, because nothing could be metered."
 msgstr ""
 
-#: onedesk/public/js/ai_action_setting.js:91 onedesk/public/js/ai_model.js:106
+#: onedesk/public/js/ai_action_setting.js:94 onedesk/public/js/ai_model.js:106
 #: onedesk/public/js/workspace_account.js:106
 msgid "{0} credits."
 msgstr ""

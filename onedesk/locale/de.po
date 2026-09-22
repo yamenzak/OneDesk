@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 21:31+0000\n"
-"PO-Revision-Date: 2026-09-22 21:31+0000\n"
+"POT-Creation-Date: 2026-09-22 21:55+0000\n"
+"PO-Revision-Date: 2026-09-22 21:55+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -362,10 +362,6 @@ msgstr "Zusatzoption"
 msgid "Added Instructions"
 msgstr "Ergänzte Anweisungen"
 
-#: onedesk/public/js/ai_action_setting.js:68
-msgid "Added after this:"
-msgstr "Wird hieran angehängt:"
-
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.py:27
 msgid "Added instructions are {0} characters; the most is {1}."
 msgstr "Die ergänzten Anweisungen haben {0} Zeichen; erlaubt sind höchstens {1}."
@@ -375,6 +371,10 @@ msgstr "Die ergänzten Anweisungen haben {0} Zeichen; erlaubt sind höchstens {1
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
 msgid "Added to the instruction this action already carries. It is never replaced."
 msgstr "Wird an die Anweisung angehängt, die diese Aktion bereits trägt. Sie wird nie ersetzt."
+
+#: onedesk/public/js/ai_action_setting.js:71
+msgid "Added to what {0} already does. It is never replaced."
+msgstr "Wird zu dem hinzugefügt, was {0} bereits tut. Es wird nie ersetzt."
 
 #. Description of the 'total_hours' field in DocType 'Timesheet'
 #: onedesk/one_hr/custom/timesheet.json
@@ -692,7 +692,7 @@ msgid "Asking {0}…"
 msgstr "{0} wird gefragt …"
 
 #: onedesk/public/js/admin_settings.js:31
-#: onedesk/public/js/ai_action_setting.js:85 onedesk/public/js/ai_model.js:83
+#: onedesk/public/js/ai_action_setting.js:88 onedesk/public/js/ai_model.js:83
 msgid "Asking…"
 msgstr "Wird gefragt …"
 
@@ -4443,7 +4443,7 @@ msgstr "Zeile {0}: {1} läuft vor dem Ausstellungsdatum ab."
 #. Label of the reference (Data) field in DocType 'AI Proposal'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/public/js/ai_action_setting.js:82
+#: onedesk/public/js/ai_action_setting.js:85
 msgid "Run"
 msgstr "Lauf"
 
@@ -5097,7 +5097,7 @@ msgstr ""
 
 #. Label of the reads_text (Check) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
-#: onedesk/public/js/ai_action_setting.js:79
+#: onedesk/public/js/ai_action_setting.js:82
 msgid "Text"
 msgstr ""
 
@@ -5604,7 +5604,7 @@ msgid "Try again"
 msgstr "Erneut versuchen"
 
 #: onedesk/public/js/ai_action_setting.js:11
-#: onedesk/public/js/ai_action_setting.js:77
+#: onedesk/public/js/ai_action_setting.js:80
 msgid "Try it"
 msgstr "Ausprobieren"
 
@@ -6392,7 +6392,7 @@ msgstr "{0} Guthaben im Minus. Kaufen Sie welches, um die KI weiter zu nutzen."
 msgid "{0} credits — the hold, because nothing could be metered."
 msgstr "{0} Guthaben – die Reservierung, weil nichts gemessen werden konnte."
 
-#: onedesk/public/js/ai_action_setting.js:91 onedesk/public/js/ai_model.js:106
+#: onedesk/public/js/ai_action_setting.js:94 onedesk/public/js/ai_model.js:106
 #: onedesk/public/js/workspace_account.js:106
 msgid "{0} credits."
 msgstr "{0} Guthaben."
