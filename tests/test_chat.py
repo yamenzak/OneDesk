@@ -93,8 +93,28 @@ def test_the_question_is_stored_before_the_answer_is_asked_for():
 	"""Otherwise a run that fails takes what somebody typed with it."""
 	said = spoken(CHAT, "say")
 	kept = said.index("_keep(")
-	asked = said.index("_ran(")
-	assert kept < asked, "the conversation is saved after the model is called"
+	asked = said.index("frappe.enqueue(")
+	assert kept < asked, "the conversation is saved after the run is started"
+	assert "enqueue_after_commit=True" in said, "the job could start before the question is stored"
+	assert "_ran(" not in said, "the model is called on the request again"
+
+
+def test_the_run_is_a_background_job_that_says_each_step():
+	"""A web worker held for forty seconds is a worker answering nobody else."""
+	answered = spoken(CHAT, "answer")
+	assert "_ran(" in answered and "heard" in answered
+	told = spoken(CHAT, "_tell")
+	assert "publish_realtime" in told and "user=" in told, "a step is sent to somebody else's browser"
+
+
+def test_a_run_is_only_read_back_by_whoever_started_it():
+	said = spoken(CHAT, "progress")
+	assert "frappe.session.user" in said
+
+
+def test_a_failed_run_is_logged_when_it_is_a_bug_and_said_when_it_is_not():
+	said = spoken(CHAT, "answer")
+	assert "frappe.ValidationError" in said and "log_error" in said
 
 
 def test_the_whole_conversation_is_kept_and_only_the_tail_is_sent():

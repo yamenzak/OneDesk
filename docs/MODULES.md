@@ -116,6 +116,7 @@ No doctypes yet.
 * `onedesk.one_ai.chat.chats`
 * `onedesk.one_ai.chat.forget`
 * `onedesk.one_ai.chat.opened`
+* `onedesk.one_ai.chat.progress`
 * `onedesk.one_ai.chat.rename`
 * `onedesk.one_ai.chat.say`
 * `onedesk.one_ai.chat.start`

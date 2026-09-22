@@ -118,8 +118,11 @@
 				</div>
 
 				<div v-if="busy" class="one-ai-thinking">
-					<span class="one-ai-thinking__bloom"></span>
-					<span>{{ doing }}</span>
+					<div v-for="(step, at) in steps" :key="at" class="one-ai-thinking__done">{{ step }}</div>
+					<div class="one-ai-thinking__now">
+						<span class="one-ai-thinking__bloom"></span>
+						<span>{{ doing }}</span>
+					</div>
 				</div>
 
 				<div v-if="broke" class="one-ai-broke">
@@ -217,7 +220,7 @@
 </template>
 
 <script setup>
-import { computed, nextTick, ref } from "vue";
+import { computed, nextTick, onBeforeUnmount, ref } from "vue";
 
 import Record from "./Record.vue";
 
@@ -250,6 +253,18 @@ const listening = ref(false);
 // The field a question is about, when the panel was opened from a field's own
 // control. Its answer comes back as a suggestion for that field.
 const target = ref(null);
+
+// What the run in the background has done so far, as it happens. Sent over
+// frappe's own realtime channel; asked for every few seconds as well, because a
+// socket that dropped or a tab that slept would otherwise wait for ever.
+const steps = ref([]);
+const POLL = 5000;
+let watching = null;
+frappe.realtime.on("one_ai_run", heard);
+onBeforeUnmount(() => {
+	frappe.realtime.off("one_ai_run", heard);
+	stop();
+});
 
 // Three asks that cover most of what anybody wants from a paragraph, pressed
 // rather than typed. An empty field has one thing to ask for.
@@ -330,13 +345,23 @@ async function list() {
 }
 
 async function openChat(name) {
+	// Whatever was being followed belongs to the conversation being left; it
+	// is picked up again from `running` if somebody comes back to it.
+	stop();
+	busy.value = false;
 	chat.value = await frappe.xcall("onedesk.one_ai.chat.opened", { chat: name });
+	if (chat.value.running) {
+		doing.value = __("Thinking…");
+		follow(chat.value.running);
+	}
 	view.value = "chat";
 	await load();
 	toBottom();
 }
 
 function fresh() {
+	stop();
+	busy.value = false;
 	target.value = null;
 	chat.value = { name: null, title: null, said: [], spent: 0 };
 	cards.value = {};
@@ -429,13 +454,10 @@ async function send(again) {
 	}
 	toBottom();
 
-	// The rounds take seconds each and a spinner that says nothing for twenty
-	// of them reads as a hang. This is what it is doing, not how far along it
-	// is — there is no progress to report until AI 9 streams one.
-	const saying = setTimeout(() => (doing.value = __("Looking things up…")), 3000);
+	steps.value = [];
 
 	try {
-		chat.value = await frappe.xcall("onedesk.one_ai.chat.say", {
+		const started = await frappe.xcall("onedesk.one_ai.chat.say", {
 			text: asked,
 			chat: chat.value.name,
 			page: useHere.value && props.here ? props.here : null,
@@ -444,18 +466,65 @@ async function send(again) {
 			// may have typed in it since the panel opened.
 			field: target.value ? { ...target.value, value: current() } : null,
 		});
-		await load();
-		emit("counted");
+		chat.value = started;
+		follow(started.run);
 	} catch (raised) {
-		// The question stays on screen with the reason under it and a button,
-		// because a failed run that clears the box is a question retyped.
-		broke.value = _why(raised);
+		fail(_why(raised));
 		frappe.hide_msgprint && frappe.hide_msgprint();
-	} finally {
-		clearTimeout(saying);
-		busy.value = false;
-		toBottom();
 	}
+	toBottom();
+}
+
+// Watch one run until it says it is done or failed.
+function follow(run) {
+	stop();
+	busy.value = true;
+	watching = {
+		run,
+		poll: setInterval(
+			() => frappe.xcall("onedesk.one_ai.chat.progress", { run }).then((state) => heard({ ...state, run })),
+			POLL
+		),
+	};
+}
+
+function stop() {
+	if (watching) clearInterval(watching.poll);
+	watching = null;
+}
+
+// One message about a run, from the socket or from a poll. The poll carries
+// every step so far; the socket carries one at a time.
+function heard(step) {
+	if (!watching || !step || step.run !== watching.run) return;
+	if (step.steps) steps.value = step.steps.map(told);
+	else if (step.tool) steps.value = [...steps.value, told(step)];
+	if (step.thinking !== undefined) {
+		doing.value = step.thinking ? __("Reading what it found…") : __("Thinking…");
+	}
+	if (step.done) return finish();
+	if (step.failed) return fail(step.failed);
+	toBottom();
+}
+
+async function finish() {
+	stop();
+	chat.value = await frappe.xcall("onedesk.one_ai.chat.opened", { chat: chat.value.name });
+	await load();
+	emit("counted");
+	busy.value = false;
+	steps.value = [];
+	toBottom();
+}
+
+// The question stays on screen with the reason under it and a button, because
+// a failed run that clears the box is a question retyped.
+function fail(reason) {
+	stop();
+	broke.value = reason;
+	busy.value = false;
+	steps.value = [];
+	toBottom();
 }
 
 // Why it did not go through, in words somebody can act on.

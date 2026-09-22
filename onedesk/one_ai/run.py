@@ -26,8 +26,13 @@ def ask(
 	text: str,
 	reference: str | None = None,
 	turns: list[dict] | None = None,
+	heard=None,
 ) -> dict:
 	"""Run one action, looking things up for the model where it asks.
+
+	`heard` is told each thing as it happens — a round starting, a tool it ran
+	— so a panel watching a background run can say what it is doing rather
+	than that it is busy.
 
 	The loop is here rather than on the account, and that is the whole shape of
 	this: the model is on the account and the records are here, the account
@@ -48,7 +53,10 @@ def ask(
 	turns = list(turns) if turns else None
 	spent, rounds, cards = 0.0, 0, []
 
+	tell = heard or (lambda step: None)
+
 	while True:
+		tell({"thinking": rounds})
 		out = account.ask(
 			"onedesk.one_admin.proxy.ai_run",
 			action=action,
@@ -67,6 +75,7 @@ def ask(
 		for want in out.get("wants") or []:
 			answer = _tried(want)
 			card = _card(answer)
+			tell({"tool": want.get("tool"), "args": want.get("args") or {}, "ran": bool(answer.get("ran"))})
 			if card:
 				cards.append(card)
 			turns.append(

@@ -34,6 +34,13 @@ KEPT = 24
 #: How long a title taken from the first thing asked may be.
 TITLE = 60
 
+#: A run is five rounds at most, each a model call of up to a minute and the
+#: tools between them. Past this the job is stopped and the chat is free again.
+RUN_TIMEOUT = 600
+
+#: How long a finished run's steps are kept for a browser that missed them.
+RUN_KEPT = 900
+
 #: How many records one lookup draws before it says how many more there were.
 #: Three is a glance; ten is a list somebody has to scroll past the answer.
 CARDS = 3
@@ -88,6 +95,8 @@ def opened(chat: str | None = None) -> dict:
 		"title": doc.title,
 		"said": shown(_turns(doc)),
 		"spent": doc.spent or 0.0,
+		# A run still going, so a panel closed and opened again picks it back up.
+		"running": frappe.cache.get_value(f"one_ai_busy:{doc.name}"),
 		**_model(doc),
 	}
 
@@ -112,10 +121,13 @@ def say(
 	files: list | str | None = None,
 	field: dict | str | None = None,
 ) -> dict:
-	"""Say one thing, run the loop, and keep what came back.
+	"""Say one thing, and start the run that answers it.
 
 	The whole conversation is stored before the answer is asked for, so a run
-	that fails leaves the question in the chat rather than losing it.
+	that fails leaves the question in the chat rather than losing it. The run
+	itself is a background job: a generation takes between two and forty
+	seconds, and a web worker held for that is a worker answering nobody else.
+	The browser is handed a run id and told each step as it happens.
 	"""
 	from onedesk.one_ai import touch
 
@@ -126,6 +138,8 @@ def say(
 		frappe.throw(frappe._("Nothing was asked."))
 
 	doc = _chat(chat, text or (attached and attached[0]) or "")
+	if _running(doc.name):
+		frappe.throw(frappe._("Still answering the last question."), title=frappe._("Not yet"))
 	turns = _turns(doc)
 	# A chat started by the paperclip was saved before anything was asked, under
 	# a placeholder; its first question is still what names it.
@@ -138,24 +152,99 @@ def say(
 	turns.extend(_asked(text, page, attached, writing))
 	_keep(doc, turns, spent=0.0)
 
-	out = _ran(doc, text, turns)
-	turns = turns[: -min(KEPT, len(turns))] + list(out.get("turns") or [])
-	proposed = list(out.get("proposals") or [])
-	if writing:
-		proposed += _field_card(writing, turns, doc.name)
-	doc.model = out.get("model") or doc.model
-	_keep(doc, turns, spent=float(out.get("credits") or 0))
+	run_id = frappe.generate_hash(length=12)
+	_tell(run_id, doc.name, {"started": True})
+	frappe.enqueue(
+		"onedesk.one_ai.chat.answer",
+		queue="default",
+		timeout=RUN_TIMEOUT,
+		enqueue_after_commit=True,
+		chat=doc.name,
+		text=text,
+		field=writing,
+		run_id=run_id,
+	)
 
 	return {
 		"name": doc.name,
 		"title": doc.title,
 		"said": shown(turns),
 		"spent": doc.spent or 0.0,
-		"credits": out.get("credits"),
-		"rounds": out.get("rounds"),
-		"proposals": proposed,
+		"run": run_id,
 		**_model(doc),
 	}
+
+
+def answer(chat: str, text: str, field: dict | None, run_id: str) -> None:
+	"""The run, in the background, as the person who asked.
+
+	frappe starts a job as whoever enqueued it, so every tool the model calls
+	still runs with that person's permissions — nothing about the rule changes
+	by moving it off the request. Each step is told to their browser; the
+	answer is kept on the conversation, which is where the panel reads it from
+	whether or not it heard the last message.
+	"""
+	doc = frappe.get_doc("AI Chat", chat)
+	turns = _turns(doc)
+	heard = lambda step: _tell(run_id, chat, step)  # noqa: E731
+	try:
+		out = _ran(doc, text, turns, heard)
+		turns = turns[: -min(KEPT, len(turns))] + list(out.get("turns") or [])
+		if field:
+			_field_card(field, turns, doc.name)
+		doc.model = out.get("model") or doc.model
+		_keep(doc, turns, spent=float(out.get("credits") or 0))
+		_tell(run_id, chat, {"done": True, "credits": out.get("credits"), "rounds": out.get("rounds")})
+	except frappe.ValidationError as raised:
+		# `_ran` has already put a fault into words somebody can act on.
+		frappe.db.rollback()
+		_tell(run_id, chat, {"failed": frappe.utils.strip_html(str(raised))})
+	except Exception:
+		frappe.db.rollback()
+		frappe.log_error(title="OneAI run failed", reference_doctype="AI Chat", reference_name=chat)
+		_tell(run_id, chat, {"failed": frappe._("That did not go through.")})
+
+
+@frappe.whitelist()
+def progress(run: str) -> dict:
+	"""Where a run has got to, for a browser that missed the messages.
+
+	Realtime is the fast path, not the only one: a socket that dropped, or a
+	tab that slept, asks here instead. Only the person whose run it is.
+	"""
+	state = frappe.cache.get_value(_key(run)) or {}
+	if state.get("user") != frappe.session.user:
+		return {}
+	return state
+
+
+def _key(run: str) -> str:
+	return f"one_ai_run:{run}"
+
+
+def _running(chat: str) -> bool:
+	return bool(frappe.cache.get_value(f"one_ai_busy:{chat}"))
+
+
+def _tell(run: str, chat: str, step: dict) -> None:
+	"""One step of a run: kept for a browser that asks, and sent to the one listening."""
+	state = frappe.cache.get_value(_key(run)) or {"user": frappe.session.user, "chat": chat, "steps": []}
+	if step.get("tool"):
+		state["steps"].append(_looked({"tool": step["tool"], "args": step.get("args")}, {"ran": step.get("ran")}))
+	for end in ("done", "failed"):
+		if end in step:
+			state[end] = step[end]
+	frappe.cache.set_value(_key(run), state, expires_in_sec=RUN_KEPT)
+
+	busy = f"one_ai_busy:{chat}"
+	if step.get("done") or step.get("failed"):
+		frappe.cache.delete_value(busy)
+	else:
+		frappe.cache.set_value(busy, run, expires_in_sec=RUN_TIMEOUT)
+
+	frappe.publish_realtime(
+		"one_ai_run", {"run": run, "chat": chat, **step}, user=state["user"], after_commit=False
+	)
 
 
 @frappe.whitelist()
@@ -212,7 +301,7 @@ def _suggests(row: dict) -> dict:
 	}
 
 
-def _ran(doc, text: str, turns: list[dict]) -> dict:
+def _ran(doc, text: str, turns: list[dict], heard=None) -> dict:
 	"""The run, with the failure said in words somebody can act on.
 
 	A fault out of the account carries an endpoint and a status, which is the
@@ -227,7 +316,7 @@ def _ran(doc, text: str, turns: list[dict]) -> dict:
 		from onedesk.one_ai import files as carrying
 
 		return run.ask(
-			CHAT, text, reference=doc.name, turns=carrying.carried(turns[-KEPT:])
+			CHAT, text, reference=doc.name, turns=carrying.carried(turns[-KEPT:]), heard=heard
 		)
 	except faults.Again:
 		frappe.throw(

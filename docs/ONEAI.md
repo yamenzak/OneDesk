@@ -888,8 +888,43 @@ Measured on a ToDo: the control, the card, Approve into the form, the badge
 after save and reload, and the badge gone once a person edited the field — and
 the same for a new ToDo drafted before it had a name.
 
-**AI 9 — streaming.** The background run, the run id, the realtime room, and what
-the browser shows while it waits.
+**AI 9 — watched, not waited out.** *Done.*
+
+`chat.say` now stores the question, starts a background job and answers at
+once with a run id — about a second, where it used to hold a web worker for the
+whole generation. `chat.answer` is the job. frappe starts it as whoever
+enqueued it, so every tool the model calls still runs with that person's
+permissions; nothing about the rule changes by moving it off the request.
+
+`run.ask` takes a `heard` callback and says each thing as it happens — a round
+starting, a tool it ran — and `_tell` sends it to that person's browser over
+`frappe.publish_realtime`, the socketio the bench already runs. The panel
+draws what it has done so far as quiet lines above what it is doing now:
+"Looked at ToDo", then "Reading what it found…". When the run says done, the
+panel reads the conversation back from `AI Chat`, which is where the answer was
+kept whether or not the browser heard the last message.
+
+**Realtime is the fast path, not the only one.** Every step is also kept in the
+cache for fifteen minutes, and the panel asks `chat.progress` every five
+seconds while it waits — so a socket that dropped, or a tab that slept, is late
+rather than stuck. Measured: 2.9 seconds to an answer over the socket, 5.6 by
+polling alone. Only the person whose run it is can read it back.
+
+**One run per conversation.** A question sent while the last is still being
+answered is refused, and a panel closed mid-run and opened again picks the run
+back up from `opened`'s `running`. A job that dies is logged when it is a bug
+and said in words when it is a refusal, and either way the chat is free again.
+
+It is not token streaming. The model's words come back from the account in one
+piece per round, because the account is another site answering a request; the
+steps are what arrives as it happens. Streaming the words through would need
+the proxy to stream too, and the wait it would save is the last second of a
+run, not the first thirty.
+
+On a dev bench the socket needs three things `bench start` does and a bare
+`bench serve` does not: `DEV_SERVER=1` on the web server (or the browser dials
+its own port), `webserver_port` matching the port it serves on (socketio checks
+the session by calling it), and a worker.
 
 **AI 10 — the operator's screens.** OneAdmin: the catalogue with its Offered
 switch, the rates, the markup, and usage per workspace. Last on purpose — every
