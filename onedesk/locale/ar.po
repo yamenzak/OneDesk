@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 04:49+0000\n"
-"PO-Revision-Date: 2026-09-22 04:49+0000\n"
+"POT-Creation-Date: 2026-09-22 05:07+0000\n"
+"PO-Revision-Date: 2026-09-22 05:07+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -420,6 +420,11 @@ msgstr "منسوخ احتياطياً"
 #: onedesk/one_hr/custom/employee.json
 msgid "Background"
 msgstr "الخلفية"
+
+#. Label of the one_becomes (Data) field in DocType 'Employee Promotion'
+#: onedesk/one_hr/custom/employee_promotion.json
+msgid "Becomes"
+msgstr "يصبح"
 
 #. Label of the belongs_to_section (Section Break) field in DocType 'Clock
 #. Network'
@@ -2908,6 +2913,11 @@ msgstr "أقصى ما يدفعه هذا النوع من العمل الإضاف�
 msgid "The new days plus anything carried forward. Worked out on save, so typing here is overwritten."
 msgstr "الأيام الجديدة مضافاً إليها ما رُحِّل. يُحسب عند الحفظ، فما يُكتب هنا يُستبدل."
 
+#. Description of the 'Becomes' (Data) field in DocType 'Employee Promotion'
+#: onedesk/one_hr/custom/employee_promotion.json
+msgid "The new designation, kept on the document so the list and a filter can reach what is otherwise only a child row."
+msgstr "المسمى الوظيفي الجديد، محفوظاً على المستند كي تصل إليه القائمة والفلتر، وهو خلاف ذلك مجرد صف في جدول فرعي."
+
 #: onedesk/one_hr/rules.py:32
 msgid "The passkey was not unlocked with a face, fingerprint or PIN."
 msgstr "لم يُفتح مفتاح المرور ببصمة الوجه أو بصمة الإصبع أو رمز PIN."
@@ -3340,6 +3350,10 @@ msgstr "جلستك في سطح المكتب مسجَّل دخولها من عن�
 msgid "Your passkey has been reset twice within a month."
 msgstr "أُعيد تعيين مفتاح المرور الخاص بك مرتين خلال شهر."
 
+#: onedesk/public/js/appraisal.js:24
+msgid "feedback"
+msgstr "الملاحظات"
+
 #: onedesk/public/js/shift_request.js:53
 msgid "from {0} to {1}"
 msgstr "من {0} إلى {1}"
@@ -3347,6 +3361,10 @@ msgstr "من {0} إلى {1}"
 #: onedesk/public/js/shift_request.js:54
 msgid "from {0}, with no end date"
 msgstr "من {0}، دون تاريخ انتهاء"
+
+#: onedesk/public/js/appraisal.js:23
+msgid "goals"
+msgstr "الأهداف"
 
 #: onedesk/public/js/employee.js:107
 msgid "in late"
@@ -3373,6 +3391,10 @@ msgstr "لا يوجد مفتاح مرور مسجَّل"
 msgid "nobody yet"
 msgstr "لا أحد بعد"
 
+#: onedesk/public/js/appraisal.js:25
+msgid "the self appraisal"
+msgstr "التقييم الذاتي"
+
 #: onedesk/public/js/vehicle_log.js:35
 msgid "units"
 msgstr "وحدة"
@@ -3388,6 +3410,10 @@ msgstr "يسجّل {0} بالفعل {1} ساعة عمل إضافي في {2}. ا�
 #: onedesk/public/js/employee.js:158
 msgid "{0} awaiting"
 msgstr "{0} قيد الانتظار"
+
+#: onedesk/public/js/employee_promotion.js:32
+msgid "{0} becomes {1}"
+msgstr "{0} يصبح {1}"
 
 #: onedesk/one_hr/passkey.py:219
 msgid ""
@@ -3467,9 +3493,13 @@ msgstr "{0} على عدّاد المسافة منذ السجل السابق، م
 msgid "{0} on the odometer since the last log."
 msgstr "{0} على عدّاد المسافة منذ السجل السابق."
 
-#: onedesk/public/js/leave_application.js:29
+#: onedesk/public/js/appraisal.js:46
+msgid "{0} out of 5"
+msgstr "{0} من 5"
+
+#: onedesk/public/js/appraisal.js:30 onedesk/public/js/leave_application.js:29
 msgid "{0} to {1}"
-msgstr ""
+msgstr "من {0} إلى {1}"
 
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:47
 msgid "{0} will move to where this browser is. Everyone checking in there is measured from the new centre."
@@ -3488,6 +3518,10 @@ msgstr "سيسجّل {0} مفتاح مرور جديداً عند تسجيل حض
 msgid "{0} worked, {1} paid"
 msgstr "عُمل {0}، ودُفع {1}"
 
+#: onedesk/public/js/employee_promotion.js:31
+msgid "{0} {1} → {2}"
+msgstr "{0} من {1} إلى {2}"
+
 #: onedesk/one_hr/timesheet.py:40
 msgid "{0} – running"
 msgstr "{0} – جارٍ"
@@ -3495,6 +3529,26 @@ msgstr "{0} – جارٍ"
 #: onedesk/one_hr/review.py:86
 msgid "{0}'s check-in needs a look"
 msgstr "تسجيل حضور {0} يحتاج إلى مراجعة"
+
+#: onedesk/public/js/employee_promotion.js:40
+msgid "{0}, from {1}. Nothing is listed as changing yet."
+msgstr "{0}، اعتباراً من {1}. لم يُدرج أي تغيير بعد."
+
+#: onedesk/public/js/employee_promotion.js:39
+msgid "{0}, from {1}: {2}."
+msgstr "{0}، اعتباراً من {1}: {2}."
+
+#: onedesk/public/js/appraisal.js:54
+msgid "{0}, {1} — {2}, still waiting on {3}."
+msgstr "{0}، {1} — {2}، وما زال ينتظر {3}."
+
+#: onedesk/public/js/appraisal.js:56
+msgid "{0}, {1} — {2}."
+msgstr "{0}، {1} — {2}."
+
+#: onedesk/public/js/appraisal.js:37
+msgid "{0}, {1}. Nothing has been rated yet, so the score is not a verdict."
+msgstr "{0}، {1}. لم يُقيَّم شيء بعد، فالنتيجة ليست حكماً."
 
 #: onedesk/public/js/payroll_entry.js:45
 msgid "{0}: {1} people, {2}, all submitted."

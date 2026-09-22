@@ -75,6 +75,13 @@ doc_events = {
 	"Employee Benefit Application": {"before_validate": "onedesk.one_hr.benefit.application"},
 	"Employee Benefit Claim": {"before_validate": "onedesk.one_hr.benefit.claim"},
 	"Appointment Letter": {"before_validate": "onedesk.one_hr.letter.before_validate"},
+	# A cycle with appraisals on it has started, and the change it makes to
+	# somebody can be a list column. See one_hr/growth.py.
+	"Appraisal": {
+		"before_validate": "onedesk.one_hr.growth.appraisal_period",
+		"after_insert": "onedesk.one_hr.growth.cycle_under_way",
+	},
+	"Employee Promotion": {"before_validate": "onedesk.one_hr.growth.promotion"},
 	# The reason is a record and submitting is an approval. See one_hr/request.py.
 	"Attendance Request": {
 		"before_validate": "onedesk.one_hr.request.before_validate",
@@ -121,6 +128,8 @@ doctype_js = {
 	"Payroll Entry": "public/js/payroll_entry.js",
 	"Expense Claim": "public/js/expense_claim.js",
 	"Vehicle Log": "public/js/vehicle_log.js",
+	"Appraisal": "public/js/appraisal.js",
+	"Employee Promotion": "public/js/employee_promotion.js",
 	"Employee Tax Exemption Declaration": "public/js/exemption.js",
 	"Employee Tax Exemption Proof Submission": "public/js/exemption.js",
 }

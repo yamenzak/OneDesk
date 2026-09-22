@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 04:49+0000\n"
-"PO-Revision-Date: 2026-09-22 04:49+0000\n"
+"POT-Creation-Date: 2026-09-22 05:07+0000\n"
+"PO-Revision-Date: 2026-09-22 05:07+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -417,6 +417,11 @@ msgstr ""
 #. Label of the 'profile_tab' field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "Background"
+msgstr ""
+
+#. Label of the one_becomes (Data) field in DocType 'Employee Promotion'
+#: onedesk/one_hr/custom/employee_promotion.json
+msgid "Becomes"
 msgstr ""
 
 #. Label of the belongs_to_section (Section Break) field in DocType 'Clock
@@ -2906,6 +2911,11 @@ msgstr ""
 msgid "The new days plus anything carried forward. Worked out on save, so typing here is overwritten."
 msgstr ""
 
+#. Description of the 'Becomes' (Data) field in DocType 'Employee Promotion'
+#: onedesk/one_hr/custom/employee_promotion.json
+msgid "The new designation, kept on the document so the list and a filter can reach what is otherwise only a child row."
+msgstr ""
+
 #: onedesk/one_hr/rules.py:32
 msgid "The passkey was not unlocked with a face, fingerprint or PIN."
 msgstr ""
@@ -3335,12 +3345,20 @@ msgstr ""
 msgid "Your passkey has been reset twice within a month."
 msgstr ""
 
+#: onedesk/public/js/appraisal.js:24
+msgid "feedback"
+msgstr ""
+
 #: onedesk/public/js/shift_request.js:53
 msgid "from {0} to {1}"
 msgstr ""
 
 #: onedesk/public/js/shift_request.js:54
 msgid "from {0}, with no end date"
+msgstr ""
+
+#: onedesk/public/js/appraisal.js:23
+msgid "goals"
 msgstr ""
 
 #: onedesk/public/js/employee.js:107
@@ -3368,6 +3386,10 @@ msgstr ""
 msgid "nobody yet"
 msgstr ""
 
+#: onedesk/public/js/appraisal.js:25
+msgid "the self appraisal"
+msgstr ""
+
 #: onedesk/public/js/vehicle_log.js:35
 msgid "units"
 msgstr ""
@@ -3382,6 +3404,10 @@ msgstr ""
 
 #: onedesk/public/js/employee.js:158
 msgid "{0} awaiting"
+msgstr ""
+
+#: onedesk/public/js/employee_promotion.js:32
+msgid "{0} becomes {1}"
 msgstr ""
 
 #: onedesk/one_hr/passkey.py:219
@@ -3455,7 +3481,11 @@ msgstr ""
 msgid "{0} on the odometer since the last log."
 msgstr ""
 
-#: onedesk/public/js/leave_application.js:29
+#: onedesk/public/js/appraisal.js:46
+msgid "{0} out of 5"
+msgstr ""
+
+#: onedesk/public/js/appraisal.js:30 onedesk/public/js/leave_application.js:29
 msgid "{0} to {1}"
 msgstr ""
 
@@ -3476,12 +3506,36 @@ msgstr ""
 msgid "{0} worked, {1} paid"
 msgstr ""
 
+#: onedesk/public/js/employee_promotion.js:31
+msgid "{0} {1} → {2}"
+msgstr ""
+
 #: onedesk/one_hr/timesheet.py:40
 msgid "{0} – running"
 msgstr ""
 
 #: onedesk/one_hr/review.py:86
 msgid "{0}'s check-in needs a look"
+msgstr ""
+
+#: onedesk/public/js/employee_promotion.js:40
+msgid "{0}, from {1}. Nothing is listed as changing yet."
+msgstr ""
+
+#: onedesk/public/js/employee_promotion.js:39
+msgid "{0}, from {1}: {2}."
+msgstr ""
+
+#: onedesk/public/js/appraisal.js:54
+msgid "{0}, {1} — {2}, still waiting on {3}."
+msgstr ""
+
+#: onedesk/public/js/appraisal.js:56
+msgid "{0}, {1} — {2}."
+msgstr ""
+
+#: onedesk/public/js/appraisal.js:37
+msgid "{0}, {1}. Nothing has been rated yet, so the score is not a verdict."
 msgstr ""
 
 #: onedesk/public/js/payroll_entry.js:45

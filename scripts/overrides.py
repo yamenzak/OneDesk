@@ -291,6 +291,20 @@ OVERRIDES = [
 		"def update_late_entry",
 	),
 	(
+		"An appraisal carries its cycle's dates",
+		"their own duplicate check compares start_date and end_date, and nothing in hrms ever fills either, so only the same-cycle branch can fire",
+		"onedesk/one_hr/growth.py",
+		"hrms/hrms/hr/doctype/appraisal/appraisal.py",
+		"def validate_duplicate",
+	),
+	(
+		"A cycle with appraisals on it is In Progress",
+		"nothing in hrms sets that status, and the cycle summary looks its subject up by it",
+		"onedesk/one_hr/growth.py",
+		"hrms/hrms/hr/doctype/appraisal_cycle/appraisal_cycle.py",
+		"def get_employees_without_feedback",
+	),
+	(
 		"Hiring is measured from the opening, not from a staffing plan",
 		"theirs walks Staffing Plan to Job Opening, so an opening with no plan on it has no applicants, no interviews and no offers in the report at all",
 		"onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py",

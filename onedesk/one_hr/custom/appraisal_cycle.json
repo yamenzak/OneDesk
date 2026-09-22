@@ -1,0 +1,16 @@
+{
+ "custom_fields": [],
+ "doctype": "Appraisal Cycle",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Appraisal Cycle",
+   "doctype_or_field": "DocField",
+   "field_name": "cycle_name",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  }
+ ],
+ "sync_on_migrate": 1
+}

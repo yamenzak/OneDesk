@@ -758,3 +758,90 @@ Two translation notes, because both would have read wrong in Arabic: erpnext
 translates **Opening** as `افتتاحي` — the accounting sense, an opening balance —
 and frappe translates **Stage** as `منصة`, a platform you stand on. Both are
 written over in our own catalogue.
+
+## Growth
+
+Six screens: Goal, Appraisal Cycle, Appraisal, Feedback, Promotion and
+Appraisal Overview. Two of them carry a fault of the same family as the rest of
+this audit — a field nothing fills, and a check that therefore never fires.
+
+### An appraisal has no period, so its duplicate check has nothing to compare
+
+`validate_duplicate` looks for another appraisal for the same person either in
+the same cycle **or** over an overlapping period:
+
+	(Appraisal.appraisal_cycle == self.appraisal_cycle)
+	| (
+		(Appraisal.start_date.between(self.start_date, self.end_date))
+		| (Appraisal.end_date.between(self.start_date, self.end_date))
+		| ...
+	)
+
+Nothing in HRMS ever fills `start_date` or `end_date` on an Appraisal — not
+`create_appraisals_for_cycle`, not the form script, not `validate`. So every
+comparison in the second half is against NULL, which is never true, and only the
+same-cycle branch can ever fire. Two appraisals for one person in two different
+cycles covering the same six months go straight through, which is the exact case
+the period branch exists to catch.
+
+The cycle knows the dates. `one_hr/growth.py` copies them onto the appraisal
+`before_validate`, which is before their own check reads them, and only when the
+appraisal does not already carry its own. The record gains its period as a side
+effect — the headline now reads *01-01-2026 to 30-06-2026* rather than falling
+back to the cycle's name.
+
+### A cycle nobody set to In Progress is invisible to its own summary
+
+An Appraisal Cycle is born `Not Started`, and the only thing in HRMS that ever
+changes that is `complete_cycle`, which sets `Completed`. **Nothing sets
+`In Progress`.** But the cycle screen's own summary looks its subject up by it:
+
+	if not cycle_name:
+		cycle_name = frappe.get_value(
+			"Appraisal Cycle", {"status": "In Progress"}, order_by="start_date desc"
+		)
+
+So "employees without feedback" is counted against no cycle at all until
+somebody notices the status dropdown. Creating appraisals for a cycle is the
+moment it starts, so that is where the status moves: `after_insert` on Appraisal,
+and only from `Not Started`, so a cycle somebody completed stays completed.
+
+### Three lists that were saying one thing and showing another
+
+**Appraisal Cycle printed its name twice.** The autoname is `field:cycle_name`,
+so the ID column and the Cycle Name column are the same string — *2026 Mid-Year*
+beside *2026 Mid-Year*. The same duplication as the 47 `employee_name` mirrors,
+arrived at a different way. `cycle_name` comes out of the list.
+
+**Goal gave a column to Is Group** — an empty checkbox on every row, which
+squeezed the goal itself down to *"Rebuild the br…"* and *"Close the mon…"* on a
+screen whose only subject is the goal. A goal with children is a group and the
+tree view already says so. It comes off, and Start Date goes on, because a goal
+with an end date and no start date is half a period.
+
+**Employee Promotion's list was Employee Name, Draft and the ID**, with a hand's
+width of empty space in the middle. What actually changed lives in
+`promotion_details`, a child table, which cannot be a column, cannot be filtered
+and cannot be searched. `one_becomes` is a hidden custom Data field carrying the
+new designation up onto the document, filled `before_validate`; Promotion Date
+joins it. The list now reads *Omar Haddad · 01-07-2026 · Senior Engineer*, and
+"every promotion into Senior Engineer" is a filter rather than a report.
+
+`salary_currency` is hidden here for the same reason it is hidden on fourteen
+other HR doctypes: One is one company and the CTC is in its currency.
+
+### Two headlines
+
+**Appraisal** opened on a Final Score of 0, which reads like a verdict and means
+"nothing has been rated yet". The three numbers behind it — the goal score, the
+average feedback score and the self appraisal — are each on their own tab, so
+working out which of the three is missing cost three clicks. The headline says
+the person, the period, the score and which of the three is still outstanding,
+and stays orange until all three are in.
+
+**Employee Promotion** says the whole change in one line: *Omar Haddad, from
+01-07-2026: designation Engineer → Senior Engineer.*
+
+Feedback and Appraisal Overview needed nothing: the feedback list already
+carries the reviewer, the cycle and the score, and the overview is a dashboard
+whose heading the rail sweep already fixed.
