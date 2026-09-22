@@ -1,0 +1,133 @@
+{
+ "app": "onedesk",
+ "creation": "2026-09-22 12:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Sidebar",
+ "header_icon": "one",
+ "idx": 0,
+ "items": [
+  {
+   "child": 0,
+   "collapsible": 0,
+   "icon": "house",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Home",
+   "link_to": "One Admin",
+   "link_type": "Workspace",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 0,
+   "icon": "building",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Workspaces",
+   "link_to": "Tenant",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "activity",
+   "indent": 1,
+   "keep_closed": 0,
+   "label": "What is happening",
+   "show_arrow": 0,
+   "type": "Section Break"
+  },
+  {
+   "child": 1,
+   "collapsible": 0,
+   "icon": "play",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Jobs",
+   "link_to": "Provisioning Job",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 1,
+   "collapsible": 0,
+   "icon": "list",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Log",
+   "link_to": "Tenant Event",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 1,
+   "collapsible": 0,
+   "icon": "link",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Domains",
+   "link_to": "Tenant Domain",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "credit-card",
+   "indent": 1,
+   "keep_closed": 0,
+   "label": "Selling",
+   "show_arrow": 0,
+   "type": "Section Break"
+  },
+  {
+   "child": 1,
+   "collapsible": 0,
+   "icon": "tag",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Price List",
+   "link_to": "Offering",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 1,
+   "collapsible": 0,
+   "icon": "user-plus",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Signups",
+   "link_to": "Account Request",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 0,
+   "icon": "settings",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Settings",
+   "link_to": "One Admin Settings",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-09-22 11:32:37.802299",
+ "modified_by": "Administrator",
+ "module": "One Admin",
+ "name": "One Admin",
+ "owner": "Administrator",
+ "standard": 1,
+ "title": "One Admin"
+}

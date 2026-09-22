@@ -52,7 +52,7 @@
  "owner": "Administrator",
  "permissions": [
   {
-   "create": 1,
+   "create": 0,
    "email": 1,
    "export": 1,
    "print": 1,
@@ -66,5 +66,6 @@
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": [],
- "track_changes": 0
+ "track_changes": 0,
+ "description": "The log is written, not kept."
 }

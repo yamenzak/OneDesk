@@ -77,7 +77,7 @@
  "owner": "Administrator",
  "permissions": [
   {
-   "create": 1,
+   "create": 0,
    "delete": 1,
    "email": 1,
    "export": 1,
@@ -92,5 +92,6 @@
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "track_changes": 1
+ "track_changes": 1,
+ "description": "A domain row is made when a workspace asks for one, alongside the call to press that makes it real. One typed here would say Pending forever."
 }

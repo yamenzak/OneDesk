@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 11:17+0000\n"
-"PO-Revision-Date: 2026-09-22 11:17+0000\n"
+"POT-Creation-Date: 2026-09-22 11:36+0000\n"
+"PO-Revision-Date: 2026-09-22 11:36+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -32,6 +32,11 @@ msgstr "<span class=\"h4\"><b>One</b></span>"
 #: onedesk/one_crm/workspace/onecrm/onecrm.json
 msgid "<span class=\"h4\"><b>OneCRM</b></span>"
 msgstr "<span class=\"h4\"><b>OneCRM</b></span>"
+
+#. Header text in the One Admin Workspace
+#: onedesk/one_admin/workspace/one_admin/one_admin.json
+msgid "<span class=\"h4\"><b>Right now</b></span>"
+msgstr "<span class=\"h4\"><b>Gerade jetzt</b></span>"
 
 #. Header text in the OneHR Workspace
 #: onedesk/one_hr/workspace/onehr/onehr.json
@@ -65,6 +70,16 @@ msgstr "Ein Guthabenpaket wird einmal gekauft und wiederholt sich deshalb nicht.
 msgid "A document that does not expire, such as a birth certificate, leaves this empty."
 msgstr "Bei einem Dokument ohne Ablaufdatum, etwa einer Geburtsurkunde, bleibt dies leer."
 
+#. Description of a DocType
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
+msgid "A domain row is made when a workspace asks for one, alongside the call to press that makes it real. One typed here would say Pending forever."
+msgstr "Eine Domain-Zeile entsteht, wenn ein Arbeitsbereich danach fragt, zusammen mit dem Aufruf an Frappe Cloud, der sie wirklich macht. Eine hier eingetippte stünde für immer auf Ausstehend."
+
+#. Description of a DocType
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
+msgid "A job is made by the thing that needs one. One typed here would start walking a tenant with no idea why."
+msgstr "Ein Auftrag entsteht aus dem, was ihn braucht. Ein hier eingetippter liefe durch einen Arbeitsbereich, ohne zu wissen warum."
+
 #. Description of the 'Domain' (Data) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "A name the customer owns, not one we hand out. Ours is on the Tenant and is never a row here: there is nothing about it that can fail."
@@ -97,9 +112,19 @@ msgstr "Ein Cluster bei Frappe Cloud. Von dort gelesen statt hier in einer Tabel
 msgid "A sheet covers at most {0} days."
 msgstr "Ein Blatt umfasst höchstens {0} Tage."
 
+#. Description of a DocType
+#: onedesk/one_admin/doctype/account_request/account_request.json
+msgid "A signup comes from the signup page. One typed here has no payment behind it."
+msgstr "Eine Anmeldung kommt von der Anmeldeseite. Hinter einer hier eingetippten steht keine Zahlung."
+
 #: onedesk/one_admin/doctype/tenant/tenant.py:19
 msgid "A slug is letters, digits and hyphens: {0}"
 msgstr "Eine Kennung besteht aus Buchstaben, Ziffern und Bindestrichen: {0}"
+
+#. Description of a DocType
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "A workspace is made by a paid Account Request, never by hand: one typed here has no site, no token and no job, and every screen that reads it would be reading a lie."
+msgstr "Ein Arbeitsbereich entsteht aus einer bezahlten Kontoanfrage, nie von Hand: Ein hier eingetippter hat keine Site, kein Token und keinen Auftrag, und jede Ansicht, die ihn liest, läse eine Unwahrheit."
 
 #: onedesk/one_admin/domains.py:66
 msgid "A workspace may have at most {0} of its own domains."
@@ -627,6 +652,11 @@ msgstr "Defekt"
 msgid "Browser"
 msgstr ""
 
+#. Label of a number card in the One Admin Workspace
+#: onedesk/one_admin/workspace/one_admin/one_admin.json
+msgid "Building"
+msgstr "Im Aufbau"
+
 #. Description of the 'Limit' (Long Int) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Bytes, so it is a Long Int: twenty-five gigabytes does not fit in an Int. Zero means unmetered — a plan with no storage line is a plan nobody thought about, and refusing every upload is the worse answer."
@@ -1119,6 +1149,16 @@ msgstr "Anzahl verschiedener Mitarbeiter, jeweils anderweitig verifiziert, die v
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "Domain"
 msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json
+msgid "Domains"
+msgstr "Domains"
+
+#. Label of a quick_list in the One Admin Workspace
+#: onedesk/one_admin/workspace/one_admin/one_admin.json
+msgid "Domains waiting"
+msgstr "Wartende Domains"
 
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
@@ -1632,7 +1672,9 @@ msgid "Holiday List Assignment"
 msgstr "Zuweisung der Feiertagsliste"
 
 #. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/one/sidebar/one/one.json
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Home"
 msgstr ""
@@ -1820,6 +1862,11 @@ msgstr "Vorlage für Stellenausschreibung"
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Job Requisition"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json
+msgid "Jobs"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -2097,6 +2144,11 @@ msgstr "Die Standortberechtigung wurde verweigert."
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Locations employees may check in from, each with a radius."
 msgstr "Orte, von denen Mitarbeiter einchecken dürfen, jeweils mit einem Radius."
+
+#. Label of a Sidebar Item
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json
+msgid "Log"
+msgstr ""
 
 #. Label of the direction (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -2465,6 +2517,13 @@ msgstr "Onboarding"
 msgid "One"
 msgstr "One"
 
+#. Title of a Sidebar
+#. Name of a Workspace
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json
+#: onedesk/one_admin/workspace/one_admin/one_admin.json
+msgid "One Admin"
+msgstr "One Admin"
+
 #. Name of a DocType
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "One Admin Settings"
@@ -2718,6 +2777,12 @@ msgstr "Überstunden von Hand erfasst: {0} Stunden, {1}."
 msgid "Overview"
 msgstr ""
 
+#. Label of a number card in the One Admin Workspace
+#. Label of a quick_list in the One Admin Workspace
+#: onedesk/one_admin/workspace/one_admin/one_admin.json
+msgid "Owing"
+msgstr "Offen"
+
 #. Label of the owner_email (Data) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Owner"
@@ -2889,6 +2954,11 @@ msgstr "Das Wort von Frappe Cloud dafür, so belassen, wie sie es sagen. Ein eig
 #. Label of the price_section (Section Break) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Price"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json
+msgid "Price List"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -3295,6 +3365,11 @@ msgstr ""
 msgid "Self Check-in"
 msgstr "Selbstständiges Einchecken"
 
+#. Label of a Sidebar Item
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json
+msgid "Selling"
+msgstr ""
+
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:35
 msgid "Sep"
 msgstr ""
@@ -3346,7 +3421,9 @@ msgstr "Auf 0 setzen, um sie unbegrenzt aufzubewahren."
 msgid "Setting up One"
 msgstr "One wird eingerichtet"
 
+#. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Settings"
 msgstr ""
@@ -3413,6 +3490,11 @@ msgstr "Signaturzähler"
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Signed for since that measurement. A signed URL is a promise somebody may keep, so it counts until the next measurement says whether it was."
 msgstr "Seit jener Messung signiert. Eine signierte URL ist ein Versprechen, das jemand einlösen kann, also zählt sie mit, bis die nächste Messung sagt, ob es eingelöst wurde."
+
+#. Label of a Sidebar Item
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json
+msgid "Signups"
+msgstr "Anmeldungen"
 
 #. Label of the slug (Data) field in DocType 'Account Request'
 #. Label of the slug (Data) field in DocType 'Tenant'
@@ -3563,10 +3645,25 @@ msgstr "Stripe-Webhook-Ereignis"
 msgid "Stripe is not configured. Set it in One Admin Settings."
 msgstr "Stripe ist nicht eingerichtet. Stellen Sie es in den One-Admin-Einstellungen ein."
 
+#. Description of a DocType
+#: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
+msgid "Stripe's own deliveries, and the index that makes a redelivery harmless."
+msgstr "Stripes eigene Zustellungen und der Index, der eine erneute Zustellung harmlos macht."
+
 #. Description of the 'Event ID' (Data) field in DocType 'Stripe Webhook Event'
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
 msgid "Stripe's own id. Unique, and that index is the whole of the idempotency: a redelivered event meets it rather than a check."
 msgstr "Stripes eigene ID. Eindeutig, und dieser Index ist die ganze Idempotenz: Ein erneut zugestelltes Ereignis läuft dagegen statt gegen eine Prüfung."
+
+#. Label of a number card in the One Admin Workspace
+#: onedesk/one_admin/workspace/one_admin/one_admin.json
+msgid "Stuck"
+msgstr "Hängt"
+
+#. Label of a quick_list in the One Admin Workspace
+#: onedesk/one_admin/workspace/one_admin/one_admin.json
+msgid "Stuck jobs"
+msgstr "Hängende Aufträge"
 
 #: onedesk/public/js/overtime_slip.js:100
 msgid "Submitting this pays {0} for {1} hours."
@@ -3713,6 +3810,11 @@ msgstr "Der Mitarbeiter wird heute nicht zurückerwartet. Ein am Schichtende ges
 #: onedesk/one_hr/custom/timesheet.json
 msgid "The hours above that are ticked Billable. The project decides what they are worth."
 msgstr "Die oben als abrechenbar markierten Stunden. Was sie wert sind, entscheidet das Projekt."
+
+#. Description of a DocType
+#: onedesk/one_admin/doctype/tenant_event/tenant_event.json
+msgid "The log is written, not kept."
+msgstr "Das Protokoll wird geschrieben, nicht gepflegt."
 
 #. Description of the 'Employee Checkin' (Link) field in DocType 'Clock
 #. Attempt'
@@ -4134,6 +4236,11 @@ msgstr "Was ein Kunde eintippt. Die Site ist hier erreichbar, wie auch immer Fra
 msgid "What each check saw when this log was written."
 msgstr "Was jede Prüfung sah, als dieser Eintrag geschrieben wurde."
 
+#. Label of a Sidebar Item
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json
+msgid "What is happening"
+msgstr "Was gerade läuft"
+
 #: onedesk/www/start.html:12
 msgid "What is it called?"
 msgstr "Wie heißt er?"
@@ -4343,6 +4450,13 @@ msgstr "Arbeitsbereich-Domain"
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 msgid "Workspace ID"
 msgstr "Arbeitsbereich-ID"
+
+#. Label of a Sidebar Item
+#. Label of a number card in the One Admin Workspace
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json
+#: onedesk/one_admin/workspace/one_admin/one_admin.json
+msgid "Workspaces"
+msgstr ""
 
 #. Description of the 'include_holidays' field in DocType 'Attendance Request'
 #: onedesk/one_hr/custom/attendance_request.json

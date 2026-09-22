@@ -49,8 +49,8 @@ No doctypes yet.
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
-* **sidebar** — one, onecrm, onehr
-* **workspace** — one, onecrm, onehr, onehr_setup
+* **sidebar** — one, one_admin, onecrm, onehr
+* **workspace** — one, one_admin, onecrm, onehr, onehr_setup
 
 ## Whitelisted methods
 

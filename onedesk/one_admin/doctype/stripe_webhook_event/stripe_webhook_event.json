@@ -6,7 +6,15 @@
  "doctype": "DocType",
  "editable_grid": 0,
  "engine": "InnoDB",
- "field_order": ["event_id", "kind", "column_break_what", "handled", "request", "error", "body"],
+ "field_order": [
+  "event_id",
+  "kind",
+  "column_break_what",
+  "handled",
+  "request",
+  "error",
+  "body"
+ ],
  "fields": [
   {
    "description": "Stripe's own id. Unique, and that index is the whole of the idempotency: a redelivered event meets it rather than a check.",
@@ -18,12 +26,40 @@
    "set_only_once": 1,
    "unique": 1
   },
-  {"fieldname": "kind", "fieldtype": "Data", "in_list_view": 1, "label": "Type"},
-  {"fieldname": "column_break_what", "fieldtype": "Column Break"},
-  {"default": "0", "fieldname": "handled", "fieldtype": "Check", "in_list_view": 1, "label": "Handled"},
-  {"fieldname": "request", "fieldtype": "Link", "label": "Account Request", "options": "Account Request"},
-  {"fieldname": "error", "fieldtype": "Small Text", "label": "Error"},
-  {"fieldname": "body", "fieldtype": "Code", "label": "Body", "options": "JSON"}
+  {
+   "fieldname": "kind",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Type"
+  },
+  {
+   "fieldname": "column_break_what",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "handled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Handled"
+  },
+  {
+   "fieldname": "request",
+   "fieldtype": "Link",
+   "label": "Account Request",
+   "options": "Account Request"
+  },
+  {
+   "fieldname": "error",
+   "fieldtype": "Small Text",
+   "label": "Error"
+  },
+  {
+   "fieldname": "body",
+   "fieldtype": "Code",
+   "label": "Body",
+   "options": "JSON"
+  }
  ],
  "index_web_pages_for_search": 0,
  "links": [],
@@ -34,10 +70,20 @@
  "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
-  {"email": 1, "export": 1, "print": 1, "read": 1, "report": 1, "role": "One Operator", "share": 1}
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "One Operator",
+   "share": 1,
+   "create": 0
+  }
  ],
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": [],
- "track_changes": 0
+ "track_changes": 0,
+ "description": "Stripe's own deliveries, and the index that makes a redelivery harmless."
 }
