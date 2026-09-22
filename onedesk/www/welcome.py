@@ -13,12 +13,12 @@ from onedesk.one_admin import site
 no_cache = 1
 
 SAYS = {
-	"New": lambda: frappe._("We have not had the payment yet."),
-	"Paying": lambda: frappe._("We are waiting for the payment to settle."),
-	"Paid": lambda: frappe._("Thank you. Your workspace is being built."),
-	"Provisioning": lambda: frappe._("Thank you. Your workspace is being built."),
-	"Done": lambda: frappe._("Your workspace is ready."),
-	"Failed": lambda: frappe._("Something went wrong and somebody has been told."),
+	"New": lambda: frappe._("The payment has not arrived yet."),
+	"Paying": lambda: frappe._("Waiting for the payment to settle."),
+	"Paid": lambda: frappe._("Payment received. The workspace is being built."),
+	"Provisioning": lambda: frappe._("Payment received. The workspace is being built."),
+	"Done": lambda: frappe._("The workspace is ready."),
+	"Failed": lambda: frappe._("The workspace could not be built. Somebody has been told and will be in touch."),
 }
 
 

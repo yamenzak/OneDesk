@@ -62,9 +62,14 @@ RULES = [
 ]
 
 
-#: Where a literal colour is the point rather than a mistake: this is the file
-#: that defines the tokens everything else is told to use.
-DEFINES_TOKENS = ("onedesk/public/css/theme.css",)
+#: Where a literal colour is the point rather than a mistake. theme.css defines
+#: the tokens everything on the desk is told to use; portal.css defines a second,
+#: smaller set for /start and /welcome, which are not desk screens and load none
+#: of espresso.
+DEFINES_TOKENS = (
+	"onedesk/public/css/theme.css",
+	"onedesk/public/css/portal.css",
+)
 
 
 def _offenders(pattern: str, suffixes: set[str]) -> list[str]:

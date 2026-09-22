@@ -1,0 +1,215 @@
+/* The two pages a customer sees before they have a workspace: /start and
+ * /welcome.
+ *
+ * These are not desk screens, so none of espresso's tokens are loaded and the
+ * ramp is written out here. It is the same ramp as theme.css — kept in step by
+ * eye rather than by build step, because the portal is two pages and a build
+ * step for two pages is worse than the duplication.
+ *
+ * Both pages draw their own header and no footer: frappe's Standard Footer says
+ * "Powered by ERPNext", which on our own signup page is somebody else's badge.
+ */
+
+.one-portal {
+	--ink: #1b2129;
+	--ink-soft: #566070;
+	--ink-faint: #8b95a3;
+	--line: #e4e7ec;
+	--paper: #ffffff;
+	--sunk: #f7f8f9;
+	--picked: #171c23;
+	--wrong: #b4232c;
+
+	color: var(--ink);
+	font-size: 15px;
+	line-height: 1.55;
+	max-width: 32rem;
+	margin: 0 auto;
+	padding: 2.5rem 1.25rem 5rem;
+}
+
+.one-portal__mark {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 2.5rem;
+	color: var(--ink);
+	text-decoration: none;
+	font-weight: 600;
+}
+
+.one-portal__mark img {
+	width: 28px;
+	height: 28px;
+}
+
+.one-portal h1 {
+	font-size: 1.75rem;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	margin: 0 0 0.5rem;
+}
+
+.one-portal__lede {
+	color: var(--ink-soft);
+	margin: 0 0 2rem;
+}
+
+.one-portal label.one-field {
+	display: block;
+	margin-bottom: 1.25rem;
+}
+
+.one-portal .one-field > span {
+	display: block;
+	font-weight: 500;
+	font-size: 0.875rem;
+	margin-bottom: 0.375rem;
+}
+
+.one-portal input[type="text"],
+.one-portal input[type="email"] {
+	width: 100%;
+	padding: 0.5rem 0.75rem;
+	border: 1px solid var(--line);
+	border-radius: 8px;
+	background: var(--sunk);
+	font-size: 0.9375rem;
+	color: var(--ink);
+}
+
+.one-portal input:focus {
+	outline: none;
+	border-color: var(--ink-faint);
+	background: var(--paper);
+}
+
+.one-portal .one-hint,
+.one-portal .one-note {
+	display: block;
+	font-size: 0.8125rem;
+	color: var(--ink-faint);
+	margin-top: 0.375rem;
+	min-height: 1.2em;
+}
+
+.one-portal .one-hint.is-taken {
+	color: var(--wrong);
+}
+
+.one-portal fieldset {
+	border: 0;
+	padding: 0;
+	margin: 0 0 1.75rem;
+}
+
+.one-portal legend {
+	font-weight: 500;
+	font-size: 0.875rem;
+	margin-bottom: 0.375rem;
+	padding: 0;
+	float: none;
+	width: auto;
+}
+
+/* A choice is the whole card, not the eight pixels of the radio. */
+.one-portal .one-choice {
+	display: block;
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	padding: 0.75rem 0.875rem;
+	margin-bottom: 0.5rem;
+	cursor: pointer;
+	background: var(--paper);
+}
+
+.one-portal .one-choice:has(input:checked) {
+	border-color: var(--picked);
+	box-shadow: 0 0 0 1px var(--picked);
+}
+
+.one-portal .one-choice input {
+	margin-right: 0.5rem;
+}
+
+.one-portal .one-choice__head {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 0.5rem;
+	font-weight: 500;
+}
+
+.one-portal .one-choice__price {
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+.one-portal .one-choice__about,
+.one-portal .one-choice__quota {
+	display: block;
+	font-size: 0.8125rem;
+	color: var(--ink-soft);
+	margin-top: 0.25rem;
+	margin-left: 1.5rem;
+}
+
+.one-portal .one-choice__quota {
+	color: var(--ink-faint);
+	font-variant-numeric: tabular-nums;
+}
+
+.one-portal .one-go {
+	width: 100%;
+	padding: 0.625rem 1rem;
+	border: 0;
+	border-radius: 8px;
+	background: var(--picked);
+	color: #fff;
+	font-size: 0.9375rem;
+	font-weight: 500;
+	cursor: pointer;
+}
+
+.one-portal .one-go[disabled] {
+	opacity: 0.6;
+	cursor: default;
+}
+
+.one-portal .one-said {
+	color: var(--wrong);
+	font-size: 0.875rem;
+	margin: 0.75rem 0 0;
+	min-height: 1.2em;
+}
+
+.one-portal .one-done {
+	display: inline-block;
+	padding: 0.5rem 1.125rem;
+	border-radius: 8px;
+	background: var(--picked);
+	color: #fff;
+	text-decoration: none;
+	font-weight: 500;
+	margin-top: 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+	.one-portal {
+		--ink: #eff1f4;
+		--ink-soft: #a9b2be;
+		--ink-faint: #8b95a3;
+		--line: #333a44;
+		--paper: #1b2129;
+		--sunk: #232a33;
+		--picked: #eff1f4;
+		--wrong: #e8828a;
+	}
+	.one-portal .one-go,
+	.one-portal .one-done {
+		color: #171c23;
+	}
+	body {
+		background: #161b22;
+	}
+}

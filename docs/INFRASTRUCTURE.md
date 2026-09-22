@@ -321,6 +321,45 @@ themselves credits. `docs/ONEAI.md` was written assuming the operator was a role
 on the tenant's own site and said plainly that this was its weakest point. It is
 not true any more, and that document's caveat section goes when INFRA 5 lands.
 
+## The console
+
+The operator's screens over all of the above, and the two public pages in front
+of it. Everything here is the desk — no SPA, no second front end — so the work
+was mostly deciding what each screen is allowed to do and then saying it in
+frappe's register.
+
+**Every operator record is read-only, and carries verbs instead.** A `Tenant`, a
+`Provisioning Job`, an `Account Request` and a `Tenant Domain` are all records of
+something that happened elsewhere: press did it, Stripe did it, the runner did
+it. A Status field somebody can set to Done is a workspace that silently stopped
+being built. So the fields are read-only and the useful actions are buttons that
+call a whitelisted method — `operator.py` is the whole of that surface, and every
+one of them goes through `_may()`, which is the admin flag *and* the operator
+role. `Offering` is the one exception, because a price list is a decision rather
+than a record.
+
+**The verbs, and what each screen was missing.** A tenant gained the ladder — the
+rung it is on, how long it has, and the fall or restore, each refusing to skip a
+rung. A job gained where in its walk it stopped, as a sentence, and Resume. An
+account request gained **Build Workspace**, which is `signup.accept` again: a
+paid request with no workspace used to need the Stripe webhook replayed by hand.
+It refuses when a workspace already exists, because `accept` hands back the one
+it made and would have reported success having done nothing — the work left there
+is the job's. A tenant domain gained **Refresh**, which re-asks press. An offering
+gained the count of workspaces already on it, because quotas are copied onto a
+tenant at signup and editing one here changes nothing for anybody who bought.
+
+**What the operator cannot reach is enforced twice.** `has_permission` only fires
+when frappe has a document in hand, so it guarded the single and left `get_list`
+wide open; `permission_query_conditions` is the other half, and both hooks name
+all eight One Admin doctypes.
+
+**`/start` and `/welcome` draw their own chrome.** Frappe's Standard Footer says
+"Powered by ERPNext", which on our own signup page is somebody else's badge, so
+both pages empty the `navbar` and `footer` blocks and draw a mark and nothing
+else. `public/css/portal.css` is a second, smaller token set: these are not desk
+screens and none of espresso is loaded on them.
+
 ## What is deliberately not here
 
 **No credential that opens more than one workspace**, anywhere, ever — which is

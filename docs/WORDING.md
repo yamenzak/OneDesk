@@ -67,6 +67,22 @@ in"), no wink at the reader, no sentence that is there because it reads well.
 The test is whether the line would look out of place two rows above
 `Allow Login using Mobile Number`.
 
+## The two pages a customer reads
+
+`/start` and `/welcome` are the only screens somebody reads before they have a
+workspace, and the rules above still hold — Title Case labels, one sentence of
+help, nothing that restates the label. Two things are different.
+
+**Say what happens, not who is doing it.** "Payment received. The workspace is
+being built" rather than "Thank you. We are building your workspace." The first
+person is a voice the rest of the product does not have, and on a page that is
+mostly about money it reads as reassurance rather than fact.
+
+**A consequence is stated once, where the choice is.** The jurisdiction radio
+carries "This cannot be changed later. Files stay where the workspace was
+built", because that is the field it is true of. It is not repeated on the
+plan, on the button, or on the page that follows.
+
 ## Translation
 
 Every label, description, Select option and `_()` string is extracted into

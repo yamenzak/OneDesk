@@ -164,6 +164,8 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
+ "title_field": "label",
  "sort_field": "amount",
  "sort_order": "ASC",
  "states": [],

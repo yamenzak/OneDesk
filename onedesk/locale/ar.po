@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 14:44+0000\n"
-"PO-Revision-Date: 2026-09-22 14:44+0000\n"
+"POT-Creation-Date: 2026-09-22 15:20+0000\n"
+"PO-Revision-Date: 2026-09-22 15:20+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -194,6 +194,7 @@ msgstr "بدقة تقارب {0} متر."
 #. Option for the 'Status' (Select) field in DocType 'Clock Device'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
+#: onedesk/public/js/tenant_domain.js:26
 #: onedesk/public/js/workspace_account.js:33
 msgid "Active"
 msgstr ""
@@ -477,6 +478,10 @@ msgstr "تاريخ الطلب"
 msgid "Asked On"
 msgstr "تاريخ الطلب"
 
+#: onedesk/public/js/tenant_domain.js:59
+msgid "Asked for, and Frappe Cloud has not answered yet."
+msgstr "طُلب، ولم يردّ Frappe Cloud بعد."
+
 #. Description of the 'Reason' (Link) field in DocType 'Employee Checkin'
 #: onedesk/one_hr/custom/employee_checkin.json
 msgid "Asked on check out only. Options come from Clock Reason."
@@ -489,6 +494,10 @@ msgstr "إسناد هيكل راتب"
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:9
 msgid "At Stripe"
 msgstr "لدى Stripe"
+
+#: onedesk/public/js/account_request.js:21
+msgid "At checkout"
+msgstr "عند الدفع"
 
 #. Label of the attempts (Int) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
@@ -596,6 +605,8 @@ msgstr "يصبح"
 msgid "Being built"
 msgstr "قيد الإنشاء"
 
+#: onedesk/public/js/account_request.js:23
+#: onedesk/public/js/tenant_domain.js:25
 #: onedesk/public/js/workspace_account.js:31
 #: onedesk/public/js/workspace_account.js:32
 msgid "Being set up"
@@ -698,6 +709,10 @@ msgstr "معطّل"
 msgid "Browser"
 msgstr ""
 
+#: onedesk/public/js/account_request.js:44
+msgid "Build Workspace"
+msgstr "أنشئ مساحة العمل"
+
 #. Label of a number card in the One Admin Workspace
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "Building"
@@ -751,6 +766,10 @@ msgstr "يلتقط صورة من الكاميرا عند تسجيل الحضور
 #: onedesk/public/js/attendance.js:8
 msgid "Change the Overtime"
 msgstr "تعديل العمل الإضافي"
+
+#: onedesk/public/js/offering.js:40
+msgid "Changing a price or a quota here does not change theirs."
+msgstr "تغيير سعر أو حصة هنا لا يغيّر ما لديهم."
 
 #. Label of the signal (Data) field in DocType 'Clock Signal'
 #: onedesk/one_hr/doctype/clock_signal/clock_signal.json
@@ -1008,7 +1027,7 @@ msgstr ""
 msgid "Contact"
 msgstr ""
 
-#: onedesk/www/start.html:42
+#: onedesk/www/start.html:59
 msgid "Continue to payment"
 msgstr "المتابعة إلى الدفع"
 
@@ -1036,6 +1055,10 @@ msgstr ""
 #: onedesk/one_hr/custom/attendance_request.json
 msgid "Cover Holidays Too"
 msgstr "شمول العطل أيضاً"
+
+#: onedesk/public/js/account_request.js:46
+msgid "Create {0} for {1} now?"
+msgstr "إنشاء {0} لـ{1} الآن؟"
 
 #. Label of the key_section (Section Break) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
@@ -1271,9 +1294,10 @@ msgstr "نطاقات تنتظر"
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:21
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:36
-#: onedesk/public/js/decision.js:39 onedesk/public/js/job.js:27
-#: onedesk/public/js/job.js:44 onedesk/public/js/job.js:49
-#: onedesk/public/js/learned.js:34 onedesk/public/js/shift_type.js:29
+#: onedesk/public/js/account_request.js:24 onedesk/public/js/decision.js:39
+#: onedesk/public/js/job.js:27 onedesk/public/js/job.js:44
+#: onedesk/public/js/job.js:49 onedesk/public/js/learned.js:34
+#: onedesk/public/js/shift_type.js:29
 msgid "Done"
 msgstr ""
 
@@ -1327,6 +1351,7 @@ msgstr "«أحدهما» يقبل تسجيل الحضور الذي يجتاز أ
 
 #. Label of the email (Data) field in DocType 'Account Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
+#: onedesk/www/start.html:30
 msgid "Email"
 msgstr ""
 
@@ -1514,6 +1539,10 @@ msgstr "إقرار الإعفاء"
 msgid "Exemption Proof"
 msgstr "إثبات الإعفاء"
 
+#: onedesk/public/js/offering.js:17
+msgid "Existing workspaces keep what they bought. This only stops new signups."
+msgstr "تحتفظ مساحات العمل القائمة بما اشترته. وهذا يوقف الاشتراكات الجديدة فقط."
+
 #: onedesk/public/js/timesheet.js:54
 msgid "Expected Hrs"
 msgstr ""
@@ -1654,9 +1683,17 @@ msgstr "Frappe Cloud"
 msgid "Frappe Cloud has no bench group to place a site on."
 msgstr "لا توجد في Frappe Cloud مجموعة منصات يوضع عليها موقع."
 
+#: onedesk/public/js/tenant_domain.js:56
+msgid "Frappe Cloud is issuing the certificate. This takes a few minutes."
+msgstr "يُصدر Frappe Cloud الشهادة. ويستغرق ذلك بضع دقائق."
+
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:10
 msgid "Frappe Cloud is setting it up"
 msgstr "تقوم Frappe Cloud بإعداده"
+
+#: onedesk/public/js/tenant_domain.js:53
+msgid "Frappe Cloud no longer has this domain."
+msgstr "لم يعد هذا النطاق لدى Frappe Cloud."
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:7
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:7
@@ -1875,6 +1912,10 @@ msgstr "يحدد طراز أداة المصادقة، لا الجهاز نفسه
 msgid "Identity Documents"
 msgstr "وثائق الهوية"
 
+#: onedesk/www/welcome.html:20
+msgid "If a payment went through, the receipt is in your email and somebody will be in touch."
+msgstr "إن تمت دفعة، فالإيصال في بريدك وسيتواصل معك أحد."
+
 #. Description of the 'allow_geolocation_tracking' field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -1886,10 +1927,6 @@ msgstr "إذا عُطِّل، لا يسجّل أي تسجيل حضور مصدر�
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "If unchecked, a missing passkey is only flagged."
 msgstr "إذا لم يتم تحديده، يُكتفى بالإشارة إلى غياب مفتاح المرور."
-
-#: onedesk/www/welcome.html:11
-msgid "If you have paid, the receipt is in your email and we will be in touch."
-msgstr "إن كنت قد دفعت، فالإيصال في بريدك وسنتواصل معك."
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:162
 #: onedesk/public/js/employee.js:140
@@ -1955,10 +1992,6 @@ msgstr "دعوة فريقك"
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 msgid "Issued On"
 msgstr "تاريخ الإصدار"
-
-#: onedesk/www/welcome.html:18
-msgid "It takes a few minutes. We will email you at {0} when it is ready."
-msgstr "يستغرق الأمر بضع دقائق. سنراسلك على {0} عندما تصبح جاهزة."
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:27
 msgid "Jan"
@@ -2458,6 +2491,10 @@ msgstr "لم يُسجَّل أي عمل إضافي في أي حضور بين {0}
 msgid "No passkey was presented."
 msgstr "لم يُقدَّم أي مفتاح مرور."
 
+#: onedesk/www/start.html:18
+msgid "No plan is on offer at the moment."
+msgstr "لا توجد خطة معروضة حالياً."
+
 #: onedesk/one_hr/rules.py:40
 msgid "No position was sent."
 msgstr "لم يُرسَل أي موقع."
@@ -2469,6 +2506,10 @@ msgstr "لا توجد كشوف رواتب بعد من {0} إلى {1}."
 #: onedesk/one_hr/review.py:48
 msgid "No such check-in attempt."
 msgstr "لا توجد محاولة تسجيل بهذا المعرّف."
+
+#: onedesk/public/js/offering.js:32
+msgid "No workspace has bought this yet."
+msgstr "لم تشترِ أي مساحة عمل هذا بعد."
 
 #: onedesk/one_admin/storage.py:181
 msgid "No {0} bucket is configured."
@@ -2511,17 +2552,26 @@ msgstr "لا تسجيل حضور اليوم"
 msgid "Not counted yet"
 msgstr "لم يُحتسب بعد"
 
+#: onedesk/www/welcome.html:19
+msgid "Not found"
+msgstr ""
+
 #: onedesk/public/js/employee.js:103
 msgid "Not marked"
 msgstr "غير مُسجَّل"
 
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:8
+#: onedesk/public/js/account_request.js:20
 msgid "Not paid"
 msgstr "غير مدفوع"
 
 #: onedesk/public/js/workspace_account.js:130
 msgid "Not pointing here yet."
 msgstr "لا يشير إلى هنا بعد."
+
+#: onedesk/public/js/tenant_domain.js:27
+msgid "Not working"
+msgstr "لا يعمل"
 
 #. Label of the one_note (Small Text) field in DocType 'Attendance Request'
 #. Label of the one_note (Small Text) field in DocType 'Expense Claim'
@@ -2543,10 +2593,6 @@ msgstr ""
 msgid "Nothing changes for the workspace during this period."
 msgstr "لا يتغير شيء لمساحة العمل خلال هذه الفترة."
 
-#: onedesk/www/start.html:9
-msgid "Nothing is on offer yet."
-msgstr "لا يوجد شيء معروض بعد."
-
 #: onedesk/public/js/leave_application.js:14
 msgid "Nothing is spent and no attendance is marked."
 msgstr "لا يُخصم رصيد ولا يُسجَّل حضور."
@@ -2559,7 +2605,7 @@ msgstr "لا يوجد مبلغ للصرف بعد: لا يوجد هيكل روا�
 msgid "Nothing to pay yet: {0} has no Leave Encashment Amount Per Day, so a day is worth nought. Set it on the salary structure or on this person's assignment."
 msgstr "لا يوجد مبلغ للصرف بعد: {0} لا يحدد قيمة اليوم عند صرف الإجازة، فقيمة اليوم صفر. حدّدها في هيكل الرواتب أو في تعيين هذا الموظف."
 
-#: onedesk/www/welcome.html:7
+#: onedesk/www/welcome.html:16
 msgid "Nothing was charged"
 msgstr "لم يُخصم أي مبلغ"
 
@@ -2694,6 +2740,10 @@ msgstr "مفتاح مرور واحد لكل موظف. أعد تعيينه عند
 msgid "One shift and one holiday list to start with. Both can be changed, and more added, later."
 msgstr "مناوبة واحدة وقائمة عطلات واحدة للبداية. ويمكن تعديلهما وإضافة غيرهما لاحقاً."
 
+#: onedesk/public/js/offering.js:35
+msgid "One workspace bought this"
+msgstr "اشترت هذا مساحة عمل واحدة"
+
 #. Title of a Sidebar
 #. Name of a Workspace
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -2770,7 +2820,11 @@ msgstr "لا تُحتسب إلا تسجيلات الحضور التي اجتاز
 msgid "Only somebody who can approve these may answer this one."
 msgstr "لا يبتّ في هذا إلا من يملك اعتماد هذه الطلبات."
 
-#: onedesk/www/welcome.html:16
+#: onedesk/public/js/account_request.js:37
+msgid "Open Workspace"
+msgstr "افتح مساحة العمل"
+
+#: onedesk/www/welcome.html:25
 msgid "Open it"
 msgstr "افتحها"
 
@@ -2921,6 +2975,14 @@ msgstr "دُفع ولم يُبنَ"
 msgid "Paid under"
 msgstr "يُدفع وفق"
 
+#: onedesk/public/js/account_request.js:68
+msgid "Paid, and no workspace was created. Build it."
+msgstr "دُفع، ولم تُنشأ مساحة عمل. أنشئها."
+
+#: onedesk/public/js/account_request.js:22
+msgid "Paid, not built"
+msgstr "مدفوع، غير مُنشأ"
+
 #. Label of the passkey_section (Section Break) field in DocType 'Clock
 #. Attempt'
 #. Label of the credential_section (Section Break) field in DocType 'Clock
@@ -2955,6 +3017,10 @@ msgstr "قيد الدفع"
 msgid "Payload"
 msgstr "الحمولة"
 
+#: onedesk/www/start.html:61
+msgid "Payment is taken by Stripe. Nothing is charged until it is confirmed there."
+msgstr "تتم الدفعة عبر Stripe. ولا يُخصم شيء حتى تُؤكَّد هناك."
+
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:16
 #: onedesk/public/js/tenant.js:31 onedesk/public/js/workspace_account.js:34
 msgid "Payment overdue"
@@ -2967,6 +3033,10 @@ msgstr "دفعة متأخرة. ستُوقَف مساحة العمل هذه بع�
 #: onedesk/public/js/workspace_account.js:52
 msgid "Payment overdue. This workspace is suspended tonight."
 msgstr "دفعة متأخرة. ستُوقَف مساحة العمل هذه الليلة."
+
+#: onedesk/www/welcome.py:18 onedesk/www/welcome.py:19
+msgid "Payment received. The workspace is being built."
+msgstr "استُلمت الدفعة. ويجري إنشاء مساحة العمل."
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -3016,6 +3086,10 @@ msgstr ""
 msgid "Photo"
 msgstr "الصورة"
 
+#: onedesk/www/start.html:20
+msgid "Pick a name and a plan. The workspace is built as soon as the payment goes through."
+msgstr "اختر اسماً وخطة. وتُنشأ مساحة العمل فور تمام الدفع."
+
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Pipeline"
@@ -3044,7 +3118,7 @@ msgstr "الموضع"
 #. Label of the offering (Link) field in DocType 'Tenant'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/offering/offering.json
-#: onedesk/one_admin/doctype/tenant/tenant.json onedesk/www/start.html:31
+#: onedesk/one_admin/doctype/tenant/tenant.json onedesk/www/start.html:46
 msgid "Plan"
 msgstr "الخطة"
 
@@ -3295,6 +3369,7 @@ msgid "Recurring"
 msgstr "متكرر"
 
 #: onedesk/public/js/tenant.js:78 onedesk/public/js/tenant.js:83
+#: onedesk/public/js/tenant_domain.js:12
 #: onedesk/public/js/workspace_account.js:19
 msgid "Refresh"
 msgstr ""
@@ -3380,6 +3455,10 @@ msgstr "إزالة نطاق"
 #: onedesk/public/js/workspace_account.js:177
 msgid "Remove {0}? The workspace will stop answering there."
 msgstr "إزالة {0}؟ ستتوقف مساحة العمل عن الاستجابة عليه."
+
+#: onedesk/public/js/tenant_domain.js:28
+msgid "Removed"
+msgstr ""
 
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:13
 msgid "Removed at Frappe Cloud"
@@ -3734,10 +3813,6 @@ msgstr ""
 msgid "Some Days Were Trimmed"
 msgstr "اقتُطعت بعض الأيام"
 
-#: onedesk/www/welcome.py:21
-msgid "Something went wrong and somebody has been told."
-msgstr "حدث خطأ ما وقد أُبلغ أحدهم به."
-
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:217
 msgid "Source"
 msgstr ""
@@ -3785,11 +3860,11 @@ msgstr ""
 msgid "Start a project"
 msgstr "بدء مشروع"
 
-#: onedesk/www/start.html:2 onedesk/www/start.html:6
+#: onedesk/www/start.html:2 onedesk/www/start.html:15
 msgid "Start a workspace"
 msgstr "ابدأ مساحة عمل"
 
-#: onedesk/www/welcome.html:8
+#: onedesk/www/welcome.html:17
 msgid "Start again"
 msgstr "ابدأ من جديد"
 
@@ -3840,13 +3915,21 @@ msgid "Still in Draft"
 msgstr "ما زال مسودة"
 
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:22
-#: onedesk/public/js/job.js:28
+#: onedesk/public/js/account_request.js:25 onedesk/public/js/job.js:28
 msgid "Stopped"
 msgstr ""
 
 #: onedesk/public/js/job.js:80
 msgid "Stopped at step {0} of {1}: {2}."
 msgstr "توقفت عند الخطوة {0} من {1}: {2}."
+
+#: onedesk/public/js/account_request.js:64
+msgid "Stopped before the workspace was created."
+msgstr "توقف قبل إنشاء مساحة العمل."
+
+#: onedesk/public/js/account_request.js:63
+msgid "Stopped: {0}"
+msgstr "توقف: {0}"
 
 #. Label of the storage_section (Section Break) field in DocType 'One Admin
 #. Settings'
@@ -3989,11 +4072,7 @@ msgstr "حدث مساحة عمل"
 msgid "Territory"
 msgstr ""
 
-#: onedesk/www/welcome.py:18 onedesk/www/welcome.py:19
-msgid "Thank you. Your workspace is being built."
-msgstr "شكراً لك. يجري إنشاء مساحة عملك."
-
-#: onedesk/www/start.html:82
+#: onedesk/www/start.html:100
 msgid "That did not work."
 msgstr "لم ينجح ذلك."
 
@@ -4076,6 +4155,10 @@ msgstr "الأيام التي يمنحها هذا التخصيص، قبل أي �
 msgid "The employee is not expected back today. A day closed at the shift end is filed under this reason."
 msgstr "لا يُتوقع عودة الموظف اليوم. ويُسجَّل اليوم الذي يُغلق عند نهاية المناوبة تحت هذا السبب."
 
+#: onedesk/www/start.html:32
+msgid "The first account, and where the receipt goes."
+msgstr "أول حساب، وإليه يصل الإيصال."
+
 #. Description of the 'total_billable_hours' field in DocType 'Timesheet'
 #: onedesk/one_hr/custom/timesheet.json
 msgid "The hours above that are ticked Billable. The project decides what they are worth."
@@ -4123,6 +4206,14 @@ msgstr "الخطوة التالية للتنفيذ. تنفيذ الخطوة أك
 msgid "The passkey was not unlocked with a face, fingerprint or PIN."
 msgstr "لم يُفتح مفتاح المرور ببصمة الوجه أو بصمة الإصبع أو رمز PIN."
 
+#: onedesk/www/welcome.py:16
+msgid "The payment has not arrived yet."
+msgstr "لم تصل الدفعة بعد."
+
+#: onedesk/www/welcome.html:17
+msgid "The payment page was closed."
+msgstr "أُغلقت صفحة الدفع."
+
 #. Description of the 'User Verified' (Check) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "The phone released the passkey only after a face, fingerprint or PIN."
@@ -4163,6 +4254,18 @@ msgstr "تاريخ البداية بعد تاريخ النهاية."
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 msgid "The status written on each day of an approved request. Work From Home is the only one Attendance keeps apart; everything else counts as a day at work."
 msgstr "الحالة التي تُكتب في كل يوم من أيام الطلب المعتمد. العمل من المنزل هو الوحيد الذي يفصله سجل الحضور، وما عداه يُحتسب يوم عمل."
+
+#: onedesk/www/welcome.py:21
+msgid "The workspace could not be built. Somebody has been told and will be in touch."
+msgstr "تعذّر إنشاء مساحة العمل. وقد أُبلغ أحدهم وسيتواصل معك."
+
+#: onedesk/public/js/account_request.js:71
+msgid "The workspace is being set up. Its job has the detail."
+msgstr "يجري تجهيز مساحة العمل. والتفاصيل في مهمتها."
+
+#: onedesk/www/welcome.py:20
+msgid "The workspace is ready."
+msgstr "مساحة العمل جاهزة."
 
 #: onedesk/one_hr/leaving.py:153
 msgid ""
@@ -4206,6 +4309,10 @@ msgstr "سبق أن روجعت هذه المحاولة."
 msgid "This browser will not give a location."
 msgstr "لا يوفر هذا المتصفح الموقع."
 
+#: onedesk/www/start.html:42
+msgid "This cannot be changed later. Files stay where the workspace was built."
+msgstr "لا يمكن تغيير هذا لاحقاً. تبقى الملفات حيث أُنشئت مساحة العمل."
+
 #: onedesk/public/js/setup_wizard.js:73
 msgid "This day and your country's public holidays become this year's holiday list."
 msgstr "يصبح هذا اليوم والعطل الرسمية في بلدك قائمة عطلات هذا العام."
@@ -4221,10 +4328,6 @@ msgstr "لدى هذا الموظف مفتاح مرور بالفعل. على ال
 #: onedesk/one_hr/passkey.py:59
 msgid "This employee's passkey is blocked. HR must reset it before another can be registered."
 msgstr "مفتاح مرور هذا الموظف محظور. على الموارد البشرية إعادة تعيينه قبل تسجيل مفتاح آخر."
-
-#: onedesk/www/start.html:21
-msgid "This is permanent: storage is pinned to it and moving later means copying every file."
-msgstr "هذا الاختيار دائم: التخزين مثبَّت عليه، ونقله لاحقاً يعني نسخ كل ملف."
 
 #: onedesk/one_hr/rules.py:36
 msgid "This network belongs to you rather than to a workplace."
@@ -4257,6 +4360,10 @@ msgstr "لهذه المناوبة تسجيلات حضور لكنها لا تقر
 #: onedesk/one_admin/site.py:87
 msgid "This site does not administer workspaces."
 msgstr "هذا الموقع لا يدير مساحات عمل."
+
+#: onedesk/www/welcome.html:27
+msgid "This takes a few minutes. A link will be emailed to {0} when it is ready."
+msgstr "يستغرق ذلك بضع دقائق. وسيُرسل رابط إلى {0} عند الجهوز."
 
 #: onedesk/one_admin/storage.py:50
 msgid "This workspace has no room for another {0}."
@@ -4465,8 +4572,13 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:257
+#: onedesk/public/js/tenant_domain.js:24
 msgid "Waiting"
 msgstr "قيد الانتظار"
+
+#: onedesk/www/welcome.py:17
+msgid "Waiting for the payment to settle."
+msgstr "في انتظار تسوية الدفعة."
 
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:9
 msgid "Waiting on DNS"
@@ -4486,18 +4598,6 @@ msgstr "بانتظار الإنشاء"
 #: onedesk/public/js/job.js:25
 msgid "Waiting to run"
 msgstr "بانتظار التشغيل"
-
-#: onedesk/www/welcome.py:17
-msgid "We are waiting for the payment to settle."
-msgstr "ننتظر تسوية الدفعة."
-
-#: onedesk/www/welcome.html:10
-msgid "We cannot find that"
-msgstr "لا نجد ذلك"
-
-#: onedesk/www/welcome.py:16
-msgid "We have not had the payment yet."
-msgstr "لم نستلم الدفعة بعد."
 
 #. Label of the stripe_webhook_secret (Password) field in DocType 'One Admin
 #. Settings'
@@ -4529,10 +4629,6 @@ msgstr "ما رصده كل تحقق عند كتابة هذا السجل."
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 msgid "What is happening"
 msgstr "ما يجري"
-
-#: onedesk/www/start.html:12
-msgid "What is it called?"
-msgstr "ما اسمها؟"
 
 #. Description of the 'Overtime Pay' (Currency) field in DocType 'Overtime
 #. Slip'
@@ -4606,9 +4702,9 @@ msgstr "وقت هذه المناوبة، مقروءاً من نوع المناو
 msgid "Where"
 msgstr "الموقع"
 
-#: onedesk/www/start.html:20
-msgid "Where should it live?"
-msgstr "أين ستكون؟"
+#: onedesk/www/start.html:36
+msgid "Where it runs"
+msgstr "أين تعمل"
 
 #. Description of the 'Session Address' (Data) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -4692,6 +4788,10 @@ msgstr "نطاق مساحات العمل"
 msgid "Workspace ID"
 msgstr "معرّف مساحة العمل"
 
+#: onedesk/www/start.html:24
+msgid "Workspace name"
+msgstr "اسم مساحة العمل"
+
 #. Label of a Sidebar Item
 #. Label of a number card in the One Admin Workspace
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
@@ -4730,10 +4830,6 @@ msgstr "يمكنك تغيير هذا لاحقاً من إعداداتك الخا
 msgid "You checked in but never checked out, so a check out was written for you at the shift end. Tell HR if that is wrong."
 msgstr "سجّلت حضورك ولم تسجّل انصرافك، فكُتب لك سجل انصراف عند نهاية المناوبة. أبلغ الموارد البشرية إذا كان ذلك غير صحيح."
 
-#: onedesk/www/welcome.html:8
-msgid "You closed the payment page."
-msgstr "أغلقت صفحة الدفع."
-
 #: onedesk/one_hr/closing.py:98
 msgid "Your check-in was closed at the end of your shift"
 msgstr "أُغلق تسجيل حضورك عند نهاية مناوبتك"
@@ -4742,10 +4838,6 @@ msgstr "أُغلق تسجيل حضورك عند نهاية مناوبتك"
 msgid "Your desk session is signed in from a different address."
 msgstr "جلستك في سطح المكتب مسجَّل دخولها من عنوان مختلف."
 
-#: onedesk/www/start.html:16
-msgid "Your email"
-msgstr "بريدك الإلكتروني"
-
 #: onedesk/one_hr/rules.py:44
 msgid "Your passkey has been reset twice within a month."
 msgstr "أُعيد تعيين مفتاح المرور الخاص بك مرتين خلال شهر."
@@ -4753,10 +4845,6 @@ msgstr "أُعيد تعيين مفتاح المرور الخاص بك مرتين
 #: onedesk/www/welcome.html:2
 msgid "Your workspace"
 msgstr "مساحة عملك"
-
-#: onedesk/www/welcome.py:20
-msgid "Your workspace is ready."
-msgstr "مساحة عملك جاهزة."
 
 #. Description of the 'Seats' (Int) field in DocType 'Workspace Account'
 #. Description of the 'Storage (GB)' (Int) field in DocType 'Offering'
@@ -4812,6 +4900,10 @@ msgstr "لا يوجد مفتاح مرور مسجَّل"
 msgid "nobody yet"
 msgstr "لا أحد بعد"
 
+#: onedesk/public/js/offering.js:38
+msgid "none of them live."
+msgstr "ولا واحدة منها تعمل."
+
 #: onedesk/public/js/desk.js:143
 msgid "nothing"
 msgstr "لا شيء"
@@ -4828,17 +4920,25 @@ msgstr "البداية"
 msgid "units"
 msgstr "وحدة"
 
-#: onedesk/www/welcome.html:8
-msgid "whenever you like."
-msgstr "متى شئت."
+#: onedesk/www/start.py:71
+msgid "{0} AI credits a month"
+msgstr "{0} رصيد ذكاء اصطناعي شهرياً"
 
-#: onedesk/www/start.html:36
+#: onedesk/www/start.py:67
+msgid "{0} GB storage"
+msgstr "{0} غيغابايت تخزين"
+
+#: onedesk/www/start.py:52
 msgid "{0} a month"
 msgstr "{0} شهرياً"
 
 #: onedesk/one_hr/overtime.py:114
 msgid "{0} allows at most {1} overtime hours a day."
 msgstr "يسمح {0} بحد أقصى {1} من ساعات العمل الإضافي يومياً."
+
+#: onedesk/one_admin/operator.py:198
+msgid "{0} already has a workspace. Resume its job instead."
+msgstr "لدى {0} مساحة عمل بالفعل. استأنف مهمتها بدلاً من ذلك."
 
 #: onedesk/one_hr/overtime.py:150
 msgid "{0} already records {1} hours of overtime on {2}. Remove this row."
@@ -4894,6 +4994,10 @@ msgstr "بقي {0} يوماً"
 msgid "{0} days read. Save to keep them."
 msgstr "قُرئ {0} يوماً. احفظ للإبقاء عليها."
 
+#: onedesk/public/js/tenant_domain.js:47
+msgid "{0} does not point to this workspace. The customer has to change their DNS."
+msgstr "لا يشير {0} إلى مساحة العمل هذه. وعلى العميل تغيير إعدادات DNS."
+
 #: onedesk/public/js/salary_slip.js:29
 msgid "{0} for {1}, a whole month."
 msgstr "{0} عن {1}، شهر كامل."
@@ -4909,6 +5013,10 @@ msgstr "لا يوجد سعر Stripe لـ {0}."
 #: onedesk/one_hr/overtime.py:85
 msgid "{0} has no attendance marked on {1}."
 msgstr "لا يوجد حضور مُسجَّل لـ {0} في {1}."
+
+#: onedesk/one_admin/operator.py:192
+msgid "{0} has not been paid, so there is nothing to build."
+msgstr "لم تُدفع {0}، فلا شيء لإنشائه."
 
 #: onedesk/one_admin/operator.py:132
 msgid "{0} has not failed."
@@ -4967,6 +5075,10 @@ msgstr "متبقٍ {0}"
 msgid "{0} of it is already covered by an advance."
 msgstr "{0} منه مغطى بسلفة سابقة."
 
+#: onedesk/public/js/offering.js:37
+msgid "{0} of them live."
+msgstr "منها {0} تعمل."
+
 #: onedesk/public/js/workspace_account.js:80
 msgid "{0} of {1} used."
 msgstr "استُهلك {0} من {1}."
@@ -4994,6 +5106,10 @@ msgstr "{0} من 5"
 #: onedesk/public/js/tenant.js:138 onedesk/public/js/workspace_account.js:78
 msgid "{0} over the {1} this plan allows."
 msgstr "{0} فوق الـ{1} التي تسمح بها هذه الخطة."
+
+#: onedesk/www/start.py:69
+msgid "{0} people"
+msgstr "{0} أشخاص"
 
 #: onedesk/public/js/tenant.js:108
 msgid "{0} signed for and not yet counted."
@@ -5023,6 +5139,10 @@ msgstr "سيسجّل {0} مفتاح مرور جديداً عند تسجيل حض
 #: onedesk/public/js/overtime_slip.js:82
 msgid "{0} worked, {1} paid"
 msgstr "عُمل {0}، ودُفع {1}"
+
+#: onedesk/public/js/offering.js:35
+msgid "{0} workspaces bought this"
+msgstr "اشترت هذا {0} مساحات عمل"
 
 #: onedesk/public/js/employee_promotion.js:31
 msgid "{0} {1} → {2}"

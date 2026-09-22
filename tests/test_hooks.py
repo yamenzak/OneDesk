@@ -84,3 +84,57 @@ def test_the_scan_would_catch_a_typo():
 		if isinstance(node, ast.FunctionDef | ast.AsyncFunctionDef)
 	}
 	assert "nightlyy" not in defined
+
+
+#: hooks whose values are paths to files we ship, not dotted callables. A path
+#: with a typo in it does not fail anything: the browser asks for a file that is
+#: not there, frappe answers 404, and the screen quietly loads without its
+#: script — which for `Tenant` means a workspace with no verbs on it.
+ASSET_HOOKS = (
+	"doctype_js",
+	"doctype_list_js",
+	"app_include_js",
+	"app_include_css",
+	"web_include_js",
+	"web_include_css",
+)
+
+#: Where an asset path starts, once the /assets/onedesk prefix is off it.
+SERVED_FROM = APP
+
+
+def _assets(node) -> list[str]:
+	found = []
+	for child in ast.walk(node):
+		if not (isinstance(child, ast.Constant) and isinstance(child.value, str)):
+			continue
+		said = child.value
+		if said.endswith((".js", ".css")):
+			found.append(said)
+	return found
+
+
+def assets() -> list[str]:
+	tree_ = ast.parse((APP / "hooks.py").read_text(encoding="utf-8"))
+	found = []
+	for node in tree_.body:
+		if not isinstance(node, ast.Assign):
+			continue
+		names = [t.id for t in node.targets if isinstance(t, ast.Name)]
+		if any(name in ASSET_HOOKS for name in names):
+			found.extend(_assets(node.value))
+	return sorted(set(found))
+
+
+def test_hooks_declare_some_assets():
+	assert len(assets()) >= 10
+
+
+@pytest.mark.parametrize("said", assets())
+def test_the_asset_exists(said):
+	"""`/assets/onedesk/js/x.js` and `public/js/x.js` are the same file."""
+	relative = said.removeprefix("/assets/onedesk/").removeprefix("assets/onedesk/")
+	if not relative.startswith("public/"):
+		relative = "public/" + relative
+	on_disk = SERVED_FROM / relative
+	assert on_disk.exists(), f"{said}: nothing at {on_disk.relative_to(ROOT)}"

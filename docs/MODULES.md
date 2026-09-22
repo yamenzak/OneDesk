@@ -64,9 +64,12 @@ No doctypes yet.
 * `onedesk.one.account.mine`
 * `onedesk.one_admin.operator.fall`
 * `onedesk.one_admin.operator.measure`
+* `onedesk.one_admin.operator.refresh_domain`
 * `onedesk.one_admin.operator.refresh_domains`
 * `onedesk.one_admin.operator.restore`
 * `onedesk.one_admin.operator.resume`
+* `onedesk.one_admin.operator.retry_signup`
+* `onedesk.one_admin.operator.sold`
 * `onedesk.one_admin.operator.standing`
 * `onedesk.one_admin.operator.walk`
 * `onedesk.one_admin.proxy.domain_add`

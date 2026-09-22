@@ -164,6 +164,12 @@ doctype_js = {
 	"Tenant": "public/js/tenant.js",
 	# A job says where in its walk it stopped; see one_admin/steps.py SAID.
 	"Provisioning Job": "public/js/job.js",
+	# A paid signup that never became a workspace can be built from its screen.
+	"Account Request": "public/js/account_request.js",
+	# A custom domain is Frappe Cloud's answer written down, and can be re-asked.
+	"Tenant Domain": "public/js/tenant_domain.js",
+	# A price list says how many workspaces already bought what is being edited.
+	"Offering": "public/js/offering.js",
 	"Employee": "public/js/employee.js",
 	"Employee Attendance Tool": "public/js/attendance_tool.js",
 	"Attendance": "public/js/attendance.js",
@@ -218,6 +224,8 @@ setup_wizard_requires = "assets/onedesk/js/setup_wizard.js"
 setup_wizard_stages = "onedesk.one.setup_wizard.get_setup_stages"
 
 app_include_css = ["/assets/onedesk/css/theme.css", "/assets/onedesk/css/desk.css"]
+# /start and /welcome, which are not desk screens and load none of the above.
+web_include_css = ["/assets/onedesk/css/portal.css"]
 app_include_js = [
 	"/assets/onedesk/js/theme.js",
 	"/assets/onedesk/js/desk.js",

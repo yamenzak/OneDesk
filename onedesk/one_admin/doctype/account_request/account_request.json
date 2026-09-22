@@ -155,6 +155,7 @@
    "delete": 0
   }
  ],
+ "title_field": "workspace_name",
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": [],

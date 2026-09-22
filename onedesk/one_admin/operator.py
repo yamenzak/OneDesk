@@ -173,3 +173,58 @@ def walk(job: str) -> dict:
 			for i, name in enumerate(order)
 		],
 	}
+
+
+@frappe.whitelist()
+def retry_signup(request: str) -> dict:
+	"""Build the workspace a paid signup never got.
+
+	The worst state in the system: money taken and nothing to show for it.
+	`signup.accept` is the same call the Stripe webhook makes and is idempotent
+	— a request that did create a workspace returns it rather than making a
+	second one — so this is safe on a request whose status is wrong.
+	"""
+	_may()
+	from onedesk.one_admin import signup
+
+	asked = frappe.get_doc("Account Request", request)
+	if asked.status not in ("Paid", "Failed"):
+		frappe.throw(frappe._("{0} has not been paid, so there is nothing to build.").format(request))
+	if asked.tenant:
+		# `accept` hands back the workspace it already made rather than making a
+		# second one, so retrying here would report success and do nothing. The
+		# work that is left is the job's, and the job screen has Resume.
+		frappe.throw(
+			frappe._("{0} already has a workspace. Resume its job instead.").format(request)
+		)
+	return {"tenant": signup.accept(request)}
+
+
+@frappe.whitelist()
+def refresh_domain(domain: str) -> dict:
+	"""Ask Frappe Cloud what it makes of this domain now.
+
+	A domain sits on Pending until somebody points the DNS, and nothing tells
+	us when they do. The workspace has the same button; this is the one for
+	whoever is on the phone to them.
+	"""
+	_may()
+	from onedesk.one_admin import domains
+
+	held = frappe.get_doc("Tenant Domain", domain)
+	domains.refresh(frappe.get_doc("Tenant", held.tenant))
+	return frappe.db.get_value("Tenant Domain", domain, ["status", "said"], as_dict=True) or {}
+
+
+@frappe.whitelist()
+def sold(offering: str) -> dict:
+	"""How many workspaces are on this plan.
+
+	Shown before somebody withdraws one. Withdrawing stops new signups and
+	changes nothing for the workspaces already on it, because a workspace
+	carries its own copy of the quotas — which is worth saying on the screen
+	rather than leaving somebody to guess.
+	"""
+	_may()
+	return {"live": frappe.db.count("Tenant", {"offering": offering, "status": "Live"}),
+	        "all": frappe.db.count("Tenant", {"offering": offering})}

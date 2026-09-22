@@ -1,46 +1,64 @@
 {% extends "templates/web.html" %}
 {% block title %}{{ _("Start a workspace") }}{% endblock %}
 
+{%- block navbar -%}{%- endblock -%}
+{%- block footer -%}{%- endblock -%}
+{% block breadcrumbs %}{% endblock %}
+
 {% block page_content %}
-<div class="one-start">
+<div class="one-portal">
+	<a class="one-portal__mark" href="/">
+		<img src="/assets/onedesk/images/one.svg" alt="">
+		<span>One</span>
+	</a>
+
 	<h1>{{ _("Start a workspace") }}</h1>
 
 	{% if not offerings %}
-		<p class="text-muted">{{ _("Nothing is on offer yet.") }}</p>
+		<p class="one-portal__lede">{{ _("No plan is on offer at the moment.") }}</p>
 	{% else %}
-	<form id="one-start">
-		<label for="workspace_name">{{ _("What is it called?") }}</label>
-		<input id="workspace_name" name="workspace_name" required autocomplete="organization">
-		<p class="one-slug text-muted" id="one-slug"></p>
+	<p class="one-portal__lede">{{ _("Pick a name and a plan. The workspace is built as soon as the payment goes through.") }}</p>
 
-		<label for="email">{{ _("Your email") }}</label>
-		<input id="email" name="email" type="email" required autocomplete="email">
+	<form id="one-start">
+		<label class="one-field" for="workspace_name">
+			<span>{{ _("Workspace name") }}</span>
+			<input id="workspace_name" name="workspace_name" type="text" required autocomplete="organization" autofocus>
+			<small class="one-hint" id="one-slug"></small>
+		</label>
+
+		<label class="one-field" for="email">
+			<span>{{ _("Email") }}</span>
+			<input id="email" name="email" type="email" required autocomplete="email">
+			<small class="one-note">{{ _("The first account, and where the receipt goes.") }}</small>
+		</label>
 
 		<fieldset>
-			<legend>{{ _("Where should it live?") }}</legend>
-			<p class="text-muted">{{ _("This is permanent: storage is pinned to it and moving later means copying every file.") }}</p>
-			{% for one in jurisdictions %}
+			<legend>{{ _("Where it runs") }}</legend>
+			{% for key, label in jurisdictions %}
 			<label class="one-choice">
-				<input type="radio" name="jurisdiction" value="{{ one }}" {% if loop.first %}checked{% endif %}>
-				{{ _(one) }}
+				<input type="radio" name="jurisdiction" value="{{ key }}" {% if loop.first %}checked{% endif %}>{{ label }}
 			</label>
 			{% endfor %}
+			<small class="one-note">{{ _("This cannot be changed later. Files stay where the workspace was built.") }}</small>
 		</fieldset>
 
 		<fieldset>
 			<legend>{{ _("Plan") }}</legend>
 			{% for one in offerings %}
 			<label class="one-choice">
-				<input type="radio" name="offering" value="{{ one.name }}" {% if loop.first %}checked{% endif %}>
-				<strong>{{ one.label }}</strong>
-				<span>{{ _("{0} a month").format(frappe.utils.fmt_money(one.amount, currency=one.currency)) }}</span>
-				{% if one.description %}<span class="text-muted">{{ one.description }}</span>{% endif %}
+				<span class="one-choice__head">
+					<span><input type="radio" name="offering" value="{{ one.name }}" {% if loop.first %}checked{% endif %}>{{ one.label }}</span>
+					<span class="one-choice__price">{{ one.price }}</span>
+				</span>
+				{% if one.description %}<small class="one-choice__about">{{ one.description }}</small>{% endif %}
+				{% if one.quota %}<small class="one-choice__quota">{{ one.quota }}</small>{% endif %}
 			</label>
 			{% endfor %}
 		</fieldset>
 
-		<button type="submit" class="btn btn-primary">{{ _("Continue to payment") }}</button>
+		<button type="submit" class="one-go">{{ _("Continue to payment") }}</button>
 		<p class="one-said" id="one-said"></p>
+		<small class="one-note">{{ _("Payment is taken by Stripe. Nothing is charged until it is confirmed there.") }}</small>
 	</form>
 	{% endif %}
 </div>
