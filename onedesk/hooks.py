@@ -15,7 +15,7 @@ after_install = [
 	"onedesk.one_hr.policy.seed",
 	"onedesk.one_hr.leave.templates",
 	"onedesk.one_hr.leave.encashable",
-	"onedesk.one_hr.payroll.ready",
+	"onedesk.one_hr.accounts.ready",
 	"onedesk.one.brand.apply",
 	"onedesk.one.declutter.apply",
 	"onedesk.one.companions.apply",
@@ -31,7 +31,7 @@ after_migrate = [
 	"onedesk.one_hr.policy.seed",
 	"onedesk.one_hr.leave.templates",
 	"onedesk.one_hr.leave.encashable",
-	"onedesk.one_hr.payroll.ready",
+	"onedesk.one_hr.accounts.ready",
 ]
 extend_bootinfo = "onedesk.one.boot.boot_session"
 

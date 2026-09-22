@@ -1,0 +1,16 @@
+{
+ "custom_fields": [],
+ "doctype": "Employee Advance",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Employee Advance",
+   "doctype_or_field": "DocField",
+   "field_name": "advance_amount",
+   "property": "description",
+   "property_type": "Text",
+   "value": "What the company hands over up front, before anything is spent or claimed."
+  }
+ ],
+ "sync_on_migrate": 1
+}

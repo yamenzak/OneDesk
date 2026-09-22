@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 00:01+0000\n"
-"PO-Revision-Date: 2026-09-22 00:01+0000\n"
+"POT-Creation-Date: 2026-09-22 00:10+0000\n"
+"PO-Revision-Date: 2026-09-22 00:10+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -3118,6 +3118,11 @@ msgstr ""
 #. Description of the 'Device' (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "What the browser called itself when the passkey was registered."
+msgstr ""
+
+#. Description of the 'advance_amount' field in DocType 'Employee Advance'
+#: onedesk/one_hr/custom/employee_advance.json
+msgid "What the company hands over up front, before anything is spent or claimed."
 msgstr ""
 
 #. Description of the 'Note' (Small Text) field in DocType 'Attendance Request'

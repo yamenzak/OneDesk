@@ -1,0 +1,24 @@
+{
+ "custom_fields": [],
+ "doctype": "Travel Request",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Travel Request",
+   "doctype_or_field": "DocField",
+   "field_name": "employee_details",
+   "property": "collapsible",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Travel Request",
+   "doctype_or_field": "DocField",
+   "field_name": "section_break_4",
+   "property": "collapsible",
+   "property_type": "Check",
+   "value": "0"
+  }
+ ],
+ "sync_on_migrate": 1
+}

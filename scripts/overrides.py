@@ -347,6 +347,13 @@ OVERRIDES = [
 		"Please set default template for Leave Status Notification in HR Settings.",
 	),
 	(
+		"An employee advance can be made on a site nobody has edited the accounts on",
+		"erpnext ships Employee Advances as `account_type: Payable` beside `account_category: Other Receivables`, and hrms demands Receivable",
+		"onedesk/one_hr/accounts.py",
+		"hrms/hrms/hr/doctype/employee_advance/employee_advance.py",
+		"Employee advance account {0} should be of type {1}.",
+	),
+	(
 		"An expense claim is answered, and the answer is signed",
 		"its verdict is a Select the approver edits by hand, and `on_submit` throws if they forgot — a rule the Submit button does not carry",
 		"onedesk/one_hr/expense.py",
@@ -440,7 +447,7 @@ OVERRIDES = [
 	(
 		"A payroll run can be made on a site nobody has edited the accounts on",
 		"erpnext names Payroll Payable and nominates it, and leaves its `account_type` unset, so every payroll entry is refused",
-		"onedesk/one_hr/payroll.py",
+		"onedesk/one_hr/accounts.py",
 		"hrms/hrms/payroll/doctype/payroll_entry/payroll_entry.py",
 		"Account type should be set {0} for payroll payable account {1}, please set and try again",
 	),

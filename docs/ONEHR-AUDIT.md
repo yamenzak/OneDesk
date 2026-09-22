@@ -555,3 +555,51 @@ total, claimed, taxes, reimbursed — and on a single-row claim four of them are
 the same number and two are nought. They are not redundant in general (an
 advance and a tax make them differ), so the headline answers the question
 instead of the layout being rewritten.
+
+### The accounts erpnext nominates, again
+
+The payroll payable account was the first of these and the employee advance
+account is the second, so the fix moved out of `one_hr/payroll.py` into
+`one_hr/accounts.py`, which holds the table.
+
+erpnext's standard chart of accounts creates **Employee Advances** under Loans
+and Advances with
+
+    {"account_type": "Payable", "account_category": "Other Receivables"}
+
+— it contradicts itself in adjacent lines, on an account whose root type is
+Asset — and names `Company.default_employee_advance_account` after it. An
+advance is money the employee owes back, so Receivable is right, and
+`Employee Advance.validate` says so: *"Employee advance account Employee
+Advances - ONE should be of type Receivable."* No advance can be made on a
+fresh site, for the same reason no payroll run could.
+
+Corrected only where the value is still exactly what erpnext shipped — an unset
+type for the payroll account, `Payable` for the advance one — so a workspace
+that chose its own keeps it.
+
+### Employee Advance
+
+Thin once the account was right. Every field carries a description, which is
+more than most screens in this audit manage, and one of them is wrong: **Advance
+Amount** was described as *"Amount of expense"*, which is a different field on
+the same form. It now says what it is — what the company hands over up front,
+before anything is spent or claimed.
+
+### Travel Request, Purpose of Travel
+
+**Who is travelling, and why, were both behind collapsed sections** — Employee
+Details and Description — while Travel Funding, Details of Sponsor and Copy of
+Invitation were in the open. That is a form for sponsored conference travel
+rather than for a business trip, which is what the rail row is for. Both
+sections now open.
+
+**Left, and worth naming:** a Travel Request has no status and no approver. It
+is submitted, and that is the whole of it — so unlike the other four requests in
+OneHR there is nothing to approve and nothing to sign. Giving it the two buttons
+would mean inventing a workflow HRMS deliberately does not have, which is a
+product decision rather than a screen fix.
+
+`Purpose of Travel` is a two-field list of names, and there is nothing to say
+about it beyond that it was empty; three were seeded to make Travel Request
+usable.
