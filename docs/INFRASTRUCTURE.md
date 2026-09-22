@@ -335,8 +335,19 @@ its place from a backup is somebody's decision rather than a webhook's.
 Then OneAI's ten stages run on top of this, with the ledger already where it
 belongs: on the admin site, behind the proxy, where a customer cannot write
 themselves credits. `docs/ONEAI.md` was written assuming the operator was a role
-on the tenant's own site and said plainly that this was its weakest point. It is
-not true any more, and that document's caveat section goes when INFRA 5 lands.
+on the tenant's own site and said plainly that this was its weakest point; that
+section is rewritten as of AI 1, and the module's shape above the ledger did not
+change — which was the point of letting one file, and only one, know where a
+balance comes from.
+
+**AI 1 — the gateway.** *Done.* `one_admin/gateway.py` calls Cloudflare AI
+Gateway, which is the whole reason there is no provider key on this site either:
+the key is stored in the gateway and attached there, so we send
+`cf-aig-authorization` and never `Authorization`. The account, the gateway name
+and its token sit in `One Admin Settings` beside the Cloudflare account they
+belong to, and the settings screen has a button that makes one call, because
+every other credential here is proved by something failing later and this one
+had no such moment.
 
 ## The console
 

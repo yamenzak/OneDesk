@@ -28,6 +28,10 @@
   "stripe_secret_key",
   "column_break_stripe",
   "stripe_webhook_secret",
+  "ai_section",
+  "ai_gateway",
+  "column_break_ai",
+  "ai_gateway_token",
   "ladder_section",
   "grace_days",
   "held_days",
@@ -153,6 +157,27 @@
    "fieldname": "stripe_webhook_secret",
    "fieldtype": "Password",
    "label": "Webhook Signing Secret"
+  },
+  {
+   "fieldname": "ai_section",
+   "fieldtype": "Section Break",
+   "label": "AI Gateway"
+  },
+  {
+   "fieldname": "ai_gateway",
+   "fieldtype": "Data",
+   "label": "Gateway Name",
+   "description": "The AI Gateway on the Cloudflare account above."
+  },
+  {
+   "fieldname": "column_break_ai",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "ai_gateway_token",
+   "fieldtype": "Password",
+   "label": "Gateway Token",
+   "description": "Provider keys are stored in the gateway, never here."
   },
   {
    "fieldname": "ladder_section",

@@ -40,7 +40,7 @@ No doctypes yet.
 |---|--:|---|
 | Account Request | 16 | document |
 | Offering | 19 | document |
-| One Admin Settings | 28 | single |
+| One Admin Settings | 32 | single |
 | Provisioning Job | 12 | document |
 | Stripe Webhook Event | 7 | document |
 | Tenant | 33 | document |
@@ -71,6 +71,7 @@ No doctypes yet.
 * `onedesk.one_admin.operator.retry_signup`
 * `onedesk.one_admin.operator.sold`
 * `onedesk.one_admin.operator.standing`
+* `onedesk.one_admin.operator.try_the_gateway`
 * `onedesk.one_admin.operator.walk`
 * `onedesk.one_admin.proxy.domain_add`
 * `onedesk.one_admin.proxy.domain_check`

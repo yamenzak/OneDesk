@@ -6,35 +6,39 @@ ledger, a top-up, an action a workspace can re-point and re-word, tool calling
 that cannot reach past the person who asked, and a call a browser watches
 arrive. This is the argument for each and the order to build them in.
 
-The desk has none of it today. `modules.txt` is One, One HR, One CRM; there is
-no AI, no billing and no operator anything.
+The desk has none of it today. `modules.txt` is One, One HR, One CRM and One
+Admin; the operator side and the billing exist, and there is no AI.
 
 ## The decision that shapes the rest
 
-**The operator is a role on the tenant's own site.** There is no control plane.
-An operator signs in to the workspace they are operating, wearing a role nobody
-else has, and the model catalogue, the rates and the markup are doctypes on that
-site like any other.
+**The operator is a separate site, and the ledger is on it.** `docs/INFRASTRUCTURE.md`
+is the whole of that argument; what matters here is the consequence, which is
+that a workspace has no credit table to write to. `Credit Ledger Entry`,
+`Credit Reservation`, `AI Model` and its rates all live in One Admin on the
+admin site, behind `one_admin/proxy.py`, and a tenant reaches them the same way
+it reaches a signed upload URL: by asking, one direction only, holding a token
+that identifies it and authorises nothing else.
 
-That is the cheapest thing that works and it has one consequence worth saying
-out loud rather than discovering later: **the ledger that bills a customer lives
-on the customer's own site.** A workspace administrator who can reach the
-database can write themselves credits. Three things keep that honest, and none
-of them is a fourth site:
+So the three rules that used to be deterrence are now structural:
 
-* A `Credit Ledger Entry` is submittable and submitted on insert. Amending one
-  leaves an amended-from trail; there is no in-place edit of a balance.
-* Only two things may insert one: the Stripe webhook and the operator role.
-  The tenant's own administrator has read and nothing else.
-* The balance is a **sum over the rows**, never a stored number, so a tampered
-  row is a row somebody has to have written and signed.
+* A balance is a **sum over rows** on a database the customer cannot reach.
+* Only two things insert a row — the Stripe webhook and the operator — and both
+  run on admin.
+* Nothing admin holds is reachable from a workspace, because admin never calls
+  a workspace and a workspace can only call the endpoints in `proxy.py`.
 
-It is deterrence and an audit trail rather than a wall. A customer determined to
-forge their own credits on their own server will manage it, and the answer to
-that is an invoice, not a schema. If that stops being acceptable the ledger moves
-to a control plane and everything above it — the gateway, the actions, the tools
-— keeps its shape, because nothing but `one_ai/ledger.py` knows where a balance
-comes from.
+**An earlier draft of this document said the opposite**, and said plainly that
+it was the design's weakest point: the operator as a role on the tenant's own
+site, the ledger beside the data it bills for, and an administrator who could
+write themselves credits if they reached the database. That is what INFRA 5
+replaced. The shape above it did not change — the gateway, the actions, the
+tools and the proposals are what they always were — which was the point of
+keeping `ledger.py` the only thing that knows where a balance comes from.
+
+**What is still on the tenant's own site** is everything a person touches: the
+action settings, the runs, the proposals. Those are the workspace's own records
+about its own work, and putting them on admin would mean a round trip to draw a
+screen.
 
 ## One gateway, and the keys are not here
 
@@ -193,9 +197,23 @@ second port, nothing new to deploy.
 
 Each one is worth having on its own, and each one is a commit.
 
-**AI 1 — the gateway and one call.** `One AI Settings` with the gateway account,
-token and URL. `one_ai/gateway.py` making one un-metered text call to one
-hard-coded model, and a test that proves the key never leaves Cloudflare.
+**AI 1 — the gateway and one call.** *Done.* The gateway account, name and token
+in `One Admin Settings`, beside the Cloudflare account they belong to.
+`one_admin/gateway.py` — beside `press.py`, `stripe.py` and `storage.py`,
+because it is the same thing they are: an outbound client for a service only the
+admin site talks to. One un-metered text call to one hard-coded model, a
+per-provider table of path, body and where the words are rather than a branch
+per provider, and an operator button on the settings screen to prove the token
+works before anything is billed against it.
+
+The guards are the ones worth having later: no `Authorization` header and no
+provider key anywhere in the file, no field on the settings that could hold one,
+and exactly one model named in this app — `gateway.FIRST`, which AI 2 removes.
+A 200 whose shape we do not recognise raises rather than reading as an empty
+answer, because the other way is a changed response quietly returning blanks.
+
+The One AI module itself arrives with AI 5, when there is a doctype that belongs
+on every site rather than only on admin.
 
 **AI 2 — the catalogue.** `AI Model` and its `AI Model Rate` rows, discovery from
 both provider APIs, price parsing from both published pages, `Needs Review` for
@@ -203,8 +221,8 @@ anything unpriceable, and a nightly sync that refreshes facts and touches no
 decision. The parsers take text and return rows, with no frappe in them, so they
 are testable against a saved copy of each page.
 
-**AI 3 — the ledger.** `Credit Ledger Entry`, balance as a sum, expiry, reserve
-and commit under a row lock. No AI in this stage at all: it is an accounting
+**AI 3 — the ledger.** `Credit Ledger Entry` in One Admin, balance as a sum,
+expiry, reserve and commit under a row lock. No AI in this stage at all: it is an accounting
 module and is tested like one.
 
 **AI 4 — pricing and the three-step call.** Markup per model, credits per dollar,

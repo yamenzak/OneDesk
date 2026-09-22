@@ -170,6 +170,8 @@ doctype_js = {
 	"Tenant Domain": "public/js/tenant_domain.js",
 	# A price list says how many workspaces already bought what is being edited.
 	"Offering": "public/js/offering.js",
+	# The gateway is the one credential here with nothing that later proves it.
+	"One Admin Settings": "public/js/admin_settings.js",
 	"Employee": "public/js/employee.js",
 	"Employee Attendance Tool": "public/js/attendance_tool.js",
 	"Attendance": "public/js/attendance.js",

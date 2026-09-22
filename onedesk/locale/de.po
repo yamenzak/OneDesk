@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 15:37+0000\n"
-"PO-Revision-Date: 2026-09-22 15:37+0000\n"
+"POT-Creation-Date: 2026-09-22 15:44+0000\n"
+"PO-Revision-Date: 2026-09-22 15:44+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -123,6 +123,12 @@ msgstr "Ein Arbeitsbereich darf höchstens {0} eigene Domains haben."
 #: onedesk/one_admin/doctype/offering/offering.py:31
 msgid "A {0} does not carry {1}."
 msgstr "Ein {0} trägt kein Feld {1}."
+
+#. Label of the ai_section (Section Break) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "AI Gateway"
+msgstr "KI-Gateway"
 
 #. Label of the press_token (Password) field in DocType 'One Admin Settings'
 #. Label of the cloudflare_token (Password) field in DocType 'One Admin
@@ -458,6 +464,10 @@ msgstr "Archiviert für"
 msgid "As reported by Frappe Cloud."
 msgstr "Wie von Frappe Cloud gemeldet."
 
+#: onedesk/public/js/admin_settings.js:28
+msgid "Ask"
+msgstr ""
+
 #. Label of the one_gate_photo (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Ask for a Photo"
@@ -486,6 +496,10 @@ msgstr "Angefragt, und Frappe Cloud hat noch nicht geantwortet."
 #: onedesk/one_hr/custom/employee_checkin.json
 msgid "Asked on check out only. Options come from Clock Reason."
 msgstr "Wird nur beim Auschecken abgefragt. Die Auswahl stammt aus Einchecken-Grund."
+
+#: onedesk/public/js/admin_settings.js:31
+msgid "Asking…"
+msgstr "Wird gefragt …"
 
 #: onedesk/public/js/employee.js:194
 msgid "Assign a Salary Structure"
@@ -1713,6 +1727,17 @@ msgstr ""
 #: onedesk/public/js/employee.js:43
 msgid "From home"
 msgstr "Von zuhause"
+
+#. Label of the ai_gateway (Data) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Gateway Name"
+msgstr "Gateway-Name"
+
+#. Label of the ai_gateway_token (Password) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Gateway Token"
+msgstr "Gateway-Token"
 
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -3215,6 +3240,10 @@ msgstr ""
 msgid "Promotion"
 msgstr "Beförderung"
 
+#: onedesk/public/js/admin_settings.js:22
+msgid "Prompt"
+msgstr "Eingabe"
+
 #. Description of the 'Learn New Networks' (Check) field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -3243,6 +3272,12 @@ msgstr ""
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
 msgid "Provided"
 msgstr "Zugewiesen"
+
+#. Description of the 'Gateway Token' (Password) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Provider keys are stored in the gateway, never here."
+msgstr "Anbieterschlüssel liegen im Gateway, nie hier."
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
@@ -3623,6 +3658,10 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:52
 msgid "Save"
 msgstr ""
+
+#: onedesk/public/js/admin_settings.js:24
+msgid "Say hello in one short sentence."
+msgstr "Sag Hallo in einem kurzen Satz."
 
 #. Label of the attachment (Attach) field in DocType 'Employee Document'
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
@@ -4113,6 +4152,12 @@ msgstr "Dieser Passkey konnte nicht verifiziert werden: {0}"
 msgid "That passkey is not registered on this site."
 msgstr "Dieser Passkey ist auf dieser Site nicht registriert."
 
+#. Description of the 'Gateway Name' (Data) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "The AI Gateway on the Cloudflare account above."
+msgstr "Das KI-Gateway auf dem Cloudflare-Konto oben."
+
 #: onedesk/public/js/workspace_account.js:129
 msgid "The DNS is pointing here."
 msgstr "Der DNS zeigt hierher."
@@ -4477,6 +4522,10 @@ msgstr "Als Einsatzort behandeln"
 #: onedesk/public/js/job.js:83
 msgid "Tried {0} times."
 msgstr "{0}-mal versucht."
+
+#: onedesk/public/js/admin_settings.js:9 onedesk/public/js/admin_settings.js:17
+msgid "Try the Gateway"
+msgstr "Gateway testen"
 
 #: onedesk/public/js/attendance_request.js:11
 msgid "Turned down by {0}."

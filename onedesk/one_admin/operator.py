@@ -228,3 +228,18 @@ def sold(offering: str) -> dict:
 	_may()
 	return {"live": frappe.db.count("Tenant", {"offering": offering, "status": "Live"}),
 	        "all": frappe.db.count("Tenant", {"offering": offering})}
+
+
+@frappe.whitelist()
+def try_the_gateway(prompt: str) -> dict:
+	"""One model call, so an operator can prove the gateway is configured.
+
+	Un-metered and deliberately so: there is no ledger yet, and a settings screen
+	that cannot be tested until the billing is built is a settings screen
+	somebody fills in wrong and finds out from a customer.
+	"""
+	_may()
+	from onedesk.one_admin import gateway
+
+	provider, model = gateway.FIRST
+	return {"provider": provider, "model": model, "said": gateway.ask(prompt)}
