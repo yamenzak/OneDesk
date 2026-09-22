@@ -55,7 +55,7 @@
   },
   {
    "default": "New",
-   "description": "Nothing is provisioned until the money has arrived.",
+   "description": "A workspace is only created after payment is confirmed.",
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
@@ -68,7 +68,7 @@
   {
    "fieldname": "wants_section",
    "fieldtype": "Section Break",
-   "label": "What they asked for"
+   "label": "Request"
   },
   {
    "fieldname": "offering",
@@ -123,7 +123,7 @@
   {
    "fieldname": "failed_reason",
    "fieldtype": "Small Text",
-   "label": "Failed Because",
+   "label": "Failure Reason",
    "read_only": 1
   },
   {
@@ -159,5 +159,5 @@
  "sort_order": "DESC",
  "states": [],
  "track_changes": 1,
- "description": "A signup comes from the signup page. One typed here has no payment behind it."
+ "description": "A signup from the public sign-up page."
 }

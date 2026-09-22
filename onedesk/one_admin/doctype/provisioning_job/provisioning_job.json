@@ -57,7 +57,7 @@
    "in_standard_filter": 1
   },
   {
-   "description": "Where it resumes. Every step is safe to run twice.",
+   "description": "The next step to run. Steps can safely run more than once.",
    "fieldname": "step",
    "fieldtype": "Data",
    "label": "Step",
@@ -70,7 +70,7 @@
   },
   {
    "default": "0",
-   "description": "At this step. Reset when the step advances.",
+   "description": "Attempts at the current step. Resets when the step advances.",
    "fieldname": "attempts",
    "fieldtype": "Int",
    "label": "Attempts",
@@ -93,14 +93,14 @@
    "read_only": 1
   },
   {
-   "description": "In press's own words.",
+   "description": "The last failure message, as reported by Frappe Cloud.",
    "fieldname": "error",
    "fieldtype": "Small Text",
    "label": "Error",
    "read_only": 1
   },
   {
-   "description": "What the steps have learned so far.",
+   "description": "Values collected by the steps that have run so far.",
    "fieldname": "payload",
    "fieldtype": "Code",
    "label": "Payload",
@@ -134,5 +134,5 @@
  "sort_order": "DESC",
  "states": [],
  "track_changes": 1,
- "description": "A job is made by the thing that needs one. One typed here would start walking a tenant with no idea why."
+ "description": "A queued unit of work against a workspace. Created by the system."
 }

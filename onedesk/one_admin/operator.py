@@ -27,9 +27,19 @@ from onedesk.one_admin import ladder, lifecycle, runner, site
 #: get it wrong in only one place.
 BY_HAND = {
 	"Overdue": "",
-	"Suspended": "The site stops serving. Nobody can log in until it is restored.",
-	"Archived": "Press destroys the site, keeping its own backup. Restoring it afterwards is not automatic.",
-	"Dropped": "Every file this workspace stored is deleted. Nothing comes back.",
+	"Suspended": "The site stops serving. Nobody can sign in until it is restored.",
+	"Archived": "Frappe Cloud deletes the site after taking a backup. Restoring it is not automatic.",
+	"Dropped": "Every file this workspace stored is deleted permanently.",
+}
+
+#: The button for each rung. The verb for what happens, rather than the name of
+#: the rung it lands on — "Delete Files" says what a customer loses and
+#: "Send to Dropped" does not.
+CALLED = {
+	"Overdue": "Mark Overdue",
+	"Suspended": "Suspend",
+	"Archived": "Archive",
+	"Dropped": "Delete Files",
 }
 
 
@@ -51,6 +61,7 @@ def standing(tenant: str) -> dict:
 	below = ladder.below(held.status)
 	where["next"] = below if below in BY_HAND else None
 	where["warning"] = BY_HAND.get(below or "", "")
+	where["verb"] = frappe._(CALLED[below]) if below in CALLED else None
 	where["may_restore"] = held.status in ("Overdue", "Suspended")
 	return where
 

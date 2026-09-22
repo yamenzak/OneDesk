@@ -44,7 +44,7 @@
    "fieldtype": "Select",
    "label": "Status",
    "options": "Pending\nIn Progress\nActive\nBroken\nGone",
-   "description": "Press's word for it, kept as press says it.",
+   "description": "As reported by Frappe Cloud.",
    "read_only": 1,
    "in_list_view": 1,
    "in_standard_filter": 1
@@ -58,15 +58,15 @@
   {
    "fieldname": "said_section",
    "fieldtype": "Section Break",
-   "label": "What press said"
+   "label": "Response"
   },
   {
    "fieldname": "said",
    "fieldtype": "Code",
-   "label": "Last Answer",
+   "label": "Last Response",
    "options": "JSON",
    "read_only": 1,
-   "description": "Press's last answer, whole. When a domain is stuck this is the useful part."
+   "description": "The last response from Frappe Cloud, unmodified."
   }
  ],
  "index_web_pages_for_search": 0,
@@ -94,5 +94,5 @@
  "sort_order": "DESC",
  "states": [],
  "track_changes": 1,
- "description": "A domain row is made when a workspace asks for one, alongside the call to press that makes it real. One typed here would say Pending forever."
+ "description": "A custom domain on a workspace. Created when the workspace requests one."
 }

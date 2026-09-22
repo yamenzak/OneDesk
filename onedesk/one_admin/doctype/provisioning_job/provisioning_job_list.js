@@ -17,7 +17,7 @@ frappe.listview_settings["Provisioning Job"] = {
 	get_indicator(doc) {
 		const says = {
 			Pending: ["orange", __("Waiting to run")],
-			Waiting: ["blue", __("Waiting on press")],
+			Waiting: ["blue", __("Waiting on Frappe Cloud")],
 			Done: ["green", __("Done")],
 			Failed: ["red", __("Stopped")],
 		};

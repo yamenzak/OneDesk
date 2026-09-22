@@ -69,7 +69,7 @@
    "label": "Status",
    "options": "Requested\nProvisioning\nLive\nOverdue\nSuspended\nArchived\nDropped\nFailed",
    "reqd": 1,
-   "description": "Set by the ladder and by the buttons above. Never typed.",
+   "description": "Set by billing events and by the actions in the toolbar.",
    "read_only": 1,
    "in_list_view": 1
   },
@@ -83,7 +83,7 @@
   {
    "fieldname": "place_section",
    "fieldtype": "Section Break",
-   "label": "Where it lives"
+   "label": "Placement"
   },
   {
    "fieldname": "cluster",
@@ -111,7 +111,7 @@
    "options": "Global\nEU",
    "reqd": 1,
    "set_only_once": 1,
-   "description": "Permanent. Changing it would mean copying every object.",
+   "description": "Cannot be changed. Storage is pinned to it when the workspace is created.",
    "read_only": 1,
    "in_standard_filter": 1
   },
@@ -124,7 +124,7 @@
   {
    "fieldname": "site_section",
    "fieldtype": "Section Break",
-   "label": "The site"
+   "label": "Site"
   },
   {
    "fieldname": "site",
@@ -142,17 +142,17 @@
   {
    "fieldname": "primary_domain",
    "fieldtype": "Link",
-   "label": "Main Address",
+   "label": "Primary Domain",
    "options": "Tenant Domain",
    "read_only": 1,
-   "description": "Empty means the workspace is still called what we called it."
+   "description": "Blank if the workspace still uses the address it was given."
   },
   {
    "fieldname": "column_break_site",
    "fieldtype": "Column Break"
   },
   {
-   "description": "A hash. The token itself was written into the site once and never read back.",
+   "description": "SHA-256 of the token written into the site's config.",
    "fieldname": "token_hash",
    "fieldtype": "Data",
    "hidden": 1,
@@ -168,9 +168,9 @@
   {
    "fieldname": "status_since",
    "fieldtype": "Datetime",
-   "label": "On This Rung Since",
+   "label": "Status Since",
    "read_only": 1,
-   "description": "When it arrived on this rung. Empty means the ladder leaves it alone."
+   "description": "When the current status was set."
   },
   {
    "fieldname": "billing_section",
@@ -196,9 +196,9 @@
   {
    "fieldname": "archived_backup",
    "fieldtype": "Data",
-   "label": "Backup At Archive",
+   "label": "Backup Before Archive",
    "read_only": 1,
-   "description": "Press holds the bytes; we keep the name."
+   "description": "Name of the offsite backup Frappe Cloud held when the site was archived."
   },
   {
    "fieldname": "storage_section",
@@ -208,16 +208,17 @@
   {
    "fieldname": "storage_bytes",
    "fieldtype": "Long Int",
-   "label": "Held",
+   "label": "Used",
    "read_only": 1,
-   "in_list_view": 1
+   "in_list_view": 1,
+   "description": "Bytes, from the last measurement."
   },
   {
    "fieldname": "storage_pending",
    "fieldtype": "Long Int",
-   "label": "Promised",
+   "label": "Pending",
    "read_only": 1,
-   "description": "Signed for since the last measurement."
+   "description": "Bytes signed for since the last measurement."
   },
   {
    "fieldname": "column_break_storage",
@@ -227,7 +228,7 @@
    "fieldname": "storage_limit",
    "fieldtype": "Long Int",
    "label": "Limit",
-   "description": "Bytes. Zero is unmetered.",
+   "description": "In bytes. Zero means unlimited.",
    "read_only": 1
   },
   {
@@ -239,12 +240,12 @@
   {
    "fieldname": "tab_billing",
    "fieldtype": "Tab Break",
-   "label": "Billing and storage"
+   "label": "Billing and Storage"
   },
   {
    "fieldname": "storage_said",
    "fieldtype": "HTML",
-   "label": "In words"
+   "label": "Usage"
   }
  ],
  "index_web_pages_for_search": 0,
@@ -273,7 +274,7 @@
  "sort_order": "DESC",
  "states": [],
  "track_changes": 1,
- "description": "A workspace is made by a paid Account Request, never by hand: one typed here has no site, no token and no job, and every screen that reads it would be reading a lie.",
+ "description": "A customer workspace. Created from a paid Account Request.",
  "title_field": "workspace_name",
  "show_title_field_in_link": 1,
  "search_fields": "workspace_name,domain,site,owner_email"

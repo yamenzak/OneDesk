@@ -201,20 +201,46 @@ def test_nothing_on_a_workspace_is_typed():
 		assert not perm.get("delete"), "a Tenant can be deleted"
 
 
-def test_the_form_carries_no_essays():
-	"""A field description is a sentence, not a paragraph from a commit message.
+def test_no_screen_text_reads_like_a_commit_message():
+	"""Field help is written the way frappe and erpnext write it.
 
-	This file's first version put the whole reasoning for the ladder under the
-	Status select, four lines of it, on a screen somebody opens to find out
-	whether a customer is paying.
+	Theirs runs to a median of 68 characters, plain and instructional — "Zero
+	means unlimited", "If enabled, changes to the document are tracked". Mine
+	started as paragraphs lifted from the reasoning: four lines about ladder.py
+	under a Select, on a screen somebody opens to find out whether a customer is
+	paying. The reasoning belongs in docs/ and in the docstrings, which is what
+	CLAUDE.md already says.
+
+	Three things are checked, all of them proxies for the same thing. Length,
+	because a paragraph is the usual symptom. First person, because "we" and
+	"our" are the voice of an argument rather than of a field label. And the
+	word `press`, because that is the name of Frappe Cloud's own app: correct
+	in code, meaningless to the person reading the form.
 	"""
-	doc = _json(ADMIN / "doctype" / "tenant" / "tenant.json")
-	long = {
-		one["fieldname"]: len(one["description"])
-		for one in doc["fields"]
-		if len(one.get("description") or "") > 120
-	}
-	assert not long, f"these descriptions belong in docs/ rather than on the form: {long}"
+	import re
+
+	LONGEST = 130
+	VOICE = re.compile(r"\b(we|our|us|ours)\b", re.I)
+	THEIR_APP = re.compile(r"\bpress\b", re.I)
+
+	wrong = []
+	for folder in sorted(one.name for one in (ADMIN / "doctype").iterdir() if one.is_dir()):
+		path = ADMIN / "doctype" / folder / f"{folder}.json"
+		if not path.exists():
+			continue
+		doc = _json(path)
+		said = [("[doctype]", doc.get("description") or "")]
+		said += [(one["fieldname"], one.get("description") or "") for one in doc["fields"]]
+		for where, text in said:
+			if not text:
+				continue
+			if len(text) > LONGEST:
+				wrong.append(f"{folder}.{where}: {len(text)} characters")
+			if VOICE.search(text):
+				wrong.append(f"{folder}.{where}: first person")
+			if THEIR_APP.search(text):
+				wrong.append(f"{folder}.{where}: says press rather than Frappe Cloud")
+	assert not wrong, "screen text out of register:\n  " + "\n  ".join(wrong)
 
 
 def test_every_operator_verb_is_gated():

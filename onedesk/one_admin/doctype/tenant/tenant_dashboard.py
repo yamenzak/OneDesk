@@ -1,10 +1,12 @@
-"""What else there is to read about a workspace.
+"""The records that link back to a workspace.
 
-Four things happened to it and each is its own record: the jobs that built or
-moved it, the domains it asked for, the log of every rung it fell to, and the
-signup that paid for it. They are here rather than as tabs of fields because
-they are lists that grow, and because each one is a screen somebody opens on
-its own when they are chasing a different question.
+Four, each its own list: the jobs that built or moved it, the domains it asked
+for, the log of every status it reached, and the signup that paid for it. They
+are connections rather than tabs of fields because they are lists that grow, and
+each is a screen somebody opens on its own.
+
+The group labels follow frappe's own — plain nouns, no narration. See
+`tests/test_console.py`.
 """
 
 
@@ -12,8 +14,8 @@ def get_data():
 	return {
 		"fieldname": "tenant",
 		"transactions": [
-			{"label": "What happened", "items": ["Provisioning Job", "Tenant Event"]},
-			{"label": "Where it is reached", "items": ["Tenant Domain"]},
-			{"label": "What they bought", "items": ["Account Request"]},
+			{"label": "Activity", "items": ["Provisioning Job", "Tenant Event"]},
+			{"label": "Domains", "items": ["Tenant Domain"]},
+			{"label": "Billing", "items": ["Account Request"]},
 		],
 	}

@@ -28,7 +28,7 @@
  ],
  "fields": [
   {
-   "description": "Appears in a URL and never changes.",
+   "description": "Used in URLs. Do not change it once the offering has been sold.",
    "fieldname": "key",
    "fieldtype": "Data",
    "label": "Key",
@@ -61,7 +61,7 @@
    "default": "1",
    "fieldname": "enabled",
    "fieldtype": "Check",
-   "label": "Offered",
+   "label": "Enabled",
    "in_standard_filter": 1
   },
   {
@@ -94,10 +94,10 @@
    "fieldname": "recurring",
    "fieldtype": "Check",
    "label": "Recurring",
-   "description": "A credit pack is bought once."
+   "description": "Clear for a one-time purchase such as a credit pack."
   },
   {
-   "description": "What is actually charged. The amount above is only what we show.",
+   "description": "The Stripe price charged at checkout. Must match the amount above.",
    "fieldname": "stripe_price",
    "fieldtype": "Data",
    "label": "Stripe Price ID"
@@ -105,18 +105,18 @@
   {
    "fieldname": "quota_section",
    "fieldtype": "Section Break",
-   "label": "What it allows"
+   "label": "Quotas"
   },
   {
    "default": "0",
-   "description": "Zero is unmetered.",
+   "description": "Zero means unlimited.",
    "fieldname": "storage_gb",
    "fieldtype": "Int",
    "label": "Storage (GB)"
   },
   {
    "default": "0",
-   "description": "Zero is unmetered. Frappe enforces it from site config.",
+   "description": "Zero means unlimited. Enforced by Frappe from the site's config.",
    "fieldname": "seats",
    "fieldtype": "Int",
    "label": "Seats"
@@ -130,7 +130,7 @@
    "fieldname": "credits_a_month",
    "fieldtype": "Int",
    "label": "Credits a Month",
-   "description": "Zero is unmetered."
+   "description": "Zero means unlimited."
   },
   {
    "fieldname": "about_section",

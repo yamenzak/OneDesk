@@ -17,7 +17,7 @@
  ],
  "fields": [
   {
-   "description": "Stripe's own id. The unique index on it is the whole of the idempotency.",
+   "description": "Stripe's event id. Unique, so a repeated delivery is ignored.",
    "fieldname": "event_id",
    "fieldtype": "Data",
    "label": "Event ID",
@@ -93,5 +93,5 @@
  "sort_order": "DESC",
  "states": [],
  "track_changes": 0,
- "description": "Stripe's own deliveries, and the index that makes a redelivery harmless."
+ "description": "Deliveries received from Stripe, used to ignore repeats."
 }

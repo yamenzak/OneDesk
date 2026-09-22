@@ -62,7 +62,7 @@ onedesk.tenant.draw = (frm, where) => {
 	onedesk.tenant.said(frm);
 
 	if (where.next) {
-		onedesk.tenant.verb(frm, where.next, where.warning);
+		onedesk.tenant.verb(frm, where.next, where.verb, where.warning);
 	}
 	if (where.may_restore) {
 		frm.add_custom_button(__("Restore"), () =>
@@ -75,12 +75,12 @@ onedesk.tenant.draw = (frm, where) => {
 	frm.add_custom_button(
 		__("Measure storage"),
 		() => onedesk.tenant.run(frm, "onedesk.one_admin.operator.measure", {}),
-		__("Look again"),
+		__("Refresh"),
 	);
 	frm.add_custom_button(
 		__("Refresh domains"),
 		() => onedesk.tenant.run(frm, "onedesk.one_admin.operator.refresh_domains", {}),
-		__("Look again"),
+		__("Refresh"),
 	);
 };
 
@@ -164,10 +164,10 @@ onedesk.tenant.bars = (frm, where) => {
 // Every fall is confirmed, and the confirmation says what it costs rather than
 // asking "are you sure". Dropped deletes files; suspended stops a company
 // working. Neither is a thing to agree to without reading a sentence.
-onedesk.tenant.verb = (frm, rung, warning) => {
-	frm.add_custom_button(__("Send to {0}", [__(rung)]), () => {
+onedesk.tenant.verb = (frm, rung, verb, warning) => {
+	frm.add_custom_button(verb || __(rung), () => {
 		frappe.confirm(
-			`<p>${__("Send {0} to {1}?", [frm.doc.workspace_name || frm.doc.name, __(rung)])}</p>` +
+			`<p>${__("{0} {1}?", [verb || __(rung), frm.doc.workspace_name || frm.doc.name])}</p>` +
 				(warning ? `<p class="text-danger">${warning}</p>` : ""),
 			() => onedesk.tenant.run(frm, "onedesk.one_admin.operator.fall", { rung }),
 		);

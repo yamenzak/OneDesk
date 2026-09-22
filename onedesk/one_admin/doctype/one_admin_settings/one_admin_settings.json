@@ -39,7 +39,7 @@
    "fieldname": "press_section",
    "fieldtype": "Section Break",
    "label": "Frappe Cloud",
-   "description": "We are a press customer rather than its operator. This token is the whole provisioning boundary; nothing here ever reaches a server or its agent."
+   "description": "Credentials for the Frappe Cloud account that hosts customer sites."
   },
   {
    "fieldname": "press_team",
@@ -66,7 +66,7 @@
    "fieldname": "press_domain",
    "fieldtype": "Data",
    "label": "Press Root Domain",
-   "description": "What press calls a site. Its own Root Domain, not ours: press refuses any other, and a workspace is reached at our name because a Worker rewrites Host to this one."
+   "description": "The Frappe Cloud root domain sites are created on, for example frappe.cloud."
   },
   {
    "fieldname": "cloudflare_section",
@@ -87,7 +87,7 @@
    "fieldname": "cloudflare_kv",
    "fieldtype": "Data",
    "label": "Workers KV Namespace",
-   "description": "The namespace the edge router reads. One key per workspace, its slug to its press site name — that is the whole of what Cloudflare is told. The token needs Workers KV Storage: Edit on this namespace and nothing else."
+   "description": "The Workers KV namespace the edge router reads. The API token needs Workers KV Storage: Edit on this namespace only."
   },
   {
    "fieldname": "column_break_cf",
@@ -95,7 +95,7 @@
   },
   {
    "default": "t.4dl.app",
-   "description": "Every workspace is reached at &lt;slug&gt;.&lt;this&gt;. One level below the apex on purpose, so a certificate for it cannot also cover the marketing site or this one.",
+   "description": "Workspaces are reached at &lt;slug&gt;.&lt;this&gt;, for example t.4dl.app.",
    "fieldname": "tenant_domain",
    "fieldtype": "Data",
    "label": "Workspace Domain"
@@ -104,7 +104,7 @@
    "fieldname": "storage_section",
    "fieldtype": "Section Break",
    "label": "Storage",
-   "description": "Two buckets and only two. A tenant is a prefix inside one of them, chosen at signup and permanent afterwards: R2 pins a bucket to its jurisdiction at creation."
+   "description": "R2 buckets. A workspace is a prefix in one of them, fixed by its jurisdiction."
   },
   {
    "fieldname": "bucket_global",
@@ -138,7 +138,7 @@
    "fieldname": "stripe_section",
    "fieldtype": "Section Break",
    "label": "Stripe",
-   "description": "The webhook secret is not optional. A missing one makes signature checking refuse rather than skip — see one_admin/signing.py."
+   "description": "Checkout and webhook credentials. The webhook secret is required; signature checks fail without it."
   },
   {
    "fieldname": "stripe_secret_key",
@@ -157,22 +157,22 @@
   {
    "fieldname": "ladder_section",
    "fieldtype": "Section Break",
-   "label": "When money stops",
-   "description": "Days on each rung before falling to the next. Zero means never, not tonight: an operator who clears one is asking for the ladder to stop."
+   "label": "Grace Periods",
+   "description": "Days at each status before moving to the next. Zero disables the move."
   },
   {
    "default": "7",
    "fieldname": "grace_days",
    "fieldtype": "Int",
    "label": "Overdue For",
-   "description": "Nothing happens to the workspace. Somebody is told, and its own header says so."
+   "description": "Nothing changes for the workspace during this period."
   },
   {
    "default": "14",
    "fieldname": "held_days",
    "fieldtype": "Int",
    "label": "Suspended For",
-   "description": "Press deactivates the site. It answers a page, nobody can log in, and the data is untouched."
+   "description": "The site stops serving. Data is retained."
   },
   {
    "fieldname": "column_break_ladder",
@@ -183,7 +183,7 @@
    "fieldname": "kept_days",
    "fieldtype": "Int",
    "label": "Archived For",
-   "description": "Press has destroyed the site, having taken an offsite backup first. Our R2 prefix is still there. At the end of this the prefix is deleted, which is the only thing on the ladder that destroys anything of ours."
+   "description": "The site is deleted, after an offsite backup. Files are deleted at the end of this period."
   }
  ],
  "index_web_pages_for_search": 0,

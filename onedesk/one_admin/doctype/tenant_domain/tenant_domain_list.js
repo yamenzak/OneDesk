@@ -7,10 +7,10 @@ frappe.listview_settings["Tenant Domain"] = {
 	get_indicator(doc) {
 		const says = {
 			Pending: ["orange", __("Waiting on DNS")],
-			"In Progress": ["blue", __("Press is working on it")],
+			"In Progress": ["blue", __("Frappe Cloud is setting it up")],
 			Active: ["green", __("Working")],
 			Broken: ["red", __("Broken")],
-			Gone: ["grey", __("Gone from press")],
+			Gone: ["grey", __("Removed at Frappe Cloud")],
 		};
 		const [colour, word] = says[doc.status] || ["grey", doc.status];
 		return [word, colour, `status,=,${doc.status}`];

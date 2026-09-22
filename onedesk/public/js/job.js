@@ -23,7 +23,7 @@ frappe.provide("onedesk.job");
 
 onedesk.job.SAYS = {
 	Pending: ["orange", __("Waiting to run")],
-	Waiting: ["blue", __("Waiting on press")],
+	Waiting: ["blue", __("Waiting on Frappe Cloud")],
 	Done: ["green", __("Done")],
 	Failed: ["red", __("Stopped")],
 };
@@ -57,9 +57,7 @@ onedesk.job.draw = (frm, walk) => {
 	if (walk.status === "Failed") {
 		frm.add_custom_button(__("Resume"), () => {
 			frappe.confirm(
-				__("Run {0} again, from the step it stopped on?", [
-					walk.steps[walk.at] ? walk.steps[walk.at].said.toLowerCase() : __("the start"),
-				]),
+				__("Run {0} again, from the step it stopped on?", [frm.doc.name]),
 				() =>
 					frappe
 						.xcall("onedesk.one_admin.operator.resume", { job: frm.doc.name })
@@ -71,15 +69,18 @@ onedesk.job.draw = (frm, walk) => {
 
 // The sentence under the bar. A job that is done says so; one that stopped says
 // where, because that is the only thing anybody opens this screen to find out.
+//
+// A colon rather than a dash and a lower-cased step: the step names a proper
+// noun, and `toLowerCase` turned Frappe Cloud into frappe cloud.
 onedesk.job.where = (walk) => {
 	if (walk.status === "Done") return __("Finished all {0} steps.", [walk.of]);
 	const now = walk.steps[walk.at];
 	const said = now ? now.said : __("the start");
 	if (walk.status === "Failed") {
-		return __("Stopped at step {0} of {1} — {2}.", [walk.at + 1, walk.of, said.toLowerCase()]);
+		return __("Stopped at step {0} of {1}: {2}.", [walk.at + 1, walk.of, said]);
 	}
 	const tried = walk.attempts
 		? " " + __("Tried {0} times.", [walk.attempts])
 		: "";
-	return __("Step {0} of {1} — {2}.", [walk.at + 1, walk.of, said.toLowerCase()]) + tried;
+	return __("Step {0} of {1}: {2}.", [walk.at + 1, walk.of, said]) + tried;
 };
