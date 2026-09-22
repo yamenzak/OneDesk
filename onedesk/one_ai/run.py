@@ -212,3 +212,19 @@ def refuse(proposal: str) -> dict:
 	from onedesk.one_ai import proposals
 
 	return proposals.refuse(proposal)
+
+
+@frappe.whitelist()
+def took(proposal: str) -> dict:
+	"""A suggested change applied into the open form, for the person to save."""
+	from onedesk.one_ai import touch
+
+	return touch.took(proposal)
+
+
+@frappe.whitelist()
+def landed(proposal: str, record: str) -> dict:
+	"""A change taken into a new document, now that the document has a name."""
+	from onedesk.one_ai import touch
+
+	return touch.landed(proposal, record)

@@ -53,7 +53,15 @@
 			</template>
 
 			<template v-else>
-				<div v-if="!chat.said.length" class="one-ai-empty">
+				<div v-if="!chat.said.length && target" class="one-ai-empty">
+					{{ __("Say what to write in {0}, or pick one of these.", [target.label]) }}
+					<div class="one-ai-quick">
+						<button v-for="one in quick" :key="one" class="one-ai-quick__one" :disabled="busy" @click="ask(one)">
+							{{ one }}
+						</button>
+					</div>
+				</div>
+				<div v-else-if="!chat.said.length" class="one-ai-empty">
 					{{ __("Ask about this page, look something up, or have a change suggested.") }}
 				</div>
 
@@ -122,7 +130,14 @@
 		</div>
 
 		<div v-if="view === 'chat'" class="one-ai-foot">
-			<div v-if="here" class="one-ai-here">
+			<div v-if="target" class="one-ai-here">
+				<span>{{ __("Writing") }}</span>
+				<span class="one-ai-here__chip one-ai-here__chip--target">
+					{{ target.label }}
+					<button class="one-ai-waiting__off" :title="__('Stop writing this field')" @click="target = null">×</button>
+				</span>
+			</div>
+			<div v-else-if="here" class="one-ai-here">
 				<span>{{ __("Knows about") }}</span>
 				<button
 					class="one-ai-here__chip"
@@ -232,6 +247,18 @@ const body = ref(null);
 const box = ref(null);
 const listening = ref(false);
 
+// The field a question is about, when the panel was opened from a field's own
+// control. Its answer comes back as a suggestion for that field.
+const target = ref(null);
+
+// Three asks that cover most of what anybody wants from a paragraph, pressed
+// rather than typed. An empty field has one thing to ask for.
+const quick = computed(() =>
+	target.value && (current() || "").trim()
+		? [__("Improve it"), __("Make it shorter"), __("Fix spelling and grammar")]
+		: [__("Write a first draft")]
+);
+
 // The browser's own speech recognition, where there is one. Chrome and Safari
 // have it and Firefox does not, so the button is simply absent there rather
 // than present and broken. What it hears is typed into the box, not sent: a
@@ -284,6 +311,11 @@ defineExpose({
 	async opened(opening) {
 		if (opening && opening.chat) return openChat(opening.chat);
 		if (opening && opening.fresh) return fresh();
+		if (opening && opening.field) {
+			fresh();
+			target.value = opening.field;
+			return;
+		}
 		// Into the conversation, not into a list of them: opening a panel and
 		// being given an index is a second click before anybody has asked
 		// anything. The list is one press back, for the times it is wanted.
@@ -305,6 +337,7 @@ async function openChat(name) {
 }
 
 function fresh() {
+	target.value = null;
 	chat.value = { name: null, title: null, said: [], spent: 0 };
 	cards.value = {};
 	view.value = "chat";
@@ -334,6 +367,21 @@ async function attach() {
 		frm: null,
 		on_success: (file) => waiting.value.push({ name: file.file_name, url: file.file_url }),
 	});
+}
+
+// A quick ask is a question somebody did not have to type, not a retry.
+function ask(one) {
+	text.value = one;
+	send();
+}
+
+// The field's text as the form has it now, if that form is still the one open.
+function current() {
+	const aim = target.value;
+	if (!aim) return "";
+	const frm = window.cur_frm;
+	const same = frm && frm.doctype === aim.doctype && (aim.name ? frm.docname === aim.name : frm.is_new());
+	return same ? frm.doc[aim.fieldname] || "" : aim.value || "";
 }
 
 // The model is the workspace's choice for the chat action, so changing it is
@@ -392,6 +440,9 @@ async function send(again) {
 			chat: chat.value.name,
 			page: useHere.value && props.here ? props.here : null,
 			files: sending.map((one) => one.url),
+			// What the field says now, read at the moment of asking — the person
+			// may have typed in it since the panel opened.
+			field: target.value ? { ...target.value, value: current() } : null,
 		});
 		await load();
 		emit("counted");

@@ -36,7 +36,7 @@
 
 		<div v-if="record.title" class="one-ai-rec__title">{{ record.title }}</div>
 
-		<dl v-if="record.fields.length" class="one-ai-rec__fields">
+		<dl v-if="record.fields.length" class="one-ai-rec__fields" :class="{ 'one-ai-rec__fields--prose': prose }">
 			<template v-for="field in record.fields" :key="field.label">
 				<dt>{{ field.label }}</dt>
 				<dd>{{ field.value }}</dd>
@@ -69,6 +69,13 @@ const props = defineProps({
 const emit = defineEmits(["answered"]);
 
 const busy = ref(false);
+
+// One field holding a paragraph — what a field's own control comes back with —
+// is read top to bottom rather than squeezed into the label-value grid.
+const prose = computed(() => {
+	const fields = props.record.fields || [];
+	return fields.length === 1 && String(fields[0].value || "").length > 80;
+});
 const state = computed(() => props.suggested && props.suggested.state);
 
 const verb = computed(() => {
@@ -94,10 +101,30 @@ function copy() {
 	);
 }
 
+// The form this suggestion is about, if it is the one open. Approving a change
+// there puts the text into the form beside whatever the person has typed and
+// not saved, and they save it the way they save anything — a save from here
+// would either lose their edits or be refused as stale.
+function form() {
+	const card = props.suggested;
+	const frm = window.cur_frm;
+	if (!card || card.kind !== "Edit" || !frm || frm.doctype !== card.for_doctype) return null;
+	return (card.record ? frm.docname === card.record : frm.is_new()) ? frm : null;
+}
+
 async function answer(what) {
 	busy.value = true;
 	try {
-		await frappe.xcall(`onedesk.one_ai.run.${what}`, { proposal: props.suggested.name });
+		const frm = what === "apply" ? form() : null;
+		if (frm) {
+			const out = await frappe.xcall("onedesk.one_ai.run.took", { proposal: props.suggested.name });
+			for (const [fieldname, value] of Object.entries(out.changes || {})) {
+				await frm.set_value(fieldname, value);
+			}
+			onedesk.oneai.wrote(frm, out.changes || {}, props.suggested.name);
+		} else {
+			await frappe.xcall(`onedesk.one_ai.run.${what}`, { proposal: props.suggested.name });
+		}
 		emit("answered", props.suggested.name);
 	} finally {
 		busy.value = false;

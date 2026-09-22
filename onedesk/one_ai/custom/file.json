@@ -1,0 +1,19 @@
+{
+ "custom_fields": [
+  {
+   "dt": "File",
+   "fieldname": "ai_generated",
+   "fieldtype": "Check",
+   "label": "Made by OneAI",
+   "insert_after": "is_private",
+   "read_only": 1,
+   "default": "0",
+   "module": "One AI",
+   "description": "Set when a suggestion from OneAI created this file and a person applied it."
+  }
+ ],
+ "doctype": "File",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

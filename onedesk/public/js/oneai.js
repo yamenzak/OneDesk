@@ -100,6 +100,117 @@ onedesk.oneai = {
 	},
 };
 
+// Fields somebody writes prose in: where the control goes. The same list as
+// `one_ai/touch.py`'s WRITES, which checks it again on the way in.
+const PROSE = ["Small Text", "Text", "Long Text", "Text Editor", "Markdown Editor"];
+
+// Compared as words, because a Text Editor wraps what it is given in its own
+// markup and would differ from what was written the moment it was drawn.
+const words = (value) => $("<div>").html(String(value || "")).text().replace(/\s+/g, " ").trim();
+
+onedesk.oneai.watched = new Set();
+
+// The control beside each prose field, and the badge beside each one OneAI
+// wrote. Run on every form refresh, which is when frappe has drawn its fields;
+// both are skipped where they are already drawn.
+onedesk.oneai.fields = function (frm) {
+	if (!frm || !frm.fields_dict || frappe.session.user === "Guest") return;
+	onedesk.oneai.landing(frm);
+
+	for (const field of frm.fields || []) {
+		const df = field.df || {};
+		if (!PROSE.includes(df.fieldtype) || !field.$wrapper) continue;
+		const top = field.$wrapper.find(".clearfix").first();
+		if (!top.length) continue;
+
+		// Asked of frappe's own rule rather than read off `disp_status`, which
+		// `form-refresh` fires too early to find filled in on a first load.
+		const writable = frappe.perm.get_field_display_status(df, frm.doc, frm.perm) === "Write";
+		const drawn = top.find(".one-ai-write");
+		if (writable && !drawn.length) {
+			$(`<button type="button" class="one-ai-write" title="${__("Write with {0}", [ONEAI])}">
+					${frappe.utils.icon("sparkles", "sm")}
+				</button>`)
+				.appendTo(top)
+				.on("click", (event) => {
+					event.preventDefault();
+					onedesk.oneai.open({
+						field: {
+							doctype: frm.doctype,
+							name: frm.is_new() ? "" : frm.docname,
+							fieldname: df.fieldname,
+							label: __(df.label || df.fieldname),
+							value: frm.doc[df.fieldname] || "",
+						},
+					});
+				});
+		} else if (!writable) {
+			drawn.remove();
+		}
+
+		onedesk.oneai.badge(frm, df.fieldname);
+		onedesk.oneai.watch(frm.doctype, df.fieldname);
+	}
+};
+
+// The badge shows while the field still says what was written, and not after.
+onedesk.oneai.badge = function (frm, fieldname) {
+	const field = frm.fields_dict[fieldname];
+	if (!field || !field.$wrapper) return;
+	const top = field.$wrapper.find(".clearfix").first();
+	const written = ((frm.doc.__onload || {}).ai_touched || {})[fieldname];
+	const still = written !== undefined && words(frm.doc[fieldname]) === words(written);
+	const drawn = top.find(".one-ai-touched");
+	if (still && !drawn.length) {
+		const badge = $(`<span class="one-ai-touched" title="${__("Written by {0}. Goes once somebody edits it.", [ONEAI])}">
+				${frappe.utils.icon("sparkles", "xs")}${ONEAI}
+			</span>`);
+		const button = top.find(".one-ai-write").first();
+		button.length ? badge.insertBefore(button) : badge.appendTo(top);
+	} else if (!still) {
+		drawn.remove();
+	}
+};
+
+// Once per doctype and field, so an edit clears the badge as it is typed.
+onedesk.oneai.watch = function (doctype, fieldname) {
+	const key = `${doctype}:${fieldname}`;
+	if (onedesk.oneai.watched.has(key)) return;
+	onedesk.oneai.watched.add(key);
+	frappe.model.on(doctype, fieldname, () => {
+		if (window.cur_frm && cur_frm.doctype === doctype) onedesk.oneai.badge(cur_frm, fieldname);
+	});
+};
+
+// A suggestion applied into this form. Remembered as written so the badge
+// shows now, before any save; a new document has no name yet, so its changes
+// wait for the save that gives it one.
+onedesk.oneai.wrote = function (frm, changes, proposal) {
+	if (frm.is_new()) {
+		frm.__one_ai_landing = (frm.__one_ai_landing || []).concat(proposal);
+		return;
+	}
+	frm.doc.__onload = frm.doc.__onload || {};
+	frm.doc.__onload.ai_touched = { ...(frm.doc.__onload.ai_touched || {}), ...changes };
+	onedesk.oneai.fields(frm);
+};
+
+onedesk.oneai.landing = function (frm) {
+	const waiting = frm.__one_ai_landing;
+	if (!waiting || !waiting.length || frm.is_new()) return;
+	frm.__one_ai_landing = [];
+	for (const proposal of waiting) {
+		frappe
+			.xcall("onedesk.one_ai.run.landed", { proposal, record: frm.docname })
+			.then((kept) => {
+				if (kept && Object.keys(kept).length) onedesk.oneai.wrote(frm, kept, proposal);
+			})
+			.catch(() => {});
+	}
+};
+
+$(document).on("form-refresh", (event, frm) => onedesk.oneai.fields(frm));
+
 $(document).on("app_ready", () => {
 	onedesk.oneai.draw();
 	onedesk.oneai.count();

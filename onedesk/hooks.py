@@ -80,6 +80,9 @@ doc_events = {
 	"*": {
 		"on_submit": "onedesk.one.quiet.milestone",
 		"after_insert": "onedesk.one.quiet.milestone",
+		# The fields OneAI wrote that still say it. See one_ai/touch.py.
+		"onload": "onedesk.one_ai.touch.onload",
+		"on_trash": "onedesk.one_ai.touch.forget",
 	},
 	"Employee": {
 		"validate": "onedesk.one_hr.leaving.notice_ends_on",

@@ -27,6 +27,8 @@ import json
 import frappe
 from frappe.utils import now_datetime
 
+from onedesk.one_ai import touch
+
 #: What is done and cannot be done again. Everything else is still a decision.
 SETTLED = ("Applied", "Refused", "Stale")
 
@@ -87,8 +89,14 @@ def apply(proposal: str) -> dict:
 	changes = json.loads(entry.changes or "{}")
 	if entry.kind == "Create":
 		made = frappe.get_doc({"doctype": entry.for_doctype, **changes})
+		if entry.for_doctype == "File":
+			made.ai_generated = 1
 		made.insert()
+		touch.wrote(entry.for_doctype, made.name, changes, entry.name)
 		return _done(entry, made.name)
+
+	if entry.kind == "Edit" and not entry.record:
+		frappe.throw(frappe._("This is for a document that is not saved yet. Apply it from its form."))
 
 	held = frappe.get_doc(entry.for_doctype, entry.record)
 	if entry.modified_then and str(held.modified) != entry.modified_then:
@@ -114,6 +122,7 @@ def apply(proposal: str) -> dict:
 
 	held.update(changes)
 	held.save()
+	touch.wrote(entry.for_doctype, held.name, changes, entry.name)
 	return _done(entry, held.name)
 
 
@@ -167,7 +176,11 @@ def _allowed(kind: str, doctype: str, record: str | None):
 		frappe.throw(frappe._("{0} is not something that can be proposed.").format(kind))
 
 	held = None
-	if kind != "Create":
+	if kind == "Edit" and not record:
+		# A field on a document that is not saved yet — written from the field's
+		# own control, and applied into the form. What it asks is to create one.
+		verb = "create"
+	elif kind != "Create":
 		if not record:
 			frappe.throw(frappe._("A {0} has to name a record.").format(kind.lower()))
 		held = frappe.get_doc(doctype, record)
@@ -202,6 +215,8 @@ def _said(kind: str, doctype: str, record: str | None, changes: dict) -> str:
 		return frappe._("Delete {0}").format(record)
 	if kind == "Move":
 		return frappe._("{0} on {1}").format(changes.get("action") or "?", record)
+	if not record:
+		return frappe._("Write {0} on a new {1}").format(", ".join(list(changes)[:3]) or "?", doctype)
 	return frappe._("Change {0} on {1}").format(", ".join(list(changes)[:3]) or "?", record)
 
 

@@ -18,7 +18,7 @@ import json
 import re
 
 import frappe
-from frappe.utils import now_datetime
+from frappe.utils import now_datetime, strip_html_tags
 
 from onedesk.one_ai import run
 
@@ -110,13 +110,17 @@ def say(
 	chat: str | None = None,
 	page: dict | str | None = None,
 	files: list | str | None = None,
+	field: dict | str | None = None,
 ) -> dict:
 	"""Say one thing, run the loop, and keep what came back.
 
 	The whole conversation is stored before the answer is asked for, so a run
 	that fails leaves the question in the chat rather than losing it.
 	"""
+	from onedesk.one_ai import touch
+
 	text = (text or "").strip()
+	writing = touch.target(field)
 	attached = frappe.parse_json(files) if isinstance(files, str) else (files or [])
 	if not text and not attached:
 		frappe.throw(frappe._("Nothing was asked."))
@@ -127,11 +131,18 @@ def say(
 	# a placeholder; its first question is still what names it.
 	if not turns and text:
 		doc.title = text[:TITLE]
-	turns.extend(_asked(text, page, attached))
+	# "Improve it" names nothing in a list of conversations; the field does.
+	if not turns and writing:
+		label = writing["label"]
+		doc.title = f"{frappe._(label)} — {text}"[:TITLE]
+	turns.extend(_asked(text, page, attached, writing))
 	_keep(doc, turns, spent=0.0)
 
 	out = _ran(doc, text, turns)
 	turns = turns[: -min(KEPT, len(turns))] + list(out.get("turns") or [])
+	proposed = list(out.get("proposals") or [])
+	if writing:
+		proposed += _field_card(writing, turns, doc.name)
 	doc.model = out.get("model") or doc.model
 	_keep(doc, turns, spent=float(out.get("credits") or 0))
 
@@ -142,7 +153,7 @@ def say(
 		"spent": doc.spent or 0.0,
 		"credits": out.get("credits"),
 		"rounds": out.get("rounds"),
-		"proposals": out.get("proposals") or [],
+		"proposals": proposed,
 		**_model(doc),
 	}
 
@@ -188,7 +199,8 @@ def _suggests(row: dict) -> dict:
 		fields.append(
 			{
 				"label": frappe._(labels.get(field, field)),
-				"value": value if isinstance(value, str) else json.dumps(value),
+				# A Text Editor's value is markup; the card is text.
+				"value": strip_html_tags(value).strip() if isinstance(value, str) else json.dumps(value),
 			}
 		)
 
@@ -267,13 +279,16 @@ def shown(turns: list[dict]) -> list[dict]:
 		said.append(
 			{
 				"role": "model" if role == "model" else "you",
-				"text": one.get("text") or "",
+				# A field's new text is the card beneath it; printed above it too,
+				# it is the same paragraph twice.
+				"text": "" if one.get("wrote") else (one.get("text") or ""),
 				"files": [
 					{key: value for key, value in file.items() if key != "data"}
 					for file in one.get("files") or []
 				],
 				"looked": looked,
-				"cards": [card for card in (look["card"] for look in looked) if card],
+				"cards": [card for card in (look["card"] for look in looked) if card]
+				+ list(one.get("cards") or []),
 			}
 		)
 	return said
@@ -352,11 +367,19 @@ def _drawn(doctype: str, row: dict, most: int = FIELDS) -> dict:
 	}
 
 
-def _asked(text: str, page: dict | str | None, attached: list | None = None) -> list[dict]:
-	"""The reader's turn, the page they were on, and what they dropped on it."""
-	from onedesk.one_ai import files as carrying
+def _asked(
+	text: str, page: dict | str | None, attached: list | None = None, field: dict | None = None
+) -> list[dict]:
+	"""The reader's turn, the page they were on, and what they dropped on it.
 
-	where = _page(page)
+	A field being written replaces the page: it already says which record, and
+	"the reader is looking at X" beside "the reader is writing X's notes" is the
+	same sentence twice.
+	"""
+	from onedesk.one_ai import files as carrying
+	from onedesk.one_ai import touch
+
+	where = touch.told(field) if field else _page(page)
 	turns = []
 	if where:
 		turns.append({"role": "user", "text": where, "calls": [], "context": True})
@@ -403,6 +426,31 @@ def _chat(chat: str | None, text: str):
 		doc.check_permission("write")
 		return doc
 	return frappe.get_doc({"doctype": "AI Chat", "title": text[:TITLE]}).insert()
+
+
+def _field_card(field: dict, turns: list[dict], chat: str) -> list[str]:
+	"""The answer to a field's question, as a suggestion for that field.
+
+	An Edit like any other, so it is the same card and the same Apply. Put on
+	the model's own last turn, so the card sits where the answer would have.
+	"""
+	from onedesk.one_ai import proposals, touch
+
+	last = next((one for one in reversed(turns) if one.get("role") == "model"), None)
+	said = (last or {}).get("text") or ""
+	if not said.strip() or (last or {}).get("calls"):
+		return []
+	name = proposals.propose(
+		"Edit",
+		field["doctype"],
+		{field["fieldname"]: touch.written(field, said)},
+		record=field["name"] or None,
+		reference=chat,
+	)
+	# Marked on the turn itself, which `say` keeps straight after this.
+	last["cards"] = [name]
+	last["wrote"] = True
+	return [name]
 
 
 def _model(doc=None) -> dict:

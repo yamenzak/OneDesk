@@ -339,6 +339,19 @@
 	overflow-wrap: anywhere;
 }
 
+.one-ai-rec__fields--prose,
+.one-ai-panel--roomy .one-ai-rec__fields--prose,
+.one-ai-panel--full .one-ai-rec__fields--prose {
+	display: block;
+	font-size: var(--text-sm);
+}
+
+.one-ai-rec__fields--prose dd {
+	margin-top: 4px;
+	white-space: pre-line;
+	line-height: 1.55;
+}
+
 .one-ai-rec__doing {
 	display: flex;
 	gap: 7px;
@@ -802,4 +815,80 @@ button.one-ai-model:hover {
 
 .one-ai-waiting__off:hover {
 	color: var(--text-color);
+}
+
+/* ------------------------------------------------------------- the fields */
+
+/* The control beside a prose field's label, and the badge on one OneAI wrote.
+   Both small and quiet: a form is somebody's work, and these are beside it. */
+.one-ai-write {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	margin-left: 4px;
+	padding: 0;
+	border: 0;
+	border-radius: 6px;
+	background: transparent;
+	vertical-align: middle;
+	color: var(--text-muted);
+	cursor: pointer;
+	transition: color 0.15s ease, background 0.15s ease;
+}
+
+.one-ai-write .icon {
+	stroke: currentColor;
+}
+
+.one-ai-write:hover,
+.one-ai-write:focus-visible {
+	background: var(--surface-gray-2);
+	color: var(--text-color);
+}
+
+.one-ai-touched {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	margin-left: 6px;
+	padding: 1px 7px 1px 5px;
+	border-radius: 999px;
+	background: var(--surface-gray-2);
+	color: var(--text-muted);
+	font-size: 11px;
+	font-weight: 500;
+	vertical-align: middle;
+}
+
+.one-ai-touched .icon {
+	stroke: currentColor;
+}
+
+.one-ai-here__chip--target {
+	cursor: default;
+	padding-right: 3px;
+}
+
+.one-ai-quick {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 6px;
+	margin-top: 12px;
+}
+
+.one-ai-quick__one {
+	padding: 5px 11px;
+	border: 1px solid var(--border-color);
+	border-radius: 999px;
+	background: var(--fg-color);
+	color: var(--text-color);
+	font-size: var(--text-sm);
+	cursor: pointer;
+}
+
+.one-ai-quick__one:hover:not(:disabled) {
+	background: var(--surface-gray-2);
 }

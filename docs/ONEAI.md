@@ -843,13 +843,50 @@ workspace's address and buying credits all check. `tests/test_roles.py` refuses
 any new `System Manager` gate; the one place it is still read is the apps
 screen, where hiding frappe's Framework tile from everybody is the point.
 
-**AI 8b — the field tools and the badge.** Not built. The control beside a
-Text, Small Text or Text Editor field opens the same panel with that field as
-the target — not a second UI — and what comes back is an `AI Proposal` of kind
-Edit, so "help me write this" and an agentic edit are one path. Then the badge:
-a row keyed doctype, name and fieldname holding what was written, shown only
-while the field still equals it, so a human edit clears it without a hook on
-every doctype's write path. Files get `ai_generated`.
+**AI 8b — the field tools and the badge.** *Done.*
+
+A sparkle beside every Small Text, Text, Long Text, Text Editor and Markdown
+Editor field a person may write opens the same panel, pointed at that field —
+not a second UI. A chip under the conversation says which field, and three asks
+cover most of what anybody wants from a paragraph: improve it, make it shorter,
+fix the spelling. An empty field has one: write a first draft.
+
+**The field's text comes from the browser, not the record.** It is what the
+person has in front of them, typed and perhaps not saved, and it is theirs to
+send. `touch.told` reads nothing. And the field is checked against the doctype's
+own meta on the way in (`touch.target`), so a browser naming a field that is not
+there, or is not prose, gets an ordinary question instead.
+
+**The answer is an `AI Proposal` of kind Edit**, the same card as an agentic
+edit, so there is one thing to trust rather than two. The model's last turn
+becomes that card rather than printing the paragraph and then the card. A Text
+Editor's answer is converted from markdown on the way; a plain field is told to
+write plain text.
+
+**Approve puts the text into the open form**, as the person, after the same
+checks as any other suggestion (`touch.took`). They save it the way they save
+anything. A save on the server there would either lose whatever else they had
+typed or be refused as stale. This is also what makes a field on a document that
+is not saved yet work: it has no name to edit, so the proposal carries none, and
+`proposals.apply` refuses one on the server.
+
+**The badge is a comparison, not a flag.** `AI Touch` holds what was written,
+one row per document and field. `doc_events["*"]["onload"]` hands the form the
+fields that still say it, so the badge costs no request of its own; it shows
+while they match and goes the moment somebody edits the field, with no hook on
+anybody's write path. Compared as words, tags stripped, because a Text Editor
+wraps what it is given in its own markup. A new document's badge waits for the
+save that gives it a name (`touch.landed`), and is only granted if the record
+was made after the text was taken and still says it — an abandoned form and
+another record opened in its place collect nothing.
+
+Every applied write leaves a touch, not only a field's own: an agentic Edit or
+Create from the chat badges the prose fields it set. `File.ai_generated` is set
+when a suggestion creates a file.
+
+Measured on a ToDo: the control, the card, Approve into the form, the badge
+after save and reload, and the badge gone once a person edited the field — and
+the same for a new ToDo drafted before it had a name.
 
 **AI 9 — streaming.** The background run, the run id, the realtime room, and what
 the browser shows while it waits.
