@@ -41,6 +41,8 @@ No doctypes yet.
 | AI Model | 16 | document |
 | AI Model Rate | 7 | child |
 | Account Request | 16 | document |
+| Credit Ledger Entry | 14 | submittable |
+| Credit Reservation | 8 | document |
 | Offering | 19 | document |
 | One Admin Settings | 32 | single |
 | Provisioning Job | 12 | document |
@@ -64,7 +66,9 @@ No doctypes yet.
 * `onedesk.one.account.domains`
 * `onedesk.one.account.domains_refresh`
 * `onedesk.one.account.mine`
+* `onedesk.one_admin.operator.credit_standing`
 * `onedesk.one_admin.operator.fall`
+* `onedesk.one_admin.operator.give_credits`
 * `onedesk.one_admin.operator.measure`
 * `onedesk.one_admin.operator.refresh_domain`
 * `onedesk.one_admin.operator.refresh_domains`

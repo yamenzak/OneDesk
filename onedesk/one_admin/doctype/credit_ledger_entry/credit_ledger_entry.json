@@ -1,0 +1,156 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "format:CR-{YY}-{######}",
+ "creation": "2026-09-22 21:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "is_submittable": 1,
+ "field_order": [
+  "tenant",
+  "kind",
+  "column_break_what",
+  "credits",
+  "expires_on",
+  "against_section",
+  "against",
+  "column_break_against",
+  "source",
+  "reference",
+  "why_section",
+  "why",
+  "key",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Workspace",
+   "options": "Tenant",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Kind",
+   "options": "Grant\nSpend\nRefund",
+   "reqd": 1,
+   "in_standard_filter": 1,
+   "description": "A grant adds and may expire. A spend and a refund are always against one."
+  },
+  {
+   "fieldname": "column_break_what",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "credits",
+   "fieldtype": "Float",
+   "label": "Credits",
+   "precision": "6",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "Signed: a grant is positive, a spend is negative."
+  },
+  {
+   "fieldname": "expires_on",
+   "fieldtype": "Date",
+   "label": "Expires On",
+   "depends_on": "eval:doc.kind=='Grant'",
+   "description": "The last day this grant counts. Empty never expires.",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "against_section",
+   "fieldtype": "Section Break",
+   "label": "Drawn From"
+  },
+  {
+   "fieldname": "against",
+   "fieldtype": "Link",
+   "label": "Grant",
+   "options": "Credit Ledger Entry",
+   "depends_on": "eval:doc.kind!='Grant'",
+   "description": "Empty on a spend means an overdraw: it belongs to no grant."
+  },
+  {
+   "fieldname": "column_break_against",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Select",
+   "label": "Source",
+   "options": "Purchase\nPlan\nOperator\nRun",
+   "reqd": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "reference",
+   "fieldtype": "Data",
+   "label": "Reference",
+   "description": "What caused this: a Stripe payment, a run, a person."
+  },
+  {
+   "fieldname": "why_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "why",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "key",
+   "fieldtype": "Data",
+   "label": "Idempotency Key",
+   "unique": 1,
+   "read_only": 1,
+   "hidden": 1,
+   "description": "A retried webhook meets this index rather than a check somebody remembered to write."
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "options": "Credit Ledger Entry",
+   "no_copy": 1,
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-22 21:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Admin",
+ "name": "Credit Ledger Entry",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 0,
+   "delete": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "One Operator",
+   "share": 1,
+   "write": 0,
+   "submit": 0,
+   "cancel": 0,
+   "amend": 0
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "description": "One movement of credit. Submitted on insert and never edited in place."
+}

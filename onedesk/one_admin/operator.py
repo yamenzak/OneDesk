@@ -257,3 +257,32 @@ def sync_catalogue(provider: str) -> dict:
 	from onedesk.one_admin import catalogue
 
 	return catalogue.sync(provider)
+
+
+@frappe.whitelist()
+def give_credits(tenant: str, credits: float, why: str, expires_on: str | None = None) -> dict:
+	"""Credit an operator adds by hand — goodwill, a correction, a trial.
+
+	A grant rather than an adjustment to a balance, because there is no balance
+	to adjust: it is a sum over rows, and this writes one of them.
+	"""
+	_may()
+	from onedesk.one_admin import ledger
+
+	entry = ledger.grant(
+		tenant,
+		float(credits),
+		"Operator",
+		reference=frappe.session.user,
+		expires_on=expires_on or None,
+		why=why,
+	)
+	return {"entry": entry, "standing": ledger.standing(tenant)}
+
+
+@frappe.whitelist()
+def credit_standing(tenant: str) -> dict:
+	_may()
+	from onedesk.one_admin import ledger
+
+	return ledger.standing(tenant)

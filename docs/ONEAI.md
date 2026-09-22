@@ -253,9 +253,34 @@ storage per hour in the same cell as the cache read. Billed per call it would
 charge somebody for holding still, so it is skipped — and skipped rather than
 flagged, because a model is perfectly sellable without it.
 
-**AI 3 — the ledger.** `Credit Ledger Entry` in One Admin, balance as a sum,
-expiry, reserve and commit under a row lock. No AI in this stage at all: it is an accounting
-module and is tested like one.
+**AI 3 — the ledger.** *Done.* `Credit Ledger Entry` and `Credit Reservation` in
+One Admin, `one_admin/ledger.py` for the rows and `one_admin/credits.py` for the
+arithmetic, which has no frappe in it. No AI in this stage at all: it is an
+accounting module and is tested like one.
+
+**A grant is a bucket with a date on it and expiry is arithmetic.** What is left
+in one is what was granted plus everything drawn from it, and a bucket whose day
+has passed stops counting. There is no expiry row to write and nothing to run
+nightly — the balance simply stops including it.
+
+**A spend names the grant it came out of**, which is what lets the ledger be
+append-only: drawing a bucket down without rewriting it means writing a row that
+points at it. The soonest-expiring bucket goes first, because the other order
+loses somebody credits they bought while a free monthly grant sits unused beside
+them, quietly, a month later. A remainder nothing covers is a spend belonging to
+no grant, and an overdraw does not expire — it is owed rather than granted.
+
+**A hold is not enough on its own, and this was measured.** Two processes
+reserving seven credits against a balance of ten both succeeded. The second
+waited on the lock exactly as intended, and then read the balance from the
+snapshot its own transaction had taken *before* the first one committed —
+InnoDB fixes that snapshot at a transaction's first read and no plain `SELECT`
+afterwards sees past it. So every read the decision rests on is a locking read,
+and the lock on the workspace's row is only what stops the two of them
+interleaving. There is a guard that fails if either half goes away.
+
+**A hold whose call never came back is let go nightly.** A worker that died
+mid-flight would otherwise promise a customer's credits to nothing, for good.
 
 **AI 4 — pricing and the three-step call.** Markup per model, credits per dollar,
 `ceiling()` from an action's limits, and the hold/call/settle in `gateway.py`.

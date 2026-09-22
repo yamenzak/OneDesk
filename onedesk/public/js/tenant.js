@@ -82,6 +82,62 @@ onedesk.tenant.draw = (frm, where) => {
 		() => onedesk.tenant.run(frm, "onedesk.one_admin.operator.refresh_domains", {}),
 		__("Refresh"),
 	);
+
+	frm.add_custom_button(__("Give credits"), () => onedesk.tenant.give(frm), __("Credits"));
+	frm.add_custom_button(__("Ledger"), () =>
+		frappe.set_route("List", "Credit Ledger Entry", { tenant: frm.doc.name }),
+		__("Credits"),
+	);
+};
+
+// Credit an operator adds by hand: goodwill, a correction, a trial extended.
+//
+// A grant rather than an edit to a balance, because there is no balance to
+// edit — it is a sum over rows and this writes one of them. The dialog shows
+// what the workspace has before and after, since the whole reason somebody
+// opens it is that a number was wrong.
+onedesk.tenant.give = (frm) => {
+	frappe.xcall("onedesk.one_admin.operator.credit_standing", { tenant: frm.doc.name }).then((now) => {
+		const asking = new frappe.ui.Dialog({
+			title: __("Give credits"),
+			fields: [
+				{
+					fieldtype: "HTML",
+					options: `<p class="text-muted">${__("{0} has {1} credits, {2} of them promised to calls in flight.", [
+						frappe.utils.escape_html(frm.doc.workspace_name || frm.doc.name),
+						now.balance,
+						now.held,
+					])}</p>`,
+				},
+				{ fieldname: "credits", fieldtype: "Float", label: __("Credits"), reqd: 1, precision: 6 },
+				{
+					fieldname: "expires_on",
+					fieldtype: "Date",
+					label: __("Expires On"),
+					description: __("Leave empty for credit that never expires."),
+				},
+				{ fieldname: "why", fieldtype: "Small Text", label: __("Note"), reqd: 1 },
+			],
+			primary_action_label: __("Give"),
+			primary_action(values) {
+				frappe
+					.xcall("onedesk.one_admin.operator.give_credits", {
+						tenant: frm.doc.name,
+						credits: values.credits,
+						why: values.why,
+						expires_on: values.expires_on,
+					})
+					.then((answer) => {
+						asking.hide();
+						frappe.show_alert({
+							message: __("{0} credits now.", [answer.standing.balance]),
+							indicator: "green",
+						});
+					});
+			},
+		});
+		asking.show();
+	});
 };
 
 // The storage tab, in words. The two Long Ints below this say 22548578304 and

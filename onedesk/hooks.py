@@ -53,6 +53,8 @@ scheduler_events = {
 		"onedesk.one_admin.lifecycle.nightly",
 		# Providers ship models weekly and re-price them without an announcement.
 		"onedesk.one_admin.catalogue.nightly",
+		# Holds whose call never came back, which nothing else would let go.
+		"onedesk.one_admin.ledger.nightly",
 		"onedesk.one_admin.storage.nightly",
 		"onedesk.one_hr.healing.nightly",
 		"onedesk.one_hr.leaving.nightly",
@@ -124,6 +126,8 @@ doc_events = {
 # workspace gets a rail entry and nothing behind it. See one_admin/site.py.
 has_permission = {
 	"AI Model": "onedesk.one_admin.site.refuse_on_a_tenant",
+	"Credit Ledger Entry": "onedesk.one_admin.site.refuse_on_a_tenant",
+	"Credit Reservation": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Account Request": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Offering": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"One Admin Settings": "onedesk.one_admin.site.refuse_on_a_tenant",
@@ -139,6 +143,8 @@ has_permission = {
 # left get_list wide open — measured, not assumed.
 permission_query_conditions = {
 	"AI Model": "onedesk.one_admin.site.nothing_on_a_tenant",
+	"Credit Ledger Entry": "onedesk.one_admin.site.nothing_on_a_tenant",
+	"Credit Reservation": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Account Request": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Offering": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"One Admin Settings": "onedesk.one_admin.site.nothing_on_a_tenant",
@@ -203,6 +209,8 @@ doctype_js = {
 doctype_list_js = {
 	# Nothing on the catalogue is typed; its only verb is to sync it now.
 	"AI Model": "public/js/ai_model_list.js",
+	# Which way each row moved money, which is all a ledger list is for.
+	"Credit Ledger Entry": "public/js/credit_ledger_entry_list.js",
 	"Attendance": "public/js/attendance_list.js",
 	"Employee Checkin": "public/js/checkin_list.js",
 }

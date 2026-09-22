@@ -120,8 +120,9 @@ def hello() -> dict:
 	than answering one question — the alternative is a workspace making four
 	calls to render a header.
 
-	It returns what exists. Credits arrive with OneAI and until then are absent
-	rather than zero, because a zero is a fact and an absence is the truth.
+	It returns what exists. A zero is a fact and an absence is the truth, so
+	anything not built yet is left out rather than reported as nothing —
+	`credits` arrived with the ledger and is a real number now.
 
 	`standing` is the ladder: whether money is owed, and how many days are left
 	before the next thing happens. It is here rather than behind a call of its
@@ -145,7 +146,7 @@ def hello() -> dict:
 		],
 		as_dict=True,
 	)
-	from onedesk.one_admin import domains, lifecycle
+	from onedesk.one_admin import domains, ledger, lifecycle
 
 	plan = (
 		frappe.db.get_value("Offering", known.offering, ["label", "seats"], as_dict=True)
@@ -166,6 +167,10 @@ def hello() -> dict:
 		"seats": plan.seats if plan else None,
 		"storage_bytes": known.storage_bytes or 0,
 		"storage_limit": known.storage_limit or 0,
+		# A sum over the ledger rather than a number anybody stored, which is
+		# why it is safe to answer from here rather than keeping a copy on the
+		# workspace that could disagree with its own history.
+		"credits": ledger.standing(tenant.name),
 		# The addresses too, so the account screen is one call rather than two.
 		# A workspace that asked only about its account still gets them, which
 		# is what keeps the copy on its own site in step after an outage.

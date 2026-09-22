@@ -34,6 +34,10 @@ UNRAILED = {
 	# There is nothing to do on this screen; it is read when a payment is being
 	# chased, by somebody who will type its name.
 	"Stripe Webhook Event",
+	# A hold lives for the length of one model call. The only question anybody
+	# asks about one — how much of a balance is promised — is answered on the
+	# balance itself, and a stale one is let go nightly rather than by hand.
+	"Credit Reservation",
 }
 
 #: Records made by the machinery that also fills them in. An operator typing one

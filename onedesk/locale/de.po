@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 16:07+0000\n"
-"PO-Revision-Date: 2026-09-22 16:07+0000\n"
+"POT-Creation-Date: 2026-09-22 16:22+0000\n"
+"PO-Revision-Date: 2026-09-22 16:22+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -55,6 +55,11 @@ msgstr "Ein Standort der Schicht oder ein einzelner Mitarbeiter. Beide Felder le
 msgid "A cache read is a third thing, not a cheaper input."
 msgstr "Ein Cache-Lesevorgang ist etwas Drittes, keine günstigere Eingabe."
 
+#. Description of the 'Held' (Float) field in DocType 'Credit Reservation'
+#: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
+msgid "A ceiling, not a forecast. The rest is released on settling."
+msgstr "Eine Obergrenze, keine Prognose. Der Rest wird beim Abrechnen freigegeben."
+
 #. Description of the 'Treat as a Site' (Check) field in DocType 'Shift
 #. Location'
 #: onedesk/one_hr/custom/shift_location.json
@@ -79,6 +84,19 @@ msgstr "Ein Kunden-Arbeitsbereich. Wird aus einer bezahlten Kontoanfrage angeleg
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 msgid "A document that does not expire, such as a birth certificate, leaves this empty."
 msgstr "Bei einem Dokument ohne Ablaufdatum, etwa einer Geburtsurkunde, bleibt dies leer."
+
+#. Description of the 'Kind' (Select) field in DocType 'Credit Ledger Entry'
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "A grant adds and may expire. A spend and a refund are always against one."
+msgstr "Eine Gutschrift fügt hinzu und kann verfallen. Verbrauch und Erstattung beziehen sich immer auf eine."
+
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.py:43
+msgid "A grant is not drawn from anything."
+msgstr "Eine Gutschrift wird aus nichts entnommen."
+
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.py:31
+msgid "A ledger entry of zero credits records nothing."
+msgstr "Ein Buchungssatz über null Guthaben hält nichts fest."
 
 #. Description of a DocType
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -107,6 +125,12 @@ msgstr "Eine eingereihte Arbeitseinheit für einen Arbeitsbereich. Wird vom Syst
 msgid "A record of something that happened to a workspace."
 msgstr "Ein Eintrag über ein Ereignis an einem Arbeitsbereich."
 
+#. Description of the 'Idempotency Key' (Data) field in DocType 'Credit Ledger
+#. Entry'
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "A retried webhook meets this index rather than a check somebody remembered to write."
+msgstr "Ein wiederholter Webhook trifft auf diesen Index statt auf eine Prüfung, an die jemand denken musste."
+
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:146
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:82
 msgid "A sheet covers at most {0} days."
@@ -133,6 +157,10 @@ msgstr "Ein Arbeitsbereich darf höchstens {0} eigene Domains haben."
 #: onedesk/one_admin/doctype/offering/offering.py:31
 msgid "A {0} does not carry {1}."
 msgstr "Ein {0} trägt kein Feld {1}."
+
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.py:36
+msgid "A {0} of {1} credits points the wrong way."
+msgstr "{0} über {1} Guthaben zeigt in die falsche Richtung."
 
 #. Label of the ai_section (Section Break) field in DocType 'One Admin
 #. Settings'
@@ -329,6 +357,11 @@ msgstr "Einchecken auch erlauben von"
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Also propose networks and locations belonging to a single employee, such as a home."
 msgstr "Auch Netzwerke und Orte vorschlagen, die einem einzelnen Mitarbeiter gehören, etwa ein Zuhause."
+
+#. Label of the amended_from (Link) field in DocType 'Credit Ledger Entry'
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "Amended From"
+msgstr ""
 
 #. Label of the amount (Currency) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
@@ -1119,15 +1152,43 @@ msgstr "Credential-ID"
 msgid "Credentials for the Frappe Cloud account that hosts customer sites."
 msgstr "Zugangsdaten des Frappe-Cloud-Kontos, das die Kundensites hostet."
 
+#. Name of a DocType
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "Credit Ledger Entry"
+msgstr "Guthabenbuchung"
+
 #. Option for the 'Kind' (Select) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Credit Pack"
 msgstr "Guthabenpaket"
 
+#. Name of a DocType
+#: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
+msgid "Credit Reservation"
+msgstr "Guthabenreservierung"
+
+#. Label of the credits (Float) field in DocType 'Credit Ledger Entry'
+#. Label of a Sidebar Item
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json
+#: onedesk/public/js/tenant.js:86 onedesk/public/js/tenant.js:89
+#: onedesk/public/js/tenant.js:112
+msgid "Credits"
+msgstr "Guthaben"
+
 #. Label of the credits_a_month (Int) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Credits a Month"
 msgstr "Guthaben pro Monat"
+
+#: onedesk/one_admin/ledger.py:303
+msgid "Credits have to be more than nothing."
+msgstr "Guthaben muss mehr als nichts sein."
+
+#. Description of a DocType
+#: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
+msgid "Credits held while a call is in flight, so two calls cannot both spend the last one."
+msgstr "Guthaben, das während eines laufenden Aufrufs gehalten wird, damit nicht zwei Aufrufe dasselbe letzte ausgeben."
 
 #. Label of the currency (Link) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
@@ -1344,6 +1405,12 @@ msgstr "Wartende Domains"
 msgid "Done"
 msgstr ""
 
+#. Label of the against_section (Section Break) field in DocType 'Credit Ledger
+#. Entry'
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "Drawn From"
+msgstr "Entnommen aus"
+
 #. Option for the 'Kind' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 msgid "Drifted"
@@ -1527,6 +1594,11 @@ msgstr ""
 msgid "Employment"
 msgstr "Beschäftigung"
 
+#. Description of the 'Grant' (Link) field in DocType 'Credit Ledger Entry'
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "Empty on a spend means an overdraw: it belongs to no grant."
+msgstr "Leer bei einem Verbrauch heißt Überziehung: er gehört zu keiner Gutschrift."
+
 #. Label of the enabled (Check) field in DocType 'Offering'
 #. Label of the enabled (Check) field in DocType 'Attendance Reason'
 #. Label of the enabled (Check) field in DocType 'Clock Reason'
@@ -1624,8 +1696,15 @@ msgstr "Auslagenübersicht"
 msgid "Expenses"
 msgstr ""
 
+#: onedesk/public/js/credit_ledger_entry_list.js:14
+msgid "Expired"
+msgstr ""
+
+#. Label of the expires_on (Date) field in DocType 'Credit Ledger Entry'
 #. Label of the expires_on (Date) field in DocType 'Employee Document'
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
+#: onedesk/public/js/tenant.js:116
 msgid "Expires On"
 msgstr ""
 
@@ -1665,7 +1744,7 @@ msgstr "Fehlergrund"
 msgid "Falls to {0} in {1} days."
 msgstr "Fällt in {1} Tagen auf {0}."
 
-#: onedesk/public/js/tenant.js:47 onedesk/public/js/tenant.js:159
+#: onedesk/public/js/tenant.js:47 onedesk/public/js/tenant.js:215
 msgid "Falls to {0} tonight."
 msgstr "Fällt heute Nacht auf {0}."
 
@@ -1778,6 +1857,14 @@ msgstr "Gateway-Name"
 msgid "Gateway Token"
 msgstr "Gateway-Token"
 
+#: onedesk/public/js/tenant.js:121
+msgid "Give"
+msgstr "Geben"
+
+#: onedesk/public/js/tenant.js:86 onedesk/public/js/tenant.js:102
+msgid "Give credits"
+msgstr "Guthaben geben"
+
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Given"
@@ -1810,6 +1897,16 @@ msgstr "Verschwunden"
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Grace Periods"
 msgstr "Karenzzeiten"
+
+#. Option for the 'Kind' (Select) field in DocType 'Credit Ledger Entry'
+#. Label of the against (Link) field in DocType 'Credit Ledger Entry'
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "Grant"
+msgstr "Gutschrift"
+
+#: onedesk/public/js/credit_ledger_entry_list.js:15
+msgid "Granted"
+msgstr "Gutgeschrieben"
 
 #. Label of the renderer (Data) field in DocType 'Clock Attempt'
 #. Label of the renderer (Data) field in DocType 'Clock Device'
@@ -1877,6 +1974,12 @@ msgstr "Bearbeitet"
 #: onedesk/one_hr/custom/employee.json
 msgid "Height, weight, allergies and medical concerns."
 msgstr "Größe, Gewicht, Allergien und medizinische Hinweise."
+
+#. Option for the 'State' (Select) field in DocType 'Credit Reservation'
+#. Label of the credits (Float) field in DocType 'Credit Reservation'
+#: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
+msgid "Held"
+msgstr "Belegt"
 
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
@@ -1972,6 +2075,11 @@ msgstr "Wie soll One aussehen?"
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "IN"
 msgstr ""
+
+#. Label of the key (Data) field in DocType 'Credit Ledger Entry'
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "Idempotency Key"
+msgstr "Idempotenzschlüssel"
 
 #. Description of the 'Authenticator (AAGUID)' (Data) field in DocType 'Clock
 #. Device'
@@ -2144,10 +2252,12 @@ msgid "Key"
 msgstr ""
 
 #. Label of the kind (Select) field in DocType 'AI Model Rate'
+#. Label of the kind (Select) field in DocType 'Credit Ledger Entry'
 #. Label of the kind (Select) field in DocType 'Offering'
 #. Label of the kind (Select) field in DocType 'Provisioning Job'
 #. Label of the kind (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
@@ -2333,6 +2443,10 @@ msgstr ""
 msgid "Leave Type"
 msgstr ""
 
+#: onedesk/public/js/tenant.js:117
+msgid "Leave empty for credit that never expires."
+msgstr "Leer lassen für Guthaben, das nie verfällt."
+
 #. Description of the 'to_date' field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/shift_request.json
 msgid "Leave this empty and the shift has no end: the employee stays on it until somebody cancels the assignment."
@@ -2342,6 +2456,10 @@ msgstr "Bleibt dies leer, endet die Schicht nicht: Die Person bleibt darauf, bis
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Leaving"
 msgstr "Austritt"
+
+#: onedesk/public/js/tenant.js:87
+msgid "Ledger"
+msgstr ""
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:221
 msgid "Left Early"
@@ -2699,18 +2817,22 @@ msgstr "Zeigt noch nicht hierher."
 msgid "Not working"
 msgstr "Funktioniert nicht"
 
+#. Label of the why (Small Text) field in DocType 'Credit Ledger Entry'
+#. Label of the why (Small Text) field in DocType 'Credit Reservation'
 #. Label of the one_note (Small Text) field in DocType 'Attendance Request'
 #. Label of the one_note (Small Text) field in DocType 'Expense Claim'
 #. Label of the one_note (Small Text) field in DocType 'Leave Application'
 #. Label of the one_note (Small Text) field in DocType 'Shift Request'
 #. Label of the note (Small Text) field in DocType 'Clock Attempt'
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+#: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 #: onedesk/one_hr/custom/attendance_request.json
 #: onedesk/one_hr/custom/expense_claim.json
 #: onedesk/one_hr/custom/leave_application.json
 #: onedesk/one_hr/custom/shift_request.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:43
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
-#: onedesk/public/js/decision.js:31
+#: onedesk/public/js/decision.js:31 onedesk/public/js/tenant.js:119
 msgid "Note"
 msgstr ""
 
@@ -2845,6 +2967,8 @@ msgstr "One-Admin-Einstellungen"
 #. Name of a role
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+#: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
@@ -2859,6 +2983,11 @@ msgstr "One-Betreiber"
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 msgid "One address or a CIDR range. Example: 203.0.113.7 or 203.0.113.0/24"
 msgstr "Eine Adresse oder ein CIDR-Bereich. Beispiel: 203.0.113.7 oder 203.0.113.0/24"
+
+#. Description of a DocType
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "One movement of credit. Submitted on insert and never edited in place."
+msgstr "Eine Guthabenbewegung. Beim Anlegen gebucht und nie nachträglich geändert."
 
 #. Description of the 'Require a Passkey' (Check) field in DocType 'HR
 #. Settings'
@@ -2983,6 +3112,11 @@ msgstr "Status der Ausschreibung"
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:249
 msgid "Openings"
 msgstr "Stellenausschreibungen"
+
+#. Option for the 'Source' (Select) field in DocType 'Credit Ledger Entry'
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "Operator"
+msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -3272,9 +3406,11 @@ msgid "Placement"
 msgstr "Platzierung"
 
 #. Label of the plan (Data) field in DocType 'Workspace Account'
+#. Option for the 'Source' (Select) field in DocType 'Credit Ledger Entry'
 #. Option for the 'Kind' (Select) field in DocType 'Offering'
 #. Label of the offering (Link) field in DocType 'Tenant'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/tenant/tenant.json onedesk/www/start.html:46
 msgid "Plan"
@@ -3437,6 +3573,11 @@ msgstr "Öffentlicher Schlüssel"
 msgid "Published Prices"
 msgstr "Veröffentlichte Preise"
 
+#. Option for the 'Source' (Select) field in DocType 'Credit Ledger Entry'
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "Purchase"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Purpose of Travel"
@@ -3556,6 +3697,13 @@ msgstr "Übersicht Personalgewinnung"
 msgid "Recurring"
 msgstr "Wiederkehrend"
 
+#. Label of the reference (Data) field in DocType 'Credit Ledger Entry'
+#. Label of the reference (Data) field in DocType 'Credit Reservation'
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+#: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
+msgid "Reference"
+msgstr ""
+
 #: onedesk/public/js/tenant.js:78 onedesk/public/js/tenant.js:83
 #: onedesk/public/js/tenant_domain.js:12
 #: onedesk/public/js/workspace_account.js:19
@@ -3565,6 +3713,15 @@ msgstr ""
 #: onedesk/public/js/tenant.js:81
 msgid "Refresh domains"
 msgstr "Domains auffrischen"
+
+#. Option for the 'Kind' (Select) field in DocType 'Credit Ledger Entry'
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "Refund"
+msgstr "Erstattung"
+
+#: onedesk/public/js/credit_ledger_entry_list.js:17
+msgid "Refunded"
+msgstr "Erstattet"
 
 #. Label of the one_refuse_below (Int) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -3630,6 +3787,11 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Rejected sets Skip Auto Attendance on the check-in, so it stops counting. Nothing is deleted."
 msgstr "Bei Ablehnung wird am Einchecken „Automatische Anwesenheit überspringen“ gesetzt, sodass es nicht mehr zählt. Nichts wird gelöscht."
+
+#. Option for the 'State' (Select) field in DocType 'Credit Reservation'
+#: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
+msgid "Released"
+msgstr "Freigegeben"
 
 #: onedesk/public/js/workspace_account.js:18
 #: onedesk/public/js/workspace_account.js:167
@@ -3736,6 +3898,11 @@ msgstr "Geprüft am"
 #: onedesk/one_hr/doctype/employee_document/employee_document.py:20
 msgid "Row {0}: {1} expires before it was issued."
 msgstr "Zeile {0}: {1} läuft vor dem Ausstellungsdatum ab."
+
+#. Option for the 'Source' (Select) field in DocType 'Credit Ledger Entry'
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "Run"
+msgstr "Lauf"
 
 #: onedesk/public/js/job.js:60
 msgid "Run {0} again, from the step it stopped on?"
@@ -3926,6 +4093,12 @@ msgstr "One wird eingerichtet"
 msgid "Settings"
 msgstr ""
 
+#. Option for the 'State' (Select) field in DocType 'Credit Reservation'
+#. Label of the settled (Float) field in DocType 'Credit Reservation'
+#: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
+msgid "Settled"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -3984,6 +4157,11 @@ msgstr ""
 msgid "Sign Count"
 msgstr "Signaturzähler"
 
+#. Description of the 'Credits' (Float) field in DocType 'Credit Ledger Entry'
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "Signed: a grant is positive, a spend is negative."
+msgstr "Mit Vorzeichen: eine Gutschrift ist positiv, ein Verbrauch negativ."
+
 #. Label of a Sidebar Item
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 msgid "Signups"
@@ -4005,6 +4183,8 @@ msgstr ""
 msgid "Some Days Were Trimmed"
 msgstr "Einige Tage wurden gekürzt"
 
+#. Label of the source (Select) field in DocType 'Credit Ledger Entry'
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:217
 msgid "Source"
 msgstr ""
@@ -4013,6 +4193,15 @@ msgstr ""
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Speech"
 msgstr "Sprache"
+
+#. Option for the 'Kind' (Select) field in DocType 'Credit Ledger Entry'
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "Spend"
+msgstr "Verbrauch"
+
+#: onedesk/public/js/credit_ledger_entry_list.js:18
+msgid "Spent"
+msgstr "Verbraucht"
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:224
@@ -4069,6 +4258,11 @@ msgstr "Neu beginnen"
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "Starts"
 msgstr "Beginnt"
+
+#. Label of the state (Select) field in DocType 'Credit Reservation'
+#: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
+msgid "State"
+msgstr ""
 
 #. Label of the status (Data) field in DocType 'Workspace Account'
 #. Label of the status (Data) field in DocType 'Workspace Domain'
@@ -4139,7 +4333,7 @@ msgstr "Gestoppt: {0}"
 #. Settings'
 #. Label of the storage_section (Section Break) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-#: onedesk/one_admin/doctype/tenant/tenant.json onedesk/public/js/tenant.js:127
+#: onedesk/one_admin/doctype/tenant/tenant.json onedesk/public/js/tenant.js:183
 #: onedesk/public/js/workspace_account.js:67
 msgid "Storage"
 msgstr "Speicher"
@@ -4382,6 +4576,12 @@ msgstr "Das erste Konto, und wohin die Quittung geht."
 #: onedesk/one_hr/custom/timesheet.json
 msgid "The hours above that are ticked Billable. The project decides what they are worth."
 msgstr "Die oben als abrechenbar markierten Stunden. Was sie wert sind, entscheidet das Projekt."
+
+#. Description of the 'Expires On' (Date) field in DocType 'Credit Ledger
+#. Entry'
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "The last day this grant counts. Empty never expires."
+msgstr "Der letzte Tag, an dem diese Gutschrift zählt. Leer verfällt nie."
 
 #. Description of the 'Error' (Small Text) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
@@ -4630,7 +4830,7 @@ msgstr "{0} von {1} angekreuzt"
 msgid "Time"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:150
+#: onedesk/public/js/tenant.js:206
 msgid "Time on this rung"
 msgstr "Zeit auf dieser Stufe"
 
@@ -4887,6 +5087,11 @@ msgstr "Was nicht gelesen werden konnte"
 msgid "What an action asks for. A model picker filters on this."
 msgstr "Was eine Aktion verlangt. Die Modellauswahl filtert danach."
 
+#. Description of the 'Reference' (Data) field in DocType 'Credit Ledger Entry'
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "What caused this: a Stripe payment, a run, a person."
+msgstr "Was dies ausgelöst hat: eine Stripe-Zahlung, ein Lauf, eine Person."
+
 #. Description of the 'Clock Attempt' (Link) field in DocType 'Employee
 #. Checkin'
 #: onedesk/one_hr/custom/employee_checkin.json
@@ -5046,10 +5251,14 @@ msgid "Working on a Holiday"
 msgstr "Arbeit an einem freien Tag"
 
 #. Label of the workspace_name (Data) field in DocType 'Account Request'
+#. Label of the tenant (Link) field in DocType 'Credit Ledger Entry'
+#. Label of the tenant (Link) field in DocType 'Credit Reservation'
 #. Label of the workspace_name (Data) field in DocType 'Tenant'
 #. Label of the tab_workspace (Tab Break) field in DocType 'Tenant'
 #. Label of the tenant (Link) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/account_request/account_request.json
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+#: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "Workspace"
@@ -5335,17 +5544,25 @@ msgstr "{0} hat {1} für {2} geltend gemacht, davon sind {3} zulässig — der R
 msgid "{0} could not be marked Left"
 msgstr "{0} konnte nicht als ausgetreten markiert werden"
 
-#: onedesk/public/js/tenant.js:160
+#: onedesk/public/js/tenant.js:133
+msgid "{0} credits now."
+msgstr "Jetzt {0} Guthaben."
+
+#: onedesk/public/js/tenant.js:216
 msgid "{0} days before it falls to {1}."
 msgstr "Noch {0} Tage, bis er auf {1} fällt."
 
-#: onedesk/public/js/tenant.js:155
+#: onedesk/public/js/tenant.js:211
 msgid "{0} days left"
 msgstr "Noch {0} Tage"
 
 #: onedesk/public/js/overtime_slip.js:69
 msgid "{0} days read. Save to keep them."
 msgstr "{0} Tage ausgewertet. Speichern, um sie zu behalten."
+
+#: onedesk/one_admin/ledger.py:134
+msgid "{0} does not have {1} credits to spend."
+msgstr "{0} hat keine {1} Guthaben zum Ausgeben."
 
 #: onedesk/public/js/tenant_domain.js:47
 msgid "{0} does not point to this workspace. The customer has to change their DNS."
@@ -5375,6 +5592,10 @@ msgstr "{0} wurde nicht bezahlt, also gibt es nichts anzulegen."
 msgid "{0} has not failed."
 msgstr "{0} ist nicht gescheitert."
 
+#: onedesk/public/js/tenant.js:107
+msgid "{0} has {1} credits, {2} of them promised to calls in flight."
+msgstr "{0} hat {1} Guthaben, davon {2} für laufende Aufrufe zugesagt."
+
 #: onedesk/public/js/employee.js:109
 msgid "{0} hours"
 msgstr ""
@@ -5387,6 +5608,10 @@ msgstr "{0} gehört bereits zu einem anderen Arbeitsbereich."
 msgid "{0} is marked {1} on {2}. Overtime is only paid on a day marked {3}."
 msgstr "{0} ist am {2} als {1} erfasst. Überstunden werden nur an einem als {3} erfassten Tag vergütet."
 
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.py:50
+msgid "{0} is not a grant."
+msgstr "{0} ist keine Gutschrift."
+
 #: onedesk/one_admin/operator.py:160
 msgid "{0} is not a job."
 msgstr "{0} ist kein Auftrag."
@@ -5398,6 +5623,10 @@ msgstr "{0} ist keine Stufe, die ein Betreiber setzt."
 #: onedesk/one_hr/doctype/clock_network/clock_network.py:14
 msgid "{0} is not a valid address or range. Example: 203.0.113.7 or 203.0.113.0/24"
 msgstr "{0} ist keine gültige Adresse und kein gültiger Bereich. Beispiel: 203.0.113.7 oder 203.0.113.0/24"
+
+#: onedesk/one_admin/ledger.py:297
+msgid "{0} is not a workspace."
+msgstr "{0} ist kein Arbeitsbereich."
 
 #: onedesk/one_admin/domains.py:222
 msgid "{0} is not on this workspace."
@@ -5444,11 +5673,11 @@ msgstr "{0} davon aktiv."
 msgid "{0} of {1} used."
 msgstr "{0} von {1} belegt."
 
-#: onedesk/public/js/tenant.js:102
+#: onedesk/public/js/tenant.js:158
 msgid "{0} of {1} — {2}%"
 msgstr "{0} von {1} — {2} %"
 
-#: onedesk/public/js/tenant.js:140
+#: onedesk/public/js/tenant.js:196
 msgid "{0} of {1}."
 msgstr "{0} von {1}."
 
@@ -5464,7 +5693,7 @@ msgstr "{0} auf dem Kilometerzähler seit dem letzten Eintrag."
 msgid "{0} out of 5"
 msgstr "{0} von 5"
 
-#: onedesk/public/js/tenant.js:138 onedesk/public/js/workspace_account.js:78
+#: onedesk/public/js/tenant.js:194 onedesk/public/js/workspace_account.js:78
 msgid "{0} over the {1} this plan allows."
 msgstr "{0} über den {1}, die dieser Tarif erlaubt."
 
@@ -5472,13 +5701,17 @@ msgstr "{0} über den {1}, die dieser Tarif erlaubt."
 msgid "{0} people"
 msgstr "{0} Personen"
 
-#: onedesk/public/js/tenant.js:108
+#: onedesk/public/js/tenant.js:164
 msgid "{0} signed for and not yet counted."
 msgstr "{0} signiert und noch nicht gezählt."
 
 #: onedesk/public/js/appraisal.js:30 onedesk/public/js/leave_application.js:29
 msgid "{0} to {1}"
 msgstr "{0} bis {1}"
+
+#: onedesk/one_admin/ledger.py:165
+msgid "{0} was already {1}."
+msgstr "{0} war bereits {1}."
 
 #: onedesk/one_admin/lifecycle.py:74
 msgid "{0} was archived. Its site has to be rebuilt from the backup before it can be live again, and that is not something a payment does on its own."
@@ -5509,7 +5742,7 @@ msgstr "{0} Arbeitsbereiche haben das gekauft"
 msgid "{0} {1} → {2}"
 msgstr "{0} {1} → {2}"
 
-#: onedesk/public/js/tenant.js:170
+#: onedesk/public/js/tenant.js:226
 msgid "{0} {1}?"
 msgstr "{0} {1}?"
 
@@ -5529,7 +5762,7 @@ msgstr "{0}, ab {1}. Es ist noch keine Änderung eingetragen."
 msgid "{0}, from {1}: {2}."
 msgstr "{0}, ab {1}: {2}."
 
-#: onedesk/public/js/tenant.js:104
+#: onedesk/public/js/tenant.js:160
 msgid "{0}, unmetered"
 msgstr "{0}, ohne Begrenzung"
 
