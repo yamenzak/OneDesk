@@ -23,7 +23,12 @@
   "domain",
   "column_break_site",
   "token_hash",
-  "live_on"
+  "live_on",
+  "storage_section",
+  "storage_bytes",
+  "storage_pending",
+  "column_break_storage",
+  "storage_limit"
  ],
  "fields": [
   {
@@ -42,7 +47,10 @@
    "in_list_view": 1,
    "label": "Workspace"
   },
-  {"fieldname": "column_break_who", "fieldtype": "Column Break"},
+  {
+   "fieldname": "column_break_who",
+   "fieldtype": "Column Break"
+  },
   {
    "default": "Requested",
    "fieldname": "status",
@@ -78,7 +86,10 @@
    "label": "Country",
    "options": "Country"
   },
-  {"fieldname": "column_break_place", "fieldtype": "Column Break"},
+  {
+   "fieldname": "column_break_place",
+   "fieldtype": "Column Break"
+  },
   {
    "default": "Global",
    "fieldname": "jurisdiction",
@@ -113,7 +124,10 @@
    "label": "Domain",
    "read_only": 1
   },
-  {"fieldname": "column_break_site", "fieldtype": "Column Break"},
+  {
+   "fieldname": "column_break_site",
+   "fieldtype": "Column Break"
+  },
   {
    "description": "Only ever a hash. The token itself is written into that site's own config once and never read back.",
    "fieldname": "token_hash",
@@ -127,6 +141,36 @@
    "fieldtype": "Datetime",
    "label": "Live On",
    "read_only": 1
+  },
+  {
+   "fieldname": "storage_section",
+   "fieldtype": "Section Break",
+   "label": "Storage",
+   "description": "Measured by listing the prefix, not reported by the workspace. A workspace that reports its own usage is a workspace that can under-report it."
+  },
+  {
+   "fieldname": "storage_bytes",
+   "fieldtype": "Int",
+   "label": "Held",
+   "read_only": 1,
+   "description": "What the last measurement found."
+  },
+  {
+   "fieldname": "storage_pending",
+   "fieldtype": "Int",
+   "label": "Promised",
+   "read_only": 1,
+   "description": "Signed for since that measurement. A signed URL is a promise somebody may keep, so it counts until the next measurement says whether it was."
+  },
+  {
+   "fieldname": "column_break_storage",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "storage_limit",
+   "fieldtype": "Int",
+   "label": "Limit",
+   "description": "Bytes. Zero means unmetered \u2014 a plan with no storage line is a plan nobody thought about, and refusing every upload is the worse answer."
   }
  ],
  "index_web_pages_for_search": 0,

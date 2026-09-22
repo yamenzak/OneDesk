@@ -240,14 +240,22 @@ runner, the cron, and provisioning one site end to end by hand from the desk.
 **INFRA 5 — the proxy.** Token auth and `hello`. One endpoint proved before
 there are ten.
 
-The idempotency key moves to INFRA 6, where it has a caller. It is also simpler
-than a table: the key is a unique field on whatever row the call writes, so a
-retry meets the index rather than a check, and the helper reads back the row the
-first attempt made. A separate table of keys would be a second thing to keep in
-step with the charge it is protecting.
+The idempotency key moves to the first call that actually charges, which is not
+storage: storage is billed for what is *held*, measured nightly, so signing the
+same URL twice costs nothing and a key there would guard nothing. It lands with
+the Stripe top-up in INFRA 7 and the credit spend in OneAI — and as a unique
+field on the row the call writes rather than a table of keys, so a retry meets
+the index rather than a check.
 
 **INFRA 6 — storage.** The two buckets, the presigned put and get, the quota
-check, the nightly usage report, and the overage event.
+check, the nightly measurement, and the overage event.
+
+Usage is **measured, not reported**: the nightly pass lists each tenant's prefix
+and adds it up. A workspace reporting its own number would be a workspace able to
+under-report it, and the reason storage is billed from admin at all is that a
+tenant cannot be the authority on what it owes. Between measurements the quota
+also counts what has been *signed for*, because a signed URL is a promise
+somebody may keep.
 
 **INFRA 7 — the portal.** Signup, Stripe checkout, the webhook, the warm pool,
 and a customer going from a card to a working workspace without anyone helping.

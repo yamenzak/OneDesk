@@ -18,7 +18,10 @@
   "storage_section",
   "bucket_global",
   "column_break_buckets",
-  "bucket_eu"
+  "bucket_eu",
+  "column_break_r2",
+  "r2_key_id",
+  "r2_secret"
  ],
  "fields": [
   {
@@ -37,7 +40,10 @@
    "fieldtype": "Password",
    "label": "API Token"
   },
-  {"fieldname": "column_break_press", "fieldtype": "Column Break"},
+  {
+   "fieldname": "column_break_press",
+   "fieldtype": "Column Break"
+  },
   {
    "default": "https://frappecloud.com",
    "fieldname": "press_url",
@@ -59,7 +65,10 @@
    "fieldtype": "Password",
    "label": "API Token"
   },
-  {"fieldname": "column_break_cf", "fieldtype": "Column Break"},
+  {
+   "fieldname": "column_break_cf",
+   "fieldtype": "Column Break"
+  },
   {
    "default": "t.4dl.app",
    "description": "Every workspace is reached at &lt;slug&gt;.&lt;this&gt;. One level below the apex on purpose, so a certificate for it cannot also cover the marketing site or this one.",
@@ -78,11 +87,28 @@
    "fieldtype": "Data",
    "label": "Global Bucket"
   },
-  {"fieldname": "column_break_buckets", "fieldtype": "Column Break"},
+  {
+   "fieldname": "column_break_buckets",
+   "fieldtype": "Column Break"
+  },
   {
    "fieldname": "bucket_eu",
    "fieldtype": "Data",
    "label": "EU Bucket"
+  },
+  {
+   "fieldname": "column_break_r2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "r2_key_id",
+   "fieldtype": "Data",
+   "label": "R2 Access Key ID"
+  },
+  {
+   "fieldname": "r2_secret",
+   "fieldtype": "Password",
+   "label": "R2 Secret"
   }
  ],
  "index_web_pages_for_search": 0,

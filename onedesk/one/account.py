@@ -106,3 +106,16 @@ def nightly() -> None:
 def mine() -> dict:
 	"""What a screen draws, from the cache and without a round trip."""
 	return frappe.get_single("Workspace Account").as_dict()
+
+
+def put_url(key: str, size: int) -> dict:
+	"""Ask for somewhere to put a file. The bytes go to R2, not to admin."""
+	return ask("onedesk.one_admin.proxy.storage_put", key=key, size=size)
+
+
+def get_url(key: str) -> dict:
+	return ask("onedesk.one_admin.proxy.storage_get", key=key)
+
+
+def drop(key: str) -> dict:
+	return ask("onedesk.one_admin.proxy.storage_delete", key=key)

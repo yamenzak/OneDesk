@@ -131,3 +131,42 @@ def hello() -> dict:
 		"cluster": known.cluster,
 		"live_on": str(known.live_on) if known.live_on else None,
 	}
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def storage_put(key: str, size: int = 0) -> dict:
+	"""A signed URL to put one object, if the workspace has room for it.
+
+	The key a caller sends is a suffix and never a path: `keys.under` puts it
+	inside this workspace's prefix or refuses, so there is no key a caller can
+	send that names somebody else's object.
+	"""
+	from onedesk.one_admin import storage
+
+	return storage.put_url(_tenant_doc(caller()), key, size)
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def storage_get(key: str) -> dict:
+	from onedesk.one_admin import storage
+
+	return storage.get_url(_tenant_doc(caller()), key)
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def storage_delete(key: str) -> dict:
+	from onedesk.one_admin import storage
+
+	return storage.remove(_tenant_doc(caller()), key)
+
+
+def _tenant_doc(tenant):
+	"""The whole record, once the caller has been established.
+
+	`caller` reads three fields because authenticating should not cost a document
+	load; anything that goes on to do real work wants the rest.
+	"""
+	return frappe.get_doc("Tenant", tenant.name)

@@ -37,9 +37,10 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| One Admin Settings | 14 | single |
+| One Admin Settings | 17 | single |
 | Provisioning Job | 12 | document |
-| Tenant | 17 | document |
+| Tenant | 22 | document |
+| Tenant Event | 4 | document |
 
 ## Desk records shipped as fixtures
 
@@ -51,6 +52,9 @@ No doctypes yet.
 
 * `onedesk.one.account.mine`
 * `onedesk.one_admin.proxy.hello`
+* `onedesk.one_admin.proxy.storage_delete`
+* `onedesk.one_admin.proxy.storage_get`
+* `onedesk.one_admin.proxy.storage_put`
 * `onedesk.one_hr.clock.punch`
 * `onedesk.one_hr.clock.ready`
 * `onedesk.one_hr.employee.overview`

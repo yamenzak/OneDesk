@@ -1,0 +1,47 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-09-22 15:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": ["tenant", "kind", "column_break_what", "detail"],
+ "fields": [
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Tenant",
+   "options": "Tenant",
+   "reqd": 1
+  },
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Kind",
+   "options": "Over Storage\nSuspended\nRestored\nArchived\nDrifted",
+   "reqd": 1
+  },
+  {"fieldname": "column_break_what", "fieldtype": "Column Break"},
+  {"fieldname": "detail", "fieldtype": "Small Text", "in_list_view": 1, "label": "Detail"}
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-22 15:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Admin",
+ "name": "Tenant Event",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {"create": 1, "email": 1, "export": 1, "print": 1, "read": 1, "report": 1, "role": "One Operator", "share": 1, "write": 1}
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

@@ -48,6 +48,7 @@ scheduler_events = {
 	"cron": {"*/2 * * * *": ["onedesk.one_admin.runner.tick"]},
 	"daily": [
 		"onedesk.one.account.nightly",
+		"onedesk.one_admin.storage.nightly",
 		"onedesk.one_hr.healing.nightly",
 		"onedesk.one_hr.leaving.nightly",
 		"onedesk.one_hr.setup.nightly",

@@ -93,3 +93,24 @@ def test_nothing_here_carries_bytes():
 	source = PROXY.read_text(encoding="utf-8")
 	for carrying in ("open(", "read()", "files=", "send_file"):
 		assert carrying not in source, f"proxy.py does {carrying} — a file must never pass through admin"
+
+
+def test_no_endpoint_takes_a_bucket_or_a_prefix_from_the_caller():
+	"""A caller names a suffix. Everything else is worked out here.
+
+	An endpoint taking `bucket` or `prefix` would let a workspace address
+	somebody else's objects directly, which is the one thing the key rules
+	exist to prevent.
+	"""
+	for node in _guest_endpoints():
+		args = {a.arg for a in node.args.args}
+		assert not (args & {"bucket", "prefix", "full_key", "path"}), (
+			f"{node.name} takes {sorted(args)} — a caller must not name where"
+		)
+
+
+def test_every_signed_url_is_scoped_by_the_key_rules():
+	"""`storage.py` must never build a key by concatenation."""
+	source = (tree.APP / "one_admin" / "storage.py").read_text(encoding="utf-8")
+	assert source.count("keys.under(") >= 3, "each of put, get and delete scopes its key"
+	assert 'Key": key' not in source, "a raw caller key must never reach R2"
