@@ -236,6 +236,15 @@ def _write(
 	if model.status != "Priced":
 		model.offered = 0
 
+	# A provider may reclassify a model — Cloudflare moved llama-3.2-11b-vision
+	# from Vision to Text Generation — and a default it still carries then names
+	# something it can no longer do. The default goes rather than the sync
+	# stopping, because a nightly job that a validation halts is a catalogue
+	# that silently stops updating.
+	if model.default_for and not capability.able(model.capability, model.default_for):
+		touched.setdefault("undefaulted", []).append(f"{key} ({model.default_for})")
+		model.default_for = None
+
 	model.flags.ignore_permissions = True
 	model.save() if held else model.insert(ignore_permissions=True)
 	touched["seen"] += 1
@@ -301,8 +310,16 @@ def _withdraw(provider: str, still_listed: set[str]) -> int:
 	):
 		if row.model in still_listed:
 			continue
+		# The default goes with it. A withdrawn model that is still the default
+		# for a capability is a default nothing can replace — every attempt is
+		# refused because the old one still holds the name — and the first call
+		# that needs it fails with "not offered" rather than with anything that
+		# says why.
 		frappe.db.set_value(
-			"AI Model", row.name, {"status": "Withdrawn", "offered": 0}, update_modified=False
+			"AI Model",
+			row.name,
+			{"status": "Withdrawn", "offered": 0, "default_for": None},
+			update_modified=False,
 		)
 		gone += 1
 	return gone

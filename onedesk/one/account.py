@@ -64,7 +64,12 @@ def ask(endpoint: str, **params):
 		body = answer.json()
 	except ValueError:
 		body = None
-	raise faults.raised(endpoint, answer.status_code, faults.detail(body, answer.text))
+	raise faults.raised(
+		endpoint,
+		answer.status_code,
+		faults.detail(body, answer.text),
+		said=(body or {}).get("exc_type") if isinstance(body, dict) else None,
+	)
 
 
 def refresh() -> dict:

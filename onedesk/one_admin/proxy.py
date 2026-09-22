@@ -28,7 +28,7 @@ import hmac
 import frappe
 from frappe.rate_limiter import rate_limit
 
-from onedesk.one_admin import site
+from onedesk.one_admin import faults, site
 
 #: The rungs a workspace is still served on. Live and Overdue, and nothing
 #: below.
@@ -209,16 +209,25 @@ def ai_run(
 	from onedesk.one_admin import actions
 
 	tenant = caller()
-	return actions.run(
-		tenant.name,
-		action,
-		text,
-		model=model,
-		extra=extra,
-		reference=reference,
-		turns=frappe.parse_json(turns) if isinstance(turns, str) else turns,
-		tools=frappe.parse_json(tools) if isinstance(tools, str) else tools,
-	)
+	try:
+		return actions.run(
+			tenant.name,
+			action,
+			text,
+			model=model,
+			extra=extra,
+			reference=reference,
+			turns=frappe.parse_json(turns) if isinstance(turns, str) else turns,
+			tools=frappe.parse_json(tools) if isinstance(tools, str) else tools,
+		)
+	except faults.Refused as raised:
+		# Thrown rather than allowed to propagate, because frappe answers an
+		# unhandled exception with a body carrying only `exc_type` — so the
+		# sentence that says *why* ("this has gone five rounds", "that model is
+		# not offered") never reaches the workspace, and the panel has nothing
+		# to show but the endpoint's name. `Again` is a subclass and keeps its
+		# own name, so the caller can still tell retryable from permanent.
+		frappe.throw(str(raised), exc=type(raised))
 
 
 @frappe.whitelist(allow_guest=True)

@@ -68,11 +68,15 @@ PROVIDERS = {
 				else {}
 			),
 		},
-		"said": lambda body: ((body or {}).get("result") or {}).get("response"),
+		"said": lambda body: _workers_ai_said(body),
 		"calls": lambda body: _openai_calls(body),
 	},
 	"google-ai-studio": {
-		"path": lambda model: f"v1/models/{model}:generateContent",
+		# v1beta, not v1: measured, Google answers v1 with "Function calling is
+		# not enabled for api version v1", and the catalogue already lists
+		# models from v1beta — one version for both, so what is listed is what
+		# can be called.
+		"path": lambda model: f"v1beta/models/{model}:generateContent",
 		"talk": lambda system, turns, tools, most: {
 			"contents": [_gemini_turn(one) for one in turns],
 			"generationConfig": {"maxOutputTokens": most},
@@ -379,6 +383,29 @@ def _openai_turn(one: dict) -> dict:
 	return {"role": one.get("role") or "user", "content": one.get("text") or ""}
 
 
+def _workers_ai_said(body: dict | None) -> str | None:
+	"""Workers AI's words, out of either shape it answers in.
+
+	Measured against the real API: the classic text-generation models answer
+	with `result.response`, and the newer ones — gpt-oss, gemma-4, qwen3, glm —
+	answer in OpenAI's shape, `result.choices[0].message.content`. Both are
+	read, because which one a model uses is not something the models list says
+	and not something we find out about before a customer does.
+
+	`reasoning_content` is deliberately not read. It is the model thinking out
+	loud, it is not an answer, and putting it on screen as one is how a person
+	is shown working notes and told they are a reply.
+	"""
+	result = (body or {}).get("result") or {}
+	if result.get("response") is not None:
+		return result["response"]
+	for choice in result.get("choices") or []:
+		said = (choice.get("message") or {}).get("content")
+		if said is not None:
+			return said
+	return None
+
+
 def _openai_calls(body: dict | None) -> list[dict]:
 	"""What it asked for, out of whichever shape it answered in.
 
@@ -388,8 +415,14 @@ def _openai_calls(body: dict | None) -> list[dict]:
 	would find out about in advance.
 	"""
 	result = (body or {}).get("result") or {}
+	# Both shapes again: `result.tool_calls` on the classic models, and
+	# `result.choices[].message.tool_calls` on the OpenAI-compatible ones.
+	asked = list(result.get("tool_calls") or [])
+	for choice in result.get("choices") or []:
+		asked.extend((choice.get("message") or {}).get("tool_calls") or [])
+
 	found = []
-	for call in result.get("tool_calls") or []:
+	for call in asked:
 		named = call.get("function") or call
 		args = named.get("arguments")
 		if isinstance(args, str):

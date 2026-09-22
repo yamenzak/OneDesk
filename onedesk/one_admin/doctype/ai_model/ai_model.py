@@ -39,8 +39,18 @@ class AIModel(Document):
 						self.capability, self.default_for
 					)
 				)
+			# A withdrawn model does not hold a capability's default against a
+			# live one. Measured: Cloudflare dropped llama-3.1-8b-fp8-fast while
+			# it was the default, and every attempt to name a replacement was
+			# refused by a row for a model that no longer exists.
 			held = frappe.db.get_value(
-				"AI Model", {"default_for": self.default_for, "name": ["!=", self.name]}, "name"
+				"AI Model",
+				{
+					"default_for": self.default_for,
+					"name": ["!=", self.name],
+					"status": ["!=", "Withdrawn"],
+				},
+				"name",
 			)
 			if held:
 				frappe.throw(

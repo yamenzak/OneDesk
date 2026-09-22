@@ -599,6 +599,54 @@ same thing again, because a failed run that clears the box is a question
 retyped. While it runs it says what it is doing — thinking, then looking things
 up — rather than showing a spinner that says nothing for twenty seconds.
 
+**LIVE — the real providers, and the six things the stand-in hid.** *Done.*
+Wired to a real Cloudflare account and a real Gemini key. The catalogue is now
+the providers' own: 65 Workers AI models, 54 priced, and 50 Gemini models, 18
+priced. Six failures, none of which a stand-in could have shown, because a
+stand-in answers in whatever shape it was written to answer in:
+
+**Workers AI has two response shapes.** `result.response` on the classic text
+models, and OpenAI's `result.choices[].message.content` on the newer ones —
+gpt-oss, gemma-4, qwen3, glm. Every call to gemma-4 raised "answered 200 with
+nothing in it" while the model had in fact answered. Both are read now, and so
+are both tool-call shapes. `reasoning_content` is deliberately not read: it is
+the model thinking out loud, and showing it is showing somebody working notes
+and calling them a reply.
+
+**Google refuses an array without `items`.** `properties[fields].items: missing
+field`, 400. OpenAI's dialect accepts it, so the schema reader now writes the
+stricter form.
+
+**Gemini function calling needs v1beta.** v1 answers "Function calling is not
+enabled for api version v1", and the catalogue was already listing from v1beta
+— one version for both, so what is listed is what can be called.
+
+**A permanent refusal arrived as "try again".** Frappe answers every thrown
+exception with a 500, and 500 is retryable, so a model that is not offered and a
+conversation that has run too long both looked like a server having a bad
+moment. The other side's `exc_type` now wins over the status — and the proxy
+throws rather than letting the fault propagate, because an unhandled exception's
+body carries `exc_type` and nothing else, so the sentence saying *why* never
+reached the workspace at all.
+
+**A provider may reclassify a model.** Cloudflare moved llama-3.2-11b-vision
+from Vision to Text Generation, and the validation refusing a default it can no
+longer do stopped the entire nightly sync. The default goes rather than the sync
+stopping.
+
+**A provider may drop one.** llama-3.1-8b-fp8-fast was withdrawn while it was
+the default for Text Generation, and then held that default against every
+replacement — each attempt refused by a row for a model that no longer exists.
+Withdrawal clears the default, and a withdrawn model no longer holds one.
+
+Measured on real models, same question, same tools: **gemma-4** answers in two
+rounds with one `count_records` for 0.68 credits; **gpt-oss-20b** in two for
+1.58; **gemini-2.5-flash-lite** in two for 0.53. All three reached for counting
+rather than listing, which is the instruction from AI 8c landing. **llama-3.2-3b**
+cannot: it asks for two tools at once and Workers AI answers "This model only
+supports single tool-calls at once!" — a model limitation, now legible, and a
+reason not to offer it rather than something to code around.
+
 **AI 8d — the upload.** Not built. A file dropped on the panel attaches to the
 `AI Chat` and goes to the model with the question, which is how "make a
 quotation from this PDF" works. There is no PDF text extractor on the bench, so

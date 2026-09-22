@@ -24,7 +24,6 @@ CALLED = {
 	float: "number",
 	bool: "boolean",
 	dict: "object",
-	list: "array",
 }
 
 
@@ -116,6 +115,17 @@ def _typed(tool: str, name: str, hint) -> dict:
 		if len(kinds) != 1 or None in kinds:
 			raise Unreadable(f"{tool}({name}) is a Literal of mixed kinds")
 		return {"type": kinds.pop(), "enum": values}
+
+	# `list[str]` and a bare `list` both land here. Google refuses an array
+	# without `items` — measured: gemini-2.5-flash-lite answers 400 with
+	# "properties[fields].items: missing field" — while OpenAI's dialect accepts
+	# it, so the stricter reading is the one written.
+	if typing.get_origin(hint) is list or hint is list:
+		inside = typing.get_args(hint)
+		of = CALLED.get(inside[0]) if inside else "string"
+		if of is None:
+			raise Unreadable(f"{tool}({name}) is a list of {inside[0]!r}, which has no name in JSON Schema")
+		return {"type": "array", "items": {"type": of}}
 
 	if hint in CALLED:
 		return {"type": CALLED[hint]}

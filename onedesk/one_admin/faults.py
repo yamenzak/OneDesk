@@ -32,9 +32,19 @@ def worth_retrying(status: int) -> bool:
 	return status == 429 or status >= 500
 
 
-def raised(endpoint: str, status: int, detail: str) -> Refused:
-	"""The exception this failure deserves, ready to raise."""
-	kind = Again if worth_retrying(status) else Refused
+def raised(endpoint: str, status: int, detail: str, said: str | None = None) -> Refused:
+	"""The exception this failure deserves, ready to raise.
+
+	`said` is the other side's own `exc_type` where it sent one, and it wins
+	over the status. Frappe answers every thrown exception with a 500, so a
+	permanent refusal — a model that is not offered, a conversation that has run
+	too long — arrives looking like a server having a bad moment, and the caller
+	retries something that will refuse exactly the same way for ever.
+	"""
+	if said in ("Refused", "Again"):
+		kind = Again if said == "Again" else Refused
+	else:
+		kind = Again if worth_retrying(status) else Refused
 	return kind(f"{endpoint}: {detail}", status, detail)
 
 
