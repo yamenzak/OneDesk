@@ -150,14 +150,14 @@
   },
   {
    "fieldname": "storage_bytes",
-   "fieldtype": "Int",
+   "fieldtype": "Long Int",
    "label": "Held",
    "read_only": 1,
    "description": "What the last measurement found."
   },
   {
    "fieldname": "storage_pending",
-   "fieldtype": "Int",
+   "fieldtype": "Long Int",
    "label": "Promised",
    "read_only": 1,
    "description": "Signed for since that measurement. A signed URL is a promise somebody may keep, so it counts until the next measurement says whether it was."
@@ -168,9 +168,9 @@
   },
   {
    "fieldname": "storage_limit",
-   "fieldtype": "Int",
+   "fieldtype": "Long Int",
    "label": "Limit",
-   "description": "Bytes. Zero means unmetered \u2014 a plan with no storage line is a plan nobody thought about, and refusing every upload is the worse answer."
+   "description": "Bytes, so it is a Long Int: twenty-five gigabytes does not fit in an Int. Zero means unmetered \u2014 a plan with no storage line is a plan nobody thought about, and refusing every upload is the worse answer."
   }
  ],
  "index_web_pages_for_search": 0,

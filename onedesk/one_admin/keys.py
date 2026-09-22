@@ -1,4 +1,4 @@
-"""Which object a workspace is allowed to name, and whether it has room.
+"""What a workspace may be called, which objects it may name, and whether it fits.
 
 Nothing of Frappe or boto3 in here, because this is the module where a mistake
 means one customer reading another customer's files. It has to be readable in
@@ -15,6 +15,7 @@ easy to verify beats the rule that is merely correct.
 """
 
 import posixpath
+import re
 
 #: Where a workspace's objects live. One prefix per tenant inside one of two
 #: buckets, never a bucket per tenant: a lifecycle rule written against one
@@ -95,3 +96,34 @@ def room_for(held: int, pending: int, limit: int, wanted: int) -> bool:
 	if limit <= 0:
 		return True
 	return held + pending + wanted <= limit
+
+
+#: A hostname label, and nothing else. A slug becomes `<slug>.t.4dl.app`, a
+#: bucket prefix and a press site name, so the narrowest of those rules wins.
+SHORTEST, LONGEST_SLUG = 3, 30
+
+#: Names a workspace may not have, because we answer on them or will. `admin`
+#: on our own tenant domain is the one that would actually fool somebody.
+RESERVED = frozenset(
+	"admin api app apps assets auth billing cdn dashboard dev docs files help "
+	"login mail one portal press static status support www".split()
+)
+
+_ROUGH = re.compile(r"[^a-z0-9]+")
+
+
+def slug(raw: str) -> str:
+	"""A workspace name turned into something that can be a hostname.
+
+	Tidies rather than refuses, because this runs on what somebody typed into a
+	signup box — but it refuses what tidying cannot fix, since a silently
+	renamed workspace is a customer whose link does not work.
+	"""
+	tidy = _ROUGH.sub("-", (raw or "").strip().lower()).strip("-")
+	if len(tidy) < SHORTEST:
+		raise Unnameable(f"a workspace name needs at least {SHORTEST} letters or digits")
+	if len(tidy) > LONGEST_SLUG:
+		raise Unnameable(f"a workspace name is at most {LONGEST_SLUG} characters")
+	if tidy in RESERVED:
+		raise Unnameable(f"{tidy} is reserved")
+	return tidy

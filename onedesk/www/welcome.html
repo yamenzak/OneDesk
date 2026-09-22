@@ -1,0 +1,22 @@
+{% extends "templates/web.html" %}
+{% block title %}{{ _("Your workspace") }}{% endblock %}
+
+{% block page_content %}
+<div class="one-welcome">
+	{% if cancelled %}
+		<h1>{{ _("Nothing was charged") }}</h1>
+		<p>{{ _("You closed the payment page.") }} <a href="/start">{{ _("Start again") }}</a> {{ _("whenever you like.") }}</p>
+	{% elif not asked %}
+		<h1>{{ _("We cannot find that") }}</h1>
+		<p>{{ _("If you have paid, the receipt is in your email and we will be in touch.") }}</p>
+	{% else %}
+		<h1>{{ asked.workspace_name }}</h1>
+		<p>{{ said }}</p>
+		{% if domain and asked.status == "Done" %}
+			<p><a class="btn btn-primary" href="https://{{ domain }}">{{ _("Open it") }}</a></p>
+		{% elif asked.status in ("Paid", "Provisioning") %}
+			<p class="text-muted">{{ _("It takes a few minutes. We will email you at {0} when it is ready.").format(asked.email) }}</p>
+		{% endif %}
+	{% endif %}
+</div>
+{% endblock %}

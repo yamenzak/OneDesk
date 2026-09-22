@@ -1,0 +1,88 @@
+{% extends "templates/web.html" %}
+{% block title %}{{ _("Start a workspace") }}{% endblock %}
+
+{% block page_content %}
+<div class="one-start">
+	<h1>{{ _("Start a workspace") }}</h1>
+
+	{% if not offerings %}
+		<p class="text-muted">{{ _("Nothing is on offer yet.") }}</p>
+	{% else %}
+	<form id="one-start">
+		<label for="workspace_name">{{ _("What is it called?") }}</label>
+		<input id="workspace_name" name="workspace_name" required autocomplete="organization">
+		<p class="one-slug text-muted" id="one-slug"></p>
+
+		<label for="email">{{ _("Your email") }}</label>
+		<input id="email" name="email" type="email" required autocomplete="email">
+
+		<fieldset>
+			<legend>{{ _("Where should it live?") }}</legend>
+			<p class="text-muted">{{ _("This is permanent: storage is pinned to it and moving later means copying every file.") }}</p>
+			{% for one in jurisdictions %}
+			<label class="one-choice">
+				<input type="radio" name="jurisdiction" value="{{ one }}" {% if loop.first %}checked{% endif %}>
+				{{ _(one) }}
+			</label>
+			{% endfor %}
+		</fieldset>
+
+		<fieldset>
+			<legend>{{ _("Plan") }}</legend>
+			{% for one in offerings %}
+			<label class="one-choice">
+				<input type="radio" name="offering" value="{{ one.name }}" {% if loop.first %}checked{% endif %}>
+				<strong>{{ one.label }}</strong>
+				<span>{{ _("{0} a month").format(frappe.utils.fmt_money(one.amount, currency=one.currency)) }}</span>
+				{% if one.description %}<span class="text-muted">{{ one.description }}</span>{% endif %}
+			</label>
+			{% endfor %}
+		</fieldset>
+
+		<button type="submit" class="btn btn-primary">{{ _("Continue to payment") }}</button>
+		<p class="one-said" id="one-said"></p>
+	</form>
+	{% endif %}
+</div>
+
+<script>
+(() => {
+	const form = document.getElementById("one-start");
+	if (!form) return;
+	const said = document.getElementById("one-said");
+	const slug = document.getElementById("one-slug");
+
+	let asking;
+	form.workspace_name.addEventListener("input", () => {
+		clearTimeout(asking);
+		asking = setTimeout(async () => {
+			const name = form.workspace_name.value.trim();
+			if (!name) return (slug.textContent = "");
+			const answer = await frappe.call("onedesk.one_admin.signup.available", { name });
+			const it = answer.message || {};
+			slug.textContent = it.free ? `${it.slug}.t.4dl.app` : it.why || "";
+			slug.classList.toggle("is-taken", !it.free);
+		}, 300);
+	});
+
+	form.addEventListener("submit", async (event) => {
+		event.preventDefault();
+		said.textContent = "";
+		const button = form.querySelector("button");
+		button.disabled = true;
+		try {
+			const answer = await frappe.call("onedesk.one_admin.signup.start", {
+				email: form.email.value,
+				workspace_name: form.workspace_name.value,
+				offering: form.offering.value,
+				jurisdiction: form.jurisdiction.value,
+			});
+			window.location.href = answer.message.pay_at;
+		} catch (refused) {
+			said.textContent = (refused && refused.message) || __("That did not work.");
+			button.disabled = false;
+		}
+	});
+})();
+</script>
+{% endblock %}

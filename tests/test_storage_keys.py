@@ -103,3 +103,33 @@ def test_a_plan_with_no_storage_line_is_unmetered_rather_than_nothing():
 	"""Refusing every upload because nobody set a limit is the worse answer."""
 	assert keys.room_for(held=10**12, pending=0, limit=0, wanted=10**9)
 	assert keys.room_for(held=0, pending=0, limit=-1, wanted=10**9)
+
+
+def test_a_typed_workspace_name_becomes_a_hostname_label():
+	assert keys.slug("Acme Ltd.") == "acme-ltd"
+	assert keys.slug("  ACME   &   Sons  ") == "acme-sons"
+	assert keys.slug("a--b__c") == "a-b-c"
+
+
+def test_a_name_too_short_to_be_a_hostname_is_refused_rather_than_padded():
+	with pytest.raises(keys.Unnameable):
+		keys.slug("ab")
+	with pytest.raises(keys.Unnameable):
+		keys.slug("!!")
+
+
+def test_a_name_longer_than_a_label_is_refused_rather_than_cut():
+	"""A silently shortened workspace is a customer whose link does not work."""
+	with pytest.raises(keys.Unnameable):
+		keys.slug("x" * (keys.LONGEST_SLUG + 1))
+
+
+@pytest.mark.parametrize("taken", ["admin", "www", "api", "mail", "one", "billing"])
+def test_a_name_we_answer_on_is_reserved(taken):
+	with pytest.raises(keys.Unnameable):
+		keys.slug(taken)
+
+
+def test_a_slug_is_safe_to_use_as_a_storage_prefix():
+	"""The two rules meet here: anything slug() returns, prefix() accepts."""
+	assert keys.prefix(keys.slug("Acme Ltd")) == "tenants/acme-ltd/"

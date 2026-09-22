@@ -37,8 +37,11 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| One Admin Settings | 17 | single |
+| Account Request | 16 | document |
+| Offering | 18 | document |
+| One Admin Settings | 21 | single |
 | Provisioning Job | 12 | document |
+| Stripe Webhook Event | 7 | document |
 | Tenant | 22 | document |
 | Tenant Event | 4 | document |
 
@@ -55,6 +58,9 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.storage_delete`
 * `onedesk.one_admin.proxy.storage_get`
 * `onedesk.one_admin.proxy.storage_put`
+* `onedesk.one_admin.signup.available`
+* `onedesk.one_admin.signup.start`
+* `onedesk.one_admin.stripe.webhook`
 * `onedesk.one_hr.clock.punch`
 * `onedesk.one_hr.clock.ready`
 * `onedesk.one_hr.employee.overview`

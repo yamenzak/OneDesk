@@ -8,6 +8,10 @@ the login page and every system email, and its `app_logo` is what
 `get_app_logo` reads first — the navbar, the login page, the password reset,
 the OAuth consent. The desktop screen asks `Navbar Settings.app_logo` instead
 and falls back to frappe's own hook, so that one has to be written as well.
+
+`footer_powered` is here for a third reason: a portal page left alone says
+**Powered by ERPNext** at the foot, which is erpnext's default and which a
+customer signing up to One should never be shown. Found on `/start`.
 """
 
 import frappe
@@ -20,6 +24,7 @@ DEFAULTS = {
 		"app_logo": LOGO,
 		"favicon": LOGO,
 		"splash_image": LOGO,
+		"footer_powered": "",
 	},
 	"Navbar Settings": {"app_logo": LOGO},
 }
