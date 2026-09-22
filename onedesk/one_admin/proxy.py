@@ -132,20 +132,44 @@ def hello() -> dict:
 	known = frappe.db.get_value(
 		"Tenant",
 		tenant.name,
-		["workspace_name", "domain", "jurisdiction", "cluster", "live_on"],
+		[
+			"workspace_name",
+			"domain",
+			"primary_domain",
+			"jurisdiction",
+			"cluster",
+			"live_on",
+			"offering",
+			"storage_bytes",
+			"storage_limit",
+		],
 		as_dict=True,
 	)
-	from onedesk.one_admin import lifecycle
+	from onedesk.one_admin import domains, lifecycle
 
+	plan = (
+		frappe.db.get_value("Offering", known.offering, ["label", "seats"], as_dict=True)
+		if known.offering
+		else None
+	)
 	return {
 		"tenant": tenant.name,
 		"status": tenant.status,
 		"standing": lifecycle.standing(_tenant_doc(tenant)),
 		"workspace": known.workspace_name,
-		"domain": known.domain,
+		"domain": known.primary_domain or known.domain,
+		"given_domain": known.domain,
 		"jurisdiction": known.jurisdiction,
 		"cluster": known.cluster,
 		"live_on": str(known.live_on) if known.live_on else None,
+		"plan": plan.label if plan else None,
+		"seats": plan.seats if plan else None,
+		"storage_bytes": known.storage_bytes or 0,
+		"storage_limit": known.storage_limit or 0,
+		# The addresses too, so the account screen is one call rather than two.
+		# A workspace that asked only about its account still gets them, which
+		# is what keeps the copy on its own site in step after an outage.
+		"domains": domains.mine(_tenant_doc(tenant)),
 	}
 
 

@@ -17,9 +17,21 @@
    "link_type": "Workspace",
    "show_arrow": 0,
    "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 0,
+   "icon": "settings",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Account",
+   "link_to": "Workspace Account",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
   }
  ],
- "modified": "2026-09-20 17:45:00.000000",
+ "modified": "2026-09-22 14:34:53.612221",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

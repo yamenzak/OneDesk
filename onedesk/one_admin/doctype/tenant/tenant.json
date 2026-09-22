@@ -29,6 +29,7 @@
   "status_since",
   "tab_billing",
   "billing_section",
+  "offering",
   "stripe_customer",
   "stripe_subscription",
   "column_break_billing",
@@ -176,6 +177,15 @@
    "fieldname": "billing_section",
    "fieldtype": "Section Break",
    "label": "Billing"
+  },
+  {
+   "fieldname": "offering",
+   "fieldtype": "Link",
+   "label": "Plan",
+   "options": "Offering",
+   "read_only": 1,
+   "description": "What the workspace was sold. Quotas are copied to this record, not read from here.",
+   "in_standard_filter": 1
   },
   {
    "fieldname": "stripe_customer",

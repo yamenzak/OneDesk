@@ -158,6 +158,9 @@ fixtures = [
 # A record answers before it offers links; see `onedesk/one_hr/employee.py`.
 doctype_js = {
 	# A workspace is read-only and carries verbs instead; see one_admin/operator.py.
+	# A workspace reads its own account and manages its addresses; the account
+	# itself lives on the administrator. See one/account.py.
+	"Workspace Account": "public/js/workspace_account.js",
 	"Tenant": "public/js/tenant.js",
 	# A job says where in its walk it stopped; see one_admin/steps.py SAID.
 	"Provisioning Job": "public/js/job.js",

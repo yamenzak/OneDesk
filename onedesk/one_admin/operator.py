@@ -20,7 +20,7 @@ colleague out.
 
 import frappe
 
-from onedesk.one_admin import ladder, lifecycle, runner, site
+from onedesk.one_admin import lifecycle, runner, site
 
 #: The rung an operator may send a workspace to, and what to warn them about
 #: first. The client shows the warning; this list is what makes it possible to
@@ -58,7 +58,8 @@ def standing(tenant: str) -> dict:
 	_may()
 	held = frappe.get_doc("Tenant", tenant)
 	where = lifecycle.standing(held)
-	below = ladder.below(held.status)
+	below = where["next"]
+	# An operator may only send it somewhere the buttons name.
 	where["next"] = below if below in BY_HAND else None
 	where["warning"] = BY_HAND.get(below or "", "")
 	where["verb"] = frappe._(CALLED[below]) if below in CALLED else None

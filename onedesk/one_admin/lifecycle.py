@@ -136,6 +136,7 @@ def standing(tenant) -> dict:
 	return {
 		"owing": ladder.owing(tenant.status),
 		"rung": tenant.status,
+		"next": ladder.below(tenant.status),
 		"since": str(tenant.status_since) if tenant.status_since else None,
 		# How long this rung lasts, so a screen drawing a bar has a denominator
 		# without keeping its own copy of the periods. A second copy in

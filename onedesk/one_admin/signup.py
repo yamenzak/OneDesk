@@ -97,6 +97,7 @@ def _tenant_for(asked) -> str:
 			"workspace_name": asked.workspace_name,
 			"owner_email": asked.email,
 			"status": "Requested",
+			"offering": asked.offering,
 			"jurisdiction": asked.jurisdiction,
 			"cluster": asked.cluster,
 			"country": asked.country,

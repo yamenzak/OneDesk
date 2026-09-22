@@ -7,7 +7,8 @@
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Workspace Account | 14 | single |
+| Workspace Account | 22 | single |
+| Workspace Domain | 4 | child |
 
 ## One HR
 
@@ -42,7 +43,7 @@ No doctypes yet.
 | One Admin Settings | 28 | single |
 | Provisioning Job | 12 | document |
 | Stripe Webhook Event | 7 | document |
-| Tenant | 32 | document |
+| Tenant | 33 | document |
 | Tenant Domain | 7 | document |
 | Tenant Event | 4 | document |
 

@@ -81,6 +81,7 @@ def refresh() -> dict:
 		held.db_set("last_error", str(refused)[: faults.KEPT])
 		return held.as_dict()
 
+	standing = said.get("standing") or {}
 	held.db_set(
 		{
 			"tenant": said.get("tenant"),
@@ -89,11 +90,46 @@ def refresh() -> dict:
 			"domain": said.get("domain"),
 			"jurisdiction": said.get("jurisdiction"),
 			"cluster": said.get("cluster"),
+			"plan": said.get("plan"),
+			"seats": said.get("seats") or 0,
+			"storage_bytes": said.get("storage_bytes") or 0,
+			"storage_limit": said.get("storage_limit") or 0,
+			"owing": 1 if standing.get("owing") else 0,
+			"days_left": standing.get("days_left"),
+			"next_status": standing.get("next"),
 			"last_heard": now_datetime(),
 			"last_error": None,
 		}
 	)
+	_keep(held, said.get("domains"))
 	return held.as_dict()
+
+
+def _keep(held, rows) -> None:
+	"""Write down the addresses the administrator listed.
+
+	A copy, so the screen draws without a round trip and keeps drawing through
+	an outage. `rows` is None when the administrator did not send any — an older
+	one, or a call that only asked for the account — and in that case the ones
+	already written stay rather than being cleared, because an absent answer is
+	not an answer of nothing.
+	"""
+	if rows is None:
+		return
+	held.set(
+		"domains",
+		[
+			{
+				"domain": one.get("domain"),
+				"status": one.get("status"),
+				"primary": 1 if one.get("primary") else 0,
+				"given": 1 if one.get("given") else 0,
+			}
+			for one in rows
+			if one.get("domain")
+		],
+	)
+	held.save(ignore_permissions=True)
 
 
 def nightly() -> None:
@@ -135,6 +171,13 @@ def _may_rename() -> None:
 		)
 
 
+def _after(rows):
+	"""Write the administrator's answer into the account and hand it back."""
+	held = frappe.get_single("Workspace Account")
+	_keep(held, rows)
+	return rows
+
+
 @frappe.whitelist()
 def domains() -> list:
 	"""Every address this workspace answers at.
@@ -144,7 +187,7 @@ def domains() -> list:
 	when one is not working.
 	"""
 	_may_rename()
-	return ask("onedesk.one_admin.proxy.domain_list") or []
+	return _after(ask("onedesk.one_admin.proxy.domain_list") or [])
 
 
 @frappe.whitelist()
@@ -155,7 +198,7 @@ def domains_refresh() -> list:
 	nothing tells the workspace, so there has to be something to press.
 	"""
 	_may_rename()
-	return ask("onedesk.one_admin.proxy.domain_refresh") or []
+	return _after(ask("onedesk.one_admin.proxy.domain_refresh") or [])
 
 
 @frappe.whitelist()
@@ -174,13 +217,17 @@ def domain_check(domain: str) -> dict:
 @frappe.whitelist()
 def domain_add(domain: str) -> dict:
 	_may_rename()
-	return ask("onedesk.one_admin.proxy.domain_add", domain=domain) or {}
+	answer = ask("onedesk.one_admin.proxy.domain_add", domain=domain) or {}
+	_after(ask("onedesk.one_admin.proxy.domain_list") or [])
+	return answer
 
 
 @frappe.whitelist()
 def domain_drop(domain: str) -> dict:
 	_may_rename()
-	return ask("onedesk.one_admin.proxy.domain_drop", domain=domain) or {}
+	answer = ask("onedesk.one_admin.proxy.domain_drop", domain=domain) or {}
+	_after(ask("onedesk.one_admin.proxy.domain_list") or [])
+	return answer
 
 
 @frappe.whitelist()
@@ -192,4 +239,6 @@ def domain_primary(domain: str) -> dict:
 	email starts using the new name.
 	"""
 	_may_rename()
-	return ask("onedesk.one_admin.proxy.domain_primary", domain=domain) or {}
+	answer = ask("onedesk.one_admin.proxy.domain_primary", domain=domain) or {}
+	_after(ask("onedesk.one_admin.proxy.domain_list") or [])
+	return answer
