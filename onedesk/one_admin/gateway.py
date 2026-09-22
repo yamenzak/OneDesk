@@ -425,9 +425,32 @@ def _workers_ai_said(body: dict | None) -> str | None:
 	choices = result.get("choices") or []
 	for choice in choices:
 		said = (choice.get("message") or {}).get("content")
+		# A string or nothing. Measured: qwen2.5-coder puts a tool call in
+		# `content` as an object rather than using `tool_calls`, and a dict
+		# handed on as an answer is a crash three functions later. It is not
+		# read as a call either — inventing one from free-form content is how a
+		# model ends up having "asked" for something it never asked for.
+		if isinstance(said, str):
+			return _without_thinking(said)
 		if said is not None:
-			return said
+			return ""
 	return "" if choices else None
+
+
+#: Where a model that thinks out loud in its answer stops thinking. DeepSeek R1
+#: and QwQ put the whole of it inside `content`, fenced, rather than in a field
+#: of its own — so it cannot be ignored the way `reasoning` is, it has to be cut.
+THINKING = "</think>"
+
+
+def _without_thinking(said: str) -> str:
+	"""The answer, with the model's own thinking taken off the front.
+
+	Only what follows the last close tag, and only when there is one: a model
+	that never opened one is left exactly as it wrote.
+	"""
+	at = said.rfind(THINKING)
+	return said[at + len(THINKING) :].strip() if at != -1 else said
 
 
 def _openai_calls(body: dict | None) -> list[dict]:
@@ -450,11 +473,18 @@ def _openai_calls(body: dict | None) -> list[dict]:
 	for call in asked:
 		named = call.get("function") or call
 		args = named.get("arguments")
-		if isinstance(args, str):
+		# Twice, because granite-4.0 answers with a JSON string *of* a JSON
+		# string and one pass leaves another string behind — which then reaches
+		# a tool as a string where a dict was expected.
+		for _ in range(2):
+			if not isinstance(args, str):
+				break
 			try:
 				args = json.loads(args)
 			except ValueError:
 				args = {}
+		if not isinstance(args, dict):
+			args = {}
 		found.append(
 			{"id": call.get("id") or named.get("name"), "tool": named.get("name"), "args": args or {}}
 		)

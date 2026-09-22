@@ -706,6 +706,45 @@ anything the provider refuses as Cloudflare's own code 10000.
 seconds, which a five-round tool loop brushes against with two people asking at
 once. Not a problem today. It is a number to remember when it is real.
 
+**THE MATRIX — one question, every priced text model.** *Done.* Forty-one
+models, the same question, the same tools, throttled under the gateway's fifty a
+minute and capped at 200 output tokens. **Twenty-eight answer correctly.** The
+run cost about five cents and found four things.
+
+**Three were ours.** `qwen2.5-coder` puts a tool call in `content` as an object
+rather than using `tool_calls`, and a dict handed on as words crashed three
+functions later; it now reads as no words, and deliberately not as a call —
+inventing one from free-form content is how a model ends up having "asked" for
+something it never asked for. `granite-4.0` sends `arguments` as a JSON string
+*of* a JSON string, so one `json.loads` left another string behind, which
+reached a tool where a dict was expected. And DeepSeek R1 and QwQ put the whole
+of their reasoning *inside* `content`, fenced in `<think>` — so unlike
+`reasoning`, it cannot be ignored, it has to be cut. All three were invisible
+until a model that does it turned up. All three are fixed, and the eight models
+they broke now answer.
+
+**One was the catalogue's.** Cloudflare calls a reranker and a sentiment
+classifier "Text Classification" and two translators "Translation", and
+`A_TASK` mapped all four to Text Generation, because "produces text from text"
+is exactly what a chat model does too. They were offered, picked, and answered
+`Bad input` to a chat body. Translation and Text Classification are capabilities
+of their own now, covered by nothing, so an action needing Text Generation
+cannot reach one.
+
+**What is left is the models being models.** `llama-3.2-1b` and `-3b` call a
+tool and then answer as though it returned nothing. `llama-4-scout` and
+`qwen2.5-coder` will not call one at all. `llama-guard-3-8b` rejects the tool
+schema outright, and `llama-3.2-11b-vision` needs a licence accepted in
+Cloudflare's dashboard. None of that is ours to fix; it is a reason the
+catalogue's Offered switch exists, and the matrix is how it gets set.
+
+**And the cheapest that work are not the ones anybody would have guessed.**
+`granite-4.0-h-micro` answers in two rounds for **0.13 credits**; `glm-4.7-flash`
+for 0.49; `gemini-2.5-flash-lite` for 0.53. Gemma 4, the current default, costs
+1.16 and takes three rounds. `gemini-3.5-flash` gets there too — for 16.36,
+which is a hundred and twenty times the cheapest correct answer to the same
+question.
+
 **AI 8d — the upload.** Not built. A file dropped on the panel attaches to the
 `AI Chat` and goes to the model with the question, which is how "make a
 quotation from this PDF" works. There is no PDF text extractor on the bench, so

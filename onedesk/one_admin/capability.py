@@ -23,9 +23,15 @@ A_TASK = {
 	"automatic speech recognition": ("text", {"audio"}),
 	"text-to-speech": ("audio", {"text"}),
 	"text embeddings": ("embedding", {"text"}),
-	"translation": ("text", {"text"}),
+	# Text in, text out — and none of them can hold a conversation. Measured
+	# against the real models: a reranker, a sentiment classifier and two
+	# translators all answered `Bad input` to a chat body, having been offered
+	# because "produces text from text" is exactly what a chat model does too.
+	# Told apart by what the provider calls the job, which is the only thing
+	# that distinguishes them.
+	"translation": ("translation", {"text"}),
 	"summarization": ("text", {"text"}),
-	"text classification": ("text", {"text"}),
+	"text classification": ("classification", {"text"}),
 }
 
 #: Google says what a model may be *called* with rather than what it does, so
@@ -50,6 +56,10 @@ def named(produces: str, reads: set[str]) -> str:
 		# Speech and music are both audio out, and neither provider says which.
 		# One word that is true beats two where one is guessed.
 		return "Audio Generation"
+	if produces == "translation":
+		return "Translation"
+	if produces == "classification":
+		return "Text Classification"
 	if produces != "text":
 		return "Other"
 
@@ -83,6 +93,10 @@ COVERS = {
 	"Video Generation": {"Video Generation"},
 	"Audio Generation": {"Audio Generation"},
 	"Embedding": {"Embedding"},
+	# On their own, and nothing covers them: a translator asked to answer a
+	# question about a workspace answers with a translation of the question.
+	"Translation": {"Translation"},
+	"Text Classification": {"Text Classification"},
 }
 
 #: Every word a model or an action may carry, so a Select option added to one

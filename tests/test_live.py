@@ -27,14 +27,21 @@ MODEL = tree.APP / "one_admin" / "doctype" / "ai_model" / "ai_model.py"
 METER = tree.APP / "one_admin" / "meter.py"
 
 #: The two readers, lifted out of `gateway.py` — they touch nothing but `json`.
-LIFTED = ("_workers_ai_said", "_openai_calls", "_gemini_calls", "_gemini_turn")
+LIFTED = (
+	"_workers_ai_said",
+	"_without_thinking",
+	"_openai_calls",
+	"_gemini_calls",
+	"_gemini_turn",
+)
 
 
 def readers():
 	body = ast.parse(GATEWAY.read_text(encoding="utf-8"))
 	wanted = [n for n in body.body if isinstance(n, ast.FunctionDef) and n.name in LIFTED]
 	assert len(wanted) == len(LIFTED), "a reader was renamed and this guard was not"
-	room: dict = {"json": json}
+	# `_workers_ai_said` reads a constant its own module defines.
+	room: dict = {"json": json, "THINKING": "</think>"}
 	exec(compile(ast.Module(body=wanted, type_ignores=[]), str(GATEWAY), "exec"), room)
 	return room
 
@@ -91,6 +98,39 @@ def test_a_reasoning_model_that_says_nothing_has_still_answered():
 	# A body with no choices at all is still unreadable, which is the case the
 	# guard in `_answered` exists for.
 	assert room["_workers_ai_said"]({"oops": True}) is None
+
+
+def test_a_tool_call_in_the_answer_is_not_an_answer():
+	"""qwen2.5-coder puts a call in `content` as an object rather than using
+	`tool_calls`. A dict handed on as words is a crash three functions later —
+	and it is not read as a call either, because inventing one from free-form
+	content is how a model ends up having "asked" for something it never did."""
+	body = {"choices": [{"message": {"content": {"name": "count_records", "arguments": {}}}}]}
+	assert readers()["_workers_ai_said"](body) == ""
+
+
+def test_thinking_inside_the_answer_is_cut_off():
+	"""DeepSeek R1 and QwQ put the whole of their reasoning inside `content`,
+	fenced, rather than in a field of its own — so it cannot be ignored the way
+	`reasoning` is, it has to be cut."""
+	said = readers()["_workers_ai_said"](
+		{"choices": [{"message": {"content": "<think>hm, let me count</think>There are 6."}}]}
+	)
+	assert said == "There are 6."
+	# A model that never opened one is left exactly as it wrote.
+	assert readers()["_without_thinking"]("plain words") == "plain words"
+
+
+def test_arguments_encoded_twice_are_read_twice():
+	"""granite-4.0 answers with a JSON string *of* a JSON string, and one pass
+	leaves another string behind — which reaches a tool where a dict was
+	expected and raises there rather than here."""
+	twice = json.dumps(json.dumps({"doctype": "ToDo"}))
+	body = {"choices": [{"message": {"tool_calls": [
+		{"id": "c1", "function": {"name": "count_records", "arguments": twice}}]}}]}
+	assert readers()["_openai_calls"](body) == [
+		{"id": "c1", "tool": "count_records", "args": {"doctype": "ToDo"}}
+	]
 
 
 def test_the_gateway_answers_without_a_result_wrapper():

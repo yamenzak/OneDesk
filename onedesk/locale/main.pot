@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 20:08+0000\n"
-"PO-Revision-Date: 2026-09-22 20:08+0000\n"
+"POT-Creation-Date: 2026-09-22 21:31+0000\n"
+"PO-Revision-Date: 2026-09-22 21:31+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -104,7 +104,7 @@ msgstr ""
 msgid "A ledger entry of zero credits records nothing."
 msgstr ""
 
-#: onedesk/one_admin/doctype/ai_model/ai_model.py:50
+#: onedesk/one_admin/doctype/ai_model/ai_model.py:60
 msgid "A markup below nothing would pay somebody to call the model."
 msgstr ""
 
@@ -139,7 +139,7 @@ msgstr ""
 msgid "A queued unit of work against a workspace. Created by the system."
 msgstr ""
 
-#: onedesk/one_admin/doctype/ai_model/ai_model.py:54
+#: onedesk/one_admin/doctype/ai_model/ai_model.py:64
 msgid "A rate needs a unit, how many of them, and what they cost."
 msgstr ""
 
@@ -3535,7 +3535,7 @@ msgstr ""
 msgid "Only a request still waiting can be turned down."
 msgstr ""
 
-#: onedesk/one/account.py:192
+#: onedesk/one/account.py:197
 msgid "Only an administrator of this workspace can change its address."
 msgstr ""
 
@@ -5104,6 +5104,14 @@ msgstr ""
 #. Option for the 'Needs' (Select) field in DocType 'AI Action'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
+msgid "Text Classification"
+msgstr ""
+
+#. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#. Option for the 'Default For' (Select) field in DocType 'AI Model'
+#. Option for the 'Needs' (Select) field in DocType 'AI Action'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Text Generation"
 msgstr ""
 
@@ -5562,6 +5570,14 @@ msgstr ""
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Transcription"
+msgstr ""
+
+#. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#. Option for the 'Default For' (Select) field in DocType 'AI Model'
+#. Option for the 'Needs' (Select) field in DocType 'AI Action'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
+msgid "Translation"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -6433,7 +6449,7 @@ msgstr ""
 msgid "{0} is already on another workspace."
 msgstr ""
 
-#: onedesk/one_admin/doctype/ai_model/ai_model.py:47
+#: onedesk/one_admin/doctype/ai_model/ai_model.py:57
 msgid "{0} is already the default for {1}."
 msgstr ""
 

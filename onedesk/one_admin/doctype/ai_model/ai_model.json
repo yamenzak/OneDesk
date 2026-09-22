@@ -67,7 +67,7 @@
    "fieldname": "capability",
    "fieldtype": "Select",
    "label": "Capability",
-   "options": "\nText Generation\nVision\nMultimodal\nTranscription\nImage Generation\nVideo Generation\nAudio Generation\nEmbedding\nOther",
+   "options": "Text Generation\nVision\nMultimodal\nTranscription\nImage Generation\nVideo Generation\nAudio Generation\nEmbedding\nTranslation\nText Classification\nOther",
    "read_only": 1,
    "in_list_view": 1,
    "in_standard_filter": 1,
@@ -132,7 +132,7 @@
    "fieldname": "default_for",
    "fieldtype": "Select",
    "label": "Default For",
-   "options": "\nText Generation\nVision\nMultimodal\nTranscription\nImage Generation\nVideo Generation\nAudio Generation\nEmbedding",
+   "options": "Text Generation\nVision\nMultimodal\nTranscription\nImage Generation\nVideo Generation\nAudio Generation\nEmbedding\nTranslation\nText Classification",
    "in_standard_filter": 1,
    "description": "What an action needing this runs on when a workspace has picked nothing."
   },

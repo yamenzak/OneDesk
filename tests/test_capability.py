@@ -84,3 +84,16 @@ def test_cloudflares_word_is_the_more_specific_of_the_two():
 	why the rates have to raise the floor it sets."""
 	assert capability.A_TASK["image-to-text"] == ("text", {"text", "image"})
 	assert capability.A_METHOD["generatecontent"] == ("text", {"text"})
+
+def test_a_translator_is_not_a_chat_model():
+	"""Text in, text out, and it cannot hold a conversation. Measured against
+	the real models: a reranker, a sentiment classifier and two translators all
+	answered `Bad input` to a chat body, having been offered because "produces
+	text from text" is exactly what a chat model does too."""
+	assert capability.named(*capability.A_TASK["translation"]) == "Translation"
+	assert capability.named(*capability.A_TASK["text classification"]) == "Text Classification"
+	# And nothing covers them, so an action needing Text Generation cannot pick
+	# one — which is how they were being offered in the first place.
+	assert "Translation" not in capability.covers("Text Generation")
+	assert "Text Classification" not in capability.covers("Text Generation")
+	assert capability.covers("Translation") == {"Translation"}
