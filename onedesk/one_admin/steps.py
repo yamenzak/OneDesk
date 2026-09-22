@@ -55,6 +55,33 @@ WALKS = {
 	"Drop": ("empty_storage", "mark_dropped"),
 }
 
+#: What each step is doing, in words an operator reads rather than the function
+#: name. A job that stopped on `archive_site` tells somebody nothing; a job that
+#: stopped while asking press to destroy the site tells them where to look.
+#:
+#: Every step in `WALKS` is named here, and a test fails on one that is not —
+#: because the failure is silent: the screen falls back to the function name and
+#: nobody notices it was meant to say something.
+SAID = {
+	"name_is_free": "Checking nobody has the name",
+	"create_site": "Asking press for the site",
+	"site_is_up": "Waiting for press to build it",
+	"route_it": "Putting it on our own name",
+	"push_config": "Telling the site who it is",
+	"live": "Marking it live",
+	"deactivate_site": "Asking press to stop serving it",
+	"mark_suspended": "Marking it suspended",
+	"activate_site": "Asking press to serve it again",
+	"mark_live": "Marking it live",
+	"note_backup": "Noting which backup press holds",
+	"archive_site": "Asking press to destroy the site",
+	"unroute": "Taking the name off the edge",
+	"mark_archived": "Marking it archived",
+	"empty_storage": "Deleting the files",
+	"mark_dropped": "Marking it dropped",
+}
+
+
 #: Every app a workspace gets. The same on every bench, so a site is never
 #: missing one because it landed somewhere else.
 APPS = ("erpnext", "hrms", "onedesk")

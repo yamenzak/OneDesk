@@ -19,20 +19,20 @@
   {
    "fieldname": "domain",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Domain",
    "reqd": 1,
    "unique": 1,
-   "description": "A name the customer owns, not one we hand out. Ours is on the Tenant and is never a row here: there is nothing about it that can fail."
+   "read_only": 1,
+   "in_list_view": 1
   },
   {
    "fieldname": "tenant",
    "fieldtype": "Link",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
    "label": "Workspace",
    "options": "Tenant",
-   "reqd": 1
+   "reqd": 1,
+   "read_only": 1,
+   "in_list_view": 1
   },
   {
    "fieldname": "column_break_who",
@@ -42,11 +42,12 @@
    "default": "Pending",
    "fieldname": "status",
    "fieldtype": "Select",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
    "label": "Status",
    "options": "Pending\nIn Progress\nActive\nBroken\nGone",
-   "description": "Press's word for it, kept as press says it. A status of our own would be a status that disagrees with the one in their dashboard."
+   "description": "Press's word for it, kept as press says it.",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
   },
   {
    "fieldname": "asked_on",
@@ -65,7 +66,7 @@
    "label": "Last Answer",
    "options": "JSON",
    "read_only": 1,
-   "description": "Whole and unedited. When a domain is stuck, the useful part is the record press wanted against the one it found, and a summary of ours would lose exactly that."
+   "description": "Press's last answer, whole. When a domain is stuck this is the useful part."
   }
  ],
  "index_web_pages_for_search": 0,
@@ -78,7 +79,7 @@
  "permissions": [
   {
    "create": 0,
-   "delete": 1,
+   "delete": 0,
    "email": 1,
    "export": 1,
    "print": 1,
@@ -86,7 +87,7 @@
    "report": 1,
    "role": "One Operator",
    "share": 1,
-   "write": 1
+   "write": 0
   }
  ],
  "sort_field": "modified",

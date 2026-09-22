@@ -24,10 +24,11 @@
   {
    "fieldname": "tenant",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Tenant",
    "options": "Tenant",
-   "reqd": 1
+   "reqd": 1,
+   "read_only": 1,
+   "in_list_view": 1
   },
   {
    "default": "Provision",
@@ -36,7 +37,9 @@
    "label": "Kind",
    "options": "Provision\nSuspend\nRestore\nArchive\nDrop",
    "reqd": 1,
-   "description": "What this job is walking. Each kind has its own list of steps in one_admin/steps.py, and only a Provision that fails marks the workspace Failed — a failed archive must not turn a live workspace into a broken one."
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
   },
   {
    "fieldname": "column_break_what",
@@ -46,18 +49,20 @@
    "default": "Pending",
    "fieldname": "status",
    "fieldtype": "Select",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
    "label": "Status",
    "options": "Pending\nWaiting\nDone\nFailed",
-   "reqd": 1
+   "reqd": 1,
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
   },
   {
-   "description": "The step to run next. A job resumes here, so a worker restart mid-provision loses nothing.",
+   "description": "Where it resumes. Every step is safe to run twice.",
    "fieldname": "step",
    "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Step"
+   "label": "Step",
+   "read_only": 1,
+   "in_list_view": 1
   },
   {
    "fieldname": "progress_section",
@@ -65,15 +70,17 @@
   },
   {
    "default": "0",
-   "description": "Of the current step. Reset when the step advances, because attempts measure one step's trouble rather than the job's age.",
+   "description": "At this step. Reset when the step advances.",
    "fieldname": "attempts",
    "fieldtype": "Int",
-   "label": "Attempts"
+   "label": "Attempts",
+   "read_only": 1
   },
   {
    "fieldname": "next_run_at",
    "fieldtype": "Datetime",
-   "label": "Next Run"
+   "label": "Next Run",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_when",
@@ -86,18 +93,19 @@
    "read_only": 1
   },
   {
-   "description": "Why it stopped, in the words press used. Nothing unwinds — an operator resumes it and the customer is told something true.",
+   "description": "In press's own words.",
    "fieldname": "error",
    "fieldtype": "Small Text",
    "label": "Error",
    "read_only": 1
   },
   {
-   "description": "What the steps have learned so far, as JSON.",
+   "description": "What the steps have learned so far.",
    "fieldname": "payload",
    "fieldtype": "Code",
    "label": "Payload",
-   "options": "JSON"
+   "options": "JSON",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 0,
@@ -118,7 +126,8 @@
    "report": 1,
    "role": "One Operator",
    "share": 1,
-   "write": 1
+   "write": 0,
+   "delete": 0
   }
  ],
  "sort_field": "creation",

@@ -159,6 +159,8 @@ fixtures = [
 doctype_js = {
 	# A workspace is read-only and carries verbs instead; see one_admin/operator.py.
 	"Tenant": "public/js/tenant.js",
+	# A job says where in its walk it stopped; see one_admin/steps.py SAID.
+	"Provisioning Job": "public/js/job.js",
 	"Employee": "public/js/employee.js",
 	"Employee Attendance Tool": "public/js/attendance_tool.js",
 	"Attendance": "public/js/attendance.js",

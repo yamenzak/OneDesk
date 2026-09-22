@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 11:58+0000\n"
-"PO-Revision-Date: 2026-09-22 11:58+0000\n"
+"POT-Creation-Date: 2026-09-22 12:10+0000\n"
+"PO-Revision-Date: 2026-09-22 12:10+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -63,6 +63,11 @@ msgstr ""
 msgid "A credit pack is bought once, so it does not recur."
 msgstr ""
 
+#. Description of the 'Recurring' (Check) field in DocType 'Offering'
+#: onedesk/one_admin/doctype/offering/offering.json
+msgid "A credit pack is bought once."
+msgstr ""
+
 #. Description of the 'Expires On' (Date) field in DocType 'Employee Document'
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 msgid "A document that does not expire, such as a birth certificate, leaves this empty."
@@ -83,11 +88,6 @@ msgstr ""
 msgid "A job is made by the thing that needs one. One typed here would start walking a tenant with no idea why."
 msgstr ""
 
-#. Description of the 'Domain' (Data) field in DocType 'Tenant Domain'
-#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
-msgid "A name the customer owns, not one we hand out. Ours is on the Tenant and is never a row here: there is nothing about it that can fail."
-msgstr ""
-
 #: onedesk/one_hr/doctype/clock_network/clock_network.py:24
 msgid "A network belongs to a Shift Location or to one employee, not to both."
 msgstr ""
@@ -98,11 +98,6 @@ msgstr ""
 
 #: onedesk/one_hr/doctype/clock_place/clock_place.py:14
 msgid "A place belongs to a Shift Location or to one employee, not to both."
-msgstr ""
-
-#. Description of the 'Kind' (Select) field in DocType 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json
-msgid "A plan carries quotas and recurs. A credit pack is bought once. An add-on raises one quota on top of a plan."
 msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:146
@@ -332,6 +327,11 @@ msgstr ""
 msgid "Appearance"
 msgstr ""
 
+#. Description of the 'Key' (Data) field in DocType 'Offering'
+#: onedesk/one_admin/doctype/offering/offering.json
+msgid "Appears in a URL and never changes."
+msgstr ""
+
 #. Label of the one_applicant (Data) field in DocType 'Interview'
 #: onedesk/one_hr/custom/interview.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:207
@@ -471,6 +471,15 @@ msgstr ""
 msgid "Assign a Salary Structure"
 msgstr ""
 
+#: onedesk/one_admin/doctype/account_request/account_request_list.js:9
+msgid "At Stripe"
+msgstr ""
+
+#. Description of the 'Attempts' (Int) field in DocType 'Provisioning Job'
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
+msgid "At this step. Reset when the step advances."
+msgstr ""
+
 #. Label of the attempts (Int) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 msgid "Attempts"
@@ -566,6 +575,7 @@ msgstr ""
 msgid "Becomes"
 msgstr ""
 
+#: onedesk/one_admin/doctype/account_request/account_request_list.js:11
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:14
 #: onedesk/public/js/tenant.js:29
 msgid "Being built"
@@ -654,6 +664,7 @@ msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:12
 msgid "Broken"
 msgstr ""
 
@@ -1173,10 +1184,13 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/account_request/account_request.json
+#: onedesk/one_admin/doctype/account_request/account_request_list.js:12
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:21
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:36
-#: onedesk/public/js/decision.js:39 onedesk/public/js/learned.js:34
-#: onedesk/public/js/shift_type.js:29
+#: onedesk/public/js/decision.js:39 onedesk/public/js/job.js:27
+#: onedesk/public/js/job.js:44 onedesk/public/js/job.js:49
+#: onedesk/public/js/learned.js:34 onedesk/public/js/shift_type.js:29
 msgid "Done"
 msgstr ""
 
@@ -1491,11 +1505,11 @@ msgstr ""
 msgid "Failed to set up One"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:64
+#: onedesk/public/js/tenant.js:49
 msgid "Falls to {0} in {1} days."
 msgstr ""
 
-#: onedesk/public/js/tenant.js:63
+#: onedesk/public/js/tenant.js:47 onedesk/public/js/tenant.js:129
 msgid "Falls to {0} tonight."
 msgstr ""
 
@@ -1519,6 +1533,10 @@ msgstr ""
 #. Label of the finished_at (Datetime) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 msgid "Finished"
+msgstr ""
+
+#: onedesk/public/js/job.js:75
+msgid "Finished all {0} steps."
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -1554,7 +1572,7 @@ msgstr ""
 msgid "Frappe Cloud"
 msgstr ""
 
-#: onedesk/one_admin/signup.py:120
+#: onedesk/one_admin/signup.py:124
 msgid "Frappe Cloud has no bench group to place a site on."
 msgstr ""
 
@@ -1593,6 +1611,10 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "Gone"
+msgstr ""
+
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:13
+msgid "Gone from press"
 msgstr ""
 
 #. Label of the renderer (Data) field in DocType 'Clock Attempt'
@@ -1803,6 +1825,11 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "In Progress"
+msgstr ""
+
+#. Description of the 'Error' (Small Text) field in DocType 'Provisioning Job'
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
+msgid "In press's own words."
 msgstr ""
 
 #. Label of the one_learn_home (Check) field in DocType 'HR Settings'
@@ -2199,7 +2226,7 @@ msgstr ""
 msgid "Longitude"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:83 onedesk/public/js/tenant.js:88
+#: onedesk/public/js/tenant.js:77 onedesk/public/js/tenant.js:82
 msgid "Look again"
 msgstr ""
 
@@ -2263,7 +2290,7 @@ msgstr ""
 msgid "May"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:81
+#: onedesk/public/js/tenant.js:75
 msgid "Measure storage"
 msgstr ""
 
@@ -2407,6 +2434,10 @@ msgstr ""
 msgid "Not marked"
 msgstr ""
 
+#: onedesk/one_admin/doctype/account_request/account_request_list.js:8
+msgid "Not paid"
+msgstr ""
+
 #. Label of the one_note (Small Text) field in DocType 'Attendance Request'
 #. Label of the one_note (Small Text) field in DocType 'Expense Claim'
 #. Label of the one_note (Small Text) field in DocType 'Leave Application'
@@ -2433,7 +2464,7 @@ msgstr ""
 
 #. Description of the 'Status' (Select) field in DocType 'Account Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
-msgid "Nothing is provisioned until money has changed hands, and nothing unwinds afterwards: a failure is resumed rather than reversed."
+msgid "Nothing is provisioned until the money has arrived."
 msgstr ""
 
 #: onedesk/public/js/leave_application.js:14
@@ -2465,6 +2496,10 @@ msgstr ""
 msgid "Nov"
 msgstr ""
 
+#: onedesk/public/js/job.js:51
+msgid "Now"
+msgstr ""
+
 #. Label of the number (Data) field in DocType 'Employee Document'
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 msgid "Number"
@@ -2483,11 +2518,6 @@ msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:36
 msgid "Oct"
-msgstr ""
-
-#. Description of the 'Attempts' (Int) field in DocType 'Provisioning Job'
-#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
-msgid "Of the current step. Reset when the step advances, because attempts measure one step's trouble rather than the job's age."
 msgstr ""
 
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:215
@@ -2804,7 +2834,12 @@ msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
+#: onedesk/one_admin/doctype/account_request/account_request_list.js:10
 msgid "Paid"
+msgstr ""
+
+#: onedesk/one_admin/doctype/account_request/account_request_list.js:13
+msgid "Paid and not built"
 msgstr ""
 
 #: onedesk/public/js/employee.js:168
@@ -2975,9 +3010,18 @@ msgstr ""
 msgid "Press holds the bytes; we keep the name."
 msgstr ""
 
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:10
+msgid "Press is working on it"
+msgstr ""
+
+#. Description of the 'Last Answer' (Code) field in DocType 'Tenant Domain'
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
+msgid "Press's last answer, whole. When a domain is stuck this is the useful part."
+msgstr ""
+
 #. Description of the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
-msgid "Press's word for it, kept as press says it. A status of our own would be a status that disagrees with the one in their dashboard."
+msgid "Press's word for it, kept as press says it."
 msgstr ""
 
 #. Label of the price_section (Section Break) field in DocType 'Offering'
@@ -3164,7 +3208,7 @@ msgstr ""
 msgid "Recurring"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:86
+#: onedesk/public/js/tenant.js:80
 msgid "Refresh domains"
 msgstr ""
 
@@ -3266,7 +3310,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
-#: onedesk/public/js/tenant.js:73
+#: onedesk/public/js/tenant.js:67
 msgid "Restore"
 msgstr ""
 
@@ -3275,7 +3319,7 @@ msgstr ""
 msgid "Restored"
 msgstr ""
 
-#: onedesk/public/js/timesheet.js:75
+#: onedesk/public/js/job.js:58 onedesk/public/js/timesheet.js:75
 msgid "Resume"
 msgstr ""
 
@@ -3305,6 +3349,10 @@ msgstr ""
 
 #: onedesk/one_hr/doctype/employee_document/employee_document.py:20
 msgid "Row {0}: {1} expires before it was issued."
+msgstr ""
+
+#: onedesk/public/js/job.js:61
+msgid "Run {0} again, from the step it stopped on?"
 msgstr ""
 
 #. Label of a Link in the OneHR Setup Workspace
@@ -3409,11 +3457,11 @@ msgstr ""
 msgid "Selling"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:96
+#: onedesk/public/js/tenant.js:138
 msgid "Send to {0}"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:98
+#: onedesk/public/js/tenant.js:140
 msgid "Send {0} to {1}?"
 msgstr ""
 
@@ -3645,15 +3693,32 @@ msgstr ""
 msgid "Step"
 msgstr ""
 
+#: onedesk/public/js/job.js:84
+msgid "Step {0} of {1} — {2}."
+msgstr ""
+
+#: onedesk/public/js/job.js:42
+msgid "Steps"
+msgstr ""
+
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:222
 msgid "Still in Draft"
+msgstr ""
+
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:22
+#: onedesk/public/js/job.js:28
+msgid "Stopped"
+msgstr ""
+
+#: onedesk/public/js/job.js:79
+msgid "Stopped at step {0} of {1} — {2}."
 msgstr ""
 
 #. Label of the storage_section (Section Break) field in DocType 'One Admin
 #. Settings'
 #. Label of the storage_section (Section Break) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-#: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_admin/doctype/tenant/tenant.json onedesk/public/js/tenant.js:97
 msgid "Storage"
 msgstr ""
 
@@ -3704,7 +3769,7 @@ msgstr ""
 
 #. Description of the 'Event ID' (Data) field in DocType 'Stripe Webhook Event'
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
-msgid "Stripe's own id. Unique, and that index is the whole of the idempotency: a redelivered event meets it rather than a check."
+msgid "Stripe's own id. The unique index on it is the whole of the idempotency."
 msgstr ""
 
 #. Label of a number card in the One Admin Workspace
@@ -3802,7 +3867,7 @@ msgstr ""
 msgid "That did not work."
 msgstr ""
 
-#: onedesk/one_admin/signup.py:150
+#: onedesk/one_admin/signup.py:154
 msgid "That is not something on offer."
 msgstr ""
 
@@ -3820,11 +3885,6 @@ msgstr ""
 
 #: onedesk/one_hr/signin.py:52
 msgid "That passkey is not registered on this site."
-msgstr ""
-
-#. Description of the 'Stripe Price ID' (Data) field in DocType 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json
-msgid "The Stripe price this maps to. The amount above is what we show; this is what is charged, and a mismatch between them is a bug worth a guard."
 msgstr ""
 
 #. Description of the 'Address' (Data) field in DocType 'Clock Attempt'
@@ -3937,11 +3997,6 @@ msgstr ""
 msgid "The status written on each day of an approved request. Work From Home is the only one Attendance keeps apart; everything else counts as a day at work."
 msgstr ""
 
-#. Description of the 'Step' (Data) field in DocType 'Provisioning Job'
-#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
-msgid "The step to run next. A job resumes here, so a worker restart mid-provision loses nothing."
-msgstr ""
-
 #. Description of the 'Stripe' (Section Break) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -4039,12 +4094,6 @@ msgstr ""
 msgid "This workspace has no room for another {0}."
 msgstr ""
 
-#. Description of the 'What it allows' (Section Break) field in DocType
-#. 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json
-msgid "Three, named rather than a table of open-ended keys: a quota nothing enforces is a promise nobody keeps. A fourth is a field, the day there is one."
-msgstr ""
-
 #. Label of the one_from_checkins (Button) field in DocType 'Employee
 #. Attendance Tool'
 #: onedesk/one_hr/custom/employee_attendance_tool.json
@@ -4065,6 +4114,10 @@ msgstr ""
 #: onedesk/one_hr/attendance.py:15 onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Time"
+msgstr ""
+
+#: onedesk/public/js/tenant.js:120
+msgid "Time on this rung"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -4127,6 +4180,10 @@ msgstr ""
 #. Label of the one_is_site (Check) field in DocType 'Shift Location'
 #: onedesk/one_hr/custom/shift_location.json
 msgid "Treat as a Site"
+msgstr ""
+
+#: onedesk/public/js/job.js:82
+msgid "Tried {0} times."
 msgstr ""
 
 #: onedesk/public/js/attendance_request.js:11
@@ -4223,9 +4280,23 @@ msgstr ""
 msgid "Waiting"
 msgstr ""
 
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:9
+msgid "Waiting on DNS"
+msgstr ""
+
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:20
+#: onedesk/public/js/job.js:26
+msgid "Waiting on press"
+msgstr ""
+
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:13
 #: onedesk/public/js/tenant.js:28
 msgid "Waiting to be built"
+msgstr ""
+
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:19
+#: onedesk/public/js/job.js:25
+msgid "Waiting to run"
 msgstr ""
 
 #. Description of the 'Frappe Cloud' (Section Break) field in DocType 'One
@@ -4270,6 +4341,11 @@ msgstr ""
 #. Checkin'
 #: onedesk/one_hr/custom/employee_checkin.json
 msgid "What each check saw when this log was written."
+msgstr ""
+
+#. Description of the 'Stripe Price ID' (Data) field in DocType 'Offering'
+#: onedesk/one_admin/doctype/offering/offering.json
+msgid "What is actually charged. The amount above is only what we show."
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -4324,14 +4400,9 @@ msgstr ""
 msgid "What the person deciding wrote, if anything."
 msgstr ""
 
-#. Description of the 'Key' (Data) field in DocType 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json
-msgid "What the price list calls this. It appears in a URL and never changes."
-msgstr ""
-
 #. Description of the 'Payload' (Code) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
-msgid "What the steps have learned so far, as JSON."
+msgid "What the steps have learned so far."
 msgstr ""
 
 #. Label of the wants_section (Section Break) field in DocType 'Account
@@ -4343,11 +4414,6 @@ msgstr ""
 #. Description of the 'leave_balance' field in DocType 'Leave Application'
 #: onedesk/one_hr/custom/leave_application.json
 msgid "What they had left before this application. The table above counts this one as pending rather than spent."
-msgstr ""
-
-#. Description of the 'Kind' (Select) field in DocType 'Provisioning Job'
-#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
-msgid "What this job is walking. Each kind has its own list of steps in one_admin/steps.py, and only a Provision that fails marks the workspace Failed — a failed archive must not turn a live workspace into a broken one."
 msgstr ""
 
 #. Label of the one_when (Data) field in DocType 'Timesheet Detail'
@@ -4388,6 +4454,11 @@ msgstr ""
 msgid "Where it lives"
 msgstr ""
 
+#. Description of the 'Step' (Data) field in DocType 'Provisioning Job'
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
+msgid "Where it resumes. Every step is safe to run twice."
+msgstr ""
+
 #: onedesk/www/start.html:20
 msgid "Where should it live?"
 msgstr ""
@@ -4402,19 +4473,9 @@ msgstr ""
 msgid "Who you invoice. OneCRM turns a lead into one of these, and Books bills them."
 msgstr ""
 
-#. Description of the 'Last Answer' (Code) field in DocType 'Tenant Domain'
-#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
-msgid "Whole and unedited. When a domain is stuck, the useful part is the record press wanted against the one it found, and a summary of ours would lose exactly that."
-msgstr ""
-
 #. Label of the one_pay_note (Small Text) field in DocType 'Overtime Slip'
 #: onedesk/one_hr/custom/overtime_slip.json
 msgid "Why There Is No Figure"
-msgstr ""
-
-#. Description of the 'Error' (Small Text) field in DocType 'Provisioning Job'
-#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
-msgid "Why it stopped, in the words press used. Nothing unwinds — an operator resumes it and the customer is told something true."
 msgstr ""
 
 #. Description of the 'Reason' (Link) field in DocType 'Attendance Request'
@@ -4442,6 +4503,10 @@ msgstr ""
 #. Label of the cloudflare_kv (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Workers KV Namespace"
+msgstr ""
+
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:11
+msgid "Working"
 msgstr ""
 
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:241
@@ -4539,13 +4604,14 @@ msgid "Your workspace is ready."
 msgstr ""
 
 #. Description of the 'Storage (GB)' (Int) field in DocType 'Offering'
+#. Description of the 'Credits a Month' (Int) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Zero is unmetered."
 msgstr ""
 
 #. Description of the 'Seats' (Int) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
-msgid "Zero is unmetered. Frappe enforces this from site config."
+msgid "Zero is unmetered. Frappe enforces it from site config."
 msgstr ""
 
 #: onedesk/public/js/appraisal.js:24
@@ -4593,24 +4659,16 @@ msgstr ""
 msgid "nothing"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:46
-msgid "of {0}"
-msgstr ""
-
-#: onedesk/public/js/tenant.js:53
-msgid "on this rung since {0}"
-msgstr ""
-
 #: onedesk/public/js/appraisal.js:25
 msgid "the self appraisal"
 msgstr ""
 
-#: onedesk/public/js/vehicle_log.js:35
-msgid "units"
+#: onedesk/public/js/job.js:77
+msgid "the start"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:47
-msgid "unmetered"
+#: onedesk/public/js/vehicle_log.js:35
+msgid "units"
 msgstr ""
 
 #: onedesk/www/welcome.html:8
@@ -4660,6 +4718,14 @@ msgstr ""
 msgid "{0} could not be marked Left"
 msgstr ""
 
+#: onedesk/public/js/tenant.js:130
+msgid "{0} days before it falls to {1}."
+msgstr ""
+
+#: onedesk/public/js/tenant.js:125
+msgid "{0} days left"
+msgstr ""
+
 #: onedesk/public/js/overtime_slip.js:69
 msgid "{0} days read. Save to keep them."
 msgstr ""
@@ -4694,6 +4760,10 @@ msgstr ""
 
 #: onedesk/one_hr/overtime.py:89
 msgid "{0} is marked {1} on {2}. Overtime is only paid on a day marked {3}."
+msgstr ""
+
+#: onedesk/one_admin/operator.py:148
+msgid "{0} is not a job."
 msgstr ""
 
 #: onedesk/one_admin/operator.py:68
@@ -4733,6 +4803,10 @@ msgstr ""
 msgid "{0} of it is already covered by an advance."
 msgstr ""
 
+#: onedesk/public/js/tenant.js:110
+msgid "{0} of {1}."
+msgstr ""
+
 #: onedesk/public/js/vehicle_log.js:44
 msgid "{0} on the odometer since the last log, on {1} {2} costing {3} — {4} per {2}."
 msgstr ""
@@ -4743,6 +4817,10 @@ msgstr ""
 
 #: onedesk/public/js/appraisal.js:46
 msgid "{0} out of 5"
+msgstr ""
+
+#: onedesk/public/js/tenant.js:108
+msgid "{0} over the {1} this plan allows."
 msgstr ""
 
 #: onedesk/public/js/appraisal.js:30 onedesk/public/js/leave_application.js:29
@@ -4768,10 +4846,6 @@ msgstr ""
 
 #: onedesk/public/js/overtime_slip.js:82
 msgid "{0} worked, {1} paid"
-msgstr ""
-
-#: onedesk/public/js/tenant.js:52
-msgid "{0} {1}"
 msgstr ""
 
 #: onedesk/public/js/employee_promotion.js:31

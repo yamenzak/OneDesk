@@ -20,6 +20,17 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_titles"] = titles.for_boot()
 
+	# What each provisioning step is doing, in words. The list view needs it and
+	# so does the form; putting a copy in JavaScript would be a second list to
+	# be wrong the day somebody adds a step. Only on the admin site, where the
+	# screens that read it exist.
+	from onedesk.one_admin import site as admin
+
+	if admin.is_admin():
+		from onedesk.one_admin import steps
+
+		bootinfo["one_steps"] = {name: frappe._(said) for name, said in steps.SAID.items()}
+
 	if "System Manager" in frappe.get_roles():
 		return
 

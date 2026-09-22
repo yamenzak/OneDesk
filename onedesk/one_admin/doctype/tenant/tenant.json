@@ -234,7 +234,8 @@
   {
    "fieldname": "tab_workspace",
    "fieldtype": "Tab Break",
-   "label": "Workspace"
+   "label": "Workspace",
+   "show_dashboard": 1
   },
   {
    "fieldname": "tab_billing",
@@ -244,8 +245,7 @@
   {
    "fieldname": "tab_history",
    "fieldtype": "Tab Break",
-   "label": "History",
-   "show_dashboard": 1
+   "label": "History"
   },
   {
    "fieldname": "column_break_history",

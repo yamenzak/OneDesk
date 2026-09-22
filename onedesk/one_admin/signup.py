@@ -101,7 +101,11 @@ def _tenant_for(asked) -> str:
 			"cluster": asked.cluster,
 			"country": asked.country,
 			"bench": _bench_for(asked.cluster),
-			"storage_limit": (sold.storage_gb or 0) * 1024 * 1024 * 1024,
+			# Decimal gigabytes, not binary. The plan says 25 GB, R2 bills in
+			# decimal, and every tool a customer checks with reports decimal —
+			# so 1024³ quietly gave them 26.8 GB and made the screen say 27 for
+			# a plan called 25. Found by putting a progress bar next to it.
+			"storage_limit": (sold.storage_gb or 0) * 1000 * 1000 * 1000,
 		}
 	).insert(ignore_permissions=True)
 	return asked.slug

@@ -28,17 +28,19 @@
   {
    "fieldname": "email",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Email",
    "options": "Email",
-   "reqd": 1
+   "reqd": 1,
+   "read_only": 1,
+   "in_list_view": 1
   },
   {
    "fieldname": "workspace_name",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Workspace",
-   "reqd": 1
+   "reqd": 1,
+   "read_only": 1,
+   "in_list_view": 1
   },
   {
    "fieldname": "column_break_who",
@@ -47,20 +49,21 @@
   {
    "fieldname": "slug",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Slug",
-   "reqd": 1
+   "reqd": 1,
+   "read_only": 1
   },
   {
    "default": "New",
-   "description": "Nothing is provisioned until money has changed hands, and nothing unwinds afterwards: a failure is resumed rather than reversed.",
+   "description": "Nothing is provisioned until the money has arrived.",
    "fieldname": "status",
    "fieldtype": "Select",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
    "label": "Status",
    "options": "New\nPaying\nPaid\nProvisioning\nDone\nFailed",
-   "reqd": 1
+   "reqd": 1,
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
   },
   {
    "fieldname": "wants_section",
@@ -72,12 +75,15 @@
    "fieldtype": "Link",
    "label": "Offering",
    "options": "Offering",
-   "reqd": 1
+   "reqd": 1,
+   "read_only": 1,
+   "in_list_view": 1
   },
   {
    "fieldname": "cluster",
    "fieldtype": "Data",
-   "label": "Cluster"
+   "label": "Cluster",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_wants",
@@ -89,13 +95,15 @@
    "fieldtype": "Select",
    "label": "Jurisdiction",
    "options": "Global\nEU",
-   "reqd": 1
+   "reqd": 1,
+   "read_only": 1
   },
   {
    "fieldname": "country",
    "fieldtype": "Link",
    "label": "Country",
-   "options": "Country"
+   "options": "Country",
+   "read_only": 1
   },
   {
    "fieldname": "outcome_section",
@@ -143,7 +151,8 @@
    "report": 1,
    "role": "One Operator",
    "share": 1,
-   "write": 1
+   "write": 0,
+   "delete": 0
   }
  ],
  "sort_field": "creation",

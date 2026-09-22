@@ -132,13 +132,17 @@ def standing(tenant) -> dict:
 	warning most customers will read. `days_left` is None rather than zero when
 	nothing is going to happen, because those are different sentences.
 	"""
+	days = _days()
 	return {
 		"owing": ladder.owing(tenant.status),
 		"rung": tenant.status,
 		"since": str(tenant.status_since) if tenant.status_since else None,
-		"days_left": ladder.days_left(
-			tenant.status, tenant.status_since, now_datetime(), _days()
-		),
+		# How long this rung lasts, so a screen drawing a bar has a denominator
+		# without keeping its own copy of the periods. A second copy in
+		# JavaScript is a second copy to be wrong the day somebody lengthens the
+		# grace period because of an outage.
+		"days": days.get(tenant.status),
+		"days_left": ladder.days_left(tenant.status, tenant.status_since, now_datetime(), days),
 	}
 
 

@@ -90,3 +90,23 @@ def test_the_portal_pages_only_exist_on_the_admin_site():
 
 def _is_docstring(node) -> bool:
 	return isinstance(node, ast.Expr) and isinstance(node.value, ast.Constant)
+
+
+def test_a_plan_gives_the_gigabytes_it_advertises():
+	"""Decimal, because that is what the plan says and what R2 bills in.
+
+	1024³ gave a 25 GB plan 26.8 GB, which is generous and also a screen saying
+	27 GB next to a plan called 25.
+	"""
+	import ast
+
+	# The AST rather than the text, because the comment above the line explains
+	# why it is not 1024 — and a guard that greps would fail on its own reason.
+	source = (tree.APP / "one_admin" / "signup.py").read_text(encoding="utf-8")
+	numbers = {
+		node.value
+		for node in ast.walk(ast.parse(source))
+		if isinstance(node, ast.Constant) and isinstance(node.value, int)
+	}
+	assert 1024 not in numbers, "storage is sold in decimal gigabytes"
+	assert 1000 in numbers

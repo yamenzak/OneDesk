@@ -39,32 +39,26 @@ onedesk.tenant.draw = (frm, where) => {
 	const [colour, word] = onedesk.tenant.SAYS[frm.doc.status] || ["grey", frm.doc.status];
 	frm.page.set_indicator(word, colour);
 
-	// Bytes are what the field holds and not what anybody reads. The headline is
-	// the only place the number is meant to be understood rather than compared.
-	const held = onedesk.tenant.size(frm.doc.storage_bytes);
-	const limit = frm.doc.storage_limit
-		? __("of {0}", [onedesk.tenant.size(frm.doc.storage_limit)])
-		: __("unmetered");
+	// One headline. `set_headline` replaces rather than appends, so two calls
+	// meant the address and the storage disappeared the moment a workspace
+	// started falling — which is exactly when somebody is reading them.
+	const said = [`<b>${frm.doc.domain || frm.doc.site || frm.doc.name}</b>`];
+	if (where.days_left === 0 && where.next) {
+		said.push(__("Falls to {0} tonight.", [__(where.next)]));
+	} else if (where.days_left !== null && where.days_left !== undefined && where.next) {
+		said.push(__("Falls to {0} in {1} days.", [__(where.next), where.days_left]));
+	}
 	frm.dashboard.clear_headline();
 	frm.dashboard.set_headline(
-		[
-			`<b>${frm.doc.domain || frm.doc.site || frm.doc.name}</b>`,
-			__("{0} {1}", [held, limit]),
-			where.since ? __("on this rung since {0}", [frappe.datetime.str_to_user(where.since)]) : "",
-		]
-			.filter(Boolean)
-			.join(" &nbsp;·&nbsp; "),
-		"blue",
+		said.join(" &nbsp;·&nbsp; "),
+		where.days_left !== null && where.days_left !== undefined && where.days_left <= 2
+			? "red"
+			: where.owing
+				? "orange"
+				: "blue",
 	);
 
-	if (where.days_left !== null && where.days_left !== undefined && where.next) {
-		const soon =
-			where.days_left === 0
-				? __("Falls to {0} tonight.", [__(where.next)])
-				: __("Falls to {0} in {1} days.", [__(where.next), where.days_left]);
-		frm.dashboard.clear_headline();
-		frm.dashboard.set_headline(soon, where.days_left <= 2 ? "red" : "orange");
-	}
+	onedesk.tenant.bars(frm, where);
 
 	if (where.next) {
 		onedesk.tenant.verb(frm, where.next, where.warning);
@@ -86,6 +80,54 @@ onedesk.tenant.draw = (frm, where) => {
 		__("Refresh domains"),
 		() => onedesk.tenant.run(frm, "onedesk.one_admin.operator.refresh_domains", {}),
 		__("Look again"),
+	);
+};
+
+// Frappe's own progress bars, the same ones a sales order uses for how much of
+// it has shipped. Two here, and both answer a question the fields cannot: a
+// Long Int of bytes against another Long Int is arithmetic somebody has to do,
+// and a date on a rung is a subtraction.
+onedesk.tenant.bars = (frm, where) => {
+	const limit = Number(frm.doc.storage_limit || 0);
+	const held = Number(frm.doc.storage_bytes || 0);
+	if (limit > 0) {
+		const part = Math.min(100, (held / limit) * 100);
+		const over = held > limit;
+		frm.dashboard.add_progress(
+			__("Storage"),
+			[
+				{
+					width: `${part}%`,
+					progress_class: over ? "progress-bar-danger" : "progress-bar-success",
+					title: onedesk.tenant.size(held),
+				},
+			],
+			over
+				? __("{0} over the {1} this plan allows.", [
+						onedesk.tenant.size(held - limit),
+						onedesk.tenant.size(limit),
+					])
+				: __("{0} of {1}.", [onedesk.tenant.size(held), onedesk.tenant.size(limit)]),
+		);
+	}
+
+	// Only while it is falling. A live workspace has no clock running against
+	// it, and a bar at zero would suggest one does.
+	if (where.days_left === null || where.days_left === undefined || !where.next) return;
+	const days = where.days || where.days_left;
+	const used = Math.max(0, Math.min(100, ((days - where.days_left) / days) * 100));
+	frm.dashboard.add_progress(
+		__("Time on this rung"),
+		[
+			{
+				width: `${used}%`,
+				progress_class: where.days_left <= 2 ? "progress-bar-danger" : "progress-bar-warning",
+				title: __("{0} days left", [where.days_left]),
+			},
+		],
+		where.days_left === 0
+			? __("Falls to {0} tonight.", [__(where.next)])
+			: __("{0} days before it falls to {1}.", [where.days_left, __(where.next)]),
 	);
 };
 

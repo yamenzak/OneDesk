@@ -261,3 +261,34 @@ def test_an_operator_may_only_send_a_workspace_to_a_real_rung():
 	for rung, warning in by_hand.items():
 		if rung in ("Suspended", "Archived", "Dropped"):
 			assert warning, f"{rung} costs somebody something and says nothing about it"
+
+
+def test_every_step_says_what_it_is_doing():
+	"""A step with no sentence falls back to its function name, silently.
+
+	`archive_site` in a list column tells a reader nothing. The list and the
+	form both read `steps.SAID` — the list through the boot, the form through
+	`operator.walk` — so one missing entry is two screens showing an identifier.
+	"""
+	import ast
+
+	source = (ADMIN / "steps.py").read_text(encoding="utf-8")
+	found = {}
+	for node in ast.parse(source).body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") in (
+			"ORDER",
+			"WALKS",
+			"SAID",
+		):
+			found[node.targets[0].id] = node.value
+
+	def strings(node):
+		return {n.value for n in ast.walk(node) if isinstance(n, ast.Constant) and isinstance(n.value, str)}
+
+	walked = set()
+	for key, value in zip(found["WALKS"].keys, found["WALKS"].values):
+		walked |= strings(found["ORDER"]) if isinstance(value, ast.Name) else strings(value)
+
+	said = {key.value for key in found["SAID"].keys}
+	assert walked <= said, f"no words for {sorted(walked - said)}"
+	assert said <= walked, f"words for steps that do not exist: {sorted(said - walked)}"

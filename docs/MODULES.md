@@ -67,6 +67,7 @@ No doctypes yet.
 * `onedesk.one_admin.operator.restore`
 * `onedesk.one_admin.operator.resume`
 * `onedesk.one_admin.operator.standing`
+* `onedesk.one_admin.operator.walk`
 * `onedesk.one_admin.proxy.domain_add`
 * `onedesk.one_admin.proxy.domain_check`
 * `onedesk.one_admin.proxy.domain_drop`

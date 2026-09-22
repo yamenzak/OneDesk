@@ -127,3 +127,37 @@ def resume(job: str) -> str:
 		}
 	)
 	return runner.advance(job)
+
+
+@frappe.whitelist()
+def walk(job: str) -> dict:
+	"""Where a job has got to, as a list somebody can read.
+
+	The step is a function name on the record, which tells a reader nothing. The
+	walk comes from `steps.WALKS` rather than from anything stored, so a job
+	opened after its kind gained a step shows the walk as it is now — which is
+	the honest answer, because that is the walk it will finish on.
+	"""
+	_may()
+	from onedesk.one_admin import steps
+
+	held = frappe.db.get_value(
+		"Provisioning Job", job, ["kind", "step", "status", "attempts", "error"], as_dict=True
+	)
+	if not held:
+		frappe.throw(frappe._("{0} is not a job.").format(job))
+
+	order = steps.WALKS.get(held.kind or "Provision") or ()
+	at = order.index(held.step) if held.step in order else (len(order) if held.status == "Done" else 0)
+	return {
+		"kind": held.kind,
+		"status": held.status,
+		"attempts": held.attempts,
+		"error": held.error,
+		"at": at,
+		"of": len(order),
+		"steps": [
+			{"name": name, "said": frappe._(steps.SAID.get(name, name)), "done": i < at}
+			for i, name in enumerate(order)
+		],
+	}

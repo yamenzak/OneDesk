@@ -28,36 +28,76 @@
  ],
  "fields": [
   {
-   "description": "What the price list calls this. It appears in a URL and never changes.",
+   "description": "Appears in a URL and never changes.",
    "fieldname": "key",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Key",
    "reqd": 1,
    "set_only_once": 1,
    "unique": 1
   },
-  {"fieldname": "label", "fieldtype": "Data", "in_list_view": 1, "label": "Label", "reqd": 1},
-  {"fieldname": "column_break_what", "fieldtype": "Column Break"},
+  {
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "label": "Label",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_what",
+   "fieldtype": "Column Break"
+  },
   {
    "default": "Plan",
-   "description": "A plan carries quotas and recurs. A credit pack is bought once. An add-on raises one quota on top of a plan.",
    "fieldname": "kind",
    "fieldtype": "Select",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
    "label": "Kind",
    "options": "Plan\nCredit Pack\nAdd-on",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Offered",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "price_section",
+   "fieldtype": "Section Break",
+   "label": "Price"
+  },
+  {
+   "default": "USD",
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
    "reqd": 1
   },
-  {"default": "1", "fieldname": "enabled", "fieldtype": "Check", "label": "Offered"},
-  {"fieldname": "price_section", "fieldtype": "Section Break", "label": "Price"},
-  {"default": "USD", "fieldname": "currency", "fieldtype": "Link", "label": "Currency", "options": "Currency", "reqd": 1},
-  {"fieldname": "amount", "fieldtype": "Currency", "in_list_view": 1, "label": "Amount", "options": "currency", "reqd": 1},
-  {"fieldname": "column_break_price", "fieldtype": "Column Break"},
-  {"default": "1", "fieldname": "recurring", "fieldtype": "Check", "label": "Recurring"},
   {
-   "description": "The Stripe price this maps to. The amount above is what we show; this is what is charged, and a mismatch between them is a bug worth a guard.",
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "options": "currency",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_price",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "recurring",
+   "fieldtype": "Check",
+   "label": "Recurring",
+   "description": "A credit pack is bought once."
+  },
+  {
+   "description": "What is actually charged. The amount above is only what we show.",
    "fieldname": "stripe_price",
    "fieldtype": "Data",
    "label": "Stripe Price ID"
@@ -65,15 +105,42 @@
   {
    "fieldname": "quota_section",
    "fieldtype": "Section Break",
-   "label": "What it allows",
-   "description": "Three, named rather than a table of open-ended keys: a quota nothing enforces is a promise nobody keeps. A fourth is a field, the day there is one."
+   "label": "What it allows"
   },
-  {"default": "0", "description": "Zero is unmetered.", "fieldname": "storage_gb", "fieldtype": "Int", "label": "Storage (GB)"},
-  {"default": "0", "description": "Zero is unmetered. Frappe enforces this from site config.", "fieldname": "seats", "fieldtype": "Int", "label": "Seats"},
-  {"fieldname": "column_break_quota", "fieldtype": "Column Break"},
-  {"default": "0", "fieldname": "credits_a_month", "fieldtype": "Int", "label": "Credits a Month"},
-  {"fieldname": "about_section", "fieldtype": "Section Break"},
-  {"fieldname": "description", "fieldtype": "Small Text", "label": "Description"}
+  {
+   "default": "0",
+   "description": "Zero is unmetered.",
+   "fieldname": "storage_gb",
+   "fieldtype": "Int",
+   "label": "Storage (GB)"
+  },
+  {
+   "default": "0",
+   "description": "Zero is unmetered. Frappe enforces it from site config.",
+   "fieldname": "seats",
+   "fieldtype": "Int",
+   "label": "Seats"
+  },
+  {
+   "fieldname": "column_break_quota",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "credits_a_month",
+   "fieldtype": "Int",
+   "label": "Credits a Month",
+   "description": "Zero is unmetered."
+  },
+  {
+   "fieldname": "about_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  }
  ],
  "index_web_pages_for_search": 0,
  "links": [],
@@ -84,7 +151,18 @@
  "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
-  {"create": 1, "delete": 1, "email": 1, "export": 1, "print": 1, "read": 1, "report": 1, "role": "One Operator", "share": 1, "write": 1}
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "One Operator",
+   "share": 1,
+   "write": 1
+  }
  ],
  "sort_field": "amount",
  "sort_order": "ASC",
