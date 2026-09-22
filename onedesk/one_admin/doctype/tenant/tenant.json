@@ -21,6 +21,7 @@
   "site_section",
   "site",
   "domain",
+  "primary_domain",
   "column_break_site",
   "token_hash",
   "live_on",
@@ -125,6 +126,14 @@
    "read_only": 1
   },
   {
+   "fieldname": "primary_domain",
+   "fieldtype": "Link",
+   "label": "Main Address",
+   "options": "Tenant Domain",
+   "read_only": 1,
+   "description": "One of the customer's own names, once they have asked for it. Empty means the workspace is still called what we called it. Press writes this into the site's own config, which is what makes a link in an email use it."
+  },
+  {
    "fieldname": "column_break_site",
    "fieldtype": "Column Break"
   },
@@ -170,7 +179,7 @@
    "fieldname": "storage_limit",
    "fieldtype": "Long Int",
    "label": "Limit",
-   "description": "Bytes, so it is a Long Int: twenty-five gigabytes does not fit in an Int. Zero means unmetered \u2014 a plan with no storage line is a plan nobody thought about, and refusing every upload is the worse answer."
+   "description": "Bytes, so it is a Long Int: twenty-five gigabytes does not fit in an Int. Zero means unmetered — a plan with no storage line is a plan nobody thought about, and refusing every upload is the worse answer."
   }
  ],
  "index_web_pages_for_search": 0,

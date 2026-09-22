@@ -119,3 +119,77 @@ def get_url(key: str) -> dict:
 
 def drop(key: str) -> dict:
 	return ask("onedesk.one_admin.proxy.storage_delete", key=key)
+
+
+#: Who on a workspace may change what it is called. Not everybody who can read
+#: the settings screen: a domain change moves where the login page lives, so it
+#: belongs to whoever already administers the site.
+MAY_RENAME = "System Manager"
+
+
+def _may_rename() -> None:
+	if MAY_RENAME not in frappe.get_roles():
+		frappe.throw(
+			frappe._("Only an administrator of this workspace can change its address."),
+			frappe.PermissionError,
+		)
+
+
+@frappe.whitelist()
+def domains() -> list:
+	"""Every address this workspace answers at.
+
+	Ours is first and is never removable. The rest are the customer's own, and
+	each carries what press last said about it — which is the part that helps
+	when one is not working.
+	"""
+	_may_rename()
+	return ask("onedesk.one_admin.proxy.domain_list") or []
+
+
+@frappe.whitelist()
+def domains_refresh() -> list:
+	"""Go and ask, rather than draw what was last known.
+
+	The button beside the list. A domain goes live minutes after it is added and
+	nothing tells the workspace, so there has to be something to press.
+	"""
+	_may_rename()
+	return ask("onedesk.one_admin.proxy.domain_refresh") or []
+
+
+@frappe.whitelist()
+def domain_check(domain: str) -> dict:
+	"""Whether the DNS is right, before claiming anything.
+
+	Answers in press's own words, including the one about proxying: a name
+	behind Cloudflare's orange cloud answers `server: cloudflare` to press's
+	check and is refused until it is turned off. Relayed rather than reworded,
+	because press's sentence names the fix.
+	"""
+	_may_rename()
+	return ask("onedesk.one_admin.proxy.domain_check", domain=domain) or {}
+
+
+@frappe.whitelist()
+def domain_add(domain: str) -> dict:
+	_may_rename()
+	return ask("onedesk.one_admin.proxy.domain_add", domain=domain) or {}
+
+
+@frappe.whitelist()
+def domain_drop(domain: str) -> dict:
+	_may_rename()
+	return ask("onedesk.one_admin.proxy.domain_drop", domain=domain) or {}
+
+
+@frappe.whitelist()
+def domain_primary(domain: str) -> dict:
+	"""Make one of them the address the workspace calls itself.
+
+	This is the one that changes what the site believes rather than only what
+	reaches it: press writes `host_name` into the site's config, so a link in an
+	email starts using the new name.
+	"""
+	_may_rename()
+	return ask("onedesk.one_admin.proxy.domain_primary", domain=domain) or {}

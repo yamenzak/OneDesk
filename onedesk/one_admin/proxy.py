@@ -170,3 +170,62 @@ def _tenant_doc(tenant):
 	load; anything that goes on to do real work wants the rest.
 	"""
 	return frappe.get_doc("Tenant", tenant.name)
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def domain_list() -> list:
+	"""Every name this workspace can be reached at.
+
+	Read from our own rows rather than press, so opening the screen costs one
+	call and works when press is slow. `domain_refresh` is what goes and asks.
+	"""
+	from onedesk.one_admin import domains
+
+	return domains.mine(_tenant_doc(caller()))
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def domain_refresh() -> list:
+	from onedesk.one_admin import domains
+
+	return domains.refresh(_tenant_doc(caller()))
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def domain_check(domain: str) -> dict:
+	"""What press makes of the DNS, without claiming anything.
+
+	A customer types a name, points a CNAME at us, and wants to know whether it
+	took. This answers that without adding anything, so the impatient path costs
+	nothing to undo.
+	"""
+	from onedesk.one_admin import domains
+
+	return domains.check(_tenant_doc(caller()), domain)
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def domain_add(domain: str) -> dict:
+	from onedesk.one_admin import domains
+
+	return domains.add(_tenant_doc(caller()), domain)
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def domain_drop(domain: str) -> dict:
+	from onedesk.one_admin import domains
+
+	return domains.drop(_tenant_doc(caller()), domain)
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def domain_primary(domain: str) -> dict:
+	from onedesk.one_admin import domains
+
+	return domains.make_primary(_tenant_doc(caller()), domain)

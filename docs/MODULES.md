@@ -39,10 +39,11 @@ No doctypes yet.
 |---|--:|---|
 | Account Request | 16 | document |
 | Offering | 18 | document |
-| One Admin Settings | 21 | single |
+| One Admin Settings | 23 | single |
 | Provisioning Job | 12 | document |
 | Stripe Webhook Event | 7 | document |
-| Tenant | 22 | document |
+| Tenant | 23 | document |
+| Tenant Domain | 7 | document |
 | Tenant Event | 4 | document |
 
 ## Desk records shipped as fixtures
@@ -53,7 +54,19 @@ No doctypes yet.
 
 ## Whitelisted methods
 
+* `onedesk.one.account.domain_add`
+* `onedesk.one.account.domain_check`
+* `onedesk.one.account.domain_drop`
+* `onedesk.one.account.domain_primary`
+* `onedesk.one.account.domains`
+* `onedesk.one.account.domains_refresh`
 * `onedesk.one.account.mine`
+* `onedesk.one_admin.proxy.domain_add`
+* `onedesk.one_admin.proxy.domain_check`
+* `onedesk.one_admin.proxy.domain_drop`
+* `onedesk.one_admin.proxy.domain_list`
+* `onedesk.one_admin.proxy.domain_primary`
+* `onedesk.one_admin.proxy.domain_refresh`
 * `onedesk.one_admin.proxy.hello`
 * `onedesk.one_admin.proxy.storage_delete`
 * `onedesk.one_admin.proxy.storage_get`

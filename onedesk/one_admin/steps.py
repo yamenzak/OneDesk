@@ -24,7 +24,7 @@ import secrets
 import frappe
 from frappe.utils import now_datetime
 
-from onedesk.one_admin import faults, press
+from onedesk.one_admin import cloudflare, faults, hosts, press
 
 #: Returned by a step that has started something and is waiting on press.
 WAIT = "wait"
@@ -35,6 +35,7 @@ ORDER = (
 	"name_is_free",
 	"create_site",
 	"site_is_up",
+	"route_it",
 	"push_config",
 	"live",
 )
@@ -53,10 +54,10 @@ def name_is_free(job, tenant) -> None:
 	if tenant.site:
 		return
 	taken = press.call(
-		"press.api.site.exists", subdomain=tenant.slug, domain=_domain_for(tenant)
+		"press.api.site.exists", subdomain=tenant.slug, domain=_press_domain()
 	)
 	if taken:
-		raise faults.Refused(f"{tenant.slug} is already taken on {_domain_for(tenant)}")
+		raise faults.Refused(f"{tenant.slug} is already taken on {_press_domain()}")
 
 
 def create_site(job, tenant) -> None:
@@ -74,7 +75,7 @@ def create_site(job, tenant) -> None:
 		"press.api.site.new",
 		site={
 			"name": tenant.slug,
-			"domain": _domain_for(tenant),
+			"domain": _press_domain(),
 			"group": tenant.bench,
 			"cluster": tenant.cluster,
 			"apps": list(APPS),
@@ -98,12 +99,43 @@ def site_is_up(job, tenant) -> str | None:
 	return WAIT
 
 
+def route_it(job, tenant) -> None:
+	"""Put the workspace on our own name.
+
+	One key at the edge, the slug against the press site name, which is all the
+	Worker needs to rewrite `Host` and hand the request to press. Nothing is
+	asked of press here, and that is the point: the name it serves is its own,
+	so there is no DNS to verify and no certificate to issue. The browser is
+	served by the wildcard on our zone.
+
+	A plain PUT of a value we already know, so a retry is free.
+	"""
+	if not tenant.site:
+		raise faults.Refused("there is no site to route to yet")
+	tenant.db_set("domain", hosts.under(tenant.slug, _tenant_domain()))
+	cloudflare.route(tenant.slug, tenant.site)
+
+
 def push_config(job, tenant) -> None:
 	"""Tell the site who it is, where admin is, and what it is called.
 
 	The token is generated here and never again: only its hash is kept, on the
 	tenant. If this step runs twice the site gets a second token and the first
 	stops working, which is correct — the first one may be the one that leaked.
+
+	A list of `{key, value, type}` rather than an object, because press has two
+	`update_config`s and they disagree: the doc method takes a mapping and the
+	whitelisted `press.api.site.update_config` — the only one a token reaches —
+	iterates and reads `c.key`. Handed a mapping it iterates the keys as strings
+	and dies on the first one.
+
+	`host_name` is set here and not through press's `set_host_name`, which needs
+	a `Site Domain` record first. Our name is deliberately not one of those: the
+	workspace is reached at it because a Worker rewrites `Host`, and press is
+	never told it exists. So the config key is written directly, and press's own
+	`Site.host_name` stays the press name. Nothing overwrites this unless a
+	customer later makes one of their own domains primary, which is exactly when
+	it should change.
 	"""
 	token = secrets.token_urlsafe(32)
 	tenant.db_set("token_hash", hashlib.sha256(token.encode()).hexdigest())
@@ -111,12 +143,12 @@ def push_config(job, tenant) -> None:
 		"press.api.site.update_config",
 		name=tenant.site,
 		config=frappe.as_json(
-			{
-				"one_admin_url": _admin_url(),
-				"one_tenant": tenant.slug,
-				"one_token": token,
-				"host_name": f"https://{tenant.domain}",
-			}
+			[
+				{"key": "one_admin_url", "value": _admin_url(), "type": "String"},
+				{"key": "one_tenant", "value": tenant.slug, "type": "String"},
+				{"key": "one_token", "value": token, "type": "Password"},
+				{"key": "host_name", "value": f"https://{tenant.domain}", "type": "String"},
+			]
 		),
 	)
 
@@ -125,7 +157,19 @@ def live(job, tenant) -> None:
 	tenant.db_set({"status": "Live", "live_on": now_datetime()})
 
 
-def _domain_for(tenant) -> str:
+def _press_domain() -> str:
+	"""What press calls a site, which is press's own root domain and never ours.
+
+	`Site.domain` on press is a Link to `Root Domain`, and a Root Domain carries
+	the AWS keys its wildcard certificate is issued with. We are a customer, so
+	there is no route by which `t.4dl.app` becomes one — passing it to
+	`site.new` would fail a link validation. The site is created with press's
+	name and reached at ours, and `route_it` is what makes those the same site.
+	"""
+	return frappe.get_cached_value("One Admin Settings", None, "press_domain") or "frappe.cloud"
+
+
+def _tenant_domain() -> str:
 	return frappe.get_cached_value("One Admin Settings", None, "tenant_domain") or "t.4dl.app"
 
 

@@ -1,0 +1,96 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "field:domain",
+ "creation": "2026-09-22 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "domain",
+  "tenant",
+  "column_break_who",
+  "status",
+  "asked_on",
+  "said_section",
+  "said"
+ ],
+ "fields": [
+  {
+   "fieldname": "domain",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Domain",
+   "reqd": 1,
+   "unique": 1,
+   "description": "A name the customer owns, not one we hand out. Ours is on the Tenant and is never a row here: there is nothing about it that can fail."
+  },
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Workspace",
+   "options": "Tenant",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_who",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Pending\nIn Progress\nActive\nBroken\nGone",
+   "description": "Press's word for it, kept as press says it. A status of our own would be a status that disagrees with the one in their dashboard."
+  },
+  {
+   "fieldname": "asked_on",
+   "fieldtype": "Datetime",
+   "label": "Asked On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "said_section",
+   "fieldtype": "Section Break",
+   "label": "What press said"
+  },
+  {
+   "fieldname": "said",
+   "fieldtype": "Code",
+   "label": "Last Answer",
+   "options": "JSON",
+   "read_only": 1,
+   "description": "Whole and unedited. When a domain is stuck, the useful part is the record press wanted against the one it found, and a summary of ours would lose exactly that."
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-22 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Admin",
+ "name": "Tenant Domain",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "One Operator",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

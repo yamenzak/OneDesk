@@ -10,9 +10,11 @@
   "press_token",
   "column_break_press",
   "press_url",
+  "press_domain",
   "cloudflare_section",
   "cloudflare_account",
   "cloudflare_token",
+  "cloudflare_kv",
   "column_break_cf",
   "tenant_domain",
   "storage_section",
@@ -55,6 +57,13 @@
    "label": "Base URL"
   },
   {
+   "default": "frappe.cloud",
+   "fieldname": "press_domain",
+   "fieldtype": "Data",
+   "label": "Press Root Domain",
+   "description": "What press calls a site. Its own Root Domain, not ours: press refuses any other, and a workspace is reached at our name because a Worker rewrites Host to this one."
+  },
+  {
    "fieldname": "cloudflare_section",
    "fieldtype": "Section Break",
    "label": "Cloudflare"
@@ -68,6 +77,12 @@
    "fieldname": "cloudflare_token",
    "fieldtype": "Password",
    "label": "API Token"
+  },
+  {
+   "fieldname": "cloudflare_kv",
+   "fieldtype": "Data",
+   "label": "Workers KV Namespace",
+   "description": "The namespace the edge router reads. One key per workspace, its slug to its press site name — that is the whole of what Cloudflare is told. The token needs Workers KV Storage: Edit on this namespace and nothing else."
   },
   {
    "fieldname": "column_break_cf",
@@ -118,7 +133,7 @@
    "fieldname": "stripe_section",
    "fieldtype": "Section Break",
    "label": "Stripe",
-   "description": "The webhook secret is not optional. A missing one makes signature checking refuse rather than skip \u2014 see one_admin/signing.py."
+   "description": "The webhook secret is not optional. A missing one makes signature checking refuse rather than skip — see one_admin/signing.py."
   },
   {
    "fieldname": "stripe_secret_key",

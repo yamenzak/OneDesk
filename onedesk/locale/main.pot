@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 10:13+0000\n"
-"PO-Revision-Date: 2026-09-22 10:13+0000\n"
+"POT-Creation-Date: 2026-09-22 10:49+0000\n"
+"PO-Revision-Date: 2026-09-22 10:49+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -63,6 +63,11 @@ msgstr ""
 msgid "A document that does not expire, such as a birth certificate, leaves this empty."
 msgstr ""
 
+#. Description of the 'Domain' (Data) field in DocType 'Tenant Domain'
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
+msgid "A name the customer owns, not one we hand out. Ours is on the Tenant and is never a row here: there is nothing about it that can fail."
+msgstr ""
+
 #: onedesk/one_hr/doctype/clock_network/clock_network.py:24
 msgid "A network belongs to a Shift Location or to one employee, not to both."
 msgstr ""
@@ -92,6 +97,10 @@ msgstr ""
 
 #: onedesk/one_admin/doctype/tenant/tenant.py:19
 msgid "A slug is letters, digits and hyphens: {0}"
+msgstr ""
+
+#: onedesk/one_admin/domains.py:66
+msgid "A workspace may have at most {0} of its own domains."
 msgstr ""
 
 #: onedesk/one_admin/doctype/offering/offering.py:31
@@ -159,7 +168,9 @@ msgstr ""
 msgid "Accurate to about {0} metres."
 msgstr ""
 
+#. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
 #. Option for the 'Status' (Select) field in DocType 'Clock Device'
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Active"
 msgstr ""
@@ -414,6 +425,11 @@ msgstr ""
 msgid "Asked For On"
 msgstr ""
 
+#. Label of the asked_on (Datetime) field in DocType 'Tenant Domain'
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
+msgid "Asked On"
+msgstr ""
+
 #. Description of the 'Reason' (Link) field in DocType 'Employee Checkin'
 #: onedesk/one_hr/custom/employee_checkin.json
 msgid "Asked on check out only. Options come from Clock Reason."
@@ -582,6 +598,11 @@ msgstr ""
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:82
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Branch"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
+msgid "Broken"
 msgstr ""
 
 #. Label of the seen_section (Section Break) field in DocType 'Clock Device'
@@ -1069,8 +1090,10 @@ msgstr ""
 
 #. Label of the domain (Data) field in DocType 'Workspace Account'
 #. Label of the domain (Data) field in DocType 'Tenant'
+#. Label of the domain (Data) field in DocType 'Tenant Domain'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "Domain"
 msgstr ""
 
@@ -1467,6 +1490,11 @@ msgstr ""
 msgid "Goal"
 msgstr ""
 
+#. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
+msgid "Gone"
+msgstr ""
+
 #. Label of the renderer (Data) field in DocType 'Clock Attempt'
 #. Label of the renderer (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -1665,6 +1693,11 @@ msgstr ""
 msgid "In"
 msgstr ""
 
+#. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
+msgid "In Progress"
+msgstr ""
+
 #. Label of the one_learn_home (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Include Personal Networks and Locations"
@@ -1803,6 +1836,11 @@ msgstr ""
 #. Label of the last_address (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Last Address"
+msgstr ""
+
+#. Label of the said (Code) field in DocType 'Tenant Domain'
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
+msgid "Last Answer"
 msgstr ""
 
 #. Label of the last_error (Small Text) field in DocType 'Workspace Account'
@@ -2040,6 +2078,11 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 msgid "Longitude"
+msgstr ""
+
+#. Label of the primary_domain (Link) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "Main Address"
 msgstr ""
 
 #. Label of the 'reports_to' field in DocType 'Employee'
@@ -2384,6 +2427,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 msgid "One Operator"
 msgstr ""
@@ -2397,6 +2441,11 @@ msgstr ""
 #. 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "One choice at signup sets both, and jurisdiction is permanent: R2 pins a bucket to it at creation, so changing it later means copying every object."
+msgstr ""
+
+#. Description of the 'Main Address' (Link) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "One of the customer's own names, once they have asked for it. Empty means the workspace is still called what we called it. Press writes this into the site's own config, which is what makes a link in an email use it."
 msgstr ""
 
 #. Description of the 'Require a Passkey' (Check) field in DocType 'HR
@@ -2459,6 +2508,10 @@ msgstr ""
 
 #: onedesk/one_hr/request.py:90
 msgid "Only a request still waiting can be turned down."
+msgstr ""
+
+#: onedesk/one/account.py:133
+msgid "Only an administrator of this workspace can change its address."
 msgstr ""
 
 #: onedesk/one_hr/leave.py:143
@@ -2673,7 +2726,9 @@ msgid "Payslips"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
+#. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "Pending"
 msgstr ""
 
@@ -2742,9 +2797,19 @@ msgstr ""
 msgid "Present"
 msgstr ""
 
+#. Label of the press_domain (Data) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Press Root Domain"
+msgstr ""
+
 #. Label of the site (Data) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Press Site"
+msgstr ""
+
+#. Description of the 'Status' (Select) field in DocType 'Tenant Domain'
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
+msgid "Press's word for it, kept as press says it. A status of our own would be a status that disagrees with the one in their dashboard."
 msgstr ""
 
 #. Label of the price_section (Section Break) field in DocType 'Offering'
@@ -3344,6 +3409,7 @@ msgstr ""
 #. Label of the status (Select) field in DocType 'Account Request'
 #. Label of the status (Select) field in DocType 'Provisioning Job'
 #. Label of the status (Select) field in DocType 'Tenant'
+#. Label of the status (Select) field in DocType 'Tenant Domain'
 #. Label of the status (Select) field in DocType 'Clock Device'
 #. Label of the status (Select) field in DocType 'Clock Network'
 #. Label of the status (Select) field in DocType 'Clock Place'
@@ -3351,6 +3417,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
@@ -3463,6 +3530,11 @@ msgid "Tenant"
 msgstr ""
 
 #. Name of a DocType
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
+msgid "Tenant Domain"
+msgstr ""
+
+#. Name of a DocType
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 msgid "Tenant Event"
 msgstr ""
@@ -3553,6 +3625,12 @@ msgstr ""
 #. 'Overtime Details'
 #: onedesk/one_hr/custom/overtime_details.json
 msgid "The most this overtime type pays in one day. Anything worked beyond it is not paid."
+msgstr ""
+
+#. Description of the 'Workers KV Namespace' (Data) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "The namespace the edge router reads. One key per workspace, its slug to its press site name — that is the whole of what Cloudflare is told. The token needs Workers KV Storage: Edit on this namespace and nothing else."
 msgstr ""
 
 #. Description of the 'total_leaves_allocated' field in DocType 'Leave
@@ -3958,6 +4036,17 @@ msgstr ""
 msgid "What it allows"
 msgstr ""
 
+#. Description of the 'Press Root Domain' (Data) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "What press calls a site. Its own Root Domain, not ours: press refuses any other, and a workspace is reached at our name because a Worker rewrites Host to this one."
+msgstr ""
+
+#. Label of the said_section (Section Break) field in DocType 'Tenant Domain'
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
+msgid "What press said"
+msgstr ""
+
 #. Description of the 'Overtime Pay' (Currency) field in DocType 'Overtime
 #. Slip'
 #: onedesk/one_hr/custom/overtime_slip.json
@@ -4057,6 +4146,11 @@ msgstr ""
 msgid "Who you invoice. OneCRM turns a lead into one of these, and Books bills them."
 msgstr ""
 
+#. Description of the 'Last Answer' (Code) field in DocType 'Tenant Domain'
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
+msgid "Whole and unedited. When a domain is stuck, the useful part is the record press wanted against the one it found, and a summary of ours would lose exactly that."
+msgstr ""
+
 #. Label of the one_pay_note (Small Text) field in DocType 'Overtime Slip'
 #: onedesk/one_hr/custom/overtime_slip.json
 msgid "Why There Is No Figure"
@@ -4089,6 +4183,11 @@ msgstr ""
 msgid "Worked out nightly from this employee's Clock Attempt rows over the last 90 days. It never refuses a check-in; it weights whose check-ins count when a network or location is learned."
 msgstr ""
 
+#. Label of the cloudflare_kv (Data) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Workers KV Namespace"
+msgstr ""
+
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:241
 msgid "Working Days"
 msgstr ""
@@ -4100,8 +4199,10 @@ msgstr ""
 
 #. Label of the workspace_name (Data) field in DocType 'Account Request'
 #. Label of the workspace_name (Data) field in DocType 'Tenant'
+#. Label of the tenant (Link) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "Workspace"
 msgstr ""
 
@@ -4303,6 +4404,10 @@ msgstr ""
 msgid "{0} hours"
 msgstr ""
 
+#: onedesk/one_admin/domains.py:62
+msgid "{0} is already on another workspace."
+msgstr ""
+
 #: onedesk/one_hr/overtime.py:89
 msgid "{0} is marked {1} on {2}. Overtime is only paid on a day marked {3}."
 msgstr ""
@@ -4311,8 +4416,16 @@ msgstr ""
 msgid "{0} is not a valid address or range. Example: 203.0.113.7 or 203.0.113.0/24"
 msgstr ""
 
+#: onedesk/one_admin/domains.py:222
+msgid "{0} is not on this workspace."
+msgstr ""
+
 #: onedesk/one_hr/learned.py:24
 msgid "{0} is not something the clock proposes."
+msgstr ""
+
+#: onedesk/one_admin/domains.py:117
+msgid "{0} is not working yet, so it cannot be the main address."
 msgstr ""
 
 #: onedesk/one_admin/signup.py:40 onedesk/one_admin/signup.py:42

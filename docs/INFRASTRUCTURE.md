@@ -117,13 +117,29 @@ add-domain call, no certificate, no waiting, ever. The site's own config carries
 `host_name` so Frappe builds its links and cookies against the public hostname
 rather than the one the origin saw.
 
-Two details decide the shape rather than the principle. If proxied wildcard DNS
-records are not on the plan, provisioning creates one proxied CNAME per tenant
-through the Cloudflare API — a second, not minutes, and the wildcard certificate
-still covers it. And the Host rewrite is load-bearing: if it breaks, every
-workspace meets press's nginx as an unknown host. So it is one Worker with one
-job, and the first stage of this arc is proving it end to end before anything is
-built on top of it.
+**Read against press's own code, this is not a preference — it is the only door
+open to us.** Press issues a wildcard certificate only for a `Root Domain`, and
+that path runs `certbot --dns-route53` with AWS credentials held on an
+operator-only doctype (`tls_certificate.py`). We are a customer; there is no
+call by which `t.4dl.app` becomes one. Press also refuses any domain that is
+proxied: `utils/dns.py` sends a HEAD and rejects anything whose `server:` header
+is not `Frappe Cloud`, and Cloudflare's orange cloud answers `cloudflare`. So a
+proxied `*.t.4dl.app` could not be added to press even if we wanted it there.
+Never telling press about the name answers both at once.
+
+One detail decides the shape rather than the principle: the Host rewrite is
+load-bearing. If it breaks, every workspace meets press's nginx as an unknown
+host. So it is one Worker with one job — `deploy/edge/` — and it is proved
+end to end before anything is built on top of it.
+
+**Per tenant, Cloudflare is asked for nothing.** A proxied wildcard record and
+one Worker route cover every slug, and provisioning writes a single Workers KV
+key, the slug against the press site name. That is the whole of the per-tenant
+work, and the API token it needs carries one permission: Workers KV Storage:
+Edit, on one namespace. It cannot touch DNS, certificates or any other Worker.
+KV rather than the Worker asking the admin site, because admin is the control
+path and a Worker that called it on every request would make an admin outage
+everybody's outage.
 
 What this buys beyond speed: every tenant hostname is behind Cloudflare, so WAF,
 rate limiting, caching and per-hostname analytics come with it.
@@ -172,7 +188,7 @@ The steps:
 1. take the money — the request is not provisioned until Stripe says so;
 2. claim a warm site from the standby pool, or create one;
 3. push site config: the admin URL, the tenant token, `host_name`, the region;
-4. create the Cloudflare DNS record, if the wildcard does not cover it;
+4. write the Workers KV key so the edge can route the slug;
 5. write the R2 prefix and record it on the tenant;
 6. create the first user and send them a link;
 7. mark the tenant live.
@@ -260,8 +276,16 @@ somebody may keep.
 **INFRA 7 — the portal.** Signup, Stripe checkout, the webhook, the warm pool,
 and a customer going from a card to a working workspace without anyone helping.
 
-**INFRA 8 — domains.** Custom domains from the tenant's One area through the
-proxy, and the status polling.
+**INFRA 8 — domains.** *Done.* `hosts.py` decides what a workspace may claim
+and is pure, like `keys.py` and for the same reason. `cloudflare.py` writes the
+one KV key. `domains.py` relays add, check, drop and make-primary to press and
+keeps a `Tenant Domain` row so the workspace's screen draws without a round
+trip; `nightly` catches up on what press did while nobody was looking. The
+Worker and its one-time Cloudflare setup are in `deploy/edge/`.
+
+The certificates, plainly: `*.t.4dl.app` is Cloudflare's, from the Advanced
+Certificate Manager wildcard. A customer's own domain is press's, over Let's
+Encrypt and HTTP-01. Neither is ours to renew.
 
 **INFRA 9 — the ladder.** Grace periods, suspension, archive, and the cold copy
 promoted out of the daily backup by a server-side R2 copy so a four gigabyte
