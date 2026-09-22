@@ -27,7 +27,12 @@
   "stripe_section",
   "stripe_secret_key",
   "column_break_stripe",
-  "stripe_webhook_secret"
+  "stripe_webhook_secret",
+  "ladder_section",
+  "grace_days",
+  "held_days",
+  "column_break_ladder",
+  "kept_days"
  ],
  "fields": [
   {
@@ -148,6 +153,37 @@
    "fieldname": "stripe_webhook_secret",
    "fieldtype": "Password",
    "label": "Webhook Signing Secret"
+  },
+  {
+   "fieldname": "ladder_section",
+   "fieldtype": "Section Break",
+   "label": "When money stops",
+   "description": "Days on each rung before falling to the next. Zero means never, not tonight: an operator who clears one is asking for the ladder to stop."
+  },
+  {
+   "default": "7",
+   "fieldname": "grace_days",
+   "fieldtype": "Int",
+   "label": "Overdue For",
+   "description": "Nothing happens to the workspace. Somebody is told, and its own header says so."
+  },
+  {
+   "default": "14",
+   "fieldname": "held_days",
+   "fieldtype": "Int",
+   "label": "Suspended For",
+   "description": "Press deactivates the site. It answers a page, nobody can log in, and the data is untouched."
+  },
+  {
+   "fieldname": "column_break_ladder",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "30",
+   "fieldname": "kept_days",
+   "fieldtype": "Int",
+   "label": "Archived For",
+   "description": "Press has destroyed the site, having taken an offsite backup first. Our R2 prefix is still there. At the end of this the prefix is deleted, which is the only thing on the ladder that destroys anything of ours."
   }
  ],
  "index_web_pages_for_search": 0,

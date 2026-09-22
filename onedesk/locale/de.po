@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 10:49+0000\n"
-"PO-Revision-Date: 2026-09-22 10:49+0000\n"
+"POT-Creation-Date: 2026-09-22 11:17+0000\n"
+"PO-Revision-Date: 2026-09-22 11:17+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -412,6 +412,11 @@ msgstr ""
 msgid "Archived"
 msgstr ""
 
+#. Label of the kept_days (Int) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Archived For"
+msgstr "Archiviert für"
+
 #. Label of the one_gate_photo (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Ask for a Photo"
@@ -521,6 +526,11 @@ msgstr "Gesichert"
 msgid "Background"
 msgstr ""
 
+#. Label of the archived_backup (Data) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "Backup At Archive"
+msgstr "Sicherung bei der Archivierung"
+
 #. Label of the press_url (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Base URL"
@@ -565,6 +575,11 @@ msgstr ""
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:247
 msgid "Billed %"
 msgstr "Abgerechnet %"
+
+#. Label of the billing_section (Section Break) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "Billing"
+msgstr ""
 
 #. Label of the 'bio' field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
@@ -961,6 +976,12 @@ msgstr "Arbeitsende"
 msgid "Day Starts"
 msgstr "Arbeitsbeginn"
 
+#. Description of the 'When money stops' (Section Break) field in DocType 'One
+#. Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Days on each rung before falling to the next. Zero means never, not tonight: an operator who clears one is asking for the ladder to stop."
+msgstr "Tage auf jeder Stufe, bevor es eine tiefer geht. Null heißt nie, nicht heute Nacht: Wer eine davon leert, will die Leiter anhalten."
+
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:38
 msgid "Dec"
 msgstr ""
@@ -1118,6 +1139,18 @@ msgstr "Abgewichen"
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Driver"
 msgstr ""
+
+#. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
+msgid "Drop"
+msgstr "Verwerfen"
+
+#. Option for the 'Status' (Select) field in DocType 'Tenant'
+#. Option for the 'Kind' (Select) field in DocType 'Tenant Event'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_admin/doctype/tenant_event/tenant_event.json
+msgid "Dropped"
+msgstr "Verworfen"
 
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Account Request'
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Tenant'
@@ -2046,6 +2079,11 @@ msgstr "Live"
 msgid "Live On"
 msgstr "Live seit"
 
+#. Description of the 'Status' (Select) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "Live, Overdue, Suspended, Archived and Dropped are the ladder, walked one rung at a time by one_admin/ladder.py. Requested, Provisioning and Failed are not on it: only a payment failing moves a workspace off Live, and only a clock moves it further."
+msgstr "Live, Überfällig, Gesperrt, Archiviert und Verworfen sind die Leiter, Stufe für Stufe begangen von one_admin/ladder.py. Angefragt, Wird eingerichtet und Gescheitert stehen nicht darauf: Von Live holt einen Arbeitsbereich nur eine fehlgeschlagene Zahlung, und weiter hinunter nur eine Uhr."
+
 #. Label of the place_section (Section Break) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Location"
@@ -2242,7 +2280,7 @@ msgstr "Noch keine Gehaltsabrechnungen für {0} bis {1}."
 msgid "No such check-in attempt."
 msgstr "Diesen Einchecken-Versuch gibt es nicht."
 
-#: onedesk/one_admin/storage.py:144
+#: onedesk/one_admin/storage.py:181
 msgid "No {0} bucket is configured."
 msgstr "Es ist kein {0}-Bucket eingerichtet."
 
@@ -2267,7 +2305,7 @@ msgstr "Nicht abgerechnet"
 msgid "Not Checked In"
 msgstr "Nicht eingecheckt"
 
-#: onedesk/one_admin/proxy.py:100
+#: onedesk/one_admin/proxy.py:109
 msgid "Not a workspace this site administers."
 msgstr "Kein Arbeitsbereich, den diese Site verwaltet."
 
@@ -2301,6 +2339,11 @@ msgstr "Nicht erfasst"
 #: onedesk/public/js/decision.js:31
 msgid "Note"
 msgstr ""
+
+#. Description of the 'Overdue For' (Int) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Nothing happens to the workspace. Somebody is told, and its own header says so."
+msgstr "Mit dem Arbeitsbereich passiert nichts. Jemand wird benachrichtigt, und sein eigener Kopfbereich sagt es."
 
 #: onedesk/www/start.html:9
 msgid "Nothing is on offer yet."
@@ -2400,6 +2443,11 @@ msgstr "Wird bei einem Anwesenheitsantrag zur Auswahl angeboten."
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Offering"
 msgstr "Angebot"
+
+#. Label of the status_since (Datetime) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "On This Rung Since"
+msgstr "Auf dieser Stufe seit"
 
 #: onedesk/one_hr/employee.py:126 onedesk/one_hr/presence.py:150
 #: onedesk/one_hr/presence.py:252 onedesk/public/js/employee.js:46
@@ -2621,6 +2669,18 @@ msgstr "Ergebnis"
 msgid "Over Storage"
 msgstr "Speicher überschritten"
 
+#. Option for the 'Status' (Select) field in DocType 'Tenant'
+#. Option for the 'Kind' (Select) field in DocType 'Tenant Event'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_admin/doctype/tenant_event/tenant_event.json
+msgid "Overdue"
+msgstr ""
+
+#. Label of the grace_days (Int) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Overdue For"
+msgstr "Überfällig für"
+
 #: onedesk/public/js/overtime.js:44
 msgid "Overtime Hours"
 msgstr "Überstunden"
@@ -2809,6 +2869,18 @@ msgstr "Frappe-Cloud-Hauptdomain"
 msgid "Press Site"
 msgstr "Frappe-Cloud-Site"
 
+#. Description of the 'Suspended For' (Int) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Press deactivates the site. It answers a page, nobody can log in, and the data is untouched."
+msgstr "Frappe Cloud schaltet die Site ab. Sie antwortet mit einer Seite, niemand kann sich anmelden, und die Daten bleiben unangetastet."
+
+#. Description of the 'Archived For' (Int) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Press has destroyed the site, having taken an offsite backup first. Our R2 prefix is still there. At the end of this the prefix is deleted, which is the only thing on the ladder that destroys anything of ours."
+msgstr "Frappe Cloud hat die Site zerstört, nachdem sie zuvor eine externe Sicherung angelegt hat. Unser R2-Präfix ist noch da. Am Ende dieser Frist wird das Präfix gelöscht — das Einzige auf der Leiter, das etwas von uns zerstört."
+
 #. Description of the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "Press's word for it, kept as press says it. A status of our own would be a status that disagrees with the one in their dashboard."
@@ -2905,7 +2977,7 @@ msgstr "R2-Zugriffsschlüssel-ID"
 msgid "R2 Secret"
 msgstr "R2-Geheimnis"
 
-#: onedesk/one_admin/storage.py:154
+#: onedesk/one_admin/storage.py:191
 msgid "R2 is not configured. Set it in One Admin Settings."
 msgstr "R2 ist nicht eingerichtet. Stellen Sie es in den One-Admin-Einstellungen ein."
 
@@ -3083,6 +3155,11 @@ msgstr ""
 #: onedesk/public/js/employee.js:202
 msgid "Reset Passkey"
 msgstr "Passkey zurücksetzen"
+
+#. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
+msgid "Restore"
+msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
@@ -3457,6 +3534,11 @@ msgstr "Speicher (GB)"
 msgid "Stripe"
 msgstr "Stripe"
 
+#. Label of the stripe_customer (Data) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "Stripe Customer"
+msgstr "Stripe-Kunde"
+
 #. Label of the stripe_price (Data) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Stripe Price ID"
@@ -3467,12 +3549,17 @@ msgstr "Stripe-Preis-ID"
 msgid "Stripe Session"
 msgstr "Stripe-Sitzung"
 
+#. Label of the stripe_subscription (Data) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "Stripe Subscription"
+msgstr "Stripe-Abonnement"
+
 #. Name of a DocType
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
 msgid "Stripe Webhook Event"
 msgstr "Stripe-Webhook-Ereignis"
 
-#: onedesk/one_admin/stripe.py:179
+#: onedesk/one_admin/stripe.py:245
 msgid "Stripe is not configured. Set it in One Admin Settings."
 msgstr "Stripe ist nicht eingerichtet. Stellen Sie es in den One-Admin-Einstellungen ein."
 
@@ -3489,12 +3576,22 @@ msgstr "Mit dem Buchen werden {0} für {1} Stunden vergütet."
 msgid "Submitting this pays {0} {1} for {2} days of {3}."
 msgstr "Das Buchen zahlt {0} {1} für {2} Tage {3}."
 
+#. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
+msgid "Suspend"
+msgstr "Sperren"
+
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #. Option for the 'Kind' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 msgid "Suspended"
 msgstr ""
+
+#. Label of the held_days (Int) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Suspended For"
+msgstr "Gesperrt für"
 
 #. Description of the 'Backed Up' (Check) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
@@ -3645,6 +3742,11 @@ msgstr "Die neuen Tage plus alles Übertragene. Wird beim Speichern berechnet, E
 #: onedesk/one_hr/custom/employee_promotion.json
 msgid "The new designation, kept on the document so the list and a filter can reach what is otherwise only a child row."
 msgstr "Die neue Position, auf dem Dokument gehalten, damit Liste und Filter sie erreichen — sonst ist sie nur eine Tabellenzeile."
+
+#. Description of the 'Backup At Archive' (Data) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "The offsite backup press held when this was archived. Recorded rather than copied: the bytes are press's and stay there, and their retention is what governs. We keep the name so somebody can ask for it."
+msgstr "Die externe Sicherung, die Frappe Cloud bei der Archivierung vorhielt. Notiert statt kopiert: Die Bytes gehören Frappe Cloud und bleiben dort, und deren Aufbewahrungsfrist gilt. Wir behalten den Namen, damit jemand danach fragen kann."
 
 #: onedesk/one_hr/rules.py:32
 msgid "The passkey was not unlocked with a face, fingerprint or PIN."
@@ -4105,6 +4207,11 @@ msgstr "Was gewünscht wurde"
 msgid "What they had left before this application. The table above counts this one as pending rather than spent."
 msgstr "Was vor diesem Antrag noch übrig war. Die Tabelle oben zählt diesen Antrag als offen, nicht als abgezogen."
 
+#. Description of the 'Kind' (Select) field in DocType 'Provisioning Job'
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
+msgid "What this job is walking. Each kind has its own list of steps in one_admin/steps.py, and only a Provision that fails marks the workspace Failed — a failed archive must not turn a live workspace into a broken one."
+msgstr "Was dieser Auftrag abarbeitet. Jede Art hat ihre eigene Schrittliste in one_admin/steps.py, und nur eine gescheiterte Einrichtung setzt den Arbeitsbereich auf Gescheitert — eine gescheiterte Archivierung darf aus einem laufenden Arbeitsbereich keinen kaputten machen."
+
 #. Description of the 'The site' (Section Break) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "What we asked press for, rather than a copy of what press holds. It has to be readable when press is not."
@@ -4118,6 +4225,17 @@ msgstr "Zeitraum"
 #: onedesk/public/js/setup_wizard.js:39
 msgid "When do people work?"
 msgstr "Wann wird gearbeitet?"
+
+#. Description of the 'On This Rung Since' (Datetime) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "When it arrived where it is. Empty means the ladder leaves it alone — a clock that deletes data on a missing field is a clock that deletes data on a failed migration."
+msgstr "Wann er dort ankam, wo er ist. Leer heißt, die Leiter lässt ihn in Ruhe — eine Uhr, die bei einem fehlenden Feld Daten löscht, löscht Daten bei einer fehlgeschlagenen Migration."
+
+#. Label of the ladder_section (Section Break) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "When money stops"
+msgstr "Wenn das Geld ausbleibt"
 
 #. Description of the 'Hours' (Data) field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/shift_request.json
@@ -4230,6 +4348,11 @@ msgstr "Arbeitsbereich-ID"
 #: onedesk/one_hr/custom/attendance_request.json
 msgid "Write attendance on the holidays inside these dates as well. Left off, holidays in the range are skipped."
 msgstr "Auch an den Feiertagen innerhalb dieser Daten Anwesenheit erfassen. Ohne Haken werden Feiertage im Zeitraum übersprungen."
+
+#. Description of the 'Stripe Customer' (Data) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "Written when the first checkout completes. It is how an invoice event later finds its way back to a workspace, since an invoice names a customer and not a request."
+msgstr "Wird beim ersten abgeschlossenen Bezahlvorgang geschrieben. Darüber findet ein späteres Rechnungsereignis zurück zu einem Arbeitsbereich, denn eine Rechnung nennt einen Kunden und keine Anfrage."
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:45
 msgid "Year"
@@ -4404,7 +4527,7 @@ msgstr "{0} für {1}, ein ganzer Monat."
 msgid "{0} for {1}: {2} of {3} days paid."
 msgstr "{0} für {1}: {2} von {3} Tagen bezahlt."
 
-#: onedesk/one_admin/stripe.py:51
+#: onedesk/one_admin/stripe.py:61
 msgid "{0} has no Stripe price."
 msgstr "Für {0} gibt es keinen Stripe-Preis."
 
@@ -4440,6 +4563,10 @@ msgstr "{0} wird von der Zeiterfassung nicht vorgeschlagen."
 msgid "{0} is not working yet, so it cannot be the main address."
 msgstr "{0} funktioniert noch nicht und kann daher nicht die Hauptadresse sein."
 
+#: onedesk/one_admin/lifecycle.py:97
+msgid "{0} is on {1} and the rung below it is not {2}."
+msgstr "{0} steht auf {1}, und die Stufe darunter ist nicht {2}."
+
 #: onedesk/one_admin/signup.py:40 onedesk/one_admin/signup.py:42
 #: onedesk/one_admin/signup.py:54
 msgid "{0} is taken."
@@ -4468,6 +4595,10 @@ msgstr "{0} von 5"
 #: onedesk/public/js/appraisal.js:30 onedesk/public/js/leave_application.js:29
 msgid "{0} to {1}"
 msgstr "{0} bis {1}"
+
+#: onedesk/one_admin/lifecycle.py:74
+msgid "{0} was archived. Its site has to be rebuilt from the backup before it can be live again, and that is not something a payment does on its own."
+msgstr "{0} wurde archiviert. Die Site muss aus der Sicherung neu aufgebaut werden, bevor sie wieder live sein kann, und das tut eine Zahlung nicht von allein."
 
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:47
 msgid "{0} will move to where this browser is. Everyone checking in there is measured from the new centre."

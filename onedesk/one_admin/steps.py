@@ -29,8 +29,13 @@ from onedesk.one_admin import cloudflare, faults, hosts, press
 #: Returned by a step that has started something and is waiting on press.
 WAIT = "wait"
 
-#: In order. The job records which one is next, so a worker restart resumes
-#: rather than repeats.
+#: In order, per kind of job. The job records which step is next, so a worker
+#: restart resumes rather than repeats.
+#:
+#: Every walk but `Provision` is the ladder — see `ladder.py` for what each rung
+#: means and `lifecycle.py` for what starts one. They are here rather than in
+#: their own module because they are the same kind of thing: an idempotent step
+#: that talks to press, driven by the same runner and the same backoff.
 ORDER = (
 	"name_is_free",
 	"create_site",
@@ -39,6 +44,16 @@ ORDER = (
 	"push_config",
 	"live",
 )
+
+#: What each kind of job walks. `Provision` is `ORDER`, which is named
+#: separately because it is the first step of a job whose kind is not set.
+WALKS = {
+	"Provision": ORDER,
+	"Suspend": ("deactivate_site", "mark_suspended"),
+	"Restore": ("activate_site", "route_it", "mark_live"),
+	"Archive": ("note_backup", "archive_site", "unroute", "mark_archived"),
+	"Drop": ("empty_storage", "mark_dropped"),
+}
 
 #: Every app a workspace gets. The same on every bench, so a site is never
 #: missing one because it landed somewhere else.
@@ -181,3 +196,128 @@ def _admin_url() -> str:
 	after a move.
 	"""
 	return frappe.conf.get("one_admin_url") or frappe.utils.get_url()
+
+
+# --- The ladder. One walk per rung, each step safe to run twice. ------------
+
+
+def deactivate_site(job, tenant) -> None:
+	"""Press stops serving the site; the data is untouched.
+
+	`deactivate` puts the site in maintenance mode and tells the proxy to answer
+	a deactivated page, so nobody can log in and nothing is lost. Running it on
+	a site press already deactivated is a no-op there, which is what makes this
+	safe to retry.
+	"""
+	if not tenant.site:
+		raise faults.Refused("there is no site to suspend")
+	press.call("press.api.site.deactivate", name=tenant.site)
+
+
+def mark_suspended(job, tenant) -> None:
+	_arrive(tenant, "Suspended", "press has stopped serving the site")
+
+
+def activate_site(job, tenant) -> None:
+	"""Press serves it again.
+
+	Only ever reached from Suspended: an archived site has been destroyed and
+	there is nothing to activate, which `lifecycle.restore` refuses before a job
+	is ever made.
+	"""
+	if not tenant.site:
+		raise faults.Refused("there is no site to bring back")
+	press.call("press.api.site.activate", name=tenant.site)
+
+
+def mark_live(job, tenant) -> None:
+	_arrive(tenant, "Live", "paid")
+
+
+def note_backup(job, tenant) -> None:
+	"""Write down which backup press is holding, before the site goes.
+
+	Recorded and not copied. Press takes an offsite backup as part of archiving
+	and keeps it for as long as its own retention says; pulling four gigabytes
+	through this site to put them in our R2 would move real bytes to no end,
+	because restoring is press's `restore` from press's copy either way. What is
+	worth keeping is the name, so somebody can ask for it.
+
+	A workspace with no backup is not a reason to stop. It may be a site that
+	never had one, and refusing to archive it would leave it running for free
+	forever.
+	"""
+	if tenant.archived_backup:
+		return
+	held = press.call("press.api.site.backups", name=tenant.site) or []
+	newest = next(
+		(one for one in held if isinstance(one, dict) and one.get("offsite")),
+		next((one for one in held if isinstance(one, dict)), None),
+	)
+	tenant.db_set("archived_backup", (newest or {}).get("name") or "")
+
+
+def archive_site(job, tenant) -> None:
+	"""Press destroys the site, taking its own offsite backup first.
+
+	`force` is false: a site press will not archive is a site somebody should
+	look at rather than one we should insist on.
+	"""
+	if not tenant.site:
+		return
+	press.call("press.api.site.archive", name=tenant.site, force=False)
+
+
+def unroute(job, tenant) -> None:
+	"""Take the name off the edge.
+
+	After the site is gone rather than before, so a failed archive leaves a
+	workspace that still answers. A DELETE of a key that is not there succeeds,
+	so this is safe on a workspace that never had one.
+	"""
+	cloudflare.forget(tenant.slug)
+
+
+def mark_archived(job, tenant) -> None:
+	_arrive(tenant, "Archived", "the site is gone; the files are not")
+
+
+def empty_storage(job, tenant) -> None:
+	"""Delete everything under this workspace's prefix.
+
+	The only step on the ladder that destroys something of ours, and the last
+	one. It is idempotent in the way that matters: emptying an empty prefix
+	succeeds, so a retry after a half-finished sweep finishes the job.
+	"""
+	from onedesk.one_admin import storage
+
+	storage.empty(tenant)
+
+
+def mark_dropped(job, tenant) -> None:
+	_arrive(tenant, "Dropped", "the files are gone")
+
+
+#: What a Tenant Event calls each rung. Only one differs: arriving at Live is
+#: what somebody reading the log wants to see as Restored, because that is the
+#: interesting half — nothing writes an event for a workspace that was always
+#: Live.
+CALLED = {"Live": "Restored"}
+
+
+def _arrive(tenant, rung: str, why: str) -> None:
+	"""Put the workspace on a rung and start its clock there.
+
+	`status_since` is written with the status and never separately, because the
+	two together are what the ladder reads: a status without a timestamp is a
+	workspace the ladder refuses to touch.
+	"""
+	tenant.db_set({"status": rung, "status_since": now_datetime()})
+	frappe.get_doc(
+		{
+			"doctype": "Tenant Event",
+			"tenant": tenant.name,
+			"kind": CALLED.get(rung, rung),
+			"detail": why,
+		}
+	).insert(ignore_permissions=True)

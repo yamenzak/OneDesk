@@ -39,10 +39,10 @@ No doctypes yet.
 |---|--:|---|
 | Account Request | 16 | document |
 | Offering | 18 | document |
-| One Admin Settings | 23 | single |
+| One Admin Settings | 28 | single |
 | Provisioning Job | 12 | document |
 | Stripe Webhook Event | 7 | document |
-| Tenant | 23 | document |
+| Tenant | 29 | document |
 | Tenant Domain | 7 | document |
 | Tenant Event | 4 | document |
 

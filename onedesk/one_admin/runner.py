@@ -68,7 +68,8 @@ def advance(name: str) -> str:
 	if job.status in ("Done", "Failed"):
 		return job.status
 
-	step = job.step or steps.ORDER[0]
+	walk = _walk(job)
+	step = job.step or walk[0]
 	tenant = frappe.get_doc("Tenant", job.tenant)
 
 	try:
@@ -80,25 +81,37 @@ def advance(name: str) -> str:
 
 	if waiting:
 		return _later(job, None)
-	return _next(job, tenant, step)
+	return _next(job, tenant, step, walk)
 
 
-def _next(job, tenant, step: str) -> str:
+def _walk(job) -> tuple:
+	"""The steps this kind of job takes.
+
+	Defaults to provisioning, because a job written before there were other
+	kinds carries no kind and was one.
+	"""
+	walk = steps.WALKS.get(job.kind or "Provision")
+	if not walk:
+		raise faults.Refused(f"there is no such job as a {job.kind}")
+	return walk
+
+
+def _next(job, tenant, step: str, walk: tuple) -> str:
 	"""That step is done. Move to the one after it, or finish."""
-	after = steps.ORDER.index(step) + 1
-	if after >= len(steps.ORDER):
+	after = walk.index(step) + 1
+	if after >= len(walk):
 		job.db_set({"status": "Done", "step": None, "finished_at": now_datetime(), "error": None})
 		return "Done"
 	job.db_set(
 		{
 			"status": "Pending",
-			"step": steps.ORDER[after],
+			"step": walk[after],
 			"attempts": 0,
 			"error": None,
 			"next_run_at": now_datetime(),
 		}
 	)
-	if tenant.status == "Requested":
+	if job.kind in (None, "", "Provision") and tenant.status == "Requested":
 		tenant.db_set("status", "Provisioning")
 	return "Pending"
 
@@ -120,8 +133,17 @@ def _later(job, why: str | None) -> str:
 
 
 def _stop(job, tenant, why: str) -> str:
+	"""The job is somebody's problem now.
+
+	Only a failed provision marks the workspace Failed. A failed archive or a
+	failed suspension must leave the workspace where it was: it is still live,
+	still serving, and turning it into a broken record would hide a working
+	workspace from every screen that filters on status — and, worse, take it off
+	the ladder so nothing ever tries again.
+	"""
 	job.db_set({"status": "Failed", "error": why, "finished_at": now_datetime()})
-	tenant.db_set("status", "Failed")
+	if job.kind in (None, "", "Provision"):
+		tenant.db_set("status", "Failed")
 	return "Failed"
 
 
@@ -129,16 +151,17 @@ def _backoff(attempt: int) -> int:
 	return BACKOFF[min(attempt, len(BACKOFF)) - 1]
 
 
-def start(tenant: str) -> str:
-	"""Queue a provision for a tenant, once.
+def start(tenant: str, kind: str = "Provision") -> str:
+	"""Queue a job for a tenant, once.
 
-	An open job is returned rather than a second one made: two jobs walking the
-	same tenant is two sites.
+	An open job of the same kind is returned rather than a second one made: two
+	jobs walking the same tenant is two sites, and two archives is two attempts
+	to destroy the same one.
 	"""
 	site.require_admin()
 	open_already = frappe.get_all(
 		"Provisioning Job",
-		filters={"tenant": tenant, "kind": "Provision", "status": ["in", ("Pending", "Waiting")]},
+		filters={"tenant": tenant, "kind": kind, "status": ["in", ("Pending", "Waiting")]},
 		limit=1,
 		pluck="name",
 	)
@@ -148,9 +171,9 @@ def start(tenant: str) -> str:
 		{
 			"doctype": "Provisioning Job",
 			"tenant": tenant,
-			"kind": "Provision",
+			"kind": kind,
 			"status": "Pending",
-			"step": steps.ORDER[0],
+			"step": steps.WALKS[kind][0],
 			"next_run_at": now_datetime(),
 		}
 	).insert(ignore_permissions=True)

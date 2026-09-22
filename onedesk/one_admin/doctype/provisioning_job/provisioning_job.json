@@ -34,10 +34,14 @@
    "fieldname": "kind",
    "fieldtype": "Select",
    "label": "Kind",
-   "options": "Provision\nArchive",
-   "reqd": 1
+   "options": "Provision\nSuspend\nRestore\nArchive\nDrop",
+   "reqd": 1,
+   "description": "What this job is walking. Each kind has its own list of steps in one_admin/steps.py, and only a Provision that fails marks the workspace Failed — a failed archive must not turn a live workspace into a broken one."
   },
-  {"fieldname": "column_break_what", "fieldtype": "Column Break"},
+  {
+   "fieldname": "column_break_what",
+   "fieldtype": "Column Break"
+  },
   {
    "default": "Pending",
    "fieldname": "status",
@@ -55,7 +59,10 @@
    "in_list_view": 1,
    "label": "Step"
   },
-  {"fieldname": "progress_section", "fieldtype": "Section Break"},
+  {
+   "fieldname": "progress_section",
+   "fieldtype": "Section Break"
+  },
   {
    "default": "0",
    "description": "Of the current step. Reset when the step advances, because attempts measure one step's trouble rather than the job's age.",
@@ -68,7 +75,10 @@
    "fieldtype": "Datetime",
    "label": "Next Run"
   },
-  {"fieldname": "column_break_when", "fieldtype": "Column Break"},
+  {
+   "fieldname": "column_break_when",
+   "fieldtype": "Column Break"
+  },
   {
    "fieldname": "finished_at",
    "fieldtype": "Datetime",

@@ -25,6 +25,12 @@
   "column_break_site",
   "token_hash",
   "live_on",
+  "status_since",
+  "billing_section",
+  "stripe_customer",
+  "stripe_subscription",
+  "column_break_billing",
+  "archived_backup",
   "storage_section",
   "storage_bytes",
   "storage_pending",
@@ -59,8 +65,9 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Status",
-   "options": "Requested\nProvisioning\nLive\nSuspended\nArchived\nFailed",
-   "reqd": 1
+   "options": "Requested\nProvisioning\nLive\nOverdue\nSuspended\nArchived\nDropped\nFailed",
+   "reqd": 1,
+   "description": "Live, Overdue, Suspended, Archived and Dropped are the ladder, walked one rung at a time by one_admin/ladder.py. Requested, Provisioning and Failed are not on it: only a payment failing moves a workspace off Live, and only a clock moves it further."
   },
   {
    "fieldname": "owner_email",
@@ -150,6 +157,42 @@
    "fieldtype": "Datetime",
    "label": "Live On",
    "read_only": 1
+  },
+  {
+   "fieldname": "status_since",
+   "fieldtype": "Datetime",
+   "label": "On This Rung Since",
+   "read_only": 1,
+   "description": "When it arrived where it is. Empty means the ladder leaves it alone — a clock that deletes data on a missing field is a clock that deletes data on a failed migration."
+  },
+  {
+   "fieldname": "billing_section",
+   "fieldtype": "Section Break",
+   "label": "Billing"
+  },
+  {
+   "fieldname": "stripe_customer",
+   "fieldtype": "Data",
+   "label": "Stripe Customer",
+   "read_only": 1,
+   "description": "Written when the first checkout completes. It is how an invoice event later finds its way back to a workspace, since an invoice names a customer and not a request."
+  },
+  {
+   "fieldname": "stripe_subscription",
+   "fieldtype": "Data",
+   "label": "Stripe Subscription",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_billing",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "archived_backup",
+   "fieldtype": "Data",
+   "label": "Backup At Archive",
+   "read_only": 1,
+   "description": "The offsite backup press held when this was archived. Recorded rather than copied: the bytes are press's and stay there, and their retention is what governs. We keep the name so somebody can ask for it."
   },
   {
    "fieldname": "storage_section",

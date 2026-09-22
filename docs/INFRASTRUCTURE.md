@@ -287,9 +287,33 @@ The certificates, plainly: `*.t.4dl.app` is Cloudflare's, from the Advanced
 Certificate Manager wildcard. A customer's own domain is press's, over Let's
 Encrypt and HTTP-01. Neither is ours to renew.
 
-**INFRA 9 — the ladder.** Grace periods, suspension, archive, and the cold copy
-promoted out of the daily backup by a server-side R2 copy so a four gigabyte
-backup costs a request rather than four gigabytes of transfer.
+**INFRA 9 — the ladder.** *Done.* Five rungs — Live, Overdue, Suspended,
+Archived, Dropped — walked one at a time and never skipped. `ladder.py` decides
+whether a workspace is due to fall and is pure, because this is the module that
+decides when somebody's data is deleted. `lifecycle.py` is what starts a fall
+and what ends one; `steps.py` gained a walk per rung, driven by the same runner
+and the same backoff as provisioning. An invoice failing starts it, an invoice
+paid ends it, and nothing else in Stripe is listened to.
+
+Overdue is nothing at all: the workspace works exactly as it did and somebody is
+told, which is why `proxy.SERVING` carries it. Suspended is press deactivating
+the site. Archived is press destroying it, having taken its own offsite backup
+first. Dropped deletes our R2 prefix, and it is the only rung that destroys
+anything of ours.
+
+**The cold copy is not built, and should not be.** The plan said a server-side
+R2 copy would promote the daily backup for a request rather than four gigabytes
+of transfer. That is not available: press's offsite backups live in press's own
+S3, and a server-side copy only works within one provider's credentials, so
+getting them into our R2 would mean streaming every byte through this site to no
+end — restoring is press's `restore` from press's copy either way. So the backup
+is *recorded* and not copied: `archived_backup` names it, press's retention
+governs it. And the R2 prefix needs no copy at all, because it is already ours
+and already where it belongs; archiving a workspace moves no object.
+
+**What an archived workspace cannot do is come back on its own.** Paying after
+an archive is refused, because the site was destroyed and putting a new one in
+its place from a backup is somebody's decision rather than a webhook's.
 
 Then OneAI's ten stages run on top of this, with the ledger already where it
 belongs: on the admin site, behind the proxy, where a customer cannot write

@@ -36,6 +36,40 @@ def _order() -> list[str]:
 	raise AssertionError("steps.py declares no ORDER")
 
 
+def _walks() -> dict[str, list[str]]:
+	"""Every kind of job and the steps it takes.
+
+	Read from `WALKS` the same way `ORDER` is, because a rung of the ladder
+	naming a step that is not there is the same bug as a provision doing it —
+	except that it happens while somebody's workspace is being archived.
+	"""
+	for node in _module().body:
+		if isinstance(node, ast.Assign) and any(
+			getattr(target, "id", "") == "WALKS" for target in node.targets
+		):
+			found = {}
+			for key, value in zip(node.value.keys, node.value.values):
+				if isinstance(value, ast.Name):  # WALKS["Provision"] is ORDER
+					found[key.value] = _order()
+					continue
+				found[key.value] = [
+					child.value
+					for child in ast.walk(value)
+					if isinstance(child, ast.Constant) and isinstance(child.value, str)
+				]
+			return found
+	raise AssertionError("steps.py declares no WALKS")
+
+
+def _every_step() -> list[str]:
+	seen = []
+	for walk in _walks().values():
+		for name in walk:
+			if name not in seen:
+				seen.append(name)
+	return seen
+
+
 def _functions() -> dict[str, ast.FunctionDef]:
 	return {n.name: n for n in _module().body if isinstance(n, ast.FunctionDef)}
 
@@ -44,16 +78,24 @@ def test_there_is_an_order_to_check():
 	assert len(_order()) >= 3
 
 
-def test_every_step_named_in_the_order_exists():
-	missing = [name for name in _order() if name not in _functions()]
+def test_every_kind_of_job_has_somewhere_to_start():
+	walks = _walks()
+	assert walks.get("Provision") == _order()
+	for kind in ("Suspend", "Restore", "Archive", "Drop"):
+		assert walks.get(kind), f"{kind} is a job kind with no steps"
+
+
+def test_every_step_named_in_any_walk_exists():
+	missing = [name for name in _every_step() if name not in _functions()]
 	assert not missing, (
-		f"{missing} are in ORDER and are not functions in steps.py. That is an "
-		"AttributeError in the middle of a provision, minutes after somebody paid."
+		f"{missing} are named in WALKS and are not functions in steps.py. That is "
+		"an AttributeError in the middle of a provision, minutes after somebody "
+		"paid — or in the middle of an archive."
 	)
 
 
 def test_every_step_takes_the_job_and_the_tenant():
-	for name in _order():
+	for name in _every_step():
 		args = [a.arg for a in _functions()[name].args.args]
 		assert args == ["job", "tenant"], f"{name} takes {args}"
 
@@ -62,11 +104,11 @@ def test_no_step_is_declared_and_then_never_run():
 	"""A function in steps.py that ORDER does not name is dead or forgotten.
 
 	Helpers are named with a leading underscore, which is how the two are told
-	apart — so a public one missing from ORDER is the interesting case.
+	apart — so a public one named in no walk is the interesting case.
 	"""
 	public = {name for name in _functions() if not name.startswith("_")}
-	assert public == set(_order()), (
-		f"in steps.py but not in ORDER: {sorted(public - set(_order()))}"
+	assert public == set(_every_step()), (
+		f"in steps.py but in no walk: {sorted(public - set(_every_step()))}"
 	)
 
 

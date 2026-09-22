@@ -87,6 +87,43 @@ def remove(tenant, key: str) -> dict:
 	return {"key": full, "deleted": True}
 
 
+#: Objects per delete call. S3 caps this at a thousand and R2 follows it.
+AT_A_TIME = 1000
+
+
+def empty(tenant) -> int:
+	"""Delete everything under this workspace's prefix, and say how much.
+
+	The last rung of the ladder and the only step on it that destroys anything
+	of ours. It is written to be safe to run twice, because the runner retries:
+	emptying a prefix that is already empty deletes nothing and succeeds, so a
+	sweep that died half way finishes on the next attempt rather than starting
+	an argument about where it got to.
+
+	The prefix comes from `keys.prefix`, which refuses a slug with a slash in
+	it. That is the whole of what stands between this and deleting the wrong
+	workspace's objects, and it is the reason that function is pure and tested.
+	"""
+	client = _client(tenant.jurisdiction)
+	bucket = _bucket(tenant.jurisdiction)
+	prefix = keys.prefix(tenant.name)
+	gone = 0
+	pages = client.get_paginator("list_objects_v2")
+	for page in pages.paginate(Bucket=bucket, Prefix=prefix):
+		held = [{"Key": item["Key"]} for item in page.get("Contents") or []]
+		for at in range(0, len(held), AT_A_TIME):
+			batch = held[at : at + AT_A_TIME]
+			client.delete_objects(Bucket=bucket, Delete={"Objects": batch, "Quiet": True})
+			gone += len(batch)
+	frappe.db.set_value(
+		"Tenant",
+		tenant.name,
+		{"storage_bytes": 0, "storage_pending": 0},
+		update_modified=False,
+	)
+	return gone
+
+
 def measure(slug: str) -> int:
 	"""Add up everything under this workspace's prefix."""
 	tenant = frappe.get_doc("Tenant", slug)

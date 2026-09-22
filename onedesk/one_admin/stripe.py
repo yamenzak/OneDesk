@@ -30,16 +30,26 @@ import frappe
 import requests
 from frappe.database.database import savepoint
 
-from onedesk.one_admin import faults, signing, signup, site
+from onedesk.one_admin import faults, lifecycle, signing, signup, site
 
 STRIPE = "https://api.stripe.com/v1"
 PATIENCE = 20
 
-#: The only event we act on. Everything else is recorded and ignored, which is
-#: deliberate: an endpoint that grows a branch per event type is an endpoint
-#: nobody can reason about, and the subscription lifecycle is a separate concern
-#: with its own stage.
+#: The event that makes a workspace. Everything else is recorded and ignored.
 ACTED_ON = "checkout.session.completed"
+
+#: The two that move a workspace up and down the ladder. A subscription's
+#: invoice failing is what starts a fall; one being paid is what ends it.
+#:
+#: Deliberately these two and no more. Stripe sends dozens of event types and an
+#: endpoint that grows a branch per type is an endpoint nobody can reason about.
+#: `customer.subscription.deleted` is *not* here on purpose: a subscription
+#: cancelled at the end of its period stops paying invoices, and the ladder
+#: notices that by itself and carries the customer through the grace period —
+#: which is the right way to treat somebody who cancelled, rather than
+#: suspending them the same afternoon.
+OWED = "invoice.payment_failed"
+SETTLED = "invoice.paid"
 
 
 def checkout(request: str) -> str:
@@ -92,18 +102,74 @@ def webhook():
 	if seen is None or seen.handled:
 		return {"seen": True}
 
-	if event.get("type") != ACTED_ON:
-		seen.db_set("handled", 1)
-		return {"ignored": event.get("type")}
+	kind = event.get("type")
+	body = (event.get("data") or {}).get("object") or {}
 
-	request = ((event.get("data") or {}).get("object") or {}).get("client_reference_id")
+	if kind in (OWED, SETTLED):
+		try:
+			answer = _ladder(kind, body)
+		except Exception as raised:
+			seen.db_set("error", str(raised)[:500])
+			raise
+		seen.db_set({"handled": 1, "error": None})
+		return answer
+
+	if kind != ACTED_ON:
+		seen.db_set("handled", 1)
+		return {"ignored": kind}
+
+	request = body.get("client_reference_id")
 	try:
 		tenant = signup.accept(request)
 	except Exception as raised:
 		seen.db_set({"error": str(raised)[:500], "request": request})
 		raise
+	_remember_customer(tenant, body)
 	seen.db_set({"handled": 1, "request": request, "error": None})
 	return {"tenant": tenant}
+
+
+def _remember_customer(tenant: str, body: dict) -> None:
+	"""Who Stripe thinks this workspace is.
+
+	Written once, at the first completed checkout, because an invoice event
+	names a customer and nothing else — there is no request id on it, and no
+	route back to a workspace without this.
+	"""
+	if not tenant:
+		return
+	frappe.db.set_value(
+		"Tenant",
+		tenant,
+		{
+			"stripe_customer": body.get("customer") or "",
+			"stripe_subscription": body.get("subscription") or "",
+		},
+		update_modified=False,
+	)
+
+
+def _ladder(kind: str, body: dict) -> dict:
+	"""An invoice failed or settled, so a workspace moves.
+
+	An invoice for a customer we do not know is not an error. It may be a
+	checkout still in flight, whose `checkout.session.completed` has not arrived
+	or has arrived and not yet been acted on; answering 200 and ignoring it is
+	right, because the alternative is Stripe redelivering forever.
+	"""
+	customer = body.get("customer")
+	slug = (
+		frappe.db.get_value("Tenant", {"stripe_customer": customer}, "name")
+		if customer
+		else None
+	)
+	if not slug:
+		return {"ignored": kind, "customer": customer}
+
+	tenant = frappe.get_doc("Tenant", slug)
+	if kind == OWED:
+		return {"tenant": slug, "rung": lifecycle.owed(tenant)}
+	return {"tenant": slug, "rung": lifecycle.paid(tenant)}
 
 
 def _remember(event: dict):

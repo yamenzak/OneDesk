@@ -30,9 +30,18 @@ from frappe.rate_limiter import rate_limit
 
 from onedesk.one_admin import site
 
-#: What a tenant may do while it is not Live. Nothing — a suspended workspace
-#: asking for a signed URL is the case suspension exists to stop.
-SERVING = ("Live",)
+#: The rungs a workspace is still served on. Live and Overdue, and nothing
+#: below.
+#:
+#: Overdue is here because Overdue is defined as nothing happening to the
+#: workspace — somebody is told and that is all. Leaving it out would mean a
+#: failed card silently broke every upload on the same afternoon, which is the
+#: grace period not existing.
+#:
+#: Suspended is out, and below that there is no site left to call. It costs
+#: nothing to say so anyway: press has already deactivated a suspended site, so
+#: a call from one is a call from a site that should not be running.
+SERVING = ("Live", "Overdue")
 
 #: Ours rather than `Authorization`, which Frappe's own API-key authentication
 #: reads first and rejects anything in that is not `key:secret`.
@@ -111,9 +120,13 @@ def hello() -> dict:
 	than answering one question — the alternative is a workspace making four
 	calls to render a header.
 
-	It returns what exists. Storage arrives with INFRA 6 and credits with OneAI,
-	and until then they are absent rather than zero, because a zero is a fact and
-	an absence is the truth.
+	It returns what exists. Credits arrive with OneAI and until then are absent
+	rather than zero, because a zero is a fact and an absence is the truth.
+
+	`standing` is the ladder: whether money is owed, and how many days are left
+	before the next thing happens. It is here rather than behind a call of its
+	own because a workspace that has to ask a second question to find out it is
+	about to be suspended is a workspace that will not ask.
 	"""
 	tenant = caller()
 	known = frappe.db.get_value(
@@ -122,9 +135,12 @@ def hello() -> dict:
 		["workspace_name", "domain", "jurisdiction", "cluster", "live_on"],
 		as_dict=True,
 	)
+	from onedesk.one_admin import lifecycle
+
 	return {
 		"tenant": tenant.name,
 		"status": tenant.status,
+		"standing": lifecycle.standing(_tenant_doc(tenant)),
 		"workspace": known.workspace_name,
 		"domain": known.domain,
 		"jurisdiction": known.jurisdiction,

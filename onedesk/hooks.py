@@ -49,6 +49,8 @@ scheduler_events = {
 	"daily": [
 		"onedesk.one.account.nightly",
 		"onedesk.one_admin.domains.nightly",
+		# One rung a workspace, one workspace at a time. See one_admin/ladder.py.
+		"onedesk.one_admin.lifecycle.nightly",
 		"onedesk.one_admin.storage.nightly",
 		"onedesk.one_hr.healing.nightly",
 		"onedesk.one_hr.leaving.nightly",
