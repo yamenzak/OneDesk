@@ -1,0 +1,16 @@
+{
+  "candidates": [
+    { "content": { "parts": [{ "text": "Hello." }], "role": "model" }, "finishReason": "STOP" }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 1290,
+    "candidatesTokenCount": 12,
+    "totalTokenCount": 1302,
+    "promptTokensDetails": [
+      { "modality": "TEXT", "tokenCount": 32 },
+      { "modality": "IMAGE", "tokenCount": 1258 }
+    ],
+    "candidatesTokensDetails": [{ "modality": "TEXT", "tokenCount": 12 }]
+  },
+  "modelVersion": "gemini-2.5-flash-lite"
+}

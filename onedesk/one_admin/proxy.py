@@ -180,6 +180,25 @@ def hello() -> dict:
 
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def ai_call(model: str, prompt: str, output_tokens: int = 0, reference: str | None = None) -> dict:
+	"""One model call, held and settled against this workspace's credits.
+
+	The model is named by the workspace because at this stage nothing else can
+	name one. AI 5 puts an `AI Action` in front of this — a workspace picks a
+	model on a settings screen or does not, and the code that calls a model
+	never names one — and this endpoint becomes what that action reaches.
+
+	The refusal for no credits happens inside, before the provider is touched.
+	"""
+	from onedesk.one_admin import gateway
+
+	tenant = caller()
+	caps = {"output_tokens": int(output_tokens)} if output_tokens else {}
+	return gateway.call(model, prompt, tenant.name, caps=caps, reference=reference)
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def storage_put(key: str, size: int = 0) -> dict:
 	"""A signed URL to put one object, if the workspace has room for it.
 

@@ -1,0 +1,12 @@
+{
+  "candidates": [
+    { "content": { "parts": [{ "text": "Hello." }], "role": "model" }, "finishReason": "STOP" }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 5000,
+    "cachedContentTokenCount": 4000,
+    "candidatesTokenCount": 40,
+    "totalTokenCount": 5040
+  },
+  "modelVersion": "gemini-3.8-flash"
+}

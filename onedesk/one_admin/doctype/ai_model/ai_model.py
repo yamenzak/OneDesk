@@ -14,7 +14,7 @@ from onedesk.one_admin import site
 #: and a copy somebody edited is a copy that lies — except the rates, and only
 #: on a model nobody could read a price for, where a person typing one off the
 #: page is taking responsibility rather than inventing a default.
-THEIRS = ("offered", "priced_by_hand", "rates")
+THEIRS = ("offered", "priced_by_hand", "markup", "rates")
 
 
 class AIModel(Document):
@@ -28,6 +28,8 @@ class AIModel(Document):
 			frappe.throw(
 				frappe._("A model priced by hand needs at least one rate on it.")
 			)
+		if self.markup is not None and self.markup < 0:
+			frappe.throw(frappe._("A markup below nothing would pay somebody to call the model."))
 		for rate in self.rates or []:
 			if not rate.unit or not rate.per or rate.usd is None:
 				frappe.throw(

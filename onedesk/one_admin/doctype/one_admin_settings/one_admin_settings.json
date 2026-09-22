@@ -32,6 +32,8 @@
   "ai_gateway",
   "column_break_ai",
   "ai_gateway_token",
+  "credits_per_dollar",
+  "default_markup",
   "ladder_section",
   "grace_days",
   "held_days",
@@ -178,6 +180,20 @@
    "fieldtype": "Password",
    "label": "Gateway Token",
    "description": "Provider keys are stored in the gateway, never here."
+  },
+  {
+   "fieldname": "credits_per_dollar",
+   "fieldtype": "Float",
+   "precision": "6",
+   "label": "Credits per Dollar",
+   "description": "How many credits one dollar of provider cost becomes, before markup."
+  },
+  {
+   "fieldname": "default_markup",
+   "fieldtype": "Float",
+   "precision": "4",
+   "label": "Default Markup",
+   "description": "Multiplied onto provider cost. 2 charges twice the provider's price."
   },
   {
    "fieldname": "ladder_section",

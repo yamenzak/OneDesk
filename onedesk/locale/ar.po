@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 16:32+0000\n"
-"PO-Revision-Date: 2026-09-22 16:32+0000\n"
+"POT-Creation-Date: 2026-09-22 16:43+0000\n"
+"PO-Revision-Date: 2026-09-22 16:43+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
+
+#: onedesk/public/js/ai_model.js:102
+msgid "(from what was asked for)"
+msgstr "(مما طُلب)"
 
 #. Header text in the One Workspace
 #: onedesk/one/workspace/one/one.json
@@ -98,6 +102,10 @@ msgstr "المنحة لا تُسحب من شيء."
 msgid "A ledger entry of zero credits records nothing."
 msgstr "قيد بصفر رصيد لا يسجّل شيئاً."
 
+#: onedesk/one_admin/doctype/ai_model/ai_model.py:32
+msgid "A markup below nothing would pay somebody to call the model."
+msgstr "هامش دون الصفر يعني الدفع لمن يستدعي النموذج."
+
 #. Description of a DocType
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "A model a provider offers, with the prices it publishes for it."
@@ -124,7 +132,7 @@ msgstr "ينتمي الموقع إلى موقع مناوبة أو إلى موظ�
 msgid "A queued unit of work against a workspace. Created by the system."
 msgstr "وحدة عمل في طابور التنفيذ على مساحة عمل. يُنشئها النظام."
 
-#: onedesk/one_admin/doctype/ai_model/ai_model.py:34
+#: onedesk/one_admin/doctype/ai_model/ai_model.py:36
 msgid "A rate needs a unit, how many of them, and what they cost."
 msgstr "يحتاج السعر إلى وحدة، وعددها، وكلفتها."
 
@@ -562,7 +570,7 @@ msgstr "يُطلب عند تسجيل الانصراف فقط. الخيارات �
 msgid "Asking {0}…"
 msgstr "جارٍ سؤال {0}…"
 
-#: onedesk/public/js/admin_settings.js:31
+#: onedesk/public/js/admin_settings.js:31 onedesk/public/js/ai_model.js:83
 msgid "Asking…"
 msgstr "جارٍ السؤال…"
 
@@ -827,6 +835,10 @@ msgstr ""
 msgid "CTC Break-up"
 msgstr "تفصيل التكلفة الإجمالية"
 
+#: onedesk/public/js/ai_model.js:80
+msgid "Call"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Campaign"
@@ -864,6 +876,10 @@ msgstr "تعديل العمل الإضافي"
 #: onedesk/public/js/offering.js:40
 msgid "Changing a price or a quota here does not change theirs."
 msgstr "تغيير سعر أو حصة هنا لا يغيّر ما لديهم."
+
+#: onedesk/public/js/ai_model.js:41
+msgid "Charged at {0}× what the provider charges."
+msgstr "يُحتسب بـ{0} أضعاف ما يتقاضاه المزوّد."
 
 #. Label of the signal (Data) field in DocType 'Clock Signal'
 #: onedesk/one_hr/doctype/clock_signal/clock_signal.json
@@ -1208,6 +1224,12 @@ msgstr "لا بد أن يكون الرصيد أكثر من لا شيء."
 msgid "Credits held while a call is in flight, so two calls cannot both spend the last one."
 msgstr "رصيد محجوز أثناء تنفيذ نداء، كي لا ينفق نداءان آخر رصيد معاً."
 
+#. Label of the credits_per_dollar (Float) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Credits per Dollar"
+msgstr "الرصيد لكل دولار"
+
 #. Label of the currency (Link) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Currency"
@@ -1305,6 +1327,11 @@ msgstr "المعلَن يُدخله شخص. المقترَح تقترحه ميز
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 msgid "Declared is entered by a person. Proposed is suggested by Learn New Networks, and becomes Confirmed once the Confirmation Threshold is met, or when somebody confirms it here. Rejected is never proposed again."
 msgstr "المعلَن يُدخله شخص. المقترَح تقترحه ميزة تعلّم الشبكات الجديدة، ويصبح مؤكَّداً عند بلوغ حد التأكيد. المرفوض لا يُقترح مرة أخرى."
+
+#. Label of the default_markup (Float) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Default Markup"
+msgstr "الهامش الافتراضي"
 
 #. Label of the one_keep_photo_days (Int) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -1617,6 +1644,11 @@ msgstr "حالة التوظيف"
 msgid "Empty on a spend means an overdraw: it belongs to no grant."
 msgstr "تركه فارغاً في الإنفاق يعني سحباً على المكشوف: لا يتبع أي منحة."
 
+#. Description of the 'Markup' (Float) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Empty uses the default in One Admin Settings."
+msgstr "تركه فارغاً يستخدم الافتراضي في إعدادات One Admin."
+
 #. Label of the enabled (Check) field in DocType 'Offering'
 #. Label of the enabled (Check) field in DocType 'Attendance Reason'
 #. Label of the enabled (Check) field in DocType 'Clock Reason'
@@ -1864,6 +1896,10 @@ msgstr ""
 msgid "From home"
 msgstr "من المنزل"
 
+#: onedesk/public/js/ai_model.js:42
+msgid "From the default."
+msgstr "من الافتراضي."
+
 #. Label of the ai_gateway (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Gateway Name"
@@ -2079,6 +2115,12 @@ msgstr "طول يوم العمل الكامل لهذا الموظف. يُملأ 
 #: onedesk/one_hr/custom/timesheet_detail.json
 msgid "How long you expect this to take. The timer says so when it runs past it. Leave it empty and it never does."
 msgstr "المدة التي تتوقعها لهذا العمل. ينبّه المؤقّت عند تجاوزها. واتركه فارغاً فلا ينبّه أبداً."
+
+#. Description of the 'Credits per Dollar' (Float) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "How many credits one dollar of provider cost becomes, before markup."
+msgstr "كم رصيداً يصير دولار واحد من كلفة المزوّد، قبل الهامش."
 
 #. Description of the 'People' (Int) field in DocType 'Training Result'
 #: onedesk/one_hr/custom/training_result.json
@@ -2610,6 +2652,11 @@ msgstr "تم تعليمه كـ {0}."
 msgid "Marks the Day As"
 msgstr "يسجّل اليوم كـ"
 
+#. Label of the markup (Float) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Markup"
+msgstr "الهامش"
+
 #. Description of the 'Check the Network' (Check) field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -2665,6 +2712,12 @@ msgstr "الحضور الشهري"
 msgid "Multimodal"
 msgstr "متعدّد الوسائط"
 
+#. Description of the 'Default Markup' (Float) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Multiplied onto provider cost. 2 charges twice the provider's price."
+msgstr "يُضرب في كلفة المزوّد. فالقيمة 2 تحتسب ضعف سعر المزوّد."
+
 #. Label of the workspace_name (Data) field in DocType 'Workspace Account'
 #. Label of the label (Data) field in DocType 'AI Model'
 #. Label of the label (Data) field in DocType 'Clock Network'
@@ -2698,7 +2751,7 @@ msgstr "تضييق القائمة"
 msgid "Needs Review"
 msgstr "يحتاج مراجعة"
 
-#: onedesk/public/js/ai_model_list.js:13
+#: onedesk/public/js/ai_model.js:24 onedesk/public/js/ai_model_list.js:13
 msgid "Needs review"
 msgstr "يحتاج مراجعة"
 
@@ -2736,6 +2789,10 @@ msgstr "لا يوجد موقع"
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:222
 msgid "No Shift"
 msgstr "بلا مناوبة"
+
+#: onedesk/public/js/ai_model.js:43
+msgid "No markup is set, so this model cannot be called."
+msgstr "لم يُحدَّد هامش، فلا يمكن استدعاء هذا النموذج."
 
 #. Description of the 'Closed Automatically' (Check) field in DocType 'Employee
 #. Checkin'
@@ -2929,7 +2986,7 @@ msgstr "العرض"
 #. Label of the offered (Check) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:259
-#: onedesk/public/js/ai_model_list.js:15
+#: onedesk/public/js/ai_model.js:30 onedesk/public/js/ai_model_list.js:15
 msgid "Offered"
 msgstr "عروض مقدَّمة"
 
@@ -3204,6 +3261,10 @@ msgstr "من 100. وتحت حد التأكيد يُعلَّم السجل للم�
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Outcome"
 msgstr "النتيجة"
+
+#: onedesk/public/js/ai_model.js:74
+msgid "Output Tokens"
+msgstr "رموز المخرجات"
 
 #. Option for the 'Kind' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
@@ -3495,8 +3556,13 @@ msgstr ""
 msgid "Price List"
 msgstr ""
 
+#: onedesk/public/js/ai_model.js:15 onedesk/public/js/ai_model.js:54
+msgid "Price a call"
+msgstr "سعِّر نداءً"
+
 #. Option for the 'Status' (Select) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/public/js/ai_model.js:23
 msgid "Priced"
 msgstr "مُسعَّر"
 
@@ -3534,7 +3600,7 @@ msgstr ""
 msgid "Promotion"
 msgstr "ترقية"
 
-#: onedesk/public/js/admin_settings.js:22
+#: onedesk/public/js/admin_settings.js:22 onedesk/public/js/ai_model.js:67
 msgid "Prompt"
 msgstr "الطلب"
 
@@ -3999,7 +4065,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: onedesk/public/js/admin_settings.js:24
+#: onedesk/public/js/admin_settings.js:24 onedesk/public/js/ai_model.js:69
 msgid "Say hello in one short sentence."
 msgstr "ألقِ التحية في جملة قصيرة واحدة."
 
@@ -4591,6 +4657,10 @@ msgstr "العدّاد الخاص بأداة المصادقة. القيمة ال
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:37
 msgid "The browser would not say where it is."
 msgstr "لم يفصح المتصفح عن موقعه."
+
+#: onedesk/public/js/ai_model.js:62
+msgid "The call is really made and really charged."
+msgstr "يُجرى النداء فعلاً ويُحتسب فعلاً."
 
 #: onedesk/public/js/desk.js:100
 msgid "The check-in could not be recorded."
@@ -5187,6 +5257,10 @@ msgstr "الاسم الذي عرّف به المتصفح نفسه عند تسج�
 msgid "What the company hands over up front, before anything is spent or claimed."
 msgstr "ما تدفعه الشركة مقدّماً، قبل أن يُنفق أو يُطالَب بشيء."
 
+#: onedesk/public/js/ai_model.js:76
+msgid "What the hold is priced from. The settle replaces it."
+msgstr "ما يُسعَّر منه الحجز. وتحلّ التسوية محله."
+
 #. Description of the 'Note' (Small Text) field in DocType 'Attendance Request'
 #. Description of the 'Note' (Small Text) field in DocType 'Expense Claim'
 #. Description of the 'Note' (Small Text) field in DocType 'Leave Application'
@@ -5279,7 +5353,7 @@ msgstr "سبب احتساب هذه الأيام أيام عمل. وتحفظ ال
 
 #. Option for the 'Status' (Select) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
-#: onedesk/public/js/ai_model_list.js:12
+#: onedesk/public/js/ai_model.js:25 onedesk/public/js/ai_model_list.js:12
 msgid "Withdrawn"
 msgstr "مسحوب"
 
@@ -5329,6 +5403,7 @@ msgstr "العمل في يوم عطلة"
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
+#: onedesk/public/js/ai_model.js:59
 msgid "Workspace"
 msgstr ""
 
@@ -5621,6 +5696,14 @@ msgstr "تعذّر تعليم {0} بأنه ترك العمل"
 msgid "{0} credits now."
 msgstr "{0} رصيد الآن."
 
+#: onedesk/public/js/ai_model.js:107
+msgid "{0} credits — the hold, because nothing could be metered."
+msgstr "{0} رصيد — وهو الحجز، إذ تعذّر قياس أي شيء."
+
+#: onedesk/public/js/ai_model.js:106
+msgid "{0} credits."
+msgstr "{0} رصيد."
+
 #: onedesk/public/js/tenant.js:216
 msgid "{0} days before it falls to {1}."
 msgstr "{0} يوماً قبل أن تهبط إلى {1}."
@@ -5810,6 +5893,10 @@ msgstr "عُمل {0}، ودُفع {1}"
 #: onedesk/public/js/offering.js:35
 msgid "{0} workspaces bought this"
 msgstr "اشترت هذا {0} مساحات عمل"
+
+#: onedesk/public/js/ai_model.js:101
+msgid "{0} {1} of {2} {3}"
+msgstr "{0} {1} من {2} {3}"
 
 #: onedesk/public/js/employee_promotion.js:31
 msgid "{0} {1} → {2}"

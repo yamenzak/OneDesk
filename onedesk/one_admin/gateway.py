@@ -14,9 +14,9 @@ per-request log we can tag with the workspace that caused it.
 through `proxy.py` and admin makes the call, for the same reason a workspace
 cannot sign its own storage URL: the credential is the product.
 
-This is the un-metered call. Pricing, the hold and the settle arrive in AI 4;
-until then `ask` is one request and one string back, so the gateway is proved
-before anything is built on top of it.
+`ask` is the un-metered call and stays: it is how an operator proves a token
+works. `call` is the billed one — hold, call, settle — and is the door every
+model call for a customer goes through.
 """
 
 import json
@@ -24,7 +24,7 @@ import json
 import frappe
 import requests
 
-from onedesk.one_admin import faults, site
+from onedesk.one_admin import faults, ledger, meter, pricing, site
 from onedesk.one_admin.faults import Again, Refused
 
 #: Cloudflare's own base. Overridable from `site_config` so a developer can
@@ -90,8 +90,14 @@ def ask(prompt: str, most: int = MOST, tenant: str | None = None) -> str:
 
 
 def through(
-	provider: str, model: str, prompt: str, most: int = MOST, tenant: str | None = None
-) -> str:
+	provider: str,
+	model: str,
+	prompt: str,
+	most: int = MOST,
+	tenant: str | None = None,
+	whole: bool = False,
+):
+	"""One call. `whole` also hands back the body, which is what carries usage."""
 	site.require_admin()
 	spoken = PROVIDERS.get(provider)
 	if not spoken:
@@ -114,7 +120,122 @@ def through(
 	except requests.RequestException as raised:
 		raise Again(f"{model} could not be reached: {raised}") from raised
 
-	return _answered(model, spoken, answer)
+	return _answered(model, spoken, answer, whole)
+
+
+def call(
+	model: str,
+	prompt: str,
+	tenant: str,
+	caps: dict | None = None,
+	reference: str | None = None,
+) -> dict:
+	"""One model call, billed: hold a ceiling, make it, settle the actual.
+
+	**Hold first.** Reading a balance and then calling is a race, and refusing
+	after the provider has answered is a call we paid for and then told the
+	customer they could not have. The hold is priced from the caps the caller
+	declared — a ceiling, not a forecast — and the only thing that matters about
+	it is that two calls cannot both spend the last credit.
+
+	**Settle on what the provider reported**, never on an estimate. A response
+	that carries no usage at all is charged its hold and flagged, because the
+	provider billed us for it either way and charging zero would be a model that
+	costs money and earns none.
+	"""
+	site.require_admin()
+	sold = _offered(model)
+	rates = _rates(sold)
+	money = _money()
+	markup = sold.markup or money["markup"]
+	per_dollar = money["per_dollar"]
+
+	try:
+		most = pricing.ceiling(rates, caps or {}, markup, per_dollar)
+	except pricing.Unpriceable as raised:
+		raise Refused(f"{model} cannot be priced: {raised}") from raised
+
+	holding = ledger.reserve(tenant, max(most.credits, _LEAST), why=model, reference=reference)
+	try:
+		answer, body = _said(sold, prompt, caps or {}, tenant)
+	except Exception:
+		ledger.release(holding)
+		raise
+
+	used, unmetered = meter.read(sold.provider, body, pricing.asked(caps or {}))
+	spent = pricing.bill(rates, used, markup, per_dollar)
+	if unmetered or not spent.whole or not used:
+		# Charged the hold, named, and never zero.
+		charged = max(most.credits, _LEAST)
+		note = unmetered or _unpriced(spent)
+		ledger.commit(holding, charged)
+		return {
+			"said": answer,
+			"credits": charged,
+			"usd": spent.usd,
+			"metered": False,
+			"why": note,
+		}
+
+	ledger.commit(holding, spent.credits)
+	return {
+		"said": answer,
+		"credits": spent.credits,
+		"usd": spent.usd,
+		"metered": True,
+		"used": [
+			{"kind": u.kind, "modality": u.modality, "unit": u.unit, "count": u.count, "asked": u.asked}
+			for u in used
+		],
+	}
+
+
+#: The smallest hold worth taking. A call whose caps price at nothing still has
+#: to reserve something, or two of them race for a balance neither is holding.
+_LEAST = 0.000001
+
+
+def _offered(model: str):
+	sold = frappe.get_cached_doc("AI Model", model)
+	if not sold.offered or sold.status != "Priced":
+		raise Refused(f"{model} is not offered")
+	return sold
+
+
+def _rates(sold) -> list:
+	from onedesk.one_admin.prices import Rate
+
+	return [
+		Rate(
+			kind=row.kind,
+			modality=row.modality,
+			unit=row.unit,
+			per=row.per or 1,
+			usd=row.usd or 0,
+		)
+		for row in sold.rates or []
+	]
+
+
+def _money() -> dict:
+	stored = frappe.get_cached_doc("One Admin Settings")
+	return {
+		"markup": stored.default_markup or 0,
+		"per_dollar": stored.credits_per_dollar or 0,
+	}
+
+
+def _unpriced(spent: pricing.Bill) -> str:
+	said = ", ".join(f"{u.count} {u.unit} of {u.kind} {u.modality}" for u in spent.unpriced)
+	return f"nothing in the catalogue prices {said}" if said else ""
+
+
+def _said(sold, prompt: str, caps: dict, tenant: str) -> tuple[str, dict]:
+	"""The words and the whole body, because the body is what carries the usage."""
+	most = int(caps.get("output_tokens") or MOST)
+	return through(
+		sold.provider, sold.model, prompt, most=most, tenant=tenant, whole=True
+	)
 
 
 def get(provider: str, path: str, timeout: int = TIMEOUT) -> dict:
@@ -149,7 +270,7 @@ def get(provider: str, path: str, timeout: int = TIMEOUT) -> dict:
 		raise Refused(f"{provider}/{path} answered 200 with something that is not JSON") from raised
 
 
-def _answered(model: str, spoken: dict, answer) -> str:
+def _answered(model: str, spoken: dict, answer, whole: bool = False):
 	if answer.status_code != 200:
 		raise faults.raised(model, answer.status_code, _detail(answer))
 	try:
@@ -167,7 +288,7 @@ def _answered(model: str, spoken: dict, answer) -> str:
 		# not understand — and treating it as an empty answer is how a provider
 		# changing its response silently starts returning blanks to customers.
 		raise Refused(f"{model} answered 200 with no text in it", 200, json.dumps(body)[: faults.KEPT])
-	return said
+	return (said, body) if whole else said
 
 
 def _first_part(body: dict | None) -> str | None:

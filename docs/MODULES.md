@@ -38,13 +38,13 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| AI Model | 23 | document |
+| AI Model | 24 | document |
 | AI Model Rate | 7 | child |
 | Account Request | 16 | document |
 | Credit Ledger Entry | 14 | submittable |
 | Credit Reservation | 8 | document |
 | Offering | 19 | document |
-| One Admin Settings | 32 | single |
+| One Admin Settings | 34 | single |
 | Provisioning Job | 12 | document |
 | Stripe Webhook Event | 7 | document |
 | Tenant | 33 | document |
@@ -70,6 +70,7 @@ No doctypes yet.
 * `onedesk.one_admin.operator.fall`
 * `onedesk.one_admin.operator.give_credits`
 * `onedesk.one_admin.operator.measure`
+* `onedesk.one_admin.operator.price_a_call`
 * `onedesk.one_admin.operator.refresh_domain`
 * `onedesk.one_admin.operator.refresh_domains`
 * `onedesk.one_admin.operator.restore`
@@ -80,6 +81,7 @@ No doctypes yet.
 * `onedesk.one_admin.operator.sync_catalogue`
 * `onedesk.one_admin.operator.try_the_gateway`
 * `onedesk.one_admin.operator.walk`
+* `onedesk.one_admin.proxy.ai_call`
 * `onedesk.one_admin.proxy.domain_add`
 * `onedesk.one_admin.proxy.domain_check`
 * `onedesk.one_admin.proxy.domain_drop`

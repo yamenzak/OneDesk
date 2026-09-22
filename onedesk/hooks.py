@@ -182,6 +182,8 @@ doctype_js = {
 	"Offering": "public/js/offering.js",
 	# The gateway is the one credential here with nothing that later proves it.
 	"One Admin Settings": "public/js/admin_settings.js",
+	# What is charged on top, and what one call actually comes to.
+	"AI Model": "public/js/ai_model.js",
 	"Employee": "public/js/employee.js",
 	"Employee Attendance Tool": "public/js/attendance_tool.js",
 	"Attendance": "public/js/attendance.js",

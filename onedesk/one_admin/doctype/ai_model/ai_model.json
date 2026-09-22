@@ -23,6 +23,7 @@
   "column_break_sold",
   "status",
   "priced_by_hand",
+  "markup",
   "why",
   "rates_section",
   "rates",
@@ -147,6 +148,13 @@
    "label": "Priced by Hand",
    "in_standard_filter": 1,
    "description": "The sync leaves the rates below alone. For a model whose page this cannot read."
+  },
+  {
+   "fieldname": "markup",
+   "fieldtype": "Float",
+   "precision": "4",
+   "label": "Markup",
+   "description": "Empty uses the default in One Admin Settings."
   },
   {
    "fieldname": "why",

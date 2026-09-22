@@ -307,9 +307,44 @@ interleaving. There is a guard that fails if either half goes away.
 **A hold whose call never came back is let go nightly.** A worker that died
 mid-flight would otherwise promise a customer's credits to nothing, for good.
 
-**AI 4 — pricing and the three-step call.** Markup per model, credits per dollar,
-`ceiling()` from an action's limits, and the hold/call/settle in `gateway.py`.
-Metering per provider lands here, with a saved response from each.
+**AI 4 — pricing and the three-step call.** *Done.* `one_admin/pricing.py` for
+the arithmetic and `one_admin/meter.py` for reading a provider's answer, both
+pure; `markup` on a model with `default_markup` and `credits_per_dollar` behind
+it in One Admin Settings; and `gateway.call` holding, calling and settling.
+
+**The markup is per model with one fallback, and neither number has a default.**
+A flux tile at $0.0000528 and a Gemini Pro call at $2.50 a million tokens will
+not take the same multiplier, so one global number either gives the cheap models
+away or prices the expensive ones out. Providers publish what a call costs
+*them* and never what it should cost anybody else, so an unset markup refuses
+the call rather than inventing a margin.
+
+**The three steps, and where each one can be wrong.** The hold is priced from
+the caps the caller declared and is a ceiling rather than a forecast — the only
+thing that matters about it is that two calls cannot both spend the last credit.
+The call goes through the gateway. The settle charges what the provider
+*reported*, per modality where it says so: Gemini's `usageMetadata` breaks a
+prompt into text and picture tokens, which is two rates on this catalogue and
+could only ever have been billed at one of them otherwise.
+
+Cached tokens are the subtle one. Google counts them inside the prompt total as
+well, so the input line comes down by what the cache covered — left alone, the
+same four thousand tokens are billed at the input rate and again at the cache
+rate.
+
+**A call that answered but could not be metered is charged its hold and
+flagged.** Never zero: the provider billed us either way, and a model that costs
+money and earns none is worse than one nobody can call. A provider that fails
+outright releases the hold instead, so a dead call costs nothing.
+
+**Nothing is estimated.** A `Use` is either a count the provider reported or a
+parameter we sent, and it says which — `asked` is on the row. A reported line
+always beats one we asked for; what we sent is used only for the parts a
+provider does not report, which for Workers AI is pictures and speech.
+
+The operator gets `Price a call` on a model: a real call against a real
+workspace's real credits, because a number worked out any other way is a number
+nobody can check against a bill.
 
 **AI 5 — actions.** The `AI Action` fixture, the per-workspace `AI Action
 Setting` with its model picker filtered by capability and its appended wording,

@@ -286,3 +286,18 @@ def credit_standing(tenant: str) -> dict:
 	from onedesk.one_admin import ledger
 
 	return ledger.standing(tenant)
+
+
+@frappe.whitelist()
+def price_a_call(model: str, tenant: str, prompt: str, output_tokens: int = 256) -> dict:
+	"""One billed call an operator can make, to see what a model costs.
+
+	The same path a workspace takes, against a workspace's own credits, so the
+	number it answers with is the number that would be charged.
+	"""
+	_may()
+	from onedesk.one_admin import gateway
+
+	return gateway.call(
+		model, prompt, tenant, caps={"output_tokens": int(output_tokens)}, reference=frappe.session.user
+	)
