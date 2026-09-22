@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 16:22+0000\n"
-"PO-Revision-Date: 2026-09-22 16:22+0000\n"
+"POT-Creation-Date: 2026-09-22 16:32+0000\n"
+"PO-Revision-Date: 2026-09-22 16:32+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -103,6 +103,10 @@ msgstr "Ein Buchungssatz über null Guthaben hält nichts fest."
 msgid "A model a provider offers, with the prices it publishes for it."
 msgstr "Ein Modell, das ein Anbieter anbietet, mit den Preisen, die er dafür veröffentlicht."
 
+#: onedesk/one_admin/doctype/ai_model/ai_model.py:29
+msgid "A model priced by hand needs at least one rate on it."
+msgstr "Ein von Hand bepreistes Modell braucht mindestens einen Preis."
+
 #: onedesk/one_hr/doctype/clock_network/clock_network.py:24
 msgid "A network belongs to a Shift Location or to one employee, not to both."
 msgstr "Ein Netzwerk gehört zu einem Standort der Schicht oder zu einem einzelnen Mitarbeiter, nicht zu beiden."
@@ -119,6 +123,10 @@ msgstr "Ein Ort gehört zu einem Standort der Schicht oder zu einem einzelnen Mi
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 msgid "A queued unit of work against a workspace. Created by the system."
 msgstr "Eine eingereihte Arbeitseinheit für einen Arbeitsbereich. Wird vom System angelegt."
+
+#: onedesk/one_admin/doctype/ai_model/ai_model.py:34
+msgid "A rate needs a unit, how many of them, and what they cost."
+msgstr "Ein Preis braucht eine Einheit, wie viele davon und was sie kosten."
 
 #. Description of a DocType
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
@@ -626,6 +634,16 @@ msgstr "Anwesenheit nach Schicht"
 #: onedesk/public/js/shift_type.js:26
 msgid "Attendance will be written from check-ins on this shift from today onwards."
 msgstr "Ab heute wird die Anwesenheit aus dem Einchecken dieser Schicht erfasst."
+
+#. Label of the reads_audio (Check) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Audio"
+msgstr "Audio"
+
+#. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Audio Generation"
+msgstr "Audioerzeugung"
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:34
 msgid "Aug"
@@ -2109,6 +2127,11 @@ msgstr "Ist dies deaktiviert, erfasst kein Einchecken seine Herkunft und die Sta
 msgid "If unchecked, a missing passkey is only flagged."
 msgstr "Ist dies nicht aktiviert, wird ein fehlender Passkey nur markiert."
 
+#. Label of the reads_image (Check) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Image"
+msgstr ""
+
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Image Generation"
@@ -2637,6 +2660,11 @@ msgstr ""
 msgid "Monthly Attendance"
 msgstr "Monatliche Anwesenheit"
 
+#. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Multimodal"
+msgstr "Multimodal"
+
 #. Label of the workspace_name (Data) field in DocType 'Workspace Account'
 #. Label of the label (Data) field in DocType 'AI Model'
 #. Label of the label (Data) field in DocType 'Clock Network'
@@ -2735,7 +2763,7 @@ msgstr "Zurzeit wird kein Tarif angeboten."
 msgid "No position was sent."
 msgstr "Es wurde keine Position übermittelt."
 
-#: onedesk/one_admin/catalogue.py:204
+#: onedesk/one_admin/catalogue.py:189
 msgid "No price for this model on the published page."
 msgstr "Kein Preis für dieses Modell auf der veröffentlichten Seite."
 
@@ -3472,6 +3500,15 @@ msgstr ""
 msgid "Priced"
 msgstr "Bepreist"
 
+#. Label of the priced_by_hand (Check) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Priced by Hand"
+msgstr "Von Hand bepreist"
+
+#: onedesk/one_admin/catalogue.py:225
+msgid "Priced by hand, and no rate has been added."
+msgstr "Von Hand bepreist, und es wurde kein Preis hinterlegt."
+
 #. Label of the primary (Check) field in DocType 'Workspace Domain'
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
 msgid "Primary"
@@ -4189,11 +4226,6 @@ msgstr "Einige Tage wurden gekürzt"
 msgid "Source"
 msgstr ""
 
-#. Option for the 'Capability' (Select) field in DocType 'AI Model'
-#: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Speech"
-msgstr "Sprache"
-
 #. Option for the 'Kind' (Select) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 msgid "Spend"
@@ -4434,6 +4466,12 @@ msgstr "Über iCloud-Schlüsselbund oder Google Passwortmanager synchronisiert u
 msgid "System Manager"
 msgstr ""
 
+#. Description of the 'What It Reads' (Section Break) field in DocType 'AI
+#. Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Taken from the provider's own word for the model and from every input price it publishes."
+msgstr "Übernommen aus der Bezeichnung des Anbieters und aus jedem Eingabepreis, den er veröffentlicht."
+
 #: onedesk/public/js/timesheet.js:50
 msgid "Task"
 msgstr ""
@@ -4472,6 +4510,11 @@ msgstr "Arbeitsbereich-Ereignis"
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Territory"
+msgstr ""
+
+#. Label of the reads_text (Check) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Text"
 msgstr ""
 
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
@@ -4621,7 +4664,12 @@ msgstr "Die neue Position, auf dem Dokument gehalten, damit Liste und Filter sie
 msgid "The next step to run. Steps can safely run more than once."
 msgstr "Der nächste auszuführende Schritt. Schritte dürfen mehrfach laufen."
 
-#: onedesk/one_admin/catalogue.py:209
+#. Description of the 'Capability' (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "The one word for it. What it can be fed is below, and the picker filters on both."
+msgstr "Das eine Wort dafür. Was es verarbeiten kann, steht darunter, und die Auswahl filtert nach beidem."
+
+#: onedesk/one_admin/catalogue.py:194
 msgid "The page lists this model and no price in effect today."
 msgstr "Die Seite listet dieses Modell und heute keinen gültigen Preis."
 
@@ -4687,6 +4735,11 @@ msgstr "Das Startdatum liegt nach dem Enddatum."
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 msgid "The status written on each day of an approved request. Work From Home is the only one Attendance keeps apart; everything else counts as a day at work."
 msgstr "Der Status, der an jedem Tag eines genehmigten Antrags erfasst wird. Nur Homeoffice führt die Anwesenheit getrennt; alles andere zählt als Arbeitstag."
+
+#. Description of the 'Priced by Hand' (Check) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "The sync leaves the rates below alone. For a model whose page this cannot read."
+msgstr "Der Abgleich lässt die Preise unten unangetastet. Für ein Modell, dessen Seite nicht gelesen werden kann."
 
 #. Description of the 'What Could Not Be Read' (Small Text) field in DocType
 #. 'AI Model'
@@ -4886,6 +4939,11 @@ msgstr ""
 msgid "Training Result"
 msgstr ""
 
+#. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Transcription"
+msgstr "Transkription"
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Travel Request"
@@ -5022,6 +5080,16 @@ msgstr "Entscheidung"
 msgid "Verification"
 msgstr ""
 
+#. Label of the reads_video (Check) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Video"
+msgstr ""
+
+#. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Video Generation"
+msgstr "Videoerzeugung"
+
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Vision"
@@ -5082,10 +5150,10 @@ msgstr "Was die Anwesenheit erfasst hat, bevor das Maximum der Art angewendet wu
 msgid "What Could Not Be Read"
 msgstr "Was nicht gelesen werden konnte"
 
-#. Description of the 'Capability' (Select) field in DocType 'AI Model'
+#. Label of the reads_section (Section Break) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "What an action asks for. A model picker filters on this."
-msgstr "Was eine Aktion verlangt. Die Modellauswahl filtert danach."
+msgid "What It Reads"
+msgstr "Was es liest"
 
 #. Description of the 'Reference' (Data) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
@@ -5302,6 +5370,11 @@ msgstr "Arbeitsbereiche sind unter &lt;Kennung&gt;.&lt;dies&gt; erreichbar, zum 
 #: onedesk/one_hr/custom/attendance_request.json
 msgid "Write attendance on the holidays inside these dates as well. Left off, holidays in the range are skipped."
 msgstr "Auch an den Feiertagen innerhalb dieser Daten Anwesenheit erfassen. Ohne Haken werden Feiertage im Zeitraum übersprungen."
+
+#. Description of the 'Rates' (Table) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Written by the sync. Editable only on a model priced by hand."
+msgstr "Vom Abgleich geschrieben. Nur bei einem von Hand bepreisten Modell änderbar."
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:45
 msgid "Year"
@@ -5649,7 +5722,7 @@ msgstr "{0} steht auf {1}, und die Stufe darunter ist nicht {2}."
 msgid "{0} is taken."
 msgstr "{0} ist vergeben."
 
-#: onedesk/one_admin/doctype/ai_model/ai_model.py:23
+#: onedesk/one_admin/doctype/ai_model/ai_model.py:25
 msgid "{0} is {1}, so it cannot be offered."
 msgstr "{0} ist {1} und kann daher nicht angeboten werden."
 

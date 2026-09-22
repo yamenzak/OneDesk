@@ -22,7 +22,6 @@
    "label": "Kind",
    "options": "input\ncached\noutput\nusage",
    "reqd": 1,
-   "read_only": 1,
    "in_list_view": 1,
    "columns": 1,
    "description": "A cache read is a third thing, not a cheaper input."
@@ -33,7 +32,6 @@
    "label": "Modality",
    "options": "text\nimage\naudio\nvideo\nother",
    "reqd": 1,
-   "read_only": 1,
    "in_list_view": 1,
    "columns": 1
   },
@@ -42,7 +40,6 @@
    "fieldtype": "Int",
    "label": "Per",
    "default": "1",
-   "read_only": 1,
    "in_list_view": 1,
    "columns": 1
   },
@@ -51,7 +48,6 @@
    "fieldtype": "Data",
    "label": "Unit",
    "reqd": 1,
-   "read_only": 1,
    "in_list_view": 1,
    "columns": 2,
    "description": "The provider's own word. Nothing converts between units."
@@ -61,7 +57,6 @@
    "fieldtype": "Float",
    "label": "USD",
    "precision": "9",
-   "read_only": 1,
    "in_list_view": 1,
    "columns": 2
   },
@@ -69,14 +64,12 @@
    "fieldname": "starts",
    "fieldtype": "Date",
    "label": "Starts",
-   "read_only": 1,
    "description": "When a published price takes over from the one before it."
   },
   {
    "fieldname": "ends",
    "fieldtype": "Date",
-   "label": "Ends",
-   "read_only": 1
+   "label": "Ends"
   }
  ],
  "index_web_pages_for_search": 0,

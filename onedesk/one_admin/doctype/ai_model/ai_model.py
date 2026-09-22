@@ -10,9 +10,11 @@ from frappe.model.document import Document
 
 from onedesk.one_admin import site
 
-#: The only field a person may change. Everything else is a copy of what a
-#: provider said, and a copy somebody edited is a copy that lies.
-THEIRS = ("offered",)
+#: What a person may change. Everything else is a copy of what a provider said,
+#: and a copy somebody edited is a copy that lies — except the rates, and only
+#: on a model nobody could read a price for, where a person typing one off the
+#: page is taking responsibility rather than inventing a default.
+THEIRS = ("offered", "priced_by_hand", "rates")
 
 
 class AIModel(Document):
@@ -22,3 +24,12 @@ class AIModel(Document):
 			frappe.throw(
 				frappe._("{0} is {1}, so it cannot be offered.").format(self.model, self.status)
 			)
+		if self.priced_by_hand and not self.rates:
+			frappe.throw(
+				frappe._("A model priced by hand needs at least one rate on it.")
+			)
+		for rate in self.rates or []:
+			if not rate.unit or not rate.per or rate.usd is None:
+				frappe.throw(
+					frappe._("A rate needs a unit, how many of them, and what they cost.")
+				)

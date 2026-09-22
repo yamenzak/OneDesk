@@ -346,14 +346,21 @@ def _one_table(read: Read, model: str, table: str) -> None:
 	if not rows:
 		return
 	per, unit = _unit_of(rows[0])
+	billable = 0
 	for cells in rows[1:]:
 		if len(cells) < 2:
 			continue
 		label = cells[0].lower()
 		if not label or any(said in label for said in NOT_A_CALL):
 			continue
+		billable += 1
 		named = next((k for spelling, k in LABELLED if label.startswith(spelling)), None)
 		if named is None:
+			# A row whose label is not a kind of price. Veo and Lyria are priced
+			# this way — the label names a variant of the model and the whole row
+			# is its price — and reading one as an output rate would attach a
+			# video's per-second price to whatever model the heading named.
+			read.gaps.append(Gap(model, cells[0], _unreadable(cells[-1])))
 			continue
 		# The paid column is the last one; the free tier is not what we resell.
 		paid = cells[-1]
@@ -362,9 +369,38 @@ def _one_table(read: Read, model: str, table: str) -> None:
 			return
 		kind, modality = named
 		rates, unread = _dated(paid, kind, modality, per, unit)
+		clash = _clashing(rates)
 		read.rates.setdefault(model, []).extend(rates)
-		if unread:
-			read.gaps.append(Gap(model, cells[0], unread))
+		if unread or clash:
+			read.gaps.append(Gap(model, cells[0], unread or clash))
+
+	if billable and model not in read.rates:
+		read.gaps.append(Gap(model, "table", "a table of prices with no row this could read"))
+
+
+def _unreadable(paid: str) -> str:
+	said = _plain(paid)
+	return said or "a price row with nothing in it"
+
+
+def _clashing(rates: list[Rate]) -> str:
+	"""Two rates for the same thing, with nothing to tell them apart.
+
+	Veo's row is `$0.40 (720p and 1080p) $0.60 (4k)`: two prices per second of
+	video, differing by a resolution this schema has no field for. Kept as they
+	are, one of them silently wins the moment anything looks a rate up — so the
+	row goes in front of a person instead.
+	"""
+	seen: dict[tuple, float] = {}
+	for rate in rates:
+		key = (rate.kind, rate.modality, rate.unit, rate.per, rate.starts, rate.ends)
+		if key in seen and seen[key] != rate.usd:
+			return (
+				f"two prices for the same {rate.unit}: "
+				f"{seen[key]} and {rate.usd}, with nothing saying which applies"
+			)
+		seen[key] = rate.usd
+	return ""
 
 
 def _unit_of(header: list[str]) -> tuple[int, str]:

@@ -25,7 +25,7 @@ from datetime import date
 import frappe
 import requests
 
-from onedesk.one_admin import faults, gateway, prices, site
+from onedesk.one_admin import capability, faults, gateway, prices, site
 from onedesk.one_admin.faults import Again, Refused
 
 #: Cloudflare's own API, which is not the gateway. Listing models is not a model
@@ -42,37 +42,6 @@ PAGES = {
 #: The parser for each page. Kept beside PAGES rather than inside prices.py so
 #: that module stays a thing you hand text to.
 READS = {"workers-ai": prices.workers_ai, "google-ai-studio": prices.gemini}
-
-#: What Cloudflare calls a task, and what we call the capability. An action
-#: names one of ours and the model picker filters on it, so a task we do not
-#: recognise is "Other" and simply never matches an action.
-A_TASK = {
-	"text generation": "Text Generation",
-	"text-to-image": "Image Generation",
-	"image-to-image": "Image Generation",
-	"image-to-text": "Vision",
-	"object detection": "Vision",
-	"image classification": "Vision",
-	"text embeddings": "Embedding",
-	"automatic speech recognition": "Speech",
-	"text-to-speech": "Speech",
-	"translation": "Text Generation",
-	"summarization": "Text Generation",
-	"text classification": "Text Generation",
-}
-
-#: The same for Google, which says what a model can be *called* with rather than
-#: what it does. `generateContent` is the general one and covers vision too, so
-#: it is read as text generation and an action wanting vision picks a model a
-#: person marked as one.
-A_METHOD = {
-	"embedcontent": "Embedding",
-	"batchembedcontents": "Embedding",
-	"predict": "Image Generation",
-	"predictlongrunning": "Image Generation",
-	"generatecontent": "Text Generation",
-	"bidigeneratecontent": "Speech",
-}
 
 #: How many models a page of Cloudflare's listing holds.
 AT_A_TIME = 100
@@ -133,11 +102,13 @@ def _cloudflare_models() -> list[dict]:
 		rows = body.get("result") or []
 		for row in rows:
 			task = ((row.get("task") or {}).get("name") or "").lower()
+			produces, reads = capability.A_TASK.get(task, ("", set()))
 			found.append(
 				{
 					"model": row.get("name") or "",
 					"label": (row.get("name") or "").rsplit("/", 1)[-1],
-					"capability": A_TASK.get(task, "Other"),
+					"produces": produces,
+					"reads": set(reads),
 				}
 			)
 		if len(rows) < AT_A_TIME:
@@ -151,9 +122,14 @@ def _google_models() -> list[dict]:
 	for row in body.get("models") or []:
 		named = (row.get("name") or "").split("/")[-1]
 		methods = [m.lower() for m in (row.get("supportedGenerationMethods") or [])]
-		capability = next((A_METHOD[m] for m in methods if m in A_METHOD), "Other")
+		produces, reads = next((capability.A_METHOD[m] for m in methods if m in capability.A_METHOD), ("", set()))
 		found.append(
-			{"model": named, "label": row.get("displayName") or named, "capability": capability}
+			{
+				"model": named,
+				"label": row.get("displayName") or named,
+				"produces": produces,
+				"reads": set(reads),
+			}
 		)
 	return [one for one in found if one["model"]]
 
@@ -192,10 +168,19 @@ def _matched(
 	than a branch. A name that still does not match is left unpriced rather than
 	guessed at.
 	"""
-	by_fold = {prices.fold(name): name for name in read.rates}
 	stopped: dict[str, list[str]] = {}
 	for gap in read.gaps:
 		stopped.setdefault(prices.fold(gap.model), []).append(f"{gap.what}: {gap.wording}")
+
+	# Gap models as well as priced ones. A model the page prices in a way this
+	# cannot read — Veo, per second of video and by resolution — would otherwise
+	# be told "no price on the published page", which is the wrong sentence: the
+	# price is there and we could not read it, and those are different problems
+	# with different answers.
+	by_fold = {prices.fold(name): name for name in read.rates}
+	for gap in read.gaps:
+		by_fold.setdefault(prices.fold(gap.model), gap.model)
+	by_fold.pop("", None)
 
 	found = {}
 	for one in listed:
@@ -204,7 +189,7 @@ def _matched(
 			found[one["model"]] = ([], frappe._("No price for this model on the published page."))
 			continue
 		why = "; ".join(stopped.get(prices.fold(name), []))
-		rates = prices.in_effect(read.rates[name], date.today())
+		rates = prices.in_effect(read.rates.get(name) or [], date.today())
 		if not rates and not why:
 			why = frappe._("The page lists this model and no price in effect today.")
 		found[one["model"]] = (rates, why)
@@ -229,13 +214,25 @@ def _write(
 		model.update({"provider": provider, "model": one["model"], "offered": 0})
 
 	model.label = one.get("label") or one["model"]
-	model.capability = one.get("capability") or "Other"
 	model.seen_on = now
-	model.status = "Priced" if rates and not why else "Needs Review"
-	model.why = why or None
-	if rates:
-		model.set("rates", [_row(rate) for rate in rates])
-		model.priced_on = now
+
+	if model.priced_by_hand:
+		# A price somebody typed off the provider's page, for a model this
+		# cannot read — Veo's per-second video prices differ by resolution and
+		# Lyria's are per song. The sync leaves those rows alone rather than
+		# deleting a decision every night, and still refreshes everything else.
+		model.status = "Priced" if model.rates else "Needs Review"
+		model.why = None if model.rates else frappe._("Priced by hand, and no rate has been added.")
+	else:
+		model.status = "Priced" if rates and not why else "Needs Review"
+		model.why = why or None
+		if rates:
+			model.set("rates", [_row(rate) for rate in rates])
+			model.priced_on = now
+	# After the rates are settled, so a hand-typed one counts: an output rate for
+	# a song is the plainest statement there is that a model makes audio, and it
+	# is the only statement Google's API gives us for Lyria at all.
+	_what_it_does(model, one, [_rated(row) for row in model.rates or []])
 	if model.status != "Priced":
 		model.offered = 0
 
@@ -243,6 +240,39 @@ def _write(
 	model.save() if held else model.insert(ignore_permissions=True)
 	touched["seen"] += 1
 	touched["priced" if model.status == "Priced" else "review"] += 1
+
+
+def _what_it_does(model, one: dict, rates: list[prices.Rate]) -> None:
+	"""What a model reads and what it makes, from both sources at once.
+
+	The provider's own word sets a floor and the published rates raise it: a
+	model priced for image input reads images whatever its API said it was for.
+	Which is how `gemini-2.5-flash-lite` stops being "text generation" and
+	starts being a model that reads text, images, audio and video.
+	"""
+	reads = set(one.get("reads") or ())
+	reads |= {rate.modality for rate in rates if rate.kind in ("input", "cached")}
+	makes = {rate.modality for rate in rates if rate.kind == "output"}
+
+	produces = one.get("produces") or ""
+	# An output rate for something other than text is the provider saying what
+	# this model is for more plainly than its API did.
+	louder = makes - {"text", "other"}
+	if len(louder) == 1:
+		produces = louder.pop()
+	elif not produces and makes:
+		produces = "text"
+
+	model.capability = capability.named(produces, reads)
+	for one_of in ("text", "image", "audio", "video"):
+		model.set(f"reads_{one_of}", 1 if one_of in reads else 0)
+
+
+def _rated(row) -> prices.Rate:
+	"""A stored rate read back as the thing `prices.py` deals in."""
+	return prices.Rate(
+		kind=row.kind, modality=row.modality, unit=row.unit, per=row.per or 1, usd=row.usd or 0
+	)
 
 
 def _row(rate: prices.Rate) -> dict:

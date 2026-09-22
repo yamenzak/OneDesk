@@ -72,20 +72,45 @@ pictures per tile and per diffusion step, speech per audio minute. So a rate is
 units**. A price schema that flattened all of this to "tokens" would be wrong
 for half the catalogue and silently.
 
-**A model nothing could price is not sellable.** The parser returns what it could
-not read alongside what it could, and a model with a gap lands as `Needs Review`
-carrying the wording that defeated it. There is no default price, because the
-failure mode of a default is billing somebody a number we invented.
+**A model nothing could price is not sellable, unless a person prices it.** The
+parser returns what it could not read alongside what it could, and a model with
+a gap lands as `Needs Review` carrying the wording that defeated it. There is no
+default price, because the failure mode of a default is billing somebody a
+number we invented.
+
+A person typing one is a different thing: `priced_by_hand` makes the rate rows
+editable and the sync then leaves them alone while still refreshing everything
+else. That is what makes Veo and Lyria sellable — Veo prices a second of video
+and differs by resolution, Lyria prices a song, and neither shape fits a table
+this reads. A hand-typed output rate also settles what the model *makes*, which
+is the only statement Google's API gives us about Lyria at all.
+
+**Two prices for the same thing is a gap, not a coin toss.** Found by the guard
+rather than by reading: Gemini 2.5 Pro prices a prompt under 200k tokens at
+$1.25 and one over it at $2.50, and the parser was keeping the first and billing
+every long prompt at half price. A context length is a dimension this schema has
+no field for, and inventing one to carry an unused distinction is worse than
+saying so.
 
 **The sync never overrules the operator.** It creates rows and refreshes facts.
 Whether a model is *offered* is a decision and stays one. The only two decisions
 it makes on its own are the ones it must: a model that stopped being priceable
 comes off sale, and a model the provider withdrew is marked gone.
 
-**A capability is what the picker filters on.** An action declares the capability
-it needs — text generation, vision, embedding, speech — and the model picker on
-that action shows only models that have it. Nobody picks a model that cannot do
-the job and finds out at the call.
+**A capability is what the picker filters on, and it is two facts rather than
+one word.** A model carries what it *makes* and what it can be *fed*, the second
+being a set, and the one word on a list is derived from both — Text Generation,
+Vision, Multimodal, Transcription, Image Generation, Video Generation, Audio
+Generation, Embedding. An action declares what it needs and the picker filters
+on `reads_*` and the word together, so nobody picks a model that cannot do the
+job and finds out at the call.
+
+One word was not enough, and the first version of this proved it:
+`gemini-2.5-flash-lite` was filed as text generation because that is what its
+API said it could be *called* with, while its own price page carries input rates
+for text, pictures, sound and video. So the provider's word sets a floor and the
+published rates raise it. `one_admin/capability.py` is pure and holds the whole
+of that decision.
 
 ## Credits are abstract, and the balance is a sum
 

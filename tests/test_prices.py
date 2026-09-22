@@ -187,3 +187,42 @@ def test_names_from_two_sources_fold_onto_each_other():
 	assert prices.fold("Gemini 3.1 Flash Image (Nano Banana 2) 🍌") == "gemini-3-1-flash-image"
 	assert prices.fold("gemini-3.1-flash-image") == "gemini-3-1-flash-image"
 	assert prices.fold("@cf/meta/llama-3.1-8b") == "cf-meta-llama-3-1-8b"
+
+
+def test_two_prices_for_the_same_thing_is_a_gap_not_a_coin_toss():
+	"""Found by this guard, not by reading: Gemini 2.5 Pro prices a prompt under
+	200k tokens at $1.25 and one over at $2.50, and the parser was keeping the
+	first and billing every long prompt at half price.
+
+	A context length is a dimension this schema has no field for. Inventing one
+	to carry an unused distinction is worse than saying so.
+	"""
+	read = gemini()
+	for name in ("Gemini 2.5 Pro", "Gemini 3.1 Pro Preview"):
+		assert name not in read.priced(), f"{name} is being priced from two prices"
+		said = [g.wording for g in read.gaps if g.model == name]
+		assert any("two prices for the same" in one for one in said), said
+
+
+def test_a_price_row_this_cannot_read_is_named_rather_than_skipped():
+	"""Veo's rows are a model variant each, priced per second of video and
+	differing by resolution. Silently skipping them left three video models with
+	no price and nothing saying the page had one."""
+	read = gemini()
+	veo = [g for g in read.gaps if g.model == "Veo 3.1"]
+	assert veo, "the Veo table is being passed over without a word"
+	assert any("720p" in g.wording for g in veo)
+	assert "Veo 3.1" not in read.rates
+
+
+def test_a_table_with_no_row_this_could_read_says_so():
+	read = gemini()
+	for name in ("Veo 3.1", "Lyria 3.5"):
+		assert any(g.what == "table" for g in read.gaps if g.model == name), name
+
+
+def test_lyria_is_named_even_though_nothing_could_price_it():
+	"""So the matcher can tell a model the page does not mention from one it
+	mentions and we could not read — different problems, different answers."""
+	said = [g.wording for g in gemini().gaps if g.model == "Lyria 3.5"]
+	assert any("per song" in one for one in said), said

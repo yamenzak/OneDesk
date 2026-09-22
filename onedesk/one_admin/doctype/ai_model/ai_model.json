@@ -12,10 +12,17 @@
   "column_break_what",
   "label",
   "capability",
+  "reads_section",
+  "reads_text",
+  "reads_image",
+  "column_break_reads",
+  "reads_audio",
+  "reads_video",
   "sold_section",
   "offered",
   "column_break_sold",
   "status",
+  "priced_by_hand",
   "why",
   "rates_section",
   "rates",
@@ -58,11 +65,53 @@
    "fieldname": "capability",
    "fieldtype": "Select",
    "label": "Capability",
-   "options": "\nText Generation\nVision\nImage Generation\nEmbedding\nSpeech\nOther",
+   "options": "\nText Generation\nVision\nMultimodal\nTranscription\nImage Generation\nVideo Generation\nAudio Generation\nEmbedding\nOther",
    "read_only": 1,
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "description": "What an action asks for. A model picker filters on this."
+   "description": "The one word for it. What it can be fed is below, and the picker filters on both."
+  },
+  {
+   "fieldname": "reads_section",
+   "fieldtype": "Section Break",
+   "label": "What It Reads",
+   "description": "Taken from the provider's own word for the model and from every input price it publishes."
+  },
+  {
+   "default": "0",
+   "fieldname": "reads_text",
+   "fieldtype": "Check",
+   "label": "Text",
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "reads_image",
+   "fieldtype": "Check",
+   "label": "Image",
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_break_reads",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "reads_audio",
+   "fieldtype": "Check",
+   "label": "Audio",
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "reads_video",
+   "fieldtype": "Check",
+   "label": "Video",
+   "read_only": 1,
+   "in_standard_filter": 1
   },
   {
    "fieldname": "sold_section",
@@ -92,6 +141,14 @@
    "in_standard_filter": 1
   },
   {
+   "default": "0",
+   "fieldname": "priced_by_hand",
+   "fieldtype": "Check",
+   "label": "Priced by Hand",
+   "in_standard_filter": 1,
+   "description": "The sync leaves the rates below alone. For a model whose page this cannot read."
+  },
+  {
    "fieldname": "why",
    "fieldtype": "Small Text",
    "label": "What Could Not Be Read",
@@ -108,7 +165,10 @@
    "fieldtype": "Table",
    "label": "Rates",
    "options": "AI Model Rate",
-   "read_only": 1
+   "read_only": 0,
+   "depends_on": "",
+   "description": "Written by the sync. Editable only on a model priced by hand.",
+   "read_only_depends_on": "eval:!doc.priced_by_hand"
   },
   {
    "fieldname": "seen_section",
