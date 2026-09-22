@@ -1,0 +1,16 @@
+{
+ "custom_fields": [],
+ "doctype": "Job Offer",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Job Offer",
+   "doctype_or_field": "DocField",
+   "field_name": "applicant_name",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  }
+ ],
+ "sync_on_migrate": 1
+}

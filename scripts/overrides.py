@@ -347,6 +347,13 @@ OVERRIDES = [
 		"Please set default template for Leave Status Notification in HR Settings.",
 	),
 	(
+		"An appointment letter carries the template it was told to use",
+		"`introduction` and `terms` are both required and both filled by eleven lines of their form script",
+		"onedesk/one_hr/letter.py",
+		"hrms/hrms/hr/doctype/appointment_letter/appointment_letter.py",
+		"def get_appointment_letter_details",
+	),
+	(
 		"An interview is titled by the person being interviewed",
 		"its title field is the Job Applicant's docname, which hrms names after their email address",
 		"onedesk/one_hr/custom/interview.json",

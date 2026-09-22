@@ -51,6 +51,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | The balance in the headline is worked out, not read | `leave_balance` is filled by their form script, so it is nought on an application made any other way | `onedesk/one_hr/leave.py` | `hrms/hrms/hr/doctype/leave_application/leave_application.py` | `def get_leave_balance_on` |
 | Telemetry bookkeeping is kept off the screen | their milestone insert fails inside a savepoint and the message outlives the rollback | `onedesk/one/quiet.py` | `hrms/hrms/telemetry.py` | `def _claim_milestone` |
 | The two leave mails have something to send | `send_leave_notification` ships on with no template, so every approval nagged instead | `onedesk/fixtures/email_template.json` | `hrms/hrms/hr/doctype/leave_application/leave_application.py` | `Please set default template for Leave Status Notification in HR Settings.` |
+| An appointment letter carries the template it was told to use | `introduction` and `terms` are both required and both filled by eleven lines of their form script | `onedesk/one_hr/letter.py` | `hrms/hrms/hr/doctype/appointment_letter/appointment_letter.py` | `def get_appointment_letter_details` |
 | An interview is titled by the person being interviewed | its title field is the Job Applicant's docname, which hrms names after their email address | `onedesk/one_hr/custom/interview.json` | `hrms/hrms/hr/doctype/job_applicant/job_applicant.py` | `self.name = self.email_id` |
 | A vehicle log says how far, on how much | it carries the last and current odometer and not the distance between them, and hides the litres behind a collapsed section | `onedesk/public/js/vehicle_log.js` | `hrms/hrms/hr/doctype/vehicle_log/vehicle_log.json` | `last_odometer` |
 | The site has a default fiscal year | Vehicle Expenses defaults its filter to a user default nothing sets, then throws in a red modal before the page has drawn | `onedesk/one_hr/accounts.py` | `hrms/hrms/hr/report/vehicle_expenses/vehicle_expenses.js` | `default: frappe.defaults.get_user_default("fiscal_year")` |
@@ -81,4 +82,4 @@ Each row is something that would still run but stop working if upstream moved. `
 | Total Leaves Allocated is read-only | it is computed on save from the new days plus what was carried forward, so typing in it is overwritten | `onedesk/one_hr/custom/leave_allocation.json` | `hrms/hrms/hr/doctype/leave_allocation/leave_allocation.py` | `def set_total_leaves_allocated` |
 | The setup wizard's persona slide is replaced | its four required questions were read only by `capture_user_persona` | `onedesk/public/js/setup_wizard.js` | `erpnext/erpnext/public/js/setup_wizard.js` | `persona` |
 
-75 overrides.
+76 overrides.

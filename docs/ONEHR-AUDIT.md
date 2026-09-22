@@ -671,3 +671,41 @@ Job Applicant itself is in good shape. HRMS ships the verbs — **Shortlist**,
 the same dropdown beside the header pill. It is deliberately left editable,
 unlike the four request doctypes: the buttons only cover Open to Shortlisted or
 Rejected, and Hold, Replied and Accepted would become unreachable.
+
+### Job Opening, Job Offer, Staffing Plan
+
+Three list faults and one duplicate.
+
+**Job Opening** put its **Description** in the list — a paragraph of prose in a
+column, squeezing the job title beside it down to *"Site Engine…"*. It comes
+off; the description is on the record, which is where a paragraph belongs.
+
+**Job Offer** named the applicant three times: the Job Applicant link, Applicant
+Name and Applicant Email Address. With `show_title_field_in_link` now on Job
+Applicant the link reads *Nadia Khoury*, so `applicant_name` is a mirror and is
+hidden. The email stays, because it is a second fact rather than the same one.
+
+**Staffing Plan's list was `ID · Status` and nothing else** — not the period it
+covers, not the headcount, not the money. From Date, To Date and Total Estimated
+Budget join it.
+
+Job Requisition and Employee Referral needed nothing: both lists already carry
+what the screen is about.
+
+### Appointment Letter
+
+**The fourth instance of the same fault**, after `leave_balance`, the two
+benefit ceilings and the expense claim's cost centre. `introduction` and `terms`
+are both required on an Appointment Letter and both are filled by eleven lines
+of their form script when somebody picks a template. Nothing on the server does
+it, so a letter made any other way — an import, an API, the onboarding
+automation a workspace writes for itself — is refused with `MandatoryError:
+[Appointment Letter, HR-APP-LETTER-00001]: terms`, naming a table it cannot see
+how to fill.
+
+`one_hr/letter.py` reads the template before validate when the fields are empty.
+Their helper answers `[{introduction, closing_notes}, {"description": [rows]}]`
+— the terms arrive under a key called `description`, which is also the name of a
+field on each row — so it is read exactly the way their own form script reads
+it. A letter that already carries terms keeps them, because somebody edited them
+deliberately.

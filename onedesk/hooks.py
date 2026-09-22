@@ -74,6 +74,7 @@ doc_events = {
 	},
 	"Employee Benefit Application": {"before_validate": "onedesk.one_hr.benefit.application"},
 	"Employee Benefit Claim": {"before_validate": "onedesk.one_hr.benefit.claim"},
+	"Appointment Letter": {"before_validate": "onedesk.one_hr.letter.before_validate"},
 	# The reason is a record and submitting is an approval. See one_hr/request.py.
 	"Attendance Request": {
 		"before_validate": "onedesk.one_hr.request.before_validate",
