@@ -36,6 +36,8 @@ No doctypes yet.
 | Doctype | Fields | Kind |
 |---|--:|---|
 | One Admin Settings | 14 | single |
+| Provisioning Job | 12 | document |
+| Tenant | 17 | document |
 
 ## Desk records shipped as fixtures
 

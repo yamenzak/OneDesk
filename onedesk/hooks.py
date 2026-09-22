@@ -42,6 +42,10 @@ extend_bootinfo = "onedesk.one.boot.boot_session"
 
 # A pattern is not visible from inside one request. See one_hr/healing.py.
 scheduler_events = {
+	# A site takes minutes to build, so a request makes a job and this walks it.
+	# Inert on a tenant site: `runner.tick` asks whether this site administers
+	# workspaces before it asks whether there is anything to do.
+	"cron": {"*/2 * * * *": ["onedesk.one_admin.runner.tick"]},
 	"daily": [
 		"onedesk.one_hr.healing.nightly",
 		"onedesk.one_hr.leaving.nightly",

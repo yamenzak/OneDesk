@@ -1,0 +1,158 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "field:slug",
+ "creation": "2026-09-22 13:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "slug",
+  "workspace_name",
+  "column_break_who",
+  "status",
+  "owner_email",
+  "place_section",
+  "cluster",
+  "country",
+  "column_break_place",
+  "jurisdiction",
+  "bench",
+  "site_section",
+  "site",
+  "domain",
+  "column_break_site",
+  "token_hash",
+  "live_on"
+ ],
+ "fields": [
+  {
+   "description": "The subdomain, and this record's name. Never reused: a slug that has been live once names a workspace somebody may still have a link to.",
+   "fieldname": "slug",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Slug",
+   "reqd": 1,
+   "unique": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "workspace_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Workspace"
+  },
+  {"fieldname": "column_break_who", "fieldtype": "Column Break"},
+  {
+   "default": "Requested",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Requested\nProvisioning\nLive\nSuspended\nArchived\nFailed",
+   "reqd": 1
+  },
+  {
+   "fieldname": "owner_email",
+   "fieldtype": "Data",
+   "label": "Owner",
+   "options": "Email"
+  },
+  {
+   "fieldname": "place_section",
+   "fieldtype": "Section Break",
+   "label": "Where it lives",
+   "description": "One choice at signup sets both, and jurisdiction is permanent: R2 pins a bucket to it at creation, so changing it later means copying every object."
+  },
+  {
+   "description": "A press cluster. Read from press rather than kept in a table here.",
+   "fieldname": "cluster",
+   "fieldtype": "Data",
+   "label": "Cluster",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "label": "Country",
+   "options": "Country"
+  },
+  {"fieldname": "column_break_place", "fieldtype": "Column Break"},
+  {
+   "default": "Global",
+   "fieldname": "jurisdiction",
+   "fieldtype": "Select",
+   "label": "Jurisdiction",
+   "options": "Global\nEU",
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "description": "The press bench group this site was created on.",
+   "fieldname": "bench",
+   "fieldtype": "Data",
+   "label": "Bench"
+  },
+  {
+   "fieldname": "site_section",
+   "fieldtype": "Section Break",
+   "label": "The site",
+   "description": "What we asked press for, rather than a copy of what press holds. It has to be readable when press is not."
+  },
+  {
+   "fieldname": "site",
+   "fieldtype": "Data",
+   "label": "Press Site",
+   "read_only": 1
+  },
+  {
+   "description": "What a customer types. The site is reached here whatever press calls it.",
+   "fieldname": "domain",
+   "fieldtype": "Data",
+   "label": "Domain",
+   "read_only": 1
+  },
+  {"fieldname": "column_break_site", "fieldtype": "Column Break"},
+  {
+   "description": "Only ever a hash. The token itself is written into that site's own config once and never read back.",
+   "fieldname": "token_hash",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Token Hash",
+   "read_only": 1
+  },
+  {
+   "fieldname": "live_on",
+   "fieldtype": "Datetime",
+   "label": "Live On",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-22 13:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Admin",
+ "name": "Tenant",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "One Operator",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
