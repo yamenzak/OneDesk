@@ -63,6 +63,23 @@
 					class="one-ai-said"
 					:class="`one-ai-said--${said.role}`"
 				>
+					<div v-if="said.files && said.files.length" class="one-ai-files">
+						<a
+							v-for="file in said.files"
+							:key="file.url"
+							class="one-ai-file"
+							:href="file.url"
+							target="_blank"
+							rel="noopener"
+						>
+							<svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5">
+								<path d="M9 2H4.5A1.5 1.5 0 0 0 3 3.5v9A1.5 1.5 0 0 0 4.5 14h7a1.5 1.5 0 0 0 1.5-1.5V6z" stroke-linejoin="round" />
+								<path d="M9 2v4h4" stroke-linejoin="round" />
+							</svg>
+							<span>{{ file.name }}</span>
+						</a>
+					</div>
+
 					<div v-if="said.text" class="one-ai-said__text" :class="{ 'one-ai-prose': said.role === 'model' }">
 						<span class="one-ai-said__who">{{ said.role === "you" ? __("You") : ONEAI }}</span>
 						<span v-if="said.role === 'you'">{{ said.text }}</span>
@@ -117,7 +134,20 @@
 				</button>
 			</div>
 
+			<div v-if="waiting.length" class="one-ai-waiting">
+				<span v-for="(file, at) in waiting" :key="file.url" class="one-ai-waiting__one">
+					{{ file.name }}
+					<button class="one-ai-waiting__off" :title="__('Remove')" @click="waiting.splice(at, 1)">×</button>
+				</span>
+			</div>
+
 			<div class="one-ai-ask">
+				<button class="one-ai-clip" :title="__('Attach a file')" :disabled="busy" @click="attach">
+					<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">
+						<path d="M10.5 5.5 6 10a1.8 1.8 0 0 0 2.5 2.5l4.5-4.5a3.2 3.2 0 0 0-4.5-4.5L3.5 8.5a4.6 4.6 0 0 0 6.5 6.5"
+							stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+				</button>
 				<textarea
 					ref="box"
 					v-model="text"
@@ -126,7 +156,7 @@
 					@keydown.enter.exact.prevent="send()"
 					@input="fit"
 				></textarea>
-				<button class="one-ai-send" :disabled="busy || !text.trim()" :title="__('Send')" @click="send()">
+				<button class="one-ai-send" :disabled="busy || (!text.trim() && !waiting.length)" :title="__('Send')" @click="send()">
 					<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7">
 						<path d="M3 8h9M8.5 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
 					</svg>
@@ -161,6 +191,7 @@ const busy = ref(false);
 const text = ref("");
 const broke = ref("");
 const lastAsked = ref("");
+const waiting = ref([]);
 const doing = ref("");
 const threads = ref([]);
 const cards = ref({});
@@ -245,9 +276,25 @@ function toThreads() {
 	list();
 }
 
+// Frappe's own uploader, attaching to the conversation — so the file is a File
+// row with an owner and a permission, in the workspace, rather than something
+// living inside a transcript nobody can find again. The chat has to exist first,
+// which is why an empty one is saved before the dialog opens.
+async function attach() {
+	if (!chat.value.name) {
+		chat.value = await frappe.xcall("onedesk.one_ai.chat.start");
+	}
+	new frappe.ui.FileUploader({
+		doctype: "AI Chat",
+		docname: chat.value.name,
+		frm: null,
+		on_success: (file) => waiting.value.push({ name: file.file_name, url: file.file_url }),
+	});
+}
+
 async function send(again) {
 	const asked = (again || text.value).trim();
-	if (!asked || busy.value) return;
+	if ((!asked && !waiting.value.length) || busy.value) return;
 	if (!again) text.value = "";
 	lastAsked.value = asked;
 	broke.value = "";
@@ -257,7 +304,10 @@ async function send(again) {
 
 	// Shown before it is sent, so the question is on screen while the model is
 	// still thinking about it rather than appearing with the answer.
-	if (!again) chat.value.said.push({ role: "you", text: asked, looked: [], cards: [] });
+	const sending = waiting.value.splice(0);
+	if (!again) {
+		chat.value.said.push({ role: "you", text: asked, looked: [], cards: [], files: sending });
+	}
 	toBottom();
 
 	// The rounds take seconds each and a spinner that says nothing for twenty
@@ -270,6 +320,7 @@ async function send(again) {
 			text: asked,
 			chat: chat.value.name,
 			page: useHere.value && props.here ? props.here : null,
+			files: sending.map((one) => one.url),
 		});
 		await load();
 		emit("counted");

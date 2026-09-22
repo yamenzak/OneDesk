@@ -91,19 +91,37 @@ def opened(chat: str | None = None) -> dict:
 
 
 @frappe.whitelist()
-def say(text: str, chat: str | None = None, page: dict | str | None = None) -> dict:
+def start() -> dict:
+	"""An empty conversation, so a file has something to be attached to.
+
+	A file belongs to the chat it was dropped on, and frappe attaches to a row
+	that exists — so the row is made when the paperclip is pressed rather than
+	when the question is sent.
+	"""
+	doc = frappe.get_doc({"doctype": "AI Chat", "title": frappe._("New conversation")}).insert()
+	return {"name": doc.name, "title": doc.title, "said": [], "spent": 0.0}
+
+
+@frappe.whitelist()
+def say(
+	text: str,
+	chat: str | None = None,
+	page: dict | str | None = None,
+	files: list | str | None = None,
+) -> dict:
 	"""Say one thing, run the loop, and keep what came back.
 
 	The whole conversation is stored before the answer is asked for, so a run
 	that fails leaves the question in the chat rather than losing it.
 	"""
 	text = (text or "").strip()
-	if not text:
+	attached = frappe.parse_json(files) if isinstance(files, str) else (files or [])
+	if not text and not attached:
 		frappe.throw(frappe._("Nothing was asked."))
 
-	doc = _chat(chat, text)
+	doc = _chat(chat, text or (attached and attached[0]) or "")
 	turns = _turns(doc)
-	turns.extend(_asked(text, page))
+	turns.extend(_asked(text, page, attached))
 	_keep(doc, turns, spent=0.0)
 
 	out = _ran(doc, text, turns)
@@ -186,7 +204,11 @@ def _ran(doc, text: str, turns: list[dict]) -> dict:
 	from onedesk.one_admin import faults
 
 	try:
-		return run.ask(CHAT, text, reference=doc.name, turns=turns[-KEPT:])
+		from onedesk.one_ai import files as carrying
+
+		return run.ask(
+			CHAT, text, reference=doc.name, turns=carrying.carried(turns[-KEPT:])
+		)
 	except faults.Again:
 		frappe.throw(
 			frappe._("OneAI could not be reached just now. The question is still here — try again."),
@@ -238,6 +260,10 @@ def shown(turns: list[dict]) -> list[dict]:
 			{
 				"role": "model" if role == "model" else "you",
 				"text": one.get("text") or "",
+				"files": [
+					{key: value for key, value in file.items() if key != "data"}
+					for file in one.get("files") or []
+				],
 				"looked": looked,
 				"cards": [card for card in (look["card"] for look in looked) if card],
 			}
@@ -318,13 +344,25 @@ def _drawn(doctype: str, row: dict, most: int = FIELDS) -> dict:
 	}
 
 
-def _asked(text: str, page: dict | str | None) -> list[dict]:
-	"""The reader's turn, and the page they were on when they said it."""
+def _asked(text: str, page: dict | str | None, attached: list | None = None) -> list[dict]:
+	"""The reader's turn, the page they were on, and what they dropped on it."""
+	from onedesk.one_ai import files as carrying
+
 	where = _page(page)
 	turns = []
 	if where:
 		turns.append({"role": "user", "text": where, "calls": [], "context": True})
-	turns.append({"role": "user", "text": text, "calls": []})
+	turns.append(
+		{
+			"role": "user",
+			"text": text,
+			"calls": [],
+			# Named and sized, never the bytes: a conversation row holding a
+			# base64 of every attachment it ever carried is a row that grows
+			# until it cannot be read.
+			"files": carrying.described(attached or []),
+		}
+	)
 	return turns
 
 

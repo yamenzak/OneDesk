@@ -775,11 +775,44 @@ A Single that already exists does not pick up a new field's default, so `voice`
 fills it on migrate when nobody has written one — reading the text from the
 field's own default rather than repeating it, so there is still one copy.
 
-**AI 8d — the upload.** Not built. A file dropped on the panel attaches to the
-`AI Chat` and goes to the model with the question, which is how "make a
-quotation from this PDF" works. There is no PDF text extractor on the bench, so
-the file goes to a multimodal model as inline data rather than being read
-server-side — and that changes the turn shape, which is why it is its own stage.
+**AI 8d — the upload.** *Done.*
+
+A file dropped on the panel attaches to the `AI Chat` row and goes to the model
+with the question, which is how "make a quotation from this PDF" works. It is an
+ordinary attachment, so it has an owner, a permission and a place in the
+workspace rather than living inside a conversation nobody can find again — and
+the paperclip opens frappe's own `FileUploader`, which already does the drive,
+the camera, the link and the size check. Asking with no conversation open starts
+one first, because an attachment needs a row to hang off.
+
+**Only the newest turn carries bytes.** The conversation is sent whole every
+round, so a 3 MB attachment over five rounds is fifteen megabytes of HTTP for one
+question. `files.carried` puts the base64 on the last turn that has files and
+leaves the older ones in the transcript by name, which is what a person reads
+them as anyway. Four megabytes a file, three files a turn: the limit that matters
+is what a round costs, not what the provider would accept.
+
+**The bytes are read here, as the person asking.** `_held` does a
+`check_permission("read")` before anything is encoded, so a file somebody may not
+open is a file the model is never handed. The stored turn keeps name, url, type
+and size and never the data, so `AI Chat` does not grow a base64 copy of every
+attachment.
+
+**A model that cannot read it says so before anything is reserved.**
+`capability.can_read` reads the catalogue's own `reads_image`, `reads_audio` and
+`reads_video` flags, and PDF is a special case: Google takes a PDF as inline
+data and Workers AI does not, whatever its vision flag says. `actions.run`
+checks it before `gateway.call`, so "gemma-4-26b-a4b-it cannot read
+application/pdf." costs nothing and leaves the balance where it was.
+
+**The two providers are handed a file differently.** OpenAI's shape wants a data
+URL in a content list; Gemini's wants `inline_data` with the mime type and the
+base64 beside the text part. That is the turn shape change this stage was its own
+stage for.
+
+Proven against a real quotation PDF: `gemini-2.5-flash-lite` answered "The
+supplier is Falcon Steel LLC and the total is AED 18,400" in one round for 0.64
+credits, and `gemma-4` refused it for nothing.
 
 **AI 8b — the field tools and the badge.** Not built. The control beside a
 Text, Small Text or Text Editor field opens the same panel with that field as

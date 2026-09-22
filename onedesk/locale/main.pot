@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 22:01+0000\n"
-"PO-Revision-Date: 2026-09-22 22:01+0000\n"
+"POT-Creation-Date: 2026-09-22 22:11+0000\n"
+"PO-Revision-Date: 2026-09-22 22:11+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -489,7 +489,7 @@ msgstr ""
 msgid "Another employee has already checked in from this browser today."
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:208
+#: onedesk/public/js/oneai/Panel.vue:239
 msgid "Answers from your own records"
 msgstr ""
 
@@ -657,7 +657,7 @@ msgid "Ask for a Reason on Check Out"
 msgstr ""
 
 #: onedesk/public/js/oneai.js:91 onedesk/public/js/oneai.js:92
-#: onedesk/public/js/oneai/Panel.vue:125
+#: onedesk/public/js/oneai/Panel.vue:155
 msgid "Ask {0}"
 msgstr ""
 
@@ -704,6 +704,10 @@ msgstr ""
 
 #: onedesk/public/js/account_request.js:21
 msgid "At checkout"
+msgstr ""
+
+#: onedesk/public/js/oneai/Panel.vue:145
+msgid "Attach a file"
 msgstr ""
 
 #. Label of the attempts (Int) field in DocType 'Provisioning Job'
@@ -2582,7 +2586,7 @@ msgstr ""
 msgid "KRA"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:208
+#: onedesk/public/js/oneai/Panel.vue:239
 msgid "Kept"
 msgstr ""
 
@@ -2608,7 +2612,7 @@ msgstr ""
 msgid "Kind"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:109
+#: onedesk/public/js/oneai/Panel.vue:126
 msgid "Knows about"
 msgstr ""
 
@@ -2913,23 +2917,23 @@ msgstr ""
 msgid "Longitude"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:328
+#: onedesk/public/js/oneai/Panel.vue:379
 msgid "Looked at {0}"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:328
+#: onedesk/public/js/oneai/Panel.vue:379
 msgid "Looked something up"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:266
+#: onedesk/public/js/oneai/Panel.vue:316
 msgid "Looking things up…"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:179
+#: onedesk/public/js/oneai/Panel.vue:210
 msgid "Make it bigger"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:179
+#: onedesk/public/js/oneai/Panel.vue:210
 msgid "Make it smaller"
 msgstr ""
 
@@ -3120,7 +3124,8 @@ msgstr ""
 msgid "New"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:22 onedesk/public/js/oneai/Panel.vue:26
+#: onedesk/one_ai/chat.py:101 onedesk/public/js/oneai/Panel.vue:22
+#: onedesk/public/js/oneai/Panel.vue:26
 msgid "New conversation"
 msgstr ""
 
@@ -3226,7 +3231,7 @@ msgstr ""
 msgid "Not a workspace this site administers."
 msgstr ""
 
-#: onedesk/one_ai/chat.py:193 onedesk/one_ai/chat.py:196
+#: onedesk/one_ai/chat.py:215 onedesk/one_ai/chat.py:218
 msgid "Not answered"
 msgstr ""
 
@@ -3311,7 +3316,7 @@ msgstr ""
 msgid "Nothing to pay yet: {0} has no Leave Encashment Amount Per Day, so a day is worth nought. Set it on the salary structure or on this person's assignment."
 msgstr ""
 
-#: onedesk/one_ai/chat.py:102
+#: onedesk/one_ai/chat.py:120
 msgid "Nothing was asked."
 msgstr ""
 
@@ -3486,7 +3491,7 @@ msgstr ""
 msgid "One workspace bought this"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:192
+#: onedesk/one_ai/chat.py:214
 msgid "OneAI could not be reached just now. The question is still here — try again."
 msgstr ""
 
@@ -4342,6 +4347,7 @@ msgstr ""
 msgid "Released"
 msgstr ""
 
+#: onedesk/public/js/oneai/Panel.vue:140
 #: onedesk/public/js/workspace_account.js:18
 #: onedesk/public/js/workspace_account.js:259
 msgid "Remove"
@@ -4583,11 +4589,11 @@ msgstr ""
 msgid "Selling"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:129
+#: onedesk/public/js/oneai/Panel.vue:159
 msgid "Send"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:113
+#: onedesk/public/js/oneai/Panel.vue:130
 msgid "Send this again"
 msgstr ""
 
@@ -4895,7 +4901,7 @@ msgstr ""
 msgid "Still in Draft"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:113
+#: onedesk/public/js/oneai/Panel.vue:130
 msgid "Stop sending this"
 msgstr ""
 
@@ -4992,11 +4998,11 @@ msgstr ""
 msgid "Suggested"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:327
+#: onedesk/public/js/oneai/Panel.vue:378
 msgid "Suggested a change"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:327
+#: onedesk/public/js/oneai/Panel.vue:378
 msgid "Suggested a change to {0}"
 msgstr ""
 
@@ -5132,7 +5138,7 @@ msgstr ""
 msgid "Text Generation"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:306
+#: onedesk/public/js/oneai/Panel.vue:357
 msgid "That did not go through."
 msgstr ""
 
@@ -5426,7 +5432,7 @@ msgstr ""
 msgid "They claimed {0} and {1} was sanctioned."
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:256
+#: onedesk/public/js/oneai/Panel.vue:303
 msgid "Thinking…"
 msgstr ""
 
@@ -5611,7 +5617,7 @@ msgstr ""
 msgid "Tried {0} times."
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:102
+#: onedesk/public/js/oneai/Panel.vue:119
 msgid "Try again"
 msgstr ""
 
@@ -6101,7 +6107,7 @@ msgstr ""
 msgid "Year"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:67
+#: onedesk/public/js/oneai/Panel.vue:84
 msgid "You"
 msgstr ""
 
@@ -6147,7 +6153,7 @@ msgstr ""
 msgid "Your check-in was closed at the end of your shift"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:207
+#: onedesk/public/js/oneai/Panel.vue:238
 msgid "Your conversations"
 msgstr ""
 
@@ -6194,7 +6200,7 @@ msgstr ""
 msgid "Zero means unlimited. Enforced by Frappe from the site's config."
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:82
+#: onedesk/public/js/oneai/Panel.vue:99
 msgid "and {0} more"
 msgstr ""
 
@@ -6361,6 +6367,10 @@ msgid ""
 "{4}"
 msgstr ""
 
+#: onedesk/one_admin/actions.py:100
+msgid "{0} cannot read {1}."
+msgstr ""
+
 #: onedesk/public/js/ai_proposal.js:35
 msgid "{0} changed after this was suggested, so it no longer applies."
 msgstr ""
@@ -6381,7 +6391,7 @@ msgstr ""
 msgid "{0} credits"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:137
+#: onedesk/public/js/oneai/Panel.vue:167
 msgid "{0} credits in this conversation"
 msgstr ""
 
@@ -6468,6 +6478,10 @@ msgstr ""
 
 #: onedesk/one_admin/doctype/ai_model/ai_model.py:57
 msgid "{0} is already the default for {1}."
+msgstr ""
+
+#: onedesk/one_ai/files.py:85
+msgid "{0} is larger than {1} MB, which is as much as one question may carry."
 msgstr ""
 
 #: onedesk/one_hr/overtime.py:89

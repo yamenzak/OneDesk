@@ -59,6 +59,7 @@ def run(
 	asked = _action(action)
 	sold = _model(asked, model)
 	spoken = _conversation(turns, text)
+	_may_read(sold, spoken)
 	offered = tools if (tools and asked.may_use_tools) else None
 
 	answer = gateway.call(
@@ -79,6 +80,27 @@ def run(
 		"turns": spoken + [{"role": "model", "text": answer.get("said") or "", "calls": wants}],
 		**answer,
 	}
+
+
+def _may_read(sold: str, turns: list[dict]) -> None:
+	"""Refuse a file this model cannot read, before anything is reserved.
+
+	Checked here rather than left to the provider, because a provider refusing
+	an attachment is a 400 after the hold is taken and a sentence nobody outside
+	this file could have written.
+	"""
+	carried = [one for turn in turns for one in (turn.get("files") or [])]
+	if not carried:
+		return
+
+	held = frappe.get_cached_doc("AI Model", sold).as_dict()
+	for one in carried:
+		if not capability.can_read(held, one.get("type") or ""):
+			raise Refused(
+				frappe._("{0} cannot read {1}.").format(
+					held.get("label") or held.get("model"), one.get("type") or one.get("name")
+				)
+			)
 
 
 def _conversation(turns: list[dict] | None, text: str | None) -> list[dict]:

@@ -366,9 +366,9 @@ def _answered(model: str, spoken: dict, answer, whole: bool = False):
 # going to grow one.
 
 
-def said(text: str, role: str = "user") -> dict:
+def said(text: str, role: str = "user", files: list[dict] | None = None) -> dict:
 	"""One turn, in our shape. The only place a turn is built by hand."""
-	return {"role": role, "text": text or "", "calls": []}
+	return {"role": role, "text": text or "", "calls": [], "files": files or []}
 
 
 def _openai_turn(one: dict) -> dict:
@@ -392,7 +392,23 @@ def _openai_turn(one: dict) -> dict:
 				for call in one["calls"]
 			],
 		}
-	return {"role": one.get("role") or "user", "content": one.get("text") or ""}
+	said = one.get("text") or ""
+	shown = [one for one in (one.get("files") or []) if one.get("data")]
+	if not shown:
+		return {"role": one.get("role") or "user", "content": said}
+
+	# OpenAI's dialect carries a picture as a data URL beside the words, and
+	# carries nothing else at all — a model that reads sound or video through
+	# this endpoint is not something either provider offers, and `files.readable`
+	# has already refused anything it could not send.
+	return {
+		"role": one.get("role") or "user",
+		"content": [{"type": "text", "text": said}]
+		+ [
+			{"type": "image_url", "image_url": {"url": f"data:{file['type']};base64,{file['data']}"}}
+			for file in shown
+		],
+	}
 
 
 def _workers_ai_said(body: dict | None) -> str | None:
@@ -508,6 +524,11 @@ def _gemini_turn(one: dict) -> dict:
 	parts = []
 	if one.get("text"):
 		parts.append({"text": one["text"]})
+	for file in one.get("files") or []:
+		# Google takes any of them the same way, which is why a PDF only goes to
+		# Google: `inline_data` with the mime type it really is.
+		if file.get("data"):
+			parts.append({"inline_data": {"mime_type": file["type"], "data": file["data"]}})
 	for call in one.get("calls") or []:
 		said = {"functionCall": {"name": call["tool"], "args": call.get("args") or {}}}
 		if call.get("signature"):

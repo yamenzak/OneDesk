@@ -633,3 +633,102 @@
 	color: var(--text-color);
 	overflow-wrap: anywhere;
 }
+
+
+/* --------------------------------------------------------------- the files
+ *
+ * What was dropped on a turn, and what is waiting to go with the next one. A
+ * line rather than a thumbnail: the file is an attachment on the conversation
+ * and opening it is one click, so the panel says its name and gets out of the
+ * way. */
+
+.one-ai-files {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-bottom: 6px;
+}
+
+.one-ai-said--you .one-ai-files {
+	justify-content: flex-end;
+}
+
+.one-ai-file {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	max-width: 100%;
+	padding: 3px 9px;
+	border: 1px solid var(--border-color);
+	border-radius: 999px;
+	background: var(--card-bg, var(--fg-color));
+	color: var(--text-color);
+	font-size: var(--text-xs);
+	text-decoration: none;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.one-ai-file:hover {
+	border-color: var(--one-ai-3);
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+.one-ai-waiting {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-bottom: 8px;
+}
+
+.one-ai-waiting__one {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	max-width: 100%;
+	padding: 2px 4px 2px 10px;
+	border-radius: 999px;
+	background: var(--gray-100);
+	font-size: var(--text-xs);
+	color: var(--text-color);
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.one-ai-waiting__off {
+	border: 0;
+	background: none;
+	color: var(--text-muted);
+	font-size: 15px;
+	line-height: 1;
+	padding: 0 4px;
+	cursor: pointer;
+}
+
+.one-ai-waiting__off:hover {
+	color: var(--text-color);
+}
+
+.one-ai-clip {
+	flex: 0 0 auto;
+	width: 34px;
+	height: 38px;
+	border: 0;
+	background: none;
+	color: var(--text-muted);
+	cursor: pointer;
+	border-radius: 8px;
+}
+
+.one-ai-clip:hover {
+	background: var(--fg-hover-color, var(--gray-100));
+	color: var(--text-color);
+}
+
+.one-ai-clip:disabled {
+	opacity: 0.4;
+	cursor: default;
+}

@@ -117,6 +117,8 @@ No doctypes yet.
 * `onedesk.one_ai.chat.opened`
 * `onedesk.one_ai.chat.rename`
 * `onedesk.one_ai.chat.say`
+* `onedesk.one_ai.chat.start`
+* `onedesk.one_ai.files.attached`
 * `onedesk.one_ai.run.apply`
 * `onedesk.one_ai.run.models`
 * `onedesk.one_ai.run.refuse`
