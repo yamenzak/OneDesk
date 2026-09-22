@@ -25,6 +25,7 @@ after_install = [
 	# After that, because what it does depends on which kind this is.
 	"onedesk.one_ai.instructions.trim",
 	"onedesk.one_ai.instructions.ready",
+	"onedesk.one_admin.actions.voice",
 ]
 
 # Their dock files do not carry the mount, so a newer erpnext or hrms clears it,
@@ -42,6 +43,7 @@ after_migrate = [
 	"onedesk.one_admin.site.apply",
 	"onedesk.one_ai.instructions.trim",
 	"onedesk.one_ai.instructions.ready",
+	"onedesk.one_admin.actions.voice",
 ]
 extend_bootinfo = "onedesk.one.boot.boot_session"
 

@@ -23,7 +23,7 @@ write it.
 
 import frappe
 
-from onedesk.one_admin import capability, gateway
+from onedesk.one_admin import capability, gateway, site
 from onedesk.one_admin.faults import Refused
 
 #: What goes between our instruction and a workspace's. It is the one sentence
@@ -100,10 +100,39 @@ def _conversation(turns: list[dict] | None, text: str | None) -> list[dict]:
 
 
 def instruction(asked, extra: str | None) -> str:
-	"""Ours, and then theirs, and a line saying which wins."""
-	said = (asked.instruction or "").strip()
+	"""The persona, then the action's own job, then theirs, and which wins.
+
+	The persona is what is true of every action — who it is, that it does not
+	invent, what it does with a tool — so it is written once on the account
+	rather than repeated in four fixtures that then disagree the first time one
+	of them is edited. The action says only what *it* is for.
+	"""
+	said = "\n\n".join(one for one in (_persona(), (asked.instruction or "").strip()) if one)
 	extra = (extra or "").strip()[:MOST_EXTRA]
 	return f"{said}\n\n{AND_THEN.format(extra)}" if extra else said
+
+
+def voice() -> None:
+	"""Put the persona on the account, once, if nobody has written one.
+
+	A Single that already exists does not pick up a field's default, so a
+	migrate that adds the field leaves it empty — and an empty persona is every
+	action losing the rules it stopped carrying. The text is read from the
+	field's own default rather than repeated here, so there is one copy of it.
+	"""
+	if not site.is_admin():
+		return
+	settings = frappe.get_doc("One Admin Settings")
+	if (settings.persona or "").strip():
+		return
+	settings.persona = frappe.get_meta("One Admin Settings").get_field("persona").default or ""
+	settings.flags.ignore_permissions = True
+	settings.save()
+	frappe.db.commit()
+
+
+def _persona() -> str:
+	return (frappe.get_cached_doc("One Admin Settings").persona or "").strip()
 
 
 def offered(needs: str) -> list[dict]:

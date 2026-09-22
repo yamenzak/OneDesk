@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 21:55+0000\n"
-"PO-Revision-Date: 2026-09-22 21:55+0000\n"
+"POT-Creation-Date: 2026-09-22 22:01+0000\n"
+"PO-Revision-Date: 2026-09-22 22:01+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2345,6 +2345,12 @@ msgstr ""
 msgid "Hours worked beyond the standard day."
 msgstr ""
 
+#. Label of the persona_section (Section Break) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "How It Speaks"
+msgstr ""
+
 #. Description of the 'Accuracy (Metres)' (Float) field in DocType 'Clock
 #. Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -3858,6 +3864,11 @@ msgstr ""
 msgid "Per"
 msgstr ""
 
+#. Label of the persona (Small Text) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Persona"
+msgstr ""
+
 #. Label of the 'personal_details' field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "Personal"
@@ -4452,6 +4463,12 @@ msgstr ""
 #. Description of the 'Token Hash' (Data) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "SHA-256 of the token written into the site's config."
+msgstr ""
+
+#. Description of the 'Persona' (Small Text) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Said to the model before every action's own instruction, so what is always true is written once. A workspace never sees it."
 msgstr ""
 
 #. Label of a Link in the OneHR Setup Workspace

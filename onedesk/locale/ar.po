@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 21:55+0000\n"
-"PO-Revision-Date: 2026-09-22 21:55+0000\n"
+"POT-Creation-Date: 2026-09-22 22:01+0000\n"
+"PO-Revision-Date: 2026-09-22 22:01+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -2347,6 +2347,12 @@ msgstr "الساعات المعمولة"
 msgid "Hours worked beyond the standard day."
 msgstr "الساعات التي تتجاوز يوم العمل القياسي."
 
+#. Label of the persona_section (Section Break) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "How It Speaks"
+msgstr "كيف يتحدث"
+
 #. Description of the 'Accuracy (Metres)' (Float) field in DocType 'Clock
 #. Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -3860,6 +3866,11 @@ msgstr "الأشخاص"
 msgid "Per"
 msgstr "لكل"
 
+#. Label of the persona (Small Text) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Persona"
+msgstr "الشخصية"
+
 #. Label of the 'personal_details' field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "Personal"
@@ -4455,6 +4466,12 @@ msgstr "إعادة تشغيل {0} من الخطوة التي توقفت عنده
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "SHA-256 of the token written into the site's config."
 msgstr "بصمة SHA-256 للرمز المكتوب في إعدادات الموقع."
+
+#. Description of the 'Persona' (Small Text) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Said to the model before every action's own instruction, so what is always true is written once. A workspace never sees it."
+msgstr "يُقال للنموذج قبل تعليمات كل إجراء، فيُكتب ما هو صحيح دائماً مرة واحدة. ولا تراه مساحة العمل."
 
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json

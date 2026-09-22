@@ -762,6 +762,19 @@ anything sent with a call; now there is nothing on the other side to send.
 screen from the start — a setting that only exists once somebody saves it is a
 setting nobody knows is there.
 
+**THE PERSONA — what is always true, said once.** *Done.* `One Admin
+Settings.persona` goes before every action's own instruction: who it is, that it
+never invents a fact or a name or a figure, that it says plainly when it cannot
+see something, and what it does when it is given tools — look things up, count
+rather than list, suggest rather than do, treat the reader's page as a pointer.
+Four fixtures were each carrying their own copy of that, which is four places to
+edit and three chances to disagree. Each action now says only what *it* is for,
+and the longest of them is four lines.
+
+A Single that already exists does not pick up a new field's default, so `voice`
+fills it on migrate when nobody has written one — reading the text from the
+field's own default rather than repeating it, so there is still one copy.
+
 **AI 8d — the upload.** Not built. A file dropped on the panel attaches to the
 `AI Chat` and goes to the model with the question, which is how "make a
 quotation from this PDF" works. There is no PDF text extractor on the bench, so

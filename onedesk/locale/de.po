@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 21:55+0000\n"
-"PO-Revision-Date: 2026-09-22 21:55+0000\n"
+"POT-Creation-Date: 2026-09-22 22:01+0000\n"
+"PO-Revision-Date: 2026-09-22 22:01+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -2347,6 +2347,12 @@ msgstr "Geleistete Stunden"
 msgid "Hours worked beyond the standard day."
 msgstr "Stunden über den Standardarbeitstag hinaus."
 
+#. Label of the persona_section (Section Break) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "How It Speaks"
+msgstr "Wie es spricht"
+
 #. Description of the 'Accuracy (Metres)' (Float) field in DocType 'Clock
 #. Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -3860,6 +3866,11 @@ msgstr "Personen"
 msgid "Per"
 msgstr "Je"
 
+#. Label of the persona (Small Text) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Persona"
+msgstr "Persona"
+
 #. Label of the 'personal_details' field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "Personal"
@@ -4455,6 +4466,12 @@ msgstr "{0} erneut ausführen, ab dem Schritt, bei dem es stehen blieb?"
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "SHA-256 of the token written into the site's config."
 msgstr "SHA-256 des Tokens, das in die Site-Konfiguration geschrieben wurde."
+
+#. Description of the 'Persona' (Small Text) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Said to the model before every action's own instruction, so what is always true is written once. A workspace never sees it."
+msgstr "Wird dem Modell vor der eigenen Anweisung jeder Aktion gesagt, damit das immer Gültige einmal geschrieben steht. Ein Arbeitsbereich sieht es nie."
 
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json

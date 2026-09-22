@@ -36,6 +36,13 @@ def _capability():
 capability = _capability()
 
 
+def spoken(where, name: str) -> str:
+	for node in ast.walk(ast.parse(where.read_text(encoding="utf-8"))):
+		if isinstance(node, ast.FunctionDef) and node.name == name:
+			return ast.unparse(node)
+	raise AssertionError(f"{name} is not in {where.name}")
+
+
 def _spec(path: Path) -> dict:
 	return json.loads(path.read_text(encoding="utf-8"))
 
@@ -180,12 +187,16 @@ def test_every_shipped_action_is_whole():
 		assert row["max_output_tokens"] > 0, f"{row['key']} holds nothing before it calls"
 
 
-def test_a_shipped_instruction_says_what_not_to_do():
-	"""Both of them tell the model not to invent. An action that only says what
-	to write is an action that fills gaps with plausible fiction."""
-	for row in _spec(FIXTURE):
-		said = row["instruction"].lower()
-		assert any(word in said for word in ("do not", "only")), row["key"]
+def test_the_persona_says_what_not_to_do():
+	"""It tells the model not to invent, and it is said before every action —
+	one that only says what to write is one that fills gaps with plausible
+	fiction. On the persona rather than the actions since the rule is true of
+	all of them."""
+	settings = _spec(tree.APP / "one_admin" / "doctype" / "one_admin_settings" / "one_admin_settings.json")
+	said = next(f for f in settings["fields"] if f["fieldname"] == "persona")["default"].lower()
+	assert "never invent" in said
+	assert "cannot see" in said
+	assert "suggest" in said
 
 
 # ------------------------------------------- the instruction is not a workspace's
@@ -213,3 +224,22 @@ def test_a_workspace_holds_no_copy_of_the_instruction():
 def test_the_setting_screen_does_not_print_the_instruction():
 	said = (tree.APP / "public" / "js" / "ai_action_setting.js").read_text(encoding="utf-8")
 	assert "asked.instruction" not in said, "the instruction is rendered to a workspace"
+
+
+def test_the_persona_is_said_once_rather_than_four_times():
+	"""What is true of every action — who it is, that it does not invent, what
+	it does with a tool — is one row on the account. Four fixtures repeating it
+	is four places to edit and three chances to disagree."""
+	said = spoken(tree.APP / "one_admin" / "actions.py", "instruction")
+	assert "_persona()" in said
+	# And the persona comes before the action's own words, because an action
+	# saying "answer in two sentences" is a refinement of the rules, not a
+	# replacement for them.
+	assert said.index("_persona()") < said.index("asked.instruction")
+
+	rules = ("you are oneai", "suggest", "count rather than list", "do not invent")
+	for row in _spec(FIXTURE):
+		for rule in rules:
+			assert rule not in row["instruction"].lower(), (
+				f"{row['name']} repeats the persona: {rule}"
+			)
