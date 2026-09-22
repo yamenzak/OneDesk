@@ -1,0 +1,65 @@
+{
+ "actions": [],
+ "creation": "2026-09-22 14:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "intro",
+  "tenant",
+  "workspace_name",
+  "column_break_who",
+  "status",
+  "domain",
+  "where_section",
+  "jurisdiction",
+  "column_break_where",
+  "cluster",
+  "heard_section",
+  "last_heard",
+  "column_break_heard",
+  "last_error"
+ ],
+ "fields": [
+  {
+   "fieldname": "intro",
+   "fieldtype": "HTML",
+   "options": "<p class='text-muted'>What this workspace last heard from its administrator. Nothing here is edited: it is refreshed from the account this workspace belongs to, and is kept so a screen can be drawn without waiting for a round trip.</p>"
+  },
+  {"fieldname": "tenant", "fieldtype": "Data", "label": "Workspace ID", "read_only": 1},
+  {"fieldname": "workspace_name", "fieldtype": "Data", "label": "Name", "read_only": 1},
+  {"fieldname": "column_break_who", "fieldtype": "Column Break"},
+  {"fieldname": "status", "fieldtype": "Data", "label": "Status", "read_only": 1},
+  {"fieldname": "domain", "fieldtype": "Data", "label": "Domain", "read_only": 1},
+  {"fieldname": "where_section", "fieldtype": "Section Break", "label": "Where it lives"},
+  {"fieldname": "jurisdiction", "fieldtype": "Data", "label": "Jurisdiction", "read_only": 1},
+  {"fieldname": "column_break_where", "fieldtype": "Column Break"},
+  {"fieldname": "cluster", "fieldtype": "Data", "label": "Region", "read_only": 1},
+  {"fieldname": "heard_section", "fieldtype": "Section Break"},
+  {
+   "description": "An answer older than a day means the administrator has not been reachable. What is shown is still the last true thing it said.",
+   "fieldname": "last_heard",
+   "fieldtype": "Datetime",
+   "label": "Last Heard",
+   "read_only": 1
+  },
+  {"fieldname": "column_break_heard", "fieldtype": "Column Break"},
+  {"fieldname": "last_error", "fieldtype": "Small Text", "label": "Last Error", "read_only": 1}
+ ],
+ "index_web_pages_for_search": 0,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-09-22 14:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One",
+ "name": "Workspace Account",
+ "owner": "Administrator",
+ "permissions": [
+  {"read": 1, "role": "System Manager", "write": 0},
+  {"read": 1, "role": "All"}
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

@@ -237,8 +237,14 @@ their one-minute cache, and no tables.
 **INFRA 4 — the tenant and the job.** `Tenant`, `Provisioning Job`, the step
 runner, the cron, and provisioning one site end to end by hand from the desk.
 
-**INFRA 5 — the proxy.** Token auth, `hello`, and the idempotency key. One
-endpoint proved before there are ten.
+**INFRA 5 — the proxy.** Token auth and `hello`. One endpoint proved before
+there are ten.
+
+The idempotency key moves to INFRA 6, where it has a caller. It is also simpler
+than a table: the key is a unique field on whatever row the call writes, so a
+retry meets the index rather than a check, and the helper reads back the row the
+first attempt made. A separate table of keys would be a second thing to keep in
+step with the charge it is protecting.
 
 **INFRA 6 — storage.** The two buckets, the presigned put and get, the quota
 check, the nightly usage report, and the overage event.

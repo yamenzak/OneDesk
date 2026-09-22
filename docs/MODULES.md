@@ -5,7 +5,9 @@
 
 `onedesk/one`
 
-No doctypes yet.
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Workspace Account | 14 | single |
 
 ## One HR
 
@@ -47,6 +49,8 @@ No doctypes yet.
 
 ## Whitelisted methods
 
+* `onedesk.one.account.mine`
+* `onedesk.one_admin.proxy.hello`
 * `onedesk.one_hr.clock.punch`
 * `onedesk.one_hr.clock.ready`
 * `onedesk.one_hr.employee.overview`

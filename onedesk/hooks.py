@@ -47,6 +47,7 @@ scheduler_events = {
 	# workspaces before it asks whether there is anything to do.
 	"cron": {"*/2 * * * *": ["onedesk.one_admin.runner.tick"]},
 	"daily": [
+		"onedesk.one.account.nightly",
 		"onedesk.one_hr.healing.nightly",
 		"onedesk.one_hr.leaving.nightly",
 		"onedesk.one_hr.setup.nightly",
