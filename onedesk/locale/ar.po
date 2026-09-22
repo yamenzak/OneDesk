@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 00:40+0000\n"
-"PO-Revision-Date: 2026-09-22 00:40+0000\n"
+"POT-Creation-Date: 2026-09-22 04:49+0000\n"
+"PO-Revision-Date: 2026-09-22 04:49+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -91,6 +91,7 @@ msgstr "هل تقبل تسجيل الحضور هذا؟"
 
 #. Option for the 'Verdict' (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:260
 msgid "Accepted"
 msgstr ""
 
@@ -232,8 +233,21 @@ msgstr "المظهر"
 
 #. Label of the one_applicant (Data) field in DocType 'Interview'
 #: onedesk/one_hr/custom/interview.json
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:207
 msgid "Applicant"
 msgstr "المتقدّم"
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:43
+msgid "Applicant Status"
+msgstr "حالة المتقدم"
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:256
+msgid "Applicants"
+msgstr "المتقدمون"
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:208
+msgid "Applied"
+msgstr "تاريخ التقديم"
 
 #: onedesk/public/js/employee.js:189
 msgid "Apply for Leave"
@@ -840,6 +854,8 @@ msgstr "حذف الصور بعد (أيام)"
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:29
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:168
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:31
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:199
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:21
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:235
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:78
@@ -856,6 +872,8 @@ msgid "Description"
 msgstr ""
 
 #. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:25
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:192
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Designation"
 msgstr ""
@@ -1180,6 +1198,7 @@ msgid "Follow my system"
 msgstr "اتّباع إعدادات نظامي"
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:7
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:7
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:6
 msgid "From Date"
 msgstr ""
@@ -1266,6 +1285,13 @@ msgstr "الطول والوزن والحساسيات والحالات الطبي
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Hiring"
 msgstr "التوظيف"
+
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.json
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Hiring Pipeline"
+msgstr "مسار التوظيف"
 
 #: onedesk/one_hr/employee.py:111 onedesk/one_hr/employee.py:268
 #: onedesk/one_hr/presence.py:181 onedesk/public/js/employee.js:48
@@ -1391,6 +1417,7 @@ msgid "Income Tax Slab"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:213
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Interview"
 msgstr "مقابلة"
@@ -1399,6 +1426,14 @@ msgstr "مقابلة"
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Interview Type"
 msgstr "نوع المقابلة"
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:258
+msgid "Interviewed"
+msgstr "تمت مقابلتهم"
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:211
+msgid "Interviews"
+msgstr "المقابلات"
 
 #. Title of an Onboarding Step
 #. Label of an action in the Onboarding Step 'Invite your team'
@@ -1431,6 +1466,7 @@ msgid "Job Offer Term Template"
 msgstr "قالب شروط عرض العمل"
 
 #. Label of a Sidebar Item
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:19
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Job Opening"
 msgstr ""
@@ -1467,6 +1503,10 @@ msgstr "مجال النتائج الرئيسية"
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Last Address"
 msgstr "آخر عنوان"
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:212
+msgid "Last Interview"
+msgstr "آخر مقابلة"
 
 #. Label of the last_seen (Datetime) field in DocType 'Clock Network'
 #. Label of the last_seen (Datetime) field in DocType 'Clock Place'
@@ -1814,6 +1854,10 @@ msgstr "لا توجد كشوف رواتب بعد من {0} إلى {1}."
 msgid "No such check-in attempt."
 msgstr "لا توجد محاولة تسجيل بهذا المعرّف."
 
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:265
+msgid "Nobody Applied"
+msgstr "لم يتقدم أحد"
+
 #: onedesk/public/js/shift_request.js:40
 msgid "Nobody can approve a shift request for {0}. Set a Shift Request Approver on their Employee record first."
 msgstr "لا أحد يستطيع اعتماد طلب مناوبة لـ {0}. عيّن معتمد طلبات المناوبة في سجل الموظف أولاً."
@@ -1906,6 +1950,18 @@ msgstr ""
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:36
 msgid "Oct"
 msgstr ""
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:215
+msgid "Offer"
+msgstr "العرض"
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:259
+msgid "Offered"
+msgstr "عروض مقدَّمة"
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:214
+msgid "Offered On"
+msgstr "تاريخ العرض"
 
 #. Description of the 'approver' field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/shift_request.json
@@ -2029,6 +2085,18 @@ msgstr "لا تُحتسب إلا تسجيلات الحضور التي اجتاز
 #: onedesk/one_hr/decision.py:32
 msgid "Only somebody who can approve these may answer this one."
 msgstr "لا يبتّ في هذا إلا من يملك اعتماد هذه الطلبات."
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:190
+msgid "Opening"
+msgstr "الوظيفة الشاغرة"
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:37
+msgid "Opening Status"
+msgstr "حالة الوظيفة الشاغرة"
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:249
+msgid "Openings"
+msgstr "الوظائف الشاغرة"
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -2291,6 +2359,10 @@ msgstr "النطاق (بالأمتار)"
 msgid "Radius must be greater than 0."
 msgstr "يجب أن يكون النطاق أكبر من 0."
 
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:210
+msgid "Rating"
+msgstr ""
+
 #: onedesk/public/js/overtime_slip.js:17
 msgid "Read Attendance"
 msgstr "قراءة الحضور"
@@ -2346,11 +2418,6 @@ msgstr "تم التسجيل في {0}"
 #: onedesk/public/js/overtime.js:62
 msgid "Recording the overtime"
 msgstr "جارٍ تسجيل العمل الإضافي"
-
-#. Label of a Sidebar Item
-#: onedesk/one_hr/sidebar/onehr/onehr.json
-msgid "Recruitment Analytics"
-msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -2679,10 +2746,19 @@ msgstr "عدد مرات التوقيع"
 msgid "Some Days Were Trimmed"
 msgstr "اقتُطعت بعض الأيام"
 
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:217
+msgid "Source"
+msgstr ""
+
 #. Label of a Sidebar Item
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:224
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Staffing Plan"
 msgstr ""
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:209
+msgid "Stage"
+msgstr "المرحلة"
 
 #. Label of the 'standard_working_hours' field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -2725,6 +2801,7 @@ msgstr "بدء مشروع"
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:23
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:161
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:205
 msgid "Status"
 msgstr "الحالة"
 
@@ -2974,6 +3051,7 @@ msgid "Timesheet"
 msgstr ""
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:14
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:13
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:13
 msgid "To Date"
 msgstr ""
@@ -3073,6 +3151,11 @@ msgstr "تم التحقق من المستخدم"
 msgid "Utilization"
 msgstr "نسبة الاستغلال"
 
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:206
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:251
+msgid "Vacancies"
+msgstr ""
+
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Vehicle"
@@ -3098,6 +3181,10 @@ msgstr "القرار"
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Verification"
 msgstr ""
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:257
+msgid "Waiting"
+msgstr "قيد الانتظار"
 
 #: onedesk/public/js/setup_wizard.js:60
 msgid "Weekly Off"
@@ -3281,6 +3368,10 @@ msgstr "انصرف مبكراً"
 #: onedesk/one_hr/passkey.py:224
 msgid "no passkey registered"
 msgstr "لا يوجد مفتاح مرور مسجَّل"
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:168
+msgid "nobody yet"
+msgstr "لا أحد بعد"
 
 #: onedesk/public/js/vehicle_log.js:35
 msgid "units"

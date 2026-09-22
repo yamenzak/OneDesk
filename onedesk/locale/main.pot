@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 00:40+0000\n"
-"PO-Revision-Date: 2026-09-22 00:40+0000\n"
+"POT-Creation-Date: 2026-09-22 04:49+0000\n"
+"PO-Revision-Date: 2026-09-22 04:49+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -89,6 +89,7 @@ msgstr ""
 
 #. Option for the 'Verdict' (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:260
 msgid "Accepted"
 msgstr ""
 
@@ -230,7 +231,20 @@ msgstr ""
 
 #. Label of the one_applicant (Data) field in DocType 'Interview'
 #: onedesk/one_hr/custom/interview.json
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:207
 msgid "Applicant"
+msgstr ""
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:43
+msgid "Applicant Status"
+msgstr ""
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:256
+msgid "Applicants"
+msgstr ""
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:208
+msgid "Applied"
 msgstr ""
 
 #: onedesk/public/js/employee.js:189
@@ -838,6 +852,8 @@ msgstr ""
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:29
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:168
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:31
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:199
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:21
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:235
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:78
@@ -854,6 +870,8 @@ msgid "Description"
 msgstr ""
 
 #. Label of a Link in the OneHR Setup Workspace
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:25
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:192
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Designation"
 msgstr ""
@@ -1178,6 +1196,7 @@ msgid "Follow my system"
 msgstr ""
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:7
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:7
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:6
 msgid "From Date"
 msgstr ""
@@ -1263,6 +1282,13 @@ msgstr ""
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Hiring"
+msgstr ""
+
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.json
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Hiring Pipeline"
 msgstr ""
 
 #: onedesk/one_hr/employee.py:111 onedesk/one_hr/employee.py:268
@@ -1389,6 +1415,7 @@ msgid "Income Tax Slab"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:213
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Interview"
 msgstr ""
@@ -1396,6 +1423,14 @@ msgstr ""
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Interview Type"
+msgstr ""
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:258
+msgid "Interviewed"
+msgstr ""
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:211
+msgid "Interviews"
 msgstr ""
 
 #. Title of an Onboarding Step
@@ -1429,6 +1464,7 @@ msgid "Job Offer Term Template"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:19
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Job Opening"
 msgstr ""
@@ -1464,6 +1500,10 @@ msgstr ""
 #. Label of the last_address (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Last Address"
+msgstr ""
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:212
+msgid "Last Interview"
 msgstr ""
 
 #. Label of the last_seen (Datetime) field in DocType 'Clock Network'
@@ -1812,6 +1852,10 @@ msgstr ""
 msgid "No such check-in attempt."
 msgstr ""
 
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:265
+msgid "Nobody Applied"
+msgstr ""
+
 #: onedesk/public/js/shift_request.js:40
 msgid "Nobody can approve a shift request for {0}. Set a Shift Request Approver on their Employee record first."
 msgstr ""
@@ -1903,6 +1947,18 @@ msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:36
 msgid "Oct"
+msgstr ""
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:215
+msgid "Offer"
+msgstr ""
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:259
+msgid "Offered"
+msgstr ""
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:214
+msgid "Offered On"
 msgstr ""
 
 #. Description of the 'approver' field in DocType 'Shift Request'
@@ -2026,6 +2082,18 @@ msgstr ""
 
 #: onedesk/one_hr/decision.py:32
 msgid "Only somebody who can approve these may answer this one."
+msgstr ""
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:190
+msgid "Opening"
+msgstr ""
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:37
+msgid "Opening Status"
+msgstr ""
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:249
+msgid "Openings"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -2289,6 +2357,10 @@ msgstr ""
 msgid "Radius must be greater than 0."
 msgstr ""
 
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:210
+msgid "Rating"
+msgstr ""
+
 #: onedesk/public/js/overtime_slip.js:17
 msgid "Read Attendance"
 msgstr ""
@@ -2343,11 +2415,6 @@ msgstr ""
 
 #: onedesk/public/js/overtime.js:62
 msgid "Recording the overtime"
-msgstr ""
-
-#. Label of a Sidebar Item
-#: onedesk/one_hr/sidebar/onehr/onehr.json
-msgid "Recruitment Analytics"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -2677,9 +2744,18 @@ msgstr ""
 msgid "Some Days Were Trimmed"
 msgstr ""
 
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:217
+msgid "Source"
+msgstr ""
+
 #. Label of a Sidebar Item
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:224
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Staffing Plan"
+msgstr ""
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:209
+msgid "Stage"
 msgstr ""
 
 #. Label of the 'standard_working_hours' field in DocType 'HR Settings'
@@ -2723,6 +2799,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:23
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:161
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:205
 msgid "Status"
 msgstr ""
 
@@ -2969,6 +3046,7 @@ msgid "Timesheet"
 msgstr ""
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:14
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:13
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:13
 msgid "To Date"
 msgstr ""
@@ -3068,6 +3146,11 @@ msgstr ""
 msgid "Utilization"
 msgstr ""
 
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:206
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:251
+msgid "Vacancies"
+msgstr ""
+
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Vehicle"
@@ -3092,6 +3175,10 @@ msgstr ""
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Verification"
+msgstr ""
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:257
+msgid "Waiting"
 msgstr ""
 
 #: onedesk/public/js/setup_wizard.js:60
@@ -3275,6 +3362,10 @@ msgstr ""
 
 #: onedesk/one_hr/passkey.py:224
 msgid "no passkey registered"
+msgstr ""
+
+#: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:168
+msgid "nobody yet"
 msgstr ""
 
 #: onedesk/public/js/vehicle_log.js:35

@@ -291,6 +291,13 @@ OVERRIDES = [
 		"def update_late_entry",
 	),
 	(
+		"Hiring is measured from the opening, not from a staffing plan",
+		"theirs walks Staffing Plan to Job Opening, so an opening with no plan on it has no applicants, no interviews and no offers in the report at all",
+		"onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py",
+		"hrms/hrms/hr/report/recruitment_analytics/recruitment_analytics.py",
+		"staffing_plan_details = get_staffing_plan(filters)",
+	),
+	(
 		"Available hours are working days, not calendar days",
 		"theirs multiplied the standard day by every date in the range, weekends and holidays included",
 		"onedesk/one_hr/report/hours_utilization/hours_utilization.py",

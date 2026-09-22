@@ -26,6 +26,7 @@ HIDE_REPORTS = (
 	"Monthly Attendance Sheet",
 	"Shift Attendance",
 	"Employee Hours Utilization Based On Timesheet",
+	"Recruitment Analytics",
 )
 
 #: erpnext's per-module checklists. They are written in erpnext's voice, about

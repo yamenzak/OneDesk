@@ -709,3 +709,52 @@ Their helper answers `[{introduction, closing_notes}, {"description": [rows]}]`
 field on each row — so it is read exactly the way their own form script reads
 it. A letter that already carries terms keeps them, because somebody edited them
 deliberately.
+
+### Recruitment Analytics becomes Hiring Pipeline
+
+**The report answered "nothing is happening" on a workspace that was hiring
+four people.** Its rows are built out of Staffing Plans:
+
+	staffing_plan_details = get_staffing_plan(filters)
+	staffing_plan_list = list(set([details["name"] for details in staffing_plan_details]))
+	sp_jo_map, jo_list = get_job_opening(staffing_plan_list, filters)
+
+A Job Opening with no `staffing_plan` on it is never in `jo_list`, so its
+applicants are never fetched and its offers are never counted. Nothing in hiring
+asks for a staffing plan — it is an optional record most workspaces never make,
+and the one opening on this site had none — so the report was empty and said
+nothing about why.
+
+This is the second named recurring fault, the same one `Shift Attendance` had:
+**a measurement built out of the records that happen to exist rather than out of
+the thing being measured.** There the two inner joins dropped twenty-six of
+twenty-seven days; here one optional link drops every opening.
+
+So the report is ours, `Hiring Pipeline`, and it starts from the Job Opening —
+the record hiring actually turns on — and left-joins everything else. An opening
+nobody has applied to is a row that says **nobody yet** in grey, because "nobody
+applied" is the answer somebody opened this to find, and the summary says
+`Nobody Applied 1` beside `Openings 2`. The staffing plan is a column.
+
+One row per applicant rather than their tree: a tree whose parent rows are blank
+in nine columns reads worse than a flat list, and it cannot be sorted or
+exported by the column somebody cares about. The interview and the offer on each
+row are the **latest** ones, excluding cancelled documents, because an applicant
+can be seen twice and amending an interview leaves the cancelled original
+behind.
+
+The seven tiles are Openings, Vacancies, Applicants, Waiting, Interviewed,
+Offered, Accepted, with `Nobody Applied` appearing only when there is one. The
+filters are the period on the opening's posting date, the opening, the
+designation, the department, and the two statuses — no Company, and no
+`on_date` that silently meant "staffing plans still running on this day".
+
+HRMS's own `Recruitment Analytics` is disabled rather than deleted, the way
+`Monthly Attendance Sheet`, `Shift Attendance` and the timesheet utilization
+report are: the row is theirs, `bench update` writes it back, and `declutter`
+runs on every migrate so it settles again.
+
+Two translation notes, because both would have read wrong in Arabic: erpnext
+translates **Opening** as `افتتاحي` — the accounting sense, an opening balance —
+and frappe translates **Stage** as `منصة`, a platform you stand on. Both are
+written over in our own catalogue.
