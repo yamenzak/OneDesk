@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 22:54+0000\n"
-"PO-Revision-Date: 2026-09-22 22:54+0000\n"
+"POT-Creation-Date: 2026-09-22 23:04+0000\n"
+"PO-Revision-Date: 2026-09-22 23:04+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -242,6 +242,14 @@ msgstr ""
 #. Name of a DocType
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 msgid "AI Touch"
+msgstr ""
+
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_admin/report/ai_usage/ai_usage.json
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json
+#: onedesk/public/js/tenant.js:23
+msgid "AI Usage"
 msgstr ""
 
 #. Label of the press_token (Password) field in DocType 'One Admin Settings'
@@ -636,7 +644,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:18
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
-#: onedesk/public/js/tenant.js:33 onedesk/public/js/workspace_account.js:39
+#: onedesk/public/js/tenant.js:38 onedesk/public/js/workspace_account.js:39
 msgid "Archived"
 msgstr ""
 
@@ -697,7 +705,7 @@ msgstr ""
 msgid "Asked on check out only. Options come from Clock Reason."
 msgstr ""
 
-#: onedesk/public/js/ai_model_list.js:33
+#: onedesk/public/js/ai_model_list.js:62
 msgid "Asking {0}…"
 msgstr ""
 
@@ -842,7 +850,7 @@ msgstr ""
 
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:11
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:14
-#: onedesk/public/js/tenant.js:29
+#: onedesk/public/js/tenant.js:34
 msgid "Being built"
 msgstr ""
 
@@ -964,6 +972,10 @@ msgstr ""
 msgid "Buy credits"
 msgstr ""
 
+#: onedesk/one_admin/report/ai_usage/ai_usage.js:19
+msgid "By"
+msgstr ""
+
 #. Description of the 'Pending' (Long Int) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Bytes signed for since the last measurement."
@@ -986,6 +998,10 @@ msgstr ""
 
 #: onedesk/public/js/ai_model.js:80
 msgid "Call"
+msgstr ""
+
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:41
+msgid "Calls"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -1399,9 +1415,10 @@ msgstr ""
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/offering/offering.json
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:42
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
-#: onedesk/public/js/tenant.js:86 onedesk/public/js/tenant.js:89
-#: onedesk/public/js/tenant.js:112
+#: onedesk/public/js/tenant.js:91 onedesk/public/js/tenant.js:94
+#: onedesk/public/js/tenant.js:117
 msgid "Credits"
 msgstr ""
 
@@ -1413,6 +1430,16 @@ msgstr ""
 #. Label of the credits_a_month (Int) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Credits a Month"
+msgstr ""
+
+#. Description of the 'In, per 1M Tokens' (Float) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Credits a workspace pays for a million text tokens sent, after markup. Hidden where the model is not priced in tokens."
+msgstr ""
+
+#. Description of the 'Out, per 1M Tokens' (Float) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Credits for a million text tokens answered, after markup."
 msgstr ""
 
 #: onedesk/one_admin/ledger.py:303
@@ -1531,6 +1558,10 @@ msgstr ""
 #. Description of the 'Status' (Select) field in DocType 'Clock Network'
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 msgid "Declared is entered by a person. Proposed is suggested by Learn New Networks, and becomes Confirmed once the Confirmation Threshold is met, or when somebody confirms it here. Rejected is never proposed again."
+msgstr ""
+
+#: onedesk/public/js/ai_model_list.js:16
+msgid "Default"
 msgstr ""
 
 #. Label of the default_for (Select) field in DocType 'AI Model'
@@ -1713,7 +1744,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:19
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
-#: onedesk/public/js/tenant.js:34
+#: onedesk/public/js/tenant.js:39
 msgid "Dropped"
 msgstr ""
 
@@ -2018,7 +2049,7 @@ msgstr ""
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
-#: onedesk/public/js/tenant.js:116
+#: onedesk/public/js/tenant.js:121
 msgid "Expires On"
 msgstr ""
 
@@ -2059,11 +2090,11 @@ msgstr ""
 msgid "Failure Reason"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:49
+#: onedesk/public/js/tenant.js:54
 msgid "Falls to {0} in {1} days."
 msgstr ""
 
-#: onedesk/public/js/tenant.js:47 onedesk/public/js/tenant.js:215
+#: onedesk/public/js/tenant.js:52 onedesk/public/js/tenant.js:220
 msgid "Falls to {0} tonight."
 msgstr ""
 
@@ -2164,6 +2195,7 @@ msgstr ""
 msgid "Free for {0} days"
 msgstr ""
 
+#: onedesk/one_admin/report/ai_usage/ai_usage.js:7
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:7
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:7
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:6
@@ -2189,11 +2221,11 @@ msgstr ""
 msgid "Gateway Token"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:121
+#: onedesk/public/js/tenant.js:126
 msgid "Give"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:86 onedesk/public/js/tenant.js:102
+#: onedesk/public/js/tenant.js:91 onedesk/public/js/tenant.js:107
 msgid "Give credits"
 msgstr ""
 
@@ -2501,6 +2533,11 @@ msgstr ""
 msgid "In bytes. Zero means unlimited."
 msgstr ""
 
+#. Label of the input_per_million (Float) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "In, per 1M Tokens"
+msgstr ""
+
 #. Label of the one_learn_home (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Include Personal Networks and Locations"
@@ -2669,6 +2706,10 @@ msgstr ""
 #. Label of the last_address (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Last Address"
+msgstr ""
+
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:44
+msgid "Last Call"
 msgstr ""
 
 #. Label of the last_error (Small Text) field in DocType 'Workspace Account'
@@ -2845,7 +2886,7 @@ msgstr ""
 msgid "Leave Type"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:117
+#: onedesk/public/js/tenant.js:122
 msgid "Leave empty for credit that never expires."
 msgstr ""
 
@@ -2859,7 +2900,7 @@ msgstr ""
 msgid "Leaving"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:87
+#: onedesk/public/js/tenant.js:92
 msgid "Ledger"
 msgstr ""
 
@@ -2878,6 +2919,10 @@ msgstr ""
 #. Description of the 'Accounting' (Section Break) field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "Left empty, the advance account falls back to the company’s and the cost centre to the department’s."
+msgstr ""
+
+#: onedesk/public/js/ai_model_list.js:33
+msgid "Let workspaces pick this model"
 msgstr ""
 
 #. Description of the 'May Use Tools' (Check) field in DocType 'AI Action'
@@ -2910,7 +2955,7 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:15
-#: onedesk/public/js/tenant.js:30
+#: onedesk/public/js/tenant.js:35
 msgid "Live"
 msgstr ""
 
@@ -3050,7 +3095,7 @@ msgstr ""
 msgid "May Use Tools"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:76
+#: onedesk/public/js/tenant.js:81
 msgid "Measure storage"
 msgstr ""
 
@@ -3065,6 +3110,8 @@ msgstr ""
 #. Label of the model (Data) field in DocType 'Clock Attempt'
 #. Label of the model (Data) field in DocType 'Clock Device'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_admin/report/ai_usage/ai_usage.js:32
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:32
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -3073,6 +3120,7 @@ msgid "Model"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:37
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 msgid "Models"
 msgstr ""
@@ -3154,7 +3202,7 @@ msgstr ""
 msgid "Needs Review"
 msgstr ""
 
-#: onedesk/public/js/ai_model.js:24 onedesk/public/js/ai_model_list.js:13
+#: onedesk/public/js/ai_model.js:24 onedesk/public/js/ai_model_list.js:14
 msgid "Needs review"
 msgstr ""
 
@@ -3305,7 +3353,7 @@ msgstr ""
 msgid "Not marked"
 msgstr ""
 
-#: onedesk/public/js/ai_model_list.js:16
+#: onedesk/public/js/ai_model_list.js:19
 msgid "Not offered"
 msgstr ""
 
@@ -3341,7 +3389,7 @@ msgstr ""
 #: onedesk/one_hr/custom/shift_request.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:43
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
-#: onedesk/public/js/decision.js:31 onedesk/public/js/tenant.js:119
+#: onedesk/public/js/decision.js:31 onedesk/public/js/tenant.js:124
 msgid "Note"
 msgstr ""
 
@@ -3416,13 +3464,14 @@ msgid "Oct"
 msgstr ""
 
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:215
+#: onedesk/public/js/ai_model_list.js:31
 msgid "Offer"
 msgstr ""
 
 #. Label of the offered (Check) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:259
-#: onedesk/public/js/ai_model.js:30 onedesk/public/js/ai_model_list.js:15
+#: onedesk/public/js/ai_model.js:30 onedesk/public/js/ai_model_list.js:18
 msgid "Offered"
 msgstr ""
 
@@ -3722,6 +3771,11 @@ msgstr ""
 msgid "Out of date"
 msgstr ""
 
+#. Label of the output_per_million (Float) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Out, per 1M Tokens"
+msgstr ""
+
 #. Label of the done_section (Section Break) field in DocType 'AI Proposal'
 #. Label of the one_outcome (Data) field in DocType 'Employee Checkin'
 #. Label of the outcome (Select) field in DocType 'Clock Attempt'
@@ -3873,7 +3927,7 @@ msgid "Payment is taken by Stripe. Nothing is charged until it is confirmed ther
 msgstr ""
 
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:16
-#: onedesk/public/js/tenant.js:31 onedesk/public/js/workspace_account.js:37
+#: onedesk/public/js/tenant.js:36 onedesk/public/js/workspace_account.js:37
 msgid "Payment overdue"
 msgstr ""
 
@@ -3929,6 +3983,10 @@ msgstr ""
 #. Label of the per (Int) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "Per"
+msgstr ""
+
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:43
+msgid "Per Call"
 msgstr ""
 
 #. Label of the persona (Small Text) field in DocType 'One Admin Settings'
@@ -4150,7 +4208,7 @@ msgid "Provisioning Job"
 msgstr ""
 
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:20
-#: onedesk/public/js/tenant.js:35
+#: onedesk/public/js/tenant.js:40
 msgid "Provisioning failed"
 msgstr ""
 
@@ -4320,13 +4378,13 @@ msgstr ""
 msgid "Reference"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:78 onedesk/public/js/tenant.js:83
+#: onedesk/public/js/tenant.js:83 onedesk/public/js/tenant.js:88
 #: onedesk/public/js/tenant_domain.js:12
 #: onedesk/public/js/workspace_account.js:19
 msgid "Refresh"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:81
+#: onedesk/public/js/tenant.js:86
 msgid "Refresh domains"
 msgstr ""
 
@@ -4486,7 +4544,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
-#: onedesk/public/js/tenant.js:68
+#: onedesk/public/js/tenant.js:73
 msgid "Restore"
 msgstr ""
 
@@ -4995,6 +5053,10 @@ msgstr ""
 msgid "Stop listening"
 msgstr ""
 
+#: onedesk/public/js/ai_model_list.js:31
+msgid "Stop offering"
+msgstr ""
+
 #: onedesk/public/js/oneai/Panel.vue:148
 msgid "Stop sending this"
 msgstr ""
@@ -5024,7 +5086,7 @@ msgstr ""
 #. Settings'
 #. Label of the storage_section (Section Break) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-#: onedesk/one_admin/doctype/tenant/tenant.json onedesk/public/js/tenant.js:183
+#: onedesk/one_admin/doctype/tenant/tenant.json onedesk/public/js/tenant.js:188
 #: onedesk/public/js/workspace_account.js:72
 msgid "Storage"
 msgstr ""
@@ -5136,7 +5198,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:17
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
-#: onedesk/public/js/tenant.js:32 onedesk/public/js/workspace_account.js:38
+#: onedesk/public/js/tenant.js:37 onedesk/public/js/workspace_account.js:38
 msgid "Suspended"
 msgstr ""
 
@@ -5145,7 +5207,7 @@ msgstr ""
 msgid "Suspended For"
 msgstr ""
 
-#: onedesk/public/js/ai_model_list.js:21
+#: onedesk/public/js/ai_model_list.js:50
 msgid "Sync {0}"
 msgstr ""
 
@@ -5635,7 +5697,7 @@ msgstr ""
 msgid "Time"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:206
+#: onedesk/public/js/tenant.js:211
 msgid "Time on this rung"
 msgstr ""
 
@@ -5649,6 +5711,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
+#: onedesk/one_admin/report/ai_usage/ai_usage.js:13
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:14
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:13
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:13
@@ -5670,6 +5733,10 @@ msgstr ""
 
 #: onedesk/one_hr/rules.py:41
 msgid "Too far from your last check-in for the time in between."
+msgstr ""
+
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:58
+msgid "Total"
 msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:91
@@ -5917,7 +5984,7 @@ msgid "Waiting on Frappe Cloud"
 msgstr ""
 
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:13
-#: onedesk/public/js/tenant.js:28
+#: onedesk/public/js/tenant.js:33
 msgid "Waiting to be built"
 msgstr ""
 
@@ -6124,7 +6191,7 @@ msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
-#: onedesk/public/js/ai_model.js:25 onedesk/public/js/ai_model_list.js:12
+#: onedesk/public/js/ai_model.js:25 onedesk/public/js/ai_model_list.js:13
 msgid "Withdrawn"
 msgstr ""
 
@@ -6174,6 +6241,8 @@ msgstr ""
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
+#: onedesk/one_admin/report/ai_usage/ai_usage.js:26
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:31
 #: onedesk/public/js/ai_model.js:59
 msgid "Workspace"
 msgstr ""
@@ -6208,6 +6277,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #. Label of a number card in the One Admin Workspace
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:39
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "Workspaces"
@@ -6217,6 +6287,10 @@ msgstr ""
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Workspaces are reached at &lt;slug&gt;.&lt;this&gt;, for example t.4dl.app."
+msgstr ""
+
+#: onedesk/public/js/ai_model_list.js:33
+msgid "Workspaces can no longer pick this model"
 msgstr ""
 
 #: onedesk/public/js/oneai/Panel.vue:274
@@ -6541,7 +6615,7 @@ msgstr ""
 msgid "{0} credits in this conversation"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:133
+#: onedesk/public/js/tenant.js:138
 msgid "{0} credits now."
 msgstr ""
 
@@ -6558,11 +6632,11 @@ msgstr ""
 msgid "{0} credits."
 msgstr ""
 
-#: onedesk/public/js/tenant.js:216
+#: onedesk/public/js/tenant.js:221
 msgid "{0} days before it falls to {1}."
 msgstr ""
 
-#: onedesk/public/js/tenant.js:211
+#: onedesk/public/js/tenant.js:216
 msgid "{0} days left"
 msgstr ""
 
@@ -6610,7 +6684,7 @@ msgstr ""
 msgid "{0} has not failed."
 msgstr ""
 
-#: onedesk/public/js/tenant.js:107
+#: onedesk/public/js/tenant.js:112
 msgid "{0} has {1} credits, {2} of them promised to calls in flight."
 msgstr ""
 
@@ -6703,7 +6777,7 @@ msgstr ""
 msgid "{0} list"
 msgstr ""
 
-#: onedesk/public/js/ai_model_list.js:38
+#: onedesk/public/js/ai_model_list.js:67
 msgid "{0} models, {1} priced, {2} need review."
 msgstr ""
 
@@ -6723,11 +6797,11 @@ msgstr ""
 msgid "{0} of {1} used."
 msgstr ""
 
-#: onedesk/public/js/tenant.js:158
+#: onedesk/public/js/tenant.js:163
 msgid "{0} of {1} — {2}%"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:196
+#: onedesk/public/js/tenant.js:201
 msgid "{0} of {1}."
 msgstr ""
 
@@ -6747,7 +6821,7 @@ msgstr ""
 msgid "{0} out of 5"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:194 onedesk/public/js/workspace_account.js:83
+#: onedesk/public/js/tenant.js:199 onedesk/public/js/workspace_account.js:83
 msgid "{0} over the {1} this plan allows."
 msgstr ""
 
@@ -6759,7 +6833,7 @@ msgstr ""
 msgid "{0} runs on a model that can do {1}. Anything added below is added to the instruction it already carries, and never replaces it."
 msgstr ""
 
-#: onedesk/public/js/tenant.js:164
+#: onedesk/public/js/tenant.js:169
 msgid "{0} signed for and not yet counted."
 msgstr ""
 
@@ -6805,7 +6879,7 @@ msgstr ""
 msgid "{0} {1} → {2}"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:226
+#: onedesk/public/js/tenant.js:231
 msgid "{0} {1}?"
 msgstr ""
 
@@ -6825,7 +6899,7 @@ msgstr ""
 msgid "{0}, from {1}: {2}."
 msgstr ""
 
-#: onedesk/public/js/tenant.js:160
+#: onedesk/public/js/tenant.js:165
 msgid "{0}, unmetered"
 msgstr ""
 

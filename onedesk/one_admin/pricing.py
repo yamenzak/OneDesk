@@ -124,6 +124,26 @@ def ceiling(rates: list, caps: dict, markup: float, per_dollar: float) -> Bill:
 	return bill(rates, asked(caps), markup, per_dollar)
 
 
+#: A price list reads per million tokens, so that is what the catalogue shows.
+MILLION = 1_000_000
+
+
+def per_million(rates: list, markup: float, per_dollar: float) -> tuple[float | None, float | None]:
+	"""What a million text tokens in, and a million out, cost a workspace in credits.
+
+	For the catalogue's list, so an operator choosing what to sell can see what
+	it sells for. None where the model is not priced in text tokens at all — an
+	image model has no such number, and a zero would say it was free.
+	"""
+	if not markup or not per_dollar:
+		return None, None
+	found = []
+	for kind in ("input", "output"):
+		usd, missing = cost(rates, [Use(kind=kind, modality="text", unit="tokens", count=MILLION)])
+		found.append(None if missing else round(usd * markup * per_dollar, 2))
+	return found[0], found[1]
+
+
 def asked(caps: dict) -> list[Use]:
 	"""The caps a caller declared, as uses we know the size of."""
 	found = []

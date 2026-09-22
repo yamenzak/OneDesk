@@ -306,3 +306,41 @@ def _amount(amount: float) -> float:
 
 def _today() -> date:
 	return frappe.utils.getdate()
+
+
+#: What usage may be grouped by, as the reservation's own columns.
+USAGE_BY = ("tenant", "why")
+
+
+def usage(start, end, by: list[str], tenant: str | None = None, model: str | None = None) -> list:
+	"""Model calls between two dates, grouped, for the operator's usage report.
+
+	One reservation is one call: `settled` is what it was charged once the
+	provider said what it used, and `why` names the model. A held reservation is
+	a call still running and a released one never happened, so neither is usage.
+	"""
+	site.require_admin()
+	# No grouping is the whole period as one row, which is what a total is.
+	by = [key for key in by if key in USAGE_BY]
+	where = ["state = 'Settled'", "creation >= %(start)s", "creation < %(end)s"]
+	if tenant:
+		where.append("tenant = %(tenant)s")
+	if model:
+		where.append("why = %(model)s")
+	grouped = ", ".join(by)
+	return frappe.db.sql(
+		f"""
+		SELECT {grouped + "," if by else ""}
+		       COUNT(DISTINCT why) AS models,
+		       COUNT(DISTINCT tenant) AS workspaces,
+		       COUNT(*) AS calls,
+		       SUM(settled) AS credits,
+		       MAX(creation) AS last
+		  FROM `tabCredit Reservation`
+		 WHERE {" AND ".join(where)}
+		 {"GROUP BY " + grouped if by else ""}
+		 ORDER BY credits DESC
+		""",
+		{"start": start, "end": end, "tenant": tenant, "model": model},
+		as_dict=True,
+	)

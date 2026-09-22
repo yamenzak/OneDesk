@@ -25,6 +25,8 @@
   "status",
   "priced_by_hand",
   "markup",
+  "input_per_million",
+  "output_per_million",
   "why",
   "rates_section",
   "rates",
@@ -41,7 +43,7 @@
    "options": "workers-ai\ngoogle-ai-studio",
    "reqd": 1,
    "read_only": 1,
-   "in_list_view": 1,
+   "in_list_view": 0,
    "in_standard_filter": 1
   },
   {
@@ -50,7 +52,7 @@
    "label": "Model",
    "reqd": 1,
    "read_only": 1,
-   "in_list_view": 1,
+   "in_list_view": 0,
    "description": "The provider's own id. Never typed here."
   },
   {
@@ -61,7 +63,8 @@
    "fieldname": "label",
    "fieldtype": "Data",
    "label": "Name",
-   "read_only": 1
+   "read_only": 1,
+   "in_list_view": 1
   },
   {
    "fieldname": "capability",
@@ -166,6 +169,26 @@
    "description": "Empty uses the default in One Admin Settings."
   },
   {
+   "fieldname": "input_per_million",
+   "fieldtype": "Float",
+   "label": "In, per 1M Tokens",
+   "precision": "2",
+   "read_only": 1,
+   "in_list_view": 1,
+   "description": "Credits a workspace pays for a million text tokens sent, after markup. Hidden where the model is not priced in tokens.",
+   "depends_on": "eval:doc.input_per_million"
+  },
+  {
+   "fieldname": "output_per_million",
+   "fieldtype": "Float",
+   "label": "Out, per 1M Tokens",
+   "precision": "2",
+   "read_only": 1,
+   "in_list_view": 1,
+   "description": "Credits for a million text tokens answered, after markup.",
+   "depends_on": "eval:doc.output_per_million"
+  },
+  {
    "fieldname": "why",
    "fieldtype": "Small Text",
    "label": "What Could Not Be Read",
@@ -212,7 +235,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-22 20:00:00.000000",
+ "modified": "2026-09-23 14:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "AI Model",

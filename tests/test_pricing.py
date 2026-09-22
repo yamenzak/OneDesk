@@ -218,3 +218,44 @@ def test_a_metered_gemini_call_prices_end_to_end():
 	assert made.whole
 	expected = (32 * 0.10 + 1258 * 0.10 + 12 * 0.40) / 1_000_000
 	assert made.credits == round(expected * 2.0 * 1000, 6)
+
+
+# ------------------------------------------------------ the catalogue's price
+
+
+@dataclass(frozen=True)
+class _ListRate:
+	kind: str
+	modality: str
+	unit: str
+	per: int
+	usd: float
+
+
+def test_the_list_price_is_after_markup_per_million_tokens():
+	"""$0.10 in and $0.40 out a million, doubled, at a thousand credits a dollar."""
+	rates = [
+		_ListRate("input", "text", "tokens", 1_000_000, 0.10),
+		_ListRate("output", "text", "tokens", 1_000_000, 0.40),
+	]
+	assert pricing.per_million(rates, 2.0, 1000) == (200.0, 800.0)
+
+
+def test_a_model_not_priced_in_tokens_has_no_list_price_rather_than_a_free_one():
+	rates = [_ListRate("input", "image", "image", 1, 0.02)]
+	assert pricing.per_million(rates, 2.0, 1000) == (None, None)
+
+
+def test_no_markup_or_no_credit_rate_is_no_price():
+	rates = [_ListRate("input", "text", "tokens", 1_000_000, 0.10)]
+	assert pricing.per_million(rates, 0, 1000) == (None, None)
+	assert pricing.per_million(rates, 2.0, 0) == (None, None)
+
+
+def test_the_usage_report_is_the_operators_and_groups_only_by_its_own_columns():
+	report = (tree.APP / "one_admin" / "report" / "ai_usage" / "ai_usage.py").read_text()
+	assert "site.require_admin()" in report
+	ledger = (tree.APP / "one_admin" / "ledger.py").read_text()
+	said = ledger[ledger.index("def usage("):]
+	assert "site.require_admin()" in said
+	assert "if key in USAGE_BY" in said, "a grouping column comes from the request"

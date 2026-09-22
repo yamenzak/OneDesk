@@ -926,9 +926,37 @@ On a dev bench the socket needs three things `bench start` does and a bare
 its own port), `webserver_port` matching the port it serves on (socketio checks
 the session by calling it), and a worker.
 
-**AI 10 — the operator's screens.** OneAdmin: the catalogue with its Offered
-switch, the rates, the markup, and usage per workspace. Last on purpose — every
-number it shows has to exist before there is a screen worth drawing.
+**AI 10 — the operator's screens.** *Done.*
+
+**The catalogue shows what a model sells for.** Two stored fields on
+`AI Model`, credits per million text tokens in and out, after markup — the
+model's own markup or the default. They are the number an operator chooses
+on, and the rates table is not: the rates are the provider's dollars, and what
+a workspace pays is those times the markup times the credit rate. Worked out
+by `pricing.per_million` on every save, and again for every model when
+One Admin Settings changes the default markup or the credit rate. A model not
+priced in tokens — an image or audio model — has no such number; the column
+cannot hold nothing, so it holds zero and the list and the form both leave it
+blank rather than print a price of 0.00 that reads as free.
+
+**Offering is one press on the row.** The list's indicator says what a row is
+for — Default, Offered, Not offered, Needs review, Withdrawn — and a Priced
+row carries Offer or Stop offering. It is the model's own save, so every rule
+on it still holds: a default cannot stop being offered while it is the default.
+Provider left the columns for the filters, so the name has room.
+
+**AI Usage** is a report in the Selling group and a button on every workspace:
+calls, credits, credits per call and the last call, for a period, by workspace,
+by model, or both. One call is one settled `Credit Reservation` — what it was
+charged once the provider said what it used — and the query is
+`ledger.usage`, because only the ledger reads its own tables. The total is the
+report's own row rather than frappe's, which adds up every number column: a
+sum of "workspaces" or of "per call" is not a number anybody means, so the
+total counts the period once and divides credits by calls.
+
+Measured against this bench's own month: 234 calls across 35 models, 223.76
+credits, 0.96 a call; gemma-4 selling at 200 in and 600 out a million, granite
+at 34 and 224.
 
 ## What is deliberately not here
 

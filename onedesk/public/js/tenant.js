@@ -18,6 +18,11 @@ frappe.ui.form.on("Tenant", {
 		frappe
 			.xcall("onedesk.one_admin.operator.standing", { tenant: frm.doc.name })
 			.then((where) => onedesk.tenant.draw(frm, where));
+
+		// What this workspace spent on AI, by model, this month.
+		frm.add_custom_button(__("AI Usage"), () =>
+			frappe.set_route("query-report", "AI Usage", { tenant: frm.doc.name, by: "Model" }),
+		);
 	},
 });
 

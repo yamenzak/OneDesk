@@ -38,7 +38,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| AI Model | 25 | document |
+| AI Model | 27 | document |
 | AI Model Rate | 7 | child |
 | Account Request | 16 | document |
 | Credit Ledger Entry | 14 | submittable |

@@ -135,6 +135,18 @@
    "type": "Link"
   },
   {
+   "child": 1,
+   "collapsible": 0,
+   "icon": "chart-column",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "AI Usage",
+   "link_to": "AI Usage",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
    "child": 0,
    "collapsible": 0,
    "icon": "settings",
@@ -147,7 +159,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-09-22 11:32:37.802299",
+ "modified": "2026-09-23 14:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin",

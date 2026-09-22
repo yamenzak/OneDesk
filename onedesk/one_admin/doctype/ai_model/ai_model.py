@@ -63,3 +63,39 @@ class AIModel(Document):
 				frappe.throw(
 					frappe._("A rate needs a unit, how many of them, and what they cost.")
 				)
+		# Zero where there is no token price. The column cannot hold nothing, so
+		# the list and the form both read zero as "not priced in tokens".
+		held, said = priced(self)
+		self.input_per_million, self.output_per_million = held or 0, said or 0
+
+
+def priced(model, money=None) -> tuple[float | None, float | None]:
+	"""What this model sells for per million tokens, with today's markup.
+
+	Worked out here rather than read off the rates on the list, because the
+	number an operator is choosing on is the one after markup, and the markup is
+	either this model's own or the default.
+	"""
+	from onedesk.one_admin import pricing
+	from onedesk.one_admin.prices import Rate
+
+	money = money or frappe.get_cached_doc("One Admin Settings")
+	rates = [
+		Rate(kind=row.kind, modality=row.modality, unit=row.unit, per=row.per or 1, usd=row.usd or 0)
+		for row in model.rates or []
+	]
+	return pricing.per_million(
+		rates, model.markup or money.default_markup or 0, money.credits_per_dollar or 0
+	)
+
+
+def reprice(money) -> None:
+	"""Every model's list price again, after the default markup or the credit rate moved.
+
+	Handed the settings being saved, because the cached copy is still the old one
+	until the save has finished.
+	"""
+	for name in frappe.get_all("AI Model", pluck="name"):
+		model = frappe.get_doc("AI Model", name)
+		held, said = priced(model, money)
+		model.db_set({"input_per_million": held or 0, "output_per_million": said or 0}, update_modified=False)
