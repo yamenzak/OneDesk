@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 22:28+0000\n"
-"PO-Revision-Date: 2026-09-22 22:28+0000\n"
+"POT-Creation-Date: 2026-09-22 22:35+0000\n"
+"PO-Revision-Date: 2026-09-22 22:35+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -183,7 +183,7 @@ msgstr "Ein Arbeitsbereich darf höchstens {0} eigene Domains haben."
 msgid "A {0} does not carry {1}."
 msgstr "Ein {0} trägt kein Feld {1}."
 
-#: onedesk/one_ai/proposals.py:170
+#: onedesk/one_ai/proposals.py:172
 msgid "A {0} has to name a record."
 msgstr "Ein {0} muss einen Datensatz nennen."
 
@@ -1016,7 +1016,7 @@ msgstr "Überstunden ändern"
 msgid "Change the model"
 msgstr "Modell ändern"
 
-#: onedesk/one_ai/proposals.py:203
+#: onedesk/one_ai/proposals.py:205
 msgid "Change {0} on {1}"
 msgstr "{0} an {1} ändern"
 
@@ -1336,7 +1336,7 @@ msgstr "Feiertage einschließen"
 msgid "Create"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:198
+#: onedesk/one_ai/proposals.py:200
 msgid "Create a {0}"
 msgstr "{0} anlegen"
 
@@ -1542,7 +1542,7 @@ msgstr ""
 msgid "Delete Photos After (Days)"
 msgstr "Fotos löschen nach (Tage)"
 
-#: onedesk/one_ai/proposals.py:200
+#: onedesk/one_ai/proposals.py:202
 msgid "Delete {0}"
 msgstr "{0} löschen"
 
@@ -3558,9 +3558,13 @@ msgstr "Nur ein Antrag, der noch offen ist, kann beantwortet werden."
 msgid "Only a request still waiting can be turned down."
 msgstr "Nur ein Antrag, der noch offen ist, kann abgelehnt werden."
 
-#: onedesk/one/account.py:197
+#: onedesk/one/account.py:198
 msgid "Only an administrator of this workspace can change its address."
 msgstr "Nur eine Verwaltung dieses Arbeitsbereichs kann seine Adresse ändern."
+
+#: onedesk/one/roles.py:39
+msgid "Only an administrator of this workspace can do this."
+msgstr "Das kann nur ein Administrator dieses Arbeitsbereichs."
 
 #: onedesk/one_hr/leave.py:143
 msgid "Only an application still waiting can be answered."
@@ -5520,7 +5524,7 @@ msgstr "Dieser Antrag wurde am {0} abgelehnt. Genehmigen Sie ihn zuerst, falls s
 msgid "This shift has check-ins but does not read them, so no Attendance is being written and every count that reads Attendance is empty. Open the shift and press Read Check-ins."
 msgstr "In dieser Schicht wird eingecheckt, aber nicht ausgewertet: Es wird keine Anwesenheit erfasst und jede Auswertung darüber bleibt leer. Öffnen Sie die Schicht und klicken Sie auf Einchecken auswerten."
 
-#: onedesk/one_admin/site.py:87
+#: onedesk/one_admin/site.py:88
 msgid "This site does not administer workspaces."
 msgstr "Diese Site verwaltet keine Arbeitsbereiche."
 
@@ -6092,6 +6096,13 @@ msgstr ""
 msgid "Workspace Account"
 msgstr "Arbeitsbereich-Konto"
 
+#. Name of a role
+#: onedesk/one/doctype/workspace_account/workspace_account.json
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
+#: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
+msgid "Workspace Administrator"
+msgstr "Arbeitsbereich-Administrator"
+
 #. Name of a DocType
 #. Label of the tenant_domain (Data) field in DocType 'One Admin Settings'
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
@@ -6167,7 +6178,7 @@ msgstr "Sie dürfen {0} nicht lesen."
 msgid "You may not run {0}."
 msgstr "Sie dürfen {0} nicht ausführen."
 
-#: onedesk/one_ai/proposals.py:175
+#: onedesk/one_ai/proposals.py:177
 msgid "You may not {0} {1}."
 msgstr "Sie dürfen {1} nicht {0}."
 
@@ -6559,7 +6570,7 @@ msgstr "{0} wird nicht angeboten, daher kann nichts darauf zurückfallen."
 msgid "{0} is not on this workspace."
 msgstr "{0} gehört nicht zu diesem Arbeitsbereich."
 
-#: onedesk/one_ai/proposals.py:165
+#: onedesk/one_ai/proposals.py:167
 msgid "{0} is not something that can be proposed."
 msgstr "{0} lässt sich nicht vorschlagen."
 
@@ -6628,7 +6639,7 @@ msgstr "{0} auf dem Kilometerzähler seit dem letzten Eintrag, mit {1} {2} für 
 msgid "{0} on the odometer since the last log."
 msgstr "{0} auf dem Kilometerzähler seit dem letzten Eintrag."
 
-#: onedesk/one_ai/proposals.py:202
+#: onedesk/one_ai/proposals.py:204
 msgid "{0} on {1}"
 msgstr "{0} bei {1}"
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 22:28+0000\n"
-"PO-Revision-Date: 2026-09-22 22:28+0000\n"
+"POT-Creation-Date: 2026-09-22 22:35+0000\n"
+"PO-Revision-Date: 2026-09-22 22:35+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -181,7 +181,7 @@ msgstr ""
 msgid "A {0} does not carry {1}."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:170
+#: onedesk/one_ai/proposals.py:172
 msgid "A {0} has to name a record."
 msgstr ""
 
@@ -1014,7 +1014,7 @@ msgstr ""
 msgid "Change the model"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:203
+#: onedesk/one_ai/proposals.py:205
 msgid "Change {0} on {1}"
 msgstr ""
 
@@ -1334,7 +1334,7 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:198
+#: onedesk/one_ai/proposals.py:200
 msgid "Create a {0}"
 msgstr ""
 
@@ -1540,7 +1540,7 @@ msgstr ""
 msgid "Delete Photos After (Days)"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:200
+#: onedesk/one_ai/proposals.py:202
 msgid "Delete {0}"
 msgstr ""
 
@@ -3556,8 +3556,12 @@ msgstr ""
 msgid "Only a request still waiting can be turned down."
 msgstr ""
 
-#: onedesk/one/account.py:197
+#: onedesk/one/account.py:198
 msgid "Only an administrator of this workspace can change its address."
+msgstr ""
+
+#: onedesk/one/roles.py:39
+msgid "Only an administrator of this workspace can do this."
 msgstr ""
 
 #: onedesk/one_hr/leave.py:143
@@ -5515,7 +5519,7 @@ msgstr ""
 msgid "This shift has check-ins but does not read them, so no Attendance is being written and every count that reads Attendance is empty. Open the shift and press Read Check-ins."
 msgstr ""
 
-#: onedesk/one_admin/site.py:87
+#: onedesk/one_admin/site.py:88
 msgid "This site does not administer workspaces."
 msgstr ""
 
@@ -6087,6 +6091,13 @@ msgstr ""
 msgid "Workspace Account"
 msgstr ""
 
+#. Name of a role
+#: onedesk/one/doctype/workspace_account/workspace_account.json
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
+#: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
+msgid "Workspace Administrator"
+msgstr ""
+
 #. Name of a DocType
 #. Label of the tenant_domain (Data) field in DocType 'One Admin Settings'
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
@@ -6162,7 +6173,7 @@ msgstr ""
 msgid "You may not run {0}."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:175
+#: onedesk/one_ai/proposals.py:177
 msgid "You may not {0} {1}."
 msgstr ""
 
@@ -6547,7 +6558,7 @@ msgstr ""
 msgid "{0} is not on this workspace."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:165
+#: onedesk/one_ai/proposals.py:167
 msgid "{0} is not something that can be proposed."
 msgstr ""
 
@@ -6616,7 +6627,7 @@ msgstr ""
 msgid "{0} on the odometer since the last log."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:202
+#: onedesk/one_ai/proposals.py:204
 msgid "{0} on {1}"
 msgstr ""
 

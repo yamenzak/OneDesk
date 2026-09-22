@@ -9,6 +9,7 @@ app_logo_url = "/assets/onedesk/images/one.svg"
 # The site wears One from its first boot and carries nobody else's navbar rows or
 # checklists; after that all of it is the tenant's, in Website and Navbar Settings.
 after_install = [
+	"onedesk.one.roles.ensure",
 	"onedesk.one.company.hide",
 	"onedesk.one_hr.names.hide",
 	"onedesk.one_hr.money.hide",
@@ -31,6 +32,7 @@ after_install = [
 # Their dock files do not carry the mount, so a newer erpnext or hrms clears it,
 # and nobody is ever asked which company; see one/company.py.
 after_migrate = [
+	"onedesk.one.roles.ensure",
 	"onedesk.one.companions.apply",
 	"onedesk.one.company.hide",
 	"onedesk.one_hr.names.hide",

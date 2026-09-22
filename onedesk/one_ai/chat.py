@@ -411,13 +411,13 @@ def _model(doc=None) -> dict:
 	The one the last answer came from, if there was one; then what the workspace
 	picked for the chat action; then nothing, and the panel says the default is
 	answering. It is shown and not chosen, because the model is the workspace's
-	choice per action — so for a System Manager it opens that setting, and for
-	everybody else it is a label.
+	choice per action — so for whoever administers the workspace it opens that
+	setting, and for everybody else it is a label.
 	"""
 	said = (doc and doc.get("model")) or run.mine(CHAT).get("model") or ""
-	settable = "System Manager" in frappe.get_roles() and frappe.db.exists(
-		"AI Action Setting", CHAT
-	)
+	from onedesk.one import roles
+
+	settable = roles.administers() and frappe.db.exists("AI Action Setting", CHAT)
 	return {"model": named(said), "model_at": CHAT if settable else None}
 
 

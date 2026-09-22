@@ -5,8 +5,9 @@ The same app ships to every site. A site is the **admin site** when its
 
 It is a site config key rather than a role, a setting or a fixture, and that is
 the whole point: all three of those are editable from a desk by somebody holding
-System Manager, and a tenant administrator holds System Manager on their own
-workspace. `site_config.json` is a file on the bench that no request can write.
+System Manager. Nobody on a workspace is given it (`one/roles.py`), but a rule
+that holds only while nobody is ever given a role is a rule one mistake away
+from not holding. `site_config.json` is a file on the bench that no request can write.
 So the question "may this site provision workspaces and hold the ledger that
 bills people" has an answer the people being billed cannot change.
 
@@ -35,9 +36,9 @@ it, which is the case that matters: a site restored from an admin backup, or a
 workspace that was the admin site during development.
 
 **The role is not on its own, though, and it should not be.** A role is a row,
-and a tenant administrator holds System Manager on their own workspace — so
-between one migrate and the next they could grant themselves `One Operator` and
-the permission machinery would let them in. Two hooks close that, and it takes
+and anybody who ever held System Manager on a workspace could grant themselves
+`One Operator` between one migrate and the next, and the permission machinery
+would let them in. Two hooks close that, and it takes
 two because Frappe asks the question in two different places:
 
 * `refuse_on_a_tenant` is the `has_permission` hook. Frappe calls it only when

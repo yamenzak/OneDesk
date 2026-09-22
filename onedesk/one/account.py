@@ -20,6 +20,7 @@ import frappe
 import requests
 from frappe.utils import now_datetime
 
+from onedesk.one import roles
 from onedesk.one_admin import faults, proxy
 
 #: How long to wait on admin. A workspace drawing a page should not be held up
@@ -170,7 +171,7 @@ def drop(key: str) -> dict:
 #: Who on a workspace may change what it is called. Not everybody who can read
 #: the settings screen: a domain change moves where the login page lives, so it
 #: belongs to whoever already administers the site.
-MAY_RENAME = "System Manager"
+MAY_RENAME = roles.ADMINISTRATOR
 
 
 @frappe.whitelist()

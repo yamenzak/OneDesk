@@ -11,7 +11,7 @@
 frappe.ui.form.on("Workspace Account", {
 	refresh(frm) {
 		onedesk.account.draw(frm);
-		if (!frappe.user.has_role("System Manager")) return;
+		if (!frappe.user.has_role("Workspace Administrator")) return;
 
 		frm.add_custom_button(__("Add Domain"), () => onedesk.account.add(frm), __("Domains"));
 		frm.add_custom_button(__("Set Primary"), () => onedesk.account.pick(frm, "primary"), __("Domains"));

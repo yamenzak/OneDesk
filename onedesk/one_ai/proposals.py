@@ -149,7 +149,9 @@ def _mine(entry) -> None:
 	"""
 	if entry.asked_by == frappe.session.user:
 		return
-	frappe.only_for("System Manager")
+	from onedesk.one import roles
+
+	roles.require()
 
 
 def _allowed(kind: str, doctype: str, record: str | None):

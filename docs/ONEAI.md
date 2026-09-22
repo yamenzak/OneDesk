@@ -835,6 +835,14 @@ The panel's greys were `--gray-*`, which frappe does not flip in dark mode, so
 every chip and bubble went white on dark. They are the `--surface-*` and
 `--outline-*` tokens now, which it does.
 
+**Who configures it.** Nobody on a workspace is ever given System Manager, so
+nothing may wait for it. `one/roles.py` adds **Workspace Administrator** — not
+frappe's Workspace Manager, which is about the desk's sidebar pages — and it is
+what `AI Action Setting`, the model list, *Try it*, the model pill, the
+workspace's address and buying credits all check. `tests/test_roles.py` refuses
+any new `System Manager` gate; the one place it is still read is the apps
+screen, where hiding frappe's Framework tile from everybody is the point.
+
 **AI 8b — the field tools and the badge.** Not built. The control beside a
 Text, Small Text or Text Editor field opens the same panel with that field as
 the target — not a second UI — and what comes back is an `AI Proposal` of kind

@@ -147,6 +147,11 @@
    "role": "System Manager",
    "share": 0,
    "write": 0
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "Workspace Administrator"
   }
  ],
  "sort_field": "label",

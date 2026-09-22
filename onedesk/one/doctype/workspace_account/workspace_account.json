@@ -227,6 +227,10 @@
   {
    "read": 1,
    "role": "All"
+  },
+  {
+   "read": 1,
+   "role": "Workspace Administrator"
   }
  ],
  "sort_field": "modified",

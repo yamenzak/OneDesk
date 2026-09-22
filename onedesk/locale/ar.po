@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 22:28+0000\n"
-"PO-Revision-Date: 2026-09-22 22:28+0000\n"
+"POT-Creation-Date: 2026-09-22 22:35+0000\n"
+"PO-Revision-Date: 2026-09-22 22:35+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -183,7 +183,7 @@ msgstr "لا يجوز لمساحة عمل أن تملك أكثر من {0} نطا
 msgid "A {0} does not carry {1}."
 msgstr "لا يحمل {0} حقل {1}."
 
-#: onedesk/one_ai/proposals.py:170
+#: onedesk/one_ai/proposals.py:172
 msgid "A {0} has to name a record."
 msgstr "لا بد أن يسمّي {0} سجلاً."
 
@@ -1016,7 +1016,7 @@ msgstr "تعديل العمل الإضافي"
 msgid "Change the model"
 msgstr "تغيير النموذج"
 
-#: onedesk/one_ai/proposals.py:203
+#: onedesk/one_ai/proposals.py:205
 msgid "Change {0} on {1}"
 msgstr "تغيير {0} في {1}"
 
@@ -1336,7 +1336,7 @@ msgstr "شمول العطل أيضاً"
 msgid "Create"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:198
+#: onedesk/one_ai/proposals.py:200
 msgid "Create a {0}"
 msgstr "إنشاء {0}"
 
@@ -1542,7 +1542,7 @@ msgstr ""
 msgid "Delete Photos After (Days)"
 msgstr "حذف الصور بعد (أيام)"
 
-#: onedesk/one_ai/proposals.py:200
+#: onedesk/one_ai/proposals.py:202
 msgid "Delete {0}"
 msgstr "حذف {0}"
 
@@ -3558,9 +3558,13 @@ msgstr "لا يُبتّ إلا في طلب ما زال قيد الانتظار."
 msgid "Only a request still waiting can be turned down."
 msgstr "لا يُرفض إلا طلب ما زال قيد الانتظار."
 
-#: onedesk/one/account.py:197
+#: onedesk/one/account.py:198
 msgid "Only an administrator of this workspace can change its address."
 msgstr "لا يغيّر عنوان مساحة العمل إلا مديرها."
+
+#: onedesk/one/roles.py:39
+msgid "Only an administrator of this workspace can do this."
+msgstr "لا يستطيع ذلك إلا مسؤول مساحة العمل هذه."
 
 #: onedesk/one_hr/leave.py:143
 msgid "Only an application still waiting can be answered."
@@ -5520,7 +5524,7 @@ msgstr "رُفض هذا الطلب في {0}. اعتمده أولاً إن تغي
 msgid "This shift has check-ins but does not read them, so no Attendance is being written and every count that reads Attendance is empty. Open the shift and press Read Check-ins."
 msgstr "لهذه المناوبة تسجيلات حضور لكنها لا تقرأها، فلا يُكتب أي سجل حضور وتبقى كل الأرقام التي تعتمد عليه فارغة. افتح المناوبة واضغط قراءة تسجيلات الحضور."
 
-#: onedesk/one_admin/site.py:87
+#: onedesk/one_admin/site.py:88
 msgid "This site does not administer workspaces."
 msgstr "هذا الموقع لا يدير مساحات عمل."
 
@@ -6092,6 +6096,13 @@ msgstr ""
 msgid "Workspace Account"
 msgstr "حساب مساحة العمل"
 
+#. Name of a role
+#: onedesk/one/doctype/workspace_account/workspace_account.json
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
+#: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
+msgid "Workspace Administrator"
+msgstr "مسؤول مساحة العمل"
+
 #. Name of a DocType
 #. Label of the tenant_domain (Data) field in DocType 'One Admin Settings'
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
@@ -6167,7 +6178,7 @@ msgstr "لا يجوز لك قراءة {0}."
 msgid "You may not run {0}."
 msgstr "لا يُسمح لك بتشغيل {0}."
 
-#: onedesk/one_ai/proposals.py:175
+#: onedesk/one_ai/proposals.py:177
 msgid "You may not {0} {1}."
 msgstr "لا يجوز لك {0} {1}."
 
@@ -6559,7 +6570,7 @@ msgstr "{0} غير معروض، فلا يمكن لشيء أن يتخذه افت�
 msgid "{0} is not on this workspace."
 msgstr "{0} ليس على مساحة العمل هذه."
 
-#: onedesk/one_ai/proposals.py:165
+#: onedesk/one_ai/proposals.py:167
 msgid "{0} is not something that can be proposed."
 msgstr "{0} ليس مما يمكن اقتراحه."
 
@@ -6628,7 +6639,7 @@ msgstr "{0} على عدّاد المسافة منذ السجل السابق، م
 msgid "{0} on the odometer since the last log."
 msgstr "{0} على عدّاد المسافة منذ السجل السابق."
 
-#: onedesk/one_ai/proposals.py:202
+#: onedesk/one_ai/proposals.py:204
 msgid "{0} on {1}"
 msgstr "{0} على {1}"
 

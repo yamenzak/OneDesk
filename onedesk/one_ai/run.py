@@ -12,7 +12,7 @@ admin's, for the same reason a workspace cannot sign its own upload URL.
 
 import frappe
 
-from onedesk.one import account
+from onedesk.one import account, roles
 
 
 #: As many rounds as the workspace will drive. The account counts them too and
@@ -149,7 +149,7 @@ def models(needs: str) -> list[dict]:
 	Whitelisted so a settings screen can fill a picker. It says nothing about
 	prices or credits — only which names may be chosen.
 	"""
-	frappe.only_for("System Manager")
+	roles.require()
 	return account.ask("onedesk.one_admin.proxy.ai_models", needs=needs) or []
 
 
@@ -160,7 +160,7 @@ def try_it(action: str, text: str) -> dict:
 	Charged like any other call, because a preview that is not charged is a
 	preview of something else.
 	"""
-	frappe.only_for("System Manager")
+	roles.require()
 	return ask(action, text, reference=frappe.session.user)
 
 
