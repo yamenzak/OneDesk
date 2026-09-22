@@ -69,3 +69,26 @@ def test_refusing_is_the_default_for_anything_that_bills():
 	source = (tree.APP / "one_admin" / "site.py").read_text()
 	assert "def require_admin()" in source
 	assert "PermissionError" in source
+
+
+def test_nothing_mirrors_frappe_cloud():
+	"""No doctype stores what press already knows.
+
+	A table of somebody else's state is wrong between syncs, and the way you
+	find out is a customer who cannot be placed on a bench that exists. What we
+	store is what we asked press for, which is ours.
+	"""
+	mirrors = [name for name, _ in admin_doctypes() if name.lower().startswith("press ")]
+	assert not mirrors, (
+		f"{mirrors} mirror press. Ask press instead — onedesk/one_admin/press.py "
+		"reads benches, clusters and plans live and caches for a minute."
+	)
+
+
+def test_the_press_client_holds_nothing():
+	source = (tree.APP / "one_admin" / "press.py").read_text()
+	for writing in ("frappe.get_doc(", "insert(", ".save(", "db.set_value"):
+		assert writing not in source, (
+			f"press.py calls {writing}. It asks press and caches; it does not "
+			"write, because the moment it writes there is a copy to go stale."
+		)
