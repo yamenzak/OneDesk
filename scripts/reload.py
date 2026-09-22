@@ -28,6 +28,7 @@ BENCH = Path("/home/frappe/bench1")
 
 #: The folders that hold a screen document, and the doctype each one is.
 KINDS = {
+	"dock": "Dock",
 	"workspace": "Workspace",
 	"sidebar": "Sidebar",
 	"number_card": "Number Card",
@@ -35,20 +36,27 @@ KINDS = {
 }
 
 
-def shipped(only: list[str]) -> list[tuple[str, str, str]]:
-	"""Every (module, kind, name) this app ships a screen document for."""
+def shipped(only: list[str]) -> list[Path]:
+	"""Every screen document this app ships, as a path to its JSON.
+
+	Two shapes, because Frappe has two. A workspace, sidebar, number card or
+	chart lives under its module — `one_admin/workspace/one_admin/`. A dock does
+	not: it is one per app and sits at the app root, which is why an earlier
+	version of this that only walked modules reloaded everything except the dock
+	and said nothing about it.
+	"""
 	found = []
-	for module in sorted(p.name for p in tree.APP.iterdir() if p.is_dir()):
-		if only and module not in only:
-			continue
-		for kind in KINDS:
-			folder = tree.APP / module / kind
+	for kind in KINDS:
+		for folder in [tree.APP / kind, *(p / kind for p in sorted(tree.APP.iterdir()) if p.is_dir())]:
 			if not folder.is_dir():
+				continue
+			owner = folder.parent.name
+			if only and owner not in only and owner != tree.APP.name:
 				continue
 			for one in sorted(folder.iterdir()):
 				if one.is_dir() and (one / f"{one.name}.json").exists():
-					found.append((module, kind, one.name))
-	return found
+					found.append(one / f"{one.name}.json")
+	return sorted(set(found))
 
 
 def main() -> int:
@@ -60,14 +68,17 @@ def main() -> int:
 
 	lines = [
 		"import frappe",
+		"from frappe.modules.import_file import import_file_by_path",
 		f"frappe.init(site={SITE!r})",
 		"frappe.connect()",
-		# Without this the reload refuses: frappe will not overwrite a standard
+		# Without this the import refuses: frappe will not overwrite a standard
 		# document outside a migration.
 		"frappe.flags.in_migrate = True",
 	]
-	for module, kind, name in work:
-		lines.append(f"frappe.reload_doc({module!r}, {kind!r}, {name!r}, force=True)")
+	for path in work:
+		lines.append(f"import_file_by_path({str(path)!r}, force=True, reset_permissions=False)")
+	lines.append("frappe.cache.delete_value('dock_layers')")
+	lines.append("frappe.clear_cache()")
 	lines.append("frappe.db.commit()")
 
 	script = BENCH / "sites" / "_one_reload.py"
@@ -84,8 +95,8 @@ def main() -> int:
 	if done.returncode:
 		print(done.stdout[-2000:], done.stderr[-2000:], sep="\n")
 		return 1
-	for module, kind, name in work:
-		print(f"  {module}/{kind}/{name}")
+	for path in work:
+		print(f"  {path.relative_to(tree.APP)}")
 	print(f"reloaded {len(work)}")
 	return 0
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 11:36+0000\n"
-"PO-Revision-Date: 2026-09-22 11:36+0000\n"
+"POT-Creation-Date: 2026-09-22 11:45+0000\n"
+"PO-Revision-Date: 2026-09-22 11:45+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -3995,7 +3995,7 @@ msgstr "Dieser Antrag wurde am {0} abgelehnt. Genehmigen Sie ihn zuerst, falls s
 msgid "This shift has check-ins but does not read them, so no Attendance is being written and every count that reads Attendance is empty. Open the shift and press Read Check-ins."
 msgstr "In dieser Schicht wird eingecheckt, aber nicht ausgewertet: Es wird keine Anwesenheit erfasst und jede Auswertung darüber bleibt leer. Öffnen Sie die Schicht und klicken Sie auf Einchecken auswerten."
 
-#: onedesk/one_admin/site.py:64
+#: onedesk/one_admin/site.py:87
 msgid "This site does not administer workspaces."
 msgstr "Diese Site verwaltet keine Arbeitsbereiche."
 

@@ -33,6 +33,29 @@ doctype for a caller starts with `require_admin()`.
 the role exists. On a tenant site it is removed from everyone who somehow has
 it, which is the case that matters: a site restored from an admin backup, or a
 workspace that was the admin site during development.
+
+**The role is not on its own, though, and it should not be.** A role is a row,
+and a tenant administrator holds System Manager on their own workspace — so
+between one migrate and the next they could grant themselves `One Operator` and
+the permission machinery would let them in. Two hooks close that, and it takes
+two because Frappe asks the question in two different places:
+
+* `refuse_on_a_tenant` is the `has_permission` hook. Frappe calls it only when
+  there is a document to judge, so it is what refuses opening a record.
+* `nothing_on_a_tenant` is the `permission_query_conditions` hook. It is what
+  every list, report and link search goes through, and on a workspace site it
+  returns a condition nothing satisfies.
+
+Measured, because the first on its own looked like enough and was not: with the
+role granted by hand and the flag off, `has_permission("Tenant")` with no
+document still answered True and `get_list` returned rows. The hook had only
+ever fired for `One Admin Settings`, which is a Single and therefore always has
+a document. A gate that covers the form and not the list is not a gate.
+
+Both read `frappe.conf`, which is a file on the bench that no request can write.
+So there are two kinds of gate and they fail differently: the role decides what
+is *offered* — a rail, an awesomebar, a report builder — and the site config
+decides what is *answered*.
 """
 
 import frappe
@@ -97,3 +120,28 @@ def _withdraw_role() -> None:
 		return
 	for name in frappe.get_all("Has Role", filters={"role": OPERATOR}, pluck="name"):
 		frappe.delete_doc("Has Role", name, ignore_permissions=True, force=True)
+
+
+def refuse_on_a_tenant(doc=None, ptype=None, user=None) -> bool:
+	"""Opening one of these records, on a site that does not administer anything.
+
+	Registered under `has_permission`. Frappe calls it after the role check has
+	already passed and a False here refuses anyway, so a role somebody granted
+	themselves on their own workspace buys nothing.
+
+	It is called only when there is a document, which is why it is not the whole
+	answer — see `nothing_on_a_tenant`.
+	"""
+	return is_admin()
+
+
+def nothing_on_a_tenant(user=None, doctype=None) -> str:
+	"""Listing one of these records, on a site that does not administer anything.
+
+	Registered under `permission_query_conditions`, which is the seam every
+	list, report, link search and `get_list` passes through. An empty string
+	adds no condition; `1=0` is a condition nothing satisfies, so the query runs
+	and answers nothing rather than raising — which is also what a list does for
+	a doctype holding no rows, and a workspace site holds none of these anyway.
+	"""
+	return "" if is_admin() else "1=0"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 11:36+0000\n"
-"PO-Revision-Date: 2026-09-22 11:36+0000\n"
+"POT-Creation-Date: 2026-09-22 11:45+0000\n"
+"PO-Revision-Date: 2026-09-22 11:45+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -3995,7 +3995,7 @@ msgstr "رُفض هذا الطلب في {0}. اعتمده أولاً إن تغي
 msgid "This shift has check-ins but does not read them, so no Attendance is being written and every count that reads Attendance is empty. Open the shift and press Read Check-ins."
 msgstr "لهذه المناوبة تسجيلات حضور لكنها لا تقرأها، فلا يُكتب أي سجل حضور وتبقى كل الأرقام التي تعتمد عليه فارغة. افتح المناوبة واضغط قراءة تسجيلات الحضور."
 
-#: onedesk/one_admin/site.py:64
+#: onedesk/one_admin/site.py:87
 msgid "This site does not administer workspaces."
 msgstr "هذا الموقع لا يدير مساحات عمل."
 

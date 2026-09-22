@@ -128,3 +128,50 @@ def test_an_offering_can_be_typed_by_hand():
 	"""
 	doc = _json(ADMIN / "doctype" / "offering" / "offering.json")
 	assert any(perm.get("create") for perm in doc["permissions"])
+
+
+def test_both_gates_are_registered_on_every_owned_doctype():
+	"""One hook is not enough, and that was measured rather than assumed.
+
+	`has_permission` is called only when Frappe has a document to judge, so on
+	its own it guarded opening a record and left `get_list` wide open — with the
+	operator role granted by hand and the flag off, a Tenant list still returned
+	rows. `permission_query_conditions` is the seam every list, report and link
+	search passes through.
+	"""
+	import re
+
+	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+	owned = _owned()
+	for hook, fn in (
+		("has_permission", "refuse_on_a_tenant"),
+		("permission_query_conditions", "nothing_on_a_tenant"),
+	):
+		block = re.search(rf"^{hook} = \{{(.*?)^\}}", hooks, re.S | re.M)
+		assert block, f"{hook} is not declared in hooks.py"
+		named = set(re.findall(r'"([^"]+)": "onedesk\.one_admin\.site\.' + fn, block.group(1)))
+		assert owned <= named, f"{hook} misses {sorted(owned - named)}"
+
+
+def test_the_console_wears_its_own_mark():
+	"""OneAdmin is its own product with its own mark; `one` is a different one."""
+	assert _sidebar()["header_icon"] == "oneadmin"
+	assert _workspace()["icon"] == "oneadmin"
+	shipped = json.loads(
+		(tree.APP / "fixtures" / "custom_icon.json").read_text(encoding="utf-8")
+	)
+	assert "oneadmin" in {one["name"] for one in shipped}
+
+
+def test_the_console_has_its_own_row_in_the_dock():
+	"""Reachable by clicking rather than by knowing the URL.
+
+	It is last on purpose: the four above it are opened every day and this one
+	is opened by two people.
+	"""
+	dock = _json(tree.APP / "dock" / "onedesk" / "onedesk.json")
+	rows = {row["link_to"]: row for row in dock["items"]}
+	assert "One Admin" in rows, "the dock does not offer the console"
+	assert rows["One Admin"]["icon"] == "oneadmin"
+	assert rows["One Admin"]["link_type"] == "Sidebar"
+	assert dock["items"][-1]["link_to"] == "One Admin"

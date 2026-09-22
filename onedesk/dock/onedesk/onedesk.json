@@ -44,9 +44,17 @@
    "link_to": "OneHR",
    "link_type": "Sidebar",
    "title": "OneHR"
+  },
+  {
+   "added": 0,
+   "hidden": 0,
+   "icon": "oneadmin",
+   "link_to": "One Admin",
+   "link_type": "Sidebar",
+   "title": "One Admin"
   }
  ],
- "modified": "2026-09-20 17:30:00.000000",
+ "modified": "2026-09-22 11:43:05.574910",
  "modified_by": "Administrator",
  "name": "onedesk",
  "owner": "Administrator",

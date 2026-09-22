@@ -116,6 +116,35 @@ doc_events = {
 # do not share a gradient.
 # The marks, the reasons a day pauses, and the reasons a day still counts.
 # A workspace adds its own to any of them.
+# The second gate on the operator console. The role decides what is listed; this
+# decides what is answered, and it reads site_config.json rather than a table —
+# so a tenant administrator granting themselves One Operator on their own
+# workspace gets a rail entry and nothing behind it. See one_admin/site.py.
+has_permission = {
+	"Account Request": "onedesk.one_admin.site.refuse_on_a_tenant",
+	"Offering": "onedesk.one_admin.site.refuse_on_a_tenant",
+	"One Admin Settings": "onedesk.one_admin.site.refuse_on_a_tenant",
+	"Provisioning Job": "onedesk.one_admin.site.refuse_on_a_tenant",
+	"Stripe Webhook Event": "onedesk.one_admin.site.refuse_on_a_tenant",
+	"Tenant": "onedesk.one_admin.site.refuse_on_a_tenant",
+	"Tenant Domain": "onedesk.one_admin.site.refuse_on_a_tenant",
+	"Tenant Event": "onedesk.one_admin.site.refuse_on_a_tenant",
+}
+
+# Every list, report and link search goes through this one. The hook above is
+# only called when there is a document, so on its own it guarded the form and
+# left get_list wide open — measured, not assumed.
+permission_query_conditions = {
+	"Account Request": "onedesk.one_admin.site.nothing_on_a_tenant",
+	"Offering": "onedesk.one_admin.site.nothing_on_a_tenant",
+	"One Admin Settings": "onedesk.one_admin.site.nothing_on_a_tenant",
+	"Provisioning Job": "onedesk.one_admin.site.nothing_on_a_tenant",
+	"Stripe Webhook Event": "onedesk.one_admin.site.nothing_on_a_tenant",
+	"Tenant": "onedesk.one_admin.site.nothing_on_a_tenant",
+	"Tenant Domain": "onedesk.one_admin.site.nothing_on_a_tenant",
+	"Tenant Event": "onedesk.one_admin.site.nothing_on_a_tenant",
+}
+
 fixtures = [
 	"Custom Icon",
 	"Clock Reason",
