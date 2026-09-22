@@ -404,9 +404,11 @@ def _workers_ai_said(body: dict | None) -> str | None:
 	read, because which one a model uses is not something the models list says
 	and not something we find out about before a customer does.
 
-	`reasoning_content` is deliberately not read. It is the model thinking out
-	loud, it is not an answer, and putting it on screen as one is how a person
-	is shown working notes and told they are a reply.
+	The thinking is deliberately not read, under either of the two names it
+	arrives with — `reasoning_content` on `/ai/run` and `reasoning` on the
+	gateway's endpoint. It is the model thinking out loud, it is not an answer,
+	and putting it on screen as one is how a person is shown working notes and
+	told they are a reply.
 	"""
 	# Three shapes now. `result.response` and `result.choices` come off the
 	# direct API's `/ai/run`; the gateway's OpenAI-compatible endpoint answers

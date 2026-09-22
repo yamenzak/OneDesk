@@ -684,9 +684,16 @@ It also answers in a third shape: `choices` and `usage` at the top level, no
 `result` wrapper, where `/ai/run` wraps both. Reading one shape only is a call
 that answers fine and then bills its hold because nothing could be metered.
 
+**The tenant tag lands.** Read back off the gateway's own request log:
+`Metadata — tenant: probe9x`, beside the model, the endpoint and the token
+counts. A bill somebody disputes can be checked against Cloudflare's record
+rather than only against ours, which is what `cf-aig-metadata` was put there
+for.
+
 **A reasoning model that says nothing has still answered.** Given a small output
-budget, gemma-4 spends all of it on `reasoning_content` and omits `content`
-altogether — and the guard that exists to catch a provider changing its response
+budget, gemma-4 spends all of it on thinking and says nothing — `content` absent
+on `/ai/run`, an explicit `null` on the gateway's endpoint, and the thinking
+itself under `reasoning_content` in one and `reasoning` in the other — and the guard that exists to catch a provider changing its response
 shape fired on it. A choice that came back at all is an answer, even an empty
 one; `None` is kept for a body with no choices in it, which is the case the
 guard is actually for.

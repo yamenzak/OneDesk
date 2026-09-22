@@ -80,8 +80,14 @@ def test_a_reasoning_model_that_says_nothing_has_still_answered():
 	`content` altogether. That is the model saying nothing, not a shape nobody
 	has seen — and the difference decides whether a paid call raises."""
 	room = readers()
-	spent = {"choices": [{"finish_reason": "length", "message": {"reasoning_content": "hm"}}]}
-	assert room["_workers_ai_said"](spent) == ""
+	# Both field names, and both ways of saying there are no words: absent on
+	# `/ai/run`, an explicit null on the gateway's endpoint.
+	for message in (
+		{"reasoning_content": "hm"},
+		{"content": None, "reasoning": "hm", "refusal": None},
+	):
+		spent = {"choices": [{"finish_reason": "length", "message": message}]}
+		assert room["_workers_ai_said"](spent) == ""
 	# A body with no choices at all is still unreadable, which is the case the
 	# guard in `_answered` exists for.
 	assert room["_workers_ai_said"]({"oops": True}) is None
