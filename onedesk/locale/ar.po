@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 05:07+0000\n"
-"PO-Revision-Date: 2026-09-22 05:07+0000\n"
+"POT-Creation-Date: 2026-09-22 05:31+0000\n"
+"PO-Revision-Date: 2026-09-22 05:31+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -469,6 +469,11 @@ msgstr "حظر"
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Blocked"
 msgstr "محظور"
+
+#. Label of the 'boarding_status' field in DocType 'Employee Separation'
+#: onedesk/one_hr/custom/employee_separation.json
+msgid "Boarding Status"
+msgstr "حالة الإجراءات"
 
 #. Option for the 'Network and Location' (Select) field in DocType 'HR
 #. Settings'
@@ -1363,6 +1368,11 @@ msgstr "طول يوم العمل الكامل لهذا الموظف. يُملأ 
 msgid "How long you expect this to take. The timer says so when it runs past it. Leave it empty and it never does."
 msgstr "المدة التي تتوقعها لهذا العمل. ينبّه المؤقّت عند تجاوزها. واتركه فارغاً فلا ينبّه أبداً."
 
+#. Description of the 'People' (Int) field in DocType 'Training Result'
+#: onedesk/one_hr/custom/training_result.json
+msgid "How many people the result covers, kept on the document so the list can say it."
+msgstr "عدد الأشخاص الذين تشملهم النتيجة، محفوظاً على المستند كي تذكره القائمة."
+
 #: onedesk/public/js/setup_wizard.js:19
 msgid "How should One look?"
 msgstr "كيف تريد أن يبدو One؟"
@@ -2243,7 +2253,9 @@ msgstr ""
 msgid "Payslips"
 msgstr "قسائم الراتب"
 
+#. Label of the one_people (Int) field in DocType 'Training Result'
 #. Label of a Card Break in the OneHR Setup Workspace
+#: onedesk/one_hr/custom/training_result.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "People"
 msgstr "الأشخاص"

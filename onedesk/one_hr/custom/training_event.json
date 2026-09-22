@@ -1,0 +1,39 @@
+{
+ "custom_fields": [],
+ "doctype": "Training Event",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Training Event",
+   "doctype_or_field": "DocField",
+   "field_name": "event_name",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Training Event",
+   "doctype_or_field": "DocField",
+   "field_name": "start_time",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Training Event",
+   "doctype_or_field": "DocField",
+   "field_name": "type",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Training Event",
+   "doctype_or_field": "DocType",
+   "property": "title_field",
+   "property_type": "Data",
+   "value": ""
+  }
+ ],
+ "sync_on_migrate": 1
+}

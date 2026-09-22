@@ -1,0 +1,29 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Training Result",
+   "fieldname": "one_people",
+   "fieldtype": "Int",
+   "label": "People",
+   "module": "One HR",
+   "insert_after": "training_event",
+   "read_only": 1,
+   "hidden": 1,
+   "in_list_view": 1,
+   "description": "How many people the result covers, kept on the document so the list can say it."
+  }
+ ],
+ "doctype": "Training Result",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Training Result",
+   "doctype_or_field": "DocField",
+   "field_name": "training_event",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  }
+ ],
+ "sync_on_migrate": 1
+}

@@ -1,0 +1,23 @@
+{
+ "custom_fields": [],
+ "doctype": "Training Program",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Training Program",
+   "doctype_or_field": "DocField",
+   "field_name": "trainer_name",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Training Program",
+   "doctype_or_field": "DocType",
+   "property": "title_field",
+   "property_type": "Data",
+   "value": ""
+  }
+ ],
+ "sync_on_migrate": 1
+}

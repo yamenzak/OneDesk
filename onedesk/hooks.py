@@ -82,6 +82,11 @@ doc_events = {
 		"after_insert": "onedesk.one_hr.growth.cycle_under_way",
 	},
 	"Employee Promotion": {"before_validate": "onedesk.one_hr.growth.promotion"},
+	# An onboarding is for somebody who is not an employee yet, so the holiday
+	# list has to come from the company. See one_hr/lifecycle.py.
+	"Employee Onboarding": {"before_validate": "onedesk.one_hr.lifecycle.onboarding"},
+	"Task": {"before_insert": "onedesk.one_hr.lifecycle.task"},
+	"Training Result": {"before_validate": "onedesk.one_hr.lifecycle.result"},
 	# The reason is a record and submitting is an approval. See one_hr/request.py.
 	"Attendance Request": {
 		"before_validate": "onedesk.one_hr.request.before_validate",

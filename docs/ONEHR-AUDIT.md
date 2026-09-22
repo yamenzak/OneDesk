@@ -845,3 +845,121 @@ and stays orange until all three are in.
 Feedback and Appraisal Overview needed nothing: the feedback list already
 carries the reviewer, the cycle and the score, and the overview is a dashboard
 whose heading the rail sweep already fixed.
+
+## Joining & Leaving
+
+Twelve screens: the lifecycle dashboard, Onboarding, Separation, Grievance, the
+four Training screens and the four reports. All twelve were empty, so the group
+was seeded first — and seeding is how the two worst faults in this whole audit
+were found, because they are faults nobody meets until they try to use the
+product for the first time.
+
+### The first onboarding a workspace submits is refused twice
+
+**Once for a holiday list nothing fills.** `Employee Boarding Controller.get_holiday_list`
+decides which days the boarding tasks may not land on:
+
+	if self.employee:
+		return get_holiday_list_for_employee(self.employee, as_on=self.boarding_begins_on)
+	else:
+		if not self.holiday_list:
+			frappe.throw(_("Please set the Holiday List."), frappe.MandatoryError)
+
+An Employee Onboarding is for somebody who **is not an employee yet** — creating
+them is what the record is for, and `make_employee` is what does it. So
+`self.employee` is empty on every onboarding, and it falls to `self.holiday_list`,
+a field on the document that nothing fills: not the form script, not `validate`,
+not the template the activities came from. The company's `default_holiday_list`
+is sitting right there, set correctly by the setup wizard, and is never
+consulted.
+
+Employee Separation takes the other branch and works, because the person leaving
+*is* an employee and `get_holiday_list_for_employee` falls back to their company
+on its own. An asymmetry, not a decision. This is the fifth instance of the
+fault this audit keeps finding — after `leave_balance`, the two benefit
+ceilings, the expense claim's cost centre and the appointment letter's terms —
+and the worst of them, because the other four were at least filled by a form
+script and this one is filled by nothing at all.
+
+**And once for a project started on the wrong day.** Past that, `on_submit`
+makes a Project for the boarding and a Task per activity:
+
+	"expected_start_date": self.date_of_joining
+	if self.doctype == "Employee Onboarding"
+	else self.resignation_letter_date,
+
+while every task starts from `add_days(self.boarding_begins_on, activity.begin_on)`.
+Onboarding *is* the work done before somebody joins — the contract, the laptop,
+the induction — so `boarding_begins_on` is earlier than `date_of_joining` on any
+realistic record, and ERPNext's own Task guard then refuses the first task:
+
+	TASK-2026-00003's Expected Start Date cannot be before PROJ-0002's
+
+The project is given the day the person arrives, which is when onboarding
+*ends*. A boarding project starts no later than its first activity, so that is
+what `one_hr/lifecycle.py` settles, and only for a project one of the two
+boarding documents owns — a Task in OneProject is left alone.
+
+Together these two mean **nobody could have onboarded anybody**, on any One
+workspace, without first finding and filling a field they were not told about
+and then working out why the dates were refused.
+
+### Two reports that would not answer
+
+**Employee Analytics threw `Filter missing` on every open.** Its `parameter`
+filter is required and offers Branch, Grade, Department, Designation and
+Employment Type, and defaults to nothing, so the page drew the red box before it
+drew anything else. The rule added to `reports.js` is general — a required
+Select with a fixed list answers itself with its first option — with one named
+exception, because Branch is first and a workspace with no branches then gets an
+empty report where the same question asked of Department would have answered it.
+
+**Employee Exits showed nothing on a workspace with somebody leaving in three
+weeks.** It defaults `from_date` to twelve months ago and `to_date` to today, so
+the person working a notice period — the one the screen is most useful about —
+is outside it. The default is now the calendar year, which answers both halves:
+who has gone, and who is going. Only when the filters are still on their own
+defaults, so a reader who has narrowed the period keeps their answer.
+
+Employee Information and Employee Birthday needed nothing. Employee Information
+is a Report Builder report, so the rail opens it as a saved set of columns over
+Employee at `/desk/employee/view/report/…`, and the heading is already its own
+name. Employee Birthday is empty in September because nobody on this site was
+born in September, which is the honest answer.
+
+### Six lists
+
+**Training Program and Training Event each printed their name twice.** Both are
+autonamed `field:` their own title, so the ID column and the title column carry
+the same string — and frappe appends an ID column whenever `title_field` is set
+and is not `name`. Clearing `title_field` on both is the fix; dropping the field
+from `in_list_view` is not, because `get_fields_in_list_view` already filters the
+title field out. Appraisal Cycle in the Growth group was the same shape reached
+the other way: `title_field` was unset, so `cycle_name` in the list was the
+duplicate.
+
+**Employee Grievance showed Grievance Against Party** — the *doctype* name,
+"Department" or "Employee", rather than who the grievance is about. The Dynamic
+Link beside it holds the party. The type comes off, the party goes on, and who
+raised it goes on too, because the list had the subject and the date and no
+person at all.
+
+**Training Result's list was the event and the ID and nothing else.** Who it is
+about is in `employees`, a child table, so `one_people` carries the count up onto
+the document.
+
+**Employee Onboarding and Employee Separation** gained `boarding_status`, which
+is the real state of the thing — Pending, In Process, Completed — where the list
+had only the docstatus. Their two names for that one field are reconciled:
+"Boarding Status" on onboarding and plain "Status" on separation, where it sat
+beside the docstatus indicator reading Status.
+
+**Training Event** gained its start time and lost its type: a workshop against a
+seminar matters less than what day it is on.
+
+### Onboarding follows an offer, and that is deliberate
+
+`job_offer` is required on Employee Onboarding, and it is the spine rather than
+a formality: `set_employee` finds the person by it, `validate_duplicate` keys on
+it, and `make_employee` reads their email from it. A workspace that hires by
+handshake makes the Employee directly. Left as it is.

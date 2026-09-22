@@ -238,6 +238,78 @@ onedesk.reports.the_period = () => {
 	};
 };
 
+// A required Select filter that nobody gave a default to.
+//
+// Employee Analytics makes `parameter` required and offers Branch, Grade,
+// Department, Designation and Employment Type, and defaults it to nothing. So
+// every open throws `Filter missing` into the console and draws the red box,
+// on a report where any of the five would have been an answer and the reader
+// only wants to see it and then change it.
+//
+// The rule is general rather than named, because the same shape will turn up
+// again: a Select that must be answered and offers a fixed list answers itself
+// with the first option. A Link is left alone — its first option is whatever
+// happens to sort first in somebody's data, which is not an answer.
+//
+// `CHOSEN` is for where the first option is a bad one. Employee Analytics
+// offers Branch first, and a workspace with no branches then gets an empty
+// report where the same question asked of Department would have answered it.
+const CHOSEN = { "Employee Analytics": { parameter: "Department" } };
+
+onedesk.reports.a_choice_is_made = () => {
+	const QueryReport = frappe.views && frappe.views.QueryReport;
+	if (!QueryReport || QueryReport.prototype.__one_choice) return;
+	QueryReport.prototype.__one_choice = true;
+
+	const theirs = QueryReport.prototype.setup_filters;
+	QueryReport.prototype.setup_filters = function () {
+		theirs.call(this);
+		const named = CHOSEN[this.report_name] || {};
+		(this.filters || []).forEach((filter) => {
+			const df = filter.df || {};
+			if (df.fieldtype !== "Select" || !df.reqd || filter.get_value()) return;
+			const first = (df.options || []).find((option) =>
+				typeof option === "string" ? option : option && option.value
+			);
+			const answer = named[df.fieldname] || (typeof first === "string" ? first : first && first.value);
+			if (answer) filter.set_value(answer);
+		});
+	};
+};
+
+// A report about people leaving opens on the year, not on the year behind.
+//
+// Employee Exits defaults `from_date` to twelve months ago and `to_date` to
+// today, so somebody working a notice period — the person the screen is most
+// useful about — is not in it. On this site the one leaver goes on 15 October
+// and the report was empty on 22 September.
+//
+// The whole calendar year answers both halves of the question: who has gone,
+// and who is going. Only when the filters are still on their own defaults, so a
+// reader who has narrowed the period keeps their answer.
+const WHOLE_YEAR = ["Employee Exits"];
+
+onedesk.reports.who_is_leaving = () => {
+	const QueryReport = frappe.views && frappe.views.QueryReport;
+	if (!QueryReport || QueryReport.prototype.__one_year) return;
+	QueryReport.prototype.__one_year = true;
+
+	const theirs = QueryReport.prototype.setup_filters;
+	QueryReport.prototype.setup_filters = function () {
+		theirs.call(this);
+		if (!WHOLE_YEAR.includes(this.report_name)) return;
+		const today = frappe.datetime.nowdate();
+		const was = { from_date: frappe.datetime.add_months(today, -12), to_date: today };
+		(this.filters || []).forEach((filter) => {
+			const fieldname = (filter.df || {}).fieldname;
+			if (!(fieldname in was) || filter.get_value() !== was[fieldname]) return;
+			filter.set_value(
+				fieldname === "from_date" ? frappe.datetime.year_start() : frappe.datetime.year_end()
+			);
+		});
+	};
+};
+
 frappe.after_ajax(() => {
 	onedesk.reports.one_company();
 	onedesk.reports.one_name();
@@ -245,4 +317,6 @@ frappe.after_ajax(() => {
 	onedesk.reports.the_period();
 	onedesk.reports.called_what_the_rail_called_it();
 	onedesk.reports.dashboards_too();
+	onedesk.reports.a_choice_is_made();
+	onedesk.reports.who_is_leaving();
 });

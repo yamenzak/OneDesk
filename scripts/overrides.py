@@ -291,6 +291,20 @@ OVERRIDES = [
 		"def update_late_entry",
 	),
 	(
+		"An onboarding takes the company's holiday list",
+		"an onboarding is for somebody who is not an employee yet, so their branch throws on a field nothing fills",
+		"onedesk/one_hr/lifecycle.py",
+		"hrms/hrms/controllers/employee_boarding_controller.py",
+		"def get_holiday_list",
+	),
+	(
+		"A boarding project starts no later than its first activity",
+		"theirs starts the project on the joining date while the tasks start from boarding_begins_on, and erpnext's own Task guard then refuses the first one",
+		"onedesk/one_hr/lifecycle.py",
+		"hrms/hrms/controllers/employee_boarding_controller.py",
+		"\"expected_start_date\": self.date_of_joining",
+	),
+	(
 		"An appraisal carries its cycle's dates",
 		"their own duplicate check compares start_date and end_date, and nothing in hrms ever fills either, so only the same-cycle branch can fire",
 		"onedesk/one_hr/growth.py",

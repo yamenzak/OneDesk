@@ -1,0 +1,32 @@
+{
+ "custom_fields": [],
+ "doctype": "Employee Grievance",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Employee Grievance",
+   "doctype_or_field": "DocField",
+   "field_name": "employee_name",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Employee Grievance",
+   "doctype_or_field": "DocField",
+   "field_name": "grievance_against",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Employee Grievance",
+   "doctype_or_field": "DocField",
+   "field_name": "grievance_against_party",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  }
+ ],
+ "sync_on_migrate": 1
+}

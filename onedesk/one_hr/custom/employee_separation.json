@@ -1,0 +1,24 @@
+{
+ "custom_fields": [],
+ "doctype": "Employee Separation",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Employee Separation",
+   "doctype_or_field": "DocField",
+   "field_name": "boarding_status",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Employee Separation",
+   "doctype_or_field": "DocField",
+   "field_name": "boarding_status",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Boarding Status"
+  }
+ ],
+ "sync_on_migrate": 1
+}
