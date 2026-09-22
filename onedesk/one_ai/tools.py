@@ -50,7 +50,9 @@ def list_records(
 	filters: Annotated[dict, "Field name to value. All of them have to match."] | None = None,
 	fields: Annotated[list, "Which fields to answer with. Defaults to what a list shows."]
 	| None = None,
-	limit: Annotated[int, "At most this many rows."] = 20,
+	limit: Annotated[
+		int, "At most this many rows. Twenty unless asked for more. To answer with a number, count instead."
+	] = 20,
 	order_by: Annotated[str, "A field and a direction, such as 'creation desc'."] | None = None,
 ) -> list:
 	"""Find records of one type. Answers only with what the person asking may see.

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 19:43+0000\n"
-"PO-Revision-Date: 2026-09-22 19:43+0000\n"
+"POT-Creation-Date: 2026-09-22 19:48+0000\n"
+"PO-Revision-Date: 2026-09-22 19:48+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -4976,7 +4976,7 @@ msgstr "Vorgeschlagene Änderung"
 msgid "Suggested deletion"
 msgstr "Vorgeschlagene Löschung"
 
-#: onedesk/one_ai/tools.py:198
+#: onedesk/one_ai/tools.py:200
 msgid "Suggested. It happens when somebody approves it."
 msgstr "Vorgeschlagen. Es geschieht, wenn jemand zustimmt."
 
@@ -6068,7 +6068,7 @@ msgstr "Sie können das später in Ihren eigenen Einstellungen ändern."
 msgid "You checked in but never checked out, so a check out was written for you at the shift end. Tell HR if that is wrong."
 msgstr "Sie haben eingecheckt, aber nie ausgecheckt, daher wurde zum Schichtende ein Auschecken für Sie geschrieben. Sagen Sie der Personalabteilung Bescheid, falls das nicht stimmt."
 
-#: onedesk/one_ai/tools.py:98
+#: onedesk/one_ai/tools.py:100
 msgid "You may not read {0}."
 msgstr "Sie dürfen {0} nicht lesen."
 
@@ -6436,7 +6436,7 @@ msgstr "{0} ist kein Auftrag."
 msgid "{0} is not a rung an operator sets."
 msgstr "{0} ist keine Stufe, die ein Betreiber setzt."
 
-#: onedesk/one_ai/tools.py:171
+#: onedesk/one_ai/tools.py:173
 msgid "{0} is not a tool."
 msgstr "{0} ist kein Werkzeug."
 

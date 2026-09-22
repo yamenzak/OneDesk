@@ -505,6 +505,14 @@ is not another's to read. The question is stored *before* the answer is asked
 for, so a run that fails leaves it in the chat rather than losing it, and only
 the last two dozen turns are sent while the whole thing is kept.
 
+**Counting is a tool, and the instruction says to reach for it.** `list_records`
+answers with twenty rows unless asked for more and never more than a hundred,
+and the panel draws three of them — but the rows the model was sent are rows the
+workspace paid tokens for, so "how many tasks do I have" answered by listing is
+a bill for a number. The `chat` and `find` instructions say to count rather than
+list, and the `limit` parameter's own description says so where a model reading
+the tool will see it.
+
 **A record is drawn, not described.** When a lookup comes back, the panel shows
 the records themselves — the type as a chip, what the record is called, a few
 labelled fields, and buttons to open it or copy its link — rather than a line
