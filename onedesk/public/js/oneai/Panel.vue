@@ -67,20 +67,25 @@
 						{{ said.text }}
 					</div>
 
-					<div
-						v-for="(look, i) in said.looked"
-						:key="i"
-						class="one-ai-looked"
-						:class="{ 'one-ai-looked--refused': look.error }"
-					>
-						<span class="one-ai-looked__dot"></span>
-						<span>{{ look.error || told(look) }}</span>
-					</div>
+					<template v-for="(look, i) in said.looked" :key="i">
+						<div v-if="look.error || (!look.records.length && !look.card)" class="one-ai-looked"
+							:class="{ 'one-ai-looked--refused': look.error }">
+							<span class="one-ai-looked__dot"></span>
+							<span>{{ look.error || told(look) }}</span>
+						</div>
 
-					<Card
+						<Record v-for="rec in look.records" :key="rec.name" :record="rec" />
+						<div v-if="look.more" class="one-ai-looked">
+							<span class="one-ai-looked__dot"></span>
+							<span>{{ __("and {0} more", [look.more]) }}</span>
+						</div>
+					</template>
+
+					<Record
 						v-for="name in said.cards"
 						:key="name"
-						:card="cards[name] || { name, kind: __('Suggested'), state: 'Proposed' }"
+						:record="(cards[name] && cards[name].shown) || { doctype: '', name: '', title: '', fields: [] }"
+						:suggested="cards[name] || { name, kind: 'Create', state: 'Proposed' }"
 						@answered="answered"
 					/>
 				</div>
@@ -131,7 +136,7 @@
 <script setup>
 import { computed, nextTick, ref } from "vue";
 
-import Card from "./Card.vue";
+import Record from "./Record.vue";
 
 const __ = window.__;
 const mark = "/assets/onedesk/images/oneai.svg";

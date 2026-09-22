@@ -33,6 +33,32 @@ KEPT = 24
 #: How long a title taken from the first thing asked may be.
 TITLE = 60
 
+#: How many records one lookup draws before it says how many more there were.
+#: Three is a glance; ten is a list somebody has to scroll past the answer.
+CARDS = 3
+
+#: Fields on one card. Enough to recognise the record, not enough to replace it.
+FIELDS = 6
+
+#: Fields on each of several. A list is for picking one out, not for reading.
+BRIEF = 2
+
+#: Fieldtypes that are not a line on a card — markup, layout, and the long ones
+#: that would push the answer off the screen.
+NOT_ON_A_CARD = (
+	"Text Editor",
+	"HTML",
+	"HTML Editor",
+	"Markdown Editor",
+	"Code",
+	"Section Break",
+	"Column Break",
+	"Tab Break",
+	"Table",
+	"Table MultiSelect",
+	"Password",
+)
+
 #: Turns nobody reads on screen. The page pointer is one of these — it is said
 #: to the model, and showing it would be showing somebody their own address bar.
 QUIET = ("context",)
@@ -107,12 +133,45 @@ def cards(names: list[str] | str) -> list[dict]:
 	named = frappe.parse_json(names) if isinstance(names, str) else (names or [])
 	if not named:
 		return []
-	return frappe.get_list(
+	found = frappe.get_list(
 		"AI Proposal",
 		filters={"name": ["in", list(named)[:50]]},
 		fields=["name", "kind", "for_doctype", "record", "state", "why", "changes", "applied_doc"],
 		limit_page_length=50,
 	)
+	return [{**row, "shown": _suggests(row)} for row in found]
+
+
+def _suggests(row: dict) -> dict:
+	"""A suggestion drawn as the record it is about.
+
+	The same card a lookup draws, so approving a change and reading a record
+	look like one thing rather than two — the fields are what is being proposed,
+	which for a change is only what changes.
+	"""
+	doctype = row.get("for_doctype") or ""
+	fields = []
+	try:
+		changes = frappe.parse_json(row.get("changes") or "{}") or {}
+	except Exception:
+		changes = {}
+
+	meta = frappe.get_meta(doctype) if doctype and frappe.db.exists("DocType", doctype) else None
+	labels = {field.fieldname: field.label or field.fieldname for field in (meta.fields if meta else [])}
+	for field, value in list(changes.items())[:FIELDS]:
+		fields.append(
+			{
+				"label": frappe._(labels.get(field, field)),
+				"value": value if isinstance(value, str) else json.dumps(value),
+			}
+		)
+
+	return {
+		"doctype": doctype,
+		"name": row.get("record") or "",
+		"title": "",
+		"fields": fields,
+	}
 
 
 @frappe.whitelist()
@@ -173,12 +232,67 @@ def _looked(call: dict, result: dict | None) -> dict:
 	"""
 	said = result or {}
 	answered = said.get("result")
+	rows, more = _records(call, answered)
 	return {
 		"tool": call.get("tool"),
 		"args": call.get("args") or {},
 		"ran": bool(said.get("ran")),
 		"error": answered.get("error") if isinstance(answered, dict) else None,
 		"card": said.get("card"),
+		"records": rows,
+		"more": more,
+		"count": answered if isinstance(answered, int) else None,
+	}
+
+
+def _records(call: dict, answered) -> tuple[list[dict], int]:
+	"""What it read, drawn as records rather than described in a sentence.
+
+	A record somebody is looking at is worth seeing: the type, what it is
+	called, and a few fields. The drawing is done here rather than in the panel
+	because labelling a field needs the doctype's meta, and the panel having to
+	fetch meta for every type a conversation touches is a round trip per
+	answer.
+	"""
+	doctype = ((call.get("args") or {}).get("doctype") or "").strip()
+	if not doctype or not frappe.db.exists("DocType", doctype):
+		return [], 0
+
+	if isinstance(answered, dict) and answered.get("name"):
+		found = [answered]
+	elif isinstance(answered, list):
+		found = [row for row in answered if isinstance(row, dict)]
+	else:
+		return [], 0
+
+	# One record gets the full card; several get two fields each, because a list
+	# drawn at full height is a list the answer sits below the bottom of.
+	most = FIELDS if len(found) == 1 else BRIEF
+	return [_drawn(doctype, row, most) for row in found[:CARDS]], max(len(found) - CARDS, 0)
+
+
+def _drawn(doctype: str, row: dict, most: int = FIELDS) -> dict:
+	"""One record as a card: what it is, what it is called, and a few fields."""
+	meta = frappe.get_meta(doctype)
+	titled = meta.title_field and row.get(meta.title_field)
+	skip = {"name", "doctype", "idx", "owner", meta.title_field}
+
+	fields = []
+	for field in meta.fields:
+		if field.fieldname in skip or field.fieldname not in row:
+			continue
+		value = row.get(field.fieldname)
+		if value in (None, "", 0) or field.fieldtype in NOT_ON_A_CARD:
+			continue
+		fields.append({"label": frappe._(field.label or field.fieldname), "value": str(value)})
+		if len(fields) >= most:
+			break
+
+	return {
+		"doctype": doctype,
+		"name": row.get("name"),
+		"title": str(titled or row.get("name") or ""),
+		"fields": fields,
 	}
 
 

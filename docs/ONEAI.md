@@ -505,11 +505,28 @@ is not another's to read. The question is stored *before* the answer is asked
 for, so a run that fails leaves it in the chat rather than losing it, and only
 the last two dozen turns are sent while the whole thing is kept.
 
-**A card is answered where it was made.** The same `AI Proposal`, rendered in
-the panel with Approve and Refuse, because the moment somebody would answer it
-is the moment it was made rather than the next time they remember to open a
-list. The cards are read back on every render rather than stored in the
-transcript — a copy kept in the turn would go on saying Proposed for ever.
+**A record is drawn, not described.** When a lookup comes back, the panel shows
+the records themselves — the type as a chip, what the record is called, a few
+labelled fields, and buttons to open it or copy its link — rather than a line
+saying a lookup happened. One record gets six fields; several get two each,
+because a list drawn at full height is a list the answer sits below the bottom
+of, and past three it says how many more there were. The drawing is done on the
+server: labelling a field needs the doctype's meta, and the panel fetching meta
+for every type a conversation touches is a round trip per answer.
+
+**A card is answered where it was made**, and it is the same card. A suggestion
+is a record drawn the same way — the fields are what is being proposed, which
+for a change is only what changes — with the chip reading Suggested and Approve
+and Refuse underneath. The moment somebody would answer it is the moment it was
+made, not the next time they remember to open a list. Cards are read back on
+every render rather than stored in the transcript: a copy kept in the turn would
+go on saying Proposed for ever.
+
+**No gradient edges.** The spectrum is on the launcher, where it is the mark,
+and on the bloom that breathes while it works. A coloured bar down the side of
+every card is a border round everything, and it is the first thing that makes a
+panel look generated rather than designed. A suggestion is told apart by what
+its chip says and by the two buttons under it.
 
 **A model is handed the answer, not our envelope.** The tool result in a turn
 is what the tool said — rows for a read, the card for a write, `{"error": ...}`
@@ -525,10 +542,12 @@ round a page. What it did on the way — "Looked at ToDo", "Suggested a change t
 ToDo" — is one grey line, a footnote to the answer rather than a second message.
 The names stay for a screen reader, which has no left and right to read.
 
-**The colour is the mark's own.** The six stops of `ai-spectrum` are tokens in
-`theme.css`, and everything that is AI wears them: the launcher's ring, the
-panel's top edge, a card's left edge, the bloom that breathes while it works,
-and later the badge on a field it wrote.
+**The colour is the mark's own, and it is used twice.** The six stops of
+`ai-spectrum` are tokens in `theme.css`; they are worn by the launcher's ring,
+where the colour is the mark, and by the bloom that breathes while it works. Not
+by a bar down the side of every card and not by a strip across the panel's top,
+which is the first thing that makes a panel look generated rather than designed.
+Later, the badge on a field it wrote.
 
 **AI 8b — the field tools and the badge.** Not built. The control beside a
 Text, Small Text or Text Editor field opens the same panel with that field as

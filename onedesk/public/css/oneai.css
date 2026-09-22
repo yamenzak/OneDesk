@@ -95,15 +95,6 @@
 	height: calc(100vh - 140px);
 }
 
-/* The one place the spectrum is a full-bleed edge rather than an accent. */
-.one-ai-panel::before {
-	content: "";
-	position: absolute;
-	inset: 0 0 auto 0;
-	height: 3px;
-	background: var(--one-ai-spectrum);
-}
-
 .one-ai-head {
 	display: flex;
 	align-items: center;
@@ -147,6 +138,12 @@
 	background: transparent;
 	color: var(--text-muted);
 	cursor: pointer;
+}
+
+.one-ai-icon--sm {
+	width: 22px;
+	height: 22px;
+	border-radius: 6px;
 }
 
 .one-ai-icon:hover {
@@ -241,64 +238,97 @@
 	background: var(--one-ai-6);
 }
 
-/* ------------------------------------------------------------- the cards */
+/* --------------------------------------------------------- a record, drawn
+ *
+ * The type, what it is called, and a few fields — the same card whether it was
+ * looked up or is being suggested, because a person reading it is doing the
+ * same thing either way. No gradient edge: the colour is on the launcher, where
+ * it is the mark, and a coloured border round every card is a border round
+ * everything. A suggestion is told apart by what the top line says and by the
+ * two buttons underneath. */
 
-.one-ai-card {
-	margin-top: 8px;
-	padding: 11px 12px;
+.one-ai-rec {
+	margin: 0 0 10px;
+	padding: 10px 12px 11px;
 	border: 1px solid var(--border-color);
-	border-left: 3px solid transparent;
 	border-radius: 10px;
 	background: var(--card-bg, var(--fg-color));
-	background-clip: padding-box;
-	position: relative;
 }
 
-.one-ai-card::before {
-	content: "";
-	position: absolute;
-	left: -3px;
-	top: -1px;
-	bottom: -1px;
-	width: 3px;
-	border-radius: 10px 0 0 10px;
-	background: var(--one-ai-spectrum);
+.one-ai-rec__top {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	margin-bottom: 6px;
 }
 
-.one-ai-card__what {
+.one-ai-rec__kind {
+	padding: 1px 7px;
+	border-radius: 5px;
+	background: var(--gray-100);
+	color: var(--text-muted);
+	font-size: 11px;
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.one-ai-rec--suggested .one-ai-rec__kind {
+	background: var(--gray-800);
+	color: var(--gray-50);
+}
+
+.one-ai-rec__id {
+	font-size: var(--text-xs);
+	color: var(--text-muted);
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.one-ai-rec__gap {
+	flex: 1 1 auto;
+}
+
+.one-ai-rec__title {
+	margin-bottom: 7px;
 	font-size: var(--text-sm);
 	font-weight: 600;
 	color: var(--text-color);
+	overflow-wrap: anywhere;
 }
 
-.one-ai-card__why {
-	margin-top: 2px;
+.one-ai-rec__fields {
+	display: grid;
+	grid-template-columns: minmax(70px, auto) 1fr;
+	gap: 3px 14px;
+	margin: 0;
 	font-size: var(--text-xs);
-	color: var(--text-muted);
-}
-
-.one-ai-card__changes {
-	margin: 8px 0 0;
-	padding: 8px 10px;
-	border-radius: 8px;
-	background: var(--gray-50);
-	font-family: var(--font-stack-mono, monospace);
-	font-size: 11px;
 	line-height: 1.5;
+}
+
+.one-ai-rec__fields dt {
+	margin: 0;
+	color: var(--text-muted);
+	font-weight: 400;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.one-ai-rec__fields dd {
+	margin: 0;
 	color: var(--text-color);
-	white-space: pre-wrap;
-	max-height: 140px;
-	overflow: auto;
+	overflow-wrap: anywhere;
 }
 
-.one-ai-card__doing {
+.one-ai-rec__doing {
 	display: flex;
-	gap: 8px;
-	margin-top: 10px;
+	gap: 7px;
+	margin-top: 11px;
 }
 
-.one-ai-card__state {
-	margin-top: 8px;
+.one-ai-rec__state {
+	margin-top: 9px;
 	font-size: var(--text-xs);
 	color: var(--text-muted);
 }
@@ -372,8 +402,8 @@
 	height: 38px;
 	border: 0;
 	border-radius: 10px;
-	background: var(--one-ai-spectrum);
-	color: var(--white);
+	background: var(--btn-primary, var(--gray-900));
+	color: var(--neutral-white, var(--white));
 	cursor: pointer;
 	display: inline-flex;
 	align-items: center;
