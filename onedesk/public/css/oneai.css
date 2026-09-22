@@ -156,7 +156,7 @@
 }
 
 .one-ai-icon:hover {
-	background: var(--fg-hover-color, var(--gray-100));
+	background: var(--surface-gray-2);
 	color: var(--text-color);
 }
 
@@ -208,7 +208,7 @@
 	max-width: 85%;
 	padding: 8px 12px;
 	border-radius: 14px 14px 4px 14px;
-	background: var(--gray-100);
+	background: var(--surface-gray-2);
 }
 
 .one-ai-said--model {
@@ -274,7 +274,7 @@
 .one-ai-rec__kind {
 	padding: 1px 7px;
 	border-radius: 5px;
-	background: var(--gray-100);
+	background: var(--surface-gray-2);
 	color: var(--text-muted);
 	font-size: 11px;
 	font-weight: 600;
@@ -282,8 +282,8 @@
 }
 
 .one-ai-rec--suggested .one-ai-rec__kind {
-	background: var(--gray-800);
-	color: var(--gray-50);
+	background: var(--btn-primary);
+	color: var(--fg-color);
 }
 
 .one-ai-rec__id {
@@ -354,8 +354,7 @@
 /* -------------------------------------------------------------- the foot */
 
 .one-ai-foot {
-	border-top: 1px solid var(--border-color);
-	padding: 10px 12px 12px;
+	padding: 8px 12px 12px;
 }
 
 .one-ai-here {
@@ -374,7 +373,7 @@
 	padding: 2px 8px;
 	border: 1px solid var(--border-color);
 	border-radius: 999px;
-	background: var(--gray-50);
+	background: var(--subtle-accent);
 	color: var(--text-color);
 	cursor: pointer;
 	max-width: 220px;
@@ -388,49 +387,143 @@
 	text-decoration: line-through;
 }
 
+/* One card holding everything about the next question — what is attached, the
+   words, and a row of controls under them — so the box and its buttons read as
+   one thing rather than a field with buttons parked beside it. */
 .one-ai-ask {
 	display: flex;
-	align-items: flex-end;
-	gap: 8px;
+	flex-direction: column;
+	gap: 6px;
+	padding: 10px 10px 8px 12px;
+	border: 1px solid var(--border-color);
+	border-radius: 18px;
+	background: var(--fg-color, var(--card-bg));
+	cursor: text;
+	transition: border-color 0.15s ease;
+}
+
+.one-ai-ask:focus-within {
+	border-color: var(--outline-gray-3);
 }
 
 .one-ai-ask textarea {
-	flex: 1 1 auto;
-	min-height: 38px;
+	width: 100%;
+	min-height: 24px;
 	max-height: 140px;
-	padding: 9px 11px;
-	border: 1px solid var(--border-color);
-	border-radius: 10px;
-	background: var(--control-bg, var(--gray-50));
+	padding: 2px 2px 0;
+	border: 0;
+	background: transparent;
 	color: var(--text-color);
-	font-size: var(--text-sm);
-	line-height: 1.45;
+	font-size: var(--text-md, 14px);
+	line-height: 1.5;
 	resize: none;
+	box-shadow: none;
 }
 
 .one-ai-ask textarea:focus {
 	outline: none;
-	border-color: var(--one-ai-3);
-	box-shadow: 0 0 0 2px var(--one-ai-ring);
+	box-shadow: none;
+}
+
+.one-ai-ask textarea::placeholder {
+	color: var(--text-light, var(--text-muted));
+}
+
+.one-ai-ask__row {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	cursor: default;
+}
+
+.one-ai-round,
+.one-ai-model {
+	flex: 0 0 auto;
+	height: 32px;
+	border: 0;
+	background: var(--surface-gray-2);
+	color: var(--text-color);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.one-ai-round {
+	width: 32px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.one-ai-model {
+	min-width: 0;
+	max-width: 190px;
+	padding: 0 12px;
+	border-radius: 999px;
+	font-size: var(--text-sm);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: inline-block;
+	line-height: 32px;
+}
+
+button.one-ai-model {
+	cursor: pointer;
+}
+
+.one-ai-round:hover:not(:disabled),
+button.one-ai-model:hover {
+	background: var(--surface-gray-3);
+}
+
+.one-ai-round:disabled {
+	opacity: 0.45;
+	cursor: default;
+}
+
+.one-ai-mic {
+	margin-left: auto;
+}
+
+.one-ai-mic--on {
+	background: color-mix(in srgb, var(--red-500) 16%, transparent);
+	color: var(--red-500);
+	animation: one-ai-hear 1.4s ease-in-out infinite;
+}
+
+@keyframes one-ai-hear {
+	50% {
+		box-shadow: 0 0 0 5px color-mix(in srgb, var(--red-500) 12%, transparent);
+	}
 }
 
 .one-ai-send {
 	flex: 0 0 auto;
-	width: 38px;
-	height: 38px;
+	width: 32px;
+	height: 32px;
 	border: 0;
-	border-radius: 10px;
-	background: var(--btn-primary, var(--gray-900));
-	color: var(--neutral-white, var(--white));
+	border-radius: 50%;
+	background: var(--btn-primary);
+	color: var(--fg-color);
 	cursor: pointer;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 }
 
+.one-ai-send--alone {
+	margin-left: auto;
+}
+
 .one-ai-send:disabled {
-	opacity: 0.4;
+	opacity: 0.3;
 	cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.one-ai-mic--on {
+		animation: none;
+	}
 }
 
 .one-ai-spent {
@@ -567,7 +660,7 @@
 .one-ai-prose code {
 	padding: 1px 4px;
 	border-radius: 4px;
-	background: var(--gray-100);
+	background: var(--surface-gray-2);
 	font-size: 12px;
 }
 
@@ -575,7 +668,7 @@
 	margin: 0 0 8px;
 	padding: 9px 11px;
 	border-radius: 8px;
-	background: var(--gray-100);
+	background: var(--surface-gray-2);
 	overflow-x: auto;
 }
 
@@ -599,7 +692,7 @@
 }
 
 .one-ai-prose th {
-	background: var(--gray-50);
+	background: var(--subtle-accent);
 	font-weight: 600;
 }
 
@@ -624,7 +717,7 @@
 	padding: 9px 11px;
 	border: 1px solid var(--border-color);
 	border-radius: 10px;
-	background: var(--gray-50);
+	background: var(--subtle-accent);
 }
 
 .one-ai-broke__said {
@@ -680,7 +773,6 @@
 	display: flex;
 	flex-wrap: wrap;
 	gap: 6px;
-	margin-bottom: 8px;
 }
 
 .one-ai-waiting__one {
@@ -690,7 +782,7 @@
 	max-width: 100%;
 	padding: 2px 4px 2px 10px;
 	border-radius: 999px;
-	background: var(--gray-100);
+	background: var(--surface-gray-2);
 	font-size: var(--text-xs);
 	color: var(--text-color);
 	overflow: hidden;
@@ -710,25 +802,4 @@
 
 .one-ai-waiting__off:hover {
 	color: var(--text-color);
-}
-
-.one-ai-clip {
-	flex: 0 0 auto;
-	width: 34px;
-	height: 38px;
-	border: 0;
-	background: none;
-	color: var(--text-muted);
-	cursor: pointer;
-	border-radius: 8px;
-}
-
-.one-ai-clip:hover {
-	background: var(--fg-hover-color, var(--gray-100));
-	color: var(--text-color);
-}
-
-.one-ai-clip:disabled {
-	opacity: 0.4;
-	cursor: default;
 }

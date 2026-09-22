@@ -134,20 +134,14 @@
 				</button>
 			</div>
 
-			<div v-if="waiting.length" class="one-ai-waiting">
-				<span v-for="(file, at) in waiting" :key="file.url" class="one-ai-waiting__one">
-					{{ file.name }}
-					<button class="one-ai-waiting__off" :title="__('Remove')" @click="waiting.splice(at, 1)">×</button>
-				</span>
-			</div>
+			<div class="one-ai-ask" :class="{ 'one-ai-ask--busy': busy }" @click="box && box.focus()">
+				<div v-if="waiting.length" class="one-ai-waiting">
+					<span v-for="(file, at) in waiting" :key="file.url" class="one-ai-waiting__one">
+						{{ file.name }}
+						<button class="one-ai-waiting__off" :title="__('Remove')" @click.stop="waiting.splice(at, 1)">×</button>
+					</span>
+				</div>
 
-			<div class="one-ai-ask">
-				<button class="one-ai-clip" :title="__('Attach a file')" :disabled="busy" @click="attach">
-					<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">
-						<path d="M10.5 5.5 6 10a1.8 1.8 0 0 0 2.5 2.5l4.5-4.5a3.2 3.2 0 0 0-4.5-4.5L3.5 8.5a4.6 4.6 0 0 0 6.5 6.5"
-							stroke-linecap="round" stroke-linejoin="round" />
-					</svg>
-				</button>
 				<textarea
 					ref="box"
 					v-model="text"
@@ -156,11 +150,48 @@
 					@keydown.enter.exact.prevent="send()"
 					@input="fit"
 				></textarea>
-				<button class="one-ai-send" :disabled="busy || (!text.trim() && !waiting.length)" :title="__('Send')" @click="send()">
-					<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7">
-						<path d="M3 8h9M8.5 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
-					</svg>
-				</button>
+
+				<div class="one-ai-ask__row" @click.stop>
+					<button class="one-ai-round" :title="__('Attach a file')" :disabled="busy" @click="attach">
+						<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6">
+							<path d="M8 3v10M3 8h10" stroke-linecap="round" />
+						</svg>
+					</button>
+					<button
+						v-if="chat.model_at"
+						class="one-ai-model"
+						:title="__('Change the model')"
+						@click="toModel"
+					>
+						{{ chat.model || __("Default model") }}
+					</button>
+					<span v-else class="one-ai-model">{{ chat.model || __("Default model") }}</span>
+
+					<button
+						v-if="Hearing"
+						class="one-ai-round one-ai-mic"
+						:class="{ 'one-ai-mic--on': listening }"
+						:title="listening ? __('Stop listening') : __('Speak')"
+						:disabled="busy"
+						@click="listen"
+					>
+						<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">
+							<rect x="5.75" y="1.75" width="4.5" height="8" rx="2.25" />
+							<path d="M3.25 7.5a4.75 4.75 0 0 0 9.5 0M8 12.25v2" stroke-linecap="round" />
+						</svg>
+					</button>
+					<button
+						class="one-ai-send"
+						:class="{ 'one-ai-send--alone': !Hearing }"
+						:disabled="busy || (!text.trim() && !waiting.length)"
+						:title="__('Send')"
+						@click="send()"
+					>
+						<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
+							<path d="M8 13V3.5M3.75 7.5 8 3.25l4.25 4.25" stroke-linecap="round" stroke-linejoin="round" />
+						</svg>
+					</button>
+				</div>
 			</div>
 
 			<div v-if="chat.spent" class="one-ai-spent">
@@ -199,6 +230,14 @@ const chat = ref({ name: null, title: null, said: [], spent: 0 });
 const useHere = ref(true);
 const body = ref(null);
 const box = ref(null);
+const listening = ref(false);
+
+// The browser's own speech recognition, where there is one. Chrome and Safari
+// have it and Firefox does not, so the button is simply absent there rather
+// than present and broken. What it hears is typed into the box, not sent: a
+// misheard word is fixed before the question goes, not after.
+const Hearing = window.SpeechRecognition || window.webkitSpeechRecognition;
+let ear = null;
 
 //: Three sizes rather than two. Snug is the live-chat shape; roomy is for a
 //: conversation with records in it; full is for reading a report next to the
@@ -270,6 +309,11 @@ function fresh() {
 	cards.value = {};
 	view.value = "chat";
 	nextTick(() => box.value && box.value.focus());
+	// Asked for after the box is up, so a new conversation opens at once and
+	// the pill fills in a moment later with whatever model would answer it.
+	frappe.xcall("onedesk.one_ai.chat.opened").then((empty) => {
+		if (!chat.value.name) chat.value = { ...chat.value, ...empty, said: chat.value.said };
+	});
 }
 
 function toThreads() {
@@ -292,7 +336,34 @@ async function attach() {
 	});
 }
 
+// The model is the workspace's choice for the chat action, so changing it is
+// that setting and not a picker here — one person switching it would switch it
+// for everybody.
+function toModel() {
+	frappe.set_route("Form", "AI Action Setting", chat.value.model_at);
+}
+
+function listen() {
+	if (ear) return ear.stop();
+	ear = new Hearing();
+	ear.lang = frappe.boot.lang || navigator.language;
+	ear.interimResults = true;
+	ear.continuous = true;
+	const before = text.value.trim() ? `${text.value.trim()} ` : "";
+	ear.onresult = (heard) => {
+		text.value = before + Array.from(heard.results, (one) => one[0].transcript).join("");
+		nextTick(fit);
+	};
+	ear.onend = ear.onerror = () => {
+		listening.value = false;
+		ear = null;
+	};
+	ear.start();
+	listening.value = true;
+}
+
 async function send(again) {
+	if (ear) ear.stop();
 	const asked = (again || text.value).trim();
 	if ((!asked && !waiting.value.length) || busy.value) return;
 	if (!again) text.value = "";

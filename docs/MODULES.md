@@ -59,7 +59,7 @@ No doctypes yet.
 |---|--:|---|
 | AI Action | 14 | document |
 | AI Action Setting | 6 | document |
-| AI Chat | 6 | document |
+| AI Chat | 7 | document |
 | AI Proposal | 19 | document |
 
 ## Desk records shipped as fixtures

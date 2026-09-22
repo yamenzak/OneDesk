@@ -15,6 +15,7 @@ third message, not where they are now.
 """
 
 import json
+import re
 
 import frappe
 from frappe.utils import now_datetime
@@ -79,7 +80,7 @@ def chats(limit: int = 20) -> list[dict]:
 def opened(chat: str | None = None) -> dict:
 	"""One conversation, or an empty one that has not been stored yet."""
 	if not chat:
-		return {"name": None, "title": None, "said": [], "spent": 0.0}
+		return {"name": None, "title": None, "said": [], "spent": 0.0, **_model()}
 	doc = frappe.get_doc("AI Chat", chat)
 	doc.check_permission("read")
 	return {
@@ -87,6 +88,7 @@ def opened(chat: str | None = None) -> dict:
 		"title": doc.title,
 		"said": shown(_turns(doc)),
 		"spent": doc.spent or 0.0,
+		**_model(doc),
 	}
 
 
@@ -99,7 +101,7 @@ def start() -> dict:
 	when the question is sent.
 	"""
 	doc = frappe.get_doc({"doctype": "AI Chat", "title": frappe._("New conversation")}).insert()
-	return {"name": doc.name, "title": doc.title, "said": [], "spent": 0.0}
+	return {"name": doc.name, "title": doc.title, "said": [], "spent": 0.0, **_model(doc)}
 
 
 @frappe.whitelist()
@@ -121,11 +123,16 @@ def say(
 
 	doc = _chat(chat, text or (attached and attached[0]) or "")
 	turns = _turns(doc)
+	# A chat started by the paperclip was saved before anything was asked, under
+	# a placeholder; its first question is still what names it.
+	if not turns and text:
+		doc.title = text[:TITLE]
 	turns.extend(_asked(text, page, attached))
 	_keep(doc, turns, spent=0.0)
 
 	out = _ran(doc, text, turns)
 	turns = turns[: -min(KEPT, len(turns))] + list(out.get("turns") or [])
+	doc.model = out.get("model") or doc.model
 	_keep(doc, turns, spent=float(out.get("credits") or 0))
 
 	return {
@@ -136,6 +143,7 @@ def say(
 		"credits": out.get("credits"),
 		"rounds": out.get("rounds"),
 		"proposals": out.get("proposals") or [],
+		**_model(doc),
 	}
 
 
@@ -395,6 +403,32 @@ def _chat(chat: str | None, text: str):
 		doc.check_permission("write")
 		return doc
 	return frappe.get_doc({"doctype": "AI Chat", "title": text[:TITLE]}).insert()
+
+
+def _model(doc=None) -> dict:
+	"""Which model answers here, and where somebody allowed to could change it.
+
+	The one the last answer came from, if there was one; then what the workspace
+	picked for the chat action; then nothing, and the panel says the default is
+	answering. It is shown and not chosen, because the model is the workspace's
+	choice per action — so for a System Manager it opens that setting, and for
+	everybody else it is a label.
+	"""
+	said = (doc and doc.get("model")) or run.mine(CHAT).get("model") or ""
+	settable = "System Manager" in frappe.get_roles() and frappe.db.exists(
+		"AI Action Setting", CHAT
+	)
+	return {"model": named(said), "model_at": CHAT if settable else None}
+
+
+def named(model: str) -> str:
+	"""A catalogue id as a person reads it.
+
+	The account files a model under its provider, a colon, and for Workers AI a
+	path; the last piece is the model's own name, and the only part that fits a
+	pill.
+	"""
+	return re.split(r"[:/]", model or "")[-1]
 
 
 def _turns(doc) -> list[dict]:

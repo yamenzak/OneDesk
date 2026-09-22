@@ -814,6 +814,27 @@ Proven against a real quotation PDF: `gemini-2.5-flash-lite` answered "The
 supplier is Falcon Steel LLC and the total is AED 18,400" in one round for 0.64
 credits, and `gemma-4` refused it for nothing.
 
+**The composer.** One card holds everything about the next question: the
+files waiting to go, the words, and a row under them — attach, the model, speak,
+send. The box and its buttons read as one thing rather than a field with buttons
+parked beside it.
+
+The model pill shows which model answers, read from the last answer or else the
+workspace's setting for the chat action, and trimmed to the model's own name.
+It does not switch anything, because the model is the workspace's choice per
+action and one person switching it would switch it for everybody. For a System
+Manager it opens that setting; for everybody else it is a label.
+
+Speaking uses the browser's own speech recognition, so the button is simply
+absent in a browser without it (Firefox). What it hears is typed into the box
+and not sent, so a misheard word is fixed before the question goes. In Chrome
+the recognition itself runs on Google's servers, which is the browser's doing
+and costs no credits.
+
+The panel's greys were `--gray-*`, which frappe does not flip in dark mode, so
+every chip and bubble went white on dark. They are the `--surface-*` and
+`--outline-*` tokens now, which it does.
+
 **AI 8b — the field tools and the badge.** Not built. The control beside a
 Text, Small Text or Text Editor field opens the same panel with that field as
 the target — not a second UI — and what comes back is an `AI Proposal` of kind
