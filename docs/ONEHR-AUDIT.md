@@ -842,9 +842,10 @@ and stays orange until all three are in.
 **Employee Promotion** says the whole change in one line: *Omar Haddad, from
 01-07-2026: designation Engineer → Senior Engineer.*
 
-Feedback and Appraisal Overview needed nothing: the feedback list already
-carries the reviewer, the cycle and the score, and the overview is a dashboard
-whose heading the rail sweep already fixed.
+Feedback and Appraisal Overview needed nothing. The feedback list already
+carries the reviewer, the cycle and the score, and Appraisal Overview is a
+script report that puts the three scores and the feedback count beside the final
+one — which is the sentence the Appraisal headline now says on a single record.
 
 ## Joining & Leaving
 
@@ -963,3 +964,20 @@ seminar matters less than what day it is on.
 a formality: `set_employee` finds the person by it, `validate_duplicate` keys on
 it, and `make_employee` reads their email from it. A workspace that hires by
 handshake makes the Employee directly. Left as it is.
+
+### The lifecycle dashboard, looked at and left
+
+`Employee Lifecycle` is the rail's Lifecycle Overview and its heading is already
+right — the dashboard crumb sweep handles it. Five number cards and four charts:
+Onboardings, Separations, Promotions, Transfers and Trainings this month, then
+Grievance Type, Training Type and two year-on-year lines.
+
+Two things were checked and neither is a fault. The cards read 0 against records
+that exist because those records are dated next month, which is what "this
+month" means. `Grievance Type` says **No Data** beside a grievance raised eight
+days ago because the chart counts by its own period, not by the card's.
+
+No chart is added and none is taken away. Four of the five widgets are near
+empty on a six-person fixture, which is a fixture size rather than a design, and
+removing somebody else's dashboard widgets is a decision about what the product
+shows rather than a fix to something wrong.
