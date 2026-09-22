@@ -70,7 +70,19 @@ def ask(
 			if card:
 				cards.append(card)
 			turns.append(
-				{"role": "tool", "id": want.get("id"), "tool": want.get("tool"), "result": answer}
+				{
+					"role": "tool",
+					"id": want.get("id"),
+					"tool": want.get("tool"),
+					# What the tool answered, and nothing else. The bookkeeping
+					# sits beside it rather than inside it, because `result` is
+					# the only part a provider is sent — and a model handed
+					# `{"tool": ..., "ran": ..., "answer": [...]}` quotes the
+					# wrapper back at the reader as if it were the answer.
+					"result": _answer(answer),
+					"ran": bool(answer.get("ran")),
+					"card": card,
+				}
 			)
 		# What this round parked is somebody's to answer, and a round that fails
 		# after it should not take it away. Committed here rather than at the end
@@ -79,6 +91,18 @@ def ask(
 		# holding locks across all of them.
 		frappe.db.commit()
 		rounds += 1
+
+
+def _answer(answer: dict):
+	"""What the tool said, in the shape a model should read it in.
+
+	A refusal is `{"error": ...}` — one key, so a model that has been told it
+	may not see something can say exactly that. Everything else is the tool's
+	own answer: rows for a read, the card for a write.
+	"""
+	if answer.get("error"):
+		return {"error": answer["error"]}
+	return answer.get("answer")
 
 
 def _card(answer: dict) -> str | None:

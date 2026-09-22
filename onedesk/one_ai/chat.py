@@ -165,14 +165,20 @@ def shown(turns: list[dict]) -> list[dict]:
 
 
 def _looked(call: dict, result: dict | None) -> dict:
-	answer = (result or {}).get("result")
-	answer = answer if isinstance(answer, dict) else {}
+	"""One thing it did, from the call and the turn that answered it.
+
+	`ran` and `card` are read off the turn rather than out of the answer: the
+	answer is the tool's own and is what the provider is sent, and the
+	bookkeeping is beside it.
+	"""
+	said = result or {}
+	answered = said.get("result")
 	return {
 		"tool": call.get("tool"),
 		"args": call.get("args") or {},
-		"ran": bool(answer.get("ran")),
-		"error": answer.get("error"),
-		"card": ((answer.get("answer") or {}).get("proposal") if isinstance(answer.get("answer"), dict) else None),
+		"ran": bool(said.get("ran")),
+		"error": answered.get("error") if isinstance(answered, dict) else None,
+		"card": said.get("card"),
 	}
 
 

@@ -62,10 +62,10 @@
 					class="one-ai-said"
 					:class="`one-ai-said--${said.role}`"
 				>
-					<div v-if="opens(at)" class="one-ai-said__who">
-						{{ said.role === "you" ? __("You") : ONEAI }}
+					<div v-if="said.text" class="one-ai-said__text">
+						<span class="one-ai-said__who">{{ said.role === "you" ? __("You") : ONEAI }}</span>
+						{{ said.text }}
 					</div>
-					<div v-if="said.text" class="one-ai-said__text">{{ said.text }}</div>
 
 					<div
 						v-for="(look, i) in said.looked"
@@ -257,12 +257,6 @@ function format(credits) {
 	return Number(credits || 0).toFixed(4);
 }
 
-// A run of turns from the same side is named once. The model looking something
-// up and then answering is one thing it did, not two.
-function opens(at) {
-	const said = chat.value.said;
-	return at === 0 || said[at - 1].role !== said[at].role;
-}
 
 function grow() {
 	const el = box.value;

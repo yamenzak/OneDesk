@@ -511,6 +511,20 @@ is the moment it was made rather than the next time they remember to open a
 list. The cards are read back on every render rather than stored in the
 transcript — a copy kept in the turn would go on saying Proposed for ever.
 
+**A model is handed the answer, not our envelope.** The tool result in a turn
+is what the tool said — rows for a read, the card for a write, `{"error": ...}`
+for a refusal — and `ran` and the card's id sit *beside* it in the turn rather
+than inside it. Only `result` is sent to a provider, so a model cannot quote our
+bookkeeping back at the reader as if the wrapper were the answer, which is
+exactly what it did the first time.
+
+**Who said it is read off where it sits.** The reader's words are a tinted
+bubble on the right; OneAI's are plain text on the left, because an answer is
+usually the longest thing in the panel and a bubble round a paragraph is a box
+round a page. What it did on the way — "Looked at ToDo", "Suggested a change to
+ToDo" — is one grey line, a footnote to the answer rather than a second message.
+The names stay for a screen reader, which has no left and right to read.
+
 **The colour is the mark's own.** The six stops of `ai-spectrum` are tokens in
 `theme.css`, and everything that is AI wears them: the launcher's ring, the
 panel's top edge, a card's left edge, the bloom that breathes while it works,
