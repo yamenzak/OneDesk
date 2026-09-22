@@ -7,7 +7,7 @@
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Workspace Account | 22 | single |
+| Workspace Account | 28 | single |
 | Workspace Domain | 4 | child |
 
 ## One HR
@@ -43,7 +43,7 @@ No doctypes yet.
 | Account Request | 16 | document |
 | Credit Ledger Entry | 14 | submittable |
 | Credit Reservation | 8 | document |
-| Offering | 19 | document |
+| Offering | 20 | document |
 | One Admin Settings | 34 | single |
 | Provisioning Job | 12 | document |
 | Stripe Webhook Event | 7 | document |
@@ -68,6 +68,8 @@ No doctypes yet.
 
 ## Whitelisted methods
 
+* `onedesk.one.account.buy_credits`
+* `onedesk.one.account.credit_packs`
 * `onedesk.one.account.domain_add`
 * `onedesk.one.account.domain_check`
 * `onedesk.one.account.domain_drop`
@@ -92,6 +94,8 @@ No doctypes yet.
 * `onedesk.one_admin.operator.walk`
 * `onedesk.one_admin.proxy.ai_models`
 * `onedesk.one_admin.proxy.ai_run`
+* `onedesk.one_admin.proxy.buy_credits`
+* `onedesk.one_admin.proxy.credit_packs`
 * `onedesk.one_admin.proxy.domain_add`
 * `onedesk.one_admin.proxy.domain_check`
 * `onedesk.one_admin.proxy.domain_drop`

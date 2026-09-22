@@ -22,6 +22,9 @@ frappe.ui.form.on("Workspace Account", {
 				.then(() => frm.reload_doc())
 				.catch(() => frm.reload_doc()),
 		);
+		frm.add_custom_button(__("Buy credits"), () => onedesk.account.buy(frm)).addClass(
+			frm.doc.credits_balance > 0 ? "" : "btn-primary",
+		);
 	},
 });
 
@@ -60,6 +63,8 @@ onedesk.account.draw = (frm) => {
 	frm.dashboard.clear_headline();
 	if (said.length) frm.dashboard.set_headline(said.join(" "), colourOf);
 
+	onedesk.account.credits(frm);
+
 	const limit = Number(frm.doc.storage_limit || 0);
 	const used = Number(frm.doc.storage_bytes || 0);
 	if (limit) {
@@ -80,6 +85,93 @@ onedesk.account.draw = (frm) => {
 				: __("{0} of {1} used.", [onedesk.tenant.size(used), onedesk.tenant.size(limit)]),
 		);
 	}
+};
+
+// Credits, in words. The three numbers underneath are what a bill is settled
+// from and are the wrong things to read, so the sentence goes above them.
+//
+// What is held is said separately from what is left, because a workspace whose
+// balance looks fine and whose calls are being refused is looking at the same
+// number twice.
+onedesk.account.credits = (frm) => {
+	const field = frm.get_field("credits_said");
+	if (!field) return;
+	const balance = Number(frm.doc.credits_balance || 0);
+	const held = Number(frm.doc.credits_held || 0);
+	const expiring = Number(frm.doc.credits_expiring || 0);
+
+	const said = [];
+	said.push(
+		balance > 0
+			? __("{0} credits.", [onedesk.account.round(balance)])
+			: balance < 0
+				? __("{0} credits over. Buy some to keep using the AI.", [
+						onedesk.account.round(-balance),
+					])
+				: __("No credits. Buy some to use the AI."),
+	);
+	if (held > 0) said.push(__("{0} of them are promised to calls in flight.", [onedesk.account.round(held)]));
+	if (expiring > 0 && frm.doc.credits_expires_on) {
+		said.push(
+			__("{0} expire on {1}.", [
+				onedesk.account.round(expiring),
+				frappe.datetime.str_to_user(frm.doc.credits_expires_on),
+			]),
+		);
+	}
+	field.$wrapper.html(
+		`<p class="${balance > 0 ? "text-muted" : "text-danger"}">${said.join(" ")}</p>`,
+	);
+};
+
+// Six places is what the ledger keeps and three is what anybody reads. The
+// stored number is not rounded; only this sentence is.
+onedesk.account.round = (n) => Number(n.toFixed(3));
+
+// A price list rather than a box to type a number in. Which pack is a decision
+// somebody made in the account, and a calculator here would be a second place
+// where credits per dollar is decided.
+onedesk.account.buy = (frm) => {
+	frappe.xcall("onedesk.one.account.credit_packs").then((packs) => {
+		if (!packs.length) {
+			frappe.msgprint(__("No credit pack is on sale at the moment."));
+			return;
+		}
+		const box = new frappe.ui.Dialog({
+			title: __("Buy credits"),
+			fields: [
+				{
+					fieldname: "pack",
+					fieldtype: "Select",
+					label: __("Pack"),
+					reqd: 1,
+					options: packs.map((one) => one.name),
+					default: packs[0].name,
+				},
+				{ fieldname: "said", fieldtype: "HTML" },
+			],
+			primary_action_label: __("Go to payment"),
+			primary_action({ pack }) {
+				frappe.xcall("onedesk.one.account.buy_credits", { pack }).then((where) => {
+					box.hide();
+					window.location.href = where.pay_at;
+				});
+			},
+		});
+		const draw = () => {
+			const one = packs.find((p) => p.name === box.get_value("pack")) || packs[0];
+			box.fields_dict.said.$wrapper.html(
+				`<p><b>${__("{0} credits", [one.credits])}</b> ` +
+					`${__("for")} ${format_currency(one.amount, one.currency)}</p>` +
+					(one.description
+						? `<p class="text-muted">${frappe.utils.escape_html(one.description)}</p>`
+						: ""),
+			);
+		};
+		box.fields_dict.pack.df.onchange = draw;
+		box.show();
+		draw();
+	});
 };
 
 // Adding an address, in the order somebody actually does it: type the name,

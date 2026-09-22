@@ -209,6 +209,30 @@ def ai_run(
 
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def credit_packs() -> list[dict]:
+	"""What a workspace may buy. A price list, not a calculator."""
+	from onedesk.one_admin import topup
+
+	caller()
+	return topup.packs()
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def buy_credits(pack: str) -> dict:
+	"""Somewhere for this workspace to pay. Nothing is granted here.
+
+	The grant is the webhook's, after Stripe says the money moved — which is the
+	same rule as a signup, for the same reason: a workspace that could grant
+	itself credit by opening a page is a workspace that never pays.
+	"""
+	from onedesk.one_admin import topup
+
+	return topup.buy(caller().name, pack)
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def ai_models(needs: str) -> list[dict]:
 	"""The models this workspace may pick for an action needing this capability.
 

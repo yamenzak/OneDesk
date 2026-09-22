@@ -18,6 +18,12 @@
   "jurisdiction",
   "column_break_where",
   "cluster",
+  "credits_section",
+  "credits_said",
+  "credits_balance",
+  "credits_held",
+  "credits_expiring",
+  "credits_expires_on",
   "domains_section",
   "domains",
   "heard_section",
@@ -125,6 +131,50 @@
    "label": "Seats",
    "read_only": 1,
    "description": "Zero means unlimited."
+  },
+  {
+   "fieldname": "credits_section",
+   "fieldtype": "Section Break",
+   "label": "Credits"
+  },
+  {
+   "fieldname": "credits_said",
+   "fieldtype": "HTML",
+   "label": "Credits"
+  },
+  {
+   "default": "0",
+   "fieldname": "credits_balance",
+   "fieldtype": "Float",
+   "precision": "6",
+   "label": "Balance",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "credits_held",
+   "fieldtype": "Float",
+   "precision": "6",
+   "label": "Held",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "credits_expiring",
+   "fieldtype": "Float",
+   "precision": "6",
+   "label": "Expiring",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "credits_expires_on",
+   "fieldtype": "Date",
+   "label": "Expires On",
+   "read_only": 1,
+   "hidden": 1
   },
   {
    "fieldname": "domains_section",

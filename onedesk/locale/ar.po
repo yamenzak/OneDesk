@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 17:12+0000\n"
-"PO-Revision-Date: 2026-09-22 17:12+0000\n"
+"POT-Creation-Date: 2026-09-22 17:24+0000\n"
+"PO-Revision-Date: 2026-09-22 17:24+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -70,9 +70,13 @@ msgstr "سقف لا تقدير. ويُفرج عن الباقي عند التسو
 msgid "A check-in from outside the radius is allowed, and the distance is recorded on Clock Attempt. If unchecked, it is refused."
 msgstr "يُسمح بتسجيل الحضور من خارج نطاق النصف القطري، وتُسجَّل المسافة في محاولة التسجيل. إذا لم يتم تحديده، يُرفض."
 
-#: onedesk/one_admin/doctype/offering/offering.py:36
+#: onedesk/one_admin/doctype/offering/offering.py:39
 msgid "A credit pack is bought once, so it does not recur."
 msgstr "تُشترى حزمة الرصيد مرة واحدة، فهي لا تتكرر."
+
+#: onedesk/one_admin/doctype/offering/offering.py:41
+msgid "A credit pack with no credits in it sells nothing."
+msgstr "حزمة رصيد بلا رصيد فيها لا تبيع شيئاً."
 
 #. Description of a DocType
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
@@ -175,7 +179,7 @@ msgstr "لا تُنشأ مساحة العمل إلا بعد تأكيد الدف�
 msgid "A workspace may have at most {0} of its own domains."
 msgstr "لا يجوز لمساحة عمل أن تملك أكثر من {0} نطاقات خاصة بها."
 
-#: onedesk/one_admin/doctype/offering/offering.py:31
+#: onedesk/one_admin/doctype/offering/offering.py:33
 msgid "A {0} does not carry {1}."
 msgstr "لا يحمل {0} حقل {1}."
 
@@ -300,7 +304,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 #: onedesk/public/js/tenant_domain.js:26
-#: onedesk/public/js/workspace_account.js:33
+#: onedesk/public/js/workspace_account.js:36
 msgid "Active"
 msgstr ""
 
@@ -310,7 +314,7 @@ msgstr ""
 msgid "Activity Type"
 msgstr ""
 
-#: onedesk/public/js/workspace_account.js:109
+#: onedesk/public/js/workspace_account.js:201
 msgid "Add"
 msgstr ""
 
@@ -324,7 +328,7 @@ msgstr "إضافة نطاق"
 msgid "Add a customer"
 msgstr "إضافة عميل"
 
-#: onedesk/public/js/workspace_account.js:90
+#: onedesk/public/js/workspace_account.js:182
 msgid "Add a domain"
 msgstr "إضافة نطاق"
 
@@ -577,7 +581,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:18
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
-#: onedesk/public/js/tenant.js:33 onedesk/public/js/workspace_account.js:36
+#: onedesk/public/js/tenant.js:33 onedesk/public/js/workspace_account.js:39
 msgid "Archived"
 msgstr ""
 
@@ -748,6 +752,11 @@ msgstr "الخلفية"
 msgid "Backup Before Archive"
 msgstr "النسخة الاحتياطية قبل الأرشفة"
 
+#. Label of the credits_balance (Float) field in DocType 'Workspace Account'
+#: onedesk/one/doctype/workspace_account/workspace_account.json
+msgid "Balance"
+msgstr ""
+
 #. Label of the press_url (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Base URL"
@@ -766,8 +775,8 @@ msgstr "قيد الإنشاء"
 
 #: onedesk/public/js/account_request.js:23
 #: onedesk/public/js/tenant_domain.js:25
-#: onedesk/public/js/workspace_account.js:31
-#: onedesk/public/js/workspace_account.js:32
+#: onedesk/public/js/workspace_account.js:34
+#: onedesk/public/js/workspace_account.js:35
 msgid "Being set up"
 msgstr "قيد الإعداد"
 
@@ -877,6 +886,11 @@ msgstr "أنشئ مساحة العمل"
 msgid "Building"
 msgstr "قيد الإنشاء"
 
+#: onedesk/public/js/workspace_account.js:25
+#: onedesk/public/js/workspace_account.js:141
+msgid "Buy credits"
+msgstr "اشترِ رصيداً"
+
 #. Description of the 'Pending' (Long Int) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Bytes signed for since the last measurement."
@@ -948,7 +962,7 @@ msgstr "يُحتسب بـ{0} أضعاف ما يتقاضاه المزوّد."
 msgid "Check"
 msgstr ""
 
-#: onedesk/public/js/workspace_account.js:117
+#: onedesk/public/js/workspace_account.js:209
 msgid "Check DNS"
 msgstr "فحص DNS"
 
@@ -1048,7 +1062,7 @@ msgstr "جارٍ تسجيل الانصراف…"
 msgid "Checking yourself in is not enabled on this site."
 msgstr "تسجيل الحضور الذاتي غير مفعَّل في هذا الموقع."
 
-#: onedesk/public/js/workspace_account.js:121
+#: onedesk/public/js/workspace_account.js:213
 msgid "Checking…"
 msgstr "جارٍ الفحص…"
 
@@ -1208,7 +1222,7 @@ msgstr "المتابعة إلى الدفع"
 msgid "Contract"
 msgstr ""
 
-#: onedesk/public/js/workspace_account.js:57
+#: onedesk/public/js/workspace_account.js:60
 msgid "Could not reach your account. Showing what was last known."
 msgstr "تعذّر الوصول إلى حسابك. يُعرض آخر ما هو معروف."
 
@@ -1263,9 +1277,15 @@ msgstr "حزمة رصيد"
 msgid "Credit Reservation"
 msgstr "حجز رصيد"
 
+#. Label of the credits_section (Section Break) field in DocType 'Workspace
+#. Account'
+#. Label of the credits_said (HTML) field in DocType 'Workspace Account'
 #. Label of the credits (Float) field in DocType 'Credit Ledger Entry'
+#. Label of the credits (Int) field in DocType 'Offering'
 #. Label of a Sidebar Item
+#: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+#: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/public/js/tenant.js:86 onedesk/public/js/tenant.js:89
 #: onedesk/public/js/tenant.js:112
@@ -1483,8 +1503,8 @@ msgstr "عدد الموظفين المختلفين، وقد تم التحقق م
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
-#: onedesk/public/js/workspace_account.js:95
-#: onedesk/public/js/workspace_account.js:162
+#: onedesk/public/js/workspace_account.js:187
+#: onedesk/public/js/workspace_account.js:254
 msgid "Domain"
 msgstr ""
 
@@ -1832,13 +1852,20 @@ msgstr "المصروفات"
 msgid "Expired"
 msgstr ""
 
+#. Label of the credits_expires_on (Date) field in DocType 'Workspace Account'
 #. Label of the expires_on (Date) field in DocType 'Credit Ledger Entry'
 #. Label of the expires_on (Date) field in DocType 'Employee Document'
+#: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 #: onedesk/public/js/tenant.js:116
 msgid "Expires On"
 msgstr ""
+
+#. Label of the credits_expiring (Float) field in DocType 'Workspace Account'
+#: onedesk/one/doctype/workspace_account/workspace_account.json
+msgid "Expiring"
+msgstr "ينتهي"
 
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
@@ -1933,7 +1960,7 @@ msgstr "مُشار إليه"
 msgid "Follow my system"
 msgstr "اتّباع إعدادات نظامي"
 
-#: onedesk/public/js/workspace_account.js:97
+#: onedesk/public/js/workspace_account.js:189
 msgid "For example hr.example.com. Do not include https://"
 msgstr "مثال hr.example.com. لا تُدرج https://"
 
@@ -2018,6 +2045,10 @@ msgstr "عالمي"
 msgid "Global Bucket"
 msgstr "الحاوية العالمية"
 
+#: onedesk/public/js/workspace_account.js:153
+msgid "Go to payment"
+msgstr "انتقل إلى الدفع"
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Goal"
@@ -2043,6 +2074,16 @@ msgstr "منحة"
 #: onedesk/public/js/credit_ledger_entry_list.js:15
 msgid "Granted"
 msgstr "مُنح"
+
+#. Description of the 'Credits a Month' (Int) field in DocType 'Offering'
+#: onedesk/one_admin/doctype/offering/offering.json
+msgid "Granted at the start of each month and does not roll over."
+msgstr "يُمنح في بداية كل شهر ولا يُرحَّل."
+
+#. Description of the 'Credits' (Int) field in DocType 'Offering'
+#: onedesk/one_admin/doctype/offering/offering.json
+msgid "Granted once, when the pack is bought."
+msgstr "يُمنح مرة واحدة عند شراء الحزمة."
 
 #. Label of the renderer (Data) field in DocType 'Clock Attempt'
 #. Label of the renderer (Data) field in DocType 'Clock Device'
@@ -2111,8 +2152,10 @@ msgstr "عولج"
 msgid "Height, weight, allergies and medical concerns."
 msgstr "الطول والوزن والحساسيات والحالات الطبية."
 
+#. Label of the credits_held (Float) field in DocType 'Workspace Account'
 #. Option for the 'State' (Select) field in DocType 'Credit Reservation'
 #. Label of the credits (Float) field in DocType 'Credit Reservation'
+#: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 msgid "Held"
 msgstr "المحجوز"
@@ -2814,6 +2857,10 @@ msgstr ""
 msgid "Monthly Attendance"
 msgstr "الحضور الشهري"
 
+#: onedesk/one_admin/topup.py:113
+msgid "Monthly credit for {0}"
+msgstr "رصيد شهر {0}"
+
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
 #. Option for the 'Default For' (Select) field in DocType 'AI Model'
 #. Option for the 'Needs' (Select) field in DocType 'AI Action'
@@ -2910,6 +2957,14 @@ msgstr "لا يوجد موقع"
 msgid "No Shift"
 msgstr "بلا مناوبة"
 
+#: onedesk/public/js/workspace_account.js:137
+msgid "No credit pack is on sale at the moment."
+msgstr "لا توجد حزمة رصيد معروضة حالياً."
+
+#: onedesk/public/js/workspace_account.js:111
+msgid "No credits. Buy some to use the AI."
+msgstr "لا رصيد. اشترِ بعضه لاستخدام الذكاء الاصطناعي."
+
 #: onedesk/public/js/ai_model.js:43
 msgid "No markup is set, so this model cannot be called."
 msgstr "لم يُحدَّد هامش، فلا يمكن استدعاء هذا النموذج."
@@ -2920,7 +2975,7 @@ msgstr "لم يُحدَّد هامش، فلا يمكن استدعاء هذا ا�
 msgid "No one checked out, so this OUT was written at the shift end."
 msgstr "لم يسجّل أحد الانصراف، فكُتب سجل الانصراف هذا عند نهاية المناوبة."
 
-#: onedesk/public/js/workspace_account.js:150
+#: onedesk/public/js/workspace_account.js:242
 msgid "No other address is working yet."
 msgstr "لا يعمل أي عنوان آخر بعد."
 
@@ -3014,7 +3069,7 @@ msgstr "غير معروض"
 msgid "Not paid"
 msgstr "غير مدفوع"
 
-#: onedesk/public/js/workspace_account.js:130
+#: onedesk/public/js/workspace_account.js:222
 msgid "Not pointing here yet."
 msgstr "لا يشير إلى هنا بعد."
 
@@ -3263,7 +3318,7 @@ msgstr "لا يُبتّ إلا في مطالبة ما زالت قيد الانت
 msgid "Only a flagged attempt needs reviewing."
 msgstr "المحاولات المُشار إليها وحدها هي التي تحتاج إلى مراجعة."
 
-#: onedesk/one_admin/doctype/offering/offering.py:41
+#: onedesk/one_admin/doctype/offering/offering.py:46
 msgid "Only a recurring offering can have a trial."
 msgstr "لا يمكن أن تكون التجربة إلا في عرض متكرر."
 
@@ -3275,7 +3330,7 @@ msgstr "لا يُبتّ إلا في طلب ما زال قيد الانتظار."
 msgid "Only a request still waiting can be turned down."
 msgstr "لا يُرفض إلا طلب ما زال قيد الانتظار."
 
-#: onedesk/one/account.py:169
+#: onedesk/one/account.py:192
 msgid "Only an administrator of this workspace can change its address."
 msgstr "لا يغيّر عنوان مساحة العمل إلا مديرها."
 
@@ -3461,6 +3516,10 @@ msgstr "عليها مستحقات"
 msgid "Owner"
 msgstr ""
 
+#: onedesk/public/js/workspace_account.js:146
+msgid "Pack"
+msgstr "الحزمة"
+
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:10
@@ -3526,15 +3585,15 @@ msgid "Payment is taken by Stripe. Nothing is charged until it is confirmed ther
 msgstr "تتم الدفعة عبر Stripe. ولا يُخصم شيء حتى تُؤكَّد هناك."
 
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:16
-#: onedesk/public/js/tenant.js:31 onedesk/public/js/workspace_account.js:34
+#: onedesk/public/js/tenant.js:31 onedesk/public/js/workspace_account.js:37
 msgid "Payment overdue"
 msgstr "دفعة متأخرة"
 
-#: onedesk/public/js/workspace_account.js:53
+#: onedesk/public/js/workspace_account.js:56
 msgid "Payment overdue. This workspace is suspended in {0} days."
 msgstr "دفعة متأخرة. ستُوقَف مساحة العمل هذه بعد {0} يوماً."
 
-#: onedesk/public/js/workspace_account.js:52
+#: onedesk/public/js/workspace_account.js:55
 msgid "Payment overdue. This workspace is suspended tonight."
 msgstr "دفعة متأخرة. ستُوقَف مساحة العمل هذه الليلة."
 
@@ -3640,7 +3699,7 @@ msgstr "الخطة"
 msgid "Platform"
 msgstr "المنصة"
 
-#: onedesk/public/js/workspace_account.js:104
+#: onedesk/public/js/workspace_account.js:196
 msgid "Point a CNAME for this name at {0}, without a proxy, then check it."
 msgstr "وجّه سجل CNAME لهذا الاسم إلى {0}، دون وسيط، ثم افحصه."
 
@@ -4025,15 +4084,15 @@ msgid "Released"
 msgstr "مُفرج عنه"
 
 #: onedesk/public/js/workspace_account.js:18
-#: onedesk/public/js/workspace_account.js:167
+#: onedesk/public/js/workspace_account.js:259
 msgid "Remove"
 msgstr ""
 
-#: onedesk/public/js/workspace_account.js:157
+#: onedesk/public/js/workspace_account.js:249
 msgid "Remove a domain"
 msgstr "إزالة نطاق"
 
-#: onedesk/public/js/workspace_account.js:177
+#: onedesk/public/js/workspace_account.js:269
 msgid "Remove {0}? The workspace will stop answering there."
 msgstr "إزالة {0}؟ ستتوقف مساحة العمل عن الاستجابة عليه."
 
@@ -4279,7 +4338,7 @@ msgid "Set One up"
 msgstr "إعداد One"
 
 #: onedesk/public/js/workspace_account.js:17
-#: onedesk/public/js/workspace_account.js:167
+#: onedesk/public/js/workspace_account.js:259
 msgid "Set Primary"
 msgstr "تعيين كرئيسي"
 
@@ -4310,7 +4369,7 @@ msgstr "تُضبط من أحداث الفوترة ومن الإجراءات في
 msgid "Set the date range."
 msgstr "حدّد المدة الزمنية."
 
-#: onedesk/public/js/workspace_account.js:157
+#: onedesk/public/js/workspace_account.js:249
 msgid "Set the main address"
 msgstr "تعيين العنوان الرئيسي"
 
@@ -4567,7 +4626,7 @@ msgstr "توقف: {0}"
 #. Label of the storage_section (Section Break) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 #: onedesk/one_admin/doctype/tenant/tenant.json onedesk/public/js/tenant.js:183
-#: onedesk/public/js/workspace_account.js:67
+#: onedesk/public/js/workspace_account.js:72
 msgid "Storage"
 msgstr "التخزين"
 
@@ -4607,7 +4666,7 @@ msgstr "اشتراك Stripe"
 msgid "Stripe Webhook Event"
 msgstr "حدث Stripe"
 
-#: onedesk/one_admin/stripe.py:251
+#: onedesk/one_admin/stripe.py:305
 msgid "Stripe is not configured. Set it in One Admin Settings."
 msgstr "لم يُضبط Stripe. اضبطه في إعدادات One Admin."
 
@@ -4644,7 +4703,7 @@ msgstr "إيقاف"
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:17
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
-#: onedesk/public/js/tenant.js:32 onedesk/public/js/workspace_account.js:35
+#: onedesk/public/js/tenant.js:32 onedesk/public/js/workspace_account.js:38
 msgid "Suspended"
 msgstr "موقوف"
 
@@ -4764,7 +4823,7 @@ msgstr "مفتاح المرور هذا غير مسجَّل في هذا المو�
 msgid "The AI Gateway on the Cloudflare account above."
 msgstr "بوابة الذكاء الاصطناعي على حساب Cloudflare أعلاه."
 
-#: onedesk/public/js/workspace_account.js:129
+#: onedesk/public/js/workspace_account.js:221
 msgid "The DNS is pointing here."
 msgstr "يشير DNS إلى هنا."
 
@@ -4997,7 +5056,7 @@ msgstr "لا يوجد يوم يمكن تسجيل هذا عليه."
 msgid "There is nothing to check in: you are {0} today."
 msgstr "لا يوجد ما يُسجَّل: أنت {0} اليوم."
 
-#: onedesk/public/js/workspace_account.js:151
+#: onedesk/public/js/workspace_account.js:243
 msgid "There is nothing to remove."
 msgstr "لا يوجد ما يُزال."
 
@@ -5239,7 +5298,7 @@ msgstr "الاستهلاك"
 msgid "Use My Location"
 msgstr "استخدام موقعي"
 
-#: onedesk/public/js/workspace_account.js:176
+#: onedesk/public/js/workspace_account.js:268
 msgid "Use {0} as this workspace's main address?"
 msgstr "استخدام {0} كعنوان رئيسي لمساحة العمل هذه؟"
 
@@ -5698,7 +5757,6 @@ msgstr "الصفر يعني بلا تجربة. وتُؤخذ البطاقة عن�
 
 #. Description of the 'Seats' (Int) field in DocType 'Workspace Account'
 #. Description of the 'Storage (GB)' (Int) field in DocType 'Offering'
-#. Description of the 'Credits a Month' (Int) field in DocType 'Offering'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Zero means unlimited."
@@ -5722,6 +5780,10 @@ msgstr "مخزَّن مؤقتاً"
 #: onedesk/public/js/appraisal.js:24
 msgid "feedback"
 msgstr "الملاحظات"
+
+#: onedesk/public/js/workspace_account.js:165
+msgid "for"
+msgstr "مقابل"
 
 #: onedesk/public/js/shift_request.js:53
 msgid "from {0} to {1}"
@@ -5887,15 +5949,24 @@ msgstr "طالب {0} بمبلغ {1} عن {2}، المقبول منه {3} — و�
 msgid "{0} could not be marked Left"
 msgstr "تعذّر تعليم {0} بأنه ترك العمل"
 
+#: onedesk/public/js/workspace_account.js:164
+msgid "{0} credits"
+msgstr "{0} رصيد"
+
 #: onedesk/public/js/tenant.js:133
 msgid "{0} credits now."
 msgstr "{0} رصيد الآن."
+
+#: onedesk/public/js/workspace_account.js:109
+msgid "{0} credits over. Buy some to keep using the AI."
+msgstr "تجاوزت بمقدار {0} رصيد. اشترِ بعضه لمواصلة استخدام الذكاء الاصطناعي."
 
 #: onedesk/public/js/ai_model.js:107
 msgid "{0} credits — the hold, because nothing could be metered."
 msgstr "{0} رصيد — وهو الحجز، إذ تعذّر قياس أي شيء."
 
 #: onedesk/public/js/ai_action_setting.js:91 onedesk/public/js/ai_model.js:106
+#: onedesk/public/js/workspace_account.js:106
 msgid "{0} credits."
 msgstr "{0} رصيد."
 
@@ -5919,6 +5990,10 @@ msgstr "لا يملك {0} رصيداً بمقدار {1} لإنفاقه."
 msgid "{0} does not point to this workspace. The customer has to change their DNS."
 msgstr "لا يشير {0} إلى مساحة العمل هذه. وعلى العميل تغيير إعدادات DNS."
 
+#: onedesk/public/js/workspace_account.js:118
+msgid "{0} expire on {1}."
+msgstr "ينتهي {0} في {1}."
+
 #: onedesk/public/js/salary_slip.js:29
 msgid "{0} for {1}, a whole month."
 msgstr "{0} عن {1}، شهر كامل."
@@ -5927,7 +6002,7 @@ msgstr "{0} عن {1}، شهر كامل."
 msgid "{0} for {1}: {2} of {3} days paid."
 msgstr "{0} عن {1}: {2} من {3} يوماً مدفوعة."
 
-#: onedesk/one_admin/stripe.py:61
+#: onedesk/one_admin/stripe.py:61 onedesk/one_admin/stripe.py:164
 msgid "{0} has no Stripe price."
 msgstr "لا يوجد سعر Stripe لـ {0}."
 
@@ -6028,11 +6103,15 @@ msgstr "{0} نموذجاً، {1} مُسعَّرة، {2} تحتاج مراجعة.
 msgid "{0} of it is already covered by an advance."
 msgstr "{0} منه مغطى بسلفة سابقة."
 
+#: onedesk/public/js/workspace_account.js:113
+msgid "{0} of them are promised to calls in flight."
+msgstr "منها {0} محجوزة لنداءات قيد التنفيذ."
+
 #: onedesk/public/js/offering.js:37
 msgid "{0} of them live."
 msgstr "منها {0} تعمل."
 
-#: onedesk/public/js/workspace_account.js:80
+#: onedesk/public/js/workspace_account.js:85
 msgid "{0} of {1} used."
 msgstr "استُهلك {0} من {1}."
 
@@ -6056,7 +6135,7 @@ msgstr "{0} على عدّاد المسافة منذ السجل السابق."
 msgid "{0} out of 5"
 msgstr "{0} من 5"
 
-#: onedesk/public/js/tenant.js:194 onedesk/public/js/workspace_account.js:78
+#: onedesk/public/js/tenant.js:194 onedesk/public/js/workspace_account.js:83
 msgid "{0} over the {1} this plan allows."
 msgstr "{0} فوق الـ{1} التي تسمح بها هذه الخطة."
 

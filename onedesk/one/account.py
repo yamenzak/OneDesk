@@ -82,6 +82,7 @@ def refresh() -> dict:
 		return held.as_dict()
 
 	standing = said.get("standing") or {}
+	credits = said.get("credits") or {}
 	held.db_set(
 		{
 			"tenant": said.get("tenant"),
@@ -94,6 +95,10 @@ def refresh() -> dict:
 			"seats": said.get("seats") or 0,
 			"storage_bytes": said.get("storage_bytes") or 0,
 			"storage_limit": said.get("storage_limit") or 0,
+			"credits_balance": credits.get("balance") or 0,
+			"credits_held": credits.get("held") or 0,
+			"credits_expiring": credits.get("expiring") or 0,
+			"credits_expires_on": credits.get("expires_on"),
 			"owing": 1 if standing.get("owing") else 0,
 			"days_left": standing.get("days_left"),
 			"next_status": standing.get("next"),
@@ -161,6 +166,24 @@ def drop(key: str) -> dict:
 #: the settings screen: a domain change moves where the login page lives, so it
 #: belongs to whoever already administers the site.
 MAY_RENAME = "System Manager"
+
+
+@frappe.whitelist()
+def credit_packs() -> list:
+	"""What this workspace may buy, asked of the account.
+
+	Not cached: a price list is the administrator's and a copy of one here is a
+	price that goes stale the day it changes.
+	"""
+	_may_rename()
+	return ask("onedesk.one_admin.proxy.credit_packs") or []
+
+
+@frappe.whitelist()
+def buy_credits(pack: str) -> dict:
+	"""Somewhere to pay for a pack. The credit arrives by webhook, not here."""
+	_may_rename()
+	return ask("onedesk.one_admin.proxy.buy_credits", pack=pack)
 
 
 def _may_rename() -> None:

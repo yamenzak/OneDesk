@@ -55,6 +55,8 @@ scheduler_events = {
 		"onedesk.one_admin.catalogue.nightly",
 		# Holds whose call never came back, which nothing else would let go.
 		"onedesk.one_admin.ledger.nightly",
+		# The credit every plan promises. Keyed by month, so nightly is harmless.
+		"onedesk.one_admin.topup.monthly",
 		"onedesk.one_admin.storage.nightly",
 		"onedesk.one_hr.healing.nightly",
 		"onedesk.one_hr.leaving.nightly",

@@ -111,10 +111,23 @@ def test_only_the_ledger_knows_a_balance_is_made_of_rows():
 	for path in tree.python():
 		if path in exempt or path.parent.name in ("credit_ledger_entry", "credit_reservation"):
 			continue
-		text = path.read_text(encoding="utf-8")
-		if "Credit Ledger Entry" in text or "Credit Reservation" in text:
+		# The code, not the prose: other modules explain what a balance is made
+		# of, and a guard that grepped would fail on an explanation.
+		if any(name in _code(path) for name in ("Credit Ledger Entry", "Credit Reservation")):
 			elsewhere.append(str(path.relative_to(tree.ROOT)))
 	assert not elsewhere, f"{elsewhere} read the ledger directly. Ask ledger.py instead."
+
+
+def _code(path: Path) -> str:
+	body = ast.parse(path.read_text(encoding="utf-8"))
+	for node in ast.walk(body):
+		if isinstance(node, ast.Module | ast.ClassDef | ast.FunctionDef | ast.AsyncFunctionDef):
+			node.body = [
+				n
+				for n in node.body
+				if not (isinstance(n, ast.Expr) and isinstance(n.value, ast.Constant))
+			]
+	return ast.unparse(body)
 
 
 def test_a_hold_that_never_came_back_is_let_go():

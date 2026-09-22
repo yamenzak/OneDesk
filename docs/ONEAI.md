@@ -379,9 +379,35 @@ The two shipped actions are `summarise` and `reply`. Both tell the model what
 *not* to do, which has a guard of its own: an action that only says what to
 write is an action that fills gaps with plausible fiction.
 
-**AI 6 — top-ups.** Stripe checkout from the One area, a webhook that posts a
-grant, and the idempotency that stops a retried webhook granting twice. Packs
-rather than arbitrary amounts, so there is a price list rather than a calculator.
+**AI 6 — top-ups.** *Done.* `one_admin/topup.py`. A workspace buys a pack from
+its own account screen, admin makes the Stripe session, and the grant is the
+webhook's — a workspace that could grant itself credit by opening a page is a
+workspace that never pays.
+
+**Packs rather than amounts.** A customer buys a row from a price list, not a
+number they typed, because a calculator on that screen would be a second place
+where credits per dollar is decided and the first is in One Admin Settings. A
+pack carries `credits`; a plan carries `credits_a_month`. Two fields, because a
+lump granted once and an allowance granted monthly under one name is a nightly
+job granting somebody's one-off purchase every night.
+
+**The monthly allowance a plan promises.** Nothing was granting it. It runs
+nightly rather than on the first, so a workspace built on the twelfth has its
+credit that night instead of waiting nineteen days, and the key carries the
+month — `plan:<tenant>:<YYYY-MM>` — which is what makes running it every night
+free. It expires at the end of its month and does not roll over, which is the
+case the ledger's draw order was built for.
+
+Overdue workspaces still get it, for the same reason `proxy.SERVING` carries
+Overdue: Overdue is defined as nothing happening to the workspace, and cutting
+off its allowance would be the grace period not existing.
+
+**Two ways credit could arrive twice, one field stopping both.** Stripe
+redelivers by design and a nightly job runs nightly; `ledger.grant`'s key is
+unique on the row, so both meet a database index rather than a check somebody
+remembered to write. A top-up and a signup are told apart by what the session
+carries — a signup names the request it came from, a top-up names the workspace
+and the pack.
 
 **AI 7 — tools.** The schema builder off type hints, the Frappe read surface, and
 the rule that every one of them runs as the session user — with the test that

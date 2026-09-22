@@ -124,6 +124,21 @@ def webhook():
 		seen.db_set("handled", 1)
 		return {"ignored": kind}
 
+	# Two things complete a checkout and they are told apart by what the session
+	# carries: a signup names the request it came from, a top-up names the
+	# workspace and the pack. Anything else is somebody else's session.
+	meta = body.get("metadata") or {}
+	if meta.get("pack"):
+		from onedesk.one_admin import topup
+
+		try:
+			entry = topup.bought(body)
+		except Exception as raised:
+			seen.db_set("error", str(raised)[:500])
+			raise
+		seen.db_set({"handled": 1, "error": None})
+		return {"tenant": meta.get("tenant"), "entry": entry}
+
 	request = body.get("client_reference_id")
 	try:
 		tenant = signup.accept(request)
@@ -133,6 +148,45 @@ def webhook():
 	_remember_customer(tenant, body)
 	seen.db_set({"handled": 1, "request": request, "error": None})
 	return {"tenant": tenant}
+
+
+def checkout_for_credits(tenant: str, pack: str) -> str:
+	"""A Stripe Checkout URL for a workspace buying a pack.
+
+	A one-off payment rather than a subscription, and the session carries the
+	workspace and the pack in its metadata — which is the only thing the webhook
+	has to go on when it comes back, since a top-up has no Account Request
+	behind it the way a signup does.
+	"""
+	site.require_admin()
+	sold = frappe.get_cached_doc("Offering", pack)
+	if not sold.stripe_price:
+		frappe.throw(frappe._("{0} has no Stripe price.").format(sold.name))
+
+	held = frappe.db.get_value(
+		"Tenant", tenant, ["owner_email", "stripe_customer", "domain", "primary_domain"],
+		as_dict=True,
+	)
+	back = f"https://{held.primary_domain or held.domain}/app/workspace-account"
+	made = _post(
+		"checkout/sessions",
+		{
+			"mode": "payment",
+			"line_items[0][price]": sold.stripe_price,
+			"line_items[0][quantity]": 1,
+			"client_reference_id": tenant,
+			"metadata[tenant]": tenant,
+			"metadata[pack]": sold.name,
+			"success_url": f"{back}?bought={sold.name}",
+			"cancel_url": back,
+			**(
+				{"customer": held.stripe_customer}
+				if held.stripe_customer
+				else {"customer_email": held.owner_email}
+			),
+		},
+	)
+	return made.get("url")
 
 
 def _remember_customer(tenant: str, body: dict) -> None:

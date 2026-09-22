@@ -16,7 +16,9 @@ from onedesk.one_admin import site
 #: somebody filling in a field because it was there.
 CARRIES = {
 	"Plan": ("storage_gb", "seats", "credits_a_month"),
-	"Credit Pack": ("credits_a_month",),
+	# A pack is bought once, so it grants once. The same number under the
+	# monthly field would be a lump somebody's nightly job kept granting.
+	"Credit Pack": ("credits",),
 	"Add-on": ("storage_gb", "seats", "credits_a_month"),
 }
 
@@ -25,15 +27,18 @@ class Offering(Document):
 	def validate(self) -> None:
 		site.require_admin()
 		self.key = (self.key or "").strip().lower()
-		for field in ("storage_gb", "seats", "credits_a_month"):
+		for field in ("storage_gb", "seats", "credits", "credits_a_month"):
 			if self.get(field) and field not in CARRIES[self.kind]:
 				frappe.throw(
 					frappe._("A {0} does not carry {1}.").format(
 						self.kind, self.meta.get_label(field)
 					)
 				)
-		if self.kind == "Credit Pack" and self.recurring:
-			frappe.throw(frappe._("A credit pack is bought once, so it does not recur."))
+		if self.kind == "Credit Pack":
+			if self.recurring:
+				frappe.throw(frappe._("A credit pack is bought once, so it does not recur."))
+			if not self.credits:
+				frappe.throw(frappe._("A credit pack with no credits in it sells nothing."))
 		if self.trial_days and not self.recurring:
 			# Stripe carries a trial on the subscription, so there is nowhere to
 			# put one on a single payment. A trial here would be a number that
