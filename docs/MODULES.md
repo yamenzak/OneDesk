@@ -42,7 +42,7 @@ No doctypes yet.
 | One Admin Settings | 28 | single |
 | Provisioning Job | 12 | document |
 | Stripe Webhook Event | 7 | document |
-| Tenant | 29 | document |
+| Tenant | 33 | document |
 | Tenant Domain | 7 | document |
 | Tenant Event | 4 | document |
 
@@ -61,6 +61,12 @@ No doctypes yet.
 * `onedesk.one.account.domains`
 * `onedesk.one.account.domains_refresh`
 * `onedesk.one.account.mine`
+* `onedesk.one_admin.operator.fall`
+* `onedesk.one_admin.operator.measure`
+* `onedesk.one_admin.operator.refresh_domains`
+* `onedesk.one_admin.operator.restore`
+* `onedesk.one_admin.operator.resume`
+* `onedesk.one_admin.operator.standing`
 * `onedesk.one_admin.proxy.domain_add`
 * `onedesk.one_admin.proxy.domain_check`
 * `onedesk.one_admin.proxy.domain_drop`

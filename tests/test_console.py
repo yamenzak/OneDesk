@@ -175,3 +175,89 @@ def test_the_console_has_its_own_row_in_the_dock():
 	assert rows["One Admin"]["icon"] == "oneadmin"
 	assert rows["One Admin"]["link_type"] == "Sidebar"
 	assert dock["items"][-1]["link_to"] == "One Admin"
+
+
+def test_nothing_on_a_workspace_is_typed():
+	"""Every field is the record of something that happened, not a setting.
+
+	The one that mattered: Status was a live Select, so an operator could drop a
+	workspace from a dropdown — no job, no call to press, no R2 sweep, and a
+	record saying the files were gone while the files were still there.
+	"""
+	doc = _json(ADMIN / "doctype" / "tenant" / "tenant.json")
+	typed = [
+		one["fieldname"]
+		for one in doc["fields"]
+		if one["fieldtype"] not in ("Section Break", "Column Break", "Tab Break")
+		and not one.get("read_only")
+	]
+	assert not typed, f"{typed} can be typed on a Tenant"
+	for perm in doc["permissions"]:
+		assert not perm.get("write"), "a Tenant can be saved, so the form offers Save"
+		assert not perm.get("delete"), "a Tenant can be deleted"
+
+
+def test_the_form_carries_no_essays():
+	"""A field description is a sentence, not a paragraph from a commit message.
+
+	This file's first version put the whole reasoning for the ladder under the
+	Status select, four lines of it, on a screen somebody opens to find out
+	whether a customer is paying.
+	"""
+	doc = _json(ADMIN / "doctype" / "tenant" / "tenant.json")
+	long = {
+		one["fieldname"]: len(one["description"])
+		for one in doc["fields"]
+		if len(one.get("description") or "") > 120
+	}
+	assert not long, f"these descriptions belong in docs/ rather than on the form: {long}"
+
+
+def test_every_operator_verb_is_gated():
+	"""Both gates, on every whitelisted method, without exception.
+
+	`_may` is `require_admin` plus `only_for`. A verb that forgot it would be a
+	workspace anybody with a desk login could archive.
+	"""
+	import ast
+
+	source = (ADMIN / "operator.py").read_text(encoding="utf-8")
+	for node in ast.parse(source).body:
+		if not isinstance(node, ast.FunctionDef):
+			continue
+		whitelisted = any(
+			isinstance(one, ast.Attribute) and one.attr == "whitelist"
+			for one in node.decorator_list
+		)
+		if not whitelisted:
+			continue
+		calls = {
+			one.func.id
+			for one in ast.walk(node)
+			if isinstance(one, ast.Call) and isinstance(one.func, ast.Name)
+		}
+		assert "_may" in calls, f"{node.name} is whitelisted and does not call _may()"
+
+
+def test_an_operator_may_only_send_a_workspace_to_a_real_rung():
+	"""Read from the AST: `operator.py` imports frappe and this suite has none.
+
+	`ladder.py` does not, which is the point of it being pure — so the rungs
+	come from the module and the buttons come from the file.
+	"""
+	import ast
+
+	from onedesk.one_admin import ladder
+
+	source = (ADMIN / "operator.py").read_text(encoding="utf-8")
+	by_hand = None
+	for node in ast.parse(source).body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "BY_HAND":
+			by_hand = {key.value: value.value for key, value in zip(node.value.keys, node.value.values)}
+	assert by_hand, "operator.py declares no BY_HAND"
+
+	assert set(by_hand) <= set(ladder.RUNGS)
+	assert "Live" not in by_hand, "climbing back is `restore`, not a fall"
+	for rung, warning in by_hand.items():
+		if rung in ("Suspended", "Archived", "Dropped"):
+			assert warning, f"{rung} costs somebody something and says nothing about it"

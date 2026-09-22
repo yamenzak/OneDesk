@@ -157,6 +157,8 @@ fixtures = [
 
 # A record answers before it offers links; see `onedesk/one_hr/employee.py`.
 doctype_js = {
+	# A workspace is read-only and carries verbs instead; see one_admin/operator.py.
+	"Tenant": "public/js/tenant.js",
 	"Employee": "public/js/employee.js",
 	"Employee Attendance Tool": "public/js/attendance_tool.js",
 	"Attendance": "public/js/attendance.js",

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 11:45+0000\n"
-"PO-Revision-Date: 2026-09-22 11:45+0000\n"
+"POT-Creation-Date: 2026-09-22 11:58+0000\n"
+"PO-Revision-Date: 2026-09-22 11:58+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -75,6 +75,11 @@ msgstr "Bei einem Dokument ohne Ablaufdatum, etwa einer Geburtsurkunde, bleibt d
 msgid "A domain row is made when a workspace asks for one, alongside the call to press that makes it real. One typed here would say Pending forever."
 msgstr "Eine Domain-Zeile entsteht, wenn ein Arbeitsbereich danach fragt, zusammen mit dem Aufruf an Frappe Cloud, der sie wirklich macht. Eine hier eingetippte stünde für immer auf Ausstehend."
 
+#. Description of the 'Token Hash' (Data) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "A hash. The token itself was written into the site once and never read back."
+msgstr "Ein Hash. Das Token selbst wurde einmal in die Site geschrieben und nie wieder ausgelesen."
+
 #. Description of a DocType
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 msgid "A job is made by the thing that needs one. One typed here would start walking a tenant with no idea why."
@@ -101,11 +106,6 @@ msgstr "Ein Ort gehört zu einem Standort der Schicht oder zu einem einzelnen Mi
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "A plan carries quotas and recurs. A credit pack is bought once. An add-on raises one quota on top of a plan."
 msgstr "Ein Tarif trägt Kontingente und wiederholt sich. Ein Guthabenpaket wird einmal gekauft. Eine Zusatzoption hebt ein einzelnes Kontingent über einen Tarif hinaus an."
-
-#. Description of the 'Cluster' (Data) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "A press cluster. Read from press rather than kept in a table here."
-msgstr "Ein Cluster bei Frappe Cloud. Von dort gelesen statt hier in einer Tabelle gehalten."
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:146
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:82
@@ -433,7 +433,9 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #. Option for the 'Kind' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:18
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
+#: onedesk/public/js/tenant.js:33
 msgid "Archived"
 msgstr ""
 
@@ -566,6 +568,11 @@ msgstr ""
 msgid "Becomes"
 msgstr "Wird"
 
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:14
+#: onedesk/public/js/tenant.js:29
+msgid "Being built"
+msgstr "Wird aufgebaut"
+
 #. Label of the belongs_to_section (Section Break) field in DocType 'Clock
 #. Network'
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
@@ -605,6 +612,11 @@ msgstr "Abgerechnet %"
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Billing"
 msgstr ""
+
+#. Label of the tab_billing (Tab Break) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "Billing and storage"
+msgstr "Abrechnung und Speicher"
 
 #. Label of the 'bio' field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
@@ -659,8 +671,8 @@ msgstr "Im Aufbau"
 
 #. Description of the 'Limit' (Long Int) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "Bytes, so it is a Long Int: twenty-five gigabytes does not fit in an Int. Zero means unmetered — a plan with no storage line is a plan nobody thought about, and refusing every upload is the worse answer."
-msgstr "In Byte, daher ein Long Int: Fünfundzwanzig Gigabyte passen nicht in einen Int. Null heißt ohne Begrenzung — ein Tarif ohne Speicherzeile ist ein Tarif, über den niemand nachgedacht hat, und jeden Upload abzulehnen ist die schlechtere Antwort."
+msgid "Bytes. Zero is unmetered."
+msgstr "In Byte. Null heißt ohne Begrenzung."
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -1188,7 +1200,9 @@ msgstr "Verwerfen"
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #. Option for the 'Kind' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:19
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
+#: onedesk/public/js/tenant.js:34
 msgid "Dropped"
 msgstr "Verworfen"
 
@@ -1345,6 +1359,11 @@ msgstr ""
 msgid "Employment"
 msgstr "Beschäftigung"
 
+#. Description of the 'Main Address' (Link) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "Empty means the workspace is still called what we called it."
+msgstr "Leer heißt, der Arbeitsbereich heißt noch so, wie wir ihn genannt haben."
+
 #. Label of the enabled (Check) field in DocType 'Attendance Reason'
 #. Label of the enabled (Check) field in DocType 'Clock Reason'
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
@@ -1473,6 +1492,14 @@ msgstr "Der Arbeitstag konnte nicht eingerichtet werden"
 #: onedesk/one/setup_wizard.py:16
 msgid "Failed to set up One"
 msgstr "One konnte nicht eingerichtet werden"
+
+#: onedesk/public/js/tenant.js:64
+msgid "Falls to {0} in {1} days."
+msgstr "Fällt in {1} Tagen auf {0}."
+
+#: onedesk/public/js/tenant.js:63
+msgid "Falls to {0} tonight."
+msgstr "Fällt heute Nacht auf {0}."
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:28
 msgid "Feb"
@@ -1655,6 +1682,11 @@ msgstr "Personalgewinnung"
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Hiring Pipeline"
 msgstr "Einstellungspipeline"
+
+#. Label of the tab_history (Tab Break) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "History"
+msgstr "Verlauf"
 
 #: onedesk/one_hr/employee.py:111 onedesk/one_hr/employee.py:268
 #: onedesk/one_hr/presence.py:181 onedesk/public/js/employee.js:48
@@ -2118,6 +2150,8 @@ msgstr "Alle ohne Eintrag auflisten"
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:15
+#: onedesk/public/js/tenant.js:30
 msgid "Live"
 msgstr "Live"
 
@@ -2125,11 +2159,6 @@ msgstr "Live"
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Live On"
 msgstr "Live seit"
-
-#. Description of the 'Status' (Select) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "Live, Overdue, Suspended, Archived and Dropped are the ladder, walked one rung at a time by one_admin/ladder.py. Requested, Provisioning and Failed are not on it: only a payment failing moves a workspace off Live, and only a clock moves it further."
-msgstr "Live, Überfällig, Gesperrt, Archiviert und Verworfen sind die Leiter, Stufe für Stufe begangen von one_admin/ladder.py. Angefragt, Wird eingerichtet und Gescheitert stehen nicht darauf: Von Live holt einen Arbeitsbereich nur eine fehlgeschlagene Zahlung, und weiter hinunter nur eine Uhr."
 
 #. Label of the place_section (Section Break) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -2171,6 +2200,10 @@ msgstr "Die Anmeldung mit Passkey ist auf dieser Site nicht aktiviert."
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 msgid "Longitude"
 msgstr "Länge"
+
+#: onedesk/public/js/tenant.js:83 onedesk/public/js/tenant.js:88
+msgid "Look again"
+msgstr "Nachsehen"
 
 #. Label of the primary_domain (Link) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
@@ -2232,10 +2265,9 @@ msgstr "Die vom Browser gemeldete Position gegen Einchecken-Ort und den eigenen 
 msgid "May"
 msgstr ""
 
-#. Description of the 'Storage' (Section Break) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "Measured by listing the prefix, not reported by the workspace. A workspace that reports its own usage is a workspace that can under-report it."
-msgstr "Gemessen durch Auflisten des Präfixes, nicht vom Arbeitsbereich gemeldet. Ein Arbeitsbereich, der seinen eigenen Verbrauch meldet, kann ihn auch zu niedrig melden."
+#: onedesk/public/js/tenant.js:81
+msgid "Measure storage"
+msgstr "Speicher messen"
 
 #. Label of the model (Data) field in DocType 'Clock Attempt'
 #. Label of the model (Data) field in DocType 'Clock Device'
@@ -2546,17 +2578,6 @@ msgstr "One-Betreiber"
 msgid "One address or a CIDR range. Example: 203.0.113.7 or 203.0.113.0/24"
 msgstr "Eine Adresse oder ein CIDR-Bereich. Beispiel: 203.0.113.7 oder 203.0.113.0/24"
 
-#. Description of the 'Where it lives' (Section Break) field in DocType
-#. 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "One choice at signup sets both, and jurisdiction is permanent: R2 pins a bucket to it at creation, so changing it later means copying every object."
-msgstr "Eine Auswahl bei der Anmeldung legt beides fest, und der Rechtsraum ist endgültig: R2 bindet bei der Erstellung einen Bucket daran, ein späterer Wechsel bedeutet also, jedes Objekt zu kopieren."
-
-#. Description of the 'Main Address' (Link) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "One of the customer's own names, once they have asked for it. Empty means the workspace is still called what we called it. Press writes this into the site's own config, which is what makes a link in an email use it."
-msgstr "Einer der eigenen Namen des Kunden, sobald er danach gefragt hat. Leer heißt, der Arbeitsbereich heißt noch so, wie wir ihn genannt haben. Frappe Cloud schreibt dies in die Konfiguration der Site, und das ist es, was einen Link in einer E-Mail ihn verwenden lässt."
-
 #. Description of the 'Require a Passkey' (Check) field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -2643,11 +2664,6 @@ msgstr "Nur ein Mitarbeiter kann einen Passkey registrieren."
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Only check-ins that passed another check are counted. Nothing learned widens who may check in."
 msgstr "Es zählen nur Eincheckungen, die eine andere Prüfung bestanden haben. Nichts Gelerntes erweitert den Kreis derer, die einchecken dürfen."
-
-#. Description of the 'Token Hash' (Data) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "Only ever a hash. The token itself is written into that site's own config once and never read back."
-msgstr "Immer nur ein Hash. Das Token selbst wird einmal in die Konfiguration jener Site geschrieben und nie wieder ausgelesen."
 
 #: onedesk/one_hr/decision.py:32
 msgid "Only somebody who can approve these may answer this one."
@@ -2831,6 +2847,11 @@ msgstr "Zahlung läuft"
 msgid "Payload"
 msgstr "Nutzdaten"
 
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:16
+#: onedesk/public/js/tenant.js:31
+msgid "Payment overdue"
+msgstr "Zahlung überfällig"
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Payroll Entry"
@@ -2865,6 +2886,11 @@ msgstr ""
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "People"
 msgstr "Personen"
+
+#. Description of the 'Jurisdiction' (Select) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "Permanent. Changing it would mean copying every object."
+msgstr "Endgültig. Eine Änderung hieße, jedes Objekt zu kopieren."
 
 #. Label of the 'personal_details' field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
@@ -2946,6 +2972,11 @@ msgstr "Frappe Cloud schaltet die Site ab. Sie antwortet mit einer Seite, nieman
 msgid "Press has destroyed the site, having taken an offsite backup first. Our R2 prefix is still there. At the end of this the prefix is deleted, which is the only thing on the ladder that destroys anything of ours."
 msgstr "Frappe Cloud hat die Site zerstört, nachdem sie zuvor eine externe Sicherung angelegt hat. Unser R2-Präfix ist noch da. Am Ende dieser Frist wird das Präfix gelöscht — das Einzige auf der Leiter, das etwas von uns zerstört."
 
+#. Description of the 'Backup At Archive' (Data) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "Press holds the bytes; we keep the name."
+msgstr "Frappe Cloud hält die Bytes, wir behalten den Namen."
+
 #. Description of the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "Press's word for it, kept as press says it. A status of our own would be a status that disagrees with the one in their dashboard."
@@ -3021,6 +3052,11 @@ msgstr "Wird eingerichtet"
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 msgid "Provisioning Job"
 msgstr "Einrichtungsauftrag"
+
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:20
+#: onedesk/public/js/tenant.js:35
+msgid "Provisioning failed"
+msgstr "Einrichtung gescheitert"
 
 #. Label of the public_key (Small Text) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
@@ -3130,6 +3166,10 @@ msgstr "Übersicht Personalgewinnung"
 msgid "Recurring"
 msgstr "Wiederkehrend"
 
+#: onedesk/public/js/tenant.js:86
+msgid "Refresh domains"
+msgstr "Domains auffrischen"
+
 #. Label of the one_refuse_below (Int) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Refuse Below Score"
@@ -3228,6 +3268,7 @@ msgstr "Passkey zurücksetzen"
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
+#: onedesk/public/js/tenant.js:73
 msgid "Restore"
 msgstr ""
 
@@ -3370,6 +3411,14 @@ msgstr "Selbstständiges Einchecken"
 msgid "Selling"
 msgstr ""
 
+#: onedesk/public/js/tenant.js:96
+msgid "Send to {0}"
+msgstr "Auf {0} setzen"
+
+#: onedesk/public/js/tenant.js:98
+msgid "Send {0} to {1}?"
+msgstr "{0} auf {1} setzen?"
+
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:35
 msgid "Sep"
 msgstr ""
@@ -3405,6 +3454,11 @@ msgstr "Hinterlegen Sie zuerst die Standardarbeitszeit in {0}. Alles hier wird d
 #: onedesk/one_hr/custom/shift_request.json
 msgid "Set by Approve and Reject, so it always agrees with who decided."
 msgstr "Wird von Genehmigen und Ablehnen gesetzt und stimmt so immer mit der Entscheidung überein."
+
+#. Description of the 'Status' (Select) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "Set by the ladder and by the buttons above. Never typed."
+msgstr "Wird von der Leiter und den Schaltflächen oben gesetzt. Nie eingetippt."
 
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:67
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:78
@@ -3488,8 +3542,8 @@ msgstr "Signaturzähler"
 
 #. Description of the 'Promised' (Long Int) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "Signed for since that measurement. A signed URL is a promise somebody may keep, so it counts until the next measurement says whether it was."
-msgstr "Seit jener Messung signiert. Eine signierte URL ist ein Versprechen, das jemand einlösen kann, also zählt sie mit, bis die nächste Messung sagt, ob es eingelöst wurde."
+msgid "Signed for since the last measurement."
+msgstr "Seit der letzten Messung signiert."
 
 #. Label of a Sidebar Item
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
@@ -3681,7 +3735,9 @@ msgstr "Sperren"
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #. Option for the 'Kind' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:17
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
+#: onedesk/public/js/tenant.js:32
 msgid "Suspended"
 msgstr ""
 
@@ -3845,11 +3901,6 @@ msgstr "Die neuen Tage plus alles Übertragene. Wird beim Speichern berechnet, E
 msgid "The new designation, kept on the document so the list and a filter can reach what is otherwise only a child row."
 msgstr "Die neue Position, auf dem Dokument gehalten, damit Liste und Filter sie erreichen — sonst ist sie nur eine Tabellenzeile."
 
-#. Description of the 'Backup At Archive' (Data) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "The offsite backup press held when this was archived. Recorded rather than copied: the bytes are press's and stay there, and their retention is what governs. We keep the name so somebody can ask for it."
-msgstr "Die externe Sicherung, die Frappe Cloud bei der Archivierung vorhielt. Notiert statt kopiert: Die Bytes gehören Frappe Cloud und bleiben dort, und deren Aufbewahrungsfrist gilt. Wir behalten den Namen, damit jemand danach fragen kann."
-
 #: onedesk/one_hr/rules.py:32
 msgid "The passkey was not unlocked with a face, fingerprint or PIN."
 msgstr "Der Passkey wurde nicht per Gesicht, Fingerabdruck oder PIN entsperrt."
@@ -3862,11 +3913,6 @@ msgstr "Das Telefon gab den Passkey erst nach Gesicht, Fingerabdruck oder PIN fr
 #: onedesk/one_hr/rules.py:38
 msgid "The position was less accurate than the location it matched."
 msgstr "Die Position war ungenauer als der Ort, dem sie zugeordnet wurde."
-
-#. Description of the 'Bench' (Data) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "The press bench group this site was created on."
-msgstr "Die Bench-Gruppe bei Frappe Cloud, auf der diese Site angelegt wurde."
 
 #: onedesk/public/js/shift_request.js:11
 msgid "The request is closed and nobody is assigned anything."
@@ -3897,11 +3943,6 @@ msgstr "Der Status, der an jedem Tag eines genehmigten Antrags erfasst wird. Nur
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 msgid "The step to run next. A job resumes here, so a worker restart mid-provision loses nothing."
 msgstr "Der als Nächstes auszuführende Schritt. Ein Auftrag setzt hier wieder an, ein Neustart des Workers mitten in der Einrichtung verliert also nichts."
-
-#. Description of the 'Slug' (Data) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "The subdomain, and this record's name. Never reused: a slug that has been live once names a workspace somebody may still have a link to."
-msgstr "Die Subdomain und zugleich der Name dieses Datensatzes. Wird nie wiederverwendet: Eine Kennung, die einmal live war, benennt einen Arbeitsbereich, auf den jemand noch einen Link haben kann."
 
 #. Description of the 'Stripe' (Section Break) field in DocType 'One Admin
 #. Settings'
@@ -4187,6 +4228,11 @@ msgstr ""
 msgid "Waiting"
 msgstr "Wartend"
 
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:13
+#: onedesk/public/js/tenant.js:28
+msgid "Waiting to be built"
+msgstr "Wartet auf den Aufbau"
+
 #. Description of the 'Frappe Cloud' (Section Break) field in DocType 'One
 #. Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -4224,11 +4270,6 @@ msgstr "Wöchentlicher freier Tag"
 #: onedesk/one_hr/custom/overtime_details.json
 msgid "What Attendance recorded, before the type's maximum was applied."
 msgstr "Was die Anwesenheit erfasst hat, bevor das Maximum der Art angewendet wurde."
-
-#. Description of the 'Domain' (Data) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "What a customer types. The site is reached here whatever press calls it."
-msgstr "Was ein Kunde eintippt. Die Site ist hier erreichbar, wie auch immer Frappe Cloud sie nennt."
 
 #. Description of the 'Clock Attempt' (Link) field in DocType 'Employee
 #. Checkin'
@@ -4277,11 +4318,6 @@ msgstr "Wie sich der Browser bei der Registrierung des Passkeys bezeichnet hat."
 msgid "What the company hands over up front, before anything is spent or claimed."
 msgstr "Was das Unternehmen im Voraus auszahlt, bevor etwas ausgegeben oder beantragt wird."
 
-#. Description of the 'Held' (Long Int) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "What the last measurement found."
-msgstr "Was die letzte Messung ergeben hat."
-
 #. Description of the 'Note' (Small Text) field in DocType 'Attendance Request'
 #. Description of the 'Note' (Small Text) field in DocType 'Expense Claim'
 #. Description of the 'Note' (Small Text) field in DocType 'Leave Application'
@@ -4319,11 +4355,6 @@ msgstr "Was vor diesem Antrag noch übrig war. Die Tabelle oben zählt diesen An
 msgid "What this job is walking. Each kind has its own list of steps in one_admin/steps.py, and only a Provision that fails marks the workspace Failed — a failed archive must not turn a live workspace into a broken one."
 msgstr "Was dieser Auftrag abarbeitet. Jede Art hat ihre eigene Schrittliste in one_admin/steps.py, und nur eine gescheiterte Einrichtung setzt den Arbeitsbereich auf Gescheitert — eine gescheiterte Archivierung darf aus einem laufenden Arbeitsbereich keinen kaputten machen."
 
-#. Description of the 'The site' (Section Break) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "What we asked press for, rather than a copy of what press holds. It has to be readable when press is not."
-msgstr "Was wir bei Frappe Cloud bestellt haben, keine Kopie dessen, was dort liegt. Es muss lesbar sein, wenn Frappe Cloud es nicht ist."
-
 #. Label of the one_when (Data) field in DocType 'Timesheet Detail'
 #: onedesk/one_hr/custom/timesheet_detail.json
 msgid "When"
@@ -4335,8 +4366,8 @@ msgstr "Wann wird gearbeitet?"
 
 #. Description of the 'On This Rung Since' (Datetime) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "When it arrived where it is. Empty means the ladder leaves it alone — a clock that deletes data on a missing field is a clock that deletes data on a failed migration."
-msgstr "Wann er dort ankam, wo er ist. Leer heißt, die Leiter lässt ihn in Ruhe — eine Uhr, die bei einem fehlenden Feld Daten löscht, löscht Daten bei einer fehlgeschlagenen Migration."
+msgid "When it arrived on this rung. Empty means the ladder leaves it alone."
+msgstr "Wann er auf dieser Stufe ankam. Leer heißt, die Leiter lässt ihn in Ruhe."
 
 #. Label of the ladder_section (Section Break) field in DocType 'One Admin
 #. Settings'
@@ -4429,6 +4460,7 @@ msgstr "Arbeit an einem freien Tag"
 
 #. Label of the workspace_name (Data) field in DocType 'Account Request'
 #. Label of the workspace_name (Data) field in DocType 'Tenant'
+#. Label of the tab_workspace (Tab Break) field in DocType 'Tenant'
 #. Label of the tenant (Link) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
@@ -4462,11 +4494,6 @@ msgstr ""
 #: onedesk/one_hr/custom/attendance_request.json
 msgid "Write attendance on the holidays inside these dates as well. Left off, holidays in the range are skipped."
 msgstr "Auch an den Feiertagen innerhalb dieser Daten Anwesenheit erfassen. Ohne Haken werden Feiertage im Zeitraum übersprungen."
-
-#. Description of the 'Stripe Customer' (Data) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "Written when the first checkout completes. It is how an invoice event later finds its way back to a workspace, since an invoice names a customer and not a request."
-msgstr "Wird beim ersten abgeschlossenen Bezahlvorgang geschrieben. Darüber findet ein späteres Rechnungsereignis zurück zu einem Arbeitsbereich, denn eine Rechnung nennt einen Kunden und keine Anfrage."
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:45
 msgid "Year"
@@ -4567,6 +4594,18 @@ msgstr "kein Passkey registriert"
 msgid "nobody yet"
 msgstr "noch niemand"
 
+#: onedesk/public/js/desk.js:143
+msgid "nothing"
+msgstr "nichts"
+
+#: onedesk/public/js/tenant.js:46
+msgid "of {0}"
+msgstr "von {0}"
+
+#: onedesk/public/js/tenant.js:53
+msgid "on this rung since {0}"
+msgstr "auf dieser Stufe seit {0}"
+
 #: onedesk/public/js/appraisal.js:25
 msgid "the self appraisal"
 msgstr "die Selbsteinschätzung"
@@ -4574,6 +4613,10 @@ msgstr "die Selbsteinschätzung"
 #: onedesk/public/js/vehicle_log.js:35
 msgid "units"
 msgstr "Einheiten"
+
+#: onedesk/public/js/tenant.js:47
+msgid "unmetered"
+msgstr "ohne Begrenzung"
 
 #: onedesk/www/welcome.html:8
 msgid "whenever you like."
@@ -4649,6 +4692,10 @@ msgstr "Für {0} gibt es keinen Stripe-Preis."
 msgid "{0} has no attendance marked on {1}."
 msgstr "Für {0} ist am {1} keine Anwesenheit erfasst."
 
+#: onedesk/one_admin/operator.py:120
+msgid "{0} has not failed."
+msgstr "{0} ist nicht gescheitert."
+
 #: onedesk/public/js/employee.js:109
 msgid "{0} hours"
 msgstr ""
@@ -4660,6 +4707,10 @@ msgstr "{0} gehört bereits zu einem anderen Arbeitsbereich."
 #: onedesk/one_hr/overtime.py:89
 msgid "{0} is marked {1} on {2}. Overtime is only paid on a day marked {3}."
 msgstr "{0} ist am {2} als {1} erfasst. Überstunden werden nur an einem als {3} erfassten Tag vergütet."
+
+#: onedesk/one_admin/operator.py:68
+msgid "{0} is not a rung an operator sets."
+msgstr "{0} ist keine Stufe, die ein Betreiber setzt."
 
 #: onedesk/one_hr/doctype/clock_network/clock_network.py:14
 msgid "{0} is not a valid address or range. Example: 203.0.113.7 or 203.0.113.0/24"
@@ -4730,6 +4781,10 @@ msgstr "{0} registriert beim nächsten Einchecken einen neuen Passkey. Der alte 
 #: onedesk/public/js/overtime_slip.js:82
 msgid "{0} worked, {1} paid"
 msgstr "{0} geleistet, {1} vergütet"
+
+#: onedesk/public/js/tenant.js:52
+msgid "{0} {1}"
+msgstr ""
 
 #: onedesk/public/js/employee_promotion.js:31
 msgid "{0} {1} → {2}"

@@ -7,6 +7,7 @@
  "editable_grid": 0,
  "engine": "InnoDB",
  "field_order": [
+  "tab_workspace",
   "slug",
   "workspace_name",
   "column_break_who",
@@ -23,9 +24,7 @@
   "domain",
   "primary_domain",
   "column_break_site",
-  "token_hash",
-  "live_on",
-  "status_since",
+  "tab_billing",
   "billing_section",
   "stripe_customer",
   "stripe_subscription",
@@ -35,24 +34,29 @@
   "storage_bytes",
   "storage_pending",
   "column_break_storage",
-  "storage_limit"
+  "storage_limit",
+  "tab_history",
+  "live_on",
+  "status_since",
+  "column_break_history",
+  "token_hash"
  ],
  "fields": [
   {
-   "description": "The subdomain, and this record's name. Never reused: a slug that has been live once names a workspace somebody may still have a link to.",
    "fieldname": "slug",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Slug",
    "reqd": 1,
    "unique": 1,
-   "set_only_once": 1
+   "set_only_once": 1,
+   "read_only": 1
   },
   {
    "fieldname": "workspace_name",
    "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Workspace"
+   "label": "Workspace",
+   "read_only": 1,
+   "in_list_view": 1
   },
   {
    "fieldname": "column_break_who",
@@ -62,37 +66,39 @@
    "default": "Requested",
    "fieldname": "status",
    "fieldtype": "Select",
-   "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Status",
    "options": "Requested\nProvisioning\nLive\nOverdue\nSuspended\nArchived\nDropped\nFailed",
    "reqd": 1,
-   "description": "Live, Overdue, Suspended, Archived and Dropped are the ladder, walked one rung at a time by one_admin/ladder.py. Requested, Provisioning and Failed are not on it: only a payment failing moves a workspace off Live, and only a clock moves it further."
+   "description": "Set by the ladder and by the buttons above. Never typed.",
+   "read_only": 1,
+   "in_list_view": 1
   },
   {
    "fieldname": "owner_email",
    "fieldtype": "Data",
    "label": "Owner",
-   "options": "Email"
+   "options": "Email",
+   "read_only": 1
   },
   {
    "fieldname": "place_section",
    "fieldtype": "Section Break",
-   "label": "Where it lives",
-   "description": "One choice at signup sets both, and jurisdiction is permanent: R2 pins a bucket to it at creation, so changing it later means copying every object."
+   "label": "Where it lives"
   },
   {
-   "description": "A press cluster. Read from press rather than kept in a table here.",
    "fieldname": "cluster",
    "fieldtype": "Data",
    "label": "Cluster",
-   "set_only_once": 1
+   "set_only_once": 1,
+   "read_only": 1
   },
   {
    "fieldname": "country",
    "fieldtype": "Link",
    "label": "Country",
-   "options": "Country"
+   "options": "Country",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_place",
@@ -105,19 +111,21 @@
    "label": "Jurisdiction",
    "options": "Global\nEU",
    "reqd": 1,
-   "set_only_once": 1
+   "set_only_once": 1,
+   "description": "Permanent. Changing it would mean copying every object.",
+   "read_only": 1,
+   "in_standard_filter": 1
   },
   {
-   "description": "The press bench group this site was created on.",
    "fieldname": "bench",
    "fieldtype": "Data",
-   "label": "Bench"
+   "label": "Bench",
+   "read_only": 1
   },
   {
    "fieldname": "site_section",
    "fieldtype": "Section Break",
-   "label": "The site",
-   "description": "What we asked press for, rather than a copy of what press holds. It has to be readable when press is not."
+   "label": "The site"
   },
   {
    "fieldname": "site",
@@ -126,11 +134,11 @@
    "read_only": 1
   },
   {
-   "description": "What a customer types. The site is reached here whatever press calls it.",
    "fieldname": "domain",
    "fieldtype": "Data",
    "label": "Domain",
-   "read_only": 1
+   "read_only": 1,
+   "in_list_view": 1
   },
   {
    "fieldname": "primary_domain",
@@ -138,14 +146,14 @@
    "label": "Main Address",
    "options": "Tenant Domain",
    "read_only": 1,
-   "description": "One of the customer's own names, once they have asked for it. Empty means the workspace is still called what we called it. Press writes this into the site's own config, which is what makes a link in an email use it."
+   "description": "Empty means the workspace is still called what we called it."
   },
   {
    "fieldname": "column_break_site",
    "fieldtype": "Column Break"
   },
   {
-   "description": "Only ever a hash. The token itself is written into that site's own config once and never read back.",
+   "description": "A hash. The token itself was written into the site once and never read back.",
    "fieldname": "token_hash",
    "fieldtype": "Data",
    "hidden": 1,
@@ -163,7 +171,7 @@
    "fieldtype": "Datetime",
    "label": "On This Rung Since",
    "read_only": 1,
-   "description": "When it arrived where it is. Empty means the ladder leaves it alone — a clock that deletes data on a missing field is a clock that deletes data on a failed migration."
+   "description": "When it arrived on this rung. Empty means the ladder leaves it alone."
   },
   {
    "fieldname": "billing_section",
@@ -174,8 +182,7 @@
    "fieldname": "stripe_customer",
    "fieldtype": "Data",
    "label": "Stripe Customer",
-   "read_only": 1,
-   "description": "Written when the first checkout completes. It is how an invoice event later finds its way back to a workspace, since an invoice names a customer and not a request."
+   "read_only": 1
   },
   {
    "fieldname": "stripe_subscription",
@@ -192,27 +199,26 @@
    "fieldtype": "Data",
    "label": "Backup At Archive",
    "read_only": 1,
-   "description": "The offsite backup press held when this was archived. Recorded rather than copied: the bytes are press's and stay there, and their retention is what governs. We keep the name so somebody can ask for it."
+   "description": "Press holds the bytes; we keep the name."
   },
   {
    "fieldname": "storage_section",
    "fieldtype": "Section Break",
-   "label": "Storage",
-   "description": "Measured by listing the prefix, not reported by the workspace. A workspace that reports its own usage is a workspace that can under-report it."
+   "label": "Storage"
   },
   {
    "fieldname": "storage_bytes",
    "fieldtype": "Long Int",
    "label": "Held",
    "read_only": 1,
-   "description": "What the last measurement found."
+   "in_list_view": 1
   },
   {
    "fieldname": "storage_pending",
    "fieldtype": "Long Int",
    "label": "Promised",
    "read_only": 1,
-   "description": "Signed for since that measurement. A signed URL is a promise somebody may keep, so it counts until the next measurement says whether it was."
+   "description": "Signed for since the last measurement."
   },
   {
    "fieldname": "column_break_storage",
@@ -222,7 +228,28 @@
    "fieldname": "storage_limit",
    "fieldtype": "Long Int",
    "label": "Limit",
-   "description": "Bytes, so it is a Long Int: twenty-five gigabytes does not fit in an Int. Zero means unmetered — a plan with no storage line is a plan nobody thought about, and refusing every upload is the worse answer."
+   "description": "Bytes. Zero is unmetered.",
+   "read_only": 1
+  },
+  {
+   "fieldname": "tab_workspace",
+   "fieldtype": "Tab Break",
+   "label": "Workspace"
+  },
+  {
+   "fieldname": "tab_billing",
+   "fieldtype": "Tab Break",
+   "label": "Billing and storage"
+  },
+  {
+   "fieldname": "tab_history",
+   "fieldtype": "Tab Break",
+   "label": "History",
+   "show_dashboard": 1
+  },
+  {
+   "fieldname": "column_break_history",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 0,
@@ -244,12 +271,15 @@
    "report": 1,
    "role": "One Operator",
    "share": 1,
-   "write": 1
+   "write": 0
   }
  ],
- "sort_field": "creation",
+ "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
  "track_changes": 1,
- "description": "A workspace is made by a paid Account Request, never by hand: one typed here has no site, no token and no job, and every screen that reads it would be reading a lie."
+ "description": "A workspace is made by a paid Account Request, never by hand: one typed here has no site, no token and no job, and every screen that reads it would be reading a lie.",
+ "title_field": "workspace_name",
+ "show_title_field_in_link": 1,
+ "search_fields": "workspace_name,domain,site,owner_email"
 }
