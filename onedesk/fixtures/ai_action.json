@@ -1,0 +1,26 @@
+[
+ {
+  "doctype": "AI Action",
+  "name": "summarise",
+  "key": "summarise",
+  "label": "Summarise",
+  "capability": "Text Generation",
+  "enabled": 1,
+  "instruction": "Summarise what follows in three sentences or fewer.\nUse only what is in it. Do not add, guess or explain.\nIf there is not enough to summarise, say so in one sentence.",
+  "max_output_tokens": 300,
+  "max_input_tokens": 0,
+  "about": "Three sentences or fewer, using only what is there."
+ },
+ {
+  "doctype": "AI Action",
+  "name": "reply",
+  "key": "reply",
+  "label": "Draft a Reply",
+  "capability": "Text Generation",
+  "enabled": 1,
+  "instruction": "Draft a reply to the message that follows.\nAnswer only what it asks. Do not invent facts, dates, prices or names.\nWhere an answer is not in the message, leave a blank in square brackets for a person to fill in.\nEnd without a signature.",
+  "max_output_tokens": 600,
+  "max_input_tokens": 0,
+  "about": "A draft to edit, with blanks where it does not know."
+ }
+]

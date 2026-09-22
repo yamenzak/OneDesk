@@ -38,7 +38,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| AI Model | 24 | document |
+| AI Model | 25 | document |
 | AI Model Rate | 7 | child |
 | Account Request | 16 | document |
 | Credit Ledger Entry | 14 | submittable |
@@ -50,6 +50,15 @@ No doctypes yet.
 | Tenant | 33 | document |
 | Tenant Domain | 7 | document |
 | Tenant Event | 4 | document |
+
+## One AI
+
+`onedesk/one_ai`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| AI Action | 13 | document |
+| AI Action Setting | 6 | document |
 
 ## Desk records shipped as fixtures
 
@@ -81,7 +90,8 @@ No doctypes yet.
 * `onedesk.one_admin.operator.sync_catalogue`
 * `onedesk.one_admin.operator.try_the_gateway`
 * `onedesk.one_admin.operator.walk`
-* `onedesk.one_admin.proxy.ai_call`
+* `onedesk.one_admin.proxy.ai_models`
+* `onedesk.one_admin.proxy.ai_run`
 * `onedesk.one_admin.proxy.domain_add`
 * `onedesk.one_admin.proxy.domain_check`
 * `onedesk.one_admin.proxy.domain_drop`
@@ -95,6 +105,8 @@ No doctypes yet.
 * `onedesk.one_admin.signup.available`
 * `onedesk.one_admin.signup.start`
 * `onedesk.one_admin.stripe.webhook`
+* `onedesk.one_ai.run.models`
+* `onedesk.one_ai.run.try_it`
 * `onedesk.one_hr.clock.punch`
 * `onedesk.one_hr.clock.ready`
 * `onedesk.one_hr.employee.overview`

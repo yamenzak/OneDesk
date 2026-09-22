@@ -1,0 +1,88 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "field:action",
+ "creation": "2026-09-22 23:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "naming_rule": "By fieldname",
+ "field_order": [
+  "action",
+  "action_label",
+  "column_break_what",
+  "model",
+  "extra_section",
+  "extra"
+ ],
+ "fields": [
+  {
+   "fieldname": "action",
+   "fieldtype": "Link",
+   "label": "Action",
+   "options": "AI Action",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "action_label",
+   "fieldtype": "Data",
+   "label": "Action",
+   "fetch_from": "action.label",
+   "read_only": 1,
+   "hidden": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "column_break_what",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "model",
+   "fieldtype": "Select",
+   "label": "Model",
+   "in_list_view": 1,
+   "description": "Empty uses whichever model the account has set as the default for this.",
+   "options": ""
+  },
+  {
+   "fieldname": "extra_section",
+   "fieldtype": "Section Break",
+   "label": "Your Instructions"
+  },
+  {
+   "fieldname": "extra",
+   "fieldtype": "Small Text",
+   "label": "Added Instructions",
+   "description": "Added to the instruction this action already carries. It is never replaced."
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-22 23:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One AI",
+ "name": "AI Action Setting",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "description": "What this workspace wants one action to run on, and what it wants added to it.",
+ "title_field": "action_label"
+}

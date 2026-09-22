@@ -11,13 +11,8 @@ and video. So a model now carries what it *makes* and what it can be *fed*, the
 second is a set, and the one word on the list is derived from both.
 """
 
-#: What each provider's own word for a model says it **produces** and what it
-#: **reads**. Two facts rather than one, because one word was wrong: Gemini
-#: Flash was filed as text generation while its own price page lists input rates
-#: for text, images, audio and video.
-#:
-#: Cloudflare says this exactly, in `task.name`, and it is the better of the two
-#: signals.
+#: Cloudflare's `task.name`, which says plainly what a model does and is the
+#: better of the two providers' signals.
 A_TASK = {
 	"text generation": ("text", {"text"}),
 	"image-to-text": ("text", {"text", "image"}),
@@ -33,10 +28,8 @@ A_TASK = {
 	"text classification": ("text", {"text"}),
 }
 
-#: Google says what a model may be *called* with rather than what it does, which
-#: is a much weaker signal — `generateContent` is the general one and covers
-#: reading pictures as well as writing text. So it only sets a floor, and the
-#: published rates raise it.
+#: Google says what a model may be *called* with rather than what it does, so
+#: this only sets a floor and the published rates raise it.
 A_METHOD = {
 	"embedcontent": ("embedding", {"text"}),
 	"batchembedcontents": ("embedding", {"text"}),
@@ -46,9 +39,6 @@ A_METHOD = {
 	"generatecontent": ("text", {"text"}),
 }
 
-#: The one word a list shows, derived from the two facts above. Nothing is
-#: stored that a person maintains: an action asks for a capability and the
-#: picker filters on `reads_*` and this together.
 def named(produces: str, reads: set[str]) -> str:
 	if produces == "embedding":
 		return "Embedding"
@@ -75,3 +65,35 @@ def named(produces: str, reads: set[str]) -> str:
 	if "audio" in others:
 		return "Transcription"
 	return "Text Generation"
+
+
+#: Which capabilities cover which. A model that reads more than a job needs can
+#: still do the job; one that reads less cannot. Written down rather than worked
+#: out, because "may this model do this job" is a decision, and a table of them
+#: is a thing somebody can read and disagree with.
+COVERS = {
+	# Not Transcription: a model that reads sound and nothing else cannot answer
+	# a job that hands it text, however much text it writes back. Caught by
+	# offering whisper and watching it turn up as a candidate summariser.
+	"Text Generation": {"Text Generation", "Vision", "Multimodal"},
+	"Vision": {"Vision", "Multimodal"},
+	"Transcription": {"Transcription", "Multimodal"},
+	"Multimodal": {"Multimodal"},
+	"Image Generation": {"Image Generation"},
+	"Video Generation": {"Video Generation"},
+	"Audio Generation": {"Audio Generation"},
+	"Embedding": {"Embedding"},
+}
+
+#: Every word a model or an action may carry, so a Select option added to one
+#: and not the other fails a guard rather than a picker.
+WORDS = tuple(COVERS)
+
+
+def covers(needed: str) -> set[str]:
+	"""The model capabilities that can answer an action needing this one."""
+	return COVERS.get(needed) or set()
+
+
+def able(model_says: str, action_needs: str) -> bool:
+	return model_says in covers(action_needs)

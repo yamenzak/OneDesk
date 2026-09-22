@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 16:43+0000\n"
-"PO-Revision-Date: 2026-09-22 16:43+0000\n"
+"POT-Creation-Date: 2026-09-22 17:12+0000\n"
+"PO-Revision-Date: 2026-09-22 17:12+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -100,7 +100,7 @@ msgstr ""
 msgid "A ledger entry of zero credits records nothing."
 msgstr ""
 
-#: onedesk/one_admin/doctype/ai_model/ai_model.py:32
+#: onedesk/one_admin/doctype/ai_model/ai_model.py:50
 msgid "A markup below nothing would pay somebody to call the model."
 msgstr ""
 
@@ -111,6 +111,11 @@ msgstr ""
 
 #: onedesk/one_admin/doctype/ai_model/ai_model.py:29
 msgid "A model priced by hand needs at least one rate on it."
+msgstr ""
+
+#. Description of the 'Needs' (Select) field in DocType 'AI Action'
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
+msgid "A model that can do more than this may still answer it."
 msgstr ""
 
 #: onedesk/one_hr/doctype/clock_network/clock_network.py:24
@@ -130,7 +135,7 @@ msgstr ""
 msgid "A queued unit of work against a workspace. Created by the system."
 msgstr ""
 
-#: onedesk/one_admin/doctype/ai_model/ai_model.py:36
+#: onedesk/one_admin/doctype/ai_model/ai_model.py:54
 msgid "A rate needs a unit, how many of them, and what they cost."
 msgstr ""
 
@@ -172,8 +177,27 @@ msgstr ""
 msgid "A {0} does not carry {1}."
 msgstr ""
 
+#: onedesk/one_admin/doctype/ai_model/ai_model.py:38
+msgid "A {0} model cannot be the default for {1}."
+msgstr ""
+
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.py:36
 msgid "A {0} of {1} credits points the wrong way."
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one/sidebar/one/one.json
+msgid "AI"
+msgstr ""
+
+#. Name of a DocType
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
+msgid "AI Action"
+msgstr ""
+
+#. Name of a DocType
+#: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
+msgid "AI Action Setting"
 msgstr ""
 
 #. Label of the ai_section (Section Break) field in DocType 'One Admin
@@ -197,6 +221,11 @@ msgstr ""
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "API Token"
+msgstr ""
+
+#. Label of the about (Small Text) field in DocType 'AI Action'
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
+msgid "About"
 msgstr ""
 
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
@@ -258,6 +287,12 @@ msgstr ""
 msgid "Accurate to about {0} metres."
 msgstr ""
 
+#. Label of the action (Link) field in DocType 'AI Action Setting'
+#. Label of the action_label (Data) field in DocType 'AI Action Setting'
+#: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
+msgid "Action"
+msgstr ""
+
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
 #. Option for the 'Status' (Select) field in DocType 'Clock Device'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
@@ -300,6 +335,25 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Add-on"
+msgstr ""
+
+#. Label of the extra (Small Text) field in DocType 'AI Action Setting'
+#: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
+msgid "Added Instructions"
+msgstr ""
+
+#: onedesk/public/js/ai_action_setting.js:68
+msgid "Added after this:"
+msgstr ""
+
+#: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.py:27
+msgid "Added instructions are {0} characters; the most is {1}."
+msgstr ""
+
+#. Description of the 'Added Instructions' (Small Text) field in DocType 'AI
+#. Action Setting'
+#: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
+msgid "Added to the instruction this action already carries. It is never replaced."
 msgstr ""
 
 #. Description of the 'total_hours' field in DocType 'Timesheet'
@@ -380,6 +434,10 @@ msgstr ""
 #. Label of the amount (Currency) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Amount"
+msgstr ""
+
+#: onedesk/one_ai/doctype/ai_action/ai_action.py:25
+msgid "An action with no instruction is a prompt with no shape."
 msgstr ""
 
 #. Description of the 'Approved Request' (Link) field in DocType 'Clock
@@ -568,7 +626,8 @@ msgstr ""
 msgid "Asking {0}…"
 msgstr ""
 
-#: onedesk/public/js/admin_settings.js:31 onedesk/public/js/ai_model.js:83
+#: onedesk/public/js/admin_settings.js:31
+#: onedesk/public/js/ai_action_setting.js:85 onedesk/public/js/ai_model.js:83
 msgid "Asking…"
 msgstr ""
 
@@ -647,7 +706,10 @@ msgid "Audio"
 msgstr ""
 
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#. Option for the 'Default For' (Select) field in DocType 'AI Model'
+#. Option for the 'Needs' (Select) field in DocType 'AI Action'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Audio Generation"
 msgstr ""
 
@@ -1326,6 +1388,11 @@ msgstr ""
 msgid "Declared is entered by a person. Proposed is suggested by Learn New Networks, and becomes Confirmed once the Confirmation Threshold is met, or when somebody confirms it here. Rejected is never proposed again."
 msgstr ""
 
+#. Label of the default_for (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Default For"
+msgstr ""
+
 #. Label of the default_markup (Float) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Default Markup"
@@ -1519,7 +1586,10 @@ msgid "Email Group"
 msgstr ""
 
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#. Option for the 'Default For' (Select) field in DocType 'AI Model'
+#. Option for the 'Needs' (Select) field in DocType 'AI Action'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Embedding"
 msgstr ""
 
@@ -1647,10 +1717,22 @@ msgstr ""
 msgid "Empty uses the default in One Admin Settings."
 msgstr ""
 
+#. Description of the 'Model' (Select) field in DocType 'AI Action Setting'
+#: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
+#: onedesk/public/js/ai_action_setting.js:56
+msgid "Empty uses whichever model the account has set as the default for this."
+msgstr ""
+
+#: onedesk/public/js/ai_action_setting.js:55
+msgid "Empty uses {0}."
+msgstr ""
+
 #. Label of the enabled (Check) field in DocType 'Offering'
+#. Label of the enabled (Check) field in DocType 'AI Action'
 #. Label of the enabled (Check) field in DocType 'Attendance Reason'
 #. Label of the enabled (Check) field in DocType 'Clock Reason'
 #: onedesk/one_admin/doctype/offering/offering.json
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
 msgid "Enabled"
@@ -2173,7 +2255,10 @@ msgid "Image"
 msgstr ""
 
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#. Option for the 'Default For' (Select) field in DocType 'AI Model'
+#. Option for the 'Needs' (Select) field in DocType 'AI Action'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Image Generation"
 msgstr ""
 
@@ -2210,6 +2295,17 @@ msgstr ""
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Income Tax Slab"
+msgstr ""
+
+#. Label of the max_input_tokens (Int) field in DocType 'AI Action'
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
+msgid "Input Tokens"
+msgstr ""
+
+#. Label of the instruction_section (Section Break) field in DocType 'AI
+#. Action'
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
+msgid "Instruction"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -2310,7 +2406,9 @@ msgid "KRA"
 msgstr ""
 
 #. Label of the key (Data) field in DocType 'Offering'
+#. Label of the key (Data) field in DocType 'AI Action'
 #: onedesk/one_admin/doctype/offering/offering.json
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Key"
 msgstr ""
 
@@ -2328,7 +2426,9 @@ msgid "Kind"
 msgstr ""
 
 #. Label of the label (Data) field in DocType 'Offering'
+#. Label of the label (Data) field in DocType 'AI Action'
 #: onedesk/one_admin/doctype/offering/offering.json
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Label"
 msgstr ""
 
@@ -2553,6 +2653,11 @@ msgstr ""
 msgid "Limit"
 msgstr ""
 
+#. Label of the limits_section (Section Break) field in DocType 'AI Action'
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
+msgid "Limits"
+msgstr ""
+
 #. Label of the 'get_employees' field in DocType 'Employee Attendance Tool'
 #: onedesk/one_hr/custom/employee_attendance_tool.json
 msgid "List Everyone Unmarked"
@@ -2681,9 +2786,11 @@ msgid "Modality"
 msgstr ""
 
 #. Label of the model (Data) field in DocType 'AI Model'
+#. Label of the model (Select) field in DocType 'AI Action Setting'
 #. Label of the model (Data) field in DocType 'Clock Attempt'
 #. Label of the model (Data) field in DocType 'Clock Device'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Model"
@@ -2706,7 +2813,10 @@ msgid "Monthly Attendance"
 msgstr ""
 
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#. Option for the 'Default For' (Select) field in DocType 'AI Model'
+#. Option for the 'Needs' (Select) field in DocType 'AI Action'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Multimodal"
 msgstr ""
 
@@ -2738,10 +2848,20 @@ msgstr ""
 msgid "Name of the offsite backup Frappe Cloud held when the site was archived."
 msgstr ""
 
+#. Description of the 'Key' (Data) field in DocType 'AI Action'
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
+msgid "Named in code. Do not change it once anything calls it."
+msgstr ""
+
 #. Label of the 'section_break_ackd' field in DocType 'Employee Attendance
 #. Tool'
 #: onedesk/one_hr/custom/employee_attendance_tool.json
 msgid "Narrow the List"
+msgstr ""
+
+#. Label of the capability (Select) field in DocType 'AI Action'
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
+msgid "Needs"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'AI Model'
@@ -3059,6 +3179,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "One Operator"
 msgstr ""
 
@@ -3090,6 +3211,11 @@ msgstr ""
 
 #: onedesk/public/js/setup_wizard.js:40
 msgid "One shift and one holiday list to start with. Both can be changed, and more added, later."
+msgstr ""
+
+#. Description of a DocType
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
+msgid "One thing a model is asked to do, and the instruction it is asked with."
 msgstr ""
 
 #: onedesk/public/js/offering.js:35
@@ -3260,6 +3386,8 @@ msgstr ""
 msgid "Outcome"
 msgstr ""
 
+#. Label of the max_output_tokens (Int) field in DocType 'AI Action'
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/public/js/ai_model.js:74
 msgid "Output Tokens"
 msgstr ""
@@ -4002,6 +4130,7 @@ msgstr ""
 
 #. Option for the 'Source' (Select) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+#: onedesk/public/js/ai_action_setting.js:82
 msgid "Run"
 msgstr ""
 
@@ -4120,6 +4249,12 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 msgid "Selling"
+msgstr ""
+
+#. Description of the 'System Instruction' (Small Text) field in DocType 'AI
+#. Action'
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
+msgid "Sent as the system instruction. A workspace may add to this and can never replace it."
 msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:35
@@ -4525,8 +4660,15 @@ msgstr ""
 msgid "Synced through iCloud Keychain or Google Password Manager, so it is also present on the employee's other devices."
 msgstr ""
 
+#. Label of the instruction (Small Text) field in DocType 'AI Action'
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
+msgid "System Instruction"
+msgstr ""
+
 #. Name of a role
 #: onedesk/one/doctype/workspace_account/workspace_account.json
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
+#: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
 msgid "System Manager"
 msgstr ""
 
@@ -4578,11 +4720,15 @@ msgstr ""
 
 #. Label of the reads_text (Check) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/public/js/ai_action_setting.js:79
 msgid "Text"
 msgstr ""
 
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#. Option for the 'Default For' (Select) field in DocType 'AI Model'
+#. Option for the 'Needs' (Select) field in DocType 'AI Action'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Text Generation"
 msgstr ""
 
@@ -4635,6 +4781,10 @@ msgstr ""
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "The Workers KV namespace the edge router reads. The API token needs Workers KV Storage: Edit on this namespace only."
+msgstr ""
+
+#: onedesk/public/js/ai_action_setting.js:57
+msgid "The account offers no model that can do this yet."
 msgstr ""
 
 #. Description of the 'Address' (Data) field in DocType 'Clock Attempt'
@@ -5005,7 +5155,10 @@ msgid "Training Result"
 msgstr ""
 
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#. Option for the 'Default For' (Select) field in DocType 'AI Model'
+#. Option for the 'Needs' (Select) field in DocType 'AI Action'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Transcription"
 msgstr ""
 
@@ -5021,6 +5174,11 @@ msgstr ""
 
 #: onedesk/public/js/job.js:83
 msgid "Tried {0} times."
+msgstr ""
+
+#: onedesk/public/js/ai_action_setting.js:11
+#: onedesk/public/js/ai_action_setting.js:77
+msgid "Try it"
 msgstr ""
 
 #: onedesk/public/js/admin_settings.js:9 onedesk/public/js/admin_settings.js:17
@@ -5151,12 +5309,18 @@ msgid "Video"
 msgstr ""
 
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#. Option for the 'Default For' (Select) field in DocType 'AI Model'
+#. Option for the 'Needs' (Select) field in DocType 'AI Action'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Video Generation"
 msgstr ""
 
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#. Option for the 'Default For' (Select) field in DocType 'AI Model'
+#. Option for the 'Needs' (Select) field in DocType 'AI Action'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Vision"
 msgstr ""
 
@@ -5220,6 +5384,16 @@ msgstr ""
 msgid "What It Reads"
 msgstr ""
 
+#. Description of the 'About' (Small Text) field in DocType 'AI Action'
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
+msgid "What a workspace administrator reads beside it."
+msgstr ""
+
+#. Description of the 'Default For' (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "What an action needing this runs on when a workspace has picked nothing."
+msgstr ""
+
 #. Description of the 'Reference' (Data) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 msgid "What caused this: a Stripe payment, a run, a person."
@@ -5252,6 +5426,11 @@ msgstr ""
 msgid "What the company hands over up front, before anything is spent or claimed."
 msgstr ""
 
+#. Description of the 'Output Tokens' (Int) field in DocType 'AI Action'
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
+msgid "What the hold is priced from before the call."
+msgstr ""
+
 #: onedesk/public/js/ai_model.js:76
 msgid "What the hold is priced from. The settle replaces it."
 msgstr ""
@@ -5280,6 +5459,11 @@ msgstr ""
 #. Description of a DocType
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 msgid "What this workspace last heard from its administrator."
+msgstr ""
+
+#. Description of a DocType
+#: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
+msgid "What this workspace wants one action to run on, and what it wants added to it."
 msgstr ""
 
 #. Label of the one_when (Data) field in DocType 'Timesheet Detail'
@@ -5466,6 +5650,12 @@ msgstr ""
 msgid "You checked in but never checked out, so a check out was written for you at the shift end. Tell HR if that is wrong."
 msgstr ""
 
+#. Label of the extra_section (Section Break) field in DocType 'AI Action
+#. Setting'
+#: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
+msgid "Your Instructions"
+msgstr ""
+
 #: onedesk/one_hr/closing.py:98
 msgid "Your check-in was closed at the end of your shift"
 msgstr ""
@@ -5489,6 +5679,11 @@ msgstr ""
 #. Description of the 'Offered' (Check) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Yours to decide. The sync never turns this on, and turns it off when a price stops being readable."
+msgstr ""
+
+#. Description of the 'Input Tokens' (Int) field in DocType 'AI Action'
+#: onedesk/one_ai/doctype/ai_action/ai_action.json
+msgid "Zero holds nothing for the prompt, so the settle may overdraw."
 msgstr ""
 
 #. Description of the 'Free Trial (Days)' (Int) field in DocType 'Offering'
@@ -5688,7 +5883,7 @@ msgstr ""
 msgid "{0} credits — the hold, because nothing could be metered."
 msgstr ""
 
-#: onedesk/public/js/ai_model.js:106
+#: onedesk/public/js/ai_action_setting.js:91 onedesk/public/js/ai_model.js:106
 msgid "{0} credits."
 msgstr ""
 
@@ -5748,8 +5943,16 @@ msgstr ""
 msgid "{0} is already on another workspace."
 msgstr ""
 
+#: onedesk/one_admin/doctype/ai_model/ai_model.py:47
+msgid "{0} is already the default for {1}."
+msgstr ""
+
 #: onedesk/one_hr/overtime.py:89
 msgid "{0} is marked {1} on {2}. Overtime is only paid on a day marked {3}."
+msgstr ""
+
+#: onedesk/one_ai/doctype/ai_action/ai_action.py:22
+msgid "{0} is not a capability any model carries."
 msgstr ""
 
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.py:50
@@ -5770,6 +5973,10 @@ msgstr ""
 
 #: onedesk/one_admin/ledger.py:297
 msgid "{0} is not a workspace."
+msgstr ""
+
+#: onedesk/one_admin/doctype/ai_model/ai_model.py:34
+msgid "{0} is not offered, so nothing can default to it."
 msgstr ""
 
 #: onedesk/one_admin/domains.py:222
@@ -5843,6 +6050,10 @@ msgstr ""
 
 #: onedesk/www/start.py:103
 msgid "{0} people"
+msgstr ""
+
+#: onedesk/public/js/ai_action_setting.js:32
+msgid "{0} runs on a model that can do {1}. Anything added below is added to the instruction it already carries, and never replaces it."
 msgstr ""
 
 #: onedesk/public/js/tenant.js:164

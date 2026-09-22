@@ -1,0 +1,148 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "field:key",
+ "creation": "2026-09-22 23:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "naming_rule": "By fieldname",
+ "title_field": "label",
+ "field_order": [
+  "key",
+  "label",
+  "column_break_what",
+  "capability",
+  "enabled",
+  "instruction_section",
+  "instruction",
+  "limits_section",
+  "max_output_tokens",
+  "column_break_limits",
+  "max_input_tokens",
+  "about_section",
+  "about"
+ ],
+ "fields": [
+  {
+   "fieldname": "key",
+   "fieldtype": "Data",
+   "label": "Key",
+   "reqd": 1,
+   "unique": 1,
+   "set_only_once": 1,
+   "description": "Named in code. Do not change it once anything calls it."
+  },
+  {
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "label": "Label",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_what",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "capability",
+   "fieldtype": "Select",
+   "label": "Needs",
+   "options": "\nText Generation\nVision\nMultimodal\nTranscription\nImage Generation\nVideo Generation\nAudio Generation\nEmbedding",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "A model that can do more than this may still answer it."
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "instruction_section",
+   "fieldtype": "Section Break",
+   "label": "Instruction"
+  },
+  {
+   "fieldname": "instruction",
+   "fieldtype": "Small Text",
+   "label": "System Instruction",
+   "reqd": 1,
+   "description": "Sent as the system instruction. A workspace may add to this and can never replace it."
+  },
+  {
+   "fieldname": "limits_section",
+   "fieldtype": "Section Break",
+   "label": "Limits"
+  },
+  {
+   "default": "300",
+   "fieldname": "max_output_tokens",
+   "fieldtype": "Int",
+   "label": "Output Tokens",
+   "description": "What the hold is priced from before the call."
+  },
+  {
+   "fieldname": "column_break_limits",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "max_input_tokens",
+   "fieldtype": "Int",
+   "label": "Input Tokens",
+   "description": "Zero holds nothing for the prompt, so the settle may overdraw."
+  },
+  {
+   "fieldname": "about_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "about",
+   "fieldtype": "Small Text",
+   "label": "About",
+   "description": "What a workspace administrator reads beside it."
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-22 23:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One AI",
+ "name": "AI Action",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "One Operator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 0,
+   "delete": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 0,
+   "write": 0
+  }
+ ],
+ "sort_field": "label",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 1,
+ "description": "One thing a model is asked to do, and the instruction it is asked with."
+}

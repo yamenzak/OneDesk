@@ -346,10 +346,38 @@ The operator gets `Price a call` on a model: a real call against a real
 workspace's real credits, because a number worked out any other way is a number
 nobody can check against a bill.
 
-**AI 5 — actions.** The `AI Action` fixture, the per-workspace `AI Action
-Setting` with its model picker filtered by capability and its appended wording,
-and the first two real actions so the shape is proved by use rather than by one
-speculative caller.
+**AI 5 — actions.** *Done.* The One AI module arrives, on every site, with
+`AI Action` as a fixture and `AI Action Setting` per workspace.
+`one_admin/actions.py` joins the two and is where the safety of the feature is
+actually written down.
+
+**Ours first, theirs after, never instead.** The action's instruction goes where
+each provider puts a *system* instruction rather than being glued onto the front
+of a prompt, a workspace's addition follows it, and between them is one sentence
+telling the model which wins. There is nowhere for a workspace to put anything
+that replaces ours: `proxy.ai_run` takes an action key, some text, a model and
+an addition, and no instruction — the instruction is read from the
+administrator's own copy of the fixture, which a tenant has nobody who may write.
+
+**The action exists on every site and decides on one.** A workspace carries the
+fixture so it knows what it may ask for and so its settings screen has labels to
+draw. Only `One Operator` may write it, and no user on a tenant holds that role.
+
+**A model answers only a job it can do.** `capability.COVERS` is the table and
+it is a decision rather than a derivation. Offering whisper caught the first
+version of it: a transcriber writes text back, so "Transcription covers Text
+Generation" looked right, and a model that reads sound and nothing else had
+turned up as a candidate summariser.
+
+**Nothing asks "which model" at the call site.** A workspace picks one on its
+settings screen — from a list the *account* answers with, filtered to what the
+action needs, because a workspace holds no catalogue — or picks nothing, and the
+operator's `default_for` answers. A picked model is checked again when the call
+is made, because the first check happened on a machine we do not control.
+
+The two shipped actions are `summarise` and `reply`. Both tell the model what
+*not* to do, which has a guard of its own: an action that only says what to
+write is an action that fills gaps with plausible fiction.
 
 **AI 6 — top-ups.** Stripe checkout from the One area, a webhook that posts a
 grant, and the idempotency that stops a retried webhook granting twice. Packs

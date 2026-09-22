@@ -180,21 +180,46 @@ def hello() -> dict:
 
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
-def ai_call(model: str, prompt: str, output_tokens: int = 0, reference: str | None = None) -> dict:
-	"""One model call, held and settled against this workspace's credits.
+def ai_run(
+	action: str,
+	text: str,
+	model: str | None = None,
+	extra: str | None = None,
+	reference: str | None = None,
+) -> dict:
+	"""One action, run for this workspace and billed to it.
 
-	The model is named by the workspace because at this stage nothing else can
-	name one. AI 5 puts an `AI Action` in front of this — a workspace picks a
-	model on a settings screen or does not, and the code that calls a model
-	never names one — and this endpoint becomes what that action reaches.
+	`model` and `extra` are the workspace's own settings, sent with the call
+	because they live on the workspace's site and admin never calls a workspace.
+	Both are checked here rather than trusted: the model against what is
+	offered and what the action needs, and the extra against a length, because
+	what a tenant sends is what a tenant's administrator typed.
 
-	The refusal for no credits happens inside, before the provider is touched.
+	The instruction the action carries is **not** sent — it is read here, from
+	the administrator's own copy of the fixture, which is the copy a workspace
+	cannot write.
 	"""
-	from onedesk.one_admin import gateway
+	from onedesk.one_admin import actions
 
 	tenant = caller()
-	caps = {"output_tokens": int(output_tokens)} if output_tokens else {}
-	return gateway.call(model, prompt, tenant.name, caps=caps, reference=reference)
+	return actions.run(
+		tenant.name, action, text, model=model, extra=extra, reference=reference
+	)
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def ai_models(needs: str) -> list[dict]:
+	"""The models this workspace may pick for an action needing this capability.
+
+	A workspace holds no catalogue — the models, their prices and whether they
+	are offered all live here — so a settings screen asks for the list rather
+	than keeping a copy that would go stale the day a provider withdrew one.
+	"""
+	from onedesk.one_admin import actions
+
+	caller()
+	return actions.offered(needs)
 
 
 @frappe.whitelist(allow_guest=True)

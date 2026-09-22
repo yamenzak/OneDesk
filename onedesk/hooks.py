@@ -162,6 +162,9 @@ fixtures = [
 	"Identification Document Type",
 	# The two leave mails hrms promises and ships nothing to send.
 	"Email Template",
+	# What a model may be asked to do, and the instruction it is asked with.
+	# A fixture so a new one arrives with a migrate and an edit survives the next.
+	"AI Action",
 ]
 
 
@@ -184,6 +187,8 @@ doctype_js = {
 	"One Admin Settings": "public/js/admin_settings.js",
 	# What is charged on top, and what one call actually comes to.
 	"AI Model": "public/js/ai_model.js",
+	# The model list comes from the account, filtered to what the action needs.
+	"AI Action Setting": "public/js/ai_action_setting.js",
 	"Employee": "public/js/employee.js",
 	"Employee Attendance Tool": "public/js/attendance_tool.js",
 	"Attendance": "public/js/attendance.js",

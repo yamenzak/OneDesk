@@ -56,17 +56,21 @@ TAG = "cf-aig-metadata"
 PROVIDERS = {
 	"workers-ai": {
 		"path": lambda model: model,
-		"body": lambda prompt, most: {
-			"messages": [{"role": "user", "content": prompt}],
+		"body": lambda system, prompt, most: {
+			"messages": (
+				([{"role": "system", "content": system}] if system else [])
+				+ [{"role": "user", "content": prompt}]
+			),
 			"max_tokens": most,
 		},
 		"said": lambda body: ((body or {}).get("result") or {}).get("response"),
 	},
 	"google-ai-studio": {
 		"path": lambda model: f"v1/models/{model}:generateContent",
-		"body": lambda prompt, most: {
+		"body": lambda system, prompt, most: {
 			"contents": [{"parts": [{"text": prompt}]}],
 			"generationConfig": {"maxOutputTokens": most},
+			**({"systemInstruction": {"parts": [{"text": system}]}} if system else {}),
 		},
 		"said": lambda body: _first_part(body),
 	},
@@ -96,8 +100,14 @@ def through(
 	most: int = MOST,
 	tenant: str | None = None,
 	whole: bool = False,
+	system: str | None = None,
 ):
-	"""One call. `whole` also hands back the body, which is what carries usage."""
+	"""One call. `whole` also hands back the body, which is what carries usage.
+
+	`system` goes where each provider puts a system instruction rather than
+	being glued to the front of the prompt, which is the whole reason an action
+	can be told things a workspace cannot take away from it.
+	"""
 	site.require_admin()
 	spoken = PROVIDERS.get(provider)
 	if not spoken:
@@ -113,7 +123,10 @@ def through(
 
 	try:
 		answer = requests.post(
-			where, headers=headers, data=json.dumps(spoken["body"](prompt, most)), timeout=TIMEOUT
+			where,
+			headers=headers,
+			data=json.dumps(spoken["body"](system, prompt, most)),
+			timeout=TIMEOUT,
 		)
 	except requests.Timeout as raised:
 		raise Again(f"{model} timed out") from raised
@@ -129,6 +142,7 @@ def call(
 	tenant: str,
 	caps: dict | None = None,
 	reference: str | None = None,
+	system: str | None = None,
 ) -> dict:
 	"""One model call, billed: hold a ceiling, make it, settle the actual.
 
@@ -157,7 +171,7 @@ def call(
 
 	holding = ledger.reserve(tenant, max(most.credits, _LEAST), why=model, reference=reference)
 	try:
-		answer, body = _said(sold, prompt, caps or {}, tenant)
+		answer, body = _said(sold, prompt, caps or {}, tenant, system)
 	except Exception:
 		ledger.release(holding)
 		raise
@@ -230,11 +244,11 @@ def _unpriced(spent: pricing.Bill) -> str:
 	return f"nothing in the catalogue prices {said}" if said else ""
 
 
-def _said(sold, prompt: str, caps: dict, tenant: str) -> tuple[str, dict]:
+def _said(sold, prompt: str, caps: dict, tenant: str, system: str | None) -> tuple[str, dict]:
 	"""The words and the whole body, because the body is what carries the usage."""
 	most = int(caps.get("output_tokens") or MOST)
 	return through(
-		sold.provider, sold.model, prompt, most=most, tenant=tenant, whole=True
+		sold.provider, sold.model, prompt, most=most, tenant=tenant, whole=True, system=system
 	)
 
 

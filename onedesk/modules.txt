@@ -2,3 +2,4 @@ One
 One HR
 One CRM
 One Admin
+One AI

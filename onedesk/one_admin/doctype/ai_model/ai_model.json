@@ -20,6 +20,7 @@
   "reads_video",
   "sold_section",
   "offered",
+  "default_for",
   "column_break_sold",
   "status",
   "priced_by_hand",
@@ -126,6 +127,14 @@
    "label": "Offered",
    "in_standard_filter": 1,
    "description": "Yours to decide. The sync never turns this on, and turns it off when a price stops being readable."
+  },
+  {
+   "fieldname": "default_for",
+   "fieldtype": "Select",
+   "label": "Default For",
+   "options": "\nText Generation\nVision\nMultimodal\nTranscription\nImage Generation\nVideo Generation\nAudio Generation\nEmbedding",
+   "in_standard_filter": 1,
+   "description": "What an action needing this runs on when a workspace has picked nothing."
   },
   {
    "fieldname": "column_break_sold",
