@@ -636,3 +636,38 @@ because the filter resolves before the first run. And `reports.js` now fills an
 empty **Fiscal Year** filter the same way it already filled **Payroll Period**,
 which covers the moment between two years. The report answers two rows and
 368.90 د.إ.
+
+## Hiring
+
+Nothing existed here, so the chain was seeded first: three Interview Types with
+their skill sets, a Job Requisition, a Job Opening, two Job Applicants, an
+Interview and a Job Offer. Four things refused on the way and each was hrms
+asking for a record that has to exist first — a `Skill` before an expected skill
+set, an `Offer Term` before an offer term, a Job Requisition status that is
+`Pending` rather than `Open`, and an `interview_type_name` that is not marked
+required and is what the record is named after. Worth one line each in the audit
+and none of them a screen.
+
+### Job Applicant, Interview
+
+**A Job Applicant is named after their email address.** `autoname` in the
+doctype says `HR-APP-.YYYY.-.#####` and `JobApplicant.autoname` overrules it
+with `self.name = self.email_id`, so every applicant's id is
+`nadia.khoury@example.com`. That is fine for the applicant's own screen, where
+the title field carries the name, and it is not fine anywhere that links to one:
+the **Interview list read `nadia.kho…`** as its first column, because `Interview`
+has no name of its own and takes the applicant's docname as its title.
+
+Done: Job Applicant gets `show_title_field_in_link`, so every link to one reads
+the person's name. Interview gets a hidden `one_applicant` fetched from
+`job_applicant.applicant_name` and takes it as the title field, so the list
+reads **Nadia Khoury**. The `job_applicant` column then said the same thing
+twice and came off, which is the `names.py` rule applied by hand to a link that
+is not `employee`. `to_time` came off as well: a scheduled interview is a date
+and a start, and its end is on the record.
+
+Job Applicant itself is in good shape. HRMS ships the verbs — **Shortlist**,
+**Reject**, **Schedule Interview** — on the toolbar, and the status they set is
+the same dropdown beside the header pill. It is deliberately left editable,
+unlike the four request doctypes: the buttons only cover Open to Shortlisted or
+Rejected, and Hold, Replied and Accepted would become unreachable.

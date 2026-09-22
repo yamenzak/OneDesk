@@ -347,6 +347,13 @@ OVERRIDES = [
 		"Please set default template for Leave Status Notification in HR Settings.",
 	),
 	(
+		"An interview is titled by the person being interviewed",
+		"its title field is the Job Applicant's docname, which hrms names after their email address",
+		"onedesk/one_hr/custom/interview.json",
+		"hrms/hrms/hr/doctype/job_applicant/job_applicant.py",
+		"self.name = self.email_id",
+	),
+	(
 		"A vehicle log says how far, on how much",
 		"it carries the last and current odometer and not the distance between them, and hides the litres behind a collapsed section",
 		"onedesk/public/js/vehicle_log.js",

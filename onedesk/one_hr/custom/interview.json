@@ -1,0 +1,43 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Interview",
+   "fieldname": "one_applicant",
+   "fieldtype": "Data",
+   "label": "Applicant",
+   "module": "One HR",
+   "insert_after": "job_applicant",
+   "fetch_from": "job_applicant.applicant_name",
+   "read_only": 1,
+   "hidden": 1
+  }
+ ],
+ "doctype": "Interview",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Interview",
+   "doctype_or_field": "DocType",
+   "property": "title_field",
+   "property_type": "Data",
+   "value": "one_applicant"
+  },
+  {
+   "doc_type": "Interview",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "to_time"
+  },
+  {
+   "doc_type": "Interview",
+   "doctype_or_field": "DocField",
+   "field_name": "job_applicant",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  }
+ ],
+ "sync_on_migrate": 1
+}

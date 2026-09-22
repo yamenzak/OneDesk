@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 00:20+0000\n"
-"PO-Revision-Date: 2026-09-22 00:20+0000\n"
+"POT-Creation-Date: 2026-09-22 00:30+0000\n"
+"PO-Revision-Date: 2026-09-22 00:30+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -226,6 +226,11 @@ msgstr ""
 
 #: onedesk/public/js/setup_wizard.js:24
 msgid "Appearance"
+msgstr ""
+
+#. Label of the one_applicant (Data) field in DocType 'Interview'
+#: onedesk/one_hr/custom/interview.json
+msgid "Applicant"
 msgstr ""
 
 #: onedesk/public/js/employee.js:189
