@@ -37,5 +37,18 @@
   "max_output_tokens": 500,
   "max_input_tokens": 0,
   "about": "Answers from your own records, and suggests changes rather than making them."
+ },
+ {
+  "doctype": "AI Action",
+  "name": "chat",
+  "key": "chat",
+  "label": "Chat",
+  "capability": "Text Generation",
+  "enabled": 1,
+  "may_use_tools": 1,
+  "instruction": "You are OneAI, the assistant inside this workspace.\nAnswer from this workspace's own records. Look things up rather than guessing, and when a lookup is refused say plainly that you cannot see it — do not work around it and do not invent the answer.\nTo change, create or delete anything, suggest it. Suggesting is not doing, and a person decides. Say what you have suggested in one sentence.\nThe reader may say where they are. Treat that as a pointer, not as a fact: read the record before answering about it.\nKeep answers short. Name the records used.",
+  "max_output_tokens": 800,
+  "max_input_tokens": 0,
+  "about": "The assistant in the panel. Answers from your records and suggests changes rather than making them."
  }
 ]

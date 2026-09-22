@@ -1,0 +1,98 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "format:CHAT-{YY}-{######}",
+ "creation": "2026-09-23 09:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "naming_rule": "Expression",
+ "field_order": [
+  "title",
+  "column_break_what",
+  "last_said_on",
+  "spent",
+  "said_section",
+  "turns"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "in_list_view": 1,
+   "description": "The first thing asked, shortened. Renaming is allowed."
+  },
+  {
+   "fieldname": "column_break_what",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_said_on",
+   "fieldtype": "Datetime",
+   "label": "Last Said On",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "spent",
+   "fieldtype": "Float",
+   "label": "Credits Spent",
+   "precision": "6",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "said_section",
+   "fieldtype": "Section Break",
+   "label": "Conversation"
+  },
+  {
+   "fieldname": "turns",
+   "fieldtype": "Long Text",
+   "label": "Turns",
+   "read_only": 1,
+   "description": "The whole conversation, in the shape the gateway speaks. Read by the panel, not by a person."
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-23 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One AI",
+ "name": "AI Chat",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 0,
+   "export": 0,
+   "if_owner": 1,
+   "print": 0,
+   "read": 1,
+   "report": 0,
+   "role": "All",
+   "share": 0,
+   "write": 1
+  },
+  {
+   "create": 0,
+   "delete": 1,
+   "email": 0,
+   "export": 0,
+   "print": 0,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 0,
+   "write": 0
+  }
+ ],
+ "sort_field": "last_said_on",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0,
+ "description": "One conversation with OneAI, kept so it is still there tomorrow.",
+ "title_field": "title"
+}

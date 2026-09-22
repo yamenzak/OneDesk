@@ -252,7 +252,11 @@ web_include_js = ["/assets/onedesk/js/login.js"]
 setup_wizard_requires = "assets/onedesk/js/setup_wizard.js"
 setup_wizard_stages = "onedesk.one.setup_wizard.get_setup_stages"
 
-app_include_css = ["/assets/onedesk/css/theme.css", "/assets/onedesk/css/desk.css"]
+app_include_css = [
+	"/assets/onedesk/css/theme.css",
+	"/assets/onedesk/css/desk.css",
+	"/assets/onedesk/css/oneai.css",
+]
 # /start and /welcome, which are not desk screens and load none of the above.
 web_include_css = ["/assets/onedesk/css/portal.css"]
 app_include_js = [
@@ -263,4 +267,5 @@ app_include_js = [
 	"/assets/onedesk/js/overtime.js",
 	"/assets/onedesk/js/decision.js",
 	"/assets/onedesk/js/reports.js",
+	"/assets/onedesk/js/oneai.js",
 ]

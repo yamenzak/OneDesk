@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 18:24+0000\n"
-"PO-Revision-Date: 2026-09-22 18:24+0000\n"
+"POT-Creation-Date: 2026-09-22 19:13+0000\n"
+"PO-Revision-Date: 2026-09-22 19:13+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -210,6 +210,11 @@ msgstr "إجراء ذكاء اصطناعي"
 msgid "AI Action Setting"
 msgstr "إعداد إجراء الذكاء الاصطناعي"
 
+#. Name of a DocType
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json
+msgid "AI Chat"
+msgstr "محادثة ذكاء اصطناعي"
+
 #. Label of the ai_section (Section Break) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -407,9 +412,14 @@ msgstr "العناوين التي يجوز للموظفين تسجيل الحض�
 
 #. Name of a role
 #: onedesk/one/doctype/workspace_account/workspace_account.json
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "All"
 msgstr ""
+
+#: onedesk/public/js/oneai/Panel.vue:12
+msgid "All conversations"
+msgstr "كل المحادثات"
 
 #. Label of the one_self_checkin (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -480,6 +490,10 @@ msgstr "سُجّل تسجيل حضور آخر في الثانية نفسها."
 #: onedesk/one_hr/rules.py:34
 msgid "Another employee has already checked in from this browser today."
 msgstr "سجّل موظف آخر حضوره من هذا المتصفح اليوم."
+
+#: onedesk/public/js/oneai/Panel.vue:159
+msgid "Answers from your own records"
+msgstr "يجيب من سجلاتك"
 
 #. Description of the 'explanation' field in DocType 'Attendance Request'
 #: onedesk/one_hr/custom/attendance_request.json
@@ -564,6 +578,7 @@ msgid "Appraisal Template"
 msgstr "قالب التقييم"
 
 #: onedesk/public/js/decision.js:15 onedesk/public/js/decision.js:16
+#: onedesk/public/js/oneai/Card.vue:15
 msgid "Approve"
 msgstr "اعتماد"
 
@@ -576,6 +591,10 @@ msgstr "معتمد"
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Approved Request"
 msgstr "الطلب المعتمد"
+
+#: onedesk/public/js/oneai/Card.vue:57
+msgid "Approved — {0}"
+msgstr "اعتُمد — {0}"
 
 #: onedesk/public/js/leave_application.js:33
 msgid "Approving this books {0} days of {1} for {2}, {3}, leaving them {4}."
@@ -625,6 +644,10 @@ msgstr "حسبما تُبلّغ Frappe Cloud."
 msgid "Ask"
 msgstr ""
 
+#: onedesk/public/js/oneai/Panel.vue:56
+msgid "Ask about this page, look something up, or have a change suggested."
+msgstr "اسأل عن هذه الصفحة، أو ابحث عن معلومة، أو اطلب اقتراح تغيير."
+
 #. Label of the one_gate_photo (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Ask for a Photo"
@@ -634,6 +657,11 @@ msgstr "طلب صورة"
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Ask for a Reason on Check Out"
 msgstr "طلب سبب عند تسجيل الانصراف"
+
+#: onedesk/public/js/oneai.js:91 onedesk/public/js/oneai.js:92
+#: onedesk/public/js/oneai/Panel.vue:113
+msgid "Ask {0}"
+msgstr "اسأل {0}"
 
 #. Label of the asked_by (Link) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
@@ -976,6 +1004,10 @@ msgstr "القدرة"
 msgid "Captures a frame from the camera at check-in. Choosing an existing file instead is not allowed."
 msgstr "يلتقط صورة من الكاميرا عند تسجيل الحضور. اختيار ملف موجود بدلاً من ذلك غير مسموح."
 
+#: onedesk/public/js/oneai/Card.vue:52
+msgid "Change"
+msgstr ""
+
 #: onedesk/public/js/attendance.js:8
 msgid "Change the Overtime"
 msgstr "تعديل العمل الإضافي"
@@ -1203,6 +1235,10 @@ msgstr "سبب التسجيل"
 msgid "Clock Signal"
 msgstr "إشارة التسجيل"
 
+#: onedesk/public/js/oneai/Panel.vue:36
+msgid "Close"
+msgstr ""
+
 #. Label of the one_auto_closed (Check) field in DocType 'Employee Checkin'
 #: onedesk/one_hr/custom/employee_checkin.json
 msgid "Closed Automatically"
@@ -1262,6 +1298,11 @@ msgstr "المتابعة إلى الدفع"
 msgid "Contract"
 msgstr ""
 
+#. Label of the said_section (Section Break) field in DocType 'AI Chat'
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json
+msgid "Conversation"
+msgstr "المحادثة"
+
 #: onedesk/public/js/workspace_account.js:60
 msgid "Could not reach your account. Showing what was last known."
 msgstr "تعذّر الوصول إلى حسابك. يُعرض آخر ما هو معروف."
@@ -1284,6 +1325,7 @@ msgstr "شمول العطل أيضاً"
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+#: onedesk/public/js/oneai/Card.vue:52
 msgid "Create"
 msgstr ""
 
@@ -1340,6 +1382,11 @@ msgstr "حجز رصيد"
 #: onedesk/public/js/tenant.js:112
 msgid "Credits"
 msgstr "الرصيد"
+
+#. Label of the spent (Float) field in DocType 'AI Chat'
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json
+msgid "Credits Spent"
+msgstr "الرصيد المصروف"
 
 #. Label of the credits_a_month (Int) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
@@ -1476,6 +1523,7 @@ msgstr "الهامش الافتراضي"
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+#: onedesk/public/js/oneai/Card.vue:52
 msgid "Delete"
 msgstr ""
 
@@ -2532,6 +2580,10 @@ msgstr "النطاق القضائي"
 msgid "KRA"
 msgstr "مجال النتائج الرئيسية"
 
+#: onedesk/public/js/oneai/Panel.vue:159
+msgid "Kept"
+msgstr "محفوظة"
+
 #. Label of the key (Data) field in DocType 'Offering'
 #. Label of the key (Data) field in DocType 'AI Action'
 #: onedesk/one_admin/doctype/offering/offering.json
@@ -2553,6 +2605,10 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "Kind"
 msgstr "النوع"
+
+#: onedesk/public/js/oneai/Panel.vue:97
+msgid "Knows about"
+msgstr "يعرف عن"
 
 #. Label of the label (Data) field in DocType 'Offering'
 #. Label of the label (Data) field in DocType 'AI Action'
@@ -2594,6 +2650,11 @@ msgstr "آخر تسعير"
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "Last Response"
 msgstr "آخر رد"
+
+#. Label of the last_said_on (Datetime) field in DocType 'AI Chat'
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json
+msgid "Last Said On"
+msgstr "آخر حديث في"
 
 #. Label of the last_seen (Datetime) field in DocType 'Clock Network'
 #. Label of the last_seen (Datetime) field in DocType 'Clock Place'
@@ -2850,6 +2911,18 @@ msgstr "تسجيل الدخول بمفتاح مرور غير مفعَّل في �
 msgid "Longitude"
 msgstr "خط الطول"
 
+#: onedesk/public/js/oneai/Panel.vue:244
+msgid "Looked at {0}"
+msgstr "اطّلع على {0}"
+
+#: onedesk/public/js/oneai/Panel.vue:244
+msgid "Looked something up"
+msgstr "بحث عن معلومة"
+
+#: onedesk/public/js/oneai/Panel.vue:90
+msgid "Looking…"
+msgstr "يبحث…"
+
 #. Label of the 'reports_to' field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "Manager"
@@ -2996,6 +3069,10 @@ msgstr "اسم النسخة الاحتياطية الخارجية لدى Frappe 
 msgid "Named in code. Do not change it once anything calls it."
 msgstr "يُسمّى في الشيفرة. لا تغيّره بعد أن يستدعيه شيء."
 
+#: onedesk/public/js/oneai/Panel.vue:31
+msgid "Narrow"
+msgstr "تضييق"
+
 #. Label of the 'section_break_ackd' field in DocType 'Employee Attendance
 #. Tool'
 #: onedesk/one_hr/custom/employee_attendance_tool.json
@@ -3031,6 +3108,10 @@ msgstr "الشبكة والموقع"
 #: onedesk/one_admin/doctype/account_request/account_request.json
 msgid "New"
 msgstr ""
+
+#: onedesk/public/js/oneai/Panel.vue:22 onedesk/public/js/oneai/Panel.vue:26
+msgid "New conversation"
+msgstr "محادثة جديدة"
 
 #. Label of the next_run_at (Datetime) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
@@ -3190,6 +3271,10 @@ msgstr "لا يعمل"
 msgid "Note"
 msgstr ""
 
+#: onedesk/public/js/oneai/Panel.vue:50
+msgid "Nothing asked yet. Ask something about what is on screen, or anything else."
+msgstr "لم يُسأل شيء بعد. اسأل عمّا على الشاشة أو عن أي أمر آخر."
+
 #. Description of the 'Overdue For' (Int) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Nothing changes for the workspace during this period."
@@ -3210,6 +3295,10 @@ msgstr "لا يوجد مبلغ للصرف بعد: لا يوجد هيكل روا�
 #: onedesk/public/js/leave_encashment.js:46
 msgid "Nothing to pay yet: {0} has no Leave Encashment Amount Per Day, so a day is worth nought. Set it on the salary structure or on this person's assignment."
 msgstr "لا يوجد مبلغ للصرف بعد: {0} لا يحدد قيمة اليوم عند صرف الإجازة، فقيمة اليوم صفر. حدّدها في هيكل الرواتب أو في تعيين هذا الموظف."
+
+#: onedesk/one_ai/chat.py:76
+msgid "Nothing was asked."
+msgstr "لم يُسأل شيء."
 
 #: onedesk/www/welcome.html:16
 msgid "Nothing was charged"
@@ -3342,6 +3431,11 @@ msgstr "مشغّل One"
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 msgid "One address or a CIDR range. Example: 203.0.113.7 or 203.0.113.0/24"
 msgstr "عنوان واحد أو نطاق CIDR. مثال: 203.0.113.7 أو 203.0.113.0/24"
+
+#. Description of a DocType
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json
+msgid "One conversation with OneAI, kept so it is still there tomorrow."
+msgstr "محادثة واحدة مع OneAI، تُحفظ لتبقى موجودة غداً."
 
 #. Description of a DocType
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
@@ -4139,7 +4233,7 @@ msgstr "استرداد"
 msgid "Refunded"
 msgstr "مُسترد"
 
-#: onedesk/public/js/ai_proposal.js:15
+#: onedesk/public/js/ai_proposal.js:15 onedesk/public/js/oneai/Card.vue:18
 msgid "Refuse"
 msgstr "ارفض"
 
@@ -4161,6 +4255,10 @@ msgstr "رفض تسجيل الحضور بدون مفتاح مرور"
 #: onedesk/public/js/ai_proposal.js:24 onedesk/public/js/ai_proposal_list.js:11
 msgid "Refused"
 msgstr "مرفوض"
+
+#: onedesk/public/js/oneai/Card.vue:58
+msgid "Refused."
+msgstr "مرفوض."
 
 #. Label of the cluster (Data) field in DocType 'Workspace Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
@@ -4450,6 +4548,14 @@ msgstr "تسجيل الحضور الذاتي"
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 msgid "Selling"
 msgstr ""
+
+#: onedesk/public/js/oneai/Panel.vue:117
+msgid "Send"
+msgstr ""
+
+#: onedesk/public/js/oneai/Panel.vue:101
+msgid "Send this again"
+msgstr "أرسل هذا مرة أخرى"
 
 #. Description of the 'System Instruction' (Small Text) field in DocType 'AI
 #. Action'
@@ -4755,6 +4861,10 @@ msgstr ""
 msgid "Still in Draft"
 msgstr "ما زال مسودة"
 
+#: onedesk/public/js/oneai/Panel.vue:101
+msgid "Stop sending this"
+msgstr "أوقف إرسال هذا"
+
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:22
 #: onedesk/public/js/account_request.js:25 onedesk/public/js/job.js:28
 msgid "Stopped"
@@ -4844,6 +4954,18 @@ msgstr "باعتماد هذا يُدفع {0} مقابل {1} ساعة."
 msgid "Submitting this pays {0} {1} for {2} days of {3}."
 msgstr "الاعتماد يصرف لـ{0} مبلغ {1} مقابل {2} يوماً من {3}."
 
+#: onedesk/public/js/oneai/Panel.vue:83
+msgid "Suggested"
+msgstr "مُقترح"
+
+#: onedesk/public/js/oneai/Panel.vue:243
+msgid "Suggested a change"
+msgstr "اقترح تغييراً"
+
+#: onedesk/public/js/oneai/Panel.vue:243
+msgid "Suggested a change to {0}"
+msgstr "اقترح تغييراً على {0}"
+
 #: onedesk/one_ai/tools.py:198
 msgid "Suggested. It happens when somebody approves it."
 msgstr "اقتُرح. ويحدث حين يوافق عليه أحد."
@@ -4895,6 +5017,7 @@ msgstr "تعليمة النظام"
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "System Manager"
 msgstr ""
@@ -5060,6 +5183,11 @@ msgstr "لا يُتوقع عودة الموظف اليوم. ويُسجَّل ا�
 msgid "The first account, and where the receipt goes."
 msgstr "أول حساب، وإليه يصل الإيصال."
 
+#. Description of the 'Title' (Data) field in DocType 'AI Chat'
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json
+msgid "The first thing asked, shortened. Renaming is allowed."
+msgstr "أول سؤال طُرح، مختصراً. وتغيير الاسم متاح."
+
 #. Description of the 'total_billable_hours' field in DocType 'Timesheet'
 #: onedesk/one_hr/custom/timesheet.json
 msgid "The hours above that are ticked Billable. The project decides what they are worth."
@@ -5149,6 +5277,10 @@ msgstr "معرّف المزوّد نفسه. ولا يُكتب هنا أبداً.
 msgid "The provider's own word. Nothing converts between units."
 msgstr "كلمة المزوّد نفسها. ولا شيء يحوّل بين الوحدات."
 
+#: onedesk/public/js/oneai/Card.vue:59
+msgid "The record changed after this was suggested."
+msgstr "تغيّر السجل بعد تقديم هذا الاقتراح."
+
 #: onedesk/public/js/shift_request.js:11
 msgid "The request is closed and nobody is assigned anything."
 msgstr "يُغلق الطلب ولا يُكلَّف أحد بشيء."
@@ -5185,6 +5317,11 @@ msgstr "الحالة التي تُكتب في كل يوم من أيام الطل
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "The sync leaves the rates below alone. For a model whose page this cannot read."
 msgstr "تترك المزامنة الأسعار أدناه كما هي. لنموذج يتعذّر قراءة صفحته."
+
+#. Description of the 'Turns' (Long Text) field in DocType 'AI Chat'
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json
+msgid "The whole conversation, in the shape the gateway speaks. Read by the panel, not by a person."
+msgstr "المحادثة كاملة، بالشكل الذي تتحدث به البوابة. تقرأها اللوحة لا الشخص."
 
 #. Description of the 'What Could Not Be Read' (Small Text) field in DocType
 #. 'AI Model'
@@ -5337,6 +5474,11 @@ msgstr "المدة على هذه الدرجة"
 msgid "Timesheet"
 msgstr ""
 
+#. Label of the title (Data) field in DocType 'AI Chat'
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json
+msgid "Title"
+msgstr "العنوان"
+
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:14
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:13
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:13
@@ -5423,6 +5565,11 @@ msgstr "رفضه {0}."
 msgid "Turned down."
 msgstr "مرفوض."
 
+#. Label of the turns (Long Text) field in DocType 'AI Chat'
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json
+msgid "Turns"
+msgstr "الأدوار"
+
 #. Label of the kind (Data) field in DocType 'Stripe Webhook Event'
 #. Label of the document_type (Link) field in DocType 'Employee Document'
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
@@ -5448,6 +5595,10 @@ msgstr ""
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Unpaid Expense Claim"
 msgstr ""
+
+#: onedesk/public/js/oneai/Panel.vue:46
+msgid "Untitled"
+msgstr "بلا عنوان"
 
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:214
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:245
@@ -5779,6 +5930,10 @@ msgstr "سبب غياب الرقم"
 msgid "Why these days should count as worked. HR keeps the list in Attendance Reason."
 msgstr "سبب احتساب هذه الأيام أيام عمل. وتحفظ الموارد البشرية القائمة في سبب الحضور."
 
+#: onedesk/public/js/oneai/Panel.vue:31
+msgid "Widen"
+msgstr "توسيع"
+
 #. Option for the 'Status' (Select) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/public/js/ai_model.js:25 onedesk/public/js/ai_model_list.js:12
@@ -5883,6 +6038,10 @@ msgstr "تكتبها المزامنة. ولا تُحرَّر إلا في نمو�
 msgid "Year"
 msgstr ""
 
+#: onedesk/public/js/oneai/Panel.vue:66
+msgid "You"
+msgstr ""
+
 #: onedesk/one_hr/rules.py:37
 msgid "You are outside every location this shift may check in from."
 msgstr "أنت خارج جميع المواقع التي يجوز لهذه المناوبة تسجيل الحضور منها."
@@ -5916,6 +6075,10 @@ msgstr "تعليماتك"
 #: onedesk/one_hr/closing.py:98
 msgid "Your check-in was closed at the end of your shift"
 msgstr "أُغلق تسجيل حضورك عند نهاية مناوبتك"
+
+#: onedesk/public/js/oneai/Panel.vue:158
+msgid "Your conversations"
+msgstr "محادثاتك"
 
 #: onedesk/one_hr/rules.py:42
 msgid "Your desk session is signed in from a different address."
@@ -6150,6 +6313,10 @@ msgstr "تعذّر تعليم {0} بأنه ترك العمل"
 msgid "{0} credits"
 msgstr "{0} رصيد"
 
+#: onedesk/public/js/oneai/Panel.vue:125
+msgid "{0} credits in this conversation"
+msgstr "{0} رصيد في هذه المحادثة"
+
 #: onedesk/public/js/tenant.js:133
 msgid "{0} credits now."
 msgstr "{0} رصيد الآن."
@@ -6303,6 +6470,10 @@ msgstr "{0} حالته {1}، فلا يمكن عرضه."
 #: onedesk/public/js/employee.js:149
 msgid "{0} left"
 msgstr "متبقٍ {0}"
+
+#: onedesk/public/js/oneai.js:49
+msgid "{0} list"
+msgstr "قائمة {0}"
 
 #: onedesk/public/js/ai_model_list.js:38
 msgid "{0} models, {1} priced, {2} need review."

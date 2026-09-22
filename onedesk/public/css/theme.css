@@ -37,3 +37,37 @@ html[data-one-theme="one"][data-theme="dark"] {
 	--gray-900: #1b2029;
 	--gray-950: #141920;
 }
+
+/* OneAI's spectrum, read off the mark itself.
+ *
+ * The six stops of `ai-spectrum` in scripts/brand/marks.json, in order, plus
+ * the aurora behind it. Everything that is AI wears this ramp — the launcher's
+ * ring, the panel's top edge, a badge on a field it wrote, the border that
+ * glows while it works — so the moment somebody has learned what the colour
+ * means, they have learned it everywhere. Defined here with the rest of One's
+ * tokens; nothing else in the app writes a literal colour. */
+
+:root {
+	--one-ai-1: #22d3ee;
+	--one-ai-2: #38bdf8;
+	--one-ai-3: #818cf8;
+	--one-ai-4: #a855f7;
+	--one-ai-5: #e879f9;
+	--one-ai-6: #fb7185;
+	--one-ai-ring: rgba(129, 140, 248, 0.22);
+	--one-ai-spectrum: linear-gradient(
+		135deg,
+		var(--one-ai-1) 0%,
+		var(--one-ai-2) 20%,
+		var(--one-ai-3) 42%,
+		var(--one-ai-4) 62%,
+		var(--one-ai-5) 80%,
+		var(--one-ai-6) 100%
+	);
+	--one-ai-bloom: radial-gradient(
+		circle at 50% 50%,
+		rgba(192, 132, 252, 0.55) 0%,
+		rgba(56, 189, 248, 0.18) 60%,
+		rgba(56, 189, 248, 0) 100%
+	);
+}

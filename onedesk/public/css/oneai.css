@@ -1,0 +1,459 @@
+/* OneAI's own surface: the launcher, the panel, and the colours everything AI
+ * is drawn in.
+ *
+ * The spectrum is the mark's own gradient, read off scripts/brand/marks.json —
+ * the six stops of `ai-spectrum`, in order. Anything that is AI wears it: the
+ * launcher's ring, the panel's top edge, the badge on a field it wrote, and the
+ * border that glows while it is working. One ramp, so the moment a person has
+ * learned what the colour means they have learned it everywhere. */
+
+/* ---------------------------------------------------------- the launcher */
+
+.one-ai-dial {
+	position: fixed;
+	right: 24px;
+	bottom: 24px;
+	z-index: 1030;
+	width: 52px;
+	height: 52px;
+	padding: 2px;
+	border: 0;
+	border-radius: 999px;
+	background: var(--one-ai-spectrum);
+	box-shadow: var(--shadow-lg);
+	cursor: pointer;
+	transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+.one-ai-dial:hover {
+	transform: translateY(-2px);
+	box-shadow: var(--shadow-xl, var(--shadow-lg));
+}
+
+.one-ai-dial:focus-visible {
+	outline: 2px solid var(--one-ai-3);
+	outline-offset: 3px;
+}
+
+.one-ai-dial__face {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	border-radius: 999px;
+	background: var(--card-bg, var(--fg-color));
+}
+
+.one-ai-dial__face svg {
+	width: 30px;
+	height: 30px;
+	display: block;
+}
+
+.one-ai-dial__count {
+	position: absolute;
+	top: -2px;
+	right: -2px;
+	min-width: 20px;
+	height: 20px;
+	padding: 0 5px;
+	border-radius: 999px;
+	background: var(--one-ai-6);
+	color: var(--white);
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 20px;
+	text-align: center;
+	box-shadow: 0 0 0 2px var(--card-bg, var(--fg-color));
+}
+
+.one-ai-dial[hidden] {
+	display: none;
+}
+
+/* ------------------------------------------------------------- the panel */
+
+.one-ai-panel {
+	position: fixed;
+	right: 24px;
+	bottom: 88px;
+	z-index: 1029;
+	display: flex;
+	flex-direction: column;
+	width: 400px;
+	height: min(640px, calc(100vh - 140px));
+	border: 1px solid var(--border-color);
+	border-radius: 16px;
+	background: var(--card-bg, var(--fg-color));
+	box-shadow: var(--shadow-xl, var(--shadow-lg));
+	overflow: hidden;
+}
+
+.one-ai-panel--wide {
+	width: min(760px, calc(100vw - 48px));
+	height: calc(100vh - 140px);
+}
+
+/* The one place the spectrum is a full-bleed edge rather than an accent. */
+.one-ai-panel::before {
+	content: "";
+	position: absolute;
+	inset: 0 0 auto 0;
+	height: 3px;
+	background: var(--one-ai-spectrum);
+}
+
+.one-ai-head {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 14px 12px 12px 14px;
+	border-bottom: 1px solid var(--border-color);
+}
+
+.one-ai-head__mark {
+	width: 24px;
+	height: 24px;
+	flex: 0 0 auto;
+}
+
+.one-ai-head__title {
+	flex: 1 1 auto;
+	min-width: 0;
+	font-size: var(--text-base);
+	font-weight: 600;
+	color: var(--text-color);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.one-ai-head__sub {
+	display: block;
+	font-size: var(--text-xs);
+	font-weight: 400;
+	color: var(--text-muted);
+}
+
+.one-ai-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border: 0;
+	border-radius: 8px;
+	background: transparent;
+	color: var(--text-muted);
+	cursor: pointer;
+}
+
+.one-ai-icon:hover {
+	background: var(--fg-hover-color, var(--gray-100));
+	color: var(--text-color);
+}
+
+.one-ai-body {
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow-y: auto;
+	padding: 14px;
+}
+
+/* ---------------------------------------------------------- the messages */
+
+.one-ai-said {
+	margin-bottom: 14px;
+}
+
+.one-ai-said__who {
+	margin-bottom: 4px;
+	font-size: var(--text-xs);
+	font-weight: 600;
+	color: var(--text-muted);
+}
+
+.one-ai-said__text {
+	padding: 9px 12px;
+	border-radius: 12px;
+	font-size: var(--text-sm);
+	line-height: 1.55;
+	color: var(--text-color);
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+
+.one-ai-said--you .one-ai-said__text {
+	background: var(--gray-100);
+	border-bottom-right-radius: 4px;
+}
+
+.one-ai-said--model .one-ai-said__text {
+	background: var(--gray-50);
+	border: 1px solid var(--border-color);
+	border-bottom-left-radius: 4px;
+}
+
+.one-ai-looked {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin: 6px 0 0;
+	padding: 5px 9px;
+	border-radius: 8px;
+	background: var(--gray-50);
+	border: 1px solid var(--border-color);
+	font-size: var(--text-xs);
+	color: var(--text-muted);
+}
+
+.one-ai-looked--refused {
+	color: var(--text-color);
+	border-color: var(--one-ai-6);
+}
+
+.one-ai-looked__dot {
+	width: 6px;
+	height: 6px;
+	border-radius: 999px;
+	background: var(--one-ai-3);
+	flex: 0 0 auto;
+}
+
+.one-ai-looked--refused .one-ai-looked__dot {
+	background: var(--one-ai-6);
+}
+
+/* ------------------------------------------------------------- the cards */
+
+.one-ai-card {
+	margin-top: 8px;
+	padding: 11px 12px;
+	border: 1px solid var(--border-color);
+	border-left: 3px solid transparent;
+	border-radius: 10px;
+	background: var(--card-bg, var(--fg-color));
+	background-clip: padding-box;
+	position: relative;
+}
+
+.one-ai-card::before {
+	content: "";
+	position: absolute;
+	left: -3px;
+	top: -1px;
+	bottom: -1px;
+	width: 3px;
+	border-radius: 10px 0 0 10px;
+	background: var(--one-ai-spectrum);
+}
+
+.one-ai-card__what {
+	font-size: var(--text-sm);
+	font-weight: 600;
+	color: var(--text-color);
+}
+
+.one-ai-card__why {
+	margin-top: 2px;
+	font-size: var(--text-xs);
+	color: var(--text-muted);
+}
+
+.one-ai-card__changes {
+	margin: 8px 0 0;
+	padding: 8px 10px;
+	border-radius: 8px;
+	background: var(--gray-50);
+	font-family: var(--font-stack-mono, monospace);
+	font-size: 11px;
+	line-height: 1.5;
+	color: var(--text-color);
+	white-space: pre-wrap;
+	max-height: 140px;
+	overflow: auto;
+}
+
+.one-ai-card__doing {
+	display: flex;
+	gap: 8px;
+	margin-top: 10px;
+}
+
+.one-ai-card__state {
+	margin-top: 8px;
+	font-size: var(--text-xs);
+	color: var(--text-muted);
+}
+
+/* -------------------------------------------------------------- the foot */
+
+.one-ai-foot {
+	border-top: 1px solid var(--border-color);
+	padding: 10px 12px 12px;
+}
+
+.one-ai-here {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin-bottom: 8px;
+	font-size: var(--text-xs);
+	color: var(--text-muted);
+}
+
+.one-ai-here__chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 2px 8px;
+	border: 1px solid var(--border-color);
+	border-radius: 999px;
+	background: var(--gray-50);
+	color: var(--text-color);
+	cursor: pointer;
+	max-width: 220px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.one-ai-here__chip[aria-pressed="false"] {
+	opacity: 0.55;
+	text-decoration: line-through;
+}
+
+.one-ai-ask {
+	display: flex;
+	align-items: flex-end;
+	gap: 8px;
+}
+
+.one-ai-ask textarea {
+	flex: 1 1 auto;
+	min-height: 38px;
+	max-height: 140px;
+	padding: 9px 11px;
+	border: 1px solid var(--border-color);
+	border-radius: 10px;
+	background: var(--control-bg, var(--gray-50));
+	color: var(--text-color);
+	font-size: var(--text-sm);
+	line-height: 1.45;
+	resize: none;
+}
+
+.one-ai-ask textarea:focus {
+	outline: none;
+	border-color: var(--one-ai-3);
+	box-shadow: 0 0 0 2px var(--one-ai-ring);
+}
+
+.one-ai-send {
+	flex: 0 0 auto;
+	width: 38px;
+	height: 38px;
+	border: 0;
+	border-radius: 10px;
+	background: var(--one-ai-spectrum);
+	color: var(--white);
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.one-ai-send:disabled {
+	opacity: 0.4;
+	cursor: default;
+}
+
+.one-ai-spent {
+	margin-top: 7px;
+	font-size: 11px;
+	color: var(--text-light, var(--text-muted));
+}
+
+/* ------------------------------------------------------------ the threads */
+
+.one-ai-thread {
+	display: block;
+	width: 100%;
+	text-align: left;
+	padding: 10px 11px;
+	margin-bottom: 6px;
+	border: 1px solid var(--border-color);
+	border-radius: 10px;
+	background: var(--card-bg, var(--fg-color));
+	cursor: pointer;
+}
+
+.one-ai-thread:hover {
+	border-color: var(--one-ai-3);
+}
+
+.one-ai-thread__title {
+	font-size: var(--text-sm);
+	color: var(--text-color);
+	font-weight: 500;
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.one-ai-thread__when {
+	font-size: var(--text-xs);
+	color: var(--text-muted);
+}
+
+.one-ai-empty {
+	padding: 28px 18px;
+	text-align: center;
+	font-size: var(--text-sm);
+	color: var(--text-muted);
+}
+
+/* ----------------------------------------------------------- the thinking
+ *
+ * The same bloom as the mark's aurora, breathing. It is the one animation in
+ * the panel, so "it is working" needs no words and no spinner borrowed from
+ * somewhere else in the desk. */
+
+.one-ai-thinking {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	padding: 4px 2px 10px;
+	font-size: var(--text-xs);
+	color: var(--text-muted);
+}
+
+.one-ai-thinking__bloom {
+	width: 18px;
+	height: 18px;
+	border-radius: 999px;
+	background: var(--one-ai-bloom);
+	animation: one-ai-breathe 1.5s ease-in-out infinite;
+}
+
+@keyframes one-ai-breathe {
+	0%, 100% { transform: scale(0.72); opacity: 0.55; }
+	50% { transform: scale(1.12); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.one-ai-thinking__bloom { animation: none; }
+}
+
+@media (max-width: 640px) {
+	.one-ai-panel {
+		right: 12px;
+		left: 12px;
+		bottom: 12px;
+		width: auto;
+		height: calc(100vh - 96px);
+	}
+	.one-ai-dial { right: 16px; bottom: 16px; }
+}

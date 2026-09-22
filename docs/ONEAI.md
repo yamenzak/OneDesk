@@ -471,9 +471,58 @@ five model turns deep refused by admin, and a `create_record` mid-loop parking a
 card that the asking user owns while the model is told plainly that nothing
 happened.
 
-**AI 8 — where a card appears.** The proposal exists and has a screen of its
-own; what is left is putting it in front of somebody at the moment they would
-act on it, rather than in a list they have to remember to open.
+**AI 8a — the panel.** *Done.* A launcher bottom right, the shape everybody
+already knows from a live chat widget, and a panel above it: a list of
+conversations and one conversation. Two views rather than a channel rail,
+because a list of threads is the shape OneMessaging will want too — its threads
+join this list rather than needing a second panel drawn beside this one.
+
+**Two layers, and only the small one is on every page.** `public/js/oneai.js` is
+in `app_include_js` and is a button, a badge and the route; the panel is a Vue
+island in `oneai.bundle.js`, fetched by `frappe.require` the first time somebody
+opens it. Frappe's own esbuild compiles `.vue` for any app's `*.bundle.js` and
+its file uploader is loaded exactly this way, so this is the framework's own
+pattern rather than a new one — and a page nobody asks a question on pays
+nothing for Vue. The launcher appends to `body`, not to the page container,
+which is what makes a conversation survive moving between records: frappe tears
+the page down on every route change and would take the panel with it.
+
+**The page is a pointer, not a payload.** What travels is the route — the
+doctype, the id, which view, a list's filters — never the record's values. The
+model has `read_record` and that runs as whoever is signed in, so assembling
+values here would be a way around a permission rather than a convenience. The
+pointer is a turn in the conversation, marked so it is said to the model and not
+shown to the reader, and it is kept with the turn it was said on: the context of
+the third message is where they were for the third message, not where they are
+now. The chip above the box names it, and switching the chip off stops sending
+it.
+
+**The conversation is a doctype.** `AI Chat` holds a title, when it was last
+said to, what it has cost, and the turns — the same turns the gateway speaks,
+because the conversation *is* the turns and a second shape beside them is a
+second shape to keep in step. It is `if_owner` to everybody: one person's chat
+is not another's to read. The question is stored *before* the answer is asked
+for, so a run that fails leaves it in the chat rather than losing it, and only
+the last two dozen turns are sent while the whole thing is kept.
+
+**A card is answered where it was made.** The same `AI Proposal`, rendered in
+the panel with Approve and Refuse, because the moment somebody would answer it
+is the moment it was made rather than the next time they remember to open a
+list. The cards are read back on every render rather than stored in the
+transcript — a copy kept in the turn would go on saying Proposed for ever.
+
+**The colour is the mark's own.** The six stops of `ai-spectrum` are tokens in
+`theme.css`, and everything that is AI wears them: the launcher's ring, the
+panel's top edge, a card's left edge, the bloom that breathes while it works,
+and later the badge on a field it wrote.
+
+**AI 8b — the field tools and the badge.** Not built. The control beside a
+Text, Small Text or Text Editor field opens the same panel with that field as
+the target — not a second UI — and what comes back is an `AI Proposal` of kind
+Edit, so "help me write this" and an agentic edit are one path. Then the badge:
+a row keyed doctype, name and fieldname holding what was written, shown only
+while the field still equals it, so a human edit clears it without a hook on
+every doctype's write path. Files get `ai_generated`.
 
 **AI 9 — streaming.** The background run, the run id, the realtime room, and what
 the browser shows while it waits.

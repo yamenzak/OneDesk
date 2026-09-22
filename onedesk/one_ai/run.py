@@ -21,7 +21,12 @@ from onedesk.one import account
 ROUNDS = 5
 
 
-def ask(action: str, text: str, reference: str | None = None) -> dict:
+def ask(
+	action: str,
+	text: str,
+	reference: str | None = None,
+	turns: list[dict] | None = None,
+) -> dict:
 	"""Run one action, looking things up for the model where it asks.
 
 	The loop is here rather than on the account, and that is the whole shape of
@@ -38,7 +43,10 @@ def ask(action: str, text: str, reference: str | None = None) -> dict:
 
 	chose = mine(action)
 	offered = surface.declared()
-	turns, spent, rounds, cards = None, 0.0, 0, []
+	# A conversation carried in from a panel arrives with the new turn already
+	# on the end of it; a bare `text` is the first thing anybody said.
+	turns = list(turns) if turns else None
+	spent, rounds, cards = 0.0, 0, []
 
 	while True:
 		out = account.ask(
