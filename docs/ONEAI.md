@@ -658,6 +658,31 @@ for two tools at once and Workers AI answers "This model only supports single
 tool-calls at once!" — a model limitation, now legible, and a reason not to
 offer it rather than something to code around.
 
+**THE GATEWAY — the premise, proven.** *Done.* The site now calls Cloudflare's
+real AI Gateway. `gemini-2.5-flash-lite` and `gemini-3.1-flash-lite` both answer
+the tool loop through it, and the site sends **no Google key at all** — only
+`cf-aig-authorization` with the gateway token. The key is in the gateway and the
+gateway attaches it. That is the sentence at the top of `gateway.py`, and until
+now it was a design claim rather than a measured one.
+
+**Three things learned getting there.** An AI Gateway token is a separate
+permission from managing one: Read and Edit govern the gateway's configuration,
+**Run** governs sending traffic through it, and a token with Edit alone answers
+401 on inference. Run is all OneAdmin ever needs, so it is the only permission
+the app's token should carry — a leaked one buys somebody the rate limit rather
+than the ability to turn logging off.
+
+**Workers AI is not exempt.** The gateway attaches nothing it has not been given,
+so a Workers AI key has to be stored there like any other provider's; without
+one the provider answers 401 while the gateway hop itself succeeds. The two
+errors are told apart by their shape: a bad gateway token comes back as
+`AiGatewayError` code 2009, a missing provider key as Cloudflare's own code
+10000.
+
+**And the gateway is rate limited** — `one-gateway` is set to 50 requests per 60
+seconds, which a five-round tool loop brushes against with two people asking at
+once. Not a problem today. It is a number to remember when it is real.
+
 **AI 8d — the upload.** Not built. A file dropped on the panel attaches to the
 `AI Chat` and goes to the model with the question, which is how "make a
 quotation from this PDF" works. There is no PDF text extractor on the bench, so

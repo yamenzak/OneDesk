@@ -32,6 +32,14 @@ from onedesk.one_admin.faults import Again, Refused
 #: the same escape hatch `press.py` has, for the same reason.
 URL = "https://gateway.ai.cloudflare.com/v1"
 
+#: **Every provider's key is stored in the gateway, including Cloudflare's own.**
+#: Proven against the real gateway: with a Google key saved there, a call carries
+#: only `cf-aig-authorization` and Gemini answers — no Google key on this site at
+#: all, which is the whole point of the dependency. Workers AI is not exempt from
+#: needing one: the gateway attaches nothing it has not been given, so a Workers
+#: AI key has to be stored there too or the provider answers 401. An operator
+#: setting an account up stores a key per provider; this module never holds one.
+
 #: Long. A generation is two to forty seconds and a timeout here is a call we
 #: paid for and threw away. AI 9 moves this off the web worker entirely.
 TIMEOUT = 60
