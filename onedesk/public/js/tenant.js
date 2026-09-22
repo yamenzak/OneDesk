@@ -59,6 +59,7 @@ onedesk.tenant.draw = (frm, where) => {
 	);
 
 	onedesk.tenant.bars(frm, where);
+	onedesk.tenant.said(frm);
 
 	if (where.next) {
 		onedesk.tenant.verb(frm, where.next, where.warning);
@@ -80,6 +81,35 @@ onedesk.tenant.draw = (frm, where) => {
 		__("Refresh domains"),
 		() => onedesk.tenant.run(frm, "onedesk.one_admin.operator.refresh_domains", {}),
 		__("Look again"),
+	);
+};
+
+// The storage tab, in words. The two Long Ints below this say 22548578304 and
+// 26843545600, which are the right numbers to settle a bill with and the wrong
+// ones to read — so the sentence goes above them rather than replacing them.
+onedesk.tenant.said = (frm) => {
+	const field = frm.get_field("storage_said");
+	if (!field) return;
+	const held = Number(frm.doc.storage_bytes || 0);
+	const limit = Number(frm.doc.storage_limit || 0);
+	const pending = Number(frm.doc.storage_pending || 0);
+
+	const lines = [
+		limit
+			? __("{0} of {1} — {2}%", [
+					onedesk.tenant.size(held),
+					onedesk.tenant.size(limit),
+					Math.round((held / limit) * 100),
+				])
+			: __("{0}, unmetered", [onedesk.tenant.size(held)]),
+	];
+	if (pending) {
+		lines.push(
+			__("{0} signed for and not yet counted.", [onedesk.tenant.size(pending)]),
+		);
+	}
+	field.$wrapper.html(
+		`<div class="text-muted" style="padding-bottom:8px">${lines.join("<br>")}</div>`,
 	);
 };
 

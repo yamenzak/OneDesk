@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 12:10+0000\n"
-"PO-Revision-Date: 2026-09-22 12:10+0000\n"
+"POT-Creation-Date: 2026-09-22 12:16+0000\n"
+"PO-Revision-Date: 2026-09-22 12:16+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1511,7 +1511,7 @@ msgstr "One konnte nicht eingerichtet werden"
 msgid "Falls to {0} in {1} days."
 msgstr "Fällt in {1} Tagen auf {0}."
 
-#: onedesk/public/js/tenant.js:47 onedesk/public/js/tenant.js:129
+#: onedesk/public/js/tenant.js:47 onedesk/public/js/tenant.js:159
 msgid "Falls to {0} tonight."
 msgstr "Fällt heute Nacht auf {0}."
 
@@ -1705,11 +1705,6 @@ msgstr "Personalgewinnung"
 msgid "Hiring Pipeline"
 msgstr "Einstellungspipeline"
 
-#. Label of the tab_history (Tab Break) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "History"
-msgstr "Verlauf"
-
 #: onedesk/one_hr/employee.py:111 onedesk/one_hr/employee.py:268
 #: onedesk/one_hr/presence.py:181 onedesk/public/js/employee.js:48
 msgid "Holiday"
@@ -1833,6 +1828,11 @@ msgstr ""
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 msgid "In press's own words."
 msgstr "In den Worten von Frappe Cloud."
+
+#. Label of the storage_said (HTML) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "In words"
+msgstr "In Worten"
 
 #. Label of the one_learn_home (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -2228,7 +2228,7 @@ msgstr "Die Anmeldung mit Passkey ist auf dieser Site nicht aktiviert."
 msgid "Longitude"
 msgstr "Länge"
 
-#: onedesk/public/js/tenant.js:77 onedesk/public/js/tenant.js:82
+#: onedesk/public/js/tenant.js:78 onedesk/public/js/tenant.js:83
 msgid "Look again"
 msgstr "Nachsehen"
 
@@ -2292,7 +2292,7 @@ msgstr "Die vom Browser gemeldete Position gegen Einchecken-Ort und den eigenen 
 msgid "May"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:75
+#: onedesk/public/js/tenant.js:76
 msgid "Measure storage"
 msgstr "Speicher messen"
 
@@ -3210,7 +3210,7 @@ msgstr "Übersicht Personalgewinnung"
 msgid "Recurring"
 msgstr "Wiederkehrend"
 
-#: onedesk/public/js/tenant.js:80
+#: onedesk/public/js/tenant.js:81
 msgid "Refresh domains"
 msgstr "Domains auffrischen"
 
@@ -3312,7 +3312,7 @@ msgstr "Passkey zurücksetzen"
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
-#: onedesk/public/js/tenant.js:67
+#: onedesk/public/js/tenant.js:68
 msgid "Restore"
 msgstr ""
 
@@ -3459,11 +3459,11 @@ msgstr "Selbstständiges Einchecken"
 msgid "Selling"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:138
+#: onedesk/public/js/tenant.js:168
 msgid "Send to {0}"
 msgstr "Auf {0} setzen"
 
-#: onedesk/public/js/tenant.js:140
+#: onedesk/public/js/tenant.js:170
 msgid "Send {0} to {1}?"
 msgstr "{0} auf {1} setzen?"
 
@@ -3720,7 +3720,7 @@ msgstr "Bei Schritt {0} von {1} stehen geblieben — {2}."
 #. Settings'
 #. Label of the storage_section (Section Break) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-#: onedesk/one_admin/doctype/tenant/tenant.json onedesk/public/js/tenant.js:97
+#: onedesk/one_admin/doctype/tenant/tenant.json onedesk/public/js/tenant.js:127
 msgid "Storage"
 msgstr "Speicher"
 
@@ -4121,7 +4121,7 @@ msgstr "{0} von {1} angekreuzt"
 msgid "Time"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:120
+#: onedesk/public/js/tenant.js:150
 msgid "Time on this rung"
 msgstr "Zeit auf dieser Stufe"
 
@@ -4730,11 +4730,11 @@ msgstr "{0} hat {1} für {2} geltend gemacht, davon sind {3} zulässig — der R
 msgid "{0} could not be marked Left"
 msgstr "{0} konnte nicht als ausgetreten markiert werden"
 
-#: onedesk/public/js/tenant.js:130
+#: onedesk/public/js/tenant.js:160
 msgid "{0} days before it falls to {1}."
 msgstr "Noch {0} Tage, bis er auf {1} fällt."
 
-#: onedesk/public/js/tenant.js:125
+#: onedesk/public/js/tenant.js:155
 msgid "{0} days left"
 msgstr "Noch {0} Tage"
 
@@ -4815,7 +4815,11 @@ msgstr "{0} übrig"
 msgid "{0} of it is already covered by an advance."
 msgstr "{0} davon sind bereits durch einen Vorschuss gedeckt."
 
-#: onedesk/public/js/tenant.js:110
+#: onedesk/public/js/tenant.js:102
+msgid "{0} of {1} — {2}%"
+msgstr "{0} von {1} — {2} %"
+
+#: onedesk/public/js/tenant.js:140
 msgid "{0} of {1}."
 msgstr "{0} von {1}."
 
@@ -4831,9 +4835,13 @@ msgstr "{0} auf dem Kilometerzähler seit dem letzten Eintrag."
 msgid "{0} out of 5"
 msgstr "{0} von 5"
 
-#: onedesk/public/js/tenant.js:108
+#: onedesk/public/js/tenant.js:138
 msgid "{0} over the {1} this plan allows."
 msgstr "{0} über den {1}, die dieser Tarif erlaubt."
+
+#: onedesk/public/js/tenant.js:108
+msgid "{0} signed for and not yet counted."
+msgstr "{0} signiert und noch nicht gezählt."
 
 #: onedesk/public/js/appraisal.js:30 onedesk/public/js/leave_application.js:29
 msgid "{0} to {1}"
@@ -4879,6 +4887,10 @@ msgstr "{0}, ab {1}. Es ist noch keine Änderung eingetragen."
 #: onedesk/public/js/employee_promotion.js:39
 msgid "{0}, from {1}: {2}."
 msgstr "{0}, ab {1}: {2}."
+
+#: onedesk/public/js/tenant.js:104
+msgid "{0}, unmetered"
+msgstr "{0}, ohne Begrenzung"
 
 #: onedesk/public/js/appraisal.js:54
 msgid "{0}, {1} — {2}, still waiting on {3}."

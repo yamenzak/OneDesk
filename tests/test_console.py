@@ -22,6 +22,11 @@ import tree
 ADMIN = tree.APP / "one_admin"
 OPERATOR = "One Operator"
 
+#: Fieldtypes nobody can type into: the ones that arrange a form and the ones
+#: that only draw. `read_only` on them means nothing, so a guard that demands it
+#: fails on a layout choice rather than on a mistake.
+NOT_A_FIELD = ("Section Break", "Column Break", "Tab Break", "HTML", "Heading", "Image")
+
 #: One Admin's own doctypes that are deliberately not in the rail, and why.
 #: Anything else missing from it is an oversight rather than a decision.
 UNRAILED = {
@@ -188,8 +193,7 @@ def test_nothing_on_a_workspace_is_typed():
 	typed = [
 		one["fieldname"]
 		for one in doc["fields"]
-		if one["fieldtype"] not in ("Section Break", "Column Break", "Tab Break")
-		and not one.get("read_only")
+		if one["fieldtype"] not in NOT_A_FIELD and not one.get("read_only")
 	]
 	assert not typed, f"{typed} can be typed on a Tenant"
 	for perm in doc["permissions"]:

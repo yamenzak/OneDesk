@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 12:10+0000\n"
-"PO-Revision-Date: 2026-09-22 12:10+0000\n"
+"POT-Creation-Date: 2026-09-22 12:16+0000\n"
+"PO-Revision-Date: 2026-09-22 12:16+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1511,7 +1511,7 @@ msgstr "تعذّر إعداد One"
 msgid "Falls to {0} in {1} days."
 msgstr "تهبط إلى {0} بعد {1} يوماً."
 
-#: onedesk/public/js/tenant.js:47 onedesk/public/js/tenant.js:129
+#: onedesk/public/js/tenant.js:47 onedesk/public/js/tenant.js:159
 msgid "Falls to {0} tonight."
 msgstr "تهبط إلى {0} الليلة."
 
@@ -1705,11 +1705,6 @@ msgstr "التوظيف"
 msgid "Hiring Pipeline"
 msgstr "مسار التوظيف"
 
-#. Label of the tab_history (Tab Break) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "History"
-msgstr "السجل"
-
 #: onedesk/one_hr/employee.py:111 onedesk/one_hr/employee.py:268
 #: onedesk/one_hr/presence.py:181 onedesk/public/js/employee.js:48
 msgid "Holiday"
@@ -1833,6 +1828,11 @@ msgstr ""
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 msgid "In press's own words."
 msgstr "بكلمات Frappe Cloud نفسها."
+
+#. Label of the storage_said (HTML) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "In words"
+msgstr "بالكلمات"
 
 #. Label of the one_learn_home (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -2228,7 +2228,7 @@ msgstr "تسجيل الدخول بمفتاح مرور غير مفعَّل في �
 msgid "Longitude"
 msgstr "خط الطول"
 
-#: onedesk/public/js/tenant.js:77 onedesk/public/js/tenant.js:82
+#: onedesk/public/js/tenant.js:78 onedesk/public/js/tenant.js:83
 msgid "Look again"
 msgstr "انظر ثانية"
 
@@ -2292,7 +2292,7 @@ msgstr "مطابقة الموقع الذي يبلّغ عنه المتصفح مع
 msgid "May"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:75
+#: onedesk/public/js/tenant.js:76
 msgid "Measure storage"
 msgstr "قياس التخزين"
 
@@ -3210,7 +3210,7 @@ msgstr "نظرة عامة على التوظيف"
 msgid "Recurring"
 msgstr "متكرر"
 
-#: onedesk/public/js/tenant.js:80
+#: onedesk/public/js/tenant.js:81
 msgid "Refresh domains"
 msgstr "تحديث النطاقات"
 
@@ -3312,7 +3312,7 @@ msgstr "إعادة تعيين مفتاح المرور"
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
-#: onedesk/public/js/tenant.js:67
+#: onedesk/public/js/tenant.js:68
 msgid "Restore"
 msgstr ""
 
@@ -3459,11 +3459,11 @@ msgstr "تسجيل الحضور الذاتي"
 msgid "Selling"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:138
+#: onedesk/public/js/tenant.js:168
 msgid "Send to {0}"
 msgstr "أرسل إلى {0}"
 
-#: onedesk/public/js/tenant.js:140
+#: onedesk/public/js/tenant.js:170
 msgid "Send {0} to {1}?"
 msgstr "إرسال {0} إلى {1}؟"
 
@@ -3720,7 +3720,7 @@ msgstr "توقفت عند الخطوة {0} من {1} — {2}."
 #. Settings'
 #. Label of the storage_section (Section Break) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-#: onedesk/one_admin/doctype/tenant/tenant.json onedesk/public/js/tenant.js:97
+#: onedesk/one_admin/doctype/tenant/tenant.json onedesk/public/js/tenant.js:127
 msgid "Storage"
 msgstr "التخزين"
 
@@ -4121,7 +4121,7 @@ msgstr "تم تحديد {0} من {1}"
 msgid "Time"
 msgstr "الوقت"
 
-#: onedesk/public/js/tenant.js:120
+#: onedesk/public/js/tenant.js:150
 msgid "Time on this rung"
 msgstr "المدة على هذه الدرجة"
 
@@ -4730,11 +4730,11 @@ msgstr "طالب {0} بمبلغ {1} عن {2}، المقبول منه {3} — و�
 msgid "{0} could not be marked Left"
 msgstr "تعذّر تعليم {0} بأنه ترك العمل"
 
-#: onedesk/public/js/tenant.js:130
+#: onedesk/public/js/tenant.js:160
 msgid "{0} days before it falls to {1}."
 msgstr "{0} يوماً قبل أن تهبط إلى {1}."
 
-#: onedesk/public/js/tenant.js:125
+#: onedesk/public/js/tenant.js:155
 msgid "{0} days left"
 msgstr "بقي {0} يوماً"
 
@@ -4815,7 +4815,11 @@ msgstr "متبقٍ {0}"
 msgid "{0} of it is already covered by an advance."
 msgstr "{0} منه مغطى بسلفة سابقة."
 
-#: onedesk/public/js/tenant.js:110
+#: onedesk/public/js/tenant.js:102
+msgid "{0} of {1} — {2}%"
+msgstr "{0} من {1} — {2}%"
+
+#: onedesk/public/js/tenant.js:140
 msgid "{0} of {1}."
 msgstr "{0} من {1}."
 
@@ -4831,9 +4835,13 @@ msgstr "{0} على عدّاد المسافة منذ السجل السابق."
 msgid "{0} out of 5"
 msgstr "{0} من 5"
 
-#: onedesk/public/js/tenant.js:108
+#: onedesk/public/js/tenant.js:138
 msgid "{0} over the {1} this plan allows."
 msgstr "{0} فوق الـ{1} التي تسمح بها هذه الخطة."
+
+#: onedesk/public/js/tenant.js:108
+msgid "{0} signed for and not yet counted."
+msgstr "{0} وُقِّع عليها ولم تُحتسب بعد."
 
 #: onedesk/public/js/appraisal.js:30 onedesk/public/js/leave_application.js:29
 msgid "{0} to {1}"
@@ -4879,6 +4887,10 @@ msgstr "{0}، اعتباراً من {1}. لم يُدرج أي تغيير بعد.
 #: onedesk/public/js/employee_promotion.js:39
 msgid "{0}, from {1}: {2}."
 msgstr "{0}، اعتباراً من {1}: {2}."
+
+#: onedesk/public/js/tenant.js:104
+msgid "{0}, unmetered"
+msgstr "{0}، بلا حد"
 
 #: onedesk/public/js/appraisal.js:54
 msgid "{0}, {1} — {2}, still waiting on {3}."

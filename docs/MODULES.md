@@ -42,7 +42,7 @@ No doctypes yet.
 | One Admin Settings | 28 | single |
 | Provisioning Job | 12 | document |
 | Stripe Webhook Event | 7 | document |
-| Tenant | 33 | document |
+| Tenant | 32 | document |
 | Tenant Domain | 7 | document |
 | Tenant Event | 4 | document |
 

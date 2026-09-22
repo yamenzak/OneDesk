@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 12:10+0000\n"
-"PO-Revision-Date: 2026-09-22 12:10+0000\n"
+"POT-Creation-Date: 2026-09-22 12:16+0000\n"
+"PO-Revision-Date: 2026-09-22 12:16+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1509,7 +1509,7 @@ msgstr ""
 msgid "Falls to {0} in {1} days."
 msgstr ""
 
-#: onedesk/public/js/tenant.js:47 onedesk/public/js/tenant.js:129
+#: onedesk/public/js/tenant.js:47 onedesk/public/js/tenant.js:159
 msgid "Falls to {0} tonight."
 msgstr ""
 
@@ -1703,11 +1703,6 @@ msgstr ""
 msgid "Hiring Pipeline"
 msgstr ""
 
-#. Label of the tab_history (Tab Break) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "History"
-msgstr ""
-
 #: onedesk/one_hr/employee.py:111 onedesk/one_hr/employee.py:268
 #: onedesk/one_hr/presence.py:181 onedesk/public/js/employee.js:48
 msgid "Holiday"
@@ -1830,6 +1825,11 @@ msgstr ""
 #. Description of the 'Error' (Small Text) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 msgid "In press's own words."
+msgstr ""
+
+#. Label of the storage_said (HTML) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "In words"
 msgstr ""
 
 #. Label of the one_learn_home (Check) field in DocType 'HR Settings'
@@ -2226,7 +2226,7 @@ msgstr ""
 msgid "Longitude"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:77 onedesk/public/js/tenant.js:82
+#: onedesk/public/js/tenant.js:78 onedesk/public/js/tenant.js:83
 msgid "Look again"
 msgstr ""
 
@@ -2290,7 +2290,7 @@ msgstr ""
 msgid "May"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:75
+#: onedesk/public/js/tenant.js:76
 msgid "Measure storage"
 msgstr ""
 
@@ -3208,7 +3208,7 @@ msgstr ""
 msgid "Recurring"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:80
+#: onedesk/public/js/tenant.js:81
 msgid "Refresh domains"
 msgstr ""
 
@@ -3310,7 +3310,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
-#: onedesk/public/js/tenant.js:67
+#: onedesk/public/js/tenant.js:68
 msgid "Restore"
 msgstr ""
 
@@ -3457,11 +3457,11 @@ msgstr ""
 msgid "Selling"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:138
+#: onedesk/public/js/tenant.js:168
 msgid "Send to {0}"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:140
+#: onedesk/public/js/tenant.js:170
 msgid "Send {0} to {1}?"
 msgstr ""
 
@@ -3718,7 +3718,7 @@ msgstr ""
 #. Settings'
 #. Label of the storage_section (Section Break) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-#: onedesk/one_admin/doctype/tenant/tenant.json onedesk/public/js/tenant.js:97
+#: onedesk/one_admin/doctype/tenant/tenant.json onedesk/public/js/tenant.js:127
 msgid "Storage"
 msgstr ""
 
@@ -4116,7 +4116,7 @@ msgstr ""
 msgid "Time"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:120
+#: onedesk/public/js/tenant.js:150
 msgid "Time on this rung"
 msgstr ""
 
@@ -4718,11 +4718,11 @@ msgstr ""
 msgid "{0} could not be marked Left"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:130
+#: onedesk/public/js/tenant.js:160
 msgid "{0} days before it falls to {1}."
 msgstr ""
 
-#: onedesk/public/js/tenant.js:125
+#: onedesk/public/js/tenant.js:155
 msgid "{0} days left"
 msgstr ""
 
@@ -4803,7 +4803,11 @@ msgstr ""
 msgid "{0} of it is already covered by an advance."
 msgstr ""
 
-#: onedesk/public/js/tenant.js:110
+#: onedesk/public/js/tenant.js:102
+msgid "{0} of {1} — {2}%"
+msgstr ""
+
+#: onedesk/public/js/tenant.js:140
 msgid "{0} of {1}."
 msgstr ""
 
@@ -4819,8 +4823,12 @@ msgstr ""
 msgid "{0} out of 5"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:108
+#: onedesk/public/js/tenant.js:138
 msgid "{0} over the {1} this plan allows."
+msgstr ""
+
+#: onedesk/public/js/tenant.js:108
+msgid "{0} signed for and not yet counted."
 msgstr ""
 
 #: onedesk/public/js/appraisal.js:30 onedesk/public/js/leave_application.js:29
@@ -4866,6 +4874,10 @@ msgstr ""
 
 #: onedesk/public/js/employee_promotion.js:39
 msgid "{0}, from {1}: {2}."
+msgstr ""
+
+#: onedesk/public/js/tenant.js:104
+msgid "{0}, unmetered"
 msgstr ""
 
 #: onedesk/public/js/appraisal.js:54

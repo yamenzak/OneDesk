@@ -24,6 +24,9 @@
   "domain",
   "primary_domain",
   "column_break_site",
+  "token_hash",
+  "live_on",
+  "status_since",
   "tab_billing",
   "billing_section",
   "stripe_customer",
@@ -31,15 +34,11 @@
   "column_break_billing",
   "archived_backup",
   "storage_section",
+  "storage_said",
   "storage_bytes",
   "storage_pending",
   "column_break_storage",
-  "storage_limit",
-  "tab_history",
-  "live_on",
-  "status_since",
-  "column_break_history",
-  "token_hash"
+  "storage_limit"
  ],
  "fields": [
   {
@@ -243,13 +242,9 @@
    "label": "Billing and storage"
   },
   {
-   "fieldname": "tab_history",
-   "fieldtype": "Tab Break",
-   "label": "History"
-  },
-  {
-   "fieldname": "column_break_history",
-   "fieldtype": "Column Break"
+   "fieldname": "storage_said",
+   "fieldtype": "HTML",
+   "label": "In words"
   }
  ],
  "index_web_pages_for_search": 0,
