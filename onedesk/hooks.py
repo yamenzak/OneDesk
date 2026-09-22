@@ -51,6 +51,8 @@ scheduler_events = {
 		"onedesk.one_admin.domains.nightly",
 		# One rung a workspace, one workspace at a time. See one_admin/ladder.py.
 		"onedesk.one_admin.lifecycle.nightly",
+		# Providers ship models weekly and re-price them without an announcement.
+		"onedesk.one_admin.catalogue.nightly",
 		"onedesk.one_admin.storage.nightly",
 		"onedesk.one_hr.healing.nightly",
 		"onedesk.one_hr.leaving.nightly",
@@ -121,6 +123,7 @@ doc_events = {
 # so a tenant administrator granting themselves One Operator on their own
 # workspace gets a rail entry and nothing behind it. See one_admin/site.py.
 has_permission = {
+	"AI Model": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Account Request": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Offering": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"One Admin Settings": "onedesk.one_admin.site.refuse_on_a_tenant",
@@ -135,6 +138,7 @@ has_permission = {
 # only called when there is a document, so on its own it guarded the form and
 # left get_list wide open — measured, not assumed.
 permission_query_conditions = {
+	"AI Model": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Account Request": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Offering": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"One Admin Settings": "onedesk.one_admin.site.nothing_on_a_tenant",
@@ -197,6 +201,8 @@ doctype_js = {
 
 # Loaded after the doctype's own list script, so ours has the last word.
 doctype_list_js = {
+	# Nothing on the catalogue is typed; its only verb is to sync it now.
+	"AI Model": "public/js/ai_model_list.js",
 	"Attendance": "public/js/attendance_list.js",
 	"Employee Checkin": "public/js/checkin_list.js",
 }

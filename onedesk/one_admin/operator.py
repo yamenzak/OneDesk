@@ -243,3 +243,17 @@ def try_the_gateway(prompt: str) -> dict:
 
 	provider, model = gateway.FIRST
 	return {"provider": provider, "model": model, "said": gateway.ask(prompt)}
+
+
+@frappe.whitelist()
+def sync_catalogue(provider: str) -> dict:
+	"""List and price one provider's models now, rather than waiting for night.
+
+	Counts back rather than rows: the screen this is called from is the list
+	that just changed, and a sentence saying how many need a person is the one
+	thing somebody wants from it.
+	"""
+	_may()
+	from onedesk.one_admin import catalogue
+
+	return catalogue.sync(provider)

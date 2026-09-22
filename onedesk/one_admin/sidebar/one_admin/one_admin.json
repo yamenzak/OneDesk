@@ -111,6 +111,18 @@
    "type": "Link"
   },
   {
+   "child": 1,
+   "collapsible": 0,
+   "icon": "cpu",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Models",
+   "link_to": "AI Model",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
    "child": 0,
    "collapsible": 0,
    "icon": "settings",

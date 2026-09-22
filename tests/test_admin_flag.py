@@ -42,12 +42,23 @@ def test_the_module_has_doctypes_to_hold_to_the_rule():
 
 def test_every_operator_doctype_grants_one_role_and_it_is_the_operator():
 	for name, spec in admin_doctypes():
+		if spec.get("istable"):
+			continue  # A child is reached through its parent and grants nothing.
 		roles = [row.get("role") for row in spec.get("permissions") or []]
 		assert roles == [OPERATOR], (
 			f"{name} grants {roles!r}. Every One Admin doctype grants exactly "
 			f"{OPERATOR!r}, because that role is the only thing keeping the "
 			"operator side off a tenant's own desk."
 		)
+
+
+def test_a_child_table_grants_nothing_of_its_own():
+	"""Frappe checks the parent. A role on a child is a role somebody will read
+	as the thing that protects it, and it is not."""
+	for name, spec in admin_doctypes():
+		if not spec.get("istable"):
+			continue
+		assert not (spec.get("permissions") or []), f"{name} is a child table with its own roles"
 
 
 def test_the_module_is_registered():
@@ -92,3 +103,25 @@ def test_the_press_client_holds_nothing():
 			f"press.py calls {writing}. It asks press and caches; it does not "
 			"write, because the moment it writes there is a copy to go stale."
 		)
+
+
+def test_a_child_table_is_not_gated_on_its_own():
+	"""Frappe checks the parent, and a hook on a child never fires.
+
+	Which makes one on a child worse than useless: it is a line somebody reads
+	as the thing protecting that table.
+	"""
+	import ast
+
+	body = ast.parse((tree.APP / "hooks.py").read_text(encoding="utf-8"))
+	children = {name for name, spec in admin_doctypes() if spec.get("istable")}
+	assert children, "no child tables in the module — this guard is guarding nothing"
+	for hook in ("has_permission", "permission_query_conditions"):
+		table = next(
+			node.value
+			for node in body.body
+			if isinstance(node, ast.Assign)
+			and any(t.id == hook for t in node.targets if isinstance(t, ast.Name))
+		)
+		named = {key.value for key in table.keys}
+		assert not (children & named), f"{hook} names a child table"

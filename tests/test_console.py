@@ -61,13 +61,19 @@ def _workspace() -> dict:
 
 
 def _owned() -> set[str]:
-	"""Every doctype the One Admin module ships."""
+	"""Every doctype the One Admin module ships that a person can open.
+
+	Child tables are left out throughout this file: they have no list, no rail
+	entry and no permission of their own — frappe reaches one through its parent
+	and checks the parent's.
+	"""
 	folder = ADMIN / "doctype"
-	return {
-		_json(one / f"{one.name}.json")["name"]
+	specs = [
+		_json(one / f"{one.name}.json")
 		for one in folder.iterdir()
 		if one.is_dir() and (one / f"{one.name}.json").exists()
-	}
+	]
+	return {spec["name"] for spec in specs if not spec.get("istable")}
 
 
 def test_the_console_is_gated_on_the_operator_role():

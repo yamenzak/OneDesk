@@ -117,6 +117,38 @@ def through(
 	return _answered(model, spoken, answer)
 
 
+def get(provider: str, path: str, timeout: int = TIMEOUT) -> dict:
+	"""A plain GET at a provider, through the gateway.
+
+	Which is how the catalogue lists Google's models without a Google key on
+	this site: the gateway forwards anything under a provider's prefix and
+	attaches the stored key on the way. Cloudflare's own models are listed from
+	Cloudflare's API instead, because the token for that is one we already hold
+	and it is not a provider secret.
+	"""
+	site.require_admin()
+	if provider not in PROVIDERS:
+		raise Refused(f"{provider} is not a provider this gateway speaks to")
+
+	settings = _settings()
+	where = f"{settings['url'].rstrip('/')}/{settings['account']}/{settings['gateway']}/{provider}/{path.lstrip('/')}"
+	try:
+		answer = requests.get(
+			where, headers={HEADER: f"Bearer {settings['token']}"}, timeout=timeout
+		)
+	except requests.Timeout as raised:
+		raise Again(f"{provider} timed out listing {path}") from raised
+	except requests.RequestException as raised:
+		raise Again(f"{provider} could not be reached: {raised}") from raised
+
+	if answer.status_code != 200:
+		raise faults.raised(f"{provider}/{path}", answer.status_code, _detail(answer))
+	try:
+		return answer.json()
+	except ValueError as raised:
+		raise Refused(f"{provider}/{path} answered 200 with something that is not JSON") from raised
+
+
 def _answered(model: str, spoken: dict, answer) -> str:
 	if answer.status_code != 200:
 		raise faults.raised(model, answer.status_code, _detail(answer))

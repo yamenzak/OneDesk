@@ -1,0 +1,94 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-09-22 20:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "istable": 1,
+ "field_order": [
+  "kind",
+  "modality",
+  "per",
+  "unit",
+  "usd",
+  "starts",
+  "ends"
+ ],
+ "fields": [
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Kind",
+   "options": "input\ncached\noutput\nusage",
+   "reqd": 1,
+   "read_only": 1,
+   "in_list_view": 1,
+   "columns": 1,
+   "description": "A cache read is a third thing, not a cheaper input."
+  },
+  {
+   "fieldname": "modality",
+   "fieldtype": "Select",
+   "label": "Modality",
+   "options": "text\nimage\naudio\nvideo\nother",
+   "reqd": 1,
+   "read_only": 1,
+   "in_list_view": 1,
+   "columns": 1
+  },
+  {
+   "fieldname": "per",
+   "fieldtype": "Int",
+   "label": "Per",
+   "default": "1",
+   "read_only": 1,
+   "in_list_view": 1,
+   "columns": 1
+  },
+  {
+   "fieldname": "unit",
+   "fieldtype": "Data",
+   "label": "Unit",
+   "reqd": 1,
+   "read_only": 1,
+   "in_list_view": 1,
+   "columns": 2,
+   "description": "The provider's own word. Nothing converts between units."
+  },
+  {
+   "fieldname": "usd",
+   "fieldtype": "Float",
+   "label": "USD",
+   "precision": "9",
+   "read_only": 1,
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "starts",
+   "fieldtype": "Date",
+   "label": "Starts",
+   "read_only": 1,
+   "description": "When a published price takes over from the one before it."
+  },
+  {
+   "fieldname": "ends",
+   "fieldtype": "Date",
+   "label": "Ends",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-22 20:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Admin",
+ "name": "AI Model Rate",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "description": "One published price, in the provider's own unit."
+}

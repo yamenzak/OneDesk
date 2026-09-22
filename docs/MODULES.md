@@ -38,6 +38,8 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
+| AI Model | 16 | document |
+| AI Model Rate | 7 | child |
 | Account Request | 16 | document |
 | Offering | 19 | document |
 | One Admin Settings | 32 | single |
@@ -71,6 +73,7 @@ No doctypes yet.
 * `onedesk.one_admin.operator.retry_signup`
 * `onedesk.one_admin.operator.sold`
 * `onedesk.one_admin.operator.standing`
+* `onedesk.one_admin.operator.sync_catalogue`
 * `onedesk.one_admin.operator.try_the_gateway`
 * `onedesk.one_admin.operator.walk`
 * `onedesk.one_admin.proxy.domain_add`

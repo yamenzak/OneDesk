@@ -215,11 +215,43 @@ answer, because the other way is a changed response quietly returning blanks.
 The One AI module itself arrives with AI 5, when there is a doctype that belongs
 on every site rather than only on admin.
 
-**AI 2 — the catalogue.** `AI Model` and its `AI Model Rate` rows, discovery from
-both provider APIs, price parsing from both published pages, `Needs Review` for
-anything unpriceable, and a nightly sync that refreshes facts and touches no
-decision. The parsers take text and return rows, with no frappe in them, so they
-are testable against a saved copy of each page.
+**AI 2 — the catalogue.** *Done.* `AI Model` and its `AI Model Rate` rows in One
+Admin, `one_admin/catalogue.py` for the sync and `one_admin/prices.py` for the
+reading, with a saved copy of each page in `tests/samples/`.
+
+**Discovery comes from two places for one reason.** Cloudflare's models are
+listed from Cloudflare's own API, because the token for that is one we already
+hold and it is not a provider secret. Google's are listed *through the gateway*,
+which forwards the request and attaches the stored key — so the catalogue is
+built without a Google key ever reaching this site.
+
+**The pages are nothing like each other.** Cloudflare puts one row per model
+with its id in the first cell, so nothing has to be matched up. Google puts the
+model in a heading above the table, in a display name — "Gemini 3.1 Flash Image
+(Nano Banana 2)" against an API that says `gemini-3.1-flash-image` — so both
+sides go through `fold`, and a name that still does not match is left unpriced
+rather than guessed at.
+
+**Measured rather than argued: ten units across sixty-five Cloudflare models.**
+Tokens per million, 512x512 tiles, tiles *per diffusion step*, first and
+subsequent megapixels, audio minutes, characters per thousand, and images per
+million. Google adds prices that change on a date, one price covering three
+modalities, and a restatement of the same price in another unit. Nothing
+converts between any of them; a rate keeps the provider's own words and metering
+matches on them.
+
+**What defeats the parser is the point.** `$0.067 per 1K image` is a picture a
+thousand pixels wide, not a thousand pictures, and reading that `1K` as a
+multiplier is a bill a thousand times too large. So an amount's own unit is only
+believed where the page attaches it — `$0.005/min`, or a parenthetical opened
+right before it — and prose like "Equivalent to $0.045 per 0.5K image" is left
+unread, which puts the model in front of a person. Five of Google's models land
+that way and all five are image models.
+
+**A charge sharing a cell is not a call price.** Google prices context-cache
+storage per hour in the same cell as the cache read. Billed per call it would
+charge somebody for holding still, so it is skipped — and skipped rather than
+flagged, because a model is perfectly sellable without it.
 
 **AI 3 — the ledger.** `Credit Ledger Entry` in One Admin, balance as a sum,
 expiry, reserve and commit under a row lock. No AI in this stage at all: it is an accounting

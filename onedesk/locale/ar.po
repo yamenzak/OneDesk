@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 15:44+0000\n"
-"PO-Revision-Date: 2026-09-22 15:44+0000\n"
+"POT-Creation-Date: 2026-09-22 16:07+0000\n"
+"PO-Revision-Date: 2026-09-22 16:07+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -50,6 +50,11 @@ msgstr "يُنشأ تكليف مناوبة ويعمل الموظف هذه الم
 msgid "A Shift Location, or a single employee. Leave both empty to apply it site-wide."
 msgstr "موقع مناوبة، أو موظف واحد. اترك الحقلين فارغين لتطبيقه على الموقع بأكمله."
 
+#. Description of the 'Kind' (Select) field in DocType 'AI Model Rate'
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "A cache read is a third thing, not a cheaper input."
+msgstr "قراءة المخزن المؤقت شيء ثالث، وليست مدخلاً أرخص."
+
 #. Description of the 'Treat as a Site' (Check) field in DocType 'Shift
 #. Location'
 #: onedesk/one_hr/custom/shift_location.json
@@ -74,6 +79,11 @@ msgstr "مساحة عمل لعميل. تُنشأ من طلب حساب مدفوع
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 msgid "A document that does not expire, such as a birth certificate, leaves this empty."
 msgstr "الوثيقة التي لا تنتهي صلاحيتها، مثل شهادة الميلاد، تُترك فارغة هنا."
+
+#. Description of a DocType
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "A model a provider offers, with the prices it publishes for it."
+msgstr "نموذج يعرضه مزوّد، ومعه الأسعار التي ينشرها له."
 
 #: onedesk/one_hr/doctype/clock_network/clock_network.py:24
 msgid "A network belongs to a Shift Location or to one employee, not to both."
@@ -129,6 +139,16 @@ msgstr "لا يحمل {0} حقل {1}."
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "AI Gateway"
 msgstr "بوابة الذكاء الاصطناعي"
+
+#. Name of a DocType
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "AI Model"
+msgstr "نموذج ذكاء اصطناعي"
+
+#. Name of a DocType
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "AI Model Rate"
+msgstr "سعر نموذج ذكاء اصطناعي"
 
 #. Label of the press_token (Password) field in DocType 'One Admin Settings'
 #. Label of the cloudflare_token (Password) field in DocType 'One Admin
@@ -497,6 +517,10 @@ msgstr "طُلب، ولم يردّ Frappe Cloud بعد."
 msgid "Asked on check out only. Options come from Clock Reason."
 msgstr "يُطلب عند تسجيل الانصراف فقط. الخيارات مأخوذة من سبب التسجيل."
 
+#: onedesk/public/js/ai_model_list.js:33
+msgid "Asking {0}…"
+msgstr "جارٍ سؤال {0}…"
+
 #: onedesk/public/js/admin_settings.js:31
 msgid "Asking…"
 msgstr "جارٍ السؤال…"
@@ -771,6 +795,11 @@ msgstr "الحملات"
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Cannot be changed. Storage is pinned to it when the workspace is created."
 msgstr "لا يمكن تغييره. يُثبَّت التخزين عليه عند إنشاء مساحة العمل."
+
+#. Label of the capability (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Capability"
+msgstr "القدرة"
 
 #. Description of the 'Ask for a Photo' (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -1379,6 +1408,11 @@ msgstr ""
 msgid "Email Group"
 msgstr ""
 
+#. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Embedding"
+msgstr "تضمين"
+
 #. Label of the 'employee' field in DocType 'Expense Claim'
 #. Name of a role
 #. Label of the employee (Link) field in DocType 'Clock Attempt'
@@ -1505,6 +1539,11 @@ msgstr ""
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:58
 msgid "End Date"
 msgstr ""
+
+#. Label of the ends (Date) field in DocType 'AI Model Rate'
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "Ends"
+msgstr "ينتهي"
 
 #. Label of the ends_the_day (Check) field in DocType 'Clock Reason'
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
@@ -1962,6 +2001,11 @@ msgstr "إذا عُطِّل، لا يسجّل أي تسجيل حضور مصدر�
 msgid "If unchecked, a missing passkey is only flagged."
 msgstr "إذا لم يتم تحديده، يُكتفى بالإشارة إلى غياب مفتاح المرور."
 
+#. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Image Generation"
+msgstr "توليد الصور"
+
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:162
 #: onedesk/public/js/employee.js:140
 msgid "In"
@@ -2099,9 +2143,11 @@ msgstr "مجال النتائج الرئيسية"
 msgid "Key"
 msgstr ""
 
+#. Label of the kind (Select) field in DocType 'AI Model Rate'
 #. Label of the kind (Select) field in DocType 'Offering'
 #. Label of the kind (Select) field in DocType 'Provisioning Job'
 #. Label of the kind (Select) field in DocType 'Tenant Event'
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
@@ -2132,6 +2178,16 @@ msgstr "آخر سماع"
 msgid "Last Interview"
 msgstr "آخر مقابلة"
 
+#. Label of the seen_on (Datetime) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Last Listed"
+msgstr "آخر إدراج"
+
+#. Label of the priced_on (Datetime) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Last Priced"
+msgstr "آخر تسعير"
+
 #. Label of the said (Code) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "Last Response"
@@ -2143,6 +2199,11 @@ msgstr "آخر رد"
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 msgid "Last Seen"
 msgstr "آخر ظهور"
+
+#. Label of the seen_section (Section Break) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Last Sync"
+msgstr "آخر مزامنة"
 
 #. Label of the last_used (Datetime) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
@@ -2428,12 +2489,24 @@ msgstr ""
 msgid "Measure storage"
 msgstr "قياس التخزين"
 
+#. Label of the modality (Select) field in DocType 'AI Model Rate'
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "Modality"
+msgstr "الوسيط"
+
+#. Label of the model (Data) field in DocType 'AI Model'
 #. Label of the model (Data) field in DocType 'Clock Attempt'
 #. Label of the model (Data) field in DocType 'Clock Device'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Model"
 msgstr "الطراز"
+
+#. Label of a Sidebar Item
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json
+msgid "Models"
+msgstr "النماذج"
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:24
 msgid "Month"
@@ -2447,9 +2520,11 @@ msgid "Monthly Attendance"
 msgstr "الحضور الشهري"
 
 #. Label of the workspace_name (Data) field in DocType 'Workspace Account'
+#. Label of the label (Data) field in DocType 'AI Model'
 #. Label of the label (Data) field in DocType 'Clock Network'
 #. Label of the label (Data) field in DocType 'Clock Place'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/public/js/leave_control_panel.js:34
@@ -2471,6 +2546,15 @@ msgstr "اسم النسخة الاحتياطية الخارجية لدى Frappe 
 #: onedesk/one_hr/custom/employee_attendance_tool.json
 msgid "Narrow the List"
 msgstr "تضييق القائمة"
+
+#. Option for the 'Status' (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Needs Review"
+msgstr "يحتاج مراجعة"
+
+#: onedesk/public/js/ai_model_list.js:13
+msgid "Needs review"
+msgstr "يحتاج مراجعة"
 
 #. Label of the network_section (Section Break) field in DocType 'Clock
 #. Attempt'
@@ -2533,6 +2617,10 @@ msgstr "لا توجد خطة معروضة حالياً."
 msgid "No position was sent."
 msgstr "لم يُرسَل أي موقع."
 
+#: onedesk/one_admin/catalogue.py:204
+msgid "No price for this model on the published page."
+msgstr "لا سعر لهذا النموذج في الصفحة المنشورة."
+
 #: onedesk/public/js/payroll_entry.js:26
 msgid "No salary slips yet for {0} to {1}."
 msgstr "لا توجد كشوف رواتب بعد من {0} إلى {1}."
@@ -2593,6 +2681,10 @@ msgstr ""
 #: onedesk/public/js/employee.js:103
 msgid "Not marked"
 msgstr "غير مُسجَّل"
+
+#: onedesk/public/js/ai_model_list.js:16
+msgid "Not offered"
+msgstr "غير معروض"
 
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:8
 #: onedesk/public/js/account_request.js:20
@@ -2684,7 +2776,10 @@ msgstr ""
 msgid "Offer"
 msgstr "العرض"
 
+#. Label of the offered (Check) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:259
+#: onedesk/public/js/ai_model_list.js:15
 msgid "Offered"
 msgstr "عروض مقدَّمة"
 
@@ -2713,6 +2808,11 @@ msgstr "يُعرض عند تقديم طلب حضور."
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Offering"
 msgstr "العرض"
+
+#. Label of the sold_section (Section Break) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "On Sale"
+msgstr "المعروض للبيع"
 
 #: onedesk/one_hr/employee.py:126 onedesk/one_hr/presence.py:150
 #: onedesk/one_hr/presence.py:252 onedesk/public/js/employee.js:46
@@ -2744,6 +2844,7 @@ msgstr "إعدادات One Admin"
 
 #. Name of a role
 #: onedesk/one_admin/doctype/account_request/account_request.json
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
@@ -2769,6 +2870,11 @@ msgstr "مفتاح مرور واحد لكل موظف، مسجَّل على ها�
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "One passkey per employee. Reset it when a phone changes."
 msgstr "مفتاح مرور واحد لكل موظف. أعد تعيينه عند تغيير الهاتف."
+
+#. Description of a DocType
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "One published price, in the provider's own unit."
+msgstr "سعر منشور واحد، بوحدة المزوّد نفسها."
 
 #: onedesk/public/js/setup_wizard.js:40
 msgid "One shift and one holiday list to start with. Both can be changed, and more added, later."
@@ -2901,6 +3007,11 @@ msgstr "الخيارات مأخوذة من سبب التسجيل."
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Org Chart"
 msgstr "الهيكل التنظيمي"
+
+#. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Other"
+msgstr ""
 
 #. Description of the 'Also Allow Check-in From' (Table) field in DocType
 #. 'Shift Location'
@@ -3117,6 +3228,11 @@ msgstr ""
 msgid "People"
 msgstr "الأشخاص"
 
+#. Label of the per (Int) field in DocType 'AI Model Rate'
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "Per"
+msgstr "لكل"
+
 #. Label of the 'personal_details' field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "Personal"
@@ -3215,6 +3331,11 @@ msgstr ""
 msgid "Price List"
 msgstr ""
 
+#. Option for the 'Status' (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Priced"
+msgstr "مُسعَّر"
+
 #. Label of the primary (Check) field in DocType 'Workspace Domain'
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
 msgid "Primary"
@@ -3273,6 +3394,11 @@ msgstr ""
 msgid "Provided"
 msgstr "ممنوح"
 
+#. Label of the provider (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Provider"
+msgstr ""
+
 #. Description of the 'Gateway Token' (Password) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -3305,6 +3431,11 @@ msgstr "فشل التجهيز"
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Public Key"
 msgstr "المفتاح العام"
+
+#. Label of the rates_section (Section Break) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Published Prices"
+msgstr "الأسعار المنشورة"
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -3349,6 +3480,11 @@ msgstr "النطاق (بالأمتار)"
 #: onedesk/one_hr/doctype/clock_place/clock_place.py:9
 msgid "Radius must be greater than 0."
 msgstr "يجب أن يكون النطاق أكبر من 0."
+
+#. Label of the rates (Table) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Rates"
+msgstr ""
 
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:210
 msgid "Rating"
@@ -3873,6 +4009,11 @@ msgstr "اقتُطعت بعض الأيام"
 msgid "Source"
 msgstr ""
 
+#. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Speech"
+msgstr "الكلام"
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:224
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -3924,9 +4065,15 @@ msgstr "ابدأ مساحة عمل"
 msgid "Start again"
 msgstr "ابدأ من جديد"
 
+#. Label of the starts (Date) field in DocType 'AI Model Rate'
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "Starts"
+msgstr "يبدأ"
+
 #. Label of the status (Data) field in DocType 'Workspace Account'
 #. Label of the status (Data) field in DocType 'Workspace Domain'
 #. Label of the status (Select) field in DocType 'Account Request'
+#. Label of the status (Select) field in DocType 'AI Model'
 #. Label of the status (Select) field in DocType 'Provisioning Job'
 #. Label of the status (Select) field in DocType 'Tenant'
 #. Label of the status (Select) field in DocType 'Tenant Domain'
@@ -3936,6 +4083,7 @@ msgstr "ابدأ من جديد"
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
 #: onedesk/one_admin/doctype/account_request/account_request.json
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
@@ -4078,6 +4226,10 @@ msgstr "موقوف"
 msgid "Suspended For"
 msgstr "مدة الإيقاف"
 
+#: onedesk/public/js/ai_model_list.js:21
+msgid "Sync {0}"
+msgstr "مزامنة {0}"
+
 #. Description of the 'Backed Up' (Check) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Synced through iCloud Keychain or Google Password Manager, so it is also present on the employee's other devices."
@@ -4127,6 +4279,11 @@ msgstr "حدث مساحة عمل"
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Territory"
 msgstr ""
+
+#. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Text Generation"
+msgstr "توليد النصوص"
 
 #: onedesk/www/start.html:101
 msgid "That did not work."
@@ -4264,6 +4421,10 @@ msgstr "المسمى الوظيفي الجديد، محفوظاً على الم�
 msgid "The next step to run. Steps can safely run more than once."
 msgstr "الخطوة التالية للتنفيذ. تنفيذ الخطوة أكثر من مرة آمن."
 
+#: onedesk/one_admin/catalogue.py:209
+msgid "The page lists this model and no price in effect today."
+msgstr "تُدرج الصفحة هذا النموذج دون سعر سارٍ اليوم."
+
 #: onedesk/one_hr/rules.py:32
 msgid "The passkey was not unlocked with a face, fingerprint or PIN."
 msgstr "لم يُفتح مفتاح المرور ببصمة الوجه أو بصمة الإصبع أو رمز PIN."
@@ -4284,6 +4445,16 @@ msgstr "لم يُصدر الهاتف مفتاح المرور إلا بعد بص�
 #: onedesk/one_hr/rules.py:38
 msgid "The position was less accurate than the location it matched."
 msgstr "كان الموقع أقل دقة من الموقع الذي طابقه."
+
+#. Description of the 'Model' (Data) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "The provider's own id. Never typed here."
+msgstr "معرّف المزوّد نفسه. ولا يُكتب هنا أبداً."
+
+#. Description of the 'Unit' (Data) field in DocType 'AI Model Rate'
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "The provider's own word. Nothing converts between units."
+msgstr "كلمة المزوّد نفسها. ولا شيء يحوّل بين الوحدات."
 
 #: onedesk/public/js/shift_request.js:11
 msgid "The request is closed and nobody is assigned anything."
@@ -4316,6 +4487,12 @@ msgstr "تاريخ البداية بعد تاريخ النهاية."
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 msgid "The status written on each day of an approved request. Work From Home is the only one Attendance keeps apart; everything else counts as a day at work."
 msgstr "الحالة التي تُكتب في كل يوم من أيام الطلب المعتمد. العمل من المنزل هو الوحيد الذي يفصله سجل الحضور، وما عداه يُحتسب يوم عمل."
+
+#. Description of the 'What Could Not Be Read' (Small Text) field in DocType
+#. 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "The wording on the provider's page that defeated the parser."
+msgstr "الصياغة في صفحة المزوّد التي عجز المحلّل عن قراءتها."
 
 #: onedesk/www/welcome.py:21
 msgid "The workspace could not be built. Somebody has been told and will be in touch."
@@ -4542,6 +4719,16 @@ msgstr "مرفوض."
 msgid "Type"
 msgstr ""
 
+#. Label of the usd (Float) field in DocType 'AI Model Rate'
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "USD"
+msgstr "دولار أمريكي"
+
+#. Label of the unit (Data) field in DocType 'AI Model Rate'
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "Unit"
+msgstr ""
+
 #: onedesk/one_hr/presence.py:120
 msgid "Unknown"
 msgstr ""
@@ -4635,6 +4822,11 @@ msgstr "القرار"
 msgid "Verification"
 msgstr ""
 
+#. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Vision"
+msgstr "الرؤية"
+
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:257
@@ -4684,6 +4876,16 @@ msgstr "راحة أسبوعية"
 #: onedesk/one_hr/custom/overtime_details.json
 msgid "What Attendance recorded, before the type's maximum was applied."
 msgstr "ما سجّله الحضور قبل تطبيق الحد الأقصى للنوع."
+
+#. Label of the why (Small Text) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "What Could Not Be Read"
+msgstr "ما تعذّرت قراءته"
+
+#. Description of the 'Capability' (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "What an action asks for. A model picker filters on this."
+msgstr "ما يطلبه الإجراء. ويُرشّح منتقي النماذج على أساسه."
 
 #. Description of the 'Clock Attempt' (Link) field in DocType 'Employee
 #. Checkin'
@@ -4743,6 +4945,11 @@ msgstr "آخر ما سمعته مساحة العمل هذه من مديرها."
 msgid "When"
 msgstr "المدة"
 
+#. Description of the 'Starts' (Date) field in DocType 'AI Model Rate'
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "When a published price takes over from the one before it."
+msgstr "متى يحلّ سعر منشور محلّ الذي قبله."
+
 #: onedesk/public/js/setup_wizard.js:39
 msgid "When do people work?"
 msgstr "متى يعمل الموظفون؟"
@@ -4757,6 +4964,11 @@ msgstr "متى أجاب المدير آخر مرة."
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "When the current status was set."
 msgstr "متى ضُبطت الحالة الحالية."
+
+#. Description of the 'Last Listed' (Datetime) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "When the provider last said this model exists."
+msgstr "آخر مرة قال فيها المزوّد إن هذا النموذج موجود."
 
 #. Description of the 'Hours' (Data) field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/shift_request.json
@@ -4791,6 +5003,12 @@ msgstr "سبب غياب الرقم"
 #: onedesk/one_hr/custom/attendance_request.json
 msgid "Why these days should count as worked. HR keeps the list in Attendance Reason."
 msgstr "سبب احتساب هذه الأيام أيام عمل. وتحفظ الموارد البشرية القائمة في سبب الحضور."
+
+#. Option for the 'Status' (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/public/js/ai_model_list.js:12
+msgid "Withdrawn"
+msgstr "مسحوب"
 
 #. Option for the 'Marks the Day As' (Select) field in DocType 'Attendance
 #. Reason'
@@ -4916,6 +5134,11 @@ msgstr "بدأت تجربتك. ويجري إنشاء مساحة العمل."
 msgid "Your workspace"
 msgstr "مساحة عملك"
 
+#. Description of the 'Offered' (Check) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "Yours to decide. The sync never turns this on, and turns it off when a price stops being readable."
+msgstr "القرار لك. لا تفعّله المزامنة أبداً، وتوقفه حين يتعذّر قراءة السعر."
+
 #. Description of the 'Free Trial (Days)' (Int) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Zero means no trial. The card is taken at checkout either way."
@@ -4934,6 +5157,16 @@ msgstr "الصفر يعني بلا حد."
 msgid "Zero means unlimited. Enforced by Frappe from the site's config."
 msgstr "الصفر يعني بلا حد. ويفرضه Frappe من إعدادات الموقع."
 
+#. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "audio"
+msgstr "صوت"
+
+#. Option for the 'Kind' (Select) field in DocType 'AI Model Rate'
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "cached"
+msgstr "مخزَّن مؤقتاً"
+
 #: onedesk/public/js/appraisal.js:24
 msgid "feedback"
 msgstr "الملاحظات"
@@ -4950,6 +5183,16 @@ msgstr "من {0}، دون تاريخ انتهاء"
 msgid "goals"
 msgstr "الأهداف"
 
+#. Option for the 'Provider' (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "google-ai-studio"
+msgstr "google-ai-studio"
+
+#. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "image"
+msgstr "صورة"
+
 #: onedesk/public/js/employee.js:107
 msgid "in late"
 msgstr "حضر متأخراً"
@@ -4957,6 +5200,11 @@ msgstr "حضر متأخراً"
 #: onedesk/public/js/employee.js:106
 msgid "in late, left early"
 msgstr "حضر متأخراً وانصرف مبكراً"
+
+#. Option for the 'Kind' (Select) field in DocType 'AI Model Rate'
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "input"
+msgstr "مدخلات"
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:132
 msgid "late"
@@ -4983,6 +5231,21 @@ msgstr "ولا واحدة منها تعمل."
 msgid "nothing"
 msgstr "لا شيء"
 
+#. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "other"
+msgstr "أخرى"
+
+#. Option for the 'Kind' (Select) field in DocType 'AI Model Rate'
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "output"
+msgstr "مخرجات"
+
+#. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "text"
+msgstr "نص"
+
 #: onedesk/public/js/appraisal.js:25
 msgid "the self appraisal"
 msgstr "التقييم الذاتي"
@@ -4994,6 +5257,21 @@ msgstr "البداية"
 #: onedesk/public/js/vehicle_log.js:35
 msgid "units"
 msgstr "وحدة"
+
+#. Option for the 'Kind' (Select) field in DocType 'AI Model Rate'
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "usage"
+msgstr "استخدام"
+
+#. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
+#: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+msgid "video"
+msgstr "فيديو"
+
+#. Option for the 'Provider' (Select) field in DocType 'AI Model'
+#: onedesk/one_admin/doctype/ai_model/ai_model.json
+msgid "workers-ai"
+msgstr "workers-ai"
 
 #: onedesk/www/start.py:105
 msgid "{0} AI credits a month"
@@ -5142,9 +5420,17 @@ msgstr "{0} على {1}، والدرجة التي تحتها ليست {2}."
 msgid "{0} is taken."
 msgstr "{0} محجوز."
 
+#: onedesk/one_admin/doctype/ai_model/ai_model.py:23
+msgid "{0} is {1}, so it cannot be offered."
+msgstr "{0} حالته {1}، فلا يمكن عرضه."
+
 #: onedesk/public/js/employee.js:149
 msgid "{0} left"
 msgstr "متبقٍ {0}"
+
+#: onedesk/public/js/ai_model_list.js:38
+msgid "{0} models, {1} priced, {2} need review."
+msgstr "{0} نموذجاً، {1} مُسعَّرة، {2} تحتاج مراجعة."
 
 #: onedesk/public/js/expense_claim.js:49
 msgid "{0} of it is already covered by an advance."
