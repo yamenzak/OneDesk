@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 00:10+0000\n"
-"PO-Revision-Date: 2026-09-22 00:10+0000\n"
+"POT-Creation-Date: 2026-09-22 00:20+0000\n"
+"PO-Revision-Date: 2026-09-22 00:20+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -3272,6 +3272,10 @@ msgstr ""
 msgid "no passkey registered"
 msgstr ""
 
+#: onedesk/public/js/vehicle_log.js:35
+msgid "units"
+msgstr ""
+
 #: onedesk/one_hr/overtime.py:114
 msgid "{0} allows at most {1} overtime hours a day."
 msgstr ""
@@ -3345,6 +3349,14 @@ msgstr ""
 
 #: onedesk/public/js/expense_claim.js:49
 msgid "{0} of it is already covered by an advance."
+msgstr ""
+
+#: onedesk/public/js/vehicle_log.js:44
+msgid "{0} on the odometer since the last log, on {1} {2} costing {3} — {4} per {2}."
+msgstr ""
+
+#: onedesk/public/js/vehicle_log.js:26
+msgid "{0} on the odometer since the last log."
 msgstr ""
 
 #: onedesk/public/js/leave_application.js:29

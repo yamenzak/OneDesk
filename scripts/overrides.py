@@ -347,6 +347,27 @@ OVERRIDES = [
 		"Please set default template for Leave Status Notification in HR Settings.",
 	),
 	(
+		"A vehicle log says how far, on how much",
+		"it carries the last and current odometer and not the distance between them, and hides the litres behind a collapsed section",
+		"onedesk/public/js/vehicle_log.js",
+		"hrms/hrms/hr/doctype/vehicle_log/vehicle_log.json",
+		"last_odometer",
+	),
+	(
+		"The site has a default fiscal year",
+		"Vehicle Expenses defaults its filter to a user default nothing sets, then throws in a red modal before the page has drawn",
+		"onedesk/one_hr/accounts.py",
+		"hrms/hrms/hr/report/vehicle_expenses/vehicle_expenses.js",
+		'default: frappe.defaults.get_user_default("fiscal_year")',
+	),
+	(
+		"A report that wants a fiscal year opens on the one we are in",
+		"the same answer as the payroll period, for the filter that throws rather than asking",
+		"onedesk/public/js/reports.js",
+		"erpnext/erpnext/accounts/report/financial_statements.py",
+		"Start Year and End Year are mandatory",
+	),
+	(
 		"An employee advance can be made on a site nobody has edited the accounts on",
 		"erpnext ships Employee Advances as `account_type: Payable` beside `account_category: Other Receivables`, and hrms demands Receivable",
 		"onedesk/one_hr/accounts.py",

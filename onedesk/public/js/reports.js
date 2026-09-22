@@ -183,13 +183,24 @@ onedesk.reports.dashboards_too = () => {
 	};
 };
 
-// A report that wants a payroll period opens on the one we are in.
+// A report that wants a period opens on the one we are in.
 //
 // Income Tax Computation and Accrued Earnings both make `payroll_period`
 // required and default it to nothing, so both open on "Please set filters" with
 // a red box — on a workspace that has exactly one payroll period per year,
-// created by the setup wizard, and almost always wants the current one. The
-// period containing today, or the newest one if today is outside them all.
+// created by the setup wizard, and almost always wants the current one.
+//
+// Vehicle Expenses is worse: its `fiscal_year` defaults to a user default that
+// nothing on the site ever sets, and the report answers with a red **modal**
+// saying "Start Year and End Year are mandatory" before the page has drawn.
+//
+// Both are the same question, so both are answered the same way: the period
+// containing today, or the newest one if today is outside them all.
+const PERIODS = {
+	"Payroll Period": ["start_date", "end_date"],
+	"Fiscal Year": ["year_start_date", "year_end_date"],
+};
+
 onedesk.reports.the_period = () => {
 	const QueryReport = frappe.views && frappe.views.QueryReport;
 	if (!QueryReport || QueryReport.prototype.__one_period) return;
@@ -198,29 +209,32 @@ onedesk.reports.the_period = () => {
 	const theirs = QueryReport.prototype.setup_filters;
 	QueryReport.prototype.setup_filters = function () {
 		theirs.call(this);
-		const wants = (this.filters || []).filter(
-			(filter) =>
-				filter.df.fieldtype === "Link" &&
-				filter.df.options === "Payroll Period" &&
-				!filter.get_value()
-		);
-		if (!wants.length) return;
-
 		const report = this;
 		const today = frappe.datetime.get_today();
-		frappe.db
-			.get_list("Payroll Period", {
-				filters: { start_date: ["<=", today] },
-				fields: ["name", "end_date"],
-				order_by: "start_date desc",
-				limit: 5,
-			})
-			.then((found) => {
-				const now = found.find((period) => period.end_date >= today) || found[0];
-				if (!now) return;
-				wants.forEach((filter) => filter.set_input(now.name));
-				report.refresh();
-			});
+
+		Object.entries(PERIODS).forEach(([doctype, [starts, ends]]) => {
+			const wants = (report.filters || []).filter(
+				(filter) =>
+					filter.df.fieldtype === "Link" &&
+					filter.df.options === doctype &&
+					!filter.get_value()
+			);
+			if (!wants.length) return;
+
+			frappe.db
+				.get_list(doctype, {
+					filters: { [starts]: ["<=", today] },
+					fields: ["name", ends],
+					order_by: `${starts} desc`,
+					limit: 5,
+				})
+				.then((found) => {
+					const now = found.find((period) => period[ends] >= today) || found[0];
+					if (!now) return;
+					wants.forEach((filter) => filter.set_input(now.name));
+					report.refresh();
+				});
+		});
 	};
 };
 

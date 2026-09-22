@@ -16,6 +16,7 @@ after_install = [
 	"onedesk.one_hr.leave.templates",
 	"onedesk.one_hr.leave.encashable",
 	"onedesk.one_hr.accounts.ready",
+	"onedesk.one_hr.accounts.year",
 	"onedesk.one.brand.apply",
 	"onedesk.one.declutter.apply",
 	"onedesk.one.companions.apply",
@@ -32,6 +33,7 @@ after_migrate = [
 	"onedesk.one_hr.leave.templates",
 	"onedesk.one_hr.leave.encashable",
 	"onedesk.one_hr.accounts.ready",
+	"onedesk.one_hr.accounts.year",
 ]
 extend_bootinfo = "onedesk.one.boot.boot_session"
 
@@ -117,6 +119,7 @@ doctype_js = {
 	"Salary Slip": "public/js/salary_slip.js",
 	"Payroll Entry": "public/js/payroll_entry.js",
 	"Expense Claim": "public/js/expense_claim.js",
+	"Vehicle Log": "public/js/vehicle_log.js",
 	"Employee Tax Exemption Declaration": "public/js/exemption.js",
 	"Employee Tax Exemption Proof Submission": "public/js/exemption.js",
 }

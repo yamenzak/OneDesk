@@ -21,6 +21,10 @@ Neither is a decision this product is making. erpnext named both accounts and
 nominated both; this is the missing or mistaken half of a sentence erpnext
 started, and it is corrected only where the value is still exactly what erpnext
 shipped — a workspace that chose its own keeps it.
+
+`fiscal_year` below is the third of the same kind: erpnext creates the Fiscal
+Year and nothing ever makes it the site's default, so a report whose filter
+reads `frappe.defaults.get_user_default("fiscal_year")` gets nothing.
 """
 
 import frappe
@@ -48,3 +52,28 @@ def ready(*_args) -> None:
 			if has == wanted or has not in replaces:
 				continue
 			frappe.db.set_value("Account", account, "account_type", wanted)
+
+
+def year(*_args) -> None:
+	"""Point the site's default fiscal year at the one we are in.
+
+	`Vehicle Expenses` defaults its `fiscal_year` filter to
+	`frappe.defaults.get_user_default("fiscal_year")` and then throws **Start
+	Year and End Year are mandatory** in a red modal, before the page has drawn,
+	on a site where nothing ever set that default. erpnext creates the Fiscal
+	Year; it just never nominates one.
+
+	Re-pointed on every migrate rather than written once, because a default that
+	is right in January and wrong the following January is worse than none.
+	"""
+	today = frappe.utils.getdate()
+	now = frappe.get_all(
+		"Fiscal Year",
+		filters={"year_start_date": ("<=", today), "year_end_date": (">=", today), "disabled": 0},
+		pluck="name",
+		limit=1,
+	)
+	if not now:
+		return
+	if frappe.db.get_default("fiscal_year") != now[0]:
+		frappe.db.set_default("fiscal_year", now[0])

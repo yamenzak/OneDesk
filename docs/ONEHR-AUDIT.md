@@ -603,3 +603,36 @@ product decision rather than a screen fix.
 `Purpose of Travel` is a two-field list of names, and there is nothing to say
 about it beyond that it was empty; three were seeded to make Travel Request
 usable.
+
+### Vehicle Log
+
+A vehicle log exists to answer how far and on how much, and it said neither.
+The record carried **Last Odometer 49,110** and **Current Odometer 49,880** and
+not the 770 between them; the litres and the price — the whole subject of a
+refuelling record — were behind a collapsed **Refuelling Details** section; and
+the list was `ID · Status · License Plate · Employee`, with no date, no odometer
+and no fuel.
+
+Done: the section opens, the date, the odometer and the fuel join the list, and
+the headline reads *770 on the odometer since the last log, on 58.00 Litre
+costing د.إ 179.80 — 13.3 per Litre*. The unit is asked of the vehicle rather
+than assumed, because `Vehicle.uom` is what the fuel is measured in.
+
+### Unpaid Expense Claim, Vehicle Expenses
+
+Unpaid Expense Claim works and answers one row — the claim approved earlier in
+this walk, which is unpaid, which is the whole question.
+
+**Vehicle Expenses opened on a red modal**: *Start Year and End Year are
+mandatory*, thrown before the page had drawn. Its `fiscal_year` filter defaults
+to `frappe.defaults.get_user_default("fiscal_year")`, and nothing on the site
+ever sets that — erpnext creates the Fiscal Year and never nominates one.
+
+Two things, because one of them alone leaves the modal. `accounts.year()` points
+the site's default at the fiscal year containing today, re-pointed on every
+migrate rather than written once, because a default that is right in January and
+wrong the following January is worse than none — that is what removes the modal,
+because the filter resolves before the first run. And `reports.js` now fills an
+empty **Fiscal Year** filter the same way it already filled **Payroll Period**,
+which covers the moment between two years. The report answers two rows and
+368.90 د.إ.
