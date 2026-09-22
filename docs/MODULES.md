@@ -29,6 +29,14 @@ No doctypes yet.
 
 No doctypes yet.
 
+## One Admin
+
+`onedesk/one_admin`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| One Admin Settings | 14 | single |
+
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk

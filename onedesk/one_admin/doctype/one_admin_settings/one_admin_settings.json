@@ -1,0 +1,110 @@
+{
+ "actions": [],
+ "creation": "2026-09-22 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "press_section",
+  "press_team",
+  "press_token",
+  "column_break_press",
+  "press_url",
+  "cloudflare_section",
+  "cloudflare_account",
+  "cloudflare_token",
+  "column_break_cf",
+  "tenant_domain",
+  "storage_section",
+  "bucket_global",
+  "column_break_buckets",
+  "bucket_eu"
+ ],
+ "fields": [
+  {
+   "fieldname": "press_section",
+   "fieldtype": "Section Break",
+   "label": "Frappe Cloud",
+   "description": "We are a press customer rather than its operator. This token is the whole provisioning boundary; nothing here ever reaches a server or its agent."
+  },
+  {
+   "fieldname": "press_team",
+   "fieldtype": "Data",
+   "label": "Team"
+  },
+  {
+   "fieldname": "press_token",
+   "fieldtype": "Password",
+   "label": "API Token"
+  },
+  {"fieldname": "column_break_press", "fieldtype": "Column Break"},
+  {
+   "default": "https://frappecloud.com",
+   "fieldname": "press_url",
+   "fieldtype": "Data",
+   "label": "Base URL"
+  },
+  {
+   "fieldname": "cloudflare_section",
+   "fieldtype": "Section Break",
+   "label": "Cloudflare"
+  },
+  {
+   "fieldname": "cloudflare_account",
+   "fieldtype": "Data",
+   "label": "Account ID"
+  },
+  {
+   "fieldname": "cloudflare_token",
+   "fieldtype": "Password",
+   "label": "API Token"
+  },
+  {"fieldname": "column_break_cf", "fieldtype": "Column Break"},
+  {
+   "default": "t.4dl.app",
+   "description": "Every workspace is reached at &lt;slug&gt;.&lt;this&gt;. One level below the apex on purpose, so a certificate for it cannot also cover the marketing site or this one.",
+   "fieldname": "tenant_domain",
+   "fieldtype": "Data",
+   "label": "Workspace Domain"
+  },
+  {
+   "fieldname": "storage_section",
+   "fieldtype": "Section Break",
+   "label": "Storage",
+   "description": "Two buckets and only two. A tenant is a prefix inside one of them, chosen at signup and permanent afterwards: R2 pins a bucket to its jurisdiction at creation."
+  },
+  {
+   "fieldname": "bucket_global",
+   "fieldtype": "Data",
+   "label": "Global Bucket"
+  },
+  {"fieldname": "column_break_buckets", "fieldtype": "Column Break"},
+  {
+   "fieldname": "bucket_eu",
+   "fieldtype": "Data",
+   "label": "EU Bucket"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-09-22 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Admin",
+ "name": "One Admin Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "One Operator",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
