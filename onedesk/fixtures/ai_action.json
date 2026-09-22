@@ -9,7 +9,8 @@
   "instruction": "Summarise what follows in three sentences or fewer.\nUse only what is in it. Do not add, guess or explain.\nIf there is not enough to summarise, say so in one sentence.",
   "max_output_tokens": 300,
   "max_input_tokens": 0,
-  "about": "Three sentences or fewer, using only what is there."
+  "about": "Three sentences or fewer, using only what is there.",
+  "may_use_tools": 0
  },
  {
   "doctype": "AI Action",
@@ -21,6 +22,20 @@
   "instruction": "Draft a reply to the message that follows.\nAnswer only what it asks. Do not invent facts, dates, prices or names.\nWhere an answer is not in the message, leave a blank in square brackets for a person to fill in.\nEnd without a signature.",
   "max_output_tokens": 600,
   "max_input_tokens": 0,
-  "about": "A draft to edit, with blanks where it does not know."
+  "about": "A draft to edit, with blanks where it does not know.",
+  "may_use_tools": 0
+ },
+ {
+  "doctype": "AI Action",
+  "name": "find",
+  "key": "find",
+  "label": "Look It Up",
+  "capability": "Text Generation",
+  "enabled": 1,
+  "may_use_tools": 1,
+  "instruction": "Answer the question using this workspace's own records.\nLook things up rather than guessing. If a lookup is refused, say that you cannot see it — do not work around it and do not invent the answer.\nTo change anything, suggest it; suggesting is not doing, and a person decides.\nAnswer in two or three sentences and name the records you used.",
+  "max_output_tokens": 500,
+  "max_input_tokens": 0,
+  "about": "Answers from your own records, and suggests changes rather than making them."
  }
 ]

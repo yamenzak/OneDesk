@@ -24,6 +24,8 @@ hand-written tool per doctype, which is out of date the week somebody adds a
 field.
 """
 
+import datetime
+import decimal
 from typing import Annotated
 
 import frappe
@@ -168,7 +170,25 @@ def run(name: str, args: dict | None = None) -> dict:
 	if not fn:
 		frappe.throw(frappe._("{0} is not a tool.").format(name))
 	answer = fn(**(args or {}))
-	return {"tool": name, "ran": fn in READS, "answer": answer}
+	return {"tool": name, "ran": fn in READS, "answer": _plain(answer)}
+
+
+def _plain(said):
+	"""The answer, in types JSON has.
+
+	A row out of the database carries `date`, `datetime` and `Decimal`, and the
+	result of a tool goes back to the model over HTTP — so a date left as a date
+	is not a display problem, it is the round that fails to serialise.
+	"""
+	if isinstance(said, dict):
+		return {key: _plain(value) for key, value in said.items()}
+	if isinstance(said, (list, tuple)):
+		return [_plain(one) for one in said]
+	if isinstance(said, (datetime.datetime, datetime.date, datetime.time, datetime.timedelta)):
+		return str(said)
+	if isinstance(said, decimal.Decimal):
+		return float(said)
+	return said
 
 
 def _card(proposal: str) -> dict:

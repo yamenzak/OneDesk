@@ -57,7 +57,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| AI Action | 13 | document |
+| AI Action | 14 | document |
 | AI Action Setting | 6 | document |
 | AI Proposal | 19 | document |
 

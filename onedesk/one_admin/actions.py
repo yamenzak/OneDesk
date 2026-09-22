@@ -42,23 +42,61 @@ MOST_EXTRA = 2000
 def run(
 	tenant: str,
 	action: str,
-	text: str,
+	text: str | None = None,
 	model: str | None = None,
 	extra: str | None = None,
 	reference: str | None = None,
+	turns: list[dict] | None = None,
+	tools: list[dict] | None = None,
 ) -> dict:
-	"""One action, run for one workspace, billed to it."""
+	"""One round of one action, run for one workspace and billed to it.
+
+	A round rather than a call, because a model that may look things up answers
+	by asking for a tool and has to be called again with what it found. The
+	workspace drives that loop: this is stateless, the whole conversation
+	arrives every time, and admin still never calls a workspace.
+	"""
 	asked = _action(action)
 	sold = _model(asked, model)
+	spoken = _conversation(turns, text)
+	offered = tools if (tools and asked.may_use_tools) else None
+
 	answer = gateway.call(
 		sold,
-		text,
+		None,
 		tenant,
 		caps=_caps(asked),
 		reference=reference or action,
 		system=instruction(asked, extra),
+		turns=spoken,
+		tools=offered,
 	)
-	return {"action": asked.key, "model": sold, **answer}
+	wants = answer.get("wants") or []
+	return {
+		"action": asked.key,
+		"model": sold,
+		"done": not wants,
+		"turns": spoken + [{"role": "model", "text": answer.get("said") or "", "calls": wants}],
+		**answer,
+	}
+
+
+def _conversation(turns: list[dict] | None, text: str | None) -> list[dict]:
+	"""The conversation so far, checked before it is spoken.
+
+	A workspace sends this and a workspace is not something to be trusted about
+	its own limits, so the rounds are counted here rather than there — a loop
+	that only the caller could stop is a loop a caller with a bug never stops.
+	"""
+	if not turns:
+		return [gateway.said(text or "")]
+	rounds = sum(1 for one in turns if one.get("role") == "model")
+	if rounds >= gateway.ROUNDS:
+		raise Refused(
+			f"this has gone {rounds} rounds, which is as far as it goes; "
+			"ask again in smaller pieces"
+		)
+	return list(turns)
 
 
 def instruction(asked, extra: str | None) -> str:

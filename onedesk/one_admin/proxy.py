@@ -182,12 +182,19 @@ def hello() -> dict:
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def ai_run(
 	action: str,
-	text: str,
+	text: str | None = None,
 	model: str | None = None,
 	extra: str | None = None,
 	reference: str | None = None,
+	turns: list | str | None = None,
+	tools: list | str | None = None,
 ) -> dict:
 	"""One action, run for this workspace and billed to it.
+
+	`turns` is the conversation so far and `tools` are the ones the workspace is
+	willing to run. Both arrive whole each round, because this is stateless: a
+	model that wants to look something up is answered with what it asked for,
+	the workspace runs the tool as whoever is signed in there, and calls back.
 
 	`model` and `extra` are the workspace's own settings, sent with the call
 	because they live on the workspace's site and admin never calls a workspace.
@@ -203,7 +210,14 @@ def ai_run(
 
 	tenant = caller()
 	return actions.run(
-		tenant.name, action, text, model=model, extra=extra, reference=reference
+		tenant.name,
+		action,
+		text,
+		model=model,
+		extra=extra,
+		reference=reference,
+		turns=frappe.parse_json(turns) if isinstance(turns, str) else turns,
+		tools=frappe.parse_json(tools) if isinstance(tools, str) else tools,
 	)
 
 

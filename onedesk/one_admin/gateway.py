@@ -56,25 +56,38 @@ TAG = "cf-aig-metadata"
 PROVIDERS = {
 	"workers-ai": {
 		"path": lambda model: model,
-		"body": lambda system, prompt, most: {
+		"talk": lambda system, turns, tools, most: {
 			"messages": (
 				([{"role": "system", "content": system}] if system else [])
-				+ [{"role": "user", "content": prompt}]
+				+ [_openai_turn(one) for one in turns]
 			),
 			"max_tokens": most,
+			**(
+				{"tools": [{"type": "function", "function": one} for one in tools]}
+				if tools
+				else {}
+			),
 		},
 		"said": lambda body: ((body or {}).get("result") or {}).get("response"),
+		"calls": lambda body: _openai_calls(body),
 	},
 	"google-ai-studio": {
 		"path": lambda model: f"v1/models/{model}:generateContent",
-		"body": lambda system, prompt, most: {
-			"contents": [{"parts": [{"text": prompt}]}],
+		"talk": lambda system, turns, tools, most: {
+			"contents": [_gemini_turn(one) for one in turns],
 			"generationConfig": {"maxOutputTokens": most},
 			**({"systemInstruction": {"parts": [{"text": system}]}} if system else {}),
+			**({"tools": [{"functionDeclarations": tools}]} if tools else {}),
 		},
 		"said": lambda body: _first_part(body),
+		"calls": lambda body: _gemini_calls(body),
 	},
 }
+
+#: How many times a model may ask for a tool before the loop stops. Each round
+#: is a call and is billed, so this is a cost ceiling as much as it is a guard
+#: against a model that keeps asking for the same thing.
+ROUNDS = 5
 
 #: The one model this stage calls, and the last time a model is named in this
 #: app's code. AI 2's catalogue replaces both of these with a row somebody chose
@@ -90,23 +103,30 @@ MOST = 512
 def ask(prompt: str, most: int = MOST, tenant: str | None = None) -> str:
 	"""One text generation, un-metered, and the words it answered."""
 	provider, model = FIRST
-	return through(provider, model, prompt, most=most, tenant=tenant)
+	return through(provider, model, [said(prompt)], most=most, tenant=tenant)
 
 
 def through(
 	provider: str,
 	model: str,
-	prompt: str,
+	turns: list[dict],
 	most: int = MOST,
 	tenant: str | None = None,
 	whole: bool = False,
 	system: str | None = None,
+	tools: list[dict] | None = None,
 ):
 	"""One call. `whole` also hands back the body, which is what carries usage.
 
+	`turns` is the whole conversation in our shape rather than one prompt: a
+	round where a model asked for a tool, was given the result and answers again
+	is three turns, and a provider has no memory between calls.
+
 	`system` goes where each provider puts a system instruction rather than
-	being glued to the front of the prompt, which is the whole reason an action
-	can be told things a workspace cannot take away from it.
+	being glued to the front of the first turn, which is the whole reason an
+	action can be told things a workspace cannot take away from it. `tools` is
+	the same: declared to the provider as tools, never written into the words,
+	so a workspace cannot invent one by typing it.
 	"""
 	site.require_admin()
 	spoken = PROVIDERS.get(provider)
@@ -125,7 +145,7 @@ def through(
 		answer = requests.post(
 			where,
 			headers=headers,
-			data=json.dumps(spoken["body"](system, prompt, most)),
+			data=json.dumps(spoken["talk"](system, turns, tools, most)),
 			timeout=TIMEOUT,
 		)
 	except requests.Timeout as raised:
@@ -138,11 +158,13 @@ def through(
 
 def call(
 	model: str,
-	prompt: str,
+	prompt: str | None,
 	tenant: str,
 	caps: dict | None = None,
 	reference: str | None = None,
 	system: str | None = None,
+	turns: list[dict] | None = None,
+	tools: list[dict] | None = None,
 ) -> dict:
 	"""One model call, billed: hold a ceiling, make it, settle the actual.
 
@@ -169,9 +191,10 @@ def call(
 	except pricing.Unpriceable as raised:
 		raise Refused(f"{model} cannot be priced: {raised}") from raised
 
+	spoken = turns or [said(prompt or "")]
 	holding = ledger.reserve(tenant, max(most.credits, _LEAST), why=model, reference=reference)
 	try:
-		answer, body = _said(sold, prompt, caps or {}, tenant, system)
+		answer, wants, body = _said(sold, spoken, caps or {}, tenant, system, tools)
 	except Exception:
 		ledger.release(holding)
 		raise
@@ -185,6 +208,7 @@ def call(
 		ledger.commit(holding, charged)
 		return {
 			"said": answer,
+			"wants": wants,
 			"credits": charged,
 			"usd": spent.usd,
 			"metered": False,
@@ -194,6 +218,7 @@ def call(
 	ledger.commit(holding, spent.credits)
 	return {
 		"said": answer,
+		"wants": wants,
 		"credits": spent.credits,
 		"usd": spent.usd,
 		"metered": True,
@@ -244,11 +269,20 @@ def _unpriced(spent: pricing.Bill) -> str:
 	return f"nothing in the catalogue prices {said}" if said else ""
 
 
-def _said(sold, prompt: str, caps: dict, tenant: str, system: str | None) -> tuple[str, dict]:
-	"""The words and the whole body, because the body is what carries the usage."""
+def _said(
+	sold, turns: list[dict], caps: dict, tenant: str, system: str | None, tools: list[dict] | None
+) -> tuple[str, list[dict], dict]:
+	"""The words, what it asked for, and the whole body — which carries the usage."""
 	most = int(caps.get("output_tokens") or MOST)
 	return through(
-		sold.provider, sold.model, prompt, most=most, tenant=tenant, whole=True, system=system
+		sold.provider,
+		sold.model,
+		turns,
+		most=most,
+		tenant=tenant,
+		whole=True,
+		system=system,
+		tools=tools,
 	)
 
 
@@ -296,13 +330,111 @@ def _answered(model: str, spoken: dict, answer, whole: bool = False):
 			answer.text[: faults.KEPT],
 		) from raised
 
-	said = spoken["said"](body)
-	if said is None:
-		# A 200 with no words in it is not an empty answer, it is a shape we do
-		# not understand — and treating it as an empty answer is how a provider
-		# changing its response silently starts returning blanks to customers.
-		raise Refused(f"{model} answered 200 with no text in it", 200, json.dumps(body)[: faults.KEPT])
-	return (said, body) if whole else said
+	words = spoken["said"](body)
+	wants = spoken["calls"](body)
+	if words is None and not wants:
+		# A 200 with neither words nor a tool call in it is not an empty answer,
+		# it is a shape we do not understand — and treating it as an empty
+		# answer is how a provider changing its response silently starts
+		# returning blanks to customers.
+		raise Refused(f"{model} answered 200 with nothing in it", 200, json.dumps(body)[: faults.KEPT])
+	return (words or "", wants, body) if whole else (words or "")
+
+
+# ------------------------------------------------ one conversation, two shapes
+#
+# A turn of ours is `{role, text, calls}` or `{role: "tool", id, tool, result}`,
+# which is neither provider's shape and is deliberately both of theirs written
+# down once. The tenant holds the conversation and sends it with each round —
+# admin keeps nothing, because admin has no session with a workspace and is not
+# going to grow one.
+
+
+def said(text: str, role: str = "user") -> dict:
+	"""One turn, in our shape. The only place a turn is built by hand."""
+	return {"role": role, "text": text or "", "calls": []}
+
+
+def _openai_turn(one: dict) -> dict:
+	"""Workers AI speaks OpenAI's dialect, where a tool result is its own role."""
+	if one.get("role") == "tool":
+		return {
+			"role": "tool",
+			"tool_call_id": one.get("id") or one.get("tool"),
+			"content": json.dumps(one.get("result")),
+		}
+	if one.get("calls"):
+		return {
+			"role": "assistant",
+			"content": one.get("text") or "",
+			"tool_calls": [
+				{
+					"id": call.get("id") or call["tool"],
+					"type": "function",
+					"function": {"name": call["tool"], "arguments": json.dumps(call.get("args") or {})},
+				}
+				for call in one["calls"]
+			],
+		}
+	return {"role": one.get("role") or "user", "content": one.get("text") or ""}
+
+
+def _openai_calls(body: dict | None) -> list[dict]:
+	"""What it asked for, out of whichever shape it answered in.
+
+	Workers AI has answered with `result.tool_calls` carrying `name` and an
+	`arguments` that is sometimes an object and sometimes a JSON string. Both
+	are read, because a provider changing which one it sends is not a thing we
+	would find out about in advance.
+	"""
+	result = (body or {}).get("result") or {}
+	found = []
+	for call in result.get("tool_calls") or []:
+		named = call.get("function") or call
+		args = named.get("arguments")
+		if isinstance(args, str):
+			try:
+				args = json.loads(args)
+			except ValueError:
+				args = {}
+		found.append(
+			{"id": call.get("id") or named.get("name"), "tool": named.get("name"), "args": args or {}}
+		)
+	return [one for one in found if one["tool"]]
+
+
+def _gemini_turn(one: dict) -> dict:
+	"""Google puts a tool result back in the conversation as the user's turn."""
+	if one.get("role") == "tool":
+		return {
+			"role": "user",
+			"parts": [
+				{
+					"functionResponse": {
+						"name": one.get("tool"),
+						"response": {"result": one.get("result")},
+					}
+				}
+			],
+		}
+	parts = []
+	if one.get("text"):
+		parts.append({"text": one["text"]})
+	for call in one.get("calls") or []:
+		parts.append({"functionCall": {"name": call["tool"], "args": call.get("args") or {}}})
+	return {"role": "model" if one.get("role") == "model" else "user", "parts": parts or [{"text": ""}]}
+
+
+def _gemini_calls(body: dict | None) -> list[dict]:
+	found = []
+	for candidate in ((body or {}).get("candidates") or []):
+		for part in ((candidate.get("content") or {}).get("parts") or []):
+			call = part.get("functionCall")
+			if call and call.get("name"):
+				found.append(
+					{"id": call["name"], "tool": call["name"], "args": call.get("args") or {}}
+				)
+	return found
 
 
 def _first_part(body: dict | None) -> str | None:

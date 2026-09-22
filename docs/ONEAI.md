@@ -429,14 +429,47 @@ user creating a ToDo through a card, applying it, and owning the record that
 came out. Plus: somebody else's card is not theirs to answer, and an edit whose
 record moved underneath it is stale.
 
-**AI 7b — the model loop.** Not built. Tool calling needs a conversation — the
+**AI 7b — the model loop.** *Done.* Tool calling needs a conversation — the
 model asks for a tool, the tool runs, the model is called again — and the model
-is on the administrator while the data is on the workspace. The only shape
-consistent with `proxy.py` is the **tenant driving the loop**: it sends a
-prompt, admin answers with a tool request, the tenant runs the tool as the
-session user and sends the result back, and admin calls the model again. Admin
-still never calls a workspace. That, plus each provider's own tool-call shape,
-is a stage of its own.
+is on the administrator while the data is on the workspace. The shape that is
+consistent with `proxy.py` is the **tenant driving the loop**: `one_ai/run.py`
+sends the turns so far, admin answers with what the model wants, the tenant runs
+each tool as the session user, appends the results and asks again. Admin keeps
+nothing between rounds and still never calls a workspace.
+
+A turn of ours is `{role, text, calls}`, or `{role: "tool", id, tool, result}`,
+and the two providers spell all three of those differently: Workers AI speaks
+OpenAI's dialect, where a tool result has a role of its own and the arguments
+arrive as a JSON string — or as an object, which it has also done — and Google
+has no tool role at all, so a result goes back as the user's next turn carrying
+a `functionResponse`. Both are written down once, in `PROVIDERS`, beside where
+each one says how it takes a prompt.
+
+**The rounds are counted on the side that pays.** `actions._conversation` reads
+the model turns in what it was handed and refuses past five, because a loop only
+the caller can stop is a loop a caller with a bug never stops — and every round
+is a billed call. `AI Action.may_use_tools` decides whether an action is offered
+any tools at all, so `summarise` cannot start looking things up because somebody
+sent it a tool list.
+
+**A tool that refuses answers anyway.** A refusal comes back to the model as a
+result saying so, stripped of frappe's markup; a model told "you may not see
+that" can say it, and a model told nothing writes something plausible instead.
+Tool answers go through `_plain` first — a row out of the database carries dates
+and decimals, and a date left as a date is not a display problem, it is the
+round that fails to serialise.
+
+**Each round commits what it parked.** A run is up to five model calls, so the
+request is open for minutes; a card suggested in round two that disappears
+because round four timed out is work somebody did and lost, and a transaction
+held across five model calls is locks held across five model calls.
+
+Proved on the site end to end, as a user with one role: two rounds, one
+`list_records` in the middle, both rounds metered and billed, the refusal of a
+workspace listing arriving as a result rather than a traceback, a conversation
+five model turns deep refused by admin, and a `create_record` mid-loop parking a
+card that the asking user owns while the model is told plainly that nothing
+happened.
 
 **AI 8 — where a card appears.** The proposal exists and has a screen of its
 own; what is left is putting it in front of somebody at the moment they would

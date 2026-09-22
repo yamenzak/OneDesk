@@ -14,6 +14,7 @@
   "column_break_what",
   "capability",
   "enabled",
+  "may_use_tools",
   "instruction_section",
   "instruction",
   "limits_section",
@@ -60,6 +61,14 @@
    "fieldtype": "Check",
    "label": "Enabled",
    "in_standard_filter": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "may_use_tools",
+   "fieldtype": "Check",
+   "label": "May Use Tools",
+   "in_standard_filter": 1,
+   "description": "Lets it look things up. Each look is another call and is charged."
   },
   {
    "fieldname": "instruction_section",

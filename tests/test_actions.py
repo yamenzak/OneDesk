@@ -85,7 +85,11 @@ def test_the_instruction_is_never_taken_from_the_caller():
 	)
 	taken = {a.arg for a in endpoint.args.args}
 	assert "instruction" not in taken and "system" not in taken, taken
-	assert taken == {"action", "text", "model", "extra", "reference"}
+	# `turns` and `tools` are the conversation and what the workspace will run.
+	# Neither is an instruction: the model's turns are what the model said, and
+	# a tool declaration shapes a request rather than telling a model anything
+	# about what it may touch.
+	assert taken == {"action", "text", "model", "extra", "reference", "turns", "tools"}
 
 
 def test_what_a_workspace_adds_is_bounded_at_both_ends():

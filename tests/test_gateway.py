@@ -110,7 +110,12 @@ def test_only_one_model_is_named_and_it_is_the_first_one():
 	assert not elsewhere, f"{elsewhere} name a model. Only gateway.FIRST may."
 
 
-def test_a_two_hundred_with_no_words_in_it_is_not_an_empty_answer():
+def test_a_two_hundred_with_nothing_in_it_is_not_an_empty_answer():
 	"""Measured against the shape rather than a provider: treating an
-	unrecognised 200 as "" is how a changed response starts returning blanks."""
-	assert "answered 200 with no text in it" in source()
+	unrecognised 200 as "" is how a changed response starts returning blanks.
+
+	Neither words nor a tool call, because a round that only asks for a tool is
+	a perfectly good answer with no text in it.
+	"""
+	assert "answered 200 with nothing in it" in source()
+	assert "words is None and (not wants)" in code()
