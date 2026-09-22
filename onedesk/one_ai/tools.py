@@ -41,6 +41,13 @@ NEVER_READ = ("Password",)
 #: is a model given five hundred records' worth of somebody's month.
 MOST = 100
 
+#: How many links of one kind to name. Past this it is a list, not an answer.
+MOST_LINKS = 20
+
+#: How many report rows. A report is exactly the thing that answers with
+#: thousands, and every one of them is a row somebody pays tokens for.
+MOST_REPORT = 50
+
 
 # --------------------------------------------------------------- what it reads
 
@@ -138,6 +145,20 @@ def edit_record(
 	return _card(proposals.propose("Edit", doctype, changes=changes, record=name, why=why))
 
 
+def move_record(
+	doctype: Annotated[str, "The type of record."],
+	name: Annotated[str, "Its id."],
+	action: Annotated[str, "One of the actions what_can_happen listed for this record."],
+	why: Annotated[str, "One sentence on why."] | None = None,
+) -> dict:
+	"""Suggest moving a record through its workflow. Nothing moves until a person approves it.
+
+	Approving runs the workflow's own transition, so the role it is allowed to
+	and the log entry it writes are the workflow's, not ours.
+	"""
+	return _card(proposals.propose("Move", doctype, changes={"action": action}, record=name, why=why))
+
+
 def delete_record(
 	doctype: Annotated[str, "The type of record."],
 	name: Annotated[str, "Its id."],
@@ -148,11 +169,139 @@ def delete_record(
 
 
 #: What runs when a model asks for it.
-READS = (list_records, read_record, count_records, describe_type)
+def find_records(
+	doctype: Annotated[str, "The type of record to search in."],
+	text: Annotated[str, "What to search for — a name, a code, part of a title."],
+	limit: Annotated[int, "At most this many matches."] = 10,
+) -> list:
+	"""Find records by what they are called, rather than by an exact field value.
+
+	This is the tool for turning "Apple" into a supplier's id. Frappe's own link
+	search is what a person gets typing into a Link field, including whatever
+	`search_fields` the doctype declares, so a model using it finds what a
+	person would have found.
+	"""
+	from frappe.desk.search import search_widget
+
+	if not frappe.has_permission(doctype, ptype="read"):
+		frappe.throw(frappe._("You may not read {0}.").format(doctype), frappe.PermissionError)
+
+	found = search_widget(
+		doctype=doctype, txt=text or "", page_length=min(int(limit or 10), MOST)
+	)
+	return [
+		{"name": row[0], "label": " — ".join(str(cell) for cell in row[1:] if cell)}
+		for row in (found or [])
+	]
+
+
+def what_links_here(
+	doctype: Annotated[str, "The type of record."],
+	name: Annotated[str, "Its id."],
+) -> dict:
+	"""What else in the workspace points at this record.
+
+	The question behind "can I delete this" and behind "what happened to that
+	order". Frappe already knows — every Link field is an edge — so the answer
+	is read rather than guessed at from what a model remembers about ERPNext.
+	"""
+	from frappe.desk.form.linked_with import get as linked
+
+	if not frappe.has_permission(doctype, doc=name, ptype="read"):
+		frappe.throw(frappe._("You may not read {0} {1}.").format(doctype, name), frappe.PermissionError)
+
+	found = linked(doctype=doctype, docname=name) or {}
+	return {
+		kind: [row.get("name") for row in rows][:MOST_LINKS]
+		for kind, rows in found.items()
+		if rows
+	}
+
+
+def what_can_happen(
+	doctype: Annotated[str, "The type of record."],
+	name: Annotated[str, "Its id."],
+) -> dict:
+	"""Where this record can go next, if it is under a workflow.
+
+	A record in a workflow has exactly the moves its workflow allows, to the
+	roles it allows them to. Reading them is how a suggestion can be one of
+	them rather than a guess at what the buttons say.
+	"""
+	from frappe.model.workflow import get_transitions
+
+	doc = frappe.get_doc(doctype, name)
+	doc.check_permission("read")
+
+	# Most doctypes have no workflow, and "this one has none" is an answer a
+	# model can use. Asking frappe for the transitions of a doctype without one
+	# raises, which would come back as a refusal and read like a permission.
+	state = _state_field(doctype)
+	if not state:
+		return {"doctype": doctype, "name": name, "state": None, "workflow": False, "can": []}
+
+	moves = get_transitions(doc) or []
+	return {
+		"doctype": doctype,
+		"name": name,
+		"state": doc.get(state),
+		"workflow": True,
+		"can": [{"action": one.get("action"), "to": one.get("next_state")} for one in moves],
+	}
+
+
+def run_report(
+	report: Annotated[str, "The report's name, as it is on screen."],
+	filters: Annotated[dict, "The report's own filters, by fieldname."] | None = None,
+	limit: Annotated[int, "At most this many rows of the answer."] = 20,
+) -> dict:
+	"""Run one of the workspace's own reports and answer with its rows.
+
+	A report is an answer somebody already wrote down and tested — running it
+	beats a model inventing an aggregation over rows it listed. The rows are
+	capped because a report is exactly the thing that answers with thousands.
+	"""
+	from frappe.desk.query_report import run as ran
+
+	if not frappe.has_permission("Report", doc=report, ptype="read"):
+		frappe.throw(frappe._("You may not run {0}.").format(report), frappe.PermissionError)
+
+	out = ran(report_name=report, filters=filters or {}, are_default_filters=False) or {}
+	rows = out.get("result") or []
+	kept = min(int(limit or 20), MOST_REPORT)
+	return {
+		"report": report,
+		"columns": [_column(one) for one in (out.get("columns") or [])],
+		"rows": rows[:kept],
+		"more": max(len(rows) - kept, 0),
+	}
+
+
+def _state_field(doctype: str) -> str | None:
+	name = frappe.db.get_value("Workflow", {"document_type": doctype, "is_active": 1}, "workflow_state_field")
+	return name or None
+
+
+def _column(one) -> str:
+	if isinstance(one, dict):
+		return one.get("label") or one.get("fieldname") or ""
+	return str(one)
+
+
+READS = (
+	list_records,
+	read_record,
+	count_records,
+	describe_type,
+	find_records,
+	what_links_here,
+	what_can_happen,
+	run_report,
+)
 
 #: What becomes a card instead. Named separately rather than flagged, because a
 #: tool moving from one tuple to the other is a line in a diff somebody reviews.
-SUGGESTS = (create_record, edit_record, delete_record)
+SUGGESTS = (create_record, edit_record, delete_record, move_record)
 
 BY_NAME = {fn.__name__: fn for fn in READS + SUGGESTS}
 

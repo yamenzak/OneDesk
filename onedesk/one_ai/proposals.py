@@ -103,6 +103,15 @@ def apply(proposal: str) -> dict:
 		held.delete()
 		return _done(entry, entry.record)
 
+	if entry.kind == "Move":
+		# The workflow's own transition, which checks the role it is allowed to
+		# and writes the state change and its log entry. Not a `db_set` on the
+		# state field, which would move the record without any of that.
+		from frappe.model.workflow import apply_workflow
+
+		apply_workflow(held, changes.get("action"))
+		return _done(entry, held.name)
+
 	held.update(changes)
 	held.save()
 	return _done(entry, held.name)
@@ -151,7 +160,7 @@ def _allowed(kind: str, doctype: str, record: str | None):
 	carries — which is how a proposal about a workspace an operator may not see
 	is refused here rather than being written and then failing.
 	"""
-	verb = {"Create": "create", "Edit": "write", "Delete": "delete"}.get(kind)
+	verb = {"Create": "create", "Edit": "write", "Delete": "delete", "Move": "write"}.get(kind)
 	if not verb:
 		frappe.throw(frappe._("{0} is not something that can be proposed.").format(kind))
 
@@ -189,6 +198,8 @@ def _said(kind: str, doctype: str, record: str | None, changes: dict) -> str:
 		return frappe._("Create a {0}").format(doctype)
 	if kind == "Delete":
 		return frappe._("Delete {0}").format(record)
+	if kind == "Move":
+		return frappe._("{0} on {1}").format(changes.get("action") or "?", record)
 	return frappe._("Change {0} on {1}").format(", ".join(list(changes)[:3]) or "?", record)
 
 

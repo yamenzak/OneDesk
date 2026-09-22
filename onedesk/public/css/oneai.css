@@ -90,9 +90,18 @@
 	overflow: hidden;
 }
 
-.one-ai-panel--wide {
-	width: min(760px, calc(100vw - 48px));
-	height: calc(100vh - 140px);
+/* Three sizes. Snug is the live-chat shape; roomy is for a conversation with
+ * records in it; full is for reading a report beside the page it is about. */
+
+.one-ai-panel--roomy {
+	width: min(560px, calc(100vw - 48px));
+	height: calc(100vh - 128px);
+}
+
+.one-ai-panel--full {
+	width: min(880px, calc(100vw - 48px));
+	height: calc(100vh - 104px);
+	bottom: 24px;
 }
 
 .one-ai-head {
@@ -248,8 +257,8 @@
  * two buttons underneath. */
 
 .one-ai-rec {
-	margin: 0 0 10px;
-	padding: 10px 12px 11px;
+	margin: 0 0 8px;
+	padding: 9px 11px 10px;
 	border: 1px solid var(--border-color);
 	border-radius: 10px;
 	background: var(--card-bg, var(--fg-color));
@@ -290,20 +299,29 @@
 }
 
 .one-ai-rec__title {
-	margin-bottom: 7px;
+	margin-bottom: 5px;
 	font-size: var(--text-sm);
 	font-weight: 600;
 	color: var(--text-color);
 	overflow-wrap: anywhere;
 }
 
+/* A label and its value, as close together as they read well — and two pairs
+ * across once there is room for them, which is the difference between a card
+ * that is six lines tall and one that is three. */
 .one-ai-rec__fields {
 	display: grid;
-	grid-template-columns: minmax(70px, auto) 1fr;
-	gap: 3px 14px;
+	grid-template-columns: minmax(58px, max-content) minmax(0, 1fr);
+	gap: 2px 10px;
 	margin: 0;
 	font-size: var(--text-xs);
-	line-height: 1.5;
+	line-height: 1.45;
+}
+
+.one-ai-panel--roomy .one-ai-rec__fields,
+.one-ai-panel--full .one-ai-rec__fields {
+	grid-template-columns: minmax(58px, max-content) minmax(0, 1fr) minmax(58px, max-content) minmax(0, 1fr);
+	column-gap: 18px;
 }
 
 .one-ai-rec__fields dt {
@@ -502,4 +520,116 @@
 		height: calc(100vh - 96px);
 	}
 	.one-ai-dial { right: 16px; bottom: 16px; }
+}
+
+
+/* ------------------------------------------------------------- the prose
+ *
+ * A model answers in markdown whether or not anybody asked it to, so the
+ * answer is rendered rather than printed. `frappe.markdown` is showdown with
+ * tables on and a whitelist sanitiser after it — the framework's, not ours. */
+
+.one-ai-prose {
+	white-space: normal;
+}
+
+.one-ai-prose > span > :first-child {
+	margin-top: 0;
+}
+
+.one-ai-prose > span > :last-child {
+	margin-bottom: 0;
+}
+
+.one-ai-prose p {
+	margin: 0 0 8px;
+}
+
+.one-ai-prose ul,
+.one-ai-prose ol {
+	margin: 0 0 8px;
+	padding-left: 20px;
+}
+
+.one-ai-prose li {
+	margin-bottom: 2px;
+}
+
+.one-ai-prose h1,
+.one-ai-prose h2,
+.one-ai-prose h3,
+.one-ai-prose h4 {
+	margin: 12px 0 6px;
+	font-size: var(--text-sm);
+	font-weight: 600;
+}
+
+.one-ai-prose code {
+	padding: 1px 4px;
+	border-radius: 4px;
+	background: var(--gray-100);
+	font-size: 12px;
+}
+
+.one-ai-prose pre {
+	margin: 0 0 8px;
+	padding: 9px 11px;
+	border-radius: 8px;
+	background: var(--gray-100);
+	overflow-x: auto;
+}
+
+.one-ai-prose pre code {
+	padding: 0;
+	background: none;
+}
+
+.one-ai-prose table {
+	width: 100%;
+	margin: 0 0 8px;
+	border-collapse: collapse;
+	font-size: var(--text-xs);
+}
+
+.one-ai-prose th,
+.one-ai-prose td {
+	padding: 4px 8px;
+	border: 1px solid var(--border-color);
+	text-align: left;
+}
+
+.one-ai-prose th {
+	background: var(--gray-50);
+	font-weight: 600;
+}
+
+.one-ai-prose blockquote {
+	margin: 0 0 8px;
+	padding-left: 10px;
+	border-left: 2px solid var(--border-color);
+	color: var(--text-muted);
+}
+
+/* --------------------------------------------------------- when it breaks
+ *
+ * The question stays where it was, the reason is under it, and the button
+ * sends the same thing again — because a run that fails and clears the box is
+ * a question somebody has to retype. */
+
+.one-ai-broke {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 2px 0 12px;
+	padding: 9px 11px;
+	border: 1px solid var(--border-color);
+	border-radius: 10px;
+	background: var(--gray-50);
+}
+
+.one-ai-broke__said {
+	flex: 1 1 auto;
+	font-size: var(--text-xs);
+	color: var(--text-color);
+	overflow-wrap: anywhere;
 }

@@ -106,7 +106,7 @@ def say(text: str, chat: str | None = None, page: dict | str | None = None) -> d
 	turns.extend(_asked(text, page))
 	_keep(doc, turns, spent=0.0)
 
-	out = run.ask(CHAT, text, reference=doc.name, turns=turns[-KEPT:])
+	out = _ran(doc, text, turns)
 	turns = turns[: -min(KEPT, len(turns))] + list(out.get("turns") or [])
 	_keep(doc, turns, spent=float(out.get("credits") or 0))
 
@@ -172,6 +172,28 @@ def _suggests(row: dict) -> dict:
 		"title": "",
 		"fields": fields,
 	}
+
+
+def _ran(doc, text: str, turns: list[dict]) -> dict:
+	"""The run, with the failure said in words somebody can act on.
+
+	A fault out of the account carries an endpoint and a status, which is the
+	right thing in a log and the wrong thing in a panel. `Again` is transient
+	and the answer is to press the button again; `Refused` already reads as a
+	sentence and is passed through; anything else is a bug and keeps its own
+	traceback.
+	"""
+	from onedesk.one_admin import faults
+
+	try:
+		return run.ask(CHAT, text, reference=doc.name, turns=turns[-KEPT:])
+	except faults.Again:
+		frappe.throw(
+			frappe._("OneAI could not be reached just now. The question is still here — try again."),
+			title=frappe._("Not answered"),
+		)
+	except faults.Refused as raised:
+		frappe.throw(frappe.utils.strip_html(str(raised)), title=frappe._("Not answered"))
 
 
 @frappe.whitelist()

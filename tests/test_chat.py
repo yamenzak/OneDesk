@@ -78,6 +78,14 @@ def test_a_card_is_read_with_the_readers_own_permission():
 	assert "get_all" not in said
 
 
+def test_a_failure_is_said_in_words_rather_than_in_a_traceback():
+	"""A fault carries an endpoint and a status, which is right in a log and
+	wrong in a panel — so what reaches the reader is a sentence."""
+	said = spoken(CHAT, "_ran")
+	assert "faults.Again" in said and "faults.Refused" in said
+	assert "frappe.throw" in said
+
+
 # ----------------------------------------------------- the question is stored
 
 
@@ -85,15 +93,14 @@ def test_the_question_is_stored_before_the_answer_is_asked_for():
 	"""Otherwise a run that fails takes what somebody typed with it."""
 	said = spoken(CHAT, "say")
 	kept = said.index("_keep(")
-	asked = said.index("run.ask(")
+	asked = said.index("_ran(")
 	assert kept < asked, "the conversation is saved after the model is called"
 
 
 def test_the_whole_conversation_is_kept_and_only_the_tail_is_sent():
-	said = spoken(CHAT, "say")
-	assert "turns[-KEPT:]" in said, "the whole conversation is sent to the model every round"
+	assert "turns[-KEPT:]" in spoken(CHAT, "_ran"), "the whole conversation is sent every round"
 	# What is dropped from the sending is not dropped from the keeping.
-	assert "shown(turns)" in said
+	assert "shown(turns)" in spoken(CHAT, "say")
 
 
 def test_the_page_pointer_is_said_to_the_model_and_not_shown_to_the_reader():

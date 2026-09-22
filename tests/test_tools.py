@@ -102,7 +102,9 @@ def test_every_tool_is_a_function_a_schema_can_be_read_off():
 			for target in node.targets:
 				if isinstance(target, ast.Name) and target.id in ("READS", "SUGGESTS"):
 					named |= {e.id for e in node.value.elts if isinstance(e, ast.Name)}
-	assert len(named) == 7, named
+	# A count rather than a list, so adding a tool is a deliberate line in a
+	# diff — every one of these is something a model may do to a workspace.
+	assert len(named) == 12, named
 	for name in named:
 		fn = functions[name]
 		assert ast.get_docstring(fn), f"{name} tells a model nothing about itself"

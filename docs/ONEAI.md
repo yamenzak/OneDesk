@@ -557,6 +557,54 @@ by a bar down the side of every card and not by a strip across the panel's top,
 which is the first thing that makes a panel look generated rather than designed.
 Later, the badge on a field it wrote.
 
+**AI 8c — eight more tools, prose, three sizes and a way back from a
+failure.** *Done.*
+
+Four reads were added because the workspace already knows things a model was
+guessing at. `find_records` is frappe's own link search, so "Apple" becomes a
+supplier's id the way it does when a person types into a Link field, instead of
+listing suppliers and picking one. `what_links_here` reads the Link graph, which
+is the question behind "can I delete this". `what_can_happen` reads the record's
+workflow transitions — the moves it actually has, to the roles it has them to —
+and answers plainly that there is no workflow where there is none, because
+raising there would come back as a refusal and read like a permission.
+`run_report` runs one of the workspace's own reports: an answer somebody already
+wrote down and tested beats a model inventing an aggregation, and the rows are
+capped at fifty because a report is exactly the thing that answers with
+thousands.
+
+And one write. `move_record` suggests a workflow move, and approving it runs
+`apply_workflow` — the workflow's own transition, with the role it checks and
+the log entry it writes — rather than setting the state field, which would move
+the record without any of that.
+
+**Answers are rendered, not printed.** A model writes markdown whether or not
+anybody asked it to. `frappe.markdown` is showdown with tables on and a
+whitelist sanitiser after it, so a model that answers with a script tag has its
+script tag removed by the framework rather than by something we wrote.
+
+**Three sizes.** Snug is the live-chat shape, roomy is for a conversation with
+records in it, full is for reading a report beside the page it is about — and
+the cards put two field pairs across once there is room, which is the difference
+between a card six lines tall and one that is three. Kept in frappe's own
+per-user settings rather than this browser's storage, so the size somebody chose
+is theirs on whatever machine they sign in from next.
+
+**A failure says what happened and leaves the question where it was.** A fault
+out of the account carries an endpoint and a status: right in a log, wrong in a
+panel. `Again` is transient and becomes "could not be reached just now — try
+again"; `Refused` already reads as a sentence and is passed through. The
+question stays on screen with the reason under it and a button that sends the
+same thing again, because a failed run that clears the box is a question
+retyped. While it runs it says what it is doing — thinking, then looking things
+up — rather than showing a spinner that says nothing for twenty seconds.
+
+**AI 8d — the upload.** Not built. A file dropped on the panel attaches to the
+`AI Chat` and goes to the model with the question, which is how "make a
+quotation from this PDF" works. There is no PDF text extractor on the bench, so
+the file goes to a multimodal model as inline data rather than being read
+server-side — and that changes the turn shape, which is why it is its own stage.
+
 **AI 8b — the field tools and the badge.** Not built. The control beside a
 Text, Small Text or Text Editor field opens the same panel with that field as
 the target — not a second UI — and what comes back is an `AI Proposal` of kind

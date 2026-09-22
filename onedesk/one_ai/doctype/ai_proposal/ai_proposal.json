@@ -34,7 +34,7 @@
    "fieldname": "kind",
    "fieldtype": "Select",
    "label": "Kind",
-   "options": "Create\nEdit\nDelete",
+   "options": "Create\nEdit\nDelete\nMove",
    "reqd": 1,
    "read_only": 1,
    "in_standard_filter": 1

@@ -4,7 +4,7 @@
      shape OneMessaging will want too — its threads join this list rather than
      needing a second panel drawn beside this one. -->
 <template>
-	<div class="one-ai-panel" :class="{ 'one-ai-panel--wide': wide }">
+	<div class="one-ai-panel" :class="`one-ai-panel--${size}`">
 		<div class="one-ai-head">
 			<button
 				v-if="view === 'chat'"
@@ -28,9 +28,10 @@
 					<path d="M8 3.5v9M3.5 8h9" stroke-linecap="round" />
 				</svg>
 			</button>
-			<button class="one-ai-icon" :title="wide ? __('Narrow') : __('Widen')" @click="wide = !wide">
+			<button class="one-ai-icon" :title="bigger" @click="grow">
 				<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6">
-					<path d="M6 3H3v3M10 13h3v-3" stroke-linecap="round" stroke-linejoin="round" />
+					<path v-if="size === 'full'" d="M6.5 3v3.5H3M9.5 13V9.5H13" stroke-linecap="round" stroke-linejoin="round" />
+					<path v-else d="M6 3H3v3M10 13h3v-3" stroke-linecap="round" stroke-linejoin="round" />
 				</svg>
 			</button>
 			<button class="one-ai-icon" :title="__('Close')" @click="$emit('closed')">
@@ -62,9 +63,10 @@
 					class="one-ai-said"
 					:class="`one-ai-said--${said.role}`"
 				>
-					<div v-if="said.text" class="one-ai-said__text">
+					<div v-if="said.text" class="one-ai-said__text" :class="{ 'one-ai-prose': said.role === 'model' }">
 						<span class="one-ai-said__who">{{ said.role === "you" ? __("You") : ONEAI }}</span>
-						{{ said.text }}
+						<span v-if="said.role === 'you'">{{ said.text }}</span>
+						<span v-else v-html="prose(said.text)"></span>
 					</div>
 
 					<template v-for="(look, i) in said.looked" :key="i">
@@ -92,7 +94,12 @@
 
 				<div v-if="busy" class="one-ai-thinking">
 					<span class="one-ai-thinking__bloom"></span>
-					<span>{{ __("Looking…") }}</span>
+					<span>{{ doing }}</span>
+				</div>
+
+				<div v-if="broke" class="one-ai-broke">
+					<div class="one-ai-broke__said">{{ broke }}</div>
+					<button class="btn btn-default btn-xs" @click="send(lastAsked)">{{ __("Try again") }}</button>
 				</div>
 			</template>
 		</div>
@@ -116,10 +123,10 @@
 					v-model="text"
 					rows="1"
 					:placeholder="__('Ask {0}', [ONEAI])"
-					@keydown.enter.exact.prevent="send"
-					@input="grow"
+					@keydown.enter.exact.prevent="send()"
+					@input="fit"
 				></textarea>
-				<button class="one-ai-send" :disabled="busy || !text.trim()" :title="__('Send')" @click="send">
+				<button class="one-ai-send" :disabled="busy || !text.trim()" :title="__('Send')" @click="send()">
 					<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7">
 						<path d="M3 8h9M8.5 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
 					</svg>
@@ -149,15 +156,52 @@ const props = defineProps({ here: { type: Object, default: null } });
 const emit = defineEmits(["closed", "counted"]);
 
 const view = ref("threads");
-const wide = ref(false);
+const size = ref("snug");
 const busy = ref(false);
 const text = ref("");
+const broke = ref("");
+const lastAsked = ref("");
+const doing = ref("");
 const threads = ref([]);
 const cards = ref({});
 const chat = ref({ name: null, title: null, said: [], spent: 0 });
 const useHere = ref(true);
 const body = ref(null);
 const box = ref(null);
+
+//: Three sizes rather than two. Snug is the live-chat shape; roomy is for a
+//: conversation with records in it; full is for reading a report next to the
+//: page it is about. Remembered per browser, because it is a preference about
+//: this screen rather than about this conversation.
+const SIZES = ["snug", "roomy", "full"];
+
+const bigger = computed(() =>
+	size.value === "full" ? __("Make it smaller") : __("Make it bigger")
+);
+
+// Frappe loads a doctype's user settings on demand, so on a fresh page there
+// are none in the browser yet — and `get_user_settings` answers a missing key
+// with `{}` rather than undefined, which is how a size of "[object Object]"
+// gets onto the panel. Fetched once, when the panel first mounts.
+frappe.model.user_settings.get("AI Chat").then((kept) => {
+	frappe.model.user_settings["AI Chat"] = kept || {};
+	if (SIZES.includes((kept || {}).panel_size)) size.value = kept.panel_size;
+});
+
+function grow() {
+	const at = SIZES.indexOf(size.value);
+	size.value = SIZES[(at + 1) % SIZES.length];
+	// Frappe's own per-user settings rather than this browser's storage, so the
+	// size somebody chose is theirs on whatever machine they next sign in from.
+	frappe.model.user_settings.save("AI Chat", "panel_size", size.value);
+}
+
+// Frappe's own markdown, which is showdown with tables on and a whitelist
+// sanitiser after it — so a model that answers with a script tag gets its
+// script tag removed by the framework rather than by something we wrote.
+function prose(text) {
+	return frappe.markdown(text || "");
+}
 
 const subtitle = computed(() => {
 	if (view.value === "threads") return __("Your conversations");
@@ -201,17 +245,25 @@ function toThreads() {
 	list();
 }
 
-async function send() {
-	const asked = text.value.trim();
+async function send(again) {
+	const asked = (again || text.value).trim();
 	if (!asked || busy.value) return;
-	text.value = "";
-	grow();
+	if (!again) text.value = "";
+	lastAsked.value = asked;
+	broke.value = "";
+	fit();
 	busy.value = true;
+	doing.value = __("Thinking…");
 
 	// Shown before it is sent, so the question is on screen while the model is
 	// still thinking about it rather than appearing with the answer.
-	chat.value.said.push({ role: "you", text: asked, looked: [], cards: [] });
+	if (!again) chat.value.said.push({ role: "you", text: asked, looked: [], cards: [] });
 	toBottom();
+
+	// The rounds take seconds each and a spinner that says nothing for twenty
+	// of them reads as a hang. This is what it is doing, not how far along it
+	// is — there is no progress to report until AI 9 streams one.
+	const saying = setTimeout(() => (doing.value = __("Looking things up…")), 3000);
 
 	try {
 		chat.value = await frappe.xcall("onedesk.one_ai.chat.say", {
@@ -221,10 +273,37 @@ async function send() {
 		});
 		await load();
 		emit("counted");
+	} catch (raised) {
+		// The question stays on screen with the reason under it and a button,
+		// because a failed run that clears the box is a question retyped.
+		broke.value = _why(raised);
+		frappe.hide_msgprint && frappe.hide_msgprint();
 	} finally {
+		clearTimeout(saying);
 		busy.value = false;
 		toBottom();
 	}
+}
+
+// Why it did not go through, in words somebody can act on.
+//
+// `frappe.xcall` rejects with the response's `message`, which for an exception
+// is empty — the reason is in `frappe.last_response`, where frappe leaves the
+// last reply so its own error dialog can read it. Read from there, stripped of
+// markup, and frappe's dialog is dismissed because the panel is already saying
+// it in the place somebody is looking.
+function _why(raised) {
+	const last = frappe.last_response || {};
+	let said = "";
+	try {
+		said = JSON.parse(last._server_messages || "[]")[0] || "";
+		said = JSON.parse(said).message || said;
+	} catch (e) {
+		// Not a server message. The next two lines still have somewhere to look.
+	}
+	said = said || last.exception || (typeof raised === "string" ? raised : "");
+	said = $("<span>").html(String(said)).text().trim();
+	return said || __("That did not go through.");
 }
 
 async function load() {
@@ -263,7 +342,7 @@ function format(credits) {
 }
 
 
-function grow() {
+function fit() {
 	const el = box.value;
 	if (!el) return;
 	el.style.height = "auto";
