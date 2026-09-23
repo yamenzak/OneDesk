@@ -467,10 +467,27 @@
 }
 
 /* A field OneAI changed on the open form, until it is saved. */
-.one-ai-changed .control-input,
+/* The launcher's own ring: the spectrum drawn as a border under a padding-box
+ * fill of the control's colour, and a soft halo running cyan to rose. */
+.one-ai-changed .form-control,
 .one-ai-changed .checkbox {
+	border: 2px solid transparent;
 	border-radius: 8px;
-	box-shadow: 0 0 0 2px var(--surface-gray-3, var(--border-color));
+	background:
+		linear-gradient(var(--control-bg), var(--control-bg)) padding-box,
+		var(--one-ai-spectrum) border-box;
+	box-shadow:
+		-8px 0 18px -6px var(--one-ai-1),
+		8px 0 18px -6px var(--one-ai-6),
+		0 0 0 3px var(--one-ai-ring);
+}
+
+.one-ai-changed .checkbox {
+	width: fit-content;
+	padding: 4px 12px 4px 10px;
+	background:
+		linear-gradient(var(--card-bg, var(--fg-color)), var(--card-bg, var(--fg-color))) padding-box,
+		var(--one-ai-spectrum) border-box;
 }
 
 .one-ai-tab-count {

@@ -1247,7 +1247,7 @@ dropped, nine on the card.
 will-be in a chat column is a table nobody reads. A change to more than four
 fields is now one line on the card — "9 changes to HR Settings", the field
 labels, and *See the changes* for the table — and Approve on the open form
-puts the values in, marks each changed field with what it held ("was:
+puts the values in, rings each changed field in the launcher's spectrum and marks it with what it held ("was:
 Naming Series"), counts the changes on every tab that holds some, and opens
 the first such tab when the open one has none. The marks go when the form is
 saved. A yes/no on a settings page reads On and Off rather than Yes and No.
