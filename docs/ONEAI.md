@@ -961,6 +961,29 @@ Measured against this bench's own month: 234 calls across 35 models, 223.76
 credits, 0.96 a call; gemma-4 selling at 200 in and 600 out a million, granite
 at 34 and 224.
 
+**Where OneAI lives.** It is not a place on the rail. frappe gives every
+module a sidebar of its own, and One AI's was five doctype lists nobody
+navigates to; `code_only_modules = {"One AI": ["One"]}` takes it off the dock
+and hands its screens to One. A workspace administrator finds them under
+**One → OneAI**: Actions (what each action runs on and is told), Credits,
+Conversations and Suggestions. The operator's side is **One Admin → OneAI**:
+Models and AI Usage.
+
+**Credits** is the workspace's own analytics: credits left, used, calls and
+what expires next as cards; a bar a day for the period; and the table cut by
+model, by person or by day. The numbers come from the account in one call
+(`proxy.ai_usage`, which names the workspace from its token). By person is the
+join only a workspace can make: a call is filed against the conversation it
+was made for, and the conversation has an owner here. It is the Workspace
+Administrator's, which is why it is a report rather than cards on One's home
+page, where everybody would see what the workspace spends.
+
+**On the Tenant form**, the credit actions — give credits, the ledger, AI usage
+— are in the form's own sidebar, because none of them changes where the
+workspace stands and the toolbar is for the things that do. The header carries
+a Credits bar beside Storage: what this month has used against what is left,
+with the calls it took, and empty and red when there is nothing left.
+
 ## What is deliberately not here
 
 **No model is named in application code.** An action names a capability; a

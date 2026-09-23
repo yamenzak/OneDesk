@@ -309,7 +309,7 @@ def _today() -> date:
 
 
 #: What usage may be grouped by, as the reservation's own columns.
-USAGE_BY = ("tenant", "why")
+USAGE_BY = ("tenant", "why", "reference")
 
 
 def usage(start, end, by: list[str], tenant: str | None = None, model: str | None = None) -> list:
@@ -342,5 +342,27 @@ def usage(start, end, by: list[str], tenant: str | None = None, model: str | Non
 		 ORDER BY credits DESC
 		""",
 		{"start": start, "end": end, "tenant": tenant, "model": model},
+		as_dict=True,
+	)
+
+
+def daily(tenant: str, start, end) -> list:
+	"""What one workspace spent each day between two dates, for its own chart.
+
+	Only days with a call are returned; the chart fills the gaps, because a day
+	nobody asked anything is a zero the caller can draw and not a row worth
+	storing.
+	"""
+	site.require_admin()
+	return frappe.db.sql(
+		"""
+		SELECT DATE(creation) AS day, COUNT(*) AS calls, SUM(settled) AS credits
+		  FROM `tabCredit Reservation`
+		 WHERE state = 'Settled' AND tenant = %(tenant)s
+		   AND creation >= %(start)s AND creation < %(end)s
+		 GROUP BY DATE(creation)
+		 ORDER BY day
+		""",
+		{"tenant": tenant, "start": start, "end": end},
 		as_dict=True,
 	)

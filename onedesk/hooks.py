@@ -281,3 +281,10 @@ app_include_js = [
 	"/assets/onedesk/js/reports.js",
 	"/assets/onedesk/js/oneai.js",
 ]
+
+# OneAI is not a place. Its screens live in One — what a workspace
+# administers — and in One Admin, what the operator does; a module sidebar of
+# its own was five doctype lists nobody navigates to. Its doctypes and reports
+# stay where they are; only the dock entry goes, and One inherits the rest.
+# A mapping, as frappe's and erpnext's are: module to where its navigation went.
+code_only_modules = {"One AI": ["One"]}

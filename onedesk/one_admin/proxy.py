@@ -256,6 +256,32 @@ def buy_credits(pack: str) -> dict:
 
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def ai_usage(start: str, end: str) -> dict:
+	"""What this workspace has left and what it spent, for its own credits screen.
+
+	Its own rows only: `caller()` names the workspace from its token, never from
+	anything in the body. By model and by reference — the conversation or action
+	a call was made for — because the workspace can say whose those are and the
+	account cannot.
+	"""
+	from frappe.utils import add_days, getdate
+
+	from onedesk.one_admin import ledger
+
+	tenant = caller().name
+	start, end = getdate(start), add_days(getdate(end), 1)
+	whole = ledger.usage(start, end, [], tenant=tenant)
+	return {
+		"standing": ledger.standing(tenant),
+		"total": whole[0] if whole else {},
+		"days": ledger.daily(tenant, start, end),
+		"models": ledger.usage(start, end, ["why"], tenant=tenant),
+		"references": ledger.usage(start, end, ["reference"], tenant=tenant),
+	}
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def ai_models(needs: str) -> list[dict]:
 	"""The models this workspace may pick for an action needing this capability.
 

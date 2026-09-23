@@ -16,7 +16,8 @@
    "link_to": "One",
    "link_type": "Workspace",
    "show_arrow": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 1
   },
   {
    "child": 0,
@@ -28,34 +29,65 @@
    "link_to": "Workspace Account",
    "link_type": "DocType",
    "show_arrow": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 2
   },
   {
-   "child": 0,
-   "collapsible": 0,
-   "icon": "sparkles",
-   "indent": 0,
    "keep_closed": 0,
-   "label": "AI",
+   "show_arrow": 0,
+   "type": "Section Break",
+   "label": "OneAI",
+   "icon": "sparkles",
+   "indent": 1,
+   "collapsible": 1,
+   "idx": 3
+  },
+  {
+   "keep_closed": 0,
+   "show_arrow": 0,
+   "type": "Link",
+   "label": "Actions",
    "link_to": "AI Action Setting",
    "link_type": "DocType",
-   "show_arrow": 0,
-   "type": "Link"
+   "icon": "sliders-horizontal",
+   "child": 1,
+   "idx": 4
   },
   {
-   "child": 0,
-   "collapsible": 0,
-   "icon": "lightbulb",
-   "indent": 0,
    "keep_closed": 0,
+   "show_arrow": 0,
+   "type": "Link",
+   "label": "Credits",
+   "link_to": "AI Credits",
+   "link_type": "Report",
+   "icon": "chart-column",
+   "child": 1,
+   "idx": 5
+  },
+  {
+   "keep_closed": 0,
+   "show_arrow": 0,
+   "type": "Link",
+   "label": "Conversations",
+   "link_to": "AI Chat",
+   "link_type": "DocType",
+   "icon": "messages-square",
+   "child": 1,
+   "idx": 6
+  },
+  {
+   "keep_closed": 0,
+   "show_arrow": 0,
+   "type": "Link",
    "label": "Suggestions",
    "link_to": "AI Proposal",
    "link_type": "DocType",
-   "show_arrow": 0,
-   "type": "Link"
+   "icon": "lightbulb",
+   "child": 1,
+   "idx": 7
   }
  ],
- "modified": "2026-09-22 14:34:53.612221",
+ "modified": "2026-09-23 15:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

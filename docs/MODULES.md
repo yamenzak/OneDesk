@@ -97,6 +97,7 @@ No doctypes yet.
 * `onedesk.one_admin.operator.walk`
 * `onedesk.one_admin.proxy.ai_models`
 * `onedesk.one_admin.proxy.ai_run`
+* `onedesk.one_admin.proxy.ai_usage`
 * `onedesk.one_admin.proxy.buy_credits`
 * `onedesk.one_admin.proxy.credit_packs`
 * `onedesk.one_admin.proxy.domain_add`

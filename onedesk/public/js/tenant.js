@@ -18,11 +18,6 @@ frappe.ui.form.on("Tenant", {
 		frappe
 			.xcall("onedesk.one_admin.operator.standing", { tenant: frm.doc.name })
 			.then((where) => onedesk.tenant.draw(frm, where));
-
-		// What this workspace spent on AI, by model, this month.
-		frm.add_custom_button(__("AI Usage"), () =>
-			frappe.set_route("query-report", "AI Usage", { tenant: frm.doc.name, by: "Model" }),
-		);
 	},
 });
 
@@ -88,10 +83,15 @@ onedesk.tenant.draw = (frm, where) => {
 		__("Refresh"),
 	);
 
-	frm.add_custom_button(__("Give credits"), () => onedesk.tenant.give(frm), __("Credits"));
-	frm.add_custom_button(__("Ledger"), () =>
+	// Credits, in the form's own sidebar: none of them changes where the
+	// workspace stands, so none of them belongs beside the buttons that do.
+	frm.sidebar.clear_user_actions();
+	frm.sidebar.add_user_action(__("Give credits"), () => onedesk.tenant.give(frm));
+	frm.sidebar.add_user_action(__("Credit ledger"), () =>
 		frappe.set_route("List", "Credit Ledger Entry", { tenant: frm.doc.name }),
-		__("Credits"),
+	);
+	frm.sidebar.add_user_action(__("AI usage"), () =>
+		frappe.set_route("query-report", "AI Usage", { tenant: frm.doc.name, by: "Model" }),
 	);
 };
 
@@ -179,6 +179,7 @@ onedesk.tenant.said = (frm) => {
 // Long Int of bytes against another Long Int is arithmetic somebody has to do,
 // and a date on a rung is a subtraction.
 onedesk.tenant.bars = (frm, where) => {
+	onedesk.tenant.credits(frm);
 	const limit = Number(frm.doc.storage_limit || 0);
 	const held = Number(frm.doc.storage_bytes || 0);
 	if (limit > 0) {
@@ -241,4 +242,29 @@ onedesk.tenant.run = (frm, method, args) =>
 		.then(() => frm.reload_doc())
 		.catch(() => frm.reload_doc());
 
-
+// What the workspace has spent on AI since the month began, against what it
+// has left: the bar is the month's share of everything it has had to spend
+// since the month began. Empty when it is out, because an empty bar is the
+// first thing an operator should see on a workspace that cannot ask anything.
+onedesk.tenant.credits = (frm) => {
+	frappe.xcall("onedesk.one_admin.operator.credit_standing", { tenant: frm.doc.name }).then((now) => {
+		const used = Number(now.month_credits || 0);
+		const left = Math.max(0, Number(now.available || 0));
+		const whole = used + left;
+		const part = whole > 0 ? Math.min(100, (used / whole) * 100) : 0;
+		const say = (n) => format_number(n, null, 2);
+		frm.dashboard.add_progress(
+			__("Credits"),
+			[
+				{
+					width: `${part}%`,
+					progress_class: left <= 0 ? "progress-bar-danger" : part > 80 ? "progress-bar-warning" : "progress-bar-success",
+					title: __("{0} used this month", [say(used)]),
+				},
+			],
+			left <= 0
+				? __("Out of credits. {0} used this month in {1} calls.", [say(used), now.month_calls || 0])
+				: __("{0} used this month in {1} calls · {2} left.", [say(used), now.month_calls || 0, say(left)]),
+		);
+	});
+};

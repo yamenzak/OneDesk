@@ -16,7 +16,8 @@
    "link_to": "One Admin",
    "link_type": "Workspace",
    "show_arrow": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 1
   },
   {
    "child": 0,
@@ -28,7 +29,8 @@
    "link_to": "Tenant",
    "link_type": "DocType",
    "show_arrow": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 2
   },
   {
    "child": 0,
@@ -38,7 +40,8 @@
    "keep_closed": 0,
    "label": "What is happening",
    "show_arrow": 0,
-   "type": "Section Break"
+   "type": "Section Break",
+   "idx": 3
   },
   {
    "child": 1,
@@ -50,7 +53,8 @@
    "link_to": "Provisioning Job",
    "link_type": "DocType",
    "show_arrow": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 4
   },
   {
    "child": 1,
@@ -62,7 +66,8 @@
    "link_to": "Tenant Event",
    "link_type": "DocType",
    "show_arrow": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 5
   },
   {
    "child": 1,
@@ -74,7 +79,8 @@
    "link_to": "Tenant Domain",
    "link_type": "DocType",
    "show_arrow": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 6
   },
   {
    "child": 0,
@@ -84,7 +90,8 @@
    "keep_closed": 0,
    "label": "Selling",
    "show_arrow": 0,
-   "type": "Section Break"
+   "type": "Section Break",
+   "idx": 7
   },
   {
    "child": 1,
@@ -96,7 +103,8 @@
    "link_to": "Offering",
    "link_type": "DocType",
    "show_arrow": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 8
   },
   {
    "child": 1,
@@ -108,19 +116,8 @@
    "link_to": "Account Request",
    "link_type": "DocType",
    "show_arrow": 0,
-   "type": "Link"
-  },
-  {
-   "child": 1,
-   "collapsible": 0,
-   "icon": "cpu",
-   "indent": 0,
-   "keep_closed": 0,
-   "label": "Models",
-   "link_to": "AI Model",
-   "link_type": "DocType",
-   "show_arrow": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 9
   },
   {
    "child": 1,
@@ -132,7 +129,32 @@
    "link_to": "Credit Ledger Entry",
    "link_type": "DocType",
    "show_arrow": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 10
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "sparkles",
+   "indent": 1,
+   "keep_closed": 0,
+   "label": "OneAI",
+   "show_arrow": 0,
+   "type": "Section Break",
+   "idx": 11
+  },
+  {
+   "child": 1,
+   "collapsible": 0,
+   "icon": "cpu",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Models",
+   "link_to": "AI Model",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "idx": 12
   },
   {
    "child": 1,
@@ -144,7 +166,8 @@
    "link_to": "AI Usage",
    "link_type": "Report",
    "show_arrow": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 13
   },
   {
    "child": 0,
@@ -156,10 +179,11 @@
    "link_to": "One Admin Settings",
    "link_type": "DocType",
    "show_arrow": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 14
   }
  ],
- "modified": "2026-09-23 14:00:00.000000",
+ "modified": "2026-09-23 15:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin",

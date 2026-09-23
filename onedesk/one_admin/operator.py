@@ -282,10 +282,17 @@ def give_credits(tenant: str, credits: float, why: str, expires_on: str | None =
 
 @frappe.whitelist()
 def credit_standing(tenant: str) -> dict:
+	"""What a workspace has, and what it has spent on AI since the month began."""
 	_may()
+	from frappe.utils import add_days, get_first_day, getdate
+
 	from onedesk.one_admin import ledger
 
-	return ledger.standing(tenant)
+	said = ledger.standing(tenant)
+	month = ledger.usage(get_first_day(getdate()), add_days(getdate(), 1), [], tenant=tenant)
+	said["month_calls"] = (month[0].calls if month else 0) or 0
+	said["month_credits"] = round((month[0].credits if month else 0) or 0, 4)
+	return said
 
 
 @frappe.whitelist()
