@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 22:45+0000\n"
-"PO-Revision-Date: 2026-09-23 22:45+0000\n"
+"POT-Creation-Date: 2026-09-23 22:53+0000\n"
+"PO-Revision-Date: 2026-09-23 22:53+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -394,11 +394,11 @@ msgstr ""
 msgid "Account ID"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:40
+#: onedesk/one_book/report/books_check/books_check.js:12
 msgid "Account Name"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:42
+#: onedesk/one_book/report/books_check/books_check.js:14
 msgid "Account Number"
 msgstr ""
 
@@ -469,19 +469,24 @@ msgstr ""
 msgid "Activity Type"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:46
+#: onedesk/one_book/report/books_check/books_check.js:18
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:32
+#: onedesk/one_inventory/report/inventory_check/inventory_check.js:20
 #: onedesk/one_task/page/my_tasks/my_tasks.js:25
 #: onedesk/public/js/workspace_account.js:201
 msgid "Add"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:45
+#: onedesk/one_book/report/books_check/books_check.js:17
 msgid "Add Bank Account"
 msgstr ""
 
 #: onedesk/public/js/workspace_account.js:16
 msgid "Add Domain"
+msgstr ""
+
+#: onedesk/one_inventory/report/inventory_check/inventory_check.js:19
+msgid "Add a Location"
 msgstr ""
 
 #. Title of an Onboarding Step
@@ -699,6 +704,10 @@ msgstr ""
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.py:15
 #: onedesk/one_hr/hiring.py:529
 msgid "An interview is only recorded once the candidate has agreed."
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:88
+msgid "An item can have serial numbers or batches."
 msgstr ""
 
 #: onedesk/one_hr/ai_grievance.py:135
@@ -988,6 +997,10 @@ msgstr ""
 msgid "Assets"
 msgstr ""
 
+#: onedesk/one_inventory/ready.py:104
+msgid "Assets have categories"
+msgstr ""
+
 #: onedesk/public/js/employee.js:184
 msgid "Assign a Salary Structure"
 msgstr ""
@@ -1159,7 +1172,7 @@ msgid "Balance Sheet"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_book/report/books_check/books_check.js:39
+#: onedesk/one_book/report/books_check/books_check.js:11
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Bank"
 msgstr ""
@@ -1703,11 +1716,11 @@ msgstr ""
 msgid "Choose an employee and a posting date first."
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:77
+#: onedesk/one_book/report/books_check/books_check.js:49
 msgid "Choose the Tax Charged by Default"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:66
+#: onedesk/one_book/report/books_check/books_check.js:38
 msgid "City"
 msgstr ""
 
@@ -2073,7 +2086,7 @@ msgstr ""
 msgid "Currency"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:40
+#: onedesk/one_book/report/books_check/books_check.js:12
 msgid "Current Account"
 msgstr ""
 
@@ -2236,7 +2249,7 @@ msgstr ""
 msgid "Default Markup"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:75
+#: onedesk/one_book/report/books_check/books_check.js:47
 msgid "Default Template"
 msgstr ""
 
@@ -2289,6 +2302,14 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Depreciation"
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:115
+msgid "Depreciation is worked out but never posted unless somebody does it."
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:112
+msgid "Depreciation posts itself"
 msgstr ""
 
 #. Label of the description (Small Text) field in DocType 'Offering'
@@ -2538,6 +2559,10 @@ msgstr ""
 msgid "EU Bucket"
 msgstr ""
 
+#: onedesk/one_inventory/ready.py:114
+msgid "Each asset's depreciation is posted to the books when it falls due."
+msgstr ""
+
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "Edit"
@@ -2581,7 +2606,7 @@ msgstr ""
 msgid "Embedding"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:61
+#: onedesk/one_book/report/books_check/books_check.js:33
 msgid "Emirate"
 msgstr ""
 
@@ -2815,6 +2840,10 @@ msgstr ""
 msgid "Events"
 msgstr ""
 
+#: onedesk/one_inventory/ready.py:95
+msgid "Every asset is kept at a location."
+msgstr ""
+
 #. Description of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Every check-in attempt, allowed, flagged or refused."
@@ -2828,6 +2857,10 @@ msgstr ""
 
 #: onedesk/one_hr/hiring.py:618
 msgid "Every part is already transcribed."
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:82
+msgid "Every receipt and delivery is posted to the stock accounts."
 msgstr ""
 
 #: onedesk/one_book/ready.py:190
@@ -3046,8 +3079,8 @@ msgstr ""
 msgid "Fiscal Years"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:17
 #: onedesk/one_book/report/books_check/books_check.py:18
+#: onedesk/public/js/check.js:22
 msgid "Fix"
 msgstr ""
 
@@ -3055,7 +3088,7 @@ msgstr ""
 msgid "Fix spelling and grammar"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:30
+#: onedesk/public/js/check.js:31
 msgid "Fixed."
 msgstr ""
 
@@ -3367,6 +3400,10 @@ msgstr ""
 msgid "Harassment"
 msgstr ""
 
+#: onedesk/one_inventory/report/inventory_check/inventory_check.js:15
+msgid "Head Office"
+msgstr ""
+
 #. Label of the one_health (Select) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_project/report/project_tree/project_tree.py:52
@@ -3542,7 +3579,7 @@ msgstr ""
 msgid "I will paste an email signature. Add the person in it as a lead."
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:41
+#: onedesk/one_book/report/books_check/books_check.js:13
 msgid "IBAN"
 msgstr ""
 
@@ -3755,6 +3792,13 @@ msgstr ""
 
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:211
 msgid "Interviews"
+msgstr ""
+
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/report/inventory_check/inventory_check.json
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Inventory Check"
 msgstr ""
 
 #. Title of an Onboarding Step
@@ -4305,6 +4349,7 @@ msgstr ""
 #. Label of the place_section (Section Break) field in DocType 'Clock Attempt'
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:301
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_inventory/report/inventory_check/inventory_check.js:13
 msgid "Location"
 msgstr ""
 
@@ -4434,7 +4479,7 @@ msgstr ""
 msgid "Maintenance Teams"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:78
+#: onedesk/one_book/report/books_check/books_check.js:50
 msgid "Make Default"
 msgstr ""
 
@@ -4717,6 +4762,10 @@ msgstr ""
 
 #: onedesk/one_book/ready.py:285
 msgid "Name the bank and the account."
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:138
+msgid "Name the location."
 msgstr ""
 
 #: onedesk/one_project/templates.py:82
@@ -5131,7 +5180,7 @@ msgstr ""
 msgid "Nothing on these days."
 msgstr ""
 
-#: onedesk/one_book/ready.py:249
+#: onedesk/one_book/ready.py:249 onedesk/one_inventory/ready.py:133
 msgid "Nothing to fix for {0}."
 msgstr ""
 
@@ -6508,7 +6557,7 @@ msgstr ""
 msgid "Reading what it found…"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:9
+#: onedesk/public/js/check.js:14
 msgid "Ready"
 msgstr ""
 
@@ -6539,6 +6588,10 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Receipts"
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:78
+msgid "Receipts and deliveries do not reach the ledger, so the balance sheet has no stock."
 msgstr ""
 
 #: onedesk/one_book/ready.py:97
@@ -6998,8 +7051,8 @@ msgstr ""
 msgid "Sales are reported under the company's emirate."
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:53
-#: onedesk/one_book/report/books_check/books_check.js:70
+#: onedesk/one_book/report/books_check/books_check.js:25
+#: onedesk/one_book/report/books_check/books_check.js:42
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:310
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:52
 #: onedesk/public/js/crm_record.js:198 onedesk/public/js/next_step.js:31
@@ -7142,6 +7195,10 @@ msgstr ""
 msgid "Serial Numbers"
 msgstr ""
 
+#: onedesk/one_inventory/ready.py:86
+msgid "Serial and batch numbers can be used"
+msgstr ""
+
 #. Label of the session_address (Data) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Session Address"
@@ -7183,7 +7240,7 @@ msgstr ""
 msgid "Set by billing events and by the actions in the toolbar."
 msgstr ""
 
-#: onedesk/one_book/ready.py:96
+#: onedesk/one_book/ready.py:96 onedesk/one_inventory/ready.py:81
 msgid "Set on the company: {0}."
 msgstr ""
 
@@ -7333,6 +7390,14 @@ msgstr ""
 #. Description of a DocType
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "Something a model suggested doing. Nothing happens until a person presses Apply."
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:93
+msgid "Somewhere for an asset to be"
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:68
+msgid "Somewhere to keep stock"
 msgstr ""
 
 #. Label of the source (Select) field in DocType 'Credit Ledger Entry'
@@ -7550,6 +7615,14 @@ msgstr ""
 msgid "Stock against the Books"
 msgstr ""
 
+#: onedesk/one_inventory/ready.py:71
+msgid "Stock can be received into {0} warehouses."
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:76
+msgid "Stock is valued in the books"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Stock on Hand"
@@ -7618,7 +7691,7 @@ msgstr ""
 msgid "Storage (GB)"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:65
+#: onedesk/one_book/report/books_check/books_check.js:37
 msgid "Street Address"
 msgstr ""
 
@@ -7709,7 +7782,7 @@ msgstr ""
 msgid "Suggest the next step"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:11
+#: onedesk/public/js/check.js:16
 msgid "Suggested"
 msgstr ""
 
@@ -7781,6 +7854,10 @@ msgstr ""
 msgid "Switch Off"
 msgstr ""
 
+#: onedesk/one_inventory/ready.py:89
+msgid "Switched off, so no item can have serial numbers or batches."
+msgstr ""
+
 #: onedesk/public/js/ai_model_list.js:50
 msgid "Sync {0}"
 msgstr ""
@@ -7806,7 +7883,7 @@ msgstr ""
 msgid "System Manager"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:50
+#: onedesk/one_book/report/books_check/books_check.js:22
 msgid "TRN"
 msgstr ""
 
@@ -7993,7 +8070,7 @@ msgstr ""
 msgid "That tab shared no sound, so only the microphone is recorded."
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:50
+#: onedesk/one_book/report/books_check/books_check.js:22
 msgid "The 15-digit Tax Registration Number on the VAT certificate."
 msgstr ""
 
@@ -8003,11 +8080,11 @@ msgstr ""
 msgid "The AI Gateway on the Cloudflare account above."
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:69
+#: onedesk/one_book/report/books_check/books_check.js:41
 msgid "The Company's Address"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:52
+#: onedesk/one_book/report/books_check/books_check.js:24
 msgid "The Company's TRN"
 msgstr ""
 
@@ -8082,6 +8159,10 @@ msgstr ""
 
 #: onedesk/public/js/ai_model.js:62
 msgid "The call is really made and really charged."
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:180
+msgid "The chart of accounts has no Fixed Asset ledgers to keep assets in."
 msgstr ""
 
 #: onedesk/one_book/vat.py:52
@@ -8348,12 +8429,24 @@ msgstr ""
 msgid "There is already a template called {0}."
 msgstr ""
 
+#: onedesk/one_inventory/ready.py:108
+msgid "There is no asset category, and an item marked Is Fixed Asset needs one."
+msgstr ""
+
 #: onedesk/one_book/ready.py:112
 msgid "There is no company bank account, so a payment by transfer does not know where the money went."
 msgstr ""
 
 #: onedesk/one_hr/overtime.py:120
 msgid "There is no day to record this against."
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:96
+msgid "There is no location, and an asset will not save without one."
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:72
+msgid "There is no warehouse, so nothing can be received."
 msgstr ""
 
 #: onedesk/one_hr/clock.py:96 onedesk/public/js/desk.js:88
@@ -8537,8 +8630,7 @@ msgstr ""
 msgid "To Date"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:10
-#: onedesk/one_project/portal.py:35
+#: onedesk/one_project/portal.py:35 onedesk/public/js/check.js:15
 msgid "To Do"
 msgstr ""
 
@@ -9303,6 +9395,10 @@ msgstr ""
 msgid "Where it runs"
 msgstr ""
 
+#: onedesk/one_inventory/report/inventory_check/inventory_check.js:16
+msgid "Where the company's equipment is kept. Add more later under Setup › Locations."
+msgstr ""
+
 #. Description of the 'Session Address' (Data) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Where this user's desk session was live from, if they had one."
@@ -10008,6 +10104,10 @@ msgstr ""
 
 #: onedesk/one_admin/actions.py:100
 msgid "{0} cannot read {1}."
+msgstr ""
+
+#: onedesk/one_inventory/ready.py:107
+msgid "{0} categories, each with its ledger and how it depreciates."
 msgstr ""
 
 #: onedesk/public/js/ai_proposal.js:35

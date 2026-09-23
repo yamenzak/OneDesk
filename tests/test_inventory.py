@@ -38,5 +38,33 @@ def test_every_report_row_names_a_report_erpnext_ships():
 	erpnext = Path("/home/frappe/bench1/apps/erpnext/erpnext")
 	if not erpnext.exists():
 		return
-	shipped = {json.loads(p.read_text())["name"] for p in erpnext.glob("**/report/*/*.json") if p.parent.name == p.stem}
+	shipped = {
+		json.loads(p.read_text())["name"]
+		for root in (erpnext, tree.APP / "one_inventory")
+		for p in root.glob("**/report/*/*.json")
+		if p.parent.name == p.stem
+	}
 	assert set(reports) <= shipped, set(reports) - shipped
+
+
+def test_the_usual_asset_categories_are_made_only_for_ledgers_the_chart_has():
+	import ast
+
+	source = (tree.APP / "one_inventory" / "ready.py").read_text(encoding="utf-8")
+	space = {}
+	for node in ast.parse(source).body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "USUAL":
+			exec(ast.unparse(node), space)
+		if isinstance(node, ast.FunctionDef) and node.name == "plan":
+			exec(ast.unparse(node), space)
+	made = space["plan"]({"Electronic Equipment": "Electronic Equipment - ONE", "Software": "Software - ONE"})
+	assert made == [("Computers", "Electronic Equipment - ONE", 36), ("Software", "Software - ONE", 36)]
+
+
+def test_the_inventory_check_opens_setup_and_shares_the_books_checks_page():
+	rail = json.loads((tree.APP / "one_inventory" / "sidebar" / "oneinventory" / "oneinventory.json").read_text())
+	labels = [item["label"] for item in rail["items"]]
+	assert rail["items"][labels.index("Setup") + 1]["link_to"] == "Inventory Check"
+	page = (tree.APP / "one_inventory" / "report" / "inventory_check" / "inventory_check.js").read_text()
+	assert "onedesk.check.report(" in page
+	assert '"/assets/onedesk/js/check.js"' in (tree.APP / "hooks.py").read_text()

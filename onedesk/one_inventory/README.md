@@ -34,6 +34,25 @@ asset's depreciation lands in OneBook's books by itself.
   depreciation; pick lists, landed costs, prices, serial numbers and batches;
   warehouses, item groups, units, price lists, asset categories and locations.
 
+## Getting ready
+
+**Setup › Inventory Check** lists what would stop the first receipt, stock
+count or asset, with **Ready**, **To Do** or **Suggested** beside each and a
+**Fix** where there is one:
+
+- **Somewhere to keep stock** and **stock is valued in the books** — a
+  warehouse, and the company's stock accounts. ERPNext makes both.
+- **Serial and batch numbers can be used.** Off to begin with, so no item
+  can have serial numbers or batches. **Fix** turns them on; an item then
+  has **Has Serial No** and **Has Batch No**.
+- **Somewhere for an asset to be.** An asset needs a location. **Fix** asks
+  what to call the first — Head Office, say.
+- **Assets have categories.** **Fix** makes Computers and Software (written
+  off over three years), Furniture and Office Equipment (five) and Machinery
+  (ten), each kept in the chart's matching Fixed Assets account. Change the
+  years under **Setup › Asset Categories**.
+- **Depreciation posts itself** — ERPNext's own, checked.
+
 ## Buying goods, from order to shelf
 
 1. **Buying › Purchase Orders › + Add.** Pick the supplier, the items, how many
@@ -86,6 +105,16 @@ the books by itself every day, and the asset reports are OneBook's to read as
 well. The product line has no mark for a separate assets app, and an app with
 a register and a movement form in it would be a rail with five rows.
 
+- `ready.py` and `report/inventory_check` — the Inventory Check, the Books
+  Check's twin, drawn by the same page (`public/js/check.js`). What a new
+  company is missing is an asset's two prerequisites: a Location (an Asset
+  will not save without one) and an Asset Category (an item marked Is Fixed
+  Asset needs one, and the company's own fixed-asset account is empty, so the
+  category is the only place the ledger is named). `add_categories` makes the
+  usual five from the chart's Fixed Asset ledgers (`plan`, pure), straight
+  line, monthly. Serial and batch numbers are off by
+  `enable_serial_and_batch_no_for_item`, which hides the item's two checkboxes
+  and refuses a bundle.
 - `sidebar/oneinventory` — the rail. Items, Receipts, Deliveries, Stock
   Movements, Stock Counts, Purchase Orders, Material Requests and the asset
   doctypes are owned here (`is_default_module`); Supplier is OneBook's and
@@ -98,7 +127,7 @@ a register and a movement form in it would be a rail with five rows.
 2. **Ready to use.** A check of what will fail the first time somebody
    receives, delivers or registers an asset — serial and batch numbers
    switched off, no account for opening stock, no location for an asset — with
-   the fix beside each.
+   the fix beside each. *Done.*
 3. **An item answers first.** On hand across warehouses, what is free to sell,
    what is on order, what it is worth, whether it is below its reorder level,
    and what it last cost and from whom.

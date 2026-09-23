@@ -151,5 +151,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | UAE VAT Settings are filled from the chart | empty on a new company, and reverse charge reads them | `onedesk/one_book/vat.py` | `erpnext/erpnext/regional/united_arab_emirates/utils.py` | `tax_accounts_list = frappe.get_all("UAE VAT Account", filters={"parent": company}, fields=["account"])` |
 | Lock Books sets ERPNext's frozen-till date | the lock is enforced upstream but set on a Company tab nothing leads to; ours leaves the exempt role empty | `onedesk/one_book/closing.py` | `erpnext/erpnext/accounts/services/gl_validator.py` | `acc_frozen_till_date = frappe.db.get_value("Company", company, "accounts_frozen_till_date")` |
 | The year is closed into Retained Earnings | the Period Closing Voucher asks for a closing account; the chart's Retained Earnings is the answer | `onedesk/one_book/closing.py` | `erpnext/erpnext/accounts/doctype/period_closing_voucher/period_closing_voucher.py` | `def check_closing_account_type(self):` |
+| Serial and batch numbers are offered as a switch | off by default, and a bundle is refused while it is; the Inventory Check suggests turning it on | `onedesk/one_inventory/ready.py` | `erpnext/erpnext/stock/doctype/serial_and_batch_bundle/serial_and_batch_bundle.py` | `if not frappe.db.get_single_value("Stock Settings", "enable_serial_and_batch_no_for_item"):` |
+| The usual asset categories are made from the chart | a category needs its fixed-asset ledger per company, and the company's own is empty | `onedesk/one_inventory/ready.py` | `erpnext/erpnext/assets/doctype/asset_category_account/asset_category_account.json` | `"fieldname": "fixed_asset_account",` |
 
-146 overrides.
+148 overrides.

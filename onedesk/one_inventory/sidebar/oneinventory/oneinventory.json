@@ -457,6 +457,18 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
+   "label": "Inventory Check",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Inventory Check"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
    "label": "Warehouses",
    "link_type": "DocType",
    "show_arrow": 0,
@@ -572,7 +584,7 @@
    "link_to": "Buying Settings"
   }
  ],
- "modified": "2026-09-28 21:00:00.000000",
+ "modified": "2026-09-29 01:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Inventory",
  "name": "OneInventory",

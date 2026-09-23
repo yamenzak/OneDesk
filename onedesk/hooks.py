@@ -468,6 +468,7 @@ app_include_css = [
 web_include_css = ["/assets/onedesk/css/portal.css"]
 app_include_js = [
 	"/assets/onedesk/js/theme.js",
+	"/assets/onedesk/js/check.js",
 	"/assets/onedesk/js/desk.js",
 	"/assets/onedesk/js/passkey.js",
 	"/assets/onedesk/js/clock.js",

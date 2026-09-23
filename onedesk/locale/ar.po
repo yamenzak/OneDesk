@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 22:45+0000\n"
-"PO-Revision-Date: 2026-09-23 22:45+0000\n"
+"POT-Creation-Date: 2026-09-23 22:53+0000\n"
+"PO-Revision-Date: 2026-09-23 22:53+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -396,11 +396,11 @@ msgstr ""
 msgid "Account ID"
 msgstr "معرّف الحساب"
 
-#: onedesk/one_book/report/books_check/books_check.js:40
+#: onedesk/one_book/report/books_check/books_check.js:12
 msgid "Account Name"
 msgstr "اسم الحساب"
 
-#: onedesk/one_book/report/books_check/books_check.js:42
+#: onedesk/one_book/report/books_check/books_check.js:14
 msgid "Account Number"
 msgstr "رقم الحساب"
 
@@ -471,20 +471,25 @@ msgstr ""
 msgid "Activity Type"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:46
+#: onedesk/one_book/report/books_check/books_check.js:18
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:32
+#: onedesk/one_inventory/report/inventory_check/inventory_check.js:20
 #: onedesk/one_task/page/my_tasks/my_tasks.js:25
 #: onedesk/public/js/workspace_account.js:201
 msgid "Add"
 msgstr "إضافة"
 
-#: onedesk/one_book/report/books_check/books_check.js:45
+#: onedesk/one_book/report/books_check/books_check.js:17
 msgid "Add Bank Account"
 msgstr "إضافة حساب بنكي"
 
 #: onedesk/public/js/workspace_account.js:16
 msgid "Add Domain"
 msgstr "إضافة نطاق"
+
+#: onedesk/one_inventory/report/inventory_check/inventory_check.js:19
+msgid "Add a Location"
+msgstr "إضافة موقع"
 
 #. Title of an Onboarding Step
 #. Label of an action in the Onboarding Step 'Add a customer'
@@ -702,6 +707,10 @@ msgstr "الموظف الذي لا يسجّل انصرافه يُكتب له س�
 #: onedesk/one_hr/hiring.py:529
 msgid "An interview is only recorded once the candidate has agreed."
 msgstr "لا تُسجَّل المقابلة إلا بعد موافقة المرشح."
+
+#: onedesk/one_inventory/ready.py:88
+msgid "An item can have serial numbers or batches."
+msgstr "يمكن أن يكون للصنف أرقام تسلسلية أو دفعات."
 
 #: onedesk/one_hr/ai_grievance.py:135
 msgid "An urgent grievance was raised"
@@ -990,6 +999,10 @@ msgstr "تعديلات قيمة الأصول"
 msgid "Assets"
 msgstr ""
 
+#: onedesk/one_inventory/ready.py:104
+msgid "Assets have categories"
+msgstr "للأصول فئات"
+
 #: onedesk/public/js/employee.js:184
 msgid "Assign a Salary Structure"
 msgstr "إسناد هيكل راتب"
@@ -1161,7 +1174,7 @@ msgid "Balance Sheet"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_book/report/books_check/books_check.js:39
+#: onedesk/one_book/report/books_check/books_check.js:11
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Bank"
 msgstr "البنك"
@@ -1705,11 +1718,11 @@ msgstr "اختر شهراً وسنة."
 msgid "Choose an employee and a posting date first."
 msgstr "اختر الموظف وتاريخ القيد أولاً."
 
-#: onedesk/one_book/report/books_check/books_check.js:77
+#: onedesk/one_book/report/books_check/books_check.js:49
 msgid "Choose the Tax Charged by Default"
 msgstr "اختر الضريبة المحتسبة افتراضيًا"
 
-#: onedesk/one_book/report/books_check/books_check.js:66
+#: onedesk/one_book/report/books_check/books_check.js:38
 msgid "City"
 msgstr "المدينة"
 
@@ -2075,7 +2088,7 @@ msgstr "الرصيد لكل دولار"
 msgid "Currency"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:40
+#: onedesk/one_book/report/books_check/books_check.js:12
 msgid "Current Account"
 msgstr "حساب جارٍ"
 
@@ -2238,7 +2251,7 @@ msgstr "افتراضي لـ"
 msgid "Default Markup"
 msgstr "الهامش الافتراضي"
 
-#: onedesk/one_book/report/books_check/books_check.js:75
+#: onedesk/one_book/report/books_check/books_check.js:47
 msgid "Default Template"
 msgstr "القالب الافتراضي"
 
@@ -2292,6 +2305,14 @@ msgstr ""
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Depreciation"
 msgstr ""
+
+#: onedesk/one_inventory/ready.py:115
+msgid "Depreciation is worked out but never posted unless somebody does it."
+msgstr "يُحسب الإهلاك لكنه لا يُرحّل ما لم يقم به أحد."
+
+#: onedesk/one_inventory/ready.py:112
+msgid "Depreciation posts itself"
+msgstr "الإهلاك يُرحَّل تلقائيًا"
 
 #. Label of the description (Small Text) field in DocType 'Offering'
 #. Label of the description (Small Text) field in DocType 'Attendance Reason'
@@ -2540,6 +2561,10 @@ msgstr "الاتحاد الأوروبي"
 msgid "EU Bucket"
 msgstr "حاوية الاتحاد الأوروبي"
 
+#: onedesk/one_inventory/ready.py:114
+msgid "Each asset's depreciation is posted to the books when it falls due."
+msgstr "يُرحّل إهلاك كل أصل إلى الدفاتر عند استحقاقه."
+
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "Edit"
@@ -2583,7 +2608,7 @@ msgstr ""
 msgid "Embedding"
 msgstr "تضمين"
 
-#: onedesk/one_book/report/books_check/books_check.js:61
+#: onedesk/one_book/report/books_check/books_check.js:33
 msgid "Emirate"
 msgstr "الإمارة"
 
@@ -2817,6 +2842,10 @@ msgstr "معرّف الحدث"
 msgid "Events"
 msgstr ""
 
+#: onedesk/one_inventory/ready.py:95
+msgid "Every asset is kept at a location."
+msgstr "كل أصل محفوظ في موقع."
+
 #. Description of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Every check-in attempt, allowed, flagged or refused."
@@ -2831,6 +2860,10 @@ msgstr "تُقيَّم كل عملية تسجيل حضور من 100 وتُحفظ
 #: onedesk/one_hr/hiring.py:618
 msgid "Every part is already transcribed."
 msgstr "جميع الأجزاء مفرّغة بالفعل."
+
+#: onedesk/one_inventory/ready.py:82
+msgid "Every receipt and delivery is posted to the stock accounts."
+msgstr "يُرحّل كل استلام وتسليم إلى حسابات المخزون."
 
 #: onedesk/one_book/ready.py:190
 msgid "Every year that has ended is closed"
@@ -3048,8 +3081,8 @@ msgstr "الخطوات الأولى"
 msgid "Fiscal Years"
 msgstr "السنوات المالية"
 
-#: onedesk/one_book/report/books_check/books_check.js:17
 #: onedesk/one_book/report/books_check/books_check.py:18
+#: onedesk/public/js/check.js:22
 msgid "Fix"
 msgstr "إصلاح"
 
@@ -3057,7 +3090,7 @@ msgstr "إصلاح"
 msgid "Fix spelling and grammar"
 msgstr "صحّح الإملاء والنحو"
 
-#: onedesk/one_book/report/books_check/books_check.js:30
+#: onedesk/public/js/check.js:31
 msgid "Fixed."
 msgstr "تم الإصلاح."
 
@@ -3369,6 +3402,10 @@ msgstr "عولج"
 msgid "Harassment"
 msgstr "تحرّش"
 
+#: onedesk/one_inventory/report/inventory_check/inventory_check.js:15
+msgid "Head Office"
+msgstr "المكتب الرئيسي"
+
 #. Label of the one_health (Select) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
 #: onedesk/one_project/report/project_tree/project_tree.py:52
@@ -3544,7 +3581,7 @@ msgstr "أحتاج خطابًا من الموارد البشرية — شهاد�
 msgid "I will paste an email signature. Add the person in it as a lead."
 msgstr "سألصق توقيع بريد إلكتروني. أضف الشخص الوارد فيه كعميل محتمل."
 
-#: onedesk/one_book/report/books_check/books_check.js:41
+#: onedesk/one_book/report/books_check/books_check.js:13
 msgid "IBAN"
 msgstr "رقم الآيبان"
 
@@ -3758,6 +3795,13 @@ msgstr "المُحاور"
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:211
 msgid "Interviews"
 msgstr "المقابلات"
+
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/report/inventory_check/inventory_check.json
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Inventory Check"
+msgstr "فحص المخزون"
 
 #. Title of an Onboarding Step
 #. Label of an action in the Onboarding Step 'Invite your team'
@@ -4307,6 +4351,7 @@ msgstr "الحِمل (%)"
 #. Label of the place_section (Section Break) field in DocType 'Clock Attempt'
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:301
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_inventory/report/inventory_check/inventory_check.js:13
 msgid "Location"
 msgstr "الموقع"
 
@@ -4436,7 +4481,7 @@ msgstr ""
 msgid "Maintenance Teams"
 msgstr "فرق الصيانة"
 
-#: onedesk/one_book/report/books_check/books_check.js:78
+#: onedesk/one_book/report/books_check/books_check.js:50
 msgid "Make Default"
 msgstr "اجعله افتراضيًا"
 
@@ -4720,6 +4765,10 @@ msgstr "اسم النسخة الاحتياطية الخارجية لدى Frappe 
 #: onedesk/one_book/ready.py:285
 msgid "Name the bank and the account."
 msgstr "اذكر اسم البنك والحساب."
+
+#: onedesk/one_inventory/ready.py:138
+msgid "Name the location."
+msgstr "اذكر اسم الموقع."
 
 #: onedesk/one_project/templates.py:82
 msgid "Name the template."
@@ -5133,7 +5182,7 @@ msgstr "لا يُخصم رصيد ولا يُسجَّل حضور."
 msgid "Nothing on these days."
 msgstr "لا شيء في هذه الأيام."
 
-#: onedesk/one_book/ready.py:249
+#: onedesk/one_book/ready.py:249 onedesk/one_inventory/ready.py:133
 msgid "Nothing to fix for {0}."
 msgstr "لا يوجد ما يُصلح في {0}."
 
@@ -6510,7 +6559,7 @@ msgstr "قراءة تسجيلات الحضور"
 msgid "Reading what it found…"
 msgstr "يقرأ ما وجده…"
 
-#: onedesk/one_book/report/books_check/books_check.js:9
+#: onedesk/public/js/check.js:14
 msgid "Ready"
 msgstr "جاهز"
 
@@ -6542,6 +6591,10 @@ msgstr "الأسباب المعروضة على الموظفين عند تسجي�
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Receipts"
 msgstr "الاستلامات"
+
+#: onedesk/one_inventory/ready.py:78
+msgid "Receipts and deliveries do not reach the ledger, so the balance sheet has no stock."
+msgstr "لا تصل الاستلامات والتسليمات إلى دفتر الأستاذ، لذا لا تُظهر الميزانية مخزونًا."
 
 #: onedesk/one_book/ready.py:97
 msgid "Receivable, payable, income, cost center and round-off."
@@ -7000,8 +7053,8 @@ msgstr "قوالب ضريبة المبيعات"
 msgid "Sales are reported under the company's emirate."
 msgstr "تُسجّل المبيعات تحت إمارة الشركة."
 
-#: onedesk/one_book/report/books_check/books_check.js:53
-#: onedesk/one_book/report/books_check/books_check.js:70
+#: onedesk/one_book/report/books_check/books_check.js:25
+#: onedesk/one_book/report/books_check/books_check.js:42
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:310
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:52
 #: onedesk/public/js/crm_record.js:198 onedesk/public/js/next_step.js:31
@@ -7144,6 +7197,10 @@ msgstr "إنهاء الخدمة"
 msgid "Serial Numbers"
 msgstr "الأرقام التسلسلية"
 
+#: onedesk/one_inventory/ready.py:86
+msgid "Serial and batch numbers can be used"
+msgstr "يمكن استخدام الأرقام التسلسلية والدفعات"
+
 #. Label of the session_address (Data) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Session Address"
@@ -7185,7 +7242,7 @@ msgstr "تُضبط بزرّي الموافقة والرفض، فتتوافق د�
 msgid "Set by billing events and by the actions in the toolbar."
 msgstr "تُضبط من أحداث الفوترة ومن الإجراءات في شريط الأدوات."
 
-#: onedesk/one_book/ready.py:96
+#: onedesk/one_book/ready.py:96 onedesk/one_inventory/ready.py:81
 msgid "Set on the company: {0}."
 msgstr "حدّدها في الشركة: {0}."
 
@@ -7336,6 +7393,14 @@ msgstr "اقتُطعت بعض الأيام"
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "Something a model suggested doing. Nothing happens until a person presses Apply."
 msgstr "شيء اقترح نموذج فعله. ولا يحدث شيء حتى يضغط شخص «طبّق»."
+
+#: onedesk/one_inventory/ready.py:93
+msgid "Somewhere for an asset to be"
+msgstr "مكان لوجود الأصل"
+
+#: onedesk/one_inventory/ready.py:68
+msgid "Somewhere to keep stock"
+msgstr "مكان لحفظ المخزون"
 
 #. Label of the source (Select) field in DocType 'Credit Ledger Entry'
 #. Label of the 'utm_analytics_section' field in DocType 'Lead'
@@ -7552,6 +7617,14 @@ msgstr ""
 msgid "Stock against the Books"
 msgstr "المخزون مقابل الدفاتر"
 
+#: onedesk/one_inventory/ready.py:71
+msgid "Stock can be received into {0} warehouses."
+msgstr "يمكن استلام المخزون في {0} مستودعات."
+
+#: onedesk/one_inventory/ready.py:76
+msgid "Stock is valued in the books"
+msgstr "المخزون مُقيّم في الدفاتر"
+
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Stock on Hand"
@@ -7620,7 +7693,7 @@ msgstr "التخزين"
 msgid "Storage (GB)"
 msgstr "التخزين (غيغابايت)"
 
-#: onedesk/one_book/report/books_check/books_check.js:65
+#: onedesk/one_book/report/books_check/books_check.js:37
 msgid "Street Address"
 msgstr "عنوان الشارع"
 
@@ -7711,7 +7784,7 @@ msgstr "اشترك"
 msgid "Suggest the next step"
 msgstr "اقترح الخطوة التالية"
 
-#: onedesk/one_book/report/books_check/books_check.js:11
+#: onedesk/public/js/check.js:16
 msgid "Suggested"
 msgstr "مُقترح"
 
@@ -7783,6 +7856,10 @@ msgstr "مدة الإيقاف"
 msgid "Switch Off"
 msgstr "إيقاف"
 
+#: onedesk/one_inventory/ready.py:89
+msgid "Switched off, so no item can have serial numbers or batches."
+msgstr "مُعطّلة، لذا لا يمكن لأي صنف أن يكون له أرقام تسلسلية أو دفعات."
+
 #: onedesk/public/js/ai_model_list.js:50
 msgid "Sync {0}"
 msgstr "مزامنة {0}"
@@ -7808,7 +7885,7 @@ msgstr "تعليمة النظام"
 msgid "System Manager"
 msgstr ""
 
-#: onedesk/one_book/report/books_check/books_check.js:50
+#: onedesk/one_book/report/books_check/books_check.js:22
 msgid "TRN"
 msgstr "الرقم الضريبي"
 
@@ -7995,7 +8072,7 @@ msgstr "مفتاح المرور هذا غير مسجَّل في هذا المو�
 msgid "That tab shared no sound, so only the microphone is recorded."
 msgstr "لم تشارك علامة التبويب أي صوت، لذا يُسجَّل الميكروفون فقط."
 
-#: onedesk/one_book/report/books_check/books_check.js:50
+#: onedesk/one_book/report/books_check/books_check.js:22
 msgid "The 15-digit Tax Registration Number on the VAT certificate."
 msgstr "رقم التسجيل الضريبي المكوّن من 15 رقمًا في شهادة ضريبة القيمة المضافة."
 
@@ -8005,11 +8082,11 @@ msgstr "رقم التسجيل الضريبي المكوّن من 15 رقمًا �
 msgid "The AI Gateway on the Cloudflare account above."
 msgstr "بوابة الذكاء الاصطناعي على حساب Cloudflare أعلاه."
 
-#: onedesk/one_book/report/books_check/books_check.js:69
+#: onedesk/one_book/report/books_check/books_check.js:41
 msgid "The Company's Address"
 msgstr "عنوان الشركة"
 
-#: onedesk/one_book/report/books_check/books_check.js:52
+#: onedesk/one_book/report/books_check/books_check.js:24
 msgid "The Company's TRN"
 msgstr "الرقم الضريبي للشركة"
 
@@ -8085,6 +8162,10 @@ msgstr "لم يفصح المتصفح عن موقعه."
 #: onedesk/public/js/ai_model.js:62
 msgid "The call is really made and really charged."
 msgstr "يُجرى النداء فعلاً ويُحتسب فعلاً."
+
+#: onedesk/one_inventory/ready.py:180
+msgid "The chart of accounts has no Fixed Asset ledgers to keep assets in."
+msgstr "لا يحتوي دليل الحسابات على حسابات أصول ثابتة لحفظ الأصول فيها."
 
 #: onedesk/one_book/vat.py:52
 msgid "The chart of accounts has no Tax account with VAT in its name."
@@ -8353,6 +8434,10 @@ msgstr ""
 msgid "There is already a template called {0}."
 msgstr "يوجد قالب باسم {0} بالفعل."
 
+#: onedesk/one_inventory/ready.py:108
+msgid "There is no asset category, and an item marked Is Fixed Asset needs one."
+msgstr "لا توجد فئة أصول، والصنف المُعلَّم كأصل ثابت يحتاج إلى واحدة."
+
 #: onedesk/one_book/ready.py:112
 msgid "There is no company bank account, so a payment by transfer does not know where the money went."
 msgstr "لا يوجد حساب بنكي للشركة، لذا لا تعرف الدفعة بالتحويل أين ذهب المال."
@@ -8360,6 +8445,14 @@ msgstr "لا يوجد حساب بنكي للشركة، لذا لا تعرف ال
 #: onedesk/one_hr/overtime.py:120
 msgid "There is no day to record this against."
 msgstr "لا يوجد يوم يمكن تسجيل هذا عليه."
+
+#: onedesk/one_inventory/ready.py:96
+msgid "There is no location, and an asset will not save without one."
+msgstr "لا يوجد موقع، ولا يمكن حفظ أصل بدونه."
+
+#: onedesk/one_inventory/ready.py:72
+msgid "There is no warehouse, so nothing can be received."
+msgstr "لا يوجد مستودع، لذا لا يمكن استلام شيء."
 
 #: onedesk/one_hr/clock.py:96 onedesk/public/js/desk.js:88
 msgid "There is nothing to check in: you are {0} today."
@@ -8542,8 +8635,7 @@ msgstr "العنوان"
 msgid "To Date"
 msgstr "إلى تاريخ"
 
-#: onedesk/one_book/report/books_check/books_check.js:10
-#: onedesk/one_project/portal.py:35
+#: onedesk/one_project/portal.py:35 onedesk/public/js/check.js:15
 msgid "To Do"
 msgstr "للتنفيذ"
 
@@ -9308,6 +9400,10 @@ msgstr "أين وصلت هذه الصفقة؟ قل في بضعة أسطر ما �
 msgid "Where it runs"
 msgstr "أين تعمل"
 
+#: onedesk/one_inventory/report/inventory_check/inventory_check.js:16
+msgid "Where the company's equipment is kept. Add more later under Setup › Locations."
+msgstr "مكان حفظ معدات الشركة. أضف المزيد لاحقًا من الإعداد › المواقع."
+
 #. Description of the 'Session Address' (Data) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Where this user's desk session was live from, if they had one."
@@ -10021,6 +10117,10 @@ msgstr ""
 #: onedesk/one_admin/actions.py:100
 msgid "{0} cannot read {1}."
 msgstr "{0} لا يستطيع قراءة {1}."
+
+#: onedesk/one_inventory/ready.py:107
+msgid "{0} categories, each with its ledger and how it depreciates."
+msgstr "{0} فئات، لكل منها حسابها وطريقة إهلاكها."
 
 #: onedesk/public/js/ai_proposal.js:35
 msgid "{0} changed after this was suggested, so it no longer applies."

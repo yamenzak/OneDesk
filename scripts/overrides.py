@@ -1046,6 +1046,20 @@ OVERRIDES = [
 		"erpnext/erpnext/accounts/doctype/period_closing_voucher/period_closing_voucher.py",
 		"def check_closing_account_type(self):",
 	),
+	(
+		"Serial and batch numbers are offered as a switch",
+		"off by default, and a bundle is refused while it is; the Inventory Check suggests turning it on",
+		"onedesk/one_inventory/ready.py",
+		"erpnext/erpnext/stock/doctype/serial_and_batch_bundle/serial_and_batch_bundle.py",
+		'if not frappe.db.get_single_value("Stock Settings", "enable_serial_and_batch_no_for_item"):',
+	),
+	(
+		"The usual asset categories are made from the chart",
+		"a category needs its fixed-asset ledger per company, and the company's own is empty",
+		"onedesk/one_inventory/ready.py",
+		"erpnext/erpnext/assets/doctype/asset_category_account/asset_category_account.json",
+		'"fieldname": "fixed_asset_account",',
+	),
 ]
 
 

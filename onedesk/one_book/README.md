@@ -233,7 +233,8 @@ fails a small business on first use or leaves a question unanswered.
   Account; `wired` (Bank Account `on_update`) fills the company default and
   every bank mode of payment with none, whoever made the account. The checks
   are rows with a key, and the fix for a key is `fix` — Accounts Manager or
-  Workspace Administrator only.
+  Workspace Administrator only. The page is `public/js/check.js`, which the
+  Inventory Check draws too.
 
 ### The plan
 
