@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 06:24+0000\n"
-"PO-Revision-Date: 2026-09-23 06:24+0000\n"
+"POT-Creation-Date: 2026-09-23 06:36+0000\n"
+"PO-Revision-Date: 2026-09-23 06:36+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,14 @@ msgstr ""
 
 #: onedesk/public/js/ai_model.js:102
 msgid "(from what was asked for)"
+msgstr ""
+
+#: onedesk/one_hr/ai.py:304
+msgid "1 day of {0}."
+msgstr ""
+
+#: onedesk/one_hr/ai.py:308
+msgid "1 day of {0}; {1} left after."
 msgstr ""
 
 #. Header text in the One Workspace
@@ -604,22 +612,19 @@ msgid "Appraisal Template"
 msgstr ""
 
 #: onedesk/public/js/decision.js:15 onedesk/public/js/decision.js:16
-#: onedesk/public/js/oneai/Record.vue:48
+#: onedesk/public/js/oneai/Record.vue:79
 msgid "Approve"
 msgstr ""
 
 #. Option for the 'Decision' (Select) field in DocType 'Attendance Request'
 #: onedesk/one_hr/custom/attendance_request.json
+#: onedesk/public/js/oneai/Record.vue:149
 msgid "Approved"
 msgstr ""
 
 #. Label of the away (Link) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Approved Request"
-msgstr ""
-
-#: onedesk/public/js/oneai/Record.vue:88
-msgid "Approved — {0}"
 msgstr ""
 
 #: onedesk/public/js/leave_application.js:33
@@ -1053,6 +1058,10 @@ msgstr ""
 msgid "Change the model"
 msgstr ""
 
+#: onedesk/public/js/oneai/Record.vue:135
+msgid "Change {0}"
+msgstr ""
+
 #: onedesk/one_ai/proposals.py:276
 msgid "Change {0} on {1}"
 msgstr ""
@@ -1354,7 +1363,7 @@ msgstr ""
 msgid "Conversations"
 msgstr ""
 
-#: onedesk/public/js/oneai/Record.vue:27
+#: onedesk/public/js/oneai/Record.vue:33
 msgid "Copy link"
 msgstr ""
 
@@ -1618,7 +1627,7 @@ msgstr ""
 msgid "Delete Photos After (Days)"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:271
+#: onedesk/one_ai/proposals.py:271 onedesk/public/js/oneai/Record.vue:136
 msgid "Delete {0}"
 msgstr ""
 
@@ -3268,6 +3277,10 @@ msgstr ""
 msgid "New conversation"
 msgstr ""
 
+#: onedesk/public/js/oneai/Record.vue:134
+msgid "New {0}"
+msgstr ""
+
 #. Label of the next_run_at (Datetime) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 msgid "Next Run"
@@ -3370,7 +3383,7 @@ msgstr ""
 msgid "Not a workspace this site administers."
 msgstr ""
 
-#: onedesk/one_ai/chat.py:348 onedesk/one_ai/chat.py:351
+#: onedesk/one_ai/chat.py:352 onedesk/one_ai/chat.py:355
 msgid "Not answered"
 msgstr ""
 
@@ -3641,7 +3654,7 @@ msgstr ""
 msgid "OneAI"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:347
+#: onedesk/one_ai/chat.py:351
 msgid "OneAI could not be reached just now. The question is still here — try again."
 msgstr ""
 
@@ -3733,7 +3746,7 @@ msgstr ""
 msgid "Only somebody who can approve these may answer this one."
 msgstr ""
 
-#: onedesk/public/js/oneai/Record.vue:16
+#: onedesk/public/js/oneai/Record.vue:44
 msgid "Open"
 msgstr ""
 
@@ -4454,7 +4467,7 @@ msgstr ""
 msgid "Refunded"
 msgstr ""
 
-#: onedesk/public/js/ai_proposal.js:15 onedesk/public/js/oneai/Record.vue:51
+#: onedesk/public/js/ai_proposal.js:15 onedesk/public/js/oneai/Record.vue:76
 msgid "Refuse"
 msgstr ""
 
@@ -4477,7 +4490,7 @@ msgstr ""
 msgid "Refused"
 msgstr ""
 
-#: onedesk/public/js/oneai/Record.vue:89
+#: onedesk/public/js/oneai/Record.vue:150
 msgid "Refused."
 msgstr ""
 
@@ -5211,24 +5224,12 @@ msgstr ""
 msgid "Submitting this pays {0} {1} for {2} days of {3}."
 msgstr ""
 
-#: onedesk/public/js/oneai/Record.vue:83
-msgid "Suggested"
-msgstr ""
-
 #: onedesk/public/js/oneai/Panel.vue:609
 msgid "Suggested a change"
 msgstr ""
 
 #: onedesk/public/js/oneai/Panel.vue:609
 msgid "Suggested a change to {0}"
-msgstr ""
-
-#: onedesk/public/js/oneai/Record.vue:83
-msgid "Suggested change"
-msgstr ""
-
-#: onedesk/public/js/oneai/Record.vue:83
-msgid "Suggested deletion"
 msgstr ""
 
 #: onedesk/one_ai/tools.py:369 onedesk/one_hr/ai.py:122
@@ -5564,7 +5565,7 @@ msgstr ""
 msgid "The provider's own word. Nothing converts between units."
 msgstr ""
 
-#: onedesk/public/js/oneai/Record.vue:90
+#: onedesk/public/js/oneai/Record.vue:151
 msgid "The record changed after this was suggested."
 msgstr ""
 
@@ -6720,11 +6721,11 @@ msgstr ""
 msgid "{0} days left"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:303
+#: onedesk/one_hr/ai.py:306
 msgid "{0} days of {1}."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:305
+#: onedesk/one_hr/ai.py:310
 msgid "{0} days of {1}; {2} left after."
 msgstr ""
 
@@ -6977,6 +6978,10 @@ msgstr ""
 
 #: onedesk/public/js/tenant.js:232
 msgid "{0} {1}?"
+msgstr ""
+
+#: onedesk/public/js/oneai/Record.vue:142
+msgid "{0} · waiting for you"
 msgstr ""
 
 #: onedesk/one_hr/timesheet.py:40

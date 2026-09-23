@@ -299,7 +299,11 @@ def _suggests(row: dict) -> dict:
 	# "Asked For On" on the card and pushed "To Date" off it.
 	place = {name: at for at, name in enumerate(labels)}
 	ordered = sorted(changes.items(), key=lambda one: place.get(one[0], len(place)))
+	tables = {f.fieldname: f.options for f in (meta.fields if meta else []) if f.fieldtype in frappe.model.table_fields}
 	for field, value in ordered[:FIELDS]:
+		if field in tables and isinstance(value, list):
+			fields.append({"label": frappe._(labels.get(field, field)), "rows": _card_rows(tables[field], value)})
+			continue
 		fields.append(
 			{
 				"label": frappe._(labels.get(field, field)),
@@ -491,6 +495,31 @@ def _titled(doctype: str, name) -> str:
 		# the id is still true, and still what the card should say.
 		pass
 	return str(name)
+
+
+def _card_rows(doctype: str, rows: list) -> list[dict]:
+	"""A child table's rows as a card draws them: what the row is, its amount
+	on the right, and the kind and date underneath — rather than every value in
+	a line joined by dots."""
+	meta = frappe.get_meta(doctype)
+	kinds = {f.fieldname: f.fieldtype for f in meta.fields}
+	drawn = []
+	for row in rows:
+		if not isinstance(row, dict):
+			continue
+		main, side, notes = [], "", []
+		for field, value in row.items():
+			if value in (None, ""):
+				continue
+			kind = kinds.get(field)
+			if kind in ("Currency", "Float", "Int", "Percent") and not side:
+				side = frappe.utils.fmt_money(value) if kind == "Currency" else f"{value:g}"
+			elif kind in ("Link", "Select", "Date", "Datetime"):
+				notes.append(str(value))
+			else:
+				main.append(strip_html_tags(str(value)).strip())
+		drawn.append({"main": " ".join(main) or (notes.pop(0) if notes else ""), "side": side, "notes": notes})
+	return drawn
 
 
 def _card_value(value) -> str:

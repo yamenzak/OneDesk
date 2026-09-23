@@ -249,44 +249,56 @@
 
 /* --------------------------------------------------------- a record, drawn
  *
- * The type, what it is called, and a few fields — the same card whether it was
- * looked up or is being suggested, because a person reading it is doing the
- * same thing either way. No gradient edge: the colour is on the launcher, where
- * it is the mark, and a coloured border round every card is a border round
- * everything. A suggestion is told apart by what the top line says and by the
- * two buttons underneath. */
+ * A head that says what it is, the fields as label and value, and for a
+ * suggestion a foot that holds the why and the two answers — the same card
+ * whether it was looked up or is being suggested, because a person reading it
+ * is doing the same thing either way. No gradient edge: the colour is on the
+ * launcher, where it is the mark. */
 
 .one-ai-rec {
-	margin: 0 0 8px;
-	padding: 9px 11px 10px;
+	margin: 0 0 10px;
 	border: 1px solid var(--border-color);
-	border-radius: 10px;
+	border-radius: 12px;
 	background: var(--card-bg, var(--fg-color));
+	overflow: hidden;
 }
 
-.one-ai-rec__top {
+.one-ai-rec__head {
 	display: flex;
 	align-items: center;
-	gap: 7px;
-	margin-bottom: 6px;
+	gap: 10px;
+	padding: 10px 10px 10px 12px;
 }
 
-.one-ai-rec__kind {
-	padding: 1px 7px;
-	border-radius: 5px;
+.one-ai-rec__glyph {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	width: 30px;
+	height: 30px;
+	border-radius: 8px;
 	background: var(--surface-gray-2);
 	color: var(--text-muted);
-	font-size: 11px;
+}
+
+.one-ai-rec__names {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.one-ai-rec__title {
+	font-size: var(--text-base);
 	font-weight: 600;
+	line-height: 1.3;
+	color: var(--text-color);
+	overflow: hidden;
 	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
-.one-ai-rec--suggested .one-ai-rec__kind {
-	background: var(--btn-primary);
-	color: var(--fg-color);
-}
-
-.one-ai-rec__id {
+.one-ai-rec__sub {
+	margin-top: 1px;
 	font-size: var(--text-xs);
 	color: var(--text-muted);
 	overflow: hidden;
@@ -294,37 +306,37 @@
 	text-overflow: ellipsis;
 }
 
-.one-ai-rec__gap {
-	flex: 1 1 auto;
-}
-
-.one-ai-rec__title {
-	margin-bottom: 5px;
-	font-size: var(--text-sm);
-	font-weight: 600;
-	color: var(--text-color);
-	overflow-wrap: anywhere;
-}
-
-/* A label and its value, as close together as they read well — and two pairs
- * across once there is room for them, which is the difference between a card
- * that is six lines tall and one that is three. */
+/* Label and value on one line each, the labels in one column so the values
+ * start at the same place — and two pairs across once there is room. */
 .one-ai-rec__fields {
 	display: grid;
-	grid-template-columns: minmax(58px, max-content) minmax(0, 1fr);
-	gap: 2px 10px;
+	grid-template-columns: minmax(0, 1fr);
 	margin: 0;
-	font-size: var(--text-xs);
+	padding: 2px 12px 10px;
+	border-top: 1px solid var(--border-color);
+	font-size: var(--text-sm);
 	line-height: 1.45;
 }
 
 .one-ai-panel--roomy .one-ai-rec__fields,
 .one-ai-panel--full .one-ai-rec__fields {
-	grid-template-columns: minmax(58px, max-content) minmax(0, 1fr) minmax(58px, max-content) minmax(0, 1fr);
-	column-gap: 18px;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	column-gap: 20px;
 }
 
-.one-ai-rec__fields dt {
+.one-ai-rec__field {
+	display: grid;
+	grid-template-columns: minmax(84px, 36%) minmax(0, 1fr);
+	gap: 12px;
+	padding: 6px 0 0;
+}
+
+.one-ai-panel--roomy .one-ai-rec__field,
+.one-ai-panel--full .one-ai-rec__field {
+	grid-template-columns: minmax(84px, 45%) minmax(0, 1fr);
+}
+
+.one-ai-rec__field dt {
 	margin: 0;
 	color: var(--text-muted);
 	font-weight: 400;
@@ -333,9 +345,10 @@
 	text-overflow: ellipsis;
 }
 
-.one-ai-rec__fields dd {
+.one-ai-rec__field dd {
 	margin: 0;
 	color: var(--text-color);
+	white-space: pre-line;
 	overflow-wrap: anywhere;
 }
 
@@ -343,25 +356,138 @@
 .one-ai-panel--roomy .one-ai-rec__fields--prose,
 .one-ai-panel--full .one-ai-rec__fields--prose {
 	display: block;
-	font-size: var(--text-sm);
+}
+
+.one-ai-rec__fields--prose .one-ai-rec__field {
+	display: block;
+	padding-top: 8px;
 }
 
 .one-ai-rec__fields--prose dd {
 	margin-top: 4px;
-	white-space: pre-line;
-	line-height: 1.55;
+	line-height: 1.6;
+}
+
+/* A child table's rows: what each is, the amount on the right, the kind and
+ * date underneath in grey. */
+.one-ai-rec__field:has(.one-ai-rec__rows) {
+	grid-template-columns: minmax(0, 1fr);
+	gap: 4px;
+}
+
+.one-ai-rec__rows {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.one-ai-rec__row {
+	padding: 7px 10px;
+	border-radius: 8px;
+	background: var(--surface-gray-1, var(--subtle-fg));
+}
+
+.one-ai-rec__row-top {
+	display: flex;
+	gap: 12px;
+	justify-content: space-between;
+}
+
+.one-ai-rec__amount {
+	flex: 0 0 auto;
+	font-weight: 500;
+	font-variant-numeric: tabular-nums;
+}
+
+.one-ai-rec__row-notes {
+	margin-top: 1px;
+	font-size: var(--text-xs);
+	color: var(--text-muted);
+}
+
+.one-ai-rec__foot {
+	padding: 10px 12px;
+	border-top: 1px solid var(--border-color);
+	background: var(--surface-gray-1, var(--subtle-fg));
+}
+
+.one-ai-rec__why {
+	margin-bottom: 9px;
+	font-size: var(--text-sm);
+	color: var(--text-muted);
+	line-height: 1.45;
 }
 
 .one-ai-rec__doing {
 	display: flex;
-	gap: 7px;
-	margin-top: 11px;
+	justify-content: flex-end;
+	gap: 8px;
+}
+
+.one-ai-btn {
+	height: 30px;
+	padding: 0 14px;
+	border: 1px solid var(--border-color);
+	border-radius: 8px;
+	background: var(--fg-color);
+	color: var(--text-color);
+	font-size: var(--text-sm);
+	font-weight: 500;
+	cursor: pointer;
+	transition: background 0.12s, opacity 0.12s;
+}
+
+.one-ai-btn:hover {
+	background: var(--surface-gray-2);
+}
+
+/* The send button's own black, so the one thing to press looks like it. */
+.one-ai-btn--go {
+	border-color: transparent;
+	background: var(--btn-primary);
+	color: var(--fg-color);
+}
+
+.one-ai-btn--go:hover {
+	background: var(--btn-primary);
+	opacity: 0.88;
+}
+
+.one-ai-btn:disabled {
+	opacity: 0.5;
+	cursor: default;
 }
 
 .one-ai-rec__state {
-	margin-top: 9px;
-	font-size: var(--text-xs);
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: var(--text-sm);
 	color: var(--text-muted);
+}
+
+.one-ai-rec__foot--applied .one-ai-rec__state {
+	color: var(--text-color);
+}
+
+.one-ai-rec__foot--applied .one-ai-rec__state svg {
+	color: var(--ink-green-7);
+}
+
+.one-ai-rec__made {
+	margin-left: auto;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: var(--text-muted);
+	font-size: var(--text-xs);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	cursor: pointer;
+}
+
+.one-ai-rec__made:hover {
+	color: var(--text-color);
 }
 
 /* -------------------------------------------------------------- the foot */

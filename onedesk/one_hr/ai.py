@@ -300,7 +300,12 @@ def book_leave(
 		}
 
 	if left is None or unpaid:
-		why = frappe._("{0} days of {1}.").format(f"{days:g}", frappe._(kind))
+		if days == 1:
+			why = frappe._("1 day of {0}.").format(frappe._(kind))
+		else:
+			why = frappe._("{0} days of {1}.").format(f"{days:g}", frappe._(kind))
+	elif days == 1:
+		why = frappe._("1 day of {0}; {1} left after.").format(frappe._(kind), f"{left - days:g}")
 	else:
 		why = frappe._("{0} days of {1}; {2} left after.").format(f"{days:g}", frappe._(kind), f"{left - days:g}")
 	name = proposals.propose("Create", "Leave Application", changes=values, why=why)

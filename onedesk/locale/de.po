@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 06:24+0000\n"
-"PO-Revision-Date: 2026-09-23 06:24+0000\n"
+"POT-Creation-Date: 2026-09-23 06:36+0000\n"
+"PO-Revision-Date: 2026-09-23 06:36+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -21,6 +21,14 @@ msgstr ""
 #: onedesk/public/js/ai_model.js:102
 msgid "(from what was asked for)"
 msgstr "(aus dem Angefragten)"
+
+#: onedesk/one_hr/ai.py:304
+msgid "1 day of {0}."
+msgstr "1 Tag {0}."
+
+#: onedesk/one_hr/ai.py:308
+msgid "1 day of {0}; {1} left after."
+msgstr "1 Tag {0}; danach bleiben {1}."
 
 #. Header text in the One Workspace
 #: onedesk/one/workspace/one/one.json
@@ -606,12 +614,13 @@ msgid "Appraisal Template"
 msgstr ""
 
 #: onedesk/public/js/decision.js:15 onedesk/public/js/decision.js:16
-#: onedesk/public/js/oneai/Record.vue:48
+#: onedesk/public/js/oneai/Record.vue:79
 msgid "Approve"
 msgstr ""
 
 #. Option for the 'Decision' (Select) field in DocType 'Attendance Request'
 #: onedesk/one_hr/custom/attendance_request.json
+#: onedesk/public/js/oneai/Record.vue:149
 msgid "Approved"
 msgstr ""
 
@@ -619,10 +628,6 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Approved Request"
 msgstr "Genehmigter Antrag"
-
-#: onedesk/public/js/oneai/Record.vue:88
-msgid "Approved — {0}"
-msgstr "Genehmigt — {0}"
 
 #: onedesk/public/js/leave_application.js:33
 msgid "Approving this books {0} days of {1} for {2}, {3}, leaving them {4}."
@@ -1055,6 +1060,10 @@ msgstr "Überstunden ändern"
 msgid "Change the model"
 msgstr "Modell ändern"
 
+#: onedesk/public/js/oneai/Record.vue:135
+msgid "Change {0}"
+msgstr "{0} ändern"
+
 #: onedesk/one_ai/proposals.py:276
 msgid "Change {0} on {1}"
 msgstr "{0} an {1} ändern"
@@ -1356,7 +1365,7 @@ msgstr "Unterhaltung"
 msgid "Conversations"
 msgstr "Unterhaltungen"
 
-#: onedesk/public/js/oneai/Record.vue:27
+#: onedesk/public/js/oneai/Record.vue:33
 msgid "Copy link"
 msgstr "Link kopieren"
 
@@ -1620,7 +1629,7 @@ msgstr ""
 msgid "Delete Photos After (Days)"
 msgstr "Fotos löschen nach (Tage)"
 
-#: onedesk/one_ai/proposals.py:271
+#: onedesk/one_ai/proposals.py:271 onedesk/public/js/oneai/Record.vue:136
 msgid "Delete {0}"
 msgstr "{0} löschen"
 
@@ -3270,6 +3279,10 @@ msgstr ""
 msgid "New conversation"
 msgstr "Neue Unterhaltung"
 
+#: onedesk/public/js/oneai/Record.vue:134
+msgid "New {0}"
+msgstr ""
+
 #. Label of the next_run_at (Datetime) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 msgid "Next Run"
@@ -3372,7 +3385,7 @@ msgstr "Nicht eingecheckt"
 msgid "Not a workspace this site administers."
 msgstr "Kein Arbeitsbereich, den diese Site verwaltet."
 
-#: onedesk/one_ai/chat.py:348 onedesk/one_ai/chat.py:351
+#: onedesk/one_ai/chat.py:352 onedesk/one_ai/chat.py:355
 msgid "Not answered"
 msgstr "Nicht beantwortet"
 
@@ -3643,7 +3656,7 @@ msgstr "Ein Arbeitsbereich hat das gekauft"
 msgid "OneAI"
 msgstr "OneAI"
 
-#: onedesk/one_ai/chat.py:347
+#: onedesk/one_ai/chat.py:351
 msgid "OneAI could not be reached just now. The question is still here — try again."
 msgstr "OneAI war gerade nicht erreichbar. Die Frage steht noch da — versuchen Sie es erneut."
 
@@ -3735,7 +3748,7 @@ msgstr "Es zählen nur Eincheckungen, die eine andere Prüfung bestanden haben. 
 msgid "Only somebody who can approve these may answer this one."
 msgstr "Nur wer solche Anträge genehmigen darf, kann über diesen entscheiden."
 
-#: onedesk/public/js/oneai/Record.vue:16
+#: onedesk/public/js/oneai/Record.vue:44
 msgid "Open"
 msgstr ""
 
@@ -4456,7 +4469,7 @@ msgstr "Erstattung"
 msgid "Refunded"
 msgstr "Erstattet"
 
-#: onedesk/public/js/ai_proposal.js:15 onedesk/public/js/oneai/Record.vue:51
+#: onedesk/public/js/ai_proposal.js:15 onedesk/public/js/oneai/Record.vue:76
 msgid "Refuse"
 msgstr "Ablehnen"
 
@@ -4479,7 +4492,7 @@ msgstr "Einchecken ohne Passkey ablehnen"
 msgid "Refused"
 msgstr "Abgelehnt"
 
-#: onedesk/public/js/oneai/Record.vue:89
+#: onedesk/public/js/oneai/Record.vue:150
 msgid "Refused."
 msgstr "Abgelehnt."
 
@@ -5213,10 +5226,6 @@ msgstr "Mit dem Buchen werden {0} für {1} Stunden vergütet."
 msgid "Submitting this pays {0} {1} for {2} days of {3}."
 msgstr "Das Buchen zahlt {0} {1} für {2} Tage {3}."
 
-#: onedesk/public/js/oneai/Record.vue:83
-msgid "Suggested"
-msgstr "Vorgeschlagen"
-
 #: onedesk/public/js/oneai/Panel.vue:609
 msgid "Suggested a change"
 msgstr "Hat eine Änderung vorgeschlagen"
@@ -5224,14 +5233,6 @@ msgstr "Hat eine Änderung vorgeschlagen"
 #: onedesk/public/js/oneai/Panel.vue:609
 msgid "Suggested a change to {0}"
 msgstr "Hat eine Änderung an {0} vorgeschlagen"
-
-#: onedesk/public/js/oneai/Record.vue:83
-msgid "Suggested change"
-msgstr "Vorgeschlagene Änderung"
-
-#: onedesk/public/js/oneai/Record.vue:83
-msgid "Suggested deletion"
-msgstr "Vorgeschlagene Löschung"
 
 #: onedesk/one_ai/tools.py:369 onedesk/one_hr/ai.py:122
 msgid "Suggested. It happens when somebody approves it."
@@ -5566,7 +5567,7 @@ msgstr "Die ID des Anbieters. Wird hier nie eingegeben."
 msgid "The provider's own word. Nothing converts between units."
 msgstr "Das Wort des Anbieters. Nichts rechnet zwischen Einheiten um."
 
-#: onedesk/public/js/oneai/Record.vue:90
+#: onedesk/public/js/oneai/Record.vue:151
 msgid "The record changed after this was suggested."
 msgstr "Der Datensatz hat sich nach diesem Vorschlag geändert."
 
@@ -6732,11 +6733,11 @@ msgstr "Noch {0} Tage, bis er auf {1} fällt."
 msgid "{0} days left"
 msgstr "Noch {0} Tage"
 
-#: onedesk/one_hr/ai.py:303
+#: onedesk/one_hr/ai.py:306
 msgid "{0} days of {1}."
 msgstr "{0} Tage {1}."
 
-#: onedesk/one_hr/ai.py:305
+#: onedesk/one_hr/ai.py:310
 msgid "{0} days of {1}; {2} left after."
 msgstr "{0} Tage {1}; danach bleiben {2}."
 
@@ -6990,6 +6991,10 @@ msgstr "{0} {1} → {2}"
 #: onedesk/public/js/tenant.js:232
 msgid "{0} {1}?"
 msgstr "{0} {1}?"
+
+#: onedesk/public/js/oneai/Record.vue:142
+msgid "{0} · waiting for you"
+msgstr "{0} · wartet auf Sie"
 
 #: onedesk/one_hr/timesheet.py:40
 msgid "{0} – running"

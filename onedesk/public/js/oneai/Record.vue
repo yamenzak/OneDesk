@@ -6,21 +6,27 @@
      are the proposed values, and the two buttons are underneath. -->
 <template>
 	<div class="one-ai-rec" :class="{ 'one-ai-rec--suggested': suggested }">
-		<div class="one-ai-rec__top">
-			<span class="one-ai-rec__kind">{{ __(record.doctype) }}</span>
-			<span class="one-ai-rec__id">{{ suggested ? verb : record.name }}</span>
-			<span class="one-ai-rec__gap"></span>
-			<button
-				v-if="record.name"
-				class="one-ai-icon one-ai-icon--sm"
-				:title="__('Open')"
-				@click="open"
-			>
-				<svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5">
-					<path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h2.5"
-						stroke-linecap="round" stroke-linejoin="round" />
+		<div class="one-ai-rec__head">
+			<span class="one-ai-rec__glyph" aria-hidden="true">
+				<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.4"
+					stroke-linecap="round" stroke-linejoin="round">
+					<template v-if="kind === 'Edit'">
+						<path d="M9.5 3.5l3 3L6 13H3v-3z" />
+					</template>
+					<template v-else-if="kind === 'Delete'">
+						<path d="M3.5 4.5h9M6.5 4.5V3h3v1.5M5 4.5l.5 8.5h5l.5-8.5" />
+					</template>
+					<template v-else>
+						<path d="M9 2H4.5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V5.5z" />
+						<path d="M9 2v3.5h3.5" />
+						<path v-if="kind === 'Create'" d="M8 8v4M6 10h4" />
+					</template>
 				</svg>
-			</button>
+			</span>
+			<div class="one-ai-rec__names">
+				<div class="one-ai-rec__title">{{ title }}</div>
+				<div class="one-ai-rec__sub">{{ sub }}</div>
+			</div>
 			<button
 				v-if="record.name"
 				class="one-ai-icon one-ai-icon--sm"
@@ -32,26 +38,66 @@
 					<path d="M10.5 3.5h-6a1 1 0 0 0-1 1v6" stroke-linecap="round" />
 				</svg>
 			</button>
+			<button
+				v-if="record.name"
+				class="one-ai-icon one-ai-icon--sm"
+				:title="__('Open')"
+				@click="open(record.name)"
+			>
+				<svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5">
+					<path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h2.5"
+						stroke-linecap="round" stroke-linejoin="round" />
+				</svg>
+			</button>
 		</div>
-
-		<div v-if="record.title" class="one-ai-rec__title">{{ record.title }}</div>
 
 		<dl v-if="record.fields.length" class="one-ai-rec__fields" :class="{ 'one-ai-rec__fields--prose': prose }">
-			<template v-for="field in record.fields" :key="field.label">
+			<div v-for="field in record.fields" :key="field.label" class="one-ai-rec__field">
 				<dt>{{ field.label }}</dt>
-				<dd>{{ field.value }}</dd>
-			</template>
+				<dd v-if="field.rows" class="one-ai-rec__rows">
+					<div v-for="(row, i) in field.rows" :key="i" class="one-ai-rec__row">
+						<div class="one-ai-rec__row-top">
+							<span>{{ row.main }}</span>
+							<span v-if="row.side" class="one-ai-rec__amount">{{ row.side }}</span>
+						</div>
+						<div v-if="row.notes.length" class="one-ai-rec__row-notes">
+							{{ row.notes.map(shown).join(" · ") }}
+						</div>
+					</div>
+				</dd>
+				<dd v-else>{{ shown(field.value) }}</dd>
+			</div>
 		</dl>
 
-		<div v-if="suggested && state === 'Proposed'" class="one-ai-rec__doing">
-			<button class="btn btn-primary btn-xs" :disabled="busy" @click="answer('apply')">
-				{{ __("Approve") }}
-			</button>
-			<button class="btn btn-default btn-xs" :disabled="busy" @click="answer('refuse')">
-				{{ __("Refuse") }}
-			</button>
+		<div v-if="suggested" class="one-ai-rec__foot" :class="`one-ai-rec__foot--${(state || '').toLowerCase()}`">
+			<div v-if="suggested.why && state === 'Proposed'" class="one-ai-rec__why">{{ suggested.why }}</div>
+			<div v-if="state === 'Proposed'" class="one-ai-rec__doing">
+				<button class="one-ai-btn" :disabled="busy" @click="answer('refuse')">
+					{{ __("Refuse") }}
+				</button>
+				<button class="one-ai-btn one-ai-btn--go" :disabled="busy" @click="answer('apply')">
+					{{ __("Approve") }}
+				</button>
+			</div>
+			<div v-else class="one-ai-rec__state">
+				<svg v-if="state === 'Applied'" viewBox="0 0 16 16" width="14" height="14" fill="none"
+					stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M3.5 8.5l3 3 6-7" />
+				</svg>
+				<svg v-else viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor"
+					stroke-width="1.8" stroke-linecap="round">
+					<path d="M4.5 4.5l7 7M11.5 4.5l-7 7" />
+				</svg>
+				<span>{{ settled }}</span>
+				<button
+					v-if="state === 'Applied' && suggested.applied_doc"
+					class="one-ai-rec__made"
+					@click="open(suggested.applied_doc)"
+				>
+					{{ suggested.applied_doc }}
+				</button>
+			</div>
 		</div>
-		<div v-else-if="suggested" class="one-ai-rec__state">{{ settled }}</div>
 	</div>
 </template>
 
@@ -78,21 +124,45 @@ const prose = computed(() => {
 });
 const state = computed(() => props.suggested && props.suggested.state);
 
-const verb = computed(() => {
-	const kind = props.suggested && props.suggested.kind;
-	return { Create: __("Suggested"), Edit: __("Suggested change"), Delete: __("Suggested deletion") }[kind] || kind;
+const kind = computed(() => (props.suggested ? props.suggested.kind || "Create" : ""));
+const doctype = computed(() => props.record.doctype || (props.suggested && props.suggested.for_doctype) || "");
+
+// What the card is, as a person would say it: the record's own title for a
+// lookup, and for a suggestion what approving it would do.
+const title = computed(() => {
+	const name = props.record.title || props.record.name;
+	if (kind.value === "Create") return __("New {0}", [__(doctype.value)]);
+	if (kind.value === "Edit") return name ? __("Change {0}", [name]) : __("Change {0}", [__(doctype.value)]);
+	if (kind.value === "Delete") return __("Delete {0}", [name || __(doctype.value)]);
+	return name || __(doctype.value);
+});
+
+const sub = computed(() => {
+	const type = __(doctype.value);
+	if (props.suggested) return state.value === "Proposed" ? __("{0} · waiting for you", [type]) : type;
+	const { name, title: called } = props.record;
+	return called && name && called !== name ? `${type} · ${name}` : type;
 });
 
 const settled = computed(() => {
 	const card = props.suggested || {};
-	if (card.state === "Applied") return __("Approved — {0}", [card.applied_doc || __("done")]);
+	if (card.state === "Applied") return __("Approved");
 	if (card.state === "Refused") return __("Refused.");
 	if (card.state === "Stale") return __("The record changed after this was suggested.");
 	return card.state;
 });
 
-function open() {
-	frappe.set_route("Form", props.record.doctype, props.record.name);
+// A date the way the reader writes dates, a whole number without its ".0",
+// and everything else as it came.
+function shown(value) {
+	const text = String(value ?? "");
+	if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return frappe.datetime.str_to_user(text);
+	if (/^-?\d+\.0+$/.test(text)) return text.replace(/\.0+$/, "");
+	return text;
+}
+
+function open(name) {
+	frappe.set_route("Form", doctype.value, name);
 }
 
 function copy() {
