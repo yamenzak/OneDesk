@@ -126,6 +126,19 @@ person's own page says how much equipment they hold. When somebody leaves,
 their separation gets a **Return** task for each thing they hold, and their
 final settlement cannot be submitted until everything is back.
 
+## Servicing equipment
+
+Tick **Maintenance Required** on an asset that needs looking after, then
+**Assets › Maintenance › + Add**: the asset, the maintenance team, and a row
+per job — what it is, how often (monthly, quarterly, yearly…), from when,
+until when if it stops, and who does it. Each due date is on that person's
+calendar as **My Maintenance**, and on everybody's as **Maintenance Due**
+when they turn it on; clicking one opens it to record it done, and the next
+one is worked out from that day. The asset's page says its **Next Service**,
+in red once it is late.
+
+The first schedule needs a maintenance team; the Inventory Check makes one.
+
 ## Counting stock
 
 **Stock Counts › + Add**, choose the warehouse, and **Fetch Items from
@@ -197,6 +210,16 @@ a register and a movement form in it would be a rail with five rows.
   Return activity per asset for the Stock Manager role (`returns`, pure);
   HRMS turns activities into tasks on submit, and its Full and Final
   Statement already refuses to submit while an asset is out.
+- `maintenance.py` and `calendar.py` — maintenance due. ERPNext's
+  `calculate_next_due_date` blanks the next due date whenever a task has an
+  end date (`or next_due_date` is true as soon as there is one), so a task
+  that runs until the warranty ends is never due and gets no log; `due`
+  (Asset Maintenance validate) works it out again (`next_due`, pure). Three
+  calendar layers read the Asset Maintenance Logs: the reader's own, the
+  workspace's, and an asset's own calendar. ERPNext also assigns one to-do per
+  schedule and person, dated for its first task only; the Assigned to Me
+  layer (one_task/calendar.py) leaves those out so nothing is on the calendar
+  twice.
 - `ready.py` and `report/inventory_check` — the Inventory Check, the Books
   Check's twin, drawn by the same page (`public/js/check.js`). What a new
   company is missing is an asset's two prerequisites: a Location (an Asset
@@ -232,4 +255,4 @@ a register and a movement form in it would be a rail with five rows.
    one step; an employee's page lists what they hold, and leaving asks for it
    back. *Done.*
 7. **Assets: maintenance.** What is due for a service, on the calendar and in
-   the owner's tasks.
+   the owner's tasks. *Done.*

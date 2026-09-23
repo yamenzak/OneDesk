@@ -91,14 +91,16 @@ def shifted(starts: datetime | None, ends: datetime | None, day) -> tuple:
 
 def todos(start, end) -> list[dict]:
 	"""Open assignments given to the reader on anything but a task, on the day
-	they are due. One opens the record it is about, which is where it is done."""
+	they are due. One opens the record it is about, which is where it is done.
+	Maintenance is left to its own layer (one_inventory/calendar.py), which has
+	each due date where ERPNext's single to-do per schedule has one."""
 	rows = []
 	for one in frappe.get_list(
 		"ToDo",
 		filters=[
 			["allocated_to", "=", frappe.session.user],
 			["status", "=", "Open"],
-			["reference_type", "!=", "Task"],
+			["reference_type", "not in", ["Task", "Asset Maintenance"]],
 			*layers.within("date", start, end),
 		],
 		fields=["name", "description", "date", "reference_type", "reference_name"],

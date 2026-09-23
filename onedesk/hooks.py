@@ -128,6 +128,8 @@ doc_events = {
 	},
 	# The assets register finishes itself. See one_inventory/assets.py.
 	"Item": {"validate": "onedesk.one_inventory.assets.fixed_item"},
+	# A schedule with an end date is due too. See one_inventory/maintenance.py.
+	"Asset Maintenance": {"validate": "onedesk.one_inventory.maintenance.due"},
 	"Purchase Receipt": {
 		"validate": "onedesk.one_inventory.assets.located",
 		"on_submit": "onedesk.one_inventory.assets.registered",
@@ -552,6 +554,7 @@ one_calendar_layers = [
 	"onedesk.one_project.calendar.LAYERS",
 	"onedesk.one_crm.calendar.LAYERS",
 	"onedesk.one_hr.calendar.LAYERS",
+	"onedesk.one_inventory.calendar.LAYERS",
 ]
 
 # A project's updates in its activity, under who wrote them. See one_project/updates.py.

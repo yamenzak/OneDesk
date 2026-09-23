@@ -33,6 +33,21 @@ onedesk.asset.stats = (frm, said) => {
 		stats.push(stat(__("Depreciation"), __("Does not depreciate"), null, "quiet"));
 	}
 	stats.push(stat(__("Where"), doc.location || __("Nowhere yet"), null, doc.location ? null : "waiting"));
+	// Only equipment marked Maintenance Required has a service to be due.
+	if (doc.maintenance_required) {
+		const service = said.service;
+		const late = service && service.due_date < frappe.datetime.get_today();
+		stats.push(
+			service
+				? stat(
+					__("Next Service"),
+					__("{0} · {1}", [service.task_name, frappe.datetime.str_to_user(service.due_date)]),
+					`/desk/asset-maintenance-log/${encodeURIComponent(service.name)}`,
+					late ? "alarm" : null,
+				)
+				: stat(__("Next Service"), __("No schedule"), `/desk/asset-maintenance/new?asset_name=${encodeURIComponent(doc.name)}`, "waiting"),
+		);
+	}
 	if (doc.docstatus === 1) {
 		stats.push(
 			doc.custodian

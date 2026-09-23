@@ -60,7 +60,7 @@ def test_only_a_task_in_no_project_is_completed_by_its_last_assignment():
 
 def test_the_calendar_does_not_show_a_task_twice():
 	todos = _body((TASK / "calendar.py").read_text(), "todos")
-	assert '["reference_type", "!=", "Task"]' in todos
+	assert '["reference_type", "not in", ["Task", "Asset Maintenance"]]' in todos
 
 
 def test_the_inbox_is_the_tasks_in_no_project():

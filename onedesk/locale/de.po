@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 23:09+0000\n"
-"PO-Revision-Date: 2026-09-23 23:09+0000\n"
+"POT-Creation-Date: 2026-09-23 23:14+0000\n"
+"PO-Revision-Date: 2026-09-23 23:14+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -712,7 +712,7 @@ msgstr "Für einen Mitarbeiter, der sich nie auscheckt, wird zum Schichtende ein
 msgid "An interview is only recorded once the candidate has agreed."
 msgstr "Ein Gespräch wird nur aufgezeichnet, wenn die Kandidatin oder der Kandidat zugestimmt hat."
 
-#: onedesk/one_inventory/ready.py:90
+#: onedesk/one_inventory/ready.py:93
 msgid "An item can have serial numbers or batches."
 msgstr "Ein Artikel kann Seriennummern oder Chargen haben."
 
@@ -1004,11 +1004,11 @@ msgstr "Anlagenwertanpassungen"
 msgid "Assets"
 msgstr "Anlagen"
 
-#: onedesk/one_inventory/ready.py:127
+#: onedesk/one_inventory/ready.py:130
 msgid "Assets bought are registered and depreciating by themselves."
 msgstr "Gekaufte Anlagegüter werden von selbst erfasst und abgeschrieben."
 
-#: onedesk/one_inventory/ready.py:106
+#: onedesk/one_inventory/ready.py:109
 msgid "Assets have categories"
 msgstr "Anlagegüter haben Kategorien"
 
@@ -2316,11 +2316,11 @@ msgstr ""
 msgid "Depreciation"
 msgstr "Abschreibung"
 
-#: onedesk/one_inventory/ready.py:117
+#: onedesk/one_inventory/ready.py:120
 msgid "Depreciation is worked out but never posted unless somebody does it."
 msgstr "Abschreibungen werden berechnet, aber nie gebucht, außer jemand tut es."
 
-#: onedesk/one_inventory/ready.py:114
+#: onedesk/one_inventory/ready.py:117
 msgid "Depreciation posts itself"
 msgstr "Abschreibungen buchen sich selbst"
 
@@ -2575,7 +2575,11 @@ msgstr "EU"
 msgid "EU Bucket"
 msgstr "EU-Bucket"
 
-#: onedesk/one_inventory/ready.py:116
+#: onedesk/one_inventory/ready.py:144
+msgid "Each asset that needs servicing has a schedule, on its people's calendars."
+msgstr "Jedes wartungspflichtige Anlagegut hat einen Plan in den Kalendern der Zuständigen."
+
+#: onedesk/one_inventory/ready.py:119
 msgid "Each asset's depreciation is posted to the books when it falls due."
 msgstr "Die Abschreibung jedes Anlageguts wird bei Fälligkeit gebucht."
 
@@ -2648,7 +2652,7 @@ msgstr "Emirat"
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:233
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:65
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:166
-#: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/public/js/asset.js:58
+#: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/public/js/asset.js:73
 #: onedesk/public/js/leave_control_panel.js:33 onedesk/public/js/overtime.js:14
 msgid "Employee"
 msgstr "Mitarbeiter"
@@ -2835,6 +2839,10 @@ msgstr "Geben Sie die Straßenadresse ein."
 msgid "Equipment"
 msgstr "Ausstattung"
 
+#: onedesk/one_inventory/ready.py:136
+msgid "Equipment that needs servicing has a schedule"
+msgstr "Wartungspflichtige Ausstattung hat einen Plan"
+
 #. Label of the error (Small Text) field in DocType 'Provisioning Job'
 #. Label of the error (Small Text) field in DocType 'Stripe Webhook Event'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
@@ -2860,11 +2868,11 @@ msgstr "Ereignis-ID"
 msgid "Events"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:97
+#: onedesk/one_inventory/ready.py:100
 msgid "Every asset is kept at a location."
 msgstr "Jedes Anlagegut befindet sich an einem Standort."
 
-#: onedesk/one_inventory/ready.py:123
+#: onedesk/one_inventory/ready.py:126
 msgid "Every asset is registered"
 msgstr "Jedes Anlagegut ist erfasst"
 
@@ -2883,7 +2891,7 @@ msgstr "Jedes Einchecken wird mit bis zu 100 Punkten bewertet, und die Punktzahl
 msgid "Every part is already transcribed."
 msgstr "Alle Teile sind bereits transkribiert."
 
-#: onedesk/one_inventory/ready.py:84
+#: onedesk/one_inventory/ready.py:87
 msgid "Every receipt and delivery is posted to the stock accounts."
 msgstr "Jeder Wareneingang und jede Lieferung wird auf die Bestandskonten gebucht."
 
@@ -3264,15 +3272,15 @@ msgstr "Kontakt aufnehmen"
 msgid "Get in Touch Form"
 msgstr "Kontaktformular"
 
-#: onedesk/public/js/asset.js:62 onedesk/public/js/tenant.js:126
+#: onedesk/public/js/asset.js:77 onedesk/public/js/tenant.js:126
 msgid "Give"
 msgstr "Geben"
 
-#: onedesk/public/js/asset.js:61
+#: onedesk/public/js/asset.js:76
 msgid "Give To"
 msgstr "Geben an"
 
-#: onedesk/public/js/asset.js:56
+#: onedesk/public/js/asset.js:71
 msgid "Give To…"
 msgstr "Geben an…"
 
@@ -3289,7 +3297,7 @@ msgstr "Geben Sie {0} einen Kunden, an den die Zeit abgerechnet wird."
 msgid "Given"
 msgstr "Übermittelt"
 
-#: onedesk/public/js/asset.js:60
+#: onedesk/public/js/asset.js:75
 msgid "Given."
 msgstr "Übergeben."
 
@@ -3434,11 +3442,11 @@ msgstr ""
 msgid "Half day"
 msgstr "Halbtags"
 
-#: onedesk/public/js/asset.js:61
+#: onedesk/public/js/asset.js:76
 msgid "Hand To Somebody Else"
 msgstr "An jemand anderen übergeben"
 
-#: onedesk/public/js/asset.js:56
+#: onedesk/public/js/asset.js:71
 msgid "Hand To…"
 msgstr "Übergeben an…"
 
@@ -3898,7 +3906,7 @@ msgstr "Ausgestellt von"
 msgid "Issued On"
 msgstr "Ausgestellt am"
 
-#: onedesk/one_inventory/assets.py:78
+#: onedesk/one_inventory/assets.py:80
 msgid "It has no asset category."
 msgstr "Es hat keine Anlagenkategorie."
 
@@ -4007,7 +4015,7 @@ msgstr ""
 msgid "Kept"
 msgstr "Gespeichert"
 
-#: onedesk/public/js/asset.js:68
+#: onedesk/public/js/asset.js:83
 msgid "Kept At"
 msgstr "Aufbewahrt in"
 
@@ -4539,9 +4547,15 @@ msgid "Made by OneAI"
 msgstr "Von OneAI erstellt"
 
 #. Label of a Sidebar Item
+#: onedesk/one_inventory/calendar.py:31 onedesk/one_inventory/calendar.py:58
+#: onedesk/one_inventory/maintenance.py:88
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Maintenance"
-msgstr ""
+msgstr "Wartung"
+
+#: onedesk/one_inventory/calendar.py:21
+msgid "Maintenance Due"
+msgstr "Fällige Wartung"
 
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -4604,6 +4618,10 @@ msgstr "Erfassen als"
 #: onedesk/public/js/attendance_tool.js:69
 msgid "Mark Attendance"
 msgstr ""
+
+#: onedesk/one_inventory/ready.py:143
+msgid "Marked Maintenance Required with no schedule: {0}. Add one under Assets › Maintenance."
+msgstr "Als wartungspflichtig markiert, aber ohne Plan: {0}. Unter Anlagen › Wartung anlegen."
 
 #: onedesk/one_hr/presence.py:256
 msgid "Marked present"
@@ -4804,6 +4822,10 @@ msgstr "Meine Vorstellungsgespräche"
 msgid "My Leave"
 msgstr "Mein Urlaub"
 
+#: onedesk/one_inventory/calendar.py:13
+msgid "My Maintenance"
+msgstr "Meine Wartung"
+
 #. Label of a Sidebar Item
 #: onedesk/one_task/calendar.py:29
 #: onedesk/one_task/page/my_tasks/my_tasks.js:10
@@ -4838,7 +4860,7 @@ msgstr "Name der externen Sicherung, die Frappe Cloud bei der Archivierung vorhi
 msgid "Name the bank and the account."
 msgstr "Nennen Sie die Bank und das Konto."
 
-#: onedesk/one_inventory/ready.py:156
+#: onedesk/one_inventory/ready.py:177
 msgid "Name the location."
 msgstr "Benennen Sie den Standort."
 
@@ -4957,6 +4979,10 @@ msgstr "Nächster Meilenstein"
 msgid "Next Run"
 msgstr "Nächster Lauf"
 
+#: onedesk/public/js/asset.js:43 onedesk/public/js/asset.js:48
+msgid "Next Service"
+msgstr "Nächste Wartung"
+
 #. Label of the next_status (Data) field in DocType 'Workspace Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 msgid "Next Status"
@@ -5021,6 +5047,10 @@ msgstr "Unbedenklichkeitsbescheinigung"
 msgid "No Shift"
 msgstr "Ohne Schicht"
 
+#: onedesk/one_inventory/ready.py:138
+msgid "No asset is marked Maintenance Required."
+msgstr "Kein Anlagegut ist als wartungspflichtig markiert."
+
 #: onedesk/public/js/project.js:164
 msgid "No billable time on {0} is waiting to be invoiced."
 msgstr "In {0} wartet keine abrechenbare Zeit auf eine Rechnung."
@@ -5079,6 +5109,10 @@ msgstr "Kein Preis für dieses Modell auf der veröffentlichten Seite."
 msgid "No salary slips yet for {0} to {1}."
 msgstr "Noch keine Gehaltsabrechnungen für {0} bis {1}."
 
+#: onedesk/public/js/asset.js:48
+msgid "No schedule"
+msgstr "Kein Plan"
+
 #: onedesk/public/js/hiring.js:188
 msgid "No sound. Check the microphone."
 msgstr "Kein Ton. Mikrofon prüfen."
@@ -5107,7 +5141,7 @@ msgstr "Kein Jahr ist mit offenen Buchungen abgelaufen."
 msgid "No {0} bucket is configured."
 msgstr "Es ist kein {0}-Bucket eingerichtet."
 
-#: onedesk/public/js/asset.js:40
+#: onedesk/public/js/asset.js:55
 msgid "Nobody"
 msgstr "Niemand"
 
@@ -5218,7 +5252,7 @@ msgstr "Zeigt noch nicht hierher."
 msgid "Not reached"
 msgstr "Nicht erreicht"
 
-#: onedesk/one_inventory/assets.py:101
+#: onedesk/one_inventory/assets.py:103
 msgid "Not registered by itself: {0}"
 msgstr "Nicht selbst erfasst: {0}"
 
@@ -5286,7 +5320,7 @@ msgstr "Es wird nichts abgezogen und keine Anwesenheit erfasst."
 msgid "Nothing on these days."
 msgstr "An diesen Tagen ist nichts."
 
-#: onedesk/one_book/ready.py:249 onedesk/one_inventory/ready.py:151
+#: onedesk/one_book/ready.py:249 onedesk/one_inventory/ready.py:172
 msgid "Nothing to fix for {0}."
 msgstr "Für {0} gibt es nichts zu beheben."
 
@@ -6714,7 +6748,7 @@ msgstr "Gründe, die Mitarbeitern beim Auschecken angeboten werden."
 msgid "Receipts"
 msgstr "Wareneingänge"
 
-#: onedesk/one_inventory/ready.py:80
+#: onedesk/one_inventory/ready.py:83
 msgid "Receipts and deliveries do not reach the ledger, so the balance sheet has no stock."
 msgstr "Wareneingänge und Lieferungen erreichen das Hauptbuch nicht, daher zeigt die Bilanz keinen Bestand."
 
@@ -7330,7 +7364,7 @@ msgstr "Austritt"
 msgid "Serial Numbers"
 msgstr "Seriennummern"
 
-#: onedesk/one_inventory/ready.py:88
+#: onedesk/one_inventory/ready.py:91
 msgid "Serial and batch numbers can be used"
 msgstr "Serien- und Chargennummern sind nutzbar"
 
@@ -7375,7 +7409,7 @@ msgstr "Wird von Genehmigen und Ablehnen gesetzt und stimmt so immer mit der Ent
 msgid "Set by billing events and by the actions in the toolbar."
 msgstr "Wird durch Abrechnungsereignisse und die Aktionen in der Symbolleiste gesetzt."
 
-#: onedesk/one_book/ready.py:96 onedesk/one_inventory/ready.py:83
+#: onedesk/one_book/ready.py:96 onedesk/one_inventory/ready.py:86
 msgid "Set on the company: {0}."
 msgstr "Im Unternehmen festlegen: {0}."
 
@@ -7527,11 +7561,11 @@ msgstr "Einige Tage wurden gekürzt"
 msgid "Something a model suggested doing. Nothing happens until a person presses Apply."
 msgstr "Etwas, das ein Modell vorgeschlagen hat. Es geschieht nichts, bis eine Person auf Anwenden drückt."
 
-#: onedesk/one_inventory/ready.py:95
+#: onedesk/one_inventory/ready.py:98
 msgid "Somewhere for an asset to be"
 msgstr "Ein Ort für ein Anlagegut"
 
-#: onedesk/one_inventory/ready.py:70
+#: onedesk/one_inventory/ready.py:73
 msgid "Somewhere to keep stock"
 msgstr "Ein Ort für den Bestand"
 
@@ -7754,11 +7788,11 @@ msgstr ""
 msgid "Stock against the Books"
 msgstr "Bestand gegen Buchhaltung"
 
-#: onedesk/one_inventory/ready.py:73
+#: onedesk/one_inventory/ready.py:76
 msgid "Stock can be received into {0} warehouses."
 msgstr "Ware kann in {0} Lager eingehen."
 
-#: onedesk/one_inventory/ready.py:78
+#: onedesk/one_inventory/ready.py:81
 msgid "Stock is valued in the books"
 msgstr "Der Bestand ist in den Büchern bewertet"
 
@@ -7998,7 +8032,7 @@ msgstr "Gesperrt für"
 msgid "Switch Off"
 msgstr "Abschalten"
 
-#: onedesk/one_inventory/ready.py:91
+#: onedesk/one_inventory/ready.py:94
 msgid "Switched off, so no item can have serial numbers or batches."
 msgstr "Ausgeschaltet, daher kann kein Artikel Seriennummern oder Chargen haben."
 
@@ -8031,8 +8065,8 @@ msgstr ""
 msgid "TRN"
 msgstr "Steuernummer (TRN)"
 
-#: onedesk/public/js/asset.js:66 onedesk/public/js/asset.js:71
-#: onedesk/public/js/asset.js:72
+#: onedesk/public/js/asset.js:81 onedesk/public/js/asset.js:86
+#: onedesk/public/js/asset.js:87
 msgid "Take Back"
 msgstr "Zurücknehmen"
 
@@ -8048,7 +8082,7 @@ msgstr "Diesen Lead übernehmen"
 msgid "Take back {0} and record it with Take Back on the asset's page."
 msgstr "{0} zurücknehmen und mit „Zurücknehmen“ auf der Seite des Anlageguts erfassen."
 
-#: onedesk/public/js/asset.js:70
+#: onedesk/public/js/asset.js:85
 msgid "Taken back."
 msgstr "Zurückgenommen."
 
@@ -8318,7 +8352,7 @@ msgstr "Der Browser hat seinen Standort nicht preisgegeben."
 msgid "The call is really made and really charged."
 msgstr "Der Aufruf wird wirklich ausgeführt und wirklich berechnet."
 
-#: onedesk/one_inventory/ready.py:198
+#: onedesk/one_inventory/ready.py:219
 msgid "The chart of accounts has no Fixed Asset ledgers to keep assets in."
 msgstr "Der Kontenplan hat keine Anlagenkonten für Anlagegüter."
 
@@ -8589,7 +8623,7 @@ msgstr ""
 msgid "There is already a template called {0}."
 msgstr "Es gibt bereits eine Vorlage namens {0}."
 
-#: onedesk/one_inventory/ready.py:110
+#: onedesk/one_inventory/ready.py:113
 msgid "There is no asset category, and an item marked Is Fixed Asset needs one."
 msgstr "Es gibt keine Anlagenkategorie, und ein Artikel mit „Ist Anlagevermögen“ braucht eine."
 
@@ -8601,11 +8635,15 @@ msgstr "Es gibt kein Firmenbankkonto, daher weiß eine Überweisung nicht, wohin
 msgid "There is no day to record this against."
 msgstr "Es gibt keinen Tag, auf dem das erfasst werden könnte."
 
-#: onedesk/one_inventory/ready.py:98
+#: onedesk/one_inventory/ready.py:101
 msgid "There is no location, and an asset will not save without one."
 msgstr "Es gibt keinen Standort, und ohne ihn lässt sich kein Anlagegut speichern."
 
-#: onedesk/one_inventory/ready.py:74
+#: onedesk/one_inventory/ready.py:140
+msgid "There is no maintenance team, and a schedule needs one."
+msgstr "Es gibt kein Wartungsteam, und ein Plan braucht eines."
+
+#: onedesk/one_inventory/ready.py:77
 msgid "There is no warehouse, so nothing can be received."
 msgstr "Es gibt kein Lager, daher kann nichts eingehen."
 
@@ -9603,7 +9641,7 @@ msgstr "Welche offenen Deals sind eingeschlafen: Seit zwei Wochen hat niemand mi
 msgid "Which open leads are waiting on us: nobody has spoken to them for a week and nothing is planned?"
 msgstr "Welche offenen Leads warten auf uns: Seit einer Woche hat niemand mit ihnen gesprochen, und nichts ist geplant?"
 
-#: onedesk/public/js/asset.js:39 onedesk/public/js/asset.js:40
+#: onedesk/public/js/asset.js:54 onedesk/public/js/asset.js:55
 msgid "Who Has It"
 msgstr "Wer hat es"
 
@@ -10289,7 +10327,7 @@ msgstr "{0} und {1} weitere"
 msgid "{0} asked for a {1}"
 msgstr "{0} hat eine {1} angefordert"
 
-#: onedesk/one_inventory/ready.py:126
+#: onedesk/one_inventory/ready.py:129
 msgid "{0} assets are drafts, so they are not depreciated or counted. Each says why on its page."
 msgstr "{0} Anlagegüter sind Entwürfe und werden weder abgeschrieben noch gezählt. Jedes nennt den Grund auf seiner Seite."
 
@@ -10323,7 +10361,7 @@ msgstr ""
 msgid "{0} cannot read {1}."
 msgstr "{0} kann {1} nicht lesen."
 
-#: onedesk/one_inventory/ready.py:109
+#: onedesk/one_inventory/ready.py:112
 msgid "{0} categories, each with its ledger and how it depreciates."
 msgstr "{0} Kategorien, jede mit ihrem Konto und ihrer Abschreibung."
 
@@ -10347,7 +10385,7 @@ msgstr "{0} hat {1} für {2} geltend gemacht, davon sind {3} zulässig — der R
 msgid "{0} could not be marked Left"
 msgstr "{0} konnte nicht als ausgetreten markiert werden"
 
-#: onedesk/one_inventory/ready.py:147
+#: onedesk/one_inventory/ready.py:164
 msgid "{0} could not be registered; each says why on its page."
 msgstr "{0} konnten nicht erfasst werden; jedes nennt den Grund auf seiner Seite."
 
@@ -10734,6 +10772,10 @@ msgstr "{0} · in {1} Tagen"
 #: onedesk/public/js/oneai/Record.vue:148
 msgid "{0} · waiting for you"
 msgstr "{0} · wartet auf Sie"
+
+#: onedesk/public/js/asset.js:44
+msgid "{0} · {1}"
+msgstr "{0} · {1}"
 
 #: onedesk/public/js/invoice.js:16
 msgid "{0} · {1} days late"

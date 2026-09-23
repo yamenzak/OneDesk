@@ -22,6 +22,9 @@ a row per check with what it means and the fix beside it.
   depreciating straight-line monthly over its usual life.
 - **Every asset is registered** (one_inventory/assets.py): a draft asset is
   never depreciated or counted; the fix finishes the ones that can be.
+- **Equipment that needs servicing has a schedule** (maintenance.py): a
+  schedule needs a maintenance team, and a new company has none; the fix
+  makes one of the person fixing it.
 - **Depreciation posts itself.** ERPNext books it daily when Accounts
   Settings says to; the check catches a site where it does not.
 """
@@ -63,7 +66,7 @@ def _row(key, check, state, says, fix=None) -> dict:
 
 def checks() -> list[dict]:
 	one = company()
-	return [_warehouse(one), _valued(one), _serials(), _location(), _categories(one), _depreciation(), _registered()]
+	return [_warehouse(one), _valued(one), _serials(), _location(), _categories(one), _depreciation(), _registered(), _serviced(one)]
 
 
 def _warehouse(one) -> dict:
@@ -127,6 +130,20 @@ def _registered() -> dict:
 	return _row("drafts", check, READY, _("Assets bought are registered and depreciating by themselves."))
 
 
+def _serviced(one) -> dict:
+	from onedesk.one_inventory import maintenance
+
+	check = _("Equipment that needs servicing has a schedule")
+	if not frappe.db.exists("Asset", {"docstatus": 1, "maintenance_required": 1}):
+		return _row("serviced", check, READY, _("No asset is marked Maintenance Required."))
+	if not frappe.db.exists("Asset Maintenance Team", {"company": one.name}):
+		return _row("serviced", check, TO_DO, _("There is no maintenance team, and a schedule needs one."), "team")
+	missing = maintenance.unscheduled()
+	if missing:
+		return _row("serviced", check, SUGGESTED, _("Marked Maintenance Required with no schedule: {0}. Add one under Assets › Maintenance.").format(", ".join(missing)))
+	return _row("serviced", check, READY, _("Each asset that needs servicing has a schedule, on its people's calendars."))
+
+
 @frappe.whitelist(methods=["POST"])
 def fix(key: str, **values) -> None:
 	frappe.only_for(FIXERS)
@@ -145,6 +162,10 @@ def fix(key: str, **values) -> None:
 		left = [name for name in assets.drafts() if not assets.finish(name)]
 		if left:
 			frappe.msgprint(_("{0} could not be registered; each says why on its page.").format(", ".join(left)))
+	elif key == "team":
+		from onedesk.one_inventory import maintenance
+
+		maintenance.add_team(one.name)
 	elif key == "warehouse":
 		frappe.get_doc({"doctype": "Warehouse", "warehouse_name": "Stores", "company": one.name}).insert()
 	else:

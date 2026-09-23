@@ -181,3 +181,35 @@ def test_custody_is_wired_to_the_asset_the_employee_and_leaving():
 	assert '"before_submit": "onedesk.one_inventory.custody.leaving"' in hooks
 	assert '"Asset": "public/js/asset.js"' in hooks
 	assert "_equipment(doc)" in (tree.APP / "one_hr" / "employee.py").read_text()
+
+
+def test_a_schedule_with_an_end_date_is_due_until_the_end():
+	from datetime import date, timedelta
+
+	import ast
+
+	source = (tree.APP / "one_inventory" / "maintenance.py").read_text(encoding="utf-8")
+	space = {
+		"getdate": lambda day: day if isinstance(day, date) else date.fromisoformat(day),
+		"nowdate": lambda: "2026-09-24",
+		"add_days": lambda day, n: day + timedelta(days=n),
+		"add_months": lambda day, n: day.replace(year=day.year + (day.month - 1 + n) // 12, month=(day.month - 1 + n) % 12 + 1),
+		"add_years": lambda day, n: day.replace(year=day.year + n),
+	}
+	for node in ast.parse(source).body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "PERIODS":
+			exec(ast.unparse(node), space)
+		if isinstance(node, ast.FunctionDef) and node.name == "next_due":
+			exec(ast.unparse(node), space)
+	next_due = space["next_due"]
+	assert next_due("Quarterly", date(2026, 7, 1), end=date(2029, 9, 10)) == date(2026, 10, 1)
+	assert next_due("Quarterly", date(2026, 7, 1), last=date(2026, 9, 15)) == date(2026, 12, 15)
+	assert next_due("Yearly", date(2026, 7, 1), end=date(2027, 1, 1)) is None, "past the end: none"
+
+
+def test_maintenance_is_on_the_calendar_once():
+	hooks = (tree.APP / "hooks.py").read_text()
+	assert '"onedesk.one_inventory.calendar.LAYERS"' in hooks
+	assert '"Asset Maintenance": {"validate": "onedesk.one_inventory.maintenance.due"}' in hooks
+	todos = (tree.APP / "one_task" / "calendar.py").read_text()
+	assert '["reference_type", "not in", ["Task", "Asset Maintenance"]]' in todos

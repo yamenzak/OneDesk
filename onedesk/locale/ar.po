@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 23:09+0000\n"
-"PO-Revision-Date: 2026-09-23 23:09+0000\n"
+"POT-Creation-Date: 2026-09-23 23:14+0000\n"
+"PO-Revision-Date: 2026-09-23 23:14+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -712,7 +712,7 @@ msgstr "الموظف الذي لا يسجّل انصرافه يُكتب له س�
 msgid "An interview is only recorded once the candidate has agreed."
 msgstr "لا تُسجَّل المقابلة إلا بعد موافقة المرشح."
 
-#: onedesk/one_inventory/ready.py:90
+#: onedesk/one_inventory/ready.py:93
 msgid "An item can have serial numbers or batches."
 msgstr "يمكن أن يكون للصنف أرقام تسلسلية أو دفعات."
 
@@ -1004,11 +1004,11 @@ msgstr "تعديلات قيمة الأصول"
 msgid "Assets"
 msgstr "الأصول"
 
-#: onedesk/one_inventory/ready.py:127
+#: onedesk/one_inventory/ready.py:130
 msgid "Assets bought are registered and depreciating by themselves."
 msgstr "الأصول المشتراة مسجّلة وتُهلك تلقائيًا."
 
-#: onedesk/one_inventory/ready.py:106
+#: onedesk/one_inventory/ready.py:109
 msgid "Assets have categories"
 msgstr "للأصول فئات"
 
@@ -2316,11 +2316,11 @@ msgstr ""
 msgid "Depreciation"
 msgstr "الإهلاك"
 
-#: onedesk/one_inventory/ready.py:117
+#: onedesk/one_inventory/ready.py:120
 msgid "Depreciation is worked out but never posted unless somebody does it."
 msgstr "يُحسب الإهلاك لكنه لا يُرحّل ما لم يقم به أحد."
 
-#: onedesk/one_inventory/ready.py:114
+#: onedesk/one_inventory/ready.py:117
 msgid "Depreciation posts itself"
 msgstr "الإهلاك يُرحَّل تلقائيًا"
 
@@ -2575,7 +2575,11 @@ msgstr "الاتحاد الأوروبي"
 msgid "EU Bucket"
 msgstr "حاوية الاتحاد الأوروبي"
 
-#: onedesk/one_inventory/ready.py:116
+#: onedesk/one_inventory/ready.py:144
+msgid "Each asset that needs servicing has a schedule, on its people's calendars."
+msgstr "لكل أصل يحتاج صيانة جدول، في تقاويم المسؤولين عنه."
+
+#: onedesk/one_inventory/ready.py:119
 msgid "Each asset's depreciation is posted to the books when it falls due."
 msgstr "يُرحّل إهلاك كل أصل إلى الدفاتر عند استحقاقه."
 
@@ -2648,7 +2652,7 @@ msgstr "الإمارة"
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:233
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:65
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:166
-#: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/public/js/asset.js:58
+#: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/public/js/asset.js:73
 #: onedesk/public/js/leave_control_panel.js:33 onedesk/public/js/overtime.js:14
 msgid "Employee"
 msgstr "الموظف"
@@ -2835,6 +2839,10 @@ msgstr "أدخل عنوان الشارع."
 msgid "Equipment"
 msgstr "المعدات"
 
+#: onedesk/one_inventory/ready.py:136
+msgid "Equipment that needs servicing has a schedule"
+msgstr "المعدات التي تحتاج صيانة لها جدول"
+
 #. Label of the error (Small Text) field in DocType 'Provisioning Job'
 #. Label of the error (Small Text) field in DocType 'Stripe Webhook Event'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
@@ -2860,11 +2868,11 @@ msgstr "معرّف الحدث"
 msgid "Events"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:97
+#: onedesk/one_inventory/ready.py:100
 msgid "Every asset is kept at a location."
 msgstr "كل أصل محفوظ في موقع."
 
-#: onedesk/one_inventory/ready.py:123
+#: onedesk/one_inventory/ready.py:126
 msgid "Every asset is registered"
 msgstr "كل الأصول مسجّلة"
 
@@ -2883,7 +2891,7 @@ msgstr "تُقيَّم كل عملية تسجيل حضور من 100 وتُحفظ
 msgid "Every part is already transcribed."
 msgstr "جميع الأجزاء مفرّغة بالفعل."
 
-#: onedesk/one_inventory/ready.py:84
+#: onedesk/one_inventory/ready.py:87
 msgid "Every receipt and delivery is posted to the stock accounts."
 msgstr "يُرحّل كل استلام وتسليم إلى حسابات المخزون."
 
@@ -3264,15 +3272,15 @@ msgstr "تواصل معنا"
 msgid "Get in Touch Form"
 msgstr "نموذج تواصل معنا"
 
-#: onedesk/public/js/asset.js:62 onedesk/public/js/tenant.js:126
+#: onedesk/public/js/asset.js:77 onedesk/public/js/tenant.js:126
 msgid "Give"
 msgstr "امنح"
 
-#: onedesk/public/js/asset.js:61
+#: onedesk/public/js/asset.js:76
 msgid "Give To"
 msgstr "إعطاء إلى"
 
-#: onedesk/public/js/asset.js:56
+#: onedesk/public/js/asset.js:71
 msgid "Give To…"
 msgstr "إعطاء إلى…"
 
@@ -3289,7 +3297,7 @@ msgstr "حدّد عميلًا لـ {0} لفوترة وقته."
 msgid "Given"
 msgstr "مُقدَّم"
 
-#: onedesk/public/js/asset.js:60
+#: onedesk/public/js/asset.js:75
 msgid "Given."
 msgstr "تم التسليم."
 
@@ -3434,11 +3442,11 @@ msgstr ""
 msgid "Half day"
 msgstr "نصف يوم"
 
-#: onedesk/public/js/asset.js:61
+#: onedesk/public/js/asset.js:76
 msgid "Hand To Somebody Else"
 msgstr "تسليم إلى شخص آخر"
 
-#: onedesk/public/js/asset.js:56
+#: onedesk/public/js/asset.js:71
 msgid "Hand To…"
 msgstr "تسليم إلى…"
 
@@ -3898,7 +3906,7 @@ msgstr "أصدره"
 msgid "Issued On"
 msgstr "تاريخ الإصدار"
 
-#: onedesk/one_inventory/assets.py:78
+#: onedesk/one_inventory/assets.py:80
 msgid "It has no asset category."
 msgstr "ليس له فئة أصول."
 
@@ -4007,7 +4015,7 @@ msgstr ""
 msgid "Kept"
 msgstr "محفوظة"
 
-#: onedesk/public/js/asset.js:68
+#: onedesk/public/js/asset.js:83
 msgid "Kept At"
 msgstr "محفوظ في"
 
@@ -4539,9 +4547,15 @@ msgid "Made by OneAI"
 msgstr "من إنشاء OneAI"
 
 #. Label of a Sidebar Item
+#: onedesk/one_inventory/calendar.py:31 onedesk/one_inventory/calendar.py:58
+#: onedesk/one_inventory/maintenance.py:88
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Maintenance"
-msgstr ""
+msgstr "الصيانة"
+
+#: onedesk/one_inventory/calendar.py:21
+msgid "Maintenance Due"
+msgstr "صيانة مستحقة"
 
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -4604,6 +4618,10 @@ msgstr "التسجيل كـ"
 #: onedesk/public/js/attendance_tool.js:69
 msgid "Mark Attendance"
 msgstr ""
+
+#: onedesk/one_inventory/ready.py:143
+msgid "Marked Maintenance Required with no schedule: {0}. Add one under Assets › Maintenance."
+msgstr "مُعلَّمة بأنها تحتاج صيانة دون جدول: {0}. أضف جدولًا من الأصول › الصيانة."
 
 #: onedesk/one_hr/presence.py:256
 msgid "Marked present"
@@ -4804,6 +4822,10 @@ msgstr "مقابلاتي"
 msgid "My Leave"
 msgstr "إجازاتي"
 
+#: onedesk/one_inventory/calendar.py:13
+msgid "My Maintenance"
+msgstr "صيانتي"
+
 #. Label of a Sidebar Item
 #: onedesk/one_task/calendar.py:29
 #: onedesk/one_task/page/my_tasks/my_tasks.js:10
@@ -4838,7 +4860,7 @@ msgstr "اسم النسخة الاحتياطية الخارجية لدى Frappe 
 msgid "Name the bank and the account."
 msgstr "اذكر اسم البنك والحساب."
 
-#: onedesk/one_inventory/ready.py:156
+#: onedesk/one_inventory/ready.py:177
 msgid "Name the location."
 msgstr "اذكر اسم الموقع."
 
@@ -4957,6 +4979,10 @@ msgstr "المرحلة التالية"
 msgid "Next Run"
 msgstr "التشغيل التالي"
 
+#: onedesk/public/js/asset.js:43 onedesk/public/js/asset.js:48
+msgid "Next Service"
+msgstr "الصيانة التالية"
+
 #. Label of the next_status (Data) field in DocType 'Workspace Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 msgid "Next Status"
@@ -5021,6 +5047,10 @@ msgstr "شهادة عدم ممانعة"
 msgid "No Shift"
 msgstr "بلا مناوبة"
 
+#: onedesk/one_inventory/ready.py:138
+msgid "No asset is marked Maintenance Required."
+msgstr "لا يوجد أصل مُعلَّم بأنه يحتاج صيانة."
+
 #: onedesk/public/js/project.js:164
 msgid "No billable time on {0} is waiting to be invoiced."
 msgstr "لا يوجد في {0} وقت قابل للفوترة بانتظار الفاتورة."
@@ -5079,6 +5109,10 @@ msgstr "لا سعر لهذا النموذج في الصفحة المنشورة."
 msgid "No salary slips yet for {0} to {1}."
 msgstr "لا توجد كشوف رواتب بعد من {0} إلى {1}."
 
+#: onedesk/public/js/asset.js:48
+msgid "No schedule"
+msgstr "لا يوجد جدول"
+
 #: onedesk/public/js/hiring.js:188
 msgid "No sound. Check the microphone."
 msgstr "لا يوجد صوت. تحقّق من الميكروفون."
@@ -5107,7 +5141,7 @@ msgstr "لم تنتهِ أي سنة بقيود مفتوحة."
 msgid "No {0} bucket is configured."
 msgstr "لم تُضبط حاوية {0}."
 
-#: onedesk/public/js/asset.js:40
+#: onedesk/public/js/asset.js:55
 msgid "Nobody"
 msgstr "لا أحد"
 
@@ -5218,7 +5252,7 @@ msgstr "لا يشير إلى هنا بعد."
 msgid "Not reached"
 msgstr "لم يُتطرّق إليه"
 
-#: onedesk/one_inventory/assets.py:101
+#: onedesk/one_inventory/assets.py:103
 msgid "Not registered by itself: {0}"
 msgstr "لم يُسجّل تلقائيًا: {0}"
 
@@ -5286,7 +5320,7 @@ msgstr "لا يُخصم رصيد ولا يُسجَّل حضور."
 msgid "Nothing on these days."
 msgstr "لا شيء في هذه الأيام."
 
-#: onedesk/one_book/ready.py:249 onedesk/one_inventory/ready.py:151
+#: onedesk/one_book/ready.py:249 onedesk/one_inventory/ready.py:172
 msgid "Nothing to fix for {0}."
 msgstr "لا يوجد ما يُصلح في {0}."
 
@@ -6714,7 +6748,7 @@ msgstr "الأسباب المعروضة على الموظفين عند تسجي�
 msgid "Receipts"
 msgstr "الاستلامات"
 
-#: onedesk/one_inventory/ready.py:80
+#: onedesk/one_inventory/ready.py:83
 msgid "Receipts and deliveries do not reach the ledger, so the balance sheet has no stock."
 msgstr "لا تصل الاستلامات والتسليمات إلى دفتر الأستاذ، لذا لا تُظهر الميزانية مخزونًا."
 
@@ -7330,7 +7364,7 @@ msgstr "إنهاء الخدمة"
 msgid "Serial Numbers"
 msgstr "الأرقام التسلسلية"
 
-#: onedesk/one_inventory/ready.py:88
+#: onedesk/one_inventory/ready.py:91
 msgid "Serial and batch numbers can be used"
 msgstr "يمكن استخدام الأرقام التسلسلية والدفعات"
 
@@ -7375,7 +7409,7 @@ msgstr "تُضبط بزرّي الموافقة والرفض، فتتوافق د�
 msgid "Set by billing events and by the actions in the toolbar."
 msgstr "تُضبط من أحداث الفوترة ومن الإجراءات في شريط الأدوات."
 
-#: onedesk/one_book/ready.py:96 onedesk/one_inventory/ready.py:83
+#: onedesk/one_book/ready.py:96 onedesk/one_inventory/ready.py:86
 msgid "Set on the company: {0}."
 msgstr "حدّدها في الشركة: {0}."
 
@@ -7527,11 +7561,11 @@ msgstr "اقتُطعت بعض الأيام"
 msgid "Something a model suggested doing. Nothing happens until a person presses Apply."
 msgstr "شيء اقترح نموذج فعله. ولا يحدث شيء حتى يضغط شخص «طبّق»."
 
-#: onedesk/one_inventory/ready.py:95
+#: onedesk/one_inventory/ready.py:98
 msgid "Somewhere for an asset to be"
 msgstr "مكان لوجود الأصل"
 
-#: onedesk/one_inventory/ready.py:70
+#: onedesk/one_inventory/ready.py:73
 msgid "Somewhere to keep stock"
 msgstr "مكان لحفظ المخزون"
 
@@ -7754,11 +7788,11 @@ msgstr ""
 msgid "Stock against the Books"
 msgstr "المخزون مقابل الدفاتر"
 
-#: onedesk/one_inventory/ready.py:73
+#: onedesk/one_inventory/ready.py:76
 msgid "Stock can be received into {0} warehouses."
 msgstr "يمكن استلام المخزون في {0} مستودعات."
 
-#: onedesk/one_inventory/ready.py:78
+#: onedesk/one_inventory/ready.py:81
 msgid "Stock is valued in the books"
 msgstr "المخزون مُقيّم في الدفاتر"
 
@@ -7998,7 +8032,7 @@ msgstr "مدة الإيقاف"
 msgid "Switch Off"
 msgstr "إيقاف"
 
-#: onedesk/one_inventory/ready.py:91
+#: onedesk/one_inventory/ready.py:94
 msgid "Switched off, so no item can have serial numbers or batches."
 msgstr "مُعطّلة، لذا لا يمكن لأي صنف أن يكون له أرقام تسلسلية أو دفعات."
 
@@ -8031,8 +8065,8 @@ msgstr ""
 msgid "TRN"
 msgstr "الرقم الضريبي"
 
-#: onedesk/public/js/asset.js:66 onedesk/public/js/asset.js:71
-#: onedesk/public/js/asset.js:72
+#: onedesk/public/js/asset.js:81 onedesk/public/js/asset.js:86
+#: onedesk/public/js/asset.js:87
 msgid "Take Back"
 msgstr "استرجاع"
 
@@ -8048,7 +8082,7 @@ msgstr "تولَّ هذا العميل المحتمل"
 msgid "Take back {0} and record it with Take Back on the asset's page."
 msgstr "استرجع {0} وسجّل ذلك بزر الاسترجاع في صفحة الأصل."
 
-#: onedesk/public/js/asset.js:70
+#: onedesk/public/js/asset.js:85
 msgid "Taken back."
 msgstr "تم الاسترجاع."
 
@@ -8318,7 +8352,7 @@ msgstr "لم يفصح المتصفح عن موقعه."
 msgid "The call is really made and really charged."
 msgstr "يُجرى النداء فعلاً ويُحتسب فعلاً."
 
-#: onedesk/one_inventory/ready.py:198
+#: onedesk/one_inventory/ready.py:219
 msgid "The chart of accounts has no Fixed Asset ledgers to keep assets in."
 msgstr "لا يحتوي دليل الحسابات على حسابات أصول ثابتة لحفظ الأصول فيها."
 
@@ -8589,7 +8623,7 @@ msgstr ""
 msgid "There is already a template called {0}."
 msgstr "يوجد قالب باسم {0} بالفعل."
 
-#: onedesk/one_inventory/ready.py:110
+#: onedesk/one_inventory/ready.py:113
 msgid "There is no asset category, and an item marked Is Fixed Asset needs one."
 msgstr "لا توجد فئة أصول، والصنف المُعلَّم كأصل ثابت يحتاج إلى واحدة."
 
@@ -8601,11 +8635,15 @@ msgstr "لا يوجد حساب بنكي للشركة، لذا لا تعرف ال
 msgid "There is no day to record this against."
 msgstr "لا يوجد يوم يمكن تسجيل هذا عليه."
 
-#: onedesk/one_inventory/ready.py:98
+#: onedesk/one_inventory/ready.py:101
 msgid "There is no location, and an asset will not save without one."
 msgstr "لا يوجد موقع، ولا يمكن حفظ أصل بدونه."
 
-#: onedesk/one_inventory/ready.py:74
+#: onedesk/one_inventory/ready.py:140
+msgid "There is no maintenance team, and a schedule needs one."
+msgstr "لا يوجد فريق صيانة، والجدول يحتاج إلى فريق."
+
+#: onedesk/one_inventory/ready.py:77
 msgid "There is no warehouse, so nothing can be received."
 msgstr "لا يوجد مستودع، لذا لا يمكن استلام شيء."
 
@@ -9603,7 +9641,7 @@ msgstr "أي الصفقات المفتوحة هدأت: لم يتحدث إليه�
 msgid "Which open leads are waiting on us: nobody has spoken to them for a week and nothing is planned?"
 msgstr "أي العملاء المحتملين المفتوحين ينتظروننا: لم يتحدث إليهم أحد منذ أسبوع ولا شيء مخطط له؟"
 
-#: onedesk/public/js/asset.js:39 onedesk/public/js/asset.js:40
+#: onedesk/public/js/asset.js:54 onedesk/public/js/asset.js:55
 msgid "Who Has It"
 msgstr "مع مَن"
 
@@ -10289,7 +10327,7 @@ msgstr "{0} و{1} أخرى"
 msgid "{0} asked for a {1}"
 msgstr "طلب {0} {1}"
 
-#: onedesk/one_inventory/ready.py:126
+#: onedesk/one_inventory/ready.py:129
 msgid "{0} assets are drafts, so they are not depreciated or counted. Each says why on its page."
 msgstr "{0} أصول مسودات، لذا لا تُهلك ولا تُحتسب. كلٌّ منها يذكر السبب في صفحته."
 
@@ -10323,7 +10361,7 @@ msgstr ""
 msgid "{0} cannot read {1}."
 msgstr "{0} لا يستطيع قراءة {1}."
 
-#: onedesk/one_inventory/ready.py:109
+#: onedesk/one_inventory/ready.py:112
 msgid "{0} categories, each with its ledger and how it depreciates."
 msgstr "{0} فئات، لكل منها حسابها وطريقة إهلاكها."
 
@@ -10347,7 +10385,7 @@ msgstr "طالب {0} بمبلغ {1} عن {2}، المقبول منه {3} — و�
 msgid "{0} could not be marked Left"
 msgstr "تعذّر تعليم {0} بأنه ترك العمل"
 
-#: onedesk/one_inventory/ready.py:147
+#: onedesk/one_inventory/ready.py:164
 msgid "{0} could not be registered; each says why on its page."
 msgstr "تعذّر تسجيل {0}؛ كلٌّ منها يذكر السبب في صفحته."
 
@@ -10734,6 +10772,10 @@ msgstr "{0} · بعد {1} أيام"
 #: onedesk/public/js/oneai/Record.vue:148
 msgid "{0} · waiting for you"
 msgstr "{0} · بانتظارك"
+
+#: onedesk/public/js/asset.js:44
+msgid "{0} · {1}"
+msgstr "{0} · {1}"
 
 #: onedesk/public/js/invoice.js:16
 msgid "{0} · {1} days late"

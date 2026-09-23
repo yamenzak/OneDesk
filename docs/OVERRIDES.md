@@ -161,5 +161,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | A finished asset depreciates from the end of the month it was bought | the category's books are copied with today as the first depreciation date | `onedesk/one_inventory/assets.py` | `erpnext/erpnext/assets/doctype/asset/asset.py` | `"depreciation_start_date": d.depreciation_start_date or nowdate(),` |
 | Leaving adds a Return activity per asset held | HRMS turns a separation's activities into tasks on submit, after before_submit has added ours | `onedesk/one_inventory/custody.py` | `hrms/hrms/controllers/employee_boarding_controller.py` | `def create_task_and_notify_user(self):` |
 | Give To and Take Back are ERPNext's own movements | the custodian is set from the latest submitted movement's to_employee | `onedesk/one_inventory/custody.py` | `erpnext/erpnext/assets/doctype/asset_movement/asset_movement.py` | `def set_latest_location_and_custodian_in_asset(self):` |
+| A maintenance task with an end date is due | ERPNext blanks the next due date whenever an end date is set (`or next_due_date`); `due` works it out again | `onedesk/one_inventory/maintenance.py` | `erpnext/erpnext/assets/doctype/asset_maintenance/asset_maintenance.py` | `or next_due_date` |
+| Maintenance is on the calendar from its logs, not ERPNext's to-do | ERPNext assigns one to-do per schedule and person, dated for its first task | `onedesk/one_task/calendar.py` | `erpnext/erpnext/assets/doctype/asset_maintenance/asset_maintenance.py` | `"reference_type": args["doctype"],` |
 
-156 overrides.
+158 overrides.

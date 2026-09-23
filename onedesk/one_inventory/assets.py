@@ -24,6 +24,8 @@ register depreciating:
 import frappe
 from frappe import _
 
+from onedesk.one_inventory.maintenance import next_service
+
 #: Asset's own naming series.
 SERIES = "ACC-ASS-.YYYY.-"
 
@@ -134,4 +136,5 @@ def said(asset: str) -> dict:
 		"next": upcoming,
 		"depreciates": bool(doc.calculate_depreciation),
 		"custodian_name": frappe.db.get_value("Employee", doc.custodian, "employee_name") if doc.custodian else None,
+		"service": next_service(asset) if doc.maintenance_required else None,
 	}
