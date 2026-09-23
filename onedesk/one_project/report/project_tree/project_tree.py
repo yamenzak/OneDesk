@@ -6,16 +6,19 @@ read twice."""
 import frappe
 from frappe import _
 
+from onedesk.one_hr.lifecycle import BOARDING
 from onedesk.one_project import tree
 
 
 def execute(filters=None):
 	filters = filters or {}
 	where = {} if filters.get("closed") else {"status": ["not in", ["Completed", "Cancelled"]]}
+	# An onboarding or an exit is HR's checklist, not a piece of work (one_hr/lifecycle.py).
+	where["project_type"] = ["!=", BOARDING]
 	rows = frappe.get_list(
 		"Project",
 		filters=where,
-		fields=["name", "project_name", tree.PARENT, "customer", "status", "percent_complete",
+		fields=["name", "project_name", tree.PARENT, "customer", "status", "one_health", "one_manager", "percent_complete",
 			"expected_end_date", "estimated_costing", "total_costing_amount", "total_billed_amount", "gross_margin"],
 		limit=0,
 	)
@@ -46,6 +49,8 @@ def columns() -> list[dict]:
 		{"fieldname": "project", "label": _("Project"), "fieldtype": "Link", "options": "Project", "width": 280},
 		{"fieldname": "customer", "label": _("Customer"), "fieldtype": "Link", "options": "Customer", "width": 160},
 		{"fieldname": "status", "label": _("Status"), "fieldtype": "Data", "width": 100},
+		{"fieldname": "one_health", "label": _("Health"), "fieldtype": "Data", "width": 100},
+		{"fieldname": "one_manager", "label": _("Project Manager"), "fieldtype": "Link", "options": "User", "width": 160},
 		{"fieldname": "percent_complete", "label": _("% Completed"), "fieldtype": "Percent", "width": 110},
 		{"fieldname": "expected_end_date", "label": _("Expected End Date"), "fieldtype": "Date", "width": 130},
 		{"fieldname": "estimated_costing", "label": _("Estimated Cost"), "fieldtype": "Currency", "width": 130},

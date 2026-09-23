@@ -5,7 +5,7 @@
  "doctype": "Sidebar",
  "header_icon": "oneproject",
  "idx": 0,
- "modified": "2026-09-27 12:00:00.000000",
+ "modified": "2026-09-28 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Project",
  "name": "OneProject",
@@ -24,7 +24,8 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Project",
-   "icon": "folder-kanban"
+   "icon": "folder-kanban",
+   "filters": "[[\"Project\", \"project_type\", \"!=\", \"Employee Boarding\"]]"
   },
   {
    "child": 0,
@@ -51,6 +52,20 @@
    "type": "Link",
    "link_to": "Workload",
    "icon": "gauge"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 0,
+   "keep_closed": 0,
+   "label": "Milestones",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Task",
+   "icon": "flag",
+   "filters": "[[\"Task\", \"is_milestone\", \"=\", 1], [\"Task\", \"status\", \"not in\", [\"Completed\", \"Cancelled\", \"Template\"]]]"
   },
   {
    "child": 0,

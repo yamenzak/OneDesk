@@ -137,5 +137,6 @@ Each row is something that would still run but stop working if upstream moved. `
 | A customer's project page lets the customer in | theirs checks role permissions, which a website user never has, so it refused every customer; it also showed the team's assignees and let a customer add tasks | `onedesk/www/projects.py` | `erpnext/erpnext/templates/pages/projects.py` | `project_doc.check_permission()` |
 | Invite as User on a customer's contact lets them see the customer's projects | their portal reads only the Customer's Portal Users, and inviting a contact never lists them there | `onedesk/one_project/portal.py` | `erpnext/erpnext/controllers/website_list_for_contact.py` | `.where(portal_user.parenttype == parenttype)` |
 | A customer signing in lands on the portal, not the desk | frappe sends a website user to the first app on the apps screen that does not refuse them | `onedesk/__init__.py` | `frappe/frappe/apps.py` | `if has_permission_path and not frappe.get_attr(has_permission_path)():` |
+| An onboarding or exit checklist is not a project in the portfolio | their boarding makes a plain Project per onboarding and exit, untyped, beside client work | `onedesk/one_hr/lifecycle.py` | `hrms/hrms/controllers/employee_boarding_controller.py` | `project_name = _(self.doctype) + " : "` |
 
-132 overrides.
+133 overrides.

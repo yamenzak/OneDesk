@@ -948,6 +948,13 @@ OVERRIDES = [
 		"frappe/frappe/apps.py",
 		"if has_permission_path and not frappe.get_attr(has_permission_path)():",
 	),
+	(
+		"An onboarding or exit checklist is not a project in the portfolio",
+		"their boarding makes a plain Project per onboarding and exit, untyped, beside client work",
+		"onedesk/one_hr/lifecycle.py",
+		"hrms/hrms/controllers/employee_boarding_controller.py",
+		'project_name = _(self.doctype) + " : "',
+	),
 ]
 
 

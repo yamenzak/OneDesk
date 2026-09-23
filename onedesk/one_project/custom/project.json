@@ -20,6 +20,32 @@
    "length": 10,
    "description": "Tasks made in this project are named with it, as WEB-14. Leave empty to use the standard series.",
    "module": "One Project"
+  },
+  {
+   "dt": "Project",
+   "fieldname": "one_health",
+   "fieldtype": "Select",
+   "label": "Health",
+   "options": "On Track\nAt Risk\nOff Track",
+   "default": "On Track",
+   "insert_after": "status",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "Whether a running project is going to plan. Status says whether it is running.",
+   "module": "One Project"
+  },
+  {
+   "dt": "Project",
+   "fieldname": "one_manager",
+   "fieldtype": "Link",
+   "label": "Project Manager",
+   "options": "User",
+   "insert_after": "one_health",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "default": "__user",
+   "description": "Who runs it. They always see it, listed under Users or not.",
+   "module": "One Project"
   }
  ],
  "doctype": "Project",

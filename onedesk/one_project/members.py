@@ -5,8 +5,9 @@ villa for one customer and a website for another does not want the window
 fitter reading the website's budget, so a project's **Users** decide:
 
 - a **Projects Manager** sees every project;
-- anybody else who works in projects sees a project they made, one they are
-  listed on, and one with **nobody listed** — a project nobody has closed is
+- anybody else who works in projects sees a project they made, one they run
+  (**Project Manager**), one they are listed on, and one with **nobody
+  listed** — a project nobody has closed is
   open to everybody who works in projects, which is also what every project
   was before this;
 - members of a project see what is under it (sub-projects; `under`).
@@ -57,6 +58,7 @@ def visible(user: str) -> set[str]:
 		listed = set(frappe.get_all("Project User", filters={"parenttype": "Project"}, pluck="parent", distinct=True))
 		member = set(frappe.get_all("Project User", filters={"parenttype": "Project", "user": user}, pluck="parent"))
 		owned = set(frappe.get_all("Project", filters={"owner": user}, pluck="name"))
+		owned |= set(frappe.get_all("Project", filters={"one_manager": user}, pluck="name"))
 		unlisted = set(frappe.get_all("Project", pluck="name")) - listed
 		kept[user] = under(member | owned | unlisted)
 	return kept[user]

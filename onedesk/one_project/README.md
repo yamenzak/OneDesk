@@ -19,9 +19,11 @@ well as on the project's board.
 
 **OneProject** in the dock opens it. The rail has:
 
-- **Projects** — every project you may see.
+- **Projects** — every project you may see. An employee's onboarding or exit
+  checklist is HR's, not a project here, and is left out.
 - **Project Tree** — every project under its parent, with its own figures.
 - **Workload** — who has how many hours of open work in a week.
+- **Milestones** — every milestone still to come, across projects.
 - **Tasks** — every task, in projects and out of them (OneTask's list).
 - **Timesheet** — the time people have logged.
 - Under **Setup**, **Project Template**, **Project Type**, **Activity Type**,
@@ -31,6 +33,9 @@ well as on the project's board.
 
 The top of a project's page answers first:
 
+- **Health** — whether it is going to plan: **On Track**, **At Risk** or
+  **Off Track**. It is somebody's judgement, set on the project, and it comes
+  first because a project can be in trouble before any figure says so.
 - **Done** — how much of the work is finished, and how many tasks of how many.
 - **Due** — how long until the expected end date, or how many days late.
 - **Cost** — what it has cost so far — time, purchases and materials — against
@@ -44,6 +49,12 @@ The top of a project's page answers first:
 A project with sub-projects answers for **the whole tree** — the villa's cost
 is the windows' and the handrails' together — and says how many sub-projects
 there are.
+
+## Who runs a project
+
+**Project Manager** on a project is the one person who runs it — whoever made
+it, until somebody else is put there. They always see it, whether or not they
+are listed under Users. **Projects** can be filtered by it, and by **Health**.
 
 ## Who sees a project
 
@@ -312,6 +323,13 @@ one field for it.
   (additional_timeline_content) shows the answers in the project's activity.
   Their morning summary still runs, where mail goes (`sum_up`). Hourly is off
   the Frequency choices.
+- `custom/project.json` also carries **Health** (`one_health`) and **Project
+  Manager** (`one_manager`, who always sees the project — members.visible),
+  both from the old OneProject: ERPNext's Project has neither a judgement of
+  how it is going nor one person who runs it.
+- Boarding projects — HRMS builds an onboarding or an exit out of a Project —
+  are typed **Employee Boarding** by one_hr/lifecycle.py, and the Projects
+  rail entry and the Project Tree leave that type out.
 - `report/workload` — Workload: planned hours from ERPNext's Expected Time
   and Actual Time on the reader's visible tasks (`in_week`, `load` pure),
   capacity from the holiday list (the employee's, else the company's), HR
@@ -408,5 +426,19 @@ stage below that touches tasks keeps them:
     the expected time left on the tasks assigned to them, against their working
     days less holidays and leave, with what is late and what is not estimated.
     Moving work between people is done on the tasks, not here.
-11. **The old OneProject.** It left OneApp in `56216d9a`; read it from there,
-    take what it had that this does not.
+11. **The old OneProject.** *Done.* Read from OneApp's `56216d9a`, where it
+    left: a space manifest over the same ERPNext doctypes, with seven screens.
+    Taken: **Health** and **Project Manager** on a project, a **Milestones**
+    list across projects, and boarding checklists kept out of the portfolio.
+    Already here: task prefixes (its Key), the checklist, the Gantt with
+    dependencies and milestones, sub-tasks, the project's tasks, time and
+    invoices as connections, templates, and the rate card under Setup. Not
+    taken: its own board columns, labels, ranks, cycles and assignee mirror
+    (OneTask's stage 6 says why); a colour per project; a board of projects by
+    health, which anybody can make from Health with frappe's Kanban; its
+    dashboards and charts (figures, not charts); a Gantt of projects, since
+    a project's own schedule is the one people plan with; a read-only
+    Invoices screen, which is the project's connections; and members seeing
+    only their own timesheets, which would stop a project lead invoicing
+    their team's time. Its one live leftover in OneApp, OneBook reading the
+    OneProject catalogue row on import, is fixed there.

@@ -66,6 +66,33 @@ def onboarding(doc, method=None) -> None:
 BOARDINGS = ("Employee Onboarding", "Employee Separation")
 
 
+#: The Project Type of a boarding project. OneProject's Projects and Project
+#: Tree leave it out: somebody's first week is not a piece of client work.
+BOARDING = "Employee Boarding"
+
+
+def typed(doc, method=None) -> None:
+	"""Employee Onboarding and Employee Separation on_update: the project HRMS
+	made for the checklist is typed as a boarding."""
+	if doc.get("project") and not frappe.db.get_value("Project", doc.project, "project_type"):
+		_boarding()
+		frappe.db.set_value("Project", doc.project, "project_type", BOARDING, update_modified=False)
+
+
+def settle_boardings(*_args) -> None:
+	"""The boarding projects made before they were typed."""
+	for boarding in BOARDINGS:
+		for project in frappe.get_all(boarding, filters={"project": ["is", "set"]}, pluck="project"):
+			if not frappe.db.get_value("Project", project, "project_type"):
+				_boarding()
+				frappe.db.set_value("Project", project, "project_type", BOARDING, update_modified=False)
+
+
+def _boarding() -> None:
+	if not frappe.db.exists("Project Type", BOARDING):
+		frappe.get_doc({"doctype": "Project Type", "project_type": BOARDING}).insert(ignore_permissions=True)
+
+
 def task(doc, method=None) -> None:
 	"""A boarding project starts no later than the first activity in it."""
 	if not doc.project or not doc.exp_start_date:

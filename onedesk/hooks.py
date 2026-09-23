@@ -39,6 +39,7 @@ after_install = [
 	"onedesk.one_project.board.settle",
 	"onedesk.one_project.templates.settle",
 	"onedesk.one_project.updates.settle",
+	"onedesk.one_hr.lifecycle.settle_boardings",
 ]
 
 # Their dock files do not carry the mount, so a newer erpnext or hrms clears it,
@@ -68,6 +69,7 @@ after_migrate = [
 	"onedesk.one_project.board.settle",
 	"onedesk.one_project.templates.settle",
 	"onedesk.one_project.updates.settle",
+	"onedesk.one_hr.lifecycle.settle_boardings",
 ]
 extend_bootinfo = "onedesk.one.boot.boot_session"
 
@@ -163,7 +165,12 @@ doc_events = {
 	"File": {"on_trash": "onedesk.one_hr.hiring.keep_sound"},
 	# An onboarding is for somebody who is not an employee yet, so the holiday
 	# list has to come from the company. See one_hr/lifecycle.py.
-	"Employee Onboarding": {"before_validate": "onedesk.one_hr.lifecycle.onboarding"},
+	"Employee Onboarding": {
+		"before_validate": "onedesk.one_hr.lifecycle.onboarding",
+		# The checklist's project is typed a boarding, and left out of OneProject.
+		"on_submit": "onedesk.one_hr.lifecycle.typed",
+	},
+	"Employee Separation": {"on_submit": "onedesk.one_hr.lifecycle.typed"},
 	# A task of nobody's is its maker's. See one_task/capture.py.
 	# A sub-task's parent is a group and its project is the parent's, and a
 	# checklist is the progress. See one_task/task.py.

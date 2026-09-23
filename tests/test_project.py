@@ -354,3 +354,19 @@ def test_workload_is_a_report_of_figures_in_the_rail():
 	rail = json.loads((PROJECT / "sidebar" / "oneproject" / "oneproject.json").read_text())
 	assert any(item.get("link_to") == "Workload" and item.get("link_type") == "Report" for item in rail["items"])
 	assert "chart" not in (PROJECT / "report" / "workload" / "workload.js").read_text().lower().replace("not a chart", "")
+
+
+def test_what_the_old_oneproject_had_that_is_kept():
+	custom = {f["fieldname"]: f for f in json.loads((PROJECT / "custom" / "project.json").read_text())["custom_fields"]}
+	assert custom["one_health"]["options"].split("\n") == ["On Track", "At Risk", "Off Track"]
+	assert custom["one_manager"]["options"] == "User" and custom["one_manager"]["default"] == "__user"
+	assert '"one_manager": user' in _body((PROJECT / "members.py").read_text(), "visible"), "who runs it sees it"
+	assert "frm.doc.one_health" in (tree.APP / "public" / "js" / "project.js").read_text()
+	rail = json.loads((PROJECT / "sidebar" / "oneproject" / "oneproject.json").read_text())
+	items = {item["label"]: item for item in rail["items"]}
+	assert "is_milestone" in items["Milestones"]["filters"]
+	assert "Employee Boarding" in items["Projects"]["filters"], "somebody's first week is not client work"
+	lifecycle = (tree.APP / "one_hr" / "lifecycle.py").read_text()
+	assert 'BOARDING = "Employee Boarding"' in lifecycle
+	assert HOOKS.count('"on_submit": "onedesk.one_hr.lifecycle.typed"') == 2
+	assert 'where["project_type"] = ["!=", BOARDING]' in (PROJECT / "report" / "project_tree" / "project_tree.py").read_text()

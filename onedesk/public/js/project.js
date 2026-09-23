@@ -50,6 +50,12 @@ onedesk.project.band = async (frm) => {
 	const of = (part, whole) => (whole ? __("{0} of {1}", [money(part), money(whole)]) : money(part));
 	const stat = onedesk.band.stat;
 	const stats = [];
+	// Health is somebody's judgement, not a figure, so it leads: an Open project
+	// can be in trouble before any number here says so.
+	if (frm.doc.one_health && frm.doc.status === "Open") {
+		const tone = { "At Risk": "waiting", "Off Track": "alarm" }[frm.doc.one_health];
+		stats.push(stat(__("Health"), __(frm.doc.one_health), null, tone));
+	}
 	if (said.projects > 1) stats.push(stat(__("Sub-projects"), said.projects - 1, "/desk/query-report/Project Tree"));
 	stats.push(
 		stat(
