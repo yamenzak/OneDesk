@@ -1000,6 +1000,16 @@ reads.
 same two rules: a read runs as the person asking, a suggestion writes a card.
 OneHR's live in `one_hr/ai.py`.
 
+**How One works is answered from its READMEs.** `how_to` in `one_ai/guide.py`
+is a read: it splits every module's `README.md` into its `##` and `###`
+sections, stops at `## Under the hood`, and hands the model the three sections
+holding the most of the question's words, with the instruction to answer from
+those alone and name the section. A question no section covers gets nothing
+back, and the model says the documentation does not cover it, which is better
+than a confident description of a button One does not have. So a module's
+README is written for the people using it down to that heading, and a feature
+missing from it is a feature OneAI cannot explain.
+
 **The first is a receipt.** On Expense Claim, *Claim a receipt* takes a photo
 or a PDF and `claim_expense` suggests an Expense Claim with one row — in the
 asker's own name, read from their employee record and never taken as an
