@@ -661,6 +661,20 @@ OVERRIDES = [
 		"frappe/frappe/public/js/frappe/utils/utils.js",
 		"new Function(`return ${filter}`)()",
 	),
+	(
+		"A lead's and a deal's comment box is shown again",
+		"erpnext hides it with an inline style when it moves the timeline into Activities; notes are comments now",
+		"onedesk/public/css/desk.css",
+		"erpnext/erpnext/public/js/utils/crm_activities.js",
+		'$(".comment-box").hide();',
+	),
+	(
+		"A call logged by hand owes nobody a popup",
+		"Call Log rings the scheduled employees on insert; the logged instance's trigger_call_popup is a no-op",
+		"onedesk/one_crm/record.py",
+		"erpnext/erpnext/telephony/doctype/call_log/call_log.py",
+		"def trigger_call_popup(self):",
+	),
 ]
 
 

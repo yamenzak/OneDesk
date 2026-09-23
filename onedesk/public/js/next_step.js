@@ -3,8 +3,15 @@
 // See one_crm/next.py.
 frappe.provide("onedesk.next_step");
 
+//: The statuses in which somebody still has something to do; one_crm/next.py OPEN.
+onedesk.next_step.OPEN = {
+	Lead: ["Lead", "Open", "Replied", "Interested"],
+	Opportunity: ["Open", "Quotation", "Replied"],
+};
+
 onedesk.next_step.button = (frm) => {
 	if (frm.is_new() || !frm.perm[0]?.write) return;
+	if (!onedesk.next_step.OPEN[frm.doctype]?.includes(frm.doc.status)) return;
 	const label = frm.doc.one_next_step ? __("Next Step Done") : __("Set Next Step");
 	frm.add_custom_button(label, () => onedesk.next_step.ask(frm));
 };
@@ -45,13 +52,15 @@ onedesk.next_step.ask = (frm) => {
 	dialog.show();
 };
 
+// Whether a step's time has passed. Both sides in the system's time zone, which
+// is what a Datetime is stored in; the browser's clock is in the reader's.
+onedesk.next_step.late = (value) => !!value && value < frappe.datetime.system_datetime();
+
 // Red once the time has passed, so an overdue step is seen without reading dates.
 onedesk.next_step.formatters = {
 	one_next_on(value) {
 		if (!value) return "";
 		const shown = frappe.datetime.str_to_user(value);
-		return frappe.datetime.str_to_obj(value) < new Date()
-			? `<span class="text-danger">${shown}</span>`
-			: shown;
+		return onedesk.next_step.late(value) ? `<span class="text-danger">${shown}</span>` : shown;
 	},
 };

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 13:54+0000\n"
-"PO-Revision-Date: 2026-09-23 13:54+0000\n"
+"POT-Creation-Date: 2026-09-23 14:43+0000\n"
+"PO-Revision-Date: 2026-09-23 14:43+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -66,6 +66,10 @@ msgstr "Ein Standort der Schicht oder ein einzelner Mitarbeiter. Beide Felder le
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "A cache read is a third thing, not a cheaper input."
 msgstr "Ein Cache-Lesevorgang ist etwas Drittes, keine günstigere Eingabe."
+
+#: onedesk/one_crm/record.py:155
+msgid "A call is Outgoing or Incoming, and Answered, No Answer or Busy."
+msgstr "Ein Anruf ist ausgehend oder eingehend und angenommen, nicht angenommen oder besetzt."
 
 #. Description of the 'Held' (Float) field in DocType 'Credit Reservation'
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
@@ -605,6 +609,10 @@ msgstr "In derselben Sekunde wurde ein weiteres Einchecken erfasst."
 msgid "Another employee has already checked in from this browser today."
 msgstr "Ein anderer Mitarbeiter hat sich heute bereits von diesem Browser aus eingecheckt."
 
+#: onedesk/public/js/crm_record.js:116
+msgid "Answered"
+msgstr "Angenommen"
+
 #: onedesk/public/js/oneai/Panel.vue:321
 msgid "Answers from your own records"
 msgstr "Antwortet aus Ihren eigenen Datensätzen"
@@ -666,7 +674,7 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-#: onedesk/public/js/employee.js:189
+#: onedesk/public/js/employee.js:179
 msgid "Apply for Leave"
 msgstr "Urlaub beantragen"
 
@@ -833,7 +841,7 @@ msgstr "{0} wird gefragt …"
 msgid "Asking…"
 msgstr "Wird gefragt …"
 
-#: onedesk/public/js/employee.js:194
+#: onedesk/public/js/employee.js:184
 msgid "Assign a Salary Structure"
 msgstr "Gehaltsstruktur zuweisen"
 
@@ -1119,6 +1127,10 @@ msgstr "Arbeitsbereich anlegen"
 msgid "Building"
 msgstr "Im Aufbau"
 
+#: onedesk/public/js/crm_record.js:118
+msgid "Busy"
+msgstr ""
+
 #: onedesk/public/js/workspace_account.js:25
 #: onedesk/public/js/workspace_account.js:141
 msgid "Buy credits"
@@ -1153,15 +1165,23 @@ msgstr ""
 msgid "CTC Break-up"
 msgstr "Aufschlüsselung der Gesamtkosten"
 
-#: onedesk/public/js/ai_model.js:80
+#: onedesk/public/js/ai_model.js:80 onedesk/public/js/crm_record.js:104
 msgid "Call"
 msgstr ""
+
+#: onedesk/public/js/crm_record.js:140
+msgid "Call logged"
+msgstr "Anruf erfasst"
 
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:41
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:46
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:129
 msgid "Calls"
 msgstr "Aufrufe"
+
+#: onedesk/public/js/crm_record.js:35
+msgid "Came In"
+msgstr "Eingegangen"
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -1376,7 +1396,7 @@ msgstr "Wählen Sie zuerst eine Person und ein Buchungsdatum."
 msgid "Claim a receipt"
 msgstr "Beleg einreichen"
 
-#: onedesk/public/js/employee.js:190
+#: onedesk/public/js/employee.js:180
 msgid "Claim an Expense"
 msgstr ""
 
@@ -1462,6 +1482,10 @@ msgstr ""
 #: onedesk/one_hr/custom/employee_checkin.json
 msgid "Closed Automatically"
 msgstr "Automatisch geschlossen"
+
+#: onedesk/public/js/crm_record.js:53
+msgid "Closes"
+msgstr "Abschluss"
 
 #. Label of the cloudflare_section (Section Break) field in DocType 'One Admin
 #. Settings'
@@ -1741,6 +1765,14 @@ msgstr "Verbleibende Tage"
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Days at each status before moving to the next. Zero disables the move."
 msgstr "Tage je Status, bevor der nächste folgt. Null deaktiviert den Wechsel."
+
+#: onedesk/public/js/crm_record.js:30
+msgid "Deal Value · {0}%"
+msgstr "Deal-Wert · {0} %"
+
+#: onedesk/public/js/crm_record.js:65
+msgid "Deals"
+msgstr "Deals"
 
 #. Label of a shortcut in the OneCRM Workspace
 #: onedesk/one_crm/workspace/onecrm/onecrm.json
@@ -2037,6 +2069,10 @@ msgstr "Verwerfen"
 #: onedesk/public/js/tenant.js:34
 msgid "Dropped"
 msgstr "Verworfen"
+
+#: onedesk/public/js/crm_record.js:126
+msgid "Duration (Minutes)"
+msgstr "Dauer (Minuten)"
 
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Account Request'
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Tenant'
@@ -2956,7 +2992,7 @@ msgid "Improve it"
 msgstr "Verbessern"
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:162
-#: onedesk/public/js/employee.js:140
+#: onedesk/public/js/employee.js:139
 msgid "In"
 msgstr ""
 
@@ -2997,6 +3033,10 @@ msgstr ""
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Income Tax Slab"
+msgstr ""
+
+#: onedesk/public/js/crm_record.js:107
+msgid "Incoming"
 msgstr ""
 
 #. Label of the max_input_tokens (Int) field in DocType 'AI Action'
@@ -3197,8 +3237,17 @@ msgid "Last Address"
 msgstr "Letzte Adresse"
 
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:44
+#: onedesk/public/js/crm_record.js:43
 msgid "Last Call"
 msgstr "Letzter Aufruf"
+
+#: onedesk/public/js/crm_record.js:47
+msgid "Last Contact"
+msgstr "Letzter Kontakt"
+
+#: onedesk/public/js/crm_record.js:43
+msgid "Last Email"
+msgstr "Letzte E-Mail"
 
 #. Label of the last_error (Small Text) field in DocType 'Workspace Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
@@ -3506,6 +3555,14 @@ msgstr ""
 msgid "Log Type"
 msgstr ""
 
+#: onedesk/public/js/crm_record.js:20 onedesk/public/js/crm_record.js:99
+msgid "Log a Call"
+msgstr "Anruf erfassen"
+
+#: onedesk/one_crm/record.py:170
+msgid "Logged by hand"
+msgstr "Manuell erfasst"
+
 #. Label of the one_login_with_passkey (Check) field in DocType 'System
 #. Settings'
 #: onedesk/one/custom/system_settings.json
@@ -3797,7 +3854,9 @@ msgstr "Nächster Status"
 #. Label of the one_next_step (Data) field in DocType 'Lead'
 #. Label of the one_next_step (Data) field in DocType 'Opportunity'
 #: onedesk/one_crm/custom/lead.json onedesk/one_crm/custom/opportunity.json
-#: onedesk/one_crm/next.py:67 onedesk/public/js/next_step.js:16
+#: onedesk/one_crm/next.py:67 onedesk/public/js/crm_record.js:76
+#: onedesk/public/js/crm_record.js:80 onedesk/public/js/crm_record.js:81
+#: onedesk/public/js/next_step.js:16
 msgid "Next Step"
 msgstr "Nächster Schritt"
 
@@ -3814,6 +3873,10 @@ msgstr "Nächster Schritt fällig"
 
 #: onedesk/one_ai/chat.py:564
 msgid "No"
+msgstr ""
+
+#: onedesk/public/js/crm_record.js:117
+msgid "No Answer"
 msgstr ""
 
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:19
@@ -3903,6 +3966,14 @@ msgstr "Für {0} kann niemand einen Schichtantrag genehmigen. Tragen Sie zuerst 
 #: onedesk/public/js/attendance_tool.js:47
 msgid "Nobody on this list checked in"
 msgstr "Niemand auf dieser Liste hat eingecheckt"
+
+#: onedesk/public/js/crm_record.js:76
+msgid "None planned"
+msgstr "Nichts geplant"
+
+#: onedesk/public/js/crm_record.js:47
+msgid "None yet"
+msgstr "Noch keiner"
 
 #. Option for the 'Urgency' (Select) field in DocType 'Employee Grievance'
 #: onedesk/one_hr/custom/employee_grievance.json
@@ -4296,6 +4367,14 @@ msgstr "Nur ein markierter Versuch muss geprüft werden."
 msgid "Only a lead or a deal has a next step."
 msgstr "Nur ein Lead oder ein Deal hat einen nächsten Schritt."
 
+#: onedesk/one_crm/record.py:30
+msgid "Only a lead or a deal has an overview."
+msgstr "Nur ein Lead oder ein Deal hat eine Übersicht."
+
+#: onedesk/one_crm/record.py:153
+msgid "Only a lead or a deal has calls."
+msgstr "Nur ein Lead oder ein Deal hat Anrufe."
+
 #: onedesk/one_admin/doctype/offering/offering.py:46
 msgid "Only a recurring offering can have a trial."
 msgstr "Nur ein wiederkehrendes Angebot kann eine Testphase haben."
@@ -4425,7 +4504,7 @@ msgid "Other Shift Locations this one's employees may check in from, without a s
 msgstr "Weitere Standorte der Schicht, von denen die Mitarbeiter dieses Standorts einchecken dürfen, ohne eine zweite Schichtzuweisung."
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:163
-#: onedesk/public/js/employee.js:140
+#: onedesk/public/js/employee.js:139
 msgid "Out"
 msgstr "Aus"
 
@@ -4462,8 +4541,13 @@ msgstr "Ausgabe pro 1 Mio. Tokens"
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_hr/custom/employee_checkin.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/public/js/crm_record.js:114
 msgid "Outcome"
 msgstr "Ergebnis"
+
+#: onedesk/public/js/crm_record.js:106
+msgid "Outgoing"
+msgstr ""
 
 #. Label of the max_output_tokens (Int) field in DocType 'AI Action'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
@@ -4552,7 +4636,7 @@ msgstr ""
 msgid "Paid and not built"
 msgstr "Bezahlt und nicht gebaut"
 
-#: onedesk/public/js/employee.js:168
+#: onedesk/public/js/employee.js:167
 msgid "Paid under"
 msgstr "Vergütet nach"
 
@@ -4580,7 +4664,7 @@ msgstr "Teile"
 msgid "Passkey"
 msgstr "Passkey"
 
-#: onedesk/public/js/employee.js:211
+#: onedesk/public/js/employee.js:201
 msgid "Passkey reset"
 msgstr "Passkey zurückgesetzt"
 
@@ -4987,6 +5071,7 @@ msgstr "Kontingente"
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/public/js/crm_record.js:58
 msgid "Quotation"
 msgstr ""
 
@@ -5108,7 +5193,7 @@ msgstr "Erfassen"
 msgid "Record As Of"
 msgstr "Datensatz mit Stand"
 
-#: onedesk/public/js/attendance.js:8 onedesk/public/js/employee.js:233
+#: onedesk/public/js/attendance.js:8 onedesk/public/js/employee.js:223
 #: onedesk/public/js/overtime.js:10
 msgid "Record Overtime"
 msgstr "Überstunden erfassen"
@@ -5345,7 +5430,7 @@ msgstr "Erfordert einen Benutzer, der mit dem Mitarbeiterdatensatz verknüpft is
 msgid "Reset"
 msgstr ""
 
-#: onedesk/public/js/employee.js:202
+#: onedesk/public/js/employee.js:192
 msgid "Reset Passkey"
 msgstr "Passkey zurücksetzen"
 
@@ -5482,11 +5567,12 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/public/js/crm_record.js:33
 msgid "Sales Stage"
 msgstr ""
 
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:52
-#: onedesk/public/js/next_step.js:24
+#: onedesk/public/js/crm_record.js:132 onedesk/public/js/next_step.js:24
 msgid "Save"
 msgstr ""
 
@@ -5791,6 +5877,7 @@ msgstr "Etwas, das ein Modell vorgeschlagen hat. Es geschieht nichts, bis eine P
 #. Label of the source (Select) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:217
+#: onedesk/public/js/crm_record.js:71
 msgid "Source"
 msgstr ""
 
@@ -5839,7 +5926,7 @@ msgstr "Standardarbeitstag: {0} Stunden. Alles darüber sind Überstunden."
 #. Label of the one_standing (Int) field in DocType 'Employee'
 #. Label of the one_ai_standing (Percent) field in DocType 'Job Applicant'
 #: onedesk/one_hr/custom/employee.json onedesk/one_hr/custom/job_applicant.json
-#: onedesk/public/js/employee.js:131
+#: onedesk/public/js/employee.js:130
 msgid "Standing"
 msgstr "Bewertung"
 
@@ -7039,6 +7126,10 @@ msgstr "Was kommt als Nächstes?"
 msgid "What OneAI remembers"
 msgstr "Was OneAI sich merkt"
 
+#: onedesk/public/js/crm_record.js:130
+msgid "What Was Said"
+msgstr "Was besprochen wurde"
+
 #. Description of the 'About' (Small Text) field in DocType 'AI Action'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "What a workspace administrator reads beside it."
@@ -7569,6 +7660,14 @@ msgstr "Null heißt unbegrenzt."
 msgid "Zero means unlimited. Enforced by Frappe from the site's config."
 msgstr "Null heißt unbegrenzt. Frappe setzt es aus der Site-Konfiguration durch."
 
+#: onedesk/public/js/crm_record.js:94
+msgid "a day"
+msgstr "einen Tag"
+
+#: onedesk/public/js/crm_record.js:92
+msgid "an hour"
+msgstr "eine Stunde"
+
 #: onedesk/public/js/oneai/Panel.vue:105
 msgid "and {0} more"
 msgstr "und {0} weitere"
@@ -7594,6 +7693,10 @@ msgstr "Rückmeldungen"
 #: onedesk/public/js/workspace_account.js:165
 msgid "for"
 msgstr "für"
+
+#: onedesk/public/js/crm_record.js:33
+msgid "for {0}"
+msgstr "seit {0}"
 
 #: onedesk/public/js/shift_request.js:53
 msgid "from {0} to {1}"
@@ -7686,6 +7789,10 @@ msgstr "dem Anfang"
 msgid "this part could not be transcribed"
 msgstr "dieser Teil konnte nicht transkribiert werden"
 
+#: onedesk/public/js/crm_record.js:91
+msgid "under an hour"
+msgstr "weniger als eine Stunde"
+
 #: onedesk/public/js/vehicle_log.js:35
 msgid "units"
 msgstr "Einheiten"
@@ -7737,7 +7844,7 @@ msgstr "{0} erfasst am {2} bereits {1} Überstunden. Diese Zeile entfernen."
 msgid "{0} asked for a {1}"
 msgstr "{0} hat eine {1} angefordert"
 
-#: onedesk/public/js/employee.js:158
+#: onedesk/public/js/employee.js:157
 msgid "{0} awaiting"
 msgstr "{0} ausstehend"
 
@@ -7812,6 +7919,10 @@ msgstr "{0} Guthaben – die Reservierung, weil nichts gemessen werden konnte."
 msgid "{0} credits."
 msgstr "{0} Guthaben."
 
+#: onedesk/public/js/crm_record.js:94
+msgid "{0} days"
+msgstr "{0} Tage"
+
 #: onedesk/public/js/tenant.js:222
 msgid "{0} days before it falls to {1}."
 msgstr "Noch {0} Tage, bis er auf {1} fällt."
@@ -7876,7 +7987,7 @@ msgstr "{0} ist nicht gescheitert."
 msgid "{0} has {1} credits, {2} of them promised to calls in flight."
 msgstr "{0} hat {1} Guthaben, davon {2} für laufende Aufrufe zugesagt."
 
-#: onedesk/public/js/employee.js:109
+#: onedesk/public/js/crm_record.js:92 onedesk/public/js/employee.js:109
 msgid "{0} hours"
 msgstr ""
 
@@ -7961,7 +8072,7 @@ msgstr "{0} ist vergeben."
 msgid "{0} is {1}, so it cannot be offered."
 msgstr "{0} ist {1} und kann daher nicht angeboten werden."
 
-#: onedesk/public/js/employee.js:149
+#: onedesk/public/js/employee.js:148
 msgid "{0} left"
 msgstr "{0} übrig"
 
@@ -8008,6 +8119,10 @@ msgstr "{0} auf dem Kilometerzähler seit dem letzten Eintrag."
 #: onedesk/one_ai/proposals.py:413
 msgid "{0} on {1}"
 msgstr "{0} bei {1}"
+
+#: onedesk/public/js/crm_record.js:66
+msgid "{0} open of {1}"
+msgstr "{0} von {1} offen"
 
 #: onedesk/public/js/appraisal.js:46
 msgid "{0} out of 5"
@@ -8059,7 +8174,7 @@ msgid "{0} will not be able to check in or register another passkey."
 msgstr "{0} kann sich weder einchecken noch einen weiteren Passkey registrieren."
 
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:14
-#: onedesk/public/js/employee.js:204
+#: onedesk/public/js/employee.js:194
 msgid "{0} will register a new passkey on their next check-in. The old one is retired, not deleted."
 msgstr "{0} registriert beim nächsten Einchecken einen neuen Passkey. Der alte wird stillgelegt, nicht gelöscht."
 

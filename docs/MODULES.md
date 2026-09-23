@@ -139,6 +139,8 @@ No doctypes yet.
 * `onedesk.one_ai.run.waiting`
 * `onedesk.one_crm.board.worth`
 * `onedesk.one_crm.next.done`
+* `onedesk.one_crm.record.log_call`
+* `onedesk.one_crm.record.overview`
 * `onedesk.one_hr.clock.punch`
 * `onedesk.one_hr.clock.ready`
 * `onedesk.one_hr.employee.overview`

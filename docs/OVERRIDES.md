@@ -96,5 +96,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | A deal's company-currency value is worked out on the server | erpnext sets base_opportunity_amount only in the form script, so an imported deal is worth nothing | `onedesk/one_crm/deal.py` | `erpnext/erpnext/crm/doctype/opportunity/opportunity.js` | `"base_opportunity_amount",` |
 | A next step's reminder goes to the record's owner | a Reminder takes its user from the session in validate, so the owner is written after insert | `onedesk/one_crm/next.py` | `frappe/frappe/automation/doctype/reminder/reminder.py` | `self.user = frappe.session.user` |
 | Home counts the reader's own deals and leads | a shortcut's stats_filter is evaluated as a JavaScript expression, so it can name frappe.session.user | `onedesk/one_crm/workspace/onecrm/onecrm.json` | `frappe/frappe/public/js/frappe/utils/utils.js` | `new Function(`return ${filter}`)()` |
+| A lead's and a deal's comment box is shown again | erpnext hides it with an inline style when it moves the timeline into Activities; notes are comments now | `onedesk/public/css/desk.css` | `erpnext/erpnext/public/js/utils/crm_activities.js` | `$(".comment-box").hide();` |
+| A call logged by hand owes nobody a popup | Call Log rings the scheduled employees on insert; the logged instance's trigger_call_popup is a no-op | `onedesk/one_crm/record.py` | `erpnext/erpnext/telephony/doctype/call_log/call_log.py` | `def trigger_call_popup(self):` |
 
-91 overrides.
+93 overrides.

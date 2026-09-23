@@ -32,6 +32,8 @@ after_install = [
 	"onedesk.one_crm.stages.settle",
 	"onedesk.one_crm.board.sync",
 	"onedesk.one_crm.next.settle",
+	"onedesk.one_crm.record.settle",
+	"onedesk.one_crm.record.carry",
 ]
 
 # Their dock files do not carry the mount, so a newer erpnext or hrms clears it,
@@ -55,6 +57,7 @@ after_migrate = [
 	"onedesk.one_crm.stages.settle",
 	"onedesk.one_crm.board.sync",
 	"onedesk.one_crm.next.settle",
+	"onedesk.one_crm.record.settle",
 ]
 extend_bootinfo = "onedesk.one.boot.boot_session"
 
@@ -343,6 +346,8 @@ app_include_js = [
 	"/assets/onedesk/js/overtime.js",
 	"/assets/onedesk/js/decision.js",
 	"/assets/onedesk/js/next_step.js",
+	"/assets/onedesk/js/band.js",
+	"/assets/onedesk/js/crm_record.js",
 	"/assets/onedesk/js/reports.js",
 	"/assets/onedesk/js/oneai.js",
 ]

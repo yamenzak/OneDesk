@@ -111,9 +111,8 @@ onedesk.employee.said = (day, marks) => {
 	return said;
 };
 
-// Label over value, which is the desk's own way of putting a number on screen.
 // A pill each was the first try: seven outlines in a row read as seven controls
-// rather than as one paragraph of numbers.
+// rather than as one paragraph of numbers. See public/js/band.js.
 //: What a standing is worth saying about it, by the band the server put it in.
 //: Only "low" and "watch" get a colour: a number that is fine is a number
 //: nobody has to look at, and painting it green would make the good case the
@@ -127,7 +126,7 @@ onedesk.employee.stats = (data) => {
 	// here about whether the check-ins themselves can be believed, which is a
 	// different question from how many of them there were.
 	if (data.standing) {
-		stats.push(onedesk.employee.stat(
+		stats.push(onedesk.band.stat(
 			__("Standing"),
 			data.standing.score,
 			`/desk/clock-attempt?employee=${encodeURIComponent(cur_frm.doc.name)}`,
@@ -136,7 +135,7 @@ onedesk.employee.stats = (data) => {
 	}
 
 	if (data.today.checkin) {
-		stats.push(onedesk.employee.stat(
+		stats.push(onedesk.band.stat(
 			data.today.checkin.log_type === "OUT" ? __("Out") : __("In"),
 			onedesk.clock.when(data.today.checkin.time),
 			`/desk/employee-checkin/${encodeURIComponent(data.today.checkin.name)}`,
@@ -144,7 +143,7 @@ onedesk.employee.stats = (data) => {
 	}
 
 	for (const row of data.leave) {
-		stats.push(onedesk.employee.stat(
+		stats.push(onedesk.band.stat(
 			row.type.replace(/ Leave$/, ""),
 			__("{0} left", [row.left]),
 			`/desk/leave-application?employee=${encodeURIComponent(cur_frm.doc.name)}`,
@@ -153,7 +152,7 @@ onedesk.employee.stats = (data) => {
 	}
 
 	for (const row of data.awaiting) {
-		stats.push(onedesk.employee.stat(
+		stats.push(onedesk.band.stat(
 			__(row.doctype),
 			__("{0} awaiting", [row.count]),
 			`/desk/${frappe.router.slug(row.doctype)}?employee=${
@@ -165,20 +164,11 @@ onedesk.employee.stats = (data) => {
 	// Date of Joining is a field on the Overview tab two centimetres away, and
 	// six stats fill the grid's two rows exactly where seven left one adrift.
 	if (data.pay && data.pay.salary_structure) {
-		stats.push(onedesk.employee.stat(__("Paid under"), data.pay.salary_structure,
+		stats.push(onedesk.band.stat(__("Paid under"), data.pay.salary_structure,
 			`/desk/salary-structure-assignment/${encodeURIComponent(data.pay.name)}`));
 	}
 
 	return stats;
-};
-
-onedesk.employee.stat = (label, value, route, tone) => {
-	const inner = `<span class="one-stat-label">${frappe.utils.escape_html(label)}</span>` +
-		`<span class="one-stat-value">${frappe.utils.escape_html(String(value))}</span>`;
-	const cls = `one-stat${tone ? " one-stat-" + tone : ""}`;
-	return route
-		? `<a class="${cls}" href="${route}">${inner}</a>`
-		: `<span class="${cls}">${inner}</span>`;
 };
 
 //: What you can do to a person from their own page, and the doctype that says

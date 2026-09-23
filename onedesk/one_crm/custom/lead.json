@@ -59,6 +59,29 @@
    "property": "in_list_view",
    "property_type": "Check",
    "value": "0"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "notes_tab",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "notes_html",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocType",
+   "property": "track_views",
+   "property_type": "Check",
+   "value": "0"
   }
  ],
  "sync_on_migrate": 1

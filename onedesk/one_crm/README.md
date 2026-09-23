@@ -60,6 +60,29 @@ step come first and the rest in the order they are due. A step whose time has
 passed is shown in red. The pipeline board shows each deal's next step on its
 card.
 
+### A lead's and a deal's page
+
+The band under the name answers what the page is usually opened for, before
+anything is clicked:
+
+- on a deal — **Deal Value** and its probability, the **stage** and how long it
+  has been there, the **Next Step** (red once overdue), the **Last Call** or
+  **Last Email**, when it **Closes** (red once past), its latest **Quotation**,
+  and where it came from;
+- on a lead — when it **Came In**, the Next Step, the last contact, the
+  **Deals** made from it, and where it came from.
+
+Each answer that comes from another record opens it.
+
+**Log a Call** in the sidebar writes a call down: outgoing or incoming,
+answered, no answer or busy, how long, and what was said. It goes on the
+timeline beside the mail and the comments, and counts as the last contact.
+
+**Everything said is on one timeline**, under Activities: comments, calls, mail
+sent and received, stage changes and every edit. Write a note in the comment
+box there. ERPNext's separate Notes are comments now, and a deal made from a
+lead brings the lead's comments and mail with it (CRM Settings).
+
 ### Home
 
 Home is your day, counting only your own leads and deals that are still open:
@@ -101,8 +124,7 @@ reopen it every morning, won and lost ones included; One does not.
 ### The pipeline
 
 **Pipeline** in the rail opens the board: one column per stage in position
-order, and a card per deal with its value, probability and expected closing
-date. Drag a card to another column to move the deal; its probability follows,
+order, and a card per deal with its value and its next step. Drag a card to another column to move the deal; its probability follows,
 and a card dropped on Won converts the deal.
 
 Under each column's name is what the deals in it are worth, and what they are
@@ -178,7 +200,8 @@ none edits erpnext.
 3. **The next step.** *Done* — `next.py`, `public/js/next_step.js`. Every
    open lead and deal carries what happens next and when. Home is *my day*:
    what is due, and what has no next step at all.
-4. **The record answers first.** A lead and a deal open on what people
+4. **The record answers first.** *Done* — `record.py`,
+   `public/js/crm_record.js`. A lead and a deal open on what people
    open them for — value, stage and how long it has been there, the last
    contact, the next step, where it came from — with notes, calls written down
    by hand, mail and comments on one timeline.

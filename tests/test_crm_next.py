@@ -50,3 +50,10 @@ def test_both_records_carry_the_step_and_remind():
 		custom = json.loads((tree.APP / "one_crm" / "custom" / f"{doctype}.json").read_text())
 		assert {"one_next_step", "one_next_on"} <= {f["fieldname"] for f in custom["custom_fields"]}
 	assert hooks.count('"onedesk.one_crm.next.on_update"') == 2
+
+
+def test_the_form_offers_a_next_step_where_the_server_reminds():
+	source = (tree.APP / "public" / "js" / "next_step.js").read_text(encoding="utf-8")
+	for doctype, statuses in _constant("OPEN").items():
+		said = re.search(rf"{doctype}: (\[[^\]]*\])", source).group(1)
+		assert tuple(json.loads(said)) == statuses, doctype
