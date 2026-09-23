@@ -21,7 +21,7 @@ import frappe
 from frappe import _lt
 from frappe.utils import add_days, getdate, today
 
-from onedesk.one_ai import proposals
+from onedesk.one_ai import files, proposals
 from onedesk.one_hr import own
 
 #: What the panel offers, by doctype, when it opens on one. `file` means the
@@ -388,7 +388,7 @@ def add_applicant(
 			"Say so rather than adding them twice."
 		}
 
-	cv = _cv(cv_file, applicant_name)
+	cv = files.uploaded(cv_file, applicant_name)
 	# Status is Open by default and the designation is fetched from the
 	# opening, so neither is the model's to say — and neither crowds the card.
 	values = {
@@ -719,39 +719,6 @@ def _opening(said: str | None) -> str | None:
 		if len(found) == 1:
 			return found[0]
 	return None
-
-
-def _cv(named: str | None, person: str | None = None) -> str | None:
-	"""The uploaded file this applicant came from.
-
-	The model names the file as it pictures it — "Layla Nasser CV.pdf" for
-	layla-nasser-cv.pdf — so it is matched as a person would: the name given,
-	then the file whose name holds the applicant's, then the closest name,
-	and the only file when there is one.
-	"""
-	import difflib
-
-	files = frappe.flags.get("one_ai_files") or []
-	if len(files) == 1:
-		return files[0]
-
-	def plain(text: str) -> str:
-		return "".join(ch for ch in (text or "").lower() if ch.isalnum())
-
-	stems = {url: plain(url.rsplit("/", 1)[-1].rsplit(".", 1)[0]) for url in files}
-	for said in (named, person):
-		want = plain((said or "").rsplit(".", 1)[0])
-		if not want:
-			continue
-		held = [url for url, stem in stems.items() if want in stem or stem in want]
-		if len(held) == 1:
-			return held[0]
-	words = [plain(one) for one in (person or "").split() if len(one) > 1]
-	held = [url for url, stem in stems.items() if words and all(word in stem for word in words)]
-	if len(held) == 1:
-		return held[0]
-	near = difflib.get_close_matches(plain(named or person or ""), list(stems.values()), n=1, cutoff=0.5)
-	return next((url for url, stem in stems.items() if near and stem == near[0]), None)
 
 
 #: Words on a receipt, and the kind of expense they usually are. Only used when

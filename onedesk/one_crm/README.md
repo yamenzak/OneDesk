@@ -202,6 +202,37 @@ board.
 
 A stage added, renamed or removed under Setup changes the board's columns.
 
+### OneAI in OneCRM
+
+Open OneAI on a page and it offers what makes sense there. Anything it would
+add or change comes back as a card; nothing happens until somebody approves
+it, and they approve it as themselves.
+
+- **On a deal**: *Where does this deal stand?* reads its value, stage, next
+  step and its whole history — mail, calls, comments and stage moves — and
+  says it in a few lines. *Suggest the next step* puts a next step and a day
+  on a card. *Write up a call* asks what was said on the phone and suggests it
+  as a call on the deal, and the next step it leads to as a second card.
+  *Draft a follow-up* writes a short email from what was said last.
+- **On a lead**: *Draft a reply* answers what they asked in the Get in Touch
+  form; *Suggest the next step* and *Write up a call* work as on a deal.
+- **On the Lead list**: *Add leads from business cards* reads each card
+  dropped on it and suggests a lead per person, with the card attached. *Add a
+  lead from a signature* does the same from a pasted email signature. Somebody
+  whose email is already on a lead is not suggested again — OneAI says which
+  lead they are — and a matching phone number or business name is marked as a
+  possible duplicate, as the web form would have marked it. *Which leads are
+  waiting on us?* lists open leads nobody has spoken to for a week and with
+  nothing planned.
+- **On the Deal list and Home**: *Which deals have gone quiet?* lists open
+  deals nobody has spoken to for two weeks and with nothing planned, or with a
+  next step whose day has passed. *Why are we losing deals?* groups the year's
+  lost deals by the reasons picked and what was written, with what they were
+  worth.
+
+A call OneAI writes up is the same call **Log a Call** makes, so it counts as
+the last contact and times the first reply. Anybody in sales may approve one.
+
 ## Setup
 
 **Territory**, **Customer Group**, **Sales Person**, **Sales Stage**, **Lead
@@ -224,7 +255,7 @@ A deal has no **Close**: a deal that will not happen is lost, with a reason.
 **Who may do what.** Everybody in sales sees every lead and deal; a team that
 wants each person to see only their own sets User Permissions. A **Sales
 User** makes and edits leads, deals and prospects; deleting a lead or a deal,
-and merging leads, is a **Sales Manager's**. Change any of it under Role
+and merging leads, is a **Sales Manager's**. Sales Users and Sales Managers may log and correct calls. Change any of it under Role
 Permissions; One does not change it back.
 
 ## Under the hood
@@ -301,9 +332,12 @@ none edits erpnext.
 7. **Screen by screen.** *Done* — `custom/*.json`, `crm_record.js`,
    `access.py`. Every group in the rail opened with data in it and fixed: fields nobody fills, Company off every filter, names not IDs, and who
    may see and change what.
-8. **OneAI in OneCRM.** A business card or an email signature becomes a lead
-   card; a deal summarised with a suggested next step; a follow-up drafted from
-   the timeline; call notes turned into a note and a next step; why deals are
-   lost; which deals have gone quiet.
+8. **OneAI in OneCRM.** *Done* — `ai.py`. Four reads (`deal_facts`,
+   `lead_facts`, `gone_quiet`, `why_we_lose`) and three cards (`add_lead`,
+   `plan_next_step`, `write_up_call`), with the panel's suggestions per page.
+   A business card is matched to its file by `one_ai/files.uploaded`, which
+   OneHR's CVs use too. A written-up call is `record.call`, the dialog's own
+   Call Log, and `access.py` lets sales make one, because a card is applied
+   with the approver's own permissions.
 9. **The README is the manual.** Everything above Under the hood describes
    what is built.

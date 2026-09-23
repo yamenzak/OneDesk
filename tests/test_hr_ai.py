@@ -169,7 +169,7 @@ def test_a_batch_of_files_is_asked_about_once_they_are_all_in():
 def test_a_cv_is_matched_to_its_file_the_way_a_person_would():
 	"""The model names the file as it pictures it: "Layla Nasser CV.pdf" for
 	layla-nasser-cv.pdf."""
-	said = _source(AI, "_cv")
+	said = _source(tree.APP / "one_ai" / "files.py", "uploaded")
 	assert "for said in (named, person)" in said and "difflib.get_close_matches" in said
 
 

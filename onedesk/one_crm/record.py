@@ -159,31 +159,34 @@ def log_call(
 		frappe.throw(_("A call is Outgoing or Incoming, and Answered, No Answer or Busy."))
 	doc = frappe.get_doc(doctype, name)
 	doc.check_permission("write")
-
-	theirs = phone(doc)
-	ended = now_datetime()
-	seconds = cint(minutes) * 60 if outcome == "Answered" else 0
-	log = frappe.get_doc(
-		{
-			"doctype": "Call Log",
-			"id": frappe.generate_hash(length=12),
-			"type": direction,
-			"status": OUTCOME[outcome],
-			"from": frappe.session.user if direction == "Outgoing" else theirs,
-			"to": theirs if direction == "Outgoing" else frappe.session.user,
-			"medium": _("Logged by hand"),
-			"duration": seconds,
-			"start_time": add_to_date(ended, seconds=-seconds),
-			"end_time": ended,
-			"summary": (summary or "").strip() or None,
-			"employee_user_id": frappe.session.user,
-			"links": [{"link_doctype": doctype, "link_name": name}],
-		}
-	)
+	log = frappe.get_doc(call(doc, direction, outcome, minutes, summary))
 	# Written by hand, so no telephony popup is owed to anybody.
 	log.trigger_call_popup = lambda: None
 	log.insert(ignore_permissions=True)
 	return log.name
+
+
+def call(doc, direction: str, outcome: str, minutes=0, summary: str | None = None) -> dict:
+	"""A Call Log with them that has just ended, as a dict. The dialog inserts
+	it, and OneAI puts it on a card."""
+	theirs = phone(doc)
+	ended = now_datetime()
+	seconds = cint(minutes) * 60 if outcome == "Answered" else 0
+	return {
+		"doctype": "Call Log",
+		"id": frappe.generate_hash(length=12),
+		"type": direction,
+		"status": OUTCOME[outcome],
+		"from": frappe.session.user if direction == "Outgoing" else theirs,
+		"to": theirs if direction == "Outgoing" else frappe.session.user,
+		"medium": _("Logged by hand"),
+		"duration": seconds,
+		"start_time": add_to_date(ended, seconds=-seconds),
+		"end_time": ended,
+		"summary": (summary or "").strip() or None,
+		"employee_user_id": frappe.session.user,
+		"links": [{"link_doctype": doc.doctype, "link_name": doc.name}],
+	}
 
 
 def phone(doc) -> str:

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 15:23+0000\n"
-"PO-Revision-Date: 2026-09-23 15:23+0000\n"
+"POT-Creation-Date: 2026-09-23 16:02+0000\n"
+"PO-Revision-Date: 2026-09-23 16:02+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "(from what was asked for)"
 msgstr "(مما طُلب)"
 
-#: onedesk/one_hr/ai.py:964
+#: onedesk/one_hr/ai.py:931
 msgid "1 day of {0}."
 msgstr "يوم واحد من {0}."
 
-#: onedesk/one_hr/ai.py:968
+#: onedesk/one_hr/ai.py:935
 msgid "1 day of {0}; {1} left after."
 msgstr "يوم واحد من {0}؛ يتبقى بعده {1}."
 
@@ -430,6 +430,14 @@ msgstr "إضافة عميل"
 msgid "Add a domain"
 msgstr "إضافة نطاق"
 
+#: onedesk/one_crm/ai.py:113
+msgid "Add a lead from a signature"
+msgstr "أضف عميلًا محتملًا من توقيع بريد"
+
+#: onedesk/one_crm/ai.py:106 onedesk/one_crm/ai.py:142
+msgid "Add a lead from each of these business cards."
+msgstr "أضف عميلًا محتملًا من كل بطاقة عمل من هذه البطاقات."
+
 #: onedesk/one_hr/ai.py:91 onedesk/one_hr/ai.py:123
 msgid "Add an applicant from each of these CVs, to the open job each one fits best."
 msgstr "أضف متقدمًا من كل سيرة ذاتية من هذه، إلى الوظيفة المفتوحة الأنسب لكل منها."
@@ -447,6 +455,10 @@ msgstr "إضافة موظف"
 #: onedesk/one_hr/ai.py:81 onedesk/one_hr/ai.py:90 onedesk/one_hr/ai.py:122
 msgid "Add applicants from CVs"
 msgstr "إضافة متقدمين من السير الذاتية"
+
+#: onedesk/one_crm/ai.py:105 onedesk/one_crm/ai.py:141
+msgid "Add leads from business cards"
+msgstr "أضف عملاء محتملين من بطاقات العمل"
 
 #. Option for the 'Kind' (Select) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
@@ -2027,9 +2039,25 @@ msgstr "تم. وكُتب {0}."
 msgid "Done: {0}"
 msgstr "تم: {0}"
 
+#: onedesk/one_crm/ai.py:62
+msgid "Draft a follow-up"
+msgstr "اكتب مسودة متابعة"
+
 #: onedesk/one_hr/ai.py:131
 msgid "Draft a job opening from this requisition — its title, description and what a strong applicant has, one short line each — and suggest creating it."
 msgstr "صِغ وظيفة شاغرة من هذا الطلب — عنوانها ووصفها وما يتمتع به المتقدم القوي، سطرًا قصيرًا لكل بند — واقترح إنشاءها."
+
+#: onedesk/one_crm/ai.py:84
+msgid "Draft a reply"
+msgstr "اكتب مسودة رد"
+
+#: onedesk/one_crm/ai.py:85
+msgid "Draft a short first reply to this lead that answers what they asked, and proposes one next step. Plain words, no sales talk."
+msgstr "اكتب مسودة رد أول قصير على هذا العميل المحتمل تجيب عمّا سأل عنه وتقترح خطوة تالية واحدة. بكلمات بسيطة، بلا لغة تسويقية."
+
+#: onedesk/one_crm/ai.py:63
+msgid "Draft a short follow-up email to them from this deal's history: what was said last, what we agreed, and the one thing we are asking for. Plain words, no sales talk."
+msgstr "اكتب مسودة رسالة متابعة قصيرة لهم من سجل هذه الصفقة: آخر ما قيل، وما اتفقنا عليه، والشيء الوحيد الذي نطلبه. بكلمات بسيطة، بلا لغة تسويقية."
 
 #: onedesk/one_hr/ai.py:148
 msgid "Draft my feedback"
@@ -2667,6 +2695,14 @@ msgstr "من السيرة الذاتية لهذا المتقدم وفحص OneAI 
 msgid "From this appraisal, where is this person weakest, and which of our training programs or coming events would help? If none fits, say what to look for."
 msgstr "من هذا التقييم، أين يكون هذا الشخص أضعف، وأي من برامجنا التدريبية أو الفعاليات القادمة سيساعد؟ إن لم يناسب أي منها، قل ما الذي يُبحث عنه."
 
+#: onedesk/one_crm/ai.py:49
+msgid "From this deal's history, suggest its next step and the day to do it by."
+msgstr "من سجل هذه الصفقة، اقترح خطوتها التالية واليوم الذي تُنجز فيه."
+
+#: onedesk/one_crm/ai.py:92
+msgid "From this lead's history, suggest its next step and the day to do it by."
+msgstr "من سجل هذا العميل المحتمل، اقترح خطوته التالية واليوم الذي تُنجز فيه."
+
 #: onedesk/one_hr/ai.py:189
 msgid "From this person's designation and department, what should their first two weeks hold, day by day, and who should own each part?"
 msgstr "بناءً على مسمى هذا الشخص وقسمه، ماذا يجب أن تتضمن أسبوعاه الأولان يومًا بيوم، ومن يتولى كل جزء؟"
@@ -2967,9 +3003,21 @@ msgstr "كم لديّ من الإجازات؟"
 msgid "How should One look?"
 msgstr "كيف تريد أن يبدو One؟"
 
+#: onedesk/one_crm/ai.py:56
+msgid "I have just spoken to them on the phone. Ask me what was said, then write it up as a call on this deal and suggest the next step it leads to."
+msgstr "تحدثت معهم للتو بالهاتف. اسألني عمّا قيل، ثم سجّله كمكالمة على هذه الصفقة واقترح الخطوة التالية التي تؤدي إليها."
+
+#: onedesk/one_crm/ai.py:99
+msgid "I have just spoken to them on the phone. Ask me what was said, then write it up as a call on this lead and suggest the next step it leads to."
+msgstr "تحدثت معهم للتو بالهاتف. اسألني عمّا قيل، ثم سجّله كمكالمة على هذا العميل المحتمل واقترح الخطوة التالية التي تؤدي إليها."
+
 #: onedesk/one_hr/ai.py:224 onedesk/one_hr/ai.py:272
 msgid "I need a letter from HR — a salary certificate, an experience letter or an employment letter. Ask me which one and who it is for, then draft it."
 msgstr "أحتاج خطابًا من الموارد البشرية — شهادة راتب أو شهادة خبرة أو خطاب توظيف. اسألني أيها ولمن هو، ثم صِغه."
+
+#: onedesk/one_crm/ai.py:114
+msgid "I will paste an email signature. Add the person in it as a lead."
+msgstr "سألصق توقيع بريد إلكتروني. أضف الشخص الوارد فيه كعميل محتمل."
 
 #. Option for the 'Log Type' (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -3648,7 +3696,7 @@ msgstr ""
 msgid "Log a Call"
 msgstr "تسجيل مكالمة"
 
-#: onedesk/one_crm/record.py:174
+#: onedesk/one_crm/record.py:182
 msgid "Logged by hand"
 msgstr "مسجّلة يدوياً"
 
@@ -3788,6 +3836,10 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "May Use Tools"
 msgstr "يجوز له استخدام الأدوات"
+
+#: onedesk/one_crm/ai.py:454
+msgid "Maybe the same as {0} {1}, by {2}."
+msgstr "ربما هو نفسه {0} {1}، حسب {2}."
 
 #: onedesk/public/js/tenant.js:76
 msgid "Measure storage"
@@ -6325,6 +6377,10 @@ msgstr "باعتماد هذا يُدفع {0} مقابل {1} ساعة."
 msgid "Submitting this pays {0} {1} for {2} days of {3}."
 msgstr "الاعتماد يصرف لـ{0} مبلغ {1} مقابل {2} يوماً من {3}."
 
+#: onedesk/one_crm/ai.py:48 onedesk/one_crm/ai.py:91
+msgid "Suggest the next step"
+msgstr "اقترح الخطوة التالية"
+
 #: onedesk/public/js/oneai/Panel.vue:637
 msgid "Suggested a change"
 msgstr "اقترح تغييراً"
@@ -7545,6 +7601,14 @@ msgstr "وقت هذه المناوبة، مقروءاً من نوع المناو
 msgid "Where"
 msgstr "الموقع"
 
+#: onedesk/one_crm/ai.py:41
+msgid "Where does this deal stand?"
+msgstr "أين وصلت هذه الصفقة؟"
+
+#: onedesk/one_crm/ai.py:42
+msgid "Where does this deal stand? Say in a few lines what it is, how far it has got, what was said last and by whom, and what should happen next."
+msgstr "أين وصلت هذه الصفقة؟ قل في بضعة أسطر ما هي، وإلى أين وصلت، وما آخر ما قيل ومن قاله، وما الذي يجب أن يحدث بعد ذلك."
+
 #: onedesk/www/start.html:36
 msgid "Where it runs"
 msgstr "أين تعمل"
@@ -7553,6 +7617,22 @@ msgstr "أين تعمل"
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Where this user's desk session was live from, if they had one."
 msgstr "المكان الذي كانت تعمل منه جلسة هذا المستخدم، إن وُجدت."
+
+#: onedesk/one_crm/ai.py:69 onedesk/one_crm/ai.py:128
+msgid "Which deals have gone quiet?"
+msgstr "أي الصفقات هدأت؟"
+
+#: onedesk/one_crm/ai.py:119
+msgid "Which leads are waiting on us?"
+msgstr "أي العملاء المحتملين ينتظروننا؟"
+
+#: onedesk/one_crm/ai.py:70 onedesk/one_crm/ai.py:129
+msgid "Which open deals have gone quiet: nobody has spoken to them for two weeks and nothing is planned?"
+msgstr "أي الصفقات المفتوحة هدأت: لم يتحدث إليهم أحد منذ أسبوعين ولا شيء مخطط له؟"
+
+#: onedesk/one_crm/ai.py:120
+msgid "Which open leads are waiting on us: nobody has spoken to them for a week and nothing is planned?"
+msgstr "أي العملاء المحتملين المفتوحين ينتظروننا: لم يتحدث إليهم أحد منذ أسبوع ولا شيء مخطط له؟"
 
 #. Description of the Onboarding Step 'Add a customer'
 #: onedesk/one/onboarding_step/one_add_a_customer/one_add_a_customer.json
@@ -7577,9 +7657,17 @@ msgstr "لماذا خُسرت؟"
 msgid "Why are people leaving?"
 msgstr "لماذا يغادر الموظفون؟"
 
+#: onedesk/one_crm/ai.py:76 onedesk/one_crm/ai.py:135
+msgid "Why are we losing deals?"
+msgstr "لماذا نخسر الصفقات؟"
+
 #: onedesk/one_hr/ai.py:253 onedesk/one_hr/ai.py:261
 msgid "Why have people left over the last twelve months, and how many said each reason?"
 msgstr "لماذا غادر الموظفون خلال الاثني عشر شهرًا الماضية، وكم منهم ذكر كل سبب؟"
+
+#: onedesk/one_crm/ai.py:77 onedesk/one_crm/ai.py:136
+msgid "Why have we lost deals this year?"
+msgstr "لماذا خسرنا صفقات هذا العام؟"
 
 #. Description of the 'Reason' (Link) field in DocType 'Attendance Request'
 #: onedesk/one_hr/custom/attendance_request.json
@@ -7783,6 +7871,10 @@ msgstr "كتابة هذه الوظيفة"
 #: onedesk/one_hr/ai.py:74
 msgid "Write this opening's description, and what a strong applicant has as one short line each, from its designation, department and requisition. Suggest both as a change to it."
 msgstr "اكتب وصف هذه الوظيفة، وما يتمتع به المتقدم القوي سطرًا قصيرًا لكل بند، من مسماها وقسمها وطلبها. اقترح الاثنين كتعديل عليها."
+
+#: onedesk/one_crm/ai.py:55 onedesk/one_crm/ai.py:98
+msgid "Write up a call"
+msgstr "سجّل مكالمة"
 
 #: onedesk/public/js/oneai.js:248
 msgid "Write with {0}"
@@ -8214,11 +8306,11 @@ msgstr "{0} يوماً قبل أن تهبط إلى {1}."
 msgid "{0} days left"
 msgstr "بقي {0} يوماً"
 
-#: onedesk/one_hr/ai.py:966
+#: onedesk/one_hr/ai.py:933
 msgid "{0} days of {1}."
 msgstr "{0} يوم من {1}."
 
-#: onedesk/one_hr/ai.py:970
+#: onedesk/one_hr/ai.py:937
 msgid "{0} days of {1}; {2} left after."
 msgstr "{0} يوم من {1}؛ يتبقى بعدها {2}."
 

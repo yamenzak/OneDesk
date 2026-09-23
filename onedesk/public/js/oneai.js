@@ -41,7 +41,9 @@ onedesk.oneai = {
 			// has no name in it.
 			const single = !route[2] && frappe.get_meta(route[1]) && frappe.get_meta(route[1]).issingle;
 			const name = route[2] || (single ? route[1] : "");
-			return { doctype: route[1], name, view: "Form", label: single ? route[1] : `${route[1]} ${name}`.trim() };
+			// The label is the type as the reader calls it: a Deal, not an Opportunity.
+			const called = __(route[1]);
+			return { doctype: route[1], name, view: "Form", label: single ? called : `${called} ${name}`.trim() };
 		}
 		if (kind === "list" && route[1]) {
 			const filters = window.cur_list && cur_list.get_filters_for_args ? cur_list.get_filters_for_args() : null;
@@ -50,7 +52,7 @@ onedesk.oneai = {
 				name: "",
 				view: route[2] || "List",
 				filters: filters && filters.length ? filters : null,
-				label: __("{0} list", [route[1]]),
+				label: __("{0} list", [__(route[1])]),
 			};
 		}
 		if (kind === "query-report" && route[1]) {

@@ -95,3 +95,36 @@ def _bytes(url: str) -> str:
 	if isinstance(content, str):
 		content = content.encode("utf-8")
 	return base64.b64encode(content).decode("ascii")
+
+
+def uploaded(named: str | None, person: str | None = None) -> str | None:
+	"""The file on this turn a record is made from: a CV, a business card.
+
+	The model names the file as it pictures it — "Layla Nasser CV.pdf" for
+	layla-nasser-cv.pdf — so it is matched as a person would: the name given,
+	then the file whose name holds the person's, then the closest name,
+	and the only file when there is one.
+	"""
+	import difflib
+
+	dropped = frappe.flags.get("one_ai_files") or []
+	if len(dropped) == 1:
+		return dropped[0]
+
+	def plain(text: str) -> str:
+		return "".join(ch for ch in (text or "").lower() if ch.isalnum())
+
+	stems = {url: plain(url.rsplit("/", 1)[-1].rsplit(".", 1)[0]) for url in dropped}
+	for said in (named, person):
+		want = plain((said or "").rsplit(".", 1)[0])
+		if not want:
+			continue
+		held = [url for url, stem in stems.items() if want in stem or stem in want]
+		if len(held) == 1:
+			return held[0]
+	words = [plain(one) for one in (person or "").split() if len(one) > 1]
+	held = [url for url, stem in stems.items() if words and all(word in stem for word in words)]
+	if len(held) == 1:
+		return held[0]
+	near = difflib.get_close_matches(plain(named or person or ""), list(stems.values()), n=1, cutoff=0.5)
+	return next((url for url, stem in stems.items() if near and stem == near[0]), None)

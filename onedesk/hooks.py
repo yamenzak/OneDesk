@@ -388,13 +388,17 @@ one_ai_reads = [
 	"onedesk.one_hr.ai_policy.hr_policy",
 	"onedesk.one_hr.ai_growth.goal_facts",
 	"onedesk.one_hr.ai_growth.training_options",
+	"onedesk.one_crm.ai.deal_facts",
+	"onedesk.one_crm.ai.lead_facts",
+	"onedesk.one_crm.ai.gone_quiet",
+	"onedesk.one_crm.ai.why_we_lose",
 ]
 
 #: A sentence each about who is asking, added to what the model is told.
 one_ai_reader = ["onedesk.one_hr.ai.reader"]
 
 #: A sentence each about the workspace itself, added to what the model is told.
-one_ai_workspace = ["onedesk.one_hr.ai.workspace"]
+one_ai_workspace = ["onedesk.one_hr.ai.workspace", "onedesk.one_crm.ai.workspace"]
 one_ai_suggests = [
 	"onedesk.one_hr.ai.claim_expense",
 	"onedesk.one_hr.ai.book_leave",
@@ -403,5 +407,8 @@ one_ai_suggests = [
 	"onedesk.one_hr.ai.draft_interview_feedback",
 	"onedesk.one_hr.ai_letters.request_letter",
 	"onedesk.one_hr.ai_growth.draft_goal",
+	"onedesk.one_crm.ai.add_lead",
+	"onedesk.one_crm.ai.plan_next_step",
+	"onedesk.one_crm.ai.write_up_call",
 ]
-one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS"]
+one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS", "onedesk.one_crm.ai.SUGGESTIONS"]
