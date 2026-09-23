@@ -47,6 +47,7 @@ LAYERS = [
 		"group": "Mine",
 		"doctype": "Event",
 		"rows": "onedesk.one_calendar.events.mine",
+		"move": "onedesk.one_calendar.events.move",
 	},
 	{
 		"key": "company-events",
@@ -55,6 +56,18 @@ LAYERS = [
 		"group": "Workspace",
 		"doctype": "Event",
 		"rows": "onedesk.one_calendar.events.company",
+		"move": "onedesk.one_calendar.events.move",
+	},
+	{
+		"key": "events-about",
+		"label": _lt("Events"),
+		"color": "blue",
+		"group": "Workspace",
+		"doctype": "Event",
+		"rows": "onedesk.one_calendar.events.about",
+		"move": "onedesk.one_calendar.events.move",
+		"about": ["*"],
+		"only_about": True,
 	},
 ]
 
@@ -67,7 +80,13 @@ def company(start, end) -> list[dict]:
 	return _rows(start, end, "company")
 
 
-def _rows(start, end, wanted: str) -> list[dict]:
+def about(start, end, record: tuple) -> list[dict]:
+	"""The events about one record, on that record's calendar. The reader may
+	open the record (layers._about), which is what shows them."""
+	return _rows(start, end, "about", tuple(record))
+
+
+def _rows(start, end, wanted: str, record: tuple | None = None) -> list[dict]:
 	user = frappe.session.user
 	found = candidates(start, end)
 	if not found:
@@ -92,7 +111,13 @@ def _rows(start, end, wanted: str) -> list[dict]:
 		records = sorted(about.get(one.name) or [])
 		side = whose(one, user, one.name in shared, user in people.get(one.name, ()))
 		opens = ("Event", one.name)
-		if side is None:
+		if record:
+			# On the record's own calendar: every event about it, opening the
+			# event when frappe's rule lets the reader, the record otherwise.
+			if record not in records:
+				continue
+			side, opens = "about", opens if side else record
+		elif side is None:
 			# Visible only because of a record it is about, if any is readable.
 			record = next((pair for pair in records if _can_read(pair, readable)), None)
 			if not record:
@@ -215,9 +240,9 @@ def occurrences(event, start: date, end: date) -> list[tuple[datetime, datetime 
 	return [at(day) for day in days]
 
 
-@frappe.whitelist(methods=["POST"])
 def move(event: str, start: str, end: str | None = None, all_day: int | None = None) -> None:
-	"""An event dragged to another time. As its maker, through its own save."""
+	"""An event dragged to another time (layers.move). As its maker, through
+	its own save."""
 	doc = frappe.get_doc("Event", event)
 	doc.check_permission("write")
 	if doc.repeat_this_event:

@@ -206,3 +206,15 @@ def test_nothing_is_copied_into_an_event():
 		said = path.read_text()
 		assert '"doctype": "Event", "' not in said and 'new_doc("Event"' not in said, path.name
 		assert ".insert(" not in said or path.name == "feed.py", path.name
+
+
+def test_a_record_calendar_offers_only_the_layers_that_can_draw_it():
+	fits = _load(CAL / "layers.py", ("_fits",))["_fits"]
+	mine, tasks, events = {"key": "mine"}, {"about": ["Project"], "only_about": True}, {"about": ["*"], "only_about": True}
+	assert fits(mine, None) and not fits(tasks, None) and not fits(events, None)
+	assert fits(tasks, ("Project", "P1")) and fits(events, ("Opportunity", "D1"))
+	assert not fits(tasks, ("Opportunity", "D1")) and not fits(mine, ("Project", "P1"))
+	source = (CAL / "layers.py").read_text()
+	assert 'frappe.has_permission(doctype, "read", doc=name)' in source, "a record's calendar needs the record"
+	assert '"editable": bool(layer.get("move") and row.get("editable"))' in source
+	assert "@frappe.whitelist" not in (CAL / "events.py").read_text().split("def move(", 1)[0].rsplit("\n\n", 1)[-1]

@@ -43,9 +43,9 @@ deal or lead, a task opens the task, and an assignment opens the record it is ab
 
 ## Events
 
-**New Event**, or drag across the hours you want, asks for a subject, when,
+**Add Event**, or drag across the hours you want, asks for a subject, when,
 where and a description. Drag an event you made to move it, or its bottom edge
-to make it longer; a repeating event is changed from its own page, for all its
+to make it longer; drag a task to move it to another day; a repeating event is changed from its own page, for all its
 times at once. Everything else about an event — who is invited, reminders,
 repeating, a video call link — is on the event's own page.
 
@@ -60,6 +60,14 @@ repeating, a video call link — is on the event's own page.
 - a **public** event, **On Everybody's Calendar**, is seen by everybody. Only
   a Workspace Administrator or an HR Manager may make one; anybody else makes
   it private and invites the people it is for.
+
+## A record's own calendar
+
+**Calendar** on a project opens the calendar of that project alone: its tasks
+still to do, whoever is on them, and the events about it, including ones you
+could not otherwise open (they open the project instead). **Add Event** there
+makes an event about the project. Nothing you switch off there changes your
+own calendar.
 
 ## In Google, Apple or Outlook
 
@@ -89,7 +97,9 @@ For the people who build OneCalendar. OneAI does not read past this heading.
   them (`entries`). A layer is a dict: key, label, colour, group, whether it
   starts on, the doctype whose read permission it needs, and a `rows(start,
   end)` function in the module that owns the records. `entry` turns a row into
-  what the page draws.
+  what the page draws. A layer with a `move` can be dragged (`layers.move`
+  hands the drop to it); one with `about` can draw a record's own calendar,
+  which needs the reader to be able to open the record.
 - `events.py` — frappe's Event, read here rather than through its
   `get_events`, for two reasons: frappe's permission hooks can only take access
   away, so "readable because of the record it is about" cannot be a hook; and
@@ -114,7 +124,9 @@ For the people who build OneCalendar. OneAI does not read past this heading.
    making, dragging and opening.
 4. **The subscription.** *Done.* One link per person, for Google, Apple and
    Outlook.
-5. **A record's own calendar.** The events about a deal, an employee or a
-   project on that record's page, from the same read.
+5. **A record's own calendar.** *Done for projects.* `?doctype=&name=` on the
+   page, the layers that declare `about`, and a Calendar button on the
+   project. The events layer draws any record's, so a deal or an employee
+   needs only the button.
 6. **The old OneCalendar.** Read OneApp's calendar after this one is built,
    take what it had that this does not, and delete it.

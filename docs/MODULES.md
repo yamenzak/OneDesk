@@ -153,12 +153,12 @@ No doctypes yet.
 * `onedesk.one_ai.run.try_it`
 * `onedesk.one_ai.run.use`
 * `onedesk.one_ai.run.waiting`
-* `onedesk.one_calendar.events.move`
 * `onedesk.one_calendar.feed.mine`
 * `onedesk.one_calendar.feed.renew`
 * `onedesk.one_calendar.feed.stop`
 * `onedesk.one_calendar.layers.entries`
 * `onedesk.one_calendar.layers.layers`
+* `onedesk.one_calendar.layers.move`
 * `onedesk.one_crm.board.worth`
 * `onedesk.one_crm.capture.merge`
 * `onedesk.one_crm.capture.not_duplicate`

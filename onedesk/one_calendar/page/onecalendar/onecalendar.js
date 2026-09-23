@@ -4,6 +4,10 @@
 // person looking, so this page draws and never decides who sees what. Which
 // layers are off, and the view, are the reader's own user settings, kept under
 // Event: they follow the person to another browser.
+//
+// With ?doctype=Project&name=PROJ-0004 it is that record's own calendar: only
+// the layers that can draw one (a project's tasks, the events about it), and
+// nothing it changes is saved as the reader's main calendar.
 
 frappe.pages["onecalendar"].on_page_load = (wrapper) => {
 	const page = frappe.ui.make_app_page({ parent: wrapper, title: __("Calendar"), single_column: true });
@@ -11,7 +15,7 @@ frappe.pages["onecalendar"].on_page_load = (wrapper) => {
 };
 
 frappe.pages["onecalendar"].on_page_show = (wrapper) => {
-	wrapper.onecalendar && wrapper.onecalendar.refetch();
+	wrapper.onecalendar && wrapper.onecalendar.show();
 };
 
 frappe.provide("onedesk");
@@ -29,7 +33,7 @@ onedesk.OneCalendar = class OneCalendar {
 			() => this.new_event(),
 			"plus"
 		);
-		page.set_secondary_action(__("Subscribe"), () => this.subscribe(), "rss");
+		this.about = this.narrowed();
 		this.$body = $(`<div class="one-calendar">
 			<aside class="one-calendar-layers"></aside>
 			<div class="one-calendar-main">
@@ -43,16 +47,64 @@ onedesk.OneCalendar = class OneCalendar {
 	// The layers switched off go as one string: user settings are merged
 	// deeply, and an array merged into a longer one keeps the old tail.
 	save() {
-		frappe.model.user_settings.save("Event", "OneCalendar", { view: this.saved.view, off: this.saved.off.join(",") });
+		// Opened straight on a record's calendar, the main calendar's layers were
+		// never read, so they are left as they were rather than saved as none.
+		const off = this.saved.off ? { off: this.saved.off.join(",") } : {};
+		frappe.model.user_settings.save("Event", "OneCalendar", { view: this.saved.view, ...off });
+	}
+
+	// The record this is the calendar of, from the address, or null.
+	narrowed() {
+		const { doctype, name } = frappe.utils.get_query_params();
+		return doctype && name ? { doctype, name } : null;
+	}
+
+	// Coming back to the page, perhaps for another record or for none.
+	async show() {
+		if (!this.calendar) return;
+		const about = this.narrowed();
+		if (JSON.stringify(about) !== JSON.stringify(this.about)) {
+			this.about = about;
+			await this.read_layers();
+		}
+		this.refetch();
+	}
+
+	async read_layers() {
+		this.layers = (await frappe.xcall("onedesk.one_calendar.layers.layers", this.about || {})) || [];
+		if (!this.about) this.saved.off = this.saved.off || this.layers.filter((one) => !one.on).map((one) => one.key);
+		this.draw_layers();
+		// A record's calendar is named after it, and has no link to subscribe to:
+		// the link is the reader's own calendar.
+		this.page.clear_secondary_action();
+		// The heading is the breadcrumb trail, which names the record and leads
+		// back to it.
+		if (this.about) {
+			const { doctype, name } = this.about;
+			const title = (await frappe.utils.fetch_link_title(doctype, name)) || name;
+			this.page.set_title(__("{0} Calendar", [title]));
+			frappe.breadcrumbs.add({
+				type: "Custom",
+				label: frappe.utils.escape_html(__("{0} Calendar", [title])),
+				route: `/desk/${frappe.router.slug(doctype)}/${encodeURIComponent(name)}`,
+			});
+		} else {
+			this.page.set_title(__("Calendar"));
+			frappe.breadcrumbs.add({ type: "Custom", label: __("Calendar") });
+			this.page.set_secondary_action(__("Subscribe"), () => this.subscribe(), "rss");
+		}
+	}
+
+	// Layers switched off on a record's calendar are off for this visit only.
+	off() {
+		return this.about ? this.off_here || [] : this.saved.off;
 	}
 
 	async start() {
 		const settings = await frappe.model.user_settings.get("Event");
 		const kept = (settings && settings.OneCalendar) || {};
 		this.saved = { view: kept.view, off: typeof kept.off === "string" ? kept.off.split(",").filter(Boolean) : null };
-		this.layers = (await frappe.xcall("onedesk.one_calendar.layers.layers")) || [];
-		this.saved.off = this.saved.off || this.layers.filter((one) => !one.on).map((one) => one.key);
-		this.draw_layers();
+		await this.read_layers();
 		this.draw_toolbar();
 		this.calendar = new frappe.FullCalendar(this.$body.find(".one-calendar-grid")[0], {
 			plugins: frappe.FullCalendar.Plugins,
@@ -156,7 +208,7 @@ onedesk.OneCalendar = class OneCalendar {
 			if (!mine.length) continue;
 			$side.append(`<div class="one-calendar-group">${__(group)}</div>`);
 			for (const one of mine) {
-				const on = !this.saved.off.includes(one.key);
+				const on = !this.off().includes(one.key);
 				$(`<label class="one-calendar-layer">
 					<input type="checkbox" ${on ? "checked" : ""}>
 					<span class="one-calendar-dot" style="background: var(--ink-${one.color}-7)"></span>
@@ -165,9 +217,14 @@ onedesk.OneCalendar = class OneCalendar {
 					.appendTo($side)
 					.find("input")
 					.on("change", (e) => {
-						this.saved.off = this.saved.off.filter((key) => key !== one.key);
-						if (!e.target.checked) this.saved.off.push(one.key);
-						this.save();
+						const off = this.off().filter((key) => key !== one.key);
+						if (!e.target.checked) off.push(one.key);
+						if (this.about) {
+							this.off_here = off;
+						} else {
+							this.saved.off = off;
+							this.save();
+						}
 						this.refetch();
 					});
 			}
@@ -179,13 +236,14 @@ onedesk.OneCalendar = class OneCalendar {
 	}
 
 	async entries(info) {
-		const keys = this.layers.map((one) => one.key).filter((key) => !this.saved.off.includes(key));
+		const keys = this.layers.map((one) => one.key).filter((key) => !this.off().includes(key));
 		if (!keys.length) return [];
 		const last = moment(info.end).subtract(1, "day");
 		const rows = await frappe.xcall("onedesk.one_calendar.layers.entries", {
 			start: moment(info.start).format("YYYY-MM-DD"),
 			end: last.format("YYYY-MM-DD"),
 			keys,
+			...(this.about || {}),
 		});
 		return (rows || []).map((one) => ({
 			id: one.id,
@@ -194,6 +252,7 @@ onedesk.OneCalendar = class OneCalendar {
 			end: one.end,
 			allDay: one.all_day,
 			editable: one.editable,
+			durationEditable: one.resizable,
 			// The desk calendar's colours: a tinted surface and the family's ink,
 			// both tokens, so they turn with the dark theme.
 			backgroundColor: `var(--surface-${one.color}-1)`,
@@ -213,13 +272,15 @@ onedesk.OneCalendar = class OneCalendar {
 		const one = info.event;
 		const format = (when) => (when ? moment(when).format("YYYY-MM-DD HH:mm:ss") : null);
 		frappe
-			.xcall("onedesk.one_calendar.events.move", {
-				event: one.extendedProps.name,
+			.xcall("onedesk.one_calendar.layers.move", {
+				key: one.extendedProps.layer,
+				name: one.extendedProps.name,
 				start: format(one.start),
 				end: format(one.end),
 				all_day: one.allDay ? 1 : 0,
 			})
-			.catch(() => info.revert());
+			// A task dragged moves its start too, so what is drawn is read again.
+			.then(() => this.refetch(), () => info.revert());
 	}
 
 	new_event(info) {
@@ -257,6 +318,8 @@ onedesk.OneCalendar = class OneCalendar {
 					location: values.location,
 					description: values.description,
 					event_type: values.public ? "Public" : "Private",
+					// Made on a record's calendar, it is about that record.
+					...(this.about ? { reference_doctype: this.about.doctype, reference_docname: this.about.name } : {}),
 				});
 				dialog.hide();
 				this.calendar.unselect();

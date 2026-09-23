@@ -159,3 +159,13 @@ def test_sub_tasks_are_a_connection_and_projects_live_in_onetask():
 	assert '"before_validate": "onedesk.one_task.task.before_validate"' in HOOKS
 	dock = json.loads((tree.APP / "dock" / "onedesk" / "onedesk.json").read_text())
 	assert not any(item["link_to"] == "Projects" for item in dock["items"]), "one rail entry for projects"
+
+
+def test_a_task_dragged_keeps_its_length_and_its_times():
+	from datetime import date, datetime, timedelta
+
+	shifted = _load(TASK / "calendar.py", ("shifted",), timedelta=timedelta, datetime=datetime)["shifted"]
+	starts, ends = datetime(2026, 9, 21, 9), datetime(2026, 9, 25, 17)
+	assert shifted(starts, ends, date(2026, 9, 28)) == (datetime(2026, 9, 24, 9), datetime(2026, 9, 28, 17))
+	assert shifted(None, ends, date(2026, 9, 24)) == (None, datetime(2026, 9, 24, 17))
+	assert shifted(starts, None, date(2026, 9, 22)) == (datetime(2026, 9, 22, 9), None), "drawn by its start"

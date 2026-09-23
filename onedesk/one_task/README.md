@@ -64,6 +64,17 @@ board it is made, and after that everybody shares it.
 its date turns red, on the board and in every list. My Tasks puts it under
 Overdue.
 
+## On the calendar
+
+Your tasks are on **OneCalendar** under **My Tasks**, on the day each is due.
+**Drag one to another day** to move it: its due date goes there, and its start
+date moves by as many days, so the task keeps its length.
+
+**Calendar** on a project is that project's own calendar: every task in it
+still to do, whoever is on it, and every event about the project. **Add Event**
+there makes an event about the project, and it shows on the calendar of
+everybody who can open the project.
+
 ## Sub-tasks and checklists
 
 **Sub-tasks** at the top of a task's page lists the tasks under it, and **+**
@@ -123,8 +134,10 @@ is:
 - `capture.py` — a to-do about nothing becomes a task; a task of nobody's is
   its maker's; the last assignment ticked off on a task in no project
   completes it. ERPNext already closes the assignments when a task completes.
-- `calendar.py` — **My Tasks** and **Assigned to Me** on OneCalendar. The
-  second leaves out assignments on tasks, which are already on the first.
+- `calendar.py` — **My Tasks** and **Assigned to Me** on OneCalendar (the
+  second leaves out assignments on tasks, which are already on the first), a
+  project's **Tasks** on its own calendar, and `move`: a task dragged shifts
+  both its dates by the same days (`shifted` is pure).
 - `custom/task.json` — the due date is asked for when a task is added, the
   Checklist (Task Step) is added, and Overdue is taken off the statuses.
 - `board.py` — ERPNext's own per-project Kanban, shaped as it is made; and
@@ -133,8 +146,8 @@ is:
   none.
 - `task.py` — a sub-task's parent becomes a group and lends its project; the
   checklist is the progress; sub-tasks are a connection on the task's page.
-- `public/js/project.js` and `public/js/task_list.js` — the Board button, and a
-  due date read as a day, red once passed.
+- `public/js/project.js` and `public/js/task_list.js` — the Board and Calendar
+  buttons, and a due date read as a day, red once passed.
 - `mine.py` and `page/my_tasks` — My Tasks. The server only reads, as the
   reader, and groups (`when` is pure); adding and ticking are `frappe.db.insert`
   and `frappe.db.set_value` from the page, so every rule a task has on its own
@@ -149,8 +162,8 @@ is:
 3. **The project board.** *Done.* A board per project by status, sub-tasks as
    a connection, a checklist that is the progress, and projects in OneTask
    rather than a rail entry of their own.
-4. **The calendar.** Moving a task's due date by dragging it, and a
-   project's own calendar.
+4. **The calendar.** *Done.* A task dragged on the calendar moves, and a
+   project has its own calendar of its tasks and the events about it.
 5. **Time.** A timer on a task that writes a Timesheet row.
 6. **The old OneTask.** Read OneApp's, take what it had that this does not —
    states, rank, labels, the checklist, and its fix for ERPNext never

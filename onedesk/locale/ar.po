@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 18:51+0000\n"
-"PO-Revision-Date: 2026-09-23 18:51+0000\n"
+"POT-Creation-Date: 2026-09-23 19:11+0000\n"
+"PO-Revision-Date: 2026-09-23 19:11+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -192,7 +192,7 @@ msgstr "يحتاج السعر إلى وحدة، وعددها، وكلفتها."
 msgid "A record of something that happened to a workspace."
 msgstr "سجل لما حدث لمساحة عمل."
 
-#: onedesk/one_calendar/events.py:224
+#: onedesk/one_calendar/events.py:249
 msgid "A repeating event is moved from its own page, for all its times at once."
 msgstr "يُنقل الحدث المتكرر من صفحته، لكل مراته دفعة واحدة."
 
@@ -421,7 +421,7 @@ msgstr ""
 msgid "Activity Type"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:28
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:32
 #: onedesk/one_task/page/my_tasks/my_tasks.js:25
 #: onedesk/public/js/workspace_account.js:201
 msgid "Add"
@@ -479,7 +479,7 @@ msgstr "إضافة متقدمين من السير الذاتية"
 msgid "Add leads from business cards"
 msgstr "أضف عملاء محتملين من بطاقات العمل"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:28
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:32
 #: onedesk/one_task/page/my_tasks/my_tasks.js:25
 msgid "Add {0}"
 msgstr ""
@@ -564,8 +564,8 @@ msgstr "بعد مقابلة {0}: {1}"
 msgid "All"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:61
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:237
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:113
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:298
 msgid "All Day"
 msgstr ""
 
@@ -667,7 +667,7 @@ msgstr "تم الرد"
 msgid "Answers from your own records"
 msgstr "يجيب من سجلاتك"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:289
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:352
 msgid "Anyone with the link can read your calendar."
 msgstr "يمكن لأي شخص لديه الرابط قراءة تقويمك."
 
@@ -680,7 +680,7 @@ msgstr "كل ما يحتاج من يبتّ في الطلب إلى معرفته."
 msgid "Appearance"
 msgstr "المظهر"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:284
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:347
 msgid "Apple Calendar"
 msgstr "تقويم Apple"
 
@@ -903,7 +903,7 @@ msgstr "جارٍ السؤال…"
 msgid "Assign a Salary Structure"
 msgstr "إسناد هيكل راتب"
 
-#: onedesk/one_task/calendar.py:27
+#: onedesk/one_task/calendar.py:49
 msgid "Assigned to Me"
 msgstr "مسندة إليّ"
 
@@ -1141,7 +1141,7 @@ msgstr "حظر"
 msgid "Blocked"
 msgstr "محظور"
 
-#: onedesk/public/js/project.js:10
+#: onedesk/public/js/project.js:11
 msgid "Board"
 msgstr "اللوحة"
 
@@ -1232,9 +1232,12 @@ msgid "CTC Break-up"
 msgstr "تفصيل التكلفة الإجمالية"
 
 #. Label of a Sidebar Item
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:9
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:102
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:13
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:92
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:93
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:154
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
+#: onedesk/public/js/project.js:17
 msgid "Calendar"
 msgstr ""
 
@@ -1248,7 +1251,7 @@ msgstr "رابط التقويم"
 msgid "Calendar Links"
 msgstr "روابط التقويم"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:109
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:161
 msgid "Calendar View"
 msgstr ""
 
@@ -1607,7 +1610,7 @@ msgstr "زميل"
 msgid "Company"
 msgstr ""
 
-#: onedesk/one_calendar/events.py:53
+#: onedesk/one_calendar/events.py:54
 msgid "Company Events"
 msgstr "أحداث الشركة"
 
@@ -1700,7 +1703,7 @@ msgstr "المحادثة"
 msgid "Conversations"
 msgstr "المحادثات"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:286
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:349
 msgid "Copy Link"
 msgstr ""
 
@@ -1856,7 +1859,7 @@ msgid "Date"
 msgstr ""
 
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:42
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:113
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:165
 msgid "Day"
 msgstr "اليوم"
 
@@ -2019,7 +2022,7 @@ msgstr ""
 #. Label of the description (Small Text) field in DocType 'Attendance Reason'
 #. Label of the description (Small Text) field in DocType 'Clock Reason'
 #: onedesk/one_admin/doctype/offering/offering.json
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:247
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:308
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
 msgid "Description"
@@ -2468,7 +2471,7 @@ msgstr "انتهى في"
 msgid "Ends"
 msgstr "ينتهي"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:239
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:300
 msgid "Ends On"
 msgstr "ينتهي في"
 
@@ -2497,6 +2500,10 @@ msgstr ""
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
 msgid "Event ID"
 msgstr "معرّف الحدث"
+
+#: onedesk/one_calendar/events.py:63
+msgid "Events"
+msgstr ""
 
 #. Description of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
@@ -2886,7 +2893,7 @@ msgid "Gone"
 msgstr "اختفى"
 
 #. Label of a Sidebar Item
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:283
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:346
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 msgid "Google Calendar"
 msgstr "تقويم Google"
@@ -3445,7 +3452,7 @@ msgstr "النطاق القضائي"
 msgid "KRA"
 msgstr "مجال النتائج الرئيسية"
 
-#: onedesk/public/js/project.js:9
+#: onedesk/public/js/project.js:10
 msgid "Kanban Board"
 msgstr ""
 
@@ -3814,7 +3821,7 @@ msgstr ""
 msgid "Limits"
 msgstr "الحدود"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:114
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:166
 msgid "List"
 msgstr ""
 
@@ -3836,7 +3843,7 @@ msgid "Live On"
 msgstr "بدأ العمل في"
 
 #. Label of the place_section (Section Break) field in DocType 'Clock Attempt'
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:240
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:301
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Location"
 msgstr "الموقع"
@@ -4086,7 +4093,7 @@ msgstr "الطراز"
 msgid "Models"
 msgstr "النماذج"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:111
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:163
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:20
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:24
 msgid "Month"
@@ -4147,7 +4154,7 @@ msgid "My Leave"
 msgstr "إجازاتي"
 
 #. Label of a Sidebar Item
-#: onedesk/one_task/calendar.py:19
+#: onedesk/one_task/calendar.py:29
 #: onedesk/one_task/page/my_tasks/my_tasks.js:10
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "My Tasks"
@@ -4216,7 +4223,7 @@ msgstr "الشبكة والموقع"
 msgid "New"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:234
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:295
 msgid "New Event"
 msgstr ""
 
@@ -4225,7 +4232,7 @@ msgstr ""
 msgid "New Lead"
 msgstr "عميل محتمل جديد"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:290
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:353
 msgid "New Link"
 msgstr "رابط جديد"
 
@@ -4234,7 +4241,7 @@ msgstr "رابط جديد"
 msgid "New conversation"
 msgstr "محادثة جديدة"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:296
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:359
 msgid "New link made. The old one no longer works."
 msgstr "أُنشئ رابط جديد. الرابط القديم لم يعد يعمل."
 
@@ -4247,7 +4254,7 @@ msgstr ""
 msgid "Newsletter"
 msgstr "النشرة البريدية"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:123
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:175
 msgid "Next"
 msgstr ""
 
@@ -4516,7 +4523,7 @@ msgstr "لا شيء مسند إليك."
 msgid "Nothing is spent and no attendance is marked."
 msgstr "لا يُخصم رصيد ولا يُسجَّل حضور."
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:62
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:114
 msgid "Nothing on these days."
 msgstr "لا شيء في هذه الأيام."
 
@@ -4619,7 +4626,7 @@ msgstr "العرض"
 msgid "On"
 msgstr "مفعّل"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:244
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:305
 msgid "On Everybody's Calendar"
 msgstr "في تقويم الجميع"
 
@@ -4868,7 +4875,7 @@ msgstr "لا يغيّر عنوان مساحة العمل إلا مديرها."
 msgid "Only an administrator of this workspace can do this."
 msgstr "لا يستطيع ذلك إلا مسؤول مساحة العمل هذه."
 
-#: onedesk/one_calendar/events.py:241
+#: onedesk/one_calendar/events.py:266
 msgid "Only an administrator puts an event on everybody's calendar. Make it private and add the people it is for."
 msgstr "المسؤول وحده يضع حدثًا في تقويم الجميع. اجعله خاصًا وأضف الأشخاص المعنيين به."
 
@@ -5024,7 +5031,7 @@ msgstr "النتيجة"
 msgid "Outgoing"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:285
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:348
 msgid "Outlook"
 msgstr "Outlook"
 
@@ -5388,7 +5395,7 @@ msgstr "النطاق الجذر في Frappe Cloud"
 msgid "Press Site"
 msgstr "موقع Frappe Cloud"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:121
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:173
 msgid "Previous"
 msgstr ""
 
@@ -6090,7 +6097,7 @@ msgstr ""
 msgid "Sales Stage"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:249
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:310
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:52
 #: onedesk/public/js/crm_record.js:198 onedesk/public/js/next_step.js:31
 msgid "Save"
@@ -6167,7 +6174,7 @@ msgstr "المفتاح السري"
 msgid "See the changes"
 msgstr "عرض التغييرات"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:281
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:344
 msgid "See this calendar in another app. Google Calendar updates it a few times a day, the others more often."
 msgstr "اعرض هذا التقويم في تطبيق آخر. يحدّثه تقويم Google بضع مرات في اليوم، والتطبيقات الأخرى أكثر من ذلك."
 
@@ -6507,7 +6514,7 @@ msgstr "يبدأ"
 msgid "Starts At (Seconds)"
 msgstr "يبدأ عند (ثوانٍ)"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:238
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:299
 msgid "Starts On"
 msgstr "يبدأ في"
 
@@ -6681,7 +6688,7 @@ msgstr "مهام متعثّرة"
 msgid "Sub-tasks"
 msgstr "المهام الفرعية"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:236
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:297
 msgid "Subject"
 msgstr ""
 
@@ -6693,8 +6700,8 @@ msgstr "باعتماد هذا يُدفع {0} مقابل {1} ساعة."
 msgid "Submitting this pays {0} {1} for {2} days of {3}."
 msgstr "الاعتماد يصرف لـ{0} مبلغ {1} مقابل {2} يوماً من {3}."
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:32
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:272
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:94
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:335
 msgid "Subscribe"
 msgstr "اشترك"
 
@@ -6755,7 +6762,7 @@ msgstr "موقوف"
 msgid "Suspended For"
 msgstr "مدة الإيقاف"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:291
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:354
 msgid "Switch Off"
 msgstr "إيقاف"
 
@@ -6812,6 +6819,7 @@ msgid "Task Type"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: onedesk/one_task/calendar.py:38
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Tasks"
 msgstr ""
@@ -7243,6 +7251,10 @@ msgstr "رابط التقويم هذا لم يعد يعمل."
 msgid "This cannot be changed later. Files stay where the workspace was built."
 msgstr "لا يمكن تغيير هذا لاحقاً. تبقى الملفات حيث أُنشئت مساحة العمل."
 
+#: onedesk/one_calendar/layers.py:130
+msgid "This cannot be moved on the calendar."
+msgstr "لا يمكن نقل هذا في التقويم."
+
 #: onedesk/public/js/setup_wizard.js:73
 msgid "This day and your country's public holidays become this year's holiday list."
 msgstr "يصبح هذا اليوم والعطل الرسمية في بلدك قائمة عطلات هذا العام."
@@ -7376,7 +7388,7 @@ msgstr "إلى من يهمه الأمر"
 msgid "To Win"
 msgstr "حتى الفوز"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:119
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:171
 #: onedesk/one_task/mine.py:23
 msgid "Today"
 msgstr ""
@@ -7706,7 +7718,7 @@ msgstr ""
 msgid "Video Generation"
 msgstr "توليد الفيديو"
 
-#: onedesk/public/js/project.js:9
+#: onedesk/public/js/project.js:10
 msgid "View"
 msgstr ""
 
@@ -7764,7 +7776,7 @@ msgstr "بانتظار التشغيل"
 msgid "Webhook Signing Secret"
 msgstr "سر توقيع الـ webhook"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:112
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:164
 msgid "Week"
 msgstr ""
 
@@ -8338,6 +8350,10 @@ msgstr "يمكنك تغيير هذا لاحقاً من إعداداتك الخا
 msgid "You can only ask for a letter about yourself."
 msgstr "يمكنك طلب خطاب عن نفسك فقط."
 
+#: onedesk/one_calendar/layers.py:75
+msgid "You cannot open {0} {1}."
+msgstr "لا يمكنك فتح {0} {1}."
+
 #: onedesk/one_hr/closing.py:99
 msgid "You checked in but never checked out, so a check out was written for you at the shift end. Tell HR if that is wrong."
 msgstr "سجّلت حضورك ولم تسجّل انصرافك، فكُتب لك سجل انصراف عند نهاية المناوبة. أبلغ الموارد البشرية إذا كان ذلك غير صحيح."
@@ -8364,7 +8380,7 @@ msgstr "لا يجوز لك {0} {1}."
 msgid "Your Instructions"
 msgstr "تعليماتك"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:300
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:363
 msgid "Your calendar link is switched off."
 msgstr "تم إيقاف رابط تقويمك."
 
@@ -8602,6 +8618,11 @@ msgstr "workers-ai"
 #: onedesk/www/start.py:105
 msgid "{0} AI credits a month"
 msgstr "{0} رصيد ذكاء اصطناعي شهرياً"
+
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:85
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:88
+msgid "{0} Calendar"
+msgstr ""
 
 #: onedesk/www/start.py:101
 msgid "{0} GB storage"
