@@ -93,3 +93,22 @@ def test_a_letters_kind_is_read_loosely():
 	assert kind("Experience") == "Experience Letter"
 	assert kind("a reference for my landlord") == "Other"
 	assert kind(None) == "Other"
+
+
+# ------------------------------------------------------------------ policy
+
+
+def test_a_long_note_is_handed_over_around_the_words_asked_about():
+	passage = _pure(HR / "ai_policy.py", "PASSAGE", "passage")["passage"]
+	note = "Welcome to the company. " * 40 + "Sick leave is fifteen days a year, paid in full. " + "Other things. " * 40
+	said = passage(note, ["sick"], most=200)
+	assert "Sick leave is fifteen days" in said
+	assert said.startswith("…") and len(said) <= 202
+	assert passage("Short note.", ["sick"]) == "Short note."
+
+
+def test_a_policy_answer_names_its_source():
+	source = (HR / "ai_policy.py").read_text(encoding="utf-8")
+	assert "name its source in brackets" in source
+	assert "do not answer from what is usual" in source
+	assert '"source": f"Leave Type: {one.name}"' in source

@@ -32,6 +32,12 @@ from onedesk.one_hr import own
 SUGGESTIONS = {
 	"Expense Claim": [
 		{
+			"label": _lt("What can I claim?"),
+			"ask": _lt("What can I claim as an expense here, and who has to approve it?"),
+			"can": "read",
+			"view": "List",
+		},
+		{
 			"label": _lt("Claim a receipt"),
 			"ask": _lt("Make an expense claim from this receipt."),
 			"file": True,
@@ -40,6 +46,13 @@ SUGGESTIONS = {
 		},
 	],
 	"Leave Application": [
+		{
+			"label": _lt("What is our leave policy?"),
+			"ask": _lt("What does our leave policy say — how many days of each kind do I get, what carries "
+			"forward, and which days are holidays?"),
+			"can": "read",
+			"view": "List",
+		},
 		{"label": _lt("Book time off"), "ask": _lt("Help me book time off."), "can": "create"},
 		{
 			"label": _lt("How much leave do I have?"),

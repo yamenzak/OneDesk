@@ -314,6 +314,7 @@ one_ai_reads = [
 	"onedesk.one_hr.ai.interview_facts",
 	"onedesk.one_hr.ai_payroll.payroll_changes",
 	"onedesk.one_hr.ai_letters.letter_facts",
+	"onedesk.one_hr.ai_policy.hr_policy",
 ]
 
 #: A sentence each about who is asking, added to what the model is told.
