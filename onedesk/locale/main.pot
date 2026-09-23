@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 18:39+0000\n"
-"PO-Revision-Date: 2026-09-23 18:39+0000\n"
+"POT-Creation-Date: 2026-09-23 18:44+0000\n"
+"PO-Revision-Date: 2026-09-23 18:44+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -419,16 +419,14 @@ msgstr ""
 msgid "Activity Type"
 msgstr ""
 
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:28
+#: onedesk/one_task/page/my_tasks/my_tasks.js:25
 #: onedesk/public/js/workspace_account.js:201
 msgid "Add"
 msgstr ""
 
 #: onedesk/public/js/workspace_account.js:16
 msgid "Add Domain"
-msgstr ""
-
-#: onedesk/one_task/page/my_tasks/my_tasks.js:23
-msgid "Add Task"
 msgstr ""
 
 #. Title of an Onboarding Step
@@ -449,7 +447,11 @@ msgstr ""
 msgid "Add a lead from each of these business cards."
 msgstr ""
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:31
+#: onedesk/one_task/page/my_tasks/my_tasks.js:64
+msgid "Add a task above, or ask for one to be assigned to you."
+msgstr ""
+
+#: onedesk/one_task/page/my_tasks/my_tasks.js:41
 msgid "Add a task and press Enter"
 msgstr ""
 
@@ -473,6 +475,11 @@ msgstr ""
 
 #: onedesk/one_crm/ai.py:105 onedesk/one_crm/ai.py:141
 msgid "Add leads from business cards"
+msgstr ""
+
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:28
+#: onedesk/one_task/page/my_tasks/my_tasks.js:25
+msgid "Add {0}"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Offering'
@@ -555,8 +562,8 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:56
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:232
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:61
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:237
 msgid "All Day"
 msgstr ""
 
@@ -658,7 +665,7 @@ msgstr ""
 msgid "Answers from your own records"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:283
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:289
 msgid "Anyone with the link can read your calendar."
 msgstr ""
 
@@ -671,7 +678,7 @@ msgstr ""
 msgid "Appearance"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:278
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:284
 msgid "Apple Calendar"
 msgstr ""
 
@@ -1220,7 +1227,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:9
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:97
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:102
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 msgid "Calendar"
 msgstr ""
@@ -1235,7 +1242,7 @@ msgstr ""
 msgid "Calendar Links"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:104
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:109
 msgid "Calendar View"
 msgstr ""
 
@@ -1597,7 +1604,7 @@ msgstr ""
 msgid "Compared as text with what the field holds now. A person's edit makes them differ, and the badge goes."
 msgstr ""
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:75
+#: onedesk/one_task/page/my_tasks/my_tasks.js:87
 #: onedesk/public/js/timesheet.js:76
 msgid "Complete"
 msgstr ""
@@ -1672,7 +1679,7 @@ msgstr ""
 msgid "Conversations"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:280
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:286
 msgid "Copy Link"
 msgstr ""
 
@@ -1828,7 +1835,7 @@ msgid "Date"
 msgstr ""
 
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:42
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:108
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:113
 msgid "Day"
 msgstr ""
 
@@ -1991,7 +1998,7 @@ msgstr ""
 #. Label of the description (Small Text) field in DocType 'Attendance Reason'
 #. Label of the description (Small Text) field in DocType 'Clock Reason'
 #: onedesk/one_admin/doctype/offering/offering.json
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:242
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:247
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
 msgid "Description"
@@ -2191,7 +2198,7 @@ msgstr ""
 msgid "Dropped"
 msgstr ""
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:34
+#: onedesk/one_task/page/my_tasks/my_tasks.js:44
 msgid "Due"
 msgstr ""
 
@@ -2438,7 +2445,7 @@ msgstr ""
 msgid "Ends"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:234
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:239
 msgid "Ends On"
 msgstr ""
 
@@ -2856,7 +2863,7 @@ msgid "Gone"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:277
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:283
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 msgid "Google Calendar"
 msgstr ""
@@ -3780,7 +3787,7 @@ msgstr ""
 msgid "Limits"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:109
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:114
 msgid "List"
 msgstr ""
 
@@ -3802,7 +3809,7 @@ msgid "Live On"
 msgstr ""
 
 #. Label of the place_section (Section Break) field in DocType 'Clock Attempt'
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:235
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:240
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Location"
 msgstr ""
@@ -4016,7 +4023,7 @@ msgstr ""
 msgid "Message"
 msgstr ""
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:72
+#: onedesk/one_task/page/my_tasks/my_tasks.js:84
 msgid "Milestone"
 msgstr ""
 
@@ -4052,7 +4059,7 @@ msgstr ""
 msgid "Models"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:106
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:111
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:20
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:24
 msgid "Month"
@@ -4182,8 +4189,7 @@ msgstr ""
 msgid "New"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:26
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:229
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:234
 msgid "New Event"
 msgstr ""
 
@@ -4192,7 +4198,7 @@ msgstr ""
 msgid "New Lead"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:284
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:290
 msgid "New Link"
 msgstr ""
 
@@ -4201,7 +4207,7 @@ msgstr ""
 msgid "New conversation"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:290
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:296
 msgid "New link made. The old one no longer works."
 msgstr ""
 
@@ -4214,7 +4220,7 @@ msgstr ""
 msgid "Newsletter"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:118
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:123
 msgid "Next"
 msgstr ""
 
@@ -4475,7 +4481,7 @@ msgstr ""
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr ""
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:54
+#: onedesk/one_task/page/my_tasks/my_tasks.js:63
 msgid "Nothing is assigned to you."
 msgstr ""
 
@@ -4483,7 +4489,7 @@ msgstr ""
 msgid "Nothing is spent and no attendance is marked."
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:57
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:62
 msgid "Nothing on these days."
 msgstr ""
 
@@ -4586,7 +4592,7 @@ msgstr ""
 msgid "On"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:239
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:244
 msgid "On Everybody's Calendar"
 msgstr ""
 
@@ -4990,7 +4996,7 @@ msgstr ""
 msgid "Outgoing"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:279
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:285
 msgid "Outlook"
 msgstr ""
 
@@ -5349,7 +5355,7 @@ msgstr ""
 msgid "Press Site"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:116
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:121
 msgid "Previous"
 msgstr ""
 
@@ -6041,7 +6047,7 @@ msgstr ""
 msgid "Sales Stage"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:244
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:249
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:52
 #: onedesk/public/js/crm_record.js:198 onedesk/public/js/next_step.js:31
 msgid "Save"
@@ -6118,7 +6124,7 @@ msgstr ""
 msgid "See the changes"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:275
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:281
 msgid "See this calendar in another app. Google Calendar updates it a few times a day, the others more often."
 msgstr ""
 
@@ -6458,7 +6464,7 @@ msgstr ""
 msgid "Starts At (Seconds)"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:233
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:238
 msgid "Starts On"
 msgstr ""
 
@@ -6626,7 +6632,7 @@ msgstr ""
 msgid "Stuck jobs"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:231
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:236
 msgid "Subject"
 msgstr ""
 
@@ -6638,8 +6644,8 @@ msgstr ""
 msgid "Submitting this pays {0} {1} for {2} days of {3}."
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:27
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:267
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:32
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:272
 msgid "Subscribe"
 msgstr ""
 
@@ -6700,7 +6706,7 @@ msgstr ""
 msgid "Suspended For"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:285
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:291
 msgid "Switch Off"
 msgstr ""
 
@@ -7308,7 +7314,7 @@ msgstr ""
 msgid "To Win"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:114
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:119
 #: onedesk/one_task/mine.py:23
 msgid "Today"
 msgstr ""
@@ -7692,7 +7698,7 @@ msgstr ""
 msgid "Webhook Signing Secret"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:107
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:112
 msgid "Week"
 msgstr ""
 
@@ -8290,7 +8296,7 @@ msgstr ""
 msgid "Your Instructions"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:294
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:300
 msgid "Your calendar link is switched off."
 msgstr ""
 

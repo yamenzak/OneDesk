@@ -20,23 +20,29 @@ frappe.provide("onedesk");
 onedesk.MyTasks = class MyTasks {
 	constructor(page) {
 		this.page = page;
-		page.set_primary_action(__("Add Task"), () => frappe.new_doc("Task"));
+		// The list view's own button: same label, same short label, same icon.
+		page.set_primary_action(
+			{ label: __("Add {0}", [__("Task")]), short_label: __("Add") },
+			() => frappe.new_doc("Task"),
+			"plus"
+		);
 		this.$body = $(`<div class="one-tasks">
-			<form class="one-tasks-add">
-				<input type="text" class="form-control one-tasks-subject" maxlength="140">
+			<div class="one-tasks-add">
+				<div class="one-tasks-subject"></div>
 				<div class="one-tasks-due"></div>
-			</form>
+			</div>
 			<div class="one-tasks-list"></div>
 		</div>`).appendTo(page.main);
-		this.$subject = this.$body.find(".one-tasks-subject").attr("placeholder", __("Add a task and press Enter"));
-		this.due = frappe.ui.form.make_control({
-			parent: this.$body.find(".one-tasks-due"),
-			df: { fieldtype: "Date", fieldname: "due", placeholder: __("Due") },
-			render_input: true,
+		const control = (parent, df) =>
+			frappe.ui.form.make_control({ parent: this.$body.find(parent), df, render_input: true });
+		this.subject = control(".one-tasks-subject", {
+			fieldtype: "Data",
+			fieldname: "subject",
+			placeholder: __("Add a task and press Enter"),
+			length: 140,
 		});
-		// Enter adds. A form with two fields and no button is never submitted by
-		// Enter, so it is listened for rather than left to the browser.
-		this.$body.find(".one-tasks-add").on("submit", (e) => e.preventDefault());
+		this.due = control(".one-tasks-due", { fieldtype: "Date", fieldname: "due", placeholder: __("Due") });
+		this.$subject = this.subject.$input;
 		this.$subject.on("keydown", (e) => {
 			if (e.key === "Enter") {
 				e.preventDefault();
@@ -51,20 +57,26 @@ onedesk.MyTasks = class MyTasks {
 		const groups = await frappe.xcall("onedesk.one_task.mine.tasks");
 		this.$list.empty();
 		if (!groups.length) {
-			this.$list.append(`<div class="one-tasks-empty">${__("Nothing is assigned to you.")}</div>`);
+			this.$list.append(
+				frappe.ui.empty_state({
+					icon: "list-checks",
+					title: __("Nothing is assigned to you."),
+					description: __("Add a task above, or ask for one to be assigned to you."),
+				})
+			);
 			return;
 		}
 		for (const group of groups) {
 			const $group = $(`<section class="one-tasks-group">
-				<h4 class="one-tasks-heading">${frappe.utils.escape_html(group.label)}
-					<span class="one-tasks-count">${group.tasks.length}</span></h4>
+				<div class="one-tasks-heading text-sm-semibold">${frappe.utils.escape_html(group.label)}
+					${frappe.ui.badge.html({ label: String(group.tasks.length), size: "sm" })}</div>
 			</section>`).appendTo(this.$list);
 			for (const task of group.tasks) $group.append(this.row(task, group.key));
 		}
 	}
 
 	row(task, group) {
-		const pressing = { Urgent: "red", High: "orange" }[task.priority];
+		const pressing = { Urgent: "red", High: "amber" }[task.priority];
 		const bits = [];
 		if (task.project) {
 			bits.push(`<a class="one-tasks-project" href="/desk/project/${encodeURIComponent(task.project)}">${frappe.utils.escape_html(task.project_title)}</a>`);
@@ -73,9 +85,9 @@ onedesk.MyTasks = class MyTasks {
 		if (task.due) bits.push(`<span class="${group === "overdue" ? "one-tasks-late" : ""}">${this.day(task.due, group)}</span>`);
 		return $(`<div class="one-tasks-row" data-name="${frappe.utils.escape_html(task.name)}">
 			<input type="checkbox" class="one-tasks-tick" title="${__("Complete")}">
-			<a class="one-tasks-title" href="/desk/task/${encodeURIComponent(task.name)}">${frappe.utils.escape_html(task.subject)}</a>
-			${pressing ? `<span class="indicator-pill ${pressing}">${__(task.priority)}</span>` : ""}
-			<span class="one-tasks-about">${bits.join(`<span class="one-tasks-dot">·</span>`)}</span>
+			<a class="one-tasks-title truncate" href="/desk/task/${encodeURIComponent(task.name)}">${frappe.utils.escape_html(task.subject)}</a>
+			${pressing ? frappe.ui.badge.html({ label: __(task.priority), theme: pressing, size: "sm" }) : ""}
+			<span class="one-tasks-about text-sm">${bits.join(`<span class="one-tasks-dot">·</span>`)}</span>
 		</div>`);
 	}
 
@@ -88,12 +100,12 @@ onedesk.MyTasks = class MyTasks {
 	}
 
 	async add() {
-		const subject = this.$subject.val().trim();
+		const subject = (this.subject.get_value() || "").trim();
 		if (!subject) return;
 		this.$subject.prop("disabled", true);
 		try {
 			await frappe.db.insert({ doctype: "Task", subject, exp_end_date: this.due.get_value() || null });
-			this.$subject.val("");
+			this.subject.set_value("");
 			this.due.set_value("");
 			await this.refresh();
 		} finally {

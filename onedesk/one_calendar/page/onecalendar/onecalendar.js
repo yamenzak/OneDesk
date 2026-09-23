@@ -23,8 +23,13 @@ onedesk.CALENDAR_PUBLISHERS = ["Workspace Administrator", "HR Manager"];
 onedesk.OneCalendar = class OneCalendar {
 	constructor(page) {
 		this.page = page;
-		page.set_primary_action(__("New Event"), () => this.new_event());
-		page.set_secondary_action(__("Subscribe"), () => this.subscribe());
+		// The list view's own button: same label, same short label, same icon.
+		page.set_primary_action(
+			{ label: __("Add {0}", [__("Event")]), short_label: __("Add") },
+			() => this.new_event(),
+			"plus"
+		);
+		page.set_secondary_action(__("Subscribe"), () => this.subscribe(), "rss");
 		this.$body = $(`<div class="one-calendar">
 			<aside class="one-calendar-layers"></aside>
 			<div class="one-calendar-main">
@@ -268,18 +273,19 @@ onedesk.OneCalendar = class OneCalendar {
 		const draw = (link) => {
 			const google = `https://calendar.google.com/calendar/render?cid=${encodeURIComponent(link.webcal)}`;
 			const outlook = `https://outlook.office.com/calendar/0/addfromweb?url=${encodeURIComponent(link.https)}&name=${encodeURIComponent(link.name)}`;
-			// Each app's own mark, from brand/others (registered as Custom Icons).
+			// Each app's own mark, from brand/others (registered as Custom Icons), on
+			// an espresso button drawn as a link, as frappe.ui.empty_state draws one.
 			const button = (href, icon, label) =>
-				`<a class="btn btn-default btn-sm" href="${href}" target="_blank" rel="noopener">${frappe.utils.icon(icon, "sm")} ${label}</a>`;
+				`<a class="es-button" href="${href}" target="_blank" rel="noopener">${frappe.utils.icon(icon, "sm")}<span class="es-button__label">${label}</span></a>`;
 			dialog.$body.html(`
-				<p class="text-muted small">${__("See this calendar in another app. Google Calendar updates it a few times a day, the others more often.")}</p>
+				<p class="text-p-sm one-calendar-said">${__("See this calendar in another app. Google Calendar updates it a few times a day, the others more often.")}</p>
 				<div class="one-calendar-apps">
 					${button(google, "google-calendar", __("Google Calendar"))}
 					${button(link.webcal, "apple-calendar", __("Apple Calendar"))}
 					${button(outlook, "outlook", __("Outlook"))}
-					<button class="btn btn-default btn-sm one-calendar-copy">${__("Copy Link")}</button>
+					${frappe.ui.button.html({ label: __("Copy Link"), icon: "copy", css_class: "one-calendar-copy" })}
 				</div>
-				<p class="text-muted small one-calendar-private">
+				<p class="text-p-sm one-calendar-said one-calendar-private">
 					${__("Anyone with the link can read your calendar.")}
 					<a class="one-calendar-renew">${__("New Link")}</a> ·
 					<a class="one-calendar-stop">${__("Switch Off")}</a>
@@ -287,11 +293,11 @@ onedesk.OneCalendar = class OneCalendar {
 			dialog.$body.find(".one-calendar-copy").on("click", () => frappe.utils.copy_to_clipboard(link.https));
 			dialog.$body.find(".one-calendar-renew").on("click", async () => {
 				draw(await frappe.xcall("onedesk.one_calendar.feed.renew"));
-				frappe.show_alert({ message: __("New link made. The old one no longer works."), indicator: "green" });
+				frappe.ui.toast({ message: __("New link made. The old one no longer works."), type: "success" });
 			});
 			dialog.$body.find(".one-calendar-stop").on("click", async () => {
 				await frappe.xcall("onedesk.one_calendar.feed.stop");
-				frappe.show_alert({ message: __("Your calendar link is switched off."), indicator: "orange" });
+				frappe.ui.toast({ message: __("Your calendar link is switched off."), type: "warning" });
 				dialog.hide();
 			});
 		};

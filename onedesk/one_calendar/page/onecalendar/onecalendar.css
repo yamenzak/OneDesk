@@ -1,15 +1,15 @@
 .one-calendar {
 	display: flex;
-	gap: var(--padding-lg);
+	gap: calc(var(--spacing) * 5);
 	height: calc(100vh - 150px);
 	min-height: 520px;
-	padding: var(--padding-md) 0;
+	padding: calc(var(--spacing) * 4) 0;
 }
 
 .one-calendar-layers {
-	flex: 0 0 200px;
+	flex: 0 0 220px;
 	overflow-y: auto;
-	padding-inline-start: var(--padding-md);
+	padding-inline-start: calc(var(--spacing) * 4);
 }
 
 .one-calendar-main {
@@ -18,10 +18,10 @@
 }
 
 .one-calendar-group {
-	color: var(--text-muted);
+	color: var(--ink-gray-5);
 	font-size: var(--text-sm);
-	font-weight: 600;
-	margin: var(--margin-md) 0 var(--margin-xs);
+	font-weight: var(--font-weight-semibold);
+	margin: calc(var(--spacing) * 4) 0 calc(var(--spacing) * 1);
 }
 
 .one-calendar-group:first-child {
@@ -33,7 +33,7 @@
 	cursor: pointer;
 	display: flex;
 	font-weight: normal;
-	gap: var(--margin-sm);
+	gap: calc(var(--spacing) * 2);
 	margin: 0;
 	padding: 3px 0;
 }
@@ -73,8 +73,8 @@
 .one-calendar-toolbar {
 	align-items: center;
 	display: flex;
-	gap: var(--margin-sm);
-	padding-bottom: var(--padding-sm);
+	gap: calc(var(--spacing) * 2);
+	padding-bottom: calc(var(--spacing) * 2);
 }
 
 .one-calendar-grid {
@@ -102,4 +102,16 @@
 /* Half an hour tall enough for one line of text. */
 .one-calendar .fc .fc-timegrid-slot {
 	height: 28px;
+}
+
+/* The Subscribe dialog: a row of app buttons between two lines of text. */
+.one-calendar-said {
+	color: var(--ink-gray-5);
+}
+
+.one-calendar-apps {
+	display: flex;
+	flex-wrap: wrap;
+	gap: calc(var(--spacing) * 2);
+	margin-bottom: calc(var(--spacing) * 3);
 }
