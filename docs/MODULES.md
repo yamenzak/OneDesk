@@ -243,6 +243,8 @@ No doctypes yet.
 * `onedesk.one_hr.signin.finish`
 * `onedesk.one_hr.signin.offered`
 * `onedesk.one_inventory.assets.said`
+* `onedesk.one_inventory.custody.give`
+* `onedesk.one_inventory.custody.take_back`
 * `onedesk.one_inventory.item.said`
 * `onedesk.one_inventory.order.order`
 * `onedesk.one_inventory.ready.fix`

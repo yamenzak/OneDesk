@@ -117,6 +117,15 @@ could not register itself, and each says why on its page.
 
 Equipment you already had is **Assets › + Add** with **Existing Asset**.
 
+## Who has what
+
+On an asset's page, **Give To…** asks for the employee and hands it over;
+once somebody has it, **Hand To…** passes it to somebody else and **Take
+Back** returns it to a location. The band says **Who Has It**, and the
+person's own page says how much equipment they hold. When somebody leaves,
+their separation gets a **Return** task for each thing they hold, and their
+final settlement cannot be submitted until everything is back.
+
 ## Counting stock
 
 **Stock Counts › + Add**, choose the warehouse, and **Fetch Items from
@@ -180,6 +189,14 @@ a register and a movement form in it would be a rail with five rows.
   at the end of that month rather than the today ERPNext's `get_item_details`
   stamps, then submitted. A failure rolls back to a savepoint, leaves the
   draft, and comments why; the receipt is never blocked by it.
+- `custody.py` — who has what. ERPNext changes an asset's custodian only
+  through an Asset Movement, a form whose columns matter or not by purpose;
+  **Give To…** is an Issue and **Take Back** a Receipt, one step each, so the
+  asset's history is still ERPNext's. `held` feeds the employee's band
+  (one_hr/employee.py). `leaving` (Employee Separation before_submit) adds a
+  Return activity per asset for the Stock Manager role (`returns`, pure);
+  HRMS turns activities into tasks on submit, and its Full and Final
+  Statement already refuses to submit while an asset is out.
 - `ready.py` and `report/inventory_check` — the Inventory Check, the Books
   Check's twin, drawn by the same page (`public/js/check.js`). What a new
   company is missing is an asset's two prerequisites: a Location (an Asset
@@ -213,6 +230,6 @@ a register and a movement form in it would be a rail with five rows.
    their purchase and category, and an asset's page says what it is worth. *Done.*
 6. **Assets: who has what.** Give an asset to an employee and take it back in
    one step; an employee's page lists what they hold, and leaving asks for it
-   back.
+   back. *Done.*
 7. **Assets: maintenance.** What is due for a service, on the calendar and in
    the owner's tasks.

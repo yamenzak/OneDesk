@@ -192,7 +192,11 @@ doc_events = {
 		# The checklist's project is typed a boarding, and left out of OneProject.
 		"on_submit": "onedesk.one_hr.lifecycle.typed",
 	},
-	"Employee Separation": {"on_submit": "onedesk.one_hr.lifecycle.typed"},
+	# Leaving asks for the equipment back. See one_inventory/custody.py.
+	"Employee Separation": {
+		"before_submit": "onedesk.one_inventory.custody.leaving",
+		"on_submit": "onedesk.one_hr.lifecycle.typed",
+	},
 	# A task of nobody's is its maker's. See one_task/capture.py.
 	# A sub-task's parent is a group and its project is the parent's, and a
 	# checklist is the progress. See one_task/task.py.

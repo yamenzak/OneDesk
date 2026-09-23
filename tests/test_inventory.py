@@ -158,3 +158,26 @@ def test_a_receipt_registers_the_assets_it_made():
 	assert '"Item": {"validate": "onedesk.one_inventory.assets.fixed_item"}' in hooks
 	source = (tree.APP / "one_inventory" / "assets.py").read_text(encoding="utf-8")
 	assert 'savepoint("one_asset")' in source and 'rollback(save_point="one_asset")' in source
+
+
+def test_leaving_asks_for_each_asset_back_once():
+	import ast
+
+	source = (tree.APP / "one_inventory" / "custody.py").read_text(encoding="utf-8")
+	space = {"_": lambda text: text}
+	for node in ast.parse(source).body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "KEEPER":
+			exec(ast.unparse(node), space)
+		if isinstance(node, ast.FunctionDef) and node.name == "returns":
+			exec(ast.unparse(node), space)
+	held = [{"name": "ACC-ASS-1", "asset_name": "Laptop"}, {"name": "ACC-ASS-2", "asset_name": "Phone"}]
+	made = space["returns"](held, {"Return Laptop (ACC-ASS-1)"})
+	assert [row["activity_name"] for row in made] == ["Return Phone (ACC-ASS-2)"]
+	assert made[0]["role"] == "Stock Manager"
+
+
+def test_custody_is_wired_to_the_asset_the_employee_and_leaving():
+	hooks = (tree.APP / "hooks.py").read_text()
+	assert '"before_submit": "onedesk.one_inventory.custody.leaving"' in hooks
+	assert '"Asset": "public/js/asset.js"' in hooks
+	assert "_equipment(doc)" in (tree.APP / "one_hr" / "employee.py").read_text()

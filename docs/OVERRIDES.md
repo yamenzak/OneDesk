@@ -159,5 +159,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | A fixed-asset item makes its assets when bought | ERPNext makes none unless the item also has auto_create_assets and a naming series | `onedesk/one_inventory/assets.py` | `erpnext/erpnext/controllers/buying_controller.py` | `if item_data.get("auto_create_assets"):` |
 | The assets a receipt makes are finished and submitted | ERPNext makes each a Draft with depreciation off | `onedesk/one_inventory/assets.py` | `erpnext/erpnext/controllers/buying_controller.py` | `"calculate_depreciation": 0,` |
 | A finished asset depreciates from the end of the month it was bought | the category's books are copied with today as the first depreciation date | `onedesk/one_inventory/assets.py` | `erpnext/erpnext/assets/doctype/asset/asset.py` | `"depreciation_start_date": d.depreciation_start_date or nowdate(),` |
+| Leaving adds a Return activity per asset held | HRMS turns a separation's activities into tasks on submit, after before_submit has added ours | `onedesk/one_inventory/custody.py` | `hrms/hrms/controllers/employee_boarding_controller.py` | `def create_task_and_notify_user(self):` |
+| Give To and Take Back are ERPNext's own movements | the custodian is set from the latest submitted movement's to_employee | `onedesk/one_inventory/custody.py` | `erpnext/erpnext/assets/doctype/asset_movement/asset_movement.py` | `def set_latest_location_and_custodian_in_asset(self):` |
 
-154 overrides.
+156 overrides.

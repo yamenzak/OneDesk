@@ -133,4 +133,5 @@ def said(asset: str) -> dict:
 		"frequency": book.frequency_of_depreciation if book else 0,
 		"next": upcoming,
 		"depreciates": bool(doc.calculate_depreciation),
+		"custodian_name": frappe.db.get_value("Employee", doc.custodian, "employee_name") if doc.custodian else None,
 	}

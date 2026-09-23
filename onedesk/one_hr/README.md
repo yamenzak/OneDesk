@@ -40,7 +40,8 @@ payroll" on a payroll entry. No OneAI button is ever put on a page itself. See
 An employee's record answers the questions people open it for before anybody
 clicks anything: where they are today, how much leave they have left, what is
 waiting on an approver, what they are paid under, and how long they have been
-here. Each answer links to the record it came from.
+here — and, when they hold any, how much of the company's equipment they
+have. Each answer links to the record it came from.
 
 **Identity Documents** — passport, national ID, residence permit, work permit,
 visa, driving licence — each with its number, issue and expiry dates and a
@@ -358,7 +359,9 @@ designation, so it can be filtered.
 
 **Onboarding** needs a Job Offer, and the first one a workspace submits goes
 through: the holiday list and the project dates are taken care of.
-**Separation** shows its status in the list.
+**Separation** shows its status in the list. Submitting one adds a **Return**
+task for each asset the person holds (a laptop, a phone), for whoever looks
+after the company's equipment; see OneInventory.
 
 **Grievance.** Each new grievance is read by OneAI: a neutral summary, a
 category and an urgency. One about harassment, discrimination or safety is

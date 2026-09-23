@@ -55,7 +55,18 @@ def overview(employee: str) -> dict:
 		"awaiting": _awaiting(doc),
 		"pay": _pay(doc),
 		"passkey": _passkey(doc),
+		"equipment": _equipment(doc),
 	}
+
+
+def _equipment(doc) -> int:
+	"""How many of the company's assets the person holds. See
+	one_inventory/custody.py."""
+	if not frappe.has_permission("Asset", "read"):
+		return 0
+	from onedesk.one_inventory.custody import held
+
+	return len(held(doc.name))
 
 
 def _standing(doc) -> dict | None:

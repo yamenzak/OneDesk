@@ -161,6 +161,13 @@ onedesk.employee.stats = (data) => {
 		));
 	}
 
+	// What of the company's they hold, only when they hold something. See
+	// one_inventory/custody.py.
+	if (data.equipment) {
+		stats.push(onedesk.band.stat(__("Equipment"), __("{0} held", [data.equipment]),
+			`/desk/asset?custodian=${encodeURIComponent(cur_frm.doc.name)}`));
+	}
+
 	// Date of Joining is a field on the Overview tab two centimetres away, and
 	// six stats fill the grid's two rows exactly where seven left one adrift.
 	if (data.pay && data.pay.salary_structure) {

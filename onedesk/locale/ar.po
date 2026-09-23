@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 23:04+0000\n"
-"PO-Revision-Date: 2026-09-23 23:04+0000\n"
+"POT-Creation-Date: 2026-09-23 23:09+0000\n"
+"PO-Revision-Date: 2026-09-23 23:09+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -801,7 +801,7 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-#: onedesk/public/js/employee.js:179
+#: onedesk/public/js/employee.js:186
 msgid "Apply for Leave"
 msgstr "تقديم طلب إجازة"
 
@@ -1012,7 +1012,7 @@ msgstr "الأصول المشتراة مسجّلة وتُهلك تلقائيًا
 msgid "Assets have categories"
 msgstr "للأصول فئات"
 
-#: onedesk/public/js/employee.js:184
+#: onedesk/public/js/employee.js:191
 msgid "Assign a Salary Structure"
 msgstr "إسناد هيكل راتب"
 
@@ -1675,7 +1675,7 @@ msgstr "سجّل الحضور"
 msgid "Checked Out"
 msgstr "سجّل الانصراف"
 
-#: onedesk/one_hr/employee.py:136 onedesk/one_hr/presence.py:211
+#: onedesk/one_hr/employee.py:147 onedesk/one_hr/presence.py:211
 msgid "Checked in"
 msgstr "سجّل الحضور"
 
@@ -1683,7 +1683,7 @@ msgstr "سجّل الحضور"
 msgid "Checked in {0}"
 msgstr "سجّل الحضور {0}"
 
-#: onedesk/one_hr/employee.py:152 onedesk/one_hr/presence.py:206
+#: onedesk/one_hr/employee.py:163 onedesk/one_hr/presence.py:206
 msgid "Checked out"
 msgstr "سجّل الانصراف"
 
@@ -1739,7 +1739,7 @@ msgstr "المدينة"
 msgid "Claim a receipt"
 msgstr "قدّم إيصالًا للمطالبة"
 
-#: onedesk/public/js/employee.js:180
+#: onedesk/public/js/employee.js:187
 msgid "Claim an Expense"
 msgstr "المطالبة بمصروف"
 
@@ -1950,7 +1950,7 @@ msgstr "المحادثات"
 msgid "Copy Link"
 msgstr ""
 
-#: onedesk/public/js/asset.js:21 onedesk/public/js/project.js:75
+#: onedesk/public/js/asset.js:22 onedesk/public/js/project.js:75
 msgid "Cost"
 msgstr "التكلفة"
 
@@ -2312,7 +2312,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
-#: onedesk/public/js/asset.js:23 onedesk/public/js/asset.js:32
+#: onedesk/public/js/asset.js:24 onedesk/public/js/asset.js:33
 msgid "Depreciation"
 msgstr "الإهلاك"
 
@@ -2391,7 +2391,7 @@ msgstr "أنفّذ هذا الآن باسمك؟"
 msgid "Document Type"
 msgstr ""
 
-#: onedesk/public/js/asset.js:32
+#: onedesk/public/js/asset.js:33
 msgid "Does not depreciate"
 msgstr "لا يُهلك"
 
@@ -2648,7 +2648,7 @@ msgstr "الإمارة"
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:233
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:65
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:166
-#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/public/js/asset.js:58
 #: onedesk/public/js/leave_control_panel.js:33 onedesk/public/js/overtime.js:14
 msgid "Employee"
 msgstr "الموظف"
@@ -2830,6 +2830,10 @@ msgstr "أدخل ساعات العمل الإضافي."
 #: onedesk/one_book/vat.py:85
 msgid "Enter the street address."
 msgstr "أدخل عنوان الشارع."
+
+#: onedesk/public/js/employee.js:167
+msgid "Equipment"
+msgstr "المعدات"
 
 #. Label of the error (Small Text) field in DocType 'Provisioning Job'
 #. Label of the error (Small Text) field in DocType 'Stripe Webhook Event'
@@ -3260,9 +3264,17 @@ msgstr "تواصل معنا"
 msgid "Get in Touch Form"
 msgstr "نموذج تواصل معنا"
 
-#: onedesk/public/js/tenant.js:126
+#: onedesk/public/js/asset.js:62 onedesk/public/js/tenant.js:126
 msgid "Give"
 msgstr "امنح"
+
+#: onedesk/public/js/asset.js:61
+msgid "Give To"
+msgstr "إعطاء إلى"
+
+#: onedesk/public/js/asset.js:56
+msgid "Give To…"
+msgstr "إعطاء إلى…"
 
 #: onedesk/public/js/tenant.js:89 onedesk/public/js/tenant.js:107
 msgid "Give credits"
@@ -3276,6 +3288,10 @@ msgstr "حدّد عميلًا لـ {0} لفوترة وقته."
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Given"
 msgstr "مُقدَّم"
+
+#: onedesk/public/js/asset.js:60
+msgid "Given."
+msgstr "تم التسليم."
 
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Account Request'
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Tenant'
@@ -3418,6 +3434,14 @@ msgstr ""
 msgid "Half day"
 msgstr "نصف يوم"
 
+#: onedesk/public/js/asset.js:61
+msgid "Hand To Somebody Else"
+msgstr "تسليم إلى شخص آخر"
+
+#: onedesk/public/js/asset.js:56
+msgid "Hand To…"
+msgstr "تسليم إلى…"
+
 #. Label of the handled (Check) field in DocType 'Stripe Webhook Event'
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
 msgid "Handled"
@@ -3483,7 +3507,7 @@ msgstr "التوظيف"
 msgid "Hiring Pipeline"
 msgstr "مسار التوظيف"
 
-#: onedesk/one_hr/employee.py:111 onedesk/one_hr/employee.py:268
+#: onedesk/one_hr/employee.py:122 onedesk/one_hr/employee.py:279
 #: onedesk/one_hr/presence.py:181 onedesk/public/js/employee.js:48
 msgid "Holiday"
 msgstr "عطلة"
@@ -3982,6 +4006,10 @@ msgstr ""
 #: onedesk/public/js/oneai/Panel.vue:321
 msgid "Kept"
 msgstr "محفوظة"
+
+#: onedesk/public/js/asset.js:68
+msgid "Kept At"
+msgstr "محفوظ في"
 
 #. Label of the key (Data) field in DocType 'Offering'
 #. Label of the key (Data) field in DocType 'AI Action'
@@ -4916,7 +4944,7 @@ msgstr ""
 msgid "Next 7 Days"
 msgstr ""
 
-#: onedesk/public/js/asset.js:28 onedesk/public/js/asset.js:29
+#: onedesk/public/js/asset.js:29 onedesk/public/js/asset.js:30
 msgid "Next Depreciation"
 msgstr "الإهلاك التالي"
 
@@ -5079,6 +5107,10 @@ msgstr "لم تنتهِ أي سنة بقيود مفتوحة."
 msgid "No {0} bucket is configured."
 msgstr "لم تُضبط حاوية {0}."
 
+#: onedesk/public/js/asset.js:40
+msgid "Nobody"
+msgstr "لا أحد"
+
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:265
 msgid "Nobody Applied"
 msgstr "لم يتقدم أحد"
@@ -5086,6 +5118,10 @@ msgstr "لم يتقدم أحد"
 #: onedesk/public/js/shift_request.js:40
 msgid "Nobody can approve a shift request for {0}. Set a Shift Request Approver on their Employee record first."
 msgstr "لا أحد يستطيع اعتماد طلب مناوبة لـ {0}. عيّن معتمد طلبات المناوبة في سجل الموظف أولاً."
+
+#: onedesk/one_inventory/custody.py:59
+msgid "Nobody has it."
+msgstr "لا أحد لديه."
 
 #: onedesk/one_book/ready.py:158
 msgid "Nobody is reminded of an unpaid invoice. The fix mails the customer a week after it falls due."
@@ -5095,7 +5131,7 @@ msgstr "لا أحد يُذكَّر بفاتورة غير مدفوعة. الإص�
 msgid "Nobody on this list checked in"
 msgstr "لم يسجّل أحد في هذه القائمة حضوره"
 
-#: onedesk/public/js/asset.js:29
+#: onedesk/public/js/asset.js:30
 msgid "None left"
 msgstr "لم يتبقَّ شيء"
 
@@ -5145,7 +5181,7 @@ msgstr "ليست مساحة عمل يديرها هذا الموقع."
 msgid "Not answered"
 msgstr "لم يُجب"
 
-#: onedesk/one_hr/employee.py:153
+#: onedesk/one_hr/employee.py:164
 msgid "Not checked in"
 msgstr "لم يسجّل الحضور"
 
@@ -5291,7 +5327,7 @@ msgstr ""
 msgid "Now"
 msgstr ""
 
-#: onedesk/public/js/asset.js:34
+#: onedesk/public/js/asset.js:35
 msgid "Nowhere yet"
 msgstr "لا مكان بعد"
 
@@ -5393,7 +5429,7 @@ msgstr "المعروض للبيع"
 msgid "On Track"
 msgstr ""
 
-#: onedesk/one_hr/employee.py:126 onedesk/one_hr/presence.py:150
+#: onedesk/one_hr/employee.py:137 onedesk/one_hr/presence.py:150
 #: onedesk/one_hr/presence.py:252 onedesk/public/js/employee.js:46
 msgid "On leave"
 msgstr "في إجازة"
@@ -5955,7 +5991,7 @@ msgstr "تاريخ الدفع"
 msgid "Paid and not built"
 msgstr "دُفع ولم يُبنَ"
 
-#: onedesk/public/js/employee.js:167
+#: onedesk/public/js/employee.js:174
 msgid "Paid under"
 msgstr "يُدفع وفق"
 
@@ -5992,7 +6028,7 @@ msgstr "الأجزاء"
 msgid "Passkey"
 msgstr "مفتاح المرور"
 
-#: onedesk/public/js/employee.js:201
+#: onedesk/public/js/employee.js:208
 msgid "Passkey reset"
 msgstr "أُعيد تعيين مفتاح المرور"
 
@@ -6704,7 +6740,7 @@ msgstr "تسجيل"
 msgid "Record As Of"
 msgstr "السجل كما كان في"
 
-#: onedesk/public/js/attendance.js:8 onedesk/public/js/employee.js:223
+#: onedesk/public/js/attendance.js:8 onedesk/public/js/employee.js:230
 #: onedesk/public/js/overtime.js:10
 msgid "Record Overtime"
 msgstr "تسجيل عمل إضافي"
@@ -6995,7 +7031,7 @@ msgstr "يتطلب وجود مستخدم مرتبط بسجل الموظف."
 msgid "Reset"
 msgstr ""
 
-#: onedesk/public/js/employee.js:192
+#: onedesk/public/js/employee.js:199
 msgid "Reset Passkey"
 msgstr "إعادة تعيين مفتاح المرور"
 
@@ -7028,6 +7064,10 @@ msgstr ""
 #: onedesk/public/js/timesheet.js:40
 msgid "Resume Timer"
 msgstr ""
+
+#: onedesk/one_inventory/custody.py:76
+msgid "Return {0} ({1})"
+msgstr "إرجاع {0} ({1})"
 
 #. Label of the review_section (Section Break) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -7607,7 +7647,7 @@ msgstr "يبدأ عند (ثوانٍ)"
 msgid "Starts On"
 msgstr "يبدأ في"
 
-#: onedesk/public/js/asset.js:23
+#: onedesk/public/js/asset.js:24
 msgid "Starts when registered"
 msgstr "يبدأ عند التسجيل"
 
@@ -7991,6 +8031,11 @@ msgstr ""
 msgid "TRN"
 msgstr "الرقم الضريبي"
 
+#: onedesk/public/js/asset.js:66 onedesk/public/js/asset.js:71
+#: onedesk/public/js/asset.js:72
+msgid "Take Back"
+msgstr "استرجاع"
+
 #: onedesk/public/js/crm_record.js:36
 msgid "Take This Deal"
 msgstr "تولَّ هذه الصفقة"
@@ -7998,6 +8043,14 @@ msgstr "تولَّ هذه الصفقة"
 #: onedesk/public/js/crm_record.js:36
 msgid "Take This Lead"
 msgstr "تولَّ هذا العميل المحتمل"
+
+#: onedesk/one_inventory/custody.py:78
+msgid "Take back {0} and record it with Take Back on the asset's page."
+msgstr "استرجع {0} وسجّل ذلك بزر الاسترجاع في صفحة الأصل."
+
+#: onedesk/public/js/asset.js:70
+msgid "Taken back."
+msgstr "تم الاسترجاع."
 
 #. Description of the 'Inputs' (Section Break) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -9267,7 +9320,7 @@ msgstr ""
 msgid "Weekly Off"
 msgstr ""
 
-#: onedesk/one_hr/employee.py:266
+#: onedesk/one_hr/employee.py:277
 msgid "Weekly off"
 msgstr "راحة أسبوعية"
 
@@ -9504,7 +9557,7 @@ msgstr "وقت هذه المناوبة، مقروءاً من نوع المناو
 
 #. Label of the where_section (Section Break) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
-#: onedesk/public/js/asset.js:34
+#: onedesk/public/js/asset.js:35
 msgid "Where"
 msgstr "الموقع"
 
@@ -9549,6 +9602,10 @@ msgstr "أي الصفقات المفتوحة هدأت: لم يتحدث إليه�
 #: onedesk/one_crm/ai.py:120
 msgid "Which open leads are waiting on us: nobody has spoken to them for a week and nothing is planned?"
 msgstr "أي العملاء المحتملين المفتوحين ينتظروننا: لم يتحدث إليهم أحد منذ أسبوع ولا شيء مخطط له؟"
+
+#: onedesk/public/js/asset.js:39 onedesk/public/js/asset.js:40
+msgid "Who Has It"
+msgstr "مع مَن"
 
 #: onedesk/one_inventory/report/to_order/to_order.js:29
 msgid "Who Supplies the Rest?"
@@ -9771,7 +9828,7 @@ msgstr "لن تعود مساحات العمل قادرة على اختيار ه�
 msgid "Worth"
 msgstr "القيمة"
 
-#: onedesk/public/js/asset.js:21
+#: onedesk/public/js/asset.js:22
 msgid "Worth Now"
 msgstr "القيمة الآن"
 
@@ -9848,7 +9905,7 @@ msgstr "كتابة"
 msgid "Writing it down again. The transcript and my remarks follow when I am done."
 msgstr "أفرّغه كتابيًا من جديد. سيتبع النص وتعليقاتي عند الانتهاء."
 
-#: onedesk/public/js/asset.js:25
+#: onedesk/public/js/asset.js:26
 msgid "Written Off"
 msgstr "المُهلك"
 
@@ -10212,6 +10269,10 @@ msgstr "{0} يخص {1} بالفعل."
 msgid "{0} already has a workspace. Resume its job instead."
 msgstr "لدى {0} مساحة عمل بالفعل. استأنف مهمتها بدلاً من ذلك."
 
+#: onedesk/one_inventory/custody.py:50
+msgid "{0} already has it."
+msgstr "{0} لديه بالفعل."
+
 #: onedesk/one_project/naming.py:35
 msgid "{0} already names the tasks of {1}."
 msgstr "{0} تُسمّي بالفعل مهام {1}."
@@ -10403,6 +10464,10 @@ msgstr "{0} لم تفشل."
 msgid "{0} has {1} credits, {2} of them promised to calls in flight."
 msgstr "لدى {0} رصيد {1}، منها {2} محجوزة لنداءات قيد التنفيذ."
 
+#: onedesk/public/js/employee.js:167
+msgid "{0} held"
+msgstr "{0} بحوزته"
+
 #: onedesk/public/js/crm_record.js:151 onedesk/public/js/employee.js:109
 msgid "{0} hours"
 msgstr ""
@@ -10544,7 +10609,7 @@ msgstr "منها {0} تعمل."
 msgid "{0} of {1}"
 msgstr ""
 
-#: onedesk/public/js/asset.js:25
+#: onedesk/public/js/asset.js:26
 msgid "{0} of {1} months"
 msgstr "{0} من {1} شهرًا"
 
@@ -10572,7 +10637,7 @@ msgstr "{0} على عدّاد المسافة منذ السجل السابق، م
 msgid "{0} on the odometer since the last log."
 msgstr "{0} على عدّاد المسافة منذ السجل السابق."
 
-#: onedesk/one_ai/proposals.py:413 onedesk/public/js/asset.js:28
+#: onedesk/one_ai/proposals.py:413 onedesk/public/js/asset.js:29
 msgid "{0} on {1}"
 msgstr "{0} على {1}"
 
@@ -10638,7 +10703,7 @@ msgid "{0} will not be able to check in or register another passkey."
 msgstr "لن يتمكن {0} من تسجيل الحضور أو تسجيل مفتاح مرور آخر."
 
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:14
-#: onedesk/public/js/employee.js:194
+#: onedesk/public/js/employee.js:201
 msgid "{0} will register a new passkey on their next check-in. The old one is retired, not deleted."
 msgstr "سيسجّل {0} مفتاح مرور جديداً عند تسجيل حضوره التالي. ويُسحب المفتاح القديم من الخدمة ولا يُحذف."
 
