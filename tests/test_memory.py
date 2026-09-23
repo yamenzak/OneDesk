@@ -138,3 +138,9 @@ def test_each_call_shows_its_own_answer():
 	chat = (tree.APP / "one_ai" / "chat.py").read_text()
 	shown = _body(chat, "shown")
 	assert "_answering(call" in shown and 'call.get("id")' not in shown
+
+
+def test_keeping_a_memory_is_not_drawn_in_the_conversation():
+	chat = (tree.APP / "one_ai" / "chat.py").read_text()
+	assert 'QUIET_TOOLS = ("remember",)' in chat
+	assert "not in QUIET_TOOLS" in _body(chat, "shown")

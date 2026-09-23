@@ -231,22 +231,6 @@
 	color: var(--text-muted);
 }
 
-.one-ai-looked__undo {
-	margin-left: auto;
-	padding: 0 2px;
-	border: 0;
-	background: none;
-	color: var(--text-muted);
-	font-size: var(--text-xs);
-	text-decoration: underline;
-	text-underline-offset: 2px;
-	cursor: pointer;
-}
-
-.one-ai-looked__undo:hover {
-	color: var(--text-color);
-}
-
 .one-ai-looked--refused {
 	color: var(--text-color);
 }

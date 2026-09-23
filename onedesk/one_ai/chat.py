@@ -71,6 +71,9 @@ NOT_ON_A_CARD = (
 #: to the model, and showing it would be showing somebody their own address bar.
 QUIET = ("context",)
 
+#: Tools whose calls are not drawn in the conversation at all.
+QUIET_TOOLS = ("remember",)
+
 
 @frappe.whitelist()
 def chats(limit: int = 20) -> list[dict]:
@@ -402,6 +405,9 @@ def shown(turns: list[dict]) -> list[dict]:
 		looked = [
 			_looked(call, _answering(call, answers.get(at) or [], n))
 			for n, call in enumerate(one.get("calls") or [])
+			# Keeping a memory is housekeeping, not something to read about in
+			# the conversation; the memory list is where it is seen and undone.
+			if call.get("tool") not in QUIET_TOOLS
 		]
 		# A record read twice while answering one question is one card.
 		for look in looked:
@@ -453,8 +459,6 @@ def _looked(call: dict, result: dict | None) -> dict:
 		"records": rows,
 		"more": more,
 		"count": answered if isinstance(answered, int) else None,
-		# A memory kept at once: the panel says so in a line it can undo.
-		"kept": answered if call.get("tool") == "remember" and isinstance(answered, dict) else None,
 	}
 
 

@@ -8,9 +8,9 @@ Three kinds, kept apart because they have three different owners:
   frappe functions the sidebar calls, so it is never a copy that went stale
   and never more than the reader may open;
 - **a person's own memory** (`AI Memory`), short facts somebody told OneAI to
-  keep. Private to them like their conversations, kept at once — it is what
-  they just said — and shown in the chat as a line they can undo. The same
-  fact twice is one memory, and a correction replaces what it corrects;
+  keep. Private to them like their conversations, kept at once and quietly —
+  it is what they just said — and seen and deleted in the memory list. The
+  same fact twice is one memory, and a correction replaces what it corrects;
 - **the workspace's knowledge** (`AI Knowledge`), what an administrator
   wrote down for everybody: a policy, a glossary, how things are done here.
 

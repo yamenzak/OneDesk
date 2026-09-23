@@ -448,9 +448,9 @@ READS = (
 SUGGESTS = (create_record, edit_record, delete_record, move_record)
 
 #: What runs at once although it writes: only the asker's own memory, which no
-#: one else reads and they can undo from the line it leaves in the chat. A card
-#: asking them to approve "Omar is our CFO", which they just said, was a card
-#: nobody wanted.
+#: one else reads and they see and delete in the memory list. A card asking
+#: them to approve "Omar is our CFO", which they just said, was a card nobody
+#: wanted, and a line saying so in the chat was noise.
 KEEPS = (memory.remember,)
 
 BY_NAME = {fn.__name__: fn for fn in READS + SUGGESTS}

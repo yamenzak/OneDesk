@@ -1079,10 +1079,11 @@ the note.
 
 A person's own memory, `AI Memory`: short facts somebody told OneAI to keep.
 Private by the doctype's if-owner rule and by an owner filter on every read,
-because Administrator is not held by if-owner. Kept at once, with no card:
-it is what the person just said, it is theirs alone, and the chat shows
-"Remembered: …" with an Undo beside it — `KEEPS` in `tools.py` is the one
-write that is not a card, named on its own for that reason. Kept only when
+because Administrator is not held by if-owner. Kept at once and quietly,
+with no card and no line in the chat: it is what the person just said, it is
+theirs alone, and the memory list is where it is seen and deleted — `KEEPS`
+in `tools.py` is the one write that is not a card, named on its own for that
+reason. Kept only when
 the person asks, or tells OneAI a lasting fact about themselves or how they
 work — the tool and the persona both say so, and neither the task at hand
 nor anything a record holds. The same fact twice is one memory (equal, one
