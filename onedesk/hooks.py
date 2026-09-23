@@ -112,6 +112,10 @@ doc_events = {
 	"Contact": {"on_update": "onedesk.one_project.portal.invited"},
 	# A company bank account wires the bank modes of payment. See one_book/ready.py.
 	"Bank Account": {"on_update": "onedesk.one_book.ready.wired"},
+	# A repeated invoice keeps its days to pay; a repeated bill drops the
+	# supplier's number. See one_book/repeat.py.
+	"Sales Invoice": {"on_recurring": "onedesk.one_book.repeat.repeated"},
+	"Purchase Invoice": {"on_recurring": "onedesk.one_book.repeat.repeated"},
 	# A Public event is on everybody's calendar. See one_calendar/events.py.
 	"Event": {"validate": "onedesk.one_calendar.events.validate"},
 	# hrms counts milestones by letting an insert fail, and the message outlives

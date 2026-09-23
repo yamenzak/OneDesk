@@ -28,8 +28,8 @@ amount, a customer's balance, an employee's expense claim.
   **Receivables** (who owes you, and how late), **Payables** (whom you owe),
   **General Ledger**, **Trial Balance**, **Gross Profit** and the VAT return.
 - **More** — credit and debit notes, bank transactions, importing a bank
-  statement, customer statements, subscriptions, opening invoices and closing
-  a period.
+  statement, customer statements, repeating invoices and bills, opening
+  invoices and closing a period.
 - **Setup** — the chart of accounts, cost centers, bank accounts, taxes,
   payment terms, modes of payment and fiscal years.
 
@@ -97,6 +97,20 @@ customer is reminded**), a customer is mailed the invoice a week after it
 fell due, if it is still unpaid. The wording is **Setup › Notifications ›
 Payment Reminder**.
 
+## Repeating invoices and bills
+
+Rent, a retainer, a monthly service: make the first invoice or bill as usual,
+then **⋯ › Repeat** on it. Say how often (monthly, quarterly, yearly…), from
+when, until when if it ends, and whether each copy is submitted straight away
+or left as a draft for somebody to check. Each copy is the same customer,
+items and prices, dated the day it is made, and due as many days later as the
+first one was. A repeated bill has no supplier invoice number until you type
+this month's in.
+
+The band on a repeating invoice says **Repeats Monthly** and when the next
+one is made; clicking it opens the schedule, where it can be paused or
+stopped. **More › Repeating** lists every schedule.
+
 ## What is kept where
 
 Three apps share the records behind a sale and a purchase, and each answers
@@ -150,6 +164,14 @@ fails a small business on first use or leaves a question unanswered.
   needs a reference to submit, so the invoice's number stands in when none is
   typed. `notification/payment_reminder` is a standard Notification, Days
   After the due date by seven, shipped disabled.
+- `repeat.py` and `custom/` — repeating. Frappe's Auto Repeat, switched on
+  for both invoices by a property setter (`allow_auto_repeat`), rather than
+  ERPNext's Subscription, which needs a plan per item to say what the invoice
+  already says. `repeated` runs after ERPNext's `on_recurring`: the copy keeps
+  the original's days to pay (`terms`, pure) where Auto Repeat would make it
+  due the day it is made, its payment schedule is made again rather than
+  copied with last time's dates, and a bill drops the supplier's number,
+  which a duplicate-number check would otherwise refuse.
 - `ready.py` and `report/books_check` — the Books Check. ERPNext's Standard
   chart makes *Bank Accounts* a group, so `Company.default_bank_account` is
   left empty, and `set_mode_of_payment_account` gives only Cash an account;
@@ -175,7 +197,7 @@ fails a small business on first use or leaves a question unanswered.
    outstanding and when it is due; one step records the payment; an overdue
    customer is reminded. *Done.*
 5. **Repeating invoices and bills.** Rent, retainers and subscriptions made on
-   a schedule.
+   a schedule. *Done.*
 6. **VAT.** The settings the UAE return needs filled in from the chart, and a
    return any country can read: tax charged against tax paid, by rate.
 7. **Closing.** Locking the books up to a date, and the year-end close.

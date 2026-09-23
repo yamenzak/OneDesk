@@ -16,6 +16,8 @@ onedesk.band.stat = (label, value, route, tone) => {
 // A band that is only numbers, with no chart beside them.
 onedesk.band.show = (frm, stats) => {
 	if (!stats.length) return frm.dashboard.clear_headline();
+	// A band replaces the one before it: set_headline appends.
+	frm.layout.message.children(".form-message:has(.one-band)").remove();
 	frm.dashboard.set_headline(
 		`<div class="one-band one-band-plain"><div class="one-stats">${stats.join("")}</div></div>`,
 		null,

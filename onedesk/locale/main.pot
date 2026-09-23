@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 22:25+0000\n"
-"PO-Revision-Date: 2026-09-23 22:25+0000\n"
+"POT-Creation-Date: 2026-09-23 22:34+0000\n"
+"PO-Revision-Date: 2026-09-23 22:34+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -667,7 +667,7 @@ msgstr ""
 
 #. Label of the amount (Currency) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
-#: onedesk/public/js/invoice.js:35
+#: onedesk/public/js/invoice.js:46
 msgid "Amount"
 msgstr ""
 
@@ -1941,7 +1941,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/public/js/invoice.js:76 onedesk/public/js/opportunity.js:18
+#: onedesk/public/js/invoice.js:94 onedesk/public/js/opportunity.js:18
 #: onedesk/public/js/opportunity.js:19 onedesk/public/js/project.js:127
 #: onedesk/public/js/project.js:188
 msgid "Create"
@@ -4798,6 +4798,10 @@ msgstr ""
 msgid "Next Step Due"
 msgstr ""
 
+#: onedesk/public/js/invoice.js:33
+msgid "Next on {0}"
+msgstr ""
+
 #: onedesk/one_book/ready.py:84
 msgid "Next year's is made three days before this one ends."
 msgstr ""
@@ -5736,15 +5740,15 @@ msgstr ""
 msgid "Paid"
 msgstr ""
 
-#: onedesk/public/js/invoice.js:40
+#: onedesk/public/js/invoice.js:51
 msgid "Paid From"
 msgstr ""
 
-#: onedesk/public/js/invoice.js:40
+#: onedesk/public/js/invoice.js:51
 msgid "Paid Into"
 msgstr ""
 
-#: onedesk/public/js/invoice.js:36
+#: onedesk/public/js/invoice.js:47
 msgid "Paid On"
 msgstr ""
 
@@ -5851,7 +5855,7 @@ msgstr ""
 msgid "Payment received. The workspace is being built."
 msgstr ""
 
-#: onedesk/public/js/invoice.js:60
+#: onedesk/public/js/invoice.js:71
 msgid "Payment {0} recorded."
 msgstr ""
 
@@ -6480,7 +6484,7 @@ msgstr ""
 #. Label of the record (Dynamic Link) field in DocType 'AI Touch'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json onedesk/public/js/hiring.js:11
-#: onedesk/public/js/invoice.js:53 onedesk/public/js/overtime.js:50
+#: onedesk/public/js/invoice.js:64 onedesk/public/js/overtime.js:50
 msgid "Record"
 msgstr ""
 
@@ -6494,8 +6498,8 @@ msgstr ""
 msgid "Record Overtime"
 msgstr ""
 
-#: onedesk/public/js/invoice.js:33 onedesk/public/js/invoice.js:73
-#: onedesk/public/js/invoice.js:75
+#: onedesk/public/js/invoice.js:44 onedesk/public/js/invoice.js:84
+#: onedesk/public/js/invoice.js:85 onedesk/public/js/invoice.js:94
 msgid "Record Payment"
 msgstr ""
 
@@ -6573,7 +6577,7 @@ msgstr ""
 #. Label of the reference (Data) field in DocType 'Credit Reservation'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
-#: onedesk/public/js/invoice.js:49
+#: onedesk/public/js/invoice.js:60
 msgid "Reference"
 msgstr ""
 
@@ -6702,6 +6706,19 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Repairs"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Repeating"
+msgstr ""
+
+#: onedesk/public/js/invoice.js:34
+msgid "Repeats"
+msgstr ""
+
+#: onedesk/public/js/invoice.js:33
+msgid "Repeats {0}"
 msgstr ""
 
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:65
@@ -7608,11 +7625,6 @@ msgstr ""
 msgid "Subscribe"
 msgstr ""
 
-#. Label of a Sidebar Item
-#: onedesk/one_book/sidebar/onebook/onebook.json
-msgid "Subscriptions"
-msgstr ""
-
 #: onedesk/one_crm/ai.py:48 onedesk/one_crm/ai.py:91
 msgid "Suggest the next step"
 msgstr ""
@@ -7956,7 +7968,7 @@ msgstr ""
 msgid "The check-in could not be recorded."
 msgstr ""
 
-#: onedesk/public/js/invoice.js:50
+#: onedesk/public/js/invoice.js:61
 msgid "The cheque or transfer number. The invoice's number when left empty."
 msgstr ""
 

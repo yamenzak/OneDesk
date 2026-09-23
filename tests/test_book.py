@@ -138,3 +138,21 @@ def test_the_payment_reminder_ships_off_and_the_books_check_turns_it_on():
 	assert reminder["document_type"] == "Sales Invoice" and reminder["event"] == "Days After"
 	assert "outstanding_amount > 0" in reminder["condition"]
 	assert "'reminder'" in _body(READY, "fix")
+
+
+def test_a_repeated_invoice_keeps_its_days_to_pay():
+	terms = _load(BOOK / "repeat.py", ("terms",), date_diff=lambda a, b: (a - b).days)["terms"]
+	original = {"posting_date": date(2026, 9, 10), "due_date": date(2026, 10, 10)}
+	assert terms(original, date(2026, 11, 10)) == date(2026, 12, 10)
+	assert terms({**original, "payment_terms_template": "Net 30"}, date(2026, 11, 10)) is None, "terms set it themselves"
+	assert terms({"posting_date": date(2026, 9, 10), "due_date": None}, date(2026, 11, 10)) is None
+
+
+def test_invoices_and_bills_can_repeat_and_the_copy_is_corrected():
+	for name in ("sales_invoice", "purchase_invoice"):
+		custom = json.loads((BOOK / "custom" / f"{name}.json").read_text())
+		assert {"property": "allow_auto_repeat", "value": "1"}.items() <= custom["property_setters"][0].items()
+	assert HOOKS.count('"on_recurring": "onedesk.one_book.repeat.repeated"') == 2
+	repeated = _body(BOOK / "repeat.py", "repeated")
+	assert "bill_no = None" in repeated, "last month's supplier number would be refused as a duplicate"
+	assert "payment_schedule" in repeated

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 22:25+0000\n"
-"PO-Revision-Date: 2026-09-23 22:25+0000\n"
+"POT-Creation-Date: 2026-09-23 22:34+0000\n"
+"PO-Revision-Date: 2026-09-23 22:34+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -669,7 +669,7 @@ msgstr ""
 
 #. Label of the amount (Currency) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
-#: onedesk/public/js/invoice.js:35
+#: onedesk/public/js/invoice.js:46
 msgid "Amount"
 msgstr "Betrag"
 
@@ -1943,7 +1943,7 @@ msgstr "Feiertage einschließen"
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/public/js/invoice.js:76 onedesk/public/js/opportunity.js:18
+#: onedesk/public/js/invoice.js:94 onedesk/public/js/opportunity.js:18
 #: onedesk/public/js/opportunity.js:19 onedesk/public/js/project.js:127
 #: onedesk/public/js/project.js:188
 msgid "Create"
@@ -4800,6 +4800,10 @@ msgstr "Nächster Schritt erledigt"
 msgid "Next Step Due"
 msgstr "Nächster Schritt fällig"
 
+#: onedesk/public/js/invoice.js:33
+msgid "Next on {0}"
+msgstr "Nächste am {0}"
+
 #: onedesk/one_book/ready.py:84
 msgid "Next year's is made three days before this one ends."
 msgstr "Das nächste wird drei Tage vor Ende dieses Jahres angelegt."
@@ -5738,15 +5742,15 @@ msgstr "Paket"
 msgid "Paid"
 msgstr "Bezahlt"
 
-#: onedesk/public/js/invoice.js:40
+#: onedesk/public/js/invoice.js:51
 msgid "Paid From"
 msgstr "Bezahlt von"
 
-#: onedesk/public/js/invoice.js:40
+#: onedesk/public/js/invoice.js:51
 msgid "Paid Into"
 msgstr "Eingezahlt auf"
 
-#: onedesk/public/js/invoice.js:36
+#: onedesk/public/js/invoice.js:47
 msgid "Paid On"
 msgstr "Bezahlt am"
 
@@ -5853,7 +5857,7 @@ msgstr "Zahlung überfällig. Dieser Arbeitsbereich wird heute Nacht gesperrt."
 msgid "Payment received. The workspace is being built."
 msgstr "Zahlung eingegangen. Der Arbeitsbereich wird angelegt."
 
-#: onedesk/public/js/invoice.js:60
+#: onedesk/public/js/invoice.js:71
 msgid "Payment {0} recorded."
 msgstr "Zahlung {0} erfasst."
 
@@ -6482,7 +6486,7 @@ msgstr ""
 #. Label of the record (Dynamic Link) field in DocType 'AI Touch'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json onedesk/public/js/hiring.js:11
-#: onedesk/public/js/invoice.js:53 onedesk/public/js/overtime.js:50
+#: onedesk/public/js/invoice.js:64 onedesk/public/js/overtime.js:50
 msgid "Record"
 msgstr "Erfassen"
 
@@ -6496,8 +6500,8 @@ msgstr "Datensatz mit Stand"
 msgid "Record Overtime"
 msgstr "Überstunden erfassen"
 
-#: onedesk/public/js/invoice.js:33 onedesk/public/js/invoice.js:73
-#: onedesk/public/js/invoice.js:75
+#: onedesk/public/js/invoice.js:44 onedesk/public/js/invoice.js:84
+#: onedesk/public/js/invoice.js:85 onedesk/public/js/invoice.js:94
 msgid "Record Payment"
 msgstr "Zahlung erfassen"
 
@@ -6575,7 +6579,7 @@ msgstr "Wiederkehrend"
 #. Label of the reference (Data) field in DocType 'Credit Reservation'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
-#: onedesk/public/js/invoice.js:49
+#: onedesk/public/js/invoice.js:60
 msgid "Reference"
 msgstr "Referenz"
 
@@ -6705,6 +6709,19 @@ msgstr "Bei Frappe Cloud entfernt"
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Repairs"
 msgstr "Reparaturen"
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Repeating"
+msgstr "Wiederkehrend"
+
+#: onedesk/public/js/invoice.js:34
+msgid "Repeats"
+msgstr "Wiederholt"
+
+#: onedesk/public/js/invoice.js:33
+msgid "Repeats {0}"
+msgstr "Wiederholt {0}"
 
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:65
 msgid "Replied (%)"
@@ -7610,11 +7627,6 @@ msgstr "Das Buchen zahlt {0} {1} für {2} Tage {3}."
 msgid "Subscribe"
 msgstr "Abonnieren"
 
-#. Label of a Sidebar Item
-#: onedesk/one_book/sidebar/onebook/onebook.json
-msgid "Subscriptions"
-msgstr ""
-
 #: onedesk/one_crm/ai.py:48 onedesk/one_crm/ai.py:91
 msgid "Suggest the next step"
 msgstr "Nächsten Schritt vorschlagen"
@@ -7958,7 +7970,7 @@ msgstr "Der Kontenplan hat keine Gruppe für Bankkonten. Legen Sie eine unter Um
 msgid "The check-in could not be recorded."
 msgstr "Das Einchecken konnte nicht erfasst werden."
 
-#: onedesk/public/js/invoice.js:50
+#: onedesk/public/js/invoice.js:61
 msgid "The cheque or transfer number. The invoice's number when left empty."
 msgstr "Scheck- oder Überweisungsnummer. Leer gelassen gilt die Rechnungsnummer."
 

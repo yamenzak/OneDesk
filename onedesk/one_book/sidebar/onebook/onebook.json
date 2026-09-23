@@ -310,11 +310,12 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
-   "label": "Subscriptions",
+   "label": "Repeating",
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Subscription"
+   "link_to": "Auto Repeat",
+   "filters": "[[\"Auto Repeat\", \"reference_doctype\", \"in\", [\"Sales Invoice\", \"Purchase Invoice\"]]]"
   },
   {
    "child": 1,
@@ -520,7 +521,7 @@
    "link_to": "Accounts Settings"
   }
  ],
- "modified": "2026-09-28 23:00:00.000000",
+ "modified": "2026-09-28 23:30:00.000000",
  "modified_by": "Administrator",
  "module": "One Book",
  "name": "OneBook",

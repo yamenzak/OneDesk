@@ -17,12 +17,23 @@ onedesk.invoice.band = (frm) => {
 				: late === 0
 					? stat(__("Due"), __("Today"), null, "waiting")
 					: stat(__("Due"), __("{0} · in {1} days", [frappe.datetime.str_to_user(doc.due_date), -late]));
-	onedesk.band.show(frm, [
+	const stats = [
 		stat(__("Outstanding"), money(doc.outstanding_amount), null, doc.outstanding_amount > 0 ? (late > 0 ? "alarm" : null) : "quiet"),
 		due,
 		stat(__("Paid"), money(doc.grand_total - doc.outstanding_amount)),
 		stat(__("Total"), money(doc.grand_total)),
-	].filter(Boolean));
+	].filter(Boolean);
+	onedesk.band.show(frm, stats);
+	// A repeating invoice says how often, and when the next one is made.
+	if (!doc.auto_repeat) return;
+	frappe.db.get_value("Auto Repeat", doc.auto_repeat, ["frequency", "next_schedule_date", "status"]).then(({ message }) => {
+		if (!message || frm.doc.name !== doc.name) return;
+		const route = frappe.utils.get_form_link("Auto Repeat", doc.auto_repeat);
+		const repeat = message.status === "Active" && message.next_schedule_date
+			? stat(__("Repeats {0}", [__(message.frequency)]), __("Next on {0}", [frappe.datetime.str_to_user(message.next_schedule_date)]), route)
+			: stat(__("Repeats"), __(message.status), route, "quiet");
+		onedesk.band.show(frm, [...stats, repeat]);
+	});
 };
 
 onedesk.invoice.record = (frm) => {
@@ -71,11 +82,17 @@ onedesk.invoice.refresh = (frm) => {
 	onedesk.invoice.band(frm);
 	if (frm.doc.docstatus === 1 && frm.doc.outstanding_amount > 0 && !frm.doc.is_return && frappe.model.can_create("Payment Entry")) {
 		frm.add_custom_button(__("Record Payment"), () => onedesk.invoice.record(frm));
-		// One dark button: ERPNext makes Create the primary group.
 		frm.change_custom_button_type(__("Record Payment"), null, "primary");
-		frm.page.get_inner_group_button(__("Create")).find("button").removeClass("btn-primary").addClass("btn-default");
 	}
 };
 
-frappe.ui.form.on("Sales Invoice", { refresh: onedesk.invoice.refresh });
-frappe.ui.form.on("Purchase Invoice", { refresh: onedesk.invoice.refresh });
+// ERPNext's refresh runs after ours and makes Create the primary group. While
+// Record Payment is on the page it is the one dark button, and Create is not.
+onedesk.invoice.setup = (frm) => {
+	const primary = frm.page.set_inner_btn_group_as_primary.bind(frm.page);
+	frm.page.set_inner_btn_group_as_primary = (label) =>
+		label === __("Create") && frm.custom_buttons[__("Record Payment")] ? null : primary(label);
+};
+
+frappe.ui.form.on("Sales Invoice", { setup: onedesk.invoice.setup, refresh: onedesk.invoice.refresh });
+frappe.ui.form.on("Purchase Invoice", { setup: onedesk.invoice.setup, refresh: onedesk.invoice.refresh });

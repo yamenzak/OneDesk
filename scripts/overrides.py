@@ -978,10 +978,38 @@ OVERRIDES = [
 	),
 	(
 		"Record Payment is the one primary button on an invoice or bill",
-		"ERPNext makes the Create group primary; ours demotes it so two dark buttons do not compete",
+		"ERPNext makes the Create group primary after our refresh; the form's `set_inner_btn_group_as_primary` skips Create while Record Payment is shown",
 		"onedesk/public/js/invoice.js",
 		"erpnext/erpnext/accounts/doctype/purchase_invoice/purchase_invoice.js",
 		'set_inner_btn_group_as_primary(__("Create"))',
+	),
+	(
+		"Record Payment wraps the page's primary-group setter",
+		"one dark button on an invoice; the wrap is per form",
+		"onedesk/public/js/invoice.js",
+		"frappe/frappe/public/js/frappe/ui/page.js",
+		"set_inner_btn_group_as_primary(label) {",
+	),
+	(
+		"Invoices and bills can repeat",
+		"both have `auto_repeat` and `on_recurring` but not `allow_auto_repeat`; a property setter turns it on",
+		"onedesk/one_book/custom/sales_invoice.json",
+		"erpnext/erpnext/accounts/doctype/sales_invoice/sales_invoice.py",
+		"def on_recurring(self, reference_doc, auto_repeat_doc):",
+	),
+	(
+		"A repeated invoice keeps its days to pay",
+		"ERPNext's `on_recurring` empties the due date, so the copy fell due the day it was made; `repeated` runs after it",
+		"onedesk/one_book/repeat.py",
+		"erpnext/erpnext/accounts/doctype/purchase_invoice/purchase_invoice.py",
+		"self.due_date = None",
+	),
+	(
+		"Auto Repeat dates every required date field",
+		"which is why the due date needs correcting at all",
+		"onedesk/one_book/repeat.py",
+		"frappe/frappe/automation/doctype/auto_repeat/auto_repeat.py",
+		'if data.fieldtype == "Date" and data.reqd:',
 	),
 ]
 
