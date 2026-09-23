@@ -80,7 +80,9 @@ No doctypes yet.
 
 `onedesk/one_task`
 
-No doctypes yet.
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Task Step | 2 | child |
 
 ## Desk records shipped as fixtures
 

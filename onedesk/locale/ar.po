@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 18:44+0000\n"
-"PO-Revision-Date: 2026-09-23 18:44+0000\n"
+"POT-Creation-Date: 2026-09-23 18:51+0000\n"
+"PO-Revision-Date: 2026-09-23 18:51+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1141,6 +1141,10 @@ msgstr "حظر"
 msgid "Blocked"
 msgstr "محظور"
 
+#: onedesk/public/js/project.js:10
+msgid "Board"
+msgstr "اللوحة"
+
 #. Label of the 'boarding_status' field in DocType 'Employee Separation'
 #: onedesk/one_hr/custom/employee_separation.json
 msgid "Boarding Status"
@@ -1280,6 +1284,11 @@ msgstr ""
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Campaigns"
 msgstr "الحملات"
+
+#. Option for the 'status' (Select) field in DocType 'Task'
+#: onedesk/one_task/custom/task.json
+msgid "Cancelled"
+msgstr ""
 
 #. Label of the agreed (Check) field in DocType 'Interview Recording'
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
@@ -1456,6 +1465,11 @@ msgstr "تسجيل الحضور الذاتي غير مفعَّل في هذا ا�
 msgid "Checking…"
 msgstr "جارٍ الفحص…"
 
+#. Label of the one_steps (Table) field in DocType 'Task'
+#: onedesk/one_task/custom/task.json
+msgid "Checklist"
+msgstr "قائمة التحقق"
+
 #. Description of the 'Stripe' (Section Break) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -1609,6 +1623,11 @@ msgstr "يُقارن كنص مع ما يحويه الحقل الآن. تعديل
 #: onedesk/one_task/page/my_tasks/my_tasks.js:87
 #: onedesk/public/js/timesheet.js:76
 msgid "Complete"
+msgstr ""
+
+#. Option for the 'status' (Select) field in DocType 'Task'
+#: onedesk/one_task/custom/task.json
+msgid "Completed"
 msgstr ""
 
 #: onedesk/public/js/learned.js:11
@@ -2093,11 +2112,13 @@ msgstr "نطاقات تنتظر"
 
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
+#. Label of the done (Check) field in DocType 'Task Step'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:12
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:21
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:36
+#: onedesk/one_task/doctype/task_step/task_step.json
 #: onedesk/public/js/account_request.js:24 onedesk/public/js/ai_proposal.js:23
 #: onedesk/public/js/ai_proposal_list.js:10 onedesk/public/js/decision.js:39
 #: onedesk/public/js/job.js:27 onedesk/public/js/job.js:44
@@ -3423,6 +3444,10 @@ msgstr "النطاق القضائي"
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "KRA"
 msgstr "مجال النتائج الرئيسية"
+
+#: onedesk/public/js/project.js:9
+msgid "Kanban Board"
+msgstr ""
 
 #: onedesk/public/js/oneai/Panel.vue:321
 msgid "Kept"
@@ -4873,7 +4898,8 @@ msgid "Only somebody who can approve these may answer this one."
 msgstr "لا يبتّ في هذا إلا من يملك اعتماد هذه الطلبات."
 
 #. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
-#: onedesk/one_crm/custom/sales_stage.json
+#. Option for the 'status' (Select) field in DocType 'Task'
+#: onedesk/one_crm/custom/sales_stage.json onedesk/one_task/custom/task.json
 #: onedesk/public/js/oneai/Record.vue:15
 msgid "Open"
 msgstr ""
@@ -5201,6 +5227,11 @@ msgstr "قسائم الراتب"
 msgid "Pending"
 msgstr ""
 
+#. Option for the 'status' (Select) field in DocType 'Task'
+#: onedesk/one_task/custom/task.json
+msgid "Pending Review"
+msgstr ""
+
 #. Label of the one_people (Int) field in DocType 'Training Result'
 #. Label of a Card Break in the OneHR Setup Workspace
 #: onedesk/one_hr/custom/training_result.json
@@ -5417,7 +5448,17 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_task/sidebar/onetask/onetask.json
+msgid "Project Type"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Projects"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_task/sidebar/onetask/onetask.json
+msgid "Projects Settings"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -6513,7 +6554,9 @@ msgid "Status Since"
 msgstr "الحالة منذ"
 
 #. Label of the step (Data) field in DocType 'Provisioning Job'
+#. Label of the step (Data) field in DocType 'Task Step'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
+#: onedesk/one_task/doctype/task_step/task_step.json
 msgid "Step"
 msgstr ""
 
@@ -6633,6 +6676,10 @@ msgstr "متعثّرة"
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "Stuck jobs"
 msgstr "مهام متعثّرة"
+
+#: onedesk/one_task/task.py:43
+msgid "Sub-tasks"
+msgstr "المهام الفرعية"
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:236
 msgid "Subject"
@@ -6754,6 +6801,11 @@ msgstr "مأخوذ من وصف المزوّد نفسه للنموذج ومن ك�
 msgid "Task"
 msgstr ""
 
+#. Name of a DocType
+#: onedesk/one_task/doctype/task_step/task_step.json
+msgid "Task Step"
+msgstr "خطوة المهمة"
+
 #. Label of a Sidebar Item
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Task Type"
@@ -6778,6 +6830,11 @@ msgstr ""
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 msgid "Tell us who you are and what you need, and we will get back to you."
 msgstr "أخبرنا من أنت وما تحتاجه، وسنعاود التواصل معك."
+
+#. Option for the 'status' (Select) field in DocType 'Task'
+#: onedesk/one_task/custom/task.json
+msgid "Template"
+msgstr ""
 
 #. Label of the tenant (Link) field in DocType 'Account Request'
 #. Label of the tenant (Link) field in DocType 'Provisioning Job'
@@ -7649,6 +7706,10 @@ msgstr ""
 msgid "Video Generation"
 msgstr "توليد الفيديو"
 
+#: onedesk/public/js/project.js:9
+msgid "View"
+msgstr ""
+
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
 #. Option for the 'Default For' (Select) field in DocType 'AI Model'
 #. Option for the 'Needs' (Select) field in DocType 'AI Action'
@@ -8077,7 +8138,9 @@ msgstr "يُحسب ليلًا من محاولات تسجيل الحضور خلا
 msgid "Workers KV Namespace"
 msgstr "مساحة Workers KV"
 
+#. Option for the 'status' (Select) field in DocType 'Task'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:11
+#: onedesk/one_task/custom/task.json
 msgid "Working"
 msgstr ""
 

@@ -5,7 +5,7 @@
  "doctype": "Sidebar",
  "header_icon": "onetask",
  "idx": 0,
- "modified": "2026-09-25 14:00:00.000000",
+ "modified": "2026-09-25 16:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Task",
  "name": "OneTask",
@@ -88,6 +88,30 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Task Type"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Project Type",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Project Type"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Projects Settings",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Projects Settings"
   }
  ]
 }

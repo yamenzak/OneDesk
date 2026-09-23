@@ -94,3 +94,68 @@ def test_my_tasks_writes_through_frappe_and_reads_as_the_reader():
 	assert 'frappe.get_list(\n\t\t"Task"' in source and "ignore_permissions" not in source
 	rail = json.loads((TASK / "sidebar" / "onetask" / "onetask.json").read_text())
 	assert rail["items"][0]["link_to"] == "my-tasks", "OneTask opens on My Tasks"
+
+
+def _load(path, names, **space):
+	import ast
+
+	tree_ = ast.parse(path.read_text())
+	for node in tree_.body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") in names:
+			exec(ast.unparse(node), space)
+	for node in tree_.body:
+		if isinstance(node, ast.FunctionDef) and node.name in names:
+			exec(ast.unparse(node), space)
+	return space
+
+
+def test_a_checklist_is_the_progress():
+	share = _load(TASK / "task.py", ("share",), flt=lambda value, digits: round(value, digits))["share"]
+	assert share([1, 0, 1]) == 66.7 and share([]) == 0 and share([1]) == 100
+
+
+class _Row(dict):
+	__getattr__ = dict.get
+
+	def __setattr__(self, key, value):
+		self[key] = value
+
+
+class _Board(_Row):
+	def set(self, key, value):
+		self[key] = value
+
+
+def test_a_project_board_is_shaped_as_it_is_made():
+	space = _load(TASK / "board.py", ("COLUMNS", "CARD", "shape"), json=json)
+	board = _Board(
+		reference_doctype="Task",
+		field_name="status",
+		columns=[_Row(column_name=name) for name in ("Open", "Working", "Overdue", "Completed", "Cancelled", "Template")],
+		fields=None,
+		show_labels=1,
+	)
+	assert space["shape"](board) is True
+	shown = {one.column_name: one.status for one in board.columns}
+	assert "Overdue" not in shown and shown["Cancelled"] == shown["Template"] == "Archived"
+	assert shown["Working"] == "Active" and json.loads(board.fields) == ["priority", "exp_end_date"]
+	assert space["shape"](board) is False, "shaping twice changes nothing"
+	assert space["shape"](_Board(reference_doctype="Opportunity", field_name="sales_stage", columns=[])) is False
+
+
+def test_overdue_is_a_date_not_a_status():
+	source = (TASK / "board.py").read_text()
+	assert '"erpnext.projects.doctype.task.task.set_tasks_as_overdue"' in source
+	custom = json.loads((TASK / "custom" / "task.json").read_text())
+	options = next(p for p in custom["property_setters"] if p["field_name"] == "status" and p["property"] == "options")
+	assert "Overdue" not in options["value"].split("\n")
+	assert "text-danger" in (tree.APP / "public" / "js" / "task_list.js").read_text()
+	assert HOOKS.count('"onedesk.one_task.board.settle"') == 2
+	assert '"Kanban Board": {"before_insert": "onedesk.one_task.board.shape"}' in HOOKS
+
+
+def test_sub_tasks_are_a_connection_and_projects_live_in_onetask():
+	assert '"Task": ["onedesk.one_task.task.dashboard"]' in HOOKS
+	assert '"before_validate": "onedesk.one_task.task.before_validate"' in HOOKS
+	dock = json.loads((tree.APP / "dock" / "onedesk" / "onedesk.json").read_text())
+	assert not any(item["link_to"] == "Projects" for item in dock["items"]), "one rail entry for projects"

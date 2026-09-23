@@ -36,6 +36,7 @@ after_install = [
 	"onedesk.one_crm.capture.defaults",
 	"onedesk.one_crm.access.settle",
 	"onedesk.one_task.access.settle",
+	"onedesk.one_task.board.settle",
 ]
 
 # Their dock files do not carry the mount, so a newer erpnext or hrms clears it,
@@ -62,6 +63,7 @@ after_migrate = [
 	"onedesk.one_crm.record.settle",
 	"onedesk.one_crm.access.settle",
 	"onedesk.one_task.access.settle",
+	"onedesk.one_task.board.settle",
 ]
 extend_bootinfo = "onedesk.one.boot.boot_session"
 
@@ -150,10 +152,15 @@ doc_events = {
 	# list has to come from the company. See one_hr/lifecycle.py.
 	"Employee Onboarding": {"before_validate": "onedesk.one_hr.lifecycle.onboarding"},
 	# A task of nobody's is its maker's. See one_task/capture.py.
+	# A sub-task's parent is a group and its project is the parent's, and a
+	# checklist is the progress. See one_task/task.py.
 	"Task": {
 		"before_insert": "onedesk.one_hr.lifecycle.task",
 		"after_insert": "onedesk.one_task.capture.task_made",
+		"before_validate": "onedesk.one_task.task.before_validate",
 	},
+	# A project's board, as ERPNext makes it, shaped. See one_task/board.py.
+	"Kanban Board": {"before_insert": "onedesk.one_task.board.shape"},
 	"Training Result": {"before_validate": "onedesk.one_hr.lifecycle.result"},
 	# The reason is a record and submitting is an approval. See one_hr/request.py.
 	"Attendance Request": {
@@ -324,6 +331,8 @@ doctype_js = {
 	"Opportunity": "public/js/opportunity.js",
 	# Next Step Done, which asks what comes next. See public/js/next_step.js.
 	"Lead": "public/js/lead.js",
+	# The project's board is a button of its own. See one_task/board.py.
+	"Project": "public/js/project.js",
 }
 
 # Loaded after the doctype's own list script, so ours has the last word.
@@ -338,9 +347,15 @@ doctype_list_js = {
 	"Employee Checkin": "public/js/checkin_list.js",
 	"Opportunity": "public/js/opportunity_list.js",
 	"Lead": "public/js/lead_list.js",
+	# A due date is a day, red once passed. See public/js/task_list.js.
+	"Task": "public/js/task_list.js",
 }
 
-override_doctype_dashboards = {"Attendance": ["onedesk.one_hr.attendance.dashboard"]}
+override_doctype_dashboards = {
+	"Attendance": ["onedesk.one_hr.attendance.dashboard"],
+	# A task's sub-tasks, as a connection. See one_task/task.py.
+	"Task": ["onedesk.one_task.task.dashboard"],
+}
 
 # Every shift location counts, not the first. See one_hr/checkin.py.
 override_doctype_class = {"Employee Checkin": "onedesk.one_hr.checkin.OneEmployeeCheckin"}

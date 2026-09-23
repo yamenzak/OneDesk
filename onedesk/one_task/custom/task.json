@@ -1,5 +1,15 @@
 {
- "custom_fields": [],
+ "custom_fields": [
+  {
+   "dt": "Task",
+   "fieldname": "one_steps",
+   "fieldtype": "Table",
+   "label": "Checklist",
+   "options": "Task Step",
+   "insert_after": "description",
+   "module": "One Task"
+  }
+ ],
  "doctype": "Task",
  "links": [],
  "property_setters": [
@@ -18,6 +28,14 @@
    "property": "allow_in_quick_entry",
    "property_type": "Check",
    "value": "0"
+  },
+  {
+   "doc_type": "Task",
+   "doctype_or_field": "DocField",
+   "field_name": "status",
+   "property": "options",
+   "property_type": "Text",
+   "value": "Open\nWorking\nPending Review\nTemplate\nCompleted\nCancelled"
   }
  ],
  "sync_on_migrate": 1

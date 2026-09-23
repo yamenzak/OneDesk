@@ -19,8 +19,9 @@ the calendar's — but everything you have to *do* is here.
 - **Inbox** — your own tasks that are in no project, still to do. A quick note
   to yourself lands here.
 - **Tasks** — every task you may see, in projects and out of them.
-- **Projects** — for the people who work in projects.
-- Under **Setup**, **Task Type**.
+- **Projects** — for the people who work in projects. Each has its own
+  **Board**.
+- Under **Setup**, **Task Type**, **Project Type** and **Projects Settings**.
 
 ## My Tasks
 
@@ -50,6 +51,28 @@ is on your calendar and in every list of your work.
 **A to-do is a task.** Anything that makes a to-do with nothing it is about —
 the To Do form, a reminder to yourself — makes a task, assigned to whoever the
 to-do was for.
+
+## A project's board
+
+**Board** on a project shows its tasks in four columns — **Open**, **Working**,
+**Pending Review** and **Completed** — each card with its priority, when it is
+due and who is on it. Drag a card to move the task along; **Add Task** at the
+top of a column adds one there. The first time anybody opens a project's
+board it is made, and after that everybody shares it.
+
+**A late task is not a column.** A task past its due date stays where it is and
+its date turns red, on the board and in every list. My Tasks puts it under
+Overdue.
+
+## Sub-tasks and checklists
+
+**Sub-tasks** at the top of a task's page lists the tasks under it, and **+**
+adds one. A sub-task is a whole task — its own people, date and board card —
+in the same project as the task it is under.
+
+**Checklist** on a task's page is for the steps on the way to finishing it,
+which nobody else has to be given. Tick **Done** as you go; the task's
+**Progress** follows, and so does the project's when it counts progress.
 
 ## Who is on a task
 
@@ -102,7 +125,16 @@ is:
   completes it. ERPNext already closes the assignments when a task completes.
 - `calendar.py` — **My Tasks** and **Assigned to Me** on OneCalendar. The
   second leaves out assignments on tasks, which are already on the first.
-- `custom/task.json` — the due date is asked for when a task is added.
+- `custom/task.json` — the due date is asked for when a task is added, the
+  Checklist (Task Step) is added, and Overdue is taken off the statuses.
+- `board.py` — ERPNext's own per-project Kanban, shaped as it is made; and
+  their nightly Overdue job stopped, since a late task is a date and not a
+  column. Their Project Summary report counted Overdue tasks, and now counts
+  none.
+- `task.py` — a sub-task's parent becomes a group and lends its project; the
+  checklist is the progress; sub-tasks are a connection on the task's page.
+- `public/js/project.js` and `public/js/task_list.js` — the Board button, and a
+  due date read as a day, red once passed.
 - `mine.py` and `page/my_tasks` — My Tasks. The server only reads, as the
   reader, and groups (`when` is pure); adding and ticking are `frappe.db.insert`
   and `frappe.db.set_value` from the page, so every rule a task has on its own
@@ -114,8 +146,9 @@ is:
    nothing is a task, and the inbox is the tasks in no project.
 2. **My Tasks.** *Done.* What is assigned to me, by due date, ticked off where
    it is listed, and added from the top of the list.
-3. **The project board.** A board per project by status, with sub-tasks and a
-   checklist.
+3. **The project board.** *Done.* A board per project by status, sub-tasks as
+   a connection, a checklist that is the progress, and projects in OneTask
+   rather than a rail entry of their own.
 4. **The calendar.** Moving a task's due date by dragging it, and a
    project's own calendar.
 5. **Time.** A timer on a task that writes a Timesheet row.

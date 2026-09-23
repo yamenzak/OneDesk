@@ -738,6 +738,41 @@ OVERRIDES = [
 		"erpnext/erpnext/projects/doctype/task/task.py",
 		"close_all_assignments(self.doctype, self.name)",
 	),
+	(
+		"Overdue is a date, not a status",
+		"their daily job rewrites every open task past its date to Overdue, so a Working card changed columns overnight; the job is stopped and the option dropped",
+		"onedesk/one_task/board.py",
+		"erpnext/erpnext/hooks.py",
+		"erpnext.projects.doctype.task.task.set_tasks_as_overdue",
+	),
+	(
+		"A project's board is theirs, shaped as it is made",
+		"their button makes a board per project with a column per status; ours archives Template and Cancelled and sets what a card shows",
+		"onedesk/one_task/board.py",
+		"erpnext/erpnext/projects/doctype/project/project.py",
+		'quick_kanban_board("Task", project.project_name, "status", project.name)',
+	),
+	(
+		"The board is a button of its own on a project",
+		"theirs is the second entry under View; ours removes it by label and adds Board beside Actions",
+		"onedesk/public/js/project.js",
+		"erpnext/erpnext/projects/doctype/project/project.js",
+		'__("Kanban Board"),',
+	),
+	(
+		"A task's due date reads as a day on every list and card",
+		"Expected End Date is a Datetime; the board draws a card through frappe.format, which reads a docfield's own formatter first",
+		"onedesk/public/js/task_list.js",
+		"frappe/frappe/public/js/frappe/form/formatters.js",
+		"var formatter = df.formatter || frappe.form.get_formatter(fieldtype);",
+	),
+	(
+		"A sub-task's parent becomes a group",
+		"they refuse a parent task not marked Is Group, a box nobody ticks before wanting a sub-task",
+		"onedesk/one_task/task.py",
+		"erpnext/erpnext/projects/doctype/task/task.py",
+		"ParentIsGroupError,",
+	),
 ]
 
 
