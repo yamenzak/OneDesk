@@ -199,44 +199,40 @@ onedesk.OneCalendar = class OneCalendar {
 		dialog.show();
 	}
 
+	// One line, a button per app, and the link. Google and Outlook each take a
+	// calendar by its address in the web; Apple opens a webcal:// one itself.
 	async subscribe() {
-		const had = await frappe.xcall("onedesk.one_calendar.feed.status");
-		const dialog = new frappe.ui.Dialog({
-			title: __("Subscribe From Another Calendar"),
-			fields: [
-				{ fieldtype: "HTML", fieldname: "how" },
-				{ fieldtype: "Data", fieldname: "address", label: __("Calendar Link"), read_only: 1, hidden: 1 },
-			],
-			primary_action_label: had ? __("Make a New Link") : __("Make a Link"),
-			primary_action: async () => {
-				const made = await frappe.xcall("onedesk.one_calendar.feed.link");
-				dialog.set_value("address", made.https);
-				dialog.set_df_property("address", "hidden", 0);
-				dialog.get_field("how").$wrapper.find(".one-calendar-apple").attr("href", made.webcal).show();
-				frappe.utils.copy_to_clipboard(made.https);
-				dialog.set_primary_action(__("Done"), () => dialog.hide());
-			},
-			secondary_action_label: had ? __("Switch Off") : null,
-			secondary_action: had
-				? async () => {
-					await frappe.xcall("onedesk.one_calendar.feed.stop");
-					frappe.show_alert({ message: __("Your calendar link is switched off."), indicator: "orange" });
-					dialog.hide();
-				}
-				: null,
-		});
-		dialog.get_field("how").$wrapper.html(`
-			<p>${__("Your calendar in Google Calendar, Apple Calendar or Outlook, updated about every hour. It shows what is on here before you switch any layer off, and nothing you could not see here.")}</p>
-			<ul>
-				<li>${__("Google Calendar: Other calendars › From URL, and paste the link.")}</li>
-				<li>${__("Apple Calendar: File › New Calendar Subscription, and paste the link, or open it on this device:")} <a class="one-calendar-apple" style="display: none">${__("Add to Apple Calendar")}</a></li>
-				<li>${__("Outlook: Add calendar › Subscribe from web, and paste the link.")}</li>
-			</ul>
-			<p class="text-muted">${
-				had
-					? __("You made a link on {0}. Making a new one switches that one off.", [frappe.datetime.str_to_user(had.made_on)])
-					: __("Anybody with the link can read your calendar, so keep it to yourself.")
-			}</p>`);
+		const dialog = new frappe.ui.Dialog({ title: __("Subscribe"), size: "small" });
+		const draw = (link) => {
+			const google = `https://calendar.google.com/calendar/render?cid=${encodeURIComponent(link.webcal)}`;
+			const outlook = `https://outlook.office.com/calendar/0/addfromweb?url=${encodeURIComponent(link.https)}&name=${encodeURIComponent(link.name)}`;
+			const button = (href, label) =>
+				`<a class="btn btn-default btn-sm" href="${href}" target="_blank" rel="noopener">${label}</a>`;
+			dialog.$body.html(`
+				<p class="text-muted small">${__("See this calendar in another app. It updates about every hour.")}</p>
+				<div class="one-calendar-apps">
+					${button(google, __("Google"))}
+					${button(link.webcal, __("Apple"))}
+					${button(outlook, __("Outlook"))}
+					<button class="btn btn-default btn-sm one-calendar-copy">${__("Copy Link")}</button>
+				</div>
+				<p class="text-muted small one-calendar-private">
+					${__("Anyone with the link can read your calendar.")}
+					<a class="one-calendar-renew">${__("New Link")}</a> ·
+					<a class="one-calendar-stop">${__("Switch Off")}</a>
+				</p>`);
+			dialog.$body.find(".one-calendar-copy").on("click", () => frappe.utils.copy_to_clipboard(link.https));
+			dialog.$body.find(".one-calendar-renew").on("click", async () => {
+				draw(await frappe.xcall("onedesk.one_calendar.feed.renew"));
+				frappe.show_alert({ message: __("New link made. The old one no longer works."), indicator: "green" });
+			});
+			dialog.$body.find(".one-calendar-stop").on("click", async () => {
+				await frappe.xcall("onedesk.one_calendar.feed.stop");
+				frappe.show_alert({ message: __("Your calendar link is switched off."), indicator: "orange" });
+				dialog.hide();
+			});
+		};
+		draw(await frappe.xcall("onedesk.one_calendar.feed.mine"));
 		dialog.show();
 	}
 };

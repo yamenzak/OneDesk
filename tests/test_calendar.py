@@ -163,13 +163,15 @@ def test_folding_never_cuts_through_a_character():
 	assert all(len(piece.encode()) <= 75 for piece in folded.split("\r\n"))
 
 
-def test_a_link_is_kept_as_a_hash_and_read_as_its_owner():
+def test_a_link_is_found_by_its_hash_kept_encrypted_and_read_as_its_owner():
 	source = (CAL / "feed.py").read_text()
-	assert '"token_hash": _hash(token)' in source and '"token":' not in source
+	assert '"token_hash": _hash(token)' in source and '{"token_hash": _hash(token or "")}' in source
+	spec = json.loads((CAL / "doctype" / "calendar_feed" / "calendar_feed.json").read_text())
+	assert next(f for f in spec["fields"] if f["fieldname"] == "token")["fieldtype"] == "Password"
 	assert "allow_guest=True" in source and "@rate_limit(" in source
 	assert "frappe.set_user(user)" in source
-	link = source.split("def link(", 1)[1].split("\ndef ", 1)[0]
-	assert "frappe.session.user" in link
+	for name in ("mine", "renew"):
+		assert "frappe.session.user" in source.split(f"def {name}(", 1)[1].split("\ndef ", 1)[0]
 
 
 def test_every_layer_is_declared_whole_and_registered():

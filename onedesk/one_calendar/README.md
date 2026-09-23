@@ -62,21 +62,17 @@ repeating, a video call link — is on the event's own page.
 
 ## In Google, Apple or Outlook
 
-**Subscribe** gives you a link to your calendar that other calendar apps read:
+**Subscribe** adds your calendar to another app: **Google**, **Apple** or
+**Outlook** opens that app ready to add it, and **Copy Link** is for anything
+else — a personal Outlook account pastes it under *Add calendar › Subscribe
+from web*. It carries what the calendar shows before you switch any layer off,
+from two months ago to a year ahead, and the other app reads it again about
+every hour. It only goes one way: an event you add in Google stays in Google.
 
-- **Google Calendar** — *Other calendars › From URL*, and paste it.
-- **Apple Calendar** — *File › New Calendar Subscription*, and paste it, or
-  open **Add to Apple Calendar** on the device.
-- **Outlook** — *Add calendar › Subscribe from web*, and paste it.
-
-It carries what the calendar shows before you switch any layer off, from two
-months ago to a year ahead, and the other app reads it again about every hour.
-It only goes one way: an event you add in Google stays in Google.
-
-**Anybody with the link can read your calendar.** It is shown once; **Make a
-New Link** switches the old one off, and **Switch Off** ends it. A Workspace
-Administrator can switch anybody's off under **Setup › Calendar Links**, which
-shows when each was made and last read.
+**Anyone with the link can read your calendar.** **New Link** switches the old
+one off, and **Switch Off** ends it. A Workspace Administrator can switch
+anybody's off under **Setup › Calendar Links**, which shows when each was made
+and last read.
 
 For events that go both ways with Google, frappe's own **Google Calendar**
 connection is under Setup; it needs a Google API key in Google Settings first.
@@ -99,8 +95,8 @@ For the people who build OneCalendar. OneAI does not read past this heading.
   `occurrences` expands repeats; `validate` keeps Public to PUBLISHERS.
 - `work.py` — ToDo and Task. Both move to OneTask when OneDesk has one.
 - `one_crm/calendar.py`, `one_hr/calendar.py` — each module's own layers.
-- `feed.py` — the subscription: a token per person, only its SHA-256 kept, read
-  as a guest and rate-limited, answered as that person. `calendar` writes RFC
+- `feed.py` — the subscription: a token per person, kept encrypted and found
+  by its SHA-256, read as a guest and rate-limited, answered as that person. `calendar` writes RFC
   5545 by hand: UTC times, all-day dates, escaped and folded lines.
 - `page/onecalendar` — the page, on the FullCalendar frappe already bundles
   for its own calendar view. The reader's layers and view are frappe user

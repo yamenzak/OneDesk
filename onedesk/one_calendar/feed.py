@@ -3,8 +3,9 @@
 Google Calendar (*From URL*), Apple Calendar (*New Calendar Subscription*) and
 Outlook (*Subscribe from web*) all read the same thing: an iCalendar file at an
 address. Each person has one address, with a secret in it, and whoever holds
-the address reads that person's calendar — so it is shown once, a new one
-switches the old one off, and only its hash is kept.
+the address reads that person's calendar. The secret is kept encrypted, as
+frappe keeps an API secret, so the dialog can show the link again; a link is
+found by the secret's hash, and a new one switches the old one off.
 
 It carries the layers that are on before anybody chooses, read as that person,
 so it holds nothing they could not see on the calendar itself. It is one way:
@@ -20,6 +21,7 @@ from zoneinfo import ZoneInfo
 import frappe
 from frappe import _
 from frappe.rate_limiter import rate_limit
+from frappe.utils.password import get_decrypted_password
 from frappe.utils import add_days, get_system_timezone, get_url, getdate, now_datetime, nowdate
 
 from onedesk.one_calendar import layers
@@ -35,27 +37,41 @@ LINE = 75
 
 
 @frappe.whitelist(methods=["POST"])
-def link() -> dict:
-	"""A new address for the reader's calendar. Any older one stops working."""
-	if frappe.session.user == "Guest":
+def mine() -> dict:
+	"""The reader's calendar link, made the first time they ask for it."""
+	token = _token(frappe.session.user) or _new(frappe.session.user)
+	return _addresses(token)
+
+
+@frappe.whitelist(methods=["POST"])
+def renew() -> dict:
+	"""A new link for the reader's calendar. The old one stops working."""
+	return _addresses(_new(frappe.session.user))
+
+
+def _new(user: str) -> str:
+	if user == "Guest":
 		frappe.throw(_("Log in to make a calendar link."), frappe.PermissionError)
 	token = secrets.token_urlsafe(24)
-	values = {"token_hash": _hash(token), "made_on": now_datetime(), "last_read": None}
-	if frappe.db.exists("Calendar Feed", frappe.session.user):
-		frappe.db.set_value("Calendar Feed", frappe.session.user, values)
-	else:
-		frappe.get_doc({"doctype": "Calendar Feed", "user": frappe.session.user, **values}).insert(
-			ignore_permissions=True
-		)
+	doc = frappe.get_doc("Calendar Feed", user) if frappe.db.exists("Calendar Feed", user) else frappe.new_doc("Calendar Feed")
+	doc.update({"user": user, "token": token, "token_hash": _hash(token), "made_on": now_datetime(), "last_read": None})
+	doc.save(ignore_permissions=True)
+	return token
+
+
+def _token(user: str) -> str | None:
+	if not frappe.db.exists("Calendar Feed", user):
+		return None
+	return get_decrypted_password("Calendar Feed", user, "token", raise_exception=False)
+
+
+def _addresses(token: str) -> dict:
 	address = get_url(f"/api/method/{METHOD}?token={token}")
-	return {"https": address, "webcal": "webcal://" + address.split("://", 1)[1]}
-
-
-@frappe.whitelist()
-@frappe.read_only()
-def status() -> dict | None:
-	"""Whether the reader has a link, when it was made and last read."""
-	return frappe.db.get_value("Calendar Feed", frappe.session.user, ["made_on", "last_read"], as_dict=True)
+	return {
+		"https": address,
+		"webcal": "webcal://" + address.split("://", 1)[1],
+		"name": f"{frappe.get_hooks('app_title', app_name='onedesk')[0]} · {frappe.utils.get_fullname()}",
+	}
 
 
 @frappe.whitelist(methods=["POST"])

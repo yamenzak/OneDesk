@@ -93,3 +93,14 @@
 .one-calendar .fc .fc-day-today {
 	background: var(--subtle-fg, var(--gray-50));
 }
+
+.one-calendar-apps {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--margin-sm);
+	margin: var(--margin-md) 0;
+}
+
+.one-calendar-private a {
+	cursor: pointer;
+}

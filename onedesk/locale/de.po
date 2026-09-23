@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 17:26+0000\n"
-"PO-Revision-Date: 2026-09-23 17:26+0000\n"
+"POT-Creation-Date: 2026-09-23 17:33+0000\n"
+"PO-Revision-Date: 2026-09-23 17:33+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -469,10 +469,6 @@ msgstr "Bewerber aus Lebensläufen anlegen"
 msgid "Add leads from business cards"
 msgstr "Leads aus Visitenkarten anlegen"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:232
-msgid "Add to Apple Calendar"
-msgstr "Zu Apple Kalender hinzufügen"
-
 #. Option for the 'Kind' (Select) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Add-on"
@@ -656,9 +652,9 @@ msgstr "Angenommen"
 msgid "Answers from your own records"
 msgstr "Antwortet aus Ihren eigenen Datensätzen"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:238
-msgid "Anybody with the link can read your calendar, so keep it to yourself."
-msgstr "Wer den Link hat, kann Ihren Kalender lesen – behalten Sie ihn für sich."
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:220
+msgid "Anyone with the link can read your calendar."
+msgstr "Wer den Link hat, kann Ihren Kalender lesen."
 
 #. Description of the 'explanation' field in DocType 'Attendance Request'
 #: onedesk/one_hr/custom/attendance_request.json
@@ -669,9 +665,9 @@ msgstr "Alles, was die entscheidende Person wissen muss."
 msgid "Appearance"
 msgstr "Erscheinungsbild"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:232
-msgid "Apple Calendar: File › New Calendar Subscription, and paste the link, or open it on this device:"
-msgstr "Apple Kalender: Ablage › Neues Kalenderabonnement, und den Link einfügen, oder auf diesem Gerät öffnen:"
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:215
+msgid "Apple"
+msgstr "Apple"
 
 #. Label of the one_applicant (Data) field in DocType 'Interview'
 #. Label of the job_applicant (Link) field in DocType 'Interview Recording'
@@ -1223,10 +1219,6 @@ msgstr ""
 msgid "Calendar Feed"
 msgstr "Kalenderlink"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:208
-msgid "Calendar Link"
-msgstr "Kalenderlink"
-
 #. Label of a Sidebar Item
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 msgid "Calendar Links"
@@ -1664,6 +1656,10 @@ msgstr "Unterhaltung"
 msgid "Conversations"
 msgstr "Unterhaltungen"
 
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:217
+msgid "Copy Link"
+msgstr ""
+
 #: onedesk/public/js/workspace_account.js:60
 msgid "Could not reach your account. Showing what was last known."
 msgstr "Ihr Konto war nicht erreichbar. Angezeigt wird der zuletzt bekannte Stand."
@@ -2076,7 +2072,6 @@ msgstr "Wartende Domains"
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:12
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:21
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:217
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:36
 #: onedesk/public/js/account_request.js:24 onedesk/public/js/ai_proposal.js:23
 #: onedesk/public/js/ai_proposal_list.js:10 onedesk/public/js/decision.js:39
@@ -2840,14 +2835,14 @@ msgstr ""
 msgid "Gone"
 msgstr "Verschwunden"
 
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:214
+msgid "Google"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 msgid "Google Calendar"
 msgstr ""
-
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:231
-msgid "Google Calendar: Other calendars › From URL, and paste the link."
-msgstr "Google Kalender: Weitere Kalender › Per URL, und den Link einfügen."
 
 #. Label of the ladder_section (Section Break) field in DocType 'One Admin
 #. Settings'
@@ -3809,7 +3804,7 @@ msgstr ""
 msgid "Log a Call"
 msgstr "Anruf erfassen"
 
-#: onedesk/one_calendar/feed.py:41
+#: onedesk/one_calendar/feed.py:54
 msgid "Log in to make a calendar link."
 msgstr "Melden Sie sich an, um einen Kalenderlink zu erstellen."
 
@@ -3878,14 +3873,6 @@ msgstr "Erstellt am"
 #: onedesk/one_ai/custom/file.json
 msgid "Made by OneAI"
 msgstr "Von OneAI erstellt"
-
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:210
-msgid "Make a Link"
-msgstr "Link erstellen"
-
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:210
-msgid "Make a New Link"
-msgstr "Neuen Link erstellen"
 
 #: onedesk/one_hr/ai.py:42 onedesk/one_hr/ai.py:280
 msgid "Make an expense claim from this receipt."
@@ -4176,10 +4163,18 @@ msgstr ""
 msgid "New Lead"
 msgstr "Neuer Lead"
 
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:221
+msgid "New Link"
+msgstr "Neuer Link"
+
 #: onedesk/one_ai/chat.py:115 onedesk/public/js/oneai/Panel.vue:20
 #: onedesk/public/js/oneai/Panel.vue:24
 msgid "New conversation"
 msgstr "Neue Unterhaltung"
+
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:227
+msgid "New link made. The old one no longer works."
+msgstr "Neuer Link erstellt. Der alte funktioniert nicht mehr."
 
 #: onedesk/public/js/oneai/Record.vue:137
 msgid "New {0}"
@@ -4945,9 +4940,9 @@ msgstr "Ergebnis"
 msgid "Outgoing"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:233
-msgid "Outlook: Add calendar › Subscribe from web, and paste the link."
-msgstr "Outlook: Kalender hinzufügen › Aus dem Internet abonnieren, und den Link einfügen."
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:216
+msgid "Outlook"
+msgstr "Outlook"
 
 #. Label of the max_output_tokens (Int) field in DocType 'AI Action'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
@@ -6063,6 +6058,10 @@ msgstr "Geheimer Schlüssel"
 msgid "See the changes"
 msgstr "Änderungen ansehen"
 
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:212
+msgid "See this calendar in another app. It updates about every hour."
+msgstr "Diesen Kalender in einer anderen App sehen. Er wird etwa stündlich aktualisiert."
+
 #. Label of the seen_section (Section Break) field in DocType 'Clock Network'
 #. Label of the seen_section (Section Break) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
@@ -6579,12 +6578,9 @@ msgid "Submitting this pays {0} {1} for {2} days of {3}."
 msgstr "Das Buchen zahlt {0} {1} für {2} Tage {3}."
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:27
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:205
 msgid "Subscribe"
 msgstr "Abonnieren"
-
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:205
-msgid "Subscribe From Another Calendar"
-msgstr "Aus einem anderen Kalender abonnieren"
 
 #: onedesk/one_crm/ai.py:48 onedesk/one_crm/ai.py:91
 msgid "Suggest the next step"
@@ -6643,7 +6639,7 @@ msgstr ""
 msgid "Suspended For"
 msgstr "Gesperrt für"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:219
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:222
 msgid "Switch Off"
 msgstr "Abschalten"
 
@@ -7103,7 +7099,7 @@ msgstr "Dieser Browser kann keinen Ton aufnehmen."
 msgid "This browser will not give a location."
 msgstr "Dieser Browser gibt keinen Standort heraus."
 
-#: onedesk/one_calendar/feed.py:73
+#: onedesk/one_calendar/feed.py:89
 msgid "This calendar link does not work any more."
 msgstr "Dieser Kalenderlink funktioniert nicht mehr."
 
@@ -7251,6 +7247,11 @@ msgstr "Bis zum Gewinn"
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:56
 msgid "Today"
+msgstr ""
+
+#. Label of the token (Password) field in DocType 'Calendar Feed'
+#: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
+msgid "Token"
 msgstr ""
 
 #. Label of the token_hash (Data) field in DocType 'Tenant'
@@ -8042,6 +8043,7 @@ msgstr "Arbeitsbereich-Konto"
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
+#: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
 msgid "Workspace Administrator"
 msgstr "Arbeitsbereich-Administrator"
 
@@ -8198,10 +8200,6 @@ msgstr "Sie können nur einen Brief über sich selbst anfordern."
 msgid "You checked in but never checked out, so a check out was written for you at the shift end. Tell HR if that is wrong."
 msgstr "Sie haben eingecheckt, aber nie ausgecheckt, daher wurde zum Schichtende ein Auschecken für Sie geschrieben. Sagen Sie der Personalabteilung Bescheid, falls das nicht stimmt."
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:237
-msgid "You made a link on {0}. Making a new one switches that one off."
-msgstr "Sie haben am {0} einen Link erstellt. Ein neuer Link schaltet diesen ab."
-
 #: onedesk/one_ai/tools.py:396
 msgid "You may not read {0} {1}."
 msgstr "Sie dürfen {0} {1} nicht lesen."
@@ -8224,11 +8222,7 @@ msgstr "Sie dürfen {1} nicht {0}."
 msgid "Your Instructions"
 msgstr "Ihre Anweisungen"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:229
-msgid "Your calendar in Google Calendar, Apple Calendar or Outlook, updated about every hour. It shows what is on here before you switch any layer off, and nothing you could not see here."
-msgstr "Ihr Kalender in Google Kalender, Apple Kalender oder Outlook, etwa stündlich aktualisiert. Er zeigt, was hier steht, bevor Sie eine Ebene ausschalten, und nichts, was Sie hier nicht sehen könnten."
-
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:223
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:231
 msgid "Your calendar link is switched off."
 msgstr "Ihr Kalenderlink ist abgeschaltet."
 

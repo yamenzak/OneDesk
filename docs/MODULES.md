@@ -74,7 +74,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Calendar Feed | 5 | document |
+| Calendar Feed | 6 | document |
 
 ## Desk records shipped as fixtures
 
@@ -147,8 +147,8 @@ No doctypes yet.
 * `onedesk.one_ai.run.waiting`
 * `onedesk.one_calendar.events.move`
 * `onedesk.one_calendar.feed.ics`
-* `onedesk.one_calendar.feed.link`
-* `onedesk.one_calendar.feed.status`
+* `onedesk.one_calendar.feed.mine`
+* `onedesk.one_calendar.feed.renew`
 * `onedesk.one_calendar.feed.stop`
 * `onedesk.one_calendar.layers.entries`
 * `onedesk.one_calendar.layers.layers`
