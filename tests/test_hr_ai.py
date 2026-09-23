@@ -81,7 +81,7 @@ def test_ohr_registers_its_own_tool_and_suggestion():
 
 
 def test_a_suggestion_is_only_offered_to_somebody_who_can_take_it():
-	assert "frappe.has_permission(doctype, ptype=one['can'])" in _source(SUGGEST, "for_page")
+	assert "frappe.has_permission(on, ptype=one['can'])" in _source(SUGGEST, "for_page")
 
 
 def test_a_card_carries_rows_only_of_its_own_tables():
@@ -93,3 +93,52 @@ def test_an_empty_answer_after_a_tool_is_done_and_anywhere_else_is_retried():
 	said = _source(GATEWAY, "_said")
 	assert "turns[-1] or {}).get('role') == 'tool'" in said
 	assert said.count("asking()") == 2
+
+
+# ----------------------------------------------------------------- leave
+
+
+def test_leave_is_only_ever_booked_in_the_askers_name_and_only_as_a_card():
+	said = _source(AI, "book_leave")
+	assert "own.employee_of()" in said
+	assert "employee" not in said.split(")", 1)[0].split("(", 1)[1]
+	assert "proposals.propose('Create', 'Leave Application'" in said
+	for writing in (".insert(", ".save(", ".submit(", "ignore_permissions"):
+		assert writing not in said, writing
+
+
+def test_leave_days_are_counted_the_way_hrms_counts_them():
+	"""Holidays and weekly offs, per leave type, by HRMS's own function."""
+	assert "get_number_of_leave_days(" in _source(AI, "book_leave")
+	assert "days > left" in _source(AI, "book_leave"), "more days than are left would be suggested"
+
+
+def test_leave_with_nobody_to_approve_it_is_refused_before_the_card():
+	"""HR Settings can make the approver mandatory; Approve would then fail on a
+	field the person never saw."""
+	said = _source(AI, "book_leave")
+	assert "leave_approver_mandatory_in_leave_application" in said
+	assert said.index("leave_approver_mandatory") < said.index("proposals.propose(")
+
+
+def test_a_suggestion_card_follows_the_form_order():
+	"""Stored changes come back alphabetical; the card reads them in form order."""
+	said = _source(tree.APP / "one_ai" / "chat.py", "_suggests")
+	assert "sorted(changes.items()" in said
+
+
+def test_who_is_off_is_what_the_leave_calendar_already_shows():
+	"""HRMS's own rule, not a second one: its department view, gated by HR Settings."""
+	said = _source(AI, "my_leave")
+	assert "add_department_leaves(" in said
+	assert "own.employee_of()" in said
+
+
+@pytest.mark.parametrize(
+	"said, chosen",
+	[("annual", "Annual Leave"), ("Sick Leave", "Sick Leave"), ("casual", "Casual Leave"), ("vacation", "Annual Leave")],
+)
+def test_the_leave_type_is_picked_here(said, chosen):
+	space = {}
+	exec(_source(AI, "_leave_type"), space)
+	assert space["_leave_type"](said, ["Casual Leave", "Sick Leave", "Annual Leave"]) == chosen

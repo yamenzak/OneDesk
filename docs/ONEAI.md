@@ -1021,6 +1021,27 @@ empty candidate, which is *done* and is now read as done; and an empty
 candidate anywhere else is a blip, retried once before it is said as "try
 again".
 
+**The second is leave.** *How much leave do I have?* and *Book time off* are
+offered on Leave Application and on the OneHR home. `my_leave` reads what is
+left of each kind, the holidays in the dates asked about, what they would cost,
+and who on the team is already off — by HRMS's own department rule, so it says
+nothing the leave calendar would not. `book_leave` counts the days with HRMS's
+own function, refuses more than are left, and refuses before the card when
+nobody approves this person's leave and HR Settings makes an approver
+mandatory; Approve would otherwise fail on a field the person never saw. The
+reply names any day in the range that costs nothing, because "Thursday and
+Friday" costing one day is the thing the person did not expect.
+
+The model has no clock, so every turn now opens with today's date — asked for
+"this Friday" it had booked a Friday in 2024. And a suggestion card reads its
+fields in the form's order: stored changes come back alphabetical, which put
+"Asked For On" on the card and pushed "To Date" off it.
+
+Measured as Rania on the OneHR home: the balance answer right in one round,
+Thursday 24 and Friday 25 September booked as one day of Annual Leave with
+Friday named as the weekly off, and Approve making HR-LAP-2026-00002 for her
+approver. Just under two credits for the whole conversation.
+
 ## What is deliberately not here
 
 **No model is named in application code.** An action names a capability; a

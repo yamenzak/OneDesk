@@ -126,6 +126,8 @@ async function answer(what) {
 			await frappe.xcall(`onedesk.one_ai.run.${what}`, { proposal: props.suggested.name });
 		}
 		emit("answered", props.suggested.name);
+	} catch {
+		// The server already said why, in its own dialog; the card stays open.
 	} finally {
 		busy.value = false;
 	}

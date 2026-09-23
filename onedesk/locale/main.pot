@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 06:13+0000\n"
-"PO-Revision-Date: 2026-09-23 06:13+0000\n"
+"POT-Creation-Date: 2026-09-23 06:24+0000\n"
+"PO-Revision-Date: 2026-09-23 06:24+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -684,7 +684,7 @@ msgstr ""
 msgid "Ask for a Reason on Check Out"
 msgstr ""
 
-#: onedesk/public/js/oneai.js:91 onedesk/public/js/oneai.js:92
+#: onedesk/public/js/oneai.js:100 onedesk/public/js/oneai.js:101
 #: onedesk/public/js/oneai/Panel.vue:173
 msgid "Ask {0}"
 msgstr ""
@@ -2242,7 +2242,7 @@ msgstr ""
 msgid "From Date"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:86
+#: onedesk/one_hr/ai.py:116
 msgid "From a receipt: {0}, {1}."
 msgstr ""
 
@@ -3370,7 +3370,7 @@ msgstr ""
 msgid "Not a workspace this site administers."
 msgstr ""
 
-#: onedesk/one_ai/chat.py:344 onedesk/one_ai/chat.py:347
+#: onedesk/one_ai/chat.py:348 onedesk/one_ai/chat.py:351
 msgid "Not answered"
 msgstr ""
 
@@ -3641,7 +3641,7 @@ msgstr ""
 msgid "OneAI"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:343
+#: onedesk/one_ai/chat.py:347
 msgid "OneAI could not be reached just now. The question is still here — try again."
 msgstr ""
 
@@ -5231,7 +5231,7 @@ msgstr ""
 msgid "Suggested deletion"
 msgstr ""
 
-#: onedesk/one_ai/tools.py:369 onedesk/one_hr/ai.py:92
+#: onedesk/one_ai/tools.py:369 onedesk/one_hr/ai.py:122
 msgid "Suggested. It happens when somebody approves it."
 msgstr ""
 
@@ -6374,7 +6374,7 @@ msgstr ""
 msgid "Write attendance on the holidays inside these dates as well. Left off, holidays in the range are skipped."
 msgstr ""
 
-#: onedesk/public/js/oneai.js:171
+#: onedesk/public/js/oneai.js:180
 msgid "Write with {0}"
 msgstr ""
 
@@ -6391,11 +6391,11 @@ msgstr ""
 msgid "Written by the sync. Editable only on a model priced by hand."
 msgstr ""
 
-#: onedesk/public/js/oneai.js:177
+#: onedesk/public/js/oneai.js:186
 msgid "Written by {0}. Goes once somebody edits it."
 msgstr ""
 
-#: onedesk/public/js/oneai.js:171
+#: onedesk/public/js/oneai.js:180
 msgid "Written by {0}. Press to write it again."
 msgstr ""
 
@@ -6553,7 +6553,7 @@ msgstr ""
 msgid "input"
 msgstr ""
 
-#: onedesk/one_ai/suggest.py:42
+#: onedesk/one_ai/suggest.py:52
 msgid "label"
 msgstr ""
 
@@ -6718,6 +6718,14 @@ msgstr ""
 
 #: onedesk/public/js/tenant.js:217
 msgid "{0} days left"
+msgstr ""
+
+#: onedesk/one_hr/ai.py:303
+msgid "{0} days of {1}."
+msgstr ""
+
+#: onedesk/one_hr/ai.py:305
+msgid "{0} days of {1}; {2} left after."
 msgstr ""
 
 #: onedesk/public/js/overtime_slip.js:69

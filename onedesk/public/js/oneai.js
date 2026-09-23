@@ -55,6 +55,15 @@ onedesk.oneai = {
 		return null;
 	},
 
+	// The workspace home the reader is on, for what the panel offers there.
+	// Not a page the model is told about — "the reader is on OneHR's home" is
+	// noise to a model — only a key for the suggestions an employee starts on.
+	home() {
+		const route = frappe.get_route() || [];
+		const kind = (route[0] || "").toLowerCase();
+		return (kind === "workspaces" || kind === "workspace") && route[1] ? { workspace: route[1] } : null;
+	},
+
 	async open(opening) {
 		if (!this.panel) {
 			await frappe.require("oneai.bundle.js");

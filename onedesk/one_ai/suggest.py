@@ -24,20 +24,30 @@ MOST = 4
 
 
 def for_page(page: dict | None) -> list[dict]:
+	"""A doctype's suggestions on its list or record, a workspace's on its home.
+
+	A workspace is keyed `workspace:<name>` and each of its suggestions names the
+	doctype its permission is checked on, since a home page has none of its own.
+	"""
 	page = page or {}
+	workspace = (page.get("workspace") or "").strip()
 	doctype = (page.get("doctype") or "").strip()
-	view = "Form" if page.get("name") else ("List" if doctype else "")
-	if not doctype or not frappe.db.exists("DocType", doctype):
+	if workspace:
+		key, view = f"workspace:{workspace}", ""
+	elif doctype and frappe.db.exists("DocType", doctype):
+		key, view = doctype, "Form" if page.get("name") else "List"
+	else:
 		return []
 
 	offered = []
 	for path in frappe.get_hooks("one_ai_suggestions") or []:
-		offered += frappe.get_attr(path).get(doctype, [])
+		offered += frappe.get_attr(path).get(key, [])
 	offered += EVERYWHERE.get(view, [])
 
 	said = []
 	for one in offered:
-		if one.get("can") and not frappe.has_permission(doctype, ptype=one["can"]):
+		on = one.get("doctype") or doctype
+		if one.get("can") and not (on and frappe.has_permission(on, ptype=one["can"])):
 			continue
 		said.append({"label": frappe._(one["label"]), "ask": one["ask"], "file": bool(one.get("file"))})
 	return said[:MOST]

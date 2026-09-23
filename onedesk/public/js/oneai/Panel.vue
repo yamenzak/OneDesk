@@ -421,7 +421,7 @@ async function offer() {
 	offered.value = [];
 	try {
 		offered.value = await frappe.xcall("onedesk.one_ai.chat.suggestions", {
-			page: useHere.value && props.here ? props.here : null,
+			page: (useHere.value && props.here) || onedesk.oneai.home(),
 		});
 	} catch (e) {
 		// Nothing offered is a panel that still works; the box is still there.

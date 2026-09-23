@@ -295,7 +295,11 @@ def _suggests(row: dict) -> dict:
 	meta = frappe.get_meta(doctype) if doctype and frappe.db.exists("DocType", doctype) else None
 	labels = {field.fieldname: field.label or field.fieldname for field in (meta.fields if meta else [])}
 	links = {f.fieldname: f.options for f in (meta.fields if meta else []) if f.fieldtype == "Link"}
-	for field, value in list(changes.items())[:FIELDS]:
+	# In the form's own order: stored JSON comes back alphabetical, which put
+	# "Asked For On" on the card and pushed "To Date" off it.
+	place = {name: at for at, name in enumerate(labels)}
+	ordered = sorted(changes.items(), key=lambda one: place.get(one[0], len(place)))
+	for field, value in ordered[:FIELDS]:
 		fields.append(
 			{
 				"label": frappe._(labels.get(field, field)),
@@ -519,9 +523,11 @@ def _asked(
 	from onedesk.one_ai import touch
 
 	where = touch.told(field) if field else _page(page)
-	turns = []
-	if where:
-		turns.append({"role": "user", "text": where, "calls": [], "context": True})
+	# The model has no clock: asked for "Friday off" it books a Friday from its
+	# training data. Today goes into every turn, not once per conversation, so a
+	# chat picked up tomorrow still counts from the right day.
+	where = " ".join(one for one in (_today(), where) if one)
+	turns = [{"role": "user", "text": where, "calls": [], "context": True}]
 	turns.append(
 		{
 			"role": "user",
@@ -534,6 +540,12 @@ def _asked(
 		}
 	)
 	return turns
+
+
+def _today() -> str:
+	"""Today in the site's own timezone, weekday first, as a person says it."""
+	today = frappe.utils.getdate(frappe.utils.nowdate())
+	return f"Today is {today.strftime('%A')} {today.day} {today.strftime('%B %Y')} ({today.isoformat()})."
 
 
 def _page(page: dict | str | None) -> str:

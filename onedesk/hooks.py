@@ -292,6 +292,6 @@ code_only_modules = {"One AI": ["One"]}
 # What OneAI can do in each module, owned by the module. Reads run as the
 # person asking; suggests write a card. Suggestions are what the panel offers
 # when it opens on a page. See one_ai/tools.py and one_ai/suggest.py.
-one_ai_reads = []
-one_ai_suggests = ["onedesk.one_hr.ai.claim_expense"]
+one_ai_reads = ["onedesk.one_hr.ai.my_leave"]
+one_ai_suggests = ["onedesk.one_hr.ai.claim_expense", "onedesk.one_hr.ai.book_leave"]
 one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS"]

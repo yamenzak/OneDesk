@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 06:13+0000\n"
-"PO-Revision-Date: 2026-09-23 06:13+0000\n"
+"POT-Creation-Date: 2026-09-23 06:24+0000\n"
+"PO-Revision-Date: 2026-09-23 06:24+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -686,7 +686,7 @@ msgstr "طلب صورة"
 msgid "Ask for a Reason on Check Out"
 msgstr "طلب سبب عند تسجيل الانصراف"
 
-#: onedesk/public/js/oneai.js:91 onedesk/public/js/oneai.js:92
+#: onedesk/public/js/oneai.js:100 onedesk/public/js/oneai.js:101
 #: onedesk/public/js/oneai/Panel.vue:173
 msgid "Ask {0}"
 msgstr "اسأل {0}"
@@ -2244,7 +2244,7 @@ msgstr "مجاناً لمدة {0} يوماً"
 msgid "From Date"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:86
+#: onedesk/one_hr/ai.py:116
 msgid "From a receipt: {0}, {1}."
 msgstr "من إيصال: {0}، {1}."
 
@@ -3372,7 +3372,7 @@ msgstr "لم يسجّل الحضور"
 msgid "Not a workspace this site administers."
 msgstr "ليست مساحة عمل يديرها هذا الموقع."
 
-#: onedesk/one_ai/chat.py:344 onedesk/one_ai/chat.py:347
+#: onedesk/one_ai/chat.py:348 onedesk/one_ai/chat.py:351
 msgid "Not answered"
 msgstr "لم يُجب"
 
@@ -3643,7 +3643,7 @@ msgstr "اشترت هذا مساحة عمل واحدة"
 msgid "OneAI"
 msgstr "OneAI"
 
-#: onedesk/one_ai/chat.py:343
+#: onedesk/one_ai/chat.py:347
 msgid "OneAI could not be reached just now. The question is still here — try again."
 msgstr "تعذّر الوصول إلى OneAI الآن. والسؤال ما زال هنا — حاول مرة أخرى."
 
@@ -5233,7 +5233,7 @@ msgstr "تغيير مُقترح"
 msgid "Suggested deletion"
 msgstr "حذف مُقترح"
 
-#: onedesk/one_ai/tools.py:369 onedesk/one_hr/ai.py:92
+#: onedesk/one_ai/tools.py:369 onedesk/one_hr/ai.py:122
 msgid "Suggested. It happens when somebody approves it."
 msgstr "اقتُرح. ويحدث حين يوافق عليه أحد."
 
@@ -6379,7 +6379,7 @@ msgstr "اكتب مسودة أولى"
 msgid "Write attendance on the holidays inside these dates as well. Left off, holidays in the range are skipped."
 msgstr "اكتب الحضور في العطل الواقعة ضمن هذه التواريخ أيضاً. وإن تُرك دون تفعيل، تُتخطى العطل ضمن المدة."
 
-#: onedesk/public/js/oneai.js:171
+#: onedesk/public/js/oneai.js:180
 msgid "Write with {0}"
 msgstr "اكتب باستخدام {0}"
 
@@ -6396,11 +6396,11 @@ msgstr "كتابة"
 msgid "Written by the sync. Editable only on a model priced by hand."
 msgstr "تكتبها المزامنة. ولا تُحرَّر إلا في نموذج مُسعَّر يدوياً."
 
-#: onedesk/public/js/oneai.js:177
+#: onedesk/public/js/oneai.js:186
 msgid "Written by {0}. Goes once somebody edits it."
 msgstr "كتبه {0}. تختفي بمجرد أن يعدّله أحد."
 
-#: onedesk/public/js/oneai.js:171
+#: onedesk/public/js/oneai.js:180
 msgid "Written by {0}. Press to write it again."
 msgstr "كتبه {0}. اضغط لإعادة كتابته."
 
@@ -6558,7 +6558,7 @@ msgstr "حضر متأخراً وانصرف مبكراً"
 msgid "input"
 msgstr "مدخلات"
 
-#: onedesk/one_ai/suggest.py:42
+#: onedesk/one_ai/suggest.py:52
 msgid "label"
 msgstr ""
 
@@ -6731,6 +6731,14 @@ msgstr "{0} يوماً قبل أن تهبط إلى {1}."
 #: onedesk/public/js/tenant.js:217
 msgid "{0} days left"
 msgstr "بقي {0} يوماً"
+
+#: onedesk/one_hr/ai.py:303
+msgid "{0} days of {1}."
+msgstr "{0} يوم من {1}."
+
+#: onedesk/one_hr/ai.py:305
+msgid "{0} days of {1}; {2} left after."
+msgstr "{0} يوم من {1}؛ يتبقى بعدها {2}."
 
 #: onedesk/public/js/overtime_slip.js:69
 msgid "{0} days read. Save to keep them."
