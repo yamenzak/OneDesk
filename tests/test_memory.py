@@ -1,0 +1,95 @@
+"""What OneAI knows beyond the record: memory, knowledge, past chats, a record's
+whole story. Private where it is personal, live where it is a record, and never
+written without a card."""
+
+import json
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+
+import tree
+
+MEMORY = (tree.APP / "one_ai" / "memory.py").read_text()
+TOOLS = (tree.APP / "one_ai" / "tools.py").read_text()
+DOCTYPES = tree.APP / "one_ai" / "doctype"
+
+
+def _body(source: str, name: str) -> str:
+	return source.split(f"def {name}(", 1)[1].split("\ndef ", 1)[0]
+
+
+def test_a_memory_is_its_owners_alone():
+	"""if_owner on the doctype, and the owner named in every read as well:
+	Administrator is not held by if_owner."""
+	meta = json.loads((DOCTYPES / "ai_memory" / "ai_memory.json").read_text())
+	assert [(p["role"], p.get("if_owner")) for p in meta["permissions"]] == [("All", 1)]
+	reads = MEMORY.count('frappe.get_list(\n\t\t"AI Memory"')
+	assert reads and MEMORY.count('"owner": frappe.session.user') >= reads
+
+
+def test_only_an_administrator_writes_knowledge_and_everybody_reads_it():
+	meta = json.loads((DOCTYPES / "ai_knowledge" / "ai_knowledge.json").read_text())
+	writers = {p["role"] for p in meta["permissions"] if p.get("write")}
+	readers = {p["role"] for p in meta["permissions"] if p.get("read")}
+	assert writers == {"Workspace Administrator"}
+	assert "All" in readers
+
+
+def test_remembering_is_a_card_and_recalling_is_a_read():
+	assert "memory.remember" in TOOLS.split("SUGGESTS = (", 1)[1].split(")", 1)[0]
+	reads = TOOLS.split("READS = (", 1)[1].split(")", 1)[0]
+	for tool in ("memory.about_record", "memory.recall", "memory.search_my_chats"):
+		assert tool in reads, tool
+	assert 'proposals.propose("Create", "AI Memory"' in _body(MEMORY, "remember")
+
+
+def test_a_records_story_is_read_live_through_the_sidebars_own_function():
+	about = _body(MEMORY, "about_record")
+	assert "tools.read_record(doctype, name)" in about  # the permission check
+	assert "load.get_docinfo(" in about
+	for kind in ('"comments"', '"emails"', '"changes"', '"assigned_to"', '"files"', '"links_here"'):
+		assert kind in about, kind
+
+
+def test_past_chats_are_only_the_readers_own():
+	assert '"owner": frappe.session.user' in _body(MEMORY, "search_my_chats")
+
+
+def test_the_context_turn_carries_the_workspace_the_reader_and_what_is_remembered():
+	chat = (tree.APP / "one_ai" / "chat.py").read_text()
+	asked = _body(chat, "_asked")
+	for said in ("_today()", "_workspace()", "_reader()", "memory.told("):
+		assert said in asked, said
+	assert 'frappe.get_hooks("one_ai_workspace")' in chat
+
+
+def test_a_memory_is_tied_to_a_record_only_when_the_fact_names_it():
+	remember = _body(MEMORY, "remember")
+	assert "_names(" in remember
+	names = _body(MEMORY, "_names")
+	assert "title_field" in names and ".lower() in said" in names
+
+
+def test_the_same_call_twice_in_one_answer_is_not_run_twice():
+	run = (tree.APP / "one_ai" / "run.py").read_text()
+	assert "if key in asked:" in run and "already made and answered" in run
+
+
+def test_a_read_uses_the_one_value_a_link_filter_plainly_meant():
+	"""A read changes nothing, so "Annual" for "Annual Leave" is used as meant;
+	two candidates are said, never picked between."""
+	meant = _body(TOOLS, "_meant")
+	assert "len(same) == 1" in meant and "len(holding) == 1" in meant
+	assert "_meant(value, there)" in _body(TOOLS, "_known")
+
+
+def test_past_chats_rank_on_what_was_said_and_skip_the_one_asking():
+	search = _body(MEMORY, "search_my_chats")
+	assert "_said(one.turns)" in search and "one.name != now" in search
+	assert "frappe.flags.one_ai_chat" in search
+
+
+def test_a_card_hides_what_the_form_hides():
+	chat = (tree.APP / "one_ai" / "chat.py").read_text()
+	assert 'field.hidden or field.fieldname == "naming_series"' in _body(chat, "_drawn")

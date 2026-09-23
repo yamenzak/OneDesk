@@ -41,6 +41,10 @@
 				<div v-if="!threads.length" class="one-ai-empty">
 					{{ __("Nothing asked yet. Ask something about what is on screen, or anything else.") }}
 				</div>
+				<button class="one-ai-remembers" @click="toMemory">
+					<Icon name="brain" />
+					<span>{{ __("What OneAI remembers") }}</span>
+				</button>
 			</template>
 
 			<template v-else>
@@ -436,6 +440,10 @@ function current() {
 // for everybody.
 function toModel() {
 	frappe.set_route("Form", "AI Action Setting", chat.value.model_at);
+}
+
+function toMemory() {
+	frappe.set_route("List", "AI Memory");
 }
 
 function listen() {

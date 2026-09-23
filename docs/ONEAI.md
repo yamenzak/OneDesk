@@ -1066,6 +1066,59 @@ money with its currency, a link as its record's title. A record read twice
 while answering one question is one card, and the reply says in a sentence
 what the cards add up to rather than listing them again.
 
+**What it knows beyond the record** — `one_ai/memory.py`, four kinds with
+four owners.
+
+The records themselves, read live: `about_record` is everything the form's
+own sidebar knows about one record — its fields, what links to it, its
+comments, mail, changes, assignments and files — through frappe's own
+`get_docinfo`, so it is never a copy that went stale and never more than the
+reader may open. A Knowledge doctype holding copies of records was the other
+way, and it leaks: a note summarising a salary is readable by whoever reads
+the note.
+
+A person's own memory, `AI Memory`: short facts somebody told OneAI to keep.
+Private by the doctype's if-owner rule and by an owner filter on every read,
+because Administrator is not held by if-owner. Written only by approving a
+`remember` card, like any other change — a fact the model decided to keep
+about someone is one they should have seen. The newest eight ride along on
+every turn; `recall` finds the rest. The conversation list links to the
+memory list, which is where they are read and deleted.
+
+The workspace's knowledge, `AI Knowledge`: what a Workspace Administrator
+wrote for everybody — a policy, a glossary, how things are done here. A note
+tied to a type is told to the model whenever that type's list or form is on
+screen; an untied one is found by `recall`.
+
+The reader's past conversations, searched by `search_my_chats` in what was
+said rather than in the page pointers and tool rows around it.
+
+**What every turn opens with.** Today; the workspace — whose it is, its
+money, its clock, and what a module adds through `one_ai_workspace` (OneHR:
+the weekly days off); the reader — name, email, their language when it is not
+English, and what a module adds through `one_ai_reader` (OneHR: their
+employee record); the page and its type's fields; then their memories and the
+knowledge for that type. The persona gained two rules: a tool's error is read,
+corrected and tried once more before the person is asked, and something worth
+keeping is offered as a memory.
+
+Three things the first live run of this found, each fixed where frappe could
+say it rather than by more words in the prompt. A link filtered on a record
+that does not exist — leave type "Annual" for "Annual Leave" — matched
+nothing, and the model asked the same empty question nine times until the
+round limit ended the run; that filter is now refused with the values there
+are, and the identical call twice in one answer is answered "already asked,
+answer with what you have" instead of being run again. A memory tied itself
+to the reader's own employee record rather than the person it was about; it
+is tied to a record only when the fact names that record's title or id. And a
+model that looked something up and then said nothing — Gemini's empty reply
+after a tool result — left a blank panel; a finished run with no words and no
+card is asked once more, in a turn the reader never sees, to answer.
+
+Found on the way: `what_links_here` had been broken since v17 changed
+`linked_with.get` to answer `{docs, hidden_count}` per type. It reads both
+shapes now, and says how many links the reader may not see as a number.
+
 ## What is deliberately not here
 
 **No model is named in application code.** An action names a capability; a

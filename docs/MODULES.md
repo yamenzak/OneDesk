@@ -60,6 +60,8 @@ No doctypes yet.
 | AI Action | 14 | document |
 | AI Action Setting | 6 | document |
 | AI Chat | 7 | document |
+| AI Knowledge | 6 | document |
+| AI Memory | 5 | document |
 | AI Proposal | 20 | document |
 | AI Touch | 8 | document |
 

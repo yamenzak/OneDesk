@@ -1,0 +1,94 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "format:KNOW-{#####}",
+ "creation": "2026-09-23 18:00:00.000000",
+ "description": "What this workspace wants OneAI to know: a policy, a glossary, how things are done here.",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "naming_rule": "Expression",
+ "field_order": [
+  "title",
+  "applies_to",
+  "column_break_what",
+  "enabled",
+  "body_section",
+  "body"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "applies_to",
+   "fieldtype": "Link",
+   "label": "Applies To",
+   "options": "DocType",
+   "in_list_view": 1,
+   "description": "Told to OneAI whenever somebody is on this type's list or form. Leave empty for a note it finds when it looks."
+  },
+  {
+   "fieldname": "column_break_what",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "body_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "body",
+   "fieldtype": "Text Editor",
+   "label": "What OneAI Should Know",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-23 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One AI",
+ "name": "AI Knowledge",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 0,
+   "export": 1,
+   "print": 0,
+   "read": 1,
+   "report": 1,
+   "role": "Workspace Administrator",
+   "share": 0,
+   "write": 1
+  },
+  {
+   "create": 0,
+   "delete": 0,
+   "email": 0,
+   "export": 0,
+   "print": 0,
+   "read": 1,
+   "report": 0,
+   "role": "All",
+   "share": 0,
+   "write": 0
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "title_field": "title"
+}

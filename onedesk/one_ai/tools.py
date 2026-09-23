@@ -31,7 +31,7 @@ from typing import Annotated
 import frappe
 from frappe.utils import strip_html_tags
 
-from onedesk.one_ai import proposals, schema
+from onedesk.one_ai import memory, proposals, schema
 
 #: Fieldtypes never handed to a model, whatever the caller may see. A password
 #: is a credential rather than a fact about a record, and a model that can read
@@ -102,6 +102,34 @@ def _known(doctype: str, filters=None, fields=None, order_by: str | None = None)
 			f"{doctype} has no field {', '.join(unknown)}. Its fields: {', '.join(proposals.fields_of(meta))}, "
 			"plus name, owner, creation and modified."
 		)
+	# A link filtered on a record that does not exist matches nothing, and an
+	# empty answer reads to a model as "there are none" — "Annual" for a leave
+	# type called "Annual Leave". A read changes nothing, so the one record it
+	# plainly meant is used; anything less plain is said, with the values there
+	# are, and the model left to choose.
+	for field, value in (filters or {}).items() if isinstance(filters, dict) else ():
+		df = meta.get_field(field)
+		if df and df.fieldtype == "Link" and isinstance(value, str) and value and not frappe.db.exists(df.options, value):
+			try:
+				there = frappe.get_list(df.options, pluck="name", limit_page_length=200)
+			except frappe.PermissionError:
+				there = []
+			meant = _meant(value, there)
+			if meant:
+				filters[field] = meant
+				continue
+			frappe.throw(f"There is no {df.options} called {value!r}. There are: {', '.join(map(str, there[:20]))}.")
+
+
+def _meant(said: str, there: list) -> str | None:
+	"""The one value `said` plainly names: the same ignoring case, or the only
+	one that contains it."""
+	low = said.strip().lower()
+	same = [one for one in there if str(one).lower() == low]
+	if len(same) == 1:
+		return same[0]
+	holding = [one for one in there if low and low in str(one).lower()]
+	return holding[0] if len(holding) == 1 else None
 
 
 def read_record(
@@ -266,11 +294,16 @@ def what_links_here(
 		frappe.throw(frappe._("You may not read {0} {1}.").format(doctype, name), frappe.PermissionError)
 
 	found = linked(doctype=doctype, docname=name) or {}
-	return {
-		kind: [row.get("name") for row in rows][:MOST_LINKS]
-		for kind, rows in found.items()
-		if rows
-	}
+	said = {}
+	for kind, rows in found.items():
+		# v17 answers {"docs": [...], "hidden_count": n} per type — n being the
+		# ones the reader may not see, said as a number and never as names.
+		hidden = rows.get("hidden_count", 0) if isinstance(rows, dict) else 0
+		rows = rows.get("docs", []) if isinstance(rows, dict) else rows
+		names = [row.get("name") for row in rows or [] if isinstance(row, dict)][:MOST_LINKS]
+		if names or hidden:
+			said[kind] = {"names": names, "not_visible_to_the_reader": hidden} if hidden else names
+	return said
 
 
 def what_can_happen(
@@ -352,11 +385,14 @@ READS = (
 	what_links_here,
 	what_can_happen,
 	run_report,
+	memory.about_record,
+	memory.recall,
+	memory.search_my_chats,
 )
 
 #: What becomes a card instead. Named separately rather than flagged, because a
 #: tool moving from one tuple to the other is a line in a diff somebody reviews.
-SUGGESTS = (create_record, edit_record, delete_record, move_record)
+SUGGESTS = (create_record, edit_record, delete_record, move_record, memory.remember)
 
 BY_NAME = {fn.__name__: fn for fn in READS + SUGGESTS}
 

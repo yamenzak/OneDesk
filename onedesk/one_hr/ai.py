@@ -14,6 +14,7 @@ where a wrong amount is caught — by the person who approves expenses, not by t
 model that read the paper.
 """
 
+import calendar
 from typing import Annotated
 
 import frappe
@@ -172,6 +173,24 @@ def reader() -> str:
 		f"Their employee record is {employee}; their own records of any HR type are the ones "
 		"whose employee field is that."
 	)
+
+
+def workspace() -> str:
+	"""The weekly offs, for the `one_ai_workspace` hook: read off this year's
+	default holiday list, because "Friday" costing a day or not is the first
+	thing a question about leave turns on."""
+	company = frappe.defaults.get_global_default("company")
+	listed = company and frappe.db.get_value("Company", company, "default_holiday_list")
+	if not listed:
+		return ""
+	offs = frappe.get_all(
+		"Holiday", filters={"parent": listed, "weekly_off": 1}, pluck="holiday_date", limit_page_length=14
+	)
+	days = sorted({getdate(one).weekday() for one in offs})
+	if not days:
+		return ""
+	names = [calendar.day_name[one] for one in days]
+	return f"The weekly days off are {' and '.join(names)}."
 
 
 # ----------------------------------------------------------------- leave

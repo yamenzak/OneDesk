@@ -10,6 +10,8 @@ whether the model may answer it, whether there are credits — all of that is
 admin's, for the same reason a workspace cannot sign its own upload URL.
 """
 
+import json
+
 import frappe
 
 from onedesk.one import account, roles
@@ -52,6 +54,8 @@ def ask(
 	# on the end of it; a bare `text` is the first thing anybody said.
 	turns = list(turns) if turns else None
 	spent, rounds, cards = 0.0, 0, []
+	asked: dict[str, dict] = {}
+	nudged = False
 
 	tell = heard or (lambda step: None)
 
@@ -68,12 +72,31 @@ def ask(
 			tools=offered,
 		)
 		spent += float(out.get("credits") or 0)
+		if out.get("done") and _silent(out, cards) and not nudged and rounds < ROUNDS:
+			# Gemini answers the round after a tool result with nothing, which
+			# is "done" when a card said it and a blank panel when none did.
+			# Asked once, in a turn the reader never sees, it says the answer.
+			nudged = True
+			turns = [*out["turns"], {"role": "user", "text": NUDGE, "calls": [], "context": True}]
+			rounds += 1
+			continue
 		if out.get("done") or rounds >= ROUNDS:
 			return {**out, "credits": round(spent, 6), "rounds": rounds + 1, "proposals": cards}
 
 		turns = out["turns"]
 		for want in out.get("wants") or []:
-			answer = _tried(want)
+			key = json.dumps([want.get("tool"), want.get("args") or {}], sort_keys=True, default=str)
+			if key in asked:
+				# The same call again: a small model given an empty answer asks
+				# the identical question until the round limit ends the run with
+				# nothing said. Told so, it answers with what it has.
+				answer = {
+					"ran": asked[key].get("ran"),
+					"error": "This exact call was already made and answered above. Do not repeat it: "
+					"answer the person with what you have, or try something different.",
+				}
+			else:
+				answer = asked[key] = _tried(want)
 			card = _card(answer)
 			tell({"tool": want.get("tool"), "args": want.get("args") or {}, "ran": bool(answer.get("ran"))})
 			if card:
@@ -123,6 +146,19 @@ def _card(answer: dict) -> str | None:
 	"""
 	said = (answer or {}).get("answer")
 	return said.get("proposal") if isinstance(said, dict) else None
+
+
+#: Said to a model that looked things up and then said nothing.
+NUDGE = "Now answer the question in one or two sentences from what the tools returned."
+
+
+def _silent(out: dict, cards: list) -> bool:
+	"""A finished run that leaves the reader nothing: no words, no card."""
+	if cards:
+		return False
+	said = [one for one in out.get("turns") or [] if one.get("role") == "model"]
+	used = any(one.get("role") == "tool" for one in out.get("turns") or [])
+	return used and not (said and (said[-1].get("text") or "").strip())
 
 
 def _tried(want: dict) -> dict:

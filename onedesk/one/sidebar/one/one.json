@@ -85,9 +85,31 @@
    "icon": "lightbulb",
    "child": 1,
    "idx": 7
+  },
+  {
+   "keep_closed": 0,
+   "show_arrow": 0,
+   "type": "Link",
+   "label": "Knowledge",
+   "link_to": "AI Knowledge",
+   "link_type": "DocType",
+   "icon": "book-open",
+   "child": 1,
+   "idx": 8
+  },
+  {
+   "keep_closed": 0,
+   "show_arrow": 0,
+   "type": "Link",
+   "label": "Memory",
+   "link_to": "AI Memory",
+   "link_type": "DocType",
+   "icon": "brain",
+   "child": 1,
+   "idx": 9
   }
  ],
- "modified": "2026-09-23 16:00:00.000000",
+ "modified": "2026-09-23 07:24:53.907693",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

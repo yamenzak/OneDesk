@@ -341,6 +341,7 @@ def _ran(doc, text: str, turns: list[dict], heard=None) -> dict:
 			(one for one in reversed(turns) if one.get("role") == "user" and not one.get("context")), {}
 		)
 		frappe.flags.one_ai_files = [one["url"] for one in newest.get("files") or [] if one.get("url")]
+		frappe.flags.one_ai_chat = doc.name  # so searching past chats skips this one
 		return run.ask(
 			CHAT, text, reference=doc.name, turns=carrying.carried(turns[-KEPT:]), heard=heard
 		)
@@ -475,6 +476,10 @@ def _drawn(doctype: str, row: dict, most: int = FIELDS) -> dict:
 	for field in meta.fields:
 		if field.fieldname in skip or field.fieldname not in row:
 			continue
+		# What the form hides, the card hides — Company among them — and the
+		# naming series is how an id is made, not something about the record.
+		if field.hidden or field.fieldname == "naming_series":
+			continue
 		value = row.get(field.fieldname)
 		if value in (None, "", 0) or field.fieldtype in NOT_ON_A_CARD:
 			continue
@@ -583,7 +588,11 @@ def _asked(
 	# The model has no clock: asked for "Friday off" it books a Friday from its
 	# training data. Today goes into every turn, not once per conversation, so a
 	# chat picked up tomorrow still counts from the right day.
-	where = " ".join(one for one in (_today(), _reader(), where) if one)
+	from onedesk.one_ai import memory
+
+	where = " ".join(
+		one for one in (_today(), _workspace(), _reader(), where, memory.told(_doctype(page))) if one
+	)
 	turns = [{"role": "user", "text": where, "calls": [], "context": True}]
 	turns.append(
 		{
@@ -599,6 +608,36 @@ def _asked(
 	return turns
 
 
+def _workspace() -> str:
+	"""The facts about this workspace a question can turn on: whose it is, its
+	money, its clock — and whatever a module adds through `one_ai_workspace`,
+	OneHR's weekly offs among them. A model that did not know Friday is off here
+	booked it as a working day."""
+	company = frappe.defaults.get_global_default("company")
+	currency = frappe.defaults.get_global_default("currency")
+	zone = frappe.db.get_single_value("System Settings", "time_zone")
+	said = [
+		"This workspace"
+		+ (f" is {company}'s" if company else "")
+		+ (f"; its money is {currency}" if currency else "")
+		+ (f"; its clock is {zone}" if zone else "")
+		+ "."
+	]
+	for path in frappe.get_hooks("one_ai_workspace"):
+		one = frappe.get_attr(path)()
+		if one:
+			said.append(one)
+	return " ".join(said)
+
+
+def _doctype(page: dict | str | None) -> str | None:
+	if isinstance(page, str):
+		page = frappe.parse_json(page) if page.strip() else None
+	if not isinstance(page, dict):
+		return None
+	return (page.get("doctype") or "").strip() or None
+
+
 def _reader() -> str:
 	"""Who is asking, so "my" and "me" are somebody.
 
@@ -608,6 +647,12 @@ def _reader() -> str:
 	"""
 	user = frappe.session.user
 	said = [f"The reader is {frappe.utils.get_fullname(user)} ({user})."]
+	language = frappe.db.get_value("User", user, "language") or frappe.db.get_single_value(
+		"System Settings", "language"
+	)
+	if language and language != "en":
+		called = frappe.db.get_value("Language", language, "language_name") or language
+		said.append(f"They read {called}: answer in {called} unless they write in another language.")
 	for path in frappe.get_hooks("one_ai_reader"):
 		one = frappe.get_attr(path)()
 		if one:
