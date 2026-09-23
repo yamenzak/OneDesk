@@ -162,9 +162,10 @@ onedesk.oneai.badge = function (frm, fieldname) {
 	const still = written !== undefined && words(frm.doc[fieldname]) === words(written);
 	const drawn = top.find(".one-ai-touched");
 	if (still && !drawn.length) {
-		const badge = $(`<span class="one-ai-touched" title="${__("Written by {0}. Goes once somebody edits it.", [ONEAI])}">
-				${frappe.utils.icon("sparkles", "xs")}${ONEAI}
-			</span>`);
+		// The mark alone: which field it wrote is the whole message, and a
+		// word beside every such label is a form shouting about its tooling.
+		const badge = $(`<img class="one-ai-touched" src="${MARK}" alt="${ONEAI}"
+				title="${__("Written by {0}. Goes once somebody edits it.", [ONEAI])}">`);
 		const button = top.find(".one-ai-write").first();
 		button.length ? badge.insertBefore(button) : badge.appendTo(top);
 	} else if (!still) {
