@@ -94,7 +94,7 @@ a register and a movement form in it would be a rail with five rows.
 ### The plan
 
 1. **The place.** OneInventory's rail, in the dock after OneBook, with buying
-   and assets in it, and the sales order on OneCRM's rail.
+   and assets in it, and the sales order on OneCRM's rail. *Done.*
 2. **Ready to use.** A check of what will fail the first time somebody
    receives, delivers or registers an asset — serial and batch numbers
    switched off, no account for opening stock, no location for an asset — with

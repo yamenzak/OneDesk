@@ -171,6 +171,7 @@ No doctypes yet.
 * `onedesk.one_ai.run.try_it`
 * `onedesk.one_ai.run.use`
 * `onedesk.one_ai.run.waiting`
+* `onedesk.one_book.ready.fix`
 * `onedesk.one_calendar.feed.mine`
 * `onedesk.one_calendar.feed.renew`
 * `onedesk.one_calendar.feed.stop`

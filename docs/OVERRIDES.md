@@ -138,5 +138,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | Invite as User on a customer's contact lets them see the customer's projects | their portal reads only the Customer's Portal Users, and inviting a contact never lists them there | `onedesk/one_project/portal.py` | `erpnext/erpnext/controllers/website_list_for_contact.py` | `.where(portal_user.parenttype == parenttype)` |
 | A customer signing in lands on the portal, not the desk | frappe sends a website user to the first app on the apps screen that does not refuse them | `onedesk/__init__.py` | `frappe/frappe/apps.py` | `if has_permission_path and not frappe.get_attr(has_permission_path)():` |
 | An onboarding or exit checklist is not a project in the portfolio | their boarding makes a plain Project per onboarding and exit, untyped, beside client work | `onedesk/one_hr/lifecycle.py` | `hrms/hrms/controllers/employee_boarding_controller.py` | `project_name = _(self.doctype) + " : "` |
+| A company bank account fills the default bank and the bank modes of payment | the Standard chart's Bank Accounts is a group, so `default_bank_account` is left empty and only Cash gets a mode-of-payment account | `onedesk/one_book/ready.py` | `erpnext/erpnext/setup/doctype/company/company.py` | `cash = frappe.db.get_value("Mode of Payment", {"type": "Cash"}, "name")` |
+| The Books Check makes a missing fiscal year | ERPNext makes next year's three days before this one ends, only where the scheduler ran | `onedesk/one_book/ready.py` | `erpnext/erpnext/accounts/doctype/fiscal_year/fiscal_year.py` | `def auto_create_fiscal_year` |
 
-133 overrides.
+135 overrides.

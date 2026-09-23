@@ -110,6 +110,8 @@ doc_events = {
 	# A customer's contact invited as a user can see the customer's projects.
 	# See one_project/portal.py.
 	"Contact": {"on_update": "onedesk.one_project.portal.invited"},
+	# A company bank account wires the bank modes of payment. See one_book/ready.py.
+	"Bank Account": {"on_update": "onedesk.one_book.ready.wired"},
 	# A Public event is on everybody's calendar. See one_calendar/events.py.
 	"Event": {"validate": "onedesk.one_calendar.events.validate"},
 	# hrms counts milestones by letting an insert fail, and the message outlives

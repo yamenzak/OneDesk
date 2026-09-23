@@ -955,6 +955,20 @@ OVERRIDES = [
 		"hrms/hrms/controllers/employee_boarding_controller.py",
 		'project_name = _(self.doctype) + " : "',
 	),
+	(
+		"A company bank account fills the default bank and the bank modes of payment",
+		"the Standard chart's Bank Accounts is a group, so `default_bank_account` is left empty and only Cash gets a mode-of-payment account",
+		"onedesk/one_book/ready.py",
+		"erpnext/erpnext/setup/doctype/company/company.py",
+		'cash = frappe.db.get_value("Mode of Payment", {"type": "Cash"}, "name")',
+	),
+	(
+		"The Books Check makes a missing fiscal year",
+		"ERPNext makes next year's three days before this one ends, only where the scheduler ran",
+		"onedesk/one_book/ready.py",
+		"erpnext/erpnext/accounts/doctype/fiscal_year/fiscal_year.py",
+		"def auto_create_fiscal_year",
+	),
 ]
 
 

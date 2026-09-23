@@ -344,6 +344,18 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
+   "label": "Books Check",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Books Check"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
    "label": "Chart of Accounts",
    "link_type": "DocType",
    "show_arrow": 0,
@@ -495,7 +507,7 @@
    "link_to": "Accounts Settings"
   }
  ],
- "modified": "2026-09-28 20:00:00.000000",
+ "modified": "2026-09-28 22:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Book",
  "name": "OneBook",

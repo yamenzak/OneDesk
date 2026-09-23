@@ -32,6 +32,23 @@ amount, a customer's balance, an employee's expense claim.
 - **Setup** — the chart of accounts, cost centers, bank accounts, taxes,
   payment terms, modes of payment and fiscal years.
 
+## Getting ready
+
+**Setup › Books Check** lists what would stop the first invoice, payment or
+bill, and says **Ready**, **To Do** or **Suggested** beside each, with a
+**Fix** button where there is one:
+
+- **A bank account is set up.** **Fix** asks for the bank's name and the
+  account's, and makes the account in the chart, the company's bank account,
+  and connects every bank mode of payment — Wire Transfer, Cheque, Credit Card
+  — to it. A bank account added any other way is connected the same way.
+- **Invoices carry tax** and **Bills carry tax.** **Fix** asks which VAT
+  template is added to a new invoice or bill when nobody picks one.
+- **A supplier's bill cannot be entered twice.** **Fix** turns on the check
+  that refuses the same supplier invoice number a second time.
+- **Today is in a fiscal year** and **the company's default accounts are
+  set** — ERPNext makes both, and the check catches a site where it did not.
+
 ## An invoice, from start to paid
 
 1. **Invoices › + Add Sales Invoice.** Pick the customer, add a line per item
@@ -88,15 +105,24 @@ fails a small business on first use or leaves a question unanswered.
   still reachable by search. It replaces the Accounts sidebar the dock's Books
   row used to open. Supplier is owned here (`is_default_module`), Customer by
   OneCRM.
+- `ready.py` and `report/books_check` — the Books Check. ERPNext's Standard
+  chart makes *Bank Accounts* a group, so `Company.default_bank_account` is
+  left empty, and `set_mode_of_payment_account` gives only Cash an account;
+  every payment by transfer then stops on "Please set default Cash or Bank
+  account". `add_bank` makes the bank, its ledger under the group and the Bank
+  Account; `wired` (Bank Account `on_update`) fills the company default and
+  every bank mode of payment with none, whoever made the account. The checks
+  are rows with a key, and the fix for a key is `fix` — Accounts Manager or
+  Workspace Administrator only.
 
 ### The plan
 
 1. **The place.** OneBook's rail, in the dock, and what belongs to it rather
-   than to OneCRM or OneInventory.
+   than to OneCRM or OneInventory. *Done.*
 2. **Ready to use.** A check of what will fail the first time somebody
    invoices, is paid or pays — no bank account behind the bank modes of
    payment, no default tax, no fiscal year ahead — with the fix beside each,
-   and the fixes that need no decision made automatically.
+   and the fixes that need no decision made automatically. *Done.*
 3. **Home.** The page that answers first: cash in the bank, what customers owe
    and how much of it is late, what is owed to suppliers and due this week,
    and this month's profit.
