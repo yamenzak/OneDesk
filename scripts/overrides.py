@@ -892,6 +892,41 @@ OVERRIDES = [
 		"erpnext/erpnext/projects/doctype/project/project.py",
 		"self.link_with_sales_order()",
 	),
+	(
+		"A project asks its team in One, and by mail where there is mail",
+		"their ask is an email only, and raises where no outgoing account is set, rolling back the Project Update",
+		"onedesk/one_project/updates.py",
+		"erpnext/erpnext/projects/doctype/project/project.py",
+		"def send_project_update_email_to_users(project):",
+	),
+	(
+		"A project asks once at its time, not every hour",
+		"their hourly window is tested with or, so it asks every hour of the day, and twice daily asks in two hours running",
+		"onedesk/one_project/updates.py",
+		"erpnext/erpnext/projects/doctype/project/project.py",
+		"if get_time(nowtime()) >= get_time(project.from_time) or get_time(nowtime()) <= get_time(",
+	),
+	(
+		"An emailed update is taken once, whatever day it comes",
+		"their collector runs hourly over the day's replies and appends each one again every run, and never looks at a reply that comes the next day",
+		"onedesk/one_project/updates.py",
+		"erpnext/erpnext/projects/doctype/project/project.py",
+		"EmailReplyParser.parse_reply(d.text_content) or d.content",
+	),
+	(
+		"Hourly is not a choice for project updates",
+		"theirs offers asking the team every hour",
+		"onedesk/one_project/custom/project.json",
+		"erpnext/erpnext/projects/doctype/project/project.json",
+		'"options": "Hourly\\nTwice Daily\\nDaily\\nWeekly"',
+	),
+	(
+		"The morning summary goes only where mail can go",
+		"their summary of yesterday's updates mails with no check, and raises daily on a workspace without mail",
+		"onedesk/one_project/updates.py",
+		"erpnext/erpnext/projects/doctype/project/project.py",
+		"def send_project_status_email_to_users():",
+	),
 ]
 
 

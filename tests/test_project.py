@@ -268,3 +268,36 @@ def test_an_order_under_a_project_becomes_its_sub_project():
 	page = (tree.APP / "public" / "js" / "project.js").read_text()
 	assert '"onedesk.one_project.billing.invoice_time"' in page and "frappe.model.open_mapped_doc" in page
 	assert "get_projectwise_timesheet_data" in source, "ERPNext's own list of hours not yet billed"
+
+
+def test_a_project_asks_once_at_the_time_it_is_set_to():
+	from datetime import time
+
+	space = _load(PROJECT / "updates.py", ("MORNING", "due"), time=time, get_time=lambda value: value)
+	due = space["due"]
+	daily = {"frequency": "Daily", "daily_time_to_send": time(10)}
+	assert not due(daily, time(9), "Monday", 0) and due(daily, time(10), "Monday", 0)
+	assert not due(daily, time(15), "Monday", 1), "once a day, not every hour after"
+	twice = {"frequency": "Twice Daily", "first_email": time(9), "second_email": time(16)}
+	assert due(twice, time(9), "Monday", 0) and not due(twice, time(10), "Monday", 1), "not in two hours running"
+	assert due(twice, time(16), "Monday", 1) and not due(twice, time(17), "Monday", 2)
+	weekly = {"frequency": "Weekly", "day_to_send": "Friday"}
+	assert due(weekly, time(9), "Friday", 0) and not due(weekly, time(8), "Friday", 0), "no time set is the morning"
+	assert not due(weekly, time(9), "Thursday", 0)
+	assert not due({"frequency": "Hourly"}, time(12), "Monday", 0), "hourly is not offered"
+
+
+def test_updates_replace_erpnexts_asking_and_are_kept_on_the_project():
+	source = (PROJECT / "updates.py").read_text()
+	for job in ("hourly_reminder", "project_status_update_reminder", "collect_project_status", "send_project_status_email_to_users"):
+		assert f"project.project.{job}" in source
+	assert HOOKS.count('"onedesk.one_project.updates.settle"') == 2
+	assert '"onedesk.one_project.updates.ask"' in HOOKS.split('"hourly": [', 1)[1].split("]", 1)[0]
+	assert '"onedesk.one_project.updates.answered"' in HOOKS.split('"Communication": {', 1)[1].split("},", 1)[0]
+	assert 'additional_timeline_content = {"Project": ["onedesk.one_project.updates.timeline"]}' in HOOKS
+	assert '"Notification Log"' in _body(source, "_ask") and "if _mail()" in _body(source, "_ask"), "asked in One, mailed where mail goes"
+	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
+	frequency = next(p for p in custom["property_setters"] if p["field_name"] == "frequency")
+	assert "Hourly" not in frequency["value"]
+	page = (tree.APP / "public" / "js" / "project.js").read_text()
+	assert "onedesk.one_project.updates.asked" in page and "onedesk.one_project.updates.post" in page

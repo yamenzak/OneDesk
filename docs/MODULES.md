@@ -227,6 +227,8 @@ No doctypes yet.
 * `onedesk.one_project.templates.save_as`
 * `onedesk.one_project.tree.group_under`
 * `onedesk.one_project.tree.totals`
+* `onedesk.one_project.updates.asked`
+* `onedesk.one_project.updates.post`
 * `onedesk.one_task.mine.tasks`
 * `onedesk.one_task.timer.running`
 * `onedesk.one_task.timer.start`

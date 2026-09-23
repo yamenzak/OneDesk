@@ -154,6 +154,27 @@ costs and invoices, and they add up into the parent's.
 To add an order to a project as it is, without a sub-project, set the order's
 **Project** instead.
 
+## Asking the team how it is going
+
+Tick **Collect Progress** on a project (under **More Info**), choose how often —
+**Daily**, **Twice Daily** or **Weekly** — and when, and the project asks its
+**Users** for an update at that time. Each of them gets a notification that
+opens the project, and an email too where the workspace sends mail; **Subject**
+and **Message** are what the ask says.
+
+- The project's page says **Your update on this project is asked for today**
+  and has a **Post Update** button until you answer. Write what was done, what
+  comes next and anything in the way.
+- **Post Update** is also under **Actions** any day, asked or not.
+- Posting again the same day replaces your earlier update.
+- Replying to the email works too, whatever day the reply comes.
+- Every update is in the project's **Activity**, under who wrote it.
+- Nobody is asked on a day off in the project's **Holiday List**, and a project
+  with nobody under **Users** asks nobody.
+
+Where the workspace sends mail, everybody on the project also gets the
+day's updates by email the next morning.
+
 ## Starting from a template
 
 A job you do again and again — a website, a fit-out, an office move — starts
@@ -238,6 +259,16 @@ one field for it.
   named by `title`, pure), and adds up its sales once their after_insert has
   linked the order. `public/js/quotation.js` gives such a quotation the
   project's customer, and `tree.dashboard` lists quotations on the project.
+- `updates.py` — ERPNext's Project Update, asked and answered. Their asking
+  mailed only (and raised where no mail goes), asked hourly all day and twice
+  daily in two hours running, and read email replies back every hour, adding
+  them again each time, and only on the day asked. Their three askers and the
+  collector are stopped (`settle`); `ask` (hourly, `due` pure) makes the
+  Project Update, notifies members in One and mails where mail goes; `post` is
+  Post Update; `answered` takes an email reply once as it arrives; `timeline`
+  (additional_timeline_content) shows the answers in the project's activity.
+  Their morning summary still runs, where mail goes (`sum_up`). Hourly is off
+  the Frequency choices.
 - `templates.py` — ERPNext's Project Template, which already makes a
   project's tasks from template tasks as the project is saved. Added: **Save
   as Template** (`save_as`, with `start_of` and `days` pure), what their copy
@@ -252,8 +283,8 @@ one field for it.
   billing and margin added up (tree.totals), overdue tasks and the next
   milestone.
 - `public/js/project.js` — the Board, Calendar and Schedule buttons, the
-  overview in the band, Group Under New Project, Save as Template and Invoice
-  Time;
+  overview in the band, Group Under New Project, Save as Template, Invoice
+  Time and Post Update;
   `public/js/project_template.js` is a template's New Project.
 
 ### What OneTask has to keep doing for projects
@@ -306,8 +337,10 @@ stage below that touches tasks keeps them:
    a quotation for extra work ordered as a sub-project of the project it is
    for. A rate per customer or per project is not built: ERPNext prices time
    by person and activity only.
-8. **Status updates.** ERPNext's Project Update asks the team for a note on a
-   schedule, and the answers are kept on the project.
+8. **Status updates.** *Done.* ERPNext's Project Update asks the team for a
+   note on a schedule — in One, and by mail where there is mail — the note is
+   written on the project's page or by replying, and the answers are in the
+   project's activity. Asking the customer is stage 9's.
 9. **The customer's view.** ERPNext's portal shows a customer their own
    projects.
 10. **Workload.** Who has how many hours of open work this week, from expected

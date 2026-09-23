@@ -38,6 +38,7 @@ after_install = [
 	"onedesk.one_task.access.settle",
 	"onedesk.one_project.board.settle",
 	"onedesk.one_project.templates.settle",
+	"onedesk.one_project.updates.settle",
 ]
 
 # Their dock files do not carry the mount, so a newer erpnext or hrms clears it,
@@ -66,6 +67,7 @@ after_migrate = [
 	"onedesk.one_task.access.settle",
 	"onedesk.one_project.board.settle",
 	"onedesk.one_project.templates.settle",
+	"onedesk.one_project.updates.settle",
 ]
 extend_bootinfo = "onedesk.one.boot.boot_session"
 
@@ -92,8 +94,14 @@ scheduler_events = {
 		"onedesk.one_hr.hiring.purge",
 		"onedesk.one_hr.leaving.nightly",
 		"onedesk.one_hr.setup.nightly",
+		# ERPNext's summary of yesterday's project updates, where mail can go.
+		"onedesk.one_project.updates.sum_up",
 	],
-	"hourly": ["onedesk.one_hr.closing.hourly"],
+	"hourly": [
+		"onedesk.one_hr.closing.hourly",
+		# A project asks its team for an update. See one_project/updates.py.
+		"onedesk.one_project.updates.ask",
+	],
 }
 
 doc_events = {
@@ -213,7 +221,13 @@ doc_events = {
 		"after_insert": "onedesk.one_crm.capture.assigned",
 		"on_update": "onedesk.one_task.capture.todo_changed",
 	},
-	"Communication": {"after_insert": "onedesk.one_crm.capture.replied"},
+	"Communication": {
+		"after_insert": [
+			"onedesk.one_crm.capture.replied",
+			# An emailed answer to a project's ask. See one_project/updates.py.
+			"onedesk.one_project.updates.answered",
+		]
+	},
 	"Call Log": {"after_insert": "onedesk.one_crm.capture.replied"},
 	# The board has a column per stage. See one_crm/board.py.
 	"Sales Stage": {
@@ -493,3 +507,6 @@ one_calendar_layers = [
 	"onedesk.one_crm.calendar.LAYERS",
 	"onedesk.one_hr.calendar.LAYERS",
 ]
+
+# A project's updates in its activity, under who wrote them. See one_project/updates.py.
+additional_timeline_content = {"Project": ["onedesk.one_project.updates.timeline"]}

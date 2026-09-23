@@ -24,6 +24,15 @@
  ],
  "doctype": "Project",
  "links": [],
- "property_setters": [],
+ "property_setters": [
+  {
+   "doc_type": "Project",
+   "doctype_or_field": "DocField",
+   "field_name": "frequency",
+   "property": "options",
+   "property_type": "Text",
+   "value": "Twice Daily\nDaily\nWeekly"
+  }
+ ],
  "sync_on_migrate": 1
 }

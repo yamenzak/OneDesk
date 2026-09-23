@@ -1,6 +1,6 @@
 // A project's page: its board, calendar and plan as buttons of their own, the
-// overview in the band, Group Under New Project, Save as Template and Invoice
-// Time.
+// overview in the band, Group Under New Project, Save as Template, Invoice
+// Time and Post Update.
 //
 // The board is ERPNext's own, made the way their button makes it
 // (one_project/board.py shapes it as it is made). Calendar is OneCalendar
@@ -33,6 +33,7 @@ frappe.ui.form.on("Project", {
 			frm.add_custom_button(__("Save as Template"), () => onedesk.project.save_as(frm), __("Actions"));
 		}
 		onedesk.project.band(frm);
+		onedesk.project.asked(frm);
 	},
 });
 
@@ -189,4 +190,37 @@ onedesk.project.invoice_time = async (frm) => {
 		},
 	});
 	dialog.show();
+};
+
+// Post Update: the reader's note on how the project is going
+// (one_project/updates.py). Always under Actions; a button of its own, and a
+// line at the top, when today's ask is waiting on the reader.
+onedesk.project.asked = async (frm) => {
+	const waiting = await frappe.xcall("onedesk.one_project.updates.asked", { project: frm.doc.name });
+	if (frm.doc.name !== cur_frm?.doc?.name) return;
+	if (waiting) {
+		frm.set_intro(__("Your update on this project is asked for today."), "blue");
+		frm.add_custom_button(__("Post Update"), () => onedesk.project.post(frm));
+	} else {
+		frm.add_custom_button(__("Post Update"), () => onedesk.project.post(frm), __("Actions"));
+	}
+};
+
+onedesk.project.post = (frm) => {
+	frappe.prompt(
+		{
+			fieldtype: "Small Text",
+			fieldname: "note",
+			label: __("Your Update"),
+			reqd: 1,
+			description: __("What was done, what comes next, and anything in the way."),
+		},
+		async ({ note }) => {
+			await frappe.xcall("onedesk.one_project.updates.post", { project: frm.doc.name, note });
+			frappe.ui.toast({ message: __("Your update is on the project."), type: "success" });
+			frm.reload_doc();
+		},
+		__("Post Update"),
+		__("Post"),
+	);
 };
