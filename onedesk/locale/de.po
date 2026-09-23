@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 22:19+0000\n"
-"PO-Revision-Date: 2026-09-23 22:19+0000\n"
+"POT-Creation-Date: 2026-09-23 22:25+0000\n"
+"PO-Revision-Date: 2026-09-23 22:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -71,7 +71,7 @@ msgstr "Eine Schichtzuweisung wird angelegt und die Person arbeitet diese Schich
 msgid "A Shift Location, or a single employee. Leave both empty to apply it site-wide."
 msgstr "Ein Standort der Schicht oder ein einzelner Mitarbeiter. Beide Felder leer lassen, damit es site-weit gilt."
 
-#: onedesk/one_book/ready.py:102 onedesk/one_book/ready.py:103
+#: onedesk/one_book/ready.py:105 onedesk/one_book/ready.py:106
 msgid "A bank account is set up"
 msgstr "Ein Bankkonto ist eingerichtet"
 
@@ -108,6 +108,10 @@ msgstr "Ein Guthabenpaket ohne Guthaben verkauft nichts."
 msgid "A custom domain on a workspace. Created when the workspace requests one."
 msgstr "Eine eigene Domain auf einem Arbeitsbereich. Wird angelegt, wenn der Arbeitsbereich sie anfordert."
 
+#: onedesk/one_book/ready.py:151
+msgid "A customer is mailed the invoice a week after it falls due."
+msgstr "Der Kunde erhält die Rechnung eine Woche nach Fälligkeit per E-Mail."
+
 #. Description of a DocType
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "A customer workspace. Created from a paid Account Request."
@@ -142,6 +146,10 @@ msgstr "Eine Gutschrift fügt hinzu und kann verfallen. Verbrauch und Erstattung
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.py:43
 msgid "A grant is not drawn from anything."
 msgstr "Eine Gutschrift wird aus nichts entnommen."
+
+#: onedesk/one_book/ready.py:149
+msgid "A late customer is reminded"
+msgstr "Ein säumiger Kunde wird erinnert"
 
 #: onedesk/one_crm/capture.py:127
 msgid "A lead cannot be merged into itself."
@@ -228,7 +236,7 @@ msgstr "Eine Anmeldung von der öffentlichen Anmeldeseite."
 msgid "A slug is letters, digits and hyphens: {0}"
 msgstr "Eine Kennung besteht aus Buchstaben, Ziffern und Bindestrichen: {0}"
 
-#: onedesk/one_book/ready.py:139 onedesk/one_book/ready.py:140
+#: onedesk/one_book/ready.py:142 onedesk/one_book/ready.py:143
 msgid "A supplier's bill cannot be entered twice"
 msgstr "Eine Lieferantenrechnung kann nicht zweimal erfasst werden"
 
@@ -661,8 +669,9 @@ msgstr ""
 
 #. Label of the amount (Currency) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
+#: onedesk/public/js/invoice.js:35
 msgid "Amount"
-msgstr ""
+msgstr "Betrag"
 
 #: onedesk/one_ai/doctype/ai_action/ai_action.py:25
 msgid "An action with no instruction is a prompt with no shape."
@@ -1173,7 +1182,7 @@ msgstr "Regeln für Banktransaktionen"
 msgid "Bank Transactions"
 msgstr "Banktransaktionen"
 
-#: onedesk/one_book/ready.py:122 onedesk/one_book/ready.py:124
+#: onedesk/one_book/ready.py:125 onedesk/one_book/ready.py:127
 msgid "Bank payments know which account"
 msgstr "Bankzahlungen kennen ihr Konto"
 
@@ -1261,7 +1270,7 @@ msgstr "Abrechnung und Speicher"
 msgid "Bills"
 msgstr "Eingangsrechnungen"
 
-#: onedesk/one_book/ready.py:65
+#: onedesk/one_book/ready.py:67
 msgid "Bills carry tax"
 msgstr "Eingangsrechnungen enthalten Steuer"
 
@@ -1934,8 +1943,9 @@ msgstr "Feiertage einschließen"
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/public/js/opportunity.js:18 onedesk/public/js/opportunity.js:19
-#: onedesk/public/js/project.js:127 onedesk/public/js/project.js:188
+#: onedesk/public/js/invoice.js:76 onedesk/public/js/opportunity.js:18
+#: onedesk/public/js/opportunity.js:19 onedesk/public/js/project.js:127
+#: onedesk/public/js/project.js:188
 msgid "Create"
 msgstr ""
 
@@ -2139,6 +2149,10 @@ msgstr "Deals"
 #: onedesk/one_crm/workspace/onecrm/onecrm.json
 msgid "Deals Due"
 msgstr "Fällige Deals"
+
+#: onedesk/one_book/notification/payment_reminder/payment_reminder.html:1
+msgid "Dear {0},"
+msgstr "Sehr geehrte Damen und Herren von {0},"
 
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
@@ -2476,7 +2490,8 @@ msgid "Dropped"
 msgstr "Verworfen"
 
 #: onedesk/one_task/page/my_tasks/my_tasks.js:44
-#: onedesk/public/js/project.js:73
+#: onedesk/public/js/invoice.js:16 onedesk/public/js/invoice.js:18
+#: onedesk/public/js/invoice.js:19 onedesk/public/js/project.js:73
 msgid "Due"
 msgstr "Fällig"
 
@@ -2740,6 +2755,10 @@ msgstr "Endet am"
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
 msgid "Ends the Shift"
 msgstr "Beendet die Schicht"
+
+#: onedesk/one_book/paid.py:49
+msgid "Enter the amount paid."
+msgstr "Geben Sie den gezahlten Betrag ein."
 
 #: onedesk/one_hr/overtime.py:109
 msgid "Enter the overtime hours."
@@ -3726,7 +3745,7 @@ msgstr "Zeit abrechnen"
 msgid "Invoices"
 msgstr ""
 
-#: onedesk/one_book/ready.py:64
+#: onedesk/one_book/ready.py:66
 msgid "Invoices carry tax"
 msgstr "Rechnungen enthalten Steuer"
 
@@ -4644,7 +4663,7 @@ msgstr "Name und Beruf von Eltern, Ehepartner und Kindern."
 msgid "Name of the offsite backup Frappe Cloud held when the site was archived."
 msgstr "Name der externen Sicherung, die Frappe Cloud bei der Archivierung vorhielt."
 
-#: onedesk/one_book/ready.py:200
+#: onedesk/one_book/ready.py:216
 msgid "Name the bank and the account."
 msgstr "Nennen Sie die Bank und das Konto."
 
@@ -4781,7 +4800,7 @@ msgstr "Nächster Schritt erledigt"
 msgid "Next Step Due"
 msgstr "Nächster Schritt fällig"
 
-#: onedesk/one_book/ready.py:81
+#: onedesk/one_book/ready.py:84
 msgid "Next year's is made three days before this one ends."
 msgstr "Das nächste wird drei Tage vor Ende dieses Jahres angelegt."
 
@@ -4827,7 +4846,7 @@ msgstr "Zurzeit wird kein Guthabenpaket angeboten."
 msgid "No credits. Buy some to use the AI."
 msgstr "Kein Guthaben. Kaufen Sie welches, um die KI zu nutzen."
 
-#: onedesk/one_book/ready.py:80
+#: onedesk/one_book/ready.py:83
 msgid "No fiscal year covers today, so nothing dated today can be saved."
 msgstr "Kein Geschäftsjahr umfasst heute, daher kann nichts mit heutigem Datum gespeichert werden."
 
@@ -4877,11 +4896,11 @@ msgstr "Kein Ton. Mikrofon prüfen."
 msgid "No such check-in attempt."
 msgstr "Diesen Einchecken-Versuch gibt es nicht."
 
-#: onedesk/one_book/ready.py:130
+#: onedesk/one_book/ready.py:133
 msgid "No tax templates, so nothing is charged. Add one if you are registered for VAT."
 msgstr "Keine Steuervorlagen, daher wird nichts berechnet. Legen Sie eine an, wenn Sie umsatzsteuerpflichtig sind."
 
-#: onedesk/one_book/ready.py:134
+#: onedesk/one_book/ready.py:137
 msgid "No template is the default, so nothing is charged unless somebody picks one."
 msgstr "Keine Vorlage ist Standard, daher wird nichts berechnet, solange niemand eine wählt."
 
@@ -4900,6 +4919,10 @@ msgstr "Niemand beworben"
 #: onedesk/public/js/shift_request.js:40
 msgid "Nobody can approve a shift request for {0}. Set a Shift Request Approver on their Employee record first."
 msgstr "Für {0} kann niemand einen Schichtantrag genehmigen. Tragen Sie zuerst im Mitarbeiterdatensatz einen Genehmiger für Schichtanträge ein."
+
+#: onedesk/one_book/ready.py:152
+msgid "Nobody is reminded of an unpaid invoice. The fix mails the customer a week after it falls due."
+msgstr "Niemand wird an eine unbezahlte Rechnung erinnert. Die Behebung schreibt dem Kunden eine Woche nach Fälligkeit."
 
 #: onedesk/public/js/attendance_tool.js:47
 msgid "Nobody on this list checked in"
@@ -5044,7 +5067,7 @@ msgstr "Es wird nichts abgezogen und keine Anwesenheit erfasst."
 msgid "Nothing on these days."
 msgstr "An diesen Tagen ist nichts."
 
-#: onedesk/one_book/ready.py:164
+#: onedesk/one_book/ready.py:180
 msgid "Nothing to fix for {0}."
 msgstr "Für {0} gibt es nichts zu beheben."
 
@@ -5443,6 +5466,10 @@ msgstr "Nur ein Mitarbeiter kann einchecken."
 msgid "Only an employee can register a passkey."
 msgstr "Nur ein Mitarbeiter kann einen Passkey registrieren."
 
+#: onedesk/one_book/paid.py:44
+msgid "Only an invoice or a bill is paid here."
+msgstr "Hier werden nur Rechnungen und Eingangsrechnungen bezahlt."
+
 #. Description of the 'Learning' (Section Break) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Only check-ins that passed another check are counted. Nothing learned widens who may check in."
@@ -5551,6 +5578,10 @@ msgstr ""
 msgid "Other Shift Locations this one's employees may check in from, without a second Shift Assignment."
 msgstr "Weitere Standorte der Schicht, von denen die Mitarbeiter dieses Standorts einchecken dürfen, ohne eine zweite Schichtzuweisung."
 
+#: onedesk/one_book/notification/payment_reminder/payment_reminder.html:3
+msgid "Our invoice {0} of {1} for {2} was due on {3}, and {4} of it is still outstanding."
+msgstr "Unsere Rechnung {0} vom {1} über {2} war am {3} fällig, und {4} davon sind noch offen."
+
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:163
 #: onedesk/public/js/employee.js:139
 msgid "Out"
@@ -5606,6 +5637,10 @@ msgstr "Outlook"
 #: onedesk/public/js/ai_model.js:74
 msgid "Output Tokens"
 msgstr "Ausgabe-Token"
+
+#: onedesk/public/js/invoice.js:21
+msgid "Outstanding"
+msgstr "Offen"
 
 #. Option for the 'Kind' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
@@ -5699,9 +5734,21 @@ msgstr "Paket"
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:10
-#: onedesk/www/projects.html:86
+#: onedesk/public/js/invoice.js:23 onedesk/www/projects.html:86
 msgid "Paid"
-msgstr ""
+msgstr "Bezahlt"
+
+#: onedesk/public/js/invoice.js:40
+msgid "Paid From"
+msgstr "Bezahlt von"
+
+#: onedesk/public/js/invoice.js:40
+msgid "Paid Into"
+msgstr "Eingezahlt auf"
+
+#: onedesk/public/js/invoice.js:36
+msgid "Paid On"
+msgstr "Bezahlt am"
 
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:13
 msgid "Paid and not built"
@@ -5806,12 +5853,16 @@ msgstr "Zahlung überfällig. Dieser Arbeitsbereich wird heute Nacht gesperrt."
 msgid "Payment received. The workspace is being built."
 msgstr "Zahlung eingegangen. Der Arbeitsbereich wird angelegt."
 
+#: onedesk/public/js/invoice.js:60
+msgid "Payment {0} recorded."
+msgstr "Zahlung {0} erfasst."
+
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Payments"
 msgstr ""
 
-#: onedesk/one_book/ready.py:102
+#: onedesk/one_book/ready.py:105
 msgid "Payments by transfer, cheque or card have somewhere to go."
 msgstr "Zahlungen per Überweisung, Scheck oder Karte haben ein Ziel."
 
@@ -6418,7 +6469,7 @@ msgstr "Gründe, die Mitarbeitern beim Auschecken angeboten werden."
 msgid "Receipts"
 msgstr "Wareneingänge"
 
-#: onedesk/one_book/ready.py:88
+#: onedesk/one_book/ready.py:91
 msgid "Receivable, payable, income, cost center and round-off."
 msgstr "Forderungen, Verbindlichkeiten, Erlöse, Kostenstelle und Rundung."
 
@@ -6431,7 +6482,7 @@ msgstr ""
 #. Label of the record (Dynamic Link) field in DocType 'AI Touch'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json onedesk/public/js/hiring.js:11
-#: onedesk/public/js/overtime.js:50
+#: onedesk/public/js/invoice.js:53 onedesk/public/js/overtime.js:50
 msgid "Record"
 msgstr "Erfassen"
 
@@ -6444,6 +6495,11 @@ msgstr "Datensatz mit Stand"
 #: onedesk/public/js/overtime.js:10
 msgid "Record Overtime"
 msgstr "Überstunden erfassen"
+
+#: onedesk/public/js/invoice.js:33 onedesk/public/js/invoice.js:73
+#: onedesk/public/js/invoice.js:75
+msgid "Record Payment"
+msgstr "Zahlung erfassen"
 
 #. Label of the for_doctype (Data) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
@@ -6519,8 +6575,9 @@ msgstr "Wiederkehrend"
 #. Label of the reference (Data) field in DocType 'Credit Reservation'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
+#: onedesk/public/js/invoice.js:49
 msgid "Reference"
-msgstr ""
+msgstr "Referenz"
 
 #: onedesk/public/js/tenant.js:78 onedesk/public/js/tenant.js:83
 #: onedesk/public/js/tenant_domain.js:12
@@ -7035,7 +7092,7 @@ msgstr "Wird von Genehmigen und Ablehnen gesetzt und stimmt so immer mit der Ent
 msgid "Set by billing events and by the actions in the toolbar."
 msgstr "Wird durch Abrechnungsereignisse und die Aktionen in der Symbolleiste gesetzt."
 
-#: onedesk/one_book/ready.py:87
+#: onedesk/one_book/ready.py:90
 msgid "Set on the company: {0}."
 msgstr "Im Unternehmen festlegen: {0}."
 
@@ -7893,7 +7950,7 @@ msgstr "Der Browser hat seinen Standort nicht preisgegeben."
 msgid "The call is really made and really charged."
 msgstr "Der Aufruf wird wirklich ausgeführt und wirklich berechnet."
 
-#: onedesk/one_book/ready.py:238
+#: onedesk/one_book/ready.py:254
 msgid "The chart of accounts has no group for bank accounts. Add one under Current Assets with the type Bank."
 msgstr "Der Kontenplan hat keine Gruppe für Bankkonten. Legen Sie eine unter Umlaufvermögen mit dem Typ Bank an."
 
@@ -7901,15 +7958,19 @@ msgstr "Der Kontenplan hat keine Gruppe für Bankkonten. Legen Sie eine unter Um
 msgid "The check-in could not be recorded."
 msgstr "Das Einchecken konnte nicht erfasst werden."
 
-#: onedesk/one_book/ready.py:123
+#: onedesk/public/js/invoice.js:50
+msgid "The cheque or transfer number. The invoice's number when left empty."
+msgstr "Scheck- oder Überweisungsnummer. Leer gelassen gilt die Rechnungsnummer."
+
+#: onedesk/one_book/ready.py:126
 msgid "The company has no default bank account."
 msgstr "Das Unternehmen hat kein Standardbankkonto."
 
-#: onedesk/one_book/ready.py:87 onedesk/one_book/ready.py:88
+#: onedesk/one_book/ready.py:90 onedesk/one_book/ready.py:91
 msgid "The company's default accounts are set"
 msgstr "Die Standardkonten des Unternehmens sind gesetzt"
 
-#: onedesk/one_book/ready.py:122
+#: onedesk/one_book/ready.py:125
 msgid "The company's default bank and every bank mode of payment point at a bank account."
 msgstr "Die Standardbank des Unternehmens und jede Bank-Zahlungsart verweisen auf ein Bankkonto."
 
@@ -7946,6 +8007,10 @@ msgstr "Die erste Frage, gekürzt. Umbenennen ist möglich."
 #: onedesk/one_hr/custom/timesheet.json
 msgid "The hours above that are ticked Billable. The project decides what they are worth."
 msgstr "Die oben als abrechenbar markierten Stunden. Was sie wert sind, entscheidet das Projekt."
+
+#: onedesk/one_book/notification/payment_reminder/payment_reminder.html:5
+msgid "The invoice is attached. If you have already paid it, please ignore this reminder."
+msgstr "Die Rechnung ist beigefügt. Falls Sie sie bereits bezahlt haben, betrachten Sie diese Erinnerung bitte als gegenstandslos."
 
 #. Description of the 'Expires On' (Date) field in DocType 'Credit Ledger
 #. Entry'
@@ -8055,11 +8120,11 @@ msgstr "Der Datensatz hat sich nach diesem Vorschlag geändert."
 msgid "The request is closed and nobody is assigned anything."
 msgstr "Der Antrag wird geschlossen und niemandem etwas zugewiesen."
 
-#: onedesk/one_book/ready.py:140
+#: onedesk/one_book/ready.py:143
 msgid "The same supplier invoice number can be entered twice and paid twice."
 msgstr "Dieselbe Lieferantenrechnungsnummer kann zweimal erfasst und zweimal bezahlt werden."
 
-#: onedesk/one_book/ready.py:139
+#: onedesk/one_book/ready.py:142
 msgid "The same supplier invoice number is refused a second time."
 msgstr "Dieselbe Lieferantenrechnungsnummer wird beim zweiten Mal abgelehnt."
 
@@ -8132,7 +8197,7 @@ msgstr ""
 msgid "There is already a template called {0}."
 msgstr "Es gibt bereits eine Vorlage namens {0}."
 
-#: onedesk/one_book/ready.py:103
+#: onedesk/one_book/ready.py:106
 msgid "There is no company bank account, so a payment by transfer does not know where the money went."
 msgstr "Es gibt kein Firmenbankkonto, daher weiß eine Überweisung nicht, wohin das Geld ging."
 
@@ -8208,6 +8273,10 @@ msgstr "Der Passkey dieses Mitarbeiters ist gesperrt. Die Personalabteilung muss
 #: onedesk/one_ai/proposals.py:118
 msgid "This is for a document that is not saved yet. Apply it from its form."
 msgstr "Das gilt für ein noch nicht gespeichertes Dokument. Übernehmen Sie es in dessen Formular."
+
+#: onedesk/one_book/paid.py:52
+msgid "This is paid in another currency. Use Create › Payment."
+msgstr "Dies wird in einer anderen Währung bezahlt. Verwenden Sie Erstellen › Zahlung."
 
 #: onedesk/public/js/crm_record.js:50
 msgid "This may be {0} {1}: the same {2}."
@@ -8330,11 +8399,12 @@ msgid "To Win"
 msgstr "Bis zum Gewinn"
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:171
-#: onedesk/one_task/mine.py:23 onedesk/public/js/project.js:71
+#: onedesk/one_task/mine.py:23 onedesk/public/js/invoice.js:18
+#: onedesk/public/js/project.js:71
 msgid "Today"
-msgstr ""
+msgstr "Heute"
 
-#: onedesk/one_book/ready.py:80 onedesk/one_book/ready.py:81
+#: onedesk/one_book/ready.py:83 onedesk/one_book/ready.py:84
 msgid "Today is in a fiscal year"
 msgstr "Heute liegt in einem Geschäftsjahr"
 
@@ -8372,8 +8442,9 @@ msgid "Too far from your last check-in for the time in between."
 msgstr "Zu weit von Ihrem letzten Einchecken entfernt für die Zeit dazwischen."
 
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:58
+#: onedesk/public/js/invoice.js:24
 msgid "Total"
-msgstr ""
+msgstr "Gesamt"
 
 #: onedesk/one_project/report/project_tree/project_tree.py:58
 msgid "Total Billed Amount"
@@ -8757,6 +8828,10 @@ msgstr "Wartet auf den Start"
 msgid "Warehouses"
 msgstr ""
 
+#: onedesk/public/js/invoice.js:14
+msgid "Was Due"
+msgstr "War fällig"
+
 #. Label of a number card in the OneBook Workspace
 #: onedesk/one_book/workspace/onebook/onebook.json
 msgid "We Owe"
@@ -9127,7 +9202,7 @@ msgstr "Gewinnquote (90 Tage)"
 msgid "Withdrawn"
 msgstr "Zurückgezogen"
 
-#: onedesk/one_book/ready.py:123
+#: onedesk/one_book/ready.py:126
 msgid "Without an account: {0}."
 msgstr "Ohne Konto: {0}."
 
@@ -9888,7 +9963,7 @@ msgstr "{0} ist jetzt ein Unterprojekt von {1}."
 msgid "{0} is a template."
 msgstr "{0} ist jetzt eine Vorlage."
 
-#: onedesk/one_book/ready.py:133
+#: onedesk/one_book/ready.py:136
 msgid "{0} is added unless somebody picks another."
 msgstr "{0} wird hinzugefügt, sofern niemand eine andere wählt."
 
@@ -9919,6 +9994,10 @@ msgstr "{0} wird im Verlauf als erledigt vermerkt. Leer lassen, wenn nichts mehr
 #: onedesk/one_hr/overtime.py:89
 msgid "{0} is marked {1} on {2}. Overtime is only paid on a day marked {3}."
 msgstr "{0} ist am {2} als {1} erfasst. Überstunden werden nur an einem als {3} erfassten Tag vergütet."
+
+#: onedesk/one_book/paid.py:55
+msgid "{0} is more than the {1} still owed."
+msgstr "{0} ist mehr als die noch offenen {1}."
 
 #: onedesk/one_ai/doctype/ai_action/ai_action.py:22
 msgid "{0} is not a capability any model carries."
@@ -10119,9 +10198,17 @@ msgstr "{0} {1} → {2}"
 msgid "{0} {1}?"
 msgstr "{0} {1}?"
 
+#: onedesk/public/js/invoice.js:19
+msgid "{0} · in {1} days"
+msgstr "{0} · in {1} Tagen"
+
 #: onedesk/public/js/oneai/Record.vue:148
 msgid "{0} · waiting for you"
 msgstr "{0} · wartet auf Sie"
+
+#: onedesk/public/js/invoice.js:16
+msgid "{0} · {1} days late"
+msgstr "{0} · {1} Tage überfällig"
 
 #: onedesk/public/js/opportunity_list.js:33
 msgid "{0} · {1} weighted"

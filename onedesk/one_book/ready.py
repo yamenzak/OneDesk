@@ -22,6 +22,8 @@ it. The ones that need no decision are made without asking:
 - **The year.** A date outside every fiscal year stops every document on it.
   ERPNext makes next year's three days before this one ends, when the
   scheduler runs; the check catches a site where it did not.
+- **Reminding a late customer.** The Payment Reminder (one_book/paid.py) is
+  shipped off, since it writes to customers; the fix turns it on.
 - **The defaults ERPNext throws on** — receivable, payable, income, cost
   center, round-off, exchange gain or loss — named when any is empty.
 """
@@ -64,6 +66,7 @@ def checks() -> list[dict]:
 		_tax(one, "Sales Taxes and Charges Template", "sales_tax", _("Invoices carry tax")),
 		_tax(one, "Purchase Taxes and Charges Template", "purchase_tax", _("Bills carry tax")),
 		_bill_numbers(),
+		_reminder(),
 	]
 
 
@@ -140,6 +143,15 @@ def _bill_numbers() -> dict:
 	return _row("bills", _("A supplier's bill cannot be entered twice"), SUGGESTED, _("The same supplier invoice number can be entered twice and paid twice."), "bills")
 
 
+def _reminder() -> dict:
+	from onedesk.one_book.paid import REMINDER
+
+	check = _("A late customer is reminded")
+	if frappe.db.get_value("Notification", REMINDER, "enabled"):
+		return _row("reminder", check, READY, _("A customer is mailed the invoice a week after it falls due."))
+	return _row("reminder", check, SUGGESTED, _("Nobody is reminded of an unpaid invoice. The fix mails the customer a week after it falls due."), "reminder")
+
+
 @frappe.whitelist(methods=["POST"])
 def fix(key: str, **values) -> None:
 	"""The fix beside a check."""
@@ -160,6 +172,10 @@ def fix(key: str, **values) -> None:
 		template.save()
 	elif key == "bills":
 		frappe.db.set_single_value("Accounts Settings", "check_supplier_invoice_uniqueness", 1)
+	elif key == "reminder":
+		from onedesk.one_book.paid import REMINDER
+
+		frappe.db.set_value("Notification", REMINDER, "enabled", 1)
 	else:
 		frappe.throw(_("Nothing to fix for {0}.").format(key))
 

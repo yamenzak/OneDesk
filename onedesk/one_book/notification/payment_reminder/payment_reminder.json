@@ -1,0 +1,32 @@
+{
+ "attach_print": 1,
+ "channel": "Email",
+ "condition": "doc.docstatus == 1 and doc.outstanding_amount > 0",
+ "condition_type": "Python",
+ "creation": "2026-09-28 23:00:00.000000",
+ "date_changed": "due_date",
+ "days_in_advance": 7,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Sales Invoice",
+ "enabled": 0,
+ "event": "Days After",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "",
+ "message_type": "HTML",
+ "minutes_offset": 0,
+ "modified": "2026-09-28 23:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Book",
+ "name": "Payment Reminder",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "contact_email"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "{{ _(\"Reminder: invoice {0} is overdue\").format(doc.name) }}"
+}

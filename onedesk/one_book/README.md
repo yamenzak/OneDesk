@@ -63,6 +63,7 @@ bill, and says **Ready**, **To Do** or **Suggested** beside each, with a
   — to it. A bank account added any other way is connected the same way.
 - **Invoices carry tax** and **Bills carry tax.** **Fix** asks which VAT
   template is added to a new invoice or bill when nobody picks one.
+- **A late customer is reminded.** **Fix** turns the payment reminder on.
 - **A supplier's bill cannot be entered twice.** **Fix** turns on the check
   that refuses the same supplier invoice number a second time.
 - **Today is in a fiscal year** and **the company's default accounts are
@@ -76,15 +77,25 @@ bill, and says **Ready**, **To Do** or **Suggested** beside each, with a
 2. **Save** keeps a draft you can still change. **Submit** issues it: it is in
    the books from then on and can no longer be edited, only cancelled or
    credited.
-3. When the customer pays, **Create › Payment** on the invoice makes the
-   payment with the amount and the customer filled in; say which bank or cash
-   account it went into and submit it. The invoice turns **Paid**, or
-   **Partly Paid** if they paid part.
-4. Money back to a customer is **Create › Return / Credit Note** on the
+3. The band under the title says what is **Outstanding**, when it is
+   **Due** (in red, with how many days late, once it has passed), what is
+   **Paid** and the **Total**.
+4. When the customer pays, **Record Payment** asks how much, on what day,
+   into which bank or cash account, and the bank's reference, and records
+   it. The invoice turns **Paid**, or **Partly Paid** if they paid part. A
+   payment with a discount, a deduction or in another currency, or one
+   covering several invoices, is **Create › Payment**, which opens the whole
+   payment form.
+5. Money back to a customer is **Create › Return / Credit Note** on the
    invoice.
 
 A bill works the same way from **Bills**: the supplier, what they charged for,
-**Submit**, and **Create › Payment** when you pay it.
+**Submit**, and **Record Payment** when you pay it.
+
+**Reminding a late customer.** Once turned on (the Books Check's **A late
+customer is reminded**), a customer is mailed the invoice a week after it
+fell due, if it is still unpaid. The wording is **Setup › Notifications ›
+Payment Reminder**.
 
 ## What is kept where
 
@@ -131,6 +142,14 @@ fails a small business on first use or leaves a question unanswered.
   (profit leaves out the Period Closing Voucher's entries, which move profit
   rather than make it), what is owed from `outstanding_amount` on submitted
   invoices and bills, by due date (`outstanding`, pure).
+- `paid.py` and `public/js/invoice.js` — the band and **Record Payment**.
+  ERPNext's **Create › Payment** opens a thirty-field Payment Entry for the
+  case four fields answer; `settle` takes those four and submits ERPNext's own
+  entry, made by its `get_payment_entry`, allocating the amount across the
+  invoice's payment-term rows first to last (`allocate`, pure). A bank payment
+  needs a reference to submit, so the invoice's number stands in when none is
+  typed. `notification/payment_reminder` is a standard Notification, Days
+  After the due date by seven, shipped disabled.
 - `ready.py` and `report/books_check` — the Books Check. ERPNext's Standard
   chart makes *Bank Accounts* a group, so `Company.default_bank_account` is
   left empty, and `set_mode_of_payment_account` gives only Cash an account;
@@ -154,7 +173,7 @@ fails a small business on first use or leaves a question unanswered.
    and this month's profit. *Done.*
 4. **Getting paid and paying.** An invoice's and a bill's page says what is
    outstanding and when it is due; one step records the payment; an overdue
-   customer is reminded.
+   customer is reminded. *Done.*
 5. **Repeating invoices and bills.** Rent, retainers and subscriptions made on
    a schedule.
 6. **VAT.** The settings the UAE return needs filled in from the chart, and a

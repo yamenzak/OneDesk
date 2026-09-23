@@ -969,6 +969,20 @@ OVERRIDES = [
 		"erpnext/erpnext/accounts/doctype/fiscal_year/fiscal_year.py",
 		"def auto_create_fiscal_year",
 	),
+	(
+		"Record Payment submits ERPNext's own Payment Entry",
+		"the thirty-field form for the case four fields answer; `settle` fills and submits what `get_payment_entry` makes",
+		"onedesk/one_book/paid.py",
+		"erpnext/erpnext/accounts/doctype/payment_entry/payment_entry.py",
+		"def get_payment_entry(",
+	),
+	(
+		"Record Payment is the one primary button on an invoice or bill",
+		"ERPNext makes the Create group primary; ours demotes it so two dark buttons do not compete",
+		"onedesk/public/js/invoice.js",
+		"erpnext/erpnext/accounts/doctype/purchase_invoice/purchase_invoice.js",
+		'set_inner_btn_group_as_primary(__("Create"))',
+	),
 ]
 
 

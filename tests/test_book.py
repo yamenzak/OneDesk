@@ -117,3 +117,24 @@ def test_every_figure_on_home_is_ours_and_worked_out_here():
 
 def test_a_closing_entry_does_not_count_as_this_months_profit():
 	assert "Period Closing Voucher" in _body(BOOK / "home.py", "profit_this_month")
+
+
+def test_a_payment_is_allocated_first_to_last_and_never_beyond_what_is_owed():
+	allocate = _load(BOOK / "paid.py", ("allocate",), flt=float)["allocate"]
+	assert allocate(100, [60, 60]) == [60, 40]
+	assert allocate(50, [60, 60]) == [50, 0]
+	assert allocate(120, [60, 60]) == [60, 60]
+
+
+def test_record_payment_is_on_invoices_and_bills_only():
+	assert '"Sales Invoice": "public/js/invoice.js"' in HOOKS
+	assert '"Purchase Invoice": "public/js/invoice.js"' in HOOKS
+	assert "doctype not in SETTLED" in _body(BOOK / "paid.py", "settle")
+
+
+def test_the_payment_reminder_ships_off_and_the_books_check_turns_it_on():
+	reminder = json.loads((BOOK / "notification" / "payment_reminder" / "payment_reminder.json").read_text())
+	assert reminder["enabled"] == 0, "it writes to customers, so nobody gets it until somebody says so"
+	assert reminder["document_type"] == "Sales Invoice" and reminder["event"] == "Days After"
+	assert "outstanding_amount > 0" in reminder["condition"]
+	assert "'reminder'" in _body(READY, "fix")

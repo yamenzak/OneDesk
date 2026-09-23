@@ -394,6 +394,9 @@ doctype_js = {
 	"Quotation": "public/js/quotation.js",
 	# A timer on the task. See one_task/timer.py.
 	"Task": "public/js/task.js",
+	# What is still owed, and Record Payment. See one_book/paid.py.
+	"Sales Invoice": "public/js/invoice.js",
+	"Purchase Invoice": "public/js/invoice.js",
 }
 
 # Loaded after the doctype's own list script, so ours has the last word.

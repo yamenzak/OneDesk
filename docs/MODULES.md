@@ -177,6 +177,7 @@ No doctypes yet.
 * `onedesk.one_book.home.owed_to_us`
 * `onedesk.one_book.home.profit_this_month`
 * `onedesk.one_book.home.we_owe`
+* `onedesk.one_book.paid.settle`
 * `onedesk.one_book.ready.fix`
 * `onedesk.one_calendar.feed.mine`
 * `onedesk.one_calendar.feed.renew`

@@ -140,5 +140,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | An onboarding or exit checklist is not a project in the portfolio | their boarding makes a plain Project per onboarding and exit, untyped, beside client work | `onedesk/one_hr/lifecycle.py` | `hrms/hrms/controllers/employee_boarding_controller.py` | `project_name = _(self.doctype) + " : "` |
 | A company bank account fills the default bank and the bank modes of payment | the Standard chart's Bank Accounts is a group, so `default_bank_account` is left empty and only Cash gets a mode-of-payment account | `onedesk/one_book/ready.py` | `erpnext/erpnext/setup/doctype/company/company.py` | `cash = frappe.db.get_value("Mode of Payment", {"type": "Cash"}, "name")` |
 | The Books Check makes a missing fiscal year | ERPNext makes next year's three days before this one ends, only where the scheduler ran | `onedesk/one_book/ready.py` | `erpnext/erpnext/accounts/doctype/fiscal_year/fiscal_year.py` | `def auto_create_fiscal_year` |
+| Record Payment submits ERPNext's own Payment Entry | the thirty-field form for the case four fields answer; `settle` fills and submits what `get_payment_entry` makes | `onedesk/one_book/paid.py` | `erpnext/erpnext/accounts/doctype/payment_entry/payment_entry.py` | `def get_payment_entry(` |
+| Record Payment is the one primary button on an invoice or bill | ERPNext makes the Create group primary; ours demotes it so two dark buttons do not compete | `onedesk/public/js/invoice.js` | `erpnext/erpnext/accounts/doctype/purchase_invoice/purchase_invoice.js` | `set_inner_btn_group_as_primary(__("Create"))` |
 
-135 overrides.
+137 overrides.

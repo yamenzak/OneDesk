@@ -1,0 +1,7 @@
+<p>{{ _("Dear {0},").format(doc.customer_name) }}</p>
+
+<p>{{ _("Our invoice {0} of {1} for {2} was due on {3}, and {4} of it is still outstanding.").format(doc.name, frappe.format_value(doc.posting_date, {"fieldtype": "Date"}), frappe.format_value(doc.grand_total, {"fieldtype": "Currency", "options": "currency"}, doc), frappe.format_value(doc.due_date, {"fieldtype": "Date"}), frappe.format_value(doc.outstanding_amount, {"fieldtype": "Currency", "options": "currency"}, doc)) }}</p>
+
+<p>{{ _("The invoice is attached. If you have already paid it, please ignore this reminder.") }}</p>
+
+<p>{{ doc.company }}</p>
