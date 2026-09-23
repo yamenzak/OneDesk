@@ -301,3 +301,26 @@ def test_updates_replace_erpnexts_asking_and_are_kept_on_the_project():
 	assert "Hourly" not in frequency["value"]
 	page = (tree.APP / "public" / "js" / "project.js").read_text()
 	assert "onedesk.one_project.updates.asked" in page and "onedesk.one_project.updates.post" in page
+
+
+def test_a_customer_is_told_when_in_plain_words():
+	space = _load(PROJECT / "portal.py", ("when",), _=lambda text: text)
+	assert space["when"](None) is None
+	assert space["when"](0) == "Due today"
+	assert space["when"](12) == "In 12 days"
+	assert space["when"](-3) == "3 days late"
+
+
+def test_a_customer_reaches_their_projects_and_nothing_of_the_team():
+	assert '"has_permission": "onedesk.check_app_permission"' in HOOKS, "a customer signing in is not sent to the desk"
+	assert "is_website_user()" in (tree.APP / "__init__.py").read_text()
+	assert '"Contact": {"on_update": "onedesk.one_project.portal.invited"}' in HOOKS
+	source = (PROJECT / "portal.py").read_text()
+	assert 'customer.append("portal_users", {"user": doc.user})' in source, "the only thing ERPNext's portal reads"
+	assert "has_website_permission(doc" in _body(source, "may_see")
+	page = (tree.APP / "www" / "projects.py").read_text()
+	assert "portal.view(project)" in page, "One's page at ERPNext's address"
+	html = (tree.APP / "www" / "projects.html").read_text()
+	assert "_assign" not in html and "timesheet" not in html.lower() and "/tasks/new" not in html, "nothing of the team's"
+	fields = source.split('"Task",', 1)[1].split("order_by", 1)[0]
+	assert "_assign" not in fields and "owner" not in fields

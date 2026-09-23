@@ -175,6 +175,26 @@ and **Message** are what the ask says.
 Where the workspace sends mail, everybody on the project also gets the
 day's updates by email the next morning.
 
+## What the customer sees
+
+A customer can follow their projects on the website. On the customer's
+**Contact**, **Invite as User** gives that person a login; they sign in at the
+workspace's address and land on their own pages — **Projects**, and their
+quotations, orders and invoices.
+
+**Projects** lists the customer's open projects. Opening one shows:
+
+- how far along it is (the whole project, sub-projects included) and how many
+  tasks are done;
+- the **Expected End**, and how many days are left or how late it is;
+- its **milestones**, its **sub-projects**, and the tasks with their dates and
+  whether each is to do, in progress, in review or done;
+- the order it answers to and its invoices, paid or not.
+
+They do not see who in the team does what, the hours, the costs or the team's
+updates, and they cannot change anything. A customer sees only their own
+projects; to hide a project from them, leave its **Customer** empty.
+
 ## Starting from a template
 
 A job you do again and again — a website, a fit-out, an office move — starts
@@ -269,6 +289,16 @@ one field for it.
   (additional_timeline_content) shows the answers in the project's activity.
   Their morning summary still runs, where mail goes (`sum_up`). Hourly is off
   the Frequency choices.
+- `portal.py` and `www/projects.py` — ERPNext's portal, reachable. Its list
+  (/project) reads the Customer's Portal Users, which Invite as User never
+  filled (`invited`, Contact on_update, fills it); a customer signing in was
+  sent to One's desk (`onedesk.check_app_permission` now refuses website
+  users on the apps screen); and its project page (/projects) checked role
+  permissions a customer never has, so refused everybody — and showed the
+  team's assignees and a New Task button. `www/projects.py` replaces that page
+  (frappe renders the last app's page for a route): `view` checks ERPNext's own
+  website permission (`may_see`) and shows progress over the tree, the end,
+  milestones, sub-projects, tasks, the order and the invoices; `when` is pure.
 - `templates.py` — ERPNext's Project Template, which already makes a
   project's tasks from template tasks as the project is saved. Added: **Save
   as Template** (`save_as`, with `start_of` and `days` pure), what their copy
@@ -341,8 +371,11 @@ stage below that touches tasks keeps them:
    note on a schedule — in One, and by mail where there is mail — the note is
    written on the project's page or by replying, and the answers are in the
    project's activity. Asking the customer is stage 9's.
-9. **The customer's view.** ERPNext's portal shows a customer their own
-   projects.
+9. **The customer's view.** *Done.* ERPNext's portal shows a customer their
+   own projects: a customer invited from their contact can sign in, reach the
+   list and open a project, which shows its progress, end, milestones,
+   sub-projects, tasks, order and invoices, and nothing of the team's. A
+   customer adding tasks or commenting is not built.
 10. **Workload.** Who has how many hours of open work this week, from expected
     time on the tasks assigned to them.
 11. **The old OneProject.** It left OneApp in `56216d9a`; read it from there,

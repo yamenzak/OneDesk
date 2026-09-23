@@ -1,0 +1,105 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ doc.project_name | e }}{% endblock %}
+
+{% block header %}
+	<h3 class="my-account-header">{{ doc.project_name | e }}</h3>
+{% endblock %}
+
+{% block page_content %}
+<div class="one-project">
+	{% if parent %}
+		<p class="text-muted">{{ _("Part of") }} <a href="/projects?project={{ parent.name | urlencode }}">{{ parent.project_name | e }}</a></p>
+	{% endif %}
+
+	<div class="one-project__figures">
+		<div>
+			<div class="one-project__label">{{ _("Progress") }}</div>
+			<div class="one-project__value">{{ share }}%</div>
+			{% if total %}<div class="text-muted small">{{ _("{0} of {1} tasks done").format(done, total) }}</div>{% endif %}
+		</div>
+		<div>
+			<div class="one-project__label">{{ _("Expected End") }}</div>
+			<div class="one-project__value">{{ frappe.format_date(doc.expected_end_date) if doc.expected_end_date else "—" }}</div>
+			{% if when %}<div class="small {{ 'text-danger' if days_left < 0 else 'text-muted' }}">{{ when }}</div>{% endif %}
+		</div>
+		<div>
+			<div class="one-project__label">{{ _("Status") }}</div>
+			<div class="one-project__value">{{ _(doc.status) }}</div>
+		</div>
+	</div>
+	<div class="progress" style="height: 6px;">
+		<div class="progress-bar" role="progressbar" style="width: {{ share }}%;" aria-valuenow="{{ share }}" aria-valuemin="0" aria-valuemax="100"></div>
+	</div>
+
+	{% if milestones %}
+		<h4 class="one-project__heading">{{ _("Milestones") }}</h4>
+		{% for one in milestones %}
+			<div class="web-list-item one-project__row">
+				<span>{{ one.subject | e }}</span>
+				<span class="text-muted">{{ frappe.format_date(one.due) if one.due else "" }}</span>
+				<span class="indicator-pill {{ one.colour }}">{{ one.shown }}</span>
+			</div>
+		{% endfor %}
+	{% endif %}
+
+	{% if projects %}
+		<h4 class="one-project__heading">{{ _("Sub-projects") }}</h4>
+		{% for one in projects %}
+			<a class="web-list-item one-project__row" href="/projects?project={{ one.name | urlencode }}">
+				<span>{{ one.project_name | e }}</span>
+				<span class="text-muted">{{ frappe.format_date(one.expected_end_date) if one.expected_end_date else "" }}</span>
+				<span class="indicator-pill {{ 'green' if one.status == 'Completed' else 'blue' }}">{{ frappe.utils.cint(one.percent_complete) }}%</span>
+			</a>
+		{% endfor %}
+	{% endif %}
+
+	<h4 class="one-project__heading">{{ _("The Work") }}</h4>
+	{% if tasks %}
+		{% for one in tasks %}
+			<div class="web-list-item one-project__row{{ ' one-project__row--under' if one.parent_task else '' }}">
+				<span>{{ one.subject | e }}</span>
+				<span class="{{ 'text-danger' if one.late else 'text-muted' }}">{{ frappe.format_date(one.due) if one.due else "" }}</span>
+				<span class="indicator-pill {{ one.colour }}">{{ one.shown }}</span>
+			</div>
+		{% endfor %}
+	{% elif projects %}
+		<p class="text-muted">{{ _("The work is in the sub-projects.") }}</p>
+	{% else %}
+		<p class="text-muted">{{ _("Nothing is planned yet.") }}</p>
+	{% endif %}
+
+	{% if order or invoices %}
+		<h4 class="one-project__heading">{{ _("Order and Invoices") }}</h4>
+		{% if order %}
+			<a class="web-list-item one-project__row" href="/orders/{{ order.name | urlencode }}">
+				<span>{{ _("Order") }} {{ order.name }}</span>
+				<span></span>
+				<span>{{ frappe.utils.fmt_money(order.grand_total, currency=order.currency) }}</span>
+			</a>
+		{% endif %}
+		{% for one in invoices %}
+			<a class="web-list-item one-project__row" href="/invoices/{{ one.name | urlencode }}">
+				<span>{{ _("Invoice") }} {{ one.name }}</span>
+				<span class="text-muted">{{ frappe.format_date(one.posting_date) }}</span>
+				<span>{{ frappe.utils.fmt_money(one.grand_total, currency=one.currency) }}
+					{% if one.outstanding_amount > 0 %}<span class="indicator-pill orange">{{ _("Unpaid") }}</span>{% else %}<span class="indicator-pill green">{{ _("Paid") }}</span>{% endif %}
+				</span>
+			</a>
+		{% endfor %}
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block style %}
+<style>
+	.one-project__figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+	.one-project__label { color: var(--text-muted); font-size: var(--text-sm); }
+	.one-project__value { font-size: var(--text-xl); font-weight: 600; }
+	.one-project__heading { margin-top: 2rem; }
+	.one-project__row { display: grid; grid-template-columns: 1fr 9rem 7rem; gap: 1rem; align-items: center; color: inherit; padding: 0.75rem 0; border-bottom: 1px solid var(--border-color); text-decoration: none; }
+	.one-project__row > :last-child { justify-self: end; }
+	a.one-project__row:hover { background: var(--subtle-fg); text-decoration: none; }
+	.one-project__row--under span:first-child { padding-inline-start: 1.25rem; }
+</style>
+{% endblock %}

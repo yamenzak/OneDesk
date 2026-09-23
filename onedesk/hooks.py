@@ -105,6 +105,9 @@ scheduler_events = {
 }
 
 doc_events = {
+	# A customer's contact invited as a user can see the customer's projects.
+	# See one_project/portal.py.
+	"Contact": {"on_update": "onedesk.one_project.portal.invited"},
 	# A Public event is on everybody's calendar. See one_calendar/events.py.
 	"Event": {"validate": "onedesk.one_calendar.events.validate"},
 	# hrms counts milestones by letting an insert fail, and the message outlives
@@ -417,6 +420,8 @@ add_to_apps_screen = [
 		"title": app_title,
 		"logo": app_logo_url,
 		"route": "/desk/one",
+		# A customer signing in goes to the portal, not a desk they cannot open.
+		"has_permission": "onedesk.check_app_permission",
 		# Ahead of erpnext (1) and hrms (2). Not 0: the boot reads this with `or`,
 		# so a falsy one falls through to the default and lands One mid-row.
 		"sequence_id": 0.5,

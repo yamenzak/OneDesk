@@ -134,5 +134,8 @@ Each row is something that would still run but stop working if upstream moved. `
 | An emailed update is taken once, whatever day it comes | their collector runs hourly over the day's replies and appends each one again every run, and never looks at a reply that comes the next day | `onedesk/one_project/updates.py` | `erpnext/erpnext/projects/doctype/project/project.py` | `EmailReplyParser.parse_reply(d.text_content) or d.content` |
 | Hourly is not a choice for project updates | theirs offers asking the team every hour | `onedesk/one_project/custom/project.json` | `erpnext/erpnext/projects/doctype/project/project.json` | `"options": "Hourly\nTwice Daily\nDaily\nWeekly"` |
 | The morning summary goes only where mail can go | their summary of yesterday's updates mails with no check, and raises daily on a workspace without mail | `onedesk/one_project/updates.py` | `erpnext/erpnext/projects/doctype/project/project.py` | `def send_project_status_email_to_users():` |
+| A customer's project page lets the customer in | theirs checks role permissions, which a website user never has, so it refused every customer; it also showed the team's assignees and let a customer add tasks | `onedesk/www/projects.py` | `erpnext/erpnext/templates/pages/projects.py` | `project_doc.check_permission()` |
+| Invite as User on a customer's contact lets them see the customer's projects | their portal reads only the Customer's Portal Users, and inviting a contact never lists them there | `onedesk/one_project/portal.py` | `erpnext/erpnext/controllers/website_list_for_contact.py` | `.where(portal_user.parenttype == parenttype)` |
+| A customer signing in lands on the portal, not the desk | frappe sends a website user to the first app on the apps screen that does not refuse them | `onedesk/__init__.py` | `frappe/frappe/apps.py` | `if has_permission_path and not frappe.get_attr(has_permission_path)():` |
 
-129 overrides.
+132 overrides.
