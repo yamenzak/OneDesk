@@ -45,6 +45,30 @@ onedesk.book.fix = (key, report) => {
 			__("Add Bank Account"),
 			__("Add"),
 		);
+	} else if (key === "trn") {
+		frappe.prompt(
+			{ fieldtype: "Data", fieldname: "trn", label: __("TRN"), reqd: 1, description: __("The 15-digit Tax Registration Number on the VAT certificate.") },
+			call,
+			__("The Company's TRN"),
+			__("Save"),
+		);
+	} else if (key === "emirate") {
+		frappe.prompt(
+			[
+				{
+					fieldtype: "Select",
+					fieldname: "emirate",
+					label: __("Emirate"),
+					reqd: 1,
+					options: ["", "Abu Dhabi", "Ajman", "Dubai", "Fujairah", "Ras Al Khaimah", "Sharjah", "Umm Al Quwain"],
+				},
+				{ fieldtype: "Data", fieldname: "address_line1", label: __("Street Address"), reqd: 1 },
+				{ fieldtype: "Data", fieldname: "city", label: __("City") },
+			],
+			call,
+			__("The Company's Address"),
+			__("Save"),
+		);
 	} else if (key === "sales_tax" || key === "purchase_tax") {
 		const doctype = key === "sales_tax" ? "Sales Taxes and Charges Template" : "Purchase Taxes and Charges Template";
 		frappe.prompt(

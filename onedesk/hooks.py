@@ -114,8 +114,16 @@ doc_events = {
 	"Bank Account": {"on_update": "onedesk.one_book.ready.wired"},
 	# A repeated invoice keeps its days to pay; a repeated bill drops the
 	# supplier's number. See one_book/repeat.py.
-	"Sales Invoice": {"on_recurring": "onedesk.one_book.repeat.repeated"},
-	"Purchase Invoice": {"on_recurring": "onedesk.one_book.repeat.repeated"},
+	"Sales Invoice": {
+		"on_recurring": "onedesk.one_book.repeat.repeated",
+		# The emirate a sale is reported under. See one_book/vat.py.
+		"validate": "onedesk.one_book.vat.emirate",
+	},
+	# A bill's reclaimable VAT is kept at the VAT on it. See one_book/vat.py.
+	"Purchase Invoice": {
+		"on_recurring": "onedesk.one_book.repeat.repeated",
+		"validate": "onedesk.one_book.vat.reclaimed",
+	},
 	# A Public event is on everybody's calendar. See one_calendar/events.py.
 	"Event": {"validate": "onedesk.one_calendar.events.validate"},
 	# hrms counts milestones by letting an insert fail, and the message outlives

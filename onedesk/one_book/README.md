@@ -26,7 +26,8 @@ amount, a customer's balance, an employee's expense claim.
 - **Customers** and **Suppliers**.
 - **Reports** — **Profit and Loss**, **Balance Sheet**, **Cash Flow**,
   **Receivables** (who owes you, and how late), **Payables** (whom you owe),
-  **General Ledger**, **Trial Balance**, **Gross Profit** and the VAT return.
+  **General Ledger**, **Trial Balance**, **Gross Profit**, the **VAT Return**
+  and, in the UAE, the **UAE VAT 201**.
 - **More** — credit and debit notes, bank transactions, importing a bank
   statement, customer statements, repeating invoices and bills, opening
   invoices and closing a period.
@@ -64,6 +65,9 @@ bill, and says **Ready**, **To Do** or **Suggested** beside each, with a
 - **Invoices carry tax** and **Bills carry tax.** **Fix** asks which VAT
   template is added to a new invoice or bill when nobody picks one.
 - **A late customer is reminded.** **Fix** turns the payment reminder on.
+- In the UAE: **the VAT return knows the VAT accounts**, **invoices carry
+  the company's TRN** and **the company's emirate is known**. **Fix** fills
+  the first from the chart and asks for the other two.
 - **A supplier's bill cannot be entered twice.** **Fix** turns on the check
   that refuses the same supplier invoice number a second time.
 - **Today is in a fiscal year** and **the company's default accounts are
@@ -110,6 +114,22 @@ this month's in.
 The band on a repeating invoice says **Repeats Monthly** and when the next
 one is made; clicking it opens the schedule, where it can be paused or
 stopped. **More › Repeating** lists every schedule.
+
+## VAT
+
+**Reports › VAT Return** is the figure for any VAT return: for the dates you
+pick, the tax charged on invoices and the tax paid on bills and expense
+claims, each by tax account and rate with the amount it was charged on, and
+what is left **To pay** (or **To reclaim**). Credit notes lower what was
+charged. Tax added to the cost of what was bought is not counted, since it
+cannot be reclaimed.
+
+In the UAE, **Reports › UAE VAT 201** is the return in the FTA's own boxes.
+The Books Check makes sure it has what it reads: the VAT accounts, the
+company's **TRN** (printed on every tax invoice) and its **emirate** (sales
+are reported under it). The VAT on each bill is filled into the bill's
+**Recoverable Standard Rated Expenses** as you enter it; type your own figure
+there when not all of it can be reclaimed, and it is left alone.
 
 ## What is kept where
 
@@ -172,6 +192,17 @@ fails a small business on first use or leaves a question unanswered.
   due the day it is made, its payment schedule is made again rather than
   copied with last time's dates, and a bill drops the supplier's number,
   which a duplicate-number check would otherwise refuse.
+- `vat.py` and `report/vat_return` — VAT. ERPNext's UAE VAT 201 reads three
+  things a new company does not have — UAE VAT Settings, the TRN, an address
+  with an emirate — and says nothing; the Books Check asks. Its box 9 (VAT on
+  expenses) sums a field on each bill that somebody is meant to type, so an
+  untouched bill reclaims nothing and the VAT is paid twice: `reclaimed`
+  (Purchase Invoice validate) keeps it at the bill's VAT until somebody types
+  their own figure (`recoverable`, pure). `emirate` (Sales Invoice validate)
+  copies the address's emirate onto an invoice not made on its page, since
+  Frappe only fetches it there. The VAT Return reads tax rows of submitted
+  invoices, bills and expense claims, grouped by account and rate (`lines`,
+  pure); it is not a UAE form, and needs nothing set up.
 - `ready.py` and `report/books_check` — the Books Check. ERPNext's Standard
   chart makes *Bank Accounts* a group, so `Company.default_bank_account` is
   left empty, and `set_mode_of_payment_account` gives only Cash an account;
@@ -200,4 +231,5 @@ fails a small business on first use or leaves a question unanswered.
    a schedule. *Done.*
 6. **VAT.** The settings the UAE return needs filled in from the chart, and a
    return any country can read: tax charged against tax paid, by rate.
+   *Done.*
 7. **Closing.** Locking the books up to a date, and the year-end close.

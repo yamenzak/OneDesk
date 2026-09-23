@@ -156,3 +156,29 @@ def test_invoices_and_bills_can_repeat_and_the_copy_is_corrected():
 	repeated = _body(BOOK / "repeat.py", "repeated")
 	assert "bill_no = None" in repeated, "last month's supplier number would be refused as a duplicate"
 	assert "payment_schedule" in repeated
+
+
+def test_a_bills_reclaimable_vat_follows_the_bill_until_somebody_types_their_own():
+	recoverable = _load(BOOK / "vat.py", ("recoverable",), flt=lambda v: float(v or 0))["recoverable"]
+	assert recoverable(0, None, None, 100) == 100, "a new bill reclaims the VAT on it"
+	assert recoverable(100, 100, 100, 150) == 150, "ours, and the bill changed: it follows"
+	assert recoverable(20, 100, 100, 150) == 20, "typed just now: kept"
+	assert recoverable(20, 20, 100, 150) == 20, "typed before: kept"
+	assert recoverable(30, None, None, 100) == 30, "typed on a new bill: kept"
+
+
+def test_the_vat_return_nets_what_was_charged_against_what_was_paid():
+	space = _load(BOOK / "report" / "vat_return" / "vat_return.py", ("lines",), flt=lambda v: float(v or 0), _=lambda s: s)
+	rows = [
+		{"section": "output", "account": "VAT 5%", "rate": 5, "taxable": 20000, "tax": 1000},
+		{"section": "input", "account": "VAT 5%", "rate": 5, "taxable": 4000, "tax": 200},
+	]
+	out = space["lines"](rows)
+	assert out[-1] == {"line": "To pay", "tax": 800, "bold": 1}
+	assert space["lines"]([{**rows[1], "tax": 1200}])[-1]["line"] == "To reclaim"
+
+
+def test_the_uae_checks_only_run_in_the_uae_and_the_bill_hook_is_wired():
+	assert "if not vat.in_uae(one.name):" in _body(READY, "_uae")
+	assert '"validate": "onedesk.one_book.vat.reclaimed"' in HOOKS
+	assert '"validate": "onedesk.one_book.vat.emirate"' in HOOKS

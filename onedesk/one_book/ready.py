@@ -24,6 +24,8 @@ it. The ones that need no decision are made without asking:
   scheduler runs; the check catches a site where it did not.
 - **Reminding a late customer.** The Payment Reminder (one_book/paid.py) is
   shipped off, since it writes to customers; the fix turns it on.
+- **The UAE's VAT** (one_book/vat.py): the VAT accounts the return reads, the
+  TRN a tax invoice must carry, and the emirate sales are reported under.
 - **The defaults ERPNext throws on** — receivable, payable, income, cost
   center, round-off, exchange gain or loss — named when any is empty.
 """
@@ -67,6 +69,7 @@ def checks() -> list[dict]:
 		_tax(one, "Purchase Taxes and Charges Template", "purchase_tax", _("Bills carry tax")),
 		_bill_numbers(),
 		_reminder(),
+		*_uae(one),
 	]
 
 
@@ -152,6 +155,32 @@ def _reminder() -> dict:
 	return _row("reminder", check, SUGGESTED, _("Nobody is reminded of an unpaid invoice. The fix mails the customer a week after it falls due."), "reminder")
 
 
+def _uae(one) -> list[dict]:
+	"""What the UAE VAT return and a UAE tax invoice need. Only in the UAE."""
+	from onedesk.one_book import vat
+
+	if not vat.in_uae(one.name):
+		return []
+	rows = []
+	check = _("The VAT return knows the VAT accounts")
+	if vat.settled_accounts(one.name):
+		rows.append(_row("uae_vat", check, READY, _("UAE VAT Settings name the accounts VAT is charged and paid to.")))
+	else:
+		rows.append(_row("uae_vat", check, TO_DO, _("UAE VAT Settings are empty, so the return's reverse-charge boxes read nought."), "uae_vat"))
+	check = _("Invoices carry the company's TRN")
+	if one.tax_id:
+		rows.append(_row("trn", check, READY, _("A UAE tax invoice must show the supplier's TRN.")))
+	else:
+		rows.append(_row("trn", check, TO_DO, _("The company has no TRN, and a UAE tax invoice must show it."), "trn"))
+	check = _("The company's emirate is known")
+	address = vat.company_address(one.name)
+	if address and frappe.db.get_value("Address", address, "emirate"):
+		rows.append(_row("emirate", check, READY, _("Sales are reported under the company's emirate.")))
+	else:
+		rows.append(_row("emirate", check, TO_DO, _("The company has no address with an emirate, so the return cannot say where sales were made."), "emirate"))
+	return rows
+
+
 @frappe.whitelist(methods=["POST"])
 def fix(key: str, **values) -> None:
 	"""The fix beside a check."""
@@ -172,6 +201,24 @@ def fix(key: str, **values) -> None:
 		template.save()
 	elif key == "bills":
 		frappe.db.set_single_value("Accounts Settings", "check_supplier_invoice_uniqueness", 1)
+	elif key == "uae_vat":
+		from onedesk.one_book import vat
+
+		vat.uae_accounts(one.name)
+	elif key == "trn":
+		trn = (values.get("trn") or "").strip()
+		if not trn:
+			frappe.throw(_("Enter the TRN."))
+		frappe.db.set_value("Company", one.name, "tax_id", trn)
+		frappe.clear_document_cache("Company", one.name)
+	elif key == "emirate":
+		from onedesk.one_book import vat
+
+		address = vat.company_address(one.name)
+		if address:
+			frappe.db.set_value("Address", address, "emirate", values.get("emirate"))
+		else:
+			vat.add_address(one.name, values.get("emirate"), values.get("address_line1"), values.get("city"))
 	elif key == "reminder":
 		from onedesk.one_book.paid import REMINDER
 

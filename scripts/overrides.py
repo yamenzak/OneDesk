@@ -1011,6 +1011,27 @@ OVERRIDES = [
 		"frappe/frappe/automation/doctype/auto_repeat/auto_repeat.py",
 		'if data.fieldtype == "Date" and data.reqd:',
 	),
+	(
+		"A bill's reclaimable VAT is filled in",
+		"UAE VAT 201's box 9 sums a field on each bill somebody is meant to type; untouched, the company reclaims nothing",
+		"onedesk/one_book/vat.py",
+		"erpnext/erpnext/regional/report/uae_vat_201/uae_vat_201.py",
+		'query_filters.append(["recoverable_standard_rated_expenses", ">", 0])',
+	),
+	(
+		"The invoice's emirate is copied from the company address",
+		"Frappe fetches it only when the address is picked on the page",
+		"onedesk/one_book/vat.py",
+		"erpnext/erpnext/regional/united_arab_emirates/setup.py",
+		'fetch_from="company_address.emirate",',
+	),
+	(
+		"UAE VAT Settings are filled from the chart",
+		"empty on a new company, and reverse charge reads them",
+		"onedesk/one_book/vat.py",
+		"erpnext/erpnext/regional/united_arab_emirates/utils.py",
+		'tax_accounts_list = frappe.get_all("UAE VAT Account", filters={"parent": company}, fields=["account"])',
+	),
 ]
 
 

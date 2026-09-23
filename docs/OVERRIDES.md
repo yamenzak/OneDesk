@@ -146,5 +146,8 @@ Each row is something that would still run but stop working if upstream moved. `
 | Invoices and bills can repeat | both have `auto_repeat` and `on_recurring` but not `allow_auto_repeat`; a property setter turns it on | `onedesk/one_book/custom/sales_invoice.json` | `erpnext/erpnext/accounts/doctype/sales_invoice/sales_invoice.py` | `def on_recurring(self, reference_doc, auto_repeat_doc):` |
 | A repeated invoice keeps its days to pay | ERPNext's `on_recurring` empties the due date, so the copy fell due the day it was made; `repeated` runs after it | `onedesk/one_book/repeat.py` | `erpnext/erpnext/accounts/doctype/purchase_invoice/purchase_invoice.py` | `self.due_date = None` |
 | Auto Repeat dates every required date field | which is why the due date needs correcting at all | `onedesk/one_book/repeat.py` | `frappe/frappe/automation/doctype/auto_repeat/auto_repeat.py` | `if data.fieldtype == "Date" and data.reqd:` |
+| A bill's reclaimable VAT is filled in | UAE VAT 201's box 9 sums a field on each bill somebody is meant to type; untouched, the company reclaims nothing | `onedesk/one_book/vat.py` | `erpnext/erpnext/regional/report/uae_vat_201/uae_vat_201.py` | `query_filters.append(["recoverable_standard_rated_expenses", ">", 0])` |
+| The invoice's emirate is copied from the company address | Frappe fetches it only when the address is picked on the page | `onedesk/one_book/vat.py` | `erpnext/erpnext/regional/united_arab_emirates/setup.py` | `fetch_from="company_address.emirate",` |
+| UAE VAT Settings are filled from the chart | empty on a new company, and reverse charge reads them | `onedesk/one_book/vat.py` | `erpnext/erpnext/regional/united_arab_emirates/utils.py` | `tax_accounts_list = frappe.get_all("UAE VAT Account", filters={"parent": company}, fields=["account"])` |
 
-141 overrides.
+144 overrides.
