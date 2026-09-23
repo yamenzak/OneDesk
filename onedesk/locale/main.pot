@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 13:45+0000\n"
-"PO-Revision-Date: 2026-09-23 13:45+0000\n"
+"POT-Creation-Date: 2026-09-23 13:54+0000\n"
+"PO-Revision-Date: 2026-09-23 13:54+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -28,14 +28,14 @@ msgstr ""
 msgid "1 day of {0}; {1} left after."
 msgstr ""
 
+#. Header text in the OneCRM Workspace
+#: onedesk/one_crm/workspace/onecrm/onecrm.json
+msgid "<span class=\"h4\"><b>My Day</b></span>"
+msgstr ""
+
 #. Header text in the One Workspace
 #: onedesk/one/workspace/one/one.json
 msgid "<span class=\"h4\"><b>One</b></span>"
-msgstr ""
-
-#. Header text in the OneCRM Workspace
-#: onedesk/one_crm/workspace/onecrm/onecrm.json
-msgid "<span class=\"h4\"><b>OneCRM</b></span>"
 msgstr ""
 
 #. Header text in the One Admin Workspace
@@ -1740,6 +1740,11 @@ msgstr ""
 msgid "Days at each status before moving to the next. Zero disables the move."
 msgstr ""
 
+#. Label of a shortcut in the OneCRM Workspace
+#: onedesk/one_crm/workspace/onecrm/onecrm.json
+msgid "Deals Due"
+msgstr ""
+
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:38
 msgid "Dec"
 msgstr ""
@@ -1959,6 +1964,10 @@ msgstr ""
 
 #: onedesk/public/js/ai_proposal.js:42 onedesk/public/js/ai_proposal.js:69
 msgid "Done. It wrote {0}."
+msgstr ""
+
+#: onedesk/one_crm/next.py:91
+msgid "Done: {0}"
 msgstr ""
 
 #: onedesk/one_hr/ai.py:131
@@ -3279,6 +3288,11 @@ msgstr ""
 msgid "Lead Source"
 msgstr ""
 
+#. Label of a shortcut in the OneCRM Workspace
+#: onedesk/one_crm/workspace/onecrm/onecrm.json
+msgid "Leads Due"
+msgstr ""
+
 #. Label of the one_learn_zones (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Learn New Locations"
@@ -3754,6 +3768,11 @@ msgstr ""
 msgid "New"
 msgstr ""
 
+#. Label of a shortcut in the OneCRM Workspace
+#: onedesk/one_crm/workspace/onecrm/onecrm.json
+msgid "New Lead"
+msgstr ""
+
 #: onedesk/one_ai/chat.py:115 onedesk/public/js/oneai/Panel.vue:20
 #: onedesk/public/js/oneai/Panel.vue:24
 msgid "New conversation"
@@ -3771,6 +3790,24 @@ msgstr ""
 #. Label of the next_status (Data) field in DocType 'Workspace Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 msgid "Next Status"
+msgstr ""
+
+#. Label of the one_next_step (Data) field in DocType 'Lead'
+#. Label of the one_next_step (Data) field in DocType 'Opportunity'
+#: onedesk/one_crm/custom/lead.json onedesk/one_crm/custom/opportunity.json
+#: onedesk/one_crm/next.py:67 onedesk/public/js/next_step.js:16
+msgid "Next Step"
+msgstr ""
+
+#: onedesk/public/js/next_step.js:8
+msgid "Next Step Done"
+msgstr ""
+
+#. Label of the one_next_on (Datetime) field in DocType 'Lead'
+#. Label of the one_next_on (Datetime) field in DocType 'Opportunity'
+#: onedesk/one_crm/custom/lead.json onedesk/one_crm/custom/opportunity.json
+#: onedesk/public/js/next_step.js:20
+msgid "Next Step Due"
 msgstr ""
 
 #: onedesk/one_ai/chat.py:564
@@ -4253,6 +4290,10 @@ msgstr ""
 msgid "Only a flagged attempt needs reviewing."
 msgstr ""
 
+#: onedesk/one_crm/next.py:87
+msgid "Only a lead or a deal has a next step."
+msgstr ""
+
 #: onedesk/one_admin/doctype/offering/offering.py:46
 msgid "Only a recurring offering can have a trial."
 msgstr ""
@@ -4663,7 +4704,9 @@ msgid "Pick a name and a plan. The workspace is built as soon as the card is acc
 msgstr ""
 
 #. Label of a Sidebar Item
+#. Label of a shortcut in the OneCRM Workspace
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/one_crm/workspace/onecrm/onecrm.json
 msgid "Pipeline"
 msgstr ""
 
@@ -5441,6 +5484,7 @@ msgid "Sales Stage"
 msgstr ""
 
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:52
+#: onedesk/public/js/next_step.js:24
 msgid "Save"
 msgstr ""
 
@@ -5565,6 +5609,10 @@ msgstr ""
 #. Label of the session_address (Data) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Session Address"
+msgstr ""
+
+#: onedesk/public/js/next_step.js:8 onedesk/public/js/next_step.js:14
+msgid "Set Next Step"
 msgstr ""
 
 #. Title of the Module Onboarding 'One Onboarding'
@@ -6341,6 +6389,12 @@ msgstr ""
 msgid "The one word for it. What it can be fed is below, and the picker filters on both."
 msgstr ""
 
+#. Description of the 'Next Step Due' (Datetime) field in DocType 'Lead'
+#. Description of the 'Next Step Due' (Datetime) field in DocType 'Opportunity'
+#: onedesk/one_crm/custom/lead.json onedesk/one_crm/custom/opportunity.json
+msgid "The owner is reminded at this time."
+msgstr ""
+
 #: onedesk/one_admin/catalogue.py:194
 msgid "The page lists this model and no price in effect today."
 msgstr ""
@@ -6778,6 +6832,16 @@ msgstr ""
 msgid "Unparsed Pricing"
 msgstr ""
 
+#. Label of a shortcut in the OneCRM Workspace
+#: onedesk/one_crm/workspace/onecrm/onecrm.json
+msgid "Unplanned Deals"
+msgstr ""
+
+#. Label of a shortcut in the OneCRM Workspace
+#: onedesk/one_crm/workspace/onecrm/onecrm.json
+msgid "Unplanned Leads"
+msgstr ""
+
 #: onedesk/public/js/oneai/Panel.vue:38
 msgid "Untitled"
 msgstr ""
@@ -6960,6 +7024,10 @@ msgstr ""
 #. Details'
 #: onedesk/one_hr/custom/overtime_details.json
 msgid "What Attendance recorded, before the type's maximum was applied."
+msgstr ""
+
+#: onedesk/public/js/next_step.js:14
+msgid "What Comes Next?"
 msgstr ""
 
 #: onedesk/public/js/oneai/Panel.vue:46
@@ -7812,6 +7880,10 @@ msgstr ""
 msgid "{0} is larger than {1} MB, which is as much as one question may carry."
 msgstr ""
 
+#: onedesk/public/js/next_step.js:41
+msgid "{0} is marked done on the timeline. Leave empty if nothing comes next."
+msgstr ""
+
 #: onedesk/one_hr/overtime.py:89
 msgid "{0} is marked {1} on {2}. Overtime is only paid on a day marked {3}."
 msgstr ""
@@ -8003,7 +8075,7 @@ msgstr ""
 msgid "{0} · waiting for you"
 msgstr ""
 
-#: onedesk/public/js/opportunity_list.js:29
+#: onedesk/public/js/opportunity_list.js:33
 msgid "{0} · {1} weighted"
 msgstr ""
 
@@ -8045,5 +8117,10 @@ msgstr ""
 
 #: onedesk/public/js/payroll_entry.js:39
 msgid "{0}: {1} people, {2}, in {3} slips still in draft."
+msgstr ""
+
+#. Count format of shortcut in the OneCRM Workspace
+#: onedesk/one_crm/workspace/onecrm/onecrm.json
+msgid "{}"
 msgstr ""
 

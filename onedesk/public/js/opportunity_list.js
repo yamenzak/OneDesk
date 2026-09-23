@@ -1,9 +1,13 @@
+// An overdue next step reads red, as on the lead list; see public/js/next_step.js.
 // The pipeline board says what each stage is worth, beside the desk's own count.
 // The Kanban view does not call a list's onload or refresh, and the count badge
 // is redrawn on every load, drag and realtime update, so one observer follows
 // the page and paints whenever the Opportunity board is the one on screen.
 // See one_crm/board.py.
 (() => {
+	const settings = (frappe.listview_settings["Opportunity"] ||= {});
+	settings.formatters = { ...settings.formatters, ...onedesk.next_step.formatters };
+
 	if (frappe.one_pipeline_worth) return;
 	frappe.one_pipeline_worth = true;
 

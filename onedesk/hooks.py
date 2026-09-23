@@ -31,6 +31,7 @@ after_install = [
 	"onedesk.one_admin.actions.voice",
 	"onedesk.one_crm.stages.settle",
 	"onedesk.one_crm.board.sync",
+	"onedesk.one_crm.next.settle",
 ]
 
 # Their dock files do not carry the mount, so a newer erpnext or hrms clears it,
@@ -53,6 +54,7 @@ after_migrate = [
 	"onedesk.one_admin.actions.voice",
 	"onedesk.one_crm.stages.settle",
 	"onedesk.one_crm.board.sync",
+	"onedesk.one_crm.next.settle",
 ]
 extend_bootinfo = "onedesk.one.boot.boot_session"
 
@@ -151,7 +153,10 @@ doc_events = {
 	"Opportunity": {
 		"before_validate": "onedesk.one_crm.stages.before_validate",
 		"validate": "onedesk.one_crm.deal.validate",
+		"on_update": "onedesk.one_crm.next.on_update",
 	},
+	# The owner is reminded of the next step. See one_crm/next.py.
+	"Lead": {"on_update": "onedesk.one_crm.next.on_update"},
 	# The board has a column per stage. See one_crm/board.py.
 	"Sales Stage": {
 		"on_update": "onedesk.one_crm.board.sync",
@@ -281,6 +286,8 @@ doctype_js = {
 	"Employee Tax Exemption Declaration": "public/js/exemption.js",
 	"Employee Tax Exemption Proof Submission": "public/js/exemption.js",
 	"Opportunity": "public/js/opportunity.js",
+	# Next Step Done, which asks what comes next. See public/js/next_step.js.
+	"Lead": "public/js/lead.js",
 }
 
 # Loaded after the doctype's own list script, so ours has the last word.
@@ -294,6 +301,7 @@ doctype_list_js = {
 	"Attendance": "public/js/attendance_list.js",
 	"Employee Checkin": "public/js/checkin_list.js",
 	"Opportunity": "public/js/opportunity_list.js",
+	"Lead": "public/js/lead_list.js",
 }
 
 override_doctype_dashboards = {"Attendance": ["onedesk.one_hr.attendance.dashboard"]}
@@ -334,6 +342,7 @@ app_include_js = [
 	"/assets/onedesk/js/clock.js",
 	"/assets/onedesk/js/overtime.js",
 	"/assets/onedesk/js/decision.js",
+	"/assets/onedesk/js/next_step.js",
 	"/assets/onedesk/js/reports.js",
 	"/assets/onedesk/js/oneai.js",
 ]

@@ -26,7 +26,7 @@ BOARD = "Pipeline"
 INDICATOR = {"Won": "Green"}
 
 #: What a card shows under the deal's name.
-CARD = ["opportunity_amount", "probability", "expected_closing"]
+CARD = ["opportunity_amount", "one_next_step", "one_next_on"]
 
 
 def sync(doc=None, method=None, *args) -> None:

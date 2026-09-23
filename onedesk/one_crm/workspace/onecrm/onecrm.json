@@ -1,7 +1,7 @@
 {
  "app": "onedesk",
  "charts": [],
- "content": "[{\"id\": \"onecrm_head\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>OneCRM</b></span>\", \"col\": 12}}]",
+ "content": "[{\"id\": \"onecrm_day\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>My Day</b></span>\", \"col\": 12}}, {\"id\": \"onecrm_sc_0\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Deals Due\", \"col\": 3}}, {\"id\": \"onecrm_sc_1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Leads Due\", \"col\": 3}}, {\"id\": \"onecrm_sc_2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Unplanned Deals\", \"col\": 3}}, {\"id\": \"onecrm_sc_3\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Unplanned Leads\", \"col\": 3}}, {\"id\": \"onecrm_gap\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"onecrm_sc_4\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"New Lead\", \"col\": 3}}, {\"id\": \"onecrm_sc_5\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Pipeline\", \"col\": 3}}]",
  "creation": "2026-09-20 12:00:00.000000",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,7 +13,7 @@
  "is_hidden": 0,
  "label": "OneCRM",
  "links": [],
- "modified": "2026-09-20 20:00:00.000000",
+ "modified": "2026-09-23 20:30:00.000000",
  "modified_by": "Administrator",
  "module": "One CRM",
  "name": "OneCRM",
@@ -25,6 +25,61 @@
  "restrict_to_domain": "",
  "roles": [],
  "sequence_id": 1.0,
- "shortcuts": [],
+ "shortcuts": [
+  {
+   "label": "Deals Due",
+   "type": "DocType",
+   "link_to": "Opportunity",
+   "doc_view": "List",
+   "color": "Red",
+   "stats_filter": "[[\"Opportunity\",\"opportunity_owner\",\"=\",frappe.session.user],[\"Opportunity\",\"status\",\"in\",[\"Open\",\"Quotation\",\"Replied\"]],[\"Opportunity\",\"one_next_on\",\"<=\",frappe.datetime.get_today() + \" 23:59:59\"]]",
+   "format": "{}"
+  },
+  {
+   "label": "Leads Due",
+   "type": "DocType",
+   "link_to": "Lead",
+   "doc_view": "List",
+   "color": "Red",
+   "stats_filter": "[[\"Lead\",\"lead_owner\",\"=\",frappe.session.user],[\"Lead\",\"status\",\"in\",[\"Lead\",\"Open\",\"Replied\",\"Interested\"]],[\"Lead\",\"one_next_on\",\"<=\",frappe.datetime.get_today() + \" 23:59:59\"]]",
+   "format": "{}"
+  },
+  {
+   "label": "Unplanned Deals",
+   "type": "DocType",
+   "link_to": "Opportunity",
+   "doc_view": "List",
+   "color": "Orange",
+   "stats_filter": "[[\"Opportunity\",\"opportunity_owner\",\"=\",frappe.session.user],[\"Opportunity\",\"status\",\"in\",[\"Open\",\"Quotation\",\"Replied\"]],[\"Opportunity\",\"one_next_on\",\"is\",\"not set\"]]",
+   "format": "{}"
+  },
+  {
+   "label": "Unplanned Leads",
+   "type": "DocType",
+   "link_to": "Lead",
+   "doc_view": "List",
+   "color": "Orange",
+   "stats_filter": "[[\"Lead\",\"lead_owner\",\"=\",frappe.session.user],[\"Lead\",\"status\",\"in\",[\"Lead\",\"Open\",\"Replied\",\"Interested\"]],[\"Lead\",\"one_next_on\",\"is\",\"not set\"]]",
+   "format": "{}"
+  },
+  {
+   "label": "New Lead",
+   "type": "DocType",
+   "link_to": "Lead",
+   "doc_view": "New",
+   "color": "Blue",
+   "stats_filter": "[]"
+  },
+  {
+   "label": "Pipeline",
+   "type": "DocType",
+   "link_to": "Opportunity",
+   "doc_view": "Kanban",
+   "kanban_board": "Pipeline",
+   "color": "Blue",
+   "stats_filter": "[[\"Opportunity\",\"status\",\"in\",[\"Open\",\"Quotation\",\"Replied\"]]]",
+   "format": "{}"
+  }
+ ],
  "title": "OneCRM"
 }

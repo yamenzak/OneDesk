@@ -94,5 +94,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | A pipeline column says what it is worth | painted under the column header, found by the column's value, whenever the count badge is redrawn | `onedesk/public/js/opportunity_list.js` | `frappe/frappe/public/js/frappe/views/kanban/kanban_column.html` | `data-column-value="{{title}}"` |
 | The pipeline's worth is found by route, not onload | the Kanban view overrides setup_view and never calls a list's onload or refresh | `onedesk/public/js/opportunity_list.js` | `frappe/frappe/public/js/frappe/views/kanban/kanban_view.js` | `this.setup_kanban_board_realtime();` |
 | A deal's company-currency value is worked out on the server | erpnext sets base_opportunity_amount only in the form script, so an imported deal is worth nothing | `onedesk/one_crm/deal.py` | `erpnext/erpnext/crm/doctype/opportunity/opportunity.js` | `"base_opportunity_amount",` |
+| A next step's reminder goes to the record's owner | a Reminder takes its user from the session in validate, so the owner is written after insert | `onedesk/one_crm/next.py` | `frappe/frappe/automation/doctype/reminder/reminder.py` | `self.user = frappe.session.user` |
+| Home counts the reader's own deals and leads | a shortcut's stats_filter is evaluated as a JavaScript expression, so it can name frappe.session.user | `onedesk/one_crm/workspace/onecrm/onecrm.json` | `frappe/frappe/public/js/frappe/utils/utils.js` | `new Function(`return ${filter}`)()` |
 
-89 overrides.
+91 overrides.

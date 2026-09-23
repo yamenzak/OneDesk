@@ -11,5 +11,6 @@ frappe.ui.form.on("Opportunity", {
 	},
 	refresh(frm) {
 		frm.one_stage = frm.doc.sales_stage;
+		onedesk.next_step.button(frm);
 	},
 });

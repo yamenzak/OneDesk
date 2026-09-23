@@ -647,6 +647,20 @@ OVERRIDES = [
 		"erpnext/erpnext/crm/doctype/opportunity/opportunity.js",
 		'"base_opportunity_amount",',
 	),
+	(
+		"A next step's reminder goes to the record's owner",
+		"a Reminder takes its user from the session in validate, so the owner is written after insert",
+		"onedesk/one_crm/next.py",
+		"frappe/frappe/automation/doctype/reminder/reminder.py",
+		"self.user = frappe.session.user",
+	),
+	(
+		"Home counts the reader's own deals and leads",
+		"a shortcut's stats_filter is evaluated as a JavaScript expression, so it can name frappe.session.user",
+		"onedesk/one_crm/workspace/onecrm/onecrm.json",
+		"frappe/frappe/public/js/frappe/utils/utils.js",
+		"new Function(`return ${filter}`)()",
+	),
 ]
 
 

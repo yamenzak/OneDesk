@@ -14,7 +14,7 @@ the same record the rest of One reads.
 
 The rail on the left has the whole of OneCRM in it:
 
-- **Home** — the start page.
+- **Home** — *my day*: what is due and what has no next step.
 - **Lead** — somebody who got in touch, or somebody you want to reach.
 - **Deal** — a sale you are working on, with what it is worth and how far it
   has got.
@@ -42,6 +42,33 @@ worth; a deal priced by its items takes their total when no value is typed.
 
 A deal is ERPNext's Opportunity under a shorter name. To call it something
 else, change the rows named `one-deal-…` under **Translation**.
+
+### The next step
+
+Every lead and deal has a **Next Step** — what you will do, such as "Call Rana
+about the quote" — and **Next Step Due**, when. At that time the owner (Lead
+Owner or Deal Owner) gets a notification. A deal nobody owns belongs to
+whoever made it, or to its lead's owner.
+
+When it is done, press **Next Step Done** on the lead or deal. It writes
+"Done: …" on the timeline, then asks what comes next; leave it empty if nothing
+does. **Set Next Step** does the same when there is none yet. Every change to
+a lead or deal, the next step included, is kept in its history.
+
+The Lead and Deal lists are sorted by Next Step Due, so the ones with no next
+step come first and the rest in the order they are due. A step whose time has
+passed is shown in red. The pipeline board shows each deal's next step on its
+card.
+
+### Home
+
+Home is your day, counting only your own leads and deals that are still open:
+
+- **Deals Due** and **Leads Due** — a next step due today or already overdue.
+- **Unplanned Deals** and **Unplanned Leads** — nothing planned next.
+- **New Lead** and **Pipeline**, the two places most days start.
+
+Each count opens the list it counts.
 
 ### Sales stages
 
@@ -148,9 +175,9 @@ none edits erpnext.
 2. **The board.** *Done* — `board.py`, `deal.py`. Deals by stage, dragged
    from one to the next, each column showing its count, its value and its
    weighted value. Opportunity is called Deal, by Translation rows.
-3. **The next step.** Every open lead and deal carries what happens next
-   and when. Home is *my day*: overdue, today, coming up, and the deals with no
-   next step at all.
+3. **The next step.** *Done* — `next.py`, `public/js/next_step.js`. Every
+   open lead and deal carries what happens next and when. Home is *my day*:
+   what is due, and what has no next step at all.
 4. **The record answers first.** A lead and a deal open on what people
    open them for — value, stage and how long it has been there, the last
    contact, the next step, where it came from — with notes, calls written down

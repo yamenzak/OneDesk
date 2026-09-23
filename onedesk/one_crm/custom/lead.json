@@ -1,0 +1,65 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Lead",
+   "fieldname": "one_next_step",
+   "fieldtype": "Data",
+   "label": "Next Step",
+   "insert_after": "status",
+   "in_list_view": 1,
+   "module": "One CRM"
+  },
+  {
+   "dt": "Lead",
+   "fieldname": "one_next_on",
+   "fieldtype": "Datetime",
+   "label": "Next Step Due",
+   "insert_after": "one_next_step",
+   "in_list_view": 1,
+   "description": "The owner is reminded at this time.",
+   "module": "One CRM"
+  }
+ ],
+ "doctype": "Lead",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocType",
+   "property": "sort_field",
+   "property_type": "Data",
+   "value": "one_next_on"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocType",
+   "property": "sort_order",
+   "property_type": "Data",
+   "value": "ASC"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocType",
+   "property": "track_changes",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "territory",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "job_title",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  }
+ ],
+ "sync_on_migrate": 1
+}
