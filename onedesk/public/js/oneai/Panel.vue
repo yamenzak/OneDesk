@@ -384,21 +384,26 @@ function toThreads() {
 // row with an owner and a permission, in the workspace, rather than something
 // living inside a transcript nobody can find again. The chat has to exist first,
 // which is why an empty one is saved before the dialog opens.
+// How long after the last upload lands a suggestion waits for another.
+const SETTLE = 1200;
+
 async function attach(then) {
 	if (!chat.value.name) {
 		chat.value = await frappe.xcall("onedesk.one_ai.chat.start");
 	}
-	let once = then;
+	let settle = null;
 	new frappe.ui.FileUploader({
 		doctype: "AI Chat",
 		docname: chat.value.name,
 		frm: null,
 		on_success: (file) => {
 			waiting.value.push({ name: file.file_name, url: file.file_url });
-			// A suggestion that needs a file asks the moment it has one, once,
-			// however many files the dialog uploaded.
-			if (once) nextTick(once);
-			once = null;
+			// A suggestion that needs a file asks once every file is in: the
+			// uploader answers file by file, and asking on the first sent a
+			// batch of CVs as one CV. Asked when a moment passes with no more.
+			if (!then) return;
+			clearTimeout(settle);
+			settle = setTimeout(() => nextTick(then), SETTLE);
 		},
 	});
 }

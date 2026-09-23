@@ -540,6 +540,8 @@ def _formatted(df, value, doc: dict | None = None) -> str:
 		return _titled(df.options, value)
 	if df.fieldtype == "Check":
 		return frappe._("Yes") if value else frappe._("No")
+	if df.fieldtype in ("Attach", "Attach Image"):
+		return str(value).rsplit("/", 1)[-1]  # the file's name, not where it is kept
 	if df.fieldtype in AS_TEXT or isinstance(value, (list, dict)):
 		return _card_value(value)
 	from frappe.utils.formatters import format_value
@@ -712,12 +714,49 @@ def _page(page: dict | str | None) -> str:
 	record = (page.get("name") or "").strip()
 	view = (page.get("view") or "").strip()
 	if doctype and record:
-		return f"The reader is looking at the {doctype} record {record}.{_fields_said(doctype)}"
+		return f"The reader is looking at the {doctype} record {record}.{_brief(doctype, record)}{_fields_said(doctype)}"
 	if doctype:
 		filters = page.get("filters")
 		narrowed = f", narrowed to {json.dumps(filters)}" if filters else ""
 		return f"The reader is looking at a {view or 'list'} of {doctype}{narrowed}.{_fields_said(doctype)}"
 	return f"The reader is on the {view} page." if view else ""
+
+
+def _brief(doctype: str, name: str) -> str:
+	"""The record's main fields, as its card would show them, so a question
+	about it starts from what it says — a CV's fit was being judged against a
+	job opening the model had not read."""
+	try:
+		if not frappe.has_permission(doctype, "read", doc=name):
+			return ""
+		row = frappe.get_doc(doctype, name).as_dict()
+	except Exception:
+		return ""
+	drawn = _drawn(doctype, row, most=BRIEF_FIELDS)
+	said = "; ".join(f"{one['label']}: {one['value']}" for one in drawn["fields"] if one.get("value"))
+	# The long text a card leaves off is often what the record is about — a job
+	# opening's description — so the first one is said, shortened.
+	meta = frappe.get_meta(doctype)
+	prose = next(
+		(
+			_card_value(row.get(f.fieldname))
+			for f in meta.fields
+			if f.fieldtype in ("Text Editor", "Small Text", "Text", "Long Text")
+			and not f.hidden
+			and row.get(f.fieldname)
+		),
+		"",
+	)
+	title = drawn.get("title") if drawn.get("title") != name else ""
+	parts = [f"“{title}”" if title else "", said, prose[:BRIEF_PROSE]]
+	told = ". ".join(one.rstrip(".") for one in parts if one)
+	return f" It says: {told[:BRIEF_SAID]}." if told else ""
+
+
+#: How much of the record on screen the context turn carries.
+BRIEF_SAID = 700
+BRIEF_FIELDS = 8
+BRIEF_PROSE = 300
 
 
 def _fields_said(doctype: str) -> str:

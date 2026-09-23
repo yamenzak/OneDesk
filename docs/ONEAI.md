@@ -1042,6 +1042,30 @@ Thursday 24 and Friday 25 September booked as one day of Annual Leave with
 Friday named as the weekly off, and Approve making HR-LAP-2026-00002 for her
 approver. Just under two credits for the whole conversation.
 
+**The third is a CV.** On a Job Opening, or the applicant list, *Add
+applicants from CVs* takes one CV or a batch and `add_applicant` suggests a
+Job Applicant for each — name, email, phone, the opening, and the CV as the
+resume, attached when the card is approved. With it goes one line for the
+hiring manager, in HRMS's own notes field: what the CV matches of what the
+opening asks for and what is missing. Never the rating field — a number a
+model gave is a number somebody will sort candidates by. The opening is
+matched by id or by its title, and somebody whose email is already an
+applicant is said, not added twice. A batch of files is asked about once
+they are all in: the uploader answers file by file, and the panel had been
+asking on the first.
+
+Measured with two CVs on the Site Engineer opening: a site engineer and a
+graphic designer, two cards, the designer's line reading "Has experience as a
+Graphic Designer, not a Site Engineer" and the engineer's CV attached to her
+applicant on Approve, 1.28 credits for both. The first run found three
+things. The model named each file as it pictured it — "Layla Nasser CV.pdf"
+for layla-nasser-cv.pdf — so no CV was attached; files are matched as a
+person would match them, by the applicant's name in the file's. It called the
+designer a fit, never having read the opening; a record's form now tells the
+model what the record says — its title, its main fields and the first of its
+long text — on every turn. And the fit line was cut mid-word at the notes
+field's 140 characters; it is asked for shorter and cut at a word.
+
 **What a model is told about a type, and what happens when it guesses.**
 On a list or a form the context turn carries the type's fields — fieldname,
 label, required — and who the reader is, with OneHR adding their employee

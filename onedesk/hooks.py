@@ -299,5 +299,9 @@ one_ai_reader = ["onedesk.one_hr.ai.reader"]
 
 #: A sentence each about the workspace itself, added to what the model is told.
 one_ai_workspace = ["onedesk.one_hr.ai.workspace"]
-one_ai_suggests = ["onedesk.one_hr.ai.claim_expense", "onedesk.one_hr.ai.book_leave"]
+one_ai_suggests = [
+	"onedesk.one_hr.ai.claim_expense",
+	"onedesk.one_hr.ai.book_leave",
+	"onedesk.one_hr.ai.add_applicant",
+]
 one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS"]

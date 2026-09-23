@@ -43,6 +43,23 @@ SUGGESTIONS = {
 			"can": "read",
 		},
 	],
+	"Job Opening": [
+		{
+			"label": "Add applicants from CVs",
+			"ask": "Add an applicant to this opening from each of these CVs.",
+			"file": True,
+			"doctype": "Job Applicant",
+			"can": "create",
+		},
+	],
+	"Job Applicant": [
+		{
+			"label": "Add applicants from CVs",
+			"ask": "Add an applicant from each of these CVs.",
+			"file": True,
+			"can": "create",
+		},
+	],
 	# OneHR's home is where an employee starts their day, so the three things
 	# they come to it for are offered there too.
 	"workspace:OneHR": [
@@ -122,6 +139,127 @@ def claim_expense(
 		"state": "Proposed",
 		"said": frappe._("Suggested. It happens when somebody approves it."),
 	}
+
+
+def add_applicant(
+	applicant_name: Annotated[str, "The person's full name, as on the CV."],
+	email_id: Annotated[str, "Their email address, as on the CV."],
+	job_opening: Annotated[str, "The job opening they are applying to: its id, or its title."],
+	fit: Annotated[
+		str,
+		"One line for the hiring manager on how the CV meets what the opening asks for — "
+		"what matches and what is missing, under 140 characters. A CV for different work "
+		"says so plainly. Never a score or a verdict.",
+	],
+	phone_number: Annotated[str, "Their phone number, if the CV has one."] | None = None,
+	cv_file: Annotated[str, "The file name of the CV this applicant is from."] | None = None,
+) -> dict:
+	"""Suggest a job applicant from one CV. Call it once per CV. Read the job
+	opening first, so the fit line is against what it actually asks for.
+
+	Nothing is added until somebody approves the card; the CV goes on the
+	applicant when they do.
+	"""
+	email = (email_id or "").strip().lower()
+	if not frappe.utils.validate_email_address(email):
+		return {"error": f"{email_id!r} is not an email address. Read it off the CV again, or ask."}
+	opening = _opening(job_opening)
+	if not opening:
+		there = frappe.get_list("Job Opening", filters={"status": "Open"}, fields=["name", "job_title"])
+		return {
+			"error": f"There is no job opening called {job_opening!r}. Open ones: "
+			+ ", ".join(f"{one.name} ({one.job_title})" for one in there)
+		}
+	already = frappe.db.get_value("Job Applicant", {"email_id": email}, ["name", "job_title"], as_dict=True)
+	if already:
+		return {
+			"error": f"{applicant_name} ({email}) is already an applicant, for {already.job_title}. "
+			"Say so rather than adding them twice."
+		}
+
+	cv = _cv(cv_file, applicant_name)
+	# Status is Open by default and the designation is fetched from the
+	# opening, so neither is the model's to say — and neither crowds the card.
+	values = {
+		"applicant_name": (applicant_name or "").strip(),
+		"email_id": email,
+		"job_title": opening,
+		# A line for the person deciding, in the field HRMS gives notes. Never
+		# the rating: a number a model gave is a number someone will sort by.
+		"notes": _short(fit, NOTE),
+	}
+	if phone_number:
+		values["phone_number"] = phone_number.strip()
+	if cv:
+		values["resume_attachment"] = cv
+	name = proposals.propose(
+		"Create",
+		"Job Applicant",
+		changes={key: value for key, value in values.items() if value},
+		files=[cv] if cv else [],
+	)
+	return {"proposal": name, "state": "Proposed"}
+
+
+#: What HRMS's notes field holds.
+NOTE = 140
+
+
+def _short(text: str | None, most: int) -> str:
+	"""At most `most` characters, cut at a word rather than through one."""
+	said = " ".join((text or "").split())
+	if len(said) <= most:
+		return said
+	return said[: most - 1].rsplit(" ", 1)[0].rstrip(",;:") + "…"
+
+
+def _opening(said: str | None) -> str | None:
+	"""The job opening meant: by id, or the one whose title is or holds `said`."""
+	said = (said or "").strip()
+	if not said:
+		return None
+	if frappe.db.exists("Job Opening", said):
+		return said
+	openings = frappe.get_list("Job Opening", fields=["name", "job_title"], limit_page_length=200)
+	low = said.lower()
+	for test in (lambda t: t == low, lambda t: low in t):
+		found = [one.name for one in openings if test((one.job_title or "").lower())]
+		if len(found) == 1:
+			return found[0]
+	return None
+
+
+def _cv(named: str | None, person: str | None = None) -> str | None:
+	"""The uploaded file this applicant came from.
+
+	The model names the file as it pictures it — "Layla Nasser CV.pdf" for
+	layla-nasser-cv.pdf — so it is matched as a person would: the name given,
+	then the file whose name holds the applicant's, then the closest name,
+	and the only file when there is one.
+	"""
+	import difflib
+
+	files = frappe.flags.get("one_ai_files") or []
+	if len(files) == 1:
+		return files[0]
+
+	def plain(text: str) -> str:
+		return "".join(ch for ch in (text or "").lower() if ch.isalnum())
+
+	stems = {url: plain(url.rsplit("/", 1)[-1].rsplit(".", 1)[0]) for url in files}
+	for said in (named, person):
+		want = plain((said or "").rsplit(".", 1)[0])
+		if not want:
+			continue
+		held = [url for url, stem in stems.items() if want in stem or stem in want]
+		if len(held) == 1:
+			return held[0]
+	words = [plain(one) for one in (person or "").split() if len(one) > 1]
+	held = [url for url, stem in stems.items() if words and all(word in stem for word in words)]
+	if len(held) == 1:
+		return held[0]
+	near = difflib.get_close_matches(plain(named or person or ""), list(stems.values()), n=1, cutoff=0.5)
+	return next((url for url, stem in stems.items() if near and stem == near[0]), None)
 
 
 #: Words on a receipt, and the kind of expense they usually are. Only used when

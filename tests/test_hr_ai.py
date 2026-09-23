@@ -76,7 +76,9 @@ def test_another_currency_is_said_rather_than_converted():
 
 def test_ohr_registers_its_own_tool_and_suggestion():
 	hooks = HOOKS.read_text(encoding="utf-8")
-	assert '"onedesk.one_hr.ai.claim_expense"' in hooks.split("one_ai_suggests =", 1)[1].split("\n", 1)[0]
+	suggests = hooks.split("one_ai_suggests =", 1)[1].split("]", 1)[0]
+	for tool in ("claim_expense", "book_leave", "add_applicant"):
+		assert f'"onedesk.one_hr.ai.{tool}"' in suggests, tool
 	assert '"onedesk.one_hr.ai.SUGGESTIONS"' in hooks
 
 
@@ -142,3 +144,42 @@ def test_the_leave_type_is_picked_here(said, chosen):
 	space = {}
 	exec(_source(AI, "_leave_type"), space)
 	assert space["_leave_type"](said, ["Casual Leave", "Sick Leave", "Annual Leave"]) == chosen
+
+
+def test_an_applicant_is_only_ever_a_card_and_never_a_score():
+	"""A number a model gave is a number someone will sort by."""
+	said = _source(AI, "add_applicant")
+	assert "proposals.propose('Create', 'Job Applicant'" in said
+	assert "applicant_rating" not in said.split('"""', 2)[-1].replace("the rating", "")
+	for writing in (".insert(", ".save(", ".submit(", "ignore_permissions"):
+		assert writing not in said, writing
+
+
+def test_the_same_person_is_not_added_twice():
+	said = _source(AI, "add_applicant")
+	assert "frappe.db.get_value('Job Applicant', {'email_id': email}" in said
+
+
+def test_a_batch_of_files_is_asked_about_once_they_are_all_in():
+	panel = (tree.APP / "public" / "js" / "oneai" / "Panel.vue").read_text()
+	attach = panel.split("async function attach(then) {", 1)[1].split("\n}\n", 1)[0]
+	assert "clearTimeout(settle)" in attach and "SETTLE" in attach
+
+
+def test_a_cv_is_matched_to_its_file_the_way_a_person_would():
+	"""The model names the file as it pictures it: "Layla Nasser CV.pdf" for
+	layla-nasser-cv.pdf."""
+	said = _source(AI, "_cv")
+	assert "for said in (named, person)" in said and "difflib.get_close_matches" in said
+
+
+def test_the_record_on_screen_is_told_by_what_it_says():
+	chat = (tree.APP / "one_ai" / "chat.py").read_text()
+	page = chat.split("def _page(", 1)[1].split("\ndef ", 1)[0]
+	assert "_brief(doctype, record)" in page
+
+
+def test_the_fit_line_fits_the_notes_field_without_cutting_a_word():
+	said = _source(AI, "add_applicant")
+	assert "_short(fit, NOTE)" in said
+	assert "rsplit(' ', 1)" in _source(AI, "_short")

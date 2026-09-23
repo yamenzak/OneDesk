@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 08:11+0000\n"
-"PO-Revision-Date: 2026-09-23 08:11+0000\n"
+"POT-Creation-Date: 2026-09-23 08:53+0000\n"
+"PO-Revision-Date: 2026-09-23 08:53+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "(from what was asked for)"
 msgstr "(مما طُلب)"
 
-#: onedesk/one_hr/ai.py:334
+#: onedesk/one_hr/ai.py:472
 msgid "1 day of {0}."
 msgstr "يوم واحد من {0}."
 
-#: onedesk/one_hr/ai.py:338
+#: onedesk/one_hr/ai.py:476
 msgid "1 day of {0}; {1} left after."
 msgstr "يوم واحد من {0}؛ يتبقى بعده {1}."
 
@@ -2285,7 +2285,7 @@ msgstr "مجاناً لمدة {0} يوماً"
 msgid "From Date"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:117
+#: onedesk/one_hr/ai.py:134
 msgid "From a receipt: {0}, {1}."
 msgstr "من إيصال: {0}، {1}."
 
@@ -3093,11 +3093,11 @@ msgstr "تسجيل الدخول بمفتاح مرور غير مفعَّل في �
 msgid "Longitude"
 msgstr "خط الطول"
 
-#: onedesk/public/js/oneai/Panel.vue:600
+#: onedesk/public/js/oneai/Panel.vue:605
 msgid "Looked at {0}"
 msgstr "اطّلع على {0}"
 
-#: onedesk/public/js/oneai/Panel.vue:600
+#: onedesk/public/js/oneai/Panel.vue:605
 msgid "Looked something up"
 msgstr "بحث عن معلومة"
 
@@ -4421,7 +4421,7 @@ msgstr "مقروء من الوقتين أدناه."
 msgid "Reading the check-ins"
 msgstr "قراءة تسجيلات الحضور"
 
-#: onedesk/public/js/oneai/Panel.vue:533
+#: onedesk/public/js/oneai/Panel.vue:538
 msgid "Reading what it found…"
 msgstr "يقرأ ما وجده…"
 
@@ -5278,15 +5278,15 @@ msgstr "باعتماد هذا يُدفع {0} مقابل {1} ساعة."
 msgid "Submitting this pays {0} {1} for {2} days of {3}."
 msgstr "الاعتماد يصرف لـ{0} مبلغ {1} مقابل {2} يوماً من {3}."
 
-#: onedesk/public/js/oneai/Panel.vue:599
+#: onedesk/public/js/oneai/Panel.vue:604
 msgid "Suggested a change"
 msgstr "اقترح تغييراً"
 
-#: onedesk/public/js/oneai/Panel.vue:599
+#: onedesk/public/js/oneai/Panel.vue:604
 msgid "Suggested a change to {0}"
 msgstr "اقترح تغييراً على {0}"
 
-#: onedesk/one_ai/tools.py:520 onedesk/one_hr/ai.py:123
+#: onedesk/one_ai/tools.py:520 onedesk/one_hr/ai.py:140
 msgid "Suggested. It happens when somebody approves it."
 msgstr "اقتُرح. ويحدث حين يوافق عليه أحد."
 
@@ -5411,7 +5411,7 @@ msgstr "تصنيف نصوص"
 msgid "Text Generation"
 msgstr "توليد النصوص"
 
-#: onedesk/one_ai/chat.py:208 onedesk/public/js/oneai/Panel.vue:578
+#: onedesk/one_ai/chat.py:208 onedesk/public/js/oneai/Panel.vue:583
 msgid "That did not go through."
 msgstr "لم يتم ذلك."
 
@@ -5717,8 +5717,8 @@ msgstr "ستُسجَّل هذه الأيام أيام عمل."
 msgid "They claimed {0} and {1} was sanctioned."
 msgstr "طالب بمبلغ {0} واعتُمد {1}."
 
-#: onedesk/public/js/oneai/Panel.vue:355 onedesk/public/js/oneai/Panel.vue:477
-#: onedesk/public/js/oneai/Panel.vue:533
+#: onedesk/public/js/oneai/Panel.vue:355 onedesk/public/js/oneai/Panel.vue:482
+#: onedesk/public/js/oneai/Panel.vue:538
 msgid "Thinking…"
 msgstr "يفكّر…"
 
@@ -6816,11 +6816,11 @@ msgstr "{0} يوماً قبل أن تهبط إلى {1}."
 msgid "{0} days left"
 msgstr "بقي {0} يوماً"
 
-#: onedesk/one_hr/ai.py:336
+#: onedesk/one_hr/ai.py:474
 msgid "{0} days of {1}."
 msgstr "{0} يوم من {1}."
 
-#: onedesk/one_hr/ai.py:340
+#: onedesk/one_hr/ai.py:478
 msgid "{0} days of {1}; {2} left after."
 msgstr "{0} يوم من {1}؛ يتبقى بعدها {2}."
 
