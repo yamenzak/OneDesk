@@ -432,8 +432,27 @@ async function offer() {
 
 // A suggestion taken: asked straight away, or once the file it needs is in.
 function take(one) {
+	if (one.run) return run(one);
 	if (one.file) return attach(() => ask(one.ask));
 	ask(one.ask);
+}
+
+// A suggestion that is a job on this record rather than a question: run it,
+// and say so where an answer would be. Nothing is sent to a model from here.
+async function run(one) {
+	const name = props.here && props.here.name;
+	if (!name) return;
+	chat.value.said.push({ role: "you", text: one.label, looked: [], cards: [], files: [] });
+	busy.value = true;
+	try {
+		await frappe.xcall(one.run, { [one.arg]: name });
+		chat.value.said.push({ role: "model", text: one.said, looked: [], cards: [], files: [] });
+	} catch (e) {
+		// The server said why, in its own dialog.
+	} finally {
+		busy.value = false;
+		toBottom();
+	}
 }
 
 // A quick ask is a question somebody did not have to type, not a retry.

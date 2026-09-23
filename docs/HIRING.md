@@ -27,6 +27,17 @@ a model never changes a status.
 | Feedback | Drafts an interviewer's feedback from the recording | Asked, from the interview's panel | A card creating Interview Feedback |
 | Offer, letter, onboarding | Drafts terms, a decline note, an onboarding plan | Asked | Cards, or words in the chat |
 
+## Everything is offered in the panel
+
+No OneAI button goes on a page. What OneAI can do on an applicant, an opening,
+an interview or a recording is what its panel offers when it opens there —
+the questions ("What should I ask first?") and the jobs ("Screen again",
+"Rank the applicants again", "Prepare this interview again", "Transcribe
+again"). A job is a suggestion with `run`: the panel calls it on the open
+record and says what is happening, with no model call in between. A person
+wanting help looks in one place. *Record* stays on the interview, because
+recording is not OneAI.
+
 ## Numbers are fields, opinions are comments
 
 One rule places everything. **A number goes in a field** because a field sorts, a
@@ -81,7 +92,7 @@ applicant saying why ("Moved down: HR-APP-0031 has the same stack and five more
 years of it."). Smaller moves are silent; a comment for every shuffle is a
 timeline nobody reads.
 
-**Rank again** on the opening re-places everybody from their briefs alone, with
+**Rank the applicants again**, offered in the OneAI panel on an opening, re-places everybody from their briefs alone, with
 no CV read again — for when the criteria were edited, or when somebody wants a
 clean sort. One call.
 
@@ -217,7 +228,7 @@ Three things were learned doing it:
   Quill 2 writes every list as an `<ol>` with the marker in a span keyed by
   `data-list`, so *Before you start* is written that way.
 - **An account with no model set for Transcription refuses the call** before
-  anything is charged, and the recording is marked Failed. *Transcribe again*
+  anything is charged, and the recording is marked Failed. *Transcribe again* in the panel
   on the recording retries the parts once a model is picked. On an account,
   the operator sets a default for Transcription, or each workspace picks one
   for *Transcribe* on its OneAI settings.

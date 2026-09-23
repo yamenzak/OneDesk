@@ -237,11 +237,8 @@ doctype_js = {
 	"Vehicle Log": "public/js/vehicle_log.js",
 	"Appraisal": "public/js/appraisal.js",
 	"Employee Promotion": "public/js/employee_promotion.js",
-	# OneAI's verbs on the hiring walk; see one_hr/hiring.py.
-	"Job Opening": "public/js/hiring.js",
-	"Job Applicant": "public/js/hiring.js",
+	# The interview recorder; see one_hr/hiring.py.
 	"Interview": "public/js/hiring.js",
-	"Interview Recording": "public/js/hiring.js",
 	"Employee Tax Exemption Declaration": "public/js/exemption.js",
 	"Employee Tax Exemption Proof Submission": "public/js/exemption.js",
 }

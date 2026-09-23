@@ -18,6 +18,7 @@ import calendar
 from typing import Annotated
 
 import frappe
+from frappe import _lt
 from frappe.utils import add_days, getdate, today
 
 from onedesk.one_ai import proposals
@@ -31,33 +32,41 @@ from onedesk.one_hr import own
 SUGGESTIONS = {
 	"Expense Claim": [
 		{
-			"label": "Claim a receipt",
-			"ask": "Make an expense claim from this receipt.",
+			"label": _lt("Claim a receipt"),
+			"ask": _lt("Make an expense claim from this receipt."),
 			"file": True,
 			"can": "create",
 			"expects": "claim_expense",
 		},
 	],
 	"Leave Application": [
-		{"label": "Book time off", "ask": "Help me book time off.", "can": "create"},
+		{"label": _lt("Book time off"), "ask": _lt("Help me book time off."), "can": "create"},
 		{
-			"label": "How much leave do I have?",
-			"ask": "How much leave do I have left, and who on my team is off in the next two weeks?",
+			"label": _lt("How much leave do I have?"),
+			"ask": _lt("How much leave do I have left, and who on my team is off in the next two weeks?"),
 			"can": "read",
 		},
 	],
 	"Job Opening": [
 		{
-			"label": "Write this opening",
-			"ask": "Write this opening's description, and what a strong applicant has as one short line "
-			"each, from its designation, department and requisition. Suggest both as a change to it.",
+			"label": _lt("Rank the applicants again"),
+			"run": "onedesk.one_hr.hiring.rank_again",
+			"arg": "opening",
+			"can": "write",
+			"view": "Form",
+			"said": _lt("Placing everybody again from what I wrote about each. The applicant list updates when I am done."),
+		},
+		{
+			"label": _lt("Write this opening"),
+			"ask": _lt("Write this opening's description, and what a strong applicant has as one short line "
+			"each, from its designation, department and requisition. Suggest both as a change to it."),
 			"can": "write",
 			"view": "Form",
 			"expects": "edit_record",
 		},
 		{
-			"label": "Add applicants from CVs",
-			"ask": "Add an applicant to this opening from each of these CVs.",
+			"label": _lt("Add applicants from CVs"),
+			"ask": _lt("Add an applicant to this opening from each of these CVs."),
 			"file": True,
 			"doctype": "Job Applicant",
 			"can": "create",
@@ -65,8 +74,8 @@ SUGGESTIONS = {
 			"expects": "add_applicant",
 		},
 		{
-			"label": "Add applicants from CVs",
-			"ask": "Add an applicant from each of these CVs, to the open job each one fits best.",
+			"label": _lt("Add applicants from CVs"),
+			"ask": _lt("Add an applicant from each of these CVs, to the open job each one fits best."),
 			"file": True,
 			"doctype": "Job Applicant",
 			"can": "create",
@@ -75,31 +84,39 @@ SUGGESTIONS = {
 	],
 	"Job Applicant": [
 		{
-			"label": "Write a kind decline",
-			"ask": "Write a short, kind note telling this applicant they were not chosen, that thanks them "
-			"for something specific in their application. Do not give reasons.",
+			"label": _lt("Screen again"),
+			"run": "onedesk.one_hr.hiring.screen_again",
+			"arg": "applicant",
+			"can": "write",
+			"view": "Form",
+			"said": _lt("Reading the CV again. The rating, the standing and a comment land on this applicant when I am done."),
+		},
+		{
+			"label": _lt("Write a kind decline"),
+			"ask": _lt("Write a short, kind note telling this applicant they were not chosen, that thanks them "
+			"for something specific in their application. Do not give reasons."),
 			"can": "read",
 			"view": "Form",
 		},
 		{
-			"label": "What should I ask first?",
-			"ask": "From this applicant's CV and OneAI's screening of it, what should I confirm on a first "
-			"call, and what would a short email asking for the missing pieces say?",
+			"label": _lt("What should I ask first?"),
+			"ask": _lt("From this applicant's CV and OneAI's screening of it, what should I confirm on a first "
+			"call, and what would a short email asking for the missing pieces say?"),
 			"can": "read",
 			"view": "Form",
 		},
 		{
-			"label": "Add applicants from CVs",
-			"ask": "Add an applicant from each of these CVs, to the open job each one fits best.",
+			"label": _lt("Add applicants from CVs"),
+			"ask": _lt("Add an applicant from each of these CVs, to the open job each one fits best."),
 			"file": True,
 			"can": "create",
 		},
 	],
 	"Job Requisition": [
 		{
-			"label": "Draft the opening",
-			"ask": "Draft a job opening from this requisition — its title, description and what a strong "
-			"applicant has, one short line each — and suggest creating it.",
+			"label": _lt("Draft the opening"),
+			"ask": _lt("Draft a job opening from this requisition — its title, description and what a strong "
+			"applicant has, one short line each — and suggest creating it."),
 			"doctype": "Job Opening",
 			"can": "create",
 			"view": "Form",
@@ -108,9 +125,9 @@ SUGGESTIONS = {
 	],
 	"Appraisal": [
 		{
-			"label": "Draft my feedback",
-			"ask": "Draft my feedback on this appraisal from what happened in the cycle, "
-			"and suggest it as my feedback.",
+			"label": _lt("Draft my feedback"),
+			"ask": _lt("Draft my feedback on this appraisal from what happened in the cycle, "
+			"and suggest it as my feedback."),
 			"doctype": "Employee Performance Feedback",
 			"can": "create",
 			"view": "Form",
@@ -119,9 +136,17 @@ SUGGESTIONS = {
 	],
 	"Interview": [
 		{
-			"label": "Draft my feedback from the recording",
-			"ask": "Draft my feedback on this interview from its recording and OneAI's remarks, "
-			"with a rating for each expected skill, and suggest it as my feedback.",
+			"label": _lt("Prepare this interview again"),
+			"run": "onedesk.one_hr.hiring.prepare_again",
+			"arg": "interview",
+			"can": "write",
+			"view": "Form",
+			"said": _lt("Preparing it again. Before You Start updates on the interview when I am done."),
+		},
+		{
+			"label": _lt("Draft my feedback from the recording"),
+			"ask": _lt("Draft my feedback on this interview from its recording and OneAI's remarks, "
+			"with a rating for each expected skill, and suggest it as my feedback."),
 			"doctype": "Interview Feedback",
 			"can": "create",
 			"view": "Form",
@@ -130,9 +155,9 @@ SUGGESTIONS = {
 	],
 	"Job Offer": [
 		{
-			"label": "Write the offer terms",
-			"ask": "Write this offer's terms from the opening it is for — the role, the salary range and "
-			"the start — and suggest them as a change to it.",
+			"label": _lt("Write the offer terms"),
+			"ask": _lt("Write this offer's terms from the opening it is for — the role, the salary range and "
+			"the start — and suggest them as a change to it."),
 			"can": "write",
 			"view": "Form",
 			"expects": "edit_record",
@@ -140,25 +165,35 @@ SUGGESTIONS = {
 	],
 	"Employee Onboarding": [
 		{
-			"label": "Plan the first two weeks",
-			"ask": "From this person's designation and department, what should their first two weeks "
-			"hold, day by day, and who should own each part?",
+			"label": _lt("Plan the first two weeks"),
+			"ask": _lt("From this person's designation and department, what should their first two weeks "
+			"hold, day by day, and who should own each part?"),
 			"can": "read",
 			"view": "Form",
 		},
 	],
+	"Interview Recording": [
+		{
+			"label": _lt("Transcribe again"),
+			"run": "onedesk.one_hr.hiring.transcribe_again",
+			"arg": "recording",
+			"can": "write",
+			"view": "Form",
+			"said": _lt("Writing it down again. The transcript and my remarks follow when I am done."),
+		},
+	],
 	"Exit Interview": [
 		{
-			"label": "Why are people leaving?",
-			"ask": "Why have people left over the last twelve months, and how many said each reason?",
+			"label": _lt("Why are people leaving?"),
+			"ask": _lt("Why have people left over the last twelve months, and how many said each reason?"),
 			"can": "read",
 			"view": "List",
 		},
 	],
 	"Employee Separation": [
 		{
-			"label": "Why are people leaving?",
-			"ask": "Why have people left over the last twelve months, and how many said each reason?",
+			"label": _lt("Why are people leaving?"),
+			"ask": _lt("Why have people left over the last twelve months, and how many said each reason?"),
 			"doctype": "Exit Interview",
 			"can": "read",
 			"view": "List",
@@ -167,17 +202,17 @@ SUGGESTIONS = {
 	# OneHR's home is where an employee starts their day, so the three things
 	# they come to it for are offered there too.
 	"workspace:OneHR": [
-		{"label": "Book time off", "ask": "Help me book time off.", "doctype": "Leave Application", "can": "create"},
+		{"label": _lt("Book time off"), "ask": _lt("Help me book time off."), "doctype": "Leave Application", "can": "create"},
 		{
-			"label": "Claim a receipt",
-			"ask": "Make an expense claim from this receipt.",
+			"label": _lt("Claim a receipt"),
+			"ask": _lt("Make an expense claim from this receipt."),
 			"doctype": "Expense Claim",
 			"file": True,
 			"can": "create",
 		},
 		{
-			"label": "How much leave do I have?",
-			"ask": "How much leave do I have left, and who on my team is off in the next two weeks?",
+			"label": _lt("How much leave do I have?"),
+			"ask": _lt("How much leave do I have left, and who on my team is off in the next two weeks?"),
 			"doctype": "Leave Application",
 			"can": "read",
 		},

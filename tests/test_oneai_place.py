@@ -67,3 +67,21 @@ def test_a_settings_page_is_a_record_with_help_on_every_field():
 	assert "issingle" in suggest and "Help me set this up" in suggest
 	panel = (tree.APP / "public" / "js" / "oneai" / "Panel.vue").read_text()
 	assert "opening && opening.ask" in panel
+
+
+def test_no_oneai_button_on_a_page():
+	"""Everything OneAI does is offered in its panel, for the page it opens on.
+
+	A form carrying an AI button per feature is a form nobody reads, and a
+	person looking for help looks in one place. A suggestion with `run` covers
+	the things that are a job rather than a question; see one_ai/suggest.py.
+	"""
+	import re
+
+	found = []
+	for path in sorted((tree.APP / "public" / "js").rglob("*.js")):
+		text = path.read_text(encoding="utf-8")
+		for call in re.finditer(r"add_custom_button\((.{0,400}?)\);", text, re.S):
+			if re.search(r"__\(\"OneAI\"\)|onedesk\.one_ai|one_hr\.hiring\.|oneai\.", call.group(1)):
+				found.append(f"{path.relative_to(tree.APP)}: {call.group(1)[:80]!r}")
+	assert not found, "offer these in the OneAI panel instead:\n" + "\n".join(found)

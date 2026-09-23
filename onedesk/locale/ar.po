@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 10:46+0000\n"
-"PO-Revision-Date: 2026-09-23 10:46+0000\n"
+"POT-Creation-Date: 2026-09-23 11:01+0000\n"
+"PO-Revision-Date: 2026-09-23 11:01+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "(from what was asked for)"
 msgstr "(مما طُلب)"
 
-#: onedesk/one_hr/ai.py:857
+#: onedesk/one_hr/ai.py:892
 msgid "1 day of {0}."
 msgstr "يوم واحد من {0}."
 
-#: onedesk/one_hr/ai.py:861
+#: onedesk/one_hr/ai.py:896
 msgid "1 day of {0}; {1} left after."
 msgstr "يوم واحد من {0}؛ يتبقى بعده {1}."
 
@@ -407,11 +407,23 @@ msgstr "إضافة عميل"
 msgid "Add a domain"
 msgstr "إضافة نطاق"
 
+#: onedesk/one_hr/ai.py:78 onedesk/one_hr/ai.py:110
+msgid "Add an applicant from each of these CVs, to the open job each one fits best."
+msgstr "أضف متقدمًا من كل سيرة ذاتية من هذه، إلى الوظيفة المفتوحة الأنسب لكل منها."
+
+#: onedesk/one_hr/ai.py:69
+msgid "Add an applicant to this opening from each of these CVs."
+msgstr "أضف متقدمًا إلى هذه الوظيفة من كل سيرة ذاتية من هذه."
+
 #. Title of an Onboarding Step
 #. Label of an action in the Onboarding Step 'Add an employee'
 #: onedesk/one/onboarding_step/one_add_an_employee/one_add_an_employee.json
 msgid "Add an employee"
 msgstr "إضافة موظف"
+
+#: onedesk/one_hr/ai.py:68 onedesk/one_hr/ai.py:77 onedesk/one_hr/ai.py:109
+msgid "Add applicants from CVs"
+msgstr "إضافة متقدمين من السير الذاتية"
 
 #. Option for the 'Kind' (Select) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
@@ -762,7 +774,7 @@ msgstr ""
 msgid "Ask about this page, look something up, or have a change suggested."
 msgstr "اسأل عن هذه الصفحة، أو ابحث عن معلومة، أو اطلب اقتراح تغيير."
 
-#: onedesk/public/js/hiring.js:125
+#: onedesk/public/js/hiring.js:62
 msgid "Ask first, and tick that they agreed."
 msgstr "اسأل أولًا، ثم أكّد موافقته."
 
@@ -1048,6 +1060,10 @@ msgstr "حالة الإجراءات"
 msgid "Body"
 msgstr "المحتوى"
 
+#: onedesk/one_hr/ai.py:43 onedesk/one_hr/ai.py:205
+msgid "Book time off"
+msgstr "حجز إجازة"
+
 #. Option for the 'Network and Location' (Select) field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -1310,6 +1326,10 @@ msgstr "اختر شهراً وسنة."
 #: onedesk/public/js/overtime_slip.js:41
 msgid "Choose an employee and a posting date first."
 msgstr "اختر الموظف وتاريخ القيد أولاً."
+
+#: onedesk/one_hr/ai.py:35 onedesk/one_hr/ai.py:207
+msgid "Claim a receipt"
+msgstr "قدّم إيصالًا للمطالبة"
 
 #: onedesk/public/js/employee.js:190
 msgid "Claim an Expense"
@@ -1857,9 +1877,37 @@ msgstr "نطاقات تنتظر"
 msgid "Done"
 msgstr ""
 
+#: onedesk/one_ai/suggest.py:83
+msgid "Done."
+msgstr "تم."
+
 #: onedesk/public/js/ai_proposal.js:42 onedesk/public/js/ai_proposal.js:69
 msgid "Done. It wrote {0}."
 msgstr "تم. وكُتب {0}."
+
+#: onedesk/one_hr/ai.py:118
+msgid "Draft a job opening from this requisition — its title, description and what a strong applicant has, one short line each — and suggest creating it."
+msgstr "صِغ وظيفة شاغرة من هذا الطلب — عنوانها ووصفها وما يتمتع به المتقدم القوي، سطرًا قصيرًا لكل بند — واقترح إنشاءها."
+
+#: onedesk/one_hr/ai.py:128
+msgid "Draft my feedback"
+msgstr "صياغة ملاحظاتي"
+
+#: onedesk/one_hr/ai.py:147
+msgid "Draft my feedback from the recording"
+msgstr "صياغة ملاحظاتي من التسجيل"
+
+#: onedesk/one_hr/ai.py:129
+msgid "Draft my feedback on this appraisal from what happened in the cycle, and suggest it as my feedback."
+msgstr "صِغ ملاحظاتي على هذا التقييم مما حدث خلال الدورة، واقترحها كملاحظاتي."
+
+#: onedesk/one_hr/ai.py:148
+msgid "Draft my feedback on this interview from its recording and OneAI's remarks, with a rating for each expected skill, and suggest it as my feedback."
+msgstr "صِغ ملاحظاتي على هذه المقابلة من تسجيلها وتعليقات OneAI، مع تقييم لكل مهارة متوقعة، واقترحها كملاحظاتي."
+
+#: onedesk/one_hr/ai.py:117
+msgid "Draft the opening"
+msgstr "صياغة الوظيفة"
 
 #. Label of the against_section (Section Break) field in DocType 'Credit Ledger
 #. Entry'
@@ -2327,7 +2375,7 @@ msgstr "مُشار إليه"
 msgid "Follow my system"
 msgstr "اتّباع إعدادات نظامي"
 
-#: onedesk/public/js/hiring.js:119
+#: onedesk/public/js/hiring.js:56
 msgid "For an interview over a video call: the browser asks which tab, and records both voices."
 msgstr "لمقابلة عبر مكالمة فيديو: يسأل المتصفح عن علامة التبويب ويسجّل الصوتين."
 
@@ -2374,7 +2422,7 @@ msgstr "مجاناً لمدة {0} يوماً"
 msgid "From Date"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:238
+#: onedesk/one_hr/ai.py:273
 msgid "From a receipt: {0}, {1}."
 msgstr "من إيصال: {0}، {1}."
 
@@ -2385,6 +2433,14 @@ msgstr "من المنزل"
 #: onedesk/public/js/ai_model.js:42
 msgid "From the default."
 msgstr "من الافتراضي."
+
+#: onedesk/one_hr/ai.py:103
+msgid "From this applicant's CV and OneAI's screening of it, what should I confirm on a first call, and what would a short email asking for the missing pieces say?"
+msgstr "من السيرة الذاتية لهذا المتقدم وفحص OneAI لها، ما الذي يجب أن أتأكد منه في أول مكالمة، وماذا تقول رسالة قصيرة تطلب المعلومات الناقصة؟"
+
+#: onedesk/one_hr/ai.py:169
+msgid "From this person's designation and department, what should their first two weeks hold, day by day, and who should own each part?"
+msgstr "بناءً على مسمى هذا الشخص وقسمه، ماذا يجب أن تتضمن أسبوعاه الأولان يومًا بيوم، ومن يتولى كل جزء؟"
 
 #. Label of the ai_gateway (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -2421,6 +2477,10 @@ msgstr "عالمي"
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Global Bucket"
 msgstr "الحاوية العالمية"
+
+#: onedesk/one_ai/suggest.py:34
+msgid "Go through these settings with me: which ones matter for a company like ours, what each is set to now, and what you would change. Suggest the changes."
+msgstr "راجع معي هذه الإعدادات: أيها مهم لشركة مثل شركتنا، وما قيمة كل منها الآن، وما الذي ستغيّره. اقترح التغييرات."
 
 #: onedesk/public/js/workspace_account.js:153
 msgid "Go to payment"
@@ -2539,6 +2599,14 @@ msgstr "الطول والوزن والحساسيات والحالات الطبي
 msgid "Held"
 msgstr "المحجوز"
 
+#: onedesk/one_hr/ai.py:43 onedesk/one_hr/ai.py:205
+msgid "Help me book time off."
+msgstr "ساعدني في حجز إجازة."
+
+#: onedesk/one_ai/suggest.py:33
+msgid "Help me set this up"
+msgstr "ساعدني في إعداد هذا"
+
 #: onedesk/public/js/oneai/Record.vue:23
 msgid "Hide the changes"
 msgstr "إخفاء التغييرات"
@@ -2641,6 +2709,14 @@ msgstr "كم رصيداً يصير دولار واحد من كلفة المزو�
 msgid "How many people the result covers, kept on the document so the list can say it."
 msgstr "عدد الأشخاص الذين تشملهم النتيجة، محفوظاً على المستند كي تذكره القائمة."
 
+#: onedesk/one_hr/ai.py:46 onedesk/one_hr/ai.py:215
+msgid "How much leave do I have left, and who on my team is off in the next two weeks?"
+msgstr "كم تبقى لي من الإجازات، ومن في فريقي في إجازة خلال الأسبوعين القادمين؟"
+
+#: onedesk/one_hr/ai.py:45 onedesk/one_hr/ai.py:214
+msgid "How much leave do I have?"
+msgstr "كم لديّ من الإجازات؟"
+
 #: onedesk/public/js/setup_wizard.js:19
 msgid "How should One look?"
 msgstr "كيف تريد أن يبدو One؟"
@@ -2725,7 +2801,7 @@ msgstr "المدخل لكل مليون رمز"
 msgid "Include Personal Networks and Locations"
 msgstr "تضمين الشبكات والمواقع الشخصية"
 
-#: onedesk/public/js/hiring.js:118
+#: onedesk/public/js/hiring.js:55
 msgid "Include the sound of a call in another tab"
 msgstr "تضمين صوت مكالمة في علامة تبويب أخرى"
 
@@ -3221,11 +3297,11 @@ msgstr "تسجيل الدخول بمفتاح مرور غير مفعَّل في �
 msgid "Longitude"
 msgstr "خط الطول"
 
-#: onedesk/public/js/oneai/Panel.vue:619
+#: onedesk/public/js/oneai/Panel.vue:638
 msgid "Looked at {0}"
 msgstr "اطّلع على {0}"
 
-#: onedesk/public/js/oneai/Panel.vue:619
+#: onedesk/public/js/oneai/Panel.vue:638
 msgid "Looked something up"
 msgstr "بحث عن معلومة"
 
@@ -3233,6 +3309,10 @@ msgstr "بحث عن معلومة"
 #: onedesk/one_ai/custom/file.json
 msgid "Made by OneAI"
 msgstr "من إنشاء OneAI"
+
+#: onedesk/one_hr/ai.py:36 onedesk/one_hr/ai.py:208
+msgid "Make an expense claim from this receipt."
+msgstr "أنشئ مطالبة مصروفات من هذا الإيصال."
 
 #: onedesk/public/js/oneai/Panel.vue:292
 msgid "Make it bigger"
@@ -3530,7 +3610,7 @@ msgstr "لا سعر لهذا النموذج في الصفحة المنشورة."
 msgid "No salary slips yet for {0} to {1}."
 msgstr "لا توجد كشوف رواتب بعد من {0} إلى {1}."
 
-#: onedesk/public/js/hiring.js:250
+#: onedesk/public/js/hiring.js:187
 msgid "No sound — check the microphone"
 msgstr "لا يوجد صوت — تحقّق من الميكروفون"
 
@@ -3892,8 +3972,7 @@ msgstr "اشترت هذا مساحة عمل واحدة"
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/one_hr/custom/hr_settings.json onedesk/one_hr/custom/interview.json
-#: onedesk/one_hr/custom/job_applicant.json onedesk/public/js/hiring.js:23
-#: onedesk/public/js/hiring.js:39 onedesk/public/js/hiring.js:62
+#: onedesk/one_hr/custom/job_applicant.json
 msgid "OneAI"
 msgstr "OneAI"
 
@@ -3905,22 +3984,6 @@ msgstr "تقييم OneAI"
 #: onedesk/one_ai/chat.py:372
 msgid "OneAI could not be reached just now. The question is still here — try again."
 msgstr "تعذّر الوصول إلى OneAI الآن. والسؤال ما زال هنا — حاول مرة أخرى."
-
-#: onedesk/public/js/hiring.js:37
-msgid "OneAI is placing everybody again. The applicant list updates when it is done."
-msgstr "يعيد OneAI ترتيب الجميع. ستتحدّث قائمة المتقدمين عند الانتهاء."
-
-#: onedesk/public/js/hiring.js:60
-msgid "OneAI is preparing this interview. This page updates when it is done."
-msgstr "يحضّر OneAI هذه المقابلة. ستتحدّث هذه الصفحة عند الانتهاء."
-
-#: onedesk/public/js/hiring.js:21
-msgid "OneAI is reading the CV. This page updates when it is done."
-msgstr "يقرأ OneAI السيرة الذاتية. ستتحدّث هذه الصفحة عند الانتهاء."
-
-#: onedesk/public/js/hiring.js:75
-msgid "OneAI is writing it down. This page updates when it is done."
-msgstr "يفرّغ OneAI التسجيل كتابيًا. ستتحدّث هذه الصفحة عند الانتهاء."
 
 #. Label of the one_ai_brief (Small Text) field in DocType 'Job Applicant'
 #: onedesk/one_hr/custom/job_applicant.json
@@ -4392,6 +4455,10 @@ msgstr "أعدت ترتيب {0} متقدمين بناءً على ما كتبته
 msgid "Placement"
 msgstr "الموضع"
 
+#: onedesk/one_hr/ai.py:57
+msgid "Placing everybody again from what I wrote about each. The applicant list updates when I am done."
+msgstr "أعيد ترتيب الجميع بناءً على ما كتبته عن كل منهم. ستتحدّث قائمة المتقدمين عند الانتهاء."
+
 #. Label of the plan (Data) field in DocType 'Workspace Account'
 #. Option for the 'Source' (Select) field in DocType 'Credit Ledger Entry'
 #. Option for the 'Kind' (Select) field in DocType 'Offering'
@@ -4402,6 +4469,10 @@ msgstr "الموضع"
 #: onedesk/one_admin/doctype/tenant/tenant.json onedesk/www/start.html:46
 msgid "Plan"
 msgstr "الخطة"
+
+#: onedesk/one_hr/ai.py:168
+msgid "Plan the first two weeks"
+msgstr "تخطيط الأسبوعين الأولين"
 
 #. Label of the platform (Data) field in DocType 'Clock Attempt'
 #. Label of the platform (Data) field in DocType 'Clock Device'
@@ -4431,9 +4502,13 @@ msgstr ""
 msgid "Prepare Interviewers"
 msgstr "تحضير المُحاورين"
 
-#: onedesk/public/js/hiring.js:55
-msgid "Prepare again"
-msgstr "إعادة التحضير"
+#: onedesk/one_hr/ai.py:139
+msgid "Prepare this interview again"
+msgstr "إعادة تحضير هذه المقابلة"
+
+#: onedesk/one_hr/ai.py:144
+msgid "Preparing it again. Before You Start updates on the interview when I am done."
+msgstr "أحضّرها من جديد. سيتحدّث قسم «قبل أن تبدأ» في المقابلة عند الانتهاء."
 
 #. Option for the 'Marks the Day As' (Select) field in DocType 'Attendance
 #. Reason'
@@ -4644,8 +4719,8 @@ msgstr "النطاق (بالأمتار)"
 msgid "Radius must be greater than 0."
 msgstr "يجب أن يكون النطاق أكبر من 0."
 
-#: onedesk/public/js/hiring.js:32
-msgid "Rank applicants again"
+#: onedesk/one_hr/ai.py:52
+msgid "Rank the applicants again"
 msgstr "إعادة ترتيب المتقدمين"
 
 #: onedesk/one_hr/hiring.py:345
@@ -4674,11 +4749,15 @@ msgstr "قراءة تسجيلات الحضور"
 msgid "Read from the two times below."
 msgstr "مقروء من الوقتين أدناه."
 
+#: onedesk/one_hr/ai.py:92
+msgid "Reading the CV again. The rating, the standing and a comment land on this applicant when I am done."
+msgstr "أقرأ السيرة الذاتية من جديد. سيظهر التقييم والترتيب وتعليق على هذا المتقدم عند الانتهاء."
+
 #: onedesk/public/js/attendance_tool.js:33
 msgid "Reading the check-ins"
 msgstr "قراءة تسجيلات الحضور"
 
-#: onedesk/public/js/oneai/Panel.vue:552
+#: onedesk/public/js/oneai/Panel.vue:571
 msgid "Reading what it found…"
 msgstr "يقرأ ما وجده…"
 
@@ -4709,7 +4788,7 @@ msgstr "الأسباب المعروضة على الموظفين عند تسجي�
 #. Label of the record (Data) field in DocType 'AI Proposal'
 #. Label of the record (Dynamic Link) field in DocType 'AI Touch'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_ai/doctype/ai_touch/ai_touch.json onedesk/public/js/hiring.js:49
+#: onedesk/one_ai/doctype/ai_touch/ai_touch.json onedesk/public/js/hiring.js:11
 #: onedesk/public/js/overtime.js:50
 msgid "Record"
 msgstr "تسجيل"
@@ -4734,7 +4813,7 @@ msgstr "نوع السجل"
 msgid "Record Written"
 msgstr "السجل المكتوب"
 
-#: onedesk/public/js/hiring.js:108
+#: onedesk/public/js/hiring.js:45
 msgid "Record this interview"
 msgstr "تسجيل هذه المقابلة"
 
@@ -4754,19 +4833,19 @@ msgstr "تم التسجيل في {0}"
 
 #. Option for the 'Status' (Select) field in DocType 'Interview Recording'
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
-#: onedesk/public/js/hiring.js:250 onedesk/public/js/hiring.js:348
+#: onedesk/public/js/hiring.js:187 onedesk/public/js/hiring.js:285
 msgid "Recording"
 msgstr "جارٍ التسجيل"
 
-#: onedesk/public/js/hiring.js:131
+#: onedesk/public/js/hiring.js:68
 msgid "Recording did not start: {0}"
 msgstr "لم يبدأ التسجيل: {0}"
 
-#: onedesk/public/js/hiring.js:313
+#: onedesk/public/js/hiring.js:250
 msgid "Recording saved, but {0} part(s) did not upload."
 msgstr "حُفظ التسجيل، لكن لم يُرفع {0} جزء."
 
-#: onedesk/public/js/hiring.js:314
+#: onedesk/public/js/hiring.js:251
 msgid "Recording saved. OneAI writes it down and remarks on it on the interview."
 msgstr "حُفظ التسجيل. سيفرّغه OneAI كتابيًا ويعلّق عليه في المقابلة."
 
@@ -4774,7 +4853,7 @@ msgstr "حُفظ التسجيل. سيفرّغه OneAI كتابيًا ويعلّ�
 msgid "Recording the overtime"
 msgstr "جارٍ تسجيل العمل الإضافي"
 
-#: onedesk/public/js/hiring.js:49
+#: onedesk/public/js/hiring.js:11
 msgid "Recording…"
 msgstr "جارٍ التسجيل…"
 
@@ -5074,7 +5153,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: onedesk/public/js/hiring.js:300
+#: onedesk/public/js/hiring.js:237
 msgid "Saving…"
 msgstr "جارٍ الحفظ…"
 
@@ -5109,7 +5188,7 @@ msgstr "الدرجة"
 msgid "Screen"
 msgstr "الشاشة"
 
-#: onedesk/public/js/hiring.js:16
+#: onedesk/one_hr/ai.py:87
 msgid "Screen again"
 msgstr "إعادة الفحص"
 
@@ -5448,7 +5527,7 @@ msgstr "ابدأ مساحة عمل"
 msgid "Start again"
 msgstr "ابدأ من جديد"
 
-#: onedesk/public/js/hiring.js:122
+#: onedesk/public/js/hiring.js:59
 msgid "Start recording"
 msgstr "بدء التسجيل"
 
@@ -5530,7 +5609,7 @@ msgstr "ما زال يجيب عن السؤال السابق."
 msgid "Still in Draft"
 msgstr "ما زال مسودة"
 
-#: onedesk/public/js/hiring.js:351
+#: onedesk/public/js/hiring.js:288
 msgid "Stop"
 msgstr ""
 
@@ -5639,15 +5718,15 @@ msgstr "باعتماد هذا يُدفع {0} مقابل {1} ساعة."
 msgid "Submitting this pays {0} {1} for {2} days of {3}."
 msgstr "الاعتماد يصرف لـ{0} مبلغ {1} مقابل {2} يوماً من {3}."
 
-#: onedesk/public/js/oneai/Panel.vue:618
+#: onedesk/public/js/oneai/Panel.vue:637
 msgid "Suggested a change"
 msgstr "اقترح تغييراً"
 
-#: onedesk/public/js/oneai/Panel.vue:618
+#: onedesk/public/js/oneai/Panel.vue:637
 msgid "Suggested a change to {0}"
 msgstr "اقترح تغييراً على {0}"
 
-#: onedesk/one_ai/tools.py:571 onedesk/one_hr/ai.py:244
+#: onedesk/one_ai/tools.py:571 onedesk/one_hr/ai.py:279
 msgid "Suggested. It happens when somebody approves it."
 msgstr "اقتُرح. ويحدث حين يوافق عليه أحد."
 
@@ -5655,6 +5734,14 @@ msgstr "اقتُرح. ويحدث حين يوافق عليه أحد."
 #: onedesk/one/sidebar/one/one.json
 msgid "Suggestions"
 msgstr "الاقتراحات"
+
+#: onedesk/one_ai/suggest.py:22
+msgid "Summarise this"
+msgstr "لخّص هذا"
+
+#: onedesk/one_ai/suggest.py:22
+msgid "Summarise this record in a few lines."
+msgstr "لخّص هذا السجل في بضعة أسطر."
 
 #. Label of the said (Data) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
@@ -5772,7 +5859,7 @@ msgstr "تصنيف نصوص"
 msgid "Text Generation"
 msgstr "توليد النصوص"
 
-#: onedesk/one_ai/chat.py:208 onedesk/public/js/oneai/Panel.vue:597
+#: onedesk/one_ai/chat.py:208 onedesk/public/js/oneai/Panel.vue:616
 msgid "That did not go through."
 msgstr "لم يتم ذلك."
 
@@ -5808,7 +5895,7 @@ msgstr "تعذّر التحقق من مفتاح المرور هذا: {0}"
 msgid "That passkey is not registered on this site."
 msgstr "مفتاح المرور هذا غير مسجَّل في هذا الموقع."
 
-#: onedesk/public/js/hiring.js:156
+#: onedesk/public/js/hiring.js:93
 msgid "That tab shared no sound, so only the microphone is recorded."
 msgstr "لم تشارك علامة التبويب أي صوت، لذا يُسجَّل الميكروفون فقط."
 
@@ -6101,8 +6188,8 @@ msgstr "ستُسجَّل هذه الأيام أيام عمل."
 msgid "They claimed {0} and {1} was sanctioned."
 msgstr "طالب بمبلغ {0} واعتُمد {1}."
 
-#: onedesk/public/js/oneai/Panel.vue:366 onedesk/public/js/oneai/Panel.vue:496
-#: onedesk/public/js/oneai/Panel.vue:552
+#: onedesk/public/js/oneai/Panel.vue:366 onedesk/public/js/oneai/Panel.vue:515
+#: onedesk/public/js/oneai/Panel.vue:571
 msgid "Thinking…"
 msgstr "يفكّر…"
 
@@ -6110,7 +6197,7 @@ msgstr "يفكّر…"
 msgid "This attempt was already reviewed."
 msgstr "سبق أن روجعت هذه المحاولة."
 
-#: onedesk/public/js/hiring.js:103
+#: onedesk/public/js/hiring.js:40
 msgid "This browser cannot record sound."
 msgstr "لا يستطيع هذا المتصفح تسجيل الصوت."
 
@@ -6300,7 +6387,7 @@ msgstr ""
 msgid "Training Result"
 msgstr ""
 
-#: onedesk/public/js/hiring.js:71
+#: onedesk/one_hr/ai.py:177
 msgid "Transcribe again"
 msgstr "إعادة التفريغ"
 
@@ -6643,6 +6730,18 @@ msgstr "ما الغرض من \"{0}\" في {1}، وما القيمة المناس
 msgid "What is happening"
 msgstr "ما يجري"
 
+#: onedesk/one_hr/ai.py:102
+msgid "What should I ask first?"
+msgstr "ما الذي يجب أن أسأل عنه أولًا؟"
+
+#: onedesk/one_ai/suggest.py:23
+msgid "What stands out here?"
+msgstr "ما اللافت هنا؟"
+
+#: onedesk/one_ai/suggest.py:23
+msgid "What stands out in this list?"
+msgstr "ما الذي يلفت النظر في هذه القائمة؟"
+
 #. Description of the 'Overtime Pay' (Currency) field in DocType 'Overtime
 #. Slip'
 #: onedesk/one_hr/custom/overtime_slip.json
@@ -6792,6 +6891,14 @@ msgstr "صلاحيات مَن فُحصت حين كُتب هذا، وصلاحيا
 msgid "Why There Is No Figure"
 msgstr "سبب غياب الرقم"
 
+#: onedesk/one_hr/ai.py:187 onedesk/one_hr/ai.py:195
+msgid "Why are people leaving?"
+msgstr "لماذا يغادر الموظفون؟"
+
+#: onedesk/one_hr/ai.py:188 onedesk/one_hr/ai.py:196
+msgid "Why have people left over the last twelve months, and how many said each reason?"
+msgstr "لماذا غادر الموظفون خلال الاثني عشر شهرًا الماضية، وكم منهم ذكر كل سبب؟"
+
 #. Description of the 'Reason' (Link) field in DocType 'Attendance Request'
 #: onedesk/one_hr/custom/attendance_request.json
 msgid "Why these days should count as worked. HR keeps the list in Attendance Reason."
@@ -6914,10 +7021,34 @@ msgstr "يستحق النظر"
 msgid "Write a first draft"
 msgstr "اكتب مسودة أولى"
 
+#: onedesk/one_hr/ai.py:95
+msgid "Write a kind decline"
+msgstr "كتابة اعتذار لطيف"
+
+#: onedesk/one_hr/ai.py:96
+msgid "Write a short, kind note telling this applicant they were not chosen, that thanks them for something specific in their application. Do not give reasons."
+msgstr "اكتب رسالة قصيرة ولطيفة تُبلغ هذا المتقدم بأنه لم يُختر، وتشكره على شيء محدد في طلبه. لا تذكر أسبابًا."
+
 #. Description of the 'include_holidays' field in DocType 'Attendance Request'
 #: onedesk/one_hr/custom/attendance_request.json
 msgid "Write attendance on the holidays inside these dates as well. Left off, holidays in the range are skipped."
 msgstr "اكتب الحضور في العطل الواقعة ضمن هذه التواريخ أيضاً. وإن تُرك دون تفعيل، تُتخطى العطل ضمن المدة."
+
+#: onedesk/one_hr/ai.py:158
+msgid "Write the offer terms"
+msgstr "كتابة شروط العرض"
+
+#: onedesk/one_hr/ai.py:159
+msgid "Write this offer's terms from the opening it is for — the role, the salary range and the start — and suggest them as a change to it."
+msgstr "اكتب شروط هذا العرض من الوظيفة التي يخصها — الدور ونطاق الراتب وموعد البدء — واقترحها كتعديل عليه."
+
+#: onedesk/one_hr/ai.py:60
+msgid "Write this opening"
+msgstr "كتابة هذه الوظيفة"
+
+#: onedesk/one_hr/ai.py:61
+msgid "Write this opening's description, and what a strong applicant has as one short line each, from its designation, department and requisition. Suggest both as a change to it."
+msgstr "اكتب وصف هذه الوظيفة، وما يتمتع به المتقدم القوي سطرًا قصيرًا لكل بند، من مسماها وقسمها وطلبها. اقترح الاثنين كتعديل عليها."
 
 #: onedesk/public/js/oneai.js:248
 msgid "Write with {0}"
@@ -6930,6 +7061,10 @@ msgstr "كتابة {0} في {1} جديد"
 #: onedesk/public/js/oneai/Panel.vue:135
 msgid "Writing"
 msgstr "كتابة"
+
+#: onedesk/one_hr/ai.py:182
+msgid "Writing it down again. The transcript and my remarks follow when I am done."
+msgstr "أفرّغه كتابيًا من جديد. سيتبع النص وتعليقاتي عند الانتهاء."
 
 #. Description of the 'Rates' (Table) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -7105,10 +7240,6 @@ msgstr "حضر متأخراً وانصرف مبكراً"
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "input"
 msgstr "مدخلات"
-
-#: onedesk/one_ai/suggest.py:70
-msgid "label"
-msgstr ""
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:132
 msgid "late"
@@ -7296,11 +7427,11 @@ msgstr "{0} يوماً قبل أن تهبط إلى {1}."
 msgid "{0} days left"
 msgstr "بقي {0} يوماً"
 
-#: onedesk/one_hr/ai.py:859
+#: onedesk/one_hr/ai.py:894
 msgid "{0} days of {1}."
 msgstr "{0} يوم من {1}."
 
-#: onedesk/one_hr/ai.py:863
+#: onedesk/one_hr/ai.py:898
 msgid "{0} days of {1}; {2} left after."
 msgstr "{0} يوم من {1}؛ يتبقى بعدها {2}."
 
@@ -7328,7 +7459,7 @@ msgstr "{0} عن {1}، شهر كامل."
 msgid "{0} for {1}: {2} of {3} days paid."
 msgstr "{0} عن {1}: {2} من {3} يوماً مدفوعة."
 
-#: onedesk/public/js/hiring.js:113
+#: onedesk/public/js/hiring.js:50
 msgid "{0} has agreed to this interview being recorded"
 msgstr "وافق {0} على تسجيل هذه المقابلة"
 

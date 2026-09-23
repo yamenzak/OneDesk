@@ -1,45 +1,7 @@
-// OneAI's verbs on the hiring walk. What they do is one_hr/hiring.py; these
-// only ask for it, and say that the answer arrives on its own — the job runs in
-// the background and the form reloads when OneAI has written to it.
+// Recording an interview. OneAI's own verbs on the hiring walk — screen
+// again, rank again, prepare again, transcribe again — are offered in the
+// OneAI panel, not here; see one_hr/ai.py SUGGESTIONS.
 frappe.provide("onedesk.hiring");
-
-onedesk.hiring.ask = (method, args, said) => {
-	frappe.call({ method: `onedesk.one_hr.hiring.${method}`, args }).then(() => {
-		frappe.show_alert({ message: said, indicator: "blue" }, 7);
-	});
-};
-
-frappe.ui.form.on("Job Applicant", {
-	refresh(frm) {
-		if (frm.is_new() || !frm.doc.job_title || !frm.perm[0]?.write) return;
-		frm.add_custom_button(
-			__("Screen again"),
-			() =>
-				onedesk.hiring.ask(
-					"screen_again",
-					{ applicant: frm.doc.name },
-					__("OneAI is reading the CV. This page updates when it is done."),
-				),
-			__("OneAI"),
-		);
-	},
-});
-
-frappe.ui.form.on("Job Opening", {
-	refresh(frm) {
-		if (frm.is_new() || !frm.perm[0]?.write) return;
-		frm.add_custom_button(
-			__("Rank applicants again"),
-			() =>
-				onedesk.hiring.ask(
-					"rank_again",
-					{ opening: frm.doc.name },
-					__("OneAI is placing everybody again. The applicant list updates when it is done."),
-				),
-			__("OneAI"),
-		);
-	},
-});
 
 frappe.ui.form.on("Interview", {
 	refresh(frm) {
@@ -50,31 +12,6 @@ frappe.ui.form.on("Interview", {
 				if (!onedesk.hiring.recorder.on) onedesk.hiring.recorder.ask(frm);
 			}).toggleClass("disabled", !!busy);
 		}
-		if (!frm.perm[0]?.write) return;
-		frm.add_custom_button(
-			__("Prepare again"),
-			() =>
-				onedesk.hiring.ask(
-					"prepare_again",
-					{ interview: frm.doc.name },
-					__("OneAI is preparing this interview. This page updates when it is done."),
-				),
-			__("OneAI"),
-		);
-	},
-});
-
-frappe.ui.form.on("Interview Recording", {
-	refresh(frm) {
-		const again = ["Failed", "Recorded"].includes(frm.doc.status) && !frm.doc.sound_deleted_on;
-		if (!again || !frm.perm[0]?.write) return;
-		frm.add_custom_button(__("Transcribe again"), () =>
-			onedesk.hiring.ask(
-				"transcribe_again",
-				{ recording: frm.doc.name },
-				__("OneAI is writing it down. This page updates when it is done."),
-			),
-		);
 	},
 });
 
