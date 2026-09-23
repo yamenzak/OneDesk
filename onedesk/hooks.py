@@ -29,6 +29,7 @@ after_install = [
 	"onedesk.one_ai.instructions.trim",
 	"onedesk.one_ai.instructions.ready",
 	"onedesk.one_admin.actions.voice",
+	"onedesk.one_crm.stages.settle",
 ]
 
 # Their dock files do not carry the mount, so a newer erpnext or hrms clears it,
@@ -49,6 +50,7 @@ after_migrate = [
 	"onedesk.one_ai.instructions.trim",
 	"onedesk.one_ai.instructions.ready",
 	"onedesk.one_admin.actions.voice",
+	"onedesk.one_crm.stages.settle",
 ]
 extend_bootinfo = "onedesk.one.boot.boot_session"
 
@@ -141,6 +143,18 @@ doc_events = {
 		"before_validate": "onedesk.one_hr.request.before_validate",
 		"before_submit": "onedesk.one_hr.request.before_submit",
 	},
+	# A stage has an outcome, and the status follows it; ERPNext's own verbs
+	# move the stage back. See one_crm/stages.py.
+	"Opportunity": {"before_validate": "onedesk.one_crm.stages.before_validate"},
+	"Quotation": {
+		"on_submit": "onedesk.one_crm.stages.follow",
+		"on_cancel": "onedesk.one_crm.stages.follow",
+		"on_update_after_submit": "onedesk.one_crm.stages.follow",
+	},
+	"Sales Order": {
+		"on_submit": "onedesk.one_crm.stages.follow",
+		"on_cancel": "onedesk.one_crm.stages.follow",
+	},
 	# Submitting is the approval, and it says which shift. See one_hr/shift.py.
 	"Shift Request": {
 		"before_validate": "onedesk.one_hr.shift.before_validate",
@@ -200,6 +214,8 @@ fixtures = [
 	# What a model may be asked to do, and the instruction it is asked with.
 	# A fixture so a new one arrives with a migrate and an edit survives the next.
 	"AI Action",
+	# The tracker that dates every move of an opportunity's stage.
+	{"dt": "Milestone Tracker", "filters": [["name", "=", "Opportunity-sales_stage"]]},
 ]
 
 
@@ -249,6 +265,7 @@ doctype_js = {
 	"Interview": "public/js/hiring.js",
 	"Employee Tax Exemption Declaration": "public/js/exemption.js",
 	"Employee Tax Exemption Proof Submission": "public/js/exemption.js",
+	"Opportunity": "public/js/opportunity.js",
 }
 
 # Loaded after the doctype's own list script, so ours has the last word.

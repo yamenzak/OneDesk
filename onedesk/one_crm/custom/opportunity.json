@@ -1,0 +1,24 @@
+{
+ "custom_fields": [],
+ "doctype": "Opportunity",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Opportunity",
+   "doctype_or_field": "DocField",
+   "field_name": "sales_stage",
+   "property": "default",
+   "property_type": "Text",
+   "value": ""
+  },
+  {
+   "doc_type": "Opportunity",
+   "doctype_or_field": "DocField",
+   "field_name": "probability",
+   "property": "default",
+   "property_type": "Text",
+   "value": ""
+  }
+ ],
+ "sync_on_migrate": 1
+}

@@ -36,9 +36,35 @@ opportunity, a quotation, a customer or a prospect, and whatever was written on
 the lead goes with it.
 
 An **Opportunity** is a sale in progress. Its **Sales Stage** says how far it
-has got, and a quotation made from it is linked back to it. When the customer
-orders, the opportunity is marked as converted; when they do not, **Declare
-Lost** asks why.
+has got, and a quotation made from it is linked back to it.
+
+### Sales stages
+
+A new workspace has six: **New**, **Qualified**, **Proposal**, **Negotiation**,
+**Won** and **Lost**. Each has a **Position**, which is the order they are
+listed in; a **Probability (%)**, which an opportunity takes when it moves
+there; and an **Outcome** — Open, Won or Lost. Change them, add your own or
+remove them under **Setup › Sales Stage**.
+
+**Moving an opportunity to a stage sets its probability** to that stage's.
+Type a different probability and it stays until the opportunity moves again.
+A won opportunity is always 100% and a lost one 0%.
+
+**Won and Lost are stages as well as statuses**, and the two always agree:
+
+- Move an opportunity to a Won stage and its status becomes Converted.
+- Pick a Lost stage and **Declare Lost** opens to ask why; the opportunity
+  moves there once you have said.
+- Declare it lost from the button, lose its quotation, or receive a sales
+  order from its quotation, and the stage moves on its own.
+- **Reopen** it, or cancel that sales order, and it goes back to the last
+  stage it was in before it was won or lost.
+
+Every move is recorded with the date, so how long an opportunity has sat in a
+stage is known.
+
+An opportunity with an event in the calendar today is left as it is. ERPNext
+would reopen it every morning, converted and lost ones included; One does not.
 
 ## Setup
 
@@ -90,8 +116,8 @@ checkout, the gaps a small business feels first:
 Stages in order. Each is a commit or a few, each leaves the site working, and
 none edits erpnext.
 
-1. **A stage means something.** Sales Stage gets an order, a probability and
-   an outcome (open, won, lost). An opportunity's probability follows its stage
+1. **A stage means something.** *Done* — `stages.py`. Sales Stage gets an
+   order, a probability and an outcome (open, won, lost). An opportunity's probability follows its stage
    unless somebody types one; a won stage converts it and a lost one asks why.
    Stage changes are recorded with frappe's Milestone Tracker, so "days in this
    stage" is a fact. The daily reopening job is stopped. A small business gets

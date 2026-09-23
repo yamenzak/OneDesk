@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 11:47+0000\n"
-"PO-Revision-Date: 2026-09-23 11:47+0000\n"
+"POT-Creation-Date: 2026-09-23 13:25+0000\n"
+"PO-Revision-Date: 2026-09-23 13:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -586,6 +586,12 @@ msgstr "Für einen Mitarbeiter, der sich nie auscheckt, wird zum Schichtende ein
 #: onedesk/one_hr/hiring.py:529
 msgid "An interview is only recorded once the candidate has agreed."
 msgstr "Ein Gespräch wird nur aufgezeichnet, wenn die Kandidatin oder der Kandidat zugestimmt hat."
+
+#. Description of the 'Probability (%)' (Percent) field in DocType 'Sales
+#. Stage'
+#: onedesk/one_crm/custom/sales_stage.json
+msgid "An opportunity moved to this stage takes this probability, unless one was typed."
+msgstr "Eine Opportunity, die in diese Phase verschoben wird, übernimmt diese Wahrscheinlichkeit, sofern keine eingegeben wurde."
 
 #: onedesk/one_hr/ai_grievance.py:135
 msgid "An urgent grievance was raised"
@@ -3511,6 +3517,11 @@ msgstr "Hat {0} nachgeschlagen"
 msgid "Looked something up"
 msgstr "Hat etwas nachgeschlagen"
 
+#. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
+#: onedesk/one_crm/custom/sales_stage.json
+msgid "Lost"
+msgstr ""
+
 #. Option for the 'Urgency' (Select) field in DocType 'Employee Grievance'
 #: onedesk/one_hr/custom/employee_grievance.json
 msgid "Low"
@@ -4301,6 +4312,8 @@ msgstr "Es zählen nur Eincheckungen, die eine andere Prüfung bestanden haben. 
 msgid "Only somebody who can approve these may answer this one."
 msgstr "Nur wer solche Anträge genehmigen darf, kann über diesen entscheiden."
 
+#. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
+#: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/public/js/oneai/Record.vue:15
 msgid "Open"
 msgstr ""
@@ -4401,9 +4414,11 @@ msgid "Out, per 1M Tokens"
 msgstr "Ausgabe pro 1 Mio. Tokens"
 
 #. Label of the done_section (Section Break) field in DocType 'AI Proposal'
+#. Label of the one_outcome (Select) field in DocType 'Sales Stage'
 #. Label of the one_outcome (Data) field in DocType 'Employee Checkin'
 #. Label of the outcome (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+#: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_hr/custom/employee_checkin.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Outcome"
@@ -4711,9 +4726,10 @@ msgstr "Richten Sie einen CNAME für diesen Namen auf {0} ein, ohne Proxy, und p
 msgid "Points Lost"
 msgstr "Verlorene Punkte"
 
+#. Label of the one_position (Int) field in DocType 'Sales Stage'
 #. Label of the 'attendance_and_leave_details' field in DocType 'Employee'
 #. Label of the position_state (Select) field in DocType 'Clock Attempt'
-#: onedesk/one_hr/custom/employee.json
+#: onedesk/one_crm/custom/sales_stage.json onedesk/one_hr/custom/employee.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Position"
 msgstr ""
@@ -4787,6 +4803,11 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Primary Domain"
 msgstr "Hauptdomain"
+
+#. Label of the one_probability (Percent) field in DocType 'Sales Stage'
+#: onedesk/one_crm/custom/sales_stage.json
+msgid "Probability (%)"
+msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -5742,6 +5763,11 @@ msgstr ""
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:209
 msgid "Stage"
 msgstr ""
+
+#. Description of the 'Position' (Int) field in DocType 'Sales Stage'
+#: onedesk/one_crm/custom/sales_stage.json
+msgid "Stages are listed from the lowest to the highest."
+msgstr "Phasen werden vom niedrigsten zum höchsten Wert aufgelistet."
 
 #. Option for the 'State' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
@@ -6775,6 +6801,10 @@ msgstr ""
 msgid "Usage"
 msgstr "Verbrauch"
 
+#: onedesk/one_crm/stages.py:101
+msgid "Use Declare Lost to say why it was lost."
+msgstr "Mit „Für verloren erklären“ angeben, warum sie verloren wurde."
+
 #. Label of the fetch_position (Button) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 msgid "Use My Location"
@@ -7141,6 +7171,10 @@ msgstr "Wessen Berechtigungen beim Schreiben geprüft wurden und wessen erneut g
 msgid "Why There Is No Figure"
 msgstr "Warum kein Betrag steht"
 
+#: onedesk/one_crm/stages.py:101
+msgid "Why Was It Lost?"
+msgstr "Warum wurde sie verloren?"
+
 #: onedesk/one_hr/ai.py:252 onedesk/one_hr/ai.py:260
 msgid "Why are people leaving?"
 msgstr "Warum gehen Leute?"
@@ -7159,6 +7193,16 @@ msgstr "Warum diese Tage als gearbeitet zählen sollen. Die Liste pflegt die Per
 #: onedesk/public/js/ai_model.js:25 onedesk/public/js/ai_model_list.js:13
 msgid "Withdrawn"
 msgstr "Zurückgezogen"
+
+#. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
+#: onedesk/one_crm/custom/sales_stage.json
+msgid "Won"
+msgstr "Gewonnen"
+
+#. Description of the 'Outcome' (Select) field in DocType 'Sales Stage'
+#: onedesk/one_crm/custom/sales_stage.json
+msgid "Won marks the opportunity Converted. Lost asks for the reasons first."
+msgstr "Gewonnen markiert die Opportunity als umgewandelt. Verloren fragt zuerst nach den Gründen."
 
 #. Option for the 'Marks the Day As' (Select) field in DocType 'Attendance
 #. Reason'

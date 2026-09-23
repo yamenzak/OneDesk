@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 11:47+0000\n"
-"PO-Revision-Date: 2026-09-23 11:47+0000\n"
+"POT-Creation-Date: 2026-09-23 13:25+0000\n"
+"PO-Revision-Date: 2026-09-23 13:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -583,6 +583,12 @@ msgstr ""
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.py:15
 #: onedesk/one_hr/hiring.py:529
 msgid "An interview is only recorded once the candidate has agreed."
+msgstr ""
+
+#. Description of the 'Probability (%)' (Percent) field in DocType 'Sales
+#. Stage'
+#: onedesk/one_crm/custom/sales_stage.json
+msgid "An opportunity moved to this stage takes this probability, unless one was typed."
 msgstr ""
 
 #: onedesk/one_hr/ai_grievance.py:135
@@ -3509,6 +3515,11 @@ msgstr ""
 msgid "Looked something up"
 msgstr ""
 
+#. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
+#: onedesk/one_crm/custom/sales_stage.json
+msgid "Lost"
+msgstr ""
+
 #. Option for the 'Urgency' (Select) field in DocType 'Employee Grievance'
 #: onedesk/one_hr/custom/employee_grievance.json
 msgid "Low"
@@ -4299,6 +4310,8 @@ msgstr ""
 msgid "Only somebody who can approve these may answer this one."
 msgstr ""
 
+#. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
+#: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/public/js/oneai/Record.vue:15
 msgid "Open"
 msgstr ""
@@ -4399,9 +4412,11 @@ msgid "Out, per 1M Tokens"
 msgstr ""
 
 #. Label of the done_section (Section Break) field in DocType 'AI Proposal'
+#. Label of the one_outcome (Select) field in DocType 'Sales Stage'
 #. Label of the one_outcome (Data) field in DocType 'Employee Checkin'
 #. Label of the outcome (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+#: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_hr/custom/employee_checkin.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Outcome"
@@ -4709,9 +4724,10 @@ msgstr ""
 msgid "Points Lost"
 msgstr ""
 
+#. Label of the one_position (Int) field in DocType 'Sales Stage'
 #. Label of the 'attendance_and_leave_details' field in DocType 'Employee'
 #. Label of the position_state (Select) field in DocType 'Clock Attempt'
-#: onedesk/one_hr/custom/employee.json
+#: onedesk/one_crm/custom/sales_stage.json onedesk/one_hr/custom/employee.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Position"
 msgstr ""
@@ -4784,6 +4800,11 @@ msgstr ""
 #. Label of the primary_domain (Link) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Primary Domain"
+msgstr ""
+
+#. Label of the one_probability (Percent) field in DocType 'Sales Stage'
+#: onedesk/one_crm/custom/sales_stage.json
+msgid "Probability (%)"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -5739,6 +5760,11 @@ msgstr ""
 
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:209
 msgid "Stage"
+msgstr ""
+
+#. Description of the 'Position' (Int) field in DocType 'Sales Stage'
+#: onedesk/one_crm/custom/sales_stage.json
+msgid "Stages are listed from the lowest to the highest."
 msgstr ""
 
 #. Option for the 'State' (Select) field in DocType 'AI Proposal'
@@ -6770,6 +6796,10 @@ msgstr ""
 msgid "Usage"
 msgstr ""
 
+#: onedesk/one_crm/stages.py:101
+msgid "Use Declare Lost to say why it was lost."
+msgstr ""
+
 #. Label of the fetch_position (Button) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 msgid "Use My Location"
@@ -7136,6 +7166,10 @@ msgstr ""
 msgid "Why There Is No Figure"
 msgstr ""
 
+#: onedesk/one_crm/stages.py:101
+msgid "Why Was It Lost?"
+msgstr ""
+
 #: onedesk/one_hr/ai.py:252 onedesk/one_hr/ai.py:260
 msgid "Why are people leaving?"
 msgstr ""
@@ -7153,6 +7187,16 @@ msgstr ""
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/public/js/ai_model.js:25 onedesk/public/js/ai_model_list.js:13
 msgid "Withdrawn"
+msgstr ""
+
+#. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
+#: onedesk/one_crm/custom/sales_stage.json
+msgid "Won"
+msgstr ""
+
+#. Description of the 'Outcome' (Select) field in DocType 'Sales Stage'
+#: onedesk/one_crm/custom/sales_stage.json
+msgid "Won marks the opportunity Converted. Lost asks for the reasons first."
 msgstr ""
 
 #. Option for the 'Marks the Day As' (Select) field in DocType 'Attendance

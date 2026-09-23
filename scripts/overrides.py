@@ -591,6 +591,34 @@ OVERRIDES = [
 		"erpnext/erpnext/public/js/setup_wizard.js",
 		"persona",
 	),
+	(
+		"The daily job that reopens converted and lost deals is stopped",
+		"it sets status Open on any lead or opportunity with an Event today, whatever the status was",
+		"onedesk/one_crm/stages.py",
+		"erpnext/erpnext/crm/utils.py",
+		"def open_leads_opportunities_based_on_todays_event",
+	),
+	(
+		"A stage follows a quotation lost or ordered",
+		"the quotation writes the opportunity's status with `db_set`, so no hook of the opportunity's runs",
+		"onedesk/one_crm/stages.py",
+		"erpnext/erpnext/selling/doctype/quotation/quotation.py",
+		"opp.set_status(status=status, update=True)",
+	),
+	(
+		"A stage follows a sales order",
+		"the order writes the opportunity's status with `frappe.db.set_value`, past every hook",
+		"onedesk/one_crm/stages.py",
+		"erpnext/erpnext/selling/doctype/sales_order/sales_order.py",
+		'frappe.db.set_value("Opportunity", opportunity_name, "status", flag)',
+	),
+	(
+		"Picking a Lost stage opens Declare Lost",
+		"the dialog that asks why is erpnext's, triggered by name",
+		"onedesk/public/js/opportunity.js",
+		"erpnext/erpnext/public/js/utils/sales_common.js",
+		"set_as_lost_dialog: function (frm)",
+	),
 ]
 
 

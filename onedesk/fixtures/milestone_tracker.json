@@ -1,0 +1,9 @@
+[
+ {
+  "doctype": "Milestone Tracker",
+  "name": "Opportunity-sales_stage",
+  "document_type": "Opportunity",
+  "track_field": "sales_stage",
+  "disabled": 0
+ }
+]
