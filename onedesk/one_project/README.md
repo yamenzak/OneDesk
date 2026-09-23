@@ -123,6 +123,30 @@ waits on it. It opens on today; **Today** comes back to it, and **Day**,
 **Drag a bar to move a task**, or drag its end to make it longer. Double-click
 a bar to open the task.
 
+## Starting from a template
+
+A job you do again and again — a website, a fit-out, an office move — starts
+from a **template**: the tasks it always has, when each begins and how long it
+takes, which waits on which, the milestones and the checklists.
+
+- **Save as Template** (under **Actions** on a project) makes one from a
+  project that went well. Each task keeps when it began and ended as days after
+  the project started, so a task that began on day 5 and took three days does
+  the same next time. Cancelled tasks are left out.
+- **New Project** on a template's page — or picking it as **From Template**
+  on a new project — starts a project from it. Its tasks are made as it is
+  saved, dated from the project's **Expected Start Date** (today if it has
+  none), each with its sub-tasks, dependencies, checklist and whether it is a
+  milestone, and named with the project's **Task Prefix** if it has one.
+- **Project Template** under **Setup** lists them. A template's tasks are
+  ordinary tasks marked **Is Template**; open one from the template to change
+  its **Begin On (Days)** or **Duration (Days)**.
+
+A template's tasks are nobody's work: they are not on anybody's My Tasks,
+calendar or board, and everybody who works in projects can see them. A
+Projects Manager makes and changes templates; anybody who works in projects
+can use one.
+
 ## When a task is late, what depends on it moves
 
 A task can depend on others (**Dependencies** on its page), in its own project
@@ -171,12 +195,22 @@ one field for it.
   Task, filtered to the tree (`public/js/project.js`); `public/js/task_list.js`
   draws a task with only a due date and lights the view mode the chart is in,
   and `public/css/desk.css` lets it scroll.
+- `templates.py` — ERPNext's Project Template, which already makes a
+  project's tasks from template tasks as the project is saved. Added: **Save
+  as Template** (`save_as`, with `start_of` and `days` pure), what their copy
+  leaves out — milestone, expected time, checklist (`task_made`) — and a
+  Projects Manager may keep templates (`settle`; ERPNext allowed only a System
+  Manager). A template task is not assigned to its maker
+  (one_task/capture.py), everybody in projects sees it (one_task/access.py),
+  the Tasks rail entries leave templates out, and a new project's prefix rule
+  is written before ERPNext makes its tasks (naming.py).
 - `overview.py` — what the band answers, over the tree the reader may see:
   tasks done of all, days to the expected end (`days_left`), ERPNext's cost,
   billing and margin added up (tree.totals), overdue tasks and the next
   milestone.
 - `public/js/project.js` — the Board, Calendar and Schedule buttons, the
-  overview in the band, and Group Under New Project.
+  overview in the band, Group Under New Project and Save as Template;
+  `public/js/project_template.js` is a template's New Project.
 
 ### What OneTask has to keep doing for projects
 
@@ -217,8 +251,12 @@ stage below that touches tasks keeps them:
    in one tree, not only within one. Three things of frappe's needed fixing for
    it to show anything: a task with no start date, a chart that never scrolled,
    and the view mode pills.
-6. **Templates.** ERPNext's Project Template starts a project with its tasks and
-   their dependencies.
+6. **Templates.** *Done.* ERPNext's Project Template starts a project with its
+   tasks, sub-tasks and dependencies; a project that went well is saved as
+   one; milestones, expected time and checklists come across; the project's
+   prefix names them; templates are the team's, not their maker's. A template
+   of a whole tree of sub-projects is not built: ERPNext's template is one
+   project.
 7. **Cost and billing.** Time priced by Activity Cost; hours invoiced from
    timesheets (OneBook); a quotation accepted as a sub-project of the project
    it is for.

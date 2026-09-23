@@ -8,7 +8,9 @@ ERPNext's series.
 
 The number comes from frappe's series for the prefix, which is global to the
 site: a prefix changed and changed back carries on counting rather than
-reusing a name. Tasks already made keep the names they have.
+reusing a name. Tasks already made keep the names they have. A new project's
+rule is written as it is saved, so the tasks a Project Template makes for it
+carry the prefix too.
 """
 
 import re
@@ -31,12 +33,25 @@ def validate(doc, method=None) -> None:
 	other = frappe.db.get_value("Project", {"one_key": key, "name": ["!=", doc.name]}, "project_name")
 	if other:
 		frappe.throw(_("{0} already names the tasks of {1}.").format(key, other))
+	if doc.is_new():
+		# ERPNext makes a template's tasks in after_insert, before on_update.
+		_write(doc)
 
 
 def on_update(doc, method=None) -> None:
 	"""Project on_update: the naming rule follows the prefix."""
-	if not doc.has_value_changed("one_key"):
-		return
+	if doc.has_value_changed("one_key"):
+		_write(doc)
+
+
+def _write(doc) -> None:
+	"""The naming rule for a project's prefix, made, changed or removed.
+
+	frappe caches which rules name a Task, and clears that when a rule is saved
+	but not when the save is rolled back: a project that failed to save would
+	leave a rule in the cache that is not in the database, and no task could be
+	made until the cache went. So a rollback clears it too."""
+	frappe.db.after_rollback.add(_forget)
 	name = _rule(doc.name)
 	if not doc.one_key:
 		if name:
@@ -48,6 +63,10 @@ def on_update(doc, method=None) -> None:
 		rule.append("conditions", {"field": "project", "condition": "=", "value": doc.name})
 	rule.flags.ignore_permissions = True
 	rule.save()
+
+
+def _forget() -> None:
+	frappe.cache_manager.clear_doctype_map("Document Naming Rule", "Task")
 
 
 def _rule(project: str) -> str | None:

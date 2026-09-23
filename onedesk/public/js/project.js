@@ -1,5 +1,5 @@
 // A project's page: its board, calendar and plan as buttons of their own, the
-// overview in the band, and Group Under New Project.
+// overview in the band, Group Under New Project and Save as Template.
 //
 // The board is ERPNext's own, made the way their button makes it
 // (one_project/board.py shapes it as it is made). Calendar is OneCalendar
@@ -24,6 +24,9 @@ frappe.ui.form.on("Project", {
 		}
 		if (frm.perm[0] && frm.perm[0].write) {
 			frm.add_custom_button(__("Group Under New Project"), () => onedesk.project.group(frm), __("Actions"));
+		}
+		if (frappe.model.can_create("Project Template")) {
+			frm.add_custom_button(__("Save as Template"), () => onedesk.project.save_as(frm), __("Actions"));
 		}
 		onedesk.project.band(frm);
 	},
@@ -122,4 +125,22 @@ onedesk.project.group = async (frm) => {
 		},
 	});
 	dialog.show();
+};
+
+// A template made from this project's tasks (one_project/templates.py), for
+// the next one like it.
+onedesk.project.save_as = (frm) => {
+	frappe.prompt(
+		{ fieldtype: "Data", fieldname: "title", label: __("Template Name"), reqd: 1, default: frm.doc.project_name },
+		async ({ title }) => {
+			const made = await frappe.xcall("onedesk.one_project.templates.save_as", { project: frm.doc.name, title });
+			frappe.ui.toast({
+				message: __("{0} is a template.", [made]),
+				type: "success",
+				action: { label: __("Open"), onclick: () => frappe.set_route("Form", "Project Template", made) },
+			});
+		},
+		__("Save as Template"),
+		__("Save"),
+	);
 };

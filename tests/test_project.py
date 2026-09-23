@@ -188,3 +188,40 @@ def test_a_slip_crosses_sub_projects_and_the_plan_is_the_tree():
 	assert "gantt.config.view_mode.name === name" in gantt, "the lit pill is the chart's mode"
 	css = (tree.APP / "public" / "css" / "desk.css").read_text()
 	assert ".result.result:has(> .gantt-container)" in css, "the chart scrolls, to today"
+
+
+def test_a_template_counts_days_from_the_projects_start():
+	from datetime import date
+
+	space = _load(
+		PROJECT / "templates.py",
+		("start_of", "days"),
+		date_diff=lambda a, b: (a - b).days,
+		getdate=lambda value: value,
+	)
+	begins = space["start_of"](date(2026, 9, 10), [{"exp_start_date": date(2026, 9, 8), "exp_end_date": None}])
+	assert begins == date(2026, 9, 8), "no task begins before the project"
+	assert space["start_of"](None, [{"exp_start_date": None, "exp_end_date": None}]) is None
+	days = space["days"]
+	assert days(begins, date(2026, 9, 10), date(2026, 9, 13)) == {"start": 2, "duration": 3}
+	assert days(begins, None, date(2026, 9, 12)) == {"start": 4, "duration": 0}, "a due date alone is a day"
+	assert days(begins, None, None) == {"start": 0, "duration": 0}
+	assert days(None, date(2026, 9, 10), None) == {"start": 0, "duration": 0}
+
+
+def test_a_template_is_the_whole_teams_and_keeps_what_erpnext_drops():
+	source = (PROJECT / "templates.py").read_text()
+	assert '"is_milestone", "expected_time"' in source and '"one_steps"' in _body(source, "task_made")
+	assert '"onedesk.one_project.templates.task_made"' in HOOKS.split('"Task": {', 1)[1].split("},", 1)[0]
+	assert HOOKS.count('"onedesk.one_project.templates.settle"') == 2, "after_install and after_migrate"
+	assert "doc.is_template" in _body((TASK / "capture.py").read_text(), "task_made"), "nobody's work"
+	access = (TASK / "access.py").read_text()
+	assert 'doc.get("is_template") and sees_projects(user)' in access and "`tabTask`.`is_template` = 1" in access
+	assert "_write(doc)" in _body((PROJECT / "naming.py").read_text(), "validate"), "the prefix names a template's tasks"
+	assert "after_rollback.add(_forget)" in (PROJECT / "naming.py").read_text()
+	page = (tree.APP / "public" / "js" / "project.js").read_text()
+	assert "onedesk.one_project.templates.save_as" in page
+	assert '"Project Template": "public/js/project_template.js"' in HOOKS
+	for rail in (PROJECT / "sidebar" / "oneproject" / "oneproject.json", TASK / "sidebar" / "onetask" / "onetask.json"):
+		tasks = next(i for i in json.loads(rail.read_text())["items"] if i.get("label") == "Tasks")
+		assert "is_template" in tasks["filters"], rail.name

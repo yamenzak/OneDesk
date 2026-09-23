@@ -112,6 +112,9 @@ more than one person.
 - **A task in a project** is also seen by whoever may see the project — its
   members, or everybody who works in projects when it lists nobody (see
   OneProject).
+- **A template task** — one marked **Is Template**, which a project template
+  is made of — is seen by everybody who works in projects, and is nobody's
+  work: it is not assigned, and not on My Tasks or the calendar.
 - **Share** on a task's page lets somebody see one task without giving it to
   them.
 

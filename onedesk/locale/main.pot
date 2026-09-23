@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 20:34+0000\n"
-"PO-Revision-Date: 2026-09-23 20:34+0000\n"
+"POT-Creation-Date: 2026-09-23 20:45+0000\n"
+"PO-Revision-Date: 2026-09-23 20:45+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -222,7 +222,7 @@ msgstr ""
 msgid "A slug is letters, digits and hyphens: {0}"
 msgstr ""
 
-#: onedesk/one_project/naming.py:30
+#: onedesk/one_project/naming.py:32
 msgid "A task prefix is 2 to 10 letters and digits, starting with a letter."
 msgstr ""
 
@@ -409,6 +409,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json onedesk/public/js/project.js:26
+#: onedesk/public/js/project.js:29
 msgid "Actions"
 msgstr ""
 
@@ -1123,7 +1124,7 @@ msgstr ""
 
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:211
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:243
-#: onedesk/public/js/project.js:62
+#: onedesk/public/js/project.js:65
 msgid "Billed"
 msgstr ""
 
@@ -1726,7 +1727,7 @@ msgstr ""
 msgid "Copy Link"
 msgstr ""
 
-#: onedesk/public/js/project.js:61
+#: onedesk/public/js/project.js:64
 msgid "Cost"
 msgstr ""
 
@@ -1753,7 +1754,7 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/public/js/opportunity.js:18 onedesk/public/js/opportunity.js:19
-#: onedesk/public/js/project.js:113
+#: onedesk/public/js/project.js:116
 msgid "Create"
 msgstr ""
 
@@ -2151,7 +2152,7 @@ msgstr ""
 #: onedesk/public/js/ai_proposal_list.js:10 onedesk/public/js/decision.js:39
 #: onedesk/public/js/job.js:27 onedesk/public/js/job.js:44
 #: onedesk/public/js/job.js:49 onedesk/public/js/learned.js:34
-#: onedesk/public/js/project.js:48 onedesk/public/js/shift_type.js:29
+#: onedesk/public/js/project.js:51 onedesk/public/js/shift_type.js:29
 msgid "Done"
 msgstr ""
 
@@ -2250,7 +2251,7 @@ msgid "Dropped"
 msgstr ""
 
 #: onedesk/one_task/page/my_tasks/my_tasks.js:44
-#: onedesk/public/js/project.js:59
+#: onedesk/public/js/project.js:62
 msgid "Due"
 msgstr ""
 
@@ -2988,7 +2989,7 @@ msgstr ""
 msgid "Group By"
 msgstr ""
 
-#: onedesk/public/js/project.js:26 onedesk/public/js/project.js:102
+#: onedesk/public/js/project.js:26 onedesk/public/js/project.js:105
 msgid "Group Under New Project"
 msgstr ""
 
@@ -3307,7 +3308,7 @@ msgstr ""
 msgid "In bytes. Zero means unlimited."
 msgstr ""
 
-#: onedesk/public/js/project.js:58
+#: onedesk/public/js/project.js:61
 msgid "In {0} days"
 msgstr ""
 
@@ -4027,7 +4028,7 @@ msgstr ""
 msgid "Mar"
 msgstr ""
 
-#: onedesk/public/js/project.js:63
+#: onedesk/public/js/project.js:66
 msgid "Margin"
 msgstr ""
 
@@ -4177,7 +4178,7 @@ msgstr ""
 msgid "Move"
 msgstr ""
 
-#: onedesk/public/js/project.js:108
+#: onedesk/public/js/project.js:111
 msgid "Move These Beside It"
 msgstr ""
 
@@ -4244,6 +4245,10 @@ msgstr ""
 msgid "Name of the offsite backup Frappe Cloud held when the site was archived."
 msgstr ""
 
+#: onedesk/one_project/templates.py:82
+msgid "Name the template."
+msgstr ""
+
 #. Description of the 'Key' (Data) field in DocType 'AI Action'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Named in code. Do not change it once anything calls it."
@@ -4298,6 +4303,10 @@ msgstr ""
 msgid "New Link"
 msgstr ""
 
+#: onedesk/public/js/project_template.js:7
+msgid "New Project"
+msgstr ""
+
 #: onedesk/one_ai/chat.py:115 onedesk/public/js/oneai/Panel.vue:20
 #: onedesk/public/js/oneai/Panel.vue:24
 msgid "New conversation"
@@ -4324,7 +4333,7 @@ msgstr ""
 msgid "Next 7 Days"
 msgstr ""
 
-#: onedesk/public/js/project.js:77
+#: onedesk/public/js/project.js:80
 msgid "Next Milestone"
 msgstr ""
 
@@ -4979,7 +4988,7 @@ msgstr ""
 #. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: onedesk/one_crm/custom/sales_stage.json onedesk/one_task/custom/task.json
-#: onedesk/public/js/oneai/Record.vue:15
+#: onedesk/public/js/oneai/Record.vue:15 onedesk/public/js/project.js:140
 msgid "Open"
 msgstr ""
 
@@ -5132,7 +5141,7 @@ msgstr ""
 msgid "Overdue For"
 msgstr ""
 
-#: onedesk/public/js/project.js:72
+#: onedesk/public/js/project.js:75
 msgid "Overdue Tasks"
 msgstr ""
 
@@ -5535,7 +5544,7 @@ msgstr ""
 msgid "Project"
 msgstr ""
 
-#: onedesk/public/js/project.js:104
+#: onedesk/public/js/project.js:107
 msgid "Project Name"
 msgstr ""
 
@@ -6198,7 +6207,12 @@ msgstr ""
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:310
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:52
 #: onedesk/public/js/crm_record.js:198 onedesk/public/js/next_step.js:31
+#: onedesk/public/js/project.js:144
 msgid "Save"
+msgstr ""
+
+#: onedesk/public/js/project.js:29 onedesk/public/js/project.js:143
+msgid "Save as Template"
 msgstr ""
 
 #: onedesk/public/js/hiring.js:238
@@ -6805,7 +6819,7 @@ msgstr ""
 msgid "Stuck jobs"
 msgstr ""
 
-#: onedesk/one_project/tree.py:192 onedesk/public/js/project.js:45
+#: onedesk/one_project/tree.py:192 onedesk/public/js/project.js:48
 msgid "Sub-projects"
 msgstr ""
 
@@ -6978,6 +6992,10 @@ msgstr ""
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: onedesk/one_task/custom/task.json
 msgid "Template"
+msgstr ""
+
+#: onedesk/public/js/project.js:134
+msgid "Template Name"
 msgstr ""
 
 #. Label of the tenant (Link) field in DocType 'Account Request'
@@ -7340,6 +7358,10 @@ msgid ""
 "{0}"
 msgstr ""
 
+#: onedesk/one_project/templates.py:84
+msgid "There is already a template called {0}."
+msgstr ""
+
 #: onedesk/one_hr/overtime.py:120
 msgid "There is no day to record this against."
 msgstr ""
@@ -7528,7 +7550,7 @@ msgid "To Win"
 msgstr ""
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:171
-#: onedesk/one_task/mine.py:23 onedesk/public/js/project.js:57
+#: onedesk/one_task/mine.py:23 onedesk/public/js/project.js:60
 msgid "Today"
 msgstr ""
 
@@ -8795,7 +8817,7 @@ msgstr ""
 msgid "{0} already has a workspace. Resume its job instead."
 msgstr ""
 
-#: onedesk/one_project/naming.py:33
+#: onedesk/one_project/naming.py:35
 msgid "{0} already names the tasks of {1}."
 msgstr ""
 
@@ -8883,7 +8905,7 @@ msgstr ""
 msgid "{0} days before it falls to {1}."
 msgstr ""
 
-#: onedesk/public/js/project.js:56
+#: onedesk/public/js/project.js:59
 msgid "{0} days late"
 msgstr ""
 
@@ -8935,6 +8957,10 @@ msgstr ""
 msgid "{0} has no attendance marked on {1}."
 msgstr ""
 
+#: onedesk/one_project/templates.py:93
+msgid "{0} has no tasks to make a template from."
+msgstr ""
+
 #: onedesk/one_admin/operator.py:192
 msgid "{0} has not been paid, so there is nothing to build."
 msgstr ""
@@ -8949,6 +8975,10 @@ msgstr ""
 
 #: onedesk/public/js/crm_record.js:151 onedesk/public/js/employee.js:109
 msgid "{0} hours"
+msgstr ""
+
+#: onedesk/public/js/project.js:138
+msgid "{0} is a template."
 msgstr ""
 
 #: onedesk/one_crm/capture.py:54
@@ -9064,7 +9094,7 @@ msgstr ""
 msgid "{0} of them live."
 msgstr ""
 
-#: onedesk/public/js/project.js:42
+#: onedesk/public/js/project.js:45
 msgid "{0} of {1}"
 msgstr ""
 
@@ -9182,7 +9212,7 @@ msgstr ""
 msgid "{0} – running"
 msgstr ""
 
-#: onedesk/public/js/project.js:49
+#: onedesk/public/js/project.js:52
 msgid "{0}% · {1} of {2} tasks"
 msgstr ""
 

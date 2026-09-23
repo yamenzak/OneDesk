@@ -13,7 +13,8 @@ So One keeps one kind of work, the Task:
   assignment on it. Whoever it was for is still who it is for.
 - **A task made with no project and nobody on it is its maker's**
   (`task_made`), so "assigned to me" is the one question that finds all of a
-  person's work, on the calendar and in every list.
+  person's work, on the calendar and in every list. A template task is
+  nobody's work (one_project/templates.py) and is not.
 - **Ticking off the last assignment on a task with no project completes it**
   (`todo_changed`). ERPNext already does the other direction: completing a
   task closes its assignments. A task in a project is not completed by one
@@ -53,7 +54,7 @@ def task_made(doc, method=None) -> None:
 	if doc.flags.one_assign_to:
 		assign({"doctype": "Task", "name": doc.name, "assign_to": doc.flags.one_assign_to})
 		return
-	if doc.project or doc.flags.one_assigned or frappe.flags.in_install or frappe.flags.in_migrate:
+	if doc.project or doc.is_template or doc.flags.one_assigned or frappe.flags.in_install or frappe.flags.in_migrate:
 		return
 	if frappe.parse_json(doc.get("_assign")) or doc.owner in ("Administrator", "Guest"):
 		return

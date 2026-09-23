@@ -37,6 +37,7 @@ after_install = [
 	"onedesk.one_crm.access.settle",
 	"onedesk.one_task.access.settle",
 	"onedesk.one_project.board.settle",
+	"onedesk.one_project.templates.settle",
 ]
 
 # Their dock files do not carry the mount, so a newer erpnext or hrms clears it,
@@ -64,6 +65,7 @@ after_migrate = [
 	"onedesk.one_crm.access.settle",
 	"onedesk.one_task.access.settle",
 	"onedesk.one_project.board.settle",
+	"onedesk.one_project.templates.settle",
 ]
 extend_bootinfo = "onedesk.one.boot.boot_session"
 
@@ -155,7 +157,11 @@ doc_events = {
 	# A sub-task's parent is a group and its project is the parent's, and a
 	# checklist is the progress. See one_task/task.py.
 	"Task": {
-		"before_insert": "onedesk.one_hr.lifecycle.task",
+		"before_insert": [
+			"onedesk.one_hr.lifecycle.task",
+			# What ERPNext's template copy leaves out. See one_project/templates.py.
+			"onedesk.one_project.templates.task_made",
+		],
 		"after_insert": "onedesk.one_task.capture.task_made",
 		"before_validate": [
 			"onedesk.one_task.task.before_validate",
@@ -354,6 +360,7 @@ doctype_js = {
 	"Lead": "public/js/lead.js",
 	# The project's board is a button of its own. See one_project/board.py.
 	"Project": "public/js/project.js",
+	"Project Template": "public/js/project_template.js",
 	# A timer on the task. See one_task/timer.py.
 	"Task": "public/js/task.js",
 }

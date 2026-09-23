@@ -50,7 +50,8 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Task",
-   "icon": "circle-check"
+   "icon": "circle-check",
+   "filters": "[[\"Task\", \"is_template\", \"=\", 0]]"
   },
   {
    "child": 0,

@@ -843,6 +843,34 @@ OVERRIDES = [
 		"frappe/frappe/public/scss/desk/list.scss",
 		"display: table;",
 	),
+	(
+		"A task made from a template keeps its milestone, time and checklist",
+		"their copy from a template task names the fields it carries, and is_milestone and expected_time are not among them",
+		"onedesk/one_project/templates.py",
+		"erpnext/erpnext/projects/doctype/project/project.py",
+		"template_task=task_details.name,",
+	),
+	(
+		"A Projects Manager may keep project templates",
+		"theirs lets only a System Manager open a Project Template; the project roles may only pick one",
+		"onedesk/one_project/templates.py",
+		"erpnext/erpnext/projects/doctype/project_template/project_template.json",
+		'"role": "Projects Manager",',
+	),
+	(
+		"A new project's prefix names the tasks its template makes",
+		"their after_insert makes the template's tasks before any on_update runs, so the naming rule is written at validate",
+		"onedesk/one_project/naming.py",
+		"erpnext/erpnext/projects/doctype/project/project.py",
+		'self.copy_from_template("after_insert")',
+	),
+	(
+		"A rolled-back naming rule leaves the cache too",
+		"frappe clears the cached list of a doctype's naming rules when one is saved, not when that save is rolled back",
+		"onedesk/one_project/naming.py",
+		"frappe/frappe/core/doctype/document_naming_rule/document_naming_rule.py",
+		"frappe.cache_manager.clear_doctype_map(self.doctype, self.document_type)",
+	),
 ]
 
 

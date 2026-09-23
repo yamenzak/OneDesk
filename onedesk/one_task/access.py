@@ -10,6 +10,8 @@ one, and sees:
   Which projects that is, is OneProject's rule (one_project/members.py): a
   Projects Manager sees them all, anybody else the ones they made, are
   members of, or that list nobody;
+- **a template task**, for the same people, since a template is the whole
+  team's (one_project/templates.py);
 - **a task somebody shared with them**, which is frappe's own rule.
 
 A task with no project is somebody's own to-do, so nobody else sees it, a
@@ -64,6 +66,8 @@ def allowed(doc, ptype=None, user=None, debug=False) -> bool:
 	if assigned(doc, user):
 		# Somebody else's to-do given to me is mine to do, not mine to delete.
 		return ptype != "delete" or in_view(doc.project, user)
+	if doc.get("is_template") and sees_projects(user):
+		return True
 	return in_view(doc.project, user)
 
 
@@ -80,6 +84,7 @@ def query(user=None, doctype=None) -> str:
 	mine = f"(`tabTask`.`owner` = {said(user)} or `tabTask`.`_assign` like {said(f'%{json.dumps(user)}%')})"
 	if not sees_projects(user):
 		return mine
+	template = "`tabTask`.`is_template` = 1"
 	if members.manages(user):
-		return f"({mine} or ifnull(`tabTask`.`project`, '') != '')"
-	return f"({mine} or `tabTask`.`project` in ({members.names(members.visible(user))}))"
+		return f"({mine} or {template} or ifnull(`tabTask`.`project`, '') != '')"
+	return f"({mine} or {template} or `tabTask`.`project` in ({members.names(members.visible(user))}))"
