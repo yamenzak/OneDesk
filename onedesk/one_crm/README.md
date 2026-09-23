@@ -97,7 +97,8 @@ The band under the name answers what the page is usually opened for, before
 anything is clicked:
 
 - on a deal — **Deal Value** and its probability, the **stage** and how long it
-  has been there, the **Next Step** (red once overdue), the **Last Call** or
+  has been there beside how long deals usually stay there (amber once it is
+  longer, and more than a day), the **Next Step** (red once overdue), the **Last Call** or
   **Last Email**, when it **Closes** (red once past), its latest **Quotation**,
   and where it came from;
 - on a lead — when it **Came In**, the Next Step, the last contact, the
@@ -137,7 +138,8 @@ report behind it.
 - **Win Rate (90 Days)** — of the deals won or lost in the last 90 days, the
   share that was won.
 
-Three reports, in the **Sales** group:
+Four reports, in the **Sales** group — **How Long Deals Take** is under Sales
+stages below:
 
 - **Deal Forecast** — the open deals, except those on hold, by the month they
   are expected to close, with their value, their weighted value, and what was
@@ -187,7 +189,12 @@ Value, the Weighted Pipeline, the Deal Forecast, and OneAI's deals that have
 gone quiet. Move it back to any stage when it starts again.
 
 Every move is recorded with the date, so how long a deal has sat in a stage is
-known.
+known, and so is how long deals usually sit there: the middle of the stays
+that ended in the last year, once there are three. **How Long Deals Take**, in
+the Sales group, has it for every stage — how many deals passed through, the
+usual and the longest stay, how many are in it now and how many of those have
+been there longer than usual — and a last row, **To Win**, from a deal coming
+in to its being won. Filter it by dates and by deal owner.
 
 A deal with an event in the calendar today is left as it is. ERPNext would
 reopen it every morning, won and lost ones included; One does not.
@@ -364,7 +371,9 @@ Four ideas in it are worth having here, and each is a stage:
     not ready. Without it such a deal sits in Negotiation and the pipeline and
     the forecast count it. It stays open, keeps its column on the board, and
     is left out of the pipeline's value, the weighted value and the forecast.
-11. **How long deals take.** From the Milestones stage 1 already writes: the
+11. **How long deals take.** *Done* — `measure.stays`, `usual`, `stuck`, the
+    report `how_long_deals_take`, and `usual`/`long` in `record.overview`.
+    From the Milestones stage 1 already writes: the
     usual days a deal spends in each stage, and from New to Won. The old app
     kept a stage log of its own for this; Milestone is that log. On a deal's
     page the stage reads "for 12 days" beside the usual 5, so a stuck deal

@@ -75,7 +75,16 @@ onedesk.crm_record.stats = (frm, said) => {
 			__("Deal Value · {0}%", [said.probability]),
 			format_currency(said.value, said.currency, 0),
 		));
-		stats.push(stat(said.stage || __("Sales Stage"), __("for {0}", [onedesk.crm_record.since(said.since)])));
+		// Beside what is usual for the stage, once there is a usual: a deal
+		// here longer than most is one to look at.
+		stats.push(stat(
+			said.stage || __("Sales Stage"),
+			said.usual != null
+				? __("for {0} · usually {1}", [onedesk.crm_record.since(said.since), onedesk.crm_record.days(said.usual)])
+				: __("for {0}", [onedesk.crm_record.since(said.since)]),
+			null,
+			said.long ? "waiting" : null,
+		));
 	} else {
 		stats.push(stat(__("Came In"), ago(said.since)));
 		if (said.first_reply) {
@@ -142,6 +151,13 @@ onedesk.crm_record.since = (when, until) => {
 	if (hours < 24) return hours === 1 ? __("an hour") : __("{0} hours", [hours]);
 	const days = Math.floor(hours / 24);
 	return days === 1 ? __("a day") : __("{0} days", [days]);
+};
+
+// A number of days, as a person says it: "a day", "5 days", "under a day".
+onedesk.crm_record.days = (days) => {
+	const whole = Math.round(days);
+	if (whole < 1) return __("under a day");
+	return whole === 1 ? __("a day") : __("{0} days", [whole]);
 };
 
 onedesk.crm_record.call = (frm) => {

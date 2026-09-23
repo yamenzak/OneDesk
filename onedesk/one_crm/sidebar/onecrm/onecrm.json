@@ -168,6 +168,18 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
+   "label": "How Long Deals Take",
+   "link_type": "Report",
+   "link_to": "How Long Deals Take",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
    "label": "Lead Sources",
    "link_type": "Report",
    "link_to": "Lead Sources",

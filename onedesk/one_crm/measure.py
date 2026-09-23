@@ -6,19 +6,33 @@ stage whose outcome is Won or Lost (`stages.py`). ERPNext's dashboards use
 March and corrected in May was "won in May". Every report and card here reads
 `closed()` instead.
 
+**How long a deal stays in a stage** is read off the same Milestones: each one
+is a deal arriving in a stage, and it left when the next one was written
+(`stays`). What is usual for a stage is the middle of the finished stays in it
+over the last year — the median, so one deal forgotten for a year does not make
+every other deal look quick.
+
 The four figures on Home are Custom number cards, so each is worked out here
 through the reader's own permissions and opens the report behind it.
 """
 
+from statistics import median
+
 import frappe
 from frappe import _
-from frappe.utils import add_days, flt, get_first_day, getdate, nowdate
+from frappe.utils import add_days, flt, get_datetime, get_first_day, getdate, now_datetime, nowdate
 
 from onedesk.one_crm import next as next_step
 from onedesk.one_crm import stages
 
 #: How far back the win rate on Home looks.
 RATE_DAYS = 90
+
+#: How far back what is usual for a stage looks.
+USUAL_DAYS = 365
+
+#: Fewer finished stays in a stage than this, and nothing is usual yet.
+FEWEST = 3
 
 
 def closed(deals: list[str] | None = None) -> dict[str, frappe._dict]:
@@ -128,3 +142,76 @@ def rate(won: int, lost: int) -> float:
 
 def not_recorded() -> str:
 	return _("Not Recorded")
+
+
+# ------------------------------------------------------------ time in stage
+
+
+def stays(moves) -> list[dict]:
+	"""Each stay of a deal in a stage, from its Milestones: which deal, which
+	stage, when it arrived and when it left — None while it is still there. Two
+	moves in a row to the same stage are one stay. Pure.
+
+	`moves` are rows with `reference_name`, `value` and `creation`, in order of
+	deal and then time."""
+	out = []
+	for move in moves:
+		last = out[-1] if out and out[-1]["deal"] == move["reference_name"] else None
+		if last and last["stage"] == move["value"]:
+			continue
+		if last:
+			last["left"] = move["creation"]
+		out.append({"deal": move["reference_name"], "stage": move["value"], "came": move["creation"], "left": None})
+	return out
+
+
+def days(stay, now) -> float:
+	"""How many days a stay lasted, or has lasted so far. Pure."""
+	end = get_datetime(stay["left"]) if stay["left"] else now
+	return (end - get_datetime(stay["came"])).total_seconds() / 86400
+
+
+def usual(finished: list[float]) -> float | None:
+	"""The usual length of a stay: the median, once there are FEWEST. Pure."""
+	return round(median(finished), 1) if len(finished) >= FEWEST else None
+
+
+def stuck(length: float, usual_days: float | None) -> bool:
+	"""Whether a stay has gone on longer than is usual for its stage. Never for
+	under a day: a stage deals usually leave within the hour is not one a deal
+	is stuck in by lunchtime. Pure."""
+	return usual_days is not None and length > max(usual_days, 1)
+
+
+def every_stay(deals: list[str] | None = None) -> list[dict]:
+	"""Every stay of the deals the reader may see, or of the ones named."""
+	visible = set(frappe.get_list("Opportunity", pluck="name", limit=0))
+	if deals is not None:
+		visible &= set(deals)
+	moves = frappe.get_all(
+		"Milestone",
+		filters={
+			"reference_type": "Opportunity",
+			"track_field": "sales_stage",
+			"reference_name": ["in", list(visible) or [""]],
+		},
+		fields=["reference_name", "value", "creation"],
+		order_by="reference_name asc, creation asc",
+	)
+	return stays(moves)
+
+
+def usual_by_stage(all_stays: list[dict], since=None) -> dict[str, float | None]:
+	"""What is usual for each stage, from the stays that ended since `since`."""
+	since = get_datetime(since or add_days(now_datetime(), -USUAL_DAYS))
+	now = now_datetime()
+	finished = {}
+	for stay in all_stays:
+		if stay["left"] and get_datetime(stay["left"]) >= since:
+			finished.setdefault(stay["stage"], []).append(days(stay, now))
+	return {stage: usual(lengths) for stage, lengths in finished.items()}
+
+
+def usual_for(stage: str | None) -> float | None:
+	"""How long deals usually stay in one stage."""
+	return usual_by_stage(every_stay()).get(stage) if stage else None

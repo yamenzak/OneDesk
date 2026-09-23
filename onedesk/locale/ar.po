@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 16:31+0000\n"
-"PO-Revision-Date: 2026-09-23 16:31+0000\n"
+"POT-Creation-Date: 2026-09-23 16:40+0000\n"
+"PO-Revision-Date: 2026-09-23 16:40+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -72,7 +72,7 @@ msgstr "موقع مناوبة، أو موظف واحد. اترك الحقلين 
 msgid "A cache read is a third thing, not a cheaper input."
 msgstr "قراءة المخزن المؤقت شيء ثالث، وليست مدخلاً أرخص."
 
-#: onedesk/one_crm/record.py:159
+#: onedesk/one_crm/record.py:171
 msgid "A call is Outgoing or Incoming, and Answered, No Answer or Busy."
 msgstr "المكالمة إما صادرة أو واردة، وإما تم الرد عليها أو لم يُرد عليها أو كان الخط مشغولاً."
 
@@ -630,7 +630,7 @@ msgstr "سُجّل تسجيل حضور آخر في الثانية نفسها."
 msgid "Another employee has already checked in from this browser today."
 msgstr "سجّل موظف آخر حضوره من هذا المتصفح اليوم."
 
-#: onedesk/public/js/crm_record.js:166
+#: onedesk/public/js/crm_record.js:182
 msgid "Answered"
 msgstr "تم الرد"
 
@@ -1148,7 +1148,7 @@ msgstr "أنشئ مساحة العمل"
 msgid "Building"
 msgstr "قيد الإنشاء"
 
-#: onedesk/public/js/crm_record.js:168
+#: onedesk/public/js/crm_record.js:184
 msgid "Busy"
 msgstr ""
 
@@ -1186,11 +1186,11 @@ msgstr ""
 msgid "CTC Break-up"
 msgstr "تفصيل التكلفة الإجمالية"
 
-#: onedesk/public/js/ai_model.js:80 onedesk/public/js/crm_record.js:154
+#: onedesk/public/js/ai_model.js:80 onedesk/public/js/crm_record.js:170
 msgid "Call"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:190
+#: onedesk/public/js/crm_record.js:206
 msgid "Call logged"
 msgstr "تم تسجيل المكالمة"
 
@@ -1200,7 +1200,7 @@ msgstr "تم تسجيل المكالمة"
 msgid "Calls"
 msgstr "الاستدعاءات"
 
-#: onedesk/public/js/crm_record.js:80
+#: onedesk/public/js/crm_record.js:89
 msgid "Came In"
 msgstr "ورد منذ"
 
@@ -1504,7 +1504,7 @@ msgstr ""
 msgid "Closed Automatically"
 msgstr "أُغلق تلقائياً"
 
-#: onedesk/public/js/crm_record.js:103
+#: onedesk/public/js/crm_record.js:112
 msgid "Closes"
 msgstr "موعد الإغلاق"
 
@@ -1796,6 +1796,7 @@ msgid "Deal Forecast"
 msgstr "توقعات الصفقات"
 
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.js:19
+#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.js:17
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:21
 msgid "Deal Owner"
 msgstr ""
@@ -1804,8 +1805,9 @@ msgstr ""
 msgid "Deal Value · {0}%"
 msgstr "قيمة الصفقة · {0}%"
 
+#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:81
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:67
-#: onedesk/public/js/crm_record.js:115
+#: onedesk/public/js/crm_record.js:124
 msgid "Deals"
 msgstr "الصفقات"
 
@@ -2125,7 +2127,7 @@ msgstr "أُسقط"
 msgid "Duplicate"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:176
+#: onedesk/public/js/crm_record.js:192
 msgid "Duration (Minutes)"
 msgstr "المدة (بالدقائق)"
 
@@ -2584,7 +2586,7 @@ msgid "First Name"
 msgstr ""
 
 #. Label of the one_first_reply_at (Datetime) field in DocType 'Lead'
-#: onedesk/one_crm/custom/lead.json onedesk/public/js/crm_record.js:82
+#: onedesk/one_crm/custom/lead.json onedesk/public/js/crm_record.js:91
 msgid "First Reply"
 msgstr "أول رد"
 
@@ -2667,6 +2669,7 @@ msgstr ""
 
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:7
 #: onedesk/one_ai/report/ai_credits/ai_credits.js:7
+#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.js:5
 #: onedesk/one_crm/report/lead_sources/lead_sources.js:5
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:5
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:7
@@ -2958,6 +2961,13 @@ msgstr "الساعات المعمولة"
 msgid "Hours worked beyond the standard day."
 msgstr "الساعات التي تتجاوز يوم العمل القياسي."
 
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.json
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "How Long Deals Take"
+msgstr "كم تستغرق الصفقات"
+
 #. Description of the 'Accuracy (Metres)' (Float) field in DocType 'Clock
 #. Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -3103,6 +3113,10 @@ msgstr "حسّنه"
 msgid "In"
 msgstr ""
 
+#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:84
+msgid "In It Now"
+msgstr "فيها الآن"
+
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "In Progress"
@@ -3147,7 +3161,7 @@ msgstr ""
 msgid "Income Tax Slab"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:157
+#: onedesk/public/js/crm_record.js:173
 msgid "Incoming"
 msgstr ""
 
@@ -3349,15 +3363,15 @@ msgid "Last Address"
 msgstr "آخر عنوان"
 
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:44
-#: onedesk/public/js/crm_record.js:93
+#: onedesk/public/js/crm_record.js:102
 msgid "Last Call"
 msgstr "آخر استدعاء"
 
-#: onedesk/public/js/crm_record.js:97
+#: onedesk/public/js/crm_record.js:106
 msgid "Last Contact"
 msgstr "آخر تواصل"
 
-#: onedesk/public/js/crm_record.js:93
+#: onedesk/public/js/crm_record.js:102
 msgid "Last Email"
 msgstr "آخر بريد"
 
@@ -3692,11 +3706,11 @@ msgstr ""
 msgid "Log Type"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:32 onedesk/public/js/crm_record.js:149
+#: onedesk/public/js/crm_record.js:32 onedesk/public/js/crm_record.js:165
 msgid "Log a Call"
 msgstr "تسجيل مكالمة"
 
-#: onedesk/one_crm/record.py:182
+#: onedesk/one_crm/record.py:194
 msgid "Logged by hand"
 msgstr "مسجّلة يدوياً"
 
@@ -3709,6 +3723,14 @@ msgstr "تسجيل الدخول بمفتاح مرور"
 #: onedesk/one_hr/signin.py:106
 msgid "Login with Passkey is not enabled on this site."
 msgstr "تسجيل الدخول بمفتاح مرور غير مفعَّل في هذا الموقع."
+
+#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:85
+msgid "Longer Than Usual"
+msgstr "أطول من المعتاد"
+
+#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:83
+msgid "Longest Days"
+msgstr "أطول مدة بالأيام"
 
 #. Label of the longitude (Float) field in DocType 'Clock Attempt'
 #. Label of the longitude (Float) field in DocType 'Clock Place'
@@ -4039,8 +4061,8 @@ msgstr "الحالة التالية"
 #. Label of the one_next_step (Data) field in DocType 'Lead'
 #. Label of the one_next_step (Data) field in DocType 'Opportunity'
 #: onedesk/one_crm/custom/lead.json onedesk/one_crm/custom/opportunity.json
-#: onedesk/one_crm/next.py:69 onedesk/public/js/crm_record.js:126
-#: onedesk/public/js/crm_record.js:130 onedesk/public/js/crm_record.js:131
+#: onedesk/one_crm/next.py:69 onedesk/public/js/crm_record.js:135
+#: onedesk/public/js/crm_record.js:139 onedesk/public/js/crm_record.js:140
 #: onedesk/public/js/next_step.js:23
 msgid "Next Step"
 msgstr "الخطوة التالية"
@@ -4060,7 +4082,7 @@ msgstr "موعد الخطوة التالية"
 msgid "No"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:167
+#: onedesk/public/js/crm_record.js:183
 msgid "No Answer"
 msgstr ""
 
@@ -4156,11 +4178,11 @@ msgstr "لا أحد يستطيع اعتماد طلب مناوبة لـ {0}. عي
 msgid "Nobody on this list checked in"
 msgstr "لم يسجّل أحد في هذه القائمة حضوره"
 
-#: onedesk/public/js/crm_record.js:126
+#: onedesk/public/js/crm_record.js:135
 msgid "None planned"
 msgstr "لا شيء مخطط"
 
-#: onedesk/public/js/crm_record.js:97
+#: onedesk/public/js/crm_record.js:106
 msgid "None yet"
 msgstr "لا شيء بعد"
 
@@ -4178,7 +4200,7 @@ msgstr "غير مفوتر"
 msgid "Not Checked In"
 msgstr "لم يسجّل الحضور"
 
-#: onedesk/one_crm/measure.py:130
+#: onedesk/one_crm/measure.py:144
 msgid "Not Recorded"
 msgstr "غير مسجّل"
 
@@ -4569,7 +4591,7 @@ msgstr "المحاولات المُشار إليها وحدها هي التي ت
 msgid "Only a lead or a deal has a next step."
 msgstr "الخطوة التالية تخص العميل المحتمل أو الصفقة فقط."
 
-#: onedesk/one_crm/record.py:30
+#: onedesk/one_crm/record.py:31
 msgid "Only a lead or a deal has an overview."
 msgstr "النظرة العامة تخص العميل المحتمل أو الصفقة فقط."
 
@@ -4577,7 +4599,7 @@ msgstr "النظرة العامة تخص العميل المحتمل أو الص
 msgid "Only a lead or a deal has an owner."
 msgstr "المسؤول يخص العميل المحتمل أو الصفقة فقط."
 
-#: onedesk/one_crm/record.py:157
+#: onedesk/one_crm/record.py:169
 msgid "Only a lead or a deal has calls."
 msgstr "المكالمات تخص العميل المحتمل أو الصفقة فقط."
 
@@ -4756,11 +4778,11 @@ msgstr "المخرج لكل مليون رمز"
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_hr/custom/employee_checkin.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
-#: onedesk/public/js/crm_record.js:164
+#: onedesk/public/js/crm_record.js:180
 msgid "Outcome"
 msgstr "النتيجة"
 
-#: onedesk/public/js/crm_record.js:156
+#: onedesk/public/js/crm_record.js:172
 msgid "Outgoing"
 msgstr ""
 
@@ -5297,7 +5319,7 @@ msgstr "الحصص"
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
-#: onedesk/public/js/crm_record.js:108
+#: onedesk/public/js/crm_record.js:117
 msgid "Quotation"
 msgstr ""
 
@@ -5795,13 +5817,14 @@ msgid "Sales Person"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:80
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
-#: onedesk/public/js/crm_record.js:78
+#: onedesk/public/js/crm_record.js:81
 msgid "Sales Stage"
 msgstr ""
 
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:52
-#: onedesk/public/js/crm_record.js:182 onedesk/public/js/next_step.js:31
+#: onedesk/public/js/crm_record.js:198 onedesk/public/js/next_step.js:31
 msgid "Save"
 msgstr ""
 
@@ -6111,7 +6134,7 @@ msgstr "شيء اقترح نموذج فعله. ولا يحدث شيء حتى ي�
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:63
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:22
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:217
-#: onedesk/public/js/crm_record.js:121
+#: onedesk/public/js/crm_record.js:130
 msgid "Source"
 msgstr ""
 
@@ -7014,6 +7037,7 @@ msgstr "العنوان"
 
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:13
 #: onedesk/one_ai/report/ai_credits/ai_credits.js:13
+#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.js:11
 #: onedesk/one_crm/report/lead_sources/lead_sources.js:11
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:11
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:14
@@ -7025,6 +7049,10 @@ msgstr ""
 #: onedesk/one_hr/ai_letters.py:92
 msgid "To Whom It May Concern"
 msgstr "إلى من يهمه الأمر"
+
+#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:54
+msgid "To Win"
+msgstr "حتى الفوز"
 
 #. Label of the token_hash (Data) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
@@ -7271,6 +7299,10 @@ msgstr ""
 msgid "User Verified"
 msgstr "تم التحقق من المستخدم"
 
+#: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:82
+msgid "Usual Days"
+msgstr "المدة المعتادة بالأيام"
+
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:206
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:246
 msgid "Utilization"
@@ -7348,7 +7380,7 @@ msgstr "الرؤية"
 msgid "Waiting"
 msgstr "قيد الانتظار"
 
-#: onedesk/public/js/crm_record.js:84
+#: onedesk/public/js/crm_record.js:93
 msgid "Waiting For a Reply"
 msgstr "بانتظار الرد"
 
@@ -7416,7 +7448,7 @@ msgstr "ما الخطوة التالية؟"
 msgid "What OneAI remembers"
 msgstr "ما يتذكره OneAI"
 
-#: onedesk/public/js/crm_record.js:180
+#: onedesk/public/js/crm_record.js:196
 msgid "What Was Said"
 msgstr "ما قيل"
 
@@ -8020,15 +8052,15 @@ msgstr "الصفر يعني بلا حد."
 msgid "Zero means unlimited. Enforced by Frappe from the site's config."
 msgstr "الصفر يعني بلا حد. ويفرضه Frappe من إعدادات الموقع."
 
-#: onedesk/public/js/crm_record.js:144
+#: onedesk/public/js/crm_record.js:153 onedesk/public/js/crm_record.js:160
 msgid "a day"
 msgstr "يوم واحد"
 
-#: onedesk/public/js/crm_record.js:82
+#: onedesk/public/js/crm_record.js:91
 msgid "after {0}"
 msgstr "بعد {0}"
 
-#: onedesk/public/js/crm_record.js:142
+#: onedesk/public/js/crm_record.js:151
 msgid "an hour"
 msgstr "ساعة واحدة"
 
@@ -8066,9 +8098,13 @@ msgstr "الملاحظات"
 msgid "for"
 msgstr "مقابل"
 
-#: onedesk/public/js/crm_record.js:78
+#: onedesk/public/js/crm_record.js:84
 msgid "for {0}"
 msgstr "منذ {0}"
+
+#: onedesk/public/js/crm_record.js:83
+msgid "for {0} · usually {1}"
+msgstr "منذ {0} · عادةً {1}"
 
 #: onedesk/public/js/shift_request.js:53
 msgid "from {0} to {1}"
@@ -8165,7 +8201,11 @@ msgstr "البداية"
 msgid "this part could not be transcribed"
 msgstr "تعذّر تفريغ هذا الجزء"
 
-#: onedesk/public/js/crm_record.js:141
+#: onedesk/public/js/crm_record.js:159
+msgid "under a day"
+msgstr "أقل من يوم"
+
+#: onedesk/public/js/crm_record.js:150
 msgid "under an hour"
 msgstr "أقل من ساعة"
 
@@ -8299,7 +8339,7 @@ msgstr "{0} رصيد — وهو الحجز، إذ تعذّر قياس أي شي�
 msgid "{0} credits."
 msgstr "{0} رصيد."
 
-#: onedesk/public/js/crm_record.js:144
+#: onedesk/public/js/crm_record.js:153 onedesk/public/js/crm_record.js:160
 msgid "{0} days"
 msgstr "{0} أيام"
 
@@ -8367,7 +8407,7 @@ msgstr "{0} لم تفشل."
 msgid "{0} has {1} credits, {2} of them promised to calls in flight."
 msgstr "لدى {0} رصيد {1}، منها {2} محجوزة لنداءات قيد التنفيذ."
 
-#: onedesk/public/js/crm_record.js:142 onedesk/public/js/employee.js:109
+#: onedesk/public/js/crm_record.js:151 onedesk/public/js/employee.js:109
 msgid "{0} hours"
 msgstr ""
 
@@ -8504,7 +8544,7 @@ msgstr "{0} على عدّاد المسافة منذ السجل السابق."
 msgid "{0} on {1}"
 msgstr "{0} على {1}"
 
-#: onedesk/public/js/crm_record.js:116
+#: onedesk/public/js/crm_record.js:125
 msgid "{0} open of {1}"
 msgstr "{0} مفتوحة من {1}"
 

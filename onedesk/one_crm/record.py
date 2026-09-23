@@ -15,8 +15,9 @@ from typing import Annotated
 
 import frappe
 from frappe import _
-from frappe.utils import add_to_date, cint, flt, now_datetime
+from frappe.utils import add_to_date, cint, flt, get_datetime, now_datetime
 
+from onedesk.one_crm import measure
 from onedesk.one_crm import next as next_step
 
 #: A call's outcome in the dialog's words, and Call Log's own status for it.
@@ -43,6 +44,7 @@ def overview(doctype: Annotated[str, "Lead or Opportunity."], name: str) -> dict
 			probability=flt(doc.probability),
 			stage=doc.sales_stage,
 			since=stage_since(doc),
+			**_usual(doc),
 			closing=doc.expected_closing,
 			quotation=quotation(name),
 		)
@@ -53,6 +55,16 @@ def overview(doctype: Annotated[str, "Lead or Opportunity."], name: str) -> dict
 			first_reply=doc.one_first_reply_at,
 		)
 	return said
+
+
+def _usual(doc) -> dict:
+	"""How long deals usually stay in this deal's stage, and whether this one
+	has stayed longer. Nothing for a deal that is closed."""
+	if doc.status not in next_step.OPEN["Opportunity"]:
+		return {"usual": None, "long": False}
+	usual = measure.usual_for(doc.sales_stage)
+	length = (now_datetime() - get_datetime(stage_since(doc))).total_seconds() / 86400
+	return {"usual": usual, "long": measure.stuck(length, usual)}
 
 
 def stage_since(doc):
