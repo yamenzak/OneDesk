@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 19:11+0000\n"
-"PO-Revision-Date: 2026-09-23 19:11+0000\n"
+"POT-Creation-Date: 2026-09-23 19:18+0000\n"
+"PO-Revision-Date: 2026-09-23 19:18+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -449,7 +449,7 @@ msgstr "Lead aus einer Signatur anlegen"
 msgid "Add a lead from each of these business cards."
 msgstr "Lege aus jeder dieser Visitenkarten einen Lead an."
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:64
+#: onedesk/one_task/page/my_tasks/my_tasks.js:71
 msgid "Add a task above, or ask for one to be assigned to you."
 msgstr "Fügen Sie oben eine Aufgabe hinzu oder lassen Sie sich eine zuweisen."
 
@@ -1623,7 +1623,7 @@ msgstr "Vergleiche diese Gehaltsabrechnung mit der letzten dieser Person und sag
 msgid "Compared as text with what the field holds now. A person's edit makes them differ, and the badge goes."
 msgstr "Wird als Text mit dem aktuellen Feldinhalt verglichen. Eine Bearbeitung durch eine Person macht sie verschieden, und das Abzeichen verschwindet."
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:87
+#: onedesk/one_task/page/my_tasks/my_tasks.js:112
 #: onedesk/public/js/timesheet.js:76
 msgid "Complete"
 msgstr ""
@@ -4057,7 +4057,7 @@ msgstr "Mit {0} zusammenführen"
 msgid "Message"
 msgstr ""
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:84
+#: onedesk/one_task/page/my_tasks/my_tasks.js:91
 msgid "Milestone"
 msgstr ""
 
@@ -4515,7 +4515,7 @@ msgstr "In diesem Zeitraum ändert sich für den Arbeitsbereich nichts."
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr "Noch ist nichts geschehen. Beim Anwenden wird es gegen Ihre eigenen Berechtigungen geprüft."
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:63
+#: onedesk/one_task/page/my_tasks/my_tasks.js:70
 msgid "Nothing is assigned to you."
 msgstr "Ihnen ist nichts zugewiesen."
 
@@ -6386,6 +6386,10 @@ msgstr "Signaturzähler"
 msgid "Signups"
 msgstr "Anmeldungen"
 
+#: onedesk/one_task/page/my_tasks/my_tasks.js:96
+msgid "Since {0}"
+msgstr "Seit {0}"
+
 #. Label of the site_section (Section Break) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Site"
@@ -6476,6 +6480,7 @@ msgstr ""
 msgid "Start Date"
 msgstr ""
 
+#: onedesk/one_task/page/my_tasks/my_tasks.js:107 onedesk/public/js/task.js:11
 #: onedesk/public/js/timesheet.js:22 onedesk/public/js/timesheet.js:27
 #: onedesk/public/js/timesheet.js:40
 msgid "Start Timer"
@@ -6587,6 +6592,14 @@ msgstr "Noch im Entwurf"
 msgid "Stop"
 msgstr ""
 
+#: onedesk/one_task/page/my_tasks/my_tasks.js:107
+msgid "Stop Timer"
+msgstr "Timer stoppen"
+
+#: onedesk/public/js/task.js:11
+msgid "Stop Timer (since {0})"
+msgstr "Timer stoppen (seit {0})"
+
 #: onedesk/public/js/oneai/Panel.vue:188
 msgid "Stop listening"
 msgstr "Zuhören beenden"
@@ -6615,6 +6628,10 @@ msgstr "Bei Schritt {0} von {1} stehen geblieben: {2}."
 #: onedesk/public/js/account_request.js:64
 msgid "Stopped before the workspace was created."
 msgstr "Gestoppt, bevor der Arbeitsbereich angelegt wurde."
+
+#: onedesk/public/js/task_timer.js:10
+msgid "Stopped within a minute, so nothing was added."
+msgstr "Innerhalb einer Minute gestoppt, daher wurde nichts hinzugefügt."
 
 #: onedesk/public/js/account_request.js:63
 msgid "Stopped: {0}"
@@ -8631,6 +8648,10 @@ msgstr "{0} GB Speicher"
 #: onedesk/www/start.py:83
 msgid "{0} a month"
 msgstr "{0} pro Monat"
+
+#: onedesk/public/js/task_timer.js:9
+msgid "{0} added to your timesheet."
+msgstr "{0} zu Ihrem Stundenzettel hinzugefügt."
 
 #: onedesk/one_hr/overtime.py:114
 msgid "{0} allows at most {1} overtime hours a day."

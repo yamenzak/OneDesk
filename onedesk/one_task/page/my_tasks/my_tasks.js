@@ -51,10 +51,17 @@ onedesk.MyTasks = class MyTasks {
 		});
 		this.$list = this.$body.find(".one-tasks-list");
 		this.$list.on("change", ".one-tasks-tick", (e) => this.tick($(e.currentTarget)));
+		this.$list.on("click", ".one-tasks-timer", (e) => this.time($(e.currentTarget)));
+		// Whoever may keep a timesheet may time a task (one_task/timer.py).
+		this.times = frappe.model.can_create("Timesheet");
 	}
 
 	async refresh() {
-		const groups = await frappe.xcall("onedesk.one_task.mine.tasks");
+		const [groups, running] = await Promise.all([
+			frappe.xcall("onedesk.one_task.mine.tasks"),
+			this.times ? frappe.xcall("onedesk.one_task.timer.running") : null,
+		]);
+		this.running = running;
 		this.$list.empty();
 		if (!groups.length) {
 			this.$list.append(
@@ -83,11 +90,31 @@ onedesk.MyTasks = class MyTasks {
 		}
 		if (task.is_milestone) bits.push(`<span>${__("Milestone")}</span>`);
 		if (task.due) bits.push(`<span class="${group === "overdue" ? "one-tasks-late" : ""}">${this.day(task.due, group)}</span>`);
+		const timing = this.running && this.running.task === task.name;
+		const since = timing
+			? frappe.ui.badge.html({
+					label: __("Since {0}", [moment(this.running.since).format("HH:mm")]),
+					theme: "blue",
+					size: "sm",
+					icon: "timer",
+			  })
+			: "";
+		const timer = this.times
+			? frappe.ui.button.html({
+					icon: timing ? "square" : "play",
+					variant: "ghost",
+					size: "sm",
+					title: timing ? __("Stop Timer") : __("Start Timer"),
+					css_class: "one-tasks-timer",
+			  })
+			: "";
 		return $(`<div class="one-tasks-row" data-name="${frappe.utils.escape_html(task.name)}">
 			<input type="checkbox" class="one-tasks-tick" title="${__("Complete")}">
 			<a class="one-tasks-title truncate" href="/desk/task/${encodeURIComponent(task.name)}">${frappe.utils.escape_html(task.subject)}</a>
 			${pressing ? frappe.ui.badge.html({ label: __(task.priority), theme: pressing, size: "sm" }) : ""}
+			${since}
 			<span class="one-tasks-about text-sm">${bits.join(`<span class="one-tasks-dot">·</span>`)}</span>
+			${timer}
 		</div>`);
 	}
 
@@ -111,6 +138,15 @@ onedesk.MyTasks = class MyTasks {
 		} finally {
 			this.$subject.prop("disabled", false).trigger("focus");
 		}
+	}
+
+	// One timer runs at a time; starting this one stops whichever was running.
+	async time($button) {
+		const name = $button.closest(".one-tasks-row").attr("data-name");
+		const timing = this.running && this.running.task === name;
+		if (timing) onedesk.task_timer.stopped(await frappe.xcall("onedesk.one_task.timer.stop"));
+		else await frappe.xcall("onedesk.one_task.timer.start", { task: name });
+		await this.refresh();
 	}
 
 	// Ticked stays on the list, struck through, until the page is next opened,

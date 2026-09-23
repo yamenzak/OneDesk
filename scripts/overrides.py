@@ -773,6 +773,13 @@ OVERRIDES = [
 		"erpnext/erpnext/projects/doctype/task/task.py",
 		"ParentIsGroupError,",
 	),
+	(
+		"A task's timer is a row on the person's timesheet for the week",
+		"the task's Actual Time is theirs, filled from timesheets when one is submitted, so a timed hour reaches the task at the week's submit",
+		"onedesk/one_task/timer.py",
+		"erpnext/erpnext/projects/doctype/timesheet/timesheet.py",
+		"def update_task_and_project",
+	),
 ]
 
 

@@ -333,6 +333,8 @@ doctype_js = {
 	"Lead": "public/js/lead.js",
 	# The project's board is a button of its own. See one_task/board.py.
 	"Project": "public/js/project.js",
+	# A timer on the task. See one_task/timer.py.
+	"Task": "public/js/task.js",
 }
 
 # Loaded after the doctype's own list script, so ours has the last word.
@@ -394,6 +396,7 @@ app_include_js = [
 	"/assets/onedesk/js/overtime.js",
 	"/assets/onedesk/js/decision.js",
 	"/assets/onedesk/js/next_step.js",
+	"/assets/onedesk/js/task_timer.js",
 	"/assets/onedesk/js/band.js",
 	"/assets/onedesk/js/crm_record.js",
 	"/assets/onedesk/js/reports.js",

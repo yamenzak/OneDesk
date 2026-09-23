@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 19:11+0000\n"
-"PO-Revision-Date: 2026-09-23 19:11+0000\n"
+"POT-Creation-Date: 2026-09-23 19:18+0000\n"
+"PO-Revision-Date: 2026-09-23 19:18+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -447,7 +447,7 @@ msgstr ""
 msgid "Add a lead from each of these business cards."
 msgstr ""
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:64
+#: onedesk/one_task/page/my_tasks/my_tasks.js:71
 msgid "Add a task above, or ask for one to be assigned to you."
 msgstr ""
 
@@ -1621,7 +1621,7 @@ msgstr ""
 msgid "Compared as text with what the field holds now. A person's edit makes them differ, and the badge goes."
 msgstr ""
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:87
+#: onedesk/one_task/page/my_tasks/my_tasks.js:112
 #: onedesk/public/js/timesheet.js:76
 msgid "Complete"
 msgstr ""
@@ -4055,7 +4055,7 @@ msgstr ""
 msgid "Message"
 msgstr ""
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:84
+#: onedesk/one_task/page/my_tasks/my_tasks.js:91
 msgid "Milestone"
 msgstr ""
 
@@ -4513,7 +4513,7 @@ msgstr ""
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr ""
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:63
+#: onedesk/one_task/page/my_tasks/my_tasks.js:70
 msgid "Nothing is assigned to you."
 msgstr ""
 
@@ -6384,6 +6384,10 @@ msgstr ""
 msgid "Signups"
 msgstr ""
 
+#: onedesk/one_task/page/my_tasks/my_tasks.js:96
+msgid "Since {0}"
+msgstr ""
+
 #. Label of the site_section (Section Break) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Site"
@@ -6474,6 +6478,7 @@ msgstr ""
 msgid "Start Date"
 msgstr ""
 
+#: onedesk/one_task/page/my_tasks/my_tasks.js:107 onedesk/public/js/task.js:11
 #: onedesk/public/js/timesheet.js:22 onedesk/public/js/timesheet.js:27
 #: onedesk/public/js/timesheet.js:40
 msgid "Start Timer"
@@ -6585,6 +6590,14 @@ msgstr ""
 msgid "Stop"
 msgstr ""
 
+#: onedesk/one_task/page/my_tasks/my_tasks.js:107
+msgid "Stop Timer"
+msgstr ""
+
+#: onedesk/public/js/task.js:11
+msgid "Stop Timer (since {0})"
+msgstr ""
+
 #: onedesk/public/js/oneai/Panel.vue:188
 msgid "Stop listening"
 msgstr ""
@@ -6612,6 +6625,10 @@ msgstr ""
 
 #: onedesk/public/js/account_request.js:64
 msgid "Stopped before the workspace was created."
+msgstr ""
+
+#: onedesk/public/js/task_timer.js:10
+msgid "Stopped within a minute, so nothing was added."
 msgstr ""
 
 #: onedesk/public/js/account_request.js:63
@@ -8625,6 +8642,10 @@ msgstr ""
 
 #: onedesk/www/start.py:83
 msgid "{0} a month"
+msgstr ""
+
+#: onedesk/public/js/task_timer.js:9
+msgid "{0} added to your timesheet."
 msgstr ""
 
 #: onedesk/one_hr/overtime.py:114

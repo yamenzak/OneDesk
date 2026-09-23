@@ -216,3 +216,6 @@ No doctypes yet.
 * `onedesk.one_hr.signin.finish`
 * `onedesk.one_hr.signin.offered`
 * `onedesk.one_task.mine.tasks`
+* `onedesk.one_task.timer.running`
+* `onedesk.one_task.timer.start`
+* `onedesk.one_task.timer.stop`

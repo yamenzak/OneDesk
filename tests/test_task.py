@@ -169,3 +169,22 @@ def test_a_task_dragged_keeps_its_length_and_its_times():
 	assert shifted(starts, ends, date(2026, 9, 28)) == (datetime(2026, 9, 24, 9), datetime(2026, 9, 28, 17))
 	assert shifted(None, ends, date(2026, 9, 24)) == (None, datetime(2026, 9, 24, 17))
 	assert shifted(starts, None, date(2026, 9, 22)) == (datetime(2026, 9, 22, 9), None), "drawn by its start"
+
+
+def test_a_timer_stopped_at_once_was_a_slip():
+	from datetime import datetime, timedelta
+
+	space = _load(TASK / "timer.py", ("SLIP", "slip"))
+	starts = datetime(2026, 9, 23, 10)
+	assert space["slip"](starts, starts + timedelta(seconds=20))
+	assert not space["slip"](starts, starts + timedelta(minutes=2))
+
+
+def test_the_timer_writes_the_persons_timesheet_through_its_own_save():
+	source = (TASK / "timer.py").read_text()
+	assert "doc.check_permission(\"read\")" in source and "ignore_permissions" not in source
+	assert '"to_time": ["is", "not set"]' in source, "running is a start with no end, as on the Timesheet form"
+	assert "now_datetime()" in source and "stop()" in source.split("def start(", 1)[1].split("\ndef ", 1)[0]
+	assert '"/assets/onedesk/js/task_timer.js"' in HOOKS and '"Task": "public/js/task.js"' in HOOKS
+	page = (TASK / "page" / "my_tasks" / "my_tasks.js").read_text()
+	assert 'frappe.model.can_create("Timesheet")' in page

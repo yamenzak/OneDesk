@@ -112,5 +112,6 @@ Each row is something that would still run but stop working if upstream moved. `
 | The board is a button of its own on a project | theirs is the second entry under View; ours removes it by label and adds Board beside Actions | `onedesk/public/js/project.js` | `erpnext/erpnext/projects/doctype/project/project.js` | `__("Kanban Board"),` |
 | A task's due date reads as a day on every list and card | Expected End Date is a Datetime; the board draws a card through frappe.format, which reads a docfield's own formatter first | `onedesk/public/js/task_list.js` | `frappe/frappe/public/js/frappe/form/formatters.js` | `var formatter = df.formatter || frappe.form.get_formatter(fieldtype);` |
 | A sub-task's parent becomes a group | they refuse a parent task not marked Is Group, a box nobody ticks before wanting a sub-task | `onedesk/one_task/task.py` | `erpnext/erpnext/projects/doctype/task/task.py` | `ParentIsGroupError,` |
+| A task's timer is a row on the person's timesheet for the week | the task's Actual Time is theirs, filled from timesheets when one is submitted, so a timed hour reaches the task at the week's submit | `onedesk/one_task/timer.py` | `erpnext/erpnext/projects/doctype/timesheet/timesheet.py` | `def update_task_and_project` |
 
-107 overrides.
+108 overrides.

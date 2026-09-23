@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 19:11+0000\n"
-"PO-Revision-Date: 2026-09-23 19:11+0000\n"
+"POT-Creation-Date: 2026-09-23 19:18+0000\n"
+"PO-Revision-Date: 2026-09-23 19:18+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -449,7 +449,7 @@ msgstr "أضف عميلًا محتملًا من توقيع بريد"
 msgid "Add a lead from each of these business cards."
 msgstr "أضف عميلًا محتملًا من كل بطاقة عمل من هذه البطاقات."
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:64
+#: onedesk/one_task/page/my_tasks/my_tasks.js:71
 msgid "Add a task above, or ask for one to be assigned to you."
 msgstr "أضف مهمة في الأعلى، أو اطلب أن تُسند إليك مهمة."
 
@@ -1623,7 +1623,7 @@ msgstr "قارن قسيمة الراتب هذه بآخر قسيمة لهذا ا�
 msgid "Compared as text with what the field holds now. A person's edit makes them differ, and the badge goes."
 msgstr "يُقارن كنص مع ما يحويه الحقل الآن. تعديل أي شخص يجعلهما مختلفين، فتختفي الشارة."
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:87
+#: onedesk/one_task/page/my_tasks/my_tasks.js:112
 #: onedesk/public/js/timesheet.js:76
 msgid "Complete"
 msgstr ""
@@ -4057,7 +4057,7 @@ msgstr "دمج في {0}"
 msgid "Message"
 msgstr ""
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:84
+#: onedesk/one_task/page/my_tasks/my_tasks.js:91
 msgid "Milestone"
 msgstr ""
 
@@ -4515,7 +4515,7 @@ msgstr "لا يتغير شيء لمساحة العمل خلال هذه الفت�
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr "لم يحدث شيء بعد. ويُفحص مقابل صلاحياتك أنت عند تطبيقه."
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:63
+#: onedesk/one_task/page/my_tasks/my_tasks.js:70
 msgid "Nothing is assigned to you."
 msgstr "لا شيء مسند إليك."
 
@@ -6386,6 +6386,10 @@ msgstr "عدد مرات التوقيع"
 msgid "Signups"
 msgstr "التسجيلات"
 
+#: onedesk/one_task/page/my_tasks/my_tasks.js:96
+msgid "Since {0}"
+msgstr "منذ {0}"
+
 #. Label of the site_section (Section Break) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Site"
@@ -6476,6 +6480,7 @@ msgstr ""
 msgid "Start Date"
 msgstr ""
 
+#: onedesk/one_task/page/my_tasks/my_tasks.js:107 onedesk/public/js/task.js:11
 #: onedesk/public/js/timesheet.js:22 onedesk/public/js/timesheet.js:27
 #: onedesk/public/js/timesheet.js:40
 msgid "Start Timer"
@@ -6587,6 +6592,14 @@ msgstr "ما زال مسودة"
 msgid "Stop"
 msgstr ""
 
+#: onedesk/one_task/page/my_tasks/my_tasks.js:107
+msgid "Stop Timer"
+msgstr "إيقاف المؤقت"
+
+#: onedesk/public/js/task.js:11
+msgid "Stop Timer (since {0})"
+msgstr "إيقاف المؤقت (منذ {0})"
+
 #: onedesk/public/js/oneai/Panel.vue:188
 msgid "Stop listening"
 msgstr "إيقاف الاستماع"
@@ -6615,6 +6628,10 @@ msgstr "توقفت عند الخطوة {0} من {1}: {2}."
 #: onedesk/public/js/account_request.js:64
 msgid "Stopped before the workspace was created."
 msgstr "توقف قبل إنشاء مساحة العمل."
+
+#: onedesk/public/js/task_timer.js:10
+msgid "Stopped within a minute, so nothing was added."
+msgstr "توقف خلال دقيقة، لذلك لم يُضف شيء."
 
 #: onedesk/public/js/account_request.js:63
 msgid "Stopped: {0}"
@@ -8631,6 +8648,10 @@ msgstr "{0} غيغابايت تخزين"
 #: onedesk/www/start.py:83
 msgid "{0} a month"
 msgstr "{0} شهرياً"
+
+#: onedesk/public/js/task_timer.js:9
+msgid "{0} added to your timesheet."
+msgstr "أُضيف {0} إلى جدول ساعاتك."
 
 #: onedesk/one_hr/overtime.py:114
 msgid "{0} allows at most {1} overtime hours a day."

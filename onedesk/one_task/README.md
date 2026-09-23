@@ -75,6 +75,22 @@ still to do, whoever is on it, and every event about the project. **Add Event**
 there makes an event about the project, and it shows on the calendar of
 everybody who can open the project.
 
+## Timing a task
+
+**Start Timer** on a task's page, or the ▷ beside it on My Tasks, starts timing
+it; **Stop Timer** stops it and says how long went on your timesheet. Only one
+timer runs at a time — starting another stops the first — and a task being
+timed says since when on My Tasks.
+
+The time goes on **your timesheet for the week**, made for you if you have
+none, with the task and its project filled in and the activity you used last.
+Change the activity there if it was something else, and submit the timesheet
+at the end of the week as usual; the task's **Actual Time** counts it from
+then. A timer stopped within a minute of starting adds nothing.
+
+Timing is for people who keep a timesheet; somebody who cannot make one does
+not see the timer.
+
 ## Sub-tasks and checklists
 
 **Sub-tasks** at the top of a task's page lists the tasks under it, and **+**
@@ -148,6 +164,10 @@ is:
   checklist is the progress; sub-tasks are a connection on the task's page.
 - `public/js/project.js` and `public/js/task_list.js` — the Board and Calendar
   buttons, and a due date read as a day, red once passed.
+- `timer.py` — the timer, as a row on the person's draft timesheet for the
+  week; a row with a start and no end is the running one, the same rule as the
+  Timesheet form's own timer, so either stops what the other started.
+  `public/js/task.js` and `task_timer.js` are its buttons and what they say.
 - `mine.py` and `page/my_tasks` — My Tasks. The server only reads, as the
   reader, and groups (`when` is pure); adding and ticking are `frappe.db.insert`
   and `frappe.db.set_value` from the page, so every rule a task has on its own
@@ -164,7 +184,8 @@ is:
    rather than a rail entry of their own.
 4. **The calendar.** *Done.* A task dragged on the calendar moves, and a
    project has its own calendar of its tasks and the events about it.
-5. **Time.** A timer on a task that writes a Timesheet row.
+5. **Time.** *Done.* A timer on a task and on My Tasks, writing the person's
+   timesheet for the week.
 6. **The old OneTask.** Read OneApp's, take what it had that this does not —
    states, rank, labels, the checklist, and its fix for ERPNext never
    rescheduling dependent tasks — and delete it.
