@@ -1,0 +1,37 @@
+[
+ {
+  "doctype": "Quotation Lost Reason",
+  "name": "Price",
+  "order_lost_reason": "Price"
+ },
+ {
+  "doctype": "Quotation Lost Reason",
+  "name": "Went With a Competitor",
+  "order_lost_reason": "Went With a Competitor"
+ },
+ {
+  "doctype": "Quotation Lost Reason",
+  "name": "No Budget",
+  "order_lost_reason": "No Budget"
+ },
+ {
+  "doctype": "Quotation Lost Reason",
+  "name": "No Decision",
+  "order_lost_reason": "No Decision"
+ },
+ {
+  "doctype": "Quotation Lost Reason",
+  "name": "Timing",
+  "order_lost_reason": "Timing"
+ },
+ {
+  "doctype": "Quotation Lost Reason",
+  "name": "Not a Fit",
+  "order_lost_reason": "Not a Fit"
+ },
+ {
+  "doctype": "Quotation Lost Reason",
+  "name": "Other",
+  "order_lost_reason": "Other"
+ }
+]

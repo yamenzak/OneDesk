@@ -1,7 +1,7 @@
 {
  "app": "onedesk",
  "charts": [],
- "content": "[{\"id\": \"onecrm_day\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>My Day</b></span>\", \"col\": 12}}, {\"id\": \"onecrm_sc_0\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Deals Due\", \"col\": 3}}, {\"id\": \"onecrm_sc_1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Leads Due\", \"col\": 3}}, {\"id\": \"onecrm_sc_2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Unplanned Deals\", \"col\": 3}}, {\"id\": \"onecrm_sc_3\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Unplanned Leads\", \"col\": 3}}, {\"id\": \"onecrm_gap\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"onecrm_sc_unclaimed\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Unclaimed Leads\", \"col\": 3}}, {\"id\": \"onecrm_sc_4\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"New Lead\", \"col\": 3}}, {\"id\": \"onecrm_sc_5\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Pipeline\", \"col\": 3}}]",
+ "content": "[{\"id\": \"onecrm_day\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>My Day</b></span>\", \"col\": 12}}, {\"id\": \"onecrm_sc_0\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Deals Due\", \"col\": 3}}, {\"id\": \"onecrm_sc_1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Leads Due\", \"col\": 3}}, {\"id\": \"onecrm_sc_2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Unplanned Deals\", \"col\": 3}}, {\"id\": \"onecrm_sc_3\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Unplanned Leads\", \"col\": 3}}, {\"id\": \"onecrm_gap\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"onecrm_sc_unclaimed\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Unclaimed Leads\", \"col\": 3}}, {\"id\": \"onecrm_sc_4\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"New Lead\", \"col\": 3}}, {\"id\": \"onecrm_sc_5\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Pipeline\", \"col\": 3}}, {\"id\": \"onecrm_gap2\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"onecrm_figures\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>The Pipeline</b></span>\", \"col\": 12}}, {\"id\": \"onecrm_nc_0\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Pipeline Value\", \"col\": 3}}, {\"id\": \"onecrm_nc_1\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Weighted Pipeline\", \"col\": 3}}, {\"id\": \"onecrm_nc_2\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Won This Month\", \"col\": 3}}, {\"id\": \"onecrm_nc_3\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Win Rate (90 Days)\", \"col\": 3}}]",
  "creation": "2026-09-20 12:00:00.000000",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,11 +13,28 @@
  "is_hidden": 0,
  "label": "OneCRM",
  "links": [],
- "modified": "2026-09-23 22:00:00.000000",
+ "modified": "2026-09-23 23:00:00.000000",
  "modified_by": "Administrator",
  "module": "One CRM",
  "name": "OneCRM",
- "number_cards": [],
+ "number_cards": [
+  {
+   "label": "Pipeline Value",
+   "number_card_name": "Pipeline Value"
+  },
+  {
+   "label": "Weighted Pipeline",
+   "number_card_name": "Weighted Pipeline"
+  },
+  {
+   "label": "Won This Month",
+   "number_card_name": "Won This Month"
+  },
+  {
+   "label": "Win Rate (90 Days)",
+   "number_card_name": "Win Rate (90 Days)"
+  }
+ ],
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,

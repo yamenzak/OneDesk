@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 15:03+0000\n"
-"PO-Revision-Date: 2026-09-23 15:03+0000\n"
+"POT-Creation-Date: 2026-09-23 15:09+0000\n"
+"PO-Revision-Date: 2026-09-23 15:09+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -44,6 +44,11 @@ msgstr "<span class=\"h4\"><b>One</b></span>"
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "<span class=\"h4\"><b>Right now</b></span>"
 msgstr "<span class=\"h4\"><b>Gerade jetzt</b></span>"
+
+#. Header text in the OneCRM Workspace
+#: onedesk/one_crm/workspace/onecrm/onecrm.json
+msgid "<span class=\"h4\"><b>The Pipeline</b></span>"
+msgstr "<span class=\"h4\"><b>Die Pipeline</b></span>"
 
 #. Header text in the OneHR Workspace
 #: onedesk/one_hr/workspace/onehr/onehr.json
@@ -1770,10 +1775,23 @@ msgstr "Verbleibende Tage"
 msgid "Days at each status before moving to the next. Zero disables the move."
 msgstr "Tage je Status, bevor der nächste folgt. Null deaktiviert den Wechsel."
 
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_crm/report/deal_forecast/deal_forecast.json
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Deal Forecast"
+msgstr "Deal-Prognose"
+
+#: onedesk/one_crm/report/deal_forecast/deal_forecast.js:19
+#: onedesk/one_crm/report/won_and_lost/won_and_lost.js:21
+msgid "Deal Owner"
+msgstr ""
+
 #: onedesk/public/js/crm_record.js:65
 msgid "Deal Value · {0}%"
 msgstr "Deal-Wert · {0} %"
 
+#: onedesk/one_crm/report/lead_sources/lead_sources.py:67
 #: onedesk/public/js/crm_record.js:105
 msgid "Deals"
 msgstr "Deals"
@@ -2385,6 +2403,10 @@ msgstr "Bestehende Arbeitsbereiche behalten, was sie gekauft haben. Das stoppt n
 msgid "Expected Hrs"
 msgstr ""
 
+#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:65
+msgid "Expected To Close"
+msgstr "Erwarteter Abschluss"
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Expense Claim"
@@ -2615,8 +2637,14 @@ msgstr "Kostenlose Testphase (Tage)"
 msgid "Free for {0} days"
 msgstr "{0} Tage kostenlos"
 
+#: onedesk/one_crm/report/deal_forecast/deal_forecast.js:7
+msgid "From"
+msgstr ""
+
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:7
 #: onedesk/one_ai/report/ai_credits/ai_credits.js:7
+#: onedesk/one_crm/report/lead_sources/lead_sources.js:5
+#: onedesk/one_crm/report/won_and_lost/won_and_lost.js:5
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:7
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:7
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:6
@@ -2754,6 +2782,7 @@ msgstr "Beschwerde"
 msgid "Grievance Type"
 msgstr ""
 
+#: onedesk/one_crm/report/won_and_lost/won_and_lost.js:17
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:85
 msgid "Group By"
 msgstr ""
@@ -3388,10 +3417,25 @@ msgstr "Lead-Zuweisung"
 msgid "Lead Source"
 msgstr ""
 
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_crm/report/lead_sources/lead_sources.json
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Lead Sources"
+msgstr "Lead-Quellen"
+
+#: onedesk/one_crm/report/lead_sources/lead_sources.py:64
+msgid "Leads"
+msgstr ""
+
 #. Label of a shortcut in the OneCRM Workspace
 #: onedesk/one_crm/workspace/onecrm/onecrm.json
 msgid "Leads Due"
 msgstr "Fällige Leads"
+
+#: onedesk/one_crm/report/lead_sources/lead_sources.py:70
+msgid "Leads Won (%)"
+msgstr "Gewonnene Leads (%)"
 
 #. Label of the one_learn_zones (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -3639,7 +3683,16 @@ msgstr "Hat etwas nachgeschlagen"
 
 #. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
 #: onedesk/one_crm/custom/sales_stage.json
+#: onedesk/one_crm/report/won_and_lost/won_and_lost.py:71
 msgid "Lost"
+msgstr ""
+
+#: onedesk/one_crm/report/won_and_lost/won_and_lost.js:23
+msgid "Lost Reason"
+msgstr ""
+
+#: onedesk/one_crm/report/won_and_lost/won_and_lost.py:72
+msgid "Lost Value"
 msgstr ""
 
 #. Option for the 'Urgency' (Select) field in DocType 'Employee Grievance'
@@ -3744,6 +3797,10 @@ msgstr "Darf Werkzeuge nutzen"
 msgid "Measure storage"
 msgstr "Speicher messen"
 
+#: onedesk/one_crm/report/lead_sources/lead_sources.py:66
+msgid "Median First Reply (Hours)"
+msgstr "Median erste Antwort (Stunden)"
+
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json
 msgid "Memory"
@@ -3792,6 +3849,7 @@ msgstr "Modell"
 msgid "Models"
 msgstr "Modelle"
 
+#: onedesk/one_crm/report/won_and_lost/won_and_lost.js:20
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:24
 msgid "Month"
 msgstr ""
@@ -3806,6 +3864,10 @@ msgstr "Monatliche Anwesenheit"
 #: onedesk/one_admin/topup.py:113
 msgid "Monthly credit for {0}"
 msgstr "Monatsguthaben für {0}"
+
+#: onedesk/one_crm/report/deal_forecast/deal_forecast.js:13
+msgid "Months"
+msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
@@ -3949,6 +4011,10 @@ msgstr ""
 msgid "No Answer"
 msgstr ""
 
+#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:47
+msgid "No Closing Date"
+msgstr "Kein Abschlussdatum"
+
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:19
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:38
 msgid "No Location"
@@ -4058,6 +4124,10 @@ msgstr "Nicht abgerechnet"
 #: onedesk/public/js/desk.js:123
 msgid "Not Checked In"
 msgstr "Nicht eingecheckt"
+
+#: onedesk/one_crm/measure.py:124
+msgid "Not Recorded"
+msgstr "Nicht erfasst"
 
 #: onedesk/public/js/crm_record.js:52
 msgid "Not a Duplicate"
@@ -4516,6 +4586,10 @@ msgstr "Nur wer solche Anträge genehmigen darf, kann über diesen entscheiden."
 msgid "Open"
 msgstr ""
 
+#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:66
+msgid "Open Deals"
+msgstr "Offene Deals"
+
 #: onedesk/public/js/account_request.js:37
 msgid "Open Workspace"
 msgstr "Arbeitsbereich öffnen"
@@ -4647,6 +4721,7 @@ msgstr "Speicher überschritten"
 #. Option for the 'Kind' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
+#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:44
 msgid "Overdue"
 msgstr ""
 
@@ -4883,6 +4958,11 @@ msgstr "Pipeline"
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Pipeline Analytics"
 msgstr "Pipeline-Auswertung"
+
+#. Label of a number card in the OneCRM Workspace
+#: onedesk/one_crm/workspace/onecrm/onecrm.json
+msgid "Pipeline Value"
+msgstr "Pipeline-Wert"
 
 #. Label of the place_of_issue (Data) field in DocType 'Employee Document'
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
@@ -5490,6 +5570,10 @@ msgstr ""
 msgid "Removed at Frappe Cloud"
 msgstr "Bei Frappe Cloud entfernt"
 
+#: onedesk/one_crm/report/lead_sources/lead_sources.py:65
+msgid "Replied (%)"
+msgstr "Beantwortet (%)"
+
 #. Label of the wants_section (Section Break) field in DocType 'Account
 #. Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
@@ -5969,6 +6053,8 @@ msgstr "Etwas, das ein Modell vorgeschlagen hat. Es geschieht nichts, bis eine P
 
 #. Label of the source (Select) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+#: onedesk/one_crm/report/lead_sources/lead_sources.py:63
+#: onedesk/one_crm/report/won_and_lost/won_and_lost.js:22
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:217
 #: onedesk/public/js/crm_record.js:111
 msgid "Source"
@@ -6865,6 +6951,8 @@ msgstr "Titel"
 
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:13
 #: onedesk/one_ai/report/ai_credits/ai_credits.js:13
+#: onedesk/one_crm/report/lead_sources/lead_sources.js:11
+#: onedesk/one_crm/report/won_and_lost/won_and_lost.js:11
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:14
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:13
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:13
@@ -7132,6 +7220,7 @@ msgstr ""
 
 #. Label of the value (Long Text) field in DocType 'AI Touch'
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
+#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:67
 msgid "Value"
 msgstr ""
 
@@ -7240,6 +7329,15 @@ msgstr ""
 #: onedesk/one_hr/employee.py:266
 msgid "Weekly off"
 msgstr "Wöchentlicher freier Tag"
+
+#. Label of a number card in the OneCRM Workspace
+#: onedesk/one_crm/workspace/onecrm/onecrm.json
+msgid "Weighted Pipeline"
+msgstr "Gewichtete Pipeline"
+
+#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:68
+msgid "Weighted Value"
+msgstr "Gewichteter Wert"
 
 #. Description of the 'Hours Worked' (Float) field in DocType 'Overtime
 #. Details'
@@ -7486,6 +7584,15 @@ msgstr "Warum haben in den letzten zwölf Monaten Leute gekündigt, und wie viel
 msgid "Why these days should count as worked. HR keeps the list in Attendance Reason."
 msgstr "Warum diese Tage als gearbeitet zählen sollen. Die Liste pflegt die Personalabteilung unter Anwesenheitsgrund."
 
+#: onedesk/one_crm/report/won_and_lost/won_and_lost.py:73
+msgid "Win Rate (%)"
+msgstr "Gewinnquote (%)"
+
+#. Label of a number card in the OneCRM Workspace
+#: onedesk/one_crm/workspace/onecrm/onecrm.json
+msgid "Win Rate (90 Days)"
+msgstr "Gewinnquote (90 Tage)"
+
 #. Option for the 'Status' (Select) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/public/js/ai_model.js:25 onedesk/public/js/ai_model_list.js:13
@@ -7494,8 +7601,28 @@ msgstr "Zurückgezogen"
 
 #. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
 #: onedesk/one_crm/custom/sales_stage.json
+#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:69
+#: onedesk/one_crm/report/lead_sources/lead_sources.py:68
+#: onedesk/one_crm/report/won_and_lost/won_and_lost.py:69
 msgid "Won"
 msgstr "Gewonnen"
+
+#. Label of a number card in the OneCRM Workspace
+#: onedesk/one_crm/workspace/onecrm/onecrm.json
+msgid "Won This Month"
+msgstr "Diesen Monat gewonnen"
+
+#: onedesk/one_crm/report/lead_sources/lead_sources.py:69
+#: onedesk/one_crm/report/won_and_lost/won_and_lost.py:70
+msgid "Won Value"
+msgstr "Gewonnener Wert"
+
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_crm/report/won_and_lost/won_and_lost.json
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Won and Lost"
+msgstr "Gewonnen und verloren"
 
 #. Description of the 'Outcome' (Select) field in DocType 'Sales Stage'
 #: onedesk/one_crm/custom/sales_stage.json

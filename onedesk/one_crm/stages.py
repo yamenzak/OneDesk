@@ -149,6 +149,33 @@ def follow(doc, method=None) -> None:
 		}
 	for name in filter(None, opportunities):
 		_catch_up(name)
+		if doc.doctype == "Quotation" and doc.status == "Lost":
+			carry_reasons(doc, name)
+
+
+def carry_reasons(quotation, opportunity: str) -> None:
+	"""A deal lost because its quotation was lost is lost for the quotation's
+	reasons, so "why we lose" is read from one place. The two reason lists are
+	one list (fixtures), and a reason only the quotation's list has is added."""
+	if frappe.db.exists("Opportunity Lost Reason Detail", {"parent": opportunity, "parenttype": "Opportunity"}):
+		return
+	for idx, row in enumerate(quotation.get("lost_reasons") or [], 1):
+		if not frappe.db.exists("Opportunity Lost Reason", row.lost_reason):
+			frappe.get_doc({"doctype": "Opportunity Lost Reason", "lost_reason": row.lost_reason}).insert(
+				ignore_permissions=True
+			)
+		frappe.get_doc(
+			{
+				"doctype": "Opportunity Lost Reason Detail",
+				"parent": opportunity,
+				"parenttype": "Opportunity",
+				"parentfield": "lost_reasons",
+				"lost_reason": row.lost_reason,
+				"idx": idx,
+			}
+		).db_insert()
+	if quotation.order_lost_reason and not frappe.db.get_value("Opportunity", opportunity, "order_lost_reason"):
+		frappe.db.set_value("Opportunity", opportunity, "order_lost_reason", quotation.order_lost_reason)
 
 
 def _catch_up(name: str) -> None:

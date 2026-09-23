@@ -1,0 +1,37 @@
+[
+ {
+  "doctype": "Opportunity Lost Reason",
+  "name": "Price",
+  "lost_reason": "Price"
+ },
+ {
+  "doctype": "Opportunity Lost Reason",
+  "name": "Went With a Competitor",
+  "lost_reason": "Went With a Competitor"
+ },
+ {
+  "doctype": "Opportunity Lost Reason",
+  "name": "No Budget",
+  "lost_reason": "No Budget"
+ },
+ {
+  "doctype": "Opportunity Lost Reason",
+  "name": "No Decision",
+  "lost_reason": "No Decision"
+ },
+ {
+  "doctype": "Opportunity Lost Reason",
+  "name": "Timing",
+  "lost_reason": "Timing"
+ },
+ {
+  "doctype": "Opportunity Lost Reason",
+  "name": "Not a Fit",
+  "lost_reason": "Not a Fit"
+ },
+ {
+  "doctype": "Opportunity Lost Reason",
+  "name": "Other",
+  "lost_reason": "Other"
+ }
+]

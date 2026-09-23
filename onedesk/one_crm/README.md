@@ -125,6 +125,38 @@ Home is your day, counting only your own leads and deals that are still open:
 
 Each count opens the list it counts.
 
+### Reports and figures
+
+Under Home's **My Day** is **The Pipeline**: four figures, each opening the
+report behind it.
+
+- **Pipeline Value** — what the open deals are worth.
+- **Weighted Pipeline** — the same, each deal counted at its probability.
+- **Won This Month** — what was won since the first of the month.
+- **Win Rate (90 Days)** — of the deals won or lost in the last 90 days, the
+  share that was won.
+
+Three reports, in the **Sales** group:
+
+- **Deal Forecast** — the open deals by the month they are expected to close,
+  with their value, their weighted value, and what was actually won in each
+  month. Deals whose closing date has passed are one row, **Overdue**, and
+  deals with no closing date another, so nothing is left out.
+- **Won and Lost** — deals won and lost, their value, and the win rate, grouped
+  by **Month**, **Deal Owner**, **Source** or **Lost Reason**. A deal lost for two
+  reasons counts under both.
+- **Lead Sources** — for each source, how many leads came in, how many were
+  replied to and how fast, how many became deals, and how many were won. Leads
+  with no source are counted as **Not Recorded**.
+
+**A deal is won or lost on the day it reached a Won or Lost stage**, not the
+last day anybody edited it. Everything above counts from that day.
+
+**One list of reasons a deal is lost.** A new workspace has seven — Price,
+Went With a Competitor, No Budget, No Decision, Timing, Not a Fit and Other —
+on deals and on quotations alike. A deal lost because its quotation was lost
+takes the quotation's reasons, so Won and Lost reads them from one place.
+
 ### Sales stages
 
 A new workspace has six: **New**, **Qualified**, **Proposal**, **Negotiation**,
@@ -242,9 +274,11 @@ none edits erpnext.
 5. **Capture.** *Done* — `capture.py`, `web_form/get_in_touch`. A web form
    that makes a lead, mail to an inbox that makes a lead, duplicates caught on email, phone and business name, leads shared out
    by an Assignment Rule, and the first reply on a lead measured.
-6. **Measured.** A forecast by expected month weighted by stage, won and lost
-   with one list of reasons, which sources turn into sales, and the number
-   cards counting what they say they count.
+6. **Measured.** *Done* — `measure.py`, `report/`, `number_card/`. A
+   forecast by expected month weighted by stage, won and lost with one list of
+   reasons, which sources turn into sales, and number cards counting what they
+   say they count. ERPNext's two wrong cards stay wrong on its own CRM
+   dashboard, which OneCRM does not link to; Home has its own four.
 7. **Screen by screen.** Every group in the rail opened with data in it and
    fixed: fields nobody fills, Company off every filter, names not IDs, and who
    may see and change what.

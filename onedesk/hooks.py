@@ -248,6 +248,9 @@ fixtures = [
 	{"dt": "Translation", "filters": [["name", "like", "one-deal-%"]]},
 	# The tracker that dates every move of an opportunity's stage.
 	{"dt": "Milestone Tracker", "filters": [["name", "=", "Opportunity-sales_stage"]]},
+	# One list of reasons a deal is lost, on a deal and on its quotation alike.
+	{"dt": "Opportunity Lost Reason", "filters": [["name", "in", ["Price", "Went With a Competitor", "No Budget", "No Decision", "Timing", "Not a Fit", "Other"]]]},
+	{"dt": "Quotation Lost Reason", "filters": [["name", "in", ["Price", "Went With a Competitor", "No Budget", "No Decision", "Timing", "Not a Fit", "Other"]]]},
 	# Where a lead from the web form says it came from.
 	{"dt": "UTM Source", "filters": [["name", "=", "Website"]]},
 ]

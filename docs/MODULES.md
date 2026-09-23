@@ -141,6 +141,10 @@ No doctypes yet.
 * `onedesk.one_crm.capture.merge`
 * `onedesk.one_crm.capture.not_duplicate`
 * `onedesk.one_crm.capture.take`
+* `onedesk.one_crm.measure.pipeline`
+* `onedesk.one_crm.measure.weighted`
+* `onedesk.one_crm.measure.win_rate`
+* `onedesk.one_crm.measure.won_this_month`
 * `onedesk.one_crm.next.done`
 * `onedesk.one_crm.record.log_call`
 * `onedesk.one_crm.record.overview`
