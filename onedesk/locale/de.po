@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 21:19+0000\n"
-"PO-Revision-Date: 2026-09-23 21:19+0000\n"
+"POT-Creation-Date: 2026-09-23 21:32+0000\n"
+"PO-Revision-Date: 2026-09-23 21:32+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1334,6 +1334,10 @@ msgstr "Nicht änderbar. Der Speicher wird bei der Erstellung daran gebunden."
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Capability"
 msgstr "Fähigkeit"
+
+#: onedesk/one_project/report/workload/workload.py:147
+msgid "Capacity (Hours)"
+msgstr "Kapazität (Stunden)"
 
 #. Description of the 'Ask for a Photo' (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -2824,6 +2828,10 @@ msgstr "Frappe Cloud richtet sie ein"
 msgid "Frappe Cloud no longer has this domain."
 msgstr "Frappe Cloud hat diese Domain nicht mehr."
 
+#: onedesk/one_project/report/workload/workload.py:149
+msgid "Free (Hours)"
+msgstr "Frei (Stunden)"
+
 #. Label of the trial_days (Int) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Free Trial (Days)"
@@ -3682,6 +3690,7 @@ msgid "Last Worked Out"
 msgstr "Zuletzt berechnet"
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:220
+#: onedesk/one_project/report/workload/workload.py:152
 #: onedesk/public/js/employee.js:44
 msgid "Late"
 msgstr "Verspätet"
@@ -3938,6 +3947,10 @@ msgstr "Live"
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Live On"
 msgstr "Live seit"
+
+#: onedesk/one_project/report/workload/workload.py:150
+msgid "Load (%)"
+msgstr "Auslastung (%)"
 
 #. Label of the place_section (Section Break) field in DocType 'Clock Attempt'
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:301
@@ -4277,6 +4290,7 @@ msgstr "Meine Aufgaben"
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
+#: onedesk/one_project/report/workload/workload.py:146
 #: onedesk/public/js/leave_control_panel.js:34
 msgid "Name"
 msgstr ""
@@ -4543,6 +4557,10 @@ msgstr "Nicht abgerechnet"
 #: onedesk/public/js/desk.js:123
 msgid "Not Checked In"
 msgstr "Nicht eingecheckt"
+
+#: onedesk/one_project/report/workload/workload.py:153
+msgid "Not Estimated"
+msgstr "Nicht geschätzt"
 
 #: onedesk/one_crm/measure.py:144
 msgid "Not Recorded"
@@ -5414,6 +5432,7 @@ msgid "Per Call"
 msgstr "Pro Aufruf"
 
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:41
+#: onedesk/one_project/report/workload/workload.py:145
 msgid "Person"
 msgstr "Person"
 
@@ -5490,6 +5509,10 @@ msgstr "Tarif"
 #: onedesk/one_hr/ai.py:188
 msgid "Plan the first two weeks"
 msgstr "Die ersten zwei Wochen planen"
+
+#: onedesk/one_project/report/workload/workload.py:148
+msgid "Planned (Hours)"
+msgstr "Geplant (Stunden)"
 
 #. Label of the platform (Data) field in DocType 'Clock Attempt'
 #. Label of the platform (Data) field in DocType 'Clock Device'
@@ -5628,6 +5651,7 @@ msgstr ""
 
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:25
 #: onedesk/one_project/report/project_tree/project_tree.py:46
+#: onedesk/one_project/report/workload/workload.js:7
 #: onedesk/public/js/timesheet.js:49
 msgid "Project"
 msgstr ""
@@ -7066,6 +7090,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_project/calendar.py:17
+#: onedesk/one_project/report/workload/workload.py:151
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Tasks"
@@ -8076,6 +8101,10 @@ msgstr "Webhook-Signaturgeheimnis"
 msgid "Week"
 msgstr ""
 
+#: onedesk/one_project/report/workload/workload.js:6
+msgid "Week Of"
+msgstr "Woche vom"
+
 #. Option for the 'frequency' (Select) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
 msgid "Weekly"
@@ -8481,7 +8510,11 @@ msgid "Working on a Holiday"
 msgstr "Arbeit an einem freien Tag"
 
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
+#. Name of a report
+#. Label of a Sidebar Item
 #: onedesk/one_hr/custom/employee_grievance.json
+#: onedesk/one_project/report/workload/workload.json
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Workload"
 msgstr "Arbeitslast"
 

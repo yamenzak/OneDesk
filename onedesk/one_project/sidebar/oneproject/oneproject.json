@@ -5,7 +5,7 @@
  "doctype": "Sidebar",
  "header_icon": "oneproject",
  "idx": 0,
- "modified": "2026-09-26 12:00:00.000000",
+ "modified": "2026-09-27 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Project",
  "name": "OneProject",
@@ -38,6 +38,19 @@
    "type": "Link",
    "link_to": "Project Tree",
    "icon": "list-tree"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Workload",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Workload",
+   "icon": "gauge"
   },
   {
    "child": 0,

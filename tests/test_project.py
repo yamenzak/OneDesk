@@ -324,3 +324,33 @@ def test_a_customer_reaches_their_projects_and_nothing_of_the_team():
 	assert "_assign" not in html and "timesheet" not in html.lower() and "/tasks/new" not in html, "nothing of the team's"
 	fields = source.split('"Task",', 1)[1].split("order_by", 1)[0]
 	assert "_assign" not in fields and "owner" not in fields
+
+
+def test_a_tasks_hours_fall_in_the_days_of_the_week_they_cover():
+	from datetime import date, timedelta
+
+	today = date(2026, 9, 24)
+	space = _load(
+		PROJECT / "report" / "workload" / "workload.py",
+		("in_week", "load"),
+		getdate=lambda value: value,
+		date_diff=lambda a, b: (a - b).days,
+		nowdate=lambda: today,
+	)
+	in_week = space["in_week"]
+	monday, sunday = date(2026, 9, 21), date(2026, 9, 27)
+	assert in_week(date(2026, 9, 25), date(2026, 10, 2), monday, sunday, 24) == 9, "three of eight days"
+	assert in_week(None, date(2026, 9, 26), monday, sunday, 6) == 6, "a due date alone is a day"
+	assert in_week(None, date(2026, 9, 10), monday, sunday, 3) == 3, "late work is this week's"
+	assert in_week(None, date(2026, 9, 10), monday + timedelta(7), sunday + timedelta(7), 3) is None, "not next week's"
+	assert in_week(date(2026, 10, 1), date(2026, 10, 3), monday, sunday, 5) is None
+	assert space["load"](12, 40) == 30 and space["load"](5, 0) is None
+
+
+def test_workload_is_a_report_of_figures_in_the_rail():
+	source = (PROJECT / "report" / "workload" / "workload.py").read_text()
+	assert 'frappe.get_list(\n\t\t"Task"' in source, "only what the reader may see"
+	assert '"standard_working_hours"' in source and '"Leave Application"' in source
+	rail = json.loads((PROJECT / "sidebar" / "oneproject" / "oneproject.json").read_text())
+	assert any(item.get("link_to") == "Workload" and item.get("link_type") == "Report" for item in rail["items"])
+	assert "chart" not in (PROJECT / "report" / "workload" / "workload.js").read_text().lower().replace("not a chart", "")

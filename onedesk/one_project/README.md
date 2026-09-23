@@ -21,6 +21,7 @@ well as on the project's board.
 
 - **Projects** — every project you may see.
 - **Project Tree** — every project under its parent, with its own figures.
+- **Workload** — who has how many hours of open work in a week.
 - **Tasks** — every task, in projects and out of them (OneTask's list).
 - **Timesheet** — the time people have logged.
 - Under **Setup**, **Project Template**, **Project Type**, **Activity Type**,
@@ -175,6 +176,28 @@ and **Message** are what the ask says.
 Where the workspace sends mail, everybody on the project also gets the
 day's updates by email the next morning.
 
+## Who has room this week
+
+**Workload** in the rail shows each person with open tasks in a week — this
+week unless you pick another, and every project unless you pick one:
+
+- **Capacity (Hours)** — their working days that week, less holidays and
+  approved leave, times the working day set in HR Settings (**Standard Working
+  Hours**, 8 when it is not set).
+- **Planned (Hours)** — the hours still to do on their tasks that fall in the
+  week: a task's **Expected Time** less the time already logged on it, spread
+  over the days from its start to its due date. Late work counts in full this
+  week. A task given to two people counts half to each.
+- **Free (Hours)** and **Load (%)** — red once they are over.
+- **Tasks** (press it for the list) and **Late**, how many of them are past
+  their date.
+- **Not Estimated** — how many of their tasks that week have no Expected Time.
+  Hours are only as good as the estimates, so a light week with five
+  unestimated tasks is not a light week.
+
+Give tasks an **Expected Time** and a date and the figures follow; nothing else
+has to be kept up. You only see the tasks you may see.
+
 ## What the customer sees
 
 A customer can follow their projects on the website. On the customer's
@@ -289,6 +312,11 @@ one field for it.
   (additional_timeline_content) shows the answers in the project's activity.
   Their morning summary still runs, where mail goes (`sum_up`). Hourly is off
   the Frequency choices.
+- `report/workload` — Workload: planned hours from ERPNext's Expected Time
+  and Actual Time on the reader's visible tasks (`in_week`, `load` pure),
+  capacity from the holiday list (the employee's, else the company's), HR
+  Settings' Standard Working Hours and approved Leave Applications. Figures,
+  not a chart.
 - `portal.py` and `www/projects.py` — ERPNext's portal, reachable. Its list
   (/project) reads the Customer's Portal Users, which Invite as User never
   filled (`invited`, Contact on_update, fills it); a customer signing in was
@@ -376,7 +404,9 @@ stage below that touches tasks keeps them:
    list and open a project, which shows its progress, end, milestones,
    sub-projects, tasks, order and invoices, and nothing of the team's. A
    customer adding tasks or commenting is not built.
-10. **Workload.** Who has how many hours of open work this week, from expected
-    time on the tasks assigned to them.
+10. **Workload.** *Done.* Who has how many hours of open work in a week, from
+    the expected time left on the tasks assigned to them, against their working
+    days less holidays and leave, with what is late and what is not estimated.
+    Moving work between people is done on the tasks, not here.
 11. **The old OneProject.** It left OneApp in `56216d9a`; read it from there,
     take what it had that this does not.
