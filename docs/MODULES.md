@@ -90,10 +90,16 @@ No doctypes yet.
 
 No doctypes yet.
 
+## One Book
+
+`onedesk/one_book`
+
+No doctypes yet.
+
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
-* **sidebar** — one, one_admin, onecalendar, onecrm, onehr, oneproject, onetask
+* **sidebar** — one, one_admin, onebook, onecalendar, onecrm, onehr, oneproject, onetask
 * **workspace** — one, one_admin, onecrm, onehr, onehr_setup
 
 ## Whitelisted methods

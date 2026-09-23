@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 21:40+0000\n"
-"PO-Revision-Date: 2026-09-23 21:40+0000\n"
+"POT-Creation-Date: 2026-09-23 22:02+0000\n"
+"PO-Revision-Date: 2026-09-23 22:02+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -387,6 +387,11 @@ msgstr "Kontoanfrage"
 #. 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "Accounting"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Accounts Settings"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -1081,6 +1086,36 @@ msgstr "Sicherung vor der Archivierung"
 msgid "Balance"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Balance Sheet"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Bank"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Bank Accounts"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Bank Statement Import"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Bank Transaction Rules"
+msgstr "Regeln für Banktransaktionen"
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Bank Transactions"
+msgstr "Banktransaktionen"
+
 #. Label of the press_url (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Base URL"
@@ -1149,6 +1184,11 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Billing and Storage"
 msgstr "Abrechnung und Speicher"
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Bills"
+msgstr "Eingangsrechnungen"
 
 #. Label of the 'bio' field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
@@ -1349,6 +1389,11 @@ msgstr "Kapazität (Stunden)"
 msgid "Captures a frame from the camera at check-in. Choosing an existing file instead is not allowed."
 msgstr "Nimmt beim Einchecken ein Bild mit der Kamera auf. Stattdessen eine vorhandene Datei zu wählen, ist nicht erlaubt."
 
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Cash Flow"
+msgstr ""
+
 #. Label of the one_ai_category (Select) field in DocType 'Employee Grievance'
 #: onedesk/one_hr/custom/employee_grievance.json
 msgid "Category"
@@ -1382,6 +1427,11 @@ msgstr "Eine Preis- oder Kontingentänderung hier ändert deren nicht."
 #: onedesk/public/js/ai_model.js:41
 msgid "Charged at {0}× what the provider charges."
 msgstr "Berechnet mit dem {0}-Fachen dessen, was der Anbieter verlangt."
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Chart of Accounts"
+msgstr ""
 
 #. Label of the signal (Data) field in DocType 'Clock Signal'
 #: onedesk/one_hr/doctype/clock_signal/clock_signal.json
@@ -1743,6 +1793,11 @@ msgstr ""
 msgid "Cost"
 msgstr "Kosten"
 
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Cost Centers"
+msgstr ""
+
 #: onedesk/public/js/workspace_account.js:60
 msgid "Could not reach your account. Showing what was last known."
 msgstr "Ihr Konto war nicht erreichbar. Angezeigt wird der zuletzt bekannte Stand."
@@ -1798,6 +1853,11 @@ msgstr "Zugangsdaten des Frappe-Cloud-Kontos, das die Kundensites hostet."
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 msgid "Credit Ledger Entry"
 msgstr "Guthabenbuchung"
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Credit Notes"
+msgstr "Gutschriften"
 
 #. Option for the 'Kind' (Select) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
@@ -1891,6 +1951,11 @@ msgstr ""
 msgid "Customer Group"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Customers"
+msgstr ""
+
 #. Option for the 'frequency' (Select) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
 msgid "Daily"
@@ -1956,6 +2021,11 @@ msgstr "Deals"
 #: onedesk/one_crm/workspace/onecrm/onecrm.json
 msgid "Deals Due"
 msgstr "Fällige Deals"
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Debit Notes"
+msgstr "Belastungsanzeigen"
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:38
 msgid "Dec"
@@ -2780,6 +2850,11 @@ msgstr "Erstmals gesehen"
 msgid "First steps"
 msgstr "Erste Schritte"
 
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Fiscal Years"
+msgstr "Geschäftsjahre"
+
 #: onedesk/public/js/oneai/Panel.vue:274
 msgid "Fix spelling and grammar"
 msgstr "Rechtschreibung und Grammatik korrigieren"
@@ -2908,6 +2983,11 @@ msgstr "Gateway-Name"
 msgid "Gateway Token"
 msgstr "Gateway-Token"
 
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "General Ledger"
+msgstr ""
+
 #. Title of the get-in-touch Web Form
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 msgid "Get in Touch"
@@ -3016,6 +3096,11 @@ msgstr ""
 
 #: onedesk/one_project/report/project_tree/project_tree.py:59
 msgid "Gross Margin"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Gross Profit"
 msgstr ""
 
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:17
@@ -3480,6 +3565,11 @@ msgstr ""
 msgid "Invoice Time"
 msgstr "Zeit abrechnen"
 
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Invoices"
+msgstr ""
+
 #. Label of the issued_section (Section Break) field in DocType 'Employee
 #. Letter'
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
@@ -3501,6 +3591,11 @@ msgstr "Ausgestellt am"
 #: onedesk/public/js/project.js:181
 msgid "Item"
 msgstr "Artikel"
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Item Tax Templates"
+msgstr "Artikelsteuervorlagen"
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:27
 msgid "Jan"
@@ -3546,6 +3641,11 @@ msgstr ""
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Joining & Leaving"
 msgstr "Eintritt & Austritt"
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Journal Entries"
+msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:33
 msgid "July"
@@ -4225,6 +4325,11 @@ msgstr "Modell"
 msgid "Models"
 msgstr "Modelle"
 
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Modes of Payment"
+msgstr ""
+
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:163
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:20
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:24
@@ -4244,6 +4349,11 @@ msgstr "Monatsguthaben für {0}"
 
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.js:13
 msgid "Months"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "More"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
@@ -4946,6 +5056,11 @@ msgid "OneAI could not be reached just now. The question is still here — try a
 msgstr "OneAI war gerade nicht erreichbar. Die Frage steht noch da — versuchen Sie es erneut."
 
 #. Title of a Sidebar
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "OneBook"
+msgstr "OneBook"
+
+#. Title of a Sidebar
 #. Name of a Workspace
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_crm/workspace/onecrm/onecrm.json
@@ -5103,6 +5218,11 @@ msgstr "Öffnen"
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:190
 msgid "Opening"
 msgstr "Stellenausschreibung"
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Opening Invoices"
+msgstr ""
 
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:37
 msgid "Opening Status"
@@ -5368,6 +5488,11 @@ msgstr "Über den veranschlagten Stunden."
 msgid "Pay"
 msgstr "Vergütung"
 
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Payables"
+msgstr ""
+
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 msgid "Paying"
@@ -5377,6 +5502,11 @@ msgstr "Zahlung läuft"
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 msgid "Payload"
 msgstr "Nutzdaten"
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Payment Terms"
+msgstr ""
 
 #: onedesk/www/start.py:50
 msgid "Payment is taken by Stripe. A plan with a trial takes your card now and charges it when the trial ends."
@@ -5402,6 +5532,11 @@ msgstr "Zahlung überfällig. Dieser Arbeitsbereich wird heute Nacht gesperrt."
 #: onedesk/www/welcome.py:18 onedesk/www/welcome.py:19
 msgid "Payment received. The workspace is being built."
 msgstr "Zahlung eingegangen. Der Arbeitsbereich wird angelegt."
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Payments"
+msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -5454,6 +5589,11 @@ msgstr "Je"
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:48
 msgid "Per Call"
 msgstr "Pro Aufruf"
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Period Closing"
+msgstr "Periodenabschluss"
 
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:41
 #: onedesk/one_project/report/workload/workload.py:145
@@ -5669,6 +5809,11 @@ msgstr ""
 msgid "Professional Tax Deductions"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Profit and Loss"
+msgstr ""
+
 #: onedesk/www/projects.html:17
 msgid "Progress"
 msgstr ""
@@ -5822,6 +5967,11 @@ msgstr "Veröffentlichte Preise"
 msgid "Purchase"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Purchase Tax Templates"
+msgstr "Einkaufssteuervorlagen"
+
 #. Label of the purpose (Small Text) field in DocType 'Employee Letter'
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 msgid "Purpose"
@@ -5951,6 +6101,11 @@ msgstr "Angezeigter Grund"
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Reasons offered to employees on check out."
 msgstr "Gründe, die Mitarbeitern beim Auschecken angeboten werden."
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Receivables"
+msgstr ""
 
 #. Label of the record (Data) field in DocType 'AI Proposal'
 #. Label of the record (Dynamic Link) field in DocType 'AI Touch'
@@ -6177,6 +6332,11 @@ msgstr "Beantwortet (%)"
 msgid "Reply to this email with your update."
 msgstr "Antworten Sie auf diese E-Mail mit Ihrem Update."
 
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Reports"
+msgstr ""
+
 #. Label of the wants_section (Section Break) field in DocType 'Account
 #. Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
@@ -6350,6 +6510,11 @@ msgstr ""
 #: onedesk/public/js/crm_record.js:81
 msgid "Sales Stage"
 msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Sales Tax Templates"
+msgstr "Verkaufssteuervorlagen"
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:310
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:52
@@ -6573,6 +6738,7 @@ msgid "Settled"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -6796,6 +6962,11 @@ msgstr "Beginnt am"
 msgid "State"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Statements"
+msgstr "Kontoauszüge"
+
 #. Label of the status (Data) field in DocType 'Workspace Account'
 #. Label of the status (Data) field in DocType 'Workspace Domain'
 #. Label of the status (Select) field in DocType 'Account Request'
@@ -7000,6 +7171,11 @@ msgstr "Das Buchen zahlt {0} {1} für {2} Tage {3}."
 msgid "Subscribe"
 msgstr "Abonnieren"
 
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Subscriptions"
+msgstr ""
+
 #: onedesk/one_crm/ai.py:48 onedesk/one_crm/ai.py:91
 msgid "Suggest the next step"
 msgstr "Nächsten Schritt vorschlagen"
@@ -7036,6 +7212,11 @@ msgstr ""
 
 #: onedesk/public/js/opportunity.js:18
 msgid "Supplier Quotation"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Suppliers"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
@@ -7135,6 +7316,11 @@ msgstr "In diesem Projekt erstellte Aufgaben werden damit benannt, etwa WEB-14. 
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Tax & Benefits"
 msgstr "Steuern & Leistungen"
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Tax Rules"
+msgstr "Steuerregeln"
 
 #. Label of the press_team (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -7854,6 +8040,11 @@ msgstr ""
 msgid "Treat as a Site"
 msgstr "Als Einsatzort behandeln"
 
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "Trial Balance"
+msgstr ""
+
 #: onedesk/public/js/job.js:83
 msgid "Tried {0} times."
 msgstr "{0}-mal versucht."
@@ -7894,6 +8085,16 @@ msgstr ""
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 msgid "Type"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "UAE VAT 201"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_book/sidebar/onebook/onebook.json
+msgid "UAE VAT Settings"
 msgstr ""
 
 #. Label of the usd (Float) field in DocType 'AI Model Rate'

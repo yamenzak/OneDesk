@@ -17,9 +17,9 @@
    "added": 0,
    "hidden": 0,
    "icon": "onebook",
-   "link_to": "Accounts",
+   "link_to": "OneBook",
    "link_type": "Sidebar",
-   "title": "Books"
+   "title": "OneBook"
   },
   {
    "added": 0,
@@ -70,7 +70,7 @@
    "title": "One Admin"
   }
  ],
- "modified": "2026-09-26 10:00:00.000000",
+ "modified": "2026-09-28 20:00:00.000000",
  "modified_by": "Administrator",
  "name": "onedesk",
  "owner": "Administrator",
