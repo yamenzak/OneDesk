@@ -135,7 +135,7 @@
   {
    "child": 0,
    "collapsible": 1,
-   "icon": "sparkles",
+   "icon": "oneai",
    "indent": 1,
    "keep_closed": 0,
    "label": "OneAI",
@@ -183,7 +183,7 @@
    "idx": 14
   }
  ],
- "modified": "2026-09-23 15:00:00.000000",
+ "modified": "2026-09-23 16:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin",
