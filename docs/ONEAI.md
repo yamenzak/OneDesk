@@ -1042,6 +1042,30 @@ Thursday 24 and Friday 25 September booked as one day of Annual Leave with
 Friday named as the weekly off, and Approve making HR-LAP-2026-00002 for her
 approver. Just under two credits for the whole conversation.
 
+**What a model is told about a type, and what happens when it guesses.**
+On a list or a form the context turn carries the type's fields — fieldname,
+label, required — and who the reader is, with OneHR adding their employee
+record through the `one_ai_reader` hook; "my leave" had been a filter on an
+invented `applicant` field with the value "me". `describe_type` says what is
+required, what shows when, the options of a Select, a table's own fields, and
+what the system fills itself; hidden fields, Company among them, are left out.
+
+A new record is tried before it becomes a card: frappe's link check, then the
+doctype's own `validate` inside a savepoint that is always rolled back, then
+what is still required. That is where HRMS says a leave needs an approver, so
+the model hears it and asks, instead of the person pressing Approve on a card
+that fails. Before that, what frappe can resolve without guessing is resolved:
+a field named by its label is that field (`due_date` is ToDo's `date`), and a
+link given as a title is that record when exactly one the reader may see has
+it. A field the type does not have is refused with the list of fields it does
+have, for reads as well — frappe's own "no permission to access field" read to
+a model as "this cannot be done".
+
+Every value on a card is frappe's own formatter's: the site's date format,
+money with its currency, a link as its record's title. A record read twice
+while answering one question is one card, and the reply says in a sentence
+what the cards add up to rather than listing them again.
+
 ## What is deliberately not here
 
 **No model is named in application code.** An action names a capability; a

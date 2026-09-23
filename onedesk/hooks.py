@@ -293,5 +293,8 @@ code_only_modules = {"One AI": ["One"]}
 # person asking; suggests write a card. Suggestions are what the panel offers
 # when it opens on a page. See one_ai/tools.py and one_ai/suggest.py.
 one_ai_reads = ["onedesk.one_hr.ai.my_leave"]
+
+#: A sentence each about who is asking, added to what the model is told.
+one_ai_reader = ["onedesk.one_hr.ai.reader"]
 one_ai_suggests = ["onedesk.one_hr.ai.claim_expense", "onedesk.one_hr.ai.book_leave"]
 one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS"]

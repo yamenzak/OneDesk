@@ -46,7 +46,7 @@
   "capability": "Text Generation",
   "enabled": 1,
   "may_use_tools": 1,
-  "instruction": "Hold a conversation about this workspace.\nAnswer what was asked and stop; do not offer a summary of what you did.",
+  "instruction": "Hold a conversation about this workspace.\nAnswer what was asked and stop; do not offer a summary of what you did.\nRecords you looked up are already on screen as cards: never list them or their fields; answer in one sentence about them.",
   "max_output_tokens": 800,
   "max_input_tokens": 0,
   "about": "The assistant in the panel. Answers from your records and suggests changes rather than making them."

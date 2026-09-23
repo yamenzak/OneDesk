@@ -217,3 +217,49 @@ def test_only_the_first_paragraph_reaches_a_model():
 		"""
 
 	assert schema.of(one)["description"] == "What it does."
+
+
+def test_a_new_record_is_tried_before_it_becomes_a_card():
+	"""Frappe's own checks, and the doctype's own validate, rolled back — so a
+	card never fails at Approve on a field nobody was asked for."""
+	proposals = (tree.APP / "one_ai" / "proposals.py").read_text()
+	propose = proposals.split("def propose(", 1)[1].split("\ndef ", 1)[0]
+	assert "_ready(doctype, changes)" in propose
+	ready = proposals.split("def _ready(", 1)[1].split("\ndef ", 1)[0]
+	for step in ("get_invalid_links(", 'run_method("validate")', "_get_missing_mandatory_fields(", "rollback(save_point="):
+		assert step in ready, step
+	assert ready.index("savepoint(") < ready.index('run_method("validate")') < ready.index("rollback(")
+
+
+def test_describing_a_type_says_what_is_required_and_what_the_system_fills():
+	said = (tree.APP / "one_ai" / "tools.py").read_text().split("def _fields(", 1)[1].split("\ndef ", 1)[0]
+	for key in ('"required"', '"required_when"', '"filled_by_the_system"', '"options"', '"rows"', "f.hidden"):
+		assert key in said, key
+
+
+def test_a_field_the_type_lacks_is_refused_with_the_ones_it_has():
+	"""frappe's own answer to an unknown field is a permission error, which a
+	model reads as "cannot be done" and stops."""
+	said = (tree.APP / "one_ai" / "tools.py").read_text()
+	for tool in ("list_records", "count_records"):
+		body = said.split(f"def {tool}(", 1)[1].split("\ndef ", 1)[0]
+		assert "_known(doctype" in body, tool
+	assert "fields_of(meta)" in said.split("def _known(", 1)[1].split("\ndef ", 1)[0]
+
+
+def test_only_what_frappe_can_resolve_without_guessing_is_resolved():
+	"""A label is its field; a title is its record only when exactly one the
+	reader may see has it — through get_list, so their permissions hold."""
+	said = (tree.APP / "one_ai" / "proposals.py").read_text()
+	understood = said.split("def _understood(", 1)[1].split("\ndef ", 1)[0]
+	assert "frappe.scrub(f.label)" in understood
+	titled = said.split("def _titled(", 1)[1].split("\ndef ", 1)[0]
+	assert "frappe.get_list(" in titled and "len(found) == 1" in titled
+
+
+def test_the_model_is_told_who_is_asking_and_what_the_type_holds():
+	said = (tree.APP / "one_ai" / "chat.py").read_text()
+	asked = said.split("def _asked(", 1)[1].split("\ndef ", 1)[0]
+	assert "_today()" in asked and "_reader()" in asked
+	assert 'frappe.get_hooks("one_ai_reader")' in said
+	assert "_fields_said(doctype)" in said.split("def _page(", 1)[1].split("\ndef ", 1)[0]

@@ -27,11 +27,11 @@
 							<span v-if="row.side" class="one-ai-rec__amount">{{ row.side }}</span>
 						</div>
 						<div v-if="row.notes.length" class="one-ai-rec__row-notes">
-							{{ row.notes.map(shown).join(" · ") }}
+							{{ row.notes.join(" · ") }}
 						</div>
 					</div>
 				</dd>
-				<dd v-else>{{ shown(field.value) }}</dd>
+				<dd v-else>{{ field.value }}</dd>
 			</div>
 		</dl>
 
@@ -117,15 +117,6 @@ const settled = computed(() => {
 	if (card.state === "Stale") return __("The record changed after this was suggested.");
 	return card.state;
 });
-
-// A date the way the reader writes dates, a whole number without its ".0",
-// and everything else as it came.
-function shown(value) {
-	const text = String(value ?? "");
-	if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return frappe.datetime.str_to_user(text);
-	if (/^-?\d+\.0+$/.test(text)) return text.replace(/\.0+$/, "");
-	return text;
-}
 
 function open(name) {
 	frappe.set_route("Form", doctype.value, name);

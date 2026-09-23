@@ -243,3 +243,13 @@ def test_the_persona_is_said_once_rather_than_four_times():
 			assert rule not in row["instruction"].lower(), (
 				f"{row['name']} repeats the persona: {rule}"
 			)
+
+
+def test_the_persona_says_the_cards_are_already_on_screen():
+	"""Otherwise it lists back every record the cards above it just drew."""
+	import json
+
+	settings = json.loads((tree.APP / "one_admin" / "doctype" / "one_admin_settings" / "one_admin_settings.json").read_text())
+	persona = next(f for f in settings["fields"] if f["fieldname"] == "persona")["default"]
+	assert "as a card" in persona
+	assert "name the records you used" not in persona

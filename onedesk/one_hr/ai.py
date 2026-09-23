@@ -163,6 +163,17 @@ def kind(said: str | None, description: str | None, types: list[str]) -> str | N
 	return by_name.get("others") or by_name.get("other") or types[0]
 
 
+def reader() -> str:
+	"""The reader's own employee record, for the `one_ai_reader` hook."""
+	employee = own.employee_of()
+	if not employee:
+		return ""
+	return (
+		f"Their employee record is {employee}; their own records of any HR type are the ones "
+		"whose employee field is that."
+	)
+
+
 # ----------------------------------------------------------------- leave
 
 

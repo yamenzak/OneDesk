@@ -294,7 +294,7 @@ def _suggests(row: dict) -> dict:
 
 	meta = frappe.get_meta(doctype) if doctype and frappe.db.exists("DocType", doctype) else None
 	labels = {field.fieldname: field.label or field.fieldname for field in (meta.fields if meta else [])}
-	links = {f.fieldname: f.options for f in (meta.fields if meta else []) if f.fieldtype == "Link"}
+	known = {field.fieldname: field for field in (meta.fields if meta else [])}
 	# In the form's own order: stored JSON comes back alphabetical, which put
 	# "Asked For On" on the card and pushed "To Date" off it.
 	place = {name: at for at, name in enumerate(labels)}
@@ -302,14 +302,12 @@ def _suggests(row: dict) -> dict:
 	tables = {f.fieldname: f.options for f in (meta.fields if meta else []) if f.fieldtype in frappe.model.table_fields}
 	for field, value in ordered[:FIELDS]:
 		if field in tables and isinstance(value, list):
-			fields.append({"label": frappe._(labels.get(field, field)), "rows": _card_rows(tables[field], value)})
+			fields.append({"label": frappe._(labels.get(field, field)), "rows": _card_rows(tables[field], value, changes)})
 			continue
 		fields.append(
 			{
 				"label": frappe._(labels.get(field, field)),
-				# A Text Editor's value is markup; the card is text. A link is
-				# the record's title — "Rania Sabbagh", not HR-EMP-00001.
-				"value": _titled(links[field], value) if field in links and value else _card_value(value),
+				"value": _formatted(known[field], value, changes) if field in known else _card_value(value),
 			}
 		)
 
@@ -385,14 +383,22 @@ def shown(turns: list[dict]) -> list[dict]:
 			ran[str(one.get("id") or one.get("tool"))] = one
 
 	said = []
+	seen: set = set()
 	for one in turns:
 		role = one.get("role")
 		if role == "tool" or any(one.get(quiet) for quiet in QUIET):
 			continue
+		if role != "model":
+			seen = set()  # a new question: its answer draws its own records
 		looked = [
 			_looked(call, ran.get(str(call.get("id") or call.get("tool"))))
 			for call in one.get("calls") or []
 		]
+		# A record read twice while answering one question is one card.
+		for look in looked:
+			fresh = [rec for rec in look.get("records") or [] if (rec.get("doctype"), rec.get("name")) not in seen]
+			seen |= {(rec.get("doctype"), rec.get("name")) for rec in fresh}
+			look["records"] = fresh
 		said.append(
 			{
 				"role": "model" if role == "model" else "you",
@@ -472,7 +478,7 @@ def _drawn(doctype: str, row: dict, most: int = FIELDS) -> dict:
 		value = row.get(field.fieldname)
 		if value in (None, "", 0) or field.fieldtype in NOT_ON_A_CARD:
 			continue
-		fields.append({"label": frappe._(field.label or field.fieldname), "value": str(value)})
+		fields.append({"label": frappe._(field.label or field.fieldname), "value": _formatted(field, value, row)})
 		if len(fields) >= most:
 			break
 
@@ -482,6 +488,27 @@ def _drawn(doctype: str, row: dict, most: int = FIELDS) -> dict:
 		"title": str(titled or row.get("name") or ""),
 		"fields": fields,
 	}
+
+
+#: Kept as the text they are: frappe's formatter turns their newlines into <br>.
+AS_TEXT = {"Data", "Small Text", "Text", "Long Text", "Text Editor", "HTML Editor", "Markdown Editor", "Code"}
+
+
+def _formatted(df, value, doc: dict | None = None) -> str:
+	"""A value as the form would show it: frappe's own formatter, so a date is
+	in the site's date format and money carries its currency. A link is its
+	record's title, and text stays text."""
+	if value in (None, ""):
+		return ""
+	if df.fieldtype == "Link" and df.options:
+		return _titled(df.options, value)
+	if df.fieldtype == "Check":
+		return frappe._("Yes") if value else frappe._("No")
+	if df.fieldtype in AS_TEXT or isinstance(value, (list, dict)):
+		return _card_value(value)
+	from frappe.utils.formatters import format_value
+
+	return strip_html_tags(str(format_value(value, df, doc=frappe._dict(doc or {})))).strip()
 
 
 def _titled(doctype: str, name) -> str:
@@ -497,12 +524,11 @@ def _titled(doctype: str, name) -> str:
 	return str(name)
 
 
-def _card_rows(doctype: str, rows: list) -> list[dict]:
+def _card_rows(doctype: str, rows: list, parent: dict | None = None) -> list[dict]:
 	"""A child table's rows as a card draws them: what the row is, its amount
 	on the right, and the kind and date underneath — rather than every value in
 	a line joined by dots."""
 	meta = frappe.get_meta(doctype)
-	kinds = {f.fieldname: f.fieldtype for f in meta.fields}
 	drawn = []
 	for row in rows:
 		if not isinstance(row, dict):
@@ -511,13 +537,15 @@ def _card_rows(doctype: str, rows: list) -> list[dict]:
 		for field, value in row.items():
 			if value in (None, ""):
 				continue
-			kind = kinds.get(field)
+			df = meta.get_field(field)
+			kind = df.fieldtype if df else None
+			shown = _formatted(df, value, {**row, **(parent or {})}) if df else str(value)
 			if kind in ("Currency", "Float", "Int", "Percent") and not side:
-				side = frappe.utils.fmt_money(value) if kind == "Currency" else f"{value:g}"
+				side = shown
 			elif kind in ("Link", "Select", "Date", "Datetime"):
-				notes.append(str(value))
+				notes.append(shown)
 			else:
-				main.append(strip_html_tags(str(value)).strip())
+				main.append(shown)
 		drawn.append({"main": " ".join(main) or (notes.pop(0) if notes else ""), "side": side, "notes": notes})
 	return drawn
 
@@ -555,7 +583,7 @@ def _asked(
 	# The model has no clock: asked for "Friday off" it books a Friday from its
 	# training data. Today goes into every turn, not once per conversation, so a
 	# chat picked up tomorrow still counts from the right day.
-	where = " ".join(one for one in (_today(), where) if one)
+	where = " ".join(one for one in (_today(), _reader(), where) if one)
 	turns = [{"role": "user", "text": where, "calls": [], "context": True}]
 	turns.append(
 		{
@@ -569,6 +597,22 @@ def _asked(
 		}
 	)
 	return turns
+
+
+def _reader() -> str:
+	"""Who is asking, so "my" and "me" are somebody.
+
+	Without it a model asked for "my leave" filters on a field it invents with
+	the value "me". A module that knows more about the reader — OneHR, their
+	employee record — says it through the `one_ai_reader` hook.
+	"""
+	user = frappe.session.user
+	said = [f"The reader is {frappe.utils.get_fullname(user)} ({user})."]
+	for path in frappe.get_hooks("one_ai_reader"):
+		one = frappe.get_attr(path)()
+		if one:
+			said.append(one)
+	return " ".join(said)
 
 
 def _today() -> str:
@@ -592,12 +636,23 @@ def _page(page: dict | str | None) -> str:
 	record = (page.get("name") or "").strip()
 	view = (page.get("view") or "").strip()
 	if doctype and record:
-		return f"The reader is looking at the {doctype} record {record}."
+		return f"The reader is looking at the {doctype} record {record}.{_fields_said(doctype)}"
 	if doctype:
 		filters = page.get("filters")
 		narrowed = f", narrowed to {json.dumps(filters)}" if filters else ""
-		return f"The reader is looking at a {view or 'list'} of {doctype}{narrowed}."
+		return f"The reader is looking at a {view or 'list'} of {doctype}{narrowed}.{_fields_said(doctype)}"
 	return f"The reader is on the {view} page." if view else ""
+
+
+def _fields_said(doctype: str) -> str:
+	"""The type's fields, told up front: a model that has them uses them, and
+	one that has to ask for them first guesses instead — "due_date" on a ToDo
+	whose field is "date"."""
+	if not frappe.db.exists("DocType", doctype) or not frappe.has_permission(doctype, "read"):
+		return ""
+	from onedesk.one_ai.proposals import fields_of
+
+	return f" {doctype}'s fields: {', '.join(fields_of(frappe.get_meta(doctype), most=40))}."
 
 
 def _chat(chat: str | None, text: str):

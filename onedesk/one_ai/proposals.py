@@ -25,7 +25,7 @@ quietly undoing a person's.
 import json
 
 import frappe
-from frappe.utils import now_datetime
+from frappe.utils import now_datetime, strip_html_tags
 
 from onedesk.one_ai import touch
 
@@ -59,7 +59,11 @@ def propose(
 	the point somebody presses a button.
 	"""
 	changes = _plain(changes or {}, doctype)
+	if kind in ("Create", "Edit") and frappe.db.exists("DocType", doctype):
+		changes = _understood(doctype, changes)
 	held = _allowed(kind, doctype, record)
+	if kind == "Create":
+		_ready(doctype, changes)
 
 	entry = frappe.get_doc(
 		{
@@ -170,6 +174,126 @@ def _mine(entry) -> None:
 	from onedesk.one import roles
 
 	roles.require()
+
+
+def _ready(doctype: str, changes: dict) -> None:
+	"""Refuse a new record now that frappe would refuse at Approve.
+
+	Frappe's own checks on a document that is never saved: links resolved and
+	their fetched fields filled, then the doctype's own `validate` — which is
+	where HRMS says a leave needs an approver and where Expense Claim sets its
+	exchange rate — inside a savepoint that is always rolled back, then what is
+	required and still empty. A model told "Leave Approver is missing" asks the
+	person; a card that fails when they press Approve teaches them the cards do
+	not work.
+	"""
+	meta = frappe.get_meta(doctype)
+	unknown = [key for key in changes if not meta.has_field(key) and key not in frappe.model.default_fields]
+	doc = frappe.new_doc(doctype)
+	doc.update(changes)
+	rows = [doc, *(row for table in doc.meta.get_table_fields() for row in doc.get(table.fieldname) or [])]
+
+	bad, wrong = [], set()
+	for one in rows:
+		invalid, _cancelled = one.get_invalid_links()
+		# frappe's own words for each: "Leave Type: Holiday Leave".
+		bad += [f"Could not find {said}" for _field, _value, said in invalid]
+		wrong |= {(one, field) for field, _value, _said in invalid}
+
+	muted = frappe.flags.mute_messages
+	frappe.db.savepoint(READY)
+	frappe.flags.mute_messages = True
+	try:
+		for one in rows:
+			one._fix_numeric_types()  # as insert does
+		doc.run_method("before_validate")
+		doc.run_method("validate")
+	except frappe.ValidationError as refused:
+		bad.append(strip_html_tags(str(refused)).strip())
+	except Exception:
+		# Something a controller did not expect of a record with no name yet:
+		# not the model's mistake, and Approve will say it if it is real.
+		pass
+	finally:
+		frappe.flags.mute_messages = muted
+		frappe.db.rollback(save_point=READY)
+
+	missing = []
+	for one in rows:
+		for fieldname, _msg in one._get_missing_mandatory_fields():
+			if fieldname in ("parent", "parenttype") or (one, fieldname) in wrong:
+				continue  # a row's parent is set on save; a wrong link is said above
+			missing.append(f"{one.meta.get_label(fieldname)} ({fieldname})")
+	if missing:
+		bad.insert(0, "Still needed: " + ", ".join(dict.fromkeys(missing)))
+	if unknown:
+		# The model's own guess at a field name, said back so it can correct
+		# itself in one step instead of asking the person what a field is called.
+		bad.insert(0, f"{doctype} has no field {', '.join(unknown)}. Its fields: {', '.join(fields_of(meta))}")
+	if bad:
+		frappe.throw(
+			". ".join(one.rstrip(".") for one in dict.fromkeys(bad))
+			+ ". "
+			# Said to the model, not to a person: it asks them, in their language.
+			+ "Correct what you can from what the person already said and suggest it again; ask them only for what they have not said.",
+			frappe.MandatoryError,
+		)
+
+
+#: Layout, not data.
+LAYOUT = {"Section Break", "Column Break", "Tab Break", "HTML", "Button", "Heading", "Image", "Fold"}
+
+
+def _understood(doctype: str, changes: dict) -> dict:
+	"""What the model meant, where frappe can say so without guessing.
+
+	A field named by its label — "due_date" for the field labelled Due Date,
+	whose name is `date` — is that field. A link given as its record's title —
+	"Rania Sabbagh" for a User — is that record, when exactly one record the
+	reader may see has that title. Anything less certain is left as it was,
+	and `_ready` says what is wrong with it.
+	"""
+	meta = frappe.get_meta(doctype)
+	labelled = {
+		frappe.scrub(f.label): f.fieldname for f in meta.fields if f.label and f.fieldtype not in LAYOUT
+	}
+	meant = {}
+	for key, value in changes.items():
+		field = key
+		if not meta.has_field(key) and key not in frappe.model.default_fields:
+			field = labelled.get(frappe.scrub(key), key)
+		df = meta.get_field(field)
+		if df and df.fieldtype in frappe.model.table_fields and isinstance(value, list):
+			value = [_understood(df.options, row) if isinstance(row, dict) else row for row in value]
+		elif df and df.fieldtype == "Link" and isinstance(value, str) and value:
+			if not frappe.db.exists(df.options, value):
+				value = _titled(df.options, value) or value
+		meant[field] = value
+	return meant
+
+
+def _titled(doctype: str, said: str) -> str | None:
+	"""The one record of a type the reader may see whose title is `said`."""
+	meta = frappe.get_meta(doctype)
+	title = "full_name" if doctype == "User" else meta.title_field
+	if not title or not meta.has_field(title):
+		return None
+	found = frappe.get_list(doctype, filters={title: said}, pluck="name", limit_page_length=2)
+	return found[0] if len(found) == 1 else None
+
+
+def fields_of(meta, most: int = 80) -> list[str]:
+	"""A type's fields as a model can use them: "fieldname (Label)", required
+	ones marked, hidden and layout ones left out."""
+	return [
+		f"{f.fieldname} ({f.label}{', required' if f.reqd else ''})"
+		for f in meta.fields
+		if f.fieldtype not in LAYOUT and f.fieldtype != "Password" and not f.hidden
+	][:most]
+
+
+#: The savepoint a new record is tried in and rolled back from.
+READY = "one_ai_ready"
 
 
 def _allowed(kind: str, doctype: str, record: str | None):

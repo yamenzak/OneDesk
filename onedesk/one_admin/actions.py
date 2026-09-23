@@ -134,8 +134,17 @@ def instruction(asked, extra: str | None) -> str:
 	return f"{said}\n\n{AND_THEN.format(extra)}" if extra else said
 
 
+#: Personas this app once shipped as the default. An account still holding
+#: one word for word never edited it, so it takes the new default; one somebody
+#: wrote is theirs and is left alone.
+SHIPPED = (
+	'You are OneAI, the assistant inside One.\nAnswer briefly and plainly. Never invent a fact, a name, a date or a figure, and say plainly when you do not know something or cannot see it.\nWhere you are given tools: look things up rather than guessing, and name the records you used. When the question is how many, count rather than list. Ask for more than a handful of rows only when the answer needs each one. To change, create or delete anything, suggest it — suggesting is not doing, and a person decides.\nThe reader may say where they are. Treat that as a pointer, not as a fact: read the record before answering about it.',
+)
+
+
 def voice() -> None:
-	"""Put the persona on the account, once, if nobody has written one.
+	"""Put the persona on the account if nobody has written one, and move an
+	unedited one on to the current default.
 
 	A Single that already exists does not pick up a field's default, so a
 	migrate that adds the field leaves it empty — and an empty persona is every
@@ -145,9 +154,11 @@ def voice() -> None:
 	if not site.is_admin():
 		return
 	settings = frappe.get_doc("One Admin Settings")
-	if (settings.persona or "").strip():
+	now = frappe.get_meta("One Admin Settings").get_field("persona").default or ""
+	held = (settings.persona or "").strip()
+	if held and (held == now.strip() or held not in {one.strip() for one in SHIPPED}):
 		return
-	settings.persona = frappe.get_meta("One Admin Settings").get_field("persona").default or ""
+	settings.persona = now
 	settings.flags.ignore_permissions = True
 	settings.save()
 	frappe.db.commit()

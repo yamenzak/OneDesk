@@ -29,6 +29,7 @@ import decimal
 from typing import Annotated
 
 import frappe
+from frappe.utils import strip_html_tags
 
 from onedesk.one_ai import proposals, schema
 
@@ -67,6 +68,7 @@ def list_records(
 	`frappe.get_list` and nothing else: the role, the user permissions and every
 	`permission_query_conditions` hook apply exactly as they do in the browser.
 	"""
+	_known(doctype, filters, fields, order_by)
 	return frappe.get_list(
 		doctype,
 		filters=filters or {},
@@ -74,6 +76,32 @@ def list_records(
 		order_by=order_by,
 		limit_page_length=min(int(limit or 20), MOST),
 	)
+
+
+def _known(doctype: str, filters=None, fields=None, order_by: str | None = None) -> None:
+	"""Refuse a field the type does not have, naming the ones it does.
+
+	frappe answers an unknown field with "You do not have permission to access
+	field", which is true of no field at all and reads to a model as "this
+	cannot be done" — so it stops, where told the real names it would have
+	tried again. The list is what describe_type would say, cut to what can be
+	filtered on.
+	"""
+	meta = frappe.get_meta(doctype)
+	named = []
+	if isinstance(filters, dict):
+		named += list(filters)
+	elif isinstance(filters, list):
+		named += [one[-3] for one in filters if isinstance(one, list | tuple) and len(one) >= 3]
+	named += [one for one in fields or [] if isinstance(one, str) and one.isidentifier()]
+	if order_by:
+		named.append(order_by.split()[0].split(".")[-1].strip("`"))
+	unknown = [one for one in named if not meta.has_field(one) and one not in frappe.model.default_fields]
+	if unknown:
+		frappe.throw(
+			f"{doctype} has no field {', '.join(unknown)}. Its fields: {', '.join(proposals.fields_of(meta))}, "
+			"plus name, owner, creation and modified."
+		)
 
 
 def read_record(
@@ -91,6 +119,7 @@ def count_records(
 	filters: Annotated[dict, "Field name to value. All of them have to match."] | None = None,
 ) -> int:
 	"""Count records of one type, counting only what the person asking may see."""
+	_known(doctype, filters)
 	return len(
 		frappe.get_list(
 			doctype, filters=filters or {}, fields=["name"], limit_page_length=0
@@ -101,26 +130,52 @@ def count_records(
 def describe_type(
 	doctype: Annotated[str, "The type of record to describe."],
 ) -> dict:
-	"""List the fields one type of record has, so they can be asked for by name."""
+	"""The fields one type of record has: which are required, what each may
+	hold, and which the system fills in itself. Read it before suggesting a new
+	record of a type whose fields are not already known."""
 	if not frappe.has_permission(doctype, ptype="read"):
 		frappe.throw(
 			frappe._("You may not read {0}.").format(doctype), frappe.PermissionError
 		)
-	meta = frappe.get_meta(doctype)
-	return {
-		"doctype": doctype,
-		"fields": [
-			{
-				"fieldname": f.fieldname,
-				"label": f.label,
-				"fieldtype": f.fieldtype,
-				"options": f.options if f.fieldtype in ("Link", "Select") else None,
-			}
-			for f in meta.fields
-			if f.fieldtype not in NEVER_READ
-			and f.fieldtype not in ("Section Break", "Column Break", "Tab Break", "HTML")
-		],
-	}
+	return {"doctype": doctype, "fields": _fields(frappe.get_meta(doctype))}
+
+
+LAYOUT = proposals.LAYOUT
+
+
+def _fields(meta, depth: int = 0) -> list[dict]:
+	"""A type's fields as a model needs them to fill a form in.
+
+	Hidden fields are left out — that is how a workspace takes a field away,
+	Company among them — and so is anything the reader may not see. A field
+	the system fills (read only, or fetched from a link) is said to be, so the
+	model neither asks for it nor invents it.
+	"""
+	said = []
+	for f in meta.fields:
+		if f.fieldtype in LAYOUT or f.fieldtype in NEVER_READ or f.hidden:
+			continue
+		one = {"fieldname": f.fieldname, "label": f.label, "fieldtype": f.fieldtype}
+		if f.reqd:
+			one["required"] = True
+		if f.mandatory_depends_on:
+			one["required_when"] = f.mandatory_depends_on
+		if f.depends_on:
+			one["shown_when"] = f.depends_on
+		if f.read_only or f.fetch_from:
+			one["filled_by_the_system"] = True
+		if f.default not in (None, ""):
+			one["default"] = f.default
+		if f.fieldtype == "Select":
+			one["options"] = [o for o in (f.options or "").split("\n") if o]
+		elif f.fieldtype in ("Link", "Dynamic Link"):
+			one["links_to"] = f.options
+		elif f.fieldtype in frappe.model.table_fields and depth == 0:
+			one["rows"] = _fields(frappe.get_meta(f.options), depth + 1)
+		if f.description:
+			one["description"] = strip_html_tags(f.description)[:200]
+		said.append(one)
+	return said
 
 
 # ------------------------------------------------------ what it may only suggest
