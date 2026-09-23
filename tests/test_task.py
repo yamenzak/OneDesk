@@ -67,3 +67,30 @@ def test_the_inbox_is_the_tasks_in_no_project():
 	assert ["Task", "project", "is", "not set"] in json.loads(inbox["filters"])
 	dock = json.loads((tree.APP / "dock" / "onedesk" / "onedesk.json").read_text())
 	assert any(item["link_to"] == "OneTask" for item in dock["items"])
+
+
+def _mine():
+	from datetime import date, timedelta
+
+	space = {"date": date, "timedelta": timedelta}
+	source = (TASK / "mine.py").read_text()
+	exec("def when(" + source.split("def when(", 1)[1].split("\n@frappe", 1)[0], space)
+	return space["when"]
+
+
+def test_my_tasks_are_grouped_by_when_they_are_due():
+	from datetime import date
+
+	when = _mine()
+	today = date(2026, 9, 23)
+	said = [when(day, today) for day in (None, date(2026, 9, 1), today, date(2026, 9, 24), date(2026, 9, 30), date(2026, 10, 1))]
+	assert said == ["none", "overdue", "today", "tomorrow", "week", "later"]
+
+
+def test_my_tasks_writes_through_frappe_and_reads_as_the_reader():
+	page = (TASK / "page" / "my_tasks" / "my_tasks.js").read_text()
+	assert 'frappe.db.set_value("Task"' in page and 'frappe.db.insert({ doctype: "Task"' in page
+	source = (TASK / "mine.py").read_text()
+	assert 'frappe.get_list(\n\t\t"Task"' in source and "ignore_permissions" not in source
+	rail = json.loads((TASK / "sidebar" / "onetask" / "onetask.json").read_text())
+	assert rail["items"][0]["link_to"] == "my-tasks", "OneTask opens on My Tasks"

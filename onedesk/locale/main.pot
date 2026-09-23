@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 18:33+0000\n"
-"PO-Revision-Date: 2026-09-23 18:33+0000\n"
+"POT-Creation-Date: 2026-09-23 18:39+0000\n"
+"PO-Revision-Date: 2026-09-23 18:39+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -427,6 +427,10 @@ msgstr ""
 msgid "Add Domain"
 msgstr ""
 
+#: onedesk/one_task/page/my_tasks/my_tasks.js:23
+msgid "Add Task"
+msgstr ""
+
 #. Title of an Onboarding Step
 #. Label of an action in the Onboarding Step 'Add a customer'
 #: onedesk/one/onboarding_step/one_add_a_customer/one_add_a_customer.json
@@ -443,6 +447,10 @@ msgstr ""
 
 #: onedesk/one_crm/ai.py:106 onedesk/one_crm/ai.py:142
 msgid "Add a lead from each of these business cards."
+msgstr ""
+
+#: onedesk/one_task/page/my_tasks/my_tasks.js:31
+msgid "Add a task and press Enter"
 msgstr ""
 
 #: onedesk/one_hr/ai.py:91 onedesk/one_hr/ai.py:123
@@ -1589,6 +1597,7 @@ msgstr ""
 msgid "Compared as text with what the field holds now. A person's edit makes them differ, and the badge goes."
 msgstr ""
 
+#: onedesk/one_task/page/my_tasks/my_tasks.js:75
 #: onedesk/public/js/timesheet.js:76
 msgid "Complete"
 msgstr ""
@@ -2180,6 +2189,10 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/public/js/tenant.js:34
 msgid "Dropped"
+msgstr ""
+
+#: onedesk/one_task/page/my_tasks/my_tasks.js:34
+msgid "Due"
 msgstr ""
 
 #: onedesk/public/js/crm_record.js:51
@@ -3543,6 +3556,10 @@ msgstr ""
 msgid "Late Only"
 msgstr ""
 
+#: onedesk/one_task/mine.py:26
+msgid "Later"
+msgstr ""
+
 #. Label of the latitude (Float) field in DocType 'Clock Attempt'
 #. Label of the latitude (Float) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -3999,6 +4016,10 @@ msgstr ""
 msgid "Message"
 msgstr ""
 
+#: onedesk/one_task/page/my_tasks/my_tasks.js:72
+msgid "Milestone"
+msgstr ""
+
 #. Label of a field in the get-in-touch Web Form
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 msgid "Mobile No"
@@ -4091,7 +4112,10 @@ msgstr ""
 msgid "My Leave"
 msgstr ""
 
+#. Label of a Sidebar Item
 #: onedesk/one_task/calendar.py:19
+#: onedesk/one_task/page/my_tasks/my_tasks.js:10
+#: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "My Tasks"
 msgstr ""
 
@@ -4194,6 +4218,10 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
+#: onedesk/one_task/mine.py:25
+msgid "Next 7 Days"
+msgstr ""
+
 #. Label of the next_run_at (Datetime) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 msgid "Next Run"
@@ -4234,6 +4262,10 @@ msgstr ""
 
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.py:46
 msgid "No Closing Date"
+msgstr ""
+
+#: onedesk/one_task/mine.py:27
+msgid "No Due Date"
 msgstr ""
 
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:19
@@ -4441,6 +4473,10 @@ msgstr ""
 
 #: onedesk/public/js/ai_proposal.js:49
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
+msgstr ""
+
+#: onedesk/one_task/page/my_tasks/my_tasks.js:54
+msgid "Nothing is assigned to you."
 msgstr ""
 
 #: onedesk/public/js/leave_application.js:14
@@ -4974,6 +5010,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.py:43
+#: onedesk/one_task/mine.py:22
 msgid "Overdue"
 msgstr ""
 
@@ -7272,6 +7309,7 @@ msgid "To Win"
 msgstr ""
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:114
+#: onedesk/one_task/mine.py:23
 msgid "Today"
 msgstr ""
 
@@ -7290,6 +7328,10 @@ msgstr ""
 #. Description of the 'Applies To' (Link) field in DocType 'AI Knowledge'
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 msgid "Told to OneAI whenever somebody is on this type's list or form. Leave empty for a note it finds when it looks."
+msgstr ""
+
+#: onedesk/one_task/mine.py:24
+msgid "Tomorrow"
 msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:147

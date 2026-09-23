@@ -12,13 +12,31 @@ the calendar's — but everything you have to *do* is here.
 
 ## Finding your way
 
-**OneTask** in the dock opens it. The rail has:
+**OneTask** in the dock opens it, on **My Tasks**. The rail has:
 
+- **My Tasks** — everything assigned to you and still to do, by when it is
+  due.
 - **Inbox** — your own tasks that are in no project, still to do. A quick note
   to yourself lands here.
 - **Tasks** — every task you may see, in projects and out of them.
 - **Projects** — for the people who work in projects.
 - Under **Setup**, **Task Type**.
+
+## My Tasks
+
+Your work, in groups: **Overdue**, **Today**, **Tomorrow**, **Next 7 Days**,
+**Later** and **No Due Date**. Within a day the most pressing comes first, and
+Urgent and High say so. A task in a project names the project.
+
+**Tick a task to complete it.** It stays on the list, struck through, until you
+next open the page, so a tick made by mistake is undone by ticking it again.
+Completing a task takes it off everybody's list, not only yours.
+
+**Type a task at the top and press Enter** to add it, with a **Due** date if it
+has one. It is yours, in no project, and lands in its group straight away.
+
+A task is due on its **Expected End Date**, or on its **Expected Start Date**
+when it has no end.
 
 ## Adding a task
 
@@ -85,13 +103,17 @@ is:
 - `calendar.py` — **My Tasks** and **Assigned to Me** on OneCalendar. The
   second leaves out assignments on tasks, which are already on the first.
 - `custom/task.json` — the due date is asked for when a task is added.
+- `mine.py` and `page/my_tasks` — My Tasks. The server only reads, as the
+  reader, and groups (`when` is pure); adding and ticking are `frappe.db.insert`
+  and `frappe.db.set_value` from the page, so every rule a task has on its own
+  page holds here.
 
 ### The plan
 
 1. **Capture and inbox.** *Done.* Every desk user keeps tasks, a to-do about
    nothing is a task, and the inbox is the tasks in no project.
-2. **My Tasks.** What is assigned to me, by due date, ticked off where it is
-   listed.
+2. **My Tasks.** *Done.* What is assigned to me, by due date, ticked off where
+   it is listed, and added from the top of the list.
 3. **The project board.** A board per project by status, with sub-tasks and a
    checklist.
 4. **The calendar.** Moving a task's due date by dragging it, and a

@@ -5,7 +5,7 @@
  "doctype": "Sidebar",
  "header_icon": "onetask",
  "idx": 0,
- "modified": "2026-09-25 12:00:00.000000",
+ "modified": "2026-09-25 14:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Task",
  "name": "OneTask",
@@ -13,6 +13,19 @@
  "standard": 1,
  "title": "OneTask",
  "items": [
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "My Tasks",
+   "link_type": "Page",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "my-tasks",
+   "icon": "list-checks"
+  },
   {
    "child": 0,
    "collapsible": 1,
