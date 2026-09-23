@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 08:58+0000\n"
-"PO-Revision-Date: 2026-09-23 08:58+0000\n"
+"POT-Creation-Date: 2026-09-23 09:14+0000\n"
+"PO-Revision-Date: 2026-09-23 09:14+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -20,11 +20,11 @@ msgstr ""
 msgid "(from what was asked for)"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:603
+#: onedesk/one_hr/ai.py:697
 msgid "1 day of {0}."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:607
+#: onedesk/one_hr/ai.py:701
 msgid "1 day of {0}; {1} left after."
 msgstr ""
 
@@ -2283,7 +2283,7 @@ msgstr ""
 msgid "From Date"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:152
+#: onedesk/one_hr/ai.py:175
 msgid "From a receipt: {0}, {1}."
 msgstr ""
 
@@ -3333,7 +3333,7 @@ msgstr ""
 msgid "Next Status"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:542
+#: onedesk/one_ai/chat.py:549
 msgid "No"
 msgstr ""
 
@@ -3429,7 +3429,7 @@ msgstr ""
 msgid "Not a workspace this site administers."
 msgstr ""
 
-#: onedesk/one_ai/chat.py:354 onedesk/one_ai/chat.py:357
+#: onedesk/one_ai/chat.py:361 onedesk/one_ai/chat.py:364
 msgid "Not answered"
 msgstr ""
 
@@ -3706,7 +3706,7 @@ msgstr ""
 msgid "OneAI"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:353
+#: onedesk/one_ai/chat.py:360
 msgid "OneAI could not be reached just now. The question is still here — try again."
 msgstr ""
 
@@ -5284,7 +5284,7 @@ msgstr ""
 msgid "Suggested a change to {0}"
 msgstr ""
 
-#: onedesk/one_ai/tools.py:520 onedesk/one_hr/ai.py:158
+#: onedesk/one_ai/tools.py:520 onedesk/one_hr/ai.py:181
 msgid "Suggested. It happens when somebody approves it."
 msgstr ""
 
@@ -6483,7 +6483,7 @@ msgstr ""
 msgid "Year"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:542
+#: onedesk/one_ai/chat.py:549
 msgid "Yes"
 msgstr ""
 
@@ -6804,11 +6804,11 @@ msgstr ""
 msgid "{0} days left"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:605
+#: onedesk/one_hr/ai.py:699
 msgid "{0} days of {1}."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:609
+#: onedesk/one_hr/ai.py:703
 msgid "{0} days of {1}; {2} left after."
 msgstr ""
 

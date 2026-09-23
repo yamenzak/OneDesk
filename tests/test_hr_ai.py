@@ -213,3 +213,10 @@ def test_a_suggestion_that_exists_to_make_a_card_is_asked_for_it():
 	hr = (tree.APP / "one_hr" / "ai.py").read_text()
 	for tool in ("claim_expense", "add_applicant", "draft_feedback"):
 		assert f'"expects": "{tool}"' in hr, tool
+
+
+def test_why_people_leave_is_read_as_the_reader_and_counts_each_person_once():
+	said = _source(AI, "why_people_leave")
+	assert "frappe.get_all" not in said and "ignore_permissions" not in said
+	assert "one.name not in heard" in said, "an interviewed leaver is not counted twice"
+	assert '"onedesk.one_hr.ai.why_people_leave"' in HOOKS.read_text()

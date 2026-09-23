@@ -1086,6 +1086,17 @@ call — `expects` — and a run that ends without that call is asked once for
 it, as a question to remember is; the receipt and CV suggestions name
 theirs too. The facts carry their own next step.
 
+**The fifth is why people leave.** On the exit interview list, and on
+employee separations, *Why are people leaving?* reads every completed exit
+interview in the period and every leaver's recorded reason — each person
+once, read as the asker — and the model groups what they said into a few
+reasons with how many gave each and their own words. Measured on six
+interviews: gemini-2.5-flash answered pay 2, progression 2, relocation 1,
+each with the words behind it, for 3.9 credits; flash-lite, told the same,
+answered one sentence folding pay into progression. A grouping is the
+model's judgement, and a small model's is visibly worse; this is the tool
+where a workspace's choice of model shows most.
+
 **What a model is told about a type, and what happens when it guesses.**
 On a list or a form the context turn carries the type's fields — fieldname,
 label, required — and who the reader is, with OneHR adding their employee

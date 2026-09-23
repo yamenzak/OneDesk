@@ -84,6 +84,23 @@ SUGGESTIONS = {
 			"expects": "draft_feedback",
 		},
 	],
+	"Exit Interview": [
+		{
+			"label": "Why are people leaving?",
+			"ask": "Why have people left over the last twelve months, and how many said each reason?",
+			"can": "read",
+			"view": "List",
+		},
+	],
+	"Employee Separation": [
+		{
+			"label": "Why are people leaving?",
+			"ask": "Why have people left over the last twelve months, and how many said each reason?",
+			"doctype": "Exit Interview",
+			"can": "read",
+			"view": "List",
+		},
+	],
 	# OneHR's home is where an employee starts their day, so the three things
 	# they come to it for are offered there too.
 	"workspace:OneHR": [
@@ -341,6 +358,72 @@ def draft_feedback(
 
 def _plain_text(html) -> str:
 	return " ".join(frappe.utils.strip_html_tags(str(html or "")).split())
+
+
+# --------------------------------------------------------------- leaving
+
+
+def why_people_leave(
+	from_date: Annotated[str, "The first day of the period, as YYYY-MM-DD. A year ago if not said."] | None = None,
+	to_date: Annotated[str, "The last day, as YYYY-MM-DD. Today if not said."] | None = None,
+) -> dict:
+	"""What people said when they left, over a period: every completed exit
+	interview and every leaver's recorded reason, with their department and
+	role. Read it to answer why people leave — then group what they said into
+	the few reasons behind it, with how many people gave each."""
+	end = getdate(to_date) if to_date else getdate(today())
+	start = getdate(from_date) if from_date else add_days(end, -365)
+
+	interviews = frappe.get_list(
+		"Exit Interview",
+		filters={"status": "Completed", "docstatus": ["<", 2], "date": ["between", [start, end]]},
+		fields=["employee", "employee_name", "department", "designation", "date", "interview_summary"],
+		order_by="date asc",
+		limit_page_length=MOST_LEAVERS,
+	)
+	heard = {one.employee for one in interviews}
+	# Somebody who left with a reason written on their record but no interview
+	# still said something; somebody interviewed is counted once.
+	leavers = frappe.get_list(
+		"Employee",
+		filters={"relieving_date": ["between", [start, end]], "reason_for_leaving": ["is", "set"]},
+		fields=["name", "employee_name", "department", "designation", "relieving_date", "reason_for_leaving"],
+		limit_page_length=MOST_LEAVERS,
+	)
+	said = [
+		{
+			"who": one.employee_name,
+			"department": one.department,
+			"role": one.designation,
+			"when": str(one.date),
+			"said": _plain_text(one.interview_summary),
+		}
+		for one in interviews
+		if _plain_text(one.interview_summary)
+	] + [
+		{
+			"who": one.employee_name,
+			"department": one.department,
+			"role": one.designation,
+			"when": str(one.relieving_date),
+			"said": one.reason_for_leaving,
+		}
+		for one in leavers
+		if one.name not in heard
+	]
+	return {
+		"period": {"from": str(start), "to": str(end)},
+		"people": len(said),
+		"what_they_said": said,
+		"next": "Answer as a short list, one line per reason, most common first, each line: the reason, "
+		"how many people gave it, and a few of their own words in quotes. Keep separate reasons "
+		"separate (pay is not progression). One person can give more than one reason. Say plainly "
+		"if there are too few to call anything a pattern.",
+	}
+
+
+#: The most leavers read for one answer.
+MOST_LEAVERS = 200
 
 
 #: What HRMS's notes field holds.

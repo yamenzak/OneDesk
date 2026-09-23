@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 08:58+0000\n"
-"PO-Revision-Date: 2026-09-23 08:58+0000\n"
+"POT-Creation-Date: 2026-09-23 09:14+0000\n"
+"PO-Revision-Date: 2026-09-23 09:14+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "(from what was asked for)"
 msgstr "(مما طُلب)"
 
-#: onedesk/one_hr/ai.py:603
+#: onedesk/one_hr/ai.py:697
 msgid "1 day of {0}."
 msgstr "يوم واحد من {0}."
 
-#: onedesk/one_hr/ai.py:607
+#: onedesk/one_hr/ai.py:701
 msgid "1 day of {0}; {1} left after."
 msgstr "يوم واحد من {0}؛ يتبقى بعده {1}."
 
@@ -2285,7 +2285,7 @@ msgstr "مجاناً لمدة {0} يوماً"
 msgid "From Date"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:152
+#: onedesk/one_hr/ai.py:175
 msgid "From a receipt: {0}, {1}."
 msgstr "من إيصال: {0}، {1}."
 
@@ -3335,7 +3335,7 @@ msgstr "التشغيل التالي"
 msgid "Next Status"
 msgstr "الحالة التالية"
 
-#: onedesk/one_ai/chat.py:542
+#: onedesk/one_ai/chat.py:549
 msgid "No"
 msgstr ""
 
@@ -3431,7 +3431,7 @@ msgstr "لم يسجّل الحضور"
 msgid "Not a workspace this site administers."
 msgstr "ليست مساحة عمل يديرها هذا الموقع."
 
-#: onedesk/one_ai/chat.py:354 onedesk/one_ai/chat.py:357
+#: onedesk/one_ai/chat.py:361 onedesk/one_ai/chat.py:364
 msgid "Not answered"
 msgstr "لم يُجب"
 
@@ -3708,7 +3708,7 @@ msgstr "اشترت هذا مساحة عمل واحدة"
 msgid "OneAI"
 msgstr "OneAI"
 
-#: onedesk/one_ai/chat.py:353
+#: onedesk/one_ai/chat.py:360
 msgid "OneAI could not be reached just now. The question is still here — try again."
 msgstr "تعذّر الوصول إلى OneAI الآن. والسؤال ما زال هنا — حاول مرة أخرى."
 
@@ -5286,7 +5286,7 @@ msgstr "اقترح تغييراً"
 msgid "Suggested a change to {0}"
 msgstr "اقترح تغييراً على {0}"
 
-#: onedesk/one_ai/tools.py:520 onedesk/one_hr/ai.py:158
+#: onedesk/one_ai/tools.py:520 onedesk/one_hr/ai.py:181
 msgid "Suggested. It happens when somebody approves it."
 msgstr "اقتُرح. ويحدث حين يوافق عليه أحد."
 
@@ -6488,7 +6488,7 @@ msgstr "كتبه {0}. اضغط لإعادة كتابته."
 msgid "Year"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:542
+#: onedesk/one_ai/chat.py:549
 msgid "Yes"
 msgstr ""
 
@@ -6816,11 +6816,11 @@ msgstr "{0} يوماً قبل أن تهبط إلى {1}."
 msgid "{0} days left"
 msgstr "بقي {0} يوماً"
 
-#: onedesk/one_hr/ai.py:605
+#: onedesk/one_hr/ai.py:699
 msgid "{0} days of {1}."
 msgstr "{0} يوم من {1}."
 
-#: onedesk/one_hr/ai.py:609
+#: onedesk/one_hr/ai.py:703
 msgid "{0} days of {1}; {2} left after."
 msgstr "{0} يوم من {1}؛ يتبقى بعدها {2}."
 
