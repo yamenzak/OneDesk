@@ -26,6 +26,24 @@ well as on the project's board.
 - Under **Setup**, **Project Template**, **Project Type**, **Activity Type**,
   **Activity Cost** and **Projects Settings**.
 
+## A project at a glance
+
+The top of a project's page answers first:
+
+- **Done** — how much of the work is finished, and how many tasks of how many.
+- **Due** — how long until the expected end date, or how many days late.
+- **Cost** — what it has cost so far — time, purchases and materials — against
+  the **Estimated Cost**, red once it is over.
+- **Billed** — what has been invoiced against what there is to bill (the sales
+  order, or the billable time when there is none).
+- **Margin** — billed less cost, red below nought.
+- **Overdue Tasks** — how many are past their date; press it for the list.
+- **Next Milestone** — the next milestone task still to do, and when.
+
+A project with sub-projects answers for **the whole tree** — the villa's cost
+is the windows' and the handrails' together — and says how many sub-projects
+there are.
+
 ## Who sees a project
 
 **A project's Users are its members.** List people under **Users** on a
@@ -135,8 +153,12 @@ one field for it.
   (`dashboard`), and `report/project_tree` is frappe's tree report over them.
 - `plan.py` — each dependency row names its project, the field ERPNext's own
   rescheduling looks dependants up by and never writes.
-- `public/js/project.js` — the Board and Calendar buttons, the tree's figures
-  in the band, and Group Under New Project.
+- `overview.py` — what the band answers, over the tree the reader may see:
+  tasks done of all, days to the expected end (`days_left`), ERPNext's cost,
+  billing and margin added up (tree.totals), overdue tasks and the next
+  milestone.
+- `public/js/project.js` — the Board and Calendar buttons, the overview in the
+  band, and Group Under New Project.
 
 ### What OneTask has to keep doing for projects
 
@@ -169,7 +191,7 @@ stage below that touches tasks keeps them:
    parent's customer unless told otherwise. The calendar includes the
    sub-projects' tasks, titled by sub-project; the board stays one project's,
    since ERPNext's board is a filter fixed when it is made.
-4. **The overview.** A project's page answers first: done so far, due against
+4. **The overview.** *Done.* A project's page answers first: done so far, due against
    expected, cost against budget, billed against billable, overdue tasks and
    the next milestone. Figures, not charts.
 5. **The plan.** frappe's Gantt over a project's tasks, milestones on it, and

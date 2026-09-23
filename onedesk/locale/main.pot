@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 20:15+0000\n"
-"PO-Revision-Date: 2026-09-23 20:15+0000\n"
+"POT-Creation-Date: 2026-09-23 20:21+0000\n"
+"PO-Revision-Date: 2026-09-23 20:21+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1123,6 +1123,7 @@ msgstr ""
 
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:211
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:243
+#: onedesk/public/js/project.js:58
 msgid "Billed"
 msgstr ""
 
@@ -1725,6 +1726,10 @@ msgstr ""
 msgid "Copy Link"
 msgstr ""
 
+#: onedesk/public/js/project.js:57
+msgid "Cost"
+msgstr ""
+
 #: onedesk/public/js/workspace_account.js:60
 msgid "Could not reach your account. Showing what was last known."
 msgstr ""
@@ -1748,7 +1753,7 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/public/js/opportunity.js:18 onedesk/public/js/opportunity.js:19
-#: onedesk/public/js/project.js:62
+#: onedesk/public/js/project.js:98
 msgid "Create"
 msgstr ""
 
@@ -2146,7 +2151,7 @@ msgstr ""
 #: onedesk/public/js/ai_proposal_list.js:10 onedesk/public/js/decision.js:39
 #: onedesk/public/js/job.js:27 onedesk/public/js/job.js:44
 #: onedesk/public/js/job.js:49 onedesk/public/js/learned.js:34
-#: onedesk/public/js/shift_type.js:29
+#: onedesk/public/js/project.js:44 onedesk/public/js/shift_type.js:29
 msgid "Done"
 msgstr ""
 
@@ -2245,6 +2250,7 @@ msgid "Dropped"
 msgstr ""
 
 #: onedesk/one_task/page/my_tasks/my_tasks.js:44
+#: onedesk/public/js/project.js:55
 msgid "Due"
 msgstr ""
 
@@ -2512,7 +2518,6 @@ msgid "Error"
 msgstr ""
 
 #: onedesk/one_project/report/project_tree/project_tree.py:51
-#: onedesk/public/js/project.js:39
 msgid "Estimated Cost"
 msgstr ""
 
@@ -2971,7 +2976,6 @@ msgid "Grievance Type"
 msgstr ""
 
 #: onedesk/one_project/report/project_tree/project_tree.py:54
-#: onedesk/public/js/project.js:42
 msgid "Gross Margin"
 msgstr ""
 
@@ -2980,7 +2984,7 @@ msgstr ""
 msgid "Group By"
 msgstr ""
 
-#: onedesk/public/js/project.js:22 onedesk/public/js/project.js:51
+#: onedesk/public/js/project.js:22 onedesk/public/js/project.js:87
 msgid "Group Under New Project"
 msgstr ""
 
@@ -3297,6 +3301,10 @@ msgstr ""
 #. Description of the 'Limit' (Long Int) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "In bytes. Zero means unlimited."
+msgstr ""
+
+#: onedesk/public/js/project.js:54
+msgid "In {0} days"
 msgstr ""
 
 #. Label of the input_per_million (Float) field in DocType 'AI Model'
@@ -4015,6 +4023,10 @@ msgstr ""
 msgid "Mar"
 msgstr ""
 
+#: onedesk/public/js/project.js:59
+msgid "Margin"
+msgstr ""
+
 #. Label of the one_mark_section (Section Break) field in DocType 'Employee
 #. Attendance Tool'
 #: onedesk/one_hr/custom/employee_attendance_tool.json
@@ -4161,7 +4173,7 @@ msgstr ""
 msgid "Move"
 msgstr ""
 
-#: onedesk/public/js/project.js:57
+#: onedesk/public/js/project.js:93
 msgid "Move These Beside It"
 msgstr ""
 
@@ -4306,6 +4318,10 @@ msgstr ""
 
 #: onedesk/one_task/mine.py:25
 msgid "Next 7 Days"
+msgstr ""
+
+#: onedesk/public/js/project.js:73
+msgid "Next Milestone"
 msgstr ""
 
 #. Label of the next_run_at (Datetime) field in DocType 'Provisioning Job'
@@ -5112,6 +5128,10 @@ msgstr ""
 msgid "Overdue For"
 msgstr ""
 
+#: onedesk/public/js/project.js:68
+msgid "Overdue Tasks"
+msgstr ""
+
 #: onedesk/public/js/overtime.js:44
 msgid "Overtime Hours"
 msgstr ""
@@ -5511,7 +5531,7 @@ msgstr ""
 msgid "Project"
 msgstr ""
 
-#: onedesk/public/js/project.js:53
+#: onedesk/public/js/project.js:89
 msgid "Project Name"
 msgstr ""
 
@@ -6777,7 +6797,7 @@ msgstr ""
 msgid "Stuck jobs"
 msgstr ""
 
-#: onedesk/one_project/tree.py:192 onedesk/public/js/project.js:38
+#: onedesk/one_project/tree.py:192 onedesk/public/js/project.js:41
 msgid "Sub-projects"
 msgstr ""
 
@@ -7500,7 +7520,7 @@ msgid "To Win"
 msgstr ""
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:171
-#: onedesk/one_task/mine.py:23
+#: onedesk/one_task/mine.py:23 onedesk/public/js/project.js:53
 msgid "Today"
 msgstr ""
 
@@ -7542,12 +7562,10 @@ msgid "Total"
 msgstr ""
 
 #: onedesk/one_project/report/project_tree/project_tree.py:53
-#: onedesk/public/js/project.js:41
 msgid "Total Billed Amount"
 msgstr ""
 
 #: onedesk/one_project/report/project_tree/project_tree.py:52
-#: onedesk/public/js/project.js:40
 msgid "Total Costing Amount"
 msgstr ""
 
@@ -8857,6 +8875,10 @@ msgstr ""
 msgid "{0} days before it falls to {1}."
 msgstr ""
 
+#: onedesk/public/js/project.js:52
+msgid "{0} days late"
+msgstr ""
+
 #: onedesk/public/js/tenant.js:217
 msgid "{0} days left"
 msgstr ""
@@ -9034,6 +9056,10 @@ msgstr ""
 msgid "{0} of them live."
 msgstr ""
 
+#: onedesk/public/js/project.js:38
+msgid "{0} of {1}"
+msgstr ""
+
 #: onedesk/public/js/workspace_account.js:85
 msgid "{0} of {1} used."
 msgstr ""
@@ -9146,6 +9172,10 @@ msgstr ""
 
 #: onedesk/one_hr/timesheet.py:40
 msgid "{0} – running"
+msgstr ""
+
+#: onedesk/public/js/project.js:45
+msgid "{0}% · {1} of {2} tasks"
 msgstr ""
 
 #: onedesk/one_hr/review.py:86

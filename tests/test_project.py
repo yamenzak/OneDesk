@@ -134,3 +134,26 @@ def test_sub_projects_are_wired_and_members_see_below():
 	assert "path(project)" in (TASK / "mine.py").read_text(), "My Tasks names the path"
 	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
 	assert any(f["fieldname"] == "one_parent" and f["options"] == "Project" for f in custom["custom_fields"])
+
+
+def test_the_overview_counts_days_and_work():
+	from datetime import date
+
+	def date_diff(a, b):
+		return (a - b).days
+
+	space = _load(PROJECT / "overview.py", ("days_left", "share"), date_diff=date_diff, getdate=lambda value: value)
+	today = date(2026, 9, 23)
+	assert space["days_left"](date(2026, 10, 3), today, False) == 10
+	assert space["days_left"](date(2026, 9, 20), today, False) == -3, "late"
+	assert space["days_left"](date(2026, 9, 20), today, True) is None, "a finished project is not late"
+	assert space["days_left"](None, today, False) is None
+	assert space["share"](1, 4) == 25 and space["share"](0, 0) == 0
+
+
+def test_the_overview_is_the_whole_tree_and_only_figures():
+	source = (PROJECT / "overview.py").read_text()
+	assert "tree.below({project}, tree.parents())" in source and "members.sees(one, user)" in source
+	page = (tree.APP / "public" / "js" / "project.js").read_text()
+	assert "onedesk.one_project.overview.overview" in page and "onedesk.band.show" in page
+	assert "chart" not in page.lower(), "figures, not charts"
