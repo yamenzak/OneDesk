@@ -65,50 +65,21 @@
 	}
 }
 
-/* FullCalendar's toolbar in the desk's own button style. */
-.one-calendar .fc .fc-button {
-	background: var(--control-bg);
-	border: none;
-	box-shadow: none;
-	color: var(--text-color);
-	font-size: var(--text-base);
-	padding: 4px 10px;
-}
-
-.one-calendar .fc .fc-button:hover {
-	background: var(--btn-default-hover-bg, var(--gray-200));
-}
-
-.one-calendar .fc .fc-button-primary:not(:disabled).fc-button-active,
-.one-calendar .fc .fc-button-primary:not(:disabled):active {
-	background: var(--gray-700);
-	color: var(--white);
-}
-
-.one-calendar .fc .fc-toolbar-title {
-	font-size: var(--text-xl);
-	font-weight: 600;
-}
-
-.one-calendar .fc .fc-day-today {
-	background: var(--subtle-fg, var(--gray-50));
-}
-
-.one-calendar-apps .btn {
-	align-items: center;
-	display: inline-flex;
-	gap: 6px;
-}
-
-.one-calendar-apps {
+.one-calendar-main {
 	display: flex;
-	flex-wrap: wrap;
-	gap: var(--margin-sm);
-	margin: var(--margin-md) 0;
+	flex-direction: column;
 }
 
-.one-calendar-private a {
-	cursor: pointer;
+.one-calendar-toolbar {
+	align-items: center;
+	display: flex;
+	gap: var(--margin-sm);
+	padding-bottom: var(--padding-sm);
+}
+
+.one-calendar-grid {
+	flex: 1;
+	min-height: 0;
 }
 
 /* A short event shows its title; its place on the grid is its time. */

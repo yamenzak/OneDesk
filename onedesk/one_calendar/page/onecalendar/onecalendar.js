@@ -27,7 +27,10 @@ onedesk.OneCalendar = class OneCalendar {
 		page.set_secondary_action(__("Subscribe"), () => this.subscribe());
 		this.$body = $(`<div class="one-calendar">
 			<aside class="one-calendar-layers"></aside>
-			<div class="one-calendar-main"></div>
+			<div class="one-calendar-main">
+				<div class="one-calendar-toolbar"></div>
+				<div class="one-calendar-grid"></div>
+			</div>
 		</div>`).appendTo(page.main);
 		frappe.require("calendar.bundle.js", () => this.start());
 	}
@@ -45,15 +48,11 @@ onedesk.OneCalendar = class OneCalendar {
 		this.layers = (await frappe.xcall("onedesk.one_calendar.layers.layers")) || [];
 		this.saved.off = this.saved.off || this.layers.filter((one) => !one.on).map((one) => one.key);
 		this.draw_layers();
-		this.calendar = new frappe.FullCalendar(this.$body.find(".one-calendar-main")[0], {
+		this.draw_toolbar();
+		this.calendar = new frappe.FullCalendar(this.$body.find(".one-calendar-grid")[0], {
 			plugins: frappe.FullCalendar.Plugins,
 			initialView: this.saved.view || "timeGridWeek",
-			headerToolbar: {
-				left: "prev,next today",
-				center: "title",
-				right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
-			},
-			buttonText: { today: __("Today"), month: __("Month"), week: __("Week"), day: __("Day"), list: __("List") },
+			headerToolbar: false,
 			allDayText: __("All Day"),
 			noEventsText: __("Nothing on these days."),
 			firstDay: frappe.datetime.get_first_day_of_the_week_index(),
@@ -80,6 +79,9 @@ onedesk.OneCalendar = class OneCalendar {
 				info.el.title = said ? `${info.event.title}\n${said}` : info.event.title;
 			},
 			datesSet: (info) => {
+				this.$title.find(".es-button__label").text(info.view.title);
+				const now = new Date();
+				this.$today.prop("disabled", info.view.activeStart <= now && now < info.view.activeEnd);
 				if (this.saved.view !== info.view.type) {
 					this.saved.view = info.view.type;
 					this.save();
@@ -87,6 +89,59 @@ onedesk.OneCalendar = class OneCalendar {
 			},
 		});
 		this.calendar.render();
+	}
+
+	// The desk's own calendar toolbar (frappe/views/calendar): the arrows, the
+	// title that opens a date picker, Today, and the views as TabButtons.
+	draw_toolbar() {
+		this.$title = frappe.ui.button({ label: __("Calendar"), variant: "ghost", css_class: "text-lg-medium text-ink-gray-7" });
+		this.jumper = new frappe.ui.Popover({
+			trigger: this.$title,
+			content: () => this.date_jumper(),
+			css_class: "calendar-date-jumper",
+		});
+		this.views = new frappe.ui.TabButtons({
+			label: __("Calendar View"),
+			options: [
+				{ label: __("Month"), value: "dayGridMonth" },
+				{ label: __("Week"), value: "timeGridWeek" },
+				{ label: __("Day"), value: "timeGridDay" },
+				{ label: __("List"), value: "listWeek" },
+			],
+			value: this.saved.view || "timeGridWeek",
+			on_change: (view) => this.calendar.changeView(view),
+		});
+		this.$today = frappe.ui.button({ label: __("Today"), onclick: () => this.calendar.today() });
+		this.$body.find(".one-calendar-toolbar").append(
+			frappe.ui.button({ icon: "chevron-left", variant: "ghost", title: __("Previous"), onclick: () => this.calendar.prev() }),
+			this.$title,
+			frappe.ui.button({ icon: "chevron-right", variant: "ghost", title: __("Next"), onclick: () => this.calendar.next() }),
+			$('<div class="grow"></div>'),
+			this.$today,
+			this.views.$el,
+		);
+	}
+
+	// Pick a day, and the calendar goes there in the view it is in.
+	date_jumper() {
+		const wrapper = document.createElement("div");
+		let lang = (frappe.boot.user && frappe.boot.user.language) || "en";
+		if (!$.fn.datepicker.language[lang]) lang = "en";
+		const months = this.calendar.view.type === "dayGridMonth";
+		let ready = false;
+		$(wrapper).datepicker({
+			language: lang,
+			firstDay: frappe.datetime.get_first_day_of_the_week_index(),
+			...(months ? { view: "months", minView: "months" } : {}),
+			onSelect: (_formatted, day) => {
+				if (!ready || !day) return;
+				this.calendar.gotoDate(day);
+				this.jumper.close();
+			},
+		});
+		$(wrapper).data("datepicker").selectDate(this.calendar.getDate());
+		ready = true;
+		return wrapper;
 	}
 
 	draw_layers() {
@@ -99,7 +154,7 @@ onedesk.OneCalendar = class OneCalendar {
 				const on = !this.saved.off.includes(one.key);
 				$(`<label class="one-calendar-layer">
 					<input type="checkbox" ${on ? "checked" : ""}>
-					<span class="one-calendar-dot" style="background: var(--${one.color}-500)"></span>
+					<span class="one-calendar-dot" style="background: var(--ink-${one.color}-7)"></span>
 					<span>${frappe.utils.escape_html(one.label)}</span>
 				</label>`)
 					.appendTo($side)
@@ -134,9 +189,11 @@ onedesk.OneCalendar = class OneCalendar {
 			end: one.end,
 			allDay: one.all_day,
 			editable: one.editable,
-			backgroundColor: `var(--${one.color}-500)`,
-			borderColor: `var(--${one.color}-500)`,
-			textColor: "#fff",
+			// The desk calendar's colours: a tinted surface and the family's ink,
+			// both tokens, so they turn with the dark theme.
+			backgroundColor: `var(--surface-${one.color}-1)`,
+			borderColor: `var(--surface-${one.color}-1)`,
+			textColor: `var(--ink-${one.color}-7)`,
 			extendedProps: one,
 		}));
 	}
