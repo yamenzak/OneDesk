@@ -166,8 +166,10 @@ doc_events = {
 	},
 	# A project's tasks are named with its prefix. See one_project/naming.py.
 	"Project": {
+		"before_validate": "onedesk.one_project.members.invite",
 		"validate": "onedesk.one_project.naming.validate",
-		"on_update": "onedesk.one_project.naming.on_update",
+		"on_update": ["onedesk.one_project.naming.on_update", "onedesk.one_project.members.forget"],
+		"on_trash": "onedesk.one_project.members.forget",
 	},
 	# A project's board, as ERPNext makes it, shaped. See one_project/board.py.
 	"Kanban Board": {"before_insert": "onedesk.one_project.board.shape"},
@@ -237,6 +239,8 @@ has_permission = {
 	# Everybody keeps tasks; a task with no project is its own people's.
 	# See one_task/access.py.
 	"Task": "onedesk.one_task.access.allowed",
+	# A project is its members'. See one_project/members.py.
+	"Project": "onedesk.one_project.members.allowed",
 	"AI Model": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Credit Ledger Entry": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Credit Reservation": "onedesk.one_admin.site.refuse_on_a_tenant",
@@ -256,6 +260,7 @@ has_permission = {
 permission_query_conditions = {
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.query",
 	"Task": "onedesk.one_task.access.query",
+	"Project": "onedesk.one_project.members.query",
 	"AI Model": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Credit Ledger Entry": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Credit Reservation": "onedesk.one_admin.site.nothing_on_a_tenant",

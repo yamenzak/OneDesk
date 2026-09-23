@@ -5,8 +5,11 @@ every person keeps their own to-dos as tasks, so every desk user may now make
 one, and sees:
 
 - **the tasks they made, and the ones assigned to them**, always;
-- **every task in a project**, if a role other than Desk User already lets
-  them read tasks — a Projects User, an HR Manager for boarding tasks;
+- **a task in a project they may see**, if a role other than Desk User already
+  lets them read tasks — a Projects User, an HR Manager for boarding tasks.
+  Which projects that is, is OneProject's rule (one_project/members.py): a
+  Projects Manager sees them all, anybody else the ones they made, are
+  members of, or that list nobody;
 - **a task somebody shared with them**, which is frappe's own rule.
 
 A task with no project is somebody's own to-do, so nobody else sees it, a
@@ -23,6 +26,8 @@ import json
 
 import frappe
 from frappe.permissions import SYSTEM_USER_ROLE, add_permission, update_permission_property
+
+from onedesk.one_project import members
 
 #: What every desk user may do to a task the two hooks let them near.
 GRANTS = ("read", "write", "create", "delete", "share")
@@ -58,8 +63,13 @@ def allowed(doc, ptype=None, user=None, debug=False) -> bool:
 		return True
 	if assigned(doc, user):
 		# Somebody else's to-do given to me is mine to do, not mine to delete.
-		return ptype != "delete" or bool(doc.project and sees_projects(user))
-	return bool(doc.project) and sees_projects(user)
+		return ptype != "delete" or in_view(doc.project, user)
+	return in_view(doc.project, user)
+
+
+def in_view(project: str | None, user: str) -> bool:
+	"""Whether a task's project puts it in front of this person."""
+	return bool(project) and sees_projects(user) and members.sees(project, user)
 
 
 def query(user=None, doctype=None) -> str:
@@ -68,6 +78,8 @@ def query(user=None, doctype=None) -> str:
 		return ""
 	said = frappe.db.escape
 	mine = f"(`tabTask`.`owner` = {said(user)} or `tabTask`.`_assign` like {said(f'%{json.dumps(user)}%')})"
-	if sees_projects(user):
+	if not sees_projects(user):
+		return mine
+	if members.manages(user):
 		return f"({mine} or ifnull(`tabTask`.`project`, '') != '')"
-	return mine
+	return f"({mine} or `tabTask`.`project` in ({members.names(members.visible(user))}))"

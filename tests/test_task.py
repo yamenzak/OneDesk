@@ -31,7 +31,9 @@ def test_a_task_with_no_project_is_seen_by_its_own_people_only():
 	assert "`tabTask`.`owner`" in query and "`tabTask`.`_assign` like" in query
 	assert "ifnull(`tabTask`.`project`, '') != ''" in query, "only project tasks widen"
 	allowed = _body(source, "allowed")
-	assert "return bool(doc.project) and sees_projects(user)" in allowed
+	assert "return in_view(doc.project, user)" in allowed
+	assert "bool(project) and sees_projects(user) and members.sees(project, user)" in _body(source, "in_view")
+	assert "members.visible(user)" in query, "a project task is seen through its project's members"
 	assert 'ptype != "delete"' in allowed, "given to me is not mine to delete"
 	assert "SYSTEM_USER_ROLE" in _body(source, "sees_projects"), "Desk User is not a projects role"
 

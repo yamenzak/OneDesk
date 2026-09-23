@@ -25,6 +25,22 @@ well as on the project's board.
 - Under **Setup**, **Project Template**, **Project Type**, **Activity Type**,
   **Activity Cost** and **Projects Settings**.
 
+## Who sees a project
+
+**A project's Users are its members.** List people under **Users** on a
+project and it is theirs: they see it and every task in it, and people who work
+in projects but are not listed do not. A **Projects Manager** sees every
+project, and whoever made a project sees it.
+
+**A project with nobody listed is open** to everybody who works in projects,
+so a small team never has to list anybody.
+
+**A task's own people always see it** — whoever it is assigned to sees it on
+My Tasks, member or not, and nothing else of the project.
+
+Somebody who only picks a project on a quotation, an order or an invoice sees
+every project in that list; the list is not the project.
+
 ## A project's board
 
 **Board** on a project shows its tasks in four columns — **Open**, **Working**,
@@ -78,6 +94,12 @@ one field for it.
 - `naming.py` — a project's Task Prefix, as a frappe Document Naming Rule for
   Task with the condition "project is this one". ERPNext's Task class is not
   overridden, and frappe's series for a prefix never reuses a name.
+- `members.py` — who sees a project: Projects Managers all, anybody else
+  holding Projects User the ones they made, are listed on, or that list
+  nobody (`visible`, kept for the request). A project's tasks follow it
+  through one_task/access.py. Being listed is also ERPNext's own share, and a
+  site with no outgoing mail marks the invitation sent rather than failing the
+  save (`invite`).
 - `plan.py` — each dependency row names its project, the field ERPNext's own
   rescheduling looks dependants up by and never writes.
 - `public/js/project.js` — the Board and Calendar buttons.
@@ -99,9 +121,10 @@ stage below that touches tasks keeps them:
 1. **The split.** *Done.* The project half of OneTask — the board, a project's
    calendar, task prefixes, the plan and the project settings — moves here,
    and OneProject gets its own place in the dock.
-2. **Members.** A project's Users decide who sees it and its tasks, instead of
-   every Projects User seeing every project. Members of a project see what is
-   under it. A task's own people still see it.
+2. **Members.** *Done.* A project's Users decide who sees it and its tasks,
+   instead of every Projects User seeing every project; a project listing
+   nobody stays open. A task's own people still see it. Members of a project
+   will see what is under it once there is something under it (`under`).
 3. **Sub-projects.** A Parent Project on Project, to any depth, so a separately
    billable piece — the handrails on a villa, a change request on a website —
    is a project of its own with its own quotation, sales order, time and

@@ -109,7 +109,9 @@ more than one person.
 
 - **Your own tasks** — ones you made, or that are assigned to you — are yours
   to see and change, and nobody else's unless you assign or share them.
-- **A task in a project** is also seen by the people who work in projects.
+- **A task in a project** is also seen by whoever may see the project — its
+  members, or everybody who works in projects when it lists nobody (see
+  OneProject).
 - **Share** on a task's page lets somebody see one task without giving it to
   them.
 

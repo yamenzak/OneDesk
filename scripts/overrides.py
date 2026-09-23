@@ -794,6 +794,20 @@ OVERRIDES = [
 		"frappe/frappe/automation/doctype/auto_repeat/auto_repeat.py",
 		'new_doc.run_method("on_recurring"',
 	),
+	(
+		"A project's members decide who sees it and its tasks",
+		"their Project already shares itself with each listed user; ours narrows Projects Users to the projects they are on, and a project's tasks follow it",
+		"onedesk/one_project/members.py",
+		"erpnext/erpnext/projects/doctype/project/project.py",
+		"def control_access_for_project_users",
+	),
+	(
+		"Adding a member does not fail on a site with no outgoing mail",
+		"their validate mails every new member an invitation, and frappe refuses to queue mail with no outgoing account, so nobody could be added",
+		"onedesk/one_project/members.py",
+		"erpnext/erpnext/projects/doctype/project/project.py",
+		"if user.welcome_email_sent == 0:",
+	),
 ]
 
 

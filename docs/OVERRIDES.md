@@ -115,5 +115,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | A task's timer is a row on the person's timesheet for the week | the task's Actual Time is theirs, filled from timesheets when one is submitted, so a timed hour reaches the task at the week's submit | `onedesk/one_task/timer.py` | `erpnext/erpnext/projects/doctype/timesheet/timesheet.py` | `def update_task_and_project` |
 | A dependency says which project it is in | their slip finds a task's dependants by the project on each Task Depends On row, a read-only field nothing of theirs writes, so it never found any | `onedesk/one_project/plan.py` | `erpnext/erpnext/projects/doctype/task/task.py` | `filters={"task": self.name, "project": self.project},` |
 | A repeating task is due the day it repeats and still to do | Auto Repeat copies the task whole, old dates, Completed and ticked steps included, then runs the copy's on_recurring | `onedesk/one_task/task.py` | `frappe/frappe/automation/doctype/auto_repeat/auto_repeat.py` | `new_doc.run_method("on_recurring"` |
+| A project's members decide who sees it and its tasks | their Project already shares itself with each listed user; ours narrows Projects Users to the projects they are on, and a project's tasks follow it | `onedesk/one_project/members.py` | `erpnext/erpnext/projects/doctype/project/project.py` | `def control_access_for_project_users` |
+| Adding a member does not fail on a site with no outgoing mail | their validate mails every new member an invitation, and frappe refuses to queue mail with no outgoing account, so nobody could be added | `onedesk/one_project/members.py` | `erpnext/erpnext/projects/doctype/project/project.py` | `if user.welcome_email_sent == 0:` |
 
-110 overrides.
+112 overrides.

@@ -69,3 +69,20 @@ def test_a_task_prefix_is_short_and_starts_with_a_letter():
 def test_erpnexts_dependants_can_find_their_project():
 	body = _body((PROJECT / "plan.py").read_text(), "before_validate")
 	assert 'for row in doc.get("depends_on") or []' in body and "row.project = doc.project" in body
+
+
+def test_a_project_is_its_members():
+	source = (PROJECT / "members.py").read_text()
+	assert 'MANAGERS = ("Projects Manager",)' in source and 'WORKER = "Projects User"' in source
+	seen = _body(source, "visible")
+	assert "unlisted" in seen and "member" in seen and "owned" in seen and "under(" in seen
+	assert "return not manages(user) and WORKER in frappe.get_roles(user)" in _body(source, "narrowed"), "select-only roles keep their lists"
+	assert '"Project": "onedesk.one_project.members.allowed"' in HOOKS and '"Project": "onedesk.one_project.members.query"' in HOOKS
+	assert "onedesk.one_project.members.forget" in HOOKS
+
+
+def test_a_member_can_be_added_without_outgoing_mail():
+	source = (PROJECT / "members.py").read_text()
+	invite = _body(source, "invite")
+	assert '"default_outgoing": 1, "enable_outgoing": 1' in invite and "row.welcome_email_sent = 1" in invite
+	assert '"before_validate": "onedesk.one_project.members.invite"' in HOOKS
