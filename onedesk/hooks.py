@@ -33,7 +33,7 @@ after_install = [
 	"onedesk.one_crm.board.sync",
 	"onedesk.one_crm.next.settle",
 	"onedesk.one_crm.record.settle",
-	"onedesk.one_crm.record.carry",
+	"onedesk.one_crm.capture.defaults",
 ]
 
 # Their dock files do not carry the mount, so a newer erpnext or hrms clears it,
@@ -158,8 +158,17 @@ doc_events = {
 		"validate": "onedesk.one_crm.deal.validate",
 		"on_update": "onedesk.one_crm.next.on_update",
 	},
-	# The owner is reminded of the next step. See one_crm/next.py.
-	"Lead": {"on_update": "onedesk.one_crm.next.on_update"},
+	# The owner is reminded of the next step (one_crm/next.py), and a lead that
+	# already exists is found rather than made twice (one_crm/capture.py).
+	"Lead": {
+		"before_insert": "onedesk.one_crm.capture.before_insert",
+		"on_update": "onedesk.one_crm.next.on_update",
+	},
+	# An Assignment Rule's pick becomes the owner, and a lead's first reply is
+	# timed. See one_crm/capture.py.
+	"ToDo": {"after_insert": "onedesk.one_crm.capture.assigned"},
+	"Communication": {"after_insert": "onedesk.one_crm.capture.replied"},
+	"Call Log": {"after_insert": "onedesk.one_crm.capture.replied"},
 	# The board has a column per stage. See one_crm/board.py.
 	"Sales Stage": {
 		"on_update": "onedesk.one_crm.board.sync",
@@ -239,6 +248,8 @@ fixtures = [
 	{"dt": "Translation", "filters": [["name", "like", "one-deal-%"]]},
 	# The tracker that dates every move of an opportunity's stage.
 	{"dt": "Milestone Tracker", "filters": [["name", "=", "Opportunity-sales_stage"]]},
+	# Where a lead from the web form says it came from.
+	{"dt": "UTM Source", "filters": [["name", "=", "Website"]]},
 ]
 
 

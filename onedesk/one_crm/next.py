@@ -36,6 +36,8 @@ def settle() -> None:
 			frappe.qb.update(table)
 			.set(table[field], table.owner)
 			.where(IfNull(table[field], "") == "")
+			# A web form's lead was made by Guest; it waits on Home as unclaimed.
+			.where(table.owner != "Guest")
 			.run()
 		)
 

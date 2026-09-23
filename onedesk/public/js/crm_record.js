@@ -14,10 +14,45 @@ onedesk.crm_record.refresh = (frm) => {
 		});
 };
 
+onedesk.crm_record.OWNER = { Lead: "lead_owner", Opportunity: "opportunity_owner" };
+
 onedesk.crm_record.actions = (frm) => {
 	frm.sidebar.clear_user_actions();
 	if (!frm.perm[0]?.write) return;
 	frm.sidebar.add_user_action(__("Log a Call"), () => onedesk.crm_record.call(frm));
+
+	// Nobody's yet: it came in from the web form or the inbox. See one_crm/capture.py.
+	if (!frm.doc[onedesk.crm_record.OWNER[frm.doctype]]) {
+		frm.add_custom_button(frm.doctype === "Lead" ? __("Take This Lead") : __("Take This Deal"), () =>
+			frappe
+				.xcall("onedesk.one_crm.capture.take", { doctype: frm.doctype, name: frm.doc.name })
+				.then(() => frm.reload_doc()),
+		);
+	}
+	if (frm.doctype === "Lead" && frm.doc.one_duplicate_of) onedesk.crm_record.duplicate(frm);
+};
+
+// A possible duplicate says so above the form, with the two ways to settle it.
+onedesk.crm_record.duplicate = (frm) => {
+	const { one_duplicate_type: doctype, one_duplicate_of: name, one_duplicate_on: on } = frm.doc;
+	const link = `<a href="/desk/${frappe.router.slug(doctype)}/${encodeURIComponent(name)}">${frappe.utils.escape_html(name)}</a>`;
+	const matched = { email: __("email"), phone: __("phone"), "business name": __("business name") };
+	frm.set_intro(__("This may be {0} {1}: the same {2}.", [__(doctype), link, matched[on] || on]), "orange");
+	const group = __("Duplicate");
+	if (doctype === "Lead") {
+		frm.add_custom_button(__("Merge Into {0}", [name]), () =>
+			frappe.confirm(
+				__("Everything on {0} moves to {1}, and {0} is deleted.", [frm.doc.name, name]),
+				() =>
+					frappe
+						.xcall("onedesk.one_crm.capture.merge", { lead: frm.doc.name, into: name })
+						.then((into) => frappe.set_route("Form", "Lead", into)),
+			), group);
+	}
+	frm.add_custom_button(__("Not a Duplicate"), () =>
+		frappe
+			.xcall("onedesk.one_crm.capture.not_duplicate", { lead: frm.doc.name })
+			.then(() => frm.reload_doc()), group);
 };
 
 onedesk.crm_record.stats = (frm, said) => {
@@ -33,6 +68,11 @@ onedesk.crm_record.stats = (frm, said) => {
 		stats.push(stat(said.stage || __("Sales Stage"), __("for {0}", [onedesk.crm_record.since(said.since)])));
 	} else {
 		stats.push(stat(__("Came In"), ago(said.since)));
+		if (said.first_reply) {
+			stats.push(stat(__("First Reply"), __("after {0}", [onedesk.crm_record.since(said.since, said.first_reply)])));
+		} else if (said.open) {
+			stats.push(stat(__("Waiting For a Reply"), onedesk.crm_record.since(said.since), null, "waiting"));
+		}
 	}
 
 	if (said.open) stats.push(onedesk.crm_record.next(said.next));
@@ -84,10 +124,10 @@ onedesk.crm_record.next = (next) => {
 	);
 };
 
-// "12 days", "3 hours": how long, not when. Measured against the system's clock,
-// which is the one `when` was written in.
-onedesk.crm_record.since = (when) => {
-	const hours = moment(frappe.datetime.system_datetime()).diff(moment(when), "hours");
+// "12 days", "3 hours": how long, not when, up to `until` or now. Measured
+// against the system's clock, which is the one `when` was written in.
+onedesk.crm_record.since = (when, until) => {
+	const hours = moment(until || frappe.datetime.system_datetime()).diff(moment(when), "hours");
 	if (hours < 1) return __("under an hour");
 	if (hours < 24) return hours === 1 ? __("an hour") : __("{0} hours", [hours]);
 	const days = Math.floor(hours / 24);

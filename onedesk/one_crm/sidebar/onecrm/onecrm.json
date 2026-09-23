@@ -310,6 +310,43 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
+   "label": "Lead Assignment",
+   "link_type": "DocType",
+   "link_to": "Assignment Rule",
+   "filters": "[[\"Assignment Rule\",\"document_type\",\"=\",\"Lead\"]]",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Get in Touch Form",
+   "link_type": "URL",
+   "url": "/desk/web-form/get-in-touch",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Inboxes",
+   "link_type": "DocType",
+   "link_to": "Email Account",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
    "label": "CRM Settings",
    "link_to": "CRM Settings",
    "link_type": "DocType",
@@ -317,7 +354,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-09-23 18:00:00.000000",
+ "modified": "2026-09-23 22:00:00.000000",
  "modified_by": "Administrator",
  "module": "One CRM",
  "name": "OneCRM",

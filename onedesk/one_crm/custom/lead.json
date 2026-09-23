@@ -18,6 +18,57 @@
    "in_list_view": 1,
    "description": "The owner is reminded at this time.",
    "module": "One CRM"
+  },
+  {
+   "dt": "Lead",
+   "fieldname": "one_message",
+   "fieldtype": "Small Text",
+   "label": "Message",
+   "insert_after": "one_next_on",
+   "description": "What they wrote when they got in touch.",
+   "module": "One CRM"
+  },
+  {
+   "dt": "Lead",
+   "fieldname": "one_first_reply_at",
+   "fieldtype": "Datetime",
+   "label": "First Reply",
+   "insert_after": "one_message",
+   "read_only": 1,
+   "description": "The first mail sent or call made to them.",
+   "module": "One CRM"
+  },
+  {
+   "dt": "Lead",
+   "fieldname": "one_duplicate_type",
+   "fieldtype": "Link",
+   "options": "DocType",
+   "label": "Possible Duplicate Type",
+   "insert_after": "one_first_reply_at",
+   "hidden": 1,
+   "read_only": 1,
+   "module": "One CRM"
+  },
+  {
+   "dt": "Lead",
+   "fieldname": "one_duplicate_of",
+   "fieldtype": "Dynamic Link",
+   "options": "one_duplicate_type",
+   "label": "Possible Duplicate Of",
+   "insert_after": "one_duplicate_type",
+   "read_only": 1,
+   "depends_on": "one_duplicate_of",
+   "module": "One CRM"
+  },
+  {
+   "dt": "Lead",
+   "fieldname": "one_duplicate_on",
+   "fieldtype": "Data",
+   "label": "Matched On",
+   "insert_after": "one_duplicate_of",
+   "read_only": 1,
+   "depends_on": "one_duplicate_of",
+   "module": "One CRM"
   }
  ],
  "doctype": "Lead",

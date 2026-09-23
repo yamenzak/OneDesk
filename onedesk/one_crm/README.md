@@ -43,6 +43,37 @@ worth; a deal priced by its items takes their total when no value is typed.
 A deal is ERPNext's Opportunity under a shorter name. To call it something
 else, change the rows named `one-deal-…` under **Translation**.
 
+### How leads come in
+
+A lead can be made three ways:
+
+- **At the desk**, from the Lead list or **New Lead** on Home.
+- **From the website.** The **Get in Touch** form at `/get-in-touch` asks for a
+  name, business, email, mobile and a message, and makes a lead with its
+  source set to Website and the message kept on it. Change the form under
+  **Setup › Get in Touch Form**; link to it from your own website.
+- **From an inbox.** Set up an **Email Account** under **Setup › Inboxes**,
+  with *Append To* set to Lead, and every mail to it makes a lead. Mail from
+  somebody who is already a lead is added to their lead instead.
+
+A lead from the website or an inbox belongs to nobody at first. It waits on
+Home under **Unclaimed Leads** until somebody presses **Take This Lead**, or an
+**Assignment Rule** shares it out: set one up under **Setup › Lead Assignment**
+(round robin or by load) and the person it picks becomes the Lead Owner.
+
+**Somebody who is already a lead is not made twice.** At the desk, a second
+lead with the same email is refused with a link to the first. From the website
+it is made but marked **Possible Duplicate Of** the first, and a lead whose
+phone number or business name matches another lead or a customer is marked the
+same way. The page says so at the top and offers **Merge Into …**, which moves
+its comments, mail, calls and deals across and deletes it, or **Not a
+Duplicate**. Phone numbers match however they were typed: +971 50 123 4567
+and 050-1234567 are one number.
+
+**The first reply is timed.** A lead's page shows **Waiting For a Reply** and
+for how long until the first mail is sent or call is made to them, and then
+**First Reply** and how long it took.
+
 ### The next step
 
 Every lead and deal has a **Next Step** — what you will do, such as "Call Rana
@@ -89,6 +120,7 @@ Home is your day, counting only your own leads and deals that are still open:
 
 - **Deals Due** and **Leads Due** — a next step due today or already overdue.
 - **Unplanned Deals** and **Unplanned Leads** — nothing planned next.
+- **Unclaimed Leads** — new leads nobody has taken yet, everybody's to see.
 - **New Lead** and **Pipeline**, the two places most days start.
 
 Each count opens the list it counts.
@@ -124,8 +156,9 @@ reopen it every morning, won and lost ones included; One does not.
 ### The pipeline
 
 **Pipeline** in the rail opens the board: one column per stage in position
-order, and a card per deal with its value and its next step. Drag a card to another column to move the deal; its probability follows,
-and a card dropped on Won converts the deal.
+order, and a card per deal with its value and its next step. Drag a card to
+another column to move the deal; its probability follows, and a card dropped
+on Won converts the deal.
 
 Under each column's name is what the deals in it are worth, and what they are
 worth weighted by their probability — 50,000 at 50% counts as 25,000. Both are
@@ -140,7 +173,8 @@ A stage added, renamed or removed under Setup changes the board's columns.
 ## Setup
 
 **Territory**, **Customer Group**, **Sales Person**, **Sales Stage**, **Lead
-Source** and **CRM Settings** are in the Setup group.
+Source**, **Lead Assignment**, **Get in Touch Form**, **Inboxes** and **CRM
+Settings** are in the Setup group.
 
 ## Under the hood
 
@@ -205,8 +239,8 @@ none edits erpnext.
    open them for — value, stage and how long it has been there, the last
    contact, the next step, where it came from — with notes, calls written down
    by hand, mail and comments on one timeline.
-5. **Capture.** A web form that makes a lead, mail to an inbox that makes a
-   lead, duplicates caught on email, phone and business name, leads shared out
+5. **Capture.** *Done* — `capture.py`, `web_form/get_in_touch`. A web form
+   that makes a lead, mail to an inbox that makes a lead, duplicates caught on email, phone and business name, leads shared out
    by an Assignment Rule, and the first reply on a lead measured.
 6. **Measured.** A forecast by expected month weighted by stage, won and lost
    with one list of reasons, which sources turn into sales, and the number

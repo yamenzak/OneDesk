@@ -138,6 +138,9 @@ No doctypes yet.
 * `onedesk.one_ai.run.use`
 * `onedesk.one_ai.run.waiting`
 * `onedesk.one_crm.board.worth`
+* `onedesk.one_crm.capture.merge`
+* `onedesk.one_crm.capture.not_duplicate`
+* `onedesk.one_crm.capture.take`
 * `onedesk.one_crm.next.done`
 * `onedesk.one_crm.record.log_call`
 * `onedesk.one_crm.record.overview`

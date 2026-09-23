@@ -98,5 +98,8 @@ Each row is something that would still run but stop working if upstream moved. `
 | Home counts the reader's own deals and leads | a shortcut's stats_filter is evaluated as a JavaScript expression, so it can name frappe.session.user | `onedesk/one_crm/workspace/onecrm/onecrm.json` | `frappe/frappe/public/js/frappe/utils/utils.js` | `new Function(`return ${filter}`)()` |
 | A lead's and a deal's comment box is shown again | erpnext hides it with an inline style when it moves the timeline into Activities; notes are comments now | `onedesk/public/css/desk.css` | `erpnext/erpnext/public/js/utils/crm_activities.js` | `$(".comment-box").hide();` |
 | A call logged by hand owes nobody a popup | Call Log rings the scheduled employees on insert; the logged instance's trigger_call_popup is a no-op | `onedesk/one_crm/record.py` | `erpnext/erpnext/telephony/doctype/call_log/call_log.py` | `def trigger_call_popup(self):` |
+| Mail from a known lead is added to that lead | the receiver looks the sender up only when the insert raises DuplicateEntryError, so capture.py raises that | `onedesk/one_crm/capture.py` | `frappe/frappe/email/receive.py` | `except frappe.DuplicateEntryError:` |
+| A web form's lead is marked, not refused | frappe sets in_web_form while it accepts a submission; a visitor cannot be told they already exist | `onedesk/one_crm/capture.py` | `frappe/frappe/website/doctype/web_form/web_form.py` | `frappe.flags.in_web_form = True` |
+| ERPNext's refusal of a second lead with one email is switched off | it refused the web form and the inbox too; capture.py decides instead | `onedesk/one_crm/capture.py` | `erpnext/erpnext/crm/doctype/lead/lead.py` | `"allow_lead_duplication_based_on_emails"` |
 
-93 overrides.
+96 overrides.

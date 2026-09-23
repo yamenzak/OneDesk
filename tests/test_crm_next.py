@@ -36,10 +36,12 @@ def test_home_counts_what_the_reminders_count_as_open():
 	owner = _constant("OWNER")
 	mine = [one for one in shortcuts if "frappe.session.user" in one["stats_filter"]]
 	assert len(mine) == 4
+	for one in shortcuts:
+		said = re.search(r'"status","in",(\[[^\]]*\])', one["stats_filter"])
+		if said:
+			assert tuple(json.loads(said.group(1))) == open_[one["link_to"]], one["label"]
 	for one in mine:
 		doctype = one["link_to"]
-		said = re.search(r'"status","in",(\[[^\]]*\])', one["stats_filter"]).group(1)
-		assert tuple(json.loads(said)) == open_[doctype], one["label"]
 		assert f'"{owner[doctype]}","=",frappe.session.user' in one["stats_filter"], one["label"]
 		assert one.get("format") == "{}", "a count of 0 draws an empty badge without a format"
 

@@ -47,7 +47,11 @@ def overview(doctype: Annotated[str, "Lead or Opportunity."], name: str) -> dict
 			quotation=quotation(name),
 		)
 	else:
-		said.update(since=doc.creation, deals=deals(name))
+		said.update(
+			since=doc.creation,
+			deals=deals(name),
+			first_reply=doc.one_first_reply_at,
+		)
 	return said
 
 
@@ -187,13 +191,6 @@ def phone(doc) -> str:
 		if doc.get(field):
 			return doc.get(field)
 	return doc.get("title") or doc.name
-
-
-def carry() -> None:
-	"""A deal made from a lead carries the lead's comments and mail. On install
-	only: erpnext writes the setting as 0 when it installs, so there is no
-	"never written" to wait for, and after that it is the workspace's."""
-	frappe.db.set_single_value("CRM Settings", "carry_forward_communication_and_comments", 1)
 
 
 def settle() -> None:

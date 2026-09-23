@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 14:43+0000\n"
-"PO-Revision-Date: 2026-09-23 14:43+0000\n"
+"POT-Creation-Date: 2026-09-23 15:03+0000\n"
+"PO-Revision-Date: 2026-09-23 15:03+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -67,7 +67,7 @@ msgstr "موقع مناوبة، أو موظف واحد. اترك الحقلين 
 msgid "A cache read is a third thing, not a cheaper input."
 msgstr "قراءة المخزن المؤقت شيء ثالث، وليست مدخلاً أرخص."
 
-#: onedesk/one_crm/record.py:155
+#: onedesk/one_crm/record.py:159
 msgid "A call is Outgoing or Incoming, and Answered, No Answer or Busy."
 msgstr "المكالمة إما صادرة أو واردة، وإما تم الرد عليها أو لم يُرد عليها أو كان الخط مشغولاً."
 
@@ -129,6 +129,10 @@ msgstr "المنحة تضيف وقد تنتهي. أما الإنفاق والا�
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.py:43
 msgid "A grant is not drawn from anything."
 msgstr "المنحة لا تُسحب من شيء."
+
+#: onedesk/one_crm/capture.py:127
+msgid "A lead cannot be merged into itself."
+msgstr "لا يمكن دمج العميل المحتمل في نفسه."
 
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.py:31
 msgid "A ledger entry of zero credits records nothing."
@@ -609,7 +613,7 @@ msgstr "سُجّل تسجيل حضور آخر في الثانية نفسها."
 msgid "Another employee has already checked in from this browser today."
 msgstr "سجّل موظف آخر حضوره من هذا المتصفح اليوم."
 
-#: onedesk/public/js/crm_record.js:116
+#: onedesk/public/js/crm_record.js:156
 msgid "Answered"
 msgstr "تم الرد"
 
@@ -1127,7 +1131,7 @@ msgstr "أنشئ مساحة العمل"
 msgid "Building"
 msgstr "قيد الإنشاء"
 
-#: onedesk/public/js/crm_record.js:118
+#: onedesk/public/js/crm_record.js:158
 msgid "Busy"
 msgstr ""
 
@@ -1165,11 +1169,11 @@ msgstr ""
 msgid "CTC Break-up"
 msgstr "تفصيل التكلفة الإجمالية"
 
-#: onedesk/public/js/ai_model.js:80 onedesk/public/js/crm_record.js:104
+#: onedesk/public/js/ai_model.js:80 onedesk/public/js/crm_record.js:144
 msgid "Call"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:140
+#: onedesk/public/js/crm_record.js:180
 msgid "Call logged"
 msgstr "تم تسجيل المكالمة"
 
@@ -1179,7 +1183,7 @@ msgstr "تم تسجيل المكالمة"
 msgid "Calls"
 msgstr "الاستدعاءات"
 
-#: onedesk/public/js/crm_record.js:35
+#: onedesk/public/js/crm_record.js:70
 msgid "Came In"
 msgstr "ورد منذ"
 
@@ -1483,7 +1487,7 @@ msgstr ""
 msgid "Closed Automatically"
 msgstr "أُغلق تلقائياً"
 
-#: onedesk/public/js/crm_record.js:53
+#: onedesk/public/js/crm_record.js:93
 msgid "Closes"
 msgstr "موعد الإغلاق"
 
@@ -1766,11 +1770,11 @@ msgstr "الأيام المتبقية"
 msgid "Days at each status before moving to the next. Zero disables the move."
 msgstr "عدد الأيام في كل حالة قبل الانتقال إلى التالية. الصفر يوقف الانتقال."
 
-#: onedesk/public/js/crm_record.js:30
+#: onedesk/public/js/crm_record.js:65
 msgid "Deal Value · {0}%"
 msgstr "قيمة الصفقة · {0}%"
 
-#: onedesk/public/js/crm_record.js:65
+#: onedesk/public/js/crm_record.js:105
 msgid "Deals"
 msgstr "الصفقات"
 
@@ -2000,7 +2004,7 @@ msgstr "تم."
 msgid "Done. It wrote {0}."
 msgstr "تم. وكُتب {0}."
 
-#: onedesk/one_crm/next.py:91
+#: onedesk/one_crm/next.py:93
 msgid "Done: {0}"
 msgstr "تم: {0}"
 
@@ -2070,7 +2074,11 @@ msgstr "إسقاط"
 msgid "Dropped"
 msgstr "أُسقط"
 
-#: onedesk/public/js/crm_record.js:126
+#: onedesk/public/js/crm_record.js:41
+msgid "Duplicate"
+msgstr ""
+
+#: onedesk/public/js/crm_record.js:166
 msgid "Duration (Minutes)"
 msgstr "المدة (بالدقائق)"
 
@@ -2104,7 +2112,9 @@ msgid "Either accepts a check-in that passes one of the two. Both requires each 
 msgstr "«أحدهما» يقبل تسجيل الحضور الذي يجتاز أحد التحققين. «كلاهما» يشترط اجتيازهما معاً."
 
 #. Label of the email (Data) field in DocType 'Account Request'
+#. Label of a field in the get-in-touch Web Form
 #: onedesk/one_admin/doctype/account_request/account_request.json
+#: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 #: onedesk/www/start.html:30
 msgid "Email"
 msgstr ""
@@ -2348,6 +2358,10 @@ msgstr "جميع الأجزاء مفرّغة بالفعل."
 msgid "Everyone who works here needs an account. Add them now and they can sign in while you finish setting up."
 msgstr "كل من يعمل هنا يحتاج إلى حساب. أضفهم الآن ليتمكنوا من تسجيل الدخول بينما تُكمل الإعداد."
 
+#: onedesk/public/js/crm_record.js:45
+msgid "Everything on {0} moves to {1}, and {0} is deleted."
+msgstr "ينتقل كل ما في {0} إلى {1}، ويُحذف {0}."
+
 #. Description of the 'Addressed To' (Data) field in DocType 'Employee Letter'
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 msgid "Example: Emirates NBD, or To Whom It May Concern."
@@ -2513,6 +2527,16 @@ msgstr ""
 msgid "Finished all {0} steps."
 msgstr "أنهت الخطوات الـ{0} كلها."
 
+#. Label of a field in the get-in-touch Web Form
+#: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
+msgid "First Name"
+msgstr ""
+
+#. Label of the one_first_reply_at (Datetime) field in DocType 'Lead'
+#: onedesk/one_crm/custom/lead.json onedesk/public/js/crm_record.js:72
+msgid "First Reply"
+msgstr "أول رد"
+
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "First Response Time"
@@ -2633,6 +2657,16 @@ msgstr "اسم البوابة"
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Gateway Token"
 msgstr "رمز البوابة"
+
+#. Title of the get-in-touch Web Form
+#: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
+msgid "Get in Touch"
+msgstr "تواصل معنا"
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Get in Touch Form"
+msgstr "نموذج تواصل معنا"
 
 #: onedesk/public/js/tenant.js:126
 msgid "Give"
@@ -3011,6 +3045,11 @@ msgstr "بالبايت. الصفر يعني بلا حد."
 msgid "In, per 1M Tokens"
 msgstr "المدخل لكل مليون رمز"
 
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Inboxes"
+msgstr "صناديق البريد"
+
 #: onedesk/public/js/hiring.js:56
 msgid "Include Audio From Another Tab"
 msgstr "تضمين الصوت من علامة تبويب أخرى"
@@ -3035,7 +3074,7 @@ msgstr ""
 msgid "Income Tax Slab"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:107
+#: onedesk/public/js/crm_record.js:147
 msgid "Incoming"
 msgstr ""
 
@@ -3237,15 +3276,15 @@ msgid "Last Address"
 msgstr "آخر عنوان"
 
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:44
-#: onedesk/public/js/crm_record.js:43
+#: onedesk/public/js/crm_record.js:83
 msgid "Last Call"
 msgstr "آخر استدعاء"
 
-#: onedesk/public/js/crm_record.js:47
+#: onedesk/public/js/crm_record.js:87
 msgid "Last Contact"
 msgstr "آخر تواصل"
 
-#: onedesk/public/js/crm_record.js:43
+#: onedesk/public/js/crm_record.js:83
 msgid "Last Email"
 msgstr "آخر بريد"
 
@@ -3267,6 +3306,11 @@ msgstr "آخر مقابلة"
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Last Listed"
 msgstr "آخر إدراج"
+
+#. Label of a field in the get-in-touch Web Form
+#: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
+msgid "Last Name"
+msgstr ""
 
 #. Label of the priced_on (Datetime) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -3333,6 +3377,11 @@ msgstr "خط العرض وخط الطول مطلوبان لتسجيل الحضو
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Lead"
 msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Lead Assignment"
+msgstr "توزيع العملاء المحتملين"
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -3555,11 +3604,11 @@ msgstr ""
 msgid "Log Type"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:20 onedesk/public/js/crm_record.js:99
+#: onedesk/public/js/crm_record.js:22 onedesk/public/js/crm_record.js:139
 msgid "Log a Call"
 msgstr "تسجيل مكالمة"
 
-#: onedesk/one_crm/record.py:170
+#: onedesk/one_crm/record.py:174
 msgid "Logged by hand"
 msgstr "مسجّلة يدوياً"
 
@@ -3677,6 +3726,11 @@ msgstr "مطابقة العنوان الذي جاء منه الطلب مع شب�
 msgid "Match the browser's position against Clock Place and the Shift Location radius. Requires Allow Geolocation Tracking."
 msgstr "طابق موقع المتصفح مع مكان التسجيل ونطاق موقع الوردية. يتطلب السماح بتتبع الموقع الجغرافي."
 
+#. Label of the one_duplicate_on (Data) field in DocType 'Lead'
+#: onedesk/one_crm/custom/lead.json
+msgid "Matched On"
+msgstr "التطابق في"
+
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:31
 msgid "May"
 msgstr ""
@@ -3694,6 +3748,22 @@ msgstr "قياس التخزين"
 #: onedesk/one/sidebar/one/one.json
 msgid "Memory"
 msgstr "الذاكرة"
+
+#: onedesk/public/js/crm_record.js:43
+msgid "Merge Into {0}"
+msgstr "دمج في {0}"
+
+#. Label of the one_message (Small Text) field in DocType 'Lead'
+#. Label of a field in the get-in-touch Web Form
+#: onedesk/one_crm/custom/lead.json
+#: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
+msgid "Message"
+msgstr ""
+
+#. Label of a field in the get-in-touch Web Form
+#: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
+msgid "Mobile No"
+msgstr ""
 
 #. Label of the modality (Select) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
@@ -3854,20 +3924,20 @@ msgstr "الحالة التالية"
 #. Label of the one_next_step (Data) field in DocType 'Lead'
 #. Label of the one_next_step (Data) field in DocType 'Opportunity'
 #: onedesk/one_crm/custom/lead.json onedesk/one_crm/custom/opportunity.json
-#: onedesk/one_crm/next.py:67 onedesk/public/js/crm_record.js:76
-#: onedesk/public/js/crm_record.js:80 onedesk/public/js/crm_record.js:81
-#: onedesk/public/js/next_step.js:16
+#: onedesk/one_crm/next.py:69 onedesk/public/js/crm_record.js:116
+#: onedesk/public/js/crm_record.js:120 onedesk/public/js/crm_record.js:121
+#: onedesk/public/js/next_step.js:23
 msgid "Next Step"
 msgstr "الخطوة التالية"
 
-#: onedesk/public/js/next_step.js:8
+#: onedesk/public/js/next_step.js:15
 msgid "Next Step Done"
 msgstr "تمت الخطوة التالية"
 
 #. Label of the one_next_on (Datetime) field in DocType 'Lead'
 #. Label of the one_next_on (Datetime) field in DocType 'Opportunity'
 #: onedesk/one_crm/custom/lead.json onedesk/one_crm/custom/opportunity.json
-#: onedesk/public/js/next_step.js:20
+#: onedesk/public/js/next_step.js:27
 msgid "Next Step Due"
 msgstr "موعد الخطوة التالية"
 
@@ -3875,7 +3945,7 @@ msgstr "موعد الخطوة التالية"
 msgid "No"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:117
+#: onedesk/public/js/crm_record.js:157
 msgid "No Answer"
 msgstr ""
 
@@ -3967,11 +4037,11 @@ msgstr "لا أحد يستطيع اعتماد طلب مناوبة لـ {0}. عي
 msgid "Nobody on this list checked in"
 msgstr "لم يسجّل أحد في هذه القائمة حضوره"
 
-#: onedesk/public/js/crm_record.js:76
+#: onedesk/public/js/crm_record.js:116
 msgid "None planned"
 msgstr "لا شيء مخطط"
 
-#: onedesk/public/js/crm_record.js:47
+#: onedesk/public/js/crm_record.js:87
 msgid "None yet"
 msgstr "لا شيء بعد"
 
@@ -3988,6 +4058,10 @@ msgstr "غير مفوتر"
 #: onedesk/public/js/desk.js:123
 msgid "Not Checked In"
 msgstr "لم يسجّل الحضور"
+
+#: onedesk/public/js/crm_record.js:52
+msgid "Not a Duplicate"
+msgstr "ليس مكرراً"
 
 #: onedesk/one_admin/proxy.py:109
 msgid "Not a workspace this site administers."
@@ -4363,7 +4437,7 @@ msgstr "لا يُبتّ إلا في مطالبة ما زالت قيد الانت
 msgid "Only a flagged attempt needs reviewing."
 msgstr "المحاولات المُشار إليها وحدها هي التي تحتاج إلى مراجعة."
 
-#: onedesk/one_crm/next.py:87
+#: onedesk/one_crm/next.py:89
 msgid "Only a lead or a deal has a next step."
 msgstr "الخطوة التالية تخص العميل المحتمل أو الصفقة فقط."
 
@@ -4371,7 +4445,11 @@ msgstr "الخطوة التالية تخص العميل المحتمل أو ال
 msgid "Only a lead or a deal has an overview."
 msgstr "النظرة العامة تخص العميل المحتمل أو الصفقة فقط."
 
-#: onedesk/one_crm/record.py:153
+#: onedesk/one_crm/capture.py:149
+msgid "Only a lead or a deal has an owner."
+msgstr "المسؤول يخص العميل المحتمل أو الصفقة فقط."
+
+#: onedesk/one_crm/record.py:157
 msgid "Only a lead or a deal has calls."
 msgstr "المكالمات تخص العميل المحتمل أو الصفقة فقط."
 
@@ -4487,6 +4565,11 @@ msgstr "الخيارات مأخوذة من سبب التسجيل."
 msgid "Org Chart"
 msgstr "الهيكل التنظيمي"
 
+#. Label of a field in the get-in-touch Web Form
+#: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
+msgid "Organization Name"
+msgstr ""
+
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
 #. Option for the 'Letter Type' (Select) field in DocType 'Employee Letter'
@@ -4541,11 +4624,11 @@ msgstr "المخرج لكل مليون رمز"
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_hr/custom/employee_checkin.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
-#: onedesk/public/js/crm_record.js:114
+#: onedesk/public/js/crm_record.js:154
 msgid "Outcome"
 msgstr "النتيجة"
 
-#: onedesk/public/js/crm_record.js:106
+#: onedesk/public/js/crm_record.js:146
 msgid "Outgoing"
 msgstr ""
 
@@ -4866,6 +4949,16 @@ msgstr ""
 msgid "Positive for a grant, negative for a spend."
 msgstr "موجب للمنحة، سالب للإنفاق."
 
+#. Label of the one_duplicate_of (Dynamic Link) field in DocType 'Lead'
+#: onedesk/one_crm/custom/lead.json
+msgid "Possible Duplicate Of"
+msgstr "تكرار محتمل لـ"
+
+#. Label of the one_duplicate_type (Link) field in DocType 'Lead'
+#: onedesk/one_crm/custom/lead.json
+msgid "Possible Duplicate Type"
+msgstr "نوع التكرار المحتمل"
+
 #: onedesk/one_hr/ai.py:159
 msgid "Prepare this interview again"
 msgstr "إعادة تحضير هذه المقابلة"
@@ -5071,7 +5164,7 @@ msgstr "الحصص"
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
-#: onedesk/public/js/crm_record.js:58
+#: onedesk/public/js/crm_record.js:98
 msgid "Quotation"
 msgstr ""
 
@@ -5567,12 +5660,12 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
-#: onedesk/public/js/crm_record.js:33
+#: onedesk/public/js/crm_record.js:68
 msgid "Sales Stage"
 msgstr ""
 
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:52
-#: onedesk/public/js/crm_record.js:132 onedesk/public/js/next_step.js:24
+#: onedesk/public/js/crm_record.js:172 onedesk/public/js/next_step.js:31
 msgid "Save"
 msgstr ""
 
@@ -5699,7 +5792,7 @@ msgstr "إنهاء الخدمة"
 msgid "Session Address"
 msgstr "عنوان الجلسة"
 
-#: onedesk/public/js/next_step.js:8 onedesk/public/js/next_step.js:14
+#: onedesk/public/js/next_step.js:15 onedesk/public/js/next_step.js:21
 msgid "Set Next Step"
 msgstr "تحديد الخطوة التالية"
 
@@ -5877,7 +5970,7 @@ msgstr "شيء اقترح نموذج فعله. ولا يحدث شيء حتى ي�
 #. Label of the source (Select) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:217
-#: onedesk/public/js/crm_record.js:71
+#: onedesk/public/js/crm_record.js:111
 msgid "Source"
 msgstr ""
 
@@ -6221,6 +6314,14 @@ msgstr "تعليمة النظام"
 msgid "System Manager"
 msgstr ""
 
+#: onedesk/public/js/crm_record.js:26
+msgid "Take This Deal"
+msgstr "تولَّ هذه الصفقة"
+
+#: onedesk/public/js/crm_record.js:26
+msgid "Take This Lead"
+msgstr "تولَّ هذا العميل المحتمل"
+
 #. Description of the 'Inputs' (Section Break) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Taken from the provider's own word for the model and from every input price it publishes."
@@ -6239,6 +6340,11 @@ msgstr "الضرائب والمزايا"
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Team"
 msgstr ""
+
+#. Introduction text of the get-in-touch Web Form
+#: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
+msgid "Tell us who you are and what you need, and we will get back to you."
+msgstr "أخبرنا من أنت وما تحتاجه، وسنعاود التواصل معك."
 
 #. Label of the tenant (Link) field in DocType 'Account Request'
 #. Label of the tenant (Link) field in DocType 'Provisioning Job'
@@ -6287,6 +6393,11 @@ msgstr "تصنيف نصوص"
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Text Generation"
 msgstr "توليد النصوص"
+
+#. Success message of the get-in-touch Web Form
+#: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
+msgid "Thank you. We will be in touch."
+msgstr "شكراً لك. سنتواصل معك."
 
 #: onedesk/one_ai/chat.py:208 onedesk/public/js/oneai/Panel.vue:616
 msgid "That did not go through."
@@ -6413,6 +6524,11 @@ msgstr "لا يُتوقع عودة الموظف اليوم. ويُسجَّل ا�
 #: onedesk/www/start.html:32
 msgid "The first account, and where the receipt goes."
 msgstr "أول حساب، وإليه يصل الإيصال."
+
+#. Description of the 'First Reply' (Datetime) field in DocType 'Lead'
+#: onedesk/one_crm/custom/lead.json
+msgid "The first mail sent or call made to them."
+msgstr "أول بريد أُرسل إليهم أو أول مكالمة أُجريت معهم."
 
 #. Description of the 'Title' (Data) field in DocType 'AI Chat'
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
@@ -6652,6 +6768,10 @@ msgstr "مفتاح مرور هذا الموظف محظور. على الموار�
 #: onedesk/one_ai/proposals.py:118
 msgid "This is for a document that is not saved yet. Apply it from its form."
 msgstr "هذا لمستند لم يُحفظ بعد. طبّقه من نموذجه."
+
+#: onedesk/public/js/crm_record.js:40
+msgid "This may be {0} {1}: the same {2}."
+msgstr "قد يكون هذا {0} {1}: نفس {2}."
 
 #: onedesk/one_hr/rules.py:36
 msgid "This network belongs to you rather than to a workplace."
@@ -6905,6 +7025,11 @@ msgstr ""
 msgid "USD"
 msgstr "دولار أمريكي"
 
+#. Label of a shortcut in the OneCRM Workspace
+#: onedesk/one_crm/workspace/onecrm/onecrm.json
+msgid "Unclaimed Leads"
+msgstr "عملاء محتملون بلا مسؤول"
+
 #. Label of the unit (Data) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "Unit"
@@ -7071,6 +7196,10 @@ msgstr "الرؤية"
 msgid "Waiting"
 msgstr "قيد الانتظار"
 
+#: onedesk/public/js/crm_record.js:74
+msgid "Waiting For a Reply"
+msgstr "بانتظار الرد"
+
 #: onedesk/www/welcome.py:17
 msgid "Waiting for the payment to settle."
 msgstr "في انتظار تسوية الدفعة."
@@ -7118,7 +7247,7 @@ msgstr "راحة أسبوعية"
 msgid "What Attendance recorded, before the type's maximum was applied."
 msgstr "ما سجّله الحضور قبل تطبيق الحد الأقصى للنوع."
 
-#: onedesk/public/js/next_step.js:14
+#: onedesk/public/js/next_step.js:21
 msgid "What Comes Next?"
 msgstr "ما الخطوة التالية؟"
 
@@ -7126,7 +7255,7 @@ msgstr "ما الخطوة التالية؟"
 msgid "What OneAI remembers"
 msgstr "ما يتذكره OneAI"
 
-#: onedesk/public/js/crm_record.js:130
+#: onedesk/public/js/crm_record.js:170
 msgid "What Was Said"
 msgstr "ما قيل"
 
@@ -7242,6 +7371,11 @@ msgstr "ما بيع لمساحة العمل. تُنسخ الحصص إلى هذا
 #: onedesk/one_hr/custom/leave_application.json
 msgid "What they had left before this application. The table above counts this one as pending rather than spent."
 msgstr "ما كان متبقياً لديه قبل هذا الطلب. والجدول أعلاه يعدّ هذا الطلب قيد الانتظار لا مخصوماً."
+
+#. Description of the 'Message' (Small Text) field in DocType 'Lead'
+#: onedesk/one_crm/custom/lead.json
+msgid "What they wrote when they got in touch."
+msgstr "ما كتبوه عند تواصلهم."
 
 #. Description of a DocType
 #: onedesk/one/doctype/workspace_account/workspace_account.json
@@ -7660,11 +7794,15 @@ msgstr "الصفر يعني بلا حد."
 msgid "Zero means unlimited. Enforced by Frappe from the site's config."
 msgstr "الصفر يعني بلا حد. ويفرضه Frappe من إعدادات الموقع."
 
-#: onedesk/public/js/crm_record.js:94
+#: onedesk/public/js/crm_record.js:134
 msgid "a day"
 msgstr "يوم واحد"
 
-#: onedesk/public/js/crm_record.js:92
+#: onedesk/public/js/crm_record.js:72
+msgid "after {0}"
+msgstr "بعد {0}"
+
+#: onedesk/public/js/crm_record.js:132
 msgid "an hour"
 msgstr "ساعة واحدة"
 
@@ -7677,10 +7815,18 @@ msgstr "و{0} غيرها"
 msgid "audio"
 msgstr "صوت"
 
+#: onedesk/public/js/crm_record.js:39
+msgid "business name"
+msgstr "اسم النشاط"
+
 #. Option for the 'Kind' (Select) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "cached"
 msgstr "مخزَّن مؤقتاً"
+
+#: onedesk/public/js/crm_record.js:39
+msgid "email"
+msgstr ""
 
 #: onedesk/public/js/oneai/Record.vue:46
 msgid "empty"
@@ -7694,7 +7840,7 @@ msgstr "الملاحظات"
 msgid "for"
 msgstr "مقابل"
 
-#: onedesk/public/js/crm_record.js:33
+#: onedesk/public/js/crm_record.js:68
 msgid "for {0}"
 msgstr "منذ {0}"
 
@@ -7768,6 +7914,10 @@ msgstr "أخرى"
 msgid "output"
 msgstr "مخرجات"
 
+#: onedesk/public/js/crm_record.js:39
+msgid "phone"
+msgstr "الهاتف"
+
 #: onedesk/one_hr/hiring.py:329
 msgid "placed {0} of {1}"
 msgstr "الترتيب {0} من {1}"
@@ -7789,7 +7939,7 @@ msgstr "البداية"
 msgid "this part could not be transcribed"
 msgstr "تعذّر تفريغ هذا الجزء"
 
-#: onedesk/public/js/crm_record.js:91
+#: onedesk/public/js/crm_record.js:131
 msgid "under an hour"
 msgstr "أقل من ساعة"
 
@@ -7831,6 +7981,10 @@ msgstr "{0} شهرياً"
 #: onedesk/one_hr/overtime.py:114
 msgid "{0} allows at most {1} overtime hours a day."
 msgstr "يسمح {0} بحد أقصى {1} من ساعات العمل الإضافي يومياً."
+
+#: onedesk/one_crm/capture.py:153
+msgid "{0} already belongs to {1}."
+msgstr "{0} يخص {1} بالفعل."
 
 #: onedesk/one_admin/operator.py:198
 msgid "{0} already has a workspace. Resume its job instead."
@@ -7919,7 +8073,7 @@ msgstr "{0} رصيد — وهو الحجز، إذ تعذّر قياس أي شي�
 msgid "{0} credits."
 msgstr "{0} رصيد."
 
-#: onedesk/public/js/crm_record.js:94
+#: onedesk/public/js/crm_record.js:134
 msgid "{0} days"
 msgstr "{0} أيام"
 
@@ -7987,9 +8141,13 @@ msgstr "{0} لم تفشل."
 msgid "{0} has {1} credits, {2} of them promised to calls in flight."
 msgstr "لدى {0} رصيد {1}، منها {2} محجوزة لنداءات قيد التنفيذ."
 
-#: onedesk/public/js/crm_record.js:92 onedesk/public/js/employee.js:109
+#: onedesk/public/js/crm_record.js:132 onedesk/public/js/employee.js:109
 msgid "{0} hours"
 msgstr ""
+
+#: onedesk/one_crm/capture.py:54
+msgid "{0} is already a lead: {1}"
+msgstr "{0} عميل محتمل بالفعل: {1}"
 
 #: onedesk/one_admin/domains.py:62
 msgid "{0} is already on another workspace."
@@ -8003,7 +8161,7 @@ msgstr "{0} هو الافتراضي بالفعل لـ{1}."
 msgid "{0} is larger than {1} MB, which is as much as one question may carry."
 msgstr "{0} أكبر من {1} ميغابايت، وهذا أقصى ما يحمله سؤال واحد."
 
-#: onedesk/public/js/next_step.js:41
+#: onedesk/public/js/next_step.js:48
 msgid "{0} is marked done on the timeline. Leave empty if nothing comes next."
 msgstr "ستُسجَّل {0} كمنجزة في السجل. اتركه فارغاً إن لم تكن هناك خطوة تالية."
 
@@ -8120,7 +8278,7 @@ msgstr "{0} على عدّاد المسافة منذ السجل السابق."
 msgid "{0} on {1}"
 msgstr "{0} على {1}"
 
-#: onedesk/public/js/crm_record.js:66
+#: onedesk/public/js/crm_record.js:106
 msgid "{0} open of {1}"
 msgstr "{0} مفتوحة من {1}"
 
