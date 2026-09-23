@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 11:04+0000\n"
-"PO-Revision-Date: 2026-09-23 11:04+0000\n"
+"POT-Creation-Date: 2026-09-23 11:09+0000\n"
+"PO-Revision-Date: 2026-09-23 11:09+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -20,11 +20,11 @@ msgstr ""
 msgid "(from what was asked for)"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:908
+#: onedesk/one_hr/ai.py:934
 msgid "1 day of {0}."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:912
+#: onedesk/one_hr/ai.py:938
 msgid "1 day of {0}; {1} left after."
 msgstr ""
 
@@ -470,6 +470,11 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
+#. Label of the addressed_to (Data) field in DocType 'Employee Letter'
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
+msgid "Addressed To"
+msgstr ""
+
 #. Label of the domains_section (Section Break) field in DocType 'Workspace
 #. Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
@@ -561,7 +566,9 @@ msgid "Also propose networks and locations belonging to a single employee, such 
 msgstr ""
 
 #. Label of the amended_from (Link) field in DocType 'Credit Ledger Entry'
+#. Label of the amended_from (Link) field in DocType 'Employee Letter'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 msgid "Amended From"
 msgstr ""
 
@@ -766,6 +773,10 @@ msgstr ""
 
 #: onedesk/public/js/admin_settings.js:28
 msgid "Ask"
+msgstr ""
+
+#: onedesk/one_hr/ai.py:203 onedesk/one_hr/ai.py:241
+msgid "Ask HR for a letter"
 msgstr ""
 
 #: onedesk/public/js/oneai/Panel.vue:66
@@ -1054,11 +1065,13 @@ msgid "Boarding Status"
 msgstr ""
 
 #. Label of the body (Code) field in DocType 'Stripe Webhook Event'
+#. Label of the body (Text Editor) field in DocType 'Employee Letter'
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 msgid "Body"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:43 onedesk/one_hr/ai.py:221
+#: onedesk/one_hr/ai.py:43 onedesk/one_hr/ai.py:247
 msgid "Book time off"
 msgstr ""
 
@@ -1333,7 +1346,7 @@ msgstr ""
 msgid "Choose an employee and a posting date first."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:35 onedesk/one_hr/ai.py:223
+#: onedesk/one_hr/ai.py:35 onedesk/one_hr/ai.py:249
 msgid "Claim a receipt"
 msgstr ""
 
@@ -1919,6 +1932,10 @@ msgstr ""
 msgid "Draft the opening"
 msgstr ""
 
+#: onedesk/one_hr/print_format/employee_letter/employee_letter.html:10
+msgid "Draft — not issued"
+msgstr ""
+
 #. Label of the against_section (Section Break) field in DocType 'Credit Ledger
 #. Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
@@ -2008,6 +2025,7 @@ msgstr ""
 #. Label of the employee (Link) field in DocType 'Clock Device'
 #. Label of the employee (Link) field in DocType 'Clock Network'
 #. Label of the employee (Link) field in DocType 'Clock Place'
+#. Label of the employee (Link) field in DocType 'Employee Letter'
 #. Label of a Sidebar Item
 #: onedesk/one_hr/custom/expense_claim.json
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
@@ -2016,6 +2034,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:19
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:147
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:18
@@ -2079,14 +2098,21 @@ msgstr ""
 msgid "Employee Information"
 msgstr ""
 
+#. Name of a DocType
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
+msgid "Employee Letter"
+msgstr ""
+
 #. Label of the employee_name (Data) field in DocType 'Clock Attempt'
 #. Label of the employee_name (Data) field in DocType 'Clock Device'
 #. Label of the employee_name (Data) field in DocType 'Clock Network'
 #. Label of the employee_name (Data) field in DocType 'Clock Place'
+#. Label of the employee_name (Data) field in DocType 'Employee Letter'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 msgid "Employee Name"
 msgstr ""
 
@@ -2114,6 +2140,11 @@ msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:71
 msgid "Employment"
+msgstr ""
+
+#. Option for the 'Letter' (Select) field in DocType 'Employee Letter'
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
+msgid "Employment Letter"
 msgstr ""
 
 #. Description of the 'Record' (Data) field in DocType 'AI Proposal'
@@ -2251,6 +2282,11 @@ msgstr ""
 msgid "Expenses"
 msgstr ""
 
+#. Option for the 'Letter' (Select) field in DocType 'Employee Letter'
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
+msgid "Experience Letter"
+msgstr ""
+
 #: onedesk/public/js/credit_ledger_entry_list.js:14
 msgid "Expired"
 msgstr ""
@@ -2385,6 +2421,10 @@ msgstr ""
 msgid "Follow my system"
 msgstr ""
 
+#: onedesk/one_hr/print_format/employee_letter/employee_letter.html:9
+msgid "For"
+msgstr ""
+
 #: onedesk/public/js/hiring.js:56
 msgid "For an interview over a video call: the browser asks which tab, and records both voices."
 msgstr ""
@@ -2432,7 +2472,7 @@ msgstr ""
 msgid "From Date"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:289
+#: onedesk/one_hr/ai.py:315
 msgid "From a receipt: {0}, {1}."
 msgstr ""
 
@@ -2567,6 +2607,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 msgid "HR Manager"
 msgstr ""
@@ -2583,6 +2624,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 msgid "HR User"
 msgstr ""
@@ -2609,7 +2651,7 @@ msgstr ""
 msgid "Held"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:43 onedesk/one_hr/ai.py:221
+#: onedesk/one_hr/ai.py:43 onedesk/one_hr/ai.py:247
 msgid "Help me book time off."
 msgstr ""
 
@@ -2719,16 +2761,20 @@ msgstr ""
 msgid "How many people the result covers, kept on the document so the list can say it."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:46 onedesk/one_hr/ai.py:231
+#: onedesk/one_hr/ai.py:46 onedesk/one_hr/ai.py:257
 msgid "How much leave do I have left, and who on my team is off in the next two weeks?"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:45 onedesk/one_hr/ai.py:230
+#: onedesk/one_hr/ai.py:45 onedesk/one_hr/ai.py:256
 msgid "How much leave do I have?"
 msgstr ""
 
 #: onedesk/public/js/setup_wizard.js:19
 msgid "How should One look?"
+msgstr ""
+
+#: onedesk/one_hr/ai.py:204 onedesk/one_hr/ai.py:242
+msgid "I need a letter from HR — a salary certificate, an experience letter or an employment letter. Ask me which one and who it is for, then draft it."
 msgstr ""
 
 #. Option for the 'Log Type' (Select) field in DocType 'Clock Attempt'
@@ -2883,8 +2929,21 @@ msgstr ""
 msgid "Invite your team"
 msgstr ""
 
+#. Label of the issued_section (Section Break) field in DocType 'Employee
+#. Letter'
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
+msgid "Issued"
+msgstr ""
+
+#. Label of the issued_by (Link) field in DocType 'Employee Letter'
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
+msgid "Issued By"
+msgstr ""
+
 #. Label of the issued_on (Date) field in DocType 'Employee Document'
+#. Label of the issued_on (Datetime) field in DocType 'Employee Letter'
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 msgid "Issued On"
 msgstr ""
 
@@ -3232,6 +3291,22 @@ msgstr ""
 msgid "Lets it look things up. Each look is another call and is charged."
 msgstr ""
 
+#. Label of the kind (Select) field in DocType 'Employee Letter'
+#. Label of the body_section (Section Break) field in DocType 'Employee Letter'
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
+msgid "Letter"
+msgstr ""
+
+#. Label of the letter_date (Date) field in DocType 'Employee Letter'
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
+msgid "Letter Date"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+msgid "Letters"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Lifecycle Overview"
@@ -3320,7 +3395,7 @@ msgstr ""
 msgid "Made by OneAI"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:36 onedesk/one_hr/ai.py:224
+#: onedesk/one_hr/ai.py:36 onedesk/one_hr/ai.py:250
 msgid "Make an expense claim from this receipt."
 msgstr ""
 
@@ -3568,6 +3643,11 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:19
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:38
 msgid "No Location"
+msgstr ""
+
+#. Option for the 'Letter' (Select) field in DocType 'Employee Letter'
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
+msgid "No Objection Certificate"
 msgstr ""
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:222
@@ -4152,8 +4232,10 @@ msgid "Org Chart"
 msgstr ""
 
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#. Option for the 'Letter' (Select) field in DocType 'Employee Letter'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:86
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 msgid "Other"
 msgstr ""
 
@@ -4681,6 +4763,11 @@ msgstr ""
 msgid "Purchase"
 msgstr ""
 
+#. Label of the purpose (Small Text) field in DocType 'Employee Letter'
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
+msgid "Purpose"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Purpose of Travel"
@@ -5112,6 +5199,11 @@ msgstr ""
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Said to the model before every action's own instruction, so what is always true is written once. A workspace never sees it."
+msgstr ""
+
+#. Option for the 'Letter' (Select) field in DocType 'Employee Letter'
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
+msgid "Salary Certificate"
 msgstr ""
 
 #. Label of a Link in the OneHR Setup Workspace
@@ -5736,7 +5828,7 @@ msgstr ""
 msgid "Suggested a change to {0}"
 msgstr ""
 
-#: onedesk/one_ai/tools.py:571 onedesk/one_hr/ai.py:295
+#: onedesk/one_ai/tools.py:571 onedesk/one_hr/ai.py:321
 msgid "Suggested. It happens when somebody approves it."
 msgstr ""
 
@@ -6344,6 +6436,10 @@ msgstr ""
 msgid "To Date"
 msgstr ""
 
+#: onedesk/one_hr/ai_letters.py:92
+msgid "To Whom It May Concern"
+msgstr ""
+
 #. Label of the token_hash (Data) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Token Hash"
@@ -6887,6 +6983,11 @@ msgstr ""
 msgid "Where this user's desk session was live from, if they had one."
 msgstr ""
 
+#. Description of the 'Addressed To' (Data) field in DocType 'Employee Letter'
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.json
+msgid "Who it is for — a bank, an embassy, or To Whom It May Concern."
+msgstr ""
+
 #. Description of the Onboarding Step 'Add a customer'
 #: onedesk/one/onboarding_step/one_add_a_customer/one_add_a_customer.json
 msgid "Who you invoice. OneCRM turns a lead into one of these, and Books bills them."
@@ -6902,11 +7003,11 @@ msgstr ""
 msgid "Why There Is No Figure"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:203 onedesk/one_hr/ai.py:211
+#: onedesk/one_hr/ai.py:222 onedesk/one_hr/ai.py:230
 msgid "Why are people leaving?"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:204 onedesk/one_hr/ai.py:212
+#: onedesk/one_hr/ai.py:223 onedesk/one_hr/ai.py:231
 msgid "Why have people left over the last twelve months, and how many said each reason?"
 msgstr ""
 
@@ -7036,6 +7137,14 @@ msgstr ""
 msgid "Write a kind decline"
 msgstr ""
 
+#: onedesk/one_hr/ai.py:213
+msgid "Write a letter about this employee — ask me which kind and who it is for, then draft it."
+msgstr ""
+
+#: onedesk/one_hr/ai.py:212
+msgid "Write a letter for this person"
+msgstr ""
+
 #: onedesk/one_hr/ai.py:96
 msgid "Write a short, kind note telling this applicant they were not chosen, that thanks them for something specific in their application. Do not give reasons."
 msgstr ""
@@ -7112,6 +7221,10 @@ msgstr ""
 
 #: onedesk/public/js/setup_wizard.js:20
 msgid "You can change this later from your own settings."
+msgstr ""
+
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.py:23
+msgid "You can only ask for a letter about yourself."
 msgstr ""
 
 #: onedesk/one_hr/closing.py:99
@@ -7355,6 +7468,10 @@ msgstr ""
 msgid "{0} already records {1} hours of overtime on {2}. Remove this row."
 msgstr ""
 
+#: onedesk/one_hr/doctype/employee_letter/employee_letter.py:49
+msgid "{0} asked for a {1}"
+msgstr ""
+
 #: onedesk/public/js/employee.js:158
 msgid "{0} awaiting"
 msgstr ""
@@ -7431,11 +7548,11 @@ msgstr ""
 msgid "{0} days left"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:910
+#: onedesk/one_hr/ai.py:936
 msgid "{0} days of {1}."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:914
+#: onedesk/one_hr/ai.py:940
 msgid "{0} days of {1}; {2} left after."
 msgstr ""
 

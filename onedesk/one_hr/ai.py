@@ -198,6 +198,25 @@ SUGGESTIONS = {
 			"view": "Form",
 		},
 	],
+	"Employee Letter": [
+		{
+			"label": _lt("Ask HR for a letter"),
+			"ask": _lt("I need a letter from HR — a salary certificate, an experience letter or an employment "
+			"letter. Ask me which one and who it is for, then draft it."),
+			"view": "List",
+			"can": "create",
+		},
+	],
+	"Employee": [
+		{
+			"label": _lt("Write a letter for this person"),
+			"ask": _lt("Write a letter about this employee — ask me which kind and who it is for, then draft it."),
+			"doctype": "Employee Letter",
+			"can": "submit",
+			"view": "Form",
+			"expects": "request_letter",
+		},
+	],
 	"Exit Interview": [
 		{
 			"label": _lt("Why are people leaving?"),
@@ -218,6 +237,13 @@ SUGGESTIONS = {
 	# OneHR's home is where an employee starts their day, so the three things
 	# they come to it for are offered there too.
 	"workspace:OneHR": [
+		{
+			"label": _lt("Ask HR for a letter"),
+			"ask": _lt("I need a letter from HR — a salary certificate, an experience letter or an employment "
+			"letter. Ask me which one and who it is for, then draft it."),
+			"doctype": "Employee Letter",
+			"can": "create",
+		},
 		{"label": _lt("Book time off"), "ask": _lt("Help me book time off."), "doctype": "Leave Application", "can": "create"},
 		{
 			"label": _lt("Claim a receipt"),

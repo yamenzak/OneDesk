@@ -24,6 +24,7 @@
 | Clock Reason | 5 | document |
 | Clock Signal | 3 | child |
 | Employee Document | 6 | child |
+| Employee Letter | 14 | submittable |
 | Interview Recording | 19 | document |
 | Interview Recording Part | 5 | child |
 | Shift Location Place | 1 | child |

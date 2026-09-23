@@ -63,3 +63,33 @@ def test_payroll_is_read_as_the_person_asking():
 	assert "frappe.get_list(\n\t\t\"Salary Slip\"" in source or 'frappe.get_list("Salary Slip"' in source
 	assert "ignore_permissions" not in source
 	assert '"onedesk.one_hr.ai_payroll.payroll_changes"' in (tree.APP / "hooks.py").read_text()
+
+
+# ------------------------------------------------------------------ letters
+
+LETTER = HR / "doctype" / "employee_letter"
+
+
+def test_only_hr_issues_a_letter():
+	spec = json.loads((LETTER / "employee_letter.json").read_text())
+	assert spec["is_submittable"] == 1
+	submitting = sorted(row["role"] for row in spec["permissions"] if row.get("submit"))
+	assert submitting == ["HR Manager", "HR User"]
+	employee = next(row for row in spec["permissions"] if row["role"] == "Employee")
+	assert employee.get("if_owner") == 1 and not employee.get("submit")
+
+
+def test_an_employee_asks_only_about_themselves():
+	controller = (LETTER / "employee_letter.py").read_text()
+	assert "self.employee != own.employee_of()" in controller
+	tools = (HR / "ai_letters.py").read_text()
+	whose = ast.unparse(next(n for n in ast.parse(tools).body if getattr(n, "name", "") == "_whose"))
+	assert "own.employee_of()" in whose and "frappe.get_roles()" in whose
+
+
+def test_a_letters_kind_is_read_loosely():
+	kind = _pure(HR / "ai_letters.py", "KINDS", "_kind")["_kind"]
+	assert kind("salary certificate") == "Salary Certificate"
+	assert kind("Experience") == "Experience Letter"
+	assert kind("a reference for my landlord") == "Other"
+	assert kind(None) == "Other"

@@ -1,0 +1,11 @@
+{#- One letter on the workspace's letterhead. The company is the employee's,
+    since One asks nobody which company. -#}
+{%- set company = frappe.db.get_value("Employee", doc.employee, "company") -%}
+<div class="one-letter">
+	<p class="text-right">{{ frappe.utils.format_date(doc.letter_date) }}</p>
+	{% if doc.addressed_to %}<p><strong>{{ doc.addressed_to }}</strong></p>{% endif %}
+	<h3 class="text-center">{{ _(doc.kind) }}</h3>
+	<div>{{ doc.body }}</div>
+	<p style="margin-top: 48px;">{{ _("For") }} <strong>{{ company }}</strong></p>
+	{% if doc.docstatus != 1 %}<p class="text-muted">{{ _("Draft — not issued") }}</p>{% endif %}
+</div>

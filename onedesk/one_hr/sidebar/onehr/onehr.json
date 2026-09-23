@@ -993,6 +993,18 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
+   "label": "Letters",
+   "link_to": "Employee Letter",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
    "label": "Training Program",
    "link_to": "Training Program",
    "link_type": "DocType",
