@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 22:13+0000\n"
-"PO-Revision-Date: 2026-09-23 22:13+0000\n"
+"POT-Creation-Date: 2026-09-23 22:19+0000\n"
+"PO-Revision-Date: 2026-09-23 22:19+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1177,6 +1177,11 @@ msgstr "Banktransaktionen"
 msgid "Bank payments know which account"
 msgstr "Bankzahlungen kennen ihr Konto"
 
+#. Label of a shortcut in the OneBook Workspace
+#: onedesk/one_book/workspace/onebook/onebook.json
+msgid "Bank to Match"
+msgstr "Bank abzugleichen"
+
 #. Label of the press_url (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Base URL"
@@ -1260,6 +1265,11 @@ msgstr "Eingangsrechnungen"
 msgid "Bills carry tax"
 msgstr "Eingangsrechnungen enthalten Steuer"
 
+#. Label of a shortcut in the OneBook Workspace
+#: onedesk/one_book/workspace/onebook/onebook.json
+msgid "Bills to Pay"
+msgstr "Zu zahlende Rechnungen"
+
 #. Label of the 'bio' field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "Bio"
@@ -1301,8 +1311,10 @@ msgstr "Urlaub buchen"
 
 #. Name of a report
 #. Label of a Sidebar Item
+#. Label of a shortcut in the OneBook Workspace
 #: onedesk/one_book/report/books_check/books_check.json
 #: onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_book/workspace/onebook/onebook.json
 msgid "Books Check"
 msgstr "Buchhaltungsprüfung"
 
@@ -1480,6 +1492,11 @@ msgstr "Kapazität (Stunden)"
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Captures a frame from the camera at check-in. Choosing an existing file instead is not allowed."
 msgstr "Nimmt beim Einchecken ein Bild mit der Kamera auf. Stattdessen eine vorhandene Datei zu wählen, ist nicht erlaubt."
+
+#. Label of a number card in the OneBook Workspace
+#: onedesk/one_book/workspace/onebook/onebook.json
+msgid "Cash"
+msgstr "Bargeld"
 
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
@@ -2371,6 +2388,11 @@ msgstr "Erledigt. Es wurde {0} geschrieben."
 msgid "Done: {0}"
 msgstr "Erledigt: {0}"
 
+#. Label of a shortcut in the OneBook Workspace
+#: onedesk/one_book/workspace/onebook/onebook.json
+msgid "Draft Invoices"
+msgstr "Rechnungsentwürfe"
+
 #: onedesk/one_crm/ai.py:62
 msgid "Draft a follow-up"
 msgstr "Nachfass-E-Mail entwerfen"
@@ -2457,6 +2479,11 @@ msgstr "Verworfen"
 #: onedesk/public/js/project.js:73
 msgid "Due"
 msgstr "Fällig"
+
+#. Label of a number card in the OneBook Workspace
+#: onedesk/one_book/workspace/onebook/onebook.json
+msgid "Due This Week"
+msgstr "Fällig diese Woche"
 
 #: onedesk/one_project/portal.py:142
 msgid "Due today"
@@ -3365,10 +3392,11 @@ msgstr "Feiertage"
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
+#: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Home"
-msgstr ""
+msgstr "Start"
 
 #. Label of the one_when (Data) field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/shift_request.json
@@ -4405,6 +4433,11 @@ msgstr "Erfasst den Tag als"
 msgid "Markup"
 msgstr "Aufschlag"
 
+#. Label of a shortcut in the OneBook Workspace
+#: onedesk/one_book/workspace/onebook/onebook.json
+msgid "Match the Bank"
+msgstr "Bank abgleichen"
+
 #. Description of the 'Check the Network' (Check) field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -4660,9 +4693,19 @@ msgstr "Netzwerk und Ort"
 msgid "New"
 msgstr ""
 
+#. Label of a shortcut in the OneBook Workspace
+#: onedesk/one_book/workspace/onebook/onebook.json
+msgid "New Bill"
+msgstr "Neue Eingangsrechnung"
+
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:295
 msgid "New Event"
 msgstr ""
+
+#. Label of a shortcut in the OneBook Workspace
+#: onedesk/one_book/workspace/onebook/onebook.json
+msgid "New Invoice"
+msgstr "Neue Rechnung"
 
 #. Label of a shortcut in the OneCRM Workspace
 #: onedesk/one_crm/workspace/onecrm/onecrm.json
@@ -5262,7 +5305,9 @@ msgid "OneAI could not be reached just now. The question is still here — try a
 msgstr "OneAI war gerade nicht erreichbar. Die Frage steht noch da — versuchen Sie es erneut."
 
 #. Title of a Sidebar
+#. Name of a Workspace
 #: onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_book/workspace/onebook/onebook.json
 msgid "OneBook"
 msgstr "OneBook"
 
@@ -5569,17 +5614,24 @@ msgstr "Speicher überschritten"
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #. Option for the 'Kind' (Select) field in DocType 'Tenant Event'
+#. Label of a number card in the OneBook Workspace
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
+#: onedesk/one_book/workspace/onebook/onebook.json
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.py:43
 #: onedesk/one_task/mine.py:22
 msgid "Overdue"
-msgstr ""
+msgstr "Überfällig"
 
 #. Label of the grace_days (Int) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Overdue For"
 msgstr "Überfällig für"
+
+#. Label of a shortcut in the OneBook Workspace
+#: onedesk/one_book/workspace/onebook/onebook.json
+msgid "Overdue Invoices"
+msgstr "Überfällige Rechnungen"
 
 #: onedesk/public/js/project.js:86
 msgid "Overdue Tasks"
@@ -5621,6 +5673,11 @@ msgstr "Überstunden von Hand erfasst: {0} Stunden, {1}."
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Overview"
 msgstr ""
+
+#. Label of a number card in the OneBook Workspace
+#: onedesk/one_book/workspace/onebook/onebook.json
+msgid "Owed to Us"
+msgstr "Offene Forderungen"
 
 #. Label of the owing (Check) field in DocType 'Workspace Account'
 #. Label of a number card in the One Admin Workspace
@@ -6038,6 +6095,11 @@ msgstr ""
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Professional Tax Deductions"
 msgstr ""
+
+#. Label of a number card in the OneBook Workspace
+#: onedesk/one_book/workspace/onebook/onebook.json
+msgid "Profit This Month"
+msgstr "Gewinn diesen Monat"
 
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
@@ -8695,6 +8757,11 @@ msgstr "Wartet auf den Start"
 msgid "Warehouses"
 msgstr ""
 
+#. Label of a number card in the OneBook Workspace
+#: onedesk/one_book/workspace/onebook/onebook.json
+msgid "We Owe"
+msgstr "Offene Verbindlichkeiten"
+
 #. Label of the stripe_webhook_secret (Password) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -10104,7 +10171,9 @@ msgstr "{0}: {1} Personen, {2}, alle gebucht."
 msgid "{0}: {1} people, {2}, in {3} slips still in draft."
 msgstr "{0}: {1} Personen, {2}, in {3} Abrechnungen noch im Entwurf."
 
+#. Count format of shortcut in the OneBook Workspace
 #. Count format of shortcut in the OneCRM Workspace
+#: onedesk/one_book/workspace/onebook/onebook.json
 #: onedesk/one_crm/workspace/onecrm/onecrm.json
 msgid "{}"
 msgstr ""

@@ -14,6 +14,7 @@ amount, a customer's balance, an employee's expense claim.
 
 **OneBook** in the dock opens it. The rail has:
 
+- **Home** — what needs doing and where the money stands (below).
 - **Invoices** — what you have billed customers. A **credit note** (money
   given back) is under **More**.
 - **Bills** — what suppliers have billed you. A **debit note** is under
@@ -31,6 +32,24 @@ amount, a customer's balance, an employee's expense claim.
   a period.
 - **Setup** — the chart of accounts, cost centers, bank accounts, taxes,
   payment terms, modes of payment and fiscal years.
+
+## Home
+
+The top row is what needs doing: **Draft Invoices** not yet issued,
+**Overdue Invoices**, **Bills to Pay** and **Bank to Match** (bank lines not
+yet matched to a payment), each with how many. Under it are **New Invoice**,
+**New Bill**, **Match the Bank** and the **Books Check**.
+
+The six figures say where the money stands:
+
+- **Cash** — what is in the bank and cash accounts.
+- **Owed to Us** — what customers still owe on invoices, and **Overdue** — the
+  part of it past its due date.
+- **We Owe** — what is still to pay on bills, and **Due This Week** — the part
+  due in the next seven days, including any already late.
+- **Profit This Month** — income less expenses since the first of the month.
+
+Click a figure to open the report or list it came from.
 
 ## Getting ready
 
@@ -105,6 +124,13 @@ fails a small business on first use or leaves a question unanswered.
   still reachable by search. It replaces the Accounts sidebar the dock's Books
   row used to open. Supplier is owned here (`is_default_module`), Customer by
   OneCRM.
+- `workspace/onebook`, `number_card/` and `home.py` — Home. ERPNext's
+  accounting number cards total every invoice ever submitted and count a
+  credit note as a negative invoice; none says what is unpaid, late or due.
+  Each figure is worked out in `home.py`: cash and profit from the ledger
+  (profit leaves out the Period Closing Voucher's entries, which move profit
+  rather than make it), what is owed from `outstanding_amount` on submitted
+  invoices and bills, by due date (`outstanding`, pure).
 - `ready.py` and `report/books_check` — the Books Check. ERPNext's Standard
   chart makes *Bank Accounts* a group, so `Company.default_bank_account` is
   left empty, and `set_mode_of_payment_account` gives only Cash an account;
@@ -125,7 +151,7 @@ fails a small business on first use or leaves a question unanswered.
    and the fixes that need no decision made automatically. *Done.*
 3. **Home.** The page that answers first: cash in the bank, what customers owe
    and how much of it is late, what is owed to suppliers and due this week,
-   and this month's profit.
+   and this month's profit. *Done.*
 4. **Getting paid and paying.** An invoice's and a bill's page says what is
    outstanding and when it is due; one step records the payment; an overdue
    customer is reminded.

@@ -106,7 +106,7 @@ No doctypes yet.
 
 * **dock** — onedesk
 * **sidebar** — one, one_admin, onebook, onecalendar, onecrm, onehr, oneinventory, oneproject, onetask
-* **workspace** — one, one_admin, onecrm, onehr, onehr_setup
+* **workspace** — one, one_admin, onebook, onecrm, onehr, onehr_setup
 
 ## Whitelisted methods
 
@@ -171,6 +171,12 @@ No doctypes yet.
 * `onedesk.one_ai.run.try_it`
 * `onedesk.one_ai.run.use`
 * `onedesk.one_ai.run.waiting`
+* `onedesk.one_book.home.cash`
+* `onedesk.one_book.home.due_this_week`
+* `onedesk.one_book.home.overdue`
+* `onedesk.one_book.home.owed_to_us`
+* `onedesk.one_book.home.profit_this_month`
+* `onedesk.one_book.home.we_owe`
 * `onedesk.one_book.ready.fix`
 * `onedesk.one_calendar.feed.mine`
 * `onedesk.one_calendar.feed.renew`

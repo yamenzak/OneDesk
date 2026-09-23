@@ -1,0 +1,125 @@
+{
+ "app": "onedesk",
+ "charts": [],
+ "content": "[{\"id\": \"onebook_sc_0\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Draft Invoices\", \"col\": 3}}, {\"id\": \"onebook_sc_1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Overdue Invoices\", \"col\": 3}}, {\"id\": \"onebook_sc_2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Bills to Pay\", \"col\": 3}}, {\"id\": \"onebook_sc_3\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Bank to Match\", \"col\": 3}}, {\"id\": \"onebook_gap\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"onebook_sc_4\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"New Invoice\", \"col\": 3}}, {\"id\": \"onebook_sc_5\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"New Bill\", \"col\": 3}}, {\"id\": \"onebook_sc_6\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Match the Bank\", \"col\": 3}}, {\"id\": \"onebook_sc_7\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Books Check\", \"col\": 3}}, {\"id\": \"onebook_gap2\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"onebook_nc_0\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Cash\", \"col\": 4}}, {\"id\": \"onebook_nc_1\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Owed to Us\", \"col\": 4}}, {\"id\": \"onebook_nc_2\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Overdue\", \"col\": 4}}, {\"id\": \"onebook_nc_3\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"We Owe\", \"col\": 4}}, {\"id\": \"onebook_nc_4\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Due This Week\", \"col\": 4}}, {\"id\": \"onebook_nc_5\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Profit This Month\", \"col\": 4}}]",
+ "creation": "2026-09-28 22:00:00.000000",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "wallet",
+ "idx": 1,
+ "is_hidden": 0,
+ "label": "OneBook",
+ "links": [],
+ "modified": "2026-09-28 22:30:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Book",
+ "name": "OneBook",
+ "number_cards": [
+  {
+   "label": "Cash",
+   "number_card_name": "Cash"
+  },
+  {
+   "label": "Owed to Us",
+   "number_card_name": "Owed to Us"
+  },
+  {
+   "label": "Overdue",
+   "number_card_name": "Overdue"
+  },
+  {
+   "label": "We Owe",
+   "number_card_name": "We Owe"
+  },
+  {
+   "label": "Due This Week",
+   "number_card_name": "Due This Week"
+  },
+  {
+   "label": "Profit This Month",
+   "number_card_name": "Profit This Month"
+  }
+ ],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "restrict_to_domain": "",
+ "roles": [],
+ "sequence_id": 1.0,
+ "shortcuts": [
+  {
+   "label": "Draft Invoices",
+   "type": "DocType",
+   "link_to": "Sales Invoice",
+   "doc_view": "List",
+   "color": "Orange",
+   "stats_filter": "[[\"Sales Invoice\", \"docstatus\", \"=\", 0]]",
+   "format": "{}"
+  },
+  {
+   "label": "Overdue Invoices",
+   "type": "DocType",
+   "link_to": "Sales Invoice",
+   "doc_view": "List",
+   "color": "Red",
+   "stats_filter": "[[\"Sales Invoice\", \"status\", \"=\", \"Overdue\"]]",
+   "format": "{}"
+  },
+  {
+   "label": "Bills to Pay",
+   "type": "DocType",
+   "link_to": "Purchase Invoice",
+   "doc_view": "List",
+   "color": "Orange",
+   "stats_filter": "[[\"Purchase Invoice\", \"status\", \"in\", [\"Unpaid\", \"Overdue\", \"Partly Paid\"]]]",
+   "format": "{}"
+  },
+  {
+   "label": "Bank to Match",
+   "type": "DocType",
+   "link_to": "Bank Transaction",
+   "doc_view": "List",
+   "color": "Orange",
+   "stats_filter": "[[\"Bank Transaction\", \"status\", \"=\", \"Unreconciled\"]]",
+   "format": "{}"
+  },
+  {
+   "label": "New Invoice",
+   "type": "DocType",
+   "link_to": "Sales Invoice",
+   "doc_view": "New",
+   "color": "Blue",
+   "stats_filter": "[]"
+  },
+  {
+   "label": "New Bill",
+   "type": "DocType",
+   "link_to": "Purchase Invoice",
+   "doc_view": "New",
+   "color": "Blue",
+   "stats_filter": "[]"
+  },
+  {
+   "label": "Match the Bank",
+   "type": "DocType",
+   "link_to": "Bank Reconciliation Tool",
+   "doc_view": "",
+   "color": "Blue",
+   "stats_filter": "[]"
+  },
+  {
+   "label": "Books Check",
+   "type": "Report",
+   "link_to": "Books Check",
+   "report_ref_doctype": "Account",
+   "is_query_report": 1,
+   "color": "Gray",
+   "stats_filter": "[]"
+  }
+ ],
+ "title": "OneBook"
+}

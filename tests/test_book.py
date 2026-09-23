@@ -88,3 +88,32 @@ def test_the_books_check_opens_the_setup_group():
 	setup = [item["label"] for item in RAIL["items"]]
 	at = setup.index("Setup")
 	assert RAIL["items"][at + 1]["link_to"] == "Books Check"
+
+
+def test_what_is_outstanding_counts_only_what_falls_due_by_the_day():
+	outstanding = _load(BOOK / "home.py", ("outstanding",), flt=float)["outstanding"]
+	rows = [
+		{"outstanding_amount": 100, "due_date": date(2026, 9, 1)},
+		{"outstanding_amount": 50, "due_date": date(2026, 9, 25)},
+		{"outstanding_amount": 20, "due_date": None},
+	]
+	assert outstanding(rows) == 170
+	assert outstanding(rows, until=date(2026, 9, 22)) == 100
+	assert outstanding(rows, until=date(2026, 9, 29)) == 150
+
+
+def test_every_figure_on_home_is_ours_and_worked_out_here():
+	workspace = json.loads((BOOK / "workspace" / "onebook" / "onebook.json").read_text())
+	source = (BOOK / "home.py").read_text(encoding="utf-8")
+	assert len(workspace["number_cards"]) == 6
+	for row in workspace["number_cards"]:
+		folder = row["number_card_name"].lower().replace(" ", "_")
+		card = json.loads((BOOK / "number_card" / folder / f"{folder}.json").read_text())
+		assert card["type"] == "Custom" and card["module"] == "One Book"
+		assert card["method"].startswith("onedesk.one_book.home.")
+		assert f"def {card['method'].rsplit('.', 1)[1]}(" in source
+	assert RAIL["items"][0]["link_to"] == "OneBook" and RAIL["items"][0]["link_type"] == "Workspace"
+
+
+def test_a_closing_entry_does_not_count_as_this_months_profit():
+	assert "Period Closing Voucher" in _body(BOOK / "home.py", "profit_this_month")
