@@ -99,25 +99,25 @@
   {
    "fieldname": "agreement_section",
    "fieldtype": "Section Break",
-   "label": "Agreement"
+   "label": "Consent"
   },
   {
    "fieldname": "agreed",
    "fieldtype": "Check",
-   "label": "The Candidate Agreed to Be Recorded",
+   "label": "Candidate Consent",
    "read_only": 1
   },
   {
    "fieldname": "agreed_by",
    "fieldtype": "Link",
-   "label": "Ticked By",
+   "label": "Consent Confirmed By",
    "options": "User",
    "read_only": 1
   },
   {
    "fieldname": "agreed_on",
    "fieldtype": "Datetime",
-   "label": "Ticked On",
+   "label": "Consent Confirmed On",
    "read_only": 1
   },
   {
@@ -127,9 +127,9 @@
   {
    "fieldname": "sound_deleted_on",
    "fieldtype": "Date",
-   "label": "Sound Deleted On",
+   "label": "Audio Deleted On",
    "read_only": 1,
-   "description": "The sound is deleted after the number of days HR Settings keeps recordings for. The transcript stays."
+   "description": "Set when the audio is deleted after the retention period in HR Settings. The transcript is kept."
   },
   {
    "fieldname": "transcript_section",

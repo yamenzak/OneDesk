@@ -7,5 +7,5 @@
 	<h3 class="text-center">{{ _(doc.kind) }}</h3>
 	<div>{{ doc.body }}</div>
 	<p style="margin-top: 48px;">{{ _("For") }} <strong>{{ company }}</strong></p>
-	{% if doc.docstatus != 1 %}<p class="text-muted">{{ _("Draft — not issued") }}</p>{% endif %}
+	{% if doc.docstatus != 1 %}<p class="text-muted">{{ _("Draft. Not issued.") }}</p>{% endif %}
 </div>

@@ -79,7 +79,7 @@
   {
    "fieldname": "reads_section",
    "fieldtype": "Section Break",
-   "label": "What It Reads",
+   "label": "Inputs",
    "description": "Taken from the provider's own word for the model and from every input price it publishes."
   },
   {
@@ -191,7 +191,7 @@
   {
    "fieldname": "why",
    "fieldtype": "Small Text",
-   "label": "What Could Not Be Read",
+   "label": "Unparsed Pricing",
    "read_only": 1,
    "description": "The wording on the provider's page that defeated the parser."
   },

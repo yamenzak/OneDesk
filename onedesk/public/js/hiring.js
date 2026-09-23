@@ -47,19 +47,20 @@ onedesk.hiring.recorder = {
 				{
 					fieldname: "agreed",
 					fieldtype: "Check",
-					label: __("{0} has agreed to this interview being recorded", [who]),
+					label: __("Candidate Consented to Recording"),
+					description: __("Confirm that {0} agreed before you start.", [who]),
 				},
 				{
 					fieldname: "call",
 					fieldtype: "Check",
-					label: __("Include the sound of a call in another tab"),
-					description: __("For an interview over a video call: the browser asks which tab, and records both voices."),
+					label: __("Include Audio From Another Tab"),
+					description: __("For video calls. The browser asks which tab to share."),
 				},
 			],
 			primary_action_label: __("Start recording"),
 			primary_action: (values) => {
 				if (!values.agreed) {
-					frappe.msgprint(__("Ask first, and tick that they agreed."));
+					frappe.msgprint(__("Confirm the candidate's consent to start recording."));
 					return;
 				}
 				dialog.hide();
@@ -184,7 +185,7 @@ onedesk.hiring.recorder = {
 		this.$bar.toggleClass("one-rec--quiet", silent);
 		this.$bar
 			.find(".one-rec__label")
-			.text(silent ? __("No sound — check the microphone") : __("Recording"));
+			.text(silent ? __("No sound. Check the microphone.") : __("Recording"));
 	},
 
 	seconds() {

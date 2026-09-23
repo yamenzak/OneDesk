@@ -161,7 +161,7 @@ SUGGESTIONS = {
 			"arg": "interview",
 			"can": "write",
 			"view": "Form",
-			"said": _lt("Preparing it again. Before You Start updates on the interview when I am done."),
+			"said": _lt("Preparing it again. Interview Preparation updates on the interview when I am done."),
 		},
 		{
 			"label": _lt("Draft my feedback from the recording"),

@@ -49,7 +49,7 @@
   {
    "fieldname": "body",
    "fieldtype": "Text Editor",
-   "label": "What OneAI Should Know",
+   "label": "Knowledge",
    "reqd": 1
   }
  ],

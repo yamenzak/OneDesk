@@ -44,7 +44,7 @@
   {
    "fieldname": "kind",
    "fieldtype": "Select",
-   "label": "Letter",
+   "label": "Letter Type",
    "options": "Salary Certificate\nExperience Letter\nEmployment Letter\nNo Objection Certificate\nOther",
    "reqd": 1,
    "in_list_view": 1,
@@ -58,7 +58,7 @@
    "fieldname": "addressed_to",
    "fieldtype": "Data",
    "label": "Addressed To",
-   "description": "Who it is for — a bank, an embassy, or To Whom It May Concern."
+   "description": "Example: Emirates NBD, or To Whom It May Concern."
   },
   {
    "fieldname": "purpose",

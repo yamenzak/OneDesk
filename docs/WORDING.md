@@ -83,6 +83,16 @@ carries "This cannot be changed later. Files stay where the workspace was
 built", because that is the field it is true of. It is not repeated on the
 plan, on the button, or on the page that follows.
 
+## The guard
+
+`tests/test_wording.py` holds every doctype and every custom field in the app
+to what can be checked by machine: a description of at most 130 characters and
+two sentences, with no first person, no em dash and no colon except after
+`Example`; a label in Title Case with no full stop, at most 60 characters, that
+is a name rather than a sentence ("What It Reads" was a label here). The rest of
+this page — no reasoning, frappe's openers, most fields with no description at
+all — is still read by a person.
+
 ## Translation
 
 Every label, description, Select option and `_()` string is extracted into

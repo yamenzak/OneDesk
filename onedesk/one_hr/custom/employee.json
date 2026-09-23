@@ -2,7 +2,7 @@
  "custom_fields": [
   {
    "collapsible": 1,
-   "description": "Worked out nightly from this employee's Clock Attempt rows over the last 90 days. It never refuses a check-in; it weights whose check-ins count when a network or location is learned.",
+   "description": "Worked out nightly from 90 days of Clock Attempt rows. Weights this employee's check-ins when a network or location is learned.",
    "dt": "Employee",
    "fieldname": "one_attendance_section",
    "fieldtype": "Section Break",
@@ -62,7 +62,7 @@
    "module": "One HR",
    "insert_after": "iban",
    "collapsible": 1,
-   "description": "Left empty, the advance account falls back to the company\u2019s and the cost centre to the department\u2019s."
+   "description": "Left empty, the advance account falls back to the company’s and the cost centre to the department’s."
   },
   {
    "dt": "Employee",
@@ -99,7 +99,7 @@
    "insert_after": "resignation_letter_date",
    "read_only": 1,
    "depends_on": "eval:doc.resignation_letter_date",
-   "description": "The resignation date plus the notice days on the Joining tab. The relieving date is the day they actually stop, and the two differ when notice is waived, paid in lieu or extended."
+   "description": "Resignation date plus the notice period. Differs from the Relieving Date when notice is waived or extended."
   }
  ],
  "doctype": "Employee",

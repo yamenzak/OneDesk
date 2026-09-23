@@ -95,7 +95,7 @@
    "fieldname": "cloudflare_kv",
    "fieldtype": "Data",
    "label": "Workers KV Namespace",
-   "description": "The Workers KV namespace the edge router reads. The API token needs Workers KV Storage: Edit on this namespace only."
+   "description": "The Workers KV namespace the edge router reads. The API token needs edit access to this namespace only."
   },
   {
    "fieldname": "column_break_cf",
@@ -200,7 +200,7 @@
   {
    "fieldname": "persona_section",
    "fieldtype": "Section Break",
-   "label": "How It Speaks"
+   "label": "Persona"
   },
   {
    "fieldname": "persona",

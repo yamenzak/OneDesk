@@ -43,7 +43,7 @@
   {
    "fieldname": "file",
    "fieldtype": "Attach",
-   "label": "Sound",
+   "label": "Audio",
    "in_list_view": 1,
    "read_only": 1,
    "columns": 4

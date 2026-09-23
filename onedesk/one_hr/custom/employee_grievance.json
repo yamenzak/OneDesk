@@ -15,7 +15,7 @@
    "insert_after": "one_ai_section",
    "in_standard_filter": 1,
    "no_copy": 1,
-   "description": "Seen by HR Managers and the person who raised it, nobody else. OneAI marks it; only an HR Manager takes the mark off.",
+   "description": "Only HR Managers and the employee who raised it can view it. Only an HR Manager can clear this.",
    "module": "One HR",
    "dt": "Employee Grievance"
   },
@@ -53,7 +53,7 @@
   {
    "fieldname": "one_ai_summary",
    "fieldtype": "Small Text",
-   "label": "OneAI's Summary",
+   "label": "OneAI Summary",
    "insert_after": "one_ai_column",
    "read_only": 1,
    "no_copy": 1,

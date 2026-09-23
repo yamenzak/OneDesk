@@ -119,7 +119,7 @@ not use it says so.
 
 ## Before the interview
 
-When an Interview is made, OneAI writes **Before you start** onto it: what to
+When an Interview is made, OneAI writes **Interview Preparation** onto it: what to
 confirm first (gaps, dates, anything the CV leaves unclear), then eight questions
 at most, each saying which criterion or which of the interview type's expected
 skills it tests and why it is being asked of this person. Questions from an
@@ -134,7 +134,7 @@ A new doctype, **Interview Recording**, one per sitting, with the interview, who
 recorded it, when, how long, whether the candidate agreed, and its parts.
 
 **Agreement first.** The recorder does not start until the interviewer ticks
-*The candidate has agreed to this interview being recorded*, and the recording
+*Candidate Consented to Recording*, and the recording
 keeps who ticked it and when. Recording somebody without telling them is illegal
 in many places and hostile everywhere; a tick box is the least that can be asked.
 
@@ -198,12 +198,12 @@ like any other.
 
 ## Stages
 
-1. **The opening** — *What a strong applicant has* on Job Opening; *Write this
+1. **The opening** — *Screening Criteria* on Job Opening; *Write this
    opening* in the panel.
 2. **Screening and standing** — the fields, the OneAI user, the `screen` action,
    the background call on every new applicant, the comments, *Screen again* and
    *Rank again*, the switch.
-3. **Before the interview** — the `interview` action, *Before you start*.
+3. **Before the interview** — the `interview` action, *Interview Preparation*.
 4. **Recording** — Interview Recording, the recorder, agreement, parts, the
    call-tab mix, retention.
 5. **Transcription and remarks** — `transcribe`, the transcript, the remarks.
@@ -226,7 +226,7 @@ Three things were learned doing it:
   into applicants afterwards. A label the model invents reaches no record.
 - **A read-only Text Editor draws no bullets or numbers for a plain list.**
   Quill 2 writes every list as an `<ol>` with the marker in a span keyed by
-  `data-list`, so *Before you start* is written that way.
+  `data-list`, so *Interview Preparation* is written that way.
 - **An account with no model set for Transcription refuses the call** before
   anything is charged, and the recording is marked Failed. *Transcribe again* in the panel
   on the recording retries the parts once a model is picked. On an account,

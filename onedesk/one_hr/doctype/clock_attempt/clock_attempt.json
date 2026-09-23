@@ -107,7 +107,7 @@
    "read_only": 1
   },
   {
-   "description": "An approved Attendance Request covered this date, so being off the network and away from every location was expected and cost nothing.",
+   "description": "An approved Attendance Request covered this date, so being off the network or away from every location was not penalised.",
    "fieldname": "away",
    "fieldtype": "Link",
    "label": "Approved Request",

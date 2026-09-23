@@ -4,9 +4,9 @@
    "dt": "Job Opening",
    "fieldname": "one_criteria",
    "fieldtype": "Small Text",
-   "label": "What a Strong Applicant Has",
+   "label": "Screening Criteria",
    "insert_after": "description",
-   "description": "One line each. OneAI rates every applicant against these; left empty, against the description.",
+   "description": "One per line. Applicants are rated against these, or against the description if empty.",
    "module": "One HR"
   }
  ],

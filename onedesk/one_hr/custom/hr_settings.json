@@ -97,7 +97,7 @@
    "module": "One HR",
    "insert_after": "one_gate_network",
    "default": "1",
-   "description": "Match the position the browser reports against Clock Place and the Shift Location's own radius. Requires Allow Geolocation Tracking."
+   "description": "Match the browser's position against Clock Place and the Shift Location radius. Requires Allow Geolocation Tracking."
   },
   {
    "dt": "HR Settings",
@@ -229,20 +229,20 @@
    "dt": "HR Settings",
    "fieldname": "one_ai_screen",
    "fieldtype": "Check",
-   "label": "Screen and Rank Applicants as They Arrive",
+   "label": "Auto Screen New Applicants",
    "insert_after": "one_hiring_ai_section",
    "default": "1",
-   "description": "One call per applicant: the CV read against the opening, a rating, and a standing among everybody else applying.",
+   "description": "If enabled, OneAI rates and ranks each new Job Applicant. Uses AI credits.",
    "module": "One HR"
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_ai_prepare",
    "fieldtype": "Check",
-   "label": "Prepare Interviewers",
+   "label": "Auto Prepare Interviews",
    "insert_after": "one_ai_screen",
    "default": "1",
-   "description": "One call per interview: what to ask, and what to know first.",
+   "description": "If enabled, OneAI adds questions to each new Interview. Uses AI credits.",
    "module": "One HR"
   },
   {
@@ -256,41 +256,41 @@
    "dt": "HR Settings",
    "fieldname": "one_ai_record",
    "fieldtype": "Check",
-   "label": "Allow Interviews to Be Recorded",
+   "label": "Allow Interview Recording",
    "insert_after": "one_column_hiring_ai",
    "default": "1",
-   "description": "Only once the interviewer ticks that the candidate agreed.",
+   "description": "Recording starts only after the interviewer confirms the candidate's consent.",
    "module": "One HR"
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_ai_transcribe",
    "fieldtype": "Check",
-   "label": "Transcribe and Remark on Recordings",
+   "label": "Auto Transcribe Recordings",
    "insert_after": "one_ai_record",
    "default": "1",
-   "description": "One call per five minutes of recording, and one when it ends.",
+   "description": "If enabled, recordings are transcribed and OneAI comments on the Interview. Uses AI credits.",
    "module": "One HR"
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_keep_recordings_days",
    "fieldtype": "Int",
-   "label": "Keep Recordings For (Days)",
+   "label": "Delete Recording Audio After (Days)",
    "insert_after": "one_ai_transcribe",
    "default": "365",
-   "description": "After this the sound is deleted and the transcript stays.",
+   "description": "Transcripts are kept. Set to 0 to keep audio indefinitely.",
    "module": "One HR"
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_ai_grievances",
    "fieldtype": "Check",
-   "label": "Read and Route New Grievances",
+   "label": "Auto Triage Grievances",
    "module": "One HR",
    "insert_after": "exit_questionnaire_notification_template",
    "default": "1",
-   "description": "One call per grievance: a summary, a category, and whether it is sensitive. A sensitive one is hidden from everybody but HR Managers and the person who raised it, and HR Managers are told."
+   "description": "If enabled, OneAI categorises each new Employee Grievance and marks sensitive ones. Uses AI credits."
   }
  ],
  "doctype": "HR Settings",

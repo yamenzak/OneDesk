@@ -29,7 +29,7 @@
   },
   {
    "default": "Present",
-   "description": "The status written on each day of an approved request. Work From Home is the only one Attendance keeps apart; everything else counts as a day at work.",
+   "description": "The status set on each day of an approved request. Only Work From Home is kept separate in Attendance.",
    "fieldname": "marks_as",
    "fieldtype": "Select",
    "in_list_view": 1,
@@ -58,9 +58,27 @@
  "name": "Attendance Reason",
  "owner": "Administrator",
  "permissions": [
-  {"create": 1, "delete": 1, "email": 1, "print": 1, "read": 1, "role": "HR Manager", "share": 1, "write": 1},
-  {"email": 1, "print": 1, "read": 1, "role": "HR User", "share": 1},
-  {"read": 1, "role": "Employee"}
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "HR User",
+   "share": 1
+  },
+  {
+   "read": 1,
+   "role": "Employee"
+  }
  ],
  "sort_field": "reason",
  "sort_order": "ASC",

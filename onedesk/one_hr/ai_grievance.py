@@ -81,7 +81,7 @@ def triage(grievance: str) -> None:
 		one
 		for one in (
 			frappe._(category),
-			frappe._("Sensitive — HR Managers and the person who raised it only") if sensitive else "",
+			frappe._("Sensitive") if sensitive else "",
 			frappe._("Urgent") if urgency == "High" else "",
 		)
 		if one

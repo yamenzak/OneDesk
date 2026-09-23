@@ -23,7 +23,7 @@
    "dt": "Interview",
    "fieldname": "one_ai_prep",
    "fieldtype": "Text Editor",
-   "label": "Before You Start",
+   "label": "Interview Preparation",
    "module": "One HR",
    "insert_after": "one_ai_prep_section",
    "read_only": 1,

@@ -46,7 +46,7 @@
   },
   {
    "default": "Declared",
-   "description": "Declared is entered by a person. Proposed is suggested by Learn New Networks, and becomes Confirmed once the Confirmation Threshold is met, or when somebody confirms it here. Rejected is never proposed again.",
+   "description": "Proposed entries come from Learn New Networks and are Confirmed at the threshold. Rejected ones are not proposed again.",
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,

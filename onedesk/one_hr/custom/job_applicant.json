@@ -17,7 +17,7 @@
    "read_only": 1,
    "no_copy": 1,
    "in_list_view": 1,
-   "description": "Against this opening's criteria, on their own.",
+   "description": "Rated against the Screening Criteria of the Job Opening.",
    "module": "One HR"
   },
   {
@@ -29,7 +29,7 @@
    "read_only": 1,
    "no_copy": 1,
    "in_list_view": 1,
-   "description": "Against everybody else applying to this opening. Moves as others arrive.",
+   "description": "Rank among applicants for the same Job Opening, out of 100. Updated as new applicants arrive.",
    "module": "One HR"
   },
   {
@@ -43,7 +43,7 @@
    "dt": "Job Applicant",
    "fieldname": "one_ai_brief",
    "fieldtype": "Small Text",
-   "label": "OneAI's Summary",
+   "label": "OneAI Summary",
    "insert_after": "one_ai_column",
    "read_only": 1,
    "no_copy": 1,

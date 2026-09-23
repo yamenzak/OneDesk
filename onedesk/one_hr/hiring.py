@@ -225,7 +225,7 @@ def _opening_said(opening) -> str:
 		if value:
 			lines.append(f"{label}: {value}")
 	criteria = (opening.get("one_criteria") or "").strip()
-	lines.append("What a strong applicant has:\n" + (criteria or "(not written — judge against the description)"))
+	lines.append("Screening criteria:\n" + (criteria or "(none written; judge against the description)"))
 	description = _plain(opening.description, MOST_DESCRIPTION)
 	if description:
 		lines.append("Description:\n" + description)

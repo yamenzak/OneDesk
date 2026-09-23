@@ -54,7 +54,7 @@
    "precision": "6",
    "reqd": 1,
    "in_list_view": 1,
-   "description": "Signed: a grant is positive, a spend is negative."
+   "description": "Positive for a grant, negative for a spend."
   },
   {
    "fieldname": "expires_on",
@@ -75,7 +75,7 @@
    "label": "Grant",
    "options": "Credit Ledger Entry",
    "depends_on": "eval:doc.kind!='Grant'",
-   "description": "Empty on a spend means an overdraw: it belongs to no grant."
+   "description": "Empty on a spend that overdrew and belongs to no grant."
   },
   {
    "fieldname": "column_break_against",
@@ -93,7 +93,7 @@
    "fieldname": "reference",
    "fieldtype": "Data",
    "label": "Reference",
-   "description": "What caused this: a Stripe payment, a run, a person."
+   "description": "The Stripe payment, run or person that caused this entry."
   },
   {
    "fieldname": "why_section",

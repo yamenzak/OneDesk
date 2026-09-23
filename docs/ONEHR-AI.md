@@ -29,10 +29,10 @@ background jobs below, which only ever write OneAI's own fields and comments.
 
 | When | What | Switch in HR Settings |
 |---|---|---|
-| A new applicant | Rated and placed among the others | Screen and Rank Applicants as They Arrive |
-| A new interview | Questions and things to confirm | Prepare Interviewers |
-| A recording ends | Transcribed, and remarked on | Transcribe and Remark on Recordings |
-| A new grievance | Summarised, categorised, and if sensitive hidden from all but HR Managers and its raiser | Read and Route New Grievances |
+| A new applicant | Rated and placed among the others | Auto Screen New Applicants |
+| A new interview | Questions and things to confirm | Auto Prepare Interviews |
+| A recording ends | Transcribed, and remarked on | Auto Transcribe Recordings |
+| A new grievance | Summarised, categorised, and if sensitive hidden from all but HR Managers and its raiser | Auto Triage Grievances |
 
 Each is one call per event, runs as the disabled OneAI user so the timeline
 says who wrote what, and keeps an unreadable answer in the error log with its
