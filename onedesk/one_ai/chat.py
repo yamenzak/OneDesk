@@ -378,22 +378,30 @@ def shown(turns: list[dict]) -> list[dict]:
 	Tool results are folded into the model's turn that asked for them, because
 	"it looked something up" is one event on screen and three in the transcript.
 	"""
-	ran: dict[str, dict] = {}
-	for one in turns:
-		if one.get("role") == "tool":
-			ran[str(one.get("id") or one.get("tool"))] = one
+	# Each call is answered by the tool turns straight after the turn that
+	# made it, in order. Not by id: Gemini's id is the tool's name, so matched
+	# by id every earlier call to a tool showed the last answer it gave.
+	answers: dict[int, list[dict]] = {}
+	for at, one in enumerate(turns):
+		if one.get("role") == "model" and one.get("calls"):
+			after = []
+			for later in turns[at + 1 :]:
+				if later.get("role") != "tool":
+					break
+				after.append(later)
+			answers[at] = after
 
 	said = []
 	seen: set = set()
-	for one in turns:
+	for at, one in enumerate(turns):
 		role = one.get("role")
 		if role == "tool" or any(one.get(quiet) for quiet in QUIET):
 			continue
 		if role != "model":
 			seen = set()  # a new question: its answer draws its own records
 		looked = [
-			_looked(call, ran.get(str(call.get("id") or call.get("tool"))))
-			for call in one.get("calls") or []
+			_looked(call, _answering(call, answers.get(at) or [], n))
+			for n, call in enumerate(one.get("calls") or [])
 		]
 		# A record read twice while answering one question is one card.
 		for look in looked:
@@ -418,6 +426,14 @@ def shown(turns: list[dict]) -> list[dict]:
 	return said
 
 
+def _answering(call: dict, after: list[dict], n: int) -> dict | None:
+	"""The tool turn that answered the nth call of a model turn: the nth one
+	after it, when it is that tool's; otherwise the first of that tool's."""
+	if n < len(after) and after[n].get("tool") == call.get("tool"):
+		return after[n]
+	return next((one for one in after if one.get("tool") == call.get("tool")), None)
+
+
 def _looked(call: dict, result: dict | None) -> dict:
 	"""One thing it did, from the call and the turn that answered it.
 
@@ -432,12 +448,23 @@ def _looked(call: dict, result: dict | None) -> dict:
 		"tool": call.get("tool"),
 		"args": call.get("args") or {},
 		"ran": bool(said.get("ran")),
-		"error": answered.get("error") if isinstance(answered, dict) else None,
+		"error": _first(answered.get("error")) if isinstance(answered, dict) else None,
 		"card": said.get("card"),
 		"records": rows,
 		"more": more,
 		"count": answered if isinstance(answered, int) else None,
+		# A memory kept at once: the panel says so in a line it can undo.
+		"kept": answered if call.get("tool") == "remember" and isinstance(answered, dict) else None,
 	}
+
+
+def _first(error) -> str | None:
+	"""A tool's refusal as the reader sees it: its first sentence. The rest —
+	the fields a type has, the values there are — is written for the model."""
+	if not error:
+		return None
+	said = str(error).split(". ", 1)[0].strip()
+	return said if said.endswith(".") else said + "."
 
 
 def _records(call: dict, answered) -> tuple[list[dict], int]:

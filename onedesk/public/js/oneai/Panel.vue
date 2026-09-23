@@ -95,8 +95,16 @@
 					<template v-for="(look, i) in said.looked" :key="i">
 						<div v-if="look.error || (!look.records.length && !look.card)" class="one-ai-looked"
 							:class="{ 'one-ai-looked--refused': look.error }">
-							<span class="one-ai-looked__dot"></span>
+							<Icon v-if="look.kept" name="brain" size="xs" />
+							<span v-else class="one-ai-looked__dot"></span>
 							<span>{{ look.error || told(look) }}</span>
+							<button
+								v-if="look.kept && look.kept.state === 'remembered' && !forgotten[look.kept.memory]"
+								class="one-ai-looked__undo"
+								@click="forget(look.kept.memory)"
+							>
+								{{ __("Undo") }}
+							</button>
 						</div>
 
 						<Record v-for="rec in look.records" :key="rec.name" :record="rec" />
@@ -442,6 +450,14 @@ function toModel() {
 	frappe.set_route("Form", "AI Action Setting", chat.value.model_at);
 }
 
+// A memory is kept at once; this is the way back, from the line that said so.
+const forgotten = ref({});
+
+async function forget(memory) {
+	await frappe.xcall("frappe.client.delete", { doctype: "AI Memory", name: memory });
+	forgotten.value = { ...forgotten.value, [memory]: true };
+}
+
 function toMemory() {
 	frappe.set_route("List", "AI Memory");
 }
@@ -595,6 +611,11 @@ async function answered() {
 // than that it looked, because "looked at ToDo" above a card that would create
 // one is the one sentence in the panel that could be read as "it did it".
 function told(look) {
+	const kept = look.kept;
+	if (kept && forgotten.value[kept.memory]) return __("Forgotten.");
+	if (kept && kept.state === "remembered") return __("Remembered: {0}", [kept.fact]);
+	if (kept && kept.state === "updated") return __("Memory updated: {0}", [kept.fact]);
+	if (kept) return __("Already remembered: {0}", [kept.fact]);
 	const what = (look.args && (look.args.doctype || look.args.name)) || "";
 	if (!look.ran) return what ? __("Suggested a change to {0}", [what]) : __("Suggested a change");
 	return what ? __("Looked at {0}", [what]) : __("Looked something up");

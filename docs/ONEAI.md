@@ -1079,16 +1079,53 @@ the note.
 
 A person's own memory, `AI Memory`: short facts somebody told OneAI to keep.
 Private by the doctype's if-owner rule and by an owner filter on every read,
-because Administrator is not held by if-owner. Written only by approving a
-`remember` card, like any other change — a fact the model decided to keep
-about someone is one they should have seen. The newest eight ride along on
-every turn; `recall` finds the rest. The conversation list links to the
+because Administrator is not held by if-owner. Kept at once, with no card:
+it is what the person just said, it is theirs alone, and the chat shows
+"Remembered: …" with an Undo beside it — `KEEPS` in `tools.py` is the one
+write that is not a card, named on its own for that reason. Kept only when
+the person asks, or tells OneAI a lasting fact about themselves or how they
+work — the tool and the persona both say so, and neither the task at hand
+nor anything a record holds. The same fact twice is one memory (equal, one
+inside the other, or worded 80% alike), a correction replaces what it names
+as corrected, and past two hundred the oldest goes. The newest eight ride
+along on every turn; `recall` finds the rest. Tied to a record only when the
+fact names that record's title or id. The conversation list links to the
 memory list, which is where they are read and deleted.
 
 The workspace's knowledge, `AI Knowledge`: what a Workspace Administrator
 wrote for everybody — a policy, a glossary, how things are done here. A note
 tied to a type is told to the model whenever that type's list or form is on
 screen; an untied one is found by `recall`.
+
+What the live runs of memory found. A small model says "I will remember that"
+and calls nothing: a question that asks to be remembered and ends with no
+`remember` call is asked once more, quoting the person's own words. The
+memories every turn carries were worded "the reader asked you to remember
+X", which the model read as being asked again and re-saved X; they are
+"already remembered" now. And a model reading "HR-EXP-2026-00004" asked for
+the type "HR-EXP" and was told by frappe that a module failed to import;
+a type that does not exist, given with an id, is found by searching for the
+id, and otherwise refused with where to look.
+
+And one that had been there since the loop was written: the account counted
+rounds over the whole conversation rather than over the question being
+answered, so the sixth question of any chat was refused before it was asked.
+It counts from the last thing the person said now. A tool's refusal shows the
+reader its first sentence only; the rest — the fields a type has, the values
+there are — is written for the model.
+
+The panel had shown every earlier call to a tool with the last answer that
+tool gave — Gemini's call id is the tool's name, and calls were matched to
+their answers by id. Each call is matched to the tool turns straight after it
+now, in order.
+
+Search across every type, `search_everywhere`: frappe's own global search,
+the desk's search bar — the workspace's Global Search Settings say which
+types are indexed, and frappe checks `has_permission` on every hit before it
+is answered. Beside `find_records`, which is one type's link search, the
+tool for turning "Apple" into a supplier's id. The index is built by the
+scheduler; a site whose scheduler is off has an empty one, and the search
+answers nothing rather than something wrong.
 
 The reader's past conversations, searched by `search_my_chats` in what was
 said rather than in the page pointers and tool rows around it.

@@ -36,12 +36,31 @@ def test_only_an_administrator_writes_knowledge_and_everybody_reads_it():
 	assert "All" in readers
 
 
-def test_remembering_is_a_card_and_recalling_is_a_read():
-	assert "memory.remember" in TOOLS.split("SUGGESTS = (", 1)[1].split(")", 1)[0]
+def test_remembering_runs_at_once_and_writes_only_the_askers_memory():
+	"""The one write that is not a card: it is what the person just said, it is
+	theirs alone, and the chat leaves a line to undo it."""
+	assert TOOLS.split("KEEPS = (", 1)[1].split(")", 1)[0] == "memory.remember,"
+	assert "memory.remember" not in TOOLS.split("SUGGESTS = (", 1)[1].split(")", 1)[0]
 	reads = TOOLS.split("READS = (", 1)[1].split(")", 1)[0]
-	for tool in ("memory.about_record", "memory.recall", "memory.search_my_chats"):
+	for tool in ("memory.about_record", "memory.recall", "memory.search_my_chats", "search_everywhere"):
 		assert tool in reads, tool
-	assert 'proposals.propose("Create", "AI Memory"' in _body(MEMORY, "remember")
+	remember = _body(MEMORY, "remember")
+	assert '"doctype": "AI Memory"' in remember
+	assert remember.count("frappe.get_doc(") == 1, "it writes nothing but the memory"
+
+
+def test_the_same_fact_twice_is_one_memory():
+	remember = _body(MEMORY, "remember")
+	assert "_same(said, one.fact)" in remember and "replaces" in remember
+	assert "already remembered" in remember and '"updated"' in remember
+
+
+def test_global_search_is_frappes_and_checks_each_record():
+	"""frappe's search checks has_permission on every hit; we call it rather
+	than query the index ourselves."""
+	search = _body(TOOLS, "search_everywhere")
+	assert "from frappe.utils.global_search import search" in search
+	assert "__global_search" not in search
 
 
 def test_a_records_story_is_read_live_through_the_sidebars_own_function():
@@ -93,3 +112,29 @@ def test_past_chats_rank_on_what_was_said_and_skip_the_one_asking():
 def test_a_card_hides_what_the_form_hides():
 	chat = (tree.APP / "one_ai" / "chat.py").read_text()
 	assert 'field.hidden or field.fieldname == "naming_series"' in _body(chat, "_drawn")
+
+
+def test_a_type_guessed_from_an_id_is_found_by_the_id():
+	""""HR-EXP" for HR-EXP-2026-00004: frappe's search says what it is."""
+	kind = _body(TOOLS, "_type")
+	assert "search_everywhere(name)" in kind and "len(set(found)) == 1" in kind
+	assert "_type(doctype, name)" in _body(TOOLS, "read_record")
+
+
+def test_asked_to_remember_and_nothing_kept_is_asked_for_the_call():
+	run = (tree.APP / "one_ai" / "run.py").read_text()
+	assert "_unkept(text, called)" in run and "KEEP_IT.format(text)" in run
+
+
+def test_what_is_remembered_is_told_as_known_not_as_asked():
+	""""The reader asked you to remember X" read as being asked again."""
+	told = _body(MEMORY, "told")
+	assert "Already remembered" in told and "asked you to remember" not in told
+
+
+def test_each_call_shows_its_own_answer():
+	"""Gemini's call id is the tool's name; matched by id, every earlier call to
+	a tool showed the last answer it gave."""
+	chat = (tree.APP / "one_ai" / "chat.py").read_text()
+	shown = _body(chat, "shown")
+	assert "_answering(call" in shown and 'call.get("id")' not in shown

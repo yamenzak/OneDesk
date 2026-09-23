@@ -87,6 +87,7 @@ def _known(doctype: str, filters=None, fields=None, order_by: str | None = None)
 	tried again. The list is what describe_type would say, cut to what can be
 	filtered on.
 	"""
+	_type(doctype)
 	meta = frappe.get_meta(doctype)
 	named = []
 	if isinstance(filters, dict):
@@ -121,6 +122,27 @@ def _known(doctype: str, filters=None, fields=None, order_by: str | None = None)
 			frappe.throw(f"There is no {df.options} called {value!r}. There are: {', '.join(map(str, there[:20]))}.")
 
 
+def _type(doctype: str, name: str | None = None) -> str:
+	"""The type a record really is, when the model named one that is not.
+
+	A small model reads "HR-EXP-2026-00004" and asks for the type "HR-EXP";
+	frappe answers with a module import error that reads to it as "deleted".
+	With an id to go on, frappe's own search says what it is — used when
+	exactly one record the reader may see has that id — and otherwise the
+	model is told there is no such type and where to look.
+	"""
+	if doctype and frappe.db.exists("DocType", doctype):
+		return doctype
+	if name:
+		found = [one["doctype"] for one in search_everywhere(name) if one["name"] == name]
+		if len(set(found)) == 1:
+			return found[0]
+	frappe.throw(
+		f"There is no type called {doctype!r}. Use search_everywhere to find what a record is, "
+		"or the type's name as it is on screen."
+	)
+
+
 def _meant(said: str, there: list) -> str | None:
 	"""The one value `said` plainly names: the same ignoring case, or the only
 	one that contains it."""
@@ -137,6 +159,7 @@ def read_record(
 	name: Annotated[str, "Its id."],
 ) -> dict:
 	"""Read one record in full, if the person asking may see it."""
+	doctype = _type(doctype, name)
 	held = frappe.get_doc(doctype, name)
 	held.check_permission("read")
 	return _without_secrets(doctype, held.as_dict())
@@ -252,6 +275,35 @@ def delete_record(
 
 
 #: What runs when a model asks for it.
+def search_everywhere(
+	text: Annotated[str, "Words to look for: a name, a code, a phrase."],
+	doctype: Annotated[str, "Only this type of record, if known."] | None = None,
+) -> list:
+	"""Search every kind of record at once, the way the desk's search bar does.
+	Use it when you do not know what type something is — "Omar", "the Dubai
+	office", "INV-0042" — then read what it finds."""
+	from frappe.utils.global_search import search
+
+	# frappe's own search: the workspace's Global Search Settings say which
+	# types are indexed, and every hit is checked with has_permission on the
+	# record itself before it is answered, so nothing the reader may not open
+	# is named.
+	found = search(text or "", limit=MOST_FOUND, doctype=doctype or "")
+	return [
+		{
+			"doctype": one.doctype,
+			"name": one.name,
+			"title": one.get("title") or one.name,
+			"matched": " ".join(str(one.content or "").replace("|||", "·").split())[:200],
+		}
+		for one in found
+	]
+
+
+#: How many hits `search_everywhere` answers with.
+MOST_FOUND = 10
+
+
 def find_records(
 	doctype: Annotated[str, "The type of record to search in."],
 	text: Annotated[str, "What to search for — a name, a code, part of a title."],
@@ -382,6 +434,7 @@ READS = (
 	count_records,
 	describe_type,
 	find_records,
+	search_everywhere,
 	what_links_here,
 	what_can_happen,
 	run_report,
@@ -392,7 +445,13 @@ READS = (
 
 #: What becomes a card instead. Named separately rather than flagged, because a
 #: tool moving from one tuple to the other is a line in a diff somebody reviews.
-SUGGESTS = (create_record, edit_record, delete_record, move_record, memory.remember)
+SUGGESTS = (create_record, edit_record, delete_record, move_record)
+
+#: What runs at once although it writes: only the asker's own memory, which no
+#: one else reads and they can undo from the line it leaves in the chat. A card
+#: asking them to approve "Omar is our CFO", which they just said, was a card
+#: nobody wanted.
+KEEPS = (memory.remember,)
 
 BY_NAME = {fn.__name__: fn for fn in READS + SUGGESTS}
 
@@ -411,8 +470,9 @@ def hooked() -> tuple[tuple, tuple]:
 
 
 def _every() -> tuple[tuple, tuple]:
+	"""What runs now (reads, and keeping a memory) and what becomes a card."""
 	reads, suggests = hooked()
-	return READS + reads, SUGGESTS + suggests
+	return READS + KEEPS + reads, SUGGESTS + suggests
 
 
 def declared() -> list[dict]:

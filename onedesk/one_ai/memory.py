@@ -8,9 +8,9 @@ Three kinds, kept apart because they have three different owners:
   frappe functions the sidebar calls, so it is never a copy that went stale
   and never more than the reader may open;
 - **a person's own memory** (`AI Memory`), short facts somebody told OneAI to
-  keep. Private to them like their conversations, and written only through a
-  card they approve, because a fact the model decided to keep about someone
-  is a fact they should have seen;
+  keep. Private to them like their conversations, kept at once — it is what
+  they just said — and shown in the chat as a line they can undo. The same
+  fact twice is one memory, and a correction replaces what it corrects;
 - **the workspace's knowledge** (`AI Knowledge`), what an administrator
   wrote down for everybody: a policy, a glossary, how things are done here.
 
@@ -27,7 +27,6 @@ from typing import Annotated
 import frappe
 from frappe.utils import strip_html_tags
 
-from onedesk.one_ai import proposals
 
 #: How many of a person's memories ride along on every turn, newest first.
 #: Past this, `recall` finds the rest.
@@ -58,6 +57,7 @@ def about_record(
 
 	from onedesk.one_ai import tools
 
+	doctype = tools._type(doctype, name)
 	record = tools.read_record(doctype, name)  # checks read permission
 	# The sidebar's own function, which fills frappe.response rather than
 	# returning; read it off and put the response back as it was.
@@ -178,17 +178,68 @@ def _words(text: str) -> list[str]:
 
 
 def remember(
-	fact: Annotated[str, "One short fact to keep, in a sentence, e.g. 'Omar is our CFO.'"],
+	fact: Annotated[str, "One short lasting fact, in a sentence, e.g. 'Omar Haddad is our finance lead.'"],
+	replaces: Annotated[str, "The remembered fact this corrects, as you were told it, if it corrects one."]
+	| None = None,
 	about_doctype: Annotated[str, "The type of record it is about, if it is about one."] | None = None,
 	about_name: Annotated[str, "That record's id."] | None = None,
 ) -> dict:
-	"""Suggest keeping a fact the reader told you, for later conversations.
-	Only for something they said to keep or clearly will want again; nothing is
-	kept until they approve it."""
-	values = {"fact": (fact or "").strip()[:500]}
-	if about_doctype and about_name and _names(values["fact"], about_doctype, about_name):
+	"""Keep a fact for later conversations. Only when the person asks you to
+	remember something, or tells you a lasting fact about themselves, their
+	work or how they like things done that later conversations will need.
+	Never the details of the task at hand, anything a record already holds,
+	anything you worked out yourself, or something you already remember."""
+	said = " ".join((fact or "").split())[:500]
+	if not said:
+		frappe.throw("Say the fact to keep.")
+	mine = frappe.get_list(
+		"AI Memory",
+		filters={"owner": frappe.session.user},
+		fields=["name", "fact"],
+		order_by="modified desc",
+		limit_page_length=MOST_KEPT,
+	)
+	# The same fact again is not a second memory; a correction replaces the
+	# one it corrects, and a fact that says more replaces the one it grew from.
+	for one in mine:
+		if _same(said, one.fact) or (replaces and _same(replaces, one.fact)):
+			if _plain(said) == _plain(one.fact) or _plain(said) in _plain(one.fact):
+				return {"memory": one.name, "fact": one.fact, "state": "already remembered"}
+			frappe.db.set_value("AI Memory", one.name, "fact", said)
+			return {"memory": one.name, "fact": said, "state": "updated"}
+
+	values = {"doctype": "AI Memory", "fact": said}
+	if about_doctype and about_name and _names(said, about_doctype, about_name):
 		values.update({"about_doctype": about_doctype, "about_name": about_name})
-	return {"proposal": proposals.propose("Create", "AI Memory", changes=values), "state": "Proposed"}
+	kept = frappe.get_doc(values).insert()
+	# Past the cap the oldest goes: a memory nobody has touched in two hundred
+	# newer ones is the one least likely to be missed.
+	for old in mine[MOST_KEPT - 1 :]:
+		frappe.delete_doc("AI Memory", old.name)
+	return {"memory": kept.name, "fact": said, "state": "remembered"}
+
+
+#: How many memories one person keeps.
+MOST_KEPT = 200
+
+
+def _plain(text: str) -> str:
+	return " ".join("".join(ch for ch in (text or "").lower() if ch.isalnum() or ch.isspace()).split())
+
+
+def _same(one: str, other: str) -> bool:
+	"""Whether two facts are the same fact: equal, one inside the other, or
+	worded nearly alike."""
+	import difflib
+
+	a, b = _plain(one), _plain(other)
+	if not a or not b:
+		return False
+	return a == b or a in b or b in a or difflib.SequenceMatcher(None, a, b).ratio() >= SAME
+
+
+#: How alike two facts' words have to be to count as one fact.
+SAME = 0.8
 
 
 # ---------------------------------------------------------- the context turn
@@ -206,7 +257,9 @@ def told(doctype: str | None = None) -> str:
 		limit_page_length=TOLD,
 	)
 	if mine:
-		said.append("The reader asked you to remember: " + " ".join(one.fact.strip() for one in mine))
+		# Worded as what is already known, not as a request: "the reader asked
+		# you to remember X" read to a small model as being asked again.
+		said.append("Already remembered from earlier conversations: " + " ".join(one.fact.strip() for one in mine))
 	for one in _knowledge(doctype) if doctype else []:
 		said.append(f"This workspace's note on {doctype}, \"{one['title']}\": {one['text'][:KNOWLEDGE_TOLD]}")
 	return " ".join(said)

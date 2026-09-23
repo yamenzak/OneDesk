@@ -253,3 +253,10 @@ def test_the_persona_says_the_cards_are_already_on_screen():
 	persona = next(f for f in settings["fields"] if f["fieldname"] == "persona")["default"]
 	assert "as a card" in persona
 	assert "name the records you used" not in persona
+
+
+def test_rounds_are_counted_per_question_not_per_conversation():
+	"""Counted over the whole conversation, the sixth question of any chat was
+	refused before it was asked."""
+	body = (tree.APP / "one_admin" / "actions.py").read_text().split("def _conversation(", 1)[1].split("\ndef ", 1)[0]
+	assert 'not one.get("context")' in body and "turns[asked + 1 :]" in body

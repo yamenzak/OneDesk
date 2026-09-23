@@ -11,6 +11,7 @@ admin's, for the same reason a workspace cannot sign its own upload URL.
 """
 
 import json
+import re
 
 import frappe
 
@@ -55,7 +56,8 @@ def ask(
 	turns = list(turns) if turns else None
 	spent, rounds, cards = 0.0, 0, []
 	asked: dict[str, dict] = {}
-	nudged = False
+	nudged = reminded = False
+	called: set[str] = set()
 
 	tell = heard or (lambda step: None)
 
@@ -72,6 +74,13 @@ def ask(
 			tools=offered,
 		)
 		spent += float(out.get("credits") or 0)
+		if out.get("done") and not reminded and _unkept(text, called) and rounds < ROUNDS:
+			# "I will remember that" with no call behind it is a promise a
+			# small model makes and does not keep. Asked for the call, it makes it.
+			reminded = True
+			turns = [*out["turns"], {"role": "user", "text": KEEP_IT.format(text), "calls": [], "context": True}]
+			rounds += 1
+			continue
 		if out.get("done") and _silent(out, cards) and not nudged and rounds < ROUNDS:
 			# Gemini answers the round after a tool result with nothing, which
 			# is "done" when a card said it and a blank panel when none did.
@@ -85,6 +94,7 @@ def ask(
 
 		turns = out["turns"]
 		for want in out.get("wants") or []:
+			called.add(want.get("tool"))
 			key = json.dumps([want.get("tool"), want.get("args") or {}], sort_keys=True, default=str)
 			if key in asked:
 				# The same call again: a small model given an empty answer asks
@@ -150,6 +160,24 @@ def _card(answer: dict) -> str | None:
 
 #: Said to a model that looked things up and then said nothing.
 NUDGE = "Now answer the question in one or two sentences from what the tools returned."
+
+
+#: Said to a model that was asked to remember something and did not.
+KEEP_IT = (
+	"The person just said: \"{0}\". Call remember now with the lasting fact in those words — "
+	"not anything already remembered — then answer in one sentence."
+)
+
+#: How a person asks to be remembered, in the languages a workspace reads.
+REMEMBER = re.compile(
+	r"\b(remember|keep in mind|don'?t forget|do not forget|make a note|note that|merk|vergiss nicht)\b|تذك|احفظ|لا تنس",
+	re.IGNORECASE,
+)
+
+
+def _unkept(text: str | None, called: set[str]) -> bool:
+	"""Asked to remember, and nothing was kept."""
+	return bool(text and REMEMBER.search(text)) and "remember" not in called
 
 
 def _silent(out: dict, cards: list) -> bool:
