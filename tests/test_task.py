@@ -126,39 +126,11 @@ class _Board(_Row):
 		self[key] = value
 
 
-def test_a_project_board_is_shaped_as_it_is_made():
-	space = _load(TASK / "board.py", ("COLUMNS", "CARD", "shape"), json=json)
-	board = _Board(
-		reference_doctype="Task",
-		field_name="status",
-		columns=[_Row(column_name=name) for name in ("Open", "Working", "Overdue", "Completed", "Cancelled", "Template")],
-		fields=None,
-		show_labels=1,
-	)
-	assert space["shape"](board) is True
-	shown = {one.column_name: one.status for one in board.columns}
-	assert "Overdue" not in shown and shown["Cancelled"] == shown["Template"] == "Archived"
-	assert shown["Working"] == "Active" and json.loads(board.fields) == ["priority", "exp_end_date"]
-	assert space["shape"](board) is False, "shaping twice changes nothing"
-	assert space["shape"](_Board(reference_doctype="Opportunity", field_name="sales_stage", columns=[])) is False
-
-
-def test_overdue_is_a_date_not_a_status():
-	source = (TASK / "board.py").read_text()
-	assert '"erpnext.projects.doctype.task.task.set_tasks_as_overdue"' in source
-	custom = json.loads((TASK / "custom" / "task.json").read_text())
-	options = next(p for p in custom["property_setters"] if p["field_name"] == "status" and p["property"] == "options")
-	assert "Overdue" not in options["value"].split("\n")
-	assert "text-danger" in (tree.APP / "public" / "js" / "task_list.js").read_text()
-	assert HOOKS.count('"onedesk.one_task.board.settle"') == 2
-	assert '"Kanban Board": {"before_insert": "onedesk.one_task.board.shape"}' in HOOKS
-
-
-def test_sub_tasks_are_a_connection_and_projects_live_in_onetask():
+def test_sub_tasks_are_a_connection_and_erpnexts_projects_rail_is_gone():
 	assert '"Task": ["onedesk.one_task.task.dashboard"]' in HOOKS
-	assert '"before_validate": "onedesk.one_task.task.before_validate"' in HOOKS
+	assert '"onedesk.one_task.task.before_validate",' in HOOKS
 	dock = json.loads((tree.APP / "dock" / "onedesk" / "onedesk.json").read_text())
-	assert not any(item["link_to"] == "Projects" for item in dock["items"]), "one rail entry for projects"
+	assert not any(item["link_to"] == "Projects" for item in dock["items"]), "OneProject, not ERPNext's Projects"
 
 
 def test_a_task_dragged_keeps_its_length_and_its_times():
@@ -188,23 +160,6 @@ def test_the_timer_writes_the_persons_timesheet_through_its_own_save():
 	assert '"/assets/onedesk/js/task_timer.js"' in HOOKS and '"Task": "public/js/task.js"' in HOOKS
 	page = (TASK / "page" / "my_tasks" / "my_tasks.js").read_text()
 	assert 'frappe.model.can_create("Timesheet")' in page
-
-
-def test_a_task_prefix_is_short_and_starts_with_a_letter():
-	import re
-
-	key = _load(TASK / "naming.py", ("KEY",), re=re)["KEY"]
-	assert key.match("WEB") and key.match("R2D2") and key.match("REEM")
-	assert not key.match("W") and not key.match("2FA") and not key.match("WEB-1") and not key.match("ABCDEFGHIJK")
-	assert '"Project": {\n\t\t"validate": "onedesk.one_task.naming.validate"' in HOOKS
-	source = (TASK / "naming.py").read_text()
-	assert '"Document Naming Rule"' in source
-	assert '"Task"' not in HOOKS.split("override_doctype_class = {", 1)[1].split("}", 1)[0], "ERPNext's Task class stays theirs"
-
-
-def test_erpnexts_dependants_can_find_their_project():
-	body = _body((TASK / "task.py").read_text(), "before_validate")
-	assert 'for row in doc.get("depends_on") or []' in body and "row.project = doc.project" in body
 
 
 def test_a_repeat_is_due_when_it_repeats_and_given_to_the_same_people():

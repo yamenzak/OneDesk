@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 19:47+0000\n"
-"PO-Revision-Date: 2026-09-23 19:47+0000\n"
+"POT-Creation-Date: 2026-09-23 20:07+0000\n"
+"PO-Revision-Date: 2026-09-23 20:07+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -220,7 +220,7 @@ msgstr "تسجيل من صفحة التسجيل العامة."
 msgid "A slug is letters, digits and hyphens: {0}"
 msgstr "المعرّف حروف وأرقام وشرطات: {0}"
 
-#: onedesk/one_task/naming.py:30
+#: onedesk/one_project/naming.py:30
 msgid "A task prefix is 2 to 10 letters and digits, starting with a letter."
 msgstr "بادئة المهام من 2 إلى 10 أحرف وأرقام، تبدأ بحرف."
 
@@ -419,8 +419,15 @@ msgstr "الإجراءات"
 msgid "Active"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
+msgid "Activity Cost"
+msgstr ""
+
 #. Label of a Link in the OneHR Setup Workspace
+#. Label of a Sidebar Item
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
 #: onedesk/public/js/timesheet.js:45
 msgid "Activity Type"
 msgstr ""
@@ -907,7 +914,7 @@ msgstr "جارٍ السؤال…"
 msgid "Assign a Salary Structure"
 msgstr "إسناد هيكل راتب"
 
-#: onedesk/one_task/calendar.py:49
+#: onedesk/one_task/calendar.py:38
 msgid "Assigned to Me"
 msgstr "مسندة إليّ"
 
@@ -4808,6 +4815,11 @@ msgid "OneHR Setup"
 msgstr "إعداد OneHR"
 
 #. Title of a Sidebar
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
+msgid "OneProject"
+msgstr "OneProject"
+
+#. Title of a Sidebar
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "OneTask"
 msgstr "OneTask"
@@ -5464,17 +5476,22 @@ msgid "Project"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_task/sidebar/onetask/onetask.json
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
+msgid "Project Template"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Project Type"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_task/sidebar/onetask/onetask.json
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Projects"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_task/sidebar/onetask/onetask.json
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Projects Settings"
 msgstr ""
 
@@ -6323,6 +6340,7 @@ msgstr ""
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Setup"
 msgstr "الإعداد"
@@ -6711,7 +6729,7 @@ msgstr "متعثّرة"
 msgid "Stuck jobs"
 msgstr "مهام متعثّرة"
 
-#: onedesk/one_task/task.py:56
+#: onedesk/one_task/task.py:48
 msgid "Sub-tasks"
 msgstr "المهام الفرعية"
 
@@ -6836,7 +6854,7 @@ msgid "Task"
 msgstr ""
 
 #. Label of the one_key (Data) field in DocType 'Project'
-#: onedesk/one_task/custom/project.json
+#: onedesk/one_project/custom/project.json
 msgid "Task Prefix"
 msgstr "بادئة المهام"
 
@@ -6851,13 +6869,14 @@ msgid "Task Type"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_task/calendar.py:38
+#: onedesk/one_project/calendar.py:12
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Tasks"
 msgstr ""
 
 #. Description of the 'Task Prefix' (Data) field in DocType 'Project'
-#: onedesk/one_task/custom/project.json
+#: onedesk/one_project/custom/project.json
 msgid "Tasks made in this project are named with it, as WEB-14. Leave empty to use the standard series."
 msgstr "تُسمّى المهام المنشأة في هذا المشروع بها، مثل WEB-14. اتركها فارغة لاستخدام التسلسل القياسي."
 
@@ -7396,6 +7415,7 @@ msgstr "المدة على هذه الدرجة"
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Timesheet"
 msgstr ""
 
@@ -8685,7 +8705,7 @@ msgstr "{0} يخص {1} بالفعل."
 msgid "{0} already has a workspace. Resume its job instead."
 msgstr "لدى {0} مساحة عمل بالفعل. استأنف مهمتها بدلاً من ذلك."
 
-#: onedesk/one_task/naming.py:33
+#: onedesk/one_project/naming.py:33
 msgid "{0} already names the tasks of {1}."
 msgstr "{0} تُسمّي بالفعل مهام {1}."
 

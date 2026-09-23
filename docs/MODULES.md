@@ -84,10 +84,16 @@ No doctypes yet.
 |---|--:|---|
 | Task Step | 2 | child |
 
+## One Project
+
+`onedesk/one_project`
+
+No doctypes yet.
+
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
-* **sidebar** — one, one_admin, onecalendar, onecrm, onehr, onetask
+* **sidebar** — one, one_admin, onecalendar, onecrm, onehr, oneproject, onetask
 * **workspace** — one, one_admin, onecrm, onehr, onehr_setup
 
 ## Whitelisted methods

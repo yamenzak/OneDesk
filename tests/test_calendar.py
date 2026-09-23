@@ -176,7 +176,7 @@ def test_a_link_is_found_by_its_hash_kept_encrypted_and_read_as_its_owner():
 
 def test_every_layer_is_declared_whole_and_registered():
 	registered = re.findall(r'"(onedesk\.[\w.]+\.LAYERS)"', HOOKS.split("one_calendar_layers = [", 1)[1].split("]", 1)[0])
-	assert len(registered) == 4
+	assert len(registered) == 5
 	keys = []
 	for path in registered:
 		module = tree.APP.joinpath(*path.split(".")[1:-1]).with_suffix(".py")
@@ -202,7 +202,7 @@ def test_who_may_publish_is_one_list_in_both_halves():
 
 
 def test_nothing_is_copied_into_an_event():
-	for path in [*CAL.glob("*.py"), tree.APP / "one_crm" / "calendar.py", tree.APP / "one_hr" / "calendar.py", tree.APP / "one_task" / "calendar.py"]:
+	for path in [*CAL.glob("*.py"), tree.APP / "one_crm" / "calendar.py", tree.APP / "one_hr" / "calendar.py", tree.APP / "one_task" / "calendar.py", tree.APP / "one_project" / "calendar.py"]:
 		said = path.read_text()
 		assert '"doctype": "Event", "' not in said and 'new_doc("Event"' not in said, path.name
 		assert ".insert(" not in said or path.name == "feed.py", path.name

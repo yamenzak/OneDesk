@@ -8,7 +8,7 @@
    "insert_after": "project_name",
    "length": 10,
    "description": "Tasks made in this project are named with it, as WEB-14. Leave empty to use the standard series.",
-   "module": "One Task"
+   "module": "One Project"
   }
  ],
  "doctype": "Project",

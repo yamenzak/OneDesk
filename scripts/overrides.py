@@ -741,14 +741,14 @@ OVERRIDES = [
 	(
 		"Overdue is a date, not a status",
 		"their daily job rewrites every open task past its date to Overdue, so a Working card changed columns overnight; the job is stopped and the option dropped",
-		"onedesk/one_task/board.py",
+		"onedesk/one_project/board.py",
 		"erpnext/erpnext/hooks.py",
 		"erpnext.projects.doctype.task.task.set_tasks_as_overdue",
 	),
 	(
 		"A project's board is theirs, shaped as it is made",
 		"their button makes a board per project with a column per status; ours archives Template and Cancelled and sets what a card shows",
-		"onedesk/one_task/board.py",
+		"onedesk/one_project/board.py",
 		"erpnext/erpnext/projects/doctype/project/project.py",
 		'quick_kanban_board("Task", project.project_name, "status", project.name)',
 	),
@@ -783,7 +783,7 @@ OVERRIDES = [
 	(
 		"A dependency says which project it is in",
 		"their slip finds a task's dependants by the project on each Task Depends On row, a read-only field nothing of theirs writes, so it never found any",
-		"onedesk/one_task/task.py",
+		"onedesk/one_project/plan.py",
 		"erpnext/erpnext/projects/doctype/task/task.py",
 		'filters={"task": self.name, "project": self.project},',
 	),

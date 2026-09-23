@@ -1,6 +1,6 @@
 // A project's board is the first thing somebody working in it wants, so it is
 // a button of its own rather than the second entry under View. The board is
-// ERPNext's own, made the way their button makes it (one_task/board.py shapes
+// ERPNext's own, made the way their button makes it (one_project/board.py shapes
 // it as it is made). Calendar is OneCalendar narrowed to the project: its
 // tasks by the day they are due, and the events about it.
 

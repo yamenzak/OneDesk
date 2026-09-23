@@ -36,7 +36,7 @@ after_install = [
 	"onedesk.one_crm.capture.defaults",
 	"onedesk.one_crm.access.settle",
 	"onedesk.one_task.access.settle",
-	"onedesk.one_task.board.settle",
+	"onedesk.one_project.board.settle",
 ]
 
 # Their dock files do not carry the mount, so a newer erpnext or hrms clears it,
@@ -63,7 +63,7 @@ after_migrate = [
 	"onedesk.one_crm.record.settle",
 	"onedesk.one_crm.access.settle",
 	"onedesk.one_task.access.settle",
-	"onedesk.one_task.board.settle",
+	"onedesk.one_project.board.settle",
 ]
 extend_bootinfo = "onedesk.one.boot.boot_session"
 
@@ -157,16 +157,20 @@ doc_events = {
 	"Task": {
 		"before_insert": "onedesk.one_hr.lifecycle.task",
 		"after_insert": "onedesk.one_task.capture.task_made",
-		"before_validate": "onedesk.one_task.task.before_validate",
+		"before_validate": [
+			"onedesk.one_task.task.before_validate",
+			# What depends on what, per project. See one_project/plan.py.
+			"onedesk.one_project.plan.before_validate",
+		],
 		"on_recurring": "onedesk.one_task.task.recurring",
 	},
-	# A project's tasks are named with its prefix. See one_task/naming.py.
+	# A project's tasks are named with its prefix. See one_project/naming.py.
 	"Project": {
-		"validate": "onedesk.one_task.naming.validate",
-		"on_update": "onedesk.one_task.naming.on_update",
+		"validate": "onedesk.one_project.naming.validate",
+		"on_update": "onedesk.one_project.naming.on_update",
 	},
-	# A project's board, as ERPNext makes it, shaped. See one_task/board.py.
-	"Kanban Board": {"before_insert": "onedesk.one_task.board.shape"},
+	# A project's board, as ERPNext makes it, shaped. See one_project/board.py.
+	"Kanban Board": {"before_insert": "onedesk.one_project.board.shape"},
 	"Training Result": {"before_validate": "onedesk.one_hr.lifecycle.result"},
 	# The reason is a record and submitting is an approval. See one_hr/request.py.
 	"Attendance Request": {
@@ -337,7 +341,7 @@ doctype_js = {
 	"Opportunity": "public/js/opportunity.js",
 	# Next Step Done, which asks what comes next. See public/js/next_step.js.
 	"Lead": "public/js/lead.js",
-	# The project's board is a button of its own. See one_task/board.py.
+	# The project's board is a button of its own. See one_project/board.py.
 	"Project": "public/js/project.js",
 	# A timer on the task. See one_task/timer.py.
 	"Task": "public/js/task.js",
@@ -460,6 +464,7 @@ one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS", "onedesk.one_crm.ai.SUGGE
 one_calendar_layers = [
 	"onedesk.one_calendar.events.LAYERS",
 	"onedesk.one_task.calendar.LAYERS",
+	"onedesk.one_project.calendar.LAYERS",
 	"onedesk.one_crm.calendar.LAYERS",
 	"onedesk.one_hr.calendar.LAYERS",
 ]

@@ -19,9 +19,10 @@ the calendar's — but everything you have to *do* is here.
 - **Inbox** — your own tasks that are in no project, still to do. A quick note
   to yourself lands here.
 - **Tasks** — every task you may see, in projects and out of them.
-- **Projects** — for the people who work in projects. Each has its own
-  **Board**.
-- Under **Setup**, **Task Type**, **Project Type** and **Projects Settings**.
+- Under **Setup**, **Task Type**.
+
+Projects — their boards, calendars and money — are **OneProject**'s, over the
+same tasks.
 
 ## My Tasks
 
@@ -52,28 +53,13 @@ is on your calendar and in every list of your work.
 the To Do form, a reminder to yourself — makes a task, assigned to whoever the
 to-do was for.
 
-## A project's board
-
-**Board** on a project shows its tasks in four columns — **Open**, **Working**,
-**Pending Review** and **Completed** — each card with its priority, when it is
-due and who is on it. Drag a card to move the task along; **Add Task** at the
-top of a column adds one there. The first time anybody opens a project's
-board it is made, and after that everybody shares it.
-
-**A late task is not a column.** A task past its due date stays where it is and
-its date turns red, on the board and in every list. My Tasks puts it under
-Overdue.
-
 ## On the calendar
 
 Your tasks are on **OneCalendar** under **My Tasks**, on the day each is due.
 **Drag one to another day** to move it: its due date goes there, and its start
 date moves by as many days, so the task keeps its length.
 
-**Calendar** on a project is that project's own calendar: every task in it
-still to do, whoever is on it, and every event about the project. **Add Event**
-there makes an event about the project, and it shows on the calendar of
-everybody who can open the project.
+A project's own calendar is OneProject's.
 
 ## Timing a task
 
@@ -107,20 +93,6 @@ which nobody else has to be given. Tick **Done** as you go; the task's
 weekly, monthly and so on — and a new task is made each time. Each one is due
 on the day it repeats, is still to do with its checklist unticked, and is
 given to the same people as the task it repeats. Stop it from the same place.
-
-## Task names
-
-A task is named like **TASK-2026-00042** unless its project has a **Task
-Prefix**. Give a project the prefix **WEB** and its new tasks are named
-**WEB-1**, **WEB-2** and on. Tasks already made keep their names; a prefix is
-2 to 10 letters and digits, starting with a letter, and no two projects share
-one.
-
-## When a task is late, what depends on it moves
-
-A task can depend on others (**Dependencies** on its page). When a task's due
-date moves later, the tasks in the same project that depend on it and have not
-started move later by as much.
 
 ## Who is on a task
 
@@ -172,30 +144,20 @@ is:
   its maker's; the last assignment ticked off on a task in no project
   completes it. ERPNext already closes the assignments when a task completes.
 - `calendar.py` — **My Tasks** and **Assigned to Me** on OneCalendar (the
-  second leaves out assignments on tasks, which are already on the first), a
-  project's **Tasks** on its own calendar, and `move`: a task dragged shifts
-  both its dates by the same days (`shifted` is pure).
+  second leaves out assignments on tasks, which are already on the first),
+  `due` for any list of tasks (OneProject's calendar reads it), and `move`: a
+  task dragged shifts both its dates by the same days (`shifted` is pure).
 - `custom/task.json` — the due date is asked for when a task is added, the
-  Checklist (Task Step) is added, and Overdue is taken off the statuses.
-- `board.py` — ERPNext's own per-project Kanban, shaped as it is made; and
-  their nightly Overdue job stopped, since a late task is a date and not a
-  column. Their Project Summary report counted Overdue tasks, and now counts
-  none.
+  Checklist (Task Step) is added, and Overdue is taken off the statuses
+  (one_project/board.py says why).
 - `task.py` — a sub-task's parent becomes a group and lends its project; the
   checklist is the progress; sub-tasks are a connection on the task's page.
-- `public/js/project.js` and `public/js/task_list.js` — the Board and Calendar
-  buttons, and a due date read as a day, red once passed.
+- `public/js/task_list.js` — a due date read as a day, red once passed.
 - `timer.py` — the timer, as a row on the person's draft timesheet for the
   week; a row with a start and no end is the running one, the same rule as the
   Timesheet form's own timer, so either stops what the other started.
   `public/js/task.js` and `task_timer.js` are its buttons and what they say.
-- `naming.py` — a project's Task Prefix, as a frappe Document Naming Rule for
-  Task with the condition "project is this one"; ERPNext's Task class is not
-  overridden. The number is frappe's series for the prefix, which never
-  reuses a name.
-- `task.py` also fills each dependency row's project, the field ERPNext's own
-  rescheduling looks dependants up by and never writes, and `recurring` gives a
-  repeat (frappe's Auto Repeat, switched on for Task in custom/task.json) its
+- `task.py` also has `recurring`, which gives a repeat (frappe's Auto Repeat, switched on for Task in custom/task.json) its
   dates, its status and its people.
 - `mine.py` and `page/my_tasks` — My Tasks. The server only reads, as the
   reader, and groups (`when` is pure); adding and ticking are `frappe.db.insert`
@@ -222,3 +184,7 @@ is:
    card (the board keeps its own order), labels (frappe's Tags), an assignee
    column (the list and board show who is on a task), and sprints (not asked
    for, and a project with a date range is most of one).
+7. **Projects leave.** *Done.* The board, a project's calendar, task prefixes,
+   the plan and the project settings built in stages 3, 4 and 6 are
+   OneProject's now (one_project/README.md, which also lists what OneTask keeps
+   doing for projects).

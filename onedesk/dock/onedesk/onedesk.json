@@ -48,6 +48,14 @@
   {
    "added": 0,
    "hidden": 0,
+   "icon": "oneproject",
+   "link_to": "OneProject",
+   "link_type": "Sidebar",
+   "title": "OneProject"
+  },
+  {
+   "added": 0,
+   "hidden": 0,
    "icon": "onecalendar",
    "link_to": "OneCalendar",
    "link_type": "Sidebar",
@@ -62,7 +70,7 @@
    "title": "One Admin"
   }
  ],
- "modified": "2026-09-25 16:00:00.000000",
+ "modified": "2026-09-26 10:00:00.000000",
  "modified_by": "Administrator",
  "name": "onedesk",
  "owner": "Administrator",

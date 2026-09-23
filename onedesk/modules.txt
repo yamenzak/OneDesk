@@ -5,3 +5,4 @@ One Admin
 One AI
 One Calendar
 One Task
+One Project

@@ -1,7 +1,7 @@
 // A task's due date reads as a day, and red once it has passed on a task still
 // to do. ERPNext's Expected End Date is a Datetime, so every list and board
 // card said "25-09-2026 00:00:00"; the time is shown only when one was set.
-// Lateness is read off the date rather than a status — one_task/board.py says
+// Lateness is read off the date rather than a status — one_project/board.py says
 // why Overdue is not one.
 //
 // On the docfield rather than the list's formatters, because the board draws

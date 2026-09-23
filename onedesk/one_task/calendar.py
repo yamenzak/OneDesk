@@ -10,8 +10,8 @@ was dropped on, and the start goes with it by as many days, so a task keeps
 its length. A time of day already set stays. A task is a day on the calendar,
 so it is dragged, never stretched.
 
-**A project's calendar** (Calendar on a project) has every task in it, whoever
-is on them, beside the events about the project.
+A project's own calendar is OneProject's (one_project/calendar.py), and reads
+tasks through `due` here.
 """
 
 from datetime import datetime, timedelta
@@ -34,17 +34,6 @@ LAYERS = [
 		"move": "onedesk.one_task.calendar.move",
 	},
 	{
-		"key": "project-tasks",
-		"label": _lt("Tasks"),
-		"color": "purple",
-		"group": "Workspace",
-		"doctype": "Task",
-		"rows": "onedesk.one_task.calendar.project_tasks",
-		"move": "onedesk.one_task.calendar.move",
-		"about": ["Project"],
-		"only_about": True,
-	},
-	{
 		"key": "my-todos",
 		"label": _lt("Assigned to Me"),
 		"color": "orange",
@@ -58,15 +47,11 @@ LAYERS = [
 def tasks(start, end) -> list[dict]:
 	"""Tasks assigned to the reader and not yet done, on the day they are due,
 	or on the day they start when no due date is set."""
-	return _due([["_assign", "like", f'%"{frappe.session.user}"%'], ["status", "not in", DONE]], start, end)
+	return due([["_assign", "like", f'%"{frappe.session.user}"%'], ["status", "not in", DONE]], start, end)
 
 
-def project_tasks(start, end, record: tuple) -> list[dict]:
-	"""Every task in one project not yet done, whoever is on it."""
-	return _due([["project", "=", record[1]], ["status", "not in", DONE]], start, end)
-
-
-def _due(which: list, start, end) -> list[dict]:
+def due(which: list, start, end) -> list[dict]:
+	"""Tasks matching `which`, on the day each is due or, with no due date, starts."""
 	due = _tasks([*which, *layers.within("exp_end_date", start, end)], "exp_end_date")
 	starting = _tasks([*which, ["exp_end_date", "is", "not set"], *layers.within("exp_start_date", start, end)], "exp_start_date")
 	return due + starting

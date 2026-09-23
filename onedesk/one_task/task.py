@@ -14,11 +14,6 @@ reads when a project measures completion by task progress.
 The sub-tasks are on the task's page as a connection (`dashboard`), so its +
 makes one with the parent filled in, which is frappe's own way of doing it.
 
-**A dependency says which project it is in.** ERPNext moves a task's dependants
-later when its date slips (`reschedule_dependent_tasks`), and finds them by the
-project on each Task Depends On row — a read-only field nothing in ERPNext ever
-writes, so the slip never found anything. The row takes the task's project.
-
 **A repeating task is frappe's Auto Repeat** (Repeat on a task's page). Each
 repeat is a copy of the task, which would keep its old dates, its Completed and
 its ticked steps; `recurring` makes it due on the day it repeats and gives it to
@@ -37,9 +32,6 @@ def before_validate(doc, method=None) -> None:
 			frappe.db.set_value("Task", doc.parent_task, "is_group", 1)
 		if parent and not doc.project:
 			doc.project = parent.project
-	for row in doc.get("depends_on") or []:
-		if not row.project:
-			row.project = doc.project
 	steps = doc.get("one_steps") or []
 	if steps and doc.status != "Completed":
 		doc.progress = share([step.done for step in steps])
