@@ -1,5 +1,15 @@
 {
- "custom_fields": [],
+ "custom_fields": [
+  {
+   "dt": "Job Opening",
+   "fieldname": "one_criteria",
+   "fieldtype": "Small Text",
+   "label": "What a Strong Applicant Has",
+   "insert_after": "description",
+   "description": "One line each. OneAI rates every applicant against these; left empty, against the description.",
+   "module": "One HR"
+  }
+ ],
  "doctype": "Job Opening",
  "links": [],
  "property_setters": [

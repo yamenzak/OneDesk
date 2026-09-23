@@ -1,5 +1,65 @@
 {
- "custom_fields": [],
+ "custom_fields": [
+  {
+   "dt": "Job Applicant",
+   "fieldname": "one_ai_section",
+   "fieldtype": "Section Break",
+   "label": "OneAI",
+   "insert_after": "applicant_rating",
+   "module": "One HR"
+  },
+  {
+   "dt": "Job Applicant",
+   "fieldname": "one_ai_rating",
+   "fieldtype": "Rating",
+   "label": "OneAI Rating",
+   "insert_after": "one_ai_section",
+   "read_only": 1,
+   "no_copy": 1,
+   "in_list_view": 1,
+   "description": "Against this opening's criteria, on their own.",
+   "module": "One HR"
+  },
+  {
+   "dt": "Job Applicant",
+   "fieldname": "one_ai_standing",
+   "fieldtype": "Percent",
+   "label": "Standing",
+   "insert_after": "one_ai_rating",
+   "read_only": 1,
+   "no_copy": 1,
+   "in_list_view": 1,
+   "description": "Against everybody else applying to this opening. Moves as others arrive.",
+   "module": "One HR"
+  },
+  {
+   "dt": "Job Applicant",
+   "fieldname": "one_ai_column",
+   "fieldtype": "Column Break",
+   "insert_after": "one_ai_standing",
+   "module": "One HR"
+  },
+  {
+   "dt": "Job Applicant",
+   "fieldname": "one_ai_brief",
+   "fieldtype": "Small Text",
+   "label": "OneAI's Summary",
+   "insert_after": "one_ai_column",
+   "read_only": 1,
+   "no_copy": 1,
+   "module": "One HR"
+  },
+  {
+   "dt": "Job Applicant",
+   "fieldname": "one_ai_screened_on",
+   "fieldtype": "Datetime",
+   "label": "Screened On",
+   "insert_after": "one_ai_brief",
+   "read_only": 1,
+   "no_copy": 1,
+   "module": "One HR"
+  }
+ ],
  "doctype": "Job Applicant",
  "links": [],
  "property_setters": [
@@ -9,6 +69,20 @@
    "property": "show_title_field_in_link",
    "property_type": "Check",
    "value": "1"
+  },
+  {
+   "doc_type": "Job Applicant",
+   "doctype_or_field": "DocType",
+   "property": "sort_field",
+   "property_type": "Data",
+   "value": "one_ai_standing"
+  },
+  {
+   "doc_type": "Job Applicant",
+   "doctype_or_field": "DocType",
+   "property": "sort_order",
+   "property_type": "Data",
+   "value": "DESC"
   }
  ],
  "sync_on_migrate": 1

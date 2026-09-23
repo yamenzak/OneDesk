@@ -18,6 +18,8 @@ after_install = [
 	"onedesk.one_hr.leave.encashable",
 	"onedesk.one_hr.accounts.ready",
 	"onedesk.one_hr.accounts.year",
+	# The OneAI user hiring comments are written by, and the hiring switches.
+	"onedesk.one_hr.hiring.ensure",
 	"onedesk.one.brand.apply",
 	"onedesk.one.declutter.apply",
 	"onedesk.one.companions.apply",
@@ -42,6 +44,7 @@ after_migrate = [
 	"onedesk.one_hr.leave.encashable",
 	"onedesk.one_hr.accounts.ready",
 	"onedesk.one_hr.accounts.year",
+	"onedesk.one_hr.hiring.ensure",
 	"onedesk.one_admin.site.apply",
 	"onedesk.one_ai.instructions.trim",
 	"onedesk.one_ai.instructions.ready",
@@ -112,6 +115,8 @@ doc_events = {
 		"after_insert": "onedesk.one_hr.growth.cycle_under_way",
 	},
 	"Employee Promotion": {"before_validate": "onedesk.one_hr.growth.promotion"},
+	# Every applicant read, rated and placed by OneAI. See one_hr/hiring.py.
+	"Job Applicant": {"after_insert": "onedesk.one_hr.hiring.arrived"},
 	# An onboarding is for somebody who is not an employee yet, so the holiday
 	# list has to come from the company. See one_hr/lifecycle.py.
 	"Employee Onboarding": {"before_validate": "onedesk.one_hr.lifecycle.onboarding"},
@@ -224,6 +229,9 @@ doctype_js = {
 	"Vehicle Log": "public/js/vehicle_log.js",
 	"Appraisal": "public/js/appraisal.js",
 	"Employee Promotion": "public/js/employee_promotion.js",
+	# OneAI's verbs on the hiring walk; see one_hr/hiring.py.
+	"Job Opening": "public/js/hiring.js",
+	"Job Applicant": "public/js/hiring.js",
 	"Employee Tax Exemption Declaration": "public/js/exemption.js",
 	"Employee Tax Exemption Proof Submission": "public/js/exemption.js",
 }

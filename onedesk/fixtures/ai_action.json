@@ -50,5 +50,44 @@
   "max_output_tokens": 800,
   "max_input_tokens": 0,
   "about": "The assistant in the panel. Answers from your records and suggests changes rather than making them."
+ },
+ {
+  "doctype": "AI Action",
+  "name": "screen",
+  "key": "screen",
+  "label": "Screen applicants",
+  "capability": "Text Generation",
+  "enabled": 1,
+  "instruction": "You screen job applicants for a hiring manager, and compare them with each other.\nJudge only what a CV and a cover letter show against what the opening asks for: the work, the skills, the results, the qualifications the role needs.\nNever use, mention or infer age, sex, gender, marital or family status, pregnancy, religion, race, ethnicity, nationality, origin, disability, health, appearance, a photograph or what a name implies. A gap in employment is something to ask about, never a mark against somebody.\nWhere a CV says nothing about a criterion, it is not shown; do not guess either way.\nAnswer with the JSON object asked for and nothing else.",
+  "max_output_tokens": 1500,
+  "max_input_tokens": 0,
+  "about": "Reads each applicant's CV against the opening, rates it, and places it among the others.",
+  "may_use_tools": 0
+ },
+ {
+  "doctype": "AI Action",
+  "name": "interview",
+  "key": "interview",
+  "label": "Interviews",
+  "capability": "Text Generation",
+  "enabled": 1,
+  "instruction": "You help interviewers: you prepare an interview, or you remark on one that was transcribed.\nAsk and judge only what the role needs. Never use, mention or infer age, sex, gender, marital or family status, pregnancy, religion, race, ethnicity, nationality, origin, disability, health, appearance, a photograph or what a name implies. A gap in employment is something to ask about, never a mark against somebody.\nWhen remarking, quote what was said with the minute it was said at. Never judge how somebody sounded, and never guess at feelings, honesty or confidence.\nAnswer with the JSON object asked for and nothing else.",
+  "max_output_tokens": 2000,
+  "max_input_tokens": 0,
+  "about": "Prepares the questions for an interview, and remarks on it from its transcript.",
+  "may_use_tools": 0
+ },
+ {
+  "doctype": "AI Action",
+  "name": "transcribe",
+  "key": "transcribe",
+  "label": "Transcribe",
+  "capability": "Transcription",
+  "enabled": 1,
+  "instruction": "Transcribe the recording word for word, in the language spoken.\nStart each turn on a new line with the time it starts at and who is speaking: [mm:ss] Interviewer: or [mm:ss] Candidate:. Where you cannot tell, write Speaker. Never write a name.\nWrite [inaudible] where words cannot be made out. Do not summarise, correct or add anything.",
+  "max_output_tokens": 4000,
+  "max_input_tokens": 0,
+  "about": "Writes down a recorded interview word for word, turn by turn.",
+  "may_use_tools": 0
  }
 ]

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 09:55+0000\n"
-"PO-Revision-Date: 2026-09-23 09:55+0000\n"
+"POT-Creation-Date: 2026-09-23 10:27+0000\n"
+"PO-Revision-Date: 2026-09-23 10:27+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "(from what was asked for)"
 msgstr "(مما طُلب)"
 
-#: onedesk/one_hr/ai.py:697
+#: onedesk/one_hr/ai.py:723
 msgid "1 day of {0}."
 msgstr "يوم واحد من {0}."
 
-#: onedesk/one_hr/ai.py:701
+#: onedesk/one_hr/ai.py:727
 msgid "1 day of {0}; {1} left after."
 msgstr "يوم واحد من {0}؛ يتبقى بعده {1}."
 
@@ -471,6 +471,22 @@ msgstr ""
 msgid "Addresses employees may check in from."
 msgstr "العناوين التي يجوز للموظفين تسجيل الحضور منها."
 
+#. Description of the 'Keep Recordings For (Days)' (Int) field in DocType 'HR
+#. Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "After this the sound is deleted and the transcript stays."
+msgstr "بعد ذلك يُحذف الصوت ويبقى النص المكتوب."
+
+#. Description of the 'Standing' (Percent) field in DocType 'Job Applicant'
+#: onedesk/one_hr/custom/job_applicant.json
+msgid "Against everybody else applying to this opening. Moves as others arrive."
+msgstr "مقارنةً بجميع المتقدمين الآخرين لهذه الوظيفة. يتغيّر مع وصول متقدمين جدد."
+
+#. Description of the 'OneAI Rating' (Rating) field in DocType 'Job Applicant'
+#: onedesk/one_hr/custom/job_applicant.json
+msgid "Against this opening's criteria, on their own."
+msgstr "مقابل معايير هذه الوظيفة وحدها."
+
 #. Name of a role
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
@@ -488,6 +504,11 @@ msgstr "كل المحادثات"
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Allow Employees to Check In Themselves"
 msgstr "السماح للموظفين بتسجيل حضورهم بأنفسهم"
+
+#. Label of the one_ai_record (Check) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Allow Interviews to Be Recorded"
+msgstr "السماح بتسجيل المقابلات"
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:37
 msgid "Allow the Grace Period"
@@ -2289,7 +2310,7 @@ msgstr "مجاناً لمدة {0} يوماً"
 msgid "From Date"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:175
+#: onedesk/one_hr/ai.py:201
 msgid "From a receipt: {0}, {1}."
 msgstr "من إيصال: {0}، {1}."
 
@@ -2760,6 +2781,11 @@ msgstr "النطاق القضائي"
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "KRA"
 msgstr "مجال النتائج الرئيسية"
+
+#. Label of the one_keep_recordings_days (Int) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Keep Recordings For (Days)"
+msgstr "الاحتفاظ بالتسجيلات لمدة (أيام)"
 
 #: onedesk/public/js/oneai/Panel.vue:321
 msgid "Kept"
@@ -3247,6 +3273,14 @@ msgstr "رصيد شهر {0}"
 msgid "Move"
 msgstr ""
 
+#: onedesk/one_hr/hiring.py:407
+msgid "Moved down from {0}% to {1}%."
+msgstr "انخفض من {0}% إلى {1}%."
+
+#: onedesk/one_hr/hiring.py:407
+msgid "Moved up from {0}% to {1}%."
+msgstr "ارتفع من {0}% إلى {1}%."
+
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
 #. Option for the 'Default For' (Select) field in DocType 'AI Model'
 #. Option for the 'Needs' (Select) field in DocType 'AI Action'
@@ -3476,6 +3510,10 @@ msgstr "غير مدفوع"
 msgid "Not pointing here yet."
 msgstr "لا يشير إلى هنا بعد."
 
+#: onedesk/one_hr/hiring.py:355
+msgid "Not shown"
+msgstr "غير ظاهر"
+
 #: onedesk/public/js/tenant_domain.js:27
 msgid "Not working"
 msgstr "لا يعمل"
@@ -3673,10 +3711,34 @@ msgstr "مشغّل One"
 msgid "One address or a CIDR range. Example: 203.0.113.7 or 203.0.113.0/24"
 msgstr "عنوان واحد أو نطاق CIDR. مثال: 203.0.113.7 أو 203.0.113.0/24"
 
+#. Description of the 'Screen and Rank Applicants as They Arrive' (Check) field
+#. in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "One call per applicant: the CV read against the opening, a rating, and a standing among everybody else applying."
+msgstr "طلب واحد لكل متقدم: قراءة السيرة الذاتية مقابل الوظيفة، وتقييم، وترتيب بين جميع المتقدمين الآخرين."
+
+#. Description of the 'Transcribe and Remark on Recordings' (Check) field in
+#. DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "One call per five minutes of recording, and one when it ends."
+msgstr "طلب واحد لكل خمس دقائق من التسجيل، وطلب عند انتهائه."
+
+#. Description of the 'Prepare Interviewers' (Check) field in DocType 'HR
+#. Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "One call per interview: what to ask, and what to know first."
+msgstr "طلب واحد لكل مقابلة: ما يجب السؤال عنه، وما يجب معرفته مسبقًا."
+
 #. Description of a DocType
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 msgid "One conversation with OneAI, kept so it is still there tomorrow."
 msgstr "محادثة واحدة مع OneAI، تُحفظ لتبقى موجودة غداً."
+
+#. Description of the 'What a Strong Applicant Has' (Small Text) field in
+#. DocType 'Job Opening'
+#: onedesk/one_hr/custom/job_opening.json
+msgid "One line each. OneAI rates every applicant against these; left empty, against the description."
+msgstr "سطر لكل بند. يقيّم OneAI كل متقدم مقابلها، وإن تُركت فارغة فمقابل الوصف."
 
 #. Description of a DocType
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
@@ -3719,14 +3781,38 @@ msgid "One workspace bought this"
 msgstr "اشترت هذا مساحة عمل واحدة"
 
 #. Label of a Sidebar Item
+#. Label of the one_hiring_ai_section (Section Break) field in DocType 'HR
+#. Settings'
+#. Label of the one_ai_section (Section Break) field in DocType 'Job Applicant'
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
+#: onedesk/one_hr/custom/hr_settings.json
+#: onedesk/one_hr/custom/job_applicant.json onedesk/public/js/hiring.js:23
+#: onedesk/public/js/hiring.js:39
 msgid "OneAI"
 msgstr "OneAI"
+
+#. Label of the one_ai_rating (Rating) field in DocType 'Job Applicant'
+#: onedesk/one_hr/custom/job_applicant.json
+msgid "OneAI Rating"
+msgstr "تقييم OneAI"
 
 #: onedesk/one_ai/chat.py:372
 msgid "OneAI could not be reached just now. The question is still here — try again."
 msgstr "تعذّر الوصول إلى OneAI الآن. والسؤال ما زال هنا — حاول مرة أخرى."
+
+#: onedesk/public/js/hiring.js:37
+msgid "OneAI is placing everybody again. The applicant list updates when it is done."
+msgstr "يعيد OneAI ترتيب الجميع. ستتحدّث قائمة المتقدمين عند الانتهاء."
+
+#: onedesk/public/js/hiring.js:21
+msgid "OneAI is reading the CV. This page updates when it is done."
+msgstr "يقرأ OneAI السيرة الذاتية. ستتحدّث هذه الصفحة عند الانتهاء."
+
+#. Label of the one_ai_brief (Small Text) field in DocType 'Job Applicant'
+#: onedesk/one_hr/custom/job_applicant.json
+msgid "OneAI's Summary"
+msgstr "ملخص OneAI"
 
 #. Title of a Sidebar
 #. Name of a Workspace
@@ -3811,6 +3897,12 @@ msgstr "لا يمكن تسجيل مفتاح مرور إلا للموظفين."
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Only check-ins that passed another check are counted. Nothing learned widens who may check in."
 msgstr "لا تُحتسب إلا تسجيلات الحضور التي اجتازت تحققاً آخر. ولا يوسّع أي شيء مُتعلَّم دائرة من يجوز له تسجيل الحضور."
+
+#. Description of the 'Allow Interviews to Be Recorded' (Check) field in
+#. DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Only once the interviewer ticks that the candidate agreed."
+msgstr "فقط بعد أن يؤكد المُحاور موافقة المرشح."
 
 #: onedesk/one_hr/decision.py:32
 msgid "Only somebody who can approve these may answer this one."
@@ -4164,6 +4256,10 @@ msgstr "تحليلات مسار المبيعات"
 msgid "Place of Issue"
 msgstr ""
 
+#: onedesk/one_hr/hiring.py:185
+msgid "Placed {0} applicants again from what I wrote about each."
+msgstr "أعدت ترتيب {0} متقدمين بناءً على ما كتبته عن كل منهم."
+
 #. Label of the where_section (Section Break) field in DocType 'Workspace
 #. Account'
 #. Label of the place_section (Section Break) field in DocType 'Tenant'
@@ -4205,6 +4301,11 @@ msgstr "النقاط المفقودة"
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Position"
 msgstr ""
+
+#. Label of the one_ai_prepare (Check) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Prepare Interviewers"
+msgstr "تحضير المُحاورين"
 
 #. Option for the 'Marks the Day As' (Select) field in DocType 'Attendance
 #. Reason'
@@ -4410,6 +4511,14 @@ msgstr "النطاق (بالأمتار)"
 #: onedesk/one_hr/doctype/clock_place/clock_place.py:9
 msgid "Radius must be greater than 0."
 msgstr "يجب أن يكون النطاق أكبر من 0."
+
+#: onedesk/public/js/hiring.js:32
+msgid "Rank applicants again"
+msgstr "إعادة ترتيب المتقدمين"
+
+#: onedesk/one_hr/hiring.py:345
+msgid "Rated {0} of 5"
+msgstr "التقييم {0} من 5"
 
 #. Label of the rates (Table) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -4828,6 +4937,20 @@ msgstr "الدرجة"
 msgid "Screen"
 msgstr "الشاشة"
 
+#: onedesk/public/js/hiring.js:16
+msgid "Screen again"
+msgstr "إعادة الفحص"
+
+#. Label of the one_ai_screen (Check) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Screen and Rank Applicants as They Arrive"
+msgstr "فحص المتقدمين وترتيبهم عند وصولهم"
+
+#. Label of the one_ai_screened_on (Datetime) field in DocType 'Job Applicant'
+#: onedesk/one_hr/custom/job_applicant.json
+msgid "Screened On"
+msgstr "تاريخ الفحص"
+
 #. Label of the one_search (Data) field in DocType 'Employee Attendance Tool'
 #: onedesk/one_hr/custom/employee_attendance_tool.json
 msgid "Search"
@@ -5026,6 +5149,10 @@ msgstr "عرض أقل"
 msgid "Show {0} more"
 msgstr "عرض {0} إضافية"
 
+#: onedesk/one_hr/hiring.py:354
+msgid "Shows"
+msgstr "يُظهر"
+
 #. Label of the sign_count (Int) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Sign Count"
@@ -5106,7 +5233,9 @@ msgid "Standard day: {0} hours. Anything beyond it is overtime."
 msgstr "اليوم القياسي: {0} ساعة. وكل ما يتجاوزه عمل إضافي."
 
 #. Label of the one_standing (Int) field in DocType 'Employee'
-#: onedesk/one_hr/custom/employee.json onedesk/public/js/employee.js:131
+#. Label of the one_ai_standing (Percent) field in DocType 'Job Applicant'
+#: onedesk/one_hr/custom/employee.json onedesk/one_hr/custom/job_applicant.json
+#: onedesk/public/js/employee.js:131
 msgid "Standing"
 msgstr "التقييم"
 
@@ -5314,7 +5443,7 @@ msgstr "اقترح تغييراً"
 msgid "Suggested a change to {0}"
 msgstr "اقترح تغييراً على {0}"
 
-#: onedesk/one_ai/tools.py:571 onedesk/one_hr/ai.py:181
+#: onedesk/one_ai/tools.py:571 onedesk/one_hr/ai.py:207
 msgid "Suggested. It happens when somebody approves it."
 msgstr "اقتُرح. ويحدث حين يوافق عليه أحد."
 
@@ -5918,6 +6047,11 @@ msgstr ""
 msgid "Training Result"
 msgstr ""
 
+#. Label of the one_ai_transcribe (Check) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Transcribe and Remark on Recordings"
+msgstr "تفريغ التسجيلات والتعليق عليها"
+
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
 #. Option for the 'Default For' (Select) field in DocType 'AI Model'
 #. Option for the 'Needs' (Select) field in DocType 'AI Action'
@@ -6192,6 +6326,11 @@ msgstr "ما يتذكره OneAI"
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 msgid "What Was Written"
 msgstr "ما كُتب"
+
+#. Label of the one_criteria (Small Text) field in DocType 'Job Opening'
+#: onedesk/one_hr/custom/job_opening.json
+msgid "What a Strong Applicant Has"
+msgstr "ما يتمتع به المتقدم القوي"
 
 #. Description of the 'About' (Small Text) field in DocType 'AI Action'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
@@ -6482,6 +6621,10 @@ msgstr "يُوصل إلى مساحات العمل على &lt;المعرّف&gt;.
 msgid "Workspaces can no longer pick this model"
 msgstr "لن تعود مساحات العمل قادرة على اختيار هذا النموذج"
 
+#: onedesk/one_hr/hiring.py:356
+msgid "Worth knowing before you call"
+msgstr "ما يجدر معرفته قبل الاتصال"
+
 #: onedesk/public/js/oneai/Panel.vue:275
 msgid "Write a first draft"
 msgstr "اكتب مسودة أولى"
@@ -6717,6 +6860,10 @@ msgstr "أخرى"
 msgid "output"
 msgstr "مخرجات"
 
+#: onedesk/one_hr/hiring.py:347
+msgid "placed {0} of {1}"
+msgstr "الترتيب {0} من {1}"
+
 #. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "text"
@@ -6860,11 +7007,11 @@ msgstr "{0} يوماً قبل أن تهبط إلى {1}."
 msgid "{0} days left"
 msgstr "بقي {0} يوماً"
 
-#: onedesk/one_hr/ai.py:699
+#: onedesk/one_hr/ai.py:725
 msgid "{0} days of {1}."
 msgstr "{0} يوم من {1}."
 
-#: onedesk/one_hr/ai.py:703
+#: onedesk/one_hr/ai.py:729
 msgid "{0} days of {1}; {2} left after."
 msgstr "{0} يوم من {1}؛ يتبقى بعدها {2}."
 

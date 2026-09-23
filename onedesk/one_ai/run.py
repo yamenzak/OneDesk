@@ -220,6 +220,29 @@ def _tried(want: dict) -> dict:
 		return {"tool": want.get("tool"), "ran": False, "error": said[:500]}
 
 
+def once(action: str, text: str, files: list[dict] | None = None, reference: str | None = None) -> str:
+	"""One call, no tools and no loop: what a background job asks.
+
+	The chat's loop is for a model that looks things up as the person asking.
+	A job that has already gathered everything the model needs — a CV and the
+	opening it was sent to — has nobody to look things up as, so it hands the
+	lot over in one turn and takes the words back. `files` carry their bytes,
+	base64'd, the shape `files.carried` makes.
+	"""
+	chose = mine(action)
+	out = account.ask(
+		"onedesk.one_admin.proxy.ai_run",
+		action=action,
+		text=text,
+		model=chose.get("model") or None,
+		extra=chose.get("extra") or None,
+		reference=reference,
+		turns=[{"role": "user", "text": text, "calls": [], "files": files or []}],
+		tools=None,
+	)
+	return (out or {}).get("said") or ""
+
+
 def mine(action: str) -> dict:
 	"""What this workspace has chosen for an action, if anything."""
 	held = frappe.db.get_value(

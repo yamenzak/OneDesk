@@ -48,6 +48,14 @@ SUGGESTIONS = {
 	],
 	"Job Opening": [
 		{
+			"label": "Write this opening",
+			"ask": "Write this opening's description, and what a strong applicant has as one short line "
+			"each, from its designation, department and requisition. Suggest both as a change to it.",
+			"can": "write",
+			"view": "Form",
+			"expects": "edit_record",
+		},
+		{
 			"label": "Add applicants from CVs",
 			"ask": "Add an applicant to this opening from each of these CVs.",
 			"file": True,
@@ -67,10 +75,28 @@ SUGGESTIONS = {
 	],
 	"Job Applicant": [
 		{
+			"label": "What should I ask first?",
+			"ask": "From this applicant's CV and OneAI's screening of it, what should I confirm on a first "
+			"call, and what would a short email asking for the missing pieces say?",
+			"can": "read",
+			"view": "Form",
+		},
+		{
 			"label": "Add applicants from CVs",
 			"ask": "Add an applicant from each of these CVs, to the open job each one fits best.",
 			"file": True,
 			"can": "create",
+		},
+	],
+	"Job Requisition": [
+		{
+			"label": "Draft the opening",
+			"ask": "Draft a job opening from this requisition — its title, description and what a strong "
+			"applicant has, one short line each — and suggest creating it.",
+			"doctype": "Job Opening",
+			"can": "create",
+			"view": "Form",
+			"expects": "create_record",
 		},
 	],
 	"Appraisal": [

@@ -216,6 +216,71 @@
    "insert_after": "one_learn_home",
    "default": "3",
    "description": "Number of distinct employees, and of check-ins each, before a Proposed network or location becomes Confirmed."
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_hiring_ai_section",
+   "fieldtype": "Section Break",
+   "label": "OneAI",
+   "insert_after": "hiring_sender_email",
+   "module": "One HR"
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_ai_screen",
+   "fieldtype": "Check",
+   "label": "Screen and Rank Applicants as They Arrive",
+   "insert_after": "one_hiring_ai_section",
+   "default": "1",
+   "description": "One call per applicant: the CV read against the opening, a rating, and a standing among everybody else applying.",
+   "module": "One HR"
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_ai_prepare",
+   "fieldtype": "Check",
+   "label": "Prepare Interviewers",
+   "insert_after": "one_ai_screen",
+   "default": "1",
+   "description": "One call per interview: what to ask, and what to know first.",
+   "module": "One HR"
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_column_hiring_ai",
+   "fieldtype": "Column Break",
+   "insert_after": "one_ai_prepare",
+   "module": "One HR"
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_ai_record",
+   "fieldtype": "Check",
+   "label": "Allow Interviews to Be Recorded",
+   "insert_after": "one_column_hiring_ai",
+   "default": "1",
+   "description": "Only once the interviewer ticks that the candidate agreed.",
+   "module": "One HR"
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_ai_transcribe",
+   "fieldtype": "Check",
+   "label": "Transcribe and Remark on Recordings",
+   "insert_after": "one_ai_record",
+   "default": "1",
+   "description": "One call per five minutes of recording, and one when it ends.",
+   "module": "One HR"
+  },
+  {
+   "dt": "HR Settings",
+   "fieldname": "one_keep_recordings_days",
+   "fieldtype": "Int",
+   "label": "Keep Recordings For (Days)",
+   "insert_after": "one_ai_transcribe",
+   "default": "365",
+   "description": "After this the sound is deleted and the transcript stays.",
+   "module": "One HR"
   }
  ],
  "doctype": "HR Settings",
@@ -226,7 +291,7 @@
    "doctype_or_field": "DocType",
    "property": "field_order",
    "property_type": "Text",
-   "value": "[\"one_attendance_tab\", \"one_self_checkin_section\", \"one_self_checkin\", \"standard_working_hours\", \"allow_geolocation_tracking\", \"one_close_the_day\", \"one_reason_on_out\", \"one_gates_section\", \"one_gate_passkey\", \"one_passkey_refuses\", \"one_gate_network\", \"one_gate_place\", \"one_column_gates\", \"one_gates_require\", \"one_refuse_below\", \"one_flag_below\", \"one_gate_photo\", \"one_keep_photo_days\", \"one_learning_section\", \"one_learn_networks\", \"one_learn_zones\", \"one_column_learning\", \"one_learn_home\", \"one_learn_threshold\", \"shift_settings_section\", \"allow_multiple_shift_assignments\", \"employee_tab\", \"employee_settings_section\", \"emp_created_by\", \"column_break_lrow\", \"retirement_age\", \"reminders_section\", \"column_break_11\", \"send_work_anniversary_reminders\", \"send_birthday_reminders\", \"send_holiday_reminders\", \"frequency\", \"column_break_hyec\", \"sender\", \"sender_email\", \"employee_exit_settings_section\", \"exit_questionnaire_web_form\", \"exit_questionnaire_notification_template\", \"leaves_tab\", \"leave_settings_section\", \"auto_leave_encashment\", \"leave_approver_mandatory_in_leave_application\", \"prevent_self_leave_approval\", \"show_leaves_of_all_department_members_in_calendar\", \"column_break_29\", \"send_leave_notification\", \"leave_approval_notification_template\", \"leave_status_notification_template\", \"restrict_backdated_leave_application\", \"role_allowed_to_create_backdated_leave_application\", \"expenses_tab\", \"expenses_settings_section\", \"expense_approver_mandatory_in_expense_claim\", \"prevent_self_expense_approval\", \"unlink_payment_on_cancellation_of_employee_advance\", \"enable_multi_currency_expense_claim\", \"shift_and_attendance_tab\", \"attendance_settings_section\", \"allow_employee_checkin_from_mobile_app\", \"tenure_tab\", \"recruitment_tab\", \"hiring_settings_section\", \"check_vacancies\", \"send_interview_reminder\", \"interview_reminder_template\", \"remind_before\", \"send_interview_feedback_reminder\", \"feedback_reminder_notification_template\", \"column_break_4\", \"hiring_sender\", \"hiring_sender_email\"]"
+   "value": "[\"one_attendance_tab\", \"one_self_checkin_section\", \"one_self_checkin\", \"standard_working_hours\", \"allow_geolocation_tracking\", \"one_close_the_day\", \"one_reason_on_out\", \"one_gates_section\", \"one_gate_passkey\", \"one_passkey_refuses\", \"one_gate_network\", \"one_gate_place\", \"one_column_gates\", \"one_gates_require\", \"one_refuse_below\", \"one_flag_below\", \"one_gate_photo\", \"one_keep_photo_days\", \"one_learning_section\", \"one_learn_networks\", \"one_learn_zones\", \"one_column_learning\", \"one_learn_home\", \"one_learn_threshold\", \"shift_settings_section\", \"allow_multiple_shift_assignments\", \"employee_tab\", \"employee_settings_section\", \"emp_created_by\", \"column_break_lrow\", \"retirement_age\", \"reminders_section\", \"column_break_11\", \"send_work_anniversary_reminders\", \"send_birthday_reminders\", \"send_holiday_reminders\", \"frequency\", \"column_break_hyec\", \"sender\", \"sender_email\", \"employee_exit_settings_section\", \"exit_questionnaire_web_form\", \"exit_questionnaire_notification_template\", \"leaves_tab\", \"leave_settings_section\", \"auto_leave_encashment\", \"leave_approver_mandatory_in_leave_application\", \"prevent_self_leave_approval\", \"show_leaves_of_all_department_members_in_calendar\", \"column_break_29\", \"send_leave_notification\", \"leave_approval_notification_template\", \"leave_status_notification_template\", \"restrict_backdated_leave_application\", \"role_allowed_to_create_backdated_leave_application\", \"expenses_tab\", \"expenses_settings_section\", \"expense_approver_mandatory_in_expense_claim\", \"prevent_self_expense_approval\", \"unlink_payment_on_cancellation_of_employee_advance\", \"enable_multi_currency_expense_claim\", \"shift_and_attendance_tab\", \"attendance_settings_section\", \"allow_employee_checkin_from_mobile_app\", \"tenure_tab\", \"recruitment_tab\", \"hiring_settings_section\", \"check_vacancies\", \"send_interview_reminder\", \"interview_reminder_template\", \"remind_before\", \"send_interview_feedback_reminder\", \"feedback_reminder_notification_template\", \"column_break_4\", \"hiring_sender\", \"hiring_sender_email\", \"one_hiring_ai_section\", \"one_ai_screen\", \"one_ai_prepare\", \"one_column_hiring_ai\", \"one_ai_record\", \"one_ai_transcribe\", \"one_keep_recordings_days\"]"
   },
   {
    "doc_type": "HR Settings",
