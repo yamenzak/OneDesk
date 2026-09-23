@@ -13,11 +13,21 @@ reads when a project measures completion by task progress.
 
 The sub-tasks are on the task's page as a connection (`dashboard`), so its +
 makes one with the parent filled in, which is frappe's own way of doing it.
+
+**A dependency says which project it is in.** ERPNext moves a task's dependants
+later when its date slips (`reschedule_dependent_tasks`), and finds them by the
+project on each Task Depends On row — a read-only field nothing in ERPNext ever
+writes, so the slip never found anything. The row takes the task's project.
+
+**A repeating task is frappe's Auto Repeat** (Repeat on a task's page). Each
+repeat is a copy of the task, which would keep its old dates, its Completed and
+its ticked steps; `recurring` makes it due on the day it repeats and gives it to
+the same people.
 """
 
 import frappe
 from frappe import _
-from frappe.utils import flt
+from frappe.utils import flt, get_datetime, getdate
 
 
 def before_validate(doc, method=None) -> None:
@@ -27,6 +37,9 @@ def before_validate(doc, method=None) -> None:
 			frappe.db.set_value("Task", doc.parent_task, "is_group", 1)
 		if parent and not doc.project:
 			doc.project = parent.project
+	for row in doc.get("depends_on") or []:
+		if not row.project:
+			row.project = doc.project
 	steps = doc.get("one_steps") or []
 	if steps and doc.status != "Completed":
 		doc.progress = share([step.done for step in steps])
@@ -42,3 +55,25 @@ def dashboard(data: dict) -> dict:
 	data.setdefault("non_standard_fieldnames", {})["Task"] = "parent_task"
 	data.setdefault("transactions", []).insert(0, {"label": _("Sub-tasks"), "items": ["Task"]})
 	return data
+
+
+def recurring(doc, method=None, reference_doc=None, auto_repeat_doc=None, **kwargs) -> None:
+	"""Task on_recurring: a repeat, due the day it repeats and still to do."""
+	from onedesk.one_task.calendar import shifted
+
+	day = getdate(auto_repeat_doc.next_schedule_date) if auto_repeat_doc else getdate()
+	starts = get_datetime(doc.exp_start_date) if doc.exp_start_date else None
+	ends = get_datetime(doc.exp_end_date) if doc.exp_end_date else None
+	if starts or ends:
+		doc.exp_start_date, doc.exp_end_date = shifted(starts, ends, day)
+	else:
+		doc.exp_end_date = get_datetime(day)
+	doc.update({"status": "Open", "progress": 0, "completed_by": None, "completed_on": None})
+	doc.update({"act_start_date": None, "act_end_date": None, "actual_time": 0})
+	for step in doc.get("one_steps") or []:
+		step.done = 0
+	# The copy carries the list of people but not their assignments, which are
+	# ToDos; capture.task_made gives it to them properly once it is saved.
+	people = frappe.db.get_value("Task", reference_doc.name, "_assign") if reference_doc else None
+	doc.flags.one_assign_to = frappe.parse_json(people) if people else None
+	doc._assign = None

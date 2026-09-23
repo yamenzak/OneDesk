@@ -1,0 +1,18 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Project",
+   "fieldname": "one_key",
+   "fieldtype": "Data",
+   "label": "Task Prefix",
+   "insert_after": "project_name",
+   "length": 10,
+   "description": "Tasks made in this project are named with it, as WEB-14. Leave empty to use the standard series.",
+   "module": "One Task"
+  }
+ ],
+ "doctype": "Project",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

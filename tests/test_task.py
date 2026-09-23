@@ -188,3 +188,31 @@ def test_the_timer_writes_the_persons_timesheet_through_its_own_save():
 	assert '"/assets/onedesk/js/task_timer.js"' in HOOKS and '"Task": "public/js/task.js"' in HOOKS
 	page = (TASK / "page" / "my_tasks" / "my_tasks.js").read_text()
 	assert 'frappe.model.can_create("Timesheet")' in page
+
+
+def test_a_task_prefix_is_short_and_starts_with_a_letter():
+	import re
+
+	key = _load(TASK / "naming.py", ("KEY",), re=re)["KEY"]
+	assert key.match("WEB") and key.match("R2D2") and key.match("REEM")
+	assert not key.match("W") and not key.match("2FA") and not key.match("WEB-1") and not key.match("ABCDEFGHIJK")
+	assert '"Project": {\n\t\t"validate": "onedesk.one_task.naming.validate"' in HOOKS
+	source = (TASK / "naming.py").read_text()
+	assert '"Document Naming Rule"' in source
+	assert '"Task"' not in HOOKS.split("override_doctype_class = {", 1)[1].split("}", 1)[0], "ERPNext's Task class stays theirs"
+
+
+def test_erpnexts_dependants_can_find_their_project():
+	body = _body((TASK / "task.py").read_text(), "before_validate")
+	assert 'for row in doc.get("depends_on") or []' in body and "row.project = doc.project" in body
+
+
+def test_a_repeat_is_due_when_it_repeats_and_given_to_the_same_people():
+	source = (TASK / "task.py").read_text()
+	body = _body(source, "recurring")
+	assert "auto_repeat_doc.next_schedule_date" in body and '"status": "Open"' in body and "step.done = 0" in body
+	assert "doc.flags.one_assign_to" in _body((TASK / "capture.py").read_text(), "task_made")
+	assert '"on_recurring": "onedesk.one_task.task.recurring"' in HOOKS
+	custom = json.loads((TASK / "custom" / "task.json").read_text())
+	assert any(p["property"] == "allow_auto_repeat" and p["value"] == "1" for p in custom["property_setters"])
+	assert any(f["fieldname"] == "auto_repeat" for f in custom["custom_fields"])

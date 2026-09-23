@@ -780,6 +780,20 @@ OVERRIDES = [
 		"erpnext/erpnext/projects/doctype/timesheet/timesheet.py",
 		"def update_task_and_project",
 	),
+	(
+		"A dependency says which project it is in",
+		"their slip finds a task's dependants by the project on each Task Depends On row, a read-only field nothing of theirs writes, so it never found any",
+		"onedesk/one_task/task.py",
+		"erpnext/erpnext/projects/doctype/task/task.py",
+		'filters={"task": self.name, "project": self.project},',
+	),
+	(
+		"A repeating task is due the day it repeats and still to do",
+		"Auto Repeat copies the task whole, old dates, Completed and ticked steps included, then runs the copy's on_recurring",
+		"onedesk/one_task/task.py",
+		"frappe/frappe/automation/doctype/auto_repeat/auto_repeat.py",
+		'new_doc.run_method("on_recurring"',
+	),
 ]
 
 

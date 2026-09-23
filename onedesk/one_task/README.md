@@ -101,6 +101,27 @@ in the same project as the task it is under.
 which nobody else has to be given. Tick **Done** as you go; the task's
 **Progress** follows, and so does the project's when it counts progress.
 
+## Repeating tasks
+
+**Repeat** in a task's menu (the **⋯** at the top) makes it repeat — daily,
+weekly, monthly and so on — and a new task is made each time. Each one is due
+on the day it repeats, is still to do with its checklist unticked, and is
+given to the same people as the task it repeats. Stop it from the same place.
+
+## Task names
+
+A task is named like **TASK-2026-00042** unless its project has a **Task
+Prefix**. Give a project the prefix **WEB** and its new tasks are named
+**WEB-1**, **WEB-2** and on. Tasks already made keep their names; a prefix is
+2 to 10 letters and digits, starting with a letter, and no two projects share
+one.
+
+## When a task is late, what depends on it moves
+
+A task can depend on others (**Dependencies** on its page). When a task's due
+date moves later, the tasks in the same project that depend on it and have not
+started move later by as much.
+
 ## Who is on a task
 
 **Assign** on a task's page gives it to somebody. They see it, it is on their
@@ -168,6 +189,14 @@ is:
   week; a row with a start and no end is the running one, the same rule as the
   Timesheet form's own timer, so either stops what the other started.
   `public/js/task.js` and `task_timer.js` are its buttons and what they say.
+- `naming.py` — a project's Task Prefix, as a frappe Document Naming Rule for
+  Task with the condition "project is this one"; ERPNext's Task class is not
+  overridden. The number is frappe's series for the prefix, which never
+  reuses a name.
+- `task.py` also fills each dependency row's project, the field ERPNext's own
+  rescheduling looks dependants up by and never writes, and `recurring` gives a
+  repeat (frappe's Auto Repeat, switched on for Task in custom/task.json) its
+  dates, its status and its people.
 - `mine.py` and `page/my_tasks` — My Tasks. The server only reads, as the
   reader, and groups (`when` is pure); adding and ticking are `frappe.db.insert`
   and `frappe.db.set_value` from the page, so every rule a task has on its own
@@ -186,6 +215,10 @@ is:
    project has its own calendar of its tasks and the events about it.
 5. **Time.** *Done.* A timer on a task and on My Tasks, writing the person's
    timesheet for the week.
-6. **The old OneTask.** Read OneApp's, take what it had that this does not —
-   states, rank, labels, the checklist, and its fix for ERPNext never
-   rescheduling dependent tasks — and delete it.
+6. **The old OneTask.** *Done.* Read and deleted with the old OneProject space.
+   Taken: the dependency fix, repeating tasks, a task named after its project,
+   and billable time on a customer's project. Not taken, because frappe or
+   ERPNext already has it: team-named columns (the statuses), a rank on each
+   card (the board keeps its own order), labels (frappe's Tags), an assignee
+   column (the list and board show who is on a task), and sprints (not asked
+   for, and a project with a date range is most of one).

@@ -158,6 +158,12 @@ doc_events = {
 		"before_insert": "onedesk.one_hr.lifecycle.task",
 		"after_insert": "onedesk.one_task.capture.task_made",
 		"before_validate": "onedesk.one_task.task.before_validate",
+		"on_recurring": "onedesk.one_task.task.recurring",
+	},
+	# A project's tasks are named with its prefix. See one_task/naming.py.
+	"Project": {
+		"validate": "onedesk.one_task.naming.validate",
+		"on_update": "onedesk.one_task.naming.on_update",
 	},
 	# A project's board, as ERPNext makes it, shaped. See one_task/board.py.
 	"Kanban Board": {"before_insert": "onedesk.one_task.board.shape"},

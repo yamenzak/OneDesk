@@ -13,6 +13,10 @@ the reason given there. A timer stopped within a minute of starting was a
 slip, and its row is taken out rather than left at nought hours to be refused
 on submit.
 
+Time on a project with a customer is billable until somebody unticks it: an
+unticked hour quietly never reaches an invoice, and a ticked one is a line
+somebody is looking at anyway.
+
 The activity is the one the person used last, since it is required when the
 timesheet is submitted and is usually the same all week; they change it on the
 timesheet when it is not.
@@ -81,6 +85,7 @@ def start(task: str) -> dict | None:
 			"activity_type": _last_activity(user),
 			"from_time": now_datetime(),
 			"completed": 0,
+			"is_billable": 1 if doc.project and frappe.db.get_value("Project", doc.project, "customer") else 0,
 		},
 	)
 	sheet.save()

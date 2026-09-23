@@ -113,5 +113,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | A task's due date reads as a day on every list and card | Expected End Date is a Datetime; the board draws a card through frappe.format, which reads a docfield's own formatter first | `onedesk/public/js/task_list.js` | `frappe/frappe/public/js/frappe/form/formatters.js` | `var formatter = df.formatter || frappe.form.get_formatter(fieldtype);` |
 | A sub-task's parent becomes a group | they refuse a parent task not marked Is Group, a box nobody ticks before wanting a sub-task | `onedesk/one_task/task.py` | `erpnext/erpnext/projects/doctype/task/task.py` | `ParentIsGroupError,` |
 | A task's timer is a row on the person's timesheet for the week | the task's Actual Time is theirs, filled from timesheets when one is submitted, so a timed hour reaches the task at the week's submit | `onedesk/one_task/timer.py` | `erpnext/erpnext/projects/doctype/timesheet/timesheet.py` | `def update_task_and_project` |
+| A dependency says which project it is in | their slip finds a task's dependants by the project on each Task Depends On row, a read-only field nothing of theirs writes, so it never found any | `onedesk/one_task/task.py` | `erpnext/erpnext/projects/doctype/task/task.py` | `filters={"task": self.name, "project": self.project},` |
+| A repeating task is due the day it repeats and still to do | Auto Repeat copies the task whole, old dates, Completed and ticked steps included, then runs the copy's on_recurring | `onedesk/one_task/task.py` | `frappe/frappe/automation/doctype/auto_repeat/auto_repeat.py` | `new_doc.run_method("on_recurring"` |
 
-108 overrides.
+110 overrides.

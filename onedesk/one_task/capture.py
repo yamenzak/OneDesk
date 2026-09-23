@@ -48,7 +48,11 @@ def todo_made(doc, method=None) -> None:
 
 
 def task_made(doc, method=None) -> None:
-	"""Task after_insert: a task of nobody's, with no project, is its maker's."""
+	"""Task after_insert: a task of nobody's, with no project, is its maker's;
+	a repeat is given to whoever had the task it repeats (task.recurring)."""
+	if doc.flags.one_assign_to:
+		assign({"doctype": "Task", "name": doc.name, "assign_to": doc.flags.one_assign_to})
+		return
 	if doc.project or doc.flags.one_assigned or frappe.flags.in_install or frappe.flags.in_migrate:
 		return
 	if frappe.parse_json(doc.get("_assign")) or doc.owner in ("Administrator", "Guest"):
