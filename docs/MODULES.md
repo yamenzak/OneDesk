@@ -68,10 +68,18 @@ No doctypes yet.
 | AI Proposal | 20 | document |
 | AI Touch | 8 | document |
 
+## One Calendar
+
+`onedesk/one_calendar`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Calendar Feed | 5 | document |
+
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
-* **sidebar** — one, one_admin, onecrm, onehr
+* **sidebar** — one, one_admin, onecalendar, onecrm, onehr
 * **workspace** — one, one_admin, onecrm, onehr, onehr_setup
 
 ## Whitelisted methods
@@ -137,6 +145,13 @@ No doctypes yet.
 * `onedesk.one_ai.run.try_it`
 * `onedesk.one_ai.run.use`
 * `onedesk.one_ai.run.waiting`
+* `onedesk.one_calendar.events.move`
+* `onedesk.one_calendar.feed.ics`
+* `onedesk.one_calendar.feed.link`
+* `onedesk.one_calendar.feed.status`
+* `onedesk.one_calendar.feed.stop`
+* `onedesk.one_calendar.layers.entries`
+* `onedesk.one_calendar.layers.layers`
 * `onedesk.one_crm.board.worth`
 * `onedesk.one_crm.capture.merge`
 * `onedesk.one_crm.capture.not_duplicate`

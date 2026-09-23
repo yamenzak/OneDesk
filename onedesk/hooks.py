@@ -91,6 +91,8 @@ scheduler_events = {
 }
 
 doc_events = {
+	# A Public event is on everybody's calendar. See one_calendar/events.py.
+	"Event": {"validate": "onedesk.one_calendar.events.validate"},
 	# hrms counts milestones by letting an insert fail, and the message outlives
 	# the savepoint. See one/quiet.py.
 	"*": {
@@ -412,3 +414,12 @@ one_ai_suggests = [
 	"onedesk.one_crm.ai.write_up_call",
 ]
 one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS", "onedesk.one_crm.ai.SUGGESTIONS"]
+
+# What each module puts on the calendar, as layers. Each reads its own records
+# as the person looking; nothing is copied. See one_calendar/layers.py.
+one_calendar_layers = [
+	"onedesk.one_calendar.events.LAYERS",
+	"onedesk.one_calendar.work.LAYERS",
+	"onedesk.one_crm.calendar.LAYERS",
+	"onedesk.one_hr.calendar.LAYERS",
+]

@@ -92,6 +92,8 @@ The Lead and Deal lists are sorted by Next Step Due, so the ones with no next
 step come first and the rest in the order they are due. A step whose time has
 passed is shown in red. The pipeline board shows each deal's next step on its
 card.
+Your own next steps are also on **OneCalendar**, at the time they are due,
+under Deal Next Steps and Lead Next Steps.
 
 ### A lead's and a deal's page
 
@@ -389,7 +391,8 @@ Four ideas in it are worth having here, and each is a stage:
     kept a stage log of its own for this; Milestone is that log. On a deal's
     page the stage reads "for 12 days" beside the usual 5, so a stuck deal
     shows as one.
-12. **Next steps on a calendar.** *Moved to OneCalendar.* A next step is one
+12. **Next steps on a calendar.** *Done in OneCalendar* — `one_crm/calendar.py`,
+    two layers. *Moved to OneCalendar.* A next step is one
     thing in a person's week beside their tasks, meetings and leave, and that
     week is OneCalendar's; a Deal calendar and a Lead calendar now would be two
     more places to look, replaced when it comes. It needs only to read

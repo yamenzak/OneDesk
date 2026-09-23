@@ -48,6 +48,14 @@
   {
    "added": 0,
    "hidden": 0,
+   "icon": "onecalendar",
+   "link_to": "OneCalendar",
+   "link_type": "Sidebar",
+   "title": "OneCalendar"
+  },
+  {
+   "added": 0,
+   "hidden": 0,
    "icon": "oneadmin",
    "link_to": "One Admin",
    "link_type": "Sidebar",
