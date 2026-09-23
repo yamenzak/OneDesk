@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 22:53+0000\n"
-"PO-Revision-Date: 2026-09-23 22:53+0000\n"
+"POT-Creation-Date: 2026-09-23 22:56+0000\n"
+"PO-Revision-Date: 2026-09-23 22:56+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -360,6 +360,10 @@ msgstr ""
 #. Label of the about_doctype (Link) field in DocType 'AI Memory'
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
 msgid "About Type"
+msgstr ""
+
+#: onedesk/public/js/item.js:36
+msgid "Above its level"
 msgstr ""
 
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
@@ -994,6 +998,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+#: onedesk/public/js/item.js:22
 msgid "Assets"
 msgstr ""
 
@@ -3154,6 +3159,10 @@ msgstr ""
 msgid "Free for {0} days"
 msgstr ""
 
+#: onedesk/public/js/item.js:29
+msgid "Free to Sell"
+msgstr ""
+
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.js:7
 msgid "From"
 msgstr ""
@@ -4000,6 +4009,10 @@ msgstr ""
 msgid "Last Address"
 msgstr ""
 
+#: onedesk/public/js/item.js:44 onedesk/public/js/item.js:46
+msgid "Last Bought"
+msgstr ""
+
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:44
 #: onedesk/public/js/crm_record.js:102
 msgid "Last Call"
@@ -4454,6 +4467,10 @@ msgstr ""
 msgid "Low"
 msgstr ""
 
+#: onedesk/public/js/item.js:34
+msgid "Low in {0}"
+msgstr ""
+
 #. Label of the made_on (Datetime) field in DocType 'Calendar Feed'
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
 msgid "Made On"
@@ -4808,6 +4825,10 @@ msgstr ""
 msgid "Network and Location"
 msgstr ""
 
+#: onedesk/public/js/item.js:46
+msgid "Never"
+msgstr ""
+
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 msgid "New"
@@ -4955,6 +4976,10 @@ msgstr ""
 msgid "No fiscal year covers today, so nothing dated today can be saved."
 msgstr ""
 
+#: onedesk/public/js/item.js:38
+msgid "No level set"
+msgstr ""
+
 #: onedesk/public/js/ai_model.js:43
 msgid "No markup is set, so this model cannot be called."
 msgstr ""
@@ -5065,6 +5090,10 @@ msgstr ""
 
 #: onedesk/one_crm/measure.py:144
 msgid "Not Recorded"
+msgstr ""
+
+#: onedesk/public/js/item.js:23
+msgid "Not Yet Registered"
 msgstr ""
 
 #: onedesk/public/js/crm_record.js:62
@@ -5292,9 +5321,17 @@ msgstr ""
 msgid "On Everybody's Calendar"
 msgstr ""
 
+#: onedesk/public/js/item.js:28
+msgid "On Hand"
+msgstr ""
+
 #. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
 #: onedesk/one_crm/custom/sales_stage.json
 msgid "On Hold"
+msgstr ""
+
+#: onedesk/public/js/item.js:30
+msgid "On Order"
 msgstr ""
 
 #. Label of the sold_section (Section Break) field in DocType 'AI Model'
@@ -6824,6 +6861,11 @@ msgstr ""
 
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:13
 msgid "Removed at Frappe Cloud"
+msgstr ""
+
+#: onedesk/public/js/item.js:34 onedesk/public/js/item.js:36
+#: onedesk/public/js/item.js:38
+msgid "Reorder"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -9634,6 +9676,10 @@ msgstr ""
 msgid "Workspaces can no longer pick this model"
 msgstr ""
 
+#: onedesk/public/js/item.js:31
+msgid "Worth"
+msgstr ""
+
 #: onedesk/one_hr/hiring.py:338
 msgid "Worth knowing before you call"
 msgstr ""
@@ -10201,6 +10247,10 @@ msgstr ""
 
 #: onedesk/public/js/salary_slip.js:34
 msgid "{0} for {1}: {2} of {3} days paid."
+msgstr ""
+
+#: onedesk/public/js/item.js:44
+msgid "{0} from {1} · {2}"
 msgstr ""
 
 #: onedesk/one_ai/proposals.py:124

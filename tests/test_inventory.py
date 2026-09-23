@@ -68,3 +68,34 @@ def test_the_inventory_check_opens_setup_and_shares_the_books_checks_page():
 	page = (tree.APP / "one_inventory" / "report" / "inventory_check" / "inventory_check.js").read_text()
 	assert "onedesk.check.report(" in page
 	assert '"/assets/onedesk/js/check.js"' in (tree.APP / "hooks.py").read_text()
+
+
+def _pure(path, name, **extra):
+	import ast
+
+	space = dict(extra)
+	for node in ast.parse(path.read_text(encoding="utf-8")).body:
+		if isinstance(node, ast.FunctionDef) and node.name == name:
+			exec(ast.unparse(node), space)
+	return space[name]
+
+
+def test_an_item_is_low_when_what_is_there_and_coming_is_at_its_level():
+	summary = _pure(tree.APP / "one_inventory" / "item.py", "summary", flt=lambda v: float(v or 0))
+	bins = [
+		{"warehouse": "Stores", "actual_qty": 15, "reserved_qty": 5, "ordered_qty": 40, "projected_qty": 50, "stock_value": 187.5},
+		{"warehouse": "Van", "actual_qty": 10, "projected_qty": 10, "stock_value": 125},
+	]
+	levels = [
+		{"warehouse": "Stores", "warehouse_reorder_level": 20},
+		{"warehouse": "Van", "warehouse_reorder_level": 10},
+		{"warehouse": "Annex", "warehouse_reorder_level": 5},
+	]
+	said = summary(bins, levels)
+	assert (said["on_hand"], said["free"], said["ordered"], said["value"]) == (25, 20, 40, 312.5)
+	assert said["below"] == ["Van", "Annex"], "on order counts; a warehouse with none is at nought"
+
+
+def test_the_item_page_draws_the_band():
+	assert '"Item": "public/js/item.js"' in (tree.APP / "hooks.py").read_text()
+	assert "onedesk.one_inventory.item.said" in (tree.APP / "public" / "js" / "item.js").read_text()

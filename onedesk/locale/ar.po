@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 22:53+0000\n"
-"PO-Revision-Date: 2026-09-23 22:53+0000\n"
+"POT-Creation-Date: 2026-09-23 22:56+0000\n"
+"PO-Revision-Date: 2026-09-23 22:56+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -363,6 +363,10 @@ msgstr "السجل المعني"
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
 msgid "About Type"
 msgstr "النوع المعني"
+
+#: onedesk/public/js/item.js:36
+msgid "Above its level"
+msgstr "فوق مستواه"
 
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -996,8 +1000,9 @@ msgstr "تعديلات قيمة الأصول"
 
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+#: onedesk/public/js/item.js:22
 msgid "Assets"
-msgstr ""
+msgstr "الأصول"
 
 #: onedesk/one_inventory/ready.py:104
 msgid "Assets have categories"
@@ -3156,6 +3161,10 @@ msgstr "تجربة مجانية (أيام)"
 msgid "Free for {0} days"
 msgstr "مجاناً لمدة {0} يوماً"
 
+#: onedesk/public/js/item.js:29
+msgid "Free to Sell"
+msgstr "متاح للبيع"
+
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.js:7
 msgid "From"
 msgstr ""
@@ -4002,6 +4011,10 @@ msgstr "تكاليف الشحن"
 msgid "Last Address"
 msgstr "آخر عنوان"
 
+#: onedesk/public/js/item.js:44 onedesk/public/js/item.js:46
+msgid "Last Bought"
+msgstr "آخر شراء"
+
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:44
 #: onedesk/public/js/crm_record.js:102
 msgid "Last Call"
@@ -4456,6 +4469,10 @@ msgstr ""
 msgid "Low"
 msgstr ""
 
+#: onedesk/public/js/item.js:34
+msgid "Low in {0}"
+msgstr "منخفض في {0}"
+
 #. Label of the made_on (Datetime) field in DocType 'Calendar Feed'
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
 msgid "Made On"
@@ -4810,6 +4827,10 @@ msgstr "الشبكة"
 msgid "Network and Location"
 msgstr "الشبكة والموقع"
 
+#: onedesk/public/js/item.js:46
+msgid "Never"
+msgstr "أبدًا"
+
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 msgid "New"
@@ -4957,6 +4978,10 @@ msgstr "لا رصيد. اشترِ بعضه لاستخدام الذكاء الا�
 msgid "No fiscal year covers today, so nothing dated today can be saved."
 msgstr "لا توجد سنة مالية تشمل اليوم، لذا لا يمكن حفظ أي شيء بتاريخ اليوم."
 
+#: onedesk/public/js/item.js:38
+msgid "No level set"
+msgstr "لا يوجد مستوى محدد"
+
 #: onedesk/public/js/ai_model.js:43
 msgid "No markup is set, so this model cannot be called."
 msgstr "لم يُحدَّد هامش، فلا يمكن استدعاء هذا النموذج."
@@ -5068,6 +5093,10 @@ msgstr "غير مُقدَّرة"
 #: onedesk/one_crm/measure.py:144
 msgid "Not Recorded"
 msgstr "غير مسجّل"
+
+#: onedesk/public/js/item.js:23
+msgid "Not Yet Registered"
+msgstr "لم تُسجّل بعد"
 
 #: onedesk/public/js/crm_record.js:62
 msgid "Not a Duplicate"
@@ -5294,10 +5323,18 @@ msgstr "مفعّل"
 msgid "On Everybody's Calendar"
 msgstr "في تقويم الجميع"
 
+#: onedesk/public/js/item.js:28
+msgid "On Hand"
+msgstr "المتوفر"
+
 #. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
 #: onedesk/one_crm/custom/sales_stage.json
 msgid "On Hold"
 msgstr ""
+
+#: onedesk/public/js/item.js:30
+msgid "On Order"
+msgstr "قيد الطلب"
 
 #. Label of the sold_section (Section Break) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -6827,6 +6864,11 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:13
 msgid "Removed at Frappe Cloud"
 msgstr "أُزيل من Frappe Cloud"
+
+#: onedesk/public/js/item.js:34 onedesk/public/js/item.js:36
+#: onedesk/public/js/item.js:38
+msgid "Reorder"
+msgstr "إعادة الطلب"
 
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -9639,6 +9681,10 @@ msgstr "يُوصل إلى مساحات العمل على &lt;المعرّف&gt;.
 msgid "Workspaces can no longer pick this model"
 msgstr "لن تعود مساحات العمل قادرة على اختيار هذا النموذج"
 
+#: onedesk/public/js/item.js:31
+msgid "Worth"
+msgstr "القيمة"
+
 #: onedesk/one_hr/hiring.py:338
 msgid "Worth knowing before you call"
 msgstr "ما يجدر معرفته قبل الاتصال"
@@ -10214,6 +10260,10 @@ msgstr "{0} عن {1}، شهر كامل."
 #: onedesk/public/js/salary_slip.js:34
 msgid "{0} for {1}: {2} of {3} days paid."
 msgstr "{0} عن {1}: {2} من {3} يوماً مدفوعة."
+
+#: onedesk/public/js/item.js:44
+msgid "{0} from {1} · {2}"
+msgstr "{0} من {1} · {2}"
 
 #: onedesk/one_ai/proposals.py:124
 msgid "{0} has changed since this was suggested, so it no longer applies."

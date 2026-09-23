@@ -406,6 +406,8 @@ doctype_js = {
 	"Quotation": "public/js/quotation.js",
 	# A timer on the task. See one_task/timer.py.
 	"Task": "public/js/task.js",
+	# What an item's page answers first. See one_inventory/item.py.
+	"Item": "public/js/item.js",
 	# What is still owed, and Record Payment. See one_book/paid.py.
 	"Sales Invoice": "public/js/invoice.js",
 	"Purchase Invoice": "public/js/invoice.js",

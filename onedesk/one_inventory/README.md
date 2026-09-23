@@ -34,6 +34,24 @@ asset's depreciation lands in OneBook's books by itself.
   depreciation; pick lists, landed costs, prices, serial numbers and batches;
   warehouses, item groups, units, price lists, asset categories and locations.
 
+## An item's page
+
+The band under an item's name answers first:
+
+- **On Hand** — how many there are, across every warehouse. Click it for
+  the Stock Balance, warehouse by warehouse.
+- **Free to Sell** — on hand, less what is promised to customers.
+- **On Order** — ordered from suppliers and not yet received. Click it for
+  the open purchase orders.
+- **Worth** — what the stock on hand is valued at in the books.
+- **Reorder** — **Low in** a warehouse, in red, when what is there and on
+  its way is at or below the reorder level set on the item's **Inventory**
+  tab; **Above its level**; or **No level set**.
+- **Last Bought** — the price it last came at, from whom and when.
+
+An item marked **Is Fixed Asset** says how many assets it has become
+instead, and how many of them are not yet registered.
+
 ## Getting ready
 
 **Setup › Inventory Check** lists what would stop the first receipt, stock
@@ -105,6 +123,12 @@ the books by itself every day, and the asset reports are OneBook's to read as
 well. The product line has no mark for a separate assets app, and an app with
 a register and a movement form in it would be a rail with five rows.
 
+- `item.py` and `public/js/item.js` — the item's band. ERPNext has every
+  figure in a different place — the Bins behind the Stock Levels panel at the
+  foot of the form, the reorder table on the Inventory tab, a Last Purchase
+  Rate with no supplier or date — and `said` reads them into one answer.
+  Low is ERPNext's own test, projected quantity at or below the level
+  (`summary`, pure), so the band and the reorder list agree.
 - `ready.py` and `report/inventory_check` — the Inventory Check, the Books
   Check's twin, drawn by the same page (`public/js/check.js`). What a new
   company is missing is an asset's two prerequisites: a Location (an Asset
@@ -130,7 +154,7 @@ a register and a movement form in it would be a rail with five rows.
    the fix beside each. *Done.*
 3. **An item answers first.** On hand across warehouses, what is free to sell,
    what is on order, what it is worth, whether it is below its reorder level,
-   and what it last cost and from whom.
+   and what it last cost and from whom. *Done.*
 4. **What to order.** Items at or below their reorder level with how many to
    order and from whom, made into purchase orders a supplier at a time.
 5. **Assets: a register that finishes itself.** The assets a receipt makes are

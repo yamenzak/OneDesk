@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 22:53+0000\n"
-"PO-Revision-Date: 2026-09-23 22:53+0000\n"
+"POT-Creation-Date: 2026-09-23 22:56+0000\n"
+"PO-Revision-Date: 2026-09-23 22:56+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -363,6 +363,10 @@ msgstr "Betroffener Datensatz"
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
 msgid "About Type"
 msgstr "Betroffener Typ"
+
+#: onedesk/public/js/item.js:36
+msgid "Above its level"
+msgstr "Über dem Mindestbestand"
 
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -996,8 +1000,9 @@ msgstr "Anlagenwertanpassungen"
 
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+#: onedesk/public/js/item.js:22
 msgid "Assets"
-msgstr ""
+msgstr "Anlagen"
 
 #: onedesk/one_inventory/ready.py:104
 msgid "Assets have categories"
@@ -3156,6 +3161,10 @@ msgstr "Kostenlose Testphase (Tage)"
 msgid "Free for {0} days"
 msgstr "{0} Tage kostenlos"
 
+#: onedesk/public/js/item.js:29
+msgid "Free to Sell"
+msgstr "Frei verfügbar"
+
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.js:7
 msgid "From"
 msgstr ""
@@ -4002,6 +4011,10 @@ msgstr "Anschaffungsnebenkosten"
 msgid "Last Address"
 msgstr "Letzte Adresse"
 
+#: onedesk/public/js/item.js:44 onedesk/public/js/item.js:46
+msgid "Last Bought"
+msgstr "Zuletzt gekauft"
+
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:44
 #: onedesk/public/js/crm_record.js:102
 msgid "Last Call"
@@ -4456,6 +4469,10 @@ msgstr ""
 msgid "Low"
 msgstr ""
 
+#: onedesk/public/js/item.js:34
+msgid "Low in {0}"
+msgstr "Knapp in {0}"
+
 #. Label of the made_on (Datetime) field in DocType 'Calendar Feed'
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
 msgid "Made On"
@@ -4810,6 +4827,10 @@ msgstr "Netzwerk"
 msgid "Network and Location"
 msgstr "Netzwerk und Ort"
 
+#: onedesk/public/js/item.js:46
+msgid "Never"
+msgstr "Nie"
+
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 msgid "New"
@@ -4957,6 +4978,10 @@ msgstr "Kein Guthaben. Kaufen Sie welches, um die KI zu nutzen."
 msgid "No fiscal year covers today, so nothing dated today can be saved."
 msgstr "Kein Geschäftsjahr umfasst heute, daher kann nichts mit heutigem Datum gespeichert werden."
 
+#: onedesk/public/js/item.js:38
+msgid "No level set"
+msgstr "Kein Mindestbestand"
+
 #: onedesk/public/js/ai_model.js:43
 msgid "No markup is set, so this model cannot be called."
 msgstr "Es ist kein Aufschlag gesetzt, daher kann dieses Modell nicht aufgerufen werden."
@@ -5068,6 +5093,10 @@ msgstr "Nicht geschätzt"
 #: onedesk/one_crm/measure.py:144
 msgid "Not Recorded"
 msgstr "Nicht erfasst"
+
+#: onedesk/public/js/item.js:23
+msgid "Not Yet Registered"
+msgstr "Noch nicht erfasst"
 
 #: onedesk/public/js/crm_record.js:62
 msgid "Not a Duplicate"
@@ -5294,10 +5323,18 @@ msgstr "An"
 msgid "On Everybody's Calendar"
 msgstr "Im Kalender aller"
 
+#: onedesk/public/js/item.js:28
+msgid "On Hand"
+msgstr "Bestand"
+
 #. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
 #: onedesk/one_crm/custom/sales_stage.json
 msgid "On Hold"
 msgstr ""
+
+#: onedesk/public/js/item.js:30
+msgid "On Order"
+msgstr "Bestellt"
 
 #. Label of the sold_section (Section Break) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -6827,6 +6864,11 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:13
 msgid "Removed at Frappe Cloud"
 msgstr "Bei Frappe Cloud entfernt"
+
+#: onedesk/public/js/item.js:34 onedesk/public/js/item.js:36
+#: onedesk/public/js/item.js:38
+msgid "Reorder"
+msgstr "Nachbestellung"
 
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -9639,6 +9681,10 @@ msgstr "Arbeitsbereiche sind unter &lt;Kennung&gt;.&lt;dies&gt; erreichbar, zum 
 msgid "Workspaces can no longer pick this model"
 msgstr "Arbeitsbereiche können dieses Modell nicht mehr wählen"
 
+#: onedesk/public/js/item.js:31
+msgid "Worth"
+msgstr "Wert"
+
 #: onedesk/one_hr/hiring.py:338
 msgid "Worth knowing before you call"
 msgstr "Gut zu wissen vor dem Anruf"
@@ -10214,6 +10260,10 @@ msgstr "{0} für {1}, ein ganzer Monat."
 #: onedesk/public/js/salary_slip.js:34
 msgid "{0} for {1}: {2} of {3} days paid."
 msgstr "{0} für {1}: {2} von {3} Tagen bezahlt."
+
+#: onedesk/public/js/item.js:44
+msgid "{0} from {1} · {2}"
+msgstr "{0} von {1} · {2}"
 
 #: onedesk/one_ai/proposals.py:124
 msgid "{0} has changed since this was suggested, so it no longer applies."

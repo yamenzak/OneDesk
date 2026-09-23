@@ -1060,6 +1060,13 @@ OVERRIDES = [
 		"erpnext/erpnext/assets/doctype/asset_category_account/asset_category_account.json",
 		'"fieldname": "fixed_asset_account",',
 	),
+	(
+		"An item is low by ERPNext's own reorder test",
+		"the band and the reorder list must agree with the automatic material request",
+		"onedesk/one_inventory/item.py",
+		"erpnext/erpnext/stock/reorder_item.py",
+		"if (reorder_level or reorder_qty) and projected_qty <= reorder_level:",
+	),
 ]
 
 
