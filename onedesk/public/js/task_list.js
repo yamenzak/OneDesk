@@ -18,3 +18,28 @@
 		return late ? `<span class="text-danger">${shown}</span>` : shown;
 	};
 })();
+
+// On the Gantt, a task with a due date and no start is a day on its due date;
+// frappe's view draws a bar from the start and has none to draw. And the view
+// mode pills light the first, Hour, whatever the chart is in: frappe-gantt's
+// view_is reads a name off options.view_mode, which is a string. Wrapped
+// once, for Task only. See one_project/plan.py.
+(() => {
+	const Gantt = frappe.views.GanttView;
+	if (!Gantt || Gantt.prototype.one_due_only) return;
+	const prepare = Gantt.prototype.prepare_tasks;
+	Gantt.prototype.one_due_only = true;
+	Gantt.prototype.prepare_tasks = function () {
+		prepare.call(this);
+		if (this.doctype !== "Task") return;
+		this.tasks = this.tasks
+			.map((task) => (task.start ? task : { ...task, start: task.end }))
+			.filter((task) => task.start);
+	};
+	const buttons = Gantt.prototype.setup_view_mode_buttons;
+	Gantt.prototype.setup_view_mode_buttons = function () {
+		const gantt = this.gantt;
+		if (this.doctype === "Task") gantt.view_is = (name) => gantt.config.view_mode.name === name;
+		buttons.call(this);
+	};
+})();

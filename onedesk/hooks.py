@@ -163,6 +163,8 @@ doc_events = {
 			"onedesk.one_project.plan.before_validate",
 		],
 		"on_recurring": "onedesk.one_task.task.recurring",
+		# A slip moves what waits on it, across sub-projects. See one_project/plan.py.
+		"on_update": "onedesk.one_project.plan.reschedule",
 	},
 	# A project's tasks are named with its prefix. See one_project/naming.py.
 	"Project": {

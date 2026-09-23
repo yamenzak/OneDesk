@@ -1,4 +1,4 @@
-// A project's page: its board and calendar as buttons of their own, the
+// A project's page: its board, calendar and plan as buttons of their own, the
 // overview in the band, and Group Under New Project.
 //
 // The board is ERPNext's own, made the way their button makes it
@@ -18,6 +18,10 @@ frappe.ui.form.on("Project", {
 			});
 		}
 		onedesk.record_calendar(frm);
+		if (frappe.model.can_read("Task")) {
+			frm.remove_custom_button(__("Gantt Chart"), __("View"));
+			frm.add_custom_button(__("Schedule"), () => onedesk.project.plan(frm));
+		}
 		if (frm.perm[0] && frm.perm[0].write) {
 			frm.add_custom_button(__("Group Under New Project"), () => onedesk.project.group(frm), __("Actions"));
 		}
@@ -77,6 +81,17 @@ onedesk.project.band = async (frm) => {
 		);
 	}
 	onedesk.band.show(frm, stats);
+};
+
+// The schedule: frappe's Gantt over the tasks of this project and everything under
+// it, the ones still in play. See one_project/plan.py.
+onedesk.project.plan = async (frm) => {
+	const said = await frappe.xcall("onedesk.one_project.overview.overview", { project: frm.doc.name });
+	frappe.route_options = {
+		project: ["in", said.tree],
+		status: ["not in", ["Cancelled", "Template"]],
+	};
+	frappe.set_route("List", "Task", "Gantt");
 };
 
 // A new project above this one, taking its place, with this one and the

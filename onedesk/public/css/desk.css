@@ -365,3 +365,12 @@ a.one-stat:hover .one-stat-value {
 [data-page-route="Opportunity"] .comment-box {
 	display: block !important;
 }
+
+/* frappe's Gantt view draws into the list's `.result`, which is `display: table`
+ * and so grows to the whole timeline: nothing scrolls, the chart opens a month
+ * before today and every bar is off the right of the screen. As a block the
+ * Gantt's own container scrolls, and frappe-gantt scrolls it to today. */
+/* As specific as frappe's own rule in list.scss, and one class more. */
+.layout-main-section-wrapper .frappe-list .result-container .result.result:has(> .gantt-container) {
+	display: block;
+}

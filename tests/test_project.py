@@ -156,4 +156,35 @@ def test_the_overview_is_the_whole_tree_and_only_figures():
 	assert "tree.below({project}, tree.parents())" in source and "members.sees(one, user)" in source
 	page = (tree.APP / "public" / "js" / "project.js").read_text()
 	assert "onedesk.one_project.overview.overview" in page and "onedesk.band.show" in page
-	assert "chart" not in page.lower(), "figures, not charts"
+	assert "chart" not in page.lower().replace('__("gantt chart")', ""), "figures, not charts"
+
+
+def test_a_dependant_moves_after_what_it_waits_on():
+	from datetime import date, timedelta
+
+	space = _load(
+		PROJECT / "plan.py",
+		("moved_after",),
+		date_diff=lambda a, b: (a - b).days,
+		add_days=lambda day, n: day + timedelta(days=n),
+	)
+	moved = space["moved_after"]
+	starts, ends = date(2026, 10, 1), date(2026, 10, 3)
+	assert moved(starts, ends, date(2026, 10, 5), "Open") == (date(2026, 10, 6), date(2026, 10, 8)), "keeps its length"
+	assert moved(starts, ends, date(2026, 9, 20), "Open") is None, "already after it"
+	assert moved(starts, ends, date(2026, 10, 5), "Working") is None, "started work stays"
+	assert moved(None, ends, date(2026, 10, 5), "Open") is None
+
+
+def test_a_slip_crosses_sub_projects_and_the_plan_is_the_tree():
+	assert '"on_update": "onedesk.one_project.plan.reschedule"' in HOOKS.split('"Task": {', 1)[1].split("},", 1)[0]
+	body = _body((PROJECT / "plan.py").read_text(), "reschedule")
+	assert 'has_value_changed("exp_end_date")' in body and "- {doc.project}" in body, "ERPNext's own pass does its project"
+	page = (tree.APP / "public" / "js" / "project.js").read_text()
+	assert 'project: ["in", said.tree]' in page and '"List", "Task", "Gantt"' in page
+	assert 'remove_custom_button(__("Gantt Chart"), __("View"))' in page
+	gantt = (tree.APP / "public" / "js" / "task_list.js").read_text()
+	assert "Gantt.prototype.prepare_tasks" in gantt and "start: task.end" in gantt, "a due date alone is a day"
+	assert "gantt.config.view_mode.name === name" in gantt, "the lit pill is the chart's mode"
+	css = (tree.APP / "public" / "css" / "desk.css").read_text()
+	assert ".result.result:has(> .gantt-container)" in css, "the chart scrolls, to today"

@@ -111,11 +111,24 @@ Prefix**. Give a project the prefix **WEB** and its new tasks are named
 to 10 letters and digits, starting with a letter, and no two projects share
 one.
 
+## A project's schedule
+
+**Schedule** on a project shows its tasks on a timeline — this project's and
+every sub-project's, the ones not cancelled — with a bar from each task's
+start to its due date. A task with only a due date is a day on it; a
+**milestone** is marked as one; an arrow runs from a task to each task that
+waits on it. It opens on today; **Today** comes back to it, and **Day**,
+**Week**, **Month** and the rest at the foot change how much fits.
+
+**Drag a bar to move a task**, or drag its end to make it longer. Double-click
+a bar to open the task.
+
 ## When a task is late, what depends on it moves
 
-A task can depend on others (**Dependencies** on its page). When a task's due
-date moves later, the tasks in the same project that depend on it and have not
-started move later by as much.
+A task can depend on others (**Dependencies** on its page), in its own project
+or in another under the same parent. When a task's due date moves later, the
+tasks that depend on it and are still **Open** move later by as much — the
+handrails wait for the frames, even though each is a sub-project of its own.
 
 ## Under the hood
 
@@ -152,13 +165,18 @@ one field for it.
   Tasks and a parent's calendar. Sub-projects are a connection on the page
   (`dashboard`), and `report/project_tree` is frappe's tree report over them.
 - `plan.py` — each dependency row names its project, the field ERPNext's own
-  rescheduling looks dependants up by and never writes.
+  rescheduling looks dependants up by and never writes; and a slip moves the
+  dependants in the rest of the tree, which theirs never looks at
+  (`reschedule`, `moved_after` is pure). The schedule is frappe's Gantt over
+  Task, filtered to the tree (`public/js/project.js`); `public/js/task_list.js`
+  draws a task with only a due date and lights the view mode the chart is in,
+  and `public/css/desk.css` lets it scroll.
 - `overview.py` — what the band answers, over the tree the reader may see:
   tasks done of all, days to the expected end (`days_left`), ERPNext's cost,
   billing and margin added up (tree.totals), overdue tasks and the next
   milestone.
-- `public/js/project.js` — the Board and Calendar buttons, the overview in the
-  band, and Group Under New Project.
+- `public/js/project.js` — the Board, Calendar and Schedule buttons, the
+  overview in the band, and Group Under New Project.
 
 ### What OneTask has to keep doing for projects
 
@@ -194,8 +212,11 @@ stage below that touches tasks keeps them:
 4. **The overview.** *Done.* A project's page answers first: done so far, due against
    expected, cost against budget, billed against billable, overdue tasks and
    the next milestone. Figures, not charts.
-5. **The plan.** frappe's Gantt over a project's tasks, milestones on it, and
-   dependencies that move across projects in one tree, not only within one.
+5. **The plan.** *Done.* frappe's Gantt over a project's tasks and its
+   sub-projects', milestones on it, and dependencies that move across projects
+   in one tree, not only within one. Three things of frappe's needed fixing for
+   it to show anything: a task with no start date, a chart that never scrolled,
+   and the view mode pills.
 6. **Templates.** ERPNext's Project Template starts a project with its tasks and
    their dependencies.
 7. **Cost and billing.** Time priced by Activity Cost; hours invoiced from

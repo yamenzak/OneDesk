@@ -815,6 +815,34 @@ OVERRIDES = [
 		"erpnext/erpnext/projects/doctype/project/project.py",
 		"def update_costing(self):",
 	),
+	(
+		"A slip moves what waits on it in the rest of the tree",
+		"their reschedule moves only the dependants in the same project as the task that slipped",
+		"onedesk/one_project/plan.py",
+		"erpnext/erpnext/projects/doctype/task/task.py",
+		'filters={"task": self.name, "project": self.project},',
+	),
+	(
+		"A task with only a due date is a bar on the Gantt",
+		"their Gantt draws each bar from the start date and a task with none breaks the chart",
+		"onedesk/public/js/task_list.js",
+		"frappe/frappe/public/js/frappe/views/gantt/gantt_view.js",
+		"start: item[field_map.start],",
+	),
+	(
+		"The Gantt's lit view mode is the one it is in",
+		"frappe-gantt's view_is reads .name off options.view_mode, a string, so the first pill, Hour, is always lit",
+		"onedesk/public/js/task_list.js",
+		"frappe/node_modules/frappe-gantt/dist/frappe-gantt.es.js",
+		"return this.options.view_mode.name === t;",
+	),
+	(
+		"The Gantt scrolls, and opens on today",
+		"the list's .result is display: table, which grows to the whole timeline, so nothing scrolls and every bar is off the screen",
+		"onedesk/public/css/desk.css",
+		"frappe/frappe/public/scss/desk/list.scss",
+		"display: table;",
+	),
 ]
 
 
