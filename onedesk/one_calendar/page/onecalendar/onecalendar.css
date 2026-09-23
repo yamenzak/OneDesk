@@ -94,6 +94,12 @@
 	background: var(--subtle-fg, var(--gray-50));
 }
 
+.one-calendar-apps .btn {
+	align-items: center;
+	display: inline-flex;
+	gap: 6px;
+}
+
 .one-calendar-apps {
 	display: flex;
 	flex-wrap: wrap;

@@ -23,6 +23,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import tree
 
 MARKS = tree.ROOT / "brand"
+
+#: Other companies' marks, for a button that opens their app. See its README.
+OTHERS = MARKS / "others"
 FIXTURE = tree.APP / "fixtures" / "custom_icon.json"
 
 #: `CustomIcon.validate` refuses anything else, and the name becomes a DOM id.
@@ -41,7 +44,7 @@ def unique_ids(svg: str, prefix: str) -> str:
 
 def icons() -> list[dict]:
 	found = []
-	for path in sorted(MARKS.glob("*.svg")):
+	for path in sorted(MARKS.glob("*.svg")) + sorted(OTHERS.glob("*.svg")):
 		name = path.stem
 		if not NAME.match(name):
 			raise SystemExit(f"{path.name}: an icon name is letters, numbers, - and _ only")
