@@ -26,6 +26,8 @@ it. The ones that need no decision are made without asking:
   shipped off, since it writes to customers; the fix turns it on.
 - **The UAE's VAT** (one_book/vat.py): the VAT accounts the return reads, the
   TRN a tax invoice must carry, and the emirate sales are reported under.
+- **A year that has ended is closed** (one_book/closing.py): its profit
+  moved to Retained Earnings and the books locked to its last day.
 - **The defaults ERPNext throws on** — receivable, payable, income, cost
   center, round-off, exchange gain or loss — named when any is empty.
 """
@@ -70,6 +72,7 @@ def checks() -> list[dict]:
 		_bill_numbers(),
 		_reminder(),
 		*_uae(one),
+		_closed(one),
 	]
 
 
@@ -181,6 +184,19 @@ def _uae(one) -> list[dict]:
 	return rows
 
 
+def _closed(one) -> dict:
+	from onedesk.one_book import closing
+
+	check = _("Every year that has ended is closed")
+	open_ = closing.unclosed(one.name)
+	if open_:
+		return _row("close", check, TO_DO, _("{0} has ended and its profit is not yet moved to Retained Earnings.").format(open_[0].name), "close")
+	until = closing.locked(one.name)
+	if until:
+		return _row("close", check, READY, _("The books are locked up to {0}.").format(frappe.format_value(until, {"fieldtype": "Date"})))
+	return _row("close", check, READY, _("No year has ended with entries left open."))
+
+
 @frappe.whitelist(methods=["POST"])
 def fix(key: str, **values) -> None:
 	"""The fix beside a check."""
@@ -219,6 +235,12 @@ def fix(key: str, **values) -> None:
 			frappe.db.set_value("Address", address, "emirate", values.get("emirate"))
 		else:
 			vat.add_address(one.name, values.get("emirate"), values.get("address_line1"), values.get("city"))
+	elif key == "close":
+		from onedesk.one_book import closing
+
+		open_ = closing.unclosed(one.name)
+		if open_:
+			closing.close_year(one.name, open_[0])
 	elif key == "reminder":
 		from onedesk.one_book.paid import REMINDER
 

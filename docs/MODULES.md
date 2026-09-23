@@ -171,6 +171,7 @@ No doctypes yet.
 * `onedesk.one_ai.run.try_it`
 * `onedesk.one_ai.run.use`
 * `onedesk.one_ai.run.waiting`
+* `onedesk.one_book.closing.lock`
 * `onedesk.one_book.home.cash`
 * `onedesk.one_book.home.due_this_week`
 * `onedesk.one_book.home.overdue`

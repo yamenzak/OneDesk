@@ -65,6 +65,7 @@ bill, and says **Ready**, **To Do** or **Suggested** beside each, with a
 - **Invoices carry tax** and **Bills carry tax.** **Fix** asks which VAT
   template is added to a new invoice or bill when nobody picks one.
 - **A late customer is reminded.** **Fix** turns the payment reminder on.
+- **Every year that has ended is closed.** **Fix** closes the year (below).
 - In the UAE: **the VAT return knows the VAT accounts**, **invoices carry
   the company's TRN** and **the company's emirate is known**. **Fix** fills
   the first from the chart and asks for the other two.
@@ -130,6 +131,19 @@ company's **TRN** (printed on every tax invoice) and its **emirate** (sales
 are reported under it). The VAT on each bill is filled into the bill's
 **Recoverable Standard Rated Expenses** as you enter it; type your own figure
 there when not all of it can be reclaimed, and it is left alone.
+
+## Closing a period and a year
+
+Once a VAT return is filed, the period it covers should not change. **Lock
+Books** on the VAT Return asks for a date, and nothing dated on or before it
+can then be entered, changed or cancelled — by anybody. The title of the VAT
+Return says **Locked to** that date. To correct something in a locked
+period, open **Lock Books** again and **Unlock**, correct it, and lock again.
+
+At the end of a year, its profit is moved into **Retained Earnings**. The
+Books Check's **Every year that has ended is closed** turns **To Do** once a
+year has ended with entries in it; **Fix** closes it and locks the books to
+its last day. The reports go on showing the year as it was.
 
 ## What is kept where
 
@@ -203,6 +217,14 @@ fails a small business on first use or leaves a question unanswered.
   Frappe only fetches it there. The VAT Return reads tax rows of submitted
   invoices, bills and expense claims, grouped by account and rate (`lines`,
   pure); it is not a UAE form, and needs nothing set up.
+- `closing.py` — the lock and the year-end close. The lock is ERPNext's
+  `Company.accounts_frozen_till_date`, enforced in `check_freezing_date`, on a
+  Company tab nothing leads to; **Lock Books** sets it and leaves the role
+  that may post anyway empty, so locked means locked. The close is ERPNext's
+  Period Closing Voucher with the one answer it asks for — the chart's
+  Retained Earnings — made and submitted by the Books Check's fix, which
+  then locks the books to the year's end. ERPNext posts the voucher in the
+  background, so it needs a worker.
 - `ready.py` and `report/books_check` — the Books Check. ERPNext's Standard
   chart makes *Bank Accounts* a group, so `Company.default_bank_account` is
   left empty, and `set_mode_of_payment_account` gives only Cash an account;
@@ -233,3 +255,4 @@ fails a small business on first use or leaves a question unanswered.
    return any country can read: tax charged against tax paid, by rate.
    *Done.*
 7. **Closing.** Locking the books up to a date, and the year-end close.
+   *Done.*

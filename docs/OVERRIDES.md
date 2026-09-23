@@ -149,5 +149,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | A bill's reclaimable VAT is filled in | UAE VAT 201's box 9 sums a field on each bill somebody is meant to type; untouched, the company reclaims nothing | `onedesk/one_book/vat.py` | `erpnext/erpnext/regional/report/uae_vat_201/uae_vat_201.py` | `query_filters.append(["recoverable_standard_rated_expenses", ">", 0])` |
 | The invoice's emirate is copied from the company address | Frappe fetches it only when the address is picked on the page | `onedesk/one_book/vat.py` | `erpnext/erpnext/regional/united_arab_emirates/setup.py` | `fetch_from="company_address.emirate",` |
 | UAE VAT Settings are filled from the chart | empty on a new company, and reverse charge reads them | `onedesk/one_book/vat.py` | `erpnext/erpnext/regional/united_arab_emirates/utils.py` | `tax_accounts_list = frappe.get_all("UAE VAT Account", filters={"parent": company}, fields=["account"])` |
+| Lock Books sets ERPNext's frozen-till date | the lock is enforced upstream but set on a Company tab nothing leads to; ours leaves the exempt role empty | `onedesk/one_book/closing.py` | `erpnext/erpnext/accounts/services/gl_validator.py` | `acc_frozen_till_date = frappe.db.get_value("Company", company, "accounts_frozen_till_date")` |
+| The year is closed into Retained Earnings | the Period Closing Voucher asks for a closing account; the chart's Retained Earnings is the answer | `onedesk/one_book/closing.py` | `erpnext/erpnext/accounts/doctype/period_closing_voucher/period_closing_voucher.py` | `def check_closing_account_type(self):` |
 
-144 overrides.
+146 overrides.

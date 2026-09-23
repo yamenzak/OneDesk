@@ -1032,6 +1032,20 @@ OVERRIDES = [
 		"erpnext/erpnext/regional/united_arab_emirates/utils.py",
 		'tax_accounts_list = frappe.get_all("UAE VAT Account", filters={"parent": company}, fields=["account"])',
 	),
+	(
+		"Lock Books sets ERPNext's frozen-till date",
+		"the lock is enforced upstream but set on a Company tab nothing leads to; ours leaves the exempt role empty",
+		"onedesk/one_book/closing.py",
+		"erpnext/erpnext/accounts/services/gl_validator.py",
+		'acc_frozen_till_date = frappe.db.get_value("Company", company, "accounts_frozen_till_date")',
+	),
+	(
+		"The year is closed into Retained Earnings",
+		"the Period Closing Voucher asks for a closing account; the chart's Retained Earnings is the answer",
+		"onedesk/one_book/closing.py",
+		"erpnext/erpnext/accounts/doctype/period_closing_voucher/period_closing_voucher.py",
+		"def check_closing_account_type(self):",
+	),
 ]
 
 

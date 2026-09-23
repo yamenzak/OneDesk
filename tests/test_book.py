@@ -182,3 +182,15 @@ def test_the_uae_checks_only_run_in_the_uae_and_the_bill_hook_is_wired():
 	assert "if not vat.in_uae(one.name):" in _body(READY, "_uae")
 	assert '"validate": "onedesk.one_book.vat.reclaimed"' in HOOKS
 	assert '"validate": "onedesk.one_book.vat.emirate"' in HOOKS
+
+
+def test_locking_is_for_the_closers_and_never_into_the_future():
+	lock = _body(BOOK / "closing.py", "lock")
+	assert "only_for(CLOSERS)" in lock
+	assert "The books can only be locked up to today." in lock
+
+
+def test_the_year_is_closed_into_retained_earnings_and_then_locked():
+	close = _body(BOOK / "closing.py", "close_year")
+	assert "retained_earnings(company)" in close and "accounts_frozen_till_date" in close
+	assert "'close'" in _body(READY, "fix")

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 22:40+0000\n"
-"PO-Revision-Date: 2026-09-23 22:40+0000\n"
+"POT-Creation-Date: 2026-09-23 22:45+0000\n"
+"PO-Revision-Date: 2026-09-23 22:45+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -71,11 +71,11 @@ msgstr "يُنشأ تكليف مناوبة ويعمل الموظف هذه الم
 msgid "A Shift Location, or a single employee. Leave both empty to apply it site-wide."
 msgstr "موقع مناوبة، أو موظف واحد. اترك الحقلين فارغين لتطبيقه على الموقع بأكمله."
 
-#: onedesk/one_book/ready.py:172
+#: onedesk/one_book/ready.py:175
 msgid "A UAE tax invoice must show the supplier's TRN."
 msgstr "يجب أن تُظهر الفاتورة الضريبية في الإمارات الرقم الضريبي للمورد."
 
-#: onedesk/one_book/ready.py:108 onedesk/one_book/ready.py:109
+#: onedesk/one_book/ready.py:111 onedesk/one_book/ready.py:112
 msgid "A bank account is set up"
 msgstr "تم إعداد حساب بنكي"
 
@@ -112,7 +112,7 @@ msgstr "حزمة رصيد بلا رصيد فيها لا تبيع شيئاً."
 msgid "A custom domain on a workspace. Created when the workspace requests one."
 msgstr "نطاق مخصّص على مساحة عمل. يُنشأ حين تطلبه مساحة العمل."
 
-#: onedesk/one_book/ready.py:154
+#: onedesk/one_book/ready.py:157
 msgid "A customer is mailed the invoice a week after it falls due."
 msgstr "تُرسل الفاتورة إلى العميل بعد أسبوع من استحقاقها."
 
@@ -151,7 +151,7 @@ msgstr "المنحة تضيف وقد تنتهي. أما الإنفاق والا�
 msgid "A grant is not drawn from anything."
 msgstr "المنحة لا تُسحب من شيء."
 
-#: onedesk/one_book/ready.py:152
+#: onedesk/one_book/ready.py:155
 msgid "A late customer is reminded"
 msgstr "يُذكَّر العميل المتأخر"
 
@@ -240,7 +240,7 @@ msgstr "تسجيل من صفحة التسجيل العامة."
 msgid "A slug is letters, digits and hyphens: {0}"
 msgstr "المعرّف حروف وأرقام وشرطات: {0}"
 
-#: onedesk/one_book/ready.py:145 onedesk/one_book/ready.py:146
+#: onedesk/one_book/ready.py:148 onedesk/one_book/ready.py:149
 msgid "A supplier's bill cannot be entered twice"
 msgstr "لا يمكن إدخال فاتورة المورد مرتين"
 
@@ -1186,7 +1186,7 @@ msgstr "قواعد المعاملات البنكية"
 msgid "Bank Transactions"
 msgstr "المعاملات البنكية"
 
-#: onedesk/one_book/ready.py:128 onedesk/one_book/ready.py:130
+#: onedesk/one_book/ready.py:131 onedesk/one_book/ready.py:133
 msgid "Bank payments know which account"
 msgstr "المدفوعات البنكية تعرف أي حساب"
 
@@ -1274,7 +1274,7 @@ msgstr "الفوترة والتخزين"
 msgid "Bills"
 msgstr "الفواتير الواردة"
 
-#: onedesk/one_book/ready.py:69
+#: onedesk/one_book/ready.py:71
 msgid "Bills carry tax"
 msgstr "فواتير الموردين تحمل الضريبة"
 
@@ -1330,6 +1330,14 @@ msgstr "حجز إجازة"
 #: onedesk/one_book/workspace/onebook/onebook.json
 msgid "Books Check"
 msgstr "فحص الدفاتر"
+
+#: onedesk/one_book/report/vat_return/vat_return.js:42
+msgid "Books locked."
+msgstr "تم قفل الدفاتر."
+
+#: onedesk/one_book/report/vat_return/vat_return.js:42
+msgid "Books unlocked."
+msgstr "تم فتح الدفاتر."
 
 #. Option for the 'Network and Location' (Select) field in DocType 'HR
 #. Settings'
@@ -2768,7 +2776,7 @@ msgstr "ينتهي في"
 msgid "Ends the Shift"
 msgstr "ينهي المناوبة"
 
-#: onedesk/one_book/ready.py:211
+#: onedesk/one_book/ready.py:227
 msgid "Enter the TRN."
 msgstr "أدخل الرقم الضريبي."
 
@@ -2823,6 +2831,10 @@ msgstr "تُقيَّم كل عملية تسجيل حضور من 100 وتُحفظ
 #: onedesk/one_hr/hiring.py:618
 msgid "Every part is already transcribed."
 msgstr "جميع الأجزاء مفرّغة بالفعل."
+
+#: onedesk/one_book/ready.py:190
+msgid "Every year that has ended is closed"
+msgstr "كل سنة انتهت مُقفلة"
 
 #. Description of the Onboarding Step 'Invite your team'
 #: onedesk/one/onboarding_step/one_invite_your_team/one_invite_your_team.json
@@ -3766,11 +3778,11 @@ msgstr "فوترة الوقت"
 msgid "Invoices"
 msgstr ""
 
-#: onedesk/one_book/ready.py:68
+#: onedesk/one_book/ready.py:70
 msgid "Invoices carry tax"
 msgstr "الفواتير تحمل الضريبة"
 
-#: onedesk/one_book/ready.py:170
+#: onedesk/one_book/ready.py:173
 msgid "Invoices carry the company's TRN"
 msgstr "الفواتير تحمل الرقم الضريبي للشركة"
 
@@ -4312,6 +4324,19 @@ msgstr "المواقع"
 msgid "Locations employees may check in from, each with a radius."
 msgstr "المواقع التي يجوز للموظفين تسجيل الحضور منها، ولكل منها نطاق."
 
+#: onedesk/one_book/report/vat_return/vat_return.js:57
+msgid "Lock"
+msgstr "قفل"
+
+#: onedesk/one_book/report/vat_return/vat_return.js:14
+#: onedesk/one_book/report/vat_return/vat_return.js:46
+msgid "Lock Books"
+msgstr "قفل الدفاتر"
+
+#: onedesk/one_book/report/vat_return/vat_return.js:32
+msgid "Locked to {0}"
+msgstr "مقفلة حتى {0}"
+
 #. Label of a Sidebar Item
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 msgid "Log"
@@ -4692,7 +4717,7 @@ msgstr "أسماء ومهن الوالدين والزوج والأبناء."
 msgid "Name of the offsite backup Frappe Cloud held when the site was archived."
 msgstr "اسم النسخة الاحتياطية الخارجية لدى Frappe Cloud عند أرشفة الموقع."
 
-#: onedesk/one_book/ready.py:263
+#: onedesk/one_book/ready.py:285
 msgid "Name the bank and the account."
 msgstr "اذكر اسم البنك والحساب."
 
@@ -4833,7 +4858,7 @@ msgstr "موعد الخطوة التالية"
 msgid "Next on {0}"
 msgstr "التالي في {0}"
 
-#: onedesk/one_book/ready.py:87
+#: onedesk/one_book/ready.py:90
 msgid "Next year's is made three days before this one ends."
 msgstr "تُنشأ السنة التالية قبل ثلاثة أيام من نهاية هذه السنة."
 
@@ -4879,7 +4904,7 @@ msgstr "لا توجد حزمة رصيد معروضة حالياً."
 msgid "No credits. Buy some to use the AI."
 msgstr "لا رصيد. اشترِ بعضه لاستخدام الذكاء الاصطناعي."
 
-#: onedesk/one_book/ready.py:86
+#: onedesk/one_book/ready.py:89
 msgid "No fiscal year covers today, so nothing dated today can be saved."
 msgstr "لا توجد سنة مالية تشمل اليوم، لذا لا يمكن حفظ أي شيء بتاريخ اليوم."
 
@@ -4929,17 +4954,21 @@ msgstr "لا يوجد صوت. تحقّق من الميكروفون."
 msgid "No such check-in attempt."
 msgstr "لا توجد محاولة تسجيل بهذا المعرّف."
 
-#: onedesk/one_book/ready.py:136
+#: onedesk/one_book/ready.py:139
 msgid "No tax templates, so nothing is charged. Add one if you are registered for VAT."
 msgstr "لا توجد قوالب ضريبية، لذا لا تُحتسب أي ضريبة. أضف قالبًا إذا كنت مسجلًا في ضريبة القيمة المضافة."
 
-#: onedesk/one_book/ready.py:140
+#: onedesk/one_book/ready.py:143
 msgid "No template is the default, so nothing is charged unless somebody picks one."
 msgstr "لا يوجد قالب افتراضي، لذا لا تُحتسب ضريبة ما لم يختر أحد قالبًا."
 
 #: onedesk/public/js/offering.js:32
 msgid "No workspace has bought this yet."
 msgstr "لم تشترِ أي مساحة عمل هذا بعد."
+
+#: onedesk/one_book/ready.py:197
+msgid "No year has ended with entries left open."
+msgstr "لم تنتهِ أي سنة بقيود مفتوحة."
 
 #: onedesk/one_admin/storage.py:181
 msgid "No {0} bucket is configured."
@@ -4953,7 +4982,7 @@ msgstr "لم يتقدم أحد"
 msgid "Nobody can approve a shift request for {0}. Set a Shift Request Approver on their Employee record first."
 msgstr "لا أحد يستطيع اعتماد طلب مناوبة لـ {0}. عيّن معتمد طلبات المناوبة في سجل الموظف أولاً."
 
-#: onedesk/one_book/ready.py:155
+#: onedesk/one_book/ready.py:158
 msgid "Nobody is reminded of an unpaid invoice. The fix mails the customer a week after it falls due."
 msgstr "لا أحد يُذكَّر بفاتورة غير مدفوعة. الإصلاح يراسل العميل بعد أسبوع من الاستحقاق."
 
@@ -5080,6 +5109,10 @@ msgstr "لم يُسأل شيء بعد. اسأل عمّا على الشاشة أ�
 msgid "Nothing changes for the workspace during this period."
 msgstr "لا يتغير شيء لمساحة العمل خلال هذه الفترة."
 
+#: onedesk/one_book/report/vat_return/vat_return.js:54
+msgid "Nothing dated on or before this day can then be entered, changed or cancelled, by anybody."
+msgstr "بعدها لا يمكن لأحد إدخال أو تعديل أو إلغاء أي شيء بتاريخ هذا اليوم أو قبله."
+
 #: onedesk/public/js/ai_proposal.js:49
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr "لم يحدث شيء بعد. ويُفحص مقابل صلاحياتك أنت عند تطبيقه."
@@ -5100,7 +5133,7 @@ msgstr "لا يُخصم رصيد ولا يُسجَّل حضور."
 msgid "Nothing on these days."
 msgstr "لا شيء في هذه الأيام."
 
-#: onedesk/one_book/ready.py:227
+#: onedesk/one_book/ready.py:249
 msgid "Nothing to fix for {0}."
 msgstr "لا يوجد ما يُصلح في {0}."
 
@@ -5895,7 +5928,7 @@ msgstr "تم تسجيل الدفعة {0}."
 msgid "Payments"
 msgstr ""
 
-#: onedesk/one_book/ready.py:108
+#: onedesk/one_book/ready.py:111
 msgid "Payments by transfer, cheque or card have somewhere to go."
 msgstr "للمدفوعات بالتحويل أو الشيك أو البطاقة حساب تذهب إليه."
 
@@ -6510,7 +6543,7 @@ msgstr "الأسباب المعروضة على الموظفين عند تسجي�
 msgid "Receipts"
 msgstr "الاستلامات"
 
-#: onedesk/one_book/ready.py:94
+#: onedesk/one_book/ready.py:97
 msgid "Receivable, payable, income, cost center and round-off."
 msgstr "المدينون والدائنون والإيرادات ومركز التكلفة والتقريب."
 
@@ -6963,7 +6996,7 @@ msgstr ""
 msgid "Sales Tax Templates"
 msgstr "قوالب ضريبة المبيعات"
 
-#: onedesk/one_book/ready.py:178
+#: onedesk/one_book/ready.py:181
 msgid "Sales are reported under the company's emirate."
 msgstr "تُسجّل المبيعات تحت إمارة الشركة."
 
@@ -7152,7 +7185,7 @@ msgstr "تُضبط بزرّي الموافقة والرفض، فتتوافق د�
 msgid "Set by billing events and by the actions in the toolbar."
 msgstr "تُضبط من أحداث الفوترة ومن الإجراءات في شريط الأدوات."
 
-#: onedesk/one_book/ready.py:93
+#: onedesk/one_book/ready.py:96
 msgid "Set on the company: {0}."
 msgstr "حدّدها في الشركة: {0}."
 
@@ -8000,7 +8033,7 @@ msgstr "دفعة Stripe أو التشغيل أو الشخص الذي تسبب ف
 msgid "The Stripe price charged at checkout. Must match the amount above."
 msgstr "سعر Stripe الذي يُخصم عند الدفع. يجب أن يطابق المبلغ أعلاه."
 
-#: onedesk/one_book/ready.py:165
+#: onedesk/one_book/ready.py:168
 msgid "The VAT return knows the VAT accounts"
 msgstr "إقرار ضريبة القيمة المضافة يعرف حساباتها"
 
@@ -8037,6 +8070,14 @@ msgstr "العنوان الممنوح لمساحة العمل هذه. لا يم�
 msgid "The authenticator's own counter. A value lower than the one stored means the passkey has been cloned."
 msgstr "العدّاد الخاص بأداة المصادقة. القيمة الأقل من المخزَّنة تعني أن مفتاح المرور قد استُنسخ."
 
+#: onedesk/one_book/ready.py:196
+msgid "The books are locked up to {0}."
+msgstr "الدفاتر مقفلة حتى {0}."
+
+#: onedesk/one_book/closing.py:44
+msgid "The books can only be locked up to today."
+msgstr "لا يمكن قفل الدفاتر إلا حتى اليوم."
+
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:37
 msgid "The browser would not say where it is."
 msgstr "لم يفصح المتصفح عن موقعه."
@@ -8049,7 +8090,11 @@ msgstr "يُجرى النداء فعلاً ويُحتسب فعلاً."
 msgid "The chart of accounts has no Tax account with VAT in its name."
 msgstr "لا يحتوي دليل الحسابات على حساب ضريبة يتضمن اسمه VAT."
 
-#: onedesk/one_book/ready.py:301
+#: onedesk/one_book/closing.py:60
+msgid "The chart of accounts has no equity account to close the year into."
+msgstr "لا يحتوي دليل الحسابات على حساب حقوق ملكية لإقفال السنة فيه."
+
+#: onedesk/one_book/ready.py:323
 msgid "The chart of accounts has no group for bank accounts. Add one under Current Assets with the type Bank."
 msgstr "لا يحتوي دليل الحسابات على مجموعة للحسابات البنكية. أضف واحدة تحت الأصول المتداولة بنوع بنك."
 
@@ -8061,27 +8106,27 @@ msgstr "تعذّر تسجيل الحضور."
 msgid "The cheque or transfer number. The invoice's number when left empty."
 msgstr "رقم الشيك أو التحويل. يُستخدم رقم الفاتورة إذا تُرك فارغًا."
 
-#: onedesk/one_book/ready.py:174
+#: onedesk/one_book/ready.py:177
 msgid "The company has no TRN, and a UAE tax invoice must show it."
 msgstr "ليس للشركة رقم ضريبي، والفاتورة الضريبية في الإمارات يجب أن تُظهره."
 
-#: onedesk/one_book/ready.py:180
+#: onedesk/one_book/ready.py:183
 msgid "The company has no address with an emirate, so the return cannot say where sales were made."
 msgstr "ليس للشركة عنوان بإمارة، لذا لا يستطيع الإقرار تحديد مكان المبيعات."
 
-#: onedesk/one_book/ready.py:129
+#: onedesk/one_book/ready.py:132
 msgid "The company has no default bank account."
 msgstr "ليس للشركة حساب بنكي افتراضي."
 
-#: onedesk/one_book/ready.py:93 onedesk/one_book/ready.py:94
+#: onedesk/one_book/ready.py:96 onedesk/one_book/ready.py:97
 msgid "The company's default accounts are set"
 msgstr "الحسابات الافتراضية للشركة محددة"
 
-#: onedesk/one_book/ready.py:128
+#: onedesk/one_book/ready.py:131
 msgid "The company's default bank and every bank mode of payment point at a bank account."
 msgstr "البنك الافتراضي للشركة وكل طريقة دفع بنكية تشير إلى حساب بنكي."
 
-#: onedesk/one_book/ready.py:175
+#: onedesk/one_book/ready.py:178
 msgid "The company's emirate is known"
 msgstr "إمارة الشركة معروفة"
 
@@ -8231,11 +8276,11 @@ msgstr "تغيّر السجل بعد تقديم هذا الاقتراح."
 msgid "The request is closed and nobody is assigned anything."
 msgstr "يُغلق الطلب ولا يُكلَّف أحد بشيء."
 
-#: onedesk/one_book/ready.py:146
+#: onedesk/one_book/ready.py:149
 msgid "The same supplier invoice number can be entered twice and paid twice."
 msgstr "يمكن إدخال رقم فاتورة المورد نفسه مرتين ودفعه مرتين."
 
-#: onedesk/one_book/ready.py:145
+#: onedesk/one_book/ready.py:148
 msgid "The same supplier invoice number is refused a second time."
 msgstr "يُرفض رقم فاتورة المورد نفسه في المرة الثانية."
 
@@ -8308,7 +8353,7 @@ msgstr ""
 msgid "There is already a template called {0}."
 msgstr "يوجد قالب باسم {0} بالفعل."
 
-#: onedesk/one_book/ready.py:109
+#: onedesk/one_book/ready.py:112
 msgid "There is no company bank account, so a payment by transfer does not know where the money went."
 msgstr "لا يوجد حساب بنكي للشركة، لذا لا تعرف الدفعة بالتحويل أين ذهب المال."
 
@@ -8524,7 +8569,7 @@ msgstr "المسترد"
 msgid "Today"
 msgstr "اليوم"
 
-#: onedesk/one_book/ready.py:86 onedesk/one_book/ready.py:87
+#: onedesk/one_book/ready.py:89 onedesk/one_book/ready.py:90
 msgid "Today is in a fiscal year"
 msgstr "اليوم ضمن سنة مالية"
 
@@ -8721,11 +8766,11 @@ msgstr ""
 msgid "UAE VAT Settings"
 msgstr ""
 
-#: onedesk/one_book/ready.py:169
+#: onedesk/one_book/ready.py:172
 msgid "UAE VAT Settings are empty, so the return's reverse-charge boxes read nought."
 msgstr "إعدادات ضريبة القيمة المضافة فارغة، لذا تظهر خانات الاحتساب العكسي في الإقرار صفرًا."
 
-#: onedesk/one_book/ready.py:167
+#: onedesk/one_book/ready.py:170
 msgid "UAE VAT Settings name the accounts VAT is charged and paid to."
 msgstr "تحدد إعدادات ضريبة القيمة المضافة الحسابات التي تُحتسب عليها الضريبة وتُدفع إليها."
 
@@ -8752,6 +8797,10 @@ msgstr "وحدات القياس"
 #: onedesk/one_hr/presence.py:120
 msgid "Unknown"
 msgstr ""
+
+#: onedesk/one_book/report/vat_return/vat_return.js:59
+msgid "Unlock"
+msgstr "فتح القفل"
 
 #: onedesk/www/projects.html:86
 msgid "Unpaid"
@@ -8785,6 +8834,10 @@ msgstr "بلا عنوان"
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:245
 msgid "Untracked"
 msgstr "غير مُسجَّل"
+
+#: onedesk/one_book/report/vat_return/vat_return.js:51
+msgid "Up To"
+msgstr "حتى"
 
 #. Label of the one_ai_urgency (Select) field in DocType 'Employee Grievance'
 #: onedesk/one_hr/custom/employee_grievance.json
@@ -9345,7 +9398,7 @@ msgstr "نسبة الفوز (90 يوماً)"
 msgid "Withdrawn"
 msgstr "مسحوب"
 
-#: onedesk/one_book/ready.py:129
+#: onedesk/one_book/ready.py:132
 msgid "Without an account: {0}."
 msgstr "بلا حساب: {0}."
 
@@ -9584,6 +9637,10 @@ msgstr "كتبه {0}. اضغط لإعادة كتابته."
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:45
 msgid "Year"
 msgstr ""
+
+#: onedesk/one_book/closing.py:106
+msgid "Year-end close of {0}"
+msgstr "إقفال نهاية السنة {0}"
 
 #: onedesk/one_ai/chat.py:564
 msgid "Yes"
@@ -10062,6 +10119,10 @@ msgstr "{0} عن {1}: {2} من {3} يوماً مدفوعة."
 msgid "{0} has changed since this was suggested, so it no longer applies."
 msgstr "تغيّر {0} منذ اقتراح هذا، فلم يعد ينطبق."
 
+#: onedesk/one_book/ready.py:193
+msgid "{0} has ended and its profit is not yet moved to Retained Earnings."
+msgstr "انتهت {0} ولم يُنقل ربحها بعد إلى الأرباح المحتجزة."
+
 #: onedesk/one_admin/stripe.py:61 onedesk/one_admin/stripe.py:164
 msgid "{0} has no Stripe price."
 msgstr "لا يوجد سعر Stripe لـ {0}."
@@ -10106,7 +10167,7 @@ msgstr "أصبح {0} مشروعًا فرعيًا من {1}."
 msgid "{0} is a template."
 msgstr "أصبح {0} قالبًا."
 
-#: onedesk/one_book/ready.py:139
+#: onedesk/one_book/ready.py:142
 msgid "{0} is added unless somebody picks another."
 msgstr "يُضاف {0} ما لم يختر أحد غيره."
 
