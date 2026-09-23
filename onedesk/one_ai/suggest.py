@@ -55,3 +55,21 @@ def for_page(page: dict | None) -> list[dict]:
 			continue
 		said.append({"label": frappe._(one["label"]), "ask": one["ask"], "file": bool(one.get("file"))})
 	return said[:MOST]
+
+
+def expected(text: str | None) -> str | None:
+	"""The tool a suggestion's question exists to call, if it was one.
+
+	A suggestion names it as `expects`; the run asks for that call once if the
+	answer came without it. Matched on the words sent, since that is what the
+	panel sends — a question typed by hand expects nothing.
+	"""
+	said = (text or "").strip()
+	if not said:
+		return None
+	for path in frappe.get_hooks("one_ai_suggestions") or []:
+		for offered in frappe.get_attr(path).values():
+			for one in offered:
+				if one.get("expects") and one.get("ask", "").strip() == said:
+					return one["expects"]
+	return None

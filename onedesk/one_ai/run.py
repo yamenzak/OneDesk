@@ -30,6 +30,7 @@ def ask(
 	reference: str | None = None,
 	turns: list[dict] | None = None,
 	heard=None,
+	expects: str | None = None,
 ) -> dict:
 	"""Run one action, looking things up for the model where it asks.
 
@@ -56,7 +57,7 @@ def ask(
 	turns = list(turns) if turns else None
 	spent, rounds, cards = 0.0, 0, []
 	asked: dict[str, dict] = {}
-	nudged = reminded = False
+	nudged = reminded = pressed = False
 	called: set[str] = set()
 
 	tell = heard or (lambda step: None)
@@ -79,6 +80,14 @@ def ask(
 			# small model makes and does not keep. Asked for the call, it makes it.
 			reminded = True
 			turns = [*out["turns"], {"role": "user", "text": KEEP_IT.format(text), "calls": [], "context": True}]
+			rounds += 1
+			continue
+		if out.get("done") and expects and expects not in called and not pressed and rounds < ROUNDS:
+			# A suggestion that exists to make a card — "Draft my feedback" —
+			# answered with the draft in the chat and no card. Asked for the
+			# call it was for, with what it just wrote.
+			pressed = True
+			turns = [*out["turns"], {"role": "user", "text": CALL_IT.format(expects), "calls": [], "context": True}]
 			rounds += 1
 			continue
 		if out.get("done") and _silent(out, cards) and not nudged and rounds < ROUNDS:
@@ -160,6 +169,10 @@ def _card(answer: dict) -> str | None:
 
 #: Said to a model that looked things up and then said nothing.
 NUDGE = "Now answer the question in one or two sentences from what the tools returned."
+
+
+#: Said to a model that answered a suggestion without making its card.
+CALL_IT = "Now call {0} with what you just wrote. Do not answer in the chat."
 
 
 #: Said to a model that was asked to remember something and did not.

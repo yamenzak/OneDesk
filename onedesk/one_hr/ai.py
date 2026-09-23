@@ -25,7 +25,9 @@ from onedesk.one_hr import own
 
 #: What the panel offers, by doctype, when it opens on one. `file` means the
 #: chip asks for a file first and then says `ask` with it. `can` is the verb the
-#: reader must hold on the doctype for the chip to be offered at all.
+#: reader must hold on the doctype for the chip to be offered at all. `view`
+#: keeps it to the list or the form, and `expects` names the tool the question
+#: exists to call — asked for once more if the answer came without it.
 SUGGESTIONS = {
 	"Expense Claim": [
 		{
@@ -33,6 +35,7 @@ SUGGESTIONS = {
 			"ask": "Make an expense claim from this receipt.",
 			"file": True,
 			"can": "create",
+			"expects": "claim_expense",
 		},
 	],
 	"Leave Application": [
@@ -51,6 +54,7 @@ SUGGESTIONS = {
 			"doctype": "Job Applicant",
 			"can": "create",
 			"view": "Form",
+			"expects": "add_applicant",
 		},
 		{
 			"label": "Add applicants from CVs",
@@ -67,6 +71,17 @@ SUGGESTIONS = {
 			"ask": "Add an applicant from each of these CVs, to the open job each one fits best.",
 			"file": True,
 			"can": "create",
+		},
+	],
+	"Appraisal": [
+		{
+			"label": "Draft my feedback",
+			"ask": "Draft my feedback on this appraisal from what happened in the cycle, "
+			"and suggest it as my feedback.",
+			"doctype": "Employee Performance Feedback",
+			"can": "create",
+			"view": "Form",
+			"expects": "draft_feedback",
 		},
 	],
 	# OneHR's home is where an employee starts their day, so the three things
@@ -208,6 +223,124 @@ def add_applicant(
 		files=[cv] if cv else [],
 	)
 	return {"proposal": name, "state": "Proposed"}
+
+
+# ------------------------------------------------------------- appraisal
+
+
+def appraisal_facts(
+	appraisal: Annotated[str, "The appraisal's id."],
+) -> dict:
+	"""What happened in one appraisal's cycle, for writing feedback on it: the
+	employee's goals and how far they got, the KRAs they are appraised on,
+	their own reflection, feedback already given, and their attendance and
+	leave in the period. Read it before drafting feedback, then give the
+	draft to draft_feedback rather than writing it in the answer."""
+	doc = frappe.get_doc("Appraisal", appraisal)
+	doc.check_permission("read")
+	start, end = doc.start_date, doc.end_date
+	employee = doc.employee
+
+	goals = frappe.get_list(
+		"Goal",
+		filters={"employee": employee, "is_group": 0},
+		or_filters=[["appraisal_cycle", "=", doc.appraisal_cycle], ["end_date", ">=", start], ["end_date", "is", "not set"]],
+		fields=["goal_name", "kra", "progress", "status"],
+		limit_page_length=30,
+	)
+	given = frappe.get_list(
+		"Employee Performance Feedback",
+		filters={"appraisal": appraisal, "docstatus": ["<", 2]},
+		fields=["reviewer_name", "feedback", "total_score"],
+		limit_page_length=10,
+	)
+	attendance = frappe.get_list(
+		"Attendance",
+		filters={"employee": employee, "attendance_date": ["between", [start, end]], "docstatus": 1},
+		fields=["status", {"COUNT": "*", "as": "days"}],
+		group_by="status",
+	)
+	late = frappe.get_list(
+		"Attendance",
+		filters={"employee": employee, "attendance_date": ["between", [start, end]], "docstatus": 1, "late_entry": 1},
+		fields=[{"COUNT": "*", "as": "days"}],
+	)
+	leave = frappe.get_list(
+		"Leave Application",
+		filters={"employee": employee, "status": "Approved", "from_date": ["<=", end], "to_date": [">=", start]},
+		fields=["leave_type", {"SUM": "total_leave_days", "as": "days"}],
+		group_by="leave_type",
+	)
+	return {
+		"employee": doc.employee_name,
+		"designation": doc.designation,
+		"cycle": doc.appraisal_cycle,
+		"period": {"from": str(start), "to": str(end)},
+		"kras": [{"kra": k.kra, "weight": k.per_weightage} for k in doc.appraisal_kra],
+		"goals": [
+			{"goal": g.goal_name, "kra": g.kra, "progress": f"{g.progress or 0:g}%", "status": g.status}
+			for g in goals
+		],
+		"their_reflection": _plain_text(doc.reflections),
+		"feedback_given": [
+			{"by": f.reviewer_name, "said": _plain_text(f.feedback)} for f in given if f.feedback
+		],
+		"attendance": {a.status: a.days for a in attendance},
+		"late_arrivals": (late[0].days if late else 0) or 0,
+		"leave_taken": {one.leave_type: one.days for one in leave},
+		# Said with the facts, because a small model handed them asked the
+		# reviewer for the goals and the reflection it had just been given.
+		"next": "Write the feedback from these facts alone; leave out whatever is empty here. "
+		"Then call draft_feedback with it. Do not ask for anything above.",
+	}
+
+
+def draft_feedback(
+	appraisal: Annotated[str, "The appraisal's id."],
+	feedback: Annotated[
+		str,
+		"The feedback, as the reviewer would write it to the employee: what went well and what "
+		"to work on, each tied to something that happened. A few short paragraphs. No scores.",
+	],
+) -> dict:
+	"""Suggest the reader's own feedback on an appraisal, from what
+	appraisal_facts found. It is a draft for them to edit and rate; nothing is
+	saved until they approve the card, and the ratings stay theirs to give."""
+	doc = frappe.get_doc("Appraisal", appraisal)
+	doc.check_permission("read")
+	reviewer = own.employee_of()
+	if not reviewer:
+		return {"error": "The person asking has no employee record here, so there is no reviewer to write as."}
+	if reviewer == doc.employee:
+		return {"error": "This is the reader's own appraisal. Their words go in its reflections, not in feedback."}
+
+	text = "".join(f"<p>{frappe.utils.escape_html(one.strip())}</p>" for one in (feedback or "").split("\n") if one.strip())
+	mine = frappe.db.get_value(
+		"Employee Performance Feedback",
+		{"appraisal": appraisal, "reviewer": reviewer, "docstatus": 0},
+		"name",
+	)
+	if mine:
+		# Their draft already exists: the words go into it, the ratings they
+		# gave stay as they are.
+		name = proposals.propose("Edit", "Employee Performance Feedback", record=mine, changes={"feedback": text})
+	else:
+		name = proposals.propose(
+			"Create",
+			"Employee Performance Feedback",
+			changes={
+				"employee": doc.employee,
+				"reviewer": reviewer,
+				"appraisal": appraisal,
+				"appraisal_cycle": doc.appraisal_cycle,
+				"feedback": text,
+			},
+		)
+	return {"proposal": name, "state": "Proposed"}
+
+
+def _plain_text(html) -> str:
+	return " ".join(frappe.utils.strip_html_tags(str(html or "")).split())
 
 
 #: What HRMS's notes field holds.

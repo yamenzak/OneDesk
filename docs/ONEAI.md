@@ -1066,6 +1066,26 @@ model what the record says — its title, its main fields and the first of its
 long text — on every turn. And the fit line was cut mid-word at the notes
 field's 140 characters; it is asked for shorter and cut at a word.
 
+**The fourth is an appraisal.** On an Appraisal, *Draft my feedback*
+reads the cycle with `appraisal_facts` — the employee's goals and how far
+they got, the KRAs, their own reflection, the feedback already given, their
+attendance, late arrivals and leave in the period, every one read as the
+reviewer — and `draft_feedback` suggests the reviewer's Employee Performance
+Feedback with the words, or puts them into the draft the reviewer already
+has. HRMS's feedback is where a reviewer's words live, one per reviewer per
+appraisal; the ratings stay the reviewer's to give, and the model gives
+none. Somebody drafting on their own appraisal is told their words go in its
+reflections.
+
+Measured as a recruiter reviewing Omar: the facts read, the draft built from
+his goal at 55% and the feedback already given, and Approve making his
+Employee Performance Feedback. The small model twice wrote the draft into
+the chat and made no card, and once asked the reviewer for the goals it had
+just been handed. So a suggestion now names the tool its question exists to
+call — `expects` — and a run that ends without that call is asked once for
+it, as a question to remember is; the receipt and CV suggestions name
+theirs too. The facts carry their own next step.
+
 **What a model is told about a type, and what happens when it guesses.**
 On a list or a form the context turn carries the type's fields — fieldname,
 label, required — and who the reader is, with OneHR adding their employee

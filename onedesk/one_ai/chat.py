@@ -345,8 +345,15 @@ def _ran(doc, text: str, turns: list[dict], heard=None) -> dict:
 		)
 		frappe.flags.one_ai_files = [one["url"] for one in newest.get("files") or [] if one.get("url")]
 		frappe.flags.one_ai_chat = doc.name  # so searching past chats skips this one
+		from onedesk.one_ai import suggest
+
 		return run.ask(
-			CHAT, text, reference=doc.name, turns=carrying.carried(turns[-KEPT:]), heard=heard
+			CHAT,
+			text,
+			reference=doc.name,
+			turns=carrying.carried(turns[-KEPT:]),
+			heard=heard,
+			expects=suggest.expected(text),
 		)
 	except faults.Again:
 		frappe.throw(

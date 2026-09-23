@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 08:53+0000\n"
-"PO-Revision-Date: 2026-09-23 08:53+0000\n"
+"POT-Creation-Date: 2026-09-23 08:58+0000\n"
+"PO-Revision-Date: 2026-09-23 08:58+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "(from what was asked for)"
 msgstr "(aus dem Angefragten)"
 
-#: onedesk/one_hr/ai.py:472
+#: onedesk/one_hr/ai.py:603
 msgid "1 day of {0}."
 msgstr "1 Tag {0}."
 
-#: onedesk/one_hr/ai.py:476
+#: onedesk/one_hr/ai.py:607
 msgid "1 day of {0}; {1} left after."
 msgstr "1 Tag {0}; danach bleiben {1}."
 
@@ -2285,7 +2285,7 @@ msgstr "{0} Tage kostenlos"
 msgid "From Date"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:134
+#: onedesk/one_hr/ai.py:152
 msgid "From a receipt: {0}, {1}."
 msgstr "Aus einem Beleg: {0}, {1}."
 
@@ -5286,7 +5286,7 @@ msgstr "Hat eine Änderung vorgeschlagen"
 msgid "Suggested a change to {0}"
 msgstr "Hat eine Änderung an {0} vorgeschlagen"
 
-#: onedesk/one_ai/tools.py:520 onedesk/one_hr/ai.py:140
+#: onedesk/one_ai/tools.py:520 onedesk/one_hr/ai.py:158
 msgid "Suggested. It happens when somebody approves it."
 msgstr "Vorgeschlagen. Es geschieht, wenn jemand zustimmt."
 
@@ -6642,7 +6642,7 @@ msgstr "verspätet gekommen, früher gegangen"
 msgid "input"
 msgstr "Eingabe"
 
-#: onedesk/one_ai/suggest.py:52
+#: onedesk/one_ai/suggest.py:56
 msgid "label"
 msgstr ""
 
@@ -6816,11 +6816,11 @@ msgstr "Noch {0} Tage, bis er auf {1} fällt."
 msgid "{0} days left"
 msgstr "Noch {0} Tage"
 
-#: onedesk/one_hr/ai.py:474
+#: onedesk/one_hr/ai.py:605
 msgid "{0} days of {1}."
 msgstr "{0} Tage {1}."
 
-#: onedesk/one_hr/ai.py:478
+#: onedesk/one_hr/ai.py:609
 msgid "{0} days of {1}; {2} left after."
 msgstr "{0} Tage {1}; danach bleiben {2}."
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 08:53+0000\n"
-"PO-Revision-Date: 2026-09-23 08:53+0000\n"
+"POT-Creation-Date: 2026-09-23 08:58+0000\n"
+"PO-Revision-Date: 2026-09-23 08:58+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -20,11 +20,11 @@ msgstr ""
 msgid "(from what was asked for)"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:472
+#: onedesk/one_hr/ai.py:603
 msgid "1 day of {0}."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:476
+#: onedesk/one_hr/ai.py:607
 msgid "1 day of {0}; {1} left after."
 msgstr ""
 
@@ -2283,7 +2283,7 @@ msgstr ""
 msgid "From Date"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:134
+#: onedesk/one_hr/ai.py:152
 msgid "From a receipt: {0}, {1}."
 msgstr ""
 
@@ -5284,7 +5284,7 @@ msgstr ""
 msgid "Suggested a change to {0}"
 msgstr ""
 
-#: onedesk/one_ai/tools.py:520 onedesk/one_hr/ai.py:140
+#: onedesk/one_ai/tools.py:520 onedesk/one_hr/ai.py:158
 msgid "Suggested. It happens when somebody approves it."
 msgstr ""
 
@@ -6637,7 +6637,7 @@ msgstr ""
 msgid "input"
 msgstr ""
 
-#: onedesk/one_ai/suggest.py:52
+#: onedesk/one_ai/suggest.py:56
 msgid "label"
 msgstr ""
 
@@ -6804,11 +6804,11 @@ msgstr ""
 msgid "{0} days left"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:474
+#: onedesk/one_hr/ai.py:605
 msgid "{0} days of {1}."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:478
+#: onedesk/one_hr/ai.py:609
 msgid "{0} days of {1}; {2} left after."
 msgstr ""
 

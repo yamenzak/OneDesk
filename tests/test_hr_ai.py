@@ -189,3 +189,27 @@ def test_a_suggestion_for_one_record_is_not_offered_on_the_list():
 	assert 'one.get("view") and one["view"] != view' in (tree.APP / "one_ai" / "suggest.py").read_text()
 	openings = (tree.APP / "one_hr" / "ai.py").read_text().split('"Job Opening": [', 1)[1].split("\n\t],", 1)[0]
 	assert '"view": "Form"' in openings and '"view": "List"' in openings
+
+
+def test_appraisal_facts_are_read_as_the_reader():
+	said = _source(AI, "appraisal_facts")
+	assert "doc.check_permission('read')" in said
+	assert "frappe.get_all" not in said and "ignore_permissions" not in said
+
+
+def test_feedback_is_a_card_in_the_readers_own_name_and_never_a_rating():
+	said = _source(AI, "draft_feedback")
+	assert "own.employee_of()" in said
+	assert "reviewer == doc.employee" in said, "their own appraisal is reflections, not feedback"
+	assert "feedback_ratings" not in said and "total_score" not in said
+	assert "proposals.propose('Edit'" in said and "proposals.propose('Create'" in said
+
+
+def test_a_suggestion_that_exists_to_make_a_card_is_asked_for_it():
+	""""Draft my feedback" answered with the draft in the chat and no card."""
+	run = (tree.APP / "one_ai" / "run.py").read_text()
+	assert "expects not in called" in run and "CALL_IT.format(expects)" in run
+	assert "expects=suggest.expected(text)" in (tree.APP / "one_ai" / "chat.py").read_text()
+	hr = (tree.APP / "one_hr" / "ai.py").read_text()
+	for tool in ("claim_expense", "add_applicant", "draft_feedback"):
+		assert f'"expects": "{tool}"' in hr, tool
