@@ -128,9 +128,7 @@ onedesk.oneai.fields = function (frm) {
 		const writable = frappe.perm.get_field_display_status(df, frm.doc, frm.perm) === "Write";
 		const drawn = top.find(".one-ai-write");
 		if (writable && !drawn.length) {
-			$(`<button type="button" class="one-ai-write" title="${__("Write with {0}", [ONEAI])}">
-					${frappe.utils.icon("sparkles", "sm")}
-				</button>`)
+			$(`<button type="button" class="one-ai-write"><img src="${MARK}" alt="${ONEAI}"></button>`)
 				.appendTo(top)
 				.on("click", (event) => {
 					event.preventDefault();
@@ -153,23 +151,32 @@ onedesk.oneai.fields = function (frm) {
 	}
 };
 
-// The badge shows while the field still says what was written, and not after.
+// One mark per field, and it is both things: the button that writes with
+// OneAI, grey, and — in full colour — the sign that what the field says now is
+// what OneAI wrote. An edit makes them differ and it goes grey again. A field
+// the reader cannot write still shows the colour, as a mark with nothing to
+// press.
 onedesk.oneai.badge = function (frm, fieldname) {
 	const field = frm.fields_dict[fieldname];
 	if (!field || !field.$wrapper) return;
 	const top = field.$wrapper.find(".clearfix").first();
 	const written = ((frm.doc.__onload || {}).ai_touched || {})[fieldname];
 	const still = written !== undefined && words(frm.doc[fieldname]) === words(written);
-	const drawn = top.find(".one-ai-touched");
-	if (still && !drawn.length) {
-		// The mark alone: which field it wrote is the whole message, and a
-		// word beside every such label is a form shouting about its tooling.
-		const badge = $(`<img class="one-ai-touched" src="${MARK}" alt="${ONEAI}"
-				title="${__("Written by {0}. Goes once somebody edits it.", [ONEAI])}">`);
-		const button = top.find(".one-ai-write").first();
-		button.length ? badge.insertBefore(button) : badge.appendTo(top);
-	} else if (!still) {
-		drawn.remove();
+
+	const button = top.find(".one-ai-write");
+	button
+		.toggleClass("one-ai-write--wrote", still)
+		.attr(
+			"title",
+			still ? __("Written by {0}. Press to write it again.", [ONEAI]) : __("Write with {0}", [ONEAI]),
+		);
+
+	const mark = top.find(".one-ai-touched");
+	if (still && !button.length && !mark.length) {
+		$(`<img class="one-ai-touched" src="${MARK}" alt="${ONEAI}"
+				title="${__("Written by {0}. Goes once somebody edits it.", [ONEAI])}">`).appendTo(top);
+	} else if (!still || button.length) {
+		mark.remove();
 	}
 };
 

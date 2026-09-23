@@ -856,24 +856,35 @@ button.one-ai-model:hover {
 	border-radius: 6px;
 	background: transparent;
 	vertical-align: middle;
-	color: var(--text-muted);
 	cursor: pointer;
-	transition: color 0.15s ease, background 0.15s ease;
+	transition: background 0.15s ease;
 }
 
-.one-ai-write .icon {
-	stroke: currentColor;
-}
-
-.one-ai-write:hover,
-.one-ai-write:focus-visible {
-	background: var(--surface-gray-2);
-	color: var(--text-color);
-}
-
+/* Grey until OneAI wrote what the field says; its own colours while it does. */
+.one-ai-write img,
 .one-ai-touched {
 	width: 14px;
 	height: 14px;
+}
+
+.one-ai-write img {
+	filter: grayscale(1);
+	opacity: 0.55;
+	transition: filter 0.15s ease, opacity 0.15s ease;
+}
+
+.one-ai-write:hover img,
+.one-ai-write:focus-visible img,
+.one-ai-write--wrote img {
+	filter: none;
+	opacity: 1;
+}
+
+.one-ai-write:hover {
+	background: var(--surface-gray-2);
+}
+
+.one-ai-touched {
 	margin-left: 5px;
 	vertical-align: middle;
 }

@@ -845,8 +845,8 @@ screen, where hiding frappe's Framework tile from everybody is the point.
 
 **AI 8b — the field tools and the badge.** *Done.*
 
-A sparkle beside every Small Text, Text, Long Text, Text Editor and Markdown
-Editor field a person may write opens the same panel, pointed at that field —
+The OneAI mark beside every Small Text, Text, Long Text, Text Editor and
+Markdown Editor field a person may write opens the same panel, pointed at that field —
 not a second UI. A chip under the conversation says which field, and three asks
 cover most of what anybody wants from a paragraph: improve it, make it shorter,
 fix the spelling. An empty field has one: write a first draft.
@@ -870,7 +870,10 @@ typed or be refused as stale. This is also what makes a field on a document that
 is not saved yet work: it has no name to edit, so the proposal carries none, and
 `proposals.apply` refuses one on the server.
 
-**The badge is a comparison, not a flag.** `AI Touch` holds what was written,
+**The badge is the same mark, in colour.** Grey, it is the button; in its own
+colours, it says what the field holds now is what OneAI wrote — one icon per
+field rather than a button and a label beside it. **It is a comparison, not a
+flag.** `AI Touch` holds what was written,
 one row per document and field. `doc_events["*"]["onload"]` hands the form the
 fields that still say it, so the badge costs no request of its own; it shows
 while they match and goes the moment somebody edits the field, with no hook on

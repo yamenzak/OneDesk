@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-22 23:04+0000\n"
-"PO-Revision-Date: 2026-09-22 23:04+0000\n"
+"POT-Creation-Date: 2026-09-23 05:24+0000\n"
+"PO-Revision-Date: 2026-09-23 05:24+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -6302,7 +6302,7 @@ msgstr ""
 msgid "Write attendance on the holidays inside these dates as well. Left off, holidays in the range are skipped."
 msgstr ""
 
-#: onedesk/public/js/oneai.js:131
+#: onedesk/public/js/oneai.js:171
 msgid "Write with {0}"
 msgstr ""
 
@@ -6319,8 +6319,12 @@ msgstr ""
 msgid "Written by the sync. Editable only on a model priced by hand."
 msgstr ""
 
-#: onedesk/public/js/oneai.js:165
+#: onedesk/public/js/oneai.js:177
 msgid "Written by {0}. Goes once somebody edits it."
+msgstr ""
+
+#: onedesk/public/js/oneai.js:171
+msgid "Written by {0}. Press to write it again."
 msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:45
