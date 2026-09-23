@@ -30,6 +30,7 @@ after_install = [
 	"onedesk.one_ai.instructions.ready",
 	"onedesk.one_admin.actions.voice",
 	"onedesk.one_crm.stages.settle",
+	"onedesk.one_crm.board.sync",
 ]
 
 # Their dock files do not carry the mount, so a newer erpnext or hrms clears it,
@@ -51,6 +52,7 @@ after_migrate = [
 	"onedesk.one_ai.instructions.ready",
 	"onedesk.one_admin.actions.voice",
 	"onedesk.one_crm.stages.settle",
+	"onedesk.one_crm.board.sync",
 ]
 extend_bootinfo = "onedesk.one.boot.boot_session"
 
@@ -145,7 +147,17 @@ doc_events = {
 	},
 	# A stage has an outcome, and the status follows it; ERPNext's own verbs
 	# move the stage back. See one_crm/stages.py.
-	"Opportunity": {"before_validate": "onedesk.one_crm.stages.before_validate"},
+	# A deal's value is worked out on the server too. See one_crm/deal.py.
+	"Opportunity": {
+		"before_validate": "onedesk.one_crm.stages.before_validate",
+		"validate": "onedesk.one_crm.deal.validate",
+	},
+	# The board has a column per stage. See one_crm/board.py.
+	"Sales Stage": {
+		"on_update": "onedesk.one_crm.board.sync",
+		"after_rename": "onedesk.one_crm.board.sync",
+		"after_delete": "onedesk.one_crm.board.sync",
+	},
 	"Quotation": {
 		"on_submit": "onedesk.one_crm.stages.follow",
 		"on_cancel": "onedesk.one_crm.stages.follow",
@@ -214,6 +226,9 @@ fixtures = [
 	# What a model may be asked to do, and the instruction it is asked with.
 	# A fixture so a new one arrives with a migrate and an edit survives the next.
 	"AI Action",
+	# An Opportunity is called a Deal, in every language One ships. Translation
+	# rows rather than a catalogue, so a workspace can change the word back.
+	{"dt": "Translation", "filters": [["name", "like", "one-deal-%"]]},
 	# The tracker that dates every move of an opportunity's stage.
 	{"dt": "Milestone Tracker", "filters": [["name", "=", "Opportunity-sales_stage"]]},
 ]
@@ -278,6 +293,7 @@ doctype_list_js = {
 	"AI Proposal": "public/js/ai_proposal_list.js",
 	"Attendance": "public/js/attendance_list.js",
 	"Employee Checkin": "public/js/checkin_list.js",
+	"Opportunity": "public/js/opportunity_list.js",
 }
 
 override_doctype_dashboards = {"Attendance": ["onedesk.one_hr.attendance.dashboard"]}

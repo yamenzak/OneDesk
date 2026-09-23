@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 13:25+0000\n"
-"PO-Revision-Date: 2026-09-23 13:25+0000\n"
+"POT-Creation-Date: 2026-09-23 13:45+0000\n"
+"PO-Revision-Date: 2026-09-23 13:45+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -95,6 +95,12 @@ msgstr "Eine eigene Domain auf einem Arbeitsbereich. Wird angelegt, wenn der Arb
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "A customer workspace. Created from a paid Account Request."
 msgstr "Ein Kunden-Arbeitsbereich. Wird aus einer bezahlten Kontoanfrage angelegt."
+
+#. Description of the 'Probability (%)' (Percent) field in DocType 'Sales
+#. Stage'
+#: onedesk/one_crm/custom/sales_stage.json
+msgid "A deal moved to this stage takes this probability, unless one was typed."
+msgstr "Ein Deal, der in diese Phase verschoben wird, übernimmt diese Wahrscheinlichkeit, sofern keine eingegeben wurde."
 
 #. Description of the 'Expires On' (Date) field in DocType 'Employee Document'
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
@@ -586,12 +592,6 @@ msgstr "Für einen Mitarbeiter, der sich nie auscheckt, wird zum Schichtende ein
 #: onedesk/one_hr/hiring.py:529
 msgid "An interview is only recorded once the candidate has agreed."
 msgstr "Ein Gespräch wird nur aufgezeichnet, wenn die Kandidatin oder der Kandidat zugestimmt hat."
-
-#. Description of the 'Probability (%)' (Percent) field in DocType 'Sales
-#. Stage'
-#: onedesk/one_crm/custom/sales_stage.json
-msgid "An opportunity moved to this stage takes this probability, unless one was typed."
-msgstr "Eine Opportunity, die in diese Phase verschoben wird, übernimmt diese Wahrscheinlichkeit, sofern keine eingegeben wurde."
 
 #: onedesk/one_hr/ai_grievance.py:135
 msgid "An urgent grievance was raised"
@@ -5424,6 +5424,11 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Sales"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Sales Funnel"
 msgstr ""
 
@@ -7201,8 +7206,8 @@ msgstr "Gewonnen"
 
 #. Description of the 'Outcome' (Select) field in DocType 'Sales Stage'
 #: onedesk/one_crm/custom/sales_stage.json
-msgid "Won marks the opportunity Converted. Lost asks for the reasons first."
-msgstr "Gewonnen markiert die Opportunity als umgewandelt. Verloren fragt zuerst nach den Gründen."
+msgid "Won marks the deal Converted. Lost asks for the reasons first."
+msgstr "Gewonnen markiert den Deal als umgewandelt. Verloren fragt zuerst nach den Gründen."
 
 #. Option for the 'Marks the Day As' (Select) field in DocType 'Attendance
 #. Reason'
@@ -8009,6 +8014,10 @@ msgstr "{0} {1}?"
 #: onedesk/public/js/oneai/Record.vue:148
 msgid "{0} · waiting for you"
 msgstr "{0} · wartet auf Sie"
+
+#: onedesk/public/js/opportunity_list.js:29
+msgid "{0} · {1} weighted"
+msgstr "{0} · {1} gewichtet"
 
 #: onedesk/one_hr/timesheet.py:40
 msgid "{0} – running"

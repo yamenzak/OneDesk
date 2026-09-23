@@ -7,7 +7,7 @@ build it.
 
 OneCRM is where a company keeps the people and businesses it sells to: who got
 in touch, what they might buy, what was said, and what happens next. It is
-built on ERPNext's CRM, so every lead, opportunity, customer and quotation is
+built on ERPNext's CRM, so every lead, deal, customer and quotation is
 the same record the rest of One reads.
 
 ## Finding your way
@@ -16,55 +16,77 @@ The rail on the left has the whole of OneCRM in it:
 
 - **Home** — the start page.
 - **Lead** — somebody who got in touch, or somebody you want to reach.
-- **Opportunity** — a sale you are working on, with what it is worth and how
-  far it has got.
+- **Deal** — a sale you are working on, with what it is worth and how far it
+  has got.
+- **Pipeline** — every open deal on a board, one column per stage.
 - **Customer** — somebody who has bought, or is about to.
 - **Contact** and **Prospect** — the people, and the businesses they work for.
-- **Pipeline**, **Campaigns**, **Setup** — one group each, opened with the
-  arrow.
+- **Sales**, **Campaigns**, **Setup** — one group each, opened with the arrow.
+  Quotations, appointments and contracts are under Sales.
 
 **One workspace is one company.** You are never asked which company a lead or
-an opportunity belongs to.
+a deal belongs to.
 
 **OneAI is the round button in the corner.** Open it on any page and it offers
 what makes sense there. No OneAI button is ever put on a page itself.
 
 ## From a lead to a sale
 
-A **Lead** is where a sale usually starts. From a lead, **Create** makes an
-opportunity, a quotation, a customer or a prospect, and whatever was written on
-the lead goes with it.
+A **Lead** is where a sale usually starts. From a lead, **Create** makes a
+deal, a quotation, a customer or a prospect, and whatever was written on the
+lead goes with it.
 
-An **Opportunity** is a sale in progress. Its **Sales Stage** says how far it
-has got, and a quotation made from it is linked back to it.
+A **Deal** is a sale in progress. Its **Sales Stage** says how far it has got,
+and a quotation made from it is linked back to it. **Deal Value** is what it is
+worth; a deal priced by its items takes their total when no value is typed.
+
+A deal is ERPNext's Opportunity under a shorter name. To call it something
+else, change the rows named `one-deal-…` under **Translation**.
 
 ### Sales stages
 
 A new workspace has six: **New**, **Qualified**, **Proposal**, **Negotiation**,
 **Won** and **Lost**. Each has a **Position**, which is the order they are
-listed in; a **Probability (%)**, which an opportunity takes when it moves
-there; and an **Outcome** — Open, Won or Lost. Change them, add your own or
-remove them under **Setup › Sales Stage**.
+listed in; a **Probability (%)**, which a deal takes when it moves there; and
+an **Outcome** — Open, Won or Lost. Change them, add your own or remove them
+under **Setup › Sales Stage**.
 
-**Moving an opportunity to a stage sets its probability** to that stage's.
-Type a different probability and it stays until the opportunity moves again.
-A won opportunity is always 100% and a lost one 0%.
+**Moving a deal to a stage sets its probability** to that stage's. Type a
+different probability and it stays until the deal moves again. A won deal is
+always 100% and a lost one 0%.
 
 **Won and Lost are stages as well as statuses**, and the two always agree:
 
-- Move an opportunity to a Won stage and its status becomes Converted.
-- Pick a Lost stage and **Declare Lost** opens to ask why; the opportunity
-  moves there once you have said.
+- Move a deal to a Won stage and its status becomes Converted.
+- Pick a Lost stage and **Declare Lost** opens to ask why; the deal moves
+  there once you have said.
 - Declare it lost from the button, lose its quotation, or receive a sales
   order from its quotation, and the stage moves on its own.
 - **Reopen** it, or cancel that sales order, and it goes back to the last
   stage it was in before it was won or lost.
 
-Every move is recorded with the date, so how long an opportunity has sat in a
-stage is known.
+Every move is recorded with the date, so how long a deal has sat in a stage is
+known.
 
-An opportunity with an event in the calendar today is left as it is. ERPNext
-would reopen it every morning, converted and lost ones included; One does not.
+A deal with an event in the calendar today is left as it is. ERPNext would
+reopen it every morning, won and lost ones included; One does not.
+
+### The pipeline
+
+**Pipeline** in the rail opens the board: one column per stage in position
+order, and a card per deal with its value, probability and expected closing
+date. Drag a card to another column to move the deal; its probability follows,
+and a card dropped on Won converts the deal.
+
+Under each column's name is what the deals in it are worth, and what they are
+worth weighted by their probability — 50,000 at 50% counts as 25,000. Both are
+in the company's currency and follow the board's filters.
+
+**Lost is not a column.** Losing a deal asks why, which a drag cannot, so a
+deal is lost from its own page with **Declare Lost**, and lost deals leave the
+board.
+
+A stage added, renamed or removed under Setup changes the board's columns.
 
 ## Setup
 
@@ -117,17 +139,19 @@ Stages in order. Each is a commit or a few, each leaves the site working, and
 none edits erpnext.
 
 1. **A stage means something.** *Done* — `stages.py`. Sales Stage gets an
-   order, a probability and an outcome (open, won, lost). An opportunity's probability follows its stage
-   unless somebody types one; a won stage converts it and a lost one asks why.
+   order, a probability and an outcome (open, won, lost). A deal's probability
+   follows its stage unless somebody types one; a won stage converts it and a
+   lost one asks why.
    Stage changes are recorded with frappe's Milestone Tracker, so "days in this
    stage" is a fact. The daily reopening job is stopped. A small business gets
    six stages it recognises instead of eight from a sales textbook.
-2. **The board.** Opportunities by stage, dragged from one to the next, each
-   column showing its count, its value and its weighted value.
-3. **The next step.** Every open lead and opportunity carries what happens next
+2. **The board.** *Done* — `board.py`, `deal.py`. Deals by stage, dragged
+   from one to the next, each column showing its count, its value and its
+   weighted value. Opportunity is called Deal, by Translation rows.
+3. **The next step.** Every open lead and deal carries what happens next
    and when. Home is *my day*: overdue, today, coming up, and the deals with no
    next step at all.
-4. **The record answers first.** A lead and an opportunity open on what people
+4. **The record answers first.** A lead and a deal open on what people
    open them for — value, stage and how long it has been there, the last
    contact, the next step, where it came from — with notes, calls written down
    by hand, mail and comments on one timeline.

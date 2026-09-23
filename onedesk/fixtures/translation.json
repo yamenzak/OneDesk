@@ -1,0 +1,842 @@
+[
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-01",
+  "language": "en",
+  "source_text": "Opportunity",
+  "translated_text": "Deal",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-01",
+  "language": "ar",
+  "source_text": "Opportunity",
+  "translated_text": "صفقة",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-01",
+  "language": "de",
+  "source_text": "Opportunity",
+  "translated_text": "Deal",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-02",
+  "language": "en",
+  "source_text": "Opportunities",
+  "translated_text": "Deals",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-02",
+  "language": "ar",
+  "source_text": "Opportunities",
+  "translated_text": "الصفقات",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-02",
+  "language": "de",
+  "source_text": "Opportunities",
+  "translated_text": "Deals",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-03",
+  "language": "en",
+  "source_text": "Opportunity Amount",
+  "translated_text": "Deal Value",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-03",
+  "language": "ar",
+  "source_text": "Opportunity Amount",
+  "translated_text": "قيمة الصفقة",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-03",
+  "language": "de",
+  "source_text": "Opportunity Amount",
+  "translated_text": "Deal-Wert",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-04",
+  "language": "en",
+  "source_text": "Opportunity Amount (Company Currency)",
+  "translated_text": "Deal Value (Company Currency)",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-04",
+  "language": "ar",
+  "source_text": "Opportunity Amount (Company Currency)",
+  "translated_text": "قيمة الصفقة (عملة الشركة)",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-04",
+  "language": "de",
+  "source_text": "Opportunity Amount (Company Currency)",
+  "translated_text": "Deal-Wert (Unternehmenswährung)",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-05",
+  "language": "en",
+  "source_text": "Opportunity Value",
+  "translated_text": "Value",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-05",
+  "language": "ar",
+  "source_text": "Opportunity Value",
+  "translated_text": "القيمة",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-05",
+  "language": "de",
+  "source_text": "Opportunity Value",
+  "translated_text": "Wert",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-06",
+  "language": "en",
+  "source_text": "Opportunity Date",
+  "translated_text": "Deal Date",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-06",
+  "language": "ar",
+  "source_text": "Opportunity Date",
+  "translated_text": "تاريخ الصفقة",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-06",
+  "language": "de",
+  "source_text": "Opportunity Date",
+  "translated_text": "Deal-Datum",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-07",
+  "language": "en",
+  "source_text": "Opportunity From",
+  "translated_text": "Deal With",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-07",
+  "language": "ar",
+  "source_text": "Opportunity From",
+  "translated_text": "صفقة مع",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-07",
+  "language": "de",
+  "source_text": "Opportunity From",
+  "translated_text": "Deal mit",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-08",
+  "language": "en",
+  "source_text": "Opportunity Owner",
+  "translated_text": "Deal Owner",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-08",
+  "language": "ar",
+  "source_text": "Opportunity Owner",
+  "translated_text": "مسؤول الصفقة",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-08",
+  "language": "de",
+  "source_text": "Opportunity Owner",
+  "translated_text": "Deal-Verantwortlicher",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-09",
+  "language": "en",
+  "source_text": "Opportunity Type",
+  "translated_text": "Deal Type",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-09",
+  "language": "ar",
+  "source_text": "Opportunity Type",
+  "translated_text": "نوع الصفقة",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-09",
+  "language": "de",
+  "source_text": "Opportunity Type",
+  "translated_text": "Deal-Typ",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-10",
+  "language": "en",
+  "source_text": "Opportunity Source",
+  "translated_text": "Deal Source",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-10",
+  "language": "ar",
+  "source_text": "Opportunity Source",
+  "translated_text": "مصدر الصفقة",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-10",
+  "language": "de",
+  "source_text": "Opportunity Source",
+  "translated_text": "Deal-Quelle",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-11",
+  "language": "en",
+  "source_text": "Opportunity Item",
+  "translated_text": "Deal Item",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-11",
+  "language": "ar",
+  "source_text": "Opportunity Item",
+  "translated_text": "بند الصفقة",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-11",
+  "language": "de",
+  "source_text": "Opportunity Item",
+  "translated_text": "Deal-Artikel",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-12",
+  "language": "en",
+  "source_text": "Opportunity Lost Reason",
+  "translated_text": "Deal Lost Reason",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-12",
+  "language": "ar",
+  "source_text": "Opportunity Lost Reason",
+  "translated_text": "سبب خسارة الصفقة",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-12",
+  "language": "de",
+  "source_text": "Opportunity Lost Reason",
+  "translated_text": "Verlustgrund",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-13",
+  "language": "en",
+  "source_text": "Opportunity Lost Reason Detail",
+  "translated_text": "Deal Lost Reason Detail",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-13",
+  "language": "ar",
+  "source_text": "Opportunity Lost Reason Detail",
+  "translated_text": "تفاصيل سبب خسارة الصفقة",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-13",
+  "language": "de",
+  "source_text": "Opportunity Lost Reason Detail",
+  "translated_text": "Verlustgrund-Detail",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-14",
+  "language": "en",
+  "source_text": "Prospect Opportunity",
+  "translated_text": "Prospect Deal",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-14",
+  "language": "ar",
+  "source_text": "Prospect Opportunity",
+  "translated_text": "صفقة العميل المحتمل",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-14",
+  "language": "de",
+  "source_text": "Prospect Opportunity",
+  "translated_text": "Interessenten-Deal",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-15",
+  "language": "en",
+  "source_text": "Lost Opportunity",
+  "translated_text": "Lost Deals",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-15",
+  "language": "ar",
+  "source_text": "Lost Opportunity",
+  "translated_text": "الصفقات الخاسرة",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-15",
+  "language": "de",
+  "source_text": "Lost Opportunity",
+  "translated_text": "Verlorene Deals",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-16",
+  "language": "en",
+  "source_text": "Open Opportunity",
+  "translated_text": "Open Deals",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-16",
+  "language": "ar",
+  "source_text": "Open Opportunity",
+  "translated_text": "الصفقات المفتوحة",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-16",
+  "language": "de",
+  "source_text": "Open Opportunity",
+  "translated_text": "Offene Deals",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-17",
+  "language": "en",
+  "source_text": "Won Opportunity (Last 1 Month)",
+  "translated_text": "Deals Won (Last 1 Month)",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-17",
+  "language": "ar",
+  "source_text": "Won Opportunity (Last 1 Month)",
+  "translated_text": "الصفقات المكسوبة (آخر شهر)",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-17",
+  "language": "de",
+  "source_text": "Won Opportunity (Last 1 Month)",
+  "translated_text": "Gewonnene Deals (letzter Monat)",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-18",
+  "language": "en",
+  "source_text": "First Response Time for Opportunity",
+  "translated_text": "First Response Time for Deals",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-18",
+  "language": "ar",
+  "source_text": "First Response Time for Opportunity",
+  "translated_text": "زمن الرد الأول على الصفقات",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-18",
+  "language": "de",
+  "source_text": "First Response Time for Opportunity",
+  "translated_text": "Erste Antwortzeit bei Deals",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-19",
+  "language": "en",
+  "source_text": "Opportunity Summary by Sales Stage",
+  "translated_text": "Deal Summary by Sales Stage",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-19",
+  "language": "ar",
+  "source_text": "Opportunity Summary by Sales Stage",
+  "translated_text": "ملخص الصفقات حسب مرحلة البيع",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-19",
+  "language": "de",
+  "source_text": "Opportunity Summary by Sales Stage",
+  "translated_text": "Deal-Übersicht nach Verkaufsphase",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-20",
+  "language": "en",
+  "source_text": "Opportunity Summary by Sales Stage ",
+  "translated_text": "Deal Summary by Sales Stage",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-20",
+  "language": "ar",
+  "source_text": "Opportunity Summary by Sales Stage ",
+  "translated_text": "ملخص الصفقات حسب مرحلة البيع",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-20",
+  "language": "de",
+  "source_text": "Opportunity Summary by Sales Stage ",
+  "translated_text": "Deal-Übersicht nach Verkaufsphase",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-21",
+  "language": "en",
+  "source_text": "Opportunities by Campaign",
+  "translated_text": "Deals by Campaign",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-21",
+  "language": "ar",
+  "source_text": "Opportunities by Campaign",
+  "translated_text": "الصفقات حسب الحملة",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-21",
+  "language": "de",
+  "source_text": "Opportunities by Campaign",
+  "translated_text": "Deals nach Kampagne",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-22",
+  "language": "en",
+  "source_text": "Opportunities by Medium",
+  "translated_text": "Deals by Medium",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-22",
+  "language": "ar",
+  "source_text": "Opportunities by Medium",
+  "translated_text": "الصفقات حسب الوسيلة",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-22",
+  "language": "de",
+  "source_text": "Opportunities by Medium",
+  "translated_text": "Deals nach Medium",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-23",
+  "language": "en",
+  "source_text": "Opportunities by Source",
+  "translated_text": "Deals by Source",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-23",
+  "language": "ar",
+  "source_text": "Opportunities by Source",
+  "translated_text": "الصفقات حسب المصدر",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-23",
+  "language": "de",
+  "source_text": "Opportunities by Source",
+  "translated_text": "Deals nach Quelle",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-24",
+  "language": "en",
+  "source_text": "Sales Opportunities by Campaign",
+  "translated_text": "Deals by Campaign",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-24",
+  "language": "ar",
+  "source_text": "Sales Opportunities by Campaign",
+  "translated_text": "الصفقات حسب الحملة",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-24",
+  "language": "de",
+  "source_text": "Sales Opportunities by Campaign",
+  "translated_text": "Deals nach Kampagne",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-25",
+  "language": "en",
+  "source_text": "Sales Opportunities by Medium",
+  "translated_text": "Deals by Medium",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-25",
+  "language": "ar",
+  "source_text": "Sales Opportunities by Medium",
+  "translated_text": "الصفقات حسب الوسيلة",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-25",
+  "language": "de",
+  "source_text": "Sales Opportunities by Medium",
+  "translated_text": "Deals nach Medium",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-26",
+  "language": "en",
+  "source_text": "Sales Opportunities by Source",
+  "translated_text": "Deals by Source",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-26",
+  "language": "ar",
+  "source_text": "Sales Opportunities by Source",
+  "translated_text": "الصفقات حسب المصدر",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-26",
+  "language": "de",
+  "source_text": "Sales Opportunities by Source",
+  "translated_text": "Deals nach Quelle",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-27",
+  "language": "en",
+  "source_text": "Create Opportunity",
+  "translated_text": "Create Deal",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-27",
+  "language": "ar",
+  "source_text": "Create Opportunity",
+  "translated_text": "إنشاء صفقة",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-27",
+  "language": "de",
+  "source_text": "Create Opportunity",
+  "translated_text": "Deal erstellen",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-28",
+  "language": "en",
+  "source_text": "Opportunity {0} created",
+  "translated_text": "Deal {0} created",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-28",
+  "language": "ar",
+  "source_text": "Opportunity {0} created",
+  "translated_text": "تم إنشاء الصفقة {0}",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-28",
+  "language": "de",
+  "source_text": "Opportunity {0} created",
+  "translated_text": "Deal {0} erstellt",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-29",
+  "language": "en",
+  "source_text": "Lost Reasons are required in case opportunity is Lost.",
+  "translated_text": "Lost Reasons are required when a deal is lost.",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-29",
+  "language": "ar",
+  "source_text": "Lost Reasons are required in case opportunity is Lost.",
+  "translated_text": "أسباب الخسارة مطلوبة عند خسارة صفقة.",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-29",
+  "language": "de",
+  "source_text": "Lost Reasons are required in case opportunity is Lost.",
+  "translated_text": "Bei einem verlorenen Deal sind Verlustgründe erforderlich.",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-30",
+  "language": "en",
+  "source_text": "Close Replied Opportunity After Days",
+  "translated_text": "Close Replied Deals After Days",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-30",
+  "language": "ar",
+  "source_text": "Close Replied Opportunity After Days",
+  "translated_text": "إغلاق الصفقات التي تم الرد عليها بعد أيام",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-30",
+  "language": "de",
+  "source_text": "Close Replied Opportunity After Days",
+  "translated_text": "Beantwortete Deals schließen nach Tagen",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-31",
+  "language": "en",
+  "source_text": "Auto close Opportunity Replied after the no. of days mentioned above",
+  "translated_text": "Close a replied deal automatically after the number of days above.",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-31",
+  "language": "ar",
+  "source_text": "Auto close Opportunity Replied after the no. of days mentioned above",
+  "translated_text": "إغلاق الصفقة التي تم الرد عليها تلقائياً بعد عدد الأيام أعلاه.",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-31",
+  "language": "de",
+  "source_text": "Auto close Opportunity Replied after the no. of days mentioned above",
+  "translated_text": "Einen beantworteten Deal nach der obigen Anzahl von Tagen automatisch schließen.",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-32",
+  "language": "en",
+  "source_text": "Enable Opportunity Creation from Contact Us",
+  "translated_text": "Enable Deal Creation from Contact Us",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-32",
+  "language": "ar",
+  "source_text": "Enable Opportunity Creation from Contact Us",
+  "translated_text": "تفعيل إنشاء الصفقات من نموذج اتصل بنا",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-32",
+  "language": "de",
+  "source_text": "Enable Opportunity Creation from Contact Us",
+  "translated_text": "Deal-Erstellung über das Kontaktformular aktivieren",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-33",
+  "language": "en",
+  "source_text": "Cannot enable Opportunity creation from Contact Us because the Contact Us form is disabled.",
+  "translated_text": "Cannot enable deal creation from Contact Us because the Contact Us form is disabled.",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-33",
+  "language": "ar",
+  "source_text": "Cannot enable Opportunity creation from Contact Us because the Contact Us form is disabled.",
+  "translated_text": "لا يمكن تفعيل إنشاء الصفقات من نموذج اتصل بنا لأن النموذج معطّل.",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-33",
+  "language": "de",
+  "source_text": "Cannot enable Opportunity creation from Contact Us because the Contact Us form is disabled.",
+  "translated_text": "Die Deal-Erstellung über das Kontaktformular kann nicht aktiviert werden, weil das Kontaktformular deaktiviert ist.",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-34",
+  "language": "en",
+  "source_text": "Update the modified timestamp on new communications received in Lead & Opportunity.",
+  "translated_text": "Update the modified timestamp on new communications received in Lead & Deal.",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-34",
+  "language": "ar",
+  "source_text": "Update the modified timestamp on new communications received in Lead & Opportunity.",
+  "translated_text": "تحديث وقت التعديل عند وصول مراسلات جديدة في العميل المحتمل والصفقة.",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-34",
+  "language": "de",
+  "source_text": "Update the modified timestamp on new communications received in Lead & Opportunity.",
+  "translated_text": "Den Änderungszeitstempel bei neuer Kommunikation in Lead und Deal aktualisieren.",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-en-35",
+  "language": "en",
+  "source_text": "All the Comments and Emails will be copied from one document to another newly created document(Lead -> Opportunity -> Quotation) throughout the CRM documents.",
+  "translated_text": "All the Comments and Emails will be copied from one document to another newly created document (Lead -> Deal -> Quotation) throughout the CRM documents.",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-ar-35",
+  "language": "ar",
+  "source_text": "All the Comments and Emails will be copied from one document to another newly created document(Lead -> Opportunity -> Quotation) throughout the CRM documents.",
+  "translated_text": "سيتم نسخ جميع التعليقات ورسائل البريد من مستند إلى المستند الجديد (عميل محتمل -> صفقة -> عرض سعر) في مستندات إدارة العملاء.",
+  "contributed": 0
+ },
+ {
+  "doctype": "Translation",
+  "name": "one-deal-de-35",
+  "language": "de",
+  "source_text": "All the Comments and Emails will be copied from one document to another newly created document(Lead -> Opportunity -> Quotation) throughout the CRM documents.",
+  "translated_text": "Alle Kommentare und E-Mails werden in das neu erstellte Dokument kopiert (Lead -> Deal -> Angebot).",
+  "contributed": 0
+ }
+]

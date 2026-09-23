@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 13:25+0000\n"
-"PO-Revision-Date: 2026-09-23 13:25+0000\n"
+"POT-Creation-Date: 2026-09-23 13:45+0000\n"
+"PO-Revision-Date: 2026-09-23 13:45+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -92,6 +92,12 @@ msgstr ""
 #. Description of a DocType
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "A customer workspace. Created from a paid Account Request."
+msgstr ""
+
+#. Description of the 'Probability (%)' (Percent) field in DocType 'Sales
+#. Stage'
+#: onedesk/one_crm/custom/sales_stage.json
+msgid "A deal moved to this stage takes this probability, unless one was typed."
 msgstr ""
 
 #. Description of the 'Expires On' (Date) field in DocType 'Employee Document'
@@ -583,12 +589,6 @@ msgstr ""
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.py:15
 #: onedesk/one_hr/hiring.py:529
 msgid "An interview is only recorded once the candidate has agreed."
-msgstr ""
-
-#. Description of the 'Probability (%)' (Percent) field in DocType 'Sales
-#. Stage'
-#: onedesk/one_crm/custom/sales_stage.json
-msgid "An opportunity moved to this stage takes this probability, unless one was typed."
 msgstr ""
 
 #: onedesk/one_hr/ai_grievance.py:135
@@ -5422,6 +5422,11 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Sales"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Sales Funnel"
 msgstr ""
 
@@ -7196,7 +7201,7 @@ msgstr ""
 
 #. Description of the 'Outcome' (Select) field in DocType 'Sales Stage'
 #: onedesk/one_crm/custom/sales_stage.json
-msgid "Won marks the opportunity Converted. Lost asks for the reasons first."
+msgid "Won marks the deal Converted. Lost asks for the reasons first."
 msgstr ""
 
 #. Option for the 'Marks the Day As' (Select) field in DocType 'Attendance
@@ -7996,6 +8001,10 @@ msgstr ""
 
 #: onedesk/public/js/oneai/Record.vue:148
 msgid "{0} · waiting for you"
+msgstr ""
+
+#: onedesk/public/js/opportunity_list.js:29
+msgid "{0} · {1} weighted"
 msgstr ""
 
 #: onedesk/one_hr/timesheet.py:40

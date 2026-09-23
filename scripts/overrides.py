@@ -619,6 +619,34 @@ OVERRIDES = [
 		"erpnext/erpnext/public/js/utils/sales_common.js",
 		"set_as_lost_dialog: function (frm)",
 	),
+	(
+		"The pipeline board is made on a Link field",
+		"only the New Board dialog insists on a Select; the server groups and sets whatever the field is",
+		"onedesk/one_crm/board.py",
+		"frappe/frappe/desk/doctype/kanban_board/kanban_board.py",
+		"frappe.set_value(doctype, docname, fieldname, to_colname)",
+	),
+	(
+		"A pipeline column says what it is worth",
+		"painted under the column header, found by the column's value, whenever the count badge is redrawn",
+		"onedesk/public/js/opportunity_list.js",
+		"frappe/frappe/public/js/frappe/views/kanban/kanban_column.html",
+		'data-column-value="{{title}}"',
+	),
+	(
+		"The pipeline's worth is found by route, not onload",
+		"the Kanban view overrides setup_view and never calls a list's onload or refresh",
+		"onedesk/public/js/opportunity_list.js",
+		"frappe/frappe/public/js/frappe/views/kanban/kanban_view.js",
+		"this.setup_kanban_board_realtime();",
+	),
+	(
+		"A deal's company-currency value is worked out on the server",
+		"erpnext sets base_opportunity_amount only in the form script, so an imported deal is worth nothing",
+		"onedesk/one_crm/deal.py",
+		"erpnext/erpnext/crm/doctype/opportunity/opportunity.js",
+		'"base_opportunity_amount",',
+	),
 ]
 
 
