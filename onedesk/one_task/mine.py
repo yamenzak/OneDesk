@@ -57,14 +57,12 @@ def tasks() -> list[dict]:
 		fields=["name", "subject", "status", "priority", "project", "exp_start_date", "exp_end_date", "is_milestone"],
 		limit=MOST,
 	)
+	# Where each task is, as a path through sub-projects: Villa › Handrails.
 	# The reader may be on a task in a project they cannot open; its name is
-	# already on the task, so its title is no more than that.
-	projects = list({one.project for one in rows if one.project})
-	titles = dict(
-		frappe.get_all("Project", filters={"name": ["in", projects]}, fields=["name", "project_name"], as_list=True)
-		if projects
-		else []
-	)
+	# already on the task, so its path is no more than that.
+	from onedesk.one_project.tree import path
+
+	titles = {project: path(project) for project in {one.project for one in rows if one.project}}
 	today = getdate(nowdate())
 	grouped = {}
 	for one in rows:

@@ -20,6 +20,7 @@ well as on the project's board.
 **OneProject** in the dock opens it. The rail has:
 
 - **Projects** — every project you may see.
+- **Project Tree** — every project under its parent, with its own figures.
 - **Tasks** — every task, in projects and out of them (OneTask's list).
 - **Timesheet** — the time people have logged.
 - Under **Setup**, **Project Template**, **Project Type**, **Activity Type**,
@@ -40,6 +41,31 @@ My Tasks, member or not, and nothing else of the project.
 
 Somebody who only picks a project on a quotation, an order or an invoice sees
 every project in that list; the list is not the project.
+
+## Sub-projects
+
+A piece of a job that is billed on its own is a **sub-project**: the handrails
+on a villa whose windows you are already fitting, or a booking module a website
+customer asks for halfway through. Set its **Parent Project** — or press **+**
+beside **Sub-projects** on the parent's page — and it is a project of its own,
+with its own quotation, sales order, time, costs and invoices, that also counts
+towards the parent. Sub-projects can have sub-projects of their own, as deep as
+the job needs.
+
+- A sub-project takes its parent's **customer** unless you give it another.
+- A parent's page shows the **whole tree added up** — estimated cost, what it
+  has cost, what has been billed and the margin — above its own figures, and
+  **Sub-projects** lists the ones directly under it.
+- A parent's **Calendar** has its sub-projects' tasks too, each titled with the
+  sub-project it is in.
+- **Members** of a project see everything under it.
+- A project cannot be put under one of its own sub-projects.
+
+**Group Under New Project** (under **Actions**) puts a new project above this
+one. The villa's windows came first and the handrails were added under them;
+grouping the windows under a new **Villa** project, with the handrails ticked,
+leaves Windows and Handrails side by side under Villa, each with everything it
+had.
 
 ## A project's board
 
@@ -100,9 +126,17 @@ one field for it.
   through one_task/access.py. Being listed is also ERPNext's own share, and a
   site with no outgoing mail marks the invitation sent rather than failing the
   save (`invite`).
+- `tree.py` — sub-projects: Parent Project (`one_parent`), the only field
+  added, since ERPNext keeps money per project and has no project inside one.
+  A loop is refused, a sub-project takes its parent's customer, a tree's
+  figures are ERPNext's own added up each time (`totals`), and
+  `group_under` puts a new project above one. `path` is where a task is, for My
+  Tasks and a parent's calendar. Sub-projects are a connection on the page
+  (`dashboard`), and `report/project_tree` is frappe's tree report over them.
 - `plan.py` — each dependency row names its project, the field ERPNext's own
   rescheduling looks dependants up by and never writes.
-- `public/js/project.js` — the Board and Calendar buttons.
+- `public/js/project.js` — the Board and Calendar buttons, the tree's figures
+  in the band, and Group Under New Project.
 
 ### What OneTask has to keep doing for projects
 
@@ -125,15 +159,16 @@ stage below that touches tasks keeps them:
    instead of every Projects User seeing every project; a project listing
    nobody stays open. A task's own people still see it. Members of a project
    will see what is under it once there is something under it (`under`).
-3. **Sub-projects.** A Parent Project on Project, to any depth, so a separately
+3. **Sub-projects.** *Done.* A Parent Project on Project, to any depth, so a separately
    billable piece — the handrails on a villa, a change request on a website —
    is a project of its own with its own quotation, sales order, time and
    invoices. A project cannot sit under itself. A parent shows its own figures
    and the whole tree's, worked out rather than stored, and its sub-projects as
    an indented list. **Group Under New Project** makes a parent above a project
    and moves it and any of its sub-projects under it. A sub-project takes its
-   parent's customer unless told otherwise. The board and calendar can include
-   the sub-projects' tasks, grouped by sub-project.
+   parent's customer unless told otherwise. The calendar includes the
+   sub-projects' tasks, titled by sub-project; the board stays one project's,
+   since ERPNext's board is a filter fixed when it is made.
 4. **The overview.** A project's page answers first: done so far, due against
    expected, cost against budget, billed against billable, overdue tasks and
    the next milestone. Figures, not charts.

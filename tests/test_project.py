@@ -60,7 +60,7 @@ def test_a_task_prefix_is_short_and_starts_with_a_letter():
 	key = _load(PROJECT / "naming.py", ("KEY",), re=re)["KEY"]
 	assert key.match("WEB") and key.match("R2D2") and key.match("REEM")
 	assert not key.match("W") and not key.match("2FA") and not key.match("WEB-1") and not key.match("ABCDEFGHIJK")
-	assert '"validate": "onedesk.one_project.naming.validate"' in HOOKS.split('"Project": {', 1)[1].split('}', 1)[0]
+	assert '"onedesk.one_project.naming.validate"' in HOOKS.split('"Project": {', 1)[1].split('}', 1)[0]
 	source = (PROJECT / "naming.py").read_text()
 	assert '"Document Naming Rule"' in source
 	assert '"Task"' not in HOOKS.split("override_doctype_class = {", 1)[1].split("}", 1)[0], "ERPNext's Task class stays theirs"
@@ -86,3 +86,51 @@ def test_a_member_can_be_added_without_outgoing_mail():
 	invite = _body(source, "invite")
 	assert '"default_outgoing": 1, "enable_outgoing": 1' in invite and "row.welcome_email_sent = 1" in invite
 	assert '"before_validate": "onedesk.one_project.members.invite"' in HOOKS
+
+
+def _tree():
+	return _load(PROJECT / "tree.py", ("children", "below", "above", "loops", "add_up", "FIGURES"), flt=lambda value: float(value or 0))
+
+
+def test_a_tree_goes_down_and_up_to_any_depth():
+	space = _tree()
+	of = {"handrails": "villa", "glass": "handrails", "windows": "villa", "booking": "website"}
+	assert space["below"]({"villa"}, of) == {"villa", "handrails", "glass", "windows"}
+	assert space["below"]({"glass"}, of) == {"glass"}
+	assert space["above"]("glass", of) == ["glass", "handrails", "villa"]
+
+
+def test_a_project_cannot_sit_under_itself():
+	loops = _tree()["loops"]
+	of = {"handrails": "villa", "glass": "handrails"}
+	assert loops("villa", "glass", of), "the villa under its own glass"
+	assert loops("villa", "villa", of)
+	assert not loops("windows", "villa", of) and not loops("glass", None, of)
+
+
+def test_a_tree_adds_up_erpnexts_own_figures():
+	space = _tree()
+	said = space["add_up"]([{"estimated_costing": 20000, "total_billed_amount": 5000}, {"estimated_costing": 4000}])
+	assert said["estimated_costing"] == 24000 and said["total_billed_amount"] == 5000
+	assert "gross_margin" in space["FIGURES"] and "total_costing_amount" in space["FIGURES"]
+
+
+def test_the_tree_report_puts_each_project_under_its_parent():
+	ordered = _load(PROJECT / "report" / "project_tree" / "project_tree.py", ("ordered",), tree=type("T", (), {"PARENT": "one_parent"}))["ordered"]
+	rows = [
+		{"name": "W", "project_name": "Windows", "one_parent": "V"},
+		{"name": "V", "project_name": "Villa", "one_parent": None},
+		{"name": "G", "project_name": "Glass", "one_parent": "H"},
+		{"name": "H", "project_name": "Handrails", "one_parent": "V"},
+		{"name": "S", "project_name": "Secret", "one_parent": "X"},
+	]
+	said = [(row["name"], row["indent"], row["parent"]) for row in ordered(rows)]
+	assert said == [("S", 0, None), ("V", 0, None), ("H", 1, "V"), ("G", 2, "H"), ("W", 1, "V")]
+
+
+def test_sub_projects_are_wired_and_members_see_below():
+	assert '"onedesk.one_project.tree.validate"' in HOOKS and '"Project": ["onedesk.one_project.tree.dashboard"]' in HOOKS
+	assert "tree.below(projects, tree.parents())" in _body((PROJECT / "members.py").read_text(), "under")
+	assert "path(project)" in (TASK / "mine.py").read_text(), "My Tasks names the path"
+	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
+	assert any(f["fieldname"] == "one_parent" and f["options"] == "Project" for f in custom["custom_fields"])

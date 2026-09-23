@@ -2,6 +2,17 @@
  "custom_fields": [
   {
    "dt": "Project",
+   "fieldname": "one_parent",
+   "fieldtype": "Link",
+   "label": "Parent Project",
+   "options": "Project",
+   "insert_after": "project_name",
+   "in_standard_filter": 1,
+   "description": "The project this is part of. Its time, costs and invoices stay its own, and add up into the parent's.",
+   "module": "One Project"
+  },
+  {
+   "dt": "Project",
    "fieldname": "one_key",
    "fieldtype": "Data",
    "label": "Task Prefix",

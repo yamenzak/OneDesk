@@ -167,9 +167,13 @@ doc_events = {
 	# A project's tasks are named with its prefix. See one_project/naming.py.
 	"Project": {
 		"before_validate": "onedesk.one_project.members.invite",
-		"validate": "onedesk.one_project.naming.validate",
-		"on_update": ["onedesk.one_project.naming.on_update", "onedesk.one_project.members.forget"],
-		"on_trash": "onedesk.one_project.members.forget",
+		"validate": ["onedesk.one_project.naming.validate", "onedesk.one_project.tree.validate"],
+		"on_update": [
+			"onedesk.one_project.naming.on_update",
+			"onedesk.one_project.members.forget",
+			"onedesk.one_project.tree.forget",
+		],
+		"on_trash": ["onedesk.one_project.members.forget", "onedesk.one_project.tree.forget"],
 	},
 	# A project's board, as ERPNext makes it, shaped. See one_project/board.py.
 	"Kanban Board": {"before_insert": "onedesk.one_project.board.shape"},
@@ -372,6 +376,8 @@ override_doctype_dashboards = {
 	"Attendance": ["onedesk.one_hr.attendance.dashboard"],
 	# A task's sub-tasks, as a connection. See one_task/task.py.
 	"Task": ["onedesk.one_task.task.dashboard"],
+	# A project's sub-projects, the same way. See one_project/tree.py.
+	"Project": ["onedesk.one_project.tree.dashboard"],
 }
 
 # Every shift location counts, not the first. See one_hr/checkin.py.

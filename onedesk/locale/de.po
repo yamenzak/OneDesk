@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 20:07+0000\n"
-"PO-Revision-Date: 2026-09-23 20:07+0000\n"
+"POT-Creation-Date: 2026-09-23 20:15+0000\n"
+"PO-Revision-Date: 2026-09-23 20:15+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
+
+#: onedesk/one_project/report/project_tree/project_tree.py:49
+msgid "% Completed"
+msgstr "% abgeschlossen"
 
 #: onedesk/public/js/ai_model.js:102
 msgid "(from what was asked for)"
@@ -406,7 +410,7 @@ msgid "Action"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json
+#: onedesk/one/sidebar/one/one.json onedesk/public/js/project.js:22
 msgid "Actions"
 msgstr "Aktionen"
 
@@ -1157,7 +1161,7 @@ msgstr "Sperren"
 msgid "Blocked"
 msgstr "Gesperrt"
 
-#: onedesk/public/js/project.js:11
+#: onedesk/public/js/project.js:13
 msgid "Board"
 msgstr "Board"
 
@@ -1746,6 +1750,7 @@ msgstr "Feiertage einschließen"
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/public/js/opportunity.js:18 onedesk/public/js/opportunity.js:19
+#: onedesk/public/js/project.js:62
 msgid "Create"
 msgstr ""
 
@@ -1861,6 +1866,7 @@ msgstr "Derzeit"
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
+#: onedesk/one_project/report/project_tree/project_tree.py:47
 msgid "Customer"
 msgstr ""
 
@@ -2507,6 +2513,11 @@ msgstr "Überstunden eingeben."
 msgid "Error"
 msgstr ""
 
+#: onedesk/one_project/report/project_tree/project_tree.py:51
+#: onedesk/public/js/project.js:39
+msgid "Estimated Cost"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 msgid "Event"
@@ -2563,6 +2574,10 @@ msgstr "Freibetragsnachweis"
 #: onedesk/public/js/offering.js:17
 msgid "Existing workspaces keep what they bought. This only stops new signups."
 msgstr "Bestehende Arbeitsbereiche behalten, was sie gekauft haben. Das stoppt nur neue Anmeldungen."
+
+#: onedesk/one_project/report/project_tree/project_tree.py:50
+msgid "Expected End Date"
+msgstr ""
 
 #: onedesk/public/js/timesheet.js:54
 msgid "Expected Hrs"
@@ -2957,10 +2972,19 @@ msgstr "Beschwerde"
 msgid "Grievance Type"
 msgstr ""
 
+#: onedesk/one_project/report/project_tree/project_tree.py:54
+#: onedesk/public/js/project.js:42
+msgid "Gross Margin"
+msgstr ""
+
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:17
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:85
 msgid "Group By"
 msgstr ""
+
+#: onedesk/public/js/project.js:22 onedesk/public/js/project.js:51
+msgid "Group Under New Project"
+msgstr "Unter neuem Projekt gruppieren"
 
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
@@ -3296,6 +3320,10 @@ msgstr "Postfächer"
 msgid "Include Audio From Another Tab"
 msgstr "Audio aus einem anderen Tab einbeziehen"
 
+#: onedesk/one_project/report/project_tree/project_tree.js:11
+msgid "Include Completed"
+msgstr "Abgeschlossene einbeziehen"
+
 #. Label of the one_learn_home (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Include Personal Networks and Locations"
@@ -3468,7 +3496,7 @@ msgstr "Rechtsraum"
 msgid "KRA"
 msgstr ""
 
-#: onedesk/public/js/project.js:10
+#: onedesk/public/js/project.js:12
 msgid "Kanban Board"
 msgstr ""
 
@@ -4134,6 +4162,10 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "Move"
 msgstr ""
+
+#: onedesk/public/js/project.js:57
+msgid "Move These Beside It"
+msgstr "Diese daneben verschieben"
 
 #: onedesk/one_hr/hiring.py:882
 msgid "Moved down from {0}% to {1}%."
@@ -5158,6 +5190,11 @@ msgstr "Bezahlt, und kein Arbeitsbereich wurde angelegt. Legen Sie ihn an."
 msgid "Paid, not built"
 msgstr "Bezahlt, nicht angelegt"
 
+#. Label of the one_parent (Link) field in DocType 'Project'
+#: onedesk/one_project/custom/project.json
+msgid "Parent Project"
+msgstr "Übergeordnetes Projekt"
+
 #. Label of the parts_section (Section Break) field in DocType 'Interview
 #. Recording'
 #. Label of the parts (Table) field in DocType 'Interview Recording'
@@ -5471,14 +5508,26 @@ msgid "Professional Tax Deductions"
 msgstr ""
 
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:25
+#: onedesk/one_project/report/project_tree/project_tree.py:46
 #: onedesk/public/js/timesheet.js:49
 msgid "Project"
+msgstr ""
+
+#: onedesk/public/js/project.js:53
+msgid "Project Name"
 msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Project Template"
 msgstr ""
+
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_project/report/project_tree/project_tree.json
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
+msgid "Project Tree"
+msgstr "Projektbaum"
 
 #. Label of a Sidebar Item
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
@@ -6585,6 +6634,7 @@ msgstr ""
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:23
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:161
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:205
+#: onedesk/one_project/report/project_tree/project_tree.py:48
 msgid "Status"
 msgstr ""
 
@@ -6729,6 +6779,10 @@ msgstr "Hängt"
 msgid "Stuck jobs"
 msgstr "Hängende Aufträge"
 
+#: onedesk/one_project/tree.py:192 onedesk/public/js/project.js:38
+msgid "Sub-projects"
+msgstr "Unterprojekte"
+
 #: onedesk/one_task/task.py:48
 msgid "Sub-tasks"
 msgstr "Unteraufgaben"
@@ -6869,7 +6923,7 @@ msgid "Task Type"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_project/calendar.py:12
+#: onedesk/one_project/calendar.py:17
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Tasks"
@@ -7179,6 +7233,11 @@ msgstr "Das Telefon gab den Passkey erst nach Gesicht, Fingerabdruck oder PIN fr
 msgid "The position was less accurate than the location it matched."
 msgstr "Die Position war ungenauer als der Ort, dem sie zugeordnet wurde."
 
+#. Description of the 'Parent Project' (Link) field in DocType 'Project'
+#: onedesk/one_project/custom/project.json
+msgid "The project this is part of. Its time, costs and invoices stay its own, and add up into the parent's."
+msgstr "Das Projekt, zu dem dieses gehört. Zeit, Kosten und Rechnungen bleiben seine eigenen und werden im übergeordneten Projekt summiert."
+
 #. Description of the 'Model' (Data) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "The provider's own id. Never typed here."
@@ -7487,6 +7546,16 @@ msgstr "Zu weit von Ihrem letzten Einchecken entfernt für die Zeit dazwischen."
 msgid "Total"
 msgstr ""
 
+#: onedesk/one_project/report/project_tree/project_tree.py:53
+#: onedesk/public/js/project.js:41
+msgid "Total Billed Amount"
+msgstr ""
+
+#: onedesk/one_project/report/project_tree/project_tree.py:52
+#: onedesk/public/js/project.js:40
+msgid "Total Costing Amount"
+msgstr ""
+
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:91
 msgid "Totals Only"
 msgstr "Nur Summen"
@@ -7775,7 +7844,7 @@ msgstr ""
 msgid "Video Generation"
 msgstr "Videoerzeugung"
 
-#: onedesk/public/js/project.js:10
+#: onedesk/public/js/project.js:12
 msgid "View"
 msgstr ""
 
@@ -8875,6 +8944,10 @@ msgstr "{0} gehört bereits zu einem anderen Arbeitsbereich."
 #: onedesk/one_admin/doctype/ai_model/ai_model.py:57
 msgid "{0} is already the default for {1}."
 msgstr "{0} ist bereits der Standard für {1}."
+
+#: onedesk/one_project/tree.py:106
+msgid "{0} is already under {1}, so it cannot be its parent."
+msgstr "{0} liegt bereits unter {1} und kann daher nicht sein übergeordnetes Projekt sein."
 
 #: onedesk/one_ai/files.py:85
 msgid "{0} is larger than {1} MB, which is as much as one question may carry."

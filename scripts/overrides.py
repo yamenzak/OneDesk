@@ -808,6 +808,13 @@ OVERRIDES = [
 		"erpnext/erpnext/projects/doctype/project/project.py",
 		"if user.welcome_email_sent == 0:",
 	),
+	(
+		"A project can be under a project, and a tree adds up",
+		"theirs has no parent; the money stays per project in their own fields (costing, billed, margin) and ours only adds those up",
+		"onedesk/one_project/tree.py",
+		"erpnext/erpnext/projects/doctype/project/project.py",
+		"def update_costing(self):",
+	),
 ]
 
 

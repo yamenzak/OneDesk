@@ -9,7 +9,7 @@ fitter reading the website's budget, so a project's **Users** decide:
   listed on, and one with **nobody listed** — a project nobody has closed is
   open to everybody who works in projects, which is also what every project
   was before this;
-- members of a project see what is under it (sub-projects, stage 3; `under`).
+- members of a project see what is under it (sub-projects; `under`).
 
 The same rule decides a project's tasks (one_task/access.py): a task in a
 project is seen by whoever may see the project, and by its own people always.
@@ -63,9 +63,10 @@ def visible(user: str) -> set[str]:
 
 
 def under(projects: set[str]) -> set[str]:
-	"""The projects and everything below them. Sub-projects are stage 3; until
-	then a project has nothing under it."""
-	return set(projects)
+	"""The projects and everything below them (one_project/tree.py)."""
+	from onedesk.one_project import tree
+
+	return tree.below(projects, tree.parents())
 
 
 def forget(doc=None, method=None) -> None:
