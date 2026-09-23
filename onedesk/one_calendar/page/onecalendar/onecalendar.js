@@ -64,6 +64,10 @@ onedesk.OneCalendar = class OneCalendar {
 			selectMirror: true,
 			dayMaxEvents: true,
 			eventDisplay: "block",
+			// A half-hour event is one line tall; FullCalendar fills it with the time
+			// and the title falls off the end. It is drawn a little taller, with the
+			// title alone (onecalendar.css) — where it sits already says when.
+			eventMinHeight: 22,
 			scrollTime: "08:00:00",
 			events: (info, done, failed) => this.entries(info).then(done, failed),
 			select: (info) => this.new_event(info),
@@ -71,8 +75,9 @@ onedesk.OneCalendar = class OneCalendar {
 			eventDrop: (info) => this.move(info),
 			eventResize: (info) => this.move(info),
 			eventDidMount: (info) => {
+				// The whole title on hover, since a short event cuts it off.
 				const said = info.event.extendedProps.description;
-				if (said) info.el.title = `${info.event.title}\n${said}`;
+				info.el.title = said ? `${info.event.title}\n${said}` : info.event.title;
 			},
 			datesSet: (info) => {
 				if (this.saved.view !== info.view.type) {

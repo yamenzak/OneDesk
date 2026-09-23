@@ -110,3 +110,25 @@
 .one-calendar-private a {
 	cursor: pointer;
 }
+
+/* A short event shows its title; its place on the grid is its time. */
+.one-calendar .fc-timegrid-event-short .fc-event-time {
+	display: none;
+}
+
+.one-calendar .fc-timegrid-event-short .fc-event-main {
+	line-height: 1.3;
+	padding: 2px 4px 0;
+}
+
+.one-calendar .fc-timegrid-event-short .fc-event-title {
+	font-size: var(--text-sm);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* Half an hour tall enough for one line of text. */
+.one-calendar .fc .fc-timegrid-slot {
+	height: 28px;
+}
