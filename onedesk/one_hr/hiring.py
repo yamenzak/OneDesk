@@ -141,7 +141,7 @@ def screen(applicant: str) -> None:
 		# The workspace's model cannot read this kind of file. Screened from
 		# what is left, and saying so, rather than not at all.
 		said = _ask("screen", asked + UNREAD, None, applicant)
-	answer = unaliased(read(said), _aliases(pool, doc))
+	answer = unaliased(_read("screen", said, applicant), _aliases(pool, doc))
 	if not answer:
 		return
 
@@ -175,7 +175,7 @@ def rank(opening: str) -> None:
 	if len(pool) < 2:
 		return
 	said = _ask("screen", RANK.format(opening=_opening_said(held), pool=_pool_said(pool)), None, opening)
-	answer = unaliased(read(said), _aliases(pool))
+	answer = unaliased(_read("screen", said, opening), _aliases(pool))
 	if not answer:
 		return
 	moves = _placed(answer, pool, None, opening)
@@ -399,7 +399,7 @@ def prepare(interview: str) -> None:
 		screening=_screening_said(applicant),
 		before=_earlier_said(doc) or "(this is the first round)",
 	)
-	answer = read(_ask("interview", asked, None, interview))
+	answer = _read("interview", _ask("interview", asked, None, interview), interview)
 	if not answer:
 		return
 	frappe.db.set_value("Interview", interview, "one_ai_prep", prepared(answer))
@@ -743,7 +743,7 @@ def remark(recording: str) -> None:
 		prepared=_plain(interview.get("one_ai_prep"), 3000) or "(nothing was prepared)",
 		transcript=(held.transcript or "")[:MOST_TRANSCRIPT],
 	)
-	answer = read(_ask("interview", asked, None, recording))
+	answer = _read("interview", _ask("interview", asked, None, recording), recording)
 	if not answer:
 		return
 	_comment("Interview", interview.name, remarked(answer))
@@ -1016,6 +1016,23 @@ def read(said: str | None) -> dict | None:
 	except ValueError:
 		return None
 	return held if isinstance(held, dict) else None
+
+
+def _read(action: str, said: str | None, reference: str) -> dict | None:
+	"""`read`, and the answer itself in the error log when it cannot be read.
+
+	A model that answered in prose, or ran out of room half way through the
+	object, was charged for it: dropping the answer without a word left an
+	administrator nothing to look at and nobody any wiser about which model
+	does not follow the format.
+	"""
+	answer = read(said)
+	if said and answer is None:
+		frappe.log_error(
+			title=f"OneAI's {action} answer for {reference} was not the JSON asked for",
+			message=said[:8000],
+		)
+	return answer
 
 
 def _clamped(value, least: float, most: float) -> float | None:

@@ -162,6 +162,7 @@ onedesk.hiring.recorder = {
 			agreed: 1,
 		});
 		this.stream = stream;
+		this.listen(stream);
 		this.began = Date.now();
 		this.uploads = [];
 		this.on = true;
@@ -173,6 +174,80 @@ onedesk.hiring.recorder = {
 		};
 		window.addEventListener("beforeunload", this.guard);
 		frm.refresh();
+	},
+
+	// A level meter beside the time: the last couple of seconds of sound as
+	// bars, so the interviewer can see the microphone hears the room — and a
+	// line saying so when it has heard nothing for a while, which is a muted
+	// or wrong microphone rather than a quiet candidate.
+	BARS: 18,
+	QUIET_SECONDS: 8,
+
+	listen(stream) {
+		this.ear = new AudioContext();
+		const analyser = this.ear.createAnalyser();
+		analyser.fftSize = 1024;
+		this.ear.createMediaStreamSource(stream).connect(analyser);
+		const samples = new Float32Array(analyser.fftSize);
+		this.levels = new Array(this.BARS).fill(0);
+		this.heard = Date.now();
+		let last = 0;
+		const tick = (now) => {
+			if (!this.on) return;
+			this.drawing = requestAnimationFrame(tick);
+			if (now - last < 90) return;
+			last = now;
+			analyser.getFloatTimeDomainData(samples);
+			const rms = Math.sqrt(samples.reduce((sum, one) => sum + one * one, 0) / samples.length);
+			// Speech sits around 0.02–0.2 RMS; a square root spreads it over the bar.
+			const level = Math.min(1, Math.sqrt(rms * 6));
+			this.levels.push(level);
+			this.levels.shift();
+			if (rms > 0.01) this.heard = Date.now();
+			this.quiet(Date.now() - this.heard > this.QUIET_SECONDS * 1000);
+			this.draw();
+		};
+		this.drawing = requestAnimationFrame(tick);
+	},
+
+	draw() {
+		const canvas = this.$bar?.find(".one-rec__wave")[0];
+		if (!canvas) return;
+		const ratio = window.devicePixelRatio || 1;
+		const width = canvas.clientWidth;
+		const height = canvas.clientHeight;
+		if (canvas.width !== width * ratio) {
+			canvas.width = width * ratio;
+			canvas.height = height * ratio;
+		}
+		const pen = canvas.getContext("2d");
+		pen.setTransform(ratio, 0, 0, ratio, 0, 0);
+		pen.clearRect(0, 0, width, height);
+		// The OneAI spectrum, read off the page's own tokens.
+		const token = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+		const ramp = pen.createLinearGradient(0, 0, width, 0);
+		ramp.addColorStop(0, token("--one-ai-1"));
+		ramp.addColorStop(0.5, token("--one-ai-3"));
+		ramp.addColorStop(1, token("--one-ai-6"));
+		pen.fillStyle = ramp;
+		const step = width / this.BARS;
+		const thick = Math.max(2, step * 0.55);
+		this.levels.forEach((level, at) => {
+			const tall = Math.max(2, level * height);
+			const x = at * step + (step - thick) / 2;
+			pen.beginPath();
+			pen.roundRect(x, (height - tall) / 2, thick, tall, thick / 2);
+			pen.fill();
+		});
+	},
+
+	quiet(silent) {
+		if (!this.$bar || silent === this.silent) return;
+		this.silent = silent;
+		this.$bar.toggleClass("one-rec--quiet", silent);
+		this.$bar
+			.find(".one-rec__label")
+			.text(silent ? __("No sound — check the microphone") : __("Recording"));
 	},
 
 	seconds() {
@@ -251,6 +326,10 @@ onedesk.hiring.recorder = {
 		(this.sources || []).forEach((stream) => stream.getTracks().forEach((track) => track.stop()));
 		this.mixer?.close();
 		this.mixer = null;
+		cancelAnimationFrame(this.drawing);
+		this.ear?.close();
+		this.ear = null;
+		this.silent = false;
 		this.$bar?.remove();
 		this.$bar = null;
 		this.guard && window.removeEventListener("beforeunload", this.guard);
@@ -261,6 +340,7 @@ onedesk.hiring.recorder = {
 			<div class="one-rec" role="status">
 				<span class="one-rec__dot"></span>
 				<span class="one-rec__label"></span>
+				<canvas class="one-rec__wave" aria-hidden="true"></canvas>
 				<span class="one-rec__time">00:00</span>
 				<button type="button" class="btn btn-xs btn-default one-rec__stop"></button>
 			</div>

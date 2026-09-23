@@ -222,9 +222,22 @@ Three things were learned doing it:
   the operator sets a default for Transcription, or each workspace picks one
   for *Transcribe* on its OneAI settings.
 
-The one thing not yet known: whether Gemini takes Chrome's `audio/webm` as it
-takes `audio/ogg`. The recorder asks for Ogg first, which Firefox records and
-Chrome does not. One live call with a ten-second part answers it.
+**Measured live, once.** A 23-second two-voice clip, spoken by espeak-ng and
+fed to Chromium as its microphone, recorded as Chrome's `audio/webm`:
+`gemini-2.5-flash-lite` took it, answered in 3.3 seconds for 0.59 credits,
+told the two voices apart and timed every turn. It misheard two words of
+synthetic speech ("before and report" for "before every pour"). The remarks
+that followed ran on the account's default text model, Gemma 4 on Workers
+AI, took 30 seconds and 1.35 credits, and did not answer with the JSON asked
+for — so nothing was written. An answer that cannot be read is now kept in
+the error log with its text; before, it vanished. A workspace using these
+actions should point *Interviews* and *Screen applicants* at a model that
+follows a format, as it does *Transcribe*.
+
+**The level meter.** The recording bar draws the last two seconds of sound as
+bars in the OneAI spectrum, and says *No sound — check the microphone* after
+eight seconds of silence, which is a muted or wrong microphone rather than a
+quiet candidate.
 
 ## What is deliberately not here
 

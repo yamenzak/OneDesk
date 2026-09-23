@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 10:39+0000\n"
-"PO-Revision-Date: 2026-09-23 10:39+0000\n"
+"POT-Creation-Date: 2026-09-23 10:46+0000\n"
+"PO-Revision-Date: 2026-09-23 10:46+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -3528,6 +3528,10 @@ msgstr ""
 msgid "No salary slips yet for {0} to {1}."
 msgstr ""
 
+#: onedesk/public/js/hiring.js:250
+msgid "No sound — check the microphone"
+msgstr ""
+
 #: onedesk/one_hr/review.py:48
 msgid "No such check-in attempt."
 msgstr ""
@@ -4748,7 +4752,7 @@ msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Interview Recording'
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
-#: onedesk/public/js/hiring.js:268
+#: onedesk/public/js/hiring.js:250 onedesk/public/js/hiring.js:348
 msgid "Recording"
 msgstr ""
 
@@ -4756,11 +4760,11 @@ msgstr ""
 msgid "Recording did not start: {0}"
 msgstr ""
 
-#: onedesk/public/js/hiring.js:238
+#: onedesk/public/js/hiring.js:313
 msgid "Recording saved, but {0} part(s) did not upload."
 msgstr ""
 
-#: onedesk/public/js/hiring.js:239
+#: onedesk/public/js/hiring.js:314
 msgid "Recording saved. OneAI writes it down and remarks on it on the interview."
 msgstr ""
 
@@ -5068,7 +5072,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: onedesk/public/js/hiring.js:225
+#: onedesk/public/js/hiring.js:300
 msgid "Saving…"
 msgstr ""
 
@@ -5524,7 +5528,7 @@ msgstr ""
 msgid "Still in Draft"
 msgstr ""
 
-#: onedesk/public/js/hiring.js:271
+#: onedesk/public/js/hiring.js:351
 msgid "Stop"
 msgstr ""
 

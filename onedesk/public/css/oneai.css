@@ -1210,6 +1210,15 @@ button.one-ai-model:hover {
 	animation: one-rec-pulse 1.4s ease-in-out infinite;
 }
 
+.one-rec__wave {
+	width: 72px;
+	height: 20px;
+}
+
+.one-rec--quiet .one-rec__label {
+	color: var(--ink-red-5);
+}
+
 .one-rec__time {
 	min-width: 44px;
 	font-variant-numeric: tabular-nums;

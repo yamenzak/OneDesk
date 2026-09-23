@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 10:39+0000\n"
-"PO-Revision-Date: 2026-09-23 10:39+0000\n"
+"POT-Creation-Date: 2026-09-23 10:46+0000\n"
+"PO-Revision-Date: 2026-09-23 10:46+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -3530,6 +3530,10 @@ msgstr "Kein Preis für dieses Modell auf der veröffentlichten Seite."
 msgid "No salary slips yet for {0} to {1}."
 msgstr "Noch keine Gehaltsabrechnungen für {0} bis {1}."
 
+#: onedesk/public/js/hiring.js:250
+msgid "No sound — check the microphone"
+msgstr "Kein Ton – Mikrofon prüfen"
+
 #: onedesk/one_hr/review.py:48
 msgid "No such check-in attempt."
 msgstr "Diesen Einchecken-Versuch gibt es nicht."
@@ -4750,7 +4754,7 @@ msgstr "Auf {0} erfasst"
 
 #. Option for the 'Status' (Select) field in DocType 'Interview Recording'
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
-#: onedesk/public/js/hiring.js:268
+#: onedesk/public/js/hiring.js:250 onedesk/public/js/hiring.js:348
 msgid "Recording"
 msgstr "Aufnahme läuft"
 
@@ -4758,11 +4762,11 @@ msgstr "Aufnahme läuft"
 msgid "Recording did not start: {0}"
 msgstr "Die Aufnahme wurde nicht gestartet: {0}"
 
-#: onedesk/public/js/hiring.js:238
+#: onedesk/public/js/hiring.js:313
 msgid "Recording saved, but {0} part(s) did not upload."
 msgstr "Aufnahme gespeichert, aber {0} Teil(e) wurden nicht hochgeladen."
 
-#: onedesk/public/js/hiring.js:239
+#: onedesk/public/js/hiring.js:314
 msgid "Recording saved. OneAI writes it down and remarks on it on the interview."
 msgstr "Aufnahme gespeichert. OneAI schreibt sie auf und kommentiert sie am Gespräch."
 
@@ -5070,7 +5074,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: onedesk/public/js/hiring.js:225
+#: onedesk/public/js/hiring.js:300
 msgid "Saving…"
 msgstr "Wird gespeichert…"
 
@@ -5526,7 +5530,7 @@ msgstr "Beantwortet noch die letzte Frage."
 msgid "Still in Draft"
 msgstr "Noch im Entwurf"
 
-#: onedesk/public/js/hiring.js:271
+#: onedesk/public/js/hiring.js:351
 msgid "Stop"
 msgstr ""
 
