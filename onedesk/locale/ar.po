@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 18:10+0000\n"
-"PO-Revision-Date: 2026-09-23 18:10+0000\n"
+"POT-Creation-Date: 2026-09-23 18:33+0000\n"
+"PO-Revision-Date: 2026-09-23 18:33+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -887,6 +887,10 @@ msgstr "جارٍ السؤال…"
 #: onedesk/public/js/employee.js:184
 msgid "Assign a Salary Structure"
 msgstr "إسناد هيكل راتب"
+
+#: onedesk/one_task/calendar.py:27
+msgid "Assigned to Me"
+msgstr "مسندة إليّ"
 
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:9
 msgid "At Stripe"
@@ -3215,6 +3219,11 @@ msgid "In, per 1M Tokens"
 msgstr "المدخل لكل مليون رمز"
 
 #. Label of a Sidebar Item
+#: onedesk/one_task/sidebar/onetask/onetask.json
+msgid "Inbox"
+msgstr ""
+
+#. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Inboxes"
 msgstr "صناديق البريد"
@@ -4084,13 +4093,9 @@ msgstr "مقابلاتي"
 msgid "My Leave"
 msgstr "إجازاتي"
 
-#: onedesk/one_calendar/work.py:28
+#: onedesk/one_task/calendar.py:19
 msgid "My Tasks"
 msgstr "مهامي"
-
-#: onedesk/one_calendar/work.py:20
-msgid "My To-Dos"
-msgstr "مهامي المسندة"
 
 #. Label of the workspace_name (Data) field in DocType 'Workspace Account'
 #. Label of the label (Data) field in DocType 'AI Model'
@@ -4717,6 +4722,11 @@ msgstr "OneHR"
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "OneHR Setup"
 msgstr "إعداد OneHR"
+
+#. Title of a Sidebar
+#: onedesk/one_task/sidebar/onetask/onetask.json
+msgid "OneTask"
+msgstr "OneTask"
 
 #. Description of the 'Sensitive' (Check) field in DocType 'Employee Grievance'
 #: onedesk/one_hr/custom/employee_grievance.json
@@ -5360,6 +5370,11 @@ msgstr ""
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:25
 #: onedesk/public/js/timesheet.js:49
 msgid "Project"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_task/sidebar/onetask/onetask.json
+msgid "Projects"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -6207,6 +6222,7 @@ msgstr ""
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Setup"
 msgstr "الإعداد"
 
@@ -6693,6 +6709,16 @@ msgstr "مأخوذ من وصف المزوّد نفسه للنموذج ومن ك�
 
 #: onedesk/public/js/timesheet.js:50
 msgid "Task"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_task/sidebar/onetask/onetask.json
+msgid "Task Type"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_task/sidebar/onetask/onetask.json
+msgid "Tasks"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -7240,11 +7266,6 @@ msgstr "العنوان"
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:13
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:13
 msgid "To Date"
-msgstr ""
-
-#. Label of a Sidebar Item
-#: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
-msgid "To Do"
 msgstr ""
 
 #: onedesk/one_hr/ai_letters.py:92

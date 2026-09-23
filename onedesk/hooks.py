@@ -35,6 +35,7 @@ after_install = [
 	"onedesk.one_crm.record.settle",
 	"onedesk.one_crm.capture.defaults",
 	"onedesk.one_crm.access.settle",
+	"onedesk.one_task.access.settle",
 ]
 
 # Their dock files do not carry the mount, so a newer erpnext or hrms clears it,
@@ -60,6 +61,7 @@ after_migrate = [
 	"onedesk.one_crm.next.settle",
 	"onedesk.one_crm.record.settle",
 	"onedesk.one_crm.access.settle",
+	"onedesk.one_task.access.settle",
 ]
 extend_bootinfo = "onedesk.one.boot.boot_session"
 
@@ -147,7 +149,11 @@ doc_events = {
 	# An onboarding is for somebody who is not an employee yet, so the holiday
 	# list has to come from the company. See one_hr/lifecycle.py.
 	"Employee Onboarding": {"before_validate": "onedesk.one_hr.lifecycle.onboarding"},
-	"Task": {"before_insert": "onedesk.one_hr.lifecycle.task"},
+	# A task of nobody's is its maker's. See one_task/capture.py.
+	"Task": {
+		"before_insert": "onedesk.one_hr.lifecycle.task",
+		"after_insert": "onedesk.one_task.capture.task_made",
+	},
 	"Training Result": {"before_validate": "onedesk.one_hr.lifecycle.result"},
 	# The reason is a record and submitting is an approval. See one_hr/request.py.
 	"Attendance Request": {
@@ -169,8 +175,13 @@ doc_events = {
 		"on_update": "onedesk.one_crm.next.on_update",
 	},
 	# An Assignment Rule's pick becomes the owner, and a lead's first reply is
-	# timed. See one_crm/capture.py.
-	"ToDo": {"after_insert": "onedesk.one_crm.capture.assigned"},
+	# timed (one_crm/capture.py). A to-do about nothing becomes a task, and the
+	# last one ticked off on a task of one's own completes it (one_task/capture.py).
+	"ToDo": {
+		"before_insert": "onedesk.one_task.capture.todo_made",
+		"after_insert": "onedesk.one_crm.capture.assigned",
+		"on_update": "onedesk.one_task.capture.todo_changed",
+	},
 	"Communication": {"after_insert": "onedesk.one_crm.capture.replied"},
 	"Call Log": {"after_insert": "onedesk.one_crm.capture.replied"},
 	# The board has a column per stage. See one_crm/board.py.
@@ -206,6 +217,9 @@ doc_events = {
 # workspace gets a rail entry and nothing behind it. See one_admin/site.py.
 has_permission = {
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.allowed",
+	# Everybody keeps tasks; a task with no project is its own people's.
+	# See one_task/access.py.
+	"Task": "onedesk.one_task.access.allowed",
 	"AI Model": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Credit Ledger Entry": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Credit Reservation": "onedesk.one_admin.site.refuse_on_a_tenant",
@@ -224,6 +238,7 @@ has_permission = {
 # left get_list wide open — measured, not assumed.
 permission_query_conditions = {
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.query",
+	"Task": "onedesk.one_task.access.query",
 	"AI Model": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Credit Ledger Entry": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Credit Reservation": "onedesk.one_admin.site.nothing_on_a_tenant",
@@ -419,7 +434,7 @@ one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS", "onedesk.one_crm.ai.SUGGE
 # as the person looking; nothing is copied. See one_calendar/layers.py.
 one_calendar_layers = [
 	"onedesk.one_calendar.events.LAYERS",
-	"onedesk.one_calendar.work.LAYERS",
+	"onedesk.one_task.calendar.LAYERS",
 	"onedesk.one_crm.calendar.LAYERS",
 	"onedesk.one_hr.calendar.LAYERS",
 ]

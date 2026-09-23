@@ -76,10 +76,16 @@ No doctypes yet.
 |---|--:|---|
 | Calendar Feed | 6 | document |
 
+## One Task
+
+`onedesk/one_task`
+
+No doctypes yet.
+
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
-* **sidebar** — one, one_admin, onecalendar, onecrm, onehr
+* **sidebar** — one, one_admin, onecalendar, onecrm, onehr, onetask
 * **workspace** — one, one_admin, onecrm, onehr, onehr_setup
 
 ## Whitelisted methods

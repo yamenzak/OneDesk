@@ -202,7 +202,7 @@ def test_who_may_publish_is_one_list_in_both_halves():
 
 
 def test_nothing_is_copied_into_an_event():
-	for path in [*CAL.glob("*.py"), tree.APP / "one_crm" / "calendar.py", tree.APP / "one_hr" / "calendar.py"]:
+	for path in [*CAL.glob("*.py"), tree.APP / "one_crm" / "calendar.py", tree.APP / "one_hr" / "calendar.py", tree.APP / "one_task" / "calendar.py"]:
 		said = path.read_text()
 		assert '"doctype": "Event", "' not in said and 'new_doc("Event"' not in said, path.name
 		assert ".insert(" not in said or path.name == "feed.py", path.name

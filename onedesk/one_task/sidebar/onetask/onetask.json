@@ -1,17 +1,17 @@
 {
  "app": "onedesk",
- "creation": "2026-09-24 12:00:00.000000",
+ "creation": "2026-09-25 12:00:00.000000",
  "docstatus": 0,
  "doctype": "Sidebar",
- "header_icon": "onecalendar",
+ "header_icon": "onetask",
  "idx": 0,
  "modified": "2026-09-25 12:00:00.000000",
  "modified_by": "Administrator",
- "module": "One Calendar",
- "name": "OneCalendar",
+ "module": "One Task",
+ "name": "OneTask",
  "owner": "Administrator",
  "standard": 1,
- "title": "OneCalendar",
+ "title": "OneTask",
  "items": [
   {
    "child": 0,
@@ -19,12 +19,13 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
-   "label": "Calendar",
-   "link_type": "Page",
+   "label": "Inbox",
+   "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "onecalendar",
-   "icon": "calendar"
+   "link_to": "Task",
+   "icon": "inbox",
+   "filters": "[[\"Task\", \"project\", \"is\", \"not set\"], [\"Task\", \"status\", \"not in\", [\"Completed\", \"Cancelled\", \"Template\"]]]"
   },
   {
    "child": 0,
@@ -32,12 +33,25 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
-   "label": "Event",
+   "label": "Tasks",
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Event",
-   "icon": "calendar-days"
+   "link_to": "Task",
+   "icon": "circle-check"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Projects",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Project",
+   "icon": "folder-kanban"
   },
   {
    "child": 0,
@@ -56,35 +70,11 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
-   "label": "Holiday List",
+   "label": "Task Type",
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Holiday List"
-  },
-  {
-   "child": 1,
-   "collapsible": 1,
-   "indent": 0,
-   "is_default_module": 1,
-   "keep_closed": 0,
-   "label": "Google Calendar",
-   "link_type": "DocType",
-   "show_arrow": 0,
-   "type": "Link",
-   "link_to": "Google Calendar"
-  },
-  {
-   "child": 1,
-   "collapsible": 1,
-   "indent": 0,
-   "is_default_module": 1,
-   "keep_closed": 0,
-   "label": "Calendar Links",
-   "link_type": "DocType",
-   "show_arrow": 0,
-   "type": "Link",
-   "link_to": "Calendar Feed"
+   "link_to": "Task Type"
   }
  ]
 }

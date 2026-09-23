@@ -717,6 +717,27 @@ OVERRIDES = [
 		"erpnext/erpnext/selling/doctype/selling_settings/selling_settings.py",
 		"toggle_utm_analytics_section(not self.enable_utm)",
 	),
+	(
+		"Every desk user keeps tasks, and sees only their own and, by role, project tasks",
+		"erpnext gives Task to Projects User alone; the grant is a Custom DocPerm and a controller hook narrows it, since a hook cannot grant",
+		"onedesk/one_task/access.py",
+		"frappe/frappe/permissions.py",
+		"if not has_controller_permissions(doc, ptype, user=user, debug=debug):",
+	),
+	(
+		"A to-do about nothing becomes a task, and its ToDo the assignment on it",
+		"`new_todo` and the ToDo form make a ToDo with no reference; saving one with a reference is what writes the task's `_assign`",
+		"onedesk/one_task/capture.py",
+		"frappe/frappe/desk/doctype/todo/todo.py",
+		"def update_in_reference(self):",
+	),
+	(
+		"The last assignment ticked off completes a task in no project",
+		"the other direction is theirs: a completed task closes its assignments, which is also what stops ours looping",
+		"onedesk/one_task/capture.py",
+		"erpnext/erpnext/projects/doctype/task/task.py",
+		"close_all_assignments(self.doctype, self.name)",
+	),
 ]
 
 

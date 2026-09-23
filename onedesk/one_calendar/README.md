@@ -13,7 +13,7 @@ moves when the deal does.
 ## Finding your way
 
 **OneCalendar** in the dock opens the calendar. The rail has **Calendar**,
-**Event** (every event as a list), **To Do**, and under **Setup** the
+**Event** (every event as a list), and under **Setup** the
 **Holiday List**, **Google Calendar** and **Calendar Links**.
 
 The calendar shows a **Month**, a **Week**, a **Day** or a **List**; the
@@ -25,8 +25,9 @@ last, with the layers you left on, on any computer you log in from.
 On the left, in two groups:
 
 - **Mine** — what is yours: **My Events** (ones you made, were invited to or
-  were shared with you), **My To-Dos** (given to you, on the day they are
-  due), **My Tasks** (assigned to you, on their end date), **Deal Next Steps**
+  were shared with you), **My Tasks** (assigned to you, on the day they are
+  due), **Assigned to Me** (anything else you were given, a deal or a leave
+  application, on the day it is due), **Deal Next Steps**
   and **Lead Next Steps** (on your own open deals and leads, at the time
   due), **My Leave** and **My Interviews** (the ones you are on the panel for).
 - **Workspace** — what everybody shares: **Company Events**, **Holidays** (the
@@ -38,7 +39,7 @@ permissions: somebody who cannot read leave has no Who's Off, and an employee
 limited to their own record sees only their own leave there.
 
 Clicking anything opens it: an event opens the event, a next step opens the
-deal or lead, a to-do opens the record it is about.
+deal or lead, a task opens the task, and an assignment opens the record it is about.
 
 ## Events
 
@@ -94,7 +95,7 @@ For the people who build OneCalendar. OneAI does not read past this heading.
   away, so "readable because of the record it is about" cannot be a hook; and
   `get_events` leaves out events a user is only a participant in.
   `occurrences` expands repeats; `validate` keeps Public to PUBLISHERS.
-- `work.py` — ToDo and Task. Both move to OneTask when OneDesk has one.
+- `one_task/calendar.py` — tasks, and assignments on anything but a task.
 - `one_crm/calendar.py`, `one_hr/calendar.py` — each module's own layers.
 - `feed.py` — the subscription: a token per person, kept encrypted and found
   by its SHA-256, read as a guest and rate-limited, answered as that person. `calendar` writes RFC

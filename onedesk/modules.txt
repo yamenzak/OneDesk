@@ -4,3 +4,4 @@ One CRM
 One Admin
 One AI
 One Calendar
+One Task
