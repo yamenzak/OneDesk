@@ -225,3 +225,46 @@ def test_a_template_is_the_whole_teams_and_keeps_what_erpnext_drops():
 	for rail in (PROJECT / "sidebar" / "oneproject" / "oneproject.json", TASK / "sidebar" / "onetask" / "onetask.json"):
 		tasks = next(i for i in json.loads(rail.read_text())["items"] if i.get("label") == "Tasks")
 		assert "is_template" in tasks["filters"], rail.name
+
+
+def test_time_is_invoiced_by_activity():
+	space = _load(PROJECT / "billing.py", ("lines",), flt=lambda value: float(value or 0))
+	rows = [
+		{"activity_type": "Execution", "billing_hours": 3, "billing_amount": 840},
+		{"activity_type": "Planning", "billing_hours": 2, "billing_amount": 600},
+		{"activity_type": "Execution", "billing_hours": 4, "billing_amount": 1120},
+		{"activity_type": None, "billing_hours": 0, "billing_amount": 0},
+	]
+	lines = space["lines"](rows)
+	assert [(one["activity"], one["hours"], one["rate"]) for one in lines] == [("Execution", 7, 280), ("Planning", 2, 300)]
+
+
+def test_an_order_for_extra_work_is_named_by_what_it_orders():
+	from types import SimpleNamespace as Row
+
+	space = _load(PROJECT / "billing.py", ("title",), _=lambda text: text)
+
+	class Order(dict):
+		name = "SAL-ORD-1"
+
+	def order(*names):
+		return Order(items=[Row(item_name=one, item_code=one) for one in names])
+
+	assert space["title"](order("Handrail Installation")) == "Handrail Installation"
+	assert space["title"](order("Handrails", "Glass", "Fixings")) == "Handrails and 2 more"
+	assert space["title"](order()) == "SAL-ORD-1"
+
+
+def test_an_order_under_a_project_becomes_its_sub_project():
+	orders = HOOKS.split('"Sales Order": {', 1)[1].split("},", 1)[0]
+	assert '"onedesk.one_project.billing.ordered"' in orders
+	for doctype in ("quotation", "sales_order"):
+		custom = json.loads((PROJECT / "custom" / f"{doctype}.json").read_text())
+		assert [f["fieldname"] for f in custom["custom_fields"]] == ["one_project"], "the same field, so the mapping carries it"
+	source = (PROJECT / "billing.py").read_text()
+	assert "make_project(doc.name)" in source and 'project.set("one_parent", parent)' in source
+	assert 'data["non_standard_fieldnames"]["Quotation"] = "one_project"' in (PROJECT / "tree.py").read_text()
+	assert '"Quotation": "public/js/quotation.js"' in HOOKS
+	page = (tree.APP / "public" / "js" / "project.js").read_text()
+	assert '"onedesk.one_project.billing.invoice_time"' in page and "frappe.model.open_mapped_doc" in page
+	assert "get_projectwise_timesheet_data" in source, "ERPNext's own list of hours not yet billed"

@@ -221,6 +221,8 @@ No doctypes yet.
 * `onedesk.one_hr.signin.begin`
 * `onedesk.one_hr.signin.finish`
 * `onedesk.one_hr.signin.offered`
+* `onedesk.one_project.billing.invoice_time`
+* `onedesk.one_project.billing.unbilled`
 * `onedesk.one_project.overview.overview`
 * `onedesk.one_project.templates.save_as`
 * `onedesk.one_project.tree.group_under`

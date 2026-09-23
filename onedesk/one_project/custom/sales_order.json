@@ -1,0 +1,21 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Sales Order",
+   "fieldname": "one_project",
+   "fieldtype": "Link",
+   "label": "Sub-project Of",
+   "options": "Project",
+   "insert_after": "delivery_date",
+   "description": "When submitted, a new project is made for this order under this one. Set Project instead to add it to a project as it is.",
+   "allow_on_submit": 0,
+   "no_copy": 0,
+   "print_hide": 1,
+   "module": "One Project"
+  }
+ ],
+ "doctype": "Sales Order",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

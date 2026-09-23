@@ -187,7 +187,15 @@ def group_under(
 
 def dashboard(data: dict) -> dict:
 	"""Sub-projects on a project's page, first among its connections, so + makes
-	one with the parent filled in."""
+	one with the parent filled in; and the quotations for work under it."""
 	data.setdefault("non_standard_fieldnames", {})["Project"] = PARENT
 	data.setdefault("transactions", []).insert(0, {"label": _("Sub-projects"), "items": ["Project"]})
+	# Quotations for extra work under it (billing.py), beside its orders.
+	data["non_standard_fieldnames"]["Quotation"] = "one_project"
+	for group in data["transactions"]:
+		if "Sales Order" in group.get("items", []):
+			group["items"].insert(group["items"].index("Sales Order"), "Quotation")
+			break
+	else:
+		data["transactions"].append({"label": _("Sales"), "items": ["Quotation"]})
 	return data

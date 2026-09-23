@@ -1,5 +1,6 @@
 // A project's page: its board, calendar and plan as buttons of their own, the
-// overview in the band, Group Under New Project and Save as Template.
+// overview in the band, Group Under New Project, Save as Template and Invoice
+// Time.
 //
 // The board is ERPNext's own, made the way their button makes it
 // (one_project/board.py shapes it as it is made). Calendar is OneCalendar
@@ -24,6 +25,9 @@ frappe.ui.form.on("Project", {
 		}
 		if (frm.perm[0] && frm.perm[0].write) {
 			frm.add_custom_button(__("Group Under New Project"), () => onedesk.project.group(frm), __("Actions"));
+		}
+		if (frm.doc.customer && frappe.model.can_create("Sales Invoice")) {
+			frm.add_custom_button(__("Invoice Time"), () => onedesk.project.invoice_time(frm), __("Actions"));
 		}
 		if (frappe.model.can_create("Project Template")) {
 			frm.add_custom_button(__("Save as Template"), () => onedesk.project.save_as(frm), __("Actions"));
@@ -143,4 +147,46 @@ onedesk.project.save_as = (frm) => {
 		__("Save as Template"),
 		__("Save"),
 	);
+};
+
+// A draft invoice for the project's billable time not yet invoiced, by
+// activity (one_project/billing.py). It opens unsaved, to be read first.
+onedesk.project.invoice_time = async (frm) => {
+	const said = await frappe.xcall("onedesk.one_project.billing.unbilled", { project: frm.doc.name });
+	if (!said.hours) {
+		frappe.ui.toast({ message: __("No billable time on {0} is waiting to be invoiced.", [frm.doc.project_name]), type: "info" });
+		return;
+	}
+	const dialog = new frappe.ui.Dialog({
+		title: __("Invoice Time"),
+		fields: [
+			{
+				fieldtype: "HTML",
+				fieldname: "said",
+				options: `<p class="text-muted">${__("{0} hours, {1}, not invoiced yet.", [
+					format_number(said.hours, null, 2),
+					format_currency(said.amount, said.currency),
+				])}</p>`,
+			},
+			{
+				fieldtype: "Link",
+				fieldname: "item",
+				label: __("Item"),
+				options: "Item",
+				reqd: 1,
+				default: said.item,
+				get_query: () => ({ filters: { is_sales_item: 1, disabled: 0 } }),
+			},
+		],
+		primary_action_label: __("Create"),
+		primary_action: ({ item }) => {
+			dialog.hide();
+			frappe.model.open_mapped_doc({
+				method: "onedesk.one_project.billing.invoice_time",
+				source_name: frm.doc.name,
+				args: { item },
+			});
+		},
+	});
+	dialog.show();
 };

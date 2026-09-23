@@ -60,7 +60,8 @@ def test_every_outcome_the_field_offers_is_handled():
 def test_every_way_a_status_changes_is_hooked():
 	assert '"onedesk.one_crm.stages.before_validate"' in HOOKS
 	for doctype in ("Quotation", "Sales Order"):
-		assert f'"{doctype}": {{\n\t\t"on_submit": "onedesk.one_crm.stages.follow"' in HOOKS
+		submit = HOOKS.split(f'"{doctype}": {{', 1)[1].split('"on_cancel"', 1)[0]
+		assert '"on_submit"' in submit and '"onedesk.one_crm.stages.follow"' in submit, doctype
 	assert '"onedesk.one_crm.stages.settle"' in HOOKS
 	assert '"Opportunity-sales_stage"' in HOOKS, "stage history comes from the Milestone Tracker fixture"
 

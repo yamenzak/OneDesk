@@ -227,7 +227,11 @@ doc_events = {
 		"on_update_after_submit": "onedesk.one_crm.stages.follow",
 	},
 	"Sales Order": {
-		"on_submit": "onedesk.one_crm.stages.follow",
+		"on_submit": [
+			"onedesk.one_crm.stages.follow",
+			# An order for extra work becomes a sub-project. See one_project/billing.py.
+			"onedesk.one_project.billing.ordered",
+		],
 		"on_cancel": "onedesk.one_crm.stages.follow",
 	},
 	# Submitting is the approval, and it says which shift. See one_hr/shift.py.
@@ -361,6 +365,7 @@ doctype_js = {
 	# The project's board is a button of its own. See one_project/board.py.
 	"Project": "public/js/project.js",
 	"Project Template": "public/js/project_template.js",
+	"Quotation": "public/js/quotation.js",
 	# A timer on the task. See one_task/timer.py.
 	"Task": "public/js/task.js",
 }

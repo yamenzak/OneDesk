@@ -1,0 +1,21 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Quotation",
+   "fieldname": "one_project",
+   "fieldtype": "Link",
+   "label": "Sub-project Of",
+   "options": "Project",
+   "insert_after": "valid_till",
+   "description": "When it is ordered, the order becomes a new project under this one, with its own time, costs and invoices.",
+   "allow_on_submit": 0,
+   "no_copy": 0,
+   "print_hide": 1,
+   "module": "One Project"
+  }
+ ],
+ "doctype": "Quotation",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

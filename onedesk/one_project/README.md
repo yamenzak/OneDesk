@@ -123,6 +123,37 @@ waits on it. It opens on today; **Today** comes back to it, and **Day**,
 **Drag a bar to move a task**, or drag its end to make it longer. Double-click
 a bar to open the task.
 
+## What a project costs, and billing it
+
+**Time is priced for you.** Every hour on a timesheet — the timer on a task
+writes one — is costed and billed at the rate set for that person and
+activity under **Setup › Activity Cost**, or the activity's own rate under
+**Activity Type** when the person has none. Once the timesheet is submitted the
+hours count in the project's **Cost**, and billable ones in what there is to
+bill. Time on a project with a customer is billable unless somebody unticks it.
+
+**Invoice Time** (under **Actions**, on a project with a customer) makes an
+invoice for every billable hour on the project not yet invoiced — one line for
+each activity, so the customer reads *Execution, 7 hours* and *Planning, 2
+hours*. It asks which item to bill the time as, remembering the last one, and
+opens the invoice unsaved for you to check. Submitting it marks the hours
+invoiced, and the project's **Billed** goes up. A sub-project's time is
+invoiced from the sub-project.
+
+## Extra work becomes a sub-project
+
+When a customer asks for more in the middle of a job — handrails on a villa
+whose windows you are fitting — quote it as its own piece of work. On the
+project's page, **+** beside **Quotation** under Connections starts a quotation
+for its customer with **Sub-project Of** filled in; or set **Sub-project Of** on
+any quotation. When the customer orders it and the **Sales Order** is
+submitted, a new project is made for the order under that one, named after
+what was ordered, with the order's total as its estimate. It has its own time,
+costs and invoices, and they add up into the parent's.
+
+To add an order to a project as it is, without a sub-project, set the order's
+**Project** instead.
+
 ## Starting from a template
 
 A job you do again and again — a website, a fit-out, an office move — starts
@@ -195,6 +226,18 @@ one field for it.
   Task, filtered to the tree (`public/js/project.js`); `public/js/task_list.js`
   draws a task with only a due date and lights the view mode the chart is in,
   and `public/css/desk.css` lets it scroll.
+- `billing.py` — money on ERPNext's own records. Pricing is theirs
+  (Activity Cost, then Activity Type, in `TimesheetDetail.update_cost`).
+  **Invoice Time** (`invoice_time`, opened through
+  `frappe.model.open_mapped_doc`) is their Sales Invoice with its Time Sheets
+  filled from their own list of billable unbilled hours
+  (`get_projectwise_timesheet_data`), lines by activity (`lines`, pure);
+  submitting it is theirs too. **Sub-project Of** (`one_project`, the same
+  field on Quotation and Sales Order so their mapping carries it) makes the
+  submitted order a sub-project through their own `make_project` (`ordered`,
+  named by `title`, pure), and adds up its sales once their after_insert has
+  linked the order. `public/js/quotation.js` gives such a quotation the
+  project's customer, and `tree.dashboard` lists quotations on the project.
 - `templates.py` — ERPNext's Project Template, which already makes a
   project's tasks from template tasks as the project is saved. Added: **Save
   as Template** (`save_as`, with `start_of` and `days` pure), what their copy
@@ -209,7 +252,8 @@ one field for it.
   billing and margin added up (tree.totals), overdue tasks and the next
   milestone.
 - `public/js/project.js` — the Board, Calendar and Schedule buttons, the
-  overview in the band, Group Under New Project and Save as Template;
+  overview in the band, Group Under New Project, Save as Template and Invoice
+  Time;
   `public/js/project_template.js` is a template's New Project.
 
 ### What OneTask has to keep doing for projects
@@ -257,9 +301,11 @@ stage below that touches tasks keeps them:
    prefix names them; templates are the team's, not their maker's. A template
    of a whole tree of sub-projects is not built: ERPNext's template is one
    project.
-7. **Cost and billing.** Time priced by Activity Cost; hours invoiced from
-   timesheets (OneBook); a quotation accepted as a sub-project of the project
-   it is for.
+7. **Cost and billing.** *Done.* Time priced by Activity Cost, which ERPNext
+   already did; a project's billable hours invoiced in one step, by activity;
+   a quotation for extra work ordered as a sub-project of the project it is
+   for. A rate per customer or per project is not built: ERPNext prices time
+   by person and activity only.
 8. **Status updates.** ERPNext's Project Update asks the team for a note on a
    schedule, and the answers are kept on the project.
 9. **The customer's view.** ERPNext's portal shows a customer their own

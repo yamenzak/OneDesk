@@ -871,6 +871,27 @@ OVERRIDES = [
 		"frappe/frappe/core/doctype/document_naming_rule/document_naming_rule.py",
 		"frappe.cache_manager.clear_doctype_map(self.doctype, self.document_type)",
 	),
+	(
+		"A project's time is invoiced in one step, by activity",
+		"theirs invoices one timesheet at a time as one line, or fetches a project's hours into an invoice somebody has already started",
+		"onedesk/one_project/billing.py",
+		"erpnext/erpnext/projects/doctype/timesheet/timesheet.py",
+		"def get_projectwise_timesheet_data(",
+	),
+	(
+		"An order for extra work becomes a sub-project",
+		"their Create > Project on an order makes a project of its own, named after the order, under nothing",
+		"onedesk/one_project/billing.py",
+		"erpnext/erpnext/selling/doctype/sales_order/mapper.py",
+		"def make_project(source_name: str, target_doc: str | dict | Document | None = None):",
+	),
+	(
+		"The sub-project an order makes counts the order's sales",
+		"their after_insert links the order to the project only after the project's sales were added up",
+		"onedesk/one_project/billing.py",
+		"erpnext/erpnext/projects/doctype/project/project.py",
+		"self.link_with_sales_order()",
+	),
 ]
 
 
