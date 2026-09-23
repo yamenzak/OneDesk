@@ -96,10 +96,16 @@ No doctypes yet.
 
 No doctypes yet.
 
+## One Inventory
+
+`onedesk/one_inventory`
+
+No doctypes yet.
+
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
-* **sidebar** — one, one_admin, onebook, onecalendar, onecrm, onehr, oneproject, onetask
+* **sidebar** — one, one_admin, onebook, onecalendar, onecrm, onehr, oneinventory, oneproject, onetask
 * **workspace** — one, one_admin, onecrm, onehr, onehr_setup
 
 ## Whitelisted methods

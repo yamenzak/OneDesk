@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 22:02+0000\n"
-"PO-Revision-Date: 2026-09-23 22:02+0000\n"
+"POT-Creation-Date: 2026-09-23 22:05+0000\n"
+"PO-Revision-Date: 2026-09-23 22:05+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -919,6 +919,41 @@ msgstr ""
 msgid "Asking…"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Asset Balances"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Asset Capitalization"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Asset Categories"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Asset Movements"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Asset Register"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Asset Value Adjustments"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Assets"
+msgstr ""
+
 #: onedesk/public/js/employee.js:184
 msgid "Assign a Salary Structure"
 msgstr ""
@@ -1119,6 +1154,11 @@ msgstr ""
 msgid "Base URL"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Batches"
+msgstr ""
+
 #. Label of the one_becomes (Data) field in DocType 'Employee Promotion'
 #: onedesk/one_hr/custom/employee_promotion.json
 msgid "Becomes"
@@ -1239,6 +1279,11 @@ msgstr ""
 msgid "Branch"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Brands"
+msgstr ""
+
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:12
@@ -1266,6 +1311,16 @@ msgstr ""
 #: onedesk/public/js/workspace_account.js:25
 #: onedesk/public/js/workspace_account.js:141
 msgid "Buy credits"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Buying"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Buying Settings"
 msgstr ""
 
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:19
@@ -2111,6 +2166,11 @@ msgstr ""
 msgid "Delete {0}"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Deliveries"
+msgstr ""
+
 #. Description of a DocType
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
 msgid "Deliveries received from Stripe, used to ignore repeats."
@@ -2127,6 +2187,11 @@ msgstr ""
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/public/js/leave_control_panel.js:35
 msgid "Department"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Depreciation"
 msgstr ""
 
 #. Label of the description (Small Text) field in DocType 'Offering'
@@ -3591,8 +3656,23 @@ msgid "Item"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Item Groups"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Item Prices"
+msgstr ""
+
+#. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Item Tax Templates"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Items"
 msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:27
@@ -3713,6 +3793,11 @@ msgstr ""
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Label"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Landed Costs"
 msgstr ""
 
 #. Label of the last_address (Data) field in DocType 'Clock Device'
@@ -4072,6 +4157,11 @@ msgstr ""
 msgid "Location permission was refused."
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Locations"
+msgstr ""
+
 #. Description of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Locations employees may check in from, each with a radius."
@@ -4161,6 +4251,21 @@ msgstr ""
 msgid "Made by OneAI"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Maintenance"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Maintenance Log"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Maintenance Teams"
+msgstr ""
+
 #: onedesk/one_hr/ai.py:42 onedesk/one_hr/ai.py:280
 msgid "Make an expense claim from this receipt."
 msgstr ""
@@ -4242,6 +4347,11 @@ msgstr ""
 #. Label of the one_duplicate_on (Data) field in DocType 'Lead'
 #: onedesk/one_crm/custom/lead.json
 msgid "Matched On"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Material Requests"
 msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:31
@@ -4351,6 +4461,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "More"
 msgstr ""
 
@@ -5083,6 +5194,11 @@ msgid "OneHR Setup"
 msgstr ""
 
 #. Title of a Sidebar
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "OneInventory"
+msgstr ""
+
+#. Title of a Sidebar
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "OneProject"
 msgstr ""
@@ -5260,6 +5376,11 @@ msgstr ""
 
 #: onedesk/www/projects.html:73
 msgid "Order and Invoices"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Orders to Receive"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -5616,6 +5737,11 @@ msgstr ""
 msgid "Photo"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Pick Lists"
+msgstr ""
+
 #: onedesk/www/start.html:20
 msgid "Pick a name and a plan. The workspace is built as soon as the card is accepted."
 msgstr ""
@@ -5768,6 +5894,11 @@ msgstr ""
 msgid "Price List"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Price Lists"
+msgstr ""
+
 #: onedesk/public/js/ai_model.js:15 onedesk/public/js/ai_model.js:54
 msgid "Price a call"
 msgstr ""
@@ -5848,6 +5979,11 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Project Type"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Projected Stock"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -5966,6 +6102,11 @@ msgid "Purchase"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Purchase Orders"
+msgstr ""
+
+#. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Purchase Tax Templates"
 msgstr ""
@@ -5978,6 +6119,11 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Purpose of Travel"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Quality Inspections"
 msgstr ""
 
 #: onedesk/one_hr/hiring.py:490
@@ -6098,6 +6244,11 @@ msgstr ""
 #. Description of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Reasons offered to employees on check out."
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Receipts"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -6322,6 +6473,11 @@ msgstr ""
 msgid "Removed at Frappe Cloud"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Repairs"
+msgstr ""
+
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:65
 msgid "Replied (%)"
 msgstr ""
@@ -6332,6 +6488,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Reports"
 msgstr ""
 
@@ -6353,6 +6510,11 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Requested"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Requests for Quotation"
 msgstr ""
 
 #. Label of the one_gate_passkey (Check) field in DocType 'HR Settings'
@@ -6495,6 +6657,11 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json onedesk/one_project/tree.py:200
 msgid "Sales"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json
+msgid "Sales Order"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -6651,6 +6818,11 @@ msgstr ""
 msgid "Separation"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Serial Numbers"
+msgstr ""
+
 #. Label of the session_address (Data) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Session Address"
@@ -6740,6 +6912,7 @@ msgstr ""
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Setup"
@@ -7023,6 +7196,41 @@ msgstr ""
 msgid "Still in Draft"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Stock Ageing"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Stock Counts"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Stock Ledger"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Stock Movements"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Stock Settings"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Stock against the Books"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Stock on Hand"
+msgstr ""
+
 #: onedesk/public/js/hiring.js:289
 msgid "Stop"
 msgstr ""
@@ -7213,7 +7421,13 @@ msgid "Supplier Quotation"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Supplier Quotations"
+msgstr ""
+
+#. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Suppliers"
 msgstr ""
 
@@ -8107,6 +8321,11 @@ msgstr ""
 msgid "Unit"
 msgstr ""
 
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Units of Measure"
+msgstr ""
+
 #: onedesk/one_hr/presence.py:120
 msgid "Unknown"
 msgstr ""
@@ -8315,6 +8534,11 @@ msgstr ""
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:19
 #: onedesk/public/js/job.js:25
 msgid "Waiting to run"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "Warehouses"
 msgstr ""
 
 #. Label of the stripe_webhook_secret (Password) field in DocType 'One Admin

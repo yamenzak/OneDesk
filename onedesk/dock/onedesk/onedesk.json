@@ -24,6 +24,14 @@
   {
    "added": 0,
    "hidden": 0,
+   "icon": "oneinventory",
+   "link_to": "OneInventory",
+   "link_type": "Sidebar",
+   "title": "OneInventory"
+  },
+  {
+   "added": 0,
+   "hidden": 0,
    "icon": "onecrm",
    "link_to": "OneCRM",
    "link_type": "Sidebar",
@@ -70,7 +78,7 @@
    "title": "One Admin"
   }
  ],
- "modified": "2026-09-28 20:00:00.000000",
+ "modified": "2026-09-28 21:00:00.000000",
  "modified_by": "Administrator",
  "name": "onedesk",
  "owner": "Administrator",

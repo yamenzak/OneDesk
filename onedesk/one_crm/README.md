@@ -23,8 +23,9 @@ The rail on the left has the whole of OneCRM in it:
 - **Customer** — somebody who has bought, or is about to.
 - **Contact** and **Prospect** — the people, and the businesses they work for.
 - **Sales**, **Campaigns**, **Setup** — one group each, opened with the arrow.
-  Quotations, appointments, contracts and the four sales reports are under
-  Sales.
+  Quotations, sales orders, appointments, contracts and the four sales reports
+  are under Sales. A sales order is what a won deal becomes: OneInventory
+  delivers it and OneBook invoices it.
 
 **One workspace is one company.** You are never asked which company a lead or
 a deal belongs to.

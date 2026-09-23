@@ -7,3 +7,4 @@ One Calendar
 One Task
 One Project
 One Book
+One Inventory
