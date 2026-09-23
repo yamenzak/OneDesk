@@ -182,6 +182,22 @@ SUGGESTIONS = {
 			"said": _lt("Writing it down again. The transcript and my remarks follow when I am done."),
 		},
 	],
+	"Payroll Entry": [
+		{
+			"label": _lt("Check this payroll"),
+			"ask": _lt("Check this payroll against last month and tell me what looks unusual, most money first."),
+			"can": "read",
+			"view": "Form",
+		},
+	],
+	"Salary Slip": [
+		{
+			"label": _lt("What changed since last month?"),
+			"ask": _lt("Compare this salary slip with this person's last one and tell me what changed."),
+			"can": "read",
+			"view": "Form",
+		},
+	],
 	"Exit Interview": [
 		{
 			"label": _lt("Why are people leaving?"),

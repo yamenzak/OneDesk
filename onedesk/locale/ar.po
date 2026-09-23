@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 11:01+0000\n"
-"PO-Revision-Date: 2026-09-23 11:01+0000\n"
+"POT-Creation-Date: 2026-09-23 11:04+0000\n"
+"PO-Revision-Date: 2026-09-23 11:04+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "(from what was asked for)"
 msgstr "(مما طُلب)"
 
-#: onedesk/one_hr/ai.py:892
+#: onedesk/one_hr/ai.py:908
 msgid "1 day of {0}."
 msgstr "يوم واحد من {0}."
 
-#: onedesk/one_hr/ai.py:896
+#: onedesk/one_hr/ai.py:912
 msgid "1 day of {0}; {1} left after."
 msgstr "يوم واحد من {0}؛ يتبقى بعده {1}."
 
@@ -1060,7 +1060,7 @@ msgstr "حالة الإجراءات"
 msgid "Body"
 msgstr "المحتوى"
 
-#: onedesk/one_hr/ai.py:43 onedesk/one_hr/ai.py:205
+#: onedesk/one_hr/ai.py:43 onedesk/one_hr/ai.py:221
 msgid "Book time off"
 msgstr "حجز إجازة"
 
@@ -1232,6 +1232,14 @@ msgstr "التحقق من الموقع"
 msgid "Check the Network"
 msgstr "التحقق من الشبكة"
 
+#: onedesk/one_hr/ai.py:187
+msgid "Check this payroll"
+msgstr "تدقيق هذا الراتب"
+
+#: onedesk/one_hr/ai.py:188
+msgid "Check this payroll against last month and tell me what looks unusual, most money first."
+msgstr "قارن كشف الرواتب هذا بالشهر الماضي وأخبرني بما يبدو غير معتاد، بدءًا بالمبالغ الأكبر."
+
 #. Label of the one_section (Section Break) field in DocType 'Shift Location'
 #. Label of a Card Break in the OneHR Setup Workspace
 #: onedesk/one_hr/custom/shift_location.json
@@ -1327,7 +1335,7 @@ msgstr "اختر شهراً وسنة."
 msgid "Choose an employee and a posting date first."
 msgstr "اختر الموظف وتاريخ القيد أولاً."
 
-#: onedesk/one_hr/ai.py:35 onedesk/one_hr/ai.py:207
+#: onedesk/one_hr/ai.py:35 onedesk/one_hr/ai.py:223
 msgid "Claim a receipt"
 msgstr "قدّم إيصالًا للمطالبة"
 
@@ -1435,6 +1443,10 @@ msgstr "العنقود"
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Company"
 msgstr ""
+
+#: onedesk/one_hr/ai.py:196
+msgid "Compare this salary slip with this person's last one and tell me what changed."
+msgstr "قارن قسيمة الراتب هذه بآخر قسيمة لهذا الشخص وأخبرني بما تغيّر."
 
 #. Description of the 'Value' (Long Text) field in DocType 'AI Touch'
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
@@ -2422,7 +2434,7 @@ msgstr "مجاناً لمدة {0} يوماً"
 msgid "From Date"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:273
+#: onedesk/one_hr/ai.py:289
 msgid "From a receipt: {0}, {1}."
 msgstr "من إيصال: {0}، {1}."
 
@@ -2599,7 +2611,7 @@ msgstr "الطول والوزن والحساسيات والحالات الطبي
 msgid "Held"
 msgstr "المحجوز"
 
-#: onedesk/one_hr/ai.py:43 onedesk/one_hr/ai.py:205
+#: onedesk/one_hr/ai.py:43 onedesk/one_hr/ai.py:221
 msgid "Help me book time off."
 msgstr "ساعدني في حجز إجازة."
 
@@ -2709,11 +2721,11 @@ msgstr "كم رصيداً يصير دولار واحد من كلفة المزو�
 msgid "How many people the result covers, kept on the document so the list can say it."
 msgstr "عدد الأشخاص الذين تشملهم النتيجة، محفوظاً على المستند كي تذكره القائمة."
 
-#: onedesk/one_hr/ai.py:46 onedesk/one_hr/ai.py:215
+#: onedesk/one_hr/ai.py:46 onedesk/one_hr/ai.py:231
 msgid "How much leave do I have left, and who on my team is off in the next two weeks?"
 msgstr "كم تبقى لي من الإجازات، ومن في فريقي في إجازة خلال الأسبوعين القادمين؟"
 
-#: onedesk/one_hr/ai.py:45 onedesk/one_hr/ai.py:214
+#: onedesk/one_hr/ai.py:45 onedesk/one_hr/ai.py:230
 msgid "How much leave do I have?"
 msgstr "كم لديّ من الإجازات؟"
 
@@ -3310,7 +3322,7 @@ msgstr "بحث عن معلومة"
 msgid "Made by OneAI"
 msgstr "من إنشاء OneAI"
 
-#: onedesk/one_hr/ai.py:36 onedesk/one_hr/ai.py:208
+#: onedesk/one_hr/ai.py:36 onedesk/one_hr/ai.py:224
 msgid "Make an expense claim from this receipt."
 msgstr "أنشئ مطالبة مصروفات من هذا الإيصال."
 
@@ -5726,7 +5738,7 @@ msgstr "اقترح تغييراً"
 msgid "Suggested a change to {0}"
 msgstr "اقترح تغييراً على {0}"
 
-#: onedesk/one_ai/tools.py:571 onedesk/one_hr/ai.py:279
+#: onedesk/one_ai/tools.py:571 onedesk/one_hr/ai.py:295
 msgid "Suggested. It happens when somebody approves it."
 msgstr "اقتُرح. ويحدث حين يوافق عليه أحد."
 
@@ -6715,6 +6727,10 @@ msgstr "ما يعمل عليه الإجراء المحتاج إلى هذا حي�
 msgid "What caused this: a Stripe payment, a run, a person."
 msgstr "ما سبّب هذا: دفعة Stripe أو تشغيل أو شخص."
 
+#: onedesk/one_hr/ai.py:195
+msgid "What changed since last month?"
+msgstr "ما الذي تغيّر منذ الشهر الماضي؟"
+
 #. Description of the 'Clock Attempt' (Link) field in DocType 'Employee
 #. Checkin'
 #: onedesk/one_hr/custom/employee_checkin.json
@@ -6891,11 +6907,11 @@ msgstr "صلاحيات مَن فُحصت حين كُتب هذا، وصلاحيا
 msgid "Why There Is No Figure"
 msgstr "سبب غياب الرقم"
 
-#: onedesk/one_hr/ai.py:187 onedesk/one_hr/ai.py:195
+#: onedesk/one_hr/ai.py:203 onedesk/one_hr/ai.py:211
 msgid "Why are people leaving?"
 msgstr "لماذا يغادر الموظفون؟"
 
-#: onedesk/one_hr/ai.py:188 onedesk/one_hr/ai.py:196
+#: onedesk/one_hr/ai.py:204 onedesk/one_hr/ai.py:212
 msgid "Why have people left over the last twelve months, and how many said each reason?"
 msgstr "لماذا غادر الموظفون خلال الاثني عشر شهرًا الماضية، وكم منهم ذكر كل سبب؟"
 
@@ -7427,11 +7443,11 @@ msgstr "{0} يوماً قبل أن تهبط إلى {1}."
 msgid "{0} days left"
 msgstr "بقي {0} يوماً"
 
-#: onedesk/one_hr/ai.py:894
+#: onedesk/one_hr/ai.py:910
 msgid "{0} days of {1}."
 msgstr "{0} يوم من {1}."
 
-#: onedesk/one_hr/ai.py:898
+#: onedesk/one_hr/ai.py:914
 msgid "{0} days of {1}; {2} left after."
 msgstr "{0} يوم من {1}؛ يتبقى بعدها {2}."
 
