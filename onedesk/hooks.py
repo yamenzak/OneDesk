@@ -123,6 +123,12 @@ doc_events = {
 		"after_insert": "onedesk.one_hr.hiring.scheduled",
 		"onload": "onedesk.one_hr.hiring.interview_onload",
 	},
+	# A new grievance is read, and a sensitive one is kept to HR Managers and
+	# its raiser. See one_hr/ai_grievance.py.
+	"Employee Grievance": {
+		"after_insert": "onedesk.one_hr.ai_grievance.raised",
+		"validate": "onedesk.one_hr.ai_grievance.unmarked",
+	},
 	# A recording's sound goes by its retention or an HR Manager's hand.
 	"File": {"on_trash": "onedesk.one_hr.hiring.keep_sound"},
 	# An onboarding is for somebody who is not an employee yet, so the holiday
@@ -152,6 +158,7 @@ doc_events = {
 # so a tenant administrator granting themselves One Operator on their own
 # workspace gets a rail entry and nothing behind it. See one_admin/site.py.
 has_permission = {
+	"Employee Grievance": "onedesk.one_hr.ai_grievance.allowed",
 	"AI Model": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Credit Ledger Entry": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Credit Reservation": "onedesk.one_admin.site.refuse_on_a_tenant",
@@ -169,6 +176,7 @@ has_permission = {
 # only called when there is a document, so on its own it guarded the form and
 # left get_list wide open — measured, not assumed.
 permission_query_conditions = {
+	"Employee Grievance": "onedesk.one_hr.ai_grievance.query",
 	"AI Model": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Credit Ledger Entry": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Credit Reservation": "onedesk.one_admin.site.nothing_on_a_tenant",

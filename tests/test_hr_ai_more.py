@@ -112,3 +112,34 @@ def test_a_policy_answer_names_its_source():
 	assert "name its source in brackets" in source
 	assert "do not answer from what is usual" in source
 	assert '"source": f"Leave Type: {one.name}"' in source
+
+
+# ------------------------------------------------------------------ grievances
+
+GRIEVANCE = HR / "ai_grievance.py"
+
+
+def test_a_permission_hook_never_answers_none():
+	"""frappe reads a falsy answer as a refusal; None shut HR out of every grievance."""
+	tree_ = ast.parse(GRIEVANCE.read_text(encoding="utf-8"))
+	allowed = next(n for n in tree_.body if getattr(n, "name", "") == "allowed")
+	returns = [node.value for node in ast.walk(allowed) if isinstance(node, ast.Return)]
+	assert returns and all(isinstance(one, ast.Constant) and one.value in (True, False) for one in returns)
+
+
+def test_oneai_marks_a_grievance_sensitive_and_never_clears_it():
+	source = GRIEVANCE.read_text(encoding="utf-8")
+	assert 'values["one_ai_sensitive"] = 1' in source
+	assert '"one_ai_sensitive": 0' not in source and "one_ai_sensitive = 0" not in source
+	assert "Only an HR Manager can mark a grievance as not sensitive." in source
+	hooks = (tree.APP / "hooks.py").read_text()
+	assert '"Employee Grievance": "onedesk.one_hr.ai_grievance.allowed"' in hooks
+	assert '"Employee Grievance": "onedesk.one_hr.ai_grievance.query"' in hooks
+
+
+def test_harassment_discrimination_and_safety_are_always_sensitive():
+	space = _pure(GRIEVANCE, "CATEGORIES", "SENSITIVE")
+	assert set(space["SENSITIVE"]) == {"Harassment", "Discrimination", "Safety"}
+	assert set(space["SENSITIVE"]) <= set(space["CATEGORIES"])
+	source = GRIEVANCE.read_text(encoding="utf-8")
+	assert "sensitive = category in SENSITIVE or bool(answer.get(\"sensitive\"))" in source

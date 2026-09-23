@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 11:11+0000\n"
-"PO-Revision-Date: 2026-09-23 11:11+0000\n"
+"POT-Creation-Date: 2026-09-23 11:15+0000\n"
+"PO-Revision-Date: 2026-09-23 11:15+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -173,6 +173,10 @@ msgstr "Ein Eintrag über ein Ereignis an einem Arbeitsbereich."
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 msgid "A retried webhook meets this index rather than a check somebody remembered to write."
 msgstr "Ein wiederholter Webhook trifft auf diesen Index statt auf eine Prüfung, an die jemand denken musste."
+
+#: onedesk/one_hr/ai_grievance.py:135
+msgid "A sensitive grievance was raised"
+msgstr "Eine sensible Beschwerde wurde eingereicht"
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:146
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:82
@@ -488,11 +492,11 @@ msgstr ""
 msgid "Addresses employees may check in from."
 msgstr "Adressen, von denen Mitarbeiter einchecken dürfen."
 
-#: onedesk/one_hr/hiring.py:759
+#: onedesk/one_hr/hiring.py:741
 msgid "After the interview: {0}"
 msgstr "Nach dem Gespräch: {0}"
 
-#: onedesk/one_hr/hiring.py:757
+#: onedesk/one_hr/hiring.py:739
 msgid "After the {0} interview: {1}"
 msgstr "Nach dem Gespräch „{0}“: {1}"
 
@@ -601,9 +605,13 @@ msgid "An employee who never checks out gets an OUT written at the shift end, ma
 msgstr "Für einen Mitarbeiter, der sich nie auscheckt, wird zum Schichtende ein AUS geschrieben und als automatisch geschlossen markiert."
 
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.py:15
-#: onedesk/one_hr/hiring.py:547
+#: onedesk/one_hr/hiring.py:529
 msgid "An interview is only recorded once the candidate has agreed."
 msgstr "Ein Gespräch wird nur aufgezeichnet, wenn die Kandidatin oder der Kandidat zugestimmt hat."
+
+#: onedesk/one_hr/ai_grievance.py:135
+msgid "An urgent grievance was raised"
+msgstr "Eine dringende Beschwerde wurde eingereicht"
 
 #: onedesk/one_hr/rules.py:43
 msgid "Another check-in was recorded in the same second."
@@ -799,7 +807,7 @@ msgstr "Foto anfordern"
 msgid "Ask for a Reason on Check Out"
 msgstr "Beim Auschecken nach einem Grund fragen"
 
-#: onedesk/one_hr/hiring.py:811
+#: onedesk/one_hr/hiring.py:793
 msgid "Ask next round"
 msgstr "In der nächsten Runde fragen"
 
@@ -1119,7 +1127,7 @@ msgstr "Guthaben kaufen"
 msgid "By"
 msgstr "Nach"
 
-#: onedesk/one_hr/hiring.py:807
+#: onedesk/one_hr/hiring.py:789
 msgid "By skill"
 msgstr "Nach Fähigkeit"
 
@@ -1182,6 +1190,11 @@ msgstr "Fähigkeit"
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Captures a frame from the camera at check-in. Choosing an existing file instead is not allowed."
 msgstr "Nimmt beim Einchecken ein Bild mit der Kamera auf. Stattdessen eine vorhandene Datei zu wählen, ist nicht erlaubt."
+
+#. Label of the one_ai_category (Select) field in DocType 'Employee Grievance'
+#: onedesk/one_hr/custom/employee_grievance.json
+msgid "Category"
+msgstr ""
 
 #: onedesk/public/js/attendance.js:8
 msgid "Change the Overtime"
@@ -1452,6 +1465,11 @@ msgstr "Cloudflare"
 msgid "Cluster"
 msgstr "Cluster"
 
+#. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
+#: onedesk/one_hr/custom/employee_grievance.json
+msgid "Colleague"
+msgstr "Kollege"
+
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Company"
@@ -1474,7 +1492,7 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:498
+#: onedesk/one_hr/hiring.py:480
 msgid "Confirm first"
 msgstr "Zuerst klären"
 
@@ -1828,6 +1846,11 @@ msgstr "Gerät"
 #: onedesk/one_hr/custom/employee.json
 msgid "Device ID"
 msgstr "Geräte-ID"
+
+#. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
+#: onedesk/one_hr/custom/employee_grievance.json
+msgid "Discrimination"
+msgstr "Diskriminierung"
 
 #. Label of the metres_out (Float) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -2233,7 +2256,7 @@ msgstr "Jeder Einchecken-Versuch, ob erlaubt, markiert oder abgelehnt."
 msgid "Every check-in is scored out of 100 and the score is kept on Clock Attempt. Each check below that fails subtracts from it."
 msgstr "Jedes Einchecken wird mit bis zu 100 Punkten bewertet, und die Punktzahl wird im Einchecken-Versuch festgehalten. Jede fehlgeschlagene Prüfung unten zieht davon ab."
 
-#: onedesk/one_hr/hiring.py:636
+#: onedesk/one_hr/hiring.py:618
 msgid "Every part is already transcribed."
 msgstr "Alle Teile sind bereits transkribiert."
 
@@ -2311,6 +2334,11 @@ msgstr "Verfällt"
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:135
 msgid "Expiring {0}"
 msgstr "Verfällt am {0}"
+
+#. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
+#: onedesk/one_hr/custom/employee_grievance.json
+msgid "Facilities"
+msgstr "Einrichtungen"
 
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
@@ -2403,6 +2431,10 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 msgid "First Seen"
 msgstr "Erstmals gesehen"
+
+#: onedesk/one_hr/ai_grievance.py:95
+msgid "First steps"
+msgstr "Erste Schritte"
 
 #: onedesk/public/js/oneai/Panel.vue:274
 msgid "Fix spelling and grammar"
@@ -2640,6 +2672,11 @@ msgstr "Halbtags"
 msgid "Handled"
 msgstr "Bearbeitet"
 
+#. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
+#: onedesk/one_hr/custom/employee_grievance.json
+msgid "Harassment"
+msgstr "Belästigung"
+
 #. Description of the 'health_details' field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "Height, weight, allergies and medical concerns."
@@ -2664,6 +2701,11 @@ msgstr "Hilf mir, das einzurichten"
 #: onedesk/public/js/oneai/Record.vue:23
 msgid "Hide the changes"
 msgstr "Änderungen ausblenden"
+
+#. Option for the 'Urgency' (Select) field in DocType 'Employee Grievance'
+#: onedesk/one_hr/custom/employee_grievance.json
+msgid "High"
+msgstr ""
 
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
@@ -3182,9 +3224,11 @@ msgstr "Von {0} Mitarbeitern gelernt"
 msgid "Learning"
 msgstr "Lernen"
 
+#. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
 #. Label of a Sidebar Item
 #. Label of a quick_list in the OneHR Workspace
 #. Label of a Card Break in the OneHR Setup Workspace
+#: onedesk/one_hr/custom/employee_grievance.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
@@ -3392,6 +3436,11 @@ msgstr "Hat {0} nachgeschlagen"
 msgid "Looked something up"
 msgstr "Hat etwas nachgeschlagen"
 
+#. Option for the 'Urgency' (Select) field in DocType 'Employee Grievance'
+#: onedesk/one_hr/custom/employee_grievance.json
+msgid "Low"
+msgstr ""
+
 #. Label of the ai_generated (Check) field in DocType 'File'
 #: onedesk/one_ai/custom/file.json
 msgid "Made by OneAI"
@@ -3414,7 +3463,9 @@ msgid "Make it smaller"
 msgstr "Kleiner machen"
 
 #. Label of the 'reports_to' field in DocType 'Employee'
+#. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
 #: onedesk/one_hr/custom/employee.json
+#: onedesk/one_hr/custom/employee_grievance.json
 msgid "Manager"
 msgstr ""
 
@@ -3534,11 +3585,11 @@ msgstr "Monatsguthaben für {0}"
 msgid "Move"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:900
+#: onedesk/one_hr/hiring.py:882
 msgid "Moved down from {0}% to {1}%."
 msgstr "Von {0} % auf {1} % abgestuft."
 
-#: onedesk/one_hr/hiring.py:900
+#: onedesk/one_hr/hiring.py:882
 msgid "Moved up from {0}% to {1}%."
 msgstr "Von {0} % auf {1} % hochgestuft."
 
@@ -3730,6 +3781,11 @@ msgstr "Für {0} kann niemand einen Schichtantrag genehmigen. Tragen Sie zuerst 
 msgid "Nobody on this list checked in"
 msgstr "Niemand auf dieser Liste hat eingecheckt"
 
+#. Option for the 'Urgency' (Select) field in DocType 'Employee Grievance'
+#: onedesk/one_hr/custom/employee_grievance.json
+msgid "Normal"
+msgstr "Normal"
+
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:212
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:244
 msgid "Not Billed"
@@ -3780,11 +3836,11 @@ msgstr "Nicht bezahlt"
 msgid "Not pointing here yet."
 msgstr "Zeigt noch nicht hierher."
 
-#: onedesk/one_hr/hiring.py:809
+#: onedesk/one_hr/hiring.py:791
 msgid "Not reached"
 msgstr "Nicht erreicht"
 
-#: onedesk/one_hr/hiring.py:355
+#: onedesk/one_hr/hiring.py:337
 msgid "Not shown"
 msgstr "Nicht belegt"
 
@@ -3997,6 +4053,12 @@ msgstr "Ein Aufruf pro Bewerbung: der Lebenslauf gegen die Stelle gelesen, eine 
 msgid "One call per five minutes of recording, and one when it ends."
 msgstr "Ein Aufruf pro fünf Minuten Aufnahme und einer am Ende."
 
+#. Description of the 'Read and Route New Grievances' (Check) field in DocType
+#. 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "One call per grievance: a summary, a category, and whether it is sensitive. A sensitive one is hidden from everybody but HR Managers and the person who raised it, and HR Managers are told."
+msgstr "Ein Aufruf pro Beschwerde: eine Zusammenfassung, eine Kategorie und ob sie sensibel ist. Eine sensible ist für alle außer HR-Managern und der einreichenden Person verborgen, und HR-Manager werden benachrichtigt."
+
 #. Description of the 'Prepare Interviewers' (Check) field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -4055,6 +4117,8 @@ msgid "One workspace bought this"
 msgstr "Ein Arbeitsbereich hat das gekauft"
 
 #. Label of a Sidebar Item
+#. Label of the one_ai_section (Section Break) field in DocType 'Employee
+#. Grievance'
 #. Label of the one_hiring_ai_section (Section Break) field in DocType 'HR
 #. Settings'
 #. Label of the one_ai_prep_section (Section Break) field in DocType
@@ -4063,6 +4127,7 @@ msgstr "Ein Arbeitsbereich hat das gekauft"
 #. Label of the one_ai_section (Section Break) field in DocType 'Job Applicant'
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
+#: onedesk/one_hr/custom/employee_grievance.json
 #: onedesk/one_hr/custom/hr_settings.json onedesk/one_hr/custom/interview.json
 #: onedesk/one_hr/custom/job_applicant.json
 msgid "OneAI"
@@ -4077,7 +4142,10 @@ msgstr "OneAI-Bewertung"
 msgid "OneAI could not be reached just now. The question is still here — try again."
 msgstr "OneAI war gerade nicht erreichbar. Die Frage steht noch da — versuchen Sie es erneut."
 
+#. Label of the one_ai_summary (Small Text) field in DocType 'Employee
+#. Grievance'
 #. Label of the one_ai_brief (Small Text) field in DocType 'Job Applicant'
+#: onedesk/one_hr/custom/employee_grievance.json
 #: onedesk/one_hr/custom/job_applicant.json
 msgid "OneAI's Summary"
 msgstr "Zusammenfassung von OneAI"
@@ -4137,9 +4205,13 @@ msgstr "Nur ein Antrag, der noch offen ist, kann abgelehnt werden."
 msgid "Only a suggested change can be applied in the form."
 msgstr "Nur eine vorgeschlagene Änderung kann im Formular übernommen werden."
 
-#: onedesk/one_hr/hiring.py:858
+#: onedesk/one_hr/hiring.py:840
 msgid "Only an HR Manager can delete the sound of a recorded interview."
 msgstr "Nur HR-Manager können den Ton eines aufgezeichneten Gesprächs löschen."
+
+#: onedesk/one_hr/ai_grievance.py:199
+msgid "Only an HR Manager can mark a grievance as not sensitive."
+msgstr "Nur HR-Manager können eine Beschwerde als nicht sensibel markieren."
 
 #: onedesk/one/account.py:204
 msgid "Only an administrator of this workspace can change its address."
@@ -4234,9 +4306,11 @@ msgid "Org Chart"
 msgstr "Organigramm"
 
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
+#. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
 #. Option for the 'Letter' (Select) field in DocType 'Employee Letter'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:86
+#: onedesk/one_hr/custom/employee_grievance.json
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 msgid "Other"
 msgstr ""
@@ -4409,8 +4483,10 @@ msgstr "Passkey zurückgesetzt"
 msgid "Past the expected hours."
 msgstr "Über den veranschlagten Stunden."
 
+#. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
+#: onedesk/one_hr/custom/employee_grievance.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Pay"
@@ -4537,7 +4613,7 @@ msgstr "Pipeline-Auswertung"
 msgid "Place of Issue"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:185
+#: onedesk/one_hr/hiring.py:167
 msgid "Placed {0} applicants again from what I wrote about each."
 msgstr "{0} Bewerbungen anhand meiner Notizen zu jeder neu eingeordnet."
 
@@ -4775,7 +4851,7 @@ msgstr ""
 msgid "Purpose of Travel"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:508
+#: onedesk/one_hr/hiring.py:490
 msgid "Questions"
 msgstr "Fragen"
 
@@ -4822,7 +4898,7 @@ msgstr "Der Radius muss größer als 0 sein."
 msgid "Rank the applicants again"
 msgstr "Bewerbungen neu einordnen"
 
-#: onedesk/one_hr/hiring.py:345
+#: onedesk/one_hr/hiring.py:327
 msgid "Rated {0} of 5"
 msgstr "Bewertet mit {0} von 5"
 
@@ -4842,6 +4918,11 @@ msgstr "Anwesenheit auswerten"
 #: onedesk/public/js/shift_type.js:24
 msgid "Read Check-ins"
 msgstr "Einchecken auswerten"
+
+#. Label of the one_ai_grievances (Check) field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Read and Route New Grievances"
+msgstr "Neue Beschwerden lesen und weiterleiten"
 
 #. Description of the 'When' (Data) field in DocType 'Timesheet Detail'
 #: onedesk/one_hr/custom/timesheet_detail.json
@@ -5197,6 +5278,11 @@ msgstr "{0} erneut ausführen, ab dem Schritt, bei dem es stehen blieb?"
 msgid "SHA-256 of the token written into the site's config."
 msgstr "SHA-256 des Tokens, das in die Site-Konfiguration geschrieben wurde."
 
+#. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
+#: onedesk/one_hr/custom/employee_grievance.json
+msgid "Safety"
+msgstr "Sicherheit"
+
 #. Description of the 'Persona' (Small Text) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -5335,6 +5421,11 @@ msgstr "Änderungen ansehen"
 msgid "Seen"
 msgstr ""
 
+#. Description of the 'Sensitive' (Check) field in DocType 'Employee Grievance'
+#: onedesk/one_hr/custom/employee_grievance.json
+msgid "Seen by HR Managers and the person who raised it, nobody else. OneAI marks it; only an HR Manager takes the mark off."
+msgstr "Nur für HR-Manager und die einreichende Person sichtbar. OneAI setzt die Markierung; nur HR-Manager entfernen sie."
+
 #. Label of the one_self_checkin_section (Section Break) field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -5353,6 +5444,15 @@ msgstr ""
 #: onedesk/public/js/oneai/Panel.vue:146
 msgid "Send this again"
 msgstr "Dies wieder senden"
+
+#. Label of the one_ai_sensitive (Check) field in DocType 'Employee Grievance'
+#: onedesk/one_hr/custom/employee_grievance.json
+msgid "Sensitive"
+msgstr "Sensibel"
+
+#: onedesk/one_hr/ai_grievance.py:84
+msgid "Sensitive — HR Managers and the person who raised it only"
+msgstr "Sensibel – nur HR-Manager und die einreichende Person"
 
 #. Description of the 'System Instruction' (Small Text) field in DocType 'AI
 #. Action'
@@ -5504,7 +5604,7 @@ msgstr "Weniger anzeigen"
 msgid "Show {0} more"
 msgstr "{0} weitere anzeigen"
 
-#: onedesk/one_hr/hiring.py:354
+#: onedesk/one_hr/hiring.py:336
 msgid "Shows"
 msgstr "Belegt"
 
@@ -5971,7 +6071,7 @@ msgstr "Das ist nicht durchgegangen."
 msgid "That did not work."
 msgstr "Das hat nicht geklappt."
 
-#: onedesk/one_hr/hiring.py:582
+#: onedesk/one_hr/hiring.py:564
 msgid "That is not a recording."
 msgstr "Das ist keine Aufnahme."
 
@@ -5979,7 +6079,7 @@ msgstr "Das ist keine Aufnahme."
 msgid "That is not something on offer."
 msgstr "Das wird nicht angeboten."
 
-#: onedesk/one_hr/hiring.py:585
+#: onedesk/one_hr/hiring.py:567
 msgid "That part of the recording is empty or too large."
 msgstr "Dieser Teil der Aufnahme ist leer oder zu groß."
 
@@ -6349,11 +6449,11 @@ msgstr "Für diese Überstundenart ist kein Satz hinterlegt, sie vergütet daher
 msgid "This passkey was registered on a different browser."
 msgstr "Dieser Passkey wurde auf einem anderen Browser registriert."
 
-#: onedesk/one_hr/hiring.py:633
+#: onedesk/one_hr/hiring.py:615
 msgid "This recording cannot be transcribed again."
 msgstr "Diese Aufnahme kann nicht erneut transkribiert werden."
 
-#: onedesk/one_hr/hiring.py:580
+#: onedesk/one_hr/hiring.py:562
 msgid "This recording has already ended."
 msgstr "Diese Aufnahme ist bereits beendet."
 
@@ -6377,7 +6477,7 @@ msgstr "Diese Site verwaltet keine Arbeitsbereiche."
 msgid "This takes a few minutes. A link will be emailed to {0} when it is ready."
 msgstr "Das dauert ein paar Minuten. Ein Link geht per E-Mail an {0}, sobald er fertig ist."
 
-#: onedesk/one_hr/hiring.py:549
+#: onedesk/one_hr/hiring.py:531
 msgid "This workspace does not record interviews. HR Settings says whether it does."
 msgstr "Dieser Arbeitsbereich zeichnet keine Gespräche auf. Das legen die HR-Einstellungen fest."
 
@@ -6616,6 +6716,15 @@ msgstr "Ohne Titel"
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:245
 msgid "Untracked"
 msgstr "Nicht erfasst"
+
+#. Label of the one_ai_urgency (Select) field in DocType 'Employee Grievance'
+#: onedesk/one_hr/custom/employee_grievance.json
+msgid "Urgency"
+msgstr "Dringlichkeit"
+
+#: onedesk/one_hr/ai_grievance.py:85
+msgid "Urgent"
+msgstr ""
 
 #. Label of the storage_said (HTML) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
@@ -7078,6 +7187,11 @@ msgstr "Arbeitstage"
 msgid "Working on a Holiday"
 msgstr "Arbeit an einem freien Tag"
 
+#. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
+#: onedesk/one_hr/custom/employee_grievance.json
+msgid "Workload"
+msgstr "Arbeitslast"
+
 #. Label of the workspace_name (Data) field in DocType 'Account Request'
 #. Label of the tenant (Link) field in DocType 'Credit Ledger Entry'
 #. Label of the tenant (Link) field in DocType 'Credit Reservation'
@@ -7142,11 +7256,11 @@ msgstr "Arbeitsbereiche sind unter &lt;Kennung&gt;.&lt;dies&gt; erreichbar, zum 
 msgid "Workspaces can no longer pick this model"
 msgstr "Arbeitsbereiche können dieses Modell nicht mehr wählen"
 
-#: onedesk/one_hr/hiring.py:356
+#: onedesk/one_hr/hiring.py:338
 msgid "Worth knowing before you call"
 msgstr "Gut zu wissen vor dem Anruf"
 
-#: onedesk/one_hr/hiring.py:810
+#: onedesk/one_hr/hiring.py:792
 msgid "Worth weighing"
 msgstr "Abzuwägen"
 
@@ -7421,7 +7535,7 @@ msgstr "sonstige"
 msgid "output"
 msgstr "Ausgabe"
 
-#: onedesk/one_hr/hiring.py:347
+#: onedesk/one_hr/hiring.py:329
 msgid "placed {0} of {1}"
 msgstr "Platz {0} von {1}"
 
@@ -7438,7 +7552,7 @@ msgstr "die Selbsteinschätzung"
 msgid "the start"
 msgstr "dem Anfang"
 
-#: onedesk/one_hr/hiring.py:717
+#: onedesk/one_hr/hiring.py:699
 msgid "this part could not be transcribed"
 msgstr "dieser Teil konnte nicht transkribiert werden"
 

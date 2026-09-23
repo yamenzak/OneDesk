@@ -44,6 +44,14 @@ DEFAULTS = {
 	# long is a day" the product has. Left at zero it makes every hour of a
 	# shiftless day overtime, so it starts at eight.
 	"standard_working_hours": 8,
+	# OneAI on hiring and grievances: every automatic call starts on, and a
+	# workspace that may not use one says so here. See docs/HIRING.md.
+	"one_ai_screen": 1,
+	"one_ai_prepare": 1,
+	"one_ai_record": 1,
+	"one_ai_transcribe": 1,
+	"one_keep_recordings_days": 365,
+	"one_ai_grievances": 1,
 }
 
 

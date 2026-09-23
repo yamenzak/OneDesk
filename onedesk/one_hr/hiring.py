@@ -28,15 +28,6 @@ from frappe.utils import cint, now_datetime, strip_html
 #: domain that is guaranteed never to deliver a mail.
 AUTHOR = "oneai@one.invalid"
 
-#: The switches in HR Settings, and what each is when nobody has touched it.
-SWITCHES = {
-	"one_ai_screen": 1,
-	"one_ai_prepare": 1,
-	"one_ai_record": 1,
-	"one_ai_transcribe": 1,
-	"one_keep_recordings_days": 365,
-}
-
 #: The applicants a newcomer is compared with: the best-placed this many still
 #: in the running. Forty lines is a few thousand tokens; four hundred is a call
 #: that costs more than the CV it is about.
@@ -64,33 +55,24 @@ READABLE = 300
 
 
 def ensure() -> None:
-	"""The OneAI user, and the hiring switches at their defaults.
-
-	A Single keeps no value for a field added after it was first saved, and a
-	Check read back from nothing is 0 — so a switch meant to start on would
-	start off. Written once here, and a workspace's own choice after that is
-	never touched.
-	"""
-	if not frappe.db.exists("User", AUTHOR):
-		user = frappe.get_doc(
-			{
-				"doctype": "User",
-				"email": AUTHOR,
-				"first_name": "OneAI",
-				"enabled": 0,
-				"send_welcome_email": 0,
-				"user_type": "System User",
-				"user_image": "/assets/onedesk/images/oneai.svg",
-			}
-		)
-		user.flags.ignore_permissions = True
-		user.flags.no_welcome_mail = True
-		user.insert()
-
-	held = set(frappe.db.sql_list("select field from `tabSingles` where doctype = 'HR Settings'"))
-	for key, value in SWITCHES.items():
-		if key not in held:
-			frappe.db.set_single_value("HR Settings", key, value)
+	"""The OneAI user every OneAI comment is written by. The hiring switches
+	are seeded with the rest of HR Settings' in `one_hr/policy.py`."""
+	if frappe.db.exists("User", AUTHOR):
+		return
+	user = frappe.get_doc(
+		{
+			"doctype": "User",
+			"email": AUTHOR,
+			"first_name": "OneAI",
+			"enabled": 0,
+			"send_welcome_email": 0,
+			"user_type": "System User",
+			"user_image": "/assets/onedesk/images/oneai.svg",
+		}
+	)
+	user.flags.ignore_permissions = True
+	user.flags.no_welcome_mail = True
+	user.insert()
 
 
 def on(key: str) -> bool:

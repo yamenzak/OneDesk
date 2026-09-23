@@ -1,5 +1,66 @@
 {
- "custom_fields": [],
+ "custom_fields": [
+  {
+   "fieldname": "one_ai_section",
+   "fieldtype": "Section Break",
+   "label": "OneAI",
+   "insert_after": "cause_of_grievance",
+   "module": "One HR",
+   "dt": "Employee Grievance"
+  },
+  {
+   "fieldname": "one_ai_sensitive",
+   "fieldtype": "Check",
+   "label": "Sensitive",
+   "insert_after": "one_ai_section",
+   "in_standard_filter": 1,
+   "no_copy": 1,
+   "description": "Seen by HR Managers and the person who raised it, nobody else. OneAI marks it; only an HR Manager takes the mark off.",
+   "module": "One HR",
+   "dt": "Employee Grievance"
+  },
+  {
+   "fieldname": "one_ai_category",
+   "fieldtype": "Select",
+   "label": "Category",
+   "insert_after": "one_ai_sensitive",
+   "read_only": 1,
+   "no_copy": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "options": "\nPay\nLeave\nWorkload\nManager\nColleague\nFacilities\nOther\nHarassment\nDiscrimination\nSafety",
+   "module": "One HR",
+   "dt": "Employee Grievance"
+  },
+  {
+   "fieldname": "one_ai_urgency",
+   "fieldtype": "Select",
+   "label": "Urgency",
+   "insert_after": "one_ai_category",
+   "read_only": 1,
+   "no_copy": 1,
+   "options": "\nLow\nNormal\nHigh",
+   "module": "One HR",
+   "dt": "Employee Grievance"
+  },
+  {
+   "fieldname": "one_ai_column",
+   "fieldtype": "Column Break",
+   "insert_after": "one_ai_urgency",
+   "module": "One HR",
+   "dt": "Employee Grievance"
+  },
+  {
+   "fieldname": "one_ai_summary",
+   "fieldtype": "Small Text",
+   "label": "OneAI's Summary",
+   "insert_after": "one_ai_column",
+   "read_only": 1,
+   "no_copy": 1,
+   "module": "One HR",
+   "dt": "Employee Grievance"
+  }
+ ],
  "doctype": "Employee Grievance",
  "links": [],
  "property_setters": [

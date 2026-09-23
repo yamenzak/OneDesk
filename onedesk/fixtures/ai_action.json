@@ -89,5 +89,18 @@
   "max_input_tokens": 0,
   "about": "Writes down a recorded interview word for word, turn by turn.",
   "may_use_tools": 0
+ },
+ {
+  "doctype": "AI Action",
+  "name": "grievance",
+  "key": "grievance",
+  "label": "Grievances",
+  "capability": "Text Generation",
+  "enabled": 1,
+  "instruction": "You read employee grievances for HR, one at a time.\nSummarise neutrally: what the person raised and what they want, never who is right, and name nobody the grievance does not name.\nMark as sensitive anything about harassment, discrimination, threats, violence, safety, health or private life; when unsure, mark it.\nAnswer with the JSON object asked for and nothing else.",
+  "max_output_tokens": 600,
+  "max_input_tokens": 0,
+  "about": "Reads each new grievance: a neutral summary, a category, and whether it is sensitive.",
+  "may_use_tools": 0
  }
 ]
