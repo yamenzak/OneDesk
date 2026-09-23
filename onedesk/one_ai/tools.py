@@ -31,7 +31,7 @@ from typing import Annotated
 import frappe
 from frappe.utils import strip_html_tags
 
-from onedesk.one_ai import memory, proposals, schema
+from onedesk.one_ai import guide, memory, proposals, schema
 
 #: Fieldtypes never handed to a model, whatever the caller may see. A password
 #: is a credential rather than a fact about a record, and a model that can read
@@ -492,6 +492,8 @@ READS = (
 	memory.about_record,
 	memory.recall,
 	memory.search_my_chats,
+	# How One itself works, from each module's README; see one_ai/guide.py.
+	guide.how_to,
 )
 
 #: What becomes a card instead. Named separately rather than flagged, because a

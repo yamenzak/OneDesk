@@ -1,6 +1,6 @@
 """OneAI on the hiring walk: every applicant read, rated and placed.
 
-The plan and the reasons are `docs/HIRING.md`. The short version: a number goes
+What it does for the people using it is `one_hr/README.md`, under Hiring. The short version: a number goes
 in a field so it sorts, an opinion goes in a comment so it has an author, and
 nothing here changes an applicant's status or reaches the candidate.
 

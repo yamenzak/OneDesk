@@ -1,6 +1,6 @@
 """OneAI on the hiring walk: read, rated and placed, and never decided.
 
-See `docs/HIRING.md`. What this keeps: the model's answer is read however it
+See `one_hr/README.md`, under Hiring. What this keeps: the model's answer is read however it
 is wrapped; the pool is shown under labels and a label the model made up
 reaches no record; nothing here writes an applicant's status or the rating a
 person gives; every job runs as OneAI; and the instruction says what a CV may

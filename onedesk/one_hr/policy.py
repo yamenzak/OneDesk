@@ -45,7 +45,7 @@ DEFAULTS = {
 	# shiftless day overtime, so it starts at eight.
 	"standard_working_hours": 8,
 	# OneAI on hiring and grievances: every automatic call starts on, and a
-	# workspace that may not use one says so here. See docs/HIRING.md.
+	# workspace that may not use one says so here. See one_hr/README.md.
 	"one_ai_screen": 1,
 	"one_ai_prepare": 1,
 	"one_ai_record": 1,

@@ -2,7 +2,7 @@
 
 Written to by `one_hr/hiring.py` and by nothing a person types: the recorder
 adds parts as they are uploaded, and OneAI writes their transcripts. See
-`docs/HIRING.md`.
+`one_hr/README.md`.
 """
 
 import frappe

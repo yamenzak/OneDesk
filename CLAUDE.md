@@ -98,8 +98,12 @@ break each other's imports on sites that carry only one of them.
 - Reference in `docs/` is **generated** — `MODULES.md`, `UPSTREAM.md`,
   `FRAMEWORK.md`, `OVERRIDES.md`. Never edit those. If a fact has to be typed by
   hand in two places, one of them is wrong.
-- A **plan** is written by hand and says so in its first line, because an
-  argument is not a fact and nothing can generate it. `ATTENDANCE.md` is one.
+- A **module's README** is written by hand, lives beside the module and says so
+  in its first line — `onedesk/one_hr/README.md` is one. Everything above its
+  `## Under the hood` heading is written for the people who use the module,
+  because OneAI's `how_to` tool reads it to answer them; the rest is for us.
+  A module keeps one README rather than plans and audits in `docs/`: git keeps
+  the history.
 - **`docs/ACCOUNTS.md` is where a company's accounts come from**, and why
   onboarding must not default to the country's chart of accounts. Read it
   before touching company setup; the instinct it warns about is the obvious

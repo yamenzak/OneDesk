@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 11:37+0000\n"
-"PO-Revision-Date: 2026-09-23 11:37+0000\n"
+"POT-Creation-Date: 2026-09-23 11:47+0000\n"
+"PO-Revision-Date: 2026-09-23 11:47+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -5990,7 +5990,7 @@ msgstr "اقترح تغييراً"
 msgid "Suggested a change to {0}"
 msgstr "اقترح تغييراً على {0}"
 
-#: onedesk/one_ai/tools.py:571 onedesk/one_hr/ai.py:351
+#: onedesk/one_ai/tools.py:573 onedesk/one_hr/ai.py:351
 msgid "Suggested. It happens when somebody approves it."
 msgstr "اقتُرح. ويحدث حين يوافق عليه أحد."
 
@@ -7795,7 +7795,7 @@ msgstr "{0} ليست مهمة."
 msgid "{0} is not a rung an operator sets."
 msgstr "{0} ليست درجة يضبطها المشغّل."
 
-#: onedesk/one_ai/tools.py:544
+#: onedesk/one_ai/tools.py:546
 msgid "{0} is not a tool."
 msgstr "{0} ليس أداة."
 
