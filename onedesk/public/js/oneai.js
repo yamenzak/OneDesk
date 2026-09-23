@@ -37,7 +37,11 @@ onedesk.oneai = {
 		if (!route.length || NOWHERE.includes(kind)) return null;
 
 		if (kind === "form" && route[1]) {
-			return { doctype: route[1], name: route[2] || "", view: "Form", label: `${route[1]} ${route[2] || ""}`.trim() };
+			// A settings page is a record named after its type, and its route
+			// has no name in it.
+			const single = !route[2] && frappe.get_meta(route[1]) && frappe.get_meta(route[1]).issingle;
+			const name = route[2] || (single ? route[1] : "");
+			return { doctype: route[1], name, view: "Form", label: single ? route[1] : `${route[1]} ${name}`.trim() };
 		}
 		if (kind === "list" && route[1]) {
 			const filters = window.cur_list && cur_list.get_filters_for_args ? cur_list.get_filters_for_args() : null;
@@ -128,6 +132,7 @@ onedesk.oneai.fields = function (frm) {
 
 	for (const field of frm.fields || []) {
 		const df = field.df || {};
+		if (frm.meta.issingle && !PROSE.includes(df.fieldtype)) onedesk.oneai.explain(frm, field);
 		if (!PROSE.includes(df.fieldtype) || !field.$wrapper) continue;
 		const top = field.$wrapper.find(".clearfix").first();
 		if (!top.length) continue;
@@ -158,6 +163,32 @@ onedesk.oneai.fields = function (frm) {
 		onedesk.oneai.badge(frm, df.fieldname);
 		onedesk.oneai.watch(frm.doctype, df.fieldname);
 	}
+};
+
+// On a settings page, every field a person may not know the meaning of gets a
+// quiet mark beside its label, shown on hover: it asks OneAI what the field is
+// for and what it should be here, with a card to set it if it should change —
+// and, for a field pointing at records there are none of yet, the record first.
+const ASKABLE = ["Check", "Select", "Link", "Data", "Int", "Float", "Currency", "Percent", "Duration", "Time", "Date", "Table MultiSelect", "Rating"];
+
+onedesk.oneai.explain = function (frm, field) {
+	const df = field.df || {};
+	if (!ASKABLE.includes(df.fieldtype) || !field.$wrapper || df.hidden || df.read_only) return;
+	const top = field.$wrapper.find(".clearfix, .checkbox label").first();
+	if (!top.length || top.find(".one-ai-help").length) return;
+	$(`<button type="button" class="one-ai-write one-ai-help" title="${__("Ask {0} about this", [ONEAI])}"><img src="${MARK}" alt="${ONEAI}"></button>`)
+		.appendTo(top)
+		.on("click", (event) => {
+			event.preventDefault();
+			event.stopPropagation(); // a check box's label would toggle it
+			onedesk.oneai.open({
+				about: df.fieldname,
+				ask: __('What is "{0}" in {1} for, and what should it be set to here? If it should change, suggest the change.', [
+					__(df.label || df.fieldname),
+					__(frm.doctype),
+				]),
+			});
+		});
 };
 
 // One mark per field, and it is both things: the button that writes with

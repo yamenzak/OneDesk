@@ -1212,6 +1212,27 @@ Found on the way: `what_links_here` had been broken since v17 changed
 `linked_with.get` to answer `{docs, hidden_count}` per type. It reads both
 shapes now, and says how many links the reader may not see as a number.
 
+**Settings, one field at a time.** On any settings page — frappe's Single
+— every field a person might not know the meaning of has a quiet OneAI mark
+beside its label, shown when the field is pointed at. It asks what the field
+is for and what it should be here, and sends the field with the page, so the
+model is handed `about_field` before it answers: what the field is for, what
+it holds, what it may hold, when it shows, and for a link how many records
+there are to choose from and what a new one needs — the page's own field
+list had been answered "no change suggested" for an empty template field
+with the obvious template sitting there. A question from that mark expects a
+change card, and a change to what the field already holds is refused as
+nothing to change, so "it is right as it is" stays a sentence. An Edit card
+on the open page puts the value into the form for the person to save. Every
+settings page also offers *Help me set this up*, whatever module it is in.
+
+Measured on HR Settings: the empty Exit Questionnaire Notification Template
+field got a card setting it to "Exit Questionnaire Notification"; Standard
+Working Hours, at 8.5, got "That is right as it is" and no card. Found on the
+way: every call from a workspace to its account waited ten seconds, AI runs
+included, and a run longer than that — any real draft — failed as
+unreachable; runs wait seventy-five now.
+
 ## What is deliberately not here
 
 **No model is named in application code.** An action names a capability; a

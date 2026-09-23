@@ -55,3 +55,15 @@ def test_a_workspaces_credits_are_its_administrators_and_its_own():
 	said = said[: said.index("\n@frappe.whitelist")]
 	assert "caller()" in said, "a workspace could ask for another's usage"
 	assert "tenant=" not in said.split("caller()")[0], "the tenant comes from the token, not the body"
+
+
+def test_a_settings_page_is_a_record_with_help_on_every_field():
+	"""A Single's route has no name, so it was read as a list; and every field
+	on one gets a mark that asks what it is for."""
+	js = (tree.APP / "public" / "js" / "oneai.js").read_text()
+	assert "single ? route[1]" in js
+	assert "frm.meta.issingle && !PROSE.includes(df.fieldtype)" in js and "onedesk.oneai.explain" in js
+	suggest = (tree.APP / "one_ai" / "suggest.py").read_text()
+	assert "issingle" in suggest and "Help me set this up" in suggest
+	panel = (tree.APP / "public" / "js" / "oneai" / "Panel.vue").read_text()
+	assert "opening && opening.ask" in panel

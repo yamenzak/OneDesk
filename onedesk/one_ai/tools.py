@@ -275,6 +275,56 @@ def delete_record(
 
 
 #: What runs when a model asks for it.
+def about_field(
+	doctype: Annotated[str, "The type of record, such as HR Settings."],
+	fieldname: Annotated[str, "The field's name, or its label as on screen."],
+	name: Annotated[str, "The record's id, when it is not a settings page."] | None = None,
+) -> dict:
+	"""Everything about one field: what it is for, what it holds now, what it
+	may hold, what it shows beside, and — for a field that points at other
+	records — how many there are to choose from, so setting it up can start
+	with the record it needs. Use it to explain a field or to help fill it."""
+	doctype = _type(doctype)
+	meta = frappe.get_meta(doctype)
+	labels = [f for f in meta.fields if f.label and f.fieldtype not in LAYOUT]
+	df = meta.get_field(fieldname) or meta.get_field(frappe.scrub(fieldname or ""))
+	if not df:
+		# By its label as the person sees it, the way `_meant` reads a value.
+		match = _meant(fieldname or "", [f.label for f in labels])
+		df = next((f for f in labels if f.label == match), None)
+	if not df:
+		frappe.throw(f"{doctype} has no field {fieldname!r}. Its fields: {', '.join(proposals.fields_of(meta))}.")
+	record = doctype if meta.issingle else name
+	held = frappe.get_doc(doctype, record) if record else None
+	if held:
+		held.check_permission("read")
+
+	said = {
+		"doctype": doctype,
+		"fieldname": df.fieldname,
+		"label": df.label,
+		"type": df.fieldtype,
+		"what_it_is_for": strip_html_tags(df.description or "") or None,
+		"now": held.get(df.fieldname) if held else None,
+		"default": df.default or None,
+		"required": bool(df.reqd),
+		"shown_when": df.depends_on or None,
+	}
+	if df.fieldtype == "Select":
+		said["options"] = [one for one in (df.options or "").split("\n") if one]
+	if df.fieldtype == "Link" and df.options:
+		there = frappe.get_list(df.options, pluck="name", limit_page_length=11)
+		said["points_at"] = {
+			"doctype": df.options,
+			"how_many": len(there) if len(there) <= 10 else "more than 10",
+			"some": there[:10],
+			# What a new one needs, so a field pointing at nothing can be
+			# set up by suggesting the record first.
+			"a_new_one_needs": [f for f in proposals.fields_of(frappe.get_meta(df.options), most=40) if "required" in f],
+		}
+	return said
+
+
 def search_everywhere(
 	text: Annotated[str, "Words to look for: a name, a code, a phrase."],
 	doctype: Annotated[str, "Only this type of record, if known."] | None = None,
@@ -435,6 +485,7 @@ READS = (
 	describe_type,
 	find_records,
 	search_everywhere,
+	about_field,
 	what_links_here,
 	what_can_happen,
 	run_report,

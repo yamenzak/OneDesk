@@ -64,6 +64,9 @@ def propose(
 	held = _allowed(kind, doctype, record)
 	if kind == "Create":
 		_ready(doctype, changes)
+	if kind == "Edit" and held and all(_same_value(held.get(key), value) for key, value in changes.items()):
+		# Said to the model, which then tells the person it is right as it is.
+		frappe.throw("That is what it already holds, so there is nothing to change. Say it is right as it is.")
 
 	entry = frappe.get_doc(
 		{
@@ -324,6 +327,15 @@ def _allowed(kind: str, doctype: str, record: str | None):
 			frappe.PermissionError,
 		)
 	return held
+
+
+def _same_value(now, then) -> bool:
+	if isinstance(now, (int, float)) or isinstance(then, (int, float)):
+		try:
+			return float(now or 0) == float(then or 0)
+		except (TypeError, ValueError):
+			return False
+	return str(now or "").strip() == str(then or "").strip()
 
 
 def _was(held, changes: dict) -> dict:

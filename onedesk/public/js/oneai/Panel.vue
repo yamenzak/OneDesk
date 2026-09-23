@@ -327,6 +327,17 @@ defineExpose({
 	async opened(opening) {
 		if (opening && opening.chat) return openChat(opening.chat);
 		if (opening && opening.fresh) return fresh();
+		// A question already asked for the reader — a settings field's "what is
+		// this for" — goes straight in, in a conversation of its own.
+		if (opening && opening.ask) {
+			fresh();
+			// The field the question is about goes with the page, so the model
+			// is handed what it is for and what it may hold before it answers.
+			aimed.value = opening.about && props.here ? { ...props.here, field: opening.about } : null;
+			await ask(opening.ask);
+			aimed.value = null;
+			return;
+		}
 		if (opening && opening.field) {
 			fresh();
 			target.value = opening.field;
@@ -428,7 +439,7 @@ function take(one) {
 // A quick ask is a question somebody did not have to type, not a retry.
 function ask(one) {
 	text.value = one;
-	send();
+	return send();
 }
 
 // The field's text as the form has it now, if that form is still the one open.
@@ -446,6 +457,9 @@ function current() {
 function toModel() {
 	frappe.set_route("Form", "AI Action Setting", chat.value.model_at);
 }
+
+// The page as sent for one question about one field, then forgotten.
+const aimed = ref(null);
 
 function toMemory() {
 	frappe.set_route("List", "AI Memory");
@@ -495,7 +509,7 @@ async function send(again) {
 		const started = await frappe.xcall("onedesk.one_ai.chat.say", {
 			text: asked,
 			chat: chat.value.name,
-			page: useHere.value && props.here ? props.here : null,
+			page: aimed.value || (useHere.value && props.here ? props.here : null),
 			files: sending.map((one) => one.url),
 			// What the field says now, read at the moment of asking — the person
 			// may have typed in it since the panel opened.

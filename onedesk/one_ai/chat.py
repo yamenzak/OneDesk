@@ -353,7 +353,7 @@ def _ran(doc, text: str, turns: list[dict], heard=None) -> dict:
 			reference=doc.name,
 			turns=carrying.carried(turns[-KEPT:]),
 			heard=heard,
-			expects=suggest.expected(text),
+			expects=suggest.expected(text) or _expects_edit(turns),
 		)
 	except faults.Again:
 		frappe.throw(
@@ -634,6 +634,10 @@ def _asked(
 		one for one in (_today(), _workspace(), _reader(), where, memory.told(_doctype(page))) if one
 	)
 	turns = [{"role": "user", "text": where, "calls": [], "context": True}]
+	about = _field_asked(page)
+	if about:
+		# Kept on the turn so the run knows a change card is what this is for.
+		turns[0]["about"] = about
 	turns.append(
 		{
 			"role": "user",
@@ -721,7 +725,8 @@ def _page(page: dict | str | None) -> str:
 	record = (page.get("name") or "").strip()
 	view = (page.get("view") or "").strip()
 	if doctype and record:
-		return f"The reader is looking at the {doctype} record {record}.{_brief(doctype, record)}{_fields_said(doctype)}"
+		said = f"The reader is looking at the {doctype} record {record}.{_brief(doctype, record)}{_fields_said(doctype)}"
+		return said + _about(doctype, record, (page.get("field") or "").strip())
 	if doctype:
 		filters = page.get("filters")
 		narrowed = f", narrowed to {json.dumps(filters)}" if filters else ""
@@ -764,6 +769,36 @@ def _brief(doctype: str, name: str) -> str:
 BRIEF_SAID = 700
 BRIEF_FIELDS = 8
 BRIEF_PROSE = 300
+
+
+def _expects_edit(turns: list[dict]) -> str | None:
+	"""A question asked from a field's own mark is answered with a change to
+	it — or with "it is right as it is", which the edit refuses as no change."""
+	newest = next((one for one in reversed(turns) if one.get("context")), {})
+	return "edit_record" if newest.get("about") else None
+
+
+def _field_asked(page) -> str | None:
+	if isinstance(page, str):
+		page = frappe.parse_json(page) if page.strip() else None
+	return ((page or {}).get("field") or "").strip() or None if isinstance(page, dict) else None
+
+
+def _about(doctype: str, record: str, fieldname: str) -> str:
+	"""The one field a question is about, handed over with the question: what
+	it is for, what it holds, and what it may hold. Asked for by the mark beside
+	a settings field, whose question a small model otherwise answered from the
+	field list alone — "no change suggested" for an empty template field with
+	the obvious template sitting there."""
+	if not fieldname:
+		return ""
+	from onedesk.one_ai import tools
+
+	try:
+		said = tools.about_field(doctype, fieldname, record)
+	except Exception:
+		return ""
+	return f" The question is about this field: {json.dumps(said, default=str)}"
 
 
 def _fields_said(doctype: str) -> str:

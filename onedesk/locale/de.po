@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 09:14+0000\n"
-"PO-Revision-Date: 2026-09-23 09:14+0000\n"
+"POT-Creation-Date: 2026-09-23 09:26+0000\n"
+"PO-Revision-Date: 2026-09-23 09:26+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -201,7 +201,7 @@ msgstr "Ein Arbeitsbereich darf höchstens {0} eigene Domains haben."
 msgid "A {0} does not carry {1}."
 msgstr "Ein {0} trägt kein Feld {1}."
 
-#: onedesk/one_ai/proposals.py:318
+#: onedesk/one_ai/proposals.py:321
 msgid "A {0} has to name a record."
 msgstr "Ein {0} muss einen Datensatz nennen."
 
@@ -725,10 +725,14 @@ msgstr "Foto anfordern"
 msgid "Ask for a Reason on Check Out"
 msgstr "Beim Auschecken nach einem Grund fragen"
 
-#: onedesk/public/js/oneai.js:100 onedesk/public/js/oneai.js:101
+#: onedesk/public/js/oneai.js:104 onedesk/public/js/oneai.js:105
 #: onedesk/public/js/oneai/Panel.vue:165
 msgid "Ask {0}"
 msgstr "{0} fragen"
+
+#: onedesk/public/js/oneai.js:179
+msgid "Ask {0} about this"
+msgstr "{0} dazu fragen"
 
 #. Label of the asked_by (Link) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
@@ -1098,7 +1102,7 @@ msgstr "Modell ändern"
 msgid "Change {0}"
 msgstr "{0} ändern"
 
-#: onedesk/one_ai/proposals.py:400
+#: onedesk/one_ai/proposals.py:412
 msgid "Change {0} on {1}"
 msgstr "{0} an {1} ändern"
 
@@ -1424,7 +1428,7 @@ msgstr "Feiertage einschließen"
 msgid "Create"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:393
+#: onedesk/one_ai/proposals.py:405
 msgid "Create a {0}"
 msgstr "{0} anlegen"
 
@@ -1659,7 +1663,7 @@ msgstr ""
 msgid "Delete Photos After (Days)"
 msgstr "Fotos löschen nach (Tage)"
 
-#: onedesk/one_ai/proposals.py:395 onedesk/public/js/oneai/Record.vue:102
+#: onedesk/one_ai/proposals.py:407 onedesk/public/js/oneai/Record.vue:102
 msgid "Delete {0}"
 msgstr "{0} löschen"
 
@@ -3093,11 +3097,11 @@ msgstr "Die Anmeldung mit Passkey ist auf dieser Site nicht aktiviert."
 msgid "Longitude"
 msgstr "Länge"
 
-#: onedesk/public/js/oneai/Panel.vue:605
+#: onedesk/public/js/oneai/Panel.vue:619
 msgid "Looked at {0}"
 msgstr "Hat {0} nachgeschlagen"
 
-#: onedesk/public/js/oneai/Panel.vue:605
+#: onedesk/public/js/oneai/Panel.vue:619
 msgid "Looked something up"
 msgstr "Hat etwas nachgeschlagen"
 
@@ -3767,7 +3771,7 @@ msgstr "Nur ein Antrag, der noch offen ist, kann abgelehnt werden."
 msgid "Only a suggested change can be applied in the form."
 msgstr "Nur eine vorgeschlagene Änderung kann im Formular übernommen werden."
 
-#: onedesk/one/account.py:198
+#: onedesk/one/account.py:204
 msgid "Only an administrator of this workspace can change its address."
 msgstr "Nur eine Verwaltung dieses Arbeitsbereichs kann seine Adresse ändern."
 
@@ -4421,7 +4425,7 @@ msgstr "Aus den beiden Zeiten unten gelesen."
 msgid "Reading the check-ins"
 msgstr "Einchecken wird gelesen"
 
-#: onedesk/public/js/oneai/Panel.vue:538
+#: onedesk/public/js/oneai/Panel.vue:552
 msgid "Reading what it found…"
 msgstr "Liest, was es gefunden hat…"
 
@@ -5278,15 +5282,15 @@ msgstr "Mit dem Buchen werden {0} für {1} Stunden vergütet."
 msgid "Submitting this pays {0} {1} for {2} days of {3}."
 msgstr "Das Buchen zahlt {0} {1} für {2} Tage {3}."
 
-#: onedesk/public/js/oneai/Panel.vue:604
+#: onedesk/public/js/oneai/Panel.vue:618
 msgid "Suggested a change"
 msgstr "Hat eine Änderung vorgeschlagen"
 
-#: onedesk/public/js/oneai/Panel.vue:604
+#: onedesk/public/js/oneai/Panel.vue:618
 msgid "Suggested a change to {0}"
 msgstr "Hat eine Änderung an {0} vorgeschlagen"
 
-#: onedesk/one_ai/tools.py:520 onedesk/one_hr/ai.py:181
+#: onedesk/one_ai/tools.py:571 onedesk/one_hr/ai.py:181
 msgid "Suggested. It happens when somebody approves it."
 msgstr "Vorgeschlagen. Es geschieht, wenn jemand zustimmt."
 
@@ -5411,7 +5415,7 @@ msgstr "Textklassifizierung"
 msgid "Text Generation"
 msgstr "Texterzeugung"
 
-#: onedesk/one_ai/chat.py:208 onedesk/public/js/oneai/Panel.vue:583
+#: onedesk/one_ai/chat.py:208 onedesk/public/js/oneai/Panel.vue:597
 msgid "That did not go through."
 msgstr "Das ist nicht durchgegangen."
 
@@ -5717,8 +5721,8 @@ msgstr "Diese Tage werden als gearbeitet erfasst."
 msgid "They claimed {0} and {1} was sanctioned."
 msgstr "Beantragt wurden {0}, genehmigt {1}."
 
-#: onedesk/public/js/oneai/Panel.vue:355 onedesk/public/js/oneai/Panel.vue:482
-#: onedesk/public/js/oneai/Panel.vue:538
+#: onedesk/public/js/oneai/Panel.vue:366 onedesk/public/js/oneai/Panel.vue:496
+#: onedesk/public/js/oneai/Panel.vue:552
 msgid "Thinking…"
 msgstr "Denkt nach…"
 
@@ -5750,7 +5754,7 @@ msgstr "Dieser Mitarbeiter hat bereits einen Passkey. Die Personalabteilung muss
 msgid "This employee's passkey is blocked. HR must reset it before another can be registered."
 msgstr "Der Passkey dieses Mitarbeiters ist gesperrt. Die Personalabteilung muss ihn zurücksetzen, bevor ein neuer registriert werden kann."
 
-#: onedesk/one_ai/proposals.py:111
+#: onedesk/one_ai/proposals.py:114
 msgid "This is for a document that is not saved yet. Apply it from its form."
 msgstr "Das gilt für ein noch nicht gespeichertes Dokument. Übernehmen Sie es in dessen Formular."
 
@@ -6186,6 +6190,10 @@ msgstr "Was dies ausgelöst hat: eine Stripe-Zahlung, ein Lauf, eine Person."
 msgid "What each check saw when this log was written."
 msgstr "Was jede Prüfung sah, als dieser Eintrag geschrieben wurde."
 
+#: onedesk/public/js/oneai.js:188
+msgid "What is \"{0}\" in {1} for, and what should it be set to here? If it should change, suggest the change."
+msgstr "Wofür ist „{0}“ in {1} da, und worauf sollte es hier stehen? Wenn es geändert werden sollte, schlage die Änderung vor."
+
 #. Label of a Sidebar Item
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 msgid "What is happening"
@@ -6459,11 +6467,11 @@ msgstr "Einen ersten Entwurf schreiben"
 msgid "Write attendance on the holidays inside these dates as well. Left off, holidays in the range are skipped."
 msgstr "Auch an den Feiertagen innerhalb dieser Daten Anwesenheit erfassen. Ohne Haken werden Feiertage im Zeitraum übersprungen."
 
-#: onedesk/public/js/oneai.js:180
+#: onedesk/public/js/oneai.js:211
 msgid "Write with {0}"
 msgstr "Mit {0} schreiben"
 
-#: onedesk/one_ai/proposals.py:399
+#: onedesk/one_ai/proposals.py:411
 msgid "Write {0} on a new {1}"
 msgstr "{0} in einem neuen {1} schreiben"
 
@@ -6476,11 +6484,11 @@ msgstr "Schreiben"
 msgid "Written by the sync. Editable only on a model priced by hand."
 msgstr "Vom Abgleich geschrieben. Nur bei einem von Hand bepreisten Modell änderbar."
 
-#: onedesk/public/js/oneai.js:186
+#: onedesk/public/js/oneai.js:217
 msgid "Written by {0}. Goes once somebody edits it."
 msgstr "Von {0} geschrieben. Verschwindet, sobald jemand es bearbeitet."
 
-#: onedesk/public/js/oneai.js:180
+#: onedesk/public/js/oneai.js:211
 msgid "Written by {0}. Press to write it again."
 msgstr "Von {0} geschrieben. Drücken, um es neu zu schreiben."
 
@@ -6512,19 +6520,19 @@ msgstr "Sie können das später in Ihren eigenen Einstellungen ändern."
 msgid "You checked in but never checked out, so a check out was written for you at the shift end. Tell HR if that is wrong."
 msgstr "Sie haben eingecheckt, aber nie ausgecheckt, daher wurde zum Schichtende ein Auschecken für Sie geschrieben. Sagen Sie der Personalabteilung Bescheid, falls das nicht stimmt."
 
-#: onedesk/one_ai/tools.py:346
+#: onedesk/one_ai/tools.py:396
 msgid "You may not read {0} {1}."
 msgstr "Sie dürfen {0} {1} nicht lesen."
 
-#: onedesk/one_ai/tools.py:189 onedesk/one_ai/tools.py:322
+#: onedesk/one_ai/tools.py:189 onedesk/one_ai/tools.py:372
 msgid "You may not read {0}."
 msgstr "Sie dürfen {0} nicht lesen."
 
-#: onedesk/one_ai/tools.py:407
+#: onedesk/one_ai/tools.py:457
 msgid "You may not run {0}."
 msgstr "Sie dürfen {0} nicht ausführen."
 
-#: onedesk/one_ai/proposals.py:323
+#: onedesk/one_ai/proposals.py:326
 msgid "You may not {0} {1}."
 msgstr "Sie dürfen {1} nicht {0}."
 
@@ -6642,7 +6650,7 @@ msgstr "verspätet gekommen, früher gegangen"
 msgid "input"
 msgstr "Eingabe"
 
-#: onedesk/one_ai/suggest.py:56
+#: onedesk/one_ai/suggest.py:70
 msgid "label"
 msgstr ""
 
@@ -6848,7 +6856,7 @@ msgstr "{0} für {1}, ein ganzer Monat."
 msgid "{0} for {1}: {2} of {3} days paid."
 msgstr "{0} für {1}: {2} von {3} Tagen bezahlt."
 
-#: onedesk/one_ai/proposals.py:117
+#: onedesk/one_ai/proposals.py:120
 msgid "{0} has changed since this was suggested, so it no longer applies."
 msgstr "{0} hat sich seit dem Vorschlag geändert, daher gilt er nicht mehr."
 
@@ -6908,7 +6916,7 @@ msgstr "{0} ist kein Auftrag."
 msgid "{0} is not a rung an operator sets."
 msgstr "{0} ist keine Stufe, die ein Betreiber setzt."
 
-#: onedesk/one_ai/tools.py:493
+#: onedesk/one_ai/tools.py:544
 msgid "{0} is not a tool."
 msgstr "{0} ist kein Werkzeug."
 
@@ -6928,7 +6936,7 @@ msgstr "{0} wird nicht angeboten, daher kann nichts darauf zurückfallen."
 msgid "{0} is not on this workspace."
 msgstr "{0} gehört nicht zu diesem Arbeitsbereich."
 
-#: onedesk/one_ai/proposals.py:309
+#: onedesk/one_ai/proposals.py:312
 msgid "{0} is not something that can be proposed."
 msgstr "{0} lässt sich nicht vorschlagen."
 
@@ -6957,7 +6965,7 @@ msgstr "{0} ist {1} und kann daher nicht angeboten werden."
 msgid "{0} left"
 msgstr "{0} übrig"
 
-#: onedesk/public/js/oneai.js:49
+#: onedesk/public/js/oneai.js:53
 msgid "{0} list"
 msgstr "{0}-Liste"
 
@@ -6997,7 +7005,7 @@ msgstr "{0} auf dem Kilometerzähler seit dem letzten Eintrag, mit {1} {2} für 
 msgid "{0} on the odometer since the last log."
 msgstr "{0} auf dem Kilometerzähler seit dem letzten Eintrag."
 
-#: onedesk/one_ai/proposals.py:397
+#: onedesk/one_ai/proposals.py:409
 msgid "{0} on {1}"
 msgstr "{0} bei {1}"
 
@@ -7033,8 +7041,8 @@ msgstr "{0} in diesem Monat verbraucht"
 msgid "{0} used this month in {1} calls · {2} left."
 msgstr "{0} in diesem Monat in {1} Aufrufen verbraucht · {2} übrig."
 
-#: onedesk/one_admin/ledger.py:165 onedesk/one_ai/proposals.py:98
-#: onedesk/one_ai/proposals.py:147 onedesk/one_ai/touch.py:174
+#: onedesk/one_admin/ledger.py:165 onedesk/one_ai/proposals.py:101
+#: onedesk/one_ai/proposals.py:150 onedesk/one_ai/touch.py:174
 msgid "{0} was already {1}."
 msgstr "{0} war bereits {1}."
 

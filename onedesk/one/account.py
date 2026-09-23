@@ -37,6 +37,12 @@ def configured() -> bool:
 	return all(frappe.conf.get(key) for key in NEEDED)
 
 
+#: How long an AI run may take on admin: the account waits on the provider for
+#: up to its own sixty seconds, so a caller giving up at ten gave up on answers
+#: that were on their way — a drafted appraisal is longer than a lookup.
+PATIENCE_FOR = {"onedesk.one_admin.proxy.ai_run": 75}
+
+
 def ask(endpoint: str, **params):
 	"""Call one admin endpoint and return its answer.
 
@@ -54,7 +60,7 @@ def ask(endpoint: str, **params):
 			url,
 			headers={proxy.HEADER: frappe.conf.get("one_token")},
 			json={"tenant": frappe.conf.get("one_tenant"), **params},
-			timeout=PATIENCE,
+			timeout=PATIENCE_FOR.get(endpoint, PATIENCE),
 		)
 	except requests.RequestException as raised:
 		raise faults.Again(f"the account could not be reached: {raised}") from raised

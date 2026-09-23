@@ -23,6 +23,17 @@ EVERYWHERE = {
 MOST = 4
 
 
+#: What any settings page offers, whatever module it belongs to.
+SETTINGS = [
+	{
+		"label": "Help me set this up",
+		"ask": "Go through these settings with me: which ones matter for a company like ours, what each "
+		"is set to now, and what you would change. Suggest the changes.",
+		"can": "write",
+	},
+]
+
+
 def for_page(page: dict | None) -> list[dict]:
 	"""A doctype's suggestions on its list or record, a workspace's on its home.
 
@@ -42,6 +53,9 @@ def for_page(page: dict | None) -> list[dict]:
 	offered = []
 	for path in frappe.get_hooks("one_ai_suggestions") or []:
 		offered += frappe.get_attr(path).get(key, [])
+	# A settings page — frappe's Single — has one more: setting it up at all.
+	if view == "Form" and doctype and frappe.get_meta(doctype).issingle:
+		offered += SETTINGS
 	offered += EVERYWHERE.get(view, [])
 
 	said = []

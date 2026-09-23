@@ -1032,6 +1032,18 @@ button.one-ai-model:hover {
 	background: var(--surface-gray-2);
 }
 
+/* On a settings page every field has one, so they stay out of sight until the
+ * field is pointed at or the mark itself has focus. */
+.one-ai-help {
+	opacity: 0;
+	transition: opacity 0.15s ease, background 0.15s ease;
+}
+
+.frappe-control:hover .one-ai-help,
+.one-ai-help:focus-visible {
+	opacity: 1;
+}
+
 .one-ai-touched {
 	margin-left: 5px;
 	vertical-align: middle;
