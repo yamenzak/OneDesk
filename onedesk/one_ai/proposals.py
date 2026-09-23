@@ -64,9 +64,13 @@ def propose(
 	held = _allowed(kind, doctype, record)
 	if kind == "Create":
 		_ready(doctype, changes)
-	if kind == "Edit" and held and all(_same_value(held.get(key), value) for key, value in changes.items()):
-		# Said to the model, which then tells the person it is right as it is.
-		frappe.throw("That is what it already holds, so there is nothing to change. Say it is right as it is.")
+	if kind == "Edit" and held:
+		# Only what would change goes on the card: "set up every field" came
+		# back with the ones already right riding along as noise.
+		changes = {key: value for key, value in changes.items() if not _same_value(held.get(key), value)}
+		if not changes:
+			# Said to the model, which then tells the person it is right as it is.
+			frappe.throw("That is what it already holds, so there is nothing to change. Say it is right as it is.")
 
 	entry = frappe.get_doc(
 		{

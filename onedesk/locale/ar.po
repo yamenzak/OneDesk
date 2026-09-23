@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 09:26+0000\n"
-"PO-Revision-Date: 2026-09-23 09:26+0000\n"
+"POT-Creation-Date: 2026-09-23 09:33+0000\n"
+"PO-Revision-Date: 2026-09-23 09:33+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -201,7 +201,7 @@ msgstr "لا يجوز لمساحة عمل أن تملك أكثر من {0} نطا
 msgid "A {0} does not carry {1}."
 msgstr "لا يحمل {0} حقل {1}."
 
-#: onedesk/one_ai/proposals.py:321
+#: onedesk/one_ai/proposals.py:325
 msgid "A {0} has to name a record."
 msgstr "لا بد أن يسمّي {0} سجلاً."
 
@@ -648,13 +648,13 @@ msgid "Appraisal Template"
 msgstr "قالب التقييم"
 
 #: onedesk/public/js/decision.js:15 onedesk/public/js/decision.js:16
-#: onedesk/public/js/oneai/Record.vue:45
+#: onedesk/public/js/oneai/Record.vue:53
 msgid "Approve"
 msgstr "اعتماد"
 
 #. Option for the 'Decision' (Select) field in DocType 'Attendance Request'
 #: onedesk/one_hr/custom/attendance_request.json
-#: onedesk/public/js/oneai/Record.vue:115
+#: onedesk/public/js/oneai/Record.vue:133
 msgid "Approved"
 msgstr "معتمد"
 
@@ -1098,11 +1098,11 @@ msgstr "تعديل العمل الإضافي"
 msgid "Change the model"
 msgstr "تغيير النموذج"
 
-#: onedesk/public/js/oneai/Record.vue:101
+#: onedesk/public/js/oneai/Record.vue:119
 msgid "Change {0}"
 msgstr "تغيير {0}"
 
-#: onedesk/one_ai/proposals.py:412
+#: onedesk/one_ai/proposals.py:416
 msgid "Change {0} on {1}"
 msgstr "تغيير {0} في {1}"
 
@@ -1428,7 +1428,7 @@ msgstr "شمول العطل أيضاً"
 msgid "Create"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:405
+#: onedesk/one_ai/proposals.py:409
 msgid "Create a {0}"
 msgstr "إنشاء {0}"
 
@@ -1663,7 +1663,7 @@ msgstr ""
 msgid "Delete Photos After (Days)"
 msgstr "حذف الصور بعد (أيام)"
 
-#: onedesk/one_ai/proposals.py:407 onedesk/public/js/oneai/Record.vue:102
+#: onedesk/one_ai/proposals.py:411 onedesk/public/js/oneai/Record.vue:120
 msgid "Delete {0}"
 msgstr "حذف {0}"
 
@@ -3325,7 +3325,7 @@ msgstr ""
 msgid "New conversation"
 msgstr "محادثة جديدة"
 
-#: onedesk/public/js/oneai/Record.vue:100
+#: onedesk/public/js/oneai/Record.vue:118
 msgid "New {0}"
 msgstr ""
 
@@ -3339,7 +3339,7 @@ msgstr "التشغيل التالي"
 msgid "Next Status"
 msgstr "الحالة التالية"
 
-#: onedesk/one_ai/chat.py:549
+#: onedesk/one_ai/chat.py:560
 msgid "No"
 msgstr ""
 
@@ -3435,7 +3435,7 @@ msgstr "لم يسجّل الحضور"
 msgid "Not a workspace this site administers."
 msgstr "ليست مساحة عمل يديرها هذا الموقع."
 
-#: onedesk/one_ai/chat.py:361 onedesk/one_ai/chat.py:364
+#: onedesk/one_ai/chat.py:372 onedesk/one_ai/chat.py:375
 msgid "Not answered"
 msgstr "لم يُجب"
 
@@ -3712,7 +3712,7 @@ msgstr "اشترت هذا مساحة عمل واحدة"
 msgid "OneAI"
 msgstr "OneAI"
 
-#: onedesk/one_ai/chat.py:360
+#: onedesk/one_ai/chat.py:371
 msgid "OneAI could not be reached just now. The question is still here — try again."
 msgstr "تعذّر الوصول إلى OneAI الآن. والسؤال ما زال هنا — حاول مرة أخرى."
 
@@ -4525,7 +4525,7 @@ msgstr "استرداد"
 msgid "Refunded"
 msgstr "مُسترد"
 
-#: onedesk/public/js/ai_proposal.js:15 onedesk/public/js/oneai/Record.vue:42
+#: onedesk/public/js/ai_proposal.js:15 onedesk/public/js/oneai/Record.vue:50
 msgid "Refuse"
 msgstr "ارفض"
 
@@ -4548,7 +4548,7 @@ msgstr "رفض تسجيل الحضور بدون مفتاح مرور"
 msgid "Refused"
 msgstr "مرفوض"
 
-#: onedesk/public/js/oneai/Record.vue:116
+#: onedesk/public/js/oneai/Record.vue:134
 msgid "Refused."
 msgstr "مرفوض."
 
@@ -5001,6 +5001,14 @@ msgstr ""
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Shifts"
 msgstr ""
+
+#: onedesk/public/js/oneai/Record.vue:43
+msgid "Show fewer"
+msgstr "عرض أقل"
+
+#: onedesk/public/js/oneai/Record.vue:43
+msgid "Show {0} more"
+msgstr "عرض {0} إضافية"
 
 #. Label of the sign_count (Int) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
@@ -5623,7 +5631,7 @@ msgstr "معرّف المزوّد نفسه. ولا يُكتب هنا أبداً.
 msgid "The provider's own word. Nothing converts between units."
 msgstr "كلمة المزوّد نفسها. ولا شيء يحوّل بين الوحدات."
 
-#: onedesk/public/js/oneai/Record.vue:117
+#: onedesk/public/js/oneai/Record.vue:135
 msgid "The record changed after this was suggested."
 msgstr "تغيّر السجل بعد تقديم هذا الاقتراح."
 
@@ -5754,7 +5762,7 @@ msgstr "لدى هذا الموظف مفتاح مرور بالفعل. على ال
 msgid "This employee's passkey is blocked. HR must reset it before another can be registered."
 msgstr "مفتاح مرور هذا الموظف محظور. على الموارد البشرية إعادة تعيينه قبل تسجيل مفتاح آخر."
 
-#: onedesk/one_ai/proposals.py:114
+#: onedesk/one_ai/proposals.py:118
 msgid "This is for a document that is not saved yet. Apply it from its form."
 msgstr "هذا لمستند لم يُحفظ بعد. طبّقه من نموذجه."
 
@@ -6471,7 +6479,7 @@ msgstr "اكتب الحضور في العطل الواقعة ضمن هذه ال�
 msgid "Write with {0}"
 msgstr "اكتب باستخدام {0}"
 
-#: onedesk/one_ai/proposals.py:411
+#: onedesk/one_ai/proposals.py:415
 msgid "Write {0} on a new {1}"
 msgstr "كتابة {0} في {1} جديد"
 
@@ -6496,7 +6504,7 @@ msgstr "كتبه {0}. اضغط لإعادة كتابته."
 msgid "Year"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:549
+#: onedesk/one_ai/chat.py:560
 msgid "Yes"
 msgstr ""
 
@@ -6532,7 +6540,7 @@ msgstr "لا يجوز لك قراءة {0}."
 msgid "You may not run {0}."
 msgstr "لا يُسمح لك بتشغيل {0}."
 
-#: onedesk/one_ai/proposals.py:326
+#: onedesk/one_ai/proposals.py:330
 msgid "You may not {0} {1}."
 msgstr "لا يجوز لك {0} {1}."
 
@@ -6606,6 +6614,10 @@ msgstr "صوت"
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "cached"
 msgstr "مخزَّن مؤقتاً"
+
+#: onedesk/public/js/oneai/Record.vue:35
+msgid "empty"
+msgstr "فارغ"
 
 #: onedesk/public/js/appraisal.js:24
 msgid "feedback"
@@ -6856,7 +6868,7 @@ msgstr "{0} عن {1}، شهر كامل."
 msgid "{0} for {1}: {2} of {3} days paid."
 msgstr "{0} عن {1}: {2} من {3} يوماً مدفوعة."
 
-#: onedesk/one_ai/proposals.py:120
+#: onedesk/one_ai/proposals.py:124
 msgid "{0} has changed since this was suggested, so it no longer applies."
 msgstr "تغيّر {0} منذ اقتراح هذا، فلم يعد ينطبق."
 
@@ -6936,7 +6948,7 @@ msgstr "{0} غير معروض، فلا يمكن لشيء أن يتخذه افت�
 msgid "{0} is not on this workspace."
 msgstr "{0} ليس على مساحة العمل هذه."
 
-#: onedesk/one_ai/proposals.py:312
+#: onedesk/one_ai/proposals.py:316
 msgid "{0} is not something that can be proposed."
 msgstr "{0} ليس مما يمكن اقتراحه."
 
@@ -7005,7 +7017,7 @@ msgstr "{0} على عدّاد المسافة منذ السجل السابق، م
 msgid "{0} on the odometer since the last log."
 msgstr "{0} على عدّاد المسافة منذ السجل السابق."
 
-#: onedesk/one_ai/proposals.py:409
+#: onedesk/one_ai/proposals.py:413
 msgid "{0} on {1}"
 msgstr "{0} على {1}"
 
@@ -7041,8 +7053,8 @@ msgstr "استُخدم {0} هذا الشهر"
 msgid "{0} used this month in {1} calls · {2} left."
 msgstr "استُخدم {0} هذا الشهر في {1} استدعاء · يتبقى {2}."
 
-#: onedesk/one_admin/ledger.py:165 onedesk/one_ai/proposals.py:101
-#: onedesk/one_ai/proposals.py:150 onedesk/one_ai/touch.py:174
+#: onedesk/one_admin/ledger.py:165 onedesk/one_ai/proposals.py:105
+#: onedesk/one_ai/proposals.py:154 onedesk/one_ai/touch.py:174
 msgid "{0} was already {1}."
 msgstr "{0} كانت بالفعل {1}."
 
@@ -7083,7 +7095,7 @@ msgstr "{0} من {1} إلى {2}"
 msgid "{0} {1}?"
 msgstr "{0} {1}؟"
 
-#: onedesk/public/js/oneai/Record.vue:108
+#: onedesk/public/js/oneai/Record.vue:126
 msgid "{0} · waiting for you"
 msgstr "{0} · بانتظارك"
 

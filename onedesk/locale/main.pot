@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 09:26+0000\n"
-"PO-Revision-Date: 2026-09-23 09:26+0000\n"
+"POT-Creation-Date: 2026-09-23 09:33+0000\n"
+"PO-Revision-Date: 2026-09-23 09:33+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -199,7 +199,7 @@ msgstr ""
 msgid "A {0} does not carry {1}."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:321
+#: onedesk/one_ai/proposals.py:325
 msgid "A {0} has to name a record."
 msgstr ""
 
@@ -646,13 +646,13 @@ msgid "Appraisal Template"
 msgstr ""
 
 #: onedesk/public/js/decision.js:15 onedesk/public/js/decision.js:16
-#: onedesk/public/js/oneai/Record.vue:45
+#: onedesk/public/js/oneai/Record.vue:53
 msgid "Approve"
 msgstr ""
 
 #. Option for the 'Decision' (Select) field in DocType 'Attendance Request'
 #: onedesk/one_hr/custom/attendance_request.json
-#: onedesk/public/js/oneai/Record.vue:115
+#: onedesk/public/js/oneai/Record.vue:133
 msgid "Approved"
 msgstr ""
 
@@ -1096,11 +1096,11 @@ msgstr ""
 msgid "Change the model"
 msgstr ""
 
-#: onedesk/public/js/oneai/Record.vue:101
+#: onedesk/public/js/oneai/Record.vue:119
 msgid "Change {0}"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:412
+#: onedesk/one_ai/proposals.py:416
 msgid "Change {0} on {1}"
 msgstr ""
 
@@ -1426,7 +1426,7 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:405
+#: onedesk/one_ai/proposals.py:409
 msgid "Create a {0}"
 msgstr ""
 
@@ -1661,7 +1661,7 @@ msgstr ""
 msgid "Delete Photos After (Days)"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:407 onedesk/public/js/oneai/Record.vue:102
+#: onedesk/one_ai/proposals.py:411 onedesk/public/js/oneai/Record.vue:120
 msgid "Delete {0}"
 msgstr ""
 
@@ -3323,7 +3323,7 @@ msgstr ""
 msgid "New conversation"
 msgstr ""
 
-#: onedesk/public/js/oneai/Record.vue:100
+#: onedesk/public/js/oneai/Record.vue:118
 msgid "New {0}"
 msgstr ""
 
@@ -3337,7 +3337,7 @@ msgstr ""
 msgid "Next Status"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:549
+#: onedesk/one_ai/chat.py:560
 msgid "No"
 msgstr ""
 
@@ -3433,7 +3433,7 @@ msgstr ""
 msgid "Not a workspace this site administers."
 msgstr ""
 
-#: onedesk/one_ai/chat.py:361 onedesk/one_ai/chat.py:364
+#: onedesk/one_ai/chat.py:372 onedesk/one_ai/chat.py:375
 msgid "Not answered"
 msgstr ""
 
@@ -3710,7 +3710,7 @@ msgstr ""
 msgid "OneAI"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:360
+#: onedesk/one_ai/chat.py:371
 msgid "OneAI could not be reached just now. The question is still here — try again."
 msgstr ""
 
@@ -4523,7 +4523,7 @@ msgstr ""
 msgid "Refunded"
 msgstr ""
 
-#: onedesk/public/js/ai_proposal.js:15 onedesk/public/js/oneai/Record.vue:42
+#: onedesk/public/js/ai_proposal.js:15 onedesk/public/js/oneai/Record.vue:50
 msgid "Refuse"
 msgstr ""
 
@@ -4546,7 +4546,7 @@ msgstr ""
 msgid "Refused"
 msgstr ""
 
-#: onedesk/public/js/oneai/Record.vue:116
+#: onedesk/public/js/oneai/Record.vue:134
 msgid "Refused."
 msgstr ""
 
@@ -4998,6 +4998,14 @@ msgstr ""
 #. Label of the 'shift_settings_section' field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Shifts"
+msgstr ""
+
+#: onedesk/public/js/oneai/Record.vue:43
+msgid "Show fewer"
+msgstr ""
+
+#: onedesk/public/js/oneai/Record.vue:43
+msgid "Show {0} more"
 msgstr ""
 
 #. Label of the sign_count (Int) field in DocType 'Clock Device'
@@ -5621,7 +5629,7 @@ msgstr ""
 msgid "The provider's own word. Nothing converts between units."
 msgstr ""
 
-#: onedesk/public/js/oneai/Record.vue:117
+#: onedesk/public/js/oneai/Record.vue:135
 msgid "The record changed after this was suggested."
 msgstr ""
 
@@ -5749,7 +5757,7 @@ msgstr ""
 msgid "This employee's passkey is blocked. HR must reset it before another can be registered."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:114
+#: onedesk/one_ai/proposals.py:118
 msgid "This is for a document that is not saved yet. Apply it from its form."
 msgstr ""
 
@@ -6466,7 +6474,7 @@ msgstr ""
 msgid "Write with {0}"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:411
+#: onedesk/one_ai/proposals.py:415
 msgid "Write {0} on a new {1}"
 msgstr ""
 
@@ -6491,7 +6499,7 @@ msgstr ""
 msgid "Year"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:549
+#: onedesk/one_ai/chat.py:560
 msgid "Yes"
 msgstr ""
 
@@ -6527,7 +6535,7 @@ msgstr ""
 msgid "You may not run {0}."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:326
+#: onedesk/one_ai/proposals.py:330
 msgid "You may not {0} {1}."
 msgstr ""
 
@@ -6600,6 +6608,10 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "cached"
+msgstr ""
+
+#: onedesk/public/js/oneai/Record.vue:35
+msgid "empty"
 msgstr ""
 
 #: onedesk/public/js/appraisal.js:24
@@ -6844,7 +6856,7 @@ msgstr ""
 msgid "{0} for {1}: {2} of {3} days paid."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:120
+#: onedesk/one_ai/proposals.py:124
 msgid "{0} has changed since this was suggested, so it no longer applies."
 msgstr ""
 
@@ -6924,7 +6936,7 @@ msgstr ""
 msgid "{0} is not on this workspace."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:312
+#: onedesk/one_ai/proposals.py:316
 msgid "{0} is not something that can be proposed."
 msgstr ""
 
@@ -6993,7 +7005,7 @@ msgstr ""
 msgid "{0} on the odometer since the last log."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:409
+#: onedesk/one_ai/proposals.py:413
 msgid "{0} on {1}"
 msgstr ""
 
@@ -7029,8 +7041,8 @@ msgstr ""
 msgid "{0} used this month in {1} calls · {2} left."
 msgstr ""
 
-#: onedesk/one_admin/ledger.py:165 onedesk/one_ai/proposals.py:101
-#: onedesk/one_ai/proposals.py:150 onedesk/one_ai/touch.py:174
+#: onedesk/one_admin/ledger.py:165 onedesk/one_ai/proposals.py:105
+#: onedesk/one_ai/proposals.py:154 onedesk/one_ai/touch.py:174
 msgid "{0} was already {1}."
 msgstr ""
 
@@ -7071,7 +7083,7 @@ msgstr ""
 msgid "{0} {1}?"
 msgstr ""
 
-#: onedesk/public/js/oneai/Record.vue:108
+#: onedesk/public/js/oneai/Record.vue:126
 msgid "{0} · waiting for you"
 msgstr ""
 

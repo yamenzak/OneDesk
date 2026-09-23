@@ -1233,6 +1233,16 @@ way: every call from a workspace to its account waited ten seconds, AI runs
 included, and a run longer than that — any real draft — failed as
 unreachable; runs wait seventy-five now.
 
+**A card carries every change it would make.** A change card had shown the
+first six fields, so a "set everything up" card changing twenty showed six
+and applied twenty. Every field is on the card now: eight shown, the rest
+behind "Show N more", each a change read as what it holds now, struck, and
+what it would hold. And only what would change goes on it: fields the model
+set to what they already hold are dropped before the card is made, and a
+card left with none is refused as nothing to change. Checked with a card
+built by hand, no model: twelve fields asked, three already right and
+dropped, nine on the card.
+
 ## What is deliberately not here
 
 **No model is named in application code.** An action names a capability; a

@@ -18,7 +18,7 @@
 		</div>
 
 		<dl v-if="record.fields.length" class="one-ai-rec__fields" :class="{ 'one-ai-rec__fields--prose': prose }">
-			<div v-for="field in record.fields" :key="field.label" class="one-ai-rec__field">
+			<div v-for="field in fields" :key="field.label" class="one-ai-rec__field">
 				<dt>{{ field.label }}</dt>
 				<dd v-if="field.rows" class="one-ai-rec__rows">
 					<div v-for="(row, i) in field.rows" :key="i" class="one-ai-rec__row">
@@ -31,9 +31,17 @@
 						</div>
 					</div>
 				</dd>
+				<dd v-else-if="field.was !== undefined" class="one-ai-rec__change">
+					<span class="one-ai-rec__was" :class="{ 'one-ai-rec__was--none': !field.was }">{{ field.was || __("empty") }}</span>
+					<Icon name="arrow-right" size="xs" />
+					<span>{{ field.value }}</span>
+				</dd>
 				<dd v-else>{{ field.value }}</dd>
 			</div>
 		</dl>
+		<button v-if="folded" class="one-ai-rec__more" @click="unfolded = !unfolded">
+			{{ unfolded ? __("Show fewer") : __("Show {0} more", [folded]) }}
+		</button>
 
 		<div v-if="suggested" class="one-ai-rec__foot" :class="`one-ai-rec__foot--${(state || '').toLowerCase()}`">
 			<div v-if="suggested.why && state === 'Proposed'" class="one-ai-rec__why">{{ suggested.why }}</div>
@@ -75,6 +83,16 @@ const props = defineProps({
 const emit = defineEmits(["answered"]);
 
 const busy = ref(false);
+
+// Every field a card carries is on it — approving approves all of them — and
+// past eight the rest wait behind a line that says how many.
+const FOLD = 8;
+const unfolded = ref(false);
+const fields = computed(() => {
+	const all = props.record.fields || [];
+	return unfolded.value ? all : all.slice(0, FOLD);
+});
+const folded = computed(() => Math.max((props.record.fields || []).length - FOLD, 0));
 
 // One field holding a paragraph — what a field's own control comes back with —
 // is read top to bottom rather than squeezed into the label-value grid.

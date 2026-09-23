@@ -358,13 +358,13 @@
 	grid-template-columns: minmax(84px, 45%) minmax(0, 1fr);
 }
 
+/* A label wraps rather than being cut: "Employee Naming…" on a change card
+ * hid which setting was changing. */
 .one-ai-rec__field dt {
 	margin: 0;
 	color: var(--text-muted);
 	font-weight: 400;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
+	overflow-wrap: anywhere;
 }
 
 .one-ai-rec__field dd {
@@ -425,6 +425,46 @@
 	margin-top: 1px;
 	font-size: var(--text-xs);
 	color: var(--text-muted);
+}
+
+/* A change: what the field holds now, greyed and struck, and what it would. */
+.one-ai-rec__change {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+}
+
+.one-ai-rec__was {
+	color: var(--text-muted);
+	text-decoration: line-through;
+	text-decoration-color: var(--border-color);
+}
+
+.one-ai-rec__was--none {
+	text-decoration: none;
+	font-style: italic;
+}
+
+.one-ai-rec__change .one-ai-glyph {
+	color: var(--text-muted);
+}
+
+.one-ai-rec__more {
+	display: block;
+	margin: 0 12px 10px;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: var(--text-muted);
+	font-size: var(--text-sm);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	cursor: pointer;
+}
+
+.one-ai-rec__more:hover {
+	color: var(--text-color);
 }
 
 .one-ai-rec__foot {

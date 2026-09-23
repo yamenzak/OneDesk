@@ -275,7 +275,7 @@ def cards(names: list[str] | str) -> list[dict]:
 	found = frappe.get_list(
 		"AI Proposal",
 		filters={"name": ["in", list(named)[:50]]},
-		fields=["name", "kind", "for_doctype", "record", "state", "why", "changes", "applied_doc"],
+		fields=["name", "kind", "for_doctype", "record", "state", "why", "changes", "was", "applied_doc"],
 		limit_page_length=50,
 	)
 	return [{**row, "shown": _suggests(row)} for row in found]
@@ -288,6 +288,8 @@ def _suggests(row: dict) -> dict:
 	look like one thing rather than two — the fields are what is being proposed,
 	which for a change is only what changes.
 	"""
+	from onedesk.one_ai import proposals
+
 	doctype = row.get("for_doctype") or ""
 	fields = []
 	try:
@@ -303,16 +305,25 @@ def _suggests(row: dict) -> dict:
 	place = {name: at for at, name in enumerate(labels)}
 	ordered = sorted(changes.items(), key=lambda one: place.get(one[0], len(place)))
 	tables = {f.fieldname: f.options for f in (meta.fields if meta else []) if f.fieldtype in frappe.model.table_fields}
-	for field, value in ordered[:FIELDS]:
+	# Every field, not the first six: approving a card approves all of it, and
+	# a card setting twenty settings had shown six. The panel folds the rest.
+	try:
+		was = frappe.parse_json(row.get("was") or "{}") or {}
+	except Exception:
+		was = {}
+	for field, value in ordered[: proposals.MOST_FIELDS]:
 		if field in tables and isinstance(value, list):
 			fields.append({"label": frappe._(labels.get(field, field)), "rows": _card_rows(tables[field], value, changes)})
 			continue
-		fields.append(
-			{
-				"label": frappe._(labels.get(field, field)),
-				"value": _formatted(known[field], value, changes) if field in known else _card_value(value),
-			}
-		)
+		drawn = {
+			"label": frappe._(labels.get(field, field)),
+			"value": _formatted(known[field], value, changes) if field in known else _card_value(value),
+		}
+		if row.get("kind") == "Edit" and field in was:
+			# A change reads as one: what it holds now, and what it would hold.
+			held = was.get(field)
+			drawn["was"] = _formatted(known[field], held, was) if field in known and held not in (None, "") else ""
+		fields.append(drawn)
 
 	return {
 		"doctype": doctype,

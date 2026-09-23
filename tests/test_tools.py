@@ -263,3 +263,16 @@ def test_the_model_is_told_who_is_asking_and_what_the_type_holds():
 	assert "_today()" in asked and "_reader()" in asked
 	assert 'frappe.get_hooks("one_ai_reader")' in said
 	assert "_fields_said(doctype)" in said.split("def _page(", 1)[1].split("\ndef ", 1)[0]
+
+
+def test_a_card_carries_every_field_it_would_set_and_only_those_that_change():
+	"""Approving a card approves all of it: a card setting twenty settings had
+	shown six, and the ones already right rode along as noise."""
+	chat = (tree.APP / "one_ai" / "chat.py").read_text()
+	suggests = chat.split("def _suggests(", 1)[1].split("\ndef ", 1)[0]
+	assert "[: proposals.MOST_FIELDS]" in suggests and "[:FIELDS]" not in suggests
+	assert 'drawn["was"]' in suggests
+	propose = (tree.APP / "one_ai" / "proposals.py").read_text().split("def propose(", 1)[1].split("\ndef ", 1)[0]
+	assert "not _same_value(held.get(key), value)" in propose
+	card = (tree.APP / "public" / "js" / "oneai" / "Record.vue").read_text()
+	assert "FOLD = 8" in card and "field.was !== undefined" in card
