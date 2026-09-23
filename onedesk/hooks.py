@@ -403,6 +403,7 @@ app_include_js = [
 	"/assets/onedesk/js/decision.js",
 	"/assets/onedesk/js/next_step.js",
 	"/assets/onedesk/js/task_timer.js",
+	"/assets/onedesk/js/record_calendar.js",
 	"/assets/onedesk/js/band.js",
 	"/assets/onedesk/js/crm_record.js",
 	"/assets/onedesk/js/reports.js",

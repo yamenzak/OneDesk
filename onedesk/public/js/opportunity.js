@@ -18,6 +18,7 @@ frappe.ui.form.on("Opportunity", {
 		frm.remove_custom_button(__("Supplier Quotation"), __("Create"));
 		frm.remove_custom_button(__("Request For Quotation"), __("Create"));
 		onedesk.next_step.button(frm);
+		onedesk.record_calendar(frm);
 		onedesk.crm_record.refresh(frm);
 	},
 });

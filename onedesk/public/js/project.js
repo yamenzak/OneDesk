@@ -14,8 +14,6 @@ frappe.ui.form.on("Project", {
 			});
 			frappe.set_route("List", "Task", "Kanban", frm.doc.project_name);
 		});
-		frm.add_custom_button(__("Calendar"), () =>
-			frappe.set_route("onecalendar", { doctype: "Project", name: frm.doc.name })
-		);
+		onedesk.record_calendar(frm);
 	},
 });

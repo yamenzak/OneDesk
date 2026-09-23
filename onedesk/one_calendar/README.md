@@ -63,11 +63,16 @@ repeating, a video call link — is on the event's own page.
 
 ## A record's own calendar
 
-**Calendar** on a project opens the calendar of that project alone: its tasks
-still to do, whoever is on them, and the events about it, including ones you
-could not otherwise open (they open the project instead). **Add Event** there
-makes an event about the project. Nothing you switch off there changes your
-own calendar.
+**Calendar** on a project, a deal, a lead or an employee opens the calendar of
+that one record: every event about it, including ones you could not otherwise
+open (they open the record instead), and what it has with a date on it —
+
+- a **project**: its tasks still to do, whoever is on them;
+- a **deal** or a **lead**: its next step, whoever owns it;
+- an **employee**: their leave, if you may see it.
+
+**Add Event** there makes an event about the record. Nothing you switch off
+there changes your own calendar.
 
 ## In Google, Apple or Outlook
 
@@ -124,9 +129,12 @@ For the people who build OneCalendar. OneAI does not read past this heading.
    making, dragging and opening.
 4. **The subscription.** *Done.* One link per person, for Google, Apple and
    Outlook.
-5. **A record's own calendar.** *Done for projects.* `?doctype=&name=` on the
-   page, the layers that declare `about`, and a Calendar button on the
-   project. The events layer draws any record's, so a deal or an employee
-   needs only the button.
-6. **The old OneCalendar.** Read OneApp's calendar after this one is built,
-   take what it had that this does not, and delete it.
+5. **A record's own calendar.** *Done.* `?doctype=&name=` on the page, the
+   layers that declare `about`, and a Calendar button (public/js/
+   record_calendar.js) on a project, a deal, a lead and an employee.
+6. **The old OneCalendar.** *Done.* OneApp's diary merged every screen with a
+   calendar under a Mine and an Everyone lens, and derived any record's
+   calendar from the record's tabs. The layers and their two groups are that
+   merge; what it had that this did not was the calendar of a record other
+   than a project, which is stage 5 now. It had no feed, no dragging and no
+   events about a record, so nothing else was taken, and it is deleted.

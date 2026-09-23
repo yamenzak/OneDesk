@@ -218,3 +218,15 @@ def test_a_record_calendar_offers_only_the_layers_that_can_draw_it():
 	assert 'frappe.has_permission(doctype, "read", doc=name)' in source, "a record's calendar needs the record"
 	assert '"editable": bool(layer.get("move") and row.get("editable"))' in source
 	assert "@frappe.whitelist" not in (CAL / "events.py").read_text().split("def move(", 1)[0].rsplit("\n\n", 1)[-1]
+
+
+def test_a_deal_a_lead_and_an_employee_have_calendars_of_their_own():
+	crm = (tree.APP / "one_crm" / "calendar.py").read_text()
+	hr = (tree.APP / "one_hr" / "calendar.py").read_text()
+	assert '"about": ["Opportunity"]' in crm and '"about": ["Lead"]' in crm and '"about": ["Employee"]' in hr
+	assert crm.count('"only_about": True') == 2 and '"only_about": True' in hr
+	helper = (tree.APP / "public" / "js" / "record_calendar.js").read_text()
+	assert 'frappe.set_route("onecalendar", { doctype: frm.doctype, name: frm.doc.name })' in helper
+	for script in ("opportunity.js", "lead.js", "employee.js", "project.js"):
+		assert "onedesk.record_calendar(frm)" in (tree.APP / "public" / "js" / script).read_text(), script
+	assert '"/assets/onedesk/js/record_calendar.js"' in HOOKS

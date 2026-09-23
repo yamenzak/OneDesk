@@ -230,6 +230,7 @@ frappe.ui.form.on("Employee", {
 	refresh(frm) {
 		if (!frm.doc.name || frm.is_new()) return;
 		onedesk.employee.actions(frm);
+		onedesk.record_calendar(frm);
 		frappe.call({
 			method: "onedesk.one_hr.employee.overview",
 			args: { employee: frm.doc.name },

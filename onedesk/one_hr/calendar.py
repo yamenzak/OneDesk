@@ -49,6 +49,17 @@ LAYERS = [
 		"on": False,
 		"rows": "onedesk.one_hr.calendar.whos_off",
 	},
+	# On an employee's own calendar: their leave, for whoever may read it.
+	{
+		"key": "employee-leave",
+		"label": _lt("Leave"),
+		"color": "pink",
+		"group": "Workspace",
+		"doctype": "Leave Application",
+		"rows": "onedesk.one_hr.calendar.employee_leave",
+		"about": ["Employee"],
+		"only_about": True,
+	},
 ]
 
 
@@ -74,6 +85,19 @@ def my_leave(start, end) -> list[dict]:
 			"all_day": 1,
 		}
 		for one in _leave(start, end, [["employee", "=", employee], ["status", "not in", DROPPED]])
+	]
+
+
+def employee_leave(start, end, record: tuple) -> list[dict]:
+	return [
+		{
+			"name": one.name,
+			"title": f"{frappe._(one.leave_type)}" + ("" if one.status == "Approved" else f" · {frappe._(one.status)}"),
+			"start": one.from_date,
+			"end": one.to_date,
+			"all_day": 1,
+		}
+		for one in _leave(start, end, [["employee", "=", record[1]], ["status", "not in", DROPPED]])
 	]
 
 

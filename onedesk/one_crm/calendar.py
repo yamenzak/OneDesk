@@ -25,6 +25,27 @@ LAYERS = [
 		"doctype": "Lead",
 		"rows": "onedesk.one_crm.calendar.leads",
 	},
+	# On a deal's or a lead's own calendar: its next step, whoever owns it.
+	{
+		"key": "deal-step",
+		"label": _lt("Next Step"),
+		"color": "green",
+		"group": "Workspace",
+		"doctype": "Opportunity",
+		"rows": "onedesk.one_crm.calendar.this_step",
+		"about": ["Opportunity"],
+		"only_about": True,
+	},
+	{
+		"key": "lead-step",
+		"label": _lt("Next Step"),
+		"color": "yellow",
+		"group": "Workspace",
+		"doctype": "Lead",
+		"rows": "onedesk.one_crm.calendar.this_step",
+		"about": ["Lead"],
+		"only_about": True,
+	},
 ]
 
 
@@ -36,7 +57,13 @@ def leads(start, end) -> list[dict]:
 	return _steps("Lead", start, end)
 
 
-def _steps(doctype: str, start, end) -> list[dict]:
+def this_step(start, end, record: tuple) -> list[dict]:
+	"""One deal's or lead's next step, on its own calendar."""
+	doctype, name = record
+	return _steps(doctype, start, end, [["name", "=", name]])
+
+
+def _steps(doctype: str, start, end, which: list | None = None) -> list[dict]:
 	return [
 		{
 			"name": one.name,
@@ -46,7 +73,7 @@ def _steps(doctype: str, start, end) -> list[dict]:
 		for one in frappe.get_list(
 			doctype,
 			filters=[
-				[next_step.OWNER[doctype], "=", frappe.session.user],
+				*(which or [[next_step.OWNER[doctype], "=", frappe.session.user]]),
 				["status", "in", next_step.OPEN[doctype]],
 				*layers.within("one_next_on", start, end),
 			],
