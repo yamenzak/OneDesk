@@ -14,7 +14,8 @@ the same record the rest of One reads.
 
 The rail on the left has the whole of OneCRM in it:
 
-- **Home** — *my day*: what is due and what has no next step.
+- **Home** — *my day*: what is due and what has no next step, and four
+  figures on the pipeline.
 - **Lead** — somebody who got in touch, or somebody you want to reach.
 - **Deal** — a sale you are working on, with what it is worth and how far it
   has got.
@@ -22,7 +23,8 @@ The rail on the left has the whole of OneCRM in it:
 - **Customer** — somebody who has bought, or is about to.
 - **Contact** and **Prospect** — the people, and the businesses they work for.
 - **Sales**, **Campaigns**, **Setup** — one group each, opened with the arrow.
-  Quotations, appointments and contracts are under Sales.
+  Quotations, appointments, contracts and the four sales reports are under
+  Sales.
 
 **One workspace is one company.** You are never asked which company a lead or
 a deal belongs to.
@@ -98,11 +100,15 @@ anything is clicked:
 
 - on a deal — **Deal Value** and its probability, the **stage** and how long it
   has been there beside how long deals usually stay there (amber once it is
-  longer, and more than a day), the **Next Step** (red once overdue), the **Last Call** or
-  **Last Email**, when it **Closes** (red once past), its latest **Quotation**,
-  and where it came from;
-- on a lead — when it **Came In**, the Next Step, the last contact, the
-  **Deals** made from it, and where it came from.
+  longer, and more than a day), the **Next Step** (red once overdue), the
+  **Last Call** or **Last Email**, when it **Closes** (red once past), its
+  latest **Quotation**, and where it came from;
+- on a lead — when it **Came In**, **Waiting For a Reply** or how long the
+  **First Reply** took, the Next Step, the last contact, the **Deals** made
+  from it, and where it came from.
+
+A lead or deal that is closed — converted, won or lost — shows no next step
+and no waiting.
 
 Each answer that comes from another record opens it.
 
@@ -138,19 +144,20 @@ report behind it.
 - **Win Rate (90 Days)** — of the deals won or lost in the last 90 days, the
   share that was won.
 
-Four reports, in the **Sales** group — **How Long Deals Take** is under Sales
-stages below:
+Four reports, in the **Sales** group:
 
 - **Deal Forecast** — the open deals, except those on hold, by the month they
   are expected to close, with their value, their weighted value, and what was
-  actually won in each month. Deals whose closing date has passed are one row, **Overdue**, and
-  deals with no closing date another, so nothing is left out.
+  actually won in each month. Deals whose closing date has passed are one row,
+  **Overdue**, and deals with no closing date another, so nothing is left out.
 - **Won and Lost** — deals won and lost, their value, and the win rate, grouped
   by **Month**, **Deal Owner**, **Source** or **Lost Reason**. A deal lost for two
   reasons counts under both.
 - **Lead Sources** — for each source, how many leads came in, how many were
   replied to and how fast, how many became deals, and how many were won. Leads
   with no source are counted as **Not Recorded**.
+- **How Long Deals Take** — how long deals stay in each stage and take to be
+  won; see Sales stages below.
 
 **A deal is won or lost on the day it reached a Won or Lost stage**, not the
 last day anybody edited it. Everything above counts from that day.
@@ -165,8 +172,8 @@ takes the quotation's reasons, so Won and Lost reads them from one place.
 A new workspace has seven: **New**, **Qualified**, **Proposal**,
 **Negotiation**, **On Hold**, **Won** and **Lost**. Each has a **Position**,
 which is the order they are listed in; a **Probability (%)**, which a deal
-takes when it moves there; and an **Outcome** — Open, On Hold, Won or Lost. Change them, add your own or remove them
-under **Setup › Sales Stage**.
+takes when it moves there; and an **Outcome** — Open, On Hold, Won or Lost.
+Change them, add your own or remove them under **Setup › Sales Stage**.
 
 **Moving a deal to a stage sets its probability** to that stage's. Type a
 different probability and it stays until the deal moves again. A won deal is
@@ -272,8 +279,8 @@ A deal has no **Close**: a deal that will not happen is lost, with a reason.
 **Who may do what.** Everybody in sales sees every lead and deal; a team that
 wants each person to see only their own sets User Permissions. A **Sales
 User** makes and edits leads, deals and prospects; deleting a lead or a deal,
-and merging leads, is a **Sales Manager's**. Sales Users and Sales Managers may log and correct calls. Change any of it under Role
-Permissions; One does not change it back.
+and merging leads, is a **Sales Manager's**. Both may log and correct calls.
+Change any of it under Role Permissions; One does not change it back.
 
 ## Under the hood
 
@@ -338,17 +345,19 @@ none edits erpnext.
    open them for — value, stage and how long it has been there, the last
    contact, the next step, where it came from — with notes, calls written down
    by hand, mail and comments on one timeline.
-5. **Capture.** *Done* — `capture.py`, `web_form/get_in_touch`. A web form
-   that makes a lead, mail to an inbox that makes a lead, duplicates caught on email, phone and business name, leads shared out
-   by an Assignment Rule, and the first reply on a lead measured.
+5. **Capture.** *Done* — `capture.py`, `web_form/get_in_touch`. A web form that
+   makes a lead, mail to an inbox that makes a lead, duplicates caught on email,
+   phone and business name, leads shared out by an Assignment Rule, and the
+   first reply on a lead measured.
 6. **Measured.** *Done* — `measure.py`, `report/`, `number_card/`. A
    forecast by expected month weighted by stage, won and lost with one list of
    reasons, which sources turn into sales, and number cards counting what they
    say they count. ERPNext's two wrong cards stay wrong on its own CRM
    dashboard, which OneCRM does not link to; Home has its own four.
-7. **Screen by screen.** *Done* — `custom/*.json`, `crm_record.js`,
-   `access.py`. Every group in the rail opened with data in it and fixed: fields nobody fills, Company off every filter, names not IDs, and who
-   may see and change what.
+7. **Screen by screen.** *Done* — `custom/*.json`, `crm_record.js`, `access.py`.
+   Every group in the rail opened with data in it and fixed: fields nobody
+   fills, Company off every filter, names not IDs, and who may see and change
+   what.
 8. **OneAI in OneCRM.** *Done* — `ai.py`. Four reads (`deal_facts`,
    `lead_facts`, `gone_quiet`, `why_we_lose`) and three cards (`add_lead`,
    `plan_next_step`, `write_up_call`), with the panel's suggestions per page.
@@ -356,8 +365,9 @@ none edits erpnext.
    OneHR's CVs use too. A written-up call is `record.call`, the dialog's own
    Call Log, and `access.py` lets sales make one, because a card is applied
    with the approver's own permissions.
-9. **The README is the manual.** Everything above Under the hood describes
-   what is built.
+9. **The README is the manual.** *Done* — read against the running site
+   after stage 11: every button, band, rail group and report above Under the
+   hood is what is there.
 
 ### What the old OneCRM had that this does not
 
@@ -366,11 +376,12 @@ and deleted. It is at OneApp `65dacfd9` for anybody who needs a line of it.
 Four ideas in it are worth having here, and each is a stage:
 
 10. **On hold.** *Done* — `stages.HOLD`, `measure.alive`, the patch
-    `add_on_hold` for a workspace seeded before it. A seventh stage whose outcome is On Hold, for the deal that
-    is neither moving nor lost — the money is not signed off, the building is
-    not ready. Without it such a deal sits in Negotiation and the pipeline and
-    the forecast count it. It stays open, keeps its column on the board, and
-    is left out of the pipeline's value, the weighted value and the forecast.
+    `add_on_hold` for a workspace seeded before it. A seventh stage whose
+    outcome is On Hold, for the deal that is neither moving nor lost — the money
+    is not signed off, the building is not ready. Without it such a deal sits in
+    Negotiation and the pipeline and the forecast count it. It stays open, keeps
+    its column on the board, and is left out of the pipeline's value, the
+    weighted value and the forecast.
 11. **How long deals take.** *Done* — `measure.stays`, `usual`, `stuck`, the
     report `how_long_deals_take`, and `usual`/`long` in `record.overview`.
     From the Milestones stage 1 already writes: the
@@ -378,10 +389,13 @@ Four ideas in it are worth having here, and each is a stage:
     kept a stage log of its own for this; Milestone is that log. On a deal's
     page the stage reads "for 12 days" beside the usual 5, so a stuck deal
     shows as one.
-12. **Next steps on a calendar.** The Deal and Lead lists open as a calendar
-    on the next step's day, the reader's own by default. The old app's
-    Follow-ups screen was exactly this, and the week is the shape a
-    salesperson plans in.
+12. **Next steps on a calendar.** *Moved to OneCalendar.* A next step is one
+    thing in a person's week beside their tasks, meetings and leave, and that
+    week is OneCalendar's; a Deal calendar and a Lead calendar now would be two
+    more places to look, replaced when it comes. It needs only to read
+    `one_next_on` off Lead and Opportunity. What it was to be: the Deal and Lead
+    lists opening as a calendar on the next step's day, the reader's own by
+    default, as the old app's Follow-ups screen did.
 13. **A promise to answer.** A lead answered within a working day, counted in
     working hours with the holiday list, and Home listing the leads that are
     late. The old app built this itself, seven hundred lines, because it
@@ -389,6 +403,14 @@ Four ideas in it are worth having here, and each is a stage:
     does it on any doctype, Lead included, and an agreement with no condition
     needs none. What that one lacks is the old app's restart when the lead
     writes back — a first answer is measured, a later one is not.
+    *Moved to OneMail*, because the hard part is noticing a reply. Found
+    while starting it: ERPNext's agreement never sees a mail reply to a lead.
+    frappe stamps `first_responded_on` only on a doctype that also has
+    `first_response_time`, which the agreement does not add to Lead, and
+    ERPNext's own reply branch waits for that stamp. So `capture.replied`,
+    which already notices the first mail and the first call, is what writes
+    it — replacing `one_first_reply_at` — and the agreement needs a holiday
+    list, which a new site has only after its setup wizard.
 
 Left behind, with the reason: its own stage, stage-log and call doctypes
 (Sales Stage with three fields, Milestone and Call Log do the same); a chart
