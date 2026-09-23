@@ -60,7 +60,7 @@ def test_a_task_prefix_is_short_and_starts_with_a_letter():
 	key = _load(PROJECT / "naming.py", ("KEY",), re=re)["KEY"]
 	assert key.match("WEB") and key.match("R2D2") and key.match("REEM")
 	assert not key.match("W") and not key.match("2FA") and not key.match("WEB-1") and not key.match("ABCDEFGHIJK")
-	assert '"Project": {\n\t\t"validate": "onedesk.one_project.naming.validate"' in HOOKS
+	assert '"validate": "onedesk.one_project.naming.validate"' in HOOKS.split('"Project": {', 1)[1].split('}', 1)[0]
 	source = (PROJECT / "naming.py").read_text()
 	assert '"Document Naming Rule"' in source
 	assert '"Task"' not in HOOKS.split("override_doctype_class = {", 1)[1].split("}", 1)[0], "ERPNext's Task class stays theirs"
