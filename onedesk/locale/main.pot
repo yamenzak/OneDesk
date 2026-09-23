@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 17:33+0000\n"
-"PO-Revision-Date: 2026-09-23 17:33+0000\n"
+"POT-Creation-Date: 2026-09-23 17:49+0000\n"
+"PO-Revision-Date: 2026-09-23 17:49+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -650,7 +650,7 @@ msgstr ""
 msgid "Answers from your own records"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:220
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:221
 msgid "Anyone with the link can read your calendar."
 msgstr ""
 
@@ -663,8 +663,8 @@ msgstr ""
 msgid "Appearance"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:215
-msgid "Apple"
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:216
+msgid "Apple Calendar"
 msgstr ""
 
 #. Label of the one_applicant (Data) field in DocType 'Interview'
@@ -1654,7 +1654,7 @@ msgstr ""
 msgid "Conversations"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:217
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:218
 msgid "Copy Link"
 msgstr ""
 
@@ -2833,11 +2833,8 @@ msgstr ""
 msgid "Gone"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:214
-msgid "Google"
-msgstr ""
-
 #. Label of a Sidebar Item
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:215
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 msgid "Google Calendar"
 msgstr ""
@@ -3802,7 +3799,7 @@ msgstr ""
 msgid "Log a Call"
 msgstr ""
 
-#: onedesk/one_calendar/feed.py:54
+#: onedesk/one_calendar/feed.py:56
 msgid "Log in to make a calendar link."
 msgstr ""
 
@@ -4161,7 +4158,7 @@ msgstr ""
 msgid "New Lead"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:221
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:222
 msgid "New Link"
 msgstr ""
 
@@ -4170,7 +4167,7 @@ msgstr ""
 msgid "New conversation"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:227
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:228
 msgid "New link made. The old one no longer works."
 msgstr ""
 
@@ -4938,7 +4935,7 @@ msgstr ""
 msgid "Outgoing"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:216
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:217
 msgid "Outlook"
 msgstr ""
 
@@ -6056,8 +6053,8 @@ msgstr ""
 msgid "See the changes"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:212
-msgid "See this calendar in another app. It updates about every hour."
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:213
+msgid "See this calendar in another app. Google Calendar updates it a few times a day, the others more often."
 msgstr ""
 
 #. Label of the seen_section (Section Break) field in DocType 'Clock Network'
@@ -6637,7 +6634,7 @@ msgstr ""
 msgid "Suspended For"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:222
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:223
 msgid "Switch Off"
 msgstr ""
 
@@ -7094,7 +7091,7 @@ msgstr ""
 msgid "This browser will not give a location."
 msgstr ""
 
-#: onedesk/one_calendar/feed.py:89
+#: onedesk/one_calendar/feed.py:93
 msgid "This calendar link does not work any more."
 msgstr ""
 
@@ -8217,7 +8214,7 @@ msgstr ""
 msgid "Your Instructions"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:231
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:232
 msgid "Your calendar link is switched off."
 msgstr ""
 

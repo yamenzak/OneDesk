@@ -202,7 +202,7 @@ onedesk.OneCalendar = class OneCalendar {
 	// One line, a button per app, and the link. Google and Outlook each take a
 	// calendar by its address in the web; Apple opens a webcal:// one itself.
 	async subscribe() {
-		const dialog = new frappe.ui.Dialog({ title: __("Subscribe"), size: "small" });
+		const dialog = new frappe.ui.Dialog({ title: __("Subscribe") });
 		const draw = (link) => {
 			const google = `https://calendar.google.com/calendar/render?cid=${encodeURIComponent(link.webcal)}`;
 			const outlook = `https://outlook.office.com/calendar/0/addfromweb?url=${encodeURIComponent(link.https)}&name=${encodeURIComponent(link.name)}`;
@@ -210,10 +210,10 @@ onedesk.OneCalendar = class OneCalendar {
 			const button = (href, icon, label) =>
 				`<a class="btn btn-default btn-sm" href="${href}" target="_blank" rel="noopener">${frappe.utils.icon(icon, "sm")} ${label}</a>`;
 			dialog.$body.html(`
-				<p class="text-muted small">${__("See this calendar in another app. It updates about every hour.")}</p>
+				<p class="text-muted small">${__("See this calendar in another app. Google Calendar updates it a few times a day, the others more often.")}</p>
 				<div class="one-calendar-apps">
-					${button(google, "google-calendar", __("Google"))}
-					${button(link.webcal, "apple-calendar", __("Apple"))}
+					${button(google, "google-calendar", __("Google Calendar"))}
+					${button(link.webcal, "apple-calendar", __("Apple Calendar"))}
 					${button(outlook, "outlook", __("Outlook"))}
 					<button class="btn btn-default btn-sm one-calendar-copy">${__("Copy Link")}</button>
 				</div>

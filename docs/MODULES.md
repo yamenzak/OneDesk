@@ -146,7 +146,6 @@ No doctypes yet.
 * `onedesk.one_ai.run.use`
 * `onedesk.one_ai.run.waiting`
 * `onedesk.one_calendar.events.move`
-* `onedesk.one_calendar.feed.ics`
 * `onedesk.one_calendar.feed.mine`
 * `onedesk.one_calendar.feed.renew`
 * `onedesk.one_calendar.feed.stop`

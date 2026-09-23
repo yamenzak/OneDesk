@@ -62,12 +62,13 @@ repeating, a video call link — is on the event's own page.
 
 ## In Google, Apple or Outlook
 
-**Subscribe** adds your calendar to another app: **Google**, **Apple** or
-**Outlook** opens that app ready to add it, and **Copy Link** is for anything
+**Subscribe** adds your calendar to another app: **Google Calendar**, **Apple
+Calendar** or **Outlook** opens that app ready to add it, and **Copy Link** is for anything
 else — a personal Outlook account pastes it under *Add calendar › Subscribe
 from web*. It carries what the calendar shows before you switch any layer off,
-from two months ago to a year ahead, and the other app reads it again about
-every hour. It only goes one way: an event you add in Google stays in Google.
+from two months ago to a year ahead. How often the other app reads it again is
+up to that app: Apple Calendar as often as you set in its settings, Outlook
+every few hours, and Google a few times a day, on its own schedule. It only goes one way: an event you add in Google stays in Google.
 
 **Anyone with the link can read your calendar.** **New Link** switches the old
 one off, and **Switch Off** ends it. A Workspace Administrator can switch

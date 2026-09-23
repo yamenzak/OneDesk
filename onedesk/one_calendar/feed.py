@@ -2,7 +2,9 @@
 
 Google Calendar (*From URL*), Apple Calendar (*New Calendar Subscription*) and
 Outlook (*Subscribe from web*) all read the same thing: an iCalendar file at an
-address. Each person has one address, with a secret in it, and whoever holds
+address. The file asks to be read again every fifteen minutes; Apple and
+Outlook take that as a guide, and Google ignores it and reads on its own
+schedule, a few times a day. Each person has one address, with a secret in it, and whoever holds
 the address reads that person's calendar. The secret is kept encrypted, as
 frappe keeps an API secret, so the dialog can show the link again; a link is
 found by the secret's hash, and a new one switches the old one off.
@@ -81,7 +83,9 @@ def stop() -> None:
 
 
 @frappe.whitelist(allow_guest=True, methods=["GET"])
-@rate_limit(limit=120, seconds=60 * 60)
+# Per link, not per address: Google reads everybody's calendar from the same
+# few servers, and a limit per address would cut off a whole workspace at once.
+@rate_limit(key="token", ip_based=False, limit=60, seconds=60 * 60)
 def ics(token: str) -> None:
 	"""The calendar behind a link, as the person it belongs to."""
 	user = frappe.db.get_value("Calendar Feed", {"token_hash": _hash(token or "")}, "user")
@@ -131,8 +135,8 @@ def calendar(found: list[dict], name: str, zone, now: datetime, site: str) -> st
 		"CALSCALE:GREGORIAN",
 		"METHOD:PUBLISH",
 		f"X-WR-CALNAME:{escape(name)}",
-		"REFRESH-INTERVAL;VALUE=DURATION:PT1H",
-		"X-PUBLISHED-TTL:PT1H",
+		"REFRESH-INTERVAL;VALUE=DURATION:PT15M",
+		"X-PUBLISHED-TTL:PT15M",
 	]
 	stamp = now.strftime("%Y%m%dT%H%M%SZ")
 	for one in found:
