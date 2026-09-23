@@ -149,10 +149,10 @@
 	cursor: pointer;
 }
 
-.one-ai-icon--sm {
-	width: 22px;
-	height: 22px;
-	border-radius: 6px;
+/* An icon from the sprite, sized by frappe's own icon-xs / -sm / -md. */
+.one-ai-glyph {
+	display: inline-flex;
+	line-height: 0;
 }
 
 .one-ai-icon:hover {

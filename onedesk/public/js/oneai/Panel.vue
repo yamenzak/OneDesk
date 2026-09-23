@@ -12,9 +12,7 @@
 				:title="__('All conversations')"
 				@click="toThreads"
 			>
-				<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6">
-					<path d="M10 3 5 8l5 5" stroke-linecap="round" stroke-linejoin="round" />
-				</svg>
+				<Icon name="chevron-left" />
 			</button>
 			<img v-else class="one-ai-head__mark" :src="mark" alt="" />
 
@@ -24,20 +22,13 @@
 			</div>
 
 			<button class="one-ai-icon" :title="__('New conversation')" @click="fresh">
-				<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6">
-					<path d="M8 3.5v9M3.5 8h9" stroke-linecap="round" />
-				</svg>
+				<Icon name="square-pen" />
 			</button>
 			<button class="one-ai-icon" :title="bigger" @click="grow">
-				<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6">
-					<path v-if="size === 'full'" d="M6.5 3v3.5H3M9.5 13V9.5H13" stroke-linecap="round" stroke-linejoin="round" />
-					<path v-else d="M6 3H3v3M10 13h3v-3" stroke-linecap="round" stroke-linejoin="round" />
-				</svg>
+				<Icon :name="size === 'full' ? 'minimize-2' : 'maximize-2'" />
 			</button>
 			<button class="one-ai-icon" :title="__('Close')" @click="$emit('closed')">
-				<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6">
-					<path d="M4 4l8 8M12 4l-8 8" stroke-linecap="round" />
-				</svg>
+				<Icon name="x" />
 			</button>
 		</div>
 
@@ -86,10 +77,7 @@
 							target="_blank"
 							rel="noopener"
 						>
-							<svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5">
-								<path d="M9 2H4.5A1.5 1.5 0 0 0 3 3.5v9A1.5 1.5 0 0 0 4.5 14h7a1.5 1.5 0 0 0 1.5-1.5V6z" stroke-linejoin="round" />
-								<path d="M9 2v4h4" stroke-linejoin="round" />
-							</svg>
+							<Icon name="file" size="xs" />
 							<span>{{ file.name }}</span>
 						</a>
 					</div>
@@ -177,9 +165,7 @@
 
 				<div class="one-ai-ask__row" @click.stop>
 					<button class="one-ai-round" :title="__('Attach a file')" :disabled="busy" @click="attach">
-						<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6">
-							<path d="M8 3v10M3 8h10" stroke-linecap="round" />
-						</svg>
+						<Icon name="plus" />
 					</button>
 					<button
 						v-if="chat.model_at"
@@ -199,10 +185,7 @@
 						:disabled="busy"
 						@click="listen"
 					>
-						<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">
-							<rect x="5.75" y="1.75" width="4.5" height="8" rx="2.25" />
-							<path d="M3.25 7.5a4.75 4.75 0 0 0 9.5 0M8 12.25v2" stroke-linecap="round" />
-						</svg>
+						<Icon name="mic" />
 					</button>
 					<button
 						class="one-ai-send"
@@ -211,9 +194,7 @@
 						:title="__('Send')"
 						@click="send()"
 					>
-						<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
-							<path d="M8 13V3.5M3.75 7.5 8 3.25l4.25 4.25" stroke-linecap="round" stroke-linejoin="round" />
-						</svg>
+						<Icon name="arrow-up" />
 					</button>
 				</div>
 			</div>
@@ -229,6 +210,7 @@
 import { computed, nextTick, onBeforeUnmount, ref, watch } from "vue";
 
 import Record from "./Record.vue";
+import Icon from "./Icon.vue";
 
 const __ = window.__;
 const mark = "/assets/onedesk/images/oneai.svg";

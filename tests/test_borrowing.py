@@ -5,6 +5,7 @@ a judgement belongs somewhere a person has to edit on purpose. Adding a rule
 here is how we record that we looked.
 """
 
+import json
 import re
 import sys
 from pathlib import Path
@@ -52,6 +53,12 @@ RULES = [
 		"the espresso tokens — var(--ink-*), var(--surface-*), var(--outline-*)",
 		r"(?<![\w-])#[0-9a-fA-F]{3,8}\b|\brgba?\s*\(",
 		{".vue", ".css", ".scss"},
+	),
+	(
+		"icons",
+		"frappe.utils.icon(name) — Lucide, or a Custom Icon in fixtures/custom_icon.json",
+		r"<svg\b",
+		{".js", ".ts", ".vue", ".html", ".py"},
 	),
 	(
 		"permission checks",
@@ -107,7 +114,52 @@ def test_every_rule_would_catch_its_own_example():
 		"realtime": "const s = new WebSocket('wss://x')",
 		"per-user state": "localStorage.setItem('tab', tab)",
 		"colours and sizes": "color: #1a1a1a;",
+		"icons": '<svg viewBox="0 0 16 16"><path d="M4 4l8 8" /></svg>',
 		"permission checks": "if frappe.session.user == 'admin@example.com':",
 	}
 	for what, _instead, pattern, _suffixes in RULES:
 		assert re.search(pattern, examples[what]), f"{what} no longer matches its example"
+
+
+#: The sprite the desk loads: Lucide as frappe ships it, then every Custom Icon.
+LUCIDE = Path("/home/frappe/bench1/apps/frappe/frappe/public/icons/lucide/icons.svg")
+
+#: How an icon is named in our code: the Icon component, or frappe's own call.
+NAMED = (
+	r"<Icon\s+name=\"([\w-]+)\"",
+	r"<Icon\s+:name=\"[^\"]*\"",  # a ternary: every quoted name inside it
+	r"frappe\.utils\.icon\(\s*['\"]([\w-]+)['\"]",
+)
+
+
+def _named() -> dict[str, str]:
+	found = {}
+	for path in tree.sources():
+		if path.suffix not in {".js", ".vue"}:
+			continue
+		text = path.read_text()
+		for match in re.finditer(NAMED[0], text):
+			found[match.group(1)] = str(path.relative_to(tree.ROOT))
+		for match in re.finditer(NAMED[1], text):
+			for name in re.findall(r"[?:]\s*'([\w-]+)'", match.group(0)):
+				found[name] = str(path.relative_to(tree.ROOT))
+		for match in re.finditer(NAMED[2], text):
+			found[match.group(1)] = str(path.relative_to(tree.ROOT))
+		# A lookup table of names, like the record card's glyphs.
+		for block in re.findall(r"// .*Lucide.*\n(?:.*\n){0,3}", text):
+			for name in re.findall(r"\"([a-z][\w-]+)\"", block):
+				found[name] = str(path.relative_to(tree.ROOT))
+	return found
+
+
+def test_every_icon_is_in_the_sprite():
+	"""A name the sprite lacks draws nothing, silently. Lucide or a fixture."""
+	if not LUCIDE.exists():
+		pytest.skip("no frappe checkout beside this one")
+	have = set(re.findall(r'id="icon-([\w-]+)"', LUCIDE.read_text()))
+	custom = json.loads((tree.APP / "fixtures" / "custom_icon.json").read_text())
+	have |= {one["icon_name"] for one in custom}
+	missing = {name: where for name, where in _named().items() if name not in have}
+	assert not missing, "not in Lucide or fixtures/custom_icon.json:\n" + "\n".join(
+		f"  {name} ({where})" for name, where in sorted(missing.items())
+	)
