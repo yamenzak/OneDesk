@@ -60,7 +60,7 @@ No doctypes yet.
 | AI Action | 14 | document |
 | AI Action Setting | 6 | document |
 | AI Chat | 7 | document |
-| AI Proposal | 19 | document |
+| AI Proposal | 20 | document |
 | AI Touch | 8 | document |
 
 ## Desk records shipped as fixtures
@@ -121,6 +121,7 @@ No doctypes yet.
 * `onedesk.one_ai.chat.rename`
 * `onedesk.one_ai.chat.say`
 * `onedesk.one_ai.chat.start`
+* `onedesk.one_ai.chat.suggestions`
 * `onedesk.one_ai.files.attached`
 * `onedesk.one_ai.run.apply`
 * `onedesk.one_ai.run.landed`

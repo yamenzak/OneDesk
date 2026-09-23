@@ -62,7 +62,13 @@
 					</div>
 				</div>
 				<div v-else-if="!chat.said.length" class="one-ai-empty">
-					{{ __("Ask about this page, look something up, or have a change suggested.") }}
+					<div class="one-ai-empty__ask">{{ __("What would you like to do?") }}</div>
+					<div v-if="offered.length" class="one-ai-quick">
+						<button v-for="one in offered" :key="one.label" class="one-ai-quick__one" :disabled="busy" @click="take(one)">
+							{{ one.label }}
+						</button>
+					</div>
+					<div v-else>{{ __("Ask about this page, look something up, or have a change suggested.") }}</div>
 				</div>
 
 				<div
@@ -220,7 +226,7 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onBeforeUnmount, ref } from "vue";
+import { computed, nextTick, onBeforeUnmount, ref, watch } from "vue";
 
 import Record from "./Record.vue";
 
@@ -258,6 +264,15 @@ const target = ref(null);
 // frappe's own realtime channel; asked for every few seconds as well, because a
 // socket that dropped or a tab that slept would otherwise wait for ever.
 const steps = ref([]);
+
+// What the panel offers on the page it opened on — a receipt on an expense
+// claim, a summary on a record — asked of the server, which knows what each
+// module offers and what this reader may do. See one_ai/suggest.py.
+const offered = ref([]);
+watch(
+	() => props.here,
+	() => !chat.value.said.length && offer(),
+);
 const POLL = 5000;
 let watching = null;
 frappe.realtime.on("one_ai_run", heard);
@@ -331,11 +346,10 @@ defineExpose({
 			target.value = opening.field;
 			return;
 		}
-		// Into the conversation, not into a list of them: opening a panel and
-		// being given an index is a second click before anybody has asked
-		// anything. The list is one press back, for the times it is wanted.
-		await list();
-		threads.value.length ? openChat(threads.value[0].name) : fresh();
+		// Into a new conversation, offering what fits the page: the panel is
+		// opened to do something here, and the last conversation is about
+		// somewhere else. Every earlier one is one press back.
+		fresh();
 	},
 });
 
@@ -350,6 +364,7 @@ async function openChat(name) {
 	stop();
 	busy.value = false;
 	chat.value = await frappe.xcall("onedesk.one_ai.chat.opened", { chat: name });
+	if (!chat.value.said.length) offer();
 	if (chat.value.running) {
 		doing.value = __("Thinking…");
 		follow(chat.value.running);
@@ -367,6 +382,7 @@ function fresh() {
 	cards.value = {};
 	view.value = "chat";
 	nextTick(() => box.value && box.value.focus());
+	offer();
 	// Asked for after the box is up, so a new conversation opens at once and
 	// the pill fills in a moment later with whatever model would answer it.
 	frappe.xcall("onedesk.one_ai.chat.opened").then((empty) => {
@@ -382,16 +398,40 @@ function toThreads() {
 // row with an owner and a permission, in the workspace, rather than something
 // living inside a transcript nobody can find again. The chat has to exist first,
 // which is why an empty one is saved before the dialog opens.
-async function attach() {
+async function attach(then) {
 	if (!chat.value.name) {
 		chat.value = await frappe.xcall("onedesk.one_ai.chat.start");
 	}
+	let once = then;
 	new frappe.ui.FileUploader({
 		doctype: "AI Chat",
 		docname: chat.value.name,
 		frm: null,
-		on_success: (file) => waiting.value.push({ name: file.file_name, url: file.file_url }),
+		on_success: (file) => {
+			waiting.value.push({ name: file.file_name, url: file.file_url });
+			// A suggestion that needs a file asks the moment it has one, once,
+			// however many files the dialog uploaded.
+			if (once) nextTick(once);
+			once = null;
+		},
 	});
+}
+
+async function offer() {
+	offered.value = [];
+	try {
+		offered.value = await frappe.xcall("onedesk.one_ai.chat.suggestions", {
+			page: useHere.value && props.here ? props.here : null,
+		});
+	} catch (e) {
+		// Nothing offered is a panel that still works; the box is still there.
+	}
+}
+
+// A suggestion taken: asked straight away, or once the file it needs is in.
+function take(one) {
+	if (one.file) return attach(() => ask(one.ask));
+	ask(one.ask);
 }
 
 // A quick ask is a question somebody did not have to type, not a retry.

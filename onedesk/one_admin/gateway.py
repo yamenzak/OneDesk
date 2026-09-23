@@ -290,7 +290,7 @@ def _said(
 ) -> tuple[str, list[dict], dict]:
 	"""The words, what it asked for, and the whole body — which carries the usage."""
 	most = int(caps.get("output_tokens") or MOST)
-	return through(
+	asking = lambda: through(  # noqa: E731
 		sold.provider,
 		sold.model,
 		turns,
@@ -300,6 +300,18 @@ def _said(
 		system=system,
 		tools=tools,
 	)
+	try:
+		return asking()
+	except faults.Blank as raised:
+		# Right after a tool answered, nothing is an answer: the model did what
+		# it was asked — a receipt became a card — and has nothing to add.
+		# Measured: gemini-2.5-flash-lite does exactly this, every time, on the
+		# round after `claim_expense`. It is billed like any round.
+		if turns and (turns[-1] or {}).get("role") == "tool":
+			return "", [], raised.body
+		# Anywhere else it is a blip. Once more, straight away; a second blank
+		# is said as "try again", which is what it is.
+		return asking()
 
 
 def get(provider: str, path: str, timeout: int = TIMEOUT) -> dict:
@@ -348,6 +360,10 @@ def _answered(model: str, spoken: dict, answer, whole: bool = False):
 
 	words = spoken["said"](body)
 	wants = spoken["calls"](body)
+	if words is None and not wants and _blank(body):
+		empty = faults.Blank(f"{model} answered with nothing in it", 200, json.dumps(body)[: faults.KEPT])
+		empty.body = body
+		raise empty
 	if words is None and not wants:
 		# A 200 with neither words nor a tool call in it is not an empty answer,
 		# it is a shape we do not understand — and treating it as an empty
@@ -355,6 +371,20 @@ def _answered(model: str, spoken: dict, answer, whole: bool = False):
 		# returning blanks to customers.
 		raise Refused(f"{model} answered 200 with nothing in it", 200, json.dumps(body)[: faults.KEPT])
 	return (words or "", wants, body) if whole else (words or "")
+
+
+def _blank(body) -> bool:
+	"""A candidate that finished and carried nothing — Gemini's empty answer.
+
+	Recognised by its shape rather than by "no words": an answer we do not
+	understand is still a refusal, so a provider changing its response is not
+	silently retried into blanks.
+	"""
+	candidates = (body or {}).get("candidates") if isinstance(body, dict) else None
+	if not candidates or not isinstance(candidates[0], dict):
+		return False
+	first = candidates[0]
+	return first.get("finishReason") == "STOP" and not (first.get("content") or {}).get("parts")
 
 
 # ------------------------------------------------ one conversation, two shapes

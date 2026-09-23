@@ -288,3 +288,10 @@ app_include_js = [
 # stay where they are; only the dock entry goes, and One inherits the rest.
 # A mapping, as frappe's and erpnext's are: module to where its navigation went.
 code_only_modules = {"One AI": ["One"]}
+
+# What OneAI can do in each module, owned by the module. Reads run as the
+# person asking; suggests write a card. Suggestions are what the panel offers
+# when it opens on a page. See one_ai/tools.py and one_ai/suggest.py.
+one_ai_reads = []
+one_ai_suggests = ["onedesk.one_hr.ai.claim_expense"]
+one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS"]

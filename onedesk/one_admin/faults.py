@@ -23,6 +23,16 @@ class Again(Refused):
 	"""Press could not answer right now. Worth another attempt."""
 
 
+class Blank(Again):
+	"""A model answered, and said nothing.
+
+	Gemini does this now and then: a 200, a candidate that finished normally,
+	no parts in it and no output tokens. The same request a moment later
+	answers. It is a blip rather than a refusal, so it is worth another attempt
+	— and the gateway makes one before it tells anybody.
+	"""
+
+
 def worth_retrying(status: int) -> bool:
 	"""Whether this status will plausibly answer differently in two minutes.
 

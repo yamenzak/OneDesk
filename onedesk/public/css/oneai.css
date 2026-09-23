@@ -915,3 +915,9 @@ button.one-ai-model:hover {
 .one-ai-quick__one:hover:not(:disabled) {
 	background: var(--surface-gray-2);
 }
+
+.one-ai-empty__ask {
+	font-size: var(--text-md, 14px);
+	font-weight: 500;
+	color: var(--text-color);
+}

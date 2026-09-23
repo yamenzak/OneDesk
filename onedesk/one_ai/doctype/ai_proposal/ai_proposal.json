@@ -21,6 +21,7 @@
   "changes_section",
   "changes",
   "was",
+  "files",
   "modified_then",
   "done_section",
   "applied_doc",
@@ -116,6 +117,14 @@
    "description": "What those fields held when this was written."
   },
   {
+   "fieldname": "files",
+   "fieldtype": "Code",
+   "options": "JSON",
+   "label": "Files",
+   "read_only": 1,
+   "description": "What the suggestion was made from. Attached to the record it makes."
+  },
+  {
    "fieldname": "modified_then",
    "fieldtype": "Data",
    "label": "Record As Of",
@@ -159,7 +168,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-23 00:00:00.000000",
+ "modified": "2026-09-23 17:00:00.000000",
  "modified_by": "Administrator",
  "module": "One AI",
  "name": "AI Proposal",

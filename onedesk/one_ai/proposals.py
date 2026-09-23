@@ -36,6 +36,11 @@ SETTLED = ("Applied", "Refused", "Stale")
 #: person in a hurry, and forty fields is a diff nobody checks.
 MOST_FIELDS = 40
 
+#: Rows a suggestion may carry in one child table. An expense claim is its rows
+#: — but twenty is a stack of receipts somebody reads, and a hundred is a table
+#: nobody does.
+MOST_ROWS = 20
+
 
 def propose(
 	kind: str,
@@ -44,6 +49,7 @@ def propose(
 	record: str | None = None,
 	why: str | None = None,
 	reference: str | None = None,
+	files: list[str] | None = None,
 ) -> str:
 	"""Write down what a model suggested, having checked the asker may do it.
 
@@ -52,7 +58,7 @@ def propose(
 	person cannot edit is refused at the point it is suggested rather than at
 	the point somebody presses a button.
 	"""
-	changes = _plain(changes or {})
+	changes = _plain(changes or {}, doctype)
 	held = _allowed(kind, doctype, record)
 
 	entry = frappe.get_doc(
@@ -69,6 +75,7 @@ def propose(
 			"was": frappe.as_json(_was(held, changes)) if held else None,
 			"modified_then": str(held.modified) if held else None,
 			"reference": reference,
+			"files": frappe.as_json(list(files or [])) if files else None,
 		}
 	)
 	entry.insert()
@@ -93,6 +100,7 @@ def apply(proposal: str) -> dict:
 			made.ai_generated = 1
 		made.insert()
 		touch.wrote(entry.for_doctype, made.name, changes, entry.name)
+		_attach(entry, made.name)
 		return _done(entry, made.name)
 
 	if entry.kind == "Edit" and not entry.record:
@@ -123,6 +131,7 @@ def apply(proposal: str) -> dict:
 	held.update(changes)
 	held.save()
 	touch.wrote(entry.for_doctype, held.name, changes, entry.name)
+	_attach(entry, held.name)
 	return _done(entry, held.name)
 
 
@@ -198,14 +207,61 @@ def _was(held, changes: dict) -> dict:
 	return {key: held.get(key) for key in list(changes)[:MOST_FIELDS]}
 
 
-def _plain(changes: dict) -> dict:
-	"""Only what a model may set. A child table or a nested document on a
-	model's say-so is a diff nobody reads before pressing a button."""
-	return {
-		key: value
-		for key, value in changes.items()
-		if isinstance(value, str | int | float | bool | type(None))
-	}
+def _plain(changes: dict, doctype: str | None = None) -> dict:
+	"""Only what a model may set.
+
+	Plain values, and rows of plain values in the doctype's own child tables.
+	A row is allowed because some records are their rows — an expense claim is
+	its receipts — and the card draws every row it carries, so it is read before
+	anybody presses Approve. A nested document, a table that is not the
+	doctype's, or a row holding anything but plain values is dropped.
+	"""
+	plain = (str, int, float, bool, type(None))
+	tables = {}
+	if doctype and frappe.db.exists("DocType", doctype):
+		tables = {
+			df.fieldname: df.options
+			for df in frappe.get_meta(doctype).fields
+			if df.fieldtype in ("Table", "Table MultiSelect")
+		}
+
+	kept = {}
+	for key, value in changes.items():
+		if isinstance(value, plain):
+			kept[key] = value
+		elif key in tables and isinstance(value, list):
+			allowed = {df.fieldname for df in frappe.get_meta(tables[key]).fields}
+			rows = [
+				{field: one for field, one in row.items() if field in allowed and isinstance(one, plain)}
+				for row in value[:MOST_ROWS]
+				if isinstance(row, dict)
+			]
+			if rows:
+				kept[key] = rows
+	return kept
+
+
+def _attach(entry, name: str) -> None:
+	"""The files a suggestion was made from, attached to what it made.
+
+	A receipt read into an expense claim belongs on the claim: it is what the
+	claim is evidence of. Inserted as the person approving, like the record
+	itself, and only once however often this runs.
+	"""
+	for url in json.loads(entry.get("files") or "[]"):
+		if frappe.db.exists(
+			"File", {"file_url": url, "attached_to_doctype": entry.for_doctype, "attached_to_name": name}
+		):
+			continue
+		frappe.get_doc(
+			{
+				"doctype": "File",
+				"file_url": url,
+				"attached_to_doctype": entry.for_doctype,
+				"attached_to_name": name,
+				"is_private": 1 if url.startswith("/private/") else 0,
+			}
+		).insert()
 
 
 def _said(kind: str, doctype: str, record: str | None, changes: dict) -> str:

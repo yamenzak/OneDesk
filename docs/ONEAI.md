@@ -984,6 +984,43 @@ workspace stands and the toolbar is for the things that do. The header carries
 a Credits bar beside Storage: what this month has used against what is left,
 with the calls it took, and empty and red when there is nothing left.
 
+**What would you like to do?** The panel opens on a new conversation, not
+the last one — it is opened to do something here, and the last conversation is
+about somewhere else; every earlier one is one press back. Its empty state
+offers the few things that fit the page, from `one_ai/suggest.py`: a summary on
+a record, what stands out on a list, and whatever each module adds for its own
+doctypes under `one_ai_suggestions` in `hooks.py`. A suggestion is offered only
+to somebody holding the verb it names, and one that needs a file opens the
+uploader and asks the moment the file is in. Buttons on every form were the
+alternative, and a form carrying an AI button per feature is a form nobody
+reads.
+
+**Modules bring their own tools.** `one_ai_reads` and `one_ai_suggests` in
+`hooks.py` add a module's functions to the tools a model is offered, under the
+same two rules: a read runs as the person asking, a suggestion writes a card.
+OneHR's live in `one_hr/ai.py`.
+
+**The first is a receipt.** On Expense Claim, *Claim a receipt* takes a photo
+or a PDF and `claim_expense` suggests an Expense Claim with one row — in the
+asker's own name, read from their employee record and never taken as an
+argument. The type is picked on this side from the workspace's own list, the
+model's word and the receipt's text, because a model told "Taxi is not a type"
+stops to ask the person rather than trying Travel. A receipt in another
+currency is said, not converted: a converted amount would be a rate the model
+made up. On Approve the claim is a draft that goes through the workspace's
+approval like any other, and the receipt is attached to it.
+
+For that, a suggestion may now carry rows of its doctype's own child tables —
+plain values, twenty rows at most — and the card draws every row; and a
+suggestion carries the files it was made from, attached to what it makes.
+
+Measured on a taxi receipt drawn as a PNG: AED 75, 21 September, Travel, the
+trip in the description, Rania Sabbagh as the employee, 1.42 credits. Two
+things the live run found: Gemini answers the round after a tool call with an
+empty candidate, which is *done* and is now read as done; and an empty
+candidate anywhere else is a blip, retried once before it is said as "try
+again".
+
 ## What is deliberately not here
 
 **No model is named in application code.** An action names a capability; a

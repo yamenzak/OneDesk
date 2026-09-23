@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 05:45+0000\n"
-"PO-Revision-Date: 2026-09-23 05:45+0000\n"
+"POT-Creation-Date: 2026-09-23 06:13+0000\n"
+"PO-Revision-Date: 2026-09-23 06:13+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -188,7 +188,7 @@ msgstr "لا يجوز لمساحة عمل أن تملك أكثر من {0} نطا
 msgid "A {0} does not carry {1}."
 msgstr "لا يحمل {0} حقل {1}."
 
-#: onedesk/one_ai/proposals.py:185
+#: onedesk/one_ai/proposals.py:194
 msgid "A {0} has to name a record."
 msgstr "لا بد أن يسمّي {0} سجلاً."
 
@@ -517,7 +517,7 @@ msgstr "سُجّل تسجيل حضور آخر في الثانية نفسها."
 msgid "Another employee has already checked in from this browser today."
 msgstr "سجّل موظف آخر حضوره من هذا المتصفح اليوم."
 
-#: onedesk/public/js/oneai/Panel.vue:320
+#: onedesk/public/js/oneai/Panel.vue:335
 msgid "Answers from your own records"
 msgstr "يجيب من سجلاتك"
 
@@ -672,7 +672,7 @@ msgstr "حسبما تُبلّغ Frappe Cloud."
 msgid "Ask"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:65
+#: onedesk/public/js/oneai/Panel.vue:71
 msgid "Ask about this page, look something up, or have a change suggested."
 msgstr "اسأل عن هذه الصفحة، أو ابحث عن معلومة، أو اطلب اقتراح تغيير."
 
@@ -687,7 +687,7 @@ msgid "Ask for a Reason on Check Out"
 msgstr "طلب سبب عند تسجيل الانصراف"
 
 #: onedesk/public/js/oneai.js:91 onedesk/public/js/oneai.js:92
-#: onedesk/public/js/oneai/Panel.vue:167
+#: onedesk/public/js/oneai/Panel.vue:173
 msgid "Ask {0}"
 msgstr "اسأل {0}"
 
@@ -736,7 +736,7 @@ msgstr "لدى Stripe"
 msgid "At checkout"
 msgstr "عند الدفع"
 
-#: onedesk/public/js/oneai/Panel.vue:173
+#: onedesk/public/js/oneai/Panel.vue:179
 msgid "Attach a file"
 msgstr "إرفاق ملف"
 
@@ -1051,11 +1051,11 @@ msgstr "يلتقط صورة من الكاميرا عند تسجيل الحضور
 msgid "Change the Overtime"
 msgstr "تعديل العمل الإضافي"
 
-#: onedesk/public/js/oneai/Panel.vue:181
+#: onedesk/public/js/oneai/Panel.vue:187
 msgid "Change the model"
 msgstr "تغيير النموذج"
 
-#: onedesk/one_ai/proposals.py:220
+#: onedesk/one_ai/proposals.py:276
 msgid "Change {0} on {1}"
 msgstr "تغيير {0} في {1}"
 
@@ -1385,7 +1385,7 @@ msgstr "شمول العطل أيضاً"
 msgid "Create"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:213
+#: onedesk/one_ai/proposals.py:269
 msgid "Create a {0}"
 msgstr "إنشاء {0}"
 
@@ -1606,7 +1606,7 @@ msgstr "افتراضي لـ"
 msgid "Default Markup"
 msgstr "الهامش الافتراضي"
 
-#: onedesk/public/js/oneai/Panel.vue:184 onedesk/public/js/oneai/Panel.vue:186
+#: onedesk/public/js/oneai/Panel.vue:190 onedesk/public/js/oneai/Panel.vue:192
 msgid "Default model"
 msgstr "النموذج الافتراضي"
 
@@ -1620,7 +1620,7 @@ msgstr ""
 msgid "Delete Photos After (Days)"
 msgstr "حذف الصور بعد (أيام)"
 
-#: onedesk/one_ai/proposals.py:215
+#: onedesk/one_ai/proposals.py:271
 msgid "Delete {0}"
 msgstr "حذف {0}"
 
@@ -2152,6 +2152,11 @@ msgstr "جلب تفاصيل العمل الإضافي"
 msgid "Field"
 msgstr ""
 
+#. Label of the files (Code) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "Files"
+msgstr "الملفات"
+
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:7
 msgid "Filter Based On"
 msgstr ""
@@ -2177,7 +2182,7 @@ msgstr ""
 msgid "First Seen"
 msgstr "أول ظهور"
 
-#: onedesk/public/js/oneai/Panel.vue:273
+#: onedesk/public/js/oneai/Panel.vue:288
 msgid "Fix spelling and grammar"
 msgstr "صحّح الإملاء والنحو"
 
@@ -2238,6 +2243,10 @@ msgstr "مجاناً لمدة {0} يوماً"
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:6
 msgid "From Date"
 msgstr ""
+
+#: onedesk/one_hr/ai.py:86
+msgid "From a receipt: {0}, {1}."
+msgstr "من إيصال: {0}، {1}."
 
 #: onedesk/public/js/employee.js:43
 msgid "From home"
@@ -2551,7 +2560,7 @@ msgstr ""
 msgid "Image Generation"
 msgstr "توليد الصور"
 
-#: onedesk/public/js/oneai/Panel.vue:273
+#: onedesk/public/js/oneai/Panel.vue:288
 msgid "Improve it"
 msgstr "حسّنه"
 
@@ -2703,7 +2712,7 @@ msgstr "النطاق القضائي"
 msgid "KRA"
 msgstr "مجال النتائج الرئيسية"
 
-#: onedesk/public/js/oneai/Panel.vue:320
+#: onedesk/public/js/oneai/Panel.vue:335
 msgid "Kept"
 msgstr "محفوظة"
 
@@ -2729,7 +2738,7 @@ msgstr ""
 msgid "Kind"
 msgstr "النوع"
 
-#: onedesk/public/js/oneai/Panel.vue:144
+#: onedesk/public/js/oneai/Panel.vue:150
 msgid "Knows about"
 msgstr "يعرف عن"
 
@@ -3038,11 +3047,11 @@ msgstr "تسجيل الدخول بمفتاح مرور غير مفعَّل في �
 msgid "Longitude"
 msgstr "خط الطول"
 
-#: onedesk/public/js/oneai/Panel.vue:570
+#: onedesk/public/js/oneai/Panel.vue:610
 msgid "Looked at {0}"
 msgstr "اطّلع على {0}"
 
-#: onedesk/public/js/oneai/Panel.vue:570
+#: onedesk/public/js/oneai/Panel.vue:610
 msgid "Looked something up"
 msgstr "بحث عن معلومة"
 
@@ -3051,15 +3060,15 @@ msgstr "بحث عن معلومة"
 msgid "Made by OneAI"
 msgstr "من إنشاء OneAI"
 
-#: onedesk/public/js/oneai/Panel.vue:291
+#: onedesk/public/js/oneai/Panel.vue:306
 msgid "Make it bigger"
 msgstr "توسيع اللوحة"
 
-#: onedesk/public/js/oneai/Panel.vue:273
+#: onedesk/public/js/oneai/Panel.vue:288
 msgid "Make it shorter"
 msgstr "اختصره"
 
-#: onedesk/public/js/oneai/Panel.vue:291
+#: onedesk/public/js/oneai/Panel.vue:306
 msgid "Make it smaller"
 msgstr "تصغير اللوحة"
 
@@ -3363,7 +3372,7 @@ msgstr "لم يسجّل الحضور"
 msgid "Not a workspace this site administers."
 msgstr "ليست مساحة عمل يديرها هذا الموقع."
 
-#: onedesk/one_ai/chat.py:324 onedesk/one_ai/chat.py:327
+#: onedesk/one_ai/chat.py:344 onedesk/one_ai/chat.py:347
 msgid "Not answered"
 msgstr "لم يُجب"
 
@@ -3634,7 +3643,7 @@ msgstr "اشترت هذا مساحة عمل واحدة"
 msgid "OneAI"
 msgstr "OneAI"
 
-#: onedesk/one_ai/chat.py:323
+#: onedesk/one_ai/chat.py:343
 msgid "OneAI could not be reached just now. The question is still here — try again."
 msgstr "تعذّر الوصول إلى OneAI الآن. والسؤال ما زال هنا — حاول مرة أخرى."
 
@@ -4347,7 +4356,7 @@ msgstr "مقروء من الوقتين أدناه."
 msgid "Reading the check-ins"
 msgstr "قراءة تسجيلات الحضور"
 
-#: onedesk/public/js/oneai/Panel.vue:503
+#: onedesk/public/js/oneai/Panel.vue:543
 msgid "Reading what it found…"
 msgstr "يقرأ ما وجده…"
 
@@ -4528,7 +4537,7 @@ msgstr "الرفض يفعّل «تخطي الحضور التلقائي» على 
 msgid "Released"
 msgstr "مُفرج عنه"
 
-#: onedesk/public/js/oneai/Panel.vue:159
+#: onedesk/public/js/oneai/Panel.vue:165
 #: onedesk/public/js/workspace_account.js:18
 #: onedesk/public/js/workspace_account.js:259
 msgid "Remove"
@@ -4774,11 +4783,11 @@ msgstr "تسجيل الحضور الذاتي"
 msgid "Selling"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:205
+#: onedesk/public/js/oneai/Panel.vue:211
 msgid "Send"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:148
+#: onedesk/public/js/oneai/Panel.vue:154
 msgid "Send this again"
 msgstr "أرسل هذا مرة أخرى"
 
@@ -4966,7 +4975,7 @@ msgstr "شيء اقترح نموذج فعله. ولا يحدث شيء حتى ي�
 msgid "Source"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:192
+#: onedesk/public/js/oneai/Panel.vue:198
 msgid "Speak"
 msgstr "تحدّث"
 
@@ -5099,7 +5108,7 @@ msgstr "ما زال يجيب عن السؤال السابق."
 msgid "Still in Draft"
 msgstr "ما زال مسودة"
 
-#: onedesk/public/js/oneai/Panel.vue:192
+#: onedesk/public/js/oneai/Panel.vue:198
 msgid "Stop listening"
 msgstr "إيقاف الاستماع"
 
@@ -5107,11 +5116,11 @@ msgstr "إيقاف الاستماع"
 msgid "Stop offering"
 msgstr "إيقاف العرض"
 
-#: onedesk/public/js/oneai/Panel.vue:148
+#: onedesk/public/js/oneai/Panel.vue:154
 msgid "Stop sending this"
 msgstr "أوقف إرسال هذا"
 
-#: onedesk/public/js/oneai/Panel.vue:140
+#: onedesk/public/js/oneai/Panel.vue:146
 msgid "Stop writing this field"
 msgstr "توقف عن كتابة هذا الحقل"
 
@@ -5208,11 +5217,11 @@ msgstr "الاعتماد يصرف لـ{0} مبلغ {1} مقابل {2} يوماً
 msgid "Suggested"
 msgstr "مُقترح"
 
-#: onedesk/public/js/oneai/Panel.vue:569
+#: onedesk/public/js/oneai/Panel.vue:609
 msgid "Suggested a change"
 msgstr "اقترح تغييراً"
 
-#: onedesk/public/js/oneai/Panel.vue:569
+#: onedesk/public/js/oneai/Panel.vue:609
 msgid "Suggested a change to {0}"
 msgstr "اقترح تغييراً على {0}"
 
@@ -5224,7 +5233,7 @@ msgstr "تغيير مُقترح"
 msgid "Suggested deletion"
 msgstr "حذف مُقترح"
 
-#: onedesk/one_ai/tools.py:349
+#: onedesk/one_ai/tools.py:369 onedesk/one_hr/ai.py:92
 msgid "Suggested. It happens when somebody approves it."
 msgstr "اقتُرح. ويحدث حين يوافق عليه أحد."
 
@@ -5349,7 +5358,7 @@ msgstr "تصنيف نصوص"
 msgid "Text Generation"
 msgstr "توليد النصوص"
 
-#: onedesk/one_ai/chat.py:205 onedesk/public/js/oneai/Panel.vue:548
+#: onedesk/one_ai/chat.py:205 onedesk/public/js/oneai/Panel.vue:588
 msgid "That did not go through."
 msgstr "لم يتم ذلك."
 
@@ -5655,8 +5664,8 @@ msgstr "ستُسجَّل هذه الأيام أيام عمل."
 msgid "They claimed {0} and {1} was sanctioned."
 msgstr "طالب بمبلغ {0} واعتُمد {1}."
 
-#: onedesk/public/js/oneai/Panel.vue:354 onedesk/public/js/oneai/Panel.vue:447
-#: onedesk/public/js/oneai/Panel.vue:503
+#: onedesk/public/js/oneai/Panel.vue:369 onedesk/public/js/oneai/Panel.vue:487
+#: onedesk/public/js/oneai/Panel.vue:543
 msgid "Thinking…"
 msgstr "يفكّر…"
 
@@ -5688,7 +5697,7 @@ msgstr "لدى هذا الموظف مفتاح مرور بالفعل. على ال
 msgid "This employee's passkey is blocked. HR must reset it before another can be registered."
 msgstr "مفتاح مرور هذا الموظف محظور. على الموارد البشرية إعادة تعيينه قبل تسجيل مفتاح آخر."
 
-#: onedesk/one_ai/proposals.py:99
+#: onedesk/one_ai/proposals.py:107
 msgid "This is for a document that is not saved yet. Apply it from its form."
 msgstr "هذا لمستند لم يُحفظ بعد. طبّقه من نموذجه."
 
@@ -5851,7 +5860,7 @@ msgstr "التعامل معه كموقع عمل"
 msgid "Tried {0} times."
 msgstr "جُرّبت {0} مرات."
 
-#: onedesk/public/js/oneai/Panel.vue:130
+#: onedesk/public/js/oneai/Panel.vue:136
 msgid "Try again"
 msgstr "حاول مرة أخرى"
 
@@ -6154,6 +6163,11 @@ msgstr "ما قال النموذج إنه من أجله."
 msgid "What the person deciding wrote, if anything."
 msgstr "ما كتبه من بتَّ في الطلب، إن كتب شيئاً."
 
+#. Description of the 'Files' (Code) field in DocType 'AI Proposal'
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "What the suggestion was made from. Attached to the record it makes."
+msgstr "ما بُني عليه الاقتراح. يُرفق بالسجل الذي يُنشئه."
+
 #. Description of the 'Plan' (Link) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "What the workspace was sold. Quotas are copied to this record, not read from here."
@@ -6178,6 +6192,10 @@ msgstr "ما تريد مساحة العمل أن يعمل عليه إجراء و
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "What those fields held when this was written."
 msgstr "ما كانت تحمله تلك الحقول حين كُتب هذا."
+
+#: onedesk/public/js/oneai/Panel.vue:65
+msgid "What would you like to do?"
+msgstr "ماذا تريد أن تفعل؟"
 
 #. Label of the one_when (Data) field in DocType 'Timesheet Detail'
 #: onedesk/one_hr/custom/timesheet_detail.json
@@ -6352,7 +6370,7 @@ msgstr "يُوصل إلى مساحات العمل على &lt;المعرّف&gt;.
 msgid "Workspaces can no longer pick this model"
 msgstr "لن تعود مساحات العمل قادرة على اختيار هذا النموذج"
 
-#: onedesk/public/js/oneai/Panel.vue:274
+#: onedesk/public/js/oneai/Panel.vue:289
 msgid "Write a first draft"
 msgstr "اكتب مسودة أولى"
 
@@ -6365,11 +6383,11 @@ msgstr "اكتب الحضور في العطل الواقعة ضمن هذه ال�
 msgid "Write with {0}"
 msgstr "اكتب باستخدام {0}"
 
-#: onedesk/one_ai/proposals.py:219
+#: onedesk/one_ai/proposals.py:275
 msgid "Write {0} on a new {1}"
 msgstr "كتابة {0} في {1} جديد"
 
-#: onedesk/public/js/oneai/Panel.vue:137
+#: onedesk/public/js/oneai/Panel.vue:143
 msgid "Writing"
 msgstr "كتابة"
 
@@ -6390,7 +6408,7 @@ msgstr "كتبه {0}. اضغط لإعادة كتابته."
 msgid "Year"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:92
+#: onedesk/public/js/oneai/Panel.vue:98
 msgid "You"
 msgstr ""
 
@@ -6422,7 +6440,7 @@ msgstr "لا يجوز لك قراءة {0}."
 msgid "You may not run {0}."
 msgstr "لا يُسمح لك بتشغيل {0}."
 
-#: onedesk/one_ai/proposals.py:190
+#: onedesk/one_ai/proposals.py:199
 msgid "You may not {0} {1}."
 msgstr "لا يجوز لك {0} {1}."
 
@@ -6436,7 +6454,7 @@ msgstr "تعليماتك"
 msgid "Your check-in was closed at the end of your shift"
 msgstr "أُغلق تسجيل حضورك عند نهاية مناوبتك"
 
-#: onedesk/public/js/oneai/Panel.vue:319
+#: onedesk/public/js/oneai/Panel.vue:334
 msgid "Your conversations"
 msgstr "محادثاتك"
 
@@ -6483,7 +6501,7 @@ msgstr "الصفر يعني بلا حد."
 msgid "Zero means unlimited. Enforced by Frappe from the site's config."
 msgstr "الصفر يعني بلا حد. ويفرضه Frappe من إعدادات الموقع."
 
-#: onedesk/public/js/oneai/Panel.vue:107
+#: onedesk/public/js/oneai/Panel.vue:113
 msgid "and {0} more"
 msgstr "و{0} غيرها"
 
@@ -6539,6 +6557,10 @@ msgstr "حضر متأخراً وانصرف مبكراً"
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "input"
 msgstr "مدخلات"
+
+#: onedesk/one_ai/suggest.py:42
+msgid "label"
+msgstr ""
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:132
 msgid "late"
@@ -6681,7 +6703,7 @@ msgstr "تعذّر تعليم {0} بأنه ترك العمل"
 msgid "{0} credits"
 msgstr "{0} رصيد"
 
-#: onedesk/public/js/oneai/Panel.vue:216
+#: onedesk/public/js/oneai/Panel.vue:222
 msgid "{0} credits in this conversation"
 msgstr "{0} رصيد في هذه المحادثة"
 
@@ -6734,7 +6756,7 @@ msgstr "{0} عن {1}، شهر كامل."
 msgid "{0} for {1}: {2} of {3} days paid."
 msgstr "{0} عن {1}: {2} من {3} يوماً مدفوعة."
 
-#: onedesk/one_ai/proposals.py:105
+#: onedesk/one_ai/proposals.py:113
 msgid "{0} has changed since this was suggested, so it no longer applies."
 msgstr "تغيّر {0} منذ اقتراح هذا، فلم يعد ينطبق."
 
@@ -6794,7 +6816,7 @@ msgstr "{0} ليست مهمة."
 msgid "{0} is not a rung an operator sets."
 msgstr "{0} ليست درجة يضبطها المشغّل."
 
-#: onedesk/one_ai/tools.py:322
+#: onedesk/one_ai/tools.py:342
 msgid "{0} is not a tool."
 msgstr "{0} ليس أداة."
 
@@ -6814,7 +6836,7 @@ msgstr "{0} غير معروض، فلا يمكن لشيء أن يتخذه افت�
 msgid "{0} is not on this workspace."
 msgstr "{0} ليس على مساحة العمل هذه."
 
-#: onedesk/one_ai/proposals.py:176
+#: onedesk/one_ai/proposals.py:185
 msgid "{0} is not something that can be proposed."
 msgstr "{0} ليس مما يمكن اقتراحه."
 
@@ -6883,7 +6905,7 @@ msgstr "{0} على عدّاد المسافة منذ السجل السابق، م
 msgid "{0} on the odometer since the last log."
 msgstr "{0} على عدّاد المسافة منذ السجل السابق."
 
-#: onedesk/one_ai/proposals.py:217
+#: onedesk/one_ai/proposals.py:273
 msgid "{0} on {1}"
 msgstr "{0} على {1}"
 
@@ -6919,8 +6941,8 @@ msgstr "استُخدم {0} هذا الشهر"
 msgid "{0} used this month in {1} calls · {2} left."
 msgstr "استُخدم {0} هذا الشهر في {1} استدعاء · يتبقى {2}."
 
-#: onedesk/one_admin/ledger.py:165 onedesk/one_ai/proposals.py:87
-#: onedesk/one_ai/proposals.py:134 onedesk/one_ai/touch.py:174
+#: onedesk/one_admin/ledger.py:165 onedesk/one_ai/proposals.py:94
+#: onedesk/one_ai/proposals.py:143 onedesk/one_ai/touch.py:174
 msgid "{0} was already {1}."
 msgstr "{0} كانت بالفعل {1}."
 

@@ -306,9 +306,28 @@ SUGGESTS = (create_record, edit_record, delete_record, move_record)
 BY_NAME = {fn.__name__: fn for fn in READS + SUGGESTS}
 
 
+def hooked() -> tuple[tuple, tuple]:
+	"""The tools a module adds, as reads and as suggestions.
+
+	Named in `hooks.py` under `one_ai_reads` and `one_ai_suggests`, so a module
+	owns what OneAI can do in it — OneHR's live in `one_hr/ai.py` — and the two
+	lists stay two lists for the reason these tuples do. The rules are the same:
+	a read runs as the person asking, and a suggestion writes a card.
+	"""
+	reads = tuple(frappe.get_attr(path) for path in frappe.get_hooks("one_ai_reads") or [])
+	suggests = tuple(frappe.get_attr(path) for path in frappe.get_hooks("one_ai_suggests") or [])
+	return reads, suggests
+
+
+def _every() -> tuple[tuple, tuple]:
+	reads, suggests = hooked()
+	return READS + reads, SUGGESTS + suggests
+
+
 def declared() -> list[dict]:
 	"""Every tool, as a provider's function declaration."""
-	return [schema.of(fn) for fn in READS + SUGGESTS]
+	reads, suggests = _every()
+	return [schema.of(fn) for fn in reads + suggests]
 
 
 def run(name: str, args: dict | None = None) -> dict:
@@ -317,11 +336,12 @@ def run(name: str, args: dict | None = None) -> dict:
 	`ran` is the thing a model has to be told: a read happened and here is the
 	answer; a write did not happen and here is the card somebody has to approve.
 	"""
-	fn = BY_NAME.get(name)
+	reads, suggests = _every()
+	fn = {one.__name__: one for one in reads + suggests}.get(name)
 	if not fn:
 		frappe.throw(frappe._("{0} is not a tool.").format(name))
 	answer = fn(**(args or {}))
-	return {"tool": name, "ran": fn in READS, "answer": _plain(answer)}
+	return {"tool": name, "ran": fn in reads, "answer": _plain(answer)}
 
 
 def _plain(said):

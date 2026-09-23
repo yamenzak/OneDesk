@@ -248,6 +248,16 @@ def _tell(run: str, chat: str, step: dict) -> None:
 
 
 @frappe.whitelist()
+def suggestions(page: dict | str | None = None) -> list[dict]:
+	"""What the panel offers on this page. See one_ai/suggest.py."""
+	from onedesk.one_ai import suggest
+
+	if isinstance(page, str):
+		page = frappe.parse_json(page) if page.strip() else None
+	return suggest.for_page(page if isinstance(page, dict) else None)
+
+
+@frappe.whitelist()
 def cards(names: list[str] | str) -> list[dict]:
 	"""The suggestions a conversation named, as they stand now.
 
@@ -284,12 +294,14 @@ def _suggests(row: dict) -> dict:
 
 	meta = frappe.get_meta(doctype) if doctype and frappe.db.exists("DocType", doctype) else None
 	labels = {field.fieldname: field.label or field.fieldname for field in (meta.fields if meta else [])}
+	links = {f.fieldname: f.options for f in (meta.fields if meta else []) if f.fieldtype == "Link"}
 	for field, value in list(changes.items())[:FIELDS]:
 		fields.append(
 			{
 				"label": frappe._(labels.get(field, field)),
-				# A Text Editor's value is markup; the card is text.
-				"value": strip_html_tags(value).strip() if isinstance(value, str) else json.dumps(value),
+				# A Text Editor's value is markup; the card is text. A link is
+				# the record's title — "Rania Sabbagh", not HR-EMP-00001.
+				"value": _titled(links[field], value) if field in links and value else _card_value(value),
 			}
 		)
 
@@ -315,6 +327,14 @@ def _ran(doc, text: str, turns: list[dict], heard=None) -> dict:
 	try:
 		from onedesk.one_ai import files as carrying
 
+		# What the person just dropped on the panel, for a tool that attaches
+		# what it read to what it suggests — a receipt to its claim.
+		# Only this question's: a receipt dropped three questions ago is not
+		# evidence for whatever is being asked now.
+		newest = next(
+			(one for one in reversed(turns) if one.get("role") == "user" and not one.get("context")), {}
+		)
+		frappe.flags.one_ai_files = [one["url"] for one in newest.get("files") or [] if one.get("url")]
 		return run.ask(
 			CHAT, text, reference=doc.name, turns=carrying.carried(turns[-KEPT:]), heard=heard
 		)
@@ -454,6 +474,36 @@ def _drawn(doctype: str, row: dict, most: int = FIELDS) -> dict:
 		"title": str(titled or row.get("name") or ""),
 		"fields": fields,
 	}
+
+
+def _titled(doctype: str, name) -> str:
+	"""A linked record by its title, where the reader may see it and it has one."""
+	try:
+		meta = frappe.get_meta(doctype)
+		if meta.title_field and frappe.has_permission(doctype, "read", doc=str(name)):
+			return str(frappe.db.get_value(doctype, name, meta.title_field) or name)
+	except Exception:
+		# A link to a doctype that is gone, or a record the reader cannot open:
+		# the id is still true, and still what the card should say.
+		pass
+	return str(name)
+
+
+def _card_value(value) -> str:
+	"""A proposed value as a person reads it on a card.
+
+	Text as text, and a child table as its rows, one a line — every row a
+	suggestion carries is on the card, because the rows are what is approved.
+	"""
+	if isinstance(value, str):
+		return strip_html_tags(value).strip()
+	if isinstance(value, list):
+		return "\n".join(
+			" · ".join(str(one) for one in row.values() if one not in (None, ""))
+			for row in value
+			if isinstance(row, dict)
+		)
+	return json.dumps(value)
 
 
 def _asked(
