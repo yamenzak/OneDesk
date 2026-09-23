@@ -243,6 +243,7 @@ No doctypes yet.
 * `onedesk.one_hr.signin.finish`
 * `onedesk.one_hr.signin.offered`
 * `onedesk.one_inventory.item.said`
+* `onedesk.one_inventory.order.order`
 * `onedesk.one_inventory.ready.fix`
 * `onedesk.one_project.billing.invoice_time`
 * `onedesk.one_project.billing.unbilled`

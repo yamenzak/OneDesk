@@ -99,3 +99,26 @@ def test_an_item_is_low_when_what_is_there_and_coming_is_at_its_level():
 def test_the_item_page_draws_the_band():
 	assert '"Item": "public/js/item.js"' in (tree.APP / "hooks.py").read_text()
 	assert "onedesk.one_inventory.item.said" in (tree.APP / "public" / "js" / "item.js").read_text()
+
+
+def test_how_many_to_order_is_erpnexts_rule():
+	quantity = _pure(tree.APP / "one_inventory" / "order.py", "quantity", flt=lambda v: float(v or 0))
+	assert quantity(40, 100, 30) == 100, "the reorder quantity"
+	assert quantity(40, 5, 10) == 30, "or back up to the level, if that is more"
+
+
+def test_an_order_is_made_per_supplier_and_a_row_with_none_needs_one():
+	grouped = _pure(tree.APP / "one_inventory" / "order.py", "grouped", flt=lambda v: float(v or 0))
+	rows = [
+		{"item_code": "Paper", "qty": 50, "supplier": "Gulf"},
+		{"item_code": "Brackets", "qty": 100, "supplier": "Gulf"},
+		{"item_code": "Gloves", "qty": 24, "supplier": None},
+		{"item_code": "Anchors", "qty": 0, "supplier": "Gulf"},
+	]
+	assert {name: [row["item_code"] for row in lines] for name, lines in grouped(rows).items()} == {"Gulf": ["Paper", "Brackets"]}
+	assert list(grouped(rows, "Emirates Hardware")) == ["Gulf", "Emirates Hardware"]
+
+
+def test_a_row_on_a_draft_order_is_off_the_list():
+	source = (tree.APP / "one_inventory" / "order.py").read_text(encoding="utf-8")
+	assert "doc.docstatus = 0" in source and "on_draft" in source

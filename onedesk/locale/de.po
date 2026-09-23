@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 22:56+0000\n"
-"PO-Revision-Date: 2026-09-23 22:56+0000\n"
+"POT-Creation-Date: 2026-09-23 23:00+0000\n"
+"PO-Revision-Date: 2026-09-23 23:00+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -3122,6 +3122,10 @@ msgstr ""
 msgid "For example hr.example.com. Do not include https://"
 msgstr "Zum Beispiel hr.example.com. Ohne https://"
 
+#: onedesk/one_inventory/report/to_order/to_order.js:26
+msgid "For the rows that have no supplier of their own."
+msgstr "Für die Zeilen ohne eigenen Lieferanten."
+
 #: onedesk/public/js/hiring.js:57
 msgid "For video calls. The browser asks which tab to share."
 msgstr "Für Videoanrufe. Der Browser fragt, welcher Tab geteilt wird."
@@ -3857,6 +3861,7 @@ msgstr "Ausgestellt von"
 msgid "Issued On"
 msgstr "Ausgestellt am"
 
+#: onedesk/one_inventory/report/to_order/to_order.py:15
 #: onedesk/public/js/project.js:181
 msgid "Item"
 msgstr "Artikel"
@@ -4056,6 +4061,10 @@ msgstr ""
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Last Priced"
 msgstr "Zuletzt bepreist"
+
+#: onedesk/one_inventory/report/to_order/to_order.py:20
+msgid "Last Rate"
+msgstr "Letzter Preis"
 
 #. Label of the last_read (Datetime) field in DocType 'Calendar Feed'
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
@@ -4466,8 +4475,9 @@ msgstr ""
 
 #. Option for the 'Urgency' (Select) field in DocType 'Employee Grievance'
 #: onedesk/one_hr/custom/employee_grievance.json
+#: onedesk/one_inventory/order.py:73
 msgid "Low"
-msgstr ""
+msgstr "Knapp"
 
 #: onedesk/public/js/item.js:34
 msgid "Low in {0}"
@@ -5215,6 +5225,10 @@ msgstr "An diesen Tagen ist nichts."
 msgid "Nothing to fix for {0}."
 msgstr "Für {0} gibt es nichts zu beheben."
 
+#: onedesk/one_inventory/order.py:130
+msgid "Nothing to order: pick rows, and a supplier for those that have none."
+msgstr "Nichts zu bestellen: Zeilen wählen und einen Lieferanten für die ohne."
+
 #: onedesk/public/js/leave_encashment.js:51
 msgid "Nothing to pay yet: this person has no salary structure on {0}."
 msgstr "Noch nichts auszuzahlen: diese Person hat am {0} kein Gehaltsschema."
@@ -5691,9 +5705,11 @@ msgstr "Optional. Der Timer meldet sich, wenn er darüber läuft."
 msgid "Options come from Clock Reason."
 msgstr "Die Auswahl stammt aus Einchecken-Grund."
 
+#: onedesk/one_inventory/report/to_order/to_order.js:9
+#: onedesk/one_inventory/report/to_order/to_order.js:30
 #: onedesk/www/projects.html:76
 msgid "Order"
-msgstr ""
+msgstr "Bestellen"
 
 #: onedesk/www/projects.html:73
 msgid "Order and Invoices"
@@ -6905,6 +6921,7 @@ msgstr ""
 #. Label of the wants_section (Section Break) field in DocType 'Account
 #. Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
+#: onedesk/one_inventory/report/to_order/to_order.py:22
 msgid "Request"
 msgstr "Anfrage"
 
@@ -6919,8 +6936,9 @@ msgstr "Urlaub beantragen"
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_inventory/order.py:69
 msgid "Requested"
-msgstr ""
+msgstr "Angefordert"
 
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -7860,6 +7878,11 @@ msgstr "Fasse diesen Datensatz in wenigen Zeilen zusammen."
 msgid "Summary"
 msgstr ""
 
+#: onedesk/one_inventory/report/to_order/to_order.js:24
+#: onedesk/one_inventory/report/to_order/to_order.py:19
+msgid "Supplier"
+msgstr "Lieferant"
+
 #: onedesk/public/js/opportunity.js:18
 msgid "Supplier Quotation"
 msgstr ""
@@ -8631,6 +8654,10 @@ msgstr "In diesem Arbeitsbereich ist kein Platz für weitere {0}."
 msgid "Tick Everyone Who Checked In"
 msgstr "Alle ankreuzen, die eingecheckt haben"
 
+#: onedesk/one_inventory/report/to_order/to_order.js:11
+msgid "Tick the rows to order."
+msgstr "Markieren Sie die zu bestellenden Zeilen."
+
 #. Description of the 'completed' field in DocType 'Timesheet Detail'
 #: onedesk/one_hr/custom/timesheet_detail.json
 msgid "Ticked when the timer finished this block, or by hand. An unticked row with no To Time is the one the timer resumes."
@@ -8680,6 +8707,14 @@ msgstr "Bis Datum"
 #: onedesk/one_project/portal.py:35 onedesk/public/js/check.js:15
 msgid "To Do"
 msgstr "Zu erledigen"
+
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_inventory/report/to_order/to_order.json
+#: onedesk/one_inventory/report/to_order/to_order.py:17
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+msgid "To Order"
+msgstr "Zu bestellen"
 
 #: onedesk/one_hr/ai_letters.py:92
 msgid "To Whom It May Concern"
@@ -8920,8 +8955,9 @@ msgstr "Leads ohne Verantwortlichen"
 
 #. Label of the unit (Data) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
+#: onedesk/one_inventory/report/to_order/to_order.py:18
 msgid "Unit"
-msgstr ""
+msgstr "Einheit"
 
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -9152,6 +9188,10 @@ msgstr "Wartet auf den Aufbau"
 #: onedesk/public/js/job.js:25
 msgid "Waiting to run"
 msgstr "Wartet auf den Start"
+
+#: onedesk/one_inventory/report/to_order/to_order.py:16
+msgid "Warehouse"
+msgstr "Lager"
 
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -9472,6 +9512,10 @@ msgstr "Welche offenen Deals sind eingeschlafen: Seit zwei Wochen hat niemand mi
 msgid "Which open leads are waiting on us: nobody has spoken to them for a week and nothing is planned?"
 msgstr "Welche offenen Leads warten auf uns: Seit einer Woche hat niemand mit ihnen gesprochen, und nichts ist geplant?"
 
+#: onedesk/one_inventory/report/to_order/to_order.js:29
+msgid "Who Supplies the Rest?"
+msgstr "Wer liefert den Rest?"
+
 #. Description of the 'Project Manager' (Link) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
 msgid "Who runs it. They always see it, listed under Users or not."
@@ -9490,6 +9534,10 @@ msgstr "Wer ist abwesend"
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "Whose permissions were checked when this was written, and whose will be checked again."
 msgstr "Wessen Berechtigungen beim Schreiben geprüft wurden und wessen erneut geprüft werden."
+
+#: onedesk/one_inventory/report/to_order/to_order.py:21
+msgid "Why"
+msgstr "Grund"
 
 #. Label of the one_pay_note (Small Text) field in DocType 'Overtime Slip'
 #: onedesk/one_hr/custom/overtime_slip.json
@@ -10489,6 +10537,10 @@ msgstr "{0} Personen"
 #: onedesk/one_project/updates.py:212
 msgid "{0} posted an update"
 msgstr "{0} hat ein Update gepostet"
+
+#: onedesk/one_inventory/report/to_order/to_order.js:14
+msgid "{0} purchase orders drafted."
+msgstr "{0} Bestellungen als Entwurf angelegt."
 
 #: onedesk/public/js/ai_action_setting.js:32
 msgid "{0} runs on a model that can do {1}. Anything added below is added to the instruction it already carries, and never replaces it."

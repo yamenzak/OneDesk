@@ -1067,6 +1067,20 @@ OVERRIDES = [
 		"erpnext/erpnext/stock/reorder_item.py",
 		"if (reorder_level or reorder_qty) and projected_qty <= reorder_level:",
 	),
+	(
+		"To Order counts how many as ERPNext's reorder does",
+		"the reorder quantity, or back up to the level when that is more",
+		"onedesk/one_inventory/order.py",
+		"erpnext/erpnext/stock/reorder_item.py",
+		"if deficiency > reorder_qty:",
+	),
+	(
+		"An order made from To Order keeps its request",
+		"ERPNext marks a Material Request ordered from the order line's link on submit",
+		"onedesk/one_inventory/order.py",
+		"erpnext/erpnext/buying/doctype/purchase_order_item/purchase_order_item.json",
+		'"fieldname": "material_request_item",',
+	),
 ]
 
 

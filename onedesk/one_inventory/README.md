@@ -24,7 +24,8 @@ asset's depreciation lands in OneBook's books by itself.
   another, used up, written off, or found.
 - **Stock Counts** — counting what is on the shelf and correcting the books to
   match.
-- **Buying** — **Purchase Orders** (what you ordered and are waiting for),
+- **Buying** — **To Order** (what is running low, below), **Purchase
+  Orders** (what you ordered and are waiting for),
   **Material Requests** (what somebody asked to be bought or moved) and
   **Suppliers**.
 - **Assets** — **Assets** (the register), **Asset Movements** (who has what,
@@ -86,6 +87,21 @@ Selling works the other way: the customer's order is OneCRM's, **Create ›
 Delivery Note** on it sends the goods from a warehouse, and the invoice is
 OneBook's.
 
+## Ordering what runs low
+
+Give an item a reorder level on its **Inventory** tab: the warehouse, the
+level, and how many to order each time. Once a day, anything at or below its
+level gets a **Material Request** by itself.
+
+**Buying › To Order** lists what needs ordering: every request not yet
+ordered, and every item that is low and not yet requested — how many, for
+which warehouse, from whom (the item's default supplier, or whoever it was
+last bought from) and what it last cost. Tick the rows and press **Order**:
+one draft purchase order is made for each supplier, and rows with no
+supplier go to the one you pick. Read the drafts, correct prices and
+quantities, and submit them. A row on a draft order leaves the list, and a
+request is marked ordered when its order is submitted.
+
 ## Counting stock
 
 **Stock Counts › + Add**, choose the warehouse, and **Fetch Items from
@@ -129,6 +145,15 @@ a register and a movement form in it would be a rail with five rows.
   Rate with no supplier or date — and `said` reads them into one answer.
   Low is ERPNext's own test, projected quantity at or below the level
   (`summary`, pure), so the band and the reorder list agree.
+- `order.py` and `report/to_order` — what to order. ERPNext's daily
+  `reorder_item` raises a Material Request for everything low, and stops:
+  nothing lists the requests, groups them by supplier or makes the orders.
+  To Order lists open purchase requests not fully ordered plus items low with
+  no request, and **Order** makes one draft Purchase Order per supplier
+  (`grouped`, pure), each line keeping `material_request` and
+  `material_request_item` so ERPNext's own status update marks the request
+  ordered on submit. How many is ERPNext's rule (`quantity`, pure). Rows on a
+  draft order are left off so nothing is ordered twice.
 - `ready.py` and `report/inventory_check` — the Inventory Check, the Books
   Check's twin, drawn by the same page (`public/js/check.js`). What a new
   company is missing is an asset's two prerequisites: a Location (an Asset
@@ -156,7 +181,7 @@ a register and a movement form in it would be a rail with five rows.
    what is on order, what it is worth, whether it is below its reorder level,
    and what it last cost and from whom. *Done.*
 4. **What to order.** Items at or below their reorder level with how many to
-   order and from whom, made into purchase orders a supplier at a time.
+   order and from whom, made into purchase orders a supplier at a time. *Done.*
 5. **Assets: a register that finishes itself.** The assets a receipt makes are
    drafts nobody completes and so never depreciate; they are completed from
    their purchase and category, and an asset's page says what it is worth.

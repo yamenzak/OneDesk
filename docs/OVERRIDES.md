@@ -154,5 +154,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | Serial and batch numbers are offered as a switch | off by default, and a bundle is refused while it is; the Inventory Check suggests turning it on | `onedesk/one_inventory/ready.py` | `erpnext/erpnext/stock/doctype/serial_and_batch_bundle/serial_and_batch_bundle.py` | `if not frappe.db.get_single_value("Stock Settings", "enable_serial_and_batch_no_for_item"):` |
 | The usual asset categories are made from the chart | a category needs its fixed-asset ledger per company, and the company's own is empty | `onedesk/one_inventory/ready.py` | `erpnext/erpnext/assets/doctype/asset_category_account/asset_category_account.json` | `"fieldname": "fixed_asset_account",` |
 | An item is low by ERPNext's own reorder test | the band and the reorder list must agree with the automatic material request | `onedesk/one_inventory/item.py` | `erpnext/erpnext/stock/reorder_item.py` | `if (reorder_level or reorder_qty) and projected_qty <= reorder_level:` |
+| To Order counts how many as ERPNext's reorder does | the reorder quantity, or back up to the level when that is more | `onedesk/one_inventory/order.py` | `erpnext/erpnext/stock/reorder_item.py` | `if deficiency > reorder_qty:` |
+| An order made from To Order keeps its request | ERPNext marks a Material Request ordered from the order line's link on submit | `onedesk/one_inventory/order.py` | `erpnext/erpnext/buying/doctype/purchase_order_item/purchase_order_item.json` | `"fieldname": "material_request_item",` |
 
-149 overrides.
+151 overrides.
