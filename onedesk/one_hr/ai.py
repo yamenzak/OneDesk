@@ -75,6 +75,13 @@ SUGGESTIONS = {
 	],
 	"Job Applicant": [
 		{
+			"label": "Write a kind decline",
+			"ask": "Write a short, kind note telling this applicant they were not chosen, that thanks them "
+			"for something specific in their application. Do not give reasons.",
+			"can": "read",
+			"view": "Form",
+		},
+		{
 			"label": "What should I ask first?",
 			"ask": "From this applicant's CV and OneAI's screening of it, what should I confirm on a first "
 			"call, and what would a short email asking for the missing pieces say?",
@@ -108,6 +115,36 @@ SUGGESTIONS = {
 			"can": "create",
 			"view": "Form",
 			"expects": "draft_feedback",
+		},
+	],
+	"Interview": [
+		{
+			"label": "Draft my feedback from the recording",
+			"ask": "Draft my feedback on this interview from its recording and OneAI's remarks, "
+			"with a rating for each expected skill, and suggest it as my feedback.",
+			"doctype": "Interview Feedback",
+			"can": "create",
+			"view": "Form",
+			"expects": "draft_interview_feedback",
+		},
+	],
+	"Job Offer": [
+		{
+			"label": "Write the offer terms",
+			"ask": "Write this offer's terms from the opening it is for — the role, the salary range and "
+			"the start — and suggest them as a change to it.",
+			"can": "write",
+			"view": "Form",
+			"expects": "edit_record",
+		},
+	],
+	"Employee Onboarding": [
+		{
+			"label": "Plan the first two weeks",
+			"ask": "From this person's designation and department, what should their first two weeks "
+			"hold, day by day, and who should own each part?",
+			"can": "read",
+			"view": "Form",
 		},
 	],
 	"Exit Interview": [
@@ -379,6 +416,103 @@ def draft_feedback(
 				"feedback": text,
 			},
 		)
+	return {"proposal": name, "state": "Proposed"}
+
+
+# ------------------------------------------------------------- interview
+
+
+def interview_facts(
+	interview: Annotated[str, "The interview's id."],
+) -> dict:
+	"""What one interview found, for writing the reader's feedback on it: the
+	expected skills, what OneAI prepared, the transcript of its recording and
+	OneAI's remarks on it. Read it before drafting feedback, then give the
+	draft to draft_interview_feedback rather than writing it in the answer."""
+	from onedesk.one_hr import hiring
+
+	doc = frappe.get_doc("Interview", interview)
+	doc.check_permission("read")
+	skills = frappe.get_all(
+		"Expected Skill Set",
+		filters={"parent": doc.interview_type, "parenttype": "Interview Type"},
+		pluck="skill",
+		order_by="idx",
+	) if doc.interview_type else []
+	recording = frappe.get_list(
+		"Interview Recording",
+		filters={"interview": interview, "status": "Transcribed"},
+		fields=["transcript"],
+		order_by="creation desc",
+		limit_page_length=1,
+	)
+	remarks = frappe.get_all(
+		"Comment",
+		filters={"reference_doctype": "Interview", "reference_name": interview, "owner": hiring.AUTHOR},
+		pluck="content",
+		order_by="creation desc",
+		limit=1,
+	)
+	return {
+		"applicant": doc.get("one_applicant") or doc.job_applicant,
+		"round": doc.interview_type,
+		"expected_skills": skills,
+		"prepared": _plain_text(doc.get("one_ai_prep")),
+		"transcript": (recording[0].transcript or "")[: hiring.MOST_TRANSCRIPT] if recording else "",
+		"oneai_remarks": _plain_text(remarks[0]) if remarks else "",
+		"next": "Write the feedback from these facts alone, rate each expected skill from what was said, "
+		"then call draft_interview_feedback. If there is no transcript and no remarks, say so instead.",
+	}
+
+
+def draft_interview_feedback(
+	interview: Annotated[str, "The interview's id."],
+	feedback: Annotated[
+		str,
+		"The feedback as the interviewer would write it: what the candidate showed and what they did "
+		"not, each tied to something they said. A few short paragraphs.",
+	],
+	ratings: Annotated[dict, "Each expected skill, to a rating from 1 to 5 for what was said about it."],
+	result: Annotated[str, "Cleared or Rejected, if the interviewer said which; otherwise leave it out."] | None = None,
+) -> dict:
+	"""Suggest the reader's own feedback on an interview, from what
+	interview_facts found. It is a draft for them to change and submit;
+	nothing is saved until they approve the card."""
+	doc = frappe.get_doc("Interview", interview)
+	doc.check_permission("read")
+	me = frappe.session.user
+	on_it = frappe.get_all("Interview Detail", filters={"parent": interview}, pluck="interviewer")
+	if me not in on_it:
+		return {"error": "The person asking is not one of this interview's interviewers, so there is no feedback of theirs to draft."}
+	if frappe.db.exists("Interview Feedback", {"interview": interview, "interviewer": me, "docstatus": ["<", 2]}):
+		return {"error": "The person asking has already given feedback on this interview. Say so rather than drafting another."}
+
+	expected = frappe.get_all(
+		"Expected Skill Set",
+		filters={"parent": doc.interview_type, "parenttype": "Interview Type"},
+		pluck="skill",
+		order_by="idx",
+	) if doc.interview_type else []
+	given = {str(key).strip().lower(): value for key, value in (ratings or {}).items()}
+	rows = []
+	for skill in expected:
+		try:
+			stars = max(0.0, min(5.0, float(given.get(skill.lower()))))
+		except (TypeError, ValueError):
+			stars = 0.0
+		rows.append({"skill": skill, "rating": round(stars / 5, 2)})
+
+	values = {
+		"interview": interview,
+		"interviewer": me,
+		"interview_type": doc.interview_type,
+		"job_applicant": doc.job_applicant,
+		"skill_assessment": rows,
+		"feedback": _short(feedback, 4000),
+	}
+	if result in ("Cleared", "Rejected"):
+		values["result"] = result
+	name = proposals.propose("Create", "Interview Feedback", changes=values)
 	return {"proposal": name, "state": "Proposed"}
 
 

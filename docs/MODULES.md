@@ -24,6 +24,8 @@
 | Clock Reason | 5 | document |
 | Clock Signal | 3 | child |
 | Employee Document | 6 | child |
+| Interview Recording | 19 | document |
+| Interview Recording Part | 5 | child |
 | Shift Location Place | 1 | child |
 
 ## One CRM
@@ -141,8 +143,13 @@ No doctypes yet.
 * `onedesk.one_hr.expense.about`
 * `onedesk.one_hr.expense.approve`
 * `onedesk.one_hr.expense.reject`
+* `onedesk.one_hr.hiring.prepare_again`
 * `onedesk.one_hr.hiring.rank_again`
+* `onedesk.one_hr.hiring.recorded_part`
 * `onedesk.one_hr.hiring.screen_again`
+* `onedesk.one_hr.hiring.start_recording`
+* `onedesk.one_hr.hiring.stop_recording`
+* `onedesk.one_hr.hiring.transcribe_again`
 * `onedesk.one_hr.learned.confirm`
 * `onedesk.one_hr.learned.reject`
 * `onedesk.one_hr.leave.about`

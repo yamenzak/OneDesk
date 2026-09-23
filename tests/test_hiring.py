@@ -72,7 +72,8 @@ def test_the_pool_is_shown_under_labels_never_ids():
 def test_nothing_here_decides_for_a_person():
 	"""No status is set and the rating a person gives is never written."""
 	source = HIRING.read_text(encoding="utf-8")
-	assert '"status":' not in source.replace('"status": ["in", RUNNING]', "")
+	assert not re.search(r'set_value\(\s*"Job Applicant"[^)]*"status"', source)
+	assert not re.search(r'"Job Applicant"[^\n]*\.status\s*=', source)
 	assert "applicant_rating" not in source
 
 
@@ -99,3 +100,38 @@ def test_a_new_applicant_is_screened_after_commit():
 	assert '"Job Applicant": {"after_insert": "onedesk.one_hr.hiring.arrived"}' in hooks
 	source = HIRING.read_text(encoding="utf-8")
 	assert "enqueue_after_commit=True" in source
+
+
+def test_a_transcript_is_timed_from_the_start_of_the_interview():
+	space = _pure("clock")
+	space["cint"] = int
+	exec("", space)
+	clock = space["clock"]
+	assert clock(0) == "00:00"
+	assert clock(305) == "05:05"
+	assert clock(3725) == "1:02:05"
+
+
+def test_nothing_is_recorded_without_the_candidates_agreement():
+	source = HIRING.read_text(encoding="utf-8")
+	start = ast.unparse(next(n for n in ast.parse(source).body if getattr(n, "name", "") == "start_recording"))
+	assert "if not cint(agreed)" in start and "frappe.throw" in start
+	assert "'agreed_by': frappe.session.user" in start
+	record = (tree.APP / "one_hr" / "doctype" / "interview_recording" / "interview_recording.py").read_text()
+	assert "if not self.agreed" in record, "a recording made any other way must still carry the agreement"
+
+
+def test_only_retention_or_an_hr_manager_deletes_what_was_said():
+	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+	assert '"File": {"on_trash": "onedesk.one_hr.hiring.keep_sound"}' in hooks
+	assert '"onedesk.one_hr.hiring.purge"' in hooks
+	spec = json.loads((tree.APP / "one_hr" / "doctype" / "interview_recording" / "interview_recording.json").read_text())
+	deleting = [row["role"] for row in spec["permissions"] if row.get("delete")]
+	assert deleting == ["HR Manager"]
+
+
+def test_feedback_is_only_ever_drafted_for_one_of_the_interviewers():
+	ai = (tree.APP / "one_hr" / "ai.py").read_text(encoding="utf-8")
+	draft = ast.unparse(next(n for n in ast.parse(ai).body if getattr(n, "name", "") == "draft_interview_feedback"))
+	assert "me not in on_it" in draft
+	assert "'interviewer': me" in draft

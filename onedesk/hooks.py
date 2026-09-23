@@ -71,6 +71,8 @@ scheduler_events = {
 		"onedesk.one_admin.topup.monthly",
 		"onedesk.one_admin.storage.nightly",
 		"onedesk.one_hr.healing.nightly",
+		# The sound of old interview recordings; their transcripts stay.
+		"onedesk.one_hr.hiring.purge",
 		"onedesk.one_hr.leaving.nightly",
 		"onedesk.one_hr.setup.nightly",
 	],
@@ -117,6 +119,12 @@ doc_events = {
 	"Employee Promotion": {"before_validate": "onedesk.one_hr.growth.promotion"},
 	# Every applicant read, rated and placed by OneAI. See one_hr/hiring.py.
 	"Job Applicant": {"after_insert": "onedesk.one_hr.hiring.arrived"},
+	"Interview": {
+		"after_insert": "onedesk.one_hr.hiring.scheduled",
+		"onload": "onedesk.one_hr.hiring.interview_onload",
+	},
+	# A recording's sound goes by its retention or an HR Manager's hand.
+	"File": {"on_trash": "onedesk.one_hr.hiring.keep_sound"},
 	# An onboarding is for somebody who is not an employee yet, so the holiday
 	# list has to come from the company. See one_hr/lifecycle.py.
 	"Employee Onboarding": {"before_validate": "onedesk.one_hr.lifecycle.onboarding"},
@@ -232,6 +240,8 @@ doctype_js = {
 	# OneAI's verbs on the hiring walk; see one_hr/hiring.py.
 	"Job Opening": "public/js/hiring.js",
 	"Job Applicant": "public/js/hiring.js",
+	"Interview": "public/js/hiring.js",
+	"Interview Recording": "public/js/hiring.js",
 	"Employee Tax Exemption Declaration": "public/js/exemption.js",
 	"Employee Tax Exemption Proof Submission": "public/js/exemption.js",
 }
@@ -304,6 +314,7 @@ one_ai_reads = [
 	"onedesk.one_hr.ai.my_leave",
 	"onedesk.one_hr.ai.appraisal_facts",
 	"onedesk.one_hr.ai.why_people_leave",
+	"onedesk.one_hr.ai.interview_facts",
 ]
 
 #: A sentence each about who is asking, added to what the model is told.
@@ -316,5 +327,6 @@ one_ai_suggests = [
 	"onedesk.one_hr.ai.book_leave",
 	"onedesk.one_hr.ai.add_applicant",
 	"onedesk.one_hr.ai.draft_feedback",
+	"onedesk.one_hr.ai.draft_interview_feedback",
 ]
 one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS"]

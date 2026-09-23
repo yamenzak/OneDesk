@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 10:27+0000\n"
-"PO-Revision-Date: 2026-09-23 10:27+0000\n"
+"POT-Creation-Date: 2026-09-23 10:39+0000\n"
+"PO-Revision-Date: 2026-09-23 10:39+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "(from what was asked for)"
 msgstr "(aus dem Angefragten)"
 
-#: onedesk/one_hr/ai.py:723
+#: onedesk/one_hr/ai.py:857
 msgid "1 day of {0}."
 msgstr "1 Tag {0}."
 
-#: onedesk/one_hr/ai.py:727
+#: onedesk/one_hr/ai.py:861
 msgid "1 day of {0}; {1} left after."
 msgstr "1 Tag {0}; danach bleiben {1}."
 
@@ -471,6 +471,14 @@ msgstr ""
 msgid "Addresses employees may check in from."
 msgstr "Adressen, von denen Mitarbeiter einchecken dürfen."
 
+#: onedesk/one_hr/hiring.py:759
+msgid "After the interview: {0}"
+msgstr "Nach dem Gespräch: {0}"
+
+#: onedesk/one_hr/hiring.py:757
+msgid "After the {0} interview: {1}"
+msgstr "Nach dem Gespräch „{0}“: {1}"
+
 #. Description of the 'Keep Recordings For (Days)' (Int) field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -486,6 +494,12 @@ msgstr "Im Vergleich zu allen anderen Bewerbungen auf diese Stelle. Ändert sich
 #: onedesk/one_hr/custom/job_applicant.json
 msgid "Against this opening's criteria, on their own."
 msgstr "Gemessen an den Kriterien dieser Stelle, für sich allein."
+
+#. Label of the agreement_section (Section Break) field in DocType 'Interview
+#. Recording'
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+msgid "Agreement"
+msgstr "Einverständnis"
 
 #. Name of a role
 #: onedesk/one/doctype/workspace_account/workspace_account.json
@@ -567,6 +581,11 @@ msgstr "Ein Mitarbeiter ist die Person hinter dem Konto: Rolle, Abteilung und Ve
 msgid "An employee who never checks out gets an OUT written at the shift end, marked Closed Automatically."
 msgstr "Für einen Mitarbeiter, der sich nie auscheckt, wird zum Schichtende ein AUS geschrieben und als automatisch geschlossen markiert."
 
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.py:15
+#: onedesk/one_hr/hiring.py:547
+msgid "An interview is only recorded once the candidate has agreed."
+msgstr "Ein Gespräch wird nur aufgezeichnet, wenn die Kandidatin oder der Kandidat zugestimmt hat."
+
 #: onedesk/one_hr/rules.py:43
 msgid "Another check-in was recorded in the same second."
 msgstr "In derselben Sekunde wurde ein weiteres Einchecken erfasst."
@@ -589,10 +608,17 @@ msgid "Appearance"
 msgstr "Erscheinungsbild"
 
 #. Label of the one_applicant (Data) field in DocType 'Interview'
+#. Label of the job_applicant (Link) field in DocType 'Interview Recording'
 #: onedesk/one_hr/custom/interview.json
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:207
 msgid "Applicant"
 msgstr "Bewerber"
+
+#. Label of the applicant_name (Data) field in DocType 'Interview Recording'
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+msgid "Applicant Name"
+msgstr "Name der Bewerbung"
 
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:43
 msgid "Applicant Status"
@@ -736,6 +762,10 @@ msgstr ""
 msgid "Ask about this page, look something up, or have a change suggested."
 msgstr "Fragen Sie zu dieser Seite, lassen Sie etwas nachschlagen oder eine Änderung vorschlagen."
 
+#: onedesk/public/js/hiring.js:125
+msgid "Ask first, and tick that they agreed."
+msgstr "Erst fragen, dann die Zustimmung ankreuzen."
+
 #. Label of the one_gate_photo (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Ask for a Photo"
@@ -745,6 +775,10 @@ msgstr "Foto anfordern"
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Ask for a Reason on Check Out"
 msgstr "Beim Auschecken nach einem Grund fragen"
+
+#: onedesk/one_hr/hiring.py:811
+msgid "Ask next round"
+msgstr "In der nächsten Runde fragen"
 
 #: onedesk/public/js/oneai.js:104 onedesk/public/js/oneai.js:105
 #: onedesk/public/js/oneai/Panel.vue:165
@@ -922,6 +956,11 @@ msgstr ""
 msgid "Becomes"
 msgstr "Wird"
 
+#. Label of the one_ai_prep (Text Editor) field in DocType 'Interview'
+#: onedesk/one_hr/custom/interview.json
+msgid "Before You Start"
+msgstr "Bevor Sie beginnen"
+
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:11
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:14
 #: onedesk/public/js/tenant.js:29
@@ -1050,6 +1089,10 @@ msgstr "Guthaben kaufen"
 #: onedesk/one_ai/report/ai_credits/ai_credits.js:19
 msgid "By"
 msgstr "Nach"
+
+#: onedesk/one_hr/hiring.py:807
+msgid "By skill"
+msgstr "Nach Fähigkeit"
 
 #. Description of the 'Pending' (Long Int) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
@@ -1385,6 +1428,10 @@ msgstr ""
 #: onedesk/public/js/learned.js:11
 msgid "Confirm"
 msgstr ""
+
+#: onedesk/one_hr/hiring.py:498
+msgid "Confirm first"
+msgstr "Zuerst klären"
 
 #. Label of the one_learn_threshold (Int) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -2053,6 +2100,11 @@ msgstr ""
 msgid "End Date"
 msgstr ""
 
+#. Label of the ended_on (Datetime) field in DocType 'Interview Recording'
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+msgid "Ended On"
+msgstr "Beendet am"
+
 #. Label of the ends (Date) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "Ends"
@@ -2089,6 +2141,10 @@ msgstr "Jeder Einchecken-Versuch, ob erlaubt, markiert oder abgelehnt."
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Every check-in is scored out of 100 and the score is kept on Clock Attempt. Each check below that fails subtracts from it."
 msgstr "Jedes Einchecken wird mit bis zu 100 Punkten bewertet, und die Punktzahl wird im Einchecken-Versuch festgehalten. Jede fehlgeschlagene Prüfung unten zieht davon ab."
+
+#: onedesk/one_hr/hiring.py:636
+msgid "Every part is already transcribed."
+msgstr "Alle Teile sind bereits transkribiert."
 
 #. Description of the Onboarding Step 'Invite your team'
 #: onedesk/one/onboarding_step/one_invite_your_team/one_invite_your_team.json
@@ -2163,9 +2219,13 @@ msgstr "Verfällt am {0}"
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
+#. Option for the 'Status' (Select) field in DocType 'Interview Recording'
+#. Option for the 'State' (Select) field in DocType 'Interview Recording Part'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+#: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
 msgid "Failed"
 msgstr ""
 
@@ -2267,6 +2327,10 @@ msgstr "Markiert"
 msgid "Follow my system"
 msgstr "Systemeinstellung folgen"
 
+#: onedesk/public/js/hiring.js:119
+msgid "For an interview over a video call: the browser asks which tab, and records both voices."
+msgstr "Für ein Gespräch per Videoanruf: Der Browser fragt nach dem Tab und nimmt beide Stimmen auf."
+
 #: onedesk/public/js/workspace_account.js:189
 msgid "For example hr.example.com. Do not include https://"
 msgstr "Zum Beispiel hr.example.com. Ohne https://"
@@ -2310,7 +2374,7 @@ msgstr "{0} Tage kostenlos"
 msgid "From Date"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:201
+#: onedesk/one_hr/ai.py:238
 msgid "From a receipt: {0}, {1}."
 msgstr "Aus einem Beleg: {0}, {1}."
 
@@ -2433,6 +2497,7 @@ msgstr "Entwicklung"
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 msgid "HR Manager"
 msgstr ""
 
@@ -2448,6 +2513,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 msgid "HR User"
 msgstr ""
 
@@ -2659,6 +2725,10 @@ msgstr "Eingabe pro 1 Mio. Tokens"
 msgid "Include Personal Networks and Locations"
 msgstr "Persönliche Netzwerke und Orte einbeziehen"
 
+#: onedesk/public/js/hiring.js:118
+msgid "Include the sound of a call in another tab"
+msgstr "Ton eines Anrufs in einem anderen Tab einbeziehen"
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Income Tax Computation"
@@ -2685,11 +2755,23 @@ msgstr "Eingabe-Token"
 msgid "Instruction"
 msgstr ""
 
+#. Label of the interview (Link) field in DocType 'Interview Recording'
 #. Label of a Sidebar Item
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:213
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Interview"
 msgstr ""
+
+#. Name of a DocType
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+msgid "Interview Recording"
+msgstr "Gesprächsaufnahme"
+
+#. Name of a DocType
+#: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
+msgid "Interview Recording Part"
+msgstr "Teil einer Gesprächsaufnahme"
 
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
@@ -2699,6 +2781,11 @@ msgstr ""
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:258
 msgid "Interviewed"
 msgstr "Interviewt"
+
+#. Name of a role
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+msgid "Interviewer"
+msgstr "Interviewer"
 
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:211
 msgid "Interviews"
@@ -3043,6 +3130,13 @@ msgstr "Nur früher gegangen"
 msgid "Left empty, the advance account falls back to the company’s and the cost centre to the department’s."
 msgstr "Bleibt es leer, wird das Vorschusskonto des Unternehmens und die Kostenstelle der Abteilung verwendet."
 
+#. Label of the length (Duration) field in DocType 'Interview Recording'
+#. Label of the length (Duration) field in DocType 'Interview Recording Part'
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+#: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
+msgid "Length"
+msgstr ""
+
 #: onedesk/public/js/ai_model_list.js:33
 msgid "Let workspaces pick this model"
 msgstr "Arbeitsbereiche dieses Modell wählen lassen"
@@ -3273,11 +3367,11 @@ msgstr "Monatsguthaben für {0}"
 msgid "Move"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:407
+#: onedesk/one_hr/hiring.py:900
 msgid "Moved down from {0}% to {1}%."
 msgstr "Von {0} % auf {1} % abgestuft."
 
-#: onedesk/one_hr/hiring.py:407
+#: onedesk/one_hr/hiring.py:900
 msgid "Moved up from {0}% to {1}%."
 msgstr "Von {0} % auf {1} % hochgestuft."
 
@@ -3509,6 +3603,10 @@ msgstr "Nicht bezahlt"
 #: onedesk/public/js/workspace_account.js:222
 msgid "Not pointing here yet."
 msgstr "Zeigt noch nicht hierher."
+
+#: onedesk/one_hr/hiring.py:809
+msgid "Not reached"
+msgstr "Nicht erreicht"
 
 #: onedesk/one_hr/hiring.py:355
 msgid "Not shown"
@@ -3783,12 +3881,15 @@ msgstr "Ein Arbeitsbereich hat das gekauft"
 #. Label of a Sidebar Item
 #. Label of the one_hiring_ai_section (Section Break) field in DocType 'HR
 #. Settings'
+#. Label of the one_ai_prep_section (Section Break) field in DocType
+#. 'Interview'
+#. Group in Interview's connections
 #. Label of the one_ai_section (Section Break) field in DocType 'Job Applicant'
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
-#: onedesk/one_hr/custom/hr_settings.json
+#: onedesk/one_hr/custom/hr_settings.json onedesk/one_hr/custom/interview.json
 #: onedesk/one_hr/custom/job_applicant.json onedesk/public/js/hiring.js:23
-#: onedesk/public/js/hiring.js:39
+#: onedesk/public/js/hiring.js:39 onedesk/public/js/hiring.js:62
 msgid "OneAI"
 msgstr "OneAI"
 
@@ -3805,9 +3906,17 @@ msgstr "OneAI war gerade nicht erreichbar. Die Frage steht noch da — versuchen
 msgid "OneAI is placing everybody again. The applicant list updates when it is done."
 msgstr "OneAI ordnet alle neu ein. Die Bewerberliste aktualisiert sich, sobald das fertig ist."
 
+#: onedesk/public/js/hiring.js:60
+msgid "OneAI is preparing this interview. This page updates when it is done."
+msgstr "OneAI bereitet dieses Gespräch vor. Diese Seite aktualisiert sich, sobald das fertig ist."
+
 #: onedesk/public/js/hiring.js:21
 msgid "OneAI is reading the CV. This page updates when it is done."
 msgstr "OneAI liest den Lebenslauf. Diese Seite aktualisiert sich, sobald das fertig ist."
+
+#: onedesk/public/js/hiring.js:75
+msgid "OneAI is writing it down. This page updates when it is done."
+msgstr "OneAI schreibt es auf. Diese Seite aktualisiert sich, sobald das fertig ist."
 
 #. Label of the one_ai_brief (Small Text) field in DocType 'Job Applicant'
 #: onedesk/one_hr/custom/job_applicant.json
@@ -3868,6 +3977,10 @@ msgstr "Nur ein Antrag, der noch offen ist, kann abgelehnt werden."
 #: onedesk/one_ai/touch.py:176
 msgid "Only a suggested change can be applied in the form."
 msgstr "Nur eine vorgeschlagene Änderung kann im Formular übernommen werden."
+
+#: onedesk/one_hr/hiring.py:858
+msgid "Only an HR Manager can delete the sound of a recorded interview."
+msgstr "Nur HR-Manager können den Ton eines aufgezeichneten Gesprächs löschen."
 
 #: onedesk/one/account.py:204
 msgid "Only an administrator of this workspace can change its address."
@@ -4111,6 +4224,13 @@ msgstr "Bezahlt, und kein Arbeitsbereich wurde angelegt. Legen Sie ihn an."
 msgid "Paid, not built"
 msgstr "Bezahlt, nicht angelegt"
 
+#. Label of the parts_section (Section Break) field in DocType 'Interview
+#. Recording'
+#. Label of the parts (Table) field in DocType 'Interview Recording'
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+msgid "Parts"
+msgstr "Teile"
+
 #. Label of the passkey_section (Section Break) field in DocType 'Clock
 #. Attempt'
 #. Label of the credential_section (Section Break) field in DocType 'Clock
@@ -4307,6 +4427,10 @@ msgstr ""
 msgid "Prepare Interviewers"
 msgstr "Interviewende vorbereiten"
 
+#: onedesk/public/js/hiring.js:55
+msgid "Prepare again"
+msgstr "Erneut vorbereiten"
+
 #. Option for the 'Marks the Day As' (Select) field in DocType 'Attendance
 #. Reason'
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
@@ -4473,6 +4597,10 @@ msgstr ""
 msgid "Purpose of Travel"
 msgstr ""
 
+#: onedesk/one_hr/hiring.py:508
+msgid "Questions"
+msgstr "Fragen"
+
 #. Label of the quota_section (Section Break) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Quotas"
@@ -4577,7 +4705,7 @@ msgstr "Gründe, die Mitarbeitern beim Auschecken angeboten werden."
 #. Label of the record (Data) field in DocType 'AI Proposal'
 #. Label of the record (Dynamic Link) field in DocType 'AI Touch'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_ai/doctype/ai_touch/ai_touch.json
+#: onedesk/one_ai/doctype/ai_touch/ai_touch.json onedesk/public/js/hiring.js:49
 #: onedesk/public/js/overtime.js:50
 msgid "Record"
 msgstr "Erfassen"
@@ -4602,13 +4730,49 @@ msgstr "Datensatztyp"
 msgid "Record Written"
 msgstr "Geschriebener Datensatz"
 
+#: onedesk/public/js/hiring.js:108
+msgid "Record this interview"
+msgstr "Dieses Gespräch aufzeichnen"
+
+#. Option for the 'Status' (Select) field in DocType 'Interview Recording'
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+msgid "Recorded"
+msgstr "Aufgezeichnet"
+
+#. Label of the recorded_by (Link) field in DocType 'Interview Recording'
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+msgid "Recorded By"
+msgstr "Aufgezeichnet von"
+
 #: onedesk/public/js/overtime.js:68
 msgid "Recorded on {0}"
 msgstr "Auf {0} erfasst"
 
+#. Option for the 'Status' (Select) field in DocType 'Interview Recording'
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+#: onedesk/public/js/hiring.js:268
+msgid "Recording"
+msgstr "Aufnahme läuft"
+
+#: onedesk/public/js/hiring.js:131
+msgid "Recording did not start: {0}"
+msgstr "Die Aufnahme wurde nicht gestartet: {0}"
+
+#: onedesk/public/js/hiring.js:238
+msgid "Recording saved, but {0} part(s) did not upload."
+msgstr "Aufnahme gespeichert, aber {0} Teil(e) wurden nicht hochgeladen."
+
+#: onedesk/public/js/hiring.js:239
+msgid "Recording saved. OneAI writes it down and remarks on it on the interview."
+msgstr "Aufnahme gespeichert. OneAI schreibt sie auf und kommentiert sie am Gespräch."
+
 #: onedesk/public/js/overtime.js:62
 msgid "Recording the overtime"
 msgstr "Überstunden werden erfasst"
+
+#: onedesk/public/js/hiring.js:49
+msgid "Recording…"
+msgstr "Aufnahme läuft…"
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -4906,6 +5070,10 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
+#: onedesk/public/js/hiring.js:225
+msgid "Saving…"
+msgstr "Wird gespeichert…"
+
 #: onedesk/public/js/admin_settings.js:24 onedesk/public/js/ai_model.js:69
 msgid "Say hello in one short sentence."
 msgstr "Sag Hallo in einem kurzen Satz."
@@ -5189,6 +5357,16 @@ msgstr "Einige Tage wurden gekürzt"
 msgid "Something a model suggested doing. Nothing happens until a person presses Apply."
 msgstr "Etwas, das ein Modell vorgeschlagen hat. Es geschieht nichts, bis eine Person auf Anwenden drückt."
 
+#. Label of the file (Attach) field in DocType 'Interview Recording Part'
+#: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
+msgid "Sound"
+msgstr "Ton"
+
+#. Label of the sound_deleted_on (Date) field in DocType 'Interview Recording'
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+msgid "Sound Deleted On"
+msgstr "Ton gelöscht am"
+
 #. Label of the source (Select) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:217
@@ -5266,15 +5444,31 @@ msgstr "Einen Arbeitsbereich starten"
 msgid "Start again"
 msgstr "Neu beginnen"
 
+#: onedesk/public/js/hiring.js:122
+msgid "Start recording"
+msgstr "Aufnahme starten"
+
+#. Label of the started_on (Datetime) field in DocType 'Interview Recording'
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+msgid "Started On"
+msgstr "Begonnen am"
+
 #. Label of the starts (Date) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "Starts"
 msgstr "Beginnt"
 
+#. Label of the starts_at (Int) field in DocType 'Interview Recording Part'
+#: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
+msgid "Starts At (Seconds)"
+msgstr "Beginnt bei (Sekunden)"
+
 #. Label of the state (Select) field in DocType 'Credit Reservation'
 #. Label of the state (Select) field in DocType 'AI Proposal'
+#. Label of the state (Select) field in DocType 'Interview Recording Part'
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+#: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
 msgid "State"
 msgstr ""
 
@@ -5288,6 +5482,7 @@ msgstr ""
 #. Label of the status (Select) field in DocType 'Clock Device'
 #. Label of the status (Select) field in DocType 'Clock Network'
 #. Label of the status (Select) field in DocType 'Clock Place'
+#. Label of the status (Select) field in DocType 'Interview Recording'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
 #: onedesk/one_admin/doctype/account_request/account_request.json
@@ -5298,6 +5493,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:23
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:161
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:205
@@ -5329,6 +5525,10 @@ msgstr "Beantwortet noch die letzte Frage."
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:222
 msgid "Still in Draft"
 msgstr "Noch im Entwurf"
+
+#: onedesk/public/js/hiring.js:271
+msgid "Stop"
+msgstr ""
 
 #: onedesk/public/js/oneai/Panel.vue:188
 msgid "Stop listening"
@@ -5443,7 +5643,7 @@ msgstr "Hat eine Änderung vorgeschlagen"
 msgid "Suggested a change to {0}"
 msgstr "Hat eine Änderung an {0} vorgeschlagen"
 
-#: onedesk/one_ai/tools.py:571 onedesk/one_hr/ai.py:207
+#: onedesk/one_ai/tools.py:571 onedesk/one_hr/ai.py:244
 msgid "Suggested. It happens when somebody approves it."
 msgstr "Vorgeschlagen. Es geschieht, wenn jemand zustimmt."
 
@@ -5576,9 +5776,17 @@ msgstr "Das ist nicht durchgegangen."
 msgid "That did not work."
 msgstr "Das hat nicht geklappt."
 
+#: onedesk/one_hr/hiring.py:582
+msgid "That is not a recording."
+msgstr "Das ist keine Aufnahme."
+
 #: onedesk/one_admin/signup.py:155
 msgid "That is not something on offer."
 msgstr "Das wird nicht angeboten."
+
+#: onedesk/one_hr/hiring.py:585
+msgid "That part of the recording is empty or too large."
+msgstr "Dieser Teil der Aufnahme ist leer oder zu groß."
 
 #: onedesk/one_hr/signin.py:69
 msgid "That passkey belongs to an employee with no user account on this site."
@@ -5596,11 +5804,20 @@ msgstr "Dieser Passkey konnte nicht verifiziert werden: {0}"
 msgid "That passkey is not registered on this site."
 msgstr "Dieser Passkey ist auf dieser Site nicht registriert."
 
+#: onedesk/public/js/hiring.js:156
+msgid "That tab shared no sound, so only the microphone is recorded."
+msgstr "Dieser Tab hat keinen Ton geteilt, daher wird nur das Mikrofon aufgenommen."
+
 #. Description of the 'Gateway Name' (Data) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "The AI Gateway on the Cloudflare account above."
 msgstr "Das KI-Gateway auf dem Cloudflare-Konto oben."
+
+#. Label of the agreed (Check) field in DocType 'Interview Recording'
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+msgid "The Candidate Agreed to Be Recorded"
+msgstr "Die Kandidatin oder der Kandidat hat der Aufnahme zugestimmt"
 
 #: onedesk/public/js/workspace_account.js:221
 msgid "The DNS is pointing here."
@@ -5801,6 +6018,12 @@ msgstr "Die Site wird nach einer externen Sicherung gelöscht. Die Dateien werde
 msgid "The site stops serving. Data is retained."
 msgstr "Die Site wird nicht mehr ausgeliefert. Die Daten bleiben erhalten."
 
+#. Description of the 'Sound Deleted On' (Date) field in DocType 'Interview
+#. Recording'
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+msgid "The sound is deleted after the number of days HR Settings keeps recordings for. The transcript stays."
+msgstr "Der Ton wird nach der in den HR-Einstellungen festgelegten Anzahl von Tagen gelöscht. Das Transkript bleibt."
+
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:69
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:80
 msgid "The start date is after the end date."
@@ -5883,6 +6106,10 @@ msgstr "Denkt nach…"
 msgid "This attempt was already reviewed."
 msgstr "Dieser Versuch wurde bereits geprüft."
 
+#: onedesk/public/js/hiring.js:103
+msgid "This browser cannot record sound."
+msgstr "Dieser Browser kann keinen Ton aufnehmen."
+
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:18
 msgid "This browser will not give a location."
 msgstr "Dieser Browser gibt keinen Standort heraus."
@@ -5927,6 +6154,14 @@ msgstr "Für diese Überstundenart ist kein Satz hinterlegt, sie vergütet daher
 msgid "This passkey was registered on a different browser."
 msgstr "Dieser Passkey wurde auf einem anderen Browser registriert."
 
+#: onedesk/one_hr/hiring.py:633
+msgid "This recording cannot be transcribed again."
+msgstr "Diese Aufnahme kann nicht erneut transkribiert werden."
+
+#: onedesk/one_hr/hiring.py:580
+msgid "This recording has already ended."
+msgstr "Diese Aufnahme ist bereits beendet."
+
 #: onedesk/one_hr/passkey.py:338
 msgid "This request expired. Try again."
 msgstr "Diese Anfrage ist abgelaufen. Versuchen Sie es erneut."
@@ -5947,6 +6182,10 @@ msgstr "Diese Site verwaltet keine Arbeitsbereiche."
 msgid "This takes a few minutes. A link will be emailed to {0} when it is ready."
 msgstr "Das dauert ein paar Minuten. Ein Link geht per E-Mail an {0}, sobald er fertig ist."
 
+#: onedesk/one_hr/hiring.py:549
+msgid "This workspace does not record interviews. HR Settings says whether it does."
+msgstr "Dieser Arbeitsbereich zeichnet keine Gespräche auf. Das legen die HR-Einstellungen fest."
+
 #: onedesk/one_admin/storage.py:50
 msgid "This workspace has no room for another {0}."
 msgstr "In diesem Arbeitsbereich ist kein Platz für weitere {0}."
@@ -5956,6 +6195,16 @@ msgstr "In diesem Arbeitsbereich ist kein Platz für weitere {0}."
 #: onedesk/one_hr/custom/employee_attendance_tool.json
 msgid "Tick Everyone Who Checked In"
 msgstr "Alle ankreuzen, die eingecheckt haben"
+
+#. Label of the agreed_by (Link) field in DocType 'Interview Recording'
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+msgid "Ticked By"
+msgstr "Angekreuzt von"
+
+#. Label of the agreed_on (Datetime) field in DocType 'Interview Recording'
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+msgid "Ticked On"
+msgstr "Angekreuzt am"
 
 #. Description of the 'completed' field in DocType 'Timesheet Detail'
 #: onedesk/one_hr/custom/timesheet_detail.json
@@ -6047,10 +6296,36 @@ msgstr ""
 msgid "Training Result"
 msgstr ""
 
+#: onedesk/public/js/hiring.js:71
+msgid "Transcribe again"
+msgstr "Erneut transkribieren"
+
 #. Label of the one_ai_transcribe (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Transcribe and Remark on Recordings"
 msgstr "Aufnahmen transkribieren und kommentieren"
+
+#. Option for the 'Status' (Select) field in DocType 'Interview Recording'
+#. Option for the 'State' (Select) field in DocType 'Interview Recording Part'
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+#: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
+msgid "Transcribed"
+msgstr "Transkribiert"
+
+#. Option for the 'Status' (Select) field in DocType 'Interview Recording'
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+msgid "Transcribing"
+msgstr "Wird transkribiert"
+
+#. Label of the transcript_section (Section Break) field in DocType 'Interview
+#. Recording'
+#. Label of the transcript (Long Text) field in DocType 'Interview Recording'
+#. Label of the transcript (Long Text) field in DocType 'Interview Recording
+#. Part'
+#: onedesk/one_hr/doctype/interview_recording/interview_recording.json
+#: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
+msgid "Transcript"
+msgstr "Transkript"
 
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
 #. Option for the 'Default For' (Select) field in DocType 'AI Model'
@@ -6250,7 +6525,9 @@ msgid "Vision"
 msgstr "Bildverstehen"
 
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
+#. Option for the 'State' (Select) field in DocType 'Interview Recording Part'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
+#: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:257
 #: onedesk/public/js/tenant_domain.js:24
 msgid "Waiting"
@@ -6625,6 +6902,10 @@ msgstr "Arbeitsbereiche können dieses Modell nicht mehr wählen"
 msgid "Worth knowing before you call"
 msgstr "Gut zu wissen vor dem Anruf"
 
+#: onedesk/one_hr/hiring.py:810
+msgid "Worth weighing"
+msgstr "Abzuwägen"
+
 #: onedesk/public/js/oneai/Panel.vue:275
 msgid "Write a first draft"
 msgstr "Einen ersten Entwurf schreiben"
@@ -6877,6 +7158,10 @@ msgstr "die Selbsteinschätzung"
 msgid "the start"
 msgstr "dem Anfang"
 
+#: onedesk/one_hr/hiring.py:717
+msgid "this part could not be transcribed"
+msgstr "dieser Teil konnte nicht transkribiert werden"
+
 #: onedesk/public/js/vehicle_log.js:35
 msgid "units"
 msgstr "Einheiten"
@@ -7007,11 +7292,11 @@ msgstr "Noch {0} Tage, bis er auf {1} fällt."
 msgid "{0} days left"
 msgstr "Noch {0} Tage"
 
-#: onedesk/one_hr/ai.py:725
+#: onedesk/one_hr/ai.py:859
 msgid "{0} days of {1}."
 msgstr "{0} Tage {1}."
 
-#: onedesk/one_hr/ai.py:729
+#: onedesk/one_hr/ai.py:863
 msgid "{0} days of {1}; {2} left after."
 msgstr "{0} Tage {1}; danach bleiben {2}."
 
@@ -7038,6 +7323,10 @@ msgstr "{0} für {1}, ein ganzer Monat."
 #: onedesk/public/js/salary_slip.js:34
 msgid "{0} for {1}: {2} of {3} days paid."
 msgstr "{0} für {1}: {2} von {3} Tagen bezahlt."
+
+#: onedesk/public/js/hiring.js:113
+msgid "{0} has agreed to this interview being recorded"
+msgstr "{0} hat der Aufzeichnung dieses Gesprächs zugestimmt"
 
 #: onedesk/one_ai/proposals.py:124
 msgid "{0} has changed since this was suggested, so it no longer applies."

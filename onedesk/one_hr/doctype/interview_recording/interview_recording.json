@@ -1,0 +1,212 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "format:REC-{YY}-{#####}",
+ "creation": "2026-09-23 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "interview",
+  "job_applicant",
+  "applicant_name",
+  "status",
+  "column_break_when",
+  "recorded_by",
+  "started_on",
+  "ended_on",
+  "length",
+  "agreement_section",
+  "agreed",
+  "agreed_by",
+  "agreed_on",
+  "column_break_kept",
+  "sound_deleted_on",
+  "transcript_section",
+  "transcript",
+  "parts_section",
+  "parts"
+ ],
+ "fields": [
+  {
+   "fieldname": "interview",
+   "fieldtype": "Link",
+   "label": "Interview",
+   "options": "Interview",
+   "reqd": 1,
+   "set_only_once": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "job_applicant",
+   "fieldtype": "Link",
+   "label": "Applicant",
+   "options": "Job Applicant",
+   "fetch_from": "interview.job_applicant",
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "applicant_name",
+   "fieldtype": "Data",
+   "label": "Applicant Name",
+   "fetch_from": "job_applicant.applicant_name",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Recording\nTranscribing\nTranscribed\nRecorded\nFailed",
+   "default": "Recording",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_break_when",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "recorded_by",
+   "fieldtype": "Link",
+   "label": "Recorded By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "started_on",
+   "fieldtype": "Datetime",
+   "label": "Started On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ended_on",
+   "fieldtype": "Datetime",
+   "label": "Ended On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "length",
+   "fieldtype": "Duration",
+   "label": "Length",
+   "read_only": 1,
+   "hide_days": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "agreement_section",
+   "fieldtype": "Section Break",
+   "label": "Agreement"
+  },
+  {
+   "fieldname": "agreed",
+   "fieldtype": "Check",
+   "label": "The Candidate Agreed to Be Recorded",
+   "read_only": 1
+  },
+  {
+   "fieldname": "agreed_by",
+   "fieldtype": "Link",
+   "label": "Ticked By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "agreed_on",
+   "fieldtype": "Datetime",
+   "label": "Ticked On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_kept",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sound_deleted_on",
+   "fieldtype": "Date",
+   "label": "Sound Deleted On",
+   "read_only": 1,
+   "description": "The sound is deleted after the number of days HR Settings keeps recordings for. The transcript stays."
+  },
+  {
+   "fieldname": "transcript_section",
+   "fieldtype": "Section Break",
+   "label": "Transcript"
+  },
+  {
+   "fieldname": "transcript",
+   "fieldtype": "Long Text",
+   "label": "Transcript",
+   "read_only": 1
+  },
+  {
+   "fieldname": "parts_section",
+   "fieldtype": "Section Break",
+   "label": "Parts",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "parts",
+   "fieldtype": "Table",
+   "label": "Parts",
+   "options": "Interview Recording Part",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-23 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One HR",
+ "name": "Interview Recording",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "HR Manager",
+   "read": 1,
+   "report": 1,
+   "email": 0,
+   "print": 1,
+   "share": 0,
+   "export": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "HR User",
+   "read": 1,
+   "report": 1,
+   "email": 0,
+   "print": 1,
+   "share": 0,
+   "export": 0,
+   "write": 1,
+   "create": 1,
+   "delete": 0
+  },
+  {
+   "role": "Interviewer",
+   "read": 1,
+   "report": 1,
+   "email": 0,
+   "print": 1,
+   "share": 0,
+   "export": 0,
+   "write": 1,
+   "create": 1,
+   "delete": 0
+  }
+ ],
+ "quick_entry": 0,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "applicant_name",
+ "show_title_field_in_link": 1,
+ "track_changes": 1
+}

@@ -40,3 +40,240 @@ frappe.ui.form.on("Job Opening", {
 		);
 	},
 });
+
+frappe.ui.form.on("Interview", {
+	refresh(frm) {
+		if (frm.is_new()) return;
+		if ((frm.doc.__onload || {}).one_ai_record && frm.doc.docstatus < 2) {
+			const busy = onedesk.hiring.recorder.on;
+			frm.add_custom_button(busy ? __("Recording…") : __("Record"), () => {
+				if (!onedesk.hiring.recorder.on) onedesk.hiring.recorder.ask(frm);
+			}).toggleClass("disabled", !!busy);
+		}
+		if (!frm.perm[0]?.write) return;
+		frm.add_custom_button(
+			__("Prepare again"),
+			() =>
+				onedesk.hiring.ask(
+					"prepare_again",
+					{ interview: frm.doc.name },
+					__("OneAI is preparing this interview. This page updates when it is done."),
+				),
+			__("OneAI"),
+		);
+	},
+});
+
+frappe.ui.form.on("Interview Recording", {
+	refresh(frm) {
+		const again = ["Failed", "Recorded"].includes(frm.doc.status) && !frm.doc.sound_deleted_on;
+		if (!again || !frm.perm[0]?.write) return;
+		frm.add_custom_button(__("Transcribe again"), () =>
+			onedesk.hiring.ask(
+				"transcribe_again",
+				{ recording: frm.doc.name },
+				__("OneAI is writing it down. This page updates when it is done."),
+			),
+		);
+	},
+});
+
+// Recording an interview. The browser's own MediaRecorder, restarted every
+// PART seconds so each part is a whole file that plays on its own: uploaded as
+// soon as it closes, transcribed as soon as it lands, and a laptop that dies in
+// minute forty loses one part rather than the interview. The next part starts
+// before the last one stops, so nothing falls between them.
+//
+// It lives on `onedesk.hiring`, not on the form, so moving to another page
+// does not stop it; only closing the tab does, and the tab says so first.
+onedesk.hiring.recorder = {
+	// hrms/hiring.py PART_SECONDS says the same.
+	PART: 300,
+	BITS: 24000,
+	on: false,
+
+	kind() {
+		return ["audio/ogg;codecs=opus", "audio/webm;codecs=opus", "audio/mp4"].find((one) =>
+			window.MediaRecorder?.isTypeSupported(one),
+		);
+	},
+
+	ask(frm) {
+		if (!navigator.mediaDevices?.getUserMedia || !this.kind()) {
+			frappe.msgprint(__("This browser cannot record sound."));
+			return;
+		}
+		const who = frm.doc.one_applicant || frm.doc.job_applicant;
+		const dialog = new frappe.ui.Dialog({
+			title: __("Record this interview"),
+			fields: [
+				{
+					fieldname: "agreed",
+					fieldtype: "Check",
+					label: __("{0} has agreed to this interview being recorded", [who]),
+				},
+				{
+					fieldname: "call",
+					fieldtype: "Check",
+					label: __("Include the sound of a call in another tab"),
+					description: __("For an interview over a video call: the browser asks which tab, and records both voices."),
+				},
+			],
+			primary_action_label: __("Start recording"),
+			primary_action: (values) => {
+				if (!values.agreed) {
+					frappe.msgprint(__("Ask first, and tick that they agreed."));
+					return;
+				}
+				dialog.hide();
+				this.start(frm, !!values.call).catch((raised) => {
+					this.stop_all();
+					frappe.msgprint(__("Recording did not start: {0}", [raised.message || raised]));
+				});
+			},
+		});
+		dialog.show();
+	},
+
+	async start(frm, call) {
+		const mic = await navigator.mediaDevices.getUserMedia({
+			audio: { echoCancellation: true, noiseSuppression: true },
+		});
+		this.sources = [mic];
+		let stream = mic;
+		if (call) {
+			// Chrome only shares a tab's sound alongside its picture; the
+			// picture is never recorded.
+			const tab = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+			this.sources.push(tab);
+			if (tab.getAudioTracks().length) {
+				this.mixer = new AudioContext();
+				const into = this.mixer.createMediaStreamDestination();
+				this.mixer.createMediaStreamSource(mic).connect(into);
+				this.mixer.createMediaStreamSource(new MediaStream(tab.getAudioTracks())).connect(into);
+				stream = into.stream;
+			} else {
+				frappe.show_alert({ message: __("That tab shared no sound, so only the microphone is recorded."), indicator: "orange" }, 8);
+			}
+		}
+
+		this.recording = await frappe.xcall("onedesk.one_hr.hiring.start_recording", {
+			interview: frm.doc.name,
+			agreed: 1,
+		});
+		this.stream = stream;
+		this.began = Date.now();
+		this.uploads = [];
+		this.on = true;
+		this.bar();
+		this.part();
+		this.guard = (event) => {
+			event.preventDefault();
+			event.returnValue = "";
+		};
+		window.addEventListener("beforeunload", this.guard);
+		frm.refresh();
+	},
+
+	seconds() {
+		return Math.round((Date.now() - this.began) / 1000);
+	},
+
+	part() {
+		const kind = this.kind();
+		const from = this.seconds();
+		const chunks = [];
+		const media = new MediaRecorder(this.stream, { mimeType: kind, audioBitsPerSecond: this.BITS });
+		media.ondataavailable = (event) => event.data.size && chunks.push(event.data);
+		media.onstop = () => {
+			const blob = new Blob(chunks, { type: kind.split(";")[0] });
+			this.uploads.push(this.upload(blob, from, this.seconds() - from));
+		};
+		media.start(1000);
+		const before = this.media;
+		this.media = media;
+		if (before && before.state !== "inactive") before.stop();
+		this.next = setTimeout(() => this.on && this.part(), this.PART * 1000);
+	},
+
+	// Sent through frappe.call rather than the uploader: there is no dialog
+	// here and no person choosing a file, and the server files it and adds the
+	// part in one step, so a part never exists without its sound.
+	async upload(blob, from, seconds) {
+		const ext = { "audio/ogg": "ogg", "audio/webm": "webm", "audio/mp4": "m4a" }[blob.type] || "webm";
+		const data = await new Promise((resolve, reject) => {
+			const reader = new FileReader();
+			reader.onload = () => resolve(String(reader.result).split(",")[1]);
+			reader.onerror = reject;
+			reader.readAsDataURL(blob);
+		});
+		await frappe.xcall("onedesk.one_hr.hiring.recorded_part", {
+			recording: this.recording,
+			file_name: `${this.recording}-${String(from).padStart(5, "0")}.${ext}`,
+			data,
+			starts_at: from,
+			seconds,
+		});
+	},
+
+	async stop() {
+		if (!this.on) return;
+		this.on = false;
+		clearTimeout(this.next);
+		clearInterval(this.ticking);
+		const seconds = this.seconds();
+		this.$bar?.find(".one-rec__time").text(__("Saving…"));
+		const done = new Promise((resolve) => {
+			this.media.addEventListener("stop", () => setTimeout(resolve, 0), { once: true });
+		});
+		this.media.stop();
+		await done;
+		const results = await Promise.allSettled(this.uploads);
+		await frappe.xcall("onedesk.one_hr.hiring.stop_recording", { recording: this.recording, seconds });
+		this.stop_all();
+		const lost = results.filter((one) => one.status === "rejected").length;
+		frappe.show_alert(
+			{
+				message: lost
+					? __("Recording saved, but {0} part(s) did not upload.", [lost])
+					: __("Recording saved. OneAI writes it down and remarks on it on the interview."),
+				indicator: lost ? "orange" : "green",
+			},
+			10,
+		);
+		cur_frm?.doctype === "Interview" && cur_frm.reload_doc();
+	},
+
+	stop_all() {
+		this.on = false;
+		clearTimeout(this.next);
+		clearInterval(this.ticking);
+		(this.sources || []).forEach((stream) => stream.getTracks().forEach((track) => track.stop()));
+		this.mixer?.close();
+		this.mixer = null;
+		this.$bar?.remove();
+		this.$bar = null;
+		this.guard && window.removeEventListener("beforeunload", this.guard);
+	},
+
+	bar() {
+		this.$bar = $(`
+			<div class="one-rec" role="status">
+				<span class="one-rec__dot"></span>
+				<span class="one-rec__label"></span>
+				<span class="one-rec__time">00:00</span>
+				<button type="button" class="btn btn-xs btn-default one-rec__stop"></button>
+			</div>
+		`).appendTo(document.body);
+		this.$bar.find(".one-rec__label").text(__("Recording"));
+		this.$bar
+			.find(".one-rec__stop")
+			.text(__("Stop"))
+			.on("click", () => this.stop());
+		const pad = (n) => String(n).padStart(2, "0");
+		this.ticking = setInterval(() => {
+			const s = this.seconds();
+			this.$bar?.find(".one-rec__time").text(`${pad(Math.floor(s / 60))}:${pad(s % 60)}`);
+		}, 1000);
+	},
+};

@@ -1180,3 +1180,47 @@ button.one-ai-model:hover {
 	font-weight: 500;
 	color: var(--text-color);
 }
+
+/* ------------------------------------------------ recording an interview */
+
+/* Bottom centre, clear of the OneAI dial in the corner, and on every page:
+ * the recording outlives the form it was started from. */
+.one-rec {
+	position: fixed;
+	left: 50%;
+	bottom: 24px;
+	z-index: 1030;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 8px 10px 8px 14px;
+	transform: translateX(-50%);
+	border: 1px solid var(--border-color);
+	border-radius: 999px;
+	background: var(--card-bg, var(--fg-color));
+	box-shadow: var(--shadow-lg);
+	font-size: var(--text-sm);
+}
+
+.one-rec__dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 999px;
+	background: var(--ink-red-5);
+	animation: one-rec-pulse 1.4s ease-in-out infinite;
+}
+
+.one-rec__time {
+	min-width: 44px;
+	font-variant-numeric: tabular-nums;
+	color: var(--text-muted);
+}
+
+@keyframes one-rec-pulse {
+	0%, 100% { opacity: 1; }
+	50% { opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.one-rec__dot { animation: none; }
+}

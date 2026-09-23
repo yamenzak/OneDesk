@@ -140,7 +140,9 @@ for that tab's sound as well and mixes the two before recording.
 
 **Sound is kept for an audit and then let go.** HR Settings says for how many
 days (a year by default). After that the parts' files are deleted and the
-transcript stays. The recording itself can only be deleted by an HR Manager.
+transcript stays. Before that, only an HR Manager can delete a recording or
+its sound; an interviewer who can write to a recording still cannot remove
+what was said in it.
 
 ## Transcription and remarks
 
@@ -195,6 +197,34 @@ like any other.
    call-tab mix, retention.
 5. **Transcription and remarks** — `transcribe`, the transcript, the remarks.
 6. **Feedback, offer, onboarding** — the feedback card and the suggestions.
+
+## What landed, and how it was checked
+
+Every stage above is built. Nothing was run against a live model: each call
+was replaced by a canned answer and the rest ran for real on the dev site —
+the fields written, the pool re-placed, the comments posted as OneAI, the
+interview prepared, a recording made in Chromium with its fake microphone in
+three parts, each filed and transcribed in turn, the transcript put together,
+the remarks posted, and a two-year-old recording's sound purged with its
+transcript kept.
+
+Three things were learned doing it:
+
+- **HRMS names an applicant after their email address**, so the pool shown to
+  the model uses labels (`NEW`, `A1`, `A2`…) and the answer is turned back
+  into applicants afterwards. A label the model invents reaches no record.
+- **A read-only Text Editor draws no bullets or numbers for a plain list.**
+  Quill 2 writes every list as an `<ol>` with the marker in a span keyed by
+  `data-list`, so *Before you start* is written that way.
+- **An account with no model set for Transcription refuses the call** before
+  anything is charged, and the recording is marked Failed. *Transcribe again*
+  on the recording retries the parts once a model is picked. On an account,
+  the operator sets a default for Transcription, or each workspace picks one
+  for *Transcribe* on its OneAI settings.
+
+The one thing not yet known: whether Gemini takes Chrome's `audio/webm` as it
+takes `audio/ogg`. The recorder asks for Ogg first, which Firefox records and
+Chrome does not. One live call with a ten-second part answers it.
 
 ## What is deliberately not here
 
