@@ -1,0 +1,64 @@
+{
+ "custom_fields": [],
+ "doctype": "Customer",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Customer",
+   "doctype_or_field": "DocField",
+   "field_name": "is_internal_customer",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Customer",
+   "doctype_or_field": "DocField",
+   "field_name": "represents_company",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Customer",
+   "doctype_or_field": "DocField",
+   "field_name": "companies",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Customer",
+   "doctype_or_field": "DocField",
+   "field_name": "company_restrictions_section",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Customer",
+   "doctype_or_field": "DocField",
+   "field_name": "restrict_to_companies",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Customer",
+   "doctype_or_field": "DocField",
+   "field_name": "allowed_companies",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Customer",
+   "doctype_or_field": "DocField",
+   "field_name": "internal_customer_section",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  }
+ ],
+ "sync_on_migrate": 1
+}

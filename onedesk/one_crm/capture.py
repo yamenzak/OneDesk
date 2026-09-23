@@ -191,6 +191,12 @@ def defaults() -> None:
 	- A deal made from a lead carries the lead's comments and mail.
 	- ERPNext's own refusal of a second lead with the same email is off; the
 	  rules above decide instead.
+	- The Source (UTM) section is shown.
 	"""
 	frappe.db.set_single_value("CRM Settings", "carry_forward_communication_and_comments", 1)
 	frappe.db.set_single_value("CRM Settings", "allow_lead_duplication_based_on_emails", 1)
+	# Where a lead came from is shown, not tucked behind a switch: saving Selling
+	# Settings is what un-hides the Source section on every doctype that has it.
+	selling = frappe.get_single("Selling Settings")
+	selling.enable_utm = 1
+	selling.save(ignore_permissions=True)

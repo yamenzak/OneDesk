@@ -1,0 +1,56 @@
+{
+ "custom_fields": [],
+ "doctype": "Contact",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Contact",
+   "doctype_or_field": "DocField",
+   "field_name": "middle_name",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Contact",
+   "doctype_or_field": "DocField",
+   "field_name": "gender",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Contact",
+   "doctype_or_field": "DocField",
+   "field_name": "sync_with_google_contacts",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Contact",
+   "doctype_or_field": "DocField",
+   "field_name": "google_contacts",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Contact",
+   "doctype_or_field": "DocField",
+   "field_name": "google_contacts_id",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Contact",
+   "doctype_or_field": "DocField",
+   "field_name": "pulled_from_google_contacts",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  }
+ ],
+ "sync_on_migrate": 1
+}

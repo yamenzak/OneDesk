@@ -175,42 +175,6 @@
    "type": "Link"
   },
   {
-   "child": 1,
-   "collapsible": 1,
-   "indent": 0,
-   "is_default_module": 1,
-   "keep_closed": 0,
-   "label": "Sales Funnel",
-   "link_to": "sales-funnel",
-   "link_type": "Page",
-   "show_arrow": 0,
-   "type": "Link"
-  },
-  {
-   "child": 1,
-   "collapsible": 1,
-   "indent": 0,
-   "is_default_module": 1,
-   "keep_closed": 0,
-   "label": "Pipeline Analytics",
-   "link_to": "Sales Pipeline Analytics",
-   "link_type": "Report",
-   "show_arrow": 0,
-   "type": "Link"
-  },
-  {
-   "child": 1,
-   "collapsible": 1,
-   "indent": 0,
-   "is_default_module": 1,
-   "keep_closed": 0,
-   "label": "First Response Time",
-   "link_to": "First Response Time for Opportunity",
-   "link_type": "Report",
-   "show_arrow": 0,
-   "type": "Link"
-  },
-  {
    "child": 0,
    "collapsible": 1,
    "icon": "megaphone",
@@ -254,6 +218,18 @@
    "label": "Email Group",
    "link_to": "Email Group",
    "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Newsletter",
+   "link_type": "DocType",
+   "link_to": "Newsletter",
    "show_arrow": 0,
    "type": "Link"
   },
@@ -390,7 +366,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-09-23 23:00:00.000000",
+ "modified": "2026-09-24 00:00:00.000000",
  "modified_by": "Administrator",
  "module": "One CRM",
  "name": "OneCRM",

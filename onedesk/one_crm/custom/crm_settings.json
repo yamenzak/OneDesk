@@ -1,0 +1,56 @@
+{
+ "custom_fields": [],
+ "doctype": "CRM Settings",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "CRM Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "allow_lead_duplication_based_on_emails",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "CRM Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "close_opportunity_after_days",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "CRM Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "enable_opportunity_creation_from_contact_us",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "CRM Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "frappe_crm_section",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "CRM Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "allowed_users",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "CRM Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "enable_frappe_crm_data_synchronization",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  }
+ ],
+ "sync_on_migrate": 1
+}

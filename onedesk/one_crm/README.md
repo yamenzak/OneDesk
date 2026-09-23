@@ -206,7 +206,26 @@ A stage added, renamed or removed under Setup changes the board's columns.
 
 **Territory**, **Customer Group**, **Sales Person**, **Sales Stage**, **Lead
 Source**, **Lead Assignment**, **Get in Touch Form**, **Inboxes** and **CRM
-Settings** are in the Setup group.
+Settings** are in the Setup group. **Campaigns** has Campaign, Email Campaign,
+Email Group, **Newsletter** (one mail to a whole Email Group) and Campaign
+Efficiency.
+
+**Forms carry what a small business fills in.** A lead asks for a name, job
+title, email and phone numbers, the business, its industry and territory, and
+where it came from; a deal for who it is with, its owner, stage, closing date,
+value and source. Middle name, gender, salutation, fax, lead type, request
+type, revenue, headcount, market segment and the copied address of the
+business are hidden, and a record never asks which naming series. **Source**
+and **Campaign** sit open at the foot of both forms. A lead or deal linked
+from another record shows its name, not its ID.
+
+A deal has no **Close**: a deal that will not happen is lost, with a reason.
+
+**Who may do what.** Everybody in sales sees every lead and deal; a team that
+wants each person to see only their own sets User Permissions. A **Sales
+User** makes and edits leads, deals and prospects; deleting a lead or a deal,
+and merging leads, is a **Sales Manager's**. Change any of it under Role
+Permissions; One does not change it back.
 
 ## Under the hood
 
@@ -279,8 +298,8 @@ none edits erpnext.
    reasons, which sources turn into sales, and number cards counting what they
    say they count. ERPNext's two wrong cards stay wrong on its own CRM
    dashboard, which OneCRM does not link to; Home has its own four.
-7. **Screen by screen.** Every group in the rail opened with data in it and
-   fixed: fields nobody fills, Company off every filter, names not IDs, and who
+7. **Screen by screen.** *Done* — `custom/*.json`, `crm_record.js`,
+   `access.py`. Every group in the rail opened with data in it and fixed: fields nobody fills, Company off every filter, names not IDs, and who
    may see and change what.
 8. **OneAI in OneCRM.** A business card or an email signature becomes a lead
    card; a deal summarised with a suggested next step; a follow-up drafted from

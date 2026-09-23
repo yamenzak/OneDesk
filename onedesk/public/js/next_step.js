@@ -56,11 +56,13 @@ onedesk.next_step.ask = (frm) => {
 // is what a Datetime is stored in; the browser's clock is in the reader's.
 onedesk.next_step.late = (value) => !!value && value < frappe.datetime.system_datetime();
 
-// Red once the time has passed, so an overdue step is seen without reading dates.
+// Red once the time has passed on a lead or deal still open, so an overdue step
+// is seen without reading dates, and a finished one is not called overdue.
 onedesk.next_step.formatters = {
-	one_next_on(value) {
+	one_next_on(value, df, doc) {
 		if (!value) return "";
 		const shown = frappe.datetime.str_to_user(value);
-		return onedesk.next_step.late(value) ? `<span class="text-danger">${shown}</span>` : shown;
+		const open = Object.values(onedesk.next_step.OPEN).some((all) => all.includes(doc?.status));
+		return open && onedesk.next_step.late(value) ? `<span class="text-danger">${shown}</span>` : shown;
 	},
 };

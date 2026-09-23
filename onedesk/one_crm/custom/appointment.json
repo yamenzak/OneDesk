@@ -1,0 +1,16 @@
+{
+ "custom_fields": [],
+ "doctype": "Appointment",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Appointment",
+   "doctype_or_field": "DocField",
+   "field_name": "customer_skype",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  }
+ ],
+ "sync_on_migrate": 1
+}

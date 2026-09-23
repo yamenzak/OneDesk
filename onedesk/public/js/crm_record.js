@@ -3,6 +3,7 @@
 frappe.provide("onedesk.crm_record");
 
 onedesk.crm_record.refresh = (frm) => {
+	onedesk.crm_record.one_series(frm);
 	if (frm.is_new()) return;
 	onedesk.crm_record.actions(frm);
 	frappe
@@ -12,6 +13,15 @@ onedesk.crm_record.refresh = (frm) => {
 				onedesk.band.show(frm, onedesk.crm_record.stats(frm, said));
 			}
 		});
+};
+
+// erpnext shows a new record's Series whatever its property setters say
+// (erpnext.toggle_naming_series); with one series to pick there is no question.
+onedesk.crm_record.one_series = (frm) => {
+	const series = frm.fields_dict.naming_series;
+	if (frm.is_new() && series && (series.df.options || "").split("\n").filter(Boolean).length < 2) {
+		frm.toggle_display("naming_series", false);
+	}
 };
 
 onedesk.crm_record.OWNER = { Lead: "lead_owner", Opportunity: "opportunity_owner" };

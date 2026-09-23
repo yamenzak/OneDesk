@@ -133,6 +133,165 @@
    "property": "track_views",
    "property_type": "Check",
    "value": "0"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "salutation",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "middle_name",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "gender",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "type",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "request_type",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "fax",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "phone_ext",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "annual_revenue",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "market_segment",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "no_of_employees",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "lead_owner",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "utm_source",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "job_title",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "territory",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "title",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "utm_analytics_section",
+   "property": "collapsible",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "utm_analytics_section",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Source"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "utm_medium",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "utm_content",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocType",
+   "property": "show_title_field_in_link",
+   "property_type": "Check",
+   "value": "1"
   }
  ],
  "sync_on_migrate": 1

@@ -34,6 +34,7 @@ after_install = [
 	"onedesk.one_crm.next.settle",
 	"onedesk.one_crm.record.settle",
 	"onedesk.one_crm.capture.defaults",
+	"onedesk.one_crm.access.settle",
 ]
 
 # Their dock files do not carry the mount, so a newer erpnext or hrms clears it,
@@ -58,6 +59,7 @@ after_migrate = [
 	"onedesk.one_crm.board.sync",
 	"onedesk.one_crm.next.settle",
 	"onedesk.one_crm.record.settle",
+	"onedesk.one_crm.access.settle",
 ]
 extend_bootinfo = "onedesk.one.boot.boot_session"
 

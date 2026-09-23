@@ -27,6 +27,10 @@ HIDE_REPORTS = (
 	"Shift Attendance",
 	"Employee Hours Utilization Based On Timesheet",
 	"Recruitment Analytics",
+	# OneCRM's board, Deal Forecast and Won and Lost; see one_crm/measure.py.
+	"Sales Pipeline Analytics",
+	"Opportunity Summary by Sales Stage",
+	"Lost Opportunity",
 )
 
 #: erpnext's per-module checklists. They are written in erpnext's voice, about

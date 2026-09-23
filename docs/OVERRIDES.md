@@ -101,5 +101,8 @@ Each row is something that would still run but stop working if upstream moved. `
 | Mail from a known lead is added to that lead | the receiver looks the sender up only when the insert raises DuplicateEntryError, so capture.py raises that | `onedesk/one_crm/capture.py` | `frappe/frappe/email/receive.py` | `except frappe.DuplicateEntryError:` |
 | A web form's lead is marked, not refused | frappe sets in_web_form while it accepts a submission; a visitor cannot be told they already exist | `onedesk/one_crm/capture.py` | `frappe/frappe/website/doctype/web_form/web_form.py` | `frappe.flags.in_web_form = True` |
 | ERPNext's refusal of a second lead with one email is switched off | it refused the web form and the inbox too; capture.py decides instead | `onedesk/one_crm/capture.py` | `erpnext/erpnext/crm/doctype/lead/lead.py` | `"allow_lead_duplication_based_on_emails"` |
+| A new lead or deal with one series does not show it | erpnext's toggle_naming_series shows Series on every new record, over its property setters | `onedesk/public/js/crm_record.js` | `erpnext/erpnext/public/js/utils.js` | `cur_frm.toggle_display("naming_series", cur_frm.doc.__islocal ? true : false);` |
+| A deal has no Close button | Close is neither won nor lost, so a closed deal stayed in an open stage and out of every total | `onedesk/public/js/opportunity.js` | `erpnext/erpnext/crm/doctype/opportunity/opportunity.js` | `frm.add_custom_button(__("Close"), function () {` |
+| The Source section is shown by saving Selling Settings | its enable_utm switch writes the property setters that hide or show the section on every doctype | `onedesk/one_crm/capture.py` | `erpnext/erpnext/selling/doctype/selling_settings/selling_settings.py` | `toggle_utm_analytics_section(not self.enable_utm)` |
 
-96 overrides.
+99 overrides.

@@ -1,0 +1,23 @@
+{
+ "custom_fields": [],
+ "doctype": "Prospect",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Prospect",
+   "doctype_or_field": "DocField",
+   "field_name": "fax",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Prospect",
+   "doctype_or_field": "DocType",
+   "property": "show_title_field_in_link",
+   "property_type": "Check",
+   "value": "1"
+  }
+ ],
+ "sync_on_migrate": 1
+}

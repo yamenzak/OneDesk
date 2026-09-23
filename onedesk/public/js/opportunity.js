@@ -11,6 +11,12 @@ frappe.ui.form.on("Opportunity", {
 	},
 	refresh(frm) {
 		frm.one_stage = frm.doc.sales_stage;
+		// Close is neither won nor lost, so a closed deal sat in an open stage on
+		// the board and out of every total; Declare Lost says why instead. And a
+		// deal is not where anybody buys from a supplier.
+		frm.remove_custom_button(__("Close"));
+		frm.remove_custom_button(__("Supplier Quotation"), __("Create"));
+		frm.remove_custom_button(__("Request For Quotation"), __("Create"));
 		onedesk.next_step.button(frm);
 		onedesk.crm_record.refresh(frm);
 	},
