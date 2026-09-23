@@ -49,5 +49,9 @@ def for_page(page: dict | None) -> list[dict]:
 		on = one.get("doctype") or doctype
 		if one.get("can") and not (on and frappe.has_permission(on, ptype=one["can"])):
 			continue
+		# A suggestion may be for the list or for one record: "add to this
+		# opening" on the list of openings has no opening to add to.
+		if one.get("view") and one["view"] != view:
+			continue
 		said.append({"label": frappe._(one["label"]), "ask": one["ask"], "file": bool(one.get("file"))})
 	return said[:MOST]

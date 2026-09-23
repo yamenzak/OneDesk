@@ -50,12 +50,21 @@ SUGGESTIONS = {
 			"file": True,
 			"doctype": "Job Applicant",
 			"can": "create",
+			"view": "Form",
+		},
+		{
+			"label": "Add applicants from CVs",
+			"ask": "Add an applicant from each of these CVs, to the open job each one fits best.",
+			"file": True,
+			"doctype": "Job Applicant",
+			"can": "create",
+			"view": "List",
 		},
 	],
 	"Job Applicant": [
 		{
 			"label": "Add applicants from CVs",
-			"ask": "Add an applicant from each of these CVs.",
+			"ask": "Add an applicant from each of these CVs, to the open job each one fits best.",
 			"file": True,
 			"can": "create",
 		},

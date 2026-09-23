@@ -183,3 +183,9 @@ def test_the_fit_line_fits_the_notes_field_without_cutting_a_word():
 	said = _source(AI, "add_applicant")
 	assert "_short(fit, NOTE)" in said
 	assert "rsplit(' ', 1)" in _source(AI, "_short")
+
+
+def test_a_suggestion_for_one_record_is_not_offered_on_the_list():
+	assert 'one.get("view") and one["view"] != view' in (tree.APP / "one_ai" / "suggest.py").read_text()
+	openings = (tree.APP / "one_hr" / "ai.py").read_text().split('"Job Opening": [', 1)[1].split("\n\t],", 1)[0]
+	assert '"view": "Form"' in openings and '"view": "List"' in openings
