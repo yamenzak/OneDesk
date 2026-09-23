@@ -341,3 +341,37 @@ none edits erpnext.
    with the approver's own permissions.
 9. **The README is the manual.** Everything above Under the hood describes
    what is built.
+
+### What the old OneCRM had that this does not
+
+OneApp's OneCRM, the single-page app this replaces, was read after stage 8
+and deleted. It is at OneApp `65dacfd9` for anybody who needs a line of it.
+Four ideas in it are worth having here, and each is a stage:
+
+10. **On hold.** A seventh stage whose outcome is On Hold, for the deal that
+    is neither moving nor lost — the money is not signed off, the building is
+    not ready. Without it such a deal sits in Negotiation and the pipeline and
+    the forecast count it. It stays open, keeps its column on the board, and
+    is left out of the pipeline's value, the weighted value and the forecast.
+11. **How long deals take.** From the Milestones stage 1 already writes: the
+    usual days a deal spends in each stage, and from New to Won. The old app
+    kept a stage log of its own for this; Milestone is that log. On a deal's
+    page the stage reads "for 12 days" beside the usual 5, so a stuck deal
+    shows as one.
+12. **Next steps on a calendar.** The Deal and Lead lists open as a calendar
+    on the next step's day, the reader's own by default. The old app's
+    Follow-ups screen was exactly this, and the week is the shape a
+    salesperson plans in.
+13. **A promise to answer.** A lead answered within a working day, counted in
+    working hours with the holiday list, and Home listing the leads that are
+    late. The old app built this itself, seven hundred lines, because it
+    refused a stored Python condition; ERPNext's own Service Level Agreement
+    does it on any doctype, Lead included, and an agreement with no condition
+    needs none. What that one lacks is the old app's restart when the lead
+    writes back — a first answer is measured, a later one is not.
+
+Left behind, with the reason: its own stage, stage-log and call doctypes
+(Sales Stage with three fields, Milestone and Call Log do the same); a chart
+on every screen (the reports and Home's four figures answer the questions);
+renaming Deal per workspace (a Translation row does it); an Organisations
+screen (a Prospect is one, and not every party is a business).
