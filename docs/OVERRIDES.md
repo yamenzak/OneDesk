@@ -156,5 +156,8 @@ Each row is something that would still run but stop working if upstream moved. `
 | An item is low by ERPNext's own reorder test | the band and the reorder list must agree with the automatic material request | `onedesk/one_inventory/item.py` | `erpnext/erpnext/stock/reorder_item.py` | `if (reorder_level or reorder_qty) and projected_qty <= reorder_level:` |
 | To Order counts how many as ERPNext's reorder does | the reorder quantity, or back up to the level when that is more | `onedesk/one_inventory/order.py` | `erpnext/erpnext/stock/reorder_item.py` | `if deficiency > reorder_qty:` |
 | An order made from To Order keeps its request | ERPNext marks a Material Request ordered from the order line's link on submit | `onedesk/one_inventory/order.py` | `erpnext/erpnext/buying/doctype/purchase_order_item/purchase_order_item.json` | `"fieldname": "material_request_item",` |
+| A fixed-asset item makes its assets when bought | ERPNext makes none unless the item also has auto_create_assets and a naming series | `onedesk/one_inventory/assets.py` | `erpnext/erpnext/controllers/buying_controller.py` | `if item_data.get("auto_create_assets"):` |
+| The assets a receipt makes are finished and submitted | ERPNext makes each a Draft with depreciation off | `onedesk/one_inventory/assets.py` | `erpnext/erpnext/controllers/buying_controller.py` | `"calculate_depreciation": 0,` |
+| A finished asset depreciates from the end of the month it was bought | the category's books are copied with today as the first depreciation date | `onedesk/one_inventory/assets.py` | `erpnext/erpnext/assets/doctype/asset/asset.py` | `"depreciation_start_date": d.depreciation_start_date or nowdate(),` |
 
-151 overrides.
+154 overrides.

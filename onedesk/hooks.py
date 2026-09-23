@@ -120,9 +120,17 @@ doc_events = {
 		"validate": "onedesk.one_book.vat.emirate",
 	},
 	# A bill's reclaimable VAT is kept at the VAT on it. See one_book/vat.py.
+	# A bill that updates stock registers its assets. See one_inventory/assets.py.
 	"Purchase Invoice": {
 		"on_recurring": "onedesk.one_book.repeat.repeated",
-		"validate": "onedesk.one_book.vat.reclaimed",
+		"validate": ["onedesk.one_book.vat.reclaimed", "onedesk.one_inventory.assets.located"],
+		"on_submit": "onedesk.one_inventory.assets.registered",
+	},
+	# The assets register finishes itself. See one_inventory/assets.py.
+	"Item": {"validate": "onedesk.one_inventory.assets.fixed_item"},
+	"Purchase Receipt": {
+		"validate": "onedesk.one_inventory.assets.located",
+		"on_submit": "onedesk.one_inventory.assets.registered",
 	},
 	# A Public event is on everybody's calendar. See one_calendar/events.py.
 	"Event": {"validate": "onedesk.one_calendar.events.validate"},
@@ -408,6 +416,8 @@ doctype_js = {
 	"Task": "public/js/task.js",
 	# What an item's page answers first. See one_inventory/item.py.
 	"Item": "public/js/item.js",
+	# And an asset's. See one_inventory/assets.py.
+	"Asset": "public/js/asset.js",
 	# What is still owed, and Record Payment. See one_book/paid.py.
 	"Sales Invoice": "public/js/invoice.js",
 	"Purchase Invoice": "public/js/invoice.js",

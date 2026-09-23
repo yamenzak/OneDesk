@@ -20,6 +20,8 @@ a row per check with what it means and the fix beside it.
   depreciate. A new company has none, and its fixed-asset account is empty.
   The fix makes the usual ones from the chart's Fixed Assets ledgers, each
   depreciating straight-line monthly over its usual life.
+- **Every asset is registered** (one_inventory/assets.py): a draft asset is
+  never depreciated or counted; the fix finishes the ones that can be.
 - **Depreciation posts itself.** ERPNext books it daily when Accounts
   Settings says to; the check catches a site where it does not.
 """
@@ -61,7 +63,7 @@ def _row(key, check, state, says, fix=None) -> dict:
 
 def checks() -> list[dict]:
 	one = company()
-	return [_warehouse(one), _valued(one), _serials(), _location(), _categories(one), _depreciation()]
+	return [_warehouse(one), _valued(one), _serials(), _location(), _categories(one), _depreciation(), _registered()]
 
 
 def _warehouse(one) -> dict:
@@ -115,6 +117,16 @@ def _depreciation() -> dict:
 	return _row("depreciation", check, SUGGESTED, _("Depreciation is worked out but never posted unless somebody does it."), "depreciation")
 
 
+def _registered() -> dict:
+	from onedesk.one_inventory import assets
+
+	check = _("Every asset is registered")
+	waiting = assets.drafts()
+	if waiting:
+		return _row("drafts", check, TO_DO, _("{0} assets are drafts, so they are not depreciated or counted. Each says why on its page.").format(len(waiting)), "drafts")
+	return _row("drafts", check, READY, _("Assets bought are registered and depreciating by themselves."))
+
+
 @frappe.whitelist(methods=["POST"])
 def fix(key: str, **values) -> None:
 	frappe.only_for(FIXERS)
@@ -127,6 +139,12 @@ def fix(key: str, **values) -> None:
 		add_categories(one)
 	elif key == "depreciation":
 		frappe.db.set_single_value("Accounts Settings", "book_asset_depreciation_entry_automatically", 1)
+	elif key == "drafts":
+		from onedesk.one_inventory import assets
+
+		left = [name for name in assets.drafts() if not assets.finish(name)]
+		if left:
+			frappe.msgprint(_("{0} could not be registered; each says why on its page.").format(", ".join(left)))
 	elif key == "warehouse":
 		frappe.get_doc({"doctype": "Warehouse", "warehouse_name": "Stores", "company": one.name}).insert()
 	else:

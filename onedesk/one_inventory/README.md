@@ -102,6 +102,21 @@ supplier go to the one you pick. Read the drafts, correct prices and
 quantities, and submit them. A row on a draft order leaves the list, and a
 request is marked ordered when its order is submitted.
 
+## Buying equipment
+
+A laptop, a desk, a van: make it an item once, with **Is Fixed Asset** ticked
+and its **Asset Category** (Computers, Furniture…). Then buy it like anything
+else — a purchase order and a receipt. Each one received becomes an asset on
+the register by itself: kept at your location, in use from the day it was
+bought, and depreciating as its category says from the end of that month.
+
+An asset's page says what it is **Worth Now**, what it **Cost**, how much of
+its life is **Written Off**, the **Next Depreciation** and **Where** it is.
+The Inventory Check's **Every asset is registered** turns **To Do** if one
+could not register itself, and each says why on its page.
+
+Equipment you already had is **Assets › + Add** with **Existing Asset**.
+
 ## Counting stock
 
 **Stock Counts › + Add**, choose the warehouse, and **Fetch Items from
@@ -154,6 +169,17 @@ a register and a movement form in it would be a rail with five rows.
   `material_request_item` so ERPNext's own status update marks the request
   ordered on submit. How many is ERPNext's rule (`quantity`, pure). Rows on a
   draft order are left off so nothing is ordered twice.
+- `assets.py` and `public/js/asset.js` — the register that finishes itself.
+  ERPNext makes assets from a receipt only if the item also has Auto Create
+  Assets and a naming series (`fixed_item` sets both when an item becomes a
+  fixed asset), refuses a fixed-asset row with no Asset Location (`located`
+  fills the one location there is), and makes each a Draft with Calculate
+  Depreciation off, which is never depreciated or counted. `registered`
+  (receipt on_submit, after ERPNext's) finishes each: finance books from the
+  category, available for use from the purchase date, the first depreciation
+  at the end of that month rather than the today ERPNext's `get_item_details`
+  stamps, then submitted. A failure rolls back to a savepoint, leaves the
+  draft, and comments why; the receipt is never blocked by it.
 - `ready.py` and `report/inventory_check` — the Inventory Check, the Books
   Check's twin, drawn by the same page (`public/js/check.js`). What a new
   company is missing is an asset's two prerequisites: a Location (an Asset
@@ -184,7 +210,7 @@ a register and a movement form in it would be a rail with five rows.
    order and from whom, made into purchase orders a supplier at a time. *Done.*
 5. **Assets: a register that finishes itself.** The assets a receipt makes are
    drafts nobody completes and so never depreciate; they are completed from
-   their purchase and category, and an asset's page says what it is worth.
+   their purchase and category, and an asset's page says what it is worth. *Done.*
 6. **Assets: who has what.** Give an asset to an employee and take it back in
    one step; an employee's page lists what they hold, and leaving asks for it
    back.

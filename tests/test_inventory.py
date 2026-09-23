@@ -122,3 +122,39 @@ def test_an_order_is_made_per_supplier_and_a_row_with_none_needs_one():
 def test_a_row_on_a_draft_order_is_off_the_list():
 	source = (tree.APP / "one_inventory" / "order.py").read_text(encoding="utf-8")
 	assert "doc.docstatus = 0" in source and "on_draft" in source
+
+
+def test_an_item_that_becomes_a_fixed_asset_makes_its_assets_when_bought():
+	import ast
+
+	source = (tree.APP / "one_inventory" / "assets.py").read_text(encoding="utf-8")
+	space = {}
+	for node in ast.parse(source).body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "SERIES":
+			exec(ast.unparse(node), space)
+		if isinstance(node, ast.FunctionDef) and node.name == "fixed_item":
+			exec(ast.unparse(node), space)
+
+	class Item(dict):
+		__getattr__ = dict.get
+
+		def __setattr__(self, key, value):
+			self[key] = value
+
+		def get_doc_before_save(self):
+			return self.get("_before")
+
+	new = Item(is_fixed_asset=1, asset_naming_series=None, auto_create_assets=0)
+	space["fixed_item"](new)
+	assert new.auto_create_assets == 1 and new.asset_naming_series == "ACC-ASS-.YYYY.-"
+	kept = Item(is_fixed_asset=1, asset_naming_series="X-", auto_create_assets=0, _before=Item(is_fixed_asset=1))
+	space["fixed_item"](kept)
+	assert kept.auto_create_assets == 0, "somebody turned it off on an item that was already an asset"
+
+
+def test_a_receipt_registers_the_assets_it_made():
+	hooks = (tree.APP / "hooks.py").read_text()
+	assert '"on_submit": "onedesk.one_inventory.assets.registered"' in hooks
+	assert '"Item": {"validate": "onedesk.one_inventory.assets.fixed_item"}' in hooks
+	source = (tree.APP / "one_inventory" / "assets.py").read_text(encoding="utf-8")
+	assert 'savepoint("one_asset")' in source and 'rollback(save_point="one_asset")' in source

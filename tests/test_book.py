@@ -180,7 +180,7 @@ def test_the_vat_return_nets_what_was_charged_against_what_was_paid():
 
 def test_the_uae_checks_only_run_in_the_uae_and_the_bill_hook_is_wired():
 	assert "if not vat.in_uae(one.name):" in _body(READY, "_uae")
-	assert '"validate": "onedesk.one_book.vat.reclaimed"' in HOOKS
+	assert '"onedesk.one_book.vat.reclaimed"' in HOOKS
 	assert '"validate": "onedesk.one_book.vat.emirate"' in HOOKS
 
 

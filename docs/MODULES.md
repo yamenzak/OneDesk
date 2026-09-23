@@ -242,6 +242,7 @@ No doctypes yet.
 * `onedesk.one_hr.signin.begin`
 * `onedesk.one_hr.signin.finish`
 * `onedesk.one_hr.signin.offered`
+* `onedesk.one_inventory.assets.said`
 * `onedesk.one_inventory.item.said`
 * `onedesk.one_inventory.order.order`
 * `onedesk.one_inventory.ready.fix`
