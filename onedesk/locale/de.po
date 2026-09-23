@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 11:15+0000\n"
-"PO-Revision-Date: 2026-09-23 11:15+0000\n"
+"POT-Creation-Date: 2026-09-23 11:17+0000\n"
+"PO-Revision-Date: 2026-09-23 11:17+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "(from what was asked for)"
 msgstr "(aus dem Angefragten)"
 
-#: onedesk/one_hr/ai.py:947
+#: onedesk/one_hr/ai.py:964
 msgid "1 day of {0}."
 msgstr "1 Tag {0}."
 
-#: onedesk/one_hr/ai.py:951
+#: onedesk/one_hr/ai.py:968
 msgid "1 day of {0}; {1} left after."
 msgstr "1 Tag {0}; danach bleiben {1}."
 
@@ -785,7 +785,7 @@ msgstr "Wie von Frappe Cloud gemeldet."
 msgid "Ask"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:216 onedesk/one_hr/ai.py:254
+#: onedesk/one_hr/ai.py:223 onedesk/one_hr/ai.py:271
 msgid "Ask HR for a letter"
 msgstr "Brief von HR anfordern"
 
@@ -1081,7 +1081,7 @@ msgstr "Bearbeitungsstand"
 msgid "Body"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:56 onedesk/one_hr/ai.py:260
+#: onedesk/one_hr/ai.py:56 onedesk/one_hr/ai.py:277
 msgid "Book time off"
 msgstr "Urlaub buchen"
 
@@ -1258,11 +1258,11 @@ msgstr "Ort prüfen"
 msgid "Check the Network"
 msgstr "Netzwerk prüfen"
 
-#: onedesk/one_hr/ai.py:200
+#: onedesk/one_hr/ai.py:207
 msgid "Check this payroll"
 msgstr "Diese Gehaltsabrechnung prüfen"
 
-#: onedesk/one_hr/ai.py:201
+#: onedesk/one_hr/ai.py:208
 msgid "Check this payroll against last month and tell me what looks unusual, most money first."
 msgstr "Vergleiche diese Abrechnung mit dem Vormonat und sag mir, was ungewöhnlich aussieht, das meiste Geld zuerst."
 
@@ -1361,7 +1361,7 @@ msgstr "Wählen Sie Monat und Jahr."
 msgid "Choose an employee and a posting date first."
 msgstr "Wählen Sie zuerst eine Person und ein Buchungsdatum."
 
-#: onedesk/one_hr/ai.py:41 onedesk/one_hr/ai.py:262
+#: onedesk/one_hr/ai.py:41 onedesk/one_hr/ai.py:279
 msgid "Claim a receipt"
 msgstr "Beleg einreichen"
 
@@ -1475,7 +1475,7 @@ msgstr "Kollege"
 msgid "Company"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:209
+#: onedesk/one_hr/ai.py:216
 msgid "Compare this salary slip with this person's last one and tell me what changed."
 msgstr "Vergleiche diese Gehaltsabrechnung mit der letzten dieser Person und sag mir, was sich geändert hat."
 
@@ -1937,21 +1937,29 @@ msgstr "Erledigt. Es wurde {0} geschrieben."
 msgid "Draft a job opening from this requisition — its title, description and what a strong applicant has, one short line each — and suggest creating it."
 msgstr "Entwirf aus dieser Anforderung eine Stellenausschreibung – Titel, Beschreibung und was eine starke Bewerbung mitbringt, je eine kurze Zeile – und schlage vor, sie anzulegen."
 
-#: onedesk/one_hr/ai.py:141
+#: onedesk/one_hr/ai.py:148
 msgid "Draft my feedback"
 msgstr "Mein Feedback entwerfen"
 
-#: onedesk/one_hr/ai.py:160
+#: onedesk/one_hr/ai.py:167
 msgid "Draft my feedback from the recording"
 msgstr "Mein Feedback aus der Aufnahme entwerfen"
 
-#: onedesk/one_hr/ai.py:142
+#: onedesk/one_hr/ai.py:149
 msgid "Draft my feedback on this appraisal from what happened in the cycle, and suggest it as my feedback."
 msgstr "Entwirf mein Feedback zu dieser Beurteilung aus dem, was im Zyklus geschah, und schlage es als mein Feedback vor."
 
-#: onedesk/one_hr/ai.py:161
+#: onedesk/one_hr/ai.py:168
 msgid "Draft my feedback on this interview from its recording and OneAI's remarks, with a rating for each expected skill, and suggest it as my feedback."
 msgstr "Entwirf mein Feedback zu diesem Gespräch aus der Aufnahme und den Anmerkungen von OneAI, mit einer Bewertung je erwarteter Fähigkeit, und schlage es als mein Feedback vor."
+
+#: onedesk/one_hr/ai.py:243
+msgid "Draft my goals for this appraisal cycle from my role, last cycle's goals and the feedback I was given, and suggest them."
+msgstr "Entwirf meine Ziele für diesen Beurteilungszyklus aus meiner Rolle, den Zielen des letzten Zyklus und meinem Feedback, und schlage sie vor."
+
+#: onedesk/one_hr/ai.py:242
+msgid "Draft my goals for this cycle"
+msgstr "Meine Ziele für diesen Zyklus entwerfen"
 
 #: onedesk/one_hr/ai.py:130
 msgid "Draft the opening"
@@ -2506,7 +2514,7 @@ msgstr "{0} Tage kostenlos"
 msgid "From Date"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:328
+#: onedesk/one_hr/ai.py:345
 msgid "From a receipt: {0}, {1}."
 msgstr "Aus einem Beleg: {0}, {1}."
 
@@ -2522,7 +2530,11 @@ msgstr "Aus dem Standard."
 msgid "From this applicant's CV and OneAI's screening of it, what should I confirm on a first call, and what would a short email asking for the missing pieces say?"
 msgstr "Was sollte ich anhand des Lebenslaufs und der Prüfung durch OneAI im ersten Gespräch klären, und wie würde eine kurze E-Mail lauten, die nach den fehlenden Angaben fragt?"
 
-#: onedesk/one_hr/ai.py:182
+#: onedesk/one_hr/ai.py:142
+msgid "From this appraisal, where is this person weakest, and which of our training programs or coming events would help? If none fits, say what to look for."
+msgstr "Wo ist diese Person laut dieser Beurteilung am schwächsten, und welche unserer Schulungsprogramme oder kommenden Termine würden helfen? Wenn nichts passt, sag, wonach man suchen sollte."
+
+#: onedesk/one_hr/ai.py:189
 msgid "From this person's designation and department, what should their first two weeks hold, day by day, and who should own each part?"
 msgstr "Was sollten die ersten zwei Wochen dieser Person nach Position und Abteilung Tag für Tag enthalten, und wer verantwortet welchen Teil?"
 
@@ -2690,7 +2702,7 @@ msgstr "Größe, Gewicht, Allergien und medizinische Hinweise."
 msgid "Held"
 msgstr "Belegt"
 
-#: onedesk/one_hr/ai.py:56 onedesk/one_hr/ai.py:260
+#: onedesk/one_hr/ai.py:56 onedesk/one_hr/ai.py:277
 msgid "Help me book time off."
 msgstr "Hilf mir, Urlaub zu buchen."
 
@@ -2805,11 +2817,11 @@ msgstr "Wie viel Guthaben ein Dollar Anbieterkosten ergibt, vor Aufschlag."
 msgid "How many people the result covers, kept on the document so the list can say it."
 msgstr "Wie viele Personen das Ergebnis umfasst, auf dem Dokument gehalten, damit die Liste es nennen kann."
 
-#: onedesk/one_hr/ai.py:59 onedesk/one_hr/ai.py:270
+#: onedesk/one_hr/ai.py:59 onedesk/one_hr/ai.py:287
 msgid "How much leave do I have left, and who on my team is off in the next two weeks?"
 msgstr "Wie viel Urlaub habe ich noch, und wer aus meinem Team ist in den nächsten zwei Wochen nicht da?"
 
-#: onedesk/one_hr/ai.py:58 onedesk/one_hr/ai.py:269
+#: onedesk/one_hr/ai.py:58 onedesk/one_hr/ai.py:286
 msgid "How much leave do I have?"
 msgstr "Wie viel Urlaub habe ich?"
 
@@ -2817,7 +2829,7 @@ msgstr "Wie viel Urlaub habe ich?"
 msgid "How should One look?"
 msgstr "Wie soll One aussehen?"
 
-#: onedesk/one_hr/ai.py:217 onedesk/one_hr/ai.py:255
+#: onedesk/one_hr/ai.py:224 onedesk/one_hr/ai.py:272
 msgid "I need a letter from HR — a salary certificate, an experience letter or an employment letter. Ask me which one and who it is for, then draft it."
 msgstr "Ich brauche einen Brief von HR – eine Gehaltsbescheinigung, ein Arbeitszeugnis oder eine Beschäftigungsbestätigung. Frag mich, welchen und für wen, und entwirf ihn dann."
 
@@ -3446,7 +3458,7 @@ msgstr ""
 msgid "Made by OneAI"
 msgstr "Von OneAI erstellt"
 
-#: onedesk/one_hr/ai.py:42 onedesk/one_hr/ai.py:263
+#: onedesk/one_hr/ai.py:42 onedesk/one_hr/ai.py:280
 msgid "Make an expense claim from this receipt."
 msgstr "Erstelle aus diesem Beleg eine Spesenabrechnung."
 
@@ -4640,7 +4652,7 @@ msgstr "Ich ordne alle anhand meiner Notizen neu ein. Die Bewerberliste aktualis
 msgid "Plan"
 msgstr "Tarif"
 
-#: onedesk/one_hr/ai.py:181
+#: onedesk/one_hr/ai.py:188
 msgid "Plan the first two weeks"
 msgstr "Die ersten zwei Wochen planen"
 
@@ -4672,11 +4684,11 @@ msgstr ""
 msgid "Prepare Interviewers"
 msgstr "Interviewende vorbereiten"
 
-#: onedesk/one_hr/ai.py:152
+#: onedesk/one_hr/ai.py:159
 msgid "Prepare this interview again"
 msgstr "Dieses Gespräch erneut vorbereiten"
 
-#: onedesk/one_hr/ai.py:157
+#: onedesk/one_hr/ai.py:164
 msgid "Preparing it again. Before You Start updates on the interview when I am done."
 msgstr "Ich bereite es erneut vor. „Bevor Sie beginnen“ aktualisiert sich am Gespräch, sobald ich fertig bin."
 
@@ -5930,7 +5942,7 @@ msgstr "Hat eine Änderung vorgeschlagen"
 msgid "Suggested a change to {0}"
 msgstr "Hat eine Änderung an {0} vorgeschlagen"
 
-#: onedesk/one_ai/tools.py:571 onedesk/one_hr/ai.py:334
+#: onedesk/one_ai/tools.py:571 onedesk/one_hr/ai.py:351
 msgid "Suggested. It happens when somebody approves it."
 msgstr "Vorgeschlagen. Es geschieht, wenn jemand zustimmt."
 
@@ -6595,7 +6607,7 @@ msgstr ""
 msgid "Training Result"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:190
+#: onedesk/one_hr/ai.py:197
 msgid "Transcribe again"
 msgstr "Erneut transkribieren"
 
@@ -6940,7 +6952,7 @@ msgstr "Was kann ich abrechnen?"
 msgid "What caused this: a Stripe payment, a run, a person."
 msgstr "Was dies ausgelöst hat: eine Stripe-Zahlung, ein Lauf, eine Person."
 
-#: onedesk/one_hr/ai.py:208
+#: onedesk/one_hr/ai.py:215
 msgid "What changed since last month?"
 msgstr "Was hat sich seit letztem Monat geändert?"
 
@@ -7060,6 +7072,10 @@ msgstr "Was diese Felder enthielten, als dies geschrieben wurde."
 msgid "What to Remember"
 msgstr "Was gemerkt werden soll"
 
+#: onedesk/one_hr/ai.py:141
+msgid "What training would help?"
+msgstr "Welche Schulung würde helfen?"
+
 #: onedesk/public/js/oneai/Panel.vue:60
 msgid "What would you like to do?"
 msgstr "Was möchten Sie tun?"
@@ -7133,11 +7149,11 @@ msgstr "Wessen Berechtigungen beim Schreiben geprüft wurden und wessen erneut g
 msgid "Why There Is No Figure"
 msgstr "Warum kein Betrag steht"
 
-#: onedesk/one_hr/ai.py:235 onedesk/one_hr/ai.py:243
+#: onedesk/one_hr/ai.py:252 onedesk/one_hr/ai.py:260
 msgid "Why are people leaving?"
 msgstr "Warum gehen Leute?"
 
-#: onedesk/one_hr/ai.py:236 onedesk/one_hr/ai.py:244
+#: onedesk/one_hr/ai.py:253 onedesk/one_hr/ai.py:261
 msgid "Why have people left over the last twelve months, and how many said each reason?"
 msgstr "Warum haben in den letzten zwölf Monaten Leute gekündigt, und wie viele nannten welchen Grund?"
 
@@ -7272,11 +7288,11 @@ msgstr "Einen ersten Entwurf schreiben"
 msgid "Write a kind decline"
 msgstr "Freundliche Absage schreiben"
 
-#: onedesk/one_hr/ai.py:226
+#: onedesk/one_hr/ai.py:233
 msgid "Write a letter about this employee — ask me which kind and who it is for, then draft it."
 msgstr "Schreibe einen Brief über diese Person – frag mich, welche Art und für wen, und entwirf ihn dann."
 
-#: onedesk/one_hr/ai.py:225
+#: onedesk/one_hr/ai.py:232
 msgid "Write a letter for this person"
 msgstr "Einen Brief für diese Person schreiben"
 
@@ -7289,11 +7305,11 @@ msgstr "Schreibe eine kurze, freundliche Nachricht, dass diese Bewerbung nicht a
 msgid "Write attendance on the holidays inside these dates as well. Left off, holidays in the range are skipped."
 msgstr "Auch an den Feiertagen innerhalb dieser Daten Anwesenheit erfassen. Ohne Haken werden Feiertage im Zeitraum übersprungen."
 
-#: onedesk/one_hr/ai.py:171
+#: onedesk/one_hr/ai.py:178
 msgid "Write the offer terms"
 msgstr "Angebotsbedingungen schreiben"
 
-#: onedesk/one_hr/ai.py:172
+#: onedesk/one_hr/ai.py:179
 msgid "Write this offer's terms from the opening it is for — the role, the salary range and the start — and suggest them as a change to it."
 msgstr "Schreibe die Bedingungen dieses Angebots aus der zugehörigen Stelle – Rolle, Gehaltsspanne und Beginn – und schlage sie als Änderung vor."
 
@@ -7317,7 +7333,7 @@ msgstr "{0} in einem neuen {1} schreiben"
 msgid "Writing"
 msgstr "Schreiben"
 
-#: onedesk/one_hr/ai.py:195
+#: onedesk/one_hr/ai.py:202
 msgid "Writing it down again. The transcript and my remarks follow when I am done."
 msgstr "Ich schreibe es erneut auf. Transkript und Anmerkungen folgen, sobald ich fertig bin."
 
@@ -7690,11 +7706,11 @@ msgstr "Noch {0} Tage, bis er auf {1} fällt."
 msgid "{0} days left"
 msgstr "Noch {0} Tage"
 
-#: onedesk/one_hr/ai.py:949
+#: onedesk/one_hr/ai.py:966
 msgid "{0} days of {1}."
 msgstr "{0} Tage {1}."
 
-#: onedesk/one_hr/ai.py:953
+#: onedesk/one_hr/ai.py:970
 msgid "{0} days of {1}; {2} left after."
 msgstr "{0} Tage {1}; danach bleiben {2}."
 

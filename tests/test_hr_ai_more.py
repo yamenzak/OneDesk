@@ -143,3 +143,23 @@ def test_harassment_discrimination_and_safety_are_always_sensitive():
 	assert set(space["SENSITIVE"]) <= set(space["CATEGORIES"])
 	source = GRIEVANCE.read_text(encoding="utf-8")
 	assert "sensitive = category in SENSITIVE or bool(answer.get(\"sensitive\"))" in source
+
+
+# ------------------------------------------------------------------ growth
+
+
+def test_a_kra_is_one_of_the_workspaces_own():
+	meant = _pure(HR / "ai_growth.py", "kra_meant", difflib=__import__("difflib"))["kra_meant"]
+	known = ["Quality of work", "Delivery on time", "Working with others"]
+	assert meant("quality of works", known) == "Quality of work"
+	assert meant("Delivery On Time", known) == "Delivery on time"
+	assert meant("Blockchain strategy", known) is None
+	assert meant(None, known) is None
+
+
+def test_goals_are_your_own_your_reports_or_hrs():
+	source = (HR / "ai_growth.py").read_text(encoding="utf-8")
+	whose = ast.unparse(next(n for n in ast.parse(source).body if getattr(n, "name", "") == "_whose"))
+	assert "own.employee_of()" in whose
+	assert "'reports_to'" in whose
+	assert "frappe.get_roles()" in whose

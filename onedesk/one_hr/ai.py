@@ -138,6 +138,13 @@ SUGGESTIONS = {
 	],
 	"Appraisal": [
 		{
+			"label": _lt("What training would help?"),
+			"ask": _lt("From this appraisal, where is this person weakest, and which of our training programs "
+			"or coming events would help? If none fits, say what to look for."),
+			"can": "read",
+			"view": "Form",
+		},
+		{
 			"label": _lt("Draft my feedback"),
 			"ask": _lt("Draft my feedback on this appraisal from what happened in the cycle, "
 			"and suggest it as my feedback."),
@@ -228,6 +235,16 @@ SUGGESTIONS = {
 			"can": "submit",
 			"view": "Form",
 			"expects": "request_letter",
+		},
+	],
+	"Goal": [
+		{
+			"label": _lt("Draft my goals for this cycle"),
+			"ask": _lt("Draft my goals for this appraisal cycle from my role, last cycle's goals and the feedback "
+			"I was given, and suggest them."),
+			"can": "create",
+			"view": "List",
+			"expects": "draft_goal",
 		},
 	],
 	"Exit Interview": [

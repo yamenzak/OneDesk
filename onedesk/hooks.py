@@ -323,6 +323,8 @@ one_ai_reads = [
 	"onedesk.one_hr.ai_payroll.payroll_changes",
 	"onedesk.one_hr.ai_letters.letter_facts",
 	"onedesk.one_hr.ai_policy.hr_policy",
+	"onedesk.one_hr.ai_growth.goal_facts",
+	"onedesk.one_hr.ai_growth.training_options",
 ]
 
 #: A sentence each about who is asking, added to what the model is told.
@@ -337,5 +339,6 @@ one_ai_suggests = [
 	"onedesk.one_hr.ai.draft_feedback",
 	"onedesk.one_hr.ai.draft_interview_feedback",
 	"onedesk.one_hr.ai_letters.request_letter",
+	"onedesk.one_hr.ai_growth.draft_goal",
 ]
 one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS"]
