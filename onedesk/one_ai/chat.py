@@ -316,6 +316,7 @@ def _suggests(row: dict) -> dict:
 			fields.append({"label": frappe._(labels.get(field, field)), "rows": _card_rows(tables[field], value, changes)})
 			continue
 		drawn = {
+			"fieldname": field,
 			"label": frappe._(labels.get(field, field)),
 			"value": _formatted(known[field], value, changes) if field in known else _card_value(value),
 		}
@@ -557,7 +558,10 @@ def _formatted(df, value, doc: dict | None = None) -> str:
 	if df.fieldtype == "Link" and df.options:
 		return _titled(df.options, value)
 	if df.fieldtype == "Check":
-		return frappe._("Yes") if value else frappe._("No")
+		# A setting is on or off; a record's box is yes or no.
+		if df.parent and frappe.get_meta(df.parent).issingle:
+			return frappe._("On") if frappe.utils.cint(value) else frappe._("Off")
+		return frappe._("Yes") if frappe.utils.cint(value) else frappe._("No")
 	if df.fieldtype in ("Attach", "Attach Image"):
 		return str(value).rsplit("/", 1)[-1]  # the file's name, not where it is kept
 	if df.fieldtype in AS_TEXT or isinstance(value, (list, dict)):

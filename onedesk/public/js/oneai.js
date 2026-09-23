@@ -129,6 +129,7 @@ onedesk.oneai.watched = new Set();
 onedesk.oneai.fields = function (frm) {
 	if (!frm || !frm.fields_dict || frappe.session.user === "Guest") return;
 	onedesk.oneai.landing(frm);
+	onedesk.oneai.unchanged(frm);
 
 	for (const field of frm.fields || []) {
 		const df = field.df || {};
@@ -189,6 +190,42 @@ onedesk.oneai.explain = function (frm, field) {
 				]),
 			});
 		});
+};
+
+// A change put into an open form: every field it touched is marked, with what
+// it held before under it. The marks go when the form is saved or reloaded —
+// `fields` runs on every refresh and clears them once nothing is unsaved.
+onedesk.oneai.changed = function (frm, drawn) {
+	for (const one of drawn) {
+		const field = one.fieldname && frm.fields_dict[one.fieldname];
+		if (!field || !field.$wrapper) continue;
+		field.$wrapper.addClass("one-ai-changed");
+		field.$wrapper.find(".one-ai-was").remove();
+		$(`<div class="one-ai-was"></div>`)
+			.text(__("was: {0}", [one.was || __("empty")]))
+			.appendTo(field.$wrapper);
+	}
+
+	// A settings page is tabs, and the changes are rarely all on the one that is
+	// open: each tab says how many it holds, and the page moves to the first of
+	// them when the open one has none.
+	const tabs = (frm.layout && frm.layout.tabs) || [];
+	for (const tab of tabs) {
+		const button = tab.tab_link.find(".nav-link");
+		button.find(".one-ai-tab-count").remove();
+		const count = tab.wrapper.find(".one-ai-changed").length;
+		if (count) $(`<span class="one-ai-tab-count"></span>`).text(count).appendTo(button);
+	}
+	const open = tabs.find((tab) => tab.is_active());
+	const first = tabs.find((tab) => tab.wrapper.find(".one-ai-changed").length);
+	if (first && (!open || !open.wrapper.find(".one-ai-changed").length)) first.set_active();
+};
+
+onedesk.oneai.unchanged = function (frm) {
+	if (frm.is_dirty()) return;
+	frm.$wrapper.find(".one-ai-changed").removeClass("one-ai-changed");
+	frm.$wrapper.find(".one-ai-was").remove();
+	frm.$wrapper.find(".one-ai-tab-count").remove();
 };
 
 // One mark per field, and it is both things: the button that writes with

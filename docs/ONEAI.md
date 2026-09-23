@@ -1243,6 +1243,16 @@ card left with none is refused as nothing to change. Checked with a card
 built by hand, no model: twelve fields asked, three already right and
 dropped, nine on the card.
 
+**A big change is read on the page, not on the card.** Nine rows of was and
+will-be in a chat column is a table nobody reads. A change to more than four
+fields is now one line on the card — "9 changes to HR Settings", the field
+labels, and *See the changes* for the table — and Approve on the open form
+puts the values in, marks each changed field with what it held ("was:
+Naming Series"), counts the changes on every tab that holds some, and opens
+the first such tab when the open one has none. The marks go when the form is
+saved. A yes/no on a settings page reads On and Off rather than Yes and No.
+Four fields or fewer still draw the table, because four rows is readable.
+
 ## What is deliberately not here
 
 **No model is named in application code.** An action names a capability; a

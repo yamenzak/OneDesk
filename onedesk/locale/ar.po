@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 09:33+0000\n"
-"PO-Revision-Date: 2026-09-23 09:33+0000\n"
+"POT-Creation-Date: 2026-09-23 09:55+0000\n"
+"PO-Revision-Date: 2026-09-23 09:55+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -648,13 +648,13 @@ msgid "Appraisal Template"
 msgstr "قالب التقييم"
 
 #: onedesk/public/js/decision.js:15 onedesk/public/js/decision.js:16
-#: onedesk/public/js/oneai/Record.vue:53
+#: onedesk/public/js/oneai/Record.vue:64
 msgid "Approve"
 msgstr "اعتماد"
 
 #. Option for the 'Decision' (Select) field in DocType 'Attendance Request'
 #: onedesk/one_hr/custom/attendance_request.json
-#: onedesk/public/js/oneai/Record.vue:133
+#: onedesk/public/js/oneai/Record.vue:155
 msgid "Approved"
 msgstr "معتمد"
 
@@ -730,7 +730,7 @@ msgstr "طلب سبب عند تسجيل الانصراف"
 msgid "Ask {0}"
 msgstr "اسأل {0}"
 
-#: onedesk/public/js/oneai.js:179
+#: onedesk/public/js/oneai.js:180
 msgid "Ask {0} about this"
 msgstr "اسأل {0} عن هذا"
 
@@ -1098,7 +1098,7 @@ msgstr "تعديل العمل الإضافي"
 msgid "Change the model"
 msgstr "تغيير النموذج"
 
-#: onedesk/public/js/oneai/Record.vue:119
+#: onedesk/public/js/oneai/Record.vue:141
 msgid "Change {0}"
 msgstr "تغيير {0}"
 
@@ -1663,7 +1663,7 @@ msgstr ""
 msgid "Delete Photos After (Days)"
 msgstr "حذف الصور بعد (أيام)"
 
-#: onedesk/one_ai/proposals.py:411 onedesk/public/js/oneai/Record.vue:120
+#: onedesk/one_ai/proposals.py:411 onedesk/public/js/oneai/Record.vue:142
 msgid "Delete {0}"
 msgstr "حذف {0}"
 
@@ -2451,6 +2451,10 @@ msgstr "الطول والوزن والحساسيات والحالات الطبي
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 msgid "Held"
 msgstr "المحجوز"
+
+#: onedesk/public/js/oneai/Record.vue:23
+msgid "Hide the changes"
+msgstr "إخفاء التغييرات"
 
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
@@ -3325,7 +3329,7 @@ msgstr ""
 msgid "New conversation"
 msgstr "محادثة جديدة"
 
-#: onedesk/public/js/oneai/Record.vue:118
+#: onedesk/public/js/oneai/Record.vue:137
 msgid "New {0}"
 msgstr ""
 
@@ -3339,7 +3343,7 @@ msgstr "التشغيل التالي"
 msgid "Next Status"
 msgstr "الحالة التالية"
 
-#: onedesk/one_ai/chat.py:560
+#: onedesk/one_ai/chat.py:564
 msgid "No"
 msgstr ""
 
@@ -3435,7 +3439,7 @@ msgstr "لم يسجّل الحضور"
 msgid "Not a workspace this site administers."
 msgstr "ليست مساحة عمل يديرها هذا الموقع."
 
-#: onedesk/one_ai/chat.py:372 onedesk/one_ai/chat.py:375
+#: onedesk/one_ai/chat.py:373 onedesk/one_ai/chat.py:376
 msgid "Not answered"
 msgstr "لم يُجب"
 
@@ -3569,6 +3573,10 @@ msgstr ""
 msgid "Oct"
 msgstr ""
 
+#: onedesk/one_ai/chat.py:563
+msgid "Off"
+msgstr "معطّل"
+
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:215
 #: onedesk/public/js/ai_model_list.js:31
 msgid "Offer"
@@ -3606,6 +3614,10 @@ msgstr "يُعرض عند تقديم طلب حضور."
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Offering"
 msgstr "العرض"
+
+#: onedesk/one_ai/chat.py:563
+msgid "On"
+msgstr "مفعّل"
 
 #. Label of the sold_section (Section Break) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -3712,7 +3724,7 @@ msgstr "اشترت هذا مساحة عمل واحدة"
 msgid "OneAI"
 msgstr "OneAI"
 
-#: onedesk/one_ai/chat.py:371
+#: onedesk/one_ai/chat.py:372
 msgid "OneAI could not be reached just now. The question is still here — try again."
 msgstr "تعذّر الوصول إلى OneAI الآن. والسؤال ما زال هنا — حاول مرة أخرى."
 
@@ -4525,7 +4537,7 @@ msgstr "استرداد"
 msgid "Refunded"
 msgstr "مُسترد"
 
-#: onedesk/public/js/ai_proposal.js:15 onedesk/public/js/oneai/Record.vue:50
+#: onedesk/public/js/ai_proposal.js:15 onedesk/public/js/oneai/Record.vue:61
 msgid "Refuse"
 msgstr "ارفض"
 
@@ -4548,7 +4560,7 @@ msgstr "رفض تسجيل الحضور بدون مفتاح مرور"
 msgid "Refused"
 msgstr "مرفوض"
 
-#: onedesk/public/js/oneai/Record.vue:134
+#: onedesk/public/js/oneai/Record.vue:156
 msgid "Refused."
 msgstr "مرفوض."
 
@@ -4834,6 +4846,10 @@ msgstr "المقاعد"
 msgid "Secret Key"
 msgstr "المفتاح السري"
 
+#: onedesk/public/js/oneai/Record.vue:23
+msgid "See the changes"
+msgstr "عرض التغييرات"
+
 #. Label of the seen_section (Section Break) field in DocType 'Clock Network'
 #. Label of the seen_section (Section Break) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
@@ -5002,11 +5018,11 @@ msgstr ""
 msgid "Shifts"
 msgstr ""
 
-#: onedesk/public/js/oneai/Record.vue:43
+#: onedesk/public/js/oneai/Record.vue:54
 msgid "Show fewer"
 msgstr "عرض أقل"
 
-#: onedesk/public/js/oneai/Record.vue:43
+#: onedesk/public/js/oneai/Record.vue:54
 msgid "Show {0} more"
 msgstr "عرض {0} إضافية"
 
@@ -5631,7 +5647,7 @@ msgstr "معرّف المزوّد نفسه. ولا يُكتب هنا أبداً.
 msgid "The provider's own word. Nothing converts between units."
 msgstr "كلمة المزوّد نفسها. ولا شيء يحوّل بين الوحدات."
 
-#: onedesk/public/js/oneai/Record.vue:135
+#: onedesk/public/js/oneai/Record.vue:157
 msgid "The record changed after this was suggested."
 msgstr "تغيّر السجل بعد تقديم هذا الاقتراح."
 
@@ -6198,7 +6214,7 @@ msgstr "ما سبّب هذا: دفعة Stripe أو تشغيل أو شخص."
 msgid "What each check saw when this log was written."
 msgstr "ما رصده كل تحقق عند كتابة هذا السجل."
 
-#: onedesk/public/js/oneai.js:188
+#: onedesk/public/js/oneai.js:189
 msgid "What is \"{0}\" in {1} for, and what should it be set to here? If it should change, suggest the change."
 msgstr "ما الغرض من \"{0}\" في {1}، وما القيمة المناسبة له هنا؟ إن كان يجب تغييره فاقترح التغيير."
 
@@ -6475,7 +6491,7 @@ msgstr "اكتب مسودة أولى"
 msgid "Write attendance on the holidays inside these dates as well. Left off, holidays in the range are skipped."
 msgstr "اكتب الحضور في العطل الواقعة ضمن هذه التواريخ أيضاً. وإن تُرك دون تفعيل، تُتخطى العطل ضمن المدة."
 
-#: onedesk/public/js/oneai.js:211
+#: onedesk/public/js/oneai.js:248
 msgid "Write with {0}"
 msgstr "اكتب باستخدام {0}"
 
@@ -6492,11 +6508,11 @@ msgstr "كتابة"
 msgid "Written by the sync. Editable only on a model priced by hand."
 msgstr "تكتبها المزامنة. ولا تُحرَّر إلا في نموذج مُسعَّر يدوياً."
 
-#: onedesk/public/js/oneai.js:217
+#: onedesk/public/js/oneai.js:254
 msgid "Written by {0}. Goes once somebody edits it."
 msgstr "كتبه {0}. تختفي بمجرد أن يعدّله أحد."
 
-#: onedesk/public/js/oneai.js:211
+#: onedesk/public/js/oneai.js:248
 msgid "Written by {0}. Press to write it again."
 msgstr "كتبه {0}. اضغط لإعادة كتابته."
 
@@ -6504,7 +6520,7 @@ msgstr "كتبه {0}. اضغط لإعادة كتابته."
 msgid "Year"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:560
+#: onedesk/one_ai/chat.py:564
 msgid "Yes"
 msgstr ""
 
@@ -6615,7 +6631,7 @@ msgstr "صوت"
 msgid "cached"
 msgstr "مخزَّن مؤقتاً"
 
-#: onedesk/public/js/oneai/Record.vue:35
+#: onedesk/public/js/oneai/Record.vue:46
 msgid "empty"
 msgstr "فارغ"
 
@@ -6728,6 +6744,10 @@ msgstr "استخدام"
 msgid "video"
 msgstr "فيديو"
 
+#: onedesk/public/js/oneai.js:205
+msgid "was: {0}"
+msgstr "كان: {0}"
+
 #. Option for the 'Provider' (Select) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "workers-ai"
@@ -6790,6 +6810,10 @@ msgstr "{0} لا يستطيع قراءة {1}."
 #: onedesk/public/js/ai_proposal.js:35
 msgid "{0} changed after this was suggested, so it no longer applies."
 msgstr "تغيّر {0} بعد اقتراح هذا، فلم يعد ينطبق."
+
+#: onedesk/public/js/oneai/Record.vue:139
+msgid "{0} changes to {1}"
+msgstr "{0} تغييرات على {1}"
 
 #: onedesk/public/js/exemption.js:36
 msgid "{0} claimed {1} for {2}, and all of it is allowed."
@@ -7095,7 +7119,7 @@ msgstr "{0} من {1} إلى {2}"
 msgid "{0} {1}?"
 msgstr "{0} {1}؟"
 
-#: onedesk/public/js/oneai/Record.vue:126
+#: onedesk/public/js/oneai/Record.vue:148
 msgid "{0} · waiting for you"
 msgstr "{0} · بانتظارك"
 

@@ -17,7 +17,18 @@
 			</button>
 		</div>
 
-		<dl v-if="record.fields.length" class="one-ai-rec__fields" :class="{ 'one-ai-rec__fields--prose': prose }">
+		<div v-if="many" class="one-ai-rec__gist">
+			<div class="one-ai-rec__named">{{ record.fields.map((f) => f.label).join(" · ") }}</div>
+			<button class="one-ai-rec__more" @click="unfolded = !unfolded">
+				{{ unfolded ? __("Hide the changes") : __("See the changes") }}
+			</button>
+		</div>
+
+		<dl
+			v-if="record.fields.length && (!many || unfolded)"
+			class="one-ai-rec__fields"
+			:class="{ 'one-ai-rec__fields--prose': prose }"
+		>
 			<div v-for="field in fields" :key="field.label" class="one-ai-rec__field">
 				<dt>{{ field.label }}</dt>
 				<dd v-if="field.rows" class="one-ai-rec__rows">
@@ -39,7 +50,7 @@
 				<dd v-else>{{ field.value }}</dd>
 			</div>
 		</dl>
-		<button v-if="folded" class="one-ai-rec__more" @click="unfolded = !unfolded">
+		<button v-if="folded && !many" class="one-ai-rec__more" @click="unfolded = !unfolded">
 			{{ unfolded ? __("Show fewer") : __("Show {0} more", [folded]) }}
 		</button>
 
@@ -90,8 +101,16 @@ const FOLD = 8;
 const unfolded = ref(false);
 const fields = computed(() => {
 	const all = props.record.fields || [];
-	return unfolded.value ? all : all.slice(0, FOLD);
+	return unfolded.value || many.value ? all : all.slice(0, FOLD);
 });
+
+// A change to more than a few fields is said as what it touches, not drawn as
+// a table: the page it changes is the better place to read it, and Approve
+// puts it there with every changed field marked.
+const MANY = 4;
+const many = computed(
+	() => props.suggested && props.suggested.kind === "Edit" && (props.record.fields || []).length > MANY
+);
 const folded = computed(() => Math.max((props.record.fields || []).length - FOLD, 0));
 
 // One field holding a paragraph — what a field's own control comes back with —
@@ -116,6 +135,9 @@ const doctype = computed(() => props.record.doctype || (props.suggested && props
 const title = computed(() => {
 	const name = props.record.title || props.record.name;
 	if (kind.value === "Create") return __("New {0}", [__(doctype.value)]);
+	if (kind.value === "Edit" && many.value) {
+		return __("{0} changes to {1}", [props.record.fields.length, name || __(doctype.value)]);
+	}
 	if (kind.value === "Edit") return name ? __("Change {0}", [name]) : __("Change {0}", [__(doctype.value)]);
 	if (kind.value === "Delete") return __("Delete {0}", [name || __(doctype.value)]);
 	return name || __(doctype.value);
@@ -162,6 +184,9 @@ async function answer(what) {
 				await frm.set_value(fieldname, value);
 			}
 			onedesk.oneai.wrote(frm, out.changes || {}, props.suggested.name);
+			// Each field it changed is marked on the page with what it held, to be
+			// read there and saved or undone the way anything on a form is.
+			onedesk.oneai.changed(frm, props.record.fields || []);
 		} else {
 			await frappe.xcall(`onedesk.one_ai.run.${what}`, { proposal: props.suggested.name });
 		}
