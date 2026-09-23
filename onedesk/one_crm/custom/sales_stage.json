@@ -25,10 +25,10 @@
    "fieldname": "one_outcome",
    "fieldtype": "Select",
    "label": "Outcome",
-   "options": "Open\nWon\nLost",
+   "options": "Open\nOn Hold\nWon\nLost",
    "default": "Open",
    "insert_after": "one_probability",
-   "description": "Won marks the deal Converted. Lost asks for the reasons first.",
+   "description": "Won converts the deal and Lost asks why. On Hold keeps it open but out of the pipeline.",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "module": "One CRM"

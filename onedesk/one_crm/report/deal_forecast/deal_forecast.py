@@ -13,7 +13,6 @@ from frappe import _
 from frappe.utils import add_months, flt, get_first_day, getdate, nowdate
 
 from onedesk.one_crm import measure
-from onedesk.one_crm import next as next_step
 
 
 def execute(filters: dict | None = None) -> tuple:
@@ -23,7 +22,7 @@ def execute(filters: dict | None = None) -> tuple:
 	owner = {"opportunity_owner": filters.owner} if filters.owner else {}
 
 	rows = {key: _row(label) for key, label in _keys(months)}
-	for deal in measure.deals({"status": ["in", next_step.OPEN["Opportunity"]], **owner}):
+	for deal in measure.deals({**measure.alive(), **owner}):
 		key = _key(deal.expected_closing, first, months)
 		if key:
 			rows[key]["deals"] += 1

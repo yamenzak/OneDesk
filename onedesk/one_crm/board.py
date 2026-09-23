@@ -22,8 +22,8 @@ from onedesk.one_crm import stages
 
 BOARD = "Pipeline"
 
-#: What each column's dot says: Won green, the rest still open.
-INDICATOR = {"Won": "Green"}
+#: What each column's dot says: Won green, On Hold orange, the rest still open.
+INDICATOR = {"Won": "Green", "On Hold": "Orange"}
 
 #: What a card shows under the deal's name.
 CARD = ["opportunity_amount", "one_next_step", "one_next_on"]

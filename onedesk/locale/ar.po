@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 16:02+0000\n"
-"PO-Revision-Date: 2026-09-23 16:02+0000\n"
+"POT-Creation-Date: 2026-09-23 16:31+0000\n"
+"PO-Revision-Date: 2026-09-23 16:31+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -820,12 +820,12 @@ msgstr "طلب سبب عند تسجيل الانصراف"
 msgid "Ask next round"
 msgstr "اسأل في الجولة التالية"
 
-#: onedesk/public/js/oneai.js:104 onedesk/public/js/oneai.js:105
+#: onedesk/public/js/oneai.js:106 onedesk/public/js/oneai.js:107
 #: onedesk/public/js/oneai/Panel.vue:165
 msgid "Ask {0}"
 msgstr "اسأل {0}"
 
-#: onedesk/public/js/oneai.js:180
+#: onedesk/public/js/oneai.js:182
 msgid "Ask {0} about this"
 msgstr "اسأل {0} عن هذا"
 
@@ -2432,7 +2432,7 @@ msgstr "تحتفظ مساحات العمل القائمة بما اشترته. �
 msgid "Expected Hrs"
 msgstr ""
 
-#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:65
+#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:64
 msgid "Expected To Close"
 msgstr "الإغلاق المتوقع"
 
@@ -3837,7 +3837,7 @@ msgstr ""
 msgid "May Use Tools"
 msgstr "يجوز له استخدام الأدوات"
 
-#: onedesk/one_crm/ai.py:454
+#: onedesk/one_crm/ai.py:456
 msgid "Maybe the same as {0} {1}, by {2}."
 msgstr "ربما هو نفسه {0} {1}، حسب {2}."
 
@@ -4064,7 +4064,7 @@ msgstr ""
 msgid "No Answer"
 msgstr ""
 
-#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:47
+#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:46
 msgid "No Closing Date"
 msgstr "بلا تاريخ إغلاق"
 
@@ -4178,7 +4178,7 @@ msgstr "غير مفوتر"
 msgid "Not Checked In"
 msgstr "لم يسجّل الحضور"
 
-#: onedesk/one_crm/measure.py:124
+#: onedesk/one_crm/measure.py:130
 msgid "Not Recorded"
 msgstr "غير مسجّل"
 
@@ -4377,6 +4377,11 @@ msgstr "العرض"
 #: onedesk/one_ai/chat.py:563
 msgid "On"
 msgstr "مفعّل"
+
+#. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
+#: onedesk/one_crm/custom/sales_stage.json
+msgid "On Hold"
+msgstr ""
 
 #. Label of the sold_section (Section Break) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -4639,7 +4644,7 @@ msgstr "لا يبتّ في هذا إلا من يملك اعتماد هذه ال�
 msgid "Open"
 msgstr ""
 
-#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:66
+#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:65
 msgid "Open Deals"
 msgstr "الصفقات المفتوحة"
 
@@ -4774,7 +4779,7 @@ msgstr "تجاوز التخزين"
 #. Option for the 'Kind' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
-#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:44
+#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:43
 msgid "Overdue"
 msgstr ""
 
@@ -7228,7 +7233,7 @@ msgstr ""
 msgid "Usage"
 msgstr "الاستهلاك"
 
-#: onedesk/one_crm/stages.py:101
+#: onedesk/one_crm/stages.py:140
 msgid "Use Declare Lost to say why it was lost."
 msgstr "استخدم \"إعلان الخسارة\" لذكر سبب خسارتها."
 
@@ -7278,7 +7283,7 @@ msgstr ""
 
 #. Label of the value (Long Text) field in DocType 'AI Touch'
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
-#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:67
+#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:66
 msgid "Value"
 msgstr ""
 
@@ -7393,7 +7398,7 @@ msgstr "راحة أسبوعية"
 msgid "Weighted Pipeline"
 msgstr "خط المبيعات المرجّح"
 
-#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:68
+#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:67
 msgid "Weighted Value"
 msgstr "القيمة المرجّحة"
 
@@ -7447,7 +7452,7 @@ msgstr "ماذا تقول سياسة الإجازات لدينا — كم يوم
 msgid "What each check saw when this log was written."
 msgstr "ما رصده كل تحقق عند كتابة هذا السجل."
 
-#: onedesk/public/js/oneai.js:189
+#: onedesk/public/js/oneai.js:191
 msgid "What is \"{0}\" in {1} for, and what should it be set to here? If it should change, suggest the change."
 msgstr "ما الغرض من \"{0}\" في {1}، وما القيمة المناسبة له هنا؟ إن كان يجب تغييره فاقترح التغيير."
 
@@ -7649,7 +7654,7 @@ msgstr "صلاحيات مَن فُحصت حين كُتب هذا، وصلاحيا
 msgid "Why There Is No Figure"
 msgstr "سبب غياب الرقم"
 
-#: onedesk/one_crm/stages.py:101
+#: onedesk/one_crm/stages.py:140
 msgid "Why Was It Lost?"
 msgstr "لماذا خُسرت؟"
 
@@ -7691,7 +7696,7 @@ msgstr "مسحوب"
 
 #. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
 #: onedesk/one_crm/custom/sales_stage.json
-#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:69
+#: onedesk/one_crm/report/deal_forecast/deal_forecast.py:68
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:68
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.py:69
 msgid "Won"
@@ -7716,8 +7721,8 @@ msgstr "المكسوبة والخاسرة"
 
 #. Description of the 'Outcome' (Select) field in DocType 'Sales Stage'
 #: onedesk/one_crm/custom/sales_stage.json
-msgid "Won marks the deal Converted. Lost asks for the reasons first."
-msgstr "\"مكسوبة\" تجعل الصفقة محوّلة. \"مفقودة\" تطلب الأسباب أولاً."
+msgid "Won converts the deal and Lost asks why. On Hold keeps it open but out of the pipeline."
+msgstr "«مكسوبة» تحوّل الصفقة، و«مفقود» يسأل عن السبب. «معلق» يُبقيها مفتوحة لكن خارج خط المبيعات."
 
 #. Option for the 'Marks the Day As' (Select) field in DocType 'Attendance
 #. Reason'
@@ -7876,7 +7881,7 @@ msgstr "اكتب وصف هذه الوظيفة، وما يتمتع به المت�
 msgid "Write up a call"
 msgstr "سجّل مكالمة"
 
-#: onedesk/public/js/oneai.js:248
+#: onedesk/public/js/oneai.js:250
 msgid "Write with {0}"
 msgstr "اكتب باستخدام {0}"
 
@@ -7902,11 +7907,11 @@ msgstr "القيمة المكتوبة"
 msgid "Written by the sync. Editable only on a model priced by hand."
 msgstr "تكتبها المزامنة. ولا تُحرَّر إلا في نموذج مُسعَّر يدوياً."
 
-#: onedesk/public/js/oneai.js:254
+#: onedesk/public/js/oneai.js:256
 msgid "Written by {0}. Goes once somebody edits it."
 msgstr "كتبه {0}. تختفي بمجرد أن يعدّله أحد."
 
-#: onedesk/public/js/oneai.js:248
+#: onedesk/public/js/oneai.js:250
 msgid "Written by {0}. Press to write it again."
 msgstr "كتبه {0}. اضغط لإعادة كتابته."
 
@@ -8178,7 +8183,7 @@ msgstr "استخدام"
 msgid "video"
 msgstr "فيديو"
 
-#: onedesk/public/js/oneai.js:205
+#: onedesk/public/js/oneai.js:207
 msgid "was: {0}"
 msgstr "كان: {0}"
 
@@ -8455,7 +8460,7 @@ msgstr "{0} حالته {1}، فلا يمكن عرضه."
 msgid "{0} left"
 msgstr "متبقٍ {0}"
 
-#: onedesk/public/js/oneai.js:53
+#: onedesk/public/js/oneai.js:55
 msgid "{0} list"
 msgstr "قائمة {0}"
 

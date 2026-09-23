@@ -64,6 +64,11 @@ def deals(filters: dict | None = None, fields: tuple = ()) -> list[frappe._dict]
 	)
 
 
+def alive() -> dict:
+	"""The filters for the deals in the pipeline: open, and not on hold."""
+	return {"status": ["in", next_step.OPEN["Opportunity"]], "sales_stage": ["not in", stages.held() or [""]]}
+
+
 def value(deal) -> float:
 	"""What a deal is worth in the company's currency: its value, or its items'."""
 	return flt(deal.base_opportunity_amount) or flt(deal.base_total)
@@ -79,16 +84,17 @@ def _card(amount, route: str, fieldtype: str = "Currency") -> dict:
 @frappe.whitelist()
 @frappe.read_only()
 def pipeline(filters: str | None = None) -> dict:
-	"""What the open deals are worth."""
-	open_ = deals({"status": ["in", next_step.OPEN["Opportunity"]]})
+	"""What the open deals are worth, leaving out the ones on hold."""
+	open_ = deals(alive())
 	return _card(sum(value(one) for one in open_), "Deal Forecast")
 
 
 @frappe.whitelist()
 @frappe.read_only()
 def weighted(filters: str | None = None) -> dict:
-	"""What the open deals are worth, each by its probability."""
-	open_ = deals({"status": ["in", next_step.OPEN["Opportunity"]]})
+	"""What the open deals are worth, each by its probability, leaving out the
+	ones on hold."""
+	open_ = deals(alive())
 	return _card(sum(value(one) * flt(one.probability) / 100 for one in open_), "Deal Forecast")
 
 

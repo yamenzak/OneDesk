@@ -17,7 +17,7 @@ HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
 def _module():
 	space = {}
 	for node in ast.parse(STAGES.read_text(encoding="utf-8")).body:
-		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") in ("SIX", "STATUS"):
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") in ("SEVEN", "STATUS", "CLOSED", "HOLD"):
 			exec(ast.unparse(node), space)
 		if isinstance(node, ast.FunctionDef) and node.name == "probability":
 			exec(ast.unparse(node), space)
@@ -39,20 +39,22 @@ def test_a_stage_sets_the_probability_on_arrival_unless_one_was_typed():
 	assert probability(proposal, 65, was=10, moved=False) == 65, "typed without moving"
 
 
-def test_the_six_are_in_order_with_one_won_and_one_lost():
-	six = _module()["SIX"]
-	positions = [position for _name, position, _chance, _outcome in six]
+def test_the_seven_are_in_order_with_one_won_one_lost_and_one_on_hold():
+	seven = _module()["SEVEN"]
+	positions = [position for _name, position, _chance, _outcome in seven]
 	assert positions == sorted(positions) and len(set(positions)) == len(positions)
-	outcomes = [outcome for *_rest, outcome in six]
-	assert outcomes.count("Won") == 1 and outcomes.count("Lost") == 1
-	chances = [chance for _name, _position, chance, outcome in six if outcome == "Open"]
+	outcomes = [outcome for *_rest, outcome in seven]
+	assert outcomes.count("Won") == 1 and outcomes.count("Lost") == 1 and outcomes.count("On Hold") == 1
+	assert outcomes.index("On Hold") < outcomes.index("Won"), "on hold sits before the closing stages"
+	chances = [chance for _name, _position, chance, outcome in seven if outcome == "Open"]
 	assert chances == sorted(chances), "an open stage further on is not less likely"
 
 
 def test_every_outcome_the_field_offers_is_handled():
 	field = json.loads((tree.APP / "one_crm" / "custom" / "sales_stage.json").read_text())["custom_fields"]
 	options = next(one["options"] for one in field if one["fieldname"] == "one_outcome").split("\n")
-	assert set(options) - {"Open"} == set(_module()["STATUS"])
+	space = _module()
+	assert set(options) - {"Open", space["HOLD"]} == set(space["STATUS"]) == set(space["CLOSED"])
 
 
 def test_every_way_a_status_changes_is_hooked():
@@ -106,3 +108,21 @@ def test_a_deal_is_called_a_deal_in_every_shipped_language():
 	for lang in ("en", "ar", "de"):
 		assert {source for language, source in said if language == lang} == sources, f"{lang} is missing a word"
 	assert all(row["name"].startswith("one-deal-") for row in rows), "the fixture filter is by name"
+
+
+def test_a_deal_on_hold_is_open_and_out_of_the_pipeline():
+	"""On Hold changes no status and never reopens or moves a deal by itself:
+	only a closed outcome does that. The pipeline's figures leave it out."""
+	source = STAGES.read_text(encoding="utf-8")
+	assert '_outcome(doc.sales_stage) != "Open"' not in source
+	assert 'now != "Open"' not in source
+	assert source.count("in CLOSED") >= 3
+	measure = (tree.APP / "one_crm" / "measure.py").read_text()
+	assert measure.count("deals(alive())") == 2 and "stages.held()" in measure
+	forecast = (tree.APP / "one_crm" / "report" / "deal_forecast" / "deal_forecast.py").read_text()
+	assert "measure.alive()" in forecast
+
+
+def test_a_workspace_seeded_before_on_hold_is_given_it_once():
+	patches = (tree.APP / "patches.txt").read_text()
+	assert "onedesk.one_crm.patches.add_on_hold" in patches.split("[post_fixture_sync]", 1)[1]

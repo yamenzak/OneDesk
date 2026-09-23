@@ -130,7 +130,8 @@ Each count opens the list it counts.
 Under Home's **My Day** is **The Pipeline**: four figures, each opening the
 report behind it.
 
-- **Pipeline Value** — what the open deals are worth.
+- **Pipeline Value** — what the open deals are worth, leaving out the ones on
+  hold.
 - **Weighted Pipeline** — the same, each deal counted at its probability.
 - **Won This Month** — what was won since the first of the month.
 - **Win Rate (90 Days)** — of the deals won or lost in the last 90 days, the
@@ -138,9 +139,9 @@ report behind it.
 
 Three reports, in the **Sales** group:
 
-- **Deal Forecast** — the open deals by the month they are expected to close,
-  with their value, their weighted value, and what was actually won in each
-  month. Deals whose closing date has passed are one row, **Overdue**, and
+- **Deal Forecast** — the open deals, except those on hold, by the month they
+  are expected to close, with their value, their weighted value, and what was
+  actually won in each month. Deals whose closing date has passed are one row, **Overdue**, and
   deals with no closing date another, so nothing is left out.
 - **Won and Lost** — deals won and lost, their value, and the win rate, grouped
   by **Month**, **Deal Owner**, **Source** or **Lost Reason**. A deal lost for two
@@ -159,10 +160,10 @@ takes the quotation's reasons, so Won and Lost reads them from one place.
 
 ### Sales stages
 
-A new workspace has six: **New**, **Qualified**, **Proposal**, **Negotiation**,
-**Won** and **Lost**. Each has a **Position**, which is the order they are
-listed in; a **Probability (%)**, which a deal takes when it moves there; and
-an **Outcome** — Open, Won or Lost. Change them, add your own or remove them
+A new workspace has seven: **New**, **Qualified**, **Proposal**,
+**Negotiation**, **On Hold**, **Won** and **Lost**. Each has a **Position**,
+which is the order they are listed in; a **Probability (%)**, which a deal
+takes when it moves there; and an **Outcome** — Open, On Hold, Won or Lost. Change them, add your own or remove them
 under **Setup › Sales Stage**.
 
 **Moving a deal to a stage sets its probability** to that stage's. Type a
@@ -178,6 +179,12 @@ always 100% and a lost one 0%.
   order from its quotation, and the stage moves on its own.
 - **Reopen** it, or cancel that sales order, and it goes back to the last
   stage it was in before it was won or lost.
+
+**On Hold is for a deal that is neither moving nor lost** — the money is not
+signed off, the building is not ready. It stays open and keeps its next step,
+so give it one that says when to look again. It is left out of the Pipeline
+Value, the Weighted Pipeline, the Deal Forecast, and OneAI's deals that have
+gone quiet. Move it back to any stage when it starts again.
 
 Every move is recorded with the date, so how long a deal has sat in a stage is
 known.
@@ -195,6 +202,9 @@ on Won converts the deal.
 Under each column's name is what the deals in it are worth, and what they are
 worth weighted by their probability — 50,000 at 50% counts as 25,000. Both are
 in the company's currency and follow the board's filters.
+
+**On Hold** has its own column, with an orange dot, and counts no weighted
+value: its deals are not expected to close while they wait.
 
 **Lost is not a column.** Losing a deal asks why, which a drag cannot, so a
 deal is lost from its own page with **Declare Lost**, and lost deals leave the
@@ -348,7 +358,8 @@ OneApp's OneCRM, the single-page app this replaces, was read after stage 8
 and deleted. It is at OneApp `65dacfd9` for anybody who needs a line of it.
 Four ideas in it are worth having here, and each is a stage:
 
-10. **On hold.** A seventh stage whose outcome is On Hold, for the deal that
+10. **On hold.** *Done* — `stages.HOLD`, `measure.alive`, the patch
+    `add_on_hold` for a workspace seeded before it. A seventh stage whose outcome is On Hold, for the deal that
     is neither moving nor lost — the money is not signed off, the building is
     not ready. Without it such a deal sits in Negotiation and the pipeline and
     the forecast count it. It stays open, keeps its column on the board, and

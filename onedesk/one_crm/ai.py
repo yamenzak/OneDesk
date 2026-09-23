@@ -309,9 +309,11 @@ def gone_quiet(
 		fields += ["sales_stage", "opportunity_amount", "currency"]
 	now = now_datetime()
 	found = []
+	# A deal on hold is quiet on purpose; its next step says when to look again.
+	alive = measure.alive() if record_type == "Opportunity" else {"status": ["in", next_step.OPEN[record_type]]}
 	for one in frappe.get_list(
 		record_type,
-		filters={"status": ["in", next_step.OPEN[record_type]]},
+		filters=alive,
 		fields=fields,
 		order_by="creation asc",
 		limit_page_length=MOST_OPEN,

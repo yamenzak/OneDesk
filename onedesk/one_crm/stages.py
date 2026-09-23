@@ -8,6 +8,11 @@ opportunity, one whose outcome is Lost is a lost one, and the stage follows
 when ERPNext's own verbs — Declare Lost, a quotation lost, a sales order —
 change the status instead.
 
+A stage whose outcome is **On Hold** is for the deal that is neither moving
+nor lost: the money is not signed off, the building is not ready. It is still
+open, so its status is left alone, but it is not in the pipeline: the value,
+the weighted value and the forecast leave it out (`measure.alive`).
+
 Stage changes are recorded by frappe's Milestone Tracker, a fixture, so the
 day an opportunity reached its stage is a row rather than a guess.
 """
@@ -18,18 +23,25 @@ from frappe import _
 #: What an outcome makes an opportunity's status.
 STATUS = {"Won": "Converted", "Lost": "Lost"}
 
+#: The outcomes that close a deal. On Hold does not: the deal waits, open.
+CLOSED = tuple(STATUS)
+
+#: The outcome of a stage a deal waits in, out of the pipeline.
+HOLD = "On Hold"
+
 #: ERPNext's daily job that sets status Open on any lead or opportunity with an
 #: Event today, converted and lost ones included.
 REOPENER = "erpnext.crm.utils.open_leads_opportunities_based_on_todays_event"
 
 #: The stages a small business recognises: name, position, probability, outcome.
-SIX = (
+SEVEN = (
 	("New", 1, 10, "Open"),
 	("Qualified", 2, 25, "Open"),
 	("Proposal", 3, 50, "Open"),
 	("Negotiation", 4, 75, "Open"),
-	("Won", 5, 100, "Won"),
-	("Lost", 6, 0, "Lost"),
+	("On Hold", 5, 0, HOLD),
+	("Won", 6, 100, "Won"),
+	("Lost", 7, 0, "Lost"),
 )
 
 #: The eight stages ERPNext's setup wizard writes, retired where none is in use.
@@ -56,12 +68,12 @@ def settle() -> None:
 
 
 def seed() -> None:
-	"""The six stages, once. Not a fixture: fixtures sync before custom fields
+	"""The seven stages, once. Not a fixture: fixtures sync before custom fields
 	do, so on a new site the position, probability and outcome had no column
 	to land in. Once any stage has a position, the list is the workspace's."""
 	if frappe.db.exists("Sales Stage", {"one_position": [">", 0]}):
 		return
-	for name, position, chance, outcome in SIX:
+	for name, position, chance, outcome in SEVEN:
 		values = {"one_position": position, "one_probability": chance, "one_outcome": outcome}
 		if frappe.db.exists("Sales Stage", name):
 			frappe.db.set_value("Sales Stage", name, values)
@@ -75,6 +87,33 @@ def stages() -> list[dict]:
 		fields=["name", "one_position", "one_probability", "one_outcome"],
 		order_by="one_position asc, name asc",
 	)
+
+
+def held() -> list[str]:
+	"""The stages a deal waits in, out of the pipeline."""
+	return [one.name for one in stages() if one.one_outcome == HOLD]
+
+
+def add_hold() -> None:
+	"""On a workspace whose stages were seeded before there was On Hold, add
+	it once, before the closing stages. A patch, so a workspace that deletes
+	it is not given it back."""
+	if frappe.db.exists("Sales Stage", {"one_outcome": HOLD}):
+		return
+	rows = stages()
+	shut = [one for one in rows if one.one_outcome in CLOSED]
+	at = min((one.one_position for one in shut if one.one_position), default=0) or (
+		max((one.one_position or 0 for one in rows), default=0) + 1
+	)
+	for one in shut:
+		if (one.one_position or 0) >= at:
+			frappe.db.set_value("Sales Stage", one.name, "one_position", one.one_position + 1)
+	values = {"one_position": at, "one_probability": 0, "one_outcome": HOLD}
+	name = next(row[0] for row in SEVEN if row[3] == HOLD)
+	if frappe.db.exists("Sales Stage", name):
+		frappe.db.set_value("Sales Stage", name, values)
+	else:
+		frappe.get_doc({"doctype": "Sales Stage", "stage_name": name, **values}).insert(ignore_permissions=True)
 
 
 def first(outcome: str) -> str | None:
@@ -92,7 +131,7 @@ def before_validate(doc, method=None) -> None:
 		wanted = "Lost" if doc.status == "Lost" else "Won"
 		if _outcome(doc.sales_stage) != wanted:
 			doc.sales_stage = first(wanted) or doc.sales_stage
-	elif doc.status != was_status and doc.status == "Open" and _outcome(doc.sales_stage) != "Open":
+	elif doc.status != was_status and doc.status == "Open" and _outcome(doc.sales_stage) in CLOSED:
 		# Reopened: back to the stage it was in before it was won or lost.
 		doc.sales_stage = last_open(doc.name) or first("Open")
 	elif doc.sales_stage != was_stage:
@@ -101,7 +140,7 @@ def before_validate(doc, method=None) -> None:
 			frappe.throw(_("Use Declare Lost to say why it was lost."), title=_("Why Was It Lost?"))
 		if moved_to in STATUS:
 			doc.status = STATUS[moved_to]
-		elif was_stage and _outcome(was_stage) != "Open":
+		elif was_stage and _outcome(was_stage) in CLOSED:
 			doc.status = "Open"
 			doc.set_status()
 
@@ -183,7 +222,7 @@ def _catch_up(name: str) -> None:
 	now = _outcome(stage)
 	if status in ("Lost", "Converted"):
 		wanted = first("Lost" if status == "Lost" else "Won")
-	elif now != "Open":
+	elif now in CLOSED:
 		wanted = last_open(name) or first("Open")
 	else:
 		return
