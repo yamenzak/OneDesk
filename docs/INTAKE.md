@@ -18,7 +18,7 @@ Every way a document reaches a workspace already ends in One:
 - **records**: a file attached on a form;
 - **our own side**: mail we send, records we change.
 
-This document is the argument and the plan. Stage 1 is built; `onedesk/one_intake/README.md` says what works.
+This document is the argument and the plan. Stages 1 to 4 are built; `onedesk/one_intake/README.md` says what works.
 
 ### Decided
 
@@ -1187,4 +1187,4 @@ with its expected reading and its expected actions.
     Contract's notice fields, and the Expiring list.
 11. **The rest of §16**, one at a time, and the monthly number of §14.
 
-Nothing waits on a decision. Stage 1 can start.
+Nothing waits on a decision.

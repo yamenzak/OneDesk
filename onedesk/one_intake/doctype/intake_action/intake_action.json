@@ -1,0 +1,164 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-09-27 09:00:00.000000",
+ "description": "One thing OneAI did or proposed with a document, what was there before, and whether a person has looked.",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "kind",
+  "level",
+  "target_doctype",
+  "target_name",
+  "column_break_why",
+  "reading",
+  "key",
+  "on_behalf_of",
+  "confidence",
+  "checked_by",
+  "section_what",
+  "why",
+  "before",
+  "after",
+  "undone_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Kind",
+   "options": "Create\nUpdate\nLink\nAttach\nRename\nMove\nTag\nComment\nMail",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "level",
+   "fieldtype": "Select",
+   "label": "Outcome",
+   "options": "Done\nProposed\nRefused\nUndone\nDismissed",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "target_doctype",
+   "fieldtype": "Link",
+   "label": "Record Type",
+   "options": "DocType",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "target_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Record",
+   "options": "target_doctype",
+   "in_list_view": 1,
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_why",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reading",
+   "fieldtype": "Link",
+   "label": "Reading",
+   "options": "Reading",
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "key",
+   "fieldtype": "Data",
+   "label": "Key",
+   "search_index": 1,
+   "read_only": 1,
+   "description": "What was done and for what, so the same thing is never done twice.",
+   "unique": 1
+  },
+  {
+   "fieldname": "on_behalf_of",
+   "fieldtype": "Link",
+   "label": "On Behalf Of",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "confidence",
+   "fieldtype": "Percent",
+   "label": "Sureness",
+   "read_only": 1
+  },
+  {
+   "fieldname": "checked_by",
+   "fieldtype": "Link",
+   "label": "Checked By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_what",
+   "fieldtype": "Section Break",
+   "label": "What"
+  },
+  {
+   "fieldname": "why",
+   "fieldtype": "Small Text",
+   "label": "Why",
+   "read_only": 1
+  },
+  {
+   "fieldname": "before",
+   "fieldtype": "JSON",
+   "label": "Before",
+   "read_only": 1
+  },
+  {
+   "fieldname": "after",
+   "fieldtype": "JSON",
+   "label": "After",
+   "read_only": 1
+  },
+  {
+   "fieldname": "undone_by",
+   "fieldtype": "Link",
+   "label": "Undone By",
+   "options": "User",
+   "read_only": 1
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-27 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Intake",
+ "name": "Intake Action",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "report": 1
+  },
+  {
+   "role": "Desk User",
+   "read": 1,
+   "report": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0,
+ "title_field": "kind"
+}

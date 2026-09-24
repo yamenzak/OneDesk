@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 19:22+0000\n"
-"PO-Revision-Date: 2026-09-24 19:22+0000\n"
+"POT-Creation-Date: 2026-09-24 19:49+0000\n"
+"PO-Revision-Date: 2026-09-24 19:49+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -47,6 +47,10 @@ msgstr ""
 
 #: onedesk/public/js/onecloud.js:579
 msgid "1 item selected"
+msgstr ""
+
+#: onedesk/public/js/intake.js:203
+msgid "1 not checked by a person"
 msgstr ""
 
 #. Header text in the OneCRM Workspace
@@ -173,6 +177,11 @@ msgstr ""
 #. Description of a DocType
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 msgid "A field OneAI wrote, and what it wrote. The badge shows while the field still says it."
+msgstr ""
+
+#. Description of a DocType
+#: onedesk/one_intake/doctype/file_link/file_link.json
+msgid "A file that belongs to a record as well as to where it is kept."
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:2017
@@ -795,7 +804,13 @@ msgstr ""
 
 #. Option for the 'First Look' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one_intake/filing.py:188
 msgid "Advertising"
+msgstr ""
+
+#. Label of the after (JSON) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "After"
 msgstr ""
 
 #: onedesk/one_hr/hiring.py:741
@@ -1040,7 +1055,8 @@ msgstr ""
 msgid "Applies To"
 msgstr ""
 
-#: onedesk/public/js/ai_proposal.js:12
+#: onedesk/one_intake/doctype/intake_action/intake_action.js:7
+#: onedesk/public/js/ai_proposal.js:12 onedesk/public/js/intake.js:105
 msgid "Apply"
 msgstr ""
 
@@ -1249,7 +1265,7 @@ msgstr ""
 
 #. Label of the asks (Table) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/intake.js:66
+#: onedesk/public/js/intake.js:70
 msgid "Asks"
 msgstr ""
 
@@ -1323,6 +1339,8 @@ msgstr ""
 msgid "At checkout"
 msgstr ""
 
+#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/public/js/onecloud_picker.js:40
 #: onedesk/public/js/onecloud_picker.js:75
 msgid "Attach"
@@ -1336,7 +1354,7 @@ msgstr ""
 msgid "Attach {0} files"
 msgstr ""
 
-#: onedesk/public/js/intake.js:74
+#: onedesk/public/js/intake.js:78
 msgid "Attachments"
 msgstr ""
 
@@ -1586,6 +1604,11 @@ msgstr ""
 msgid "Becomes"
 msgstr ""
 
+#. Label of the before (JSON) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "Before"
+msgstr ""
+
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:11
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:14
 #: onedesk/public/js/tenant.js:29
@@ -1611,6 +1634,12 @@ msgstr ""
 #. Account'
 #: onedesk/one_mail/custom/email_account.json
 msgid "Belongs to the workspace rather than to one person. A workspace administrator chooses who holds it."
+msgstr ""
+
+#. Description of the 'Confidence Floor' (Percent) field in DocType 'Intake
+#. Settings'
+#: onedesk/one_intake/doctype/intake_settings/intake_settings.json
+msgid "Below this, what OneAI would make or change waits in Needs a Look."
 msgstr ""
 
 #. Label of the bench (Data) field in DocType 'Tenant'
@@ -1983,12 +2012,16 @@ msgstr ""
 msgid "Change the model"
 msgstr ""
 
-#: onedesk/public/js/oneai/Record.vue:141
+#: onedesk/one_intake/panel.py:124 onedesk/public/js/oneai/Record.vue:141
 msgid "Change {0}"
 msgstr ""
 
 #: onedesk/one_ai/proposals.py:416
 msgid "Change {0} on {1}"
+msgstr ""
+
+#: onedesk/one_intake/panel.py:125
+msgid "Changed {0}"
 msgstr ""
 
 #. Label of the changes_section (Section Break) field in DocType 'AI Proposal'
@@ -2089,6 +2122,11 @@ msgstr ""
 #. Description of the 'Flag Below Score' (Int) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Check-ins scoring between this and Refuse Below Score are written, and marked Flagged for review."
+msgstr ""
+
+#. Label of the checked_by (Link) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "Checked By"
 msgstr ""
 
 #: onedesk/public/js/desk.js:81 onedesk/public/js/desk.js:131
@@ -2375,6 +2413,15 @@ msgstr ""
 msgid "Colleague"
 msgstr ""
 
+#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "Comment"
+msgstr ""
+
+#: onedesk/one_intake/panel.py:139
+msgid "Commented on {0}"
+msgstr ""
+
 #. Label of the compact (Data) field in DocType 'Reading Reference'
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 msgid "Compact"
@@ -2386,7 +2433,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 #: onedesk/one_storage/history.py:218 onedesk/one_storage/namespace.py:383
 #: onedesk/one_storage/namespace.py:521 onedesk/one_storage/namespace.py:622
-#: onedesk/one_storage/namespace.py:772
+#: onedesk/one_storage/namespace.py:781
 msgid "Company"
 msgstr ""
 
@@ -2418,6 +2465,11 @@ msgstr ""
 
 #: onedesk/public/js/onecloud.js:33
 msgid "Compressed folder"
+msgstr ""
+
+#. Label of the floor (Percent) field in DocType 'Intake Settings'
+#: onedesk/one_intake/doctype/intake_settings/intake_settings.json
+msgid "Confidence Floor"
 msgstr ""
 
 #: onedesk/public/js/learned.js:11
@@ -2605,7 +2657,9 @@ msgid "Cover Holidays Too"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
+#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/public/js/invoice.js:94 onedesk/public/js/onecloud.js:1367
 #: onedesk/public/js/opportunity.js:18 onedesk/public/js/opportunity.js:19
 #: onedesk/public/js/project.js:127 onedesk/public/js/project.js:188
@@ -3091,6 +3145,7 @@ msgid "Designation"
 msgstr ""
 
 #. Name of a role
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
@@ -3147,6 +3202,16 @@ msgstr ""
 msgid "Discrimination"
 msgstr ""
 
+#: onedesk/one_intake/doctype/intake_action/intake_action.js:8
+#: onedesk/public/js/intake.js:106
+msgid "Dismiss"
+msgstr ""
+
+#. Option for the 'Outcome' (Select) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "Dismissed"
+msgstr ""
+
 #. Label of the metres_out (Float) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Distance Out (Metres)"
@@ -3190,7 +3255,7 @@ msgstr ""
 msgid "Document Type"
 msgstr ""
 
-#: onedesk/public/js/intake.js:70
+#: onedesk/public/js/intake.js:74
 msgid "Documents in it"
 msgstr ""
 
@@ -3230,12 +3295,14 @@ msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
+#. Option for the 'Outcome' (Select) field in DocType 'Intake Action'
 #. Label of the done (Check) field in DocType 'Task Step'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:12
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:21
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:36
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_project/portal.py:38
 #: onedesk/one_task/doctype/task_step/task_step.json
 #: onedesk/public/js/account_request.js:24 onedesk/public/js/ai_proposal.js:23
@@ -3988,10 +4055,12 @@ msgstr ""
 msgid "Field"
 msgstr ""
 
+#. Label of the file (Link) field in DocType 'File Link'
 #. Label of the label (Data) field in DocType 'Cloud File Request Item'
 #. Label of the item (Data) field in DocType 'Cloud File Request Upload'
 #. Label of the file (Link) field in DocType 'Cloud File Version'
 #. Label of the file (Link) field in DocType 'Cloud Link'
+#: onedesk/one_intake/doctype/file_link/file_link.json
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json
 #: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
@@ -3999,6 +4068,11 @@ msgstr ""
 #: onedesk/public/js/onecloud.js:468 onedesk/public/js/onecloud.js:1531
 #: onedesk/public/js/onemail.js:454
 msgid "File"
+msgstr ""
+
+#. Name of a DocType
+#: onedesk/one_intake/doctype/file_link/file_link.json
+msgid "File Link"
 msgstr ""
 
 #. Label of the accept (Data) field in DocType 'Cloud File Request Item'
@@ -4043,6 +4117,10 @@ msgstr ""
 
 #: onedesk/public/js/onemail.js:29
 msgid "Filed with its conversation"
+msgstr ""
+
+#: onedesk/one_intake/panel.py:129
+msgid "Filed with {0}"
 msgstr ""
 
 #. Label of the files (Code) field in DocType 'AI Proposal'
@@ -4095,12 +4173,26 @@ msgstr ""
 msgid "Files not meant for a record land here, in a folder per person when several are asked."
 msgstr ""
 
+#. Description of the 'Leave Unmatched Files in Place' (Check) field in DocType
+#. 'Intake Settings'
+#: onedesk/one_intake/doctype/intake_settings/intake_settings.json
+msgid "Files that belong to no record stay where they arrived instead of going to a folder for their kind and year."
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:1526
 msgid "Files to ask for"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:363
 msgid "Files you open or add will appear here."
+msgstr ""
+
+#: onedesk/one_intake/panel.py:124
+msgid "Fill in {0}"
+msgstr ""
+
+#: onedesk/one_intake/panel.py:125
+msgid "Filled in {0}"
 msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:7
@@ -5039,6 +5131,11 @@ msgid "Instruction"
 msgstr ""
 
 #. Name of a DocType
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "Intake Action"
+msgstr ""
+
+#. Name of a DocType
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
 msgid "Intake Settings"
 msgstr ""
@@ -5178,6 +5275,14 @@ msgstr ""
 
 #: onedesk/www/s.html:36
 msgid "It may have run out or been turned off. Ask whoever sent it for a new one."
+msgstr ""
+
+#: onedesk/one_intake/act.py:100
+msgid "It would change what {0} already says."
+msgstr ""
+
+#: onedesk/one_intake/act.py:102
+msgid "It would end somebody's employment."
 msgstr ""
 
 #: onedesk/one_inventory/report/to_order/to_order.py:15
@@ -5326,9 +5431,11 @@ msgstr ""
 
 #. Label of the key (Data) field in DocType 'Offering'
 #. Label of the key (Data) field in DocType 'AI Action'
+#. Label of the key (Data) field in DocType 'Intake Action'
 #. Label of the key (Data) field in DocType 'Reading'
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Key"
 msgstr ""
@@ -5340,6 +5447,7 @@ msgstr ""
 #. Label of the kind (Select) field in DocType 'Tenant Event'
 #. Label of the kind (Select) field in DocType 'AI Proposal'
 #. Label of the kind (Select) field in DocType 'Identifier'
+#. Label of the kind (Select) field in DocType 'Intake Action'
 #. Label of the kind (Select) field in DocType 'Reading'
 #. Label of the kind (Select) field in DocType 'Reading Reference'
 #. Label of the kind (Select) field in DocType 'Face'
@@ -5352,6 +5460,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/identifier/identifier.json
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_mail/doctype/face/face.json
@@ -5679,6 +5788,11 @@ msgstr ""
 msgid "Leave Type"
 msgstr ""
 
+#. Label of the keep_in_place (Check) field in DocType 'Intake Settings'
+#: onedesk/one_intake/doctype/intake_settings/intake_settings.json
+msgid "Leave Unmatched Files in Place"
+msgstr ""
+
 #: onedesk/public/js/tenant.js:122
 msgid "Leave empty for credit that never expires."
 msgstr ""
@@ -5767,7 +5881,7 @@ msgid "Letters"
 msgstr ""
 
 #: onedesk/one_storage/namespace.py:382 onedesk/one_storage/namespace.py:624
-#: onedesk/one_storage/namespace.py:757
+#: onedesk/one_storage/namespace.py:766
 msgid "Libraries"
 msgstr ""
 
@@ -5807,9 +5921,28 @@ msgstr ""
 msgid "Lines"
 msgstr ""
 
+#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "Link"
+msgstr ""
+
 #. Label of the one_linked_by (Select) field in DocType 'Communication Link'
 #: onedesk/one_mail/custom/communication_link.json
 msgid "Linked By"
+msgstr ""
+
+#. Label of the for_name (Dynamic Link) field in DocType 'File Link'
+#: onedesk/one_intake/doctype/file_link/file_link.json
+msgid "Linked To"
+msgstr ""
+
+#. Label of the for_doctype (Link) field in DocType 'File Link'
+#: onedesk/one_intake/doctype/file_link/file_link.json
+msgid "Linked To Type"
+msgstr ""
+
+#: onedesk/one_intake/panel.py:127
+msgid "Linked to {0}"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:1270
@@ -5952,6 +6085,10 @@ msgstr ""
 msgid "Looked something up"
 msgstr ""
 
+#: onedesk/public/js/intake.js:219
+msgid "Looks right"
+msgstr ""
+
 #. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.py:71
@@ -5998,11 +6135,21 @@ msgid "Made On"
 msgstr ""
 
 #. Label of the ai_generated (Check) field in DocType 'File'
-#: onedesk/one_ai/custom/file.json
+#: onedesk/one_ai/custom/file.json onedesk/public/js/intake.js:168
 msgid "Made by OneAI"
 msgstr ""
 
+#: onedesk/public/js/intake.js:169
+msgid "Made by OneAI. Nobody has checked it yet."
+msgstr ""
+
+#: onedesk/one_intake/panel.py:121
+msgid "Made {0}"
+msgstr ""
+
+#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Label of a Sidebar Item
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_mail/cloud.py:79 onedesk/one_mail/page/onemail/onemail.js:6
 #: onedesk/one_mail/sidebar/onemail/onemail.json
 #: onedesk/one_storage/namespace.py:385 onedesk/public/js/record_mail.js:27
@@ -6099,6 +6246,10 @@ msgstr ""
 msgid "Make it smaller"
 msgstr ""
 
+#: onedesk/one_intake/panel.py:121
+msgid "Make {0}"
+msgstr ""
+
 #. Label of the 'reports_to' field in DocType 'Employee'
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
 #: onedesk/one_hr/custom/employee.json
@@ -6146,6 +6297,10 @@ msgstr ""
 
 #: onedesk/one_inventory/ready.py:143
 msgid "Marked Maintenance Required with no schedule: {0}. Add one under Assets › Maintenance."
+msgstr ""
+
+#: onedesk/public/js/intake.js:228
+msgid "Marked as checked."
 msgstr ""
 
 #: onedesk/one_hr/presence.py:256
@@ -6377,7 +6532,9 @@ msgid "Most Pages Read"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
+#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 msgid "Move"
 msgstr ""
 
@@ -6404,6 +6561,10 @@ msgstr ""
 
 #: onedesk/one_hr/hiring.py:882
 msgid "Moved down from {0}% to {1}%."
+msgstr ""
+
+#: onedesk/one_intake/panel.py:134 onedesk/one_intake/panel.py:135
+msgid "Moved it to {0}"
 msgstr ""
 
 #: onedesk/public/js/onemail.js:614
@@ -6450,7 +6611,7 @@ msgstr ""
 
 #: onedesk/one_storage/history.py:217 onedesk/one_storage/namespace.py:353
 #: onedesk/one_storage/namespace.py:378 onedesk/one_storage/namespace.py:521
-#: onedesk/one_storage/namespace.py:626 onedesk/one_storage/namespace.py:754
+#: onedesk/one_storage/namespace.py:626 onedesk/one_storage/namespace.py:763
 msgid "My Files"
 msgstr ""
 
@@ -6539,6 +6700,10 @@ msgstr ""
 msgid "Named in the message"
 msgstr ""
 
+#: onedesk/one_intake/panel.py:131
+msgid "Named it {0}"
+msgstr ""
+
 #. Label of the 'section_break_ackd' field in DocType 'Employee Attendance
 #. Tool'
 #: onedesk/one_hr/custom/employee_attendance_tool.json
@@ -6558,6 +6723,11 @@ msgstr ""
 #. Option for the 'State' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Needs a Password"
+msgstr ""
+
+#: onedesk/one_intake/doctype/intake_action/intake_action_list.js:5
+#: onedesk/public/js/intake.js:109
+msgid "Needs a look"
 msgstr ""
 
 #: onedesk/public/js/admin_settings.js:30
@@ -6675,6 +6845,10 @@ msgstr ""
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Newsletter"
+msgstr ""
+
+#: onedesk/one_intake/filing.py:189
+msgid "Newsletters"
 msgstr ""
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:175
@@ -6908,6 +7082,10 @@ msgstr ""
 msgid "Nobody is reminded of an unpaid invoice. The fix mails the customer a week after it falls due."
 msgstr ""
 
+#: onedesk/one_intake/mark.py:157
+msgid "Nobody needs to check {0} any more."
+msgstr ""
+
 #: onedesk/public/js/attendance_tool.js:47
 msgid "Nobody on this list checked in"
 msgstr ""
@@ -6975,6 +7153,10 @@ msgstr ""
 msgid "Not a workspace this site administers."
 msgstr ""
 
+#: onedesk/public/js/intake.js:111
+msgid "Not allowed"
+msgstr ""
+
 #: onedesk/one_ai/chat.py:373 onedesk/one_ai/chat.py:376
 msgid "Not answered"
 msgstr ""
@@ -7000,7 +7182,7 @@ msgstr ""
 msgid "Not in the Document"
 msgstr ""
 
-#: onedesk/public/js/intake.js:78
+#: onedesk/public/js/intake.js:82
 msgid "Not in the document ({0})"
 msgstr ""
 
@@ -7252,9 +7434,11 @@ msgstr ""
 
 #. Label of the one_intake_for (Link) field in DocType 'Email Account'
 #. Label of the one_intake_for (Link) field in DocType 'File'
+#. Label of the on_behalf_of (Link) field in DocType 'Intake Action'
 #. Label of the on_behalf_of (Link) field in DocType 'Reading'
 #: onedesk/one_intake/custom/email_account.json
 #: onedesk/one_intake/custom/file.json
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "On Behalf Of"
 msgstr ""
@@ -7391,6 +7575,15 @@ msgid "One short fact, in a sentence. OneAI reads the newest ones in every conve
 msgstr ""
 
 #. Description of a DocType
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "One thing OneAI did or proposed with a document, what was there before, and whether a person has looked."
+msgstr ""
+
+#: onedesk/one_intake/filing.py:316
+msgid "One thing OneAI read in {0} needs a look."
+msgstr ""
+
+#. Description of a DocType
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "One thing a model is asked to do, and the instruction it is asked with."
 msgstr ""
@@ -7451,6 +7644,18 @@ msgstr ""
 msgid "OneAI does here only what this person may do."
 msgstr ""
 
+#: onedesk/one_intake/act.py:103
+msgid "OneAI is not sure enough."
+msgstr ""
+
+#: onedesk/public/js/intake.js:218
+msgid "OneAI made this from {0}. Nobody has checked it yet."
+msgstr ""
+
+#: onedesk/public/js/intake.js:218
+msgid "OneAI made this. Nobody has checked it yet."
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:1714 onedesk/public/js/onemail.js:677
 msgid "OneAI no longer reads {0}."
 msgstr ""
@@ -7461,6 +7666,10 @@ msgstr ""
 
 #: onedesk/public/js/onemail.js:677
 msgid "OneAI reads new mail in {0}."
+msgstr ""
+
+#: onedesk/one_intake/filing.py:311
+msgid "OneAI thinks {0} is phishing. Do not pay, answer or open links in it."
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:1719
@@ -7492,7 +7701,7 @@ msgstr ""
 
 #. Title of a Sidebar
 #: onedesk/one_mail/cloud.py:79 onedesk/one_storage/file_requests.py:212
-#: onedesk/one_storage/mounts.py:360 onedesk/one_storage/namespace.py:720
+#: onedesk/one_storage/mounts.py:360 onedesk/one_storage/namespace.py:729
 #: onedesk/one_storage/sidebar/onecloud/onecloud.json
 #: onedesk/public/js/onecloud_picker.js:108
 msgid "OneCloud"
@@ -7711,15 +7920,20 @@ msgstr ""
 msgid "Only {0}"
 msgstr ""
 
+#: onedesk/one_intake/act.py:416
+msgid "Only {0} or an administrator of this workspace can decide this."
+msgstr ""
+
 #. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
 #. Option for the 'Status' (Select) field in DocType 'Cloud File Request'
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
-#: onedesk/one_task/custom/task.json onedesk/public/js/oneai/Record.vue:15
-#: onedesk/public/js/onecloud.js:644 onedesk/public/js/onecloud.js:1752
-#: onedesk/public/js/onecloud.js:1760 onedesk/public/js/onecloud.js:1776
-#: onedesk/public/js/project.js:151 onedesk/www/s.html:48 onedesk/www/s.html:56
+#: onedesk/one_task/custom/task.json onedesk/public/js/intake.js:100
+#: onedesk/public/js/oneai/Record.vue:15 onedesk/public/js/onecloud.js:644
+#: onedesk/public/js/onecloud.js:1752 onedesk/public/js/onecloud.js:1760
+#: onedesk/public/js/onecloud.js:1776 onedesk/public/js/project.js:151
+#: onedesk/www/s.html:48 onedesk/www/s.html:56
 msgid "Open"
 msgstr ""
 
@@ -7927,10 +8141,12 @@ msgstr ""
 #. Label of the one_outcome (Select) field in DocType 'Sales Stage'
 #. Label of the one_outcome (Data) field in DocType 'Employee Checkin'
 #. Label of the outcome (Select) field in DocType 'Clock Attempt'
+#. Label of the level (Select) field in DocType 'Intake Action'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_hr/custom/employee_checkin.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/public/js/crm_record.js:200
 msgid "Outcome"
 msgstr ""
@@ -8737,9 +8953,11 @@ msgstr ""
 #. Label of the changes (Code) field in DocType 'AI Proposal'
 #. Option for the 'Status' (Select) field in DocType 'Clock Network'
 #. Option for the 'Status' (Select) field in DocType 'Clock Place'
+#. Option for the 'Outcome' (Select) field in DocType 'Intake Action'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 msgid "Proposed"
 msgstr ""
 
@@ -8963,8 +9181,8 @@ msgstr ""
 #. Label of the one_intake (Check) field in DocType 'Email Account'
 #. Label of the one_intake (Check) field in DocType 'File'
 #: onedesk/one_intake/custom/email_account.json
-#: onedesk/one_intake/custom/file.json onedesk/public/js/intake.js:30
-#: onedesk/public/js/intake.js:81 onedesk/public/js/onecloud.js:511
+#: onedesk/one_intake/custom/file.json onedesk/public/js/intake.js:34
+#: onedesk/public/js/intake.js:85 onedesk/public/js/onecloud.js:511
 msgid "Read by OneAI"
 msgstr ""
 
@@ -8985,8 +9203,14 @@ msgstr ""
 msgid "Readers open and download. Members also add, change and delete. Owners also rename the library and say who is in it."
 msgstr ""
 
+#. Label of the one_reading (Link) field in DocType 'File'
+#. Label of the reading (Link) field in DocType 'File Link'
+#. Label of the reading (Link) field in DocType 'Intake Action'
 #. Name of a DocType
 #. Label of the section_reading (Section Break) field in DocType 'Reading'
+#: onedesk/one_intake/custom/file.json
+#: onedesk/one_intake/doctype/file_link/file_link.json
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Reading"
 msgstr ""
@@ -9091,11 +9315,13 @@ msgstr ""
 #. Label of the record (Data) field in DocType 'AI Proposal'
 #. Label of the record (Dynamic Link) field in DocType 'AI Touch'
 #. Label of the for_name (Dynamic Link) field in DocType 'Identifier'
+#. Label of the target_name (Dynamic Link) field in DocType 'Intake Action'
 #. Label of the reference_name (Dynamic Link) field in DocType 'Cloud File
 #. Request'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_intake/doctype/identifier/identifier.json
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/public/js/hiring.js:11 onedesk/public/js/invoice.js:64
 #: onedesk/public/js/onecloud.js:462 onedesk/public/js/onecloud.js:618
@@ -9125,8 +9351,10 @@ msgid "Record Payment"
 msgstr ""
 
 #. Label of the for_doctype (Data) field in DocType 'AI Proposal'
+#. Label of the target_doctype (Link) field in DocType 'Intake Action'
 #. Label of the reference_doctype (Link) field in DocType 'Cloud File Request'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 msgid "Record Type"
 msgstr ""
@@ -9190,7 +9418,7 @@ msgstr ""
 msgid "Recording…"
 msgstr ""
 
-#: onedesk/one_storage/namespace.py:384 onedesk/one_storage/namespace.py:738
+#: onedesk/one_storage/namespace.py:384 onedesk/one_storage/namespace.py:747
 msgid "Records"
 msgstr ""
 
@@ -9263,8 +9491,10 @@ msgstr ""
 #. Option for the 'State' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Outcome' (Select) field in DocType 'Clock Attempt'
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
+#. Option for the 'Outcome' (Select) field in DocType 'Intake Action'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/public/js/ai_proposal.js:24 onedesk/public/js/ai_proposal_list.js:11
 msgid "Refused"
 msgstr ""
@@ -9386,6 +9616,8 @@ msgstr ""
 msgid "Removed at Frappe Cloud"
 msgstr ""
 
+#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/public/js/onecloud.js:92 onedesk/public/js/onecloud.js:1797
 msgid "Rename"
 msgstr ""
@@ -10154,7 +10386,7 @@ msgid "Shared by"
 msgstr ""
 
 #: onedesk/one_storage/namespace.py:381 onedesk/one_storage/namespace.py:626
-#: onedesk/one_storage/namespace.py:765
+#: onedesk/one_storage/namespace.py:774
 msgid "Shared with Me"
 msgstr ""
 
@@ -10289,6 +10521,14 @@ msgstr ""
 
 #: onedesk/public/js/overtime_slip.js:89
 msgid "Some Days Were Trimmed"
+msgstr ""
+
+#: onedesk/public/js/intake.js:147
+msgid "Some of it stays"
+msgstr ""
+
+#: onedesk/one_intake/act.py:104
+msgid "Some of what OneAI read is not in the document."
 msgstr ""
 
 #. Description of a DocType
@@ -10833,8 +11073,10 @@ msgstr ""
 msgid "Suppliers"
 msgstr ""
 
+#. Label of the confidence (Percent) field in DocType 'Intake Action'
 #. Label of the confidence (Percent) field in DocType 'Reading'
 #. Label of the score (Float) field in DocType 'Reading Party'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 msgid "Sureness"
@@ -10900,6 +11142,15 @@ msgstr ""
 msgid "TRN"
 msgstr ""
 
+#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "Tag"
+msgstr ""
+
+#: onedesk/one_intake/panel.py:137
+msgid "Tagged it {0}"
+msgstr ""
+
 #: onedesk/public/js/asset.js:81 onedesk/public/js/asset.js:86
 #: onedesk/public/js/asset.js:87
 msgid "Take Back"
@@ -10911,6 +11162,14 @@ msgstr ""
 
 #: onedesk/public/js/crm_record.js:36
 msgid "Take This Lead"
+msgstr ""
+
+#: onedesk/public/js/intake.js:132
+msgid "Take back everything OneAI did with this document?"
+msgstr ""
+
+#: onedesk/public/js/intake.js:231
+msgid "Take back what OneAI made here?"
 msgstr ""
 
 #: onedesk/one_inventory/custody.py:78
@@ -11113,7 +11372,7 @@ msgstr ""
 msgid "That folder is not in this mailbox."
 msgstr ""
 
-#: onedesk/one_intake/panel.py:22 onedesk/one_storage/api.py:33
+#: onedesk/one_intake/panel.py:23 onedesk/one_storage/api.py:33
 #: onedesk/one_storage/api.py:91 onedesk/one_storage/dav.py:319
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.py:24
 #: onedesk/one_storage/file_requests.py:158 onedesk/one_storage/history.py:76
@@ -11831,6 +12090,10 @@ msgstr ""
 msgid "This takes a few minutes. A link will be emailed to {0} when it is ready."
 msgstr ""
 
+#: onedesk/one_intake/act.py:427 onedesk/one_intake/act.py:478
+msgid "This was already {0}."
+msgstr ""
+
 #: onedesk/www/s.html:64
 msgid "This was shared with particular people. We will send a code to the address it was shared with."
 msgstr ""
@@ -12249,8 +12512,24 @@ msgstr ""
 msgid "Understood On"
 msgstr ""
 
+#: onedesk/one_intake/doctype/intake_action/intake_action.js:11
+#: onedesk/public/js/intake.js:120 onedesk/public/js/intake.js:220
 #: onedesk/public/js/onemail.js:619
 msgid "Undo"
+msgstr ""
+
+#. Option for the 'Outcome' (Select) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "Undone"
+msgstr ""
+
+#. Label of the undone_by (Link) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "Undone By"
+msgstr ""
+
+#: onedesk/public/js/intake.js:143 onedesk/public/js/intake.js:237
+msgid "Undone."
 msgstr ""
 
 #. Label of the unit (Data) field in DocType 'AI Model Rate'
@@ -12323,7 +12602,7 @@ msgstr ""
 
 #. Label of the unsure (Check) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/intake.js:40
+#: onedesk/public/js/intake.js:44
 msgid "Unsure"
 msgstr ""
 
@@ -12346,6 +12625,11 @@ msgstr ""
 
 #: onedesk/one_book/report/vat_return/vat_return.js:51
 msgid "Up To"
+msgstr ""
+
+#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "Update"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:1737 onedesk/public/js/onecloud.js:1809
@@ -12674,7 +12958,9 @@ msgstr ""
 msgid "Weighted Value"
 msgstr ""
 
+#. Label of the section_what (Section Break) field in DocType 'Intake Action'
 #. Label of the what (Select) field in DocType 'Reading Date'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 msgid "What"
 msgstr ""
@@ -12691,6 +12977,10 @@ msgstr ""
 
 #: onedesk/one_book/report/books_check/books_check.py:17
 msgid "What It Means"
+msgstr ""
+
+#: onedesk/public/js/intake.js:121
+msgid "What OneAI did"
 msgstr ""
 
 #. Description of a DocType
@@ -12894,6 +13184,11 @@ msgstr ""
 msgid "What training would help?"
 msgstr ""
 
+#. Description of the 'Key' (Data) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "What was done and for what, so the same thing is never done twice."
+msgstr ""
+
 #: onedesk/public/js/project.js:222
 msgid "What was done, what comes next, and anything in the way."
 msgstr ""
@@ -12906,7 +13201,7 @@ msgstr ""
 #. Label of the section_when (Section Break) field in DocType 'Mail Rule'
 #: onedesk/one_hr/custom/timesheet_detail.json
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
-#: onedesk/public/js/intake.js:62
+#: onedesk/public/js/intake.js:66
 msgid "When"
 msgstr ""
 
@@ -13034,7 +13329,7 @@ msgstr ""
 msgid "Which pages of a scan, or which file in an archive or message."
 msgstr ""
 
-#: onedesk/public/js/intake.js:60
+#: onedesk/public/js/intake.js:64
 msgid "Who"
 msgstr ""
 
@@ -13069,6 +13364,8 @@ msgstr ""
 msgid "Whose permissions were checked when this was written, and whose will be checked again."
 msgstr ""
 
+#. Label of the why (Small Text) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_inventory/report/to_order/to_order.py:21
 msgid "Why"
 msgstr ""
@@ -13231,7 +13528,9 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
+#: onedesk/one_intake/doctype/file_link/file_link.json
 #: onedesk/one_intake/doctype/identifier/identifier.json
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_mail/doctype/face/face.json
@@ -13474,6 +13773,10 @@ msgstr ""
 msgid "You may not change {0}."
 msgstr ""
 
+#: onedesk/one_intake/act.py:433
+msgid "You may not do this yourself."
+msgstr ""
+
 #: onedesk/one_storage/api.py:253 onedesk/one_storage/api.py:274
 #: onedesk/one_storage/api.py:319
 msgid "You may not open {0}."
@@ -13596,12 +13899,28 @@ msgstr ""
 msgid "Zero means unlimited. Enforced by Frappe from the site's config."
 msgstr ""
 
-#: onedesk/public/js/intake.js:55
+#: onedesk/public/js/intake.js:59
 msgid "a colleague"
 msgstr ""
 
 #: onedesk/public/js/crm_record.js:173 onedesk/public/js/crm_record.js:180
 msgid "a day"
+msgstr ""
+
+#: onedesk/one_intake/act.py:517
+msgid "a person has changed it since"
+msgstr ""
+
+#: onedesk/one_intake/act.py:502
+msgid "a person has checked it since"
+msgstr ""
+
+#: onedesk/one_intake/act.py:541 onedesk/one_intake/act.py:559
+msgid "a person has moved it since"
+msgstr ""
+
+#: onedesk/one_intake/act.py:550
+msgid "a person has renamed it since"
 msgstr ""
 
 #. Option for the 'Linked By' (Select) field in DocType 'Communication Link'
@@ -13634,7 +13953,7 @@ msgstr ""
 msgid "business name"
 msgstr ""
 
-#: onedesk/public/js/intake.js:67
+#: onedesk/public/js/intake.js:71
 msgid "by {0}"
 msgstr ""
 
@@ -13739,6 +14058,10 @@ msgstr ""
 msgid "input"
 msgstr ""
 
+#: onedesk/one_intake/act.py:504 onedesk/one_intake/act.py:514
+msgid "it has been submitted"
+msgstr ""
+
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:132
 msgid "late"
 msgstr ""
@@ -13785,12 +14108,17 @@ msgstr ""
 msgid "none of them live."
 msgstr ""
 
-#: onedesk/public/js/intake.js:56
+#: onedesk/public/js/intake.js:60
 msgid "not known yet"
 msgstr ""
 
 #: onedesk/public/js/desk.js:143
 msgid "nothing"
+msgstr ""
+
+#. Option for the 'Linked By' (Select) field in DocType 'Communication Link'
+#: onedesk/one_mail/custom/communication_link.json
+msgid "oneai"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:1281
@@ -13859,6 +14187,10 @@ msgstr ""
 msgid "shared it with {0}"
 msgstr ""
 
+#: onedesk/one_intake/act.py:491
+msgid "something else uses it now"
+msgstr ""
+
 #: onedesk/public/js/crm_record.js:57
 msgid "tax number"
 msgstr ""
@@ -13907,7 +14239,7 @@ msgstr ""
 msgid "uploaded a new version"
 msgstr ""
 
-#: onedesk/public/js/intake.js:55
+#: onedesk/public/js/intake.js:59
 msgid "us"
 msgstr ""
 
@@ -14413,8 +14745,16 @@ msgstr ""
 msgid "{0} list"
 msgstr ""
 
+#: onedesk/one_intake/act.py:159
+msgid "{0} may not do this themselves."
+msgstr ""
+
 #: onedesk/public/js/ai_model_list.js:67
 msgid "{0} models, {1} priced, {2} need review."
+msgstr ""
+
+#: onedesk/public/js/intake.js:203
+msgid "{0} not checked by a person"
 msgstr ""
 
 #: onedesk/public/js/expense_claim.js:49
@@ -14527,6 +14867,10 @@ msgstr ""
 
 #: onedesk/public/js/tenant.js:169
 msgid "{0} signed for and not yet counted."
+msgstr ""
+
+#: onedesk/one_intake/filing.py:316
+msgid "{0} things OneAI read in {1} need a look."
 msgstr ""
 
 #: onedesk/public/js/appraisal.js:30 onedesk/public/js/leave_application.js:29

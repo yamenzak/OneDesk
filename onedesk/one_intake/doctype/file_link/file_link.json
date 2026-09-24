@@ -1,0 +1,74 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-09-27 09:00:00.000000",
+ "description": "A file that belongs to a record as well as to where it is kept.",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "file",
+  "for_doctype",
+  "for_name",
+  "reading"
+ ],
+ "fields": [
+  {
+   "fieldname": "file",
+   "fieldtype": "Link",
+   "label": "File",
+   "options": "File",
+   "reqd": 1,
+   "in_list_view": 1,
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "for_doctype",
+   "fieldtype": "Link",
+   "label": "Linked To Type",
+   "options": "DocType",
+   "reqd": 1,
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "for_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Linked To",
+   "options": "for_doctype",
+   "reqd": 1,
+   "in_list_view": 1,
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "reading",
+   "fieldtype": "Link",
+   "label": "Reading",
+   "options": "Reading",
+   "read_only": 1
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-27 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Intake",
+ "name": "File Link",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "report": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

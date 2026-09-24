@@ -82,6 +82,13 @@ def _done(reading) -> None:
 	reading.flags.ignore_permissions = True
 	reading.save()
 	frappe.db.commit()
+	from onedesk.one_intake import filing
+
+	try:
+		filing.run(reading.name)
+	except Exception:
+		frappe.db.rollback()
+		frappe.log_error(title=f"Intake could not file {reading.name}")
 
 
 # ------------------------------------------------------------------ without a model

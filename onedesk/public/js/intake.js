@@ -17,10 +17,14 @@ onedesk.intake.panel = async ($el, which) => {
 		return;
 	}
 	if (!said || !said.read_by_ai || ["Spam", "Advertising", "Newsletter", "Notification", "Phishing"].includes(said.verdict) && !said.kind) {
-		if (said && said.verdict) $el.html(onedesk.intake.junk(said));
+		if (said && said.verdict) {
+			$el.html(onedesk.intake.junk(said));
+			onedesk.intake.bind($el, which, said.name);
+		}
 		return;
 	}
 	$el.html(onedesk.intake.html(said));
+	onedesk.intake.bind($el, which, said.name);
 };
 
 onedesk.intake.junk = (said) => {
@@ -82,6 +86,156 @@ onedesk.intake.html = (said) => {
 		${said.title ? `<div class="oi-name">${esc(said.title)}</div>` : ""}
 		${said.summary ? `<div class="oi-summary">${esc(said.summary)}</div>` : ""}
 		${facts ? `<dl>${facts}</dl>` : ""}
-		${parties}${dates}${asks}${parts}${attached}${dropped}
+		${parties}${dates}${asks}${parts}${attached}${dropped}${onedesk.intake.actions(said)}
 	</div>`;
 };
+
+// ------------------------------------------------------------------ what OneAI did
+
+onedesk.intake.actions = (said) => {
+	const esc = frappe.utils.escape_html;
+	const rows = said.actions || [];
+	if (!rows.length) return "";
+	const link = (one) =>
+		one.record ? ` · <a href="/desk/${frappe.router.slug(one.record[0])}/${encodeURIComponent(one.record[1])}">${__("Open")}</a>` : "";
+	const row = (one) => {
+		const waits = one.level === "Proposed";
+		const buttons =
+			waits && said.may_decide
+				? ` <span class="oi-buttons"><button class="btn btn-xs btn-primary" data-settle="${esc(one.name)}" data-take="1">${__("Apply")}</button>
+				<button class="btn btn-xs btn-default" data-settle="${esc(one.name)}" data-take="0">${__("Dismiss")}</button></span>`
+				: "";
+		const chip = waits
+			? `<span class="oi-chip" data-tone="orange">${__("Needs a look")}</span> `
+			: one.level === "Refused"
+			? `<span class="oi-chip" data-tone="gray">${__("Not allowed")}</span> `
+			: "";
+		const why = waits || one.level === "Refused" ? (one.why ? `<div class="oi-quiet">${esc(one.why)}</div>` : "") : "";
+		const change = (one.change || [])
+			.map((it) => `<div class="oi-change">${esc(it.field)}: <s>${esc(String(it.from))}</s> → ${esc(String(it.to))}</div>`)
+			.join("");
+		return `<li>${chip}${esc(one.said)}${link(one)}${change}${buttons}${why}</li>`;
+	};
+	const done = rows.some((one) => one.level === "Done");
+	const undo = done && said.may_decide ? `<button class="btn btn-xs btn-default oi-undo" data-undo="1">${__("Undo")}</button>` : "";
+	return `<div class="oi-title oi-did">${__("What OneAI did")}${undo}</div><ul>${rows.map(row).join("")}</ul>`;
+};
+
+onedesk.intake.bind = ($el, which, reading) => {
+	$el.find("[data-settle]").on("click", async (event) => {
+		const $button = $(event.currentTarget);
+		$button.prop("disabled", true);
+		await frappe.xcall("onedesk.one_intake.act.settle", { action: $button.attr("data-settle"), take: $button.attr("data-take") });
+		onedesk.intake.panel($el, which);
+	});
+	$el.find("[data-undo]").on("click", () => {
+		frappe.confirm(__("Take back everything OneAI did with this document?"), async () => {
+			const said = await frappe.xcall("onedesk.one_intake.act.undo", { reading });
+			onedesk.intake.undone(said);
+			onedesk.intake.panel($el, which);
+		});
+	});
+};
+
+onedesk.intake.undone = (said) => {
+	const esc = frappe.utils.escape_html;
+	if (!(said.kept || []).length) {
+		frappe.show_alert({ message: __("Undone."), indicator: "green" });
+		return;
+	}
+	frappe.msgprint({
+		title: __("Some of it stays"),
+		message: `<ul>${said.kept.map((one) => `<li>${esc(one.target.join(" "))}: ${esc(one.why)}</li>`).join("")}</ul>`,
+	});
+};
+
+// ------------------------------------------------------------------ the mark in lists
+
+// A record OneAI made and no person has checked carries the OneAI mark beside
+// its title in every list (docs/INTAKE.md §4.2). The list asks once per
+// render which of its rows are marked, and only for a doctype the boot says
+// holds any; a row drawn later (the long list draws as it scrolls) reads the
+// same answer when its title is made.
+(() => {
+	const List = frappe.views && frappe.views.ListView;
+	if (!List || List.prototype.one_intake_marked) return;
+	List.prototype.one_intake_marked = true;
+
+	const mark = () => {
+		const img = document.createElement("img");
+		img.className = "one-intake-mark";
+		img.src = onedesk.intake.MARK;
+		img.alt = __("Made by OneAI");
+		img.title = __("Made by OneAI. Nobody has checked it yet.");
+		return img;
+	};
+
+	const subject = List.prototype.get_subject_element;
+	List.prototype.get_subject_element = function (doc, title) {
+		const div = subject.call(this, doc, title);
+		const link = div.querySelector("a");
+		if (link && this.one_unchecked && this.one_unchecked.has(doc.name)) link.before(mark());
+		return div;
+	};
+
+	const render = List.prototype.render;
+	List.prototype.render = function () {
+		render.call(this);
+		if (!(frappe.boot.one_intake_marked || []).includes(this.doctype)) return;
+		frappe
+			.xcall("onedesk.one_intake.mark.unchecked", { doctype: this.doctype, names: (this.data || []).map((doc) => doc.name) })
+			.then((said) => {
+				this.one_unchecked = new Set(said.names);
+				for (const name of said.names) {
+					const $box = this.$result.find(`.list-row-checkbox[data-name="${CSS.escape(name)}"]`);
+					const $subject = $box.closest(".list-subject");
+					if ($subject.length && !$subject.find(".one-intake-mark").length) $subject.find("a").first().before(mark());
+				}
+				onedesk.intake.unchecked_button(this, said);
+			});
+	};
+})();
+
+onedesk.intake.unchecked_button = (list, said) => {
+	if (list.one_unchecked_label) list.page.remove_inner_button(list.one_unchecked_label);
+	list.one_unchecked_label = null;
+	if (!said.total) return;
+	const label = said.total === 1 ? __("1 not checked by a person") : __("{0} not checked by a person", [said.total]);
+	list.one_unchecked_label = label;
+	list.page.add_inner_button(label, () => list.filter_area.add([[list.doctype, "name", "in", said.all]]));
+};
+
+// ------------------------------------------------------------------ the banner on a form
+
+$(document).on("form-refresh", (event, frm) => {
+	const held = (frm.doc.__onload || {}).one_intake_mark;
+	if (!held) return;
+	const esc = frappe.utils.escape_html;
+	const doc = held.document || {};
+	const from = doc.route ? `<a href="${esc(doc.route)}">${esc(doc.label || "")}</a>` : esc(doc.label || "");
+	frm.set_intro(
+		`<div class="oi-banner"><img src="${onedesk.intake.MARK}" alt="">
+		<span>${from ? __("OneAI made this from {0}. Nobody has checked it yet.", [from]) : __("OneAI made this. Nobody has checked it yet.")}</span>
+		<span class="oi-buttons"><button class="btn btn-xs btn-default" data-looks-right>${__("Looks right")}</button>
+		${held.action ? `<button class="btn btn-xs btn-default" data-undo-one>${__("Undo")}</button>` : ""}</span></div>`,
+		"blue"
+	);
+	const $banner = frm.$intro_message || $();
+	$banner.find("[data-looks-right]").on("click", async () => {
+		await frappe.xcall("onedesk.one_intake.mark.looks_right", { doctype: frm.doctype, name: frm.docname });
+		delete frm.doc.__onload.one_intake_mark;
+		frm.set_intro();
+		frappe.show_alert({ message: __("Marked as checked."), indicator: "green" });
+	});
+	$banner.find("[data-undo-one]").on("click", () => {
+		frappe.confirm(__("Take back what OneAI made here?"), async () => {
+			const said = await frappe.xcall("onedesk.one_intake.act.undo_one", { action: held.action });
+			if (said.why) {
+				frappe.msgprint(said.why);
+				return;
+			}
+			frappe.show_alert({ message: __("Undone."), indicator: "green" });
+			frappe.set_route("List", frm.doctype);
+		});
+	});
+});

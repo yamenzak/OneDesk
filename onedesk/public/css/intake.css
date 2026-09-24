@@ -110,3 +110,49 @@
 .oi-dropped summary {
 	cursor: pointer;
 }
+
+/* What OneAI did with the document, and the buttons to decide or undo. */
+.oi-did {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: calc(var(--spacing) * 2);
+}
+
+.oi-buttons {
+	display: inline-flex;
+	gap: calc(var(--spacing) * 1);
+	margin-inline-start: calc(var(--spacing) * 1.5);
+	vertical-align: middle;
+}
+
+/* The mark on a record OneAI made that nobody has checked: in a list, beside
+   the title; on the form, a banner. */
+.one-intake-mark {
+	width: 14px;
+	height: 14px;
+	margin-inline-end: calc(var(--spacing) * 1.5);
+	flex: none;
+	vertical-align: -2px;
+}
+
+.oi-banner {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+}
+
+.oi-banner img {
+	width: 16px;
+	height: 16px;
+}
+
+.oi-change {
+	color: var(--ink-gray-7);
+	font-variant-numeric: tabular-nums;
+}
+
+.oi-change s {
+	color: var(--ink-gray-5);
+}

@@ -85,3 +85,17 @@ def pieces(content: bytes, per_piece: int, password: str | None = None) -> list[
 		writer.write(buffer)
 		out.append((first, buffer.getvalue()))
 	return out
+
+
+def cut(content: bytes, pages: list[int], password: str | None = None) -> bytes:
+	"""Only these pages of a PDF, as a PDF of their own."""
+	from pypdf import PdfWriter
+
+	reader = _reader(content, password)
+	writer = PdfWriter()
+	for index in pages:
+		if 0 <= index < len(reader.pages):
+			writer.add_page(reader.pages[index])
+	buffer = io.BytesIO()
+	writer.write(buffer)
+	return buffer.getvalue()

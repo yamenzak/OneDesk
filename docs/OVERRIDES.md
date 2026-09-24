@@ -5,6 +5,9 @@ Each row is something that would still run but stop working if upstream moved. `
 
 | What | Why | Ours | Upstream | Must still contain |
 |---|---|---|---|---|
+| A record OneAI made carries the OneAI mark in every list | intake.js wraps ListView.get_subject_element to put the mark before the title, and render to ask once per page which rows carry it; the long list draws rows as it scrolls, so the title is the one place every row passes | `onedesk/public/js/intake.js` | `frappe/frappe/public/js/frappe/list/list_view.js` | `get_subject_element(doc, title) {` |
+| OneAI tags a file with Frappe's own tags | DocTags.add checks write permission for whoever is signed in and the OneAI user holds none, so act.py makes the same two writes, the _user_tags column and a Tag Link, after checking the person OneAI acts for | `onedesk/one_intake/act.py` | `frappe/frappe/desk/doctype/tag/tag.py` | `def update_tags(doc, tags):` |
+| A record's Files tab lists the files linked to it as well as those attached | a File has one attached_to; a document that belongs to several records is attached to the main one and File-Linked to the rest, and namespace.attachments adds those the reader may open | `onedesk/one_storage/namespace.py` | `frappe/frappe/core/doctype/file/file.py` | `def create_attachment_copy(` |
 | The email composer signs as the sending address, not the writer | mail_compose.js wraps CommunicationComposer.get_signature, which prefers the writer's own User signature, so a shared address signs the same whoever writes | `onedesk/public/js/mail_compose.js` | `frappe/frappe/public/js/frappe/views/communication.js` | `async get_signature(sender_email) {` |
 | Mail sent from here is not signed again on save | Communication.before_save appends the sender's or the default account's signature after the composer closed; file_sent sets skip_add_signature | `onedesk/one_mail/outbound.py` | `frappe/frappe/core/doctype/communication/communication.py` | `if not self.flags.skip_add_signature:` |
 | A form's timeline lists only the mail its reader may open | Frappe lists every message linked to a record to whoever reads the record; a link must not grant read | `onedesk/one_mail/linking.py` | `frappe/frappe/desk/form/load.py` | `frappe.response["docinfo"] = docinfo` |
@@ -186,4 +189,4 @@ Each row is something that would still run but stop working if upstream moved. `
 | Frappe answers OPTIONS before any method runs | so dav.headers (after_request) adds DAV: 1, 2 and answers an authenticated OPTIONS 200, which Finder sends and Frappe cannot sign in | `onedesk/one_storage/dav.py` | `frappe/frappe/app.py` | `if request.method == "OPTIONS":` |
 | A drive password signs in before Frappe's API-key check | Frappe reads any Basic header as an API key and refuses the request if it is not one; dav.sign_in runs in before_request, which Frappe calls before validate_auth, and removes the header once it has signed the person in | `onedesk/one_storage/dav.py` | `frappe/frappe/app.py` | `for before_request_task in frappe.get_hooks("before_request"):` |
 
-180 overrides.
+183 overrides.

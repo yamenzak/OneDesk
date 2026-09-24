@@ -7,7 +7,9 @@
  "engine": "InnoDB",
  "field_order": [
   "records",
-  "most_pages"
+  "most_pages",
+  "floor",
+  "keep_in_place"
  ],
  "fields": [
   {
@@ -24,6 +26,20 @@
    "default": "60",
    "non_negative": 1,
    "description": "A scan longer than this is read up to here. The rest stays searchable by its name."
+  },
+  {
+   "fieldname": "floor",
+   "fieldtype": "Percent",
+   "label": "Confidence Floor",
+   "default": "70",
+   "description": "Below this, what OneAI would make or change waits in Needs a Look."
+  },
+  {
+   "fieldname": "keep_in_place",
+   "fieldtype": "Check",
+   "label": "Leave Unmatched Files in Place",
+   "default": "0",
+   "description": "Files that belong to no record stay where they arrived instead of going to a folder for their kind and year."
   }
  ],
  "issingle": 1,

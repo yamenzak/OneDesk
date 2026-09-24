@@ -177,19 +177,23 @@ doc_events = {
 	# hrms counts milestones by letting an insert fail, and the message outlives
 	# the savepoint. See one/quiet.py.
 	"*": {
-		"on_submit": "onedesk.one.quiet.milestone",
+		"on_submit": ["onedesk.one.quiet.milestone", "onedesk.one_intake.mark.looked_at"],
 		"after_insert": [
 			"onedesk.one.quiet.milestone",
 			# A contact, customer or supplier someone already is. See one_intake/identity.py.
 			"onedesk.one_intake.identity.flag",
 		],
-		# The fields OneAI wrote that still say it. See one_ai/touch.py.
-		"onload": "onedesk.one_ai.touch.onload",
+		# The fields OneAI wrote that still say it (one_ai/touch.py), and the
+		# mark on a record OneAI made that nobody has checked (one_intake/mark.py).
+		"onload": ["onedesk.one_ai.touch.onload", "onedesk.one_intake.mark.onload"],
 		# Every identifier a record carries, kept up as it changes and carried
-		# through a rename or a merge. See one_intake/identity.py.
-		"on_update": "onedesk.one_intake.identity.remember",
-		"after_rename": "onedesk.one_intake.identity.renamed",
-		"on_trash": ["onedesk.one_ai.touch.forget", "onedesk.one_intake.identity.forget"],
+		# through a rename or a merge. See one_intake/identity.py. A person's
+		# save, submit or cancel takes the OneAI mark down.
+		"on_update": ["onedesk.one_intake.identity.remember", "onedesk.one_intake.mark.looked_at"],
+		"on_cancel": "onedesk.one_intake.mark.looked_at",
+		"before_rename": "onedesk.one_intake.mark.before_rename",
+		"after_rename": ["onedesk.one_intake.identity.renamed", "onedesk.one_intake.mark.after_rename"],
+		"on_trash": ["onedesk.one_ai.touch.forget", "onedesk.one_intake.identity.forget", "onedesk.one_intake.filing.forget"],
 	},
 	"Employee": {
 		"validate": "onedesk.one_hr.leaving.notice_ends_on",
@@ -382,6 +386,8 @@ override_whitelisted_methods = {
 }
 
 has_permission = {
+	# What OneAI did is seen by whom it acted for. See one_intake/act.py.
+	"Intake Action": "onedesk.one_intake.act.has_permission",
 	# A message opens for its mailbox's holders and its record's readers.
 	# See one_mail/access.py.
 	"Communication": "onedesk.one_mail.access.allowed",
@@ -410,6 +416,7 @@ has_permission = {
 # only called when there is a document, so on its own it guarded the form and
 # left get_list wide open — measured, not assumed.
 permission_query_conditions = {
+	"Intake Action": "onedesk.one_intake.act.query",
 	"Mail Rule": "onedesk.one_mail.rules.rule_query",
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.query",
 	"Task": "onedesk.one_task.access.query",

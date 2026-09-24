@@ -693,7 +693,16 @@ def attachments(doctype: str, name: str) -> list[dict]:
 		fields=FIELDS,
 		order_by="file_name asc",
 	)
-	return [node(one) for one in found]
+	out = [node(one) for one in found]
+	# Files that belong here as well as where they are kept (one_intake's File
+	# Link). A link never grants read: only those the reader may open.
+	linked = frappe.get_all("File Link", filters={"for_doctype": doctype, "for_name": name}, pluck="file")
+	held = {one.name for one in found}
+	if linked:
+		for one in frappe.get_all("File", filters={"name": ["in", linked], "is_folder": 0}, fields=FIELDS, order_by="file_name asc"):
+			if one.name not in held and may(one):
+				out.append({**node(one), "linked": True})
+	return out
 
 
 def binned(user: str | None = None) -> list[dict]:

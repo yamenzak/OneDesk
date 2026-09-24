@@ -20,6 +20,12 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_titles"] = titles.for_boot()
 
+	# The doctypes that hold a record OneAI made and nobody checked, so a list
+	# of anything else never asks. See one_intake/mark.py.
+	from onedesk.one_intake import mark
+
+	bootinfo["one_intake_marked"] = sorted(mark.marked_doctypes())
+
 	# What each provisioning step is doing, in words. The list view needs it and
 	# so does the form; putting a copy in JavaScript would be a second list to
 	# be wrong the day somebody adds a step. Only on the admin site, where the

@@ -134,8 +134,10 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
+| File Link | 4 | document |
 | Identifier | 6 | document |
-| Intake Settings | 2 | single |
+| Intake Action | 15 | document |
+| Intake Settings | 4 | single |
 | Reading | 56 | document |
 | Reading Ask | 4 | child |
 | Reading Date | 4 | child |
@@ -287,8 +289,13 @@ No doctypes yet.
 * `onedesk.one_hr.signin.begin`
 * `onedesk.one_hr.signin.finish`
 * `onedesk.one_hr.signin.offered`
+* `onedesk.one_intake.act.settle`
+* `onedesk.one_intake.act.undo`
+* `onedesk.one_intake.act.undo_one`
 * `onedesk.one_intake.identity.merge`
 * `onedesk.one_intake.identity.not_duplicate`
+* `onedesk.one_intake.mark.looks_right`
+* `onedesk.one_intake.mark.unchecked`
 * `onedesk.one_intake.panel.for_file`
 * `onedesk.one_intake.panel.for_message`
 * `onedesk.one_intake.switches.folder_state`

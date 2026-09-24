@@ -26,6 +26,19 @@
    "read_only": 1,
    "module": "One Intake",
    "name": "File-one_intake_for"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "File",
+   "fieldname": "one_reading",
+   "fieldtype": "Link",
+   "label": "Reading",
+   "options": "Reading",
+   "insert_after": "one_intake_for",
+   "read_only": 1,
+   "hidden": 1,
+   "module": "One Intake",
+   "name": "File-one_reading"
   }
  ],
  "doctype": "File",
