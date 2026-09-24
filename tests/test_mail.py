@@ -542,3 +542,30 @@ def test_rules_and_away_run_on_new_mail_only():
 	assert sync.count("fresh=False") == 2, "a first read and history are not new mail"
 	assert "rules.after(" in (MAIL / "inbound.py").read_text()
 	assert '"Mail Rule": "onedesk.one_mail.rules.rule_allowed"' in HOOKS
+
+
+# ------------------------------------------------------------------ from the old OneMail
+
+
+def test_a_search_understands_the_usual_operators():
+	space = _load(MAIL / "api.py", ("OPERATORS", "WORD", "operators"), re=re)
+	asked = space["operators"]('from:ana subject:"price list" is:unread has:attachment invoice http://x.com')
+	assert asked["from"] == ["ana"] and asked["subject"] == ["price list"]
+	assert asked["is"] == {"unread"} and asked["has"] == {"attachment"}
+	assert asked["words"] == ["invoice", "http://x.com"], "an unknown key: is searched for as written"
+
+
+def test_a_move_or_a_delete_to_trash_can_be_taken_back():
+	source = (MAIL / "actions.py").read_text()
+	assert "def put_back(" in source and '"was": was' in source
+	assert "HEADER Message-ID" in source, "a message moved without its new uid is found again"
+	assert "put_back" in PAGE_JS and "Undo" in PAGE_JS
+
+
+def test_a_message_is_signed_as_the_address_it_is_sent_from():
+	assert "doc.flags.skip_add_signature = True" in (MAIL / "outbound.py").read_text(), (
+		"Frappe's signature after the composer closed"
+	)
+	compose = (tree.APP / "public" / "js" / "mail_compose.js").read_text()
+	assert "holders.signature_for" in compose
+	assert "/assets/onedesk/js/mail_compose.js" in HOOKS

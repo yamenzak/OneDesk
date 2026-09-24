@@ -577,6 +577,7 @@ app_include_js = [
 	"/assets/onedesk/js/record_files.js",
 	"/assets/onedesk/js/record_mail.js",
 	"/assets/onedesk/js/record_activity.js",
+	"/assets/onedesk/js/mail_compose.js",
 	"/assets/onedesk/js/onecloud_picker.js",
 	"/assets/onedesk/js/band.js",
 	"/assets/onedesk/js/crm_record.js",

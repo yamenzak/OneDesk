@@ -233,10 +233,15 @@ def with_references(raw: bytes) -> bytes:
 
 
 def file_sent(doc, method=None) -> None:
-	"""Communication before_insert: mail sent from here is in Sent, and in
-	the thread of what it answers."""
+	"""Communication before_insert: mail sent from here is in Sent, in the
+	thread of what it answers, and signed only as the composer signed it."""
 	if doc.communication_medium != "Email" or doc.sent_or_received != "Sent":
 		return
+	# Frappe appends a signature on save, the sender's own or the default
+	# outgoing account's, after the composer has closed. The signature belongs
+	# to the address it is sent from, and goes on in the composer, where it can
+	# be seen and changed (public/js/mail_compose.js).
+	doc.flags.skip_add_signature = True
 	doc.one_folder = doc.one_folder or "Sent"
 	if not doc.one_thread and doc.in_reply_to:
 		parent = frappe.db.get_value(

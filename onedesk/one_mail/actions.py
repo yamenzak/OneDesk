@@ -162,26 +162,64 @@ def star(names, flagged: int = 1) -> int:
 # ------------------------------------------------------------------ moving
 
 
+def _was(rows) -> list[dict]:
+	"""Where messages are before a change, so the change can be undone."""
+	folders = (
+		{
+			(row.account, row.path): row.name
+			for row in frappe.get_all(
+				"Mail Folder",
+				filters={"account": ["in", list({one.email_account for one in rows})]},
+				fields=["name", "account", "path"],
+			)
+		}
+		if rows
+		else {}
+	)
+	return [
+		{"name": row.name, "folder": folders[(row.email_account, row.one_folder)]}
+		for row in rows
+		if (row.email_account, row.one_folder) in folders
+	]
+
+
 @frappe.whitelist(methods=["POST"])
-def move(names, folder: str) -> int:
-	"""Move messages into a folder of the same mailbox."""
+def move(names, folder: str) -> dict:
+	"""Move messages into a folder of the same mailbox. Answers where they
+	were, for `put_back`."""
 	target = frappe.get_doc("Mail Folder", folder)
 	rows = _rows(names)
+	was = _was([row for row in rows if row.one_folder != target.path])
 	for (account, path), group in _grouped(rows).items():
 		if account != target.account:
 			frappe.throw(_("A message can only move to a folder of its own mailbox."))
 		if path == target.path:
 			continue
 		_move(account, path, group, target.path)
-	return len(rows)
+	return {"count": len(rows), "was": was}
+
+
+@frappe.whitelist(methods=["POST"])
+def put_back(was) -> int:
+	"""Undo a move, an archive or a delete to Trash: each message back to the
+	folder it was in."""
+	was = frappe.parse_json(was) if isinstance(was, str) else was
+	back = {}
+	for one in was or []:
+		back.setdefault(one["folder"], []).append(one["name"])
+	for folder, names in back.items():
+		move(names, folder)
+	return sum(len(names) for names in back.values())
 
 
 def _move(account: str, path: str | None, group: list, to: str) -> None:
 	now = {}
-	if _connected(account) and path and _uids(group):
+	if _connected(account) and path:
 		with imap.Session(frappe.get_doc("Email Account", account)) as session:
 			session.select(path, readonly=False)
-			now = session.move(_uids(group), to)
+			_find_uids(session, group)
+			if _uids(group):
+				now = session.move(_uids(group), to)
 	for row in group:
 		# Without COPYUID the new uid is unknown; the next sync reads the target
 		# folder and finds the message by its Message-ID.
@@ -195,13 +233,28 @@ def _move(account: str, path: str | None, group: list, to: str) -> None:
 	recount(account, to)
 
 
+def _find_uids(session, group: list) -> None:
+	"""A message moved here without its new uid (a server without UIDPLUS)
+	is found in the open folder by its Message-ID."""
+	for row in group:
+		if row.uid:
+			continue
+		message_id = frappe.db.get_value("Communication", row.name, "message_id")
+		if message_id:
+			found = session.uids(f'HEADER Message-ID "<{message_id.strip("<>")}>"')
+			row.uid = found[-1] if found else 0
+
+
 @frappe.whitelist(methods=["POST"])
-def delete(names) -> int:
-	"""Into Trash; out of Trash for good."""
+def delete(names) -> dict:
+	"""Into Trash, which `put_back` undoes; out of Trash for good, which
+	nothing does."""
 	rows = _rows(names)
+	was = []
 	for (account, path), group in _grouped(rows).items():
 		trash = folder_of(account, "Trash")
 		if trash and path != trash:
+			was += _was(group)
 			_move(account, path, group, trash)
 			continue
 		if _connected(account) and path and _uids(group):
@@ -216,7 +269,7 @@ def delete(names) -> int:
 			else:
 				frappe.delete_doc("Communication", row.name, ignore_permissions=True, force=True)
 		recount(account, path)
-	return len(rows)
+	return {"count": len(rows), "was": was}
 
 
 def linked(row) -> bool:

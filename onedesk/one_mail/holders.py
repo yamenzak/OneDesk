@@ -175,3 +175,41 @@ def restore() -> str | None:
 		doc.flags.ignore_permissions = True
 		doc.save()
 	return own
+
+
+@frappe.whitelist()
+def signature_of(account: str) -> str | None:
+	"""A mailbox's signature: the address's, whoever writes from it."""
+	from onedesk.one_mail import actions
+
+	actions.require(account)
+	return frappe.db.get_value("Email Account", account, "signature")
+
+
+@frappe.whitelist(methods=["POST"])
+def set_signature(account: str, signature: str | None = None) -> None:
+	"""Change a mailbox's signature. Anybody who holds it may: a signature is
+	how the address signs, and they all write as it."""
+	from onedesk.one_mail import actions
+
+	actions.require(account)
+	frappe.db.set_value(
+		"Email Account",
+		account,
+		{"signature": signature or None, "add_signature": int(bool((signature or "").strip()))},
+		update_modified=False,
+	)
+
+
+@frappe.whitelist()
+def signature_for(email: str) -> str | None:
+	"""The signature of the address the composer sends from, if the writer
+	holds it. Email Account itself is not readable to them."""
+	account = frappe.db.get_value(
+		"Email Account", {"email_id": email, "add_signature": 1}, ["name", "signature"], as_dict=True
+	)
+	if not account or not frappe.db.exists(
+		"User Email", {"parent": frappe.session.user, "email_account": account.name}
+	):
+		return None
+	return account.signature

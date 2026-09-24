@@ -283,6 +283,7 @@ No doctypes yet.
 * `onedesk.one_mail.actions.delete_folder`
 * `onedesk.one_mail.actions.mark`
 * `onedesk.one_mail.actions.move`
+* `onedesk.one_mail.actions.put_back`
 * `onedesk.one_mail.actions.rename_folder`
 * `onedesk.one_mail.actions.star`
 * `onedesk.one_mail.addresses.give`
@@ -296,7 +297,10 @@ No doctypes yet.
 * `onedesk.one_mail.holders.replace`
 * `onedesk.one_mail.holders.restore`
 * `onedesk.one_mail.holders.set_holders`
+* `onedesk.one_mail.holders.set_signature`
 * `onedesk.one_mail.holders.shared`
+* `onedesk.one_mail.holders.signature_for`
+* `onedesk.one_mail.holders.signature_of`
 * `onedesk.one_mail.inbound.notice`
 * `onedesk.one_mail.linking.file`
 * `onedesk.one_mail.linking.get_communications`

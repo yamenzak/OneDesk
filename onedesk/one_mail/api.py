@@ -35,6 +35,60 @@ def snippet(html: str | None) -> str:
 	return text[:SNIPPET]
 
 
+#: The words a search understands before a colon, as mail clients spell them.
+OPERATORS = ("from", "to", "subject", "has", "is")
+
+#: A search word: `key:value`, `key:"two words"`, "a phrase", or a word.
+WORD = re.compile(r'(?:(\w+):)?(?:"([^"]*)"|(\S+))')
+
+
+def operators(text: str) -> dict:
+	"""A search split into what each operator asks for and the words left
+	over. `from:ana subject:"price list" is:unread has:attachment invoice`.
+	An unknown `key:` is searched for as it is written. Pure."""
+	out = {"from": [], "to": [], "subject": [], "has": set(), "is": set(), "words": []}
+	for key, quoted, bare in WORD.findall(text or ""):
+		value = quoted if quoted else bare
+		key = key.lower()
+		if key in ("has", "is"):
+			out[key].add(value.lower())
+		elif key in OPERATORS:
+			out[key].append(value)
+		elif value:
+			out["words"].append(f"{key}:{value}" if key else value)
+	return out
+
+
+def searched(query, C, asked: dict):
+	"""A query narrowed to what a search asked for. Each part narrows it
+	further; a word may be anywhere in the message."""
+	for value in asked["from"]:
+		query = query.where(C.sender.like(f"%{value}%") | C.sender_full_name.like(f"%{value}%"))
+	for value in asked["to"]:
+		query = query.where(C.recipients.like(f"%{value}%") | C.cc.like(f"%{value}%"))
+	for value in asked["subject"]:
+		query = query.where(C.subject.like(f"%{value}%"))
+	if "attachment" in asked["has"] or "attachments" in asked["has"]:
+		query = query.where(C.has_attachment == 1)
+	if "unread" in asked["is"]:
+		query = query.where(C.seen == 0)
+	if "read" in asked["is"]:
+		query = query.where(C.seen == 1)
+	if "starred" in asked["is"]:
+		query = query.where(C.one_flagged == 1)
+	for value in asked["words"]:
+		like = f"%{value}%"
+		# The body is searched as a LIKE: there is no full-text index behind it.
+		query = query.where(
+			C.subject.like(like)
+			| C.sender.like(like)
+			| C.sender_full_name.like(like)
+			| C.recipients.like(like)
+			| C.content.like(like)
+		)
+	return query
+
+
 def _address(text: str | None) -> str:
 	"""The first address in a From or To, bare and lowercased. Pure."""
 	first = (text or "").split(",")[0]
@@ -64,14 +118,7 @@ def conversations(account: str, folder: str | None = None, search: str | None = 
 	query = frappe.qb.from_(C).where(C.email_account == account).where(C.communication_medium == "Email")
 	search = (search or "").strip()
 	if search:
-		like = f"%{search}%"
-		query = query.where(
-			(C.subject.like(like))
-			| (C.sender.like(like))
-			| (C.sender_full_name.like(like))
-			| (C.recipients.like(like))
-			| (C.content.like(like))
-		).where(C.one_folder.isnotnull())
+		query = searched(query, C, operators(search)).where(C.one_folder.isnotnull())
 	elif folder:
 		query = query.where(C.one_folder.isin(_paths(account, folder)))
 	else:

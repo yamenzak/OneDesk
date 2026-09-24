@@ -73,10 +73,8 @@ onedesk.OneMail = class OneMail {
 			</nav>
 			<section class="om-list" aria-label="${__("Conversations")}">
 				<div class="om-list-head">
-					<label class="om-search">${icon("search")}<input type="search" spellcheck="false" placeholder="${__("Search this mailbox")}"></label>
-					${bare("box-files", "paperclip", __("This mailbox's attachments, in OneCloud"))}
-					${bare("rules", "list-filter", __("Rules"))}
-					${bare("away", "plane", __("Out of office"))}
+					<label class="om-search">${icon("search")}<input type="search" spellcheck="false" placeholder="${__("Search this mailbox")}" title="${__("Also from:, to:, subject:, has:attachment, is:unread and is:starred")}"></label>
+					${bare("box-menu", "ellipsis", __("This mailbox"))}
 					${bare("refresh", "refresh-cw", __("Refresh"))}
 				</div>
 				<div class="om-picked" hidden>
@@ -584,15 +582,16 @@ onedesk.OneMail = class OneMail {
 	async run(what, threads) {
 		if (!threads.length || !this.box) return;
 		const folder_of = (kind) => this.box.folders.find((one) => one.kind === kind);
+		let was = null;
 		try {
 			if (what === "read" || what === "unread") await this.act("mark", { seen: what === "read" ? 1 : 0 }, threads);
 			else if (what === "star" || what === "unstar") await this.act("star", { flagged: what === "star" ? 1 : 0 }, threads);
 			else if (what === "archive") {
 				const archive = folder_of("Archive");
 				if (!archive) return frappe.show_alert({ message: __("This mailbox has no Archive folder."), indicator: "orange" });
-				await this.move_to(threads, archive.name);
-			} else if (what === "delete") await this.delete(threads);
-			else if (what.startsWith("move:")) await this.move_to(threads, what.slice(5));
+				was = await this.move_to(threads, archive.name);
+			} else if (what === "delete") was = await this.delete(threads);
+			else if (what.startsWith("move:")) was = await this.move_to(threads, what.slice(5));
 		} finally {
 			if (["archive", "delete"].includes(what) || what.startsWith("move:")) {
 				if (threads.includes(this.thread)) {
@@ -603,24 +602,43 @@ onedesk.OneMail = class OneMail {
 				this.selected.clear();
 			}
 			this.refresh();
+			if (was && was.length) this.offer_undo(was, what);
 		}
+	}
+
+	// Moved, archived or put in Trash: a moment to take it back.
+	offer_undo(was, what) {
+		const said = { archive: __("Archived."), delete: __("Moved to Trash.") }[what] || __("Moved.");
+		const toast = frappe.ui.toast({
+			message: said,
+			duration: 8000,
+			action: {
+				label: __("Undo"),
+				onclick: async () => {
+					toast.dismiss();
+					await frappe.xcall(OneMail.ACT + "put_back", { was });
+					this.refresh();
+				},
+			},
+		});
 	}
 
 	async move_to(threads, folder) {
 		const names = await this.names(threads, true);
-		if (names.length) await frappe.xcall(OneMail.ACT + "move", { names, folder });
+		if (!names.length) return null;
+		return ((await frappe.xcall(OneMail.ACT + "move", { names, folder })) || {}).was;
 	}
 
 	async delete(threads) {
 		const names = await this.names(threads, true);
-		if (!names.length) return;
+		if (!names.length) return null;
 		if (this.folder && this.folder.kind === "Trash" && !this.search) {
 			const sure = await new Promise((yes) =>
 				frappe.confirm(__("Delete these messages for good? This cannot be undone."), () => yes(true), () => yes(false))
 			);
-			if (!sure) return;
+			if (!sure) return null;
 		}
-		await frappe.xcall(OneMail.ACT + "delete", { names });
+		return ((await frappe.xcall(OneMail.ACT + "delete", { names })) || {}).was;
 	}
 
 	menu_of_folders(anchor, on_pick) {
@@ -642,6 +660,24 @@ onedesk.OneMail = class OneMail {
 			const folder = e.currentTarget.dataset.folder;
 			this.close_menu();
 			on_pick(folder);
+		});
+		setTimeout(() => $(document).on("mousedown.om-menu", (e) => !$(e.target).closest(".om-menu").length && this.close_menu()));
+	}
+
+	// A small menu of [icon, label, do] under a button.
+	menu(anchor, items) {
+		this.close_menu();
+		const esc = frappe.utils.escape_html;
+		const rect = anchor.getBoundingClientRect();
+		this.$menu = $(`<div class="om-menu" role="menu">${items
+			.map(([icon, label], at) => `<button class="om-menu-item" data-at="${at}">${frappe.utils.icon(icon, "sm")}<span>${esc(label)}</span></button>`)
+			.join("")}</div>`).appendTo(document.body);
+		const width = this.$menu.outerWidth();
+		this.$menu.css({ top: rect.bottom + 4, left: Math.max(8, Math.min(rect.right - width, window.innerWidth - width - 8)) });
+		this.$menu.on("click", ".om-menu-item", (e) => {
+			const item = items[+e.currentTarget.dataset.at];
+			this.close_menu();
+			item[2]();
 		});
 		setTimeout(() => $(document).on("mousedown.om-menu", (e) => !$(e.target).closest(".om-menu").length && this.close_menu()));
 	}
@@ -782,6 +818,30 @@ onedesk.OneMail = class OneMail {
 		dialog.show();
 	}
 
+	// The open mailbox's signature: the address's, whoever writes from it.
+	async signature() {
+		const now = await frappe.xcall("onedesk.one_mail.holders.signature_of", { account: this.box.name });
+		const dialog = new frappe.ui.Dialog({
+			title: __("Signature for {0}", [this.box.email]),
+			fields: [
+				{
+					fieldname: "signature",
+					fieldtype: "Text Editor",
+					label: __("Signature"),
+					default: now || "",
+					description: __("Added to every message written from this address, whoever writes it. Leave it empty for none."),
+				},
+			],
+			primary_action_label: __("Save"),
+			primary_action: async (values) => {
+				await frappe.xcall("onedesk.one_mail.holders.set_signature", { account: this.box.name, signature: values.signature });
+				dialog.hide();
+				frappe.show_alert({ message: __("Signature saved."), indicator: "green" });
+			},
+		});
+		dialog.show();
+	}
+
 	async load_to(account) {
 		history.replaceState(null, "", `${location.pathname}?box=${encodeURIComponent(account)}`);
 		await this.load();
@@ -860,8 +920,16 @@ onedesk.OneMail = class OneMail {
 					await frappe.xcall("onedesk.one_storage.api.copy", { nodes: [e.currentTarget.dataset.file], target: "@my" });
 					frappe.show_alert({ message: __("Saved to My Files."), indicator: "green" });
 				},
+				"box-menu": () =>
+					this.menu(e.currentTarget, [
+						["paperclip", __("Attachments in OneCloud"), () => frappe.set_route("onecloud", { node: `@mail/${this.box.name}` })],
+						["list-filter", __("Rules"), () => frappe.set_route("List", "Mail Rule", { account: this.box.name })],
+						["plane", __("Out of office"), () => this.away()],
+						["signature", __("Signature"), () => this.signature()],
+					]),
 				rules: () => frappe.set_route("List", "Mail Rule", { account: this.box.name }),
 				away: () => this.away(),
+				signature: () => this.signature(),
 				"box-files": () => frappe.set_route("onecloud", { node: `@mail/${this.box.name}` }),
 				pictures: () => {
 					const name = $(e.currentTarget).closest(".om-message").attr("data-message");

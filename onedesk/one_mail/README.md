@@ -50,14 +50,23 @@ Select several with their boxes, or with Shift and Ctrl, to mark them read,
 star, move, archive or delete them together. Deleting from Trash is for good.
 The keys are the usual ones: `j` and `k` to move, `e` to archive, `#` to
 delete, `r`, `a` and `f` to reply, reply to all and forward, `s` to star,
-`u` to mark unread, `c` to write and `/` to search.
+`u` to mark unread, `c` to write and `/` to search. A move, an archive or a
+delete to Trash can be taken back with **Undo** for a few seconds after.
+
+Search takes `from:`, `to:`, `subject:`, `has:attachment`, `is:unread`,
+`is:read` and `is:starred`, and anything else is looked for anywhere in the
+message. `from:ana subject:"price list" is:unread` means all three.
+
+A message is signed as the address it is sent from, whoever writes it: the
+mailbox's ⋯ menu sets its signature, and the email window puts it
+in where it can be seen and changed before sending.
 
 Writing uses the desk's own email window, so a message can be scheduled,
 undone for a few seconds after sending, and filed on a record.
 
 ## Rules and being away
 
-**Rules** above a mailbox's list sort new mail as it arrives in the Inbox:
+**Rules**, in a mailbox's ⋯ menu, sort new mail as it arrives in the Inbox:
 move it to a folder, mark it read or star it, by who it is from or to, its
 subject, or whether it has attachments. On a connected mailbox the server
 does it too, so your phone agrees. Rules never touch mail that was already
@@ -86,8 +95,8 @@ the record's activity list only the messages you could already open.
 ## Attachments and faces
 
 Every attachment is in OneCloud, under **Mail**, in a folder per mailbox,
-seen only by the people who hold it. The paperclip above a mailbox's
-conversations opens that folder. An attachment's folder button saves a copy
+seen only by the people who hold it. The mailbox's ⋯ menu opens that
+folder. An attachment's folder button saves a copy
 to My Files, and a file from OneCloud can be attached when writing. A file
 too large to send from the workspace's address goes as a link that works
 for thirty days.
@@ -360,6 +369,26 @@ Stage 9, rules, out-of-office and bounces, is built.
   why in `one_bounce`. The message it bounced is marked Bounced. A 4.x.x
   delay is left alone. Mail sent from the mail domain bounces to
   Cloudflare, not to us, so those bounces are not seen yet.
+
+Read against the old OneMail before it was deleted, three things came
+across:
+- **The address signs, not the writer.** Frappe signs a Communication on
+  save with the sender's own User signature or the default outgoing
+  account's, after the composer has closed, so a reply from sales@ went out
+  signed by somebody else and nobody saw it. `file_sent` sets
+  `skip_add_signature`, and mail_compose.js makes the composer put in the
+  sending address's own signature (`holders.signature_for`, since Email
+  Account is not readable to its holders) before the writer's.
+- **Search operators** (`api.operators`), each narrowing the search further.
+  The body is still a LIKE: there is no full-text index behind it.
+- **Undo.** `move` and `delete` answer where each message was, and
+  `put_back` moves them there again. A connected server that did not say a
+  moved message's new uid (no UIDPLUS) has it found by Message-ID.
+Left behind on purpose: per-person read state on a shared address (one read
+state per mailbox was decided); sending as a customer's own domain from the
+mail domain (their own server does that, connected); complaints and
+soft-bounce backoff (no feedback loop reaches us); formal letters
+(Correspondence), which are OneWriter's rather than mail's; and the AI lane.
 
 ### Research and decisions
 
