@@ -24,6 +24,20 @@ class CloudFile(File):
 			return True
 		return super().exists_on_disk()
 
+	def validate_private_file_access(self):
+		"""Frappe lets a new row name a private file's URL if its own File
+		permission lets the user read the first row that names it. OneCloud's
+		rule is wider — a folder shared with you, a record you may read — so
+		any row naming it that namespace.may lets the reader open will do, and
+		Frappe's own check stays for everything else."""
+		if self.file_url:
+			from onedesk.one_storage import namespace
+
+			for name in frappe.get_all("File", filters={"file_url": self.file_url}, pluck="name", limit=50):
+				if namespace.may(namespace.row(name)):
+					return
+		return super().validate_private_file_access()
+
 	def get_content(self, encodings=None) -> bytes | str:
 		if self.get("content") or not store.is_stored(self.file_url):
 			return super().get_content(encodings)

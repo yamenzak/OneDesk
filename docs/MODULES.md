@@ -274,6 +274,10 @@ No doctypes yet.
 * `onedesk.one_storage.api.resolve`
 * `onedesk.one_storage.api.restore`
 * `onedesk.one_storage.ready.fix`
+* `onedesk.one_storage.share.people`
+* `onedesk.one_storage.share.set_edit`
+* `onedesk.one_storage.share.share`
+* `onedesk.one_storage.share.unshare`
 * `onedesk.one_storage.store.fetch`
 * `onedesk.one_storage.upload.begin`
 * `onedesk.one_storage.upload.done`

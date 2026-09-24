@@ -189,7 +189,7 @@ def test_the_explorer_calls_only_verbs_that_exist():
 	import re
 
 	js = (PAGE / "onecloud.js").read_text()
-	api = API.read_text() + UPLOAD.read_text()
+	api = API.read_text() + UPLOAD.read_text() + (tree.APP / "one_storage" / "share.py").read_text()
 	called = set(re.findall(r'OneCloud\.(?:API|UPLOAD) \+ "(\w+)"', js)) | set(re.findall(r'\bcall\("(\w+)"', js))
 	assert {"listing", "folders", "make_folder", "rename", "move", "copy", "delete", "restore", "purge", "empty_bin", "begin", "done", "resolve"} <= called
 	for name in called:
@@ -203,3 +203,41 @@ def test_the_explorer_has_the_keys_everybody_knows():
 		assert key in js, key
 	assert "webkitGetAsEntry" in js, "a whole folder can be dropped"
 	assert 'frappe.set_route("onecloud", { node })' in js, "the place is in the address"
+
+
+SHARE = tree.APP / "one_storage" / "share.py"
+
+
+def test_a_share_on_a_folder_reaches_everything_in_it_and_edit_beats_view():
+	held = {"Home/a/Projects": "read", "Home/a/Projects/Plans": "write"}
+	space = _load(NAMESPACE, ("granted",), grants=lambda user: held, chain=lambda folder: {
+		"Home/a/Projects/Plans": ["Home/a/Projects/Plans", "Home/a/Projects", "Home/a", "Home"],
+		"Home/a/Projects": ["Home/a/Projects", "Home/a", "Home"],
+		"Home/a": ["Home/a", "Home"],
+	}.get(folder, []))
+	granted = space["granted"]
+	assert granted({"name": "f1", "folder": "Home/a/Projects"}, "b") == "read", "a file in a shared folder"
+	assert granted({"name": "f2", "folder": "Home/a/Projects/Plans"}, "b") == "write", "the nearer edit share wins"
+	assert granted({"name": "Home/a/Projects", "folder": "Home/a"}, "b") == "read", "the folder itself"
+	assert granted({"name": "f3", "folder": "Home/a"}, "b") is None, "and nothing beside it"
+
+
+def test_a_share_is_read_before_a_home_says_no_and_never_for_a_portal_user():
+	body = _body(NAMESPACE, "may")
+	assert body.index("_staff(user)") < body.index("granted(item, user)") < body.index("where[0] == 'home'"), (
+		"a portal user gets nothing from a share; staff get what was shared before My Files is theirs alone"
+	)
+
+
+def test_what_was_shared_can_be_copied_out_but_not_taken():
+	assert "_leaves_its_owner(item, where[1])" in _body(API, "move")
+	assert "source[0] == 'home' and (source[1] != user)" in _body(API, "_leaves_its_owner")
+
+
+def test_sharing_is_for_the_team_and_a_records_file_goes_with_its_record():
+	body = _body(SHARE, "share")
+	assert "'user_type': 'System User'" in body, "a customer gets a link, not a seat"
+	assert "ignore_share_permission" in body, "our rule decided, so Frappe's is not asked again"
+	assert "Share the record instead" in _body(SHARE, "_shareable")
+	assert "ns.may(item, 'write')" in _body(SHARE, "_shareable"), "whoever may change it may share it"
+	assert "/desk/onecloud?node=" in _body(SHARE, "_tell"), "the notification opens the explorer"

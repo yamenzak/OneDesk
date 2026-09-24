@@ -84,6 +84,7 @@ onedesk.OneCloud = class OneCloud {
 				${bare("copy", "copy", __("Copy"))}
 				${bare("paste", "clipboard-paste", __("Paste"))}
 				${bare("rename", "pencil", __("Rename"))}
+				${bare("share", "user-plus", __("Share"))}
 				${bare("download", "download", __("Download"))}
 				${bare("delete", "trash-2", __("Delete"))}
 				<span class="oc-sep oc-in-bin"></span>
@@ -222,7 +223,9 @@ onedesk.OneCloud = class OneCloud {
 		this.draw_crumbs();
 		this.$search.attr("placeholder", __("Search {0}", [here ? here.name : __("Files")]));
 		this.$root.attr("data-kind", this.kind());
-		this.$root.toggleClass("oc-searching", !!this.search);
+		// Search results say which folder each is in; Shared with Me says who from.
+		this.$root.toggleClass("oc-searching", !!this.search || this.kind() === "shared");
+		this.$root.find(".oc-head .oc-col-where").text(this.kind() === "shared" && !this.search ? __("Shared by") : __("Folder"));
 		this.$root.find(".oc-head .oc-col-date").text(this.kind() === "bin" ? __("Date deleted") : __("Date modified"));
 		const sorted = this.sorted();
 		if (!sorted.length) {
@@ -377,8 +380,10 @@ onedesk.OneCloud = class OneCloud {
 			item.private === false && !item.folder
 				? `<span class="oc-public" title="${public_note}">${frappe.utils.icon("globe", "xs")}</span>`
 				: "";
+		const shared_note = __("Shared");
+		const shared = item.shared ? `<span class="oc-shared" title="${shared_note}">${frappe.utils.icon("users", "xs")}</span>` : "";
 		return `<div class="oc-item" role="option" draggable="true" data-id="${esc(item.id)}" data-folder="${item.folder ? 1 : 0}">
-			<span class="oc-name"><span class="oc-picture">${picture}</span><span class="oc-label">${esc(item.name)}</span>${count}${open}</span>
+			<span class="oc-name"><span class="oc-picture">${picture}</span><span class="oc-label">${esc(item.name)}</span>${count}${shared}${open}</span>
 			<span class="oc-col-where">${esc(item.where || "")}</span>
 			<span class="oc-col-date">${this.date_text(when)}</span>
 			<span class="oc-col-type">${esc(this.type_of(item))}</span>
@@ -417,6 +422,7 @@ onedesk.OneCloud = class OneCloud {
 		set("cut", all_stored && kind !== "bin");
 		set("copy", all_stored && kind !== "bin");
 		set("paste", this.can_add && !!this.clipboard);
+		set("share", chosen.length === 1 && this.shareable(chosen[0]) && kind !== "bin");
 		set("rename", chosen.length === 1 && this.stored(chosen[0]) && kind !== "bin" && kind !== "record");
 		set("download", chosen.length && chosen.every((one) => !one.folder && one.url));
 		set("delete", all_stored);
@@ -500,7 +506,7 @@ onedesk.OneCloud = class OneCloud {
 			list
 				.map((one) => {
 					const open = this.open_in_tree.has(one.id);
-					const leaf = one.id === "@bin" || one.id === "@shared" || (one.record && !one.doctype);
+					const leaf = one.id === "@bin" || (one.record && !one.doctype);
 					return `<div class="oc-node${one.id === this.node ? " oc-here" : ""}" data-node="${esc(one.id)}" style="--depth:${depth}">
 						<button class="oc-twisty" ${leaf ? "disabled" : ""} aria-label="${open ? __("Collapse") : __("Expand")}">${leaf ? "" : frappe.utils.icon(open ? "chevron-down" : "chevron-right", "xs")}</button>
 						${frappe.utils.icon(this.icon_of(one), "sm")}<span>${esc(one.name)}</span>
@@ -743,6 +749,9 @@ onedesk.OneCloud = class OneCloud {
 			case "rename":
 				if (chosen.length === 1 && this.stored(chosen[0]) && !["bin", "record"].includes(this.kind())) this.rename(chosen[0]);
 				return;
+			case "share":
+				if (chosen.length === 1 && this.shareable(chosen[0])) this.share(chosen[0]);
+				return;
 			case "download":
 				return this.download(chosen.filter((one) => !one.folder && one.url));
 			case "copy-link":
@@ -904,6 +913,80 @@ onedesk.OneCloud = class OneCloud {
 		this.refresh();
 	}
 
+	// ------------------------------------------------------------- sharing
+
+	// A record's file is shared by sharing the record.
+	shareable(item) {
+		return this.stored(item) && !(item.record && !item.folder);
+	}
+
+	share(item) {
+		const call = (method, args) => frappe.xcall("onedesk.one_storage.share." + method, args);
+		const dialog = new frappe.ui.Dialog({
+			title: __("Share {0}", [item.name]),
+			fields: [
+				{
+					fieldtype: "MultiSelectPills",
+					fieldname: "users",
+					label: __("Add people"),
+					get_data: (txt) => frappe.db.get_link_options("User", txt, { user_type: "System User", enabled: 1 }),
+				},
+				{
+					fieldtype: "Select",
+					fieldname: "access",
+					label: __("They can"),
+					options: [
+						{ value: "view", label: __("View") },
+						{ value: "edit", label: __("Edit") },
+					],
+					default: "view",
+				},
+				{ fieldtype: "HTML", fieldname: "people" },
+			],
+			primary_action_label: __("Share"),
+			primary_action: async (values) => {
+				if (!(values.users || []).length) return;
+				await call("share", { nodes: [item.id], users: values.users, edit: values.access === "edit" ? 1 : 0 });
+				dialog.set_value("users", []);
+				draw();
+				this.refresh();
+			},
+		});
+		const esc = frappe.utils.escape_html;
+		const draw = async () => {
+			const who = await call("people", { node: item.id });
+			const $people = dialog.fields_dict.people.$wrapper;
+			const row = (person, right) =>
+				`<div class="oc-person" data-user="${esc(person.user)}">${frappe.avatar(person.user, "avatar-small")}<span class="oc-person-name">${esc(person.name)}</span>${right}</div>`;
+			const choose = (person) =>
+				who.can_share
+					? `<select class="oc-person-access"><option value="view" ${person.edit ? "" : "selected"}>${__("Can view")}</option><option value="edit" ${person.edit ? "selected" : ""}>${__("Can edit")}</option></select>
+						<button class="es-button" data-variant="ghost" data-icon-button="true" data-size="sm" data-remove title="${__("Remove")}">${frappe.utils.icon("x", "sm")}</button>`
+					: `<span class="oc-person-right">${person.edit ? __("Can edit") : __("Can view")}</span>`;
+			const inherited = (person) => `<span class="oc-person-right">${person.edit ? __("Can edit") : __("Can view")} · ${esc(__("from {0}", [person.from]))}</span>`;
+			$people.html(`
+				<div class="oc-people-head">${__("People with access")}</div>
+				${row(who.owner, `<span class="oc-person-right">${__("Owner")}</span>`)}
+				${who.people.map((person) => row(person, choose(person))).join("")}
+				${who.inherited.map((person) => row(person, inherited(person))).join("")}`);
+			$people.find(".oc-person-access").on("change", async (e) => {
+				const user = $(e.target).closest(".oc-person").attr("data-user");
+				await call("set_edit", { node: item.id, user, edit: e.target.value === "edit" ? 1 : 0 });
+			});
+			$people.find("[data-remove]").on("click", async (e) => {
+				const user = $(e.currentTarget).closest(".oc-person").attr("data-user");
+				await call("unshare", { node: item.id, user });
+				draw();
+				this.refresh();
+			});
+			dialog.fields_dict.users.$wrapper.toggle(!!who.can_share);
+			dialog.fields_dict.access.$wrapper.toggle(!!who.can_share);
+			dialog.get_primary_btn().toggle(!!who.can_share);
+		};
+		dialog.show();
+		draw();
+	}
+
 	// ------------------------------------------------------------- menus
 
 	new_menu() {
@@ -944,6 +1027,7 @@ onedesk.OneCloud = class OneCloud {
 				["paste-into", "clipboard-paste", __("Paste into folder"), !!(this.clipboard && one && one.folder)],
 			],
 			[
+				["share", "user-plus", __("Share…"), !!(one && this.shareable(one))],
 				["rename", "pencil", __("Rename"), !!(one && stored) && this.kind() !== "record", "F2"],
 				["delete", "trash-2", __("Delete"), stored, "Del", "red"],
 			],

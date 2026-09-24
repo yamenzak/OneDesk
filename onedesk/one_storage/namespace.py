@@ -127,6 +127,61 @@ def ancestors(name: str) -> list[str]:
 	return chain
 
 
+def chain(folder: str | None) -> list[str]:
+	"""A folder and the folders above it, nearest first; asked once a request
+	per folder, since every file in a listing has the same one."""
+	if not folder:
+		return []
+	held = _request("onecloud_chains")
+	if folder not in held:
+		held[folder] = [folder, *ancestors(folder)]
+	return held[folder]
+
+
+def grants(user: str | None = None) -> dict:
+	"""What has been shared with `user`: {File name: "read" or "write"}. One
+	query a request; `forget` clears it after a share changes."""
+	user = user or frappe.session.user
+	held = _request("onecloud_grants")
+	if user not in held:
+		rows = frappe.get_all(
+			"DocShare",
+			filters={"share_doctype": "File", "user": user, "read": 1},
+			fields=["share_name", "write"],
+		)
+		held[user] = {one.share_name: "write" if one.write else "read" for one in rows}
+	return held[user]
+
+
+def _request(key: str) -> dict:
+	"""A dict that lasts as long as this request does."""
+	held = getattr(frappe.local, key, None)
+	if held is None:
+		held = {}
+		setattr(frappe.local, key, held)
+	return held
+
+
+def forget() -> None:
+	setattr(frappe.local, "onecloud_grants", {})
+	setattr(frappe.local, "onecloud_chains", {})
+
+
+def granted(item: dict, user: str) -> str | None:
+	"""The most `user` has been given on this item, by a share on it or on any
+	folder it is in: "write", "read" or None. Pure given `grants` and `chain`."""
+	held = grants(user)
+	if not held:
+		return None
+	best = None
+	for name in [item["name"], *chain(item.get("folder"))]:
+		right = held.get(name)
+		if right == "write":
+			return "write"
+		best = best or right
+	return best
+
+
 def space(item: dict) -> tuple:
 	"""Whose part of the tree a File is in: ("record", doctype, name),
 	("home", person), ("attachments",) or ("company",)."""
@@ -182,6 +237,10 @@ def may(item: dict, ptype: str = "read", user: str | None = None, where: tuple |
 	# of records they may read and their own, and nothing of the staff's.
 	if not _staff(user):
 		return False
+	# Shared with them, on the item or on a folder it is in.
+	right = granted(item, user)
+	if right == "write" or (right and ptype == "read"):
+		return True
 	if where[0] == "home":
 		return where[1] == user
 	if where[0] == "attachments":
@@ -225,6 +284,7 @@ def node(item: dict) -> dict:
 		if item.get("attached_to_doctype") and item.get("attached_to_name")
 		else None,
 		"deleted": item.get("one_deleted_on"),
+		"shared": bool(item.get("shared")),
 	}
 
 
@@ -260,7 +320,7 @@ def children(node_id: str, search: str | None = None) -> list[dict]:
 	if kind[0] == ROOT:
 		return roots()
 	if kind[0] == SHARED:
-		return []
+		return shared_with_me()
 	if kind[0] == BIN:
 		return binned()
 	if kind[0] == RECORDS:
@@ -280,7 +340,44 @@ def children(node_id: str, search: str | None = None) -> list[dict]:
 	if search:
 		found = [one for one in found if search.lower() in (one.file_name or "").lower()]
 	where = inside(folder)
-	return [node(one) for one in found if may(one, where=where)]
+	return [node(one) for one in mark_shared([one for one in found if may(one, where=where)])]
+
+
+def mark_shared(items: list) -> list:
+	"""Set `shared` on the items somebody has been given, in one query."""
+	names = [one.name for one in items]
+	shared = set(
+		frappe.get_all("DocShare", filters={"share_doctype": "File", "share_name": ["in", names]}, pluck="share_name")
+	) if names else set()
+	for one in items:
+		one.shared = one.name in shared
+	return items
+
+
+def shared_with_me(user: str | None = None) -> list[dict]:
+	"""What other people have shared with the reader: only the top of each
+	shared branch, since what is inside a shared folder comes with it."""
+	from frappe.utils import get_fullname
+
+	user = user or frappe.session.user
+	held = grants(user)
+	if not held:
+		return []
+	found = frappe.get_all(
+		"File", filters={"name": ["in", list(held)], "one_deleted": 0}, fields=FIELDS, order_by="is_folder desc, file_name asc"
+	)
+	found = [one for one in found if one.owner != user]
+	names = {one.name for one in found}
+	out = []
+	for one in found:
+		above = chain(one.folder)
+		if names & set(above):
+			continue
+		if above and frappe.db.exists("File", {"name": ["in", above], "one_deleted": 1}):
+			continue
+		one.shared = True
+		out.append({**node(one), "where": get_fullname(one.owner)})
+	return out
 
 
 def below(folder: str, most: int = 5000) -> list[str]:
@@ -424,14 +521,26 @@ def trail(node_id: str) -> list[dict]:
 	item = row(node_id)
 	if not item:
 		return top
-	chain = [item["name"], *ancestors(item["name"])]
+	path = [item["name"], *ancestors(item["name"])]
 	crumbs = []
-	for name in chain:
+	for name in path:
 		one = row(name)
 		if not one:
 			break
+		if one.one_home_of == frappe.session.user:
+			crumbs.append({"id": MY, "name": _("My Files")})
+			break
 		if one.one_home_of:
-			crumbs.append({"id": MY if one.one_home_of == frappe.session.user else name, "name": _("My Files")})
+			# Somebody else's: reached through what they shared, so the trail
+			# starts at the highest folder shared with the reader.
+			held = grants()
+			at = max((i for i, crumb in enumerate(crumbs) if crumb["id"] in held), default=None)
+			if at is not None:
+				crumbs = [*crumbs[: at + 1], {"id": SHARED, "name": _("Shared with Me")}]
+			else:
+				from frappe.utils import get_fullname
+
+				crumbs.append({"id": name, "name": get_fullname(one.one_home_of)})
 			break
 		if name == HOME:
 			crumbs.append({"id": COMPANY, "name": _("Company")})

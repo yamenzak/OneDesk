@@ -68,6 +68,25 @@ Where you are is in the page's address, so the browser's own back button
 works and a link you send somebody opens the same folder for them, if they
 may open it.
 
+## Sharing with the team
+
+Select a file or folder and press **Share** (or right-click › **Share…**).
+Pick people, choose whether they can **view** or **edit**, and press Share.
+They get a notification that opens it.
+
+- Sharing a folder shares everything in it, including what is put there
+  later.
+- Someone who can edit can add, rename, move and delete inside it, and share
+  it with others. Someone who can view can open and download.
+- What was shared with you is in **Shared with Me**, with who shared it. You
+  can copy things out of it into your own folders; moving them out is
+  refused, since they are still the owner's.
+- The Share dialog lists everyone who has it, and lets you change what they
+  can do or take them off. Anybody can take themselves off.
+- A file attached to a record is shared by sharing the record.
+- Only people on the team can be given something here. Sending a file to a
+  customer or anybody outside is a link (not built yet).
+
 ## Where files are kept
 
 Every file uploaded anywhere in One — attached to an invoice, dropped in a
@@ -165,6 +184,20 @@ not a second R2 integration.
   R2's bucket must allow a browser `PUT` from the workspace's origin (CORS);
   where it does not, uploads fall back to `here` on their own.
 
+- `share.py` — people on a file or folder. A share is Frappe's own DocShare:
+  read to view, write to edit. `namespace.granted` reads the shares on an
+  item and on every folder above it (`chain`, asked once a request per
+  folder; `grants`, one query a request), and `may` honours them for staff
+  after their own things and before a home is its owner's alone. Whoever may
+  change a thing may share it; only System Users can be given one; a record's
+  file is refused and shared through its record. `api.move` will not carry
+  something out of somebody else's files (`_leaves_its_owner`) — copying out
+  is how to take a copy. Shared with Me lists the top of each shared branch.
+  The notification links to the explorer, not to File's form. Frappe checks
+  its own File permission when a new row names a private file's URL, which
+  knows nothing of folder shares, so `CloudFile.validate_private_file_access`
+  accepts any row `may` lets the reader open (an override, listed).
+
 ### Research and decisions
 
 What was asked for, and what each became.
@@ -221,7 +254,7 @@ repositories, which will be folders with history.
    and tiles, preview, context menu, drag and drop, keyboard, search; uploads
    straight to R2. *Done.*
 4. **Sharing inside the team.** People, view or edit, reaching everything in
-   a folder; Shared with Me.
+   a folder; Shared with Me. *Done.*
 5. **Sharing outside.** Links and email invitations, and the page a guest
    sees.
 6. **Libraries and versions.** Team libraries with members and roles, version

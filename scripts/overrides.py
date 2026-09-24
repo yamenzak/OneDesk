@@ -1165,6 +1165,13 @@ OVERRIDES = [
 		"frappe/frappe/core/doctype/file/file.py",
 		"OLE_FILE_SIGNATURE = ",
 	),
+	(
+		"File.validate_private_file_access: may this user name a private file's URL",
+		"Frappe asks its own File permission of the first row with that URL, which knows nothing of a folder shared with the reader, so copying a shared file out was refused; any row namespace.may lets them open will do",
+		"onedesk/one_storage/file.py",
+		"frappe/frappe/core/doctype/file/file.py",
+		"def validate_private_file_access(self):",
+	),
 ]
 
 

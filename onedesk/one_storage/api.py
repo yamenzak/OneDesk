@@ -174,6 +174,8 @@ def move(nodes: str | list, target: str) -> list[str]:
 		_need(item, "write")
 		if item.one_home_of:
 			frappe.throw(_("My Files cannot be moved."))
+		if _leaves_its_owner(item, where[1]):
+			frappe.throw(_("{0} is in somebody else's files. Copy it instead.").format(item.file_name))
 		if item.folder == where[1]:
 			continue
 		if item.is_folder and ns.would_loop(node_id, ns.ancestors(where[1]), where[1]):
@@ -184,6 +186,15 @@ def move(nodes: str | list, target: str) -> list[str]:
 		frappe.db.set_value("File", node_id, "folder", where[1])
 		moved.append(_rename_folder(node_id) if item.is_folder else node_id)
 	return moved
+
+
+def _leaves_its_owner(item: dict, folder: str) -> bool:
+	"""Whether moving `item` into `folder` would carry it out of somebody
+	else's files: what was shared with you, you may reorganise inside the
+	folder it was shared in, and copy out, but not take."""
+	user = frappe.session.user
+	source = ns.space(item)
+	return user != "Administrator" and source[0] == "home" and source[1] != user and ns.inside(folder) != source
 
 
 @frappe.whitelist(methods=["POST"])

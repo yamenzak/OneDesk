@@ -168,5 +168,6 @@ Each row is something that would still run but stop working if upstream moved. `
 | A stored file's URL is counted as remote | `/api/method/` is in URL_PREFIXES, so Frappe's disk checks pass our URLs by | `onedesk/one_storage/store.py` | `frappe/frappe/core/doctype/file/file.py` | `URL_PREFIXES = ("http://", "https://", "/api/method/")` |
 | File reads a stored file's content from R2 | Frappe opens a path on disk in get_content; CloudFile overrides it, exists_on_disk and make_thumbnail | `onedesk/one_storage/file.py` | `frappe/frappe/core/doctype/file/file.py` | `with open(file_path, mode="rb") as f:` |
 | A stored file is decoded the way Frappe decodes one | text as text and anything else as bytes, by the same constants | `onedesk/one_storage/file.py` | `frappe/frappe/core/doctype/file/file.py` | `OLE_FILE_SIGNATURE = ` |
+| File.validate_private_file_access: may this user name a private file's URL | Frappe asks its own File permission of the first row with that URL, which knows nothing of a folder shared with the reader, so copying a shared file out was refused; any row namespace.may lets them open will do | `onedesk/one_storage/file.py` | `frappe/frappe/core/doctype/file/file.py` | `def validate_private_file_access(self):` |
 
-163 overrides.
+164 overrides.
