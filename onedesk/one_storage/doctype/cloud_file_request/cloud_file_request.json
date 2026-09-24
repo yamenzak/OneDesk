@@ -1,0 +1,154 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-09-29 09:00:00.000000",
+ "description": "Files asked of somebody, by name, each landing in a folder or on a record.",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "status",
+  "due_date",
+  "message",
+  "section_where",
+  "folder",
+  "column_break_where",
+  "reference_doctype",
+  "reference_name",
+  "section_items",
+  "items",
+  "section_people",
+  "recipients",
+  "section_sent",
+  "uploads"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "What the files are for, as the people asked will see it."
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Open\nClosed",
+   "default": "Open",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "label": "Due Date",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "message",
+   "fieldtype": "Small Text",
+   "label": "Message",
+   "description": "A note to the people asked."
+  },
+  {
+   "fieldname": "section_where",
+   "fieldtype": "Section Break",
+   "label": "Where the files go"
+  },
+  {
+   "fieldname": "folder",
+   "fieldtype": "Link",
+   "label": "Folder",
+   "options": "File",
+   "description": "Files not meant for a record land here, in a folder per person when several are asked."
+  },
+  {
+   "fieldname": "column_break_where",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "label": "Record Type",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "reference_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Record",
+   "options": "reference_doctype",
+   "description": "Files are attached to it, and a file asked for a field fills that field."
+  },
+  {
+   "fieldname": "section_items",
+   "fieldtype": "Section Break",
+   "label": "Files asked for"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Files",
+   "options": "Cloud File Request Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_people",
+   "fieldtype": "Section Break",
+   "label": "People asked"
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Table",
+   "label": "People",
+   "options": "Cloud File Request Recipient",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_sent",
+   "fieldtype": "Section Break",
+   "label": "Sent"
+  },
+  {
+   "fieldname": "uploads",
+   "fieldtype": "Table",
+   "label": "Sent",
+   "options": "Cloud File Request Upload",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-29 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Storage",
+ "name": "Cloud File Request",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1
+  },
+  {
+   "role": "Desk User",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "if_owner": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title",
+ "track_changes": 1
+}

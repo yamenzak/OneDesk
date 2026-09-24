@@ -34,6 +34,8 @@ empty space in the explorer.
   the files attached to it. You see the records you may open, and nothing
   else. Dropping a file on a record's folder attaches it to the record.
 - **Network** — SFTP and WebDAV servers you connected, as folders (below).
+- **Requests** — the files you asked people for, and how far each has got
+  (below).
 - **Recycle Bin** — what you deleted, for thirty days. **Restore** puts it back
   where it was.
 
@@ -169,6 +171,38 @@ A connection is yours alone unless a workspace administrator ticks
 *Everyone on the team*. Right-click it for **Edit connection…** and
 **Disconnect**, which leaves the server as it was. OneCloud does not connect
 to addresses on a private network.
+
+## Asking for files
+
+**New › File request** in any folder or record asks people — a supplier, a
+new hire, a customer — for particular files by name: *Trade licence*, *Bank
+letters*, *Passport*. Each person gets their own link by email (or, when the
+workspace cannot send email yet, you copy each link and pass it on). The
+link opens a page listing what is asked for; they send each file there
+without an account, and can replace one they got wrong.
+
+For each file you say:
+
+- **File** — its name, as they will see it. What they send is saved under
+  that name, so *Photo.jpg* rather than *IMG_4418.jpg*.
+- **Required** — whether the request is finished without it.
+- **Several** — whether they may send more than one.
+- **File Types** — which kinds it may be, like `pdf, jpg`; anything else is
+  refused on the page. Empty means any kind.
+- **Record Field** — on a record, a field the file fills. Asking a new hire
+  for *Photo* with the field *Image* sets the employee's photo when it
+  arrives. A request that fills fields goes to one person.
+
+Asked from a folder, files land in that folder, in a folder per person when
+you ask several people. Asked from a record, they are attached to the
+record. Asked from **Requests**, a folder for them is made in My Files.
+
+**Requests** shows each request and how many people have sent everything.
+Opening one shows what has arrived and from whom; right-click › **Progress…**
+shows each person against each file, with their link to copy, **Remind**,
+and **Close request**, after which the links take nothing more. You are told
+as each file arrives. People who have not finished are reminded by email
+three days and one day before the due date, and on it.
 
 ## Where files are kept
 
@@ -363,6 +397,26 @@ not a second R2 integration.
   `onestorage_mounts_private`. Uploads into a server go through the
   workspace (`upload.here`), which holds the keys.
 
+- `file_requests.py`, `doctype/cloud_file_request` and `www/r.py` — asking
+  for files. A `Cloud File Request` names where files land (`folder`, or
+  `reference_doctype`/`reference_name`), what is asked (`items`: a label,
+  required, several, extensions, and optionally an Attach field of the
+  reference), who is asked (`recipients`, each with their own token) and
+  what came (`uploads`). A token is 32 random characters shown once, in the
+  email or the dialog; the row keeps its sha256 to find it by and the token
+  itself encrypted, to put in a reminder. `/r/<token>` is a plain web page
+  with a form per item posting to `send` — guest, POST, 120 an hour — which
+  checks the kind, then works as the request's owner: `upload._place`
+  writes each file, named after its item, and an item asked for once that
+  is sent again becomes a new version of the first (`history.replace`), so
+  the record's field and anybody's link keep pointing at one file. A field
+  item sets `attached_to_field` and writes the file's URL into the field.
+  `Requests` is a virtual node over the reader's own requests, and a
+  request's node lists its uploads. `remind_due` runs
+  daily. Why a doctype and not a flag on a folder: a request has people,
+  a due date and a state per person, and a record's request has no folder
+  at all.
+
 - Size: `store.LARGEST` (5 GB) is every size limit Frappe has. The attach
   button's is System Settings (`unlimit`, on install and every migrate);
   every other request's is the site's `max_file_size`, which the site cannot
@@ -435,3 +489,5 @@ repositories, which will be folders with history.
 7. **WebDAV.** Any folder as a network drive in Windows, macOS and Linux.
    *Done.*
 8. **Mounts.** SFTP and WebDAV servers as folders. *Done.*
+9. **File requests.** Ask people for files by name, into a folder or onto a
+   record's fields, through a link that needs no account. *Done.*

@@ -328,3 +328,77 @@
 	margin: 0 0 1rem;
 	color: var(--ink-soft);
 }
+
+/* /r/<token>: files asked for, as a checklist. */
+
+.one-share__note {
+	margin: 0 0 1.5rem;
+	padding: 0.75rem 1rem;
+	border-left: 3px solid var(--line);
+	color: var(--ink-soft);
+	white-space: pre-line;
+}
+
+.one-ask {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border-top: 1px solid var(--line);
+}
+
+.one-ask li {
+	padding: 1rem 0;
+	border-bottom: 1px solid var(--line);
+}
+
+.one-ask__head {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 0.35rem;
+}
+
+.one-ask__tick {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.25rem;
+	height: 1.25rem;
+	border: 1px solid var(--line);
+	border-radius: 50%;
+	font-size: 0.75rem;
+}
+
+.one-ask li.is-done .one-ask__tick {
+	background: var(--picked);
+	border-color: var(--picked);
+	color: var(--paper);
+}
+
+.one-ask__need {
+	color: var(--ink-faint);
+}
+
+.one-ask__sent {
+	margin: 0 0 0.5rem;
+	color: var(--ink-soft);
+	font-size: 0.9rem;
+	overflow-wrap: anywhere;
+}
+
+.one-ask form {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.one-ask__go {
+	padding: 0.4rem 0.9rem;
+	border: 0;
+	border-radius: 8px;
+	background: var(--picked);
+	color: var(--paper);
+	font: inherit;
+	font-size: 0.9rem;
+}

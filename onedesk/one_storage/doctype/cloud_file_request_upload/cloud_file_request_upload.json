@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "creation": "2026-09-29 09:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "email",
+  "item",
+  "file",
+  "sent_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Data",
+   "label": "File",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "file",
+   "fieldtype": "Link",
+   "label": "Sent",
+   "options": "File",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "sent_on",
+   "fieldtype": "Datetime",
+   "label": "Sent On",
+   "read_only": 1,
+   "in_list_view": 1
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-09-29 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Storage",
+ "name": "Cloud File Request Upload",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

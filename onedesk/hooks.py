@@ -85,6 +85,7 @@ scheduler_events = {
 	"daily": [
 		# The Recycle Bin keeps things thirty days. See one_storage/api.py.
 		"onedesk.one_storage.api.purge_old",
+		"onedesk.one_storage.file_requests.remind_due",
 		"onedesk.one.account.nightly",
 		"onedesk.one_admin.domains.nightly",
 		# One rung a workspace, one workspace at a time. See one_admin/ladder.py.
@@ -582,7 +583,11 @@ one_calendar_layers = [
 additional_timeline_content = {"Project": ["onedesk.one_project.updates.timeline"]}
 
 # A OneCloud link: /s/<token> is www/s.py, for somebody with no account.
-website_route_rules = [{"from_route": "/s/<token>", "to_route": "s"}]
+website_route_rules = [
+	{"from_route": "/s/<token>", "to_route": "s"},
+	# A file request: /r/<token> is www/r.py.
+	{"from_route": "/r/<token>", "to_route": "r"},
+]
 
 # OneCloud as a network drive: a drive password signs a person in on the
 # drive's address before Frappe's API-key check would refuse it, and Frappe

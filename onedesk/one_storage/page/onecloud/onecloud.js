@@ -234,6 +234,8 @@ onedesk.OneCloud = class OneCloud {
 		if (node === "@recent") return "recent";
 		if (node === "@starred") return "starred";
 		if (node === "@mounts") return "network";
+		if (node === "@requests") return "requests";
+		if (node.startsWith("@request/")) return "request";
 		if (node.startsWith("@mount/")) return "mount";
 		return "folder";
 	}
@@ -247,7 +249,7 @@ onedesk.OneCloud = class OneCloud {
 		this.$search.attr("placeholder", __("Search {0}", [here ? here.name : __("Files")]));
 		this.$root.attr("data-kind", this.kind());
 		// Search results say which folder each is in; Shared with Me says who from.
-		const where_head = { shared: __("Shared by"), libraries: __("Your role"), recent: __("Folder"), starred: __("Folder"), network: __("Kind") }[this.kind()];
+		const where_head = { shared: __("Shared by"), libraries: __("Your role"), recent: __("Folder"), starred: __("Folder"), network: __("Kind"), requests: __("Progress"), request: __("File · From") }[this.kind()];
 		this.$root.toggleClass("oc-searching", !!this.search || !!where_head);
 		this.$root.find(".oc-head .oc-col-where").text(where_head && !this.search ? where_head : __("Folder"));
 		if (this.kind() === "libraries") this.items.forEach((one) => (one.where = one.role ? __(one.role) : ""));
@@ -270,6 +272,8 @@ onedesk.OneCloud = class OneCloud {
 			records: __("No record has files yet."),
 			recent: __("Files you open or add will appear here."),
 			network: __("Connect an SFTP or WebDAV server to open its files here. Use New."),
+			requests: __("Ask people for files by name, each landing in a folder or on a record. Use New › File request in any folder or record."),
+			request: __("Nothing has arrived yet."),
 			starred: __("Star a file or folder to find it here. Right-click it and choose Star."),
 			libraries: __("You are not in any library yet. A library is a folder a team shares, with members who can read or edit it. Use New to make one."),
 			root: "",
@@ -366,6 +370,7 @@ onedesk.OneCloud = class OneCloud {
 	type_of(item) {
 		if (item.virtual && item.doctype) return __("Record type");
 		if (item.record && item.folder) return __("Record");
+		if (String(item.id).startsWith("@request/")) return __("File request");
 		if (item.folder) return __("File folder");
 		const ext = this.extension(item);
 		const found = OneCloud.KINDS.find(([exts]) => exts.includes(ext));
@@ -455,7 +460,7 @@ onedesk.OneCloud = class OneCloud {
 		const kind = this.kind();
 		const all_stored = chosen.length && chosen.every((one) => this.stored(one));
 		const set = (act, on) => this.$root.find(`[data-act=${act}]`).prop("disabled", !on);
-		set("new-menu", this.can_add || this.can_make_library || this.can_make_mount);
+		set("new-menu", this.can_add || this.can_make_library || this.can_make_mount || kind === "requests");
 		this.$root.find("[data-library]").toggle(!!this.library_here());
 		set("cut", all_stored && kind !== "bin");
 		set("copy", all_stored && kind !== "bin");
@@ -514,7 +519,7 @@ onedesk.OneCloud = class OneCloud {
 			[__("Size"), item.folder ? "" : this.size_text(item.size)],
 			[__("Modified"), this.date_text(item.modified)],
 			[__("Deleted"), this.date_text(item.deleted)],
-			[__("Folder"), item.where],
+			[String(item.id).startsWith("@request/") ? __("Progress") : __("Folder"), item.where],
 			[__("Owner"), item.owner ? frappe.user.full_name(item.owner) : ""],
 			[__("Record"), item.record ? `${__(item.record[0])} ${item.record[1]}` : ""],
 		].filter(([, value]) => value);
@@ -823,6 +828,10 @@ onedesk.OneCloud = class OneCloud {
 				return this.new_library();
 			case "new-mount":
 				return this.mount_dialog(null);
+			case "new-request":
+				return this.request_dialog();
+			case "request-progress":
+				return this.request_progress(chosen[0].id.split("/")[1]);
 			case "mount-edit":
 				return this.mount_dialog(chosen[0]);
 			case "mount-drop":
@@ -1373,6 +1382,142 @@ onedesk.OneCloud = class OneCloud {
 		dialog.show();
 	}
 
+	// ------------------------------------------------------------- file requests
+
+	// Ask people for files by name. On a record, each file can fill one of
+	// its attachment fields; anywhere else, they land in this folder.
+	async request_dialog() {
+		const parts = this.node.split("/");
+		const record = parts[0] === "@records" && parts.length === 3 ? { doctype: parts[1], name: parts[2] } : null;
+		const fields = record ? await frappe.xcall("onedesk.one_storage.file_requests.fields", { doctype: record.doctype }) : [];
+		const by_label = Object.fromEntries(fields.map((one) => [one.label, one.value]));
+		const here = this.trail[this.trail.length - 1];
+		const dialog = new frappe.ui.Dialog({
+			title: __("Ask for files"),
+			size: "large",
+			fields: [
+				{ fieldtype: "Data", fieldname: "title", label: __("What they are for"), reqd: 1 },
+				{ fieldtype: "Small Text", fieldname: "recipients", label: __("People to ask"), reqd: 1, description: __("Email addresses, one per line.") },
+				{ fieldtype: "Column Break" },
+				{ fieldtype: "Date", fieldname: "due_date", label: __("Due Date") },
+				{ fieldtype: "Small Text", fieldname: "message", label: __("Message") },
+				{ fieldtype: "Section Break" },
+				{
+					fieldtype: "Table",
+					fieldname: "items",
+					label: __("Files to ask for"),
+					cannot_add_rows: false,
+					in_place_edit: true,
+					data: [{ required: 1 }],
+					fields: [
+						{ fieldtype: "Data", fieldname: "label", label: __("File"), in_list_view: 1, reqd: 1, columns: 3 },
+						{ fieldtype: "Check", fieldname: "required", label: __("Required"), in_list_view: 1, default: 1, columns: 1 },
+						{ fieldtype: "Check", fieldname: "several", label: __("Several"), in_list_view: 1, columns: 1 },
+						{ fieldtype: "Data", fieldname: "accept", label: __("File Types"), in_list_view: 1, columns: 2 },
+						{
+							fieldtype: "Select",
+							fieldname: "field",
+							label: __("Record Field"),
+							options: ["", ...fields.map((one) => one.label)].join("\n"),
+							in_list_view: record ? 1 : 0,
+							hidden: record ? 0 : 1,
+							columns: 3,
+						},
+					],
+				},
+				{
+					fieldtype: "HTML",
+					fieldname: "where",
+					options: `<p class="oc-people-note">${frappe.utils.escape_html(
+						record
+							? __("Files land on {0}; one with a record field fills that field.", [here ? here.name : ""])
+							: __("Files land in {0}, in a folder per person when you ask several.", [here ? here.name : __("a folder of their own in My Files")])
+					)}</p>`,
+				},
+			],
+			primary_action_label: __("Ask"),
+			primary_action: async (values) => {
+				const items = (values.items || []).map((one) => ({ ...one, fieldname: by_label[one.field] || null }));
+				const made = await frappe.xcall("onedesk.one_storage.file_requests.make", {
+					node: this.kind() === "requests" ? "@requests" : this.node,
+					values: { ...values, items },
+				});
+				dialog.hide();
+				this.forget_tree("@requests");
+				if (!made.mailed) this.request_links(made.links);
+				else frappe.show_alert({ message: __("Asked. Each person has their link by email."), indicator: "green" });
+				this.go(made.node);
+			},
+		});
+		dialog.show();
+	}
+
+	request_links(links) {
+		const esc = frappe.utils.escape_html;
+		const copy = __("Copy");
+		const dialog = new frappe.ui.Dialog({
+			title: __("Send each person their link"),
+			fields: [
+				{
+					fieldtype: "HTML",
+					fieldname: "links",
+					options: `<p class="oc-people-note">${esc(__("This workspace cannot send email yet, so pass each link on yourself. Each link is that person's own."))}</p>
+						${links
+							.map(
+								(one) => `<div class="oc-drive-row"><span>${esc(one.email)}</span><code>${esc(one.url)}</code><button class="es-button" data-variant="ghost" data-size="sm" data-copy="${esc(one.url)}">${copy}</button></div>`
+							)
+							.join("")}`,
+				},
+			],
+		});
+		dialog.fields_dict.links.$wrapper.find("[data-copy]").on("click", (e) => frappe.utils.copy_to_clipboard(e.currentTarget.dataset.copy));
+		dialog.show();
+	}
+
+	async request_progress(name) {
+		const call = (method, args) => frappe.xcall("onedesk.one_storage.file_requests." + method, args);
+		const found = await call("progress", { name });
+		const esc = frappe.utils.escape_html;
+		const states = { Waiting: __("Waiting"), "Partly Sent": __("Partly Sent"), Complete: __("Complete") };
+		const copy = __("Copy link");
+		const head = found.items.map((one) => `<th>${esc(one.label)}${one.required ? " *" : ""}</th>`).join("");
+		const rows = found.people
+			.map(
+				(person) => `<tr><td>${esc(person.email)}<br><small>${esc(states[person.state] || person.state)}</small></td>
+					${found.items.map((one) => `<td title="${esc((person.sent[one.label] || []).join(", "))}">${(person.sent[one.label] || []).length ? "✓" : "–"}</td>`).join("")}
+					<td><button class="es-button" data-variant="ghost" data-size="sm" data-copy="${esc(person.url)}">${copy}</button></td></tr>`
+			)
+			.join("");
+		const closed = found.status === "Closed";
+		const dialog = new frappe.ui.Dialog({
+			title: found.title,
+			size: "large",
+			fields: [
+				{
+					fieldtype: "HTML",
+					fieldname: "table",
+					options: `<div class="oc-progress"><table><thead><tr><th></th>${head}<th></th></tr></thead><tbody>${rows}</tbody></table></div>
+						<p class="oc-people-note">${esc(closed ? __("Closed. The links take nothing more.") : __("* required"))}</p>`,
+				},
+			],
+			primary_action_label: __("Remind"),
+			primary_action: async () => {
+				const sent = await call("remind", { name });
+				frappe.show_alert({ message: sent ? __("Reminded {0} people", [sent]) : __("Nobody to remind, or no email to remind them with"), indicator: "blue" });
+			},
+			secondary_action_label: closed ? __("Reopen") : __("Close request"),
+			secondary_action: async () => {
+				await call("close", { name, closed: closed ? 0 : 1 });
+				dialog.hide();
+				this.forget_tree("@requests");
+				this.refresh();
+			},
+		});
+		dialog.fields_dict.table.$wrapper.find("[data-copy]").on("click", (e) => frappe.utils.copy_to_clipboard(e.currentTarget.dataset.copy));
+		dialog.get_primary_btn().toggle(!closed);
+		dialog.show();
+	}
+
 	// ------------------------------------------------------------- the drive
 
 	// A folder, or everything, as a drive in Windows, macOS or Linux: its
@@ -1448,6 +1593,7 @@ onedesk.OneCloud = class OneCloud {
 	new_menu() {
 		if (this.kind() === "libraries") return [[["new-library", "library-big", __("Library"), this.can_make_library]]];
 		if (this.kind() === "network") return [[["new-mount", "server", __("Server connection"), this.can_make_mount]]];
+		if (this.kind() === "requests") return [[["new-request", "inbox", __("File request"), true]]];
 		return [
 			[
 				["new-folder", "folder-plus", __("Folder"), this.can_make_folder, "Ctrl+Shift+N"],
@@ -1456,6 +1602,7 @@ onedesk.OneCloud = class OneCloud {
 				["upload-files", "upload", __("Upload files"), this.can_add],
 				["upload-folder", "folder-up", __("Upload folder"), this.can_add && this.kind() !== "record"],
 			],
+			[["new-request", "inbox", __("File request"), this.can_add && !this.node.startsWith("@mount")]],
 		];
 	}
 
@@ -1464,6 +1611,14 @@ onedesk.OneCloud = class OneCloud {
 		const one = chosen.length === 1 ? chosen[0] : null;
 		const stored = chosen.every((item) => this.stored(item));
 		const files = chosen.filter((item) => !item.folder && item.url);
+		if (one && one.request) {
+			return [
+				[
+					["open", "folder-open", __("Open"), true, "Enter"],
+					["request-progress", "list-checks", __("Progress…"), true],
+				],
+			];
+		}
 		if (one && one.mount) {
 			return [
 				[
@@ -1589,7 +1744,8 @@ onedesk.OneCloud = class OneCloud {
 	}
 
 	takes(id) {
-		if (["@root", "@shared", "@bin", "@records", "@libraries", "@mounts"].includes(id)) return false;
+		if (["@root", "@shared", "@bin", "@records", "@libraries", "@mounts", "@requests"].includes(id)) return false;
+		if (id.startsWith("@request/")) return false;
 		if (id.startsWith("@records/") && id.split("/").length !== 3) return false;
 		return true;
 	}

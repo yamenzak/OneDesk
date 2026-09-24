@@ -1,0 +1,74 @@
+{
+ "actions": [],
+ "creation": "2026-09-29 09:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "email",
+  "state",
+  "last_sent",
+  "last_reminded",
+  "token",
+  "token_hash"
+ ],
+ "fields": [
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Select",
+   "label": "State",
+   "options": "Waiting\nPartly Sent\nComplete",
+   "default": "Waiting",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "last_sent",
+   "fieldtype": "Datetime",
+   "label": "Last Sent",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "last_reminded",
+   "fieldtype": "Date",
+   "label": "Last Reminded",
+   "read_only": 1
+  },
+  {
+   "fieldname": "token",
+   "fieldtype": "Password",
+   "label": "Token",
+   "hidden": 1,
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "token_hash",
+   "fieldtype": "Data",
+   "label": "Token Hash",
+   "hidden": 1,
+   "read_only": 1,
+   "no_copy": 1
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-09-29 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Storage",
+ "name": "Cloud File Request Recipient",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

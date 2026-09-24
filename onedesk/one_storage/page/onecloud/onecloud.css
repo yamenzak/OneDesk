@@ -780,3 +780,31 @@
 	min-width: 0;
 	overflow-wrap: anywhere;
 }
+
+/* A file request's progress: people against files. */
+.oc-progress {
+	overflow-x: auto;
+}
+
+.oc-progress table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--text-sm);
+}
+
+.oc-progress th,
+.oc-progress td {
+	padding: calc(var(--spacing) * 2);
+	border-bottom: 1px solid var(--outline-gray-1);
+	text-align: start;
+	vertical-align: top;
+}
+
+.oc-progress th {
+	color: var(--ink-gray-5);
+	font-weight: var(--font-weight-medium);
+}
+
+.oc-progress small {
+	color: var(--ink-gray-5);
+}

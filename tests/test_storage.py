@@ -99,7 +99,7 @@ API = tree.APP / "one_storage" / "api.py"
 def test_a_node_id_says_what_it_names():
 	constants = dict(
 		ROOT="@root", MY="@my", SHARED="@shared", COMPANY="@company", RECORDS="@records", BIN="@bin",
-		LIBRARIES="@libraries", RECENT="@recent", STARRED="@starred", MOUNTS="@mounts",
+		LIBRARIES="@libraries", RECENT="@recent", STARRED="@starred", MOUNTS="@mounts", REQUESTS="@requests",
 	)  # fmt: skip
 	space = _load(NAMESPACE, ("parse",), **constants)
 	parse = space["parse"]
@@ -196,7 +196,7 @@ def test_the_explorer_calls_only_verbs_that_exist():
 
 	js = (PAGE / "onecloud.js").read_text()
 	api = "".join(
-		(tree.APP / "one_storage" / name).read_text() for name in ("api.py", "upload.py", "share.py", "library.py", "history.py")
+		(tree.APP / "one_storage" / name).read_text() for name in ("api.py", "upload.py", "share.py", "library.py", "history.py", "file_requests.py")
 	)
 	called = set(re.findall(r'OneCloud\.(?:API|UPLOAD) \+ "(\w+)"', js)) | set(re.findall(r'\bcall\("(\w+)"', js))
 	assert {"listing", "folders", "make_folder", "rename", "move", "copy", "delete", "restore", "purge", "empty_bin", "begin", "done", "resolve"} <= called
@@ -463,3 +463,51 @@ def test_the_explorer_is_its_own_navigation():
 	js = (PAGE / "onecloud.js").read_text()
 	assert "hide_sidebar: true" in js, "the panel starts closed; the tree takes its place"
 	assert '"storage-check"' in js and 'has_role("Workspace Administrator")' in js
+
+
+REQUESTS = tree.APP / "one_storage" / "file_requests.py"
+REQUEST = tree.APP / "one_storage" / "doctype" / "cloud_file_request" / "cloud_file_request.py"
+
+
+def test_a_requested_file_is_one_of_the_kinds_asked_for():
+	import os
+
+	accepted = _load(REQUESTS, ("accepted",), os=os)["accepted"]
+	assert accepted("Licence.PDF", "pdf")
+	assert accepted("scan.png", "jpg, png")
+	assert not accepted("scan.exe", "jpg, png")
+	assert not accepted("noextension", "pdf")
+	assert accepted("anything.bin", "")
+	assert accepted("anything.bin", None)
+
+
+def test_a_request_link_is_kept_only_as_its_hash():
+	source = REQUEST.read_text(encoding="utf-8")
+	assert "sha256" in source
+	assert "one.token_hash = hashed(token)" in source
+	assert "'token_hash': hashed(token)" in _body(REQUESTS, "live")
+	fields = {f["fieldname"]: f for f in json.loads((REQUEST.parent.parent / "cloud_file_request_recipient" / "cloud_file_request_recipient.json").read_text())["fields"]}
+	assert fields["token"]["fieldtype"] == "Password"
+
+
+def test_a_field_item_needs_a_record_and_one_person():
+	people = REQUEST.read_text(encoding="utf-8")
+	assert "fills a record's field, so the request needs a record" in people
+	assert "goes to one person" in people
+	assert "one.several = 0" in people
+	assert 'ATTACH = ("Attach", "Attach Image")' in people
+
+
+def test_a_request_is_answered_by_anyone_with_the_link_but_not_endlessly():
+	source = REQUESTS.read_text(encoding="utf-8")
+	head = source[source.index("@frappe.whitelist(allow_guest=True"): source.index("def send(")]
+	assert 'methods=["POST"]' in head and "rate_limit" in head
+	send = _body(REQUESTS, "send")
+	assert "doc.status != 'Open'" in send and "accepted(" in send
+	assert "frappe.set_user('Guest')" in send
+
+
+def test_a_request_has_its_page_and_its_reminders():
+	assert '"/r/<token>"' in HOOKS
+	assert "onedesk.one_storage.file_requests.remind_due" in HOOKS
+	assert (tree.APP / "www" / "r.py").exists() and (tree.APP / "www" / "r.html").exists()

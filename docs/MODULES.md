@@ -109,6 +109,10 @@ No doctypes yet.
 | Doctype | Fields | Kind |
 |---|--:|---|
 | Cloud Drive Password | 4 | document |
+| Cloud File Request | 15 | document |
+| Cloud File Request Item | 6 | child |
+| Cloud File Request Recipient | 6 | child |
+| Cloud File Request Upload | 4 | child |
 | Cloud File Version | 7 | document |
 | Cloud Link | 17 | document |
 | Cloud Link Invitee | 2 | child |
@@ -284,6 +288,12 @@ No doctypes yet.
 * `onedesk.one_storage.dav.make_password`
 * `onedesk.one_storage.dav.passwords`
 * `onedesk.one_storage.dav.serve`
+* `onedesk.one_storage.file_requests.close`
+* `onedesk.one_storage.file_requests.fields`
+* `onedesk.one_storage.file_requests.make`
+* `onedesk.one_storage.file_requests.progress`
+* `onedesk.one_storage.file_requests.remind`
+* `onedesk.one_storage.file_requests.send`
 * `onedesk.one_storage.history.activity`
 * `onedesk.one_storage.history.restore`
 * `onedesk.one_storage.history.star`
