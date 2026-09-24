@@ -30,7 +30,7 @@ This document is the argument and the plan. Nothing in it is built.
 3. **For every kind of workspace at once**: the household, the clinic and the
    office. The test set covers all three.
 4. **No spending cap.** Every reading is metered as OneAI credits, which is
-   the business. The one limit is the credit balance itself (§13).
+   the business. The one limit is the credit balance itself (§14).
 
 ---
 
@@ -56,7 +56,7 @@ Paying a model to rediscover them is slower, dearer and sometimes wrong.
   and then by its number and amount.
 - It is a kind we can read, and not larger than the workspace's limit.
 - Mail that rules or bounces already dealt with, or that is plainly a mailing
-  list, is only classified (§9), never read in full.
+  list, is only classified (§10), never read in full.
 
 ### 1. Read: turn anything into text
 
@@ -133,7 +133,7 @@ made (`one_linked_by`: address, text, identifier, model, manual).
 
 ### 4. Junk
 
-See §9. The short version is that spam and phishing go to Junk, advertising
+See §10. The short version is that spam and phishing go to Junk, advertising
 and newsletters go to their own folder, and a known party is never junk.
 
 ### 5. What it relates to: documents
@@ -590,7 +590,117 @@ A weak identifier is never treated as a strong one:
 
 ---
 
-## 8. Documents a record holds, and when they run out
+## 8. One matter, many messages
+
+Most mail is not new business. It follows up on something already under way:
+
+- "just checking you got this";
+- "sorry, forgot the attachment";
+- the corrected invoice;
+- a second colleague at the customer chasing the same order;
+- the reminder, then the final reminder;
+- "paid, thanks".
+
+If each of these were read as new, one invoice would make four tasks and two
+drafts. So Intake acts on **matters**, not messages.
+
+### What a matter is
+
+A matter is the one thing being dealt with: this invoice being paid, this
+inquiry being answered, this application, this tax assessment. Nearly always
+it already has a record (the Purchase Invoice, the Lead, the Job Applicant),
+or it has the task Intake made for it. So a matter needs no doctype of its
+own. Each Document Reading gets two fields:
+
+- `follows`: the first reading of its matter;
+- `change`: what this message adds to the matter.
+
+The action keys of §7 are the matter's, not the message's. So "a task for
+this invoice's payment" exists once, however many messages are about it.
+
+### Which matter a message belongs to
+
+Strongest first. It stops at the first that is sure:
+
+1. **the thread**: `In-Reply-To` and `References`, as `threads.py` already
+   follows them;
+2. **a reference in it**: the invoice number, order number, case number
+   (Aktenzeichen) or applicant, matching an open matter's;
+3. **the same party, the same kind, one open matter**: Stadtwerke's second
+   letter about electricity, when only one electricity matter is open;
+4. **the model, with a shortlist**: "here are this party's three open
+   matters; is this message about one of them, and which, or is it new?"
+
+The subject line is never a key on its own. Two unrelated "Invoice" threads
+are two matters.
+
+### What a message changes
+
+Once the message is placed, the reading says what it adds, compared with
+what the matter already knows:
+
+| Change | Example | What Intake does |
+|---|---|---|
+| new | a first request | the full treatment of §1 |
+| nudge | "any news?", a reminder, the same ask again | no new task. The matter's task gets a line in its timeline ("asked again, 8 Oct"), its priority goes up, and it moves sooner if the new message sets an earlier date |
+| update | a corrected invoice, a new appointment time, a changed amount | an untouched draft or task is updated in place and says so. One a person has changed gets a proposal: "amount was €84.20, now €94.20" |
+| completion | "forgot the attachment" with the attachment | the missing piece is added to the matter, as if it had come the first time |
+| answer | the counterpart replies with what was asked | the matching part of the task is ticked; the task closes when nothing is left |
+| closing | "paid, thanks", "we cancelled the order" | the task is closed, and the record is left for its own flow (a payment is still matched by OneBook) |
+| nothing new | "thanks", "ok", an out-of-office | linked, and nothing else: no comment, no notification |
+
+The comparison is cheap. The model is given the matter's facts so far and
+the new message, and asked only what changed. It is not asked to read
+everything again.
+
+### Quiet time: waiting for the burst to end
+
+People send in bursts: the mail, then "sorry, attached", then "correction,
+the right file". Reading starts at once, so search finds the message within
+seconds. **Acting waits for the matter to go quiet**: a few minutes after the
+last message on it. Then Intake acts once on the whole burst. Money and
+deadlines within a day are the exception and are acted on straight away.
+
+### When unsure, the cost decides
+
+Sometimes it cannot tell whether a message is a follow-up or a new request.
+The two mistakes do not cost the same:
+
+- **a duplicate draft or payment** is expensive. When unsure, it never makes
+  a second one. The message is attached to the likely matter and put in
+  Needs a look;
+- **a missed request** is expensive too, and a duplicate task is cheap (one
+  click merges it). So when unsure, it makes the task, marked "may be the
+  same as …", with Merge beside it.
+
+### A person's decision is not undone by a message
+
+- a task a person closed is **not reopened** by a new message. The person
+  who closed it is told "Stadtwerke wrote again after you closed this", and
+  they decide;
+- a field a person changed is never overwritten by a later message. The
+  message's value is a proposal (§2);
+- **our own replies count.** When somebody answers from OneMail in the
+  thread, the "reply" part of the matter's task is ticked. When a payment is
+  booked against the invoice, the "pay" part is. So the list keeps up with
+  what people do, not only with what arrives.
+
+### What a person sees
+
+One task per matter, with one timeline:
+
+- *asked on 1 Oct*;
+- *reminded 8 Oct*;
+- *amount corrected to €94.20 on 9 Oct*;
+- *paid 12 Oct, closed*.
+
+On a record there is one comment per change that matters, never one per
+message. The Intake panel on any message in the thread shows the whole
+matter, with Undo per change.
+
+---
+
+## 9. Documents a record holds, and when they run out
 
 OneHR already has the table for employees: **Employee Document**
 (`one_documents` on Employee), with a type, number, place of issue, issued,
@@ -626,7 +736,7 @@ viewer can open.
 
 ---
 
-## 9. Junk, ads and attacks
+## 10. Junk, ads and attacks
 
 In order, cheapest first. Each step decides only what it is sure of.
 
@@ -649,12 +759,12 @@ In order, cheapest first. Each step decides only what it is sure of.
    supplier from a different domain, or a known supplier's invoice with a
    new IBAN, is marked in red and never booked.
 7. **Learning**: moving a message out of Junk, or into it, is remembered for
-   that sender (§10). Twice for the same sender becomes a Mail Rule, which the
+   that sender (§11). Twice for the same sender becomes a Mail Rule, which the
    person can see and remove.
 
 ---
 
-## 10. Memory
+## 11. Memory
 
 OneAI already has two kinds. **AI Memory** is private to one person: facts
 they told OneAI to keep. **AI Knowledge** is what an administrator wrote down
@@ -684,7 +794,7 @@ What Intake gives OneAI is better than a memory:
 
 ---
 
-## 11. Finding things again
+## 12. Finding things again
 
 In the desk, **Ctrl+K** opens Frappe's awesome bar and **Ctrl+G** its global
 search, over the `__global_search` table. Global search checks only whether a
@@ -714,7 +824,7 @@ document. So document text stays out of it:
 
 ---
 
-## 12. More it can do, once documents are understood
+## 13. More it can do, once documents are understood
 
 In rough order of value:
 
@@ -739,7 +849,7 @@ In rough order of value:
    invoices, statements, certificates) gathered by kind into one folder or one
    export. For a household that is the year's Steuererklärung documents; for a
    business, a DATEV-shaped export later.
-7. **Expiring documents** (§8).
+7. **Expiring documents** (§9).
 8. **Duplicates and missing pieces.** The same invoice twice, a reminder for an
    invoice that was never received, a delivery note with no order.
 9. **A weekly digest.** What arrived, what was done, what waits for a person,
@@ -749,14 +859,14 @@ In rough order of value:
 
 ---
 
-## 13. Cost, privacy and control
+## 14. Cost, privacy and control
 
 - **Credits** are OneAI's. Each reading is metered by admin like every other
   call, and there is no cap beyond the balance. The settings show what the
   pipeline used this month. When a workspace runs out, documents wait in the
   queue, marked as waiting for credits, and are read the moment credits are
   topped up. Nothing is dropped. Deterministic steps cost nothing, and junk is
-  stopped by the cheap first look (§9).
+  stopped by the cheap first look (§10).
 - **Where it runs**: the workspace's jurisdiction decides which models may
   read (EU workspaces use EU-served models), as the catalogue already does for
   chat. Medical and HR kinds can be restricted to a model the workspace
@@ -769,7 +879,7 @@ In rough order of value:
 
 ---
 
-## 14. Where it lives
+## 15. Where it lives
 
 A new module, **one_intake**, with no rail entry of its own:
 
@@ -777,11 +887,11 @@ A new module, **one_intake**, with no rail entry of its own:
 - `understand.py`: stage 2 as an OneAI action, and the fact check;
 - `identity.py`: the Identifier registry, party matching, back-linking and
   duplicates (§6);
-- `junk.py`: the first look (§9);
+- `junk.py`: the first look (§10);
 - `relate.py`, `act.py`, `file.py`, `enrich.py`: stages 5 to 9;
 - `create/`: one small file per row of §3, each a function from a reading to
   a record or a draft, so a new kind of document is one file;
-- `lessons.py`: habits and lessons (§10);
+- `lessons.py`: habits and lessons (§11);
 - `pipeline.py`: the order, a background job per document on the long queue,
   retries, the credit wait, and the record of what each stage did (which is
   also what Undo reads);
@@ -799,7 +909,7 @@ It hooks into what exists rather than sitting beside it:
 
 ---
 
-## 15. The stages
+## 16. The stages
 
 Each ends with something a person can use, and with a check on real
 documents: a test set of letters, invoices, receipts, scans, IDs, sick notes,
@@ -828,6 +938,8 @@ reading for each.
    Education. Task's `one_about` link, routing, events, and comments under
    the §2 rule. Provisional records, folding, the source order, and the
    Job Applicant hook (§7).
+   Matters, what each message changes, quiet time, and ticking tasks off
+   from our own replies and payments (§8).
 6. **Money and goods.** Purchase Invoice, Sales Order, Payment Entry, Bank
    Transactions, Purchase Receipt, Supplier Quotation, Asset and Contract, the
    item matching, and the optional e-invoice auto-submit.
@@ -837,7 +949,7 @@ reading for each.
    in `memory.about_record`.
 9. **Deadlines and contracts.** The Fristen list with the legal counting,
    Contract's notice fields, and the Expiring list.
-10. **The rest of §12**, one at a time: explain this letter, pay from the
+10. **The rest of §13**, one at a time: explain this letter, pay from the
     document, the tax year bundle, duplicates, the digest, retention.
 
 Nothing waits on a decision. Stage 1 can start.
