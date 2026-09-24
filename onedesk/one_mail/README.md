@@ -1,8 +1,8 @@
 # OneMail
 
-Written by hand. Stages 1 to 6 of nine are built: addresses on the mail
-domain, sending, connected mailboxes, holders, the page and mail in
-OneCloud. The part above
+Written by hand. Stages 1 to 7 of nine are built: addresses on the mail
+domain, sending, connected mailboxes, holders, the page, mail in OneCloud,
+and faces and logos. The part above
 **Under the hood** is the manual; below it are the decisions and the stages
 still to come.
 
@@ -61,9 +61,11 @@ conversations opens that folder. An attachment's folder button saves a copy
 to My Files, and a file from OneCloud can be attached when writing. A file
 too large to send from the workspace's address goes as a link that works
 for thirty days.
-People who write to you show with their photo from Gravatar. Companies show
-with their logo, which is kept in Company › Logos and used by every record
-in One, not only by mail.
+People who write to you show with their contact picture, or their photo from
+Gravatar, or their organisation's logo. A contact, customer, supplier or bank
+without a picture gets one the same way. Every picture is fetched once by
+the workspace, never by your browser, and kept in Company › Logos, so
+opening a message tells nobody anything.
 
 ## Under the hood
 
@@ -246,6 +248,25 @@ Stage 6, mail in OneCloud, is built.
   a Cloud Link anyone can download for thirty days, named in the plain and
   HTML text. The links are made once per message however many recipients
   it has. A file that cannot be found stays attached.
+
+Stage 7, faces and logos, is built.
+
+- **faces.py** asks Gravatar for a person, by the SHA-256 of their address
+  with `d=404`, and Google's faviconV2 for an organisation, by its domain
+  with the fallback options that make "no logo" a 404. Both are fetched by
+  the server in a background job, once. The answer is a `Face` row, keyed by
+  address or domain, and the picture a public File in Company › Logos.
+- A face not found is looked for again after thirty days (daily job). An
+  unreachable source is not taken to mean "has none".
+- Mail providers' domains (gmail.com and the like) and our own mail domain
+  never give a sender a logo, since the provider is not who wrote.
+- `dress_later` runs on Contact, Customer, Supplier and Bank. A record
+  without a picture is dressed in the background: a contact by their
+  address, an organisation by its website. Bank gains `one_logo`, set as its
+  image field, since ERPNext's Bank has no picture.
+- `lookup` is what the page asks: the contact's picture, else the person's
+  face, else the organisation's logo. Addresses never looked for are looked
+  for in the background and appear on the next draw.
 
 ### Research and decisions
 

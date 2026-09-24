@@ -91,7 +91,9 @@ def file_copy(account, raw: bytes) -> None:
 		frappe.log_error(title=f"OneMail could not file a sent copy in {account.name}")
 
 
-def shrink(raw: bytes, link_for, most: int = ROOMY, heading: str = "Too large to attach, so sent as links:") -> bytes:
+def shrink(
+	raw: bytes, link_for, most: int = ROOMY, heading: str = "Too large to attach, so sent as links:"
+) -> bytes:
 	"""The message, with its largest attachments taken out and named with a
 	link in its text, until it weighs `most` or less. `link_for(file name)`
 	answers a link, or None for a file it cannot find, which then stays.
@@ -131,7 +133,12 @@ def _say(parsed, heading: str, linked: list) -> None:
 	said = {"plain": False, "html": False}
 	for part in parsed.walk():
 		kind = part.get_content_subtype()
-		if part.get_content_maintype() != "text" or kind not in said or said[kind] or part.get_content_disposition() == "attachment":
+		if (
+			part.get_content_maintype() != "text"
+			or kind not in said
+			or said[kind]
+			or part.get_content_disposition() == "attachment"
+		):
 			continue
 		charset = part.get_content_charset() or "utf-8"
 		text = (part.get_payload(decode=True) or b"").decode(charset, errors="replace")
@@ -166,7 +173,9 @@ def _link(communication: str | None, name: str) -> str | None:
 	from onedesk.one_storage import links
 
 	file = communication and frappe.db.get_value(
-		"File", {"attached_to_doctype": "Communication", "attached_to_name": communication, "file_name": name}, "name"
+		"File",
+		{"attached_to_doctype": "Communication", "attached_to_name": communication, "file_name": name},
+		"name",
 	)
 	if not file:
 		return None

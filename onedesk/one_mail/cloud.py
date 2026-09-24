@@ -42,7 +42,12 @@ def mailboxes() -> list[dict]:
 	from onedesk.one_storage import namespace as ns
 
 	return [
-		ns.virtual(node_of(box["name"]), _("Workspace") if box["workspace"] else box["email"], icon="mail", mailbox=box["name"])
+		ns.virtual(
+			node_of(box["name"]),
+			_("Workspace") if box["workspace"] else box["email"],
+			icon="mail",
+			mailbox=box["name"],
+		)
 		for box in holders.mailboxes()
 	]
 
@@ -74,5 +79,7 @@ def trail(node_id: str) -> list[dict]:
 	out = [{"id": "@root", "name": _("OneCloud")}, {"id": MAIL, "name": _("Mail")}]
 	account = account_of(node_id)
 	if account:
-		out.append({"id": node_id, "name": frappe.db.get_value("Email Account", account, "email_id") or account})
+		out.append(
+			{"id": node_id, "name": frappe.db.get_value("Email Account", account, "email_id") or account}
+		)
 	return out

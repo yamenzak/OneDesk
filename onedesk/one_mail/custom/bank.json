@@ -1,0 +1,31 @@
+{
+ "custom_fields": [
+  {
+   "doctype": "Custom Field",
+   "dt": "Bank",
+   "fieldname": "one_logo",
+   "fieldtype": "Attach Image",
+   "insert_after": "bank_name",
+   "label": "Logo",
+   "description": "Found from the bank's website when it is empty, and kept in Company › Logos.",
+   "hidden": 1,
+   "module": "One Mail",
+   "name": "Bank-one_logo"
+  }
+ ],
+ "doctype": "Bank",
+ "sync_on_migrate": 1,
+ "links": [],
+ "property_setters": [
+  {
+   "doctype": "Property Setter",
+   "doctype_or_field": "DocType",
+   "doc_type": "Bank",
+   "property": "image_field",
+   "property_type": "Data",
+   "value": "one_logo",
+   "module": "One Mail",
+   "name": "Bank-main-image_field"
+  }
+ ]
+}

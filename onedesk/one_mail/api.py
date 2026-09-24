@@ -12,12 +12,13 @@ holds a mailbox reads it.
 """
 
 import re
+from email.utils import parseaddr
 
 import frappe
 from frappe.query_builder.functions import Coalesce, Count, Max, Sum
 from frappe.utils import cint, strip_html
 
-from onedesk.one_mail import actions, holders
+from onedesk.one_mail import actions, faces, holders
 
 #: Conversations per page of the list.
 PAGE = 50
@@ -31,6 +32,12 @@ def snippet(html: str | None) -> str:
 	text = strip_html(html or "")
 	text = re.sub(r"\s+", " ", text).strip()
 	return text[:SNIPPET]
+
+
+def _address(text: str | None) -> str:
+	"""The first address in a From or To, bare and lowercased. Pure."""
+	first = (text or "").split(",")[0]
+	return (parseaddr(first)[1] or "").lower()
 
 
 def _paths(account: str, folder: str) -> list[str]:
@@ -129,6 +136,9 @@ def conversations(account: str, folder: str | None = None, search: str | None = 
 				"folder": message.get("one_folder"),
 			}
 		)
+	pictures = faces.lookup([_address(one["recipients"] if one["sent"] else one["sender"]) for one in items])
+	for one in items:
+		one["face"] = pictures.get(_address(one["recipients"] if one["sent"] else one["sender"]))
 	return {"items": items, "more": int(more)}
 
 
@@ -157,7 +167,9 @@ def conversation(account: str, thread: str) -> dict:
 			fields=["name", "file_name", "file_url", "file_size", "attached_to_name", "is_private"],
 		):
 			files.setdefault(row.attached_to_name, []).append(row)
+	pictures = faces.lookup([_address(one.sender) for one in messages])
 	for one in messages:
+		one["face"] = pictures.get(_address(one.sender))
 		one["attachments"] = files.get(one.name, [])
 		one["snippet"] = snippet(one.content)
 	return {"thread": thread, "messages": messages}

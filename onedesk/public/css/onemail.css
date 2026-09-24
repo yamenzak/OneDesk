@@ -325,6 +325,11 @@
 	letter-spacing: 0.02em;
 }
 
+img.om-face {
+	object-fit: cover;
+	background: var(--surface-gray-2);
+}
+
 .om-row-text {
 	flex: 1;
 	min-width: 0;

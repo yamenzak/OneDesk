@@ -371,3 +371,51 @@ def test_a_message_too_large_sends_its_largest_attachments_as_links():
 		"a file it cannot find stays attached"
 	)
 	assert space["shrink"](raw, lambda name: "u") == raw, "a message that fits is not touched"
+
+
+# ------------------------------------------------------------------ faces and logos
+
+
+def _faces():
+	import hashlib
+	from urllib.parse import quote, urlparse
+
+	names = (
+		"PROVIDERS",
+		"EXTENSIONS",
+		"domain_of",
+		"keys_for",
+		"is_person",
+		"gravatar",
+		"favicon",
+		"file_name",
+	)
+	return _load(MAIL / "faces.py", names, hashlib=hashlib, quote=quote, urlparse=urlparse)
+
+
+def test_a_sender_is_looked_for_as_a_person_then_as_an_organisation():
+	space = _faces()
+	keys_for = space["keys_for"]
+	assert keys_for("Ana@Client.Example") == ["ana@client.example", "client.example"]
+	assert keys_for("someone@gmail.com") == ["someone@gmail.com"], "gmail's logo is not the sender's"
+	assert keys_for("ahmad.acme@m.4dl.app", ours="m.4dl.app") == ["ahmad.acme@m.4dl.app"]
+	assert keys_for("not an address") == []
+	domain_of = space["domain_of"]
+	assert domain_of("https://www.Stripe.com/pricing") == "stripe.com"
+	assert domain_of("stripe.com") == "stripe.com" and domain_of("x@mail.acme.co") == "mail.acme.co"
+	assert domain_of("") is None and domain_of("localhost") is None
+
+
+def test_pictures_are_asked_for_so_that_none_means_none():
+	space = _faces()
+	assert space["gravatar"]("A@B.c").endswith("?d=404&s=128"), (
+		"Gravatar's default would be a picture of nobody"
+	)
+	assert "fallback_opts=TYPE,SIZE,URL" in space["favicon"]("acme.com"), "Google answers 404 with no logo"
+	assert space["file_name"]("acme.com", "image/png; charset=binary") == "acme.com.png"
+	source = (MAIL / "faces.py").read_text()
+	assert "requests.get(" in source and "enqueue_after_commit=True" in source, (
+		"fetched by the server, in the background"
+	)
+	for doctype in ("Contact", "Customer", "Supplier", "Bank"):
+		assert f'"{doctype}": {{' in HOOKS and "faces.dress_later" in HOOKS

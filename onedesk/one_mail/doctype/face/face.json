@@ -1,0 +1,74 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "field:key",
+ "creation": "2026-09-25 09:00:00.000000",
+ "description": "A person's picture or an organisation's logo, looked for once and kept in Company › Logos.",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "key",
+  "kind",
+  "image",
+  "found",
+  "checked_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "key",
+   "fieldtype": "Data",
+   "label": "Address or Domain",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "description": "An email address for a person, a domain for an organisation."
+  },
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Kind",
+   "options": "Person\nOrganisation",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "label": "Image"
+  },
+  {
+   "fieldname": "found",
+   "fieldtype": "Check",
+   "label": "Found",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "checked_on",
+   "fieldtype": "Datetime",
+   "label": "Looked For On"
+  }
+ ],
+ "image_field": "image",
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-25 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Mail",
+ "name": "Face",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "write": 1,
+   "delete": 1,
+   "report": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "key",
+ "track_changes": 0
+}

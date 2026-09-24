@@ -17,13 +17,23 @@ HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
 
 def test_the_project_half_is_its_own_place():
 	rail = json.loads((PROJECT / "sidebar" / "oneproject" / "oneproject.json").read_text())
-	owned = {item["link_to"] for item in rail["items"] if item.get("is_default_module") and item["type"] == "Link"}
+	owned = {
+		item["link_to"] for item in rail["items"] if item.get("is_default_module") and item["type"] == "Link"
+	}
 	assert "Project" in owned and "Task" not in owned, "tasks stay OneTask's"
 	task_rail = json.loads((TASK / "sidebar" / "onetask" / "onetask.json").read_text())
-	assert not {"Project", "Project Type", "Projects Settings"} & {i.get("link_to") for i in task_rail["items"]}
-	dock = [item["link_to"] for item in json.loads((tree.APP / "dock" / "onedesk" / "onedesk.json").read_text())["items"]]
+	assert not {"Project", "Project Type", "Projects Settings"} & {
+		i.get("link_to") for i in task_rail["items"]
+	}
+	dock = [
+		item["link_to"]
+		for item in json.loads((tree.APP / "dock" / "onedesk" / "onedesk.json").read_text())["items"]
+	]
 	assert dock.index("OneProject") == dock.index("OneTask") + 1
-	assert '"onedesk.one_project.calendar.LAYERS"' in HOOKS and '"onedesk.one_project.plan.before_validate"' in HOOKS
+	assert (
+		'"onedesk.one_project.calendar.LAYERS"' in HOOKS
+		and '"onedesk.one_project.plan.before_validate"' in HOOKS
+	)
 
 
 def test_a_project_board_is_shaped_as_it_is_made():
@@ -31,7 +41,10 @@ def test_a_project_board_is_shaped_as_it_is_made():
 	board = _Board(
 		reference_doctype="Task",
 		field_name="status",
-		columns=[_Row(column_name=name) for name in ("Open", "Working", "Overdue", "Completed", "Cancelled", "Template")],
+		columns=[
+			_Row(column_name=name)
+			for name in ("Open", "Working", "Overdue", "Completed", "Cancelled", "Template")
+		],
 		fields=None,
 		show_labels=1,
 	)
@@ -40,14 +53,18 @@ def test_a_project_board_is_shaped_as_it_is_made():
 	assert "Overdue" not in shown and shown["Cancelled"] == shown["Template"] == "Archived"
 	assert shown["Working"] == "Active" and json.loads(board.fields) == ["priority", "exp_end_date"]
 	assert space["shape"](board) is False, "shaping twice changes nothing"
-	assert space["shape"](_Board(reference_doctype="Opportunity", field_name="sales_stage", columns=[])) is False
+	assert (
+		space["shape"](_Board(reference_doctype="Opportunity", field_name="sales_stage", columns=[])) is False
+	)
 
 
 def test_overdue_is_a_date_not_a_status():
 	source = (PROJECT / "board.py").read_text()
 	assert '"erpnext.projects.doctype.task.task.set_tasks_as_overdue"' in source
 	custom = json.loads((TASK / "custom" / "task.json").read_text())
-	options = next(p for p in custom["property_setters"] if p["field_name"] == "status" and p["property"] == "options")
+	options = next(
+		p for p in custom["property_setters"] if p["field_name"] == "status" and p["property"] == "options"
+	)
 	assert "Overdue" not in options["value"].split("\n")
 	assert "text-danger" in (tree.APP / "public" / "js" / "task_list.js").read_text()
 	assert HOOKS.count('"onedesk.one_project.board.settle"') == 2
@@ -59,11 +76,18 @@ def test_a_task_prefix_is_short_and_starts_with_a_letter():
 
 	key = _load(PROJECT / "naming.py", ("KEY",), re=re)["KEY"]
 	assert key.match("WEB") and key.match("R2D2") and key.match("REEM")
-	assert not key.match("W") and not key.match("2FA") and not key.match("WEB-1") and not key.match("ABCDEFGHIJK")
-	assert '"onedesk.one_project.naming.validate"' in HOOKS.split('"Project": {', 1)[1].split('}', 1)[0]
+	assert (
+		not key.match("W")
+		and not key.match("2FA")
+		and not key.match("WEB-1")
+		and not key.match("ABCDEFGHIJK")
+	)
+	assert '"onedesk.one_project.naming.validate"' in HOOKS.split('"Project": {', 1)[1].split("}", 1)[0]
 	source = (PROJECT / "naming.py").read_text()
 	assert '"Document Naming Rule"' in source
-	assert '"Task"' not in HOOKS.split("override_doctype_class = {", 1)[1].split("}", 1)[0], "ERPNext's Task class stays theirs"
+	assert '"Task"' not in HOOKS.split("override_doctype_class = {", 1)[1].split("}", 1)[0], (
+		"ERPNext's Task class stays theirs"
+	)
 
 
 def test_erpnexts_dependants_can_find_their_project():
@@ -76,8 +100,13 @@ def test_a_project_is_its_members():
 	assert 'MANAGERS = ("Projects Manager",)' in source and 'WORKER = "Projects User"' in source
 	seen = _body(source, "visible")
 	assert "unlisted" in seen and "member" in seen and "owned" in seen and "under(" in seen
-	assert "return not manages(user) and WORKER in frappe.get_roles(user)" in _body(source, "narrowed"), "select-only roles keep their lists"
-	assert '"Project": "onedesk.one_project.members.allowed"' in HOOKS and '"Project": "onedesk.one_project.members.query"' in HOOKS
+	assert "return not manages(user) and WORKER in frappe.get_roles(user)" in _body(source, "narrowed"), (
+		"select-only roles keep their lists"
+	)
+	assert (
+		'"Project": "onedesk.one_project.members.allowed"' in HOOKS
+		and '"Project": "onedesk.one_project.members.query"' in HOOKS
+	)
 	assert "onedesk.one_project.members.forget" in HOOKS
 
 
@@ -89,7 +118,11 @@ def test_a_member_can_be_added_without_outgoing_mail():
 
 
 def _tree():
-	return _load(PROJECT / "tree.py", ("children", "below", "above", "loops", "add_up", "FIGURES"), flt=lambda value: float(value or 0))
+	return _load(
+		PROJECT / "tree.py",
+		("children", "below", "above", "loops", "add_up", "FIGURES"),
+		flt=lambda value: float(value or 0),
+	)
 
 
 def test_a_tree_goes_down_and_up_to_any_depth():
@@ -110,13 +143,19 @@ def test_a_project_cannot_sit_under_itself():
 
 def test_a_tree_adds_up_erpnexts_own_figures():
 	space = _tree()
-	said = space["add_up"]([{"estimated_costing": 20000, "total_billed_amount": 5000}, {"estimated_costing": 4000}])
+	said = space["add_up"](
+		[{"estimated_costing": 20000, "total_billed_amount": 5000}, {"estimated_costing": 4000}]
+	)
 	assert said["estimated_costing"] == 24000 and said["total_billed_amount"] == 5000
 	assert "gross_margin" in space["FIGURES"] and "total_costing_amount" in space["FIGURES"]
 
 
 def test_the_tree_report_puts_each_project_under_its_parent():
-	ordered = _load(PROJECT / "report" / "project_tree" / "project_tree.py", ("ordered",), tree=type("T", (), {"PARENT": "one_parent"}))["ordered"]
+	ordered = _load(
+		PROJECT / "report" / "project_tree" / "project_tree.py",
+		("ordered",),
+		tree=type("T", (), {"PARENT": "one_parent"}),
+	)["ordered"]
 	rows = [
 		{"name": "W", "project_name": "Windows", "one_parent": "V"},
 		{"name": "V", "project_name": "Villa", "one_parent": None},
@@ -129,7 +168,10 @@ def test_the_tree_report_puts_each_project_under_its_parent():
 
 
 def test_sub_projects_are_wired_and_members_see_below():
-	assert '"onedesk.one_project.tree.validate"' in HOOKS and '"Project": ["onedesk.one_project.tree.dashboard"]' in HOOKS
+	assert (
+		'"onedesk.one_project.tree.validate"' in HOOKS
+		and '"Project": ["onedesk.one_project.tree.dashboard"]' in HOOKS
+	)
 	assert "tree.below(projects, tree.parents())" in _body((PROJECT / "members.py").read_text(), "under")
 	assert "path(project)" in (TASK / "mine.py").read_text(), "My Tasks names the path"
 	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
@@ -142,7 +184,9 @@ def test_the_overview_counts_days_and_work():
 	def date_diff(a, b):
 		return (a - b).days
 
-	space = _load(PROJECT / "overview.py", ("days_left", "share"), date_diff=date_diff, getdate=lambda value: value)
+	space = _load(
+		PROJECT / "overview.py", ("days_left", "share"), date_diff=date_diff, getdate=lambda value: value
+	)
 	today = date(2026, 9, 23)
 	assert space["days_left"](date(2026, 10, 3), today, False) == 10
 	assert space["days_left"](date(2026, 9, 20), today, False) == -3, "late"
@@ -170,21 +214,30 @@ def test_a_dependant_moves_after_what_it_waits_on():
 	)
 	moved = space["moved_after"]
 	starts, ends = date(2026, 10, 1), date(2026, 10, 3)
-	assert moved(starts, ends, date(2026, 10, 5), "Open") == (date(2026, 10, 6), date(2026, 10, 8)), "keeps its length"
+	assert moved(starts, ends, date(2026, 10, 5), "Open") == (date(2026, 10, 6), date(2026, 10, 8)), (
+		"keeps its length"
+	)
 	assert moved(starts, ends, date(2026, 9, 20), "Open") is None, "already after it"
 	assert moved(starts, ends, date(2026, 10, 5), "Working") is None, "started work stays"
 	assert moved(None, ends, date(2026, 10, 5), "Open") is None
 
 
 def test_a_slip_crosses_sub_projects_and_the_plan_is_the_tree():
-	assert '"on_update": "onedesk.one_project.plan.reschedule"' in HOOKS.split('"Task": {', 1)[1].split("},", 1)[0]
+	assert (
+		'"on_update": "onedesk.one_project.plan.reschedule"'
+		in HOOKS.split('"Task": {', 1)[1].split("},", 1)[0]
+	)
 	body = _body((PROJECT / "plan.py").read_text(), "reschedule")
-	assert 'has_value_changed("exp_end_date")' in body and "- {doc.project}" in body, "ERPNext's own pass does its project"
+	assert 'has_value_changed("exp_end_date")' in body and "- {doc.project}" in body, (
+		"ERPNext's own pass does its project"
+	)
 	page = (tree.APP / "public" / "js" / "project.js").read_text()
 	assert 'project: ["in", said.tree]' in page and '"List", "Task", "Gantt"' in page
 	assert 'remove_custom_button(__("Gantt Chart"), __("View"))' in page
 	gantt = (tree.APP / "public" / "js" / "task_list.js").read_text()
-	assert "Gantt.prototype.prepare_tasks" in gantt and "start: task.end" in gantt, "a due date alone is a day"
+	assert "Gantt.prototype.prepare_tasks" in gantt and "start: task.end" in gantt, (
+		"a due date alone is a day"
+	)
 	assert "gantt.config.view_mode.name === name" in gantt, "the lit pill is the chart's mode"
 	css = (tree.APP / "public" / "css" / "desk.css").read_text()
 	assert ".result.result:has(> .gantt-container)" in css, "the chart scrolls, to today"
@@ -199,7 +252,9 @@ def test_a_template_counts_days_from_the_projects_start():
 		date_diff=lambda a, b: (a - b).days,
 		getdate=lambda value: value,
 	)
-	begins = space["start_of"](date(2026, 9, 10), [{"exp_start_date": date(2026, 9, 8), "exp_end_date": None}])
+	begins = space["start_of"](
+		date(2026, 9, 10), [{"exp_start_date": date(2026, 9, 8), "exp_end_date": None}]
+	)
 	assert begins == date(2026, 9, 8), "no task begins before the project"
 	assert space["start_of"](None, [{"exp_start_date": None, "exp_end_date": None}]) is None
 	days = space["days"]
@@ -216,13 +271,20 @@ def test_a_template_is_the_whole_teams_and_keeps_what_erpnext_drops():
 	assert HOOKS.count('"onedesk.one_project.templates.settle"') == 2, "after_install and after_migrate"
 	assert "doc.is_template" in _body((TASK / "capture.py").read_text(), "task_made"), "nobody's work"
 	access = (TASK / "access.py").read_text()
-	assert 'doc.get("is_template") and sees_projects(user)' in access and "`tabTask`.`is_template` = 1" in access
-	assert "_write(doc)" in _body((PROJECT / "naming.py").read_text(), "validate"), "the prefix names a template's tasks"
+	assert (
+		'doc.get("is_template") and sees_projects(user)' in access and "`tabTask`.`is_template` = 1" in access
+	)
+	assert "_write(doc)" in _body((PROJECT / "naming.py").read_text(), "validate"), (
+		"the prefix names a template's tasks"
+	)
 	assert "after_rollback.add(_forget)" in (PROJECT / "naming.py").read_text()
 	page = (tree.APP / "public" / "js" / "project.js").read_text()
 	assert "onedesk.one_project.templates.save_as" in page
 	assert '"Project Template": "public/js/project_template.js"' in HOOKS
-	for rail in (PROJECT / "sidebar" / "oneproject" / "oneproject.json", TASK / "sidebar" / "onetask" / "onetask.json"):
+	for rail in (
+		PROJECT / "sidebar" / "oneproject" / "oneproject.json",
+		TASK / "sidebar" / "onetask" / "onetask.json",
+	):
 		tasks = next(i for i in json.loads(rail.read_text())["items"] if i.get("label") == "Tasks")
 		assert "is_template" in tasks["filters"], rail.name
 
@@ -236,7 +298,10 @@ def test_time_is_invoiced_by_activity():
 		{"activity_type": None, "billing_hours": 0, "billing_amount": 0},
 	]
 	lines = space["lines"](rows)
-	assert [(one["activity"], one["hours"], one["rate"]) for one in lines] == [("Execution", 7, 280), ("Planning", 2, 300)]
+	assert [(one["activity"], one["hours"], one["rate"]) for one in lines] == [
+		("Execution", 7, 280),
+		("Planning", 2, 300),
+	]
 
 
 def test_an_order_for_extra_work_is_named_by_what_it_orders():
@@ -260,7 +325,9 @@ def test_an_order_under_a_project_becomes_its_sub_project():
 	assert '"onedesk.one_project.billing.ordered"' in orders
 	for doctype in ("quotation", "sales_order"):
 		custom = json.loads((PROJECT / "custom" / f"{doctype}.json").read_text())
-		assert [f["fieldname"] for f in custom["custom_fields"]] == ["one_project"], "the same field, so the mapping carries it"
+		assert [f["fieldname"] for f in custom["custom_fields"]] == ["one_project"], (
+			"the same field, so the mapping carries it"
+		)
 	source = (PROJECT / "billing.py").read_text()
 	assert "make_project(doc.name)" in source and 'project.set("one_parent", parent)' in source
 	assert 'data["non_standard_fieldnames"]["Quotation"] = "one_project"' in (PROJECT / "tree.py").read_text()
@@ -279,23 +346,36 @@ def test_a_project_asks_once_at_the_time_it_is_set_to():
 	assert not due(daily, time(9), "Monday", 0) and due(daily, time(10), "Monday", 0)
 	assert not due(daily, time(15), "Monday", 1), "once a day, not every hour after"
 	twice = {"frequency": "Twice Daily", "first_email": time(9), "second_email": time(16)}
-	assert due(twice, time(9), "Monday", 0) and not due(twice, time(10), "Monday", 1), "not in two hours running"
+	assert due(twice, time(9), "Monday", 0) and not due(twice, time(10), "Monday", 1), (
+		"not in two hours running"
+	)
 	assert due(twice, time(16), "Monday", 1) and not due(twice, time(17), "Monday", 2)
 	weekly = {"frequency": "Weekly", "day_to_send": "Friday"}
-	assert due(weekly, time(9), "Friday", 0) and not due(weekly, time(8), "Friday", 0), "no time set is the morning"
+	assert due(weekly, time(9), "Friday", 0) and not due(weekly, time(8), "Friday", 0), (
+		"no time set is the morning"
+	)
 	assert not due(weekly, time(9), "Thursday", 0)
 	assert not due({"frequency": "Hourly"}, time(12), "Monday", 0), "hourly is not offered"
 
 
 def test_updates_replace_erpnexts_asking_and_are_kept_on_the_project():
 	source = (PROJECT / "updates.py").read_text()
-	for job in ("hourly_reminder", "project_status_update_reminder", "collect_project_status", "send_project_status_email_to_users"):
+	for job in (
+		"hourly_reminder",
+		"project_status_update_reminder",
+		"collect_project_status",
+		"send_project_status_email_to_users",
+	):
 		assert f"project.project.{job}" in source
 	assert HOOKS.count('"onedesk.one_project.updates.settle"') == 2
 	assert '"onedesk.one_project.updates.ask"' in HOOKS.split('"hourly": [', 1)[1].split("]", 1)[0]
-	assert '"onedesk.one_project.updates.answered"' in HOOKS.split('"Communication": {', 1)[1].split("},", 1)[0]
+	assert (
+		'"onedesk.one_project.updates.answered"' in HOOKS.split('"Communication": {', 1)[1].split("},", 1)[0]
+	)
 	assert 'additional_timeline_content = {"Project": ["onedesk.one_project.updates.timeline"]}' in HOOKS
-	assert '"Notification Log"' in _body(source, "_ask") and "if _mail()" in _body(source, "_ask"), "asked in One, mailed where mail goes"
+	assert '"Notification Log"' in _body(source, "_ask") and "if _mail()" in _body(source, "_ask"), (
+		"asked in One, mailed where mail goes"
+	)
 	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
 	frequency = next(p for p in custom["property_setters"] if p["field_name"] == "frequency")
 	assert "Hourly" not in frequency["value"]
@@ -312,16 +392,22 @@ def test_a_customer_is_told_when_in_plain_words():
 
 
 def test_a_customer_reaches_their_projects_and_nothing_of_the_team():
-	assert '"has_permission": "onedesk.check_app_permission"' in HOOKS, "a customer signing in is not sent to the desk"
+	assert '"has_permission": "onedesk.check_app_permission"' in HOOKS, (
+		"a customer signing in is not sent to the desk"
+	)
 	assert "is_website_user()" in (tree.APP / "__init__.py").read_text()
-	assert '"Contact": {"on_update": "onedesk.one_project.portal.invited"}' in HOOKS
+	assert '"onedesk.one_project.portal.invited"' in HOOKS.split('"Contact": {', 1)[1].split("},", 1)[0]
 	source = (PROJECT / "portal.py").read_text()
-	assert 'customer.append("portal_users", {"user": doc.user})' in source, "the only thing ERPNext's portal reads"
+	assert 'customer.append("portal_users", {"user": doc.user})' in source, (
+		"the only thing ERPNext's portal reads"
+	)
 	assert "has_website_permission(doc" in _body(source, "may_see")
 	page = (tree.APP / "www" / "projects.py").read_text()
 	assert "portal.view(project)" in page, "One's page at ERPNext's address"
 	html = (tree.APP / "www" / "projects.html").read_text()
-	assert "_assign" not in html and "timesheet" not in html.lower() and "/tasks/new" not in html, "nothing of the team's"
+	assert "_assign" not in html and "timesheet" not in html.lower() and "/tasks/new" not in html, (
+		"nothing of the team's"
+	)
 	fields = source.split('"Task",', 1)[1].split("order_by", 1)[0]
 	assert "_assign" not in fields and "owner" not in fields
 
@@ -342,7 +428,9 @@ def test_a_tasks_hours_fall_in_the_days_of_the_week_they_cover():
 	assert in_week(date(2026, 9, 25), date(2026, 10, 2), monday, sunday, 24) == 9, "three of eight days"
 	assert in_week(None, date(2026, 9, 26), monday, sunday, 6) == 6, "a due date alone is a day"
 	assert in_week(None, date(2026, 9, 10), monday, sunday, 3) == 3, "late work is this week's"
-	assert in_week(None, date(2026, 9, 10), monday + timedelta(7), sunday + timedelta(7), 3) is None, "not next week's"
+	assert in_week(None, date(2026, 9, 10), monday + timedelta(7), sunday + timedelta(7), 3) is None, (
+		"not next week's"
+	)
 	assert in_week(date(2026, 10, 1), date(2026, 10, 3), monday, sunday, 5) is None
 	assert space["load"](12, 40) == 30 and space["load"](5, 0) is None
 
@@ -352,15 +440,24 @@ def test_workload_is_a_report_of_figures_in_the_rail():
 	assert 'frappe.get_list(\n\t\t"Task"' in source, "only what the reader may see"
 	assert '"standard_working_hours"' in source and '"Leave Application"' in source
 	rail = json.loads((PROJECT / "sidebar" / "oneproject" / "oneproject.json").read_text())
-	assert any(item.get("link_to") == "Workload" and item.get("link_type") == "Report" for item in rail["items"])
-	assert "chart" not in (PROJECT / "report" / "workload" / "workload.js").read_text().lower().replace("not a chart", "")
+	assert any(
+		item.get("link_to") == "Workload" and item.get("link_type") == "Report" for item in rail["items"]
+	)
+	assert "chart" not in (PROJECT / "report" / "workload" / "workload.js").read_text().lower().replace(
+		"not a chart", ""
+	)
 
 
 def test_what_the_old_oneproject_had_that_is_kept():
-	custom = {f["fieldname"]: f for f in json.loads((PROJECT / "custom" / "project.json").read_text())["custom_fields"]}
+	custom = {
+		f["fieldname"]: f
+		for f in json.loads((PROJECT / "custom" / "project.json").read_text())["custom_fields"]
+	}
 	assert custom["one_health"]["options"].split("\n") == ["On Track", "At Risk", "Off Track"]
 	assert custom["one_manager"]["options"] == "User" and custom["one_manager"]["default"] == "__user"
-	assert '"one_manager": user' in _body((PROJECT / "members.py").read_text(), "visible"), "who runs it sees it"
+	assert '"one_manager": user' in _body((PROJECT / "members.py").read_text(), "visible"), (
+		"who runs it sees it"
+	)
 	assert "frm.doc.one_health" in (tree.APP / "public" / "js" / "project.js").read_text()
 	rail = json.loads((PROJECT / "sidebar" / "oneproject" / "oneproject.json").read_text())
 	items = {item["label"]: item for item in rail["items"]}
@@ -369,4 +466,7 @@ def test_what_the_old_oneproject_had_that_is_kept():
 	lifecycle = (tree.APP / "one_hr" / "lifecycle.py").read_text()
 	assert 'BOARDING = "Employee Boarding"' in lifecycle
 	assert HOOKS.count('"on_submit": "onedesk.one_hr.lifecycle.typed"') == 2
-	assert 'where["project_type"] = ["!=", BOARDING]' in (PROJECT / "report" / "project_tree" / "project_tree.py").read_text()
+	assert (
+		'where["project_type"] = ["!=", BOARDING]'
+		in (PROJECT / "report" / "project_tree" / "project_tree.py").read_text()
+	)

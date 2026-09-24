@@ -275,7 +275,8 @@ onedesk.OneMail = class OneMail {
 		return `${at ? bytes.toFixed(bytes < 10 ? 1 : 0) : bytes} ${units[at]}`;
 	}
 
-	face(name, email) {
+	face(name, email, picture) {
+		if (picture) return `<img class="om-face" src="${frappe.utils.escape_html(picture)}" alt="" loading="lazy">`;
 		const text = (name || email || "?").trim();
 		const parts = text.replace(/[<>"']/g, "").split(/[\s@._-]+/).filter(Boolean);
 		const initials = ((parts[0] || "?")[0] + ((parts[1] || "")[0] || "")).toUpperCase();
@@ -311,7 +312,7 @@ onedesk.OneMail = class OneMail {
 				const clip = item.attachments ? frappe.utils.icon("paperclip", "xs") : "";
 				return `<div class="${classes.join(" ")}" role="option" data-thread="${esc(item.thread)}" aria-selected="${this.selected.has(item.thread)}">
 					<label class="om-pick" title="${__("Select")}"><input type="checkbox" ${this.selected.has(item.thread) ? "checked" : ""}></label>
-					${this.face(item.sender_name, item.sender)}
+					${this.face(item.sender_name, item.sender, item.face)}
 					<div class="om-row-text">
 						<div class="om-row-top"><span class="om-who">${esc(this.who(item))}</span>${count}<span class="om-when">${clip}${esc(this.when(item.date))}</span></div>
 						<div class="om-subject">${esc(item.subject || __("(no subject)"))}</div>
@@ -412,7 +413,7 @@ onedesk.OneMail = class OneMail {
 	draw_folded(message) {
 		const esc = frappe.utils.escape_html;
 		return `<div class="om-message om-folded" data-message="${esc(message.name)}" tabindex="0">
-			${this.face(message.sender_full_name, message.sender)}
+			${this.face(message.sender_full_name, message.sender, message.face)}
 			<span class="om-from-name">${esc(message.sender_full_name || message.sender)}</span>
 			<span class="om-folded-text">${esc(message.snippet || "")}</span>
 			<span class="om-when">${esc(this.when(message.communication_date))}</span>
@@ -435,7 +436,7 @@ onedesk.OneMail = class OneMail {
 			.join("");
 		return `<div class="om-message" data-message="${esc(message.name)}">
 			<div class="om-message-head">
-				${this.face(message.sender_full_name, message.sender)}
+				${this.face(message.sender_full_name, message.sender, message.face)}
 				<div class="om-from">
 					<div><span class="om-from-name">${esc(message.sender_full_name || message.sender)}</span> <span class="om-from-address">${message.sender_full_name ? esc(`<${message.sender}>`) : ""}</span></div>
 					${people(__("To"), message.recipients)}

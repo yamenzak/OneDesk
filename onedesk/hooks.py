@@ -89,6 +89,8 @@ scheduler_events = {
 		"* * * * *": ["onedesk.one_mail.inbound.sweep", "onedesk.one_mail.sync.sync_all"],
 	},
 	"daily": [
+		# Faces not found a month ago are looked for again. See one_mail/faces.py.
+		"onedesk.one_mail.faces.again",
 		# The Recycle Bin keeps things thirty days. See one_storage/api.py.
 		"onedesk.one_storage.api.purge_old",
 		"onedesk.one_storage.file_requests.remind_due",
@@ -128,7 +130,19 @@ doc_events = {
 	"User": {"before_save": "onedesk.one_mail.addresses.for_person"},
 	# A customer's contact invited as a user can see the customer's projects.
 	# See one_project/portal.py.
-	"Contact": {"on_update": "onedesk.one_project.portal.invited"},
+	"Contact": {
+		"on_update": [
+			"onedesk.one_project.portal.invited",
+			# A contact without a picture gets their face. See one_mail/faces.py.
+			"onedesk.one_mail.faces.dress_later",
+		],
+		"after_insert": "onedesk.one_mail.faces.dress_later",
+	},
+	# An organisation without a picture gets its website's logo. See
+	# one_mail/faces.py.
+	"Customer": {"after_insert": "onedesk.one_mail.faces.dress_later", "on_update": "onedesk.one_mail.faces.dress_later"},
+	"Supplier": {"after_insert": "onedesk.one_mail.faces.dress_later", "on_update": "onedesk.one_mail.faces.dress_later"},
+	"Bank": {"after_insert": "onedesk.one_mail.faces.dress_later", "on_update": "onedesk.one_mail.faces.dress_later"},
 	# A company bank account wires the bank modes of payment. See one_book/ready.py.
 	"Bank Account": {"on_update": "onedesk.one_book.ready.wired"},
 	# A repeated invoice keeps its days to pay; a repeated bill drops the

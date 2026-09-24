@@ -124,6 +124,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
+| Face | 5 | document |
 | Mail Folder | 15 | document |
 
 ## Desk records shipped as fixtures
