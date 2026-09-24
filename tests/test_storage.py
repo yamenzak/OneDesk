@@ -336,3 +336,38 @@ def test_a_star_is_nobodys_business_but_the_readers():
 def test_recent_is_short_and_losing_it_loses_nothing():
 	assert "ltrim(key, 0, RECENT - 1)" in _body(HISTORY, "seen")
 	assert "except Exception" in _body(HISTORY, "seen") and "except Exception" in _body(HISTORY, "recent")
+
+
+DAV = tree.APP / "one_storage" / "dav.py"
+
+
+def test_a_drive_path_has_no_parent_steps_and_litter_is_refused():
+	space = _load(DAV, ("split", "litter", "LITTER"))
+	split, litter = space["split"], space["litter"]
+	assert split("/My Files/Projects/") == ["My Files", "Projects"]
+	assert split("/My Files/../Company/./x") == ["My Files", "Company", "x"], "no climbing out"
+	assert split("") == [] and split("/") == []
+	assert litter(".DS_Store") and litter("._report.pdf") and litter("Thumbs.db") and litter("~$budget.xlsx")
+	assert not litter("report.pdf")
+
+
+def test_the_drive_is_frappes_sign_in_and_the_explorers_verbs():
+	serve = _body(DAV, "serve")
+	assert "frappe.session.user in ('Guest', '')" in serve and "WWW-Authenticate" in serve, "no key, a Basic challenge"
+	assert "frappe.local.flags.commit = True" in serve, "Frappe rolls back PROPPATCH, MKCOL, MOVE and LOCK otherwise"
+	source = DAV.read_text()
+	for verb in ("api.make_folder(", "api.delete(", "api.move(", "api.copy(", "api.rename(", "upload._place("):
+		assert verb in source, verb
+	assert "ns.children(" in _body(DAV, "_children"), "a drive lists exactly what the explorer lists"
+
+
+def test_a_drive_is_found_by_its_client():
+	assert 'after_request = ["onedesk.one_storage.dav.headers"]' in HOOKS
+	head = _body(DAV, "headers")
+	assert "DAV" in head and "response.status_code = 200" in head, "OPTIONS answers whoever asks"
+	assert "response_headers" in head, "applied after Frappe offers OAuth"
+	assert "wsgidav" in (tree.ROOT / "pyproject.toml").read_text()
+
+
+def test_an_empty_file_is_not_kept_as_a_version():
+	assert "if item.file_size:" in _body(HISTORY, "replace")

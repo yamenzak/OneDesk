@@ -169,5 +169,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | File reads a stored file's content from R2 | Frappe opens a path on disk in get_content; CloudFile overrides it, exists_on_disk and make_thumbnail | `onedesk/one_storage/file.py` | `frappe/frappe/core/doctype/file/file.py` | `with open(file_path, mode="rb") as f:` |
 | A stored file is decoded the way Frappe decodes one | text as text and anything else as bytes, by the same constants | `onedesk/one_storage/file.py` | `frappe/frappe/core/doctype/file/file.py` | `OLE_FILE_SIGNATURE = ` |
 | File.validate_private_file_access: may this user name a private file's URL | Frappe asks its own File permission of the first row with that URL, which knows nothing of a folder shared with the reader, so copying a shared file out was refused; any row namespace.may lets them open will do | `onedesk/one_storage/file.py` | `frappe/frappe/core/doctype/file/file.py` | `def validate_private_file_access(self):` |
+| WebDAV lives at /api/method/<name>/<path> | Frappe keeps only the part before the first slash as the method, so dav.serve gets every path under it and reads the rest from the request | `onedesk/one_storage/dav.py` | `frappe/frappe/api/v1.py` | `method = method.split("/")[0]` |
+| Frappe answers OPTIONS before any method runs | so dav.headers (after_request) adds DAV: 1, 2 and answers an authenticated OPTIONS 200, which Finder sends and Frappe cannot sign in | `onedesk/one_storage/dav.py` | `frappe/frappe/app.py` | `if request.method == "OPTIONS":` |
 
-164 overrides.
+166 overrides.

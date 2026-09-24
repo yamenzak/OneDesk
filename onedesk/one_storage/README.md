@@ -137,6 +137,18 @@ which keeps the current one as a version in turn — and its activity: who
 made it, renamed it, moved it, shared it, made a link to it or replaced it.
 A replaced file keeps its shares and its links.
 
+## As a drive on your computer
+
+Right-click a folder and choose **Connect as a drive…** (or right-click an
+empty space for the folder you are in). The dialog gives its address and
+how to add it — Windows *Map network drive*, macOS *Connect to Server*,
+Linux *Other Locations* — and **Make a password** gives the user name and
+password to sign in with, shown once. The drive then works like any other:
+open, save, drag in, rename, make folders, delete. It holds exactly what you
+can open here and nothing else; saving over a file keeps what it held as a
+version, and deleting sends it to the Recycle Bin. Making a new password
+stops the old one working.
+
 ## Where files are kept
 
 Every file uploaded anywhere in One — attached to an invoice, dropped in a
@@ -283,6 +295,25 @@ not a second R2 integration.
   directly so a star neither comments nor notifies. Activity is Info comments
   written by the verbs, read back with the versions.
 
+- `dav.py` — WebDAV. `serve` is whitelisted for every DAV method and hands
+  the request to wsgidav (MIT); `/api/method/<name>/<rest>` leaves the rest
+  of the path alone, so the drive is at `…/dav.serve/My Files/…` with no
+  process or port of its own. Signing in is Frappe's: Basic auth with the
+  person's API key and secret (`password` makes a secret for oneself only),
+  and a Guest gets a Basic challenge. The provider walks names with
+  `namespace.children` and changes things only through `api` and `upload`,
+  so a drive can do exactly what the explorer can. Frappe answers OPTIONS
+  itself, rolls back methods it does not know change things, reads the
+  whole body before any method runs, and offers OAuth on a 401 — so
+  `headers` (after_request) adds `DAV:` to OPTIONS and answers it 200,
+  `serve` sets `flags.commit` for MKCOL, MOVE, COPY, LOCK and PROPPATCH and
+  reads the body from werkzeug's cache, and the challenge goes through
+  `response_headers`, which Frappe applies last. Locks are kept in Frappe's
+  redis under the site's name, so every worker sees them. The empty file a
+  client writes before the real one is not kept as a version. Bytes are
+  read into memory on a PUT (Frappe has read them already), so a drive is
+  for documents rather than for very large video.
+
 ### Research and decisions
 
 What was asked for, and what each became.
@@ -345,4 +376,5 @@ repositories, which will be folders with history.
 6. **Libraries and versions.** Team libraries with members and roles, version
    history, recent and starred. *Done.*
 7. **WebDAV.** Any folder as a network drive in Windows, macOS and Linux.
+   *Done.*
 8. **Mounts.** SFTP and WebDAV servers as folders.

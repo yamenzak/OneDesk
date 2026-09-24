@@ -742,3 +742,41 @@
 .oc-starred svg {
 	color: var(--ink-amber-3);
 }
+
+/* Connect as a drive. */
+.oc-drive-steps {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
+	margin: 0 0 calc(var(--spacing) * 3);
+	font-size: var(--text-sm);
+}
+
+.oc-drive-steps dt {
+	font-weight: var(--font-weight-medium);
+	color: var(--ink-gray-8);
+}
+
+.oc-drive-steps dd {
+	margin: 0;
+	color: var(--ink-gray-7);
+}
+
+.oc-drive-row {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 3);
+	padding: calc(var(--spacing) * 1) 0;
+}
+
+.oc-drive-row > span {
+	width: 90px;
+	color: var(--ink-gray-5);
+	font-size: var(--text-sm);
+}
+
+.oc-drive-row code {
+	flex: 1;
+	min-width: 0;
+	overflow-wrap: anywhere;
+}

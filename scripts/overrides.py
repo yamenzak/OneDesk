@@ -1172,6 +1172,20 @@ OVERRIDES = [
 		"frappe/frappe/core/doctype/file/file.py",
 		"def validate_private_file_access(self):",
 	),
+	(
+		"WebDAV lives at /api/method/<name>/<path>",
+		"Frappe keeps only the part before the first slash as the method, so dav.serve gets every path under it and reads the rest from the request",
+		"onedesk/one_storage/dav.py",
+		"frappe/frappe/api/v1.py",
+		'method = method.split("/")[0]',
+	),
+	(
+		"Frappe answers OPTIONS before any method runs",
+		"so dav.headers (after_request) adds DAV: 1, 2 and answers an authenticated OPTIONS 200, which Finder sends and Frappe cannot sign in",
+		"onedesk/one_storage/dav.py",
+		"frappe/frappe/app.py",
+		'if request.method == "OPTIONS":',
+	),
 ]
 
 

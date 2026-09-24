@@ -11,6 +11,9 @@ dependencies = [
     # alternative is writing CBOR parsing and COSE key handling ourselves,
     # which is security-critical code with no reason to be ours.
     "webauthn>=2.0,<4",
+    # WebDAV, for OneCloud as a network drive (one_storage/dav.py). MIT, and
+    # the protocol's XML, locking and client quirks are a solved problem.
+    "wsgidav>=4.3,<5",
 ]
 
 [build-system]

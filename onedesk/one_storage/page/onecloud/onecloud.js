@@ -825,6 +825,12 @@ onedesk.OneCloud = class OneCloud {
 			case "share":
 				if (chosen.length === 1 && this.shareable(chosen[0])) this.share(chosen[0]);
 				return;
+			case "drive":
+				return this.drive(chosen[0].id, chosen[0].name);
+			case "drive-here": {
+				const here = this.trail[this.trail.length - 1];
+				return this.drive(this.node, here ? here.name : __("Files"));
+			}
 			case "star":
 			case "unstar":
 				await frappe.xcall("onedesk.one_storage.history.star", { nodes: ids, on: act === "star" ? 1 : 0 });
@@ -1262,6 +1268,50 @@ onedesk.OneCloud = class OneCloud {
 		draw();
 	}
 
+	// ------------------------------------------------------------- the drive
+
+	// A folder, or everything, as a drive in Windows, macOS or Linux: its
+	// address, how each system adds one, and the password to sign in with.
+	async drive(node, name) {
+		const where = await frappe.xcall("onedesk.one_storage.dav.address", { node: ["@root", "@recent", "@starred", "@bin"].includes(node) ? "@root" : node });
+		const esc = frappe.utils.escape_html;
+		const steps = [
+			[__("Windows"), __("In File Explorer, right-click This PC and choose Map network drive. Paste the address as the folder.")],
+			[__("macOS"), __("In Finder, choose Go › Connect to Server and paste the address.")],
+			[__("Linux"), __("In Files, choose Other Locations and paste the address after davs:// in place of https://.")],
+		];
+		const dialog = new frappe.ui.Dialog({
+			title: __("Connect {0} as a drive", [name]),
+			fields: [
+				{ fieldtype: "Data", fieldname: "url", label: __("Address"), read_only: 1, default: where.url },
+				{
+					fieldtype: "HTML",
+					fieldname: "how",
+					options: `<dl class="oc-drive-steps">${steps.map(([os, text]) => `<dt>${esc(os)}</dt><dd>${esc(text)}</dd>`).join("")}</dl>
+						<p class="oc-people-note">${esc(__("It asks for a user name and password: make them below. Everything you can open here, you can open there, and nothing else."))}</p>
+						<div class="oc-drive-key"></div>`,
+				},
+			],
+			primary_action_label: where.has_key ? __("Make a new password") : __("Make a password"),
+			primary_action: async () => {
+				const made = await frappe.xcall("onedesk.one_storage.dav.password");
+				const copy = __("Copy");
+				dialog.fields_dict.how.$wrapper.find(".oc-drive-key").html(`
+					<div class="oc-people-head">${esc(__("Shown once. Keep it somewhere safe."))}</div>
+					<div class="oc-drive-row"><span>${esc(__("User name"))}</span><code>${esc(made.user_name)}</code><button class="es-button" data-variant="ghost" data-size="sm" data-copy="${esc(made.user_name)}">${copy}</button></div>
+					<div class="oc-drive-row"><span>${esc(__("Password"))}</span><code>${esc(made.password)}</code><button class="es-button" data-variant="ghost" data-size="sm" data-copy="${esc(made.password)}">${copy}</button></div>`);
+				dialog.fields_dict.how.$wrapper.find("[data-copy]").on("click", (e) => frappe.utils.copy_to_clipboard(e.currentTarget.dataset.copy));
+				dialog.get_primary_btn().prop("disabled", true);
+			},
+		});
+		if (where.has_key) {
+			dialog.fields_dict.how.$wrapper
+				.find(".oc-drive-key")
+				.html(`<p class="oc-people-note">${esc(__("You already have a password for your drives. Making a new one stops the old one working everywhere it is used."))}</p>`);
+		}
+		dialog.show();
+	}
+
 	// ------------------------------------------------------------- menus
 
 	new_menu() {
@@ -1308,6 +1358,7 @@ onedesk.OneCloud = class OneCloud {
 					? ["unstar", "star-off", __("Remove star"), stored]
 					: ["star", "star", __("Star"), stored],
 				["new-version", "upload", __("Upload new version"), !!(one && !one.folder && stored && !one.record)],
+				["drive", "hard-drive", __("Connect as a drive…"), !!(one && one.folder && !one.virtual)],
 				["rename", "pencil", __("Rename"), !!(one && stored) && this.kind() !== "record", "F2"],
 				["delete", "trash-2", __("Delete"), stored, "Del", "red"],
 			],
@@ -1333,7 +1384,10 @@ onedesk.OneCloud = class OneCloud {
 				["sort-type", "arrow-up-down", __("Sort by type"), true],
 				["sort-size", "arrow-up-down", __("Sort by size"), true],
 			],
-			[["refresh", "refresh-cw", __("Refresh"), true, "F5"]],
+			[
+				["drive-here", "hard-drive", __("Connect as a drive…"), true],
+				["refresh", "refresh-cw", __("Refresh"), true, "F5"],
+			],
 		];
 	}
 

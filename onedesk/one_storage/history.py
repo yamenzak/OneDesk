@@ -52,8 +52,10 @@ def keep(item: dict) -> None:
 
 def replace(item: dict, new: str) -> str:
 	"""Point `item` at the content of the File `new`, keeping what it held as
-	a version, and take `new`'s row away without touching the content."""
-	keep(item)
+	a version, and take `new`'s row away without touching the content. An
+	empty file is not kept: a drive writes one first and its content after."""
+	if item.file_size:
+		keep(item)
 	fresh = frappe.db.get_value(
 		"File", new, ["file_url", "file_size", "content_hash", "thumbnail_url"], as_dict=True
 	)

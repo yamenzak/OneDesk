@@ -277,6 +277,9 @@ No doctypes yet.
 * `onedesk.one_storage.api.rename`
 * `onedesk.one_storage.api.resolve`
 * `onedesk.one_storage.api.restore`
+* `onedesk.one_storage.dav.address`
+* `onedesk.one_storage.dav.password`
+* `onedesk.one_storage.dav.serve`
 * `onedesk.one_storage.history.activity`
 * `onedesk.one_storage.history.restore`
 * `onedesk.one_storage.history.star`
