@@ -449,3 +449,11 @@ def test_a_drive_password_opens_the_drive_and_nothing_else():
 	assert "row.user.lower() != email.strip().lower()" in body, "the password is that person's"
 	assert "HTTP_AUTHORIZATION" in body, "taken away before Frappe's own check refuses it"
 	assert "api_secret" not in DAV.read_text(), "making one no longer changes the person's API secret"
+
+
+def test_a_tenant_is_limited_by_storage_not_by_file_size():
+	largest = _load(STORE, ("LARGEST",))["LARGEST"]
+	assert largest == 5 * 1024**3, "what R2 takes in one PUT"
+	steps = (tree.APP / "one_admin" / "steps.py").read_text()
+	assert '"key": "max_file_size", "value": store.LARGEST' in steps, "every request's limit, set when the site is built"
+	assert HOOKS.count('"onedesk.one_storage.store.unlimit"') == 2, "the attach button's, on install and every migrate"

@@ -36,6 +36,12 @@ FETCH = "/api/method/onedesk.one_storage.store.fetch"
 #: How long to wait on R2 for one object, either way.
 PATIENCE = 120
 
+#: The largest file anything in a workspace takes: what R2 accepts in one
+#: PUT. Size is not what a tenant is limited by — their storage is, and
+#: admin refuses a put there is no room for — so every size limit Frappe has
+#: is set to this. See `unlimit`, and one_admin/steps.py push_config.
+LARGEST = 5 * 1024**3
+
 #: How long a URL admin signed is reused for; admin signs them for fifteen
 #: minutes, so a reused one always has five left.
 REUSE = 10 * 60
@@ -97,6 +103,15 @@ def signed(key: str, filename: str | None = None, inline: bool = True) -> str:
 	url = account.get_url(key, filename=filename, inline=inline)["url"]
 	frappe.cache.set_value(cache, url, expires_in_sec=REUSE)
 	return url
+
+
+def unlimit() -> None:
+	"""after_install and after_migrate: the attach button's size limit
+	(System Settings, in MB) raised to LARGEST. The limit on every other
+	request is the site's config, which admin writes when it builds the site."""
+	wanted = LARGEST // (1024 * 1024)
+	if int(frappe.db.get_single_value("System Settings", "max_file_size") or 0) < wanted:
+		frappe.db.set_single_value("System Settings", "max_file_size", wanted)
 
 
 # ---------------------------------------------------------------- the hooks

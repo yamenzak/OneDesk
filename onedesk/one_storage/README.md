@@ -180,6 +180,13 @@ changes in how you attach or open a file.
 Files added before cloud storage was switched on stay on the server until
 they are moved: **Setup › Storage Check › Fix** moves them all.
 
+## How big a file can be
+
+Up to 5 GB, the most R2 takes in one upload, however it arrives — the
+explorer, the attach button on a record, a drive, a link. What limits a
+workspace is its storage, not the size of a file: an upload there is no
+room for is refused.
+
 ## Opening a file
 
 Clicking a file anywhere in One opens it from cloud storage in a new tab, or
@@ -355,6 +362,14 @@ not a second R2 integration.
   workspace fetching an address somebody typed — unless the bench sets
   `onestorage_mounts_private`. Uploads into a server go through the
   workspace (`upload.here`), which holds the keys.
+
+- Size: `store.LARGEST` (5 GB) is every size limit Frappe has. The attach
+  button's is System Settings (`unlimit`, on install and every migrate);
+  every other request's is the site's `max_file_size`, which the site cannot
+  set for itself, so admin writes it in `push_config` when it builds the
+  site. Uploads that pass through the workspace (the attach button, a
+  drive, a link, a server) hold the file in memory on the way; only the
+  explorer's go straight to R2.
 
 ### Research and decisions
 

@@ -10,6 +10,8 @@ app_logo_url = "/assets/onedesk/images/one.svg"
 # checklists; after that all of it is the tenant's, in Website and Navbar Settings.
 after_install = [
 	"onedesk.one.roles.ensure",
+	# Storage is what a tenant pays for, not file size.
+	"onedesk.one_storage.store.unlimit",
 	"onedesk.one.company.hide",
 	"onedesk.one_hr.names.hide",
 	"onedesk.one_hr.money.hide",
@@ -46,6 +48,7 @@ after_install = [
 # and nobody is ever asked which company; see one/company.py.
 after_migrate = [
 	"onedesk.one.roles.ensure",
+	"onedesk.one_storage.store.unlimit",
 	"onedesk.one.companions.apply",
 	"onedesk.one.company.hide",
 	"onedesk.one_hr.names.hide",

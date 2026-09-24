@@ -25,6 +25,7 @@ import frappe
 from frappe.utils import now_datetime
 
 from onedesk.one_admin import cloudflare, faults, hosts, press
+from onedesk.one_storage import store
 
 #: Returned by a step that has started something and is waiting on press.
 WAIT = "wait"
@@ -171,6 +172,9 @@ def push_config(job, tenant) -> None:
 	iterates and reads `c.key`. Handed a mapping it iterates the keys as strings
 	and dies on the first one.
 
+	`max_file_size` is set here too, since it is the one Frappe limit the
+	site cannot change for itself (see one_storage/store.py unlimit).
+
 	`host_name` is set here and not through press's `set_host_name`, which needs
 	a `Site Domain` record first. Our name is deliberately not one of those: the
 	workspace is reached at it because a Worker rewrites `Host`, and press is
@@ -190,6 +194,9 @@ def push_config(job, tenant) -> None:
 				{"key": "one_tenant", "value": tenant.slug, "type": "String"},
 				{"key": "one_token", "value": token, "type": "Password"},
 				{"key": "host_name", "value": f"https://{tenant.domain}", "type": "String"},
+				# Every request's size limit, which the site itself cannot
+				# raise: a tenant is limited by storage, not by file size.
+				{"key": "max_file_size", "value": store.LARGEST, "type": "Number"},
 			]
 		),
 	)
