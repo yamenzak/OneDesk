@@ -48,9 +48,36 @@ onedesk.record_files.tab = (frm) =>
 onedesk.record_files.count = (frm, count) => {
 	const tab = onedesk.record_files.tab(frm);
 	if (!tab) return;
+	const badge = count ? `<span class="one-files-count">${cint(count)}</span>` : "";
 	const $link = tab.tab_link.find(".nav-link");
 	$link.find(".one-files-count").remove();
-	if (count) $link.append(`<span class="one-files-count">${cint(count)}</span>`);
+	$link.append(badge);
+	const $side = onedesk.record_files.side(frm);
+	$side && $side.find(".one-files-count").remove();
+	$side && $side.find(".explore-link").append(badge);
+};
+
+// The sidebar's Attachments list was the same files again, without preview,
+// rename, sharing or versions, and with an uploader of its own. It becomes
+// one row, "Files" and the count, which opens the tab.
+onedesk.record_files.side = (frm) => {
+	const $side = frm.attachments && frm.attachments.parent;
+	if (!$side || !$side.length) return null;
+	if (!$side.hasClass("one-files-side")) {
+		$side.addClass("one-files-side");
+		const $link = $side.find(".explore-link");
+		$link.contents().filter((_, node) => node.nodeType === 3 && node.textContent.trim()).remove();
+		$link.append(`<span class="one-files-label">${__("Files")}</span>`);
+		$link.off("click").on("click", (e) => {
+			e.preventDefault();
+			const tab = onedesk.record_files.tab(frm);
+			if (!tab) return;
+			tab.set_active();
+			onedesk.record_files.open(frm);
+			frm.layout.wrapper[0].scrollIntoView({ block: "start", behavior: "smooth" });
+		});
+	}
+	return $side;
 };
 
 // The explorer listed the room: the tab's count, and — when a file came or
@@ -86,6 +113,7 @@ frappe.ui.form.on("*", {
 		// Frappe's own pass, so a form left with one tab shows no strip.
 		frm.layout.refresh_tabs();
 		if (frm.is_new()) return;
+		onedesk.record_files.side(frm);
 		onedesk.record_files.count(frm, ((frm.get_docinfo() || {}).attachments || []).length);
 		const $link = tab.tab_link.find(".nav-link");
 		if (!$link.data("one-files")) {

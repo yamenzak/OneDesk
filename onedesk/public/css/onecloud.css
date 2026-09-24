@@ -869,9 +869,3 @@
 	display: none;
 }
 
-/* The count on the tab. */
-.one-files-count {
-	margin-inline-start: calc(var(--spacing, 4px) * 1.5);
-	color: var(--ink-gray-5);
-	font-weight: 400;
-}

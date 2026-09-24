@@ -1180,6 +1180,13 @@ OVERRIDES = [
 		"get_doctype_fields() {",
 	),
 	(
+		"The sidebar's Attachments becomes one row that opens Files",
+		"record_files.js hides its rows, Show All and its uploader (.one-files-side in desk.css), renames it Files with the count, and makes its label open the Files tab instead of the File list",
+		"onedesk/public/js/record_files.js",
+		"frappe/frappe/public/js/frappe/form/templates/form_sidebar.html",
+		"form-sidebar-label explore-link",
+	),
+	(
 		"A form left with one visible tab shows no tab strip",
 		"record_files.js hides the Files tab on an unsaved record and asks Layout.refresh_tabs again, which hides the strip when only Details is left",
 		"onedesk/public/js/record_files.js",

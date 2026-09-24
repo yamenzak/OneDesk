@@ -374,3 +374,25 @@ a.one-stat:hover .one-stat-value {
 .layout-main-section-wrapper .frappe-list .result-container .result.result:has(> .gantt-container) {
 	display: block;
 }
+
+/* A record's Files (record_files.js). Here and not in onecloud.css, which
+ * is loaded only when the explorer first opens: the sidebar's Attachments,
+ * reduced to a row that opens the Files tab — its list, Show All and its
+ * own uploader go — and the count beside the tab's name and that row. */
+.one-files-side .attachment-row,
+.one-files-side .show-all-btn,
+.one-files-side .add-attachment-btn {
+	display: none !important;
+}
+
+.one-files-side .explore-link {
+	cursor: pointer;
+}
+
+.one-files-count {
+	display: inline-block;
+	margin-inline-start: calc(var(--spacing, 4px) * 1.5);
+	color: var(--ink-gray-5);
+	font-weight: 400;
+	text-decoration: none;
+}

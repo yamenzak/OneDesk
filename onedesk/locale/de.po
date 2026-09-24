@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 11:14+0000\n"
-"PO-Revision-Date: 2026-09-24 11:14+0000\n"
+"POT-Creation-Date: 2026-09-24 11:24+0000\n"
+"PO-Revision-Date: 2026-09-24 11:24+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -3619,7 +3619,7 @@ msgstr "Datei · Von"
 #: onedesk/one_storage/page/onecloud/onecloud.js:7
 #: onedesk/one_storage/sidebar/onecloud/onecloud.json
 #: onedesk/public/js/onecloud.js:301 onedesk/public/js/onecloud.js:930
-#: onedesk/public/js/record_files.js:33
+#: onedesk/public/js/record_files.js:33 onedesk/public/js/record_files.js:70
 msgid "Files"
 msgstr "Dateien"
 

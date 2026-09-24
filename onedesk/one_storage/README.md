@@ -43,7 +43,8 @@ Every record in One — an invoice, an employee, a task — has a **Files** tab
 at the end of its form, with the number of files beside it. It is this
 explorer, opened on that record's folder: drop files in, preview, rename,
 share, ask for files with **New › File request**, or click the path to open
-the record in OneCloud. It appears once the record is saved.
+the record in OneCloud. It appears once the record is saved. In the side
+panel, **Files** with the same number opens the tab.
 
 Dragging a file between a record and one of your folders copies it — the
 invoice keeps its PDF and your folder gets one too. Moving between your own
@@ -331,8 +332,10 @@ not a second R2 integration.
   back/forward, going anywhere else opens the OneCloud page, and the address
   is not touched. The tab hides on an unsaved record. Its count starts from
   the form's docinfo and then follows each listing. When the two disagree,
-  the sidebar reloads its docinfo, so Attachments and the timeline notice a
-  file added through the tab.
+  the sidebar reloads its docinfo, so the timeline notices a file added
+  through the tab. The sidebar's own Attachments section is reduced to one
+  row, Files and the count, that opens the tab. Its list, Show All and its
+  uploader are hidden (desk.css, loaded always, unlike onecloud.css).
 
 - `share.py` — people on a file or folder. A share is Frappe's own DocShare:
   read to view, write to edit. `namespace.granted` reads the shares on an

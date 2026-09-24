@@ -575,3 +575,11 @@ def test_the_explorer_is_loaded_when_first_opened_and_shared_by_both_hosts():
 	assert "/assets/onedesk/js/onecloud.js" not in HOOKS, "not on every desk load"
 	explorer = (PAGE / "onecloud.js").read_text()
 	assert "if (this.room && node !== this.room)" in explorer, "a room never walks out of itself"
+
+
+def test_the_sidebar_attachments_are_one_row_into_the_files_tab():
+	js = RECORD_FILES.read_text()
+	css = (tree.APP / "public" / "css" / "desk.css").read_text()
+	assert "one-files-side" in js and '.off("click")' in js and "tab.set_active()" in js
+	for gone in (".one-files-side .attachment-row", ".one-files-side .show-all-btn", ".one-files-side .add-attachment-btn"):
+		assert gone in css, gone
