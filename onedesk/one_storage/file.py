@@ -24,6 +24,22 @@ class CloudFile(File):
 			return True
 		return super().exists_on_disk()
 
+	def set_folder_name(self):
+		"""An upload through Frappe's dialog that belongs to no record lands in
+		the uploader's My Files. Frappe's default is Home, which OneCloud
+		shows as Company — a private file there is its owner's alone and
+		would only clutter everybody's company folder view of it. Only the
+		dialog's own request is redirected: OneCloud's verbs put things in
+		Company on purpose."""
+		from onedesk.one_storage import namespace as ns
+
+		request = getattr(frappe.local, "request", None)
+		asked = request is not None and request.path.rstrip("/").endswith("/upload_file")
+		loose = not self.is_folder and not self.is_home_folder and not self.attached_to_doctype
+		if asked and loose and self.folder in (None, "", ns.HOME) and ns._staff(frappe.session.user):
+			self.folder = ns.home()
+		return super().set_folder_name()
+
 	def validate_private_file_access(self):
 		"""Frappe lets a new row name a private file's URL if its own File
 		permission lets the user read the first row that names it. OneCloud's

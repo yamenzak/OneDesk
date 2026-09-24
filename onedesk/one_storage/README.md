@@ -46,6 +46,13 @@ share, ask for files with **New › File request**, or click the path to open
 the record in OneCloud. It appears once the record is saved. In the side
 panel, **Files** with the same number opens the tab.
 
+The upload dialog — behind every attach button, a picture in the text
+editor, a comment's attachment — offers **OneCloud** beside My Device, Link
+and Camera. It opens this explorer to choose a file from anywhere you may
+open: double-click it, or select several and press **Attach**. The file is
+attached without being uploaded again. A file uploaded through the dialog
+that belongs to no record goes to your My Files.
+
 Dragging a file between a record and one of your folders copies it — the
 invoice keeps its PDF and your folder gets one too. Moving between your own
 folders moves it. Two things with the same name in one folder are kept apart
@@ -326,6 +333,29 @@ not a second R2 integration.
   reader's user settings (under File), and follow them to another browser.
   R2's bucket must allow a browser `PUT` from the workspace's origin (CORS);
   where it does not, uploads fall back to `here` on their own.
+- `public/js/onecloud_picker.js` and `api.attach` — the upload dialog.
+  Frappe's FileUploader has an extension point, `UploadOptions`: a button
+  beside My Device that is handed the dialog, the mounted uploader and the
+  doctype, name and field. OneCloud is one, and opens the explorer in
+  picker mode. The picker walks without the address, keeps its own
+  back/forward, has no command bar, no context menu, no drag and none of
+  the keys that change things, and treats a file opened as a file chosen.
+  `attach` does what the dialog's Library did through `upload_file`'s
+  `library_file_name`: a new File row on the same object, attached to the
+  doctype, name and field. But it asks `namespace.may` where
+  `upload_file` asks Frappe's File permission, which refuses a file
+  reached through a shared folder. The dialog's own `on_success` is then
+  called with each row, so an Attach field takes the URL and the editor
+  inserts the image as they would after an upload. Frappe's component
+  keeps its props to itself, so a subclass of FileUploader keeps each
+  dialog's options in a WeakMap keyed by the mounted uploader. The same
+  subclass turns Library off (`disable_file_browser`): two pickers
+  answering "may I use this file" differently is worse than one.
+  `CloudFile.set_folder_name` sends a loose upload from `upload_file` to
+  the uploader's My Files instead of Frappe's default Home, which OneCloud
+  shows as Company. Only that request is redirected; OneCloud's own verbs
+  put things in Company on purpose.
+
 - `live.py` — live updates. An open folder, a record's Files tab, Recent,
   Shared with Me and the rest redraw when somebody else changes what they
   show, the way a list view does. The list view's own `list_update` cannot

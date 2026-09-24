@@ -624,3 +624,32 @@ def test_the_explorer_listens_on_its_own_event_not_list_update():
 	assert "list_update" not in js, "the list view unbinds every list_update listener"
 	source = LIVE.read_text()
 	assert "after_commit.add(_send)" in source and 'room=get_doctype_room("File")' in source
+
+
+PICKER = tree.APP / "public" / "js" / "onecloud_picker.js"
+
+
+def test_the_upload_dialog_chooses_from_onecloud_instead_of_its_library():
+	js = PICKER.read_text()
+	assert "Uploader.UploadOptions.push(" in js, "Frappe's own extension point"
+	assert "disable_file_browser: true" in js, "Frappe's Library asked Frappe's File permission"
+	assert '"onedesk.one_storage.api.attach"' in js and "on_success" in js
+	assert 'frappe.require("file_uploader.bundle.js")' in js
+	assert "/assets/onedesk/js/onecloud_picker.js" in HOOKS
+	explorer = (PAGE / "onecloud.js").read_text()
+	assert "if (this.picker) return this.picker.on_pick(" in explorer
+	assert "if (this.picker) return; // nothing is moved from inside a dialog" in explorer
+
+
+def test_a_file_chosen_is_allowed_by_onecloud_and_copies_no_bytes():
+	body = _body(tree.APP / "one_storage" / "api.py", "attach")
+	assert "ns.may(item)" in body and "check_write_permission(doctype, docname)" in body
+	assert "'file_url': item.file_url" in body and "copy_from_existing_file = True" in body
+	api = (tree.APP / "one_storage" / "api.py").read_text()
+	assert re.search(r'@frappe\.whitelist\(methods=\["POST"\]\)\ndef attach\(', api)
+
+
+def test_an_upload_that_belongs_to_no_record_lands_in_my_files():
+	body = (tree.APP / "one_storage" / "file.py").read_text()
+	assert 'endswith("/upload_file")' in body, "only Frappe's dialog, not OneCloud's own verbs"
+	assert "self.folder = ns.home()" in body

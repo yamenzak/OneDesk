@@ -242,6 +242,43 @@ def copy(nodes: str | list, target: str) -> list[str]:
 	return made
 
 
+@frappe.whitelist(methods=["POST"])
+def attach(nodes: str | list, doctype: str | None = None, docname: str | None = None, fieldname: str | None = None) -> list[dict]:
+	"""Files chosen from OneCloud in Frappe's upload dialog: what its Library
+	did — a new File row on the same object, attached as `upload_file` would
+	attach an upload — but allowed by `namespace.may` rather than by Frappe's
+	File permission, which knows nothing of a shared folder."""
+	from frappe.handler import check_write_permission
+
+	nodes = frappe.parse_json(nodes) if isinstance(nodes, str) else nodes
+	check_write_permission(doctype, docname)
+	made = []
+	for node_id in nodes:
+		item = _item(node_id)
+		if item.is_folder:
+			frappe.throw(_("{0} is a folder. Choose the files in it.").format(item.file_name))
+		if not ns.may(item):
+			frappe.throw(_("You may not open {0}.").format(item.file_name), frappe.PermissionError)
+		doc = frappe.get_doc(
+			{
+				"doctype": "File",
+				"file_name": item.file_name,
+				"file_url": item.file_url,
+				"is_private": item.is_private,
+				"file_size": item.file_size,
+				"content_hash": frappe.db.get_value("File", item.name, "content_hash"),
+				"attached_to_doctype": doctype,
+				"attached_to_name": docname,
+				"attached_to_field": fieldname,
+			}
+		)
+		doc.flags.ignore_permissions = True
+		doc.flags.copy_from_existing_file = True
+		doc.insert()
+		made.append(doc.as_dict())
+	return made
+
+
 def _across(nodes: list, target: str, move: bool) -> list[str] | None:
 	"""Moves and copies that touch a server, or None for those that do not.
 	Within one server a move is the server's own rename; anything else

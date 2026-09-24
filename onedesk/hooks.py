@@ -521,6 +521,7 @@ app_include_js = [
 	"/assets/onedesk/js/task_timer.js",
 	"/assets/onedesk/js/record_calendar.js",
 	"/assets/onedesk/js/record_files.js",
+	"/assets/onedesk/js/onecloud_picker.js",
 	"/assets/onedesk/js/band.js",
 	"/assets/onedesk/js/crm_record.js",
 	"/assets/onedesk/js/reports.js",

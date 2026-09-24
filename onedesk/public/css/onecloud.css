@@ -869,3 +869,16 @@
 	display: none;
 }
 
+
+/* The upload dialog's OneCloud (onecloud_picker.js): the explorer to choose
+ * a file from, with the command bar gone, since nothing is changed here. */
+.oc.oc-pick {
+	height: min(560px, calc(100vh - 260px));
+	min-height: 380px;
+	border: 1px solid var(--outline-gray-1);
+	border-radius: var(--radius-md, 8px);
+}
+
+.oc-pick .oc-bar {
+	display: none;
+}

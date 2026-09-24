@@ -40,9 +40,13 @@ onedesk.OneCloud = class OneCloud {
 
 	// `room`: a record's node, for the Files tab — the explorer opens there,
 	// stays there, and draws into `parent` rather than a page of its own.
-	constructor(page, { room = null, parent = null, listed = null } = {}) {
+	// `picker`: the upload dialog's OneCloud (one_storage/public/js/
+	// onecloud_picker.js) — it walks anywhere without the address, changes
+	// nothing, and a file opened is a file chosen: {start, on_pick, on_select}.
+	constructor(page, { room = null, parent = null, listed = null, picker = null } = {}) {
 		this.page = page;
 		this.room = room;
+		this.picker = picker;
 		this.parent = parent;
 		this.listed = listed;
 		this.node = null;
@@ -78,7 +82,7 @@ onedesk.OneCloud = class OneCloud {
 			`<button class="es-button" data-variant="ghost" data-act="${act}" title="${label}" ${more}>${icon(name)}<span class="es-button__label">${label}</span></button>`;
 		const bare = (act, name, label) =>
 			`<button class="es-button" data-variant="ghost" data-icon-button="true" data-act="${act}" title="${label}" aria-label="${label}">${icon(name)}</button>`;
-		this.$root = $(`<div class="oc${this.room ? " oc-room" : ""}" tabindex="-1">
+		this.$root = $(`<div class="oc${this.room ? " oc-room" : ""}${this.picker ? " oc-pick" : ""}" tabindex="-1">
 			<div class="oc-bar">
 				<button class="es-button" data-variant="solid" data-act="new-menu">${icon("plus")}<span class="es-button__label">${__("New")}</span>${icon("chevron-down")}</button>
 				<span class="oc-sep"></span>
@@ -137,7 +141,7 @@ onedesk.OneCloud = class OneCloud {
 	// To the bottom of the window from wherever the desk's header leaves it,
 	// rather than a guess at how tall that header is.
 	fit() {
-		if (this.room) return; // a tab's height is its stylesheet's
+		if (this.room || this.picker) return; // a tab's or a dialog's height is its stylesheet's
 		const el = this.$root[0];
 		if (!el || !el.offsetParent) return;
 		const top = el.getBoundingClientRect().top + window.scrollY;
@@ -191,6 +195,7 @@ onedesk.OneCloud = class OneCloud {
 	// ------------------------------------------------------------ where we are
 
 	wanted() {
+		if (this.picker) return this.node || this.picker.start || "@my";
 		return this.room || frappe.utils.get_query_params().node || "@my";
 	}
 
@@ -226,6 +231,13 @@ onedesk.OneCloud = class OneCloud {
 
 	go(node) {
 		if (node === this.node && !this.search) return;
+		// The picker keeps its own history; the page's address is not its.
+		if (this.picker) {
+			this.node && this.past.push(this.node);
+			this.ahead = [];
+			this.set_search("");
+			return this.open(node);
+		}
 		// A room is one record's files; anywhere else is the OneCloud page.
 		if (this.room && node !== this.room) return frappe.set_route("onecloud", { node });
 		this.set_search("");
@@ -513,6 +525,7 @@ onedesk.OneCloud = class OneCloud {
 		this.draw_status();
 		this.draw_preview();
 		this.draw_bar();
+		if (this.picker && this.picker.on_select) this.picker.on_select(this.chosen().filter((one) => !one.folder));
 	}
 
 	chosen() {
@@ -728,6 +741,7 @@ onedesk.OneCloud = class OneCloud {
 		this.$items.on("dblclick", ".oc-item", (e) => this.open_items([this.find(e.currentTarget.dataset.id)]));
 		this.$items.on("contextmenu", (e) => {
 			e.preventDefault();
+			if (this.picker) return; // choosing, not changing
 			const $item = $(e.target).closest(".oc-item");
 			if ($item.length && !this.selected.has($item.attr("data-id"))) this.pick($item.attr("data-id"), {});
 			if (!$item.length) {
@@ -819,6 +833,9 @@ onedesk.OneCloud = class OneCloud {
 		if ((e.altKey && k === "ArrowLeft") || k === "Backspace") return handled(), this.act("back");
 		if (e.altKey && k === "ArrowRight") return handled(), this.act("forward");
 		if (e.altKey && k === "ArrowUp") return handled(), this.act("up");
+		// Choosing a file changes nothing: none of the keys that would.
+		const changes = (ctrl && ["c", "x", "v"].includes(k)) || ["F2", "Delete"].includes(k) || (ctrl && e.shiftKey && k.toLowerCase() === "n");
+		if (this.picker && changes) return;
 		if (ctrl && e.shiftKey && (k === "N" || k === "n")) return handled(), this.act("new-folder");
 		if (ctrl && e.shiftKey && k.toLowerCase() === "f" && !this.room) {
 			handled();
@@ -880,9 +897,11 @@ onedesk.OneCloud = class OneCloud {
 		const ids = chosen.filter((one) => this.stored(one)).map((one) => one.id);
 		switch (act) {
 			case "back":
+				if (this.picker && this.past.length) return this.ahead.push(this.node), this.open(this.past.pop());
 				if (this.past.length) window.history.back();
 				return;
 			case "forward":
+				if (this.picker && this.ahead.length) return this.past.push(this.node), this.open(this.ahead.pop());
 				if (this.ahead.length) window.history.forward();
 				return;
 			case "up":
@@ -1032,6 +1051,7 @@ onedesk.OneCloud = class OneCloud {
 		if (!items.length) return;
 		const folder = items.find((one) => one.folder);
 		if (folder && items.length === 1) return this.go(folder.id);
+		if (this.picker) return this.picker.on_pick(items.filter((one) => !one.folder));
 		items.filter((one) => !one.folder && one.url).forEach((one) => window.open(one.url, "_blank", "noopener"));
 	}
 
@@ -1837,6 +1857,7 @@ onedesk.OneCloud = class OneCloud {
 	}
 
 	bind_drag() {
+		if (this.picker) return; // nothing is moved from inside a dialog
 		const $r = this.$root;
 		let over = null;
 		const light = (target) => {

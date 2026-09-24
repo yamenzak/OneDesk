@@ -1194,6 +1194,27 @@ OVERRIDES = [
 		'frappe.realtime.off("list_update");',
 	),
 	(
+		"The upload dialog gains OneCloud",
+		"onecloud_picker.js adds an option through FileUploader.UploadOptions, which Frappe renders as a button beside My Device and hands the dialog, the mounted uploader and the doctype, name and field",
+		"onedesk/public/js/onecloud_picker.js",
+		"frappe/frappe/public/js/frappe/file_uploader/file_uploader.bundle.js",
+		"static UploadOptions = [];",
+	),
+	(
+		"The upload dialog's Library is turned off",
+		"onecloud_picker.js subclasses frappe.ui.FileUploader to pass disable_file_browser: Library browsed Frappe's folder tree under Frappe's File permission, which knows nothing of OneCloud's shares",
+		"onedesk/public/js/onecloud_picker.js",
+		"frappe/frappe/public/js/frappe/file_uploader/FileUploader.vue",
+		'v-if="!disable_file_browser"',
+	),
+	(
+		"An upload through the dialog with no record lands in My Files",
+		"CloudFile.set_folder_name puts upload_file's loose files in the uploader's home before File's own, which would put them in Home, OneCloud's Company",
+		"onedesk/one_storage/file.py",
+		"frappe/frappe/core/doctype/file/file.py",
+		"def set_folder_name(self):",
+	),
+	(
 		"A form left with one visible tab shows no tab strip",
 		"record_files.js hides the Files tab on an unsaved record and asks Layout.refresh_tabs again, which hides the strip when only Details is left",
 		"onedesk/public/js/record_files.js",
