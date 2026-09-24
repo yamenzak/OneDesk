@@ -46,6 +46,39 @@
    "read_only": 1,
    "module": "One Mail",
    "name": "Email Account-one_error"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "fieldname": "one_away",
+   "fieldtype": "Check",
+   "insert_after": "one_error",
+   "label": "Away",
+   "description": "Each sender gets one out-of-office reply in four days, from this mailbox.",
+   "module": "One Mail",
+   "name": "Email Account-one_away"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "fieldname": "one_away_until",
+   "fieldtype": "Date",
+   "insert_after": "one_away",
+   "label": "Away Until",
+   "depends_on": "one_away",
+   "module": "One Mail",
+   "name": "Email Account-one_away_until"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "fieldname": "one_away_message",
+   "fieldtype": "Small Text",
+   "insert_after": "one_away_until",
+   "label": "Away Message",
+   "depends_on": "one_away",
+   "module": "One Mail",
+   "name": "Email Account-one_away_message"
   }
  ],
  "doctype": "Email Account",

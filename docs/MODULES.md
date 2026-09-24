@@ -126,6 +126,7 @@ No doctypes yet.
 |---|--:|---|
 | Face | 5 | document |
 | Mail Folder | 15 | document |
+| Mail Rule | 15 | document |
 
 ## Desk records shipped as fixtures
 
@@ -304,6 +305,8 @@ No doctypes yet.
 * `onedesk.one_mail.linking.links_of`
 * `onedesk.one_mail.linking.record`
 * `onedesk.one_mail.linking.unfile`
+* `onedesk.one_mail.rules.away_of`
+* `onedesk.one_mail.rules.set_away`
 * `onedesk.one_project.billing.invoice_time`
 * `onedesk.one_project.billing.unbilled`
 * `onedesk.one_project.overview.overview`

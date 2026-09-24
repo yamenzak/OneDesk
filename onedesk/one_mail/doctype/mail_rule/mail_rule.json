@@ -1,0 +1,140 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-09-25 12:00:00.000000",
+ "description": "Mail that arrives in a mailbox's Inbox and matches is moved, marked read or starred, on the server too.",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "account",
+  "enabled",
+  "priority",
+  "column_break_when",
+  "match",
+  "section_when",
+  "from_contains",
+  "to_contains",
+  "subject_contains",
+  "has_attachment",
+  "section_then",
+  "move_to",
+  "mark_read",
+  "star",
+  "stop"
+ ],
+ "fields": [
+  {
+   "fieldname": "account",
+   "fieldtype": "Link",
+   "options": "Email Account",
+   "label": "Mailbox",
+   "reqd": 1,
+   "in_list_view": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Int",
+   "label": "Order",
+   "default": "10",
+   "description": "Lower runs first."
+  },
+  {
+   "fieldname": "column_break_when",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "match",
+   "fieldtype": "Select",
+   "label": "Mail That Matches",
+   "options": "All of these\nAny of these",
+   "default": "All of these"
+  },
+  {
+   "fieldname": "section_when",
+   "fieldtype": "Section Break",
+   "label": "When"
+  },
+  {
+   "fieldname": "from_contains",
+   "fieldtype": "Data",
+   "label": "From Contains",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "to_contains",
+   "fieldtype": "Data",
+   "label": "To or Cc Contains"
+  },
+  {
+   "fieldname": "subject_contains",
+   "fieldtype": "Data",
+   "label": "Subject Contains",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "has_attachment",
+   "fieldtype": "Check",
+   "label": "Has an Attachment"
+  },
+  {
+   "fieldname": "section_then",
+   "fieldtype": "Section Break",
+   "label": "Then"
+  },
+  {
+   "fieldname": "move_to",
+   "fieldtype": "Link",
+   "options": "Mail Folder",
+   "label": "Move To",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "mark_read",
+   "fieldtype": "Check",
+   "label": "Mark as Read"
+  },
+  {
+   "fieldname": "star",
+   "fieldtype": "Check",
+   "label": "Star"
+  },
+  {
+   "fieldname": "stop",
+   "fieldtype": "Check",
+   "label": "Stop Here",
+   "description": "Rules after this one are not tried on mail it matched."
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-25 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Mail",
+ "name": "Mail Rule",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Inbox User",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  }
+ ],
+ "sort_field": "priority",
+ "sort_order": "ASC",
+ "states": [],
+ "title_field": "subject_contains",
+ "track_changes": 0
+}

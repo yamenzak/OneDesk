@@ -142,8 +142,12 @@ class Arrival(InboundMail):
 		seen=0,
 		flagged=0,
 		sent=False,
+		fresh=True,
 	):
 		super().__init__(content, email_account, uid=uid, seen_status=seen)
+		# New mail, rather than history read in the background: only new mail
+		# is sorted by rules and answered while away (rules.py).
+		self.fresh = fresh
 		self.key = key
 		self.folder = folder
 		self.flagged = flagged
@@ -154,9 +158,10 @@ class Arrival(InboundMail):
 		# Filed on its records once Frappe has finished with it: Frappe saves a
 		# new message again after inserting it, which rewrites its links.
 		if made and made.name:
-			from onedesk.one_mail import linking
+			from onedesk.one_mail import linking, rules
 
 			linking.arrived(frappe.get_doc("Communication", made.name))
+			rules.after(frappe.get_doc("Communication", made.name), self)
 		return made
 
 	def is_sender_same_as_receiver(self):

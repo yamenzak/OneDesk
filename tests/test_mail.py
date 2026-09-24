@@ -461,3 +461,67 @@ def test_links_say_how_they_were_made_and_the_timeline_is_narrowed():
 	for method in ("getdoc", "get_docinfo", "get_communications"):
 		assert f'"frappe.desk.form.load.{method}": "onedesk.one_mail.linking.{method}"' in HOOKS
 	assert "linking.arrived(" in (MAIL / "inbound.py").read_text(), "linked after Frappe's own second save"
+
+
+# ------------------------------------------------------------------ rules, away and bounces
+
+
+def _rules():
+	import email as email_module
+
+	names = ("MACHINES", "matches", "automatic", "failures", "bounced_id")
+	return _load(MAIL / "rules.py", names, re=re, email=email_module)
+
+
+def test_a_rule_matches_all_or_any_of_what_it_names():
+	matches = _rules()["matches"]
+	message = {
+		"sender": "News <news@shop.example>",
+		"recipients": "sales@acme.com",
+		"subject": "Weekly Newsletter",
+		"has_attachment": 0,
+	}
+	assert matches({"from_contains": "shop.example", "subject_contains": "newsletter"}, message)
+	assert not matches({"from_contains": "shop.example", "has_attachment": 1}, message), "all, by default"
+	assert matches(
+		{"from_contains": "nobody", "subject_contains": "weekly", "match": "Any of these"}, message
+	)
+	assert not matches({}, message), "a rule that names nothing matches nothing"
+
+
+def test_nothing_automatic_gets_an_away_reply():
+	automatic = _rules()["automatic"]
+	assert not automatic({}, "rana@supplier.example")
+	assert automatic({"List-Id": "<weekly.shop.example>"}, "news@shop.example")
+	assert automatic({"Auto-Submitted": "auto-replied"}, "ana@client.example")
+	assert automatic({"Precedence": "bulk"}, "ana@client.example")
+	for sender in ("noreply@x.com", "no-reply@x.com", "MAILER-DAEMON@mx.example", "postmaster@x.com", ""):
+		assert automatic({}, sender), sender
+
+
+def test_a_permanent_bounce_is_read_and_a_temporary_one_is_not():
+	from email import message_from_string
+
+	space = _rules()
+	report = (
+		'Content-Type: multipart/report; report-type=delivery-status; boundary="B"\n\n'
+		"--B\nContent-Type: text/plain\n\nFailed.\n"
+		"--B\nContent-Type: message/delivery-status\n\nReporting-MTA: dns; mx.example\n\n"
+		"Final-Recipient: rfc822; Gone@Client.Example\nAction: failed\nStatus: 5.1.1\nDiagnostic-Code: smtp; 550 user unknown\n\n"
+		"Final-Recipient: rfc822; later@client.example\nAction: delayed\nStatus: 4.4.1\n\n"
+		"--B\nContent-Type: text/rfc822-headers\n\nMessage-ID: <abc@acme.com>\n\n--B--\n"
+	)
+	parsed = message_from_string(report)
+	assert space["failures"](parsed) == [("gone@client.example", "5.1.1", "550 user unknown")]
+	assert space["bounced_id"](parsed) == "abc@acme.com"
+	assert space["failures"](message_from_string("Subject: hi\n\nhello")) == []
+	assert "Email Unsubscribe" in (MAIL / "rules.py").read_text(), (
+		"suppressed where Frappe's queue already looks"
+	)
+
+
+def test_rules_and_away_run_on_new_mail_only():
+	sync = (MAIL / "sync.py").read_text()
+	assert sync.count("fresh=False") == 2, "a first read and history are not new mail"
+	assert "rules.after(" in (MAIL / "inbound.py").read_text()
+	assert '"Mail Rule": "onedesk.one_mail.rules.rule_allowed"' in HOOKS

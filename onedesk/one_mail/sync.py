@@ -144,7 +144,7 @@ def sync_folder(session, doc, folder) -> dict:
 		if first:
 			everything = session.uids("ALL")
 			newest = everything[-BATCH:]
-			read["new"] += _take(session, doc, folder, newest, own)
+			read["new"] += _take(session, doc, folder, newest, own, fresh=False)
 			folder.oldest_uid = newest[0] if newest else 0
 			folder.backfilled = int(len(everything) <= BATCH)
 		elif now["uidnext"] > cint(folder.uidnext):
@@ -153,7 +153,7 @@ def sync_folder(session, doc, folder) -> dict:
 		if not folder.backfilled and folder.oldest_uid:
 			everything = everything or session.uids("ALL")
 			older = [one for one in everything if one < folder.oldest_uid][-BATCH:]
-			read["old"] += _take(session, doc, folder, older, own)
+			read["old"] += _take(session, doc, folder, older, own, fresh=False)
 			if older:
 				folder.oldest_uid = older[0]
 			folder.backfilled = int(not [one for one in everything if one < folder.oldest_uid])
@@ -176,7 +176,7 @@ def sync_folder(session, doc, folder) -> dict:
 	return read
 
 
-def _take(session, doc, folder, uids: list[int], own: bool) -> int:
+def _take(session, doc, folder, uids: list[int], own: bool, fresh: bool = True) -> int:
 	"""Read these messages, newest first, in fetches of a few at a time."""
 	taken = 0
 	for at in range(len(uids), 0, -25):
@@ -185,7 +185,7 @@ def _take(session, doc, folder, uids: list[int], own: bool) -> int:
 			if row["body"] is None:
 				continue
 			try:
-				if file(doc, folder.path, uid, row["body"], row["flags"], own):
+				if file(doc, folder.path, uid, row["body"], row["flags"], own, fresh):
 					taken += 1
 			except Exception:
 				frappe.log_error(title=f"OneMail could not read uid {uid} in {folder.path} of {doc.name}")
@@ -200,7 +200,7 @@ def message_id_of(raw: bytes) -> str | None:
 	return None
 
 
-def file(doc, path: str, uid: int, raw: bytes, flags: set, own: bool) -> str | None:
+def file(doc, path: str, uid: int, raw: bytes, flags: set, own: bool, fresh: bool = False) -> str | None:
 	"""One message from the server, into a Communication, or into the one we
 	already hold with its Message-ID."""
 	seen, flagged = int("\\seen" in flags), int("\\flagged" in flags)
@@ -217,7 +217,9 @@ def file(doc, path: str, uid: int, raw: bytes, flags: set, own: bool) -> str | N
 				update_modified=False,
 			)
 			return None
-	made = Arrival(raw, doc, folder=path, uid=uid, seen=seen, flagged=flagged, sent=own).process()
+	made = Arrival(
+		raw, doc, folder=path, uid=uid, seen=seen, flagged=flagged, sent=own, fresh=fresh
+	).process()
 	return made.name if made else None
 
 

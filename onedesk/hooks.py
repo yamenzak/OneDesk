@@ -364,6 +364,8 @@ has_permission = {
 	# A message opens for its mailbox's holders and its record's readers.
 	# See one_mail/access.py.
 	"Communication": "onedesk.one_mail.access.allowed",
+	# A mailbox's rules are its holders'. See one_mail/rules.py.
+	"Mail Rule": "onedesk.one_mail.rules.rule_allowed",
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.allowed",
 	# Everybody keeps tasks; a task with no project is its own people's.
 	# See one_task/access.py.
@@ -387,6 +389,7 @@ has_permission = {
 # only called when there is a document, so on its own it guarded the form and
 # left get_list wide open — measured, not assumed.
 permission_query_conditions = {
+	"Mail Rule": "onedesk.one_mail.rules.rule_query",
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.query",
 	"Task": "onedesk.one_task.access.query",
 	"Project": "onedesk.one_project.members.query",

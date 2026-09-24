@@ -1,8 +1,10 @@
 # OneMail
 
-Written by hand. Stages 1 to 8 of nine are built: addresses on the mail
-domain, sending, connected mailboxes, holders, the page, mail in OneCloud,
-faces and logos, and mail on records. The part above
+Written by hand. All nine stages are built: addresses on the mail domain,
+sending, connected mailboxes, holders, the page, mail in OneCloud, faces and
+logos, mail on records, and rules, out-of-office and bounces. What waits is
+the AI lane and real inbound mail from outside, which needs the Cloudflare
+key's Zone Settings: Edit. The part above
 **Under the hood** is the manual; below it are the decisions and the stages
 still to come.
 
@@ -52,6 +54,21 @@ delete, `r`, `a` and `f` to reply, reply to all and forward, `s` to star,
 
 Writing uses the desk's own email window, so a message can be scheduled,
 undone for a few seconds after sending, and filed on a record.
+
+## Rules and being away
+
+**Rules** above a mailbox's list sort new mail as it arrives in the Inbox:
+move it to a folder, mark it read or star it, by who it is from or to, its
+subject, or whether it has attachments. On a connected mailbox the server
+does it too, so your phone agrees. Rules never touch mail that was already
+there when the mailbox was connected.
+
+**Out of office** answers each sender once in four days while you are away,
+until the date you set. Mailing lists, newsletters, other auto-replies and
+no-reply senders get nothing.
+
+When mail to an address bounces for good, the address is not written to
+again, and the message that bounced says so.
 
 ## Mail on records
 
@@ -306,6 +323,34 @@ for OneAI's mail lane.
   mailbox sees none of the customer's mail; Frappe alone showed all three.
 - **record_mail.js** adds the Mail tab beside Files on the records in its
   list, as record_files.js adds Files: to the layout, not to any doctype.
+
+Stage 9, rules, out-of-office and bounces, is built.
+
+- **rules.py** runs from `Arrival.process` for each message filed, on both
+  kinds of mailbox. `Arrival.fresh` says whether a message is new. A first
+  read and history read in the background are not, so connecting a mailbox
+  does not re-sort or answer years of mail.
+- `Mail Rule` is a mailbox's, and is seen and changed by its holders only
+  (a has_permission hook and a query condition). It matches all or any of
+  from, to or cc, subject and attachments, then moves, marks read and stars
+  through actions.py, on the server for a connected mailbox. `stop` ends
+  the rules for that message. A rule acts for its mailbox while
+  `frappe.flags.one_mail_rules` is set, which `actions.require` lets
+  through; nothing else sets it.
+- Away is three fields on Email Account (`one_away`, `one_away_until`,
+  `one_away_message`) set from the page. Each sender is answered once in
+  four days (a cache key), with `Auto-Submitted: auto-replied` and the
+  message's Message-ID as In-Reply-To. Machines are recognised by
+  Auto-Submitted, Precedence, List-Id or List-Unsubscribe, X-Autoreply, and
+  no-reply, mailer-daemon and postmaster senders. The reply goes by
+  `outbound.deliver`, the transport `send` now shares, so a person's
+  address on the mail domain can answer too.
+- A delivery report (multipart/report, delivery-status) with a failed 5.x.x
+  recipient puts that address on Frappe's Email Unsubscribe with
+  `global_unsubscribe`, which Frappe's queue already leaves out, and says
+  why in `one_bounce`. The message it bounced is marked Bounced. A 4.x.x
+  delay is left alone. Mail sent from the mail domain bounces to
+  Cloudflare, not to us, so those bounces are not seen yet.
 
 ### Research and decisions
 

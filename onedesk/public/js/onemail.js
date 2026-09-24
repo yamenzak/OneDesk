@@ -75,6 +75,8 @@ onedesk.OneMail = class OneMail {
 				<div class="om-list-head">
 					<label class="om-search">${icon("search")}<input type="search" spellcheck="false" placeholder="${__("Search this mailbox")}"></label>
 					${bare("box-files", "paperclip", __("This mailbox's attachments, in OneCloud"))}
+					${bare("rules", "list-filter", __("Rules"))}
+					${bare("away", "plane", __("Out of office"))}
 					${bare("refresh", "refresh-cw", __("Refresh"))}
 				</div>
 				<div class="om-picked" hidden>
@@ -754,6 +756,32 @@ onedesk.OneMail = class OneMail {
 		dialog.show();
 	}
 
+	// The open mailbox's out-of-office reply (one_mail/rules.py).
+	async away() {
+		const now = (await frappe.xcall("onedesk.one_mail.rules.away_of", { account: this.box.name })) || {};
+		const dialog = new frappe.ui.Dialog({
+			title: __("Out of office for {0}", [this.box.email]),
+			fields: [
+				{
+					fieldname: "away",
+					fieldtype: "Check",
+					label: __("Reply that I am away"),
+					default: now.one_away,
+					description: __("Each sender gets one reply in four days. Mailing lists and automatic mail get none."),
+				},
+				{ fieldname: "until", fieldtype: "Date", label: __("Until"), default: now.one_away_until, depends_on: "away" },
+				{ fieldname: "message", fieldtype: "Small Text", label: __("Message"), default: now.one_away_message, depends_on: "away" },
+			],
+			primary_action_label: __("Save"),
+			primary_action: async (values) => {
+				await frappe.xcall("onedesk.one_mail.rules.set_away", { account: this.box.name, ...values });
+				dialog.hide();
+				frappe.show_alert({ message: values.away ? __("Away replies are on.") : __("Away replies are off."), indicator: "green" });
+			},
+		});
+		dialog.show();
+	}
+
 	async load_to(account) {
 		history.replaceState(null, "", `${location.pathname}?box=${encodeURIComponent(account)}`);
 		await this.load();
@@ -832,6 +860,8 @@ onedesk.OneMail = class OneMail {
 					await frappe.xcall("onedesk.one_storage.api.copy", { nodes: [e.currentTarget.dataset.file], target: "@my" });
 					frappe.show_alert({ message: __("Saved to My Files."), indicator: "green" });
 				},
+				rules: () => frappe.set_route("List", "Mail Rule", { account: this.box.name }),
+				away: () => this.away(),
 				"box-files": () => frappe.set_route("onecloud", { node: `@mail/${this.box.name}` }),
 				pictures: () => {
 					const name = $(e.currentTarget).closest(".om-message").attr("data-message");

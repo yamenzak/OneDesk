@@ -1,0 +1,20 @@
+{
+ "custom_fields": [
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Unsubscribe",
+   "fieldname": "one_bounce",
+   "fieldtype": "Small Text",
+   "insert_after": "global_unsubscribe",
+   "label": "Bounced",
+   "description": "What the receiving server said when mail to this address failed for good.",
+   "read_only": 1,
+   "module": "One Mail",
+   "name": "Email Unsubscribe-one_bounce"
+  }
+ ],
+ "doctype": "Email Unsubscribe",
+ "sync_on_migrate": 1,
+ "links": [],
+ "property_setters": []
+}

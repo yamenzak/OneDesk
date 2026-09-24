@@ -52,6 +52,9 @@ def holds(account: str, user: str | None = None) -> bool:
 
 
 def require(account: str) -> None:
+	# A mailbox's own rules act for it (rules.py), whoever the job runs as.
+	if frappe.flags.one_mail_rules:
+		return
 	if not holds(account):
 		raise frappe.PermissionError(_("You do not hold the mailbox {0}.").format(account))
 

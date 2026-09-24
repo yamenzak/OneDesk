@@ -47,27 +47,35 @@ def send(queue, sender: str, recipient: str, message) -> None:
 	raw = message if isinstance(message, bytes) else message.encode()
 	raw = with_references(raw)
 	account = _account(queue, sender)
-	if account and account.get("one_hosted"):
-		from onedesk.one import account as admin
-
+	if not account:
+		frappe.throw(frappe._("No mail account can send as {0}.").format(sender))
+	if account.get("one_hosted"):
 		raw = shrink(raw, _linker(queue), heading=frappe._("Too large to attach, so sent as links:"))
+	deliver(account, recipient, raw, sender=parseaddr(sender)[1])
+	if account.get("one_connected") and account.append_emails_to_sent_folder and _last(queue, recipient):
+		file_copy(account, raw)
+
+
+def deliver(account, recipient: str, raw: bytes, sender: str | None = None) -> None:
+	"""One finished message to one recipient, the way `account` sends: an
+	address on the mail domain through admin to Cloudflare, anything else
+	over its own SMTP. Also what an out-of-office reply goes by (rules.py)."""
+	sender = sender or account.email_id
+	if account.get("one_hosted"):
+		from onedesk.one import account as admin
 
 		admin.ask(
 			"onedesk.one_admin.proxy.mail_send",
-			sender=parseaddr(sender)[1],
+			sender=sender,
 			recipient=recipient,
 			message=base64.b64encode(raw).decode(),
 		)
 		return
-	if not account:
-		frappe.throw(frappe._("No mail account can send as {0}.").format(sender))
 	server = account.get_smtp_server()
 	try:
-		server.session.sendmail(from_addr=parseaddr(sender)[1], to_addrs=recipient, msg=raw)
+		server.session.sendmail(from_addr=sender, to_addrs=recipient, msg=raw)
 	finally:
 		server.quit()
-	if account.get("one_connected") and account.append_emails_to_sent_folder and _last(queue, recipient):
-		file_copy(account, raw)
 
 
 def _last(queue, recipient: str) -> bool:
