@@ -67,8 +67,10 @@ def _taken(folder: str, but: str | None = None) -> set:
 
 @frappe.whitelist()
 @frappe.read_only()
-def listing(node: str = ns.ROOT, search: str | None = None) -> dict:
-	"""A node's contents, its trail, and what the reader may do there."""
+def listing(node: str = ns.ROOT, search: str | None = None, everywhere: int = 0) -> dict:
+	"""A node's contents, its trail, and what the reader may do there. With
+	`search`, what is called that under the node, or with `everywhere`
+	anywhere the reader may look."""
 	kind = ns.parse(node)
 	if kind[0] == "file":
 		item = _item(node)
@@ -85,7 +87,7 @@ def listing(node: str = ns.ROOT, search: str | None = None) -> dict:
 	return {
 		"node": node,
 		"trail": ns.trail(node),
-		"items": ns.search(node, search) if search else ns.children(node),
+		"items": (ns.everywhere(search) if int(everywhere or 0) else ns.search(node, search)) if search else ns.children(node),
 		"can_add": can_add,
 		"can_make_folder": can_add and kind[0] != ns.RECORDS,
 		"can_make_library": kind[0] == ns.LIBRARIES and ns._staff(frappe.session.user),

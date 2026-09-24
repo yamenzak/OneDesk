@@ -808,3 +808,35 @@
 .oc-progress small {
 	color: var(--ink-gray-5);
 }
+
+/* While searching: where the results come from, and "Search everywhere". */
+.oc-scope {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 3);
+	border-bottom: 1px solid var(--outline-gray-1);
+	background: var(--surface-gray-1);
+	color: var(--ink-gray-6);
+	font-size: var(--text-sm);
+}
+
+.oc-scope[hidden] {
+	display: none;
+}
+
+.oc-scope button {
+	margin-inline-start: auto;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: var(--ink-gray-8);
+	font-weight: 500;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.oc-scope svg {
+	flex: none;
+	margin: 0;
+}

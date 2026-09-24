@@ -511,3 +511,42 @@ def test_a_request_has_its_page_and_its_reminders():
 	assert '"/r/<token>"' in HOOKS
 	assert "onedesk.one_storage.file_requests.remind_due" in HOOKS
 	assert (tree.APP / "www" / "r.py").exists() and (tree.APP / "www" / "r.html").exists()
+
+
+def test_a_search_everywhere_knows_where_each_file_is_without_asking():
+	space = _load(
+		NAMESPACE, ("placed",), HOME="Home", ATTACHMENTS="Home/Attachments", DEEPEST=64
+	)  # fmt: skip
+	placed = space["placed"]
+	folders = {
+		"Home": {"folder": None},
+		"Home/Attachments": {"folder": "Home"},
+		"mine": {"folder": "Home", "one_home_of": "a@x.com"},
+		"sub": {"folder": "mine"},
+		"lib": {"folder": "Home/Libraries", "one_library": 1},
+		"Home/Libraries": {"folder": "Home"},
+		"shelf": {"folder": "lib"},
+		"team": {"folder": "Home"},
+		"binned": {"folder": "team", "one_deleted": 1},
+		"inside": {"folder": "binned"},
+	}
+	assert placed("sub", folders) == ("home", "a@x.com")
+	assert placed("shelf", folders) == ("library", "lib")
+	assert placed("team", folders) == ("company",)
+	assert placed("Home/Attachments", folders) == ("attachments",)
+	assert placed("inside", folders) is None, "a file in a binned folder is not found"
+
+
+def test_a_search_everywhere_asks_may_and_leaves_servers_alone():
+	body = _body(NAMESPACE, "everywhere")
+	assert "may(one, where=where)" in body
+	assert "mount" not in body.replace("Servers on the Network are not searched", "")
+	assert "everywhere(text, most)" in _body(NAMESPACE, "search"), "the top of OneCloud searches everywhere"
+	assert "ns.everywhere(search)" in (tree.APP / "one_storage" / "api.py").read_text()
+
+
+def test_a_search_can_be_widened_and_a_result_found_where_it_lives():
+	js = (PAGE / "onecloud.js").read_text()
+	assert "everywhere: this.search && this.everywhere ? 1 : 0" in js
+	assert '"open-location"' in js and "this.reveal" in js
+	assert 'ctrl && e.shiftKey && k.toLowerCase() === "f"' in js

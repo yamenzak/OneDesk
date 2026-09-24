@@ -53,7 +53,12 @@ It works the way the file explorer on your computer does.
 - **The address bar**: back, forward and up, then where you are. Click a
   part of it to go there, or click the empty space and type a path —
   `My Files/Projects/2026` — and press Enter. The search box looks through
-  the folder you are in and every folder inside it.
+  the folder you are in and every folder inside it; **Search everywhere**
+  above the results widens it to every file you may open — My Files,
+  Company, what is shared with you, your libraries and the files of every
+  record you can see. At the top of OneCloud it searches everywhere to
+  begin with. Right-click a result for **Open file location**. Servers
+  under Network are not searched.
 - **New** makes a folder (you name it straight away) or uploads files or a
   whole folder. Dragging files or folders from your computer onto the page,
   or onto a folder, uploads them there.
@@ -67,7 +72,8 @@ It works the way the file explorer on your computer does.
 The keys you already know work: Enter opens, Backspace goes back, F2
 renames, Delete deletes (Shift+Delete deletes for good), Ctrl+A selects
 everything, Ctrl+X, Ctrl+C and Ctrl+V cut, copy and paste, Ctrl+Shift+N
-makes a folder, Ctrl+F searches and F5 refreshes. Click, Ctrl+click and
+makes a folder, Ctrl+F searches, Ctrl+Shift+F searches everywhere and F5
+refreshes. Click, Ctrl+click and
 Shift+click select one, a few or a run of files.
 
 Where you are is in the page's address, so the browser's own back button
@@ -396,6 +402,16 @@ not a second R2 integration.
   workspace fetching an address somebody typed — unless the bench sets
   `onestorage_mounts_private`. Uploads into a server go through the
   workspace (`upload.here`), which holds the keys.
+
+- Search. `search` walks down from a folder (`below`) and matches names
+  there. `everywhere` matches names across every live File, newest first,
+  and keeps what `may` allows. Working out each file's space by walking up
+  its folders would be a query per step per file, so `_folders` loads every
+  folder once per request and `placed` walks that in memory. It also drops
+  a file whose folder is in the Recycle Bin, since binning marks only the
+  folder itself. Candidates are capped at ten times the 200 shown, so a
+  reader who may open little of a large workspace can see fewer than they
+  might. Servers are left out because they are read live.
 
 - `file_requests.py`, `doctype/cloud_file_request` and `www/r.py` — asking
   for files. A `Cloud File Request` names where files land (`folder`, or

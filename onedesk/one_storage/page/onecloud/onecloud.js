@@ -118,6 +118,7 @@ onedesk.OneCloud = class OneCloud {
 						<button data-sort="type" class="oc-col-type">${__("Type")}</button>
 						<button data-sort="size" class="oc-col-size">${__("Size")}</button>
 					</div>
+					<div class="oc-scope" hidden></div>
 					<div class="oc-items" tabindex="0" role="listbox" aria-multiselectable="true"></div>
 				</div>
 				<aside class="oc-preview"></aside>
@@ -205,7 +206,11 @@ onedesk.OneCloud = class OneCloud {
 		const token = (this.asking = {});
 		let answer;
 		try {
-			answer = await frappe.xcall(OneCloud.API + "listing", { node: this.node, search: this.search || null });
+			answer = await frappe.xcall(OneCloud.API + "listing", {
+				node: this.node,
+				search: this.search || null,
+				everywhere: this.search && this.everywhere ? 1 : 0,
+			});
 		} catch (e) {
 			if (token !== this.asking) return;
 			if (this.node !== "@my") return this.go("@my");
@@ -222,6 +227,12 @@ onedesk.OneCloud = class OneCloud {
 		this.selected = new Set([...this.selected].filter((id) => live.has(id)));
 		this.draw();
 		this.draw_tree();
+		if (this.reveal && live.has(this.reveal)) {
+			this.pick(this.reveal, {});
+			const el = this.$items.find(`.oc-item[data-id="${CSS.escape(this.reveal)}"]`)[0];
+			el && el.scrollIntoView({ block: "nearest" });
+		}
+		this.reveal = null;
 	}
 
 	kind() {
@@ -246,7 +257,9 @@ onedesk.OneCloud = class OneCloud {
 		const here = this.trail[this.trail.length - 1];
 		this.draw_crumbs();
 		this.fit();
-		this.$search.attr("placeholder", __("Search {0}", [here ? here.name : __("Files")]));
+		const global = this.everywhere || this.kind() === "root";
+		this.$search.attr("placeholder", global ? __("Search everywhere") : __("Search {0}", [here ? here.name : __("Files")]));
+		this.draw_scope(here);
 		this.$root.attr("data-kind", this.kind());
 		// Search results say which folder each is in; Shared with Me says who from.
 		const where_head = { shared: __("Shared by"), libraries: __("Your role"), recent: __("Folder"), starred: __("Folder"), network: __("Kind"), requests: __("Progress"), request: __("File · From") }[this.kind()];
@@ -262,6 +275,25 @@ onedesk.OneCloud = class OneCloud {
 		}
 		this.mark();
 		this.draw_bar();
+	}
+
+	// While searching: where the results are from, and a way to widen or
+	// narrow that, the way an explorer offers "search again in".
+	draw_scope(here) {
+		const $scope = this.$root.find(".oc-scope");
+		const scoped = !!this.search && this.kind() !== "root";
+		$scope.prop("hidden", !scoped);
+		if (!scoped) return;
+		const esc = frappe.utils.escape_html;
+		const name = here ? here.name : __("Files");
+		const said = this.everywhere ? __("Results from everywhere") : __("Results in {0}", [name]);
+		const other = this.everywhere ? __("Only in {0}", [name]) : __("Search everywhere");
+		$scope.html(`${frappe.utils.icon(this.everywhere ? "globe" : "folder-search", "sm")}<span>${esc(said)}</span><button type="button">${esc(other)}</button>`);
+		$scope.find("button").on("click", () => {
+			this.everywhere = !this.everywhere;
+			this.refresh();
+			this.$search.trigger("focus");
+		});
 	}
 
 	empty_text() {
@@ -706,6 +738,7 @@ onedesk.OneCloud = class OneCloud {
 
 	set_search(value) {
 		this.search = value;
+		if (!value) this.everywhere = false;
 		this.$search.val(value);
 	}
 
@@ -745,6 +778,13 @@ onedesk.OneCloud = class OneCloud {
 		if (e.altKey && k === "ArrowRight") return handled(), this.act("forward");
 		if (e.altKey && k === "ArrowUp") return handled(), this.act("up");
 		if (ctrl && e.shiftKey && (k === "N" || k === "n")) return handled(), this.act("new-folder");
+		if (ctrl && e.shiftKey && k.toLowerCase() === "f") {
+			handled();
+			this.everywhere = true;
+			if (this.search) this.refresh();
+			else this.draw();
+			return this.$search.trigger("focus").trigger("select");
+		}
 		if ((ctrl && k === "f") || k === "F3") return handled(), this.$search.trigger("focus").trigger("select");
 		if (ctrl && k === "a") {
 			handled();
@@ -891,6 +931,9 @@ onedesk.OneCloud = class OneCloud {
 				return frappe.utils.copy_to_clipboard(chosen.map((one) => window.location.origin + one.url).join("\n"));
 			case "open":
 				return this.open_items(chosen);
+			case "open-location":
+				this.reveal = chosen[0].id;
+				return this.go(chosen[0].parent);
 			case "open-record": {
 				const record = this.record_of(chosen[0]) || this.record_here();
 				if (record) frappe.set_route("Form", record[0], record[1]);
@@ -1639,6 +1682,7 @@ onedesk.OneCloud = class OneCloud {
 		return [
 			[
 				["open", one && one.folder ? "folder-open" : "external-link", __("Open"), true, "Enter"],
+				["open-location", "folder-open", __("Open file location"), !!(one && one.parent && this.search)],
 				["open-record", "external-link", __("Open record"), !!(one && one.record)],
 				["download", "download", __("Download"), files.length === chosen.length],
 				["copy-link", "link", __("Copy link"), files.length === chosen.length],

@@ -492,9 +492,11 @@ def search(node_id: str, text: str, most: int = 500) -> list[dict]:
 	"""What is called `text` anywhere under a node, the way an explorer's
 	search box looks through every folder below the one it is in."""
 	kind = parse(node_id)
-	if kind[0] not in (ROOT, MY, COMPANY, "file"):
+	if kind[0] == ROOT:
+		return everywhere(text, most)
+	if kind[0] not in (MY, COMPANY, "file"):
 		return children(node_id, text)
-	starts = [home(), HOME] if kind[0] == ROOT else [folder_of(node_id)]
+	starts = [folder_of(node_id)]
 	out = []
 	for start in starts:
 		inner = below(start)
@@ -516,8 +518,107 @@ def search(node_id: str, text: str, most: int = 500) -> list[dict]:
 			if not one.is_folder and one.attached_to_doctype and one.attached_to_name:
 				continue
 			if may(one, where=where):
-				out.append({**node(one), "where": labels.get(one.folder)})
+				out.append({**node(one), "where": labels.get(one.folder), "parent": one.folder})
 	return out[:most]
+
+
+def everywhere(text: str, most: int = 200) -> list[dict]:
+	"""Everything called `text` that the reader may open, wherever it is: My
+	Files, Company, what is shared with them, their libraries, and the files
+	of the records they may read. Servers on the Network are not searched;
+	they are read live and one slow server would hold up every search."""
+	text = (text or "").strip()
+	if not text:
+		return []
+	like = "%" + text.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_") + "%"
+	found = frappe.get_all(
+		"File",
+		filters={"one_deleted": 0, "file_name": ["like", like], "name": ["not in", [HOME, ATTACHMENTS, LIBRARY_ROOT]]},
+		fields=FIELDS,
+		order_by="modified desc",
+		limit=most * 10,
+	)
+	folders = _folders()
+	user = frappe.session.user
+	out = []
+	for one in found:
+		if one.one_home_of or one.attached_to_doctype in UNLISTED:
+			continue
+		if one.one_library:
+			where = ("library", one.name)
+		elif one.attached_to_doctype and one.attached_to_name and not one.is_folder:
+			where = ("record", one.attached_to_doctype, one.attached_to_name)
+		else:
+			where = placed(one.folder, folders)
+			if not where:  # in a folder in the Recycle Bin
+				continue
+		if not may(one, where=where):
+			continue
+		out.append({**node(one), "where": _where_label(one, folders, user), "parent": _parent_of(one)})
+		if len(out) >= most:
+			break
+	return out
+
+
+def _folders() -> dict:
+	"""Every folder, once a request: a search walks up from each file it
+	finds, and asking the database once per step would be thousands."""
+	held = _request("onecloud_folders")
+	if not held:
+		for one in frappe.get_all(
+			"File", filters={"is_folder": 1}, fields=["name", "folder", "file_name", "one_home_of", "one_library", "one_deleted"]
+		):
+			held[one.name] = one
+	return held
+
+
+def placed(folder: str | None, folders: dict) -> tuple | None:
+	"""The space of what is in `folder`, as `space` says it, read from
+	`folders` without asking the database; None when a folder above it is
+	in the Recycle Bin. Pure."""
+	at, steps = folder, 0
+	while at and steps <= DEEPEST + 2:
+		found = folders.get(at)
+		if not found:
+			break
+		if found.get("one_deleted"):
+			return None
+		if at == ATTACHMENTS:
+			return ("attachments",)
+		if at == HOME:
+			return ("company",)
+		if found.get("one_home_of"):
+			return ("home", found["one_home_of"])
+		if found.get("one_library"):
+			return ("library", at)
+		at, steps = found.get("folder"), steps + 1
+	return ("company",)
+
+
+def _where_label(item: dict, folders: dict, user: str) -> str:
+	"""Where a search result is, in a word or two."""
+	if item.get("attached_to_doctype") and item.get("attached_to_name") and not item.get("is_folder"):
+		doctype = item["attached_to_doctype"]
+		return f"{_(doctype)} {item['attached_to_name']}"
+	parent = folders.get(item.get("folder")) or {}
+	if item.get("folder") == HOME:
+		return _("Company")
+	if item.get("folder") == LIBRARY_ROOT:
+		return _("Libraries")
+	if parent.get("one_home_of"):
+		return _("My Files") if parent["one_home_of"] == user else _("Shared with Me")
+	return parent.get("file_name") or ""
+
+
+def _parent_of(item: dict) -> str:
+	"""The node a search result's "Open file location" goes to."""
+	if item.get("attached_to_doctype") and item.get("attached_to_name") and not item.get("is_folder"):
+		return record_node(item["attached_to_doctype"], item["attached_to_name"])
+	if item.get("folder") == LIBRARY_ROOT:
+		return LIBRARIES
+	if item.get("folder") == HOME:
+		return COMPANY
+	return item.get("folder") or ROOT
 
 
 def record_doctypes() -> list[dict]:
