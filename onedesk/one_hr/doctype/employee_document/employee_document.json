@@ -11,6 +11,7 @@
   "expires_on",
   "issued_on",
   "place_of_issue",
+  "country",
   "attachment"
  ],
  "fields": [
@@ -52,6 +53,13 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Place of Issue"
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "label": "Issuing Country",
+   "options": "Country",
+   "in_list_view": 0
   },
   {
    "fieldname": "attachment",

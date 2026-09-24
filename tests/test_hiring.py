@@ -97,7 +97,7 @@ def test_the_hiring_instructions_say_what_may_not_be_judged():
 
 def test_a_new_applicant_is_screened_after_commit():
 	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
-	assert '"Job Applicant": {"after_insert": "onedesk.one_hr.hiring.arrived"}' in hooks
+	assert re.search(r'"Job Applicant": \{"after_insert": \[?"onedesk\.one_hr\.hiring\.arrived"', hooks)
 	source = HIRING.read_text(encoding="utf-8")
 	assert "enqueue_after_commit=True" in source
 

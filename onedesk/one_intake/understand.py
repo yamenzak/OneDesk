@@ -34,7 +34,7 @@ KINDS = (
 	"Invoice", "Credit Note", "Receipt", "Reminder", "Tax Assessment", "Contract", "Offer", "Order",
 	"Order Confirmation", "Delivery Note", "Payment Advice", "Bank Statement", "Payslip", "Sick Note",
 	"Medical Report", "Identity Document", "Certificate", "CV", "Appointment", "Letter From an Authority",
-	"Notice of Change", "Contact Card", "Letter", "Other",
+	"Notice of Change", "Contact Card", "Inquiry", "Resignation", "Letter", "Other",
 )  # fmt: skip
 ROLES = ("Sender", "Recipient", "Holder", "Patient", "Employee", "Paid To", "Mentioned")
 DATES = ("Due", "Deadline", "Appointment", "Valid From", "Valid Until", "Period Start", "Period End", "Service", "Other")
@@ -43,7 +43,7 @@ REFERENCES = ("Invoice", "Order", "Customer", "Contract", "Case", "Tax", "Policy
 PAID = {"transfer": "Transfer", "direct debit": "Direct Debit", "already paid": "Already Paid"}
 
 #: How sensitive a kind is at least, whatever the model said.
-SENSITIVE = {"Payslip": "Pay", "Sick Note": "Medical", "Medical Report": "Medical", "Identity Document": "Personal", "CV": "Personal"}
+SENSITIVE = {"Payslip": "Pay", "Sick Note": "Medical", "Medical Report": "Medical", "Identity Document": "Personal", "CV": "Personal", "Resignation": "Personal"}
 LEVELS = ("Ordinary", "Personal", "Legal", "Pay", "Medical")
 
 
@@ -66,7 +66,7 @@ def run(name: str) -> None:
 			if reading.verdict not in READ_IN_FULL:
 				_done(reading)
 				return
-			said, dropped = facts.check(ask(reading, structured), reading.text or "", identity.country())
+			said, dropped = facts.check(ask(reading, structured), _checked_text(reading, structured), identity.country())
 		except Exception as raised:
 			from onedesk.one_intake import pipeline
 
@@ -74,6 +74,14 @@ def run(name: str) -> None:
 			return
 	apply(reading, said, dropped, structured)
 	_done(reading)
+
+
+def _checked_text(reading, structured: dict) -> str:
+	"""What a reading is checked against: the document, and for a message its
+	headers too, which the model was shown and which say who wrote."""
+	mail = structured.get("forwarded") or structured.get("mail") or {}
+	head = " ".join(str(mail.get(key) or "") for key in ("from_name", "from_email", "to", "cc", "subject", "date")) if mail else ""
+	return f"{head}\n{reading.text or ''}"
 
 
 def _done(reading) -> None:
@@ -283,6 +291,9 @@ def apply(reading, said: dict, dropped: list[str], structured: dict) -> None:
 	reading.set("asks", [
 		{"what": one.get("what") if one.get("what") in ASKS else "Other", "detail": (one.get("detail") or "")[:140], "by_date": one.get("by") or None, "of_whom": (one.get("of") or "")[:140]}
 		for one in said.get("asks") or []
+	] + [
+		{"what": "Other", "detail": (one.get("what") or "")[:140], "by_date": one.get("by") or None, "promise": 1}
+		for one in said.get("promises") or [] if one.get("what")
 	])
 	reading.set("lines", [
 		{"text": (one.get("text") or "")[:140], "qty": one.get("qty"), "unit_price": one.get("unit_price"), "amount": one.get("amount"), "tax_rate": one.get("tax_rate"), "code": one.get("code")}

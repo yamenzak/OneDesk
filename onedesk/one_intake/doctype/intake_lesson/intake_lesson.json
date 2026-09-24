@@ -22,7 +22,7 @@
    "fieldname": "action_kind",
    "fieldtype": "Select",
    "label": "OneAI Action",
-   "options": "Create\nUpdate\nLink\nAttach\nRename\nMove\nTag\nComment",
+   "options": "Create\nUpdate\nAdd\nLink\nAttach\nRename\nMove\nTag\nComment",
    "in_list_view": 1,
    "read_only": 1
   },

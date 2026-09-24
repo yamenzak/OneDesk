@@ -37,6 +37,7 @@ def test_a_copy_is_the_same_document_from_the_same_party():
 	assert not is_copy({**INVOICE, "party": ("Supplier", "Other")}, INVOICE), "4711 is somebody else's invoice too"
 	assert not is_copy({**INVOICE, "kind": "Reminder"}, INVOICE)
 	assert not is_copy({**INVOICE, "number": None}, INVOICE), "nothing to compare is no copy"
+	assert not is_copy({**INVOICE, "party": None}, INVOICE), "the same number from a new issuer is a new document"
 
 
 def test_a_reference_places_a_document_with_the_one_it_names():
@@ -46,6 +47,8 @@ def test_a_reference_places_a_document_with_the_one_it_names():
 	assert by_reference({**reminder, "party": ("Supplier", "Other")}, [INVOICE]) is None
 	assert by_reference({"refs": ["PO-7"], "party": STADTWERKE}, [INVOICE])["name"] == "r1", "a reference the invoice carried"
 	assert by_reference({"refs": ["12"]}, [{**INVOICE, "number": "12"}]) is None, "too short to mean anything"
+	september = {"kind": "Invoice", "number": "RE-2026-0901", "refs": ["PO-7"], "party": STADTWERKE}
+	assert by_reference(september, [INVOICE]) is None, "next month's invoice on the same order is its own matter"
 
 
 def test_the_party_places_a_follower_only_when_it_is_sure():
@@ -55,6 +58,7 @@ def test_the_party_places_a_follower_only_when_it_is_sure():
 	assert by_party(reminder, [INVOICE, {**INVOICE, "name": "r3"}]) is None, "two open invoices: not sure"
 	assert by_party({"kind": "Letter", "party": STADTWERKE}, [INVOICE]) is None, "a letter does not follow an invoice"
 	assert by_party({"kind": "Reminder", "party": None}, [INVOICE]) is None
+	assert by_party({"kind": "Invoice", "number": "RE-2026-0903", "party": STADTWERKE}, [INVOICE]) is None, "a new invoice is its own matter"
 
 
 def test_what_a_document_changes_is_read_from_its_facts():

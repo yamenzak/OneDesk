@@ -89,5 +89,5 @@ def test_the_card_applies_into_the_open_form():
 
 def test_the_badge_rides_on_the_document_and_goes_with_it():
 	said = HOOKS.read_text(encoding="utf-8")
-	assert re.search(r'"onload": \[?[^\n]*"onedesk\.one_ai\.touch\.onload"', said)
+	assert re.search(r'"onload": \[?[^\]]*"onedesk\.one_ai\.touch\.onload"', said)
 	assert re.search(r'"on_trash": \[?[^\]]*"onedesk\.one_ai\.touch\.forget"', said), "forgotten with its record"

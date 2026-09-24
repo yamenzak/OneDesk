@@ -98,10 +98,11 @@ def set_mailbox(account: str, on: int) -> dict:
 
 	actions.require(account)
 	on = int(on or 0)
-	frappe.db.set_value(
-		"Email Account",
-		account,
-		{"one_intake": on, "one_intake_for": frappe.session.user if on else None},
-		update_modified=False,
-	)
+	values = {"one_intake": on, "one_intake_for": frappe.session.user if on else None}
+	if on:
+		# Frappe makes a bare Contact for every address on every message, junk
+		# included. Where OneAI reads, it makes them itself, only for people
+		# actually writing, once the mail is known to be real (planning.py).
+		values["create_contact"] = 0
+	frappe.db.set_value("Email Account", account, values, update_modified=False)
 	return mailbox_state(account)

@@ -78,8 +78,8 @@ def test_found_reads_a_records_values_into_canonical_pairs():
 
 
 def test_the_registry_follows_every_save_rename_and_delete():
-	assert re.search(r'"on_update": \[?[^\n]*"onedesk\.one_intake\.identity\.remember"', HOOKS)
-	assert re.search(r'"after_rename": \[?[^\n]*"onedesk\.one_intake\.identity\.renamed"', HOOKS)
+	assert re.search(r'"on_update": \[?[^\]]*"onedesk\.one_intake\.identity\.remember"', HOOKS)
+	assert re.search(r'"after_rename": \[?[^\]]*"onedesk\.one_intake\.identity\.renamed"', HOOKS)
 	assert "onedesk.one_intake.identity.forget" in HOOKS
 	assert "onedesk.one_intake.identity.flag" in HOOKS
 	source = (Path(__file__).resolve().parent.parent / "onedesk" / "one_intake" / "identity.py").read_text()

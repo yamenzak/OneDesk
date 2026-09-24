@@ -100,6 +100,8 @@ scheduler_events = {
 		"*/15 * * * *": ["onedesk.one_intake.pipeline.again"],
 	},
 	"daily": [
+		# Task steps that waited for a day. See one_intake/steps.py.
+		"onedesk.one_intake.steps.daily",
 		# Faces not found a month ago are looked for again. See one_mail/faces.py.
 		"onedesk.one_mail.faces.again",
 		# The Recycle Bin keeps things thirty days. See one_storage/api.py.
@@ -151,7 +153,11 @@ doc_events = {
 	},
 	# An organisation without a picture gets its website's logo. See
 	# one_mail/faces.py.
-	"Customer": {"after_insert": "onedesk.one_mail.faces.dress_later", "on_update": "onedesk.one_mail.faces.dress_later"},
+	# A customer made from a lead keeps the lead's documents. See one_intake/planning.py.
+	"Customer": {
+		"after_insert": ["onedesk.one_mail.faces.dress_later", "onedesk.one_intake.planning.carried"],
+		"on_update": "onedesk.one_mail.faces.dress_later",
+	},
 	"Supplier": {"after_insert": "onedesk.one_mail.faces.dress_later", "on_update": "onedesk.one_mail.faces.dress_later"},
 	"Bank": {"after_insert": "onedesk.one_mail.faces.dress_later", "on_update": "onedesk.one_mail.faces.dress_later"},
 	# A company bank account wires the bank modes of payment. See one_book/ready.py.
@@ -183,11 +189,13 @@ doc_events = {
 	# hrms counts milestones by letting an insert fail, and the message outlives
 	# the savepoint. See one/quiet.py.
 	"*": {
-		"on_submit": ["onedesk.one.quiet.milestone", "onedesk.one_intake.mark.looked_at"],
+		"on_submit": ["onedesk.one.quiet.milestone", "onedesk.one_intake.mark.looked_at", "onedesk.one_intake.steps.record_changed"],
 		"after_insert": [
 			"onedesk.one.quiet.milestone",
 			# A contact, customer or supplier someone already is. See one_intake/identity.py.
 			"onedesk.one_intake.identity.flag",
+			# Documents that named a new party before it existed. See one_intake/planning.py.
+			"onedesk.one_intake.planning.backlink",
 		],
 		# The fields OneAI wrote that still say it (one_ai/touch.py), and the
 		# mark on a record OneAI made that nobody has checked (one_intake/mark.py).
@@ -195,8 +203,13 @@ doc_events = {
 		# Every identifier a record carries, kept up as it changes and carried
 		# through a rename or a merge. See one_intake/identity.py. A person's
 		# save, submit or cancel takes the OneAI mark down.
-		"on_update": ["onedesk.one_intake.identity.remember", "onedesk.one_intake.mark.looked_at"],
-		"on_cancel": "onedesk.one_intake.mark.looked_at",
+		"on_update": [
+			"onedesk.one_intake.identity.remember",
+			"onedesk.one_intake.mark.looked_at",
+			# A task step that waits for this record's state. See one_intake/steps.py.
+			"onedesk.one_intake.steps.record_changed",
+		],
+		"on_cancel": ["onedesk.one_intake.mark.looked_at", "onedesk.one_intake.steps.record_changed"],
 		"before_rename": "onedesk.one_intake.mark.before_rename",
 		"after_rename": ["onedesk.one_intake.identity.renamed", "onedesk.one_intake.mark.after_rename"],
 		# Deleting a record OneAI made is a lesson, read before its mark goes.
@@ -236,7 +249,9 @@ doc_events = {
 	},
 	"Employee Promotion": {"before_validate": "onedesk.one_hr.growth.promotion"},
 	# Every applicant read, rated and placed by OneAI. See one_hr/hiring.py.
-	"Job Applicant": {"after_insert": "onedesk.one_hr.hiring.arrived"},
+	# An application OneAI made from a mail steps aside for the form's. See
+	# one_intake/planning.py.
+	"Job Applicant": {"after_insert": ["onedesk.one_hr.hiring.arrived", "onedesk.one_intake.planning.applicant_arrived"]},
 	"Interview": {
 		"after_insert": "onedesk.one_hr.hiring.scheduled",
 		"onload": "onedesk.one_hr.hiring.interview_onload",
@@ -343,7 +358,9 @@ doc_events = {
 	"Communication": {
 		# Mail sent from here is in Sent and in its thread. See one_mail/outbound.py.
 		"before_insert": "onedesk.one_mail.outbound.file_sent",
-		"on_update": "onedesk.one_mail.outbound.thread_sent",
+		# A reply that goes out ticks the step that asked for it; the thread is
+		# known by the end of the save. See one_intake/steps.py.
+		"on_update": ["onedesk.one_mail.outbound.thread_sent", "onedesk.one_intake.steps.replied"],
 		"after_insert": [
 			# Replies read before what they answer join its thread. See one_mail/threads.py.
 			"onedesk.one_mail.threads.adopt",

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 20:00+0000\n"
-"PO-Revision-Date: 2026-09-24 20:00+0000\n"
+"POT-Creation-Date: 2026-09-24 20:17+0000\n"
+"PO-Revision-Date: 2026-09-24 20:17+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -162,6 +162,14 @@ msgstr ""
 #. Stage'
 #: onedesk/one_crm/custom/sales_stage.json
 msgid "A deal moved to this stage takes this probability, unless one was typed."
+msgstr ""
+
+#: onedesk/one_intake/planning.py:115
+msgid "A document arrived"
+msgstr ""
+
+#: onedesk/one_intake/planning.py:116
+msgid "A document arrived for {0}"
 msgstr ""
 
 #. Description of the 'Expires On' (Date) field in DocType 'Employee Document'
@@ -352,6 +360,10 @@ msgstr ""
 msgid "A record of something that happened to a workspace."
 msgstr ""
 
+#: onedesk/one_intake/planning.py:117
+msgid "A reminder arrived: {0}"
+msgstr ""
+
 #: onedesk/one_calendar/events.py:249
 msgid "A repeating event is moved from its own page, for all its times at once."
 msgstr ""
@@ -508,9 +520,11 @@ msgstr ""
 #. Label of the about (Small Text) field in DocType 'AI Action'
 #. Label of the about_section (Section Break) field in DocType 'AI Memory'
 #. Label of the about (Data) field in DocType 'Reading Date'
+#. Label of the one_about (Dynamic Link) field in DocType 'Task'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
+#: onedesk/one_task/custom/task.json
 msgid "About"
 msgstr ""
 
@@ -520,7 +534,9 @@ msgid "About Record"
 msgstr ""
 
 #. Label of the about_doctype (Link) field in DocType 'AI Memory'
+#. Label of the one_about_doctype (Link) field in DocType 'Task'
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
+#: onedesk/one_task/custom/task.json
 msgid "About Type"
 msgstr ""
 
@@ -660,8 +676,12 @@ msgstr ""
 msgid "Activity Type"
 msgstr ""
 
+#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
+#. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
 #: onedesk/one_book/report/books_check/books_check.js:18
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:32
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+#: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:20
 #: onedesk/one_task/page/my_tasks/my_tasks.js:25
 #: onedesk/public/js/onecloud.js:1398
@@ -737,6 +757,10 @@ msgstr ""
 msgid "Add the email address of at least one person to invite."
 msgstr ""
 
+#: onedesk/one_intake/panel.py:128
+msgid "Add to {0}"
+msgstr ""
+
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:32
 #: onedesk/one_task/page/my_tasks/my_tasks.js:25
 msgid "Add {0}"
@@ -768,6 +792,10 @@ msgstr ""
 
 #: onedesk/public/js/ai_action_setting.js:71
 msgid "Added to what {0} already does. It is never replaced."
+msgstr ""
+
+#: onedesk/one_intake/panel.py:128
+msgid "Added to {0}"
 msgstr ""
 
 #. Description of the 'total_hours' field in DocType 'Timesheet'
@@ -1093,6 +1121,7 @@ msgstr ""
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
+#: onedesk/one_intake/planning.py:118
 msgid "Appointment"
 msgstr ""
 
@@ -2464,7 +2493,7 @@ msgstr ""
 msgid "Comment"
 msgstr ""
 
-#: onedesk/one_intake/panel.py:140
+#: onedesk/one_intake/panel.py:142
 msgid "Commented on {0}"
 msgstr ""
 
@@ -3385,6 +3414,11 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
+#. Label of the done_when (Small Text) field in DocType 'Task Step'
+#: onedesk/one_task/doctype/task_step/task_step.json
+msgid "Done When"
+msgstr ""
+
 #: onedesk/one_ai/suggest.py:83
 msgid "Done."
 msgstr ""
@@ -4190,7 +4224,7 @@ msgstr ""
 msgid "Filed with its conversation"
 msgstr ""
 
-#: onedesk/one_intake/panel.py:130
+#: onedesk/one_intake/panel.py:132
 msgid "Filed with {0}"
 msgstr ""
 
@@ -4478,6 +4512,10 @@ msgstr ""
 
 #: onedesk/one_hr/ai.py:345
 msgid "From a receipt: {0}, {1}."
+msgstr ""
+
+#: onedesk/one_intake/planning.py:114
+msgid "From a sick note that arrived by mail."
 msgstr ""
 
 #: onedesk/public/js/employee.js:43
@@ -5189,6 +5227,11 @@ msgstr ""
 msgid "Inputs"
 msgstr ""
 
+#. Option for the 'Kind' (Select) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Inquiry"
+msgstr ""
+
 #. Description of the 'Private Key' (Password) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 #: onedesk/public/js/onecloud.js:1481
@@ -5338,7 +5381,9 @@ msgstr ""
 msgid "Issued On"
 msgstr ""
 
+#. Label of the country (Link) field in DocType 'Employee Document'
 #. Label of the issuing_country (Link) field in DocType 'Reading'
+#: onedesk/one_hr/doctype/employee_document/employee_document.json
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Issuing Country"
 msgstr ""
@@ -5355,11 +5400,11 @@ msgstr ""
 msgid "It may have run out or been turned off. Ask whoever sent it for a new one."
 msgstr ""
 
-#: onedesk/one_intake/act.py:100
+#: onedesk/one_intake/act.py:118
 msgid "It would change what {0} already says."
 msgstr ""
 
-#: onedesk/one_intake/act.py:102
+#: onedesk/one_intake/act.py:120
 msgid "It would end somebody's employment."
 msgstr ""
 
@@ -6026,7 +6071,7 @@ msgstr ""
 msgid "Linked To Type"
 msgstr ""
 
-#: onedesk/one_intake/panel.py:128
+#: onedesk/one_intake/panel.py:130
 msgid "Linked to {0}"
 msgstr ""
 
@@ -6226,6 +6271,10 @@ msgstr ""
 
 #: onedesk/public/js/intake.js:182
 msgid "Made by OneAI. Nobody has checked it yet."
+msgstr ""
+
+#: onedesk/one_intake/planning.py:94
+msgid "Made from {0}."
 msgstr ""
 
 #: onedesk/one_intake/panel.py:122
@@ -6666,7 +6715,7 @@ msgstr ""
 msgid "Moved down from {0}% to {1}%."
 msgstr ""
 
-#: onedesk/one_intake/panel.py:135 onedesk/one_intake/panel.py:136
+#: onedesk/one_intake/panel.py:137 onedesk/one_intake/panel.py:138
 msgid "Moved it to {0}"
 msgstr ""
 
@@ -6803,7 +6852,7 @@ msgstr ""
 msgid "Named in the message"
 msgstr ""
 
-#: onedesk/one_intake/panel.py:132
+#: onedesk/one_intake/panel.py:134
 msgid "Named it {0}"
 msgstr ""
 
@@ -7766,7 +7815,7 @@ msgstr ""
 msgid "OneAI does here only what this person may do."
 msgstr ""
 
-#: onedesk/one_intake/act.py:103
+#: onedesk/one_intake/act.py:122
 msgid "OneAI is not sure enough."
 msgstr ""
 
@@ -8042,7 +8091,7 @@ msgstr ""
 msgid "Only {0}"
 msgstr ""
 
-#: onedesk/one_intake/act.py:422
+#: onedesk/one_intake/act.py:458
 msgid "Only {0} or an administrator of this workspace can decide this."
 msgstr ""
 
@@ -9076,6 +9125,11 @@ msgstr ""
 msgid "Projects Settings"
 msgstr ""
 
+#. Label of the promise (Check) field in DocType 'Reading Ask'
+#: onedesk/one_intake/doctype/reading_ask/reading_ask.json
+msgid "Promised"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Promotion"
@@ -9792,6 +9846,10 @@ msgstr ""
 msgid "Rename the connection instead."
 msgstr ""
 
+#: onedesk/one_intake/planning.py:112
+msgid "Renew the {0} of {1}"
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:1626
 msgid "Reopen"
 msgstr ""
@@ -9912,6 +9970,11 @@ msgstr ""
 
 #: onedesk/public/js/employee.js:199
 msgid "Reset Passkey"
+msgstr ""
+
+#. Option for the 'Kind' (Select) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Resignation"
 msgstr ""
 
 #. Description of the 'Notice Ends On' (Date) field in DocType 'Employee'
@@ -10693,7 +10756,7 @@ msgstr ""
 msgid "Some of it stays"
 msgstr ""
 
-#: onedesk/one_intake/act.py:104
+#: onedesk/one_intake/act.py:123
 msgid "Some of what OneAI read is not in the document."
 msgstr ""
 
@@ -11320,7 +11383,7 @@ msgstr ""
 msgid "Tag"
 msgstr ""
 
-#: onedesk/one_intake/panel.py:138
+#: onedesk/one_intake/panel.py:140
 msgid "Tagged it {0}"
 msgstr ""
 
@@ -12046,6 +12109,11 @@ msgstr ""
 msgid "The workspace is ready."
 msgstr ""
 
+#. Description of the 'Promised' (Check) field in DocType 'Reading Ask'
+#: onedesk/one_intake/doctype/reading_ask/reading_ask.json
+msgid "The writer promises to do this, rather than asking somebody else."
+msgstr ""
+
 #: onedesk/one_hr/leaving.py:153
 msgid ""
 "Their passkey and shift assignments have been ended, but the status is still Active:\n"
@@ -12196,6 +12264,10 @@ msgstr ""
 msgid "This is for a document that is not saved yet. Apply it from its form."
 msgstr ""
 
+#: onedesk/one_intake/act.py:121
+msgid "This is for a person to decide."
+msgstr ""
+
 #: onedesk/one_book/paid.py:52
 msgid "This is paid in another currency. Use Create › Payment."
 msgstr ""
@@ -12268,7 +12340,7 @@ msgstr ""
 msgid "This takes a few minutes. A link will be emailed to {0} when it is ready."
 msgstr ""
 
-#: onedesk/one_intake/act.py:433 onedesk/one_intake/act.py:487
+#: onedesk/one_intake/act.py:469 onedesk/one_intake/act.py:523
 msgid "This was already {0}."
 msgstr ""
 
@@ -13361,6 +13433,11 @@ msgstr ""
 msgid "What those fields held when this was written."
 msgstr ""
 
+#. Description of the 'Done When' (Small Text) field in DocType 'Task Step'
+#: onedesk/one_task/doctype/task_step/task_step.json
+msgid "What ticks this step by itself, written by OneAI. Empty for a step a person ticks."
+msgstr ""
+
 #. Description of the 'File' (Data) field in DocType 'Cloud File Request Item'
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
 msgid "What to send, as the person will see it."
@@ -13960,7 +14037,7 @@ msgstr ""
 msgid "You may not change {0}."
 msgstr ""
 
-#: onedesk/one_intake/act.py:442
+#: onedesk/one_intake/act.py:478
 msgid "You may not do this yourself."
 msgstr ""
 
@@ -14094,19 +14171,19 @@ msgstr ""
 msgid "a day"
 msgstr ""
 
-#: onedesk/one_intake/act.py:529
+#: onedesk/one_intake/act.py:565
 msgid "a person has changed it since"
 msgstr ""
 
-#: onedesk/one_intake/act.py:514
+#: onedesk/one_intake/act.py:550
 msgid "a person has checked it since"
 msgstr ""
 
-#: onedesk/one_intake/act.py:553 onedesk/one_intake/act.py:571
+#: onedesk/one_intake/act.py:604 onedesk/one_intake/act.py:622
 msgid "a person has moved it since"
 msgstr ""
 
-#: onedesk/one_intake/act.py:562
+#: onedesk/one_intake/act.py:613
 msgid "a person has renamed it since"
 msgstr ""
 
@@ -14172,6 +14249,10 @@ msgstr ""
 
 #: onedesk/one_admin/setup.py:258
 msgid "deployed"
+msgstr ""
+
+#: onedesk/one_intake/planning.py:113
+msgid "document"
 msgstr ""
 
 #: onedesk/public/js/crm_record.js:60
@@ -14245,7 +14326,8 @@ msgstr ""
 msgid "input"
 msgstr ""
 
-#: onedesk/one_intake/act.py:516 onedesk/one_intake/act.py:526
+#: onedesk/one_intake/act.py:552 onedesk/one_intake/act.py:562
+#: onedesk/one_intake/act.py:577
 msgid "it has been submitted"
 msgstr ""
 
@@ -14374,7 +14456,7 @@ msgstr ""
 msgid "shared it with {0}"
 msgstr ""
 
-#: onedesk/one_intake/act.py:500
+#: onedesk/one_intake/act.py:536
 msgid "something else uses it now"
 msgstr ""
 
@@ -14516,6 +14598,10 @@ msgstr ""
 
 #: onedesk/one_project/billing.py:163
 msgid "{0} and {1} more"
+msgstr ""
+
+#: onedesk/one_intake/planning.py:248
+msgid "{0} arrived after you closed this task."
 msgstr ""
 
 #: onedesk/one_storage/links.py:415
@@ -14932,7 +15018,7 @@ msgstr ""
 msgid "{0} list"
 msgstr ""
 
-#: onedesk/one_intake/act.py:159
+#: onedesk/one_intake/act.py:178
 msgid "{0} may not do this themselves."
 msgstr ""
 

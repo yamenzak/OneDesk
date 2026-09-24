@@ -23,7 +23,7 @@
 | Clock Place | 20 | document |
 | Clock Reason | 5 | document |
 | Clock Signal | 3 | child |
-| Employee Document | 6 | child |
+| Employee Document | 7 | child |
 | Employee Letter | 14 | submittable |
 | Interview Recording | 19 | document |
 | Interview Recording Part | 5 | child |
@@ -82,7 +82,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Task Step | 2 | child |
+| Task Step | 3 | child |
 
 ## One Project
 
@@ -140,7 +140,7 @@ No doctypes yet.
 | Intake Lesson | 12 | document |
 | Intake Settings | 5 | single |
 | Reading | 67 | document |
-| Reading Ask | 4 | child |
+| Reading Ask | 5 | child |
 | Reading Date | 4 | child |
 | Reading Line | 7 | child |
 | Reading Party | 17 | child |

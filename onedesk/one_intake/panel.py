@@ -124,6 +124,8 @@ def said_of(row) -> str:
 		if row.level == "Proposed":
 			return _("Change {0}").format(record) if change_of(row) else _("Fill in {0}").format(record)
 		return _("Changed {0}").format(record) if change_of(row) else _("Filled in {0}").format(record)
+	if row.kind == "Add":
+		return _("Add to {0}").format(record) if row.level == "Proposed" else _("Added to {0}").format(record)
 	if row.kind == "Link":
 		return _("Linked to {0}").format(record)
 	if row.kind == "Attach":

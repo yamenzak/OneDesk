@@ -229,7 +229,7 @@
    "fieldtype": "Select",
    "label": "Kind",
    "read_only": 1,
-   "options": "\nInvoice\nCredit Note\nReceipt\nReminder\nTax Assessment\nContract\nOffer\nOrder\nOrder Confirmation\nDelivery Note\nPayment Advice\nBank Statement\nPayslip\nSick Note\nMedical Report\nIdentity Document\nCertificate\nCV\nAppointment\nLetter From an Authority\nNotice of Change\nContact Card\nLetter\nOther",
+   "options": "\nInvoice\nCredit Note\nReceipt\nReminder\nTax Assessment\nContract\nOffer\nOrder\nOrder Confirmation\nDelivery Note\nPayment Advice\nBank Statement\nPayslip\nSick Note\nMedical Report\nIdentity Document\nCertificate\nCV\nAppointment\nLetter From an Authority\nNotice of Change\nContact Card\nInquiry\nResignation\nLetter\nOther",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "search_index": 1

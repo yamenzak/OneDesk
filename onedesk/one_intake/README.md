@@ -1,11 +1,12 @@
 # Intake
 
-Written by hand. Stages 1 to 5 of eleven are built: every file and message
+Written by hand. Stages 1 to 6 of eleven are built: every file and message
 is read into text and found by what is written in it, every record's
 identifiers are kept in one registry, and where OneAI is switched on, each
 document is understood (what it is, who it is from and about, its dates,
-money and what it asks), placed with the documents it follows, and filed
-where it belongs, through one door that writes down everything it does so it
+money and what it asks), placed with the documents it follows, filed
+where it belongs, and turned into the people, tasks and requests it is about,
+through one door that writes down everything it does so it
 can be undone. The plan for
 the rest is `docs/INTAKE.md`. The part above **Under the hood** is the
 manual; below it are the decisions and what is still to come.
@@ -113,6 +114,50 @@ OneAI waits a few minutes after the last message of a matter before it acts,
 so a burst of three mails is handled once (Intake Settings' **Quiet
 Minutes**). Search finds a message at once all the same. Phishing, and money
 or deadlines due within a day, do not wait.
+
+## Who it is from, and what it asks
+
+Where OneAI reads, a document makes what it is about:
+
+- **an invoice from somebody new** with a VAT id, tax number, IBAN or register
+  number makes the **Supplier**, and is filed with it. A name alone makes
+  nobody, and a company a document only mentions is never made;
+- **an order** makes the **Customer**, through ERPNext's own conversion when
+  the sender is already a lead; **a first inquiry** makes a **Lead**; **a CV**
+  makes a **Job Applicant**, with an opening only if the mail named one;
+- **the person who wrote** gets a **Contact**, linked to their company.
+  Frappe's own habit of making a bare contact for every address on every
+  message is turned off for a mailbox OneAI reads; one it made before is
+  completed, never duplicated;
+- **an employee's own documents** go on their Employee: a passport or permit
+  as a row in their identity documents, with a task for HR before it runs out
+  (ninety days for a residence permit, sixty for a passport, thirty for a
+  driving licence); a certificate as an education row; a sick note as a leave
+  application for their approver; a receipt they paid as their expense claim.
+  A resignation, and making an employee from a signed offer, are only
+  proposed;
+- **what it asks** becomes **one task** per matter, with a step per ask,
+  assigned to whoever OneAI reads for (unless an Assignment Rule shares tasks
+  out). A reply ticks its step when it goes out in the same thread, an
+  appointment's step ticks the day after, and when every step is done the
+  task is. A reminder raises the task's priority and moves its date; "paid,
+  thanks" closes it. A task a person closed stays closed, and they are told
+  the matter moved;
+- **an appointment** is an event on that person's calendar;
+- **our own mail** is read too: what it promises ("the offer by Friday")
+  becomes a task for whoever wrote it.
+
+A sensitive document's task says only "A document arrived for …", and its
+event has no description.
+
+**Somebody we knew before.** When a supplier, customer, lead, contact,
+employee or applicant is made, the documents that named its email, VAT id,
+IBAN or document number before it existed are linked to it.
+
+**An application by mail, then by the form.** Maria mails her CV and OneAI
+makes her application. When she then applies through the form, OneAI's is
+folded into the form's, which keeps its own values; one HR had worked on is
+only flagged.
 
 ## What OneAI did, and taking it back
 
@@ -251,8 +296,35 @@ loses a value it had.
   three alike exist. Intake's own rows are in `ignore_links_on_delete`: what
   it wrote down about a record is its history, not a reason to keep it.
 
-Not built yet: the records and drafts each kind of document makes
-(stages 6 and 7), and with them what a nudge or a closing does to a task;
+- `plans.py` is stage 6: pure planners, each a function from a reading and
+  what `planning.context` found (the sender, the employee, the matter's
+  task) to the actions to take, tested row by row. Two passes, because the
+  supplier an invoice needs must exist before the invoice is filed with it:
+  `parties`, then the reading's parties are matched again (`rematch`), then
+  filing, then `second`. Keys are per matter for tasks and requests, per
+  document for the rest.
+- `planning.py` holds the context and the flows planners name: `make_task`
+  (assigned, and told OneTask not to give it to its maker, OneAI),
+  `make_event` (shared with the person), `customer_from_lead` and
+  `employee_from_offer` (ERPNext's and HRMS's own conversions). HRMS checks
+  who is signed in for leave and expense claims, so those are written as the
+  person OneAI acts for (`Action.as_person`); the mark still says OneAI made
+  them. `backlink` links earlier documents to a new party; `applicant_arrived`
+  folds a provisional application into the form's.
+- `steps.py` ticks task steps by what their `done_when` says: a record's
+  state, a reply in the thread, a day passing. A state that changes back
+  opens the step again.
+- The door gained `Add` (a row on a record's table), `propose` (always a
+  person's decision), `propose_on_error` (a flow's refusal becomes a proposal
+  with its reason) and `over` (a placeholder value that is filled, not
+  proposed). A record that still carries the mark is OneAI's own to change.
+
+Not built yet: the money records and drafts (stage 7) and the steps that wait
+on them ("pay" ticking when the invoice's outstanding amount reaches zero);
+marking a renewed identity document's old row as replaced; parsing a
+supplier's address into an Address and its IBAN into a Bank Account; routing
+an employee's documents to their own HR officer rather than whoever OneAI
+reads for;
 versions of the same file (a corrected or signed copy is placed as an update
 but not yet stored as a version), keeping periods, Kanban cards and
 the report view carrying the mark, and a list of everything that waits across

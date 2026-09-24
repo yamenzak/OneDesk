@@ -78,7 +78,9 @@ def is_copy(new: dict, earlier: dict) -> bool:
 		return False
 	if not new.get("number") or compact(new["number"]) != compact(earlier.get("number")):
 		return False
-	if new.get("party") and earlier.get("party") and new["party"] != earlier["party"]:
+	# The same number from somebody else, or from somebody not known yet, is
+	# not the same document.
+	if new.get("party") != earlier.get("party"):
 		return False
 	for key in ("gross", "issued_on"):
 		if new.get(key) and earlier.get(key) and str(new[key]) != str(earlier[key]):
@@ -98,6 +100,11 @@ def by_reference(new: dict, candidates: list[dict]) -> dict | None:
 	for one in candidates:
 		if new.get("party") and one.get("party") and new["party"] != one["party"]:
 			continue
+		# This month's invoice on the same order is a new invoice, not a
+		# correction of last month's: a document with its own, different
+		# number of the same kind starts its own matter.
+		if new.get("kind") == one.get("kind") and compact(new.get("number")) and compact(one.get("number")) and compact(new["number"]) != compact(one["number"]):
+			continue
 		theirs = {compact(one.get("number"))} | {compact(ref) for ref in one.get("refs") or []}
 		if named & {each for each in theirs if len(each) >= 3}:
 			return one
@@ -111,7 +118,10 @@ def by_party(new: dict, open_matters: list[dict]) -> dict | None:
 	if not new.get("party"):
 		return None
 	wanted = FOLLOWERS.get(new.get("kind") or "", ())
-	fits = [one for one in open_matters if one.get("party") == new["party"] and (one.get("kind") in wanted or one.get("kind") == new.get("kind"))]
+	# The same kind follows only when it has no number of its own: a letter
+	# after a letter, never this month's invoice after last month's.
+	same = not compact(new.get("number"))
+	fits = [one for one in open_matters if one.get("party") == new["party"] and (one.get("kind") in wanted or (same and one.get("kind") == new.get("kind")))]
 	return fits[0] if len(fits) == 1 else None
 
 
@@ -210,7 +220,10 @@ def _place(reading) -> None:
 	if found:
 		_join(reading, found, "Party")
 		return
-	if reading.on_behalf_of and not cint(reading.history) and new["party"]:
+	# A document with its own number that follows nothing (an invoice, an
+	# order) starts its own matter; asking a model would only cost credits.
+	starts = bool(compact(new.get("number"))) and new.get("kind") not in FOLLOWERS
+	if reading.on_behalf_of and not cint(reading.history) and new["party"] and not starts:
 		shortlist = [one for one in open_matters if one.get("party") == new["party"]][:SHORTLIST]
 		if shortlist:
 			said = _ask(reading, new, shortlist)
@@ -354,19 +367,24 @@ def due() -> None:
 
 
 def act_now(name: str) -> None:
-	"""Act on one understood document: filing now; what each kind makes, in
-	the stages after this one."""
+	"""Act on one understood document: make the party it needs, file it, then
+	make what it asks for (planning.py)."""
 	from onedesk.one_intake import filing
 
 	if frappe.db.get_value("Reading", name, "acted_on"):
 		return
+	from onedesk.one_intake import planning
+
 	frappe.db.set_value("Reading", name, "acted_on", now_datetime(), update_modified=False)
 	frappe.db.commit()
-	try:
-		filing.run(name)
-	except Exception:
-		frappe.db.rollback()
-		frappe.log_error(title=f"Intake could not act on {name}")
+	# The counterpart first, so the invoice is filed with the supplier just
+	# made; then everything else, with the parties matched again.
+	for step, then in (("parties", lambda: planning.run(name, "parties")), ("filing", lambda: filing.run(name)), ("the rest", lambda: planning.run(name, "rest"))):
+		try:
+			then()
+		except Exception:
+			frappe.db.rollback()
+			frappe.log_error(title=f"Intake could not act on {name}: {step}")
 
 
 def records_of(matter: str) -> list[tuple[str, str]]:

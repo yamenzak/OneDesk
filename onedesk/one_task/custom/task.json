@@ -20,6 +20,33 @@
    "no_copy": 1,
    "print_hide": 1,
    "module": "One Task"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Task",
+   "fieldname": "one_about_doctype",
+   "fieldtype": "Link",
+   "label": "About Type",
+   "options": "DocType",
+   "insert_after": "project",
+   "read_only": 1,
+   "hidden": 1,
+   "module": "One Task",
+   "name": "Task-one_about_doctype"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Task",
+   "fieldname": "one_about",
+   "fieldtype": "Dynamic Link",
+   "label": "About",
+   "options": "one_about_doctype",
+   "insert_after": "one_about_doctype",
+   "read_only": 1,
+   "depends_on": "one_about",
+   "search_index": 1,
+   "module": "One Task",
+   "name": "Task-one_about"
   }
  ],
  "doctype": "Task",

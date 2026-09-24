@@ -34,12 +34,13 @@ from frappe.utils import cint, flt
 from onedesk.one_hr.hiring import AUTHOR
 from onedesk.one_intake import mark
 
-KINDS = ("Create", "Update", "Link", "Attach", "Rename", "Move", "Tag", "Comment")
+KINDS = ("Create", "Update", "Add", "Link", "Attach", "Rename", "Move", "Tag", "Comment")
 
 #: What the person on whose behalf OneAI acts must be allowed on the target.
 NEEDS = {
 	"Create": "create",
 	"Update": "write",
+	"Add": "write",
 	"Link": "read",
 	"Attach": "write",
 	"Rename": "write",
@@ -52,7 +53,7 @@ NEEDS = {
 FLOOR = 70
 
 #: Kinds whose record OneAI makes or changes; the rest only file and label.
-CHANGES = ("Create", "Update")
+CHANGES = ("Create", "Update", "Add")
 
 
 @dataclass
@@ -68,6 +69,20 @@ class Action:
 	#: Nothing was judged: a batch scan cut where its pages say, a file
 	#: named. The reading's doubts do not hold it back.
 	sure: bool = False
+	#: Always a person's decision, however sure OneAI is: starting
+	#: somebody's employment, say.
+	propose: bool = False
+	#: When the flow refuses (HRMS's leave validation, a missing approver), a
+	#: person gets it as a proposal with the reason rather than nothing.
+	propose_on_error: bool = False
+	#: Fields whose current value is a placeholder nobody chose (the first
+	#: name Frappe gives a contact from an address), which are filled rather
+	#: than proposed.
+	over: tuple = ()
+	#: Written as the person OneAI acts for, for a flow that checks who is
+	#: signed in (HRMS's leave and expense claims ask whether that is the
+	#: employee, their approver or HR). The mark still says OneAI made it.
+	as_person: bool = False
 	#: A dotted path to the flow's own function, which takes the values and
 	#: answers the record it made.
 	flow: str | None = None
@@ -76,13 +91,16 @@ class Action:
 # ------------------------------------------------------------------ deciding
 
 
-def level(action: Action, reading: dict, before: dict, floor: float = FLOOR) -> tuple[str, str, list]:
+def level(action: Action, reading: dict, before: dict, floor: float = FLOOR, marked: bool = False) -> tuple[str, str, list]:
 	"""Done or Proposed, why it waits (a word `waits` says in full), and the
-	fields it would overwrite. Pure."""
+	fields it would overwrite. A record that still carries the OneAI mark is
+	OneAI's own to change: nobody's value is overwritten. Pure."""
 	if action.ends_employment:
 		return "Proposed", "employment", []
-	if action.kind == "Update":
-		overwritten = sorted(key for key, value in (action.values or {}).items() if _filled(before.get(key)) and not _same(before.get(key), value))
+	if action.propose:
+		return "Proposed", "decide", []
+	if action.kind == "Update" and not marked:
+		overwritten = sorted(key for key, value in (action.values or {}).items() if key not in action.over and _filled(before.get(key)) and not _same(before.get(key), value))
 		if overwritten:
 			return "Proposed", "overwrite", overwritten
 	if action.kind in CHANGES and not action.sure:
@@ -100,6 +118,7 @@ def waits(why: str, fields: list, doctype: str) -> str:
 		return _("It would change what {0} already says.").format(", ".join(_(meta.get_label(one)) for one in fields))
 	return {
 		"employment": _("It would end somebody's employment."),
+		"decide": _("This is for a person to decide."),
 		"unsure": _("OneAI is not sure enough."),
 		"dropped": _("Some of what OneAI read is not in the document."),
 	}.get(why, "")
@@ -160,7 +179,10 @@ def apply(action: Action, reading) -> str | None:
 		return _insert(row)
 
 	before = _before(action)
-	row.level, why, fields = level(action, reading.as_dict(), before, _floor())
+	from onedesk.one_intake import mark
+
+	owned = action.kind == "Update" and bool(action.name) and mark.is_marked(action.doctype, action.name)
+	row.level, why, fields = level(action, reading.as_dict(), before, _floor(), owned)
 	row.before = json.dumps(before, default=str) if before else None
 	if why:
 		row.why = _join(row.why, waits(why, fields, action.doctype))
@@ -173,12 +195,14 @@ def apply(action: Action, reading) -> str | None:
 	if row.level == "Done":
 		frappe.db.savepoint("one_intake_act")
 		try:
-			with as_oneai():
+			with as_oneai(person if action.as_person else None):
 				done = _write(action, before)
 		except Exception as raised:
 			frappe.db.rollback(save_point="one_intake_act")
-			row.level = "Refused"
-			row.why = _join(row.why, str(raised)[:500] or type(raised).__name__)
+			frappe.clear_messages()
+			said = frappe.utils.strip_html_tags(str(raised))[:500] or type(raised).__name__
+			row.level = "Proposed" if action.propose_on_error else "Refused"
+			row.why = _join(row.why, said)
 			return _insert(row)
 		row.target_name = done.get("name") or action.name
 		row.after = json.dumps(done, default=str)
@@ -205,15 +229,16 @@ def _floor() -> float:
 
 
 @contextmanager
-def as_oneai():
+def as_oneai(person: str | None = None):
 	"""Write as the OneAI user, so every record, version and comment says who
-	made it, with the person's permission already checked."""
+	made it, with the person's permission already checked; or as that person,
+	for a flow that asks who is signed in."""
 	from onedesk.one_hr.hiring import ensure
 
 	ensure()
 	was, writing = frappe.session.user, frappe.flags.one_intake_writing
 	frappe.flags.one_intake_writing = True
-	frappe.set_user(AUTHOR)
+	frappe.set_user(person or AUTHOR)
 	try:
 		yield
 	finally:
@@ -293,6 +318,16 @@ def _update(action: Action, before: dict) -> dict:
 	# A field OneAI filled on a record a person made gets the field badge.
 	touch.wrote(action.doctype, action.name, action.values)
 	return {"name": action.name, **action.values}
+
+
+def _add(action: Action, before: dict) -> dict:
+	"""A row added to one of a record's tables: an identity document on an
+	Employee, an education row, a link on a Contact."""
+	doc = frappe.get_doc(action.doctype, action.name)
+	row = doc.append(action.values["table"], action.values["row"])
+	doc.flags.ignore_permissions = True
+	doc.save()
+	return {"name": action.name, "table": action.values["table"], "row": row.name}
 
 
 def _link(action: Action, before: dict) -> dict:
@@ -403,6 +438,7 @@ def _comment(action: Action, before: dict) -> dict:
 WRITES = {
 	"Create": _create,
 	"Update": _update,
+	"Add": _add,
 	"Link": _link,
 	"Attach": _attach,
 	"Rename": _rename,
@@ -533,6 +569,21 @@ def _undo_update(row, before, after) -> str | None:
 	return None
 
 
+def _undo_add(row, before, after) -> str | None:
+	if not frappe.db.exists(row.target_doctype, row.target_name):
+		return None
+	doc = frappe.get_doc(row.target_doctype, row.target_name)
+	if cint(doc.get("docstatus")) != 0:
+		return _("it has been submitted")
+	kept = [one for one in doc.get(after.get("table")) or [] if one.name != after.get("row")]
+	if len(kept) == len(doc.get(after.get("table")) or []):
+		return None
+	doc.set(after["table"], kept)
+	doc.flags.ignore_permissions = True
+	doc.save()
+	return None
+
+
 def _undo_link(row, before, after) -> str | None:
 	if after.get("message"):
 		frappe.db.delete("Communication Link", {"parent": after["message"], "link_doctype": row.target_doctype, "link_name": row.target_name, "one_linked_by": "oneai"})
@@ -601,6 +652,7 @@ def _undo_comment(row, before, after) -> str | None:
 UNDO = {
 	"Create": _undo_create,
 	"Update": _undo_update,
+	"Add": _undo_add,
 	"Link": _undo_link,
 	"Attach": _undo_attach,
 	"Rename": _undo_rename,
