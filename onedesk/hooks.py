@@ -662,6 +662,8 @@ code_only_modules = {"One AI": ["One"]}
 # person asking; suggests write a card. Suggestions are what the panel offers
 # when it opens on a page. See one_ai/tools.py and one_ai/suggest.py.
 one_ai_reads = [
+	# Documents by what they say, and what they are. See one_intake/search.py.
+	"onedesk.one_intake.search.find_documents",
 	"onedesk.one_hr.ai.my_leave",
 	"onedesk.one_hr.ai.appraisal_facts",
 	"onedesk.one_hr.ai.why_people_leave",

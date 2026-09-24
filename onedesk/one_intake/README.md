@@ -1,6 +1,6 @@
 # Intake
 
-Written by hand. Stages 1 to 8 of eleven are built: every file and message
+Written by hand. Stages 1 to 9 of eleven are built: every file and message
 is read into text and found by what is written in it, every record's
 identifiers are kept in one registry, and where OneAI is switched on, each
 document is understood (what it is, who it is from and about, its dates,
@@ -33,6 +33,16 @@ Search finds a document by what is written in it, not only by its name:
 - **OneCloud's** search box finds files by their contents as well as their
   names, and shows the matching words beside each;
 - **OneMail's** search finds a message by what its attachments say.
+
+- **OneAI's chat** finds documents too: "the letter about the heating bill",
+  "invoices from Stadtwerke this year", "what did we pay Rheinwerk in
+  September". It searches the words (in the document's language as well as
+  yours), the kind, the party and the dates, answers with what each document
+  is, its amount and a link, and adds amounts up from the invoices rather
+  than quoting a passage;
+- **asking OneAI about a record** ("what do we have on Stadtwerke?") now
+  includes its documents: every letter and invoice filed with it, what each
+  said and what it still asks.
 
 You only ever find what you may open yourself.
 
@@ -392,6 +402,16 @@ loses a value it had.
   through the door, which proposes wherever the record already says
   something else. An update that changes nothing is not written down.
   `planning._warn_iban` is the red warning.
+
+- `search.find_documents` is stage 9, a read tool for OneAI's chat: the
+  FULLTEXT index for words, the Reading's own fields for kind, party and
+  dates, every hit checked against the file or message it came from.
+  `search.about` gives `memory.about_record` a record's documents. Search
+  had looked only at readings still in state Read, so everything understood
+  since stage 3 had dropped out of it; it looks at both now. Ranking by
+  meaning with embeddings waits on an embedding call through the gateway,
+  which meters and prices text generation only today; until then the chat
+  model supplies the synonyms and translations a vector would have found.
 
 Not built yet: an Asset from an equipment invoice; an order confirmation's
 changed dates proposed on the order; a reminder's fee proposed as a line;

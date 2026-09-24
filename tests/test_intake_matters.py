@@ -95,3 +95,14 @@ def test_acting_waits_for_quiet_and_lessons_turn_into_asking():
 	assert "ignore_links_on_delete" in hooks
 	source = (ROOT / "act.py").read_text()
 	assert "lessons.rule_says(reading, action)" in source and 'lessons.learn(row, "Dismissed")' in source and 'lessons.learn(row, "Undone")' in source
+
+
+def test_understood_documents_are_still_found_and_only_by_those_who_may_open_them():
+	source = (ROOT / "search.py").read_text()
+	assert source.count("state in ('Read', 'Understood')") >= 2, "understanding a document must not hide it from search"
+	body = source[source.index("def find_documents("):]
+	assert "files_of(" in body and "messages_of(" in body, "every hit is checked against the file or the message"
+	hooks = (ROOT.parent / "hooks.py").read_text()
+	assert '"onedesk.one_intake.search.find_documents"' in hooks
+	memory = (ROOT.parent / "one_ai" / "memory.py").read_text()
+	assert "search.about(doctype, name)" in memory

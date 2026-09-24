@@ -89,9 +89,18 @@ def about_record(
 			"tags": info.get("tags") or "",
 		},
 		"links_here": tools.what_links_here(doctype, name),
+		# The letters, invoices and mail that are about it, as OneAI read them.
+		# See one_intake/search.py.
+		"documents": _documents(doctype, name),
 		"remembered": _remembered(doctype, name),
 		"knowledge": _knowledge(doctype),
 	}
+
+
+def _documents(doctype: str, name: str) -> list[dict]:
+	from onedesk.one_intake import search
+
+	return search.about(doctype, name)
 
 
 def recall(

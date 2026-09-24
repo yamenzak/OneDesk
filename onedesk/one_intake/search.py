@@ -10,6 +10,7 @@ show one employee's payslip to anybody who may read any document.
 """
 
 import re
+from typing import Annotated
 
 import frappe
 from frappe import _
@@ -56,7 +57,7 @@ def found(text: str, most: int = 60) -> list[dict]:
 			match(title, text) against (%(q)s in boolean mode) as score,
 			substring(text, greatest(1, locate(%(first)s, text) - %(before)s), %(width)s) as snippet
 		from `tabReading`
-		where state = 'Read' and match(title, text) against (%(q)s in boolean mode)
+		where state in ('Read', 'Understood') and match(title, text) against (%(q)s in boolean mode)
 		order by score desc limit %(most)s""",
 		{"q": boolean, "first": asked[0], "before": BEFORE, "width": WIDTH, "most": most},
 		as_dict=True,
@@ -88,6 +89,8 @@ def files_of(hit: dict) -> list[dict]:
 	if hit.get("source_doctype") != "File":
 		return []
 	rows = frappe.get_all("File", filters={"content_hash": hit["key"], "one_deleted": 0, "is_folder": 0}, fields=ns.FIELDS, limit=20)
+	# One letter cut from a batch scan is a file of its own, named by its reading.
+	rows += frappe.get_all("File", filters={"one_reading": hit.get("name"), "one_deleted": 0, "is_folder": 0}, fields=ns.FIELDS, limit=5) if hit.get("name") else []
 	if not rows and hit.get("source_name"):
 		rows = frappe.get_all("File", filters={"name": hit["source_name"], "one_deleted": 0}, fields=ns.FIELDS)
 	return [row for row in rows if ns.may(row)]
@@ -191,3 +194,121 @@ def in_mail(account: str, text: str, most: int = 200) -> list[str]:
 			if frappe.db.get_value("Communication", name, "email_account") == account:
 				names.append(name)
 	return list(dict.fromkeys(names))
+
+
+# ------------------------------------------------------------------ for OneAI
+
+
+#: How many documents OneAI is shown, at most.
+MOST_FOUND = 10
+
+
+def find_documents(
+	words: Annotated[str, "Words the document would contain. Include the words in the document's own language as well as the reader's: Nebenkostenabrechnung for a heating bill, فاتورة for an invoice."],
+	kind: Annotated[str, "Only this kind of document: Invoice, Receipt, Reminder, Contract, Letter, Payslip, Sick Note and so on."] | None = None,
+	party: Annotated[str, "Only documents from or about this supplier, customer, person or company."] | None = None,
+	since: Annotated[str, "Only documents dated on or after this day, YYYY-MM-DD."] | None = None,
+	until: Annotated[str, "Only documents dated on or before this day, YYYY-MM-DD."] | None = None,
+) -> dict:
+	"""Find documents and messages by what is written in them: letters,
+	invoices, receipts, contracts, scans and mail. Answers each with what it
+	is, who it is from, its date, number and amount, one sentence about it,
+	the passage that matched and a link to open it. Only what the reader may
+	open is found. For a question about amounts, add up the amounts found
+	rather than quoting a passage."""
+	asked = [word for word in re.findall(r"\w{3,}", (words or "").lower()) if word not in SKIP][:12]
+	# A batch scan is found through the letters cut from it, not beside them.
+	conditions, values = ["state in ('Read', 'Understood')", "name not in (select part_of from `tabReading` where ifnull(part_of, '') != '')"], {}
+	if asked:
+		conditions.append("match(title, text) against (%(q)s in boolean mode)")
+		values["q"] = " ".join(f"{word}*" for word in asked)
+	if kind:
+		conditions.append("kind = %(kind)s")
+		values["kind"] = kind
+	if since:
+		conditions.append("issued_on >= %(since)s")
+		values["since"] = since
+	if until:
+		conditions.append("issued_on <= %(until)s")
+		values["until"] = until
+	if party:
+		conditions.append("name in (select parent from `tabReading Party` where party_name like %(party)s or matched_name like %(party)s)")
+		values["party"] = f"%{party}%"
+	if len(conditions) == 2:
+		return {"documents": [], "said": "Say some words, a kind, a party or dates to look for."}
+	score = "match(title, text) against (%(q)s in boolean mode)" if asked else "0"
+	rows = frappe.db.sql(
+		f"""select name, title, kind, number, issued_on, gross, currency, summary, part, part_of, message_id,
+			source_doctype, source_name, `key`, {score} as score,
+			substring(text, greatest(1, locate(%(first)s, text) - %(before)s), %(width)s) as snippet
+		from `tabReading` where {" and ".join(conditions)}
+		order by score desc, issued_on desc limit 60""",
+		{**values, "first": asked[0] if asked else "", "before": BEFORE, "width": WIDTH},
+		as_dict=True,
+	)
+	out = []
+	for row in rows:
+		top = root_of(row)
+		files = [one for one in files_of({**top, "name": row.name}) if one.get("attached_to_doctype") != "Communication"]
+		messages = messages_of(top)
+		if not files and not messages:
+			continue
+		party_name = frappe.db.get_value("Reading Party", {"parent": row.name, "role": ["in", ("Sender", "Holder", "Paid To")]}, "party_name")
+		out.append(
+			{
+				"title": row.title,
+				"kind": row.kind,
+				"from": party_name,
+				"date": str(row.issued_on) if row.issued_on else None,
+				"number": row.number,
+				"amount": row.gross,
+				"currency": row.currency,
+				"about": row.summary,
+				"passage": snippet(row.snippet) if asked else None,
+				"link": _file_route(files[0]) if files else f"/app/onemail?thread={frappe.db.get_value('Communication', messages[0], 'one_thread') or messages[0]}",
+			}
+		)
+		if len(out) >= MOST_FOUND:
+			break
+	return {"documents": out}
+
+
+def about(doctype: str, name: str, most: int = 12) -> list[dict]:
+	"""The documents a record was filed with, linked to or made from, as
+	OneAI's record memory tells them: what each is and what it still asks.
+	Only those the reader may open."""
+	readings = set(
+		frappe.get_all("Intake Action", filters={"target_doctype": doctype, "target_name": name, "level": "Done"}, pluck="reading", limit=100)
+	)
+	readings |= set(frappe.get_all("Reading Party", filters={"matched_doctype": doctype, "matched_name": name}, pluck="parent", limit=100))
+	readings.discard(None)
+	if not readings:
+		return []
+	rows = frappe.get_all(
+		"Reading",
+		filters={"name": ["in", list(readings)], "state": "Understood"},
+		fields=["name", "title", "kind", "issued_on", "number", "gross", "currency", "summary", "sensitivity", "source_doctype", "source_name", "key", "message_id", "part_of"],
+		order_by="issued_on desc",
+		limit=most * 3,
+	)
+	out = []
+	for row in rows:
+		top = root_of(dict(row))
+		if not files_of({**top, "name": row.name}) and not messages_of(top):
+			continue
+		asks = frappe.get_all("Reading Ask", filters={"parent": row.name}, fields=["what", "detail", "by_date"])
+		out.append(
+			{
+				"document": row.title,
+				"kind": row.kind,
+				"date": str(row.issued_on) if row.issued_on else None,
+				"number": row.number,
+				"amount": row.gross,
+				"currency": row.currency,
+				"about": row.summary if row.sensitivity in (None, "", "Ordinary") else None,
+				"asks": [f"{one.what}: {one.detail or ''} {('by ' + str(one.by_date)) if one.by_date else ''}".strip() for one in asks],
+			}
+		)
+		if len(out) >= most:
+			break
+	return out
