@@ -1,0 +1,147 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-09-24 19:00:00.000000",
+ "description": "One folder of a mailbox, and how far it has been read.",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "account",
+  "path",
+  "label",
+  "kind",
+  "hidden",
+  "column_break_sync",
+  "delimiter",
+  "uidvalidity",
+  "uidnext",
+  "modseq",
+  "oldest_uid",
+  "backfilled",
+  "total",
+  "unread",
+  "last_synced"
+ ],
+ "fields": [
+  {
+   "fieldname": "account",
+   "fieldtype": "Link",
+   "options": "Email Account",
+   "label": "Mailbox",
+   "reqd": 1,
+   "in_list_view": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "path",
+   "fieldtype": "Data",
+   "label": "Path",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "Its name on the server, as the server spells it."
+  },
+  {
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "label": "Name"
+  },
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Kind",
+   "options": "Inbox\nSent\nDrafts\nJunk\nTrash\nArchive\nOther",
+   "default": "Other",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "hidden",
+   "fieldtype": "Check",
+   "label": "Not Shown",
+   "description": "A folder that only repeats others, such as Gmail's All Mail, or one that holds no mail itself."
+  },
+  {
+   "fieldname": "column_break_sync",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "delimiter",
+   "fieldtype": "Data",
+   "label": "Separator",
+   "read_only": 1
+  },
+  {
+   "fieldname": "uidvalidity",
+   "fieldtype": "Data",
+   "label": "UIDVALIDITY",
+   "read_only": 1
+  },
+  {
+   "fieldname": "uidnext",
+   "fieldtype": "Int",
+   "label": "UIDNEXT",
+   "read_only": 1
+  },
+  {
+   "fieldname": "modseq",
+   "fieldtype": "Data",
+   "label": "HIGHESTMODSEQ",
+   "read_only": 1
+  },
+  {
+   "fieldname": "oldest_uid",
+   "fieldtype": "Int",
+   "label": "Read Back To",
+   "read_only": 1,
+   "description": "The oldest message read so far. Older ones are read a batch at a time until there are none."
+  },
+  {
+   "fieldname": "backfilled",
+   "fieldtype": "Check",
+   "label": "All Read",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total",
+   "fieldtype": "Int",
+   "label": "Messages",
+   "read_only": 1
+  },
+  {
+   "fieldname": "unread",
+   "fieldtype": "Int",
+   "label": "Unread",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_synced",
+   "fieldtype": "Datetime",
+   "label": "Last Read",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-24 19:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Mail",
+ "name": "Mail Folder",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "label",
+ "permissions": [
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1
+  }
+ ],
+ "track_changes": 0
+}

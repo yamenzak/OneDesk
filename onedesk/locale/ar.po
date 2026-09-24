@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 14:46+0000\n"
-"PO-Revision-Date: 2026-09-24 14:46+0000\n"
+"POT-Creation-Date: 2026-09-24 15:02+0000\n"
+"PO-Revision-Date: 2026-09-24 15:02+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -170,10 +170,23 @@ msgstr "يوجد هنا بالفعل ملف بهذا الاسم"
 msgid "A folder cannot go inside itself."
 msgstr "لا يمكن وضع مجلد داخل نفسه."
 
+#: onedesk/one_mail/actions.py:235
+msgid "A folder needs a name of up to 100 characters."
+msgstr "يحتاج المجلد إلى اسم لا يتجاوز 100 حرف."
+
 #. Description of the 'Team Library' (Check) field in DocType 'File'
 #: onedesk/one_storage/custom/file.json
 msgid "A folder people are members of, the way a team's document library is."
 msgstr "مجلد يكون الأشخاص أعضاء فيه، كمكتبة مستندات الفريق."
+
+#. Description of the 'Not Shown' (Check) field in DocType 'Mail Folder'
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "A folder that only repeats others, such as Gmail's All Mail, or one that holds no mail itself."
+msgstr "مجلد يكرر مجلدات أخرى فقط، مثل «كل البريد» في Gmail، أو مجلد لا يحتوي على بريد بنفسه."
+
+#: onedesk/one_mail/actions.py:245
+msgid "A folder's name cannot hold {0}."
+msgstr "لا يمكن أن يحتوي اسم المجلد على {0}."
 
 #. Description of the 'Kind' (Select) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
@@ -212,6 +225,14 @@ msgstr "هامش دون الصفر يعني الدفع لمن يستدعي ال�
 #: onedesk/one_storage/library.py:101
 msgid "A member is a Reader, a Member or an Owner."
 msgstr "العضو إما قارئ أو عضو أو مالك."
+
+#: onedesk/one_mail/actions.py:168
+msgid "A message can only move to a folder of its own mailbox."
+msgstr "لا يمكن نقل الرسالة إلا إلى مجلد في صندوق بريدها."
+
+#: onedesk/one_mail/actions.py:76
+msgid "A message that belongs to no mailbox cannot be changed here."
+msgstr "لا يمكن تغيير رسالة لا تنتمي إلى أي صندوق بريد هنا."
 
 #. Description of a DocType
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -723,6 +744,11 @@ msgstr ""
 msgid "All Day"
 msgstr ""
 
+#. Label of the backfilled (Check) field in DocType 'Mail Folder'
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "All Read"
+msgstr "قُرئ الكل"
+
 #: onedesk/public/js/oneai/Panel.vue:12
 msgid "All conversations"
 msgstr "كل المحادثات"
@@ -992,9 +1018,11 @@ msgid "Apr"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
+#. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "Archive"
-msgstr ""
+msgstr "الأرشيف"
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #. Option for the 'Kind' (Select) field in DocType 'Tenant Event'
@@ -2214,6 +2242,11 @@ msgstr "الاتصال كمحرك أقراص…"
 msgid "Connect {0} as a drive"
 msgstr "توصيل {0} كمحرك أقراص"
 
+#. Label of the one_connected (Check) field in DocType 'Email Account'
+#: onedesk/one_mail/custom/email_account.json
+msgid "Connected to OneMail"
+msgstr "متصل بـ OneMail"
+
 #. Label of the agreement_section (Section Break) field in DocType 'Interview
 #. Recording'
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
@@ -2970,6 +3003,11 @@ msgstr "صياغة الوظيفة"
 #: onedesk/one_hr/print_format/employee_letter/employee_letter.html:10
 msgid "Draft. Not issued."
 msgstr "مسودة. لم يُصدر."
+
+#. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "Drafts"
+msgstr "المسودات"
 
 #. Label of the against_section (Section Break) field in DocType 'Credit Ledger
 #. Entry'
@@ -4070,6 +4108,11 @@ msgstr "تجميع تحت مشروع جديد"
 msgid "Growth"
 msgstr "التطوير"
 
+#. Label of the modseq (Data) field in DocType 'Mail Folder'
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "HIGHESTMODSEQ"
+msgstr "HIGHESTMODSEQ"
+
 #. Name of a role
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -4446,10 +4489,12 @@ msgstr "خلال {0} يوم"
 msgid "In, per 1M Tokens"
 msgstr "المدخل لكل مليون رمز"
 
+#. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
 #. Label of a Sidebar Item
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Inbox"
-msgstr ""
+msgstr "البريد الوارد"
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -4661,6 +4706,11 @@ msgstr "قوالب ضريبة الأصناف"
 msgid "Items"
 msgstr ""
 
+#. Description of the 'Path' (Data) field in DocType 'Mail Folder'
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "Its name on the server, as the server spells it."
+msgstr "اسمه على الخادم، كما يكتبه الخادم."
+
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:27
 msgid "Jan"
 msgstr ""
@@ -4719,6 +4769,11 @@ msgstr ""
 msgid "June"
 msgstr ""
 
+#. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "Junk"
+msgstr "البريد العشوائي"
+
 #. Label of the jurisdiction (Data) field in DocType 'Workspace Account'
 #. Label of the jurisdiction (Select) field in DocType 'Account Request'
 #. Label of the jurisdiction (Select) field in DocType 'Tenant'
@@ -4772,6 +4827,7 @@ msgstr ""
 #. Label of the kind (Select) field in DocType 'Provisioning Job'
 #. Label of the kind (Select) field in DocType 'Tenant Event'
 #. Label of the kind (Select) field in DocType 'AI Proposal'
+#. Label of the kind (Select) field in DocType 'Mail Folder'
 #. Label of the protocol (Select) field in DocType 'Cloud Mount'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
@@ -4779,6 +4835,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 #: onedesk/public/js/onecloud.js:319 onedesk/public/js/onecloud.js:1445
 msgid "Kind"
@@ -4835,8 +4892,10 @@ msgid "Last Email"
 msgstr "آخر بريد"
 
 #. Label of the last_error (Small Text) field in DocType 'Workspace Account'
+#. Label of the one_error (Small Text) field in DocType 'Email Account'
 #. Label of the last_error (Small Text) field in DocType 'Cloud Mount'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
+#: onedesk/one_mail/custom/email_account.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 msgid "Last Error"
 msgstr "آخر خطأ"
@@ -4870,7 +4929,9 @@ msgid "Last Rate"
 msgstr "آخر سعر"
 
 #. Label of the last_read (Datetime) field in DocType 'Calendar Feed'
+#. Label of the last_synced (Datetime) field in DocType 'Mail Folder'
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "Last Read"
 msgstr "آخر قراءة"
 
@@ -5369,6 +5430,16 @@ msgstr "من إنشاء OneAI"
 msgid "Mail Domain"
 msgstr "نطاق البريد"
 
+#. Name of a DocType
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "Mail Folder"
+msgstr "مجلد البريد"
+
+#. Label of the account (Link) field in DocType 'Mail Folder'
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "Mailbox"
+msgstr "صندوق البريد"
+
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/calendar.py:31 onedesk/one_inventory/calendar.py:58
 #: onedesk/one_inventory/maintenance.py:88
@@ -5551,6 +5622,11 @@ msgstr "دمج في {0}"
 msgid "Message"
 msgstr ""
 
+#. Label of the total (Int) field in DocType 'Mail Folder'
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "Messages"
+msgstr "الرسائل"
+
 #: onedesk/one_task/page/my_tasks/my_tasks.js:91
 msgid "Milestone"
 msgstr ""
@@ -5726,19 +5802,21 @@ msgstr "مهامي"
 #. Label of the label (Data) field in DocType 'AI Model'
 #. Label of the label (Data) field in DocType 'Clock Network'
 #. Label of the label (Data) field in DocType 'Clock Place'
+#. Label of the label (Data) field in DocType 'Mail Folder'
 #. Label of the file_name (Data) field in DocType 'Cloud Link'
 #. Label of the title (Data) field in DocType 'Cloud Mount'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_project/report/workload/workload.py:146
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 #: onedesk/public/js/leave_control_panel.js:34
 #: onedesk/public/js/onecloud.js:118 onedesk/public/js/onecloud.js:1444
 msgid "Name"
-msgstr ""
+msgstr "الاسم"
 
 #. Description of the 'family_background' field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
@@ -6008,6 +6086,10 @@ msgstr "لا يوجد مستوى محدد"
 msgid "No mail account can send as {0}."
 msgstr "لا يوجد حساب بريد يمكنه الإرسال باسم {0}."
 
+#: onedesk/one_mail/connect.py:136
+msgid "No mail server was found for {0}."
+msgstr "لم يُعثر على خادم بريد لـ {0}."
+
 #: onedesk/public/js/ai_model.js:43
 msgid "No markup is set, so this model cannot be called."
 msgstr "لم يُحدَّد هامش، فلا يمكن استدعاء هذا النموذج."
@@ -6147,6 +6229,11 @@ msgstr "غير مُقدَّرة"
 #: onedesk/one_crm/measure.py:144
 msgid "Not Recorded"
 msgstr "غير مسجّل"
+
+#. Label of the hidden (Check) field in DocType 'Mail Folder'
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "Not Shown"
+msgstr "غير معروض"
 
 #: onedesk/public/js/item.js:23
 msgid "Not Yet Registered"
@@ -6488,6 +6575,11 @@ msgid "One conversation with OneAI, kept so it is still there tomorrow."
 msgstr "محادثة واحدة مع OneAI، تُحفظ لتبقى موجودة غداً."
 
 #. Description of a DocType
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "One folder of a mailbox, and how far it has been read."
+msgstr "مجلد واحد من صندوق بريد، وإلى أي حد قُرئ."
+
+#. Description of a DocType
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 msgid "One movement of credit. Submitted on insert and never edited in place."
 msgstr "حركة رصيد واحدة. تُعتمد عند الإدراج ولا تُحرَّر في مكانها أبداً."
@@ -6660,6 +6752,10 @@ msgstr "لا يمكن مشاركة خادم مع الجميع إلا لمسؤو�
 #: onedesk/one_hr/expense.py:95
 msgid "Only a claim still waiting can be answered."
 msgstr "لا يُبتّ إلا في مطالبة ما زالت قيد الانتظار."
+
+#: onedesk/one_mail/connect.py:220
+msgid "Only a connected mailbox can be disconnected."
+msgstr "لا يمكن فصل إلا صندوق بريد متصل."
 
 #: onedesk/one_hr/review.py:52
 msgid "Only a flagged attempt needs reviewing."
@@ -6900,17 +6996,19 @@ msgstr ""
 #. Label of the one_raw_key (Data) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json
 msgid "Original"
-msgstr ""
+msgstr "الأصل"
 
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
 #. Option for the 'Letter Type' (Select) field in DocType 'Employee Letter'
+#. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:86
 #: onedesk/one_hr/custom/employee_grievance.json
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "Other"
-msgstr ""
+msgstr "أخرى"
 
 #. Description of the 'Also Allow Check-in From' (Table) field in DocType
 #. 'Shift Location'
@@ -7179,6 +7277,11 @@ msgstr "لصق"
 #: onedesk/public/js/onecloud.js:1755
 msgid "Paste into folder"
 msgstr "لصق في المجلد"
+
+#. Label of the path (Data) field in DocType 'Mail Folder'
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "Path"
+msgstr "المسار"
 
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
 #. Label of a Sidebar Item
@@ -7845,9 +7948,20 @@ msgstr ""
 msgid "Read Attendance"
 msgstr "قراءة الحضور"
 
+#. Label of the oldest_uid (Int) field in DocType 'Mail Folder'
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "Read Back To"
+msgstr "قُرئ حتى"
+
 #: onedesk/public/js/shift_type.js:24
 msgid "Read Check-ins"
 msgstr "قراءة تسجيلات الحضور"
+
+#. Description of the 'Connected to OneMail' (Check) field in DocType 'Email
+#. Account'
+#: onedesk/one_mail/custom/email_account.json
+msgid "Read and written by OneMail over IMAP, folders and all, rather than pulled by Frappe."
+msgstr "يقرؤه ويكتبه OneMail عبر IMAP بمجلداته كلها، بدلًا من أن يسحبه Frappe."
 
 #. Description of the 'When' (Data) field in DocType 'Timesheet Detail'
 #: onedesk/one_hr/custom/timesheet_detail.json
@@ -8053,7 +8167,7 @@ msgstr "المرجع"
 #. Label of the one_references (Small Text) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json
 msgid "References"
-msgstr ""
+msgstr "المراجع"
 
 #: onedesk/public/js/onecloud.js:111 onedesk/public/js/onecloud.js:1771
 #: onedesk/public/js/onecloud.js:1772 onedesk/public/js/onecloud.js:1792
@@ -8663,14 +8777,16 @@ msgstr "جارٍ الإرسال…"
 msgid "Sensitive"
 msgstr "حساسة"
 
+#. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
 #. Label of the section_sent (Section Break) field in DocType 'Cloud File
 #. Request'
 #. Label of the uploads (Table) field in DocType 'Cloud File Request'
 #. Label of the file (Link) field in DocType 'Cloud File Request Upload'
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json
 msgid "Sent"
-msgstr ""
+msgstr "المرسلة"
 
 #: onedesk/www/s.py:39
 msgid "Sent 1 file. Thank you."
@@ -8703,6 +8819,11 @@ msgstr ""
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Separation"
 msgstr "إنهاء الخدمة"
+
+#. Label of the delimiter (Data) field in DocType 'Mail Folder'
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "Separator"
+msgstr "الفاصل"
 
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -10035,6 +10156,11 @@ msgstr "المسمى الوظيفي الجديد، محفوظاً على الم�
 msgid "The next step to run. Steps can safely run more than once."
 msgstr "الخطوة التالية للتنفيذ. تنفيذ الخطوة أكثر من مرة آمن."
 
+#. Description of the 'Read Back To' (Int) field in DocType 'Mail Folder'
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "The oldest message read so far. Older ones are read a batch at a time until there are none."
+msgstr "أقدم رسالة قُرئت حتى الآن. تُقرأ الأقدم منها دفعةً بعد دفعة حتى لا يبقى شيء."
+
 #. Description of the 'Capability' (Select) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "The one word for it. What it can be fed is below, and the picker filters on both."
@@ -10107,9 +10233,25 @@ msgstr "يمكن إدخال رقم فاتورة المورد نفسه مرتين
 msgid "The same supplier invoice number is refused a second time."
 msgstr "يُرفض رقم فاتورة المورد نفسه في المرة الثانية."
 
+#: onedesk/one_mail/imap.py:365
+msgid "The server could not be reached."
+msgstr "تعذر الوصول إلى الخادم."
+
+#: onedesk/one_mail/imap.py:367
+msgid "The server did not accept the address and password."
+msgstr "لم يقبل الخادم العنوان وكلمة المرور."
+
+#: onedesk/one_mail/imap.py:361
+msgid "The server did not answer in time."
+msgstr "لم يُجب الخادم في الوقت المحدد."
+
 #: onedesk/one_storage/mounts.py:213
 msgid "The server said {0}."
 msgstr "ردّ الخادم: {0}."
+
+#: onedesk/one_mail/imap.py:363
+msgid "The server's certificate could not be checked."
+msgstr "تعذر التحقق من شهادة الخادم."
 
 #. Description of the 'Server' (Data) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
@@ -10180,6 +10322,10 @@ msgstr ""
 "تم إيقاف مفتاح المرور وتعيينات المناوبات، لكن الحالة ما زالت «نشط»:\n"
 "\n"
 "{0}"
+
+#: onedesk/one_mail/actions.py:256
+msgid "There is already a folder called {0}."
+msgstr "يوجد مجلد باسم {0} بالفعل."
 
 #: onedesk/one_project/templates.py:84
 msgid "There is already a template called {0}."
@@ -10644,6 +10790,11 @@ msgstr "تبقى النصوص. اضبطه على 0 للاحتفاظ بالصوت
 msgid "Translation"
 msgstr "ترجمة"
 
+#. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "Trash"
+msgstr "المحذوفات"
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Travel Request"
@@ -10720,6 +10871,16 @@ msgstr "إعدادات ضريبة القيمة المضافة فارغة، لذ�
 msgid "UAE VAT Settings name the accounts VAT is charged and paid to."
 msgstr "تحدد إعدادات ضريبة القيمة المضافة الحسابات التي تُحتسب عليها الضريبة وتُدفع إليها."
 
+#. Label of the uidnext (Int) field in DocType 'Mail Folder'
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "UIDNEXT"
+msgstr "UIDNEXT"
+
+#. Label of the uidvalidity (Data) field in DocType 'Mail Folder'
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "UIDVALIDITY"
+msgstr "UIDVALIDITY"
+
 #. Label of the usd (Float) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "USD"
@@ -10772,6 +10933,11 @@ msgstr "صفقات بلا خطوة تالية"
 #: onedesk/one_crm/workspace/onecrm/onecrm.json
 msgid "Unplanned Leads"
 msgstr "عملاء محتملون بلا خطوة تالية"
+
+#. Label of the unread (Int) field in DocType 'Mail Folder'
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "Unread"
+msgstr "غير مقروء"
 
 #: onedesk/public/js/oneai/Panel.vue:38
 msgid "Untitled"
@@ -11596,6 +11762,7 @@ msgstr "حساب مساحة العمل"
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
@@ -11790,6 +11957,10 @@ msgstr "لا يمكنك فتح {0} {1}."
 #: onedesk/one_hr/closing.py:99
 msgid "You checked in but never checked out, so a check out was written for you at the shift end. Tell HR if that is wrong."
 msgstr "سجّلت حضورك ولم تسجّل انصرافك، فكُتب لك سجل انصراف عند نهاية المناوبة. أبلغ الموارد البشرية إذا كان ذلك غير صحيح."
+
+#: onedesk/one_mail/actions.py:56
+msgid "You do not hold the mailbox {0}."
+msgstr "أنت لا تملك صندوق البريد {0}."
 
 #: onedesk/www/r.html:28
 msgid "You have sent everything that was asked for. You can still replace a file."
@@ -12295,7 +12466,7 @@ msgstr "{0} يصبح {1}"
 msgid "{0} belongs to {1} {2}. Share the record instead."
 msgstr "{0} يخص {1} {2}. شارك السجل بدلًا من ذلك."
 
-#: onedesk/one_mail/addresses.py:101
+#: onedesk/one_mail/addresses.py:103
 msgid "{0} cannot be a name in an address. Use letters, digits, - and _."
 msgstr "لا يمكن أن يكون {0} اسمًا في عنوان. استخدم الحروف والأرقام و- و_."
 
@@ -12534,11 +12705,15 @@ msgstr "يُضاف {0} ما لم يختر أحد غيره."
 msgid "{0} is already a lead: {1}"
 msgstr "{0} عميل محتمل بالفعل: {1}"
 
+#: onedesk/one_mail/connect.py:156
+msgid "{0} is already connected."
+msgstr "{0} متصل بالفعل."
+
 #: onedesk/one_admin/domains.py:62
 msgid "{0} is already on another workspace."
 msgstr "{0} موجود أصلاً على مساحة عمل أخرى."
 
-#: onedesk/one_mail/addresses.py:104
+#: onedesk/one_mail/addresses.py:106
 msgid "{0} is already somebody's."
 msgstr "{0} مستخدم من قِبل شخص آخر."
 
@@ -12637,6 +12812,10 @@ msgstr "{0} على شبكة خاصة، ولا يتصل بها OneCloud."
 #: onedesk/one_admin/lifecycle.py:97
 msgid "{0} is on {1} and the rung below it is not {2}."
 msgstr "{0} على {1}، والدرجة التي تحتها ليست {2}."
+
+#: onedesk/one_mail/actions.py:279
+msgid "{0} is one of the mailbox's own folders and stays as it is."
+msgstr "{0} من مجلدات صندوق البريد الأساسية ويبقى كما هو."
 
 #: onedesk/one_storage/file_requests.py:267
 msgid "{0} is still waiting for files for {1}."

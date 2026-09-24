@@ -108,6 +108,49 @@ undo send, come with the composer (stage 5).
   `value=…&metadata=…` as the value. The web router's routes had the same
   fault. They are multipart now, as the API takes them.
 
+Stage 3, connected mailboxes, is built and tested against Dovecot. Only the
+page to use them is missing (stage 5).
+
+- **connect.py** takes an address and a password and finds the servers: an
+  `Email Domain` for the address's domain, then the providers in `KNOWN`,
+  then `imap.` and `mail.` of the domain. Each is logged into before it is
+  kept. A server that answers and refuses the password stops the guessing,
+  since it is the right server. The account is an `Email Account` with
+  `one_connected` and `enable_incoming` off, held by whoever connected it
+  through a `User Email` row.
+- **imap.py** is the protocol: `LIST` lines, a folder's kind from its RFC
+  6154 flag or its name in English, German or Arabic, modified UTF-7 folder
+  names, `FETCH` responses and `COPYUID`. `Session` is one connection that
+  reports MOVE, UIDPLUS and CONDSTORE and does without them where a server
+  lacks them.
+- **sync.py** runs every minute as one job per account, so two workers never
+  read one mailbox. Per folder, a `Mail Folder` keeps UIDVALIDITY, UIDNEXT,
+  HIGHESTMODSEQ and the oldest uid read:
+  - new mail from UIDNEXT;
+  - history newest first, 100 a minute, until the folder is read;
+  - flags by CONDSTORE where the server has it, else the newest 500;
+  - messages gone from a folder leave it but are kept.
+  Everything is matched by Message-ID within the mailbox, so a move made on a
+  phone or a renumbered folder ends in one Communication, not two. Folders
+  that only repeat others, such as Gmail's All Mail, are listed and not read.
+  Nothing is marked read by reading it (`BODY.PEEK`).
+- **actions.py** is what a person does: read, star, move, delete, and make,
+  rename or delete a folder. A connected mailbox changes on the server first
+  and here once the server has taken it. A hosted one has only our rows, and
+  gets the six usual folders when it is made. Only a holder or a workspace
+  administrator may change a mailbox. Delete moves to Trash. Deleting from
+  Trash is for good, but a message linked to a record stays on its timeline.
+  Frappe's own links to contacts do not count.
+- A connected mailbox's sent mail is appended to its Sent folder once per
+  message, after the last recipient. Gmail and Outlook are skipped, since
+  their SMTP files it there itself.
+- **threads.adopt** runs when a message is saved. Replies read before the
+  message they answer then join its thread. Folders are read one after
+  another, so an answer in the Inbox often arrives before its parent in Sent.
+- `one_references` holds Message-IDs bare. Frappe strips anything in angle
+  brackets from a stored field as if it were HTML, and did so to every
+  reference until this stage.
+
 ### Research and decisions
 
 **What was studied.** The old OneApp mail backend and its inbound Worker

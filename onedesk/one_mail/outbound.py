@@ -51,6 +51,29 @@ def send(queue, sender: str, recipient: str, message) -> None:
 		server.session.sendmail(from_addr=parseaddr(sender)[1], to_addrs=recipient, msg=raw)
 	finally:
 		server.quit()
+	if account.get("one_connected") and account.append_emails_to_sent_folder and _last(queue, recipient):
+		file_copy(account, raw)
+
+
+def _last(queue, recipient: str) -> bool:
+	"""Whether this is the queue's last recipient, so a message sent to five
+	people is filed in Sent once."""
+	return bool(queue.recipients) and queue.recipients[-1].recipient == recipient
+
+
+def file_copy(account, raw: bytes) -> None:
+	"""A connected mailbox's copy of what it sent, in its Sent folder on the
+	server, as a mail client would put it. Frappe does this only for accounts
+	it reads itself, which connected ones are not. The next sync matches the
+	copy to the Communication by its Message-ID."""
+	from onedesk.one_mail import actions, imap
+
+	try:
+		with imap.Session(account) as session:
+			session.append(actions.folder_of(account.name, "Sent") or account.sent_folder_name or "Sent", raw)
+	except Exception:
+		# The message went; only its copy did not. Not worth failing the queue.
+		frappe.log_error(title=f"OneMail could not file a sent copy in {account.name}")
 
 
 def _account(queue, sender: str):
@@ -93,10 +116,12 @@ def file_sent(doc, method=None) -> None:
 	doc.one_folder = doc.one_folder or "Sent"
 	if not doc.one_thread and doc.in_reply_to:
 		parent = frappe.db.get_value(
-			"Communication", doc.in_reply_to, ["one_thread", "message_id"], as_dict=True
+			"Communication", doc.in_reply_to, ["one_thread", "message_id", "one_references"], as_dict=True
 		)
 		if parent:
 			doc.one_thread = parent.one_thread or parent.message_id
+			if parent.message_id:
+				doc.one_references = " ".join(chain(parent.message_id.strip(" <>"), parent.one_references))
 
 
 def thread_sent(doc, method=None) -> None:

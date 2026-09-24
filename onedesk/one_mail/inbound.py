@@ -125,11 +125,32 @@ def take(key: str) -> str | None:
 
 
 class Arrival(InboundMail):
-	"""Frappe's inbound mail, filed into OneMail's folder and thread."""
+	"""Frappe's inbound mail, filed into OneMail's folder and thread.
 
-	def __init__(self, content, email_account, key: str):
-		super().__init__(content, email_account)
+	Used for mail arriving at the mail domain (with the key it is stored
+	under) and for mail read from a connected server (with its folder, uid
+	and flags). A message in Sent or Drafts is the mailbox's own, so Frappe's
+	refusal of mail from the mailbox to itself does not apply to it."""
+
+	def __init__(
+		self,
+		content,
+		email_account,
+		key: str | None = None,
+		folder: str = "INBOX",
+		uid=None,
+		seen=0,
+		flagged=0,
+		sent=False,
+	):
+		super().__init__(content, email_account, uid=uid, seen_status=seen)
 		self.key = key
+		self.folder = folder
+		self.flagged = flagged
+		self.sent = sent
+
+	def is_sender_same_as_receiver(self):
+		return False if self.sent else super().is_sender_same_as_receiver()
 
 	def as_dict(self):
 		data = super().as_dict()
@@ -138,9 +159,12 @@ class Arrival(InboundMail):
 			one for one in (self.mail.get("References"), self.mail.get("In-Reply-To")) if one
 		)
 		data.update(
-			one_folder="INBOX",
+			one_folder=self.folder,
 			one_raw_key=self.key,
-			one_references=references or None,
+			one_flagged=int(bool(self.flagged)),
+			one_references=threads.stored(references),
 			one_thread=threads.thread_of(self.message_id, references),
 		)
+		if self.sent:
+			data["sent_or_received"] = "Sent"
 		return data

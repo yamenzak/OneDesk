@@ -122,7 +122,9 @@ No doctypes yet.
 
 `onedesk/one_mail`
 
-No doctypes yet.
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Mail Folder | 15 | document |
 
 ## Desk records shipped as fixtures
 
@@ -274,7 +276,16 @@ No doctypes yet.
 * `onedesk.one_inventory.item.said`
 * `onedesk.one_inventory.order.order`
 * `onedesk.one_inventory.ready.fix`
+* `onedesk.one_mail.actions.create_folder`
+* `onedesk.one_mail.actions.delete`
+* `onedesk.one_mail.actions.delete_folder`
+* `onedesk.one_mail.actions.mark`
+* `onedesk.one_mail.actions.move`
+* `onedesk.one_mail.actions.rename_folder`
+* `onedesk.one_mail.actions.star`
 * `onedesk.one_mail.addresses.give`
+* `onedesk.one_mail.connect.connect`
+* `onedesk.one_mail.connect.disconnect`
 * `onedesk.one_mail.inbound.notice`
 * `onedesk.one_project.billing.invoice_time`
 * `onedesk.one_project.billing.unbilled`

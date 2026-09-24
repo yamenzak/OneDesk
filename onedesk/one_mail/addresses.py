@@ -16,6 +16,8 @@ import re
 import frappe
 from frappe import _
 
+from onedesk.one_mail import actions
+
 #: A person's part: letters, digits, dash and underscore, no dot, as a slug is.
 NAME = re.compile(r"^[a-z0-9](?:[a-z0-9_-]{0,38}[a-z0-9])?$")
 
@@ -134,6 +136,7 @@ def _make(address: str, sends: bool) -> str:
 	)
 	doc.flags.ignore_permissions = True
 	doc.insert()
+	actions.standard(doc.name)
 	return doc.name
 
 

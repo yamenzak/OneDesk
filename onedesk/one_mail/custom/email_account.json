@@ -11,6 +11,29 @@
    "read_only": 1,
    "module": "One Mail",
    "name": "Email Account-one_hosted"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "fieldname": "one_connected",
+   "fieldtype": "Check",
+   "insert_after": "one_hosted",
+   "label": "Connected to OneMail",
+   "description": "Read and written by OneMail over IMAP, folders and all, rather than pulled by Frappe.",
+   "read_only": 1,
+   "module": "One Mail",
+   "name": "Email Account-one_connected"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "fieldname": "one_error",
+   "fieldtype": "Small Text",
+   "insert_after": "one_connected",
+   "label": "Last Error",
+   "read_only": 1,
+   "module": "One Mail",
+   "name": "Email Account-one_error"
   }
  ],
  "doctype": "Email Account",

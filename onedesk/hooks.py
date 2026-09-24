@@ -85,7 +85,8 @@ scheduler_events = {
 		"*/2 * * * *": ["onedesk.one_admin.runner.tick"],
 		# Mail the Worker stored for an address on the mail domain. A notice
 		# usually brings it sooner; this is what makes sure.
-		"* * * * *": ["onedesk.one_mail.inbound.sweep"],
+		# Connected mailboxes: one job each, reading what changed on the server.
+		"* * * * *": ["onedesk.one_mail.inbound.sweep", "onedesk.one_mail.sync.sync_all"],
 	},
 	"daily": [
 		# The Recycle Bin keeps things thirty days. See one_storage/api.py.
@@ -289,6 +290,8 @@ doc_events = {
 		"before_insert": "onedesk.one_mail.outbound.file_sent",
 		"on_update": "onedesk.one_mail.outbound.thread_sent",
 		"after_insert": [
+			# Replies read before what they answer join its thread. See one_mail/threads.py.
+			"onedesk.one_mail.threads.adopt",
 			"onedesk.one_crm.capture.replied",
 			# An emailed answer to a project's ask. See one_project/updates.py.
 			"onedesk.one_project.updates.answered",
