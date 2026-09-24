@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 15:48+0000\n"
-"PO-Revision-Date: 2026-09-24 15:48+0000\n"
+"POT-Creation-Date: 2026-09-24 15:58+0000\n"
+"PO-Revision-Date: 2026-09-24 15:58+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -577,7 +577,7 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:632
+#: onedesk/public/js/onecloud.js:632 onedesk/public/js/record_activity.js:25
 msgid "Activity"
 msgstr ""
 
@@ -4519,7 +4519,7 @@ msgstr ""
 msgid "How the message came to be filed on this record."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:216
+#: onedesk/one_mail/rules.py:221
 msgid "I am away and will answer when I am back."
 msgstr ""
 

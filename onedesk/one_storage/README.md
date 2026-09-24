@@ -387,6 +387,18 @@ not a second R2 integration.
   row, Files and the count, that opens the tab. Its list, Show All and its
   uploader are hidden (desk.css, loaded always, unlike onecloud.css).
 
+- `public/js/record_activity.js` — the Activity tab, last, on every record
+  that has Files. Comments, mail, changes, assignments and shares used to
+  sit under every tab; under Mail and Files they repeated what the tab
+  showed, and on a long form nobody scrolled to them. The tab holds
+  Frappe's own footer (`frm.footer.wrapper`), moved in rather than rebuilt,
+  so the comment box, the timeline and its email actions all still work.
+  It goes into the tab's pane, not into the HTML field that makes the tab:
+  inside a control, Frappe's `.frappe-control .action-btn` pins the
+  timeline's buttons as if they were a link field's. The tab counts the
+  record's comments and follows `refresh_comments_count`, and hides on an
+  unsaved record, as Frappe hides its footer.
+
 - `share.py` — people on a file or folder. A share is Frappe's own DocShare:
   read to view, write to edit. `namespace.granted` reads the shares on an
   item and on every folder above it (`chain`, asked once a request per

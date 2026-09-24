@@ -1194,6 +1194,20 @@ OVERRIDES = [
 		"get_doctype_fields() {",
 	),
 	(
+		"Comments and the timeline live in an Activity tab, not under every tab",
+		"record_activity.js moves frm.footer.wrapper, Frappe's comment box and timeline, into the last tab's pane; Frappe sketched the same tab and left it commented out",
+		"onedesk/public/js/record_activity.js",
+		"frappe/frappe/public/js/frappe/form/form.js",
+		"this.footer = new frappe.ui.form.Footer({",
+	),
+	(
+		"The Activity tab's count follows Frappe's comment count",
+		"record_activity.js wraps Footer.refresh_comments_count so a comment added or deleted updates the tab",
+		"onedesk/public/js/record_activity.js",
+		"frappe/frappe/public/js/frappe/form/footer/footer.js",
+		"refresh_comments_count() {",
+	),
+	(
 		"The sidebar's Attachments becomes one row that opens Files",
 		"record_files.js hides its rows, Show All and its uploader (.one-files-side in desk.css), renames it Files with the count, and makes its label open the Files tab instead of the File list",
 		"onedesk/public/js/record_files.js",
