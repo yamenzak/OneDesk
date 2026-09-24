@@ -325,6 +325,37 @@ def storage_delete(key: str) -> dict:
 	return storage.remove(_tenant_doc(caller()), key)
 
 
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def mail_waiting(after: str | None = None) -> list[dict]:
+	"""Mail that arrived for this workspace and has not been read, oldest first."""
+	from onedesk.one_admin import storage
+
+	return storage.mail_waiting(_tenant_doc(caller()), after)
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def mail_names(names: str | list) -> list[str]:
+	"""The names this workspace receives mail for, so the Worker refuses the
+	rest while the sender is still connected. Every name is this workspace's
+	own — `<slug>` or `<name>.<slug>` — or the call is refused."""
+	from onedesk.one_admin import cloudflare
+	from onedesk.one_mail import addresses
+
+	tenant = _tenant_doc(caller())
+	names = frappe.parse_json(names) if isinstance(names, str) else names
+	wanted = sorted({str(one).strip().lower() for one in names or []})
+	if not wanted or not all(addresses.is_workspace_name(one, tenant.slug) for one in wanted):
+		frappe.throw(frappe._("Those are not this workspace's addresses."), frappe.PermissionError)
+	record = cloudflare.mail_record(tenant.slug)
+	if not record:
+		frappe.throw(frappe._("This workspace has no mail route yet."))
+	record["names"] = wanted
+	cloudflare.mail_route(tenant.slug, record)
+	return wanted
+
+
 def _tenant_doc(tenant):
 	"""The whole record, once the caller has been established.
 

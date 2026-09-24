@@ -168,6 +168,8 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.domain_primary`
 * `onedesk.one_admin.proxy.domain_refresh`
 * `onedesk.one_admin.proxy.hello`
+* `onedesk.one_admin.proxy.mail_names`
+* `onedesk.one_admin.proxy.mail_waiting`
 * `onedesk.one_admin.proxy.storage_delete`
 * `onedesk.one_admin.proxy.storage_get`
 * `onedesk.one_admin.proxy.storage_put`
@@ -271,6 +273,8 @@ No doctypes yet.
 * `onedesk.one_inventory.item.said`
 * `onedesk.one_inventory.order.order`
 * `onedesk.one_inventory.ready.fix`
+* `onedesk.one_mail.addresses.give`
+* `onedesk.one_mail.inbound.notice`
 * `onedesk.one_project.billing.invoice_time`
 * `onedesk.one_project.billing.unbilled`
 * `onedesk.one_project.overview.overview`

@@ -21,6 +21,8 @@ The token this uses needs one permission, Workers KV Storage: Edit, on one
 namespace. It can do nothing else to the account.
 """
 
+import json
+
 import frappe
 import requests
 
@@ -43,6 +45,38 @@ def route(slug: str, site: str) -> None:
 	if not slug or not site:
 		raise faults.Refused("a route needs both a workspace and a site")
 	_call("PUT", f"values/{slug}", data=site)
+
+
+def mail_route(slug: str, record: dict) -> None:
+	"""What the mail Worker reads for this workspace, under `mail:<slug>`: the
+	site to tell, the secret to sign with, the bucket and prefix to store in,
+	and the names it may receive for. The whole record, every time, so a
+	retry is free and nothing is merged."""
+	if not slug or not record.get("site") or not record.get("secret"):
+		raise faults.Refused("a mail route needs a workspace, a site and a secret")
+	_call("PUT", f"values/mail:{slug}", data=json.dumps(record))
+
+
+def mail_entry(tenant, secret: str, names: list[str]) -> dict:
+	"""The mail Worker's record for a workspace (deploy/mail/worker.js)."""
+	from onedesk.one_admin import keys
+
+	return {
+		"site": tenant.site,
+		"secret": secret,
+		"bucket": "EU" if tenant.jurisdiction == "EU" else "Global",
+		"prefix": keys.prefix(tenant.slug),
+		"names": sorted(set(names)),
+	}
+
+
+def mail_domain() -> str:
+	return frappe.get_cached_value("One Admin Settings", None, "mail_domain") or "m.4dl.app"
+
+
+def mail_record(slug: str) -> dict | None:
+	answered = _call("GET", f"values/mail:{slug}", raw=True)
+	return json.loads(answered) if answered else None
 
 
 def forget(slug: str) -> None:
@@ -72,7 +106,9 @@ def _call(method: str, path: str, data: str | None = None, raw: bool = False):
 			method,
 			url,
 			headers={"Authorization": f"Bearer {token}"},
-			data={"value": data, "metadata": "{}"} if data is not None else None,
+			# Multipart, as the write-with-metadata endpoint takes it. A plain
+			# form is stored as it is sent: `value=…&metadata=…`, in the value.
+			files={"value": (None, data), "metadata": (None, "{}")} if data is not None else None,
 			timeout=TIMEOUT,
 		)
 	except requests.RequestException as reason:

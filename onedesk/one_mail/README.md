@@ -43,6 +43,44 @@ in One, not only by mail.
 
 For the people who build OneMail. OneAI does not read past this heading.
 
+### What it is made of
+
+Stage 1, mail arriving at the mail domain, is built. Nothing yet shows it but
+the desk's own Communication list.
+
+- **One Admin's Set Up Cloudflare** (one_admin/setup.py) deploys the mail
+  Worker, points the zone's catch-all at it, and onboards the mail domain
+  for sending. Email Routing on the subdomain waits on the key's
+  Zone Settings: Edit.
+- **The Worker** (deploy/mail/worker.js) refuses what is not the mail domain,
+  a workspace or one of its names. It stores the raw message at
+  `tenants/<slug>/mail/in/<time>-<id>~<name>.eml` and then posts a signed
+  notice. The `~<name>` is the address it came to, which the headers do not
+  always say (a Bcc).
+- **Admin** keeps each workspace's Worker record in KV under `mail:<slug>`:
+  site, secret, bucket, prefix and names. `push_config` makes it with the
+  site's `one_mail_secret` and `one_mail_domain`. `proxy.mail_names`
+  replaces the names, and only with the workspace's own. `proxy.mail_waiting`
+  lists the keys after the last one read.
+- **addresses.py** makes the workspace's `Email Account` on first use
+  (`one_hosted`, no server, no SMTP login) and a person's on
+  `give(user, name)`, which a workspace administrator calls. The part after
+  the last dot is the workspace, which `is_workspace_name` checks.
+- **inbound.py**:
+  - `notice` believes a notice only with this workspace's HMAC and a
+    timestamp within five minutes, then enqueues the sweep.
+  - `sweep`, every minute and after a notice, asks admin for what is new and
+    takes each message. A message that fails is logged and passed over, and
+    its original is still in R2.
+  - `take` parses with Frappe's `InboundMail`, files it in INBOX on its
+    account's Communication with its thread, references and original key,
+    and saves attachments as Files on it. Taking one twice is taking it once.
+- **threads.py**: the thread is the earliest referenced message we hold,
+  otherwise the message's own ID.
+- Fixed on the way: KV writes were sent as a form, so Cloudflare stored
+  `value=…&metadata=…` as the value. The web router's routes had the same
+  fault. They are multipart now, as the API takes them.
+
 ### Research and decisions
 
 **What was studied.** The old OneApp mail backend and its inbound Worker

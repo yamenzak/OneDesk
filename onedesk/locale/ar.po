@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 14:00+0000\n"
-"PO-Revision-Date: 2026-09-24 14:00+0000\n"
+"POT-Creation-Date: 2026-09-24 14:08+0000\n"
+"PO-Revision-Date: 2026-09-24 14:08+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -3766,7 +3766,9 @@ msgstr "الإشارة عند درجة أقل من"
 msgid "Flagged"
 msgstr "مُشار إليه"
 
+#. Label of the one_folder (Data) field in DocType 'Communication'
 #. Label of the folder (Link) field in DocType 'Cloud File Request'
+#: onedesk/one_mail/custom/communication.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/public/js/onecloud.js:119 onedesk/public/js/onecloud.js:319
 #: onedesk/public/js/onecloud.js:321 onedesk/public/js/onecloud.js:609
@@ -4750,6 +4752,12 @@ msgstr "محفوظة"
 #: onedesk/public/js/asset.js:83
 msgid "Kept At"
 msgstr "محفوظ في"
+
+#. Description of the 'On the Mail Domain' (Check) field in DocType 'Email
+#. Account'
+#: onedesk/one_mail/custom/email_account.json
+msgid "Kept in this workspace, with no server of its own, because it is an address on the mail domain."
+msgstr "محفوظ في مساحة العمل هذه، دون خادم خاص به، لأنه عنوان على نطاق البريد."
 
 #. Label of the key (Data) field in DocType 'Offering'
 #. Label of the key (Data) field in DocType 'AI Action'
@@ -6421,6 +6429,11 @@ msgstr ""
 msgid "On leave"
 msgstr "في إجازة"
 
+#. Label of the one_hosted (Check) field in DocType 'Email Account'
+#: onedesk/one_mail/custom/email_account.json
+msgid "On the Mail Domain"
+msgstr "على نطاق البريد"
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Onboarding"
@@ -6602,6 +6615,12 @@ msgstr "إعداد OneHR"
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "OneInventory"
 msgstr "OneInventory"
+
+#. Label of the one_mail_section (Section Break) field in DocType
+#. 'Communication'
+#: onedesk/one_mail/custom/communication.json
+msgid "OneMail"
+msgstr "OneMail"
 
 #. Title of a Sidebar
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
@@ -6872,6 +6891,11 @@ msgstr "الهيكل التنظيمي"
 #. Label of a field in the get-in-touch Web Form
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 msgid "Organization Name"
+msgstr ""
+
+#. Label of the one_raw_key (Data) field in DocType 'Communication'
+#: onedesk/one_mail/custom/communication.json
+msgid "Original"
 msgstr ""
 
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
@@ -8022,6 +8046,11 @@ msgstr "سلة المحذوفات"
 msgid "Reference"
 msgstr "المرجع"
 
+#. Label of the one_references (Small Text) field in DocType 'Communication'
+#: onedesk/one_mail/custom/communication.json
+msgid "References"
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:111 onedesk/public/js/onecloud.js:1771
 #: onedesk/public/js/onecloud.js:1772 onedesk/public/js/onecloud.js:1792
 #: onedesk/public/js/tenant.js:78 onedesk/public/js/tenant.js:83
@@ -9039,6 +9068,8 @@ msgstr "تمييز بنجمة"
 msgid "Star a file or folder to find it here. Right-click it and choose Star."
 msgstr "ميّز ملفًا أو مجلدًا بنجمة لتجده هنا. انقر بزر الفأرة الأيمن واختر «تمييز بنجمة»."
 
+#. Label of the one_flagged (Check) field in DocType 'Communication'
+#: onedesk/one_mail/custom/communication.json
 #: onedesk/one_storage/namespace.py:368 onedesk/public/js/onecloud.js:505
 msgid "Starred"
 msgstr "المميّزة بنجمة"
@@ -9771,6 +9802,11 @@ msgstr "يشير DNS إلى هنا."
 msgid "The Frappe Cloud root domain sites are created on, for example frappe.cloud."
 msgstr "النطاق الجذر في Frappe Cloud الذي تُنشأ عليه المواقع، مثل frappe.cloud."
 
+#. Description of the 'Thread' (Data) field in DocType 'Communication'
+#: onedesk/one_mail/custom/communication.json
+msgid "The Message-ID of the first message in its conversation."
+msgstr "معرّف الرسالة الأولى في محادثتها."
+
 #: onedesk/public/js/onecloud.js:356
 msgid "The Recycle Bin is empty."
 msgstr "سلة المحذوفات فارغة."
@@ -9962,6 +9998,11 @@ msgstr "آخر رد من Frappe Cloud، دون تعديل."
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "The log this attempt wrote. Empty when the attempt was refused."
 msgstr "السجل الذي كتبته هذه المحاولة. يكون فارغاً عند رفض المحاولة."
+
+#. Description of the 'Folder' (Data) field in DocType 'Communication'
+#: onedesk/one_mail/custom/communication.json
+msgid "The mailbox folder it is in, by its name on the server, or INBOX, Sent, Archive, Junk or Trash for an address on the mail domain."
+msgstr "مجلد صندوق البريد الذي هي فيه، باسمه على الخادم، أو INBOX أو Sent أو Archive أو Junk أو Trash لعنوان على نطاق البريد."
 
 #. Description of the 'Model' (Data) field in DocType 'AI Chat'
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
@@ -10333,6 +10374,10 @@ msgstr "لا يمكن لمساحة العمل هذه إرسال البريد ب�
 msgid "This workspace does not record interviews. HR Settings says whether it does."
 msgstr "مساحة العمل هذه لا تسجّل المقابلات. تحدد إعدادات الموارد البشرية ذلك."
 
+#: onedesk/one_admin/proxy.py:353
+msgid "This workspace has no mail route yet."
+msgstr "لا يوجد لمساحة العمل هذه مسار بريد بعد."
+
 #: onedesk/one_admin/storage.py:50
 msgid "This workspace has no room for another {0}."
 msgstr "لا تتسع مساحة العمل هذه لـ {0} إضافية."
@@ -10340,6 +10385,15 @@ msgstr "لا تتسع مساحة العمل هذه لـ {0} إضافية."
 #: onedesk/one_storage/ready.py:29
 msgid "This workspace is not linked to an account, so files are kept on the server's disk."
 msgstr "مساحة العمل هذه غير مرتبطة بحساب، لذا تُحفظ الملفات على قرص الخادم."
+
+#: onedesk/one_admin/proxy.py:350
+msgid "Those are not this workspace's addresses."
+msgstr "هذه ليست عناوين مساحة العمل هذه."
+
+#. Label of the one_thread (Data) field in DocType 'Communication'
+#: onedesk/one_mail/custom/communication.json
+msgid "Thread"
+msgstr "المحادثة"
 
 #. Label of the one_from_checkins (Button) field in DocType 'Employee
 #. Attendance Tool'
@@ -11302,6 +11356,11 @@ msgstr "أين تذهب الملفات"
 msgid "Where the folder starts. The server's top when left as /."
 msgstr "من أين يبدأ المجلد. أعلى الخادم إذا تُرك /."
 
+#. Description of the 'Original' (Data) field in DocType 'Communication'
+#: onedesk/one_mail/custom/communication.json
+msgid "Where the message as it arrived is kept, for an address on the mail domain."
+msgstr "مكان حفظ الرسالة كما وصلت، لعنوان على نطاق البريد."
+
 #. Description of the 'Session Address' (Data) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Where this user's desk session was live from, if they had one."
@@ -12228,6 +12287,10 @@ msgstr "{0} يصبح {1}"
 msgid "{0} belongs to {1} {2}. Share the record instead."
 msgstr "{0} يخص {1} {2}. شارك السجل بدلًا من ذلك."
 
+#: onedesk/one_mail/addresses.py:101
+msgid "{0} cannot be a name in an address. Use letters, digits, - and _."
+msgstr "لا يمكن أن يكون {0} اسمًا في عنوان. استخدم الحروف والأرقام و- و_."
+
 #: onedesk/one_storage/api.py:371
 msgid "{0} cannot be deleted."
 msgstr "لا يمكن حذف {0}."
@@ -12466,6 +12529,10 @@ msgstr "{0} عميل محتمل بالفعل: {1}"
 #: onedesk/one_admin/domains.py:62
 msgid "{0} is already on another workspace."
 msgstr "{0} موجود أصلاً على مساحة عمل أخرى."
+
+#: onedesk/one_mail/addresses.py:104
+msgid "{0} is already somebody's."
+msgstr "{0} مستخدم من قِبل شخص آخر."
 
 #: onedesk/one_admin/doctype/ai_model/ai_model.py:57
 msgid "{0} is already the default for {1}."

@@ -43,16 +43,19 @@ export default {
 
 		const bytes = await new Response(message.raw).arrayBuffer();
 		// Sortable by arrival, so a sweep can ask for everything after the last
-		// one it read; the UUID keeps two in the same millisecond apart.
+		// one it read; the UUID keeps two in the same millisecond apart, and the
+		// name after the ~ says which address it came to, which the headers do
+		// not (a Bcc is in none of them).
 		const stamp = new Date().toISOString().replace(/[^0-9]/g, "").slice(0, 17);
-		const key = `${box.prefix}mail/in/${stamp}-${crypto.randomUUID()}.eml`;
+		const name = `${stamp}-${crypto.randomUUID()}~${bare}.eml`;
+		const key = `${box.prefix}mail/in/${name}`;
 		const bucket = box.bucket === "EU" ? env.FILES_EU : env.FILES;
 		await bucket.put(key, bytes, {
 			httpMetadata: { contentType: "message/rfc822" },
 			customMetadata: { to: message.to, from: message.from },
 		});
 
-		const notice = JSON.stringify({ key, to: message.to, from: message.from, size: bytes.byteLength });
+		const notice = JSON.stringify({ key: `mail/in/${name}`, to: message.to, from: message.from, size: bytes.byteLength });
 		const at = String(Math.floor(Date.now() / 1000));
 		const signature = await sign(box.secret, `${at}.${notice}`);
 		ctx.waitUntil(

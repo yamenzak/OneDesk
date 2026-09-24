@@ -222,3 +222,25 @@ def _client(jurisdiction: str):
 		region_name=REGION,
 		config=Config(signature_version="s3v4"),
 	)
+
+
+#: Mail the Worker stored and the site has not read yet, per ask.
+MAIL_AT_A_TIME = 100
+
+
+def mail_waiting(tenant, after: str | None = None) -> list[dict]:
+	"""Keys of raw messages under `mail/in/`, oldest first, after the last one
+	the site read. The Worker names them by arrival time, so the order of
+	the keys is the order they came in."""
+	prefix = keys.prefix(tenant.name)
+	listed = _client(tenant.jurisdiction).list_objects_v2(
+		Bucket=_bucket(tenant.jurisdiction),
+		Prefix=f"{prefix}mail/in/",
+		StartAfter=keys.under(tenant.name, after) if after else f"{prefix}mail/in/",
+		MaxKeys=MAIL_AT_A_TIME,
+	)
+	return [
+		{"key": item["Key"][len(prefix) :], "size": item["Size"]}
+		for item in listed.get("Contents") or []
+	]
+

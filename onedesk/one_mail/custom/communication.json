@@ -1,0 +1,82 @@
+{
+ "custom_fields": [
+  {
+   "doctype": "Custom Field",
+   "dt": "Communication",
+   "fieldname": "one_mail_section",
+   "fieldtype": "Section Break",
+   "insert_after": "message_id",
+   "label": "OneMail",
+   "collapsible": 1,
+   "module": "One Mail",
+   "name": "Communication-one_mail_section"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Communication",
+   "fieldname": "one_folder",
+   "fieldtype": "Data",
+   "insert_after": "one_mail_section",
+   "label": "Folder",
+   "description": "The mailbox folder it is in, by its name on the server, or INBOX, Sent, Archive, Junk or Trash for an address on the mail domain.",
+   "search_index": 1,
+   "read_only": 1,
+   "module": "One Mail",
+   "name": "Communication-one_folder"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Communication",
+   "fieldname": "one_thread",
+   "fieldtype": "Data",
+   "insert_after": "one_folder",
+   "label": "Thread",
+   "description": "The Message-ID of the first message in its conversation.",
+   "search_index": 1,
+   "read_only": 1,
+   "module": "One Mail",
+   "name": "Communication-one_thread"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Communication",
+   "fieldname": "one_flagged",
+   "fieldtype": "Check",
+   "insert_after": "one_thread",
+   "label": "Starred",
+   "read_only": 1,
+   "module": "One Mail",
+   "name": "Communication-one_flagged"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Communication",
+   "fieldname": "one_references",
+   "fieldtype": "Small Text",
+   "insert_after": "one_flagged",
+   "label": "References",
+   "hidden": 1,
+   "read_only": 1,
+   "module": "One Mail",
+   "name": "Communication-one_references"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Communication",
+   "fieldname": "one_raw_key",
+   "fieldtype": "Data",
+   "insert_after": "one_references",
+   "label": "Original",
+   "description": "Where the message as it arrived is kept, for an address on the mail domain.",
+   "search_index": 1,
+   "hidden": 1,
+   "read_only": 1,
+   "module": "One Mail",
+   "name": "Communication-one_raw_key"
+  }
+ ],
+ "doctype": "Communication",
+ "sync_on_migrate": 1,
+ "links": [],
+ "property_setters": []
+}

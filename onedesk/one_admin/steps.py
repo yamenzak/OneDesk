@@ -185,6 +185,7 @@ def push_config(job, tenant) -> None:
 	"""
 	token = secrets.token_urlsafe(32)
 	tenant.db_set("token_hash", hashlib.sha256(token.encode()).hexdigest())
+	mail_secret = secrets.token_urlsafe(32)
 	press.call(
 		"press.api.site.update_config",
 		name=tenant.site,
@@ -197,9 +198,14 @@ def push_config(job, tenant) -> None:
 				# Every request's size limit, which the site itself cannot
 				# raise: a tenant is limited by storage, not by file size.
 				{"key": "max_file_size", "value": store.LARGEST, "type": "Number"},
+				# Mail at <slug>@<mail domain>: the Worker signs its notices
+				# with this, and the site checks them with it (one_mail/inbound.py).
+				{"key": "one_mail_secret", "value": mail_secret, "type": "Password"},
+				{"key": "one_mail_domain", "value": cloudflare.mail_domain(), "type": "String"},
 			]
 		),
 	)
+	cloudflare.mail_route(tenant.slug, cloudflare.mail_entry(tenant, mail_secret, [tenant.slug]))
 
 
 def live(job, tenant) -> None:

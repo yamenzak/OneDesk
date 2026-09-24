@@ -81,7 +81,12 @@ scheduler_events = {
 	# A site takes minutes to build, so a request makes a job and this walks it.
 	# Inert on a tenant site: `runner.tick` asks whether this site administers
 	# workspaces before it asks whether there is anything to do.
-	"cron": {"*/2 * * * *": ["onedesk.one_admin.runner.tick"]},
+	"cron": {
+		"*/2 * * * *": ["onedesk.one_admin.runner.tick"],
+		# Mail the Worker stored for an address on the mail domain. A notice
+		# usually brings it sooner; this is what makes sure.
+		"* * * * *": ["onedesk.one_mail.inbound.sweep"],
+	},
 	"daily": [
 		# The Recycle Bin keeps things thirty days. See one_storage/api.py.
 		"onedesk.one_storage.api.purge_old",
