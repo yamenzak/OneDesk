@@ -703,6 +703,31 @@ without spaces), the record it belongs to, where it was learned and when. It
 is filled from the records on save and by enrichment. The pipeline, mail
 filing and OneAI's chat ("who is DE812345678?") all read it.
 
+**Frappe's own contacts from mail.** With "Create Contacts from Incoming
+Emails" on (the default, and on for every mailbox here), Frappe makes a bare
+Contact for every address on every message: sender, To, Cc and Bcc, spam and
+newsletters included. The Contact is named after the part before the @
+("Info", "Noreply") and has no company. A second `info@` then fails on the
+name and is logged as an error. So:
+
+- a mailbox Intake reads has Frappe's switch turned off, and Intake makes the
+  Contact instead, only after the first look says the mail is real, and only
+  for the people actually writing (not every Cc). It uses the display name and
+  the signature, and links the Contact to its party;
+- a Contact Frappe made earlier is found by its email and **completed, never
+  duplicated**: its name, company link, phone and position are filled from the
+  signature and carry the field badge;
+- bare Contacts Frappe made from mail that turns out to be junk (no links, no
+  other use) are offered for deletion in one list, once.
+
+**A document never creates a party just for being mentioned.** Frappe makes
+nothing from a file. Intake makes a party only for the counterpart, and only
+when the kind of document says what it must be: an invoice's issuer becomes a
+Supplier, an order's sender a Customer, an inquiry a Lead. Anybody else a
+document names (a company mentioned in passing, an authority, a person cc'd
+on a letter) stays a Reading Party row with their identifiers. It is linked
+the day a record for them exists.
+
 **Weak identifiers stay weak.** The registry counts how many records hold each
 value. An email on several records (info@, a family's shared address)
 identifies nobody on its own, and a mail provider's domain (`faces.PROVIDERS`)
