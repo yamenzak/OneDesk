@@ -311,10 +311,10 @@ def storage_put(key: str, size: int = 0) -> dict:
 
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
-def storage_get(key: str) -> dict:
+def storage_get(key: str, filename: str | None = None, inline: int = 1) -> dict:
 	from onedesk.one_admin import storage
 
-	return storage.get_url(_tenant_doc(caller()), key)
+	return storage.get_url(_tenant_doc(caller()), key, filename=filename, inline=bool(int(inline)))
 
 
 @frappe.whitelist(allow_guest=True)

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 23:14+0000\n"
-"PO-Revision-Date: 2026-09-23 23:14+0000\n"
+"POT-Creation-Date: 2026-09-24 06:43+0000\n"
+"PO-Revision-Date: 2026-09-24 06:43+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -247,6 +247,10 @@ msgstr "Eine Lieferantenrechnung kann nicht zweimal erfasst werden"
 #: onedesk/one_project/naming.py:32
 msgid "A task prefix is 2 to 10 letters and digits, starting with a letter."
 msgstr "Ein Aufgabenpräfix besteht aus 2 bis 10 Buchstaben und Ziffern und beginnt mit einem Buchstaben."
+
+#: onedesk/one_storage/ready.py:41
+msgid "A test file was stored and read back."
+msgstr "Eine Testdatei wurde gespeichert und zurückgelesen."
 
 #. Description of the 'Status' (Select) field in DocType 'Account Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
@@ -1522,6 +1526,10 @@ msgstr "Einwilligung zur Aufnahme erteilt"
 msgid "Cannot be changed. Storage is pinned to it when the workspace is created."
 msgstr "Nicht änderbar. Der Speicher wird bei der Erstellung daran gebunden."
 
+#: onedesk/one_storage/file.py:31
+msgid "Cannot get file contents of a Folder"
+msgstr ""
+
 #. Label of the capability (Select) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Capability"
@@ -1829,6 +1837,10 @@ msgstr "Automatisch geschlossen"
 #: onedesk/public/js/crm_record.js:112
 msgid "Closes"
 msgstr "Abschluss"
+
+#: onedesk/one_storage/ready.py:33
+msgid "Cloud storage answers"
+msgstr "Der Cloud-Speicher antwortet"
 
 #. Label of the cloudflare_section (Section Break) field in DocType 'One Admin
 #. Settings'
@@ -2887,6 +2899,14 @@ msgstr "Jeder Einchecken-Versuch, ob erlaubt, markiert oder abgelehnt."
 msgid "Every check-in is scored out of 100 and the score is kept on Clock Attempt. Each check below that fails subtracts from it."
 msgstr "Jedes Einchecken wird mit bis zu 100 Punkten bewertet, und die Punktzahl wird im Einchecken-Versuch festgehalten. Jede fehlgeschlagene Prüfung unten zieht davon ab."
 
+#: onedesk/one_storage/ready.py:48
+msgid "Every file is in cloud storage."
+msgstr "Alle Dateien sind im Cloud-Speicher."
+
+#: onedesk/one_storage/ready.py:28
+msgid "Every file uploaded anywhere in One is kept in cloud storage."
+msgstr "Jede in One hochgeladene Datei wird im Cloud-Speicher abgelegt."
+
 #: onedesk/one_hr/hiring.py:618
 msgid "Every part is already transcribed."
 msgstr "Alle Teile sind bereits transkribiert."
@@ -3068,7 +3088,9 @@ msgid "Field"
 msgstr ""
 
 #. Label of the files (Code) field in DocType 'AI Proposal'
+#. Label of a Sidebar Item
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+#: onedesk/one_storage/sidebar/onecloud/onecloud.json
 msgid "Files"
 msgstr "Dateien"
 
@@ -4796,6 +4818,10 @@ msgstr "Von {0} % auf {1} % abgestuft."
 msgid "Moved up from {0}% to {1}%."
 msgstr "Von {0} % auf {1} % hochgestuft."
 
+#: onedesk/one_storage/ready.py:59
+msgid "Moving them now. This page says how many are left when you open it again."
+msgstr "Sie werden jetzt verschoben. Diese Seite zeigt beim nächsten Öffnen, wie viele übrig sind."
+
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
 #. Option for the 'Default For' (Select) field in DocType 'AI Model'
 #. Option for the 'Needs' (Select) field in DocType 'AI Action'
@@ -4945,6 +4971,10 @@ msgstr "Neues Projekt"
 msgid "New conversation"
 msgstr "Neue Unterhaltung"
 
+#: onedesk/one_storage/ready.py:26
+msgid "New files go to cloud storage"
+msgstr "Neue Dateien gehen in den Cloud-Speicher"
+
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:359
 msgid "New link made. The old one no longer works."
 msgstr "Neuer Link erstellt. Der alte funktioniert nicht mehr."
@@ -5063,6 +5093,10 @@ msgstr "Zurzeit wird kein Guthabenpaket angeboten."
 msgid "No credits. Buy some to use the AI."
 msgstr "Kein Guthaben. Kaufen Sie welches, um die KI zu nutzen."
 
+#: onedesk/one_storage/ready.py:45
+msgid "No file is left on the server's disk"
+msgstr "Keine Datei liegt mehr auf der Festplatte des Servers"
+
 #: onedesk/one_book/ready.py:89
 msgid "No fiscal year covers today, so nothing dated today can be saved."
 msgstr "Kein Geschäftsjahr umfasst heute, daher kann nichts mit heutigem Datum gespeichert werden."
@@ -5137,7 +5171,7 @@ msgstr "Noch kein Arbeitsbereich hat das gekauft."
 msgid "No year has ended with entries left open."
 msgstr "Kein Jahr ist mit offenen Buchungen abgelaufen."
 
-#: onedesk/one_admin/storage.py:181
+#: onedesk/one_admin/storage.py:200
 msgid "No {0} bucket is configured."
 msgstr "Es ist kein {0}-Bucket eingerichtet."
 
@@ -5320,7 +5354,12 @@ msgstr "Es wird nichts abgezogen und keine Anwesenheit erfasst."
 msgid "Nothing on these days."
 msgstr "An diesen Tagen ist nichts."
 
+#: onedesk/one_storage/ready.py:35
+msgid "Nothing to ask until the workspace is linked to an account."
+msgstr "Nichts zu fragen, solange der Arbeitsbereich mit keinem Konto verbunden ist."
+
 #: onedesk/one_book/ready.py:249 onedesk/one_inventory/ready.py:172
+#: onedesk/one_storage/ready.py:61
 msgid "Nothing to fix for {0}."
 msgstr "Für {0} gibt es nichts zu beheben."
 
@@ -5614,6 +5653,11 @@ msgstr "OneCRM"
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 msgid "OneCalendar"
 msgstr "OneCalendar"
+
+#. Title of a Sidebar
+#: onedesk/one_storage/sidebar/onecloud/onecloud.json
+msgid "OneCloud"
+msgstr "OneCloud"
 
 #. Title of a Sidebar
 #. Name of a Workspace
@@ -6646,7 +6690,7 @@ msgstr "R2-Geheimnis"
 msgid "R2 buckets. A workspace is a prefix in one of them, fixed by its jurisdiction."
 msgstr "R2-Buckets. Ein Arbeitsbereich ist ein Präfix in einem davon, festgelegt durch seinen Rechtsraum."
 
-#: onedesk/one_admin/storage.py:191
+#: onedesk/one_admin/storage.py:210
 msgid "R2 is not configured. Set it in One Admin Settings."
 msgstr "R2 ist nicht eingerichtet. Stellen Sie es in den One-Admin-Einstellungen ein."
 
@@ -7463,6 +7507,7 @@ msgstr ""
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
+#: onedesk/one_storage/sidebar/onecloud/onecloud.json
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Setup"
 msgstr ""
@@ -7863,6 +7908,17 @@ msgstr "Speicher"
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Storage (GB)"
 msgstr "Speicher (GB)"
+
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_storage/report/storage_check/storage_check.json
+#: onedesk/one_storage/sidebar/onecloud/onecloud.json
+msgid "Storage Check"
+msgstr "Speicherprüfung"
+
+#: onedesk/one_storage/ready.py:40
+msgid "Storing and reading back a test file failed: {0}"
+msgstr "Speichern und Zurücklesen einer Testdatei schlug fehl: {0}"
 
 #: onedesk/one_book/report/books_check/books_check.js:37
 msgid "Street Address"
@@ -8643,6 +8699,10 @@ msgstr "Es gibt keinen Standort, und ohne ihn lässt sich kein Anlagegut speiche
 msgid "There is no maintenance team, and a schedule needs one."
 msgstr "Es gibt kein Wartungsteam, und ein Plan braucht eines."
 
+#: onedesk/one_storage/store.py:169
+msgid "There is no such file."
+msgstr "Diese Datei gibt es nicht."
+
 #: onedesk/one_inventory/ready.py:77
 msgid "There is no warehouse, so nothing can be received."
 msgstr "Es gibt kein Lager, daher kann nichts eingehen."
@@ -8775,6 +8835,10 @@ msgstr "Dieser Arbeitsbereich zeichnet keine Gespräche auf. Das legen die HR-Ei
 #: onedesk/one_admin/storage.py:50
 msgid "This workspace has no room for another {0}."
 msgstr "In diesem Arbeitsbereich ist kein Platz für weitere {0}."
+
+#: onedesk/one_storage/ready.py:29
+msgid "This workspace is not linked to an account, so files are kept on the server's disk."
+msgstr "Dieser Arbeitsbereich ist mit keinem Konto verbunden, daher liegen Dateien auf der Festplatte des Servers."
 
 #. Label of the one_from_checkins (Button) field in DocType 'Employee
 #. Attendance Tool'
@@ -10453,6 +10517,14 @@ msgstr "{0} zeigt nicht auf diesen Arbeitsbereich. Der Kunde muss sein DNS ände
 #: onedesk/public/js/workspace_account.js:118
 msgid "{0} expire on {1}."
 msgstr "{0} verfallen am {1}."
+
+#: onedesk/one_storage/ready.py:50
+msgid "{0} files are on the disk, which is where this workspace keeps them."
+msgstr "{0} Dateien liegen auf der Festplatte, wo dieser Arbeitsbereich sie aufbewahrt."
+
+#: onedesk/one_storage/ready.py:51
+msgid "{0} files from before cloud storage are still on the server's disk."
+msgstr "{0} Dateien aus der Zeit vor dem Cloud-Speicher liegen noch auf der Festplatte des Servers."
 
 #: onedesk/public/js/salary_slip.js:29
 msgid "{0} for {1}, a whole month."

@@ -454,7 +454,16 @@ override_doctype_dashboards = {
 }
 
 # Every shift location counts, not the first. See one_hr/checkin.py.
-override_doctype_class = {"Employee Checkin": "onedesk.one_hr.checkin.OneEmployeeCheckin"}
+override_doctype_class = {
+	"Employee Checkin": "onedesk.one_hr.checkin.OneEmployeeCheckin",
+	# A stored file's content is read back from R2. See one_storage/file.py.
+	"File": "onedesk.one_storage.file.CloudFile",
+}
+
+# Every new file's content goes to R2 through admin's signed URLs, and is
+# dropped from there when the last File naming it goes. See one_storage/store.py.
+write_file = "onedesk.one_storage.store.write"
+delete_file_data_content = "onedesk.one_storage.store.delete"
 
 add_to_apps_screen = [
 	{

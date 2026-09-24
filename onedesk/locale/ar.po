@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 23:14+0000\n"
-"PO-Revision-Date: 2026-09-23 23:14+0000\n"
+"POT-Creation-Date: 2026-09-24 06:43+0000\n"
+"PO-Revision-Date: 2026-09-24 06:43+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -247,6 +247,10 @@ msgstr "لا يمكن إدخال فاتورة المورد مرتين"
 #: onedesk/one_project/naming.py:32
 msgid "A task prefix is 2 to 10 letters and digits, starting with a letter."
 msgstr "بادئة المهام من 2 إلى 10 أحرف وأرقام، تبدأ بحرف."
+
+#: onedesk/one_storage/ready.py:41
+msgid "A test file was stored and read back."
+msgstr "تم حفظ ملف اختبار وقراءته."
 
 #. Description of the 'Status' (Select) field in DocType 'Account Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
@@ -1522,6 +1526,10 @@ msgstr "وافق المرشح على التسجيل"
 msgid "Cannot be changed. Storage is pinned to it when the workspace is created."
 msgstr "لا يمكن تغييره. يُثبَّت التخزين عليه عند إنشاء مساحة العمل."
 
+#: onedesk/one_storage/file.py:31
+msgid "Cannot get file contents of a Folder"
+msgstr ""
+
 #. Label of the capability (Select) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Capability"
@@ -1829,6 +1837,10 @@ msgstr "أُغلق تلقائياً"
 #: onedesk/public/js/crm_record.js:112
 msgid "Closes"
 msgstr "موعد الإغلاق"
+
+#: onedesk/one_storage/ready.py:33
+msgid "Cloud storage answers"
+msgstr "التخزين السحابي يستجيب"
 
 #. Label of the cloudflare_section (Section Break) field in DocType 'One Admin
 #. Settings'
@@ -2887,6 +2899,14 @@ msgstr "كل محاولة تسجيل حضور، سواء سُمح بها أو أ
 msgid "Every check-in is scored out of 100 and the score is kept on Clock Attempt. Each check below that fails subtracts from it."
 msgstr "تُقيَّم كل عملية تسجيل حضور من 100 وتُحفظ الدرجة في محاولة التسجيل. وكل تحقق أدناه يخفق يخصم منها."
 
+#: onedesk/one_storage/ready.py:48
+msgid "Every file is in cloud storage."
+msgstr "كل الملفات في التخزين السحابي."
+
+#: onedesk/one_storage/ready.py:28
+msgid "Every file uploaded anywhere in One is kept in cloud storage."
+msgstr "كل ملف يُرفع في أي مكان في One يُحفظ في التخزين السحابي."
+
 #: onedesk/one_hr/hiring.py:618
 msgid "Every part is already transcribed."
 msgstr "جميع الأجزاء مفرّغة بالفعل."
@@ -3068,7 +3088,9 @@ msgid "Field"
 msgstr ""
 
 #. Label of the files (Code) field in DocType 'AI Proposal'
+#. Label of a Sidebar Item
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+#: onedesk/one_storage/sidebar/onecloud/onecloud.json
 msgid "Files"
 msgstr "الملفات"
 
@@ -4796,6 +4818,10 @@ msgstr "انخفض من {0}% إلى {1}%."
 msgid "Moved up from {0}% to {1}%."
 msgstr "ارتفع من {0}% إلى {1}%."
 
+#: onedesk/one_storage/ready.py:59
+msgid "Moving them now. This page says how many are left when you open it again."
+msgstr "يجري نقلها الآن. تذكر هذه الصفحة عدد المتبقي عند فتحها مجددًا."
+
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
 #. Option for the 'Default For' (Select) field in DocType 'AI Model'
 #. Option for the 'Needs' (Select) field in DocType 'AI Action'
@@ -4945,6 +4971,10 @@ msgstr "مشروع جديد"
 msgid "New conversation"
 msgstr "محادثة جديدة"
 
+#: onedesk/one_storage/ready.py:26
+msgid "New files go to cloud storage"
+msgstr "الملفات الجديدة تذهب إلى التخزين السحابي"
+
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:359
 msgid "New link made. The old one no longer works."
 msgstr "أُنشئ رابط جديد. الرابط القديم لم يعد يعمل."
@@ -5063,6 +5093,10 @@ msgstr "لا توجد حزمة رصيد معروضة حالياً."
 msgid "No credits. Buy some to use the AI."
 msgstr "لا رصيد. اشترِ بعضه لاستخدام الذكاء الاصطناعي."
 
+#: onedesk/one_storage/ready.py:45
+msgid "No file is left on the server's disk"
+msgstr "لم يتبقَّ أي ملف على قرص الخادم"
+
 #: onedesk/one_book/ready.py:89
 msgid "No fiscal year covers today, so nothing dated today can be saved."
 msgstr "لا توجد سنة مالية تشمل اليوم، لذا لا يمكن حفظ أي شيء بتاريخ اليوم."
@@ -5137,7 +5171,7 @@ msgstr "لم تشترِ أي مساحة عمل هذا بعد."
 msgid "No year has ended with entries left open."
 msgstr "لم تنتهِ أي سنة بقيود مفتوحة."
 
-#: onedesk/one_admin/storage.py:181
+#: onedesk/one_admin/storage.py:200
 msgid "No {0} bucket is configured."
 msgstr "لم تُضبط حاوية {0}."
 
@@ -5320,7 +5354,12 @@ msgstr "لا يُخصم رصيد ولا يُسجَّل حضور."
 msgid "Nothing on these days."
 msgstr "لا شيء في هذه الأيام."
 
+#: onedesk/one_storage/ready.py:35
+msgid "Nothing to ask until the workspace is linked to an account."
+msgstr "لا شيء للسؤال عنه حتى تُربط مساحة العمل بحساب."
+
 #: onedesk/one_book/ready.py:249 onedesk/one_inventory/ready.py:172
+#: onedesk/one_storage/ready.py:61
 msgid "Nothing to fix for {0}."
 msgstr "لا يوجد ما يُصلح في {0}."
 
@@ -5614,6 +5653,11 @@ msgstr "OneCRM"
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 msgid "OneCalendar"
 msgstr "OneCalendar"
+
+#. Title of a Sidebar
+#: onedesk/one_storage/sidebar/onecloud/onecloud.json
+msgid "OneCloud"
+msgstr "OneCloud"
 
 #. Title of a Sidebar
 #. Name of a Workspace
@@ -6646,7 +6690,7 @@ msgstr "سر R2"
 msgid "R2 buckets. A workspace is a prefix in one of them, fixed by its jurisdiction."
 msgstr "حاويات R2. مساحة العمل بادئة في إحداها، يحددها نطاقها القضائي."
 
-#: onedesk/one_admin/storage.py:191
+#: onedesk/one_admin/storage.py:210
 msgid "R2 is not configured. Set it in One Admin Settings."
 msgstr "لم يُضبط R2. اضبطه في إعدادات One Admin."
 
@@ -7463,6 +7507,7 @@ msgstr ""
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
+#: onedesk/one_storage/sidebar/onecloud/onecloud.json
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Setup"
 msgstr "الإعداد"
@@ -7863,6 +7908,17 @@ msgstr "التخزين"
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Storage (GB)"
 msgstr "التخزين (غيغابايت)"
+
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_storage/report/storage_check/storage_check.json
+#: onedesk/one_storage/sidebar/onecloud/onecloud.json
+msgid "Storage Check"
+msgstr "فحص التخزين"
+
+#: onedesk/one_storage/ready.py:40
+msgid "Storing and reading back a test file failed: {0}"
+msgstr "فشل حفظ ملف اختبار وقراءته: {0}"
 
 #: onedesk/one_book/report/books_check/books_check.js:37
 msgid "Street Address"
@@ -8643,6 +8699,10 @@ msgstr "لا يوجد موقع، ولا يمكن حفظ أصل بدونه."
 msgid "There is no maintenance team, and a schedule needs one."
 msgstr "لا يوجد فريق صيانة، والجدول يحتاج إلى فريق."
 
+#: onedesk/one_storage/store.py:169
+msgid "There is no such file."
+msgstr "لا يوجد مثل هذا الملف."
+
 #: onedesk/one_inventory/ready.py:77
 msgid "There is no warehouse, so nothing can be received."
 msgstr "لا يوجد مستودع، لذا لا يمكن استلام شيء."
@@ -8775,6 +8835,10 @@ msgstr "مساحة العمل هذه لا تسجّل المقابلات. تحد�
 #: onedesk/one_admin/storage.py:50
 msgid "This workspace has no room for another {0}."
 msgstr "لا تتسع مساحة العمل هذه لـ {0} إضافية."
+
+#: onedesk/one_storage/ready.py:29
+msgid "This workspace is not linked to an account, so files are kept on the server's disk."
+msgstr "مساحة العمل هذه غير مرتبطة بحساب، لذا تُحفظ الملفات على قرص الخادم."
 
 #. Label of the one_from_checkins (Button) field in DocType 'Employee
 #. Attendance Tool'
@@ -10453,6 +10517,14 @@ msgstr "لا يشير {0} إلى مساحة العمل هذه. وعلى العم
 #: onedesk/public/js/workspace_account.js:118
 msgid "{0} expire on {1}."
 msgstr "ينتهي {0} في {1}."
+
+#: onedesk/one_storage/ready.py:50
+msgid "{0} files are on the disk, which is where this workspace keeps them."
+msgstr "{0} ملفات على القرص، وهو المكان الذي تحفظ فيه مساحة العمل ملفاتها."
+
+#: onedesk/one_storage/ready.py:51
+msgid "{0} files from before cloud storage are still on the server's disk."
+msgstr "{0} ملفات من قبل التخزين السحابي لا تزال على قرص الخادم."
 
 #: onedesk/public/js/salary_slip.js:29
 msgid "{0} for {1}, a whole month."

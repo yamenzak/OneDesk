@@ -163,5 +163,10 @@ Each row is something that would still run but stop working if upstream moved. `
 | Give To and Take Back are ERPNext's own movements | the custodian is set from the latest submitted movement's to_employee | `onedesk/one_inventory/custody.py` | `erpnext/erpnext/assets/doctype/asset_movement/asset_movement.py` | `def set_latest_location_and_custodian_in_asset(self):` |
 | A maintenance task with an end date is due | ERPNext blanks the next due date whenever an end date is set (`or next_due_date`); `due` works it out again | `onedesk/one_inventory/maintenance.py` | `erpnext/erpnext/assets/doctype/asset_maintenance/asset_maintenance.py` | `or next_due_date` |
 | Maintenance is on the calendar from its logs, not ERPNext's to-do | ERPNext assigns one to-do per schedule and person, dated for its first task | `onedesk/one_task/calendar.py` | `erpnext/erpnext/assets/doctype/asset_maintenance/asset_maintenance.py` | `"reference_type": args["doctype"],` |
+| New file content goes to R2 | Frappe's own seam for where content is written; ours asks admin for a signed URL and puts it there | `onedesk/one_storage/store.py` | `frappe/frappe/core/doctype/file/file.py` | `write_file_method = get_hook_method("write_file")` |
+| A stored object is dropped when the last File naming it goes | Frappe's seam for deleting content; ours defers to after commit and skips a shared object | `onedesk/one_storage/store.py` | `frappe/frappe/core/doctype/file/file.py` | `method = get_hook_method("delete_file_data_content")` |
+| A stored file's URL is counted as remote | `/api/method/` is in URL_PREFIXES, so Frappe's disk checks pass our URLs by | `onedesk/one_storage/store.py` | `frappe/frappe/core/doctype/file/file.py` | `URL_PREFIXES = ("http://", "https://", "/api/method/")` |
+| File reads a stored file's content from R2 | Frappe opens a path on disk in get_content; CloudFile overrides it, exists_on_disk and make_thumbnail | `onedesk/one_storage/file.py` | `frappe/frappe/core/doctype/file/file.py` | `with open(file_path, mode="rb") as f:` |
+| A stored file is decoded the way Frappe decodes one | text as text and anything else as bytes, by the same constants | `onedesk/one_storage/file.py` | `frappe/frappe/core/doctype/file/file.py` | `OLE_FILE_SIGNATURE = ` |
 
-158 overrides.
+163 overrides.

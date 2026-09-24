@@ -8,3 +8,4 @@ One Task
 One Project
 One Book
 One Inventory
+One Storage

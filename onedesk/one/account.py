@@ -166,8 +166,8 @@ def put_url(key: str, size: int) -> dict:
 	return ask("onedesk.one_admin.proxy.storage_put", key=key, size=size)
 
 
-def get_url(key: str) -> dict:
-	return ask("onedesk.one_admin.proxy.storage_get", key=key)
+def get_url(key: str, filename: str | None = None, inline: bool = True) -> dict:
+	return ask("onedesk.one_admin.proxy.storage_get", key=key, filename=filename, inline=int(inline))
 
 
 def drop(key: str) -> dict:

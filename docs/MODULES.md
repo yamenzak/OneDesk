@@ -102,10 +102,16 @@ No doctypes yet.
 
 No doctypes yet.
 
+## One Storage
+
+`onedesk/one_storage`
+
+No doctypes yet.
+
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
-* **sidebar** — one, one_admin, onebook, onecalendar, onecrm, onehr, oneinventory, oneproject, onetask
+* **sidebar** — one, one_admin, onebook, onecalendar, onecloud, onecrm, onehr, oneinventory, oneproject, onetask
 * **workspace** — one, one_admin, onebook, onecrm, onehr, onehr_setup
 
 ## Whitelisted methods
@@ -256,6 +262,8 @@ No doctypes yet.
 * `onedesk.one_project.tree.totals`
 * `onedesk.one_project.updates.asked`
 * `onedesk.one_project.updates.post`
+* `onedesk.one_storage.ready.fix`
+* `onedesk.one_storage.store.fetch`
 * `onedesk.one_task.mine.tasks`
 * `onedesk.one_task.timer.running`
 * `onedesk.one_task.timer.start`

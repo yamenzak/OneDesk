@@ -1130,6 +1130,41 @@ OVERRIDES = [
 		"erpnext/erpnext/assets/doctype/asset_maintenance/asset_maintenance.py",
 		'"reference_type": args["doctype"],',
 	),
+	(
+		"New file content goes to R2",
+		"Frappe's own seam for where content is written; ours asks admin for a signed URL and puts it there",
+		"onedesk/one_storage/store.py",
+		"frappe/frappe/core/doctype/file/file.py",
+		'write_file_method = get_hook_method("write_file")',
+	),
+	(
+		"A stored object is dropped when the last File naming it goes",
+		"Frappe's seam for deleting content; ours defers to after commit and skips a shared object",
+		"onedesk/one_storage/store.py",
+		"frappe/frappe/core/doctype/file/file.py",
+		'method = get_hook_method("delete_file_data_content")',
+	),
+	(
+		"A stored file's URL is counted as remote",
+		"`/api/method/` is in URL_PREFIXES, so Frappe's disk checks pass our URLs by",
+		"onedesk/one_storage/store.py",
+		"frappe/frappe/core/doctype/file/file.py",
+		'URL_PREFIXES = ("http://", "https://", "/api/method/")',
+	),
+	(
+		"File reads a stored file's content from R2",
+		"Frappe opens a path on disk in get_content; CloudFile overrides it, exists_on_disk and make_thumbnail",
+		"onedesk/one_storage/file.py",
+		"frappe/frappe/core/doctype/file/file.py",
+		"with open(file_path, mode=\"rb\") as f:",
+	),
+	(
+		"A stored file is decoded the way Frappe decodes one",
+		"text as text and anything else as bytes, by the same constants",
+		"onedesk/one_storage/file.py",
+		"frappe/frappe/core/doctype/file/file.py",
+		"OLE_FILE_SIGNATURE = ",
+	),
 ]
 
 

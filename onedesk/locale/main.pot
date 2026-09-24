@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-23 23:14+0000\n"
-"PO-Revision-Date: 2026-09-23 23:14+0000\n"
+"POT-Creation-Date: 2026-09-24 06:43+0000\n"
+"PO-Revision-Date: 2026-09-24 06:43+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -244,6 +244,10 @@ msgstr ""
 
 #: onedesk/one_project/naming.py:32
 msgid "A task prefix is 2 to 10 letters and digits, starting with a letter."
+msgstr ""
+
+#: onedesk/one_storage/ready.py:41
+msgid "A test file was stored and read back."
 msgstr ""
 
 #. Description of the 'Status' (Select) field in DocType 'Account Request'
@@ -1520,6 +1524,10 @@ msgstr ""
 msgid "Cannot be changed. Storage is pinned to it when the workspace is created."
 msgstr ""
 
+#: onedesk/one_storage/file.py:31
+msgid "Cannot get file contents of a Folder"
+msgstr ""
+
 #. Label of the capability (Select) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Capability"
@@ -1826,6 +1834,10 @@ msgstr ""
 
 #: onedesk/public/js/crm_record.js:112
 msgid "Closes"
+msgstr ""
+
+#: onedesk/one_storage/ready.py:33
+msgid "Cloud storage answers"
 msgstr ""
 
 #. Label of the cloudflare_section (Section Break) field in DocType 'One Admin
@@ -2885,6 +2897,14 @@ msgstr ""
 msgid "Every check-in is scored out of 100 and the score is kept on Clock Attempt. Each check below that fails subtracts from it."
 msgstr ""
 
+#: onedesk/one_storage/ready.py:48
+msgid "Every file is in cloud storage."
+msgstr ""
+
+#: onedesk/one_storage/ready.py:28
+msgid "Every file uploaded anywhere in One is kept in cloud storage."
+msgstr ""
+
 #: onedesk/one_hr/hiring.py:618
 msgid "Every part is already transcribed."
 msgstr ""
@@ -3066,7 +3086,9 @@ msgid "Field"
 msgstr ""
 
 #. Label of the files (Code) field in DocType 'AI Proposal'
+#. Label of a Sidebar Item
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+#: onedesk/one_storage/sidebar/onecloud/onecloud.json
 msgid "Files"
 msgstr ""
 
@@ -4794,6 +4816,10 @@ msgstr ""
 msgid "Moved up from {0}% to {1}%."
 msgstr ""
 
+#: onedesk/one_storage/ready.py:59
+msgid "Moving them now. This page says how many are left when you open it again."
+msgstr ""
+
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
 #. Option for the 'Default For' (Select) field in DocType 'AI Model'
 #. Option for the 'Needs' (Select) field in DocType 'AI Action'
@@ -4943,6 +4969,10 @@ msgstr ""
 msgid "New conversation"
 msgstr ""
 
+#: onedesk/one_storage/ready.py:26
+msgid "New files go to cloud storage"
+msgstr ""
+
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:359
 msgid "New link made. The old one no longer works."
 msgstr ""
@@ -5061,6 +5091,10 @@ msgstr ""
 msgid "No credits. Buy some to use the AI."
 msgstr ""
 
+#: onedesk/one_storage/ready.py:45
+msgid "No file is left on the server's disk"
+msgstr ""
+
 #: onedesk/one_book/ready.py:89
 msgid "No fiscal year covers today, so nothing dated today can be saved."
 msgstr ""
@@ -5135,7 +5169,7 @@ msgstr ""
 msgid "No year has ended with entries left open."
 msgstr ""
 
-#: onedesk/one_admin/storage.py:181
+#: onedesk/one_admin/storage.py:200
 msgid "No {0} bucket is configured."
 msgstr ""
 
@@ -5318,7 +5352,12 @@ msgstr ""
 msgid "Nothing on these days."
 msgstr ""
 
+#: onedesk/one_storage/ready.py:35
+msgid "Nothing to ask until the workspace is linked to an account."
+msgstr ""
+
 #: onedesk/one_book/ready.py:249 onedesk/one_inventory/ready.py:172
+#: onedesk/one_storage/ready.py:61
 msgid "Nothing to fix for {0}."
 msgstr ""
 
@@ -5611,6 +5650,11 @@ msgstr ""
 #. Title of a Sidebar
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 msgid "OneCalendar"
+msgstr ""
+
+#. Title of a Sidebar
+#: onedesk/one_storage/sidebar/onecloud/onecloud.json
+msgid "OneCloud"
 msgstr ""
 
 #. Title of a Sidebar
@@ -6644,7 +6688,7 @@ msgstr ""
 msgid "R2 buckets. A workspace is a prefix in one of them, fixed by its jurisdiction."
 msgstr ""
 
-#: onedesk/one_admin/storage.py:191
+#: onedesk/one_admin/storage.py:210
 msgid "R2 is not configured. Set it in One Admin Settings."
 msgstr ""
 
@@ -7461,6 +7505,7 @@ msgstr ""
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
+#: onedesk/one_storage/sidebar/onecloud/onecloud.json
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Setup"
 msgstr ""
@@ -7860,6 +7905,17 @@ msgstr ""
 #. Label of the storage_gb (Int) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Storage (GB)"
+msgstr ""
+
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_storage/report/storage_check/storage_check.json
+#: onedesk/one_storage/sidebar/onecloud/onecloud.json
+msgid "Storage Check"
+msgstr ""
+
+#: onedesk/one_storage/ready.py:40
+msgid "Storing and reading back a test file failed: {0}"
 msgstr ""
 
 #: onedesk/one_book/report/books_check/books_check.js:37
@@ -8638,6 +8694,10 @@ msgstr ""
 msgid "There is no maintenance team, and a schedule needs one."
 msgstr ""
 
+#: onedesk/one_storage/store.py:169
+msgid "There is no such file."
+msgstr ""
+
 #: onedesk/one_inventory/ready.py:77
 msgid "There is no warehouse, so nothing can be received."
 msgstr ""
@@ -8769,6 +8829,10 @@ msgstr ""
 
 #: onedesk/one_admin/storage.py:50
 msgid "This workspace has no room for another {0}."
+msgstr ""
+
+#: onedesk/one_storage/ready.py:29
+msgid "This workspace is not linked to an account, so files are kept on the server's disk."
 msgstr ""
 
 #. Label of the one_from_checkins (Button) field in DocType 'Employee
@@ -10440,6 +10504,14 @@ msgstr ""
 
 #: onedesk/public/js/workspace_account.js:118
 msgid "{0} expire on {1}."
+msgstr ""
+
+#: onedesk/one_storage/ready.py:50
+msgid "{0} files are on the disk, which is where this workspace keeps them."
+msgstr ""
+
+#: onedesk/one_storage/ready.py:51
+msgid "{0} files from before cloud storage are still on the server's disk."
 msgstr ""
 
 #: onedesk/public/js/salary_slip.js:29

@@ -65,14 +65,33 @@ def put_url(tenant, key: str, size: int) -> dict:
 	return {"url": signed, "key": full, "expires_in": GOOD_FOR}
 
 
-def get_url(tenant, key: str) -> dict:
+def get_url(tenant, key: str, filename: str | None = None, inline: bool = True) -> dict:
+	"""A URL the browser may GET this object from. With a filename, R2 answers
+	with it in Content-Disposition, so a download is saved under the name the
+	person knows rather than the key; inline or as an attachment."""
 	full = keys.under(tenant.name, key)
+	params = {"Bucket": _bucket(tenant.jurisdiction), "Key": full}
+	if filename:
+		import mimetypes
+
+		params["ResponseContentDisposition"] = disposition(filename, inline)
+		params["ResponseContentType"] = mimetypes.guess_type(filename)[0] or "application/octet-stream"
 	signed = _client(tenant.jurisdiction).generate_presigned_url(
 		"get_object",
-		Params={"Bucket": _bucket(tenant.jurisdiction), "Key": full},
+		Params=params,
 		ExpiresIn=GOOD_FOR,
 	)
 	return {"url": signed, "key": full, "expires_in": GOOD_FOR}
+
+
+def disposition(filename: str, inline: bool = True) -> str:
+	"""A Content-Disposition naming the file, for every browser: an ASCII
+	fallback and the real name in RFC 5987 form. Pure."""
+	from urllib.parse import quote
+
+	plain = "".join(ch if 32 <= ord(ch) < 127 and ch not in '"\\' else "_" for ch in filename) or "file"
+	kind = "inline" if inline else "attachment"
+	return f"{kind}; filename=\"{plain}\"; filename*=UTF-8''{quote(filename, safe='')}"
 
 
 def remove(tenant, key: str) -> dict:
@@ -189,9 +208,15 @@ def _client(jurisdiction: str):
 	secret = frappe.conf.get("r2_secret") or stored.get_password("r2_secret", raise_exception=False)
 	if not (account and key_id and secret):
 		frappe.throw(frappe._("R2 is not configured. Set it in One Admin Settings."))
+	# Any S3-compatible endpoint instead of R2's, for a self-hosted bench and
+	# for development against a local stand-in. Site config only: an endpoint is
+	# where every tenant's bytes go, so no screen may change it.
+	endpoint = frappe.conf.get("r2_endpoint") or HOSTS[jurisdiction if jurisdiction in HOSTS else "Global"].format(
+		account=account
+	)
 	return boto3.client(
 		"s3",
-		endpoint_url=HOSTS[jurisdiction if jurisdiction in HOSTS else "Global"].format(account=account),
+		endpoint_url=endpoint,
 		aws_access_key_id=key_id,
 		aws_secret_access_key=secret,
 		region_name=REGION,
