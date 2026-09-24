@@ -581,6 +581,9 @@ additional_timeline_content = {"Project": ["onedesk.one_project.updates.timeline
 # A OneCloud link: /s/<token> is www/s.py, for somebody with no account.
 website_route_rules = [{"from_route": "/s/<token>", "to_route": "s"}]
 
-# OneCloud as a network drive: Frappe answers OPTIONS before any method runs,
-# so the headers a WebDAV client looks for are added here. See one_storage/dav.py.
+# OneCloud as a network drive: a drive password signs a person in on the
+# drive's address before Frappe's API-key check would refuse it, and Frappe
+# answers OPTIONS before any method runs, so the headers a WebDAV client looks
+# for are added after. See one_storage/dav.py.
+before_request = ["onedesk.one_storage.dav.sign_in"]
 after_request = ["onedesk.one_storage.dav.headers"]

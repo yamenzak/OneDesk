@@ -428,3 +428,24 @@ def test_the_explorers_verbs_reach_a_server():
 	for hook in ("mounts.make_folder(", "mounts.rename(", "mounts.delete(", "_across(nodes, target, move=True)", "_across(nodes, target, move=False)"):
 		assert hook in api, hook
 	assert "mounts.move_within(" in _body(API, "_across"), "within one server, the server's own rename"
+
+
+def test_a_drive_password_is_read_from_basic_auth_and_nothing_else():
+	import base64
+	import binascii
+
+	basic = _load(DAV, ("basic",), base64=base64, binascii=binascii)["basic"]
+	token = base64.b64encode(b"ana@example.com:abcd-efgh-ijkl-mnop").decode()
+	assert basic(f"Basic {token}") == ("ana@example.com", "abcd-efgh-ijkl-mnop")
+	assert basic(f"token {token}") is None and basic("Basic !!!") is None and basic(None) is None
+	assert basic("Basic " + base64.b64encode(b"no-colon").decode()) is None
+
+
+def test_a_drive_password_opens_the_drive_and_nothing_else():
+	assert 'before_request = ["onedesk.one_storage.dav.sign_in"]' in HOOKS
+	body = _body(DAV, "sign_in")
+	assert "request.path.startswith(MOUNT)" in body, "anywhere else it is only a wrong API key"
+	assert "'@' not in found[0]" in body, "an email, which an API key never is"
+	assert "row.user.lower() != email.strip().lower()" in body, "the password is that person's"
+	assert "HTTP_AUTHORIZATION" in body, "taken away before Frappe's own check refuses it"
+	assert "api_secret" not in DAV.read_text(), "making one no longer changes the person's API secret"

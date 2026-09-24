@@ -143,12 +143,16 @@ A replaced file keeps its shares and its links.
 Right-click a folder and choose **Connect as a drive…** (or right-click an
 empty space for the folder you are in). The dialog gives its address and
 how to add it — Windows *Map network drive*, macOS *Connect to Server*,
-Linux *Other Locations* — and **Make a password** gives the user name and
-password to sign in with, shown once. The drive then works like any other:
-open, save, drag in, rename, make folders, delete. It holds exactly what you
-can open here and nothing else; saving over a file keeps what it held as a
-version, and deleting sends it to the Recycle Bin. Making a new password
-stops the old one working.
+Linux *Other Locations*. You sign in with your email and a drive password:
+**Make a password** makes one for a computer (say which), shown once. Make
+one per computer; each is listed with when it was last used, and the cross
+takes one away without touching the others. A drive password opens your
+drive and nothing else — not One in a browser, not the API.
+
+The drive then works like any other: open, save, drag in, rename, make
+folders, delete. It holds exactly what you can open here and nothing else;
+saving over a file keeps what it held as a version, and deleting sends it to
+the Recycle Bin.
 
 ## Servers as folders
 
@@ -315,9 +319,14 @@ not a second R2 integration.
 - `dav.py` — WebDAV. `serve` is whitelisted for every DAV method and hands
   the request to wsgidav (MIT); `/api/method/<name>/<rest>` leaves the rest
   of the path alone, so the drive is at `…/dav.serve/My Files/…` with no
-  process or port of its own. Signing in is Frappe's: Basic auth with the
-  person's API key and secret (`password` makes a secret for oneself only),
-  and a Guest gets a Basic challenge. The provider walks names with
+  process or port of its own. Signing in is with the person's email and a
+  drive password (`Cloud Drive Password`, one per computer): `sign_in`, a
+  before_request hook, checks it on the drive's address only, signs the
+  person in and removes the header before Frappe's API-key check would
+  refuse it — so it opens nothing else, and an email is never mistaken for
+  an API key. Drive passwords are sixteen random letters, stored as a
+  SHA-256 (a slow hash is for passwords people choose, and a drive checks
+  one on every request). A Guest gets a Basic challenge. The provider walks names with
   `namespace.children` and changes things only through `api` and `upload`,
   so a drive can do exactly what the explorer can. Frappe answers OPTIONS
   itself, rolls back methods it does not know change things, reads the

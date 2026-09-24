@@ -108,6 +108,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
+| Cloud Drive Password | 4 | document |
 | Cloud File Version | 7 | document |
 | Cloud Link | 17 | document |
 | Cloud Link Invitee | 2 | child |
@@ -279,7 +280,9 @@ No doctypes yet.
 * `onedesk.one_storage.api.resolve`
 * `onedesk.one_storage.api.restore`
 * `onedesk.one_storage.dav.address`
-* `onedesk.one_storage.dav.password`
+* `onedesk.one_storage.dav.drop_password`
+* `onedesk.one_storage.dav.make_password`
+* `onedesk.one_storage.dav.passwords`
 * `onedesk.one_storage.dav.serve`
 * `onedesk.one_storage.history.activity`
 * `onedesk.one_storage.history.restore`

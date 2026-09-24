@@ -8,11 +8,16 @@ PROPFIND, MKCOL, MOVE and LOCK reach `serve`, which hands the request to
 wsgidav (MIT) and gives back what it answers. There is no second process and
 no second port.
 
-**Signing in is Frappe's own.** A drive sends Basic auth; Frappe accepts an
-API key and secret there before any code of ours runs, so the drive's user
-name and password are the person's key and secret (`password` makes them).
-A request without them gets a 401 asking for Basic, which is what makes the
-client ask.
+**A drive has passwords of its own.** A person signs in with their email and
+a drive password (`make_password`), one per computer, each shown once and
+taken away on its own. It opens the drive and nothing else: `sign_in` is a
+before_request hook that looks only at requests under the drive's address,
+checks the password, signs the person in, and removes the header before
+Frappe's own API-key check would refuse it. Anywhere else the same
+password is just a wrong API key. A drive password is sixteen random
+letters, so it is stored as a SHA-256 — a slow hash is for passwords people
+choose, and every request a drive makes is checked. A request without one
+gets a 401 asking for Basic, which is what makes the client ask.
 
 **Every verb is the explorer's.** The provider below walks node ids with
 `namespace.children`, and creates, renames, moves, copies and deletes with
@@ -215,24 +220,104 @@ class FrappeSignIn(_signin_base()):
 		return False
 
 
-# ------------------------------------------------------------ the password
+# ------------------------------------------------------------ the passwords
+
+
+#: How a drive password looks: four groups of four letters, typed easily into
+#: a Connect to Server box. About 75 bits.
+GROUPS, LETTERS = 4, "abcdefghijkmnopqrstuvwxyz"
+
+
+def hashed(password: str) -> str:
+	import hashlib
+
+	return hashlib.sha256((password or "").encode()).hexdigest()
+
+
+def basic(header: str | None) -> tuple[str, str] | None:
+	"""(user name, password) from a Basic Authorization header. Pure."""
+	import base64
+	import binascii
+
+	kind, _sep, token = (header or "").partition(" ")
+	if kind.lower() != "basic" or not token:
+		return None
+	try:
+		name, colon, password = base64.b64decode(token.strip()).decode().partition(":")
+	except (binascii.Error, UnicodeDecodeError, ValueError):
+		return None
+	return (name, password) if colon else None
+
+
+def sign_in() -> None:
+	"""before_request: a drive password, on the drive's address only.
+
+	A user name with an @ is an email, which an API key never is, so a drive
+	password and an API key cannot be mistaken for each other. A wrong one is
+	left alone, and Frappe answers it as the wrong API key it looks like."""
+	request = getattr(frappe.local, "request", None)
+	if not request or not request.path.startswith(MOUNT):
+		return
+	found = basic(request.headers.get("Authorization"))
+	if not found or "@" not in found[0]:
+		return
+	email, password = found
+	row = frappe.db.get_value(
+		"Cloud Drive Password", {"password_hash": hashed(password)}, ["name", "user", "last_used"], as_dict=True
+	)
+	if not row or row.user.lower() != email.strip().lower():
+		return
+	if not frappe.db.get_value("User", {"name": row.user, "enabled": 1, "user_type": "System User"}):
+		return
+	form = frappe.local.form_dict
+	frappe.set_user(row.user)
+	frappe.local.form_dict = form
+	request.environ.pop("HTTP_AUTHORIZATION", None)
+	# A drive asks many times a minute; when it was last used is kept to ten.
+	now = frappe.utils.now_datetime()
+	if not row.last_used or (now - get_datetime(row.last_used)).total_seconds() > 600:
+		frappe.db.set_value("Cloud Drive Password", row.name, "last_used", now, update_modified=False)
+		frappe.local.flags.commit = True
 
 
 @frappe.whitelist(methods=["POST"])
-def password() -> dict:
-	"""A user name and password for the reader's drives: their API key and a
-	new secret, which is shown once. Making another stops the last working."""
+def make_password(label: str | None = None) -> dict:
+	"""A new drive password for the reader, shown this once."""
+	import secrets
+
 	user = frappe.session.user
 	if not ns._staff(user):
 		frappe.throw(_("Only people on the team can connect a drive."), frappe.PermissionError)
-	doc = frappe.get_doc("User", user)
-	if not doc.api_key:
-		doc.api_key = frappe.generate_hash(length=15)
-	secret = frappe.generate_hash(length=24)
-	doc.api_secret = secret
-	doc.flags.ignore_permissions = True
-	doc.save()
-	return {"user_name": doc.api_key, "password": secret, "url": frappe.utils.get_url(MOUNT) + "/"}
+	password = "-".join("".join(secrets.choice(LETTERS) for _ in range(4)) for _ in range(GROUPS))
+	frappe.get_doc(
+		{
+			"doctype": "Cloud Drive Password",
+			"user": user,
+			"label": (label or "").strip()[:140] or _("A drive"),
+			"password_hash": hashed(password),
+		}
+	).insert(ignore_permissions=True)
+	return {"user_name": user, "password": password}
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def passwords() -> list[dict]:
+	"""The reader's drive passwords: what each was for and when it was used."""
+	return frappe.get_all(
+		"Cloud Drive Password",
+		filters={"user": frappe.session.user},
+		fields=["name", "label", "creation", "last_used"],
+		order_by="creation desc",
+	)
+
+
+@frappe.whitelist(methods=["POST"])
+def drop_password(name: str) -> None:
+	"""Take one away: that computer is asked to sign in again."""
+	if frappe.db.get_value("Cloud Drive Password", name, "user") != frappe.session.user:
+		frappe.throw(_("That is no longer here."), frappe.DoesNotExistError)
+	frappe.delete_doc("Cloud Drive Password", name, ignore_permissions=True)
 
 
 # ------------------------------------------------------------ the provider
@@ -532,5 +617,5 @@ def path_of(node_id: str) -> str:
 def address(node: str = ns.MY) -> dict:
 	"""The address to connect a drive to, for a folder or for everything."""
 	path = "/" if node == ns.ROOT else path_of(node)
-	return {"url": href(path).rstrip("/") + "/", "everything": href("/"), "has_key": bool(frappe.db.get_value("User", frappe.session.user, "api_key"))}
+	return {"url": href(path).rstrip("/") + "/", "everything": href("/"), "user_name": frappe.session.user}
 

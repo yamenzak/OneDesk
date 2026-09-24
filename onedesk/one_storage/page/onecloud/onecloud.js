@@ -1362,7 +1362,9 @@ onedesk.OneCloud = class OneCloud {
 	// A folder, or everything, as a drive in Windows, macOS or Linux: its
 	// address, how each system adds one, and the password to sign in with.
 	async drive(node, name) {
-		const where = await frappe.xcall("onedesk.one_storage.dav.address", { node: ["@root", "@recent", "@starred", "@bin"].includes(node) ? "@root" : node });
+		const where = await frappe.xcall("onedesk.one_storage.dav.address", {
+			node: ["@root", "@recent", "@starred", "@bin", "@mounts"].includes(node) || node.startsWith("@mount/") ? "@root" : node,
+		});
 		const esc = frappe.utils.escape_html;
 		const steps = [
 			[__("Windows"), __("In File Explorer, right-click This PC and choose Map network drive. Paste the address as the folder.")],
@@ -1373,32 +1375,56 @@ onedesk.OneCloud = class OneCloud {
 			title: __("Connect {0} as a drive", [name]),
 			fields: [
 				{ fieldtype: "Data", fieldname: "url", label: __("Address"), read_only: 1, default: where.url },
+				{ fieldtype: "Data", fieldname: "user_name", label: __("User name"), read_only: 1, default: where.user_name },
 				{
 					fieldtype: "HTML",
 					fieldname: "how",
 					options: `<dl class="oc-drive-steps">${steps.map(([os, text]) => `<dt>${esc(os)}</dt><dd>${esc(text)}</dd>`).join("")}</dl>
-						<p class="oc-people-note">${esc(__("It asks for a user name and password: make them below. Everything you can open here, you can open there, and nothing else."))}</p>
-						<div class="oc-drive-key"></div>`,
+						<p class="oc-people-note">${esc(__("It asks for a password: make one for each computer below. A drive password opens your drive and nothing else, and everything you can open here, you can open there."))}</p>
+						<div class="oc-drive-key"></div><div class="oc-drive-list"></div>`,
 				},
 			],
-			primary_action_label: where.has_key ? __("Make a new password") : __("Make a password"),
-			primary_action: async () => {
-				const made = await frappe.xcall("onedesk.one_storage.dav.password");
-				const copy = __("Copy");
-				dialog.fields_dict.how.$wrapper.find(".oc-drive-key").html(`
-					<div class="oc-people-head">${esc(__("Shown once. Keep it somewhere safe."))}</div>
-					<div class="oc-drive-row"><span>${esc(__("User name"))}</span><code>${esc(made.user_name)}</code><button class="es-button" data-variant="ghost" data-size="sm" data-copy="${esc(made.user_name)}">${copy}</button></div>
-					<div class="oc-drive-row"><span>${esc(__("Password"))}</span><code>${esc(made.password)}</code><button class="es-button" data-variant="ghost" data-size="sm" data-copy="${esc(made.password)}">${copy}</button></div>`);
-				dialog.fields_dict.how.$wrapper.find("[data-copy]").on("click", (e) => frappe.utils.copy_to_clipboard(e.currentTarget.dataset.copy));
-				dialog.get_primary_btn().prop("disabled", true);
+			primary_action_label: __("Make a password"),
+			primary_action: () => {
+				frappe.prompt(
+					{ fieldtype: "Data", fieldname: "label", label: __("Which computer is it for?"), reqd: 1 },
+					async ({ label }) => {
+						const made = await frappe.xcall("onedesk.one_storage.dav.make_password", { label });
+						const copy = __("Copy");
+						const $how = dialog.fields_dict.how.$wrapper;
+						$how.find(".oc-drive-key").html(`
+							<div class="oc-people-head">${esc(__("Shown once. Keep it somewhere safe."))}</div>
+							<div class="oc-drive-row"><span>${esc(__("Password"))}</span><code>${esc(made.password)}</code><button class="es-button" data-variant="ghost" data-size="sm" data-copy="${esc(made.password)}">${copy}</button></div>`);
+						$how.find("[data-copy]").on("click", (e) => frappe.utils.copy_to_clipboard(e.currentTarget.dataset.copy));
+						list();
+					},
+					__("New drive password"),
+					__("Make")
+				);
 			},
 		});
-		if (where.has_key) {
-			dialog.fields_dict.how.$wrapper
-				.find(".oc-drive-key")
-				.html(`<p class="oc-people-note">${esc(__("You already have a password for your drives. Making a new one stops the old one working everywhere it is used."))}</p>`);
-		}
+		const list = async () => {
+			const found = await frappe.xcall("onedesk.one_storage.dav.passwords");
+			const $list = dialog.fields_dict.how.$wrapper.find(".oc-drive-list");
+			if (!found.length) return $list.empty();
+			const head = __("Your drive passwords");
+			const never = __("Never used");
+			const remove = __("Remove");
+			$list.html(`<div class="oc-people-head">${head}</div>${found
+				.map(
+					(one) => `<div class="oc-person" data-name="${esc(one.name)}">${frappe.utils.icon("key", "sm")}
+						<span class="oc-person-name">${esc(one.label)}</span>
+						<span class="oc-person-right">${one.last_used ? esc(__("Used {0}", [this.date_text(one.last_used)])) : never}</span>
+						<button class="es-button" data-variant="ghost" data-icon-button="true" data-size="sm" data-drop title="${remove}">${frappe.utils.icon("x", "sm")}</button></div>`
+				)
+				.join("")}`);
+			$list.find("[data-drop]").on("click", async (e) => {
+				await frappe.xcall("onedesk.one_storage.dav.drop_password", { name: $(e.currentTarget).closest(".oc-person").attr("data-name") });
+				list();
+			});
+		};
 		dialog.show();
+		list();
 	}
 
 	// ------------------------------------------------------------- menus

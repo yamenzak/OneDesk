@@ -1186,6 +1186,13 @@ OVERRIDES = [
 		"frappe/frappe/app.py",
 		'if request.method == "OPTIONS":',
 	),
+	(
+		"A drive password signs in before Frappe's API-key check",
+		"Frappe reads any Basic header as an API key and refuses the request if it is not one; dav.sign_in runs in before_request, which Frappe calls before validate_auth, and removes the header once it has signed the person in",
+		"onedesk/one_storage/dav.py",
+		"frappe/frappe/app.py",
+		'for before_request_task in frappe.get_hooks("before_request"):',
+	),
 ]
 
 
