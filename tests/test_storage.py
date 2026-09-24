@@ -2,6 +2,7 @@
 behind a URL of the workspace's own."""
 
 import ast
+import re
 import json
 import sys
 from pathlib import Path
@@ -241,3 +242,52 @@ def test_sharing_is_for_the_team_and_a_records_file_goes_with_its_record():
 	assert "Share the record instead" in _body(SHARE, "_shareable")
 	assert "ns.may(item, 'write')" in _body(SHARE, "_shareable"), "whoever may change it may share it"
 	assert "/desk/onecloud?node=" in _body(SHARE, "_tell"), "the notification opens the explorer"
+
+
+LINKS = tree.APP / "one_storage" / "links.py"
+
+
+def test_a_link_cookie_opens_its_own_link_for_its_own_time_and_nothing_else():
+	import hashlib
+	import hmac
+
+	space = _load(LINKS, ("seal", "unseal"), hmac=hmac, hashlib=hashlib)
+	seal, unseal = space["seal"], space["unseal"]
+	key = b"site key"
+	value = seal("abc", "guest@example.org", 2000, key)
+	assert unseal("abc", value, key, 1000) == "guest@example.org"
+	assert unseal("abc", seal("abc", "", 2000, key), key, 1000) == "", "a password opens it for anybody"
+	assert unseal("xyz", value, key, 1000) is None, "another link's cookie"
+	assert unseal("abc", value, b"another site", 1000) is None, "another site's cookie"
+	assert unseal("abc", value, key, 3000) is None, "run out"
+	assert unseal("abc", value.replace("guest@", "boss@"), key, 1000) is None, "an address swapped in"
+	assert unseal("abc", "rubbish", key, 1000) is None and unseal("abc", None, key, 1000) is None
+
+
+def test_a_guest_reaches_the_links_item_or_what_is_inside_its_folder_now():
+	body = _body(LINKS, "_within")
+	assert "link.file not in above" in body and "_binned(item.folder)" in body
+	for verb in ("get", "put"):
+		assert "_within(link" in _body(LINKS, verb), verb
+		assert "opened_as(link) is None" in _body(LINKS, verb), verb
+
+
+def test_the_table_alone_opens_nothing_and_the_guest_doors_are_rate_limited():
+	link = json.loads((tree.APP / "one_storage" / "doctype" / "cloud_link" / "cloud_link.json").read_text())
+	fields = {one["fieldname"]: one for one in link["fields"]}
+	assert fields["token"]["fieldtype"] == "Password", "kept encrypted, for the owner to copy again"
+	assert fields["token_hash"].get("unique"), "and found by its hash"
+	source = LINKS.read_text()
+	for verb in ("unlock", "ask_code", "enter_code", "put"):
+		assert re.search(rf"@rate_limit\([^)]*\)\ndef {verb}\(", source), verb
+
+
+def test_asking_for_a_code_does_not_say_who_was_invited():
+	body = _body(LINKS, "ask_code")
+	assert body.rstrip().endswith("return _back(token, 'sent')"), "the same answer either way"
+
+
+def test_a_link_lives_at_s_and_goes_when_its_file_does():
+	assert '"from_route": "/s/<token>", "to_route": "s"' in HOOKS
+	assert "onedesk.one_storage.links.forget_file" in HOOKS
+	assert (tree.APP / "www" / "s.py").exists() and (tree.APP / "www" / "s.html").exists()

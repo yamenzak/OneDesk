@@ -674,3 +674,27 @@
 	background: var(--surface-base);
 	font-size: var(--text-sm);
 }
+
+.oc-people-note {
+	color: var(--ink-gray-5);
+	font-size: var(--text-sm);
+}
+
+.oc-link {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	padding: calc(var(--spacing) * 1) 0;
+	color: var(--ink-gray-6);
+}
+
+.oc-link-said {
+	flex: 1;
+	min-width: 0;
+	color: var(--ink-gray-8);
+	font-size: var(--text-sm);
+}
+
+[data-new-link] {
+	margin-top: calc(var(--spacing) * 2);
+}

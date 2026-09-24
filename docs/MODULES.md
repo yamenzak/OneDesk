@@ -106,7 +106,10 @@ No doctypes yet.
 
 `onedesk/one_storage`
 
-No doctypes yet.
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Cloud Link | 17 | document |
+| Cloud Link Invitee | 2 | child |
 
 ## Desk records shipped as fixtures
 
@@ -273,6 +276,14 @@ No doctypes yet.
 * `onedesk.one_storage.api.rename`
 * `onedesk.one_storage.api.resolve`
 * `onedesk.one_storage.api.restore`
+* `onedesk.one_storage.links.ask_code`
+* `onedesk.one_storage.links.drop`
+* `onedesk.one_storage.links.enter_code`
+* `onedesk.one_storage.links.get`
+* `onedesk.one_storage.links.links`
+* `onedesk.one_storage.links.make`
+* `onedesk.one_storage.links.put`
+* `onedesk.one_storage.links.unlock`
 * `onedesk.one_storage.ready.fix`
 * `onedesk.one_storage.share.people`
 * `onedesk.one_storage.share.set_edit`

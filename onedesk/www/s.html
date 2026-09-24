@@ -1,0 +1,125 @@
+{% extends "templates/web.html" %}
+{% block title %}{{ link.file_name if link else _("Not found") }}{% endblock %}
+
+{%- block navbar -%}{%- endblock -%}
+{%- block footer -%}{%- endblock -%}
+{% block breadcrumbs %}{% endblock %}
+
+{% macro csrf() %}<input type="hidden" name="csrf_token" value="{{ frappe.session.csrf_token or '' }}">{% endmacro %}
+
+{% macro size(bytes) -%}
+	{%- if bytes >= 1048576 -%}{{ "%.1f"|format(bytes / 1048576) }} MB
+	{%- elif bytes >= 1024 -%}{{ (bytes / 1024)|round|int }} KB
+	{%- elif bytes -%}{{ bytes }} B{%- endif -%}
+{%- endmacro %}
+
+{% macro kind(name) -%}
+	{%- set ext = (name.rsplit(".", 1)[1] if "." in name else "")|lower -%}
+	{%- if ext in ("png", "jpg", "jpeg", "gif", "webp", "svg", "bmp", "avif") -%}image
+	{%- elif ext == "pdf" -%}pdf
+	{%- elif ext in ("mp4", "webm", "mov", "m4v") -%}video
+	{%- elif ext in ("mp3", "wav", "ogg", "m4a", "flac", "aac") -%}audio
+	{%- elif ext in ("txt", "md", "csv", "json") -%}text
+	{%- endif -%}
+{%- endmacro %}
+
+{% block page_content %}
+<div class="one-portal one-share">
+	<a class="one-portal__mark" href="/">
+		<img src="/assets/onedesk/images/one.svg" alt="">
+		<span>One</span>
+	</a>
+
+	{% if gone %}
+		<h1>{{ _("This link does not open anything") }}</h1>
+		<p class="one-portal__lede">{{ _("It may have run out or been turned off. Ask whoever sent it for a new one.") }}</p>
+
+	{% elif ask %}
+		<h1>{{ link.file_name }}</h1>
+		<p class="one-portal__lede">{{ _("{0} shared this with you.").format(by) }}</p>
+		{% if said %}<p class="{{ 'one-said' if said_wrong else 'one-share__ok' }}">{{ said }}</p>{% endif %}
+		{% if ask == "password" %}
+			<form method="post" action="/api/method/onedesk.one_storage.links.unlock">
+				{{ csrf() }}
+				<input type="hidden" name="token" value="{{ token }}">
+				<label class="one-field"><span>{{ _("Password") }}</span>
+					<input type="password" name="password" autocomplete="off" autofocus required></label>
+				<button class="one-go" type="submit">{{ _("Open") }}</button>
+			</form>
+		{% elif asked_email %}
+			<form method="post" action="/api/method/onedesk.one_storage.links.enter_code">
+				{{ csrf() }}
+				<input type="hidden" name="token" value="{{ token }}">
+				<label class="one-field"><span>{{ _("The code sent to {0}").format(asked_email) }}</span>
+					<input type="text" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" autofocus required></label>
+				<button class="one-go" type="submit">{{ _("Open") }}</button>
+			</form>
+		{% else %}
+			<form method="post" action="/api/method/onedesk.one_storage.links.ask_code">
+				{{ csrf() }}
+				<input type="hidden" name="token" value="{{ token }}">
+				<label class="one-field"><span>{{ _("Your email address") }}</span>
+					<input type="email" name="email" autocomplete="email" autofocus required>
+					<small class="one-note">{{ _("This was shared with particular people. We will send a code to the address it was shared with.") }}</small></label>
+				<button class="one-go" type="submit">{{ _("Send me a code") }}</button>
+			</form>
+		{% endif %}
+
+	{% elif here.is_folder %}
+		{% if trail|length > 1 %}
+			<nav class="one-share__trail">
+				{% for one in trail %}
+					{% if not loop.last %}<a href="/s/{{ token }}{% if not loop.first %}?in={{ one.id|urlencode }}{% endif %}">{{ one.name }}</a><span>/</span>
+					{% else %}<span>{{ one.name }}</span>{% endif %}
+				{% endfor %}
+			</nav>
+		{% endif %}
+		<h1>{{ here.file_name }}</h1>
+		<p class="one-portal__lede">{{ _("{0} shared this folder with you.").format(by) }}</p>
+		{% if said %}<p class="{{ 'one-said' if said_wrong else 'one-share__ok' }}">{{ said }}</p>{% endif %}
+
+		{% if items %}
+			<ul class="one-share__list">
+				{% for one in items %}
+					<li>
+						{% if one.folder %}
+							<a class="one-share__name is-folder" href="{{ one.into }}">{{ one.name }}</a>
+						{% else %}
+							<a class="one-share__name" href="{{ one.open }}" target="_blank" rel="noopener">{{ one.name }}</a>
+							<small>{{ size(one.size) }}</small>
+							{% if link.allow_download %}<a class="one-share__save" href="{{ one.save }}">{{ _("Download") }}</a>{% endif %}
+						{% endif %}
+					</li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<p class="one-note">{{ _("This folder is empty.") }}</p>
+		{% endif %}
+
+		{% if link.allow_upload %}
+			<form class="one-share__send" method="post" enctype="multipart/form-data" action="/api/method/onedesk.one_storage.links.put">
+				{{ csrf() }}
+				<input type="hidden" name="token" value="{{ token }}">
+				<input type="hidden" name="folder" value="{{ here.name }}">
+				<label class="one-field"><span>{{ _("Send files here") }}</span>
+					<input type="file" name="file" multiple required></label>
+				<button class="one-go" type="submit">{{ _("Send") }}</button>
+			</form>
+		{% endif %}
+
+	{% else %}
+		<h1>{{ here.file_name }}</h1>
+		<p class="one-portal__lede">{{ _("{0} shared this with you.").format(by) }}{% if here.file_size %} · {{ size(here.file_size) }}{% endif %}</p>
+		{% set shown = kind(here.file_name) %}
+		<div class="one-share__view">
+			{% if shown == "image" %}<img src="{{ here_urls.open }}" alt="">
+			{% elif shown in ("pdf", "text") %}<iframe src="{{ here_urls.open }}" title="{{ here.file_name }}"></iframe>
+			{% elif shown == "video" %}<video controls preload="metadata" src="{{ here_urls.open }}"></video>
+			{% elif shown == "audio" %}<audio controls preload="metadata" src="{{ here_urls.open }}"></audio>
+			{% else %}<a class="one-share__name" href="{{ here_urls.open }}" target="_blank" rel="noopener">{{ _("Open {0}").format(here.file_name) }}</a>
+			{% endif %}
+		</div>
+		{% if link.allow_download %}<a class="one-done" href="{{ here_urls.save }}">{{ _("Download") }}</a>{% endif %}
+	{% endif %}
+</div>
+{% endblock %}

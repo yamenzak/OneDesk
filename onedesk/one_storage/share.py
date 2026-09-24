@@ -62,6 +62,9 @@ def people(node: str) -> dict:
 	return {
 		"owner": {"user": item.owner, "name": get_fullname(item.owner)},
 		"can_share": _may_share(item),
+		# A link can be made for anything its reader may change, a record's
+		# file included; links.py says who that reaches.
+		"can_link": not item.one_home_of and ns.may(item, "write"),
 		"people": [{"user": one.user, "name": get_fullname(one.user), "edit": bool(one.write)} for one in rows],
 		"inherited": [
 			{

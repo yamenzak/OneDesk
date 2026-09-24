@@ -187,8 +187,9 @@ doc_events = {
 		"after_insert": "onedesk.one_hr.ai_grievance.raised",
 		"validate": "onedesk.one_hr.ai_grievance.unmarked",
 	},
-	# A recording's sound goes by its retention or an HR Manager's hand.
-	"File": {"on_trash": "onedesk.one_hr.hiring.keep_sound"},
+	# A recording's sound goes by its retention or an HR Manager's hand; a
+	# file's OneCloud links go with it.
+	"File": {"on_trash": ["onedesk.one_hr.hiring.keep_sound", "onedesk.one_storage.links.forget_file"]},
 	# An onboarding is for somebody who is not an employee yet, so the holiday
 	# list has to come from the company. See one_hr/lifecycle.py.
 	"Employee Onboarding": {
@@ -570,3 +571,6 @@ one_calendar_layers = [
 
 # A project's updates in its activity, under who wrote them. See one_project/updates.py.
 additional_timeline_content = {"Project": ["onedesk.one_project.updates.timeline"]}
+
+# A OneCloud link: /s/<token> is www/s.py, for somebody with no account.
+website_route_rules = [{"from_route": "/s/<token>", "to_route": "s"}]

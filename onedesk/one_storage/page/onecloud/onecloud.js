@@ -915,15 +915,18 @@ onedesk.OneCloud = class OneCloud {
 
 	// ------------------------------------------------------------- sharing
 
-	// A record's file is shared by sharing the record.
+	// Anything stored can be opened in the Share dialog; the server says
+	// whether people or links can be added to it.
 	shareable(item) {
-		return this.stored(item) && !(item.record && !item.folder);
+		return this.stored(item);
 	}
 
 	share(item) {
 		const call = (method, args) => frappe.xcall("onedesk.one_storage.share." + method, args);
 		const dialog = new frappe.ui.Dialog({
 			title: __("Share {0}", [item.name]),
+			// The people picker opens its list on focus, over everything else.
+			no_focus: true,
 			fields: [
 				{
 					fieldtype: "MultiSelectPills",
@@ -964,11 +967,25 @@ onedesk.OneCloud = class OneCloud {
 						<button class="es-button" data-variant="ghost" data-icon-button="true" data-size="sm" data-remove title="${__("Remove")}">${frappe.utils.icon("x", "sm")}</button>`
 					: `<span class="oc-person-right">${person.edit ? __("Can edit") : __("Can view")}</span>`;
 			const inherited = (person) => `<span class="oc-person-right">${person.edit ? __("Can edit") : __("Can view")} · ${esc(__("from {0}", [person.from]))}</span>`;
+			const owner_note = __("Owner");
+			const people_head = who.can_share || who.people.length ? __("People with access") : "";
+			const record_note = item.record && !item.folder ? __("This file is attached to a record, and goes to whoever may open the record.") : "";
+			const found = who.can_link ? await frappe.xcall("onedesk.one_storage.links.links", { node: item.id }) : [];
 			$people.html(`
-				<div class="oc-people-head">${__("People with access")}</div>
-				${row(who.owner, `<span class="oc-person-right">${__("Owner")}</span>`)}
+				${people_head ? `<div class="oc-people-head">${people_head}</div>` : ""}
+				${record_note ? `<p class="oc-people-note">${record_note}</p>` : ""}
+				${people_head ? row(who.owner, `<span class="oc-person-right">${owner_note}</span>`) : ""}
 				${who.people.map((person) => row(person, choose(person))).join("")}
-				${who.inherited.map((person) => row(person, inherited(person))).join("")}`);
+				${who.inherited.map((person) => row(person, inherited(person))).join("")}
+				${who.can_link ? this.links_html(found) : ""}`);
+			$people.find("[data-new-link]").on("click", () => this.new_link(item, draw));
+			$people.find("[data-copy-link]").on("click", (e) => {
+				frappe.utils.copy_to_clipboard($(e.currentTarget).closest(".oc-link").attr("data-url"));
+			});
+			$people.find("[data-drop-link]").on("click", async (e) => {
+				await frappe.xcall("onedesk.one_storage.links.drop", { name: $(e.currentTarget).closest(".oc-link").attr("data-name") });
+				draw();
+			});
 			$people.find(".oc-person-access").on("change", async (e) => {
 				const user = $(e.target).closest(".oc-person").attr("data-user");
 				await call("set_edit", { node: item.id, user, edit: e.target.value === "edit" ? 1 : 0 });
@@ -980,11 +997,95 @@ onedesk.OneCloud = class OneCloud {
 				this.refresh();
 			});
 			dialog.fields_dict.users.$wrapper.toggle(!!who.can_share);
+			dialog.set_title(who.can_share ? __("Share {0}", [item.name]) : __("Links to {0}", [item.name]));
 			dialog.fields_dict.access.$wrapper.toggle(!!who.can_share);
 			dialog.get_primary_btn().toggle(!!who.can_share);
 		};
 		dialog.show();
 		draw();
+	}
+
+	links_html(found) {
+		const esc = frappe.utils.escape_html;
+		const head = __("Links");
+		const make = __("Create link");
+		const copy = __("Copy link");
+		const remove = __("Remove");
+		const rows = found
+			.map((one) => {
+				const said = [
+					one.audience === "Invited people" ? __("Only {0}", [one.invitees.join(", ")]) : __("Anyone with the link"),
+					one.allow_upload ? __("can upload") : one.allow_download ? __("can download") : __("can view"),
+					one.expires_on ? (one.expired ? __("ran out {0}", [this.date_text(one.expires_on)]) : __("until {0}", [this.date_text(one.expires_on)])) : "",
+					one.has_password ? __("password") : "",
+					one.opened ? __("opened {0} times", [one.opened]) : "",
+				].filter(Boolean);
+				return `<div class="oc-link" data-name="${esc(one.name)}" data-url="${esc(one.url)}">
+					${frappe.utils.icon("link", "sm")}
+					<span class="oc-link-said">${esc(said.join(" · "))}</span>
+					<button class="es-button" data-variant="ghost" data-icon-button="true" data-size="sm" data-copy-link title="${copy}">${frappe.utils.icon("copy", "sm")}</button>
+					<button class="es-button" data-variant="ghost" data-icon-button="true" data-size="sm" data-drop-link title="${remove}">${frappe.utils.icon("x", "sm")}</button>
+				</div>`;
+			})
+			.join("");
+		return `<div class="oc-people-head">${head}</div>${rows}
+			<button class="es-button" data-variant="subtle" data-new-link>${frappe.utils.icon("link", "sm")}<span class="es-button__label">${make}</span></button>`;
+	}
+
+	// A link for people outside the team: who, what they can do, until when.
+	new_link(item, after) {
+		const dialog = new frappe.ui.Dialog({
+			title: __("Create link"),
+			fields: [
+				{
+					fieldtype: "Select",
+					fieldname: "audience",
+					label: __("Who can open it"),
+					options: [
+						{ value: "Anyone with the link", label: __("Anyone with the link") },
+						{ value: "Invited people", label: __("Only people I invite by email") },
+					],
+					default: "Anyone with the link",
+				},
+				{
+					fieldtype: "Small Text",
+					fieldname: "invitees",
+					label: __("Email addresses"),
+					description: __("One per line. Each is sent the link, and a code when they open it."),
+					depends_on: "eval:doc.audience=='Invited people'",
+					mandatory_depends_on: "eval:doc.audience=='Invited people'",
+				},
+				{ fieldtype: "Check", fieldname: "allow_download", label: __("Can download"), default: 1 },
+				{ fieldtype: "Check", fieldname: "allow_upload", label: __("Can upload files into it"), default: 0, hidden: item.folder ? 0 : 1 },
+				{ fieldtype: "Datetime", fieldname: "expires_on", label: __("Expires on") },
+				{
+					fieldtype: "Password",
+					fieldname: "password",
+					label: __("Password"),
+					depends_on: "eval:doc.audience!='Invited people'",
+				},
+			],
+			primary_action_label: __("Create link"),
+			primary_action: async (values) => {
+				const invitees = (values.invitees || "")
+					.split(/[\s,;]+/)
+					.map((one) => one.trim())
+					.filter(Boolean);
+				const made = await frappe.xcall("onedesk.one_storage.links.make", {
+					node: item.id,
+					audience: values.audience,
+					invitees,
+					allow_download: values.allow_download ? 1 : 0,
+					allow_upload: values.allow_upload ? 1 : 0,
+					expires_on: values.expires_on || null,
+					password: values.password || null,
+				});
+				dialog.hide();
+				frappe.utils.copy_to_clipboard(made.url);
+				after();
+			},
+		});
+		dialog.show();
 	}
 
 	// ------------------------------------------------------------- menus

@@ -84,8 +84,30 @@ They get a notification that opens it.
 - The Share dialog lists everyone who has it, and lets you change what they
   can do or take them off. Anybody can take themselves off.
 - A file attached to a record is shared by sharing the record.
-- Only people on the team can be given something here. Sending a file to a
-  customer or anybody outside is a link (not built yet).
+- Only people on the team can be given something here. For anybody else,
+  make a link (below).
+
+## Sharing outside the team
+
+In the Share dialog, **Create link** makes a link for people who are not on
+the team — a customer, a supplier, an accountant. It is copied for you to
+paste into an email or a chat. You choose:
+
+- **Who can open it**: anyone who has the link, or only people you invite by
+  email. An invited person is emailed the link, and when they open it they
+  type their address and are sent a code, so a forwarded link opens nothing
+  for anybody else.
+- **What they can do**: view; download; and for a folder, upload — a folder
+  somebody can send you files into without an account. You are told when
+  files arrive.
+- **Until when**, and a **password** for an anyone-link.
+
+The page they see shows the file, or the folder and everything in it now
+(something you add later is there; something you delete is not). The links
+on a file are listed in its Share dialog, with how often each was opened;
+the cross takes one away at once. A link to a record's file can be made by
+whoever may change the record.
+
 
 ## Where files are kept
 
@@ -198,6 +220,24 @@ not a second R2 integration.
   knows nothing of folder shares, so `CloudFile.validate_private_file_access`
   accepts any row `may` lets the reader open (an override, listed).
 
+- `links.py`, `doctype/cloud_link` and `www/s.py` — links for people outside
+  the team. A `Cloud Link` names a File, an audience (anyone, or invited
+  addresses in `Cloud Link Invitee`), download and upload, an expiry and a
+  password. Its token is kept encrypted (a Password field, for the owner to
+  copy again) and found by its SHA-256, so the table alone opens nothing.
+  `/s/<token>` (a route rule to `www/s.py`) asks what `needs` says — a
+  password, or an address and the six-digit code mailed to it — and answers
+  with a cookie `seal`ed with the site's key over the link, the address and
+  twelve hours, so no guest state is kept and a cookie opens only its own
+  link. Asking for a code answers the same whether the address was invited.
+  Every guest verb asks `_within`: the link's item, or something in its
+  folder's chain, not in the bin. `get` redirects to a signed R2 URL (or
+  sends from disk); `put` is a plain form post whose files belong to the
+  link's owner, who is notified. The four guest doors are rate-limited. The
+  page is plain forms on the portal stylesheet, no script. A link on a File
+  goes when the File does (`forget_file`, on_trash); an invitation needs an
+  outgoing email account and says so rather than failing silently.
+
 ### Research and decisions
 
 What was asked for, and what each became.
@@ -256,7 +296,7 @@ repositories, which will be folders with history.
 4. **Sharing inside the team.** People, view or edit, reaching everything in
    a folder; Shared with Me. *Done.*
 5. **Sharing outside.** Links and email invitations, and the page a guest
-   sees.
+   sees. *Done.*
 6. **Libraries and versions.** Team libraries with members and roles, version
    history, recent and starred.
 7. **WebDAV.** Any folder as a network drive in Windows, macOS and Linux.

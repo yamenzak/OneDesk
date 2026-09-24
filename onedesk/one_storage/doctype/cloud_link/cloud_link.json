@@ -1,0 +1,176 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-09-29 05:00:00.000000",
+ "description": "A link to a file or folder in OneCloud for people outside the team.",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "file",
+  "file_name",
+  "is_folder",
+  "audience",
+  "allow_download",
+  "allow_upload",
+  "column_break_when",
+  "expires_on",
+  "password",
+  "disabled",
+  "section_invitees",
+  "invitees",
+  "section_use",
+  "opened",
+  "last_opened",
+  "token",
+  "token_hash"
+ ],
+ "fields": [
+  {
+   "fieldname": "file",
+   "fieldtype": "Link",
+   "label": "File",
+   "options": "File",
+   "reqd": 1,
+   "read_only": 1,
+   "in_list_view": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "file_name",
+   "fieldtype": "Data",
+   "label": "Name",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "is_folder",
+   "fieldtype": "Check",
+   "label": "Is Folder",
+   "read_only": 1
+  },
+  {
+   "fieldname": "audience",
+   "fieldtype": "Select",
+   "label": "Audience",
+   "options": "Anyone with the link\nInvited people",
+   "default": "Anyone with the link",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "allow_download",
+   "fieldtype": "Check",
+   "label": "Can download",
+   "default": "1"
+  },
+  {
+   "fieldname": "allow_upload",
+   "fieldtype": "Check",
+   "label": "Can upload",
+   "default": "0",
+   "depends_on": "is_folder",
+   "description": "Into a folder, for somebody sending you files."
+  },
+  {
+   "fieldname": "column_break_when",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expires_on",
+   "fieldtype": "Datetime",
+   "label": "Expires on",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Password",
+   "label": "Password"
+  },
+  {
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled",
+   "default": "0"
+  },
+  {
+   "fieldname": "section_invitees",
+   "fieldtype": "Section Break",
+   "label": "Invited people",
+   "depends_on": "eval:doc.audience=='Invited people'"
+  },
+  {
+   "fieldname": "invitees",
+   "fieldtype": "Table",
+   "label": "Invitees",
+   "options": "Cloud Link Invitee"
+  },
+  {
+   "fieldname": "section_use",
+   "fieldtype": "Section Break",
+   "label": "Use"
+  },
+  {
+   "fieldname": "opened",
+   "fieldtype": "Int",
+   "label": "Times opened",
+   "read_only": 1,
+   "default": "0"
+  },
+  {
+   "fieldname": "last_opened",
+   "fieldtype": "Datetime",
+   "label": "Last opened",
+   "read_only": 1
+  },
+  {
+   "fieldname": "token",
+   "fieldtype": "Password",
+   "label": "Token",
+   "hidden": 1,
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "token_hash",
+   "fieldtype": "Data",
+   "label": "Token Hash",
+   "hidden": 1,
+   "read_only": 1,
+   "no_copy": 1,
+   "unique": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-29 05:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Storage",
+ "name": "Cloud Link",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1
+  },
+  {
+   "role": "Desk User",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "if_owner": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "file_name",
+ "track_changes": 1
+}
