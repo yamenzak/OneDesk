@@ -583,3 +583,44 @@ def test_the_sidebar_attachments_are_one_row_into_the_files_tab():
 	assert "one-files-side" in js and '.off("click")' in js and "tab.set_active()" in js
 	for gone in (".one-files-side .attachment-row", ".one-files-side .show-all-btn", ".one-files-side .add-attachment-btn"):
 		assert gone in css, gone
+
+
+LIVE = tree.APP / "one_storage" / "live.py"
+
+
+def test_a_change_is_told_as_keys_that_name_nothing():
+	import hashlib
+	import hmac
+
+	space = _load(
+		LIVE, ("key", "record_key", "keys_of"), hmac=hmac, hashlib=hashlib, get_encryption_key=lambda: "site-secret"
+	)  # fmt: skip
+	keys = space["keys_of"]({"folder": "Home/alice@x.com/Salaries", "attached_to_doctype": "Employee", "attached_to_name": "HR-EMP-1"})
+	assert len(keys) == 2
+	for one in keys:
+		assert len(one) == 16 and "alice" not in one and "Salaries" not in one
+	assert space["key"]("Home/a") != space["record_key"]("Home", "a"), "a folder and a record never share a key"
+	other = _load(LIVE, ("key",), hmac=hmac, hashlib=hashlib, get_encryption_key=lambda: "another")["key"]
+	assert other("Home/a") != space["key"]("Home/a"), "keyed by the site's own secret"
+
+
+def test_every_way_a_file_changes_is_told():
+	hooks = HOOKS[HOOKS.index('"File": {') :]
+	hooks = hooks[: hooks.index("},")]
+	assert '"on_update": "onedesk.one_storage.live.changed"' in hooks
+	assert "onedesk.one_storage.live.changed" in hooks[hooks.index('"on_trash"') :]
+	api = (tree.APP / "one_storage" / "api.py").read_text()
+	for verb in ("rename", "move", "delete", "restore"):
+		assert "live.announce(" in _body(tree.APP / "one_storage" / "api.py", verb), verb
+	assert '"watch": live.watch(node, bool(search))' in api
+	assert "live.announce(item)" in _body(tree.APP / "one_storage" / "history.py", "replace")
+	assert "live.announce(item)" in _body(tree.APP / "one_storage" / "history.py", "restore")
+
+
+def test_the_explorer_listens_on_its_own_event_not_list_update():
+	js = (PAGE / "onecloud.js").read_text()
+	assert 'frappe.realtime.doctype_subscribe("File")' in js
+	assert 'frappe.realtime.on("onecloud_change"' in js
+	assert "list_update" not in js, "the list view unbinds every list_update listener"
+	source = LIVE.read_text()
+	assert "after_commit.add(_send)" in source and 'room=get_doctype_room("File")' in source

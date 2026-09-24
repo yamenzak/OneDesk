@@ -185,3 +185,6 @@ def thumbnail(name: str) -> None:
 	url = doc.make_thumbnail()
 	if url:
 		frappe.db.set_value("File", name, "thumbnail_url", url, update_modified=False)
+		from onedesk.one_storage import live
+
+		live.announce(name)

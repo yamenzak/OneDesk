@@ -20,7 +20,7 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, now_datetime
 
-from onedesk.one_storage import mounts
+from onedesk.one_storage import live, mounts
 from onedesk.one_storage import namespace as ns
 
 #: How long the Recycle Bin keeps things.
@@ -87,6 +87,7 @@ def listing(node: str = ns.ROOT, search: str | None = None, everywhere: int = 0)
 	return {
 		"node": node,
 		"trail": ns.trail(node),
+		"watch": live.watch(node, bool(search)),
 		"items": (ns.everywhere(search) if int(everywhere or 0) else ns.search(node, search)) if search else ns.children(node),
 		"can_add": can_add,
 		"can_make_folder": can_add and kind[0] != ns.RECORDS,
@@ -157,6 +158,7 @@ def rename(node: str, name: str) -> dict:
 		return ns.node(item)
 	name = ns.unique_name(name, _taken(item.folder, but=node) if item.folder else set())
 	frappe.db.set_value("File", node, "file_name", name)
+	live.announce(item)
 	if item.is_folder:
 		node = _rename_folder(node)
 	_note(node, _("renamed it from {0}").format(item.file_name))
@@ -208,6 +210,7 @@ def move(nodes: str | list, target: str) -> list[str]:
 		if name != item.file_name:
 			frappe.db.set_value("File", node_id, "file_name", name)
 		frappe.db.set_value("File", node_id, "folder", where[1])
+		live.announce(item, folders=[where[1]])
 		moved.append(_rename_folder(node_id) if item.is_folder else node_id)
 		_note(moved[-1], _("moved it from {0}").format(frappe.db.get_value("File", item.folder, "file_name") or item.folder))
 	return moved
@@ -338,6 +341,7 @@ def delete(nodes: str | list) -> dict:
 			node_id,
 			{"one_deleted": 1, "one_deleted_on": now_datetime(), "one_deleted_by": frappe.session.user},
 		)
+		live.announce(item)
 		binned += 1
 	return {"binned": binned, "removed": removed}
 
@@ -360,6 +364,7 @@ def restore(nodes: str | list) -> list[str]:
 			node_id,
 			{"one_deleted": 0, "one_deleted_on": None, "one_deleted_by": None, "folder": folder, "file_name": name},
 		)
+		live.announce(item, folders=[folder])
 		back.append(_rename_folder(node_id) if item.is_folder and folder != item.folder else node_id)
 		_note(back[-1], _("put it back from the Recycle Bin"))
 	return back

@@ -22,7 +22,7 @@ import frappe.share
 from frappe import _
 from frappe.utils import get_fullname
 
-from onedesk.one_storage import api
+from onedesk.one_storage import api, live
 from onedesk.one_storage import namespace as ns
 
 
@@ -120,6 +120,7 @@ def share(nodes: str | list, users: str | list, edit: int = 0) -> int:
 				item.name,
 				_("shared it with {0}").format(", ".join(get_fullname(user) for user in sorted(staff - {item.owner}))),
 			)
+			live.announce(item)
 	ns.forget()
 	return given
 
@@ -131,6 +132,7 @@ def unshare(node: str, user: str) -> None:
 	if user != frappe.session.user:
 		_shareable(node)
 	frappe.share.remove("File", item.name, user, flags={"ignore_permissions": True})
+	live.announce(item)
 	ns.forget()
 
 

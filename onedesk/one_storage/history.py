@@ -61,6 +61,9 @@ def replace(item: dict, new: str) -> str:
 	)
 	frappe.db.set_value("File", item.name, {**fresh, "modified": now_datetime(), "modified_by": frappe.session.user})
 	frappe.db.delete("File", new)
+	from onedesk.one_storage import live
+
+	live.announce(item)
 	note(item.name, _("uploaded a new version"))
 	return item.name
 
@@ -111,6 +114,9 @@ def restore(node: str, version: str) -> None:
 			"modified_by": frappe.session.user,
 		},
 	)
+	from onedesk.one_storage import live
+
+	live.announce(item)
 	note(item.name, _("restored version {0}").format(old.version))
 
 

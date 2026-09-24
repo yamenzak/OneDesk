@@ -194,10 +194,13 @@ doc_events = {
 	# A recording's sound goes by its retention or an HR Manager's hand; a
 	# file's OneCloud links and versions go with it.
 	"File": {
+		# An open OneCloud folder redraws; see one_storage/live.py.
+		"on_update": "onedesk.one_storage.live.changed",
 		"on_trash": [
 			"onedesk.one_hr.hiring.keep_sound",
 			"onedesk.one_storage.links.forget_file",
 			"onedesk.one_storage.history.forget",
+			"onedesk.one_storage.live.changed",
 		]
 	},
 	# An onboarding is for somebody who is not an employee yet, so the holiday

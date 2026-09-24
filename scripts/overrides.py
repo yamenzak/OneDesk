@@ -1187,6 +1187,13 @@ OVERRIDES = [
 		"form-sidebar-label explore-link",
 	),
 	(
+		"OneCloud redraws on its own event in File's socket room",
+		"a list view's frappe.realtime.off(\"list_update\") unbinds every listener on that event, so live.py sends onecloud_change to the room doctype_subscribe(\"File\") joins",
+		"onedesk/one_storage/live.py",
+		"frappe/frappe/public/js/frappe/list/list_view.js",
+		'frappe.realtime.off("list_update");',
+	),
+	(
 		"A form left with one visible tab shows no tab strip",
 		"record_files.js hides the Files tab on an unsaved record and asks Layout.refresh_tabs again, which hides the strip when only Details is left",
 		"onedesk/public/js/record_files.js",

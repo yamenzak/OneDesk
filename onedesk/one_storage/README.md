@@ -76,6 +76,9 @@ It works the way the file explorer on your computer does.
   a link, cut, copy, paste, rename, delete.
 - **Drag** files onto a folder to move them; hold Ctrl to copy instead.
 
+What somebody else adds, moves or deletes shows up in the folder you have
+open without refreshing, as it does in any list in One.
+
 The keys you already know work: Enter opens, Backspace goes back, F2
 renames, Delete deletes (Shift+Delete deletes for good), Ctrl+A selects
 everything, Ctrl+X, Ctrl+C and Ctrl+V cut, copy and paste, Ctrl+Shift+N
@@ -323,6 +326,23 @@ not a second R2 integration.
   reader's user settings (under File), and follow them to another browser.
   R2's bucket must allow a browser `PUT` from the workspace's origin (CORS);
   where it does not, uploads fall back to `here` on their own.
+- `live.py` — live updates. An open folder, a record's Files tab, Recent,
+  Shared with Me and the rest redraw when somebody else changes what they
+  show, the way a list view does. The list view's own `list_update` cannot
+  be shared: it unbinds every listener on that event before binding its
+  own. Binning, restoring, moving and new versions are also `db.set_value`,
+  which publishes nothing. So OneCloud sends `onecloud_change` to the same
+  place, File's socket room, once per request after the commit. It comes
+  from File's on_update and on_trash, and from each verb that writes around
+  `save`. The event carries keys, not names: an HMAC, under the site's
+  encryption key, of each folder or record touched, because every desk
+  user may join that room and a folder's id is its path. A listing returns
+  the keys it `watch`es: one for a folder or a record room, `*` for views
+  that span folders. The explorer re-lists when it hears one, after a pause,
+  and not while a menu, a rename or a drag is open. A hidden explorer waits
+  until it is looked at. The re-listing goes through `may`, so the event
+  tells nobody about a file they cannot open.
+
 - `public/js/record_files.js` — the Files tab on every record. Frappe draws
   a form from `Layout.get_doctype_fields`; that is wrapped to append a Tab
   Break and an HTML field. So the tab is on every doctype, erpnext's and

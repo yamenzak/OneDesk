@@ -61,6 +61,7 @@ onedesk.OneCloud = class OneCloud {
 		this.build();
 		this.bind();
 		if (!this.room) $(window).on("resize.onecloud", frappe.utils.debounce(() => this.fit(), 100));
+		this.listen();
 		frappe.model.user_settings.get("File").then((kept) => {
 			Object.assign(this.settings, (kept && kept.OneCloud) || {});
 			this.apply_settings();
@@ -161,6 +162,32 @@ onedesk.OneCloud = class OneCloud {
 		frappe.model.user_settings.save("File", "OneCloud", this.settings);
 	}
 
+	// ------------------------------------------------------------- live
+
+	// Somebody else's change to what is open: redraw, the way a list view
+	// does. The server says which folders and records changed as keys
+	// (one_storage/live.py); a listing says which keys it is watching.
+	listen() {
+		frappe.realtime.doctype_subscribe("File");
+		const redraw = frappe.utils.debounce(() => this.redraw(), 600);
+		frappe.realtime.on("onecloud_change", (data) => {
+			const keys = (data && data.keys) || [];
+			if (this.watch !== "*" && !keys.some((one) => (this.watch || []).includes(one))) return;
+			// Hidden (another page, another tab of the form): on the next look.
+			if (!this.$root.is(":visible")) return (this.stale = true);
+			redraw();
+		});
+	}
+
+	redraw() {
+		// Not under somebody's hands: a menu open, a name being typed, a drag.
+		if (this.$menu || this.dragging || this.$root.find("input.oc-rename, input.oc-path").length) {
+			return setTimeout(() => this.redraw(), 1500);
+		}
+		this.forget_tree(this.node);
+		this.refresh();
+	}
+
 	// ------------------------------------------------------------ where we are
 
 	wanted() {
@@ -231,6 +258,8 @@ onedesk.OneCloud = class OneCloud {
 		if (token !== this.asking) return;
 		this.items = answer.items || [];
 		this.trail = answer.trail || [];
+		this.watch = answer.watch || [];
+		this.stale = false;
 		this.can_add = !!answer.can_add;
 		this.can_make_folder = !!answer.can_make_folder;
 		this.can_make_library = !!answer.can_make_library;
