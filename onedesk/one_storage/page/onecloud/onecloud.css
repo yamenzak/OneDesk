@@ -3,8 +3,9 @@
 .oc {
 	display: flex;
 	flex-direction: column;
-	height: calc(100vh - 130px);
-	min-height: 480px;
+	/* Set by fit(), to the bottom of the window; this is only the first paint. */
+	height: calc(100vh - 110px);
+	min-height: 420px;
 	border: 1px solid var(--outline-gray-1);
 	border-radius: var(--radius-lg);
 	background: var(--surface-base);

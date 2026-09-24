@@ -62,6 +62,7 @@ onedesk.OneCloud = class OneCloud {
 		this.settings = { view: "details", sort: "name", asc: 1, preview: 1 };
 		this.build();
 		this.bind();
+		$(window).on("resize.onecloud", frappe.utils.debounce(() => this.fit(), 100));
 		frappe.model.user_settings.get("File").then((kept) => {
 			Object.assign(this.settings, (kept && kept.OneCloud) || {});
 			this.apply_settings();
@@ -133,6 +134,15 @@ onedesk.OneCloud = class OneCloud {
 		this.$search = this.$root.find(".oc-search input");
 	}
 
+	// To the bottom of the window from wherever the desk's header leaves it,
+	// rather than a guess at how tall that header is.
+	fit() {
+		const el = this.$root[0];
+		if (!el || !el.offsetParent) return;
+		const top = el.getBoundingClientRect().top + window.scrollY;
+		el.style.height = `${Math.max(420, window.innerHeight - top - 12)}px`;
+	}
+
 	apply_settings() {
 		this.$root.attr("data-view", this.settings.view);
 		this.$root.toggleClass("oc-no-preview", !cint(this.settings.preview));
@@ -159,6 +169,7 @@ onedesk.OneCloud = class OneCloud {
 
 	// Coming to the page, or the address changing under it.
 	show() {
+		this.fit();
 		if (!this.ready) return;
 		const node = this.wanted();
 		if (node === this.node) return this.refresh();
@@ -232,6 +243,7 @@ onedesk.OneCloud = class OneCloud {
 	draw() {
 		const here = this.trail[this.trail.length - 1];
 		this.draw_crumbs();
+		this.fit();
 		this.$search.attr("placeholder", __("Search {0}", [here ? here.name : __("Files")]));
 		this.$root.attr("data-kind", this.kind());
 		// Search results say which folder each is in; Shared with Me says who from.
