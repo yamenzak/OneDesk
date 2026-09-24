@@ -292,7 +292,13 @@ doc_events = {
 	# already exists is found rather than made twice (one_crm/capture.py).
 	"Lead": {
 		"before_insert": "onedesk.one_crm.capture.before_insert",
-		"on_update": "onedesk.one_crm.next.on_update",
+		"on_update": [
+			"onedesk.one_crm.next.on_update",
+			# A lead without a picture gets their face, or their company's logo.
+			# See one_mail/faces.py.
+			"onedesk.one_mail.faces.dress_later",
+		],
+		"after_insert": "onedesk.one_mail.faces.dress_later",
 	},
 	# An Assignment Rule's pick becomes the owner, and a lead's first reply is
 	# timed (one_crm/capture.py). A to-do about nothing becomes a task, and the

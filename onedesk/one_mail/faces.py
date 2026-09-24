@@ -241,23 +241,67 @@ def again() -> None:
 
 # ------------------------------------------------------------------ records
 
-#: Which image field each kind of record is dressed in, and where its
-#: address or website is.
+#: The image field each kind of record is dressed in, and whether it is a
+#: person (a face first) or an organisation (a logo first).
 DRESSED = {
-	"Contact": ("image", None),
-	"Customer": ("image", "website"),
-	"Supplier": ("image", "website"),
-	"Bank": ("one_logo", "website"),
+	"Contact": ("image", "person"),
+	"Lead": ("image", "person"),
+	"Customer": ("image", "organisation"),
+	"Supplier": ("image", "organisation"),
+	"Bank": ("one_logo", "bank"),
 }
+
+
+def sources(kind: str, email: str | None, website: str | None) -> list[str]:
+	"""Where a record's picture is looked for, in order, until one has it.
+	Pure.
+	- a person: their face, then their organisation's logo by the domain of
+	  their address, then by their website;
+	- an organisation: its website's logo, then its address's domain's, then
+	  a face registered to the address itself (some register a logo against
+	  info@);
+	- a bank: its website's logo only.
+	A mail provider's domain is never an organisation's logo."""
+	email = (email or "").strip().lower() or None
+	address = email if email and "@" in email else None
+	by_email = domain_of(address) if address else None
+	by_site = domain_of(website)
+	logos = [one for one in (by_site, by_email) if one and one not in PROVIDERS]
+	if kind == "person":
+		order = [
+			address,
+			by_email if by_email not in PROVIDERS else None,
+			by_site if by_site not in PROVIDERS else None,
+		]
+	elif kind == "organisation":
+		order = [*logos, address]
+	else:
+		order = [by_site if by_site not in PROVIDERS else None]
+	return list(dict.fromkeys(one for one in order if one))
+
+
+def _email_of(doc) -> str | None:
+	"""A record's address: its own, else its primary contact's."""
+	if doc.doctype == "Contact":
+		return doc.get("email_id") or next(
+			(row.email_id for row in doc.get("email_ids") or [] if row.email_id), None
+		)
+	found = doc.get("email_id")
+	contact = doc.get("customer_primary_contact") or doc.get("supplier_primary_contact")
+	if not found and contact:
+		found = frappe.db.get_value("Contact", contact, "email_id")
+	return found
+
+
+def sources_of(doc) -> list[str]:
+	return sources(DRESSED[doc.doctype][1], _email_of(doc), doc.get("website"))
 
 
 def dress_later(doc, method=None) -> None:
 	"""after_insert and on_update of the records in DRESSED: one without a
 	picture gets one, in the background."""
-	field, _source = DRESSED.get(doc.doctype, (None, None))
-	if not field or doc.get(field) or not doc.meta.has_field(field):
-		return
-	if not _source_of(doc):
+	field = DRESSED.get(doc.doctype, (None, None))[0]
+	if not field or not doc.meta.has_field(field) or doc.get(field) or not sources_of(doc):
 		return
 	frappe.enqueue(
 		"onedesk.one_mail.faces.dress",
@@ -270,26 +314,42 @@ def dress_later(doc, method=None) -> None:
 	)
 
 
-def _source_of(doc) -> str | None:
-	"""The key a record's picture is found by."""
-	_field, source = DRESSED[doc.doctype]
-	if doc.doctype == "Contact":
-		address = doc.get("email_id") or next(
-			(row.email_id for row in doc.get("email_ids") or [] if row.email_id), None
-		)
-		return (address or "").strip().lower() or None
-	domain = domain_of(doc.get(source))
-	return domain if domain and domain not in PROVIDERS else None
+def picture(key: str) -> str | None:
+	"""A key's picture: what was found before, or a first look now. One
+	looked for and not found stays not found until `again` looks again."""
+	found = frappe.db.get_value("Face", key, ["image", "found"], as_dict=True)
+	if found:
+		return found.image if found.found else None
+	return fetch(key)
 
 
 def dress(doctype: str, name: str) -> str | None:
+	"""Give a record without a picture the first one its sources have."""
 	doc = frappe.get_doc(doctype, name)
 	field = DRESSED[doctype][0]
-	key = _source_of(doc)
-	if doc.get(field) or not key:
+	if doc.get(field):
 		return None
-	found = frappe.db.get_value("Face", key, ["image", "found"], as_dict=True)
-	image = found.image if found and found.found else None if found else fetch(key)
-	if image:
-		frappe.db.set_value(doctype, name, field, image, update_modified=False)
-	return image
+	for key in sources_of(doc):
+		image = picture(key)
+		if image:
+			frappe.db.set_value(doctype, name, field, image, update_modified=False)
+			return image
+	return None
+
+
+def dress_all() -> int:
+	"""Every record in DRESSED without a picture, once: what existed before
+	pictures were looked for, and what `dress_later` could not reach. Run in
+	the background by a patch; safe to run again."""
+	dressed = 0
+	for doctype, (field, _kind) in DRESSED.items():
+		if not frappe.db.exists("DocType", doctype) or not frappe.get_meta(doctype).has_field(field):
+			continue
+		for name in frappe.get_all(doctype, filters={field: ["is", "not set"]}, pluck="name", limit=5000):
+			try:
+				dressed += int(bool(dress(doctype, name)))
+				frappe.db.commit()
+			except Exception:
+				frappe.db.rollback()
+				frappe.log_error(title=f"OneMail could not find a picture for {doctype} {name}")
+	return dressed

@@ -92,8 +92,9 @@ to My Files, and a file from OneCloud can be attached when writing. A file
 too large to send from the workspace's address goes as a link that works
 for thirty days.
 People who write to you show with their contact picture, or their photo from
-Gravatar, or their organisation's logo. A contact, customer, supplier or bank
-without a picture gets one the same way. Every picture is fetched once by
+Gravatar, or their organisation's logo. A contact, lead, customer, supplier
+or bank without a picture gets one the same way, trying a face and a logo in
+whichever order fits it. Every picture is fetched once by
 the workspace, never by your browser, and kept in Company › Logos, so
 opening a message tells nobody anything.
 
@@ -290,10 +291,18 @@ Stage 7, faces and logos, is built.
   unreachable source is not taken to mean "has none".
 - Mail providers' domains (gmail.com and the like) and our own mail domain
   never give a sender a logo, since the provider is not who wrote.
-- `dress_later` runs on Contact, Customer, Supplier and Bank. A record
-  without a picture is dressed in the background: a contact by their
-  address, an organisation by its website. Bank gains `one_logo`, set as its
-  image field, since ERPNext's Bank has no picture.
+- `dress_later` runs on Contact, Lead, Customer, Supplier and Bank. A record
+  without a picture is dressed in the background from both services, in the
+  order that fits it (`sources`), stopping at the first picture:
+  - a contact or lead: their face, then their company's logo by the domain
+    of their address, then by their website;
+  - a customer or supplier: its website's logo, then its address's domain
+    (its own, or its primary contact's), then a face registered to the
+    address itself, since some register a logo against info@;
+  - a bank: its website's logo only.
+  Bank gains `one_logo`, set as its image field, since ERPNext's Bank has no
+  picture. A patch runs `dress_all` once in the background for records that
+  existed before; a migrate does not wait on Gravatar or Google.
 - `lookup` is what the page asks: the contact's picture, else the person's
   face, else the organisation's logo. Addresses never looked for are looked
   for in the background and appear on the next draw.

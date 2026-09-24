@@ -390,6 +390,7 @@ def _faces():
 		"gravatar",
 		"favicon",
 		"file_name",
+		"sources",
 	)
 	return _load(MAIL / "faces.py", names, hashlib=hashlib, quote=quote, urlparse=urlparse)
 
@@ -418,8 +419,24 @@ def test_pictures_are_asked_for_so_that_none_means_none():
 	assert "requests.get(" in source and "enqueue_after_commit=True" in source, (
 		"fetched by the server, in the background"
 	)
-	for doctype in ("Contact", "Customer", "Supplier", "Bank"):
+	for doctype in ("Contact", "Lead", "Customer", "Supplier", "Bank"):
 		assert f'"{doctype}": {{' in HOOKS and "faces.dress_later" in HOOKS
+	assert "onedesk.one_mail.patches.dress_existing" in (tree.APP / "patches.txt").read_text()
+
+
+def test_a_record_tries_both_services_in_the_order_that_fits_it():
+	sources = _faces()["sources"]
+	assert sources("person", "Ana@Stripe.com", None) == ["ana@stripe.com", "stripe.com"], (
+		"a face, then the company's logo"
+	)
+	assert sources("person", "me@gmail.com", "https://acme.example") == ["me@gmail.com", "acme.example"]
+	assert sources("organisation", "info@stripe.com", "https://www.stripe.com") == [
+		"stripe.com",
+		"info@stripe.com",
+	]
+	assert sources("organisation", "hello@gmail.com", None) == ["hello@gmail.com"], "never gmail's logo"
+	assert sources("bank", "x@hsbc.com", "hsbc.com") == ["hsbc.com"]
+	assert sources("organisation", None, None) == []
 
 
 # ------------------------------------------------------------------ mail and records
