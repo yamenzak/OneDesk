@@ -188,8 +188,14 @@ doc_events = {
 		"validate": "onedesk.one_hr.ai_grievance.unmarked",
 	},
 	# A recording's sound goes by its retention or an HR Manager's hand; a
-	# file's OneCloud links go with it.
-	"File": {"on_trash": ["onedesk.one_hr.hiring.keep_sound", "onedesk.one_storage.links.forget_file"]},
+	# file's OneCloud links and versions go with it.
+	"File": {
+		"on_trash": [
+			"onedesk.one_hr.hiring.keep_sound",
+			"onedesk.one_storage.links.forget_file",
+			"onedesk.one_storage.history.forget",
+		]
+	},
 	# An onboarding is for somebody who is not an employee yet, so the holiday
 	# list has to come from the company. See one_hr/lifecycle.py.
 	"Employee Onboarding": {

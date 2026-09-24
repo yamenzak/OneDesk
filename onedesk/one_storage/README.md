@@ -22,7 +22,10 @@ cloud storage, not on the server, so there is room for all of them.
 
 - **My Files** — your own folders and files. Nobody else sees them unless you
   share them.
+- **Recent** — what you opened or added lately, newest first.
+- **Starred** — what you starred (right-click › **Star**), to find it again.
 - **Shared with Me** — what other people have shared with you.
+- **Libraries** — your team's shared folders (below).
 - **Company** — folders everybody in the company can open and add to. What
   you put there, you (or a workspace administrator) can rename, move and
   delete.
@@ -108,6 +111,31 @@ on a file are listed in its Share dialog, with how often each was opened;
 the cross takes one away at once. A link to a record's file can be made by
 whoever may change the record.
 
+
+## Libraries
+
+A library is a folder a team shares — a department's documents, a project's
+files — with its own members. **Libraries › New › Library** makes one, and
+you are its owner. **Members** (the button at the top when you are in one)
+adds people as:
+
+- **Reader** — opens and downloads.
+- **Member** — also adds, changes and deletes what is in it.
+- **Owner** — also renames the library and says who is in it.
+
+Only its members see a library, and leaving it (or being taken off) closes
+it, even to what you put there yourself. A library always has an owner; a
+workspace administrator can open every library, so none is ever lost.
+
+## Versions and activity
+
+Uploading a file with a name already in the folder asks whether to
+**Replace** it or **Keep both**. Replacing keeps what it held as an earlier
+version, and so does **Upload new version** (right-click a file). The
+preview pane shows a file's versions — open any of them, or **Restore** one,
+which keeps the current one as a version in turn — and its activity: who
+made it, renamed it, moved it, shared it, made a link to it or replaced it.
+A replaced file keeps its shares and its links.
 
 ## Where files are kept
 
@@ -238,6 +266,23 @@ not a second R2 integration.
   goes when the File does (`forget_file`, on_trash); an invitation needs an
   outgoing email account and says so rather than failing silently.
 
+- `library.py` — team libraries. A library is a folder flagged `one_library`
+  under `Home/Libraries` (hidden from Company like Attachments), and its
+  members are DocShares on it with the role in the bits: Reader (read),
+  Member (write), Owner (write and share). `namespace._library_may` is asked
+  before an item's owner is, so membership is the only way in; renaming or
+  deleting the library itself is an owner's; a Workspace Administrator may
+  do anything. The last owner cannot be taken off.
+- `history.py` and `doctype/cloud_file_version` — versions, Recent, Starred
+  and activity. Replacing points the File at the new object and writes the
+  old one down as a `Cloud File Version`; the File keeps its name, so shares
+  and links follow. `store._named_elsewhere` counts versions, `fetch` opens a
+  version for whoever may open its file, and a File's versions (and their
+  objects, if unnamed) go when it does. Recent is a capped list per person in
+  the cache, fed by `fetch` and uploads; Starred is `_liked_by`, written
+  directly so a star neither comments nor notifies. Activity is Info comments
+  written by the verbs, read back with the versions.
+
 ### Research and decisions
 
 What was asked for, and what each became.
@@ -298,6 +343,6 @@ repositories, which will be folders with history.
 5. **Sharing outside.** Links and email invitations, and the page a guest
    sees. *Done.*
 6. **Libraries and versions.** Team libraries with members and roles, version
-   history, recent and starred.
+   history, recent and starred. *Done.*
 7. **WebDAV.** Any folder as a network drive in Windows, macOS and Linux.
 8. **Mounts.** SFTP and WebDAV servers as folders.

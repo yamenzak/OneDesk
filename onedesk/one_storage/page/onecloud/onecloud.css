@@ -359,6 +359,7 @@
 
 .oc-count,
 .oc-shared,
+.oc-starred,
 .oc-public {
 	color: var(--ink-gray-4);
 	font-size: var(--text-sm);
@@ -436,6 +437,7 @@
 
 .oc[data-view="tiles"] .oc-count,
 .oc[data-view="tiles"] .oc-shared,
+.oc[data-view="tiles"] .oc-starred,
 .oc[data-view="tiles"] .oc-public {
 	display: none;
 }
@@ -697,4 +699,46 @@
 
 [data-new-link] {
 	margin-top: calc(var(--spacing) * 2);
+}
+
+/* Under a preview: versions and what was done. */
+.oc-history-head {
+	margin: calc(var(--spacing) * 5) 0 calc(var(--spacing) * 2);
+	color: var(--ink-gray-5);
+	font-size: var(--text-sm);
+	font-weight: var(--font-weight-medium);
+}
+
+.oc-version {
+	display: flex;
+	flex-wrap: wrap;
+	gap: calc(var(--spacing) * 2);
+	padding: calc(var(--spacing) * 1) 0;
+	font-size: var(--text-sm);
+	color: var(--ink-gray-7);
+}
+
+.oc-version > span:first-child {
+	flex: 1;
+	min-width: 0;
+}
+
+.oc-done {
+	padding: calc(var(--spacing) * 1) 0;
+	font-size: var(--text-sm);
+	color: var(--ink-gray-7);
+}
+
+.oc-done b {
+	font-weight: var(--font-weight-medium);
+	color: var(--ink-gray-8);
+}
+
+.oc-done small {
+	display: block;
+	color: var(--ink-gray-4);
+}
+
+.oc-starred svg {
+	color: var(--ink-amber-3);
 }

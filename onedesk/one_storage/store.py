@@ -129,7 +129,11 @@ def delete(doc, only_thumbnail=False) -> None:
 
 
 def _named_elsewhere(name: str, url: str, field: str = "file_url") -> bool:
-	return bool(frappe.db.exists("File", {field: url, "name": ["!=", name]}))
+	"""Whether another File, or a version of any file, still names this."""
+	return bool(
+		frappe.db.exists("File", {field: url, "name": ["!=", name]})
+		or (field == "file_url" and frappe.db.exists("Cloud File Version", {"file_url": url}))
+	)
 
 
 def _drop(keys: list) -> None:
@@ -161,14 +165,24 @@ def fetch(key: str, download: int = 0):
 		fields=["name", "file_name", "is_private"],
 		order_by="is_private asc",
 		limit=50,
-	) or frappe.get_all(
-		"File", filters={"thumbnail_url": url_for(key)}, fields=["name", "file_name", "is_private"], limit=50
 	)
-	from onedesk.one_storage import namespace
+	thumbnail = not rows
+	if thumbnail:
+		rows = frappe.get_all(
+			"File", filters={"thumbnail_url": url_for(key)}, fields=["name", "file_name", "is_private"], limit=50
+		)
+	from onedesk.one_storage import history, namespace
 
 	for row in rows:
 		if not row.is_private or namespace.may(namespace.row(row.name)):
+			if not thumbnail and not int(download):
+				history.seen(row.name)
 			return redirect(signed(key, filename=row.file_name, inline=not int(download)), 302)
+	# An old version opens for whoever may open the file it was a version of.
+	for version in frappe.get_all("Cloud File Version", filters={"file_url": url_for(key)}, fields=["file", "version"], limit=20):
+		item = namespace.row(version.file)
+		if item and namespace.may(item):
+			return redirect(signed(key, filename=item.file_name, inline=not int(download)), 302)
 	raise NotFound(_("There is no such file."))
 
 

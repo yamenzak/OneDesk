@@ -113,6 +113,13 @@ def share(nodes: str | list, users: str | list, edit: int = 0) -> int:
 			)
 			_tell(user, item)
 			given += 1
+		if staff - {item.owner, "Administrator"}:
+			from onedesk.one_storage import history
+
+			history.note(
+				item.name,
+				_("shared it with {0}").format(", ".join(get_fullname(user) for user in sorted(staff - {item.owner}))),
+			)
 	ns.forget()
 	return given
 

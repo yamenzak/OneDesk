@@ -54,9 +54,15 @@ def begin(node: str, files: str | list) -> dict:
 	files = json.loads(files) if isinstance(files, str) else files
 	if not files or len(files) > AT_ONCE:
 		frappe.throw(_("Send between one and {0} files at a time.").format(AT_ONCE))
-	api._target(node)
+	where = api._target(node)
+	# Names already in the folder, so the browser can ask once whether to
+	# replace them (keeping what they held as versions) or keep both.
+	existing = []
+	if where[0] == "folder":
+		asked = {api._clean(one.get("name")) for one in files if "/" not in (one.get("path") or "")}
+		existing = sorted(asked & set(frappe.get_all("File", filters={"folder": where[1], "is_folder": 0, "one_deleted": 0}, pluck="file_name")))
 	if not store.enabled():
-		return {"direct": False}
+		return {"direct": False, "existing": existing}
 	from onedesk.one import account
 
 	tickets = []
@@ -72,7 +78,7 @@ def begin(node: str, files: str | list) -> dict:
 			expires_in_sec=TICKET_LIFE,
 		)
 		tickets.append({"token": token, "url": signed["url"], "type": mimetypes.guess_type(name)[0] or ""})
-	return {"direct": True, "tickets": tickets}
+	return {"direct": True, "tickets": tickets, "existing": existing}
 
 
 def _held(token: str) -> str:
@@ -80,7 +86,7 @@ def _held(token: str) -> str:
 
 
 @frappe.whitelist(methods=["POST"])
-def done(token: str, path: str | None = None) -> dict:
+def done(token: str, path: str | None = None, replace: int = 0, version_of: str | None = None) -> dict:
 	"""The browser's PUT finished: check the object is there, and file it."""
 	held = frappe.cache.get_value(_held(token))
 	if not held or held.get("user") != frappe.session.user:
@@ -93,23 +99,28 @@ def done(token: str, path: str | None = None) -> dict:
 		held["node"],
 		path,
 		{"file_url": store.url_for(held["key"]), "file_size": held["size"], "file_name": held["name"]},
+		replace=int(replace),
+		version_of=version_of,
 	)
 
 
 @frappe.whitelist(methods=["POST"])
-def here(node: str, path: str | None = None) -> dict:
+def here(node: str, path: str | None = None, replace: int = 0, version_of: str | None = None) -> dict:
 	"""A file sent to this server as a form post, where there is no account
 	to send it to R2 with (or the browser could not reach R2)."""
 	sent = frappe.request.files.get("file")
 	if not sent:
 		frappe.throw(_("No file was sent."))
 	content = sent.stream.read()
-	return _place(node, path, {"file_name": api._clean(sent.filename) or "file", "content": content})
+	return _place(node, path, {"file_name": api._clean(sent.filename) or "file", "content": content}, replace=int(replace), version_of=version_of)
 
 
-def _place(node: str, path: str | None, fields: dict) -> dict:
+def _place(node: str, path: str | None, fields: dict, replace: int = 0, version_of: str | None = None) -> dict:
 	"""The File row for something just put into `node`, making the folders
-	of a dropped folder on the way."""
+	of a dropped folder on the way. With `replace`, a file of the same name
+	already there takes the new content and keeps the old as a version."""
+	from onedesk.one_storage import history
+
 	where = api._target(node)
 	fields = {"doctype": "File", "is_private": 1, **fields}
 	if where[0] == "record":
@@ -127,15 +138,27 @@ def _place(node: str, path: str | None, fields: dict) -> dict:
 			folder = _folder(folder, part)
 		taken = api._taken(folder)
 		fields["folder"] = folder
+	same = None
+	if version_of:
+		same = version_of
+		api._need(api._item(same), "write")
+	elif replace and where[0] == "folder":
+		same = frappe.db.get_value(
+			"File", {"folder": fields["folder"], "file_name": fields["file_name"], "is_folder": 0, "one_deleted": 0}, "name"
+		)
+		if same:
+			api._need(ns.row(same), "write")
 	fields["file_name"] = ns.unique_name(fields["file_name"], taken)
 	doc = frappe.get_doc(fields)
 	doc.flags.ignore_permissions = True
 	if "file_url" in fields:
 		doc.flags.copy_from_existing_file = True
 	doc.insert()
+	name = history.replace(ns.row(same), doc.name) if same else doc.name
 	if (mimetypes.guess_type(doc.file_name)[0] or "").startswith("image/") and store.is_stored(doc.file_url):
-		frappe.enqueue(thumbnail, name=doc.name, enqueue_after_commit=True)
-	return ns.node(ns.row(doc.name))
+		frappe.enqueue(thumbnail, name=name, enqueue_after_commit=True)
+	history.seen(name)
+	return ns.node(ns.row(name))
 
 
 def _folder(parent: str, name: str) -> str:

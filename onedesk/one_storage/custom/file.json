@@ -56,6 +56,21 @@
    "module": "One Storage",
    "name": "File-one_deleted_by",
    "options": "User"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "File",
+   "fieldname": "one_library",
+   "label": "Team Library",
+   "fieldtype": "Check",
+   "insert_after": "one_deleted_by",
+   "hidden": 1,
+   "read_only": 1,
+   "no_copy": 1,
+   "module": "One Storage",
+   "name": "File-one_library",
+   "search_index": 1,
+   "description": "A folder people are members of, the way a team's document library is."
   }
  ],
  "doctype": "File",

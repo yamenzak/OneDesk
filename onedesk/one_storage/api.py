@@ -82,6 +82,7 @@ def listing(node: str = ns.ROOT, search: str | None = None) -> dict:
 		"items": ns.search(node, search) if search else ns.children(node),
 		"can_add": can_add,
 		"can_make_folder": can_add and kind[0] != ns.RECORDS,
+		"can_make_library": kind[0] == ns.LIBRARIES and ns._staff(frappe.session.user),
 	}
 
 
@@ -145,7 +146,14 @@ def rename(node: str, name: str) -> dict:
 	frappe.db.set_value("File", node, "file_name", name)
 	if item.is_folder:
 		node = _rename_folder(node)
+	_note(node, _("renamed it from {0}").format(item.file_name))
 	return ns.node(ns.row(node))
+
+
+def _note(name: str, what: str) -> None:
+	from onedesk.one_storage import history
+
+	history.note(name, what)
 
 
 def _rename_folder(name: str) -> str:
@@ -185,6 +193,7 @@ def move(nodes: str | list, target: str) -> list[str]:
 			frappe.db.set_value("File", node_id, "file_name", name)
 		frappe.db.set_value("File", node_id, "folder", where[1])
 		moved.append(_rename_folder(node_id) if item.is_folder else node_id)
+		_note(moved[-1], _("moved it from {0}").format(frappe.db.get_value("File", item.folder, "file_name") or item.folder))
 	return moved
 
 
@@ -300,6 +309,7 @@ def restore(nodes: str | list) -> list[str]:
 			{"one_deleted": 0, "one_deleted_on": None, "one_deleted_by": None, "folder": folder, "file_name": name},
 		)
 		back.append(_rename_folder(node_id) if item.is_folder and folder != item.folder else node_id)
+		_note(back[-1], _("put it back from the Recycle Bin"))
 	return back
 
 

@@ -97,10 +97,14 @@ API = tree.APP / "one_storage" / "api.py"
 
 
 def test_a_node_id_says_what_it_names():
-	constants = dict(ROOT="@root", MY="@my", SHARED="@shared", COMPANY="@company", RECORDS="@records", BIN="@bin")
+	constants = dict(
+		ROOT="@root", MY="@my", SHARED="@shared", COMPANY="@company", RECORDS="@records", BIN="@bin",
+		LIBRARIES="@libraries", RECENT="@recent", STARRED="@starred",
+	)  # fmt: skip
 	space = _load(NAMESPACE, ("parse",), **constants)
 	parse = space["parse"]
 	assert parse("") == ("@root",) and parse("@my") == ("@my",)
+	assert parse("@libraries") == ("@libraries",) and parse("@starred") == ("@starred",)
 	assert parse("@records") == ("@records",)
 	assert parse("@records/Sales Invoice") == ("@records", "Sales Invoice")
 	assert parse("@records/Sales Invoice/ACC-SINV-2026-00001") == ("@records", "Sales Invoice", "ACC-SINV-2026-00001")
@@ -190,7 +194,9 @@ def test_the_explorer_calls_only_verbs_that_exist():
 	import re
 
 	js = (PAGE / "onecloud.js").read_text()
-	api = API.read_text() + UPLOAD.read_text() + (tree.APP / "one_storage" / "share.py").read_text()
+	api = "".join(
+		(tree.APP / "one_storage" / name).read_text() for name in ("api.py", "upload.py", "share.py", "library.py", "history.py")
+	)
 	called = set(re.findall(r'OneCloud\.(?:API|UPLOAD) \+ "(\w+)"', js)) | set(re.findall(r'\bcall\("(\w+)"', js))
 	assert {"listing", "folders", "make_folder", "rename", "move", "copy", "delete", "restore", "purge", "empty_bin", "begin", "done", "resolve"} <= called
 	for name in called:
@@ -291,3 +297,42 @@ def test_a_link_lives_at_s_and_goes_when_its_file_does():
 	assert '"from_route": "/s/<token>", "to_route": "s"' in HOOKS
 	assert "onedesk.one_storage.links.forget_file" in HOOKS
 	assert (tree.APP / "www" / "s.py").exists() and (tree.APP / "www" / "s.html").exists()
+
+
+LIBRARY = tree.APP / "one_storage" / "library.py"
+HISTORY = tree.APP / "one_storage" / "history.py"
+
+
+def test_a_library_is_its_members_and_its_roles_are_share_bits():
+	body = _body(NAMESPACE, "may")
+	assert body.index("_library_may(") < body.index("item.get('owner') == user"), (
+		"belonging is the only way in: having made a file there is nothing once you have left"
+	)
+	roles = _load(NAMESPACE, ("ROLES",))["ROLES"]
+	assert roles == {"Reader": (0, 0), "Member": (1, 0), "Owner": (1, 1)}
+	lib = _body(NAMESPACE, "_library_may")
+	assert "role_in(item['name'], user) == 'Owner'" in lib, "only an owner renames or deletes the library itself"
+	assert "roles.ADMINISTRATOR" in lib, "a library whose owners left is not lost"
+
+
+def test_a_library_keeps_an_owner_and_only_owners_say_who_is_in_it():
+	assert "owners == [user]" in _body(LIBRARY, "remove")
+	assert "_manages(item.name)" in _body(LIBRARY, "add")
+	assert "LIBRARY_ROOT" in _body(NAMESPACE, "children"), "Company does not show the libraries' folder"
+
+
+def test_replacing_a_file_keeps_what_it_held_and_its_bytes():
+	assert "keep(item)" in _body(HISTORY, "replace") and "keep(item)" in _body(HISTORY, "restore")
+	assert "Cloud File Version" in _body(STORE, "_named_elsewhere"), "a version's object is not dropped under it"
+	assert "Cloud File Version" in _body(STORE, "fetch"), "an old version opens for whoever may open the file"
+	assert "onedesk.one_storage.history.forget" in HOOKS, "and goes when the file does"
+
+
+def test_a_star_is_nobodys_business_but_the_readers():
+	body = _body(HISTORY, "star")
+	assert "_liked_by" in body and "toggle_like" not in body, "Frappe's like comments and notifies"
+
+
+def test_recent_is_short_and_losing_it_loses_nothing():
+	assert "ltrim(key, 0, RECENT - 1)" in _body(HISTORY, "seen")
+	assert "except Exception" in _body(HISTORY, "seen") and "except Exception" in _body(HISTORY, "recent")

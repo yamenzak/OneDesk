@@ -123,7 +123,7 @@ def test_nothing_is_recorded_without_the_candidates_agreement():
 
 def test_only_retention_or_an_hr_manager_deletes_what_was_said():
 	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
-	assert '"File": {"on_trash": ["onedesk.one_hr.hiring.keep_sound"' in hooks
+	assert '"onedesk.one_hr.hiring.keep_sound",' in hooks.split('"File": {', 1)[1].split("}", 1)[0]
 	assert '"onedesk.one_hr.hiring.purge"' in hooks
 	spec = json.loads((tree.APP / "one_hr" / "doctype" / "interview_recording" / "interview_recording.json").read_text())
 	deleting = [row["role"] for row in spec["permissions"] if row.get("delete")]

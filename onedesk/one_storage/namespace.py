@@ -31,7 +31,11 @@ from frappe import _
 from onedesk.one import roles
 
 ROOT, MY, SHARED, COMPANY, RECORDS, BIN = "@root", "@my", "@shared", "@company", "@records", "@bin"
-HOME, ATTACHMENTS = "Home", "Home/Attachments"
+LIBRARIES, RECENT, STARRED = "@libraries", "@recent", "@starred"
+HOME, ATTACHMENTS, LIBRARY_ROOT = "Home", "Home/Attachments", "Home/Libraries"
+
+#: A library member's role, as the DocShare that carries it: (write, share).
+ROLES = {"Reader": (0, 0), "Member": (1, 0), "Owner": (1, 1)}
 
 #: Frappe's own bookkeeping, which has files but no folder anybody wants.
 UNLISTED = frozenset(
@@ -44,7 +48,7 @@ DEEPEST = 64
 FIELDS = [
 	"name", "file_name", "is_folder", "folder", "file_url", "file_size", "is_private", "owner",
 	"modified", "creation", "attached_to_doctype", "attached_to_name", "one_home_of", "one_deleted",
-	"one_deleted_by", "one_deleted_on", "thumbnail_url", "file_type",
+	"one_deleted_by", "one_deleted_on", "thumbnail_url", "file_type", "one_library", "_liked_by",
 ]  # fmt: skip
 
 
@@ -54,7 +58,7 @@ FIELDS = [
 def parse(node: str) -> tuple:
 	"""What a node id names: (kind, *parts). Pure."""
 	node = node or ROOT
-	if node == ROOT or node in (MY, SHARED, COMPANY, BIN, RECORDS):
+	if node == ROOT or node in (MY, SHARED, COMPANY, BIN, RECORDS, LIBRARIES, RECENT, STARRED):
 		return (node,)
 	if node.startswith(RECORDS + "/"):
 		rest = node[len(RECORDS) + 1 :]
@@ -184,17 +188,21 @@ def granted(item: dict, user: str) -> str | None:
 
 def space(item: dict) -> tuple:
 	"""Whose part of the tree a File is in: ("record", doctype, name),
-	("home", person), ("attachments",) or ("company",)."""
+	("home", person), ("library", folder), ("attachments",) or ("company",)."""
 	if item.get("attached_to_doctype") and item.get("attached_to_name") and not item.get("is_folder"):
 		return ("record", item["attached_to_doctype"], item["attached_to_name"])
 	if item.get("one_home_of"):
 		return ("home", item["one_home_of"])
+	if item.get("one_library"):
+		return ("library", item["name"])
 	for folder in ancestors(item["name"]):
 		if folder == ATTACHMENTS:
 			return ("attachments",)
-		person = frappe.db.get_value("File", folder, "one_home_of")
-		if person:
-			return ("home", person)
+		found = frappe.db.get_value("File", folder, ["one_home_of", "one_library"], as_dict=True) or {}
+		if found.get("one_home_of"):
+			return ("home", found["one_home_of"])
+		if found.get("one_library"):
+			return ("library", folder)
 	return ("company",)
 
 
@@ -208,9 +216,13 @@ def inside(folder: str) -> tuple:
 		return ("company",)
 	if folder == ATTACHMENTS:
 		return ("attachments",)
-	person = frappe.db.get_value("File", folder, "one_home_of")
-	if person:
-		return ("home", person)
+	if folder == LIBRARY_ROOT:
+		return ("libraries",)
+	found = frappe.db.get_value("File", folder, ["one_home_of", "one_library"], as_dict=True) or {}
+	if found.get("one_home_of"):
+		return ("home", found["one_home_of"])
+	if found.get("one_library"):
+		return ("library", folder)
 	return space({"name": folder, "is_folder": 1})
 
 
@@ -231,6 +243,8 @@ def may(item: dict, ptype: str = "read", user: str | None = None, where: tuple |
 	where = where or space(item)
 	if where[0] == "record":
 		return frappe.has_permission(where[1], "write" if ptype != "read" else "read", where[2], user=user)
+	if where[0] in ("library", "libraries"):
+		return _library_may(item, ptype, user, where)
 	if item.get("owner") == user:
 		return True
 	# Somebody signed in to a portal — a customer, a supplier — sees the files
@@ -252,6 +266,55 @@ def may(item: dict, ptype: str = "read", user: str | None = None, where: tuple |
 	if ptype == "add":
 		return bool(item.get("is_folder"))
 	return roles.ADMINISTRATOR in frappe.get_roles(user)
+
+
+def _library_may(item: dict, ptype: str, user: str, where: tuple) -> bool:
+	"""A library is its members': readers read, members change what is in it,
+	owners also rename it and say who is in it. Having made a file there is
+	nothing once you are no longer a member. A Workspace Administrator may do
+	anything, so that a library whose owners have all left is not lost."""
+	if roles.ADMINISTRATOR in frappe.get_roles(user):
+		return True
+	if where[0] == "libraries" or not _staff(user):
+		return False
+	if item.get("one_library") and ptype == "write":
+		return role_in(item["name"], user) == "Owner"
+	right = granted(item, user)
+	return right == "write" or (right == "read" and ptype == "read")
+
+
+def role_in(library: str, user: str | None = None) -> str | None:
+	"""A person's role in a library: "Owner", "Member", "Reader" or None."""
+	user = user or frappe.session.user
+	found = frappe.db.get_value(
+		"DocShare", {"share_doctype": "File", "share_name": library, "user": user}, ["write", "share"], as_dict=True
+	)
+	if not found:
+		return None
+	return "Owner" if found.share else "Member" if found.write else "Reader"
+
+
+def library_root() -> str:
+	"""The folder libraries are kept in, made the first time it is needed.
+	It is under Home like Attachments, and hidden from Company like it."""
+	if not frappe.db.exists("File", LIBRARY_ROOT):
+		doc = frappe.get_doc({"doctype": "File", "is_folder": 1, "file_name": "Libraries", "folder": HOME})
+		doc.flags.ignore_permissions = True
+		doc.insert()
+	return LIBRARY_ROOT
+
+
+def libraries(user: str | None = None) -> list[dict]:
+	"""The libraries the reader is in — every one, for an administrator."""
+	user = user or frappe.session.user
+	filters = {"one_library": 1, "one_deleted": 0}
+	if roles.ADMINISTRATOR not in frappe.get_roles(user) and user != "Administrator":
+		mine = frappe.get_all(
+			"DocShare", filters={"share_doctype": "File", "user": user, "read": 1}, pluck="share_name"
+		)
+		filters["name"] = ["in", mine or [""]]
+	found = frappe.get_all("File", filters=filters, fields=FIELDS, order_by="file_name asc")
+	return [{**node(one), "role": role_in(one.name, user)} for one in found]
 
 
 def _staff(user: str) -> bool:
@@ -285,6 +348,8 @@ def node(item: dict) -> dict:
 		else None,
 		"deleted": item.get("one_deleted_on"),
 		"shared": bool(item.get("shared")),
+		"starred": frappe.session.user in (item.get("_liked_by") or ""),
+		**({"library": True, "icon": "library-big"} if item.get("one_library") else {}),
 	}
 
 
@@ -295,7 +360,10 @@ def virtual(node_id: str, name: str, **more) -> dict:
 def roots() -> list[dict]:
 	return [
 		virtual(MY, _("My Files"), icon="folder-heart"),
+		virtual(RECENT, _("Recent"), icon="clock"),
+		virtual(STARRED, _("Starred"), icon="star"),
 		virtual(SHARED, _("Shared with Me"), icon="users"),
+		virtual(LIBRARIES, _("Libraries"), icon="library-big"),
 		virtual(COMPANY, _("Company"), icon="building-2"),
 		virtual(RECORDS, _("Records"), icon="database"),
 		virtual(BIN, _("Recycle Bin"), icon="trash-2"),
@@ -321,6 +389,12 @@ def children(node_id: str, search: str | None = None) -> list[dict]:
 		return roots()
 	if kind[0] == SHARED:
 		return shared_with_me()
+	if kind[0] == LIBRARIES:
+		return libraries()
+	if kind[0] in (RECENT, STARRED):
+		from onedesk.one_storage import history
+
+		return history.recent() if kind[0] == RECENT else history.starred()
 	if kind[0] == BIN:
 		return binned()
 	if kind[0] == RECORDS:
@@ -336,7 +410,7 @@ def children(node_id: str, search: str | None = None) -> list[dict]:
 	# filed it in.
 	found = [one for one in found if one.is_folder or not (one.attached_to_doctype and one.attached_to_name)]
 	if kind[0] == COMPANY:
-		found = [one for one in found if not one.one_home_of and one.name != ATTACHMENTS]
+		found = [one for one in found if not one.one_home_of and one.name not in (ATTACHMENTS, LIBRARY_ROOT)]
 	if search:
 		found = [one for one in found if search.lower() in (one.file_name or "").lower()]
 	where = inside(folder)
@@ -366,7 +440,8 @@ def shared_with_me(user: str | None = None) -> list[dict]:
 	found = frappe.get_all(
 		"File", filters={"name": ["in", list(held)], "one_deleted": 0}, fields=FIELDS, order_by="is_folder desc, file_name asc"
 	)
-	found = [one for one in found if one.owner != user]
+	# A library one is a member of is under Libraries, not here.
+	found = [one for one in found if one.owner != user and not one.one_library]
 	names = {one.name for one in found}
 	out = []
 	for one in found:
@@ -390,7 +465,11 @@ def below(folder: str, most: int = 5000) -> list[str]:
 			filters={"folder": ["in", edge], "is_folder": 1, "one_deleted": 0},
 			fields=["name", "one_home_of"],
 		)
-		edge = [one.name for one in rows if not (folder == HOME and (one.one_home_of or one.name == ATTACHMENTS))]
+		edge = [
+			one.name
+			for one in rows
+			if not (folder == HOME and (one.one_home_of or one.name in (ATTACHMENTS, LIBRARY_ROOT)))
+		]
 		out += edge
 	return out
 
@@ -418,7 +497,7 @@ def search(node_id: str, text: str, most: int = 500) -> list[dict]:
 		)
 		where = inside(start)
 		for one in found:
-			if start == HOME and (one.one_home_of or one.name == ATTACHMENTS):
+			if start == HOME and (one.one_home_of or one.name in (ATTACHMENTS, LIBRARY_ROOT)):
 				continue
 			if not one.is_folder and one.attached_to_doctype and one.attached_to_name:
 				continue
@@ -509,7 +588,7 @@ def trail(node_id: str) -> list[dict]:
 	top = [{"id": ROOT, "name": _("OneCloud")}]
 	if kind[0] == ROOT:
 		return top
-	if kind[0] in (MY, SHARED, COMPANY, BIN):
+	if kind[0] in (MY, SHARED, COMPANY, BIN, LIBRARIES, RECENT, STARRED):
 		return top + [{"id": node_id, "name": next(r["name"] for r in roots() if r["id"] == node_id)}]
 	if kind[0] == RECORDS:
 		out = top + [{"id": RECORDS, "name": _("Records")}]
@@ -529,6 +608,9 @@ def trail(node_id: str) -> list[dict]:
 			break
 		if one.one_home_of == frappe.session.user:
 			crumbs.append({"id": MY, "name": _("My Files")})
+			break
+		if one.one_library:
+			crumbs += [{"id": name, "name": one.file_name}, {"id": LIBRARIES, "name": _("Libraries")}]
 			break
 		if one.one_home_of:
 			# Somebody else's: reached through what they shared, so the trail

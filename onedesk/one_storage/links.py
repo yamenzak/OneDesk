@@ -119,6 +119,12 @@ def make(
 		}
 	)
 	link.insert(ignore_permissions=True)
+	from onedesk.one_storage import history
+
+	history.note(
+		item.name,
+		_("made a link for {0}").format(", ".join(invitees)) if link.audience == INVITED else _("made a link for anyone who has it"),
+	)
 	if link.audience == INVITED:
 		_invite(link, [one.email for one in link.invitees], link.flags.token)
 	return _describe(link)

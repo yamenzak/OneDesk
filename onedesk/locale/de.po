@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 07:25+0000\n"
-"PO-Revision-Date: 2026-09-24 07:25+0000\n"
+"POT-Creation-Date: 2026-09-24 07:38+0000\n"
+"PO-Revision-Date: 2026-09-24 07:38+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -34,11 +34,11 @@ msgstr "1 Tag {0}."
 msgid "1 day of {0}; {1} left after."
 msgstr "1 Tag {0}; danach bleiben {1}."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:439
+#: onedesk/one_storage/page/onecloud/onecloud.js:453
 msgid "1 item"
 msgstr "1 Element"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:442
+#: onedesk/one_storage/page/onecloud/onecloud.js:456
 msgid "1 item selected"
 msgstr "1 Element ausgewählt"
 
@@ -150,9 +150,18 @@ msgstr "Eine Tatsache, die jemand OneAI zu behalten gebeten hat. Nur für diese 
 msgid "A field OneAI wrote, and what it wrote. The badge shows while the field still says it."
 msgstr "Ein Feld, das OneAI geschrieben hat, und was es geschrieben hat. Das Abzeichen bleibt, solange das Feld das noch sagt."
 
-#: onedesk/one_storage/api.py:182 onedesk/one_storage/api.py:219
+#: onedesk/one_storage/page/onecloud/onecloud.js:1523
+msgid "A file with this name is already here"
+msgstr "Eine Datei mit diesem Namen ist bereits hier"
+
+#: onedesk/one_storage/api.py:190 onedesk/one_storage/api.py:228
 msgid "A folder cannot go inside itself."
 msgstr "Ein Ordner kann nicht in sich selbst liegen."
+
+#. Description of the 'Team Library' (Check) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json
+msgid "A folder people are members of, the way a team's document library is."
+msgstr "Ein Ordner mit Mitgliedern, wie die Dokumentbibliothek eines Teams."
 
 #. Description of the 'Kind' (Select) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
@@ -175,6 +184,10 @@ msgstr "Ein Lead kann nicht mit sich selbst zusammengeführt werden."
 msgid "A ledger entry of zero credits records nothing."
 msgstr "Ein Buchungssatz über null Guthaben hält nichts fest."
 
+#: onedesk/one_storage/library.py:45
+msgid "A library needs a name."
+msgstr "Eine Bibliothek braucht einen Namen."
+
 #. Description of a DocType
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 msgid "A link to a file or folder in OneCloud for people outside the team."
@@ -183,6 +196,10 @@ msgstr "Ein Link zu einer Datei oder einem Ordner in OneCloud für Personen auß
 #: onedesk/one_admin/doctype/ai_model/ai_model.py:60
 msgid "A markup below nothing would pay somebody to call the model."
 msgstr "Ein Aufschlag unter null hieße, jemanden fürs Aufrufen des Modells zu bezahlen."
+
+#: onedesk/one_storage/library.py:101
+msgid "A member is a Reader, a Member or an Owner."
+msgstr "Ein Mitglied ist Leser, Mitglied oder Eigentümer."
 
 #. Description of a DocType
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
@@ -224,7 +241,7 @@ msgstr "Eine eingereihte Arbeitseinheit für einen Arbeitsbereich. Wird vom Syst
 msgid "A rate needs a unit, how many of them, and what they cost."
 msgstr "Ein Preis braucht eine Einheit, wie viele davon und was sie kosten."
 
-#: onedesk/one_storage/api.py:123 onedesk/one_storage/api.py:217
+#: onedesk/one_storage/api.py:124 onedesk/one_storage/api.py:226
 msgid "A record holds files, not folders."
 msgstr "Ein Datensatz enthält Dateien, keine Ordner."
 
@@ -487,6 +504,10 @@ msgstr "Aktionen"
 msgid "Active"
 msgstr ""
 
+#: onedesk/one_storage/page/onecloud/onecloud.js:516
+msgid "Activity"
+msgstr "Aktivität"
+
 #. Label of a Sidebar Item
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Activity Cost"
@@ -503,6 +524,7 @@ msgstr ""
 #: onedesk/one_book/report/books_check/books_check.js:18
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:32
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:20
+#: onedesk/one_storage/page/onecloud/onecloud.js:1221
 #: onedesk/one_task/page/my_tasks/my_tasks.js:25
 #: onedesk/public/js/workspace_account.js:201
 msgid "Add"
@@ -568,7 +590,8 @@ msgstr "Bewerber aus Lebensläufen anlegen"
 msgid "Add leads from business cards"
 msgstr "Leads aus Visitenkarten anlegen"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:934
+#: onedesk/one_storage/page/onecloud/onecloud.js:1017
+#: onedesk/one_storage/page/onecloud/onecloud.js:1208
 msgid "Add people"
 msgstr "Personen hinzufügen"
 
@@ -775,12 +798,12 @@ msgstr "Antwortet aus Ihren eigenen Datensätzen"
 
 #. Option for the 'Audience' (Select) field in DocType 'Cloud Link'
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
-#: onedesk/one_storage/page/onecloud/onecloud.js:1017
-#: onedesk/one_storage/page/onecloud/onecloud.js:1045
+#: onedesk/one_storage/page/onecloud/onecloud.js:1100
+#: onedesk/one_storage/page/onecloud/onecloud.js:1128
 msgid "Anyone with the link"
 msgstr "Alle mit dem Link"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:378
+#: onedesk/one_storage/page/onecloud/onecloud.js:389
 msgid "Anyone with the link can open this file"
 msgstr "Jeder mit dem Link kann diese Datei öffnen"
 
@@ -942,6 +965,10 @@ msgstr ""
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Archived For"
 msgstr "Archiviert für"
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:1214
+msgid "As"
+msgstr "Als"
 
 #. Description of the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
@@ -1211,11 +1238,11 @@ msgstr "Beschwerden automatisch einordnen"
 msgid "Available"
 msgstr "Verfügbar"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:349
+#: onedesk/one_storage/page/onecloud/onecloud.js:360
 msgid "B"
 msgstr "B"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:100
+#: onedesk/one_storage/page/onecloud/onecloud.js:101
 msgid "Back"
 msgstr "Zurück"
 
@@ -1567,13 +1594,13 @@ msgstr "Kampagnen"
 
 #. Label of the allow_download (Check) field in DocType 'Cloud Link'
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
-#: onedesk/one_storage/page/onecloud/onecloud.js:1058
+#: onedesk/one_storage/page/onecloud/onecloud.js:1141
 msgid "Can download"
 msgstr "Kann herunterladen"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:966
-#: onedesk/one_storage/page/onecloud/onecloud.js:968
-#: onedesk/one_storage/page/onecloud/onecloud.js:969
+#: onedesk/one_storage/page/onecloud/onecloud.js:1049
+#: onedesk/one_storage/page/onecloud/onecloud.js:1051
+#: onedesk/one_storage/page/onecloud/onecloud.js:1052
 msgid "Can edit"
 msgstr "Kann bearbeiten"
 
@@ -1582,13 +1609,13 @@ msgstr "Kann bearbeiten"
 msgid "Can upload"
 msgstr "Kann hochladen"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1059
+#: onedesk/one_storage/page/onecloud/onecloud.js:1142
 msgid "Can upload files into it"
 msgstr "Kann Dateien hineinladen"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:966
-#: onedesk/one_storage/page/onecloud/onecloud.js:968
-#: onedesk/one_storage/page/onecloud/onecloud.js:969
+#: onedesk/one_storage/page/onecloud/onecloud.js:1049
+#: onedesk/one_storage/page/onecloud/onecloud.js:1051
+#: onedesk/one_storage/page/onecloud/onecloud.js:1052
 msgid "Can view"
 msgstr "Kann ansehen"
 
@@ -1910,7 +1937,7 @@ msgstr "Einchecken-Grund"
 msgid "Clock Signal"
 msgstr "Einchecken-Signal"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1421
+#: onedesk/one_storage/page/onecloud/onecloud.js:1639
 #: onedesk/public/js/oneai/Panel.vue:30 onedesk/public/js/opportunity.js:17
 msgid "Close"
 msgstr ""
@@ -1923,6 +1950,11 @@ msgstr "Automatisch geschlossen"
 #: onedesk/public/js/crm_record.js:112
 msgid "Closes"
 msgstr "Abschluss"
+
+#. Name of a DocType
+#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
+msgid "Cloud File Version"
+msgstr "Cloud-Dateiversion"
 
 #. Name of a DocType
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
@@ -1955,7 +1987,7 @@ msgstr "Cluster"
 msgid "Code"
 msgstr "Code"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:511
+#: onedesk/one_storage/page/onecloud/onecloud.js:569
 msgid "Collapse"
 msgstr "Einklappen"
 
@@ -1966,8 +1998,8 @@ msgstr "Kollege"
 
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-#: onedesk/one_storage/namespace.py:299 onedesk/one_storage/namespace.py:409
-#: onedesk/one_storage/namespace.py:546
+#: onedesk/one_storage/history.py:210 onedesk/one_storage/namespace.py:367
+#: onedesk/one_storage/namespace.py:488 onedesk/one_storage/namespace.py:628
 msgid "Company"
 msgstr "Unternehmen"
 
@@ -2049,6 +2081,11 @@ msgstr "Einwilligung bestätigt am"
 msgid "Contact"
 msgstr ""
 
+#. Label of the content_hash (Data) field in DocType 'Cloud File Version'
+#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
+msgid "Content Hash"
+msgstr "Inhalts-Hash"
+
 #: onedesk/www/start.html:60
 msgid "Continue to payment"
 msgstr "Weiter zur Zahlung"
@@ -2068,18 +2105,18 @@ msgstr "Unterhaltung"
 msgid "Conversations"
 msgstr "Unterhaltungen"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:741
-#: onedesk/one_storage/page/onecloud/onecloud.js:909
+#: onedesk/one_storage/page/onecloud/onecloud.js:814
+#: onedesk/one_storage/page/onecloud/onecloud.js:991
 msgid "Copied 1 item"
 msgstr "1 Element kopiert"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:741
-#: onedesk/one_storage/page/onecloud/onecloud.js:909
+#: onedesk/one_storage/page/onecloud/onecloud.js:814
+#: onedesk/one_storage/page/onecloud/onecloud.js:991
 msgid "Copied {0} items"
 msgstr "{0} Elemente kopiert"
 
 #: onedesk/one_storage/page/onecloud/onecloud.js:84
-#: onedesk/one_storage/page/onecloud/onecloud.js:1127
+#: onedesk/one_storage/page/onecloud/onecloud.js:1302
 msgid "Copy"
 msgstr "Kopieren"
 
@@ -2087,8 +2124,8 @@ msgstr "Kopieren"
 msgid "Copy Link"
 msgstr ""
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1012
-#: onedesk/one_storage/page/onecloud/onecloud.js:1123
+#: onedesk/one_storage/page/onecloud/onecloud.js:1095
+#: onedesk/one_storage/page/onecloud/onecloud.js:1298
 msgid "Copy link"
 msgstr "Link kopieren"
 
@@ -2123,19 +2160,20 @@ msgstr "Feiertage einschließen"
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+#: onedesk/one_storage/page/onecloud/onecloud.js:1190
 #: onedesk/public/js/invoice.js:94 onedesk/public/js/opportunity.js:18
 #: onedesk/public/js/opportunity.js:19 onedesk/public/js/project.js:127
 #: onedesk/public/js/project.js:188
 msgid "Create"
-msgstr ""
+msgstr "Erstellen"
 
 #: onedesk/one_ai/proposals.py:409
 msgid "Create a {0}"
 msgstr "{0} anlegen"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1011
-#: onedesk/one_storage/page/onecloud/onecloud.js:1038
-#: onedesk/one_storage/page/onecloud/onecloud.js:1068
+#: onedesk/one_storage/page/onecloud/onecloud.js:1094
+#: onedesk/one_storage/page/onecloud/onecloud.js:1121
+#: onedesk/one_storage/page/onecloud/onecloud.js:1151
 msgid "Create link"
 msgstr "Link erstellen"
 
@@ -2245,6 +2283,10 @@ msgstr "Guthaben je Dollar"
 msgid "Currency"
 msgstr ""
 
+#: onedesk/one_storage/page/onecloud/onecloud.js:517
+msgid "Current"
+msgstr "Aktuell"
+
 #: onedesk/one_book/report/books_check/books_check.js:12
 msgid "Current Account"
 msgstr "Girokonto"
@@ -2271,15 +2313,15 @@ msgid "Customers"
 msgstr ""
 
 #: onedesk/one_storage/page/onecloud/onecloud.js:83
-#: onedesk/one_storage/page/onecloud/onecloud.js:1126
+#: onedesk/one_storage/page/onecloud/onecloud.js:1301
 msgid "Cut"
 msgstr "Ausschneiden"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:741
+#: onedesk/one_storage/page/onecloud/onecloud.js:814
 msgid "Cut 1 item"
 msgstr "1 Element ausgeschnitten"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:741
+#: onedesk/one_storage/page/onecloud/onecloud.js:814
 msgid "Cut {0} items"
 msgstr "{0} Elemente ausgeschnitten"
 
@@ -2293,12 +2335,12 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:229
+#: onedesk/one_storage/page/onecloud/onecloud.js:237
 msgid "Date deleted"
 msgstr "Löschdatum"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:113
-#: onedesk/one_storage/page/onecloud/onecloud.js:229
+#: onedesk/one_storage/page/onecloud/onecloud.js:114
+#: onedesk/one_storage/page/onecloud/onecloud.js:237
 msgid "Date modified"
 msgstr "Änderungsdatum"
 
@@ -2441,7 +2483,7 @@ msgstr "Standardmodell"
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_storage/page/onecloud/onecloud.js:89
-#: onedesk/one_storage/page/onecloud/onecloud.js:1133
+#: onedesk/one_storage/page/onecloud/onecloud.js:1312
 msgid "Delete"
 msgstr ""
 
@@ -2455,15 +2497,15 @@ msgstr "Fotos löschen nach (Tage)"
 msgid "Delete Recording Audio After (Days)"
 msgstr "Audio der Aufnahme löschen nach (Tagen)"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:789
+#: onedesk/one_storage/page/onecloud/onecloud.js:871
 msgid "Delete everything in the Recycle Bin for good? This cannot be undone."
 msgstr "Alles im Papierkorb endgültig löschen? Das kann nicht rückgängig gemacht werden."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1114
+#: onedesk/one_storage/page/onecloud/onecloud.js:1289
 msgid "Delete for good"
 msgstr "Endgültig löschen"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:781
+#: onedesk/one_storage/page/onecloud/onecloud.js:863
 msgid "Delete these {0} items for good? This cannot be undone."
 msgstr "Diese {0} Elemente endgültig löschen? Das kann nicht rückgängig gemacht werden."
 
@@ -2471,11 +2513,11 @@ msgstr "Diese {0} Elemente endgültig löschen? Das kann nicht rückgängig gema
 msgid "Delete {0}"
 msgstr "{0} löschen"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:780
+#: onedesk/one_storage/page/onecloud/onecloud.js:862
 msgid "Delete {0} for good? This cannot be undone."
 msgstr "{0} endgültig löschen? Das kann nicht rückgängig gemacht werden."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:478
+#: onedesk/one_storage/page/onecloud/onecloud.js:492
 msgid "Deleted"
 msgstr "Gelöscht"
 
@@ -2553,8 +2595,8 @@ msgstr ""
 msgid "Detail"
 msgstr "Einzelheit"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:95
-#: onedesk/one_storage/page/onecloud/onecloud.js:1147
+#: onedesk/one_storage/page/onecloud/onecloud.js:96
+#: onedesk/one_storage/page/onecloud/onecloud.js:1327
 msgid "Details"
 msgstr "Details"
 
@@ -2653,7 +2695,7 @@ msgstr "Wartende Domains"
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:21
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:36
 #: onedesk/one_project/portal.py:38
-#: onedesk/one_storage/page/onecloud/onecloud.js:1428
+#: onedesk/one_storage/page/onecloud/onecloud.js:1646
 #: onedesk/one_task/doctype/task_step/task_step.json
 #: onedesk/public/js/account_request.js:24 onedesk/public/js/ai_proposal.js:23
 #: onedesk/public/js/ai_proposal_list.js:10 onedesk/public/js/decision.js:39
@@ -2676,7 +2718,7 @@ msgid "Done: {0}"
 msgstr "Erledigt: {0}"
 
 #: onedesk/one_storage/page/onecloud/onecloud.js:88
-#: onedesk/one_storage/page/onecloud/onecloud.js:1122 onedesk/www/s.html:90
+#: onedesk/one_storage/page/onecloud/onecloud.js:1297 onedesk/www/s.html:90
 #: onedesk/www/s.html:122
 msgid "Download"
 msgstr "Herunterladen"
@@ -2813,7 +2855,7 @@ msgstr "Die Abschreibung jedes Anlageguts wird bei Fälligkeit gebucht."
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_storage/page/onecloud/onecloud.js:943
+#: onedesk/one_storage/page/onecloud/onecloud.js:1026
 msgid "Edit"
 msgstr "Bearbeiten"
 
@@ -2849,7 +2891,7 @@ msgstr ""
 msgid "Email Group"
 msgstr ""
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1053
+#: onedesk/one_storage/page/onecloud/onecloud.js:1136
 msgid "Email addresses"
 msgstr "E-Mail-Adressen"
 
@@ -3174,7 +3216,7 @@ msgstr "Freibetragsnachweis"
 msgid "Existing workspaces keep what they bought. This only stops new signups."
 msgstr "Bestehende Arbeitsbereiche behalten, was sie gekauft haben. Das stoppt nur neue Anmeldungen."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:511
+#: onedesk/one_storage/page/onecloud/onecloud.js:569
 msgid "Expand"
 msgstr "Ausklappen"
 
@@ -3239,7 +3281,7 @@ msgstr ""
 
 #. Label of the expires_on (Datetime) field in DocType 'Cloud Link'
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
-#: onedesk/one_storage/page/onecloud/onecloud.js:1060
+#: onedesk/one_storage/page/onecloud/onecloud.js:1143
 msgid "Expires on"
 msgstr "Läuft ab am"
 
@@ -3272,7 +3314,7 @@ msgstr "Fakt"
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
-#: onedesk/one_storage/page/onecloud/onecloud.js:1428
+#: onedesk/one_storage/page/onecloud/onecloud.js:1646
 msgid "Failed"
 msgstr ""
 
@@ -3325,13 +3367,20 @@ msgstr "Überstundendetails abrufen"
 msgid "Field"
 msgstr ""
 
+#. Label of the file (Link) field in DocType 'Cloud File Version'
 #. Label of the file (Link) field in DocType 'Cloud Link'
+#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
-#: onedesk/one_storage/page/onecloud/onecloud.js:344
+#: onedesk/one_storage/page/onecloud/onecloud.js:355
 msgid "File"
 msgstr "Datei"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:340
+#. Label of the file_url (Small Text) field in DocType 'Cloud File Version'
+#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
+msgid "File URL"
+msgstr "Datei-URL"
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:351
 msgid "File folder"
 msgstr "Dateiordner"
 
@@ -3343,9 +3392,13 @@ msgstr "Dateiordner"
 msgid "Files"
 msgstr "Dateien"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:244
+#: onedesk/one_storage/page/onecloud/onecloud.js:252
 msgid "Files and folders people share with you will appear here."
 msgstr "Dateien und Ordner, die andere mit Ihnen teilen, erscheinen hier."
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:254
+msgid "Files you open or add will appear here."
+msgstr "Dateien, die Sie öffnen oder hinzufügen, erscheinen hier."
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:7
 msgid "Filter Based On"
@@ -3410,14 +3463,15 @@ msgstr "Markieren unter Punktzahl"
 msgid "Flagged"
 msgstr "Markiert"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:112
-#: onedesk/one_storage/page/onecloud/onecloud.js:228
-#: onedesk/one_storage/page/onecloud/onecloud.js:479
-#: onedesk/one_storage/page/onecloud/onecloud.js:1096
+#: onedesk/one_storage/page/onecloud/onecloud.js:113
+#: onedesk/one_storage/page/onecloud/onecloud.js:233
+#: onedesk/one_storage/page/onecloud/onecloud.js:235
+#: onedesk/one_storage/page/onecloud/onecloud.js:493
+#: onedesk/one_storage/page/onecloud/onecloud.js:1271
 msgid "Folder"
 msgstr "Ordner"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:108
+#: onedesk/one_storage/page/onecloud/onecloud.js:109
 msgid "Folders"
 msgstr "Ordner"
 
@@ -3441,7 +3495,7 @@ msgstr "Für die Zeilen ohne eigenen Lieferanten."
 msgid "For video calls. The browser asks which tab to share."
 msgstr "Für Videoanrufe. Der Browser fragt, welcher Tab geteilt wird."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:101
+#: onedesk/one_storage/page/onecloud/onecloud.js:102
 msgid "Forward"
 msgstr "Vorwärts"
 
@@ -3532,7 +3586,7 @@ msgstr "Schlage aus dem Verlauf dieses Leads den nächsten Schritt und den Tag v
 msgid "From this person's designation and department, what should their first two weeks hold, day by day, and who should own each part?"
 msgstr "Was sollten die ersten zwei Wochen dieser Person nach Position und Abteilung Tag für Tag enthalten, und wer verantwortet welchen Teil?"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:349
+#: onedesk/one_storage/page/onecloud/onecloud.js:360
 msgid "GB"
 msgstr "GB"
 
@@ -3582,7 +3636,7 @@ msgstr "Geben an…"
 msgid "Give credits"
 msgstr "Guthaben geben"
 
-#: onedesk/one_storage/api.py:141
+#: onedesk/one_storage/api.py:142
 msgid "Give it a name."
 msgstr "Geben Sie ihm einen Namen."
 
@@ -4335,7 +4389,7 @@ msgstr ""
 msgid "Jurisdiction"
 msgstr "Rechtsraum"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:349
+#: onedesk/one_storage/page/onecloud/onecloud.js:360
 msgid "KB"
 msgstr "KB"
 
@@ -4347,6 +4401,10 @@ msgstr ""
 #: onedesk/public/js/project.js:13
 msgid "Kanban Board"
 msgstr ""
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:1532
+msgid "Keep both"
+msgstr "Beide behalten"
 
 #: onedesk/public/js/oneai/Panel.vue:321
 msgid "Kept"
@@ -4719,6 +4777,18 @@ msgstr "Briefart"
 msgid "Letters"
 msgstr "Briefe"
 
+#: onedesk/one_storage/namespace.py:366 onedesk/one_storage/namespace.py:613
+msgid "Libraries"
+msgstr "Bibliotheken"
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:1268
+msgid "Library"
+msgstr "Bibliothek"
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:1183
+msgid "Library name"
+msgstr "Name der Bibliothek"
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Lifecycle Overview"
@@ -4740,11 +4810,11 @@ msgstr "Grenzen"
 msgid "Line"
 msgstr "Zeile"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1010
+#: onedesk/one_storage/page/onecloud/onecloud.js:1093
 msgid "Links"
 msgstr "Links"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1000
+#: onedesk/one_storage/page/onecloud/onecloud.js:1083
 msgid "Links to {0}"
 msgstr "Links zu {0}"
 
@@ -4886,12 +4956,19 @@ msgstr "Knapp"
 msgid "Low in {0}"
 msgstr "Knapp in {0}"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:349
+#: onedesk/one_storage/page/onecloud/onecloud.js:360
 msgid "MB"
 msgstr "MB"
 
+#. Label of the made_by (Link) field in DocType 'Cloud File Version'
+#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
+msgid "Made By"
+msgstr "Erstellt von"
+
 #. Label of the made_on (Datetime) field in DocType 'Calendar Feed'
+#. Label of the made_on (Datetime) field in DocType 'Cloud File Version'
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
+#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
 msgid "Made On"
 msgstr "Erstellt am"
 
@@ -5043,6 +5120,19 @@ msgstr "Speicher messen"
 msgid "Median First Reply (Hours)"
 msgstr "Median erste Antwort (Stunden)"
 
+#: onedesk/one_storage/page/onecloud/onecloud.js:1198
+msgid "Member"
+msgstr "Mitglied"
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:94
+#: onedesk/one_storage/page/onecloud/onecloud.js:1239
+msgid "Members"
+msgstr "Mitglieder"
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:1202
+msgid "Members of {0}"
+msgstr "Mitglieder von {0}"
+
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json
 msgid "Memory"
@@ -5106,7 +5196,7 @@ msgstr "Modelle"
 msgid "Modes of Payment"
 msgstr ""
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:477
+#: onedesk/one_storage/page/onecloud/onecloud.js:491
 msgid "Modified"
 msgstr "Geändert"
 
@@ -5146,11 +5236,11 @@ msgstr ""
 msgid "Move These Beside It"
 msgstr "Diese daneben verschieben"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:909
+#: onedesk/one_storage/page/onecloud/onecloud.js:991
 msgid "Moved 1 item"
 msgstr "1 Element verschoben"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:884
+#: onedesk/one_storage/page/onecloud/onecloud.js:966
 msgid "Moved 1 item to the Recycle Bin"
 msgstr "1 Element in den Papierkorb verschoben"
 
@@ -5162,11 +5252,11 @@ msgstr "Von {0} % auf {1} % abgestuft."
 msgid "Moved up from {0}% to {1}%."
 msgstr "Von {0} % auf {1} % hochgestuft."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:909
+#: onedesk/one_storage/page/onecloud/onecloud.js:991
 msgid "Moved {0} items"
 msgstr "{0} Elemente verschoben"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:884
+#: onedesk/one_storage/page/onecloud/onecloud.js:966
 msgid "Moved {0} items to the Recycle Bin"
 msgstr "{0} Elemente in den Papierkorb verschoben"
 
@@ -5192,8 +5282,9 @@ msgstr "Wird mit den Anbieterkosten multipliziert. 2 berechnet das Doppelte des 
 msgid "My Events"
 msgstr "Meine Termine"
 
-#: onedesk/one_storage/namespace.py:275 onedesk/one_storage/namespace.py:297
-#: onedesk/one_storage/namespace.py:409 onedesk/one_storage/namespace.py:531
+#: onedesk/one_storage/history.py:209 onedesk/one_storage/namespace.py:338
+#: onedesk/one_storage/namespace.py:362 onedesk/one_storage/namespace.py:488
+#: onedesk/one_storage/namespace.py:610
 msgid "My Files"
 msgstr "Meine Dateien"
 
@@ -5202,11 +5293,11 @@ msgstr "Meine Dateien"
 msgid "My Files Of"
 msgstr "Meine Dateien von"
 
-#: onedesk/one_storage/api.py:176
+#: onedesk/one_storage/api.py:184
 msgid "My Files cannot be moved."
 msgstr "„Meine Dateien“ kann nicht verschoben werden."
 
-#: onedesk/one_storage/api.py:138
+#: onedesk/one_storage/api.py:139
 msgid "My Files cannot be renamed."
 msgstr "„Meine Dateien“ kann nicht umbenannt werden."
 
@@ -5240,7 +5331,7 @@ msgstr "Meine Aufgaben"
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_project/report/workload/workload.py:146
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
-#: onedesk/one_storage/page/onecloud/onecloud.js:111
+#: onedesk/one_storage/page/onecloud/onecloud.js:112
 #: onedesk/public/js/leave_control_panel.js:34
 msgid "Name"
 msgstr ""
@@ -5349,11 +5440,16 @@ msgstr "Neue Unterhaltung"
 msgid "New files go to cloud storage"
 msgstr "Neue Dateien gehen in den Cloud-Speicher"
 
-#: onedesk/one_storage/api.py:124
-#: onedesk/one_storage/page/onecloud/onecloud.js:834
-#: onedesk/one_storage/page/onecloud/onecloud.js:1141
+#: onedesk/one_storage/api.py:125
+#: onedesk/one_storage/page/onecloud/onecloud.js:916
+#: onedesk/one_storage/page/onecloud/onecloud.js:1321
 msgid "New folder"
 msgstr "Neuer Ordner"
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:1189
+#: onedesk/one_storage/page/onecloud/onecloud.js:1318
+msgid "New library"
+msgstr "Neue Bibliothek"
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:359
 msgid "New link made. The old one no longer works."
@@ -5477,7 +5573,7 @@ msgstr "Kein Guthaben. Kaufen Sie welches, um die KI zu nutzen."
 msgid "No file is left on the server's disk"
 msgstr "Keine Datei liegt mehr auf der Festplatte des Servers"
 
-#: onedesk/one_storage/upload.py:105
+#: onedesk/one_storage/upload.py:113
 msgid "No file was sent."
 msgstr "Es wurde keine Datei gesendet."
 
@@ -5485,7 +5581,7 @@ msgstr "Es wurde keine Datei gesendet."
 msgid "No fiscal year covers today, so nothing dated today can be saved."
 msgstr "Kein Geschäftsjahr umfasst heute, daher kann nichts mit heutigem Datum gespeichert werden."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:241
+#: onedesk/one_storage/page/onecloud/onecloud.js:249
 msgid "No items match your search."
 msgstr "Keine Elemente entsprechen Ihrer Suche."
 
@@ -5527,7 +5623,7 @@ msgstr "Es wurde keine Position übermittelt."
 msgid "No price for this model on the published page."
 msgstr "Kein Preis für dieses Modell auf der veröffentlichten Seite."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:245
+#: onedesk/one_storage/page/onecloud/onecloud.js:253
 msgid "No record has files yet."
 msgstr "Noch kein Datensatz hat Dateien."
 
@@ -5974,7 +6070,7 @@ msgstr "Ein Passkey pro Mitarbeiter. Beim Gerätewechsel zurücksetzen."
 msgid "One per line. Applicants are rated against these, or against the description if empty."
 msgstr "Einer pro Zeile. Bewerbungen werden daran bewertet, oder an der Beschreibung, wenn leer."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1054
+#: onedesk/one_storage/page/onecloud/onecloud.js:1137
 msgid "One per line. Each is sent the link, and a code when they open it."
 msgstr "Eine pro Zeile. Jede Person erhält den Link und beim Öffnen einen Code."
 
@@ -6055,7 +6151,7 @@ msgid "OneCalendar"
 msgstr "OneCalendar"
 
 #. Title of a Sidebar
-#: onedesk/one_storage/namespace.py:509
+#: onedesk/one_storage/namespace.py:588
 #: onedesk/one_storage/sidebar/onecloud/onecloud.json
 msgid "OneCloud"
 msgstr "OneCloud"
@@ -6184,12 +6280,16 @@ msgstr "Nur ein Mitarbeiter kann einen Passkey registrieren."
 msgid "Only an invoice or a bill is paid here."
 msgstr "Hier werden nur Rechnungen und Eingangsrechnungen bezahlt."
 
+#: onedesk/one_storage/library.py:99 onedesk/one_storage/library.py:118
+msgid "Only an owner of {0} can say who is in it."
+msgstr "Nur ein Eigentümer von {0} kann bestimmen, wer dazugehört."
+
 #. Description of the 'Learning' (Section Break) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Only check-ins that passed another check are counted. Nothing learned widens who may check in."
 msgstr "Es zählen nur Eincheckungen, die eine andere Prüfung bestanden haben. Nichts Gelerntes erweitert den Kreis derer, die einchecken dürfen."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1046
+#: onedesk/one_storage/page/onecloud/onecloud.js:1129
 msgid "Only people I invite by email"
 msgstr "Nur Personen, die ich per E-Mail einlade"
 
@@ -6197,18 +6297,23 @@ msgstr "Nur Personen, die ich per E-Mail einlade"
 msgid "Only people on the team can be given a file here: {0}."
 msgstr "Hier können Dateien nur Personen im Team gegeben werden: {0}."
 
+#: onedesk/one_storage/library.py:42
+msgid "Only people on the team can make a library."
+msgstr "Nur Personen im Team können eine Bibliothek erstellen."
+
 #: onedesk/one_hr/decision.py:32
 msgid "Only somebody who can approve these may answer this one."
 msgstr "Nur wer solche Anträge genehmigen darf, kann über diesen entscheiden."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1017
+#: onedesk/one_storage/page/onecloud/onecloud.js:1100
 msgid "Only {0}"
 msgstr "Nur {0}"
 
 #. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: onedesk/one_crm/custom/sales_stage.json
-#: onedesk/one_storage/page/onecloud/onecloud.js:1120
+#: onedesk/one_storage/page/onecloud/onecloud.js:518
+#: onedesk/one_storage/page/onecloud/onecloud.js:1295
 #: onedesk/one_task/custom/task.json onedesk/public/js/oneai/Record.vue:15
 #: onedesk/public/js/project.js:151 onedesk/www/s.html:47 onedesk/www/s.html:55
 msgid "Open"
@@ -6222,12 +6327,12 @@ msgstr "Offene Deals"
 msgid "Open Workspace"
 msgstr "Arbeitsbereich öffnen"
 
-#: onedesk/one_storage/links.py:149 onedesk/www/welcome.html:25
+#: onedesk/one_storage/links.py:155 onedesk/www/welcome.html:25
 msgid "Open it"
 msgstr "Öffnen"
 
 #: onedesk/one_storage/page/onecloud/onecloud.js:93
-#: onedesk/one_storage/page/onecloud/onecloud.js:1121
+#: onedesk/one_storage/page/onecloud/onecloud.js:1296
 msgid "Open record"
 msgstr "Datensatz öffnen"
 
@@ -6468,8 +6573,9 @@ msgstr "Offen"
 
 #. Label of the owner_email (Data) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
-#: onedesk/one_storage/page/onecloud/onecloud.js:480
-#: onedesk/one_storage/page/onecloud/onecloud.js:970
+#: onedesk/one_storage/page/onecloud/onecloud.js:494
+#: onedesk/one_storage/page/onecloud/onecloud.js:1053
+#: onedesk/one_storage/page/onecloud/onecloud.js:1199
 msgid "Owner"
 msgstr "Eigentümer"
 
@@ -6547,7 +6653,7 @@ msgstr "Passkey zurückgesetzt"
 
 #. Label of the password (Password) field in DocType 'Cloud Link'
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
-#: onedesk/one_storage/page/onecloud/onecloud.js:1064 onedesk/www/s.html:45
+#: onedesk/one_storage/page/onecloud/onecloud.js:1147 onedesk/www/s.html:45
 msgid "Password"
 msgstr "Passwort"
 
@@ -6556,11 +6662,11 @@ msgid "Past the expected hours."
 msgstr "Über den veranschlagten Stunden."
 
 #: onedesk/one_storage/page/onecloud/onecloud.js:85
-#: onedesk/one_storage/page/onecloud/onecloud.js:1144
+#: onedesk/one_storage/page/onecloud/onecloud.js:1324
 msgid "Paste"
 msgstr "Einfügen"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1128
+#: onedesk/one_storage/page/onecloud/onecloud.js:1303
 msgid "Paste into folder"
 msgstr "In Ordner einfügen"
 
@@ -6673,7 +6779,7 @@ msgstr ""
 msgid "People"
 msgstr "Personen"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:971
+#: onedesk/one_storage/page/onecloud/onecloud.js:1054
 msgid "People with access"
 msgstr "Personen mit Zugriff"
 
@@ -6866,7 +6972,7 @@ msgstr "Frappe-Cloud-Hauptdomain"
 msgid "Press Site"
 msgstr "Frappe-Cloud-Site"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:97
+#: onedesk/one_storage/page/onecloud/onecloud.js:98
 msgid "Preview pane"
 msgstr "Vorschaufenster"
 
@@ -7209,6 +7315,14 @@ msgstr "Einchecken auswerten"
 msgid "Read from the two times below."
 msgstr "Aus den beiden Zeiten unten gelesen."
 
+#: onedesk/one_storage/page/onecloud/onecloud.js:1197
+msgid "Reader"
+msgstr "Leser"
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:1217
+msgid "Readers open and download. Members also add, change and delete. Owners also rename the library and say who is in it."
+msgstr "Leser öffnen und laden herunter. Mitglieder fügen außerdem hinzu, ändern und löschen. Eigentümer benennen die Bibliothek zudem um und bestimmen, wer dazugehört."
+
 #: onedesk/one_hr/ai.py:105
 msgid "Reading the CV again. The rating, the standing and a comment land on this applicant when I am done."
 msgstr "Ich lese den Lebenslauf erneut. Bewertung, Platzierung und ein Kommentar erscheinen an dieser Bewerbung, sobald ich fertig bin."
@@ -7267,12 +7381,16 @@ msgstr "Forderungen, Verbindlichkeiten, Erlöse, Kostenstelle und Rundung."
 msgid "Receivables"
 msgstr ""
 
+#: onedesk/one_storage/namespace.py:363
+msgid "Recent"
+msgstr "Zuletzt verwendet"
+
 #. Label of the record (Data) field in DocType 'AI Proposal'
 #. Label of the record (Dynamic Link) field in DocType 'AI Touch'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
-#: onedesk/one_storage/page/onecloud/onecloud.js:339
-#: onedesk/one_storage/page/onecloud/onecloud.js:481
+#: onedesk/one_storage/page/onecloud/onecloud.js:350
+#: onedesk/one_storage/page/onecloud/onecloud.js:495
 #: onedesk/public/js/hiring.js:11 onedesk/public/js/invoice.js:64
 #: onedesk/public/js/overtime.js:50
 msgid "Record"
@@ -7307,7 +7425,7 @@ msgstr "Geschriebener Datensatz"
 msgid "Record this interview"
 msgstr "Dieses Gespräch aufzeichnen"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:338
+#: onedesk/one_storage/page/onecloud/onecloud.js:349
 msgid "Record type"
 msgstr "Datensatztyp"
 
@@ -7357,7 +7475,7 @@ msgstr "Überstunden werden erfasst"
 msgid "Recording…"
 msgstr "Aufnahme läuft…"
 
-#: onedesk/one_storage/namespace.py:300 onedesk/one_storage/namespace.py:515
+#: onedesk/one_storage/namespace.py:368 onedesk/one_storage/namespace.py:594
 msgid "Records"
 msgstr "Datensätze"
 
@@ -7371,7 +7489,7 @@ msgstr "Übersicht Personalgewinnung"
 msgid "Recurring"
 msgstr "Wiederkehrend"
 
-#: onedesk/one_storage/namespace.py:301
+#: onedesk/one_storage/namespace.py:369
 msgid "Recycle Bin"
 msgstr "Papierkorb"
 
@@ -7383,8 +7501,9 @@ msgstr "Papierkorb"
 msgid "Reference"
 msgstr "Referenz"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:104
-#: onedesk/one_storage/page/onecloud/onecloud.js:1156
+#: onedesk/one_storage/page/onecloud/onecloud.js:105
+#: onedesk/one_storage/page/onecloud/onecloud.js:1318
+#: onedesk/one_storage/page/onecloud/onecloud.js:1336
 #: onedesk/public/js/tenant.js:78 onedesk/public/js/tenant.js:83
 #: onedesk/public/js/tenant_domain.js:12
 #: onedesk/public/js/workspace_account.js:19
@@ -7485,8 +7604,8 @@ msgstr "Bei Ablehnung wird am Einchecken „Automatische Anwesenheit überspring
 msgid "Released"
 msgstr "Freigegeben"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:967
-#: onedesk/one_storage/page/onecloud/onecloud.js:1013
+#: onedesk/one_storage/page/onecloud/onecloud.js:1050
+#: onedesk/one_storage/page/onecloud/onecloud.js:1096
 #: onedesk/public/js/oneai/Panel.vue:157
 #: onedesk/public/js/workspace_account.js:18
 #: onedesk/public/js/workspace_account.js:259
@@ -7497,11 +7616,15 @@ msgstr "Entfernen"
 msgid "Remove a domain"
 msgstr "Eine Domain entfernen"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:892
+#: onedesk/one_storage/page/onecloud/onecloud.js:1308
+msgid "Remove star"
+msgstr "Stern entfernen"
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:974
 msgid "Remove these {0} files from their records? This cannot be undone."
 msgstr "Diese {0} Dateien aus ihren Datensätzen entfernen? Das kann nicht rückgängig gemacht werden."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:891
+#: onedesk/one_storage/page/onecloud/onecloud.js:973
 msgid "Remove {0} from its record? This cannot be undone."
 msgstr "{0} aus seinem Datensatz entfernen? Das kann nicht rückgängig gemacht werden."
 
@@ -7518,7 +7641,7 @@ msgid "Removed at Frappe Cloud"
 msgstr "Bei Frappe Cloud entfernt"
 
 #: onedesk/one_storage/page/onecloud/onecloud.js:86
-#: onedesk/one_storage/page/onecloud/onecloud.js:1132
+#: onedesk/one_storage/page/onecloud/onecloud.js:1311
 msgid "Rename"
 msgstr "Umbenennen"
 
@@ -7544,6 +7667,14 @@ msgstr "Wiederholt"
 #: onedesk/public/js/invoice.js:33
 msgid "Repeats {0}"
 msgstr "Wiederholt {0}"
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:1525
+msgid "Replace"
+msgstr "Ersetzen"
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:1524
+msgid "Replacing keeps what they hold now as an earlier version."
+msgstr "Beim Ersetzen bleibt der jetzige Inhalt als frühere Version erhalten."
 
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:65
 msgid "Replied (%)"
@@ -7620,7 +7751,8 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_storage/page/onecloud/onecloud.js:91
-#: onedesk/one_storage/page/onecloud/onecloud.js:1113
+#: onedesk/one_storage/page/onecloud/onecloud.js:519
+#: onedesk/one_storage/page/onecloud/onecloud.js:1288
 #: onedesk/public/js/tenant.js:68
 msgid "Restore"
 msgstr ""
@@ -7630,11 +7762,11 @@ msgstr ""
 msgid "Restored"
 msgstr ""
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:773
+#: onedesk/one_storage/page/onecloud/onecloud.js:855
 msgid "Restored 1 item"
 msgstr "1 Element wiederhergestellt"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:773
+#: onedesk/one_storage/page/onecloud/onecloud.js:855
 msgid "Restored {0} items"
 msgstr "{0} Elemente wiederhergestellt"
 
@@ -7839,7 +7971,7 @@ msgstr "Auswahlkriterien"
 msgid "Search"
 msgstr ""
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:224
+#: onedesk/one_storage/page/onecloud/onecloud.js:230
 msgid "Search {0}"
 msgstr "{0} durchsuchen"
 
@@ -7871,7 +8003,7 @@ msgstr "Diesen Kalender in einer anderen App sehen. Google Kalender aktualisiert
 msgid "Seen"
 msgstr ""
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:457
+#: onedesk/one_storage/page/onecloud/onecloud.js:471
 msgid "Select a file to preview it."
 msgstr "Wählen Sie eine Datei aus, um sie anzuzeigen."
 
@@ -8045,7 +8177,7 @@ msgid "Setup"
 msgstr ""
 
 #: onedesk/one_storage/page/onecloud/onecloud.js:87
-#: onedesk/one_storage/page/onecloud/onecloud.js:949
+#: onedesk/one_storage/page/onecloud/onecloud.js:1032
 msgid "Share"
 msgstr "Teilen"
 
@@ -8053,24 +8185,24 @@ msgstr "Teilen"
 msgid "Share the folders in My Files, not My Files itself."
 msgstr "Teilen Sie die Ordner in „Meine Dateien“, nicht „Meine Dateien“ selbst."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:927
-#: onedesk/one_storage/page/onecloud/onecloud.js:1000
+#: onedesk/one_storage/page/onecloud/onecloud.js:1010
+#: onedesk/one_storage/page/onecloud/onecloud.js:1083
 msgid "Share {0}"
 msgstr "{0} teilen"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:383
+#: onedesk/one_storage/page/onecloud/onecloud.js:394
 msgid "Shared"
 msgstr "Geteilt"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:228
+#: onedesk/one_storage/page/onecloud/onecloud.js:233
 msgid "Shared by"
 msgstr "Geteilt von"
 
-#: onedesk/one_storage/namespace.py:298 onedesk/one_storage/namespace.py:539
+#: onedesk/one_storage/namespace.py:365 onedesk/one_storage/namespace.py:621
 msgid "Shared with Me"
 msgstr "Mit mir geteilt"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1131
+#: onedesk/one_storage/page/onecloud/onecloud.js:1306
 msgid "Share…"
 msgstr "Teilen…"
 
@@ -8152,8 +8284,10 @@ msgstr "Seit {0}"
 msgid "Site"
 msgstr ""
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:115
-#: onedesk/one_storage/page/onecloud/onecloud.js:476
+#. Label of the file_size (Int) field in DocType 'Cloud File Version'
+#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
+#: onedesk/one_storage/page/onecloud/onecloud.js:116
+#: onedesk/one_storage/page/onecloud/onecloud.js:490
 msgid "Size"
 msgstr "Größe"
 
@@ -8181,19 +8315,19 @@ msgstr "Ein Ort für ein Anlagegut"
 msgid "Somewhere to keep stock"
 msgstr "Ein Ort für den Bestand"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1152
+#: onedesk/one_storage/page/onecloud/onecloud.js:1332
 msgid "Sort by date"
 msgstr "Nach Datum sortieren"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1151
+#: onedesk/one_storage/page/onecloud/onecloud.js:1331
 msgid "Sort by name"
 msgstr "Nach Name sortieren"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1154
+#: onedesk/one_storage/page/onecloud/onecloud.js:1334
 msgid "Sort by size"
 msgstr "Nach Größe sortieren"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1153
+#: onedesk/one_storage/page/onecloud/onecloud.js:1333
 msgid "Sort by type"
 msgstr "Nach Typ sortieren"
 
@@ -8261,6 +8395,19 @@ msgstr "Standardarbeitstag: {0} Stunden. Alles darüber sind Überstunden."
 #: onedesk/public/js/employee.js:130
 msgid "Standing"
 msgstr "Bewertung"
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:1309
+msgid "Star"
+msgstr "Stern"
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:255
+msgid "Star a file or folder to find it here. Right-click it and choose Star."
+msgstr "Markieren Sie eine Datei oder einen Ordner mit einem Stern, um sie hier zu finden. Rechtsklick und „Stern“ wählen."
+
+#: onedesk/one_storage/namespace.py:364
+#: onedesk/one_storage/page/onecloud/onecloud.js:396
+msgid "Starred"
+msgstr "Mit Stern"
 
 #: onedesk/public/js/timesheet.js:75
 msgid "Start"
@@ -8704,7 +8851,7 @@ msgstr "Systemanweisung"
 msgid "System Manager"
 msgstr ""
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:349
+#: onedesk/one_storage/page/onecloud/onecloud.js:360
 msgid "TB"
 msgstr "TB"
 
@@ -8801,6 +8948,11 @@ msgstr "Steuerpflichtiger Betrag"
 msgid "Team"
 msgstr ""
 
+#. Label of the one_library (Check) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json
+msgid "Team Library"
+msgstr "Teambibliothek"
+
 #. Introduction text of the get-in-touch Web Form
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 msgid "Tell us who you are and what you need, and we will get back to you."
@@ -8886,7 +9038,8 @@ msgstr "Das hat nicht geklappt."
 
 #: onedesk/one_storage/api.py:32 onedesk/one_storage/api.py:73
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.py:24
-#: onedesk/one_storage/share.py:48
+#: onedesk/one_storage/history.py:71 onedesk/one_storage/history.py:236
+#: onedesk/one_storage/library.py:75 onedesk/one_storage/share.py:48
 msgid "That is no longer here."
 msgstr "Das ist nicht mehr hier."
 
@@ -8926,9 +9079,13 @@ msgstr "Dieses Passwort ist falsch."
 msgid "That tab shared no sound, so only the microphone is recorded."
 msgstr "Dieser Tab hat keinen Ton geteilt, daher wird nur das Mikrofon aufgenommen."
 
-#: onedesk/one_storage/upload.py:87
+#: onedesk/one_storage/upload.py:93
 msgid "That upload has expired. Try it again."
 msgstr "Dieser Upload ist abgelaufen. Versuchen Sie es erneut."
+
+#: onedesk/one_storage/history.py:98
+msgid "That version is not one of {0}'s."
+msgstr "Diese Version gehört nicht zu {0}."
 
 #: onedesk/one_book/report/books_check/books_check.js:22
 msgid "The 15-digit Tax Registration Number on the VAT certificate."
@@ -8958,7 +9115,7 @@ msgstr "Der DNS zeigt hierher."
 msgid "The Frappe Cloud root domain sites are created on, for example frappe.cloud."
 msgstr "Die Frappe-Cloud-Hauptdomain, auf der Sites angelegt werden, zum Beispiel frappe.cloud."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:243
+#: onedesk/one_storage/page/onecloud/onecloud.js:251
 msgid "The Recycle Bin is empty."
 msgstr "Der Papierkorb ist leer."
 
@@ -9325,7 +9482,7 @@ msgstr "Es gibt keinen Standort, und ohne ihn lässt sich kein Anlagegut speiche
 msgid "There is no maintenance team, and a schedule needs one."
 msgstr "Es gibt kein Wartungsteam, und ein Plan braucht eines."
 
-#: onedesk/one_storage/store.py:172
+#: onedesk/one_storage/store.py:186
 msgid "There is no such file."
 msgstr "Diese Datei gibt es nicht."
 
@@ -9333,7 +9490,7 @@ msgstr "Diese Datei gibt es nicht."
 msgid "There is no warehouse, so nothing can be received."
 msgstr "Es gibt kein Lager, daher kann nichts eingehen."
 
-#: onedesk/one_storage/api.py:114
+#: onedesk/one_storage/api.py:115
 msgid "There is no {0} here."
 msgstr "Hier gibt es kein {0}."
 
@@ -9353,7 +9510,7 @@ msgstr "Diese Tage liegen über dem Tagesmaximum der Überstundenart. Vergütet 
 msgid "These days will be marked as worked."
 msgstr "Diese Tage werden als gearbeitet erfasst."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:940
+#: onedesk/one_storage/page/onecloud/onecloud.js:1023
 msgid "They can"
 msgstr "Sie können"
 
@@ -9406,15 +9563,15 @@ msgstr "Dieser Mitarbeiter hat bereits einen Passkey. Die Personalabteilung muss
 msgid "This employee's passkey is blocked. HR must reset it before another can be registered."
 msgstr "Der Passkey dieses Mitarbeiters ist gesperrt. Die Personalabteilung muss ihn zurücksetzen, bevor ein neuer registriert werden kann."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:972
+#: onedesk/one_storage/page/onecloud/onecloud.js:1055
 msgid "This file is attached to a record, and goes to whoever may open the record."
 msgstr "Diese Datei hängt an einem Datensatz und ist für alle sichtbar, die den Datensatz öffnen dürfen."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:251 onedesk/www/s.html:96
+#: onedesk/one_storage/page/onecloud/onecloud.js:262 onedesk/www/s.html:96
 msgid "This folder is empty."
 msgstr "Dieser Ordner ist leer."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:250
+#: onedesk/one_storage/page/onecloud/onecloud.js:261
 msgid "This folder is empty. Drop files here, or use New."
 msgstr "Dieser Ordner ist leer. Legen Sie Dateien hier ab oder verwenden Sie „Neu“."
 
@@ -9513,8 +9670,8 @@ msgstr "Gesetzt, wenn der Timer diesen Block beendet hat, oder von Hand. Eine ni
 msgid "Ticked {0} of {1}"
 msgstr "{0} von {1} angekreuzt"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:96
-#: onedesk/one_storage/page/onecloud/onecloud.js:1148
+#: onedesk/one_storage/page/onecloud/onecloud.js:97
+#: onedesk/one_storage/page/onecloud/onecloud.js:1328
 msgid "Tiles"
 msgstr "Kacheln"
 
@@ -9782,8 +9939,8 @@ msgstr ""
 #. Label of the document_type (Link) field in DocType 'Employee Document'
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
-#: onedesk/one_storage/page/onecloud/onecloud.js:114
-#: onedesk/one_storage/page/onecloud/onecloud.js:475
+#: onedesk/one_storage/page/onecloud/onecloud.js:115
+#: onedesk/one_storage/page/onecloud/onecloud.js:489
 msgid "Type"
 msgstr ""
 
@@ -9867,7 +10024,7 @@ msgstr "Ohne Titel"
 msgid "Untracked"
 msgstr "Nicht erfasst"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:102
+#: onedesk/one_storage/page/onecloud/onecloud.js:103
 msgid "Up"
 msgstr "Nach oben"
 
@@ -9875,17 +10032,21 @@ msgstr "Nach oben"
 msgid "Up To"
 msgstr "Bis"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1099
-#: onedesk/one_storage/page/onecloud/onecloud.js:1142
+#: onedesk/one_storage/page/onecloud/onecloud.js:1274
+#: onedesk/one_storage/page/onecloud/onecloud.js:1322
 msgid "Upload files"
 msgstr "Dateien hochladen"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1100
-#: onedesk/one_storage/page/onecloud/onecloud.js:1143
+#: onedesk/one_storage/page/onecloud/onecloud.js:1275
+#: onedesk/one_storage/page/onecloud/onecloud.js:1323
 msgid "Upload folder"
 msgstr "Ordner hochladen"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1415
+#: onedesk/one_storage/page/onecloud/onecloud.js:1310
+msgid "Upload new version"
+msgstr "Neue Version hochladen"
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:1633
 msgid "Uploading {0} of {1}"
 msgstr "{0} von {1} wird hochgeladen"
 
@@ -10009,6 +10170,19 @@ msgstr "Entscheidung"
 msgid "Verification"
 msgstr ""
 
+#. Label of the version (Int) field in DocType 'Cloud File Version'
+#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
+msgid "Version"
+msgstr "Version"
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:526
+msgid "Version {0}"
+msgstr "Version {0}"
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:515
+msgid "Versions"
+msgstr "Versionen"
+
 #. Label of the reads_video (Check) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_storage/page/onecloud/onecloud.js:36
@@ -10023,7 +10197,7 @@ msgstr "Video"
 msgid "Video Generation"
 msgstr "Videoerzeugung"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:942
+#: onedesk/one_storage/page/onecloud/onecloud.js:1025
 #: onedesk/public/js/project.js:13 onedesk/public/js/project.js:23
 msgid "View"
 msgstr "Ansehen"
@@ -10151,6 +10325,11 @@ msgstr "Was OneAI sich merkt"
 #: onedesk/public/js/crm_record.js:196
 msgid "What Was Said"
 msgstr "Was besprochen wurde"
+
+#. Description of a DocType
+#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
+msgid "What a file in OneCloud held before it was replaced."
+msgstr "Was eine Datei in OneCloud enthielt, bevor sie ersetzt wurde."
 
 #. Description of the 'About' (Small Text) field in DocType 'AI Action'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
@@ -10408,7 +10587,7 @@ msgstr "Wer hat es"
 msgid "Who Supplies the Rest?"
 msgstr "Wer liefert den Rest?"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1043
+#: onedesk/one_storage/page/onecloud/onecloud.js:1126
 msgid "Who can open it"
 msgstr "Wer ihn öffnen kann"
 
@@ -10588,6 +10767,7 @@ msgstr "Arbeitsbereich-Konto"
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
+#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 msgid "Workspace Administrator"
 msgstr "Arbeitsbereich-Administrator"
@@ -10745,6 +10925,10 @@ msgstr ""
 msgid "You"
 msgstr ""
 
+#: onedesk/one_storage/page/onecloud/onecloud.js:256
+msgid "You are not in any library yet. A library is a folder a team shares, with members who can read or edit it. Use New to make one."
+msgstr "Sie sind noch in keiner Bibliothek. Eine Bibliothek ist ein Ordner, den ein Team teilt, mit Mitgliedern, die lesen oder bearbeiten können. Erstellen Sie eine mit „Neu“."
+
 #: onedesk/one_hr/rules.py:37
 msgid "You are outside every location this shift may check in from."
 msgstr "Sie befinden sich außerhalb aller Orte, von denen diese Schicht einchecken darf."
@@ -10781,7 +10965,7 @@ msgstr "Sie dürfen diesem Ordner nichts hinzufügen."
 msgid "You may not change {0}."
 msgstr "Sie dürfen {0} nicht ändern."
 
-#: onedesk/one_storage/api.py:209
+#: onedesk/one_storage/api.py:218
 msgid "You may not open {0}."
 msgstr "Sie dürfen {0} nicht öffnen."
 
@@ -10805,7 +10989,7 @@ msgstr "Sie dürfen {0} nicht teilen."
 msgid "You may not {0} {1}."
 msgstr "Sie dürfen {1} nicht {0}."
 
-#: onedesk/one_storage/links.py:150
+#: onedesk/one_storage/links.py:156
 msgid "You will be asked for a code, which is sent to this address."
 msgstr "Sie werden nach einem Code gefragt, der an diese Adresse gesendet wird."
 
@@ -10827,11 +11011,11 @@ msgstr "Ihr Kalenderlink ist abgeschaltet."
 msgid "Your check-in was closed at the end of your shift"
 msgstr "Ihr Einchecken wurde zum Ende Ihrer Schicht geschlossen"
 
-#: onedesk/one_storage/links.py:289
+#: onedesk/one_storage/links.py:295
 msgid "Your code for {0}"
 msgstr "Ihr Code für {0}"
 
-#: onedesk/one_storage/links.py:290
+#: onedesk/one_storage/links.py:296
 msgid "Your code is {0}. It works for ten minutes."
 msgstr "Ihr Code lautet {0}. Er gilt zehn Minuten."
 
@@ -10850,6 +11034,10 @@ msgstr "Ihre E-Mail-Adresse"
 #: onedesk/one_hr/rules.py:44
 msgid "Your passkey has been reset twice within a month."
 msgstr "Ihr Passkey wurde innerhalb eines Monats zweimal zurückgesetzt."
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:233
+msgid "Your role"
+msgstr "Ihre Rolle"
 
 #: onedesk/www/welcome.py:29 onedesk/www/welcome.py:30
 msgid "Your trial has started. The workspace is being built."
@@ -10906,6 +11094,7 @@ msgstr "nach {0}"
 msgid "an hour"
 msgstr "eine Stunde"
 
+#: onedesk/one_storage/page/onecloud/onecloud.js:1521
 #: onedesk/public/js/oneai/Panel.vue:105
 msgid "and {0} more"
 msgstr "und {0} weitere"
@@ -10924,17 +11113,21 @@ msgstr "Firmenname"
 msgid "cached"
 msgstr "zwischengespeichert"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1018
+#: onedesk/one_storage/page/onecloud/onecloud.js:1101
 msgid "can download"
 msgstr "kann herunterladen"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1018
+#: onedesk/one_storage/page/onecloud/onecloud.js:1101
 msgid "can upload"
 msgstr "kann hochladen"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1018
+#: onedesk/one_storage/page/onecloud/onecloud.js:1101
 msgid "can view"
 msgstr "kann ansehen"
+
+#: onedesk/one_storage/history.py:251
+msgid "created it"
+msgstr "hat es erstellt"
 
 #: onedesk/public/js/crm_record.js:49
 msgid "email"
@@ -10960,7 +11153,7 @@ msgstr "seit {0}"
 msgid "for {0} · usually {1}"
 msgstr "seit {0} · üblich {1}"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:969
+#: onedesk/one_storage/page/onecloud/onecloud.js:1052
 msgid "from {0}"
 msgstr "über {0}"
 
@@ -11008,6 +11201,18 @@ msgstr "zu spät"
 msgid "left early"
 msgstr "früher gegangen"
 
+#: onedesk/one_storage/links.py:126
+msgid "made a link for anyone who has it"
+msgstr "hat einen Link für alle erstellt, die ihn haben"
+
+#: onedesk/one_storage/links.py:126
+msgid "made a link for {0}"
+msgstr "hat einen Link für {0} erstellt"
+
+#: onedesk/one_storage/api.py:196
+msgid "moved it from {0}"
+msgstr "hat es aus {0} verschoben"
+
 #: onedesk/one_hr/passkey.py:224
 msgid "no passkey registered"
 msgstr "kein Passkey registriert"
@@ -11024,7 +11229,7 @@ msgstr "keiner davon aktiv."
 msgid "nothing"
 msgstr "nichts"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1021
+#: onedesk/one_storage/page/onecloud/onecloud.js:1104
 msgid "opened {0} times"
 msgstr "{0}-mal geöffnet"
 
@@ -11038,7 +11243,7 @@ msgstr "sonstige"
 msgid "output"
 msgstr "Ausgabe"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1020
+#: onedesk/one_storage/page/onecloud/onecloud.js:1103
 msgid "password"
 msgstr "Passwort"
 
@@ -11050,9 +11255,25 @@ msgstr "Telefonnummer"
 msgid "placed {0} of {1}"
 msgstr "Platz {0} von {1}"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1019
+#: onedesk/one_storage/api.py:312
+msgid "put it back from the Recycle Bin"
+msgstr "hat es aus dem Papierkorb zurückgeholt"
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:1102
 msgid "ran out {0}"
 msgstr "abgelaufen {0}"
+
+#: onedesk/one_storage/api.py:149
+msgid "renamed it from {0}"
+msgstr "hat es von {0} umbenannt"
+
+#: onedesk/one_storage/history.py:112
+msgid "restored version {0}"
+msgstr "hat Version {0} wiederhergestellt"
+
+#: onedesk/one_storage/share.py:121
+msgid "shared it with {0}"
+msgstr "hat es mit {0} geteilt"
 
 #. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
@@ -11083,9 +11304,13 @@ msgstr "weniger als eine Stunde"
 msgid "units"
 msgstr "Einheiten"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1019
+#: onedesk/one_storage/page/onecloud/onecloud.js:1102
 msgid "until {0}"
 msgstr "bis {0}"
+
+#: onedesk/one_storage/history.py:62
+msgid "uploaded a new version"
+msgstr "hat eine neue Version hochgeladen"
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
@@ -11127,6 +11352,10 @@ msgstr "{0} pro Monat"
 msgid "{0} added to your timesheet."
 msgstr "{0} zu Ihrem Stundenzettel hinzugefügt."
 
+#: onedesk/one_storage/library.py:143
+msgid "{0} added you to the library {1}"
+msgstr "{0} hat Sie zur Bibliothek {1} hinzugefügt"
+
 #: onedesk/one_hr/overtime.py:114
 msgid "{0} allows at most {1} overtime hours a day."
 msgstr "{0} erlaubt höchstens {1} Überstunden pro Tag."
@@ -11155,7 +11384,7 @@ msgstr "{0} erfasst am {2} bereits {1} Überstunden. Diese Zeile entfernen."
 msgid "{0} and {1} more"
 msgstr "{0} und {1} weitere"
 
-#: onedesk/one_storage/links.py:409
+#: onedesk/one_storage/links.py:415
 msgid "{0} arrived in {1} through your link"
 msgstr "{0} ist über Ihren Link in {1} eingegangen"
 
@@ -11179,7 +11408,7 @@ msgstr "{0} wird {1}"
 msgid "{0} belongs to {1} {2}. Share the record instead."
 msgstr "{0} gehört zu {1} {2}. Teilen Sie stattdessen den Datensatz."
 
-#: onedesk/one_storage/api.py:270
+#: onedesk/one_storage/api.py:279
 msgid "{0} cannot be deleted."
 msgstr "{0} kann nicht gelöscht werden."
 
@@ -11286,7 +11515,7 @@ msgstr "{0} Tage {1}; danach bleiben {2}."
 msgid "{0} days read. Save to keep them."
 msgstr "{0} Tage ausgewertet. Speichern, um sie zu behalten."
 
-#: onedesk/one_storage/upload.py:91
+#: onedesk/one_storage/upload.py:97
 msgid "{0} did not arrive. Try it again."
 msgstr "{0} ist nicht angekommen. Versuchen Sie es erneut."
 
@@ -11294,7 +11523,7 @@ msgstr "{0} ist nicht angekommen. Versuchen Sie es erneut."
 msgid "{0} does not have {1} credits to spend."
 msgstr "{0} hat keine {1} Guthaben zum Ausgeben."
 
-#: onedesk/one_storage/share.py:134
+#: onedesk/one_storage/share.py:141
 msgid "{0} does not have {1}."
 msgstr "{0} hat keinen Zugriff auf {1}."
 
@@ -11306,7 +11535,7 @@ msgstr "{0} zeigt nicht auf diesen Arbeitsbereich. Der Kunde muss sein DNS ände
 msgid "{0} expire on {1}."
 msgstr "{0} verfallen am {1}."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:344
+#: onedesk/one_storage/page/onecloud/onecloud.js:355
 msgid "{0} file"
 msgstr "{0}-Datei"
 
@@ -11314,13 +11543,17 @@ msgstr "{0}-Datei"
 msgid "{0} files are on the disk, which is where this workspace keeps them."
 msgstr "{0} Dateien liegen auf der Festplatte, wo dieser Arbeitsbereich sie aufbewahrt."
 
-#: onedesk/one_storage/links.py:407
+#: onedesk/one_storage/links.py:413
 msgid "{0} files arrived in {1} through your link"
 msgstr "{0} Dateien sind über Ihren Link in {1} eingegangen"
 
 #: onedesk/one_storage/ready.py:51
 msgid "{0} files from before cloud storage are still on the server's disk."
 msgstr "{0} Dateien aus der Zeit vor dem Cloud-Speicher liegen noch auf der Festplatte des Servers."
+
+#: onedesk/one_storage/page/onecloud/onecloud.js:1523
+msgid "{0} files with these names are already here"
+msgstr "{0} Dateien mit diesen Namen sind bereits hier"
 
 #: onedesk/public/js/salary_slip.js:29
 msgid "{0} for {1}, a whole month."
@@ -11410,7 +11643,7 @@ msgstr "{0} ist bereits der Standard für {1}."
 msgid "{0} is already under {1}, so it cannot be its parent."
 msgstr "{0} liegt bereits unter {1} und kann daher nicht sein übergeordnetes Projekt sein."
 
-#: onedesk/one_storage/api.py:178
+#: onedesk/one_storage/api.py:186
 msgid "{0} is in somebody else's files. Copy it instead."
 msgstr "{0} liegt in den Dateien einer anderen Person. Kopieren Sie es stattdessen."
 
@@ -11441,6 +11674,10 @@ msgstr "{0} ist keine Gutschrift."
 #: onedesk/one_admin/operator.py:160
 msgid "{0} is not a job."
 msgstr "{0} ist kein Auftrag."
+
+#: onedesk/one_storage/library.py:34
+msgid "{0} is not a library."
+msgstr "{0} ist keine Bibliothek."
 
 #: onedesk/one_admin/operator.py:80
 msgid "{0} is not a rung an operator sets."
@@ -11487,16 +11724,20 @@ msgstr "{0} steht auf {1}, und die Stufe darunter ist nicht {2}."
 msgid "{0} is taken."
 msgstr "{0} ist vergeben."
 
+#: onedesk/one_storage/library.py:123
+msgid "{0} is the last owner of {1}. Make somebody else an owner first."
+msgstr "{0} ist der letzte Eigentümer von {1}. Machen Sie zuerst jemand anderen zum Eigentümer."
+
 #: onedesk/one_admin/doctype/ai_model/ai_model.py:25
 msgid "{0} is {1}, so it cannot be offered."
 msgstr "{0} ist {1} und kann daher nicht angeboten werden."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:439
+#: onedesk/one_storage/page/onecloud/onecloud.js:453
 msgid "{0} items"
 msgstr "{0} Elemente"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:442
 #: onedesk/one_storage/page/onecloud/onecloud.js:456
+#: onedesk/one_storage/page/onecloud/onecloud.js:470
 msgid "{0} items selected"
 msgstr "{0} Elemente ausgewählt"
 
@@ -11596,11 +11837,11 @@ msgstr "{0} hat diesen Ordner mit Ihnen geteilt."
 msgid "{0} shared this with you."
 msgstr "{0} hat dies mit Ihnen geteilt."
 
-#: onedesk/one_storage/links.py:145 onedesk/one_storage/share.py:153
+#: onedesk/one_storage/links.py:151 onedesk/one_storage/share.py:160
 msgid "{0} shared {1} with you"
 msgstr "{0} hat {1} mit Ihnen geteilt"
 
-#: onedesk/one_storage/links.py:148
+#: onedesk/one_storage/links.py:154
 msgid "{0} shared {1} with you."
 msgstr "{0} hat {1} mit Ihnen geteilt."
 
@@ -11612,11 +11853,11 @@ msgstr "{0} signiert und noch nicht gezählt."
 msgid "{0} to {1}"
 msgstr "{0} bis {1}"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1418
+#: onedesk/one_storage/page/onecloud/onecloud.js:1636
 msgid "{0} uploaded"
 msgstr "{0} hochgeladen"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1417
+#: onedesk/one_storage/page/onecloud/onecloud.js:1635
 msgid "{0} uploaded, {1} failed"
 msgstr "{0} hochgeladen, {1} fehlgeschlagen"
 

@@ -108,6 +108,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
+| Cloud File Version | 7 | document |
 | Cloud Link | 17 | document |
 | Cloud Link Invitee | 2 | child |
 
@@ -276,6 +277,14 @@ No doctypes yet.
 * `onedesk.one_storage.api.rename`
 * `onedesk.one_storage.api.resolve`
 * `onedesk.one_storage.api.restore`
+* `onedesk.one_storage.history.activity`
+* `onedesk.one_storage.history.restore`
+* `onedesk.one_storage.history.star`
+* `onedesk.one_storage.history.versions`
+* `onedesk.one_storage.library.add`
+* `onedesk.one_storage.library.make`
+* `onedesk.one_storage.library.members`
+* `onedesk.one_storage.library.remove`
 * `onedesk.one_storage.links.ask_code`
 * `onedesk.one_storage.links.drop`
 * `onedesk.one_storage.links.enter_code`

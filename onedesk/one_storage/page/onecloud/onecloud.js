@@ -91,6 +91,7 @@ onedesk.OneCloud = class OneCloud {
 				${button("restore", "rotate-ccw", __("Restore"), 'data-bin="1"')}
 				${button("empty-bin", "trash-2", __("Empty Recycle Bin"), 'data-bin="1"')}
 				${button("open-record", "external-link", __("Open record"), 'data-record="1"')}
+				${button("members", "users", __("Members"), 'data-library="1"')}
 				<span class="oc-grow"></span>
 				${bare("view-details", "layout-list", __("Details"))}
 				${bare("view-tiles", "layout-grid", __("Tiles"))}
@@ -121,6 +122,7 @@ onedesk.OneCloud = class OneCloud {
 			<div class="oc-status"></div>
 			<input type="file" class="oc-pick-files" multiple hidden>
 			<input type="file" class="oc-pick-folder" webkitdirectory hidden>
+			<input type="file" class="oc-pick-version" hidden>
 			<div class="oc-uploads" hidden></div>
 		</div>`).appendTo(this.page.main);
 		this.$items = this.$root.find(".oc-items");
@@ -201,6 +203,7 @@ onedesk.OneCloud = class OneCloud {
 		this.trail = answer.trail || [];
 		this.can_add = !!answer.can_add;
 		this.can_make_folder = !!answer.can_make_folder;
+		this.can_make_library = !!answer.can_make_library;
 		const live = new Set(this.items.map((one) => one.id));
 		this.selected = new Set([...this.selected].filter((id) => live.has(id)));
 		this.draw();
@@ -213,6 +216,9 @@ onedesk.OneCloud = class OneCloud {
 		if (node === "@shared") return "shared";
 		if (node === "@root") return "root";
 		if (node.startsWith("@records")) return node.split("/").length === 3 ? "record" : "records";
+		if (node === "@libraries") return "libraries";
+		if (node === "@recent") return "recent";
+		if (node === "@starred") return "starred";
 		return "folder";
 	}
 
@@ -224,8 +230,10 @@ onedesk.OneCloud = class OneCloud {
 		this.$search.attr("placeholder", __("Search {0}", [here ? here.name : __("Files")]));
 		this.$root.attr("data-kind", this.kind());
 		// Search results say which folder each is in; Shared with Me says who from.
-		this.$root.toggleClass("oc-searching", !!this.search || this.kind() === "shared");
-		this.$root.find(".oc-head .oc-col-where").text(this.kind() === "shared" && !this.search ? __("Shared by") : __("Folder"));
+		const where_head = { shared: __("Shared by"), libraries: __("Your role"), recent: __("Folder"), starred: __("Folder") }[this.kind()];
+		this.$root.toggleClass("oc-searching", !!this.search || !!where_head);
+		this.$root.find(".oc-head .oc-col-where").text(where_head && !this.search ? where_head : __("Folder"));
+		if (this.kind() === "libraries") this.items.forEach((one) => (one.where = one.role ? __(one.role) : ""));
 		this.$root.find(".oc-head .oc-col-date").text(this.kind() === "bin" ? __("Date deleted") : __("Date modified"));
 		const sorted = this.sorted();
 		if (!sorted.length) {
@@ -243,6 +251,9 @@ onedesk.OneCloud = class OneCloud {
 			bin: __("The Recycle Bin is empty."),
 			shared: __("Files and folders people share with you will appear here."),
 			records: __("No record has files yet."),
+			recent: __("Files you open or add will appear here."),
+			starred: __("Star a file or folder to find it here. Right-click it and choose Star."),
+			libraries: __("You are not in any library yet. A library is a folder a team shares, with members who can read or edit it. Use New to make one."),
 			root: "",
 		}[this.kind()];
 		if (text !== undefined) return text;
@@ -382,8 +393,10 @@ onedesk.OneCloud = class OneCloud {
 				: "";
 		const shared_note = __("Shared");
 		const shared = item.shared ? `<span class="oc-shared" title="${shared_note}">${frappe.utils.icon("users", "xs")}</span>` : "";
+		const star_note = __("Starred");
+		const star = item.starred ? `<span class="oc-starred" title="${star_note}">${frappe.utils.icon("star", "xs")}</span>` : "";
 		return `<div class="oc-item" role="option" draggable="true" data-id="${esc(item.id)}" data-folder="${item.folder ? 1 : 0}">
-			<span class="oc-name"><span class="oc-picture">${picture}</span><span class="oc-label">${esc(item.name)}</span>${count}${shared}${open}</span>
+			<span class="oc-name"><span class="oc-picture">${picture}</span><span class="oc-label">${esc(item.name)}</span>${count}${star}${shared}${open}</span>
 			<span class="oc-col-where">${esc(item.where || "")}</span>
 			<span class="oc-col-date">${this.date_text(when)}</span>
 			<span class="oc-col-type">${esc(this.type_of(item))}</span>
@@ -418,7 +431,8 @@ onedesk.OneCloud = class OneCloud {
 		const kind = this.kind();
 		const all_stored = chosen.length && chosen.every((one) => this.stored(one));
 		const set = (act, on) => this.$root.find(`[data-act=${act}]`).prop("disabled", !on);
-		set("new-menu", this.can_add);
+		set("new-menu", this.can_add || this.can_make_library);
+		this.$root.find("[data-library]").toggle(!!this.library_here());
 		set("cut", all_stored && kind !== "bin");
 		set("copy", all_stored && kind !== "bin");
 		set("paste", this.can_add && !!this.clipboard);
@@ -483,7 +497,51 @@ onedesk.OneCloud = class OneCloud {
 		this.$preview.html(`
 			<div class="oc-preview-shown">${shown}</div>
 			<div class="oc-preview-name">${esc(item.name)}</div>
-			<dl>${rows.map(([key, value]) => `<dt>${key}</dt><dd>${esc(String(value))}</dd>`).join("")}</dl>`);
+			<dl>${rows.map(([key, value]) => `<dt>${key}</dt><dd>${esc(String(value))}</dd>`).join("")}</dl>
+			<div class="oc-history"></div>`);
+		if (this.stored(item)) this.draw_history(item);
+	}
+
+	// A file's versions and what was done to it, under its preview.
+	async draw_history(item) {
+		let found;
+		try {
+			found = await frappe.xcall("onedesk.one_storage.history.activity", { node: item.id });
+		} catch (e) {
+			return;
+		}
+		if (this.previewing !== item.id) return;
+		const esc = frappe.utils.escape_html;
+		const versions_head = __("Versions");
+		const activity_head = __("Activity");
+		const current = __("Current");
+		const open = __("Open");
+		const restore = __("Restore");
+		const versions = found.versions.length
+			? `<div class="oc-history-head">${versions_head}</div>
+				<div class="oc-version"><span>${current}</span><span>${this.size_text(item.size)}</span></div>
+				${found.versions
+					.map(
+						(one) => `<div class="oc-version" data-version="${esc(one.name)}">
+							<span>${esc(__("Version {0}", [one.version]))} · ${esc(one.by)} · ${this.date_text(one.on)}</span>
+							<span>${this.size_text(one.size)}</span>
+							<a href="${esc(one.url)}" target="_blank" rel="noopener">${open}</a>
+							<a href="#" data-restore>${restore}</a>
+						</div>`
+					)
+					.join("")}`
+			: "";
+		const done = found.done
+			.map((one) => `<div class="oc-done"><b>${esc(one.who)}</b> ${esc(one.what)}<small>${this.date_text(one.when)}</small></div>`)
+			.join("");
+		const $history = this.$preview.find(".oc-history").html(`${versions}<div class="oc-history-head">${activity_head}</div>${done}`);
+		$history.find("[data-restore]").on("click", async (e) => {
+			e.preventDefault();
+			const version = $(e.currentTarget).closest(".oc-version").attr("data-version");
+			await frappe.xcall("onedesk.one_storage.history.restore", { node: item.id, version });
+			this.previewing = null;
+			this.refresh();
+		});
 	}
 
 	// ------------------------------------------------------------- the tree
@@ -600,6 +658,14 @@ onedesk.OneCloud = class OneCloud {
 			const list = [...e.target.files].map((file) => ({ file, path: file.webkitRelativePath || file.name }));
 			e.target.value = "";
 			this.upload(list, this.node);
+		});
+
+		$r.find(".oc-pick-version").on("change", (e) => {
+			const file = e.target.files[0];
+			e.target.value = "";
+			const of = this.version_of;
+			this.version_of = null;
+			if (file && of) this.upload([{ file, path: file.name, version_of: of.id }], this.node);
 		});
 
 		this.bind_drag();
@@ -729,6 +795,13 @@ onedesk.OneCloud = class OneCloud {
 			case "new-folder":
 				if (!this.can_make_folder) return;
 				return this.new_folder();
+			case "new-library":
+				return this.new_library();
+			case "members": {
+				const here = this.library_here();
+				if (here) this.members({ id: here.id, name: here.name });
+				return;
+			}
 			case "upload-files":
 				return this.$root.find(".oc-pick-files").trigger("click");
 			case "upload-folder":
@@ -752,6 +825,15 @@ onedesk.OneCloud = class OneCloud {
 			case "share":
 				if (chosen.length === 1 && this.shareable(chosen[0])) this.share(chosen[0]);
 				return;
+			case "star":
+			case "unstar":
+				await frappe.xcall("onedesk.one_storage.history.star", { nodes: ids, on: act === "star" ? 1 : 0 });
+				this.previewing = null;
+				return this.refresh();
+			case "new-version":
+				if (chosen.length !== 1 || chosen[0].folder) return;
+				this.version_of = chosen[0];
+				return this.$root.find(".oc-pick-version").trigger("click");
 			case "download":
 				return this.download(chosen.filter((one) => !one.folder && one.url));
 			case "copy-link":
@@ -922,6 +1004,7 @@ onedesk.OneCloud = class OneCloud {
 	}
 
 	share(item) {
+		if (item.library) return this.members(item);
 		const call = (method, args) => frappe.xcall("onedesk.one_storage.share." + method, args);
 		const dialog = new frappe.ui.Dialog({
 			title: __("Share {0}", [item.name]),
@@ -1088,9 +1171,101 @@ onedesk.OneCloud = class OneCloud {
 		dialog.show();
 	}
 
+	// ------------------------------------------------------------- libraries
+
+	// The library the reader is somewhere inside, from the trail.
+	library_here() {
+		return this.trail.length > 2 && this.trail[1].id === "@libraries" ? this.trail[2] : null;
+	}
+
+	new_library() {
+		frappe.prompt(
+			{ fieldtype: "Data", fieldname: "name", label: __("Library name"), reqd: 1 },
+			async ({ name }) => {
+				const made = await frappe.xcall("onedesk.one_storage.library.make", { name });
+				this.forget_tree("@libraries");
+				this.go(made.id);
+			},
+			__("New library"),
+			__("Create")
+		);
+	}
+
+	members(item) {
+		const call = (method, args) => frappe.xcall("onedesk.one_storage.library." + method, args);
+		const roles = [
+			{ value: "Reader", label: __("Reader") },
+			{ value: "Member", label: __("Member") },
+			{ value: "Owner", label: __("Owner") },
+		];
+		const dialog = new frappe.ui.Dialog({
+			title: __("Members of {0}", [item.name]),
+			no_focus: true,
+			fields: [
+				{
+					fieldtype: "MultiSelectPills",
+					fieldname: "users",
+					label: __("Add people"),
+					get_data: (txt) => frappe.db.get_link_options("User", txt, { user_type: "System User", enabled: 1 }),
+				},
+				{
+					fieldtype: "Select",
+					fieldname: "role",
+					label: __("As"),
+					options: roles,
+					default: "Member",
+					description: __("Readers open and download. Members also add, change and delete. Owners also rename the library and say who is in it."),
+				},
+				{ fieldtype: "HTML", fieldname: "people" },
+			],
+			primary_action_label: __("Add"),
+			primary_action: async (values) => {
+				if (!(values.users || []).length) return;
+				await call("add", { node: item.id, users: values.users, role: values.role });
+				dialog.set_value("users", []);
+				draw();
+			},
+		});
+		const esc = frappe.utils.escape_html;
+		const draw = async () => {
+			const found = await call("members", { node: item.id });
+			const choose = (one) =>
+				found.can_manage
+					? `<select class="oc-person-access">${roles
+							.map((role) => `<option value="${role.value}" ${role.value === one.role ? "selected" : ""}>${esc(role.label)}</option>`)
+							.join("")}</select>
+						<button class="es-button" data-variant="ghost" data-icon-button="true" data-size="sm" data-remove>${frappe.utils.icon("x", "sm")}</button>`
+					: `<span class="oc-person-right">${esc(__(one.role))}</span>`;
+			const head = __("Members");
+			dialog.fields_dict.people.$wrapper.html(`<div class="oc-people-head">${head}</div>${found.members
+				.map(
+					(one) =>
+						`<div class="oc-person" data-user="${esc(one.user)}">${frappe.avatar(one.user, "avatar-small")}<span class="oc-person-name">${esc(one.name)}</span>${choose(one)}</div>`
+				)
+				.join("")}`);
+			const $people = dialog.fields_dict.people.$wrapper;
+			$people.find(".oc-person-access").on("change", async (e) => {
+				const user = $(e.target).closest(".oc-person").attr("data-user");
+				await call("add", { node: item.id, users: [user], role: e.target.value });
+				draw();
+			});
+			$people.find("[data-remove]").on("click", async (e) => {
+				const user = $(e.currentTarget).closest(".oc-person").attr("data-user");
+				await call("remove", { node: item.id, user });
+				draw();
+			});
+			dialog.fields_dict.users.$wrapper.toggle(!!found.can_manage);
+			dialog.fields_dict.role.$wrapper.toggle(!!found.can_manage);
+			dialog.get_primary_btn().toggle(!!found.can_manage);
+		};
+		dialog.show();
+		draw();
+	}
+
 	// ------------------------------------------------------------- menus
 
 	new_menu() {
+		if (this.kind() === "libraries") return [[["new-library", "library-big", __("Library"), this.can_make_library]]];
 		return [
 			[
 				["new-folder", "folder-plus", __("Folder"), this.can_make_folder, "Ctrl+Shift+N"],
@@ -1129,6 +1304,10 @@ onedesk.OneCloud = class OneCloud {
 			],
 			[
 				["share", "user-plus", __("Share…"), !!(one && this.shareable(one))],
+				chosen.every((item) => item.starred)
+					? ["unstar", "star-off", __("Remove star"), stored]
+					: ["star", "star", __("Star"), stored],
+				["new-version", "upload", __("Upload new version"), !!(one && !one.folder && stored && !one.record)],
 				["rename", "pencil", __("Rename"), !!(one && stored) && this.kind() !== "record", "F2"],
 				["delete", "trash-2", __("Delete"), stored, "Del", "red"],
 			],
@@ -1136,6 +1315,7 @@ onedesk.OneCloud = class OneCloud {
 	}
 
 	space_menu() {
+		if (this.kind() === "libraries") return [[["new-library", "library-big", __("New library"), this.can_make_library]], [["refresh", "refresh-cw", __("Refresh"), true, "F5"]]];
 		return [
 			[
 				["new-folder", "folder-plus", __("New folder"), this.can_make_folder, "Ctrl+Shift+N"],
@@ -1212,7 +1392,7 @@ onedesk.OneCloud = class OneCloud {
 	}
 
 	takes(id) {
-		if (["@root", "@shared", "@bin", "@records"].includes(id)) return false;
+		if (["@root", "@shared", "@bin", "@records", "@libraries"].includes(id)) return false;
 		if (id.startsWith("@records/") && id.split("/").length !== 3) return false;
 		return true;
 	}
@@ -1311,22 +1491,53 @@ onedesk.OneCloud = class OneCloud {
 			try {
 				answer = await frappe.xcall(OneCloud.UPLOAD + "begin", {
 					node,
-					files: batch.map((one) => ({ name: one.file.name, size: one.file.size })),
+					files: batch.map((one) => ({ name: one.file.name, size: one.file.size, path: one.path })),
 				});
 			} catch (e) {
 				batch.forEach((one) => (one.state = "failed"));
 				this.draw_uploads();
 				continue;
 			}
+			// Names already there: replace them, keeping the old as versions, or
+			// keep both — asked once for the whole drop, the way Explorer asks.
+			const clashing = new Set(answer.existing || []);
+			const clash = batch.filter((one) => !one.version_of && clashing.has(one.file.name));
+			const replacing = clash.length ? await this.ask_replace(clash) : false;
 			batch.forEach((one, i) => {
 				one.node = node;
 				one.ticket = answer.direct ? answer.tickets[i] : null;
+				one.replace = replacing && clashing.has(one.file.name) ? 1 : 0;
 			});
 			await this.pool(batch, 3, (one) => this.send(one));
 		}
 		this.forget_tree(node);
 		if (node === this.node) this.refresh();
 		else this.draw_tree();
+	}
+
+	ask_replace(clash) {
+		return new Promise((answer) => {
+			const names = clash.slice(0, 5).map((one) => frappe.utils.escape_html(one.file.name)).join("<br>");
+			const more = clash.length > 5 ? `<br>${__("and {0} more", [clash.length - 5])}` : "";
+			const dialog = new frappe.ui.Dialog({
+				title: clash.length === 1 ? __("A file with this name is already here") : __("{0} files with these names are already here", [clash.length]),
+				fields: [{ fieldtype: "HTML", options: `<p>${names}${more}</p><p class="text-muted">${__("Replacing keeps what they hold now as an earlier version.")}</p>` }],
+				primary_action_label: __("Replace"),
+				// Answered before hiding: hiding answers "keep both" for a
+				// dialog closed with its cross.
+				primary_action: () => {
+					answer(true);
+					dialog.hide();
+				},
+				secondary_action_label: __("Keep both"),
+				secondary_action: () => {
+					answer(false);
+					dialog.hide();
+				},
+			});
+			dialog.onhide = () => answer(false);
+			dialog.show();
+		});
 	}
 
 	async pool(list, most, work) {
@@ -1350,11 +1561,18 @@ onedesk.OneCloud = class OneCloud {
 				}
 			}
 			if (row.ticket) {
-				await frappe.xcall(OneCloud.UPLOAD + "done", { token: row.ticket.token, path: row.path });
+				await frappe.xcall(OneCloud.UPLOAD + "done", {
+					token: row.ticket.token,
+					path: row.path,
+					replace: row.replace || 0,
+					version_of: row.version_of || null,
+				});
 			} else {
 				const form = new FormData();
 				form.append("node", row.node);
 				form.append("path", row.path);
+				form.append("replace", row.replace || 0);
+				if (row.version_of) form.append("version_of", row.version_of);
 				form.append("file", row.file, row.file.name);
 				await this.xhr("POST", "/api/method/onedesk.one_storage.upload.here", form, row, {
 					"X-Frappe-CSRF-Token": frappe.csrf_token,
