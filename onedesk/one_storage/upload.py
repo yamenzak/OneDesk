@@ -61,7 +61,8 @@ def begin(node: str, files: str | list) -> dict:
 	if where[0] == "folder":
 		asked = {api._clean(one.get("name")) for one in files if "/" not in (one.get("path") or "")}
 		existing = sorted(asked & set(frappe.get_all("File", filters={"folder": where[1], "is_folder": 0, "one_deleted": 0}, pluck="file_name")))
-	if not store.enabled():
+	if not store.enabled() or where[0] == "mount":
+		# A server is written to through the workspace, which holds its keys.
 		return {"direct": False, "existing": existing}
 	from onedesk.one import account
 
@@ -112,6 +113,10 @@ def here(node: str, path: str | None = None, replace: int = 0, version_of: str |
 	if not sent:
 		frappe.throw(_("No file was sent."))
 	content = sent.stream.read()
+	from onedesk.one_storage import mounts
+
+	if mounts.is_mount(node):
+		return mounts.write(node, api._clean(sent.filename) or "file", content)
 	return _place(node, path, {"file_name": api._clean(sent.filename) or "file", "content": content}, replace=int(replace), version_of=version_of)
 
 

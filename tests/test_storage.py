@@ -99,12 +99,13 @@ API = tree.APP / "one_storage" / "api.py"
 def test_a_node_id_says_what_it_names():
 	constants = dict(
 		ROOT="@root", MY="@my", SHARED="@shared", COMPANY="@company", RECORDS="@records", BIN="@bin",
-		LIBRARIES="@libraries", RECENT="@recent", STARRED="@starred",
+		LIBRARIES="@libraries", RECENT="@recent", STARRED="@starred", MOUNTS="@mounts",
 	)  # fmt: skip
 	space = _load(NAMESPACE, ("parse",), **constants)
 	parse = space["parse"]
 	assert parse("") == ("@root",) and parse("@my") == ("@my",)
 	assert parse("@libraries") == ("@libraries",) and parse("@starred") == ("@starred",)
+	assert parse("@mounts") == ("@mounts",) and parse("@mount/abc/docs") == ("mount", "@mount/abc/docs")
 	assert parse("@records") == ("@records",)
 	assert parse("@records/Sales Invoice") == ("@records", "Sales Invoice")
 	assert parse("@records/Sales Invoice/ACC-SINV-2026-00001") == ("@records", "Sales Invoice", "ACC-SINV-2026-00001")
@@ -371,3 +372,59 @@ def test_a_drive_is_found_by_its_client():
 
 def test_an_empty_file_is_not_kept_as_a_version():
 	assert "if item.file_size:" in _body(HISTORY, "replace")
+
+
+MOUNTS = tree.APP / "one_storage" / "mounts.py"
+
+
+def test_a_server_path_stays_inside_the_mounts_folder():
+	import posixpath
+
+	space = _load(MOUNTS, ("PREFIX", "split", "join", "node_id"), posixpath=posixpath)
+	split, join, node_id = space["split"], space["join"], space["node_id"]
+	assert split("@mount/abc/docs/plan.md") == ("abc", "docs/plan.md")
+	assert split("@mount/abc/../../etc/passwd") == ("abc", "etc/passwd"), "no parent steps"
+	assert split("@mount/abc") == ("abc", "")
+	assert join("/srv/share", "../../etc/passwd") == "/srv/share/etc/passwd"
+	assert join("/srv/share", "") == "/srv/share"
+	assert node_id("abc", "/docs/") == "@mount/abc/docs" and node_id("abc") == "@mount/abc"
+
+
+def test_a_webdav_listing_is_read_without_the_folder_itself():
+	from urllib.parse import unquote, urlparse
+	from xml.etree import ElementTree
+
+	space = _load(
+		MOUNTS, ("parse_propfind", "_from_http_date"), ElementTree=ElementTree, unquote=unquote, urlparse=urlparse
+	)
+	xml = b"""<?xml version="1.0"?><D:multistatus xmlns:D="DAV:">
+	<D:response><D:href>/dav/My%20Files/</D:href><D:propstat><D:prop><D:resourcetype><D:collection/></D:resourcetype></D:prop></D:propstat></D:response>
+	<D:response><D:href>/dav/My%20Files/Plans/</D:href><D:propstat><D:prop><D:resourcetype><D:collection/></D:resourcetype></D:prop></D:propstat></D:response>
+	<D:response><D:href>/dav/My%20Files/a%20b.txt</D:href><D:propstat><D:prop><D:resourcetype/><D:getcontentlength>12</D:getcontentlength>
+	<D:getlastmodified>Thu, 24 Sep 2026 07:43:00 GMT</D:getlastmodified></D:prop></D:propstat></D:response></D:multistatus>"""
+	found = space["parse_propfind"](xml, "/dav/My%20Files/")
+	assert [(one["name"], one["folder"], one["size"]) for one in found] == [("Plans", True, 0), ("a b.txt", False, 12)]
+	assert found[1]["modified"] == "2026-09-24 07:43:00"
+
+
+def test_a_server_is_never_this_machine_or_its_network():
+	body = _body(MOUNTS, "reachable")
+	for check in ("is_private", "is_loopback", "is_link_local", "is_reserved"):
+		assert check in body, check
+	assert "reachable(doc.host)" in MOUNTS.read_text()
+	assert "reachable(urlparse(base).hostname" in MOUNTS.read_text()
+
+
+def test_a_mount_is_its_makers_until_an_administrator_shares_it_and_keeps_its_secrets():
+	controller = (tree.APP / "one_storage" / "doctype" / "cloud_mount" / "cloud_mount.py").read_text()
+	assert "roles.ADMINISTRATOR not in frappe.get_roles()" in controller
+	assert "doc.owner == user" in _body(MOUNTS, "may") and "doc.shared" in _body(MOUNTS, "may")
+	shown = _body(MOUNTS, "settings")
+	assert "password" not in shown and "private_key" not in shown, "a secret is never sent to a browser"
+
+
+def test_the_explorers_verbs_reach_a_server():
+	api = API.read_text()
+	for hook in ("mounts.make_folder(", "mounts.rename(", "mounts.delete(", "_across(nodes, target, move=True)", "_across(nodes, target, move=False)"):
+		assert hook in api, hook
+	assert "mounts.move_within(" in _body(API, "_across"), "within one server, the server's own rename"

@@ -33,6 +33,7 @@ cloud storage, not on the server, so there is room for all of them.
   Invoice, Employee, Project…), and inside it a folder for each record, with
   the files attached to it. You see the records you may open, and nothing
   else. Dropping a file on a record's folder attaches it to the record.
+- **Network** — SFTP and WebDAV servers you connected, as folders (below).
 - **Recycle Bin** — what you deleted, for thirty days. **Restore** puts it back
   where it was.
 
@@ -148,6 +149,22 @@ open, save, drag in, rename, make folders, delete. It holds exactly what you
 can open here and nothing else; saving over a file keeps what it held as a
 version, and deleting sends it to the Recycle Bin. Making a new password
 stops the old one working.
+
+## Servers as folders
+
+**Network › New › Server connection** connects an SFTP or WebDAV server — a
+supplier's upload folder, an old file server, a NAS — and shows it as a
+folder. Give it a name, the server and the sign-in (a password, or a private
+key for SFTP), and optionally which folder on the server to start from. Its
+files are read live from the server each time you open it; open, preview and
+download them, make folders, rename and delete there, and drag files between
+the server and your folders, which copies them. Deleting on a server deletes
+on the server — there is no Recycle Bin there.
+
+A connection is yours alone unless a workspace administrator ticks
+*Everyone on the team*. Right-click it for **Edit connection…** and
+**Disconnect**, which leaves the server as it was. OneCloud does not connect
+to addresses on a private network.
 
 ## Where files are kept
 
@@ -314,6 +331,22 @@ not a second R2 integration.
   read into memory on a PUT (Frappe has read them already), so a drive is
   for documents rather than for very large video.
 
+- `mounts.py` and `doctype/cloud_mount` — servers as folders. A `Cloud
+  Mount` keeps where a server is and the sign-in (password and key in
+  Password fields, never sent to a browser); node ids are
+  `@mount/<mount>/<path>`, so `api`'s verbs delegate to it without the
+  explorer knowing — `make_folder`, `rename` and `delete` go to the server,
+  and `_across` turns any move or copy between a server and OneCloud (or two
+  servers) into bytes read and written, while a move within one server is
+  its own rename. Paths are normalised under the mount's folder so none
+  climbs out. SFTP is paramiko (LGPL, as a library); WebDAV is plain
+  requests with a PROPFIND reader. Every connection is opened for one
+  request and closed. `reachable` refuses an address that resolves to a
+  private, loopback, link-local or reserved range — a mount is the
+  workspace fetching an address somebody typed — unless the bench sets
+  `onestorage_mounts_private`. Uploads into a server go through the
+  workspace (`upload.here`), which holds the keys.
+
 ### Research and decisions
 
 What was asked for, and what each became.
@@ -377,4 +410,4 @@ repositories, which will be folders with history.
    history, recent and starred. *Done.*
 7. **WebDAV.** Any folder as a network drive in Windows, macOS and Linux.
    *Done.*
-8. **Mounts.** SFTP and WebDAV servers as folders.
+8. **Mounts.** SFTP and WebDAV servers as folders. *Done.*

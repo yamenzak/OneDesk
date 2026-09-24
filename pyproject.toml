@@ -14,6 +14,9 @@ dependencies = [
     # WebDAV, for OneCloud as a network drive (one_storage/dav.py). MIT, and
     # the protocol's XML, locking and client quirks are a solved problem.
     "wsgidav>=4.3,<5",
+    # SFTP, for a server shown as a folder (one_storage/mounts.py). LGPL-2.1,
+    # used as a library, which is what its licence is written for.
+    "paramiko~=3.4",
 ]
 
 [build-system]

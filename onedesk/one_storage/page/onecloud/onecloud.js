@@ -204,6 +204,7 @@ onedesk.OneCloud = class OneCloud {
 		this.can_add = !!answer.can_add;
 		this.can_make_folder = !!answer.can_make_folder;
 		this.can_make_library = !!answer.can_make_library;
+		this.can_make_mount = !!answer.can_make_mount;
 		const live = new Set(this.items.map((one) => one.id));
 		this.selected = new Set([...this.selected].filter((id) => live.has(id)));
 		this.draw();
@@ -219,6 +220,8 @@ onedesk.OneCloud = class OneCloud {
 		if (node === "@libraries") return "libraries";
 		if (node === "@recent") return "recent";
 		if (node === "@starred") return "starred";
+		if (node === "@mounts") return "network";
+		if (node.startsWith("@mount/")) return "mount";
 		return "folder";
 	}
 
@@ -230,7 +233,7 @@ onedesk.OneCloud = class OneCloud {
 		this.$search.attr("placeholder", __("Search {0}", [here ? here.name : __("Files")]));
 		this.$root.attr("data-kind", this.kind());
 		// Search results say which folder each is in; Shared with Me says who from.
-		const where_head = { shared: __("Shared by"), libraries: __("Your role"), recent: __("Folder"), starred: __("Folder") }[this.kind()];
+		const where_head = { shared: __("Shared by"), libraries: __("Your role"), recent: __("Folder"), starred: __("Folder"), network: __("Kind") }[this.kind()];
 		this.$root.toggleClass("oc-searching", !!this.search || !!where_head);
 		this.$root.find(".oc-head .oc-col-where").text(where_head && !this.search ? where_head : __("Folder"));
 		if (this.kind() === "libraries") this.items.forEach((one) => (one.where = one.role ? __(one.role) : ""));
@@ -252,6 +255,7 @@ onedesk.OneCloud = class OneCloud {
 			shared: __("Files and folders people share with you will appear here."),
 			records: __("No record has files yet."),
 			recent: __("Files you open or add will appear here."),
+			network: __("Connect an SFTP or WebDAV server to open its files here. Use New."),
 			starred: __("Star a file or folder to find it here. Right-click it and choose Star."),
 			libraries: __("You are not in any library yet. A library is a folder a team shares, with members who can read or edit it. Use New to make one."),
 			root: "",
@@ -422,6 +426,12 @@ onedesk.OneCloud = class OneCloud {
 		return this.items.filter((one) => this.selected.has(one.id));
 	}
 
+	// Backed by a File of ours: can be shared, starred, versioned. A server's
+	// file is stored somewhere else, and only moved, copied and renamed.
+	filed(item) {
+		return this.stored(item) && !item.remote;
+	}
+
 	stored(item) {
 		return item && !item.virtual;
 	}
@@ -431,7 +441,7 @@ onedesk.OneCloud = class OneCloud {
 		const kind = this.kind();
 		const all_stored = chosen.length && chosen.every((one) => this.stored(one));
 		const set = (act, on) => this.$root.find(`[data-act=${act}]`).prop("disabled", !on);
-		set("new-menu", this.can_add || this.can_make_library);
+		set("new-menu", this.can_add || this.can_make_library || this.can_make_mount);
 		this.$root.find("[data-library]").toggle(!!this.library_here());
 		set("cut", all_stored && kind !== "bin");
 		set("copy", all_stored && kind !== "bin");
@@ -499,7 +509,7 @@ onedesk.OneCloud = class OneCloud {
 			<div class="oc-preview-name">${esc(item.name)}</div>
 			<dl>${rows.map(([key, value]) => `<dt>${key}</dt><dd>${esc(String(value))}</dd>`).join("")}</dl>
 			<div class="oc-history"></div>`);
-		if (this.stored(item)) this.draw_history(item);
+		if (this.filed(item)) this.draw_history(item);
 	}
 
 	// A file's versions and what was done to it, under its preview.
@@ -797,6 +807,16 @@ onedesk.OneCloud = class OneCloud {
 				return this.new_folder();
 			case "new-library":
 				return this.new_library();
+			case "new-mount":
+				return this.mount_dialog(null);
+			case "mount-edit":
+				return this.mount_dialog(chosen[0]);
+			case "mount-drop":
+				return frappe.confirm(__("Disconnect {0}? Nothing on the server is touched.", [chosen[0].name]), async () => {
+					await frappe.xcall("onedesk.one_storage.mounts.disconnect", { node: chosen[0].id });
+					this.forget_tree("@mounts");
+					this.refresh();
+				});
 			case "members": {
 				const here = this.library_here();
 				if (here) this.members({ id: here.id, name: here.name });
@@ -965,15 +985,23 @@ onedesk.OneCloud = class OneCloud {
 	}
 
 	async remove(items) {
-		const attached = items.filter((one) => one.record && !one.folder);
+		const attached = items.filter((one) => (one.record && !one.folder) || one.remote);
 		const go = async () => {
 			const r = await frappe.xcall(OneCloud.API + "delete", { nodes: items.map((one) => one.id) });
-			const binned = (r && r.binned && r.binned.length) || 0;
+			const binned = (r && +r.binned) || 0;
 			if (binned) frappe.show_alert({ message: this.count(binned, __("Moved 1 item to the Recycle Bin"), __("Moved {0} items to the Recycle Bin")), indicator: "blue" });
 			this.forget_tree();
 			this.refresh();
 		};
 		if (!attached.length) return go();
+		if (attached.some((one) => one.remote)) {
+			return frappe.confirm(
+				attached.length === 1
+					? __("Delete {0} from the server? This cannot be undone.", [attached[0].name])
+					: __("Delete these {0} items from the server? This cannot be undone.", [attached.length]),
+				go
+			);
+		}
 		frappe.confirm(
 			attached.length === 1
 				? __("Remove {0} from its record? This cannot be undone.", [attached[0].name])
@@ -1006,7 +1034,7 @@ onedesk.OneCloud = class OneCloud {
 	// Anything stored can be opened in the Share dialog; the server says
 	// whether people or links can be added to it.
 	shareable(item) {
-		return this.stored(item);
+		return this.filed(item);
 	}
 
 	share(item) {
@@ -1268,6 +1296,67 @@ onedesk.OneCloud = class OneCloud {
 		draw();
 	}
 
+	// ------------------------------------------------------------- servers
+
+	// Between a server and OneCloud, or two servers, is a copy.
+	across(target) {
+		const server = (id) => (id.startsWith("@mount/") ? id.split("/")[1] : null);
+		return server(target) !== server(this.node);
+	}
+
+	async mount_dialog(item) {
+		const found = item ? await frappe.xcall("onedesk.one_storage.mounts.settings", { node: item.id }) : null;
+		const values = (found && found.values) || {};
+		const admin = frappe.user.has_role("Workspace Administrator");
+		const dialog = new frappe.ui.Dialog({
+			title: item ? __("Edit {0}", [item.name]) : __("Connect a server"),
+			fields: [
+				{ fieldtype: "Data", fieldname: "title", label: __("Name"), reqd: 1, default: values.title },
+				{ fieldtype: "Select", fieldname: "protocol", label: __("Kind"), options: ["SFTP", "WebDAV"], default: values.protocol || "SFTP" },
+				{ fieldtype: "Data", fieldname: "host", label: __("Server"), default: values.host, depends_on: "eval:doc.protocol=='SFTP'" },
+				{ fieldtype: "Int", fieldname: "port", label: __("Port"), default: values.port || 22, depends_on: "eval:doc.protocol=='SFTP'" },
+				{
+					fieldtype: "Data",
+					fieldname: "url",
+					label: __("Address"),
+					default: values.url,
+					depends_on: "eval:doc.protocol=='WebDAV'",
+					description: __("The WebDAV address, starting https://."),
+				},
+				{ fieldtype: "Data", fieldname: "username", label: __("User Name"), default: values.username },
+				{
+					fieldtype: "Password",
+					fieldname: "password",
+					label: __("Password"),
+					description: item ? __("Leave it empty to keep the one saved.") : "",
+				},
+				{
+					fieldtype: "Small Text",
+					fieldname: "private_key",
+					label: __("Private Key"),
+					depends_on: "eval:doc.protocol=='SFTP'",
+					description: __("Instead of a password, for a server that signs in with a key."),
+				},
+				{ fieldtype: "Data", fieldname: "root_path", label: __("Folder on the Server"), default: values.root_path || "/" },
+				{
+					fieldtype: "Check",
+					fieldname: "shared",
+					label: __("Everyone on the team can open it"),
+					default: values.shared || 0,
+					hidden: admin ? 0 : 1,
+				},
+			],
+			primary_action_label: item ? __("Save") : __("Connect"),
+			primary_action: async (entered) => {
+				const made = await frappe.xcall("onedesk.one_storage.mounts.save", { values: entered, name: found ? found.name : null });
+				dialog.hide();
+				this.forget_tree("@mounts");
+				this.go(made.id);
+			},
+		});
+		dialog.show();
+	}
+
 	// ------------------------------------------------------------- the drive
 
 	// A folder, or everything, as a drive in Windows, macOS or Linux: its
@@ -1316,6 +1405,7 @@ onedesk.OneCloud = class OneCloud {
 
 	new_menu() {
 		if (this.kind() === "libraries") return [[["new-library", "library-big", __("Library"), this.can_make_library]]];
+		if (this.kind() === "network") return [[["new-mount", "server", __("Server connection"), this.can_make_mount]]];
 		return [
 			[
 				["new-folder", "folder-plus", __("Folder"), this.can_make_folder, "Ctrl+Shift+N"],
@@ -1332,6 +1422,15 @@ onedesk.OneCloud = class OneCloud {
 		const one = chosen.length === 1 ? chosen[0] : null;
 		const stored = chosen.every((item) => this.stored(item));
 		const files = chosen.filter((item) => !item.folder && item.url);
+		if (one && one.mount) {
+			return [
+				[
+					["open", "folder-open", __("Open"), true, "Enter"],
+					["mount-edit", "settings", __("Edit connection…"), true],
+					["mount-drop", "unplug", __("Disconnect"), true, null, "red"],
+				],
+			];
+		}
 		if (this.kind() === "bin") {
 			return [
 				[
@@ -1355,9 +1454,9 @@ onedesk.OneCloud = class OneCloud {
 			[
 				["share", "user-plus", __("Share…"), !!(one && this.shareable(one))],
 				chosen.every((item) => item.starred)
-					? ["unstar", "star-off", __("Remove star"), stored]
-					: ["star", "star", __("Star"), stored],
-				["new-version", "upload", __("Upload new version"), !!(one && !one.folder && stored && !one.record)],
+					? ["unstar", "star-off", __("Remove star"), chosen.every((item) => this.filed(item))]
+					: ["star", "star", __("Star"), chosen.every((item) => this.filed(item))],
+				["new-version", "upload", __("Upload new version"), !!(one && !one.folder && this.filed(one) && !one.record)],
 				["drive", "hard-drive", __("Connect as a drive…"), !!(one && one.folder && !one.virtual)],
 				["rename", "pencil", __("Rename"), !!(one && stored) && this.kind() !== "record", "F2"],
 				["delete", "trash-2", __("Delete"), stored, "Del", "red"],
@@ -1367,6 +1466,7 @@ onedesk.OneCloud = class OneCloud {
 
 	space_menu() {
 		if (this.kind() === "libraries") return [[["new-library", "library-big", __("New library"), this.can_make_library]], [["refresh", "refresh-cw", __("Refresh"), true, "F5"]]];
+		if (this.kind() === "network") return [[["new-mount", "server", __("Connect a server"), this.can_make_mount]], [["refresh", "refresh-cw", __("Refresh"), true, "F5"]]];
 		return [
 			[
 				["new-folder", "folder-plus", __("New folder"), this.can_make_folder, "Ctrl+Shift+N"],
@@ -1446,7 +1546,7 @@ onedesk.OneCloud = class OneCloud {
 	}
 
 	takes(id) {
-		if (["@root", "@shared", "@bin", "@records", "@libraries"].includes(id)) return false;
+		if (["@root", "@shared", "@bin", "@records", "@libraries", "@mounts"].includes(id)) return false;
 		if (id.startsWith("@records/") && id.split("/").length !== 3) return false;
 		return true;
 	}
@@ -1484,7 +1584,8 @@ onedesk.OneCloud = class OneCloud {
 			}
 			e.preventDefault();
 			// Across into a record, or out of one, is always a copy.
-			const copying = outside || e.ctrlKey || e.metaKey || target.id.startsWith("@records/") || this.kind() === "record";
+			const copying =
+				outside || e.ctrlKey || e.metaKey || target.id.startsWith("@records/") || this.kind() === "record" || this.across(target.id);
 			dt.dropEffect = copying ? "copy" : "move";
 			light(target);
 		});
@@ -1501,7 +1602,7 @@ onedesk.OneCloud = class OneCloud {
 			if (this.dragging) {
 				const ids = this.dragging;
 				this.dragging = null;
-				const copying = e.ctrlKey || e.metaKey || target.id.startsWith("@records/") || this.kind() === "record";
+				const copying = e.ctrlKey || e.metaKey || target.id.startsWith("@records/") || this.kind() === "record" || this.across(target.id);
 				return this.transfer(ids, target.id, copying ? "copy" : "move");
 			}
 			const list = await this.dropped(dt);

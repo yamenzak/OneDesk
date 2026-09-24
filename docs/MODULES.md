@@ -111,6 +111,7 @@ No doctypes yet.
 | Cloud File Version | 7 | document |
 | Cloud Link | 17 | document |
 | Cloud Link Invitee | 2 | child |
+| Cloud Mount | 15 | document |
 
 ## Desk records shipped as fixtures
 
@@ -296,6 +297,10 @@ No doctypes yet.
 * `onedesk.one_storage.links.make`
 * `onedesk.one_storage.links.put`
 * `onedesk.one_storage.links.unlock`
+* `onedesk.one_storage.mounts.disconnect`
+* `onedesk.one_storage.mounts.get`
+* `onedesk.one_storage.mounts.save`
+* `onedesk.one_storage.mounts.settings`
 * `onedesk.one_storage.ready.fix`
 * `onedesk.one_storage.share.people`
 * `onedesk.one_storage.share.set_edit`

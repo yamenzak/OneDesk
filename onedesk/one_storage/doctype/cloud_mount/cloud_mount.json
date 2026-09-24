@@ -1,0 +1,157 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-09-29 07:00:00.000000",
+ "description": "An SFTP or WebDAV server shown as a folder in OneCloud.",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "protocol",
+  "host",
+  "port",
+  "url",
+  "column_break_sign_in",
+  "username",
+  "password",
+  "private_key",
+  "root_path",
+  "section_who",
+  "shared",
+  "section_state",
+  "last_checked",
+  "last_error"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Name",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "What the folder is called in OneCloud."
+  },
+  {
+   "fieldname": "protocol",
+   "fieldtype": "Select",
+   "label": "Kind",
+   "options": "SFTP\nWebDAV",
+   "reqd": 1,
+   "default": "SFTP",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "host",
+   "fieldtype": "Data",
+   "label": "Server",
+   "depends_on": "eval:doc.protocol=='SFTP'",
+   "description": "The server's name or address."
+  },
+  {
+   "fieldname": "port",
+   "fieldtype": "Int",
+   "label": "Port",
+   "depends_on": "eval:doc.protocol=='SFTP'",
+   "default": "22"
+  },
+  {
+   "fieldname": "url",
+   "fieldtype": "Data",
+   "label": "Address",
+   "depends_on": "eval:doc.protocol=='WebDAV'",
+   "description": "The address of the WebDAV folder, as the server gives it."
+  },
+  {
+   "fieldname": "column_break_sign_in",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "username",
+   "fieldtype": "Data",
+   "label": "User Name"
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Password",
+   "label": "Password"
+  },
+  {
+   "fieldname": "private_key",
+   "fieldtype": "Password",
+   "label": "Private Key",
+   "length": 8000,
+   "depends_on": "eval:doc.protocol=='SFTP'",
+   "description": "Instead of a password, for a server that signs in with a key."
+  },
+  {
+   "fieldname": "root_path",
+   "fieldtype": "Data",
+   "label": "Folder on the Server",
+   "default": "/",
+   "description": "Where the folder starts. The server's top when left as /."
+  },
+  {
+   "fieldname": "section_who",
+   "fieldtype": "Section Break",
+   "label": "Access"
+  },
+  {
+   "fieldname": "shared",
+   "fieldtype": "Check",
+   "label": "Everyone on the team",
+   "default": "0",
+   "description": "Otherwise only its maker. Only a Workspace Administrator can share one."
+  },
+  {
+   "fieldname": "section_state",
+   "fieldtype": "Section Break",
+   "label": "State"
+  },
+  {
+   "fieldname": "last_checked",
+   "fieldtype": "Datetime",
+   "label": "Last Checked",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_error",
+   "fieldtype": "Small Text",
+   "label": "Last Error",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-29 07:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Storage",
+ "name": "Cloud Mount",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1
+  },
+  {
+   "role": "Desk User",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "if_owner": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title",
+ "track_changes": 1
+}

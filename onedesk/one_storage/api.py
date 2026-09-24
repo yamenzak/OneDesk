@@ -20,6 +20,7 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, now_datetime
 
+from onedesk.one_storage import mounts
 from onedesk.one_storage import namespace as ns
 
 #: How long the Recycle Bin keeps things.
@@ -39,8 +40,10 @@ def _need(item: dict, ptype: str) -> None:
 
 
 def _target(node_id: str) -> tuple:
-	"""Where things put into `node_id` go: ("folder", File name) or
-	("record", doctype, name)."""
+	"""Where things put into `node_id` go: ("folder", File name),
+	("record", doctype, name) or ("mount", node id)."""
+	if mounts.is_mount(node_id):
+		return ("mount", node_id)
 	kind = ns.parse(node_id)
 	if kind[0] == ns.RECORDS and len(kind) == 3:
 		if not frappe.has_permission(kind[1], "write", kind[2]):
@@ -76,6 +79,9 @@ def listing(node: str = ns.ROOT, search: str | None = None) -> dict:
 		can_add = ns.may(_item(ns.folder_of(node)), "add")
 	elif kind[0] == ns.RECORDS and len(kind) == 3:
 		can_add = bool(frappe.has_permission(kind[1], "write", kind[2]))
+	elif kind[0] == "mount":
+		# The server decides; a refusal comes back as its own words.
+		can_add = True
 	return {
 		"node": node,
 		"trail": ns.trail(node),
@@ -83,6 +89,7 @@ def listing(node: str = ns.ROOT, search: str | None = None) -> dict:
 		"can_add": can_add,
 		"can_make_folder": can_add and kind[0] != ns.RECORDS,
 		"can_make_library": kind[0] == ns.LIBRARIES and ns._staff(frappe.session.user),
+		"can_make_mount": kind[0] == ns.MOUNTS and ns._staff(frappe.session.user),
 	}
 
 
@@ -119,6 +126,8 @@ def resolve(path: str) -> str:
 
 @frappe.whitelist(methods=["POST"])
 def make_folder(parent: str, name: str) -> dict:
+	if mounts.is_mount(parent):
+		return mounts.make_folder(parent, _clean(name) or _("New folder"))
 	where = _target(parent)
 	if where[0] != "folder":
 		frappe.throw(_("A record holds files, not folders."))
@@ -133,6 +142,8 @@ def make_folder(parent: str, name: str) -> dict:
 
 @frappe.whitelist(methods=["POST"])
 def rename(node: str, name: str) -> dict:
+	if mounts.is_mount(node):
+		return mounts.rename(node, _clean(name))
 	item = _item(node)
 	_need(item, "write")
 	if item.one_home_of:
@@ -171,6 +182,9 @@ def _rename_folder(name: str) -> str:
 def move(nodes: str | list, target: str) -> list[str]:
 	"""Into a folder; onto a record, or out of one, it copies."""
 	nodes = frappe.parse_json(nodes) if isinstance(nodes, str) else nodes
+	across = _across(nodes, target, move=True)
+	if across is not None:
+		return across
 	where = _target(target)
 	moved = []
 	for node_id in nodes:
@@ -210,6 +224,9 @@ def _leaves_its_owner(item: dict, folder: str) -> bool:
 def copy(nodes: str | list, target: str) -> list[str]:
 	"""New rows naming the same objects: no bytes are copied."""
 	nodes = frappe.parse_json(nodes) if isinstance(nodes, str) else nodes
+	across = _across(nodes, target, move=False)
+	if across is not None:
+		return across
 	where = _target(target)
 	made = []
 	for node_id in nodes:
@@ -218,6 +235,36 @@ def copy(nodes: str | list, target: str) -> list[str]:
 			frappe.throw(_("You may not open {0}.").format(item.file_name), frappe.PermissionError)
 		made.append(_copy(item, where))
 	return made
+
+
+def _across(nodes: list, target: str, move: bool) -> list[str] | None:
+	"""Moves and copies that touch a server, or None for those that do not.
+	Within one server a move is the server's own rename; anything else
+	carries the bytes over, the way a copy between two drives does."""
+	if not any(mounts.is_mount(one) for one in [*nodes, target]):
+		return None
+	from onedesk.one_storage import upload
+
+	done = []
+	for node in nodes:
+		if move and mounts.is_mount(node) and mounts.is_mount(target) and mounts.split(node)[0] == mounts.split(target)[0]:
+			done.append(mounts.move_within(node, target))
+			continue
+		if mounts.is_mount(node):
+			name, content = mounts.read(node)
+		else:
+			item = _item(node)
+			if not ns.may(item):
+				frappe.throw(_("You may not open {0}.").format(item.file_name), frappe.PermissionError)
+			if item.is_folder:
+				frappe.throw(_("Copy the files in {0}, not the folder, to or from a server.").format(item.file_name))
+			content = frappe.get_doc("File", item.name).get_content()
+			name, content = item.file_name, content if isinstance(content, bytes) else content.encode()
+		if mounts.is_mount(target):
+			done.append(mounts.write(target, name, content)["id"])
+		else:
+			done.append(upload._place(target, None, {"file_name": name, "content": content})["id"])
+	return done
 
 
 def _copy(item: dict, where: tuple) -> str:
@@ -269,9 +316,12 @@ def _copy(item: dict, where: tuple) -> str:
 
 @frappe.whitelist(methods=["POST"])
 def delete(nodes: str | list) -> dict:
-	"""Folders and their files to the Recycle Bin; a record's file off the record."""
+	"""Folders and their files to the Recycle Bin; a record's file off the
+	record; a server's file off the server."""
 	nodes = frappe.parse_json(nodes) if isinstance(nodes, str) else nodes
-	binned, removed = 0, 0
+	remote = [one for one in nodes if mounts.is_mount(one)]
+	nodes = [one for one in nodes if not mounts.is_mount(one)]
+	binned, removed = 0, mounts.delete(remote) if remote else 0
 	for node_id in nodes:
 		item = _item(node_id)
 		_need(item, "write")

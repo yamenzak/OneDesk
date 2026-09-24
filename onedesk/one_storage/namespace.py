@@ -31,7 +31,7 @@ from frappe import _
 from onedesk.one import roles
 
 ROOT, MY, SHARED, COMPANY, RECORDS, BIN = "@root", "@my", "@shared", "@company", "@records", "@bin"
-LIBRARIES, RECENT, STARRED = "@libraries", "@recent", "@starred"
+LIBRARIES, RECENT, STARRED, MOUNTS = "@libraries", "@recent", "@starred", "@mounts"
 HOME, ATTACHMENTS, LIBRARY_ROOT = "Home", "Home/Attachments", "Home/Libraries"
 
 #: A library member's role, as the DocShare that carries it: (write, share).
@@ -58,8 +58,10 @@ FIELDS = [
 def parse(node: str) -> tuple:
 	"""What a node id names: (kind, *parts). Pure."""
 	node = node or ROOT
-	if node == ROOT or node in (MY, SHARED, COMPANY, BIN, RECORDS, LIBRARIES, RECENT, STARRED):
+	if node == ROOT or node in (MY, SHARED, COMPANY, BIN, RECORDS, LIBRARIES, RECENT, STARRED, MOUNTS):
 		return (node,)
+	if node.startswith("@mount/"):
+		return ("mount", node)
 	if node.startswith(RECORDS + "/"):
 		rest = node[len(RECORDS) + 1 :]
 		doctype, _sep, name = rest.partition("/")
@@ -366,6 +368,7 @@ def roots() -> list[dict]:
 		virtual(LIBRARIES, _("Libraries"), icon="library-big"),
 		virtual(COMPANY, _("Company"), icon="building-2"),
 		virtual(RECORDS, _("Records"), icon="database"),
+		virtual(MOUNTS, _("Network"), icon="network"),
 		virtual(BIN, _("Recycle Bin"), icon="trash-2"),
 	]
 
@@ -395,6 +398,10 @@ def children(node_id: str, search: str | None = None) -> list[dict]:
 		from onedesk.one_storage import history
 
 		return history.recent() if kind[0] == RECENT else history.starred()
+	if kind[0] in (MOUNTS, "mount"):
+		from onedesk.one_storage import mounts
+
+		return mounts.visible() if kind[0] == MOUNTS else mounts.children(node_id)
 	if kind[0] == BIN:
 		return binned()
 	if kind[0] == RECORDS:
@@ -588,7 +595,11 @@ def trail(node_id: str) -> list[dict]:
 	top = [{"id": ROOT, "name": _("OneCloud")}]
 	if kind[0] == ROOT:
 		return top
-	if kind[0] in (MY, SHARED, COMPANY, BIN, LIBRARIES, RECENT, STARRED):
+	if kind[0] == "mount":
+		from onedesk.one_storage import mounts
+
+		return mounts.trail(node_id)
+	if kind[0] in (MY, SHARED, COMPANY, BIN, LIBRARIES, RECENT, STARRED, MOUNTS):
 		return top + [{"id": node_id, "name": next(r["name"] for r in roots() if r["id"] == node_id)}]
 	if kind[0] == RECORDS:
 		out = top + [{"id": RECORDS, "name": _("Records")}]
