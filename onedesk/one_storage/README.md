@@ -18,6 +18,26 @@ cloud storage, not on the server, so there is room for all of them.
 - **Setup › Storage Check** — whether files are going to cloud storage, and
   moving the ones that are still on the server.
 
+## What is in OneCloud
+
+- **My Files** — your own folders and files. Nobody else sees them unless you
+  share them.
+- **Shared with Me** — what other people have shared with you.
+- **Company** — folders everybody in the company can open and add to. What
+  you put there, you (or a workspace administrator) can rename, move and
+  delete.
+- **Records** — a folder for every kind of record that has files (Sales
+  Invoice, Employee, Project…), and inside it a folder for each record, with
+  the files attached to it. You see the records you may open, and nothing
+  else. Dropping a file on a record's folder attaches it to the record.
+- **Recycle Bin** — what you deleted, for thirty days. **Restore** puts it back
+  where it was.
+
+Dragging a file between a record and one of your folders copies it — the
+invoice keeps its PDF and your folder gets one too. Moving between your own
+folders moves it. Two things with the same name in one folder are kept apart
+as *Report (2).pdf*, the way your computer does.
+
 ## Where files are kept
 
 Every file uploaded anywhere in One — attached to an invoice, dropped in a
@@ -79,6 +99,24 @@ not a second R2 integration.
   the stored copy; the copy on disk stays, because a public file's old URL
   may be written into a web page or an email template no row knows about.
 
+- `namespace.py` — one tree of node ids over File: `@my`, `@company`,
+  `@shared`, `@records[/<DocType>[/<name>]]`, `@bin`, and any File by name.
+  Record folders are derived from `attached_to_*` each time they are opened,
+  so there is nothing to keep in step with the record. **Who may do what is
+  `may` and nothing else**: a record's file answers to the record; its owner
+  may do anything; a portal user gets nothing more; a person's own folder is
+  theirs; Company is every member of staff's to read and add to, and an item
+  in it is its owner's or a Workspace Administrator's to change. `inside`
+  works out a folder's space once for a listing rather than walking the
+  chain per file. A folder's id is its path (Frappe names folders so), so
+  renaming or moving one gives it and everything under it new ids — callers
+  read ids fresh from a listing, never keep them.
+- `api.py` — the verbs: listing, folders, make_folder, rename, move, copy,
+  delete, restore, purge, empty_bin. Between a record and a folder a move is a
+  copy, and a copy is a new File row naming the same object. Deleting a
+  folder's item is a flag (`one_deleted`, custom/file.json) that hides it and
+  everything under it; `purge_old` erases what is thirty days old, daily.
+
 ### Research and decisions
 
 What was asked for, and what each became.
@@ -130,7 +168,7 @@ repositories, which will be folders with history.
    Storage Check. *Done.*
 2. **The namespace.** My Files, Shared with Me, Libraries and Records as one
    tree of paths; create, rename, move, copy, delete to a recycle bin and
-   restore; who may do what, decided in one place.
+   restore; who may do what, decided in one place. *Done.*
 3. **The explorer.** The page itself: navigation pane, address bar, details
    and tiles, preview, context menu, drag and drop, keyboard, search; uploads
    straight to R2.

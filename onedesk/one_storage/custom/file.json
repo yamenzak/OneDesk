@@ -1,0 +1,65 @@
+{
+ "custom_fields": [
+  {
+   "doctype": "Custom Field",
+   "dt": "File",
+   "fieldname": "one_home_of",
+   "label": "My Files Of",
+   "fieldtype": "Link",
+   "insert_after": "folder",
+   "hidden": 1,
+   "read_only": 1,
+   "no_copy": 1,
+   "module": "One Storage",
+   "name": "File-one_home_of",
+   "options": "User",
+   "search_index": 1,
+   "description": "The person whose My Files this folder is."
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "File",
+   "fieldname": "one_deleted",
+   "label": "In the Recycle Bin",
+   "fieldtype": "Check",
+   "insert_after": "one_home_of",
+   "hidden": 1,
+   "read_only": 1,
+   "no_copy": 1,
+   "module": "One Storage",
+   "name": "File-one_deleted",
+   "search_index": 1
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "File",
+   "fieldname": "one_deleted_on",
+   "label": "Deleted On",
+   "fieldtype": "Datetime",
+   "insert_after": "one_deleted",
+   "hidden": 1,
+   "read_only": 1,
+   "no_copy": 1,
+   "module": "One Storage",
+   "name": "File-one_deleted_on"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "File",
+   "fieldname": "one_deleted_by",
+   "label": "Deleted By",
+   "fieldtype": "Link",
+   "insert_after": "one_deleted_on",
+   "hidden": 1,
+   "read_only": 1,
+   "no_copy": 1,
+   "module": "One Storage",
+   "name": "File-one_deleted_by",
+   "options": "User"
+  }
+ ],
+ "doctype": "File",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

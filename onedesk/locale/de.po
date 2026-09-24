@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 06:43+0000\n"
-"PO-Revision-Date: 2026-09-24 06:43+0000\n"
+"POT-Creation-Date: 2026-09-24 06:49+0000\n"
+"PO-Revision-Date: 2026-09-24 06:49+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -142,6 +142,10 @@ msgstr "Eine Tatsache, die jemand OneAI zu behalten gebeten hat. Nur für diese 
 msgid "A field OneAI wrote, and what it wrote. The badge shows while the field still says it."
 msgstr "Ein Feld, das OneAI geschrieben hat, und was es geschrieben hat. Das Abzeichen bleibt, solange das Feld das noch sagt."
 
+#: onedesk/one_storage/api.py:156 onedesk/one_storage/api.py:184
+msgid "A folder cannot go inside itself."
+msgstr "Ein Ordner kann nicht in sich selbst liegen."
+
 #. Description of the 'Kind' (Select) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 msgid "A grant adds and may expire. A spend and a refund are always against one."
@@ -206,6 +210,10 @@ msgstr "Eine eingereihte Arbeitseinheit für einen Arbeitsbereich. Wird vom Syst
 #: onedesk/one_admin/doctype/ai_model/ai_model.py:64
 msgid "A rate needs a unit, how many of them, and what they cost."
 msgstr "Ein Preis braucht eine Einheit, wie viele davon und was sie kosten."
+
+#: onedesk/one_storage/api.py:99 onedesk/one_storage/api.py:182
+msgid "A record holds files, not folders."
+msgstr "Ein Datensatz enthält Dateien, keine Ordner."
 
 #. Description of a DocType
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
@@ -1862,8 +1870,9 @@ msgstr "Kollege"
 
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
+#: onedesk/one_storage/namespace.py:239 onedesk/one_storage/namespace.py:390
 msgid "Company"
-msgstr ""
+msgstr "Unternehmen"
 
 #: onedesk/one_calendar/events.py:54
 msgid "Company Events"
@@ -2298,6 +2307,16 @@ msgstr "Audio der Aufnahme löschen nach (Tagen)"
 #: onedesk/one_ai/proposals.py:411 onedesk/public/js/oneai/Record.vue:142
 msgid "Delete {0}"
 msgstr "{0} löschen"
+
+#. Label of the one_deleted_by (Link) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json
+msgid "Deleted By"
+msgstr "Gelöscht von"
+
+#. Label of the one_deleted_on (Datetime) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json
+msgid "Deleted On"
+msgstr "Gelöscht am"
 
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -3310,6 +3329,10 @@ msgstr "Geben an…"
 msgid "Give credits"
 msgstr "Guthaben geben"
 
+#: onedesk/one_storage/api.py:117
+msgid "Give it a name."
+msgstr "Geben Sie ihm einen Namen."
+
 #: onedesk/one_project/billing.py:63
 msgid "Give {0} a customer to bill its time to."
 msgstr "Geben Sie {0} einen Kunden, an den die Zeit abgerechnet wird."
@@ -3767,6 +3790,11 @@ msgstr "In Prüfung"
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "In bytes. Zero means unlimited."
 msgstr "In Byte. Null heißt unbegrenzt."
+
+#. Label of the one_deleted (Check) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json
+msgid "In the Recycle Bin"
+msgstr "Im Papierkorb"
 
 #: onedesk/one_project/portal.py:143 onedesk/public/js/project.js:72
 msgid "In {0} days"
@@ -4840,6 +4868,24 @@ msgstr "Wird mit den Anbieterkosten multipliziert. 2 berechnet das Doppelte des 
 msgid "My Events"
 msgstr "Meine Termine"
 
+#: onedesk/one_storage/namespace.py:216 onedesk/one_storage/namespace.py:237
+#: onedesk/one_storage/namespace.py:387
+msgid "My Files"
+msgstr "Meine Dateien"
+
+#. Label of the one_home_of (Link) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json
+msgid "My Files Of"
+msgstr "Meine Dateien von"
+
+#: onedesk/one_storage/api.py:152
+msgid "My Files cannot be moved."
+msgstr "„Meine Dateien“ kann nicht verschoben werden."
+
+#: onedesk/one_storage/api.py:114
+msgid "My Files cannot be renamed."
+msgstr "„Meine Dateien“ kann nicht umbenannt werden."
+
 #: onedesk/one_hr/calendar.py:29
 msgid "My Interviews"
 msgstr "Meine Vorstellungsgespräche"
@@ -4974,6 +5020,10 @@ msgstr "Neue Unterhaltung"
 #: onedesk/one_storage/ready.py:26
 msgid "New files go to cloud storage"
 msgstr "Neue Dateien gehen in den Cloud-Speicher"
+
+#: onedesk/one_storage/api.py:100
+msgid "New folder"
+msgstr "Neuer Ordner"
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:359
 msgid "New link made. The old one no longer works."
@@ -5325,6 +5375,10 @@ msgstr ""
 msgid "Nothing asked yet. Ask something about what is on screen, or anything else."
 msgstr "Noch nichts gefragt. Fragen Sie zu dem, was auf dem Bildschirm steht, oder zu etwas anderem."
 
+#: onedesk/one_storage/api.py:51
+msgid "Nothing can be put here."
+msgstr "Hier kann nichts abgelegt werden."
+
 #. Description of the 'Overdue For' (Int) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Nothing changes for the workspace during this period."
@@ -5655,6 +5709,7 @@ msgid "OneCalendar"
 msgstr "OneCalendar"
 
 #. Title of a Sidebar
+#: onedesk/one_storage/namespace.py:365
 #: onedesk/one_storage/sidebar/onecloud/onecloud.json
 msgid "OneCloud"
 msgstr "OneCloud"
@@ -6888,6 +6943,10 @@ msgstr "Überstunden werden erfasst"
 msgid "Recording…"
 msgstr "Aufnahme läuft…"
 
+#: onedesk/one_storage/namespace.py:240 onedesk/one_storage/namespace.py:371
+msgid "Records"
+msgstr "Datensätze"
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Recruitment Overview"
@@ -6897,6 +6956,10 @@ msgstr "Übersicht Personalgewinnung"
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Recurring"
 msgstr "Wiederkehrend"
+
+#: onedesk/one_storage/namespace.py:241
+msgid "Recycle Bin"
+msgstr "Papierkorb"
 
 #. Label of the reference (Data) field in DocType 'Credit Ledger Entry'
 #. Label of the reference (Data) field in DocType 'Credit Reservation'
@@ -7511,6 +7574,10 @@ msgstr ""
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Setup"
 msgstr ""
+
+#: onedesk/one_storage/namespace.py:238
+msgid "Shared with Me"
+msgstr "Mit mir geteilt"
 
 #. Label of the 'shift_and_attendance_tab' field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -8285,6 +8352,10 @@ msgstr "Das ist nicht durchgegangen."
 msgid "That did not work."
 msgstr "Das hat nicht geklappt."
 
+#: onedesk/one_storage/api.py:32 onedesk/one_storage/api.py:73
+msgid "That is no longer here."
+msgstr "Das ist nicht mehr hier."
+
 #: onedesk/one_hr/hiring.py:564
 msgid "That is not a recording."
 msgstr "Das ist keine Aufnahme."
@@ -8570,6 +8641,11 @@ msgstr "Die Zahlung ist noch nicht eingegangen."
 msgid "The payment page was closed."
 msgstr "Die Zahlungsseite wurde geschlossen."
 
+#. Description of the 'My Files Of' (Link) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json
+msgid "The person whose My Files this folder is."
+msgstr "Die Person, deren „Meine Dateien“ dieser Ordner ist."
+
 #. Description of the 'User Verified' (Check) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "The phone released the passkey only after a face, fingerprint or PIN."
@@ -8699,7 +8775,7 @@ msgstr "Es gibt keinen Standort, und ohne ihn lässt sich kein Anlagegut speiche
 msgid "There is no maintenance team, and a schedule needs one."
 msgstr "Es gibt kein Wartungsteam, und ein Plan braucht eines."
 
-#: onedesk/one_storage/store.py:169
+#: onedesk/one_storage/store.py:172
 msgid "There is no such file."
 msgstr "Diese Datei gibt es nicht."
 
@@ -10069,6 +10145,22 @@ msgstr "Sie können {0} {1} nicht öffnen."
 msgid "You checked in but never checked out, so a check out was written for you at the shift end. Tell HR if that is wrong."
 msgstr "Sie haben eingecheckt, aber nie ausgecheckt, daher wurde zum Schichtende ein Auschecken für Sie geschrieben. Sagen Sie der Personalabteilung Bescheid, falls das nicht stimmt."
 
+#: onedesk/one_storage/api.py:47
+msgid "You may not add files to {0}."
+msgstr "Sie dürfen {0} keine Dateien hinzufügen."
+
+#: onedesk/one_storage/api.py:53
+msgid "You may not add to this folder."
+msgstr "Sie dürfen diesem Ordner nichts hinzufügen."
+
+#: onedesk/one_storage/api.py:38
+msgid "You may not change {0}."
+msgstr "Sie dürfen {0} nicht ändern."
+
+#: onedesk/one_storage/api.py:174
+msgid "You may not open {0}."
+msgstr "Sie dürfen {0} nicht öffnen."
+
 #: onedesk/one_ai/tools.py:396
 msgid "You may not read {0} {1}."
 msgstr "Sie dürfen {0} {1} nicht lesen."
@@ -10402,6 +10494,10 @@ msgstr "{0} ausstehend"
 #: onedesk/public/js/employee_promotion.js:32
 msgid "{0} becomes {1}"
 msgstr "{0} wird {1}"
+
+#: onedesk/one_storage/api.py:235
+msgid "{0} cannot be deleted."
+msgstr "{0} kann nicht gelöscht werden."
 
 #: onedesk/one_hr/passkey.py:219
 msgid ""

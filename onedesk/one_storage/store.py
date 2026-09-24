@@ -150,7 +150,8 @@ def fetch(key: str, download: int = 0):
 	"""A stored file, for whoever may open it: a redirect to R2.
 
 	Any File naming the object will do, since they are the same bytes: a public
-	one opens for anybody, a private one for whoever may read it. A reader who
+	one opens for anybody, a private one for whoever OneCloud says may read it
+	(namespace.may), which is Frappe's own rule and then some. A reader who
 	may not is told there is nothing here rather than that they may not — the
 	difference would say the file exists.
 	"""
@@ -163,8 +164,10 @@ def fetch(key: str, download: int = 0):
 	) or frappe.get_all(
 		"File", filters={"thumbnail_url": url_for(key)}, fields=["name", "file_name", "is_private"], limit=50
 	)
+	from onedesk.one_storage import namespace
+
 	for row in rows:
-		if not row.is_private or frappe.get_doc("File", row.name).has_permission("read"):
+		if not row.is_private or namespace.may(namespace.row(row.name)):
 			return redirect(signed(key, filename=row.file_name, inline=not int(download)), 302)
 	raise NotFound(_("There is no such file."))
 

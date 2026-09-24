@@ -262,6 +262,16 @@ No doctypes yet.
 * `onedesk.one_project.tree.totals`
 * `onedesk.one_project.updates.asked`
 * `onedesk.one_project.updates.post`
+* `onedesk.one_storage.api.copy`
+* `onedesk.one_storage.api.delete`
+* `onedesk.one_storage.api.empty_bin`
+* `onedesk.one_storage.api.folders`
+* `onedesk.one_storage.api.listing`
+* `onedesk.one_storage.api.make_folder`
+* `onedesk.one_storage.api.move`
+* `onedesk.one_storage.api.purge`
+* `onedesk.one_storage.api.rename`
+* `onedesk.one_storage.api.restore`
 * `onedesk.one_storage.ready.fix`
 * `onedesk.one_storage.store.fetch`
 * `onedesk.one_task.mine.tasks`

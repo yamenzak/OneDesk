@@ -67,7 +67,7 @@ def test_an_object_goes_only_when_the_last_file_naming_it_does_and_only_on_commi
 
 def test_the_door_checks_the_reader_and_does_not_say_whether_a_file_exists():
 	fetch = _body(STORE, "fetch")
-	assert "has_permission('read')" in fetch
+	assert "namespace.may(" in fetch
 	assert "raise NotFound" in fetch and "PermissionError" not in fetch
 
 
@@ -88,3 +88,64 @@ def test_onecloud_is_in_the_dock_and_owns_files():
 	assert rail["header_icon"] == "onestorage", "the mark is read by its id"
 	files = next(item for item in rail["items"] if item.get("link_to") == "File")
 	assert files["is_default_module"]
+
+
+NAMESPACE = tree.APP / "one_storage" / "namespace.py"
+API = tree.APP / "one_storage" / "api.py"
+
+
+def test_a_node_id_says_what_it_names():
+	constants = dict(ROOT="@root", MY="@my", SHARED="@shared", COMPANY="@company", RECORDS="@records", BIN="@bin")
+	space = _load(NAMESPACE, ("parse",), **constants)
+	parse = space["parse"]
+	assert parse("") == ("@root",) and parse("@my") == ("@my",)
+	assert parse("@records") == ("@records",)
+	assert parse("@records/Sales Invoice") == ("@records", "Sales Invoice")
+	assert parse("@records/Sales Invoice/ACC-SINV-2026-00001") == ("@records", "Sales Invoice", "ACC-SINV-2026-00001")
+	assert parse("@records/File/a/b") == ("@records", "File", "a/b"), "a record name may have a slash"
+	assert parse("Home/someone@x.com/Projects") == ("file", "Home/someone@x.com/Projects")
+
+
+def test_two_things_with_one_name_are_kept_apart_the_way_an_explorer_does():
+	unique = _load(NAMESPACE, ("unique_name",))["unique_name"]
+	assert unique("Report.pdf", set()) == "Report.pdf"
+	assert unique("Report.pdf", {"Report.pdf"}) == "Report (2).pdf"
+	assert unique("Report.pdf", {"Report.pdf", "Report (2).pdf"}) == "Report (3).pdf"
+	assert unique("New folder", {"New folder"}) == "New folder (2)"
+	assert unique(".env", {".env"}) == ".env (2)"
+
+
+def test_a_folder_cannot_go_inside_itself():
+	loops = _load(NAMESPACE, ("would_loop",))["would_loop"]
+	assert loops("A", ["A/B", "A", "Home"], "A/B/C")
+	assert loops("A", [], "A")
+	assert not loops("A", ["Home"], "Home/X")
+
+
+def test_a_name_has_no_slashes():
+	clean = _load(API, ("_clean",))["_clean"]
+	assert clean("  a/b\\c  ") == "a b c"
+	assert clean(None) == ""
+
+
+def test_who_may_is_decided_in_one_place():
+	may = _body(NAMESPACE, "may")
+	assert "_staff(user)" in may, "a portal user sees nothing of the staff's"
+	assert "'record'" in may and "has_permission" in may, "a record's file answers to the record"
+	for verb in ("rename", "move", "delete"):
+		assert "_need(" in _body(API, verb) or "_target(" in _body(API, verb)
+
+
+def test_between_a_record_and_a_folder_is_a_copy_and_a_copy_moves_no_bytes():
+	assert "copy([node_id], target)" in _body(API, "move")
+	copied = _body(API, "_copy")
+	assert "'file_url': item.file_url" in copied and "get_content" not in copied
+
+
+def test_a_record_file_is_in_records_not_in_the_folder_frappe_filed_it_in():
+	assert "attached_to_doctype and one.attached_to_name" in _body(NAMESPACE, "children")
+
+
+def test_the_recycle_bin_keeps_thirty_days_and_is_emptied_daily():
+	assert '"onedesk.one_storage.api.purge_old"' in HOOKS
+	assert "KEPT_DAYS = 30" in API.read_text()

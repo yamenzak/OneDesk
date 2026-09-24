@@ -80,6 +80,8 @@ scheduler_events = {
 	# workspaces before it asks whether there is anything to do.
 	"cron": {"*/2 * * * *": ["onedesk.one_admin.runner.tick"]},
 	"daily": [
+		# The Recycle Bin keeps things thirty days. See one_storage/api.py.
+		"onedesk.one_storage.api.purge_old",
 		"onedesk.one.account.nightly",
 		"onedesk.one_admin.domains.nightly",
 		# One rung a workspace, one workspace at a time. See one_admin/ladder.py.
