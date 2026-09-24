@@ -88,7 +88,13 @@ scheduler_events = {
 		# Mail the Worker stored for an address on the mail domain. A notice
 		# usually brings it sooner; this is what makes sure.
 		# Connected mailboxes: one job each, reading what changed on the server.
-		"* * * * *": ["onedesk.one_mail.inbound.sweep", "onedesk.one_mail.sync.sync_all"],
+		# Matters that have been quiet long enough are acted on, once over the
+		# burst. See one_intake/matters.py.
+		"* * * * *": [
+			"onedesk.one_mail.inbound.sweep",
+			"onedesk.one_mail.sync.sync_all",
+			"onedesk.one_intake.matters.due",
+		],
 		# Readings that waited for credits are tried again, and files that were
 		# never read are caught up. See one_intake/pipeline.py.
 		"*/15 * * * *": ["onedesk.one_intake.pipeline.again"],
@@ -193,7 +199,13 @@ doc_events = {
 		"on_cancel": "onedesk.one_intake.mark.looked_at",
 		"before_rename": "onedesk.one_intake.mark.before_rename",
 		"after_rename": ["onedesk.one_intake.identity.renamed", "onedesk.one_intake.mark.after_rename"],
-		"on_trash": ["onedesk.one_ai.touch.forget", "onedesk.one_intake.identity.forget", "onedesk.one_intake.filing.forget"],
+		# Deleting a record OneAI made is a lesson, read before its mark goes.
+		"on_trash": [
+			"onedesk.one_intake.lessons.deleted",
+			"onedesk.one_ai.touch.forget",
+			"onedesk.one_intake.identity.forget",
+			"onedesk.one_intake.filing.forget",
+		],
 	},
 	"Employee": {
 		"validate": "onedesk.one_hr.leaving.notice_ends_on",
@@ -240,8 +252,9 @@ doc_events = {
 	"File": {
 		# Every new file is read, once per content. See one_intake/pipeline.py.
 		"after_insert": "onedesk.one_intake.pipeline.file_added",
-		# An open OneCloud folder redraws; see one_storage/live.py.
-		"on_update": "onedesk.one_storage.live.changed",
+		# An open OneCloud folder redraws; see one_storage/live.py. A file OneAI
+		# filed and a person moved back is a lesson; see one_intake/lessons.py.
+		"on_update": ["onedesk.one_storage.live.changed", "onedesk.one_intake.lessons.moved"],
 		"on_trash": [
 			"onedesk.one_hr.hiring.keep_sound",
 			"onedesk.one_storage.links.forget_file",
@@ -384,6 +397,11 @@ override_whitelisted_methods = {
 	"frappe.desk.form.load.get_docinfo": "onedesk.one_mail.linking.get_docinfo",
 	"frappe.desk.form.load.get_communications": "onedesk.one_mail.linking.get_communications",
 }
+
+# What Intake wrote down about a record is its history, not a reason to keep
+# the record: deleting a supplier OneAI made, or undoing it, is not blocked by
+# the Intake Action that made it. See one_intake/act.py.
+ignore_links_on_delete = ["Intake Action", "Intake Lesson", "Reading", "Reading Party"]
 
 has_permission = {
 	# What OneAI did is seen by whom it acted for. See one_intake/act.py.

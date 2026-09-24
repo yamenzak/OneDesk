@@ -137,8 +137,9 @@ No doctypes yet.
 | File Link | 4 | document |
 | Identifier | 6 | document |
 | Intake Action | 15 | document |
-| Intake Settings | 4 | single |
-| Reading | 56 | document |
+| Intake Lesson | 12 | document |
+| Intake Settings | 5 | single |
+| Reading | 67 | document |
 | Reading Ask | 4 | child |
 | Reading Date | 4 | child |
 | Reading Line | 7 | child |

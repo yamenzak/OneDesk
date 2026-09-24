@@ -67,6 +67,7 @@ def described(name: str, brief: bool = False) -> dict:
 		return out
 	out["actions"] = actions_of(name)
 	out["may_decide"] = _may_decide(doc)
+	out["matter"] = matter_of(doc)
 	meta = frappe.get_meta("Reading")
 	out["facts"] = [
 		{"label": _(meta.get_label(field)), "value": doc.get(field), "field": field, "currency": doc.currency}
@@ -166,6 +167,21 @@ def _folder_path(folder: str | None) -> list[str]:
 
 	chain = ns.chain(folder)[:2] if folder else []
 	return [frappe.db.get_value("File", at, "file_name") for at in reversed(chain)]
+
+
+def matter_of(doc) -> dict | None:
+	"""The matter a later document belongs to, and what it changes there."""
+	if not doc.get("matter") or doc.matter == doc.name:
+		return None
+	head = frappe.db.get_value("Reading", doc.matter, ["name", "title", "kind", "number"], as_dict=True)
+	if not head:
+		return None
+	return {
+		"title": head.title or head.number or head.kind,
+		"document": document_of(head.name),
+		"change": _(doc.change) if doc.change else None,
+		"copy": bool(doc.copy_of),
+	}
 
 
 def _may_decide(doc) -> bool:

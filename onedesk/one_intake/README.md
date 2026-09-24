@@ -1,11 +1,12 @@
 # Intake
 
-Written by hand. Stages 1 to 4 of eleven are built: every file and message
+Written by hand. Stages 1 to 5 of eleven are built: every file and message
 is read into text and found by what is written in it, every record's
 identifiers are kept in one registry, and where OneAI is switched on, each
 document is understood (what it is, who it is from and about, its dates,
-money and what it asks) and filed where it belongs, through one door that
-writes down everything it does so it can be undone. The plan for
+money and what it asks), placed with the documents it follows, and filed
+where it belongs, through one door that writes down everything it does so it
+can be undone. The plan for
 the rest is `docs/INTAKE.md`. The part above **Under the hood** is the
 manual; below it are the decisions and what is still to come.
 
@@ -97,6 +98,22 @@ A medical, pay, personal or legal document is attached only to the person it
 is about; anywhere else it is only linked, and a link never lets anybody open
 what they could not open before.
 
+## One matter, many documents
+
+A reminder, a corrected invoice, "did you get our invoice?", the scan of a
+letter that also came by mail: most of what arrives is about something that
+arrived before. The panel says so: **About Stadtwerke Köln RE-2026-0042**,
+with what it changes there (**Nudge**, **Update**, **Answer**, **Closing**,
+**Nothing New**), or **A copy of …**. A later document is filed with the
+records its matter's first document went to, so a reminder that names only
+an invoice number lands on the supplier the invoice did. A copy is only
+linked there, never filed a second time.
+
+OneAI waits a few minutes after the last message of a matter before it acts,
+so a burst of three mails is handled once (Intake Settings' **Quiet
+Minutes**). Search finds a message at once all the same. Phishing, and money
+or deadlines due within a day, do not wait.
+
 ## What OneAI did, and taking it back
 
 The panel beside a document ends with **What OneAI did**: made this record,
@@ -113,7 +130,14 @@ Some things wait for you instead, marked **Needs a look**, with **Apply** and
 - anything OneAI is not sure enough of (below Intake Settings' **Confidence
   Floor**), or read from a document whose facts did not all check out.
 
-You are told once per document when something waits. Nothing is ever
+You are told once per document when something waits, and not at all for a
+document that changes nothing.
+
+OneAI learns from being taken back. Undoing what it did, dismissing what it
+proposed, deleting a record it made or moving a file it filed somewhere else
+is remembered for that party, and the next document from them is read with
+it. Three times the same, and OneAI asks instead of doing it. The **Intake
+Lesson** list shows what it learned; deleting a lesson lets it act again. Nothing is ever
 submitted, posted or sent by OneAI: whatever it makes that could post stays a
 draft. OneAI does only what the person who switched it on may do; what they
 may not is written down as **Not allowed** and not done.
@@ -210,9 +234,27 @@ loses a value it had.
   Files tab. Tags are written the way Frappe writes them, since its own
   `DocTags` asks the OneAI user for a write permission it does not hold.
 
-Not built yet: placing a document in its matter and comparing it with what
-came before (stage 5), the records and drafts each kind of document makes
-(stages 6 and 7), versions of the same file, keeping periods, Kanban cards and
+- `matters.py` is stage 5. A matter is its first Reading; later ones name it
+  in `matter`. Placing goes strongest first (a copy by its facts, the mail an
+  attachment came in, the thread, a number the earlier document carried, the
+  one open matter of that party and kind, and last the `intake_place` action
+  choosing from the party's open matters) and stops at the first that is
+  sure. `change_of` says what a document changes from its facts where it can;
+  the same action is asked only when it cannot. The pure parts are tested
+  case by case. `understand._done` places and sets `act_after`; `due`, every
+  minute, acts once a matter's burst is quiet. `key` gives planners a key per
+  matter, so "a task to pay this invoice" exists once however many reminders
+  follow.
+- `lessons.py` writes an **Intake Lesson** on Dismiss, on Undo, on deleting a
+  marked record (read in `on_trash` before the mark goes) and on moving a
+  filed file back (File `on_update`). `rule_says` makes the door propose once
+  three alike exist. Intake's own rows are in `ignore_links_on_delete`: what
+  it wrote down about a record is its history, not a reason to keep it.
+
+Not built yet: the records and drafts each kind of document makes
+(stages 6 and 7), and with them what a nudge or a closing does to a task;
+versions of the same file (a corrected or signed copy is placed as an update
+but not yet stored as a version), keeping periods, Kanban cards and
 the report view carrying the mark, and a list of everything that waits across
 documents other than the Intake Action list the notification opens.
 `docs/INTAKE.md` §17 lists the stages.

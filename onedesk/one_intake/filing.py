@@ -92,6 +92,10 @@ def plan(reading: dict, where: dict) -> list[Action]:
 	kind = reading.get("kind") or ""
 	parties = reading.get("parties") or []
 	belongs = records(parties)
+	# What the matter's earlier documents were filed with: a reminder that
+	# names only an invoice number goes where the invoice went.
+	belongs += [tuple(one) for one in where.get("matter_records") or [] if tuple(one) not in belongs]
+	copy = bool(where.get("copy"))
 	sure = {"sure": True, "confidence": 1}
 
 	if where.get("message"):
@@ -128,7 +132,7 @@ def plan(reading: dict, where: dict) -> list[Action]:
 	if main and reading.get("sensitivity") not in (None, "", "Ordinary") and main[0] not in PERSONAL_RECORDS:
 		main = None
 	# A file a person attached to a record stays there; it is only linked on.
-	attach = bool(main) and not own and verdict != "Newsletter" and (not attached or attached[0] == "Communication") and attached != list(main)
+	attach = bool(main) and not own and not copy and verdict != "Newsletter" and (not attached or attached[0] == "Communication") and attached != list(main)
 
 	if attach:
 		values = {"file": held}
@@ -141,7 +145,7 @@ def plan(reading: dict, where: dict) -> list[Action]:
 		out.append(Action("Link", doctype, record, {"file": held, "reading": reading.get("name")}, key=f"link|{doctype}|{record}", **sure))
 	if rename and not attached:
 		out.append(Action("Rename", "File", held, {"file_name": wanted}, key="name", **sure))
-	if not attach and not own and not attached and where.get("switched") and kind and verdict != "Newsletter" and where.get("file_away", 1):
+	if not attach and not own and not copy and not attached and where.get("switched") and kind and verdict != "Newsletter" and where.get("file_away", 1):
 		year = str(getdate(reading.get("issued_on") or where.get("today") or today()).year)
 		out.append(Action("Move", "File", held, {"under": where["switched"], "path": [where.get("kind_label") or kind, year]}, key="file away", **sure))
 	tags = [one for one in where.get("tags") or [] if one]
@@ -182,7 +186,11 @@ def where_of(reading, held: str | None = None) -> dict | None:
 
 	language = frappe.db.get_single_value("System Settings", "language") or "en"
 	kind_label = _(reading.kind, lang=language) if reading.kind else ""
+	from onedesk.one_intake import matters
+
 	where = {
+		"matter_records": matters.records_of(reading.matter) if reading.matter and reading.matter != reading.name else [],
+		"copy": bool(reading.copy_of),
 		"today": today(),
 		"kind_label": kind_label,
 		"advertising_label": _("Advertising", lang=language),
@@ -312,7 +320,7 @@ def _tell(reading) -> None:
 		_once(people, reading, subject, enqueue_create_notification)
 		return
 	waiting = frappe.db.count("Intake Action", {"reading": reading.name, "level": "Proposed"})
-	if waiting:
+	if waiting and reading.change != "Nothing New":
 		subject = _("{0} things OneAI read in {1} need a look.").format(waiting, frappe.bold(reading.title or "")) if waiting > 1 else _("One thing OneAI read in {0} needs a look.").format(frappe.bold(reading.title or ""))
 		_once({reading.on_behalf_of}, reading, subject, enqueue_create_notification, link=f"/desk/intake-action?level=Proposed&reading={reading.name}")
 

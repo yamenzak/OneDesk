@@ -156,3 +156,9 @@
 .oi-change s {
 	color: var(--ink-gray-5);
 }
+
+/* The matter a later document belongs to. */
+.oi-matter {
+	margin-top: calc(var(--spacing) * 2);
+	color: var(--ink-gray-7);
+}

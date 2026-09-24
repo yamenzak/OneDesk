@@ -9,7 +9,8 @@
   "records",
   "most_pages",
   "floor",
-  "keep_in_place"
+  "keep_in_place",
+  "quiet_minutes"
  ],
  "fields": [
   {
@@ -40,6 +41,14 @@
    "label": "Leave Unmatched Files in Place",
    "default": "0",
    "description": "Files that belong to no record stay where they arrived instead of going to a folder for their kind and year."
+  },
+  {
+   "fieldname": "quiet_minutes",
+   "fieldtype": "Int",
+   "label": "Quiet Minutes",
+   "default": "5",
+   "non_negative": 1,
+   "description": "People write in bursts. OneAI acts once a matter has been quiet this long, except on money or deadlines due within a day."
   }
  ],
  "issingle": 1,

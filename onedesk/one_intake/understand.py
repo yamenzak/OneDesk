@@ -77,18 +77,22 @@ def run(name: str) -> None:
 
 
 def _done(reading) -> None:
+	"""Understood: placed in its matter, saved, and acted on now or once the
+	matter has been quiet (matters.py)."""
+	from onedesk.one_intake import matters
+
 	reading.state = "Understood"
 	reading.understood_on = now_datetime()
+	try:
+		matters.place(reading)
+	except Exception:
+		frappe.log_error(title=f"Intake could not place {reading.name}")
+		reading.matter, reading.change, reading.act_after = reading.matter or reading.name, reading.change or "New", now_datetime()
 	reading.flags.ignore_permissions = True
 	reading.save()
 	frappe.db.commit()
-	from onedesk.one_intake import filing
-
-	try:
-		filing.run(reading.name)
-	except Exception:
-		frappe.db.rollback()
-		frappe.log_error(title=f"Intake could not file {reading.name}")
+	if reading.act_after and reading.act_after <= now_datetime():
+		matters.act_now(reading.name)
 
 
 # ------------------------------------------------------------------ without a model
@@ -213,9 +217,21 @@ def ask(reading, structured: dict) -> dict:
 		context += [f"From: {mail.get('from_name') or ''} <{mail.get('from_email') or ''}>", f"Subject: {mail.get('subject') or ''}", f"Sent: {mail.get('date') or ''}"]
 	else:
 		context.append(f"File name: {reading.title or ''}")
+	taught = _lessons_for(mail)
+	if taught:
+		context.append(taught)
 	text = (reading.text or "")[:MOST_TEXT]
 	cut = "\n(The document goes on; this is its beginning.)" if len(reading.text or "") > MOST_TEXT else ""
 	return _ask(READ, "\n".join(context) + f"\n\nThe document:\n---\n{text}\n---{cut}", reading.name) or {}
+
+
+def _lessons_for(mail: dict) -> str:
+	"""What people corrected for the sender before, when the sender is known."""
+	from onedesk.one_intake import lessons
+
+	sender = ids.email(mail.get("from_email")) if mail else None
+	best = (identity.match([(ids.EMAIL, sender)]) or [None])[0] if sender else None
+	return lessons.told(best["doctype"], best["name"]) if best else ""
 
 
 def _ask(action: str, text: str, reference: str) -> dict | None:

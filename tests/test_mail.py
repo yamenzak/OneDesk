@@ -69,7 +69,7 @@ def test_a_thread_is_a_message_id_never_a_subject():
 
 
 def test_mail_is_read_from_r2_every_minute_whatever_the_notice_did():
-	assert '"* * * * *": ["onedesk.one_mail.inbound.sweep"' in HOOKS
+	assert re.search(r'"\* \* \* \* \*": \[\s*"onedesk\.one_mail\.inbound\.sweep"', HOOKS)
 	source = (MAIL / "inbound.py").read_text()
 	assert "raise frappe.PermissionError" in source and "hmac.compare_digest" in source
 	assert '{"one_raw_key": key}' in source, "taking one twice is taking it once"

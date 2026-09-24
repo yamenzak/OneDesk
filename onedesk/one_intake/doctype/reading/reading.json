@@ -41,6 +41,17 @@
   "unsure",
   "dropped",
   "understood_on",
+  "section_matter",
+  "matter",
+  "change",
+  "placed_by",
+  "copy_of",
+  "matter_state",
+  "column_break_matter",
+  "party_doctype",
+  "party_name",
+  "act_after",
+  "acted_on",
   "section_money",
   "currency",
   "net",
@@ -286,6 +297,80 @@
    "fieldname": "understood_on",
    "fieldtype": "Datetime",
    "label": "Understood On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_matter",
+   "fieldtype": "Section Break",
+   "label": "Matter"
+  },
+  {
+   "fieldname": "matter",
+   "fieldtype": "Link",
+   "label": "Matter",
+   "options": "Reading",
+   "search_index": 1,
+   "read_only": 1,
+   "description": "The first document of what this one is about. A document that starts something is its own."
+  },
+  {
+   "fieldname": "change",
+   "fieldtype": "Select",
+   "label": "Change",
+   "options": "\nNew\nNudge\nUpdate\nCompletion\nAnswer\nClosing\nNothing New",
+   "read_only": 1
+  },
+  {
+   "fieldname": "placed_by",
+   "fieldtype": "Select",
+   "label": "Placed By",
+   "options": "\nAttachment\nThread\nReference\nParty\nOneAI\nCopy",
+   "read_only": 1
+  },
+  {
+   "fieldname": "copy_of",
+   "fieldtype": "Link",
+   "label": "Copy Of",
+   "options": "Reading",
+   "read_only": 1
+  },
+  {
+   "fieldname": "matter_state",
+   "fieldtype": "Select",
+   "label": "Matter State",
+   "options": "\nOpen\nClosed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_matter",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "party_doctype",
+   "fieldtype": "Link",
+   "label": "Party Type",
+   "options": "DocType",
+   "read_only": 1
+  },
+  {
+   "fieldname": "party_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Party",
+   "options": "party_doctype",
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "act_after",
+   "fieldtype": "Datetime",
+   "label": "Act After",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "acted_on",
+   "fieldtype": "Datetime",
+   "label": "Acted On",
    "read_only": 1
   },
   {

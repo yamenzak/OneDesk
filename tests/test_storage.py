@@ -609,7 +609,7 @@ def test_a_change_is_told_as_keys_that_name_nothing():
 def test_every_way_a_file_changes_is_told():
 	hooks = HOOKS[HOOKS.index('"File": {') :]
 	hooks = hooks[: hooks.index("},")]
-	assert '"on_update": "onedesk.one_storage.live.changed"' in hooks
+	assert re.search(r'"on_update": \[?\s*"onedesk\.one_storage\.live\.changed"', hooks)
 	assert "onedesk.one_storage.live.changed" in hooks[hooks.index('"on_trash"') :]
 	api = (tree.APP / "one_storage" / "api.py").read_text()
 	for verb in ("rename", "move", "delete", "restore"):

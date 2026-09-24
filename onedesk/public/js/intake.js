@@ -85,9 +85,22 @@ onedesk.intake.html = (said) => {
 		<div class="oi-head"><img src="${onedesk.intake.MARK}" alt=""><span>${__("Read by OneAI")}</span>${chips}</div>
 		${said.title ? `<div class="oi-name">${esc(said.title)}</div>` : ""}
 		${said.summary ? `<div class="oi-summary">${esc(said.summary)}</div>` : ""}
+		${onedesk.intake.matter(said.matter)}
 		${facts ? `<dl>${facts}</dl>` : ""}
 		${parties}${dates}${asks}${parts}${attached}${dropped}${onedesk.intake.actions(said)}
 	</div>`;
+};
+
+// ------------------------------------------------------------------ its matter
+
+onedesk.intake.matter = (matter) => {
+	if (!matter) return "";
+	const esc = frappe.utils.escape_html;
+	const doc = matter.document || {};
+	const title = doc.route ? `<a href="${esc(doc.route)}">${esc(matter.title || "")}</a>` : esc(matter.title || "");
+	const said = matter.copy ? __("A copy of {0}", [title]) : __("About {0}", [title]);
+	const change = matter.change && !matter.copy ? ` <span class="oi-chip" data-tone="gray">${esc(matter.change)}</span>` : "";
+	return `<div class="oi-matter">${said}${change}</div>`;
 };
 
 // ------------------------------------------------------------------ what OneAI did

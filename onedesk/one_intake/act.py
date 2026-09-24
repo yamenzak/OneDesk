@@ -164,6 +164,12 @@ def apply(action: Action, reading) -> str | None:
 	row.before = json.dumps(before, default=str) if before else None
 	if why:
 		row.why = _join(row.why, waits(why, fields, action.doctype))
+	elif not (action.kind == "Create" and action.doctype == "File"):
+		from onedesk.one_intake import lessons
+
+		taught = lessons.rule_says(reading, action)
+		if taught:
+			row.level, row.why = "Proposed", _join(row.why, taught)
 	if row.level == "Done":
 		frappe.db.savepoint("one_intake_act")
 		try:
@@ -426,7 +432,10 @@ def settle(action: str, take: int = 1) -> dict:
 	if row.level != "Proposed":
 		frappe.throw(_("This was already {0}.").format(_(row.level).lower()))
 	if not cint(take):
+		from onedesk.one_intake import lessons
+
 		row.db_set({"level": "Dismissed", "checked_by": frappe.session.user})
+		lessons.learn(row, "Dismissed")
 		return {"level": "Dismissed"}
 	planned = Action(kind=row.kind, doctype=row.target_doctype, name=row.target_name, values=json.loads(row.after or "{}"))
 	if not allowed(planned, frappe.session.user):
@@ -490,7 +499,10 @@ def take_back(row) -> str | None:
 	except frappe.LinkExistsError:
 		why = _("something else uses it now")
 	if not why:
+		from onedesk.one_intake import lessons
+
 		row.db_set({"level": "Undone", "undone_by": frappe.session.user})
+		lessons.learn(row, "Undone")
 	return why
 
 
