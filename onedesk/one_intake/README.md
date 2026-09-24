@@ -239,6 +239,55 @@ once nothing is left to do: its matter is closed, the task OneAI made is
 done, or the invoice it booked is paid. A copy of a document has none of its
 own, and a sick note's "valid until" is not a deadline.
 
+## Explaining it, and paying it
+
+**Explain** in the panel asks OneAI what the document means in plain words in
+your language, what you have to do and by when, and writes the reply in the
+letter's own language, ready to copy. It is the one Intake call a person
+starts, and it is kept: the same document explained again in the same
+language costs nothing unless you ask again. A contract with a last day to
+cancel also offers **Write the Cancellation**, a letter that must arrive by
+that day.
+
+A bill to pay by transfer shows **Pay**: whom, the IBAN, the amount and the
+reference, each copied with a click, and a GiroCode any European banking
+app scans into a filled-in transfer. Nothing is paid from One. When the payee
+is a supplier whose bank accounts we hold and the bill's IBAN is none of
+them, there is no code, only a red line saying to ask them on a number you
+already know.
+
+## Twice, and never ordered
+
+A draft bill with the same number as another bill from that supplier, or the
+same total on the same day, is red in Ready to Submit, naming the other one.
+A delivery note from a known supplier that no order of ours matches is a task
+to check it before anybody signs for it or pays.
+
+## The tax year, the week and the month
+
+**Documents for the Tax Year** (on Spending) downloads the year's invoices,
+receipts, payslips, bank statements, tax office letters, contracts and
+certificates as a zip, a folder per kind, with an index a spreadsheet opens.
+You get what was read for you; an administrator gets the workspace's.
+
+Each week everybody OneAI read for gets one notification, mailed too when
+they take mail for notifications: how many documents arrived, how many OneAI
+dealt with itself, what waits for them, and what falls due in the next seven
+days. **Intake Settings** says the month in one line: "OneAI handled 24 of 38
+documents this month; 14 needed a person". A document needed a person when
+OneAI was unsure of it, proposed something or was not allowed to act.
+
+## Kept by law
+
+A business must keep its papers for years: in Germany invoices, receipts and
+bank statements eight (§ 147 AO), business letters, orders, delivery notes
+and contracts six, payroll six; in the Emirates the books and their papers
+five. Each reading carries its **Keep Until**, the end of the year it is
+dated in plus those years. A file that is the only copy of such a document
+may go to the Recycle Bin but is not deleted for good before that day, by
+anyone, and emptying the bin leaves it there. A household keeps no books and
+has no keeping periods, and neither has a country not listed yet.
+
 ## What a document teaches
 
 Every document teaches its parties something: a VAT id, a website, a phone
@@ -445,7 +494,18 @@ loses a value it had.
   with `deadlines.before`. `calendar.py` is both the three calendar layers
   and the Deadlines report's rows, so the two cannot disagree.
 
-Not built yet: an Asset from an equipment invoice; an order confirmation's
+- Stage 11 is `explain.py` (the one call a person starts, kept per language
+  on the Reading), `pay.py` (the EPC069-12 text is pure; the code is drawn by
+  `pyqrcode`, which frappe already ships), `drafts._twice`, `money.unordered`,
+  `bundle.py`, `digest.py` (the weekly digest and the monthly number) and
+  `keep.py`. The keep guard sits in OneCloud's File override, ahead of
+  Frappe's own on_trash, because that is what removes the stored content:
+  a hook would run after it.
+
+Not built yet: a DATEV-shaped export for a business; keeping periods for
+countries other than Germany and the Emirates, and for mail deleted in
+OneMail; the model credits the month used, which the control plane holds;
+an Asset from an equipment invoice; an order confirmation's
 changed dates proposed on the order; a reminder's fee proposed as a line;
 marking a renewed identity document's old row as replaced; parsing a
 supplier's address into an Address and its IBAN into a Bank Account; routing

@@ -2,7 +2,8 @@
 
 Frappe reads a file's content by opening a path on disk; for a stored file
 (one_storage/store.py) there is no path, so the three methods that go to the
-disk go to R2 instead. Everything else is Frappe's own.
+disk go to R2 instead. Deleting asks first whether the law still keeps the
+document (one_intake/keep.py). Everything else is Frappe's own.
 """
 
 import io
@@ -53,6 +54,15 @@ class CloudFile(File):
 				if namespace.may(namespace.row(name)):
 					return
 		return super().validate_private_file_access()
+
+	def on_trash(self):
+		"""A document the law says a business must keep is not deleted before
+		its day (one_intake/keep.py). Asked before Frappe's own on_trash,
+		which removes the stored content."""
+		from onedesk.one_intake import keep
+
+		keep.guard(self)
+		return super().on_trash()
 
 	def get_content(self, encodings=None) -> bytes | str:
 		if self.get("content") or not store.is_stored(self.file_url):

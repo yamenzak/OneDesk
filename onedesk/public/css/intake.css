@@ -182,3 +182,71 @@
 	color: var(--ink-gray-5);
 	text-align: center;
 }
+
+/* Paying a bill from the document: each part copies, and the GiroCode. */
+.oi-pay {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: calc(var(--spacing) * 3);
+}
+
+.oi-pay dl {
+	flex: 1 1 12rem;
+}
+
+.oi-copy {
+	padding: 0;
+	border: 0;
+	background: none;
+	color: inherit;
+	text-align: start;
+	cursor: copy;
+}
+
+.oi-copy:hover {
+	color: var(--ink-blue-7);
+}
+
+.oi-code {
+	width: 132px;
+	padding: calc(var(--spacing) * 1);
+	border-radius: var(--radius-md);
+	background: var(--surface-white);
+}
+
+.oi-code svg {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+.oi-warn {
+	margin-top: calc(var(--spacing) * 1);
+	color: var(--ink-red-7);
+	font-weight: var(--font-weight-medium);
+}
+
+/* Explaining a document, and the letter it asks for. */
+.oi-explain {
+	margin-top: calc(var(--spacing) * 3);
+}
+
+.oi-explain > .oi-buttons {
+	margin-inline-start: 0;
+}
+
+.oi-explained p {
+	margin: calc(var(--spacing) * 2) 0 0;
+}
+
+.oi-letter {
+	margin: calc(var(--spacing) * 1) 0 0;
+	padding: calc(var(--spacing) * 2);
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-md);
+	background: var(--surface-white);
+	font-family: inherit;
+	font-size: var(--text-sm);
+	white-space: pre-wrap;
+}

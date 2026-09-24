@@ -11,4 +11,11 @@ frappe.query_reports["Spending"] = {
 			default: "Category",
 		},
 	],
+	onload(report) {
+		// The year's documents for the tax adviser, by kind (one_intake/bundle.py).
+		report.page.add_inner_button(__("Documents for the Tax Year"), () => {
+			const year = (report.get_filter_value("to_date") || frappe.datetime.get_today()).slice(0, 4);
+			window.open(`/api/method/onedesk.one_intake.bundle.year?year=${encodeURIComponent(year)}`);
+		});
+	},
 };

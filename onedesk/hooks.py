@@ -131,6 +131,8 @@ scheduler_events = {
 		# A project asks its team for an update. See one_project/updates.py.
 		"onedesk.one_project.updates.ask",
 	],
+	# What OneAI read for each person this week. See one_intake/digest.py.
+	"weekly": ["onedesk.one_intake.digest.weekly"],
 }
 
 # Every email this workspace sends: an address on the mail domain through

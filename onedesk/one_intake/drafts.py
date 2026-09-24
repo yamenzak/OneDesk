@@ -40,7 +40,20 @@ def red(doc, reading) -> list[str]:
 	if doc.doctype == "Purchase Invoice":
 		why += _three_way(doc)
 		why += _iban(doc, reading)
+		why += _twice(doc)
 	return why
+
+
+def _twice(doc) -> list[str]:
+	"""Another bill from the same supplier with the same number, or the same
+	total on the same day: the same invoice sent twice, or billed twice."""
+	if not doc.supplier:
+		return []
+	same = [["supplier", "=", doc.supplier], ["name", "!=", doc.name], ["docstatus", "<", 2], ["is_return", "=", 0]]
+	found = frappe.get_all("Purchase Invoice", filters=[*same, ["bill_no", "=", doc.bill_no]], pluck="name", limit=1) if doc.bill_no else []
+	if not found and doc.bill_date:
+		found = frappe.get_all("Purchase Invoice", filters=[*same, ["bill_date", "=", doc.bill_date], ["grand_total", "=", doc.grand_total]], pluck="name", limit=1)
+	return [_("It may be the same bill as {0}: same supplier, and the same number or the same total on the same day.").format(found[0])] if found else []
 
 
 def _three_way(doc) -> list[str]:

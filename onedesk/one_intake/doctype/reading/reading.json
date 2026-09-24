@@ -67,6 +67,7 @@
   "column_break_document",
   "valid_until",
   "notice_period",
+  "keep_until",
   "section_details",
   "parties",
   "dates",
@@ -75,7 +76,8 @@
   "refs",
   "section_text",
   "text",
-  "structured"
+  "structured",
+  "explained"
  ],
  "fields": [
   {
@@ -471,6 +473,13 @@
    "description": "How long before its end a contract must be cancelled, as written."
   },
   {
+   "fieldname": "keep_until",
+   "fieldtype": "Date",
+   "label": "Keep Until",
+   "read_only": 1,
+   "description": "The law says a business keeps this until then. It cannot be deleted before."
+  },
+  {
    "fieldname": "section_details",
    "fieldtype": "Section Break",
    "label": "Details"
@@ -527,12 +536,20 @@
    "label": "Data",
    "read_only": 1,
    "description": "What the file said as data, such as an e-invoice, a bank statement, a card or a message's headers."
+  },
+  {
+   "fieldname": "explained",
+   "fieldtype": "Long Text",
+   "label": "Explained",
+   "hidden": 1,
+   "read_only": 1,
+   "description": "What OneAI said when asked to explain it, per language."
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-26 09:00:00.000000",
+ "modified": "2026-09-30 13:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Intake",
  "name": "Reading",

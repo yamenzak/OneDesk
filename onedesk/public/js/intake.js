@@ -87,8 +87,58 @@ onedesk.intake.html = (said) => {
 		${said.summary ? `<div class="oi-summary">${esc(said.summary)}</div>` : ""}
 		${onedesk.intake.matter(said.matter)}
 		${facts ? `<dl>${facts}</dl>` : ""}
-		${parties}${dates}${asks}${parts}${attached}${dropped}${onedesk.intake.actions(said)}
+		${parties}${dates}${asks}${parts}${attached}${dropped}${onedesk.intake.pay(said.pay)}${onedesk.intake.actions(said)}
+		${onedesk.intake.explained(said)}
 	</div>`;
+};
+
+// ------------------------------------------------------------------ paying it
+
+// Whom to pay, each part ready to copy, and the GiroCode a banking app scans.
+// A changed IBAN has no code, only why (one_intake/pay.py).
+onedesk.intake.pay = (pay) => {
+	if (!pay) return "";
+	const esc = frappe.utils.escape_html;
+	if (pay.warn) return `<div class="oi-title">${__("Payment")}</div><div class="oi-warn">${esc(pay.warn)}</div>`;
+	const copy = (label, value, shown) =>
+		value ? `<dt>${label}</dt><dd><button class="oi-copy" data-copy="${esc(String(value))}" title="${__("Copy")}">${esc(String(shown || value))}</button></dd>` : "";
+	const iban = String(pay.iban || "").replace(/(.{4})/g, "$1 ").trim();
+	const rows = [
+		copy(__("To"), pay.name),
+		copy(__("IBAN"), pay.iban, iban),
+		copy(__("Amount"), pay.amount, pay.amount ? format_currency(pay.amount, pay.currency) : ""),
+		copy(__("Reference"), pay.reference),
+	].join("");
+	const code = pay.code ? `<div class="oi-code" title="${__("Scan with your banking app")}">${pay.code}</div>` : "";
+	return `<div class="oi-title">${__("Payment")}</div><div class="oi-pay"><dl>${rows}</dl>${code}</div>`;
+};
+
+// ------------------------------------------------------------------ explaining it
+
+onedesk.intake.explained = (said) => {
+	const buttons = `<span class="oi-buttons">
+		<button class="btn btn-xs btn-default" data-explain="0" data-again="${said.explained ? 1 : 0}">${said.explained ? __("Explain Again") : __("Explain")}</button>
+		${said.may_cancel ? `<button class="btn btn-xs btn-default" data-explain="1">${__("Write the Cancellation")}</button>` : ""}</span>`;
+	return `<div class="oi-explain">${buttons}<div class="oi-explained">${said.explained ? onedesk.intake.explanation(said.explained) : ""}</div></div>`;
+};
+
+onedesk.intake.explanation = (said) => {
+	const esc = frappe.utils.escape_html;
+	const date = (value) => (value ? frappe.datetime.str_to_user(value) : "");
+	const paragraphs = String(said.explanation || "")
+		.split(/\n\s*\n/)
+		.filter(Boolean)
+		.map((one) => `<p>${esc(one)}</p>`)
+		.join("");
+	const todo = (said.todo || []).length
+		? `<div class="oi-title">${__("What to do")}</div><ul>${said.todo
+				.map((one) => `<li>${esc(one.what)}${one.by ? ` · ${__("by {0}", [date(one.by)])}` : ""}</li>`)
+				.join("")}</ul>`
+		: "";
+	const reply = said.reply
+		? `<div class="oi-title oi-did">${__("Letter")}<button class="btn btn-xs btn-default" data-copy="${esc(said.reply)}">${__("Copy")}</button></div><pre class="oi-letter">${esc(said.reply)}</pre>`
+		: "";
+	return `${paragraphs}${todo}${reply}`;
 };
 
 // ------------------------------------------------------------------ its matter
@@ -135,6 +185,29 @@ onedesk.intake.actions = (said) => {
 };
 
 onedesk.intake.bind = ($el, which, reading) => {
+	$el.find("[data-copy]").on("click", (event) => {
+		frappe.utils.copy_to_clipboard($(event.currentTarget).attr("data-copy"));
+	});
+	$el.find("[data-explain]").on("click", async (event) => {
+		const $button = $(event.currentTarget);
+		const cancel = $button.attr("data-explain") === "1";
+		$el.find("[data-explain]").prop("disabled", true);
+		const $out = $el.find(".oi-explained");
+		$out.html(`<div class="oi-quiet">${__("OneAI is reading it…")}</div>`);
+		try {
+			const said = await frappe.xcall("onedesk.one_intake.explain.explain", {
+				reading,
+				cancel: cancel ? 1 : 0,
+				again: !cancel && $button.attr("data-again") === "1" ? 1 : 0,
+			});
+			$out.html(onedesk.intake.explanation(said));
+			if (!cancel) $button.attr("data-again", "1").text(__("Explain Again"));
+			$out.find("[data-copy]").on("click", (e) => frappe.utils.copy_to_clipboard($(e.currentTarget).attr("data-copy")));
+		} catch (e) {
+			$out.empty();
+		}
+		$el.find("[data-explain]").prop("disabled", false);
+	});
 	$el.find("[data-settle]").on("click", async (event) => {
 		const $button = $(event.currentTarget);
 		$button.prop("disabled", true);

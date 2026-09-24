@@ -172,6 +172,22 @@ def goods(reading: dict, ctx: dict) -> list[Action]:
 	return [Action("Create", "Purchase Receipt", values={"order": ctx["purchase_order"], "supplier_delivery_note": reading.get("number")}, key="books|receipt", flow="onedesk.one_intake.planning.receipt_from_order", propose_on_error=True)]
 
 
+def unordered(reading: dict, ctx: dict) -> list[Action]:
+	"""A delivery from a known supplier that no order of ours asked for: a
+	task to check it before anybody signs for it or pays."""
+	if not _real(reading, ctx) or reading.get("kind") != "Delivery Note" or ctx.get("purchase_order") or not ctx.get("supplier") or reading.get("change") not in (None, "", "New"):
+		return []
+	values = {
+		"subject": ctx["said"]["unordered"].format(ctx["supplier"]),
+		"description": ctx["said"]["see_document"],
+		"exp_end_date": ctx["today"],
+		"one_about_doctype": "Supplier",
+		"one_about": ctx["supplier"],
+		"assign_to": ctx.get("person"),
+	}
+	return [_Action("Create", "Task", values=values, key="task|unordered", flow="onedesk.one_intake.planning.make_task", sure=True)]
+
+
 def quotation(reading: dict, ctx: dict) -> list[Action]:
 	"""A supplier's offer, as a Supplier Quotation when every line is an item."""
 	if not _real(reading, ctx) or reading.get("kind") != "Offer" or not ctx.get("supplier"):
@@ -272,4 +288,4 @@ def never_received(reading: dict, ctx: dict) -> list[Action]:
 
 
 def plan(reading: dict, ctx: dict) -> list[Action]:
-	return purchase(reading, ctx) + sales_order(reading, ctx) + goods(reading, ctx) + quotation(reading, ctx) + payment(reading, ctx) + bank(reading, ctx) + contract(reading, ctx) + never_received(reading, ctx)
+	return purchase(reading, ctx) + sales_order(reading, ctx) + goods(reading, ctx) + unordered(reading, ctx) + quotation(reading, ctx) + payment(reading, ctx) + bank(reading, ctx) + contract(reading, ctx) + never_received(reading, ctx)

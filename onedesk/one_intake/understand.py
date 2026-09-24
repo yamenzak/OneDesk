@@ -293,6 +293,7 @@ def apply(reading, said: dict, dropped: list[str], structured: dict) -> None:
 		for one in said.get("dates") or [] if one.get("date") and not one.get("counted")
 	] + counted(reading, said))
 	reading.notice_period = (said.get("notice") or "")[:140] or None
+	reading.keep_until = kept_until(reading)
 	reading.set("asks", [
 		{"what": one.get("what") if one.get("what") in ASKS else "Other", "detail": (one.get("detail") or "")[:140], "by_date": one.get("by") or None, "of_whom": (one.get("of") or "")[:140]}
 		for one in said.get("asks") or []
@@ -337,6 +338,19 @@ def counted(reading, said: dict) -> list[dict]:
 		if result:
 			out.append({"date": result["date"], "what": one.get("what") if one.get("what") in DATES else "Deadline", "about": (one.get("about") or "")[:140], "found": 0, "counted_from": result["counted_from"], "rule": rule(result)[:140]})
 	return out
+
+
+def kept_until(reading):
+	"""The day the law lets a business's document go (keep.py); a household
+	keeps no books."""
+	from frappe.utils import getdate
+
+	from onedesk.one_intake import keep
+
+	if frappe.db.get_single_value("Intake Settings", "household"):
+		return None
+	dated = reading.issued_on or reading.creation or today()
+	return keep.until(reading.kind, identity.country(), getdate(dated))
 
 
 def rule(result: dict) -> str:

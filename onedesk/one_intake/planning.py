@@ -141,6 +141,7 @@ def _words(language: str) -> dict:
 		"ask_for_invoice": _("Ask {1} for invoice {0}", lang=language),
 		"maybe_fraud": _("A reminder for an invoice nobody here has. Ask for the invoice before paying anything.", lang=language),
 		"decide_cancel": _("Decide whether to cancel the contract with {0} (last day {1})", lang=language),
+		"unordered": _("Check the delivery from {0}: no order of ours was found for it", lang=language),
 	}
 
 

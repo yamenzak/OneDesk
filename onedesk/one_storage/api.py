@@ -451,10 +451,16 @@ def empty_bin() -> int:
 
 
 def _erase(name: str) -> int:
-	"""A File and everything in it, deepest first."""
+	"""A File and everything in it, deepest first. A document the law says
+	must still be kept stays in the Recycle Bin, and so does its folder
+	(one_intake/keep.py)."""
+	from onedesk.one_intake import keep
+
 	gone = 0
 	for child in frappe.get_all("File", filters={"folder": name}, pluck="name"):
 		gone += _erase(child)
+	if frappe.db.exists("File", {"folder": name}) or keep.held(frappe.get_doc("File", name)):
+		return gone
 	frappe.delete_doc("File", name, ignore_permissions=True, force=True)
 	return gone + 1
 

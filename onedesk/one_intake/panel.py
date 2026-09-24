@@ -65,13 +65,20 @@ def described(name: str, brief: bool = False) -> dict:
 	}
 	if brief:
 		return out
+	from onedesk.one_intake import explain, pay
+
 	out["actions"] = actions_of(name)
 	out["may_decide"] = _may_decide(doc)
+	out["pay"] = pay.of(doc)
+	out["explained"] = json.loads(doc.explained or "{}").get(f"explain:{frappe.local.lang or 'en'}")
+	out["may_cancel"] = bool(doc.kind == "Contract" and explain._cancel_by(doc))
 	out["matter"] = matter_of(doc)
 	meta = frappe.get_meta("Reading")
+	# Paying says the IBAN and the reference once, beside its code.
+	shown = [field for field in FACTS if not (out["pay"] and not out["pay"]["warn"] and field in ("iban", "payment_reference"))]
 	out["facts"] = [
 		{"label": _(meta.get_label(field)), "value": doc.get(field), "field": field, "currency": doc.currency}
-		for field in FACTS
+		for field in shown
 		if doc.get(field)
 	]
 	out["parties"] = [_party(row) for row in doc.parties]

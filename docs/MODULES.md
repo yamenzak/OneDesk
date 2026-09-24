@@ -139,7 +139,7 @@ No doctypes yet.
 | Intake Action | 15 | document |
 | Intake Lesson | 12 | document |
 | Intake Settings | 7 | single |
-| Reading | 68 | document |
+| Reading | 70 | document |
 | Reading Ask | 5 | child |
 | Reading Date | 6 | child |
 | Reading Line | 7 | child |
@@ -293,8 +293,10 @@ No doctypes yet.
 * `onedesk.one_intake.act.settle`
 * `onedesk.one_intake.act.undo`
 * `onedesk.one_intake.act.undo_one`
+* `onedesk.one_intake.bundle.year`
 * `onedesk.one_intake.drafts.listed`
 * `onedesk.one_intake.drafts.submit_all`
+* `onedesk.one_intake.explain.explain`
 * `onedesk.one_intake.identity.merge`
 * `onedesk.one_intake.identity.not_duplicate`
 * `onedesk.one_intake.mark.looks_right`
