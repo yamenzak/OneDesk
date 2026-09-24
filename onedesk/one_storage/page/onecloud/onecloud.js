@@ -140,7 +140,7 @@ onedesk.OneCloud = class OneCloud {
 		const el = this.$root[0];
 		if (!el || !el.offsetParent) return;
 		const top = el.getBoundingClientRect().top + window.scrollY;
-		el.style.height = `${Math.max(420, window.innerHeight - top - 12)}px`;
+		el.style.height = `${Math.max(420, window.innerHeight - top)}px`;
 	}
 
 	apply_settings() {

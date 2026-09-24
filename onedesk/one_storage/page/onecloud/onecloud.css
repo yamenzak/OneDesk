@@ -1,18 +1,17 @@
 /* The explorer. Logical properties throughout, so Arabic mirrors it. */
 
 .oc {
+	/* Seamless with the desk: no frame of its own, straight under the page
+	 * header and down to the bottom of the window (fit()). */
 	display: flex;
 	flex-direction: column;
-	/* Set by fit(), to the bottom of the window; this is only the first paint. */
-	height: calc(100vh - 110px);
+	/* Set by fit(); this is only the first paint. */
+	height: calc(100vh - 50px);
 	min-height: 420px;
-	border: 1px solid var(--outline-gray-1);
-	border-radius: var(--radius-lg);
 	background: var(--surface-base);
 	overflow: hidden;
 	outline: none;
 	position: relative;
-	margin-top: calc(var(--spacing) * 2);
 }
 
 /* The command bar and the address bar. */
