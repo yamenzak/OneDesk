@@ -1,4 +1,5 @@
 {% extends "templates/web.html" %}
+{% from "templates/includes/one_drop.html" import drop with context %}
 {% block title %}{{ link.file_name if link else _("Not found") }}{% endblock %}
 
 {%- block navbar -%}{%- endblock -%}
@@ -101,9 +102,9 @@
 				{{ csrf() }}
 				<input type="hidden" name="token" value="{{ token }}">
 				<input type="hidden" name="folder" value="{{ here.name }}">
-				<label class="one-field"><span>{{ _("Send files here") }}</span>
-					<input type="file" name="file" multiple required></label>
-				<button class="one-go" type="submit">{{ _("Send") }}</button>
+				<div class="one-field"><span>{{ _("Send files here") }}</span>
+					{{ drop(multiple=True) }}</div>
+				<button class="one-go" type="submit" data-busy="{{ _('Sending…') }}">{{ _("Send") }}</button>
 			</form>
 		{% endif %}
 
@@ -123,3 +124,5 @@
 	{% endif %}
 </div>
 {% endblock %}
+
+{% block script %}{{ super() }}<script src="/assets/onedesk/js/one_drop.js"></script>{% endblock %}

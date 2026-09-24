@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 10:21+0000\n"
-"PO-Revision-Date: 2026-09-24 10:21+0000\n"
+"POT-Creation-Date: 2026-09-24 10:34+0000\n"
+"PO-Revision-Date: 2026-09-24 10:34+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1022,7 +1022,7 @@ msgstr "Als"
 msgid "As reported by Frappe Cloud."
 msgstr "Wie von Frappe Cloud gemeldet."
 
-#: onedesk/www/r.html:47
+#: onedesk/www/r.html:39
 msgid "As {0}"
 msgstr "Als {0}"
 
@@ -1061,7 +1061,7 @@ msgstr "In der nächsten Runde fragen"
 msgid "Ask people for files by name, each landing in a folder or on a record. Use New › File request in any folder or record."
 msgstr "Bitten Sie Personen um bestimmte Dateien, die jeweils in einem Ordner oder an einem Datensatz landen. Nutzen Sie Neu › Dateianfrage in jedem Ordner oder Datensatz."
 
-#: onedesk/www/r.html:17
+#: onedesk/www/r.html:18
 msgid "Ask whoever sent it for a new one."
 msgstr "Bitten Sie den Absender um einen neuen."
 
@@ -1907,6 +1907,10 @@ msgstr "Zugangsdaten für Checkout und Webhook. Das Webhook-Geheimnis ist erford
 msgid "Checks"
 msgstr "Prüfungen"
 
+#: onedesk/templates/includes/one_drop.html:10
+msgid "Choose a file"
+msgstr "Datei auswählen"
+
 #: onedesk/www/r.py:18
 msgid "Choose a file first."
 msgstr "Wählen Sie zuerst eine Datei."
@@ -1918,6 +1922,10 @@ msgstr "Wählen Sie Monat und Jahr."
 #: onedesk/public/js/overtime_slip.js:41
 msgid "Choose an employee and a posting date first."
 msgstr "Wählen Sie zuerst eine Person und ein Buchungsdatum."
+
+#: onedesk/templates/includes/one_drop.html:10
+msgid "Choose files"
+msgstr "Dateien auswählen"
 
 #: onedesk/one_book/report/books_check/books_check.js:49
 msgid "Choose the Tax Charged by Default"
@@ -2897,8 +2905,8 @@ msgid "Done: {0}"
 msgstr "Erledigt: {0}"
 
 #: onedesk/one_storage/page/onecloud/onecloud.js:91
-#: onedesk/one_storage/page/onecloud/onecloud.js:1643 onedesk/www/s.html:90
-#: onedesk/www/s.html:122
+#: onedesk/one_storage/page/onecloud/onecloud.js:1643 onedesk/www/s.html:91
+#: onedesk/www/s.html:123
 msgid "Download"
 msgstr "Herunterladen"
 
@@ -3010,7 +3018,7 @@ msgstr "Fällig diese Woche"
 msgid "Due today"
 msgstr "Heute fällig"
 
-#: onedesk/one_storage/file_requests.py:144 onedesk/www/r.html:22
+#: onedesk/one_storage/file_requests.py:144 onedesk/www/r.html:23
 msgid "Due {0}."
 msgstr "Fällig am {0}."
 
@@ -4608,7 +4616,7 @@ msgstr "Es fragt nach einem Passwort: Erstellen Sie unten eines pro Computer. Ei
 msgid "It has no asset category."
 msgstr "Es hat keine Anlagenkategorie."
 
-#: onedesk/www/s.html:35
+#: onedesk/www/s.html:36
 msgid "It may have run out or been turned off. Ask whoever sent it for a new one."
 msgstr "Er ist vielleicht abgelaufen oder wurde deaktiviert. Bitten Sie die Person, die ihn geschickt hat, um einen neuen."
 
@@ -6124,7 +6132,7 @@ msgstr "Heute kein Einchecken"
 msgid "Not counted yet"
 msgstr "Noch nicht gezählt"
 
-#: onedesk/www/r.html:2 onedesk/www/s.html:2 onedesk/www/welcome.html:19
+#: onedesk/www/r.html:3 onedesk/www/s.html:3 onedesk/www/welcome.html:19
 msgid "Not found"
 msgstr "Nicht gefunden"
 
@@ -6726,7 +6734,7 @@ msgstr "Nur {0}"
 #: onedesk/one_storage/page/onecloud/onecloud.js:1625
 #: onedesk/one_storage/page/onecloud/onecloud.js:1641
 #: onedesk/one_task/custom/task.json onedesk/public/js/oneai/Record.vue:15
-#: onedesk/public/js/project.js:151 onedesk/www/s.html:47 onedesk/www/s.html:55
+#: onedesk/public/js/project.js:151 onedesk/www/s.html:48 onedesk/www/s.html:56
 msgid "Open"
 msgstr ""
 
@@ -6747,7 +6755,7 @@ msgstr "Öffnen"
 msgid "Open record"
 msgstr "Datensatz öffnen"
 
-#: onedesk/www/s.html:119
+#: onedesk/www/s.html:120
 msgid "Open {0}"
 msgstr "{0} öffnen"
 
@@ -7081,7 +7089,7 @@ msgstr "Passkey zurückgesetzt"
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 #: onedesk/one_storage/page/onecloud/onecloud.js:1206
 #: onedesk/one_storage/page/onecloud/onecloud.js:1355
-#: onedesk/one_storage/page/onecloud/onecloud.js:1558 onedesk/www/s.html:45
+#: onedesk/one_storage/page/onecloud/onecloud.js:1558 onedesk/www/s.html:46
 msgid "Password"
 msgstr "Passwort"
 
@@ -8164,7 +8172,7 @@ msgstr "Wiederholt"
 msgid "Repeats {0}"
 msgstr "Wiederholt {0}"
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1879 onedesk/www/r.html:45
+#: onedesk/one_storage/page/onecloud/onecloud.js:1879 onedesk/www/r.html:47
 msgid "Replace"
 msgstr "Ersetzen"
 
@@ -8225,7 +8233,7 @@ msgstr "Passkey verlangen"
 
 #. Label of the required (Check) field in DocType 'Cloud File Request Item'
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
-#: onedesk/one_storage/page/onecloud/onecloud.js:1414 onedesk/www/r.html:35
+#: onedesk/one_storage/page/onecloud/onecloud.js:1414 onedesk/www/r.html:36
 msgid "Required"
 msgstr "Erforderlich"
 
@@ -8535,8 +8543,8 @@ msgstr "Selbstständiges Einchecken"
 msgid "Selling"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:198 onedesk/www/r.html:45
-#: onedesk/www/s.html:106
+#: onedesk/public/js/oneai/Panel.vue:198 onedesk/www/r.html:47
+#: onedesk/www/s.html:107
 msgid "Send"
 msgstr "Senden"
 
@@ -8548,11 +8556,11 @@ msgstr "Senden Sie zwischen einer und {0} Dateien auf einmal."
 msgid "Send each person their link"
 msgstr "Senden Sie jeder Person ihren Link"
 
-#: onedesk/www/s.html:104
+#: onedesk/www/s.html:105
 msgid "Send files here"
 msgstr "Dateien hierher senden"
 
-#: onedesk/www/s.html:64
+#: onedesk/www/s.html:65
 msgid "Send me a code"
 msgstr "Code senden"
 
@@ -8564,6 +8572,10 @@ msgstr "Senden"
 #: onedesk/public/js/oneai/Panel.vue:146
 msgid "Send this again"
 msgstr "Dies wieder senden"
+
+#: onedesk/www/r.html:47 onedesk/www/s.html:107
+msgid "Sending…"
+msgstr "Wird gesendet…"
 
 #. Label of the one_ai_sensitive (Check) field in DocType 'Employee Grievance'
 #: onedesk/one_hr/ai_grievance.py:84
@@ -8599,7 +8611,7 @@ msgstr "Wird als Systemanweisung gesendet. Ein Arbeitsbereich darf ergänzen und
 msgid "Sent {0} files. Thank you."
 msgstr "{0} Dateien gesendet. Vielen Dank."
 
-#: onedesk/www/r.html:38
+#: onedesk/www/r.html:40
 msgid "Sent: {0}"
 msgstr "Gesendet: {0}"
 
@@ -9805,7 +9817,7 @@ msgstr "Das Einchecken konnte nicht erfasst werden."
 msgid "The cheque or transfer number. The invoice's number when left empty."
 msgstr "Scheck- oder Überweisungsnummer. Leer gelassen gilt die Rechnungsnummer."
 
-#: onedesk/www/s.html:53
+#: onedesk/www/s.html:54
 msgid "The code sent to {0}"
 msgstr "Der an {0} gesendete Code"
 
@@ -10179,7 +10191,7 @@ msgstr "Der Passkey dieses Mitarbeiters ist gesperrt. Die Personalabteilung muss
 msgid "This file is attached to a record, and goes to whoever may open the record."
 msgstr "Diese Datei hängt an einem Datensatz und ist für alle sichtbar, die den Datensatz öffnen dürfen."
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:284 onedesk/www/s.html:96
+#: onedesk/one_storage/page/onecloud/onecloud.js:284 onedesk/www/s.html:97
 msgid "This folder is empty."
 msgstr "Dieser Ordner ist leer."
 
@@ -10195,7 +10207,7 @@ msgstr "Das gilt für ein noch nicht gespeichertes Dokument. Übernehmen Sie es 
 msgid "This is paid in another currency. Use Create › Payment."
 msgstr "Dies wird in einer anderen Währung bezahlt. Verwenden Sie Erstellen › Zahlung."
 
-#: onedesk/www/r.html:16 onedesk/www/s.html:34
+#: onedesk/www/r.html:17 onedesk/www/s.html:35
 msgid "This link does not open anything"
 msgstr "Dieser Link öffnet nichts"
 
@@ -10231,7 +10243,7 @@ msgstr "Diese Aufnahme ist bereits beendet."
 msgid "This request expired. Try again."
 msgstr "Diese Anfrage ist abgelaufen. Versuchen Sie es erneut."
 
-#: onedesk/www/r.html:26 onedesk/www/r.py:19
+#: onedesk/www/r.html:27 onedesk/www/r.py:19
 msgid "This request is closed."
 msgstr "Diese Anfrage ist geschlossen."
 
@@ -10251,7 +10263,7 @@ msgstr "Diese Site verwaltet keine Arbeitsbereiche."
 msgid "This takes a few minutes. A link will be emailed to {0} when it is ready."
 msgstr "Das dauert ein paar Minuten. Ein Link geht per E-Mail an {0}, sobald er fertig ist."
 
-#: onedesk/www/s.html:63
+#: onedesk/www/s.html:64
 msgid "This was shared with particular people. We will send a code to the address it was shared with."
 msgstr "Dies wurde mit bestimmten Personen geteilt. Wir senden einen Code an die Adresse, mit der es geteilt wurde."
 
@@ -11653,7 +11665,7 @@ msgstr "Sie können {0} {1} nicht öffnen."
 msgid "You checked in but never checked out, so a check out was written for you at the shift end. Tell HR if that is wrong."
 msgstr "Sie haben eingecheckt, aber nie ausgecheckt, daher wurde zum Schichtende ein Auschecken für Sie geschrieben. Sagen Sie der Personalabteilung Bescheid, falls das nicht stimmt."
 
-#: onedesk/www/r.html:27
+#: onedesk/www/r.html:28
 msgid "You have sent everything that was asked for. You can still replace a file."
 msgstr "Sie haben alles Angeforderte gesendet. Sie können eine Datei noch ersetzen."
 
@@ -11735,7 +11747,7 @@ msgstr "Ihre Desk-Sitzung ist von einer anderen Adresse aus angemeldet."
 msgid "Your drive passwords"
 msgstr "Ihre Laufwerkspasswörter"
 
-#: onedesk/www/s.html:61
+#: onedesk/www/s.html:62
 msgid "Your email address"
 msgstr "Ihre E-Mail-Adresse"
 
@@ -11945,6 +11957,14 @@ msgstr "nichts"
 msgid "opened {0} times"
 msgstr "{0}-mal geöffnet"
 
+#: onedesk/templates/includes/one_drop.html:11
+msgid "or drop it here"
+msgstr "oder hier ablegen"
+
+#: onedesk/templates/includes/one_drop.html:11
+msgid "or drop them here"
+msgstr "oder hier ablegen"
+
 #. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "other"
@@ -12109,7 +12129,7 @@ msgstr "{0} hat eine {1} angefordert"
 msgid "{0} asks you for files: {1}"
 msgstr "{0} bittet Sie um Dateien: {1}"
 
-#: onedesk/www/r.html:21
+#: onedesk/www/r.html:22
 msgid "{0} asks you for these files."
 msgstr "{0} bittet Sie um diese Dateien."
 
@@ -12582,11 +12602,11 @@ msgstr "{0} hat alles für {1} gesendet"
 msgid "{0} sent {1} for {2}"
 msgstr "{0} hat {1} für {2} gesendet"
 
-#: onedesk/www/s.html:78
+#: onedesk/www/s.html:79
 msgid "{0} shared this folder with you."
 msgstr "{0} hat diesen Ordner mit Ihnen geteilt."
 
-#: onedesk/www/s.html:39 onedesk/www/s.html:112
+#: onedesk/www/s.html:40 onedesk/www/s.html:113
 msgid "{0} shared this with you."
 msgstr "{0} hat dies mit Ihnen geteilt."
 

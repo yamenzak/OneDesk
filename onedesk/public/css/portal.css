@@ -15,6 +15,7 @@
 	--ink-soft: #566070;
 	--ink-faint: #8b95a3;
 	--line: #e4e7ec;
+	--line-strong: #cdd2d9;
 	--paper: #ffffff;
 	--sunk: #f7f8f9;
 	--picked: #171c23;
@@ -44,6 +45,7 @@
 }
 
 .one-portal h1 {
+	color: var(--ink);
 	font-size: 1.75rem;
 	font-weight: 600;
 	letter-spacing: -0.01em;
@@ -210,6 +212,7 @@
 		--ink-soft: #a9b2be;
 		--ink-faint: #8b95a3;
 		--line: #333a44;
+		--line-strong: #4a525e;
 		--paper: #1b2129;
 		--sunk: #232a33;
 		--picked: #eff1f4;
@@ -379,6 +382,12 @@
 	color: var(--ink-faint);
 }
 
+.one-ask__kinds {
+	margin: 0 0 0.5rem;
+	color: var(--ink-faint);
+	font-size: 0.8125rem;
+}
+
 .one-ask__sent {
 	margin: 0 0 0.5rem;
 	color: var(--ink-soft);
@@ -388,17 +397,142 @@
 
 .one-ask form {
 	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
+	flex-direction: column;
+	align-items: flex-end;
 	gap: 0.5rem;
 }
 
 .one-ask__go {
-	padding: 0.4rem 0.9rem;
+	height: 2rem;
+	padding: 0 0.75rem;
 	border: 0;
 	border-radius: 8px;
 	background: var(--picked);
 	color: var(--paper);
 	font: inherit;
-	font-size: 0.9rem;
+	font-size: 0.875rem;
+	font-weight: 500;
+	cursor: pointer;
+}
+
+.one-ask__go[disabled] {
+	opacity: 0.5;
+	cursor: default;
+}
+
+/* The file picker (templates/includes/one_drop.html), drawn the way the
+   desk's upload box is: a dashed box, a subtle button, the chosen files. */
+.one-drop {
+	position: relative;
+	display: block;
+	width: 100%;
+	padding: 1.25rem 1rem;
+	border: 1px dashed var(--line-strong);
+	border-radius: 10px;
+	background: var(--sunk);
+	cursor: pointer;
+	transition: border-color 0.15s, background-color 0.15s;
+}
+
+.one-drop:hover,
+.one-drop.is-over {
+	border-color: var(--ink-faint);
+}
+
+.one-drop.is-over {
+	background: var(--paper);
+}
+
+.one-drop.is-chosen {
+	border-style: solid;
+	border-color: var(--line);
+	background: var(--paper);
+	padding: 0.5rem 0.75rem;
+}
+
+/* The real input stays in the form, and focusable, but unseen. */
+.one-drop input[type="file"] {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.one-drop:focus-within {
+	outline: 2px solid var(--ink-faint);
+	outline-offset: 2px;
+}
+
+.one-drop__empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.5rem;
+	text-align: center;
+}
+
+.one-drop__icon {
+	width: 1.125rem;
+	height: 1.125rem;
+	flex: none;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.5;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	color: var(--ink-soft);
+}
+
+.one-drop__pick {
+	display: inline-flex;
+	align-items: center;
+	height: 1.75rem;
+	padding: 0 0.625rem;
+	border-radius: 8px;
+	background: var(--line);
+	color: var(--ink);
+	font-size: 0.875rem;
+	font-weight: 500;
+}
+
+.one-drop:hover .one-drop__pick {
+	background: var(--line-strong);
+}
+
+.one-drop__or {
+	color: var(--ink-faint);
+	font-size: 0.8125rem;
+}
+
+.one-drop__chosen {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+.one-drop__chosen[hidden],
+.one-drop__empty[hidden] {
+	display: none;
+}
+
+.one-drop__file {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	min-width: 0;
+	font-size: 0.875rem;
+}
+
+.one-drop__name {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.one-drop__file small {
+	color: var(--ink-faint);
 }

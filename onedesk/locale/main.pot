@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 10:21+0000\n"
-"PO-Revision-Date: 2026-09-24 10:21+0000\n"
+"POT-Creation-Date: 2026-09-24 10:34+0000\n"
+"PO-Revision-Date: 2026-09-24 10:34+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1020,7 +1020,7 @@ msgstr ""
 msgid "As reported by Frappe Cloud."
 msgstr ""
 
-#: onedesk/www/r.html:47
+#: onedesk/www/r.html:39
 msgid "As {0}"
 msgstr ""
 
@@ -1059,7 +1059,7 @@ msgstr ""
 msgid "Ask people for files by name, each landing in a folder or on a record. Use New › File request in any folder or record."
 msgstr ""
 
-#: onedesk/www/r.html:17
+#: onedesk/www/r.html:18
 msgid "Ask whoever sent it for a new one."
 msgstr ""
 
@@ -1905,6 +1905,10 @@ msgstr ""
 msgid "Checks"
 msgstr ""
 
+#: onedesk/templates/includes/one_drop.html:10
+msgid "Choose a file"
+msgstr ""
+
 #: onedesk/www/r.py:18
 msgid "Choose a file first."
 msgstr ""
@@ -1915,6 +1919,10 @@ msgstr ""
 
 #: onedesk/public/js/overtime_slip.js:41
 msgid "Choose an employee and a posting date first."
+msgstr ""
+
+#: onedesk/templates/includes/one_drop.html:10
+msgid "Choose files"
 msgstr ""
 
 #: onedesk/one_book/report/books_check/books_check.js:49
@@ -2895,8 +2903,8 @@ msgid "Done: {0}"
 msgstr ""
 
 #: onedesk/one_storage/page/onecloud/onecloud.js:91
-#: onedesk/one_storage/page/onecloud/onecloud.js:1643 onedesk/www/s.html:90
-#: onedesk/www/s.html:122
+#: onedesk/one_storage/page/onecloud/onecloud.js:1643 onedesk/www/s.html:91
+#: onedesk/www/s.html:123
 msgid "Download"
 msgstr ""
 
@@ -3008,7 +3016,7 @@ msgstr ""
 msgid "Due today"
 msgstr ""
 
-#: onedesk/one_storage/file_requests.py:144 onedesk/www/r.html:22
+#: onedesk/one_storage/file_requests.py:144 onedesk/www/r.html:23
 msgid "Due {0}."
 msgstr ""
 
@@ -4606,7 +4614,7 @@ msgstr ""
 msgid "It has no asset category."
 msgstr ""
 
-#: onedesk/www/s.html:35
+#: onedesk/www/s.html:36
 msgid "It may have run out or been turned off. Ask whoever sent it for a new one."
 msgstr ""
 
@@ -6122,7 +6130,7 @@ msgstr ""
 msgid "Not counted yet"
 msgstr ""
 
-#: onedesk/www/r.html:2 onedesk/www/s.html:2 onedesk/www/welcome.html:19
+#: onedesk/www/r.html:3 onedesk/www/s.html:3 onedesk/www/welcome.html:19
 msgid "Not found"
 msgstr ""
 
@@ -6724,7 +6732,7 @@ msgstr ""
 #: onedesk/one_storage/page/onecloud/onecloud.js:1625
 #: onedesk/one_storage/page/onecloud/onecloud.js:1641
 #: onedesk/one_task/custom/task.json onedesk/public/js/oneai/Record.vue:15
-#: onedesk/public/js/project.js:151 onedesk/www/s.html:47 onedesk/www/s.html:55
+#: onedesk/public/js/project.js:151 onedesk/www/s.html:48 onedesk/www/s.html:56
 msgid "Open"
 msgstr ""
 
@@ -6745,7 +6753,7 @@ msgstr ""
 msgid "Open record"
 msgstr ""
 
-#: onedesk/www/s.html:119
+#: onedesk/www/s.html:120
 msgid "Open {0}"
 msgstr ""
 
@@ -7079,7 +7087,7 @@ msgstr ""
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 #: onedesk/one_storage/page/onecloud/onecloud.js:1206
 #: onedesk/one_storage/page/onecloud/onecloud.js:1355
-#: onedesk/one_storage/page/onecloud/onecloud.js:1558 onedesk/www/s.html:45
+#: onedesk/one_storage/page/onecloud/onecloud.js:1558 onedesk/www/s.html:46
 msgid "Password"
 msgstr ""
 
@@ -8162,7 +8170,7 @@ msgstr ""
 msgid "Repeats {0}"
 msgstr ""
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:1879 onedesk/www/r.html:45
+#: onedesk/one_storage/page/onecloud/onecloud.js:1879 onedesk/www/r.html:47
 msgid "Replace"
 msgstr ""
 
@@ -8223,7 +8231,7 @@ msgstr ""
 
 #. Label of the required (Check) field in DocType 'Cloud File Request Item'
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
-#: onedesk/one_storage/page/onecloud/onecloud.js:1414 onedesk/www/r.html:35
+#: onedesk/one_storage/page/onecloud/onecloud.js:1414 onedesk/www/r.html:36
 msgid "Required"
 msgstr ""
 
@@ -8533,8 +8541,8 @@ msgstr ""
 msgid "Selling"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:198 onedesk/www/r.html:45
-#: onedesk/www/s.html:106
+#: onedesk/public/js/oneai/Panel.vue:198 onedesk/www/r.html:47
+#: onedesk/www/s.html:107
 msgid "Send"
 msgstr ""
 
@@ -8546,11 +8554,11 @@ msgstr ""
 msgid "Send each person their link"
 msgstr ""
 
-#: onedesk/www/s.html:104
+#: onedesk/www/s.html:105
 msgid "Send files here"
 msgstr ""
 
-#: onedesk/www/s.html:64
+#: onedesk/www/s.html:65
 msgid "Send me a code"
 msgstr ""
 
@@ -8561,6 +8569,10 @@ msgstr ""
 
 #: onedesk/public/js/oneai/Panel.vue:146
 msgid "Send this again"
+msgstr ""
+
+#: onedesk/www/r.html:47 onedesk/www/s.html:107
+msgid "Sending…"
 msgstr ""
 
 #. Label of the one_ai_sensitive (Check) field in DocType 'Employee Grievance'
@@ -8597,7 +8609,7 @@ msgstr ""
 msgid "Sent {0} files. Thank you."
 msgstr ""
 
-#: onedesk/www/r.html:38
+#: onedesk/www/r.html:40
 msgid "Sent: {0}"
 msgstr ""
 
@@ -9803,7 +9815,7 @@ msgstr ""
 msgid "The cheque or transfer number. The invoice's number when left empty."
 msgstr ""
 
-#: onedesk/www/s.html:53
+#: onedesk/www/s.html:54
 msgid "The code sent to {0}"
 msgstr ""
 
@@ -10174,7 +10186,7 @@ msgstr ""
 msgid "This file is attached to a record, and goes to whoever may open the record."
 msgstr ""
 
-#: onedesk/one_storage/page/onecloud/onecloud.js:284 onedesk/www/s.html:96
+#: onedesk/one_storage/page/onecloud/onecloud.js:284 onedesk/www/s.html:97
 msgid "This folder is empty."
 msgstr ""
 
@@ -10190,7 +10202,7 @@ msgstr ""
 msgid "This is paid in another currency. Use Create › Payment."
 msgstr ""
 
-#: onedesk/www/r.html:16 onedesk/www/s.html:34
+#: onedesk/www/r.html:17 onedesk/www/s.html:35
 msgid "This link does not open anything"
 msgstr ""
 
@@ -10226,7 +10238,7 @@ msgstr ""
 msgid "This request expired. Try again."
 msgstr ""
 
-#: onedesk/www/r.html:26 onedesk/www/r.py:19
+#: onedesk/www/r.html:27 onedesk/www/r.py:19
 msgid "This request is closed."
 msgstr ""
 
@@ -10246,7 +10258,7 @@ msgstr ""
 msgid "This takes a few minutes. A link will be emailed to {0} when it is ready."
 msgstr ""
 
-#: onedesk/www/s.html:63
+#: onedesk/www/s.html:64
 msgid "This was shared with particular people. We will send a code to the address it was shared with."
 msgstr ""
 
@@ -11648,7 +11660,7 @@ msgstr ""
 msgid "You checked in but never checked out, so a check out was written for you at the shift end. Tell HR if that is wrong."
 msgstr ""
 
-#: onedesk/www/r.html:27
+#: onedesk/www/r.html:28
 msgid "You have sent everything that was asked for. You can still replace a file."
 msgstr ""
 
@@ -11730,7 +11742,7 @@ msgstr ""
 msgid "Your drive passwords"
 msgstr ""
 
-#: onedesk/www/s.html:61
+#: onedesk/www/s.html:62
 msgid "Your email address"
 msgstr ""
 
@@ -11940,6 +11952,14 @@ msgstr ""
 msgid "opened {0} times"
 msgstr ""
 
+#: onedesk/templates/includes/one_drop.html:11
+msgid "or drop it here"
+msgstr ""
+
+#: onedesk/templates/includes/one_drop.html:11
+msgid "or drop them here"
+msgstr ""
+
 #. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "other"
@@ -12104,7 +12124,7 @@ msgstr ""
 msgid "{0} asks you for files: {1}"
 msgstr ""
 
-#: onedesk/www/r.html:21
+#: onedesk/www/r.html:22
 msgid "{0} asks you for these files."
 msgstr ""
 
@@ -12570,11 +12590,11 @@ msgstr ""
 msgid "{0} sent {1} for {2}"
 msgstr ""
 
-#: onedesk/www/s.html:78
+#: onedesk/www/s.html:79
 msgid "{0} shared this folder with you."
 msgstr ""
 
-#: onedesk/www/s.html:39 onedesk/www/s.html:112
+#: onedesk/www/s.html:40 onedesk/www/s.html:113
 msgid "{0} shared this with you."
 msgstr ""
 

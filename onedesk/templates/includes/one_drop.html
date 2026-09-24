@@ -1,0 +1,17 @@
+{#- Lucide's upload and file icons, drawn here because the page carries no
+    sprite. A file picker that looks like the desk's, for the pages people outside
+    the team see: a dashed box to drop files on, with a button in it. The
+    input is the real one underneath, so the form still posts without
+    JavaScript; public/js/one_drop.js adds dropping and the chosen list. -#}
+{% macro drop(multiple=False, accept="") -%}
+<label class="one-drop">
+	<input type="file" name="file" {% if multiple %}multiple{% endif %} {% if accept %}accept="{{ accept }}"{% endif %} required>
+	<span class="one-drop__empty">
+		<svg class="one-drop__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg>
+		<span class="one-drop__pick">{{ _("Choose files") if multiple else _("Choose a file") }}</span>
+		<span class="one-drop__or">{{ _("or drop them here") if multiple else _("or drop it here") }}</span>
+	</span>
+	<span class="one-drop__chosen" hidden></span>
+	<template class="one-drop__file-icon"><svg class="one-drop__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg></template>
+</label>
+{%- endmacro %}

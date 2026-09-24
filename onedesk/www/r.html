@@ -1,4 +1,5 @@
 {% extends "templates/web.html" %}
+{% from "templates/includes/one_drop.html" import drop with context %}
 {% block title %}{{ doc.title if doc else _("Not found") }}{% endblock %}
 
 {%- block navbar -%}{%- endblock -%}
@@ -35,16 +36,16 @@
 						{% if one.required %}<small class="one-ask__need">{{ _("Required") }}</small>{% endif %}
 					</div>
 					{% if one.description %}<p class="one-note">{{ one.description }}</p>{% endif %}
+					{% if one.kinds and not closed %}<p class="one-ask__kinds">{{ _("As {0}").format(one.kinds) }}</p>{% endif %}
 					{% if one.sent %}<p class="one-ask__sent">{{ _("Sent: {0}").format(", ".join(one.sent)) }}</p>{% endif %}
 					{% if not closed %}
 					<form method="post" enctype="multipart/form-data" action="/api/method/onedesk.one_storage.file_requests.send">
 						<input type="hidden" name="csrf_token" value="{{ frappe.session.csrf_token or '' }}">
 						<input type="hidden" name="token" value="{{ token }}">
 						<input type="hidden" name="item" value="{{ one.name }}">
-						<input type="file" name="file" {% if one.several %}multiple{% endif %} {% if one.accept %}accept="{{ one.accept }}"{% endif %} required>
-						<button class="one-ask__go" type="submit">{{ _("Replace") if one.sent and not one.several else _("Send") }}</button>
+						{{ drop(multiple=one.several, accept=one.accept) }}
+						<button class="one-ask__go" type="submit" data-busy="{{ _('Sending…') }}">{{ _("Replace") if one.sent and not one.several else _("Send") }}</button>
 					</form>
-					{% if one.kinds %}<small class="one-note">{{ _("As {0}").format(one.kinds) }}</small>{% endif %}
 					{% endif %}
 				</li>
 			{% endfor %}
@@ -52,3 +53,5 @@
 	{% endif %}
 </div>
 {% endblock %}
+
+{% block script %}{{ super() }}<script src="/assets/onedesk/js/one_drop.js"></script>{% endblock %}
