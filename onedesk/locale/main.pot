@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 14:08+0000\n"
-"PO-Revision-Date: 2026-09-24 14:08+0000\n"
+"POT-Creation-Date: 2026-09-24 14:46+0000\n"
+"PO-Revision-Date: 2026-09-24 14:46+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -6002,6 +6002,10 @@ msgstr ""
 msgid "No level set"
 msgstr ""
 
+#: onedesk/one_mail/outbound.py:48
+msgid "No mail account can send as {0}."
+msgstr ""
+
 #: onedesk/public/js/ai_model.js:43
 msgid "No markup is set, so this model cannot be called."
 msgstr ""
@@ -10307,6 +10311,10 @@ msgstr ""
 
 #: onedesk/public/js/crm_record.js:50
 msgid "This may be {0} {1}: the same {2}."
+msgstr ""
+
+#: onedesk/one_admin/mailing.py:66
+msgid "This message is larger than 5 MB. Share large files as OneCloud links."
 msgstr ""
 
 #: onedesk/one_hr/rules.py:36

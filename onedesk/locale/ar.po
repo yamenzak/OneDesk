@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 14:08+0000\n"
-"PO-Revision-Date: 2026-09-24 14:08+0000\n"
+"POT-Creation-Date: 2026-09-24 14:46+0000\n"
+"PO-Revision-Date: 2026-09-24 14:46+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -6004,6 +6004,10 @@ msgstr "لا توجد عناصر تطابق بحثك."
 msgid "No level set"
 msgstr "لا يوجد مستوى محدد"
 
+#: onedesk/one_mail/outbound.py:48
+msgid "No mail account can send as {0}."
+msgstr "لا يوجد حساب بريد يمكنه الإرسال باسم {0}."
+
 #: onedesk/public/js/ai_model.js:43
 msgid "No markup is set, so this model cannot be called."
 msgstr "لم يُحدَّد هامش، فلا يمكن استدعاء هذا النموذج."
@@ -10313,6 +10317,10 @@ msgstr "هذا الرابط لا يفتح أي شيء"
 #: onedesk/public/js/crm_record.js:50
 msgid "This may be {0} {1}: the same {2}."
 msgstr "قد يكون هذا {0} {1}: نفس {2}."
+
+#: onedesk/one_admin/mailing.py:66
+msgid "This message is larger than 5 MB. Share large files as OneCloud links."
+msgstr "هذه الرسالة أكبر من 5 ميغابايت. شارك الملفات الكبيرة كروابط OneCloud."
 
 #: onedesk/one_hr/rules.py:36
 msgid "This network belongs to you rather than to a workplace."

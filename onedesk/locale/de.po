@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 14:08+0000\n"
-"PO-Revision-Date: 2026-09-24 14:08+0000\n"
+"POT-Creation-Date: 2026-09-24 14:46+0000\n"
+"PO-Revision-Date: 2026-09-24 14:46+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -6004,6 +6004,10 @@ msgstr "Keine Elemente entsprechen Ihrer Suche."
 msgid "No level set"
 msgstr "Kein Mindestbestand"
 
+#: onedesk/one_mail/outbound.py:48
+msgid "No mail account can send as {0}."
+msgstr "Kein Mailkonto kann als {0} senden."
+
 #: onedesk/public/js/ai_model.js:43
 msgid "No markup is set, so this model cannot be called."
 msgstr "Es ist kein Aufschlag gesetzt, daher kann dieses Modell nicht aufgerufen werden."
@@ -10313,6 +10317,10 @@ msgstr "Dieser Link öffnet nichts"
 #: onedesk/public/js/crm_record.js:50
 msgid "This may be {0} {1}: the same {2}."
 msgstr "Dies könnte {0} {1} sein: gleiche {2}."
+
+#: onedesk/one_admin/mailing.py:66
+msgid "This message is larger than 5 MB. Share large files as OneCloud links."
+msgstr "Diese Nachricht ist größer als 5 MB. Teilen Sie große Dateien als OneCloud-Links."
 
 #: onedesk/one_hr/rules.py:36
 msgid "This network belongs to you rather than to a workplace."

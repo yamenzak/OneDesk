@@ -356,6 +356,16 @@ def mail_names(names: str | list) -> list[str]:
 	return wanted
 
 
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def mail_send(sender: str, recipient: str, message: str) -> dict:
+	"""One message, as the workspace's Email Queue built it, from one of its
+	own addresses on the mail domain. See mailing.py for what is checked."""
+	from onedesk.one_admin import mailing
+
+	return mailing.send(_tenant_doc(caller()), sender, recipient, message)
+
+
 def _tenant_doc(tenant):
 	"""The whole record, once the caller has been established.
 

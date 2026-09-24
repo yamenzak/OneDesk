@@ -79,3 +79,55 @@ def test_kv_values_are_sent_as_multipart_not_a_form():
 	source = (tree.APP / "one_admin" / "cloudflare.py").read_text()
 	assert 'files={"value": (None, data), "metadata": (None, "{}")}' in source
 	assert 'data={"value": data' not in source
+
+
+def test_a_reply_carries_its_whole_ancestry_in_references():
+	threads = _load(MAIL / "threads.py", ("MESSAGE_ID", "ids"), re=re)
+	space = _load(MAIL / "outbound.py", ("KEPT", "chain"), threads=type("T", (), {"ids": staticmethod(threads["ids"])}))
+	assert space["chain"]("c@x", "<a@x> <b@x>") == ["a@x", "b@x", "c@x"]
+	assert space["chain"]("c@x", None) == ["c@x"]
+	assert space["chain"]("b@x", "<a@x> <b@x>") == ["a@x", "b@x"], "the parent once"
+	long = " ".join(f"<{n}@x>" for n in range(40))
+	assert len(space["chain"]("z@x", long)) == space["KEPT"]
+
+
+def test_a_workspace_sends_only_as_itself():
+	import types
+
+	addresses = _load(MAIL / "addresses.py", ("NAME", "RESERVED", "is_name", "is_workspace_name"), re=re)
+	fake = types.ModuleType("onedesk.one_mail.addresses")
+	fake.is_workspace_name = addresses["is_workspace_name"]
+	stood_in = {name: sys.modules.get(name) for name in ("onedesk", "onedesk.one_mail", "onedesk.one_mail.addresses")}
+	sys.modules.setdefault("onedesk", types.ModuleType("onedesk"))
+	sys.modules.setdefault("onedesk.one_mail", types.ModuleType("onedesk.one_mail"))
+	sys.modules["onedesk.one_mail.addresses"] = fake
+	try:
+		_check_allowed()
+	finally:
+		for name, was in stood_in.items():
+			if was is None:
+				sys.modules.pop(name, None)
+			else:
+				sys.modules[name] = was
+
+
+def _check_allowed():
+	allowed = _load(tree.APP / "one_admin" / "mailing.py", ("allowed",))["allowed"]
+	assert allowed("acme@m.4dl.app", "acme", "m.4dl.app")
+	assert allowed("Ahmad.Acme@M.4dl.app", "acme", "m.4dl.app")
+	assert not allowed("ceo@m.4dl.app", "acme", "m.4dl.app")
+	assert not allowed("acme@4dl.app", "acme", "m.4dl.app")
+	assert not allowed("acme@m.4dl.app.evil.com", "acme", "m.4dl.app")
+
+
+def test_sends_are_counted_atomically_and_refused_softly():
+	source = (tree.APP / "one_admin" / "mailing.py").read_text()
+	assert "frappe.cache.incrby(key, 1)" in source and "raise faults.Again(" in source
+	assert "LARGEST = 5 * 1024 * 1024" in source
+
+
+def test_every_email_goes_through_our_transport():
+	assert 'override_email_send = "onedesk.one_mail.outbound.send"' in HOOKS
+	assert '"before_insert": "onedesk.one_mail.outbound.file_sent"' in HOOKS
+	outbound = (MAIL / "outbound.py").read_text()
+	assert 'account.get("one_hosted")' in outbound and "server.session.sendmail(" in outbound

@@ -169,6 +169,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.domain_refresh`
 * `onedesk.one_admin.proxy.hello`
 * `onedesk.one_admin.proxy.mail_names`
+* `onedesk.one_admin.proxy.mail_send`
 * `onedesk.one_admin.proxy.mail_waiting`
 * `onedesk.one_admin.proxy.storage_delete`
 * `onedesk.one_admin.proxy.storage_get`

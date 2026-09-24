@@ -77,6 +77,33 @@ the desk's own Communication list.
     and saves attachments as Files on it. Taking one twice is taking it once.
 - **threads.py**: the thread is the earliest referenced message we hold,
   otherwise the message's own ID.
+Stage 2, sending, is built. Large attachments sent as OneCloud links, and
+undo send, come with the composer (stage 5).
+
+- **outbound.py** is Frappe's `override_email_send`. Email Queue builds each
+  message and calls it once per recipient. The hook replaces the transport
+  for every account, so it picks by the account the queue sends from:
+  - an address on the mail domain goes to admin as the finished MIME
+    message;
+  - any other account goes over its own SMTP, as Frappe would have sent it.
+  Queue statuses, retries and the IMAP Sent copy stay Frappe's. A reply
+  gains a `References` header on the way: its parent's references, then the
+  parent.
+- **one_admin/mailing.py** is admin's half. It checks that the From is on
+  the mail domain and is the workspace's own, that the message fits 5 MiB,
+  and that the workspace has sends left this hour and this day (200 and
+  2,000 unless site config says otherwise). The counts are atomic cache
+  increments; over the limit is `faults.Again`, so the queue retries later.
+  It then posts to Cloudflare's `send_raw`, which DKIM-signs for the mail
+  domain.
+- A hosted account names the mail domain as its SMTP host. It is never
+  dialled, but Frappe's queue refuses an outgoing account with no host.
+- A Communication sent from here is filed in Sent, in the thread of what it
+  answers. A new conversation's thread is its own Message-ID, set once
+  Frappe gives it one.
+- The workspace's address is the default outgoing account unless another
+  already is.
+
 - Fixed on the way: KV writes were sent as a form, so Cloudflare stored
   `value=…&metadata=…` as the value. The web router's routes had the same
   fault. They are multipart now, as the API takes them.

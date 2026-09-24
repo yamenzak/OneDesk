@@ -117,6 +117,10 @@ scheduler_events = {
 	],
 }
 
+# Every email this workspace sends: an address on the mail domain through
+# admin to Cloudflare, any other account over its own SMTP. See one_mail/outbound.py.
+override_email_send = "onedesk.one_mail.outbound.send"
+
 doc_events = {
 	# A customer's contact invited as a user can see the customer's projects.
 	# See one_project/portal.py.
@@ -281,11 +285,14 @@ doc_events = {
 		"on_update": "onedesk.one_task.capture.todo_changed",
 	},
 	"Communication": {
+		# Mail sent from here is in Sent and in its thread. See one_mail/outbound.py.
+		"before_insert": "onedesk.one_mail.outbound.file_sent",
+		"on_update": "onedesk.one_mail.outbound.thread_sent",
 		"after_insert": [
 			"onedesk.one_crm.capture.replied",
 			# An emailed answer to a project's ask. See one_project/updates.py.
 			"onedesk.one_project.updates.answered",
-		]
+		],
 	},
 	"Call Log": {"after_insert": "onedesk.one_crm.capture.replied"},
 	# The board has a column per stage. See one_crm/board.py.

@@ -120,8 +120,14 @@ def _make(address: str, sends: bool) -> str:
 			"one_hosted": 1,
 			"enable_incoming": 0,
 			"enable_outgoing": int(sends),
-			# Sending goes through override_email_send (stage 2); there is no
-			# SMTP server to log in to, so none is asked for.
+			# The workspace's own address sends for it, unless somebody has set up
+			# another account to; replacing it is a workspace setting (stage 4).
+			"default_outgoing": int(sends and not frappe.db.exists("Email Account", {"default_outgoing": 1})),
+			# Sending goes through override_email_send (outbound.py), so no SMTP
+			# server is ever dialled. Frappe's queue still builds an SMTPServer
+			# for the account and refuses one with no host, so the mail domain
+			# stands in for it; the session it would open is never asked for.
+			"smtp_server": domain(),
 			"no_smtp_authentication": 1,
 			"always_use_account_email_id_as_sender": 1,
 		}
