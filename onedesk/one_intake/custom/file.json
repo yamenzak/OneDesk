@@ -1,0 +1,35 @@
+{
+ "custom_fields": [
+  {
+   "doctype": "Custom Field",
+   "dt": "File",
+   "fieldname": "one_intake",
+   "fieldtype": "Check",
+   "insert_after": "one_library",
+   "label": "Read by OneAI",
+   "description": "New files in this folder and the folders inside it are read, filed and acted on by OneAI.",
+   "depends_on": "is_folder",
+   "read_only": 1,
+   "module": "One Intake",
+   "name": "File-one_intake"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "File",
+   "fieldname": "one_intake_for",
+   "fieldtype": "Link",
+   "options": "User",
+   "insert_after": "one_intake",
+   "label": "On Behalf Of",
+   "description": "OneAI does here only what this person may do.",
+   "depends_on": "one_intake",
+   "read_only": 1,
+   "module": "One Intake",
+   "name": "File-one_intake_for"
+  }
+ ],
+ "doctype": "File",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

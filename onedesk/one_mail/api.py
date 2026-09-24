@@ -59,9 +59,10 @@ def operators(text: str) -> dict:
 	return out
 
 
-def searched(query, C, asked: dict):
+def searched(query, C, asked: dict, inside: list[str] | None = None):
 	"""A query narrowed to what a search asked for. Each part narrows it
-	further; a word may be anywhere in the message."""
+	further; a word may be anywhere in the message. `inside` are messages
+	whose attachments hold every word (one_intake/search.py)."""
 	for value in asked["from"]:
 		query = query.where(C.sender.like(f"%{value}%") | C.sender_full_name.like(f"%{value}%"))
 	for value in asked["to"]:
@@ -76,16 +77,19 @@ def searched(query, C, asked: dict):
 		query = query.where(C.seen == 1)
 	if "starred" in asked["is"]:
 		query = query.where(C.one_flagged == 1)
+	every = None
 	for value in asked["words"]:
 		like = f"%{value}%"
-		# The body is searched as a LIKE: there is no full-text index behind it.
-		query = query.where(
+		said = (
 			C.subject.like(like)
 			| C.sender.like(like)
 			| C.sender_full_name.like(like)
 			| C.recipients.like(like)
 			| C.content.like(like)
 		)
+		every = said if every is None else every & said
+	if every is not None:
+		query = query.where(every | C.name.isin(inside) if inside else every)
 	return query
 
 
@@ -118,7 +122,11 @@ def conversations(account: str, folder: str | None = None, search: str | None = 
 	query = frappe.qb.from_(C).where(C.email_account == account).where(C.communication_medium == "Email")
 	search = (search or "").strip()
 	if search:
-		query = searched(query, C, operators(search)).where(C.one_folder.isnotnull())
+		from onedesk.one_intake import search as documents
+
+		asked = operators(search)
+		inside = documents.in_mail(account, " ".join(asked["words"])) if asked["words"] else []
+		query = searched(query, C, asked, inside).where(C.one_folder.isnotnull())
 	elif folder:
 		query = query.where(C.one_folder.isin(_paths(account, folder)))
 	else:

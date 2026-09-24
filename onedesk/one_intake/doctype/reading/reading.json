@@ -1,0 +1,209 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "field:key",
+ "creation": "2026-09-26 09:00:00.000000",
+ "description": "What OneAI read in one file or message. One per content, however many places it is in.",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "key",
+  "title",
+  "state",
+  "how",
+  "column_break_what",
+  "source_doctype",
+  "source_name",
+  "message_id",
+  "part_of",
+  "part",
+  "section_reading",
+  "language",
+  "page_count",
+  "history",
+  "column_break_reading",
+  "on_behalf_of",
+  "model",
+  "tries",
+  "read_on",
+  "error",
+  "section_text",
+  "text",
+  "structured"
+ ],
+ "fields": [
+  {
+   "fieldname": "key",
+   "fieldtype": "Data",
+   "label": "Key",
+   "reqd": 1,
+   "unique": 1,
+   "read_only": 1,
+   "description": "The content's hash, so the same file anywhere is read once."
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Select",
+   "label": "State",
+   "options": "Queued\nRead\nNeeds a Password\nUnreadable\nWaiting for Credits\nFailed",
+   "default": "Queued",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "how",
+   "fieldtype": "Data",
+   "label": "Read As",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_what",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "source_doctype",
+   "fieldtype": "Link",
+   "label": "First Found In",
+   "options": "DocType",
+   "read_only": 1
+  },
+  {
+   "fieldname": "source_name",
+   "fieldtype": "Dynamic Link",
+   "label": "First Found As",
+   "options": "source_doctype",
+   "read_only": 1
+  },
+  {
+   "fieldname": "message_id",
+   "fieldtype": "Data",
+   "label": "Message ID",
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "part_of",
+   "fieldtype": "Link",
+   "label": "Part Of",
+   "options": "Reading",
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "part",
+   "fieldtype": "Data",
+   "label": "Part",
+   "read_only": 1,
+   "description": "Which pages of a scan, or which file in an archive or message."
+  },
+  {
+   "fieldname": "section_reading",
+   "fieldtype": "Section Break",
+   "label": "Reading"
+  },
+  {
+   "fieldname": "language",
+   "fieldtype": "Data",
+   "label": "Language",
+   "read_only": 1
+  },
+  {
+   "fieldname": "page_count",
+   "fieldtype": "Int",
+   "label": "Pages",
+   "read_only": 1
+  },
+  {
+   "fieldname": "history",
+   "fieldtype": "Check",
+   "label": "History",
+   "read_only": 1,
+   "description": "There before OneAI was switched on, so it is only filed and searchable."
+  },
+  {
+   "fieldname": "column_break_reading",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "on_behalf_of",
+   "fieldtype": "Link",
+   "label": "On Behalf Of",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "model",
+   "fieldtype": "Data",
+   "label": "Model",
+   "read_only": 1
+  },
+  {
+   "fieldname": "tries",
+   "fieldtype": "Int",
+   "label": "Tries",
+   "read_only": 1
+  },
+  {
+   "fieldname": "read_on",
+   "fieldtype": "Datetime",
+   "label": "Read On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "error",
+   "fieldtype": "Small Text",
+   "label": "Error",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_text",
+   "fieldtype": "Section Break",
+   "label": "Text"
+  },
+  {
+   "fieldname": "text",
+   "fieldtype": "Long Text",
+   "label": "Text",
+   "read_only": 1
+  },
+  {
+   "fieldname": "structured",
+   "fieldtype": "JSON",
+   "label": "Data",
+   "read_only": 1,
+   "description": "What the file said as data, such as an e-invoice, a bank statement, a card or a message's headers."
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-26 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Intake",
+ "name": "Reading",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "report": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title",
+ "track_changes": 0
+}

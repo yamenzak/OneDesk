@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 16:24+0000\n"
-"PO-Revision-Date: 2026-09-24 16:24+0000\n"
+"POT-Creation-Date: 2026-09-24 19:00+0000\n"
+"PO-Revision-Date: 2026-09-24 19:00+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -31,7 +31,7 @@ msgstr "(aus dem Angefragten)"
 msgid "(no subject)"
 msgstr "(kein Betreff)"
 
-#: onedesk/public/js/onecloud.js:1605
+#: onedesk/public/js/onecloud.js:1615
 msgid "* required"
 msgstr "* erforderlich"
 
@@ -43,11 +43,11 @@ msgstr "1 Tag {0}."
 msgid "1 day of {0}; {1} left after."
 msgstr "1 Tag {0}; danach bleiben {1}."
 
-#: onedesk/public/js/onecloud.js:569
+#: onedesk/public/js/onecloud.js:576
 msgid "1 item"
 msgstr "1 Element"
 
-#: onedesk/public/js/onecloud.js:572
+#: onedesk/public/js/onecloud.js:579
 msgid "1 item selected"
 msgstr "1 Element ausgewählt"
 
@@ -167,11 +167,11 @@ msgstr "Eine Tatsache, die jemand OneAI zu behalten gebeten hat. Nur für diese 
 msgid "A field OneAI wrote, and what it wrote. The badge shows while the field still says it."
 msgstr "Ein Feld, das OneAI geschrieben hat, und was es geschrieben hat. Das Abzeichen bleibt, solange das Feld das noch sagt."
 
-#: onedesk/public/js/onecloud.js:1984
+#: onedesk/public/js/onecloud.js:2014
 msgid "A file with this name is already here"
 msgstr "Eine Datei mit diesem Namen ist bereits hier"
 
-#: onedesk/one_storage/api.py:208 onedesk/one_storage/api.py:323
+#: onedesk/one_storage/api.py:221 onedesk/one_storage/api.py:336
 msgid "A folder cannot go inside itself."
 msgstr "Ein Ordner kann nicht in sich selbst liegen."
 
@@ -223,7 +223,7 @@ msgstr "Eine Bibliothek braucht einen Namen."
 msgid "A link to a file or folder in OneCloud for people outside the team."
 msgstr "Ein Link zu einer Datei oder einem Ordner in OneCloud für Personen außerhalb des Teams."
 
-#: onedesk/public/js/onemail.js:768
+#: onedesk/public/js/onemail.js:786
 msgid "A mailbox such as sales@ that belongs to the workspace. You choose who holds it."
 msgstr "Ein Postfach wie sales@, das dem Arbeitsbereich gehört. Sie wählen, wer es hält."
 
@@ -303,7 +303,7 @@ msgstr "Eine eingereihte Arbeitseinheit für einen Arbeitsbereich. Wird vom Syst
 msgid "A rate needs a unit, how many of them, and what they cost."
 msgstr "Ein Preis braucht eine Einheit, wie viele davon und was sie kosten."
 
-#: onedesk/one_storage/api.py:136 onedesk/one_storage/api.py:321
+#: onedesk/one_storage/api.py:149 onedesk/one_storage/api.py:334
 msgid "A record holds files, not folders."
 msgstr "Ein Datensatz enthält Dateien, keine Ordner."
 
@@ -329,6 +329,12 @@ msgstr "Ein wiederholter Webhook trifft auf diesen Index statt auf eine Prüfung
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.py:11
 msgid "A rule can only move mail to a folder of its own mailbox."
 msgstr "Eine Regel kann Mails nur in einen Ordner ihres eigenen Postfachs verschieben."
+
+#. Description of the 'Most Pages Read' (Int) field in DocType 'Intake
+#. Settings'
+#: onedesk/one_intake/doctype/intake_settings/intake_settings.json
+msgid "A scan longer than this is read up to here. The rest stays searchable by its name."
+msgstr "Ein längerer Scan wird bis hierhin gelesen. Der Rest bleibt über seinen Namen auffindbar."
 
 #: onedesk/one_hr/ai_grievance.py:135
 msgid "A sensitive grievance was raised"
@@ -579,7 +585,7 @@ msgstr "Aktionen"
 msgid "Active"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:632 onedesk/public/js/record_activity.js:25
+#: onedesk/public/js/onecloud.js:639 onedesk/public/js/record_activity.js:25
 msgid "Activity"
 msgstr "Aktivität"
 
@@ -600,7 +606,7 @@ msgstr ""
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:32
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:20
 #: onedesk/one_task/page/my_tasks/my_tasks.js:25
-#: onedesk/public/js/onecloud.js:1385
+#: onedesk/public/js/onecloud.js:1395
 #: onedesk/public/js/workspace_account.js:201
 msgid "Add"
 msgstr "Hinzufügen"
@@ -665,7 +671,7 @@ msgstr "Bewerber aus Lebensläufen anlegen"
 msgid "Add leads from business cards"
 msgstr "Leads aus Visitenkarten anlegen"
 
-#: onedesk/public/js/onecloud.js:1181 onedesk/public/js/onecloud.js:1372
+#: onedesk/public/js/onecloud.js:1191 onedesk/public/js/onecloud.js:1382
 msgid "Add people"
 msgstr "Personen hinzufügen"
 
@@ -692,7 +698,7 @@ msgstr "Ergänzte Anweisungen"
 msgid "Added instructions are {0} characters; the most is {1}."
 msgstr "Die ergänzten Anweisungen haben {0} Zeichen; erlaubt sind höchstens {1}."
 
-#: onedesk/public/js/onemail.js:832
+#: onedesk/public/js/onemail.js:850
 msgid "Added to every message written from this address, whoever writes it. Leave it empty for none."
 msgstr "Wird jeder Nachricht von dieser Adresse angefügt, egal wer sie schreibt. Leer lassen für keine."
 
@@ -728,8 +734,8 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/public/js/onecloud.js:1451 onedesk/public/js/onecloud.js:1643
-#: onedesk/public/js/onemail.js:754
+#: onedesk/public/js/onecloud.js:1461 onedesk/public/js/onecloud.js:1653
+#: onedesk/public/js/onemail.js:772
 msgid "Address"
 msgstr "Adresse"
 
@@ -920,11 +926,11 @@ msgstr "Eines davon"
 
 #. Option for the 'Audience' (Select) field in DocType 'Cloud Link'
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
-#: onedesk/public/js/onecloud.js:1264 onedesk/public/js/onecloud.js:1292
+#: onedesk/public/js/onecloud.js:1274 onedesk/public/js/onecloud.js:1302
 msgid "Anyone with the link"
 msgstr "Alle mit dem Link"
 
-#: onedesk/public/js/onecloud.js:498
+#: onedesk/public/js/onecloud.js:502
 msgid "Anyone with the link can open this file"
 msgstr "Jeder mit dem Link kann diese Datei öffnen"
 
@@ -1095,7 +1101,7 @@ msgstr "Archiviert für"
 msgid "Archived."
 msgstr "Archiviert."
 
-#: onedesk/public/js/onecloud.js:1378
+#: onedesk/public/js/onecloud.js:1388
 msgid "As"
 msgstr "Als"
 
@@ -1108,7 +1114,7 @@ msgstr "Wie von Frappe Cloud gemeldet."
 msgid "As {0}"
 msgstr "Als {0}"
 
-#: onedesk/public/js/admin_settings.js:56 onedesk/public/js/onecloud.js:1543
+#: onedesk/public/js/admin_settings.js:56 onedesk/public/js/onecloud.js:1553
 msgid "Ask"
 msgstr ""
 
@@ -1130,7 +1136,7 @@ msgstr "Foto anfordern"
 msgid "Ask for a Reason on Check Out"
 msgstr "Beim Auschecken nach einem Grund fragen"
 
-#: onedesk/public/js/onecloud.js:1501
+#: onedesk/public/js/onecloud.js:1511
 msgid "Ask for files"
 msgstr "Dateien anfordern"
 
@@ -1138,7 +1144,7 @@ msgstr "Dateien anfordern"
 msgid "Ask next round"
 msgstr "In der nächsten Runde fragen"
 
-#: onedesk/public/js/onecloud.js:361
+#: onedesk/public/js/onecloud.js:365
 msgid "Ask people for files by name, each landing in a folder or on a record. Use New › File request in any folder or record."
 msgstr "Bitten Sie Personen um bestimmte Dateien, die jeweils in einem Ordner oder an einem Datensatz landen. Nutzen Sie Neu › Dateianfrage in jedem Ordner oder Datensatz."
 
@@ -1179,7 +1185,7 @@ msgstr "Angefragt, und Frappe Cloud hat noch nicht geantwortet."
 msgid "Asked on check out only. Options come from Clock Reason."
 msgstr "Wird nur beim Auschecken abgefragt. Die Auswahl stammt aus Einchecken-Grund."
 
-#: onedesk/public/js/onecloud.js:1553
+#: onedesk/public/js/onecloud.js:1563
 msgid "Asked. Each person has their link by email."
 msgstr "Angefragt. Jede Person hat ihren Link per E-Mail erhalten."
 
@@ -1270,7 +1276,7 @@ msgstr "Datei anhängen"
 msgid "Attach {0} files"
 msgstr "{0} Dateien anhängen"
 
-#: onedesk/public/js/onemail.js:925
+#: onedesk/public/js/onemail.js:943
 msgid "Attachments in OneCloud"
 msgstr "Anhänge in OneCloud"
 
@@ -1415,15 +1421,15 @@ msgstr "Abwesenheitsnachricht"
 msgid "Away Until"
 msgstr "Abwesend bis"
 
-#: onedesk/public/js/onemail.js:815
+#: onedesk/public/js/onemail.js:833
 msgid "Away replies are off."
 msgstr "Abwesenheitsantworten sind aus."
 
-#: onedesk/public/js/onemail.js:815
+#: onedesk/public/js/onemail.js:833
 msgid "Away replies are on."
 msgstr "Abwesenheitsantworten sind an."
 
-#: onedesk/public/js/onecloud.js:469 onedesk/public/js/onemail.js:277
+#: onedesk/public/js/onecloud.js:473 onedesk/public/js/onemail.js:277
 msgid "B"
 msgstr "B"
 
@@ -1790,12 +1796,12 @@ msgstr "Kampagnen"
 
 #. Label of the allow_download (Check) field in DocType 'Cloud Link'
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
-#: onedesk/public/js/onecloud.js:1305
+#: onedesk/public/js/onecloud.js:1315
 msgid "Can download"
 msgstr "Kann herunterladen"
 
-#: onedesk/public/js/onecloud.js:1213 onedesk/public/js/onecloud.js:1215
-#: onedesk/public/js/onecloud.js:1216
+#: onedesk/public/js/onecloud.js:1223 onedesk/public/js/onecloud.js:1225
+#: onedesk/public/js/onecloud.js:1226
 msgid "Can edit"
 msgstr "Kann bearbeiten"
 
@@ -1804,12 +1810,12 @@ msgstr "Kann bearbeiten"
 msgid "Can upload"
 msgstr "Kann hochladen"
 
-#: onedesk/public/js/onecloud.js:1306
+#: onedesk/public/js/onecloud.js:1316
 msgid "Can upload files into it"
 msgstr "Kann Dateien hineinladen"
 
-#: onedesk/public/js/onecloud.js:1213 onedesk/public/js/onecloud.js:1215
-#: onedesk/public/js/onecloud.js:1216
+#: onedesk/public/js/onecloud.js:1223 onedesk/public/js/onecloud.js:1225
+#: onedesk/public/js/onecloud.js:1226
 msgid "Can view"
 msgstr "Kann ansehen"
 
@@ -2049,7 +2055,7 @@ msgstr "Datei auswählen"
 msgid "Choose a file first."
 msgstr "Wählen Sie zuerst eine Datei."
 
-#: onedesk/one_mail/api.py:125
+#: onedesk/one_mail/api.py:133
 msgid "Choose a folder."
 msgstr "Wählen Sie einen Ordner."
 
@@ -2163,12 +2169,12 @@ msgstr "Einchecken-Grund"
 msgid "Clock Signal"
 msgstr "Einchecken-Signal"
 
-#: onedesk/public/js/oneai/Panel.vue:30 onedesk/public/js/onecloud.js:2100
+#: onedesk/public/js/oneai/Panel.vue:30 onedesk/public/js/onecloud.js:2130
 #: onedesk/public/js/opportunity.js:17
 msgid "Close"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:1613
+#: onedesk/public/js/onecloud.js:1623
 msgid "Close request"
 msgstr "Anfrage schließen"
 
@@ -2183,7 +2189,7 @@ msgstr ""
 msgid "Closed Automatically"
 msgstr "Automatisch geschlossen"
 
-#: onedesk/public/js/onecloud.js:1605
+#: onedesk/public/js/onecloud.js:1615
 msgid "Closed. The links take nothing more."
 msgstr "Geschlossen. Die Links nehmen nichts mehr an."
 
@@ -2258,7 +2264,7 @@ msgstr "Cluster"
 msgid "Code"
 msgstr "Code"
 
-#: onedesk/public/js/onecloud.js:685
+#: onedesk/public/js/onecloud.js:692
 msgid "Collapse"
 msgstr "Einklappen"
 
@@ -2269,9 +2275,9 @@ msgstr "Kollege"
 
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-#: onedesk/one_storage/history.py:218 onedesk/one_storage/namespace.py:381
-#: onedesk/one_storage/namespace.py:519 onedesk/one_storage/namespace.py:620
-#: onedesk/one_storage/namespace.py:770
+#: onedesk/one_storage/history.py:218 onedesk/one_storage/namespace.py:383
+#: onedesk/one_storage/namespace.py:521 onedesk/one_storage/namespace.py:622
+#: onedesk/one_storage/namespace.py:772
 msgid "Company"
 msgstr "Unternehmen"
 
@@ -2292,7 +2298,7 @@ msgstr "Wird als Text mit dem aktuellen Feldinhalt verglichen. Eine Bearbeitung 
 #. Recipient'
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/one_task/page/my_tasks/my_tasks.js:112
-#: onedesk/public/js/onecloud.js:1586 onedesk/public/js/timesheet.js:76
+#: onedesk/public/js/onecloud.js:1596 onedesk/public/js/timesheet.js:76
 msgid "Complete"
 msgstr ""
 
@@ -2333,11 +2339,11 @@ msgstr "Bestätigungsschwelle"
 msgid "Confirmed"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:1479 onedesk/public/js/onemail.js:779
+#: onedesk/public/js/onecloud.js:1489 onedesk/public/js/onemail.js:797
 msgid "Connect"
 msgstr "Verbinden"
 
-#: onedesk/public/js/onemail.js:72 onedesk/public/js/onemail.js:752
+#: onedesk/public/js/onemail.js:72 onedesk/public/js/onemail.js:770
 msgid "Connect a mailbox"
 msgstr "Postfach verbinden"
 
@@ -2345,19 +2351,19 @@ msgstr "Postfach verbinden"
 msgid "Connect a mailbox to read and write your mail here."
 msgstr "Verbinden Sie ein Postfach, um Ihre Mails hier zu lesen und zu schreiben."
 
-#: onedesk/public/js/onecloud.js:1442 onedesk/public/js/onecloud.js:1772
+#: onedesk/public/js/onecloud.js:1452 onedesk/public/js/onecloud.js:1802
 msgid "Connect a server"
 msgstr "Server verbinden"
 
-#: onedesk/public/js/onecloud.js:360
+#: onedesk/public/js/onecloud.js:364
 msgid "Connect an SFTP or WebDAV server to open its files here. Use New."
 msgstr "Verbinden Sie einen SFTP- oder WebDAV-Server, um seine Dateien hier zu öffnen. Nutzen Sie „Neu“."
 
-#: onedesk/public/js/onecloud.js:1763 onedesk/public/js/onecloud.js:1791
+#: onedesk/public/js/onecloud.js:1790 onedesk/public/js/onecloud.js:1821
 msgid "Connect as a drive…"
 msgstr "Als Laufwerk verbinden…"
 
-#: onedesk/public/js/onecloud.js:1641
+#: onedesk/public/js/onecloud.js:1651
 msgid "Connect {0} as a drive"
 msgstr "{0} als Laufwerk verbinden"
 
@@ -2366,7 +2372,7 @@ msgstr "{0} als Laufwerk verbinden"
 msgid "Connected to OneMail"
 msgstr "Mit OneMail verbunden"
 
-#: onedesk/public/js/onemail.js:785
+#: onedesk/public/js/onemail.js:803
 msgid "Connected. Its mail is on its way."
 msgstr "Verbunden. Die Mails sind unterwegs."
 
@@ -2417,16 +2423,16 @@ msgstr "Unterhaltung"
 msgid "Conversations"
 msgstr "Unterhaltungen"
 
-#: onedesk/public/js/onecloud.js:958 onedesk/public/js/onecloud.js:1155
+#: onedesk/public/js/onecloud.js:965 onedesk/public/js/onecloud.js:1165
 msgid "Copied 1 item"
 msgstr "1 Element kopiert"
 
-#: onedesk/public/js/onecloud.js:958 onedesk/public/js/onecloud.js:1155
+#: onedesk/public/js/onecloud.js:965 onedesk/public/js/onecloud.js:1165
 msgid "Copied {0} items"
 msgstr "{0} Elemente kopiert"
 
-#: onedesk/public/js/onecloud.js:90 onedesk/public/js/onecloud.js:1562
-#: onedesk/public/js/onecloud.js:1659 onedesk/public/js/onecloud.js:1754
+#: onedesk/public/js/onecloud.js:90 onedesk/public/js/onecloud.js:1572
+#: onedesk/public/js/onecloud.js:1669 onedesk/public/js/onecloud.js:1781
 msgid "Copy"
 msgstr "Kopieren"
 
@@ -2434,12 +2440,12 @@ msgstr "Kopieren"
 msgid "Copy Link"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:1259 onedesk/public/js/onecloud.js:1587
-#: onedesk/public/js/onecloud.js:1750
+#: onedesk/public/js/onecloud.js:1269 onedesk/public/js/onecloud.js:1597
+#: onedesk/public/js/onecloud.js:1777
 msgid "Copy link"
 msgstr "Link kopieren"
 
-#: onedesk/one_storage/api.py:308
+#: onedesk/one_storage/api.py:321
 msgid "Copy the files in {0}, not the folder, to or from a server."
 msgstr "Kopieren Sie die Dateien in {0}, nicht den Ordner, zu oder von einem Server."
 
@@ -2482,7 +2488,7 @@ msgstr "Feiertage einschließen"
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/public/js/invoice.js:94 onedesk/public/js/onecloud.js:1354
+#: onedesk/public/js/invoice.js:94 onedesk/public/js/onecloud.js:1364
 #: onedesk/public/js/opportunity.js:18 onedesk/public/js/opportunity.js:19
 #: onedesk/public/js/project.js:127 onedesk/public/js/project.js:188
 msgid "Create"
@@ -2492,8 +2498,8 @@ msgstr "Erstellen"
 msgid "Create a {0}"
 msgstr "{0} anlegen"
 
-#: onedesk/public/js/onecloud.js:1258 onedesk/public/js/onecloud.js:1285
-#: onedesk/public/js/onecloud.js:1315
+#: onedesk/public/js/onecloud.js:1268 onedesk/public/js/onecloud.js:1295
+#: onedesk/public/js/onecloud.js:1325
 msgid "Create link"
 msgstr "Link erstellen"
 
@@ -2607,7 +2613,7 @@ msgstr "Guthaben je Dollar"
 msgid "Currency"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:633
+#: onedesk/public/js/onecloud.js:640
 msgid "Current"
 msgstr "Aktuell"
 
@@ -2636,15 +2642,15 @@ msgstr ""
 msgid "Customers"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:89 onedesk/public/js/onecloud.js:1753
+#: onedesk/public/js/onecloud.js:89 onedesk/public/js/onecloud.js:1780
 msgid "Cut"
 msgstr "Ausschneiden"
 
-#: onedesk/public/js/onecloud.js:958
+#: onedesk/public/js/onecloud.js:965
 msgid "Cut 1 item"
 msgstr "1 Element ausgeschnitten"
 
-#: onedesk/public/js/onecloud.js:958
+#: onedesk/public/js/onecloud.js:965
 msgid "Cut {0} items"
 msgstr "{0} Elemente ausgeschnitten"
 
@@ -2653,16 +2659,21 @@ msgstr "{0} Elemente ausgeschnitten"
 msgid "Daily"
 msgstr ""
 
+#. Label of the structured (JSON) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Data"
+msgstr ""
+
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:152
-#: onedesk/public/js/onemail.js:718 onedesk/public/js/overtime.js:25
+#: onedesk/public/js/onemail.js:736 onedesk/public/js/overtime.js:25
 msgid "Date"
 msgstr "Datum"
 
-#: onedesk/public/js/onecloud.js:323
+#: onedesk/public/js/onecloud.js:327
 msgid "Date deleted"
 msgstr "Löschdatum"
 
-#: onedesk/public/js/onecloud.js:120 onedesk/public/js/onecloud.js:323
+#: onedesk/public/js/onecloud.js:120 onedesk/public/js/onecloud.js:327
 msgid "Date modified"
 msgstr "Änderungsdatum"
 
@@ -2804,7 +2815,7 @@ msgstr "Standardmodell"
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/public/js/onecloud.js:95 onedesk/public/js/onecloud.js:1765
+#: onedesk/public/js/onecloud.js:95 onedesk/public/js/onecloud.js:1795
 #: onedesk/public/js/onemail.js:88 onedesk/public/js/onemail.js:401
 msgid "Delete"
 msgstr "Löschen"
@@ -2819,11 +2830,11 @@ msgstr "Fotos löschen nach (Tage)"
 msgid "Delete Recording Audio After (Days)"
 msgstr "Audio der Aufnahme löschen nach (Tagen)"
 
-#: onedesk/public/js/onecloud.js:1026
+#: onedesk/public/js/onecloud.js:1036
 msgid "Delete everything in the Recycle Bin for good? This cannot be undone."
 msgstr "Alles im Papierkorb endgültig löschen? Das kann nicht rückgängig gemacht werden."
 
-#: onedesk/public/js/onecloud.js:1740
+#: onedesk/public/js/onecloud.js:1767
 msgid "Delete for good"
 msgstr "Endgültig löschen"
 
@@ -2831,11 +2842,11 @@ msgstr "Endgültig löschen"
 msgid "Delete these messages for good? This cannot be undone."
 msgstr "Diese Nachrichten endgültig löschen? Das lässt sich nicht rückgängig machen."
 
-#: onedesk/public/js/onecloud.js:1018
+#: onedesk/public/js/onecloud.js:1028
 msgid "Delete these {0} items for good? This cannot be undone."
 msgstr "Diese {0} Elemente endgültig löschen? Das kann nicht rückgängig gemacht werden."
 
-#: onedesk/public/js/onecloud.js:1131
+#: onedesk/public/js/onecloud.js:1141
 msgid "Delete these {0} items from the server? This cannot be undone."
 msgstr "Diese {0} Elemente vom Server löschen? Das kann nicht rückgängig gemacht werden."
 
@@ -2843,15 +2854,15 @@ msgstr "Diese {0} Elemente vom Server löschen? Das kann nicht rückgängig gema
 msgid "Delete {0}"
 msgstr "{0} löschen"
 
-#: onedesk/public/js/onecloud.js:1017
+#: onedesk/public/js/onecloud.js:1027
 msgid "Delete {0} for good? This cannot be undone."
 msgstr "{0} endgültig löschen? Das kann nicht rückgängig gemacht werden."
 
-#: onedesk/public/js/onecloud.js:1130
+#: onedesk/public/js/onecloud.js:1140
 msgid "Delete {0} from the server? This cannot be undone."
 msgstr "{0} vom Server löschen? Das kann nicht rückgängig gemacht werden."
 
-#: onedesk/public/js/onecloud.js:608
+#: onedesk/public/js/onecloud.js:615
 msgid "Deleted"
 msgstr "Gelöscht"
 
@@ -2937,7 +2948,7 @@ msgstr ""
 msgid "Detail"
 msgstr "Einzelheit"
 
-#: onedesk/public/js/onecloud.js:102 onedesk/public/js/onecloud.js:1781
+#: onedesk/public/js/onecloud.js:102 onedesk/public/js/onecloud.js:1811
 msgid "Details"
 msgstr "Details"
 
@@ -2956,7 +2967,7 @@ msgstr "Geräte-ID"
 msgid "Disabled"
 msgstr "Deaktiviert"
 
-#: onedesk/public/js/onecloud.js:1732
+#: onedesk/public/js/onecloud.js:1759
 msgid "Disconnect"
 msgstr "Trennen"
 
@@ -2964,7 +2975,7 @@ msgstr "Trennen"
 msgid "Disconnect the server instead."
 msgstr "Trennen Sie stattdessen den Server."
 
-#: onedesk/public/js/onecloud.js:939
+#: onedesk/public/js/onecloud.js:946
 msgid "Disconnect {0}? Nothing on the server is touched."
 msgstr "{0} trennen? Auf dem Server wird nichts verändert."
 
@@ -3053,7 +3064,7 @@ msgstr "Wartende Domains"
 #: onedesk/public/js/ai_proposal_list.js:10 onedesk/public/js/decision.js:39
 #: onedesk/public/js/job.js:27 onedesk/public/js/job.js:44
 #: onedesk/public/js/job.js:49 onedesk/public/js/learned.js:34
-#: onedesk/public/js/onecloud.js:2107 onedesk/public/js/project.js:62
+#: onedesk/public/js/onecloud.js:2137 onedesk/public/js/project.js:62
 #: onedesk/public/js/shift_type.js:29
 msgid "Done"
 msgstr ""
@@ -3070,7 +3081,7 @@ msgstr "Erledigt. Es wurde {0} geschrieben."
 msgid "Done: {0}"
 msgstr "Erledigt: {0}"
 
-#: onedesk/public/js/onecloud.js:94 onedesk/public/js/onecloud.js:1749
+#: onedesk/public/js/onecloud.js:94 onedesk/public/js/onecloud.js:1776
 #: onedesk/www/s.html:91 onedesk/www/s.html:123
 msgid "Download"
 msgstr "Herunterladen"
@@ -3176,7 +3187,7 @@ msgstr "Fällig"
 
 #. Label of the due_date (Date) field in DocType 'Cloud File Request'
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
-#: onedesk/public/js/onecloud.js:1507
+#: onedesk/public/js/onecloud.js:1517
 msgid "Due Date"
 msgstr ""
 
@@ -3226,21 +3237,21 @@ msgstr "Die Abschreibung jedes Anlageguts wird bei Fälligkeit gebucht."
 msgid "Each sender gets one out-of-office reply in four days, from this mailbox."
 msgstr "Jeder Absender erhält alle vier Tage eine Abwesenheitsantwort aus diesem Postfach."
 
-#: onedesk/public/js/onemail.js:806
+#: onedesk/public/js/onemail.js:824
 msgid "Each sender gets one reply in four days. Mailing lists and automatic mail get none."
 msgstr "Jeder Absender erhält alle vier Tage eine Antwort. Mailinglisten und automatische Mails erhalten keine."
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/public/js/onecloud.js:1190
+#: onedesk/public/js/onecloud.js:1200
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: onedesk/public/js/onecloud.js:1731
+#: onedesk/public/js/onecloud.js:1758
 msgid "Edit connection…"
 msgstr "Verbindung bearbeiten…"
 
-#: onedesk/public/js/onecloud.js:1442
+#: onedesk/public/js/onecloud.js:1452
 msgid "Edit {0}"
 msgstr "{0} bearbeiten"
 
@@ -3280,11 +3291,11 @@ msgstr ""
 msgid "Email Group"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:1300
+#: onedesk/public/js/onecloud.js:1310
 msgid "Email addresses"
 msgstr "E-Mail-Adressen"
 
-#: onedesk/public/js/onecloud.js:1505
+#: onedesk/public/js/onecloud.js:1515
 msgid "Email addresses, one per line."
 msgstr "E-Mail-Adressen, eine pro Zeile."
 
@@ -3525,8 +3536,10 @@ msgstr "Wartungspflichtige Ausstattung hat einen Plan"
 
 #. Label of the error (Small Text) field in DocType 'Provisioning Job'
 #. Label of the error (Small Text) field in DocType 'Stripe Webhook Event'
+#. Label of the error (Small Text) field in DocType 'Reading'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
+#: onedesk/one_intake/doctype/reading/reading.json
 msgid "Error"
 msgstr ""
 
@@ -3592,7 +3605,7 @@ msgstr "Jedes abgelaufene Jahr ist abgeschlossen"
 msgid "Everyone on the team"
 msgstr "Alle im Team"
 
-#: onedesk/public/js/onecloud.js:1474
+#: onedesk/public/js/onecloud.js:1484
 msgid "Everyone on the team can open it"
 msgstr "Alle im Team können ihn öffnen"
 
@@ -3624,7 +3637,7 @@ msgstr "Freibetragsnachweis"
 msgid "Existing workspaces keep what they bought. This only stops new signups."
 msgstr "Bestehende Arbeitsbereiche behalten, was sie gekauft haben. Das stoppt nur neue Anmeldungen."
 
-#: onedesk/public/js/onecloud.js:685
+#: onedesk/public/js/onecloud.js:692
 msgid "Expand"
 msgstr "Ausklappen"
 
@@ -3689,7 +3702,7 @@ msgstr ""
 
 #. Label of the expires_on (Datetime) field in DocType 'Cloud Link'
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
-#: onedesk/public/js/onecloud.js:1307
+#: onedesk/public/js/onecloud.js:1317
 msgid "Expires on"
 msgstr "Läuft ab am"
 
@@ -3728,12 +3741,14 @@ msgstr "Fakt"
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #. Option for the 'Status' (Select) field in DocType 'Interview Recording'
 #. Option for the 'State' (Select) field in DocType 'Interview Recording Part'
+#. Option for the 'State' (Select) field in DocType 'Reading'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
-#: onedesk/public/js/admin_settings.js:30 onedesk/public/js/onecloud.js:2107
+#: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/public/js/admin_settings.js:30 onedesk/public/js/onecloud.js:2137
 msgid "Failed"
 msgstr ""
 
@@ -3794,14 +3809,14 @@ msgstr ""
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json
 #: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
-#: onedesk/public/js/onecloud.js:464 onedesk/public/js/onecloud.js:1518
+#: onedesk/public/js/onecloud.js:468 onedesk/public/js/onecloud.js:1528
 #: onedesk/public/js/onemail.js:452
 msgid "File"
 msgstr "Datei"
 
 #. Label of the accept (Data) field in DocType 'Cloud File Request Item'
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
-#: onedesk/public/js/onecloud.js:1521
+#: onedesk/public/js/onecloud.js:1531
 msgid "File Types"
 msgstr "Dateitypen"
 
@@ -3810,7 +3825,7 @@ msgstr "Dateitypen"
 msgid "File URL"
 msgstr "Datei-URL"
 
-#: onedesk/public/js/onecloud.js:460
+#: onedesk/public/js/onecloud.js:464
 msgid "File folder"
 msgstr "Dateiordner"
 
@@ -3818,12 +3833,12 @@ msgstr "Dateiordner"
 msgid "File on a record"
 msgstr "Bei einem Datensatz ablegen"
 
-#: onedesk/one_storage/file_requests.py:124 onedesk/public/js/onecloud.js:459
-#: onedesk/public/js/onecloud.js:1701 onedesk/public/js/onecloud.js:1710
+#: onedesk/one_storage/file_requests.py:124 onedesk/public/js/onecloud.js:463
+#: onedesk/public/js/onecloud.js:1728 onedesk/public/js/onecloud.js:1737
 msgid "File request"
 msgstr "Dateianfrage"
 
-#: onedesk/public/js/onecloud.js:319
+#: onedesk/public/js/onecloud.js:323
 msgid "File · From"
 msgstr "Datei · Von"
 
@@ -3850,12 +3865,12 @@ msgstr "Mit der Unterhaltung abgelegt"
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_storage/page/onecloud/onecloud.js:7
 #: onedesk/one_storage/sidebar/onecloud/onecloud.json
-#: onedesk/public/js/onecloud.js:342 onedesk/public/js/onecloud.js:978
+#: onedesk/public/js/onecloud.js:346 onedesk/public/js/onecloud.js:988
 #: onedesk/public/js/record_files.js:33 onedesk/public/js/record_files.js:70
 msgid "Files"
 msgstr "Dateien"
 
-#: onedesk/public/js/onecloud.js:357
+#: onedesk/public/js/onecloud.js:361
 msgid "Files and folders people share with you will appear here."
 msgstr "Dateien und Ordner, die andere mit Ihnen teilen, erscheinen hier."
 
@@ -3880,11 +3895,11 @@ msgstr "Bei jemandem angeforderte Dateien, jede mit Namen, die in einem Ordner o
 msgid "Files land in a folder, and {0} is not one."
 msgstr "Dateien landen in einem Ordner, und {0} ist keiner."
 
-#: onedesk/public/js/onecloud.js:1539
+#: onedesk/public/js/onecloud.js:1549
 msgid "Files land in {0}, in a folder per person when you ask several."
 msgstr "Dateien landen in {0}, in einem Ordner pro Person, wenn Sie mehrere anfragen."
 
-#: onedesk/public/js/onecloud.js:1538
+#: onedesk/public/js/onecloud.js:1548
 msgid "Files land on {0}; one with a record field fills that field."
 msgstr "Dateien landen an {0}; eine Datei mit Datensatzfeld füllt dieses Feld."
 
@@ -3893,11 +3908,11 @@ msgstr "Dateien landen an {0}; eine Datei mit Datensatzfeld füllt dieses Feld."
 msgid "Files not meant for a record land here, in a folder per person when several are asked."
 msgstr "Dateien, die nicht für einen Datensatz bestimmt sind, landen hier, in einem Ordner pro Person, wenn mehrere angefragt werden."
 
-#: onedesk/public/js/onecloud.js:1513
+#: onedesk/public/js/onecloud.js:1523
 msgid "Files to ask for"
 msgstr "Anzufordernde Dateien"
 
-#: onedesk/public/js/onecloud.js:359
+#: onedesk/public/js/onecloud.js:363
 msgid "Files you open or add will appear here."
 msgstr "Dateien, die Sie öffnen oder hinzufügen, erscheinen hier."
 
@@ -3919,6 +3934,16 @@ msgstr ""
 #: onedesk/public/js/job.js:76
 msgid "Finished all {0} steps."
 msgstr "Alle {0} Schritte abgeschlossen."
+
+#. Label of the source_name (Dynamic Link) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "First Found As"
+msgstr "Zuerst gefunden als"
+
+#. Label of the source_doctype (Link) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "First Found In"
+msgstr "Zuerst gefunden in"
 
 #. Label of a field in the get-in-touch Web Form
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
@@ -3974,15 +3999,15 @@ msgstr "Markiert"
 #. Label of the folder (Link) field in DocType 'Cloud File Request'
 #: onedesk/one_mail/custom/communication.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
-#: onedesk/public/js/onecloud.js:119 onedesk/public/js/onecloud.js:319
-#: onedesk/public/js/onecloud.js:321 onedesk/public/js/onecloud.js:609
-#: onedesk/public/js/onecloud.js:1704
+#: onedesk/public/js/onecloud.js:119 onedesk/public/js/onecloud.js:323
+#: onedesk/public/js/onecloud.js:325 onedesk/public/js/onecloud.js:616
+#: onedesk/public/js/onecloud.js:1731
 msgid "Folder"
 msgstr "Ordner"
 
 #. Label of the root_path (Data) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/public/js/onecloud.js:1470
+#: onedesk/public/js/onecloud.js:1480
 msgid "Folder on the Server"
 msgstr "Ordner auf dem Server"
 
@@ -4008,7 +4033,7 @@ msgstr "Zum Beispiel hr.example.com. Ohne https://"
 msgid "For the rows that have no supplier of their own."
 msgstr "Für die Zeilen ohne eigenen Lieferanten."
 
-#: onedesk/public/js/onemail.js:766
+#: onedesk/public/js/onemail.js:784
 msgid "For the workspace"
 msgstr "Für den Arbeitsbereich"
 
@@ -4021,7 +4046,7 @@ msgstr "Für Videoanrufe. Der Browser fragt, welcher Tab geteilt wird."
 msgid "Forward"
 msgstr "Vorwärts"
 
-#: onedesk/public/js/onemail.js:718
+#: onedesk/public/js/onemail.js:736
 msgid "Forwarded message"
 msgstr "Weitergeleitete Nachricht"
 
@@ -4075,7 +4100,7 @@ msgid "Free to Sell"
 msgstr "Frei verfügbar"
 
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.js:7
-#: onedesk/public/js/onemail.js:718
+#: onedesk/public/js/onemail.js:736
 msgid "From"
 msgstr "Von"
 
@@ -4128,7 +4153,7 @@ msgstr "Schlage aus dem Verlauf dieses Leads den nächsten Schritt und den Tag v
 msgid "From this person's designation and department, what should their first two weeks hold, day by day, and who should own each part?"
 msgstr "Was sollten die ersten zwei Wochen dieser Person nach Position und Abteilung Tag für Tag enthalten, und wer verantwortet welchen Teil?"
 
-#: onedesk/public/js/onecloud.js:469 onedesk/public/js/onemail.js:277
+#: onedesk/public/js/onecloud.js:473 onedesk/public/js/onemail.js:277
 msgid "GB"
 msgstr "GB"
 
@@ -4178,7 +4203,7 @@ msgstr "Geben an…"
 msgid "Give credits"
 msgstr "Guthaben geben"
 
-#: onedesk/one_storage/api.py:156
+#: onedesk/one_storage/api.py:169
 msgid "Give it a name."
 msgstr "Geben Sie ihm einen Namen."
 
@@ -4207,7 +4232,7 @@ msgstr "Global"
 msgid "Global Bucket"
 msgstr "Globaler Bucket"
 
-#: onedesk/public/js/onemail.js:760
+#: onedesk/public/js/onemail.js:778
 msgid "Gmail and Outlook want an app password here, made in the account's security settings."
 msgstr "Gmail und Outlook verlangen hier ein App-Passwort, das in den Sicherheitseinstellungen des Kontos erstellt wird."
 
@@ -4423,6 +4448,11 @@ msgstr "Personalgewinnung"
 msgid "Hiring Pipeline"
 msgstr "Einstellungspipeline"
 
+#. Label of the history (Check) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "History"
+msgstr "Verlauf"
+
 #: onedesk/one_hr/employee.py:122 onedesk/one_hr/employee.py:279
 #: onedesk/one_hr/presence.py:181 onedesk/public/js/employee.js:48
 msgid "Holiday"
@@ -4481,6 +4511,11 @@ msgstr "Stunden über den Standardarbeitstag hinaus."
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "How Long Deals Take"
 msgstr "Wie lange Deals dauern"
+
+#. Description of a DocType
+#: onedesk/one_intake/doctype/intake_settings/intake_settings.json
+msgid "How OneAI reads what arrives in this workspace."
+msgstr "Wie OneAI liest, was in diesem Arbeitsbereich ankommt."
 
 #. Description of the 'Accuracy (Metres)' (Float) field in DocType 'Clock
 #. Attempt'
@@ -4561,11 +4596,11 @@ msgstr "Ich füge eine E-Mail-Signatur ein. Lege die Person darin als Lead an."
 msgid "IBAN"
 msgstr "IBAN"
 
-#: onedesk/public/js/onemail.js:773
+#: onedesk/public/js/onemail.js:791
 msgid "IMAP port"
 msgstr "IMAP-Port"
 
-#: onedesk/public/js/onemail.js:772
+#: onedesk/public/js/onemail.js:790
 msgid "IMAP server"
 msgstr "IMAP-Server"
 
@@ -4659,15 +4694,15 @@ msgstr "Verbessern"
 msgid "In"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:1636
+#: onedesk/public/js/onecloud.js:1646
 msgid "In File Explorer, right-click This PC and choose Map network drive. Paste the address as the folder."
 msgstr "Klicken Sie im Datei-Explorer mit der rechten Maustaste auf „Dieser PC“ und wählen Sie „Netzlaufwerk verbinden“. Fügen Sie die Adresse als Ordner ein."
 
-#: onedesk/public/js/onecloud.js:1638
+#: onedesk/public/js/onecloud.js:1648
 msgid "In Files, choose Other Locations and paste the address after davs:// in place of https://."
 msgstr "Wählen Sie in „Dateien“ „Andere Orte“ und fügen Sie die Adresse mit davs:// statt https:// ein."
 
-#: onedesk/public/js/onecloud.js:1637
+#: onedesk/public/js/onecloud.js:1647
 msgid "In Finder, choose Go › Connect to Server and paste the address."
 msgstr "Wählen Sie im Finder „Gehe zu › Mit Server verbinden“ und fügen Sie die Adresse ein."
 
@@ -4770,7 +4805,7 @@ msgstr "Eingaben"
 
 #. Description of the 'Private Key' (Password) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/public/js/onecloud.js:1468
+#: onedesk/public/js/onecloud.js:1478
 msgid "Instead of a password, for a server that signs in with a key."
 msgstr "Statt eines Passworts, für einen Server, der sich mit einem Schlüssel anmeldet."
 
@@ -4779,6 +4814,11 @@ msgstr "Statt eines Passworts, für einen Server, der sich mit einem Schlüssel 
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Instruction"
 msgstr ""
+
+#. Name of a DocType
+#: onedesk/one_intake/doctype/intake_settings/intake_settings.json
+msgid "Intake Settings"
+msgstr "Eingangseinstellungen"
 
 #. Label of the interview (Link) field in DocType 'Interview Recording'
 #. Label of a Sidebar Item
@@ -4894,7 +4934,7 @@ msgstr "Ausgestellt von"
 msgid "Issued On"
 msgstr "Ausgestellt am"
 
-#: onedesk/public/js/onecloud.js:1649
+#: onedesk/public/js/onecloud.js:1659
 msgid "It asks for a password: make one for each computer below. A drive password opens your drive and nothing else, and everything you can open here, you can open there."
 msgstr "Es fragt nach einem Passwort: Erstellen Sie unten eines pro Computer. Ein Laufwerkspasswort öffnet Ihr Laufwerk und sonst nichts, und alles, was Sie hier öffnen können, können Sie dort öffnen."
 
@@ -5009,7 +5049,7 @@ msgstr "Spam"
 msgid "Jurisdiction"
 msgstr "Rechtsraum"
 
-#: onedesk/public/js/onecloud.js:469 onedesk/public/js/onemail.js:277
+#: onedesk/public/js/onecloud.js:473 onedesk/public/js/onemail.js:277
 msgid "KB"
 msgstr "KB"
 
@@ -5022,7 +5062,7 @@ msgstr ""
 msgid "Kanban Board"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:1993
+#: onedesk/public/js/onecloud.js:2023
 msgid "Keep both"
 msgstr "Beide behalten"
 
@@ -5042,8 +5082,10 @@ msgstr "In diesem Arbeitsbereich gespeichert, ohne eigenen Server, weil es eine 
 
 #. Label of the key (Data) field in DocType 'Offering'
 #. Label of the key (Data) field in DocType 'AI Action'
+#. Label of the key (Data) field in DocType 'Reading'
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
+#: onedesk/one_intake/doctype/reading/reading.json
 msgid "Key"
 msgstr ""
 
@@ -5065,7 +5107,7 @@ msgstr ""
 #: onedesk/one_mail/doctype/face/face.json
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/public/js/onecloud.js:319 onedesk/public/js/onecloud.js:1445
+#: onedesk/public/js/onecloud.js:323 onedesk/public/js/onecloud.js:1455
 msgid "Kind"
 msgstr "Art"
 
@@ -5095,6 +5137,11 @@ msgstr ""
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Landed Costs"
 msgstr "Anschaffungsnebenkosten"
+
+#. Label of the language (Data) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Language"
+msgstr ""
 
 #. Label of the last_address (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
@@ -5381,7 +5428,7 @@ msgstr ""
 msgid "Leave empty for credit that never expires."
 msgstr "Leer lassen für Guthaben, das nie verfällt."
 
-#: onedesk/public/js/onecloud.js:1461
+#: onedesk/public/js/onecloud.js:1471
 msgid "Leave it empty to keep the one saved."
 msgstr "Leer lassen, um das gespeicherte zu behalten."
 
@@ -5452,16 +5499,16 @@ msgstr "Briefart"
 msgid "Letters"
 msgstr "Briefe"
 
-#: onedesk/one_storage/namespace.py:380 onedesk/one_storage/namespace.py:622
-#: onedesk/one_storage/namespace.py:755
+#: onedesk/one_storage/namespace.py:382 onedesk/one_storage/namespace.py:624
+#: onedesk/one_storage/namespace.py:757
 msgid "Libraries"
 msgstr "Bibliotheken"
 
-#: onedesk/public/js/onecloud.js:1699
+#: onedesk/public/js/onecloud.js:1726
 msgid "Library"
 msgstr "Bibliothek"
 
-#: onedesk/public/js/onecloud.js:1347
+#: onedesk/public/js/onecloud.js:1357
 msgid "Library name"
 msgstr "Name der Bibliothek"
 
@@ -5491,15 +5538,15 @@ msgstr "Zeile"
 msgid "Linked By"
 msgstr "Verknüpft durch"
 
-#: onedesk/public/js/onecloud.js:1257
+#: onedesk/public/js/onecloud.js:1267
 msgid "Links"
 msgstr "Links"
 
-#: onedesk/public/js/onecloud.js:1247
+#: onedesk/public/js/onecloud.js:1257
 msgid "Links to {0}"
 msgstr "Links zu {0}"
 
-#: onedesk/public/js/onecloud.js:1638
+#: onedesk/public/js/onecloud.js:1648
 msgid "Linux"
 msgstr "Linux"
 
@@ -5594,7 +5641,7 @@ msgstr "Anmeldung mit Passkey"
 msgid "Login with Passkey is not enabled on this site."
 msgstr "Die Anmeldung mit Passkey ist auf dieser Site nicht aktiviert."
 
-#: onedesk/public/js/onemail.js:771
+#: onedesk/public/js/onemail.js:789
 msgid "Login, if not the address"
 msgstr "Anmeldename, falls nicht die Adresse"
 
@@ -5660,7 +5707,7 @@ msgstr "Knapp in {0}"
 msgid "Lower runs first."
 msgstr "Niedrigere zuerst."
 
-#: onedesk/public/js/onecloud.js:469 onedesk/public/js/onemail.js:277
+#: onedesk/public/js/onecloud.js:473 onedesk/public/js/onemail.js:277
 msgid "MB"
 msgstr "MB"
 
@@ -5684,7 +5731,7 @@ msgstr "Von OneAI erstellt"
 #. Label of a Sidebar Item
 #: onedesk/one_mail/cloud.py:79 onedesk/one_mail/page/onemail/onemail.js:6
 #: onedesk/one_mail/sidebar/onemail/onemail.json
-#: onedesk/one_storage/namespace.py:383 onedesk/public/js/record_mail.js:27
+#: onedesk/one_storage/namespace.py:385 onedesk/public/js/record_mail.js:27
 msgid "Mail"
 msgstr "Mail"
 
@@ -5750,7 +5797,7 @@ msgstr ""
 msgid "Maintenance Teams"
 msgstr "Wartungsteams"
 
-#: onedesk/public/js/onecloud.js:1668
+#: onedesk/public/js/onecloud.js:1678
 msgid "Make"
 msgstr "Erstellen"
 
@@ -5758,7 +5805,7 @@ msgstr "Erstellen"
 msgid "Make Default"
 msgstr "Als Standard festlegen"
 
-#: onedesk/public/js/onecloud.js:1653
+#: onedesk/public/js/onecloud.js:1663
 msgid "Make a password"
 msgstr "Passwort erstellen"
 
@@ -5893,15 +5940,15 @@ msgstr "Speicher messen"
 msgid "Median First Reply (Hours)"
 msgstr "Median erste Antwort (Stunden)"
 
-#: onedesk/public/js/onecloud.js:1362
+#: onedesk/public/js/onecloud.js:1372
 msgid "Member"
 msgstr "Mitglied"
 
-#: onedesk/public/js/onecloud.js:100 onedesk/public/js/onecloud.js:1403
+#: onedesk/public/js/onecloud.js:100 onedesk/public/js/onecloud.js:1413
 msgid "Members"
 msgstr "Mitglieder"
 
-#: onedesk/public/js/onecloud.js:1366
+#: onedesk/public/js/onecloud.js:1376
 msgid "Members of {0}"
 msgstr "Mitglieder von {0}"
 
@@ -5920,10 +5967,15 @@ msgstr "Mit {0} zusammenführen"
 #: onedesk/one_crm/custom/lead.json
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
-#: onedesk/public/js/onecloud.js:1508 onedesk/public/js/onemail.js:504
-#: onedesk/public/js/onemail.js:809
+#: onedesk/public/js/onecloud.js:1518 onedesk/public/js/onemail.js:504
+#: onedesk/public/js/onemail.js:827
 msgid "Message"
 msgstr "Nachricht"
+
+#. Label of the message_id (Data) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Message ID"
+msgstr "Nachrichten-ID"
 
 #. Label of the total (Int) field in DocType 'Mail Folder'
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
@@ -5955,6 +6007,7 @@ msgstr "Modalität"
 #. Label of the model (Data) field in DocType 'AI Chat'
 #. Label of the model (Data) field in DocType 'Clock Attempt'
 #. Label of the model (Data) field in DocType 'Clock Device'
+#. Label of the model (Data) field in DocType 'Reading'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:32
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:32
@@ -5963,6 +6016,7 @@ msgstr "Modalität"
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:40
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
+#: onedesk/one_intake/doctype/reading/reading.json
 msgid "Model"
 msgstr "Modell"
 
@@ -5977,7 +6031,7 @@ msgstr "Modelle"
 msgid "Modes of Payment"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:607
+#: onedesk/public/js/onecloud.js:614
 msgid "Modified"
 msgstr "Geändert"
 
@@ -6008,6 +6062,11 @@ msgstr ""
 msgid "More"
 msgstr ""
 
+#. Label of the most_pages (Int) field in DocType 'Intake Settings'
+#: onedesk/one_intake/doctype/intake_settings/intake_settings.json
+msgid "Most Pages Read"
+msgstr "Höchstens gelesene Seiten"
+
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "Move"
@@ -6026,11 +6085,11 @@ msgstr "Verschieben nach"
 msgid "Move to"
 msgstr "Verschieben nach"
 
-#: onedesk/public/js/onecloud.js:1155
+#: onedesk/public/js/onecloud.js:1165
 msgid "Moved 1 item"
 msgstr "1 Element verschoben"
 
-#: onedesk/public/js/onecloud.js:1122
+#: onedesk/public/js/onecloud.js:1132
 msgid "Moved 1 item to the Recycle Bin"
 msgstr "1 Element in den Papierkorb verschoben"
 
@@ -6046,11 +6105,11 @@ msgstr "In den Papierkorb verschoben."
 msgid "Moved up from {0}% to {1}%."
 msgstr "Von {0} % auf {1} % hochgestuft."
 
-#: onedesk/public/js/onecloud.js:1155
+#: onedesk/public/js/onecloud.js:1165
 msgid "Moved {0} items"
 msgstr "{0} Elemente verschoben"
 
-#: onedesk/public/js/onecloud.js:1122
+#: onedesk/public/js/onecloud.js:1132
 msgid "Moved {0} items to the Recycle Bin"
 msgstr "{0} Elemente in den Papierkorb verschoben"
 
@@ -6080,9 +6139,9 @@ msgstr "Wird mit den Anbieterkosten multipliziert. 2 berechnet das Doppelte des 
 msgid "My Events"
 msgstr "Meine Termine"
 
-#: onedesk/one_storage/history.py:217 onedesk/one_storage/namespace.py:352
-#: onedesk/one_storage/namespace.py:376 onedesk/one_storage/namespace.py:519
-#: onedesk/one_storage/namespace.py:624 onedesk/one_storage/namespace.py:752
+#: onedesk/one_storage/history.py:217 onedesk/one_storage/namespace.py:353
+#: onedesk/one_storage/namespace.py:378 onedesk/one_storage/namespace.py:521
+#: onedesk/one_storage/namespace.py:626 onedesk/one_storage/namespace.py:754
 msgid "My Files"
 msgstr "Meine Dateien"
 
@@ -6091,11 +6150,11 @@ msgstr "Meine Dateien"
 msgid "My Files Of"
 msgstr "Meine Dateien von"
 
-#: onedesk/one_storage/api.py:202
+#: onedesk/one_storage/api.py:215
 msgid "My Files cannot be moved."
 msgstr "„Meine Dateien“ kann nicht verschoben werden."
 
-#: onedesk/one_storage/api.py:153
+#: onedesk/one_storage/api.py:166
 msgid "My Files cannot be renamed."
 msgstr "„Meine Dateien“ kann nicht umbenannt werden."
 
@@ -6134,7 +6193,7 @@ msgstr "Meine Aufgaben"
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 #: onedesk/public/js/leave_control_panel.js:34
-#: onedesk/public/js/onecloud.js:118 onedesk/public/js/onecloud.js:1444
+#: onedesk/public/js/onecloud.js:118 onedesk/public/js/onecloud.js:1454
 msgid "Name"
 msgstr "Name"
 
@@ -6185,6 +6244,11 @@ msgstr "Braucht"
 msgid "Needs Review"
 msgstr "Prüfung nötig"
 
+#. Option for the 'State' (Select) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Needs a Password"
+msgstr "Braucht ein Passwort"
+
 #: onedesk/public/js/admin_settings.js:30
 msgid "Needs attention"
 msgstr "Braucht Aufmerksamkeit"
@@ -6196,7 +6260,7 @@ msgstr "Prüfung nötig"
 #. Label of the network_section (Section Break) field in DocType 'Clock
 #. Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
-#: onedesk/one_storage/mounts.py:360 onedesk/one_storage/namespace.py:384
+#: onedesk/one_storage/mounts.py:360 onedesk/one_storage/namespace.py:386
 msgid "Network"
 msgstr "Netzwerk"
 
@@ -6209,7 +6273,7 @@ msgstr "Netzwerk und Ort"
 msgid "Never"
 msgstr "Nie"
 
-#: onedesk/public/js/onecloud.js:1677
+#: onedesk/public/js/onecloud.js:1687
 msgid "Never used"
 msgstr "Nie verwendet"
 
@@ -6251,7 +6315,7 @@ msgstr "Neues Projekt"
 msgid "New conversation"
 msgstr "Neue Unterhaltung"
 
-#: onedesk/public/js/onecloud.js:1667
+#: onedesk/public/js/onecloud.js:1677
 msgid "New drive password"
 msgstr "Neues Laufwerkspasswort"
 
@@ -6259,12 +6323,17 @@ msgstr "Neues Laufwerkspasswort"
 msgid "New files go to cloud storage"
 msgstr "Neue Dateien gehen in den Cloud-Speicher"
 
-#: onedesk/one_storage/api.py:133 onedesk/one_storage/api.py:137
-#: onedesk/public/js/onecloud.js:1072 onedesk/public/js/onecloud.js:1775
+#. Description of the 'Read by OneAI' (Check) field in DocType 'File'
+#: onedesk/one_intake/custom/file.json
+msgid "New files in this folder and the folders inside it are read, filed and acted on by OneAI."
+msgstr "Neue Dateien in diesem Ordner und seinen Unterordnern werden von OneAI gelesen, abgelegt und bearbeitet."
+
+#: onedesk/one_storage/api.py:146 onedesk/one_storage/api.py:150
+#: onedesk/public/js/onecloud.js:1082 onedesk/public/js/onecloud.js:1805
 msgid "New folder"
 msgstr "Neuer Ordner"
 
-#: onedesk/public/js/onecloud.js:1353 onedesk/public/js/onecloud.js:1771
+#: onedesk/public/js/onecloud.js:1363 onedesk/public/js/onecloud.js:1801
 msgid "New library"
 msgstr "Neue Bibliothek"
 
@@ -6272,7 +6341,12 @@ msgstr "Neue Bibliothek"
 msgid "New link made. The old one no longer works."
 msgstr "Neuer Link erstellt. Der alte funktioniert nicht mehr."
 
-#: onedesk/public/js/onemail.js:707
+#. Description of the 'Read by OneAI' (Check) field in DocType 'Email Account'
+#: onedesk/one_intake/custom/email_account.json
+msgid "New mail in this mailbox is read, filed and acted on by OneAI."
+msgstr "Neue Mails in diesem Postfach werden von OneAI gelesen, abgelegt und bearbeitet."
+
+#: onedesk/public/js/onemail.js:725
 msgid "New message"
 msgstr "Neue Nachricht"
 
@@ -6402,7 +6476,7 @@ msgstr "Es wurde keine Datei gesendet."
 msgid "No fiscal year covers today, so nothing dated today can be saved."
 msgstr "Kein Geschäftsjahr umfasst heute, daher kann nichts mit heutigem Datum gespeichert werden."
 
-#: onedesk/public/js/onecloud.js:354
+#: onedesk/public/js/onecloud.js:358
 msgid "No items match your search."
 msgstr "Keine Elemente entsprechen Ihrer Suche."
 
@@ -6456,7 +6530,7 @@ msgstr "Es wurde keine Position übermittelt."
 msgid "No price for this model on the published page."
 msgstr "Kein Preis für dieses Modell auf der veröffentlichten Seite."
 
-#: onedesk/public/js/onecloud.js:358
+#: onedesk/public/js/onecloud.js:362
 msgid "No record has files yet."
 msgstr "Noch kein Datensatz hat Dateien."
 
@@ -6520,7 +6594,7 @@ msgstr "Niemand wird an eine unbezahlte Rechnung erinnert. Die Behebung schreibt
 msgid "Nobody on this list checked in"
 msgstr "Niemand auf dieser Liste hat eingecheckt"
 
-#: onedesk/public/js/onecloud.js:1611
+#: onedesk/public/js/onecloud.js:1621
 msgid "Nobody to remind, or no email to remind them with"
 msgstr "Niemand zu erinnern, oder keine E-Mail, um zu erinnern"
 
@@ -6532,7 +6606,7 @@ msgstr "Keine mehr"
 msgid "None of the key's zones holds {0}."
 msgstr "Keine Zone des Tokens enthält {0}."
 
-#: onedesk/public/js/onemail.js:704
+#: onedesk/public/js/onemail.js:722
 msgid "None of your mailboxes can send. Connect one that does."
 msgstr "Keines Ihrer Postfächer kann senden. Verbinden Sie eines, das es kann."
 
@@ -6679,7 +6753,7 @@ msgstr "In diesem Zeitraum ändert sich für den Arbeitsbereich nichts."
 msgid "Nothing dated on or before this day can then be entered, changed or cancelled, by anybody."
 msgstr "Danach kann niemand mehr etwas mit diesem oder früherem Datum erfassen, ändern oder stornieren."
 
-#: onedesk/public/js/onecloud.js:362
+#: onedesk/public/js/onecloud.js:366
 msgid "Nothing has arrived yet."
 msgstr "Noch ist nichts eingetroffen."
 
@@ -6832,6 +6906,15 @@ msgstr "Angebot"
 msgid "On"
 msgstr "An"
 
+#. Label of the one_intake_for (Link) field in DocType 'Email Account'
+#. Label of the one_intake_for (Link) field in DocType 'File'
+#. Label of the on_behalf_of (Link) field in DocType 'Reading'
+#: onedesk/one_intake/custom/email_account.json
+#: onedesk/one_intake/custom/file.json
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "On Behalf Of"
+msgstr "Im Namen von"
+
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:305
 msgid "On Everybody's Calendar"
 msgstr "Im Kalender aller"
@@ -6945,7 +7028,7 @@ msgstr "Ein Passkey pro Mitarbeiter. Beim Gerätewechsel zurücksetzen."
 msgid "One per line. Applicants are rated against these, or against the description if empty."
 msgstr "Einer pro Zeile. Bewerbungen werden daran bewertet, oder an der Beschreibung, wenn leer."
 
-#: onedesk/public/js/onecloud.js:1301
+#: onedesk/public/js/onecloud.js:1311
 msgid "One per line. Each is sent the link, and a code when they open it."
 msgstr "Eine pro Zeile. Jede Person erhält den Link und beim Öffnen einen Code."
 
@@ -7012,6 +7095,33 @@ msgstr "OneAI-Zusammenfassung"
 msgid "OneAI could not be reached just now. The question is still here — try again."
 msgstr "OneAI war gerade nicht erreichbar. Die Frage steht noch da — versuchen Sie es erneut."
 
+#. Description of the 'On Behalf Of' (Link) field in DocType 'Email Account'
+#. Description of the 'On Behalf Of' (Link) field in DocType 'File'
+#: onedesk/one_intake/custom/email_account.json
+#: onedesk/one_intake/custom/file.json
+msgid "OneAI does here only what this person may do."
+msgstr "OneAI tut hier nur, was diese Person darf."
+
+#: onedesk/public/js/onecloud.js:1711 onedesk/public/js/onemail.js:674
+msgid "OneAI no longer reads {0}."
+msgstr "OneAI liest {0} nicht mehr."
+
+#: onedesk/public/js/onecloud.js:1711
+msgid "OneAI reads new files in {0}."
+msgstr "OneAI liest neue Dateien in {0}."
+
+#: onedesk/public/js/onemail.js:674
+msgid "OneAI reads new mail in {0}."
+msgstr "OneAI liest neue Mails in {0}."
+
+#: onedesk/public/js/onecloud.js:1716
+msgid "OneAI will read new files in {0} and the folders inside it, file them and act on them on your behalf. Scans and photos are read with OneAI credits."
+msgstr "OneAI liest neue Dateien in {0} und seinen Unterordnern, legt sie ab und bearbeitet sie in Ihrem Namen. Scans und Fotos werden mit OneAI-Guthaben gelesen."
+
+#: onedesk/public/js/onemail.js:678
+msgid "OneAI will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos are read with OneAI credits."
+msgstr "OneAI liest neue Mails in {0} und ihre Anhänge, legt sie ab und bearbeitet sie in Ihrem Namen. Scans und Fotos werden mit OneAI-Guthaben gelesen."
+
 #. Title of a Sidebar
 #. Name of a Workspace
 #: onedesk/one_book/sidebar/onebook/onebook.json
@@ -7033,7 +7143,7 @@ msgstr "OneCalendar"
 
 #. Title of a Sidebar
 #: onedesk/one_mail/cloud.py:79 onedesk/one_storage/file_requests.py:212
-#: onedesk/one_storage/mounts.py:360 onedesk/one_storage/namespace.py:718
+#: onedesk/one_storage/mounts.py:360 onedesk/one_storage/namespace.py:720
 #: onedesk/one_storage/sidebar/onecloud/onecloud.json
 #: onedesk/public/js/onecloud_picker.js:108
 msgid "OneCloud"
@@ -7123,7 +7233,7 @@ msgstr "Nur ein Lead oder ein Deal hat einen Verantwortlichen."
 msgid "Only a lead or a deal has calls."
 msgstr "Nur ein Lead oder ein Deal hat Anrufe."
 
-#: onedesk/one_mail/holders.py:150
+#: onedesk/one_mail/holders.py:152
 msgid "Only a mailbox connected for the workspace can be the workspace's."
 msgstr "Nur ein für den Arbeitsbereich verbundenes Postfach kann das des Arbeitsbereichs sein."
 
@@ -7192,11 +7302,11 @@ msgstr "Nur ein Eigentümer von {0} kann bestimmen, wer dazugehört."
 msgid "Only check-ins that passed another check are counted. Nothing learned widens who may check in."
 msgstr "Es zählen nur Eincheckungen, die eine andere Prüfung bestanden haben. Nichts Gelerntes erweitert den Kreis derer, die einchecken dürfen."
 
-#: onedesk/public/js/onecloud.js:344
+#: onedesk/public/js/onecloud.js:348
 msgid "Only in {0}"
 msgstr "Nur in {0}"
 
-#: onedesk/public/js/onecloud.js:1293
+#: onedesk/public/js/onecloud.js:1303
 msgid "Only people I invite by email"
 msgstr "Nur Personen, die ich per E-Mail einlade"
 
@@ -7224,7 +7334,11 @@ msgstr "Nur Personen im Team können eine Bibliothek erstellen."
 msgid "Only somebody who can approve these may answer this one."
 msgstr "Nur wer solche Anträge genehmigen darf, kann über diesen entscheiden."
 
-#: onedesk/one_mail/holders.py:129
+#: onedesk/one_intake/switches.py:64
+msgid "Only somebody who may change {0} can say whether OneAI reads it."
+msgstr "Nur wer {0} ändern darf, kann entscheiden, ob OneAI es liest."
+
+#: onedesk/one_mail/holders.py:131
 msgid "Only the workspace's mailboxes are shared out. {0} belongs to one person."
 msgstr "Nur die Postfächer des Arbeitsbereichs werden geteilt. {0} gehört einer Person."
 
@@ -7236,7 +7350,7 @@ msgstr "Nur wer {0} verbunden hat, kann es ändern."
 msgid "Only whoever connected {0} can remove it."
 msgstr "Nur wer {0} verbunden hat, kann es entfernen."
 
-#: onedesk/public/js/onecloud.js:1264
+#: onedesk/public/js/onecloud.js:1274
 msgid "Only {0}"
 msgstr "Nur {0}"
 
@@ -7246,8 +7360,8 @@ msgstr "Nur {0}"
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_task/custom/task.json onedesk/public/js/oneai/Record.vue:15
-#: onedesk/public/js/onecloud.js:634 onedesk/public/js/onecloud.js:1722
-#: onedesk/public/js/onecloud.js:1730 onedesk/public/js/onecloud.js:1746
+#: onedesk/public/js/onecloud.js:641 onedesk/public/js/onecloud.js:1749
+#: onedesk/public/js/onecloud.js:1757 onedesk/public/js/onecloud.js:1773
 #: onedesk/public/js/project.js:151 onedesk/www/s.html:48 onedesk/www/s.html:56
 msgid "Open"
 msgstr ""
@@ -7260,7 +7374,7 @@ msgstr "Offene Deals"
 msgid "Open Workspace"
 msgstr "Arbeitsbereich öffnen"
 
-#: onedesk/public/js/onecloud.js:1747
+#: onedesk/public/js/onecloud.js:1774
 msgid "Open file location"
 msgstr "Dateispeicherort öffnen"
 
@@ -7268,7 +7382,7 @@ msgstr "Dateispeicherort öffnen"
 msgid "Open it"
 msgstr "Öffnen"
 
-#: onedesk/public/js/onecloud.js:99 onedesk/public/js/onecloud.js:1748
+#: onedesk/public/js/onecloud.js:99 onedesk/public/js/onecloud.js:1775
 msgid "Open record"
 msgstr "Datensatz öffnen"
 
@@ -7412,11 +7526,11 @@ msgstr "Keine Credits mehr. {0} in diesem Monat in {1} Aufrufen verbraucht."
 msgid "Out of date"
 msgstr "Veraltet"
 
-#: onedesk/public/js/onemail.js:927
+#: onedesk/public/js/onemail.js:945
 msgid "Out of office"
 msgstr "Abwesenheit"
 
-#: onedesk/public/js/onemail.js:799
+#: onedesk/public/js/onemail.js:817
 msgid "Out of office for {0}"
 msgstr "Abwesenheit für {0}"
 
@@ -7537,8 +7651,8 @@ msgstr "Offen"
 
 #. Label of the owner_email (Data) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
-#: onedesk/public/js/onecloud.js:610 onedesk/public/js/onecloud.js:1217
-#: onedesk/public/js/onecloud.js:1363
+#: onedesk/public/js/onecloud.js:617 onedesk/public/js/onecloud.js:1227
+#: onedesk/public/js/onecloud.js:1373
 msgid "Owner"
 msgstr "Eigentümer"
 
@@ -7549,6 +7663,11 @@ msgstr "PDF-Dokument"
 #: onedesk/public/js/workspace_account.js:146
 msgid "Pack"
 msgstr "Paket"
+
+#. Label of the page_count (Int) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Pages"
+msgstr "Seiten"
 
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
@@ -7590,6 +7709,16 @@ msgstr "Bezahlt, nicht angelegt"
 msgid "Parent Project"
 msgstr "Übergeordnetes Projekt"
 
+#. Label of the part (Data) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Part"
+msgstr "Teil"
+
+#. Label of the part_of (Link) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Part Of"
+msgstr "Teil von"
+
 #: onedesk/www/projects.html:12
 msgid "Part of"
 msgstr "Teil von"
@@ -7597,7 +7726,7 @@ msgstr "Teil von"
 #. Option for the 'State' (Select) field in DocType 'Cloud File Request
 #. Recipient'
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
-#: onedesk/public/js/onecloud.js:1586
+#: onedesk/public/js/onecloud.js:1596
 msgid "Partly Sent"
 msgstr "Teilweise gesendet"
 
@@ -7625,8 +7754,8 @@ msgstr "Passkey zurückgesetzt"
 #. Label of the password (Password) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/public/js/onecloud.js:1311 onedesk/public/js/onecloud.js:1460
-#: onedesk/public/js/onecloud.js:1663 onedesk/public/js/onemail.js:758
+#: onedesk/public/js/onecloud.js:1321 onedesk/public/js/onecloud.js:1470
+#: onedesk/public/js/onecloud.js:1673 onedesk/public/js/onemail.js:776
 #: onedesk/www/s.html:46
 msgid "Password"
 msgstr "Passwort"
@@ -7640,11 +7769,11 @@ msgstr "Passwort-Hash"
 msgid "Past the expected hours."
 msgstr "Über den veranschlagten Stunden."
 
-#: onedesk/public/js/onecloud.js:91 onedesk/public/js/onecloud.js:1778
+#: onedesk/public/js/onecloud.js:91 onedesk/public/js/onecloud.js:1808
 msgid "Paste"
 msgstr "Einfügen"
 
-#: onedesk/public/js/onecloud.js:1755
+#: onedesk/public/js/onecloud.js:1782
 msgid "Paste into folder"
 msgstr "In Ordner einfügen"
 
@@ -7770,11 +7899,11 @@ msgstr "Personen"
 msgid "People asked"
 msgstr "Angefragte Personen"
 
-#: onedesk/public/js/onecloud.js:1505
+#: onedesk/public/js/onecloud.js:1515
 msgid "People to ask"
 msgstr "Anzufragende Personen"
 
-#: onedesk/public/js/onecloud.js:1218
+#: onedesk/public/js/onecloud.js:1228
 msgid "People with access"
 msgstr "Personen mit Zugriff"
 
@@ -7909,7 +8038,7 @@ msgstr "Verlorene Punkte"
 
 #. Label of the port (Int) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/public/js/onecloud.js:1447
+#: onedesk/public/js/onecloud.js:1457
 msgid "Port"
 msgstr "Port"
 
@@ -8033,7 +8162,7 @@ msgstr "Hauptdomain"
 
 #. Label of the private_key (Password) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/public/js/onecloud.js:1466
+#: onedesk/public/js/onecloud.js:1476
 msgid "Private Key"
 msgstr "Privater Schlüssel"
 
@@ -8057,12 +8186,12 @@ msgstr "Gewinn diesen Monat"
 msgid "Profit and Loss"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:319 onedesk/public/js/onecloud.js:609
+#: onedesk/public/js/onecloud.js:323 onedesk/public/js/onecloud.js:616
 #: onedesk/www/projects.html:17
 msgid "Progress"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:1723
+#: onedesk/public/js/onecloud.js:1750
 msgid "Progress…"
 msgstr "Fortschritt…"
 
@@ -8249,6 +8378,11 @@ msgstr ""
 msgid "Questions"
 msgstr "Fragen"
 
+#. Option for the 'State' (Select) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Queued"
+msgstr ""
+
 #. Label of the quota_section (Section Break) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Quotas"
@@ -8320,6 +8454,16 @@ msgstr ""
 msgid "Rating"
 msgstr ""
 
+#. Option for the 'State' (Select) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Read"
+msgstr ""
+
+#. Label of the how (Data) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Read As"
+msgstr "Gelesen als"
+
 #: onedesk/public/js/overtime_slip.js:17
 msgid "Read Attendance"
 msgstr "Anwesenheit auswerten"
@@ -8333,24 +8477,51 @@ msgstr "Zurückgelesen bis"
 msgid "Read Check-ins"
 msgstr "Einchecken auswerten"
 
+#. Label of the records (Check) field in DocType 'Intake Settings'
+#: onedesk/one_intake/doctype/intake_settings/intake_settings.json
+msgid "Read Files Attached to Records"
+msgstr "An Datensätze angehängte Dateien lesen"
+
+#. Label of the read_on (Datetime) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Read On"
+msgstr "Gelesen am"
+
 #. Description of the 'Connected to OneMail' (Check) field in DocType 'Email
 #. Account'
 #: onedesk/one_mail/custom/email_account.json
 msgid "Read and written by OneMail over IMAP, folders and all, rather than pulled by Frappe."
 msgstr "Wird von OneMail über IMAP gelesen und geschrieben, samt Ordnern, statt von Frappe abgerufen."
 
+#. Label of the one_intake (Check) field in DocType 'Email Account'
+#. Label of the one_intake (Check) field in DocType 'File'
+#: onedesk/one_intake/custom/email_account.json
+#: onedesk/one_intake/custom/file.json onedesk/public/js/onecloud.js:511
+msgid "Read by OneAI"
+msgstr "Von OneAI gelesen"
+
 #. Description of the 'When' (Data) field in DocType 'Timesheet Detail'
 #: onedesk/one_hr/custom/timesheet_detail.json
 msgid "Read from the two times below."
 msgstr "Aus den beiden Zeiten unten gelesen."
 
-#: onedesk/public/js/onecloud.js:1361
+#: onedesk/public/js/onecloud.js:1793 onedesk/public/js/onemail.js:949
+msgid "Read with OneAI…"
+msgstr "Mit OneAI lesen…"
+
+#: onedesk/public/js/onecloud.js:1371
 msgid "Reader"
 msgstr "Leser"
 
-#: onedesk/public/js/onecloud.js:1381
+#: onedesk/public/js/onecloud.js:1391
 msgid "Readers open and download. Members also add, change and delete. Owners also rename the library and say who is in it."
 msgstr "Leser öffnen und laden herunter. Mitglieder fügen außerdem hinzu, ändern und löschen. Eigentümer benennen die Bibliothek zudem um und bestimmen, wer dazugehört."
+
+#. Name of a DocType
+#. Label of the section_reading (Section Break) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Reading"
+msgstr "Lesung"
 
 #: onedesk/one_hr/ai.py:105
 msgid "Reading the CV again. The rating, the standing and a comment land on this applicant when I am done."
@@ -8410,7 +8581,7 @@ msgstr "Forderungen, Verbindlichkeiten, Erlöse, Kostenstelle und Rundung."
 msgid "Receivables"
 msgstr ""
 
-#: onedesk/one_storage/namespace.py:377
+#: onedesk/one_storage/namespace.py:379
 msgid "Recent"
 msgstr "Zuletzt verwendet"
 
@@ -8422,7 +8593,7 @@ msgstr "Zuletzt verwendet"
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/public/js/hiring.js:11 onedesk/public/js/invoice.js:64
-#: onedesk/public/js/onecloud.js:458 onedesk/public/js/onecloud.js:611
+#: onedesk/public/js/onecloud.js:462 onedesk/public/js/onecloud.js:618
 #: onedesk/public/js/onemail.js:450 onedesk/public/js/overtime.js:50
 msgid "Record"
 msgstr "Erfassen"
@@ -8434,7 +8605,7 @@ msgstr "Datensatz mit Stand"
 
 #. Label of the fieldname (Data) field in DocType 'Cloud File Request Item'
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
-#: onedesk/public/js/onecloud.js:1525
+#: onedesk/public/js/onecloud.js:1535
 msgid "Record Field"
 msgstr "Datensatzfeld"
 
@@ -8464,7 +8635,7 @@ msgstr "Geschriebener Datensatz"
 msgid "Record this interview"
 msgstr "Dieses Gespräch aufzeichnen"
 
-#: onedesk/public/js/onecloud.js:457
+#: onedesk/public/js/onecloud.js:461
 msgid "Record type"
 msgstr "Datensatztyp"
 
@@ -8514,7 +8685,7 @@ msgstr "Überstunden werden erfasst"
 msgid "Recording…"
 msgstr "Aufnahme läuft…"
 
-#: onedesk/one_storage/namespace.py:382 onedesk/one_storage/namespace.py:736
+#: onedesk/one_storage/namespace.py:384 onedesk/one_storage/namespace.py:738
 msgid "Records"
 msgstr "Datensätze"
 
@@ -8528,7 +8699,7 @@ msgstr "Übersicht Personalgewinnung"
 msgid "Recurring"
 msgstr "Wiederkehrend"
 
-#: onedesk/one_storage/namespace.py:386
+#: onedesk/one_storage/namespace.py:388
 msgid "Recycle Bin"
 msgstr "Papierkorb"
 
@@ -8545,8 +8716,8 @@ msgstr "Referenz"
 msgid "References"
 msgstr "Referenzen"
 
-#: onedesk/public/js/onecloud.js:111 onedesk/public/js/onecloud.js:1771
-#: onedesk/public/js/onecloud.js:1772 onedesk/public/js/onecloud.js:1792
+#: onedesk/public/js/onecloud.js:111 onedesk/public/js/onecloud.js:1801
+#: onedesk/public/js/onecloud.js:1802 onedesk/public/js/onecloud.js:1822
 #: onedesk/public/js/onemail.js:78 onedesk/public/js/tenant.js:78
 #: onedesk/public/js/tenant.js:83 onedesk/public/js/tenant_domain.js:12
 #: onedesk/public/js/workspace_account.js:19
@@ -8647,11 +8818,11 @@ msgstr "Bei Ablehnung wird am Einchecken „Automatische Anwesenheit überspring
 msgid "Released"
 msgstr "Freigegeben"
 
-#: onedesk/public/js/onecloud.js:1608
+#: onedesk/public/js/onecloud.js:1618
 msgid "Remind"
 msgstr "Erinnern"
 
-#: onedesk/public/js/onecloud.js:1611
+#: onedesk/public/js/onecloud.js:1621
 msgid "Reminded {0} people"
 msgstr "{0} Personen erinnert"
 
@@ -8659,8 +8830,8 @@ msgstr "{0} Personen erinnert"
 msgid "Reminder: {0} asks you for files: {1}"
 msgstr "Erinnerung: {0} bittet Sie um Dateien: {1}"
 
-#: onedesk/public/js/oneai/Panel.vue:157 onedesk/public/js/onecloud.js:1214
-#: onedesk/public/js/onecloud.js:1260 onedesk/public/js/onecloud.js:1678
+#: onedesk/public/js/oneai/Panel.vue:157 onedesk/public/js/onecloud.js:1224
+#: onedesk/public/js/onecloud.js:1270 onedesk/public/js/onecloud.js:1688
 #: onedesk/public/js/workspace_account.js:18
 #: onedesk/public/js/workspace_account.js:259
 msgid "Remove"
@@ -8670,15 +8841,15 @@ msgstr "Entfernen"
 msgid "Remove a domain"
 msgstr "Eine Domain entfernen"
 
-#: onedesk/public/js/onecloud.js:1760
+#: onedesk/public/js/onecloud.js:1787
 msgid "Remove star"
 msgstr "Stern entfernen"
 
-#: onedesk/public/js/onecloud.js:1138
+#: onedesk/public/js/onecloud.js:1148
 msgid "Remove these {0} files from their records? This cannot be undone."
 msgstr "Diese {0} Dateien aus ihren Datensätzen entfernen? Das kann nicht rückgängig gemacht werden."
 
-#: onedesk/public/js/onecloud.js:1137
+#: onedesk/public/js/onecloud.js:1147
 msgid "Remove {0} from its record? This cannot be undone."
 msgstr "{0} aus seinem Datensatz entfernen? Das kann nicht rückgängig gemacht werden."
 
@@ -8694,7 +8865,7 @@ msgstr ""
 msgid "Removed at Frappe Cloud"
 msgstr "Bei Frappe Cloud entfernt"
 
-#: onedesk/public/js/onecloud.js:92 onedesk/public/js/onecloud.js:1764
+#: onedesk/public/js/onecloud.js:92 onedesk/public/js/onecloud.js:1794
 msgid "Rename"
 msgstr "Umbenennen"
 
@@ -8702,7 +8873,7 @@ msgstr "Umbenennen"
 msgid "Rename the connection instead."
 msgstr "Benennen Sie stattdessen die Verbindung um."
 
-#: onedesk/public/js/onecloud.js:1613
+#: onedesk/public/js/onecloud.js:1623
 msgid "Reopen"
 msgstr ""
 
@@ -8729,11 +8900,11 @@ msgstr "Wiederholt"
 msgid "Repeats {0}"
 msgstr "Wiederholt {0}"
 
-#: onedesk/public/js/onecloud.js:1986 onedesk/www/r.html:47
+#: onedesk/public/js/onecloud.js:2016 onedesk/www/r.html:47
 msgid "Replace"
 msgstr "Ersetzen"
 
-#: onedesk/public/js/onecloud.js:1985
+#: onedesk/public/js/onecloud.js:2015
 msgid "Replacing keeps what they hold now as an earlier version."
 msgstr "Beim Ersetzen bleibt der jetzige Inhalt als frühere Version erhalten."
 
@@ -8749,7 +8920,7 @@ msgstr "Antworten"
 msgid "Reply all"
 msgstr "Allen antworten"
 
-#: onedesk/public/js/onemail.js:804
+#: onedesk/public/js/onemail.js:822
 msgid "Reply that I am away"
 msgstr "Antworten, dass ich abwesend bin"
 
@@ -8786,7 +8957,7 @@ msgid "Requested"
 msgstr "Angefordert"
 
 #: onedesk/one_storage/file_requests.py:213
-#: onedesk/one_storage/namespace.py:385
+#: onedesk/one_storage/namespace.py:387
 msgid "Requests"
 msgstr "Anfragen"
 
@@ -8802,7 +8973,7 @@ msgstr "Passkey verlangen"
 
 #. Label of the required (Check) field in DocType 'Cloud File Request Item'
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
-#: onedesk/public/js/onecloud.js:1519 onedesk/www/r.html:36
+#: onedesk/public/js/onecloud.js:1529 onedesk/www/r.html:36
 msgid "Required"
 msgstr "Erforderlich"
 
@@ -8834,8 +9005,8 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
-#: onedesk/public/js/onecloud.js:97 onedesk/public/js/onecloud.js:635
-#: onedesk/public/js/onecloud.js:1739 onedesk/public/js/tenant.js:68
+#: onedesk/public/js/onecloud.js:97 onedesk/public/js/onecloud.js:642
+#: onedesk/public/js/onecloud.js:1766 onedesk/public/js/tenant.js:68
 msgid "Restore"
 msgstr ""
 
@@ -8844,11 +9015,11 @@ msgstr ""
 msgid "Restored"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:1010
+#: onedesk/public/js/onecloud.js:1020
 msgid "Restored 1 item"
 msgstr "1 Element wiederhergestellt"
 
-#: onedesk/public/js/onecloud.js:1010
+#: onedesk/public/js/onecloud.js:1020
 msgid "Restored {0} items"
 msgstr "{0} Elemente wiederhergestellt"
 
@@ -8856,11 +9027,11 @@ msgstr "{0} Elemente wiederhergestellt"
 msgid "Results for {0}"
 msgstr "Ergebnisse für {0}"
 
-#: onedesk/public/js/onecloud.js:343
+#: onedesk/public/js/onecloud.js:347
 msgid "Results from everywhere"
 msgstr "Ergebnisse von überall"
 
-#: onedesk/public/js/onecloud.js:343
+#: onedesk/public/js/onecloud.js:347
 msgid "Results in {0}"
 msgstr "Ergebnisse in {0}"
 
@@ -8900,7 +9071,7 @@ msgstr "Geprüft am"
 msgid "Row {0}: {1} expires before it was issued."
 msgstr "Zeile {0}: {1} läuft vor dem Ausstellungsdatum ab."
 
-#: onedesk/public/js/onemail.js:926
+#: onedesk/public/js/onemail.js:944
 msgid "Rules"
 msgstr "Regeln"
 
@@ -8931,15 +9102,15 @@ msgstr "SFTP"
 msgid "SHA-256 of the token written into the site's config."
 msgstr "SHA-256 des Tokens, das in die Site-Konfiguration geschrieben wurde."
 
-#: onedesk/public/js/onemail.js:777
+#: onedesk/public/js/onemail.js:795
 msgid "SMTP port"
 msgstr "SMTP-Port"
 
-#: onedesk/public/js/onemail.js:776
+#: onedesk/public/js/onemail.js:794
 msgid "SMTP server"
 msgstr "SMTP-Server"
 
-#: onedesk/public/js/onemail.js:774
+#: onedesk/public/js/onemail.js:792
 msgid "SSL"
 msgstr "SSL"
 
@@ -9025,8 +9196,8 @@ msgstr "Umsätze werden unter dem Emirat des Unternehmens gemeldet."
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:310
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:52
 #: onedesk/public/js/crm_record.js:198 onedesk/public/js/next_step.js:31
-#: onedesk/public/js/onecloud.js:1479 onedesk/public/js/onemail.js:811
-#: onedesk/public/js/onemail.js:835 onedesk/public/js/project.js:155
+#: onedesk/public/js/onecloud.js:1489 onedesk/public/js/onemail.js:829
+#: onedesk/public/js/onemail.js:853 onedesk/public/js/project.js:155
 msgid "Save"
 msgstr "Speichern"
 
@@ -9042,7 +9213,7 @@ msgstr "Speichern Sie zuerst, damit das eingegebene Token verwendet wird."
 msgid "Save to My Files"
 msgstr "In Meinen Dateien speichern"
 
-#: onedesk/public/js/onemail.js:921
+#: onedesk/public/js/onemail.js:939
 msgid "Saved to My Files."
 msgstr "In Meinen Dateien gespeichert."
 
@@ -9078,6 +9249,12 @@ msgstr "Geben Sie an, mit welchem Server verbunden werden soll."
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 msgid "Scan"
 msgstr ""
+
+#. Description of the 'Read Files Attached to Records' (Check) field in DocType
+#. 'Intake Settings'
+#: onedesk/one_intake/doctype/intake_settings/intake_settings.json
+msgid "Scans and photos attached on a form are read too, on behalf of whoever attached them."
+msgstr "Auch Scans und Fotos, die in einem Formular angehängt werden, werden gelesen, im Namen der Person, die sie angehängt hat."
 
 #: onedesk/public/js/project.js:24
 msgid "Schedule"
@@ -9116,7 +9293,7 @@ msgstr "Auswahlkriterien"
 msgid "Search"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:315 onedesk/public/js/onecloud.js:344
+#: onedesk/public/js/onecloud.js:319 onedesk/public/js/onecloud.js:348
 msgid "Search everywhere"
 msgstr "Überall suchen"
 
@@ -9124,7 +9301,7 @@ msgstr "Überall suchen"
 msgid "Search this mailbox"
 msgstr "Dieses Postfach durchsuchen"
 
-#: onedesk/public/js/onecloud.js:315
+#: onedesk/public/js/onecloud.js:319
 msgid "Search {0}"
 msgstr "{0} durchsuchen"
 
@@ -9160,7 +9337,7 @@ msgstr ""
 msgid "Select"
 msgstr "Auswählen"
 
-#: onedesk/public/js/onecloud.js:587
+#: onedesk/public/js/onecloud.js:594
 msgid "Select a file to preview it."
 msgstr "Wählen Sie eine Datei aus, um sie anzuzeigen."
 
@@ -9184,7 +9361,7 @@ msgstr "Senden"
 msgid "Send between one and {0} files at a time."
 msgstr "Senden Sie zwischen einer und {0} Dateien auf einmal."
 
-#: onedesk/public/js/onecloud.js:1564
+#: onedesk/public/js/onecloud.js:1574
 msgid "Send each person their link"
 msgstr "Senden Sie jeder Person ihren Link"
 
@@ -9192,7 +9369,7 @@ msgstr "Senden Sie jeder Person ihren Link"
 msgid "Send files here"
 msgstr "Dateien hierher senden"
 
-#: onedesk/public/js/onemail.js:762
+#: onedesk/public/js/onemail.js:780
 msgid "Send from it too"
 msgstr "Auch davon senden"
 
@@ -9279,11 +9456,11 @@ msgstr "Serien- und Chargennummern sind nutzbar"
 
 #. Label of the host (Data) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/public/js/onecloud.js:1446 onedesk/public/js/onemail.js:770
+#: onedesk/public/js/onecloud.js:1456 onedesk/public/js/onemail.js:788
 msgid "Server"
 msgstr "Server"
 
-#: onedesk/public/js/onecloud.js:1700
+#: onedesk/public/js/onecloud.js:1727
 msgid "Server connection"
 msgstr "Serververbindung"
 
@@ -9397,7 +9574,7 @@ msgstr ""
 msgid "Setup"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:1520
+#: onedesk/public/js/onecloud.js:1530
 msgid "Several"
 msgstr "Mehrere"
 
@@ -9406,7 +9583,7 @@ msgstr "Mehrere"
 msgid "Several Files"
 msgstr "Mehrere Dateien"
 
-#: onedesk/public/js/onecloud.js:93 onedesk/public/js/onecloud.js:1196
+#: onedesk/public/js/onecloud.js:93 onedesk/public/js/onecloud.js:1206
 msgid "Share"
 msgstr "Teilen"
 
@@ -9414,24 +9591,24 @@ msgstr "Teilen"
 msgid "Share the folders in My Files, not My Files itself."
 msgstr "Teilen Sie die Ordner in „Meine Dateien“, nicht „Meine Dateien“ selbst."
 
-#: onedesk/public/js/onecloud.js:1174 onedesk/public/js/onecloud.js:1247
+#: onedesk/public/js/onecloud.js:1184 onedesk/public/js/onecloud.js:1257
 msgid "Share {0}"
 msgstr "{0} teilen"
 
-#: onedesk/public/js/onecloud.js:503
+#: onedesk/public/js/onecloud.js:507
 msgid "Shared"
 msgstr "Geteilt"
 
-#: onedesk/public/js/onecloud.js:319
+#: onedesk/public/js/onecloud.js:323
 msgid "Shared by"
 msgstr "Geteilt von"
 
-#: onedesk/one_storage/namespace.py:379 onedesk/one_storage/namespace.py:624
-#: onedesk/one_storage/namespace.py:763
+#: onedesk/one_storage/namespace.py:381 onedesk/one_storage/namespace.py:626
+#: onedesk/one_storage/namespace.py:765
 msgid "Shared with Me"
 msgstr "Mit mir geteilt"
 
-#: onedesk/public/js/onecloud.js:1758
+#: onedesk/public/js/onecloud.js:1785
 msgid "Share…"
 msgstr "Teilen…"
 
@@ -9498,7 +9675,7 @@ msgstr "Bilder anzeigen"
 msgid "Show {0} more"
 msgstr "{0} weitere anzeigen"
 
-#: onedesk/public/js/onecloud.js:1662
+#: onedesk/public/js/onecloud.js:1672
 msgid "Shown once. Keep it somewhere safe."
 msgstr "Wird nur einmal angezeigt. Bewahren Sie es sicher auf."
 
@@ -9511,15 +9688,15 @@ msgstr "Belegt"
 msgid "Sign Count"
 msgstr "Signaturzähler"
 
-#: onedesk/public/js/onemail.js:830 onedesk/public/js/onemail.js:928
+#: onedesk/public/js/onemail.js:848 onedesk/public/js/onemail.js:946
 msgid "Signature"
 msgstr "Signatur"
 
-#: onedesk/public/js/onemail.js:825
+#: onedesk/public/js/onemail.js:843
 msgid "Signature for {0}"
 msgstr "Signatur für {0}"
 
-#: onedesk/public/js/onemail.js:839
+#: onedesk/public/js/onemail.js:857
 msgid "Signature saved."
 msgstr "Signatur gespeichert."
 
@@ -9539,7 +9716,7 @@ msgstr ""
 
 #. Label of the file_size (Int) field in DocType 'Cloud File Version'
 #: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
-#: onedesk/public/js/onecloud.js:122 onedesk/public/js/onecloud.js:606
+#: onedesk/public/js/onecloud.js:122 onedesk/public/js/onecloud.js:613
 msgid "Size"
 msgstr "Größe"
 
@@ -9567,19 +9744,19 @@ msgstr "Ein Ort für ein Anlagegut"
 msgid "Somewhere to keep stock"
 msgstr "Ein Ort für den Bestand"
 
-#: onedesk/public/js/onecloud.js:1786
+#: onedesk/public/js/onecloud.js:1816
 msgid "Sort by date"
 msgstr "Nach Datum sortieren"
 
-#: onedesk/public/js/onecloud.js:1785
+#: onedesk/public/js/onecloud.js:1815
 msgid "Sort by name"
 msgstr "Nach Name sortieren"
 
-#: onedesk/public/js/onecloud.js:1788
+#: onedesk/public/js/onecloud.js:1818
 msgid "Sort by size"
 msgstr "Nach Größe sortieren"
 
-#: onedesk/public/js/onecloud.js:1787
+#: onedesk/public/js/onecloud.js:1817
 msgid "Sort by type"
 msgstr "Nach Typ sortieren"
 
@@ -9650,18 +9827,18 @@ msgstr "Bewertung"
 
 #. Label of the star (Check) field in DocType 'Mail Rule'
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
-#: onedesk/public/js/onecloud.js:1761 onedesk/public/js/onemail.js:85
+#: onedesk/public/js/onecloud.js:1788 onedesk/public/js/onemail.js:85
 #: onedesk/public/js/onemail.js:329 onedesk/public/js/onemail.js:397
 msgid "Star"
 msgstr "Stern"
 
-#: onedesk/public/js/onecloud.js:363
+#: onedesk/public/js/onecloud.js:367
 msgid "Star a file or folder to find it here. Right-click it and choose Star."
 msgstr "Markieren Sie eine Datei oder einen Ordner mit einem Stern, um sie hier zu finden. Rechtsklick und „Stern“ wählen."
 
 #. Label of the one_flagged (Check) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json
-#: onedesk/one_storage/namespace.py:378 onedesk/public/js/onecloud.js:505
+#: onedesk/one_storage/namespace.py:380 onedesk/public/js/onecloud.js:509
 msgid "Starred"
 msgstr "Mit Stern"
 
@@ -9723,12 +9900,14 @@ msgstr "Beginnt mit der Erfassung"
 #. Label of the state (Select) field in DocType 'Credit Reservation'
 #. Label of the state (Select) field in DocType 'AI Proposal'
 #. Label of the state (Select) field in DocType 'Interview Recording Part'
+#. Label of the state (Select) field in DocType 'Reading'
 #. Label of the state (Select) field in DocType 'Cloud File Request Recipient'
 #. Label of the section_state (Section Break) field in DocType 'Cloud Mount'
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_book/report/books_check/books_check.py:16
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
+#: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 msgid "State"
@@ -9867,6 +10046,10 @@ msgstr "Zuhören beenden"
 msgid "Stop offering"
 msgstr "Nicht mehr anbieten"
 
+#: onedesk/public/js/onecloud.js:1792 onedesk/public/js/onemail.js:948
+msgid "Stop reading with OneAI"
+msgstr "Nicht mehr mit OneAI lesen"
+
 #: onedesk/public/js/oneai/Panel.vue:146
 msgid "Stop sending this"
 msgstr "Dies nicht mehr senden"
@@ -9914,7 +10097,7 @@ msgstr "Speicher (GB)"
 #. Label of a Sidebar Item
 #: onedesk/one_storage/report/storage_check/storage_check.json
 #: onedesk/one_storage/sidebar/onecloud/onecloud.json
-#: onedesk/public/js/onecloud.js:1794
+#: onedesk/public/js/onecloud.js:1824
 msgid "Storage Check"
 msgstr "Speicherprüfung"
 
@@ -9993,7 +10176,7 @@ msgid "Sub-tasks"
 msgstr "Unteraufgaben"
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:297
-#: onedesk/public/js/onemail.js:718
+#: onedesk/public/js/onemail.js:736
 msgid "Subject"
 msgstr "Betreff"
 
@@ -10125,7 +10308,7 @@ msgstr "Systemanweisung"
 msgid "System Manager"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:469
+#: onedesk/public/js/onecloud.js:473
 msgid "TB"
 msgstr "TB"
 
@@ -10272,7 +10455,10 @@ msgid "Territory"
 msgstr ""
 
 #. Label of the reads_text (Check) field in DocType 'AI Model'
+#. Label of the section_text (Section Break) field in DocType 'Reading'
+#. Label of the text (Long Text) field in DocType 'Reading'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/public/js/ai_action_setting.js:82
 msgid "Text"
 msgstr ""
@@ -10318,11 +10504,11 @@ msgstr "Das ist nicht durchgegangen."
 msgid "That did not work."
 msgstr "Das hat nicht geklappt."
 
-#: onedesk/one_mail/api.py:103
+#: onedesk/one_mail/api.py:107
 msgid "That folder is not in this mailbox."
 msgstr "Dieser Ordner ist nicht in diesem Postfach."
 
-#: onedesk/one_storage/api.py:33 onedesk/one_storage/api.py:78
+#: onedesk/one_storage/api.py:33 onedesk/one_storage/api.py:91
 #: onedesk/one_storage/dav.py:319
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.py:24
 #: onedesk/one_storage/file_requests.py:158 onedesk/one_storage/history.py:76
@@ -10417,7 +10603,7 @@ msgstr "Die Frappe-Cloud-Hauptdomain, auf der Sites angelegt werden, zum Beispie
 msgid "The Message-ID of the first message in its conversation."
 msgstr "Die Message-ID der ersten Nachricht in ihrer Unterhaltung."
 
-#: onedesk/public/js/onecloud.js:356
+#: onedesk/public/js/onecloud.js:360
 msgid "The Recycle Bin is empty."
 msgstr "Der Papierkorb ist leer."
 
@@ -10435,7 +10621,7 @@ msgstr "Der beim Checkout berechnete Stripe-Preis. Muss dem Betrag oben entsprec
 msgid "The VAT return knows the VAT accounts"
 msgstr "Die USt-Erklärung kennt die USt-Konten"
 
-#: onedesk/public/js/onecloud.js:1454
+#: onedesk/public/js/onecloud.js:1464
 msgid "The WebDAV address, starting https://."
 msgstr "Die WebDAV-Adresse, beginnend mit https://."
 
@@ -10544,6 +10730,11 @@ msgstr "Die Standardbank des Unternehmens und jede Bank-Zahlungsart verweisen au
 #: onedesk/one_book/ready.py:178
 msgid "The company's emirate is known"
 msgstr "Das Emirat des Unternehmens ist bekannt"
+
+#. Description of the 'Key' (Data) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "The content's hash, so the same file anywhere is read once."
+msgstr "Der Hash des Inhalts, damit dieselbe Datei nur einmal gelesen wird."
 
 #: onedesk/public/js/leave_application.js:13
 msgid "The days are spent and the attendance is marked."
@@ -10818,6 +11009,11 @@ msgstr ""
 msgid "Then"
 msgstr "Dann"
 
+#. Description of the 'History' (Check) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "There before OneAI was switched on, so it is only filed and searchable."
+msgstr "War schon da, bevor OneAI eingeschaltet wurde, und wird deshalb nur abgelegt und durchsuchbar gemacht."
+
 #: onedesk/one_mail/actions.py:313
 msgid "There is already a folder called {0}."
 msgstr "Es gibt bereits einen Ordner namens {0}."
@@ -10837,6 +11033,10 @@ msgstr "Es gibt kein Firmenbankkonto, daher weiß eine Überweisung nicht, wohin
 #: onedesk/one_hr/overtime.py:120
 msgid "There is no day to record this against."
 msgstr "Es gibt keinen Tag, auf dem das erfasst werden könnte."
+
+#: onedesk/one_intake/switches.py:48
+msgid "There is no folder {0} you may open."
+msgstr "Es gibt keinen Ordner {0}, den Sie öffnen dürfen."
 
 #: onedesk/one_inventory/ready.py:101
 msgid "There is no location, and an asset will not save without one."
@@ -10858,7 +11058,7 @@ msgstr "Diese Datei gibt es nicht."
 msgid "There is no warehouse, so nothing can be received."
 msgstr "Es gibt kein Lager, daher kann nichts eingehen."
 
-#: onedesk/one_storage/api.py:125
+#: onedesk/one_storage/api.py:138
 msgid "There is no {0} here."
 msgstr "Hier gibt es kein {0}."
 
@@ -10878,7 +11078,7 @@ msgstr "Diese Tage liegen über dem Tagesmaximum der Überstundenart. Vergütet 
 msgid "These days will be marked as worked."
 msgstr "Diese Tage werden als gearbeitet erfasst."
 
-#: onedesk/public/js/onecloud.js:1187
+#: onedesk/public/js/onecloud.js:1197
 msgid "They can"
 msgstr "Sie können"
 
@@ -10931,15 +11131,15 @@ msgstr "Dieser Mitarbeiter hat bereits einen Passkey. Die Personalabteilung muss
 msgid "This employee's passkey is blocked. HR must reset it before another can be registered."
 msgstr "Der Passkey dieses Mitarbeiters ist gesperrt. Die Personalabteilung muss ihn zurücksetzen, bevor ein neuer registriert werden kann."
 
-#: onedesk/public/js/onecloud.js:1219
+#: onedesk/public/js/onecloud.js:1229
 msgid "This file is attached to a record, and goes to whoever may open the record."
 msgstr "Diese Datei hängt an einem Datensatz und ist für alle sichtbar, die den Datensatz öffnen dürfen."
 
-#: onedesk/public/js/onecloud.js:370 onedesk/www/s.html:97
+#: onedesk/public/js/onecloud.js:374 onedesk/www/s.html:97
 msgid "This folder is empty."
 msgstr "Dieser Ordner ist leer."
 
-#: onedesk/public/js/onecloud.js:369
+#: onedesk/public/js/onecloud.js:373
 msgid "This folder is empty. Drop files here, or use New."
 msgstr "Dieser Ordner ist leer. Legen Sie Dateien hier ab oder verwenden Sie „Neu“."
 
@@ -11023,7 +11223,7 @@ msgstr "Das dauert ein paar Minuten. Ein Link geht per E-Mail an {0}, sobald er 
 msgid "This was shared with particular people. We will send a code to the address it was shared with."
 msgstr "Dies wurde mit bestimmten Personen geteilt. Wir senden einen Code an die Adresse, mit der es geteilt wurde."
 
-#: onedesk/public/js/onecloud.js:1569
+#: onedesk/public/js/onecloud.js:1579
 msgid "This workspace cannot send email yet, so pass each link on yourself. Each link is that person's own."
 msgstr "Dieser Arbeitsbereich kann noch keine E-Mails senden, geben Sie die Links also selbst weiter. Jeder Link gehört einer Person."
 
@@ -11071,7 +11271,7 @@ msgstr "Gesetzt, wenn der Timer diesen Block beendet hat, oder von Hand. Eine ni
 msgid "Ticked {0} of {1}"
 msgstr "{0} von {1} angekreuzt"
 
-#: onedesk/public/js/onecloud.js:103 onedesk/public/js/onecloud.js:1782
+#: onedesk/public/js/onecloud.js:103 onedesk/public/js/onecloud.js:1812
 msgid "Tiles"
 msgstr "Kacheln"
 
@@ -11100,14 +11300,16 @@ msgstr ""
 
 #. Label of the title (Data) field in DocType 'AI Chat'
 #. Label of the title (Data) field in DocType 'AI Knowledge'
+#. Label of the title (Data) field in DocType 'Reading'
 #. Label of the title (Data) field in DocType 'Cloud File Request'
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
+#: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 msgid "Title"
 msgstr "Titel"
 
-#: onedesk/public/js/onemail.js:495 onedesk/public/js/onemail.js:718
+#: onedesk/public/js/onemail.js:495 onedesk/public/js/onemail.js:736
 msgid "To"
 msgstr "An"
 
@@ -11335,6 +11537,11 @@ msgstr ""
 msgid "Tried {0} times."
 msgstr "{0}-mal versucht."
 
+#. Label of the tries (Int) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Tries"
+msgstr "Versuche"
+
 #: onedesk/public/js/oneai/Panel.vue:128
 msgid "Try again"
 msgstr "Erneut versuchen"
@@ -11370,7 +11577,7 @@ msgstr ""
 #. Label of the document_type (Link) field in DocType 'Employee Document'
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
-#: onedesk/public/js/onecloud.js:121 onedesk/public/js/onecloud.js:605
+#: onedesk/public/js/onecloud.js:121 onedesk/public/js/onecloud.js:612
 msgid "Type"
 msgstr ""
 
@@ -11468,11 +11675,16 @@ msgstr "Leads ohne nächsten Schritt"
 msgid "Unread"
 msgstr "Ungelesen"
 
+#. Option for the 'State' (Select) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Unreadable"
+msgstr "Nicht lesbar"
+
 #: onedesk/public/js/onemail.js:329 onedesk/public/js/onemail.js:397
 msgid "Unstar"
 msgstr "Stern entfernen"
 
-#: onedesk/public/js/onemail.js:808
+#: onedesk/public/js/onemail.js:826
 msgid "Until"
 msgstr "Bis"
 
@@ -11493,19 +11705,19 @@ msgstr "Nach oben"
 msgid "Up To"
 msgstr "Bis"
 
-#: onedesk/public/js/onecloud.js:1707 onedesk/public/js/onecloud.js:1776
+#: onedesk/public/js/onecloud.js:1734 onedesk/public/js/onecloud.js:1806
 msgid "Upload files"
 msgstr "Dateien hochladen"
 
-#: onedesk/public/js/onecloud.js:1708 onedesk/public/js/onecloud.js:1777
+#: onedesk/public/js/onecloud.js:1735 onedesk/public/js/onecloud.js:1807
 msgid "Upload folder"
 msgstr "Ordner hochladen"
 
-#: onedesk/public/js/onecloud.js:1762
+#: onedesk/public/js/onecloud.js:1789
 msgid "Upload new version"
 msgstr "Neue Version hochladen"
 
-#: onedesk/public/js/onecloud.js:2094
+#: onedesk/public/js/onecloud.js:2124
 msgid "Uploading {0} of {1}"
 msgstr "{0} von {1} wird hochgeladen"
 
@@ -11554,7 +11766,7 @@ msgstr ""
 msgid "Used in URLs. Do not change it once the offering has been sold."
 msgstr "Wird in URLs verwendet. Nach dem ersten Verkauf nicht mehr ändern."
 
-#: onedesk/public/js/onecloud.js:1683
+#: onedesk/public/js/onecloud.js:1693
 msgid "Used {0}"
 msgstr "Verwendet {0}"
 
@@ -11574,7 +11786,7 @@ msgstr ""
 
 #. Label of the username (Data) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/public/js/onecloud.js:1456
+#: onedesk/public/js/onecloud.js:1466
 msgid "User Name"
 msgstr "Benutzername"
 
@@ -11583,7 +11795,7 @@ msgstr "Benutzername"
 msgid "User Verified"
 msgstr "Benutzer verifiziert"
 
-#: onedesk/public/js/onecloud.js:1644
+#: onedesk/public/js/onecloud.js:1654
 msgid "User name"
 msgstr "Benutzername"
 
@@ -11650,11 +11862,11 @@ msgstr ""
 msgid "Version"
 msgstr "Version"
 
-#: onedesk/public/js/onecloud.js:642
+#: onedesk/public/js/onecloud.js:649
 msgid "Version {0}"
 msgstr "Version {0}"
 
-#: onedesk/public/js/onecloud.js:631
+#: onedesk/public/js/onecloud.js:638
 msgid "Versions"
 msgstr "Versionen"
 
@@ -11672,7 +11884,7 @@ msgstr "Video"
 msgid "Video Generation"
 msgstr "Videoerzeugung"
 
-#: onedesk/public/js/onecloud.js:1189 onedesk/public/js/project.js:13
+#: onedesk/public/js/onecloud.js:1199 onedesk/public/js/project.js:13
 #: onedesk/public/js/project.js:23
 msgid "View"
 msgstr "Ansehen"
@@ -11693,13 +11905,18 @@ msgstr "Bildverstehen"
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:257
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
-#: onedesk/public/js/onecloud.js:1586 onedesk/public/js/tenant_domain.js:24
+#: onedesk/public/js/onecloud.js:1596 onedesk/public/js/tenant_domain.js:24
 msgid "Waiting"
 msgstr "Wartend"
 
 #: onedesk/public/js/crm_record.js:93
 msgid "Waiting For a Reply"
 msgstr "Wartet auf Antwort"
+
+#. Option for the 'State' (Select) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Waiting for Credits"
+msgstr "Wartet auf Guthaben"
 
 #: onedesk/www/welcome.py:17
 msgid "Waiting for the payment to settle."
@@ -11801,6 +12018,11 @@ msgstr "Was kommt als Nächstes?"
 msgid "What It Means"
 msgstr "Was es bedeutet"
 
+#. Description of a DocType
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "What OneAI read in one file or message. One per content, however many places it is in."
+msgstr "Was OneAI in einer Datei oder Nachricht gelesen hat. Eine pro Inhalt, egal an wie vielen Orten er liegt."
+
 #: onedesk/public/js/oneai/Panel.vue:46
 msgid "What OneAI remembers"
 msgstr "Was OneAI sich merkt"
@@ -11887,6 +12109,11 @@ msgstr "Wie sich der Browser bei der Registrierung des Passkeys bezeichnet hat."
 msgid "What the company hands over up front, before anything is spent or claimed."
 msgstr "Was das Unternehmen im Voraus auszahlt, bevor etwas ausgegeben oder beantragt wird."
 
+#. Description of the 'Data' (JSON) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "What the file said as data, such as an e-invoice, a bank statement, a card or a message's headers."
+msgstr "Was die Datei als Daten enthielt, etwa eine E-Rechnung, einen Kontoauszug, eine Visitenkarte oder die Kopfzeilen einer Nachricht."
+
 #. Description of the 'Title' (Data) field in DocType 'Cloud File Request'
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 msgid "What the files are for, as the people asked will see it."
@@ -11938,7 +12165,7 @@ msgstr "Worauf der Vorschlag beruht. Wird dem erstellten Datensatz angehängt."
 msgid "What the workspace was sold. Quotas are copied to this record, not read from here."
 msgstr "Was dem Arbeitsbereich verkauft wurde. Kontingente werden in diesen Datensatz kopiert, nicht von hier gelesen."
 
-#: onedesk/public/js/onecloud.js:1504
+#: onedesk/public/js/onecloud.js:1514
 msgid "What they are for"
 msgstr "Wofür sie sind"
 
@@ -12090,7 +12317,7 @@ msgstr "Von wo die Desk-Sitzung dieses Benutzers aktiv war, sofern vorhanden."
 msgid "Whether a running project is going to plan. Status says whether it is running."
 msgstr "Ob ein laufendes Projekt nach Plan verläuft. Der Status sagt, ob es läuft."
 
-#: onedesk/public/js/onecloud.js:1656
+#: onedesk/public/js/onecloud.js:1666
 msgid "Which computer is it for?"
 msgstr "Für welchen Computer?"
 
@@ -12115,6 +12342,11 @@ msgstr "Welche offenen Deals sind eingeschlafen: Seit zwei Wochen hat niemand mi
 msgid "Which open leads are waiting on us: nobody has spoken to them for a week and nothing is planned?"
 msgstr "Welche offenen Leads warten auf uns: Seit einer Woche hat niemand mit ihnen gesprochen, und nichts ist geplant?"
 
+#. Description of the 'Part' (Data) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Which pages of a scan, or which file in an archive or message."
+msgstr "Welche Seiten eines Scans oder welche Datei in einem Archiv oder einer Nachricht."
+
 #: onedesk/public/js/asset.js:54 onedesk/public/js/asset.js:55
 msgid "Who Has It"
 msgstr "Wer hat es"
@@ -12123,7 +12355,7 @@ msgstr "Wer hat es"
 msgid "Who Supplies the Rest?"
 msgstr "Wer liefert den Rest?"
 
-#: onedesk/public/js/onecloud.js:1290
+#: onedesk/public/js/onecloud.js:1300
 msgid "Who can open it"
 msgstr "Wer ihn öffnen kann"
 
@@ -12189,7 +12421,7 @@ msgstr "Gewinnquote (%)"
 msgid "Win Rate (90 Days)"
 msgstr "Gewinnquote (90 Tage)"
 
-#: onedesk/public/js/onecloud.js:1636
+#: onedesk/public/js/onecloud.js:1646
 msgid "Windows"
 msgstr "Windows"
 
@@ -12308,6 +12540,8 @@ msgstr "Arbeitsbereich-Konto"
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
+#: onedesk/one_intake/doctype/intake_settings/intake_settings.json
+#: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_mail/doctype/face/face.json
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json
@@ -12486,7 +12720,7 @@ msgstr ""
 msgid "You"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:364
+#: onedesk/public/js/onecloud.js:368
 msgid "You are not in any library yet. A library is a folder a team shares, with members who can read or edit it. Use New to make one."
 msgstr "Sie sind noch in keiner Bibliothek. Eine Bibliothek ist ein Ordner, den ein Team teilt, mit Mitgliedern, die lesen oder bearbeiten können. Erstellen Sie eine mit „Neu“."
 
@@ -12538,8 +12772,8 @@ msgstr "Sie dürfen diesem Ordner nichts hinzufügen."
 msgid "You may not change {0}."
 msgstr "Sie dürfen {0} nicht ändern."
 
-#: onedesk/one_storage/api.py:240 onedesk/one_storage/api.py:261
-#: onedesk/one_storage/api.py:306
+#: onedesk/one_storage/api.py:253 onedesk/one_storage/api.py:274
+#: onedesk/one_storage/api.py:319
 msgid "You may not open {0}."
 msgstr "Sie dürfen {0} nicht öffnen."
 
@@ -12601,7 +12835,7 @@ msgstr "Ihre Unterhaltungen"
 msgid "Your desk session is signed in from a different address."
 msgstr "Ihre Desk-Sitzung ist von einer anderen Adresse aus angemeldet."
 
-#: onedesk/public/js/onecloud.js:1676
+#: onedesk/public/js/onecloud.js:1686
 msgid "Your drive passwords"
 msgstr "Ihre Laufwerkspasswörter"
 
@@ -12613,7 +12847,7 @@ msgstr "Ihre E-Mail-Adresse"
 msgid "Your passkey has been reset twice within a month."
 msgstr "Ihr Passkey wurde innerhalb eines Monats zweimal zurückgesetzt."
 
-#: onedesk/public/js/onecloud.js:319
+#: onedesk/public/js/onecloud.js:323
 msgid "Your role"
 msgstr "Ihre Rolle"
 
@@ -12681,7 +12915,7 @@ msgstr "bereits gesetzt"
 msgid "an hour"
 msgstr "eine Stunde"
 
-#: onedesk/public/js/oneai/Panel.vue:105 onedesk/public/js/onecloud.js:1982
+#: onedesk/public/js/oneai/Panel.vue:105 onedesk/public/js/onecloud.js:2012
 msgid "and {0} more"
 msgstr "und {0} weitere"
 
@@ -12699,15 +12933,15 @@ msgstr "Firmenname"
 msgid "cached"
 msgstr "zwischengespeichert"
 
-#: onedesk/public/js/onecloud.js:1265
+#: onedesk/public/js/onecloud.js:1275
 msgid "can download"
 msgstr "kann herunterladen"
 
-#: onedesk/public/js/onecloud.js:1265
+#: onedesk/public/js/onecloud.js:1275
 msgid "can upload"
 msgstr "kann hochladen"
 
-#: onedesk/public/js/onecloud.js:1265
+#: onedesk/public/js/onecloud.js:1275
 msgid "can view"
 msgstr "kann ansehen"
 
@@ -12752,7 +12986,7 @@ msgstr "seit {0} · üblich {1}"
 msgid "from the token"
 msgstr "aus dem Token"
 
-#: onedesk/public/js/onecloud.js:1216
+#: onedesk/public/js/onecloud.js:1226
 msgid "from {0}"
 msgstr "über {0}"
 
@@ -12804,7 +13038,7 @@ msgstr "unverändert gelassen"
 msgid "left early"
 msgstr "früher gegangen"
 
-#: onedesk/public/js/onecloud.js:1637
+#: onedesk/public/js/onecloud.js:1647
 msgid "macOS"
 msgstr "macOS"
 
@@ -12821,7 +13055,7 @@ msgstr "hat einen Link für {0} erstellt"
 msgid "manual"
 msgstr "von Hand"
 
-#: onedesk/one_storage/api.py:215
+#: onedesk/one_storage/api.py:228
 msgid "moved it from {0}"
 msgstr "hat es aus {0} verschoben"
 
@@ -12841,7 +13075,7 @@ msgstr "keiner davon aktiv."
 msgid "nothing"
 msgstr "nichts"
 
-#: onedesk/public/js/onecloud.js:1268
+#: onedesk/public/js/onecloud.js:1278
 msgid "opened {0} times"
 msgstr "{0}-mal geöffnet"
 
@@ -12863,7 +13097,15 @@ msgstr "sonstige"
 msgid "output"
 msgstr "Ausgabe"
 
-#: onedesk/public/js/onecloud.js:1267
+#: onedesk/one_intake/pipeline.py:233
+msgid "page {0}"
+msgstr "Seite {0}"
+
+#: onedesk/one_intake/pipeline.py:233
+msgid "pages {0}–{1}"
+msgstr "Seiten {0}–{1}"
+
+#: onedesk/public/js/onecloud.js:1277
 msgid "password"
 msgstr "Passwort"
 
@@ -12875,15 +13117,15 @@ msgstr "Telefonnummer"
 msgid "placed {0} of {1}"
 msgstr "Platz {0} von {1}"
 
-#: onedesk/one_storage/api.py:412
+#: onedesk/one_storage/api.py:425
 msgid "put it back from the Recycle Bin"
 msgstr "hat es aus dem Papierkorb zurückgeholt"
 
-#: onedesk/public/js/onecloud.js:1266
+#: onedesk/public/js/onecloud.js:1276
 msgid "ran out {0}"
 msgstr "abgelaufen {0}"
 
-#: onedesk/one_storage/api.py:164
+#: onedesk/one_storage/api.py:177
 msgid "renamed it from {0}"
 msgstr "hat es von {0} umbenannt"
 
@@ -12931,7 +13173,7 @@ msgstr "weniger als eine Stunde"
 msgid "units"
 msgstr "Einheiten"
 
-#: onedesk/public/js/onecloud.js:1266
+#: onedesk/public/js/onecloud.js:1276
 msgid "until {0}"
 msgstr "bis {0}"
 
@@ -12957,6 +13199,14 @@ msgstr "vorher: {0}"
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "workers-ai"
 msgstr "workers-ai"
+
+#: onedesk/one_intake/search.py:122
+msgid "{0} (in documents)"
+msgstr "{0} (in Dokumenten)"
+
+#: onedesk/one_intake/search.py:132
+msgid "{0} (in mail)"
+msgstr "{0} (in Mails)"
 
 #: onedesk/www/start.py:105
 msgid "{0} AI credits a month"
@@ -13056,7 +13306,7 @@ msgstr "{0} gehört zu {1} {2}. Teilen Sie stattdessen den Datensatz."
 msgid "{0} cannot be a name in an address. Use letters, digits, - and _."
 msgstr "{0} kann kein Name in einer Adresse sein. Verwenden Sie Buchstaben, Ziffern, - und _."
 
-#: onedesk/one_storage/api.py:377
+#: onedesk/one_storage/api.py:390
 msgid "{0} cannot be deleted."
 msgstr "{0} kann nicht gelöscht werden."
 
@@ -13183,7 +13433,7 @@ msgstr "{0} zeigt nicht auf diesen Arbeitsbereich. Der Kunde muss sein DNS ände
 msgid "{0} expire on {1}."
 msgstr "{0} verfallen am {1}."
 
-#: onedesk/public/js/onecloud.js:464
+#: onedesk/public/js/onecloud.js:468
 msgid "{0} file"
 msgstr "{0}-Datei"
 
@@ -13199,7 +13449,7 @@ msgstr "{0} Dateien sind über Ihren Link in {1} eingegangen"
 msgid "{0} files from before cloud storage are still on the server's disk."
 msgstr "{0} Dateien aus der Zeit vor dem Cloud-Speicher liegen noch auf der Festplatte des Servers."
 
-#: onedesk/public/js/onecloud.js:1984
+#: onedesk/public/js/onecloud.js:2014
 msgid "{0} files with these names are already here"
 msgstr "{0} Dateien mit diesen Namen sind bereits hier"
 
@@ -13271,7 +13521,7 @@ msgstr ""
 msgid "{0} hours, {1}, not invoiced yet."
 msgstr "{0} Stunden, {1}, noch nicht abgerechnet."
 
-#: onedesk/one_storage/api.py:259
+#: onedesk/one_storage/api.py:272
 msgid "{0} is a folder. Choose the files in it."
 msgstr "{0} ist ein Ordner. Wählen Sie die Dateien darin."
 
@@ -13315,7 +13565,7 @@ msgstr "{0} liegt bereits unter {1} und kann daher nicht sein übergeordnetes Pr
 msgid "{0} is asked for twice."
 msgstr "{0} wird zweimal angefordert."
 
-#: onedesk/one_storage/api.py:204
+#: onedesk/one_storage/api.py:217
 msgid "{0} is in somebody else's files. Copy it instead."
 msgstr "{0} liegt in den Dateien einer anderen Person. Kopieren Sie es stattdessen."
 
@@ -13379,7 +13629,7 @@ msgstr "{0} wird nicht angeboten, daher kann nichts darauf zurückfallen."
 msgid "{0} is not on this workspace."
 msgstr "{0} gehört nicht zu diesem Arbeitsbereich."
 
-#: onedesk/one_mail/holders.py:134
+#: onedesk/one_mail/holders.py:136
 msgid "{0} is not somebody who works here."
 msgstr "{0} arbeitet nicht hier."
 
@@ -13424,11 +13674,11 @@ msgstr "{0} ist der letzte Eigentümer von {1}. Machen Sie zuerst jemand anderen
 msgid "{0} is {1}, so it cannot be offered."
 msgstr "{0} ist {1} und kann daher nicht angeboten werden."
 
-#: onedesk/public/js/onecloud.js:569
+#: onedesk/public/js/onecloud.js:576
 msgid "{0} items"
 msgstr "{0} Elemente"
 
-#: onedesk/public/js/onecloud.js:572 onedesk/public/js/onecloud.js:586
+#: onedesk/public/js/onecloud.js:579 onedesk/public/js/onecloud.js:593
 msgid "{0} items selected"
 msgstr "{0} Elemente ausgewählt"
 
@@ -13560,11 +13810,11 @@ msgstr "{0} signiert und noch nicht gezählt."
 msgid "{0} to {1}"
 msgstr "{0} bis {1}"
 
-#: onedesk/public/js/onecloud.js:2097
+#: onedesk/public/js/onecloud.js:2127
 msgid "{0} uploaded"
 msgstr "{0} hochgeladen"
 
-#: onedesk/public/js/onecloud.js:2096
+#: onedesk/public/js/onecloud.js:2126
 msgid "{0} uploaded, {1} failed"
 msgstr "{0} hochgeladen, {1} fehlgeschlagen"
 
@@ -13585,7 +13835,7 @@ msgstr "{0} war bereits {1}."
 msgid "{0} was archived. Its site has to be rebuilt from the backup before it can be live again, and that is not something a payment does on its own."
 msgstr "{0} wurde archiviert. Die Site muss aus der Sicherung neu aufgebaut werden, bevor sie wieder live sein kann, und das tut eine Zahlung nicht von allein."
 
-#: onedesk/one_mail/holders.py:154
+#: onedesk/one_mail/holders.py:156
 msgid "{0} was connected without sending, so it cannot send for the workspace."
 msgstr "{0} wurde ohne Versand verbunden und kann daher nicht für den Arbeitsbereich senden."
 

@@ -664,6 +664,24 @@ onedesk.OneMail = class OneMail {
 		setTimeout(() => $(document).on("mousedown.om-menu", (e) => !$(e.target).closest(".om-menu").length && this.close_menu()));
 	}
 
+	// Whether OneAI reads new mail here: asked once, in plain words, because
+	// it is the holders' consent (one_intake/switches.py).
+	intake(on) {
+		const box = this.box;
+		const set = async () => {
+			const state = await frappe.xcall("onedesk.one_intake.switches.set_mailbox", { account: box.name, on: on ? 1 : 0 });
+			box.intake = state.on;
+			frappe.show_alert({ message: on ? __("OneAI reads new mail in {0}.", [box.email]) : __("OneAI no longer reads {0}.", [box.email]), indicator: "green" });
+		};
+		if (!on) return set();
+		frappe.confirm(
+			__("OneAI will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos are read with OneAI credits.", [
+				`<b>${frappe.utils.escape_html(box.email)}</b>`,
+			]),
+			set
+		);
+	}
+
 	// A small menu of [icon, label, do] under a button.
 	menu(anchor, items) {
 		this.close_menu();
@@ -926,6 +944,9 @@ onedesk.OneMail = class OneMail {
 						["list-filter", __("Rules"), () => frappe.set_route("List", "Mail Rule", { account: this.box.name })],
 						["plane", __("Out of office"), () => this.away()],
 						["signature", __("Signature"), () => this.signature()],
+						this.box.intake
+							? ["scan-text", __("Stop reading with OneAI"), () => this.intake(false)]
+							: ["scan-text", __("Read with OneAI…"), () => this.intake(true)],
 					]),
 				rules: () => frappe.set_route("List", "Mail Rule", { account: this.box.name }),
 				away: () => this.away(),

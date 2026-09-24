@@ -48,6 +48,8 @@ after_install = [
 # and nobody is ever asked which company; see one/company.py.
 after_migrate = [
 	"onedesk.one.roles.ensure",
+	# The index that makes document text searchable. See one_intake/search.py.
+	"onedesk.one_intake.search.index",
 	"onedesk.one_storage.store.unlimit",
 	"onedesk.one.companions.apply",
 	"onedesk.one.company.hide",
@@ -87,6 +89,9 @@ scheduler_events = {
 		# usually brings it sooner; this is what makes sure.
 		# Connected mailboxes: one job each, reading what changed on the server.
 		"* * * * *": ["onedesk.one_mail.inbound.sweep", "onedesk.one_mail.sync.sync_all"],
+		# Readings that waited for credits are tried again, and files that were
+		# never read are caught up. See one_intake/pipeline.py.
+		"*/15 * * * *": ["onedesk.one_intake.pipeline.again"],
 	},
 	"daily": [
 		# Faces not found a month ago are looked for again. See one_mail/faces.py.
@@ -221,6 +226,8 @@ doc_events = {
 	# A recording's sound goes by its retention or an HR Manager's hand; a
 	# file's OneCloud links and versions go with it.
 	"File": {
+		# Every new file is read, once per content. See one_intake/pipeline.py.
+		"after_insert": "onedesk.one_intake.pipeline.file_added",
 		# An open OneCloud folder redraws; see one_storage/live.py.
 		"on_update": "onedesk.one_storage.live.changed",
 		"on_trash": [
@@ -411,6 +418,9 @@ permission_query_conditions = {
 	"Tenant Domain": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Tenant Event": "onedesk.one_admin.site.nothing_on_a_tenant",
 }
+
+# Ctrl+K finds documents by what is written in them. See one_intake/search.py.
+awesomebar_search = ["onedesk.one_intake.search.awesomebar"]
 
 fixtures = [
 	"Custom Icon",

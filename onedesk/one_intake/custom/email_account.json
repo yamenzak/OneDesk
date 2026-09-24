@@ -1,0 +1,34 @@
+{
+ "custom_fields": [
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "fieldname": "one_intake",
+   "fieldtype": "Check",
+   "insert_after": "one_away_message",
+   "label": "Read by OneAI",
+   "description": "New mail in this mailbox is read, filed and acted on by OneAI.",
+   "read_only": 1,
+   "module": "One Intake",
+   "name": "Email Account-one_intake"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
+   "fieldname": "one_intake_for",
+   "fieldtype": "Link",
+   "options": "User",
+   "insert_after": "one_intake",
+   "label": "On Behalf Of",
+   "description": "OneAI does here only what this person may do.",
+   "depends_on": "one_intake",
+   "read_only": 1,
+   "module": "One Intake",
+   "name": "Email Account-one_intake_for"
+  }
+ ],
+ "doctype": "Email Account",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

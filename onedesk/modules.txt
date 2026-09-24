@@ -10,3 +10,4 @@ One Book
 One Inventory
 One Storage
 One Mail
+One Intake

@@ -65,6 +65,19 @@ def _taken(folder: str, but: str | None = None) -> set:
 	return set(frappe.get_all("File", filters=filters, pluck="file_name"))
 
 
+def _searched(node: str, search: str, everywhere: int) -> list[dict]:
+	"""What is called that, then what has it written inside (one_intake/search.py)."""
+	from onedesk.one_intake import search as inside
+
+	by_name = ns.everywhere(search) if everywhere else ns.search(node, search)
+	kind = ns.parse(node)
+	if not everywhere and kind[0] not in (ns.MY, ns.COMPANY, "file", ns.ROOT):
+		return by_name
+	under = None if everywhere or kind[0] == ns.ROOT else ns.below(ns.folder_of(node))
+	named = {one["id"] for one in by_name}
+	return by_name + [one for one in inside.in_files(search, under) if one["id"] not in named]
+
+
 @frappe.whitelist()
 @frappe.read_only()
 def listing(node: str = ns.ROOT, search: str | None = None, everywhere: int = 0) -> dict:
@@ -88,7 +101,7 @@ def listing(node: str = ns.ROOT, search: str | None = None, everywhere: int = 0)
 		"node": node,
 		"trail": ns.trail(node),
 		"watch": live.watch(node, bool(search)),
-		"items": (ns.everywhere(search) if int(everywhere or 0) else ns.search(node, search)) if search else ns.children(node),
+		"items": _searched(node, search, int(everywhere or 0)) if search else ns.children(node),
 		"can_add": can_add,
 		"can_make_folder": can_add and kind[0] != ns.RECORDS,
 		"can_make_library": kind[0] == ns.LIBRARIES and ns._staff(frappe.session.user),

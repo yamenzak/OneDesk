@@ -328,6 +328,26 @@
 	text-overflow: ellipsis;
 }
 
+.oc-intake {
+	width: 14px;
+	height: 14px;
+	flex-shrink: 0;
+}
+
+.oc-titles {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.oc-found {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	color: var(--ink-gray-5);
+	font-size: var(--text-xs);
+}
+
 .oc-picture {
 	display: inline-flex;
 	align-items: center;

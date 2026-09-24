@@ -13,10 +13,13 @@ not care about the difference does not have to name both.
 class Refused(Exception):
 	"""Press said no and will say no again. Do not retry."""
 
-	def __init__(self, message: str, status: int | None = None, detail: str | None = None):
+	def __init__(self, message: str, status: int | None = None, detail: str | None = None, said: str | None = None):
 		super().__init__(message)
 		self.status = status
 		self.detail = detail
+		#: The other side's own exception name, where it sent one: "NotEnough"
+		#: is a workspace out of credits, which waits rather than fails.
+		self.said = said
 
 
 class Again(Refused):
@@ -55,7 +58,7 @@ def raised(endpoint: str, status: int, detail: str, said: str | None = None) -> 
 		kind = Again if said == "Again" else Refused
 	else:
 		kind = Again if worth_retrying(status) else Refused
-	return kind(f"{endpoint}: {detail}", status, detail)
+	return kind(f"{endpoint}: {detail}", status, detail, said)
 
 
 #: Where Frappe puts the readable part of a failure, in the order that prefers a

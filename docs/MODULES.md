@@ -128,6 +128,15 @@ No doctypes yet.
 | Mail Folder | 15 | document |
 | Mail Rule | 15 | document |
 
+## One Intake
+
+`onedesk/one_intake`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Intake Settings | 2 | single |
+| Reading | 23 | document |
+
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
@@ -272,6 +281,10 @@ No doctypes yet.
 * `onedesk.one_hr.signin.begin`
 * `onedesk.one_hr.signin.finish`
 * `onedesk.one_hr.signin.offered`
+* `onedesk.one_intake.switches.folder_state`
+* `onedesk.one_intake.switches.mailbox_state`
+* `onedesk.one_intake.switches.set_folder`
+* `onedesk.one_intake.switches.set_mailbox`
 * `onedesk.one_inventory.assets.said`
 * `onedesk.one_inventory.custody.give`
 * `onedesk.one_inventory.custody.take_back`

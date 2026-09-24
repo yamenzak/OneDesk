@@ -247,6 +247,10 @@ onedesk.OneCloud = class OneCloud {
 
 	async open(node) {
 		this.node = node;
+		// A link to one file (the awesome bar's "In documents") opens its
+		// folder with the file chosen.
+		const asked = !this.picker && !this.room && frappe.utils.get_query_params().file;
+		if (asked) this.reveal = asked;
 		this.selected.clear();
 		this.anchor = this.focus_id = null;
 		await this.refresh();
@@ -504,8 +508,11 @@ onedesk.OneCloud = class OneCloud {
 		const shared = item.shared ? `<span class="oc-shared" title="${shared_note}">${frappe.utils.icon("users", "xs")}</span>` : "";
 		const star_note = __("Starred");
 		const star = item.starred ? `<span class="oc-starred" title="${star_note}">${frappe.utils.icon("star", "xs")}</span>` : "";
+		const reads_note = __("Read by OneAI");
+		const reads = item.intake ? `<img class="oc-intake" src="/assets/onedesk/images/oneai.svg" alt="${reads_note}" title="${reads_note}">` : "";
+		const found = item.found ? `<span class="oc-found">${esc(item.found)}</span>` : "";
 		return `<div class="oc-item" role="option" draggable="true" data-id="${esc(item.id)}" data-folder="${item.folder ? 1 : 0}">
-			<span class="oc-name"><span class="oc-picture">${picture}</span><span class="oc-label">${esc(item.name)}</span>${count}${star}${shared}${open}</span>
+			<span class="oc-name"><span class="oc-picture">${picture}</span>${found ? `<span class="oc-titles"><span class="oc-label">${esc(item.name)}</span>${found}</span>` : `<span class="oc-label">${esc(item.name)}</span>`}${count}${reads}${star}${shared}${open}</span>
 			<span class="oc-col-where">${esc(item.where || "")}</span>
 			<span class="oc-col-date">${this.date_text(when)}</span>
 			<span class="oc-col-type">${esc(this.type_of(item))}</span>
@@ -969,6 +976,9 @@ onedesk.OneCloud = class OneCloud {
 			case "share":
 				if (chosen.length === 1 && this.shareable(chosen[0])) this.share(chosen[0]);
 				return;
+			case "intake-on":
+			case "intake-off":
+				return this.intake(this.chosen()[0], act === "intake-on");
 			case "drive":
 				return this.drive(chosen[0].id, chosen[0].name);
 			case "storage-check":
@@ -1693,6 +1703,23 @@ onedesk.OneCloud = class OneCloud {
 		list();
 	}
 
+	// Whether OneAI reads what arrives in a folder: asked once, in plain words,
+	// because it is the person's consent (one_intake/switches.py).
+	intake(item, on) {
+		const set = async () => {
+			await frappe.xcall("onedesk.one_intake.switches.set_folder", { folder: item.id, on: on ? 1 : 0 });
+			frappe.show_alert({ message: on ? __("OneAI reads new files in {0}.", [item.name]) : __("OneAI no longer reads {0}.", [item.name]), indicator: "green" });
+			this.refresh();
+		};
+		if (!on) return set();
+		frappe.confirm(
+			__("OneAI will read new files in {0} and the folders inside it, file them and act on them on your behalf. Scans and photos are read with OneAI credits.", [
+				`<b>${frappe.utils.escape_html(item.name)}</b>`,
+			]),
+			set
+		);
+	}
+
 	// ------------------------------------------------------------- menus
 
 	new_menu() {
@@ -1761,6 +1788,9 @@ onedesk.OneCloud = class OneCloud {
 					: ["star", "star", __("Star"), chosen.every((item) => this.filed(item))],
 				["new-version", "upload", __("Upload new version"), !!(one && !one.folder && this.filed(one) && !one.record)],
 				["drive", "hard-drive", __("Connect as a drive…"), !!(one && one.folder && !one.virtual)],
+				one && one.intake
+					? ["intake-off", "scan-text", __("Stop reading with OneAI"), this.filed(one) && one.folder]
+					: ["intake-on", "scan-text", __("Read with OneAI…"), !!(one && one.folder && !one.virtual && this.filed(one) && !["Home/Attachments", "Home/Libraries"].includes(one.id))],
 				["rename", "pencil", __("Rename"), !!(one && stored) && this.kind() !== "record", "F2"],
 				["delete", "trash-2", __("Delete"), stored, "Del", "red"],
 			],

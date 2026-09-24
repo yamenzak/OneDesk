@@ -162,6 +162,9 @@ class Arrival(InboundMail):
 
 			linking.arrived(frappe.get_doc("Communication", made.name))
 			rules.after(frappe.get_doc("Communication", made.name), self)
+			from onedesk.one_intake import pipeline
+
+			pipeline.mail_arrived(made, self)
 		return made
 
 	def is_sender_same_as_receiver(self):

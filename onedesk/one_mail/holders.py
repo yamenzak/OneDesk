@@ -73,6 +73,7 @@ def mailboxes() -> list[dict]:
 			"one_shared",
 			"enable_outgoing",
 			"one_error",
+			"one_intake",
 		],
 	)
 	folders: dict[str, list] = {}
@@ -95,6 +96,7 @@ def mailboxes() -> list[dict]:
 				"workspace": int(account.name == ours),
 				"sends": account.enable_outgoing,
 				"error": account.one_error,
+				"intake": account.one_intake,
 				"unread": sum(one.unread or 0 for one in listed if one.kind in ("Inbox", "Other")),
 				"folders": listed,
 			}

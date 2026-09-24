@@ -18,7 +18,7 @@ Every way a document reaches a workspace already ends in One:
 - **records**: a file attached on a form;
 - **our own side**: mail we send, records we change.
 
-This document is the argument and the plan. Nothing in it is built.
+This document is the argument and the plan. Stage 1 is built; `onedesk/one_intake/README.md` says what works.
 
 ### Decided
 
