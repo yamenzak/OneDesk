@@ -47,7 +47,7 @@ No doctypes yet.
 | Credit Ledger Entry | 14 | submittable |
 | Credit Reservation | 8 | document |
 | Offering | 20 | document |
-| One Admin Settings | 36 | single |
+| One Admin Settings | 40 | single |
 | Provisioning Job | 12 | document |
 | Stripe Webhook Event | 7 | document |
 | Tenant | 33 | document |
@@ -171,6 +171,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.storage_delete`
 * `onedesk.one_admin.proxy.storage_get`
 * `onedesk.one_admin.proxy.storage_put`
+* `onedesk.one_admin.setup.set_up`
 * `onedesk.one_admin.signup.available`
 * `onedesk.one_admin.signup.start`
 * `onedesk.one_admin.stripe.webhook`

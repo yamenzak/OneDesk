@@ -11,8 +11,9 @@ routes = [
 ]
 
 # Written by the admin site as each workspace is provisioned: the key is the
-# slug, the value is the press site name. Put the real id here after creating
-# the namespace, and the same id into One Admin Settings.
+# slug, the value is the press site name. One Admin's Set up Cloudflare
+# (one_admin/setup.py) deploys this Worker, its route and the namespace from
+# one token; this file is for deploying it by hand with wrangler instead.
 [[kv_namespaces]]
 binding = "SITES"
 id = "replace-me"

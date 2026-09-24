@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 12:07+0000\n"
-"PO-Revision-Date: 2026-09-24 12:07+0000\n"
+"POT-Creation-Date: 2026-09-24 14:00+0000\n"
+"PO-Revision-Date: 2026-09-24 14:00+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1021,7 +1021,7 @@ msgstr ""
 msgid "As {0}"
 msgstr ""
 
-#: onedesk/public/js/admin_settings.js:28 onedesk/public/js/onecloud.js:1543
+#: onedesk/public/js/admin_settings.js:56 onedesk/public/js/onecloud.js:1543
 msgid "Ask"
 msgstr ""
 
@@ -1100,7 +1100,7 @@ msgstr ""
 msgid "Asking {0}…"
 msgstr ""
 
-#: onedesk/public/js/admin_settings.js:31
+#: onedesk/public/js/admin_settings.js:59
 #: onedesk/public/js/ai_action_setting.js:88 onedesk/public/js/ai_model.js:83
 msgid "Asking…"
 msgstr ""
@@ -2102,6 +2102,7 @@ msgstr ""
 #. Label of the cloudflare_section (Section Break) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+#: onedesk/public/js/admin_settings.js:38
 msgid "Cloudflare"
 msgstr ""
 
@@ -2340,6 +2341,10 @@ msgstr ""
 
 #: onedesk/public/js/account_request.js:46
 msgid "Create {0} for {1} now?"
+msgstr ""
+
+#: onedesk/public/js/admin_settings.js:30
+msgid "Created"
 msgstr ""
 
 #. Label of the key_section (Section Break) field in DocType 'Clock Device'
@@ -2718,6 +2723,12 @@ msgstr ""
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/public/js/leave_control_panel.js:35
 msgid "Department"
+msgstr ""
+
+#. Label of the cloudflare_deployed (Small Text) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Deployed Workers"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -3304,6 +3315,10 @@ msgstr ""
 msgid "Ends the Shift"
 msgstr ""
 
+#: onedesk/one_admin/setup.py:294
+msgid "Enter the Cloudflare API token first."
+msgstr ""
+
 #: onedesk/one_book/ready.py:227
 msgid "Enter the TRN."
 msgstr ""
@@ -3533,7 +3548,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
-#: onedesk/public/js/onecloud.js:2107
+#: onedesk/public/js/admin_settings.js:30 onedesk/public/js/onecloud.js:2107
 msgid "Failed"
 msgstr ""
 
@@ -3682,6 +3697,12 @@ msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:7
 msgid "Filter Based On"
+msgstr ""
+
+#. Description of the 'Set Up Cloudflare' (Button) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Finds or makes everything a workspace needs from Cloudflare with the token above. It changes nothing that is already set up."
 msgstr ""
 
 #. Label of the finished_at (Datetime) field in DocType 'Provisioning Job'
@@ -4403,6 +4424,10 @@ msgstr ""
 msgid "In bytes. Zero means unlimited."
 msgstr ""
 
+#: onedesk/public/js/admin_settings.js:30
+msgid "In place"
+msgstr ""
+
 #. Label of the one_deleted (Check) field in DocType 'File'
 #: onedesk/one_storage/custom/file.json
 msgid "In the Recycle Bin"
@@ -4868,6 +4893,11 @@ msgstr ""
 msgid "Last Sent"
 msgstr ""
 
+#. Label of the cloudflare_setup (Code) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Last Setup"
+msgstr ""
+
 #. Label of the seen_section (Section Break) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Last Sync"
@@ -5072,6 +5102,10 @@ msgstr ""
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:34
 msgid "Left Early Only"
+msgstr ""
+
+#: onedesk/public/js/admin_settings.js:30
+msgid "Left as it is"
 msgstr ""
 
 #. Description of the 'Accounting' (Section Break) field in DocType 'Employee'
@@ -5318,6 +5352,11 @@ msgstr ""
 #. Label of the ai_generated (Check) field in DocType 'File'
 #: onedesk/one_ai/custom/file.json
 msgid "Made by OneAI"
+msgstr ""
+
+#. Label of the mail_domain (Data) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Mail Domain"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -5734,6 +5773,10 @@ msgstr ""
 msgid "Needs Review"
 msgstr ""
 
+#: onedesk/public/js/admin_settings.js:30
+msgid "Needs attention"
+msgstr ""
+
 #: onedesk/public/js/ai_model.js:24 onedesk/public/js/ai_model_list.js:14
 msgid "Needs review"
 msgstr ""
@@ -6055,6 +6098,10 @@ msgstr ""
 
 #: onedesk/public/js/asset.js:30
 msgid "None left"
+msgstr ""
+
+#: onedesk/one_admin/setup.py:136
+msgid "None of the key's zones holds {0}."
 msgstr ""
 
 #: onedesk/public/js/crm_record.js:135
@@ -6464,6 +6511,12 @@ msgstr ""
 #. Description of a DocType
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "One thing a model is asked to do, and the instruction it is asked with."
+msgstr ""
+
+#. Description of the 'API Token' (Password) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "One token for all of Cloudflare. Set Up Cloudflare fills in the rest of this section and the storage one from it."
 msgstr ""
 
 #: onedesk/public/js/offering.js:35
@@ -7559,7 +7612,7 @@ msgstr ""
 msgid "Promotion"
 msgstr ""
 
-#: onedesk/public/js/admin_settings.js:22 onedesk/public/js/ai_model.js:67
+#: onedesk/public/js/admin_settings.js:50 onedesk/public/js/ai_model.js:67
 msgid "Prompt"
 msgstr ""
 
@@ -8418,11 +8471,15 @@ msgstr ""
 msgid "Save as Template"
 msgstr ""
 
+#: onedesk/public/js/admin_settings.js:13
+msgid "Save first, so the token you entered is the one used."
+msgstr ""
+
 #: onedesk/public/js/hiring.js:238
 msgid "Saving…"
 msgstr ""
 
-#: onedesk/public/js/admin_settings.js:24 onedesk/public/js/ai_model.js:69
+#: onedesk/public/js/admin_settings.js:52 onedesk/public/js/ai_model.js:69
 msgid "Say hello in one short sentence."
 msgstr ""
 
@@ -8658,6 +8715,12 @@ msgstr ""
 msgid "Set Standard Working Hours in {0} first. Everything here is measured against it."
 msgstr ""
 
+#. Label of the set_up_cloudflare (Button) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Set Up Cloudflare"
+msgstr ""
+
 #. Description of the 'approval_status' field in DocType 'Expense Claim'
 #. Description of the 'status' field in DocType 'Leave Application'
 #. Description of the 'status' field in DocType 'Shift Request'
@@ -8700,6 +8763,10 @@ msgstr ""
 #. Recording'
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 msgid "Set when the audio is deleted after the retention period in HR Settings. The transcript is kept."
+msgstr ""
+
+#: onedesk/public/js/admin_settings.js:14
+msgid "Setting up Cloudflare…"
 msgstr ""
 
 #: onedesk/one/setup_wizard.py:15
@@ -9868,6 +9935,10 @@ msgstr ""
 msgid "The invoice is attached. If you have already paid it, please ignore this reminder."
 msgstr ""
 
+#: onedesk/one_admin/setup.py:122
+msgid "The key reaches {0} accounts. Enter the Account ID to choose one."
+msgstr ""
+
 #. Description of the 'Expires On' (Date) field in DocType 'Credit Ledger
 #. Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
@@ -10534,7 +10605,7 @@ msgstr ""
 msgid "Try it"
 msgstr ""
 
-#: onedesk/public/js/admin_settings.js:9 onedesk/public/js/admin_settings.js:17
+#: onedesk/public/js/admin_settings.js:9 onedesk/public/js/admin_settings.js:45
 msgid "Try the Gateway"
 msgstr ""
 
@@ -11495,6 +11566,12 @@ msgstr ""
 msgid "Workspaces can no longer pick this model"
 msgstr ""
 
+#. Description of the 'Mail Domain' (Data) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Workspaces get their mail addresses here, for example m.4dl.app. It must be in the same zone as the workspace domain."
+msgstr ""
+
 #: onedesk/public/js/item.js:31
 msgid "Worth"
 msgstr ""
@@ -11788,6 +11865,10 @@ msgstr ""
 msgid "after {0}"
 msgstr ""
 
+#: onedesk/one_admin/setup.py:173
+msgid "already set"
+msgstr ""
+
 #: onedesk/public/js/crm_record.js:151
 msgid "an hour"
 msgstr ""
@@ -11826,6 +11907,10 @@ msgstr ""
 msgid "created it"
 msgstr ""
 
+#: onedesk/one_admin/setup.py:258
+msgid "deployed"
+msgstr ""
+
 #: onedesk/public/js/crm_record.js:49
 msgid "email"
 msgstr ""
@@ -11848,6 +11933,10 @@ msgstr ""
 
 #: onedesk/public/js/crm_record.js:83
 msgid "for {0} · usually {1}"
+msgstr ""
+
+#: onedesk/one_admin/setup.py:177
+msgid "from the token"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:1216
@@ -11891,6 +11980,10 @@ msgstr ""
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:132
 msgid "late"
+msgstr ""
+
+#: onedesk/one_admin/setup.py:269
+msgid "left as it is"
 msgstr ""
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:134
@@ -12087,6 +12180,10 @@ msgstr ""
 
 #: onedesk/one_hr/overtime.py:150
 msgid "{0} already records {1} hours of overtime on {2}. Remove this row."
+msgstr ""
+
+#: onedesk/one_admin/setup.py:138
+msgid "{0} and {1} are not in one zone."
 msgstr ""
 
 #: onedesk/one_project/billing.py:163
@@ -12705,6 +12802,10 @@ msgstr ""
 msgid "{0}, from {1}: {2}."
 msgstr ""
 
+#: onedesk/one_admin/setup.py:220
+msgid "{0}, in place of what it held"
+msgstr ""
+
 #: onedesk/public/js/tenant.js:165
 msgid "{0}, unmetered"
 msgstr ""
@@ -12719,6 +12820,10 @@ msgstr ""
 
 #: onedesk/public/js/appraisal.js:37
 msgid "{0}, {1}. Nothing has been rated yet, so the score is not a verdict."
+msgstr ""
+
+#: onedesk/one_admin/setup.py:202
+msgid "{0}. The key needs Zone Settings: Edit."
 msgstr ""
 
 #: onedesk/public/js/payroll_entry.js:45

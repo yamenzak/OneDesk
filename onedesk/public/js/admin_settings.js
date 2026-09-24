@@ -8,7 +8,35 @@ frappe.ui.form.on("One Admin Settings", {
 	refresh(frm) {
 		frm.add_custom_button(__("Try the Gateway"), () => onedesk.admin.tryGateway());
 	},
+	// One token, and everything else found or made from it (one_admin/setup.py).
+	set_up_cloudflare(frm) {
+		if (frm.is_dirty()) return frappe.msgprint(__("Save first, so the token you entered is the one used."));
+		frappe.dom.freeze(__("Setting up Cloudflare…"));
+		frappe
+			.xcall("onedesk.one_admin.setup.set_up")
+			.then((said) => {
+				frm.reload_doc();
+				onedesk.admin.showSetup(said);
+			})
+			.finally(() => frappe.dom.unfreeze());
+	},
 });
+
+frappe.provide("onedesk.admin");
+
+onedesk.admin.showSetup = (said) => {
+	const esc = frappe.utils.escape_html;
+	const colour = { ours: "green", created: "blue", theirs: "gray", failed: "red", "needs attention": "orange" };
+	const states = { ours: __("In place"), created: __("Created"), theirs: __("Left as it is"), failed: __("Failed"), "needs attention": __("Needs attention") };
+	const rows = said
+		.map(
+			(one) => `<tr><td>${esc(one.step)}</td>
+				<td><span class="indicator-pill ${colour[one.state] || "gray"}">${esc(states[one.state] || one.state)}</span></td>
+				<td class="text-muted">${esc(one.detail || "")}</td></tr>`
+		)
+		.join("");
+	frappe.msgprint({ title: __("Cloudflare"), message: `<table class="table table-sm">${rows}</table>`, wide: true });
+};
 
 frappe.provide("onedesk.admin");
 

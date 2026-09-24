@@ -17,6 +17,10 @@
   "cloudflare_kv",
   "column_break_cf",
   "tenant_domain",
+  "mail_domain",
+  "set_up_cloudflare",
+  "cloudflare_setup",
+  "cloudflare_deployed",
   "storage_section",
   "bucket_global",
   "column_break_buckets",
@@ -89,7 +93,8 @@
   {
    "fieldname": "cloudflare_token",
    "fieldtype": "Password",
-   "label": "API Token"
+   "label": "API Token",
+   "description": "One token for all of Cloudflare. Set Up Cloudflare fills in the rest of this section and the storage one from it."
   },
   {
    "fieldname": "cloudflare_kv",
@@ -107,6 +112,32 @@
    "fieldname": "tenant_domain",
    "fieldtype": "Data",
    "label": "Workspace Domain"
+  },
+  {
+   "fieldname": "mail_domain",
+   "fieldtype": "Data",
+   "label": "Mail Domain",
+   "description": "Workspaces get their mail addresses here, for example m.4dl.app. It must be in the same zone as the workspace domain."
+  },
+  {
+   "fieldname": "set_up_cloudflare",
+   "fieldtype": "Button",
+   "label": "Set Up Cloudflare",
+   "description": "Finds or makes everything a workspace needs from Cloudflare with the token above. It changes nothing that is already set up."
+  },
+  {
+   "fieldname": "cloudflare_setup",
+   "fieldtype": "Code",
+   "label": "Last Setup",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cloudflare_deployed",
+   "fieldtype": "Small Text",
+   "label": "Deployed Workers",
+   "hidden": 1,
+   "read_only": 1
   },
   {
    "fieldname": "storage_section",
@@ -244,7 +275,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-09-23 07:45:21.858044",
+ "modified": "2026-09-24 18:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",

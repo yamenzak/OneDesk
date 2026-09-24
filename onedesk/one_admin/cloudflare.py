@@ -1,8 +1,8 @@
 """The one thing Cloudflare is asked to do, and the reason it is so little.
 
 A workspace is reached at `<slug>.t.4dl.app`. That name resolves to one proxied
-wildcard record and one Worker route, both set up once by hand; no tenant ever
-gets a DNS record of its own. What the Worker needs is the answer to one
+wildcard record and one Worker route, both made once by **Set up Cloudflare**
+(setup.py); no tenant ever gets a DNS record of its own. What the Worker needs is the answer to one
 question — which press site is this slug? — and this module writes that answer
 into a Workers KV namespace as the site is provisioned.
 
