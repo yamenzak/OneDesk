@@ -297,6 +297,13 @@ No doctypes yet.
 * `onedesk.one_mail.holders.set_holders`
 * `onedesk.one_mail.holders.shared`
 * `onedesk.one_mail.inbound.notice`
+* `onedesk.one_mail.linking.file`
+* `onedesk.one_mail.linking.get_communications`
+* `onedesk.one_mail.linking.get_docinfo`
+* `onedesk.one_mail.linking.getdoc`
+* `onedesk.one_mail.linking.links_of`
+* `onedesk.one_mail.linking.record`
+* `onedesk.one_mail.linking.unfile`
 * `onedesk.one_project.billing.invoice_time`
 * `onedesk.one_project.billing.unbilled`
 * `onedesk.one_project.overview.overview`

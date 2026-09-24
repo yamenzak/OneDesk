@@ -1,0 +1,22 @@
+{
+ "custom_fields": [
+  {
+   "doctype": "Custom Field",
+   "dt": "Communication Link",
+   "fieldname": "one_linked_by",
+   "fieldtype": "Select",
+   "options": "\ncontact\naddress\nthread\ntext\nmanual",
+   "insert_after": "link_title",
+   "label": "Linked By",
+   "description": "How the message came to be filed on this record.",
+   "read_only": 1,
+   "in_list_view": 1,
+   "module": "One Mail",
+   "name": "Communication Link-one_linked_by"
+  }
+ ],
+ "doctype": "Communication Link",
+ "sync_on_migrate": 1,
+ "links": [],
+ "property_setters": []
+}

@@ -1,8 +1,8 @@
 # OneMail
 
-Written by hand. Stages 1 to 7 of nine are built: addresses on the mail
+Written by hand. Stages 1 to 8 of nine are built: addresses on the mail
 domain, sending, connected mailboxes, holders, the page, mail in OneCloud,
-and faces and logos. The part above
+faces and logos, and mail on records. The part above
 **Under the hood** is the manual; below it are the decisions and the stages
 still to come.
 
@@ -52,6 +52,19 @@ delete, `r`, `a` and `f` to reply, reply to all and forward, `s` to star,
 
 Writing uses the desk's own email window, so a message can be scheduled,
 undone for a few seconds after sending, and filed on a record.
+
+## Mail on records
+
+A message is filed on the records it is about as it arrives: the customer or
+supplier of the contact who wrote, an employee or lead with the address, the
+records its conversation is already on, and any invoice, order or other
+document it names by its number. The reading pane shows those records, each
+with a cross to take the message off, and the link button files it on
+another. A customer, supplier, lead, employee or document has a **Mail** tab
+beside Files with its conversations and a Write button.
+
+Filing a message on a record never shows it to anybody new. The Mail tab and
+the record's activity list only the messages you could already open.
 
 ## Attachments and faces
 
@@ -267,6 +280,32 @@ Stage 7, faces and logos, is built.
 - `lookup` is what the page asks: the contact's picture, else the person's
   face, else the organisation's logo. Addresses never looked for are looked
   for in the background and appear on the next draw.
+
+Stage 8, mail on records, is built, without AI. What a model could add (a
+message that names nothing, a statement that names eleven invoices) waits
+for OneAI's mail lane.
+
+- **linking.py** writes Frappe's own `timeline_links`, with how each was
+  made in `one_linked_by` on Communication Link: `contact` (Frappe's own,
+  unmarked), `address` (Employee and Lead by address, which contacts do
+  not reach), `thread` (a reply takes its conversation's records), `text`
+  and `manual`. The first record that is not a contact also becomes the
+  message's reference, which Frappe's reply matching reads.
+- `text` reads the subject and the new part of the message, never the
+  quoted history, for words that start with a naming-series prefix this
+  site issues and end in a number. It keeps only those that exist, at most
+  ten.
+- It runs from `inbound.Arrival.process`, after Frappe has finished. Frappe
+  saves a new message a second time after inserting it, which rewrote links
+  made in an after_insert hook.
+- **A link never grants read.** access.py opens a message to its mailbox's
+  holders only. Frappe's form timeline lists every message linked to a
+  record to whoever may read the record, so `getdoc`, `get_docinfo` and
+  `get_communications` are wrapped with `override_whitelisted_methods` and
+  narrowed to what the reader may open. Tested: a sales user who holds no
+  mailbox sees none of the customer's mail; Frappe alone showed all three.
+- **record_mail.js** adds the Mail tab beside Files on the records in its
+  list, as record_files.js adds Files: to the layout, not to any doctype.
 
 ### Research and decisions
 

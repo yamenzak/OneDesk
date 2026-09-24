@@ -149,6 +149,16 @@ class Arrival(InboundMail):
 		self.flagged = flagged
 		self.sent = sent
 
+	def process(self):
+		made = super().process()
+		# Filed on its records once Frappe has finished with it: Frappe saves a
+		# new message again after inserting it, which rewrites its links.
+		if made and made.name:
+			from onedesk.one_mail import linking
+
+			linking.arrived(frappe.get_doc("Communication", made.name))
+		return made
+
 	def is_sender_same_as_receiver(self):
 		return False if self.sent else super().is_sender_same_as_receiver()
 

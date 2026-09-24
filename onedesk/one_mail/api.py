@@ -13,6 +13,7 @@ holds a mailbox reads it.
 
 import re
 from email.utils import parseaddr
+from html import unescape
 
 import frappe
 from frappe.query_builder.functions import Coalesce, Count, Max, Sum
@@ -29,7 +30,7 @@ SNIPPET = 140
 
 def snippet(html: str | None) -> str:
 	"""A message's first words, as text. Pure apart from Frappe's strip_html."""
-	text = strip_html(html or "")
+	text = unescape(strip_html(html or ""))
 	text = re.sub(r"\s+", " ", text).strip()
 	return text[:SNIPPET]
 

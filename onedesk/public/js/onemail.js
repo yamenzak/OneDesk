@@ -22,6 +22,14 @@ frappe.provide("onedesk");
 onedesk.OneMail = class OneMail {
 	static API = "onedesk.one_mail.api.";
 	static ACT = "onedesk.one_mail.actions.";
+	// How a conversation came to be on a record (one_mail/linking.py).
+	static FILED_BY = {
+		contact: __("Filed by its contact"),
+		address: __("Filed by address"),
+		thread: __("Filed with its conversation"),
+		text: __("Named in the message"),
+		manual: __("Filed by hand"),
+	};
 	static KINDS = {
 		Inbox: ["inbox", __("Inbox")],
 		Drafts: ["file-pen-line", __("Drafts")],
@@ -373,10 +381,6 @@ onedesk.OneMail = class OneMail {
 		const flagged = this.messages.some((one) => one.one_flagged);
 		const bare = (act, name, label, more = "") =>
 			`<button class="es-button" data-variant="ghost" data-icon-button="true" data-act="${act}" title="${label}" aria-label="${label}" ${more}>${frappe.utils.icon(name, "sm")}</button>`;
-		const record = this.messages.find((one) => one.reference_doctype && one.reference_name);
-		const linked = record
-			? `<a class="om-record" href="/app/${frappe.router.slug(record.reference_doctype)}/${encodeURIComponent(record.reference_name)}">${frappe.utils.icon("link", "xs")}${esc(__(record.reference_doctype))} ${esc(record.reference_name)}</a>`
-			: "";
 		const messages = this.messages
 			.map((message, at) => {
 				const folded = at < this.messages.length - 1 && message.seen && !this.unfolded?.has(message.name);
@@ -395,8 +399,10 @@ onedesk.OneMail = class OneMail {
 					${bare("conv-move", "folder-input", __("Move to"))}
 					${bare("conv-archive", "archive", __("Archive"))}
 					${bare("conv-delete", "trash-2", __("Delete"))}
+					<span class="om-sep"></span>
+					${bare("file-on", "link", __("File on a record"))}
 				</div>
-				${linked}
+				<div class="om-records"></div>
 			</div>
 			<div class="om-messages">${messages}</div>
 			<div class="om-answer">
@@ -405,9 +411,56 @@ onedesk.OneMail = class OneMail {
 				<button class="es-button" data-variant="subtle" data-act="forward">${frappe.utils.icon("forward", "sm")}<span class="es-button__label">${__("Forward")}</span></button>
 			</div>`);
 		this.$read.find(".om-body").each((_, frame) => this.fill(frame));
+		this.draw_records();
 		this.$read.scrollTop(0);
 		const open = this.$read.find(".om-message:not(.om-folded)").first()[0];
 		if (open && this.messages.length > 1) open.scrollIntoView({ block: "start" });
+	}
+
+	// The records the conversation is filed on, but its contacts, each with
+	// a way to take it off.
+	async draw_records() {
+		const thread = this.thread;
+		const rows = await frappe.xcall("onedesk.one_mail.linking.links_of", { names: this.messages.map((one) => one.name) });
+		if (thread !== this.thread) return;
+		const esc = frappe.utils.escape_html;
+		this.$read.find(".om-records").html(
+			rows
+				.map(
+					(row) => `<span class="om-record-chip" title="${esc([row.link_title, OneMail.FILED_BY[row.one_linked_by || "contact"]].filter(Boolean).join(" · "))}">
+						<a href="/app/${frappe.router.slug(row.link_doctype)}/${encodeURIComponent(row.link_name)}">${esc(__(row.link_doctype))} ${esc(row.link_name)}</a>
+						<button data-act="unfile" data-doctype="${esc(row.link_doctype)}" data-name="${esc(row.link_name)}" title="${__("Take off this record")}" aria-label="${__("Take off this record")}">${frappe.utils.icon("x", "xs")}</button>
+					</span>`
+				)
+				.join("")
+		);
+	}
+
+	file_on() {
+		const dialog = new frappe.ui.Dialog({
+			title: __("File on a record"),
+			fields: [
+				{
+					fieldname: "doctype",
+					fieldtype: "Autocomplete",
+					label: __("Kind of record"),
+					reqd: 1,
+					options: (onedesk.record_mail ? onedesk.record_mail.DOCTYPES : ["Customer", "Supplier", "Lead"]).map((one) => ({ value: one, label: __(one) })),
+				},
+				{ fieldname: "docname", fieldtype: "Dynamic Link", options: "doctype", label: __("Record"), reqd: 1 },
+			],
+			primary_action_label: __("File"),
+			primary_action: async (values) => {
+				await frappe.xcall("onedesk.one_mail.linking.file", {
+					names: this.messages.map((one) => one.name),
+					doctype: values.doctype,
+					docname: values.docname,
+				});
+				dialog.hide();
+				this.draw_records();
+			},
+		});
+		dialog.show();
 	}
 
 	draw_folded(message) {
@@ -766,6 +819,15 @@ onedesk.OneMail = class OneMail {
 				"conv-move": () => this.menu_of_folders(e.currentTarget, (folder) => this.run(`move:${folder}`, open)),
 				"conv-archive": () => this.run("archive", open),
 				"conv-delete": () => this.run("delete", open),
+				"file-on": () => this.file_on(),
+				unfile: async () => {
+					await frappe.xcall("onedesk.one_mail.linking.unfile", {
+						names: this.messages.map((one) => one.name),
+						doctype: e.currentTarget.dataset.doctype,
+						docname: e.currentTarget.dataset.name,
+					});
+					this.draw_records();
+				},
 				"save-file": async () => {
 					await frappe.xcall("onedesk.one_storage.api.copy", { nodes: [e.currentTarget.dataset.file], target: "@my" });
 					frappe.show_alert({ message: __("Saved to My Files."), indicator: "green" });

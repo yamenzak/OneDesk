@@ -461,13 +461,55 @@ img.om-face {
 	gap: 2px;
 }
 
-.om-record {
+.om-records {
 	flex-basis: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	gap: calc(var(--spacing) * 1.5);
+}
+
+.om-records:empty {
+	display: none;
+}
+
+.om-record-chip {
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
+	gap: 2px;
+	padding: 2px 4px 2px calc(var(--spacing) * 2);
+	border-radius: var(--radius);
+	background: var(--surface-gray-2);
 	font-size: var(--text-sm);
-	color: var(--ink-gray-6);
+}
+
+.om-record-chip a {
+	color: var(--ink-gray-8);
+}
+
+.om-record-chip button {
+	display: inline-flex;
+	padding: 2px;
+	border: 0;
+	background: none;
+	color: var(--ink-gray-5);
+}
+
+/* A record's Mail tab (record_mail.js). */
+.om-record-head {
+	display: flex;
+	justify-content: flex-end;
+	padding-bottom: calc(var(--spacing) * 2);
+}
+
+.om-record .om-row {
+	color: inherit;
+	text-decoration: none;
+	padding-inline-start: calc(var(--spacing) * 2);
+}
+
+.om-record svg.icon {
+	margin: 0;
+	flex: none;
 }
 
 .om-messages {

@@ -328,10 +328,11 @@ def test_the_page_is_in_the_rail():
 # ------------------------------------------------------------------ mail in OneCloud
 
 
-def test_a_message_opens_only_for_its_holders_and_its_records_readers():
+def test_a_message_opens_only_for_its_holders_and_a_link_never_grants_read():
 	assert '"Communication": "onedesk.one_mail.access.allowed"' in HOOKS
 	source = (MAIL / "access.py").read_text()
-	assert '"User Email"' in source and "reference_doctype" in source
+	body = source.split("def allowed", 1)[1]
+	assert '"User Email"' in body and "reference_doctype" not in body, "being filed on a record opens nothing"
 	assert "Inbox User" in (MAIL / "addresses.py").read_text(), "holders can open a message at all"
 
 
@@ -419,3 +420,44 @@ def test_pictures_are_asked_for_so_that_none_means_none():
 	)
 	for doctype in ("Contact", "Customer", "Supplier", "Bank"):
 		assert f'"{doctype}": {{' in HOOKS and "faces.dress_later" in HOOKS
+
+
+# ------------------------------------------------------------------ mail and records
+
+
+def _linking():
+	return _load(MAIL / "linking.py", ("QUOTED", "fresh_part", "prefixes", "candidates"), re=re)
+
+
+def test_documents_are_found_by_the_naming_series_this_site_issues():
+	space = _linking()
+	assert space["prefixes"]("ACC-SINV-.YYYY.-\nACC-SINV-RET-.YYYY.-\n.#####") == [
+		"ACC-SINV-",
+		"ACC-SINV-RET-",
+	]
+	found = space["candidates"](
+		"see ACC-SINV-2026-00002, and ACC-SINV-RET-2026-00001.", ["ACC-SINV-", "ACC-SINV-RET-"]
+	)
+	assert found == ["ACC-SINV-2026-00002", "ACC-SINV-RET-2026-00001"]
+	assert space["candidates"]("XACC-SINV-1 ACC-SINV-", ["ACC-SINV-"]) == [], (
+		"a word that starts elsewhere, or has no number"
+	)
+	assert space["candidates"]("anything", []) == []
+
+
+def test_the_quoted_history_of_a_reply_is_not_read_again():
+	fresh = _linking()["fresh_part"]
+	assert fresh("New PO-1\n\nOn Mon, Ana wrote:\n> old PO-2") == "New PO-1\n\n"
+	assert fresh("ok<blockquote>PO-2</blockquote>") == "ok"
+	assert fresh("> only quoted") == ""
+	assert fresh(None) == ""
+
+
+def test_links_say_how_they_were_made_and_the_timeline_is_narrowed():
+	source = (MAIL / "linking.py").read_text()
+	for by in ('"thread"', '"address"', '"text"', '"manual"'):
+		assert by in source
+	assert "one_linked_by" in (MAIL / "custom" / "communication_link.json").read_text()
+	for method in ("getdoc", "get_docinfo", "get_communications"):
+		assert f'"frappe.desk.form.load.{method}": "onedesk.one_mail.linking.{method}"' in HOOKS
+	assert "linking.arrived(" in (MAIL / "inbound.py").read_text(), "linked after Frappe's own second save"

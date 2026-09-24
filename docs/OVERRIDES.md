@@ -5,6 +5,8 @@ Each row is something that would still run but stop working if upstream moved. `
 
 | What | Why | Ours | Upstream | Must still contain |
 |---|---|---|---|---|
+| A form's timeline lists only the mail its reader may open | Frappe lists every message linked to a record to whoever reads the record; a link must not grant read | `onedesk/one_mail/linking.py` | `frappe/frappe/desk/form/load.py` | `frappe.response["docinfo"] = docinfo` |
+| A message opens only for its mailbox's holders | Frappe narrows lists of Communication by User Email but opens any one by name to an Inbox User | `onedesk/one_mail/access.py` | `frappe/frappe/core/doctype/communication/communication.py` | `def get_permission_query_conditions_for_communication(user):` |
 | The icon sprite is kept out of flow, not hidden | a gradient in a `display: none` subtree resolves to nothing, so every One mark drew hollow | `onedesk/public/css/desk.css` | `frappe/frappe/public/js/frappe/desk.js` | `getElementById("all-symbols")` |
 | Marks become sprite symbols | 27 Custom Icon rows, ids rewritten per mark so two marks cannot share a gradient | `scripts/icons.py` | `frappe/frappe/core/doctype/custom_icon/custom_icon.py` | `def to_symbol` |
 | Switch Theme offers palette x mode | frappe offers Light, Dark and Automatic; One offers its palettes, and system is a checkbox | `onedesk/public/js/theme.js` | `frappe/frappe/public/js/frappe/ui/theme_switcher.js` | `size: "large"` |
@@ -180,4 +182,4 @@ Each row is something that would still run but stop working if upstream moved. `
 | Frappe answers OPTIONS before any method runs | so dav.headers (after_request) adds DAV: 1, 2 and answers an authenticated OPTIONS 200, which Finder sends and Frappe cannot sign in | `onedesk/one_storage/dav.py` | `frappe/frappe/app.py` | `if request.method == "OPTIONS":` |
 | A drive password signs in before Frappe's API-key check | Frappe reads any Basic header as an API key and refuses the request if it is not one; dav.sign_in runs in before_request, which Frappe calls before validate_auth, and removes the header once it has signed the person in | `onedesk/one_storage/dav.py` | `frappe/frappe/app.py` | `for before_request_task in frappe.get_hooks("before_request"):` |
 
-174 overrides.
+176 overrides.

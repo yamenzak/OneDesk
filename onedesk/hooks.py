@@ -352,6 +352,14 @@ doc_events = {
 # decides what is answered, and it reads site_config.json rather than a table —
 # so a tenant administrator granting themselves One Operator on their own
 # workspace gets a rail entry and nothing behind it. See one_admin/site.py.
+# A form's timeline lists only the mail its reader may open: a link to a
+# record never grants read. See one_mail/linking.py.
+override_whitelisted_methods = {
+	"frappe.desk.form.load.getdoc": "onedesk.one_mail.linking.getdoc",
+	"frappe.desk.form.load.get_docinfo": "onedesk.one_mail.linking.get_docinfo",
+	"frappe.desk.form.load.get_communications": "onedesk.one_mail.linking.get_communications",
+}
+
 has_permission = {
 	# A message opens for its mailbox's holders and its record's readers.
 	# See one_mail/access.py.
@@ -558,6 +566,7 @@ app_include_js = [
 	"/assets/onedesk/js/task_timer.js",
 	"/assets/onedesk/js/record_calendar.js",
 	"/assets/onedesk/js/record_files.js",
+	"/assets/onedesk/js/record_mail.js",
 	"/assets/onedesk/js/onecloud_picker.js",
 	"/assets/onedesk/js/band.js",
 	"/assets/onedesk/js/crm_record.js",
