@@ -840,3 +840,26 @@
 	flex: none;
 	margin: 0;
 }
+
+/* A record's Files tab (record_files.js): the same explorer on one room.
+ * A record has no folders of its own, so no tree and no way to walk; the
+ * address bar keeps the path, which leads out to OneCloud, and the search. */
+.oc.oc-room {
+	height: clamp(420px, calc(100vh - 260px), 720px);
+	border: 1px solid var(--outline-gray-1);
+	border-radius: var(--radius-lg, 10px);
+}
+
+.oc-room .oc-tree,
+.oc-room [data-act="back"],
+.oc-room [data-act="forward"],
+.oc-room [data-act="up"] {
+	display: none;
+}
+
+/* The count on the tab. */
+.one-files-count {
+	margin-inline-start: calc(var(--spacing, 4px) * 1.5);
+	color: var(--ink-gray-5);
+	font-weight: 400;
+}

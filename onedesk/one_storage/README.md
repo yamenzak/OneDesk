@@ -39,6 +39,12 @@ empty space in the explorer.
 - **Recycle Bin** — what you deleted, for thirty days. **Restore** puts it back
   where it was.
 
+Every record in One — an invoice, an employee, a task — has a **Files** tab
+at the end of its form, with the number of files beside it. It is this
+explorer, opened on that record's folder: drop files in, preview, rename,
+share, ask for files with **New › File request**, or click the path to open
+the record in OneCloud. It appears once the record is saved.
+
 Dragging a file between a record and one of your folders copies it — the
 invoice keeps its PDF and your folder gets one too. Moving between your own
 folders moves it. Two things with the same name in one folder are kept apart
@@ -306,13 +312,27 @@ not a second R2 integration.
   account, or if the browser cannot reach R2, `here` takes the file as a form
   post through the same `_place`, which also makes the folders of a dropped
   folder. An uploaded picture's thumbnail is made in the background.
-- `page/onecloud` — the explorer. It draws and never decides: every list and
+- `public/js/onecloud.js` (and `public/css/onecloud.css`) — the explorer,
+  with two hosts: `page/onecloud`, and a record's Files tab. Each loads it
+  with `frappe.require` the first time it is opened, so a desk that never
+  opens OneCloud never downloads it. It draws and never decides: every list and
   every change is a call above, and a refused one shows the server's reason.
   The place is `?node=` in the address, so history, bookmarks and pasted
   links land in the same folder. View, sort and the preview pane are the
   reader's user settings (under File), and follow them to another browser.
   R2's bucket must allow a browser `PUT` from the workspace's origin (CORS);
   where it does not, uploads fall back to `here` on their own.
+- `public/js/record_files.js` — the Files tab on every record. Frappe draws
+  a form from `Layout.get_doctype_fields`; that is wrapped to append a Tab
+  Break and an HTML field. So the tab is on every doctype, erpnext's and
+  hrms's included, and no field is written to any of them. Child tables,
+  Singles and File are left out. The HTML field holds the explorer in room
+  mode: `room` is `@records/<doctype>/<name>`, there is no tree and no
+  back/forward, going anywhere else opens the OneCloud page, and the address
+  is not touched. The tab hides on an unsaved record. Its count starts from
+  the form's docinfo and then follows each listing. When the two disagree,
+  the sidebar reloads its docinfo, so Attachments and the timeline notice a
+  file added through the tab.
 
 - `share.py` — people on a file or folder. A share is Frappe's own DocShare:
   read to view, write to edit. `namespace.granted` reads the shares on an

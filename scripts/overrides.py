@@ -1173,6 +1173,20 @@ OVERRIDES = [
 		"def validate_private_file_access(self):",
 	),
 	(
+		"Every form's fields end with a Files tab",
+		"record_files.js wraps Layout.get_doctype_fields to append a Tab Break and an HTML field holding OneCloud on the record's room, so the tab is on every doctype without a field written to any of them",
+		"onedesk/public/js/record_files.js",
+		"frappe/frappe/public/js/frappe/form/layout.js",
+		"get_doctype_fields() {",
+	),
+	(
+		"A form left with one visible tab shows no tab strip",
+		"record_files.js hides the Files tab on an unsaved record and asks Layout.refresh_tabs again, which hides the strip when only Details is left",
+		"onedesk/public/js/record_files.js",
+		"frappe/frappe/public/js/frappe/form/layout.js",
+		"visible_tabs[0].tab_link.toggleClass(\"hide show\");",
+	),
+	(
 		"WebDAV lives at /api/method/<name>/<path>",
 		"Frappe keeps only the part before the first slash as the method, so dav.serve gets every path under it and reads the rest from the request",
 		"onedesk/one_storage/dav.py",

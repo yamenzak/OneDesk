@@ -84,7 +84,7 @@ DEFINES_TOKENS = (
 #: origin, and shows its progress; frappe.call only posts to this site, and
 #: FileUploader only to upload_file.
 LOOKED = {
-	("fetching", "onedesk/one_storage/page/onecloud/onecloud.js"),
+	("fetching", "onedesk/public/js/onecloud.js"),
 }
 
 

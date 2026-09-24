@@ -159,7 +159,7 @@ def test_the_recycle_bin_keeps_thirty_days_and_is_emptied_daily():
 
 
 UPLOAD = tree.APP / "one_storage" / "upload.py"
-PAGE = tree.APP / "one_storage" / "page" / "onecloud"
+PAGE = tree.APP / "public" / "js"
 
 
 def test_a_dropped_folder_keeps_its_folders_and_nothing_climbs_out():
@@ -461,7 +461,8 @@ def test_a_tenant_is_limited_by_storage_not_by_file_size():
 
 def test_the_explorer_is_its_own_navigation():
 	js = (PAGE / "onecloud.js").read_text()
-	assert "hide_sidebar: true" in js, "the panel starts closed; the tree takes its place"
+	page = (tree.APP / "one_storage" / "page" / "onecloud" / "onecloud.js").read_text()
+	assert "hide_sidebar: true" in page, "the panel starts closed; the tree takes its place"
 	assert '"storage-check"' in js and 'has_role("Workspace Administrator")' in js
 
 
@@ -550,3 +551,27 @@ def test_a_search_can_be_widened_and_a_result_found_where_it_lives():
 	assert "everywhere: this.search && this.everywhere ? 1 : 0" in js
 	assert '"open-location"' in js and "this.reveal" in js
 	assert 'ctrl && e.shiftKey && k.toLowerCase() === "f"' in js
+
+
+RECORD_FILES = tree.APP / "public" / "js" / "record_files.js"
+
+
+def test_every_record_has_a_files_tab_on_its_own_room():
+	js = RECORD_FILES.read_text()
+	assert "Layout.prototype.get_doctype_fields" in js
+	assert '"Tab Break"' in js and '"HTML"' in js
+	for kept_out in ("meta.istable", "meta.issingle", 'frm.doctype !== "File"', "layout.is_child_table"):
+		assert kept_out in js, kept_out
+	assert "`@records/${frm.doctype}/${frm.doc.name}`" in js
+	assert 'frappe.ui.form.on("*"' in js
+	assert "/assets/onedesk/js/record_files.js" in HOOKS
+
+
+def test_the_explorer_is_loaded_when_first_opened_and_shared_by_both_hosts():
+	page = (tree.APP / "one_storage" / "page" / "onecloud" / "onecloud.js").read_text()
+	tab = RECORD_FILES.read_text()
+	for host in (page, tab):
+		assert '"/assets/onedesk/js/onecloud.js"' in host and "frappe.require" in host
+	assert "/assets/onedesk/js/onecloud.js" not in HOOKS, "not on every desk load"
+	explorer = (PAGE / "onecloud.js").read_text()
+	assert "if (this.room && node !== this.room)" in explorer, "a room never walks out of itself"
