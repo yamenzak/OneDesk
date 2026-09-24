@@ -9,3 +9,4 @@ One Project
 One Book
 One Inventory
 One Storage
+One Mail

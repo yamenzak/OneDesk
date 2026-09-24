@@ -118,6 +118,12 @@ No doctypes yet.
 | Cloud Link Invitee | 2 | child |
 | Cloud Mount | 15 | document |
 
+## One Mail
+
+`onedesk/one_mail`
+
+No doctypes yet.
+
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
