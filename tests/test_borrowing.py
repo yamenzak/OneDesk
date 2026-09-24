@@ -79,12 +79,23 @@ DEFINES_TOKENS = (
 )
 
 
-def _offenders(pattern: str, suffixes: set[str]) -> list[str]:
+#: (rule, file) pairs where we looked and the framework has nothing. The
+#: explorer PUTs a file's bytes straight to a URL R2 signed, on another
+#: origin, and shows its progress; frappe.call only posts to this site, and
+#: FileUploader only to upload_file.
+LOOKED = {
+	("fetching", "onedesk/one_storage/page/onecloud/onecloud.js"),
+}
+
+
+def _offenders(pattern: str, suffixes: set[str], what: str = "") -> list[str]:
 	found = []
 	for path in tree.sources():
 		if path.suffix not in suffixes:
 			continue
 		if str(path.relative_to(tree.ROOT)) in DEFINES_TOKENS:
+			continue
+		if (what, str(path.relative_to(tree.ROOT))) in LOOKED:
 			continue
 		for n, line in enumerate(path.read_text().splitlines(), 1):
 			if _is_comment(line, path.suffix):
@@ -101,7 +112,7 @@ def _is_comment(line: str, suffix: str) -> bool:
 
 @pytest.mark.parametrize("what,instead,pattern,suffixes", RULES, ids=[r[0] for r in RULES])
 def test_the_framework_does_this_for_us(what, instead, pattern, suffixes):
-	hits = _offenders(pattern, suffixes)
+	hits = _offenders(pattern, suffixes, what)
 	assert not hits, f"{what} — use {instead} instead:\n" + "\n".join(hits)
 
 

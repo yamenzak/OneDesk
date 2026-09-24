@@ -14,7 +14,7 @@ cloud storage, not on the server, so there is room for all of them.
 
 **OneCloud** in the dock opens it. The rail has:
 
-- **Files** — every file in the workspace you may open.
+- **Files** — the explorer: every file in the workspace you may open.
 - **Setup › Storage Check** — whether files are going to cloud storage, and
   moving the ones that are still on the server.
 
@@ -37,6 +37,36 @@ Dragging a file between a record and one of your folders copies it — the
 invoice keeps its PDF and your folder gets one too. Moving between your own
 folders moves it. Two things with the same name in one folder are kept apart
 as *Report (2).pdf*, the way your computer does.
+
+## Using the explorer
+
+It works the way the file explorer on your computer does.
+
+- **The folder tree** on the left: click a folder to open it, the arrow to
+  unfold it.
+- **The address bar**: back, forward and up, then where you are. Click a
+  part of it to go there, or click the empty space and type a path —
+  `My Files/Projects/2026` — and press Enter. The search box looks through
+  the folder you are in and every folder inside it.
+- **New** makes a folder (you name it straight away) or uploads files or a
+  whole folder. Dragging files or folders from your computer onto the page,
+  or onto a folder, uploads them there.
+- **Details** and **Tiles** switch the view; click a column heading to sort
+  by it. The **preview pane** shows the file you selected — pictures, PDFs,
+  text, video and sound — with its size, date and owner.
+- **Right-click** anything for what you can do with it: open, download, copy
+  a link, cut, copy, paste, rename, delete.
+- **Drag** files onto a folder to move them; hold Ctrl to copy instead.
+
+The keys you already know work: Enter opens, Backspace goes back, F2
+renames, Delete deletes (Shift+Delete deletes for good), Ctrl+A selects
+everything, Ctrl+X, Ctrl+C and Ctrl+V cut, copy and paste, Ctrl+Shift+N
+makes a folder, Ctrl+F searches and F5 refreshes. Click, Ctrl+click and
+Shift+click select one, a few or a run of files.
+
+Where you are is in the page's address, so the browser's own back button
+works and a link you send somebody opens the same folder for them, if they
+may open it.
 
 ## Where files are kept
 
@@ -111,11 +141,29 @@ not a second R2 integration.
   chain per file. A folder's id is its path (Frappe names folders so), so
   renaming or moving one gives it and everything under it new ids — callers
   read ids fresh from a listing, never keep them.
-- `api.py` — the verbs: listing, folders, make_folder, rename, move, copy,
-  delete, restore, purge, empty_bin. Between a record and a folder a move is a
+- `api.py` — the verbs: listing, folders, resolve, make_folder, rename,
+  move, copy, delete, restore, purge, empty_bin. Between a record and a folder a move is a
   copy, and a copy is a new File row naming the same object. Deleting a
   folder's item is a flag (`one_deleted`, custom/file.json) that hides it and
   everything under it; `purge_old` erases what is thirty days old, daily.
+
+- `upload.py` — putting files in. `begin` checks the target and asks admin
+  for a signed PUT per file, holding a ticket (who, where, which key) in the
+  cache for an hour; the browser sends the bytes to R2 itself; `done` checks
+  the object arrived (a one-byte ranged GET) and writes the row. A ticket is
+  its asker's and is used once. Uploads get a random key under
+  `files/private/u/`, since a browser cannot hash a large file before sending
+  it; copies made inside OneCloud still share their object. Without an
+  account, or if the browser cannot reach R2, `here` takes the file as a form
+  post through the same `_place`, which also makes the folders of a dropped
+  folder. An uploaded picture's thumbnail is made in the background.
+- `page/onecloud` — the explorer. It draws and never decides: every list and
+  every change is a call above, and a refused one shows the server's reason.
+  The place is `?node=` in the address, so history, bookmarks and pasted
+  links land in the same folder. View, sort and the preview pane are the
+  reader's user settings (under File), and follow them to another browser.
+  R2's bucket must allow a browser `PUT` from the workspace's origin (CORS);
+  where it does not, uploads fall back to `here` on their own.
 
 ### Research and decisions
 
@@ -171,7 +219,7 @@ repositories, which will be folders with history.
    restore; who may do what, decided in one place. *Done.*
 3. **The explorer.** The page itself: navigation pane, address bar, details
    and tiles, preview, context menu, drag and drop, keyboard, search; uploads
-   straight to R2.
+   straight to R2. *Done.*
 4. **Sharing inside the team.** People, view or edit, reaching everything in
    a folder; Shared with Me.
 5. **Sharing outside.** Links and email invitations, and the page a guest

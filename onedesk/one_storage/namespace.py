@@ -283,6 +283,53 @@ def children(node_id: str, search: str | None = None) -> list[dict]:
 	return [node(one) for one in found if may(one, where=where)]
 
 
+def below(folder: str, most: int = 5000) -> list[str]:
+	"""A folder and every live folder under it. From Home that is the Company
+	tree only: the homes and Attachments under it are somebody else's."""
+	out, edge = [folder], [folder]
+	while edge and len(out) < most:
+		rows = frappe.get_all(
+			"File",
+			filters={"folder": ["in", edge], "is_folder": 1, "one_deleted": 0},
+			fields=["name", "one_home_of"],
+		)
+		edge = [one.name for one in rows if not (folder == HOME and (one.one_home_of or one.name == ATTACHMENTS))]
+		out += edge
+	return out
+
+
+def search(node_id: str, text: str, most: int = 500) -> list[dict]:
+	"""What is called `text` anywhere under a node, the way an explorer's
+	search box looks through every folder below the one it is in."""
+	kind = parse(node_id)
+	if kind[0] not in (ROOT, MY, COMPANY, "file"):
+		return children(node_id, text)
+	starts = [home(), HOME] if kind[0] == ROOT else [folder_of(node_id)]
+	out = []
+	for start in starts:
+		inner = below(start)
+		labels = {
+			one.name: _("Company") if one.name == HOME else _("My Files") if one.one_home_of else one.file_name
+			for one in frappe.get_all("File", filters={"name": ["in", inner]}, fields=["name", "file_name", "one_home_of"])
+		}
+		found = frappe.get_all(
+			"File",
+			filters={"folder": ["in", inner], "one_deleted": 0, "file_name": ["like", f"%{text}%"]},
+			fields=FIELDS,
+			order_by="is_folder desc, file_name asc",
+			limit=most,
+		)
+		where = inside(start)
+		for one in found:
+			if start == HOME and (one.one_home_of or one.name == ATTACHMENTS):
+				continue
+			if not one.is_folder and one.attached_to_doctype and one.attached_to_name:
+				continue
+			if may(one, where=where):
+				out.append({**node(one), "where": labels.get(one.folder)})
+	return out[:most]
+
+
 def record_doctypes() -> list[dict]:
 	counted = frappe.db.sql(
 		"""select attached_to_doctype, count(*) from `tabFile`

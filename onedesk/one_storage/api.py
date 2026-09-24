@@ -79,7 +79,7 @@ def listing(node: str = ns.ROOT, search: str | None = None) -> dict:
 	return {
 		"node": node,
 		"trail": ns.trail(node),
-		"items": ns.children(node, search),
+		"items": ns.search(node, search) if search else ns.children(node),
 		"can_add": can_add,
 		"can_make_folder": can_add and kind[0] != ns.RECORDS,
 	}
@@ -90,6 +90,30 @@ def listing(node: str = ns.ROOT, search: str | None = None) -> dict:
 def folders(node: str = ns.ROOT) -> list[dict]:
 	"""The navigation pane: only what can be opened."""
 	return [one for one in ns.children(node) if one.get("folder")]
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def resolve(path: str) -> str:
+	"""The node a typed path names — `My Files/Projects/2026` — walking the
+	same listings the explorer draws, so it finds nothing the reader could not
+	have clicked their way to."""
+	node = ns.ROOT
+	for part in [one.strip() for one in (path or "").replace("\\", "/").split("/") if one.strip()]:
+		wanted = part.lower()
+		found = next(
+			(
+				one
+				for one in ns.children(node)
+				if one.get("folder")
+				and wanted in (one["name"].lower(), one["id"].rsplit("/", 1)[-1].lower(), (one.get("doctype") or "").lower())
+			),
+			None,
+		)
+		if not found:
+			frappe.throw(_("There is no {0} here.").format(part), frappe.DoesNotExistError)
+		node = found["id"]
+	return node
 
 
 @frappe.whitelist(methods=["POST"])

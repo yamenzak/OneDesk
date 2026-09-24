@@ -13,10 +13,10 @@
    "is_default_module": 1,
    "keep_closed": 0,
    "label": "Files",
-   "link_type": "DocType",
+   "link_type": "Page",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "File",
+   "link_to": "onecloud",
    "icon": "folder"
   },
   {
@@ -43,7 +43,7 @@
    "link_to": "Storage Check"
   }
  ],
- "modified": "2026-09-29 03:00:00.000000",
+ "modified": "2026-09-29 04:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Storage",
  "name": "OneCloud",

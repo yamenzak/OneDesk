@@ -86,8 +86,9 @@ def test_onecloud_is_in_the_dock_and_owns_files():
 	assert "OneCloud" in [row["link_to"] for row in dock["items"]]
 	rail = json.loads((tree.APP / "one_storage" / "sidebar" / "onecloud" / "onecloud.json").read_text())
 	assert rail["header_icon"] == "onestorage", "the mark is read by its id"
-	files = next(item for item in rail["items"] if item.get("link_to") == "File")
+	files = next(item for item in rail["items"] if item.get("label") == "Files")
 	assert files["is_default_module"]
+	assert (files["link_type"], files["link_to"]) == ("Page", "onecloud"), "Files is the explorer"
 
 
 NAMESPACE = tree.APP / "one_storage" / "namespace.py"
@@ -149,3 +150,56 @@ def test_a_record_file_is_in_records_not_in_the_folder_frappe_filed_it_in():
 def test_the_recycle_bin_keeps_thirty_days_and_is_emptied_daily():
 	assert '"onedesk.one_storage.api.purge_old"' in HOOKS
 	assert "KEPT_DAYS = 30" in API.read_text()
+
+
+UPLOAD = tree.APP / "one_storage" / "upload.py"
+PAGE = tree.APP / "one_storage" / "page" / "onecloud"
+
+
+def test_a_dropped_folder_keeps_its_folders_and_nothing_climbs_out():
+	import os
+
+	class api:
+		@staticmethod
+		def _clean(name):
+			return " ".join((name or "").replace("/", " ").replace("\\", " ").split())[:140]
+
+	class ns:
+		DEEPEST = 64
+
+	split = _load(UPLOAD, ("split_path",), api=api, ns=ns, os=os)["split_path"]
+	assert split("report.pdf") == []
+	assert split("Trip/Day 1/photo.jpg") == ["Trip", "Day 1"]
+	assert split("../../etc/passwd") == ["etc"], "no parent steps"
+	assert split("a\\b\\c.txt") == ["a", "b"], "a Windows path is a path too"
+	assert split(None) == []
+
+
+def test_an_upload_goes_to_r2_and_the_ticket_is_the_whole_of_the_trust():
+	begin, done = _body(UPLOAD, "begin"), _body(UPLOAD, "done")
+	assert "api._target(node)" in begin, "where it goes is checked before anything is signed"
+	assert "account.put_url" in begin
+	assert "held.get('user') != frappe.session.user" in done, "a ticket is only its asker's"
+	assert "delete_value" in done, "a ticket is used once"
+	assert "'Range'" in done, "the object is checked to have arrived before a row names it"
+	assert "copy_from_existing_file" in _body(UPLOAD, "_place"), "the bytes are not read back through this server"
+
+
+def test_the_explorer_calls_only_verbs_that_exist():
+	import re
+
+	js = (PAGE / "onecloud.js").read_text()
+	api = API.read_text() + UPLOAD.read_text()
+	called = set(re.findall(r'OneCloud\.(?:API|UPLOAD) \+ "(\w+)"', js)) | set(re.findall(r'\bcall\("(\w+)"', js))
+	assert {"listing", "folders", "make_folder", "rename", "move", "copy", "delete", "restore", "purge", "empty_bin", "begin", "done", "resolve"} <= called
+	for name in called:
+		assert re.search(rf"@frappe\.whitelist\([^)]*\)\n(?:@[^\n]+\n)*def {name}\(", api), name
+	assert "onedesk.one_storage.upload.here" in js, "and the way through this server when R2 is out of reach"
+
+
+def test_the_explorer_has_the_keys_everybody_knows():
+	js = (PAGE / "onecloud.js").read_text()
+	for key in ('"F2"', '"Delete"', '"Enter"', '"Backspace"', '"F5"', 'ctrl && k === "a"', 'ctrl && k === "c"', 'ctrl && k === "x"', 'ctrl && k === "v"'):
+		assert key in js, key
+	assert "webkitGetAsEntry" in js, "a whole folder can be dropped"
+	assert 'frappe.set_route("onecloud", { node })' in js, "the place is in the address"

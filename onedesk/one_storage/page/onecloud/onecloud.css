@@ -1,0 +1,638 @@
+/* The explorer. Logical properties throughout, so Arabic mirrors it. */
+
+.oc {
+	display: flex;
+	flex-direction: column;
+	height: calc(100vh - 130px);
+	min-height: 480px;
+	border: 1px solid var(--outline-gray-1);
+	border-radius: var(--radius-lg);
+	background: var(--surface-base);
+	overflow: hidden;
+	outline: none;
+	position: relative;
+	margin-top: calc(var(--spacing) * 2);
+}
+
+/* The command bar and the address bar. */
+.oc-bar,
+.oc-address {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 1);
+	padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 2);
+	border-bottom: 1px solid var(--outline-gray-1);
+}
+
+.oc-bar .es-button[data-state="on"] {
+	background: var(--surface-gray-3);
+}
+
+.oc-sep {
+	width: 1px;
+	align-self: stretch;
+	margin: 0 calc(var(--spacing) * 1);
+	background: var(--outline-gray-2);
+}
+
+.oc-grow {
+	flex: 1;
+}
+
+.oc:not([data-kind="bin"]) .oc-in-bin {
+	display: none;
+}
+
+.oc-crumbs {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	padding: 0 calc(var(--spacing) * 2);
+	height: 30px;
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius);
+	background: var(--surface-gray-1);
+}
+
+.oc-crumbs {
+	cursor: text;
+}
+
+.oc-path {
+	width: 100%;
+	height: 100%;
+	border: 0;
+	background: transparent;
+	outline: none;
+	font-size: var(--text-base);
+	color: var(--ink-gray-8);
+}
+
+.oc-crumbs .es-breadcrumbs__item {
+	font-size: var(--text-base);
+}
+
+.oc-search {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 1.5);
+	width: 240px;
+	height: 30px;
+	margin: 0;
+	padding: 0 calc(var(--spacing) * 2);
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius);
+	background: var(--surface-gray-1);
+	color: var(--ink-gray-5);
+	font-weight: normal;
+}
+
+.oc-search input {
+	flex: 1;
+	min-width: 0;
+	border: 0;
+	background: transparent;
+	outline: none;
+	color: var(--ink-gray-8);
+	font-size: var(--text-base);
+}
+
+/* The three panes. */
+.oc-body {
+	display: flex;
+	flex: 1;
+	min-height: 0;
+}
+
+.oc-tree {
+	flex: 0 0 230px;
+	overflow: auto;
+	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 1);
+	border-inline-end: 1px solid var(--outline-gray-1);
+}
+
+.oc-node {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 1.5);
+	padding: 3px calc(var(--spacing) * 1);
+	padding-inline-start: calc(var(--depth) * 14px + 2px);
+	border-radius: var(--radius);
+	cursor: pointer;
+	color: var(--ink-gray-7);
+	white-space: nowrap;
+	font-size: var(--text-base);
+}
+
+.oc-node > svg,
+.oc-node > span {
+	margin: 0;
+}
+
+.oc-node > svg {
+	flex-shrink: 0;
+}
+
+.oc-node > span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.oc-node:hover {
+	background: var(--surface-gray-2);
+}
+
+.oc-node.oc-here {
+	background: var(--surface-gray-3);
+	color: var(--ink-gray-9);
+	font-weight: var(--font-weight-medium);
+}
+
+.oc-twisty {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 16px;
+	height: 16px;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: var(--ink-gray-5);
+	flex-shrink: 0;
+}
+
+[dir="rtl"] .oc-twisty svg {
+	transform: scaleX(-1);
+}
+
+.oc-main {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-width: 0;
+}
+
+.oc-items {
+	flex: 1;
+	overflow: auto;
+	outline: none;
+	padding: calc(var(--spacing) * 1);
+	user-select: none;
+}
+
+.oc-items.oc-drop {
+	background: var(--surface-blue-1);
+	box-shadow: inset 0 0 0 2px var(--outline-blue-2);
+}
+
+.oc-empty {
+	padding: calc(var(--spacing) * 10) calc(var(--spacing) * 4);
+	text-align: center;
+	color: var(--ink-gray-5);
+}
+
+/* Details: a row per item, under column headings. */
+.oc-head,
+.oc[data-view="details"] .oc-item {
+	display: grid;
+	grid-template-columns: minmax(140px, 1fr) 120px 130px 110px 72px;
+	align-items: center;
+	gap: calc(var(--spacing) * 3);
+}
+
+.oc:not(.oc-searching) .oc-col-where {
+	display: none;
+}
+
+.oc:not(.oc-searching) .oc-head,
+.oc:not(.oc-searching)[data-view="details"] .oc-item {
+	grid-template-columns: minmax(140px, 1fr) 130px 110px 72px;
+}
+
+/* A narrow contents pane drops the type, then the date, before it clips. */
+.oc-main {
+	container-type: inline-size;
+}
+
+@container (max-width: 560px) {
+	.oc .oc-head,
+	.oc[data-view="details"] .oc-item {
+		grid-template-columns: minmax(140px, 1fr) 130px 72px !important;
+	}
+	.oc .oc-col-type,
+	.oc .oc-col-where {
+		display: none;
+	}
+}
+
+@container (max-width: 400px) {
+	.oc .oc-head,
+	.oc[data-view="details"] .oc-item {
+		grid-template-columns: minmax(120px, 1fr) 72px !important;
+	}
+	.oc .oc-col-date {
+		display: none;
+	}
+}
+
+.oc-head {
+	padding: calc(var(--spacing) * 1) calc(var(--spacing) * 3);
+	border-bottom: 1px solid var(--outline-gray-1);
+}
+
+.oc[data-view="tiles"] .oc-head {
+	display: none;
+}
+
+.oc-head button {
+	padding: 0;
+	border: 0;
+	background: transparent;
+	text-align: start;
+	color: var(--ink-gray-5);
+	font-size: var(--text-sm);
+}
+
+.oc-head button:hover {
+	color: var(--ink-gray-8);
+}
+
+.oc-head button[data-sorted="asc"]::after {
+	content: " ↑";
+}
+
+.oc-head button[data-sorted="desc"]::after {
+	content: " ↓";
+}
+
+.oc-col-size {
+	text-align: end;
+}
+
+.oc-item {
+	border-radius: var(--radius);
+	cursor: default;
+	color: var(--ink-gray-8);
+	font-size: var(--text-base);
+}
+
+.oc[data-view="details"] .oc-item {
+	padding: 3px calc(var(--spacing) * 2);
+	min-height: 30px;
+}
+
+.oc-item > span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.oc-item .oc-col-date,
+.oc-item .oc-col-type,
+.oc-item .oc-col-size,
+.oc-item .oc-col-where {
+	color: var(--ink-gray-5);
+}
+
+.oc-item:hover {
+	background: var(--surface-gray-2);
+}
+
+.oc-item[aria-selected="true"] {
+	background: var(--surface-blue-2);
+}
+
+.oc-items:focus .oc-item.oc-focus {
+	box-shadow: inset 0 0 0 1px var(--outline-blue-3);
+}
+
+.oc-item.oc-cut {
+	opacity: 0.5;
+}
+
+.oc-item.oc-drop,
+.oc-node.oc-drop {
+	background: var(--surface-blue-2);
+	box-shadow: inset 0 0 0 1px var(--outline-blue-3);
+}
+
+.oc-name {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	min-width: 0;
+}
+
+.oc-label {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.oc-picture {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	color: var(--ink-gray-6);
+}
+
+.oc[data-view="details"] .oc-picture {
+	width: 20px;
+	height: 20px;
+}
+
+.oc[data-view="details"] .oc-picture svg {
+	width: 18px;
+	height: 18px;
+}
+
+.oc[data-view="details"] .oc-picture img {
+	width: 20px;
+	height: 20px;
+	object-fit: cover;
+	border-radius: 3px;
+}
+
+.oc-item[data-folder="1"] .oc-picture {
+	color: var(--ink-amber-3);
+}
+
+.oc-count,
+.oc-public {
+	color: var(--ink-gray-4);
+	font-size: var(--text-sm);
+	flex-shrink: 0;
+}
+
+.oc-rename {
+	flex: 1;
+	min-width: 0;
+	height: 24px;
+	padding: 0 calc(var(--spacing) * 1);
+	border: 1px solid var(--outline-blue-3);
+	border-radius: var(--radius-sm);
+	background: var(--surface-base);
+	font-size: var(--text-base);
+	user-select: text;
+}
+
+/* Tiles: a picture and a name. */
+.oc[data-view="tiles"] .oc-items {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+	align-content: start;
+	gap: calc(var(--spacing) * 1);
+}
+
+.oc[data-view="tiles"] .oc-empty {
+	grid-column: 1 / -1;
+}
+
+.oc[data-view="tiles"] .oc-item {
+	display: flex;
+	flex-direction: column;
+	padding: calc(var(--spacing) * 2);
+}
+
+.oc[data-view="tiles"] .oc-item > span:not(.oc-name) {
+	display: none;
+}
+
+.oc[data-view="tiles"] .oc-name {
+	flex-direction: column;
+	gap: calc(var(--spacing) * 1.5);
+	width: 100%;
+	text-align: center;
+}
+
+.oc[data-view="tiles"] .oc-picture {
+	width: 72px;
+	height: 72px;
+}
+
+.oc[data-view="tiles"] .oc-picture svg {
+	width: 48px;
+	height: 48px;
+	stroke-width: 1.25;
+}
+
+.oc[data-view="tiles"] .oc-picture img {
+	max-width: 72px;
+	max-height: 72px;
+	border-radius: var(--radius-sm);
+	box-shadow: 0 0 0 1px var(--outline-gray-1);
+}
+
+.oc[data-view="tiles"] .oc-label {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	white-space: normal;
+	word-break: break-word;
+	font-size: var(--text-sm);
+	width: 100%;
+}
+
+.oc[data-view="tiles"] .oc-count,
+.oc[data-view="tiles"] .oc-public {
+	display: none;
+}
+
+/* The preview pane. */
+.oc-preview {
+	flex: 0 0 280px;
+	overflow: auto;
+	padding: calc(var(--spacing) * 4);
+	border-inline-start: 1px solid var(--outline-gray-1);
+}
+
+.oc-no-preview .oc-preview {
+	display: none;
+}
+
+.oc-preview-none {
+	margin-top: calc(var(--spacing) * 10);
+	text-align: center;
+	color: var(--ink-gray-5);
+}
+
+.oc-preview-shown {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 160px;
+	margin-bottom: calc(var(--spacing) * 3);
+	border-radius: var(--radius);
+	background: var(--surface-gray-1);
+	overflow: hidden;
+}
+
+.oc-preview-shown img,
+.oc-preview-shown video {
+	max-width: 100%;
+	max-height: 320px;
+}
+
+.oc-preview-shown audio {
+	width: 100%;
+}
+
+.oc-preview-shown iframe {
+	width: 100%;
+	height: 360px;
+	border: 0;
+	background: var(--surface-base);
+}
+
+.oc-preview-icon svg {
+	width: 64px;
+	height: 64px;
+	stroke-width: 1.25;
+	color: var(--ink-gray-5);
+}
+
+.oc-preview-name {
+	font-weight: var(--font-weight-semibold);
+	color: var(--ink-gray-9);
+	word-break: break-word;
+	margin-bottom: calc(var(--spacing) * 3);
+}
+
+.oc-preview dl {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: calc(var(--spacing) * 1.5) calc(var(--spacing) * 3);
+	margin: 0;
+	font-size: var(--text-sm);
+}
+
+.oc-preview dt {
+	color: var(--ink-gray-5);
+	font-weight: normal;
+}
+
+.oc-preview dd {
+	margin: 0;
+	color: var(--ink-gray-8);
+	word-break: break-word;
+}
+
+.oc-status {
+	padding: calc(var(--spacing) * 1) calc(var(--spacing) * 3);
+	border-top: 1px solid var(--outline-gray-1);
+	color: var(--ink-gray-5);
+	font-size: var(--text-sm);
+	white-space: pre;
+}
+
+/* The context menu: espresso's own menu, placed where the pointer is. */
+.oc-menu {
+	min-width: 220px;
+}
+
+.oc-keys {
+	margin-inline-start: auto;
+	padding-inline-start: calc(var(--spacing) * 4);
+	color: var(--ink-gray-4);
+	font-size: var(--text-xs);
+}
+
+/* Uploads in progress. */
+.oc-uploads {
+	position: absolute;
+	inset-inline-end: calc(var(--spacing) * 4);
+	bottom: calc(var(--spacing) * 10);
+	width: 340px;
+	max-height: 320px;
+	display: flex;
+	flex-direction: column;
+	border-radius: var(--radius-lg);
+	background: var(--surface-elevation-2);
+	box-shadow: 0 0 0 1px var(--outline-gray-1), var(--elevation-2xl);
+	z-index: 5;
+}
+
+.oc-uploads[hidden] {
+	display: none;
+}
+
+.oc-uploads-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
+	font-weight: var(--font-weight-medium);
+	border-bottom: 1px solid var(--outline-gray-1);
+}
+
+.oc-uploads-rows {
+	overflow: auto;
+	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
+}
+
+.oc-upload {
+	display: grid;
+	grid-template-columns: 1fr 70px 44px;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	padding: 3px 0;
+	font-size: var(--text-sm);
+}
+
+.oc-upload-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.oc-upload-bar {
+	height: 4px;
+	border-radius: 2px;
+	background: var(--surface-gray-3);
+	overflow: hidden;
+}
+
+.oc-upload-bar span {
+	display: block;
+	height: 100%;
+	background: var(--ink-blue-3);
+}
+
+.oc-upload[data-state="done"] .oc-upload-bar span {
+	background: var(--ink-green-3);
+}
+
+.oc-upload[data-state="failed"] {
+	color: var(--ink-red-6);
+}
+
+.oc-upload-state {
+	text-align: end;
+	color: var(--ink-gray-5);
+}
+
+/* A narrow screen keeps the contents and drops the side panes. */
+@media (max-width: 900px) {
+	.oc-preview {
+		display: none;
+	}
+}
+
+@media (max-width: 640px) {
+	.oc-tree,
+	.oc-bar .es-button__label,
+	.oc-search {
+		display: none;
+	}
+	.oc-head,
+	.oc[data-view="details"] .oc-item,
+	.oc:not(.oc-searching) .oc-head,
+	.oc:not(.oc-searching)[data-view="details"] .oc-item {
+		grid-template-columns: 1fr 70px;
+	}
+	.oc-col-date,
+	.oc-col-type,
+	.oc-col-where {
+		display: none;
+	}
+}

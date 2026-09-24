@@ -1,0 +1,159 @@
+"""Putting files into OneCloud: straight from the browser to R2.
+
+A file dropped on the explorer never passes through this server. `begin` asks
+admin for a URL the browser may PUT each file to and hands back a ticket per
+file; the browser sends the bytes to R2 itself, showing its own progress, and
+then calls `done` with the ticket, which checks the object arrived and writes
+the File row. A gigabyte of video costs this server two small requests.
+
+**The ticket is the whole of the trust.** It is held in the cache for an hour,
+names who asked, where to and under which key, and `done` believes nothing
+else the browser says except the path inside a dropped folder. A ticket is
+used once.
+
+**A key per upload, not per content.** Frappe's own files are keyed by their
+MD5 so ten copies are one object (`store.key_for`); a browser cannot hash a
+large file cheaply before sending it, so an upload gets a random key under
+`files/private/u/`. Copies made inside OneCloud still share their object.
+
+Without an account (a bench of one's own) there is nothing to sign, and `here`
+takes the file as an ordinary form post instead, through the same `_place`.
+"""
+
+import json
+import mimetypes
+import os
+
+import frappe
+import requests
+from frappe import _
+
+from onedesk.one_storage import api, store
+from onedesk.one_storage import namespace as ns
+
+#: How long a ticket is good for, from `begin`.
+TICKET_LIFE = 60 * 60
+
+#: How many files one `begin` signs for.
+AT_ONCE = 200
+
+
+def _extension(name: str) -> str:
+	return "".join(ch for ch in os.path.splitext(name)[1].lower() if ch.isalnum() or ch == ".")[:12]
+
+
+def split_path(path: str | None) -> list[str]:
+	"""A dropped file's folders, from `a/b/c.txt`: ["a", "b"]. Pure."""
+	parts = [api._clean(part) for part in (path or "").replace("\\", "/").split("/")]
+	return [part for part in parts[:-1] if part and part not in (".", "..")][: ns.DEEPEST]
+
+
+@frappe.whitelist(methods=["POST"])
+def begin(node: str, files: str | list) -> dict:
+	"""Tickets for putting `files` ([{name, size}]) into `node`."""
+	files = json.loads(files) if isinstance(files, str) else files
+	if not files or len(files) > AT_ONCE:
+		frappe.throw(_("Send between one and {0} files at a time.").format(AT_ONCE))
+	api._target(node)
+	if not store.enabled():
+		return {"direct": False}
+	from onedesk.one import account
+
+	tickets = []
+	for one in files:
+		name = api._clean(one.get("name")) or "file"
+		size = int(one.get("size") or 0)
+		key = f"files/private/u/{frappe.generate_hash(length=24)}{_extension(name)}"
+		signed = account.put_url(key, size)
+		token = frappe.generate_hash(length=32)
+		frappe.cache.set_value(
+			_held(token),
+			{"user": frappe.session.user, "node": node, "key": key, "name": name, "size": size},
+			expires_in_sec=TICKET_LIFE,
+		)
+		tickets.append({"token": token, "url": signed["url"], "type": mimetypes.guess_type(name)[0] or ""})
+	return {"direct": True, "tickets": tickets}
+
+
+def _held(token: str) -> str:
+	return f"onestorage:upload:{token}"
+
+
+@frappe.whitelist(methods=["POST"])
+def done(token: str, path: str | None = None) -> dict:
+	"""The browser's PUT finished: check the object is there, and file it."""
+	held = frappe.cache.get_value(_held(token))
+	if not held or held.get("user") != frappe.session.user:
+		frappe.throw(_("That upload has expired. Try it again."))
+	frappe.cache.delete_value(_held(token))
+	arrived = requests.get(store.signed(held["key"]), headers={"Range": "bytes=0-0"}, timeout=store.PATIENCE)
+	if arrived.status_code not in (200, 206):
+		frappe.throw(_("{0} did not arrive. Try it again.").format(held["name"]))
+	return _place(
+		held["node"],
+		path,
+		{"file_url": store.url_for(held["key"]), "file_size": held["size"], "file_name": held["name"]},
+	)
+
+
+@frappe.whitelist(methods=["POST"])
+def here(node: str, path: str | None = None) -> dict:
+	"""A file sent to this server as a form post, where there is no account
+	to send it to R2 with (or the browser could not reach R2)."""
+	sent = frappe.request.files.get("file")
+	if not sent:
+		frappe.throw(_("No file was sent."))
+	content = sent.stream.read()
+	return _place(node, path, {"file_name": api._clean(sent.filename) or "file", "content": content})
+
+
+def _place(node: str, path: str | None, fields: dict) -> dict:
+	"""The File row for something just put into `node`, making the folders
+	of a dropped folder on the way."""
+	where = api._target(node)
+	fields = {"doctype": "File", "is_private": 1, **fields}
+	if where[0] == "record":
+		taken = set(
+			frappe.get_all(
+				"File",
+				filters={"attached_to_doctype": where[1], "attached_to_name": where[2]},
+				pluck="file_name",
+			)
+		)
+		fields.update(attached_to_doctype=where[1], attached_to_name=where[2])
+	else:
+		folder = where[1]
+		for part in split_path(path):
+			folder = _folder(folder, part)
+		taken = api._taken(folder)
+		fields["folder"] = folder
+	fields["file_name"] = ns.unique_name(fields["file_name"], taken)
+	doc = frappe.get_doc(fields)
+	doc.flags.ignore_permissions = True
+	if "file_url" in fields:
+		doc.flags.copy_from_existing_file = True
+	doc.insert()
+	if (mimetypes.guess_type(doc.file_name)[0] or "").startswith("image/") and store.is_stored(doc.file_url):
+		frappe.enqueue(thumbnail, name=doc.name, enqueue_after_commit=True)
+	return ns.node(ns.row(doc.name))
+
+
+def _folder(parent: str, name: str) -> str:
+	"""The folder called `name` in `parent`, made if it is not there."""
+	found = frappe.db.get_value(
+		"File", {"folder": parent, "is_folder": 1, "file_name": name, "one_deleted": 0}, "name"
+	)
+	if found:
+		return found
+	doc = frappe.get_doc({"doctype": "File", "is_folder": 1, "file_name": name, "folder": parent})
+	doc.flags.ignore_permissions = True
+	doc.insert()
+	return doc.name
+
+
+def thumbnail(name: str) -> None:
+	"""A stored image's small copy, made once it is in."""
+	doc = frappe.get_doc("File", name)
+	url = doc.make_thumbnail()
+	if url:
+		frappe.db.set_value("File", name, "thumbnail_url", url, update_modified=False)

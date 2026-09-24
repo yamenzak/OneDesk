@@ -271,9 +271,13 @@ No doctypes yet.
 * `onedesk.one_storage.api.move`
 * `onedesk.one_storage.api.purge`
 * `onedesk.one_storage.api.rename`
+* `onedesk.one_storage.api.resolve`
 * `onedesk.one_storage.api.restore`
 * `onedesk.one_storage.ready.fix`
 * `onedesk.one_storage.store.fetch`
+* `onedesk.one_storage.upload.begin`
+* `onedesk.one_storage.upload.done`
+* `onedesk.one_storage.upload.here`
 * `onedesk.one_task.mine.tasks`
 * `onedesk.one_task.timer.running`
 * `onedesk.one_task.timer.start`
