@@ -1,8 +1,10 @@
 # Intake
 
-Written by hand. Stages 1 and 2 of eleven are built: every file and message
-is read into text, documents are found by what is written in them, and every
-record's identifiers are kept in one registry. The plan for
+Written by hand. Stages 1 to 3 of eleven are built: every file and message
+is read into text and found by what is written in it, every record's
+identifiers are kept in one registry, and where OneAI is switched on, each
+document is understood: what it is, who it is from and about, its dates,
+money and what it asks. The plan for
 the rest is `docs/INTAKE.md`. The part above **Under the hood** is the
 manual; below it are the decisions and what is still to come.
 
@@ -45,6 +47,24 @@ OneAI reads shows the OneAI mark, and so does every folder inside it.
 
 **Stop reading with OneAI** in the same menu turns it off. Nothing already
 read is forgotten.
+
+## What OneAI understood
+
+Open a file in OneCloud, or a message in OneMail, and **Read by OneAI** shows
+beside it what it is (an invoice, a reminder, an order, a sick note), a
+line saying what it asks, its number, date, total and where to pay, who it is
+from and about (linked to the customer, supplier or person it is, where One
+knows them), its dates and what it asks somebody to do.
+
+Every amount, date, IBAN and number OneAI reads is checked against the
+document's own words. Anything it said that the document does not say is
+left out and listed under **Not in the document**, and the reading is marked
+**Unsure**. An e-invoice, a bank statement, a contact card and an invitation
+are understood from their own data, with no OneAI credits used at all.
+
+Junk is only looked at, never read in full: spam, phishing, advertising,
+newsletters and automatic notifications are named as such and cost almost
+nothing.
 
 ## The same customer twice
 
@@ -89,7 +109,19 @@ loses a value it had.
   the workspace itself and its people, and `fold` is the merge OneCRM's lead
   merge uses too.
 
-What is not built yet is everything after reading and knowing who is who:
-understanding what a document is and who it is about, filing it, and acting
-on it. `docs/INTAKE.md`
+- `understand.py` is stage 3. `known` understands an e-invoice, a statement, a
+  card or an invitation from its data. Everything else gets `look` (the
+  `intake_look` action on the first 1,500 characters; mail a machine sent in
+  bulk is a newsletter with no model asked) and then `ask` (the `intake_read`
+  action, one fixed JSON shape). `facts.check` drops whatever the text does
+  not bear out, reading amounts and dates the way the document's country
+  writes them, and says what it dropped. Parties are matched through the
+  registry, and ourselves set aside. A kind is at least as sensitive as it is:
+  the model cannot make a sick note ordinary. A model is asked only where
+  OneAI is switched on and never about history.
+- `panel.py` answers the panel only for somebody who may open the file or the
+  message, and links a party only for somebody who may open its record.
+
+What is not built yet is everything after understanding: filing a document,
+and acting on it. `docs/INTAKE.md`
 §17 lists the stages.

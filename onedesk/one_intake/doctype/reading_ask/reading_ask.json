@@ -1,0 +1,57 @@
+{
+ "actions": [],
+ "creation": "2026-09-26 15:00:00.000000",
+ "description": "Something a document asks somebody to do.",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "what",
+  "detail",
+  "by_date",
+  "of_whom"
+ ],
+ "fields": [
+  {
+   "fieldname": "what",
+   "fieldtype": "Select",
+   "label": "Asks To",
+   "options": "Pay\nSign\nReply\nAttend\nSend\nCancel\nDecide\nOther",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "detail",
+   "fieldtype": "Data",
+   "label": "Detail",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "by_date",
+   "fieldtype": "Date",
+   "label": "By",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "of_whom",
+   "fieldtype": "Data",
+   "label": "Of Whom",
+   "read_only": 1
+  }
+ ],
+ "istable": 1,
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-26 15:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Intake",
+ "name": "Reading Ask",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 0
+}

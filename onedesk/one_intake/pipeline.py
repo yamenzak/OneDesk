@@ -38,7 +38,7 @@ DEEPEST = 3
 #: How often a reading that failed for a passing reason is tried again.
 TRIES = 5
 
-DONE = ("Read", "Unreadable", "Needs a Password")
+DONE = ("Read", "Understood", "Unreadable", "Needs a Password")
 
 
 # ------------------------------------------------------------------ doors
@@ -55,7 +55,15 @@ def mail_arrived(made, arrival) -> None:
 	"""Called by OneMail's Arrival once a message is filed."""
 	if made.communication_medium != "Email":
 		return
-	later("read_mail", f"mail:{made.name}", name=made.name, history=int(not getattr(arrival, "fresh", True)))
+	from onedesk.one_mail import rules
+
+	later(
+		"read_mail",
+		f"mail:{made.name}",
+		name=made.name,
+		history=int(not getattr(arrival, "fresh", True)),
+		automatic=int(rules.automatic(arrival.mail, (made.sender or "").lower())),
+	)
 
 
 def later(method: str, job: str, **kwargs) -> None:
@@ -114,7 +122,20 @@ def read_file(name: str, history: int = 0) -> str | None:
 			_inner(reading, inner, person, 0)
 		return reading.name
 	_fill(reading, doc.file_name, content, said, person)
+	understood(reading.name)
 	return reading.name
+
+
+def understood(name: str) -> None:
+	"""Understand what was read: each document, never the batch scan or the zip
+	that held them."""
+	from onedesk.one_intake import understand
+
+	parts = frappe.get_all("Reading", filters={"part_of": name}, pluck="name")
+	if not parts:
+		understand.run(name)
+	for part in parts:
+		understood(part)
 
 
 def _waiting_parts(name: str) -> bool:
@@ -240,7 +261,7 @@ def _most_pages() -> int:
 # ------------------------------------------------------------------ mail
 
 
-def read_mail(name: str, history: int = 0) -> str | None:
+def read_mail(name: str, history: int = 0, automatic: int = 0) -> str | None:
 	"""A message, read: its words, whom it is really from when it is a
 	forward, and each of its attachments as a Reading of its own."""
 	from onedesk.one_intake.readers import mail
@@ -293,7 +314,8 @@ def read_mail(name: str, history: int = 0) -> str | None:
 	)
 	from onedesk.one_intake import language
 
-	_set(reading, language=language.guess(words))
+	_set(reading, language=language.guess(words), automatic=cint(automatic))
+	understood(reading.name)
 	return reading.name
 
 
@@ -336,10 +358,14 @@ def again() -> None:
 	for held in frappe.get_all(
 		"Reading",
 		filters={"state": ["in", ("Queued", "Waiting for Credits")], "modified": ["<", stale]},
-		fields=["name", "source_doctype", "source_name", "history"],
+		fields=["name", "source_doctype", "source_name", "history", "read_on"],
 		limit=50,
 	):
-		_again(held.source_doctype, held.source_name, held.history)
+		# Read already and waiting at understanding: only that is tried again.
+		if held.read_on:
+			later("understood", f"understand:{held.name}", name=held.name)
+		else:
+			_again(held.source_doctype, held.source_name, held.history)
 	for name in unread_files(CATCH_UP):
 		frappe.cache.set_value(f"one-intake-tried:{name}", 1, expires_in_sec=30 * 24 * 3600)
 		later("read_file", f"file:{name}", name=name, history=1)

@@ -1,0 +1,112 @@
+/* The Intake panel: what OneAI read, beside a file or above a message. */
+
+.oi-panel {
+	margin-top: calc(var(--spacing) * 5);
+	padding: calc(var(--spacing) * 3);
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-lg);
+	background: var(--surface-gray-1);
+	font-size: var(--text-sm);
+	color: var(--ink-gray-8);
+}
+
+.oi-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: calc(var(--spacing) * 1.5);
+	color: var(--ink-gray-6);
+	font-weight: var(--font-weight-medium);
+}
+
+.oi-head img {
+	width: 16px;
+	height: 16px;
+}
+
+.oi-chip {
+	padding: 0 calc(var(--spacing) * 1.5);
+	border-radius: var(--radius-full);
+	background: var(--surface-blue-2);
+	color: var(--ink-blue-7);
+	font-size: var(--text-xs);
+	line-height: 1.6;
+}
+
+.oi-chip[data-tone="orange"] {
+	background: var(--surface-amber-2);
+	color: var(--ink-amber-7);
+}
+
+.oi-chip[data-tone="red"] {
+	background: var(--surface-red-2);
+	color: var(--ink-red-7);
+}
+
+.oi-chip[data-tone="purple"] {
+	background: var(--surface-violet-2);
+	color: var(--ink-violet-7);
+}
+
+.oi-chip[data-tone="gray"] {
+	background: var(--surface-gray-3);
+	color: var(--ink-gray-7);
+}
+
+.oi-name {
+	margin-top: calc(var(--spacing) * 2);
+	font-weight: var(--font-weight-semibold);
+	color: var(--ink-gray-9);
+}
+
+.oi-summary {
+	margin-top: calc(var(--spacing) * 1);
+	color: var(--ink-gray-7);
+}
+
+.oi-panel dl {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: calc(var(--spacing) * 1) calc(var(--spacing) * 3);
+	margin: calc(var(--spacing) * 3) 0 0;
+}
+
+.oi-panel dt {
+	color: var(--ink-gray-5);
+	font-weight: normal;
+	white-space: nowrap;
+}
+
+.oi-panel dd {
+	margin: 0;
+	word-break: break-word;
+}
+
+.oi-title {
+	margin-top: calc(var(--spacing) * 3);
+	color: var(--ink-gray-5);
+	font-weight: var(--font-weight-medium);
+}
+
+.oi-panel ul {
+	margin: calc(var(--spacing) * 1) 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.oi-panel li {
+	padding: calc(var(--spacing) * 0.5) 0;
+}
+
+.oi-quiet {
+	color: var(--ink-gray-5);
+}
+
+.oi-dropped {
+	margin-top: calc(var(--spacing) * 3);
+	color: var(--ink-amber-7);
+}
+
+.oi-dropped summary {
+	cursor: pointer;
+}

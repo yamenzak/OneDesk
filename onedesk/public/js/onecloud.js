@@ -621,8 +621,11 @@ onedesk.OneCloud = class OneCloud {
 			<div class="oc-preview-shown">${shown}</div>
 			<div class="oc-preview-name">${esc(item.name)}</div>
 			<dl>${rows.map(([key, value]) => `<dt>${key}</dt><dd>${esc(String(value))}</dd>`).join("")}</dl>
+			<div class="oc-intake-panel"></div>
 			<div class="oc-history"></div>`);
 		if (this.filed(item)) this.draw_history(item);
+		// What OneAI read in it (intake.js).
+		if (this.filed(item) && !item.folder) onedesk.intake.panel(this.$preview.find(".oc-intake-panel"), { file: item.id });
 	}
 
 	// A file's versions and what was done to it, under its preview.

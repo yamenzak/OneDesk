@@ -411,6 +411,8 @@ onedesk.OneMail = class OneMail {
 				<button class="es-button" data-variant="subtle" data-act="forward">${frappe.utils.icon("forward", "sm")}<span class="es-button__label">${__("Forward")}</span></button>
 			</div>`);
 		this.$read.find(".om-body").each((_, frame) => this.fill(frame));
+		// What OneAI read in each open message (intake.js).
+		this.$read.find(".om-intake").each((_, el) => onedesk.intake.panel($(el), { message: el.dataset.intake }));
 		this.draw_records();
 		this.$read.scrollTop(0);
 		const open = this.$read.find(".om-message:not(.om-folded)").first()[0];
@@ -503,6 +505,7 @@ onedesk.OneMail = class OneMail {
 			</div>
 			<iframe class="om-body" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin" referrerpolicy="no-referrer" title="${__("Message")}"></iframe>
 			${files ? `<div class="om-files">${files}</div>` : ""}
+			<div class="om-intake" data-intake="${esc(message.name)}"></div>
 		</div>`;
 	}
 

@@ -1,0 +1,77 @@
+{
+ "actions": [],
+ "creation": "2026-09-26 15:00:00.000000",
+ "description": "A line of an invoice or a receipt.",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "text",
+  "qty",
+  "unit_price",
+  "amount",
+  "tax_rate",
+  "code",
+  "category"
+ ],
+ "fields": [
+  {
+   "fieldname": "text",
+   "fieldtype": "Data",
+   "label": "Line",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "label": "Quantity",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "unit_price",
+   "fieldtype": "Float",
+   "label": "Unit Price",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Float",
+   "label": "Amount",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "tax_rate",
+   "fieldtype": "Percent",
+   "label": "Tax Rate",
+   "read_only": 1
+  },
+  {
+   "fieldname": "code",
+   "fieldtype": "Data",
+   "label": "Item Code",
+   "read_only": 1
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Data",
+   "label": "Category",
+   "read_only": 1
+  }
+ ],
+ "istable": 1,
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-26 15:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Intake",
+ "name": "Reading Line",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 0
+}

@@ -1,0 +1,153 @@
+{
+ "actions": [],
+ "creation": "2026-09-26 15:00:00.000000",
+ "description": "Somebody a document is from, to or about.",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "role",
+  "party_name",
+  "is_person",
+  "email",
+  "phone",
+  "website",
+  "vat_id",
+  "tax_number",
+  "iban",
+  "register",
+  "document_number",
+  "birth_date",
+  "address",
+  "matched_doctype",
+  "matched_name",
+  "score",
+  "ours"
+ ],
+ "fields": [
+  {
+   "fieldname": "role",
+   "fieldtype": "Select",
+   "label": "Role",
+   "options": "Sender\nRecipient\nHolder\nPatient\nEmployee\nPaid To\nMentioned",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "party_name",
+   "fieldtype": "Data",
+   "label": "Name",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "is_person",
+   "fieldtype": "Check",
+   "label": "A Person",
+   "read_only": 1
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "read_only": 1
+  },
+  {
+   "fieldname": "phone",
+   "fieldtype": "Data",
+   "label": "Phone",
+   "read_only": 1
+  },
+  {
+   "fieldname": "website",
+   "fieldtype": "Data",
+   "label": "Website",
+   "read_only": 1
+  },
+  {
+   "fieldname": "vat_id",
+   "fieldtype": "Data",
+   "label": "VAT ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "tax_number",
+   "fieldtype": "Data",
+   "label": "Tax Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "iban",
+   "fieldtype": "Data",
+   "label": "IBAN",
+   "read_only": 1
+  },
+  {
+   "fieldname": "register",
+   "fieldtype": "Data",
+   "label": "Register Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "document_number",
+   "fieldtype": "Data",
+   "label": "Document Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "birth_date",
+   "fieldtype": "Date",
+   "label": "Date of Birth",
+   "read_only": 1
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Small Text",
+   "label": "Address",
+   "read_only": 1
+  },
+  {
+   "fieldname": "matched_doctype",
+   "fieldtype": "Link",
+   "label": "Matched Type",
+   "options": "DocType",
+   "read_only": 1
+  },
+  {
+   "fieldname": "matched_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Matched Record",
+   "options": "matched_doctype",
+   "in_list_view": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "score",
+   "fieldtype": "Float",
+   "label": "Sureness",
+   "read_only": 1,
+   "precision": "2"
+  },
+  {
+   "fieldname": "ours",
+   "fieldtype": "Select",
+   "label": "Ours",
+   "options": "\nCompany\nColleague",
+   "read_only": 1
+  }
+ ],
+ "istable": 1,
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-26 15:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Intake",
+ "name": "Reading Party",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 0
+}

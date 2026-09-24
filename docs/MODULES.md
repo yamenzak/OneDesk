@@ -136,7 +136,12 @@ No doctypes yet.
 |---|--:|---|
 | Identifier | 6 | document |
 | Intake Settings | 2 | single |
-| Reading | 23 | document |
+| Reading | 56 | document |
+| Reading Ask | 4 | child |
+| Reading Date | 4 | child |
+| Reading Line | 7 | child |
+| Reading Party | 17 | child |
+| Reading Reference | 3 | child |
 
 ## Desk records shipped as fixtures
 
@@ -284,6 +289,8 @@ No doctypes yet.
 * `onedesk.one_hr.signin.offered`
 * `onedesk.one_intake.identity.merge`
 * `onedesk.one_intake.identity.not_duplicate`
+* `onedesk.one_intake.panel.for_file`
+* `onedesk.one_intake.panel.for_message`
 * `onedesk.one_intake.switches.folder_state`
 * `onedesk.one_intake.switches.mailbox_state`
 * `onedesk.one_intake.switches.set_folder`

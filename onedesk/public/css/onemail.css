@@ -623,6 +623,11 @@ img.om-face {
 	flex: 1;
 }
 
+/* What OneAI read in the message (intake.css draws the panel). */
+.om-intake .oi-panel {
+	margin-top: calc(var(--spacing) * 3);
+}
+
 .om-files {
 	display: flex;
 	flex-wrap: wrap;

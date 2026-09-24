@@ -1,0 +1,58 @@
+{
+ "actions": [],
+ "creation": "2026-09-26 15:00:00.000000",
+ "description": "A date a document gives, and what it is for.",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "date",
+  "what",
+  "about",
+  "found"
+ ],
+ "fields": [
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "in_list_view": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "what",
+   "fieldtype": "Select",
+   "label": "What",
+   "options": "Due\nDeadline\nAppointment\nValid From\nValid Until\nPeriod Start\nPeriod End\nService\nOther",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "about",
+   "fieldtype": "Data",
+   "label": "About",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "found",
+   "fieldtype": "Check",
+   "label": "Written in the Document",
+   "read_only": 1
+  }
+ ],
+ "istable": 1,
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-26 15:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Intake",
+ "name": "Reading Date",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 0
+}

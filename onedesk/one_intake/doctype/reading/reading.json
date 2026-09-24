@@ -28,6 +28,39 @@
   "tries",
   "read_on",
   "error",
+  "section_understood",
+  "verdict",
+  "kind",
+  "summary",
+  "number",
+  "issued_on",
+  "sensitivity",
+  "column_break_understood",
+  "automatic",
+  "confidence",
+  "unsure",
+  "dropped",
+  "understood_on",
+  "section_money",
+  "currency",
+  "net",
+  "tax",
+  "gross",
+  "column_break_money",
+  "paid_how",
+  "iban",
+  "payment_reference",
+  "section_document",
+  "document_type",
+  "issuing_country",
+  "column_break_document",
+  "valid_until",
+  "section_details",
+  "parties",
+  "dates",
+  "asks",
+  "lines",
+  "refs",
   "section_text",
   "text",
   "structured"
@@ -53,7 +86,7 @@
    "fieldname": "state",
    "fieldtype": "Select",
    "label": "State",
-   "options": "Queued\nRead\nNeeds a Password\nUnreadable\nWaiting for Credits\nFailed",
+   "options": "Queued\nRead\nUnderstood\nNeeds a Password\nUnreadable\nWaiting for Credits\nFailed",
    "default": "Queued",
    "in_list_view": 1,
    "in_standard_filter": 1,
@@ -165,6 +198,224 @@
    "fieldtype": "Small Text",
    "label": "Error",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_understood",
+   "fieldtype": "Section Break",
+   "label": "Understood"
+  },
+  {
+   "fieldname": "verdict",
+   "fieldtype": "Select",
+   "label": "First Look",
+   "read_only": 1,
+   "options": "\nSpam\nPhishing\nAdvertising\nNewsletter\nNotification\nInformation\nAction",
+   "in_standard_filter": 1,
+   "description": "What the first look said this is, before it was read in full."
+  },
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Kind",
+   "read_only": 1,
+   "options": "\nInvoice\nCredit Note\nReceipt\nReminder\nTax Assessment\nContract\nOffer\nOrder\nOrder Confirmation\nDelivery Note\nPayment Advice\nBank Statement\nPayslip\nSick Note\nMedical Report\nIdentity Document\nCertificate\nCV\nAppointment\nLetter From an Authority\nNotice of Change\nContact Card\nLetter\nOther",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "summary",
+   "fieldtype": "Small Text",
+   "label": "Summary",
+   "read_only": 1
+  },
+  {
+   "fieldname": "number",
+   "fieldtype": "Data",
+   "label": "Its Number",
+   "read_only": 1,
+   "search_index": 1,
+   "description": "The invoice, order or case number the document itself carries."
+  },
+  {
+   "fieldname": "issued_on",
+   "fieldtype": "Date",
+   "label": "Issued On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sensitivity",
+   "fieldtype": "Select",
+   "label": "Sensitivity",
+   "read_only": 1,
+   "options": "Ordinary\nPersonal\nMedical\nPay\nLegal",
+   "default": "Ordinary"
+  },
+  {
+   "fieldname": "column_break_understood",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "automatic",
+   "fieldtype": "Check",
+   "label": "Sent by a Machine",
+   "read_only": 1,
+   "description": "A mailing list, a bulk send or an automatic reply."
+  },
+  {
+   "fieldname": "confidence",
+   "fieldtype": "Percent",
+   "label": "Sureness",
+   "read_only": 1
+  },
+  {
+   "fieldname": "unsure",
+   "fieldtype": "Check",
+   "label": "Unsure",
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "dropped",
+   "fieldtype": "Small Text",
+   "label": "Not in the Document",
+   "read_only": 1,
+   "description": "What the model said that the document's own text does not."
+  },
+  {
+   "fieldname": "understood_on",
+   "fieldtype": "Datetime",
+   "label": "Understood On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_money",
+   "fieldtype": "Section Break",
+   "label": "Money",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "read_only": 1,
+   "options": "Currency"
+  },
+  {
+   "fieldname": "net",
+   "fieldtype": "Float",
+   "label": "Net",
+   "read_only": 1,
+   "precision": "2"
+  },
+  {
+   "fieldname": "tax",
+   "fieldtype": "Float",
+   "label": "Tax",
+   "read_only": 1,
+   "precision": "2"
+  },
+  {
+   "fieldname": "gross",
+   "fieldtype": "Float",
+   "label": "Total",
+   "read_only": 1,
+   "precision": "2"
+  },
+  {
+   "fieldname": "column_break_money",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "paid_how",
+   "fieldtype": "Select",
+   "label": "Paid How",
+   "read_only": 1,
+   "options": "\nTransfer\nDirect Debit\nAlready Paid\nUnknown"
+  },
+  {
+   "fieldname": "iban",
+   "fieldtype": "Data",
+   "label": "IBAN to Pay",
+   "read_only": 1
+  },
+  {
+   "fieldname": "payment_reference",
+   "fieldtype": "Data",
+   "label": "Payment Reference",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_document",
+   "fieldtype": "Section Break",
+   "label": "Identity Document",
+   "collapsible": 1,
+   "depends_on": "eval:doc.kind=='Identity Document' || doc.kind=='Certificate'"
+  },
+  {
+   "fieldname": "document_type",
+   "fieldtype": "Link",
+   "label": "Document Type",
+   "read_only": 1,
+   "options": "Identification Document Type"
+  },
+  {
+   "fieldname": "issuing_country",
+   "fieldtype": "Link",
+   "label": "Issuing Country",
+   "read_only": 1,
+   "options": "Country"
+  },
+  {
+   "fieldname": "column_break_document",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "valid_until",
+   "fieldtype": "Date",
+   "label": "Valid Until",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "section_details",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "parties",
+   "fieldtype": "Table",
+   "label": "Parties",
+   "read_only": 1,
+   "options": "Reading Party"
+  },
+  {
+   "fieldname": "dates",
+   "fieldtype": "Table",
+   "label": "Dates",
+   "read_only": 1,
+   "options": "Reading Date"
+  },
+  {
+   "fieldname": "asks",
+   "fieldtype": "Table",
+   "label": "Asks",
+   "read_only": 1,
+   "options": "Reading Ask"
+  },
+  {
+   "fieldname": "lines",
+   "fieldtype": "Table",
+   "label": "Lines",
+   "read_only": 1,
+   "options": "Reading Line"
+  },
+  {
+   "fieldname": "refs",
+   "fieldtype": "Table",
+   "label": "References",
+   "read_only": 1,
+   "options": "Reading Reference"
   },
   {
    "fieldname": "section_text",
