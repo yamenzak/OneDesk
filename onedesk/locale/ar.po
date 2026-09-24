@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 20:29+0000\n"
-"PO-Revision-Date: 2026-09-24 20:29+0000\n"
+"POT-Creation-Date: 2026-09-24 20:33+0000\n"
+"PO-Revision-Date: 2026-09-24 20:33+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -166,11 +166,11 @@ msgstr "تاريخ يذكره مستند، وما الغرض منه."
 msgid "A deal moved to this stage takes this probability, unless one was typed."
 msgstr "تأخذ الصفقة المنقولة إلى هذه المرحلة هذا الاحتمال، ما لم يُكتب احتمال آخر."
 
-#: onedesk/one_intake/planning.py:129
+#: onedesk/one_intake/planning.py:130
 msgid "A document arrived"
 msgstr "وصل مستند"
 
-#: onedesk/one_intake/planning.py:130
+#: onedesk/one_intake/planning.py:131
 msgid "A document arrived for {0}"
 msgstr "وصل مستند لـ {0}"
 
@@ -367,11 +367,11 @@ msgstr "السجل يحتوي ملفات، لا مجلدات."
 msgid "A record of something that happened to a workspace."
 msgstr "سجل لما حدث لمساحة عمل."
 
-#: onedesk/one_intake/planning.py:131
+#: onedesk/one_intake/planning.py:132
 msgid "A reminder arrived: {0}"
 msgstr "وصل تذكير: {0}"
 
-#: onedesk/one_intake/planning.py:141
+#: onedesk/one_intake/planning.py:142
 msgid "A reminder for an invoice nobody here has. Ask for the invoice before paying anything."
 msgstr "تذكير بفاتورة لا يملكها أحد هنا. اطلب الفاتورة قبل دفع أي شيء."
 
@@ -936,7 +936,7 @@ msgstr ""
 msgid "Already Paid"
 msgstr "مدفوع مسبقاً"
 
-#: onedesk/one_intake/planning.py:136
+#: onedesk/one_intake/planning.py:137
 msgid "Already paid."
 msgstr "مدفوعة مسبقًا."
 
@@ -1142,7 +1142,7 @@ msgstr "تقديم طلب إجازة"
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
-#: onedesk/one_intake/planning.py:132
+#: onedesk/one_intake/planning.py:133
 msgid "Appointment"
 msgstr "موعد"
 
@@ -1299,7 +1299,7 @@ msgstr "اسأل {0}"
 msgid "Ask {0} about this"
 msgstr "اسأل {0} عن هذا"
 
-#: onedesk/one_intake/planning.py:140
+#: onedesk/one_intake/planning.py:141
 msgid "Ask {1} for invoice {0}"
 msgstr "اطلب من {1} الفاتورة {0}"
 
@@ -2987,7 +2987,7 @@ msgstr "تاريخ التعديل"
 msgid "Date of Birth"
 msgstr "تاريخ الميلاد"
 
-#: onedesk/one_intake/planning.py:134
+#: onedesk/one_intake/planning.py:135
 msgid "Dated after the books locked up to {0}."
 msgstr "مؤرخة بعد إقفال الدفاتر حتى {0}."
 
@@ -4560,7 +4560,7 @@ msgstr "من تاريخ"
 msgid "From a receipt: {0}, {1}."
 msgstr "من إيصال: {0}، {1}."
 
-#: onedesk/one_intake/planning.py:128
+#: onedesk/one_intake/planning.py:129
 msgid "From a sick note that arrived by mail."
 msgstr "من شهادة مرضية وصلت بالبريد."
 
@@ -5448,7 +5448,7 @@ msgstr "سيطلب كلمة مرور: أنشئ واحدة لكل حاسوب أد
 msgid "It has no asset category."
 msgstr "ليس له فئة أصول."
 
-#: onedesk/one_intake/drafts.py:127
+#: onedesk/one_intake/drafts.py:126
 msgid "It is not ready any more."
 msgstr "لم يعد جاهزًا."
 
@@ -6329,7 +6329,7 @@ msgstr "من إنشاء OneAI"
 msgid "Made by OneAI. Nobody has checked it yet."
 msgstr "أنشأه OneAI ولم يراجعه أحد بعد."
 
-#: onedesk/one_intake/planning.py:108
+#: onedesk/one_intake/planning.py:109
 msgid "Made from {0}."
 msgstr "أُنشئ من {0}."
 
@@ -8155,7 +8155,7 @@ msgstr "لا يمكن إزالة {0} إلا لمن أنشأ الاتصال."
 msgid "Only {0}"
 msgstr "{0} فقط"
 
-#: onedesk/one_intake/act.py:458
+#: onedesk/one_intake/act.py:462
 msgid "Only {0} or an administrator of this workspace can decide this."
 msgstr "لا يقرر هذا إلا {0} أو مسؤول مساحة العمل."
 
@@ -8540,7 +8540,7 @@ msgstr "مدفوع إلى"
 msgid "Paid and not built"
 msgstr "دُفع ولم يُبنَ"
 
-#: onedesk/one_intake/planning.py:135
+#: onedesk/one_intake/planning.py:136
 msgid "Paid by direct debit."
 msgstr "مدفوعة بالخصم المباشر."
 
@@ -9922,7 +9922,7 @@ msgstr "إعادة تسمية"
 msgid "Rename the connection instead."
 msgstr "أعد تسمية الاتصال بدلًا من ذلك."
 
-#: onedesk/one_intake/planning.py:126
+#: onedesk/one_intake/planning.py:127
 msgid "Renew the {0} of {1}"
 msgstr "جدد {0} الخاص بـ {1}"
 
@@ -10383,7 +10383,7 @@ msgstr "المقاعد"
 msgid "Secret Key"
 msgstr "المفتاح السري"
 
-#: onedesk/one_intake/planning.py:139
+#: onedesk/one_intake/planning.py:140
 msgid "See the attached document."
 msgstr "انظر المستند المرفق."
 
@@ -10832,7 +10832,7 @@ msgstr ""
 msgid "Some Days Were Trimmed"
 msgstr "اقتُطعت بعض الأيام"
 
-#: onedesk/one_intake/planning.py:138
+#: onedesk/one_intake/planning.py:139
 msgid "Some lines match no item."
 msgstr "بعض البنود لا تطابق أي صنف."
 
@@ -10840,7 +10840,7 @@ msgstr "بعض البنود لا تطابق أي صنف."
 msgid "Some of it stays"
 msgstr "يبقى بعضه"
 
-#: onedesk/one_intake/act.py:123 onedesk/one_intake/drafts.py:36
+#: onedesk/one_intake/act.py:123 onedesk/one_intake/drafts.py:35
 msgid "Some of what OneAI read is not in the document."
 msgstr "بعض ما قرأه OneAI ليس في المستند."
 
@@ -11984,7 +11984,7 @@ msgstr "أول سؤال طُرح، مختصراً. وتغيير الاسم مت�
 msgid "The hours above that are ticked Billable. The project decides what they are worth."
 msgstr "الساعات أعلاه المؤشَّر عليها بالقابلة للفوترة. والمشروع هو من يحدد قيمتها."
 
-#: onedesk/one_intake/drafts.py:71
+#: onedesk/one_intake/drafts.py:70
 msgid "The invoice asks to be paid to an IBAN we do not have for {0}."
 msgstr "تطلب الفاتورة الدفع إلى IBAN لا نملكه لـ {0}."
 
@@ -11992,7 +11992,7 @@ msgstr "تطلب الفاتورة الدفع إلى IBAN لا نملكه لـ {0
 msgid "The invoice is attached. If you have already paid it, please ignore this reminder."
 msgstr "الفاتورة مرفقة. إذا كنت قد دفعتها بالفعل، يرجى تجاهل هذا التذكير."
 
-#: onedesk/one_intake/planning.py:137
+#: onedesk/one_intake/planning.py:138
 msgid "The invoice this credits was not found."
 msgstr "لم يُعثر على الفاتورة التي يدين هذا الإشعار لها."
 
@@ -12084,7 +12084,7 @@ msgstr "يُذكَّر المسؤول في هذا الوقت."
 msgid "The page lists this model and no price in effect today."
 msgstr "تُدرج الصفحة هذا النموذج دون سعر سارٍ اليوم."
 
-#: onedesk/one_intake/drafts.py:38
+#: onedesk/one_intake/drafts.py:37
 msgid "The party is not known."
 msgstr "الطرف غير معروف."
 
@@ -12203,7 +12203,7 @@ msgstr "الحالة المسجّلة لكل يوم من طلب معتمد. ال
 msgid "The sync leaves the rates below alone. For a model whose page this cannot read."
 msgstr "تترك المزامنة الأسعار أدناه كما هي. لنموذج يتعذّر قراءة صفحته."
 
-#: onedesk/one_intake/drafts.py:40
+#: onedesk/one_intake/drafts.py:39
 msgid "The total is {0}, the document says {1}."
 msgstr "الإجمالي {0} والمستند يقول {1}."
 
@@ -12468,7 +12468,7 @@ msgstr "هذا الموقع لا يدير مساحات عمل."
 msgid "This takes a few minutes. A link will be emailed to {0} when it is ready."
 msgstr "يستغرق ذلك بضع دقائق. وسيُرسل رابط إلى {0} عند الجهوز."
 
-#: onedesk/one_intake/act.py:469 onedesk/one_intake/act.py:523
+#: onedesk/one_intake/act.py:473 onedesk/one_intake/act.py:527
 msgid "This was already {0}."
 msgstr "كان هذا {0} من قبل."
 
@@ -14167,7 +14167,7 @@ msgstr "لا يمكنك الإضافة إلى هذا المجلد."
 msgid "You may not change {0}."
 msgstr "لا يمكنك تغيير {0}."
 
-#: onedesk/one_intake/act.py:478
+#: onedesk/one_intake/act.py:482
 msgid "You may not do this yourself."
 msgstr "لا يحق لك فعل هذا بنفسك."
 
@@ -14301,19 +14301,19 @@ msgstr "زميل"
 msgid "a day"
 msgstr "يوم واحد"
 
-#: onedesk/one_intake/act.py:565
+#: onedesk/one_intake/act.py:569
 msgid "a person has changed it since"
 msgstr "غيّره شخص منذ ذلك الحين"
 
-#: onedesk/one_intake/act.py:550
+#: onedesk/one_intake/act.py:554
 msgid "a person has checked it since"
 msgstr "راجعه شخص منذ ذلك الحين"
 
-#: onedesk/one_intake/act.py:604 onedesk/one_intake/act.py:622
+#: onedesk/one_intake/act.py:608 onedesk/one_intake/act.py:626
 msgid "a person has moved it since"
 msgstr "نقله شخص منذ ذلك الحين"
 
-#: onedesk/one_intake/act.py:613
+#: onedesk/one_intake/act.py:617
 msgid "a person has renamed it since"
 msgstr "أعاد شخص تسميته منذ ذلك الحين"
 
@@ -14381,7 +14381,7 @@ msgstr "أنشأه"
 msgid "deployed"
 msgstr "نُشر"
 
-#: onedesk/one_intake/planning.py:127
+#: onedesk/one_intake/planning.py:128
 msgid "document"
 msgstr "مستند"
 
@@ -14456,8 +14456,8 @@ msgstr "حضر متأخراً وانصرف مبكراً"
 msgid "input"
 msgstr "مدخلات"
 
-#: onedesk/one_intake/act.py:552 onedesk/one_intake/act.py:562
-#: onedesk/one_intake/act.py:577
+#: onedesk/one_intake/act.py:556 onedesk/one_intake/act.py:566
+#: onedesk/one_intake/act.py:581
 msgid "it has been submitted"
 msgstr "تم اعتماده"
 
@@ -14586,7 +14586,7 @@ msgstr "استعاد الإصدار {0}"
 msgid "shared it with {0}"
 msgstr "شاركه مع {0}"
 
-#: onedesk/one_intake/act.py:536
+#: onedesk/one_intake/act.py:540
 msgid "something else uses it now"
 msgstr "يستخدمه شيء آخر الآن"
 
@@ -14730,7 +14730,7 @@ msgstr "{0} و{1} ليسا في منطقة واحدة."
 msgid "{0} and {1} more"
 msgstr "{0} و{1} أخرى"
 
-#: onedesk/one_intake/planning.py:270
+#: onedesk/one_intake/planning.py:272
 msgid "{0} arrived after you closed this task."
 msgstr "وصل {0} بعد أن أغلقت هذه المهمة."
 
@@ -14741,6 +14741,10 @@ msgstr "وصل {0} إلى {1} عبر رابطك"
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.py:49
 msgid "{0} asked for a {1}"
 msgstr "طلب {0} {1}"
+
+#: onedesk/one_intake/planning.py:402
+msgid "{0} asks to be paid to an IBAN we do not have for {1}. Check with them by phone before paying."
+msgstr "يطلب {0} الدفع إلى IBAN لا نملكه لـ {1}. تحقق منهم هاتفيًا قبل الدفع."
 
 #: onedesk/one_storage/file_requests.py:138
 #: onedesk/one_storage/file_requests.py:142
@@ -15030,11 +15034,11 @@ msgstr "{0} يقع بالفعل تحت {1}، لذا لا يمكن أن يكون 
 msgid "{0} is asked for twice."
 msgstr "{0} مطلوب مرتين."
 
-#: onedesk/one_intake/drafts.py:57
+#: onedesk/one_intake/drafts.py:56
 msgid "{0} is billed at {1}, ordered at {2}."
 msgstr "{0} مفوتر بسعر {1} ومطلوب بسعر {2}."
 
-#: onedesk/one_intake/drafts.py:59
+#: onedesk/one_intake/drafts.py:58
 msgid "{0} is billed {1} times, ordered {2}."
 msgstr "{0} مفوتر {1} مرات ومطلوب {2}."
 

@@ -179,6 +179,10 @@ def apply(action: Action, reading) -> str | None:
 		return _insert(row)
 
 	before = _before(action)
+	if action.kind == "Update" and before and all(_same(before.get(key), value) for key, value in (action.values or {}).items()):
+		# The record already says all of it: nothing to do, and nothing to
+		# write down.
+		return None
 	from onedesk.one_intake import mark
 
 	owned = action.kind == "Update" and bool(action.name) and mark.is_marked(action.doctype, action.name)

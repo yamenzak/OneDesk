@@ -1,6 +1,6 @@
 # Intake
 
-Written by hand. Stages 1 to 7 of eleven are built: every file and message
+Written by hand. Stages 1 to 8 of eleven are built: every file and message
 is read into text and found by what is written in it, every record's
 identifiers are kept in one registry, and where OneAI is switched on, each
 document is understood (what it is, who it is from and about, its dates,
@@ -205,6 +205,18 @@ currency at a time. Each line's category is learned per shop, so a shop's
 lines soon need no model. A **household** (Intake Settings) keeps no books:
 no drafts are made at all, and Spending is how it sees where the money went.
 
+## What a document teaches
+
+Every document teaches its parties something: a VAT id, a website, a phone
+number. An empty field on the supplier, customer or lead is filled and gets
+the OneAI badge; one that already says something else keeps it, and the new
+value is proposed beside it. A phone the writer's contact does not have yet
+is added. A known supplier's document asking to be paid to an IBAN we do not
+have for them is what invoice fraud looks like: you are told at once, the
+draft is red in Ready to Submit, and our IBAN is never changed from a
+document. A supplier who bills one thing a month has it booked to what it was
+booked to last time.
+
 ## What OneAI did, and taking it back
 
 The panel beside a document ends with **What OneAI did**: made this record,
@@ -375,6 +387,11 @@ loses a value it had.
   pressing Submit All, and holds the optional e-invoice submit. `steps.paid`
   re-checks the bills a payment or journal entry touched, since ERPNext
   changes their outstanding amount with `db_set`.
+
+- `plans.enrich` is stage 8: a matched party's empty fields from the reading,
+  through the door, which proposes wherever the record already says
+  something else. An update that changes nothing is not written down.
+  `planning._warn_iban` is the red warning.
 
 Not built yet: an Asset from an equipment invoice; an order confirmation's
 changed dates proposed on the order; a reminder's fee proposed as a line;

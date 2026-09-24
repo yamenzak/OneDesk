@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 20:29+0000\n"
-"PO-Revision-Date: 2026-09-24 20:29+0000\n"
+"POT-Creation-Date: 2026-09-24 20:33+0000\n"
+"PO-Revision-Date: 2026-09-24 20:33+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -164,11 +164,11 @@ msgstr ""
 msgid "A deal moved to this stage takes this probability, unless one was typed."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:129
+#: onedesk/one_intake/planning.py:130
 msgid "A document arrived"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:130
+#: onedesk/one_intake/planning.py:131
 msgid "A document arrived for {0}"
 msgstr ""
 
@@ -365,11 +365,11 @@ msgstr ""
 msgid "A record of something that happened to a workspace."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:131
+#: onedesk/one_intake/planning.py:132
 msgid "A reminder arrived: {0}"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:141
+#: onedesk/one_intake/planning.py:142
 msgid "A reminder for an invoice nobody here has. Ask for the invoice before paying anything."
 msgstr ""
 
@@ -934,7 +934,7 @@ msgstr ""
 msgid "Already Paid"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:136
+#: onedesk/one_intake/planning.py:137
 msgid "Already paid."
 msgstr ""
 
@@ -1140,7 +1140,7 @@ msgstr ""
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
-#: onedesk/one_intake/planning.py:132
+#: onedesk/one_intake/planning.py:133
 msgid "Appointment"
 msgstr ""
 
@@ -1297,7 +1297,7 @@ msgstr ""
 msgid "Ask {0} about this"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:140
+#: onedesk/one_intake/planning.py:141
 msgid "Ask {1} for invoice {0}"
 msgstr ""
 
@@ -2985,7 +2985,7 @@ msgstr ""
 msgid "Date of Birth"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:134
+#: onedesk/one_intake/planning.py:135
 msgid "Dated after the books locked up to {0}."
 msgstr ""
 
@@ -4558,7 +4558,7 @@ msgstr ""
 msgid "From a receipt: {0}, {1}."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:128
+#: onedesk/one_intake/planning.py:129
 msgid "From a sick note that arrived by mail."
 msgstr ""
 
@@ -5446,7 +5446,7 @@ msgstr ""
 msgid "It has no asset category."
 msgstr ""
 
-#: onedesk/one_intake/drafts.py:127
+#: onedesk/one_intake/drafts.py:126
 msgid "It is not ready any more."
 msgstr ""
 
@@ -6327,7 +6327,7 @@ msgstr ""
 msgid "Made by OneAI. Nobody has checked it yet."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:108
+#: onedesk/one_intake/planning.py:109
 msgid "Made from {0}."
 msgstr ""
 
@@ -8153,7 +8153,7 @@ msgstr ""
 msgid "Only {0}"
 msgstr ""
 
-#: onedesk/one_intake/act.py:458
+#: onedesk/one_intake/act.py:462
 msgid "Only {0} or an administrator of this workspace can decide this."
 msgstr ""
 
@@ -8538,7 +8538,7 @@ msgstr ""
 msgid "Paid and not built"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:135
+#: onedesk/one_intake/planning.py:136
 msgid "Paid by direct debit."
 msgstr ""
 
@@ -9920,7 +9920,7 @@ msgstr ""
 msgid "Rename the connection instead."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:126
+#: onedesk/one_intake/planning.py:127
 msgid "Renew the {0} of {1}"
 msgstr ""
 
@@ -10381,7 +10381,7 @@ msgstr ""
 msgid "Secret Key"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:139
+#: onedesk/one_intake/planning.py:140
 msgid "See the attached document."
 msgstr ""
 
@@ -10830,7 +10830,7 @@ msgstr ""
 msgid "Some Days Were Trimmed"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:138
+#: onedesk/one_intake/planning.py:139
 msgid "Some lines match no item."
 msgstr ""
 
@@ -10838,7 +10838,7 @@ msgstr ""
 msgid "Some of it stays"
 msgstr ""
 
-#: onedesk/one_intake/act.py:123 onedesk/one_intake/drafts.py:36
+#: onedesk/one_intake/act.py:123 onedesk/one_intake/drafts.py:35
 msgid "Some of what OneAI read is not in the document."
 msgstr ""
 
@@ -11982,7 +11982,7 @@ msgstr ""
 msgid "The hours above that are ticked Billable. The project decides what they are worth."
 msgstr ""
 
-#: onedesk/one_intake/drafts.py:71
+#: onedesk/one_intake/drafts.py:70
 msgid "The invoice asks to be paid to an IBAN we do not have for {0}."
 msgstr ""
 
@@ -11990,7 +11990,7 @@ msgstr ""
 msgid "The invoice is attached. If you have already paid it, please ignore this reminder."
 msgstr ""
 
-#: onedesk/one_intake/planning.py:137
+#: onedesk/one_intake/planning.py:138
 msgid "The invoice this credits was not found."
 msgstr ""
 
@@ -12082,7 +12082,7 @@ msgstr ""
 msgid "The page lists this model and no price in effect today."
 msgstr ""
 
-#: onedesk/one_intake/drafts.py:38
+#: onedesk/one_intake/drafts.py:37
 msgid "The party is not known."
 msgstr ""
 
@@ -12201,7 +12201,7 @@ msgstr ""
 msgid "The sync leaves the rates below alone. For a model whose page this cannot read."
 msgstr ""
 
-#: onedesk/one_intake/drafts.py:40
+#: onedesk/one_intake/drafts.py:39
 msgid "The total is {0}, the document says {1}."
 msgstr ""
 
@@ -12463,7 +12463,7 @@ msgstr ""
 msgid "This takes a few minutes. A link will be emailed to {0} when it is ready."
 msgstr ""
 
-#: onedesk/one_intake/act.py:469 onedesk/one_intake/act.py:523
+#: onedesk/one_intake/act.py:473 onedesk/one_intake/act.py:527
 msgid "This was already {0}."
 msgstr ""
 
@@ -14162,7 +14162,7 @@ msgstr ""
 msgid "You may not change {0}."
 msgstr ""
 
-#: onedesk/one_intake/act.py:478
+#: onedesk/one_intake/act.py:482
 msgid "You may not do this yourself."
 msgstr ""
 
@@ -14296,19 +14296,19 @@ msgstr ""
 msgid "a day"
 msgstr ""
 
-#: onedesk/one_intake/act.py:565
+#: onedesk/one_intake/act.py:569
 msgid "a person has changed it since"
 msgstr ""
 
-#: onedesk/one_intake/act.py:550
+#: onedesk/one_intake/act.py:554
 msgid "a person has checked it since"
 msgstr ""
 
-#: onedesk/one_intake/act.py:604 onedesk/one_intake/act.py:622
+#: onedesk/one_intake/act.py:608 onedesk/one_intake/act.py:626
 msgid "a person has moved it since"
 msgstr ""
 
-#: onedesk/one_intake/act.py:613
+#: onedesk/one_intake/act.py:617
 msgid "a person has renamed it since"
 msgstr ""
 
@@ -14376,7 +14376,7 @@ msgstr ""
 msgid "deployed"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:127
+#: onedesk/one_intake/planning.py:128
 msgid "document"
 msgstr ""
 
@@ -14451,8 +14451,8 @@ msgstr ""
 msgid "input"
 msgstr ""
 
-#: onedesk/one_intake/act.py:552 onedesk/one_intake/act.py:562
-#: onedesk/one_intake/act.py:577
+#: onedesk/one_intake/act.py:556 onedesk/one_intake/act.py:566
+#: onedesk/one_intake/act.py:581
 msgid "it has been submitted"
 msgstr ""
 
@@ -14581,7 +14581,7 @@ msgstr ""
 msgid "shared it with {0}"
 msgstr ""
 
-#: onedesk/one_intake/act.py:536
+#: onedesk/one_intake/act.py:540
 msgid "something else uses it now"
 msgstr ""
 
@@ -14725,7 +14725,7 @@ msgstr ""
 msgid "{0} and {1} more"
 msgstr ""
 
-#: onedesk/one_intake/planning.py:270
+#: onedesk/one_intake/planning.py:272
 msgid "{0} arrived after you closed this task."
 msgstr ""
 
@@ -14735,6 +14735,10 @@ msgstr ""
 
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.py:49
 msgid "{0} asked for a {1}"
+msgstr ""
+
+#: onedesk/one_intake/planning.py:402
+msgid "{0} asks to be paid to an IBAN we do not have for {1}. Check with them by phone before paying."
 msgstr ""
 
 #: onedesk/one_storage/file_requests.py:138
@@ -15018,11 +15022,11 @@ msgstr ""
 msgid "{0} is asked for twice."
 msgstr ""
 
-#: onedesk/one_intake/drafts.py:57
+#: onedesk/one_intake/drafts.py:56
 msgid "{0} is billed at {1}, ordered at {2}."
 msgstr ""
 
-#: onedesk/one_intake/drafts.py:59
+#: onedesk/one_intake/drafts.py:58
 msgid "{0} is billed {1} times, ordered {2}."
 msgstr ""
 

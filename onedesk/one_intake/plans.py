@@ -364,4 +364,46 @@ def promises(reading: dict, ctx: dict) -> list[Action]:
 
 def second(reading: dict, ctx: dict) -> list[Action]:
 	"""Everything after the parties, in the order the door should take it."""
-	return contact(reading, ctx) + employee_documents(reading, ctx) + receipt(reading, ctx) + tasks(reading, ctx) + event(reading, ctx) + promises(reading, ctx)
+	return (
+		contact(reading, ctx)
+		+ enrich(reading, ctx)
+		+ employee_documents(reading, ctx)
+		+ receipt(reading, ctx)
+		+ tasks(reading, ctx)
+		+ event(reading, ctx)
+		+ promises(reading, ctx)
+	)
+
+
+# ------------------------------------------------------------------ enrichment
+
+
+#: What a party's record learns from a document, field by field: the
+#: reading party's key, and the record's field, per doctype.
+LEARNS = {
+	"Supplier": {"vat_id": "tax_id", "website": "website"},
+	"Customer": {"vat_id": "tax_id", "website": "website"},
+	"Lead": {"website": "website", "phone": "phone"},
+}
+
+
+def enrich(reading: dict, ctx: dict) -> list[Action]:
+	"""Every document teaches its parties something (docs/INTAKE.md §9). An
+	empty field is filled and gets the field badge; one holding something
+	else keeps it and the new value is proposed beside it, which the door
+	decides from what the record says now. A phone the sender's contact does
+	not have yet is added to it."""
+	if not real(reading, ctx) or ctx.get("direction") == "Sent":
+		return []
+	out: list[Action] = []
+	for one in reading.get("parties") or []:
+		doctype, name = one.get("matched_doctype"), one.get("matched_name")
+		if not name or one.get("ours") or (one.get("score") or 0) < 0.9 or doctype not in LEARNS:
+			continue
+		values = {field: one.get(key) for key, field in LEARNS[doctype].items() if one.get(key)}
+		if values:
+			out.append(Action("Update", doctype, name, values, key=f"enrich|{doctype}|{name}"))
+	phone = next((one.get("phone") for one in reading.get("parties") or [] if one.get("role") == "Sender" and one.get("phone")), None)
+	if phone and ctx.get("sender_contact") and phone not in (ctx.get("sender_contact_phones") or []):
+		out.append(Action("Add", "Contact", ctx["sender_contact"], {"table": "phone_nos", "row": {"phone": phone}}, key=f"enrich|phone|{phone}"))
+	return out

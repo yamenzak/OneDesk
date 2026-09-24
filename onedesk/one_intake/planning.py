@@ -63,6 +63,7 @@ def run(name: str, which: str) -> None:
 		drafts.maybe_submit(reading)
 	if which == "rest":
 		_tell_closer(reading, ctx)
+		_warn_iban(reading)
 
 
 def rematch(reading) -> None:
@@ -176,6 +177,7 @@ def _sender(ctx: dict, mail: dict, structured: dict) -> None:
 		first = frappe.db.get_value("Contact", contact, "first_name") or ""
 		# Frappe's own contact from mail: no links, named after the address.
 		ctx["sender_contact_bare"] = not links and first.lower() == email.split("@")[0].lower()
+		ctx["sender_contact_phones"] = frappe.get_all("Contact Phone", filters={"parent": contact, "parenttype": "Contact"}, pluck="phone")
 	best = (identity.match([(ids.EMAIL, email)]) or [None])[0]
 	if best:
 		ctx["sender_party"] = (best["doctype"], best["name"])
@@ -352,6 +354,18 @@ def _items(reading, party: str, table: str, field: str, code: str) -> dict:
 			found = frappe.db.get_value("Item", {"item_name": line.text.strip(), "disabled": 0}, "name")
 		if found:
 			out[index] = found
+	if not out and len(reading.lines) == 1 and table == "Item Supplier":
+		# A habit: a supplier who bills one thing a month is billed for what
+		# it was booked to last time.
+		last = frappe.db.sql(
+			"""select item.item_code from `tabPurchase Invoice Item` item
+			join `tabPurchase Invoice` bill on bill.name = item.parent
+			where bill.supplier = %s and bill.docstatus = 1 and ifnull(item.item_code, '') != ''
+			group by item.parent having count(*) = 1 order by max(bill.posting_date) desc limit 1""",
+			party,
+		)
+		if last:
+			out[0] = last[0][0]
 	return out
 
 
@@ -364,6 +378,32 @@ def _payable(ctx: dict, reading) -> None:
 	if booked:
 		ctx["done_when"]["Pay"] = json.dumps({"doctype": "Purchase Invoice", "name": booked, "all": [{"field": "docstatus", "equals": 1}, {"field": "outstanding_amount", "equals": 0}]})
 	ctx["nobody_pays"] = reading.paid_how in ("Direct Debit", "Already Paid") or reading.kind == "Receipt"
+
+
+def _warn_iban(reading) -> None:
+	"""A known supplier's document asking to be paid to an IBAN we do not have
+	for them is exactly what invoice fraud looks like: the person OneAI reads
+	for is told at once, in red, and the IBAN is never written over ours."""
+	if not reading.iban or reading.party_doctype != "Supplier" or not reading.party_name:
+		return
+	known = [one.replace(" ", "").upper() for one in frappe.get_all("Bank Account", filters={"party_type": "Supplier", "party": reading.party_name}, pluck="iban") if one]
+	if not known or reading.iban.replace(" ", "").upper() in known:
+		return
+	from frappe.desk.doctype.notification_log.notification_log import enqueue_create_notification
+
+	email = frappe.db.get_value("User", reading.on_behalf_of, "email")
+	if email:
+		enqueue_create_notification(
+			[email],
+			{
+				"type": "Alert",
+				"document_type": "Reading",
+				"document_name": reading.name,
+				"subject": _("{0} asks to be paid to an IBAN we do not have for {1}. Check with them by phone before paying.").format(frappe.bold(reading.title or ""), frappe.bold(reading.party_name)),
+				"from_user": AUTHOR,
+			},
+			dedupe_on=["document_type", "document_name", "subject"],
+		)
 
 
 # ------------------------------------------------------------------ flows

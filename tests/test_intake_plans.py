@@ -218,3 +218,16 @@ def test_flows_that_check_the_signed_in_user_are_written_as_the_person():
 	assert '"Leave Application"' in source and source.count("as_person=True") == 2
 	act = (ROOT / "act.py").read_text()
 	assert "with as_oneai(person if action.as_person else None):" in act
+
+
+def test_a_document_teaches_its_parties_what_they_lack():
+	reading = {"verdict": "Action", "parties": [
+		{"role": "Sender", "matched_doctype": "Supplier", "matched_name": "S1", "score": 0.99, "vat_id": "DE123456789", "website": "stadtwerke.example", "phone": "+49 221 1"},
+		{"role": "Mentioned", "matched_doctype": "Customer", "matched_name": "C1", "score": 0.5, "vat_id": "DE9"},
+		{"role": "Recipient", "matched_doctype": "Company", "matched_name": "Us", "score": 1, "ours": "Company"},
+	]}
+	made = PLANS["enrich"](reading, {**CTX, "direction": "Received", "sender_contact": "Anna", "sender_contact_phones": []})
+	assert [(one.kind, one.doctype, one.name) for one in made] == [("Update", "Supplier", "S1"), ("Add", "Contact", "Anna")]
+	assert made[0].values == {"tax_id": "DE123456789", "website": "stadtwerke.example"}
+	assert not made[0].over, "a value the supplier already has is proposed, never overwritten"
+	assert PLANS["enrich"](reading, {**CTX, "direction": "Sent"}) == []
