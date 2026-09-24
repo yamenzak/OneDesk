@@ -1,6 +1,6 @@
 # Intake
 
-Written by hand. Stages 1 to 6 of eleven are built: every file and message
+Written by hand. Stages 1 to 7 of eleven are built: every file and message
 is read into text and found by what is written in it, every record's
 identifiers are kept in one registry, and where OneAI is switched on, each
 document is understood (what it is, who it is from and about, its dates,
@@ -158,6 +158,52 @@ IBAN or document number before it existed are linked to it.
 makes her application. When she then applies through the form, OneAI's is
 folded into the form's, which keeps its own values; one HR had worked on is
 only flagged.
+
+## Money and goods
+
+A company keeps books, so what arrives becomes a **draft** that a person
+posts:
+
+- **an invoice from a known supplier** is a draft bill with its lines. A line
+  is booked to the item it is (the supplier's own code for it, or an item of
+  that name), else in its own words to the account this supplier's bills
+  went to last time. An invoice naming one of our purchase orders is billed
+  from the order, so it is matched to it. A bill somebody already booked
+  gets the document and nothing new;
+- **a credit note** is a return against the bill it credits, or a proposal
+  when that bill is not found; **a receipt the company paid** is a draft bill
+  that asks nobody to pay; **a supplier's delivery note** is a draft receipt
+  against the order; **a supplier's quote** a Supplier Quotation;
+- **an order from a customer** is a draft Sales Order, or a proposal when a
+  line matches no item; **a customer's payment advice** a draft payment
+  against our invoice it names;
+- **a bank statement's lines** are Bank Transactions on our account, ready
+  for reconciliation (a bank line is not a posting);
+- **a contract** is ERPNext's Contract with the party;
+- **a reminder for an invoice nobody here has** is a task to ask for it,
+  with a warning, since that is also how fraud begins.
+
+The pay step of the matter's task ticks itself when the bill is submitted and
+paid in full, by a payment or a journal entry, and opens again if the payment
+is cancelled. An invoice paid by direct debit, or already paid, asks nobody
+to pay. A draft dated inside books locked by OneBook is dated on the first
+open day, and says so. A bill in a currency the workspace has no exchange
+rate for is proposed with ERPNext's reason; OneAI never makes up a rate.
+
+**Ready to Submit** (in OneBook) lists every draft OneAI made that you may
+post: those whose facts checked out, whose party is known, whose total is
+the document's and, billed from an order, whose quantities and prices are
+the order's. **Submit All** posts them as you. A draft asking to be paid to an
+IBAN we do not have for the supplier, or failing any other check, is listed
+apart in red with why, and stays out until somebody opens it. A workspace may
+let OneAI submit an e-invoice from a known supplier that is billed from an
+order and ready (Intake Settings, off by default).
+
+**Spending** (in OneBook's reports) adds up what was bought, from the
+receipts and invoices themselves: by category, shop, person or month, one
+currency at a time. Each line's category is learned per shop, so a shop's
+lines soon need no model. A **household** (Intake Settings) keeps no books:
+no drafts are made at all, and Spending is how it sees where the money went.
 
 ## What OneAI did, and taking it back
 
@@ -319,8 +365,19 @@ loses a value it had.
   with its reason) and `over` (a placeholder value that is filled, not
   proposed). A record that still carries the mark is OneAI's own to change.
 
-Not built yet: the money records and drafts (stage 7) and the steps that wait
-on them ("pay" ticking when the invoice's outstanding amount reaches zero);
+- `money.py` is stage 7: pure planners for every money and goods row, each
+  action written as the person OneAI acts for (ERPNext asks the signed-in
+  user about every account a draft touches). `planning._money` gathers what
+  they need (the party's record, the order, the bill a credit note credits,
+  one already booked, the items, our bank account, the lock, where this
+  supplier's bills were booked last time) and the flows go through ERPNext's
+  own mappers. `drafts.py` decides what is ready, submits as the person
+  pressing Submit All, and holds the optional e-invoice submit. `steps.paid`
+  re-checks the bills a payment or journal entry touched, since ERPNext
+  changes their outstanding amount with `db_set`.
+
+Not built yet: an Asset from an equipment invoice; an order confirmation's
+changed dates proposed on the order; a reminder's fee proposed as a line;
 marking a renewed identity document's old row as replaced; parsing a
 supplier's address into an Address and its IBAN into a Bank Account; routing
 an employee's documents to their own HR officer rather than whoever OneAI

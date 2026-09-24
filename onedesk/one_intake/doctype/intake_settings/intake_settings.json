@@ -10,7 +10,9 @@
   "most_pages",
   "floor",
   "keep_in_place",
-  "quiet_minutes"
+  "quiet_minutes",
+  "household",
+  "submit_einvoices"
  ],
  "fields": [
   {
@@ -49,6 +51,20 @@
    "default": "5",
    "non_negative": 1,
    "description": "People write in bursts. OneAI acts once a matter has been quiet this long, except on money or deadlines due within a day."
+  },
+  {
+   "fieldname": "household",
+   "fieldtype": "Check",
+   "label": "Household",
+   "default": "0",
+   "description": "A household keeps no books. No drafts are made, and Spending shows what was bought."
+  },
+  {
+   "fieldname": "submit_einvoices",
+   "fieldtype": "Check",
+   "label": "Submit Matching E-Invoices",
+   "default": "0",
+   "description": "An e-invoice from a known supplier, billed from an order and ready, is submitted by OneAI. Off unless switched on."
   }
  ],
  "issingle": 1,

@@ -277,7 +277,7 @@ def tasks(reading: dict, ctx: dict) -> list[Action]:
 	held = ctx.get("task")
 	if held:
 		return _follow(reading, ctx, held, change)
-	asks = [one for one in reading.get("asks") or [] if not one.get("promise")]
+	asks = [one for one in reading.get("asks") or [] if not one.get("promise") and not (one.get("what") == "Pay" and ctx.get("nobody_pays"))]
 	if ctx.get("direction") == "Sent" or not asks or change in ("Nothing New", "Closing"):
 		return []
 	sensitive = reading.get("sensitivity") in PERSONAL

@@ -34,19 +34,33 @@ DONE_WHEN = {"Reply": "reply", "Send": "reply", "Attend": "after"}
 
 
 def run(name: str, which: str) -> None:
-	"""One pass of planning for one understood reading: "parties" or "rest"."""
+	"""One pass of planning for one understood reading: "parties", "money"
+	or "rest"."""
 	reading = frappe.get_doc("Reading", name)
 	if not reading.on_behalf_of or cint(reading.history) or reading.state != "Understood":
 		return
 	said = _said(reading)
 	ctx = context(reading, said)
-	wanted = plans.parties(said, ctx) if which == "parties" else plans.second(said, ctx)
+	if which == "parties":
+		wanted = plans.parties(said, ctx)
+	elif which == "money":
+		from onedesk.one_intake import money
+
+		_money(ctx, reading)
+		wanted = money.plan(said, ctx)
+	else:
+		_payable(ctx, reading)
+		wanted = plans.second(said, ctx)
 	for action in wanted:
-		action.key = matters.key(reading, action.key) if action.key.startswith(("task", "event", "leave", "expense", "resignation", "employee")) else f"{reading.key[:90]}|{action.key}"
+		action.key = matters.key(reading, action.key) if action.key.startswith(("task", "event", "leave", "expense", "resignation", "employee", "books")) else f"{reading.key[:90]}|{action.key}"
 		act.apply(action, reading)
 	frappe.db.commit()
 	if which == "parties" and wanted:
 		rematch(reading)
+	if which == "money" and wanted:
+		from onedesk.one_intake import drafts
+
+		drafts.maybe_submit(reading)
 	if which == "rest":
 		_tell_closer(reading, ctx)
 
@@ -117,6 +131,14 @@ def _words(language: str) -> dict:
 		"nudged": _("A reminder arrived: {0}", lang=language),
 		"appointment": _("Appointment", lang=language),
 		"asks": {one: _(one, lang=language) for one in ("Pay", "Sign", "Reply", "Attend", "Send", "Cancel", "Decide", "Other")},
+		"moved": _("Dated after the books locked up to {0}.", lang=language),
+		"direct_debit": _("Paid by direct debit.", lang=language),
+		"paid": _("Already paid.", lang=language),
+		"no_original": _("The invoice this credits was not found.", lang=language),
+		"unmatched": _("Some lines match no item.", lang=language),
+		"see_document": _("See the attached document.", lang=language),
+		"ask_for_invoice": _("Ask {1} for invoice {0}", lang=language),
+		"maybe_fraud": _("A reminder for an invoice nobody here has. Ask for the invoice before paying anything.", lang=language),
 	}
 
 
@@ -252,6 +274,98 @@ def _tell_closer(reading, ctx: dict) -> None:
 		)
 
 
+# ------------------------------------------------------------------ money
+
+
+def _money(ctx: dict, reading) -> None:
+	"""What the money planners need: the party's record, what came before
+	(the order, the invoice a credit note credits, one already booked), the
+	items the lines are, our bank account, and the books' lock."""
+	ctx["books"] = not cint(frappe.db.get_single_value("Intake Settings", "household")) and frappe.db.count("Company") > 0
+	if not ctx["books"]:
+		return
+	company = frappe.defaults.get_global_default("company") or frappe.db.get_value("Company", {}, "name")
+	ctx["locked"] = str(frappe.db.get_value("Company", company, "accounts_frozen_till_date") or "") or None
+	parties = {row.matched_doctype: row.matched_name for row in reading.parties if row.matched_name and (row.score or 0) >= identity.CERTAIN and row.role in ("Sender", "Paid To", "Recipient")}
+	ctx["supplier"] = parties.get("Supplier") or (reading.party_name if reading.party_doctype == "Supplier" else None)
+	ctx["customer"] = parties.get("Customer") or (reading.party_name if reading.party_doctype == "Customer" else None)
+	ctx["contract_party"] = ("Supplier", ctx["supplier"]) if ctx["supplier"] else (("Customer", ctx["customer"]) if ctx["customer"] else None)
+	ctx["file"] = frappe.db.get_value("File", {"one_reading": reading.name}, "name") or (reading.source_name if reading.source_doctype == "File" else None)
+	refs = {row.kind: row.value for row in reading.refs}
+	named = [row.value for row in reading.refs]
+	if ctx["supplier"]:
+		if reading.number:
+			ctx["existing_invoice"] = frappe.db.get_value("Purchase Invoice", {"supplier": ctx["supplier"], "bill_no": reading.number, "docstatus": ["<", 2], "owner": ["!=", AUTHOR]}, "name")
+		if refs.get("Invoice"):
+			ctx["original_invoice"] = frappe.db.get_value("Purchase Invoice", {"supplier": ctx["supplier"], "bill_no": refs["Invoice"], "docstatus": 1, "is_return": 0}, "name")
+		ctx["purchase_order"] = next((one for one in named if frappe.db.exists("Purchase Order", {"name": one, "supplier": ctx["supplier"], "docstatus": 1})), None)
+		ctx["items"] = _items(reading, ctx["supplier"], "Item Supplier", "supplier", "supplier_part_no")
+		# A habit, read from history with no model: where this supplier's
+		# bills were booked last time, else the company's default.
+		ctx["expense_account"] = frappe.db.sql(
+			"""select item.expense_account from `tabPurchase Invoice Item` item
+			join `tabPurchase Invoice` bill on bill.name = item.parent
+			where bill.supplier = %s and bill.docstatus = 1 and ifnull(item.expense_account, '') != ''
+			order by bill.posting_date desc limit 1""",
+			ctx["supplier"],
+		)
+		ctx["expense_account"] = ctx["expense_account"][0][0] if ctx["expense_account"] else frappe.db.get_value("Company", company, "default_expense_account")
+	if ctx["customer"]:
+		ctx["customer_items"] = _items(reading, ctx["customer"], "Item Customer Detail", "customer_name", "ref_code")
+		ctx["sales_invoice"] = next((one for one in named if frappe.db.exists("Sales Invoice", {"name": one, "customer": ctx["customer"], "docstatus": 1})), None)
+	statement = json.loads(reading.structured or "{}").get("statement") or {}
+	if statement:
+		ctx["bank_account"] = frappe.db.get_value("Bank Account", {"iban": statement.get("account_iban"), "is_company_account": 1}, "name") if statement.get("account_iban") else None
+		ctx["statement_currency"] = statement.get("currency")
+		ctx["statement_lines"] = [
+			{
+				"date": one.get("date"),
+				"amount": one.get("amount"),
+				"text": one.get("text"),
+				"reference": one.get("reference"),
+				"party": one.get("party"),
+				"iban": one.get("party_iban"),
+				"key": frappe.generate_hash(json.dumps([statement.get("account_iban"), one.get("date"), one.get("amount"), one.get("reference"), one.get("text"), index], default=str), 12),
+			}
+			for index, one in enumerate(statement.get("entries") or [])
+		]
+	named_invoice = refs.get("Invoice")
+	if named_invoice:
+		ctx["invoice_known"] = bool(
+			frappe.db.exists("Purchase Invoice", {"bill_no": named_invoice})
+			or frappe.db.exists("Reading", {"number": named_invoice, "name": ["!=", reading.name], "kind": ["in", ("Invoice", "Credit Note")]})
+		)
+	ctx["sender_title"] = next((row.party_name for row in reading.parties if row.role == "Sender" and row.party_name), "")
+
+
+def _items(reading, party: str, table: str, field: str, code: str) -> dict:
+	"""Which item each line is: the party's own code for it (Item Supplier,
+	Item Customer Detail), our item code, or an item of exactly that name.
+	A line that is none of these stays words, and a new stock item is never
+	made from a document."""
+	out = {}
+	for index, line in enumerate(reading.lines):
+		found = None
+		if line.code:
+			found = frappe.db.get_value(table, {field: party, code: line.code, "parenttype": "Item"}, "parent") or (line.code if frappe.db.exists("Item", line.code) else None)
+		if not found and line.text:
+			found = frappe.db.get_value("Item", {"item_name": line.text.strip(), "disabled": 0}, "name")
+		if found:
+			out[index] = found
+	return out
+
+
+def _payable(ctx: dict, reading) -> None:
+	"""The pay step ticks itself when the invoice this matter booked is
+	submitted and paid. A document paid by direct debit, or already paid,
+	asks nobody to pay."""
+	readings = frappe.get_all("Reading", filters={"matter": reading.matter}, pluck="name") if reading.matter else [reading.name]
+	booked = frappe.db.get_value("Intake Action", {"reading": ["in", readings], "kind": "Create", "target_doctype": "Purchase Invoice", "level": "Done"}, "target_name")
+	if booked:
+		ctx["done_when"]["Pay"] = json.dumps({"doctype": "Purchase Invoice", "name": booked, "all": [{"field": "docstatus", "equals": 1}, {"field": "outstanding_amount", "equals": 0}]})
+	ctx["nobody_pays"] = reading.paid_how in ("Direct Debit", "Already Paid") or reading.kind == "Receipt"
+
+
 # ------------------------------------------------------------------ flows
 
 
@@ -305,6 +419,66 @@ def employee_from_offer(values: dict):
 	doc = make_employee(values["job_offer"])
 	doc.flags.ignore_permissions = True
 	doc.insert()
+	return doc
+
+
+def debit_note(values: dict):
+	"""A credit note, as ERPNext's return against the invoice it credits."""
+	from erpnext.accounts.doctype.purchase_invoice.mapper import make_debit_note
+
+	values = dict(values)
+	doc = make_debit_note(values.pop("against"))
+	doc.update(values)
+	doc.flags.ignore_permissions = True
+	doc.insert()
+	return doc
+
+
+def invoice_from_order(values: dict):
+	"""An invoice, as ERPNext bills a Purchase Order, so it is matched to the
+	order and its receipt."""
+	from erpnext.buying.doctype.purchase_order.mapper import make_purchase_invoice
+
+	values = dict(values)
+	doc = make_purchase_invoice(values.pop("order"))
+	doc.update(values)
+	doc.flags.ignore_permissions = True
+	doc.insert()
+	return doc
+
+
+def receipt_from_order(values: dict):
+	"""A supplier's delivery note, as ERPNext receives a Purchase Order."""
+	from erpnext.buying.doctype.purchase_order.mapper import make_purchase_receipt
+
+	values = dict(values)
+	doc = make_purchase_receipt(values.pop("order"))
+	doc.update({key: value for key, value in values.items() if value})
+	doc.flags.ignore_permissions = True
+	doc.insert()
+	return doc
+
+
+def payment_for(values: dict):
+	"""A customer's payment advice, as ERPNext's payment against our invoice."""
+	from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
+
+	doc = get_payment_entry("Sales Invoice", values["invoice"], party_amount=values.get("amount"))
+	doc.reference_no = values.get("reference_no")
+	doc.reference_date = values.get("reference_date")
+	doc.flags.ignore_permissions = True
+	doc.insert()
+	return doc
+
+
+def bank_line(values: dict):
+	"""A statement's line, as a Bank Transaction ERPNext can reconcile. It is
+	submitted, since a bank line is not a posting and reconciliation reads
+	only submitted ones."""
+	doc = frappe.get_doc({"doctype": "Bank Transaction", **values})
+	doc.flags.ignore_permissions = True
+	doc.insert()
+	doc.submit()
 	return doc
 
 

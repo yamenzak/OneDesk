@@ -42,7 +42,7 @@ def test_every_report_row_names_a_report_erpnext_or_onebook_ships():
 		return
 	shipped = {
 		json.loads(p.read_text())["name"]
-		for root in (erpnext, BOOK)
+		for root in (erpnext, BOOK, BOOK.parent / "one_intake")
 		for p in root.glob("**/report/*/*.json")
 		if p.parent.name == p.stem
 	}

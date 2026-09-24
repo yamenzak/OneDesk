@@ -27,6 +27,8 @@ CACHE = "one_intake_watched_doctypes"
 
 def holds(when: dict, value) -> bool:
 	"""Whether a record's value satisfies a step's condition. Pure."""
+	if "all" in when:
+		return all(holds(one, value.get(one["field"]) if isinstance(value, dict) else None) for one in when["all"])
 	if "in" in when:
 		return value in when["in"]
 	if "equals" in when:
@@ -53,9 +55,12 @@ def _open_steps(like: str | None = None) -> list[dict]:
 
 
 def watched() -> set[str]:
+	"""The doctypes a step waits on, ticked or not: a ticked step still
+	listens, so a cancelled payment opens it again."""
 	held = frappe.cache.get_value(CACHE)
 	if held is None:
-		held = sorted({json.loads(one.done_when).get("doctype") for one in _open_steps('"doctype"') if one.done_when} - {None})
+		rows = frappe.get_all("Task Step", filters={"done_when": ["like", '%"doctype"%'], "parenttype": "Task"}, pluck="done_when")
+		held = sorted({json.loads(one).get("doctype") for one in rows if one} - {None})
 		frappe.cache.set_value(CACHE, held)
 	return set(held)
 
@@ -73,7 +78,19 @@ def record_changed(doc, method=None) -> None:
 		when = json.loads(step.done_when)
 		if when.get("doctype") != doc.doctype or when.get("name") != doc.name:
 			continue
-		_set(step, holds(when, doc.get(when.get("field"))))
+		_set(step, holds(when, doc.as_dict() if "all" in when else doc.get(when.get("field"))))
+
+
+def paid(doc, method=None) -> None:
+	"""Payment Entry and Journal Entry on_submit and on_cancel: the invoices
+	they pay change their outstanding amount with db_set, which runs no hook
+	of theirs, so the steps watching them are checked from here."""
+	rows = doc.get("references") or doc.get("accounts") or []
+	for row in rows:
+		doctype = row.get("reference_doctype") or row.get("reference_type")
+		name = row.get("reference_name")
+		if doctype in watched() and name and frappe.db.exists(doctype, name):
+			record_changed(frappe.get_doc(doctype, name))
 
 
 def _done_steps(doc) -> list[dict]:
@@ -112,8 +129,11 @@ def _set(step: dict, done: bool) -> None:
 	task = step["parent"]
 	left = frappe.db.count("Task Step", {"parent": task, "parenttype": "Task", "done": 0})
 	status = frappe.db.get_value("Task", task, "status")
+	# A task OneAI made is done when its steps are, and closed as OneAI, so
+	# that a state changing back opens it again unless a person has since
+	# touched it.
 	if not left and status not in ("Completed", "Cancelled") and frappe.db.get_value("Task", task, "owner") == AUTHOR:
-		frappe.db.set_value("Task", task, "status", "Completed")
+		frappe.db.set_value("Task", task, "status", "Completed", modified_by=AUTHOR)
 	elif left and status == "Completed" and frappe.db.get_value("Task", task, "modified_by") == AUTHOR:
-		frappe.db.set_value("Task", task, "status", "Open")
+		frappe.db.set_value("Task", task, "status", "Open", modified_by=AUTHOR)
 	changed()

@@ -171,6 +171,10 @@ doc_events = {
 	},
 	# A bill's reclaimable VAT is kept at the VAT on it. See one_book/vat.py.
 	# A bill that updates stock registers its assets. See one_inventory/assets.py.
+	# A payment lowers an invoice's outstanding amount with db_set, so the task
+	# step waiting for it is checked from the payment. See one_intake/steps.py.
+	"Payment Entry": {"on_submit": "onedesk.one_intake.steps.paid", "on_cancel": "onedesk.one_intake.steps.paid"},
+	"Journal Entry": {"on_submit": "onedesk.one_intake.steps.paid", "on_cancel": "onedesk.one_intake.steps.paid"},
 	"Purchase Invoice": {
 		"on_recurring": "onedesk.one_book.repeat.repeated",
 		"validate": ["onedesk.one_book.vat.reclaimed", "onedesk.one_inventory.assets.located"],

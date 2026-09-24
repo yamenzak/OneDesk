@@ -379,7 +379,13 @@ def act_now(name: str) -> None:
 	frappe.db.commit()
 	# The counterpart first, so the invoice is filed with the supplier just
 	# made; then everything else, with the parties matched again.
-	for step, then in (("parties", lambda: planning.run(name, "parties")), ("filing", lambda: filing.run(name)), ("the rest", lambda: planning.run(name, "rest"))):
+	steps = (
+		("parties", lambda: planning.run(name, "parties")),
+		("filing", lambda: filing.run(name)),
+		("money", lambda: planning.run(name, "money")),
+		("the rest", lambda: planning.run(name, "rest")),
+	)
+	for step, then in steps:
 		try:
 			then()
 		except Exception:

@@ -46,6 +46,9 @@ PAID = {"transfer": "Transfer", "direct debit": "Direct Debit", "already paid": 
 SENSITIVE = {"Payslip": "Pay", "Sick Note": "Medical", "Medical Report": "Medical", "Identity Document": "Personal", "CV": "Personal", "Resignation": "Personal"}
 LEVELS = ("Ordinary", "Personal", "Legal", "Pay", "Medical")
 
+#: What a line was spent on, for Spending.
+CATEGORIES = ("Groceries", "Fuel", "Pharmacy", "Clothing", "Household", "Children", "Insurance", "Utilities", "Dining", "Travel", "Office", "Other")
+
 
 def run(name: str) -> None:
 	"""Understand one Reading that has been read."""
@@ -295,8 +298,13 @@ def apply(reading, said: dict, dropped: list[str], structured: dict) -> None:
 		{"what": "Other", "detail": (one.get("what") or "")[:140], "by_date": one.get("by") or None, "promise": 1}
 		for one in said.get("promises") or [] if one.get("what")
 	])
+	shop = next((one.get("name") for one in said.get("parties") or [] if one.get("role") in ("Sender", "Paid To") and one.get("name")), None)
 	reading.set("lines", [
-		{"text": (one.get("text") or "")[:140], "qty": one.get("qty"), "unit_price": one.get("unit_price"), "amount": one.get("amount"), "tax_rate": one.get("tax_rate"), "code": one.get("code")}
+		{
+			"text": (one.get("text") or "")[:140], "qty": one.get("qty"), "unit_price": one.get("unit_price"), "amount": one.get("amount"),
+			"tax_rate": one.get("tax_rate"), "code": one.get("code"),
+			"category": one.get("category") if one.get("category") in CATEGORIES else learned(shop, one.get("text")),
+		}
 		for one in said.get("lines") or []
 	])
 	reading.set("refs", [
@@ -308,6 +316,20 @@ def apply(reading, said: dict, dropped: list[str], structured: dict) -> None:
 	if mail.get("from_email") and mail.get("direction") != "Sent" and not any((one.get("email") or "").lower() == mail["from_email"] for one in parties):
 		parties.insert(0, {"role": "Sender", "name": mail.get("from_name"), "email": mail["from_email"], "person": True})
 	reading.set("parties", [matched(one) for one in parties if one.get("name") or one.get("email")])
+
+
+def learned(shop: str | None, text: str | None) -> str | None:
+	"""A line's category from the shop's own history, with no model: the same
+	line bought there before, else what that shop's lines usually are."""
+	if not shop:
+		return None
+	parents = frappe.get_all("Reading Party", filters={"party_name": shop, "role": ["in", ("Sender", "Paid To")]}, pluck="parent", limit=200)
+	if not parents:
+		return None
+	rows = frappe.get_all("Reading Line", filters={"parent": ["in", parents], "category": ["is", "set"]}, fields=["text", "category"], limit=500)
+	same = [row.category for row in rows if text and (row.text or "").strip().lower() == text.strip().lower()]
+	pool = same or [row.category for row in rows]
+	return max(set(pool), key=pool.count) if pool else None
 
 
 def matched(party: dict) -> dict:

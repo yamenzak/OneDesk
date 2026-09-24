@@ -17,7 +17,8 @@
    "link_to": "OneBook",
    "link_type": "Workspace",
    "show_arrow": 0,
-   "type": "Link"
+   "type": "Link",
+   "idx": 1
   },
   {
    "child": 0,
@@ -31,7 +32,8 @@
    "type": "Link",
    "link_to": "Sales Invoice",
    "icon": "file-text",
-   "filters": "[[\"Sales Invoice\", \"is_return\", \"=\", 0]]"
+   "filters": "[[\"Sales Invoice\", \"is_return\", \"=\", 0]]",
+   "idx": 2
   },
   {
    "child": 0,
@@ -45,7 +47,23 @@
    "type": "Link",
    "link_to": "Purchase Invoice",
    "icon": "receipt",
-   "filters": "[[\"Purchase Invoice\", \"is_return\", \"=\", 0]]"
+   "filters": "[[\"Purchase Invoice\", \"is_return\", \"=\", 0]]",
+   "idx": 3
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Ready to Submit",
+   "link_type": "Page",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "ready-to-submit",
+   "icon": "list-checks",
+   "filters": "[[\"Purchase Invoice\", \"is_return\", \"=\", 0]]",
+   "idx": 4
   },
   {
    "child": 0,
@@ -58,7 +76,8 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Payment Entry",
-   "icon": "banknote"
+   "icon": "banknote",
+   "idx": 5
   },
   {
    "child": 0,
@@ -71,7 +90,8 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Bank Reconciliation Tool",
-   "icon": "landmark"
+   "icon": "landmark",
+   "idx": 6
   },
   {
    "child": 0,
@@ -84,7 +104,8 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Journal Entry",
-   "icon": "book-open"
+   "icon": "book-open",
+   "idx": 7
   },
   {
    "child": 0,
@@ -97,7 +118,8 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Customer",
-   "icon": "users"
+   "icon": "users",
+   "idx": 8
   },
   {
    "child": 0,
@@ -110,7 +132,8 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Supplier",
-   "icon": "truck"
+   "icon": "truck",
+   "idx": 9
   },
   {
    "child": 0,
@@ -121,7 +144,8 @@
    "label": "Reports",
    "link_type": "DocType",
    "show_arrow": 0,
-   "type": "Section Break"
+   "type": "Section Break",
+   "idx": 10
   },
   {
    "child": 1,
@@ -133,7 +157,8 @@
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Profit and Loss Statement"
+   "link_to": "Profit and Loss Statement",
+   "idx": 11
   },
   {
    "child": 1,
@@ -145,7 +170,8 @@
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Balance Sheet"
+   "link_to": "Balance Sheet",
+   "idx": 12
   },
   {
    "child": 1,
@@ -157,7 +183,8 @@
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Cash Flow"
+   "link_to": "Cash Flow",
+   "idx": 13
   },
   {
    "child": 1,
@@ -169,7 +196,8 @@
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Accounts Receivable"
+   "link_to": "Accounts Receivable",
+   "idx": 14
   },
   {
    "child": 1,
@@ -181,7 +209,21 @@
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Accounts Payable"
+   "link_to": "Accounts Payable",
+   "idx": 15
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Spending",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Spending",
+   "idx": 16
   },
   {
    "child": 1,
@@ -193,7 +235,8 @@
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "General Ledger"
+   "link_to": "General Ledger",
+   "idx": 17
   },
   {
    "child": 1,
@@ -205,7 +248,8 @@
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Trial Balance"
+   "link_to": "Trial Balance",
+   "idx": 18
   },
   {
    "child": 1,
@@ -217,7 +261,8 @@
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Gross Profit"
+   "link_to": "Gross Profit",
+   "idx": 19
   },
   {
    "child": 1,
@@ -229,7 +274,8 @@
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "VAT Return"
+   "link_to": "VAT Return",
+   "idx": 20
   },
   {
    "child": 1,
@@ -241,7 +287,8 @@
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "UAE VAT 201"
+   "link_to": "UAE VAT 201",
+   "idx": 21
   },
   {
    "child": 0,
@@ -252,7 +299,8 @@
    "label": "More",
    "link_type": "DocType",
    "show_arrow": 0,
-   "type": "Section Break"
+   "type": "Section Break",
+   "idx": 22
   },
   {
    "child": 1,
@@ -265,7 +313,8 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Sales Invoice",
-   "filters": "[[\"Sales Invoice\", \"is_return\", \"=\", 1]]"
+   "filters": "[[\"Sales Invoice\", \"is_return\", \"=\", 1]]",
+   "idx": 23
   },
   {
    "child": 1,
@@ -278,7 +327,8 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Purchase Invoice",
-   "filters": "[[\"Purchase Invoice\", \"is_return\", \"=\", 1]]"
+   "filters": "[[\"Purchase Invoice\", \"is_return\", \"=\", 1]]",
+   "idx": 24
   },
   {
    "child": 1,
@@ -290,7 +340,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Bank Transaction"
+   "link_to": "Bank Transaction",
+   "idx": 25
   },
   {
    "child": 1,
@@ -302,7 +353,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Bank Statement Import"
+   "link_to": "Bank Statement Import",
+   "idx": 26
   },
   {
    "child": 1,
@@ -314,7 +366,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Process Statement Of Accounts"
+   "link_to": "Process Statement Of Accounts",
+   "idx": 27
   },
   {
    "child": 1,
@@ -327,7 +380,8 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Auto Repeat",
-   "filters": "[[\"Auto Repeat\", \"reference_doctype\", \"in\", [\"Sales Invoice\", \"Purchase Invoice\"]]]"
+   "filters": "[[\"Auto Repeat\", \"reference_doctype\", \"in\", [\"Sales Invoice\", \"Purchase Invoice\"]]]",
+   "idx": 28
   },
   {
    "child": 1,
@@ -339,7 +393,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Opening Invoice Creation Tool"
+   "link_to": "Opening Invoice Creation Tool",
+   "idx": 29
   },
   {
    "child": 1,
@@ -351,7 +406,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Period Closing Voucher"
+   "link_to": "Period Closing Voucher",
+   "idx": 30
   },
   {
    "child": 0,
@@ -362,7 +418,8 @@
    "label": "Setup",
    "link_type": "DocType",
    "show_arrow": 0,
-   "type": "Section Break"
+   "type": "Section Break",
+   "idx": 31
   },
   {
    "child": 1,
@@ -374,7 +431,8 @@
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Books Check"
+   "link_to": "Books Check",
+   "idx": 32
   },
   {
    "child": 1,
@@ -386,7 +444,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Account"
+   "link_to": "Account",
+   "idx": 33
   },
   {
    "child": 1,
@@ -398,7 +457,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Cost Center"
+   "link_to": "Cost Center",
+   "idx": 34
   },
   {
    "child": 1,
@@ -410,7 +470,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Bank Account"
+   "link_to": "Bank Account",
+   "idx": 35
   },
   {
    "child": 1,
@@ -422,7 +483,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Sales Taxes and Charges Template"
+   "link_to": "Sales Taxes and Charges Template",
+   "idx": 36
   },
   {
    "child": 1,
@@ -434,7 +496,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Purchase Taxes and Charges Template"
+   "link_to": "Purchase Taxes and Charges Template",
+   "idx": 37
   },
   {
    "child": 1,
@@ -446,7 +509,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Item Tax Template"
+   "link_to": "Item Tax Template",
+   "idx": 38
   },
   {
    "child": 1,
@@ -458,7 +522,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Tax Rule"
+   "link_to": "Tax Rule",
+   "idx": 39
   },
   {
    "child": 1,
@@ -470,7 +535,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Payment Terms Template"
+   "link_to": "Payment Terms Template",
+   "idx": 40
   },
   {
    "child": 1,
@@ -482,7 +548,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Mode of Payment"
+   "link_to": "Mode of Payment",
+   "idx": 41
   },
   {
    "child": 1,
@@ -494,7 +561,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Fiscal Year"
+   "link_to": "Fiscal Year",
+   "idx": 42
   },
   {
    "child": 1,
@@ -506,7 +574,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Bank Transaction Rule"
+   "link_to": "Bank Transaction Rule",
+   "idx": 43
   },
   {
    "child": 1,
@@ -518,7 +587,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "UAE VAT Settings"
+   "link_to": "UAE VAT Settings",
+   "idx": 44
   },
   {
    "child": 1,
@@ -530,7 +600,8 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "Accounts Settings"
+   "link_to": "Accounts Settings",
+   "idx": 45
   }
  ],
  "modified": "2026-09-29 00:00:00.000000",
