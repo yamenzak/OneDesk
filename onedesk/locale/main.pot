@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 15:02+0000\n"
-"PO-Revision-Date: 2026-09-24 15:02+0000\n"
+"POT-Creation-Date: 2026-09-24 15:08+0000\n"
+"PO-Revision-Date: 2026-09-24 15:08+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1437,6 +1437,12 @@ msgstr ""
 #. Network'
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 msgid "Belongs To"
+msgstr ""
+
+#. Description of the 'Workspace Mailbox' (Check) field in DocType 'Email
+#. Account'
+#: onedesk/one_mail/custom/email_account.json
+msgid "Belongs to the workspace rather than to one person. A workspace administrator chooses who holds it."
 msgstr ""
 
 #. Label of the bench (Data) field in DocType 'Tenant'
@@ -5433,6 +5439,11 @@ msgstr ""
 msgid "Mail Folder"
 msgstr ""
 
+#. Label of the one_mail_name (Data) field in DocType 'User'
+#: onedesk/one_mail/custom/user.json
+msgid "Mail Name"
+msgstr ""
+
 #. Label of the account (Link) field in DocType 'Mail Folder'
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "Mailbox"
@@ -6751,7 +6762,7 @@ msgstr ""
 msgid "Only a claim still waiting can be answered."
 msgstr ""
 
-#: onedesk/one_mail/connect.py:220
+#: onedesk/one_mail/connect.py:223
 msgid "Only a connected mailbox can be disconnected."
 msgstr ""
 
@@ -6773,6 +6784,10 @@ msgstr ""
 
 #: onedesk/one_crm/record.py:169
 msgid "Only a lead or a deal has calls."
+msgstr ""
+
+#: onedesk/one_mail/holders.py:150
+msgid "Only a mailbox connected for the workspace can be the workspace's."
 msgstr ""
 
 #: onedesk/one_admin/doctype/offering/offering.py:46
@@ -6870,6 +6885,10 @@ msgstr ""
 
 #: onedesk/one_hr/decision.py:32
 msgid "Only somebody who can approve these may answer this one."
+msgstr ""
+
+#: onedesk/one_mail/holders.py:129
+msgid "Only the workspace's mailboxes are shared out. {0} belongs to one person."
 msgstr ""
 
 #: onedesk/one_storage/mounts.py:454
@@ -10138,6 +10157,11 @@ msgstr ""
 msgid "The most this overtime type pays in one day. Anything worked beyond it is not paid."
 msgstr ""
 
+#. Description of the 'Mail Name' (Data) field in DocType 'User'
+#: onedesk/one_mail/custom/user.json
+msgid "The name before the workspace in their own address, which only receives. Left empty, their first name is used."
+msgstr ""
+
 #. Description of the 'total_leaves_allocated' field in DocType 'Leave
 #. Allocation'
 #: onedesk/one_hr/custom/leave_allocation.json
@@ -11778,6 +11802,11 @@ msgstr ""
 msgid "Workspace ID"
 msgstr ""
 
+#. Label of the one_shared (Check) field in DocType 'Email Account'
+#: onedesk/one_mail/custom/email_account.json
+msgid "Workspace Mailbox"
+msgstr ""
+
 #: onedesk/www/start.html:24
 msgid "Workspace name"
 msgstr ""
@@ -12461,7 +12490,7 @@ msgstr ""
 msgid "{0} belongs to {1} {2}. Share the record instead."
 msgstr ""
 
-#: onedesk/one_mail/addresses.py:103
+#: onedesk/one_mail/addresses.py:119
 msgid "{0} cannot be a name in an address. Use letters, digits, - and _."
 msgstr ""
 
@@ -12693,7 +12722,7 @@ msgstr ""
 msgid "{0} is already a lead: {1}"
 msgstr ""
 
-#: onedesk/one_mail/connect.py:156
+#: onedesk/one_mail/connect.py:163
 msgid "{0} is already connected."
 msgstr ""
 
@@ -12701,7 +12730,7 @@ msgstr ""
 msgid "{0} is already on another workspace."
 msgstr ""
 
-#: onedesk/one_mail/addresses.py:106
+#: onedesk/one_mail/addresses.py:122
 msgid "{0} is already somebody's."
 msgstr ""
 
@@ -12779,6 +12808,10 @@ msgstr ""
 
 #: onedesk/one_admin/domains.py:222
 msgid "{0} is not on this workspace."
+msgstr ""
+
+#: onedesk/one_mail/holders.py:134
+msgid "{0} is not somebody who works here."
 msgstr ""
 
 #: onedesk/one_ai/proposals.py:316
@@ -12977,6 +13010,10 @@ msgstr ""
 
 #: onedesk/one_admin/lifecycle.py:74
 msgid "{0} was archived. Its site has to be rebuilt from the backup before it can be live again, and that is not something a payment does on its own."
+msgstr ""
+
+#: onedesk/one_mail/holders.py:154
+msgid "{0} was connected without sending, so it cannot send for the workspace."
 msgstr ""
 
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:47

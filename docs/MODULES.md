@@ -286,6 +286,11 @@ No doctypes yet.
 * `onedesk.one_mail.addresses.give`
 * `onedesk.one_mail.connect.connect`
 * `onedesk.one_mail.connect.disconnect`
+* `onedesk.one_mail.holders.mailboxes`
+* `onedesk.one_mail.holders.replace`
+* `onedesk.one_mail.holders.restore`
+* `onedesk.one_mail.holders.set_holders`
+* `onedesk.one_mail.holders.shared`
 * `onedesk.one_mail.inbound.notice`
 * `onedesk.one_project.billing.invoice_time`
 * `onedesk.one_project.billing.unbilled`

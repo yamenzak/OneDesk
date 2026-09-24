@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 15:02+0000\n"
-"PO-Revision-Date: 2026-09-24 15:02+0000\n"
+"POT-Creation-Date: 2026-09-24 15:08+0000\n"
+"PO-Revision-Date: 2026-09-24 15:08+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1440,6 +1440,12 @@ msgstr "Wird eingerichtet"
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 msgid "Belongs To"
 msgstr "Gehört zu"
+
+#. Description of the 'Workspace Mailbox' (Check) field in DocType 'Email
+#. Account'
+#: onedesk/one_mail/custom/email_account.json
+msgid "Belongs to the workspace rather than to one person. A workspace administrator chooses who holds it."
+msgstr "Gehört dem Arbeitsbereich statt einer einzelnen Person. Ein Administrator des Arbeitsbereichs wählt, wer es hält."
 
 #. Label of the bench (Data) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
@@ -5435,6 +5441,11 @@ msgstr "Mail-Domain"
 msgid "Mail Folder"
 msgstr "E-Mail-Ordner"
 
+#. Label of the one_mail_name (Data) field in DocType 'User'
+#: onedesk/one_mail/custom/user.json
+msgid "Mail Name"
+msgstr "Mail-Name"
+
 #. Label of the account (Link) field in DocType 'Mail Folder'
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "Mailbox"
@@ -6753,7 +6764,7 @@ msgstr "Nur ein Arbeitsbereich-Administrator kann einen Server mit allen teilen.
 msgid "Only a claim still waiting can be answered."
 msgstr "Nur ein Antrag, der noch offen ist, kann beantwortet werden."
 
-#: onedesk/one_mail/connect.py:220
+#: onedesk/one_mail/connect.py:223
 msgid "Only a connected mailbox can be disconnected."
 msgstr "Nur ein verbundenes Postfach kann getrennt werden."
 
@@ -6776,6 +6787,10 @@ msgstr "Nur ein Lead oder ein Deal hat einen Verantwortlichen."
 #: onedesk/one_crm/record.py:169
 msgid "Only a lead or a deal has calls."
 msgstr "Nur ein Lead oder ein Deal hat Anrufe."
+
+#: onedesk/one_mail/holders.py:150
+msgid "Only a mailbox connected for the workspace can be the workspace's."
+msgstr "Nur ein für den Arbeitsbereich verbundenes Postfach kann das des Arbeitsbereichs sein."
 
 #: onedesk/one_admin/doctype/offering/offering.py:46
 msgid "Only a recurring offering can have a trial."
@@ -6873,6 +6888,10 @@ msgstr "Nur Personen im Team können eine Bibliothek erstellen."
 #: onedesk/one_hr/decision.py:32
 msgid "Only somebody who can approve these may answer this one."
 msgstr "Nur wer solche Anträge genehmigen darf, kann über diesen entscheiden."
+
+#: onedesk/one_mail/holders.py:129
+msgid "Only the workspace's mailboxes are shared out. {0} belongs to one person."
+msgstr "Nur die Postfächer des Arbeitsbereichs werden geteilt. {0} gehört einer Person."
 
 #: onedesk/one_storage/mounts.py:454
 msgid "Only whoever connected {0} can change it."
@@ -10140,6 +10159,11 @@ msgstr "Das Modell, von dem die letzte Antwort kam."
 msgid "The most this overtime type pays in one day. Anything worked beyond it is not paid."
 msgstr "Das Maximum, das diese Überstundenart an einem Tag vergütet. Darüber hinaus Geleistetes wird nicht bezahlt."
 
+#. Description of the 'Mail Name' (Data) field in DocType 'User'
+#: onedesk/one_mail/custom/user.json
+msgid "The name before the workspace in their own address, which only receives. Left empty, their first name is used."
+msgstr "Der Name vor dem Arbeitsbereich in der eigenen Adresse, die nur empfängt. Leer gelassen, wird der Vorname verwendet."
+
 #. Description of the 'total_leaves_allocated' field in DocType 'Leave
 #. Allocation'
 #: onedesk/one_hr/custom/leave_allocation.json
@@ -11783,6 +11807,11 @@ msgstr "Arbeitsbereich-Domain"
 msgid "Workspace ID"
 msgstr "Arbeitsbereich-ID"
 
+#. Label of the one_shared (Check) field in DocType 'Email Account'
+#: onedesk/one_mail/custom/email_account.json
+msgid "Workspace Mailbox"
+msgstr "Postfach des Arbeitsbereichs"
+
 #: onedesk/www/start.html:24
 msgid "Workspace name"
 msgstr "Name des Arbeitsbereichs"
@@ -12466,7 +12495,7 @@ msgstr "{0} wird {1}"
 msgid "{0} belongs to {1} {2}. Share the record instead."
 msgstr "{0} gehört zu {1} {2}. Teilen Sie stattdessen den Datensatz."
 
-#: onedesk/one_mail/addresses.py:103
+#: onedesk/one_mail/addresses.py:119
 msgid "{0} cannot be a name in an address. Use letters, digits, - and _."
 msgstr "{0} kann kein Name in einer Adresse sein. Verwenden Sie Buchstaben, Ziffern, - und _."
 
@@ -12705,7 +12734,7 @@ msgstr "{0} wird hinzugefügt, sofern niemand eine andere wählt."
 msgid "{0} is already a lead: {1}"
 msgstr "{0} ist bereits ein Lead: {1}"
 
-#: onedesk/one_mail/connect.py:156
+#: onedesk/one_mail/connect.py:163
 msgid "{0} is already connected."
 msgstr "{0} ist bereits verbunden."
 
@@ -12713,7 +12742,7 @@ msgstr "{0} ist bereits verbunden."
 msgid "{0} is already on another workspace."
 msgstr "{0} gehört bereits zu einem anderen Arbeitsbereich."
 
-#: onedesk/one_mail/addresses.py:106
+#: onedesk/one_mail/addresses.py:122
 msgid "{0} is already somebody's."
 msgstr "{0} gehört bereits jemandem."
 
@@ -12792,6 +12821,10 @@ msgstr "{0} wird nicht angeboten, daher kann nichts darauf zurückfallen."
 #: onedesk/one_admin/domains.py:222
 msgid "{0} is not on this workspace."
 msgstr "{0} gehört nicht zu diesem Arbeitsbereich."
+
+#: onedesk/one_mail/holders.py:134
+msgid "{0} is not somebody who works here."
+msgstr "{0} arbeitet nicht hier."
 
 #: onedesk/one_ai/proposals.py:316
 msgid "{0} is not something that can be proposed."
@@ -12990,6 +13023,10 @@ msgstr "{0} war bereits {1}."
 #: onedesk/one_admin/lifecycle.py:74
 msgid "{0} was archived. Its site has to be rebuilt from the backup before it can be live again, and that is not something a payment does on its own."
 msgstr "{0} wurde archiviert. Die Site muss aus der Sicherung neu aufgebaut werden, bevor sie wieder live sein kann, und das tut eine Zahlung nicht von allein."
+
+#: onedesk/one_mail/holders.py:154
+msgid "{0} was connected without sending, so it cannot send for the workspace."
+msgstr "{0} wurde ohne Versand verbunden und kann daher nicht für den Arbeitsbereich senden."
 
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:47
 msgid "{0} will move to where this browser is. Everyone checking in there is measured from the new centre."

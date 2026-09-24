@@ -16,9 +16,10 @@ a customer, a supplier or an employee as well as to a mailbox.
 
 Every workspace gets `acme@m.4dl.app`. It is where the workspace's mail comes
 in and goes out from, until a workspace administrator connects the company's
-own mailbox to use instead. Every person gets `name.acme@m.4dl.app`, which
-only receives: it is where a supplier, a site or a newsletter can reach them
-without their private address.
+own mailbox to use instead. Every person gets `name.acme@m.4dl.app` when
+they are added, with the name whoever adds them chooses, or their first name.
+It only receives: it is where a supplier, a site or a newsletter can reach
+them without their private address.
 
 ## Connecting a mailbox
 
@@ -28,9 +29,10 @@ Sent, Junk, Drafts and those made elsewhere. What you do here happens there:
 reading, starring, moving, deleting and making folders. A phone on the same
 account agrees with OneMail.
 
-A workspace administrator can connect one mailbox as the workspace's own,
-and add shared addresses such as `sales@theircompany.com` for several people
-to hold. Anyone can connect their own.
+A workspace administrator can connect the company's mailbox and make it the
+workspace's own, for receiving, sending or both. They can also connect shared
+addresses such as `sales@theircompany.com` and choose who holds each. Anyone
+can connect their own, and nobody else sees into it, administrators included.
 
 ## Attachments and faces
 
@@ -150,6 +152,30 @@ page to use them is missing (stage 5).
 - `one_references` holds Message-IDs bare. Frappe strips anything in angle
   brackets from a stored field as if it were HTML, and did so to every
   reference until this stage.
+
+Stage 4, holders, is built.
+
+- To hold a mailbox is to have a `User Email` row for it, Frappe's own
+  notion, which Frappe's Communication permission already reads. Only a
+  holder may change anything in a mailbox. Being a workspace administrator
+  is not enough, because somebody's own Gmail is theirs.
+- A mailbox is somebody's own or the workspace's (`one_shared`). The
+  workspace's are its address on the mail domain and anything an
+  administrator connected with `shared`, such as sales@. **holders.py** lets
+  an administrator choose who holds those, and only those.
+- Everyone who works here gets an address when they are added. The
+  administrator adding them may type its name in **Mail Name** on the User;
+  otherwise it is made from their first name, or from their login when the
+  first name is in another script, with a number when it is taken. The
+  address is appended in the User's own `before_save`, so the form the
+  administrator is looking at is never stale.
+- `holders.replace` makes a connected mailbox of the workspace's its
+  mailbox, and, if it sends, its default outgoing account. The address on the
+  mail domain keeps receiving, so nothing sent to it is lost. `restore` puts
+  it back.
+- `holders.mailboxes` is what the page will list: the reader's mailboxes,
+  the workspace's first, each with its folders in the usual order and its
+  unread count.
 
 ### Research and decisions
 

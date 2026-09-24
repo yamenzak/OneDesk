@@ -123,6 +123,9 @@ scheduler_events = {
 override_email_send = "onedesk.one_mail.outbound.send"
 
 doc_events = {
+	# Everyone who works here has an address on the mail domain. See
+	# one_mail/addresses.py.
+	"User": {"before_save": "onedesk.one_mail.addresses.for_person"},
 	# A customer's contact invited as a user can see the customer's projects.
 	# See one_project/portal.py.
 	"Contact": {"on_update": "onedesk.one_project.portal.invited"},

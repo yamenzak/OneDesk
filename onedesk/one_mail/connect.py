@@ -20,7 +20,7 @@ import ssl
 import frappe
 from frappe import _
 
-from onedesk.one_mail import imap
+from onedesk.one_mail import addresses, imap
 
 #: Providers everyone uses: domain -> (imap host, smtp host, smtp port).
 #: Ports 993 for IMAP; SMTP on 465 is SSL, on 587 is STARTTLS.
@@ -147,10 +147,17 @@ def connect(
 	smtp_server: str | None = None,
 	smtp_port: int | None = None,
 	sends: int = 1,
+	shared: int = 0,
 ) -> str:
-	"""Connect a mailbox the reader holds. With no server named, one is found."""
+	"""Connect a mailbox the reader holds. With no server named, one is found.
+	With `shared`, it is the workspace's, such as sales@, and a workspace
+	administrator chooses who else holds it (holders.py)."""
 	from frappe.utils import validate_email_address
 
+	from onedesk.one import roles
+
+	if int(shared):
+		frappe.only_for(roles.ADMINISTRATOR)
 	email = (validate_email_address(email or "", throw=True) or "").strip().lower()
 	if frappe.db.exists("Email Account", {"email_id": email}):
 		frappe.throw(_("{0} is already connected.").format(email))
@@ -178,6 +185,7 @@ def connect(
 			"login_id": login,
 			"password": password,
 			"one_connected": 1,
+			"one_shared": int(bool(int(shared))),
 			"use_imap": 1,
 			"enable_incoming": 0,
 			"enable_outgoing": int(sends),
@@ -187,7 +195,7 @@ def connect(
 	)
 	doc.flags.ignore_permissions = True
 	doc.insert()
-	hold(doc.name, frappe.session.user)
+	addresses.hold(doc.name, frappe.session.user)
 	frappe.enqueue(
 		"onedesk.one_mail.sync.sync_account",
 		queue="long",
@@ -199,16 +207,6 @@ def connect(
 	return doc.name
 
 
-def hold(account: str, user: str) -> None:
-	"""`user` holds `account`, as a User Email row."""
-	if frappe.db.exists("User Email", {"parent": user, "email_account": account}):
-		return
-	holder = frappe.get_doc("User", user)
-	holder.append("user_emails", {"email_account": account})
-	holder.flags.ignore_permissions = True
-	holder.save()
-
-
 @frappe.whitelist(methods=["POST"])
 def disconnect(account: str) -> None:
 	"""Stop reading a connected mailbox. What was read stays, linked to what
@@ -216,7 +214,12 @@ def disconnect(account: str) -> None:
 	from onedesk.one_mail import actions
 
 	actions.require(account)
-	if not frappe.db.get_value("Email Account", account, "one_connected"):
+	connected, shared = frappe.db.get_value("Email Account", account, ["one_connected", "one_shared"])
+	if shared:
+		from onedesk.one import roles
+
+		frappe.only_for(roles.ADMINISTRATOR)
+	if not connected:
 		frappe.throw(_("Only a connected mailbox can be disconnected."))
 	frappe.db.set_value("Communication", {"email_account": account}, {"uid": 0}, update_modified=False)
 	frappe.db.delete("Mail Folder", {"account": account})

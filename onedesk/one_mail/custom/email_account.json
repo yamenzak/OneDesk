@@ -27,9 +27,21 @@
   {
    "doctype": "Custom Field",
    "dt": "Email Account",
+   "fieldname": "one_shared",
+   "fieldtype": "Check",
+   "insert_after": "one_connected",
+   "label": "Workspace Mailbox",
+   "description": "Belongs to the workspace rather than to one person. A workspace administrator chooses who holds it.",
+   "read_only": 1,
+   "module": "One Mail",
+   "name": "Email Account-one_shared"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Email Account",
    "fieldname": "one_error",
    "fieldtype": "Small Text",
-   "insert_after": "one_connected",
+   "insert_after": "one_shared",
    "label": "Last Error",
    "read_only": 1,
    "module": "One Mail",

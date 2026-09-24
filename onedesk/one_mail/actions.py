@@ -10,7 +10,8 @@ Read and starred state belongs to the mailbox, not to the person: two people
 holding sales@ see one inbox, as the server does.
 
 Only somebody who holds a mailbox, through a `User Email` row, may change
-anything in it. A workspace administrator may change any.
+anything in it. Being a workspace administrator is not enough: somebody's own
+mailbox is theirs.
 
 Delete moves to the mailbox's Trash. Deleting from Trash removes the message
 from the server for good. The Communication goes too, unless it is linked to
@@ -43,11 +44,10 @@ FIXED = ("Inbox", "Sent", "Drafts", "Junk", "Trash", "Archive")
 
 
 def holds(account: str, user: str | None = None) -> bool:
-	from onedesk.one import roles
-
-	user = user or frappe.session.user
+	"""Holding a mailbox is a User Email row for it, as Frappe's own
+	Communication permission reads it (holders.py)."""
 	return bool(
-		roles.administers(user) or frappe.db.exists("User Email", {"parent": user, "email_account": account})
+		frappe.db.exists("User Email", {"parent": user or frappe.session.user, "email_account": account})
 	)
 
 

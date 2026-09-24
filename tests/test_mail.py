@@ -251,7 +251,8 @@ def test_changes_go_to_the_server_before_they_are_kept_here():
 	for name in ("mark", "star", "move", "delete", "create_folder", "rename_folder", "delete_folder"):
 		assert f"def {name}(" in source
 	assert source.count("require(") >= 3, "only a holder changes a mailbox"
-	assert "roles.administers" in source and "System Manager" not in source
+	assert "roles.administers" not in source, "an administrator does not see into somebody's own mailbox"
+	assert '"User Email"' in source, "holding is Frappe's own User Email row"
 
 
 def test_a_sent_copy_is_filed_once_and_not_where_the_server_files_its_own():
@@ -259,3 +260,35 @@ def test_a_sent_copy_is_filed_once_and_not_where_the_server_files_its_own():
 	queue = type("Q", (), {"recipients": [type("R", (), {"recipient": one})() for one in ("a@x", "b@x")]})()
 	assert not space["_last"](queue, "a@x") and space["_last"](queue, "b@x")
 	assert "smtp.gmail.com" in _load(MAIL / "connect.py", ("FILES_ITS_OWN",))["FILES_ITS_OWN"]
+
+
+# ------------------------------------------------------------------ holders
+
+
+def test_everyone_gets_an_address_named_by_whoever_adds_them():
+	import unicodedata
+
+	space = _load(
+		MAIL / "addresses.py", ("NAME", "RESERVED", "is_name", "suggested"), re=re, unicodedata=unicodedata
+	)
+	suggested = space["suggested"]
+	assert suggested("Ülrich", "u@x.com") == "ulrich"
+	assert suggested("أمل", "amal.k@x.com") == "amal-k", "a name in another script falls back to the login"
+	assert suggested("Admin", "admin@x.com") == "member", "reserved names are never suggested"
+	assert "onedesk.one_mail.addresses.for_person" in HOOKS
+	custom = (MAIL / "custom" / "user.json").read_text()
+	assert '"one_mail_name"' in custom and '"set_only_once": 1' in custom
+
+
+def test_only_the_workspaces_mailboxes_are_shared_out():
+	source = (MAIL / "holders.py").read_text()
+	assert 'if not frappe.db.get_value("Email Account", account, "one_shared")' in source
+	assert source.count("_admin()") >= 4, "holders, replacing and restoring are an administrator's"
+	ordered = _load(MAIL / "holders.py", ("ORDER", "ordered"))["ordered"]
+	folders = [
+		{"kind": "Other", "path": "b"},
+		{"kind": "Trash", "path": "T"},
+		{"kind": "Inbox", "path": "INBOX"},
+		{"kind": "Other", "path": "A"},
+	]
+	assert [one["path"] for one in ordered(folders)] == ["INBOX", "T", "A", "b"]

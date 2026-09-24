@@ -1,0 +1,20 @@
+{
+ "custom_fields": [
+  {
+   "doctype": "Custom Field",
+   "dt": "User",
+   "fieldname": "one_mail_name",
+   "fieldtype": "Data",
+   "insert_after": "email",
+   "label": "Mail Name",
+   "description": "The name before the workspace in their own address, which only receives. Left empty, their first name is used.",
+   "set_only_once": 1,
+   "module": "One Mail",
+   "name": "User-one_mail_name"
+  }
+ ],
+ "doctype": "User",
+ "sync_on_migrate": 1,
+ "links": [],
+ "property_setters": []
+}

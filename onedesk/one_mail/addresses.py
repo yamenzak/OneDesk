@@ -12,6 +12,7 @@ apply the same one.
 """
 
 import re
+import unicodedata
 
 import frappe
 from frappe import _
@@ -86,6 +87,16 @@ def ensure_workspace() -> str | None:
 	if found:
 		return found
 	made = _make(address, sends=True)
+	# The workspace's mailbox, held at first by whoever administers it; they
+	# choose who else holds it (holders.py).
+	frappe.db.set_value("Email Account", made, "one_shared", 1, update_modified=False)
+	from onedesk.one import roles
+
+	for user in frappe.get_all(
+		"Has Role", filters={"role": roles.ADMINISTRATOR, "parenttype": "User"}, pluck="parent"
+	):
+		if user not in ("Administrator", "Guest"):
+			hold(made, user)
 	publish()
 	return made
 
@@ -98,6 +109,11 @@ def give(user: str, name: str) -> str:
 	from onedesk.one import roles
 
 	frappe.only_for(roles.ADMINISTRATOR)
+	return _give(user, name)
+
+
+def _give(user: str, name: str, holder=None) -> str:
+	"""`holder` is the User being saved, when this runs inside its save."""
 	name = (name or "").strip().lower()
 	if not is_name(name):
 		frappe.throw(_("{0} cannot be a name in an address. Use letters, digits, - and _.").format(name))
@@ -105,12 +121,64 @@ def give(user: str, name: str) -> str:
 	if frappe.db.exists("Email Account", {"email_id": address}):
 		frappe.throw(_("{0} is already somebody's.").format(address))
 	made = _make(address, sends=False)
-	holder = frappe.get_doc("User", user)
-	holder.append("user_emails", {"email_account": made})
-	holder.flags.ignore_permissions = True
-	holder.save()
+	if holder is not None:
+		holder.append("user_emails", {"email_account": made})
+	else:
+		hold(made, user)
 	publish()
 	return made
+
+
+def hold(account: str, user: str) -> None:
+	"""`user` holds `account`: a User Email row, which is also what Frappe's
+	own Communication permission reads."""
+	if frappe.db.exists("User Email", {"parent": user, "email_account": account}):
+		return
+	holder = frappe.get_doc("User", user)
+	holder.append("user_emails", {"email_account": account})
+	holder.flags.ignore_permissions = True
+	holder.save()
+
+
+def suggested(first_name: str | None, email: str | None) -> str:
+	"""A name for somebody's address, before anyone chooses one: their first
+	name, else the start of their login address, as far as either is letters
+	and digits. Pure."""
+	for source in (first_name, (email or "").split("@")[0]):
+		plain = unicodedata.normalize("NFKD", source or "").encode("ascii", "ignore").decode()
+		name = re.sub(r"[^a-z0-9_-]+", "-", plain.strip().lower()).strip("-_")[:40].strip("-_")
+		if is_name(name):
+			return name
+	return "member"
+
+
+def free(name: str) -> str:
+	"""`name`, or `name2`, `name3`… whichever nobody has."""
+	taken = {
+		row.split("@")[0].rsplit(".", 1)[0]
+		for row in frappe.get_all("Email Account", filters={"one_hosted": 1}, pluck="email_id")
+	}
+	if name not in taken:
+		return name
+	at = 2
+	while f"{name}{at}" in taken:
+		at += 1
+	return f"{name}{at}"
+
+
+def for_person(doc, method=None) -> None:
+	"""User before_save: everyone who works here has an address. The name is the one a workspace administrator typed in Mail Name
+	when adding them, or one made from their first name."""
+	if doc.user_type != "System User" or doc.name in ("Administrator", "Guest") or not doc.enabled:
+		return
+	if not (slug() and frappe.conf.get("one_mail_secret")):
+		return
+	own = f".{slug()}@{domain()}"
+	if any((row.email_account or "").endswith(own) for row in doc.get("user_emails") or []):
+		return
+	name = (doc.one_mail_name or "").strip().lower() or free(suggested(doc.first_name, doc.email))
+	_give(doc.name, name, holder=doc)
+	doc.one_mail_name = name
 
 
 def _make(address: str, sends: bool) -> str:

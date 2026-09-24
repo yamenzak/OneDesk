@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 15:02+0000\n"
-"PO-Revision-Date: 2026-09-24 15:02+0000\n"
+"POT-Creation-Date: 2026-09-24 15:08+0000\n"
+"PO-Revision-Date: 2026-09-24 15:08+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1440,6 +1440,12 @@ msgstr "قيد الإعداد"
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 msgid "Belongs To"
 msgstr "يخص"
+
+#. Description of the 'Workspace Mailbox' (Check) field in DocType 'Email
+#. Account'
+#: onedesk/one_mail/custom/email_account.json
+msgid "Belongs to the workspace rather than to one person. A workspace administrator chooses who holds it."
+msgstr "يخص مساحة العمل لا شخصًا واحدًا. يختار مسؤول مساحة العمل من يحمله."
 
 #. Label of the bench (Data) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
@@ -5435,6 +5441,11 @@ msgstr "نطاق البريد"
 msgid "Mail Folder"
 msgstr "مجلد البريد"
 
+#. Label of the one_mail_name (Data) field in DocType 'User'
+#: onedesk/one_mail/custom/user.json
+msgid "Mail Name"
+msgstr "اسم البريد"
+
 #. Label of the account (Link) field in DocType 'Mail Folder'
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "Mailbox"
@@ -6753,7 +6764,7 @@ msgstr "لا يمكن مشاركة خادم مع الجميع إلا لمسؤو�
 msgid "Only a claim still waiting can be answered."
 msgstr "لا يُبتّ إلا في مطالبة ما زالت قيد الانتظار."
 
-#: onedesk/one_mail/connect.py:220
+#: onedesk/one_mail/connect.py:223
 msgid "Only a connected mailbox can be disconnected."
 msgstr "لا يمكن فصل إلا صندوق بريد متصل."
 
@@ -6776,6 +6787,10 @@ msgstr "المسؤول يخص العميل المحتمل أو الصفقة فق
 #: onedesk/one_crm/record.py:169
 msgid "Only a lead or a deal has calls."
 msgstr "المكالمات تخص العميل المحتمل أو الصفقة فقط."
+
+#: onedesk/one_mail/holders.py:150
+msgid "Only a mailbox connected for the workspace can be the workspace's."
+msgstr "لا يكون صندوق بريد مساحة العمل إلا صندوقًا متصلًا لها."
 
 #: onedesk/one_admin/doctype/offering/offering.py:46
 msgid "Only a recurring offering can have a trial."
@@ -6873,6 +6888,10 @@ msgstr "يمكن لأعضاء الفريق فقط إنشاء مكتبة."
 #: onedesk/one_hr/decision.py:32
 msgid "Only somebody who can approve these may answer this one."
 msgstr "لا يبتّ في هذا إلا من يملك اعتماد هذه الطلبات."
+
+#: onedesk/one_mail/holders.py:129
+msgid "Only the workspace's mailboxes are shared out. {0} belongs to one person."
+msgstr "لا تُشارك إلا صناديق بريد مساحة العمل. {0} يخص شخصًا واحدًا."
 
 #: onedesk/one_storage/mounts.py:454
 msgid "Only whoever connected {0} can change it."
@@ -10140,6 +10159,11 @@ msgstr "النموذج الذي جاءت منه آخر إجابة."
 msgid "The most this overtime type pays in one day. Anything worked beyond it is not paid."
 msgstr "أقصى ما يدفعه هذا النوع من العمل الإضافي في اليوم الواحد. وما يُعمل بعده لا يُدفع."
 
+#. Description of the 'Mail Name' (Data) field in DocType 'User'
+#: onedesk/one_mail/custom/user.json
+msgid "The name before the workspace in their own address, which only receives. Left empty, their first name is used."
+msgstr "الاسم الذي يسبق مساحة العمل في عنوانه الخاص، وهو للاستقبال فقط. إن تُرك فارغًا، يُستخدم الاسم الأول."
+
 #. Description of the 'total_leaves_allocated' field in DocType 'Leave
 #. Allocation'
 #: onedesk/one_hr/custom/leave_allocation.json
@@ -11783,6 +11807,11 @@ msgstr "نطاق مساحات العمل"
 msgid "Workspace ID"
 msgstr "معرّف مساحة العمل"
 
+#. Label of the one_shared (Check) field in DocType 'Email Account'
+#: onedesk/one_mail/custom/email_account.json
+msgid "Workspace Mailbox"
+msgstr "صندوق بريد مساحة العمل"
+
 #: onedesk/www/start.html:24
 msgid "Workspace name"
 msgstr "اسم مساحة العمل"
@@ -12466,7 +12495,7 @@ msgstr "{0} يصبح {1}"
 msgid "{0} belongs to {1} {2}. Share the record instead."
 msgstr "{0} يخص {1} {2}. شارك السجل بدلًا من ذلك."
 
-#: onedesk/one_mail/addresses.py:103
+#: onedesk/one_mail/addresses.py:119
 msgid "{0} cannot be a name in an address. Use letters, digits, - and _."
 msgstr "لا يمكن أن يكون {0} اسمًا في عنوان. استخدم الحروف والأرقام و- و_."
 
@@ -12705,7 +12734,7 @@ msgstr "يُضاف {0} ما لم يختر أحد غيره."
 msgid "{0} is already a lead: {1}"
 msgstr "{0} عميل محتمل بالفعل: {1}"
 
-#: onedesk/one_mail/connect.py:156
+#: onedesk/one_mail/connect.py:163
 msgid "{0} is already connected."
 msgstr "{0} متصل بالفعل."
 
@@ -12713,7 +12742,7 @@ msgstr "{0} متصل بالفعل."
 msgid "{0} is already on another workspace."
 msgstr "{0} موجود أصلاً على مساحة عمل أخرى."
 
-#: onedesk/one_mail/addresses.py:106
+#: onedesk/one_mail/addresses.py:122
 msgid "{0} is already somebody's."
 msgstr "{0} مستخدم من قِبل شخص آخر."
 
@@ -12792,6 +12821,10 @@ msgstr "{0} غير معروض، فلا يمكن لشيء أن يتخذه افت�
 #: onedesk/one_admin/domains.py:222
 msgid "{0} is not on this workspace."
 msgstr "{0} ليس على مساحة العمل هذه."
+
+#: onedesk/one_mail/holders.py:134
+msgid "{0} is not somebody who works here."
+msgstr "{0} ليس ممن يعملون هنا."
 
 #: onedesk/one_ai/proposals.py:316
 msgid "{0} is not something that can be proposed."
@@ -12990,6 +13023,10 @@ msgstr "{0} كانت بالفعل {1}."
 #: onedesk/one_admin/lifecycle.py:74
 msgid "{0} was archived. Its site has to be rebuilt from the backup before it can be live again, and that is not something a payment does on its own."
 msgstr "أُرشفت {0}. ولا بد من إعادة بناء موقعها من النسخة الاحتياطية قبل أن تعمل ثانية، وليس هذا ما تفعله دفعة وحدها."
+
+#: onedesk/one_mail/holders.py:154
+msgid "{0} was connected without sending, so it cannot send for the workspace."
+msgstr "وُصل {0} دون إرسال، لذا لا يمكنه الإرسال باسم مساحة العمل."
 
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:47
 msgid "{0} will move to where this browser is. Everyone checking in there is measured from the new centre."
