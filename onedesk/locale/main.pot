@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 19:00+0000\n"
-"PO-Revision-Date: 2026-09-24 19:00+0000\n"
+"POT-Creation-Date: 2026-09-24 19:09+0000\n"
+"PO-Revision-Date: 2026-09-24 19:09+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -204,7 +204,7 @@ msgstr ""
 msgid "A late customer is reminded"
 msgstr ""
 
-#: onedesk/one_crm/capture.py:127
+#: onedesk/one_crm/capture.py:128
 msgid "A lead cannot be merged into itself."
 msgstr ""
 
@@ -299,6 +299,10 @@ msgstr ""
 
 #: onedesk/one_admin/doctype/ai_model/ai_model.py:64
 msgid "A rate needs a unit, how many of them, and what they cost."
+msgstr ""
+
+#: onedesk/one_intake/identity.py:307
+msgid "A record cannot be merged into itself."
 msgstr ""
 
 #: onedesk/one_storage/api.py:149 onedesk/one_storage/api.py:334
@@ -909,7 +913,7 @@ msgstr ""
 msgid "Another employee has already checked in from this browser today."
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:182
+#: onedesk/public/js/crm_record.js:202
 msgid "Answered"
 msgstr ""
 
@@ -1525,7 +1529,9 @@ msgstr ""
 
 #. Label of the belongs_to_section (Section Break) field in DocType 'Clock
 #. Network'
+#. Label of the for_doctype (Link) field in DocType 'Identifier'
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
+#: onedesk/one_intake/doctype/identifier/identifier.json
 msgid "Belongs To"
 msgstr ""
 
@@ -1687,7 +1693,7 @@ msgstr ""
 msgid "Building"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:184
+#: onedesk/public/js/crm_record.js:204
 msgid "Busy"
 msgstr ""
 
@@ -1759,11 +1765,11 @@ msgstr ""
 msgid "Calendar View"
 msgstr ""
 
-#: onedesk/public/js/ai_model.js:80 onedesk/public/js/crm_record.js:170
+#: onedesk/public/js/ai_model.js:80 onedesk/public/js/crm_record.js:190
 msgid "Call"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:206
+#: onedesk/public/js/crm_record.js:226
 msgid "Call logged"
 msgstr ""
 
@@ -1773,7 +1779,7 @@ msgstr ""
 msgid "Calls"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:89
+#: onedesk/public/js/crm_record.js:109
 msgid "Came In"
 msgstr ""
 
@@ -2191,7 +2197,7 @@ msgstr ""
 msgid "Closed. The links take nothing more."
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:112
+#: onedesk/public/js/crm_record.js:132
 msgid "Closes"
 msgstr ""
 
@@ -2716,13 +2722,13 @@ msgstr ""
 msgid "Deal Owner"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:75
+#: onedesk/public/js/crm_record.js:95
 msgid "Deal Value · {0}%"
 msgstr ""
 
 #: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:81
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:67
-#: onedesk/public/js/crm_record.js:124
+#: onedesk/public/js/crm_record.js:144
 msgid "Deals"
 msgstr ""
 
@@ -3011,6 +3017,11 @@ msgstr ""
 msgid "Document"
 msgstr ""
 
+#. Option for the 'Kind' (Select) field in DocType 'Identifier'
+#: onedesk/one_intake/doctype/identifier/identifier.json
+msgid "Document Number"
+msgstr ""
+
 #. Label of the for_doctype (Link) field in DocType 'AI Touch'
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 msgid "Document Type"
@@ -3024,10 +3035,12 @@ msgstr ""
 #. Label of the domain (Data) field in DocType 'Workspace Domain'
 #. Label of the domain (Data) field in DocType 'Tenant'
 #. Label of the domain (Data) field in DocType 'Tenant Domain'
+#. Option for the 'Kind' (Select) field in DocType 'Identifier'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
+#: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/public/js/workspace_account.js:187
 #: onedesk/public/js/workspace_account.js:254
 msgid "Domain"
@@ -3202,11 +3215,11 @@ msgstr ""
 msgid "Due {0}."
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:51
+#: onedesk/public/js/crm_record.js:63
 msgid "Duplicate"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:192
+#: onedesk/public/js/crm_record.js:212
 msgid "Duration (Minutes)"
 msgstr ""
 
@@ -3267,11 +3280,13 @@ msgstr ""
 
 #. Label of the email (Data) field in DocType 'Account Request'
 #. Label of a field in the get-in-touch Web Form
+#. Option for the 'Kind' (Select) field in DocType 'Identifier'
 #. Label of the email (Data) field in DocType 'Cloud File Request Recipient'
 #. Label of the email (Data) field in DocType 'Cloud File Request Upload'
 #. Label of the email (Data) field in DocType 'Cloud Link Invitee'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
+#: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json
 #: onedesk/one_storage/doctype/cloud_link_invitee/cloud_link_invitee.json
@@ -3612,7 +3627,7 @@ msgstr ""
 msgid "Everyone who works here needs an account. Add them now and they can sign in while you finish setting up."
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:55
+#: onedesk/public/js/crm_record.js:72
 msgid "Everything on {0} moves to {1}, and {0} is deleted."
 msgstr ""
 
@@ -3949,7 +3964,7 @@ msgid "First Name"
 msgstr ""
 
 #. Label of the one_first_reply_at (Datetime) field in DocType 'Lead'
-#: onedesk/one_crm/custom/lead.json onedesk/public/js/crm_record.js:91
+#: onedesk/one_crm/custom/lead.json onedesk/public/js/crm_record.js:111
 msgid "First Reply"
 msgstr ""
 
@@ -4590,7 +4605,10 @@ msgstr ""
 msgid "I will paste an email signature. Add the person in it as a lead."
 msgstr ""
 
+#. Option for the 'Kind' (Select) field in DocType 'Identifier'
 #: onedesk/one_book/report/books_check/books_check.js:13
+#: onedesk/one_intake/doctype/identifier/identifier.json
+#: onedesk/public/js/crm_record.js:58
 msgid "IBAN"
 msgstr ""
 
@@ -4610,6 +4628,11 @@ msgstr ""
 #. Label of the key (Data) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 msgid "Idempotency Key"
+msgstr ""
+
+#. Name of a DocType
+#: onedesk/one_intake/doctype/identifier/identifier.json
+msgid "Identifier"
 msgstr ""
 
 #. Description of the 'Authenticator (AAGUID)' (Data) field in DocType 'Clock
@@ -4787,7 +4810,7 @@ msgstr ""
 msgid "Income Tax Slab"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:173
+#: onedesk/public/js/crm_record.js:193
 msgid "Incoming"
 msgstr ""
 
@@ -5093,6 +5116,7 @@ msgstr ""
 #. Label of the kind (Select) field in DocType 'Provisioning Job'
 #. Label of the kind (Select) field in DocType 'Tenant Event'
 #. Label of the kind (Select) field in DocType 'AI Proposal'
+#. Label of the kind (Select) field in DocType 'Identifier'
 #. Label of the kind (Select) field in DocType 'Face'
 #. Label of the kind (Select) field in DocType 'Mail Folder'
 #. Label of the protocol (Select) field in DocType 'Cloud Mount'
@@ -5102,6 +5126,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+#: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_mail/doctype/face/face.json
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
@@ -5151,7 +5176,7 @@ msgid "Last Bought"
 msgstr ""
 
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:44
-#: onedesk/public/js/crm_record.js:102
+#: onedesk/public/js/crm_record.js:122
 msgid "Last Call"
 msgstr ""
 
@@ -5160,11 +5185,11 @@ msgstr ""
 msgid "Last Checked"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:106
+#: onedesk/public/js/crm_record.js:126
 msgid "Last Contact"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:102
+#: onedesk/public/js/crm_record.js:122
 msgid "Last Email"
 msgstr ""
 
@@ -5344,6 +5369,11 @@ msgstr ""
 #. Label of the one_learn_networks (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Learn New Networks"
+msgstr ""
+
+#. Label of the origin (Data) field in DocType 'Identifier'
+#: onedesk/one_intake/doctype/identifier/identifier.json
+msgid "Learned From"
 msgstr ""
 
 #: onedesk/one_hr/healing.py:210
@@ -5617,7 +5647,7 @@ msgstr ""
 msgid "Log Type"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:32 onedesk/public/js/crm_record.js:165
+#: onedesk/public/js/crm_record.js:32 onedesk/public/js/crm_record.js:185
 msgid "Log a Call"
 msgstr ""
 
@@ -5908,7 +5938,12 @@ msgid "Match the browser's position against Clock Place and the Shift Location r
 msgstr ""
 
 #. Label of the one_duplicate_on (Data) field in DocType 'Lead'
-#: onedesk/one_crm/custom/lead.json
+#. Label of the one_duplicate_on (Data) field in DocType 'Contact'
+#. Label of the one_duplicate_on (Data) field in DocType 'Customer'
+#. Label of the one_duplicate_on (Data) field in DocType 'Supplier'
+#: onedesk/one_crm/custom/lead.json onedesk/one_intake/custom/contact.json
+#: onedesk/one_intake/custom/customer.json
+#: onedesk/one_intake/custom/supplier.json
 msgid "Matched On"
 msgstr ""
 
@@ -5955,7 +5990,7 @@ msgstr ""
 msgid "Memory"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:53
+#: onedesk/public/js/crm_record.js:70
 msgid "Merge Into {0}"
 msgstr ""
 
@@ -6392,8 +6427,8 @@ msgstr ""
 #: onedesk/one_crm/calendar.py:31 onedesk/one_crm/calendar.py:41
 #: onedesk/one_crm/calendar.py:70 onedesk/one_crm/custom/lead.json
 #: onedesk/one_crm/custom/opportunity.json onedesk/one_crm/next.py:69
-#: onedesk/public/js/crm_record.js:135 onedesk/public/js/crm_record.js:139
-#: onedesk/public/js/crm_record.js:140 onedesk/public/js/next_step.js:23
+#: onedesk/public/js/crm_record.js:155 onedesk/public/js/crm_record.js:159
+#: onedesk/public/js/crm_record.js:160 onedesk/public/js/next_step.js:23
 msgid "Next Step"
 msgstr ""
 
@@ -6420,7 +6455,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:183
+#: onedesk/public/js/crm_record.js:203
 msgid "No Answer"
 msgstr ""
 
@@ -6608,11 +6643,11 @@ msgstr ""
 msgid "None of your mailboxes can send. Connect one that does."
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:135
+#: onedesk/public/js/crm_record.js:155
 msgid "None planned"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:106
+#: onedesk/public/js/crm_record.js:126
 msgid "None yet"
 msgstr ""
 
@@ -6647,7 +6682,7 @@ msgstr ""
 msgid "Not Yet Registered"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:62
+#: onedesk/public/js/crm_record.js:76
 msgid "Not a Duplicate"
 msgstr ""
 
@@ -7055,6 +7090,11 @@ msgstr ""
 msgid "One token for all of Cloudflare. Set Up Cloudflare fills in the rest of this section and the storage one from it."
 msgstr ""
 
+#. Description of a DocType
+#: onedesk/one_intake/doctype/identifier/identifier.json
+msgid "One way of telling who somebody is, and the record it belongs to."
+msgstr ""
+
 #: onedesk/public/js/offering.js:35
 msgid "One workspace bought this"
 msgstr ""
@@ -7211,6 +7251,14 @@ msgstr ""
 msgid "Only a connected mailbox can be disconnected."
 msgstr ""
 
+#: onedesk/one_intake/identity.py:317
+msgid "Only a contact, a customer or a supplier is marked here."
+msgstr ""
+
+#: onedesk/one_intake/identity.py:305
+msgid "Only a contact, a customer or a supplier is merged here."
+msgstr ""
+
 #: onedesk/one_hr/review.py:52
 msgid "Only a flagged attempt needs reviewing."
 msgstr ""
@@ -7223,7 +7271,7 @@ msgstr ""
 msgid "Only a lead or a deal has an overview."
 msgstr ""
 
-#: onedesk/one_crm/capture.py:149
+#: onedesk/one_crm/capture.py:151
 msgid "Only a lead or a deal has an owner."
 msgstr ""
 
@@ -7545,11 +7593,11 @@ msgstr ""
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_hr/custom/employee_checkin.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
-#: onedesk/public/js/crm_record.js:180
+#: onedesk/public/js/crm_record.js:200
 msgid "Outcome"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:172
+#: onedesk/public/js/crm_record.js:192
 msgid "Outgoing"
 msgstr ""
 
@@ -7939,6 +7987,11 @@ msgstr ""
 msgid "Personal"
 msgstr ""
 
+#. Option for the 'Kind' (Select) field in DocType 'Identifier'
+#: onedesk/one_intake/doctype/identifier/identifier.json
+msgid "Phone"
+msgstr ""
+
 #. Label of the photo_section (Section Break) field in DocType 'Clock Attempt'
 #. Label of the photo (Attach Image) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -8054,12 +8107,22 @@ msgid "Positive for a grant, negative for a spend."
 msgstr ""
 
 #. Label of the one_duplicate_of (Dynamic Link) field in DocType 'Lead'
-#: onedesk/one_crm/custom/lead.json
+#. Label of the one_duplicate_of (Dynamic Link) field in DocType 'Contact'
+#. Label of the one_duplicate_of (Dynamic Link) field in DocType 'Customer'
+#. Label of the one_duplicate_of (Dynamic Link) field in DocType 'Supplier'
+#: onedesk/one_crm/custom/lead.json onedesk/one_intake/custom/contact.json
+#: onedesk/one_intake/custom/customer.json
+#: onedesk/one_intake/custom/supplier.json
 msgid "Possible Duplicate Of"
 msgstr ""
 
 #. Label of the one_duplicate_type (Link) field in DocType 'Lead'
-#: onedesk/one_crm/custom/lead.json
+#. Label of the one_duplicate_type (Link) field in DocType 'Contact'
+#. Label of the one_duplicate_type (Link) field in DocType 'Customer'
+#. Label of the one_duplicate_type (Link) field in DocType 'Supplier'
+#: onedesk/one_crm/custom/lead.json onedesk/one_intake/custom/contact.json
+#: onedesk/one_intake/custom/customer.json
+#: onedesk/one_intake/custom/supplier.json
 msgid "Possible Duplicate Type"
 msgstr ""
 
@@ -8388,7 +8451,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
-#: onedesk/public/js/crm_record.js:117
+#: onedesk/public/js/crm_record.js:137
 msgid "Quotation"
 msgstr ""
 
@@ -8585,10 +8648,12 @@ msgstr ""
 
 #. Label of the record (Data) field in DocType 'AI Proposal'
 #. Label of the record (Dynamic Link) field in DocType 'AI Touch'
+#. Label of the for_name (Dynamic Link) field in DocType 'Identifier'
 #. Label of the reference_name (Dynamic Link) field in DocType 'Cloud File
 #. Request'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
+#: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/public/js/hiring.js:11 onedesk/public/js/invoice.js:64
 #: onedesk/public/js/onecloud.js:462 onedesk/public/js/onecloud.js:618
@@ -8765,6 +8830,11 @@ msgstr ""
 #. Label of the cluster (Data) field in DocType 'Workspace Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 msgid "Region"
+msgstr ""
+
+#. Option for the 'Kind' (Select) field in DocType 'Identifier'
+#: onedesk/one_intake/doctype/identifier/identifier.json
+msgid "Register Number"
 msgstr ""
 
 #: onedesk/public/js/clock.js:27
@@ -9176,7 +9246,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:80
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
-#: onedesk/public/js/crm_record.js:81
+#: onedesk/public/js/crm_record.js:101
 msgid "Sales Stage"
 msgstr ""
 
@@ -9193,7 +9263,7 @@ msgstr ""
 #: onedesk/one_book/report/books_check/books_check.js:42
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:310
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:52
-#: onedesk/public/js/crm_record.js:198 onedesk/public/js/next_step.js:31
+#: onedesk/public/js/crm_record.js:218 onedesk/public/js/next_step.js:31
 #: onedesk/public/js/onecloud.js:1489 onedesk/public/js/onemail.js:829
 #: onedesk/public/js/onemail.js:853 onedesk/public/js/project.js:155
 msgid "Save"
@@ -9766,7 +9836,7 @@ msgstr ""
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:63
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:22
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:217
-#: onedesk/public/js/crm_record.js:130
+#: onedesk/public/js/crm_record.js:150
 msgid "Source"
 msgstr ""
 
@@ -10385,6 +10455,11 @@ msgstr ""
 msgid "Tax & Benefits"
 msgstr ""
 
+#. Option for the 'Kind' (Select) field in DocType 'Identifier'
+#: onedesk/one_intake/doctype/identifier/identifier.json
+msgid "Tax Number"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Tax Rules"
@@ -10900,6 +10975,11 @@ msgstr ""
 msgid "The record changed after this was suggested."
 msgstr ""
 
+#. Description of the 'Learned From' (Data) field in DocType 'Identifier'
+#: onedesk/one_intake/doctype/identifier/identifier.json
+msgid "The record or the reading it was learned from."
+msgstr ""
+
 #: onedesk/public/js/shift_request.js:11
 msgid "The request is closed and nobody is assigned anything."
 msgstr ""
@@ -11158,7 +11238,7 @@ msgstr ""
 msgid "This mailbox has no Archive folder."
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:50
+#: onedesk/public/js/crm_record.js:62
 msgid "This may be {0} {1}: the same {2}."
 msgstr ""
 
@@ -11803,6 +11883,12 @@ msgstr ""
 msgid "Utilization"
 msgstr ""
 
+#. Option for the 'Kind' (Select) field in DocType 'Identifier'
+#: onedesk/one_intake/doctype/identifier/identifier.json
+#: onedesk/public/js/crm_record.js:56
+msgid "VAT ID"
+msgstr ""
+
 #. Name of a report
 #. Label of a Sidebar Item
 #: onedesk/one_book/report/vat_return/vat_return.json
@@ -11816,8 +11902,10 @@ msgid "Vacancies"
 msgstr ""
 
 #. Label of the value (Long Text) field in DocType 'AI Touch'
+#. Label of the value (Data) field in DocType 'Identifier'
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.py:66
+#: onedesk/one_intake/doctype/identifier/identifier.json
 msgid "Value"
 msgstr ""
 
@@ -11904,7 +11992,7 @@ msgstr ""
 msgid "Waiting"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:93
+#: onedesk/public/js/crm_record.js:113
 msgid "Waiting For a Reply"
 msgstr ""
 
@@ -12022,7 +12110,7 @@ msgstr ""
 msgid "What OneAI remembers"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:196
+#: onedesk/public/js/crm_record.js:216
 msgid "What Was Said"
 msgstr ""
 
@@ -12535,6 +12623,7 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
+#: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_mail/doctype/face/face.json
@@ -12697,6 +12786,11 @@ msgstr ""
 
 #: onedesk/public/js/oneai.js:250
 msgid "Written by {0}. Press to write it again."
+msgstr ""
+
+#. Description of the 'Value' (Data) field in DocType 'Identifier'
+#: onedesk/one_intake/doctype/identifier/identifier.json
+msgid "Written one way however it was typed, such as an IBAN without spaces or a phone number with its country."
 msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:45
@@ -12889,7 +12983,7 @@ msgstr ""
 msgid "Zero means unlimited. Enforced by Frappe from the site's config."
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:153 onedesk/public/js/crm_record.js:160
+#: onedesk/public/js/crm_record.js:173 onedesk/public/js/crm_record.js:180
 msgid "a day"
 msgstr ""
 
@@ -12898,7 +12992,7 @@ msgstr ""
 msgid "address"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:91
+#: onedesk/public/js/crm_record.js:111
 msgid "after {0}"
 msgstr ""
 
@@ -12906,7 +13000,7 @@ msgstr ""
 msgid "already set"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:151
+#: onedesk/public/js/crm_record.js:171
 msgid "an hour"
 msgstr ""
 
@@ -12919,7 +13013,7 @@ msgstr ""
 msgid "audio"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:49
+#: onedesk/public/js/crm_record.js:54
 msgid "business name"
 msgstr ""
 
@@ -12953,7 +13047,11 @@ msgstr ""
 msgid "deployed"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:49
+#: onedesk/public/js/crm_record.js:60
+msgid "document number"
+msgstr ""
+
+#: onedesk/public/js/crm_record.js:52 onedesk/public/js/crm_record.js:55
 msgid "email"
 msgstr ""
 
@@ -12969,11 +13067,11 @@ msgstr ""
 msgid "for"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:84
+#: onedesk/public/js/crm_record.js:104
 msgid "for {0}"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:83
+#: onedesk/public/js/crm_record.js:103
 msgid "for {0} · usually {1}"
 msgstr ""
 
@@ -13104,7 +13202,7 @@ msgstr ""
 msgid "password"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:49
+#: onedesk/public/js/crm_record.js:53
 msgid "phone"
 msgstr ""
 
@@ -13120,6 +13218,10 @@ msgstr ""
 msgid "ran out {0}"
 msgstr ""
 
+#: onedesk/public/js/crm_record.js:59
+msgid "register number"
+msgstr ""
+
 #: onedesk/one_storage/api.py:177
 msgid "renamed it from {0}"
 msgstr ""
@@ -13130,6 +13232,10 @@ msgstr ""
 
 #: onedesk/one_storage/share.py:121
 msgid "shared it with {0}"
+msgstr ""
+
+#: onedesk/public/js/crm_record.js:57
+msgid "tax number"
 msgstr ""
 
 #. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
@@ -13156,11 +13262,11 @@ msgstr ""
 msgid "thread"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:159
+#: onedesk/public/js/crm_record.js:179
 msgid "under a day"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:150
+#: onedesk/public/js/crm_record.js:170
 msgid "under an hour"
 msgstr ""
 
@@ -13232,7 +13338,7 @@ msgstr ""
 msgid "{0} allows at most {1} overtime hours a day."
 msgstr ""
 
-#: onedesk/one_crm/capture.py:153
+#: onedesk/one_crm/capture.py:155
 msgid "{0} already belongs to {1}."
 msgstr ""
 
@@ -13373,7 +13479,7 @@ msgstr ""
 msgid "{0} credits."
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:153 onedesk/public/js/crm_record.js:160
+#: onedesk/public/js/crm_record.js:173 onedesk/public/js/crm_record.js:180
 msgid "{0} days"
 msgstr ""
 
@@ -13501,7 +13607,7 @@ msgstr ""
 msgid "{0} held"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:151 onedesk/public/js/employee.js:109
+#: onedesk/public/js/crm_record.js:171 onedesk/public/js/employee.js:109
 msgid "{0} hours"
 msgstr ""
 
@@ -13734,7 +13840,7 @@ msgstr ""
 msgid "{0} on {1}"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:125
+#: onedesk/public/js/crm_record.js:145
 msgid "{0} open of {1}"
 msgstr ""
 

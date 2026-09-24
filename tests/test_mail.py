@@ -381,8 +381,10 @@ def _faces():
 	import hashlib
 	from urllib.parse import quote, urlparse
 
+	sys.path.insert(0, str(tree.ROOT))
+	from onedesk.one_intake.identifiers import PROVIDERS
+
 	names = (
-		"PROVIDERS",
 		"EXTENSIONS",
 		"domain_of",
 		"keys_for",
@@ -392,7 +394,7 @@ def _faces():
 		"file_name",
 		"sources",
 	)
-	return _load(MAIL / "faces.py", names, hashlib=hashlib, quote=quote, urlparse=urlparse)
+	return _load(MAIL / "faces.py", names, hashlib=hashlib, quote=quote, urlparse=urlparse, PROVIDERS=PROVIDERS)
 
 
 def test_a_sender_is_looked_for_as_a_person_then_as_an_organisation():

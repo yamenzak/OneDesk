@@ -1,7 +1,8 @@
 # Intake
 
-Written by hand. Stage 1 of eleven is built: every file and message is read
-into text, and documents are found by what is written in them. The plan for
+Written by hand. Stages 1 and 2 of eleven are built: every file and message
+is read into text, documents are found by what is written in them, and every
+record's identifiers are kept in one registry. The plan for
 the rest is `docs/INTAKE.md`. The part above **Under the hood** is the
 manual; below it are the decisions and what is still to come.
 
@@ -45,6 +46,15 @@ OneAI reads shows the OneAI mark, and so does every folder inside it.
 **Stop reading with OneAI** in the same menu turns it off. Nothing already
 read is forgotten.
 
+## The same customer twice
+
+A new contact, customer or supplier that has the email address, VAT id, tax
+number, IBAN or register number of one already there says so at the top of
+its form, with **Merge Into …** and **Not a Duplicate**. Merging moves
+everything on it (mail, files, comments, links) to the one it duplicates,
+fills that one's empty fields from it, and deletes it. The one you keep never
+loses a value it had.
+
 ## Under the hood
 
 - `read.py` turns any file into text without a site or a model, and says
@@ -68,7 +78,18 @@ read is forgotten.
   doctypes and would show one person's payslip to anybody who may read files.
 - Mail signatures' pictures are not read: a picture under 20 KB, or one drawn
   inline in the message.
+- `identifiers.py` writes each kind of identifier one way (an IBAN compact and
+  checked, a phone number in E.164, a VAT id without spaces) and refuses one
+  that is not valid. `identity.py` keeps the **Identifier** table: every
+  record's identifiers on every save, a Bank Account's IBAN as its party's and
+  an Address's email as its parties'. Rows are Dynamic Links, so Frappe's
+  rename and merge carry them; there is no unique index because a merge would
+  trip it half way, and `renamed` folds the doubles after. `match` says which
+  records a document's identifiers point at and how surely, `ours` recognises
+  the workspace itself and its people, and `fold` is the merge OneCRM's lead
+  merge uses too.
 
-What is not built yet is everything after reading: understanding what a
-document is and who it is about, filing it, and acting on it. `docs/INTAKE.md`
+What is not built yet is everything after reading and knowing who is who:
+understanding what a document is and who it is about, filing it, and acting
+on it. `docs/INTAKE.md`
 §17 lists the stages.

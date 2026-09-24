@@ -30,6 +30,9 @@ import frappe
 import requests
 from frappe.utils import add_days, now_datetime
 
+# Domains that are somebody's mail provider rather than their organisation.
+from onedesk.one_intake.identifiers import PROVIDERS
+
 #: Where pictures are kept: the Logos folder in Company.
 FOLDER, FOLDER_NAME = "Home/Logos", "Logos"
 
@@ -42,15 +45,6 @@ PATIENCE = 8
 #: How long a face not found is left before it is looked for again.
 AGAIN_AFTER = 30  # days
 
-#: Domains that are somebody's mail provider rather than their organisation.
-PROVIDERS = frozenset(
-	(
-		"gmail.com", "googlemail.com", "outlook.com", "hotmail.com", "live.com", "msn.com", "yahoo.com",
-		"ymail.com", "icloud.com", "me.com", "mac.com", "aol.com", "gmx.net", "gmx.de", "gmx.com", "web.de",
-		"proton.me", "protonmail.com", "pm.me", "mail.ru", "yandex.com", "yandex.ru", "zoho.com", "fastmail.com",
-		"hey.com", "tutanota.com", "tuta.io", "qq.com", "163.com",
-	)
-)  # fmt: skip
 
 EXTENSIONS = {
 	"image/png": "png",

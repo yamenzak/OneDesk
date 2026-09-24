@@ -122,14 +122,16 @@ def tail(number: str | None) -> str:
 @frappe.whitelist(methods=["POST"])
 def merge(lead: str, into: Annotated[str, "The lead this one is the same as."]) -> str:
 	"""Fold a duplicate lead into the one it duplicates: its comments, mail,
-	calls and deals move across, and it is gone. frappe's own rename with merge."""
+	calls and deals move across, the kept lead's empty fields are filled from
+	it, and it is gone. frappe's own rename with merge."""
 	if lead == into:
 		frappe.throw(_("A lead cannot be merged into itself."))
 	for name in (lead, into):
 		frappe.get_doc("Lead", name).check_permission("write")
 	frappe.get_doc("Lead", lead).check_permission("delete")
-	frappe.rename_doc("Lead", lead, into, merge=True)
-	return into
+	from onedesk.one_intake import identity
+
+	return identity.fold("Lead", lead, into)
 
 
 @frappe.whitelist(methods=["POST"])

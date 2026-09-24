@@ -43,27 +43,47 @@ onedesk.crm_record.actions = (frm) => {
 };
 
 // A possible duplicate says so above the form, with the two ways to settle it.
+// A lead is settled by OneCRM (one_crm/capture.py); a contact, customer or
+// supplier by Intake's identity registry (one_intake/identity.py).
 onedesk.crm_record.duplicate = (frm) => {
 	const { one_duplicate_type: doctype, one_duplicate_of: name, one_duplicate_on: on } = frm.doc;
 	const link = `<a href="/desk/${frappe.router.slug(doctype)}/${encodeURIComponent(name)}">${frappe.utils.escape_html(name)}</a>`;
-	const matched = { email: __("email"), phone: __("phone"), "business name": __("business name") };
+	const matched = {
+		email: __("email"),
+		phone: __("phone"),
+		"business name": __("business name"),
+		Email: __("email"),
+		"VAT ID": __("VAT ID"),
+		"Tax Number": __("tax number"),
+		IBAN: __("IBAN"),
+		"Register Number": __("register number"),
+		"Document Number": __("document number"),
+	};
 	frm.set_intro(__("This may be {0} {1}: the same {2}.", [__(doctype), link, matched[on] || on]), "orange");
 	const group = __("Duplicate");
-	if (doctype === "Lead") {
+	const lead = frm.doctype === "Lead";
+	const call = (method, args) =>
+		lead
+			? frappe.xcall(`onedesk.one_crm.capture.${method}`, { lead: frm.doc.name, ...args })
+			: frappe.xcall(`onedesk.one_intake.identity.${method}`, { doctype: frm.doctype, name: frm.doc.name, ...args });
+	if (doctype === frm.doctype) {
 		frm.add_custom_button(__("Merge Into {0}", [name]), () =>
 			frappe.confirm(
 				__("Everything on {0} moves to {1}, and {0} is deleted.", [frm.doc.name, name]),
-				() =>
-					frappe
-						.xcall("onedesk.one_crm.capture.merge", { lead: frm.doc.name, into: name })
-						.then((into) => frappe.set_route("Form", "Lead", into)),
+				() => call("merge", { into: name }).then((into) => frappe.set_route("Form", frm.doctype, into)),
 			), group);
 	}
-	frm.add_custom_button(__("Not a Duplicate"), () =>
-		frappe
-			.xcall("onedesk.one_crm.capture.not_duplicate", { lead: frm.doc.name })
-			.then(() => frm.reload_doc()), group);
+	frm.add_custom_button(__("Not a Duplicate"), () => call("not_duplicate").then(() => frm.reload_doc()), group);
 };
+
+// A contact, customer or supplier somebody already is. See one_intake/identity.py.
+["Contact", "Customer", "Supplier"].forEach((doctype) =>
+	frappe.ui.form.on(doctype, {
+		refresh(frm) {
+			if (frm.doc.one_duplicate_of) onedesk.crm_record.duplicate(frm);
+		},
+	}),
+);
 
 onedesk.crm_record.stats = (frm, said) => {
 	const stat = onedesk.band.stat;

@@ -178,10 +178,18 @@ doc_events = {
 	# the savepoint. See one/quiet.py.
 	"*": {
 		"on_submit": "onedesk.one.quiet.milestone",
-		"after_insert": "onedesk.one.quiet.milestone",
+		"after_insert": [
+			"onedesk.one.quiet.milestone",
+			# A contact, customer or supplier someone already is. See one_intake/identity.py.
+			"onedesk.one_intake.identity.flag",
+		],
 		# The fields OneAI wrote that still say it. See one_ai/touch.py.
 		"onload": "onedesk.one_ai.touch.onload",
-		"on_trash": "onedesk.one_ai.touch.forget",
+		# Every identifier a record carries, kept up as it changes and carried
+		# through a rename or a merge. See one_intake/identity.py.
+		"on_update": "onedesk.one_intake.identity.remember",
+		"after_rename": "onedesk.one_intake.identity.renamed",
+		"on_trash": ["onedesk.one_ai.touch.forget", "onedesk.one_intake.identity.forget"],
 	},
 	"Employee": {
 		"validate": "onedesk.one_hr.leaving.notice_ends_on",

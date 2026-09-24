@@ -1,0 +1,49 @@
+{
+ "custom_fields": [
+  {
+   "doctype": "Custom Field",
+   "dt": "Supplier",
+   "fieldname": "one_duplicate_type",
+   "fieldtype": "Link",
+   "label": "Possible Duplicate Type",
+   "insert_after": "supplier_name",
+   "read_only": 1,
+   "no_copy": 1,
+   "module": "One Intake",
+   "name": "Supplier-one_duplicate_type",
+   "hidden": 1,
+   "options": "DocType"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Supplier",
+   "fieldname": "one_duplicate_of",
+   "fieldtype": "Dynamic Link",
+   "label": "Possible Duplicate Of",
+   "insert_after": "one_duplicate_type",
+   "read_only": 1,
+   "no_copy": 1,
+   "module": "One Intake",
+   "name": "Supplier-one_duplicate_of",
+   "depends_on": "one_duplicate_of",
+   "options": "one_duplicate_type"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Supplier",
+   "fieldname": "one_duplicate_on",
+   "fieldtype": "Data",
+   "label": "Matched On",
+   "insert_after": "one_duplicate_of",
+   "read_only": 1,
+   "no_copy": 1,
+   "module": "One Intake",
+   "name": "Supplier-one_duplicate_on",
+   "depends_on": "one_duplicate_of"
+  }
+ ],
+ "doctype": "Supplier",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

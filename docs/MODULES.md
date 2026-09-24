@@ -134,6 +134,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
+| Identifier | 6 | document |
 | Intake Settings | 2 | single |
 | Reading | 23 | document |
 
@@ -281,6 +282,8 @@ No doctypes yet.
 * `onedesk.one_hr.signin.begin`
 * `onedesk.one_hr.signin.finish`
 * `onedesk.one_hr.signin.offered`
+* `onedesk.one_intake.identity.merge`
+* `onedesk.one_intake.identity.not_duplicate`
 * `onedesk.one_intake.switches.folder_state`
 * `onedesk.one_intake.switches.mailbox_state`
 * `onedesk.one_intake.switches.set_folder`
