@@ -30,7 +30,7 @@ This document is the argument and the plan. Nothing in it is built.
 3. **For every kind of workspace at once**: the household, the clinic and the
    office. The test set covers all three.
 4. **No spending cap.** Every reading is metered as OneAI credits, which is
-   the business. The one limit is the credit balance itself (§12).
+   the business. The one limit is the credit balance itself (§13).
 
 ---
 
@@ -56,7 +56,7 @@ Paying a model to rediscover them is slower, dearer and sometimes wrong.
   and then by its number and amount.
 - It is a kind we can read, and not larger than the workspace's limit.
 - Mail that rules or bounces already dealt with, or that is plainly a mailing
-  list, is only classified (§8), never read in full.
+  list, is only classified (§9), never read in full.
 
 ### 1. Read: turn anything into text
 
@@ -133,7 +133,7 @@ made (`one_linked_by`: address, text, identifier, model, manual).
 
 ### 4. Junk
 
-See §8. The short version is that spam and phishing go to Junk, advertising
+See §9. The short version is that spam and phishing go to Junk, advertising
 and newsletters go to their own folder, and a known party is never junk.
 
 ### 5. What it relates to: documents
@@ -265,8 +265,8 @@ assigned to people who can open the document.
 | A supplier's quote | Supplier Quotation | draft |
 | An invoice for equipment | Asset from the invoice line, warranty end noted | draft |
 | A contract or subscription | ERPNext's Contract, with a notice period and a cancel-by date | done |
-| A CV | Job Applicant, screened by HIRE | done |
-| A signed contract for an accepted Job Offer | Employee, made by HRMS's own `make_employee` and filled from their ID | done |
+| A CV | Job Applicant, with the opening only if the mail names one, screened by HIRE from the same reading (§7) | done, provisional |
+| A signed contract for an accepted Job Offer | Employee, by HRMS's own `make_employee`, unless one already names the applicant (§7) | done |
 | A passport, ID, visa or permit of an employee | a row in the employee's identity documents; ERPNext's passport fields if it is the newest passport; a task before it expires | done |
 | A sick note (AU) | Leave Application, open for the approver | done (it is a request) |
 | A certificate or diploma | the employee's Education row, and the file on the employee | done |
@@ -282,6 +282,8 @@ because a wrong Item spreads through stock.
 A party is never created twice. Before any new Lead, Customer, Supplier or
 Contact, the identifiers are looked up (§6), and a near match is linked and
 flagged the way OneCRM already flags duplicate Leads (`one_duplicate_of`).
+§7 says how this lives beside the flows and people that make the same
+records.
 
 ---
 
@@ -397,7 +399,198 @@ one query. Intake flags them the same way and offers OneCRM's merge.
 
 ---
 
-## 7. Documents a record holds, and when they run out
+## 7. Alongside what already exists
+
+Intake is the newest thing that reacts to a document arriving, and it
+arrives in a workspace where many things already do:
+
+- Frappe's mail receiver makes a Lead from mail to an inbox that appends to
+  Lead;
+- OneCRM's web form makes Leads and flags duplicates;
+- HRMS's job application form makes Job Applicants, and HIRE screens them;
+- HRMS's Create Employee button makes the Employee from a Job Offer;
+- ERPNext carries a Lead's mail and comments over to its Customer;
+- OneHR's receipts action makes Expense Claims;
+- Assignment Rules, Workflows and Notifications act on every insert;
+- people type things in by hand.
+
+If Intake did its own version of any of these, there would be two of
+everything. Five rules stop that.
+
+### Rule 1: go through the door the flow already has
+
+Where a flow exists, Intake calls it rather than inserting beside it:
+
+- an Employee is made with HRMS's `make_employee` from the Job Offer;
+- a Customer from a Lead is made with ERPNext's own conversion;
+- a Lead from mail goes through OneCRM's `capture`;
+- an Expense Claim goes through the receipts action.
+
+So each flow's own guard stops Intake too. The Create Employee button is
+hidden once an Employee names that applicant, and Intake checks the same
+thing. `capture` refuses a second Lead for an address, and Intake gets the
+same refusal and adds to the existing Lead. OneBook turns on
+`check_supplier_invoice_uniqueness`, so ERPNext refuses a second Purchase
+Invoice for the same supplier and invoice number, whoever makes it.
+
+It also does not do what another automation owns:
+
+- if an Assignment Rule covers the doctype, the rule assigns and Intake does
+  not;
+- if a Workflow does, Intake creates at the first state and never moves it
+  on;
+- Notifications fire as for any other insert.
+
+**One reading for all of OneAI.** HIRE's screening, the receipts action and
+OneAI's own upload each read their file today. They read Document Text and
+Document Reading instead, so a CV mailed in is read once, and HIRE screens
+from that reading.
+
+### Rule 2: the same thing twice is recognised, whatever form it takes
+
+| How it arrives twice | How it is told | What happens |
+|---|---|---|
+| The same bytes (uploaded twice, re-attached in a reply) | content hash | one reading; the copy is linked |
+| One message sent to two of our mailboxes | Message-ID across the workspace (Frappe's own check is per mailbox) | one reading, two Communications, both linked |
+| A forward of a message we already have | the forwarded message's Message-ID, and its attachments' hashes | the forward is linked to the original |
+| A scan of a PDF that also came by mail | the facts: kind, issuer, number, amount and date | the scan becomes a copy of the first, no second draft |
+| A corrected or signed version of a document | the same facts, a later date or a signature | a new version of the same File |
+| A reminder for an invoice | a different kind that names the invoice | related, not a duplicate |
+| Next month's invoice from the same supplier | a different number | a new document |
+
+Every action is written with a key: the document's identity and what was
+done (a draft Purchase Invoice for this invoice, a task for this deadline). A
+second copy, a retry or a re-run finds the key and does nothing. So a
+document is only ever acted on once, however many ways it arrives.
+
+### Rule 3: a person always wins
+
+**If somebody did it first**, Intake finds it before it creates. It looks for
+a Purchase Invoice with this supplier and invoice number, a Leave Application
+for these dates, or an applicant with this address for this opening. When it
+finds one, it attaches the document there, fills that record's empty fields,
+and makes nothing.
+
+**If somebody does it after**, what Intake made is still **provisional**:
+made by Intake, not yet opened and changed by a person, not submitted, and
+not named by any other record. A provisional record gives way:
+
+- when a person or another flow makes the same thing, the provisional one is
+  folded into theirs. Their record is kept, with their values;
+- where there is no uniqueness check to catch it, the form tells the person
+  "OneAI already drafted this from a document", with a link, before they
+  save.
+
+Once a person has touched Intake's record, it is an ordinary record like any
+other. A later twin is then only flagged as a duplicate for a person to
+merge, as OneCRM already does for Leads. **Intake never merges two records a
+person has worked on.**
+
+### Rule 4: folding one record into another keeps everything
+
+Frappe's merge (`rename_doc` with `merge`) moves every link to the record
+that is kept:
+
+- its mail, through timeline links;
+- its attachments, through `attached_to`;
+- its comments, assignments and versions;
+- Intake's own Identifier, File Link and Document Party rows.
+
+What it does not move is the **field values** of the record that goes. So
+before folding, every field the kept record has empty is filled from the
+other. The kept record's own values are never overwritten.
+
+### Rule 5: a record is not a person
+
+Several of these doctypes are not a person but one episode in somebody's
+dealings with the company:
+
+- a **Job Applicant** is one application. HRMS names it by email, names a
+  second application `maria@…-1`, and can refuse two for one opening;
+- a **Lead** is an inquiry;
+- an **Employee** is a period of employment;
+- a **Contact** is a person as the CRM sees them.
+
+No doctype is "the person". The Identifier registry is what says that these
+records share an email, a phone, a passport number or an IBAN, and so are one
+person or one company. Records are merged only when they are the same
+episode. Otherwise they are **linked as the same person**, and each shows the
+others ("also applied for Sales Manager, by mail, 3 September").
+
+### An applicant, from both sides
+
+**Maria mails her CV to jobs@**, a mailbox Intake reads, without naming an
+opening.
+
+1. The CV is read once.
+2. Nobody has her address, so Intake makes a Job Applicant with her name,
+   phone and CV (`resume_attachment`), with source Email and no opening. It
+   is provisional.
+3. The mail thread is linked to it, and HIRE screens her from the reading.
+
+**Three days later she applies for Sales Manager through the form.** HRMS
+makes a second Job Applicant, `maria@…-1`, as it always does. What happens
+next depends on the earlier one:
+
+- **it had no opening, or the same one, and nobody has touched it**: it is
+  folded into the form's application. Her mail, CV, reading and screening
+  move over, and the form's empty fields (phone, CV) are filled from it. HR
+  sees one application, with everything;
+- **it was for a different opening**: they are two applications. Both are
+  kept, and each shows the other;
+- **HR had already worked on it** (screened it, moved it on, booked an
+  interview): the form's application is kept and flagged as a duplicate of
+  the earlier one, for HR to merge or keep.
+
+If Intake had guessed the opening from her mail, and that opening refuses a
+second application, HRMS would tell her "You have already applied for this
+position". The form would fail because of something Intake did. So:
+
+- a provisional application **only ever names an opening the mail named
+  itself**;
+- when the form arrives for that same opening, the provisional one steps
+  aside first (a hook on Job Applicant's insert, through
+  `extend_doctype_class`, never HRMS's code) and is then folded in.
+
+What HRMS decides stays HRMS's. When HR has worked on the earlier
+application, the refusal stands, because it is true.
+
+**She is hired.** HR presses Create Employee on the Job Offer, or Intake
+calls the same `make_employee` when the signed contract arrives. The
+Employee does not get her recruiting mail, which stays on the application
+that `job_applicant` points to. It does get what is about her as a person:
+
+- her passport and ID, read during hiring, as rows in her identity documents
+  table;
+- her certificates, as Education rows;
+- her CV and signed contract, as attachments.
+
+This works the same way as Lead to Customer (§6), and every conversion does
+the same: the flow converts, and Intake carries the documents over.
+
+### Who wins when the facts disagree
+
+Each fact on a record is kept from the strongest source that gave it:
+
+1. what a person typed or chose;
+2. a form the person themselves filled in (the web form, the job
+   application);
+3. structured data: an e-invoice's XML, a bank statement, a record another
+   record was made from;
+4. Intake's reading.
+
+A lower source fills only an empty field. When it disagrees with a stronger
+one, that is a proposal, never a change.
+
+A weak identifier is never treated as a strong one:
+
+- an email shared by several records (info@, a family's address) identifies
+  nobody on its own. The registry knows how many records hold each value;
+- a name alone is never a match, only a flag. "Ali" is a name.
+
+---
+
+## 8. Documents a record holds, and when they run out
 
 OneHR already has the table for employees: **Employee Document**
 (`one_documents` on Employee), with a type, number, place of issue, issued,
@@ -433,7 +626,7 @@ viewer can open.
 
 ---
 
-## 8. Junk, ads and attacks
+## 9. Junk, ads and attacks
 
 In order, cheapest first. Each step decides only what it is sure of.
 
@@ -456,12 +649,12 @@ In order, cheapest first. Each step decides only what it is sure of.
    supplier from a different domain, or a known supplier's invoice with a
    new IBAN, is marked in red and never booked.
 7. **Learning**: moving a message out of Junk, or into it, is remembered for
-   that sender (§9). Twice for the same sender becomes a Mail Rule, which the
+   that sender (§10). Twice for the same sender becomes a Mail Rule, which the
    person can see and remove.
 
 ---
 
-## 9. Memory
+## 10. Memory
 
 OneAI already has two kinds. **AI Memory** is private to one person: facts
 they told OneAI to keep. **AI Knowledge** is what an administrator wrote down
@@ -491,7 +684,7 @@ What Intake gives OneAI is better than a memory:
 
 ---
 
-## 10. Finding things again
+## 11. Finding things again
 
 In the desk, **Ctrl+K** opens Frappe's awesome bar and **Ctrl+G** its global
 search, over the `__global_search` table. Global search checks only whether a
@@ -521,7 +714,7 @@ document. So document text stays out of it:
 
 ---
 
-## 11. More it can do, once documents are understood
+## 12. More it can do, once documents are understood
 
 In rough order of value:
 
@@ -546,7 +739,7 @@ In rough order of value:
    invoices, statements, certificates) gathered by kind into one folder or one
    export. For a household that is the year's Steuererklärung documents; for a
    business, a DATEV-shaped export later.
-7. **Expiring documents** (§7).
+7. **Expiring documents** (§8).
 8. **Duplicates and missing pieces.** The same invoice twice, a reminder for an
    invoice that was never received, a delivery note with no order.
 9. **A weekly digest.** What arrived, what was done, what waits for a person,
@@ -556,14 +749,14 @@ In rough order of value:
 
 ---
 
-## 12. Cost, privacy and control
+## 13. Cost, privacy and control
 
 - **Credits** are OneAI's. Each reading is metered by admin like every other
   call, and there is no cap beyond the balance. The settings show what the
   pipeline used this month. When a workspace runs out, documents wait in the
   queue, marked as waiting for credits, and are read the moment credits are
   topped up. Nothing is dropped. Deterministic steps cost nothing, and junk is
-  stopped by the cheap first look (§8).
+  stopped by the cheap first look (§9).
 - **Where it runs**: the workspace's jurisdiction decides which models may
   read (EU workspaces use EU-served models), as the catalogue already does for
   chat. Medical and HR kinds can be restricted to a model the workspace
@@ -576,7 +769,7 @@ In rough order of value:
 
 ---
 
-## 13. Where it lives
+## 14. Where it lives
 
 A new module, **one_intake**, with no rail entry of its own:
 
@@ -584,11 +777,11 @@ A new module, **one_intake**, with no rail entry of its own:
 - `understand.py`: stage 2 as an OneAI action, and the fact check;
 - `identity.py`: the Identifier registry, party matching, back-linking and
   duplicates (§6);
-- `junk.py`: the first look (§8);
+- `junk.py`: the first look (§9);
 - `relate.py`, `act.py`, `file.py`, `enrich.py`: stages 5 to 9;
 - `create/`: one small file per row of §3, each a function from a reading to
   a record or a draft, so a new kind of document is one file;
-- `lessons.py`: habits and lessons (§9);
+- `lessons.py`: habits and lessons (§10);
 - `pipeline.py`: the order, a background job per document on the long queue,
   retries, the credit wait, and the record of what each stage did (which is
   also what Undo reads);
@@ -606,7 +799,7 @@ It hooks into what exists rather than sitting beside it:
 
 ---
 
-## 14. The stages
+## 15. The stages
 
 Each ends with something a person can use, and with a check on real
 documents: a test set of letters, invoices, receipts, scans, IDs, sick notes,
@@ -627,11 +820,14 @@ reading for each.
    what was read. *Nothing is done yet. Checkpoint: the readings are right on
    the test set.*
 4. **File.** File Link, attaching to records, names, folders, versions and
-   tags, junk moved, Undo, Needs a look, and lessons.
+   tags, junk moved, Undo, Needs a look, and lessons. The duplicate table
+   and action keys of §7, and HIRE and the receipts action reading the one
+   reading.
 5. **People.** Lead, Contact, Customer, Supplier, Job Applicant, Employee,
    identity documents with expiry tasks, Leave Application, Expense Claim,
    Education. Task's `one_about` link, routing, events, and comments under
-   the §2 rule.
+   the §2 rule. Provisional records, folding, the source order, and the
+   Job Applicant hook (§7).
 6. **Money and goods.** Purchase Invoice, Sales Order, Payment Entry, Bank
    Transactions, Purchase Receipt, Supplier Quotation, Asset and Contract, the
    item matching, and the optional e-invoice auto-submit.
@@ -641,7 +837,7 @@ reading for each.
    in `memory.about_record`.
 9. **Deadlines and contracts.** The Fristen list with the legal counting,
    Contract's notice fields, and the Expiring list.
-10. **The rest of §11**, one at a time: explain this letter, pay from the
+10. **The rest of §12**, one at a time: explain this letter, pay from the
     document, the tax year bundle, duplicates, the digest, retention.
 
 Nothing waits on a decision. Stage 1 can start.
