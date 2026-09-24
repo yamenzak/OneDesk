@@ -30,7 +30,7 @@ This document is the argument and the plan. Nothing in it is built.
 3. **For every kind of workspace at once**: the household, the clinic and the
    office. The test set covers all three.
 4. **No spending cap.** Every reading is metered as OneAI credits, which is
-   the business. The one limit is the credit balance itself (§14).
+   the business. The one limit is the credit balance itself (§15).
 
 ---
 
@@ -56,7 +56,7 @@ Paying a model to rediscover them is slower, dearer and sometimes wrong.
   and then by its number and amount.
 - It is a kind we can read, and not larger than the workspace's limit.
 - Mail that rules or bounces already dealt with, or that is plainly a mailing
-  list, is only classified (§10), never read in full.
+  list, is only classified (§11), never read in full.
 
 ### 1. Read: turn anything into text
 
@@ -133,7 +133,7 @@ made (`one_linked_by`: address, text, identifier, model, manual).
 
 ### 4. Junk
 
-See §10. The short version is that spam and phishing go to Junk, advertising
+See §11. The short version is that spam and phishing go to Junk, advertising
 and newsletters go to their own folder, and a known party is never junk.
 
 ### 5. What it relates to: documents
@@ -685,6 +685,51 @@ The two mistakes do not cost the same:
   booked against the invoice, the "pay" part is. So the list keeps up with
   what people do, not only with what arrives.
 
+### What closes an ask: the record, not a guess
+
+Each task Intake makes lists the asks it came from, and each ask says what
+completes it. That is a state of a record, checked when the record changes
+(a `doc_events` hook, with no model and at no cost):
+
+| Ask | Done when |
+|---|---|
+| pay this invoice | the Purchase Invoice's `outstanding_amount` reaches 0, whether by a Payment Entry, a Journal Entry or bank reconciliation |
+| check and submit this draft | the draft is submitted; if it is deleted, the ask goes with it |
+| receive these goods | the Purchase Receipt against the order is submitted |
+| reply | a message goes out in the thread (see below) |
+| send the document asked for | a message goes out in the thread with an attachment |
+| sign | a signed version of the document arrives or is uploaded |
+| attend | the event has passed |
+| approve this leave | the Leave Application is approved or rejected |
+| cancel this contract | the cancellation is sent, or the Contract's status says so |
+
+**You submit a Payment Entry against an invoice by hand.** ERPNext lowers the
+invoice's outstanding amount. The hook sees it reach 0 and ticks the "pay"
+ask, which closes the task if nothing else is left. If a reminder for that
+invoice arrives afterwards, it is placed in the same matter as a nudge. The
+invoice is already paid, so no task is made, and a reply is drafted: "paid
+on 12 Oct, reference …". It is left in OneMail for you to send.
+
+If the payment is cancelled, the outstanding amount comes back and the ask
+reopens. That is ERPNext's state changing, not a person's decision about the
+task, so reopening it is right.
+
+### Our side counts too
+
+A matter moves when anything happens to it, not only when mail arrives:
+
+- **mail we send** is read as well, cheaply, since it is short and already
+  ours. Whatever it answers is ticked off. **Whatever it promises becomes our
+  task**: "we will send the offer by Friday" is a task for the sender, due
+  Friday. That covers OneMail and anything sent through `frappe.sendmail`,
+  since both go through the same queue;
+- **records we change** move their matters, through the table above;
+- **files we upload** are documents like any other, and a signed contract
+  someone scans in completes the "sign" ask.
+
+Our own edits never go to a model. Checking whether a record's state
+completes an ask is a comparison, and it happens on save.
+
 ### What a person sees
 
 One task per matter, with one timeline:
@@ -700,7 +745,62 @@ matter, with Undo per change.
 
 ---
 
-## 9. Documents a record holds, and when they run out
+## 9. Money and goods, for a company and for a family
+
+### A company keeps books
+
+Every purchase document becomes a draft in ERPNext, matched to what came
+before it. That is the three-way match ERPNext's buying already supports:
+
+- **order confirmation** → matched to our Purchase Order. Changed dates or
+  prices are proposed on the order;
+- **supplier's delivery note** → a Purchase Receipt draft against the order,
+  with the quantities delivered. A short or extra delivery is marked on the
+  draft, and the order stays open for the rest;
+- **supplier's invoice** → a Purchase Invoice draft against the receipt and
+  the order. A billed quantity or price that differs from what was received
+  or ordered is marked in red, and the draft is not offered in "Ready to
+  submit";
+- **receipt already paid** (fuel, a card payment) → a Purchase Invoice draft
+  marked paid, with its lines;
+- **our own delivery note, signed and scanned back** → attached to our
+  Delivery Note, and the "deliver" ask is closed;
+- **a customer's payment advice** → a Payment Entry draft against their
+  Sales Invoice.
+
+Drafts could pile up. So OneBook gets one list, **Ready to submit**: every
+Intake draft whose facts all passed the fact check, whose party is known and
+whose amounts match the order and receipt. A person reads down the list and
+presses **Submit all**. Anything with a red mark stays out of it until
+somebody opens it. Posting stays a person's act (§2), and that act takes a
+minute a day, not a morning.
+
+### A family does not keep books
+
+A household wants to know what it bought, where, and how much it spent this
+month, not to keep double-entry books. So a workspace without OneBook gets no
+postings at all. **The readings are the data**:
+
+- each receipt and invoice is read **line by line**, and each line gets a
+  category (groceries, fuel, pharmacy, clothing, household, children,
+  insurance, utilities). The category is learned per shop, so after the first
+  few receipts a shop's lines are categorised without a model;
+- a **Spending** view reads Document Reading: this month and last, by
+  category, by shop, and by person (whose card or address it came from), with
+  the receipt behind every number one click away;
+- **fixed costs** are the recurring bills and contracts (§14, item 2):
+  rent, electricity, insurance, subscriptions, with what each costs a month and when it can be cancelled;
+- **what was bought** stays searchable: "the receipt for the washing machine"
+  finds it, with its warranty date (§10);
+- a family that later wants books switches OneBook on. Their readings become
+  drafts from then on, and the history stays in Spending.
+
+A company gets this view too, over the same readings. It answers "what did we
+spend on fuel this quarter" without anybody opening a report.
+
+---
+
+## 10. Documents a record holds, and when they run out
 
 OneHR already has the table for employees: **Employee Document**
 (`one_documents` on Employee), with a type, number, place of issue, issued,
@@ -736,7 +836,7 @@ viewer can open.
 
 ---
 
-## 10. Junk, ads and attacks
+## 11. Junk, ads and attacks
 
 In order, cheapest first. Each step decides only what it is sure of.
 
@@ -759,12 +859,12 @@ In order, cheapest first. Each step decides only what it is sure of.
    supplier from a different domain, or a known supplier's invoice with a
    new IBAN, is marked in red and never booked.
 7. **Learning**: moving a message out of Junk, or into it, is remembered for
-   that sender (§11). Twice for the same sender becomes a Mail Rule, which the
+   that sender (§12). Twice for the same sender becomes a Mail Rule, which the
    person can see and remove.
 
 ---
 
-## 11. Memory
+## 12. Memory
 
 OneAI already has two kinds. **AI Memory** is private to one person: facts
 they told OneAI to keep. **AI Knowledge** is what an administrator wrote down
@@ -794,7 +894,7 @@ What Intake gives OneAI is better than a memory:
 
 ---
 
-## 12. Finding things again
+## 13. Finding things again
 
 In the desk, **Ctrl+K** opens Frappe's awesome bar and **Ctrl+G** its global
 search, over the `__global_search` table. Global search checks only whether a
@@ -824,7 +924,7 @@ document. So document text stays out of it:
 
 ---
 
-## 13. More it can do, once documents are understood
+## 14. More it can do, once documents are understood
 
 In rough order of value:
 
@@ -849,7 +949,7 @@ In rough order of value:
    invoices, statements, certificates) gathered by kind into one folder or one
    export. For a household that is the year's Steuererklärung documents; for a
    business, a DATEV-shaped export later.
-7. **Expiring documents** (§9).
+7. **Expiring documents** (§10).
 8. **Duplicates and missing pieces.** The same invoice twice, a reminder for an
    invoice that was never received, a delivery note with no order.
 9. **A weekly digest.** What arrived, what was done, what waits for a person,
@@ -859,14 +959,14 @@ In rough order of value:
 
 ---
 
-## 14. Cost, privacy and control
+## 15. Cost, privacy and control
 
 - **Credits** are OneAI's. Each reading is metered by admin like every other
   call, and there is no cap beyond the balance. The settings show what the
   pipeline used this month. When a workspace runs out, documents wait in the
   queue, marked as waiting for credits, and are read the moment credits are
   topped up. Nothing is dropped. Deterministic steps cost nothing, and junk is
-  stopped by the cheap first look (§10).
+  stopped by the cheap first look (§11).
 - **Where it runs**: the workspace's jurisdiction decides which models may
   read (EU workspaces use EU-served models), as the catalogue already does for
   chat. Medical and HR kinds can be restricted to a model the workspace
@@ -879,7 +979,7 @@ In rough order of value:
 
 ---
 
-## 15. Where it lives
+## 16. Where it lives
 
 A new module, **one_intake**, with no rail entry of its own:
 
@@ -887,11 +987,11 @@ A new module, **one_intake**, with no rail entry of its own:
 - `understand.py`: stage 2 as an OneAI action, and the fact check;
 - `identity.py`: the Identifier registry, party matching, back-linking and
   duplicates (§6);
-- `junk.py`: the first look (§10);
+- `junk.py`: the first look (§11);
 - `relate.py`, `act.py`, `file.py`, `enrich.py`: stages 5 to 9;
 - `create/`: one small file per row of §3, each a function from a reading to
   a record or a draft, so a new kind of document is one file;
-- `lessons.py`: habits and lessons (§11);
+- `lessons.py`: habits and lessons (§12);
 - `pipeline.py`: the order, a background job per document on the long queue,
   retries, the credit wait, and the record of what each stage did (which is
   also what Undo reads);
@@ -909,7 +1009,7 @@ It hooks into what exists rather than sitting beside it:
 
 ---
 
-## 16. The stages
+## 17. The stages
 
 Each ends with something a person can use, and with a check on real
 documents: a test set of letters, invoices, receipts, scans, IDs, sick notes,
@@ -938,18 +1038,19 @@ reading for each.
    Education. Task's `one_about` link, routing, events, and comments under
    the §2 rule. Provisional records, folding, the source order, and the
    Job Applicant hook (§7).
-   Matters, what each message changes, quiet time, and ticking tasks off
-   from our own replies and payments (§8).
+   Matters, what each message changes, quiet time, what closes an ask,
+   and reading our own sent mail for what it answers and promises (§8).
 6. **Money and goods.** Purchase Invoice, Sales Order, Payment Entry, Bank
    Transactions, Purchase Receipt, Supplier Quotation, Asset and Contract, the
-   item matching, and the optional e-invoice auto-submit.
+   item matching, and the optional e-invoice auto-submit. The three-way match
+   marks, Ready to submit, and Spending over the readings, line by line (§9).
 7. **Enrich.** Empty fields filled, changes proposed, the IBAN warning,
    habits.
 8. **Search by meaning.** Chunks, embeddings, `find_documents`, and documents
    in `memory.about_record`.
 9. **Deadlines and contracts.** The Fristen list with the legal counting,
    Contract's notice fields, and the Expiring list.
-10. **The rest of §13**, one at a time: explain this letter, pay from the
+10. **The rest of §14**, one at a time: explain this letter, pay from the
     document, the tax year bundle, duplicates, the digest, retention.
 
 Nothing waits on a decision. Stage 1 can start.
