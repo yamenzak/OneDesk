@@ -215,6 +215,30 @@ currency at a time. Each line's category is learned per shop, so a shop's
 lines soon need no model. A **household** (Intake Settings) keeps no books:
 no drafts are made at all, and Spending is how it sees where the money went.
 
+## Deadlines
+
+A letter rarely gives a date. It says "within one month of receipt", so
+OneAI copies the period as written and **the counting is done here, by the
+law's rules**, never by the model: a German authority's posted letter counts
+as received four days after it was posted (§ 122 AO), a month ends on the
+same day of the later month or its last day (§ 188 BGB), and a weekend or a
+public holiday on the workspace's Holiday List moves the end to the next
+working day (§ 193 BGB). Each counted date keeps the day it was counted from
+and the rule, in words, so a person can check it.
+
+**A contract** with a notice period gets its **last day to cancel** (Cancel By
+on ERPNext's Contract) and a task, a month before it, to decide whether to
+cancel.
+
+**Deadlines** (in OneCalendar) lists every date something must be done by:
+what was read for you, contracts' last days to cancel, and employees'
+documents expiring, each for whoever may read its record, with the days left
+in red inside a week. An administrator of the workspace sees what was read
+for anybody. The calendar has the same three as layers. A deadline goes
+once nothing is left to do: its matter is closed, the task OneAI made is
+done, or the invoice it booked is paid. A copy of a document has none of its
+own, and a sick note's "valid until" is not a deadline.
+
 ## What a document teaches
 
 Every document teaches its parties something: a VAT id, a website, a phone
@@ -412,6 +436,14 @@ loses a value it had.
   meaning with embeddings waits on an embedding call through the gateway,
   which meters and prices text generation only today; until then the chat
   model supplies the synonyms and translations a vector would have found.
+
+- `deadlines.py` is stage 10 and pure: the period in a sentence, when a
+  letter counts as received, and the end by § 188 and § 193. The fact check
+  lets a date with no day through when it says a period, and
+  `understand.counted` counts it with the workspace's holidays and writes
+  the rule in the workspace's language. `money.contract` fills Cancel By
+  with `deadlines.before`. `calendar.py` is both the three calendar layers
+  and the Deadlines report's rows, so the two cannot disagree.
 
 Not built yet: an Asset from an equipment invoice; an order confirmation's
 changed dates proposed on the order; a reminder's fee proposed as a line;

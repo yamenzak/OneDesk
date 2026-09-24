@@ -707,6 +707,7 @@ one_calendar_layers = [
 	"onedesk.one_crm.calendar.LAYERS",
 	"onedesk.one_hr.calendar.LAYERS",
 	"onedesk.one_inventory.calendar.LAYERS",
+	"onedesk.one_intake.calendar.LAYERS",
 ]
 
 # A project's updates in its activity, under who wrote them. See one_project/updates.py.

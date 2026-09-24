@@ -62,7 +62,6 @@
    "type": "Link",
    "link_to": "ready-to-submit",
    "icon": "list-checks",
-   "filters": "[[\"Purchase Invoice\", \"is_return\", \"=\", 0]]",
    "idx": 4
   },
   {

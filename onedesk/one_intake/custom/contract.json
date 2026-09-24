@@ -1,0 +1,31 @@
+{
+ "custom_fields": [
+  {
+   "doctype": "Custom Field",
+   "dt": "Contract",
+   "fieldname": "one_notice_period",
+   "fieldtype": "Data",
+   "label": "Notice Period",
+   "insert_after": "end_date",
+   "module": "One Intake",
+   "name": "Contract-one_notice_period",
+   "description": "How long before its end it must be cancelled, as the contract says."
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Contract",
+   "fieldname": "one_cancel_by",
+   "fieldtype": "Date",
+   "label": "Cancel By",
+   "insert_after": "one_notice_period",
+   "module": "One Intake",
+   "name": "Contract-one_cancel_by",
+   "read_only": 1,
+   "description": "The last day a cancellation can reach them."
+  }
+ ],
+ "doctype": "Contract",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

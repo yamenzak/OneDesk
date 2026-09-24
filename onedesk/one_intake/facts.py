@@ -202,6 +202,10 @@ def check(reading: dict, text: str, country: str | None = None) -> tuple[dict, l
 	for one in reading.get("dates") or []:
 		when = parse_date(one.get("date"), country)
 		if not when:
+			# A period with no day ("within one month") is counted later, by
+			# deadlines.py, from what it says.
+			if one.get("about"):
+				checked_dates.append({**one, "date": None, "counted": True, "found": 0})
 			continue
 		found = when in said_dates
 		if not found and not one.get("counted"):

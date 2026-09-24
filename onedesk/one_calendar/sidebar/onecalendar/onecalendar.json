@@ -5,7 +5,7 @@
  "doctype": "Sidebar",
  "header_icon": "onecalendar",
  "idx": 0,
- "modified": "2026-09-25 12:00:00.000000",
+ "modified": "2026-09-30 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Calendar",
  "name": "OneCalendar",
@@ -38,6 +38,19 @@
    "type": "Link",
    "link_to": "Event",
    "icon": "calendar-days"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Deadlines",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Deadlines",
+   "icon": "alarm-clock"
   },
   {
    "child": 0,

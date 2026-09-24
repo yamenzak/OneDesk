@@ -15,6 +15,7 @@ history: what was there before the switch is read for its words only.
 import json
 
 import frappe
+from frappe import _
 from frappe.utils import cint, flt, now_datetime, today
 
 from onedesk.one_intake import facts, identity
@@ -289,8 +290,9 @@ def apply(reading, said: dict, dropped: list[str], structured: dict) -> None:
 			said.setdefault("dates", []).append({"date": document["expires"], "what": "Valid Until", "found": 1})
 	reading.set("dates", [
 		{"date": one["date"], "what": one.get("what") if one.get("what") in DATES else "Other", "about": (one.get("about") or "")[:140], "found": cint(one.get("found", 1))}
-		for one in said.get("dates") or [] if one.get("date")
-	])
+		for one in said.get("dates") or [] if one.get("date") and not one.get("counted")
+	] + counted(reading, said))
+	reading.notice_period = (said.get("notice") or "")[:140] or None
 	reading.set("asks", [
 		{"what": one.get("what") if one.get("what") in ASKS else "Other", "detail": (one.get("detail") or "")[:140], "by_date": one.get("by") or None, "of_whom": (one.get("of") or "")[:140]}
 		for one in said.get("asks") or []
@@ -316,6 +318,41 @@ def apply(reading, said: dict, dropped: list[str], structured: dict) -> None:
 	if mail.get("from_email") and mail.get("direction") != "Sent" and not any((one.get("email") or "").lower() == mail["from_email"] for one in parties):
 		parties.insert(0, {"role": "Sender", "name": mail.get("from_name"), "email": mail["from_email"], "person": True})
 	reading.set("parties", [matched(one) for one in parties if one.get("name") or one.get("email")])
+
+
+def counted(reading, said: dict) -> list[dict]:
+	"""Deadlines the document gives as a period, counted here by the law's
+	rules rather than by the model (deadlines.py)."""
+	from frappe.utils import getdate
+
+	from onedesk.one_intake import deadlines
+
+	out = []
+	for one in said.get("dates") or []:
+		if not one.get("counted") and one.get("date"):
+			continue
+		posted = getdate(said.get("issued")) if said.get("issued") else None
+		arrived = getdate(reading.creation) if reading.creation else None
+		result = deadlines.count(one.get("about"), posted, said.get("kind"), identity.country(), _holidays(), arrived)
+		if result:
+			out.append({"date": result["date"], "what": one.get("what") if one.get("what") in DATES else "Deadline", "about": (one.get("about") or "")[:140], "found": 0, "counted_from": result["counted_from"], "rule": rule(result)[:140]})
+	return out
+
+
+def rule(result: dict) -> str:
+	"""How a deadline was counted, in the workspace's language."""
+	units = {"days": _("{0} days"), "weeks": _("{0} weeks"), "months": _("{0} months"), "years": _("{0} years")}
+	one = {"days": _("one day"), "weeks": _("one week"), "months": _("one month"), "years": _("one year")}
+	period = one[result["unit"]] if result["number"] == 1 else units[result["unit"]].format(result["number"])
+	start = _("Posted, so received four days later (§ 122 AO)") if result["posted"] else _("From the day it arrived")
+	said = _("{0}, plus {1}").format(start, period)
+	return _("{0}, moved to the next working day").format(said) if result["moved"] else said
+
+
+def _holidays() -> set:
+	company = frappe.defaults.get_global_default("company")
+	holiday_list = frappe.db.get_value("Company", company, "default_holiday_list") if company else None
+	return set(frappe.get_all("Holiday", filters={"parent": holiday_list}, pluck="holiday_date")) if holiday_list else set()
 
 
 def learned(shop: str | None, text: str | None) -> str | None:

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 20:35+0000\n"
-"PO-Revision-Date: 2026-09-24 20:35+0000\n"
+"POT-Creation-Date: 2026-09-24 20:47+0000\n"
+"PO-Revision-Date: 2026-09-24 20:47+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -535,6 +535,7 @@ msgstr "رمز واجهة البرمجة"
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
+#: onedesk/one_intake/report/deadlines/deadlines.py:44
 #: onedesk/one_task/custom/task.json
 msgid "About"
 msgstr "عن"
@@ -2022,6 +2023,11 @@ msgstr "يمكنه العرض"
 msgid "Cancel"
 msgstr ""
 
+#. Label of the one_cancel_by (Date) field in DocType 'Contract'
+#: onedesk/one_intake/custom/contract.json
+msgid "Cancel By"
+msgstr "آخر موعد للإلغاء"
+
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: onedesk/one_task/custom/task.json
 msgid "Cancelled"
@@ -2762,6 +2768,12 @@ msgstr "تعذّر الوصول إلى {0}: {1}"
 msgid "Counted"
 msgstr "محتسب"
 
+#. Label of the counted_from (Date) field in DocType 'Reading Date'
+#: onedesk/one_intake/doctype/reading_date/reading_date.json
+#: onedesk/one_intake/report/deadlines/deadlines.py:45
+msgid "Counted From"
+msgstr "يُحتسب من"
+
 #. Label of the country (Link) field in DocType 'Account Request'
 #. Label of the country (Link) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/account_request/account_request.json
@@ -2970,6 +2982,7 @@ msgstr ""
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:152
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:42
+#: onedesk/one_intake/report/deadlines/deadlines.py:38
 #: onedesk/public/js/onemail.js:739 onedesk/public/js/overtime.js:25
 msgid "Date"
 msgstr "التاريخ"
@@ -3011,6 +3024,7 @@ msgstr "بداية اليوم"
 
 #. Label of the days_left (Int) field in DocType 'Workspace Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
+#: onedesk/one_intake/report/deadlines/deadlines.py:39
 msgid "Days Left"
 msgstr "الأيام المتبقية"
 
@@ -3024,6 +3038,14 @@ msgstr "عدد الأيام في كل حالة قبل الانتقال إلى ا
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 msgid "Deadline"
 msgstr "مهلة"
+
+#. Label of a Sidebar Item
+#. Name of a report
+#: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
+#: onedesk/one_intake/calendar.py:35
+#: onedesk/one_intake/report/deadlines/deadlines.json
+msgid "Deadlines"
+msgstr "المواعيد النهائية"
 
 #. Name of a report
 #. Label of a Sidebar Item
@@ -3074,6 +3096,10 @@ msgstr ""
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
 msgid "Decide"
 msgstr "قرار"
+
+#: onedesk/one_intake/planning.py:143
+msgid "Decide whether to cancel the contract with {0} (last day {1})"
+msgstr "قرّر ما إذا كنت ستلغي العقد مع {0} (آخر يوم {1})"
 
 #. Label of the one_decided_by (Link) field in DocType 'Attendance Request'
 #. Label of the one_decided_by (Link) field in DocType 'Expense Claim'
@@ -3369,6 +3395,7 @@ msgstr "عدد الموظفين المختلفين، وقد تم التحقق م
 msgid "Do this now, as you?"
 msgstr "أنفّذ هذا الآن باسمك؟"
 
+#: onedesk/one_intake/calendar.py:110
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:42
 #: onedesk/public/js/onecloud.js:27
 msgid "Document"
@@ -3385,6 +3412,7 @@ msgstr "رقم الوثيقة"
 #. Label of the document_type (Link) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one_intake/report/deadlines/deadlines.py:42
 msgid "Document Type"
 msgstr "نوع الوثيقة"
 
@@ -4094,6 +4122,10 @@ msgstr "شهادة خبرة"
 msgid "Expired"
 msgstr ""
 
+#: onedesk/one_intake/calendar.py:184
+msgid "Expires"
+msgstr "ينتهي"
+
 #. Label of the credits_expires_on (Date) field in DocType 'Workspace Account'
 #. Label of the expires_on (Date) field in DocType 'Credit Ledger Entry'
 #. Label of the expires_on (Date) field in DocType 'Employee Document'
@@ -4114,6 +4146,10 @@ msgstr "ينتهي في"
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 msgid "Expiring"
 msgstr "ينتهي"
+
+#: onedesk/one_intake/calendar.py:51
+msgid "Expiring Documents"
+msgstr "وثائق تنتهي صلاحيتها"
 
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:135
 msgid "Expiring {0}"
@@ -4534,6 +4570,7 @@ msgid "Free to Sell"
 msgstr "متاح للبيع"
 
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.js:7
+#: onedesk/one_intake/report/deadlines/deadlines.js:8
 #: onedesk/public/js/onemail.js:739
 msgid "From"
 msgstr "من"
@@ -4552,6 +4589,7 @@ msgstr "المرسل يحتوي"
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:7
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:7
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:6
+#: onedesk/one_intake/report/deadlines/deadlines.js:4
 #: onedesk/one_intake/report/spending/spending.js:4
 msgid "From Date"
 msgstr "من تاريخ"
@@ -4567,6 +4605,10 @@ msgstr "من شهادة مرضية وصلت بالبريد."
 #: onedesk/public/js/employee.js:43
 msgid "From home"
 msgstr "من المنزل"
+
+#: onedesk/one_intake/understand.py:347
+msgid "From the day it arrived"
+msgstr "من يوم وصوله"
 
 #: onedesk/public/js/ai_model.js:42
 msgid "From the default."
@@ -4988,6 +5030,16 @@ msgstr "طول يوم العمل حيث لا تحدده المناوبة. وكل
 msgid "How long a full day is for this person. Filled from their shift, or from Attendance Settings."
 msgstr "طول يوم العمل الكامل لهذا الموظف. يُملأ من مناوبته أو من إعدادات الحضور."
 
+#. Description of the 'Notice Period' (Data) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "How long before its end a contract must be cancelled, as written."
+msgstr "المدة التي يجب إلغاء العقد قبل نهايتها، كما هي مكتوبة."
+
+#. Description of the 'Notice Period' (Data) field in DocType 'Contract'
+#: onedesk/one_intake/custom/contract.json
+msgid "How long before its end it must be cancelled, as the contract says."
+msgstr "المدة التي يجب إلغاؤه قبل نهايته، كما يقول العقد."
+
 #. Description of the 'expected_hours' field in DocType 'Timesheet Detail'
 #: onedesk/one_hr/custom/timesheet_detail.json
 msgid "How long you expect this to take. The timer says so when it runs past it. Leave it empty and it never does."
@@ -5015,6 +5067,11 @@ msgstr "كم لديّ من الإجازات؟"
 #: onedesk/public/js/setup_wizard.js:19
 msgid "How should One look?"
 msgstr "كيف تريد أن يبدو One؟"
+
+#. Description of the 'Rule' (Data) field in DocType 'Reading Date'
+#: onedesk/one_intake/doctype/reading_date/reading_date.json
+msgid "How the date was counted from a period the document gives."
+msgstr "كيف احتُسب التاريخ من مدة يذكرها المستند."
 
 #. Description of the 'Linked By' (Select) field in DocType 'Communication
 #. Link'
@@ -5708,6 +5765,11 @@ msgstr "آخر فحص"
 #: onedesk/public/js/crm_record.js:126
 msgid "Last Contact"
 msgstr "آخر تواصل"
+
+#: onedesk/one_intake/calendar.py:43 onedesk/one_intake/calendar.py:156
+#: onedesk/one_intake/calendar.py:157
+msgid "Last Day to Cancel"
+msgstr "آخر يوم للإلغاء"
 
 #: onedesk/public/js/crm_record.js:122
 msgid "Last Email"
@@ -7555,6 +7617,13 @@ msgstr "لن يُكتب شيء في سجل الحضور."
 msgid "Notice Ends On"
 msgstr "انتهاء مهلة الإشعار"
 
+#. Label of the one_notice_period (Data) field in DocType 'Contract'
+#. Label of the notice_period (Data) field in DocType 'Reading'
+#: onedesk/one_intake/custom/contract.json
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Notice Period"
+msgstr "مدة الإشعار"
+
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Notice of Change"
@@ -9028,6 +9097,10 @@ msgstr "نشر تحديث"
 msgid "Post your update on the project's page."
 msgstr "انشر تحديثك في صفحة المشروع."
 
+#: onedesk/one_intake/understand.py:347
+msgid "Posted, so received four days later (§ 122 AO)"
+msgstr "أُرسل بالبريد، فيُعدّ مستلمًا بعد أربعة أيام (§ 122 AO)"
+
 #: onedesk/one_hr/ai.py:159
 msgid "Prepare this interview again"
 msgstr "إعادة تحضير هذه المقابلة"
@@ -9612,6 +9685,7 @@ msgstr "المستلم"
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
+#: onedesk/one_intake/report/deadlines/deadlines.py:43
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/public/js/hiring.js:11 onedesk/public/js/invoice.js:64
 #: onedesk/public/js/onecloud.js:462 onedesk/public/js/onecloud.js:618
@@ -10135,6 +10209,12 @@ msgstr "الدور"
 #: onedesk/one_hr/doctype/employee_document/employee_document.py:20
 msgid "Row {0}: {1} expires before it was issued."
 msgstr "الصف {0}: تنتهي صلاحية {1} قبل تاريخ إصدارها."
+
+#. Label of the rule (Data) field in DocType 'Reading Date'
+#: onedesk/one_intake/doctype/reading_date/reading_date.json
+#: onedesk/one_intake/report/deadlines/deadlines.py:46
+msgid "Rule"
+msgstr "القاعدة"
 
 #: onedesk/public/js/onemail.js:947
 msgid "Rules"
@@ -12005,6 +12085,11 @@ msgstr "رقم الفاتورة أو الطلب أو القضية الذي يح�
 msgid "The key reaches {0} accounts. Enter the Account ID to choose one."
 msgstr "يصل الرمز إلى {0} حسابات. أدخل معرّف الحساب لاختيار واحد."
 
+#. Description of the 'Cancel By' (Date) field in DocType 'Contract'
+#: onedesk/one_intake/custom/contract.json
+msgid "The last day a cancellation can reach them."
+msgstr "آخر يوم يمكن أن يصلهم فيه الإلغاء."
+
 #. Description of the 'Expires On' (Date) field in DocType 'Credit Ledger
 #. Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
@@ -12577,6 +12662,7 @@ msgstr "إلى"
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:14
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:13
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:13
+#: onedesk/one_intake/report/deadlines/deadlines.js:5
 #: onedesk/one_intake/report/spending/spending.js:5
 msgid "To Date"
 msgstr "إلى تاريخ"
@@ -13350,6 +13436,7 @@ msgstr "القيمة المرجّحة"
 #. Label of the what (Select) field in DocType 'Reading Date'
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
+#: onedesk/one_intake/report/deadlines/deadlines.py:41
 msgid "What"
 msgstr "ماذا"
 
@@ -14515,6 +14602,22 @@ msgstr "غير معروف بعد"
 msgid "nothing"
 msgstr "لا شيء"
 
+#: onedesk/one_intake/understand.py:345
+msgid "one day"
+msgstr "يوم واحد"
+
+#: onedesk/one_intake/understand.py:345
+msgid "one month"
+msgstr "شهر واحد"
+
+#: onedesk/one_intake/understand.py:345
+msgid "one week"
+msgstr "أسبوع واحد"
+
+#: onedesk/one_intake/understand.py:345
+msgid "one year"
+msgstr "سنة واحدة"
+
 #. Option for the 'Linked By' (Select) field in DocType 'Communication Link'
 #: onedesk/one_mail/custom/communication_link.json
 msgid "oneai"
@@ -14730,7 +14833,7 @@ msgstr "{0} و{1} ليسا في منطقة واحدة."
 msgid "{0} and {1} more"
 msgstr "{0} و{1} أخرى"
 
-#: onedesk/one_intake/planning.py:272
+#: onedesk/one_intake/planning.py:273
 msgid "{0} arrived after you closed this task."
 msgstr "وصل {0} بعد أن أغلقت هذه المهمة."
 
@@ -14742,7 +14845,7 @@ msgstr "وصل {0} إلى {1} عبر رابطك"
 msgid "{0} asked for a {1}"
 msgstr "طلب {0} {1}"
 
-#: onedesk/one_intake/planning.py:402
+#: onedesk/one_intake/planning.py:403
 msgid "{0} asks to be paid to an IBAN we do not have for {1}. Check with them by phone before paying."
 msgstr "يطلب {0} الدفع إلى IBAN لا نملكه لـ {1}. تحقق منهم هاتفيًا قبل الدفع."
 
@@ -14854,7 +14957,8 @@ msgstr "{0} رصيد — وهو الحجز، إذ تعذّر قياس أي شي�
 msgid "{0} credits."
 msgstr "{0} رصيد."
 
-#: onedesk/public/js/crm_record.js:173 onedesk/public/js/crm_record.js:180
+#: onedesk/one_intake/understand.py:344 onedesk/public/js/crm_record.js:173
+#: onedesk/public/js/crm_record.js:180
 msgid "{0} days"
 msgstr "{0} أيام"
 
@@ -15175,6 +15279,10 @@ msgstr "لا يحق لـ {0} فعل هذا بنفسه."
 msgid "{0} models, {1} priced, {2} need review."
 msgstr "{0} نموذجاً، {1} مُسعَّرة، {2} تحتاج مراجعة."
 
+#: onedesk/one_intake/understand.py:344
+msgid "{0} months"
+msgstr "{0} أشهر"
+
 #: onedesk/public/js/intake.js:216
 msgid "{0} not checked by a person"
 msgstr "{0} لم يراجعها أحد"
@@ -15332,6 +15440,10 @@ msgstr "أُرشفت {0}. ولا بد من إعادة بناء موقعها من
 msgid "{0} was connected without sending, so it cannot send for the workspace."
 msgstr "وُصل {0} دون إرسال، لذا لا يمكنه الإرسال باسم مساحة العمل."
 
+#: onedesk/one_intake/understand.py:344
+msgid "{0} weeks"
+msgstr "{0} أسابيع"
+
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:47
 msgid "{0} will move to where this browser is. Everyone checking in there is measured from the new centre."
 msgstr "سينتقل {0} إلى موقع هذا المتصفح. وتُقاس تسجيلات الحضور هناك من المركز الجديد."
@@ -15352,6 +15464,10 @@ msgstr "عُمل {0}، ودُفع {1}"
 #: onedesk/public/js/offering.js:35
 msgid "{0} workspaces bought this"
 msgstr "اشترت هذا {0} مساحات عمل"
+
+#: onedesk/one_intake/understand.py:344
+msgid "{0} years"
+msgstr "{0} سنوات"
 
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:20
 msgid "{0} {1} is not there."
@@ -15412,6 +15528,14 @@ msgstr "{0}، اعتباراً من {1}: {2}."
 #: onedesk/one_admin/setup.py:220
 msgid "{0}, in place of what it held"
 msgstr "{0}، بدلًا مما كان فيه"
+
+#: onedesk/one_intake/understand.py:349
+msgid "{0}, moved to the next working day"
+msgstr "{0}، مع النقل إلى يوم العمل التالي"
+
+#: onedesk/one_intake/understand.py:348
+msgid "{0}, plus {1}"
+msgstr "{0}، زائد {1}"
 
 #: onedesk/public/js/tenant.js:165
 msgid "{0}, unmetered"

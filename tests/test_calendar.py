@@ -176,7 +176,7 @@ def test_a_link_is_found_by_its_hash_kept_encrypted_and_read_as_its_owner():
 
 def test_every_layer_is_declared_whole_and_registered():
 	registered = re.findall(r'"(onedesk\.[\w.]+\.LAYERS)"', HOOKS.split("one_calendar_layers = [", 1)[1].split("]", 1)[0])
-	assert len(registered) == 6
+	assert len(registered) == 7
 	keys = []
 	for path in registered:
 		module = tree.APP.joinpath(*path.split(".")[1:-1]).with_suffix(".py")

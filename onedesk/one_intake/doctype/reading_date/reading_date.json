@@ -9,7 +9,9 @@
   "date",
   "what",
   "about",
-  "found"
+  "found",
+  "counted_from",
+  "rule"
  ],
  "fields": [
   {
@@ -40,6 +42,19 @@
    "fieldtype": "Check",
    "label": "Written in the Document",
    "read_only": 1
+  },
+  {
+   "fieldname": "counted_from",
+   "fieldtype": "Date",
+   "label": "Counted From",
+   "read_only": 1
+  },
+  {
+   "fieldname": "rule",
+   "fieldtype": "Data",
+   "label": "Rule",
+   "read_only": 1,
+   "description": "How the date was counted from a period the document gives."
   }
  ],
  "istable": 1,

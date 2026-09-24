@@ -25,6 +25,7 @@ from datetime import timedelta
 
 from frappe.utils import getdate
 
+from onedesk.one_intake import deadlines
 from onedesk.one_intake.act import Action as _Action
 
 REAL = ("Action", "Information", "", None)
@@ -224,14 +225,33 @@ def contract(reading: dict, ctx: dict) -> list[Action]:
 	if not _real(reading, ctx) or reading.get("kind") != "Contract" or not party:
 		return []
 	dates = {one.get("what"): str(one.get("date")) for one in reading.get("dates") or [] if one.get("date")}
+	end = dates.get("Valid Until") or dates.get("Period End")
+	notice = deadlines.period(reading.get("notice_period"))
+	cancel_by = str(deadlines.before(getdate(end), *notice)) if end and notice else None
 	values = {
 		"party_type": party[0],
 		"party_name": party[1],
 		"start_date": dates.get("Valid From") or dates.get("Period Start") or reading.get("issued_on") or ctx["today"],
-		"end_date": dates.get("Valid Until") or dates.get("Period End"),
+		"end_date": end,
+		"one_notice_period": reading.get("notice_period"),
+		"one_cancel_by": cancel_by,
 		"contract_terms": reading.get("summary") if reading.get("sensitivity") in (None, "", "Ordinary") else ctx["said"]["see_document"],
 	}
-	return [Action("Create", "Contract", values={k: v for k, v in values.items() if v}, key="books|contract")]
+	out = [Action("Create", "Contract", values={k: v for k, v in values.items() if v}, key="books|contract")]
+	if cancel_by:
+		# A month before the last day to cancel, somebody decides.
+		remind = str(max(getdate(cancel_by) - timedelta(days=30), getdate(ctx["today"])))
+		out.append(
+			_Action(
+				"Create",
+				"Task",
+				values={"subject": ctx["said"]["decide_cancel"].format(party[1], cancel_by), "exp_end_date": remind, "one_about_doctype": party[0], "one_about": party[1], "assign_to": ctx.get("person")},
+				key="task|contract",
+				flow="onedesk.one_intake.planning.make_task",
+				sure=True,
+			)
+		)
+	return out
 
 
 def never_received(reading: dict, ctx: dict) -> list[Action]:

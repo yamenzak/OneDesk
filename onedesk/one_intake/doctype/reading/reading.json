@@ -66,6 +66,7 @@
   "issuing_country",
   "column_break_document",
   "valid_until",
+  "notice_period",
   "section_details",
   "parties",
   "dates",
@@ -461,6 +462,13 @@
    "label": "Valid Until",
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "notice_period",
+   "fieldtype": "Data",
+   "label": "Notice Period",
+   "read_only": 1,
+   "description": "How long before its end a contract must be cancelled, as written."
   },
   {
    "fieldname": "section_details",

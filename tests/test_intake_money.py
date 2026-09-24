@@ -6,6 +6,7 @@ import json
 from dataclasses import dataclass, field
 from datetime import date, timedelta
 from pathlib import Path
+from types import SimpleNamespace
 
 ROOT = Path(__file__).resolve().parent.parent / "onedesk" / "one_intake"
 
@@ -25,13 +26,15 @@ def _load(path, space, names=None):
 
 
 ACT = _load(ROOT / "act.py", {"dataclass": dataclass, "field": field, "hashlib": hashlib, "json": json, "cint": lambda v: int(v or 0), "flt": lambda v, p=None: float(v or 0)}, {"KINDS", "FLOOR", "CHANGES", "Action", "level", "_filled", "_same"})
-MONEY = _load(ROOT / "money.py", {"_Action": ACT["Action"], "getdate": _getdate, "timedelta": timedelta})
+DEADLINES = SimpleNamespace(**_load(ROOT / "deadlines.py", {"calendar": __import__("calendar"), "re": __import__("re"), "date": date, "timedelta": timedelta}))
+MONEY = _load(ROOT / "money.py", {"_Action": ACT["Action"], "getdate": _getdate, "timedelta": timedelta, "deadlines": DEADLINES})
 STEPS = _load(ROOT / "steps.py", {"getdate": _getdate, "flt": lambda v, p=None: float(v or 0), "json": json}, {"holds", "passed"})
 
 SAID = {
 	"moved": "Dated after the books locked up to {0}.", "direct_debit": "Paid by direct debit.", "paid": "Already paid.",
 	"no_original": "The invoice this credits was not found.", "unmatched": "Some lines match no item.", "see_document": "See the document.",
 	"ask_for_invoice": "Ask {1} for invoice {0}", "maybe_fraud": "Ask for the invoice before paying anything.",
+	"decide_cancel": "Decide whether to cancel the contract with {0} (last day {1})",
 }
 CTX = {"books": True, "today": "2026-09-24", "said": SAID, "supplier": "Stadtwerke Köln GmbH", "person": "boss@acme.test"}
 INVOICE = {
@@ -97,6 +100,22 @@ def test_a_statement_is_bank_transactions_and_nothing_else():
 	assert [one.values["withdrawal"] for one in made] == [84.2, 0] and [one.values["deposit"] for one in made] == [0, 1200.0]
 	assert all(one.sure for one in made)
 	assert MONEY["bank"]({"kind": "Bank Statement"}, {**CTX, "statement_lines": lines}) == [], "not our account"
+
+
+def test_a_contract_says_when_it_must_be_cancelled_and_somebody_decides():
+	reading = {
+		"kind": "Contract", "verdict": "Action", "notice_period": "drei Monate zum Vertragsende",
+		"dates": [{"what": "Valid From", "date": "2026-01-01"}, {"what": "Valid Until", "date": "2026-12-31"}],
+	}  # fmt: skip
+	made = MONEY["contract"](reading, {**CTX, "contract_party": ("Supplier", "Stadtwerke Köln GmbH")})
+	assert made[0].values["one_cancel_by"] == "2026-09-30"
+	assert made[0].values["end_date"] == "2026-12-31"
+	task = made[1]
+	assert task.doctype == "Task" and "2026-09-30" in task.values["subject"]
+	assert task.values["exp_end_date"] == "2026-09-24", "a month before, but never in the past"
+	assert task.key == "task|contract"
+	without = MONEY["contract"]({**reading, "notice_period": None}, {**CTX, "contract_party": ("Supplier", "X")})
+	assert len(without) == 1 and "one_cancel_by" not in without[0].values
 
 
 def test_a_reminder_for_an_invoice_nobody_has_is_a_warning():

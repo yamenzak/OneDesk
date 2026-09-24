@@ -139,9 +139,9 @@ No doctypes yet.
 | Intake Action | 15 | document |
 | Intake Lesson | 12 | document |
 | Intake Settings | 7 | single |
-| Reading | 67 | document |
+| Reading | 68 | document |
 | Reading Ask | 5 | child |
-| Reading Date | 4 | child |
+| Reading Date | 6 | child |
 | Reading Line | 7 | child |
 | Reading Party | 17 | child |
 | Reading Reference | 3 | child |
