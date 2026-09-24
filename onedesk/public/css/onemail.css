@@ -584,20 +584,38 @@
 
 .om-file {
 	display: inline-flex;
-	align-items: center;
-	gap: calc(var(--spacing) * 2);
-	max-width: 280px;
-	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
+	align-items: stretch;
+	max-width: 320px;
 	border: 1px solid var(--outline-gray-2);
 	border-radius: var(--radius);
-	color: var(--ink-gray-8);
 	font-size: var(--text-sm);
+	overflow: hidden;
+}
+
+.om-file-open {
+	display: inline-flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	min-width: 0;
+	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
+	color: var(--ink-gray-8);
 	text-decoration: none;
 }
 
-.om-file:hover {
+.om-file-open:hover,
+.om-file-save:hover {
 	background: var(--surface-gray-1);
 	text-decoration: none;
+}
+
+.om-file-save {
+	display: inline-flex;
+	align-items: center;
+	padding: 0 calc(var(--spacing) * 2);
+	border: 0;
+	border-inline-start: 1px solid var(--outline-gray-2);
+	background: none;
+	color: var(--ink-gray-6);
 }
 
 .om-file-name {

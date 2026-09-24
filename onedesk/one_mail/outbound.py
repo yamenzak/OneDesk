@@ -11,6 +11,11 @@ account the queue is sending from:
 Email Queue keeps everything else: retries, statuses, the IMAP Sent copy for
 a connected account, the Communication.
 
+A message from an address on the mail domain that is too large to send has
+its largest attachments sent as OneCloud links instead, until it fits
+(`shrink`). The links download without an account and stop working after
+thirty days.
+
 On the way out, a reply gets a `References` header, which Frappe does not
 set. It is its parent's references followed by the parent itself, so the
 other side's mail client threads it as ours does (threads.py).
@@ -24,6 +29,14 @@ import frappe
 
 from onedesk.one_mail import threads
 
+#: What a message from the mail domain may weigh before its largest
+#: attachments go as links. Admin refuses over 5 MiB (one_admin/mailing.py);
+#: this leaves room for the headers each recipient's copy adds.
+ROOMY = 4 * 1024 * 1024
+
+#: How long a link made for an attachment works, in days.
+LINK_DAYS = 30
+
 #: How many ancestors a References header carries. Mail clients keep the
 #: first and the last few; twenty is plenty and keeps headers short.
 KEPT = 20
@@ -36,6 +49,8 @@ def send(queue, sender: str, recipient: str, message) -> None:
 	account = _account(queue, sender)
 	if account and account.get("one_hosted"):
 		from onedesk.one import account as admin
+
+		raw = shrink(raw, _linker(queue), heading=frappe._("Too large to attach, so sent as links:"))
 
 		admin.ask(
 			"onedesk.one_admin.proxy.mail_send",
@@ -74,6 +89,98 @@ def file_copy(account, raw: bytes) -> None:
 	except Exception:
 		# The message went; only its copy did not. Not worth failing the queue.
 		frappe.log_error(title=f"OneMail could not file a sent copy in {account.name}")
+
+
+def shrink(raw: bytes, link_for, most: int = ROOMY, heading: str = "Too large to attach, so sent as links:") -> bytes:
+	"""The message, with its largest attachments taken out and named with a
+	link in its text, until it weighs `most` or less. `link_for(file name)`
+	answers a link, or None for a file it cannot find, which then stays.
+	Pure given `link_for`."""
+	if len(raw) <= most:
+		return raw
+	parsed = message_from_bytes(raw)
+	if not parsed.is_multipart():
+		return raw
+	containers = [one for one in parsed.walk() if one.is_multipart()]
+	attached = [one for one in parsed.walk() if one.get_content_disposition() == "attachment"]
+	attached.sort(key=lambda one: len(one.as_bytes()), reverse=True)
+	size, linked = len(raw), []
+	for part in attached:
+		if size <= most:
+			break
+		name = part.get_filename()
+		url = link_for(name) if name else None
+		if not url:
+			continue
+		for container in containers:
+			if part in container.get_payload():
+				container.get_payload().remove(part)
+				break
+		size -= len(part.as_bytes())
+		linked.append((name, url))
+	if not linked:
+		return raw
+	_say(parsed, heading, linked)
+	return parsed.as_bytes()
+
+
+def _say(parsed, heading: str, linked: list) -> None:
+	"""Add the links to the message's text, plain and HTML alike."""
+	from html import escape
+
+	said = {"plain": False, "html": False}
+	for part in parsed.walk():
+		kind = part.get_content_subtype()
+		if part.get_content_maintype() != "text" or kind not in said or said[kind] or part.get_content_disposition() == "attachment":
+			continue
+		charset = part.get_content_charset() or "utf-8"
+		text = (part.get_payload(decode=True) or b"").decode(charset, errors="replace")
+		if kind == "plain":
+			text += "\n\n" + heading + "\n" + "\n".join(f"{name}: {url}" for name, url in linked) + "\n"
+		else:
+			rows = "".join(f'<li><a href="{escape(url)}">{escape(name)}</a></li>' for name, url in linked)
+			addition = f"<p>{escape(heading)}</p><ul>{rows}</ul>"
+			text = text.replace("</body>", addition + "</body>") if "</body>" in text else text + addition
+		del part["Content-Transfer-Encoding"]
+		part.set_payload(text, charset="utf-8")
+		said[kind] = True
+
+
+def _linker(queue):
+	"""`link_for` for one queue: a link for each of its message's files, made
+	once however many recipients the message has."""
+	made = frappe.local.__dict__.setdefault("one_mail_links", {})
+
+	def link_for(name: str) -> str | None:
+		key = (queue.name, name)
+		if key not in made:
+			made[key] = _link(queue.communication, name)
+		return made[key]
+
+	return link_for
+
+
+def _link(communication: str | None, name: str) -> str | None:
+	from frappe.utils import add_days, today
+
+	from onedesk.one_storage import links
+
+	file = communication and frappe.db.get_value(
+		"File", {"attached_to_doctype": "Communication", "attached_to_name": communication, "file_name": name}, "name"
+	)
+	if not file:
+		return None
+	link = frappe.get_doc(
+		{
+			"doctype": "Cloud Link",
+			"file": file,
+			"audience": links.ANYONE,
+			"allow_download": 1,
+			"expires_on": add_days(today(), LINK_DAYS),
+		}
+	)
+	link.insert(ignore_permissions=True)
+	return links.url_of(link.flags.token)
 
 
 def _account(queue, sender: str):

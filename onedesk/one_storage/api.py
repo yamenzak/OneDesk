@@ -259,6 +259,12 @@ def attach(nodes: str | list, doctype: str | None = None, docname: str | None = 
 			frappe.throw(_("{0} is a folder. Choose the files in it.").format(item.file_name))
 		if not ns.may(item):
 			frappe.throw(_("You may not open {0}.").format(item.file_name), frappe.PermissionError)
+		if not doctype:
+			# Nothing to attach it to: a new message in OneMail, whose sending
+			# copies it onto the message. A row of its own would only be a stray
+			# copy in My Files.
+			made.append(frappe.get_doc("File", item.name).as_dict())
+			continue
 		doc = frappe.get_doc(
 			{
 				"doctype": "File",

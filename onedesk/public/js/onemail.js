@@ -66,6 +66,7 @@ onedesk.OneMail = class OneMail {
 			<section class="om-list" aria-label="${__("Conversations")}">
 				<div class="om-list-head">
 					<label class="om-search">${icon("search")}<input type="search" spellcheck="false" placeholder="${__("Search this mailbox")}"></label>
+					${bare("box-files", "paperclip", __("This mailbox's attachments, in OneCloud"))}
 					${bare("refresh", "refresh-cw", __("Refresh"))}
 				</div>
 				<div class="om-picked" hidden>
@@ -262,6 +263,18 @@ onedesk.OneMail = class OneMail {
 		return frappe.datetime.str_to_user(value.slice(0, 10));
 	}
 
+	// As the explorer writes a size.
+	size_text(bytes) {
+		if (!bytes) return "";
+		const units = [__("B"), __("KB"), __("MB"), __("GB")];
+		let at = 0;
+		while (bytes >= 1024 && at < units.length - 1) {
+			bytes /= 1024;
+			at++;
+		}
+		return `${at ? bytes.toFixed(bytes < 10 ? 1 : 0) : bytes} ${units[at]}`;
+	}
+
 	face(name, email) {
 		const text = (name || email || "?").trim();
 		const parts = text.replace(/[<>"']/g, "").split(/[\s@._-]+/).filter(Boolean);
@@ -411,10 +424,13 @@ onedesk.OneMail = class OneMail {
 		const people = (label, list) => (list ? `<div class="om-to"><span>${label}</span> ${esc(list)}</div>` : "");
 		const files = (message.attachments || [])
 			.map(
-				(file) => `<a class="om-file" href="${esc(file.file_url)}" target="_blank" rel="noopener" title="${esc(file.file_name)}">
-					${frappe.utils.icon("paperclip", "sm")}<span class="om-file-name">${esc(file.file_name)}</span>
-					<span class="om-file-size">${file.file_size ? esc(frappe.form.formatters.FileSize(file.file_size)) : ""}</span>
-				</a>`
+				(file) => `<span class="om-file">
+					<a class="om-file-open" href="${esc(file.file_url)}" target="_blank" rel="noopener" title="${esc(file.file_name)}">
+						${frappe.utils.icon("paperclip", "sm")}<span class="om-file-name">${esc(file.file_name)}</span>
+						<span class="om-file-size">${esc(this.size_text(file.file_size))}</span>
+					</a>
+					<button class="om-file-save" data-act="save-file" data-file="${esc(file.name)}" title="${__("Save to My Files")}" aria-label="${__("Save to My Files")}">${frappe.utils.icon("folder-down", "sm")}</button>
+				</span>`
 			)
 			.join("");
 		return `<div class="om-message" data-message="${esc(message.name)}">
@@ -749,6 +765,11 @@ onedesk.OneMail = class OneMail {
 				"conv-move": () => this.menu_of_folders(e.currentTarget, (folder) => this.run(`move:${folder}`, open)),
 				"conv-archive": () => this.run("archive", open),
 				"conv-delete": () => this.run("delete", open),
+				"save-file": async () => {
+					await frappe.xcall("onedesk.one_storage.api.copy", { nodes: [e.currentTarget.dataset.file], target: "@my" });
+					frappe.show_alert({ message: __("Saved to My Files."), indicator: "green" });
+				},
+				"box-files": () => frappe.set_route("onecloud", { node: `@mail/${this.box.name}` }),
 				pictures: () => {
 					const name = $(e.currentTarget).closest(".om-message").attr("data-message");
 					this.pictures.add(name);

@@ -1,7 +1,8 @@
 # OneMail
 
-Written by hand. Stages 1 to 5 of nine are built: addresses on the mail
-domain, sending, connected mailboxes, holders and the page. The part above
+Written by hand. Stages 1 to 6 of nine are built: addresses on the mail
+domain, sending, connected mailboxes, holders, the page and mail in
+OneCloud. The part above
 **Under the hood** is the manual; below it are the decisions and the stages
 still to come.
 
@@ -54,7 +55,12 @@ undone for a few seconds after sending, and filed on a record.
 
 ## Attachments and faces
 
-Every attachment is in OneCloud, under **Mail**, in a folder per mailbox.
+Every attachment is in OneCloud, under **Mail**, in a folder per mailbox,
+seen only by the people who hold it. The paperclip above a mailbox's
+conversations opens that folder. An attachment's folder button saves a copy
+to My Files, and a file from OneCloud can be attached when writing. A file
+too large to send from the workspace's address goes as a link that works
+for thirty days.
 People who write to you show with their photo from Gravatar. Companies show
 with their logo, which is kept in Company › Logos and used by every record
 in One, not only by mail.
@@ -218,6 +224,28 @@ attachment to OneCloud, come with stage 6.
 - Writing, replying and forwarding open Frappe's `CommunicationComposer`
   from the open mailbox if it sends, else the workspace's. A reply is
   `in_reply_to` its message and on its record, if it has one.
+
+Stage 6, mail in OneCloud, is built.
+
+- **access.py** is the has_permission hook on Communication. Frappe lets
+  anybody with Inbox User open any message by name and only narrows lists,
+  so a guessed name opened a message and its files. A message in a mailbox
+  now opens for its holders, and for whoever may read the record it is
+  filed on. Holders get Inbox User with their first mailbox, and a patch
+  gives it to those who already held one.
+- **cloud.py** is OneCloud's `@mail`: a folder per mailbox the reader
+  holds, derived like a record's folder from the Files on the mailbox's
+  Communications, newest first. Communication is left out of Records so a
+  message's files are listed once. A file there answers to its message
+  through `namespace.may`, which asks access.py.
+- Saving to My Files is OneCloud's own `copy`, a new row on the same
+  object. Choosing a OneCloud file in the email window with no record behind
+  it hands over the existing File, since sending copies it onto the message.
+- `outbound.shrink`: a message from the mail domain over 4 MiB has its
+  largest attachments taken out, largest first, until it fits. Each becomes
+  a Cloud Link anyone can download for thirty days, named in the plain and
+  HTML text. The links are made once per message however many recipients
+  it has. A file that cannot be found stays attached.
 
 ### Research and decisions
 

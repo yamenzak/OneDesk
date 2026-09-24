@@ -19,6 +19,9 @@ from frappe import _
 
 from onedesk.one_mail import actions
 
+#: Frappe's role for reading mail.
+INBOX_USER = "Inbox User"
+
 #: A person's part: letters, digits, dash and underscore, no dot, as a slug is.
 NAME = re.compile(r"^[a-z0-9](?:[a-z0-9_-]{0,38}[a-z0-9])?$")
 
@@ -123,6 +126,7 @@ def _give(user: str, name: str, holder=None) -> str:
 	made = _make(address, sends=False)
 	if holder is not None:
 		holder.append("user_emails", {"email_account": made})
+		inbox_user(holder)
 	else:
 		hold(made, user)
 	publish()
@@ -136,8 +140,16 @@ def hold(account: str, user: str) -> None:
 		return
 	holder = frappe.get_doc("User", user)
 	holder.append("user_emails", {"email_account": account})
+	inbox_user(holder)
 	holder.flags.ignore_permissions = True
 	holder.save()
+
+
+def inbox_user(holder) -> None:
+	"""Frappe's Inbox User role, without which a holder cannot open a message
+	at all; which messages they may open is one_mail/access.py."""
+	if INBOX_USER not in [row.role for row in holder.get("roles") or []]:
+		holder.append("roles", {"role": INBOX_USER})
 
 
 def suggested(first_name: str | None, email: str | None) -> str:

@@ -5,3 +5,4 @@
 [post_fixture_sync]
 onedesk.one_crm.patches.add_on_hold
 onedesk.one_mail.patches.workspace_mailbox
+onedesk.one_mail.patches.inbox_users

@@ -100,9 +100,11 @@ def test_a_node_id_says_what_it_names():
 	constants = dict(
 		ROOT="@root", MY="@my", SHARED="@shared", COMPANY="@company", RECORDS="@records", BIN="@bin",
 		LIBRARIES="@libraries", RECENT="@recent", STARRED="@starred", MOUNTS="@mounts", REQUESTS="@requests",
+		MAIL="@mail",
 	)  # fmt: skip
 	space = _load(NAMESPACE, ("parse",), **constants)
 	parse = space["parse"]
+	assert parse("@mail") == ("@mail",) and parse("@mail/sales@acme.com") == ("@mail", "sales@acme.com")
 	assert parse("") == ("@root",) and parse("@my") == ("@my",)
 	assert parse("@libraries") == ("@libraries",) and parse("@starred") == ("@starred",)
 	assert parse("@mounts") == ("@mounts",) and parse("@mount/abc/docs") == ("mount", "@mount/abc/docs")

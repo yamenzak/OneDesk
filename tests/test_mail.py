@@ -323,3 +323,51 @@ def test_the_page_is_in_the_rail():
 	sidebar = (MAIL / "sidebar" / "onemail" / "onemail.json").read_text()
 	assert '"link_to": "onemail"' in sidebar and '"header_icon": "onemail"' in sidebar
 	assert (MAIL / "page" / "onemail" / "onemail.json").exists()
+
+
+# ------------------------------------------------------------------ mail in OneCloud
+
+
+def test_a_message_opens_only_for_its_holders_and_its_records_readers():
+	assert '"Communication": "onedesk.one_mail.access.allowed"' in HOOKS
+	source = (MAIL / "access.py").read_text()
+	assert '"User Email"' in source and "reference_doctype" in source
+	assert "Inbox User" in (MAIL / "addresses.py").read_text(), "holders can open a message at all"
+
+
+def test_attachments_are_in_onecloud_by_mailbox_not_under_records():
+	ns = (tree.APP / "one_storage" / "namespace.py").read_text()
+	assert 'virtual(MAIL, _("Mail")' in ns
+	unlisted = ns.split("UNLISTED = frozenset(", 1)[1].split("# fmt: skip", 1)[0]
+	assert '"Communication"' in unlisted, "a message's files are not listed again under Records"
+	cloud = (MAIL / "cloud.py").read_text()
+	assert "if account not in _held()" in cloud, "a mailbox's folder is its holders'"
+
+
+def test_a_message_too_large_sends_its_largest_attachments_as_links():
+	from email import message_from_bytes
+	from email.mime.application import MIMEApplication
+	from email.mime.multipart import MIMEMultipart
+	from email.mime.text import MIMEText
+
+	space = _load(MAIL / "outbound.py", ("ROOMY", "shrink", "_say"), message_from_bytes=message_from_bytes)
+	message = MIMEMultipart()
+	message.attach(MIMEText("hello", "plain"))
+	for name, size in (("big.bin", 300_000), ("small.txt", 100)):
+		part = MIMEApplication(b"x" * size)
+		part["Content-Disposition"] = f'attachment; filename="{name}"'
+		message.attach(part)
+	raw = message.as_bytes()
+	out = message_from_bytes(space["shrink"](raw, lambda name: f"https://x/s/{name}", most=100_000))
+	kept = [one.get_filename() for one in out.walk() if one.get_content_disposition() == "attachment"]
+	assert kept == ["small.txt"], "only as many as it takes, largest first"
+	text = (
+		next(one for one in out.walk() if one.get_content_type() == "text/plain")
+		.get_payload(decode=True)
+		.decode()
+	)
+	assert "big.bin: https://x/s/big.bin" in text
+	assert space["shrink"](raw, lambda name: None, most=100_000) == raw, (
+		"a file it cannot find stays attached"
+	)
+	assert space["shrink"](raw, lambda name: "u") == raw, "a message that fits is not touched"

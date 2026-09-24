@@ -13,6 +13,9 @@ rule here is a rule everywhere. A node is named by an id:
   the files attached to one. Nothing is stored for them; they are worked out
   from `attached_to_*` whenever they are opened, so a record's folder is
   always exactly its attachments and is seen by exactly who may read it.
+- `@mail`, `@mail/<mailbox>` — derived, like records: the reader's mailboxes,
+  and the files that came or went with a mailbox's messages
+  (one_mail/cloud.py). A message's files are here and not under Records.
 - `@bin` — what the reader deleted, for thirty days.
 - anything else — a File, by its name.
 
@@ -32,15 +35,20 @@ from onedesk.one import roles
 
 ROOT, MY, SHARED, COMPANY, RECORDS, BIN = "@root", "@my", "@shared", "@company", "@records", "@bin"
 LIBRARIES, RECENT, STARRED, MOUNTS, REQUESTS = "@libraries", "@recent", "@starred", "@mounts", "@requests"
+MAIL = "@mail"
 HOME, ATTACHMENTS, LIBRARY_ROOT = "Home", "Home/Attachments", "Home/Libraries"
 
 #: A library member's role, as the DocShare that carries it: (write, share).
 ROLES = {"Reader": (0, 0), "Member": (1, 0), "Owner": (1, 1)}
 
 #: Frappe's own bookkeeping, which has files but no folder anybody wants.
+#: A message's files are under Mail, by mailbox, rather than Records.
 UNLISTED = frozenset(
-	("Prepared Report", "Data Import", "Data Export", "Access Log", "Error Log", "Deleted Document", "Version")
-)
+	(
+		"Prepared Report", "Data Import", "Data Export", "Access Log", "Error Log", "Deleted Document", "Version",
+		"Communication",
+	)
+)  # fmt: skip
 
 #: How deep a folder chain is walked before it is taken to be a loop.
 DEEPEST = 64
@@ -58,8 +66,10 @@ FIELDS = [
 def parse(node: str) -> tuple:
 	"""What a node id names: (kind, *parts). Pure."""
 	node = node or ROOT
-	if node == ROOT or node in (MY, SHARED, COMPANY, BIN, RECORDS, LIBRARIES, RECENT, STARRED, MOUNTS, REQUESTS):
+	if node == ROOT or node in (MY, SHARED, COMPANY, BIN, RECORDS, LIBRARIES, RECENT, STARRED, MOUNTS, REQUESTS, MAIL):
 		return (node,)
+	if node.startswith(MAIL + "/"):
+		return (MAIL, node[len(MAIL) + 1 :])
 	if node.startswith("@request/"):
 		return ("request", node)
 	if node.startswith("@mount/"):
@@ -370,6 +380,7 @@ def roots() -> list[dict]:
 		virtual(LIBRARIES, _("Libraries"), icon="library-big"),
 		virtual(COMPANY, _("Company"), icon="building-2"),
 		virtual(RECORDS, _("Records"), icon="database"),
+		virtual(MAIL, _("Mail"), icon="mail"),
 		virtual(MOUNTS, _("Network"), icon="network"),
 		virtual(REQUESTS, _("Requests"), icon="inbox"),
 		virtual(BIN, _("Recycle Bin"), icon="trash-2"),
@@ -411,6 +422,10 @@ def children(node_id: str, search: str | None = None) -> list[dict]:
 		return mounts.visible() if kind[0] == MOUNTS else mounts.children(node_id)
 	if kind[0] == BIN:
 		return binned()
+	if kind[0] == MAIL:
+		from onedesk.one_mail import cloud
+
+		return cloud.mailboxes() if len(kind) == 1 else cloud.files(kind[1], search)
 	if kind[0] == RECORDS:
 		if len(kind) == 1:
 			return record_doctypes()
@@ -707,6 +722,10 @@ def trail(node_id: str) -> list[dict]:
 		from onedesk.one_storage import mounts
 
 		return mounts.trail(node_id)
+	if kind[0] == MAIL:
+		from onedesk.one_mail import cloud
+
+		return cloud.trail(node_id)
 	if kind[0] == "request":
 		from onedesk.one_storage import file_requests
 

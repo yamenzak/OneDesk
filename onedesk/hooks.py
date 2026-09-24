@@ -339,6 +339,9 @@ doc_events = {
 # so a tenant administrator granting themselves One Operator on their own
 # workspace gets a rail entry and nothing behind it. See one_admin/site.py.
 has_permission = {
+	# A message opens for its mailbox's holders and its record's readers.
+	# See one_mail/access.py.
+	"Communication": "onedesk.one_mail.access.allowed",
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.allowed",
 	# Everybody keeps tasks; a task with no project is its own people's.
 	# See one_task/access.py.
