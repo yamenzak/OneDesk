@@ -295,6 +295,8 @@ doc_events = {
 		"after_insert": [
 			# Replies read before what they answer join its thread. See one_mail/threads.py.
 			"onedesk.one_mail.threads.adopt",
+			# An open mailbox redraws. See one_mail/live.py.
+			"onedesk.one_mail.live.inserted",
 			"onedesk.one_crm.capture.replied",
 			# An emailed answer to a project's ask. See one_project/updates.py.
 			"onedesk.one_project.updates.answered",

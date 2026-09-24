@@ -277,7 +277,8 @@ def test_everyone_gets_an_address_named_by_whoever_adds_them():
 	assert suggested("Admin", "admin@x.com") == "member", "reserved names are never suggested"
 	assert "onedesk.one_mail.addresses.for_person" in HOOKS
 	custom = (MAIL / "custom" / "user.json").read_text()
-	assert '"one_mail_name"' in custom and '"set_only_once": 1' in custom
+	assert '"one_mail_name"' in custom
+	assert "and it stays" in (MAIL / "addresses.py").read_text(), "an address, once given, is not renamed"
 
 
 def test_only_the_workspaces_mailboxes_are_shared_out():
@@ -292,3 +293,33 @@ def test_only_the_workspaces_mailboxes_are_shared_out():
 		{"kind": "Other", "path": "A"},
 	]
 	assert [one["path"] for one in ordered(folders)] == ["INBOX", "T", "A", "b"]
+
+
+# ------------------------------------------------------------------ the page
+
+PAGE_JS = (tree.APP / "public" / "js" / "onemail.js").read_text()
+
+
+def test_a_message_is_drawn_without_scripts_or_pictures_from_elsewhere():
+	sandbox = re.search(r'sandbox="([^"]*)"', PAGE_JS).group(1)
+	assert "allow-scripts" not in sandbox, "a message never runs code"
+	assert "default-src 'none'" in PAGE_JS
+	assert "Show pictures" in PAGE_JS and "this.pictures.has(" in PAGE_JS, (
+		"remote pictures wait to be asked for"
+	)
+	assert 'querySelectorAll("script' in PAGE_JS
+
+
+def test_the_page_reads_only_as_a_holder():
+	source = (MAIL / "api.py").read_text()
+	for name in ("conversations", "conversation", "names"):
+		body = source.split(f"def {name}(", 1)[1].split("\ndef ", 1)[0]
+		assert "actions.require(account)" in body, f"{name} checks the reader holds the mailbox"
+	live = (MAIL / "live.py").read_text()
+	assert "user=user" in live, "an event goes to holders, not to everyone"
+
+
+def test_the_page_is_in_the_rail():
+	sidebar = (MAIL / "sidebar" / "onemail" / "onemail.json").read_text()
+	assert '"link_to": "onemail"' in sidebar and '"header_icon": "onemail"' in sidebar
+	assert (MAIL / "page" / "onemail" / "onemail.json").exists()

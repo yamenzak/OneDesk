@@ -129,7 +129,7 @@ No doctypes yet.
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
-* **sidebar** — one, one_admin, onebook, onecalendar, onecloud, onecrm, onehr, oneinventory, oneproject, onetask
+* **sidebar** — one, one_admin, onebook, onecalendar, onecloud, onecrm, onehr, oneinventory, onemail, oneproject, onetask
 * **workspace** — one, one_admin, onebook, onecrm, onehr, onehr_setup
 
 ## Whitelisted methods
@@ -284,6 +284,10 @@ No doctypes yet.
 * `onedesk.one_mail.actions.rename_folder`
 * `onedesk.one_mail.actions.star`
 * `onedesk.one_mail.addresses.give`
+* `onedesk.one_mail.api.conversation`
+* `onedesk.one_mail.api.conversations`
+* `onedesk.one_mail.api.mailboxes`
+* `onedesk.one_mail.api.names`
 * `onedesk.one_mail.connect.connect`
 * `onedesk.one_mail.connect.disconnect`
 * `onedesk.one_mail.holders.mailboxes`

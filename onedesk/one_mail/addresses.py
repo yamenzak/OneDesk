@@ -174,7 +174,15 @@ def for_person(doc, method=None) -> None:
 	if not (slug() and frappe.conf.get("one_mail_secret")):
 		return
 	own = f".{slug()}@{domain()}"
-	if any((row.email_account or "").endswith(own) for row in doc.get("user_emails") or []):
+	held = [
+		row.email_account for row in doc.get("user_emails") or [] if (row.email_account or "").endswith(own)
+	]
+	if held:
+		# Set once: the address is what people already write to.
+		name = held[0].split("@")[0].rsplit(".", 1)[0]
+		if doc.one_mail_name and doc.one_mail_name != name:
+			frappe.throw(_("{0} already has the address {1}, and it stays.").format(doc.name, held[0]))
+		doc.one_mail_name = name
 		return
 	name = (doc.one_mail_name or "").strip().lower() or free(suggested(doc.first_name, doc.email))
 	_give(doc.name, name, holder=doc)

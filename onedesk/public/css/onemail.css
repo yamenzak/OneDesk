@@ -1,0 +1,668 @@
+/* OneMail. Logical properties throughout, so Arabic mirrors it. Seamless
+ * with the desk, as the explorer is: no frame of its own, three panes
+ * divided by hairlines. */
+
+.om {
+	display: flex;
+	height: calc(100vh - 50px);
+	min-height: 420px;
+	background: var(--surface-base);
+	overflow: hidden;
+	outline: none;
+	font-size: var(--text-base);
+}
+
+.om .es-button[data-state="on"] {
+	background: var(--surface-gray-3);
+}
+
+.om-grow {
+	flex: 1;
+}
+
+.om-sep {
+	width: 1px;
+	align-self: stretch;
+	margin: 4px calc(var(--spacing) * 1);
+	background: var(--outline-gray-2);
+}
+
+.om-none,
+.om-empty {
+	color: var(--ink-gray-5);
+	font-size: var(--text-sm);
+	padding: calc(var(--spacing) * 4);
+}
+
+.om-empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: calc(var(--spacing) * 2);
+	height: 100%;
+	text-align: center;
+}
+
+.om-empty svg {
+	width: 32px;
+	height: 32px;
+	color: var(--ink-gray-4);
+}
+
+/* ------------------------------------------------------------ mailboxes */
+
+.om-side {
+	flex: 0 0 236px;
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--spacing) * 2);
+	padding: calc(var(--spacing) * 3) calc(var(--spacing) * 2);
+	border-inline-end: 1px solid var(--outline-gray-1);
+	min-width: 0;
+}
+
+.om-write {
+	justify-content: center;
+	width: 100%;
+}
+
+/* The desk centres a lone icon with auto margins; beside a label it must not. */
+.om svg.icon,
+.om-menu svg.icon {
+	margin: 0;
+	flex: none;
+}
+
+.om-boxes {
+	flex: 1;
+	overflow: auto;
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--spacing) * 3);
+}
+
+.om-box-head {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 1.5);
+	width: 100%;
+	padding: 2px calc(var(--spacing) * 1);
+	border: 0;
+	background: none;
+	color: var(--ink-gray-6);
+	font-size: var(--text-sm);
+	font-weight: var(--font-weight-medium, 500);
+	text-align: start;
+}
+
+.om-box-name {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.om-box-address {
+	padding: 0 calc(var(--spacing) * 1) 2px calc(var(--spacing) * 7);
+	color: var(--ink-gray-5);
+	font-size: var(--text-xs);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.om-trouble {
+	color: var(--ink-amber-3);
+	display: inline-flex;
+}
+
+.om-folders {
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+	margin-top: 2px;
+}
+
+.om-folder {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	width: 100%;
+	height: 30px;
+	padding: 0 calc(var(--spacing) * 2);
+	padding-inline-start: calc(var(--spacing) * 2 + var(--depth, 0) * 14px);
+	border: 0;
+	border-radius: var(--radius);
+	background: none;
+	color: var(--ink-gray-7);
+	text-align: start;
+}
+
+.om-folder:hover {
+	background: var(--surface-gray-2);
+}
+
+.om-folder.om-on {
+	background: var(--surface-gray-3);
+	color: var(--ink-gray-9);
+}
+
+.om-folder svg {
+	flex: none;
+	color: var(--ink-gray-5);
+}
+
+.om-folder.om-on svg {
+	color: var(--ink-gray-8);
+}
+
+.om-folder-label {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.om-has-unread .om-folder-label {
+	font-weight: var(--font-weight-medium, 500);
+	color: var(--ink-gray-9);
+}
+
+.om-count {
+	font-size: var(--text-xs);
+	font-variant-numeric: tabular-nums;
+	color: var(--ink-gray-7);
+}
+
+.om-connect {
+	justify-content: flex-start;
+	width: 100%;
+	color: var(--ink-gray-6);
+}
+
+/* ------------------------------------------------------------ the list */
+
+.om-list {
+	flex: 0 0 380px;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	border-inline-end: 1px solid var(--outline-gray-1);
+}
+
+.om-list-head,
+.om-picked {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 1);
+	height: 48px;
+	padding: 0 calc(var(--spacing) * 3);
+	flex: none;
+}
+
+.om-list-head[hidden],
+.om-picked[hidden] {
+	display: none;
+}
+
+.om-picked-count {
+	font-size: var(--text-sm);
+	color: var(--ink-gray-7);
+	font-weight: var(--font-weight-medium, 500);
+}
+
+.om-search {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 1.5);
+	height: 30px;
+	margin: 0;
+	padding: 0 calc(var(--spacing) * 2);
+	border-radius: var(--radius);
+	background: var(--surface-gray-2);
+	color: var(--ink-gray-5);
+	font-weight: normal;
+}
+
+.om-search input {
+	flex: 1;
+	min-width: 0;
+	border: 0;
+	background: transparent;
+	outline: none;
+	color: var(--ink-gray-8);
+	font-size: var(--text-base);
+}
+
+.om-folder-name {
+	padding: calc(var(--spacing) * 1) calc(var(--spacing) * 4) calc(var(--spacing) * 2);
+	font-size: var(--text-lg, 16px);
+	font-weight: 600;
+	color: var(--ink-gray-9);
+	flex: none;
+}
+
+.om-items {
+	flex: 1;
+	overflow: auto;
+	outline: none;
+}
+
+.om-row {
+	position: relative;
+	display: flex;
+	align-items: flex-start;
+	gap: calc(var(--spacing) * 3);
+	padding: calc(var(--spacing) * 3) calc(var(--spacing) * 3) calc(var(--spacing) * 3) calc(var(--spacing) * 4);
+	cursor: default;
+	border-bottom: 1px solid var(--outline-gray-1);
+}
+
+.om-row:hover {
+	background: var(--surface-gray-1);
+}
+
+.om-row.om-open {
+	background: var(--surface-gray-2);
+}
+
+.om-row.om-picked-row {
+	background: var(--surface-blue-1);
+}
+
+/* The dot that says unread, in the gutter. */
+.om-row.om-unread::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: 6px;
+	top: 22px;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--ink-blue-3);
+}
+
+/* The checkbox takes the face's place when the pointer is over the row or
+ * something is chosen. */
+.om-pick {
+	display: none;
+	flex: none;
+	width: 32px;
+	height: 32px;
+	margin: 0;
+	align-items: center;
+	justify-content: center;
+}
+
+.om-row:hover .om-pick,
+.om-picked-row .om-pick,
+.om:has(.om-picked:not([hidden])) .om-pick {
+	display: flex;
+}
+
+.om-row:hover .om-face,
+.om-picked-row .om-face,
+.om:has(.om-picked:not([hidden])) .om-row .om-face {
+	display: none;
+}
+
+.om-face {
+	flex: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	background: hsl(var(--hue) 70% 92%);
+	color: hsl(var(--hue) 45% 32%);
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+}
+
+.om-row-text {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+}
+
+.om-row-top {
+	display: flex;
+	align-items: baseline;
+	gap: calc(var(--spacing) * 1.5);
+}
+
+.om-who {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: var(--ink-gray-8);
+}
+
+.om-thread-count {
+	font-size: var(--text-xs);
+	color: var(--ink-gray-5);
+}
+
+.om-when {
+	flex: none;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: var(--text-xs);
+	color: var(--ink-gray-5);
+	font-variant-numeric: tabular-nums;
+}
+
+.om-subject,
+.om-snippet {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.om-subject {
+	color: var(--ink-gray-8);
+}
+
+.om-snippet {
+	font-size: var(--text-sm);
+	color: var(--ink-gray-5);
+}
+
+.om-unread .om-who,
+.om-unread .om-subject {
+	font-weight: 600;
+	color: var(--ink-gray-9);
+}
+
+.om-star {
+	flex: none;
+	align-self: center;
+	display: inline-flex;
+	padding: 4px;
+	border: 0;
+	border-radius: var(--radius);
+	background: none;
+	color: var(--ink-gray-4);
+	visibility: hidden;
+}
+
+.om-row:hover .om-star,
+.om-star.om-starred {
+	visibility: visible;
+}
+
+.om-conv-actions [data-act="conv-star"][data-state="on"] {
+	background: none;
+}
+
+.om-star.om-starred svg,
+.om-conv-actions [data-act="conv-star"][data-state="on"] svg {
+	color: var(--ink-amber-3);
+	fill: var(--ink-amber-3);
+}
+
+.om-more {
+	display: block;
+	margin: calc(var(--spacing) * 3) auto;
+}
+
+/* ------------------------------------------------------------ reading */
+
+.om-read {
+	flex: 1;
+	min-width: 0;
+	overflow: auto;
+	display: flex;
+	flex-direction: column;
+}
+
+.om-conv-head {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
+	padding: calc(var(--spacing) * 4) calc(var(--spacing) * 6) calc(var(--spacing) * 3);
+	background: var(--surface-base);
+}
+
+.om-conv-subject {
+	flex: 1 1 320px;
+	min-width: 0;
+	margin: 0;
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 1.3;
+	color: var(--ink-gray-9);
+	overflow-wrap: anywhere;
+}
+
+.om-conv-actions {
+	display: flex;
+	align-items: center;
+	gap: 2px;
+}
+
+.om-record {
+	flex-basis: 100%;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: var(--text-sm);
+	color: var(--ink-gray-6);
+}
+
+.om-messages {
+	display: flex;
+	flex-direction: column;
+	padding: 0 calc(var(--spacing) * 6);
+}
+
+.om-message {
+	padding: calc(var(--spacing) * 4) 0;
+	border-top: 1px solid var(--outline-gray-1);
+}
+
+.om-message:first-child {
+	border-top: 0;
+}
+
+.om-message-head {
+	display: flex;
+	align-items: flex-start;
+	gap: calc(var(--spacing) * 3);
+	margin-bottom: calc(var(--spacing) * 3);
+}
+
+.om-from {
+	flex: 1;
+	min-width: 0;
+	font-size: var(--text-sm);
+	color: var(--ink-gray-6);
+}
+
+.om-from-name {
+	font-size: var(--text-base);
+	font-weight: 600;
+	color: var(--ink-gray-9);
+}
+
+.om-from-address {
+	color: var(--ink-gray-5);
+}
+
+.om-to {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.om-to span {
+	color: var(--ink-gray-5);
+}
+
+/* An older message, read, in one line; a click opens it. */
+.om-folded {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 3);
+	padding: calc(var(--spacing) * 2.5) 0;
+	cursor: pointer;
+}
+
+.om-folded .om-face {
+	width: 24px;
+	height: 24px;
+	font-size: 10px;
+}
+
+.om-folded .om-from-name {
+	flex: none;
+	font-size: var(--text-sm);
+}
+
+.om-folded-text {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: var(--text-sm);
+	color: var(--ink-gray-5);
+}
+
+.om-body {
+	display: block;
+	width: 100%;
+	min-height: 40px;
+	border: 0;
+	/* The message's own colours are its sender's, on white, whatever the
+	 * desk's theme. */
+	background: var(--surface-white);
+	border-radius: var(--radius);
+}
+
+.om-pictures {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	margin-bottom: calc(var(--spacing) * 3);
+	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
+	border-radius: var(--radius);
+	background: var(--surface-gray-2);
+	color: var(--ink-gray-6);
+	font-size: var(--text-sm);
+}
+
+.om-pictures[hidden] {
+	display: none;
+}
+
+.om-pictures span {
+	flex: 1;
+}
+
+.om-files {
+	display: flex;
+	flex-wrap: wrap;
+	gap: calc(var(--spacing) * 2);
+	margin-top: calc(var(--spacing) * 3);
+}
+
+.om-file {
+	display: inline-flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	max-width: 280px;
+	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius);
+	color: var(--ink-gray-8);
+	font-size: var(--text-sm);
+	text-decoration: none;
+}
+
+.om-file:hover {
+	background: var(--surface-gray-1);
+	text-decoration: none;
+}
+
+.om-file-name {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.om-file-size {
+	color: var(--ink-gray-5);
+	flex: none;
+}
+
+.om-answer {
+	display: flex;
+	gap: calc(var(--spacing) * 2);
+	padding: calc(var(--spacing) * 3) calc(var(--spacing) * 6) calc(var(--spacing) * 8);
+}
+
+/* ------------------------------------------------------------ the folder menu */
+
+.om-menu {
+	position: fixed;
+	z-index: 1050;
+	min-width: 200px;
+	max-height: 60vh;
+	overflow: auto;
+	padding: 4px;
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius);
+	background: var(--surface-base);
+	box-shadow: var(--shadow-lg);
+}
+
+.om-menu-item {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	width: 100%;
+	height: 30px;
+	padding: 0 calc(var(--spacing) * 2);
+	padding-inline-start: calc(var(--spacing) * 2 + var(--depth, 0) * 14px);
+	border: 0;
+	border-radius: var(--radius);
+	background: none;
+	color: var(--ink-gray-8);
+	font-size: var(--text-base);
+	text-align: start;
+}
+
+.om-menu-item:hover {
+	background: var(--surface-gray-2);
+}
+
+/* ------------------------------------------------------------ narrow */
+
+@media (max-width: 1100px) {
+	.om-list {
+		flex-basis: 320px;
+	}
+}
+
+@media (max-width: 800px) {
+	.om-side {
+		display: none;
+	}
+}

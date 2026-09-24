@@ -6,9 +6,9 @@
    "fieldname": "one_mail_name",
    "fieldtype": "Data",
    "insert_after": "email",
+   "set_only_once": 0,
    "label": "Mail Name",
    "description": "The name before the workspace in their own address, which only receives. Left empty, their first name is used.",
-   "set_only_once": 1,
    "module": "One Mail",
    "name": "User-one_mail_name"
   }

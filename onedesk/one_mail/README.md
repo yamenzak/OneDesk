@@ -1,9 +1,9 @@
 # OneMail
 
-Written by hand. **Not built yet.** This is the plan: what OneMail will be,
-what was studied, what was decided and why, and the stages. As each stage
-lands, the part above **Under the hood** becomes the manual, as OneCloud's
-did.
+Written by hand. Stages 1 to 5 of nine are built: addresses on the mail
+domain, sending, connected mailboxes, holders and the page. The part above
+**Under the hood** is the manual; below it are the decisions and the stages
+still to come.
 
 OneMail is where a company's email lives. Every workspace has an address of
 its own, and every person in it has one too. The company's existing mailboxes
@@ -33,6 +33,24 @@ A workspace administrator can connect the company's mailbox and make it the
 workspace's own, for receiving, sending or both. They can also connect shared
 addresses such as `sales@theircompany.com` and choose who holds each. Anyone
 can connect their own, and nobody else sees into it, administrators included.
+
+## Reading and writing
+
+**Mail** in the rail opens every mailbox you hold: the workspace's first,
+then the shared ones, then your own, each with its folders. A folder lists
+its conversations, newest first. Opening one shows all of its messages,
+your replies from Sent included, with older ones folded to a line. Pictures
+from elsewhere are not shown until you ask, because loading one tells the
+sender you opened the message.
+
+Select several with their boxes, or with Shift and Ctrl, to mark them read,
+star, move, archive or delete them together. Deleting from Trash is for good.
+The keys are the usual ones: `j` and `k` to move, `e` to archive, `#` to
+delete, `r`, `a` and `f` to reply, reply to all and forward, `s` to star,
+`u` to mark unread, `c` to write and `/` to search.
+
+Writing uses the desk's own email window, so a message can be scheduled,
+undone for a few seconds after sending, and filed on a record.
 
 ## Attachments and faces
 
@@ -176,6 +194,30 @@ Stage 4, holders, is built.
 - `holders.mailboxes` is what the page will list: the reader's mailboxes,
   the workspace's first, each with its folders in the usual order and its
   unread count.
+
+Stage 5, the page, is built. Large attachments sent as links, and saving an
+attachment to OneCloud, come with stage 6.
+
+- **page/onemail** loads **public/js/onemail.js** and **onemail.css** the
+  first time it opens, as OneCloud's page does. The rail entry is the
+  OneMail sidebar.
+- **api.py** is what it reads. `conversations` groups a folder's messages
+  by thread, newest first, fifty at a time. A search covers the whole
+  mailbox. `conversation` returns every message of a thread in the mailbox,
+  whatever its folder, with its attachments. `names` turns conversations
+  into the messages an action changes: the whole conversation for read and
+  starred, and only its messages in the open folder for move and delete.
+- A Sent folder also answers to `Sent`. Mail sent from here is filed there
+  until its copy on the server is read and matched.
+- **live.py** sends `onemail_change` with the mailbox's name to its holders
+  only, once per mailbox after the commit. Sync, the sweep, actions and
+  every new message announce it.
+- A message is drawn in a sandboxed frame with no scripts, links opening
+  elsewhere and a CSP that loads nothing from outside until "Show pictures".
+  Handlers and forms are stripped before it is drawn.
+- Writing, replying and forwarding open Frappe's `CommunicationComposer`
+  from the open mailbox if it sends, else the workspace's. A reply is
+  `in_reply_to` its message and on its record, if it has one.
 
 ### Research and decisions
 

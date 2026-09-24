@@ -1,0 +1,30 @@
+{
+ "app": "onedesk",
+ "creation": "2026-09-24 22:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Sidebar",
+ "header_icon": "onemail",
+ "idx": 0,
+ "items": [
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Mail",
+   "link_type": "Page",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "onemail",
+   "icon": "mail"
+  }
+ ],
+ "modified": "2026-09-24 22:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Mail",
+ "name": "OneMail",
+ "owner": "Administrator",
+ "standard": 1,
+ "title": "OneMail"
+}

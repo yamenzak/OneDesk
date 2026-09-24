@@ -31,7 +31,7 @@ Communication, not two.
 import frappe
 from frappe.utils import cint, now_datetime
 
-from onedesk.one_mail import imap
+from onedesk.one_mail import imap, live
 from onedesk.one_mail.inbound import Arrival
 
 #: Messages read per folder per run, in each direction.
@@ -171,6 +171,8 @@ def sync_folder(session, doc, folder) -> dict:
 	folder.last_synced = now_datetime()
 	folder.flags.ignore_permissions = True
 	folder.save()
+	if any(read.values()):
+		live.changed(doc.name)
 	return read
 
 

@@ -24,7 +24,7 @@ import json
 import frappe
 from frappe import _
 
-from onedesk.one_mail import imap
+from onedesk.one_mail import imap, live
 
 #: Folders every hosted mailbox has, as (path, kind).
 STANDARD = (
@@ -104,6 +104,7 @@ def recount(account: str, path: str | None) -> None:
 	if folder:
 		unread = frappe.db.count("Communication", {"email_account": account, "one_folder": path, "seen": 0})
 		frappe.db.set_value("Mail Folder", folder, "unread", unread, update_modified=False)
+	live.changed(account)
 
 
 def folder_of(account: str, kind: str) -> str | None:
@@ -268,6 +269,7 @@ def create_folder(account: str, label: str, parent: str | None = None) -> str:
 		}
 	)
 	doc.insert(ignore_permissions=True)
+	live.changed(account)
 	return doc.name
 
 
@@ -305,6 +307,7 @@ def rename_folder(folder: str, label: str) -> str:
 			update_modified=False,
 		)
 	frappe.db.set_value("Mail Folder", doc.name, "label", label.strip(), update_modified=False)
+	live.changed(doc.account)
 	return doc.name
 
 
@@ -334,3 +337,4 @@ def delete_folder(folder: str) -> None:
 			with imap.Session(frappe.get_doc("Email Account", doc.account)) as session:
 				session.delete(row["path"])
 		frappe.delete_doc("Mail Folder", row["name"], ignore_permissions=True, force=True)
+	live.changed(doc.account)
