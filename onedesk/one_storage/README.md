@@ -12,11 +12,11 @@ cloud storage, not on the server, so there is room for all of them.
 
 ## Finding your way
 
-**OneCloud** in the dock opens it. The rail has:
-
-- **Files** — the explorer: every file in the workspace you may open.
-- **Setup › Storage Check** — whether files are going to cloud storage, and
-  moving the ones that are still on the server.
+**OneCloud** in the dock opens the explorer, full width: its own folder tree
+is the navigation, so the side panel starts closed. A workspace
+administrator finds **Storage Check** — whether files are going to cloud
+storage, and moving the ones still on the server — by right-clicking an
+empty space in the explorer.
 
 ## What is in OneCloud
 

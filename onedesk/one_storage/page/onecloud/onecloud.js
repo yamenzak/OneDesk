@@ -13,7 +13,9 @@
 // a bookmark and a link somebody pastes all land in the same folder.
 
 frappe.pages["onecloud"].on_page_load = (wrapper) => {
-	const page = frappe.ui.make_app_page({ parent: wrapper, title: __("Files"), single_column: true });
+	// The explorer is its own navigation: the rail's panel (Files, and Storage
+	// Check under Setup) starts closed, and the tree takes its place.
+	const page = frappe.ui.make_app_page({ parent: wrapper, title: __("Files"), single_column: true, hide_sidebar: true });
 	wrapper.onecloud = new onedesk.OneCloud(page);
 };
 
@@ -847,6 +849,8 @@ onedesk.OneCloud = class OneCloud {
 				return;
 			case "drive":
 				return this.drive(chosen[0].id, chosen[0].name);
+			case "storage-check":
+				return frappe.set_route("query-report", "Storage Check");
 			case "drive-here": {
 				const here = this.trail[this.trail.length - 1];
 				return this.drive(this.node, here ? here.name : __("Files"));
@@ -1514,6 +1518,7 @@ onedesk.OneCloud = class OneCloud {
 				["drive-here", "hard-drive", __("Connect as a drive…"), true],
 				["refresh", "refresh-cw", __("Refresh"), true, "F5"],
 			],
+			frappe.user.has_role("Workspace Administrator") ? [["storage-check", "shield-check", __("Storage Check"), true]] : [],
 		];
 	}
 

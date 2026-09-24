@@ -457,3 +457,9 @@ def test_a_tenant_is_limited_by_storage_not_by_file_size():
 	steps = (tree.APP / "one_admin" / "steps.py").read_text()
 	assert '"key": "max_file_size", "value": store.LARGEST' in steps, "every request's limit, set when the site is built"
 	assert HOOKS.count('"onedesk.one_storage.store.unlimit"') == 2, "the attach button's, on install and every migrate"
+
+
+def test_the_explorer_is_its_own_navigation():
+	js = (PAGE / "onecloud.js").read_text()
+	assert "hide_sidebar: true" in js, "the panel starts closed; the tree takes its place"
+	assert '"storage-check"' in js and 'has_role("Workspace Administrator")' in js
