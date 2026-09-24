@@ -71,7 +71,7 @@ onedesk.record_files.open = (frm) => {
 	field.loading = frappe.require(["/assets/onedesk/css/onecloud.css", "/assets/onedesk/js/onecloud.js"]).then(() => {
 		field.onecloud = new onedesk.OneCloud(null, {
 			room,
-			parent: field.$wrapper.empty(),
+			parent: field.$wrapper.empty().closest(".form-section").addClass("one-files-section").end(),
 			listed: (count) => onedesk.record_files.listed(frm, count),
 		});
 	});

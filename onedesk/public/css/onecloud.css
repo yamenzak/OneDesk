@@ -846,8 +846,20 @@
  * address bar keeps the path, which leads out to OneCloud, and the search. */
 .oc.oc-room {
 	height: clamp(420px, calc(100vh - 260px), 720px);
-	border: 1px solid var(--outline-gray-1);
-	border-radius: var(--radius-lg, 10px);
+	border-bottom: 1px solid var(--outline-gray-1);
+}
+
+/* Seamless with the form, as the page is with the desk: none of the section's
+ * padding around it, and none of the gap under the tab strip. */
+.form-section.one-files-section,
+.form-section.one-files-section .section-body,
+.form-section.one-files-section .form-column {
+	padding: 0;
+	border: 0;
+}
+
+.form-tab-content:has(> .tab-pane.active .one-files-section) {
+	margin-top: 0;
 }
 
 .oc-room .oc-tree,
