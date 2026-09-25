@@ -282,3 +282,22 @@
 .os-form .os-facts {
 	margin: 0;
 }
+
+/* frappe-ui's row alert (Alert.vue, layout "row"): a title and one action on
+   one line, the action a ghost button whose label takes the alert's ink.
+   Espresso's alert puts its footer under the title, so it is moved to the
+   column the dismiss button would use. */
+.es-alert.os-alert-row {
+	align-items: center;
+	padding-block: calc(var(--spacing) * 1.5);
+	padding-inline-end: calc(var(--spacing) * 1.5);
+}
+
+.es-alert.os-alert-row > .es-alert__footer {
+	grid-column: 3;
+	grid-row: 1;
+}
+
+.es-alert.os-alert-row[data-theme="yellow"] .es-button {
+	color: var(--ink-amber-6);
+}

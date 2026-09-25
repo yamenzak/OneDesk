@@ -103,8 +103,10 @@ onedesk.Settings = class Settings {
 
 	conflict() {
 		if (this.$content.find(".os-conflict").length) return;
-		const $refresh = $(this.button(__("Refresh"), {}, "solid")).on("click", () => this.open(this.key, { fresh: true }));
-		$(frappe.ui.alert({ title: __("This form has been modified after you have loaded it"), theme: "yellow", footer: $refresh, css_class: "os-conflict" })).prependTo(
+		// One title and one action is frappe-ui's row alert: the action on the
+		// right, a ghost button in the alert's own colour (Alert.vue).
+		const $refresh = $(this.button(__("Refresh"), {}, "ghost")).on("click", () => this.open(this.key, { fresh: true }));
+		$(frappe.ui.alert({ title: __("This form has been modified after you have loaded it"), theme: "yellow", footer: $refresh, css_class: "os-conflict os-alert-row" })).prependTo(
 			this.$content
 		);
 	}

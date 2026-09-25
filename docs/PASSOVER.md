@@ -119,6 +119,11 @@ Every settings screen, from the first commit of the pass:
      - Save sends each record's `modified`, and frappe's `check_if_latest`
        refuses a stale save with its own message. The page then offers
        Refresh.
+     - That warning is frappe-ui's row alert, from `Alert.vue`: the title
+       and one action on one line, the action a ghost button in the alert's
+       amber. Neither button library has an amber button (espresso: gray and
+       red; frappe-ui: gray, blue, green and red). The colour belongs to the
+       alert.
      - Both records' realtime rooms are subscribed. Untouched, the page reloads
        when somebody else saves. With changes in it, it says "This form has
        been modified after you have loaded it" and keeps them.
