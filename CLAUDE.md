@@ -11,6 +11,13 @@ Before writing any UI, data access, or utility, look for it in this order:
 `frappe` (the desk, the doctype, the workspace) → `@framework/ui` → `frappe-ui`.
 Only then write something, and say in one line why nothing above fit.
 
+**How a part looks follows frappe-ui**, which is the more finished design.
+Espresso, the desk's own parts, is frappe-ui ported to plain HTML, and the
+port is sometimes behind. Before using an espresso part, open the same
+component in frappe-ui (`src/components/<Name>/`: the `.vue`, the `.md`, the
+stories) and match its layout, variant, size and colour where they differ.
+Behaviour stays frappe's.
+
 **`docs/FRAMEWORK.md` is the list**, generated from the checkout we actually
 have: every `frappe.*` namespace, what is callable directly, `frappe.utils`,
 the `frappe.ui` classes, every `@framework/ui` export, the four ways a page

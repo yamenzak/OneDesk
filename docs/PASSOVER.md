@@ -39,6 +39,15 @@ be ours; how it behaves is frappe's.
   under it changes, the way the desk's lists do.
 - Where frappe already ships the behaviour, the screen uses it rather than a
   copy of it.
+- **What a part looks like comes from frappe-ui.** The desk's espresso parts
+  (`frappe.ui.button`, `alert`, `badge` and so on) are frappe-ui's design,
+  ported to plain HTML, and the port is sometimes behind or simpler. Before
+  using one, open the same component in frappe-ui
+  (`node_modules/frappe-ui/src/components/<Name>/`: the `.vue`, its `.md` and
+  its stories). Where the two differ, in layout, variant, size or colour,
+  follow frappe-ui. For example, frappe-ui draws an alert with one action as
+  one row, and espresso put the button on a line of its own. The desk part
+  stays; only its look is brought in line. Behaviour is still frappe's.
 
 ## How one screen goes
 
