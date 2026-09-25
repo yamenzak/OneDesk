@@ -698,7 +698,9 @@ one_ai_suggests = [
 	"onedesk.one_crm.ai.plan_next_step",
 	"onedesk.one_crm.ai.write_up_call",
 ]
-one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS", "onedesk.one_crm.ai.SUGGESTIONS"]
+one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS", "onedesk.one_crm.ai.SUGGESTIONS", "onedesk.one.ai.SUGGESTIONS"]
+
+one_ai_page = ["onedesk.one.ai.page"]
 
 # What each module puts on the calendar, as layers. Each reads its own records
 # as the person looking; nothing is copied. See one_calendar/layers.py.

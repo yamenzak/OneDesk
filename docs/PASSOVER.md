@@ -1,10 +1,10 @@
 # The passover
 
-Every screen of One, one at a time, checked against six points. You decide when
+Every screen of One, one at a time, checked against seven points. You decide when
 a screen is done and when the next one starts. This file is where each screen's
 findings and fixes are written down.
 
-## The six points
+## The seven points
 
 1. **Notifications and email templates**: what the screen's events send, to
    whom, and whether the message reads well.
@@ -18,10 +18,19 @@ findings and fixes are written down.
    rather than a standard desk. It still uses frappe-ui and espresso parts.
    Nothing looks boxed in: sections sit on the page, and Save goes in the page
    head.
+7. **Documented, and OneAI knows it**:
+   - The screen has its section in its module's `README.md`, above
+     `## Under the hood`, written for the people using it: what it is for, how
+     to fill it in, and who sees and changes what.
+   - OneAI answers "how do I…" from that section (`how_to`).
+   - The panel knows which screen the reader is on, and what records that
+     means.
+   - It offers the screen's own suggestions, if the screen has any worth
+     offering.
 
 ## Everything follows frappe
 
-This applies to every screen, on top of the six points. How a screen looks can
+This applies to every screen, on top of the seven points. How a screen looks can
 be ours; how it behaves is frappe's.
 
 - **Fields** are frappe's own controls (`frappe.ui.FieldGroup`, or the desk
@@ -52,7 +61,7 @@ be ours; how it behaves is frappe's.
 ## How one screen goes
 
 1. Screenshot it and read the code behind it.
-2. Write the findings under the six points below.
+2. Write the findings under the seven points below.
 3. Fix them, look again in the browser, and run the gates.
 4. Commit, push, and show you a screenshot.
 5. Wait for your word before the next screen.
@@ -61,7 +70,7 @@ be ours; how it behaves is frappe's.
 
 | Area | Screen | State |
 |---|---|---|
-| Settings, You | Profile | the four gaps closed, waiting for your word |
+| Settings, You | Profile | all seven points checked, waiting for your word |
 | Settings, You | Notifications | next |
 | Settings, You | Mail | |
 | Settings, You | Calendar | |
@@ -101,16 +110,33 @@ Every settings screen, from the first commit of the pass:
    The employee record keeps the change in its history, where HR sees it.
    Whether HR should also be told about a new address or emergency contact is
    open.
-2. **OneAI**: nothing here. What OneAI knows about a person is its own screen,
-   What OneAI Remembers.
+2. **OneAI**:
+   - Before, the panel knew nothing on any Settings page. `oneai.where()` only
+     recognised records, lists and reports, so it offered nothing and told the
+     model nothing.
+   - Now a desk page tells the panel the page and the open section, and the
+     panel follows the reader between sections.
+   - On Profile the model is told that it is the reader's own User record and,
+     when they have one, their own Employee record. It is told what they may
+     change and that job and bank are HR's.
+   - Two suggestions:
+     - **What is missing from my profile?** reads both records.
+     - **How do I fill this in?** answers from the README.
+   - Letting OneAI make a change itself ("I moved, update my address") is not
+     offered. `edit_record` would need write permission on Employee, which the
+     Employee role does not have.
 3. **Intake**: nothing yet. Later, a proof of address that Intake reads could
    offer to update the address here.
-4. **Permissions**: a person changes their own login, and only the Profile
-   fields. On their employee record they may change how to reach them, the
-   emergency contact, marital status and blood group. That record is only ever
-   the one whose `user_id` is theirs. Their job and their bank account are
-   shown but never written, and the account shows only its last four
-   characters. `tests/test_settings.py` holds this.
+4. **Permissions**:
+   - "About You" said only HR sees marital status and blood group. The person
+     sees them too, so it now says "Only you and HR see these".
+   - A person changes their own login, and only the Profile fields.
+   - On their employee record they may change how to reach them, the emergency
+     contact, marital status and blood group. That record is only ever the one
+     whose `user_id` is theirs.
+   - Their job and their bank account are shown but never written, and the
+     account shows only its last four characters.
+   - `tests/test_settings.py` holds this.
 5. **Cross-module**: gender, birth date, mobile and photo are on both the login
    and the employee. erpnext copies the employee's values onto the login every
    time the employee is saved. So those four are written to the employee as
@@ -155,3 +181,12 @@ Every settings screen, from the first commit of the pass:
      - In an Emergency
      - About You
      - Where Your Pay Goes (read-only)
+7. **Documented**:
+   - One had no README, so OneAI could not answer any question about Settings.
+   - `one/README.md` now has Finding your way, Settings (how saving works, and
+     what happens when somebody else changes the same thing), Settings ›
+     Profile, and Asking OneAI.
+   - Each Settings screen adds its own section as the pass reaches it.
+   - Checked on the site: "how do I change my bank account", "how do I change
+     my photo" and "who sees my blood group" each find One › Settings ›
+     Profile first.

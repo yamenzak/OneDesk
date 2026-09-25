@@ -746,6 +746,14 @@ def _page(page: dict | str | None) -> str:
 		filters = page.get("filters")
 		narrowed = f", narrowed to {json.dumps(filters)}" if filters else ""
 		return f"The reader is looking at a {view or 'list'} of {doctype}{narrowed}.{_fields_said(doctype)}"
+	if page.get("page"):
+		# A desk page has no record to name, so the module it belongs to says
+		# what it is. Only the page's name comes from the browser.
+		for path in frappe.get_hooks("one_ai_page"):
+			said = frappe.get_attr(path)(page)
+			if said:
+				return said
+		return f"The reader is on the {(page.get('label') or page['page'])} page."
 	return f"The reader is on the {view} page." if view else ""
 
 

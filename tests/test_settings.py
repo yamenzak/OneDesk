@@ -101,3 +101,17 @@ def test_the_page_sends_every_field_and_behaves_like_a_form():
 	assert "get_values(" not in script, "FieldGroup.get_values leaves a cleared field out, so it would never be cleared"
 	for part in ("doc_subscribe", "doc_update", "beforeunload", "TimestampMismatchError", "save_action"):
 		assert part in script, part
+
+
+def test_what_oneai_offers_on_settings_is_for_a_section_that_exists_and_is_documented():
+	"""Point 7 of the passover: a screen OneAI offers anything on is one its
+	README explains, since "How do I fill this in?" answers from there."""
+	ai = (tree.APP / "one" / "ai.py").read_text()
+	readme = (tree.APP / "one" / "README.md").read_text().split("## Under the hood", 1)[0]
+	keys = {key for key, *_ in S["SECTIONS"]}
+	offered = re.findall(r'"page:settings/(\w+)"', ai)
+	assert offered
+	labels = {key: str(label) for key, label, *_ in S["SECTIONS"]}
+	for key in offered:
+		assert key in keys, key
+		assert f"### {labels[key]}" in readme, f"Settings › {labels[key]} is not in one/README.md"

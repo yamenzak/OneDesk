@@ -152,6 +152,9 @@ onedesk.Settings = class Settings {
 	name_page(section) {
 		frappe.breadcrumbs.add({ type: "Custom", label: frappe.utils.escape_html(section.label), route: frappe.get_route_str() });
 		frappe.utils.set_title(section.label);
+		// OneAI's panel names where the reader is by the page's title, which the
+		// router's change came before; tell it again now that it is right.
+		if (onedesk.oneai && onedesk.oneai.panel) onedesk.oneai.panel.moved(onedesk.oneai.where());
 	}
 
 	// ---------------------------------------------------------------- parts
@@ -284,7 +287,7 @@ onedesk.Settings = class Settings {
 				["personal_email", ""],
 				{ heading: __("In an Emergency"), note: __("Who HR calls if something happens to you at work.") },
 				["person_to_be_contacted", "relation", "emergency_phone_number"],
-				{ heading: __("About You"), note: __("Only HR sees these.") },
+				{ heading: __("About You"), note: __("Only you and HR see these.") },
 				["marital_status", "blood_group"]
 			);
 			if (employee.bank.length) rows.push({ heading: __("Where Your Pay Goes"), note: __("Only HR can change this.") }, { html: facts(employee.bank) });

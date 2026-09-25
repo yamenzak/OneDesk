@@ -39,7 +39,8 @@ SETTINGS = [
 
 
 def for_page(page: dict | None) -> list[dict]:
-	"""A doctype's suggestions on its list or record, a workspace's on its home.
+	"""A doctype's suggestions on its list or record, a workspace's on its home,
+	a desk page's on that page.
 
 	A workspace is keyed `workspace:<name>` and each of its suggestions names the
 	doctype its permission is checked on, since a home page has none of its own.
@@ -47,7 +48,12 @@ def for_page(page: dict | None) -> list[dict]:
 	page = page or {}
 	workspace = (page.get("workspace") or "").strip()
 	doctype = (page.get("doctype") or "").strip()
-	if workspace:
+	desk = (page.get("page") or "").strip()
+	if desk:
+		# A desk page, and the part of it that is open: `page:settings/profile`.
+		section = (page.get("section") or "").strip()
+		key, view = f"page:{desk}/{section}" if section else f"page:{desk}", "Page"
+	elif workspace:
 		key, view = f"workspace:{workspace}", ""
 	elif doctype and frappe.db.exists("DocType", doctype):
 		key, view = doctype, "Form" if page.get("name") else "List"
