@@ -34,6 +34,8 @@ onedesk.Settings = class Settings {
 		};
 		this.reload = frappe.utils.debounce(() => this.open(this.key), 1000);
 		frappe.realtime.on("doc_update", (data) => this.updated(data));
+		// Agreeing in the dialog changes what the Agreements section shows.
+		$(document).on("legal-agreed", () => this.key === "agreements" && this.open("agreements"));
 	}
 
 	async show() {
@@ -474,6 +476,53 @@ onedesk.Settings = class Settings {
 			this.$content.empty();
 			this.draw_memory(said);
 		});
+	}
+
+	// Every agreement: what you agreed to, what your organisation agreed to and
+	// who agreed for it, and what is only published. Each opens on the
+	// Agreements page; an older version, as it was agreed.
+	draw_agreements(data) {
+		const esc = frappe.utils.escape_html;
+		const read = (key, version) =>
+			`/app/legal?document=${encodeURIComponent(key)}${version ? `&version=${encodeURIComponent(version)}` : ""}`;
+		const state = (one, whose) => {
+			if (!one.version) return frappe.ui.badge.html({ label: __("Not agreed yet"), theme: "orange" });
+			const when = whose === "organisation" ? __("by {0} on {1}", [one.by, one.on]) : __("on {0}", [one.on]);
+			if (one.version === one.current) return `${frappe.ui.badge.html({ label: __("Agreed"), theme: "green" })} <span class="os-quiet">${esc(when)}</span>`;
+			return `${frappe.ui.badge.html({ label: __("Updated since"), theme: "orange" })} <span class="os-quiet">${esc(when)}</span>
+				<a href="${read(one.key, one.version)}" target="_blank" rel="noopener">${esc(__("Read what was agreed"))}</a>`;
+		};
+		const row = (doc, whose) => `<div class="os-row">
+			<div class="os-row-main">
+				<div class="os-row-title"><a href="${read(doc.key)}" target="_blank" rel="noopener">${esc(doc.title)}</a></div>
+				<div class="os-quiet">${esc(doc.summary)}</div>
+				${whose ? `<div class="os-row-sub">${state({ ...doc[whose], key: doc.key }, whose)}</div>` : ""}
+			</div>
+			<div class="os-row-actions">${this.button(__("Read"), { "data-read": doc.key }, "ghost", "file-text")}</div>
+		</div>`;
+		const yours = data.documents.filter((doc) => doc.you);
+		const ours = data.documents.filter((doc) => doc.organisation);
+		const published = data.documents.filter((doc) => !doc.you && !doc.organisation);
+		const owed = data.documents.some(
+			(doc) => (doc.you && doc.you.version !== doc.you.current) || (data.admin && doc.organisation && doc.organisation.version !== doc.organisation.current)
+		);
+		this.$content.html(
+			(owed
+				? `<div class="os-card">${frappe.ui.alert.html({ title: __("Some of these are waiting for you to agree."), theme: "yellow" })}
+					<div class="os-actions">${this.button(__("Agree Now"), { "data-agree": "1" }, "solid")}</div></div>`
+				: "") +
+				this.card(__("Yours"), yours.map((doc) => row(doc, "you")).join(""), __("About your own personal data, so only you can agree to them.")) +
+				this.card(
+					__("Your Organisation's"),
+					ours.map((doc) => row(doc, "organisation")).join("") +
+						(data.admin ? `<div class="os-actions">${this.button(__("Everybody's Agreements"), { "data-everybody": "1" }, "ghost", "list")}</div>` : ""),
+					__("Agreed once, by an administrator, for everybody in the workspace.")
+				) +
+				this.card(__("Published"), published.map((doc) => row(doc, null)).join(""), __("To read. Nobody is asked to agree to these."))
+		);
+		this.$content.find("[data-read]").on("click", (event) => window.open(read($(event.currentTarget).attr("data-read")), "_blank"));
+		this.$content.find("[data-agree]").on("click", () => onedesk.legal.check());
+		this.$content.find("[data-everybody]").on("click", () => frappe.set_route("List", "Legal Acceptance"));
 	}
 
 	// ---------------------------------------------------------------- the workspace

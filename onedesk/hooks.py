@@ -681,6 +681,7 @@ one_ai_reads = [
 	"onedesk.one_crm.ai.lead_facts",
 	"onedesk.one_crm.ai.gone_quiet",
 	"onedesk.one_crm.ai.why_we_lose",
+	"onedesk.one_legal.ai.agreement",
 ]
 
 #: A sentence each about who is asking, added to what the model is told.

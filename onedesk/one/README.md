@@ -77,6 +77,35 @@ well. Changing them here changes both.
 - **How do I fill this in?** It goes through the page with you: what each part
   is for, and what only HR can change.
 
+### Agreements
+
+Every agreement One runs under, and where you and your organisation stand on
+each. Click a title, or **Read**, to open it in a new tab.
+
+- **Yours**: the Acceptable Use Policy, the Privacy Policy and the Cookie
+  Policy. They are about your own personal data, so only you can agree to them.
+  Each says **Agreed** and when, or **Not agreed yet**.
+- **Your Organisation's**: the Terms of Service, the Acceptable Use Policy, the
+  Data Processing Addendum, the Subprocessors list and the AI Addendum. An
+  administrator agrees to them once for everybody, and each says who agreed and
+  when.
+- **Published**: the open source notices, to read. Nobody is asked to agree to
+  them.
+
+**Updated since** means the document has changed since it was agreed to. **Read
+what was agreed** opens the exact text that was agreed, as it was then. If
+anything is waiting for you, **Agree Now** asks you, as One does when you sign
+in. An administrator also has **Everybody's Agreements**: every acceptance in
+the workspace, who agreed to which version, when and from where.
+
+**OneAI on this page** reads the agreements themselves, not a summary, and
+offers:
+
+- **What have I agreed to?** What you and your organisation agreed to, in plain
+  words, and what it means for your data.
+- **Who else sees my data?** Which other companies receive data from the
+  workspace, what they get, and where it is kept.
+
 ## Asking OneAI
 
 Ask OneAI how anything in One works, in your own words and your own language.

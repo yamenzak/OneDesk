@@ -83,6 +83,7 @@ onedesk.legal.ask = function (said) {
 				dialog.hide();
 				onedesk.legal.dialog = null;
 				frappe.show_alert({ message: __("Thank you."), indicator: "green" });
+				$(document).trigger("legal-agreed");
 				return;
 			}
 			onedesk.legal.ask(next);

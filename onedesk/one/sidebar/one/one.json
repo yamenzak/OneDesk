@@ -102,12 +102,24 @@
   },
   {
    "keep_closed": 0,
+   "type": "Link",
+   "label": "Agreements",
+   "link_to": "settings",
+   "link_type": "Page",
+   "icon": "scale",
+   "child": 1,
+   "route_options": "{\"section\": \"agreements\"}",
+   "idx": 9,
+   "filters": "{\"section\": \"agreements\"}"
+  },
+  {
+   "keep_closed": 0,
    "type": "Section Break",
    "label": "Workspace",
    "icon": "building-2",
    "indent": 0,
    "collapsible": 1,
-   "idx": 9
+   "idx": 10
   },
   {
    "keep_closed": 0,
@@ -118,7 +130,7 @@
    "icon": "building-2",
    "child": 1,
    "route_options": "{\"section\": \"general\"}",
-   "idx": 10,
+   "idx": 11,
    "filters": "{\"section\": \"general\"}"
   },
   {
@@ -130,7 +142,7 @@
    "icon": "users",
    "child": 1,
    "route_options": "{\"section\": \"people\"}",
-   "idx": 11,
+   "idx": 12,
    "filters": "{\"section\": \"people\"}"
   },
   {
@@ -142,7 +154,7 @@
    "icon": "credit-card",
    "child": 1,
    "route_options": "{\"section\": \"plan\"}",
-   "idx": 12,
+   "idx": 13,
    "filters": "{\"section\": \"plan\"}"
   },
   {
@@ -154,7 +166,7 @@
    "icon": "globe",
    "child": 1,
    "route_options": "{\"section\": \"domains\"}",
-   "idx": 13,
+   "idx": 14,
    "filters": "{\"section\": \"domains\"}"
   },
   {
@@ -166,7 +178,7 @@
    "icon": "sparkles",
    "child": 1,
    "route_options": "{\"section\": \"oneai\"}",
-   "idx": 14,
+   "idx": 15,
    "filters": "{\"section\": \"oneai\"}"
   },
   {
@@ -178,7 +190,7 @@
    "icon": "inbox",
    "child": 1,
    "route_options": "{\"section\": \"intake\"}",
-   "idx": 15,
+   "idx": 16,
    "filters": "{\"section\": \"intake\"}"
   },
   {
@@ -190,7 +202,7 @@
    "icon": "calendar-days",
    "child": 1,
    "route_options": "{\"section\": \"holidays\"}",
-   "idx": 16,
+   "idx": 17,
    "filters": "{\"section\": \"holidays\"}"
   },
   {
@@ -201,7 +213,7 @@
    "icon": "oneai",
    "indent": 0,
    "collapsible": 1,
-   "idx": 17
+   "idx": 18
   },
   {
    "keep_closed": 0,
@@ -212,7 +224,7 @@
    "link_type": "Report",
    "icon": "chart-column",
    "child": 1,
-   "idx": 18
+   "idx": 19
   },
   {
    "keep_closed": 0,
@@ -223,7 +235,7 @@
    "link_type": "DocType",
    "icon": "messages-square",
    "child": 1,
-   "idx": 19
+   "idx": 20
   },
   {
    "keep_closed": 0,
@@ -234,10 +246,10 @@
    "link_type": "DocType",
    "icon": "lightbulb",
    "child": 1,
-   "idx": 20
+   "idx": 21
   }
  ],
- "modified": "2026-10-03 16:00:00.000000",
+ "modified": "2026-10-03 17:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

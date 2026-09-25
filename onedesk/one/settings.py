@@ -36,6 +36,7 @@ SECTIONS = [
 	("calendar", _lt("Calendar"), "calendar", "you"),
 	("signin", _lt("Sign-in"), "key-round", "you"),
 	("memory", _lt("What OneAI Remembers"), "brain", "you"),
+	("agreements", _lt("Agreements"), "scale", "you"),
 	("general", _lt("General"), "building-2", "workspace"),
 	("people", _lt("People"), "users", "workspace"),
 	("plan", _lt("Plan and Credits"), "credit-card", "workspace"),
@@ -135,6 +136,7 @@ def load(section: Annotated[str, "Which section."]) -> dict:
 		"calendar": _calendar,
 		"signin": _signin,
 		"memory": _memory,
+		"agreements": _agreements,
 		"general": _general,
 		"people": _people,
 		"plan": _plan,
@@ -358,6 +360,58 @@ def forget(name: Annotated[str, "The AI Memory to forget."]) -> dict:
 	doc.check_permission("delete")
 	doc.delete()
 	return _memory()
+
+
+def _agreements() -> dict:
+	"""Every agreement: what the reader agreed to themselves, what the
+	organisation agreed to and who agreed for it, and what is only published.
+	Read from the rows OneLegal's own gate writes, never a second copy."""
+	from onedesk.one_legal import assemble, gate
+	from onedesk.one_legal.documents import DOCUMENTS
+
+	def last(key: str, party: str) -> dict | None:
+		filters = {"document": key, "party": party}
+		if party == gate.USER:
+			filters["user"] = frappe.session.user
+		rows = frappe.get_all(
+			"Legal Acceptance",
+			filters=filters,
+			fields=["version", "user", "accepted_on"],
+			order_by="creation desc",
+			limit=1,
+			# The reader's own row, or the organisation's, which everybody in it
+			# is bound by and so may see.
+			ignore_permissions=True,
+		)
+		if not rows:
+			return None
+		row = rows[0]
+		return {
+			"version": row.version,
+			"on": frappe.utils.formatdate(row.accepted_on),
+			"by": frappe.utils.get_fullname(row.user) if party == gate.WORKSPACE else None,
+		}
+
+	documents = []
+	for key, one in DOCUMENTS.items():
+		version = assemble.version_of(key)
+		parties = gate.AUDIENCE.get(one["audience"], ())
+		# Through a name, not `_(one["title"])`: the extractor would take the
+		# key for the text. The titles are extracted from one_legal/gate.SHOWN.
+		title, summary = one["title"], one["summary"]
+		documents.append(
+			{
+				"key": key,
+				"title": _(title),
+				"summary": _(summary),
+				"version": version,
+				"you": {"current": version, **(last(key, gate.USER) or {})} if gate.USER in parties else None,
+				"organisation": {"current": version, **(last(key, gate.WORKSPACE) or {})}
+				if gate.WORKSPACE in parties
+				else None,
+			}
+		)
+	return {"documents": documents, "admin": roles.administers()}
 
 
 # ------------------------------------------------------------------ the workspace

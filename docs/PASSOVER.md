@@ -82,11 +82,12 @@ be ours; how it behaves is frappe's.
 | Area | Screen | State |
 |---|---|---|
 | Settings, You | Profile | done |
-| Settings, You | Notifications | next |
+| Settings, You | Notifications | next, after Agreements |
 | Settings, You | Mail | |
 | Settings, You | Calendar | |
 | Settings, You | Sign-in | |
 | Settings, You | What OneAI Remembers | |
+| Settings, You | Agreements | built, waiting for your word |
 | Settings, Workspace | General | |
 | Settings, Workspace | People | |
 | Settings, Workspace | Plan and Credits | |
@@ -209,6 +210,42 @@ Every settings screen, from the first commit of the pass:
      category of personal data, and an emergency contact is personal data
      about somebody who is not a user. The organisation decides whether to
      collect them and needs a lawful basis to.
+
+### Agreements
+
+Built during the pass, right after OneLegal, so a person can see what they
+agreed to. The Terms already promise that.
+
+1. **Notifications**: nothing is sent. A new revision is asked for at the next
+   sign-in. Whether administrators should also be told by mail when their
+   organisation's agreements change is open.
+2. **OneAI**:
+   - A new read tool, `agreement`, returns a document's actual text, so OneAI
+     answers from what was agreed, not from what such documents usually say.
+     It sits in `one_legal/ai.py` and is registered in `one_ai_reads`.
+   - The panel is told the reader is on Agreements.
+   - It offers **What have I agreed to?** and **Who else sees my data?**, both
+     expecting the tool.
+3. **Intake**: nothing here.
+4. **Permissions**:
+   - Everybody sees their own acceptances, and the organisation's with who
+     agreed and when, since they are bound by them.
+   - Only administrators get **Everybody's Agreements**, the Legal Acceptance
+     list, whose doctype only they may read.
+5. **Cross-module**:
+   - The section reads the rows OneLegal's gate writes, not a copy.
+   - **Agree Now** opens the same dialog as sign-in. Agreeing there redraws
+     the section (`legal-agreed`).
+6. **UI**:
+   - Three parts: Yours, Your Organisation's, Published.
+   - Each document has a badge (Agreed, Not agreed yet, Updated since) and
+     when, or by whom and when.
+   - A changed document links to the exact text that was agreed.
+   - It is read-only, so there is no form and no Save.
+7. **Documented**: One's README has Settings › Agreements, and a test holds
+   that a section OneAI offers anything on has its README section.
+8. **Legal**: no new lines. The Terms' "every version anybody agreed to is kept
+   and can be read in One" is now true of a screen.
 
 ## OneLegal
 

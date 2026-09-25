@@ -26,6 +26,18 @@ SUGGESTIONS = {
 			"expects": "how_to",
 		},
 	],
+	"page:settings/agreements": [
+		{
+			"label": _lt("What have I agreed to?"),
+			"ask": _lt("In plain words, what have I and my organisation agreed to, and what does it mean for my data?"),
+			"expects": "agreement",
+		},
+		{
+			"label": _lt("Who else sees my data?"),
+			"ask": _lt("Which other companies receive data from this workspace, what do they get, and where is it kept?"),
+			"expects": "agreement",
+		},
+	],
 }
 
 
@@ -33,7 +45,16 @@ def page(said: dict) -> str | None:
 	"""The sentence the model is told about a Settings section: which records
 	it is, and where its documentation is. Only the reader's own records, found
 	on the server rather than taken from the browser."""
-	if said.get("page") != "settings" or said.get("section") != "profile":
+	if said.get("page") != "settings":
+		return None
+	if said.get("section") == "agreements":
+		return (
+			"The reader is on Agreements in Settings: every agreement One runs under, what they agreed to "
+			"themselves, and what their organisation agreed to and who agreed for it. The text of each is "
+			"what the agreement tool returns; how agreeing works is in One's documentation under OneLegal "
+			"(how_to)."
+		)
+	if said.get("section") != "profile":
 		return None
 	from onedesk.one_hr import own
 
