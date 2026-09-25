@@ -17,12 +17,20 @@ are saved like this (docs/SHELL.md, decision 5):
   the form loaded, so a change somebody made meanwhile is refused with the
   record named, and nothing is overwritten. The form hears the linked
   record's `doc_update` too, and says so before Save is pressed.
-- **Permissions are the linked record's.** Its fields are read-only for a
-  reader who may not write it, and the section is not drawn for one who may
-  not read it. On a submitted record only fields it allows on submit are
-  editable; on a cancelled one none are.
-- **Not** child tables, computed or fetched fields, fields above permission
-  level nought, or a second link onward: those are a Connection, or a report.
+- **Permissions are the linked record's**, down to the field. Its fields are
+  read-only for a reader who may not write it, and the section is not drawn
+  for one who may not read it. A field above permission level nought is
+  hidden from a reader without read at that level and read-only without
+  write, as it is on the record's own form. On a submitted record only
+  fields it allows on submit are editable; on a cancelled one none are.
+- **A child table is the linked record's table**, drawn as frappe's own grid:
+  rows are added, edited, moved and deleted there, and the whole table is
+  sent and set on the linked record, so frappe updates, inserts and deletes
+  the rows as it would from that record's form. The rows on this form are
+  copies under names of their own, so a form of the linked record open
+  elsewhere keeps its own.
+- **Not** computed or fetched fields, or a second link onward: those are a
+  Connection, or a report.
 """
 
 import json
@@ -35,13 +43,11 @@ from frappe.utils import cstr
 #: The form's own name for a linked field, which no field of a record has.
 PREFIX = "one_linked__"
 
-#: What a linked section may not show: layout, tables, and what is computed.
+#: What a linked section may not show: layout, and what is computed.
 REFUSED = {
 	"Section Break",
 	"Column Break",
 	"Tab Break",
-	"Table",
-	"Table MultiSelect",
 	"HTML",
 	"Button",
 	"Image",
@@ -49,6 +55,9 @@ REFUSED = {
 	"Heading",
 	"Read Only",
 }
+
+#: A linked record's child tables, drawn as frappe's grid.
+TABLES = ("Table", "Table MultiSelect")
 
 #: The docfield properties the form draws a linked field with.
 DRAWN = ("fieldtype", "label", "options", "description", "precision", "length", "non_negative")
@@ -76,9 +85,68 @@ def refused(df) -> str | None:
 		return _("{0} is not a field to edit.").format(label)
 	if df.get("is_virtual") or df.get("fetch_from") or df.get("read_only"):
 		return _("{0} is worked out, not typed.").format(label)
-	if df.get("permlevel"):
-		return _("{0} is kept to some people.").format(label)
 	return None
+
+
+def placing(source: list[tuple[str, str]], chosen: list[str]) -> list[str]:
+	"""The chosen fields laid out as the linked record's own form lays them:
+	a field in a later column of the same section of that form goes into a
+	new column here, one in another section, or any table, starts a section
+	of its own. `source` is the linked form's fields in order, as (fieldname,
+	fieldtype). Returns fieldnames with "|" for a column break and "-" for a
+	section break. Pure."""
+	where, section, column = {}, 0, 0
+	for name, fieldtype in source:
+		if fieldtype in ("Section Break", "Tab Break"):
+			section, column = section + 1, 0
+		elif fieldtype == "Column Break":
+			column += 1
+		else:
+			where[name] = (section, column, fieldtype in TABLES)
+	out, last = [], None
+	for name in chosen:
+		now = where.get(name, (0, 0, False))
+		if last is not None:
+			if now[2] or last[2] or now[0] != last[0] or now[1] < last[1]:
+				out.append("-")
+			elif now[1] > last[1]:
+				out.append("|")
+		out.append(name)
+		last = now
+	return out
+
+
+def columns(doctype: str) -> list[str]:
+	"""The fields a child row holds a value in."""
+	return [
+		df.fieldname
+		for df in frappe.get_meta(doctype).fields
+		if df.fieldtype not in frappe.model.no_value_fields
+	]
+
+
+def rows(doc, fieldname: str) -> list[dict]:
+	"""A child table as the form is sent it: each row's values, by the row's
+	own name."""
+	table = doc.meta.get_field(fieldname).options
+	return [
+		{"name": row.name, **{name: row.get(name) for name in columns(table)}} for row in doc.get(fieldname)
+	]
+
+
+def as_rows(doc, fieldname: str, sent: list) -> list[dict]:
+	"""A table the form sent, as rows to set on the linked record: a row that
+	was the record's keeps its name, so frappe updates it; any other is new;
+	one left out is deleted."""
+	table = doc.meta.get_field(fieldname).options
+	own = {row.name for row in doc.get(fieldname)}
+	out = []
+	for row in sent or []:
+		kept = {name: row.get(name) for name in columns(table) if name in row}
+		if row.get("name") in own:
+			kept["name"] = row["name"]
+		out.append(kept)
+	return out
 
 
 def validate(head) -> None:
@@ -112,12 +180,17 @@ def validate(head) -> None:
 # ------------------------------------------------------------------ what the form is given
 
 
-def for_boot() -> dict:
+def for_boot(bootinfo=None) -> dict:
 	"""The sections each doctype's form draws, for this person: none through a
-	doctype they may not read. The form builds its layout from these once."""
+	doctype they may not read. The form builds its layout from these once. A
+	child table's own doctype goes into the boot's docs, as a form's tables'
+	do into its meta, so frappe's grid has it before the form is drawn."""
+	from frappe.desk.form.meta import get_meta
+
 	from onedesk.one import head
 
 	found = {}
+	tables = set()
 	for doctype in sorted(head.headed()):
 		rows = frappe.get_cached_doc("Record Head", doctype).get("linked") or []
 		meta = frappe.get_meta(doctype)
@@ -126,18 +199,36 @@ def for_boot() -> dict:
 			if not link or not frappe.has_permission(link.options, "read"):
 				continue
 			linked = frappe.get_meta(link.options)
-			fields = []
-			for name in names(row.fields):
-				df = linked.get_field(name)
-				if df and not refused(df):
-					fields.append(
-						{
-							**{key: df.get(key) for key in DRAWN if df.get(key)},
-							"label": _(df.label),
-							"fieldname": fieldname(row.link_field, name),
-							"one_linked": name,
+			fields, layout = [], []
+			chosen = [
+				name
+				for name in names(row.fields)
+				if linked.get_field(name) and not refused(linked.get_field(name))
+			]
+			source = [(df.fieldname, df.fieldtype) for df in linked.fields]
+			for i, name in enumerate(placing(source, chosen)):
+				if name in ("|", "-"):
+					layout.append(
+						{"fieldtype": "Column Break", "fieldname": f"{fieldname(row.link_field, '')}c{i}"}
+						if name == "|"
+						else {
+							"fieldtype": "Section Break",
+							"fieldname": f"{fieldname(row.link_field, '')}s{i}",
+							"hide_border": 1,
 						}
 					)
+					continue
+				df = linked.get_field(name)
+				if df.fieldtype in TABLES:
+					tables.add(df.options)
+				drawn = {
+					**{key: df.get(key) for key in DRAWN if df.get(key)},
+					"label": _(df.label),
+					"fieldname": fieldname(row.link_field, name),
+					"one_linked": name,
+				}
+				fields.append(drawn)
+				layout.append(drawn)
 			found.setdefault(doctype, []).append(
 				{
 					"label": _(row.label),
@@ -145,8 +236,11 @@ def for_boot() -> dict:
 					"doctype": link.options,
 					"placed_in": row.placed_in or None,
 					"fields": fields,
+					"layout": layout,
 				}
 			)
+	if bootinfo is not None:
+		bootinfo.setdefault("docs", []).extend(get_meta(table) for table in sorted(tables))
 	return found
 
 
@@ -162,17 +256,29 @@ def loaded(doc, head) -> dict:
 			continue
 		linked = frappe.get_doc(link.options, target)
 		writable = linked.docstatus < 2 and bool(linked.has_permission("write"))
-		fields = names(row.fields)
+		fields = [name for name in names(row.fields) if linked.meta.get_field(name)]
+		# What the reader's permission levels keep from them, as frappe's own
+		# form would.
+		hidden = [name for name in fields if not linked.has_permlevel_access_to(name, permission_type="read")]
+		shown = [name for name in fields if name not in hidden]
 		out[row.link_field] = {
 			"doctype": link.options,
 			"name": target,
 			"title": linked.get_title() or target,
 			"modified": cstr(linked.modified),
-			"values": {name: linked.get(name) for name in fields},
+			"values": {
+				name: rows(linked, name)
+				if linked.meta.get_field(name).fieldtype in TABLES
+				else linked.get(name)
+				for name in shown
+			},
+			"hidden": hidden,
 			"locked": [
 				name
-				for name in fields
-				if not writable or (linked.docstatus == 1 and not linked.meta.get_field(name).allow_on_submit)
+				for name in shown
+				if not writable
+				or not linked.has_permlevel_access_to(name, permission_type="write")
+				or (linked.docstatus == 1 and not linked.meta.get_field(name).allow_on_submit)
 			],
 		}
 	return out
@@ -228,6 +334,18 @@ def save(doc, method=None) -> None:
 			frappe.throw(
 				_("{0} {1} is submitted, and these cannot change now.").format(_(doctype), linked.name)
 			)
-		linked.update(values)
+		kept = [name for name in values if not linked.has_permlevel_access_to(name, permission_type="write")]
+		if kept:
+			frappe.throw(
+				_("{0} cannot be changed by you.").format(
+					", ".join(_(linked.meta.get_label(name)) for name in kept)
+				),
+				frappe.PermissionError,
+			)
+		for name, value in values.items():
+			if linked.meta.get_field(name).fieldtype in TABLES:
+				linked.set(name, as_rows(linked, name, value))
+			else:
+				linked.set(name, value)
 		linked.save()
 	doc.__one_linked = None

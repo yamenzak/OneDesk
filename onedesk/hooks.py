@@ -213,7 +213,14 @@ doc_events = {
 	# hrms counts milestones by letting an insert fail, and the message outlives
 	# the savepoint. See one/quiet.py.
 	"*": {
-		"on_submit": ["onedesk.one.quiet.milestone", "onedesk.one_intake.mark.looked_at", "onedesk.one_intake.steps.record_changed"],
+		"on_submit": [
+			"onedesk.one.quiet.milestone",
+			"onedesk.one_intake.mark.looked_at",
+			"onedesk.one_intake.steps.record_changed",
+			# Submitting runs no on_update: linked fields changed with it are
+			# saved here. See one/linked.py.
+			"onedesk.one.linked.save",
+		],
 		"after_insert": [
 			"onedesk.one.quiet.milestone",
 			# A contact, customer or supplier someone already is. See one_intake/identity.py.

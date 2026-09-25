@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-25 21:25+0000\n"
-"PO-Revision-Date: 2026-09-25 21:25+0000\n"
+"POT-Creation-Date: 2026-09-25 22:30+0000\n"
+"PO-Revision-Date: 2026-09-25 22:30+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -7224,7 +7224,7 @@ msgstr "Verknüpft mit"
 msgid "Linked To Type"
 msgstr "Verknüpft mit Typ"
 
-#: onedesk/one/linked.py:89
+#: onedesk/one/linked.py:157
 msgid "Linked section {0}"
 msgstr "Verknüpfter Abschnitt {0}"
 
@@ -8595,7 +8595,7 @@ msgstr "Nicht geschätzt"
 msgid "Not Recorded"
 msgstr "Nicht erfasst"
 
-#: onedesk/public/js/shell.js:224
+#: onedesk/public/js/shell.js:232
 msgid "Not Saved"
 msgstr "Nicht gespeichert"
 
@@ -11341,11 +11341,11 @@ msgstr "Referenz"
 msgid "References"
 msgstr "Referenzen"
 
-#: onedesk/public/js/head.js:209 onedesk/public/js/onecloud.js:110
-#: onedesk/public/js/onecloud.js:1800 onedesk/public/js/onecloud.js:1801
-#: onedesk/public/js/onecloud.js:1821 onedesk/public/js/onemail.js:86
-#: onedesk/public/js/shell.js:203 onedesk/public/js/tenant.js:78
-#: onedesk/public/js/tenant.js:83 onedesk/public/js/tenant_domain.js:12
+#: onedesk/public/js/onecloud.js:110 onedesk/public/js/onecloud.js:1800
+#: onedesk/public/js/onecloud.js:1801 onedesk/public/js/onecloud.js:1821
+#: onedesk/public/js/onemail.js:86 onedesk/public/js/shell.js:168
+#: onedesk/public/js/tenant.js:78 onedesk/public/js/tenant.js:83
+#: onedesk/public/js/tenant_domain.js:12
 #: onedesk/public/js/workspace_account.js:19
 msgid "Refresh"
 msgstr "Aktualisieren"
@@ -11922,7 +11922,7 @@ msgstr "Umsätze werden unter dem Emirat des Unternehmens gemeldet."
 #: onedesk/public/js/crm_record.js:218 onedesk/public/js/next_step.js:31
 #: onedesk/public/js/onecloud.js:1488 onedesk/public/js/onemail.js:829
 #: onedesk/public/js/onemail.js:853 onedesk/public/js/project.js:155
-#: onedesk/public/js/settings.js:263 onedesk/public/js/shell.js:311
+#: onedesk/public/js/settings.js:263 onedesk/public/js/shell.js:319
 msgid "Save"
 msgstr "Speichern"
 
@@ -11943,7 +11943,7 @@ msgid "Saved to My Files."
 msgstr "In Meinen Dateien gespeichert."
 
 #: onedesk/public/js/settings.js:267 onedesk/public/js/settings.js:501
-#: onedesk/public/js/shell.js:345
+#: onedesk/public/js/shell.js:353
 msgid "Saved."
 msgstr "Gespeichert."
 
@@ -14536,7 +14536,7 @@ msgstr "Dieser Ordner ist leer."
 msgid "This folder is empty. Drop files here, or use New."
 msgstr "Dieser Ordner ist leer. Legen Sie Dateien hier ab oder verwenden Sie „Neu“."
 
-#: onedesk/public/js/shell.js:206
+#: onedesk/public/js/head.js:300 onedesk/public/js/shell.js:218
 msgid "This form has been modified after you have loaded it"
 msgstr "Dieses Formular wurde geändert, nachdem du es geöffnet hast"
 
@@ -17372,7 +17372,7 @@ msgstr "{0} und {1} liegen nicht in einer Zone."
 msgid "{0} and {1} more"
 msgstr "{0} und {1} weitere"
 
-#: onedesk/one/linked.py:212
+#: onedesk/one/linked.py:318
 msgid "{0} are not in this section."
 msgstr "{0} gehören nicht zu diesem Abschnitt."
 
@@ -17399,6 +17399,10 @@ msgstr "{0} gehört zu {1} {2}. Teilen Sie stattdessen den Datensatz."
 #: onedesk/one_mail/addresses.py:122
 msgid "{0} cannot be a name in an address. Use letters, digits, - and _."
 msgstr "{0} kann kein Name in einer Adresse sein. Verwenden Sie Buchstaben, Ziffern, - und _."
+
+#: onedesk/one/linked.py:340
+msgid "{0} cannot be changed by you."
+msgstr "{0} können Sie nicht ändern."
 
 #: onedesk/one_storage/api.py:390
 msgid "{0} cannot be deleted."
@@ -17438,7 +17442,7 @@ msgstr "{0} Kategorien, jede mit ihrem Konto und ihrer Abschreibung."
 msgid "{0} changed after this was suggested, so it no longer applies."
 msgstr "{0} hat sich nach dem Vorschlag geändert, daher gilt er nicht mehr."
 
-#: onedesk/one/linked.py:205
+#: onedesk/one/linked.py:311
 msgid "{0} changed in this save. Save it first, then edit what it links to."
 msgstr "{0} hat sich mit diesem Speichern geändert. Zuerst speichern, dann das Verknüpfte bearbeiten."
 
@@ -17580,7 +17584,7 @@ msgstr "{0} für {1}: {2} von {3} Tagen bezahlt."
 msgid "{0} from {1} · {2}"
 msgstr "{0} von {1} · {2}"
 
-#: onedesk/one/head.py:156 onedesk/one/linked.py:92
+#: onedesk/one/head.py:156 onedesk/one/linked.py:160
 msgid "{0} goes through {1}, which is not a link."
 msgstr "{0} geht über {1}, das keine Verknüpfung ist."
 
@@ -17608,7 +17612,7 @@ msgstr "Für {0} ist am {1} keine Anwesenheit erfasst."
 msgid "{0} has no billable time that is not invoiced yet."
 msgstr "{0} hat keine abrechenbare Zeit, die noch nicht abgerechnet ist."
 
-#: onedesk/one/linked.py:202
+#: onedesk/one/linked.py:308
 msgid "{0} has no section through {1}."
 msgstr "{0} hat keinen Abschnitt über {1}."
 
@@ -17700,10 +17704,6 @@ msgstr "{0} ist {1}-mal berechnet, bestellt {2}."
 msgid "{0} is in somebody else's files. Copy it instead."
 msgstr "{0} liegt in den Dateien einer anderen Person. Kopieren Sie es stattdessen."
 
-#: onedesk/one/linked.py:80
-msgid "{0} is kept to some people."
-msgstr "{0} ist nur manchen Personen vorbehalten."
-
 #: onedesk/one_ai/files.py:85
 msgid "{0} is larger than {1} MB, which is as much as one question may carry."
 msgstr "{0} ist größer als {1} MB, und mehr darf eine Frage nicht tragen."
@@ -17724,7 +17724,7 @@ msgstr "{0} ist mehr als die noch offenen {1}."
 msgid "{0} is not a capability any model carries."
 msgstr "{0} ist keine Fähigkeit, die ein Modell trägt."
 
-#: onedesk/one/linked.py:76
+#: onedesk/one/linked.py:85
 msgid "{0} is not a field to edit."
 msgstr "{0} ist kein Feld zum Bearbeiten."
 
@@ -17825,7 +17825,7 @@ msgstr "{0} ist vergeben."
 msgid "{0} is the last owner of {1}. Make somebody else an owner first."
 msgstr "{0} ist der letzte Eigentümer von {1}. Machen Sie zuerst jemand anderen zum Eigentümer."
 
-#: onedesk/one/linked.py:78
+#: onedesk/one/linked.py:87
 msgid "{0} is worked out, not typed."
 msgstr "{0} wird berechnet, nicht eingegeben."
 
@@ -17877,8 +17877,8 @@ msgstr "{0} muss gesetzlich bis {1} aufbewahrt werden und kann vorher nicht gel�
 msgid "{0} names the measure {1}, which no module has."
 msgstr "{0} nennt die Kennzahl {1}, die kein Modul hat."
 
-#: onedesk/one/head.py:127 onedesk/one/head.py:159 onedesk/one/linked.py:95
-#: onedesk/one/linked.py:106
+#: onedesk/one/head.py:127 onedesk/one/head.py:159 onedesk/one/linked.py:163
+#: onedesk/one/linked.py:174
 msgid "{0} names {1}, which {2} does not have."
 msgstr "{0} nennt {1}, das {2} nicht hat."
 
@@ -17999,7 +17999,7 @@ msgstr "{0} hat diesen Ordner mit Ihnen geteilt."
 msgid "{0} shared this with you."
 msgstr "{0} hat dies mit Ihnen geteilt."
 
-#: onedesk/one/linked.py:101
+#: onedesk/one/linked.py:169
 msgid "{0} shows nothing."
 msgstr "{0} zeigt nichts."
 
@@ -18093,7 +18093,7 @@ msgstr "{0} Jahre"
 msgid "{0} {1} is not there."
 msgstr "{0} {1} ist nicht vorhanden."
 
-#: onedesk/one/linked.py:229
+#: onedesk/one/linked.py:335
 msgid "{0} {1} is submitted, and these cannot change now."
 msgstr "{0} {1} ist gebucht, diese können sich jetzt nicht mehr ändern."
 
@@ -18101,11 +18101,11 @@ msgstr "{0} {1} ist gebucht, diese können sich jetzt nicht mehr ändern."
 msgid "{0} {1} of {2} {3}"
 msgstr "{0} {1} {2} {3}"
 
-#: onedesk/public/js/head.js:204
+#: onedesk/public/js/head.js:280
 msgid "{0} {1} was changed by somebody else after you opened this. Refresh to see it."
 msgstr "{0} {1} wurde von jemand anderem geändert, nachdem Sie dies geöffnet haben. Aktualisieren Sie, um es zu sehen."
 
-#: onedesk/one/linked.py:220
+#: onedesk/one/linked.py:326
 msgid "{0} {1} was changed by somebody else after you opened this. Refresh to see it; nothing was saved."
 msgstr "{0} {1} wurde von jemand anderem geändert, nachdem Sie dies geöffnet haben. Aktualisieren Sie, um es zu sehen; nichts wurde gespeichert."
 

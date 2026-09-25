@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-25 21:25+0000\n"
-"PO-Revision-Date: 2026-09-25 21:25+0000\n"
+"POT-Creation-Date: 2026-09-25 22:30+0000\n"
+"PO-Revision-Date: 2026-09-25 22:30+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -7224,7 +7224,7 @@ msgstr "مرتبط بـ"
 msgid "Linked To Type"
 msgstr "نوع المرتبط به"
 
-#: onedesk/one/linked.py:89
+#: onedesk/one/linked.py:157
 msgid "Linked section {0}"
 msgstr "القسم المرتبط {0}"
 
@@ -8595,7 +8595,7 @@ msgstr "غير مُقدَّرة"
 msgid "Not Recorded"
 msgstr "غير مسجّل"
 
-#: onedesk/public/js/shell.js:224
+#: onedesk/public/js/shell.js:232
 msgid "Not Saved"
 msgstr "غير محفوظ"
 
@@ -11341,11 +11341,11 @@ msgstr "المرجع"
 msgid "References"
 msgstr "المراجع"
 
-#: onedesk/public/js/head.js:209 onedesk/public/js/onecloud.js:110
-#: onedesk/public/js/onecloud.js:1800 onedesk/public/js/onecloud.js:1801
-#: onedesk/public/js/onecloud.js:1821 onedesk/public/js/onemail.js:86
-#: onedesk/public/js/shell.js:203 onedesk/public/js/tenant.js:78
-#: onedesk/public/js/tenant.js:83 onedesk/public/js/tenant_domain.js:12
+#: onedesk/public/js/onecloud.js:110 onedesk/public/js/onecloud.js:1800
+#: onedesk/public/js/onecloud.js:1801 onedesk/public/js/onecloud.js:1821
+#: onedesk/public/js/onemail.js:86 onedesk/public/js/shell.js:168
+#: onedesk/public/js/tenant.js:78 onedesk/public/js/tenant.js:83
+#: onedesk/public/js/tenant_domain.js:12
 #: onedesk/public/js/workspace_account.js:19
 msgid "Refresh"
 msgstr "تحديث"
@@ -11922,7 +11922,7 @@ msgstr "تُسجّل المبيعات تحت إمارة الشركة."
 #: onedesk/public/js/crm_record.js:218 onedesk/public/js/next_step.js:31
 #: onedesk/public/js/onecloud.js:1488 onedesk/public/js/onemail.js:829
 #: onedesk/public/js/onemail.js:853 onedesk/public/js/project.js:155
-#: onedesk/public/js/settings.js:263 onedesk/public/js/shell.js:311
+#: onedesk/public/js/settings.js:263 onedesk/public/js/shell.js:319
 msgid "Save"
 msgstr "حفظ"
 
@@ -11943,7 +11943,7 @@ msgid "Saved to My Files."
 msgstr "حُفظ في ملفاتي."
 
 #: onedesk/public/js/settings.js:267 onedesk/public/js/settings.js:501
-#: onedesk/public/js/shell.js:345
+#: onedesk/public/js/shell.js:353
 msgid "Saved."
 msgstr "تم الحفظ."
 
@@ -14536,7 +14536,7 @@ msgstr "هذا المجلد فارغ."
 msgid "This folder is empty. Drop files here, or use New."
 msgstr "هذا المجلد فارغ. أفلت الملفات هنا أو استخدم «جديد»."
 
-#: onedesk/public/js/shell.js:206
+#: onedesk/public/js/head.js:300 onedesk/public/js/shell.js:218
 msgid "This form has been modified after you have loaded it"
 msgstr "تم تعديل هذا النموذج بعد أن فتحته"
 
@@ -17372,7 +17372,7 @@ msgstr "{0} و{1} ليسا في منطقة واحدة."
 msgid "{0} and {1} more"
 msgstr "{0} و{1} أخرى"
 
-#: onedesk/one/linked.py:212
+#: onedesk/one/linked.py:318
 msgid "{0} are not in this section."
 msgstr "{0} ليست في هذا القسم."
 
@@ -17399,6 +17399,10 @@ msgstr "{0} يخص {1} {2}. شارك السجل بدلًا من ذلك."
 #: onedesk/one_mail/addresses.py:122
 msgid "{0} cannot be a name in an address. Use letters, digits, - and _."
 msgstr "لا يمكن أن يكون {0} اسمًا في عنوان. استخدم الحروف والأرقام و- و_."
+
+#: onedesk/one/linked.py:340
+msgid "{0} cannot be changed by you."
+msgstr "لا يمكنك تغيير {0}."
 
 #: onedesk/one_storage/api.py:390
 msgid "{0} cannot be deleted."
@@ -17438,7 +17442,7 @@ msgstr "{0} فئات، لكل منها حسابها وطريقة إهلاكها.
 msgid "{0} changed after this was suggested, so it no longer applies."
 msgstr "تغيّر {0} بعد اقتراح هذا، فلم يعد ينطبق."
 
-#: onedesk/one/linked.py:205
+#: onedesk/one/linked.py:311
 msgid "{0} changed in this save. Save it first, then edit what it links to."
 msgstr "تغيّر {0} في هذا الحفظ. احفظه أولًا، ثم حرر ما يرتبط به."
 
@@ -17580,7 +17584,7 @@ msgstr "{0} عن {1}: {2} من {3} يوماً مدفوعة."
 msgid "{0} from {1} · {2}"
 msgstr "{0} من {1} · {2}"
 
-#: onedesk/one/head.py:156 onedesk/one/linked.py:92
+#: onedesk/one/head.py:156 onedesk/one/linked.py:160
 msgid "{0} goes through {1}, which is not a link."
 msgstr "{0} يمر عبر {1}، وهو ليس رابطًا."
 
@@ -17608,7 +17612,7 @@ msgstr "لا يوجد حضور مُسجَّل لـ {0} في {1}."
 msgid "{0} has no billable time that is not invoiced yet."
 msgstr "لا يوجد في {0} وقت قابل للفوترة لم يُفوتر بعد."
 
-#: onedesk/one/linked.py:202
+#: onedesk/one/linked.py:308
 msgid "{0} has no section through {1}."
 msgstr "لا يوجد في {0} قسم عبر {1}."
 
@@ -17700,10 +17704,6 @@ msgstr "{0} مفوتر {1} مرات ومطلوب {2}."
 msgid "{0} is in somebody else's files. Copy it instead."
 msgstr "{0} ضمن ملفات شخص آخر. انسخه بدلًا من ذلك."
 
-#: onedesk/one/linked.py:80
-msgid "{0} is kept to some people."
-msgstr "{0} مقصور على بعض الأشخاص."
-
 #: onedesk/one_ai/files.py:85
 msgid "{0} is larger than {1} MB, which is as much as one question may carry."
 msgstr "{0} أكبر من {1} ميغابايت، وهذا أقصى ما يحمله سؤال واحد."
@@ -17724,7 +17724,7 @@ msgstr "{0} أكثر من المتبقي {1}."
 msgid "{0} is not a capability any model carries."
 msgstr "{0} ليست قدرة يحملها أي نموذج."
 
-#: onedesk/one/linked.py:76
+#: onedesk/one/linked.py:85
 msgid "{0} is not a field to edit."
 msgstr "{0} ليس حقلًا للتحرير."
 
@@ -17825,7 +17825,7 @@ msgstr "{0} محجوز."
 msgid "{0} is the last owner of {1}. Make somebody else an owner first."
 msgstr "{0} هو آخر مالك لـ {1}. اجعل شخصًا آخر مالكًا أولًا."
 
-#: onedesk/one/linked.py:78
+#: onedesk/one/linked.py:87
 msgid "{0} is worked out, not typed."
 msgstr "{0} يُحسب ولا يُكتب."
 
@@ -17877,8 +17877,8 @@ msgstr "يجب حفظ {0} حتى {1} بحكم القانون، ولا يمكن �
 msgid "{0} names the measure {1}, which no module has."
 msgstr "{0} يذكر المقياس {1}، ولا تملكه أي وحدة."
 
-#: onedesk/one/head.py:127 onedesk/one/head.py:159 onedesk/one/linked.py:95
-#: onedesk/one/linked.py:106
+#: onedesk/one/head.py:127 onedesk/one/head.py:159 onedesk/one/linked.py:163
+#: onedesk/one/linked.py:174
 msgid "{0} names {1}, which {2} does not have."
 msgstr "{0} يذكر {1}، وهو غير موجود في {2}."
 
@@ -17999,7 +17999,7 @@ msgstr "شارك {0} هذا المجلد معك."
 msgid "{0} shared this with you."
 msgstr "شارك {0} هذا معك."
 
-#: onedesk/one/linked.py:101
+#: onedesk/one/linked.py:169
 msgid "{0} shows nothing."
 msgstr "{0} لا يعرض شيئًا."
 
@@ -18093,7 +18093,7 @@ msgstr "{0} سنوات"
 msgid "{0} {1} is not there."
 msgstr "{0} {1} غير موجود."
 
-#: onedesk/one/linked.py:229
+#: onedesk/one/linked.py:335
 msgid "{0} {1} is submitted, and these cannot change now."
 msgstr "تم اعتماد {0} {1}، ولا يمكن تغيير هذه الآن."
 
@@ -18101,11 +18101,11 @@ msgstr "تم اعتماد {0} {1}، ولا يمكن تغيير هذه الآن."
 msgid "{0} {1} of {2} {3}"
 msgstr "{0} {1} من {2} {3}"
 
-#: onedesk/public/js/head.js:204
+#: onedesk/public/js/head.js:280
 msgid "{0} {1} was changed by somebody else after you opened this. Refresh to see it."
 msgstr "غيّر شخص آخر {0} {1} بعد أن فتحت هذا. حدّث الصفحة لتراه."
 
-#: onedesk/one/linked.py:220
+#: onedesk/one/linked.py:326
 msgid "{0} {1} was changed by somebody else after you opened this. Refresh to see it; nothing was saved."
 msgstr "غيّر شخص آخر {0} {1} بعد أن فتحت هذا. حدّث الصفحة لتراه؛ لم يُحفظ شيء."
 

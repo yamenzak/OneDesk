@@ -29,7 +29,7 @@ def boot_session(bootinfo) -> None:
 	# The linked sections each form draws, for this person. See one/linked.py.
 	from onedesk.one import linked
 
-	bootinfo["one_linked"] = linked.for_boot()
+	bootinfo["one_linked"] = linked.for_boot(bootinfo)
 
 	# What each provisioning step is doing, in words. The list view needs it and
 	# so does the form; putting a copy in JavaScript would be a second list to

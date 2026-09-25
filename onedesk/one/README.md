@@ -282,7 +282,9 @@ and saves them in the form's own save: `__one_linked` carries what changed
 and the `modified` it was read at, and `linked.save` (on_update and
 on_update_after_submit) saves the linked record in the same transaction,
 refusing a stale one. The linked record's own permissions decide who sees
-and who edits.
+and who edits, down to the field's permission level. A child table is drawn
+as frappe's grid and set whole on the linked record. The fields are laid out
+as the linked record's own form lays them (`placing`).
 
 Profile writes a person's own User record, and their own Employee record when
 they have one (`own.employee_of`), and only the fields named in `PROFILE` and

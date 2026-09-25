@@ -1285,6 +1285,27 @@ OVERRIDES = [
 		"get_doctype_fields() {",
 	),
 	(
+		"A record's clash warning is frappe-ui's alert",
+		"head.js replaces Form.show_conflict_message's bootstrap button in a message with the shell's row alert; when it warns and when it reloads are frappe's",
+		"onedesk/public/js/head.js",
+		"frappe/frappe/public/js/frappe/form/form.js",
+		"show_conflict_message() {",
+	),
+	(
+		"A linked field is in the record's own field copy",
+		"head.js wraps make_docfield_copy_for so the grid and set_df_property find a linked section's fields by name, as they find a custom field",
+		"onedesk/public/js/head.js",
+		"frappe/frappe/public/js/frappe/model/meta.js",
+		"make_docfield_copy_for: function (doctype, docname, docfield_list = null) {",
+	),
+	(
+		"What changed in a linked record goes with every save",
+		"head.js wraps frappe.ui.form.save, which Save, Submit and Update all pass through, to set `__one_linked` first",
+		"onedesk/public/js/head.js",
+		"frappe/frappe/public/js/frappe/form/save.js",
+		"frappe.ui.form.save = function (frm, action, callback, btn) {",
+	),
+	(
 		"A linked record's fields are saved in the record's own save",
 		"frappe keeps a key it does not know on the document it saves, so the form sends `__one_linked` with it and one/linked.py saves the linked record in the same request",
 		"onedesk/one/linked.py",

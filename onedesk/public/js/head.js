@@ -28,7 +28,7 @@ onedesk.head.draw = (frm) => {
 	if (!head && !frm.one_headed) return;
 	frm.one_headed = !!head;
 	// Only what this drew before goes: the message area is shared.
-	frm.layout.message.children(".form-message:has(.one-head-sentence, .one-band, .one-linked-changed)").remove();
+	frm.layout.message.children(".form-message:has(.one-head-sentence, .one-band), .one-record-changed").remove();
 	if (!head) return;
 	if (head.indicator) frm.page.set_indicator(head.indicator.label, head.indicator.colour);
 	if (head.sentence) {
@@ -87,20 +87,32 @@ onedesk.head.act = (frm, verb) => {
 	const fields_of = Layout.prototype.get_doctype_fields;
 	Layout.prototype.get_doctype_fields = function () {
 		const fields = fields_of.call(this);
-		const sections = (this.frm && onedesk.head.sections(this.frm.doctype)) || [];
-		for (const section of sections) {
-			fields.splice(
-				onedesk.head.place(fields, section.placed_in),
-				0,
-				{ fieldtype: "Section Break", fieldname: `one_linked__${section.link_field}`, label: section.label },
-				...section.fields.map((df) => ({ ...df, read_only: 1, allow_on_submit: 1 })),
-			);
-		}
+		if (!this.frm) return fields;
+		onedesk.head.sections(this.frm.doctype).forEach((section, i) => {
+			fields.splice(onedesk.head.place(fields, section.placed_in), 0, ...onedesk.head.drawn(this.frm.doctype)[i]);
+		});
 		return fields;
+	};
+	// And into the record's own copy of its fields, where frappe looks a
+	// field up by name (the grid, set_df_property), as a custom field is.
+	const copy_for = frappe.meta.make_docfield_copy_for;
+	frappe.meta.make_docfield_copy_for = function (doctype, docname, docfield_list = null) {
+		copy_for.call(this, doctype, docname, docfield_list);
+		if (docfield_list) return;
+		const copy = frappe.meta.docfield_copy[doctype][docname];
+		for (const group of onedesk.head.drawn(doctype)) for (const df of group) copy[df.fieldname] = copy_dict(df);
 	};
 })();
 
 onedesk.head.sections = (doctype) => (frappe.boot.one_linked || {})[doctype] || [];
+
+// Each section as the fields frappe draws: a section break, then the linked
+// record's fields under names of their own.
+onedesk.head.drawn = (doctype) =>
+	onedesk.head.sections(doctype).map((section) => [
+		{ fieldtype: "Section Break", fieldname: `one_linked__${section.link_field}`, label: section.label, parent: doctype },
+		...section.layout.map((df) => ({ ...df, read_only: 1, allow_on_submit: 1, parent: doctype })),
+	]);
 
 // At the end of the tab its field is in, which is before the next tab, or of
 // the first tab when it names none.
@@ -110,18 +122,50 @@ onedesk.head.place = (fields, placed_in) => {
 	return next < 0 ? fields.length : next;
 };
 
-// Each linked field says what changed as it changes, since frappe runs no
-// validate on Update; the link itself redraws its section.
+// Changing the link redraws its section.
 onedesk.head.listened = new Set();
 onedesk.head.listen = (doctype) => {
 	if (onedesk.head.listened.has(doctype)) return;
 	onedesk.head.listened.add(doctype);
 	const events = {};
-	for (const section of onedesk.head.sections(doctype)) {
-		events[section.link_field] = (frm) => onedesk.head.linked(frm);
-		for (const df of section.fields) events[df.fieldname] = (frm) => onedesk.head.collect(frm);
-	}
+	for (const section of onedesk.head.sections(doctype)) events[section.link_field] = (frm) => onedesk.head.linked(frm);
 	if (Object.keys(events).length) frappe.ui.form.on(doctype, events);
+};
+
+// What changed goes with the record however it is saved: frappe's one save
+// runs for Save, Submit and Update alike, where no client event does (Update
+// runs no validate), and an edit in a child table fires none of ours.
+(() => {
+	const saving = frappe.ui.form.save;
+	frappe.ui.form.save = function (frm, ...rest) {
+		onedesk.head.collect(frm);
+		return saving.call(this, frm, ...rest);
+	};
+})();
+
+// The fields a child row holds a value in, as the server reads them.
+onedesk.head.columns = (doctype) =>
+	frappe.meta
+		.get_docfields(doctype)
+		.filter((df) => !frappe.model.no_value_type.includes(df.fieldtype))
+		.map((df) => df.fieldname);
+
+// A table as it is sent: each row's values, and the name it has on the linked
+// record, which a row added here has not.
+onedesk.head.rows = (rows, doctype, own = (row) => row.__one_name) => {
+	const columns = onedesk.head.columns(doctype);
+	return (rows || []).map((row) => {
+		const out = own(row) ? { name: own(row) } : {};
+		for (const column of columns) out[column] = row[column] ?? null;
+		return out;
+	});
+};
+
+// Two tables are the same when their rows say the same, whatever null, empty
+// or a number as text each side wrote.
+onedesk.head.same = (a, b) => {
+	const plain = (key, value) => (value === null || value === undefined ? "" : typeof value === "number" ? String(value) : value);
+	return JSON.stringify(a, plain) === JSON.stringify(b, plain);
 };
 
 // Fill each section from the record as loaded, and say who may change what.
@@ -140,23 +184,49 @@ onedesk.head.linked = (frm) => {
 		for (const df of section.fields) {
 			const field = frm.fields_dict[df.fieldname];
 			if (!field) continue;
-			if (shown && fresh) frm.doc[df.fieldname] = one.values[df.one_linked];
-			field.df.hidden = shown ? 0 : 1;
-			field.df.read_only = shown && !one.locked.includes(df.one_linked) ? 0 : 1;
+			const seen = shown && !one.hidden.includes(df.one_linked);
+			if (seen && fresh) frm.doc[df.fieldname] = onedesk.head.fill(frm, df, one.values[df.one_linked]);
+			field.df.hidden = seen ? 0 : 1;
+			field.df.read_only = seen && !one.locked.includes(df.one_linked) ? 0 : 1;
 			field.refresh();
 		}
-		const part = frm.fields_dict[`one_linked__${section.link_field}`];
-		if (part) {
+		// The section and the breaks that lay it out as the linked form does.
+		for (const name of [`one_linked__${section.link_field}`, ...section.layout.filter((df) => !df.one_linked).map((df) => df.fieldname)]) {
+			const part = frm.fields_dict[name];
+			if (!part) continue;
 			part.df.hidden = shown ? 0 : 1;
-			part.refresh();
+			part.refresh && part.refresh();
 		}
 		if (shown) onedesk.head.hear(one.doctype, one.name);
 	}
 	onedesk.head.collect(frm);
 };
 
+// A linked value as the form holds it. A child table's rows are copies under
+// names of their own, so the linked record's own form, if it is open, keeps
+// its rows; each remembers the name it has there.
+onedesk.head.fill = (frm, df, value) => {
+	if (df.fieldtype !== "Table" && df.fieldtype !== "Table MultiSelect") return value;
+	return (value || []).map((row, i) => {
+		const copy = {
+			...row,
+			doctype: df.options,
+			name: `${df.fieldname}-${row.name}`,
+			__one_name: row.name,
+			parent: frm.doc.name,
+			parenttype: frm.doctype,
+			parentfield: df.fieldname,
+			idx: i + 1,
+			docstatus: 0,
+		};
+		frappe.model.add_to_locals(copy);
+		return copy;
+	});
+};
+
 // What the form sends with its own record: each linked record's changed
-// values and the `modified` they were loaded at, or nothing.
+// values and the `modified` they were loaded at, or nothing. A table goes
+// whole, as its form would send it.
 onedesk.head.collect = (frm) => {
 	const loaded = frm.one_linked_loaded || {};
 	const sent = {};
@@ -165,8 +235,15 @@ onedesk.head.collect = (frm) => {
 		if (!one || frm.doc[section.link_field] !== one.name) continue;
 		const values = {};
 		for (const df of section.fields) {
+			if (one.hidden.includes(df.one_linked) || one.locked.includes(df.one_linked)) continue;
+			const was = one.values[df.one_linked];
+			if (df.fieldtype === "Table" || df.fieldtype === "Table MultiSelect") {
+				const now = onedesk.head.rows(frm.doc[df.fieldname], df.options);
+				if (!onedesk.head.same(now, onedesk.head.rows(was, df.options, (row) => row.name))) values[df.one_linked] = now;
+				continue;
+			}
 			const now = frm.doc[df.fieldname];
-			if (String(now ?? "") !== String(one.values[df.one_linked] ?? "")) values[df.one_linked] = now ?? null;
+			if (String(now ?? "") !== String(was ?? "")) values[df.one_linked] = now ?? null;
 		}
 		if (Object.keys(values).length) sent[section.link_field] = { name: one.name, modified: one.modified, values };
 	}
@@ -198,14 +275,27 @@ onedesk.head.updated = (data) => {
 	const one = Object.values(frm.one_linked_loaded || {}).find((it) => it.doctype === data.doctype && it.name === data.name);
 	if (!one || !data.modified || data.modified === one.modified) return;
 	if (!frm.is_dirty()) return frm.debounced_reload_doc();
-	frm.layout.message.children(".form-message:has(.one-linked-changed)").remove();
-	frm.dashboard.set_headline(
-		`<div class="one-linked-changed">${frappe.utils.escape_html(
-			__("{0} {1} was changed by somebody else after you opened this. Refresh to see it.", [__(one.doctype), one.title]),
-		)}</div>`,
-		"yellow",
-		true,
+	onedesk.head.warn(
+		frm,
+		__("{0} {1} was changed by somebody else after you opened this. Refresh to see it.", [__(one.doctype), one.title]),
 	);
-	const $refresh = $(onedesk.shell.button(__("Refresh"), {}, "ghost")).on("click", () => frm.reload_doc());
-	frm.layout.message.children(".form-message:has(.one-linked-changed)").find(".one-linked-changed").append($refresh);
+};
+
+// Somebody else saved the record, or a record it links to, while this form
+// has unsaved changes: frappe-ui's row alert at the top of the form, the way
+// the shell's pages say it, with Refresh.
+onedesk.head.warn = (frm, title) => {
+	frm.layout.message.children(".one-record-changed").remove();
+	const $block = $(`<div class="form-message one-record-changed"></div>`).append(
+		onedesk.shell.changed(title, () => frm.reload_doc()),
+	);
+	frm.layout.message.removeClass("hidden").prepend($block);
+};
+
+// Frappe's own warning for the record itself, drawn the same way rather than
+// as a bootstrap button in a message. What it decides is frappe's.
+frappe.ui.form.Form.prototype.show_conflict_message = function () {
+	if (!this.doc.__needs_refresh) return;
+	if (!this.doc.__unsaved) return this.debounced_reload_doc();
+	onedesk.head.warn(this, __("This form has been modified after you have loaded it"));
 };

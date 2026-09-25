@@ -467,6 +467,45 @@ product by product.
   workspace layer (stage 6), where a workspace adds its own, and with the
   passover where a screen needs one.
 
+## Stage 5, second pass: a record inside a record
+
+Asked after stage 5: is the clash warning frappe's desk message or
+frappe-ui's alert, and does a section hold a child table and a field kept to
+some people. It was the desk's message; the other two it refused. Now:
+
+- **Every clash warning is frappe-ui's row alert** (`onedesk.shell.changed`,
+  espresso's alert drawn as `Alert.vue` draws it): a shell page's, a linked
+  record's, and frappe's own for the record itself, whose
+  `show_conflict_message` now draws it where it drew a bootstrap button.
+- **A child table is the linked record's table in frappe's grid.** Rows are
+  added, edited, moved and deleted there; the table goes whole with the save
+  and is set on the linked record, rows keeping their names, so frappe
+  updates, inserts and deletes as that record's own form would. The rows
+  here are copies under names of their own, so the linked record's form, if
+  it is open, keeps its rows. The child doctype's meta comes with the boot,
+  as a form's tables come with its meta.
+- **Fields above permission level nought follow the reader's levels**:
+  hidden, and never sent, without read at that level; read-only without
+  write; and a save that changes one anyway is refused with the field named.
+- **The linked fields are the record's own**, as far as frappe is concerned:
+  they are in its per-document field copy, as a custom field is, so the grid,
+  `set_df_property` and frappe's refreshes find them.
+- **What changed is gathered where frappe saves** (`frappe.ui.form.save`),
+  which Save, Submit and Update all pass through, since Update runs no
+  validate and a grid edit fires no event of ours. Submit runs no on_update,
+  so `linked.save` is on on_submit too.
+- **The section is laid out as the linked record's own form lays it**
+  (`placing`): fields from one column of that form stay in one column, the
+  next column goes beside it, and a table, or a field from another section,
+  starts a section of its own with no rule above it.
+- Checked with an asset holder's Mobile (put at level 1 for the trial:
+  HR Manager writes it, HR User reads it), Personal Email and Education: a
+  row added, a row edited and another deleted, each landing on the employee
+  through Update; an HR User saw Mobile read-only and the table editable, and
+  a save forged past the form to change Mobile was refused; without read at
+  level 1, Mobile was not sent at all. The trial is removed at the end of
+  this arc.
+
 ## The risks
 
 - **Stage 5 is a second save path.** It is small, but every save now has two

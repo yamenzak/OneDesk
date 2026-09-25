@@ -159,6 +159,22 @@ $.extend(onedesk.shell, {
 	quiet(text) {
 		return `<div class="one-shell-quiet">${frappe.utils.escape_html(text)}</div>`;
 	},
+
+	// Somebody else saved what is open here. One title and one action is
+	// frappe-ui's row alert: Refresh on the right, a ghost button in the
+	// alert's own colour (Alert.vue). A page, a record and a record it links
+	// to all say it this way.
+	changed(title, refresh, css_class = "") {
+		const $refresh = $(onedesk.shell.button(__("Refresh"), {}, "ghost")).on("click", refresh);
+		return $(
+			frappe.ui.alert({
+				title,
+				theme: "yellow",
+				footer: $refresh,
+				css_class: `one-shell-alert-row ${css_class}`.trim(),
+			})
+		);
+	},
 });
 
 // A record edited on a page of ours, as a desk form edits one (form.js,
@@ -198,17 +214,9 @@ onedesk.shell.Editor = class Editor {
 
 	conflict() {
 		if (this.$content.find(".one-shell-conflict").length) return;
-		// One title and one action is frappe-ui's row alert: the action on the
-		// right, a ghost button in the alert's own colour (Alert.vue).
-		const $refresh = $(onedesk.shell.button(__("Refresh"), {}, "ghost")).on("click", () => this.refresh({ fresh: true }));
-		$(
-			frappe.ui.alert({
-				title: __("This form has been modified after you have loaded it"),
-				theme: "yellow",
-				footer: $refresh,
-				css_class: "one-shell-conflict one-shell-alert-row",
-			})
-		).prependTo(this.$content);
+		onedesk.shell
+			.changed(__("This form has been modified after you have loaded it"), () => this.refresh({ fresh: true }), "one-shell-conflict")
+			.prependTo(this.$content);
 	}
 
 	// Dirty is a difference from what was loaded, so undoing a change makes
