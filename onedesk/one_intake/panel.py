@@ -11,6 +11,7 @@ import json
 import frappe
 from frappe import _, _lt
 
+from onedesk.one_intake import facts
 from onedesk.one_storage import namespace as ns
 
 FACTS = ("number", "issued_on", "gross", "paid_how", "iban", "payment_reference", "valid_until", "document_type", "issuing_country")
@@ -145,6 +146,12 @@ def quick(doc, pay: dict | None) -> list[dict]:
 	add(_("Notice Period"), doc.notice_period)
 	if not (pay and pay.get("code")):
 		add(_("Payment Reference"), doc.payment_reference)
+	# Whatever else OneAI noted, under its own label, unless it is already here.
+	shown = {facts.compact(one["value"]) for one in out if isinstance(one["value"], str)}
+	for one in json.loads(doc.noted or "[]") if isinstance(doc.noted, str) else doc.noted or []:
+		said = facts.compact(one.get("value"))
+		if not said or said not in shown:
+			add(one.get("label"), one.get("value"))
 	asked = [row for row in doc.asks if not row.promise][:2]
 	for row in asked:
 		by = _("by {0}").format(frappe.format(row.by_date, "Date")) if row.by_date else ""

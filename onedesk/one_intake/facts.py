@@ -156,6 +156,9 @@ def has_code(value, text: str) -> bool:
 
 # ------------------------------------------------------------------ the check
 
+#: The most other facts kept from one document.
+MOST_NOTED = 8
+
 
 def totals_agree(net: float | None, tax: float | None, gross: float | None, lines: list[float] | None = None) -> bool:
 	"""Net plus tax is gross, and the lines add up to the net, to the cent,
@@ -256,9 +259,20 @@ def check(reading: dict, text: str, country: str | None = None) -> tuple[dict, l
 				when = None
 			document[key] = when.isoformat() if when else None
 
+	# What else a person would look for at a glance: a booking code, a meter
+	# reading, a plate. Kept only when its value is written in the document;
+	# one that is not is simply left out, since nothing depends on it.
+	noted = [
+		{"label": " ".join(str(one.get("label") or "").split())[:60], "value": " ".join(str(one.get("value") or "").split())[:140]}
+		for one in reading.get("facts") or []
+		if isinstance(one, dict)
+	]
+	noted = [one for one in noted if one["label"] and one["value"] and has_code(one["value"], text)][:MOST_NOTED]
+
 	return (
 		{
 			**reading,
+			"facts": noted,
 			"money": money,
 			"lines": lines,
 			"dates": checked_dates,

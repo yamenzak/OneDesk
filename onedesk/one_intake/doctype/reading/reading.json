@@ -68,6 +68,7 @@
   "valid_until",
   "notice_period",
   "keep_until",
+  "noted",
   "section_details",
   "parties",
   "dates",
@@ -480,6 +481,13 @@
    "description": "The law says a business keeps this until then. It cannot be deleted before."
   },
   {
+   "fieldname": "noted",
+   "fieldtype": "JSON",
+   "label": "Other Facts",
+   "read_only": 1,
+   "description": "Anything else worth having at hand, each written in the document as it is here."
+  },
+  {
    "fieldname": "section_details",
    "fieldtype": "Section Break",
    "label": "Details"
@@ -549,7 +557,7 @@
  "in_create": 1,
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-01 12:00:00.000000",
+ "modified": "2026-10-02 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Intake",
  "name": "Reading",

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-25 05:48+0000\n"
-"PO-Revision-Date: 2026-09-25 05:48+0000\n"
+"POT-Creation-Date: 2026-09-25 05:54+0000\n"
+"PO-Revision-Date: 2026-09-25 05:54+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -775,7 +775,7 @@ msgstr "إضافة أشخاص"
 msgid "Add the email address of at least one person to invite."
 msgstr "أضف عنوان البريد الإلكتروني لشخص واحد على الأقل لدعوته."
 
-#: onedesk/one_intake/panel.py:210
+#: onedesk/one_intake/panel.py:217
 msgid "Add to {0}"
 msgstr "أضف إلى {0}"
 
@@ -812,7 +812,7 @@ msgstr "تُضاف إلى التعليمة التي يحملها هذا الإج
 msgid "Added to what {0} already does. It is never replaced."
 msgstr "يُضاف إلى ما يفعله {0} أصلاً، ولا يحل محله."
 
-#: onedesk/one_intake/panel.py:210
+#: onedesk/one_intake/panel.py:217
 msgid "Added to {0}"
 msgstr "أُضيف إلى {0}"
 
@@ -1077,6 +1077,11 @@ msgstr "يمكن لأي شخص لديه الرابط فتح هذا الملف"
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:352
 msgid "Anyone with the link can read your calendar."
 msgstr "يمكن لأي شخص لديه الرابط قراءة تقويمك."
+
+#. Description of the 'Other Facts' (JSON) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Anything else worth having at hand, each written in the document as it is here."
+msgstr "كل ما يستحق أن يكون في المتناول، وكل منه مكتوب في المستند كما هو هنا."
 
 #. Description of the 'explanation' field in DocType 'Attendance Request'
 #: onedesk/one_hr/custom/attendance_request.json
@@ -1360,7 +1365,7 @@ msgstr "جارٍ السؤال…"
 
 #. Label of the asks (Table) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/one_intake/panel.py:151 onedesk/public/js/intake.js:111
+#: onedesk/one_intake/panel.py:158 onedesk/public/js/intake.js:111
 msgid "Asks"
 msgstr "المطلوب"
 
@@ -2102,7 +2107,7 @@ msgstr "يلتقط صورة من الكاميرا عند تسجيل الحضور
 msgid "Case"
 msgstr "قضية"
 
-#: onedesk/one_intake/panel.py:102
+#: onedesk/one_intake/panel.py:103
 msgid "Case Number"
 msgstr "رقم القضية"
 
@@ -2146,7 +2151,7 @@ msgstr "تعديل العمل الإضافي"
 msgid "Change the model"
 msgstr "تغيير النموذج"
 
-#: onedesk/one_intake/panel.py:207 onedesk/public/js/oneai/Record.vue:141
+#: onedesk/one_intake/panel.py:214 onedesk/public/js/oneai/Record.vue:141
 msgid "Change {0}"
 msgstr "تغيير {0}"
 
@@ -2154,7 +2159,7 @@ msgstr "تغيير {0}"
 msgid "Change {0} on {1}"
 msgstr "تغيير {0} في {1}"
 
-#: onedesk/one_intake/panel.py:208
+#: onedesk/one_intake/panel.py:215
 msgid "Changed {0}"
 msgstr "غيّر {0}"
 
@@ -2565,7 +2570,7 @@ msgstr "زميل"
 msgid "Comment"
 msgstr ""
 
-#: onedesk/one_intake/panel.py:224
+#: onedesk/one_intake/panel.py:231
 msgid "Commented on {0}"
 msgstr "علّق على {0}"
 
@@ -2735,7 +2740,7 @@ msgstr "المتابعة إلى الدفع"
 msgid "Contract"
 msgstr "عقد"
 
-#: onedesk/one_intake/panel.py:101
+#: onedesk/one_intake/panel.py:102
 msgid "Contract Number"
 msgstr "رقم العقد"
 
@@ -2997,7 +3002,7 @@ msgstr ""
 msgid "Customer Group"
 msgstr ""
 
-#: onedesk/one_intake/panel.py:100
+#: onedesk/one_intake/panel.py:101
 msgid "Customer Number"
 msgstr "رقم العميل"
 
@@ -3461,7 +3466,7 @@ msgstr "مستند"
 #. Label of the document_number (Data) field in DocType 'Reading Party'
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/one_intake/panel.py:128
+#: onedesk/one_intake/panel.py:129
 msgid "Document Number"
 msgstr "رقم الوثيقة"
 
@@ -3469,7 +3474,7 @@ msgstr "رقم الوثيقة"
 #. Label of the document_type (Link) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/one_intake/panel.py:143
+#: onedesk/one_intake/panel.py:144
 #: onedesk/one_intake/report/deadlines/deadlines.py:42
 msgid "Document Type"
 msgstr "نوع الوثيقة"
@@ -4395,7 +4400,7 @@ msgstr "حُفظت عبر جهة الاتصال"
 msgid "Filed with its conversation"
 msgstr "حُفظت مع محادثتها"
 
-#: onedesk/one_intake/panel.py:214
+#: onedesk/one_intake/panel.py:221
 msgid "Filed with {0}"
 msgstr "حُفظ مع {0}"
 
@@ -4463,11 +4468,11 @@ msgstr "الملفات المطلوبة"
 msgid "Files you open or add will appear here."
 msgstr "ستظهر هنا الملفات التي تفتحها أو تضيفها."
 
-#: onedesk/one_intake/panel.py:207
+#: onedesk/one_intake/panel.py:214
 msgid "Fill in {0}"
 msgstr "املأ {0}"
 
-#: onedesk/one_intake/panel.py:208
+#: onedesk/one_intake/panel.py:215
 msgid "Filled in {0}"
 msgstr "ملأ {0}"
 
@@ -4665,7 +4670,7 @@ msgid "Free to Sell"
 msgstr "متاح للبيع"
 
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.js:7
-#: onedesk/one_intake/bundle.py:83 onedesk/one_intake/panel.py:124
+#: onedesk/one_intake/bundle.py:83 onedesk/one_intake/panel.py:125
 #: onedesk/one_intake/report/deadlines/deadlines.js:8
 #: onedesk/public/js/onemail.js:739
 msgid "From"
@@ -4702,7 +4707,7 @@ msgstr "من شهادة مرضية وصلت بالبريد."
 msgid "From home"
 msgstr "من المنزل"
 
-#: onedesk/one_intake/understand.py:361
+#: onedesk/one_intake/understand.py:362
 msgid "From the day it arrived"
 msgstr "من يوم وصوله"
 
@@ -5553,7 +5558,7 @@ msgstr "المدعوون"
 msgid "Invoice"
 msgstr ""
 
-#: onedesk/one_intake/panel.py:98
+#: onedesk/one_intake/panel.py:99
 msgid "Invoice Number"
 msgstr "رقم الفاتورة"
 
@@ -5596,7 +5601,7 @@ msgstr "أصدره"
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/one_intake/panel.py:133
+#: onedesk/one_intake/panel.py:134
 msgid "Issued On"
 msgstr "تاريخ الإصدار"
 
@@ -6320,7 +6325,7 @@ msgstr "مرتبط بـ"
 msgid "Linked To Type"
 msgstr "نوع المرتبط به"
 
-#: onedesk/one_intake/panel.py:212
+#: onedesk/one_intake/panel.py:219
 msgid "Linked to {0}"
 msgstr "رُبط بـ {0}"
 
@@ -6526,7 +6531,7 @@ msgstr "أنشأه OneAI ولم يراجعه أحد بعد."
 msgid "Made from {0}."
 msgstr "أُنشئ من {0}."
 
-#: onedesk/one_intake/panel.py:204
+#: onedesk/one_intake/panel.py:211
 msgid "Made {0}"
 msgstr "أنشأ {0}"
 
@@ -6629,7 +6634,7 @@ msgstr "اختصره"
 msgid "Make it smaller"
 msgstr "تصغير اللوحة"
 
-#: onedesk/one_intake/panel.py:204
+#: onedesk/one_intake/panel.py:211
 msgid "Make {0}"
 msgstr "أنشئ {0}"
 
@@ -6969,7 +6974,7 @@ msgstr "أُعيد نقله"
 msgid "Moved down from {0}% to {1}%."
 msgstr "انخفض من {0}% إلى {1}%."
 
-#: onedesk/one_intake/panel.py:219 onedesk/one_intake/panel.py:220
+#: onedesk/one_intake/panel.py:226 onedesk/one_intake/panel.py:227
 msgid "Moved it to {0}"
 msgstr "نقله إلى {0}"
 
@@ -7106,7 +7111,7 @@ msgstr "يُسمّى في الشيفرة. لا تغيّره بعد أن يستد
 msgid "Named in the message"
 msgstr "مذكور في الرسالة"
 
-#: onedesk/one_intake/panel.py:216
+#: onedesk/one_intake/panel.py:223
 msgid "Named it {0}"
 msgstr "سمّاه {0}"
 
@@ -7150,7 +7155,7 @@ msgstr "يحتاج مراجعة"
 
 #. Label of the net (Float) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/one_intake/panel.py:135
+#: onedesk/one_intake/panel.py:136
 msgid "Net"
 msgstr "الصافي"
 
@@ -7770,7 +7775,7 @@ msgstr "انتهاء مهلة الإشعار"
 #. Label of the notice_period (Data) field in DocType 'Reading'
 #: onedesk/one_intake/custom/contract.json
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/one_intake/panel.py:145
+#: onedesk/one_intake/panel.py:146
 msgid "Notice Period"
 msgstr "مدة الإشعار"
 
@@ -7803,7 +7808,7 @@ msgstr "تذكير"
 
 #. Label of the number (Data) field in DocType 'Employee Document'
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
-#: onedesk/one_intake/bundle.py:83 onedesk/one_intake/panel.py:129
+#: onedesk/one_intake/bundle.py:83 onedesk/one_intake/panel.py:130
 msgid "Number"
 msgstr "الرقم"
 
@@ -8510,7 +8515,7 @@ msgstr "اطلب"
 msgid "Order Confirmation"
 msgstr "تأكيد طلب"
 
-#: onedesk/one_intake/panel.py:99
+#: onedesk/one_intake/panel.py:100
 msgid "Order Number"
 msgstr "رقم الطلب"
 
@@ -8568,6 +8573,11 @@ msgstr "الأصل"
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "Other"
 msgstr "أخرى"
+
+#. Label of the noted (JSON) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/reading/reading.json
+msgid "Other Facts"
+msgstr "حقائق أخرى"
 
 #. Description of the 'Also Allow Check-in From' (Table) field in DocType
 #. 'Shift Location'
@@ -8773,7 +8783,7 @@ msgstr "مدفوع من"
 
 #. Label of the paid_how (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/one_intake/panel.py:138
+#: onedesk/one_intake/panel.py:139
 msgid "Paid How"
 msgstr "طريقة الدفع"
 
@@ -8954,7 +8964,7 @@ msgstr "إشعار دفع"
 
 #. Label of the payment_reference (Data) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/one_intake/panel.py:147
+#: onedesk/one_intake/panel.py:148
 msgid "Payment Reference"
 msgstr "مرجع الدفع"
 
@@ -9241,7 +9251,7 @@ msgstr "النقاط المفقودة"
 msgid "Policy"
 msgstr "وثيقة التأمين"
 
-#: onedesk/one_intake/panel.py:104
+#: onedesk/one_intake/panel.py:105
 msgid "Policy Number"
 msgstr "رقم الوثيقة"
 
@@ -9297,7 +9307,7 @@ msgstr "نشر تحديث"
 msgid "Post your update on the project's page."
 msgstr "انشر تحديثك في صفحة المشروع."
 
-#: onedesk/one_intake/understand.py:361
+#: onedesk/one_intake/understand.py:362
 msgid "Posted, so received four days later (§ 122 AO)"
 msgstr "أُرسل بالبريد، فيُعدّ مستلمًا بعد أربعة أيام (§ 122 AO)"
 
@@ -10011,7 +10021,7 @@ msgstr "سلة المحذوفات"
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
-#: onedesk/one_intake/panel.py:105 onedesk/one_intake/panel.py:132
+#: onedesk/one_intake/panel.py:106 onedesk/one_intake/panel.py:133
 #: onedesk/public/js/intake.js:162 onedesk/public/js/invoice.js:60
 msgid "Reference"
 msgstr "المرجع"
@@ -10082,7 +10092,7 @@ msgstr "المنطقة"
 #. Label of the register (Data) field in DocType 'Reading Party'
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/one_intake/panel.py:127
+#: onedesk/one_intake/panel.py:128
 msgid "Register Number"
 msgstr "رقم السجل التجاري"
 
@@ -11784,7 +11794,7 @@ msgstr "الرقم الضريبي"
 msgid "Tag"
 msgstr ""
 
-#: onedesk/one_intake/panel.py:222
+#: onedesk/one_intake/panel.py:229
 msgid "Tagged it {0}"
 msgstr "وسمه بـ {0}"
 
@@ -11867,7 +11877,7 @@ msgstr "تُسمّى المهام المنشأة في هذا المشروع به
 #: onedesk/one_book/report/vat_return/vat_return.py:45
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
-#: onedesk/one_intake/panel.py:136
+#: onedesk/one_intake/panel.py:137
 msgid "Tax"
 msgstr "الضريبة"
 
@@ -11885,7 +11895,7 @@ msgstr "إشعار تقدير ضريبي"
 #. Label of the tax_number (Data) field in DocType 'Reading Party'
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/one_intake/panel.py:126
+#: onedesk/one_intake/panel.py:127
 msgid "Tax Number"
 msgstr "الرقم الضريبي"
 
@@ -11894,7 +11904,7 @@ msgstr "الرقم الضريبي"
 msgid "Tax Rate"
 msgstr "نسبة الضريبة"
 
-#: onedesk/one_intake/panel.py:103
+#: onedesk/one_intake/panel.py:104
 msgid "Tax Reference"
 msgstr "المرجع الضريبي"
 
@@ -12020,7 +12030,7 @@ msgid "That folder is not in this mailbox."
 msgstr "هذا المجلد ليس في صندوق البريد هذا."
 
 #: onedesk/one_intake/explain.py:33 onedesk/one_intake/inbox.py:147
-#: onedesk/one_intake/page/intake/intake.js:122 onedesk/one_intake/panel.py:23
+#: onedesk/one_intake/page/intake/intake.js:122 onedesk/one_intake/panel.py:24
 #: onedesk/one_storage/api.py:33 onedesk/one_storage/api.py:91
 #: onedesk/one_storage/dav.py:319
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.py:24
@@ -13013,7 +13023,7 @@ msgstr "أكبر من أن تُرفق، لذا أُرسلت كروابط:"
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:58
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:42
-#: onedesk/one_intake/panel.py:137 onedesk/public/js/invoice.js:24
+#: onedesk/one_intake/panel.py:138 onedesk/public/js/invoice.js:24
 msgid "Total"
 msgstr "الإجمالي"
 
@@ -13464,7 +13474,7 @@ msgstr "نسبة الاستغلال"
 #. Label of the vat_id (Data) field in DocType 'Reading Party'
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/one_intake/panel.py:125 onedesk/public/js/crm_record.js:56
+#: onedesk/one_intake/panel.py:126 onedesk/public/js/crm_record.js:56
 msgid "VAT ID"
 msgstr "رقم ضريبة القيمة المضافة"
 
@@ -13489,7 +13499,7 @@ msgstr "صالح من"
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
-#: onedesk/one_intake/panel.py:144
+#: onedesk/one_intake/panel.py:145
 msgid "Valid Until"
 msgstr "صالح حتى"
 
@@ -14720,7 +14730,7 @@ msgstr "صوت"
 msgid "business name"
 msgstr "اسم النشاط"
 
-#: onedesk/one_intake/panel.py:150 onedesk/public/js/intake.js:112
+#: onedesk/one_intake/panel.py:157 onedesk/public/js/intake.js:112
 #: onedesk/public/js/intake.js:187
 msgid "by {0}"
 msgstr "بحلول {0}"
@@ -14890,19 +14900,19 @@ msgstr "غير معروف بعد"
 msgid "nothing"
 msgstr "لا شيء"
 
-#: onedesk/one_intake/understand.py:359
+#: onedesk/one_intake/understand.py:360
 msgid "one day"
 msgstr "يوم واحد"
 
-#: onedesk/one_intake/understand.py:359
+#: onedesk/one_intake/understand.py:360
 msgid "one month"
 msgstr "شهر واحد"
 
-#: onedesk/one_intake/understand.py:359
+#: onedesk/one_intake/understand.py:360
 msgid "one week"
 msgstr "أسبوع واحد"
 
-#: onedesk/one_intake/understand.py:359
+#: onedesk/one_intake/understand.py:360
 msgid "one year"
 msgstr "سنة واحدة"
 
@@ -15245,7 +15255,7 @@ msgstr "{0} رصيد — وهو الحجز، إذ تعذّر قياس أي شي�
 msgid "{0} credits."
 msgstr "{0} رصيد."
 
-#: onedesk/one_intake/understand.py:358 onedesk/public/js/crm_record.js:173
+#: onedesk/one_intake/understand.py:359 onedesk/public/js/crm_record.js:173
 #: onedesk/public/js/crm_record.js:180
 msgid "{0} days"
 msgstr "{0} أيام"
@@ -15571,7 +15581,7 @@ msgstr "لا يحق لـ {0} فعل هذا بنفسه."
 msgid "{0} models, {1} priced, {2} need review."
 msgstr "{0} نموذجاً، {1} مُسعَّرة، {2} تحتاج مراجعة."
 
-#: onedesk/one_intake/understand.py:358
+#: onedesk/one_intake/understand.py:359
 msgid "{0} months"
 msgstr "{0} أشهر"
 
@@ -15740,7 +15750,7 @@ msgstr "أُرشفت {0}. ولا بد من إعادة بناء موقعها من
 msgid "{0} was connected without sending, so it cannot send for the workspace."
 msgstr "وُصل {0} دون إرسال، لذا لا يمكنه الإرسال باسم مساحة العمل."
 
-#: onedesk/one_intake/understand.py:358
+#: onedesk/one_intake/understand.py:359
 msgid "{0} weeks"
 msgstr "{0} أسابيع"
 
@@ -15765,7 +15775,7 @@ msgstr "عُمل {0}، ودُفع {1}"
 msgid "{0} workspaces bought this"
 msgstr "اشترت هذا {0} مساحات عمل"
 
-#: onedesk/one_intake/understand.py:358
+#: onedesk/one_intake/understand.py:359
 msgid "{0} years"
 msgstr "{0} سنوات"
 
@@ -15829,11 +15839,11 @@ msgstr "{0}، اعتباراً من {1}: {2}."
 msgid "{0}, in place of what it held"
 msgstr "{0}، بدلًا مما كان فيه"
 
-#: onedesk/one_intake/understand.py:363
+#: onedesk/one_intake/understand.py:364
 msgid "{0}, moved to the next working day"
 msgstr "{0}، مع النقل إلى يوم العمل التالي"
 
-#: onedesk/one_intake/understand.py:362
+#: onedesk/one_intake/understand.py:363
 msgid "{0}, plus {1}"
 msgstr "{0}، زائد {1}"
 

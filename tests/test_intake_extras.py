@@ -115,3 +115,25 @@ def test_the_auditor_sees_the_document_and_what_was_done_with_it():
 	assert shown["state"] == "waiting for approval" and shown["record"] == "Purchase Invoice (new)" and shown["values"] == {"supplier": "X"}
 	asked = AUDIT["prompt"]({"kind": "Invoice", "text": "Rechnung", "dropped": "tax 1 is not in the document", "parties": []}, [shown])
 	assert "tax 1 is not in the document" in asked and asked.endswith("Rechnung") and '"id": "a"' in asked
+
+
+def test_other_facts_are_kept_only_when_the_document_says_them():
+	import importlib.util
+
+	spec = importlib.util.spec_from_file_location("facts_mod", ROOT / "facts.py")
+	module = importlib.util.module_from_spec(spec)
+	spec.loader.exec_module(module)
+	text = "Ihre Buchung ABX-77Q2, Flug LH 1234 am 12.10.2026. Zählerstand 04512 kWh."
+	reading = {"facts": [
+		{"label": "Booking code", "value": "ABX-77Q2"},
+		{"label": "Flight", "value": "LH 1234"},
+		{"label": "Meter reading", "value": "04512 kWh"},
+		{"label": "Seat", "value": "14C"},
+		{"label": "", "value": "LH 1234"},
+		"junk",
+	]}  # fmt: skip
+	checked, dropped = module.check(reading, text)
+	assert [one["label"] for one in checked["facts"]] == ["Booking code", "Flight", "Meter reading"], "a seat the letter never gives is left out"
+	assert not any("Seat" in line for line in dropped), "an optional fact never makes a document unsure"
+	many = {"facts": [{"label": f"Fact {n}", "value": "ABX-77Q2"} for n in range(20)]}
+	assert len(module.check(many, text)[0]["facts"]) == module.MOST_NOTED

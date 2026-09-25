@@ -139,7 +139,7 @@ No doctypes yet.
 | Intake Action | 19 | document |
 | Intake Lesson | 12 | document |
 | Intake Settings | 8 | single |
-| Reading | 70 | document |
+| Reading | 71 | document |
 | Reading Ask | 5 | child |
 | Reading Date | 6 | child |
 | Reading Line | 7 | child |

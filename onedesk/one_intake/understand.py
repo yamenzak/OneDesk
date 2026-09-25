@@ -294,6 +294,7 @@ def apply(reading, said: dict, dropped: list[str], structured: dict) -> None:
 	] + counted(reading, said))
 	reading.notice_period = (said.get("notice") or "")[:140] or None
 	reading.keep_until = kept_until(reading)
+	reading.noted = json.dumps(said.get("facts") or [], ensure_ascii=False) if said.get("facts") else None
 	reading.set("asks", [
 		{"what": one.get("what") if one.get("what") in ASKS else "Other", "detail": (one.get("detail") or "")[:140], "by_date": one.get("by") or None, "of_whom": (one.get("of") or "")[:140]}
 		for one in said.get("asks") or []

@@ -318,7 +318,14 @@ with it. You see what was read for you; an administrator can tick
 **Everybody's**, which still leaves out what is medical, about pay or
 personal.
 
-Beside a file or above a message the panel is now short: what it is, one line
+Beside a file or above a message the panel leads with the facts a person
+looks for first, whatever the document is: who it is from and their tax
+numbers, its numbers and references, dates, amounts, what it asks, and
+anything else OneAI noted as worth having at hand, under its own label: a
+booking code, a flight, a meter reading, a plate. Such a fact is kept only
+when its value is written in the document, and never makes it unsure.
+
+The panel is otherwise short: what it is, one line
 about it, the amount and due date, "OneAI did 4 things with it" opening it in
 Intake, and **Pay**, **Explain** and **Details** behind a button each.
 
