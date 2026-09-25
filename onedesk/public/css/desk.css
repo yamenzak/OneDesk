@@ -309,15 +309,44 @@ a.one-stat:hover .one-stat-value {
 	height: 7px;
 	border-radius: var(--radius-full);
 	background: var(--surface-gray-4);
-	border: 1px solid var(--surface-white);
+	border: 1px solid var(--surface-base);
 }
 
 .one-clock .one-clock-dot.one-clock-on {
 	background: var(--surface-green-5);
 }
 
-.one-clock .dock-item-icon {
+.one-clock .dock-item-icon,
+.one-intake-rail .dock-item-icon {
 	position: relative;
+}
+
+/* Intake's count of what waits, or a dot when only something is unread. */
+.one-intake-rail .one-intake-count {
+	position: absolute;
+	top: -5px;
+	right: -7px;
+	min-width: 15px;
+	height: 15px;
+	padding: 0 3px;
+	border-radius: var(--radius-full);
+	border: 1px solid var(--desk-sidebar-bg);
+	background: var(--ink-gray-9);
+	color: var(--surface-base);
+	font-size: 9px;
+	font-weight: var(--font-weight-semibold);
+	line-height: 13px;
+	text-align: center;
+}
+
+.one-intake-rail .one-intake-count.one-intake-dot {
+	top: -2px;
+	right: -2px;
+	min-width: 8px;
+	width: 8px;
+	height: 8px;
+	padding: 0;
+	background: var(--ink-gray-9);
 }
 
 /* A grid nobody may type in. `editable_grid: 0` removes the inline editing and

@@ -23,8 +23,49 @@ onedesk.intake.panel = async ($el, which) => {
 		}
 		return;
 	}
-	$el.html(onedesk.intake.html(said));
+	$el.html(onedesk.intake.slim(said));
 	onedesk.intake.bind($el, which, said.name);
+};
+
+// Beside a file or above a message the panel is short: what it is, one line
+// about it, what OneAI did with it in a word that opens Intake, and Pay,
+// Explain and the details behind a button each. Intake itself shows the rest.
+onedesk.intake.slim = (said) => {
+	const esc = frappe.utils.escape_html;
+	const date = (value) => (value ? frappe.datetime.str_to_user(value) : "");
+	const acts = said.actions || [];
+	const waits = acts.filter((one) => one.level === "Proposed" || (one.level === "Done" && one.audit === "Wrong")).length;
+	const done = acts.filter((one) => one.level === "Done").length;
+	const due = (said.dates || []).find((one) => one.what === __("Due") || one.what === __("Deadline"));
+	const gross = (said.facts || []).find((one) => one.field === "gross");
+	const line = [gross ? format_currency(gross.value, gross.currency) : "", due ? `${esc(due.what)} ${date(due.date)}` : ""].filter(Boolean).join(" · ");
+	const box = waits ? "waiting" : "done";
+	const status = acts.length
+		? `<a class="oi-status" href="/app/intake?box=${box}&reading=${encodeURIComponent(said.name)}">${
+				waits ? `<span class="oi-chip" data-tone="orange">${esc(__("{0} to decide", [waits]))}</span> ` : ""
+			}${esc(done === 1 ? __("OneAI did 1 thing with it") : __("OneAI did {0} things with it", [done]))} →</a>`
+		: "";
+	const chips = [
+		said.kind ? `<span class="oi-chip">${esc(__(said.kind))}</span>` : "",
+		said.unsure ? `<span class="oi-chip" data-tone="orange">${__("Unsure")}</span>` : "",
+	].join("");
+	const toggle = (key, label) => `<button class="btn btn-xs btn-default" data-fold="${key}">${label}</button>`;
+	const pay = said.pay ? toggle("pay", said.pay.warn ? __("Do Not Pay Yet") : __("Pay")) : "";
+	return `<div class="oi-panel oi-slim">
+		<div class="oi-head"><img src="${onedesk.intake.MARK}" alt=""><span>${__("Read by OneAI")}</span>${chips}</div>
+		${said.title ? `<div class="oi-name">${esc(said.title)}</div>` : ""}
+		${said.summary ? `<div class="oi-summary">${esc(said.summary)}</div>` : ""}
+		${line ? `<div class="oi-line">${line}</div>` : ""}
+		${status}
+		<div class="oi-buttons oi-folds">${pay}
+			<button class="btn btn-xs btn-default" data-explain="0" data-again="${said.explained ? 1 : 0}">${said.explained ? __("Explain Again") : __("Explain")}</button>
+			${said.may_cancel ? `<button class="btn btn-xs btn-default" data-explain="1">${__("Write the Cancellation")}</button>` : ""}
+			${toggle("details", __("Details"))}
+		</div>
+		<div class="oi-fold hide" data-fold-body="pay">${onedesk.intake.pay(said.pay)}</div>
+		<div class="oi-explained">${said.explained ? onedesk.intake.explanation(said.explained) : ""}</div>
+		<div class="oi-fold hide" data-fold-body="details">${onedesk.intake.details(said)}</div>
+	</div>`;
 };
 
 onedesk.intake.junk = (said) => {
@@ -81,6 +122,7 @@ onedesk.intake.html = (said) => {
 	const dropped = (said.dropped || []).length
 		? `<details class="oi-dropped"><summary>${__("Not in the document ({0})", [said.dropped.length])}</summary><ul>${said.dropped.map((line) => `<li>${esc(line)}</li>`).join("")}</ul></details>`
 		: "";
+	if (onedesk.intake.details_only) return `${facts ? `<dl>${facts}</dl>` : ""}${parties}${dates}${asks}${parts}${attached}${dropped}`;
 	return `<div class="oi-panel">
 		<div class="oi-head"><img src="${onedesk.intake.MARK}" alt=""><span>${__("Read by OneAI")}</span>${chips}</div>
 		${said.title ? `<div class="oi-name">${esc(said.title)}</div>` : ""}
@@ -90,6 +132,16 @@ onedesk.intake.html = (said) => {
 		${parties}${dates}${asks}${parts}${attached}${dropped}${onedesk.intake.pay(said.pay)}${onedesk.intake.actions(said)}
 		${onedesk.intake.explained(said)}
 	</div>`;
+};
+
+// What was read, in full: the facts, who, when, what it asks.
+onedesk.intake.details = (said) => {
+	onedesk.intake.details_only = true;
+	try {
+		return onedesk.intake.html(said);
+	} finally {
+		onedesk.intake.details_only = false;
+	}
 };
 
 // ------------------------------------------------------------------ paying it
@@ -185,6 +237,11 @@ onedesk.intake.actions = (said) => {
 };
 
 onedesk.intake.bind = ($el, which, reading) => {
+	$el.find("[data-fold]").on("click", (event) => {
+		const key = $(event.currentTarget).attr("data-fold");
+		$el.find(`[data-fold-body="${key}"]`).toggleClass("hide");
+		$(event.currentTarget).toggleClass("active");
+	});
 	$el.find("[data-copy]").on("click", (event) => {
 		frappe.utils.copy_to_clipboard($(event.currentTarget).attr("data-copy"));
 	});

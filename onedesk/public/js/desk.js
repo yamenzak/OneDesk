@@ -1,4 +1,7 @@
 frappe.provide("onedesk");
+// The rail rows below are set up while the dock is built, which can be before
+// the rest of this file has run.
+frappe.provide("onedesk.dock");
 
 // The rail is five marks and never needs to be words: every entry is a product,
 // and the panel beside it is where the reading happens. Frappe keeps the choice
@@ -52,11 +55,39 @@ frappe.ui.Dock = class OneClockDock extends frappe.ui.Dock {
 					onedesk.dock.refresh();
 				},
 			},
+			// Intake: what OneAI did with what arrived, and what waits for you.
+			// A number when something waits, a dot when something is unread.
+			{
+				name: "intake",
+				icon: "inbox",
+				label: __("Intake"),
+				css_class: "one-intake-rail",
+				badge: `<span class="one-intake-count hide"></span>`,
+				on_click: () => frappe.set_route("intake"),
+				setup: ($item) => {
+					onedesk.dock.$intake = $item;
+					onedesk.dock.intake();
+					frappe.realtime.on("intake_inbox", () => onedesk.dock.intake());
+				},
+			},
 		];
 	}
 };
 
-frappe.provide("onedesk.dock");
+// How many documents wait for the reader in Intake, and whether anything is
+// unread. See one_intake/inbox.py.
+onedesk.dock.intake = () =>
+	frappe.xcall("onedesk.one_intake.inbox.counts").then((said) => {
+		const $badge = onedesk.dock.$intake && onedesk.dock.$intake.find(".one-intake-count");
+		if (!$badge) return said;
+		$badge.toggleClass("hide", !said.waiting && !said.unread);
+		$badge.toggleClass("one-intake-dot", !said.waiting && !!said.unread);
+		$badge.text(said.waiting ? (said.waiting > 99 ? "99+" : String(said.waiting)) : "");
+		const label = said.waiting ? __("Intake: {0} wait for you", [said.waiting]) : __("Intake");
+		onedesk.dock.$intake.attr({ "aria-label": label, title: label });
+		return said;
+	});
+
 
 onedesk.dock.refresh = () =>
 	onedesk.clock.ready().then((ready) => {

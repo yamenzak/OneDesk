@@ -18,11 +18,15 @@
   "on_behalf_of",
   "confidence",
   "checked_by",
+  "audit",
+  "audit_why",
   "section_what",
   "why",
   "before",
   "after",
-  "undone_by"
+  "undone_by",
+  "flow",
+  "as_person"
  ],
  "fields": [
   {
@@ -105,6 +109,21 @@
    "read_only": 1
   },
   {
+   "fieldname": "audit",
+   "fieldtype": "Select",
+   "label": "Audit",
+   "options": "\nRight\nWrong\nUnsure\nKept",
+   "read_only": 1,
+   "in_list_view": 1,
+   "description": "What the auditor said of it, or Kept when a person kept what the auditor doubted."
+  },
+  {
+   "fieldname": "audit_why",
+   "fieldtype": "Small Text",
+   "label": "Auditor's Reason",
+   "read_only": 1
+  },
+  {
    "fieldname": "section_what",
    "fieldtype": "Section Break",
    "label": "What"
@@ -133,12 +152,28 @@
    "label": "Undone By",
    "options": "User",
    "read_only": 1
+  },
+  {
+   "fieldname": "flow",
+   "fieldtype": "Data",
+   "label": "Flow",
+   "hidden": 1,
+   "read_only": 1,
+   "description": "The function that makes the record, when it is not a plain insert."
+  },
+  {
+   "fieldname": "as_person",
+   "fieldtype": "Check",
+   "label": "As the Person",
+   "hidden": 1,
+   "read_only": 1,
+   "description": "Written as the person it was read for, for a flow that checks who is signed in."
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-27 09:00:00.000000",
+ "modified": "2026-10-01 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Intake",
  "name": "Intake Action",

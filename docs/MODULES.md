@@ -136,9 +136,9 @@ No doctypes yet.
 |---|--:|---|
 | File Link | 4 | document |
 | Identifier | 6 | document |
-| Intake Action | 15 | document |
+| Intake Action | 19 | document |
 | Intake Lesson | 12 | document |
-| Intake Settings | 7 | single |
+| Intake Settings | 8 | single |
 | Reading | 70 | document |
 | Reading Ask | 5 | child |
 | Reading Date | 6 | child |
@@ -299,6 +299,11 @@ No doctypes yet.
 * `onedesk.one_intake.explain.explain`
 * `onedesk.one_intake.identity.merge`
 * `onedesk.one_intake.identity.not_duplicate`
+* `onedesk.one_intake.inbox.counts`
+* `onedesk.one_intake.inbox.item`
+* `onedesk.one_intake.inbox.keep`
+* `onedesk.one_intake.inbox.listing`
+* `onedesk.one_intake.inbox.seen_all`
 * `onedesk.one_intake.mark.looks_right`
 * `onedesk.one_intake.mark.unchecked`
 * `onedesk.one_intake.panel.for_file`

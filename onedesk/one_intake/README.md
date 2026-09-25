@@ -300,6 +300,52 @@ draft is red in Ready to Submit, and our IBAN is never changed from a
 document. A supplier who bills one thing a month has it booked to what it was
 booked to last time.
 
+## Intake, the inbox
+
+**Intake** sits in the rail under the bell and the clock, with a number when
+something waits for you. It opens two boxes that work like a mailbox, one line
+per document, bold until you open it:
+
+- **Waiting**: what a person has to decide. A proposal the auditor was unsure
+  of or could not apply (ERPNext's reason is under it), or something done
+  that the auditor thinks is wrong, to undo or keep.
+- **Done**: everything OneAI dealt with, each document with what it made and
+  changed, field by field, and **Undo** beside each.
+
+Who opened what is Frappe's own `track_seen`, per person: a document is unread
+for you until you open it, and unread again when OneAI does something new
+with it. You see what was read for you; an administrator can tick
+**Everybody's**, which still leaves out what is medical, about pay or
+personal.
+
+Beside a file or above a message the panel is now short: what it is, one line
+about it, the amount and due date, "OneAI did 4 things with it" opening it in
+Intake, and **Pay**, **Explain** and **Details** behind a button each.
+
+## The auditor
+
+The point is full automation, so a person should be asked only when a person
+is needed. Once a document has been acted on, a second agent, the auditor, is
+shown the document and everything done and proposed because of it, and says
+of each whether the document supports it. It is its own AI action
+(`intake_audit`), so a workspace can give it a different model from the one
+that did the work.
+
+A proposal it finds right is applied for the person, under their permission,
+and carries the OneAI mark; one it finds wrong is dismissed; one it cannot
+tell waits. Something done that it finds wrong stays done and goes to
+Waiting with its reason: undoing on its word alone would let one model's
+mistake erase another's work. It never decides what ends somebody's
+employment. A document that was only filed is not audited, since there is
+little to get wrong and a call to pay for; Intake Settings can turn the
+auditor off.
+
+Two things no longer make OneAI wait. A fact the check found missing from the
+document is dropped and never used, so it no longer holds up everything else
+read from that document; and a zero tax is how a receipt without VAT reads.
+What still waits is mostly what no approval fixes: somebody without
+permission to post to an account, a currency without an exchange rate.
+
 ## What OneAI did, and taking it back
 
 The panel beside a document ends with **What OneAI did**: made this record,
@@ -493,6 +539,13 @@ loses a value it had.
   the rule in the workspace's language. `money.contract` fills Cancel By
   with `deadlines.before`. `calendar.py` is both the three calendar layers
   and the Deadlines report's rows, so the two cannot disagree.
+
+- `inbox.py` is the two boxes, the rail's count and who has seen what;
+  `audit.py` the auditor, whose pure parts (what is worth a call, what it
+  never decides, how its answer is read) are tested. Applying a proposal,
+  by a person or the auditor, now goes through the flow it was planned with
+  (`Intake Action.flow`), so a bill from an order is made by ERPNext's
+  mapper whoever applies it; before, Apply inserted the values bare.
 
 - Stage 11 is `explain.py` (the one call a person starts, kept per language
   on the Reading), `pay.py` (the EPC069-12 text is pure; the code is drawn by

@@ -9,6 +9,7 @@
   "records",
   "most_pages",
   "floor",
+  "audit",
   "keep_in_place",
   "quiet_minutes",
   "household",
@@ -36,6 +37,13 @@
    "label": "Confidence Floor",
    "default": "70",
    "description": "Below this, what OneAI would make or change waits in Needs a Look."
+  },
+  {
+   "fieldname": "audit",
+   "fieldtype": "Check",
+   "label": "Audit What OneAI Does",
+   "default": "1",
+   "description": "A second agent checks each document's actions, approves what is right and sends what is wrong to a person."
   },
   {
    "fieldname": "keep_in_place",
@@ -70,7 +78,7 @@
  "issingle": 1,
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-26 09:00:00.000000",
+ "modified": "2026-10-01 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Intake",
  "name": "Intake Settings",

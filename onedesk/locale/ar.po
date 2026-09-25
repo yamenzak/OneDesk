@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-24 21:01+0000\n"
-"PO-Revision-Date: 2026-09-24 21:01+0000\n"
+"POT-Creation-Date: 2026-09-25 05:35+0000\n"
+"PO-Revision-Date: 2026-09-25 05:35+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -51,7 +51,7 @@ msgstr "عنصر واحد"
 msgid "1 item selected"
 msgstr "عنصر واحد محدد"
 
-#: onedesk/public/js/intake.js:289
+#: onedesk/public/js/intake.js:346
 msgid "1 not checked by a person"
 msgstr "1 لم يراجعه أحد"
 
@@ -129,7 +129,7 @@ msgstr "سقف لا تقدير. ويُفرج عن الباقي عند التسو
 msgid "A check-in from outside the radius is allowed, and the distance is recorded on Clock Attempt. If unchecked, it is refused."
 msgstr "يُسمح بتسجيل الحضور من خارج نطاق النصف القطري، وتُسجَّل المسافة في محاولة التسجيل. إذا لم يتم تحديده، يُرفض."
 
-#: onedesk/public/js/intake.js:151
+#: onedesk/public/js/intake.js:203
 msgid "A copy of {0}"
 msgstr "نسخة من {0}"
 
@@ -399,6 +399,12 @@ msgstr "لا يمكن للقاعدة نقل البريد إلا إلى مجلد 
 msgid "A scan longer than this is read up to here. The rest stays searchable by its name."
 msgstr "يُقرأ المستند الممسوح الأطول من هذا حتى هنا فقط. ويبقى الباقي قابلاً للبحث باسمه."
 
+#. Description of the 'Audit What OneAI Does' (Check) field in DocType 'Intake
+#. Settings'
+#: onedesk/one_intake/doctype/intake_settings/intake_settings.json
+msgid "A second agent checks each document's actions, approves what is right and sends what is wrong to a person."
+msgstr "وكيل ثانٍ يراجع إجراءات كل مستند، ويعتمد الصحيح منها ويحيل الخاطئ إلى شخص."
+
 #: onedesk/one_hr/ai_grievance.py:135
 msgid "A sensitive grievance was raised"
 msgstr "رُفعت شكوى حساسة"
@@ -552,7 +558,7 @@ msgstr "السجل المعني"
 msgid "About Type"
 msgstr "النوع المعني"
 
-#: onedesk/public/js/intake.js:151
+#: onedesk/public/js/intake.js:203
 msgid "About {0}"
 msgstr "بخصوص {0}"
 
@@ -769,7 +775,7 @@ msgstr "إضافة أشخاص"
 msgid "Add the email address of at least one person to invite."
 msgstr "أضف عنوان البريد الإلكتروني لشخص واحد على الأقل لدعوته."
 
-#: onedesk/one_intake/panel.py:135
+#: onedesk/one_intake/panel.py:150
 msgid "Add to {0}"
 msgstr "أضف إلى {0}"
 
@@ -806,7 +812,7 @@ msgstr "تُضاف إلى التعليمة التي يحملها هذا الإج
 msgid "Added to what {0} already does. It is never replaced."
 msgstr "يُضاف إلى ما يفعله {0} أصلاً، ولا يحل محله."
 
-#: onedesk/one_intake/panel.py:135
+#: onedesk/one_intake/panel.py:150
 msgid "Added to {0}"
 msgstr "أُضيف إلى {0}"
 
@@ -968,7 +974,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_intake/bundle.py:83
 #: onedesk/one_intake/doctype/reading_line/reading_line.json
-#: onedesk/public/js/intake.js:109 onedesk/public/js/invoice.js:46
+#: onedesk/public/js/intake.js:161 onedesk/public/js/invoice.js:46
 msgid "Amount"
 msgstr "المبلغ"
 
@@ -1130,7 +1136,8 @@ msgid "Applies To"
 msgstr ""
 
 #: onedesk/one_intake/doctype/intake_action/intake_action.js:7
-#: onedesk/public/js/ai_proposal.js:12 onedesk/public/js/intake.js:168
+#: onedesk/one_intake/page/intake/intake.js:174
+#: onedesk/public/js/ai_proposal.js:12 onedesk/public/js/intake.js:220
 msgid "Apply"
 msgstr ""
 
@@ -1194,6 +1201,10 @@ msgstr "معتمد"
 msgid "Approved Request"
 msgstr "الطلب المعتمد"
 
+#: onedesk/one_intake/page/intake/intake.js:161
+msgid "Approved by the auditor"
+msgstr "اعتمده المدقق"
+
 #: onedesk/public/js/leave_application.js:33
 msgid "Approving this books {0} days of {1} for {2}, {3}, leaving them {4}."
 msgstr "باعتماد هذا تُحجز {0} أيام من {1} لـ {2}، {3}، ويتبقى لديه {4}."
@@ -1249,6 +1260,11 @@ msgstr "بصفة"
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "As reported by Frappe Cloud."
 msgstr "حسبما تُبلّغ Frappe Cloud."
+
+#. Label of the as_person (Check) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "As the Person"
+msgstr "باسم الشخص"
 
 #: onedesk/www/r.html:39
 msgid "As {0}"
@@ -1344,7 +1360,7 @@ msgstr "جارٍ السؤال…"
 
 #. Label of the asks (Table) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/intake.js:70
+#: onedesk/public/js/intake.js:111
 msgid "Asks"
 msgstr "المطلوب"
 
@@ -1440,7 +1456,7 @@ msgstr "إرفاق {0} ملفات"
 msgid "Attachment"
 msgstr "مرفق"
 
-#: onedesk/public/js/intake.js:78
+#: onedesk/public/js/intake.js:119
 msgid "Attachments"
 msgstr "المرفقات"
 
@@ -1535,6 +1551,21 @@ msgstr "حُذف الصوت في"
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Audio Generation"
 msgstr "توليد الصوت"
+
+#. Label of the audit (Select) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "Audit"
+msgstr "التدقيق"
+
+#. Label of the audit (Check) field in DocType 'Intake Settings'
+#: onedesk/one_intake/doctype/intake_settings/intake_settings.json
+msgid "Audit What OneAI Does"
+msgstr "دقّق ما يفعله OneAI"
+
+#. Label of the audit_why (Small Text) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "Auditor's Reason"
+msgstr "سبب المدقق"
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:34
 msgid "Aug"
@@ -2111,7 +2142,7 @@ msgstr "تعديل العمل الإضافي"
 msgid "Change the model"
 msgstr "تغيير النموذج"
 
-#: onedesk/one_intake/panel.py:132 onedesk/public/js/oneai/Record.vue:141
+#: onedesk/one_intake/panel.py:147 onedesk/public/js/oneai/Record.vue:141
 msgid "Change {0}"
 msgstr "تغيير {0}"
 
@@ -2119,7 +2150,7 @@ msgstr "تغيير {0}"
 msgid "Change {0} on {1}"
 msgstr "تغيير {0} في {1}"
 
-#: onedesk/one_intake/panel.py:133
+#: onedesk/one_intake/panel.py:148
 msgid "Changed {0}"
 msgstr "غيّر {0}"
 
@@ -2151,8 +2182,8 @@ msgstr "الفحص"
 msgid "Check DNS"
 msgstr "فحص DNS"
 
-#: onedesk/public/js/desk.js:46 onedesk/public/js/desk.js:77
-#: onedesk/public/js/desk.js:81
+#: onedesk/public/js/desk.js:49 onedesk/public/js/desk.js:108
+#: onedesk/public/js/desk.js:112
 msgid "Check In"
 msgstr "تسجيل الحضور"
 
@@ -2232,11 +2263,11 @@ msgstr "تُكتب تسجيلات الحضور التي تقع درجتها بي
 msgid "Checked By"
 msgstr "راجعه"
 
-#: onedesk/public/js/desk.js:81 onedesk/public/js/desk.js:131
+#: onedesk/public/js/desk.js:112 onedesk/public/js/desk.js:162
 msgid "Checked In"
 msgstr "سجّل الحضور"
 
-#: onedesk/public/js/desk.js:131
+#: onedesk/public/js/desk.js:162
 msgid "Checked Out"
 msgstr "سجّل الانصراف"
 
@@ -2244,7 +2275,7 @@ msgstr "سجّل الانصراف"
 msgid "Checked in"
 msgstr "سجّل الحضور"
 
-#: onedesk/public/js/desk.js:75
+#: onedesk/public/js/desk.js:106
 msgid "Checked in {0}"
 msgstr "سجّل الحضور {0}"
 
@@ -2252,11 +2283,11 @@ msgstr "سجّل الحضور {0}"
 msgid "Checked out"
 msgstr "سجّل الانصراف"
 
-#: onedesk/public/js/desk.js:95
+#: onedesk/public/js/desk.js:126
 msgid "Checking in…"
 msgstr "جارٍ تسجيل الحضور…"
 
-#: onedesk/public/js/desk.js:95
+#: onedesk/public/js/desk.js:126
 msgid "Checking out…"
 msgstr "جارٍ تسجيل الانصراف…"
 
@@ -2530,7 +2561,7 @@ msgstr "زميل"
 msgid "Comment"
 msgstr ""
 
-#: onedesk/one_intake/panel.py:149
+#: onedesk/one_intake/panel.py:164
 msgid "Commented on {0}"
 msgstr "علّق على {0}"
 
@@ -2720,7 +2751,7 @@ msgstr "تم نسخ {0} عناصر"
 
 #. Option for the 'Placed By' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/intake.js:104 onedesk/public/js/intake.js:139
+#: onedesk/public/js/intake.js:156 onedesk/public/js/intake.js:191
 #: onedesk/public/js/onecloud.js:90 onedesk/public/js/onecloud.js:1575
 #: onedesk/public/js/onecloud.js:1672 onedesk/public/js/onecloud.js:1784
 msgid "Copy"
@@ -3044,6 +3075,7 @@ msgstr "عدد الأيام في كل حالة قبل الانتقال إلى ا
 
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
+#: onedesk/public/js/intake.js:39
 msgid "Deadline"
 msgstr "مهلة"
 
@@ -3325,7 +3357,8 @@ msgstr "التفصيل"
 #. Label of the section_details (Section Break) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/onecloud.js:102 onedesk/public/js/onecloud.js:1814
+#: onedesk/public/js/intake.js:63 onedesk/public/js/onecloud.js:102
+#: onedesk/public/js/onecloud.js:1814
 msgid "Details"
 msgstr "تفاصيل"
 
@@ -3367,7 +3400,7 @@ msgid "Discrimination"
 msgstr "تمييز"
 
 #: onedesk/one_intake/doctype/intake_action/intake_action.js:8
-#: onedesk/public/js/intake.js:169
+#: onedesk/one_intake/page/intake/intake.js:174 onedesk/public/js/intake.js:221
 msgid "Dismiss"
 msgstr "تجاهل"
 
@@ -3399,11 +3432,15 @@ msgstr "عدد الموظفين المختلفين، وقد تم التحقق م
 msgid "Distinct employees, each verified another way, who have checked in from this address."
 msgstr "عدد الموظفين المختلفين، وقد تم التحقق من كل منهم بطريقة أخرى، الذين سجّلوا حضورهم من هذا العنوان."
 
+#: onedesk/public/js/intake.js:53
+msgid "Do Not Pay Yet"
+msgstr "لا تدفع بعد"
+
 #: onedesk/public/js/ai_proposal.js:60
 msgid "Do this now, as you?"
 msgstr "أنفّذ هذا الآن باسمك؟"
 
-#: onedesk/one_intake/calendar.py:110
+#: onedesk/one_intake/calendar.py:110 onedesk/one_intake/inbox.py:76
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:42
 #: onedesk/public/js/onecloud.js:27
 msgid "Document"
@@ -3433,7 +3470,7 @@ msgstr "المستندات"
 msgid "Documents for the Tax Year"
 msgstr "مستندات السنة الضريبية"
 
-#: onedesk/public/js/intake.js:74
+#: onedesk/public/js/intake.js:115
 msgid "Documents in it"
 msgstr "المستندات فيه"
 
@@ -3481,7 +3518,7 @@ msgstr "نطاقات تنتظر"
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:21
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:36
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
-#: onedesk/one_project/portal.py:38
+#: onedesk/one_intake/page/intake/intake.js:24 onedesk/one_project/portal.py:38
 #: onedesk/one_task/doctype/task_step/task_step.json
 #: onedesk/public/js/account_request.js:24 onedesk/public/js/ai_proposal.js:23
 #: onedesk/public/js/ai_proposal_list.js:10 onedesk/public/js/decision.js:39
@@ -3617,7 +3654,7 @@ msgstr "أُسقط"
 
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
-#: onedesk/one_task/page/my_tasks/my_tasks.js:44
+#: onedesk/one_task/page/my_tasks/my_tasks.js:44 onedesk/public/js/intake.js:39
 #: onedesk/public/js/invoice.js:16 onedesk/public/js/invoice.js:18
 #: onedesk/public/js/invoice.js:19 onedesk/public/js/project.js:73
 msgid "Due"
@@ -4049,6 +4086,10 @@ msgstr "يُرحّل كل استلام وتسليم إلى حسابات المخ
 msgid "Every year that has ended is closed"
 msgstr "كل سنة انتهت مُقفلة"
 
+#: onedesk/one_intake/page/intake/intake.js:40
+msgid "Everybody's"
+msgstr "للجميع"
+
 #. Label of the shared (Check) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 msgid "Everyone on the team"
@@ -4062,6 +4103,10 @@ msgstr "يمكن لكل أعضاء الفريق فتحه"
 #: onedesk/one/onboarding_step/one_invite_your_team/one_invite_your_team.json
 msgid "Everyone who works here needs an account. Add them now and they can sign in while you finish setting up."
 msgstr "كل من يعمل هنا يحتاج إلى حساب. أضفهم الآن ليتمكنوا من تسجيل الدخول بينما تُكمل الإعداد."
+
+#: onedesk/one_intake/page/intake/intake.js:144
+msgid "Everything OneAI read"
+msgstr "كل ما قرأه OneAI"
 
 #: onedesk/public/js/crm_record.js:72
 msgid "Everything on {0} moves to {1}, and {0} is deleted."
@@ -4172,11 +4217,12 @@ msgstr "وثائق تنتهي صلاحيتها"
 msgid "Expiring {0}"
 msgstr "تنتهي في {0}"
 
-#: onedesk/public/js/intake.js:120
+#: onedesk/public/js/intake.js:61 onedesk/public/js/intake.js:172
 msgid "Explain"
 msgstr "اشرح"
 
-#: onedesk/public/js/intake.js:120 onedesk/public/js/intake.js:204
+#: onedesk/public/js/intake.js:61 onedesk/public/js/intake.js:172
+#: onedesk/public/js/intake.js:261
 msgid "Explain Again"
 msgstr "اشرح مرة أخرى"
 
@@ -4336,7 +4382,7 @@ msgstr "حُفظت عبر جهة الاتصال"
 msgid "Filed with its conversation"
 msgstr "حُفظت مع محادثتها"
 
-#: onedesk/one_intake/panel.py:139
+#: onedesk/one_intake/panel.py:154
 msgid "Filed with {0}"
 msgstr "حُفظ مع {0}"
 
@@ -4404,11 +4450,11 @@ msgstr "الملفات المطلوبة"
 msgid "Files you open or add will appear here."
 msgstr "ستظهر هنا الملفات التي تفتحها أو تضيفها."
 
-#: onedesk/one_intake/panel.py:132
+#: onedesk/one_intake/panel.py:147
 msgid "Fill in {0}"
 msgstr "املأ {0}"
 
-#: onedesk/one_intake/panel.py:133
+#: onedesk/one_intake/panel.py:148
 msgid "Filled in {0}"
 msgstr "ملأ {0}"
 
@@ -4495,6 +4541,11 @@ msgstr "الإشارة عند درجة أقل من"
 #: onedesk/public/js/checkin_list.js:18
 msgid "Flagged"
 msgstr "مُشار إليه"
+
+#. Label of the flow (Data) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "Flow"
+msgstr "المسار"
 
 #. Label of the one_folder (Data) field in DocType 'Communication'
 #. Label of the folder (Link) field in DocType 'Cloud File Request'
@@ -5136,7 +5187,7 @@ msgstr "سألصق توقيع بريد إلكتروني. أضف الشخص ال�
 #: onedesk/one_book/report/books_check/books_check.js:13
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/public/js/crm_record.js:58 onedesk/public/js/intake.js:108
+#: onedesk/public/js/crm_record.js:58 onedesk/public/js/intake.js:160
 msgid "IBAN"
 msgstr "رقم الآيبان"
 
@@ -5385,6 +5436,11 @@ msgstr "بدلًا من كلمة المرور، لخادم يسجّل الدخو
 msgid "Instruction"
 msgstr ""
 
+#: onedesk/one_intake/page/intake/intake.js:6 onedesk/public/js/desk.js:63
+#: onedesk/public/js/desk.js:86
+msgid "Intake"
+msgstr "الوارد"
+
 #. Name of a DocType
 #. Label of the action (Link) field in DocType 'Intake Lesson'
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
@@ -5401,6 +5457,10 @@ msgstr "درس الاستلام"
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
 msgid "Intake Settings"
 msgstr "إعدادات الاستلام"
+
+#: onedesk/public/js/desk.js:86
+msgid "Intake: {0} wait for you"
+msgstr "الوارد: {0} بانتظارك"
 
 #. Label of the interview (Link) field in DocType 'Interview Recording'
 #. Label of a Sidebar Item
@@ -5549,11 +5609,11 @@ msgstr "قد تكون الفاتورة نفسها مثل {0}: المورّد ن�
 msgid "It may have run out or been turned off. Ask whoever sent it for a new one."
 msgstr "ربما انتهت صلاحيته أو تم إيقافه. اطلب رابطًا جديدًا ممن أرسله."
 
-#: onedesk/one_intake/act.py:118
+#: onedesk/one_intake/act.py:116
 msgid "It would change what {0} already says."
 msgstr "سيغيّر ما يحتويه {0} الآن."
 
-#: onedesk/one_intake/act.py:120
+#: onedesk/one_intake/act.py:118
 msgid "It would end somebody's employment."
 msgstr "سينهي عمل أحد الموظفين."
 
@@ -5683,6 +5743,10 @@ msgstr "مجال النتائج الرئيسية"
 msgid "Kanban Board"
 msgstr ""
 
+#: onedesk/one_intake/page/intake/intake.js:176
+msgid "Keep"
+msgstr "أبقِه"
+
 #. Label of the keep_until (Date) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Keep Until"
@@ -5692,6 +5756,8 @@ msgstr "يُحفظ حتى"
 msgid "Keep both"
 msgstr "الاحتفاظ بالاثنين"
 
+#. Option for the 'Audit' (Select) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/public/js/oneai/Panel.vue:321
 msgid "Kept"
 msgstr "محفوظة"
@@ -6149,7 +6215,7 @@ msgstr "يتيح له البحث عن المعلومات. وكل بحث نداء
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/intake.js:139
+#: onedesk/public/js/intake.js:191
 msgid "Letter"
 msgstr "رسالة"
 
@@ -6236,7 +6302,7 @@ msgstr "مرتبط بـ"
 msgid "Linked To Type"
 msgstr "نوع المرتبط به"
 
-#: onedesk/one_intake/panel.py:137
+#: onedesk/one_intake/panel.py:152
 msgid "Linked to {0}"
 msgstr "رُبط بـ {0}"
 
@@ -6380,7 +6446,7 @@ msgstr "اطّلع على {0}"
 msgid "Looked something up"
 msgstr "بحث عن معلومة"
 
-#: onedesk/public/js/intake.js:305
+#: onedesk/public/js/intake.js:362
 msgid "Looks right"
 msgstr "يبدو صحيحًا"
 
@@ -6430,11 +6496,11 @@ msgid "Made On"
 msgstr "أُنشئ في"
 
 #. Label of the ai_generated (Check) field in DocType 'File'
-#: onedesk/one_ai/custom/file.json onedesk/public/js/intake.js:254
+#: onedesk/one_ai/custom/file.json onedesk/public/js/intake.js:311
 msgid "Made by OneAI"
 msgstr "من إنشاء OneAI"
 
-#: onedesk/public/js/intake.js:255
+#: onedesk/public/js/intake.js:312
 msgid "Made by OneAI. Nobody has checked it yet."
 msgstr "أنشأه OneAI ولم يراجعه أحد بعد."
 
@@ -6442,7 +6508,7 @@ msgstr "أنشأه OneAI ولم يراجعه أحد بعد."
 msgid "Made from {0}."
 msgstr "أُنشئ من {0}."
 
-#: onedesk/one_intake/panel.py:129
+#: onedesk/one_intake/panel.py:144
 msgid "Made {0}"
 msgstr "أنشأ {0}"
 
@@ -6545,7 +6611,7 @@ msgstr "اختصره"
 msgid "Make it smaller"
 msgstr "تصغير اللوحة"
 
-#: onedesk/one_intake/panel.py:129
+#: onedesk/one_intake/panel.py:144
 msgid "Make {0}"
 msgstr "أنشئ {0}"
 
@@ -6568,6 +6634,10 @@ msgstr ""
 #: onedesk/public/js/project.js:77
 msgid "Margin"
 msgstr ""
+
+#: onedesk/one_intake/page/intake/intake.js:35
+msgid "Mark All as Read"
+msgstr "تعليم الكل كمقروء"
 
 #. Label of the one_mark_section (Section Break) field in DocType 'Employee
 #. Attendance Tool'
@@ -6598,7 +6668,7 @@ msgstr "تعليم كغير مقروء"
 msgid "Marked Maintenance Required with no schedule: {0}. Add one under Assets › Maintenance."
 msgstr "مُعلَّمة بأنها تحتاج صيانة دون جدول: {0}. أضف جدولًا من الأصول › الصيانة."
 
-#: onedesk/public/js/intake.js:314
+#: onedesk/public/js/intake.js:371
 msgid "Marked as checked."
 msgstr "عُلّم على أنه رُوجع."
 
@@ -6832,6 +6902,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
+#: onedesk/one_intake/page/intake/intake.js:27
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "More"
 msgstr ""
@@ -6880,7 +6951,7 @@ msgstr "أُعيد نقله"
 msgid "Moved down from {0}% to {1}%."
 msgstr "انخفض من {0}% إلى {1}%."
 
-#: onedesk/one_intake/panel.py:144 onedesk/one_intake/panel.py:145
+#: onedesk/one_intake/panel.py:159 onedesk/one_intake/panel.py:160
 msgid "Moved it to {0}"
 msgstr "نقله إلى {0}"
 
@@ -7017,7 +7088,7 @@ msgstr "يُسمّى في الشيفرة. لا تغيّره بعد أن يستد
 msgid "Named in the message"
 msgstr "مذكور في الرسالة"
 
-#: onedesk/one_intake/panel.py:141
+#: onedesk/one_intake/panel.py:156
 msgid "Named it {0}"
 msgstr "سمّاه {0}"
 
@@ -7043,7 +7114,7 @@ msgid "Needs a Password"
 msgstr "يحتاج إلى كلمة مرور"
 
 #: onedesk/one_intake/doctype/intake_action/intake_action_list.js:5
-#: onedesk/public/js/intake.js:172
+#: onedesk/one_intake/page/intake/intake.js:157 onedesk/public/js/intake.js:224
 msgid "Needs a look"
 msgstr "يحتاج إلى نظرة"
 
@@ -7447,7 +7518,7 @@ msgstr "عادي"
 msgid "Not Billed"
 msgstr "غير مفوتر"
 
-#: onedesk/public/js/desk.js:123
+#: onedesk/public/js/desk.js:154
 msgid "Not Checked In"
 msgstr "لم يسجّل الحضور"
 
@@ -7476,7 +7547,7 @@ msgstr "ليس مكرراً"
 msgid "Not a workspace this site administers."
 msgstr "ليست مساحة عمل يديرها هذا الموقع."
 
-#: onedesk/public/js/intake.js:174
+#: onedesk/one_intake/page/intake/intake.js:159 onedesk/public/js/intake.js:226
 msgid "Not allowed"
 msgstr "غير مسموح"
 
@@ -7488,7 +7559,7 @@ msgstr "لم يُجب"
 msgid "Not checked in"
 msgstr "لم يسجّل الحضور"
 
-#: onedesk/public/js/desk.js:78
+#: onedesk/public/js/desk.js:109
 msgid "Not checking in today"
 msgstr "لا تسجيل حضور اليوم"
 
@@ -7505,7 +7576,7 @@ msgstr "غير موجود"
 msgid "Not in the Document"
 msgstr "ليس في المستند"
 
-#: onedesk/public/js/intake.js:82
+#: onedesk/public/js/intake.js:123
 msgid "Not in the document ({0})"
 msgstr "ليس في المستند ({0})"
 
@@ -7647,6 +7718,10 @@ msgstr "لا يوجد مبلغ للصرف بعد: لا يوجد هيكل روا�
 msgid "Nothing to pay yet: {0} has no Leave Encashment Amount Per Day, so a day is worth nought. Set it on the salary structure or on this person's assignment."
 msgstr "لا يوجد مبلغ للصرف بعد: {0} لا يحدد قيمة اليوم عند صرف الإجازة، فقيمة اليوم صفر. حدّدها في هيكل الرواتب أو في تعيين هذا الموظف."
 
+#: onedesk/one_intake/page/intake/intake.js:87
+msgid "Nothing waits for you. OneAI and its auditor dealt with everything."
+msgstr "لا شيء بانتظارك. تولّى OneAI ومدققه كل شيء."
+
 #: onedesk/one_ai/chat.py:141
 msgid "Nothing was asked."
 msgstr "لم يُسأل شيء."
@@ -7658,6 +7733,14 @@ msgstr "لم يُخصم أي مبلغ"
 #: onedesk/public/js/attendance_request.js:19
 msgid "Nothing will be written to attendance."
 msgstr "لن يُكتب شيء في سجل الحضور."
+
+#: onedesk/one_intake/page/intake/intake.js:87
+msgid "Nothing yet."
+msgstr "لا شيء بعد."
+
+#: onedesk/one_intake/page/intake/intake.js:143
+msgid "Nothing."
+msgstr "لا شيء."
 
 #. Label of the one_notice_ends_on (Date) field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
@@ -7924,7 +8007,7 @@ msgstr "معلومة قصيرة في جملة واحدة. يقرأ OneAI أحد�
 msgid "One thing OneAI did or proposed with a document, what was there before, and whether a person has looked."
 msgstr "أمر واحد فعله OneAI أو اقترحه بمستند، وما كان قبله، وهل نظر فيه شخص."
 
-#: onedesk/one_intake/filing.py:324
+#: onedesk/one_intake/inbox.py:189
 msgid "One thing OneAI read in {0} needs a look."
 msgstr "أمر واحد قرأه OneAI في {0} يحتاج إلى نظرة."
 
@@ -7993,6 +8076,14 @@ msgstr "تعذّر الوصول إلى OneAI الآن. والسؤال ما زا�
 msgid "OneAI could not explain this document just now. Try again in a moment."
 msgstr "تعذّر على OneAI شرح هذا المستند الآن. حاول مرة أخرى بعد قليل."
 
+#: onedesk/public/js/intake.js:46
+msgid "OneAI did 1 thing with it"
+msgstr "قام OneAI بأمر واحد بشأنه"
+
+#: onedesk/public/js/intake.js:46
+msgid "OneAI did {0} things with it"
+msgstr "قام OneAI بـ {0} أمور بشأنه"
+
 #. Description of the 'On Behalf Of' (Link) field in DocType 'Email Account'
 #. Description of the 'On Behalf Of' (Link) field in DocType 'File'
 #: onedesk/one_intake/custom/email_account.json
@@ -8008,19 +8099,19 @@ msgstr "عالج OneAI ‏{0} من {1} مستندًا هذا الشهر؛ واح
 msgid "OneAI has read nothing yet this month."
 msgstr "لم يقرأ OneAI شيئًا بعد هذا الشهر."
 
-#: onedesk/one_intake/act.py:122
+#: onedesk/one_intake/act.py:120
 msgid "OneAI is not sure enough."
 msgstr "OneAI ليس متأكدًا بما يكفي."
 
-#: onedesk/public/js/intake.js:196
+#: onedesk/public/js/intake.js:253
 msgid "OneAI is reading it…"
 msgstr "يقرأه OneAI الآن…"
 
-#: onedesk/public/js/intake.js:304
+#: onedesk/public/js/intake.js:361
 msgid "OneAI made this from {0}. Nobody has checked it yet."
 msgstr "أنشأ OneAI هذا من {0}، ولم يراجعه أحد بعد."
 
-#: onedesk/public/js/intake.js:304
+#: onedesk/public/js/intake.js:361
 msgid "OneAI made this. Nobody has checked it yet."
 msgstr "أنشأ OneAI هذا، ولم يراجعه أحد بعد."
 
@@ -8036,7 +8127,7 @@ msgstr "يقرأ OneAI الملفات الجديدة في {0}."
 msgid "OneAI reads new mail in {0}."
 msgstr "يقرأ OneAI البريد الجديد في {0}."
 
-#: onedesk/one_intake/filing.py:319
+#: onedesk/one_intake/filing.py:322
 msgid "OneAI thinks {0} is phishing. Do not pay, answer or open links in it."
 msgstr "يرى OneAI أن {0} تصيّد احتيالي. لا تدفع ولا ترد ولا تفتح روابطه."
 
@@ -8288,7 +8379,7 @@ msgstr "لا يمكن إزالة {0} إلا لمن أنشأ الاتصال."
 msgid "Only {0}"
 msgstr "{0} فقط"
 
-#: onedesk/one_intake/act.py:462
+#: onedesk/one_intake/act.py:463
 msgid "Only {0} or an administrator of this workspace can decide this."
 msgstr "لا يقرر هذا إلا {0} أو مسؤول مساحة العمل."
 
@@ -8298,8 +8389,9 @@ msgstr "لا يقرر هذا إلا {0} أو مسؤول مساحة العمل."
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one_intake/page/intake/intake.js:151
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
-#: onedesk/one_task/custom/task.json onedesk/public/js/intake.js:163
+#: onedesk/one_task/custom/task.json onedesk/public/js/intake.js:215
 #: onedesk/public/js/oneai/Record.vue:15 onedesk/public/js/onecloud.js:644
 #: onedesk/public/js/onecloud.js:1752 onedesk/public/js/onecloud.js:1760
 #: onedesk/public/js/onecloud.js:1776 onedesk/public/js/project.js:151
@@ -8326,6 +8418,10 @@ msgstr "افتحها"
 #: onedesk/public/js/onecloud.js:99 onedesk/public/js/onecloud.js:1778
 msgid "Open record"
 msgstr "فتح السجل"
+
+#: onedesk/one_intake/page/intake/intake.js:134
+msgid "Open the Document"
+msgstr "افتح المستند"
 
 #: onedesk/www/s.html:120
 msgid "Open {0}"
@@ -8803,6 +8899,7 @@ msgstr "المريض"
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
+#: onedesk/public/js/intake.js:53
 msgid "Pay"
 msgstr "الرواتب"
 
@@ -8821,7 +8918,7 @@ msgstr "قيد الدفع"
 msgid "Payload"
 msgstr "الحمولة"
 
-#: onedesk/public/js/intake.js:102 onedesk/public/js/intake.js:113
+#: onedesk/public/js/intake.js:154 onedesk/public/js/intake.js:165
 msgid "Payment"
 msgstr "الدفع"
 
@@ -9018,6 +9115,11 @@ msgstr "الصورة"
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Pick Lists"
 msgstr "قوائم الانتقاء"
+
+#: onedesk/one_intake/page/intake/intake.js:29
+#: onedesk/one_intake/page/intake/intake.js:59
+msgid "Pick a document to see what OneAI did with it."
+msgstr "اختر مستندًا لترى ما فعله OneAI به."
 
 #: onedesk/www/start.html:20
 msgid "Pick a name and a plan. The workspace is built as soon as the card is accepted."
@@ -9604,8 +9706,9 @@ msgstr "يقرؤه ويكتبه OneMail عبر IMAP بمجلداته كلها، 
 #. Label of the one_intake (Check) field in DocType 'Email Account'
 #. Label of the one_intake (Check) field in DocType 'File'
 #: onedesk/one_intake/custom/email_account.json
-#: onedesk/one_intake/custom/file.json onedesk/public/js/intake.js:34
-#: onedesk/public/js/intake.js:85 onedesk/public/js/onecloud.js:511
+#: onedesk/one_intake/custom/file.json onedesk/public/js/intake.js:55
+#: onedesk/public/js/intake.js:75 onedesk/public/js/intake.js:127
+#: onedesk/public/js/onecloud.js:511
 msgid "Read by OneAI"
 msgstr "يقرؤه OneAI"
 
@@ -9878,7 +9981,7 @@ msgstr "سلة المحذوفات"
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
-#: onedesk/public/js/intake.js:110 onedesk/public/js/invoice.js:60
+#: onedesk/public/js/intake.js:162 onedesk/public/js/invoice.js:60
 msgid "Reference"
 msgstr "المرجع"
 
@@ -9955,7 +10058,7 @@ msgstr "رقم السجل التجاري"
 msgid "Register a passkey before checking in."
 msgstr "سجّل مفتاح مرور قبل تسجيل الحضور."
 
-#: onedesk/public/js/desk.js:111
+#: onedesk/public/js/desk.js:142
 msgid "Register a passkey on this phone first?"
 msgstr "هل تريد تسجيل مفتاح مرور على هذا الهاتف أولاً؟"
 
@@ -10269,6 +10372,11 @@ msgstr "راجعها"
 msgid "Reviewed On"
 msgstr "تاريخ المراجعة"
 
+#. Option for the 'Audit' (Select) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "Right"
+msgstr "صحيح"
+
 #. Label of the role (Select) field in DocType 'Reading Party'
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 msgid "Role"
@@ -10463,7 +10571,7 @@ msgstr "حدّد الخادم الذي تريد الاتصال به."
 msgid "Scan"
 msgstr ""
 
-#: onedesk/public/js/intake.js:112
+#: onedesk/public/js/intake.js:164
 msgid "Scan with your banking app"
 msgstr "امسحه بتطبيق البنك"
 
@@ -10988,11 +11096,11 @@ msgstr "اقتُطعت بعض الأيام"
 msgid "Some lines match no item."
 msgstr "بعض البنود لا تطابق أي صنف."
 
-#: onedesk/public/js/intake.js:233
+#: onedesk/public/js/intake.js:290
 msgid "Some of it stays"
 msgstr "يبقى بعضه"
 
-#: onedesk/one_intake/act.py:123 onedesk/one_intake/drafts.py:35
+#: onedesk/one_intake/drafts.py:35
 msgid "Some of what OneAI read is not in the document."
 msgstr "بعض ما قرأه OneAI ليس في المستند."
 
@@ -11644,7 +11752,7 @@ msgstr "الرقم الضريبي"
 msgid "Tag"
 msgstr ""
 
-#: onedesk/one_intake/panel.py:147
+#: onedesk/one_intake/panel.py:162
 msgid "Tagged it {0}"
 msgstr "وسمه بـ {0}"
 
@@ -11661,11 +11769,11 @@ msgstr "تولَّ هذه الصفقة"
 msgid "Take This Lead"
 msgstr "تولَّ هذا العميل المحتمل"
 
-#: onedesk/public/js/intake.js:218
+#: onedesk/public/js/intake.js:275
 msgid "Take back everything OneAI did with this document?"
 msgstr "التراجع عن كل ما فعله OneAI بهذا المستند؟"
 
-#: onedesk/public/js/intake.js:317
+#: onedesk/public/js/intake.js:374
 msgid "Take back what OneAI made here?"
 msgstr "التراجع عمّا أنشأه OneAI هنا؟"
 
@@ -11676,6 +11784,10 @@ msgstr "استرجع {0} وسجّل ذلك بزر الاسترجاع في صفح
 #: onedesk/public/js/onemail.js:434
 msgid "Take off this record"
 msgstr "إزالة من هذا السجل"
+
+#: onedesk/one_intake/page/intake/intake.js:198
+msgid "Take this back?"
+msgstr "التراجع عن هذا؟"
 
 #: onedesk/public/js/asset.js:85
 msgid "Taken back."
@@ -11869,7 +11981,8 @@ msgstr "لم ينجح ذلك."
 msgid "That folder is not in this mailbox."
 msgstr "هذا المجلد ليس في صندوق البريد هذا."
 
-#: onedesk/one_intake/explain.py:33 onedesk/one_intake/panel.py:23
+#: onedesk/one_intake/explain.py:33 onedesk/one_intake/inbox.py:147
+#: onedesk/one_intake/page/intake/intake.js:122 onedesk/one_intake/panel.py:23
 #: onedesk/one_storage/api.py:33 onedesk/one_storage/api.py:91
 #: onedesk/one_storage/dav.py:319
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.py:24
@@ -12020,6 +12133,10 @@ msgstr "العنوان الذي جاء منه الطلب."
 msgid "The address this workspace was given. It cannot be removed."
 msgstr "العنوان الممنوح لمساحة العمل هذه. لا يمكن إزالته."
 
+#: onedesk/one_intake/page/intake/intake.js:155
+msgid "The auditor doubts this"
+msgstr "المدقق يشكّ في هذا"
+
 #. Description of the 'Sign Count' (Int) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "The authenticator's own counter. A value lower than the one stored means the passkey has been cloned."
@@ -12057,7 +12174,7 @@ msgstr "لا يحتوي دليل الحسابات على حساب حقوق مل�
 msgid "The chart of accounts has no group for bank accounts. Add one under Current Assets with the type Bank."
 msgstr "لا يحتوي دليل الحسابات على مجموعة للحسابات البنكية. أضف واحدة تحت الأصول المتداولة بنوع بنك."
 
-#: onedesk/public/js/desk.js:100
+#: onedesk/public/js/desk.js:131
 msgid "The check-in could not be recorded."
 msgstr "تعذّر تسجيل الحضور."
 
@@ -12131,6 +12248,11 @@ msgstr "أول بريد أُرسل إليهم أو أول مكالمة أُجر�
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 msgid "The first thing asked, shortened. Renaming is allowed."
 msgstr "أول سؤال طُرح، مختصراً. وتغيير الاسم متاح."
+
+#. Description of the 'Flow' (Data) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "The function that makes the record, when it is not a plain insert."
+msgstr "الدالة التي تنشئ السجل حين لا يكون إدراجًا بسيطًا."
 
 #. Description of the 'total_billable_hours' field in DocType 'Timesheet'
 #: onedesk/one_hr/custom/timesheet.json
@@ -12470,7 +12592,7 @@ msgstr "لا يوجد مستودع، لذا لا يمكن استلام شيء."
 msgid "There is no {0} here."
 msgstr "لا يوجد {0} هنا."
 
-#: onedesk/one_hr/clock.py:96 onedesk/public/js/desk.js:88
+#: onedesk/one_hr/clock.py:96 onedesk/public/js/desk.js:119
 msgid "There is nothing to check in: you are {0} today."
 msgstr "لا يوجد ما يُسجَّل: أنت {0} اليوم."
 
@@ -12559,7 +12681,7 @@ msgstr "هذا المجلد فارغ. أفلت الملفات هنا أو است
 msgid "This is for a document that is not saved yet. Apply it from its form."
 msgstr "هذا لمستند لم يُحفظ بعد. طبّقه من نموذجه."
 
-#: onedesk/one_intake/act.py:121
+#: onedesk/one_intake/act.py:119
 msgid "This is for a person to decide."
 msgstr "هذا قرار يتخذه شخص."
 
@@ -12635,7 +12757,7 @@ msgstr "هذا الموقع لا يدير مساحات عمل."
 msgid "This takes a few minutes. A link will be emailed to {0} when it is ready."
 msgstr "يستغرق ذلك بضع دقائق. وسيُرسل رابط إلى {0} عند الجهوز."
 
-#: onedesk/one_intake/act.py:473 onedesk/one_intake/act.py:527
+#: onedesk/one_intake/act.py:474 onedesk/one_intake/act.py:576
 msgid "This was already {0}."
 msgstr "كان هذا {0} من قبل."
 
@@ -12736,7 +12858,7 @@ msgstr ""
 msgid "Title"
 msgstr "العنوان"
 
-#: onedesk/public/js/intake.js:107 onedesk/public/js/onemail.js:497
+#: onedesk/public/js/intake.js:159 onedesk/public/js/onemail.js:497
 #: onedesk/public/js/onemail.js:739
 msgid "To"
 msgstr "إلى"
@@ -13069,8 +13191,8 @@ msgid "Understood On"
 msgstr "فُهم في"
 
 #: onedesk/one_intake/doctype/intake_action/intake_action.js:11
-#: onedesk/public/js/intake.js:183 onedesk/public/js/intake.js:306
-#: onedesk/public/js/onemail.js:619
+#: onedesk/one_intake/page/intake/intake.js:176 onedesk/public/js/intake.js:235
+#: onedesk/public/js/intake.js:363 onedesk/public/js/onemail.js:619
 msgid "Undo"
 msgstr "تراجع"
 
@@ -13086,7 +13208,8 @@ msgstr "متراجَع عنه"
 msgid "Undone By"
 msgstr "تراجع عنه"
 
-#: onedesk/public/js/intake.js:229 onedesk/public/js/intake.js:323
+#: onedesk/one_intake/page/intake/intake.js:201 onedesk/public/js/intake.js:286
+#: onedesk/public/js/intake.js:380
 msgid "Undone."
 msgstr "تم التراجع."
 
@@ -13158,9 +13281,11 @@ msgstr "غير مقروء"
 msgid "Unstar"
 msgstr "إزالة النجمة"
 
+#. Option for the 'Audit' (Select) field in DocType 'Intake Action'
 #. Label of the unsure (Check) field in DocType 'Reading'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/intake.js:44
+#: onedesk/public/js/intake.js:50 onedesk/public/js/intake.js:85
 msgid "Unsure"
 msgstr "غير متأكد"
 
@@ -13415,6 +13540,7 @@ msgstr "الرؤية"
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:257
+#: onedesk/one_intake/page/intake/intake.js:23
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/public/js/onecloud.js:1599 onedesk/public/js/tenant_domain.js:24
 msgid "Waiting"
@@ -13543,7 +13669,7 @@ msgstr "ما الخطوة التالية؟"
 msgid "What It Means"
 msgstr "ما يعنيه"
 
-#: onedesk/public/js/intake.js:184
+#: onedesk/one_intake/page/intake/intake.js:142 onedesk/public/js/intake.js:236
 msgid "What OneAI did"
 msgstr "ما فعله OneAI"
 
@@ -13632,6 +13758,11 @@ msgstr "ما الذي يلفت النظر في هذه القائمة؟"
 #: onedesk/one_hr/custom/overtime_slip.json
 msgid "What submitting this will add to the next payroll, from each type's rate and multipliers."
 msgstr "ما سيضيفه اعتماد هذا إلى كشف الرواتب القادم، من سعر كل نوع ومعاملاته."
+
+#. Description of the 'Audit' (Select) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "What the auditor said of it, or Kept when a person kept what the auditor doubted."
+msgstr "ما قاله المدقق عنه، أو «أُبقي» حين يُبقي شخص ما شكّ فيه المدقق."
 
 #. Description of the 'Device' (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
@@ -13749,7 +13880,7 @@ msgstr "ما كانت تحمله تلك الحقول حين كُتب هذا."
 msgid "What ticks this step by itself, written by OneAI. Empty for a step a person ticks."
 msgstr "ما يُتم هذه الخطوة تلقائيًا، كتبه OneAI. فارغ لخطوة يُتمها شخص."
 
-#: onedesk/public/js/intake.js:134
+#: onedesk/public/js/intake.js:186
 msgid "What to do"
 msgstr "ما يجب فعله"
 
@@ -13779,7 +13910,7 @@ msgstr "ماذا تريد أن تفعل؟"
 #. Label of the section_when (Section Break) field in DocType 'Mail Rule'
 #: onedesk/one_hr/custom/timesheet_detail.json
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
-#: onedesk/public/js/intake.js:66
+#: onedesk/public/js/intake.js:107
 msgid "When"
 msgstr "المدة"
 
@@ -13907,7 +14038,7 @@ msgstr "أي العملاء المحتملين المفتوحين ينتظرون
 msgid "Which pages of a scan, or which file in an archive or message."
 msgstr "أي صفحات من المستند الممسوح، أو أي ملف في أرشيف أو رسالة."
 
-#: onedesk/public/js/intake.js:64
+#: onedesk/public/js/intake.js:105
 msgid "Who"
 msgstr "من"
 
@@ -14212,7 +14343,7 @@ msgstr "اكتب رسالة قصيرة ولطيفة تُبلغ هذا المتق
 msgid "Write attendance on the holidays inside these dates as well. Left off, holidays in the range are skipped."
 msgstr "اكتب الحضور في العطل الواقعة ضمن هذه التواريخ أيضاً. وإن تُرك دون تفعيل، تُتخطى العطل ضمن المدة."
 
-#: onedesk/public/js/intake.js:121
+#: onedesk/public/js/intake.js:62 onedesk/public/js/intake.js:173
 msgid "Write the Cancellation"
 msgstr "اكتب الإلغاء"
 
@@ -14265,6 +14396,11 @@ msgstr "المُهلك"
 msgid "Written Value"
 msgstr "القيمة المكتوبة"
 
+#. Description of the 'As the Person' (Check) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "Written as the person it was read for, for a flow that checks who is signed in."
+msgstr "يُكتب باسم الشخص الذي قُرئ لأجله، لمسار يتحقق ممن سجّل الدخول."
+
 #. Description of the 'Rates' (Table) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Written by the sync. Editable only on a model priced by hand."
@@ -14287,6 +14423,11 @@ msgstr "مكتوب في المستند"
 #: onedesk/one_intake/doctype/identifier/identifier.json
 msgid "Written one way however it was typed, such as an IBAN without spaces or a phone number with its country."
 msgstr "يُكتب بطريقة واحدة مهما كُتب، مثل رقم IBAN بلا مسافات أو رقم هاتف مع رمز بلده."
+
+#. Option for the 'Audit' (Select) field in DocType 'Intake Action'
+#: onedesk/one_intake/doctype/intake_action/intake_action.json
+msgid "Wrong"
+msgstr "خطأ"
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:45
 msgid "Year"
@@ -14356,7 +14497,7 @@ msgstr "لا يمكنك الإضافة إلى هذا المجلد."
 msgid "You may not change {0}."
 msgstr "لا يمكنك تغيير {0}."
 
-#: onedesk/one_intake/act.py:482
+#: onedesk/one_intake/act.py:483
 msgid "You may not do this yourself."
 msgstr "لا يحق لك فعل هذا بنفسك."
 
@@ -14486,7 +14627,7 @@ msgstr "الصفر يعني بلا حد."
 msgid "Zero means unlimited. Enforced by Frappe from the site's config."
 msgstr "الصفر يعني بلا حد. ويفرضه Frappe من إعدادات الموقع."
 
-#: onedesk/public/js/intake.js:59
+#: onedesk/public/js/intake.js:100
 msgid "a colleague"
 msgstr "زميل"
 
@@ -14494,19 +14635,19 @@ msgstr "زميل"
 msgid "a day"
 msgstr "يوم واحد"
 
-#: onedesk/one_intake/act.py:569
+#: onedesk/one_intake/act.py:618
 msgid "a person has changed it since"
 msgstr "غيّره شخص منذ ذلك الحين"
 
-#: onedesk/one_intake/act.py:554
+#: onedesk/one_intake/act.py:603
 msgid "a person has checked it since"
 msgstr "راجعه شخص منذ ذلك الحين"
 
-#: onedesk/one_intake/act.py:608 onedesk/one_intake/act.py:626
+#: onedesk/one_intake/act.py:657 onedesk/one_intake/act.py:675
 msgid "a person has moved it since"
 msgstr "نقله شخص منذ ذلك الحين"
 
-#: onedesk/one_intake/act.py:617
+#: onedesk/one_intake/act.py:666
 msgid "a person has renamed it since"
 msgstr "أعاد شخص تسميته منذ ذلك الحين"
 
@@ -14540,7 +14681,7 @@ msgstr "صوت"
 msgid "business name"
 msgstr "اسم النشاط"
 
-#: onedesk/public/js/intake.js:71 onedesk/public/js/intake.js:135
+#: onedesk/public/js/intake.js:112 onedesk/public/js/intake.js:187
 msgid "by {0}"
 msgstr "بحلول {0}"
 
@@ -14598,6 +14739,7 @@ msgstr "الملاحظات"
 msgid "for"
 msgstr "مقابل"
 
+#: onedesk/one_intake/page/intake/intake.js:139
 #: onedesk/public/js/crm_record.js:104
 msgid "for {0}"
 msgstr "منذ {0}"
@@ -14649,8 +14791,8 @@ msgstr "حضر متأخراً وانصرف مبكراً"
 msgid "input"
 msgstr "مدخلات"
 
-#: onedesk/one_intake/act.py:556 onedesk/one_intake/act.py:566
-#: onedesk/one_intake/act.py:581
+#: onedesk/one_intake/act.py:605 onedesk/one_intake/act.py:615
+#: onedesk/one_intake/act.py:630
 msgid "it has been submitted"
 msgstr "تم اعتماده"
 
@@ -14700,11 +14842,11 @@ msgstr "لا أحد بعد"
 msgid "none of them live."
 msgstr "ولا واحدة منها تعمل."
 
-#: onedesk/public/js/intake.js:60
+#: onedesk/public/js/intake.js:101
 msgid "not known yet"
 msgstr "غير معروف بعد"
 
-#: onedesk/public/js/desk.js:143
+#: onedesk/public/js/desk.js:174
 msgid "nothing"
 msgstr "لا شيء"
 
@@ -14795,7 +14937,7 @@ msgstr "استعاد الإصدار {0}"
 msgid "shared it with {0}"
 msgstr "شاركه مع {0}"
 
-#: onedesk/one_intake/act.py:540
+#: onedesk/one_intake/act.py:589
 msgid "something else uses it now"
 msgstr "يستخدمه شيء آخر الآن"
 
@@ -14847,7 +14989,7 @@ msgstr "حتى {0}"
 msgid "uploaded a new version"
 msgstr "رفع إصدارًا جديدًا"
 
-#: onedesk/public/js/intake.js:59
+#: onedesk/public/js/intake.js:100
 msgid "us"
 msgstr "نحن"
 
@@ -15107,6 +15249,10 @@ msgstr "ليس لدى {0} حق الوصول إلى {1}."
 #: onedesk/public/js/tenant_domain.js:47
 msgid "{0} does not point to this workspace. The customer has to change their DNS."
 msgstr "لا يشير {0} إلى مساحة العمل هذه. وعلى العميل تغيير إعدادات DNS."
+
+#: onedesk/one_intake/page/intake/intake.js:102
+msgid "{0} done"
+msgstr "{0} منجز"
 
 #: onedesk/public/js/workspace_account.js:118
 msgid "{0} expire on {1}."
@@ -15377,7 +15523,7 @@ msgstr "متبقٍ {0}"
 msgid "{0} list"
 msgstr "قائمة {0}"
 
-#: onedesk/one_intake/act.py:178
+#: onedesk/one_intake/act.py:177
 msgid "{0} may not do this themselves."
 msgstr "لا يحق لـ {0} فعل هذا بنفسه."
 
@@ -15393,7 +15539,7 @@ msgstr "{0} أشهر"
 msgid "{0} must be kept until {1} by law, and cannot be deleted before then."
 msgstr "يجب حفظ {0} حتى {1} بحكم القانون، ولا يمكن حذفه قبل ذلك."
 
-#: onedesk/public/js/intake.js:289
+#: onedesk/public/js/intake.js:346
 msgid "{0} not checked by a person"
 msgstr "{0} لم يراجعها أحد"
 
@@ -15513,9 +15659,13 @@ msgstr "{0} وُقِّع عليها ولم تُحتسب بعد."
 msgid "{0} submitted."
 msgstr "اعتُمد {0}."
 
-#: onedesk/one_intake/filing.py:324
+#: onedesk/one_intake/inbox.py:187
 msgid "{0} things OneAI read in {1} need a look."
 msgstr "{0} أمور قرأها OneAI في {1} تحتاج إلى نظرة."
+
+#: onedesk/one_intake/page/intake/intake.js:101 onedesk/public/js/intake.js:45
+msgid "{0} to decide"
+msgstr "{0} للبتّ"
 
 #: onedesk/public/js/appraisal.js:30 onedesk/public/js/leave_application.js:29
 msgid "{0} to {1}"

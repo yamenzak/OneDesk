@@ -85,3 +85,33 @@ def test_a_delivery_nobody_ordered_is_a_task_to_check_it():
 	assert MONEY["unordered"](note, {**ctx, "purchase_order": "PUR-ORD-1"}) == []
 	assert MONEY["unordered"](note, {**ctx, "supplier": None}) == [], "an unknown sender is not ours to chase"
 	assert MONEY["unordered"]({**note, "change": "Nudge"}, ctx) == []
+
+
+AUDIT = _load(ROOT / "audit.py", {"json": json}, {"MOST_TEXT", "FILING", "VERDICTS", "worth", "held", "shown", "prompt", "verdicts"})
+
+
+def test_the_auditor_is_asked_only_where_there_is_something_to_get_wrong():
+	filed = [{"name": "a", "kind": "Move", "level": "Done"}, {"name": "b", "kind": "Tag", "level": "Done"}]
+	assert not AUDIT["worth"](filed), "filing alone is not worth a call"
+	assert AUDIT["worth"](filed + [{"name": "c", "kind": "Create", "level": "Done"}])
+	assert AUDIT["worth"]([{"name": "d", "kind": "Link", "level": "Proposed"}])
+
+
+def test_the_auditor_never_ends_somebodys_employment():
+	assert AUDIT["held"]({"target_doctype": "Employee", "after": json.dumps({"relieving_date": "2026-12-31"})})
+	assert not AUDIT["held"]({"target_doctype": "Employee", "after": json.dumps({"cell_number": "+49"})})
+
+
+def test_the_auditors_answer_is_one_clean_verdict_per_action_it_was_shown():
+	said = {"actions": [{"id": "a", "verdict": "RIGHT", "why": "It says so."}, {"id": "b", "verdict": "maybe"}, {"id": "zzz", "verdict": "right"}, "junk"]}
+	found = AUDIT["verdicts"](said, {"a", "b", "c"})
+	assert found == {"a": {"verdict": "right", "why": "It says so."}, "b": {"verdict": "unsure", "why": ""}}, "an action it was not shown is ignored"
+	assert AUDIT["verdicts"](None, {"a"}) == {}
+
+
+def test_the_auditor_sees_the_document_and_what_was_done_with_it():
+	row = {"name": "a", "kind": "Create", "level": "Proposed", "target_doctype": "Purchase Invoice", "target_name": None, "after": json.dumps({"supplier": "X"}), "before": None, "why": "Not sure."}
+	shown = AUDIT["shown"](row)
+	assert shown["state"] == "waiting for approval" and shown["record"] == "Purchase Invoice (new)" and shown["values"] == {"supplier": "X"}
+	asked = AUDIT["prompt"]({"kind": "Invoice", "text": "Rechnung", "dropped": "tax 1 is not in the document", "parties": []}, [shown])
+	assert "tax 1 is not in the document" in asked and asked.endswith("Rechnung") and '"id": "a"' in asked

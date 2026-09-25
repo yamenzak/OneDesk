@@ -307,22 +307,20 @@ def cut(values: dict):
 
 
 def _tell(reading) -> None:
-	"""Phishing, and anything waiting for a person, is said once to the
-	person OneAI acts for, and a phishing file to whoever put it there."""
+	"""Phishing is said at once to the person OneAI acts for, and a phishing
+	file to whoever put it there."""
 	from frappe import _
 	from frappe.desk.doctype.notification_log.notification_log import enqueue_create_notification
 
-	people = {reading.on_behalf_of}
-	if reading.verdict == "Phishing":
-		if reading.source_doctype == "File":
-			people.add(frappe.db.get_value("File", reading.source_name, "owner"))
-		subject = _("OneAI thinks {0} is phishing. Do not pay, answer or open links in it.").format(frappe.bold(reading.title or ""))
-		_once(people, reading, subject, enqueue_create_notification)
+	# What waits for a person is said once the auditor has had its say
+	# (inbox.tell), not here, before the rest is even made.
+	if reading.verdict != "Phishing":
 		return
-	waiting = frappe.db.count("Intake Action", {"reading": reading.name, "level": "Proposed"})
-	if waiting and reading.change != "Nothing New":
-		subject = _("{0} things OneAI read in {1} need a look.").format(waiting, frappe.bold(reading.title or "")) if waiting > 1 else _("One thing OneAI read in {0} needs a look.").format(frappe.bold(reading.title or ""))
-		_once({reading.on_behalf_of}, reading, subject, enqueue_create_notification, link=f"/desk/intake-action?level=Proposed&reading={reading.name}")
+	people = {reading.on_behalf_of}
+	if reading.source_doctype == "File":
+		people.add(frappe.db.get_value("File", reading.source_name, "owner"))
+	subject = _("OneAI thinks {0} is phishing. Do not pay, answer or open links in it.").format(frappe.bold(reading.title or ""))
+	_once(people, reading, subject, enqueue_create_notification)
 
 
 def _once(people: set, reading, subject: str, send, link: str | None = None) -> None:

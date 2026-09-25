@@ -177,6 +177,10 @@ def check(reading: dict, text: str, country: str | None = None) -> tuple[dict, l
 	money = dict(reading.get("money") or {})
 	for key in ("net", "tax", "gross"):
 		value = number(money.get(key))
+		# No tax is how a receipt without VAT reads, and it prints no 0,00.
+		if value == 0:
+			money[key] = 0.0 if key == "tax" else None
+			continue
 		if value is not None and not has_amount(value, text, said_amounts):
 			dropped.append(f"{key} {value} is not in the document")
 			value = None

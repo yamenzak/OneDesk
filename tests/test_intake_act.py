@@ -70,7 +70,7 @@ def test_what_waits_for_a_person():
 	assert level(Action("Update", "Supplier", "S", {"website": "x.de"}), {}, {"website": None})[0] == "Done", "an empty field is filled"
 	assert level(Action("Update", "Employee", "E", {"relieving_date": "2026-10-01"}, ends_employment=True), {}, {})[:2] == ("Proposed", "employment")
 	assert level(Action("Create", "Supplier", confidence=0.5), {}, {})[:2] == ("Proposed", "unsure")
-	assert level(Action("Create", "Supplier"), {"unsure": 1}, {})[:2] == ("Proposed", "dropped")
+	assert level(Action("Create", "Supplier"), {"unsure": 1}, {})[:2] == ("Done", ""), "a dropped fact is not used, so it holds nothing up"
 	assert level(Action("Create", "File", sure=True, confidence=0.1), {"unsure": 1}, {})[0] == "Done", "cutting a batch is not a judgement"
 	assert level(Action("Link", "Supplier", "S", {"file": "f"}), {"unsure": 1}, {})[0] == "Done", "filing is not held back by doubts"
 	assert level(Action("Update", "Supplier", "S", {"credit": 100}), {}, {"credit": 100.0})[0] == "Done", "numbers compare as numbers"

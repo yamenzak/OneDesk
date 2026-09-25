@@ -109,16 +109,31 @@ def actions_of(reading: str) -> list[dict]:
 	rows = frappe.get_all(
 		"Intake Action",
 		filters={"reading": ["in", names], "level": ["in", ("Done", "Proposed", "Refused")]},
-		fields=["name", "kind", "level", "target_doctype", "target_name", "why", "after", "before"],
+		fields=["name", "kind", "level", "target_doctype", "target_name", "why", "after", "before", "audit", "audit_why", "checked_by"],
 		order_by="creation asc",
 	)
+	from onedesk.one_hr.hiring import AUTHOR
+
 	out = []
 	for row in rows:
 		if row.kind == "Create" and row.target_doctype == "File" and row.level == "Done":
 			continue
 		said = said_of(row)
 		if said:
-			out.append({"name": row.name, "level": row.level, "said": said, "change": change_of(row), "why": row.why, "record": _record(row)})
+			out.append(
+				{
+					"name": row.name,
+					"level": row.level,
+					"said": said,
+					"change": change_of(row),
+					"why": row.why,
+					"record": _record(row),
+					"audit": row.audit,
+					"audit_why": row.audit_why,
+					# Applied by the auditor rather than by a person or at once.
+					"by_auditor": row.checked_by == AUTHOR,
+				}
+			)
 	return out
 
 

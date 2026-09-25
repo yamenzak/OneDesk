@@ -391,6 +391,23 @@ def act_now(name: str) -> None:
 		except Exception:
 			frappe.db.rollback()
 			frappe.log_error(title=f"Intake could not act on {name}: {step}")
+	after(name)
+
+
+def after(name: str) -> None:
+	"""Once everything is made: the auditor has its say, the document is
+	unread again in its Intake box, and whatever still waits is said once."""
+	from onedesk.one_intake import audit, inbox
+
+	try:
+		audit.run(name)
+		frappe.db.commit()
+	except Exception:
+		frappe.db.rollback()
+		frappe.log_error(title=f"Intake could not audit {name}")
+	inbox.fresh(name)
+	inbox.tell(name)
+	frappe.db.commit()
 
 
 def records_of(matter: str) -> list[tuple[str, str]]:

@@ -106,8 +106,6 @@ def level(action: Action, reading: dict, before: dict, floor: float = FLOOR, mar
 	if action.kind in CHANGES and not action.sure:
 		if flt(action.confidence, 1) * 100 < floor:
 			return "Proposed", "unsure", []
-		if cint(reading.get("unsure")):
-			return "Proposed", "dropped", []
 	return "Done", "", []
 
 
@@ -120,7 +118,6 @@ def waits(why: str, fields: list, doctype: str) -> str:
 		"employment": _("It would end somebody's employment."),
 		"decide": _("This is for a person to decide."),
 		"unsure": _("OneAI is not sure enough."),
-		"dropped": _("Some of what OneAI read is not in the document."),
 	}.get(why, "")
 
 
@@ -171,6 +168,8 @@ def apply(action: Action, reading) -> str | None:
 			"confidence": min(100, flt(action.confidence, 1) * 100),
 			"why": action.why[:1000] if action.why else None,
 			"after": json.dumps(action.values, default=str),
+			"flow": action.flow,
+			"as_person": int(bool(action.as_person)),
 		}
 	)
 	if not allowed(action, person):
@@ -225,6 +224,8 @@ def _insert(row) -> str:
 
 
 def _join(said: str | None, more: str) -> str:
+	if said and more in said.splitlines():
+		return said
 	return f"{said}\n{more}" if said else more
 
 
@@ -477,7 +478,7 @@ def settle(action: str, take: int = 1) -> dict:
 		row.db_set({"level": "Dismissed", "checked_by": frappe.session.user})
 		lessons.learn(row, "Dismissed")
 		return {"level": "Dismissed"}
-	planned = Action(kind=row.kind, doctype=row.target_doctype, name=row.target_name, values=json.loads(row.after or "{}"))
+	planned = planned_of(row)
 	if not allowed(planned, frappe.session.user):
 		frappe.throw(_("You may not do this yourself."), frappe.PermissionError)
 	before = _before(planned)
@@ -486,16 +487,64 @@ def settle(action: str, take: int = 1) -> dict:
 		done = _write(planned, before)
 	finally:
 		frappe.flags.one_intake_writing = False
+	_settled(row, before, done, frappe.session.user)
+	return {"level": "Done", "target": [row.target_doctype, row.target_name]}
+
+
+def planned_of(row) -> Action:
+	"""The action a proposal was, with the flow that makes it: a bill from an
+	order goes through ERPNext's mapper whoever applies it."""
+	return Action(
+		kind=row.kind,
+		doctype=row.target_doctype,
+		name=row.target_name,
+		values=json.loads(row.after or "{}"),
+		flow=row.flow,
+		as_person=bool(cint(row.as_person)),
+	)
+
+
+def _settled(row, before: dict, done: dict, by: str) -> None:
 	row.db_set(
 		{
 			"level": "Done",
-			"checked_by": frappe.session.user,
+			"checked_by": by,
 			"target_name": done.get("name") or row.target_name,
 			"before": json.dumps(before, default=str) if before else None,
 			"after": json.dumps(done, default=str),
 		}
 	)
-	return {"level": "Done", "target": [row.target_doctype, row.target_name]}
+
+
+def settle_for(row, take: bool, why: str) -> str:
+	"""The auditor's decision on a proposal, made for the person it was read
+	for under their permission, and written as OneAI. Answers the new level,
+	or Proposed when applying fails, with ERPNext's reason added."""
+	from onedesk.one_hr.hiring import AUTHOR
+
+	if not take:
+		row.db_set({"level": "Dismissed", "checked_by": AUTHOR, "audit": "Wrong", "audit_why": why[:1000]})
+		return "Dismissed"
+	planned = planned_of(row)
+	if not allowed(planned, row.on_behalf_of):
+		return "Proposed"
+	before = _before(planned)
+	frappe.db.savepoint("one_intake_audit")
+	try:
+		with as_oneai(row.on_behalf_of if planned.as_person else None):
+			done = _write(planned, before)
+	except Exception as raised:
+		frappe.db.rollback(save_point="one_intake_audit")
+		frappe.clear_messages()
+		row.db_set({"why": _join(row.why, frappe.utils.strip_html_tags(str(raised))[:500]), "audit": "Right", "audit_why": why[:1000]})
+		return "Proposed"
+	_settled(row, before, done, AUTHOR)
+	row.db_set({"audit": "Right", "audit_why": why[:1000]})
+	if row.kind == "Create":
+		from onedesk.one_intake import mark
+
+		mark.mark(row.target_doctype, row.target_name, row.reading)
+	return "Done"
 
 
 # ------------------------------------------------------------------ undo
