@@ -211,3 +211,42 @@ def test_push_is_wired_and_its_keys_stay_out_of_the_database():
 	# The worker handles push and clicks, and never a request the page makes.
 	worker = source.split('WORKER = """', 1)[1].split('"""', 1)[0]
 	assert '"fetch"' not in worker and "'fetch'" not in worker
+
+
+def _rules():
+	source = (tree.APP / "one" / "rules.py").read_text(encoding="utf-8")
+	space = {"_": lambda text: text, "readable": lambda doctype: ["description", "status", "name", "owner"]}
+	for node in ast.parse(source).body:
+		if isinstance(node, ast.FunctionDef) and node.name == "check_text":
+			exec(ast.unparse(node), space)
+	return source, space["check_text"]
+
+
+def test_a_workspace_rule_says_only_fields_of_its_record():
+	"""Frappe renders a Notification with its template globals; a workspace
+	rule's text may name `{{ doc.field }}` and nothing else."""
+	_source, check = _rules()
+	assert check("ToDo", "New: {{ doc.description }} by {{ doc.owner }}") is None
+	assert check("ToDo", None) is None
+	for wrong in (
+		"{{ frappe.db.get_value('User', 'Administrator', 'api_secret') }}",
+		"{{ doc.description | upper }}",
+		"{% for x in doc %}{% endfor %}",
+		"{{ doc.nosuch }}",
+		"{{ doc.__class__ }}",
+		"{{ nowdate() }}",
+	):
+		assert check("ToDo", wrong), wrong
+
+
+def test_a_workspace_rule_is_held_and_tells_only_who_may_read():
+	source, _check = _rules()
+	assert '"Notification": "onedesk.one.rules.Rule"' in HOOKS
+	hold = source.split("def _hold(", 1)[1].split("\ndef ", 1)[0]
+	for kept in ('"Filters"', '"System Notification"', "set_property_after_alert", "attach_print", "has_permission", "send_to_all_assignees"):
+		assert kept in hold, kept
+	recipients = source.split("def get_list_of_recipients(", 1)[1].split("\n\n", 1)[0]
+	assert "_may_read" in recipients and "[], []" in recipients
+	# Who counts as frappe's own writer of rules is read from frappe's DocPerm,
+	# never named here.
+	assert '"DocPerm"' in source

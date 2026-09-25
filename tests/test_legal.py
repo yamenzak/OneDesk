@@ -22,7 +22,7 @@ from onedesk.one_legal import assemble, documents, registry  # noqa: E402
 #: if it is a typo, write the new hash here.
 VERSIONS = {
 	"terms": "1.4ca1a130",
-	"aup": "1.94da7c45",
+	"aup": "1.cc05bbc3",
 	"privacy": "2.fab3e5a1",
 	"cookies": "1.32b1addc",
 	"dpa": "1.75b9b74d",

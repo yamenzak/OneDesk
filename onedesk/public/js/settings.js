@@ -43,7 +43,8 @@ onedesk.Settings = class Settings {
 		const mine = this.said.sections.filter((one) => one.group === this.group_name);
 		const params = frappe.utils.get_query_params();
 		const found = mine.find((one) => one.key === params.section) || mine[0];
-		if (found) this.open(found.key, { record: params.type || null });
+		// A notification type is ?type=, a workspace rule ?rule= (or ?rule=new).
+		if (found) this.open(found.key, { record: params.type || (params.rule ? `rule:${params.rule}` : null) });
 	}
 
 	// `record` is the one record a section that lists several is open on, as a
@@ -909,6 +910,7 @@ onedesk.Settings = class Settings {
 	// is open. Frappe's own (mentions, assignments, shares) are listed so the
 	// page is the whole answer, but their text is frappe's and not ours to edit.
 	draw_notification_types(data) {
+		if (data.rule) return this.draw_rule(data);
 		if (data.type) return this.draw_notification_type(data);
 		const esc = frappe.utils.escape_html;
 		const channel = (label, allowed, on) => (allowed ? frappe.ui.badge.html({ label, theme: on ? "blue" : "gray" }) : "");
@@ -931,13 +933,31 @@ onedesk.Settings = class Settings {
 				<div class="os-row-actions">${badges}${one.ours ? `<span class="os-chevron">${frappe.utils.icon("chevron-right", "sm")}</span>` : ""}</div>
 			</div>`;
 		};
+		const rule = (one) => `<div class="os-row os-row-link" data-rule="${esc(one.name)}" tabindex="0">
+				<div class="os-row-main"><div class="os-row-title">${esc(one.name)}</div><div class="os-quiet">${esc(one.said)}</div></div>
+				<div class="os-row-actions">${one.enabled ? "" : frappe.ui.badge.html({ label: __("Off"), theme: "gray" })}<span class="os-chevron">${frappe.utils.icon("chevron-right", "sm")}</span></div>
+			</div>`;
 		this.$content.html(
 			`<div class="os-card os-card-note os-quiet">${esc(
 				__("What One tells people. Open one to change what it says and whether it may also be mailed or pushed. Blue is on for new people, and each person can change their own.")
-			)}</div>` + data.apps.map((group) => this.card(group.app || __("Across One"), group.types.map(row).join(""))).join("")
+			)}</div>` +
+				this.card(
+					__("Rules"),
+					((data.rules || []).map(rule).join("") || this.empty(__("No rules yet."))) +
+						`<div class="os-actions">${this.button(__("New Rule"), { "data-rule-new": "1" }, "subtle", "plus")}${this.button(__("Ask OneAI for One"), { "data-rule-ai": "1" }, "ghost", "sparkles")}</div>`,
+					__("The workspace's own notifications: when something happens to a record, tell somebody.")
+				) +
+				data.apps.map((group) => this.card(group.app || __("Across One"), group.types.map(row).join(""))).join("")
 		);
 		const go = (event) => frappe.set_route("workspace-settings", { section: this.key, type: $(event.currentTarget).attr("data-type") });
 		this.$content.find("[data-type]").on("click", go).on("keydown", (event) => event.key === "Enter" && go(event));
+		const open_rule = (name) => frappe.set_route("workspace-settings", { section: this.key, rule: name });
+		this.$content.find("[data-rule]").on("click", (event) => open_rule($(event.currentTarget).attr("data-rule")));
+		this.$content.find("[data-rule]").on("keydown", (event) => event.key === "Enter" && open_rule($(event.currentTarget).attr("data-rule")));
+		this.$content.find("[data-rule-new]").on("click", () => open_rule("new"));
+		this.$content.find("[data-rule-ai]").on("click", () =>
+			onedesk.oneai.open({ ask: __("Help me set up a notification rule. Ask me what should happen and who should be told, then suggest the rule.") })
+		);
 	}
 
 	// One type, edited as a form is: its text and its channels, saved from the
@@ -1034,5 +1054,92 @@ onedesk.Settings = class Settings {
 		$card.find(".os-preview-message").html(said.message || "");
 		const wrong = [said.subject_wrong, said.message_wrong].filter(Boolean);
 		$card.find(".os-preview-wrong").html(wrong.length ? frappe.ui.alert.html({ title: wrong.join(" "), theme: "red" }) : "");
+	}
+
+	// A rule of the workspace's, as a form: frappe's own Notification, held to
+	// what a workspace rule may do (one/rules.py). The condition is frappe's
+	// own filter editor; the fields it offers follow what the rule watches.
+	draw_rule(data) {
+		const esc = frappe.utils.escape_html;
+		const rule = data.rule;
+		const head = `<div class="os-type-head">
+			<div class="os-type-back">${this.button(__("All Notifications"), { "data-back": "1" }, "ghost", "arrow-left")}</div>
+			<div class="os-who-name">${esc(rule.new ? __("New Rule") : rule.name)}</div>
+			${rule.said ? `<div class="os-quiet">${esc(rule.said)}</div>` : ""}
+			${rule.new ? "" : `<div class="os-who-actions">${this.button(__("Delete"), { "data-delete": "1" }, "ghost", "trash-2", "red")}</div>`}
+		</div>`;
+		const rows = [
+			["enabled"],
+			...(rule.new ? [["rule_name"]] : []),
+			{ heading: __("What It Watches") },
+			["document_type", "event"],
+			["date_changed", "days_in_advance"],
+			["value_changed"],
+			{ html: `<div class="os-filter-label">${esc(__("Only When"))}</div><div class="os-filters"></div>` },
+			{ heading: __("Who Is Told"), note: __("Only people who can open the record are told.") },
+			["roles"],
+			["person_field", "send_to_all_assignees"],
+			{ heading: __("What It Says") },
+			["subject"],
+			["message"],
+			{ heading: __("Channels"), note: __("The bell is always on. These are what people may add to it, and what a new person starts with.") },
+			["one_allow_email", "one_allow_push"],
+			["one_email_default", "one_push_default"],
+		];
+		const $card = this.form(data, { before: head, rows });
+		const options = (list) => [{ value: "", label: "" }, ...(list || [])];
+		const offer = (said) => {
+			for (const [field, list] of [
+				["date_changed", said && said.dates],
+				["value_changed", said && said.values],
+				["person_field", said && said.people],
+			]) {
+				const control = this.group.fields_dict[field];
+				if (!control) continue;
+				control.df.options = options(list);
+				control.refresh();
+				control.set_input(this.group.get_value(field) || data.values[field] || "");
+			}
+		};
+		const filters = (doctype, value) => {
+			const $filters = $card.find(".os-filters").empty();
+			if (!doctype) return $filters.html(`<div class="os-quiet">${esc(__("Choose the kind of record first."))}</div>`);
+			frappe.model.with_doctype(doctype, () => {
+				const group = new frappe.ui.FilterGroup({
+					parent: $filters,
+					doctype,
+					on_change: () => {
+						this.group.set_value("filters", JSON.stringify(group.get_filters()));
+						this.check();
+					},
+				});
+				group.add_filters_to_filter_group(value && value !== "[]" ? JSON.parse(value) : []);
+			});
+		};
+		offer(data.options);
+		filters(data.values.document_type, data.values.filters);
+		const watched = this.group.fields_dict.document_type;
+		// Only what the person may read, and records in their own right.
+		watched.get_query = () => ({ query: "onedesk.one.rules.watchable" });
+		const was = watched.df.change;
+		watched.df.change = async (...args) => {
+			was && was(...args);
+			const doctype = this.group.get_value("document_type");
+			if (doctype === this.rule_watches) return;
+			this.rule_watches = doctype;
+			this.group.set_value("filters", "");
+			offer(doctype ? await frappe.xcall("onedesk.one.rules.fields_of", { doctype }) : null);
+			filters(doctype, "");
+		};
+		this.rule_watches = data.values.document_type;
+		$card.find("[data-back]").on("click", () => frappe.set_route("workspace-settings", { section: this.key }));
+		$card.find("[data-delete]").on("click", () =>
+			frappe.confirm(__("Delete the rule {0}? Nobody is told by it again.", [rule.name]), async () => {
+				await frappe.xcall(Settings.API + "delete_rule", { name: rule.name });
+				frappe.set_route("workspace-settings", { section: this.key });
+			})
+		);
+		// A new rule, once saved, is opened under its own name.
+		if (!rule.new && this.record === "rule:new") frappe.set_route("workspace-settings", { section: this.key, rule: rule.name });
 	}
 };

@@ -90,7 +90,7 @@ be ours; how it behaves is frappe's.
 | Settings, You | Agreements | done |
 | Settings, Workspace | General | |
 | Settings, Workspace | People | |
-| Settings, Workspace | Notifications | built in stage 2, below |
+| Settings, Workspace | Notifications | done (stages 2 and 5 of NOTIFICATIONS.md) |
 | Settings, Workspace | Plan and Credits | |
 | Settings, Workspace | Domains | |
 | Settings, Workspace | OneAI | |
@@ -401,6 +401,55 @@ points as it was built.
      OneLegal's README says only a new revision does. It now compares
      revisions (`gate.agreed`), and the Agreements page shows a clarified
      document as still Agreed, with a link to the text that was agreed.
+
+### Rules (Notifications, stage 5)
+
+Stage 5 of `docs/NOTIFICATIONS.md`: the workspace's own notifications, on
+Workspace › Notifications.
+
+1. **Notifications**: a rule is frappe's Notification, sent to the bell under
+   a type of its own, so it is mailed or pushed as each person chose. It tells
+   only the people who may read the record.
+2. **OneAI**: `draft_notification` drafts a rule as a card, refused when its
+   text names anything but the record's fields or its event is not one of the
+   seven. The page offers **Make a rule**, and the Rules part has **Ask OneAI
+   for One**.
+3. **Intake**: nothing of its own. A rule may watch Intake's records like any
+   other the administrator can read.
+4. **Permissions**:
+   - The Workspace Administrator gets Notification (Custom DocPerm), and a rule
+     they save is held in the controller (`rules._hold`), so the desk is no way
+     round the screen.
+   - Frappe renders a Notification's text with its full globals and runs its
+     conditions as Python, because only its own administrators may write one.
+     A workspace rule has filters for a condition and text that names only
+     `{{ doc.field }}`; a rule made on the desk by a workspace administrator
+     with Python in it is refused.
+   - Recipients: by role, by a person field of the record, or its assignees;
+     no copies, no addresses, no conditions. At send time the list is cut to
+     people who can read that record.
+   - A rule may watch only a kind of record its author can read.
+5. **Cross-module**: a rule can watch any module's records, so this is where a
+   workspace says "tell the managers about a new expense claim" without a line
+   of code. Its person fields come from the record (Allocated To, Assigned By).
+6. **UI**:
+   - The list gains a Rules part above the types: each rule a row saying when
+     it fires, with New Rule and Ask OneAI for One.
+   - A rule is a form: the kind of record (a Link that searches translated
+     names; frappe's own query cut at two hundred names and found nothing),
+     when, the date or field that goes with it, frappe's filter editor for
+     "only when", who is told, the text with a preview, and channels. Save in
+     the page head against `modified`; Delete asks first. A new rule moves to
+     its own address once saved.
+   - Found: frappe's default message for a new Notification ("Add your message
+     here") was prefilled into the form; a new rule now starts empty.
+   - Found: a rule could be saved telling nobody (frappe allows it, and the
+     sample rule was one). It is now refused until it names a role, a person
+     on the record, or its assignees.
+7. **Documented**: One's README, Notifications for the Workspace, has Rules.
+8. **Legal**: the Acceptable Use Policy's `notification-text` now names rules
+   as the workspace's own content. A clarification (1.cc05bbc3), not a new
+   revision: what a workspace sends was already its own.
 
 ## OneLegal
 

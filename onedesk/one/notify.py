@@ -190,20 +190,29 @@ def _push_once() -> None:
 	frappe.db.set_default("onedesk_push_seeded", "1")
 
 
+#: What a workspace administrator is given on frappe's doctypes, so what OneAI
+#: suggests (a rewrite, a rule) is applied as them. A rule they write is held
+#: to a workspace rule's limits by one/rules.py whatever screen they use.
+GRANTS = {
+	"Notification Type": ("read", "write"),
+	"Notification": ("read", "write", "create", "delete"),
+}
+
+
 def _grant() -> None:
-	"""A workspace administrator may read and edit Notification Types, which is
-	how OneAI's suggested rewrite is applied as them. Written once: a doctype
-	with Custom DocPerm rows has been decided by the workspace."""
+	"""Written once per doctype: a doctype with a Custom DocPerm row for the
+	role has been decided by the workspace."""
 	from frappe.permissions import add_permission, setup_custom_perms, update_permission_property
 
 	from onedesk.one import roles
 
-	if frappe.db.exists("Custom DocPerm", {"parent": "Notification Type", "role": roles.ADMINISTRATOR}):
-		return
-	setup_custom_perms("Notification Type")
-	add_permission("Notification Type", roles.ADMINISTRATOR, 0)
-	for ptype in ("read", "write"):
-		update_permission_property("Notification Type", roles.ADMINISTRATOR, 0, ptype, 1, validate=False)
+	for doctype, ptypes in GRANTS.items():
+		if frappe.db.exists("Custom DocPerm", {"parent": doctype, "role": roles.ADMINISTRATOR}):
+			continue
+		setup_custom_perms(doctype)
+		add_permission(doctype, roles.ADMINISTRATOR, 0)
+		for ptype in ptypes:
+			update_permission_property(doctype, roles.ADMINISTRATOR, 0, ptype, 1, validate=False)
 
 
 def validate(doc, method=None) -> None:
@@ -343,7 +352,15 @@ def choosable(user: str | None = None) -> list[dict]:
 	rows = frappe.get_all(
 		"Notification Type",
 		filters={"enabled": 1},
-		fields=["name", "one_app", "one_about", "one_allow_email", "one_allow_push", "one_outside"],
+		fields=[
+			"name",
+			"one_app",
+			"one_about",
+			"one_allow_email",
+			"one_allow_push",
+			"one_outside",
+			"one_rule",
+		],
 		order_by="one_app asc, name asc",
 	)
 	out = []
@@ -357,6 +374,14 @@ def choosable(user: str | None = None) -> list[dict]:
 				"about": _(row.one_about) if row.one_about else "",
 				"allowed": bool(row.one_allow_email) and not always,
 				"always": always,
+				"push": bool(row.one_allow_push),
+			}
+		elif row.one_rule:
+			# The workspace's own rules: everybody they reach may choose how.
+			kind = {
+				"about": row.one_about or "",
+				"allowed": bool(row.one_allow_email),
+				"always": False,
 				"push": bool(row.one_allow_push),
 			}
 		elif row.name in FRAPPE_KINDS:

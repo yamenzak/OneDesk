@@ -31,7 +31,11 @@ DECLARED = (
 )
 
 #: Files that write a site or user layer rather than app content.
-LAYERS = ("onedesk/one/companions.py",)
+LAYERS = (
+	"onedesk/one/companions.py",
+	# A workspace's own notification rules, made on its settings page.
+	"onedesk/one/rules.py",
+)
 
 _OPENS = r"frappe\.(get_doc|new_doc|_dict)\s*\(\s*[{'\"]?[^)]*?['\"]("
 _CLOSES = r")['\"]"

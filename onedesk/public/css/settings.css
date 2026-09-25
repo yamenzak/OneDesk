@@ -437,3 +437,14 @@
 .os-form .form-column .frappe-control.input-max-width[data-fieldname="one_subject"] {
 	max-width: none;
 }
+
+/* A rule's condition: frappe's own filter editor, under a label as a field has. */
+.os-filter-label {
+	color: var(--ink-gray-5);
+	font-size: var(--text-xs);
+	margin: calc(var(--spacing) * 2) 0 calc(var(--spacing) * 1);
+}
+
+.os-form .form-column .frappe-control.input-max-width[data-fieldname="subject"] {
+	max-width: none;
+}

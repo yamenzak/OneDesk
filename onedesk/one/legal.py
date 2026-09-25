@@ -78,9 +78,10 @@ clause(
 	module=M,
 	body="""
 		A workspace administrator can change what the notifications and mails One sends say, including the
-		mails that go to people outside the workspace, such as a file request or a shared link. What they
-		write is the workspace's own content, sent in its name, and this policy applies to it as it does to
-		anything else the workspace sends. The code that opens a shared link is always sent, whatever the
+		mails that go to people outside the workspace, such as a file request or a shared link, and can make
+		rules of the workspace's own that tell people when something happens to a record. What they write is
+		the workspace's own content, sent in its name, and this policy applies to it as it does to anything
+		else the workspace sends. The code that opens a shared link is always sent, whatever the
 		administrator sets.
 	""",
 	order=5,

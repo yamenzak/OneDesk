@@ -1,0 +1,21 @@
+{
+ "custom_fields": [
+  {
+   "doctype": "Custom Field",
+   "dt": "Notification",
+   "fieldname": "one_rule",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "read_only": 1,
+   "insert_after": "enabled",
+   "label": "Workspace Rule",
+   "module": "One",
+   "name": "Notification-one_rule",
+   "description": "Made by the workspace, so held to what a workspace rule may do."
+  }
+ ],
+ "doctype": "Notification",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

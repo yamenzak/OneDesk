@@ -145,8 +145,9 @@ entry and left until it matters.
    are on now becomes this.
 4. **Push**, on the transport chosen. Done. Registering a device, sending on
    Notification Log, and its legal lines.
-5. **The builder.** Rules on their own screen, with `draft_notification` for
-   OneAI.
+5. **The builder.** Done. Rules on Workspace › Notifications, frappe's own
+   Notification held to what a workspace administrator may do, with
+   `draft_notification` for OneAI.
 6. **Absorbing erpnext and hrms**, screen by screen, in the passover.
 
 ## The decision this needs
@@ -247,3 +248,34 @@ on nothing but the browsers.
 - **Not yet**: iPhone and iPad, which Apple allows only for a site added to
   the Home Screen as an app. That needs a web app manifest, which the desk does
   not have.
+
+## Stage 5, as built
+
+- **A rule is frappe's Notification**, not a doctype of ours:
+  `override_doctype_class` puts `one/rules.py`'s `Rule` under it. Frappe
+  already fires it on every event, on days before and after a date, and on a
+  value change, and already knows how to find its recipients.
+- **Each rule gets a notification type of its own**, named after it and listed
+  under Rules (`one_rule` on the type). So a rule is mailed and pushed to each
+  person as they chose, and the administrator sets its channels on the rule
+  itself. Deleting the rule deletes its type.
+- **A workspace rule** is one saved by anybody without frappe's own
+  Notification roles (`one_rule` on the Notification). It is held to: a kind
+  of record the author may read, not a table or a single; one of seven events;
+  filters rather than Python; text that names only `{{ doc.field }}` of that
+  record (`check_text` walks the template); recipients by role, a person field
+  of the record, or its assignees, with no conditions, copies or addresses;
+  the bell only, setting nothing and attaching nothing. The desk cannot get
+  round it: the hold is in the controller, not the screen.
+- **When it fires, only people who may read the record are told**
+  (`Rule.get_list_of_recipients`). A rule that tells a role about every new
+  expense claim tells only those in the role who could open that claim.
+- **The screen** is a form like a type's: what it watches (with frappe's
+  filter editor for "only when"), when, who is told, the text with a preview,
+  and channels. Save in the page head, against `modified`.
+- **OneAI** drafts a rule as a card (`draft_notification`), refused when its
+  text or event would not save. Applying it is an ordinary save by the
+  administrator, so the same hold applies.
+- **Not yet**: rules that mail outside addresses, or send a document's print.
+  Both are frappe's to do, for frappe's own administrators, from the desk.
+

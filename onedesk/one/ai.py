@@ -7,6 +7,7 @@ suggestions the panel offers. How to use each section is in `README.md`, which
 OneAI reads through `how_to`.
 """
 
+import json
 from typing import Annotated
 
 import frappe
@@ -79,6 +80,14 @@ SUGGESTIONS = {
 			"expects": "notification_type",
 		},
 		{
+			"label": _lt("Make a rule"),
+			"ask": _lt(
+				"Help me set up a notification rule. Ask me what should happen and who should be told, then "
+				"suggest the rule."
+			),
+			"expects": "draft_notification",
+		},
+		{
 			"label": _lt("How do notifications work?"),
 			"ask": _lt("How do notifications work in One, and what can I change on this page?"),
 			"expects": "how_to",
@@ -140,7 +149,8 @@ def _notifications_page(record: str | None) -> str:
 	return (
 		"The reader is on Notifications in Workspace Settings, where an administrator decides what each "
 		"notification One sends says and which channels it may use." + open_on + " notification_type reads a "
-		"type's text, slots and channels; rewrite_notification suggests new text as a card they apply. How "
+		"type's text, slots and channels; rewrite_notification suggests new text as a card they apply; "
+		"draft_notification suggests a new rule (when something happens to a record, tell somebody). How "
 		"it works is in One's documentation under Workspace Settings › Notifications (how_to)."
 	)
 
@@ -269,4 +279,69 @@ def my_notifications() -> dict:
 		],
 		"next": "Everything reaches the bell. Push reaches only the browsers counted in push_browsers. "
 		"Advise; the person ticks and saves the page themselves.",
+	}
+
+
+def draft_notification(
+	name: Annotated[str, "A short name people will know it by, such as Overdue Invoice."],
+	watches: Annotated[str, "The kind of record, as its DocType name, such as Sales Invoice."],
+	when: Annotated[str, "New, Save, Submit, Cancel, Days After, Days Before or Value Change."],
+	subject: Annotated[str, "One line. Fields of the record as {{ doc.fieldname }}, and nothing else."],
+	message: Annotated[str, "The detail under the bell and in the mail, the same way. May be empty."]
+	| None = None,
+	roles: Annotated[list[str], "Roles whose people are told."] | None = None,
+	person: Annotated[str, "A field of the record naming a person to tell, such as owner."] | None = None,
+	assignees: Annotated[bool, "Whether whoever the record is assigned to is told."] = False,
+	days: Annotated[int, "For Days After or Days Before: how many days."] | None = None,
+	date_field: Annotated[str, "For Days After or Days Before: the date field it counts from."] | None = None,
+	value_field: Annotated[str, "For Value Change: the field whose change it watches."] | None = None,
+	only_when: Annotated[list[list], "Conditions on the record's fields, each [field, operator, value]."]
+	| None = None,
+	why: Annotated[str, "In a sentence, what the rule is for."] | None = None,
+) -> dict:
+	"""Suggest a notification rule for the workspace, as a card the
+	administrator applies: when something happens to a kind of record, tell
+	somebody. Only people who can open the record are ever told. Nothing is
+	made until they approve it. Workspace administrators only."""
+	from onedesk.one import roles as workspace
+	from onedesk.one import rules
+	from onedesk.one_ai import proposals
+
+	if not workspace.administers():
+		return {"error": "Only a workspace administrator makes notification rules."}
+	if when not in rules.EVENTS:
+		return {"error": f"When must be one of: {', '.join(rules.EVENTS)}."}
+	if not frappe.db.exists("DocType", watches):
+		return {"error": f"There is no kind of record called {watches}."}
+	for text in (subject, message):
+		wrong = rules.check_text(watches, text)
+		if wrong:
+			return {"error": f"{wrong} The fields it may use: {', '.join(rules.readable(watches))}."}
+	recipients = [{"receiver_by_role": one} for one in roles or [] if one]
+	if person:
+		recipients.append({"receiver_by_document_field": person})
+	if not recipients and not assignees:
+		return {"error": "Say who is told: roles, a person on the record, or its assignees."}
+	changes = {
+		"name": (name or "").strip(),
+		"enabled": 1,
+		"one_rule": 1,
+		"channel": "System Notification",
+		"document_type": watches,
+		"event": when,
+		"subject": subject,
+		"message": message or "",
+		"condition_type": "Filters",
+		"filters": json.dumps([[watches, *one] for one in only_when or []]),
+		"send_to_all_assignees": 1 if assignees else 0,
+		"recipients": recipients,
+	}
+	if when in ("Days After", "Days Before"):
+		changes.update({"date_changed": date_field, "days_in_advance": days or 0})
+	if when == "Value Change":
+		changes["value_changed"] = value_field
+	return {
+		"proposal": proposals.propose("Create", "Notification", changes=changes, why=why),
+		"state": "Proposed",
+		"next": "Tell them it appears under Workspace Settings, Notifications, Rules once they approve it.",
 	}

@@ -162,6 +162,19 @@
    "module": "One",
    "name": "Notification Type-one_push_default",
    "depends_on": "eval:doc.one_allow_push"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Notification Type",
+   "fieldname": "one_rule",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "read_only": 1,
+   "insert_after": "one_outside",
+   "label": "Rule",
+   "module": "One",
+   "name": "Notification Type-one_rule",
+   "description": "The workspace's own rule this type is for, made with it. The rule's name, since the type is made first."
   }
  ],
  "doctype": "Notification Type",

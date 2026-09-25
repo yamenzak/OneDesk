@@ -601,6 +601,8 @@ override_doctype_class = {
 	"Employee Checkin": "onedesk.one_hr.checkin.OneEmployeeCheckin",
 	# A stored file's content is read back from R2. See one_storage/file.py.
 	"File": "onedesk.one_storage.file.CloudFile",
+	# A rule a workspace builds is held to what it may do. See one/rules.py.
+	"Notification": "onedesk.one.rules.Rule",
 }
 
 # Every new file's content goes to R2 through admin's signed URLs, and is
@@ -710,6 +712,7 @@ one_ai_suggests = [
 	"onedesk.one_crm.ai.plan_next_step",
 	"onedesk.one_crm.ai.write_up_call",
 	"onedesk.one.ai.rewrite_notification",
+	"onedesk.one.ai.draft_notification",
 ]
 one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS", "onedesk.one_crm.ai.SUGGESTIONS", "onedesk.one.ai.SUGGESTIONS"]
 

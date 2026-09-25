@@ -174,6 +174,32 @@ outside the workspace, such as the mail a file request sends.
   everybody again if it is on for new people. Each person changes their own
   under You › Notifications.
 
+**Rules** are notifications the workspace makes for itself, at the top of the
+page: when something happens to a kind of record, tell somebody. **New Rule**
+asks, in order:
+
+- **Name**: how people will know it when they choose how to get it.
+- **What It Watches**: the kind of record, which must be one you can open
+  yourself, and **When**: when one is made, saved, submitted or cancelled, a
+  number of days before or after one of its dates, or when one of its fields
+  changes. **Only When** narrows it to records matching conditions on their
+  fields, such as a status or an amount.
+- **Who Is Told**: people with a role, the person named on the record (who
+  made it, or a person field such as Allocated To), and whoever it is
+  assigned to. **Only people who can open the record are told**, whatever
+  the rule says, so a rule never shows anybody what they could not see.
+- **What It Says**: a subject and a message. `{{ doc.field }}` puts a field of
+  the record in, such as `{{ doc.customer_name }}`, and nothing else can be
+  used.
+- **Channels**, as for any other notification. Each person then chooses how
+  they get it under You › Notifications, where the rule is listed with the
+  others.
+
+**Delete** stops a rule for good. **Ask OneAI for One**, or **Make a rule** in
+the OneAI panel, describes what you want in your own words ("tell the account
+manager when an invoice is seven days overdue"); OneAI suggests the rule as a
+card, and nothing is made until you approve it.
+
 Mentions, assignments and shares are frappe's own and listed at the bottom.
 Their text is frappe's, so they have nothing to change here.
 
@@ -184,6 +210,8 @@ Their text is frappe's, so they have nothing to change here.
   card saves it, and the open page shows the new text.
 - **Which should be emailed?** It reads every notification and says which are
   worth a mail and which are better left to the bell.
+- **Make a rule**: it asks what should happen and who should be told, then
+  suggests the rule.
 - **How do notifications work?** From this page.
 
 ## Asking OneAI
@@ -209,6 +237,7 @@ For the people who build One. OneAI does not read past this heading.
 | `ai.py` | What OneAI offers on these pages, and what it is told about where the reader is |
 | `notify.py` | The one door every notification goes through, and the sandbox an edited text renders in; see `docs/NOTIFICATIONS.md` |
 | `push.py`, `doctype/push_device`, `../public/js/push.js` | Web Push: a person's browsers, the site's keys, sending, and the service worker |
+| `rules.py` | The workspace's own notification rules: frappe's Notification, held to what a workspace rule may do |
 | `custom/notification_type.json` | What a Notification Type carries here: its app, text and channels |
 
 Profile writes a person's own User record, and their own Employee record when

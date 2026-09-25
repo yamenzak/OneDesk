@@ -63,7 +63,7 @@ onedesk.oneai = {
 			// part of it that is open, like Settings and its sections.
 			const params = frappe.utils.get_query_params();
 			// A section that lists several records may be open on one of them.
-			return { doctype: "", name: "", page: route[0], section: params.section || "", record: params.type || "", view: "Page", label: document.title };
+			return { doctype: "", name: "", page: route[0], section: params.section || "", record: params.type || params.rule || "", view: "Page", label: document.title };
 		}
 		return null;
 	},
