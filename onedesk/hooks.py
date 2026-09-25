@@ -626,6 +626,7 @@ app_include_css = [
 	"/assets/onedesk/css/theme.css",
 	"/assets/onedesk/css/desk.css",
 	"/assets/onedesk/css/oneai.css",
+	"/assets/onedesk/css/legal.css",
 	"/assets/onedesk/css/intake.css",
 ]
 # /start and /welcome, which are not desk screens and load none of the above.
@@ -651,6 +652,7 @@ app_include_js = [
 	"/assets/onedesk/js/reports.js",
 	"/assets/onedesk/js/oneai.js",
 	"/assets/onedesk/js/intake.js",
+	"/assets/onedesk/js/legal.js",
 ]
 
 # OneAI is not a place. Its screens live in One — what a workspace
@@ -658,7 +660,7 @@ app_include_js = [
 # its own was five doctype lists nobody navigates to. Its doctypes and reports
 # stay where they are; only the dock entry goes, and One inherits the rest.
 # A mapping, as frappe's and erpnext's are: module to where its navigation went.
-code_only_modules = {"One AI": ["One"]}
+code_only_modules = {"One AI": ["One"], "One Legal": ["One"]}
 
 # What OneAI can do in each module, owned by the module. Reads run as the
 # person asking; suggests write a card. Suggestions are what the panel offers

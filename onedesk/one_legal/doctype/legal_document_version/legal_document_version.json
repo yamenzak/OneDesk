@@ -1,0 +1,96 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "format:{document}-{version}",
+ "creation": "2026-09-25 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "document",
+  "title",
+  "version",
+  "revision",
+  "audience",
+  "cb_lv_text",
+  "html",
+  "text"
+ ],
+ "fields": [
+  {
+   "description": "The document's key, such as terms or privacy.",
+   "fieldname": "document",
+   "fieldtype": "Data",
+   "label": "Document",
+   "reqd": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "reqd": 1,
+   "read_only": 1
+  },
+  {
+   "description": "The revision and the hash of the text, as one_legal/assemble.py makes it.",
+   "fieldname": "version",
+   "fieldtype": "Data",
+   "label": "Version",
+   "reqd": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "revision",
+   "fieldtype": "Int",
+   "label": "Revision",
+   "read_only": 1
+  },
+  {
+   "fieldname": "audience",
+   "fieldtype": "Data",
+   "label": "Audience",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cb_lv_text",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "html",
+   "fieldtype": "Text Editor",
+   "label": "As shown",
+   "read_only": 1
+  },
+  {
+   "description": "The plain text the version's hash was taken over.",
+   "fieldname": "text",
+   "fieldtype": "Long Text",
+   "label": "As hashed",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-25 13:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Legal",
+ "name": "Legal Document Version",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "search_fields": "document,version",
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title",
+ "track_changes": 1,
+ "in_create": 1
+}

@@ -35,7 +35,7 @@ def _links(path: Path) -> set[str]:
 
 def test_one_ai_has_no_dock_entry_and_one_inherits_it():
 	"""A mapping, as frappe's and erpnext's are: a list here breaks every request."""
-	assert _hook("code_only_modules") == {"One AI": ["One"]}
+	assert _hook("code_only_modules")["One AI"] == ["One"]
 
 
 def test_what_a_workspace_administers_is_in_one():

@@ -146,6 +146,15 @@ No doctypes yet.
 | Reading Party | 17 | child |
 | Reading Reference | 3 | child |
 
+## One Legal
+
+`onedesk/one_legal`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Legal Acceptance | 9 | document |
+| Legal Document Version | 8 | document |
+
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
@@ -327,6 +336,11 @@ No doctypes yet.
 * `onedesk.one_inventory.item.said`
 * `onedesk.one_inventory.order.order`
 * `onedesk.one_inventory.ready.fix`
+* `onedesk.one_legal.gate.accept`
+* `onedesk.one_legal.gate.outstanding`
+* `onedesk.one_legal.reading.catalogue`
+* `onedesk.one_legal.reading.document`
+* `onedesk.one_legal.reading.history`
 * `onedesk.one_mail.actions.create_folder`
 * `onedesk.one_mail.actions.delete`
 * `onedesk.one_mail.actions.delete_folder`

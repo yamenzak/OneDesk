@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-25 09:20+0000\n"
-"PO-Revision-Date: 2026-09-25 09:20+0000\n"
+"POT-Creation-Date: 2026-09-25 09:44+0000\n"
+"PO-Revision-Date: 2026-09-25 09:44+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -476,6 +476,10 @@ msgstr ""
 msgid "AI Action Setting"
 msgstr ""
 
+#: onedesk/one_legal/gate.py:48
+msgid "AI Addendum"
+msgstr ""
+
 #. Name of a DocType
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 msgid "AI Chat"
@@ -590,6 +594,10 @@ msgstr ""
 
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:20
 msgid "Accept this check-in?"
+msgstr ""
+
+#: onedesk/one_legal/gate.py:38
+msgid "Acceptable Use Policy"
 msgstr ""
 
 #. Option for the 'Verdict' (Select) field in DocType 'Clock Attempt'
@@ -899,6 +907,14 @@ msgstr ""
 
 #: onedesk/one_hr/hiring.py:739
 msgid "After the {0} interview: {1}"
+msgstr ""
+
+#: onedesk/public/js/legal.js:73
+msgid "Agree"
+msgstr ""
+
+#: onedesk/one_legal/page/legal/legal.js:7
+msgid "Agreements"
 msgstr ""
 
 #. Name of a role
@@ -1289,9 +1305,23 @@ msgstr ""
 msgid "As HR keeps it. Ask them if something here is wrong."
 msgstr ""
 
+#: onedesk/public/js/legal.js:53
+msgid "As an administrator of this workspace, you agree to some of these for your organisation, and to the rest for yourself."
+msgstr ""
+
+#. Label of the text (Long Text) field in DocType 'Legal Document Version'
+#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
+msgid "As hashed"
+msgstr ""
+
 #. Description of the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "As reported by Frappe Cloud."
+msgstr ""
+
+#. Label of the html (Text Editor) field in DocType 'Legal Document Version'
+#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
+msgid "As shown"
 msgstr ""
 
 #. Label of the as_person (Check) field in DocType 'Intake Action'
@@ -1563,7 +1593,9 @@ msgstr ""
 msgid "Attendance will be written from check-ins on this shift from today onwards."
 msgstr ""
 
+#. Label of the audience (Data) field in DocType 'Legal Document Version'
 #. Label of the audience (Select) field in DocType 'Cloud Link'
+#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 msgid "Audience"
 msgstr ""
@@ -1763,6 +1795,10 @@ msgstr ""
 msgid "Before"
 msgstr ""
 
+#: onedesk/public/js/legal.js:70
+msgid "Before you carry on"
+msgstr ""
+
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:11
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:14
 #: onedesk/public/js/tenant.js:29
@@ -1935,7 +1971,9 @@ msgid "Broken"
 msgstr ""
 
 #. Label of the seen_section (Section Break) field in DocType 'Clock Device'
+#. Label of the agent (Small Text) field in DocType 'Legal Acceptance'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
+#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 msgid "Browser"
 msgstr ""
 
@@ -2233,7 +2271,7 @@ msgstr ""
 msgid "Check"
 msgstr ""
 
-#: onedesk/public/js/settings.js:666
+#: onedesk/public/js/legal.js:73 onedesk/public/js/settings.js:666
 msgid "Check Again"
 msgstr ""
 
@@ -2820,6 +2858,10 @@ msgstr ""
 msgid "Conversations"
 msgstr ""
 
+#: onedesk/one_legal/gate.py:42
+msgid "Cookie Policy"
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:968 onedesk/public/js/onecloud.js:1168
 msgid "Copied 1 item"
 msgstr ""
@@ -3105,6 +3147,10 @@ msgstr ""
 #. Label of the structured (JSON) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Data"
+msgstr ""
+
+#: onedesk/one_legal/gate.py:44
+msgid "Data Processing Addendum"
 msgstr ""
 
 #. Label of the date (Date) field in DocType 'Reading Date'
@@ -3535,9 +3581,13 @@ msgstr ""
 msgid "Do this now, as you?"
 msgstr ""
 
+#. Label of the document (Data) field in DocType 'Legal Acceptance'
+#. Label of the document (Data) field in DocType 'Legal Document Version'
 #: onedesk/one_intake/calendar.py:110 onedesk/one_intake/inbox.py:76
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:42
-#: onedesk/public/js/onecloud.js:27
+#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
+#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
+#: onedesk/one_legal/page/legal/legal.js:20 onedesk/public/js/onecloud.js:27
 msgid "Document"
 msgstr ""
 
@@ -4188,6 +4238,10 @@ msgstr ""
 msgid "Every receipt and delivery is posted to the stock accounts."
 msgstr ""
 
+#: onedesk/one_legal/gate.py:47
+msgid "Every third party that receives customer data, what for, and where it is kept."
+msgstr ""
+
 #: onedesk/one_book/ready.py:190
 msgid "Every year that has ended is closed"
 msgstr ""
@@ -4709,6 +4763,14 @@ msgstr ""
 msgid "For video calls. The browser asks which tab to share."
 msgstr ""
 
+#: onedesk/public/js/legal.js:33
+msgid "For you"
+msgstr ""
+
+#: onedesk/public/js/legal.js:33
+msgid "For your organisation"
+msgstr ""
+
 #: onedesk/public/js/settings.js:461
 msgid "Forget"
 msgstr ""
@@ -4803,6 +4865,11 @@ msgstr ""
 
 #: onedesk/one_intake/planning.py:129
 msgid "From a sick note that arrived by mail."
+msgstr ""
+
+#. Label of the address (Data) field in DocType 'Legal Acceptance'
+#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
+msgid "From address"
 msgstr ""
 
 #: onedesk/public/js/employee.js:43
@@ -5224,6 +5291,10 @@ msgstr ""
 msgid "How OneAI reads what arrives in this workspace."
 msgstr ""
 
+#: onedesk/one_legal/gate.py:49
+msgid "How OneAI works, which models run, and what happens to what you send it."
+msgstr ""
+
 #: onedesk/one/ai.py:24
 msgid "How do I fill this in?"
 msgstr ""
@@ -5298,6 +5369,10 @@ msgstr ""
 msgid "How the message came to be filed on this record."
 msgstr ""
 
+#: onedesk/one_legal/gate.py:45
+msgid "How we handle personal data your organisation is responsible for. Part of the Terms of Service."
+msgstr ""
+
 #: onedesk/one_mail/rules.py:221
 msgid "I am away and will answer when I am back."
 msgstr ""
@@ -5308,6 +5383,10 @@ msgstr ""
 
 #: onedesk/one_crm/ai.py:99
 msgid "I have just spoken to them on the phone. Ask me what was said, then write it up as a call on this lead and suggest the next step it leads to."
+msgstr ""
+
+#: onedesk/public/js/legal.js:57
+msgid "I have read these and I agree to them"
 msgstr ""
 
 #: onedesk/one_hr/ai.py:224 onedesk/one_hr/ai.py:272
@@ -6356,6 +6435,16 @@ msgstr ""
 #. Option for the 'Sensitivity' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Legal"
+msgstr ""
+
+#. Name of a DocType
+#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
+msgid "Legal Acceptance"
+msgstr ""
+
+#. Name of a DocType
+#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
+msgid "Legal Document Version"
 msgstr ""
 
 #. Label of the length (Duration) field in DocType 'Interview Recording'
@@ -8509,6 +8598,10 @@ msgstr ""
 msgid "Only a suggested change can be applied in the form."
 msgstr ""
 
+#: onedesk/one_legal/gate.py:175
+msgid "Only a workspace administrator can agree to this for the organisation."
+msgstr ""
+
 #: onedesk/one_hr/hiring.py:840
 msgid "Only an HR Manager can delete the sound of a recorded interview."
 msgstr ""
@@ -8641,6 +8734,10 @@ msgstr ""
 
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.py:65
 msgid "Open Deals"
+msgstr ""
+
+#: onedesk/one_legal/gate.py:50
+msgid "Open Source and Third-Party Notices"
 msgstr ""
 
 #: onedesk/public/js/account_request.js:37
@@ -9081,9 +9178,11 @@ msgstr ""
 #. Label of the party_name (Dynamic Link) field in DocType 'Intake Lesson'
 #. Option for the 'Placed By' (Select) field in DocType 'Reading'
 #. Label of the party_name (Dynamic Link) field in DocType 'Reading'
+#. Label of the party (Select) field in DocType 'Legal Acceptance'
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:42
+#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 msgid "Party"
 msgstr ""
 
@@ -9626,6 +9725,10 @@ msgstr ""
 #. Label of the primary_domain (Link) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Primary Domain"
+msgstr ""
+
+#: onedesk/one_legal/gate.py:40
+msgid "Privacy Policy"
 msgstr ""
 
 #. Label of the private_key (Password) field in DocType 'Cloud Mount'
@@ -10671,6 +10774,11 @@ msgstr ""
 msgid "Reviewed On"
 msgstr ""
 
+#. Label of the revision (Int) field in DocType 'Legal Document Version'
+#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
+msgid "Revision"
+msgstr ""
+
 #. Option for the 'Audit' (Select) field in DocType 'Intake Action'
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 msgid "Right"
@@ -11018,6 +11126,10 @@ msgstr ""
 msgid "Send me a code"
 msgstr ""
 
+#: onedesk/one_legal/gate.py:224
+msgid "Send the list of documents you are agreeing to."
+msgstr ""
+
 #: onedesk/one_storage/file_requests.py:145
 #: onedesk/one_storage/file_requests.py:269
 msgid "Send them"
@@ -11362,6 +11474,10 @@ msgstr ""
 #. Label of the sign_count (Int) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Sign Count"
+msgstr ""
+
+#: onedesk/public/js/legal.js:90
+msgid "Sign Out"
 msgstr ""
 
 #: onedesk/public/js/settings.js:417
@@ -11950,6 +12066,10 @@ msgstr ""
 msgid "Submitting this pays {0} {1} for {2} days of {3}."
 msgstr ""
 
+#: onedesk/one_legal/gate.py:46
+msgid "Subprocessors"
+msgstr ""
+
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:94
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:335
 msgid "Subscribe"
@@ -12267,6 +12387,10 @@ msgstr ""
 msgid "Tenant Event"
 msgstr ""
 
+#: onedesk/one_legal/gate.py:36
+msgid "Terms of Service"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Territory"
@@ -12297,8 +12421,17 @@ msgstr ""
 msgid "Text Generation"
 msgstr ""
 
+#. Label of the stored_version (Link) field in DocType 'Legal Acceptance'
+#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
+msgid "Text agreed to"
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:28
 msgid "Text document"
+msgstr ""
+
+#: onedesk/public/js/legal.js:85
+msgid "Thank you."
 msgstr ""
 
 #: onedesk/www/r.py:16
@@ -12490,6 +12623,10 @@ msgstr ""
 msgid "The address this workspace was given. It cannot be removed."
 msgstr ""
 
+#: onedesk/one_legal/gate.py:37
+msgid "The agreement between your organisation and Four Degree Labs for the use of One."
+msgstr ""
+
 #: onedesk/one_intake/page/intake/intake.js:155
 msgid "The auditor doubts this"
 msgstr ""
@@ -12580,6 +12717,12 @@ msgstr ""
 #. Allocation'
 #: onedesk/one_hr/custom/leave_allocation.json
 msgid "The days this allocation grants, before anything carried forward."
+msgstr ""
+
+#. Description of the 'Document' (Data) field in DocType 'Legal Document
+#. Version'
+#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
+msgid "The document's key, such as terms or privacy."
 msgstr ""
 
 #. Description of the 'Ends the Shift' (Check) field in DocType 'Clock Reason'
@@ -12756,6 +12899,12 @@ msgstr ""
 msgid "The phone released the passkey only after a face, fingerprint or PIN."
 msgstr ""
 
+#. Description of the 'As hashed' (Long Text) field in DocType 'Legal Document
+#. Version'
+#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
+msgid "The plain text the version's hash was taken over."
+msgstr ""
+
 #: onedesk/one_hr/rules.py:38
 msgid "The position was less accurate than the location it matched."
 msgstr ""
@@ -12786,6 +12935,12 @@ msgstr ""
 
 #: onedesk/public/js/shift_request.js:11
 msgid "The request is closed and nobody is assigned anything."
+msgstr ""
+
+#. Description of the 'Version' (Data) field in DocType 'Legal Document
+#. Version'
+#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
+msgid "The revision and the hash of the text, as one_legal/assemble.py makes it."
 msgstr ""
 
 #: onedesk/one_book/ready.py:149
@@ -12831,6 +12986,10 @@ msgstr ""
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "The site stops serving. Data is retained."
+msgstr ""
+
+#: onedesk/one_legal/gate.py:51
+msgid "The software One is built from, and the licences it carries."
 msgstr ""
 
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:69
@@ -12938,8 +13097,20 @@ msgstr ""
 msgid "There is no server called {0}."
 msgstr ""
 
+#: onedesk/one_legal/gate.py:170
+msgid "There is no such document to agree to."
+msgstr ""
+
+#: onedesk/one_legal/reading.py:44
+msgid "There is no such document."
+msgstr ""
+
 #: onedesk/one_storage/store.py:201
 msgid "There is no such file."
+msgstr ""
+
+#: onedesk/one_legal/gate.py:172
+msgid "There is no such party."
 msgstr ""
 
 #: onedesk/one/settings.py:147
@@ -12968,6 +13139,10 @@ msgstr ""
 
 #: onedesk/one/settings.py:171
 msgid "There is nothing to save here."
+msgstr ""
+
+#: onedesk/public/js/legal.js:54
+msgid "These are about you, so only you can agree to them."
 msgstr ""
 
 #: onedesk/public/js/overtime_slip.js:90
@@ -13155,6 +13330,10 @@ msgstr ""
 msgid "This workspace does not record interviews. HR Settings says whether it does."
 msgstr ""
 
+#: onedesk/one_legal/gate.py:252
+msgid "This workspace has agreements outstanding. Agree to them, then try again."
+msgstr ""
+
 #: onedesk/one_admin/proxy.py:353
 msgid "This workspace has no mail route yet."
 msgstr ""
@@ -13182,6 +13361,10 @@ msgstr ""
 #. Attendance Tool'
 #: onedesk/one_hr/custom/employee_attendance_tool.json
 msgid "Tick Everyone Who Checked In"
+msgstr ""
+
+#: onedesk/public/js/legal.js:76
+msgid "Tick the box to agree."
 msgstr ""
 
 #: onedesk/one_inventory/report/to_order/to_order.js:11
@@ -13227,11 +13410,13 @@ msgstr ""
 #. Label of the title (Data) field in DocType 'AI Chat'
 #. Label of the title (Data) field in DocType 'AI Knowledge'
 #. Label of the title (Data) field in DocType 'Reading'
+#. Label of the title (Data) field in DocType 'Legal Document Version'
 #. Label of the title (Data) field in DocType 'Cloud File Request'
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/one_intake/bundle.py:83
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 msgid "Title"
 msgstr ""
@@ -13713,6 +13898,10 @@ msgstr ""
 msgid "Update"
 msgstr ""
 
+#: onedesk/public/js/legal.js:38
+msgid "Updated"
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:1737 onedesk/public/js/onecloud.js:1809
 msgid "Upload files"
 msgstr ""
@@ -13779,8 +13968,10 @@ msgid "Used {0}"
 msgstr ""
 
 #. Label of the user (Link) field in DocType 'Calendar Feed'
+#. Option for the 'Party' (Select) field in DocType 'Legal Acceptance'
 #. Label of the user (Link) field in DocType 'Cloud Drive Password'
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
+#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json
 msgid "User"
 msgstr ""
@@ -13888,12 +14079,16 @@ msgstr ""
 msgid "Verification"
 msgstr ""
 
+#. Label of the version (Data) field in DocType 'Legal Acceptance'
+#. Label of the version (Data) field in DocType 'Legal Document Version'
 #. Label of the version (Int) field in DocType 'Cloud File Version'
+#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
+#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
 #: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
 msgid "Version"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:652
+#: onedesk/one_legal/page/legal/legal.js:40 onedesk/public/js/onecloud.js:652
 msgid "Version {0}"
 msgstr ""
 
@@ -14062,6 +14257,14 @@ msgstr ""
 
 #: onedesk/one_book/report/books_check/books_check.py:17
 msgid "What It Means"
+msgstr ""
+
+#: onedesk/one_legal/gate.py:39
+msgid "What One may not be used for. It binds your organisation and everybody who signs in."
+msgstr ""
+
+#: onedesk/one_legal/gate.py:43
+msgid "What One stores on your device and why."
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -14314,6 +14517,10 @@ msgstr ""
 msgid "What was done, what comes next, and anything in the way."
 msgstr ""
 
+#: onedesk/one_legal/gate.py:41
+msgid "What we do with personal data: yours, and the personal data your organisation puts into One."
+msgstr ""
+
 #: onedesk/public/js/oneai/Panel.vue:60
 msgid "What would you like to do?"
 msgstr ""
@@ -14323,8 +14530,10 @@ msgid "What you asked OneAI to keep in mind when it helps you. Only you see it."
 msgstr ""
 
 #. Label of the one_when (Data) field in DocType 'Timesheet Detail'
+#. Label of the accepted_on (Datetime) field in DocType 'Legal Acceptance'
 #. Label of the section_when (Section Break) field in DocType 'Mail Rule'
 #: onedesk/one_hr/custom/timesheet_detail.json
+#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 #: onedesk/public/js/intake.js:107
 msgid "When"
@@ -14474,6 +14683,8 @@ msgstr ""
 msgid "Which pages of a scan, or which file in an archive or message."
 msgstr ""
 
+#. Label of the user (Link) field in DocType 'Legal Acceptance'
+#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/public/js/intake.js:105
 msgid "Who"
 msgstr ""
@@ -14655,6 +14866,7 @@ msgstr ""
 #. Label of the workspace_name (Data) field in DocType 'Tenant'
 #. Label of the tab_workspace (Tab Break) field in DocType 'Tenant'
 #. Label of the tenant (Link) field in DocType 'Tenant Domain'
+#. Option for the 'Party' (Select) field in DocType 'Legal Acceptance'
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
@@ -14663,6 +14875,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:26
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:31
+#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_mail/cloud.py:47 onedesk/public/js/ai_model.js:59
 #: onedesk/public/js/onemail.js:212 onedesk/public/js/settings.js:321
 #: onedesk/public/js/settings.js:484
@@ -14686,6 +14899,8 @@ msgstr ""
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
+#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
 #: onedesk/one_mail/doctype/face/face.json
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json
@@ -15068,6 +15283,10 @@ msgstr ""
 msgid "Your workspace"
 msgstr ""
 
+#: onedesk/public/js/legal.js:64
+msgid "Your workspace's administrator has not yet agreed to {0} for your organisation. One opens once they have."
+msgstr ""
+
 #: onedesk/public/js/settings.js:321
 msgid "Yours"
 msgstr ""
@@ -15431,6 +15650,10 @@ msgstr ""
 
 #: onedesk/public/js/job.js:78
 msgid "the start"
+msgstr ""
+
+#: onedesk/one_legal/page/legal/legal.js:41
+msgid "the text as it was agreed to"
 msgstr ""
 
 #: onedesk/one_hr/hiring.py:699

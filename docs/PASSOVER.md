@@ -1,10 +1,10 @@
 # The passover
 
-Every screen of One, one at a time, checked against seven points. You decide when
+Every screen of One, one at a time, checked against eight points. You decide when
 a screen is done and when the next one starts. This file is where each screen's
 findings and fixes are written down.
 
-## The seven points
+## The eight points
 
 1. **Notifications and email templates**: what the screen's events send, to
    whom, and whether the message reads well.
@@ -27,10 +27,21 @@ findings and fixes are written down.
      means.
    - It offers the screen's own suggestions, if the screen has any worth
      offering.
+8. **Legal**:
+   - Whatever the screen does that the agreements must say is declared in its
+     module's `legal.py`, beside the code:
+     - a `clause()` for the Privacy Policy, the Terms, the Data Processing
+       Addendum or the AI Addendum;
+     - a `subprocessor()` for any company it sends data to.
+   - OneLegal assembles them into the documents people agree to
+     (`one_legal/README.md`).
+   - A changed clause fails `tests/test_legal.py` until it is either a new
+     revision (material, so everybody agrees again) or a recorded hash (a
+     typo).
 
 ## Everything follows frappe
 
-This applies to every screen, on top of the seven points. How a screen looks can
+This applies to every screen, on top of the eight points. How a screen looks can
 be ours; how it behaves is frappe's.
 
 - **Fields** are frappe's own controls (`frappe.ui.FieldGroup`, or the desk
@@ -61,7 +72,7 @@ be ours; how it behaves is frappe's.
 ## How one screen goes
 
 1. Screenshot it and read the code behind it.
-2. Write the findings under the seven points below.
+2. Write the findings under the eight points below.
 3. Fix them, look again in the browser, and run the gates.
 4. Commit, push, and show you a screenshot.
 5. Wait for your word before the next screen.
@@ -190,3 +201,46 @@ Every settings screen, from the first commit of the pass:
    - Checked on the site: "how do I change my bank account", "how do I change
      my photo" and "who sees my blood group" each find One › Settings ›
      Profile first.
+8. **Legal**: added when OneLegal was founded, after Profile was otherwise
+   done.
+   - Privacy Policy, `profile-employee`: what the profile holds, what the
+     employee record adds, and who sees which.
+   - Data Processing Addendum, `profile-special`: a blood group is a special
+     category of personal data, and an emergency contact is personal data
+     about somebody who is not a user. The organisation decides whether to
+     collect them and needs a lawful basis to.
+
+## OneLegal
+
+Founded during the pass, so that each screen can add its lines as the pass
+reaches it (point 8). `one_legal/README.md` is the reference.
+
+- **Ported from OneApp's `onelegal`**:
+  - the registry, the eight documents and `revision.hash` versions;
+  - the two parties (the organisation, agreed by an administrator; the
+    person, agreed by each person);
+  - Legal Acceptance and Legal Document Version.
+- **The desk's own parts**:
+  - A dialog that cannot be closed asks when the desk starts. The documents
+    open on the Agreements page (`/app/legal`), which is never behind the
+    dialog.
+  - Only a Workspace Administrator agrees for the organisation. A person
+    whose workspace has not agreed yet is told so, rather than shown a button
+    that would refuse them.
+- **The text is OneDesk's, not OneApp's**:
+  - Intake acts without being asked each time, and the AI Addendum says so.
+  - The lifecycle's periods are read from `one_admin/ladder.py`.
+  - Nothing is promised that is not built.
+- **Every company One calls is declared**, and `tests/test_legal.py` fails on a
+  new outside host that is not:
+  - Cloudflare (R2, AI Gateway and Workers AI, sending mail);
+  - Google (Gemini, and the favicon lookup);
+  - Automattic (Gravatar, by a hash of the address);
+  - Stripe;
+  - Frappe (Frappe Cloud).
+  - Gravatar and the favicon lookup were in no document before.
+- **Not yet built**, for the screens they belong to:
+  - an Agreements section in Settings showing what you and the workspace
+    agreed to, and when;
+  - asking at sign-up, before the workspace exists;
+  - `gate.require()` on turning an application on.
