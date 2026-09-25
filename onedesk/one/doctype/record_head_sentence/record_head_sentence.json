@@ -6,7 +6,8 @@
  "field_order": [
   "shown_when",
   "text",
-  "colour"
+  "colour",
+  "custom"
  ],
  "fields": [
   {
@@ -31,10 +32,18 @@
    "in_list_view": 1,
    "options": "blue\ngreen\norange\nred\nyellow",
    "default": "blue"
+  },
+  {
+   "fieldname": "custom",
+   "fieldtype": "Check",
+   "label": "Made Here",
+   "read_only": 1,
+   "hidden": 1,
+   "description": "Made by the workspace, not declared by a module. A migrate keeps it."
   }
  ],
  "links": [],
- "modified": "2026-09-25 18:00:00.000000",
+ "modified": "2026-09-26 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "Record Head Sentence",

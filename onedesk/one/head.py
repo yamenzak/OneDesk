@@ -310,16 +310,20 @@ def run(doctype: str, name: str, verb: str, values: dict | str | None = None) ->
 # ------------------------------------------------------------------ written on migrate
 
 
+TABLES = ("indicators", "sentences", "band", "verbs", "linked")
+
+
 def install() -> None:
-	"""Each module's heads, as it declares them. A head a module no longer
-	declares goes; one a workspace made itself is not a module's to touch."""
+	"""Each module's heads, as it declares them. The rows a workspace added
+	(`custom`) are its own and stay; a head a module no longer declares loses
+	the module's rows, and goes when nothing of the workspace's is left."""
 	wanted = {}
 	for head in declared():
 		wanted[head["doctype"]] = head
 		_write(head)
 	for name in frappe.get_all("Record Head", filters={"module": ["is", "set"]}, pluck="name"):
 		if name not in wanted:
-			frappe.delete_doc("Record Head", name, ignore_permissions=True, force=True)
+			_write({"doctype": name, "module": None})
 	frappe.cache.delete_value(CACHE)
 
 
@@ -331,8 +335,12 @@ def _write(head: dict) -> None:
 		if frappe.db.exists("Record Head", head["doctype"])
 		else frappe.new_doc("Record Head")
 	)
+	kept = {table: [row for row in doc.get(table) if row.custom] for table in TABLES}
+	if not doc.is_new() and not head.get("module") and not any(kept.values()):
+		frappe.delete_doc("Record Head", doc.name, ignore_permissions=True, force=True)
+		return
 	doc.update({"record_doctype": head["doctype"], "module": head["module"], "enabled": 1})
-	for table in ("indicators", "sentences", "band", "verbs", "linked"):
+	for table in TABLES:
 		doc.set(table, [])
 		for row in head.get(table) or []:
 			row = dict(row)
@@ -342,6 +350,9 @@ def _write(head: dict) -> None:
 			for key in ("shown_when", "filters"):
 				if not isinstance(row.get(key, ""), str):
 					row[key] = json.dumps(row[key])
+			doc.append(table, row)
+		# The workspace's own rows come after the module's.
+		for row in kept[table]:
 			doc.append(table, row)
 	doc.flags.ignore_permissions = True
 	doc.save()

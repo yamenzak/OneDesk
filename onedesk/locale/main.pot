@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-25 22:30+0000\n"
-"PO-Revision-Date: 2026-09-25 22:30+0000\n"
+"POT-Creation-Date: 2026-09-25 22:46+0000\n"
+"PO-Revision-Date: 2026-09-25 22:46+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -365,6 +365,10 @@ msgstr ""
 msgid "A new check-in network or location was proposed"
 msgstr ""
 
+#: onedesk/one/customize.py:302 onedesk/one/customize.py:372
+msgid "A new field needs a label."
+msgstr ""
+
 #. Description of the 'Message' (Small Text) field in DocType 'Cloud File
 #. Request'
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
@@ -393,6 +397,10 @@ msgstr ""
 
 #: onedesk/one_hr/doctype/clock_place/clock_place.py:14
 msgid "A place belongs to a Shift Location or to one employee, not to both."
+msgstr ""
+
+#: onedesk/public/js/customize.js:143
+msgid "A place in the desk to open from this record, as a route."
 msgstr ""
 
 #: onedesk/public/js/settings.js:280
@@ -532,6 +540,10 @@ msgstr ""
 
 #: onedesk/one_inventory/notifications.py:55
 msgid "A warehouse's account is not a stock account, so stock and books disagree. Mailed to Stock Managers."
+msgstr ""
+
+#: onedesk/one/layer.py:170
+msgid "A workspace customizes with fields and settings, never with code."
 msgstr ""
 
 #. Description of the 'Status' (Select) field in DocType 'Account Request'
@@ -681,6 +693,10 @@ msgstr ""
 
 #: onedesk/one_inventory/heads.py:72
 msgid "Above its level"
+msgstr ""
+
+#: onedesk/public/js/customize.js:160
+msgid "Above the Fields"
 msgstr ""
 
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
@@ -2206,9 +2222,21 @@ msgstr ""
 msgid "Busy"
 msgstr ""
 
+#: onedesk/public/js/customize.js:108
+msgid "Buttons That Do Something"
+msgstr ""
+
+#: onedesk/public/js/customize.js:142
+msgid "Buttons That Go Somewhere"
+msgstr ""
+
 #. Description of the 'Verbs' (Table) field in DocType 'Record Head'
 #: onedesk/one/doctype/record_head/record_head.json
 msgid "Buttons that do something a module registered. Each shows only when it can be done."
+msgstr ""
+
+#: onedesk/one/customize.py:397 onedesk/one/customize.py:455
+msgid "Buttons: {0} needs a label and a place in the desk to go."
 msgstr ""
 
 #: onedesk/public/js/settings.js:569 onedesk/public/js/settings.js:582
@@ -2653,6 +2681,10 @@ msgstr ""
 msgid "Checks"
 msgstr ""
 
+#: onedesk/public/js/customize.js:78
+msgid "Choices or Form"
+msgstr ""
+
 #: onedesk/public/js/onemail.js:346
 msgid "Choose a conversation to read it."
 msgstr ""
@@ -3050,6 +3082,22 @@ msgstr ""
 msgid "Connected. Its mail is on its way."
 msgstr ""
 
+#: onedesk/public/js/customize.js:131
+msgid "Connections"
+msgstr ""
+
+#: onedesk/public/js/customize.js:164
+msgid "Connections and Buttons"
+msgstr ""
+
+#: onedesk/one/customize.py:393 onedesk/one/customize.py:431
+msgid "Connections: {0} has no field {1}."
+msgstr ""
+
+#: onedesk/one/customize.py:391 onedesk/one/customize.py:429
+msgid "Connections: {0} is not a form you can read."
+msgstr ""
+
 #. Label of the agreement_section (Section Break) field in DocType 'Interview
 #. Recording'
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
@@ -3200,6 +3248,7 @@ msgstr ""
 
 #. Label of the filters (Code) field in DocType 'Record Head Band'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
+#: onedesk/public/js/customize.js:99
 msgid "Counting"
 msgstr ""
 
@@ -3383,6 +3432,11 @@ msgstr ""
 msgid "Currently"
 msgstr ""
 
+#. Option for the 'Kind' (Select) field in DocType 'Workspace Customization'
+#: onedesk/one/doctype/workspace_customization/workspace_customization.json
+msgid "Custom Field"
+msgstr ""
+
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -3403,6 +3457,14 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Customers"
+msgstr ""
+
+#: onedesk/one/page/customize/customize.js:6 onedesk/public/js/head.js:24
+msgid "Customize"
+msgstr ""
+
+#: onedesk/public/js/customize.js:50
+msgid "Customize {0}"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:88 onedesk/public/js/onecloud.js:1779
@@ -4183,6 +4245,10 @@ msgstr ""
 msgid "Each asset's depreciation is posted to the books when it falls due."
 msgstr ""
 
+#: onedesk/public/js/customize.js:90
+msgid "Each is a field, a field of a linked record, a count or a sum, or a measure a module keeps."
+msgstr ""
+
 #: onedesk/one_hr/notifications.py:270
 msgid "Each payslip, mailed to its employee as a PDF when it is submitted."
 msgstr ""
@@ -4779,6 +4845,10 @@ msgstr ""
 msgid "Explained"
 msgstr ""
 
+#: onedesk/public/js/customize.js:175
+msgid "Export"
+msgstr ""
+
 #. Description of the 'File Types' (Data) field in DocType 'Cloud File Request
 #. Item'
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
@@ -4870,16 +4940,19 @@ msgstr ""
 #. Label of the fieldname (Data) field in DocType 'AI Touch'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
+#: onedesk/public/js/customize.js:94
 msgid "Field"
 msgstr ""
 
 #. Label of the fields (Small Text) field in DocType 'Record Head Linked'
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json
+#: onedesk/public/js/customize.js:66 onedesk/public/js/customize.js:124
 msgid "Fields"
 msgstr ""
 
 #. Description of the 'Linked Sections' (Table) field in DocType 'Record Head'
 #: onedesk/one/doctype/record_head/record_head.json
+#: onedesk/public/js/customize.js:120
 msgid "Fields of a record this one links to, edited here and saved in the same save."
 msgstr ""
 
@@ -5218,6 +5291,10 @@ msgstr ""
 msgid "Forget"
 msgstr ""
 
+#: onedesk/public/js/customize.js:134
+msgid "Form"
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:107 onedesk/public/js/onemail.js:392
 #: onedesk/public/js/onemail.js:408
 msgid "Forward"
@@ -5460,6 +5537,10 @@ msgstr ""
 msgid "Goal"
 msgstr ""
 
+#: onedesk/public/js/customize.js:146
+msgid "Goes To"
+msgstr ""
+
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "Gone"
@@ -5521,6 +5602,10 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Gross Profit"
+msgstr ""
+
+#: onedesk/public/js/customize.js:136 onedesk/public/js/customize.js:147
+msgid "Group"
 msgstr ""
 
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:17
@@ -5611,6 +5696,7 @@ msgstr ""
 
 #. Label of the label (Data) field in DocType 'Record Head Linked'
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json
+#: onedesk/public/js/customize.js:122
 msgid "Heading"
 msgstr ""
 
@@ -5646,8 +5732,13 @@ msgstr ""
 msgid "Help me set up a notification rule. Ask me what should happen and who should be told, then suggest the rule."
 msgstr ""
 
+#: onedesk/public/js/customize.js:79
+msgid "Hidden"
+msgstr ""
+
 #. Label of the hide_empty (Check) field in DocType 'Record Head Band'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
+#: onedesk/public/js/customize.js:102
 msgid "Hide When Empty"
 msgstr ""
 
@@ -6064,6 +6155,10 @@ msgstr ""
 msgid "In plain words, what have I and my organisation agreed to, and what does it mean for my data?"
 msgstr ""
 
+#: onedesk/public/js/customize.js:81
+msgid "In the List"
+msgstr ""
+
 #. Label of the one_deleted (Check) field in DocType 'File'
 #: onedesk/one_storage/custom/file.json
 msgid "In the Recycle Bin"
@@ -6071,7 +6166,12 @@ msgstr ""
 
 #. Label of the placed_in (Data) field in DocType 'Record Head Linked'
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json
+#: onedesk/public/js/customize.js:125
 msgid "In the Tab Of"
+msgstr ""
+
+#: onedesk/public/js/customize.js:67
+msgid "In the order the form shows them; drag a row to move it. A field the record came with may be hidden, not removed."
 msgstr ""
 
 #: onedesk/one_project/portal.py:143 onedesk/public/js/project.js:72
@@ -6490,6 +6590,10 @@ msgstr ""
 msgid "Items fell to their reorder level and a material request was raised for them. Sent to Purchasing."
 msgstr ""
 
+#: onedesk/public/js/customize.js:135
+msgid "Its Link Field"
+msgstr ""
+
 #. Label of the number (Data) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Its Number"
@@ -6638,6 +6742,7 @@ msgstr ""
 msgid "Key"
 msgstr ""
 
+#. Label of the kind (Select) field in DocType 'Workspace Customization'
 #. Label of the kind (Select) field in DocType 'AI Model Rate'
 #. Label of the kind (Select) field in DocType 'Credit Ledger Entry'
 #. Label of the kind (Select) field in DocType 'Offering'
@@ -6651,6 +6756,7 @@ msgstr ""
 #. Label of the kind (Select) field in DocType 'Face'
 #. Label of the kind (Select) field in DocType 'Mail Folder'
 #. Label of the protocol (Select) field in DocType 'Cloud Mount'
+#: onedesk/one/doctype/workspace_customization/workspace_customization.json
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/offering/offering.json
@@ -6665,7 +6771,8 @@ msgstr ""
 #: onedesk/one_mail/doctype/face/face.json
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/public/js/onecloud.js:319 onedesk/public/js/onecloud.js:1454
+#: onedesk/public/js/customize.js:73 onedesk/public/js/onecloud.js:319
+#: onedesk/public/js/onecloud.js:1454
 msgid "Kind"
 msgstr ""
 
@@ -6702,6 +6809,8 @@ msgstr ""
 #: onedesk/one/doctype/record_head_verb/record_head_verb.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
+#: onedesk/public/js/customize.js:69 onedesk/public/js/customize.js:92
+#: onedesk/public/js/customize.js:112 onedesk/public/js/customize.js:145
 msgid "Label"
 msgstr ""
 
@@ -6924,6 +7033,7 @@ msgstr ""
 
 #. Label of the route (Data) field in DocType 'Record Head Band'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
+#: onedesk/public/js/customize.js:101
 msgid "Leads To"
 msgstr ""
 
@@ -7210,6 +7320,7 @@ msgstr ""
 #. Label of the linked_section (Section Break) field in DocType 'Record Head'
 #. Label of the linked (Table) field in DocType 'Record Head'
 #: onedesk/one/doctype/record_head/record_head.json
+#: onedesk/public/js/customize.js:119
 msgid "Linked Sections"
 msgstr ""
 
@@ -7425,6 +7536,20 @@ msgstr ""
 msgid "Made By"
 msgstr ""
 
+#. Label of the custom (Check) field in DocType 'Record Head Band'
+#. Label of the custom (Check) field in DocType 'Record Head Indicator'
+#. Label of the custom (Check) field in DocType 'Record Head Linked'
+#. Label of the custom (Check) field in DocType 'Record Head Sentence'
+#. Label of the custom (Check) field in DocType 'Record Head Verb'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+#: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
+#: onedesk/one/doctype/record_head_linked/record_head_linked.json
+#: onedesk/one/doctype/record_head_sentence/record_head_sentence.json
+#: onedesk/one/doctype/record_head_verb/record_head_verb.json
+#: onedesk/public/js/customize.js:83
+msgid "Made Here"
+msgstr ""
+
 #. Label of the made_on (Datetime) field in DocType 'Calendar Feed'
 #. Label of the made_on (Datetime) field in DocType 'Cloud File Version'
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
@@ -7439,6 +7564,21 @@ msgstr ""
 
 #: onedesk/public/js/intake.js:312
 msgid "Made by OneAI. Nobody has checked it yet."
+msgstr ""
+
+#. Description of the 'Made Here' (Check) field in DocType 'Record Head Band'
+#. Description of the 'Made Here' (Check) field in DocType 'Record Head
+#. Indicator'
+#. Description of the 'Made Here' (Check) field in DocType 'Record Head Linked'
+#. Description of the 'Made Here' (Check) field in DocType 'Record Head
+#. Sentence'
+#. Description of the 'Made Here' (Check) field in DocType 'Record Head Verb'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+#: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
+#: onedesk/one/doctype/record_head_linked/record_head_linked.json
+#: onedesk/one/doctype/record_head_sentence/record_head_sentence.json
+#: onedesk/one/doctype/record_head_verb/record_head_verb.json
+msgid "Made by the workspace, not declared by a module. A migrate keeps it."
 msgstr ""
 
 #. Description of the 'Workspace Rule' (Check) field in DocType 'Notification'
@@ -7768,6 +7908,7 @@ msgstr ""
 #. Option for the 'Value' (Select) field in DocType 'Record Head Band'
 #. Label of the measure (Data) field in DocType 'Record Head Band'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
+#: onedesk/public/js/customize.js:95
 msgid "Measure"
 msgstr ""
 
@@ -8065,6 +8206,7 @@ msgstr ""
 #: onedesk/one_project/report/workload/workload.py:146
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
+#: onedesk/public/js/customize.js:82
 #: onedesk/public/js/leave_control_panel.js:34
 #: onedesk/public/js/onecloud.js:133 onedesk/public/js/onecloud.js:1453
 msgid "Name"
@@ -8891,6 +9033,10 @@ msgstr ""
 msgid "Number of distinct employees, and of check-ins each, before a Proposed network or location becomes Confirmed."
 msgstr ""
 
+#: onedesk/public/js/customize.js:89
+msgid "Numbers Under the Title"
+msgstr ""
+
 #. Option for the 'Log Type' (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "OUT"
@@ -8902,6 +9048,7 @@ msgstr ""
 
 #. Label of the of_doctype (Link) field in DocType 'Record Head Band'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
+#: onedesk/public/js/customize.js:98
 msgid "Of"
 msgstr ""
 
@@ -9601,6 +9748,10 @@ msgstr ""
 msgid "Open Workspace"
 msgstr ""
 
+#: onedesk/public/js/customize.js:27
+msgid "Open a form, then Customize from its menu."
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:1773
 msgid "Open file location"
 msgstr ""
@@ -9621,7 +9772,7 @@ msgstr ""
 msgid "Open the List"
 msgstr ""
 
-#: onedesk/www/s.html:120
+#: onedesk/public/js/customize.js:174 onedesk/www/s.html:120
 msgid "Open {0}"
 msgstr ""
 
@@ -10595,7 +10746,7 @@ msgstr ""
 #. Label of the primary (Check) field in DocType 'Workspace Domain'
 #: onedesk/one/doctype/record_head_verb/record_head_verb.json
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
-#: onedesk/public/js/settings.js:612
+#: onedesk/public/js/customize.js:113 onedesk/public/js/settings.js:612
 msgid "Primary"
 msgstr ""
 
@@ -10718,6 +10869,11 @@ msgstr ""
 
 #: onedesk/public/js/admin_settings.js:50 onedesk/public/js/ai_model.js:67
 msgid "Prompt"
+msgstr ""
+
+#. Option for the 'Kind' (Select) field in DocType 'Workspace Customization'
+#: onedesk/one/doctype/workspace_customization/workspace_customization.json
+msgid "Property Setter"
 msgstr ""
 
 #. Label of the proposal (Link) field in DocType 'AI Touch'
@@ -11162,6 +11318,8 @@ msgid "Recipient"
 msgstr ""
 
 #. Label of the record_doctype (Link) field in DocType 'Record Head'
+#. Label of the record_doctype (Link) field in DocType 'Workspace
+#. Customization'
 #. Label of the record (Data) field in DocType 'AI Proposal'
 #. Label of the record (Dynamic Link) field in DocType 'AI Touch'
 #. Label of the for_name (Dynamic Link) field in DocType 'Identifier'
@@ -11169,6 +11327,7 @@ msgstr ""
 #. Label of the reference_name (Dynamic Link) field in DocType 'Cloud File
 #. Request'
 #: onedesk/one/doctype/record_head/record_head.json
+#: onedesk/one/doctype/workspace_customization/workspace_customization.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json onedesk/one_book/heads.py:130
 #: onedesk/one_intake/doctype/identifier/identifier.json
@@ -11303,6 +11462,10 @@ msgstr ""
 
 #: onedesk/one_storage/namespace.py:384 onedesk/one_storage/namespace.py:747
 msgid "Records"
+msgstr ""
+
+#: onedesk/public/js/customize.js:132
+msgid "Records of another form that link to this one, listed under Connections."
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -11651,7 +11814,8 @@ msgstr ""
 
 #. Label of the required (Check) field in DocType 'Cloud File Request Item'
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
-#: onedesk/public/js/onecloud.js:1528 onedesk/www/r.html:36
+#: onedesk/public/js/customize.js:80 onedesk/public/js/onecloud.js:1528
+#: onedesk/www/r.html:36
 msgid "Required"
 msgstr ""
 
@@ -11664,6 +11828,7 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:10
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
+#: onedesk/public/js/customize.js:185
 msgid "Reset"
 msgstr ""
 
@@ -11779,6 +11944,11 @@ msgstr ""
 #. Label of the role (Select) field in DocType 'Reading Party'
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 msgid "Role"
+msgstr ""
+
+#. Label of the row (Dynamic Link) field in DocType 'Workspace Customization'
+#: onedesk/one/doctype/workspace_customization/workspace_customization.json
+msgid "Row"
 msgstr ""
 
 #: onedesk/one_hr/doctype/employee_document/employee_document.py:20
@@ -11921,7 +12091,7 @@ msgstr ""
 #: onedesk/public/js/crm_record.js:218 onedesk/public/js/next_step.js:31
 #: onedesk/public/js/onecloud.js:1488 onedesk/public/js/onemail.js:829
 #: onedesk/public/js/onemail.js:853 onedesk/public/js/project.js:155
-#: onedesk/public/js/settings.js:263 onedesk/public/js/shell.js:319
+#: onedesk/public/js/settings.js:263 onedesk/public/js/shell.js:325
 msgid "Save"
 msgstr ""
 
@@ -11942,7 +12112,7 @@ msgid "Saved to My Files."
 msgstr ""
 
 #: onedesk/public/js/settings.js:267 onedesk/public/js/settings.js:501
-#: onedesk/public/js/shell.js:353
+#: onedesk/public/js/shell.js:361
 msgid "Saved."
 msgstr ""
 
@@ -12506,6 +12676,7 @@ msgstr ""
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 #: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
 #: onedesk/one/doctype/record_head_sentence/record_head_sentence.json
+#: onedesk/public/js/customize.js:100
 msgid "Shown When"
 msgstr ""
 
@@ -12641,6 +12812,10 @@ msgstr ""
 
 #: onedesk/one_book/notifications.py:15
 msgid "Somebody asked for the credit controllers to be told a customer is over their limit. Sent to them."
+msgstr ""
+
+#: onedesk/one/customize.py:217
+msgid "Somebody changed how {0} looks after you opened this. Refresh to see it; nothing was saved."
 msgstr ""
 
 #: onedesk/one_hr/notifications.py:86
@@ -13379,6 +13554,10 @@ msgstr ""
 msgid "Take back everything OneAI did with this document?"
 msgstr ""
 
+#: onedesk/public/js/customize.js:186
+msgid "Take back everything this workspace changed about {0}?"
+msgstr ""
+
 #: onedesk/public/js/intake.js:374
 msgid "Take back what OneAI made here?"
 msgstr ""
@@ -14076,6 +14255,10 @@ msgstr ""
 msgid "The numbers under the title, in this order."
 msgstr ""
 
+#: onedesk/public/js/customize.js:160
+msgid "The numbers under the title, the buttons, and fields of the records this one links to."
+msgstr ""
+
 #: onedesk/public/js/settings.js:298
 msgid "The old link stops working. Make a new one?"
 msgstr ""
@@ -14535,7 +14718,11 @@ msgstr ""
 msgid "This folder is empty. Drop files here, or use New."
 msgstr ""
 
-#: onedesk/public/js/head.js:300 onedesk/public/js/shell.js:218
+#: onedesk/public/js/customize.js:33
+msgid "This form cannot be customized here."
+msgstr ""
+
+#: onedesk/public/js/head.js:305 onedesk/public/js/shell.js:218
 msgid "This form has been modified after you have loaded it"
 msgstr ""
 
@@ -14678,6 +14865,7 @@ msgstr ""
 #. Label of the link_field (Data) field in DocType 'Record Head Linked'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json
+#: onedesk/public/js/customize.js:97 onedesk/public/js/customize.js:123
 msgid "Through"
 msgstr ""
 
@@ -14853,6 +15041,7 @@ msgstr ""
 
 #. Label of the tone (Select) field in DocType 'Record Head Band'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
+#: onedesk/public/js/customize.js:96
 msgid "Tone"
 msgstr ""
 
@@ -15406,6 +15595,7 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.py:66
 #: onedesk/one_intake/doctype/identifier/identifier.json
+#: onedesk/public/js/customize.js:93
 msgid "Value"
 msgstr ""
 
@@ -15431,6 +15621,7 @@ msgstr ""
 
 #. Label of the verb (Data) field in DocType 'Record Head Verb'
 #: onedesk/one/doctype/record_head_verb/record_head_verb.json
+#: onedesk/public/js/customize.js:111
 msgid "Verb"
 msgstr ""
 
@@ -15693,6 +15884,10 @@ msgstr ""
 
 #: onedesk/one_inventory/notifications.py:29
 msgid "What a material request asked for was received. Sent to whoever made the request."
+msgstr ""
+
+#: onedesk/public/js/customize.js:109
+msgid "What a module offers to do to this record. Each shows only when it can be done."
 msgstr ""
 
 #: onedesk/one_project/notifications.py:27
@@ -16395,6 +16590,11 @@ msgid "Workspace Administrator"
 msgstr ""
 
 #. Name of a DocType
+#: onedesk/one/doctype/workspace_customization/workspace_customization.json
+msgid "Workspace Customization"
+msgstr ""
+
+#. Name of a DocType
 #. Label of the tenant_domain (Data) field in DocType 'One Admin Settings'
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -16628,6 +16828,10 @@ msgstr ""
 
 #: onedesk/one_calendar/layers.py:75
 msgid "You cannot open {0} {1}."
+msgstr ""
+
+#: onedesk/one/customize.py:92
+msgid "You cannot open {0}."
 msgstr ""
 
 #: onedesk/one/settings.py:665
@@ -17395,6 +17599,10 @@ msgstr ""
 msgid "{0} belongs to {1} {2}. Share the record instead."
 msgstr ""
 
+#: onedesk/one/customize.py:330 onedesk/one/customize.py:376
+msgid "{0} came with the record, so it cannot be taken away. Hide it instead."
+msgstr ""
+
 #: onedesk/one_mail/addresses.py:122
 msgid "{0} cannot be a name in an address. Use letters, digits, - and _."
 msgstr ""
@@ -17680,6 +17888,10 @@ msgstr ""
 msgid "{0} is already under {1}, so it cannot be its parent."
 msgstr ""
 
+#: onedesk/public/js/customize.js:188
+msgid "{0} is as it came."
+msgstr ""
+
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:35
 msgid "{0} is asked for twice."
 msgstr ""
@@ -17718,6 +17930,14 @@ msgstr ""
 
 #: onedesk/one/linked.py:85
 msgid "{0} is not a field to edit."
+msgstr ""
+
+#: onedesk/one/customize.py:90
+msgid "{0} is not a form a workspace customizes."
+msgstr ""
+
+#: onedesk/one/customize.py:87
+msgid "{0} is not a form here."
 msgstr ""
 
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.py:50
@@ -17808,6 +18028,10 @@ msgstr ""
 msgid "{0} is one of the mailbox's own folders and stays as it is."
 msgstr ""
 
+#: onedesk/one/customize.py:280 onedesk/one/customize.py:355
+msgid "{0} is required, so it cannot be hidden."
+msgstr ""
+
 #: onedesk/one_admin/signup.py:40 onedesk/one_admin/signup.py:42
 #: onedesk/one_admin/signup.py:54
 msgid "{0} is taken."
@@ -17892,6 +18116,10 @@ msgstr ""
 
 #: onedesk/public/js/offering.js:37
 msgid "{0} of them live."
+msgstr ""
+
+#: onedesk/public/js/customize.js:153
+msgid "{0} of what shows above the fields comes with the form, from {1}, and stays as it is."
 msgstr ""
 
 #: onedesk/public/js/project.js:50
@@ -18093,7 +18321,7 @@ msgstr ""
 msgid "{0} {1} of {2} {3}"
 msgstr ""
 
-#: onedesk/public/js/head.js:280
+#: onedesk/public/js/head.js:285
 msgid "{0} {1} was changed by somebody else after you opened this. Refresh to see it."
 msgstr ""
 
@@ -18177,8 +18405,33 @@ msgstr ""
 msgid "{0}. The key needs Zone Settings: Edit."
 msgstr ""
 
+#: onedesk/one/layer.py:127 onedesk/one/layer.py:158
+msgid "{0}: a condition may only compare the record's fields with plain values."
+msgstr ""
+
+#: onedesk/one/layer.py:141
+msgid "{0}: a field worked out by code is not the workspace's to add."
+msgstr ""
+
+#: onedesk/one/customize.py:360 onedesk/one/customize.py:369
+#: onedesk/one/layer.py:138
+msgid "{0}: a workspace cannot add a field of the kind {1}."
+msgstr ""
+
+#: onedesk/one/customize.py:364 onedesk/one/layer.py:163
+msgid "{0}: this field is required by the record itself."
+msgstr ""
+
+#: onedesk/one/layer.py:143
+msgid "{0}: who may see a field is set by the roles, not here."
+msgstr ""
+
 #: onedesk/one/notify.py:309 onedesk/one/rules.py:78
 msgid "{0}: {1}"
+msgstr ""
+
+#: onedesk/one/layer.py:153
+msgid "{0}: {1} is not the workspace's to change."
 msgstr ""
 
 #: onedesk/public/js/payroll_entry.js:45

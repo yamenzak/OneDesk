@@ -277,7 +277,7 @@ Each deletes what it replaces in the same commit.
    the passover.
 5. **The Linked Section** and its save. Done.
 6. **The workspace layer**: the holds on Custom Field, Property Setter, DocType
-   Link and Action, and Record Head; the Customize page; Reset.
+   Link and Action, and Record Head; the Customize page; Reset. Done.
 7. **OneAI's `customize`.**
 8. **Record tabs** (Files, Mail, Activity) declared as registered blocks
    instead of patching the layout.
@@ -505,6 +505,56 @@ some people. It was the desk's message; the other two it refused. Now:
   a save forged past the form to change Mobile was refused; without read at
   level 1, Mobile was not sent at all. The trial is removed at the end of
   this arc.
+
+## Stage 6, as built
+
+- **The Customize page** (`/app/customize/<Doctype>`, from **Customize** on
+  every form's menu for a Workspace Administrator) is the shell's Editor on
+  one FieldGroup of frappe grids: the form's fields in order (label, kind,
+  choices, hidden, required, in the list), the head's rows (band, verbs,
+  linked sections), and the form's connections and buttons. Save is in the
+  page head, dirty is measured against what loaded (rows included), and a
+  save made against a state another administrator changed is refused.
+  Export downloads the rows; Reset takes them back.
+- **What it writes is frappe's own**: a Property Setter for a label, hidden,
+  required, in-the-list or the order (`field_order`), a Custom Field for a
+  field of the workspace's own, the DocType's Links and Actions marked
+  `custom` as frappe's Customize Form marks them, and Record Head rows marked
+  `custom`, which `head.install` now keeps through every migrate. A property
+  setter or custom field carries no mark frappe keeps (ours from modules have
+  no module either), so the page notes each in a ledger, **Workspace
+  Customization**, and Reset removes what the ledger names and nothing else.
+- **The holds** (`one/layer.py`) are validate hooks on Custom Field, Property
+  Setter, Client Script and Server Script. They apply to every row the page
+  writes (`frappe.flags.one_workspace_layer`) and to anybody frappe does not
+  let customize, so they hold for a direct API call as much as for the page:
+  - A field is one a person types or picks (`KINDS`): no HTML, button, code,
+    table, read-only or virtual field.
+  - A property is one of `PROPERTIES`: no permission level, no ignoring user
+    permissions, no changed kind or options, no field made optional that the
+    record requires.
+  - A condition is read by `plain`, a grammar of the record's fields, plain
+    values and comparisons, and is never run: `eval:doc.status != 'Closed'`
+    passes, `eval:doc.x()` and `eval:frappe.call(...)` do not.
+  - Client and Server Scripts are refused outright from the page.
+- **Only business forms**: not a child table, not a single, and not the
+  framework's or One's own modules; only a form the administrator can read.
+- **Checked before written.** Adding a field alters the table, which the
+  database commits there and then, so the page checks every refusal first
+  (`_check`), including the head's rows through Record Head's own validate,
+  and writes only once nothing will be refused.
+- **Found on the way**: nobody, System Manager or not, could add a field to
+  any of the 139 forms whose Company `company.py` hides, because frappe holds
+  that a hidden mandatory field has a default. The hidden Company now
+  defaults to the workspace's company.
+- Checked as a Workspace Administrator who is not a System Manager: renaming
+  a field, hiding one, adding one after Location, a number in the band, a
+  linked section with a child table, and a button, all on the Asset form
+  after one save; then an HTML field, removing Location, making Item Code
+  optional, hiding it, a `javascript:` button, a stale save, an unregistered
+  verb, the User form, a permission-level property setter and a calling
+  condition, each refused with the reason; a migrate kept the workspace's
+  rows; Export downloaded them; Reset from the menu took them all back.
 
 ## The risks
 

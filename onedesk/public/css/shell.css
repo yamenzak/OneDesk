@@ -63,6 +63,12 @@
 	max-width: 480px;
 }
 
+/* A table is as wide as the page gives it, never a field's width. */
+.one-shell-form .frappe-control[data-fieldtype="Table"],
+.one-shell-columns .one-shell-form:has(.frappe-control[data-fieldtype="Table"]) {
+	max-width: none;
+}
+
 /* Fields side by side: the columns carry the width, not the field. */
 .one-shell-columns .one-shell-form {
 	max-width: 760px;

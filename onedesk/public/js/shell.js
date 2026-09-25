@@ -241,13 +241,19 @@ onedesk.shell.Editor = class Editor {
 		return Object.fromEntries(names.map((name) => [name, group.get_value(name) ?? ""]));
 	}
 
-	// Values as compared: empty is empty whatever it is, and order does not count.
+	// Values as compared: empty is empty whatever it is, and order does not
+	// count. A table is its rows as they read, not the grid's own bookkeeping.
 	static same(values) {
+		const text = (value) => {
+			if (value === null || value === undefined) return "";
+			if (typeof value !== "object") return String(value);
+			return JSON.stringify(value, (key, one) => (key === "name" || key === "idx" || key === "doctype" || key.startsWith("__") ? undefined : one));
+		};
 		return JSON.stringify(
 			Object.keys(values || {})
 				.sort()
-				.map((name) => [name, values[name] === null || values[name] === undefined ? "" : String(values[name])])
-				.filter(([, value]) => value !== "")
+				.map((name) => [name, text(values[name])])
+				.filter(([, value]) => value !== "" && value !== "[]")
 		);
 	}
 
@@ -320,6 +326,8 @@ onedesk.shell.Editor = class Editor {
 		// Ctrl+S on a page calls its save_action; only a form uses its button (desk.js).
 		this.page.wrapper[0].save_action = () => this.save(values());
 		$watch.on("input change", "input, select, textarea", () => this.check());
+		// A grid's rows are added, removed and dragged without an input changing.
+		$watch.on("click mouseup", ".frappe-control[data-fieldtype='Table']", frappe.utils.debounce(() => this.check(), 150));
 	}
 
 	// No save until a form says what it saves.

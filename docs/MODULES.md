@@ -9,12 +9,13 @@
 |---|--:|---|
 | Push Device | 7 | document |
 | Record Head | 13 | document |
-| Record Head Band | 11 | child |
-| Record Head Indicator | 3 | child |
-| Record Head Linked | 4 | child |
-| Record Head Sentence | 3 | child |
-| Record Head Verb | 3 | child |
+| Record Head Band | 12 | child |
+| Record Head Indicator | 4 | child |
+| Record Head Linked | 5 | child |
+| Record Head Sentence | 4 | child |
+| Record Head Verb | 4 | child |
 | Workspace Account | 28 | single |
+| Workspace Customization | 3 | document |
 | Workspace Domain | 4 | child |
 
 ## One HR
@@ -179,6 +180,10 @@ No doctypes yet.
 * `onedesk.one.account.domains`
 * `onedesk.one.account.domains_refresh`
 * `onedesk.one.account.mine`
+* `onedesk.one.customize.export`
+* `onedesk.one.customize.load`
+* `onedesk.one.customize.reset`
+* `onedesk.one.customize.save`
 * `onedesk.one.head.run`
 * `onedesk.one.push.devices`
 * `onedesk.one.push.forget`

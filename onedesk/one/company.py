@@ -7,7 +7,11 @@ that has to ask *whose* this is. What is left over from erpnext and hrms is a
 mandatory `Company` Link on about two hundred and fifty doctypes, showing the
 same value every time — a field that can only be got wrong and never right.
 
-So every one of them is hidden, and the global default fills it. Where a
+So every one of them is hidden, and the global default fills it. Where the
+field is also mandatory, it is given the company as its default as well:
+frappe holds that a hidden mandatory field has a default, and checks it every
+time a form's fields change, so without it nobody could add a field to one of
+these forms, from the Customize page or frappe's own Customize Form. Where a
 document can do better than the default it does: an attendance request and a
 shift request take the company from the employee, because that is the answer
 even on a site somebody has left two Company records on.
@@ -44,13 +48,33 @@ def hide(*_args) -> None:
 				"Check",
 				validate_fields_for_doctype=False,
 			)
+	_defaults(make_property_setter)
 	frappe.clear_cache()
+
+
+def _defaults(make_property_setter) -> None:
+	"""The company as the default of every hidden mandatory Company field, and
+	again when the company it named is gone."""
+	company = frappe.defaults.get_global_default("company")
+	if not company or not frappe.db.exists("Company", company):
+		return
+	for field in _fields():
+		if not field.get("reqd") or field.get("default"):
+			continue
+		said = frappe.db.get_value(
+			"Property Setter", {"doc_type": field["parent"], "field_name": FIELD, "property": "default"}, "value"
+		)
+		if said and frappe.db.exists("Company", said):
+			continue
+		make_property_setter(
+			field["parent"], FIELD, "default", company, "Text", validate_fields_for_doctype=False
+		)
 
 
 def _fields() -> list[dict]:
 	"""Every Company Link called `company`, standard and custom alike."""
 	where = {"fieldname": FIELD, "fieldtype": "Link", "options": "Company"}
-	columns = ["hidden", "in_list_view", "in_standard_filter"]
+	columns = ["hidden", "in_list_view", "in_standard_filter", "reqd", "default"]
 	standard = frappe.get_all("DocField", filters=where, fields=["parent", *columns])
 	custom = frappe.get_all(
 		"Custom Field",

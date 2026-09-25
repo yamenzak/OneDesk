@@ -35,6 +35,8 @@ ON_THE_SHELL = {
 	),
 	"onemail": ("public/js/onemail.js", "public/css/onemail.css"),
 	"onecloud": ("public/js/onecloud.js", "public/css/onecloud.css"),
+	# Nothing of its own to style: every part is the shell's or frappe's.
+	"customize": ("public/js/customize.js", None),
 }
 
 #: Pages not on it yet, and the stage of docs/SHELL.md that moves them. None
@@ -107,7 +109,7 @@ def test_only_the_shell_styles_the_shell():
 
 def test_a_page_on_the_shell_draws_none_of_its_parts():
 	for script, style in set(ON_THE_SHELL.values()):
-		css = (tree.APP / style).read_text(encoding="utf-8")
+		css = (tree.APP / style).read_text(encoding="utf-8") if style else ""
 		own = {match.group(0) for match in PARTS.finditer(css)} - OWN
 		assert not own, f"{style} styles its own {sorted(own)}; use the shell's"
 		# The one place a page is sized to the window is the shell's fit().

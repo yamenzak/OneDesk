@@ -6,7 +6,8 @@
  "field_order": [
   "verb",
   "label",
-  "primary"
+  "primary",
+  "custom"
  ],
  "fields": [
   {
@@ -30,10 +31,18 @@
    "label": "Primary",
    "in_list_view": 1,
    "description": "The one dark button while it shows."
+  },
+  {
+   "fieldname": "custom",
+   "fieldtype": "Check",
+   "label": "Made Here",
+   "read_only": 1,
+   "hidden": 1,
+   "description": "Made by the workspace, not declared by a module. A migrate keeps it."
   }
  ],
  "links": [],
- "modified": "2026-09-25 18:00:00.000000",
+ "modified": "2026-09-26 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "Record Head Verb",

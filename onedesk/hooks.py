@@ -151,6 +151,12 @@ doc_events = {
 	# Everyone who works here has an address on the mail domain. See
 	# one_mail/addresses.py.
 	"User": {"before_save": "onedesk.one_mail.addresses.for_person"},
+	# What a workspace writes about a form is held: nothing that runs, nothing
+	# that weakens a guard. See one/layer.py.
+	"Custom Field": {"validate": "onedesk.one.layer.custom_field"},
+	"Property Setter": {"validate": "onedesk.one.layer.property_setter"},
+	"Client Script": {"validate": "onedesk.one.layer.script"},
+	"Server Script": {"validate": "onedesk.one.layer.script"},
 	# A type's text names only its own slots. See one/notify.py.
 	"Notification Type": {"validate": "onedesk.one.notify.validate", "on_update": "onedesk.one.notify.changed"},
 	# A notification is pushed to the devices its person chose. See one/push.py.

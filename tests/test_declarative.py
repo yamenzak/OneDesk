@@ -35,6 +35,8 @@ LAYERS = (
 	"onedesk/one/companions.py",
 	# A workspace's own notification rules, made on its settings page.
 	"onedesk/one/rules.py",
+	# A workspace's own fields and settings for a form, made on its Customize page.
+	"onedesk/one/customize.py",
 )
 
 _OPENS = r"frappe\.(get_doc|new_doc|_dict)\s*\(\s*[{'\"]?[^)]*?['\"]("

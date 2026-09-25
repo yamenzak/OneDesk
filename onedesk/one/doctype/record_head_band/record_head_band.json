@@ -14,7 +14,8 @@
   "shown_when",
   "route",
   "hide_empty",
-  "tone"
+  "tone",
+  "custom"
  ],
  "fields": [
   {
@@ -95,10 +96,18 @@
    "options": "\nquiet\nwaiting\nalarm",
    "in_list_view": 1,
    "description": "How it reads. Quiet for nothing to do, waiting for something to do, alarm for something late."
+  },
+  {
+   "fieldname": "custom",
+   "fieldtype": "Check",
+   "label": "Made Here",
+   "read_only": 1,
+   "hidden": 1,
+   "description": "Made by the workspace, not declared by a module. A migrate keeps it."
   }
  ],
  "links": [],
- "modified": "2026-09-25 18:00:00.000000",
+ "modified": "2026-09-26 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "Record Head Band",

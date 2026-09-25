@@ -18,6 +18,11 @@ frappe.ui.form.on("*", {
 	refresh(frm) {
 		onedesk.head.draw(frm);
 		onedesk.head.linked(frm);
+		// A workspace administrator customizes the form from its own menu
+		// (one/customize.py). Frappe's own Customize is its System Managers'.
+		if (!frm.meta.istable && !frm.meta.issingle && frappe.user.has_role("Workspace Administrator")) {
+			frm.page.add_menu_item(__("Customize"), () => frappe.set_route("customize", frm.doctype), true);
+		}
 	},
 });
 

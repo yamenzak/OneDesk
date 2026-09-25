@@ -230,6 +230,35 @@ Their text is frappe's, so they have nothing to change here.
   suggests the rule.
 - **How do notifications work?** From this page.
 
+## Customizing a Form
+
+**Customize** on any form's menu opens the form's own customization page, for
+an administrator of this workspace. What changes there changes the form for
+everybody who opens it; nothing typed there is code.
+
+- **Fields**, in the order the form shows them. Rename one, hide one, make
+  one required or show it in the list, and drag a row to move it. Add a
+  field of your own at the foot, or anywhere by dragging: a text, a number,
+  a date, a choice, a tick, a link to another form, or a section or column
+  to lay the others out. A field the form came with can be hidden but not
+  taken away, and one the form needs stays required.
+- **Numbers Under the Title**: each is a field, a field of a record this one
+  links to, a count or a sum of another form's records, or a measure a
+  module keeps (an invoice's days late, say). Everybody sees only the
+  numbers their own lists would show them.
+- **Buttons That Do Something**: what the modules offer to do to this
+  record, placed here. Each shows only when it can be done.
+- **Linked Sections**: fields of a record this one links to, edited on this
+  form and saved with it; the asset holder's mobile on the asset, say. Who
+  may see or change them is decided by that record.
+- **Connections** and **Buttons That Go Somewhere**: another form's records
+  that point here, and a place in the desk to open from the record.
+
+**Save** in the page head saves it all at once. If another administrator
+changed the same form meanwhile, the page says so and saves nothing.
+**Export** on the menu downloads what this workspace changed; **Reset** takes
+it all back, and leaves what the form came with.
+
 ## Asking OneAI
 
 Ask OneAI how anything in One works, in your own words and your own language.
@@ -257,6 +286,7 @@ For the people who build One. OneAI does not read past this heading.
 | `custom/notification_type.json` | What a Notification Type carries here: its app, text and channels |
 | `head.py`, `doctype/record_head*`, `../public/js/head.js` | What a record's form says above its fields, as rows: see below |
 | `linked.py` | Fields of a linked record, edited on the form and saved in its save |
+| `customize.py`, `layer.py`, `page/customize`, `doctype/workspace_customization`, `../public/js/customize.js` | The Customize page, and the holds on what a workspace writes |
 
 **A record's head is rows.** The pill beside a form's title, the sentence
 under it, the band of numbers and the verbs a person presses are a **Record
