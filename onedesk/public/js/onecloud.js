@@ -64,7 +64,6 @@ onedesk.OneCloud = class OneCloud {
 		this.settings = { view: "details", sort: "name", asc: 1, preview: 1 };
 		this.build();
 		this.bind();
-		if (!this.room) $(window).on("resize.onecloud", frappe.utils.debounce(() => this.fit(), 100));
 		this.listen();
 		frappe.model.user_settings.get("File").then((kept) => {
 			Object.assign(this.settings, (kept && kept.OneCloud) || {});
@@ -111,46 +110,45 @@ onedesk.OneCloud = class OneCloud {
 				${bare("refresh", "refresh-cw", __("Refresh"))}
 				<label class="oc-search">${icon("search")}<input type="search" spellcheck="false"></label>
 			</div>
-			<div class="oc-body">
-				<nav class="oc-tree" aria-label="${__("Folders")}"></nav>
-				<div class="oc-main">
-					<div class="oc-head">
-						<button data-sort="name">${__("Name")}</button>
-						<button data-sort="where" class="oc-col-where">${__("Folder")}</button>
-						<button data-sort="modified" class="oc-col-date">${__("Date modified")}</button>
-						<button data-sort="type" class="oc-col-type">${__("Type")}</button>
-						<button data-sort="size" class="oc-col-size">${__("Size")}</button>
-					</div>
-					<div class="oc-scope" hidden></div>
-					<div class="oc-items" tabindex="0" role="listbox" aria-multiselectable="true"></div>
-				</div>
-				<aside class="oc-preview"></aside>
-			</div>
+			<div class="oc-body"></div>
 			<div class="oc-status"></div>
 			<input type="file" class="oc-pick-files" multiple hidden>
 			<input type="file" class="oc-pick-folder" webkitdirectory hidden>
 			<input type="file" class="oc-pick-version" hidden>
 			<div class="oc-uploads" hidden></div>
-		</div>`).appendTo(this.parent || this.page.main);
+		</div>`).appendTo(this.parent || this.page.$shell);
+		// Three panes, the shell's, inside the explorer's window: the tree, what
+		// is in the folder, and the preview. A record has no tree.
+		const panes = onedesk.shell.panes(
+			this.$root.find(".oc-body"),
+			[
+				{ key: "tree", width: 230 },
+				{ key: "main" },
+				{ key: "preview", width: 280 },
+			],
+			{ fit: false }
+		);
+		this.$tree = panes.tree.addClass("oc-tree").attr({ role: "navigation", "aria-label": __("Folders") }).prop("hidden", !!this.room);
+		panes.main.addClass("oc-main").html(`<div class="oc-head">
+				<button data-sort="name">${__("Name")}</button>
+				<button data-sort="where" class="oc-col-where">${__("Folder")}</button>
+				<button data-sort="modified" class="oc-col-date">${__("Date modified")}</button>
+				<button data-sort="type" class="oc-col-type">${__("Type")}</button>
+				<button data-sort="size" class="oc-col-size">${__("Size")}</button>
+			</div>
+			<div class="oc-scope" hidden></div>
+			<div class="oc-items" tabindex="0" role="listbox" aria-multiselectable="true"></div>`);
+		this.$preview = panes.preview.addClass("oc-preview").attr("role", "complementary");
 		this.$items = this.$root.find(".oc-items");
-		this.$tree = this.$root.find(".oc-tree");
-		this.$preview = this.$root.find(".oc-preview");
 		this.$search = this.$root.find(".oc-search input");
-	}
-
-	// To the bottom of the window from wherever the desk's header leaves it,
-	// rather than a guess at how tall that header is.
-	fit() {
-		if (this.room || this.picker) return; // a tab's or a dialog's height is its stylesheet's
-		const el = this.$root[0];
-		if (!el || !el.offsetParent) return;
-		const top = el.getBoundingClientRect().top + window.scrollY;
-		el.style.height = `${Math.max(420, window.innerHeight - top)}px`;
+		// On its page, the explorer runs to the bottom of the window; a tab's
+		// or a dialog's height is its stylesheet's.
+		if (!this.room && !this.picker) onedesk.shell.fit(this.$root);
 	}
 
 	apply_settings() {
 		this.$root.attr("data-view", this.settings.view);
-		this.$root.toggleClass("oc-no-preview", !cint(this.settings.preview));
+		this.$preview.prop("hidden", !cint(this.settings.preview));
 		this.$root.find("[data-act=view-details]").attr("data-state", this.settings.view === "details" ? "on" : null);
 		this.$root.find("[data-act=view-tiles]").attr("data-state", this.settings.view === "tiles" ? "on" : null);
 		this.$root.find("[data-act=toggle-preview]").attr("data-state", cint(this.settings.preview) ? "on" : null);
@@ -211,7 +209,6 @@ onedesk.OneCloud = class OneCloud {
 
 	// Coming to the page, or the address changing under it.
 	show() {
-		this.fit();
 		if (!this.ready) return;
 		const node = this.wanted();
 		if (node === this.node) return this.refresh();
@@ -314,7 +311,6 @@ onedesk.OneCloud = class OneCloud {
 	draw() {
 		const here = this.trail[this.trail.length - 1];
 		this.draw_crumbs();
-		this.fit();
 		const global = this.everywhere || this.kind() === "root";
 		this.$search.attr("placeholder", global ? __("Search everywhere") : __("Search {0}", [here ? here.name : __("Files")]));
 		this.draw_scope(here);
@@ -327,7 +323,7 @@ onedesk.OneCloud = class OneCloud {
 		this.$root.find(".oc-head .oc-col-date").text(this.kind() === "bin" ? __("Date deleted") : __("Date modified"));
 		const sorted = this.sorted();
 		if (!sorted.length) {
-			this.$items.html(`<div class="oc-empty">${this.empty_text()}</div>`);
+			this.$items.html(onedesk.shell.empty(this.empty_text()));
 		} else {
 			this.$items.html(sorted.map((item) => this.item_html(item)).join(""));
 		}
@@ -592,7 +588,7 @@ onedesk.OneCloud = class OneCloud {
 			const text = chosen.length
 				? __("{0} items selected", [chosen.length])
 				: __("Select a file to preview it.");
-			this.$preview.html(`<div class="oc-preview-none">${text}</div>`);
+			this.$preview.html(onedesk.shell.empty(text, "", { icon: chosen.length ? "files" : "file" }));
 			this.previewing = null;
 			return;
 		}

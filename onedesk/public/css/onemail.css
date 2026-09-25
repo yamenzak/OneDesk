@@ -3,11 +3,7 @@
  * divided by hairlines. */
 
 .om {
-	display: flex;
-	height: calc(100vh - 50px);
-	min-height: 420px;
 	background: var(--surface-base);
-	overflow: hidden;
 	outline: none;
 	font-size: var(--text-base);
 }
@@ -27,38 +23,14 @@
 	background: var(--outline-gray-2);
 }
 
-.om-none,
-.om-empty {
-	color: var(--ink-gray-5);
-	font-size: var(--text-sm);
-	padding: calc(var(--spacing) * 4);
-}
-
-.om-empty {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: calc(var(--spacing) * 2);
-	height: 100%;
-	text-align: center;
-}
-
-.om-empty svg {
-	width: 32px;
-	height: 32px;
-	color: var(--ink-gray-4);
-}
-
 /* ------------------------------------------------------------ mailboxes */
 
 .om-side {
-	flex: 0 0 236px;
+	flex: 1;
 	display: flex;
 	flex-direction: column;
 	gap: calc(var(--spacing) * 2);
 	padding: calc(var(--spacing) * 3) calc(var(--spacing) * 2);
-	border-inline-end: 1px solid var(--outline-gray-1);
 	min-width: 0;
 }
 
@@ -185,22 +157,16 @@
 
 /* ------------------------------------------------------------ the list */
 
-.om-list {
-	flex: 0 0 380px;
-	display: flex;
-	flex-direction: column;
-	min-width: 0;
-	border-inline-end: 1px solid var(--outline-gray-1);
-}
-
+/* The list's head is the pane's: the search, or what is done to the
+ * conversations picked. */
 .om-list-head,
 .om-picked {
 	display: flex;
+	flex: 1;
 	align-items: center;
 	gap: calc(var(--spacing) * 1);
-	height: 48px;
-	padding: 0 calc(var(--spacing) * 3);
-	flex: none;
+	min-width: 0;
+	height: 30px;
 }
 
 .om-list-head[hidden],
@@ -248,43 +214,7 @@
 }
 
 .om-items {
-	flex: 1;
-	overflow: auto;
 	outline: none;
-}
-
-.om-row {
-	position: relative;
-	display: flex;
-	align-items: flex-start;
-	gap: calc(var(--spacing) * 3);
-	padding: calc(var(--spacing) * 3) calc(var(--spacing) * 3) calc(var(--spacing) * 3) calc(var(--spacing) * 4);
-	cursor: default;
-	border-bottom: 1px solid var(--outline-gray-1);
-}
-
-.om-row:hover {
-	background: var(--surface-gray-1);
-}
-
-.om-row.om-open {
-	background: var(--surface-gray-2);
-}
-
-.om-row.om-picked-row {
-	background: var(--surface-blue-1);
-}
-
-/* The dot that says unread, in the gutter. */
-.om-row.om-unread::before {
-	content: "";
-	position: absolute;
-	inset-inline-start: 6px;
-	top: 22px;
-	width: 7px;
-	height: 7px;
-	border-radius: 50%;
-	background: var(--ink-blue-3);
 }
 
 /* The checkbox takes the face's place when the pointer is over the row or
@@ -299,15 +229,15 @@
 	justify-content: center;
 }
 
-.om-row:hover .om-pick,
-.om-picked-row .om-pick,
+.om [data-thread]:hover .om-pick,
+.om [data-thread].is-picked .om-pick,
 .om:has(.om-picked:not([hidden])) .om-pick {
 	display: flex;
 }
 
-.om-row:hover .om-face,
-.om-picked-row .om-face,
-.om:has(.om-picked:not([hidden])) .om-row .om-face {
+.om [data-thread]:hover .om-face,
+.om [data-thread].is-picked .om-face,
+.om:has(.om-picked:not([hidden])) [data-thread] .om-face {
 	display: none;
 }
 
@@ -331,27 +261,11 @@ img.om-face {
 	background: var(--surface-gray-2);
 }
 
-.om-row-text {
-	flex: 1;
-	min-width: 0;
-	display: flex;
-	flex-direction: column;
-	gap: 1px;
-}
-
-.om-row-top {
-	display: flex;
-	align-items: baseline;
-	gap: calc(var(--spacing) * 1.5);
-}
-
 .om-who {
-	flex: 1;
 	min-width: 0;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	color: var(--ink-gray-8);
 }
 
 .om-thread-count {
@@ -361,6 +275,8 @@ img.om-face {
 
 .om-when {
 	flex: none;
+	margin-inline-start: auto;
+	font-weight: normal;
 	display: inline-flex;
 	align-items: center;
 	gap: 4px;
@@ -369,25 +285,16 @@ img.om-face {
 	font-variant-numeric: tabular-nums;
 }
 
-.om-subject,
-.om-snippet {
+.om-subject {
+	max-width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
-
-.om-subject {
 	color: var(--ink-gray-8);
 }
 
-.om-snippet {
-	font-size: var(--text-sm);
-	color: var(--ink-gray-5);
-}
-
-.om-unread .om-who,
-.om-unread .om-subject {
-	font-weight: 600;
+.is-unread .om-subject {
+	font-weight: var(--font-weight-semibold);
 	color: var(--ink-gray-9);
 }
 
@@ -403,7 +310,7 @@ img.om-face {
 	visibility: hidden;
 }
 
-.om-row:hover .om-star,
+[data-thread]:hover .om-star,
 .om-star.om-starred {
 	visibility: visible;
 }
@@ -424,14 +331,6 @@ img.om-face {
 }
 
 /* ------------------------------------------------------------ reading */
-
-.om-read {
-	flex: 1;
-	min-width: 0;
-	overflow: auto;
-	display: flex;
-	flex-direction: column;
-}
 
 .om-conv-head {
 	position: sticky;
@@ -500,12 +399,6 @@ img.om-face {
 	display: flex;
 	justify-content: flex-end;
 	padding-bottom: calc(var(--spacing) * 2);
-}
-
-.om-record .om-row {
-	color: inherit;
-	text-decoration: none;
-	padding-inline-start: calc(var(--spacing) * 2);
 }
 
 .om-record svg.icon {
@@ -726,14 +619,14 @@ img.om-face {
 
 /* ------------------------------------------------------------ narrow */
 
-@media (max-width: 1100px) {
-	.om-list {
-		flex-basis: 320px;
+@media (min-width: 768px) and (max-width: 1100px) {
+	.om [data-pane="list"] {
+		flex-basis: 320px !important;
 	}
 }
 
 @media (max-width: 800px) {
-	.om-side {
+	.om [data-pane="boxes"] {
 		display: none;
 	}
 }

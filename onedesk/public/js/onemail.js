@@ -55,7 +55,6 @@ onedesk.OneMail = class OneMail {
 		this.build();
 		this.bind();
 		this.listen();
-		$(window).on("resize.onemail", frappe.utils.debounce(() => this.fit(), 100));
 		this.load();
 	}
 
@@ -65,50 +64,46 @@ onedesk.OneMail = class OneMail {
 		const icon = (name) => frappe.utils.icon(name, "sm");
 		const bare = (act, name, label) =>
 			`<button class="es-button" data-variant="ghost" data-icon-button="true" data-act="${act}" title="${label}" aria-label="${label}">${icon(name)}</button>`;
-		this.$root = $(`<div class="om" tabindex="-1">
-			<nav class="om-side" aria-label="${__("Mailboxes")}">
-				<button class="es-button om-write" data-variant="solid" data-act="write">${icon("pencil")}<span class="es-button__label">${__("Write")}</span></button>
-				<div class="om-boxes"></div>
-				<button class="es-button om-connect" data-variant="ghost" data-act="connect">${icon("plug")}<span class="es-button__label">${__("Connect a mailbox")}</span></button>
-			</nav>
-			<section class="om-list" aria-label="${__("Conversations")}">
-				<div class="om-list-head">
-					<label class="om-search">${icon("search")}<input type="search" spellcheck="false" placeholder="${__("Search this mailbox")}" title="${__("Also from:, to:, subject:, has:attachment, is:unread and is:starred")}"></label>
-					${bare("box-menu", "ellipsis", __("This mailbox"))}
-					${bare("refresh", "refresh-cw", __("Refresh"))}
-				</div>
-				<div class="om-picked" hidden>
-					<span class="om-picked-count"></span>
-					<span class="om-grow"></span>
-					${bare("read", "mail-open", __("Mark as read"))}
-					${bare("unread", "mail", __("Mark as unread"))}
-					${bare("star", "star", __("Star"))}
-					${bare("move", "folder-input", __("Move to"))}
-					${bare("archive", "archive", __("Archive"))}
-					${bare("delete", "trash-2", __("Delete"))}
-					${bare("clear", "x", __("Clear selection"))}
-				</div>
-				<div class="om-folder-name"></div>
-				<div class="om-items" tabindex="0" role="listbox" aria-multiselectable="true"></div>
-			</section>
-			<article class="om-read" aria-live="polite"></article>
-		</div>`).appendTo(this.page.main);
+		// Three panes, the shell's: the mailboxes, the list, what is read.
+		const panes = onedesk.shell.panes(this.page.$shell, [
+			{ key: "boxes", width: 236 },
+			{ key: "list", width: 380 },
+			{ key: "read" },
+		]);
+		this.$root = this.page.$shell.find(".one-shell-panes").addClass("om").attr("tabindex", "-1");
+		panes.boxes.attr({ role: "navigation", "aria-label": __("Mailboxes") }).html(`<div class="om-side">
+			<button class="es-button om-write" data-variant="solid" data-act="write">${icon("pencil")}<span class="es-button__label">${__("Write")}</span></button>
+			<div class="om-boxes"></div>
+			<button class="es-button om-connect" data-variant="ghost" data-act="connect">${icon("plug")}<span class="es-button__label">${__("Connect a mailbox")}</span></button>
+		</div>`);
+		panes.list.attr({ role: "region", "aria-label": __("Conversations") }).html(`<div class="om-folder-name"></div>
+			<div class="om-items" tabindex="0" role="listbox" aria-multiselectable="true"></div>`);
+		onedesk.shell.pane_head(
+			panes.list,
+			`<div class="om-list-head">
+				<label class="om-search">${icon("search")}<input type="search" spellcheck="false" placeholder="${__("Search this mailbox")}" title="${__("Also from:, to:, subject:, has:attachment, is:unread and is:starred")}"></label>
+				${bare("box-menu", "ellipsis", __("This mailbox"))}
+				${bare("refresh", "refresh-cw", __("Refresh"))}
+			</div>
+			<div class="om-picked" hidden>
+				<span class="om-picked-count"></span>
+				<span class="om-grow"></span>
+				${bare("read", "mail-open", __("Mark as read"))}
+				${bare("unread", "mail", __("Mark as unread"))}
+				${bare("star", "star", __("Star"))}
+				${bare("move", "folder-input", __("Move to"))}
+				${bare("archive", "archive", __("Archive"))}
+				${bare("delete", "trash-2", __("Delete"))}
+				${bare("clear", "x", __("Clear selection"))}
+			</div>`
+		);
+		this.$read = panes.read.addClass("om-read").attr("aria-live", "polite");
 		this.$boxes = this.$root.find(".om-boxes");
 		this.$items = this.$root.find(".om-items");
-		this.$read = this.$root.find(".om-read");
 		this.$search = this.$root.find(".om-search input");
-		this.fit();
-	}
-
-	fit() {
-		const el = this.$root && this.$root[0];
-		if (!el || !el.offsetParent) return;
-		const top = el.getBoundingClientRect().top + window.scrollY;
-		el.style.height = `${Math.max(420, window.innerHeight - top)}px`;
 	}
 
 	show() {
-		this.fit();
 		if (this.stale) {
 			this.stale = false;
 			this.refresh();
@@ -217,7 +212,7 @@ onedesk.OneMail = class OneMail {
 				</div>`;
 			})
 			.join("");
-		this.$boxes.html(html || `<div class="om-none">${__("You hold no mailbox yet.")}</div>`);
+		this.$boxes.html(html || onedesk.shell.quiet(__("You hold no mailbox yet.")));
 		// A person's own address that only receives cannot be written from.
 		this.$root.find("[data-act=write]").prop("disabled", !this.sender());
 	}
@@ -225,8 +220,7 @@ onedesk.OneMail = class OneMail {
 	draw_nothing() {
 		this.$items.empty();
 		this.$root.find(".om-folder-name").empty();
-		this.$read.html(`<div class="om-empty">${frappe.utils.icon("mail", "lg")}
-			<p>${__("Connect a mailbox to read and write your mail here.")}</p></div>`);
+		this.$read.html(onedesk.shell.empty(__("No mailbox yet"), __("Connect a mailbox to read and write your mail here."), { icon: "mail" }));
 	}
 
 	choose(boxname, foldername) {
@@ -309,31 +303,32 @@ onedesk.OneMail = class OneMail {
 		const title = this.search ? __("Results for {0}", [this.search]) : this.folder ? this.folder_label(this.folder) : "";
 		this.$root.find(".om-folder-name").text(title);
 		if (!this.items.length) {
-			this.$items.html(`<div class="om-none">${this.search ? __("Nothing matches.") : __("Nothing here.")}</div>`);
+			this.$items.html(onedesk.shell.empty(this.search ? __("Nothing matches.") : __("Nothing here.")));
 			return this.draw_picked();
 		}
 		const rows = this.items
 			.map((item) => {
-				const classes = ["om-row"];
-				if (item.unread) classes.push("om-unread");
-				if (item.thread === this.thread) classes.push("om-open");
-				if (this.selected.has(item.thread)) classes.push("om-picked-row");
+				const picked = this.selected.has(item.thread);
 				const count = item.count > 1 ? `<span class="om-thread-count">${item.count}</span>` : "";
 				const clip = item.attachments ? frappe.utils.icon("paperclip", "xs") : "";
-				return `<div class="${classes.join(" ")}" role="option" data-thread="${esc(item.thread)}" aria-selected="${this.selected.has(item.thread)}">
-					<label class="om-pick" title="${__("Select")}"><input type="checkbox" ${this.selected.has(item.thread) ? "checked" : ""}></label>
-					${this.face(item.sender_name, item.sender, item.face)}
-					<div class="om-row-text">
-						<div class="om-row-top"><span class="om-who">${esc(this.who(item))}</span>${count}<span class="om-when">${clip}${esc(this.when(item.date))}</span></div>
-						<div class="om-subject">${esc(item.subject || __("(no subject)"))}</div>
-						<div class="om-snippet">${esc(item.snippet || "")}</div>
-					</div>
-					<button class="om-star${item.flagged ? " om-starred" : ""}" data-star title="${item.flagged ? __("Unstar") : __("Star")}">${frappe.utils.icon("star", "sm")}</button>
-				</div>`;
+				return onedesk.shell.row({
+					lead: `<label class="om-pick" title="${__("Select")}"><input type="checkbox" ${picked ? "checked" : ""}></label>${this.face(item.sender_name, item.sender, item.face)}`,
+					// The date on the sender's line, as a mailbox has it, so the subject
+					// and the snippet under it have the row's width.
+					title: `<span class="om-who">${esc(this.who(item))}</span>${count}<span class="om-when">${clip}${esc(this.when(item.date))}</span>`,
+					sub: `<span class="om-subject">${esc(item.subject || __("(no subject)"))}</span>`,
+					quiet: esc(item.snippet || ""),
+					actions: `<button class="om-star${item.flagged ? " om-starred" : ""}" data-star title="${item.flagged ? __("Unstar") : __("Star")}">${frappe.utils.icon("star", "sm")}</button>`,
+					link: { "data-thread": item.thread },
+					attrs: { role: "option", "aria-selected": String(picked) },
+					active: item.thread === this.thread,
+					unread: !!item.unread,
+					picked,
+				});
 			})
 			.join("");
 		const more = this.more ? `<button class="es-button om-more" data-variant="subtle" data-act="more">${__("Show older")}</button>` : "";
-		this.$items.html(rows + more);
+		this.$items.html(onedesk.shell.list(rows) + more);
 		this.draw_picked();
 	}
 
@@ -348,14 +343,14 @@ onedesk.OneMail = class OneMail {
 
 	draw_reading() {
 		if (this.thread) return;
-		this.$read.html(`<div class="om-empty">${frappe.utils.icon("mail-open", "lg")}<p>${__("Choose a conversation to read it.")}</p></div>`);
+		this.$read.html(onedesk.shell.empty(__("Choose a conversation to read it."), "", { icon: "mail-open" }));
 	}
 
 	async open(thread, { quiet = false } = {}) {
 		if (!this.box) return;
 		this.thread = thread;
-		this.$items.find(".om-open").removeClass("om-open");
-		this.$items.find(`.om-row[data-thread="${CSS.escape(thread)}"]`).addClass("om-open");
+		this.$items.find(".is-active").removeClass("is-active");
+		this.$items.find(`[data-thread="${CSS.escape(thread)}"]`).addClass("is-active");
 		if (!quiet) this.place();
 		const answer = await frappe.xcall(OneMail.API + "conversation", { account: this.box.name, thread });
 		if (this.thread !== thread) return;
@@ -372,7 +367,7 @@ onedesk.OneMail = class OneMail {
 			this.messages.forEach((one) => (one.seen = 1));
 			const item = this.items.find((one) => one.thread === thread);
 			if (item) item.unread = 0;
-			this.$items.find(`.om-row[data-thread="${CSS.escape(thread)}"]`).removeClass("om-unread");
+			this.$items.find(`[data-thread="${CSS.escape(thread)}"]`).removeClass("is-unread");
 		}
 	}
 
@@ -880,18 +875,18 @@ onedesk.OneMail = class OneMail {
 			this.draw_boxes();
 		});
 		$root.on("click", ".om-folder", (e) => this.choose(e.currentTarget.dataset.box, e.currentTarget.dataset.folder));
-		$root.on("click", ".om-row", (e) => {
+		$root.on("click", ".om-items [data-thread]", (e) => {
 			if ($(e.target).closest(".om-pick, [data-star]").length) return;
 			const thread = e.currentTarget.dataset.thread;
 			if (e.shiftKey || e.metaKey || e.ctrlKey) return this.toggle(thread, e.shiftKey);
 			this.selected.clear();
 			this.draw_picked();
-			this.$items.find(".om-picked-row").removeClass("om-picked-row").find("input").prop("checked", false);
+			this.$items.find(".is-picked").removeClass("is-picked").find("input").prop("checked", false);
 			this.open(thread);
 		});
-		$root.on("change", ".om-pick input", (e) => this.toggle($(e.target).closest(".om-row").attr("data-thread"), false));
+		$root.on("change", ".om-pick input", (e) => this.toggle($(e.target).closest("[data-thread]").attr("data-thread"), false));
 		$root.on("click", "[data-star]", (e) => {
-			const thread = $(e.target).closest(".om-row").attr("data-thread");
+			const thread = $(e.target).closest("[data-thread]").attr("data-thread");
 			const item = this.items.find((one) => one.thread === thread);
 			if (item) this.run(item.flagged ? "unstar" : "star", [thread]);
 		});
@@ -1013,7 +1008,7 @@ onedesk.OneMail = class OneMail {
 			const next = this.items[Math.min(this.items.length - 1, Math.max(0, at + step))];
 			if (next) {
 				this.open(next.thread);
-				this.$items.find(`.om-row[data-thread="${CSS.escape(next.thread)}"]`)[0]?.scrollIntoView({ block: "nearest" });
+				this.$items.find(`[data-thread="${CSS.escape(next.thread)}"]`)[0]?.scrollIntoView({ block: "nearest" });
 			}
 		};
 		const keys = {

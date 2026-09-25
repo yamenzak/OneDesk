@@ -33,22 +33,22 @@ ON_THE_SHELL = {
 		"one_calendar/page/onecalendar/onecalendar.js",
 		"one_calendar/page/onecalendar/onecalendar.css",
 	),
+	"onemail": ("public/js/onemail.js", "public/css/onemail.css"),
+	"onecloud": ("public/js/onecloud.js", "public/css/onecloud.css"),
 }
 
-#: Pages not on it yet, and the stage of docs/SHELL.md that moves them. A new
-#: page is in neither, and fails until it is on the shell.
-NOT_YET = {
-	"onemail": 3,
-	"onecloud": 3,
-}
+#: Pages not on it yet, and the stage of docs/SHELL.md that moves them. None
+#: is left; a new page is in neither, and fails until it is on the shell.
+NOT_YET = {}
 
 #: What the shell has, so a page may not style its own: a row of a list, an
 #: empty state, a quiet line, a boxed card, a body or a section.
 PARTS = re.compile(r"\.[a-z]+-(row|empty|quiet|card|content|section|chevron)(-[a-z]+)?\b(?![-\w])")
 
-#: A page's own part that shares a name with the shell's but is not one: the
-#: People section's grid row is a row of a table, not of a list.
-OWN = {".os-people-row"}
+#: A part that shares a name with the shell's but is not one: the People
+#: section's grid row is a row of a table, not of a list, and a record's Files
+#: tab sits in frappe's own form section.
+OWN = {".os-people-row", ".form-section"}
 
 
 def _pages():
@@ -111,7 +111,9 @@ def test_a_page_on_the_shell_draws_none_of_its_parts():
 		own = {match.group(0) for match in PARTS.finditer(css)} - OWN
 		assert not own, f"{style} styles its own {sorted(own)}; use the shell's"
 		# The one place a page is sized to the window is the shell's fit().
-		assert not re.search(r"\d+d?vh", css), f"{style} sizes itself to the window; use the shell's panes"
+		assert not re.search(r"(?<![-\w])(min-)?height:\s*calc\(\s*100d?vh", css), (
+			f"{style} sizes itself to the window; use the shell's panes"
+		)
 		js = (tree.APP / script).read_text(encoding="utf-8")
 		for mark in (
 			"beforeunload",

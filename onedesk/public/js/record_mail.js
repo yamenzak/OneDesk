@@ -51,21 +51,21 @@ onedesk.record_mail.open = async (frm) => {
 		.map((row) => {
 			const who = row.sent ? __("To {0}", [(row.recipients || "").split(",")[0]]) : row.sender_name || row.sender;
 			const href = `/app/onemail?box=${encodeURIComponent(row.account)}&thread=${encodeURIComponent(row.thread)}`;
-			return `<a class="om-row om-record-row" href="${esc(href)}">
-				<div class="om-row-text">
-					<div class="om-row-top"><span class="om-who">${esc(who || "")}</span>${row.count > 1 ? `<span class="om-thread-count">${row.count}</span>` : ""}
-						<span class="om-when">${row.attachments ? frappe.utils.icon("paperclip", "xs") : ""}${esc(when(row.date))}</span></div>
-					<div class="om-subject">${esc(row.subject || __("(no subject)"))}</div>
-					<div class="om-snippet">${esc(row.snippet || "")}</div>
-				</div>
-			</a>`;
+			return onedesk.shell.row({
+				href,
+				title: `<span class="om-who">${esc(who || "")}</span>${row.count > 1 ? `<span class="om-thread-count">${row.count}</span>` : ""}<span class="om-when">${
+					row.attachments ? frappe.utils.icon("paperclip", "xs") : ""
+				}${esc(when(row.date))}</span>`,
+				sub: `<span class="om-subject">${esc(row.subject || __("(no subject)"))}</span>`,
+				quiet: esc(row.snippet || ""),
+			});
 		})
 		.join("");
 	field.$wrapper.html(`<div class="om-record">
 		<div class="om-record-head">
 			<button class="es-button" data-variant="subtle" data-act="write">${frappe.utils.icon("pencil", "sm")}<span class="es-button__label">${__("Write")}</span></button>
 		</div>
-		${list || `<div class="om-none">${__("No mail is filed on this yet. Mail from its people is filed here as it arrives.")}</div>`}
+		${list ? onedesk.shell.list(list) : onedesk.shell.empty(__("No mail is filed on this yet."), __("Mail from its people is filed here as it arrives."), { icon: "mail" })}
 	</div>`);
 	field.$wrapper.find("[data-act=write]").on("click", () => {
 		const composer = new frappe.views.CommunicationComposer({ frm, doc: frm.doc });

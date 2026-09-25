@@ -3,7 +3,7 @@
 
 frappe.pages["onemail"].on_page_load = (wrapper) => {
 	// The mailboxes are their own navigation: no rail panel beside them.
-	const page = frappe.ui.make_app_page({ parent: wrapper, title: __("Mail"), single_column: true, hide_sidebar: true });
+	const page = onedesk.shell.page(wrapper, __("Mail"), { hide_sidebar: true });
 	wrapper.loading = frappe.require(["/assets/onedesk/css/onemail.css", "/assets/onedesk/js/onemail.js"]).then(() => {
 		wrapper.onemail = new onedesk.OneMail(page);
 	});

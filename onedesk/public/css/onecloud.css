@@ -2,11 +2,9 @@
 
 .oc {
 	/* Seamless with the desk: no frame of its own, straight under the page
-	 * header and down to the bottom of the window (fit()). */
+	 * header and down to the bottom of the window (the shell's fit()). */
 	display: flex;
 	flex-direction: column;
-	/* Set by fit(); this is only the first paint. */
-	height: calc(100vh - 50px);
 	min-height: 420px;
 	background: var(--surface-base);
 	overflow: hidden;
@@ -97,18 +95,16 @@
 	font-size: var(--text-base);
 }
 
-/* The three panes. */
+/* The three panes, the shell's, fill what the bars leave. */
 .oc-body {
 	display: flex;
+	flex-direction: column;
 	flex: 1;
 	min-height: 0;
 }
 
 .oc-tree {
-	flex: 0 0 230px;
-	overflow: auto;
 	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 1);
-	border-inline-end: 1px solid var(--outline-gray-1);
 }
 
 .oc-node {
@@ -165,13 +161,6 @@
 	transform: scaleX(-1);
 }
 
-.oc-main {
-	display: flex;
-	flex-direction: column;
-	flex: 1;
-	min-width: 0;
-}
-
 .oc-items {
 	flex: 1;
 	overflow: auto;
@@ -183,12 +172,6 @@
 .oc-items.oc-drop {
 	background: var(--surface-blue-1);
 	box-shadow: inset 0 0 0 2px var(--outline-blue-2);
-}
-
-.oc-empty {
-	padding: calc(var(--spacing) * 10) calc(var(--spacing) * 4);
-	text-align: center;
-	color: var(--ink-gray-5);
 }
 
 /* Details: a row per item, under column headings. */
@@ -406,7 +389,8 @@
 	gap: calc(var(--spacing) * 1);
 }
 
-.oc[data-view="tiles"] .oc-empty {
+/* Nothing in the folder spans the tiles' grid. */
+.oc[data-view="tiles"] .oc-items > :only-child:not(.oc-item) {
 	grid-column: 1 / -1;
 }
 
@@ -464,20 +448,7 @@
 
 /* The preview pane. */
 .oc-preview {
-	flex: 0 0 280px;
-	overflow: auto;
 	padding: calc(var(--spacing) * 4);
-	border-inline-start: 1px solid var(--outline-gray-1);
-}
-
-.oc-no-preview .oc-preview {
-	display: none;
-}
-
-.oc-preview-none {
-	margin-top: calc(var(--spacing) * 10);
-	text-align: center;
-	color: var(--ink-gray-5);
 }
 
 .oc-preview-shown {
@@ -637,13 +608,16 @@
 
 /* A narrow screen keeps the contents and drops the side panes. */
 @media (max-width: 900px) {
-	.oc-preview {
+	.oc [data-pane="preview"] {
 		display: none;
+	}
+	.oc [data-pane="main"] {
+		border-inline-end: 0;
 	}
 }
 
 @media (max-width: 640px) {
-	.oc-tree,
+	.oc [data-pane="tree"],
 	.oc-bar .es-button__label,
 	.oc-search {
 		display: none;
@@ -882,7 +856,6 @@
 	margin-top: 0;
 }
 
-.oc-room .oc-tree,
 .oc-room [data-act="back"],
 .oc-room [data-act="forward"],
 .oc-room [data-act="up"] {

@@ -264,6 +264,7 @@ Each deletes what it replaces in the same commit.
 2. **The light pages** onto it: My Tasks, Legal, Intake, Ready to Submit,
    OneCalendar. Done.
 3. **OneMail and OneCloud** take its head, panes, rows and empty states.
+   Done.
 4. **Record Head**: the doctype, the onload hook, the renderer, measures and
    verbs. Ported first where the pattern is plainest (Item, Asset, Invoice),
    then the rest.
@@ -336,6 +337,41 @@ product by product.
 - The guard now holds all seven pages, and refuses a page stylesheet that
   sizes itself to the window or a page script that draws its own empty
   state.
+
+## Stage 3, as built
+
+- **OneMail** is the shell's page (`hide_sidebar`, since its mailboxes are
+  its navigation) and three of the shell's panes: the mailboxes, the list
+  with its search or its picked bar as the pane's head, and the reading
+  pane. Each conversation is a shell row: the face, or its tick on hover, as
+  the lead; the sender and the date on one line, the subject and the snippet
+  under it, the star as its action; `active`, `unread` and the new `picked`
+  for the one open, the ones unread and the ones ticked. Its own window
+  sizing, resize listener, row, empty and gutter-dot rules went (about 150
+  lines of CSS). A record's Mail tab draws the same rows, as links (the new
+  `href`), and frappe's empty state.
+- **OneCloud** keeps its bars, tree, grid, preview and upload tray, and sits
+  on the shell's panes inside its own window (`fit: false`, so they fill it
+  under its bars). The preview pane is hidden by its `hidden`, and the tree
+  by it in a record's room, so the rules close up on their own. On its page
+  the window is fitted by the shell's `fit()`; in a record's tab and in the
+  upload picker its height stays its stylesheet's. An empty folder and an
+  empty preview are frappe's empty state.
+- **The shell grew:** `page` takes `hide_sidebar`; panes are flex, with
+  `fit: false` for panes inside something that sizes itself; `fit()` runs to
+  the bottom of the window, and the shell drops its bottom padding under
+  panes, so a click no longer scrolls the page; a pane list's rows sit their
+  meta and actions by their first line; an empty state that is all of a pane
+  sits in its middle; `row` takes `href` and `picked`.
+- Checked in the browser: open, Ctrl-click to pick with the picked bar,
+  clear, star and unstar; the narrow mail layout; OneCloud's page, the
+  preview toggle, a record's Files tab and the upload picker, each against
+  screenshots from before. Settings, compared again, is pixel for pixel the
+  same; Intake and the other stage 2 pages were looked at.
+- The guard holds all nine pages and nothing is left in `NOT_YET`. It now
+  refuses `height: calc(100vh …)` in a page's stylesheet, a page sized to the
+  window, rather than any `vh`: a popup's `max-height` and a tab's capped
+  `clamp()` are not that.
 
 ## The risks
 

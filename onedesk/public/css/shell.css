@@ -8,6 +8,11 @@
 	min-width: 0;
 }
 
+/* Panes run to the bottom of the window, so nothing goes under them. */
+.one-shell:has(> .one-shell-panes) {
+	padding-bottom: 0;
+}
+
 /* The body is a column in the middle of the page, as frappe-ui's settings
    pages are, so a wide screen puts the room on both sides rather than all of
    it on the right. The column is the form's width plus the section's padding. */
@@ -236,6 +241,17 @@
 	background: var(--surface-gray-2);
 }
 
+.one-shell-row.is-picked {
+	background: var(--surface-blue-1);
+}
+
+/* A row that is a link reads as the rest of the list does. */
+a.one-shell-row,
+a.one-shell-row:hover {
+	color: inherit;
+	text-decoration: none;
+}
+
 .one-shell-row.is-unread .one-shell-row-title {
 	font-weight: var(--font-weight-semibold);
 }
@@ -252,9 +268,16 @@
 /* Panes: side by side, divided by a rule, as tall as the window leaves them
    (shell.js fits them). Each scrolls on its own. */
 .one-shell-panes {
-	display: grid;
+	display: flex;
 	min-height: 420px;
 	border-top: 1px solid var(--outline-gray-1);
+}
+
+/* Panes inside something that sizes itself fill it, under its own rule. */
+.one-shell-panes-inset {
+	flex: 1;
+	min-height: 0;
+	border-top: 0;
 }
 
 .one-shell-pane {
@@ -270,21 +293,34 @@
 	border-inline-end: 0;
 }
 
+/* A pane its page hides takes its rule with it. */
+.one-shell-pane:has(+ .one-shell-pane[hidden]:last-child),
+.one-shell-pane[hidden] {
+	border-inline-end: 0;
+}
+
 /* A list reads at the size a section does, wherever it sits. */
 .one-shell-list {
 	font-size: var(--text-sm);
 	color: var(--ink-gray-8);
 }
 
-/* A list in a pane runs edge to edge, each row padded as a mailbox's is. */
-.one-shell-pane > .one-shell-list > .one-shell-row {
+/* A list in a pane runs edge to edge, each row padded as a mailbox's is,
+   and what is beside a row's lines sits by its first. */
+.one-shell-pane .one-shell-list > .one-shell-row {
+	align-items: flex-start;
 	margin-inline: 0;
 	padding-inline: calc(var(--spacing) * 4);
 	border-radius: 0;
 }
 
-.one-shell-pane > .one-shell-list > .one-shell-row:last-of-type {
+.one-shell-pane .one-shell-list > .one-shell-row:last-of-type {
 	border-bottom: 1px solid var(--outline-gray-1);
+}
+
+/* Nothing to show in a pane sits in the middle of it. */
+.one-shell-pane > .one-shell-empty {
+	flex: 1;
 }
 
 .one-shell-pane-head {
@@ -307,11 +343,11 @@
 
 @media (max-width: 767px) {
 	.one-shell-panes {
-		grid-template-columns: 1fr !important;
+		flex-direction: column;
 	}
 
 	.one-shell-pane {
-		max-height: none;
+		flex: none !important;
 		border-inline-end: 0;
 		border-bottom: 1px solid var(--outline-gray-1);
 	}

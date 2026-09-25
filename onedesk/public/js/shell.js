@@ -21,8 +21,10 @@ frappe.provide("onedesk.shell");
 
 $.extend(onedesk.shell, {
 	// A page of ours: frappe's app page, with the shell's frame in its main area.
-	page(wrapper, title) {
-		const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: true });
+	// `hide_sidebar` is for a page whose panes are its own sidebar: OneMail's
+	// mailboxes, OneCloud's tree.
+	page(wrapper, title, { hide_sidebar = false } = {}) {
+		const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: true, hide_sidebar });
 		page.$shell = $(`<section class="one-shell"></section>`).appendTo(page.main);
 		return page;
 	},
@@ -38,14 +40,20 @@ $.extend(onedesk.shell, {
 	// Panes side by side, fitted to the window once for every page that has
 	// them: a list beside what it opens, or a column of choices beside what they
 	// choose. Each is `{ key, width }`, a width in pixels or none for the rest;
-	// a rule divides them, and nothing boxes them. Returns each pane by key.
-	panes($shell, panes) {
-		const columns = panes.map((one) => (one.width ? `${one.width}px` : "minmax(0, 1fr)")).join(" ");
-		const $panes = $(`<div class="one-shell-panes" style="grid-template-columns: ${columns}"></div>`);
+	// a rule divides them, and nothing boxes them. A pane may be hidden (its
+	// `data-pane`) and the others close up. `fit: false` is for panes inside
+	// something that sizes itself: OneCloud's window, or a record's tab.
+	// Returns each pane by key.
+	panes($into, panes, { fit = true } = {}) {
+		const $panes = $(`<div class="one-shell-panes${fit ? "" : " one-shell-panes-inset"}"></div>`);
 		const found = {};
-		for (const one of panes) found[one.key] = $(`<div class="one-shell-pane" data-pane="${one.key}"></div>`).appendTo($panes);
-		$shell.empty().append($panes);
-		onedesk.shell.fit($panes);
+		for (const one of panes) {
+			found[one.key] = $(`<div class="one-shell-pane" data-pane="${one.key}"></div>`)
+				.css("flex", one.width ? `0 0 ${one.width}px` : "1 1 0")
+				.appendTo($panes);
+		}
+		$into.empty().append($panes);
+		if (fit) onedesk.shell.fit($panes);
 		return found;
 	},
 
@@ -61,7 +69,8 @@ $.extend(onedesk.shell, {
 	fit($el) {
 		const size = () => {
 			if (!$el.is(":visible") || window.innerWidth < 768) return $el.css("height", "");
-			$el.css("height", `${Math.max(window.innerHeight - $el[0].getBoundingClientRect().top - 16, 420)}px`);
+			const top = $el[0].getBoundingClientRect().top + window.scrollY;
+			$el.css("height", `${Math.max(window.innerHeight - top, 420)}px`);
 		};
 		requestAnimationFrame(size);
 		$(window).on("resize", frappe.utils.debounce(size, 100));
@@ -98,22 +107,38 @@ $.extend(onedesk.shell, {
 	// the right what it says in passing (`meta`: a date, a count) and its
 	// actions. `lead` goes before it all: a tick, an avatar. `link` makes the
 	// whole row the target, with the list-row hover, and `attrs` names a row
-	// that is not one; `active` is the row open beside the list, and `unread`
-	// one not yet opened, as in a mailbox.
-	row({ title = "", sub = "", quiet = "", meta = "", actions = "", lead = "", link = null, attrs = {}, css = "", active = false, unread = false } = {}) {
+	// that is not one; `href` makes it a link to another page. `active` is the
+	// row open beside the list, `unread` one not yet opened, as in a mailbox,
+	// and `picked` one ticked for what is done to several at once.
+	row({
+		title = "",
+		sub = "",
+		quiet = "",
+		meta = "",
+		actions = "",
+		lead = "",
+		link = null,
+		href = null,
+		attrs = {},
+		css = "",
+		active = false,
+		unread = false,
+		picked = false,
+	} = {}) {
 		const esc = frappe.utils.escape_html;
 		const named = (pairs) => Object.entries(pairs || {}).map(([key, value]) => ` ${key}="${esc(value)}"`).join("");
-		attrs = named(attrs) + (link ? named(link) + ' tabindex="0"' : "");
-		const states = [link ? "one-shell-row-link" : "", active ? "is-active" : "", unread ? "is-unread" : "", css].filter(Boolean);
+		attrs = named(attrs) + (link ? named(link) + ' tabindex="0"' : "") + (href ? ` href="${esc(href)}"` : "");
+		const states = [link || href ? "one-shell-row-link" : "", active ? "is-active" : "", unread ? "is-unread" : "", picked ? "is-picked" : "", css].filter(Boolean);
 		const chevron = link && !active && !unread && !meta ? `<span class="one-shell-chevron">${frappe.utils.icon("chevron-right", "sm")}</span>` : "";
-		return `<div class="one-shell-row${states.length ? ` ${states.join(" ")}` : ""}"${attrs}>
+		const tag = href ? "a" : "div";
+		return `<${tag} class="one-shell-row${states.length ? ` ${states.join(" ")}` : ""}"${attrs}>
 			${lead ? `<div class="one-shell-row-lead">${lead}</div>` : ""}
 			<div class="one-shell-row-main">${title ? `<div class="one-shell-row-title">${title}</div>` : ""}${
 				sub ? `<div class="one-shell-row-sub">${sub}</div>` : ""
 			}${quiet ? `<div class="one-shell-quiet one-shell-row-quiet">${quiet}</div>` : ""}</div>
 			${meta ? `<div class="one-shell-row-meta">${meta}</div>` : ""}
 			${actions || chevron ? `<div class="one-shell-row-actions">${actions}${chevron}</div>` : ""}
-		</div>`;
+		</${tag}>`;
 	},
 
 	// Rows, as one list.
