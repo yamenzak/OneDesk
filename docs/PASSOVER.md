@@ -70,7 +70,7 @@ be ours; how it behaves is frappe's.
 
 | Area | Screen | State |
 |---|---|---|
-| Settings, You | Profile | all seven points checked, waiting for your word |
+| Settings, You | Profile | done |
 | Settings, You | Notifications | next |
 | Settings, You | Mail | |
 | Settings, You | Calendar | |
