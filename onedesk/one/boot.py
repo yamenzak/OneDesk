@@ -26,6 +26,11 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_intake_marked"] = sorted(mark.marked_doctypes())
 
+	# The linked sections each form draws, for this person. See one/linked.py.
+	from onedesk.one import linked
+
+	bootinfo["one_linked"] = linked.for_boot()
+
 	# What each provisioning step is doing, in words. The list view needs it and
 	# so does the form; putting a copy in JavaScript would be a second list to
 	# be wrong the day somebody adds a step. Only on the admin site, where the

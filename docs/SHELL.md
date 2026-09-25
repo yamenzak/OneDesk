@@ -275,7 +275,7 @@ Each deletes what it replaces in the same commit.
    verbs. Ported first where the pattern is plainest (Item, Asset, Invoice),
    then the rest. The first half is done; the rest ports with its product in
    the passover.
-5. **The Linked Section** and its save.
+5. **The Linked Section** and its save. Done.
 6. **The workspace layer**: the holds on Custom Field, Property Setter, DocType
    Link and Action, and Record Head; the Customize page; Reset.
 7. **OneAI's `customize`.**
@@ -425,6 +425,47 @@ product by product.
   Opportunity and Project (bands), the twelve HR records' sentences and the
   operator records' indicators. Each ports with its product in the passover,
   and `tests/test_head.py` then refuses a script left drawing it.
+
+## Stage 5, as built
+
+- **A Linked Section** is a row on the Record Head (`Record Head Linked`): a
+  heading, the record's Link field it goes through, the linked record's
+  fields one to a line, and a field of this record whose tab it ends. Record
+  Head's validate refuses a link that is not one, a field the linked record
+  lacks, and one a person does not type: a table or layout field, a fetched,
+  computed or read-only one, or one above permission level nought.
+- **The form draws it with frappe's controls.** The boot carries each
+  doctype's sections for this person, leaving out any through a doctype they
+  may not read; `head.js` puts them into the layout where frappe builds it
+  (`Layout.get_doctype_fields`), each field named `one_linked__link__field`,
+  which no field of a record is. `onload` sends the linked record's values,
+  the `modified` they were read at, and which fields the reader may not
+  change: all of them without write permission or on a cancelled record, and
+  on a submitted one those not allowed on submit. The section shows only
+  while the record links where it did when it loaded.
+- **One save, one transaction.** Each change sets `__one_linked` on the
+  record: the linked record, the `modified` it was loaded at, and the values
+  that differ. Frappe runs no client validate on Update, so it is kept as
+  each field changes rather than gathered at the end. `linked.save`, on
+  `on_update` and `on_update_after_submit`, saves the linked record in the
+  same request after checking its write permission, that the record still
+  links to it, that only the section's fields are sent, and that its
+  `modified` is the one loaded; any refusal rolls back the record's own save
+  with it.
+- **Clashes are frappe's.** The form subscribes to the linked record's
+  `doc_update` and does what frappe does for the record itself: reloads when
+  nothing is unsaved, and otherwise says who changed and offers Refresh. A
+  save made anyway is refused, naming the record, and nothing is written.
+- Checked on a trial section (an asset holder's mobile and personal email)
+  on a submitted asset, so through Update: the employee's mobile saved with
+  the asset; a stale `modified` refused, and the asset's own change rolled
+  back with it; a field outside the section refused; an unsaved form warned
+  when the employee changed elsewhere, and a clean one reloaded; changing the
+  holder hid the section. A Stock User without Employee access gets no
+  section; with HR User it is there and editable. The trial was removed.
+- **No module ships one yet.** The first real sections come with the
+  workspace layer (stage 6), where a workspace adds its own, and with the
+  passover where a screen needs one.
 
 ## The risks
 

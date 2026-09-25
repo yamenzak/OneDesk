@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-25 20:38+0000\n"
-"PO-Revision-Date: 2026-09-25 20:38+0000\n"
+"POT-Creation-Date: 2026-09-25 21:25+0000\n"
+"PO-Revision-Date: 2026-09-25 21:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -221,6 +221,12 @@ msgstr "حقل كتبه OneAI وما كتبه. تظهر الشارة ما دام
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 msgid "A field of the record, of the record it links to, or the one summed."
 msgstr "حقل من السجل، أو من السجل المرتبط به، أو الحقل الذي يُجمع."
+
+#. Description of the 'In the Tab Of' (Data) field in DocType 'Record Head
+#. Linked'
+#: onedesk/one/doctype/record_head_linked/record_head_linked.json
+msgid "A field of this record. The section goes at the end of its tab, or of the first tab when empty."
+msgstr "حقل من هذا السجل. يأتي القسم في آخر تبويبه، أو في آخر التبويب الأول إن تُرك فارغًا."
 
 #. Description of a DocType
 #: onedesk/one_intake/doctype/file_link/file_link.json
@@ -1145,7 +1151,7 @@ msgstr ""
 #. Label of the amount (Currency) field in DocType 'Offering'
 #. Label of the amount (Float) field in DocType 'Reading Line'
 #: onedesk/one_admin/doctype/offering/offering.json
-#: onedesk/one_book/heads.py:95 onedesk/one_intake/bundle.py:83
+#: onedesk/one_book/heads.py:97 onedesk/one_intake/bundle.py:83
 #: onedesk/one_intake/doctype/reading_line/reading_line.json
 #: onedesk/public/js/intake.js:161
 msgid "Amount"
@@ -1649,7 +1655,7 @@ msgid "Asset Value Adjustments"
 msgstr "تعديلات قيمة الأصول"
 
 #. Label of a Sidebar Item
-#: onedesk/one_inventory/heads.py:225
+#: onedesk/one_inventory/heads.py:227
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Assets"
 msgstr "الأصول"
@@ -1931,7 +1937,7 @@ msgstr ""
 msgid "Band"
 msgstr "الشريط"
 
-#: onedesk/one/head.py:145
+#: onedesk/one/head.py:146
 msgid "Band row {0}"
 msgstr "صف الشريط {0}"
 
@@ -3154,7 +3160,7 @@ msgstr "انسخ الملفات داخل {0}، لا المجلد، من الخا
 msgid "Correction"
 msgstr "تصحيح"
 
-#: onedesk/one_inventory/heads.py:271 onedesk/public/js/project.js:75
+#: onedesk/one_inventory/heads.py:273 onedesk/public/js/project.js:75
 msgid "Cost"
 msgstr "التكلفة"
 
@@ -3755,7 +3761,7 @@ msgid "Deployed Workers"
 msgstr "عمّال Workers المنشورة"
 
 #. Label of a Sidebar Item
-#: onedesk/one_inventory/heads.py:272
+#: onedesk/one_inventory/heads.py:274
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Depreciation"
 msgstr "الإهلاك"
@@ -3998,7 +4004,7 @@ msgstr ""
 msgid "Done When"
 msgstr "يكتمل عندما"
 
-#: onedesk/one/head.py:294 onedesk/one_ai/suggest.py:89
+#: onedesk/one/head.py:307 onedesk/one_ai/suggest.py:89
 msgid "Done."
 msgstr "تم."
 
@@ -4117,7 +4123,7 @@ msgid "Dropped"
 msgstr "أُسقط"
 
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
-#: onedesk/one_book/heads.py:137
+#: onedesk/one_book/heads.py:139
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_task/page/my_tasks/my_tasks.js:43
 #: onedesk/public/js/project.js:73
@@ -4320,7 +4326,7 @@ msgstr "الإمارة"
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:166
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/one_inventory/heads.py:190
+#: onedesk/one_inventory/heads.py:192
 #: onedesk/public/js/leave_control_panel.js:33 onedesk/public/js/overtime.js:14
 msgid "Employee"
 msgstr "الموظف"
@@ -4869,6 +4875,22 @@ msgstr "جلب تفاصيل العمل الإضافي"
 msgid "Field"
 msgstr ""
 
+#. Label of the fields (Small Text) field in DocType 'Record Head Linked'
+#: onedesk/one/doctype/record_head_linked/record_head_linked.json
+msgid "Fields"
+msgstr ""
+
+#. Description of the 'Linked Sections' (Table) field in DocType 'Record Head'
+#: onedesk/one/doctype/record_head/record_head.json
+msgid "Fields of a record this one links to, edited here and saved in the same save."
+msgstr "حقول سجل يرتبط به هذا السجل، تُحرر هنا وتُحفظ في الحفظ نفسه."
+
+#. Description of the 'Fields' (Small Text) field in DocType 'Record Head
+#. Linked'
+#: onedesk/one/doctype/record_head_linked/record_head_linked.json
+msgid "Fields of the linked record, one to a line. Each is edited there, and saved with this record."
+msgstr "حقول السجل المرتبط، حقل في كل سطر. يُحرر كل منها هناك ويُحفظ مع هذا السجل."
+
 #. Label of the file (Link) field in DocType 'File Link'
 #. Label of the label (Data) field in DocType 'Cloud File Request Item'
 #. Label of the item (Data) field in DocType 'Cloud File Request Upload'
@@ -5251,7 +5273,7 @@ msgstr "تجربة مجانية (أيام)"
 msgid "Free for {0} days"
 msgstr "مجاناً لمدة {0} يوماً"
 
-#: onedesk/one_inventory/heads.py:249
+#: onedesk/one_inventory/heads.py:251
 msgid "Free to Sell"
 msgstr "متاح للبيع"
 
@@ -5369,15 +5391,15 @@ msgstr "تواصل معنا"
 msgid "Get in Touch Form"
 msgstr "نموذج تواصل معنا"
 
-#: onedesk/one_inventory/heads.py:184 onedesk/public/js/tenant.js:126
+#: onedesk/one_inventory/heads.py:186 onedesk/public/js/tenant.js:126
 msgid "Give"
 msgstr "امنح"
 
-#: onedesk/one_inventory/heads.py:183
+#: onedesk/one_inventory/heads.py:185
 msgid "Give To"
 msgstr "إعطاء إلى"
 
-#: onedesk/one_inventory/heads.py:182
+#: onedesk/one_inventory/heads.py:184
 msgid "Give To…"
 msgstr "إعطاء إلى…"
 
@@ -5402,7 +5424,7 @@ msgstr "حدّد عميلًا لـ {0} لفوترة وقته."
 msgid "Given"
 msgstr "مُقدَّم"
 
-#: onedesk/one_inventory/heads.py:196
+#: onedesk/one_inventory/heads.py:198
 msgid "Given."
 msgstr "تم التسليم."
 
@@ -5561,11 +5583,11 @@ msgstr ""
 msgid "Half day"
 msgstr "نصف يوم"
 
-#: onedesk/one_inventory/heads.py:183
+#: onedesk/one_inventory/heads.py:185
 msgid "Hand To Somebody Else"
 msgstr "تسليم إلى شخص آخر"
 
-#: onedesk/one_inventory/heads.py:182
+#: onedesk/one_inventory/heads.py:184
 msgid "Hand To…"
 msgstr "تسليم إلى…"
 
@@ -5587,6 +5609,11 @@ msgstr "فيها مرفق"
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:15
 msgid "Head Office"
 msgstr "المكتب الرئيسي"
+
+#. Label of the label (Data) field in DocType 'Record Head Linked'
+#: onedesk/one/doctype/record_head_linked/record_head_linked.json
+msgid "Heading"
+msgstr ""
 
 #. Label of the one_health (Select) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
@@ -6043,6 +6070,11 @@ msgstr "بكلمات بسيطة، على ماذا وافقت أنا ومؤسست
 msgid "In the Recycle Bin"
 msgstr "في سلة المحذوفات"
 
+#. Label of the placed_in (Data) field in DocType 'Record Head Linked'
+#: onedesk/one/doctype/record_head_linked/record_head_linked.json
+msgid "In the Tab Of"
+msgstr "في تبويب"
+
 #: onedesk/one_project/portal.py:143 onedesk/public/js/project.js:72
 msgid "In {0} days"
 msgstr "خلال {0} يوم"
@@ -6108,7 +6140,7 @@ msgstr ""
 msgid "Indicator"
 msgstr ""
 
-#: onedesk/one/head.py:140
+#: onedesk/one/head.py:141
 msgid "Indicator {0}"
 msgstr "المؤشر {0}"
 
@@ -6582,7 +6614,7 @@ msgstr "الاحتفاظ بالاثنين"
 msgid "Kept"
 msgstr "محفوظة"
 
-#: onedesk/one_inventory/heads.py:207
+#: onedesk/one_inventory/heads.py:209
 msgid "Kept At"
 msgstr "محفوظ في"
 
@@ -6693,7 +6725,7 @@ msgstr "اللغة والوقت"
 msgid "Last Address"
 msgstr "آخر عنوان"
 
-#: onedesk/one_inventory/heads.py:260
+#: onedesk/one_inventory/heads.py:262
 msgid "Last Bought"
 msgstr "آخر شراء"
 
@@ -7176,6 +7208,12 @@ msgstr "رُبطت عبر"
 msgid "Linked Field"
 msgstr "حقل مرتبط"
 
+#. Label of the linked_section (Section Break) field in DocType 'Record Head'
+#. Label of the linked (Table) field in DocType 'Record Head'
+#: onedesk/one/doctype/record_head/record_head.json
+msgid "Linked Sections"
+msgstr "الأقسام المرتبطة"
+
 #. Label of the for_name (Dynamic Link) field in DocType 'File Link'
 #: onedesk/one_intake/doctype/file_link/file_link.json
 msgid "Linked To"
@@ -7185,6 +7223,10 @@ msgstr "مرتبط بـ"
 #: onedesk/one_intake/doctype/file_link/file_link.json
 msgid "Linked To Type"
 msgstr "نوع المرتبط به"
+
+#: onedesk/one/linked.py:89
+msgid "Linked section {0}"
+msgstr "القسم المرتبط {0}"
 
 #: onedesk/one_intake/panel.py:219
 msgid "Linked to {0}"
@@ -8252,7 +8294,7 @@ msgstr ""
 msgid "Next 7 Days"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:274
+#: onedesk/one_inventory/heads.py:276
 msgid "Next Depreciation"
 msgstr "الإهلاك التالي"
 
@@ -8265,7 +8307,7 @@ msgstr "المرحلة التالية"
 msgid "Next Run"
 msgstr "التشغيل التالي"
 
-#: onedesk/one_inventory/heads.py:277
+#: onedesk/one_inventory/heads.py:279
 msgid "Next Service"
 msgstr "الصيانة التالية"
 
@@ -8295,7 +8337,7 @@ msgstr "تمت الخطوة التالية"
 msgid "Next Step Due"
 msgstr "موعد الخطوة التالية"
 
-#: onedesk/one_book/heads.py:63
+#: onedesk/one_book/heads.py:65
 msgid "Next on {0}"
 msgstr "التالي في {0}"
 
@@ -8443,7 +8485,7 @@ msgstr "لا توجد قواعد بعد."
 msgid "No salary slips yet for {0} to {1}."
 msgstr "لا توجد كشوف رواتب بعد من {0} إلى {1}."
 
-#: onedesk/one_inventory/heads.py:132
+#: onedesk/one_inventory/heads.py:134
 msgid "No schedule"
 msgstr "لا يوجد جدول"
 
@@ -8475,7 +8517,7 @@ msgstr "لم تنتهِ أي سنة بقيود مفتوحة."
 msgid "No {0} bucket is configured."
 msgstr "لم تُضبط حاوية {0}."
 
-#: onedesk/one_inventory/heads.py:145
+#: onedesk/one_inventory/heads.py:147
 msgid "Nobody"
 msgstr "لا أحد"
 
@@ -8511,7 +8553,7 @@ msgstr "لا أحد لتذكيره، أو لا يوجد بريد إلكترون�
 msgid "None in the list."
 msgstr "لا شيء في القائمة."
 
-#: onedesk/one_inventory/heads.py:119
+#: onedesk/one_inventory/heads.py:121
 msgid "None left"
 msgstr "لم يتبقَّ شيء"
 
@@ -8562,7 +8604,7 @@ msgstr "غير محفوظ"
 msgid "Not Shown"
 msgstr "غير معروض"
 
-#: onedesk/one_inventory/heads.py:233
+#: onedesk/one_inventory/heads.py:235
 msgid "Not Yet Registered"
 msgstr "لم تُسجّل بعد"
 
@@ -8829,7 +8871,7 @@ msgstr ""
 msgid "Now"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:124
+#: onedesk/one_inventory/heads.py:126
 msgid "Nowhere yet"
 msgstr "لا مكان بعد"
 
@@ -8950,7 +8992,7 @@ msgstr "نيابةً عن"
 msgid "On Everybody's Calendar"
 msgstr "في تقويم الجميع"
 
-#: onedesk/one_inventory/heads.py:243
+#: onedesk/one_inventory/heads.py:245
 msgid "On Hand"
 msgstr "المتوفر"
 
@@ -8959,7 +9001,7 @@ msgstr "المتوفر"
 msgid "On Hold"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:251
+#: onedesk/one_inventory/heads.py:253
 msgid "On Order"
 msgstr "قيد الطلب"
 
@@ -9803,7 +9845,7 @@ msgstr "Outlook"
 msgid "Output Tokens"
 msgstr "رموز المخرجات"
 
-#: onedesk/one_book/heads.py:136
+#: onedesk/one_book/heads.py:138
 msgid "Outstanding"
 msgstr "المتبقي"
 
@@ -9910,11 +9952,11 @@ msgstr "الصفحات"
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:10
-#: onedesk/one_book/heads.py:138 onedesk/www/projects.html:86
+#: onedesk/one_book/heads.py:140 onedesk/www/projects.html:86
 msgid "Paid"
 msgstr "المدفوع"
 
-#: onedesk/one_book/heads.py:104
+#: onedesk/one_book/heads.py:106
 msgid "Paid From"
 msgstr "مدفوع من"
 
@@ -9924,11 +9966,11 @@ msgstr "مدفوع من"
 msgid "Paid How"
 msgstr "طريقة الدفع"
 
-#: onedesk/one_book/heads.py:104
+#: onedesk/one_book/heads.py:106
 msgid "Paid Into"
 msgstr "مدفوع إلى"
 
-#: onedesk/one_book/heads.py:100
+#: onedesk/one_book/heads.py:102
 msgid "Paid On"
 msgstr "تاريخ الدفع"
 
@@ -10141,7 +10183,7 @@ msgstr "دفعة متأخرة. ستُوقَف مساحة العمل هذه ال�
 msgid "Payment received. The workspace is being built."
 msgstr "استُلمت الدفعة. ويجري إنشاء مساحة العمل."
 
-#: onedesk/one_book/heads.py:121
+#: onedesk/one_book/heads.py:123
 msgid "Payment {0} recorded."
 msgstr "تم تسجيل الدفعة {0}."
 
@@ -11129,7 +11171,7 @@ msgstr "المستلم"
 #. Request'
 #: onedesk/one/doctype/record_head/record_head.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_ai/doctype/ai_touch/ai_touch.json onedesk/one_book/heads.py:128
+#: onedesk/one_ai/doctype/ai_touch/ai_touch.json onedesk/one_book/heads.py:130
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/report/deadlines/deadlines.py:43
@@ -11167,6 +11209,11 @@ msgid "Record Head Indicator"
 msgstr "مؤشر رأس السجل"
 
 #. Name of a DocType
+#: onedesk/one/doctype/record_head_linked/record_head_linked.json
+msgid "Record Head Linked"
+msgstr "قسم مرتبط برأس السجل"
+
+#. Name of a DocType
 #: onedesk/one/doctype/record_head_sentence/record_head_sentence.json
 msgid "Record Head Sentence"
 msgstr "جملة رأس السجل"
@@ -11181,7 +11228,7 @@ msgstr "إجراء رأس السجل"
 msgid "Record Overtime"
 msgstr "تسجيل عمل إضافي"
 
-#: onedesk/one_book/heads.py:127
+#: onedesk/one_book/heads.py:129
 msgid "Record Payment"
 msgstr "تسجيل دفعة"
 
@@ -11279,7 +11326,7 @@ msgstr "سلة المحذوفات"
 #. Label of the value (Data) field in DocType 'Reading Reference'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
-#: onedesk/one_book/heads.py:113
+#: onedesk/one_book/heads.py:115
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_intake/panel.py:106 onedesk/one_intake/panel.py:133
@@ -11294,11 +11341,11 @@ msgstr "المرجع"
 msgid "References"
 msgstr "المراجع"
 
-#: onedesk/public/js/onecloud.js:110 onedesk/public/js/onecloud.js:1800
-#: onedesk/public/js/onecloud.js:1801 onedesk/public/js/onecloud.js:1821
-#: onedesk/public/js/onemail.js:86 onedesk/public/js/shell.js:203
-#: onedesk/public/js/tenant.js:78 onedesk/public/js/tenant.js:83
-#: onedesk/public/js/tenant_domain.js:12
+#: onedesk/public/js/head.js:209 onedesk/public/js/onecloud.js:110
+#: onedesk/public/js/onecloud.js:1800 onedesk/public/js/onecloud.js:1801
+#: onedesk/public/js/onecloud.js:1821 onedesk/public/js/onemail.js:86
+#: onedesk/public/js/shell.js:203 onedesk/public/js/tenant.js:78
+#: onedesk/public/js/tenant.js:83 onedesk/public/js/tenant_domain.js:12
 #: onedesk/public/js/workspace_account.js:19
 msgid "Refresh"
 msgstr "تحديث"
@@ -11496,7 +11543,7 @@ msgstr "جدد {0} الخاص بـ {1}"
 msgid "Reopen"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:258
+#: onedesk/one_inventory/heads.py:260
 msgid "Reorder"
 msgstr "إعادة الطلب"
 
@@ -11522,11 +11569,11 @@ msgstr "الإصلاحات"
 msgid "Repeating"
 msgstr "المتكررة"
 
-#: onedesk/one_book/heads.py:140
+#: onedesk/one_book/heads.py:142
 msgid "Repeats"
 msgstr "يتكرر"
 
-#: onedesk/one_book/heads.py:62
+#: onedesk/one_book/heads.py:64
 msgid "Repeats {0}"
 msgstr "يتكرر {0}"
 
@@ -12175,7 +12222,7 @@ msgstr "أُرسل: {0}"
 msgid "Sentence"
 msgstr "الجملة"
 
-#: onedesk/one/head.py:142 onedesk/one/head.py:143
+#: onedesk/one/head.py:143 onedesk/one/head.py:144
 msgid "Sentence {0}"
 msgstr "الجملة {0}"
 
@@ -13317,7 +13364,7 @@ msgstr ""
 msgid "Tagged it {0}"
 msgstr "وسمه بـ {0}"
 
-#: onedesk/one_inventory/heads.py:200 onedesk/one_inventory/heads.py:201
+#: onedesk/one_inventory/heads.py:202 onedesk/one_inventory/heads.py:203
 msgid "Take Back"
 msgstr "استرجاع"
 
@@ -13349,7 +13396,7 @@ msgstr "إزالة من هذا السجل"
 msgid "Take this back?"
 msgstr "التراجع عن هذا؟"
 
-#: onedesk/one_inventory/heads.py:213
+#: onedesk/one_inventory/heads.py:215
 msgid "Taken back."
 msgstr "تم الاسترجاع."
 
@@ -13804,7 +13851,7 @@ msgstr "لا يحتوي دليل الحسابات على مجموعة للحسا
 msgid "The check-in could not be recorded."
 msgstr "تعذّر تسجيل الحضور."
 
-#: onedesk/one_book/heads.py:114
+#: onedesk/one_book/heads.py:116
 msgid "The cheque or transfer number. The invoice's number when left empty."
 msgstr "رقم الشيك أو التحويل. يُستخدم رقم الفاتورة إذا تُرك فارغًا."
 
@@ -14132,6 +14179,11 @@ msgstr "السجل أو القراءة التي عُرف منها."
 msgid "The record's own link to the one whose field is shown."
 msgstr "رابط السجل نفسه إلى السجل الذي يُعرض حقله."
 
+#. Description of the 'Through' (Data) field in DocType 'Record Head Linked'
+#: onedesk/one/doctype/record_head_linked/record_head_linked.json
+msgid "The record's own link to the one whose fields are shown."
+msgstr "رابط السجل نفسه إلى السجل الذي تُعرض حقوله."
+
 #: onedesk/public/js/shift_request.js:11
 msgid "The request is closed and nobody is assigned anything."
 msgstr "يُغلق الطلب ولا يُكلَّف أحد بشيء."
@@ -14444,7 +14496,7 @@ msgstr "رابط التقويم هذا لم يعد يعمل."
 msgid "This cannot be changed later. Files stay where the workspace was built."
 msgstr "لا يمكن تغيير هذا لاحقاً. تبقى الملفات حيث أُنشئت مساحة العمل."
 
-#: onedesk/one/head.py:292
+#: onedesk/one/head.py:305
 msgid "This cannot be done to {0} now."
 msgstr "لا يمكن تنفيذ هذا على {0} الآن."
 
@@ -14624,7 +14676,9 @@ msgid "Thread"
 msgstr "المحادثة"
 
 #. Label of the link_field (Data) field in DocType 'Record Head Band'
+#. Label of the link_field (Data) field in DocType 'Record Head Linked'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
+#: onedesk/one/doctype/record_head_linked/record_head_linked.json
 msgid "Through"
 msgstr "عبر"
 
@@ -14825,7 +14879,7 @@ msgstr "رسائل بريد كثيرة؟"
 
 #. Label of the gross (Float) field in DocType 'Reading'
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:58
-#: onedesk/one_book/heads.py:139
+#: onedesk/one_book/heads.py:141
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
 #: onedesk/one_intake/panel.py:138
@@ -15381,7 +15435,7 @@ msgstr ""
 msgid "Verb"
 msgstr "الإجراء"
 
-#: onedesk/one/head.py:173
+#: onedesk/one/head.py:179
 msgid "Verb {0} is {1}, which no module has."
 msgstr "الإجراء {0} هو {1}، ولا تملكه أي وحدة."
 
@@ -15979,7 +16033,7 @@ msgstr "عندما تطلب من OneAI تذكّر شيء ما، يظهر هنا.
 
 #. Label of the where_section (Section Break) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
-#: onedesk/one_inventory/heads.py:275
+#: onedesk/one_inventory/heads.py:277
 msgid "Where"
 msgstr "الموقع"
 
@@ -16103,7 +16157,7 @@ msgstr "من"
 msgid "Who HR calls if something happens to you at work."
 msgstr "من تتصل به الموارد البشرية إن حدث لك شيء في العمل."
 
-#: onedesk/one_inventory/heads.py:283
+#: onedesk/one_inventory/heads.py:285
 msgid "Who Has It"
 msgstr "مع مَن"
 
@@ -16395,11 +16449,11 @@ msgstr "لن تعود مساحات العمل قادرة على اختيار ه�
 msgid "Workspaces get their mail addresses here, for example m.4dl.app. It must be in the same zone as the workspace domain."
 msgstr "تحصل مساحات العمل على عناوين بريدها هنا، مثل m.4dl.app. يجب أن يكون في منطقة نطاق مساحة العمل نفسها."
 
-#: onedesk/one_inventory/heads.py:257
+#: onedesk/one_inventory/heads.py:259
 msgid "Worth"
 msgstr "القيمة"
 
-#: onedesk/one_inventory/heads.py:270
+#: onedesk/one_inventory/heads.py:272
 msgid "Worth Now"
 msgstr "القيمة الآن"
 
@@ -16484,7 +16538,7 @@ msgstr "كتابة"
 msgid "Writing it down again. The transcript and my remarks follow when I am done."
 msgstr "أفرّغه كتابيًا من جديد. سيتبع النص وتعليقاتي عند الانتهاء."
 
-#: onedesk/one_inventory/heads.py:273
+#: onedesk/one_inventory/heads.py:275
 msgid "Written Off"
 msgstr "المُهلك"
 
@@ -17318,6 +17372,10 @@ msgstr "{0} و{1} ليسا في منطقة واحدة."
 msgid "{0} and {1} more"
 msgstr "{0} و{1} أخرى"
 
+#: onedesk/one/linked.py:212
+msgid "{0} are not in this section."
+msgstr "{0} ليست في هذا القسم."
+
 #: onedesk/www/r.html:22
 msgid "{0} asks you for these files."
 msgstr "يطلب منك {0} هذه الملفات."
@@ -17380,6 +17438,10 @@ msgstr "{0} فئات، لكل منها حسابها وطريقة إهلاكها.
 msgid "{0} changed after this was suggested, so it no longer applies."
 msgstr "تغيّر {0} بعد اقتراح هذا، فلم يعد ينطبق."
 
+#: onedesk/one/linked.py:205
+msgid "{0} changed in this save. Save it first, then edit what it links to."
+msgstr "تغيّر {0} في هذا الحفظ. احفظه أولًا، ثم حرر ما يرتبط به."
+
 #: onedesk/public/js/oneai/Record.vue:139
 msgid "{0} changes to {1}"
 msgstr "{0} تغييرات على {1}"
@@ -17396,7 +17458,7 @@ msgstr "طالب {0} بمبلغ {1} عن {2}، المقبول منه {3} — و�
 msgid "{0} could not be registered; each says why on its page."
 msgstr "تعذّر تسجيل {0}؛ كلٌّ منها يذكر السبب في صفحته."
 
-#: onedesk/one/head.py:160
+#: onedesk/one/head.py:163
 msgid "{0} counts nothing."
 msgstr "{0} لا يعدّ شيئًا."
 
@@ -17518,7 +17580,7 @@ msgstr "{0} عن {1}: {2} من {3} يوماً مدفوعة."
 msgid "{0} from {1} · {2}"
 msgstr "{0} من {1} · {2}"
 
-#: onedesk/one/head.py:155
+#: onedesk/one/head.py:156 onedesk/one/linked.py:92
 msgid "{0} goes through {1}, which is not a link."
 msgstr "{0} يمر عبر {1}، وهو ليس رابطًا."
 
@@ -17545,6 +17607,10 @@ msgstr "لا يوجد حضور مُسجَّل لـ {0} في {1}."
 #: onedesk/one_project/billing.py:66
 msgid "{0} has no billable time that is not invoiced yet."
 msgstr "لا يوجد في {0} وقت قابل للفوترة لم يُفوتر بعد."
+
+#: onedesk/one/linked.py:202
+msgid "{0} has no section through {1}."
+msgstr "لا يوجد في {0} قسم عبر {1}."
 
 #: onedesk/one_project/templates.py:93
 msgid "{0} has no tasks to make a template from."
@@ -17634,6 +17700,10 @@ msgstr "{0} مفوتر {1} مرات ومطلوب {2}."
 msgid "{0} is in somebody else's files. Copy it instead."
 msgstr "{0} ضمن ملفات شخص آخر. انسخه بدلًا من ذلك."
 
+#: onedesk/one/linked.py:80
+msgid "{0} is kept to some people."
+msgstr "{0} مقصور على بعض الأشخاص."
+
 #: onedesk/one_ai/files.py:85
 msgid "{0} is larger than {1} MB, which is as much as one question may carry."
 msgstr "{0} أكبر من {1} ميغابايت، وهذا أقصى ما يحمله سؤال واحد."
@@ -17654,6 +17724,10 @@ msgstr "{0} أكثر من المتبقي {1}."
 msgid "{0} is not a capability any model carries."
 msgstr "{0} ليست قدرة يحملها أي نموذج."
 
+#: onedesk/one/linked.py:76
+msgid "{0} is not a field to edit."
+msgstr "{0} ليس حقلًا للتحرير."
+
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.py:50
 msgid "{0} is not a grant."
 msgstr "{0} ليست منحة."
@@ -17670,7 +17744,7 @@ msgstr "{0} ليس من أنواع الملفات المقبولة هنا."
 msgid "{0} is not a library."
 msgstr "{0} ليس مكتبة."
 
-#: onedesk/one/head.py:133
+#: onedesk/one/head.py:134
 msgid "{0} is not a list of filters."
 msgstr "{0} ليس قائمة مرشحات."
 
@@ -17694,7 +17768,7 @@ msgstr "{0} ليس عنواناً أو نطاقاً صالحاً. مثال: 203.
 msgid "{0} is not a workspace."
 msgstr "{0} ليست مساحة عمل."
 
-#: onedesk/one/head.py:289
+#: onedesk/one/head.py:302
 msgid "{0} is not offered here."
 msgstr "{0} غير متاح هنا."
 
@@ -17710,7 +17784,7 @@ msgstr "{0} ليس على مساحة العمل هذه."
 msgid "{0} is not somebody who works here."
 msgstr "{0} ليس ممن يعملون هنا."
 
-#: onedesk/one/head.py:175
+#: onedesk/one/head.py:181
 msgid "{0} is not something done to {1}."
 msgstr "{0} ليس مما يُنفذ على {1}."
 
@@ -17750,6 +17824,10 @@ msgstr "{0} محجوز."
 #: onedesk/one_storage/library.py:123
 msgid "{0} is the last owner of {1}. Make somebody else an owner first."
 msgstr "{0} هو آخر مالك لـ {1}. اجعل شخصًا آخر مالكًا أولًا."
+
+#: onedesk/one/linked.py:78
+msgid "{0} is worked out, not typed."
+msgstr "{0} يُحسب ولا يُكتب."
 
 #: onedesk/one_admin/doctype/ai_model/ai_model.py:25
 msgid "{0} is {1}, so it cannot be offered."
@@ -17795,11 +17873,12 @@ msgstr "{0} أشهر"
 msgid "{0} must be kept until {1} by law, and cannot be deleted before then."
 msgstr "يجب حفظ {0} حتى {1} بحكم القانون، ولا يمكن حذفه قبل ذلك."
 
-#: onedesk/one/head.py:168
+#: onedesk/one/head.py:173
 msgid "{0} names the measure {1}, which no module has."
 msgstr "{0} يذكر المقياس {1}، ولا تملكه أي وحدة."
 
-#: onedesk/one/head.py:127 onedesk/one/head.py:157
+#: onedesk/one/head.py:127 onedesk/one/head.py:159 onedesk/one/linked.py:95
+#: onedesk/one/linked.py:106
 msgid "{0} names {1}, which {2} does not have."
 msgstr "{0} يذكر {1}، وهو غير موجود في {2}."
 
@@ -17867,7 +17946,7 @@ msgstr "{0} على عدّاد المسافة منذ السجل السابق، م
 msgid "{0} on the odometer since the last log."
 msgstr "{0} على عدّاد المسافة منذ السجل السابق."
 
-#: onedesk/one_ai/proposals.py:413 onedesk/one_inventory/heads.py:120
+#: onedesk/one_ai/proposals.py:413 onedesk/one_inventory/heads.py:122
 #: onedesk/public/js/push.js:47 onedesk/public/js/settings.js:559
 msgid "{0} on {1}"
 msgstr "{0} على {1}"
@@ -17920,6 +17999,10 @@ msgstr "شارك {0} هذا المجلد معك."
 msgid "{0} shared this with you."
 msgstr "شارك {0} هذا معك."
 
+#: onedesk/one/linked.py:101
+msgid "{0} shows nothing."
+msgstr "{0} لا يعرض شيئًا."
+
 #: onedesk/public/js/tenant.js:169
 msgid "{0} signed for and not yet counted."
 msgstr "{0} وُقِّع عليها ولم تُحتسب بعد."
@@ -17928,11 +18011,11 @@ msgstr "{0} وُقِّع عليها ولم تُحتسب بعد."
 msgid "{0} submitted."
 msgstr "اعتُمد {0}."
 
-#: onedesk/one/head.py:166
+#: onedesk/one/head.py:170
 msgid "{0} sums {1}, which {2} does not have."
 msgstr "{0} يجمع {1}، وهو غير موجود في {2}."
 
-#: onedesk/one/head.py:149
+#: onedesk/one/head.py:150
 msgid "{0} takes its value from nowhere."
 msgstr "{0} لا يأخذ قيمته من أي مصدر."
 
@@ -18010,9 +18093,21 @@ msgstr "{0} سنوات"
 msgid "{0} {1} is not there."
 msgstr "{0} {1} غير موجود."
 
+#: onedesk/one/linked.py:229
+msgid "{0} {1} is submitted, and these cannot change now."
+msgstr "تم اعتماد {0} {1}، ولا يمكن تغيير هذه الآن."
+
 #: onedesk/public/js/ai_model.js:101
 msgid "{0} {1} of {2} {3}"
 msgstr "{0} {1} من {2} {3}"
+
+#: onedesk/public/js/head.js:204
+msgid "{0} {1} was changed by somebody else after you opened this. Refresh to see it."
+msgstr "غيّر شخص آخر {0} {1} بعد أن فتحت هذا. حدّث الصفحة لتراه."
+
+#: onedesk/one/linked.py:220
+msgid "{0} {1} was changed by somebody else after you opened this. Refresh to see it; nothing was saved."
+msgstr "غيّر شخص آخر {0} {1} بعد أن فتحت هذا. حدّث الصفحة لتراه؛ لم يُحفظ شيء."
 
 #: onedesk/public/js/employee_promotion.js:31
 msgid "{0} {1} → {2}"
@@ -18030,7 +18125,7 @@ msgstr "{0} · بعد {1} أيام"
 msgid "{0} · waiting for you"
 msgstr "{0} · بانتظارك"
 
-#: onedesk/one_inventory/heads.py:137
+#: onedesk/one_inventory/heads.py:139
 msgid "{0} · {1}"
 msgstr "{0} · {1}"
 

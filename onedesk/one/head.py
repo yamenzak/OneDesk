@@ -32,6 +32,8 @@ from frappe import _
 from frappe.utils import cstr
 from frappe.utils.data import evaluate_filters
 
+from onedesk.one import linked
+
 CACHE = "one_record_heads"
 SOURCES = ("Field", "Linked Field", "Count", "Sum", "Measure")
 TONES = ("", "quiet", "waiting", "alarm")
@@ -169,6 +171,7 @@ def validate(head) -> None:
 			)
 		if row.source == "Measure" and row.measure not in measures():
 			frappe.throw(_("{0} names the measure {1}, which no module has.").format(where, row.measure))
+	linked.validate(head)
 	registered = verbs()
 	for row in head.verbs:
 		verb = registered.get(row.verb)
@@ -206,6 +209,7 @@ def said(doc, head) -> dict:
 		"sentence": sentence and {"text": fill(_(sentence.text), _Formatted(doc)), "colour": sentence.colour},
 		"band": [stat for row in head.band if holds(doc, row.shown_when) and (stat := _stat(doc, row))],
 		"verbs": [verb for row in head.verbs if (verb := _verb(doc, row))],
+		"linked": linked.loaded(doc, head),
 	}
 
 
@@ -243,11 +247,11 @@ def _value(doc, row):
 		return doc.get_formatted(row.field) if doc.get(row.field) not in (None, "") else None
 	if row.source == "Linked Field":
 		target = doc.get(row.link_field)
-		linked = doc.meta.get_field(row.link_field).options
-		if not target or not frappe.has_permission(linked, "read", target):
+		through = doc.meta.get_field(row.link_field).options
+		if not target or not frappe.has_permission(through, "read", target):
 			return None
-		value = frappe.db.get_value(linked, target, row.field)
-		df = frappe.get_meta(linked).get_field(row.field)
+		value = frappe.db.get_value(through, target, row.field)
+		df = frappe.get_meta(through).get_field(row.field)
 		return frappe.format_value(value, df) if value not in (None, "") else None
 	if row.source == "Count":
 		if not frappe.has_permission(row.of_doctype, "read"):
@@ -328,7 +332,7 @@ def _write(head: dict) -> None:
 		else frappe.new_doc("Record Head")
 	)
 	doc.update({"record_doctype": head["doctype"], "module": head["module"], "enabled": 1})
-	for table in ("indicators", "sentences", "band", "verbs"):
+	for table in ("indicators", "sentences", "band", "verbs", "linked"):
 		doc.set(table, [])
 		for row in head.get(table) or []:
 			row = dict(row)

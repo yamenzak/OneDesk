@@ -8,9 +8,10 @@
 | Doctype | Fields | Kind |
 |---|--:|---|
 | Push Device | 7 | document |
-| Record Head | 11 | document |
+| Record Head | 13 | document |
 | Record Head Band | 11 | child |
 | Record Head Indicator | 3 | child |
+| Record Head Linked | 4 | child |
 | Record Head Sentence | 3 | child |
 | Record Head Verb | 3 | child |
 | Workspace Account | 28 | single |

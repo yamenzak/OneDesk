@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "creation": "2026-09-26 09:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "label",
+  "link_field",
+  "fields",
+  "placed_in"
+ ],
+ "fields": [
+  {
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "label": "Heading",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "link_field",
+   "fieldtype": "Data",
+   "label": "Through",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "The record's own link to the one whose fields are shown."
+  },
+  {
+   "fieldname": "fields",
+   "fieldtype": "Small Text",
+   "label": "Fields",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "Fields of the linked record, one to a line. Each is edited there, and saved with this record."
+  },
+  {
+   "fieldname": "placed_in",
+   "fieldtype": "Data",
+   "label": "In the Tab Of",
+   "description": "A field of this record. The section goes at the end of its tab, or of the first tab when empty."
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-09-26 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One",
+ "name": "Record Head Linked",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1278,6 +1278,20 @@ OVERRIDES = [
 		"get_doctype_fields() {",
 	),
 	(
+		"A record's linked sections are part of its form",
+		"head.js wraps Layout.get_doctype_fields to put each linked section, a Section Break and frappe's own controls for the linked record's fields, at the end of the tab its Record Head names",
+		"onedesk/public/js/head.js",
+		"frappe/frappe/public/js/frappe/form/layout.js",
+		"get_doctype_fields() {",
+	),
+	(
+		"A linked record's fields are saved in the record's own save",
+		"frappe keeps a key it does not know on the document it saves, so the form sends `__one_linked` with it and one/linked.py saves the linked record in the same request",
+		"onedesk/one/linked.py",
+		"frappe/frappe/desk/form/save.py",
+		"doc = frappe.get_doc(frappe.parse_json(doc))",
+	),
+	(
 		"Comments and the timeline live in an Activity tab, not under every tab",
 		"record_activity.js moves frm.footer.wrapper, Frappe's comment box and timeline, into the last tab's pane; Frappe sketched the same tab and left it commented out",
 		"onedesk/public/js/record_activity.js",

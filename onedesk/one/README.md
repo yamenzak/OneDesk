@@ -256,6 +256,7 @@ For the people who build One. OneAI does not read past this heading.
 | `rules.py` | The workspace's own notification rules: frappe's Notification, held to what a workspace rule may do |
 | `custom/notification_type.json` | What a Notification Type carries here: its app, text and channels |
 | `head.py`, `doctype/record_head*`, `../public/js/head.js` | What a record's form says above its fields, as rows: see below |
+| `linked.py` | Fields of a linked record, edited on the form and saved in its save |
 
 **A record's head is rows.** The pill beside a form's title, the sentence
 under it, the band of numbers and the verbs a person presses are a **Record
@@ -274,6 +275,14 @@ done. A condition is frappe's filters, and a template names only
 (`one_record_heads`) and `head.install` writes them on every migrate. Nobody
 edits a Record Head on the desk yet; docs/SHELL.md, stage 6, is how a
 workspace will.
+
+**A linked section** puts fields of the record a form links to (the
+holder's mobile on an asset) on the form itself, in frappe's own controls,
+and saves them in the form's own save: `__one_linked` carries what changed
+and the `modified` it was read at, and `linked.save` (on_update and
+on_update_after_submit) saves the linked record in the same transaction,
+refusing a stale one. The linked record's own permissions decide who sees
+and who edits.
 
 Profile writes a person's own User record, and their own Employee record when
 they have one (`own.employee_of`), and only the fields named in `PROFILE` and

@@ -232,7 +232,11 @@ doc_events = {
 			"onedesk.one_intake.mark.looked_at",
 			# A task step that waits for this record's state. See one_intake/steps.py.
 			"onedesk.one_intake.steps.record_changed",
+			# The linked record's fields edited on this form, in the same save.
+			# See one/linked.py.
+			"onedesk.one.linked.save",
 		],
+		"on_update_after_submit": "onedesk.one.linked.save",
 		"on_cancel": ["onedesk.one_intake.mark.looked_at", "onedesk.one_intake.steps.record_changed"],
 		"before_rename": "onedesk.one_intake.mark.before_rename",
 		"after_rename": ["onedesk.one_intake.identity.renamed", "onedesk.one_intake.mark.after_rename"],
