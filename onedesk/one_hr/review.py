@@ -71,22 +71,14 @@ def tell(attempt: str, employee: str, signals: list[str]) -> None:
 	a flag worth raising at all is worth being able to judge from the phone
 	that buzzed.
 	"""
+	from onedesk.one import notify
 	from onedesk.one_hr import rules
 
 	name = frappe.db.get_value("Employee", employee, "employee_name") or employee
 	told = "\n".join(f"• {_(rules.says(signal))}" for signal in dict.fromkeys(signals))
-	for user in _reviewers():
-		frappe.get_doc(
-			{
-				"doctype": "Notification Log",
-				"for_user": user,
-				"type": "Alert",
-				"document_type": "Clock Attempt",
-				"document_name": attempt,
-				"subject": _("{0}'s check-in needs a look").format(name),
-				"email_content": told,
-			}
-		).insert(ignore_permissions=True)
+	notify.notify(
+		"Check-in Flagged", _reviewers(), record=("Clock Attempt", attempt), employee=name, reasons=told
+	)
 
 
 def _reviewers() -> list[str]:

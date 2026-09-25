@@ -126,23 +126,16 @@ Name nobody the grievance does not name. When in doubt about sensitive, answer t
 
 
 def _tell_hr(doc, sensitive: bool) -> None:
-	from frappe.desk.doctype.notification_log.notification_log import enqueue_create_notification
+	from onedesk.one import notify
 
 	users = trusted_users()
 	if not users:
 		return
-	subject = (
-		frappe._("A sensitive grievance was raised") if sensitive else frappe._("An urgent grievance was raised")
-	)
-	enqueue_create_notification(
+	notify.notify(
+		"Sensitive Grievance" if sensitive else "Urgent Grievance",
 		users,
-		{
-			"type": "Alert",
-			"document_type": "Employee Grievance",
-			"document_name": doc.name,
-			"subject": subject,
-			"from_user": hiring.AUTHOR,
-		},
+		record=("Employee Grievance", doc.name),
+		sender=hiring.AUTHOR,
 	)
 
 

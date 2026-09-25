@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-25 09:54+0000\n"
-"PO-Revision-Date: 2026-09-25 09:54+0000\n"
+"POT-Creation-Date: 2026-09-25 10:46+0000\n"
+"PO-Revision-Date: 2026-09-25 10:46+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -51,6 +51,46 @@ msgstr ""
 
 #: onedesk/public/js/intake.js:346
 msgid "1 not checked by a person"
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:50
+msgid "<b>{file}</b> arrived in <b>{folder}</b> through your link"
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:30
+msgid "<b>{sender}</b> sent <b>{item}</b> for <b>{request}</b>"
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:36
+msgid "<b>{sender}</b> sent everything for <b>{request}</b>"
+msgstr ""
+
+#: onedesk/one_intake/notifications.py:40
+msgid "<b>{title}</b> arrived after you closed this task."
+msgstr ""
+
+#: onedesk/one_intake/notifications.py:47
+msgid "<b>{title}</b> asks to be paid to an IBAN we do not have for <b>{supplier}</b>. Check with them by phone before paying."
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:23
+msgid "<b>{who}</b> added you to the library <b>{library}</b>"
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:58
+msgid "<b>{who}</b> asks you for files: <b>{request}</b>{note}{due}<br><br><a href=\"{link}\">Send them</a>"
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:70
+msgid "<b>{who}</b> is still waiting for files for <b>{request}</b>.<br><br><a href=\"{link}\">Send them</a>"
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:16
+msgid "<b>{who}</b> shared <b>{file}</b> with you"
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:81
+msgid "<b>{who}</b> shared <b>{file}</b> with you.<br><br><a href=\"{link}\">Open it</a><br><br>You will be asked for a code, which is sent to this address."
 msgstr ""
 
 #. Header text in the OneCRM Workspace
@@ -127,6 +167,10 @@ msgstr ""
 msgid "A check-in from outside the radius is allowed, and the distance is recorded on Clock Attempt. If unchecked, it is refused."
 msgstr ""
 
+#: onedesk/one_hr/notifications.py:40
+msgid "A check-in looked wrong, and waits for somebody to accept or reject it. Sent to its reviewers."
+msgstr ""
+
 #: onedesk/public/js/intake.js:203
 msgid "A copy of {0}"
 msgstr ""
@@ -166,6 +210,10 @@ msgstr ""
 
 #: onedesk/one_intake/planning.py:130
 msgid "A document arrived"
+msgstr ""
+
+#: onedesk/one_intake/notifications.py:39
+msgid "A document arrived for a task you had already closed. The task stays closed."
 msgstr ""
 
 #: onedesk/one_intake/planning.py:131
@@ -234,6 +282,10 @@ msgstr ""
 #. Description of the 'Household' (Check) field in DocType 'Intake Settings'
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
 msgid "A household keeps no books. No drafts are made, and Spending shows what was bought."
+msgstr ""
+
+#: onedesk/one_intake/notifications.py:46
+msgid "A known supplier's document asks to be paid to an IBAN we do not have for them."
 msgstr ""
 
 #: onedesk/one_book/ready.py:155
@@ -309,7 +361,7 @@ msgstr ""
 msgid "A network belongs to a Shift Location or to one employee, not to both."
 msgstr ""
 
-#: onedesk/one_hr/healing.py:267
+#: onedesk/one_hr/notifications.py:95
 msgid "A new check-in network or location was proposed"
 msgstr ""
 
@@ -345,6 +397,10 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:369
 msgid "A private link that shows your events, tasks and deadlines in Google Calendar, Outlook or on a phone."
+msgstr ""
+
+#: onedesk/one_project/notifications.py:10
+msgid "A project asks its people how it is going, as often as the project says. The email is one they can reply to, so it is always sent, and a project's own question is asked instead of this text."
 msgstr ""
 
 #. Description of a DocType
@@ -407,13 +463,17 @@ msgstr ""
 msgid "A second agent checks each document's actions, approves what is right and sends what is wrong to a person."
 msgstr ""
 
-#: onedesk/one_hr/ai_grievance.py:135
+#: onedesk/one_hr/notifications.py:24
 msgid "A sensitive grievance was raised"
 msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:146
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:82
 msgid "A sheet covers at most {0} days."
+msgstr ""
+
+#: onedesk/one_hr/notifications.py:51
+msgid "A shift has check-ins but writes no attendance from them. Sent to HR Managers, at most weekly."
 msgstr ""
 
 #. Description of a DocType
@@ -544,10 +604,12 @@ msgstr ""
 msgid "API Token"
 msgstr ""
 
+#. Label of the one_about (Small Text) field in DocType 'Notification Type'
 #. Label of the about (Small Text) field in DocType 'AI Action'
 #. Label of the about_section (Section Break) field in DocType 'AI Memory'
 #. Label of the about (Data) field in DocType 'Reading Date'
 #. Label of the one_about (Dynamic Link) field in DocType 'Task'
+#: onedesk/one/custom/notification_type.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
@@ -821,6 +883,10 @@ msgstr ""
 msgid "Added instructions are {0} characters; the most is {1}."
 msgstr ""
 
+#: onedesk/one_storage/notifications.py:20
+msgid "Added to a Library"
+msgstr ""
+
 #: onedesk/public/js/onemail.js:855
 msgid "Added to every message written from this address, whoever writes it. Leave it empty for none."
 msgstr ""
@@ -1064,6 +1130,10 @@ msgstr ""
 msgid "An email address for a person, a domain for an organisation."
 msgstr ""
 
+#: onedesk/one_hr/notifications.py:15
+msgid "An employee asks HR for a letter. Sent to HR Managers."
+msgstr ""
+
 #. Description of the Onboarding Step 'Add an employee'
 #: onedesk/one/onboarding_step/one_add_an_employee/one_add_an_employee.json
 msgid "An employee is the person behind the account: their role, their department, what they are paid. OneHR reads this."
@@ -1073,6 +1143,10 @@ msgstr ""
 #. DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "An employee who never checks out gets an OUT written at the shift end, marked Closed Automatically."
+msgstr ""
+
+#: onedesk/one_hr/notifications.py:65
+msgid "An employee's leaving date passed, but their status could not be set to Left. Sent to HR."
 msgstr ""
 
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.py:15
@@ -1088,7 +1162,7 @@ msgstr ""
 msgid "An item can have serial numbers or batches."
 msgstr ""
 
-#: onedesk/one_hr/ai_grievance.py:135
+#: onedesk/one_hr/notifications.py:32
 msgid "An urgent grievance was raised"
 msgstr ""
 
@@ -1144,6 +1218,11 @@ msgstr ""
 #. Description of the 'explanation' field in DocType 'Attendance Request'
 #: onedesk/one_hr/custom/attendance_request.json
 msgid "Anything the person deciding would need to know."
+msgstr ""
+
+#. Label of the one_app (Data) field in DocType 'Notification Type'
+#: onedesk/one/custom/notification_type.json
+msgid "App"
 msgstr ""
 
 #: onedesk/public/js/setup_wizard.js:24
@@ -1313,6 +1392,18 @@ msgstr ""
 
 #: onedesk/public/js/onemail.js:616
 msgid "Archived."
+msgstr ""
+
+#: onedesk/one_intake/notifications.py:37
+msgid "Arrived After Closing"
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:41
+msgid "Arrived Through a Link"
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:47
+msgid "Arrived Through a Link, One File"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:1391
@@ -2274,6 +2365,12 @@ msgstr ""
 msgid "Changing a price or a quota here does not change theirs."
 msgstr ""
 
+#. Label of the one_channels_section (Section Break) field in DocType
+#. 'Notification Type'
+#: onedesk/one/custom/notification_type.json
+msgid "Channels"
+msgstr ""
+
 #: onedesk/public/js/ai_model.js:41
 msgid "Charged at {0}× what the provider charges."
 msgstr ""
@@ -2340,6 +2437,18 @@ msgstr ""
 msgid "Check-in"
 msgstr ""
 
+#: onedesk/one_hr/notifications.py:76
+msgid "Check-in Closed for You"
+msgstr ""
+
+#: onedesk/one_hr/notifications.py:38
+msgid "Check-in Flagged"
+msgstr ""
+
+#: onedesk/one_hr/notifications.py:90
+msgid "Check-in Place Proposed"
+msgstr ""
+
 #. Label of the attempts (Int) field in DocType 'Clock Network'
 #. Label of the attempts (Int) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
@@ -2359,8 +2468,8 @@ msgstr ""
 msgid "Check-ins on this shift are not becoming attendance."
 msgstr ""
 
-#: onedesk/one_hr/setup.py:101
-msgid "Check-ins on {0} are not becoming attendance"
+#: onedesk/one_hr/notifications.py:54
+msgid "Check-ins on {shift} are not becoming attendance"
 msgstr ""
 
 #. Description of the 'Refuse Below Score' (Int) field in DocType 'HR Settings'
@@ -2569,7 +2678,7 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Cloud File Request'
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
-#: onedesk/one_storage/file_requests.py:191
+#: onedesk/one_storage/file_requests.py:184
 msgid "Closed"
 msgstr ""
 
@@ -2927,6 +3036,10 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Cost Centers"
+msgstr ""
+
+#: onedesk/one_hr/notifications.py:63
+msgid "Could Not Mark Left"
 msgstr ""
 
 #: onedesk/one_storage/mounts.py:338
@@ -3357,6 +3470,16 @@ msgstr ""
 #. Label of the default_markup (Float) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Default Markup"
+msgstr ""
+
+#. Label of the one_default_message (Code) field in DocType 'Notification Type'
+#: onedesk/one/custom/notification_type.json
+msgid "Default Message"
+msgstr ""
+
+#. Label of the one_default_subject (Code) field in DocType 'Notification Type'
+#: onedesk/one/custom/notification_type.json
+msgid "Default Subject"
 msgstr ""
 
 #: onedesk/one_book/report/books_check/books_check.js:47
@@ -3837,7 +3960,7 @@ msgstr ""
 msgid "Due This Week"
 msgstr ""
 
-#: onedesk/one_intake/digest.py:107
+#: onedesk/one_intake/digest.py:110
 msgid "Due in the next seven days"
 msgstr ""
 
@@ -3845,7 +3968,7 @@ msgstr ""
 msgid "Due today"
 msgstr ""
 
-#: onedesk/one_storage/file_requests.py:144 onedesk/www/r.html:23
+#: onedesk/one_storage/file_requests.py:141 onedesk/www/r.html:23
 msgid "Due {0}."
 msgstr ""
 
@@ -3934,6 +4057,11 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
+#. Label of the one_allow_email (Check) field in DocType 'Notification Type'
+#: onedesk/one/custom/notification_type.json
+msgid "Email Allowed"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Email Campaign"
@@ -3950,6 +4078,11 @@ msgstr ""
 
 #: onedesk/public/js/onecloud.js:1518
 msgid "Email addresses, one per line."
+msgstr ""
+
+#. Label of the one_email_default (Check) field in DocType 'Notification Type'
+#: onedesk/one/custom/notification_type.json
+msgid "Email for New People"
 msgstr ""
 
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
@@ -4523,6 +4656,22 @@ msgstr ""
 #. Name of a DocType
 #: onedesk/one_intake/doctype/file_link/file_link.json
 msgid "File Link"
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:54
+msgid "File Request"
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:27
+msgid "File Request Answered"
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:33
+msgid "File Request Complete"
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:64
+msgid "File Request Reminder"
 msgstr ""
 
 #. Label of the accept (Data) field in DocType 'Cloud File Request Item'
@@ -5327,8 +5476,8 @@ msgstr ""
 msgid "How good the browser said the position was."
 msgstr ""
 
-#: onedesk/one_project/updates.py:98
-msgid "How is {0} going?"
+#: onedesk/one_project/notifications.py:14
+msgid "How is {project} going?"
 msgstr ""
 
 #. Description of the 'standard_working_hours' field in DocType 'HR Settings'
@@ -5705,6 +5854,18 @@ msgstr ""
 msgid "Intake Settings"
 msgstr ""
 
+#: onedesk/one_intake/notifications.py:11
+msgid "Intake Waiting"
+msgstr ""
+
+#: onedesk/one_intake/notifications.py:18
+msgid "Intake Waiting, One Thing"
+msgstr ""
+
+#: onedesk/one_intake/notifications.py:26
+msgid "Intake Weekly"
+msgstr ""
+
 #: onedesk/public/js/desk.js:86
 msgid "Intake: {0} wait for you"
 msgstr ""
@@ -5923,6 +6084,16 @@ msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:27
 msgid "Jan"
+msgstr ""
+
+#. Description of the 'Subject' (Code) field in DocType 'Notification Type'
+#: onedesk/one/custom/notification_type.json
+msgid "Jinja. Left as it came, it is sent in each reader's own language."
+msgstr ""
+
+#. Description of the 'Message' (Code) field in DocType 'Notification Type'
+#: onedesk/one/custom/notification_type.json
+msgid "Jinja. The body of the mail, and the detail under the bell."
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -6507,6 +6678,10 @@ msgstr ""
 msgid "Letter From an Authority"
 msgstr ""
 
+#: onedesk/one_hr/notifications.py:13
+msgid "Letter Requested"
+msgstr ""
+
 #. Label of the kind (Select) field in DocType 'Employee Letter'
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 msgid "Letter Type"
@@ -6563,6 +6738,14 @@ msgstr ""
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 msgid "Link"
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:88
+msgid "Link Code"
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:77
+msgid "Link Shared"
 msgstr ""
 
 #. Label of the one_linked_by (Select) field in DocType 'Communication Link'
@@ -6853,6 +7036,24 @@ msgstr ""
 msgid "Mailboxes are connected and read in OneMail. Here you choose what you sign with."
 msgstr ""
 
+#. Description of the 'To Outside Addresses' (Check) field in DocType
+#. 'Notification Type'
+#: onedesk/one/custom/notification_type.json
+msgid "Mailed to addresses outside the workspace, so nobody chooses channels for it."
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:56
+msgid "Mailed to each address a file request asks, with the link to send the files."
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:79
+msgid "Mailed to each address invited to a shared link."
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:66
+msgid "Mailed to whoever has not sent everything, before a file request is due, or when its owner reminds them."
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/calendar.py:31 onedesk/one_inventory/calendar.py:58
 #: onedesk/one_inventory/maintenance.py:88
@@ -7098,10 +7299,11 @@ msgstr ""
 msgid "Merge Into {0}"
 msgstr ""
 
+#. Label of the one_message (Code) field in DocType 'Notification Type'
 #. Label of the one_message (Small Text) field in DocType 'Lead'
 #. Label of a field in the get-in-touch Web Form
 #. Label of the message (Small Text) field in DocType 'Cloud File Request'
-#: onedesk/one_crm/custom/lead.json
+#: onedesk/one/custom/notification_type.json onedesk/one_crm/custom/lead.json
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/public/js/onecloud.js:1521 onedesk/public/js/onemail.js:508
@@ -7469,6 +7671,10 @@ msgstr ""
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:295
 msgid "New Event"
+msgstr ""
+
+#: onedesk/one_intake/notifications.py:44
+msgid "New IBAN"
 msgstr ""
 
 #. Label of a shortcut in the OneBook Workspace
@@ -8255,6 +8461,10 @@ msgstr ""
 msgid "Onboarding"
 msgstr ""
 
+#: onedesk/one_intake/notifications.py:28
+msgid "Once a week, what arrived for you, what OneAI dealt with, and what still waits."
+msgstr ""
+
 #. Title of a Sidebar
 #. Name of a Workspace
 #: onedesk/one/sidebar/one/one.json onedesk/one/workspace/one/one.json
@@ -8287,6 +8497,10 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "One Operator"
+msgstr ""
+
+#: onedesk/one_hr/notifications.py:92
+msgid "One added a network or location people check in from, because they kept using it. Sent to HR Managers."
 msgstr ""
 
 #. Description of the 'Address' (Data) field in DocType 'Clock Network'
@@ -8349,8 +8563,8 @@ msgstr ""
 msgid "One thing OneAI did or proposed with a document, what was there before, and whether a person has looked."
 msgstr ""
 
-#: onedesk/one_intake/inbox.py:189
-msgid "One thing OneAI read in {0} needs a look."
+#: onedesk/one_intake/notifications.py:21
+msgid "One thing OneAI read in <b>{title}</b> needs a look."
 msgstr ""
 
 #. Description of a DocType
@@ -8465,6 +8679,18 @@ msgstr ""
 msgid "OneAI no longer reads {0}."
 msgstr ""
 
+#: onedesk/one_intake/notifications.py:13
+msgid "OneAI read a document and something in it needs you. Sent to the person it reads for."
+msgstr ""
+
+#: onedesk/one_hr/notifications.py:23
+msgid "OneAI read a new grievance as sensitive. Sent to the people trusted with grievances."
+msgstr ""
+
+#: onedesk/one_hr/notifications.py:31
+msgid "OneAI read a new grievance as urgent. Sent to the people trusted with grievances."
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:1714
 msgid "OneAI reads new files in {0}."
 msgstr ""
@@ -8473,8 +8699,12 @@ msgstr ""
 msgid "OneAI reads new mail in {0}."
 msgstr ""
 
-#: onedesk/one_intake/filing.py:322
-msgid "OneAI thinks {0} is phishing. Do not pay, answer or open links in it."
+#: onedesk/one_intake/notifications.py:60
+msgid "OneAI thinks <b>{title}</b> is phishing. Do not pay, answer or open links in it."
+msgstr ""
+
+#: onedesk/one_intake/notifications.py:57
+msgid "OneAI thinks a document is phishing. Sent to the person it reads for, and whoever put the file there."
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:1719
@@ -8505,7 +8735,7 @@ msgid "OneCalendar"
 msgstr ""
 
 #. Title of a Sidebar
-#: onedesk/one_mail/cloud.py:79 onedesk/one_storage/file_requests.py:212
+#: onedesk/one_mail/cloud.py:79 onedesk/one_storage/file_requests.py:205
 #: onedesk/one_storage/mounts.py:360 onedesk/one_storage/namespace.py:729
 #: onedesk/one_storage/sidebar/onecloud/onecloud.json
 #: onedesk/public/js/onecloud_picker.js:108
@@ -8636,7 +8866,7 @@ msgstr ""
 msgid "Only an HR Manager can delete the sound of a recorded interview."
 msgstr ""
 
-#: onedesk/one_hr/ai_grievance.py:199
+#: onedesk/one_hr/ai_grievance.py:192
 msgid "Only an HR Manager can mark a grievance as not sensitive."
 msgstr ""
 
@@ -8778,7 +9008,7 @@ msgstr ""
 msgid "Open file location"
 msgstr ""
 
-#: onedesk/one_storage/links.py:155 onedesk/www/welcome.html:25
+#: onedesk/www/welcome.html:25
 msgid "Open it"
 msgstr ""
 
@@ -9487,6 +9717,7 @@ msgstr ""
 
 #. Option for the 'First Look' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one_intake/notifications.py:55
 msgid "Phishing"
 msgstr ""
 
@@ -9666,8 +9897,8 @@ msgstr ""
 msgid "Post Update"
 msgstr ""
 
-#: onedesk/one_project/updates.py:108
-msgid "Post your update on the project's page."
+#: onedesk/one_project/notifications.py:15
+msgid "Post your update on the project's page, or reply to the email."
 msgstr ""
 
 #: onedesk/one_intake/understand.py:362
@@ -9835,6 +10066,10 @@ msgstr ""
 msgid "Project Type"
 msgstr ""
 
+#: onedesk/one_project/notifications.py:8
+msgid "Project Update Asked"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Projected Stock"
@@ -9984,6 +10219,16 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Purpose of Travel"
+msgstr ""
+
+#. Label of the one_allow_push (Check) field in DocType 'Notification Type'
+#: onedesk/one/custom/notification_type.json
+msgid "Push Allowed"
+msgstr ""
+
+#. Label of the one_push_default (Check) field in DocType 'Notification Type'
+#: onedesk/one/custom/notification_type.json
+msgid "Push for New People"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -10553,8 +10798,8 @@ msgstr ""
 msgid "Reminder"
 msgstr ""
 
-#: onedesk/one_storage/file_requests.py:266
-msgid "Reminder: {0} asks you for files: {1}"
+#: onedesk/one_storage/notifications.py:69
+msgid "Reminder: {who} asks you for files: {request}"
 msgstr ""
 
 #: onedesk/public/js/oneai/Panel.vue:157 onedesk/public/js/onecloud.js:1227
@@ -10665,10 +10910,6 @@ msgstr ""
 msgid "Reply that I am away"
 msgstr ""
 
-#: onedesk/one_project/updates.py:115
-msgid "Reply to this email with your update."
-msgstr ""
-
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -10697,7 +10938,7 @@ msgstr ""
 msgid "Requested"
 msgstr ""
 
-#: onedesk/one_storage/file_requests.py:213
+#: onedesk/one_storage/file_requests.py:206
 #: onedesk/one_storage/namespace.py:387
 msgid "Requests"
 msgstr ""
@@ -11169,11 +11410,6 @@ msgstr ""
 msgid "Send the list of documents you are agreeing to."
 msgstr ""
 
-#: onedesk/one_storage/file_requests.py:145
-#: onedesk/one_storage/file_requests.py:269
-msgid "Send them"
-msgstr ""
-
 #: onedesk/public/js/oneai/Panel.vue:146
 msgid "Send this again"
 msgstr ""
@@ -11191,6 +11427,10 @@ msgstr ""
 #: onedesk/one_hr/ai_grievance.py:84
 #: onedesk/one_hr/custom/employee_grievance.json
 msgid "Sensitive"
+msgstr ""
+
+#: onedesk/one_hr/notifications.py:21
+msgid "Sensitive Grievance"
 msgstr ""
 
 #. Label of the sensitivity (Select) field in DocType 'Reading'
@@ -11416,6 +11656,10 @@ msgstr ""
 msgid "Shared"
 msgstr ""
 
+#: onedesk/one_storage/notifications.py:13
+msgid "Shared With You"
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:323
 msgid "Shared by"
 msgstr ""
@@ -11454,6 +11698,10 @@ msgstr ""
 #. Name of a DocType
 #: onedesk/one_hr/doctype/shift_location_place/shift_location_place.json
 msgid "Shift Location Place"
+msgstr ""
+
+#: onedesk/one_hr/notifications.py:49
+msgid "Shift Not Reading Check-ins"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -11604,6 +11852,30 @@ msgstr ""
 #. Description of a DocType
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 msgid "Somebody a document is from, to or about."
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:22
+msgid "Somebody added you to a library."
+msgstr ""
+
+#: onedesk/one_hr/notifications.py:78
+msgid "Somebody checked in and never checked out, so One checked them out at the shift's end. Sent to them."
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:43
+msgid "Somebody outside the workspace uploaded files through a link you made."
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:29
+msgid "Somebody sent a file you asked for. Sent to whoever asked."
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:35
+msgid "Somebody sent everything you asked for. Sent to whoever asked."
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:15
+msgid "Somebody shared a file or folder with you."
 msgstr ""
 
 #. Description of a DocType
@@ -12078,6 +12350,8 @@ msgstr ""
 msgid "Sub-tasks"
 msgstr ""
 
+#. Label of the one_subject (Code) field in DocType 'Notification Type'
+#: onedesk/one/custom/notification_type.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:297
 #: onedesk/public/js/onemail.js:741
 msgid "Subject"
@@ -12439,9 +12713,12 @@ msgstr ""
 msgid "Territory"
 msgstr ""
 
+#. Label of the one_text_section (Section Break) field in DocType 'Notification
+#. Type'
 #. Label of the reads_text (Check) field in DocType 'AI Model'
 #. Label of the section_text (Section Break) field in DocType 'Reading'
 #. Label of the text (Long Text) field in DocType 'Reading'
+#: onedesk/one/custom/notification_type.json
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/public/js/ai_action_setting.js:82
@@ -12511,7 +12788,7 @@ msgstr ""
 #: onedesk/one_storage/api.py:33 onedesk/one_storage/api.py:91
 #: onedesk/one_storage/dav.py:319
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.py:24
-#: onedesk/one_storage/file_requests.py:158 onedesk/one_storage/history.py:76
+#: onedesk/one_storage/file_requests.py:151 onedesk/one_storage/history.py:76
 #: onedesk/one_storage/history.py:244 onedesk/one_storage/library.py:75
 #: onedesk/one_storage/mounts.py:82 onedesk/one_storage/mounts.py:102
 #: onedesk/one_storage/share.py:48
@@ -12670,6 +12947,11 @@ msgstr ""
 msgid "The agreement between your organisation and Four Degree Labs for the use of One."
 msgstr ""
 
+#. Description of the 'App' (Data) field in DocType 'Notification Type'
+#: onedesk/one/custom/notification_type.json
+msgid "The app whose events send this."
+msgstr ""
+
 #: onedesk/one_intake/page/intake/intake.js:155
 msgid "The auditor doubts this"
 msgstr ""
@@ -12677,6 +12959,12 @@ msgstr ""
 #. Description of the 'Sign Count' (Int) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "The authenticator's own counter. A value lower than the one stored means the passkey has been cloned."
+msgstr ""
+
+#. Description of the 'Channels' (Section Break) field in DocType 'Notification
+#. Type'
+#: onedesk/one/custom/notification_type.json
+msgid "The bell is always on. These are the channels people may add to it."
 msgstr ""
 
 #: onedesk/one_book/ready.py:196
@@ -12717,6 +13005,10 @@ msgstr ""
 
 #: onedesk/public/js/invoice.js:61
 msgid "The cheque or transfer number. The invoice's number when left empty."
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:90
+msgid "The code an invited address types to open a shared link. It cannot be turned off, or nobody could open one."
 msgstr ""
 
 #: onedesk/www/s.html:54
@@ -12994,6 +13286,14 @@ msgstr ""
 msgid "The same supplier invoice number is refused a second time."
 msgstr ""
 
+#: onedesk/one_storage/notifications.py:49
+msgid "The same, for a single file."
+msgstr ""
+
+#: onedesk/one_intake/notifications.py:20
+msgid "The same, when only one thing needs you."
+msgstr ""
+
 #: onedesk/one_mail/imap.py:365
 msgid "The server could not be reached."
 msgstr ""
@@ -13087,11 +13387,8 @@ msgstr ""
 msgid "The writer promises to do this, rather than asking somebody else."
 msgstr ""
 
-#: onedesk/one_hr/leaving.py:153
-msgid ""
-"Their passkey and shift assignments have been ended, but the status is still Active:\n"
-"\n"
-"{0}"
+#: onedesk/one_hr/notifications.py:69
+msgid "Their passkey and shift assignments have been ended, but the status is still Active: {why}"
 msgstr ""
 
 #. Label of the section_then (Section Break) field in DocType 'Mail Rule'
@@ -13134,6 +13431,10 @@ msgstr ""
 
 #: onedesk/one_inventory/ready.py:140
 msgid "There is no maintenance team, and a schedule needs one."
+msgstr ""
+
+#: onedesk/one/notify.py:138
+msgid "There is no notification type {0}."
 msgstr ""
 
 #: onedesk/one_storage/mounts.py:113
@@ -13341,7 +13642,7 @@ msgstr ""
 msgid "This section could not be opened."
 msgstr ""
 
-#: onedesk/one_hr/setup.py:102
+#: onedesk/one_hr/notifications.py:55
 msgid "This shift has check-ins but does not read them, so no Attendance is being written and every count that reads Attendance is empty. Open the shift and press Read Check-ins."
 msgstr ""
 
@@ -13361,7 +13662,7 @@ msgstr ""
 msgid "This was shared with particular people. We will send a code to the address it was shared with."
 msgstr ""
 
-#: onedesk/one_intake/digest.py:102
+#: onedesk/one_intake/digest.py:105
 msgid "This week {0} documents arrived for you, and OneAI dealt with {1} of them itself."
 msgstr ""
 
@@ -13493,6 +13794,11 @@ msgstr ""
 #: onedesk/one_inventory/report/to_order/to_order.py:17
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "To Order"
+msgstr ""
+
+#. Label of the one_outside (Check) field in DocType 'Notification Type'
+#: onedesk/one/custom/notification_type.json
+msgid "To Outside Addresses"
 msgstr ""
 
 #: onedesk/one_hr/ai_letters.py:92
@@ -13978,6 +14284,10 @@ msgstr ""
 msgid "Urgent"
 msgstr ""
 
+#: onedesk/one_hr/notifications.py:29
+msgid "Urgent Grievance"
+msgstr ""
+
 #. Label of the storage_said (HTML) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Usage"
@@ -14200,7 +14510,7 @@ msgstr ""
 msgid "Waiting for the payment to settle."
 msgstr ""
 
-#: onedesk/one_intake/digest.py:104 onedesk/public/js/ai_proposal.js:22
+#: onedesk/one_intake/digest.py:107 onedesk/public/js/ai_proposal.js:22
 #: onedesk/public/js/ai_proposal_list.js:9
 msgid "Waiting for you"
 msgstr ""
@@ -14384,6 +14694,11 @@ msgstr ""
 #. Checkin'
 #: onedesk/one_hr/custom/employee_checkin.json
 msgid "What each check saw when this log was written."
+msgstr ""
+
+#. Description of the 'About' (Small Text) field in DocType 'Notification Type'
+#: onedesk/one/custom/notification_type.json
+msgid "What happened, when this is sent."
 msgstr ""
 
 #: onedesk/one/ai.py:31
@@ -15096,7 +15411,7 @@ msgstr ""
 msgid "Write with {0}"
 msgstr ""
 
-#: onedesk/one_project/updates.py:157
+#: onedesk/one_project/updates.py:150
 msgid "Write your update first."
 msgstr ""
 
@@ -15199,7 +15514,7 @@ msgstr ""
 msgid "You cannot turn yourself off."
 msgstr ""
 
-#: onedesk/one_hr/closing.py:99
+#: onedesk/one_hr/notifications.py:82
 msgid "You checked in but never checked out, so a check out was written for you at the shift end. Tell HR if that is wrong."
 msgstr ""
 
@@ -15256,10 +15571,6 @@ msgstr ""
 msgid "You may not {0} {1}."
 msgstr ""
 
-#: onedesk/one_storage/links.py:156
-msgid "You will be asked for a code, which is sent to this address."
-msgstr ""
-
 #: onedesk/public/js/settings.js:367
 msgid "Your Calendar in Other Apps"
 msgstr ""
@@ -15286,16 +15597,16 @@ msgstr ""
 msgid "Your calendar link is switched off."
 msgstr ""
 
-#: onedesk/one_hr/closing.py:98
+#: onedesk/one_hr/notifications.py:81
 msgid "Your check-in was closed at the end of your shift"
 msgstr ""
 
-#: onedesk/one_storage/links.py:295
-msgid "Your code for {0}"
+#: onedesk/one_storage/notifications.py:93
+msgid "Your code for {file}"
 msgstr ""
 
-#: onedesk/one_storage/links.py:296
-msgid "Your code is {0}. It works for ten minutes."
+#: onedesk/one_storage/notifications.py:94
+msgid "Your code is <b>{code}</b>. It works for ten minutes."
 msgstr ""
 
 #: onedesk/public/js/oneai/Panel.vue:320
@@ -15342,8 +15653,8 @@ msgstr ""
 msgid "Your update on this project is asked for today."
 msgstr ""
 
-#: onedesk/one_intake/digest.py:92
-msgid "Your week with OneAI: {0} documents, {1} handled, {2} wait for you"
+#: onedesk/one_intake/notifications.py:29
+msgid "Your week with OneAI: {arrived} documents, {handled} handled, {waiting} wait for you"
 msgstr ""
 
 #: onedesk/www/welcome.html:2
@@ -15816,10 +16127,6 @@ msgstr ""
 msgid "{0} added to your timesheet."
 msgstr ""
 
-#: onedesk/one_storage/library.py:143
-msgid "{0} added you to the library {1}"
-msgstr ""
-
 #: onedesk/one_hr/overtime.py:114
 msgid "{0} allows at most {1} overtime hours a day."
 msgstr ""
@@ -15854,27 +16161,6 @@ msgstr ""
 
 #: onedesk/one_project/billing.py:163
 msgid "{0} and {1} more"
-msgstr ""
-
-#: onedesk/one_intake/planning.py:274
-msgid "{0} arrived after you closed this task."
-msgstr ""
-
-#: onedesk/one_storage/links.py:415
-msgid "{0} arrived in {1} through your link"
-msgstr ""
-
-#: onedesk/one_hr/doctype/employee_letter/employee_letter.py:49
-msgid "{0} asked for a {1}"
-msgstr ""
-
-#: onedesk/one_intake/planning.py:404
-msgid "{0} asks to be paid to an IBAN we do not have for {1}. Check with them by phone before paying."
-msgstr ""
-
-#: onedesk/one_storage/file_requests.py:138
-#: onedesk/one_storage/file_requests.py:142
-msgid "{0} asks you for files: {1}"
 msgstr ""
 
 #: onedesk/www/r.html:22
@@ -15938,10 +16224,6 @@ msgstr ""
 
 #: onedesk/public/js/exemption.js:43
 msgid "{0} claimed {1} for {2}, of which {3} is allowed — the rest is over a category limit."
-msgstr ""
-
-#: onedesk/one_hr/leaving.py:152
-msgid "{0} could not be marked Left"
 msgstr ""
 
 #: onedesk/one_inventory/ready.py:164
@@ -16032,10 +16314,6 @@ msgstr ""
 
 #: onedesk/one_storage/ready.py:50
 msgid "{0} files are on the disk, which is where this workspace keeps them."
-msgstr ""
-
-#: onedesk/one_storage/links.py:413
-msgid "{0} files arrived in {1} through your link"
 msgstr ""
 
 #: onedesk/one_storage/ready.py:51
@@ -16262,10 +16540,6 @@ msgstr ""
 msgid "{0} is one of the mailbox's own folders and stays as it is."
 msgstr ""
 
-#: onedesk/one_storage/file_requests.py:267
-msgid "{0} is still waiting for files for {1}."
-msgstr ""
-
 #: onedesk/one_admin/signup.py:40 onedesk/one_admin/signup.py:42
 #: onedesk/one_admin/signup.py:54
 msgid "{0} is taken."
@@ -16335,7 +16609,7 @@ msgstr ""
 msgid "{0} of {1}"
 msgstr ""
 
-#: onedesk/one_storage/file_requests.py:191
+#: onedesk/one_storage/file_requests.py:184
 msgid "{0} of {1} complete"
 msgstr ""
 
@@ -16396,7 +16670,7 @@ msgstr ""
 msgid "{0} people"
 msgstr ""
 
-#: onedesk/one_project/updates.py:212
+#: onedesk/one_project/updates.py:205
 msgid "{0} posted an update"
 msgstr ""
 
@@ -16412,14 +16686,6 @@ msgstr ""
 msgid "{0} selected"
 msgstr ""
 
-#: onedesk/one_storage/file_requests.py:406
-msgid "{0} sent everything for {1}"
-msgstr ""
-
-#: onedesk/one_storage/file_requests.py:408
-msgid "{0} sent {1} for {2}"
-msgstr ""
-
 #: onedesk/public/js/settings.js:418
 msgid "{0} sessions, this one included."
 msgstr ""
@@ -16432,24 +16698,12 @@ msgstr ""
 msgid "{0} shared this with you."
 msgstr ""
 
-#: onedesk/one_storage/links.py:151 onedesk/one_storage/share.py:162
-msgid "{0} shared {1} with you"
-msgstr ""
-
-#: onedesk/one_storage/links.py:154
-msgid "{0} shared {1} with you."
-msgstr ""
-
 #: onedesk/public/js/tenant.js:169
 msgid "{0} signed for and not yet counted."
 msgstr ""
 
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:63
 msgid "{0} submitted."
-msgstr ""
-
-#: onedesk/one_intake/inbox.py:187
-msgid "{0} things OneAI read in {1} need a look."
 msgstr ""
 
 #: onedesk/one_intake/page/intake/intake.js:101 onedesk/public/js/intake.js:45
@@ -16566,10 +16820,6 @@ msgstr ""
 msgid "{0}% · {1} of {2} tasks"
 msgstr ""
 
-#: onedesk/one_hr/review.py:86
-msgid "{0}'s check-in needs a look"
-msgstr ""
-
 #: onedesk/public/js/employee_promotion.js:40
 msgid "{0}, from {1}. Nothing is listed as changing yet."
 msgstr ""
@@ -16616,6 +16866,34 @@ msgstr ""
 
 #: onedesk/public/js/payroll_entry.js:39
 msgid "{0}: {1} people, {2}, in {3} slips still in draft."
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:44
+msgid "{count} files arrived in <b>{folder}</b> through your link"
+msgstr ""
+
+#: onedesk/one_intake/notifications.py:14
+msgid "{count} things OneAI read in <b>{title}</b> need a look."
+msgstr ""
+
+#: onedesk/one_hr/notifications.py:16
+msgid "{employee} asked for a {kind}"
+msgstr ""
+
+#: onedesk/one_hr/notifications.py:68
+msgid "{employee} could not be marked Left"
+msgstr ""
+
+#: onedesk/one_hr/notifications.py:43
+msgid "{employee}'s check-in needs a look"
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:57
+msgid "{who} asks you for files: {request}"
+msgstr ""
+
+#: onedesk/one_storage/notifications.py:80
+msgid "{who} shared {file} with you"
 msgstr ""
 
 #. Count format of shortcut in the OneBook Workspace

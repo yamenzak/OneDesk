@@ -95,27 +95,20 @@ def _ask(project: str) -> None:
 	update = frappe.get_doc(
 		{"doctype": "Project Update", "project": project, "sent": 0, "date": nowdate(), "time": nowtime()}
 	).insert(ignore_permissions=True)
-	subject = doc.subject or _("How is {0} going?").format(doc.project_name)
-	for user in people:
-		frappe.get_doc(
-			{
-				"doctype": "Notification Log",
-				"for_user": user,
-				"type": "Alert",
-				"document_type": "Project",
-				"document_name": project,
-				"subject": subject,
-				"email_content": doc.message or _("Post your update on the project's page."),
-			}
-		).insert(ignore_permissions=True)
+	from onedesk.one import notify
+
+	# The project's own question, where it has one, over the type's text.
+	words = (doc.subject, doc.message)
+	notify.notify("Project Update Asked", people, record=("Project", project), words=words, project=doc.project_name)
 	if _mail():
-		frappe.sendmail(
-			recipients=[frappe.db.get_value("User", user, "email") for user in people],
-			subject=subject,
-			message=doc.message or _("Reply to this email with your update."),
+		notify.mail(
+			"Project Update Asked",
+			[frappe.db.get_value("User", user, "email") for user in people],
+			words=words,
 			reference_doctype="Project Update",
 			reference_name=update.name,
 			reply_to=frappe.db.get_value("Email Account", {"enable_incoming": 1, "default_incoming": 1}, "email_id"),
+			project=doc.project_name,
 		)
 
 

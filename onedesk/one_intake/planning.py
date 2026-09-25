@@ -261,21 +261,16 @@ def _tell_closer(reading, ctx: dict) -> None:
 	closer = held.modified_by
 	if not closer or closer == AUTHOR:
 		return
-	from frappe.desk.doctype.notification_log.notification_log import enqueue_create_notification
+	from onedesk.one import notify
 
-	email = frappe.db.get_value("User", closer, "email")
-	if email:
-		enqueue_create_notification(
-			[email],
-			{
-				"type": "Alert",
-				"document_type": "Task",
-				"document_name": held.name,
-				"subject": _("{0} arrived after you closed this task.").format(frappe.bold(reading.title or "")),
-				"from_user": AUTHOR,
-			},
-			dedupe_on=["document_type", "document_name", "subject"],
-		)
+	notify.notify(
+		"Arrived After Closing",
+		closer,
+		record=("Task", held.name),
+		sender=AUTHOR,
+		dedupe_on=["document_type", "document_name", "subject"],
+		title=reading.title or "",
+	)
 
 
 # ------------------------------------------------------------------ money
@@ -391,21 +386,17 @@ def _warn_iban(reading) -> None:
 	known = [one.replace(" ", "").upper() for one in frappe.get_all("Bank Account", filters={"party_type": "Supplier", "party": reading.party_name}, pluck="iban") if one]
 	if not known or reading.iban.replace(" ", "").upper() in known:
 		return
-	from frappe.desk.doctype.notification_log.notification_log import enqueue_create_notification
+	from onedesk.one import notify
 
-	email = frappe.db.get_value("User", reading.on_behalf_of, "email")
-	if email:
-		enqueue_create_notification(
-			[email],
-			{
-				"type": "Alert",
-				"document_type": "Reading",
-				"document_name": reading.name,
-				"subject": _("{0} asks to be paid to an IBAN we do not have for {1}. Check with them by phone before paying.").format(frappe.bold(reading.title or ""), frappe.bold(reading.party_name)),
-				"from_user": AUTHOR,
-			},
-			dedupe_on=["document_type", "document_name", "subject"],
-		)
+	notify.notify(
+		"New IBAN",
+		reading.on_behalf_of,
+		record=("Reading", reading.name),
+		sender=AUTHOR,
+		dedupe_on=["document_type", "document_name", "subject"],
+		title=reading.title or "",
+		supplier=reading.party_name,
+	)
 
 
 # ------------------------------------------------------------------ flows

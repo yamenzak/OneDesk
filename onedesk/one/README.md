@@ -127,6 +127,8 @@ For the people who build One. OneAI does not read past this heading.
 | `../public/js/settings.js` | Draws a section, and behaves like a desk form: dirty, stale saves, realtime |
 | `sidebar/one/one.json` | One's sidebar, with a link per section |
 | `ai.py` | What OneAI offers on these pages, and what it is told about where the reader is |
+| `notify.py` | The one door every notification goes through; see `docs/NOTIFICATIONS.md` |
+| `custom/notification_type.json` | What a Notification Type carries here: its app, text and channels |
 
 Profile writes a person's own User record, and their own Employee record when
 they have one (`own.employee_of`), and only the fields named in `PROFILE` and

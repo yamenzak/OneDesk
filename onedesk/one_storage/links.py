@@ -144,20 +144,11 @@ def can_mail() -> bool:
 
 
 def _invite(link, emails: list, token: str) -> None:
+	from onedesk.one import notify
+
 	who = get_fullname(frappe.session.user)
 	for email in emails:
-		frappe.sendmail(
-			recipients=[email],
-			subject=_("{0} shared {1} with you").format(who, link.file_name),
-			message="<br><br>".join(
-				(
-					_("{0} shared {1} with you.").format(frappe.bold(who), frappe.bold(link.file_name)),
-					f'<a href="{url_of(token)}">{_("Open it")}</a>',
-					_("You will be asked for a code, which is sent to this address."),
-				)
-			),
-			now=False,
-		)
+		notify.mail("Link Shared", email, now=False, who=who, file=link.file_name, link=url_of(token))
 
 
 def forget_file(doc, method=None) -> None:
@@ -290,12 +281,9 @@ def ask_code(token: str, email: str | None = None):
 		code = f"{random.SystemRandom().randrange(10**6):06d}"
 		frappe.cache.set_value(f"onestorage:code:{link.name}:{email}", code, expires_in_sec=CODE_LIFE)
 		try:
-			frappe.sendmail(
-				recipients=[email],
-				subject=_("Your code for {0}").format(link.file_name),
-				message=_("Your code is {0}. It works for ten minutes.").format(frappe.bold(code)),
-				delayed=False,
-			)
+			from onedesk.one import notify
+
+			notify.mail("Link Code", email, delayed=False, file=link.file_name, code=code)
 		except Exception:
 			# The page says the same thing either way; the owner finds out
 			# from the error log rather than the guest from a stack trace.
@@ -402,19 +390,16 @@ def put(token: str, folder: str | None = None):
 
 
 def _tell_owner(link, into: dict, names: list) -> None:
-	from frappe.desk.doctype.notification_log.notification_log import enqueue_create_notification
+	from onedesk.one import notify
 
-	enqueue_create_notification(
+	notify.notify(
+		"Arrived Through a Link" if len(names) > 1 else "Arrived Through a Link, One File",
 		link.owner,
-		{
-			"type": "Alert",
-			"document_type": "File",
-			"document_name": into.name,
-			"subject": _("{0} files arrived in {1} through your link").format(len(names), frappe.bold(into.file_name))
-			if len(names) > 1
-			else _("{0} arrived in {1} through your link").format(frappe.bold(names[0]), frappe.bold(into.file_name)),
-			"link": f"/desk/onecloud?node={quote(into.name, safe='')}",
-		},
+		record=("File", into.name),
+		link=f"/desk/onecloud?node={quote(into.name, safe='')}",
+		count=len(names),
+		file=names[0],
+		folder=into.file_name,
 	)
 
 

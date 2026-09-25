@@ -149,20 +149,15 @@ def set_edit(node: str, user: str, edit: int = 0) -> None:
 
 def _tell(user: str, item: dict) -> None:
 	"""A notification that opens the explorer on it, not File's own form."""
-	from frappe.desk.doctype.notification_log.notification_log import enqueue_create_notification
+	from onedesk.one import notify
 
 	# A folder opens on itself; a file opens where the reader can see it.
 	node = item.name if item.is_folder else ns.SHARED
-	enqueue_create_notification(
+	notify.notify(
+		"Shared With You",
 		user,
-		{
-			"type": "Share",
-			"document_type": "File",
-			"document_name": item.name,
-			"subject": _("{0} shared {1} with you").format(
-				frappe.bold(get_fullname(frappe.session.user)), frappe.bold(item.file_name)
-			),
-			"from_user": frappe.session.user,
-			"link": f"/desk/onecloud?node={quote(node, safe='')}",
-		},
+		record=("File", item.name),
+		link=f"/desk/onecloud?node={quote(node, safe='')}",
+		who=get_fullname(frappe.session.user),
+		file=item.file_name,
 	)

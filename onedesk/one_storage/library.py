@@ -130,20 +130,15 @@ def remove(node: str, user: str) -> None:
 def _tell(user: str, item: dict) -> None:
 	from urllib.parse import quote
 
-	from frappe.desk.doctype.notification_log.notification_log import enqueue_create_notification
+	from onedesk.one import notify
 
 	if user == frappe.session.user:
 		return
-	enqueue_create_notification(
+	notify.notify(
+		"Added to a Library",
 		user,
-		{
-			"type": "Share",
-			"document_type": "File",
-			"document_name": item.name,
-			"subject": _("{0} added you to the library {1}").format(
-				frappe.bold(get_fullname(frappe.session.user)), frappe.bold(item.file_name)
-			),
-			"from_user": frappe.session.user,
-			"link": f"/desk/onecloud?node={quote(item.name, safe='')}",
-		},
+		record=("File", item.name),
+		link=f"/desk/onecloud?node={quote(item.name, safe='')}",
+		who=get_fullname(frappe.session.user),
+		library=item.file_name,
 	)

@@ -373,9 +373,9 @@ def test_updates_replace_erpnexts_asking_and_are_kept_on_the_project():
 		'"onedesk.one_project.updates.answered"' in HOOKS.split('"Communication": {', 1)[1].split("},", 1)[0]
 	)
 	assert 'additional_timeline_content = {"Project": ["onedesk.one_project.updates.timeline"]}' in HOOKS
-	assert '"Notification Log"' in _body(source, "_ask") and "if _mail()" in _body(source, "_ask"), (
-		"asked in One, mailed where mail goes"
-	)
+	assert 'notify.notify("Project Update Asked"' in _body(source, "_ask") and "if _mail()" in _body(
+		source, "_ask"
+	), "asked in One, mailed where mail goes"
 	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
 	frequency = next(p for p in custom["property_setters"] if p["field_name"] == "frequency")
 	assert "Hourly" not in frequency["value"]

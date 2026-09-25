@@ -48,6 +48,7 @@ after_install = [
 # and nobody is ever asked which company; see one/company.py.
 after_migrate = [
 	"onedesk.one.roles.ensure",
+	"onedesk.one.notify.install",
 	# The index that makes document text searchable. See one_intake/search.py.
 	"onedesk.one_intake.search.index",
 	"onedesk.one_storage.store.unlimit",
@@ -704,6 +705,14 @@ one_ai_suggests = [
 one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS", "onedesk.one_crm.ai.SUGGESTIONS", "onedesk.one.ai.SUGGESTIONS"]
 
 one_ai_page = ["onedesk.one.ai.page"]
+
+# What each module tells people, as notification types. See one/notify.py.
+one_notification_types = [
+	"onedesk.one_hr.notifications.TYPES",
+	"onedesk.one_intake.notifications.TYPES",
+	"onedesk.one_storage.notifications.TYPES",
+	"onedesk.one_project.notifications.TYPES",
+]
 
 # What each module puts on the calendar, as layers. Each reads its own records
 # as the person looking; nothing is copied. See one_calendar/layers.py.

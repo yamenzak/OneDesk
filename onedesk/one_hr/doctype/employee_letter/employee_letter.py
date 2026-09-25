@@ -30,7 +30,7 @@ class EmployeeLetter(Document):
 		"""An employee's request reaches HR as a notification, not a search."""
 		if set(HR) & set(frappe.get_roles()):
 			return
-		from frappe.desk.doctype.notification_log.notification_log import enqueue_create_notification
+		from onedesk.one import notify
 
 		managers = frappe.get_all(
 			"Has Role",
@@ -40,13 +40,10 @@ class EmployeeLetter(Document):
 		enabled = frappe.get_all("User", filters={"name": ["in", managers], "enabled": 1}, pluck="name")
 		if not enabled:
 			return
-		enqueue_create_notification(
+		notify.notify(
+			"Letter Requested",
 			enabled,
-			{
-				"type": "Alert",
-				"document_type": self.doctype,
-				"document_name": self.name,
-				"subject": frappe._("{0} asked for a {1}").format(self.employee_name, frappe._(self.kind).lower()),
-				"from_user": frappe.session.user,
-			},
+			record=(self.doctype, self.name),
+			employee=self.employee_name,
+			kind=frappe._(self.kind).lower(),
 		)

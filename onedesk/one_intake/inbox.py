@@ -174,7 +174,7 @@ def fresh(name: str) -> None:
 def tell(name: str) -> None:
 	"""Once the auditor has had its say: if anything still waits for the
 	person, one notification saying so, pointing at their Waiting box."""
-	from frappe.desk.doctype.notification_log.notification_log import enqueue_create_notification
+	from onedesk.one import notify
 
 	reading = frappe.db.get_value("Reading", name, ["name", "title", "on_behalf_of", "change"], as_dict=True)
 	if not reading or not reading.on_behalf_of or reading.change == "Nothing New":
@@ -183,20 +183,13 @@ def tell(name: str) -> None:
 	email = frappe.db.get_value("User", reading.on_behalf_of, "email")
 	if not waiting or not email:
 		return
-	subject = (
-		_("{0} things OneAI read in {1} need a look.").format(waiting, frappe.bold(reading.title or ""))
-		if waiting > 1
-		else _("One thing OneAI read in {0} needs a look.").format(frappe.bold(reading.title or ""))
-	)
-	enqueue_create_notification(
-		[email],
-		{
-			"type": "Alert",
-			"document_type": "Reading",
-			"document_name": name,
-			"subject": subject,
-			"from_user": "oneai@one.invalid",
-			"link": f"/app/intake?box=waiting&reading={name}",
-		},
+	notify.notify(
+		"Intake Waiting" if waiting > 1 else "Intake Waiting, One Thing",
+		email,
+		record=("Reading", name),
+		link=f"/app/intake?box=waiting&reading={name}",
+		sender=notify.ONEAI,
 		dedupe_on=["document_type", "document_name"],
+		count=waiting,
+		title=reading.title or "",
 	)

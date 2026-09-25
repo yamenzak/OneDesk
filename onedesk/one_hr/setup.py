@@ -16,7 +16,6 @@ with it hrms moves it forward every hour.
 """
 
 import frappe
-from frappe import _
 from frappe.utils import add_days, now_datetime, nowdate
 
 #: How far back a shift has to have been used before its silence is worth a word.
@@ -90,22 +89,11 @@ def _told_recently(shift: str) -> bool:
 
 
 def _tell(shift: str) -> None:
-	for user in _people_who_can_fix():
-		frappe.get_doc(
-			{
-				"doctype": "Notification Log",
-				"for_user": user,
-				"type": "Alert",
-				"document_type": "Shift Type",
-				"document_name": shift,
-				"subject": _("Check-ins on {0} are not becoming attendance").format(shift),
-				"email_content": _(
-					"This shift has check-ins but does not read them, so no Attendance is being "
-					"written and every count that reads Attendance is empty. Open the shift and "
-					"press Read Check-ins."
-				),
-			}
-		).insert(ignore_permissions=True)
+	from onedesk.one import notify
+
+	notify.notify(
+		"Shift Not Reading Check-ins", _people_who_can_fix(), record=("Shift Type", shift), shift=shift
+	)
 
 
 def _people_who_can_fix() -> list[str]:

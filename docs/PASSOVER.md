@@ -82,7 +82,7 @@ be ours; how it behaves is frappe's.
 | Area | Screen | State |
 |---|---|---|
 | Settings, You | Profile | done |
-| Settings, You | Notifications | studying |
+| Settings, You | Notifications | building: stage 1 of 6 (the hub) done, see NOTIFICATIONS.md |
 | Settings, You | Mail | |
 | Settings, You | Calendar | |
 | Settings, You | Sign-in | |

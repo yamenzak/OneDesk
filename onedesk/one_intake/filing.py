@@ -309,8 +309,7 @@ def cut(values: dict):
 def _tell(reading) -> None:
 	"""Phishing is said at once to the person OneAI acts for, and a phishing
 	file to whoever put it there."""
-	from frappe import _
-	from frappe.desk.doctype.notification_log.notification_log import enqueue_create_notification
+	from onedesk.one import notify
 
 	# What waits for a person is said once the auditor has had its say
 	# (inbox.tell), not here, before the rest is even made.
@@ -319,27 +318,15 @@ def _tell(reading) -> None:
 	people = {reading.on_behalf_of}
 	if reading.source_doctype == "File":
 		people.add(frappe.db.get_value("File", reading.source_name, "owner"))
-	subject = _("OneAI thinks {0} is phishing. Do not pay, answer or open links in it.").format(frappe.bold(reading.title or ""))
-	_once(people, reading, subject, enqueue_create_notification)
-
-
-def _once(people: set, reading, subject: str, send, link: str | None = None) -> None:
-	"""Frappe's notification, once per person and document. It looks people
-	up by their email, which is not always their user name."""
-	emails = [email for person in filter(None, people) if (email := frappe.db.get_value("User", person, "email"))]
-	if emails:
-		send(
-			emails,
-			{
-				"type": "Alert",
-				"document_type": "Reading",
-				"document_name": reading.name,
-				"subject": subject,
-				"from_user": "oneai@one.invalid",
-				"link": link,
-			},
-			dedupe_on=["document_type", "document_name"],
-		)
+	# Once per person and document.
+	notify.notify(
+		"Phishing",
+		list(people),
+		record=("Reading", reading.name),
+		sender=notify.ONEAI,
+		dedupe_on=["document_type", "document_name"],
+		title=reading.title or "",
+	)
 
 
 def forget(doc, method=None) -> None:

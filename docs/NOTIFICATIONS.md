@@ -135,7 +135,7 @@ entry and left until it matters.
 
 ## Stages
 
-1. **The hub.** `one/notify.py`, our own types, the custom fields on
+1. **The hub.** Done. `one/notify.py`, our own types, the custom fields on
    Notification Type, and our sixteen writes moved onto them. A test holds
    the door.
 2. **The administrator's types.** Workspace › Notifications: each type's
@@ -164,3 +164,32 @@ entry and left until it matters.
 
 The recommendation is Web Push. Nobody new reads what we send, and it depends
 on nothing but the browsers.
+
+## Stage 1, as built
+
+- **Twenty-five types, declared by the modules that send them**, each in its
+  `notifications.py` and named in `hooks.py` under `one_notification_types`:
+  eight in OneHR, six in Intake, ten in OneCloud, one in OneProject.
+  `notify.install()` makes them Notification Types after every migrate.
+- **A type's text has named slots**, `_lt("<b>{who}</b> shared <b>{file}</b>
+  with you")`. Sent as it came, it is translated for each reader. An
+  administrator edits it as Jinja, `{{ who }}`, and from then on it is sent as
+  they wrote it. Every value is escaped before it goes in.
+- **Two ways out.** `notify.notify()` writes the bell through frappe's own
+  `enqueue_create_notification`, grouped by the readers' languages, and frappe
+  emails it to whoever chose email for the type. `notify.mail()` is for the
+  four OneCloud types that go to addresses outside the workspace (a file
+  request, its reminder, a shared link, its code) and for the project update
+  mail people reply to.
+- **Defaults.** Email is on by default for what somebody has to act on: a
+  letter asked for, a grievance, a new IBAN, phishing, the weekly digest, a
+  shift not reading, somebody not marked Left, a file request complete.
+  Everything else starts on the bell only.
+- **What cannot be switched off.** The shared link's code (`required`), or
+  nobody could open a link.
+- **The project's own question.** A project with its own subject and message
+  asks those instead of the type's text (`words=`), because somebody wrote them
+  for that project.
+- `tests/test_notify.py` refuses `frappe.sendmail` and any Notification Log
+  write outside `one/notify.py`, and checks that every type sent is declared,
+  that outside types are only mailed, and that slots are named.

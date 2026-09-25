@@ -88,17 +88,6 @@ def _close(log) -> None:
 	user = frappe.db.get_value("Employee", log.employee, "user_id")
 	if not user:
 		return
-	frappe.get_doc(
-		{
-			"doctype": "Notification Log",
-			"for_user": user,
-			"type": "Alert",
-			"document_type": "Employee Checkin",
-			"document_name": out.name,
-			"subject": frappe._("Your check-in was closed at the end of your shift"),
-			"email_content": frappe._(
-				"You checked in but never checked out, so a check out was written "
-				"for you at the shift end. Tell HR if that is wrong."
-			),
-		}
-	).insert(ignore_permissions=True)
+	from onedesk.one import notify
+
+	notify.notify("Check-in Closed for You", user, record=("Employee Checkin", out.name))

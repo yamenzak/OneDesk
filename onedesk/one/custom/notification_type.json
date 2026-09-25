@@ -1,0 +1,171 @@
+{
+ "custom_fields": [
+  {
+   "doctype": "Custom Field",
+   "dt": "Notification Type",
+   "fieldname": "one_app",
+   "fieldtype": "Data",
+   "label": "App",
+   "insert_after": "enabled",
+   "module": "One",
+   "name": "Notification Type-one_app",
+   "read_only": 1,
+   "in_list_view": 1,
+   "description": "The app whose events send this."
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Notification Type",
+   "fieldname": "one_about",
+   "fieldtype": "Small Text",
+   "label": "About",
+   "insert_after": "one_app",
+   "module": "One",
+   "name": "Notification Type-one_about",
+   "read_only": 1,
+   "description": "What happened, when this is sent."
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Notification Type",
+   "fieldname": "one_outside",
+   "fieldtype": "Check",
+   "label": "To Outside Addresses",
+   "insert_after": "one_about",
+   "module": "One",
+   "name": "Notification Type-one_outside",
+   "read_only": 1,
+   "description": "Mailed to addresses outside the workspace, so nobody chooses channels for it."
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Notification Type",
+   "fieldname": "one_text_section",
+   "fieldtype": "Section Break",
+   "label": "Text",
+   "insert_after": "one_outside",
+   "module": "One",
+   "name": "Notification Type-one_text_section"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Notification Type",
+   "fieldname": "one_subject",
+   "fieldtype": "Code",
+   "label": "Subject",
+   "insert_after": "one_text_section",
+   "module": "One",
+   "name": "Notification Type-one_subject",
+   "options": "Jinja",
+   "description": "Jinja. Left as it came, it is sent in each reader's own language."
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Notification Type",
+   "fieldname": "one_message",
+   "fieldtype": "Code",
+   "label": "Message",
+   "insert_after": "one_subject",
+   "module": "One",
+   "name": "Notification Type-one_message",
+   "options": "Jinja",
+   "description": "Jinja. The body of the mail, and the detail under the bell."
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Notification Type",
+   "fieldname": "one_default_subject",
+   "fieldtype": "Code",
+   "label": "Default Subject",
+   "insert_after": "one_message",
+   "module": "One",
+   "name": "Notification Type-one_default_subject",
+   "options": "Jinja",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Notification Type",
+   "fieldname": "one_default_message",
+   "fieldtype": "Code",
+   "label": "Default Message",
+   "insert_after": "one_default_subject",
+   "module": "One",
+   "name": "Notification Type-one_default_message",
+   "options": "Jinja",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Notification Type",
+   "fieldname": "one_channels_section",
+   "fieldtype": "Section Break",
+   "label": "Channels",
+   "insert_after": "one_default_message",
+   "module": "One",
+   "name": "Notification Type-one_channels_section",
+   "description": "The bell is always on. These are the channels people may add to it."
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Notification Type",
+   "fieldname": "one_allow_email",
+   "fieldtype": "Check",
+   "label": "Email Allowed",
+   "insert_after": "one_channels_section",
+   "module": "One",
+   "name": "Notification Type-one_allow_email",
+   "default": "1"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Notification Type",
+   "fieldname": "one_email_default",
+   "fieldtype": "Check",
+   "label": "Email for New People",
+   "insert_after": "one_allow_email",
+   "module": "One",
+   "name": "Notification Type-one_email_default",
+   "depends_on": "eval:doc.one_allow_email"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Notification Type",
+   "fieldname": "one_channels_column",
+   "fieldtype": "Column Break",
+   "label": "",
+   "insert_after": "one_email_default",
+   "module": "One",
+   "name": "Notification Type-one_channels_column"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Notification Type",
+   "fieldname": "one_allow_push",
+   "fieldtype": "Check",
+   "label": "Push Allowed",
+   "insert_after": "one_channels_column",
+   "module": "One",
+   "name": "Notification Type-one_allow_push",
+   "default": "1",
+   "depends_on": "eval:!doc.one_outside"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Notification Type",
+   "fieldname": "one_push_default",
+   "fieldtype": "Check",
+   "label": "Push for New People",
+   "insert_after": "one_allow_push",
+   "module": "One",
+   "name": "Notification Type-one_push_default",
+   "depends_on": "eval:doc.one_allow_push"
+  }
+ ],
+ "doctype": "Notification Type",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

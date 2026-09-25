@@ -131,23 +131,16 @@ def _ask(doc, tokens: dict) -> bool:
 
 	if not tokens or not links.can_mail():
 		return False
+	from markupsafe import Markup, escape
+
+	from onedesk.one import notify
+
 	who = get_fullname(doc.owner)
+	# The note and the due date are left out, gap and all, when there are none.
+	note = Markup("<br><br>") + escape(doc.message) if doc.message else ""
+	due = Markup("<br><br>") + escape(_("Due {0}.").format(frappe.format(doc.due_date, "Date"))) if doc.due_date else ""
 	for email, token in tokens.items():
-		frappe.sendmail(
-			recipients=[email],
-			subject=_("{0} asks you for files: {1}").format(who, doc.title),
-			message="<br><br>".join(
-				part
-				for part in (
-					_("{0} asks you for files: {1}").format(frappe.bold(who), frappe.bold(doc.title)),
-					frappe.utils.escape_html(doc.message or ""),
-					_("Due {0}.").format(frappe.format(doc.due_date, "Date")) if doc.due_date else "",
-					f'<a href="{url_of(token)}">{_("Send them")}</a>',
-				)
-				if part
-			),
-			now=False,
-		)
+		notify.mail("File Request", email, now=False, who=who, request=doc.title, note=note, due=due, link=url_of(token))
 	return True
 
 
@@ -259,15 +252,17 @@ def _remind(doc, people) -> int:
 
 	if not people or not links.can_mail():
 		return 0
+	from onedesk.one import notify
+
 	who = get_fullname(doc.owner)
 	for person in people:
-		frappe.sendmail(
-			recipients=[person.email],
-			subject=_("Reminder: {0} asks you for files: {1}").format(who, doc.title),
-			message=_("{0} is still waiting for files for {1}.").format(frappe.bold(who), frappe.bold(doc.title))
-			+ "<br><br>"
-			+ f'<a href="{url_of(person.get_password("token"))}">{_("Send them")}</a>',
+		notify.mail(
+			"File Request Reminder",
+			person.email,
 			now=False,
+			who=who,
+			request=doc.title,
+			link=url_of(person.get_password("token")),
 		)
 		frappe.db.set_value("Cloud File Request Recipient", person.name, "last_reminded", today(), update_modified=False)
 	return len(people)
@@ -400,22 +395,16 @@ def _settle(doc, person) -> None:
 
 def _tell(doc, person, item, finished: bool) -> None:
 	"""The owner hears of each item sent, and once when a person has sent all of them."""
-	from frappe.desk.doctype.notification_log.notification_log import enqueue_create_notification
+	from onedesk.one import notify
 
-	subject = (
-		_("{0} sent everything for {1}").format(frappe.bold(person.email), frappe.bold(doc.title))
-		if finished
-		else _("{0} sent {1} for {2}").format(frappe.bold(person.email), frappe.bold(item.label), frappe.bold(doc.title))
-	)
-	enqueue_create_notification(
+	notify.notify(
+		"File Request Complete" if finished else "File Request Answered",
 		doc.owner,
-		{
-			"type": "Alert",
-			"document_type": "Cloud File Request",
-			"document_name": doc.name,
-			"subject": subject,
-			"link": f"/desk/onecloud?node={quote(node_id(doc.name), safe='')}",
-		},
+		record=("Cloud File Request", doc.name),
+		link=f"/desk/onecloud?node={quote(node_id(doc.name), safe='')}",
+		sender=person.email,
+		request=doc.title,
+		item=item.label,
 	)
 
 

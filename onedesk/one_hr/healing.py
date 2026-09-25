@@ -251,19 +251,12 @@ def _tell(doc) -> None:
 	a place on the list that HR can reject at nine. A change nobody was told
 	about is what makes a self-healing system feel haunted, so it is told.
 	"""
-	for user in frappe.get_all(
+	from onedesk.one import notify
+
+	managers = frappe.get_all(
 		"Has Role",
 		filters={"role": "HR Manager", "parenttype": "User"},
 		pluck="parent",
 		distinct=True,
-	):
-		frappe.get_doc(
-			{
-				"doctype": "Notification Log",
-				"for_user": user,
-				"type": "Alert",
-				"document_type": doc.doctype,
-				"document_name": doc.name,
-				"subject": frappe._("A new check-in network or location was proposed"),
-			}
-		).insert(ignore_permissions=True)
+	)
+	notify.notify("Check-in Place Proposed", managers, record=(doc.doctype, doc.name))

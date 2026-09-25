@@ -68,7 +68,9 @@ def weekly() -> None:
 
 
 def send(person: str, since, until) -> None:
-	from frappe.desk.doctype.notification_log.notification_log import enqueue_create_notification
+	from markupsafe import Markup
+
+	from onedesk.one import notify
 
 	email = frappe.db.get_value("User", {"name": person, "enabled": 1}, "email")
 	if not email:
@@ -85,15 +87,16 @@ def send(person: str, since, until) -> None:
 		as_dict=True,
 	)
 	due = [one for one in calendar.of_readings(add_days(until, 1), add_days(until, 7), everyone=True) if one.get("person") == person]
-	enqueue_create_notification(
-		[email],
-		{
-			"type": "Alert",
-			"subject": _("Your week with OneAI: {0} documents, {1} handled, {2} wait for you").format(week["arrived"], week["handled"], len(waiting)),
-			"email_content": body(week, waiting, due),
-			"from_user": "oneai@one.invalid",
-			"link": "/desk/query-report/Deadlines",
-		},
+	notify.notify(
+		"Intake Weekly",
+		email,
+		link="/desk/query-report/Deadlines",
+		sender=notify.ONEAI,
+		arrived=week["arrived"],
+		handled=week["handled"],
+		waiting=len(waiting),
+		# Built and escaped by body(), in the reader's language.
+		week=Markup(body(week, waiting, due)),
 	)
 
 

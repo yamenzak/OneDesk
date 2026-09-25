@@ -18,7 +18,6 @@ happens.
 """
 
 import frappe
-from frappe import _
 from frappe.utils import add_days, getdate, today
 
 from onedesk.one_hr import passkey
@@ -135,24 +134,19 @@ def end_shifts(employee: str) -> int:
 
 
 def _tell(employee: str, why: str) -> None:
+	from onedesk.one import notify
+
 	name = frappe.db.get_value("Employee", employee, "employee_name") or employee
-	for user in frappe.get_all(
+	hr = frappe.get_all(
 		"Has Role",
 		filters={"role": ["in", ["HR User", "HR Manager"]], "parenttype": "User"},
 		pluck="parent",
 		distinct=True,
-	):
-		frappe.get_doc(
-			{
-				"doctype": "Notification Log",
-				"for_user": user,
-				"type": "Alert",
-				"document_type": "Employee",
-				"document_name": employee,
-				"subject": _("{0} could not be marked Left").format(name),
-				"email_content": _(
-					"Their passkey and shift assignments have been ended, but the status "
-					"is still Active:\n\n{0}"
-				).format(frappe.utils.strip_html(why)),
-			}
-		).insert(ignore_permissions=True)
+	)
+	notify.notify(
+		"Could Not Mark Left",
+		hr,
+		record=("Employee", employee),
+		employee=name,
+		why=frappe.utils.strip_html(why),
+	)
