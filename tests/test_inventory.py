@@ -97,8 +97,8 @@ def test_an_item_is_low_when_what_is_there_and_coming_is_at_its_level():
 
 
 def test_the_item_page_draws_the_band():
-	assert '"Item": "public/js/item.js"' in (tree.APP / "hooks.py").read_text()
-	assert "onedesk.one_inventory.item.said" in (tree.APP / "public" / "js" / "item.js").read_text()
+	heads = (tree.APP / "one_inventory" / "heads.py").read_text()
+	assert '"doctype": "Item"' in heads and "item.said(name)" in heads
 
 
 def test_how_many_to_order_is_erpnexts_rule():
@@ -179,7 +179,8 @@ def test_leaving_asks_for_each_asset_back_once():
 def test_custody_is_wired_to_the_asset_the_employee_and_leaving():
 	hooks = (tree.APP / "hooks.py").read_text()
 	assert '"before_submit": "onedesk.one_inventory.custody.leaving"' in hooks
-	assert '"Asset": "public/js/asset.js"' in hooks
+	heads = (tree.APP / "one_inventory" / "heads.py").read_text()
+	assert "custody.give(doc.name, employee)" in heads and "custody.take_back(doc.name, location)" in heads
 	assert "_equipment(doc)" in (tree.APP / "one_hr" / "employee.py").read_text()
 
 

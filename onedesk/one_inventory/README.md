@@ -176,7 +176,7 @@ the books by itself every day, and the asset reports are OneBook's to read as
 well. The product line has no mark for a separate assets app, and an app with
 a register and a movement form in it would be a rail with five rows.
 
-- `item.py` and `public/js/item.js` — the item's band. ERPNext has every
+- `item.py` and `heads.py` — the item's band, a Record Head (one/head.py). ERPNext has every
   figure in a different place — the Bins behind the Stock Levels panel at the
   foot of the form, the reorder table on the Inventory tab, a Last Purchase
   Rate with no supplier or date — and `said` reads them into one answer.
@@ -191,7 +191,8 @@ a register and a movement form in it would be a rail with five rows.
   `material_request_item` so ERPNext's own status update marks the request
   ordered on submit. How many is ERPNext's rule (`quantity`, pure). Rows on a
   draft order are left off so nothing is ordered twice.
-- `assets.py` and `public/js/asset.js` — the register that finishes itself.
+- `assets.py` and `heads.py` — the register that finishes itself, and the
+  asset's band and its Give To… and Take Back, as a Record Head.
   ERPNext makes assets from a receipt only if the item also has Auto Create
   Assets and a naming series (`fixed_item` sets both when an item becomes a
   fixed asset), refuses a fixed-asset row with no Asset Location (`located`

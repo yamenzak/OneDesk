@@ -425,3 +425,15 @@ a.one-stat:hover .one-stat-value {
 	font-weight: 400;
 	text-decoration: none;
 }
+
+/* The Activity tab's own field only makes the tab (record_activity.js); its
+ * section stays so frappe keeps the tab, and takes no room. */
+.form-section.one-activity-field,
+.form-section.one-activity-field .section-body,
+.form-section.one-activity-field .form-column,
+.form-section.one-activity-field .frappe-control {
+	padding: 0;
+	margin: 0;
+	border: 0;
+	min-height: 0;
+}

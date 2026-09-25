@@ -166,9 +166,15 @@ to; a count or sum of another doctype with filters naming the record; or a
 (`one_measures` hook). The arithmetic stays Python and tested; where it goes
 on the page is data. A workspace can place a measure, never write one.
 
-**Buttons are frappe's own DocType Actions**, not a new table. A Server Action
-may name only a verb we registered (`one_verbs`), so a row cannot call an
-arbitrary whitelisted method.
+**Buttons are verb rows**, each naming a verb a module registered
+(`one_verbs`), so a row cannot call an arbitrary whitelisted method. The plan
+was frappe's own DocType Actions; as built, they could not carry it. A DocType
+Action shows on every saved record whatever its state, and calls its method
+with the record and nothing else, while every button we have shows only when
+it can be done (Take Back only while somebody holds the asset) and most ask
+something first (whom to give it to; how much was paid, and into which
+account). A verb says both, in Python, and the row only places it. DocType
+Actions stay what they are for a plain route.
 
 **Connections are frappe's own DocType Links.**
 
@@ -267,7 +273,8 @@ Each deletes what it replaces in the same commit.
    Done.
 4. **Record Head**: the doctype, the onload hook, the renderer, measures and
    verbs. Ported first where the pattern is plainest (Item, Asset, Invoice),
-   then the rest.
+   then the rest. The first half is done; the rest ports with its product in
+   the passover.
 5. **The Linked Section** and its save.
 6. **The workspace layer**: the holds on Custom Field, Property Setter, DocType
    Link and Action, and Record Head; the Customize page; Reset.
@@ -372,6 +379,52 @@ product by product.
   refuses `height: calc(100vh …)` in a page's stylesheet, a page sized to the
   window, rather than any `vh`: a popup's `max-height` and a tab's capped
   `clamp()` are not that.
+
+## Stage 4, as built
+
+- **Record Head** (module One) is one record per doctype with four tables:
+  Indicators (a condition, a label, a colour), Sentences (a condition and a
+  sentence naming only `{{ doc.field }}`), Band (a label and a value, from a
+  field, a linked record's field, a count or a sum, or a measure; a
+  condition, a link, a tone, and whether an empty one hides), and Verbs. It
+  has no desk permissions yet; stage 6 gives the workspace its door.
+- **`one/head.py`** works a head out as the reader in every record's
+  `onload` and sends it in `__onload.one_head`. A condition is frappe's
+  filters (`evaluate_filters`); a template is read by a regular expression
+  that knows only `{{ doc.field }}`, so nothing in a row is evaluated. A
+  count or a sum is `frappe.get_list`, so it is the reader's own list's
+  number. `validate` refuses a row naming a field the record lacks, a
+  measure or verb nobody registered, or a verb for another doctype. `run`
+  does a verb after checking again that the record's head offers it and that
+  it can still be done.
+- **Modules declare**: `one_record_heads`, `one_measures` and `one_verbs` in
+  hooks, each a list of paths to a module's `HEADS`, `MEASURES` and `VERBS`.
+  `install` writes the heads on every migrate and removes one a module no
+  longer declares. The measures are thin: `one_inventory/heads.py` and
+  `one_book/heads.py` read the same `said` and `paid` code the scripts
+  called, once per request (`request_cache`).
+- **`public/js/head.js`** draws any head: the indicator, the sentence as a
+  form message, the band through the band's existing markup, and each verb as
+  a button that asks in frappe's own Dialog. A primary verb is the one dark
+  button, which is the Record Payment fix made general. It touches only what
+  it drew, and nothing on a form without a head.
+- **Ported**: Item, Asset, Sales Invoice and Purchase Invoice. `item.js`,
+  `asset.js` and `invoice.js` are deleted (206 lines) and replaced by two
+  declarations. Eight records, stock and fixed-asset items, a depreciating
+  asset held and not, an invoice late and one repeating, and a draft bill,
+  are pixel for pixel what they were. Give To, Hand To, Take Back and Record
+  Payment's dialog were each tried; a verb asked for on a record that does not
+  offer it is refused. An indicator and a sentence, added for a moment to
+  the Asset head, drew beside and under the title.
+- Found on the way: a record's Activity tab vanished whenever frappe
+  refreshed the tabs a second time, because it hid the one section the tab
+  had and frappe shows only a tab with a visible section. Drawing the band in
+  the same refresh made it happen on every asset. The section now stays,
+  with no room taken (`desk.css`), and the tab stays.
+- **Not yet**: Employee (its heat map is the first registered block), Lead,
+  Opportunity and Project (bands), the twelve HR records' sentences and the
+  operator records' indicators. Each ports with its product in the passover,
+  and `tests/test_head.py` then refuses a script left drawing it.
 
 ## The risks
 

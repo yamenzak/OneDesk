@@ -1,0 +1,47 @@
+{
+ "actions": [],
+ "creation": "2026-09-25 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "verb",
+  "label",
+  "primary"
+ ],
+ "fields": [
+  {
+   "fieldname": "verb",
+   "fieldtype": "Data",
+   "label": "Verb",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "A verb a module registered by name. It says itself when it can be done and what it asks."
+  },
+  {
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "label": "Label",
+   "in_list_view": 1,
+   "description": "What the button says, when not the verb's own."
+  },
+  {
+   "fieldname": "primary",
+   "fieldtype": "Check",
+   "label": "Primary",
+   "in_list_view": 1,
+   "description": "The one dark button while it shows."
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-25 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One",
+ "name": "Record Head Verb",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1,
+ "editable_grid": 1
+}

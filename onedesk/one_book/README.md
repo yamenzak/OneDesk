@@ -190,7 +190,8 @@ fails a small business on first use or leaves a question unanswered.
   (profit leaves out the Period Closing Voucher's entries, which move profit
   rather than make it), what is owed from `outstanding_amount` on submitted
   invoices and bills, by due date (`outstanding`, pure).
-- `paid.py` and `public/js/invoice.js` — the band and **Record Payment**.
+- `paid.py` and `heads.py` — the band and **Record Payment**, a Record Head
+  (one/head.py).
   ERPNext's **Create › Payment** opens a thirty-field Payment Entry for the
   case four fields answer; `settle` takes those four and submits ERPNext's own
   entry, made by its `get_payment_entry`, allocating the amount across the

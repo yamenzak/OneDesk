@@ -1,0 +1,105 @@
+{
+ "actions": [],
+ "creation": "2026-09-25 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "record_doctype",
+  "module",
+  "enabled",
+  "indicator_section",
+  "indicators",
+  "sentence_section",
+  "sentences",
+  "band_section",
+  "band",
+  "verbs_section",
+  "verbs"
+ ],
+ "fields": [
+  {
+   "fieldname": "record_doctype",
+   "fieldtype": "Link",
+   "options": "DocType",
+   "label": "Record",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "module",
+   "fieldtype": "Data",
+   "label": "Declared By",
+   "read_only": 1,
+   "in_list_view": 1,
+   "description": "The module whose declaration this is. Its rows are written again on every update."
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1"
+  },
+  {
+   "fieldname": "indicator_section",
+   "fieldtype": "Section Break",
+   "label": "Indicator"
+  },
+  {
+   "fieldname": "indicators",
+   "fieldtype": "Table",
+   "options": "Record Head Indicator",
+   "label": "Indicators",
+   "description": "The first whose condition holds is the pill beside the title."
+  },
+  {
+   "fieldname": "sentence_section",
+   "fieldtype": "Section Break",
+   "label": "Sentence"
+  },
+  {
+   "fieldname": "sentences",
+   "fieldtype": "Table",
+   "options": "Record Head Sentence",
+   "label": "Sentences",
+   "description": "The first whose condition holds is said under the title."
+  },
+  {
+   "fieldname": "band_section",
+   "fieldtype": "Section Break",
+   "label": "Band"
+  },
+  {
+   "fieldname": "band",
+   "fieldtype": "Table",
+   "options": "Record Head Band",
+   "label": "Band",
+   "description": "The numbers under the title, in this order."
+  },
+  {
+   "fieldname": "verbs_section",
+   "fieldtype": "Section Break",
+   "label": "Verbs"
+  },
+  {
+   "fieldname": "verbs",
+   "fieldtype": "Table",
+   "options": "Record Head Verb",
+   "label": "Verbs",
+   "description": "Buttons that do something a module registered. Each shows only when it can be done."
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-25 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One",
+ "name": "Record Head",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "autoname": "field:record_doctype",
+ "in_create": 1,
+ "title_field": "record_doctype"
+}

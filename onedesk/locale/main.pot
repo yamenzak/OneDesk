@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-25 20:23+0000\n"
-"PO-Revision-Date: 2026-09-25 20:23+0000\n"
+"POT-Creation-Date: 2026-09-25 20:38+0000\n"
+"PO-Revision-Date: 2026-09-25 20:38+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -215,6 +215,11 @@ msgstr ""
 msgid "A field OneAI wrote, and what it wrote. The badge shows while the field still says it."
 msgstr ""
 
+#. Description of the 'Field' (Data) field in DocType 'Record Head Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "A field of the record, of the record it links to, or the one summed."
+msgstr ""
+
 #. Description of a DocType
 #: onedesk/one_intake/doctype/file_link/file_link.json
 msgid "A file that belongs to a record as well as to where it is kept."
@@ -309,6 +314,11 @@ msgstr ""
 
 #: onedesk/one_admin/doctype/ai_model/ai_model.py:60
 msgid "A markup below nothing would pay somebody to call the model."
+msgstr ""
+
+#. Description of the 'Measure' (Data) field in DocType 'Record Head Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "A measure a module registered by name. It may say its own label, tone and link."
 msgstr ""
 
 #: onedesk/one_storage/library.py:101
@@ -509,6 +519,11 @@ msgstr ""
 msgid "A training event was scheduled. Sent to everybody attending it."
 msgstr ""
 
+#. Description of the 'Verb' (Data) field in DocType 'Record Head Verb'
+#: onedesk/one/doctype/record_head_verb/record_head_verb.json
+msgid "A verb a module registered by name. It says itself when it can be done and what it asks."
+msgstr ""
+
 #: onedesk/one_inventory/notifications.py:55
 msgid "A warehouse's account is not a stock account, so stock and books disagree. Mailed to Stock Managers."
 msgstr ""
@@ -658,7 +673,7 @@ msgstr ""
 msgid "About {0}"
 msgstr ""
 
-#: onedesk/public/js/item.js:36
+#: onedesk/one_inventory/heads.py:72
 msgid "Above its level"
 msgstr ""
 
@@ -1128,9 +1143,9 @@ msgstr ""
 #. Label of the amount (Currency) field in DocType 'Offering'
 #. Label of the amount (Float) field in DocType 'Reading Line'
 #: onedesk/one_admin/doctype/offering/offering.json
-#: onedesk/one_intake/bundle.py:83
+#: onedesk/one_book/heads.py:95 onedesk/one_intake/bundle.py:83
 #: onedesk/one_intake/doctype/reading_line/reading_line.json
-#: onedesk/public/js/intake.js:161 onedesk/public/js/invoice.js:46
+#: onedesk/public/js/intake.js:161
 msgid "Amount"
 msgstr ""
 
@@ -1632,8 +1647,8 @@ msgid "Asset Value Adjustments"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: onedesk/one_inventory/heads.py:225
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
-#: onedesk/public/js/item.js:22
 msgid "Assets"
 msgstr ""
 
@@ -1908,6 +1923,16 @@ msgstr ""
 msgid "Balance Sheet"
 msgstr ""
 
+#. Label of the band_section (Section Break) field in DocType 'Record Head'
+#. Label of the band (Table) field in DocType 'Record Head'
+#: onedesk/one/doctype/record_head/record_head.json
+msgid "Band"
+msgstr ""
+
+#: onedesk/one/head.py:145
+msgid "Band row {0}"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_book/report/books_check/books_check.js:11
 #: onedesk/one_book/sidebar/onebook/onebook.json
@@ -2173,6 +2198,11 @@ msgstr ""
 
 #: onedesk/public/js/crm_record.js:204
 msgid "Busy"
+msgstr ""
+
+#. Description of the 'Verbs' (Table) field in DocType 'Record Head'
+#: onedesk/one/doctype/record_head/record_head.json
+msgid "Buttons that do something a module registered. Each shows only when it can be done."
 msgstr ""
 
 #: onedesk/public/js/settings.js:569 onedesk/public/js/settings.js:582
@@ -2864,6 +2894,13 @@ msgstr ""
 msgid "Colleague"
 msgstr ""
 
+#. Label of the colour (Select) field in DocType 'Record Head Indicator'
+#. Label of the colour (Select) field in DocType 'Record Head Sentence'
+#: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
+#: onedesk/one/doctype/record_head_sentence/record_head_sentence.json
+msgid "Colour"
+msgstr ""
+
 #: onedesk/public/js/settings.js:700
 msgid "Coming Up"
 msgstr ""
@@ -3115,7 +3152,7 @@ msgstr ""
 msgid "Correction"
 msgstr ""
 
-#: onedesk/public/js/asset.js:22 onedesk/public/js/project.js:75
+#: onedesk/one_inventory/heads.py:271 onedesk/public/js/project.js:75
 msgid "Cost"
 msgstr ""
 
@@ -3140,6 +3177,11 @@ msgstr ""
 msgid "Could not reach {0}: {1}"
 msgstr ""
 
+#. Option for the 'Value' (Select) field in DocType 'Record Head Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "Count"
+msgstr ""
+
 #: onedesk/public/js/checkin_list.js:15
 msgid "Counted"
 msgstr ""
@@ -3148,6 +3190,11 @@ msgstr ""
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_intake/report/deadlines/deadlines.py:45
 msgid "Counted From"
+msgstr ""
+
+#. Label of the filters (Code) field in DocType 'Record Head Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "Counting"
 msgstr ""
 
 #. Label of the country (Link) field in DocType 'Account Request'
@@ -3169,9 +3216,9 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
-#: onedesk/public/js/invoice.js:94 onedesk/public/js/onecloud.js:1363
-#: onedesk/public/js/opportunity.js:18 onedesk/public/js/opportunity.js:19
-#: onedesk/public/js/project.js:127 onedesk/public/js/project.js:188
+#: onedesk/public/js/onecloud.js:1363 onedesk/public/js/opportunity.js:18
+#: onedesk/public/js/opportunity.js:19 onedesk/public/js/project.js:127
+#: onedesk/public/js/project.js:188
 msgid "Create"
 msgstr ""
 
@@ -3564,6 +3611,11 @@ msgstr ""
 msgid "Declared"
 msgstr ""
 
+#. Label of the module (Data) field in DocType 'Record Head'
+#: onedesk/one/doctype/record_head/record_head.json
+msgid "Declared By"
+msgstr ""
+
 #: onedesk/public/js/ai_model_list.js:16 onedesk/public/js/settings.js:662
 msgid "Default"
 msgstr ""
@@ -3701,8 +3753,8 @@ msgid "Deployed Workers"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: onedesk/one_inventory/heads.py:272
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
-#: onedesk/public/js/asset.js:24 onedesk/public/js/asset.js:33
 msgid "Depreciation"
 msgstr ""
 
@@ -3883,7 +3935,7 @@ msgstr ""
 msgid "Documents in it"
 msgstr ""
 
-#: onedesk/public/js/asset.js:33
+#: onedesk/one_inventory/heads.py:104
 msgid "Does not depreciate"
 msgstr ""
 
@@ -3944,7 +3996,7 @@ msgstr ""
 msgid "Done When"
 msgstr ""
 
-#: onedesk/one_ai/suggest.py:89
+#: onedesk/one/head.py:294 onedesk/one_ai/suggest.py:89
 msgid "Done."
 msgstr ""
 
@@ -4063,10 +4115,10 @@ msgid "Dropped"
 msgstr ""
 
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
+#: onedesk/one_book/heads.py:137
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_task/page/my_tasks/my_tasks.js:43
-#: onedesk/public/js/invoice.js:16 onedesk/public/js/invoice.js:18
-#: onedesk/public/js/invoice.js:19 onedesk/public/js/project.js:73
+#: onedesk/public/js/project.js:73
 msgid "Due"
 msgstr ""
 
@@ -4266,8 +4318,8 @@ msgstr ""
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:166
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/public/js/asset.js:73 onedesk/public/js/leave_control_panel.js:33
-#: onedesk/public/js/overtime.js:14
+#: onedesk/one_inventory/heads.py:190
+#: onedesk/public/js/leave_control_panel.js:33 onedesk/public/js/overtime.js:14
 msgid "Employee"
 msgstr ""
 
@@ -4405,12 +4457,14 @@ msgstr ""
 msgid "Empty uses {0}."
 msgstr ""
 
+#. Label of the enabled (Check) field in DocType 'Record Head'
 #. Label of the enabled (Check) field in DocType 'Offering'
 #. Label of the enabled (Check) field in DocType 'AI Action'
 #. Label of the enabled (Check) field in DocType 'AI Knowledge'
 #. Label of the enabled (Check) field in DocType 'Attendance Reason'
 #. Label of the enabled (Check) field in DocType 'Clock Reason'
 #. Label of the enabled (Check) field in DocType 'Mail Rule'
+#: onedesk/one/doctype/record_head/record_head.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
@@ -4805,7 +4859,10 @@ msgstr ""
 msgid "Fetch Overtime Details"
 msgstr ""
 
+#. Option for the 'Value' (Select) field in DocType 'Record Head Band'
+#. Label of the field (Data) field in DocType 'Record Head Band'
 #. Label of the fieldname (Data) field in DocType 'AI Touch'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 msgid "Field"
 msgstr ""
@@ -4969,6 +5026,22 @@ msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:7
 msgid "Filter Based On"
+msgstr ""
+
+#. Description of the 'Shown When' (Code) field in DocType 'Record Head Band'
+#. Description of the 'Shown When' (Code) field in DocType 'Record Head
+#. Indicator'
+#. Description of the 'Shown When' (Code) field in DocType 'Record Head
+#. Sentence'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+#: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
+#: onedesk/one/doctype/record_head_sentence/record_head_sentence.json
+msgid "Filters on the record, as a list filter writes them. Empty shows it always."
+msgstr ""
+
+#. Description of the 'Counting' (Code) field in DocType 'Record Head Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "Filters on what is counted. A value may name the record's fields as {{ doc.fieldname }}."
 msgstr ""
 
 #. Description of the 'Set Up Cloudflare' (Button) field in DocType 'One Admin
@@ -5177,7 +5250,7 @@ msgstr ""
 msgid "Free for {0} days"
 msgstr ""
 
-#: onedesk/public/js/item.js:29
+#: onedesk/one_inventory/heads.py:249
 msgid "Free to Sell"
 msgstr ""
 
@@ -5295,15 +5368,15 @@ msgstr ""
 msgid "Get in Touch Form"
 msgstr ""
 
-#: onedesk/public/js/asset.js:77 onedesk/public/js/tenant.js:126
+#: onedesk/one_inventory/heads.py:184 onedesk/public/js/tenant.js:126
 msgid "Give"
 msgstr ""
 
-#: onedesk/public/js/asset.js:76
+#: onedesk/one_inventory/heads.py:183
 msgid "Give To"
 msgstr ""
 
-#: onedesk/public/js/asset.js:71
+#: onedesk/one_inventory/heads.py:182
 msgid "Give To…"
 msgstr ""
 
@@ -5328,7 +5401,7 @@ msgstr ""
 msgid "Given"
 msgstr ""
 
-#: onedesk/public/js/asset.js:75
+#: onedesk/one_inventory/heads.py:196
 msgid "Given."
 msgstr ""
 
@@ -5487,11 +5560,11 @@ msgstr ""
 msgid "Half day"
 msgstr ""
 
-#: onedesk/public/js/asset.js:76
+#: onedesk/one_inventory/heads.py:183
 msgid "Hand To Somebody Else"
 msgstr ""
 
-#: onedesk/public/js/asset.js:71
+#: onedesk/one_inventory/heads.py:182
 msgid "Hand To…"
 msgstr ""
 
@@ -5544,6 +5617,11 @@ msgstr ""
 
 #: onedesk/one/ai.py:84 onedesk/public/js/settings.js:774
 msgid "Help me set up a notification rule. Ask me what should happen and who should be told, then suggest the rule."
+msgstr ""
+
+#. Label of the hide_empty (Check) field in DocType 'Record Head Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "Hide When Empty"
 msgstr ""
 
 #: onedesk/public/js/oneai/Record.vue:23
@@ -5684,6 +5762,11 @@ msgstr ""
 
 #: onedesk/one_project/notifications.py:15
 msgid "How is {project} going?"
+msgstr ""
+
+#. Description of the 'Tone' (Select) field in DocType 'Record Head Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "How it reads. Quiet for nothing to do, waiting for something to do, alarm for something late."
 msgstr ""
 
 #. Description of the 'standard_working_hours' field in DocType 'HR Settings'
@@ -6016,6 +6099,21 @@ msgstr ""
 
 #: onedesk/public/js/crm_record.js:193
 msgid "Incoming"
+msgstr ""
+
+#. Label of the indicator_section (Section Break) field in DocType 'Record
+#. Head'
+#: onedesk/one/doctype/record_head/record_head.json
+msgid "Indicator"
+msgstr ""
+
+#: onedesk/one/head.py:140
+msgid "Indicator {0}"
+msgstr ""
+
+#. Label of the indicators (Table) field in DocType 'Record Head'
+#: onedesk/one/doctype/record_head/record_head.json
+msgid "Indicators"
 msgstr ""
 
 #. Option for the 'First Look' (Select) field in DocType 'Reading'
@@ -6483,7 +6581,7 @@ msgstr ""
 msgid "Kept"
 msgstr ""
 
-#: onedesk/public/js/asset.js:83
+#: onedesk/one_inventory/heads.py:207
 msgid "Kept At"
 msgstr ""
 
@@ -6562,8 +6660,14 @@ msgstr ""
 msgid "Knows about"
 msgstr ""
 
+#. Label of the label (Data) field in DocType 'Record Head Band'
+#. Label of the label (Data) field in DocType 'Record Head Indicator'
+#. Label of the label (Data) field in DocType 'Record Head Verb'
 #. Label of the label (Data) field in DocType 'Offering'
 #. Label of the label (Data) field in DocType 'AI Action'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+#: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
+#: onedesk/one/doctype/record_head_verb/record_head_verb.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 msgid "Label"
@@ -6588,7 +6692,7 @@ msgstr ""
 msgid "Last Address"
 msgstr ""
 
-#: onedesk/public/js/item.js:44 onedesk/public/js/item.js:46
+#: onedesk/one_inventory/heads.py:260
 msgid "Last Bought"
 msgstr ""
 
@@ -6784,6 +6888,11 @@ msgstr ""
 #. Label of a shortcut in the OneCRM Workspace
 #: onedesk/one_crm/workspace/onecrm/onecrm.json
 msgid "Leads Due"
+msgstr ""
+
+#. Label of the route (Data) field in DocType 'Record Head Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "Leads To"
 msgstr ""
 
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:70
@@ -7061,6 +7170,11 @@ msgstr ""
 msgid "Linked By"
 msgstr ""
 
+#. Option for the 'Value' (Select) field in DocType 'Record Head Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "Linked Field"
+msgstr ""
+
 #. Label of the for_name (Dynamic Link) field in DocType 'File Link'
 #: onedesk/one_intake/doctype/file_link/file_link.json
 msgid "Linked To"
@@ -7251,7 +7365,7 @@ msgstr ""
 msgid "Low"
 msgstr ""
 
-#: onedesk/public/js/item.js:34
+#: onedesk/one_inventory/heads.py:71
 msgid "Low in {0}"
 msgstr ""
 
@@ -7609,6 +7723,12 @@ msgstr ""
 msgid "Maybe the same as {0} {1}, by {2}."
 msgstr ""
 
+#. Option for the 'Value' (Select) field in DocType 'Record Head Band'
+#. Label of the measure (Data) field in DocType 'Record Head Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "Measure"
+msgstr ""
+
 #: onedesk/public/js/tenant.js:76
 msgid "Measure storage"
 msgstr ""
@@ -7943,6 +8063,12 @@ msgstr ""
 msgid "Named it {0}"
 msgstr ""
 
+#. Description of the 'Sentence' (Small Text) field in DocType 'Record Head
+#. Sentence'
+#: onedesk/one/doctype/record_head_sentence/record_head_sentence.json
+msgid "Names the record's fields as {{ doc.fieldname }}, and nothing else."
+msgstr ""
+
 #. Label of the 'section_break_ackd' field in DocType 'Employee Attendance
 #. Tool'
 #: onedesk/one_hr/custom/employee_attendance_tool.json
@@ -7999,7 +8125,7 @@ msgstr ""
 msgid "Network and Location"
 msgstr ""
 
-#: onedesk/public/js/item.js:46
+#: onedesk/one_inventory/heads.py:80
 msgid "Never"
 msgstr ""
 
@@ -8125,7 +8251,7 @@ msgstr ""
 msgid "Next 7 Days"
 msgstr ""
 
-#: onedesk/public/js/asset.js:29 onedesk/public/js/asset.js:30
+#: onedesk/one_inventory/heads.py:274
 msgid "Next Depreciation"
 msgstr ""
 
@@ -8138,7 +8264,7 @@ msgstr ""
 msgid "Next Run"
 msgstr ""
 
-#: onedesk/public/js/asset.js:43 onedesk/public/js/asset.js:48
+#: onedesk/one_inventory/heads.py:277
 msgid "Next Service"
 msgstr ""
 
@@ -8168,7 +8294,7 @@ msgstr ""
 msgid "Next Step Due"
 msgstr ""
 
-#: onedesk/public/js/invoice.js:33
+#: onedesk/one_book/heads.py:63
 msgid "Next on {0}"
 msgstr ""
 
@@ -8246,7 +8372,7 @@ msgstr ""
 msgid "No items match your search."
 msgstr ""
 
-#: onedesk/public/js/item.js:38
+#: onedesk/one_inventory/heads.py:72
 msgid "No level set"
 msgstr ""
 
@@ -8316,7 +8442,7 @@ msgstr ""
 msgid "No salary slips yet for {0} to {1}."
 msgstr ""
 
-#: onedesk/public/js/asset.js:48
+#: onedesk/one_inventory/heads.py:132
 msgid "No schedule"
 msgstr ""
 
@@ -8348,7 +8474,7 @@ msgstr ""
 msgid "No {0} bucket is configured."
 msgstr ""
 
-#: onedesk/public/js/asset.js:55
+#: onedesk/one_inventory/heads.py:145
 msgid "Nobody"
 msgstr ""
 
@@ -8384,7 +8510,7 @@ msgstr ""
 msgid "None in the list."
 msgstr ""
 
-#: onedesk/public/js/asset.js:30
+#: onedesk/one_inventory/heads.py:119
 msgid "None left"
 msgstr ""
 
@@ -8435,7 +8561,7 @@ msgstr ""
 msgid "Not Shown"
 msgstr ""
 
-#: onedesk/public/js/item.js:23
+#: onedesk/one_inventory/heads.py:233
 msgid "Not Yet Registered"
 msgstr ""
 
@@ -8519,6 +8645,12 @@ msgstr ""
 
 #: onedesk/one_hr/hiring.py:337
 msgid "Not shown"
+msgstr ""
+
+#. Description of the 'Hide When Empty' (Check) field in DocType 'Record Head
+#. Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "Not shown when it comes to nothing. Otherwise an empty value shows as a dash."
 msgstr ""
 
 #: onedesk/public/js/tenant_domain.js:27
@@ -8696,7 +8828,7 @@ msgstr ""
 msgid "Now"
 msgstr ""
 
-#: onedesk/public/js/asset.js:35
+#: onedesk/one_inventory/heads.py:124
 msgid "Nowhere yet"
 msgstr ""
 
@@ -8724,6 +8856,11 @@ msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:36
 msgid "Oct"
+msgstr ""
+
+#. Label of the of_doctype (Link) field in DocType 'Record Head Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "Of"
 msgstr ""
 
 #. Label of the of_whom (Data) field in DocType 'Reading Ask'
@@ -8812,7 +8949,7 @@ msgstr ""
 msgid "On Everybody's Calendar"
 msgstr ""
 
-#: onedesk/public/js/item.js:28
+#: onedesk/one_inventory/heads.py:243
 msgid "On Hand"
 msgstr ""
 
@@ -8821,7 +8958,7 @@ msgstr ""
 msgid "On Hold"
 msgstr ""
 
-#: onedesk/public/js/item.js:30
+#: onedesk/one_inventory/heads.py:251
 msgid "On Order"
 msgstr ""
 
@@ -9665,7 +9802,7 @@ msgstr ""
 msgid "Output Tokens"
 msgstr ""
 
-#: onedesk/public/js/invoice.js:21
+#: onedesk/one_book/heads.py:136
 msgid "Outstanding"
 msgstr ""
 
@@ -9772,11 +9909,11 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:10
-#: onedesk/public/js/invoice.js:23 onedesk/www/projects.html:86
+#: onedesk/one_book/heads.py:138 onedesk/www/projects.html:86
 msgid "Paid"
 msgstr ""
 
-#: onedesk/public/js/invoice.js:51
+#: onedesk/one_book/heads.py:104
 msgid "Paid From"
 msgstr ""
 
@@ -9786,11 +9923,11 @@ msgstr ""
 msgid "Paid How"
 msgstr ""
 
-#: onedesk/public/js/invoice.js:51
+#: onedesk/one_book/heads.py:104
 msgid "Paid Into"
 msgstr ""
 
-#: onedesk/public/js/invoice.js:47
+#: onedesk/one_book/heads.py:100
 msgid "Paid On"
 msgstr ""
 
@@ -10003,7 +10140,7 @@ msgstr ""
 msgid "Payment received. The workspace is being built."
 msgstr ""
 
-#: onedesk/public/js/invoice.js:71
+#: onedesk/one_book/heads.py:121
 msgid "Payment {0} recorded."
 msgstr ""
 
@@ -10412,7 +10549,9 @@ msgstr ""
 msgid "Priced by hand, and no rate has been added."
 msgstr ""
 
+#. Label of the primary (Check) field in DocType 'Record Head Verb'
 #. Label of the primary (Check) field in DocType 'Workspace Domain'
+#: onedesk/one/doctype/record_head_verb/record_head_verb.json
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
 #: onedesk/public/js/settings.js:612
 msgid "Primary"
@@ -10980,21 +11119,23 @@ msgstr ""
 msgid "Recipient"
 msgstr ""
 
+#. Label of the record_doctype (Link) field in DocType 'Record Head'
 #. Label of the record (Data) field in DocType 'AI Proposal'
 #. Label of the record (Dynamic Link) field in DocType 'AI Touch'
 #. Label of the for_name (Dynamic Link) field in DocType 'Identifier'
 #. Label of the target_name (Dynamic Link) field in DocType 'Intake Action'
 #. Label of the reference_name (Dynamic Link) field in DocType 'Cloud File
 #. Request'
+#: onedesk/one/doctype/record_head/record_head.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_ai/doctype/ai_touch/ai_touch.json
+#: onedesk/one_ai/doctype/ai_touch/ai_touch.json onedesk/one_book/heads.py:128
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/report/deadlines/deadlines.py:43
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
-#: onedesk/public/js/hiring.js:11 onedesk/public/js/invoice.js:64
-#: onedesk/public/js/onecloud.js:458 onedesk/public/js/onecloud.js:614
-#: onedesk/public/js/onemail.js:449 onedesk/public/js/overtime.js:50
+#: onedesk/public/js/hiring.js:11 onedesk/public/js/onecloud.js:458
+#: onedesk/public/js/onecloud.js:614 onedesk/public/js/onemail.js:449
+#: onedesk/public/js/overtime.js:50
 msgid "Record"
 msgstr ""
 
@@ -11009,13 +11150,37 @@ msgstr ""
 msgid "Record Field"
 msgstr ""
 
+#. Name of a DocType
+#: onedesk/one/doctype/record_head/record_head.json
+msgid "Record Head"
+msgstr ""
+
+#. Name of a DocType
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "Record Head Band"
+msgstr ""
+
+#. Name of a DocType
+#: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
+msgid "Record Head Indicator"
+msgstr ""
+
+#. Name of a DocType
+#: onedesk/one/doctype/record_head_sentence/record_head_sentence.json
+msgid "Record Head Sentence"
+msgstr ""
+
+#. Name of a DocType
+#: onedesk/one/doctype/record_head_verb/record_head_verb.json
+msgid "Record Head Verb"
+msgstr ""
+
 #: onedesk/public/js/attendance.js:8 onedesk/public/js/employee.js:230
 #: onedesk/public/js/overtime.js:10
 msgid "Record Overtime"
 msgstr ""
 
-#: onedesk/public/js/invoice.js:44 onedesk/public/js/invoice.js:84
-#: onedesk/public/js/invoice.js:85 onedesk/public/js/invoice.js:94
+#: onedesk/one_book/heads.py:127
 msgid "Record Payment"
 msgstr ""
 
@@ -11113,10 +11278,11 @@ msgstr ""
 #. Label of the value (Data) field in DocType 'Reading Reference'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
+#: onedesk/one_book/heads.py:113
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_intake/panel.py:106 onedesk/one_intake/panel.py:133
-#: onedesk/public/js/intake.js:162 onedesk/public/js/invoice.js:60
+#: onedesk/public/js/intake.js:162
 msgid "Reference"
 msgstr ""
 
@@ -11329,8 +11495,7 @@ msgstr ""
 msgid "Reopen"
 msgstr ""
 
-#: onedesk/public/js/item.js:34 onedesk/public/js/item.js:36
-#: onedesk/public/js/item.js:38
+#: onedesk/one_inventory/heads.py:258
 msgid "Reorder"
 msgstr ""
 
@@ -11356,11 +11521,11 @@ msgstr ""
 msgid "Repeating"
 msgstr ""
 
-#: onedesk/public/js/invoice.js:34
+#: onedesk/one_book/heads.py:140
 msgid "Repeats"
 msgstr ""
 
-#: onedesk/public/js/invoice.js:33
+#: onedesk/one_book/heads.py:62
 msgid "Repeats {0}"
 msgstr ""
 
@@ -12002,6 +12167,22 @@ msgstr ""
 msgid "Sent: {0}"
 msgstr ""
 
+#. Label of the sentence_section (Section Break) field in DocType 'Record Head'
+#. Label of the text (Small Text) field in DocType 'Record Head Sentence'
+#: onedesk/one/doctype/record_head/record_head.json
+#: onedesk/one/doctype/record_head_sentence/record_head_sentence.json
+msgid "Sentence"
+msgstr ""
+
+#: onedesk/one/head.py:142 onedesk/one/head.py:143
+msgid "Sentence {0}"
+msgstr ""
+
+#. Label of the sentences (Table) field in DocType 'Record Head'
+#: onedesk/one/doctype/record_head/record_head.json
+msgid "Sentences"
+msgstr ""
+
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:35
 msgid "Sep"
 msgstr ""
@@ -12270,6 +12451,15 @@ msgstr ""
 
 #: onedesk/public/js/oneai/Record.vue:54
 msgid "Show {0} more"
+msgstr ""
+
+#. Label of the shown_when (Code) field in DocType 'Record Head Band'
+#. Label of the shown_when (Code) field in DocType 'Record Head Indicator'
+#. Label of the shown_when (Code) field in DocType 'Record Head Sentence'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+#: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
+#: onedesk/one/doctype/record_head_sentence/record_head_sentence.json
+msgid "Shown When"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:1671
@@ -12635,7 +12825,7 @@ msgstr ""
 msgid "Starts On"
 msgstr ""
 
-#: onedesk/public/js/asset.js:24
+#: onedesk/one_inventory/heads.py:103
 msgid "Starts when registered"
 msgstr ""
 
@@ -13006,6 +13196,11 @@ msgstr ""
 msgid "Suggestions"
 msgstr ""
 
+#. Option for the 'Value' (Select) field in DocType 'Record Head Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "Sum"
+msgstr ""
+
 #: onedesk/one_ai/suggest.py:22
 msgid "Summarise this"
 msgstr ""
@@ -13121,8 +13316,7 @@ msgstr ""
 msgid "Tagged it {0}"
 msgstr ""
 
-#: onedesk/public/js/asset.js:81 onedesk/public/js/asset.js:86
-#: onedesk/public/js/asset.js:87
+#: onedesk/one_inventory/heads.py:200 onedesk/one_inventory/heads.py:201
 msgid "Take Back"
 msgstr ""
 
@@ -13154,7 +13348,7 @@ msgstr ""
 msgid "Take this back?"
 msgstr ""
 
-#: onedesk/public/js/asset.js:85
+#: onedesk/one_inventory/heads.py:213
 msgid "Taken back."
 msgstr ""
 
@@ -13609,7 +13803,7 @@ msgstr ""
 msgid "The check-in could not be recorded."
 msgstr ""
 
-#: onedesk/public/js/invoice.js:61
+#: onedesk/one_book/heads.py:114
 msgid "The cheque or transfer number. The invoice's number when left empty."
 msgstr ""
 
@@ -13703,6 +13897,16 @@ msgstr ""
 msgid "The first thing asked, shortened. Renaming is allowed."
 msgstr ""
 
+#. Description of the 'Sentences' (Table) field in DocType 'Record Head'
+#: onedesk/one/doctype/record_head/record_head.json
+msgid "The first whose condition holds is said under the title."
+msgstr ""
+
+#. Description of the 'Indicators' (Table) field in DocType 'Record Head'
+#: onedesk/one/doctype/record_head/record_head.json
+msgid "The first whose condition holds is the pill beside the title."
+msgstr ""
+
 #. Description of the 'Flow' (Data) field in DocType 'Intake Action'
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 msgid "The function that makes the record, when it is not a plain insert."
@@ -13788,6 +13992,11 @@ msgstr ""
 msgid "The model the last answer came from."
 msgstr ""
 
+#. Description of the 'Declared By' (Data) field in DocType 'Record Head'
+#: onedesk/one/doctype/record_head/record_head.json
+msgid "The module whose declaration this is. Its rows are written again on every update."
+msgstr ""
+
 #. Description of the 'maximum_overtime_hours_allowed' field in DocType
 #. 'Overtime Details'
 #: onedesk/one_hr/custom/overtime_details.json
@@ -13815,6 +14024,11 @@ msgstr ""
 msgid "The next step to run. Steps can safely run more than once."
 msgstr ""
 
+#. Description of the 'Band' (Table) field in DocType 'Record Head'
+#: onedesk/one/doctype/record_head/record_head.json
+msgid "The numbers under the title, in this order."
+msgstr ""
+
 #: onedesk/public/js/settings.js:298
 msgid "The old link stops working. Make a new one?"
 msgstr ""
@@ -13822,6 +14036,11 @@ msgstr ""
 #. Description of the 'Read Back To' (Int) field in DocType 'Mail Folder'
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "The oldest message read so far. Older ones are read a batch at a time until there are none."
+msgstr ""
+
+#. Description of the 'Primary' (Check) field in DocType 'Record Head Verb'
+#: onedesk/one/doctype/record_head_verb/record_head_verb.json
+msgid "The one dark button while it shows."
 msgstr ""
 
 #. Description of the 'Capability' (Select) field in DocType 'AI Model'
@@ -13905,6 +14124,11 @@ msgstr ""
 #. Description of the 'Learned From' (Data) field in DocType 'Identifier'
 #: onedesk/one_intake/doctype/identifier/identifier.json
 msgid "The record or the reading it was learned from."
+msgstr ""
+
+#. Description of the 'Through' (Data) field in DocType 'Record Head Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "The record's own link to the one whose field is shown."
 msgstr ""
 
 #: onedesk/public/js/shift_request.js:11
@@ -14219,6 +14443,10 @@ msgstr ""
 msgid "This cannot be changed later. Files stay where the workspace was built."
 msgstr ""
 
+#: onedesk/one/head.py:292
+msgid "This cannot be done to {0} now."
+msgstr ""
+
 #: onedesk/one_calendar/layers.py:130
 msgid "This cannot be moved on the calendar."
 msgstr ""
@@ -14394,6 +14622,11 @@ msgstr ""
 msgid "Thread"
 msgstr ""
 
+#. Label of the link_field (Data) field in DocType 'Record Head Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "Through"
+msgstr ""
+
 #. Label of the one_from_checkins (Button) field in DocType 'Employee
 #. Attendance Tool'
 #: onedesk/one_hr/custom/employee_attendance_tool.json
@@ -14523,9 +14756,9 @@ msgstr ""
 msgid "To {0}"
 msgstr ""
 
+#: onedesk/one_book/heads.py:44
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:166
-#: onedesk/one_task/mine.py:23 onedesk/public/js/invoice.js:18
-#: onedesk/public/js/project.js:71
+#: onedesk/one_task/mine.py:23 onedesk/public/js/project.js:71
 msgid "Today"
 msgstr ""
 
@@ -14564,6 +14797,11 @@ msgstr ""
 msgid "Tomorrow"
 msgstr ""
 
+#. Label of the tone (Select) field in DocType 'Record Head Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "Tone"
+msgstr ""
+
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:147
 msgid "Too Long"
 msgstr ""
@@ -14586,9 +14824,10 @@ msgstr ""
 
 #. Label of the gross (Float) field in DocType 'Reading'
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:58
+#: onedesk/one_book/heads.py:139
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
-#: onedesk/one_intake/panel.py:138 onedesk/public/js/invoice.js:24
+#: onedesk/one_intake/panel.py:138
 msgid "Total"
 msgstr ""
 
@@ -15106,8 +15345,10 @@ msgstr ""
 msgid "Valid Until"
 msgstr ""
 
+#. Label of the source (Select) field in DocType 'Record Head Band'
 #. Label of the value (Long Text) field in DocType 'AI Touch'
 #. Label of the value (Data) field in DocType 'Identifier'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.py:66
 #: onedesk/one_intake/doctype/identifier/identifier.json
@@ -15132,6 +15373,21 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Vehicle Log"
+msgstr ""
+
+#. Label of the verb (Data) field in DocType 'Record Head Verb'
+#: onedesk/one/doctype/record_head_verb/record_head_verb.json
+msgid "Verb"
+msgstr ""
+
+#: onedesk/one/head.py:173
+msgid "Verb {0} is {1}, which no module has."
+msgstr ""
+
+#. Label of the verbs_section (Section Break) field in DocType 'Record Head'
+#. Label of the verbs (Table) field in DocType 'Record Head'
+#: onedesk/one/doctype/record_head/record_head.json
+msgid "Verbs"
 msgstr ""
 
 #. Label of the verdict (Select) field in DocType 'Clock Attempt'
@@ -15248,7 +15504,7 @@ msgstr ""
 msgid "Warehouses"
 msgstr ""
 
-#: onedesk/public/js/invoice.js:14
+#: onedesk/one_book/heads.py:40
 msgid "Was Due"
 msgstr ""
 
@@ -15477,6 +15733,11 @@ msgstr ""
 #. Description of the 'Device' (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "What the browser called itself when the passkey was registered."
+msgstr ""
+
+#. Description of the 'Label' (Data) field in DocType 'Record Head Verb'
+#: onedesk/one/doctype/record_head_verb/record_head_verb.json
+msgid "What the button says, when not the verb's own."
 msgstr ""
 
 #. Description of the 'advance_amount' field in DocType 'Employee Advance'
@@ -15717,7 +15978,7 @@ msgstr ""
 
 #. Label of the where_section (Section Break) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
-#: onedesk/public/js/asset.js:35
+#: onedesk/one_inventory/heads.py:275
 msgid "Where"
 msgstr ""
 
@@ -15764,6 +16025,11 @@ msgstr ""
 #. Description of the 'Original' (Data) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json
 msgid "Where the message as it arrived is kept, for an address on the mail domain."
+msgstr ""
+
+#. Description of the 'Leads To' (Data) field in DocType 'Record Head Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "Where the number leads. It may name the record's fields as {{ doc.fieldname }}."
 msgstr ""
 
 #: onedesk/public/js/settings.js:627
@@ -15836,7 +16102,7 @@ msgstr ""
 msgid "Who HR calls if something happens to you at work."
 msgstr ""
 
-#: onedesk/public/js/asset.js:54 onedesk/public/js/asset.js:55
+#: onedesk/one_inventory/heads.py:283
 msgid "Who Has It"
 msgstr ""
 
@@ -16128,11 +16394,11 @@ msgstr ""
 msgid "Workspaces get their mail addresses here, for example m.4dl.app. It must be in the same zone as the workspace domain."
 msgstr ""
 
-#: onedesk/public/js/item.js:31
+#: onedesk/one_inventory/heads.py:257
 msgid "Worth"
 msgstr ""
 
-#: onedesk/public/js/asset.js:22
+#: onedesk/one_inventory/heads.py:270
 msgid "Worth Now"
 msgstr ""
 
@@ -16217,7 +16483,7 @@ msgstr ""
 msgid "Writing it down again. The transcript and my remarks follow when I am done."
 msgstr ""
 
-#: onedesk/public/js/asset.js:26
+#: onedesk/one_inventory/heads.py:273
 msgid "Written Off"
 msgstr ""
 
@@ -16557,6 +16823,11 @@ msgstr ""
 msgid "after {0}"
 msgstr ""
 
+#. Option for the 'Tone' (Select) field in DocType 'Record Head Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "alarm"
+msgstr ""
+
 #: onedesk/one_admin/setup.py:173
 msgid "already set"
 msgstr ""
@@ -16572,6 +16843,13 @@ msgstr ""
 #. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "audio"
+msgstr ""
+
+#. Option for the 'Colour' (Select) field in DocType 'Record Head Indicator'
+#. Option for the 'Colour' (Select) field in DocType 'Record Head Sentence'
+#: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
+#: onedesk/one/doctype/record_head_sentence/record_head_sentence.json
+msgid "blue"
 msgstr ""
 
 #: onedesk/public/js/crm_record.js:54
@@ -16673,6 +16951,18 @@ msgstr ""
 #. Option for the 'Provider' (Select) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "google-ai-studio"
+msgstr ""
+
+#. Option for the 'Colour' (Select) field in DocType 'Record Head Indicator'
+#: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
+msgid "gray"
+msgstr ""
+
+#. Option for the 'Colour' (Select) field in DocType 'Record Head Indicator'
+#. Option for the 'Colour' (Select) field in DocType 'Record Head Sentence'
+#: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
+#: onedesk/one/doctype/record_head_sentence/record_head_sentence.json
+msgid "green"
 msgstr ""
 
 #. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
@@ -16789,6 +17079,13 @@ msgstr ""
 msgid "or drop them here"
 msgstr ""
 
+#. Option for the 'Colour' (Select) field in DocType 'Record Head Indicator'
+#. Option for the 'Colour' (Select) field in DocType 'Record Head Sentence'
+#: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
+#: onedesk/one/doctype/record_head_sentence/record_head_sentence.json
+msgid "orange"
+msgstr ""
+
 #. Option for the 'Modality' (Select) field in DocType 'AI Model Rate'
 #: onedesk/one_admin/doctype/ai_model_rate/ai_model_rate.json
 msgid "other"
@@ -16819,12 +17116,29 @@ msgstr ""
 msgid "placed {0} of {1}"
 msgstr ""
 
+#. Option for the 'Colour' (Select) field in DocType 'Record Head Indicator'
+#: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
+msgid "purple"
+msgstr ""
+
 #: onedesk/one_storage/api.py:425
 msgid "put it back from the Recycle Bin"
 msgstr ""
 
+#. Option for the 'Tone' (Select) field in DocType 'Record Head Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "quiet"
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:1275
 msgid "ran out {0}"
+msgstr ""
+
+#. Option for the 'Colour' (Select) field in DocType 'Record Head Indicator'
+#. Option for the 'Colour' (Select) field in DocType 'Record Head Sentence'
+#: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
+#: onedesk/one/doctype/record_head_sentence/record_head_sentence.json
+msgid "red"
 msgstr ""
 
 #: onedesk/public/js/crm_record.js:59
@@ -16913,6 +17227,11 @@ msgstr ""
 msgid "video"
 msgstr ""
 
+#. Option for the 'Tone' (Select) field in DocType 'Record Head Band'
+#: onedesk/one/doctype/record_head_band/record_head_band.json
+msgid "waiting"
+msgstr ""
+
 #: onedesk/public/js/oneai.js:214
 msgid "was: {0}"
 msgstr ""
@@ -16920,6 +17239,13 @@ msgstr ""
 #. Option for the 'Provider' (Select) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "workers-ai"
+msgstr ""
+
+#. Option for the 'Colour' (Select) field in DocType 'Record Head Indicator'
+#. Option for the 'Colour' (Select) field in DocType 'Record Head Sentence'
+#: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
+#: onedesk/one/doctype/record_head_sentence/record_head_sentence.json
+msgid "yellow"
 msgstr ""
 
 #: onedesk/one_intake/search.py:125
@@ -17062,6 +17388,10 @@ msgstr ""
 msgid "{0} could not be registered; each says why on its page."
 msgstr ""
 
+#: onedesk/one/head.py:160
+msgid "{0} counts nothing."
+msgstr ""
+
 #: onedesk/public/js/workspace_account.js:164
 msgid "{0} credits"
 msgstr ""
@@ -17176,8 +17506,12 @@ msgstr ""
 msgid "{0} for {1}: {2} of {3} days paid."
 msgstr ""
 
-#: onedesk/public/js/item.js:44
+#: onedesk/one_inventory/heads.py:79
 msgid "{0} from {1} · {2}"
+msgstr ""
+
+#: onedesk/one/head.py:155
+msgid "{0} goes through {1}, which is not a link."
 msgstr ""
 
 #: onedesk/one_ai/proposals.py:124
@@ -17328,6 +17662,10 @@ msgstr ""
 msgid "{0} is not a library."
 msgstr ""
 
+#: onedesk/one/head.py:133
+msgid "{0} is not a list of filters."
+msgstr ""
+
 #: onedesk/one/rules.py:186
 msgid "{0} is not a person on the record."
 msgstr ""
@@ -17348,6 +17686,10 @@ msgstr ""
 msgid "{0} is not a workspace."
 msgstr ""
 
+#: onedesk/one/head.py:289
+msgid "{0} is not offered here."
+msgstr ""
+
 #: onedesk/one_admin/doctype/ai_model/ai_model.py:34
 msgid "{0} is not offered, so nothing can default to it."
 msgstr ""
@@ -17358,6 +17700,10 @@ msgstr ""
 
 #: onedesk/one_mail/holders.py:136
 msgid "{0} is not somebody who works here."
+msgstr ""
+
+#: onedesk/one/head.py:175
+msgid "{0} is not something done to {1}."
 msgstr ""
 
 #: onedesk/one_ai/proposals.py:316
@@ -17441,6 +17787,14 @@ msgstr ""
 msgid "{0} must be kept until {1} by law, and cannot be deleted before then."
 msgstr ""
 
+#: onedesk/one/head.py:168
+msgid "{0} names the measure {1}, which no module has."
+msgstr ""
+
+#: onedesk/one/head.py:127 onedesk/one/head.py:157
+msgid "{0} names {1}, which {2} does not have."
+msgstr ""
+
 #: onedesk/public/js/intake.js:346
 msgid "{0} not checked by a person"
 msgstr ""
@@ -17469,7 +17823,7 @@ msgstr ""
 msgid "{0} of {1} complete"
 msgstr ""
 
-#: onedesk/public/js/asset.js:26
+#: onedesk/one_inventory/heads.py:111
 msgid "{0} of {1} months"
 msgstr ""
 
@@ -17505,7 +17859,7 @@ msgstr ""
 msgid "{0} on the odometer since the last log."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:413 onedesk/public/js/asset.js:29
+#: onedesk/one_ai/proposals.py:413 onedesk/one_inventory/heads.py:120
 #: onedesk/public/js/push.js:47 onedesk/public/js/settings.js:559
 msgid "{0} on {1}"
 msgstr ""
@@ -17564,6 +17918,14 @@ msgstr ""
 
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:68
 msgid "{0} submitted."
+msgstr ""
+
+#: onedesk/one/head.py:166
+msgid "{0} sums {1}, which {2} does not have."
+msgstr ""
+
+#: onedesk/one/head.py:149
+msgid "{0} takes its value from nowhere."
 msgstr ""
 
 #: onedesk/one_intake/page/intake/intake.js:109 onedesk/public/js/intake.js:45
@@ -17652,7 +18014,7 @@ msgstr ""
 msgid "{0} {1}?"
 msgstr ""
 
-#: onedesk/public/js/invoice.js:19
+#: onedesk/one_book/heads.py:45
 msgid "{0} · in {1} days"
 msgstr ""
 
@@ -17660,11 +18022,11 @@ msgstr ""
 msgid "{0} · waiting for you"
 msgstr ""
 
-#: onedesk/public/js/asset.js:44
+#: onedesk/one_inventory/heads.py:137
 msgid "{0} · {1}"
 msgstr ""
 
-#: onedesk/public/js/invoice.js:16
+#: onedesk/one_book/heads.py:42
 msgid "{0} · {1} days late"
 msgstr ""
 

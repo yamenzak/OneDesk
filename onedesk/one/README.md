@@ -255,6 +255,25 @@ For the people who build One. OneAI does not read past this heading.
 | `push.py`, `doctype/push_device`, `../public/js/push.js` | Web Push: a person's browsers, the site's keys, sending, and the service worker |
 | `rules.py` | The workspace's own notification rules: frappe's Notification, held to what a workspace rule may do |
 | `custom/notification_type.json` | What a Notification Type carries here: its app, text and channels |
+| `head.py`, `doctype/record_head*`, `../public/js/head.js` | What a record's form says above its fields, as rows: see below |
+
+**A record's head is rows.** The pill beside a form's title, the sentence
+under it, the band of numbers and the verbs a person presses are a **Record
+Head** (one per doctype, with a table for each), not a script per doctype.
+`head.onload` (every record's onload) works the rows out on the server as the
+reader and sends them in `__onload.one_head`; `head.js` draws them on any
+form. A band row is one of the record's fields, a field of a record it links
+to, a count or a sum of another doctype taken with the reader's own list
+permissions, or a **measure**: a Python function a module registers by name
+(`one_measures`) that answers one number or phrase, and may say its own
+label, tone and link. A verb row names a **verb** a module registers
+(`one_verbs`): whom it is for, when it can be done, what it asks in frappe's
+own dialog, and what it does; `head.run` checks again that it still can be
+done. A condition is frappe's filters, and a template names only
+`{{ doc.field }}`, so no row can run anything. Each module declares its heads
+(`one_record_heads`) and `head.install` writes them on every migrate. Nobody
+edits a Record Head on the desk yet; docs/SHELL.md, stage 6, is how a
+workspace will.
 
 Profile writes a person's own User record, and their own Employee record when
 they have one (`own.employee_of`), and only the fields named in `PROFILE` and

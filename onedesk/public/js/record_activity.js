@@ -67,7 +67,10 @@ frappe.ui.form.on("*", {
 		const footer = frm.footer.wrapper;
 		const pane = tab.wrapper;
 		if (footer && pane && !$.contains(pane[0], footer[0])) {
-			field.$wrapper.closest(".form-section").addClass("hide-control one-activity-field");
+			// The field's section stays, emptied of its padding: frappe shows a
+			// tab only while it has a visible section, and hides this one on its
+			// next refresh of the tabs if the section is hidden.
+			field.$wrapper.closest(".form-section").addClass("one-activity-field");
 			footer.appendTo(pane);
 		}
 		onedesk.record_activity.count(frm);

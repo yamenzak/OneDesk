@@ -48,6 +48,8 @@ after_install = [
 after_migrate = [
 	"onedesk.one.roles.ensure",
 	"onedesk.one.notify.install",
+	# What each module's records say above their fields. See one/head.py.
+	"onedesk.one.head.install",
 	# The index that makes document text searchable. See one_intake/search.py.
 	"onedesk.one_intake.search.index",
 	"onedesk.one_storage.store.unlimit",
@@ -221,7 +223,7 @@ doc_events = {
 		],
 		# The fields OneAI wrote that still say it (one_ai/touch.py), and the
 		# mark on a record OneAI made that nobody has checked (one_intake/mark.py).
-		"onload": ["onedesk.one_ai.touch.onload", "onedesk.one_intake.mark.onload"],
+		"onload": ["onedesk.one_ai.touch.onload", "onedesk.one_intake.mark.onload", "onedesk.one.head.onload"],
 		# Every identifier a record carries, kept up as it changes and carried
 		# through a rename or a merge. See one_intake/identity.py. A person's
 		# save, submit or cancel takes the OneAI mark down.
@@ -572,13 +574,6 @@ doctype_js = {
 	"Quotation": "public/js/quotation.js",
 	# A timer on the task. See one_task/timer.py.
 	"Task": "public/js/task.js",
-	# What an item's page answers first. See one_inventory/item.py.
-	"Item": "public/js/item.js",
-	# And an asset's. See one_inventory/assets.py.
-	"Asset": "public/js/asset.js",
-	# What is still owed, and Record Payment. See one_book/paid.py.
-	"Sales Invoice": "public/js/invoice.js",
-	"Purchase Invoice": "public/js/invoice.js",
 }
 
 # Loaded after the doctype's own list script, so ours has the last word.
@@ -674,6 +669,8 @@ app_include_js = [
 	"/assets/onedesk/js/mail_compose.js",
 	"/assets/onedesk/js/onecloud_picker.js",
 	"/assets/onedesk/js/band.js",
+	# Every record's head, from its Record Head. See one/head.py.
+	"/assets/onedesk/js/head.js",
 	"/assets/onedesk/js/crm_record.js",
 	"/assets/onedesk/js/reports.js",
 	"/assets/onedesk/js/oneai.js",
@@ -745,6 +742,12 @@ one_notification_types = [
 	"onedesk.one_inventory.notifications.TYPES",
 	"onedesk.one_crm.notifications.TYPES",
 ]
+
+# What a record's form says above its fields, as rows: each module's heads,
+# the measures they place and the verbs they offer. See one/head.py.
+one_record_heads = ["onedesk.one_inventory.heads.HEADS", "onedesk.one_book.heads.HEADS"]
+one_measures = ["onedesk.one_inventory.heads.MEASURES", "onedesk.one_book.heads.MEASURES"]
+one_verbs = ["onedesk.one_inventory.heads.VERBS", "onedesk.one_book.heads.VERBS"]
 
 # What each module puts on the calendar, as layers. Each reads its own records
 # as the person looking; nothing is copied. See one_calendar/layers.py.

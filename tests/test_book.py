@@ -127,8 +127,8 @@ def test_a_payment_is_allocated_first_to_last_and_never_beyond_what_is_owed():
 
 
 def test_record_payment_is_on_invoices_and_bills_only():
-	assert '"Sales Invoice": "public/js/invoice.js"' in HOOKS
-	assert '"Purchase Invoice": "public/js/invoice.js"' in HOOKS
+	heads = (BOOK / "heads.py").read_text(encoding="utf-8")
+	assert '"doctypes": list(paid.SETTLED)' in heads and "for doctype in paid.SETTLED" in heads
 	assert "doctype not in SETTLED" in _body(BOOK / "paid.py", "settle")
 
 

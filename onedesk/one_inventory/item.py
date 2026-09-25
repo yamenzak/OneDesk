@@ -6,7 +6,7 @@ ERPNext has all of it, in four places: the Bins behind the Stock Levels
 panel at the foot of the form, the reorder table on the Inventory tab, the
 item's *Last Purchase Rate* (with no supplier or date beside it), and the
 Stock Balance report. `said` reads them into one answer for the band
-(public/js/item.js). An item marked Is Fixed Asset says how many assets it
+(heads.py). An item marked Is Fixed Asset says how many assets it
 has become instead.
 """
 

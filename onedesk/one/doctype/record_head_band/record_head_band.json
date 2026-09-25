@@ -1,0 +1,112 @@
+{
+ "actions": [],
+ "creation": "2026-09-25 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "label",
+  "source",
+  "field",
+  "link_field",
+  "of_doctype",
+  "filters",
+  "measure",
+  "shown_when",
+  "route",
+  "hide_empty",
+  "tone"
+ ],
+ "fields": [
+  {
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "label": "Label",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Select",
+   "label": "Value",
+   "reqd": 1,
+   "in_list_view": 1,
+   "options": "Field\nLinked Field\nCount\nSum\nMeasure",
+   "default": "Field"
+  },
+  {
+   "fieldname": "field",
+   "fieldtype": "Data",
+   "label": "Field",
+   "depends_on": "eval:doc.source!='Count'&&doc.source!='Measure'",
+   "description": "A field of the record, of the record it links to, or the one summed."
+  },
+  {
+   "fieldname": "link_field",
+   "fieldtype": "Data",
+   "label": "Through",
+   "depends_on": "eval:doc.source=='Linked Field'",
+   "description": "The record's own link to the one whose field is shown."
+  },
+  {
+   "fieldname": "of_doctype",
+   "fieldtype": "Link",
+   "options": "DocType",
+   "label": "Of",
+   "depends_on": "eval:doc.source=='Count'||doc.source=='Sum'"
+  },
+  {
+   "fieldname": "filters",
+   "fieldtype": "Code",
+   "options": "JSON",
+   "label": "Counting",
+   "depends_on": "eval:doc.source=='Count'||doc.source=='Sum'",
+   "description": "Filters on what is counted. A value may name the record's fields as {{ doc.fieldname }}."
+  },
+  {
+   "fieldname": "measure",
+   "fieldtype": "Data",
+   "label": "Measure",
+   "depends_on": "eval:doc.source=='Measure'",
+   "description": "A measure a module registered by name. It may say its own label, tone and link."
+  },
+  {
+   "fieldname": "shown_when",
+   "fieldtype": "Code",
+   "options": "JSON",
+   "label": "Shown When",
+   "description": "Filters on the record, as a list filter writes them. Empty shows it always."
+  },
+  {
+   "fieldname": "route",
+   "fieldtype": "Data",
+   "label": "Leads To",
+   "description": "Where the number leads. It may name the record's fields as {{ doc.fieldname }}."
+  },
+  {
+   "fieldname": "hide_empty",
+   "fieldtype": "Check",
+   "label": "Hide When Empty",
+   "description": "Not shown when it comes to nothing. Otherwise an empty value shows as a dash."
+  },
+  {
+   "fieldname": "tone",
+   "fieldtype": "Select",
+   "label": "Tone",
+   "options": "\nquiet\nwaiting\nalarm",
+   "in_list_view": 1,
+   "description": "How it reads. Quiet for nothing to do, waiting for something to do, alarm for something late."
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-25 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One",
+ "name": "Record Head Band",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1,
+ "editable_grid": 1
+}
