@@ -24,6 +24,13 @@ Notification roles is a **workspace rule** (`one_rule`), held to this:
 - and when it fires, only the people who may read the record are told
   (`Rule.get_list_of_recipients`), so a rule never shows anybody what their
   own permissions would not.
+
+**The rules erpnext and hrms ship mail whoever they name**, whatever those
+people chose. A module that declares one as a type (`rule` in its
+`notifications.py`) has it carried: the people in the workspace are told
+through the hub, in the rule's own words, and only an address that is nobody
+here is still mailed (`Rule.send_an_email`). The rule itself is not changed,
+so a new version of it arrives with the app.
 """
 
 import json
@@ -77,9 +84,63 @@ class Rule(Notification):
 
 	def get_list_of_recipients(self, doc, context):
 		recipients, cc, bcc = super().get_list_of_recipients(doc, context)
+		if self.flags.one_outside_only:
+			inside = {key for one in _people(recipients + cc + bcc, both=True) for key in one}
+			return [[one for one in each if one not in inside] for each in (recipients, cc, bcc)]
 		if not self.one_rule:
 			return recipients, cc, bcc
 		return [one for one in recipients if _may_read(one, doc)], [], []
+
+	def send_an_email(self, doc, context):
+		name = carried(self)
+		if not name:
+			return super().send_an_email(doc, context)
+		from markupsafe import Markup
+
+		from onedesk.one import notify
+
+		recipients, cc, bcc = super().get_list_of_recipients(doc, context)
+		inside = _people(recipients + cc + bcc)
+		if inside:
+			# A standard rule's text, rendered as frappe renders it for mail.
+			said = [
+				Markup(frappe.render_template(text or "", context, restrict_globals=True))
+				for text in (self.subject, self.message)
+			]
+			notify.notify(name, inside, record=(doc.doctype, doc.name), words=tuple(said))
+		self.flags.one_outside_only = True
+		try:
+			super().send_an_email(doc, context)
+		finally:
+			self.flags.one_outside_only = False
+
+
+def carried(rule) -> str:
+	"""The type a standard rule of erpnext's or hrms's is carried to the bell
+	as, or nothing: only one a module declared, and only while it mails."""
+	if not rule.is_standard or rule.channel != "Email":
+		return ""
+	from onedesk.one import notify
+
+	for name, one in notify.declared().items():
+		if one.get("rule") == rule.name:
+			return name
+	return ""
+
+
+def _people(addresses, both: bool = False) -> list:
+	"""Of these addresses, the ones that are somebody in the workspace: their
+	emails, or with `both` each one's name and email."""
+	addresses = [one for one in addresses if one]
+	if not addresses:
+		return []
+	found = frappe.get_all(
+		"User",
+		filters={"enabled": 1, "user_type": "System User"},
+		or_filters={"name": ["in", addresses], "email": ["in", addresses]},
+		fields=["name", "email"],
+	)
+	return [(one.name, one.email) for one in found] if both else [one.email for one in found]
 
 
 def _frappe_owns() -> bool:

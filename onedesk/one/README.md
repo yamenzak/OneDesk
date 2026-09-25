@@ -155,6 +155,22 @@ Each row says whether the notification is **Off**, whether its text was
 a new person starts with it on. **Mailed Outside** means it goes to an address
 outside the workspace, such as the mail a file request sends.
 
+What ERPNext and HRMS send is here too, under the app whose screens it belongs
+to, in one of three ways:
+
+- **Told by One**, like everything else: a leave or expense to approve, a
+  birthday, an interview soon, a credit limit crossed, a material request
+  raised by reordering. Their own switches in HR Settings and Stock Settings
+  are gone, because **Send This** here decides.
+- **Told by One in their words**: the rules they ship, such as Training
+  Scheduled or New Fiscal Year. Their channels can be changed; what they say
+  is theirs.
+- **Mailed by ERPNext** or **Mailed by HRMS**: a payslip, a campaign's mails,
+  a statement to a customer, and the reports their nightly jobs send when
+  something fails. Listed so nothing the workspace sends is hidden. The
+  payslip's Send This is the same switch as the one in Payroll Settings; the
+  rest are sent whenever they happen.
+
 **Open one to change it**, and save from the top right as you would a record:
 
 - **Send This** turns it off for everybody. The code that opens a shared link

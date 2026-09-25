@@ -30,16 +30,6 @@ OPEN = "Open"
 APPROVED = "Approved"
 REJECTED = "Rejected"
 
-#: The two mails HRMS promises and ships nothing to send. `send_leave_notification`
-#: is on out of the box, so every approval printed "Please set default template
-#: for Leave Status Notification in HR Settings" instead of telling the person
-#: their leave was approved. The templates are fixtures; this points the settings
-#: at them, and only where a workspace has not chosen its own.
-TEMPLATES = {
-	"leave_approval_notification_template": "Leave Approval Notification",
-	"leave_status_notification_template": "Leave Status Notification",
-}
-
 #: What an encashed day is paid as. HRMS ships Casual Leave with
 #: `allow_encashment` on and no earning component, and `create_additional_salary`
 #: throws "Please set Earning Component for Leave type" on *submit* — after the
@@ -48,24 +38,10 @@ TEMPLATES = {
 PAID_AS = "Leave Encashment"
 
 
-def templates() -> None:
-	"""Point the two leave notifications at the templates One ships.
-
-	Only an empty setting is filled. Same rule as `policy.seed`: a default that
-	reasserts itself over a tenant's choice every migrate is not a default.
-	"""
-	for field, template in TEMPLATES.items():
-		if frappe.db.get_single_value("HR Settings", field):
-			continue
-		if frappe.db.exists("Email Template", template):
-			frappe.db.set_single_value("HR Settings", field, template)
-
-
 def encashable() -> None:
 	"""Give every encashable leave type something to pay an encashed day with.
 
-	Only a leave type that has none is touched, by the same rule as `templates`
-	above: a workspace that chose its own component keeps it. If HRMS's standard
+	Only a leave type that has none is touched: a workspace that chose its own component keeps it. If HRMS's standard
 	component is not on the site, nothing happens and the throw stands — which is
 	the honest answer, because there is nothing to point at.
 	"""

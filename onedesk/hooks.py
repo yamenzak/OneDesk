@@ -16,7 +16,6 @@ after_install = [
 	"onedesk.one_hr.names.hide",
 	"onedesk.one_hr.money.hide",
 	"onedesk.one_hr.policy.seed",
-	"onedesk.one_hr.leave.templates",
 	"onedesk.one_hr.leave.encashable",
 	"onedesk.one_hr.accounts.ready",
 	"onedesk.one_hr.accounts.year",
@@ -57,7 +56,6 @@ after_migrate = [
 	"onedesk.one_hr.names.hide",
 	"onedesk.one_hr.money.hide",
 	"onedesk.one_hr.policy.seed",
-	"onedesk.one_hr.leave.templates",
 	"onedesk.one_hr.leave.encashable",
 	"onedesk.one_hr.accounts.ready",
 	"onedesk.one_hr.accounts.year",
@@ -99,6 +97,8 @@ scheduler_events = {
 		# Readings that waited for credits are tried again, and files that were
 		# never read are caught up. See one_intake/pipeline.py.
 		"*/15 * * * *": ["onedesk.one_intake.pipeline.again"],
+		# An interview starting soon, told to its interviewers. See one_hr/tell.py.
+		"*/5 * * * *": ["onedesk.one_hr.tell.interviews_soon"],
 	},
 	"daily": [
 		# Task steps that waited for a day. See one_intake/steps.py.
@@ -124,8 +124,12 @@ scheduler_events = {
 		"onedesk.one_hr.hiring.purge",
 		"onedesk.one_hr.leaving.nightly",
 		"onedesk.one_hr.setup.nightly",
-		# ERPNext's summary of yesterday's project updates, where mail can go.
+		# Yesterday's project updates, to the project's people. See one_project/updates.py.
 		"onedesk.one_project.updates.sum_up",
+		# HRMS's reminders, told through the hub. See one_hr/tell.py.
+		"onedesk.one_hr.tell.birthdays",
+		"onedesk.one_hr.tell.anniversaries",
+		"onedesk.one_hr.tell.feedback_due",
 	],
 	"hourly": [
 		"onedesk.one_hr.closing.hourly",
@@ -133,7 +137,8 @@ scheduler_events = {
 		"onedesk.one_project.updates.ask",
 	],
 	# What OneAI read for each person this week. See one_intake/digest.py.
-	"weekly": ["onedesk.one_intake.digest.weekly"],
+	"weekly": ["onedesk.one_intake.digest.weekly", "onedesk.one_hr.tell.holidays_weekly"],
+	"monthly": ["onedesk.one_hr.tell.holidays_monthly"],
 }
 
 # Every email this workspace sends: an address on the mail domain through
@@ -150,6 +155,10 @@ doc_events = {
 	"Notification Log": {"after_insert": "onedesk.one.push.pushed"},
 	# A new person is mailed only what the administrator said. See one/notify.py.
 	"Notification Settings": {"before_insert": "onedesk.one.notify.new_person"},
+	# An app's own switch for a mail it sends is that type's Send This.
+	"Payroll Settings": {"on_update": "onedesk.one.notify.switched"},
+	# A request raised by reordering is told to Purchasing. See one_inventory/tell.py.
+	"Material Request": {"on_submit": "onedesk.one_inventory.tell.raised"},
 	# A customer's contact invited as a user can see the customer's projects.
 	# See one_project/portal.py.
 	"Contact": {
@@ -426,6 +435,8 @@ override_whitelisted_methods = {
 	"frappe.desk.form.load.getdoc": "onedesk.one_mail.linking.getdoc",
 	"frappe.desk.form.load.get_docinfo": "onedesk.one_mail.linking.get_docinfo",
 	"frappe.desk.form.load.get_communications": "onedesk.one_mail.linking.get_communications",
+	# The credit limit dialog tells the credit controllers in One. See one_book/tell.py.
+	"erpnext.selling.doctype.customer.customer.send_emails": "onedesk.one_book.tell.credit_limit",
 }
 
 # What Intake wrote down about a record is its history, not a reason to keep
@@ -490,8 +501,6 @@ fixtures = [
 	"Clock Reason",
 	"Attendance Reason",
 	"Identification Document Type",
-	# The two leave mails hrms promises and ships nothing to send.
-	"Email Template",
 	# What a model may be asked to do, and the instruction it is asked with.
 	# A fixture so a new one arrives with a migrate and an edit survives the next.
 	"AI Action",
@@ -603,6 +612,11 @@ override_doctype_class = {
 	"File": "onedesk.one_storage.file.CloudFile",
 	# A rule a workspace builds is held to what it may do. See one/rules.py.
 	"Notification": "onedesk.one.rules.Rule",
+	# HRMS's approvals and a moved interview, told through the hub. See one_hr/tell.py.
+	"Leave Application": "onedesk.one_hr.tell.LeaveApplication",
+	"Expense Claim": "onedesk.one_hr.tell.ExpenseClaim",
+	"Shift Request": "onedesk.one_hr.tell.ShiftRequest",
+	"Interview": "onedesk.one_hr.tell.Interview",
 }
 
 # Every new file's content goes to R2 through admin's signed URLs, and is
@@ -724,6 +738,9 @@ one_notification_types = [
 	"onedesk.one_intake.notifications.TYPES",
 	"onedesk.one_storage.notifications.TYPES",
 	"onedesk.one_project.notifications.TYPES",
+	"onedesk.one_book.notifications.TYPES",
+	"onedesk.one_inventory.notifications.TYPES",
+	"onedesk.one_crm.notifications.TYPES",
 ]
 
 # What each module puts on the calendar, as layers. Each reads its own records

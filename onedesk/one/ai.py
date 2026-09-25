@@ -185,6 +185,8 @@ def notification_type(
 					"email_allowed": bool(one.one_allow_email),
 					"email_for_new_people": bool(one.one_email_default),
 					"outside": bool(one.one_outside),
+					"words_of": notify.upstream(declared.get(one.name) or {}) or None,
+					"mailed_by": (declared.get(one.name) or {}).get("mailed_by"),
 				}
 				for one in rows
 			]
@@ -207,7 +209,26 @@ def notification_type(
 		"outside": bool(doc.one_outside),
 		"next": "The text is Jinja and may use only these slots, as {{ slot }}. The subject is one line; the "
 		"message may be simple HTML. It is sent as written, in one language: write it in the workspace's.",
+		**_whose(declared[name]),
 	}
+
+
+def _whose(one: dict) -> dict:
+	"""For a type whose words are erpnext's or hrms's: whose, and what can be
+	changed instead."""
+	from onedesk.one import notify
+
+	if one.get("mailed_by"):
+		return {
+			"mailed_by": one["mailed_by"],
+			"next": f"{one['mailed_by']} mails this itself; only whether it is sent can be changed, where it has a switch.",
+		}
+	if notify.upstream(one):
+		return {
+			"words_of": notify.upstream(one),
+			"next": "Its words are the app's own and cannot be rewritten here; its channels can be changed.",
+		}
+	return {}
 
 
 def rewrite_notification(
@@ -227,6 +248,9 @@ def rewrite_notification(
 
 	if name not in notify.declared():
 		return {"error": f"There is no notification type {name}."}
+	if notify.upstream(notify.declared()[name]):
+		whose = notify.upstream(notify.declared()[name])
+		return {"error": f"{name} is in {whose}'s own words; its text cannot be changed here."}
 	for text in (subject, message):
 		wrong = notify.check(name, text)
 		if wrong:

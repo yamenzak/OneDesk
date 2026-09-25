@@ -148,7 +148,8 @@ entry and left until it matters.
 5. **The builder.** Done. Rules on Workspace › Notifications, frappe's own
    Notification held to what a workspace administrator may do, with
    `draft_notification` for OneAI.
-6. **Absorbing erpnext and hrms**, screen by screen, in the passover.
+6. **Absorbing erpnext and hrms**. Done, all at once rather than screen by
+   screen, so the passover finds the notification screens whole.
 
 ## The decision this needs
 
@@ -278,4 +279,53 @@ on nothing but the browsers.
   administrator, so the same hold applies.
 - **Not yet**: rules that mail outside addresses, or send a document's print.
   Both are frappe's to do, for frappe's own administrators, from the desk.
+
+## Stage 6, as built
+
+Every mail erpnext and hrms send, found by reading their code, is a type,
+declared by the module whose screens it belongs to. Each got one of three
+answers, and which one is the order of preference:
+
+**Told by One, in our words.** Where we can stand in their place, we do, and
+their own switch for it is turned off after every migrate (`replaces`) and
+hidden on their settings:
+
+| Type | What it replaces | How |
+|---|---|---|
+| Leave, Expense Claim, Shift: Asked and Answered | HRMS's PWA Notification for its phone app, and leave's two mails from Email Templates | `one_hr/tell.py` subclasses the three doctypes and overrides the mixin's `notify_approver` and `notify_approval_status` |
+| Birthday, Work Anniversary, Holidays Coming Up | HR Settings' three reminder switches | our daily, weekly and monthly jobs |
+| Interview Soon, Interview Feedback Due | HR Settings' two interview reminder switches | our jobs; the applicant is mailed in a type of their own |
+| Interview Moved | a fixed mail to interviewers and applicant, no switch | `reschedule_interview` written again on our Interview class |
+| Credit Limit Crossed | the credit limit dialog's "send to credit controller" | `override_whitelisted_methods` |
+| Material Request Raised | Stock Settings' reorder mail switch | Material Request `on_submit`, when its rows carry a reorder level |
+| Project Summary | ERPNext's daily summary, which we ran only where mail could go | `one_project/updates.sum_up` |
+
+A type that replaces a switch starts on only if the switch was on
+(`starts_as`), so a workspace that had birthdays off is not told them now.
+
+**Told by One, in their words.** The standard rules erpnext and hrms ship
+(Training Scheduled, Exit Interview Scheduled, New Fiscal Year, Material
+Request Received) are carried by `Rule.send_an_email`: the people in the
+workspace are told through the hub, in the rule's rendered text, and only an
+address that is nobody here is still mailed. The rules themselves are not
+changed, so a new version of one arrives with the app. The two that name
+nobody (Training Feedback, Retention Bonus) send nothing and are not listed.
+
+**Mailed by them, listed** (`mailed_by`). Where nothing lets us stand in their
+place without patching their code, or the mail is the point:
+
+- the payslip, which carries the PDF; its Send This and Payroll Settings'
+  switch are one (`switch`);
+- the exit questionnaire, a campaign's mails and statements of accounts, all
+  to addresses outside the workspace, in templates set on their own records;
+- the reports five nightly jobs mail when they fail: earned leave not
+  allocated, depreciation not posted, reposting failed, a stock account
+  wrong, and reordering failed. None has a switch, and each is mailed from
+  inside a function that does the real work, so standing in would mean
+  patching it. They stay mail, and say so.
+
+Not listed, because One does not show what sends them: HRMS's Daily Work
+Summary, and ERPNext's appointments, delivery trips, proforma invoices,
+payment requests and email digests. The project invitation ERPNext mails a
+project's users is already not sent (`one_project/members.py`).
 

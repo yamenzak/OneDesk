@@ -451,6 +451,40 @@ Workspace › Notifications.
    as the workspace's own content. A clarification (1.cc05bbc3), not a new
    revision: what a workspace sends was already its own.
 
+### What erpnext and hrms send (Notifications, stage 6)
+
+Stage 6 of `docs/NOTIFICATIONS.md`, done at once so both Notifications
+screens are whole before the passover comes back to them.
+
+1. **Notifications**: every mail erpnext and hrms send is now a type on
+   Workspace › Notifications. Seventeen are told through the hub, four
+   standard rules are carried to the bell in their own words, and nine are
+   still mailed by the app and listed as such. The table in NOTIFICATIONS.md
+   says which is which and why.
+2. **OneAI**: `notification_type` says whose words a type is in; a type in
+   erpnext's or hrms's words is refused by `rewrite_notification`.
+3. **Intake**: nothing of its own here.
+4. **Permissions**: nothing new to grant. An approval goes to the approver
+   HRMS names, a reminder to the employees of the same company, and a
+   carried rule only to the people it names who are in the workspace.
+5. **Cross-module**: OneHR, OneBook, OneInventory, OneCRM and OneProject now
+   each declare what they send. HR Settings loses its reminder, leave and
+   interview mail switches and templates, and Stock Settings its reorder mail
+   switch, because Send This decides now. OneHR's two leave Email Templates
+   went with them.
+6. **UI**:
+   - A type in an app's words shows its channels and says whose words they
+     are; it has no text to edit and no Rewrite button.
+   - A type mailed by the app shows **Mailed by ERPNext** or **Mailed by
+     HRMS** in the list, and opens to Send This and a line saying so. Where
+     the app has no switch, Send This cannot be turned off.
+   - Found: a "What It Says" heading with nothing under it was hidden by the
+     form, taking its note with it. The note is a plain line now.
+7. **Documented**: One's README, Notifications for the Workspace, names the
+   three kinds.
+8. **Legal**: nothing new. Nothing is sent to anybody new or through anybody
+   new; only which door it goes through changed.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

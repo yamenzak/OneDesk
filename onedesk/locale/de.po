@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-25 13:44+0000\n"
-"PO-Revision-Date: 2026-09-25 13:44+0000\n"
+"POT-Creation-Date: 2026-09-25 14:23+0000\n"
+"PO-Revision-Date: 2026-09-25 14:23+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -129,6 +129,10 @@ msgstr "Ein Cache-Lesevorgang ist etwas Drittes, keine günstigere Eingabe."
 #: onedesk/one_crm/record.py:171
 msgid "A call is Outgoing or Incoming, and Answered, No Answer or Busy."
 msgstr "Ein Anruf ist ausgehend oder eingehend und angenommen, nicht angenommen oder besetzt."
+
+#: onedesk/one_crm/notifications.py:13
+msgid "A campaign's mails to its leads or contacts, on its schedule, in the templates it names."
+msgstr "Die Mails einer Kampagne an ihre Leads oder Kontakte, nach ihrem Zeitplan, in den Vorlagen, die sie nennt."
 
 #. Description of the 'Held' (Float) field in DocType 'Credit Reservation'
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
@@ -269,6 +273,10 @@ msgstr "Ein säumiger Kunde wird erinnert"
 #: onedesk/one_crm/capture.py:128
 msgid "A lead cannot be merged into itself."
 msgstr "Ein Lead kann nicht mit sich selbst zusammengeführt werden."
+
+#: onedesk/one_hr/notifications.py:122
+msgid "A leave application was approved, rejected or cancelled. Sent to the employee."
+msgstr "Ein Urlaubsantrag wurde genehmigt, abgelehnt oder storniert. Geht an den Mitarbeiter."
 
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.py:31
 msgid "A ledger entry of zero credits records nothing."
@@ -429,23 +437,23 @@ msgstr "Ein wiederholter Webhook trifft auf diesen Index statt auf eine Prüfung
 msgid "A rule can only move mail to a folder of its own mailbox."
 msgstr "Eine Regel kann Mails nur in einen Ordner ihres eigenen Postfachs verschieben."
 
-#: onedesk/one/rules.py:102 onedesk/one/rules.py:245
+#: onedesk/one/rules.py:163 onedesk/one/rules.py:306
 msgid "A rule can only watch records you can open yourself."
 msgstr "Eine Regel kann nur Datensätze beobachten, die Sie selbst öffnen können."
 
-#: onedesk/one/rules.py:105
+#: onedesk/one/rules.py:166
 msgid "A rule fires when a record is made, saved, submitted, cancelled or changed, or on a date."
 msgstr "Eine Regel greift, wenn ein Datensatz angelegt, gespeichert, gebucht, storniert oder geändert wird, oder an einem Datum."
 
-#: onedesk/one/rules.py:120
+#: onedesk/one/rules.py:181
 msgid "A rule tells people by role, by a person on the record, or its assignees, and nobody else."
 msgstr "Eine Regel benachrichtigt nach Rolle, eine Person im Datensatz oder die Zugewiesenen, und niemanden sonst."
 
-#: onedesk/one/rules.py:110
+#: onedesk/one/rules.py:171
 msgid "A rule's condition is chosen from the record's fields, not written as code."
 msgstr "Die Bedingung einer Regel wird aus den Feldern des Datensatzes gewählt, nicht als Code geschrieben."
 
-#: onedesk/one/rules.py:189
+#: onedesk/one/rules.py:250
 msgid "A rule's text can name a field of the record, as {{ doc.field }}, and nothing else."
 msgstr "Der Text einer Regel kann ein Feld des Datensatzes nennen, als {{ doc.field }}, und sonst nichts."
 
@@ -474,6 +482,10 @@ msgstr "Ein Blatt umfasst höchstens {0} Tage."
 msgid "A shift has check-ins but writes no attendance from them. Sent to HR Managers, at most weekly."
 msgstr "Eine Schicht hat Anmeldungen, schreibt daraus aber keine Anwesenheit. Geht an HR-Manager, höchstens wöchentlich."
 
+#: onedesk/one_hr/notifications.py:156
+msgid "A shift request was approved or rejected. Sent to the employee."
+msgstr "Ein Schichtantrag wurde genehmigt oder abgelehnt. Geht an den Mitarbeiter."
+
 #. Description of a DocType
 #: onedesk/one_admin/doctype/account_request/account_request.json
 msgid "A signup from the public sign-up page."
@@ -494,6 +506,14 @@ msgstr "Ein Aufgabenpräfix besteht aus 2 bis 10 Buchstaben und Ziffern und begi
 #: onedesk/one_storage/ready.py:41
 msgid "A test file was stored and read back."
 msgstr "Eine Testdatei wurde gespeichert und zurückgelesen."
+
+#: onedesk/one_hr/notifications.py:252
+msgid "A training event was scheduled. Sent to everybody attending it."
+msgstr "Eine Schulung wurde angesetzt. Geht an alle, die daran teilnehmen."
+
+#: onedesk/one_inventory/notifications.py:55
+msgid "A warehouse's account is not a stock account, so stock and books disagree. Mailed to Stock Managers."
+msgstr "Das Konto eines Lagers ist kein Bestandskonto, daher stimmen Bestand und Bücher nicht überein. Geht per Mail an Lagerleiter."
 
 #. Description of the 'Status' (Select) field in DocType 'Account Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json
@@ -720,7 +740,7 @@ msgstr "Genauigkeit (Meter)"
 msgid "Accurate to about {0} metres."
 msgstr "Auf etwa {0} Meter genau."
 
-#: onedesk/one/settings.py:391 onedesk/public/js/settings.js:950
+#: onedesk/one/settings.py:391 onedesk/public/js/settings.js:952
 msgid "Across One"
 msgstr "In ganz One"
 
@@ -1017,7 +1037,7 @@ msgstr ""
 msgid "All Day"
 msgstr ""
 
-#: onedesk/public/js/settings.js:971 onedesk/public/js/settings.js:1066
+#: onedesk/public/js/settings.js:973 onedesk/public/js/settings.js:1089
 msgid "All Notifications"
 msgstr "Alle Benachrichtigungen"
 
@@ -1096,7 +1116,7 @@ msgstr "Auch from:, to:, subject:, has:attachment, is:unread und is:starred"
 msgid "Also propose networks and locations belonging to a single employee, such as a home."
 msgstr "Auch Netzwerke und Orte vorschlagen, die einem einzelnen Mitarbeiter gehören, etwa ein Zuhause."
 
-#: onedesk/public/js/settings.js:925
+#: onedesk/public/js/settings.js:927
 msgid "Always Mailed"
 msgstr "Immer gemailt"
 
@@ -1163,14 +1183,34 @@ msgstr "Ein Mitarbeiter ist die Person hinter dem Konto: Rolle, Abteilung und Ve
 msgid "An employee who never checks out gets an OUT written at the shift end, marked Closed Automatically."
 msgstr "Für einen Mitarbeiter, der sich nie auscheckt, wird zum Schichtende ein AUS geschrieben und als automatisch geschlossen markiert."
 
+#: onedesk/one_hr/notifications.py:185
+msgid "An employee's holidays in the coming week or month, as often as HR Settings says. Sent to them."
+msgstr "Die Feiertage eines Mitarbeiters in der kommenden Woche oder im kommenden Monat, so oft wie in den HR-Einstellungen festgelegt. Geht an ihn."
+
 #: onedesk/one_hr/notifications.py:72
 msgid "An employee's leaving date passed, but their status could not be set to Left. Sent to HR."
 msgstr "Das Austrittsdatum eines Mitarbeiters ist vorbei, sein Status konnte aber nicht auf Ausgeschieden gesetzt werden. Geht an HR."
+
+#: onedesk/one_hr/notifications.py:140
+msgid "An expense claim was approved or rejected. Sent to the employee."
+msgstr "Eine Spesenabrechnung wurde genehmigt oder abgelehnt. Geht an den Mitarbeiter."
 
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.py:15
 #: onedesk/one_hr/hiring.py:529
 msgid "An interview is only recorded once the candidate has agreed."
 msgstr "Ein Gespräch wird nur aufgezeichnet, wenn die Kandidatin oder der Kandidat zugestimmt hat."
+
+#: onedesk/one_hr/notifications.py:198
+msgid "An interview starts soon, as long before as HR Settings says. Sent to its interviewers."
+msgstr "Ein Vorstellungsgespräch beginnt bald, so lange vorher wie in den HR-Einstellungen festgelegt. Geht an die Interviewer."
+
+#: onedesk/one_hr/notifications.py:220
+msgid "An interview was held and its feedback is not in. Sent daily to each interviewer who owes it."
+msgstr "Ein Vorstellungsgespräch fand statt und das Feedback fehlt noch. Geht täglich an jeden Interviewer, der es noch schuldet."
+
+#: onedesk/one_hr/notifications.py:233
+msgid "An interview was moved to another time. Sent to its interviewers."
+msgstr "Ein Vorstellungsgespräch wurde verschoben. Geht an die Interviewer."
 
 #: onedesk/one_storage/links.py:106
 msgid "An invitation is sent by email, and this workspace has no outgoing email account yet."
@@ -1468,7 +1508,7 @@ msgstr ""
 msgid "Ask HR for a letter"
 msgstr "Brief von HR anfordern"
 
-#: onedesk/public/js/settings.js:947
+#: onedesk/public/js/settings.js:949
 msgid "Ask OneAI for One"
 msgstr "OneAI um eine bitten"
 
@@ -1841,7 +1881,7 @@ msgstr "B"
 msgid "Back"
 msgstr "Zurück"
 
-#: onedesk/public/js/settings.js:977
+#: onedesk/public/js/settings.js:979
 msgid "Back to the Default Text"
 msgstr "Zurück zum Standardtext"
 
@@ -2025,6 +2065,10 @@ msgstr "Zu zahlende Rechnungen"
 #: onedesk/one_hr/custom/employee.json
 msgid "Bio"
 msgstr ""
+
+#: onedesk/one_hr/notifications.py:162
+msgid "Birthday"
+msgstr "Geburtstag"
 
 #. Description of the 'Primary Domain' (Link) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
@@ -2397,8 +2441,9 @@ msgstr "Eine Preis- oder Kontingentänderung hier ändert deren nicht."
 
 #. Label of the one_channels_section (Section Break) field in DocType
 #. 'Notification Type'
-#: onedesk/one/custom/notification_type.json onedesk/public/js/settings.js:1001
-#: onedesk/public/js/settings.js:1006 onedesk/public/js/settings.js:1085
+#: onedesk/one/custom/notification_type.json onedesk/public/js/settings.js:1011
+#: onedesk/public/js/settings.js:1024 onedesk/public/js/settings.js:1029
+#: onedesk/public/js/settings.js:1108
 msgid "Channels"
 msgstr "Kanäle"
 
@@ -2606,11 +2651,11 @@ msgstr "Aus OneCloud wählen"
 msgid "Choose the Tax Charged by Default"
 msgstr "Standardmäßig berechnete Steuer wählen"
 
-#: onedesk/public/js/settings.js:1106
+#: onedesk/public/js/settings.js:1129
 msgid "Choose the kind of record first."
 msgstr "Wählen Sie zuerst die Art des Datensatzes."
 
-#: onedesk/one/rules.py:99
+#: onedesk/one/rules.py:160
 msgid "Choose what the rule watches."
 msgstr "Wählen Sie, was die Regel beobachtet."
 
@@ -3145,7 +3190,7 @@ msgstr "{0} jetzt für {1} anlegen?"
 msgid "Created"
 msgstr ""
 
-#: onedesk/one/rules.py:255
+#: onedesk/one/rules.py:316
 msgid "Created By"
 msgstr "Erstellt von"
 
@@ -3169,6 +3214,10 @@ msgstr "Zugangsdaten des Frappe-Cloud-Kontos, das die Kundensites hostet."
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 msgid "Credit Ledger Entry"
 msgstr "Guthabenbuchung"
+
+#: onedesk/one_book/notifications.py:12
+msgid "Credit Limit Crossed"
+msgstr "Kreditlimit überschritten"
 
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -3372,7 +3421,7 @@ msgstr "Arbeitsende"
 msgid "Day Starts"
 msgstr "Arbeitsbeginn"
 
-#: onedesk/one/settings.py:939
+#: onedesk/one/settings.py:952
 msgid "Days"
 msgstr "Tage"
 
@@ -3441,6 +3490,14 @@ msgstr "Fällige Deals"
 #: onedesk/one_book/notification/payment_reminder/payment_reminder.html:1
 msgid "Dear {0},"
 msgstr "Sehr geehrte Damen und Herren von {0},"
+
+#: onedesk/one_hr/notifications.py:212
+msgid "Dear {applicant}, this is a reminder of your interview at {when}."
+msgstr "Hallo {applicant}, wir erinnern Sie an Ihr Vorstellungsgespräch am {when}."
+
+#: onedesk/one_hr/notifications.py:244
+msgid "Dear {applicant}, your interview has moved from {was} to {when}."
+msgstr "Hallo {applicant}, Ihr Vorstellungsgespräch wurde von {was} auf {when} verschoben."
 
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
@@ -3541,7 +3598,7 @@ msgstr "Standardmodell"
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/public/js/onecloud.js:95 onedesk/public/js/onecloud.js:1798
 #: onedesk/public/js/onemail.js:88 onedesk/public/js/onemail.js:403
-#: onedesk/public/js/settings.js:1069
+#: onedesk/public/js/settings.js:1092
 msgid "Delete"
 msgstr "Löschen"
 
@@ -3563,7 +3620,7 @@ msgstr "Alles im Papierkorb endgültig löschen? Das kann nicht rückgängig gem
 msgid "Delete for good"
 msgstr "Endgültig löschen"
 
-#: onedesk/public/js/settings.js:1137
+#: onedesk/public/js/settings.js:1160
 msgid "Delete the rule {0}? Nobody is told by it again."
 msgstr "Die Regel {0} löschen? Sie benachrichtigt danach niemanden mehr."
 
@@ -3647,6 +3704,10 @@ msgstr "Bereitgestellte Worker"
 msgid "Depreciation"
 msgstr "Abschreibung"
 
+#: onedesk/one_inventory/notifications.py:37
+msgid "Depreciation Not Posted"
+msgstr "Abschreibung nicht gebucht"
+
 #: onedesk/one_inventory/ready.py:120
 msgid "Depreciation is worked out but never posted unless somebody does it."
 msgstr "Abschreibungen werden berechnet, aber nie gebucht, außer jemand tut es."
@@ -3654,6 +3715,10 @@ msgstr "Abschreibungen werden berechnet, aber nie gebucht, außer jemand tut es.
 #: onedesk/one_inventory/ready.py:117
 msgid "Depreciation posts itself"
 msgstr "Abschreibungen buchen sich selbst"
+
+#: onedesk/one_inventory/notifications.py:39
+msgid "Depreciation the nightly job could not post. Mailed to the role Accounts Settings names."
+msgstr "Abschreibung, die der nächtliche Lauf nicht buchen konnte. Geht per Mail an die Rolle, die die Kontoeinstellungen nennen."
 
 #. Label of the description (Small Text) field in DocType 'Offering'
 #. Label of the description (Small Text) field in DocType 'Attendance Reason'
@@ -4034,6 +4099,10 @@ msgstr ""
 msgid "Duration (Minutes)"
 msgstr "Dauer (Minuten)"
 
+#: onedesk/one_book/notifications.py:28
+msgid "ERPNext made next year's fiscal year by itself, to be looked over. Sent to Accounts."
+msgstr "ERPNext hat das nächste Geschäftsjahr selbst angelegt, zur Durchsicht. Geht an die Buchhaltung."
+
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Account Request'
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/account_request/account_request.json
@@ -4054,6 +4123,10 @@ msgstr "Jedes wartungspflichtige Anlagegut hat einen Plan in den Kalendern der Z
 msgid "Each asset's depreciation is posted to the books when it falls due."
 msgstr "Die Abschreibung jedes Anlageguts wird bei Fälligkeit gebucht."
 
+#: onedesk/one_hr/notifications.py:270
+msgid "Each payslip, mailed to its employee as a PDF when it is submitted."
+msgstr "Jede Gehaltsabrechnung, per Mail als PDF an ihren Mitarbeiter, sobald sie gebucht ist."
+
 #. Description of the 'Away' (Check) field in DocType 'Email Account'
 #: onedesk/one_mail/custom/email_account.json
 msgid "Each sender gets one out-of-office reply in four days, from this mailbox."
@@ -4066,6 +4139,14 @@ msgstr "Jeder Absender erhält alle vier Tage eine Antwort. Mailinglisten und au
 #: onedesk/public/js/settings.js:858
 msgid "Each thing OneAI does can run on a model you choose, and be told something more. Default is what One picked."
 msgstr "Alles, was OneAI tut, kann auf einem Modell Ihrer Wahl laufen und zusätzliche Hinweise bekommen. Standard ist, was One gewählt hat."
+
+#: onedesk/one_hr/notifications.py:282
+msgid "Earned Leave Not Allocated"
+msgstr "Erworbener Urlaub nicht zugeteilt"
+
+#: onedesk/one_hr/notifications.py:284
+msgid "Earned leave that could not be allocated by the nightly job. Mailed to HR Managers."
+msgstr "Erworbener Urlaub, den der nächtliche Lauf nicht zuteilen konnte. Geht per Mail an HR-Manager."
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
@@ -4112,20 +4193,21 @@ msgstr "„Eines von beiden“ akzeptiert ein Einchecken, das eine der beiden Pr
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json
 #: onedesk/one_storage/doctype/cloud_link_invitee/cloud_link_invitee.json
-#: onedesk/public/js/settings.js:706 onedesk/public/js/settings.js:926
+#: onedesk/public/js/settings.js:706 onedesk/public/js/settings.js:928
 #: onedesk/www/start.html:30
 msgid "Email"
 msgstr ""
 
 #. Label of the one_allow_email (Check) field in DocType 'Notification Type'
-#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:994
+#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:1007
 msgid "Email Allowed"
 msgstr "E-Mail erlaubt"
 
 #. Label of a Sidebar Item
+#: onedesk/one_crm/notifications.py:11
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Email Campaign"
-msgstr ""
+msgstr "E-Mail-Kampagne"
 
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -4141,7 +4223,7 @@ msgid "Email addresses, one per line."
 msgstr "E-Mail-Adressen, eine pro Zeile."
 
 #. Label of the one_email_default (Check) field in DocType 'Notification Type'
-#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:995
+#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:1008
 msgid "Email for New People"
 msgstr "E-Mail für neue Personen"
 
@@ -4518,6 +4600,14 @@ msgstr "Freibetragsnachweis"
 msgid "Existing workspaces keep what they bought. This only stops new signups."
 msgstr "Bestehende Arbeitsbereiche behalten, was sie gekauft haben. Das stoppt nur neue Anmeldungen."
 
+#: onedesk/one_hr/notifications.py:258
+msgid "Exit Interview Scheduled"
+msgstr "Austrittsgespräch angesetzt"
+
+#: onedesk/one_hr/notifications.py:275
+msgid "Exit Questionnaire"
+msgstr "Austrittsfragebogen"
+
 #: onedesk/public/js/onecloud.js:695
 msgid "Expand"
 msgstr "Ausklappen"
@@ -4542,6 +4632,14 @@ msgstr "Erwarteter Abschluss"
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Expense Claim"
 msgstr ""
+
+#: onedesk/one_hr/notifications.py:137
+msgid "Expense Claim Answered"
+msgstr "Spesenabrechnung beantwortet"
+
+#: onedesk/one_hr/notifications.py:128
+msgid "Expense Claim Asked"
+msgstr "Spesenabrechnung eingereicht"
 
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
@@ -5007,6 +5105,10 @@ msgstr "Für den Arbeitsbereich"
 msgid "For video calls. The browser asks which tab to share."
 msgstr "Für Videoanrufe. Der Browser fragt, welcher Tab geteilt wird."
 
+#: onedesk/one_inventory/notifications.py:20
+msgid "For what fell to its reorder level: {items}."
+msgstr "Für das, was seinen Meldebestand erreicht hat: {items}."
+
 #: onedesk/public/js/legal.js:33
 msgid "For you"
 msgstr "Für dich"
@@ -5148,6 +5250,10 @@ msgstr "Schlage aus dem Verlauf dieses Leads den nächsten Schritt und den Tag v
 msgid "From this person's designation and department, what should their first two weeks hold, day by day, and who should own each part?"
 msgstr "Was sollten die ersten zwei Wochen dieser Person nach Position und Abteilung Tag für Tag enthalten, und wer verantwortet welchen Teil?"
 
+#: onedesk/one_hr/notifications.py:113
+msgid "From {from_date} to {to_date}."
+msgstr "Vom {from_date} bis {to_date}."
+
 #: onedesk/public/js/onecloud.js:473 onedesk/public/js/onemail.js:279
 msgid "GB"
 msgstr "GB"
@@ -5207,7 +5313,7 @@ msgstr "Guthaben geben"
 msgid "Give it a name."
 msgstr "Geben Sie ihm einen Namen."
 
-#: onedesk/one/settings.py:1042
+#: onedesk/one/settings.py:1055
 msgid "Give the rule a name."
 msgstr "Geben Sie der Regel einen Namen."
 
@@ -5434,7 +5540,7 @@ msgstr "Hilf mir, Urlaub zu buchen."
 msgid "Help me set this up"
 msgstr "Hilf mir, das einzurichten"
 
-#: onedesk/one/ai.py:84 onedesk/public/js/settings.js:959
+#: onedesk/one/ai.py:84 onedesk/public/js/settings.js:961
 msgid "Help me set up a notification rule. Ask me what should happen and who should be told, then suggest the rule."
 msgstr "Hilf mir, eine Benachrichtigungsregel einzurichten. Frag mich, was passieren soll und wer benachrichtigt werden soll, und schlage dann die Regel vor."
 
@@ -5489,11 +5595,20 @@ msgstr "Feiertagsliste"
 msgid "Holiday List Assignment"
 msgstr "Zuweisung der Feiertagsliste"
 
+#. Label of the 'frequency' field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "Holiday Reminders"
+msgstr "Feiertagserinnerungen"
+
 #. Label of a Sidebar Item
 #: onedesk/one/settings.py:47 onedesk/one/sidebar/one/one.json
 #: onedesk/one_hr/calendar.py:37
 msgid "Holidays"
 msgstr "Feiertage"
+
+#: onedesk/one_hr/notifications.py:182
+msgid "Holidays Coming Up"
+msgstr "Anstehende Feiertage"
 
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json
@@ -5580,6 +5695,11 @@ msgstr "Die Länge eines Arbeitstags, wo keine Schicht sie vorgibt. Alles darüb
 msgid "How long a full day is for this person. Filled from their shift, or from Attendance Settings."
 msgstr "Wie lang ein voller Arbeitstag für diese Person ist. Aus ihrer Schicht oder den Anwesenheitseinstellungen übernommen."
 
+#. Description of the 'remind_before' field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "How long before an interview its interviewers are told."
+msgstr "Wie lange vor einem Vorstellungsgespräch die Interviewer informiert werden."
+
 #. Description of the 'Notice Period' (Data) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "How long before its end a contract must be cancelled, as written."
@@ -5614,7 +5734,12 @@ msgstr "Wie viel Urlaub habe ich noch, und wer aus meinem Team ist in den nächs
 msgid "How much leave do I have?"
 msgstr "Wie viel Urlaub habe ich?"
 
-#: onedesk/one/settings.py:977
+#. Description of the 'frequency' field in DocType 'HR Settings'
+#: onedesk/one_hr/custom/hr_settings.json
+msgid "How often people are told their coming holidays. Whether they are is decided on Notifications."
+msgstr "Wie oft Mitarbeiter über anstehende Feiertage informiert werden. Ob überhaupt, wird unter Benachrichtigungen entschieden."
+
+#: onedesk/one/settings.py:990
 msgid "How people will know it when they choose how to get it."
 msgstr "Woran die Leute sie erkennen, wenn sie wählen, wie sie sie bekommen."
 
@@ -5971,6 +6096,22 @@ msgstr "Eingang: {0} warten auf Sie"
 msgid "Interview"
 msgstr ""
 
+#: onedesk/one_hr/notifications.py:217
+msgid "Interview Feedback Due"
+msgstr "Interview-Feedback fällig"
+
+#: onedesk/one_hr/notifications.py:230
+msgid "Interview Moved"
+msgstr "Vorstellungsgespräch verschoben"
+
+#: onedesk/one_hr/notifications.py:240
+msgid "Interview Moved, to the Applicant"
+msgstr "Vorstellungsgespräch verschoben, an den Bewerber"
+
+#: onedesk/one_hr/tell.py:141
+msgid "Interview Not Rescheduled"
+msgstr "Vorstellungsgespräch nicht verschoben"
+
 #. Label of the one_ai_prep (Text Editor) field in DocType 'Interview'
 #: onedesk/one_hr/custom/interview.json
 msgid "Interview Preparation"
@@ -5986,10 +6127,22 @@ msgstr "Gesprächsaufnahme"
 msgid "Interview Recording Part"
 msgstr "Teil einer Gesprächsaufnahme"
 
+#: onedesk/one_hr/notifications.py:195
+msgid "Interview Soon"
+msgstr "Vorstellungsgespräch in Kürze"
+
+#: onedesk/one_hr/notifications.py:208
+msgid "Interview Soon, to the Applicant"
+msgstr "Vorstellungsgespräch in Kürze, an den Bewerber"
+
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Interview Type"
 msgstr ""
+
+#: onedesk/one_hr/notifications.py:201
+msgid "Interview with {applicant} at {when}"
+msgstr "Vorstellungsgespräch mit {applicant} am {when}"
 
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:258
 msgid "Interviewed"
@@ -6111,7 +6264,7 @@ msgstr "Ausstellungsland"
 msgid "It asks for a password: make one for each computer below. A drive password opens your drive and nothing else, and everything you can open here, you can open there."
 msgstr "Es fragt nach einem Passwort: Erstellen Sie unten eines pro Computer. Ein Laufwerkspasswort öffnet Ihr Laufwerk und sonst nichts, und alles, was Sie hier öffnen können, können Sie dort öffnen."
 
-#: onedesk/public/js/settings.js:997
+#: onedesk/public/js/settings.js:1020
 msgid "It can use {0}"
 msgstr "Verwendbar: {0}"
 
@@ -6135,6 +6288,18 @@ msgstr "Es wird in diesem Arbeitsbereich nicht gepusht."
 msgid "It is not ready any more."
 msgstr "Es ist nicht mehr bereit."
 
+#: onedesk/public/js/settings.js:1007
+msgid "It is {0}'s own rule, {1}, so it says what {0} wrote."
+msgstr "Es ist die eigene Regel von {0}, {1}, und sagt daher, was {0} geschrieben hat."
+
+#: onedesk/one_hr/notifications.py:166
+msgid "It is {employee}'s birthday today"
+msgstr "Heute hat {employee} Geburtstag"
+
+#: onedesk/one_hr/notifications.py:176
+msgid "It is {employee}'s work anniversary"
+msgstr "Heute hat {employee} Dienstjubiläum"
+
 #: onedesk/one_intake/drafts.py:56
 msgid "It may be the same bill as {0}: same supplier, and the same number or the same total on the same day."
 msgstr "Möglicherweise dieselbe Rechnung wie {0}: gleicher Lieferant und gleiche Nummer oder gleicher Betrag am gleichen Tag."
@@ -6142,6 +6307,14 @@ msgstr "Möglicherweise dieselbe Rechnung wie {0}: gleicher Lieferant und gleich
 #: onedesk/www/s.html:36
 msgid "It may have run out or been turned off. Ask whoever sent it for a new one."
 msgstr "Er ist vielleicht abgelaufen oder wurde deaktiviert. Bitten Sie die Person, die ihn geschickt hat, um einen neuen."
+
+#: onedesk/public/js/settings.js:1008
+msgid "It says what {0} wrote."
+msgstr "Es sagt, was {0} geschrieben hat."
+
+#: onedesk/one_hr/notifications.py:235
+msgid "It was at {was}."
+msgstr "Es war am {was}."
 
 #: onedesk/one_intake/act.py:116
 msgid "It would change what {0} already says."
@@ -6181,12 +6354,16 @@ msgstr "Artikelsteuervorlagen"
 msgid "Items"
 msgstr ""
 
+#: onedesk/one_inventory/notifications.py:16
+msgid "Items fell to their reorder level and a material request was raised for them. Sent to Purchasing."
+msgstr "Artikel haben ihren Meldebestand erreicht und eine Materialanforderung wurde erstellt. Geht an den Einkauf."
+
 #. Label of the number (Data) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Its Number"
 msgstr "Seine Nummer"
 
-#: onedesk/public/js/settings.js:1001
+#: onedesk/public/js/settings.js:1024
 msgid "Its mail is always sent, so people can answer it by replying. The bell has it too, and push is theirs to choose."
 msgstr "Die E-Mail wird immer gesendet, damit man per Antwort reagieren kann. Die Glocke zeigt sie auch, und Push wählt jede Person selbst."
 
@@ -6365,7 +6542,7 @@ msgstr "Art"
 msgid "Kind of Document"
 msgstr "Dokumentart"
 
-#: onedesk/one/settings.py:936
+#: onedesk/one/settings.py:949
 msgid "Kind of Record"
 msgstr "Art des Datensatzes"
 
@@ -6652,10 +6829,18 @@ msgstr "Abwesenheit"
 msgid "Leave Allocation"
 msgstr ""
 
+#: onedesk/one_hr/notifications.py:119
+msgid "Leave Answered"
+msgstr "Urlaub beantwortet"
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Leave Application"
 msgstr ""
+
+#: onedesk/one_hr/notifications.py:108
+msgid "Leave Asked"
+msgstr "Urlaub beantragt"
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -6737,7 +6922,7 @@ msgstr "Früher gegangen um"
 msgid "Left Early Only"
 msgstr "Nur früher gegangen"
 
-#: onedesk/public/js/settings.js:994
+#: onedesk/public/js/settings.js:1017
 msgid "Left as it came, it is sent in each reader's own language. Once you change it, it is sent as you wrote it."
 msgstr "Unverändert wird er in der Sprache jedes Lesers gesendet. Sobald Sie ihn ändern, wird er so gesendet, wie Sie ihn geschrieben haben."
 
@@ -7170,11 +7355,15 @@ msgstr "Postfächer"
 msgid "Mailboxes are connected and read in OneMail. Here you choose what you sign with."
 msgstr "Postfächer werden in OneMail verbunden und gelesen. Hier wählen Sie Ihre Signatur."
 
-#: onedesk/public/js/settings.js:923
+#: onedesk/public/js/settings.js:925
 msgid "Mailed Outside"
 msgstr "Nach außen gemailt"
 
-#: onedesk/public/js/settings.js:1011
+#: onedesk/public/js/settings.js:923
+msgid "Mailed by {0}"
+msgstr "Gemailt von {0}"
+
+#: onedesk/public/js/settings.js:1034
 msgid "Mailed to addresses outside the workspace, so nobody chooses a channel for it."
 msgstr "Wird an Adressen außerhalb des Arbeitsbereichs gemailt, daher wählt niemand einen Kanal dafür."
 
@@ -7377,6 +7566,14 @@ msgstr "Zugeordneter Datensatz"
 msgid "Matched Type"
 msgstr "Zugeordnete Art"
 
+#: onedesk/one_inventory/notifications.py:13
+msgid "Material Request Raised"
+msgstr "Materialanforderung erstellt"
+
+#: onedesk/one_inventory/notifications.py:27
+msgid "Material Request Received"
+msgstr "Materialanforderung eingegangen"
+
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Material Requests"
@@ -7449,8 +7646,8 @@ msgstr "Mit {0} zusammenführen"
 #. Label of the one_message (Small Text) field in DocType 'Lead'
 #. Label of a field in the get-in-touch Web Form
 #. Label of the message (Small Text) field in DocType 'Cloud File Request'
-#: onedesk/one/custom/notification_type.json onedesk/one/notify.py:233
-#: onedesk/one/rules.py:68 onedesk/one/settings.py:942
+#: onedesk/one/custom/notification_type.json onedesk/one/notify.py:306
+#: onedesk/one/rules.py:75 onedesk/one/settings.py:955
 #: onedesk/one_crm/custom/lead.json
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
@@ -7692,7 +7889,7 @@ msgstr "Meine Aufgaben"
 #. Label of the file_name (Data) field in DocType 'Cloud Link'
 #. Label of the title (Data) field in DocType 'Cloud Mount'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
-#: onedesk/one/settings.py:974 onedesk/one_admin/doctype/ai_model/ai_model.json
+#: onedesk/one/settings.py:987 onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
@@ -7821,6 +8018,10 @@ msgstr "Neue Eingangsrechnung"
 msgid "New Event"
 msgstr ""
 
+#: onedesk/one_book/notifications.py:25
+msgid "New Fiscal Year"
+msgstr "Neues Geschäftsjahr"
+
 #: onedesk/one_intake/notifications.py:44
 msgid "New IBAN"
 msgstr "Neue IBAN"
@@ -7851,7 +8052,7 @@ msgstr "Neues Passwort"
 msgid "New Project"
 msgstr "Neues Projekt"
 
-#: onedesk/public/js/settings.js:947 onedesk/public/js/settings.js:1067
+#: onedesk/public/js/settings.js:949 onedesk/public/js/settings.js:1090
 msgid "New Rule"
 msgstr "Neue Regel"
 
@@ -8007,6 +8208,10 @@ msgstr "Kein Anlagegut ist als wartungspflichtig markiert."
 msgid "No billable time on {0} is waiting to be invoiced."
 msgstr "In {0} wartet keine abrechenbare Zeit auf eine Rechnung."
 
+#: onedesk/one_hr/tell.py:139
+msgid "No changes found in timings."
+msgstr "An den Zeiten hat sich nichts geändert."
+
 #: onedesk/public/js/workspace_account.js:137
 msgid "No credit pack is on sale at the moment."
 msgstr "Zurzeit wird kein Guthabenpaket angeboten."
@@ -8093,7 +8298,7 @@ msgstr "Kein Preis für dieses Modell auf der veröffentlichten Seite."
 msgid "No record has files yet."
 msgstr "Noch kein Datensatz hat Dateien."
 
-#: onedesk/public/js/settings.js:946
+#: onedesk/public/js/settings.js:948
 msgid "No rules yet."
 msgstr "Noch keine Regeln."
 
@@ -8517,7 +8722,7 @@ msgid "Of Whom"
 msgstr "Von wem"
 
 #: onedesk/one_ai/chat.py:563 onedesk/public/js/settings.js:920
-#: onedesk/public/js/settings.js:938
+#: onedesk/public/js/settings.js:940
 msgid "Off"
 msgstr "Aus"
 
@@ -8701,7 +8906,7 @@ msgstr "Ein Ordner eines Postfachs und wie weit er gelesen wurde."
 msgid "One line. A name in {{ }} is filled in when it is sent, and shown in bold."
 msgstr "Eine Zeile. Ein Name in {{ }} wird beim Senden eingesetzt und fett angezeigt."
 
-#: onedesk/one/settings.py:941
+#: onedesk/one/settings.py:954
 msgid "One line. {{ doc.field }} puts a field of the record in."
 msgstr "Eine Zeile. {{ doc.field }} setzt ein Feld des Datensatzes ein."
 
@@ -8985,7 +9190,7 @@ msgstr "Nur die Personalabteilung kann einen Passkey zurücksetzen."
 msgid "Only HR can review a check-in."
 msgstr "Nur die Personalabteilung kann ein Einchecken prüfen."
 
-#: onedesk/public/js/settings.js:1078
+#: onedesk/public/js/settings.js:1101
 msgid "Only When"
 msgstr "Nur wenn"
 
@@ -9073,7 +9278,7 @@ msgstr "Das kann nur ein Administrator dieses Arbeitsbereichs."
 msgid "Only an administrator puts an event on everybody's calendar. Make it private and add the people it is for."
 msgstr "Nur ein Administrator setzt einen Termin in den Kalender aller. Machen Sie ihn privat und fügen Sie die betroffenen Personen hinzu."
 
-#: onedesk/one_hr/leave.py:143
+#: onedesk/one_hr/leave.py:119
 msgid "Only an application still waiting can be answered."
 msgstr "Nur ein Antrag, der noch offen ist, kann beantwortet werden."
 
@@ -9110,7 +9315,7 @@ msgstr "Nur hier."
 msgid "Only in {0}"
 msgstr "Nur in {0}"
 
-#: onedesk/one/settings.py:936
+#: onedesk/one/settings.py:949
 msgid "Only kinds you can open yourself."
 msgstr "Nur Arten, die Sie selbst öffnen können."
 
@@ -9138,7 +9343,7 @@ msgstr "Nur Personen im Team können einen Server verbinden."
 msgid "Only people on the team can make a library."
 msgstr "Nur Personen im Team können eine Bibliothek erstellen."
 
-#: onedesk/public/js/settings.js:1079
+#: onedesk/public/js/settings.js:1102
 msgid "Only people who can open the record are told."
 msgstr "Nur wer den Datensatz öffnen kann, wird benachrichtigt."
 
@@ -9817,6 +10022,10 @@ msgstr ""
 msgid "Payslip"
 msgstr "Gehaltsabrechnung"
 
+#: onedesk/one_hr/notifications.py:268
+msgid "Payslip by Email"
+msgstr "Gehaltsabrechnung per E-Mail"
+
 #. Label of a shortcut in the OneHR Workspace
 #. Label of a quick_list in the OneHR Workspace
 #: onedesk/one_hr/workspace/onehr/onehr.json
@@ -9848,7 +10057,7 @@ msgstr ""
 msgid "People"
 msgstr "Personen"
 
-#: onedesk/one/settings.py:982
+#: onedesk/one/settings.py:995
 msgid "People With the Role"
 msgstr "Personen mit der Rolle"
 
@@ -10144,7 +10353,7 @@ msgstr "Frappe-Cloud-Hauptdomain"
 msgid "Press Site"
 msgstr "Frappe-Cloud-Site"
 
-#: onedesk/public/js/settings.js:986
+#: onedesk/public/js/settings.js:988
 msgid "Preview"
 msgstr "Vorschau"
 
@@ -10261,6 +10470,10 @@ msgstr ""
 #: onedesk/public/js/project.js:118
 msgid "Project Name"
 msgstr ""
+
+#: onedesk/one_project/notifications.py:24
+msgid "Project Summary"
+msgstr "Projektzusammenfassung"
 
 #. Label of a Sidebar Item
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
@@ -10437,7 +10650,7 @@ msgid "Purpose of Travel"
 msgstr ""
 
 #: onedesk/one/settings.py:379 onedesk/public/js/settings.js:377
-#: onedesk/public/js/settings.js:926
+#: onedesk/public/js/settings.js:928
 msgid "Push"
 msgstr "Push"
 
@@ -10447,7 +10660,7 @@ msgid "Push Address"
 msgstr "Push-Adresse"
 
 #. Label of the one_allow_push (Check) field in DocType 'Notification Type'
-#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:996
+#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:1009
 msgid "Push Allowed"
 msgstr "Push erlaubt"
 
@@ -10457,7 +10670,7 @@ msgid "Push Device"
 msgstr "Push-Gerät"
 
 #. Label of the one_push_default (Check) field in DocType 'Notification Type'
-#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:997
+#: onedesk/one/custom/notification_type.json onedesk/one/settings.py:1010
 msgid "Push for New People"
 msgstr "Push für neue Personen"
 
@@ -11107,6 +11320,18 @@ msgstr ""
 msgid "Reorder"
 msgstr "Nachbestellung"
 
+#: onedesk/one_inventory/notifications.py:61
+msgid "Reordering Failed"
+msgstr "Nachbestellung fehlgeschlagen"
+
+#: onedesk/one_inventory/notifications.py:63
+msgid "Reordering could not raise a material request. Mailed to the site's administrators."
+msgstr "Die Nachbestellung konnte keine Materialanforderung erstellen. Geht per Mail an die Administratoren der Website."
+
+#: onedesk/one_inventory/notifications.py:19
+msgid "Reordering raised {request}"
+msgstr "Die Nachbestellung hat {request} erstellt"
+
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Repairs"
@@ -11156,6 +11381,10 @@ msgstr "Antworten, dass ich abwesend bin"
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Reports"
 msgstr ""
+
+#: onedesk/one_inventory/notifications.py:45
+msgid "Reposting Failed"
+msgstr "Neubuchung fehlgeschlagen"
 
 #. Label of the wants_section (Section Break) field in DocType 'Account
 #. Request'
@@ -11300,7 +11529,7 @@ msgstr "Geprüft am"
 msgid "Revision"
 msgstr "Revision"
 
-#: onedesk/public/js/settings.js:1035
+#: onedesk/public/js/settings.js:1058
 msgid "Rewrite the text of the \"{0}\" notification so it is short, plain and friendly, and keeps every slot it uses. Suggest it as a change I can apply."
 msgstr "Formuliere den Text der Benachrichtigung „{0}“ kurz, klar und freundlich um und behalte jeden Platzhalter bei. Schlage ihn als Änderung vor, die ich übernehmen kann."
 
@@ -11312,7 +11541,7 @@ msgstr "Formuliere den Text der geöffneten Benachrichtigung kurz, klar und freu
 msgid "Rewrite this notification"
 msgstr "Diese Benachrichtigung umformulieren"
 
-#: onedesk/public/js/settings.js:976
+#: onedesk/public/js/settings.js:978
 msgid "Rewrite with OneAI"
 msgstr "Mit OneAI umformulieren"
 
@@ -11338,8 +11567,8 @@ msgstr "Zeile {0}: {1} läuft vor dem Ausstellungsdatum ab."
 msgid "Rule"
 msgstr "Regel"
 
-#: onedesk/one/rules.py:40 onedesk/public/js/onemail.js:949
-#: onedesk/public/js/settings.js:945
+#: onedesk/one/rules.py:47 onedesk/public/js/onemail.js:949
+#: onedesk/public/js/settings.js:947
 msgid "Rules"
 msgstr "Regeln"
 
@@ -11519,7 +11748,7 @@ msgstr "Legen Sie fest, für welche Mails die Regel gilt."
 msgid "Say which server to connect to."
 msgstr "Geben Sie an, mit welchem Server verbunden werden soll."
 
-#: onedesk/one/rules.py:128
+#: onedesk/one/rules.py:189
 msgid "Say who the rule tells: a role, a person on the record, or its assignees."
 msgstr "Legen Sie fest, wen die Regel benachrichtigt: eine Rolle, eine Person im Datensatz oder die Zugewiesenen."
 
@@ -11655,7 +11884,7 @@ msgstr ""
 msgid "Send"
 msgstr "Senden"
 
-#: onedesk/one/settings.py:844 onedesk/one/settings.py:935
+#: onedesk/one/settings.py:846 onedesk/one/settings.py:948
 msgid "Send This"
 msgstr "Senden"
 
@@ -11961,6 +12190,14 @@ msgstr "Teilen…"
 msgid "Shift"
 msgstr ""
 
+#: onedesk/one_hr/notifications.py:153
+msgid "Shift Answered"
+msgstr "Schicht beantwortet"
+
+#: onedesk/one_hr/notifications.py:146
+msgid "Shift Asked"
+msgstr "Schicht beantragt"
+
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:160
 msgid "Shift Hours"
 msgstr "Schichtzeiten"
@@ -12143,15 +12380,31 @@ msgstr "Jemand, von dem, an den oder über den ein Dokument ist."
 msgid "Somebody added you to a library."
 msgstr "Jemand hat Sie zu einer Bibliothek hinzugefügt."
 
+#: onedesk/one_hr/notifications.py:111
+msgid "Somebody applied for leave. Sent to their leave approver."
+msgstr "Jemand hat Urlaub beantragt. Geht an seinen Urlaubsgenehmiger."
+
+#: onedesk/one_hr/notifications.py:148
+msgid "Somebody asked for a shift. Sent to their shift approver."
+msgstr "Jemand hat eine Schicht beantragt. Geht an seinen Schichtgenehmiger."
+
+#: onedesk/one_book/notifications.py:15
+msgid "Somebody asked for the credit controllers to be told a customer is over their limit. Sent to them."
+msgstr "Jemand hat darum gebeten, die Kreditprüfer über einen Kunden über seinem Limit zu informieren. Geht an sie."
+
 #: onedesk/one_hr/notifications.py:86
 msgid "Somebody checked in and never checked out, so One checked them out at the shift's end. Sent to them."
 msgstr "Jemand hat sich angemeldet und nie abgemeldet, daher hat One ihn am Schichtende abgemeldet. Geht an ihn."
 
-#: onedesk/one/notify.py:338
+#: onedesk/one_hr/notifications.py:131
+msgid "Somebody claimed an expense. Sent to their expense approver."
+msgstr "Jemand hat Spesen eingereicht. Geht an seinen Spesengenehmiger."
+
+#: onedesk/one/notify.py:411
 msgid "Somebody gave you something to do, or it changed."
 msgstr "Jemand hat Ihnen etwas zu tun gegeben, oder es hat sich geändert."
 
-#: onedesk/one/notify.py:337
+#: onedesk/one/notify.py:410
 msgid "Somebody mentioned you in a comment."
 msgstr "Jemand hat Sie in einem Kommentar erwähnt."
 
@@ -12171,9 +12424,17 @@ msgstr "Jemand hat alles Angeforderte gesendet. Geht an die anfragende Person."
 msgid "Somebody shared a file or folder with you."
 msgstr "Jemand hat eine Datei oder einen Ordner mit Ihnen geteilt."
 
-#: onedesk/one/notify.py:339
+#: onedesk/one/notify.py:412
 msgid "Somebody shared a record with you."
 msgstr "Jemand hat einen Datensatz mit Ihnen geteilt."
+
+#: onedesk/one_hr/notifications.py:165
+msgid "Somebody's birthday. Sent to everybody else at their company, in the morning."
+msgstr "Der Geburtstag von jemandem. Geht morgens an alle anderen in seinem Unternehmen."
+
+#: onedesk/one_hr/notifications.py:175
+msgid "Somebody's work anniversary. Sent to everybody else at their company, in the morning."
+msgstr "Das Dienstjubiläum von jemandem. Geht morgens an alle anderen in seinem Unternehmen."
 
 #. Description of a DocType
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
@@ -12380,10 +12641,18 @@ msgstr "Beginnt mit der Erfassung"
 msgid "State"
 msgstr "Status"
 
+#: onedesk/one_book/notifications.py:35
+msgid "Statement of Accounts"
+msgstr "Kontoauszug"
+
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Statements"
 msgstr "Kontoauszüge"
+
+#: onedesk/one_book/notifications.py:37
+msgid "Statements mailed to customers on a schedule, in the words set on each statement run."
+msgstr "Kontoauszüge, die nach Zeitplan an Kunden gemailt werden, im Wortlaut, der beim jeweiligen Lauf festgelegt ist."
 
 #. Label of the status (Data) field in DocType 'Workspace Account'
 #. Label of the status (Data) field in DocType 'Workspace Domain'
@@ -12445,6 +12714,10 @@ msgstr "Beantwortet noch die letzte Frage."
 msgid "Still in Draft"
 msgstr "Noch im Entwurf"
 
+#: onedesk/one_inventory/notifications.py:53
+msgid "Stock Account Wrong"
+msgstr "Bestandskonto falsch"
+
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Stock Ageing"
@@ -12487,6 +12760,10 @@ msgstr "Der Bestand ist in den Büchern bewertet"
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Stock on Hand"
 msgstr "Lagerbestand"
+
+#: onedesk/one_inventory/notifications.py:47
+msgid "Stock values could not be recalculated after a back-dated entry. Mailed to Stock Managers."
+msgstr "Bestandswerte konnten nach einer rückdatierten Buchung nicht neu berechnet werden. Geht per Mail an Lagerleiter."
 
 #: onedesk/public/js/hiring.js:289
 msgid "Stop"
@@ -12648,8 +12925,8 @@ msgid "Sub-tasks"
 msgstr "Unteraufgaben"
 
 #. Label of the one_subject (Data) field in DocType 'Notification Type'
-#: onedesk/one/custom/notification_type.json onedesk/one/notify.py:233
-#: onedesk/one/rules.py:68 onedesk/one/settings.py:941
+#: onedesk/one/custom/notification_type.json onedesk/one/notify.py:306
+#: onedesk/one/rules.py:75 onedesk/one/settings.py:954
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:297
 #: onedesk/public/js/onemail.js:741
 msgid "Subject"
@@ -13171,11 +13448,11 @@ msgstr "Steuernummer des Unternehmens"
 msgid "The DNS is pointing here."
 msgstr "Der DNS zeigt hierher."
 
-#: onedesk/one/settings.py:938
+#: onedesk/one/settings.py:951
 msgid "The Date"
 msgstr "Das Datum"
 
-#: onedesk/one/settings.py:940
+#: onedesk/one/settings.py:953
 msgid "The Field"
 msgstr "Das Feld"
 
@@ -13190,7 +13467,7 @@ msgstr "Die Frappe-Cloud-Hauptdomain, auf der Sites angelegt werden, zum Beispie
 msgid "The Message-ID of the first message in its conversation."
 msgstr "Die Message-ID der ersten Nachricht in ihrer Unterhaltung."
 
-#: onedesk/one/settings.py:988
+#: onedesk/one/settings.py:1001
 msgid "The Person on the Record"
 msgstr "Die Person im Datensatz"
 
@@ -13277,7 +13554,8 @@ msgstr "Der eigene Zähler des Authenticators. Ein niedrigerer Wert als der gesp
 msgid "The bell is always on. These are the channels people may add to it."
 msgstr "Die Glocke ist immer an. Dies sind die Kanäle, die man hinzufügen kann."
 
-#: onedesk/public/js/settings.js:1006 onedesk/public/js/settings.js:1085
+#: onedesk/public/js/settings.js:1011 onedesk/public/js/settings.js:1029
+#: onedesk/public/js/settings.js:1108
 msgid "The bell is always on. These are what people may add to it, and what a new person starts with."
 msgstr "Die Glocke ist immer an. Dies können die Leute hinzufügen, und damit starten neue Personen."
 
@@ -13358,6 +13636,10 @@ msgstr "Das Emirat des Unternehmens ist bekannt"
 msgid "The content's hash, so the same file anywhere is read once."
 msgstr "Der Hash des Inhalts, damit dieselbe Datei nur einmal gelesen wird."
 
+#: onedesk/one_hr/notifications.py:261
+msgid "The day before somebody's exit interview. Sent to them."
+msgstr "Der Tag vor dem Austrittsgespräch von jemandem. Geht an ihn."
+
 #: onedesk/public/js/leave_application.js:13
 msgid "The days are spent and the attendance is marked."
 msgstr "Die Tage werden abgezogen und die Anwesenheit wird erfasst."
@@ -13373,7 +13655,7 @@ msgstr "Die Tage, die diese Zuteilung gewährt, vor allem Übertrag."
 msgid "The detail under the bell, and the body of the mail. It may be empty, and simple HTML is fine."
 msgstr "Das Detail unter der Glocke und der Text der E-Mail. Er darf leer sein, einfaches HTML ist erlaubt."
 
-#: onedesk/one/settings.py:942
+#: onedesk/one/settings.py:955
 msgid "The detail under the bell, and the body of the mail. It may be empty."
 msgstr "Das Detail unter der Glocke und der Text der E-Mail. Er darf leer sein."
 
@@ -13416,6 +13698,14 @@ msgstr "Die Funktion, die den Datensatz anlegt, wenn es kein einfaches Einfügen
 #: onedesk/one_hr/custom/timesheet.json
 msgid "The hours above that are ticked Billable. The project decides what they are worth."
 msgstr "Die oben als abrechenbar markierten Stunden. Was sie wert sind, entscheidet das Projekt."
+
+#: onedesk/one_hr/notifications.py:224
+msgid "The interview was on {when}."
+msgstr "Das Vorstellungsgespräch war am {when}."
+
+#: onedesk/one_hr/notifications.py:234
+msgid "The interview with {applicant} moved to {when}"
+msgstr "Das Vorstellungsgespräch mit {applicant} wurde auf {when} verschoben"
 
 #: onedesk/one_intake/drafts.py:83
 msgid "The invoice asks to be paid to an IBAN we do not have for {0}."
@@ -13586,11 +13876,15 @@ msgstr "Die ID des Anbieters. Wird hier nie eingegeben."
 msgid "The provider's own word. Nothing converts between units."
 msgstr "Das Wort des Anbieters. Nichts rechnet zwischen Einheiten um."
 
+#: onedesk/one_hr/notifications.py:277
+msgid "The questionnaire mailed to somebody leaving, in the template HR Settings names."
+msgstr "Der Fragebogen, der an jemanden gemailt wird, der geht, in der Vorlage, die die HR-Einstellungen nennen."
+
 #: onedesk/public/js/oneai/Record.vue:157
 msgid "The record changed after this was suggested."
 msgstr "Der Datensatz hat sich nach diesem Vorschlag geändert."
 
-#: onedesk/one/rules.py:185
+#: onedesk/one/rules.py:246
 msgid "The record has no field {0}."
 msgstr "Der Datensatz hat kein Feld {0}."
 
@@ -13608,6 +13902,14 @@ msgstr "Der Antrag wird geschlossen und niemandem etwas zugewiesen."
 #: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
 msgid "The revision and the hash of the text, as one_legal/assemble.py makes it."
 msgstr "Die Revision und der Hash des Textes, wie one_legal/assemble.py sie bildet."
+
+#: onedesk/one_hr/notifications.py:242
+msgid "The same news, mailed to the applicant."
+msgstr "Dieselbe Nachricht, per Mail an den Bewerber."
+
+#: onedesk/one_hr/notifications.py:210
+msgid "The same reminder, mailed to the applicant."
+msgstr "Dieselbe Erinnerung, per Mail an den Bewerber."
 
 #: onedesk/one_book/ready.py:149
 msgid "The same supplier invoice number can be entered twice and paid twice."
@@ -13713,7 +14015,7 @@ msgstr "Der Arbeitsbereich wird eingerichtet. Die Einzelheiten stehen in seinem 
 msgid "The workspace is ready."
 msgstr "Der Arbeitsbereich ist fertig."
 
-#: onedesk/public/js/settings.js:948
+#: onedesk/public/js/settings.js:950
 msgid "The workspace's own notifications: when something happens to a record, tell somebody."
 msgstr "Die eigenen Benachrichtigungen des Arbeitsbereichs: Wenn mit einem Datensatz etwas passiert, jemanden benachrichtigen."
 
@@ -13745,7 +14047,7 @@ msgstr "War schon da, bevor OneAI eingeschaltet wurde, und wird deshalb nur abge
 msgid "There is already a folder called {0}."
 msgstr "Es gibt bereits einen Ordner namens {0}."
 
-#: onedesk/one/settings.py:1044
+#: onedesk/one/settings.py:1057
 msgid "There is already a notification called {0}."
 msgstr "Es gibt bereits eine Benachrichtigung namens {0}."
 
@@ -13777,12 +14079,12 @@ msgstr "Es gibt keinen Standort, und ohne ihn lässt sich kein Anlagegut speiche
 msgid "There is no maintenance team, and a schedule needs one."
 msgstr "Es gibt kein Wartungsteam, und ein Plan braucht eines."
 
-#: onedesk/one/notify.py:401 onedesk/one/settings.py:835
+#: onedesk/one/notify.py:474 onedesk/one/settings.py:837
 msgid "There is no notification type {0}."
 msgstr "Es gibt keinen Benachrichtigungstyp {0}."
 
-#: onedesk/one/settings.py:925 onedesk/one/settings.py:1047
-#: onedesk/one/settings.py:1075
+#: onedesk/one/settings.py:938 onedesk/one/settings.py:1060
+#: onedesk/one/settings.py:1088
 msgid "There is no rule {0}."
 msgstr "Es gibt keine Regel {0}."
 
@@ -13830,7 +14132,7 @@ msgstr "Es gibt nichts einzuchecken: Sie sind heute {0}."
 msgid "There is nothing to remove."
 msgstr "Es gibt nichts zu entfernen."
 
-#: onedesk/one/settings.py:206 onedesk/one/settings.py:870
+#: onedesk/one/settings.py:206 onedesk/one/settings.py:883
 msgid "There is nothing to save here."
 msgstr "Hier gibt es nichts zu speichern."
 
@@ -13853,6 +14155,14 @@ msgstr "Sie können"
 #: onedesk/public/js/expense_claim.js:56
 msgid "They claimed {0} and {1} was sanctioned."
 msgstr "Beantragt wurden {0}, genehmigt {1}."
+
+#: onedesk/one_hr/notifications.py:177
+msgid "They joined on {joined}, {years} years ago today."
+msgstr "Eingetreten am {joined}, heute vor {years} Jahren."
+
+#: onedesk/one_book/notifications.py:19
+msgid "They owe {outstanding} against a limit of {limit}."
+msgstr "Offen sind {outstanding} bei einem Limit von {limit}."
 
 #: onedesk/public/js/oneai/Panel.vue:366 onedesk/public/js/oneai/Panel.vue:515
 #: onedesk/public/js/oneai/Panel.vue:571
@@ -13903,7 +14213,7 @@ msgstr "Dies kann im Kalender nicht verschoben werden."
 msgid "This day and your country's public holidays become this year's holiday list."
 msgstr "Dieser Tag und die gesetzlichen Feiertage Ihres Landes ergeben die Feiertagsliste dieses Jahres."
 
-#: onedesk/one/notify.py:306 onedesk/one/rules.py:178
+#: onedesk/one/notify.py:379 onedesk/one/rules.py:239
 msgid "This does not read as a template: {0}"
 msgstr "Das lässt sich nicht als Vorlage lesen: {0}"
 
@@ -14307,6 +14617,10 @@ msgstr ""
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Training Result"
 msgstr ""
+
+#: onedesk/one_hr/notifications.py:249
+msgid "Training Scheduled"
+msgstr "Schulung angesetzt"
 
 #: onedesk/one_hr/ai.py:197
 msgid "Transcribe again"
@@ -14997,11 +15311,11 @@ msgstr "Was kommt als Nächstes?"
 msgid "What It Means"
 msgstr "Was es bedeutet"
 
-#: onedesk/public/js/settings.js:994 onedesk/public/js/settings.js:1082
+#: onedesk/public/js/settings.js:1017 onedesk/public/js/settings.js:1105
 msgid "What It Says"
 msgstr "Was sie sagt"
 
-#: onedesk/public/js/settings.js:1074
+#: onedesk/public/js/settings.js:1097
 msgid "What It Watches"
 msgstr "Was sie beobachtet"
 
@@ -15013,7 +15327,7 @@ msgstr "Wofür One nicht genutzt werden darf. Sie bindet deine Organisation und 
 msgid "What One stores on your device and why."
 msgstr "Was One auf deinem Gerät speichert und warum."
 
-#: onedesk/public/js/settings.js:942
+#: onedesk/public/js/settings.js:944
 msgid "What One tells people. Open one to change what it says and whether it may also be mailed or pushed. Blue is on for new people, and each person can change their own."
 msgstr "Was One den Leuten mitteilt. Öffnen Sie eine, um zu ändern, was sie sagt und ob sie auch gemailt oder gepusht werden darf. Blau ist für neue Personen an, und jede Person kann ihre eigene ändern."
 
@@ -15052,6 +15366,14 @@ msgstr "Was besprochen wurde"
 #: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
 msgid "What a file in OneCloud held before it was replaced."
 msgstr "Was eine Datei in OneCloud enthielt, bevor sie ersetzt wurde."
+
+#: onedesk/one_inventory/notifications.py:29
+msgid "What a material request asked for was received. Sent to whoever made the request."
+msgstr "Was eine Materialanforderung angefordert hat, ist eingegangen. Geht an die Person, die sie erstellt hat."
+
+#: onedesk/one_project/notifications.py:27
+msgid "What a project's people said about it yesterday. Sent to them each morning."
+msgstr "Was die Beteiligten eines Projekts gestern darüber gesagt haben. Geht jeden Morgen an sie."
 
 #. Description of the 'About' (Small Text) field in DocType 'AI Action'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
@@ -15276,6 +15598,10 @@ msgstr "Was wofür getan wurde, damit nichts zweimal geschieht."
 msgid "What was done, what comes next, and anything in the way."
 msgstr "Was erledigt ist, was als Nächstes kommt und was im Weg steht."
 
+#: onedesk/one_project/notifications.py:28
+msgid "What was said about {project} on {date}"
+msgstr "Was am {date} über {project} gesagt wurde"
+
 #: onedesk/one_legal/gate.py:41
 msgid "What we do with personal data: yours, and the personal data your organisation puts into One."
 msgstr "Was wir mit personenbezogenen Daten tun: deinen und denen, die deine Organisation in One ablegt."
@@ -15295,7 +15621,7 @@ msgstr "Was OneAI sich auf Ihren Wunsch merkt, wenn es Ihnen hilft. Nur Sie sehe
 #. Label of the one_when (Data) field in DocType 'Timesheet Detail'
 #. Label of the accepted_on (Datetime) field in DocType 'Legal Acceptance'
 #. Label of the section_when (Section Break) field in DocType 'Mail Rule'
-#: onedesk/one/settings.py:937 onedesk/one_hr/custom/timesheet_detail.json
+#: onedesk/one/settings.py:950 onedesk/one_hr/custom/timesheet_detail.json
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 #: onedesk/public/js/intake.js:107
@@ -15307,27 +15633,27 @@ msgstr "Zeitraum"
 msgid "When a published price takes over from the one before it."
 msgstr "Wann ein veröffentlichter Preis den vorherigen ablöst."
 
-#: onedesk/one/rules.py:227
+#: onedesk/one/rules.py:288
 msgid "When a {0} changes"
 msgstr "Wenn sich ein {0} ändert"
 
-#: onedesk/one/rules.py:226
+#: onedesk/one/rules.py:287
 msgid "When a {0} is cancelled"
 msgstr "Wenn ein {0} storniert wird"
 
-#: onedesk/one/rules.py:223
+#: onedesk/one/rules.py:284
 msgid "When a {0} is made"
 msgstr "Wenn ein {0} angelegt wird"
 
-#: onedesk/one/rules.py:224
+#: onedesk/one/rules.py:285
 msgid "When a {0} is saved"
 msgstr "Wenn ein {0} gespeichert wird"
 
-#: onedesk/one/rules.py:225
+#: onedesk/one/rules.py:286
 msgid "When a {0} is submitted"
 msgstr "Wenn ein {0} gebucht wird"
 
-#: onedesk/one/rules.py:221
+#: onedesk/one/rules.py:282
 msgid "When a {0}'s {1} changes"
 msgstr "Wenn sich {1} eines {0} ändert"
 
@@ -15500,7 +15826,7 @@ msgstr "Wen die Personalabteilung anruft, wenn dir bei der Arbeit etwas passiert
 msgid "Who Has It"
 msgstr "Wer hat es"
 
-#: onedesk/public/js/settings.js:1079
+#: onedesk/public/js/settings.js:1102
 msgid "Who Is Told"
 msgstr "Wer benachrichtigt wird"
 
@@ -15530,7 +15856,7 @@ msgstr "Wen Sie abrechnen. OneCRM macht aus einem Lead einen solchen Eintrag, un
 msgid "Who's Off"
 msgstr "Wer ist abwesend"
 
-#: onedesk/one/settings.py:943
+#: onedesk/one/settings.py:956
 msgid "Whoever It Is Assigned To"
 msgstr "Wem es zugewiesen ist"
 
@@ -15588,6 +15914,10 @@ msgstr "Gewinnquote (90 Tage)"
 msgid "Windows"
 msgstr "Windows"
 
+#: onedesk/one_hr/notifications.py:167
+msgid "Wish them a happy birthday."
+msgstr "Gratulieren Sie zum Geburtstag."
+
 #. Option for the 'Status' (Select) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/public/js/ai_model.js:25 onedesk/public/js/ai_model_list.js:13
@@ -15627,6 +15957,10 @@ msgstr "Gewonnen und verloren"
 #: onedesk/one_crm/custom/sales_stage.json
 msgid "Won converts the deal and Lost asks why. On Hold keeps it open but out of the pipeline."
 msgstr "Gewonnen wandelt den Deal um, Verloren fragt nach dem Grund. Zurückgestellt hält ihn offen, aber außerhalb der Pipeline."
+
+#: onedesk/one_hr/notifications.py:172
+msgid "Work Anniversary"
+msgstr "Dienstjubiläum"
 
 #. Option for the 'Marks the Day As' (Select) field in DocType 'Attendance
 #. Reason'
@@ -15853,7 +16187,7 @@ msgstr "Anruf festhalten"
 msgid "Write with {0}"
 msgstr "Mit {0} schreiben"
 
-#: onedesk/one_project/updates.py:150
+#: onedesk/one_project/updates.py:174
 msgid "Write your update first."
 msgstr "Schreiben Sie zuerst Ihr Update."
 
@@ -15889,7 +16223,7 @@ msgstr "Im Namen der Person geschrieben, für die gelesen wurde, für einen Abla
 msgid "Written by Settings, Notifications. Sent to the devices a person turned push on in."
 msgstr "Wird von Einstellungen, Benachrichtigungen geschrieben. Geht an die Geräte, in denen eine Person Push eingeschaltet hat."
 
-#: onedesk/public/js/settings.js:931
+#: onedesk/public/js/settings.js:933
 msgid "Written by frappe. Each person chooses whether it is also mailed."
 msgstr "Von frappe geschrieben. Jede Person wählt, ob sie auch gemailt wird."
 
@@ -15973,6 +16307,10 @@ msgstr "Sie haben eingecheckt, aber nie ausgecheckt, daher wurde zum Schichtende
 #: onedesk/one_mail/actions.py:59
 msgid "You do not hold the mailbox {0}."
 msgstr "Das Postfach {0} gehört nicht zu Ihren."
+
+#: onedesk/one_hr/notifications.py:188
+msgid "You have holidays coming up"
+msgstr "Sie haben anstehende Feiertage"
 
 #: onedesk/www/r.html:28
 msgid "You have sent everything that was asked for. You can still replace a file."
@@ -16077,9 +16415,25 @@ msgstr "Ihre Laufwerkspasswörter"
 msgid "Your email address"
 msgstr "Ihre E-Mail-Adresse"
 
+#: onedesk/one_hr/notifications.py:141
+msgid "Your expense claim for {amount} was {status}"
+msgstr "Ihre Spesenabrechnung über {amount}: {status}"
+
+#: onedesk/one_hr/notifications.py:223
+msgid "Your feedback on {applicant}'s interview is due"
+msgstr "Ihr Feedback zum Vorstellungsgespräch mit {applicant} ist fällig"
+
 #: onedesk/public/js/settings.js:510
 msgid "Your fingerprint or face on this phone or laptop, used when you check in."
 msgstr "Ihr Fingerabdruck oder Gesicht auf diesem Handy oder Laptop, beim Einchecken verwendet."
+
+#: onedesk/one_hr/notifications.py:243
+msgid "Your interview has moved to {when}"
+msgstr "Ihr Vorstellungsgespräch wurde auf {when} verschoben"
+
+#: onedesk/one_hr/notifications.py:211
+msgid "Your interview is at {when}"
+msgstr "Ihr Vorstellungsgespräch ist am {when}"
 
 #: onedesk/one_hr/rules.py:44
 msgid "Your passkey has been reset twice within a month."
@@ -16088,6 +16442,10 @@ msgstr "Ihr Passkey wurde innerhalb eines Monats zweimal zurückgesetzt."
 #: onedesk/public/js/settings.js:535
 msgid "Your password is changed."
 msgstr "Ihr Passwort wurde geändert."
+
+#: onedesk/one_hr/notifications.py:157
+msgid "Your request for {shift} from {from_date} was {status}"
+msgstr "Ihr Antrag auf {shift} ab {from_date}: {status}"
 
 #: onedesk/public/js/onecloud.js:323
 msgid "Your role"
@@ -16116,6 +16474,10 @@ msgstr "Ihr Arbeitsbereich"
 #: onedesk/public/js/legal.js:64
 msgid "Your workspace's administrator has not yet agreed to {0} for your organisation. One opens once they have."
 msgstr "Der Administrator deines Arbeitsbereichs hat {0} für deine Organisation noch nicht zugestimmt. One öffnet sich, sobald das geschehen ist."
+
+#: onedesk/one_hr/notifications.py:123
+msgid "Your {leave_type} from {from_date} to {to_date} was {status}"
+msgstr "Ihr {leave_type} vom {from_date} bis {to_date}: {status}"
 
 #: onedesk/public/js/settings.js:421 onedesk/public/js/settings.js:612
 msgid "Yours"
@@ -16372,7 +16734,7 @@ msgstr "keiner davon aktiv."
 msgid "not known yet"
 msgstr "noch nicht bekannt"
 
-#: onedesk/one/notify.py:309 onedesk/public/js/desk.js:186
+#: onedesk/one/notify.py:382 onedesk/public/js/desk.js:186
 msgid "nothing"
 msgstr "nichts"
 
@@ -16643,7 +17005,7 @@ msgstr "{0} kann kein Name in einer Adresse sein. Verwenden Sie Buchstaben, Ziff
 msgid "{0} cannot be deleted."
 msgstr "{0} kann nicht gelöscht werden."
 
-#: onedesk/one/notify.py:226
+#: onedesk/one/notify.py:285
 msgid "{0} cannot be turned off, or nobody could open a shared link."
 msgstr "{0} lässt sich nicht abschalten, sonst könnte niemand einen geteilten Link öffnen."
 
@@ -16723,11 +17085,11 @@ msgstr "{0} Guthaben."
 msgid "{0} days"
 msgstr "{0} Tage"
 
-#: onedesk/one/rules.py:216
+#: onedesk/one/rules.py:277
 msgid "{0} days after a {1}'s {2}"
 msgstr "{0} Tage nach {2} eines {1}"
 
-#: onedesk/one/rules.py:218
+#: onedesk/one/rules.py:279
 msgid "{0} days before a {1}'s {2}"
 msgstr "{0} Tage vor {2} eines {1}"
 
@@ -16959,7 +17321,7 @@ msgstr "{0} ist keine Dateiart, die hier angenommen wird."
 msgid "{0} is not a library."
 msgstr "{0} ist keine Bibliothek."
 
-#: onedesk/one/rules.py:125
+#: onedesk/one/rules.py:186
 msgid "{0} is not a person on the record."
 msgstr "{0} ist keine Person im Datensatz."
 
@@ -16999,7 +17361,7 @@ msgstr "{0} lässt sich nicht vorschlagen."
 msgid "{0} is not something the clock proposes."
 msgstr "{0} wird von der Zeiterfassung nicht vorgeschlagen."
 
-#: onedesk/one/notify.py:310
+#: onedesk/one/notify.py:383
 msgid "{0} is not something this notification knows. It can use {1}."
 msgstr "{0} kennt diese Benachrichtigung nicht. Verwendbar ist {1}."
 
@@ -17047,6 +17409,14 @@ msgstr "{0} übrig"
 #: onedesk/public/js/oneai.js:55
 msgid "{0} list"
 msgstr "{0}-Liste"
+
+#: onedesk/public/js/settings.js:999
+msgid "{0} mails this itself, in its own words, whenever it happens. It is listed so you can see everything the workspace sends."
+msgstr "{0} mailt dies selbst, in eigenen Worten, sobald es eintritt. Es steht hier, damit Sie alles sehen, was der Arbeitsbereich sendet."
+
+#: onedesk/public/js/settings.js:998
+msgid "{0} mails this itself, in its own words. Send This is the same switch as the one in its settings."
+msgstr "{0} mailt dies selbst, in eigenen Worten. „Senden“ ist derselbe Schalter wie in seinen Einstellungen."
 
 #: onedesk/one_intake/act.py:177
 msgid "{0} may not do this themselves."
@@ -17149,7 +17519,7 @@ msgstr "{0} über den {1}, die dieser Tarif erlaubt."
 msgid "{0} people"
 msgstr "{0} Personen"
 
-#: onedesk/one_project/updates.py:205
+#: onedesk/one_project/updates.py:229
 msgid "{0} posted an update"
 msgstr "{0} hat ein Update gepostet"
 
@@ -17164,6 +17534,10 @@ msgstr "{0} läuft auf einem Modell, das {1} kann. Alles unten Ergänzte wird an
 #: onedesk/public/js/onemail.js:344
 msgid "{0} selected"
 msgstr "{0} ausgewählt"
+
+#: onedesk/one/notify.py:292
+msgid "{0} sends this whenever it happens, and it cannot be turned off here."
+msgstr "{0} sendet dies, sobald es eintritt, und es kann hier nicht abgeschaltet werden."
 
 #: onedesk/public/js/settings.js:516
 msgid "{0} sessions, this one included."
@@ -17339,7 +17713,7 @@ msgstr "{0}, {1}. Es wurde noch nichts bewertet, die Punktzahl ist also kein Urt
 msgid "{0}. The key needs Zone Settings: Edit."
 msgstr "{0}. Das Token braucht Zone Settings: Edit."
 
-#: onedesk/one/notify.py:236 onedesk/one/rules.py:71
+#: onedesk/one/notify.py:309 onedesk/one/rules.py:78
 msgid "{0}: {1}"
 msgstr "{0}: {1}"
 
@@ -17359,9 +17733,25 @@ msgstr "{count} Dateien sind über Ihren Link in {folder} angekommen"
 msgid "{count} things OneAI read in {title} need a look."
 msgstr "{count} Dinge, die OneAI in {title} gelesen hat, brauchen einen Blick."
 
+#: onedesk/one_book/notifications.py:18
+msgid "{customer} is over their credit limit"
+msgstr "{customer} hat das Kreditlimit überschritten"
+
 #: onedesk/one_hr/notifications.py:18
 msgid "{employee} asked for a {kind}"
 msgstr "{employee} hat um {kind} gebeten"
+
+#: onedesk/one_hr/notifications.py:112
+msgid "{employee} asked for {days} days of {leave_type}"
+msgstr "{employee} hat {days} Tage {leave_type} beantragt"
+
+#: onedesk/one_hr/notifications.py:149
+msgid "{employee} asked for {shift} from {from_date} to {to_date}"
+msgstr "{employee} hat {shift} vom {from_date} bis {to_date} beantragt"
+
+#: onedesk/one_hr/notifications.py:132
+msgid "{employee} claimed {amount}"
+msgstr "{employee} hat {amount} eingereicht"
 
 #: onedesk/one_hr/notifications.py:75
 msgid "{employee} could not be marked Left"

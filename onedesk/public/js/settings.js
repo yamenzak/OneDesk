@@ -919,7 +919,9 @@ onedesk.Settings = class Settings {
 				? [
 						one.enabled ? "" : frappe.ui.badge.html({ label: __("Off"), theme: "gray" }),
 						one.edited ? frappe.ui.badge.html({ label: __("Edited"), theme: "violet" }) : "",
-						one.outside
+						one.mailed_by
+							? frappe.ui.badge.html({ label: __("Mailed by {0}", [one.mailed_by]), theme: "gray" })
+							: one.outside
 							? frappe.ui.badge.html({ label: __("Mailed Outside"), theme: "gray" })
 							: one.always
 							? frappe.ui.badge.html({ label: __("Always Mailed"), theme: "gray" })
@@ -972,7 +974,7 @@ onedesk.Settings = class Settings {
 			<div class="os-who-name">${esc(type.label)}</div>
 			${type.about ? `<div class="os-quiet">${esc(type.about)}</div>` : ""}
 			${
-				type.ours
+				type.ours && !type.upstream
 					? `<div class="os-who-actions">${this.button(__("Rewrite with OneAI"), { "data-rewrite": "1" }, "subtle", "sparkles")}${this.button(
 							__("Back to the Default Text"),
 							{ "data-reset": "1" },
@@ -989,7 +991,28 @@ onedesk.Settings = class Settings {
 			<div class="os-preview-wrong"></div>
 		</div>`;
 		const rows = [["enabled"]];
-		if (type.ours) {
+		if (type.mailed_by) {
+			rows.push({
+				html: `<div class="os-quiet">${esc(
+					type.switch
+						? __("{0} mails this itself, in its own words. Send This is the same switch as the one in its settings.", [type.mailed_by])
+						: __("{0} mails this itself, in its own words, whenever it happens. It is listed so you can see everything the workspace sends.", [type.mailed_by])
+				)}</div>`,
+			});
+		} else if (type.upstream) {
+			rows.push(
+				{
+					html: `<div class="os-quiet">${esc(
+						type.rule
+							? __("It is {0}'s own rule, {1}, so it says what {0} wrote.", [type.upstream, type.rule])
+							: __("It says what {0} wrote.", [type.upstream])
+					)}</div>`,
+				},
+				{ heading: __("Channels"), note: __("The bell is always on. These are what people may add to it, and what a new person starts with.") },
+				["one_allow_email", "one_allow_push"],
+				["one_email_default", "one_push_default"]
+			);
+		} else if (type.ours) {
 			rows.push(
 				{ heading: __("What It Says"), note: __("Left as it came, it is sent in each reader's own language. Once you change it, it is sent as you wrote it.") },
 				["one_subject"],
@@ -1023,7 +1046,7 @@ onedesk.Settings = class Settings {
 				draw();
 			};
 		}
-		if (type.ours) this.ready.then(() => this.preview(type.name, $card));
+		if (type.ours && !type.upstream) this.ready.then(() => this.preview(type.name, $card));
 		$card.find("[data-back]").on("click", () => frappe.set_route("workspace-settings", { section: this.key }));
 		$card.find("[data-reset]").on("click", async () => {
 			await this.group.set_values({ one_subject: type.default_subject, one_message: type.default_message });

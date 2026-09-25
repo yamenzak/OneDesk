@@ -23,18 +23,20 @@ work, and this replaces those two:
 - **The answers were kept out of sight** on the Project Update. `timeline`
   puts each one in the project's activity, under who wrote it.
 
-The daily summary is still ERPNext's, sent only where mail can go (`sum_up`).
+- **The summary of yesterday's answers was only mailed**, and only where mail
+  could go. `sum_up` tells the project's people in One instead, and each
+  chooses whether it is mailed too.
 """
 
 from datetime import time
 
 import frappe
 from frappe import _
-from frappe.utils import escape_html, get_time, now_datetime, nowdate, nowtime
+from frappe.utils import add_days, escape_html, formatdate, get_time, now_datetime, nowdate, nowtime
 from frappe.utils.html_utils import sanitize_html
 
-#: ERPNext's jobs this replaces: the three askers and the collector, and the
-#: summary, which sum_up now runs where mail can go.
+#: ERPNext's jobs this replaces: the three askers, the collector, and the
+#: summary.
 REPLACED = (
 	"erpnext.projects.doctype.project.project.hourly_reminder",
 	"erpnext.projects.doctype.project.project.project_status_update_reminder",
@@ -117,11 +119,33 @@ def _mail() -> bool:
 
 
 def sum_up() -> None:
-	"""Daily: ERPNext's summary of yesterday's answers, where mail can go."""
-	if _mail():
-		from erpnext.projects.doctype.project.project import send_project_status_email_to_users
+	"""Daily: yesterday's answers, to the project's people, once. ERPNext's
+	`send_project_status_email_to_users`, told in One."""
+	from markupsafe import Markup
 
-		send_project_status_email_to_users()
+	from onedesk.one import notify
+
+	yesterday = add_days(nowdate(), -1)
+	for name in frappe.get_all("Project Update", filters={"date": yesterday, "sent": 0}, pluck="name"):
+		update = frappe.get_doc("Project Update", name)
+		if update.users:
+			answers = Markup("").join(
+				Markup("<p><b>{0}</b>: {1}</p>").format(
+					row.full_name or row.user, Markup(sanitize_html(row.project_status or ""))
+				)
+				for row in update.users
+			)
+			notify.notify(
+				"Project Summary",
+				frappe.get_all(
+					"Project User", filters={"parenttype": "Project", "parent": update.project}, pluck="user"
+				),
+				record=("Project", update.project),
+				project=frappe.db.get_value("Project", update.project, "project_name") or update.project,
+				date=formatdate(yesterday),
+				answers=answers,
+			)
+		update.db_set("sent", 1)
 
 
 @frappe.whitelist()

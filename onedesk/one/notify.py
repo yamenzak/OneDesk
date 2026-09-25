@@ -28,6 +28,17 @@ Resetting a text makes it the default again, and translated again.
 Nothing else in OneDesk calls `frappe.sendmail` or writes a Notification Log;
 `tests/test_notify.py` holds that.
 
+**What erpnext and hrms send is declared here too** (stage 6), in the module
+whose screens it belongs to, in one of three ways:
+- told through the hub in our words, by our code in their place: their own
+  switch for it is turned off (`replaces`), and hidden;
+- told through the hub in their words (`words`): a standard rule of theirs
+  carried to the bell (`rule`, one/rules.py), whose text is theirs to write;
+- mailed by them (`mailed_by`), where nothing lets us stand in their place, or
+  the mail itself is the point (a payslip). Listed, so the administrator sees
+  everything the workspace sends; where the app has a switch for it
+  (`switch`), that switch and Send This are one.
+
 Every value put into a text is escaped first, because the text is HTML in the
 bell and in the mail, and a file or person's name is not ours to trust.
 
@@ -90,6 +101,12 @@ def jinja(msgid) -> str:
 	return re.sub(r"\{(\w+)\}", r"{{ \1 }}", raw(msgid))
 
 
+def upstream(one: dict) -> str:
+	"""Whose words a type is in when they are not ours: the app that mails it,
+	or the app whose rule or text it carries. Empty for our own."""
+	return one.get("mailed_by") or one.get("words") or ""
+
+
 def slots(name: str) -> list[str]:
 	"""What a type's text may name: the slots in its default subject and
 	message, in the order they first appear."""
@@ -110,14 +127,15 @@ def install(*_args) -> None:
 	from frappe.desk.doctype.notification_type.notification_type import seed_type_into_settings
 
 	for name, one in declared().items():
-		subject, message = jinja(one["subject"]), jinja(one.get("message") or "")
+		subject, message = jinja(one.get("subject")), jinja(one.get("message") or "")
+		mailed = bool(one.get("mailed_by"))
 		values = {
 			"one_app": one["app"],
 			"one_about": raw(one["about"]),
 			"one_default_subject": subject,
 			"one_default_message": message,
-			"one_allow_email": 1 if one.get("email", True) else 0,
-			"one_allow_push": 0 if one.get("outside") else (1 if one.get("push", True) else 0),
+			"one_allow_email": 0 if mailed else (1 if one.get("email", True) else 0),
+			"one_allow_push": 0 if one.get("outside") or mailed else (1 if one.get("push", True) else 0),
 			"one_email_default": 1 if one.get("email_default") else 0,
 			"one_push_default": 1 if one.get("push_default") else 0,
 			"one_outside": 1 if one.get("outside") else 0,
@@ -125,7 +143,7 @@ def install(*_args) -> None:
 		if not frappe.db.exists("Notification Type", name):
 			doc = frappe.new_doc("Notification Type")
 			doc.type_name = name
-			doc.enabled = 1
+			doc.enabled = _starts(one)
 			doc.update(values)
 			doc.one_subject, doc.one_message = subject, message
 			doc.insert(ignore_permissions=True)
@@ -144,9 +162,50 @@ def install(*_args) -> None:
 			values["one_subject"] = subject
 		if not was.one_message or was.one_message == was.one_default_message:
 			values["one_message"] = message
+		if one.get("switch"):
+			values["enabled"] = _switch(one)
 		frappe.db.set_value("Notification Type", name, values, update_modified=False)
+	_settle()
 	_grant()
 	_push_once()
+
+
+def _starts(one: dict) -> int:
+	"""Whether a type starts on: as the app's own switch for it stood, so a
+	workspace that had turned birthday mails off is not told birthdays now."""
+	if one.get("switch"):
+		return _switch(one)
+	was = one.get("starts_as")
+	if was:
+		return 1 if frappe.db.get_single_value(*was) else 0
+	return 1
+
+
+def _switch(one: dict) -> int:
+	return 1 if frappe.db.get_single_value(*one["switch"]) else 0
+
+
+def _settle() -> None:
+	"""The apps' own switches for what we now send, off, after every migrate:
+	with one on, the same thing would be sent twice. They are hidden on their
+	settings (the modules' custom JSON), because Send This decides now."""
+	for one in declared().values():
+		for doctype, field in one.get("replaces") or ():
+			if frappe.db.get_single_value(doctype, field):
+				frappe.db.set_single_value(doctype, field, 0)
+
+
+def switched(doc, method=None) -> None:
+	"""An app's settings saved: a type whose Send This is one of its switches
+	follows it."""
+	for name, one in declared().items():
+		doctype, field = one.get("switch") or (None, None)
+		if doctype != doc.doctype:
+			continue
+		on = 1 if doc.get(field) else 0
+		if frappe.db.get_value("Notification Type", name, "enabled") != on:
+			frappe.db.set_value("Notification Type", name, "enabled", on)
+			frappe.clear_document_cache("Notification Type", name)
 
 
 #: Where a person's push choices are kept: beside frappe's own email list on
@@ -224,8 +283,22 @@ def validate(doc, method=None) -> None:
 		return
 	if one.get("required") and not doc.enabled:
 		frappe.throw(_("{0} cannot be turned off, or nobody could open a shared link.").format(_(doc.name)))
-	if one.get("outside"):
+	if one.get("outside") or one.get("mailed_by"):
 		doc.one_allow_push = doc.one_push_default = 0
+	if one.get("mailed_by"):
+		doc.one_allow_email = 0
+		if not one.get("switch") and not doc.enabled:
+			frappe.throw(
+				_("{0} sends this whenever it happens, and it cannot be turned off here.").format(
+					one["mailed_by"]
+				)
+			)
+	if one.get("switch"):
+		doctype, field = one["switch"]
+		if (1 if frappe.db.get_single_value(doctype, field) else 0) != (1 if doc.enabled else 0):
+			frappe.db.set_single_value(doctype, field, 1 if doc.enabled else 0)
+	if upstream(one):
+		doc.one_subject = doc.one_message = ""
 	if not doc.one_allow_email:
 		doc.one_email_default = 0
 	if not doc.one_allow_push:
@@ -367,7 +440,7 @@ def choosable(user: str | None = None) -> list[dict]:
 	for row in rows:
 		one = declared_types.get(row.name)
 		if one:
-			if row.one_outside or (one.get("roles") and not held & set(one["roles"])):
+			if row.one_outside or one.get("mailed_by") or (one.get("roles") and not held & set(one["roles"])):
 				continue
 			always = bool(one.get("always_mailed"))
 			kind = {
@@ -408,9 +481,12 @@ def render(name: str, context: dict, lang: str | None = None, words=None) -> tup
 
 	`words` is a record's own subject and message, where the record has them
 	(a project's own question): each is used over the type's text when given,
-	as its owner wrote it."""
+	as its owner wrote it. Words that are `Markup` are a standard rule's,
+	rendered as frappe renders them, and go as they are."""
+	from markupsafe import Markup
+
 	row, one = _type(name), declared().get(name) or {}
-	safe = {key: _escaped(value) for key, value in context.items()}
+	safe = {key: _escaped(_said(value, lang)) for key, value in context.items()}
 	# In the subject the names stand out, as frappe's own notifications bold
 	# them, so neither our text nor an administrator's has to say <b>.
 	strong = {key: f"<b>{value}</b>" if _named(value) else value for key, value in safe.items()}
@@ -424,7 +500,7 @@ def render(name: str, context: dict, lang: str | None = None, words=None) -> tup
 		strict=True,
 	):
 		if own:
-			said.append(frappe.utils.escape_html(own))
+			said.append(own if isinstance(own, Markup) else frappe.utils.escape_html(own))
 		elif not live:
 			said.append("")
 		elif live == default and msgid:
@@ -432,6 +508,13 @@ def render(name: str, context: dict, lang: str | None = None, words=None) -> tup
 		else:
 			said.append(_sandbox().from_string(live).render(values))
 	return said[0], said[1]
+
+
+def _said(value, lang):
+	"""A value that is `_lt`, a status or a doctype's name, in the reader's
+	language rather than the process's."""
+	msgid = getattr(value, "msg", None)
+	return _(msgid, lang=lang) if msgid else value
 
 
 def _named(value) -> bool:

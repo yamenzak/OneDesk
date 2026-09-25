@@ -19,4 +19,13 @@ TYPES = [
 		"email": False,
 		"always_mailed": True,
 	},
+	# updates: yesterday's answers, which ERPNext mailed only where mail could go.
+	{
+		"name": _lt("Project Summary"),
+		"app": "OneProject",
+		"roles": ("Projects User",),
+		"about": _lt("What a project's people said about it yesterday. Sent to them each morning."),
+		"subject": _lt("What was said about {project} on {date}"),
+		"message": "{answers}",
+	},
 ]

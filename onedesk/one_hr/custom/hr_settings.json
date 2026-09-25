@@ -382,6 +382,158 @@
    "property": "label",
    "property_type": "Data",
    "value": "Leaving"
+  },
+  {
+   "doc_type": "HR Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "send_birthday_reminders",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "HR Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "send_work_anniversary_reminders",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "HR Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "send_holiday_reminders",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "HR Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "column_break_hyec",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "HR Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "sender",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "HR Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "sender_email",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "HR Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "send_leave_notification",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "HR Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "leave_approval_notification_template",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "HR Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "leave_status_notification_template",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "HR Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "send_interview_reminder",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "HR Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "interview_reminder_template",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "HR Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "send_interview_feedback_reminder",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "HR Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "feedback_reminder_notification_template",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "HR Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "frequency",
+   "property": "depends_on",
+   "property_type": "Code",
+   "value": ""
+  },
+  {
+   "doc_type": "HR Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "frequency",
+   "property": "mandatory_depends_on",
+   "property_type": "Code",
+   "value": ""
+  },
+  {
+   "doc_type": "HR Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "frequency",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Holiday Reminders"
+  },
+  {
+   "doc_type": "HR Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "frequency",
+   "property": "description",
+   "property_type": "Small Text",
+   "value": "How often people are told their coming holidays. Whether they are is decided on Notifications."
+  },
+  {
+   "doc_type": "HR Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "remind_before",
+   "property": "depends_on",
+   "property_type": "Code",
+   "value": ""
+  },
+  {
+   "doc_type": "HR Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "remind_before",
+   "property": "description",
+   "property_type": "Small Text",
+   "value": "How long before an interview its interviewers are told."
   }
  ],
  "sync_on_migrate": 1

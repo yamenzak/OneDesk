@@ -66,12 +66,33 @@ def _declared() -> dict[str, dict]:
 	return found
 
 
+#: Every key a declaration may carry (one/notify.py says what each means).
+KEYS = {
+	"name", "app", "about", "subject", "message", "roles", "email", "push", "email_default",
+	"push_default", "outside", "required", "always_mailed", "words", "rule", "mailed_by", "switch",
+	"replaces", "starts_as",
+}  # fmt: skip
+
+
 def test_every_type_says_what_it_needs():
 	for name, one in _declared().items():
-		assert {"name", "app", "about", "subject"} <= set(one), name
+		assert set(one) - {"module"} <= KEYS, f"{name}: {sorted(set(one) - KEYS - {'module'})}"
+		upstream = one.get("mailed_by") or one.get("words")
+		assert {"name", "app", "about"} <= set(one), name
+		# Our own words need a subject; the apps' own are theirs to write.
+		assert bool(one.get("subject")) != bool(upstream), name
 		assert not (one.get("outside") and one.get("push_default")), (
 			f"{name} goes outside and cannot be pushed"
 		)
+		assert not (one.get("mailed_by") and one.get("rule")), (
+			f"{name}: a rule is told, not mailed by its app"
+		)
+		assert not one.get("rule") or one.get("words"), f"{name}: a rule is in its app's words"
+		for doctype, field in [
+			*(one.get("replaces") or ()),
+			*filter(None, [one.get("switch"), one.get("starts_as")]),
+		]:
+			assert doctype.endswith("Settings") and field, name
 
 
 def _sent():
@@ -87,11 +108,40 @@ def _sent():
 				and getattr(func.value, "id", None) == "notify"
 			):
 				first = node.args[0]
+				if path.name == "rules.py" and isinstance(first, ast.Name):
+					# A standard rule is told as the type that carries it.
+					yield func.attr, [name for name, one in _declared().items() if one.get("rule")]
+					continue
+				if isinstance(first, ast.Attribute) and getattr(first.value, "id", None) == "self":
+					# Each class names its own, as a constant: every one it can be.
+					yield func.attr, _constants(path, first.attr)
+					continue
 				names = [first.body, first.orelse] if isinstance(first, ast.IfExp) else [first]
 				assert all(isinstance(one, ast.Constant) for one in names), (
 					f"{path.name}:{node.lineno} names its type in a variable, so it cannot be checked"
 				)
 				yield func.attr, [one.value for one in names]
+
+
+def _constants(path, attr: str) -> list[str]:
+	"""Every string a module assigns to `attr`, alone or in a tuple."""
+	found = []
+	for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"))):
+		if not isinstance(node, ast.Assign):
+			continue
+		for target in node.targets:
+			pairs = (
+				zip(target.elts, node.value.elts, strict=True)
+				if isinstance(target, ast.Tuple) and isinstance(node.value, ast.Tuple)
+				else [(target, node.value)]
+			)
+			found += [
+				value.value
+				for name, value in pairs
+				if getattr(name, "id", None) == attr and isinstance(value, ast.Constant) and value.value
+			]
+	assert found, f"{path.name} never says what {attr} is"
+	return found
 
 
 def test_every_type_sent_is_declared():
@@ -243,10 +293,56 @@ def test_a_workspace_rule_is_held_and_tells_only_who_may_read():
 	source, _check = _rules()
 	assert '"Notification": "onedesk.one.rules.Rule"' in HOOKS
 	hold = source.split("def _hold(", 1)[1].split("\ndef ", 1)[0]
-	for kept in ('"Filters"', '"System Notification"', "set_property_after_alert", "attach_print", "has_permission", "send_to_all_assignees"):
+	for kept in (
+		'"Filters"',
+		'"System Notification"',
+		"set_property_after_alert",
+		"attach_print",
+		"has_permission",
+		"send_to_all_assignees",
+	):
 		assert kept in hold, kept
 	recipients = source.split("def get_list_of_recipients(", 1)[1].split("\n\n", 1)[0]
 	assert "_may_read" in recipients and "[], []" in recipients
 	# Who counts as frappe's own writer of rules is read from frappe's DocPerm,
 	# never named here.
 	assert '"DocPerm"' in source
+
+
+def test_what_erpnext_and_hrms_mail_is_brought_in():
+	"""Stage 6: the apps' own switches for what we send are hidden where they
+	live, the classes and seams that send it are ours, and a standard rule's
+	people here are told rather than mailed."""
+	import json
+
+	for name, one in _declared().items():
+		for doctype, field in one.get("replaces") or ():
+			hidden = [
+				setter
+				for path in tree.APP.glob("*/custom/*.json")
+				for setter in json.loads(path.read_text(encoding="utf-8")).get("property_setters", [])
+				if setter.get("doc_type") == doctype
+				and setter.get("field_name") == field
+				and setter.get("property") == "hidden"
+				and str(setter.get("value")) == "1"
+			]
+			assert hidden, f"{name} replaces {doctype}.{field}, which is still shown"
+	for doctype in ("Leave Application", "Expense Claim", "Shift Request", "Interview"):
+		assert f'"{doctype}": "onedesk.one_hr.tell.' in HOOKS, doctype
+	assert (
+		'"erpnext.selling.doctype.customer.customer.send_emails": "onedesk.one_book.tell.credit_limit"'
+		in HOOKS
+	)
+	assert '"Material Request": {"on_submit": "onedesk.one_inventory.tell.raised"}' in HOOKS
+	assert '"Payroll Settings": {"on_update": "onedesk.one.notify.switched"}' in HOOKS
+	for job in (
+		"birthdays",
+		"anniversaries",
+		"feedback_due",
+		"holidays_weekly",
+		"holidays_monthly",
+		"interviews_soon",
+	):
+		assert f'"onedesk.one_hr.tell.{job}"' in HOOKS, job
+	rules = (tree.APP / "one" / "rules.py").read_text(encoding="utf-8")
+	assert "flags.one_outside_only" in rules.split("def get_list_of_recipients", 1)[1]

@@ -256,6 +256,7 @@ No doctypes yet.
 * `onedesk.one_book.home.we_owe`
 * `onedesk.one_book.paid.settle`
 * `onedesk.one_book.ready.fix`
+* `onedesk.one_book.tell.credit_limit`
 * `onedesk.one_calendar.feed.mine`
 * `onedesk.one_calendar.feed.renew`
 * `onedesk.one_calendar.feed.stop`
@@ -318,6 +319,7 @@ No doctypes yet.
 * `onedesk.one_hr.signin.begin`
 * `onedesk.one_hr.signin.finish`
 * `onedesk.one_hr.signin.offered`
+* `onedesk.one_hr.tell.reschedule_interview`
 * `onedesk.one_intake.act.settle`
 * `onedesk.one_intake.act.undo`
 * `onedesk.one_intake.act.undo_one`

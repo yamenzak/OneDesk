@@ -809,6 +809,8 @@ def _notification_types(record: str | None = None) -> dict:
 				"required": bool(one.get("required")),
 				"always": bool(one.get("always_mailed")),
 				"ours": bool(one),
+				"upstream": notify.upstream(one),
+				"mailed_by": one.get("mailed_by") or "",
 				"email": row.one_allow_email if one else 1,
 				"email_default": row.one_email_default,
 				"push": row.one_allow_push if one else 0,
@@ -842,7 +844,14 @@ def _notification_type(name: str) -> dict:
 			field.update({"wrap": 1, "min_lines": 3, "max_lines": 12})
 		if field["fieldname"] == "enabled":
 			field["label"] = _("Send This")
-			field["read_only"] = 1 if one.get("required") else 0
+			fixed = one.get("required") or (one.get("mailed_by") and not one.get("switch"))
+			field["read_only"] = 1 if fixed else 0
+	if one.get("mailed_by"):
+		# Mailed by the app itself: whether it is sent, where the app lets us say.
+		fields = [field for field in fields if field["fieldname"] == "enabled"]
+	elif notify.upstream(one):
+		# Told through the hub in the app's own words: the channels, not the text.
+		fields = [field for field in fields if field["fieldname"] not in ("one_subject", "one_message")]
 	return {
 		"type": {
 			"name": doc.name,
@@ -853,6 +862,10 @@ def _notification_type(name: str) -> dict:
 			"outside": doc.one_outside,
 			"required": bool(one.get("required")),
 			"always": bool(one.get("always_mailed")),
+			"upstream": notify.upstream(one),
+			"mailed_by": one.get("mailed_by") or "",
+			"rule": one.get("rule") or "",
+			"switch": bool(one.get("switch")),
 			"slots": notify.slots(name),
 			"default_subject": doc.one_default_subject,
 			"default_message": doc.one_default_message,
