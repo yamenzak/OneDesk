@@ -151,8 +151,15 @@ def load(section: Annotated[str, "Which section."]) -> dict:
 
 
 @frappe.whitelist(methods=["POST"])
-def save(section: Annotated[str, "Which section."], values: Annotated[str | dict, "What was changed."]) -> dict:
+def save(
+	section: Annotated[str, "Which section."],
+	values: Annotated[str | dict, "What was changed."],
+	opened: Annotated[str | list | None, "The records as the page loaded them: doctype, name and modified."] = None,
+) -> dict:
 	values = frappe.parse_json(values) or {}
+	# What the page loaded, so a record changed since is refused the way a
+	# desk form refuses it, rather than overwritten.
+	frappe.flags.one_opened = {f"{one['doctype']}:{one['name']}": one["modified"] for one in frappe.parse_json(opened) or []}
 	savers = {
 		"profile": _save_profile,
 		"notifications": _save_notifications,
@@ -167,6 +174,23 @@ def save(section: Annotated[str, "Which section."], values: Annotated[str | dict
 	savers[section](values)
 	frappe.db.commit()
 	return load(section)
+
+
+def _as_opened(doc):
+	"""The record as the page loaded it, for frappe's own `check_if_latest`,
+	which refuses the save if it has changed since, with frappe's own message
+	(Document.check_if_latest). A record the page did not send is saved as
+	it is."""
+	modified = (frappe.flags.one_opened or {}).get(f"{doc.doctype}:{doc.name}")
+	if modified:
+		doc.modified = modified
+	return doc
+
+
+def _opened(*docs) -> list[dict]:
+	"""What the page needs to save these back, and to hear when somebody else
+	changes them: each record's doctype, name and modified."""
+	return [{"doctype": doc.doctype, "name": doc.name, "modified": str(doc.modified)} for doc in docs if doc]
 
 
 def _group(section: str) -> str:
@@ -207,6 +231,7 @@ def _profile() -> dict:
 		"employee": None,
 	}
 	employee = _employee()
+	said["opened"] = _opened(user, employee)
 	if employee:
 		said["values"].update({mine: employee.get(theirs) or said["values"].get(mine) for mine, theirs in SHARED.items()})
 		said["values"].update({name: employee.get(name) for name in EMPLOYEE_OWN})
@@ -254,7 +279,7 @@ def _masked(value: str) -> str:
 
 
 def _save_profile(values: dict) -> None:
-	user = frappe.get_doc("User", frappe.session.user)
+	user = _as_opened(frappe.get_doc("User", frappe.session.user))
 	user.update({name: values[name] for name in PROFILE if name in values})
 	# Oneself, and only these fields: frappe's own rule for My Settings.
 	user.save(ignore_permissions=True)
@@ -265,7 +290,7 @@ def _save_profile(values: dict) -> None:
 	# which would find a login changed underneath it the other way round.
 	changes = {name: values[name] for name in EMPLOYEE_OWN if name in values}
 	changes.update({theirs: values[mine] for mine, theirs in SHARED.items() if mine in values})
-	employee.update(changes)
+	_as_opened(employee).update(changes)
 	# Their own record, and only these fields.
 	employee.save(ignore_permissions=True)
 

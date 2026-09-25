@@ -52,7 +52,7 @@ be ours; how it behaves is frappe's.
 
 | Area | Screen | State |
 |---|---|---|
-| Settings, You | Profile | shown, waiting for your word |
+| Settings, You | Profile | the four gaps closed, waiting for your word |
 | Settings, You | Notifications | next |
 | Settings, You | Mail | |
 | Settings, You | Calendar | |
@@ -108,14 +108,24 @@ Every settings screen, from the first commit of the pass:
    `public/js/settings.js`. It is not frappe's User form with CSS laid over
    it. The fields are frappe's controls in a `FieldGroup`, so they behave as on
    any form.
-   - Where it falls short of "Everything follows frappe":
-     - Dirty is a bare listener for any input, so it stays set after a change
-       is undone.
-     - Nothing warns before the page is left with unsaved changes.
-     - Save does not send `modified`, so it would overwrite a change HR made to
-       the employee in the meantime.
-     - It is not subscribed to the User or Employee realtime rooms.
-     - All four are to fix before Profile is done.
+   - It follows "Everything follows frappe" the way a desk form does, from
+     `form.js` and `model.js`:
+     - Dirty is a difference from what was loaded, so undoing a change makes it
+       clean again.
+     - Leaving with changes gets frappe's own warning. Like frappe, it is off
+       in developer mode.
+     - Switching sections keeps unsaved changes, as frappe keeps an unsaved
+       document in `locals`.
+     - Save sends each record's `modified`, and frappe's `check_if_latest`
+       refuses a stale save with its own message. The page then offers
+       Refresh.
+     - Both records' realtime rooms are subscribed. Untouched, the page reloads
+       when somebody else saves. With changes in it, it says "This form has
+       been modified after you have loaded it" and keeps them.
+     - Ctrl+S saves. On a page that is `save_action`, not the button, which is
+       why it did nothing before.
+     - Every field is sent. `FieldGroup.get_values` leaves an empty field out,
+       so a field somebody cleared was never cleared.
    - The photo is the avatar, at 80px. Espresso's largest size is 3xl, which
      is 46px, so the page sets the avatar's own size variable instead of
      drawing its own.

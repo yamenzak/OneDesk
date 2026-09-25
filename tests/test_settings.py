@@ -84,3 +84,20 @@ def test_an_account_number_shows_its_last_four_only():
 	assert S["_masked"]("DE89 3704 0044 0532 0130 00") == "•••• 3000"
 	assert S["_masked"]("123") == "123"
 	assert S["_masked"]("") == ""
+
+
+def test_a_save_is_refused_if_the_record_changed_since_it_was_opened():
+	"""Profile saves the login and the employee against the `modified` the page
+	loaded, so frappe's own check_if_latest refuses a stale save."""
+	source = SETTINGS.read_text()
+	body = source[source.index("def _save_profile") :]
+	body = body[: body.index("\ndef ")]
+	assert body.count("_as_opened(") == 2
+	assert '"opened"' in source and "_opened(user, employee)" in source
+
+
+def test_the_page_sends_every_field_and_behaves_like_a_form():
+	script = (tree.APP / "public" / "js" / "settings.js").read_text()
+	assert "get_values(" not in script, "FieldGroup.get_values leaves a cleared field out, so it would never be cleared"
+	for part in ("doc_subscribe", "doc_update", "beforeunload", "TimestampMismatchError", "save_action"):
+		assert part in script, part

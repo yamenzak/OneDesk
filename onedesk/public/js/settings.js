@@ -19,6 +19,17 @@ onedesk.Settings = class Settings {
 		this.group_name = group;
 		this.route = group === "workspace" ? "workspace-settings" : "settings";
 		this.$section = $(`<section class="os-section"></section>`).appendTo(page.main);
+		// A section left with unsaved changes keeps them, as frappe keeps an
+		// unsaved document in `locals`, until it is saved or refreshed.
+		this.kept = {};
+		this.opened = [];
+		// The rest is what a desk form does (form.js, model.js), done the same way.
+		this.leaving = (event) => {
+			event.preventDefault();
+			return (event.returnValue = "There are unsaved changes, are you sure you want to exit?");
+		};
+		this.reload = frappe.utils.debounce(() => this.open(this.key), 1000);
+		frappe.realtime.on("doc_update", (data) => this.updated(data));
 	}
 
 	async show() {
@@ -29,10 +40,15 @@ onedesk.Settings = class Settings {
 		if (found) this.open(found.key);
 	}
 
-	async open(key) {
+	async open(key, { fresh = false } = {}) {
+		if (this.dirty && this.values) this.kept[this.key] = { values: this.values(), opened: this.opened };
+		if (fresh) delete this.kept[key];
 		this.key = key;
+		this.values = null;
+		this.set_dirty(false);
 		const section = this.said.sections.find((one) => one.key === key);
 		this.page.clear_primary_action();
+		this.page.wrapper[0].save_action = null;
 		this.page.clear_indicator();
 		this.name_page(section);
 		this.$section.html(`<div class="os-content"><div class="os-quiet">${__("Loading…")}</div></div>`);
@@ -44,9 +60,85 @@ onedesk.Settings = class Settings {
 			return;
 		}
 		this.$content.empty();
+		this.hear(this.data.opened);
 		this[`draw_${key}`](this.data);
 		// The router names the page after show; the section's name wins.
 		this.name_page(section);
+		await this.bring_back(key);
+	}
+
+	// Unsaved changes left in this section come back, and if the record has
+	// changed underneath them since, the page says so, as a form does.
+	async bring_back(key) {
+		const kept = this.kept[key];
+		delete this.kept[key];
+		if (!kept || !this.values) return;
+		await this.ready;
+		await this.group.set_values(kept.values);
+		this.check();
+		const moved = kept.opened.some((one) => this.opened.some((now) => now.doctype === one.doctype && now.name === one.name && now.modified !== one.modified));
+		if (moved) this.conflict();
+	}
+
+	// ---------------------------------------------------------------- a record, as a form keeps one
+
+	// Listen on each record's realtime room, as a form does on load.
+	async hear(opened) {
+		this.opened = opened || [];
+		for (const one of this.opened) {
+			// frappe lets one subscription through a second; wait our turn.
+			while (frappe.flags.doc_subscribe) await new Promise((done) => setTimeout(done, 250));
+			frappe.realtime.doc_subscribe(one.doctype, one.name);
+		}
+	}
+
+	// Somebody saved one of this section's records. Untouched, the section
+	// reloads; with changes in it, it says so and keeps them (model.js).
+	updated(data) {
+		const one = this.opened.find((it) => it.doctype === data.doctype && it.name === data.name);
+		if (!one || this.saving || !data.modified || data.modified <= one.modified) return;
+		if (this.dirty) this.conflict();
+		else if (this.$section.is(":visible")) this.reload();
+	}
+
+	conflict() {
+		if (this.$content.find(".os-conflict").length) return;
+		const $refresh = $(this.button(__("Refresh"), {}, "solid")).on("click", () => this.open(this.key, { fresh: true }));
+		$(frappe.ui.alert({ title: __("This form has been modified after you have loaded it"), theme: "yellow", footer: $refresh, css_class: "os-conflict" })).prependTo(
+			this.$content
+		);
+	}
+
+	// Dirty is a difference from what was loaded, so undoing a change makes
+	// the section clean again. The warning on leaving is frappe's own, kept
+	// out of developer mode as frappe keeps it.
+	check() {
+		if (!this.values || this.snapshot === undefined) return;
+		this.set_dirty(Settings.same(this.values()) !== this.snapshot);
+	}
+
+	set_dirty(dirty) {
+		this.dirty = dirty;
+		if (dirty) this.page.set_indicator(__("Not Saved"), "orange");
+		else this.page.clear_indicator();
+		removeEventListener("beforeunload", this.leaving, { capture: true });
+		if (dirty && !frappe.boot.developer_mode) addEventListener("beforeunload", this.leaving, { capture: true });
+	}
+
+	// Every field's value. FieldGroup.get_values leaves an empty field out, so
+	// a field somebody cleared would never be sent, and never be cleared.
+	static every(group, names) {
+		return Object.fromEntries(names.map((name) => [name, group.get_value(name) ?? ""]));
+	}
+
+	// Values as compared: empty is empty whatever it is, and order does not count.
+	static same(values) {
+		return JSON.stringify(
+			Object.keys(values || {})
+				.sort()
+				.map((name) => [name, values[name] === null || values[name] === undefined ? "" : String(values[name])])
+				.filter(([, value]) => value !== "")
+		);
 	}
 
 	// The page head is a breadcrumb in v17, so the section's name goes there,
@@ -101,24 +193,48 @@ onedesk.Settings = class Settings {
 			: Object.values(own);
 		this.group = new frappe.ui.FieldGroup({ fields, body: $card.find(".os-form")[0] });
 		this.group.make();
-		this.group.set_values(data.values);
 		$card.toggleClass("os-columns", !!rows);
-		this.saves(() => this.group.get_values(true), $card);
+		this.saves(() => Settings.every(this.group, Object.keys(own)), $card, this.group.set_values(data.values));
 		return $card;
 	}
 
-	// Save goes in the page head; the head says so once something changed.
-	saves(values, $watch) {
+	// Save goes in the page head. What the fields hold once they have settled
+	// is what "changed" is measured against.
+	saves(values, $watch, ready) {
+		this.values = values;
+		this.snapshot = undefined;
+		this.ready = Promise.resolve(ready).then(() => {
+			this.snapshot = Settings.same(values());
+		});
 		this.page.set_primary_action(__("Save"), () => this.save(values()));
-		$watch.on("input change", "input, select, textarea", () => this.page.set_indicator(__("Not Saved"), "orange"));
+		// Ctrl+S on a page calls its save_action; only a form uses its button (desk.js).
+		this.page.wrapper[0].save_action = () => this.save(values());
+		$watch.on("input change", "input, select, textarea", () => this.check());
 	}
 
+	// Saved against the records as they were loaded, so frappe refuses the
+	// save if somebody changed one since (Document.check_if_latest).
 	async save(values) {
-		this.data = await frappe.xcall(Settings.API + "save", { section: this.key, values });
+		this.saving = true;
+		const said = await new Promise((done) =>
+			frappe.call({
+				method: Settings.API + "save",
+				args: { section: this.key, values, opened: this.opened },
+				freeze: true,
+				callback: (r) => done(r.message),
+				error: (r) => {
+					if (r && r.exc_type === "TimestampMismatchError") this.conflict();
+					done(null);
+				},
+			})
+		).finally(() => (this.saving = false));
+		if (!said) return;
+		this.data = said;
 		frappe.show_alert({ message: __("Saved."), indicator: "green" });
-		this.page.clear_indicator();
+		this.set_dirty(false);
 		this.$content.empty();
-		this[`draw_${this.key}`](this.data);
+		this.hear(said.opened);
+		this[`draw_${this.key}`](said);
 	}
 
 	empty(title, description) {
@@ -171,7 +287,7 @@ onedesk.Settings = class Settings {
 			{ ...data, fields: [...data.fields.filter((one) => one.fieldname !== "user_image"), ...(employee ? employee.fields : [])] },
 			{ before: who, rows }
 		);
-		const photo = (user_image) => this.save({ ...this.group.get_values(true), user_image });
+		const photo = (user_image) => this.save({ ...this.values(), user_image });
 		$card.find("[data-photo]").on("click", () => {
 			new frappe.ui.FileUploader({
 				doctype: "User",
@@ -623,7 +739,7 @@ onedesk.Settings = class Settings {
 			body: $card.find(".os-form")[0],
 		});
 		this.group.make();
-		this.saves(() => this.group.get_values(true), $card);
+		this.saves(() => Settings.every(this.group, ["holiday_list"]), $card);
 		$card.find(".os-actions").html(
 			(data.chosen ? this.button(__("Open the List"), { "data-open": "1" }, "ghost", "external-link") : "") +
 				this.button(__("New List"), { "data-new": "1" }, "ghost", "plus")
