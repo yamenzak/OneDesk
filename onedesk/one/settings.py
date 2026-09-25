@@ -63,7 +63,37 @@ LEVELS = ("None", "User", "Manager")
 NOT_PEOPLE = ("Administrator", "Guest", "oneai@one.invalid")
 
 #: What a person may change about themselves here.
-PROFILE = ("first_name", "last_name", "mobile_no", "language", "time_zone", "user_image")
+PROFILE = ("first_name", "last_name", "gender", "birth_date", "mobile_no", "location", "bio", "language", "time_zone", "user_image")
+
+#: What a person keeps up to date on their own employee record: how to reach
+#: them, who to call, and two facts HR asks for. Their pay and their job are
+#: HR's to change, so those are shown and not asked.
+EMPLOYEE_OWN = (
+	"personal_email",
+	"current_address",
+	"permanent_address",
+	"person_to_be_contacted",
+	"relation",
+	"emergency_phone_number",
+	"marital_status",
+	"blood_group",
+)
+
+#: Said on both records. The employee's copy is the one HR reads, and erpnext
+#: copies it onto the login on every save of the employee, so a change here
+#: goes to the employee first or the next save would undo it.
+SHARED = {"gender": "gender", "birth_date": "date_of_birth", "mobile_no": "cell_number", "user_image": "image"}
+
+#: What the page shows of a person's job, as HR set it.
+AT_WORK = ("name", "designation", "department", "reports_to", "branch", "employment_type", "date_of_joining", "company_email")
+
+#: What a linked record is called on screen, where its id is not its name. A
+#: department's id carries the company's abbreviation, which one company does
+#: not need.
+TITLES = {"Employee": "employee_name", "Department": "department_name"}
+
+#: Where their pay goes, shown with all but the last four hidden.
+BANK = ("bank_name", "iban", "bank_ac_no")
 
 NOTIFY = (
 	"enabled",
@@ -169,12 +199,58 @@ def _fields(doctype: str, names: tuple) -> list[dict]:
 
 def _profile() -> dict:
 	user = frappe.get_doc("User", frappe.session.user)
-	return {
+	said = {
 		"fields": _fields("User", PROFILE),
 		"values": {name: user.get(name) for name in PROFILE},
 		"email": user.email,
 		"full_name": user.full_name,
+		"employee": None,
 	}
+	employee = _employee()
+	if employee:
+		said["values"].update({mine: employee.get(theirs) or said["values"].get(mine) for mine, theirs in SHARED.items()})
+		said["values"].update({name: employee.get(name) for name in EMPLOYEE_OWN})
+		said["employee"] = {
+			"fields": _fields("Employee", EMPLOYEE_OWN),
+			"work": _facts(employee, AT_WORK),
+			"bank": [{**one, "value": _masked(one["value"])} if one["fieldname"] != "bank_name" else one for one in _facts(employee, BANK)],
+		}
+	return said
+
+
+def _employee():
+	"""The person's own employee record, when they have one. Read past
+	permissions: the only filter is the session's own user."""
+	from onedesk.one_hr import own
+
+	name = own.employee_of()
+	return frappe.get_doc("Employee", name) if name else None
+
+
+def _facts(doc, names: tuple) -> list[dict]:
+	"""Fields of a record as label and value, for reading rather than editing.
+	A link shows the record's title, not its id."""
+	meta = frappe.get_meta(doc.doctype)
+	out = []
+	for name in names:
+		value = doc.get(name)
+		if not value:
+			continue
+		field = meta.get_field(name)
+		label = _(field.label) if field else _("Employee ID")
+		if field and field.fieldtype == "Link":
+			value = frappe.db.get_value(field.options, value, TITLES.get(field.options) or frappe.get_meta(field.options).get_title_field()) or value
+			value = _(value) if field.options in ("Designation", "Employment Type") else value
+		elif field and field.fieldtype == "Date":
+			value = frappe.utils.formatdate(value)
+		out.append({"fieldname": name, "label": label, "value": value})
+	return out
+
+
+def _masked(value: str) -> str:
+	"""All but the last four characters hidden. Pure."""
+	value = (value or "").replace(" ", "")
+	return "•••• " + value[-4:] if len(value) > 4 else value
 
 
 def _save_profile(values: dict) -> None:
@@ -182,6 +258,16 @@ def _save_profile(values: dict) -> None:
 	user.update({name: values[name] for name in PROFILE if name in values})
 	# Oneself, and only these fields: frappe's own rule for My Settings.
 	user.save(ignore_permissions=True)
+	employee = _employee()
+	if not employee:
+		return
+	# The login first: saving the employee copies its fields onto the login,
+	# which would find a login changed underneath it the other way round.
+	changes = {name: values[name] for name in EMPLOYEE_OWN if name in values}
+	changes.update({theirs: values[mine] for mine, theirs in SHARED.items() if mine in values})
+	employee.update(changes)
+	# Their own record, and only these fields.
+	employee.save(ignore_permissions=True)
 
 
 def _notifications() -> dict:

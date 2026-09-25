@@ -23,7 +23,7 @@ def _load(names):
 	return space
 
 
-S = _load({"SECTIONS", "APPS", "LEVELS", "level_of", "roles_for"})
+S = _load({"SECTIONS", "APPS", "LEVELS", "level_of", "roles_for", "PROFILE", "EMPLOYEE_OWN", "SHARED", "AT_WORK", "BANK", "_masked"})
 
 
 def test_a_level_is_read_from_the_roles_a_person_holds():
@@ -66,3 +66,21 @@ def test_the_sections_are_the_ones_sidebar_and_the_workspaces_only_for_its_admin
 		assert (key, "settings" if group == "you" else "workspace-settings") in linked, key
 	page = json.loads((tree.APP / "one" / "page" / "workspace_settings" / "workspace_settings.json").read_text())
 	assert [one["role"] for one in page["roles"]] == ["Workspace Administrator"]
+
+
+def test_a_person_changes_how_to_reach_them_and_never_their_job_or_their_pay():
+	own = set(S["EMPLOYEE_OWN"]) | set(S["SHARED"].values())
+	assert not own & set(S["AT_WORK"]), "HR sets a person's job"
+	assert not own & set(S["BANK"]), "a changed bank account is how pay is stolen, so HR changes it"
+	assert not own & {"ctc", "salary_mode", "status", "user_id", "relieving_date", "company"}
+
+
+def test_what_both_records_say_is_asked_once_and_written_to_the_employee():
+	assert set(S["SHARED"]) <= set(S["PROFILE"])
+	assert not set(S["SHARED"]) & set(S["EMPLOYEE_OWN"])
+
+
+def test_an_account_number_shows_its_last_four_only():
+	assert S["_masked"]("DE89 3704 0044 0532 0130 00") == "•••• 3000"
+	assert S["_masked"]("123") == "123"
+	assert S["_masked"]("") == ""

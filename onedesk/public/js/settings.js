@@ -73,18 +73,31 @@ onedesk.Settings = class Settings {
 
 	// A form made of the record's own fields, saved in one go from the page
 	// head, the way a record is. `rows` lays fields out side by side: each row
-	// is a list of fieldnames, one per column.
+	// is a list of fieldnames, one per column, or `{ heading, note }` to start
+	// a part of its own under a rule, or `{ html }` for something to read.
 	form(data, { before = "", after = "", rows = null } = {}) {
 		const $card = $(`<div class="os-card">${before}<div class="os-form"></div>${after}</div>`).appendTo(this.$content);
 		const own = Object.fromEntries(data.fields.map((one) => [one.fieldname, { ...one, default: data.values[one.fieldname] }]));
+		// A heading names the section the rows after it are in: a section with
+		// no fields of its own, frappe hides.
+		let heading = null;
 		const fields = rows
-			? rows.flatMap((row, at) => [
-					...(at ? [{ fieldtype: "Section Break", fieldname: `os_row_${at}` }] : []),
-					...row.flatMap((name, column) => [
-						...(column ? [{ fieldtype: "Column Break", fieldname: `os_col_${at}_${column}` }] : []),
-						...(own[name] ? [own[name]] : []),
-					]),
-			  ])
+			? rows.flatMap((row, at) => {
+					if (row.heading) {
+						heading = { fieldtype: "Section Break", fieldname: `os_part_${at}`, label: row.heading, description: row.note, css_class: "os-part" };
+						return [];
+					}
+					const opening = heading || (at ? { fieldtype: "Section Break", fieldname: `os_row_${at}` } : null);
+					heading = null;
+					if (row.html) return [...(opening ? [opening] : []), { fieldtype: "HTML", fieldname: `os_html_${at}`, options: row.html }];
+					return [
+						...(opening ? [opening] : []),
+						...row.flatMap((name, column) => [
+							...(column ? [{ fieldtype: "Column Break", fieldname: `os_col_${at}_${column}` }] : []),
+							...(own[name] ? [own[name]] : []),
+						]),
+					];
+			  })
 			: Object.values(own);
 		this.group = new frappe.ui.FieldGroup({ fields, body: $card.find(".os-form")[0] });
 		this.group.make();
@@ -116,27 +129,47 @@ onedesk.Settings = class Settings {
 
 	// ---------------------------------------------------------------- you
 
-	// The photo is the avatar itself: click it to change it. The rest is the
-	// name, how to reach you, and where you are.
+	// Who you are to everybody here, and, when you work here, what your
+	// employee record says. The photo is the avatar itself: click it to change
+	// it. What HR owns (your job, where your pay goes) is shown, not asked.
 	draw_profile(data) {
 		const esc = frappe.utils.escape_html;
 		const image = data.values.user_image;
-		const who = `<div class="os-who">
+		const employee = data.employee;
+		const job = employee ? employee.work.filter((one) => ["designation", "department"].includes(one.fieldname)).map((one) => one.value) : [];
+		const who = `<div class="os-who os-who-large">
 			<button class="btn-reset os-photo" data-photo="1" title="${esc(__("Change Photo"))}">
 				${frappe.ui.avatar.html({ label: data.full_name, image, size: "3xl" })}
 				<span class="os-photo-edit">${frappe.utils.icon("camera", "sm")}</span>
 			</button>
 			<div class="os-who-text">
 				<div class="os-who-name">${esc(data.full_name || "")}</div>
-				<div class="os-quiet">${esc(data.email || "")}</div>
+				<div class="os-quiet">${[data.email, ...job].map(esc).join(" · ")}</div>
 				<div class="os-who-actions">${this.button(image ? __("Change Photo") : __("Add a Photo"), { "data-photo": "1" }, "ghost")}${
 					image ? this.button(__("Remove Photo"), { "data-unphoto": "1" }, "ghost") : ""
 				}</div>
 			</div>
 		</div>`;
+		const facts = (list) =>
+			`<dl class="os-facts">${list.map((one) => `<dt>${esc(one.label)}</dt><dd>${esc(String(one.value))}</dd>`).join("")}</dl>`;
+		const rows = [["first_name", "last_name"], ["gender", "birth_date"], ["mobile_no", "location"], ["bio", ""], { heading: __("Language and Time") }, ["language", "time_zone"]];
+		if (employee) {
+			rows.push(
+				{ heading: __("At Work"), note: __("As HR keeps it. Ask them if something here is wrong.") },
+				{ html: facts(employee.work) },
+				{ heading: __("Where You Live") },
+				["current_address", "permanent_address"],
+				["personal_email", ""],
+				{ heading: __("In an Emergency"), note: __("Who HR calls if something happens to you at work.") },
+				["person_to_be_contacted", "relation", "emergency_phone_number"],
+				{ heading: __("About You"), note: __("Only HR sees these.") },
+				["marital_status", "blood_group"]
+			);
+			if (employee.bank.length) rows.push({ heading: __("Where Your Pay Goes"), note: __("Only HR can change this.") }, { html: facts(employee.bank) });
+		}
 		const $card = this.form(
-			{ ...data, fields: data.fields.filter((one) => one.fieldname !== "user_image") },
-			{ before: who, rows: [["first_name", "last_name"], ["mobile_no", ""], ["language", "time_zone"]] }
+			{ ...data, fields: [...data.fields.filter((one) => one.fieldname !== "user_image"), ...(employee ? employee.fields : [])] },
+			{ before: who, rows }
 		);
 		const photo = (user_image) => this.save({ ...this.group.get_values(true), user_image });
 		$card.find("[data-photo]").on("click", () => {
