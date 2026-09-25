@@ -1,121 +1,5 @@
-/* Settings: the section the sidebar chose, in one wide column. It sits on the
-   page like a record does, not in a box: its parts are divided by a rule, and
-   Save is in the page head. */
-.os-section {
-	padding: 0 0 calc(var(--spacing) * 10);
-	min-width: 0;
-}
-
-/* A section is a column in the middle of the page, as frappe-ui's settings
-   pages are, so a wide screen puts the room on both sides rather than all of
-   it on the right. The column is the form's width plus the card's padding. */
-.os-content {
-	max-width: calc(760px + var(--spacing) * 8);
-	margin-inline: auto;
-}
-
-.os-content.os-wide {
-	max-width: 1200px;
-}
-
-.os-card {
-	padding: calc(var(--spacing) * 6) calc(var(--spacing) * 4);
-	border-bottom: 1px solid var(--outline-gray-1);
-	font-size: var(--text-sm);
-	color: var(--ink-gray-8);
-}
-
-.os-card:last-child {
-	border-bottom: 0;
-}
-
-.os-card-title {
-	color: var(--ink-gray-9);
-	font-weight: var(--font-weight-semibold);
-}
-
-.os-sub-title {
-	margin-top: calc(var(--spacing) * 5);
-}
-
-.os-card-note {
-	margin: calc(var(--spacing) * 1) 0 calc(var(--spacing) * 3);
-}
-
-.os-quiet {
-	color: var(--ink-gray-5);
-}
-
-.os-actions {
-	display: flex;
-	flex-wrap: wrap;
-	gap: calc(var(--spacing) * 2);
-	margin-top: calc(var(--spacing) * 4);
-}
-
-.os-form .frappe-control {
-	max-width: 480px;
-}
-
-/* Fields side by side: the columns carry the width, not the field. */
-.os-columns .os-form {
-	max-width: 760px;
-}
-
-.os-columns .os-form .frappe-control {
-	max-width: none;
-}
-
-.os-form .form-section {
-	padding: 0;
-	border: 0;
-}
-
-.os-form .form-section .section-body {
-	margin: 0;
-}
-
-/* The first column starts where the heading does. */
-.os-form .form-column:first-child {
-	padding-inline-start: 0;
-}
-
-.os-row {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: calc(var(--spacing) * 3);
-	padding: calc(var(--spacing) * 3) 0;
-	border-bottom: 1px solid var(--outline-gray-1);
-}
-
-.os-row:last-of-type {
-	border-bottom: 0;
-}
-
-.os-row-main {
-	min-width: 0;
-}
-
-.os-row-title {
-	color: var(--ink-gray-9);
-	font-weight: var(--font-weight-medium);
-	overflow-wrap: anywhere;
-}
-
-.os-row-sub {
-	display: flex;
-	flex-wrap: wrap;
-	gap: calc(var(--spacing) * 1.5);
-	margin-top: calc(var(--spacing) * 1);
-}
-
-.os-row-actions {
-	display: flex;
-	flex: none;
-	align-items: center;
-	gap: calc(var(--spacing) * 2);
-}
+/* Settings: what only its sections have. The page, its sections, rows and
+   form are the shell's (public/css/shell.css). */
 
 .os-who {
 	display: flex;
@@ -130,7 +14,7 @@
 	font-weight: var(--font-weight-semibold);
 }
 
-.os-card > .os-who {
+.one-shell-section > .os-who {
 	margin-bottom: calc(var(--spacing) * 6);
 }
 
@@ -209,16 +93,6 @@
 	white-space: nowrap;
 }
 
-.os-empty {
-	padding: calc(var(--spacing) * 6) 0;
-	text-align: center;
-}
-
-.os-empty-title {
-	color: var(--ink-gray-7);
-	font-weight: var(--font-weight-medium);
-}
-
 /* People: a person per row, an app per column. */
 .os-people {
 	margin-top: calc(var(--spacing) * 3);
@@ -268,70 +142,8 @@
 	height: 28px;
 }
 
-/* A part of a form under its own heading, divided from the one above by a
-   rule the width of the page. */
-.os-form .form-section.os-part {
-	margin: calc(var(--spacing) * 6) 0 0;
-	padding-top: calc(var(--spacing) * 6);
-	border-top: 1px solid var(--outline-gray-1);
-}
-
-.os-form .os-part .section-head {
-	padding: 0;
+.one-shell-form .os-facts {
 	margin: 0;
-	color: var(--ink-gray-9);
-	font-size: var(--text-base);
-	font-weight: var(--font-weight-semibold);
-}
-
-.os-form .os-part .form-section-description {
-	margin: calc(var(--spacing) * 1) 0 calc(var(--spacing) * 2);
-	padding: 0;
-	color: var(--ink-gray-5);
-	font-size: var(--text-sm);
-}
-
-.os-form .os-facts {
-	margin: 0;
-}
-
-/* frappe-ui's row alert (Alert.vue, layout "row"): a title and one action on
-   one line, the action a ghost button whose label takes the alert's ink.
-   Espresso's alert puts its footer under the title, so it is moved to the
-   column the dismiss button would use. */
-.es-alert.os-alert-row {
-	align-items: center;
-	padding-block: calc(var(--spacing) * 1.5);
-	padding-inline-end: calc(var(--spacing) * 1.5);
-}
-
-.es-alert.os-alert-row > .es-alert__footer {
-	grid-column: 3;
-	grid-row: 1;
-}
-
-.es-alert.os-alert-row[data-theme="yellow"] .es-button {
-	color: var(--ink-amber-6);
-}
-
-/* Notifications: a type in the list opens its form. The row is the target,
-   with frappe-ui's list-row hover rather than a button of its own. */
-.os-row-link {
-	cursor: pointer;
-	margin-inline: calc(var(--spacing) * -2);
-	padding-inline: calc(var(--spacing) * 2);
-	border-radius: var(--radius-md);
-}
-
-.os-row-link:hover,
-.os-row-link:focus-visible {
-	background: var(--surface-gray-1);
-	outline: none;
-}
-
-.os-chevron {
-	display: inline-flex;
-	color: var(--ink-gray-4);
 }
 
 .os-type-head {
@@ -400,25 +212,19 @@
 	line-height: 1.6;
 }
 
-/* A tick and what it is for read as one line where they can: a check's
-   description is its sentence, not an input's help under a narrow field. */
-.os-form .form-column .frappe-control.input-max-width:has(> .checkbox) {
-	max-width: 640px;
-}
-
 /* A kind of notification is a row: what it is, then a tick per channel in
    columns of their own, so Email and Push line up down the list. */
-.os-form .os-kind .section-body {
+.one-shell-form .os-kind .section-body {
 	align-items: flex-start;
 }
 
-.os-form .os-kind .section-body > .form-column {
+.one-shell-form .os-kind .section-body > .form-column {
 	flex: 0 0 88px;
 	max-width: 88px;
 	padding-inline: 0;
 }
 
-.os-form .os-kind .section-body > .form-column:first-child {
+.one-shell-form .os-kind .section-body > .form-column:first-child {
 	flex: 1 1 auto;
 	max-width: none;
 	padding-inline-end: calc(var(--spacing) * 4);
@@ -434,7 +240,7 @@
 }
 
 /* A notification's subject is one line, but a long one: the whole column. */
-.os-form .form-column .frappe-control.input-max-width[data-fieldname="one_subject"] {
+.one-shell-form .form-column .frappe-control.input-max-width[data-fieldname="one_subject"] {
 	max-width: none;
 }
 
@@ -445,6 +251,6 @@
 	margin: calc(var(--spacing) * 2) 0 calc(var(--spacing) * 1);
 }
 
-.os-form .form-column .frappe-control.input-max-width[data-fieldname="subject"] {
+.one-shell-form .form-column .frappe-control.input-max-width[data-fieldname="subject"] {
 	max-width: none;
 }

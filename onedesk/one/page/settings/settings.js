@@ -1,8 +1,8 @@
 // A person's own settings. The client is public/js/settings.js, shared with workspace-settings; the
-// sections are entries in One's sidebar, so the page is a single wide column.
+// sections are entries in One's sidebar, so the page is the shell's column (docs/SHELL.md).
 
 frappe.pages["settings"].on_page_load = (wrapper) => {
-	const page = frappe.ui.make_app_page({ parent: wrapper, title: __("Settings"), single_column: true });
+	const page = onedesk.shell.page(wrapper, __("Settings"));
 	wrapper.loading = frappe.require(["/assets/onedesk/css/settings.css", "/assets/onedesk/js/push.js", "/assets/onedesk/js/settings.js"]).then(() => {
 		wrapper.settings = new onedesk.Settings(page, "you");
 	});

@@ -97,10 +97,14 @@ def test_a_save_is_refused_if_the_record_changed_since_it_was_opened():
 
 
 def test_the_page_sends_every_field_and_behaves_like_a_form():
+	# The form behaviour is the shell's Editor, which Settings extends.
 	script = (tree.APP / "public" / "js" / "settings.js").read_text()
-	assert "get_values(" not in script, "FieldGroup.get_values leaves a cleared field out, so it would never be cleared"
+	shell = (tree.APP / "public" / "js" / "shell.js").read_text()
+	assert "extends onedesk.shell.Editor" in script
+	for source in (script, shell):
+		assert "get_values(" not in source, "FieldGroup.get_values leaves a cleared field out, so it would never be cleared"
 	for part in ("doc_subscribe", "doc_update", "beforeunload", "TimestampMismatchError", "save_action"):
-		assert part in script, part
+		assert part in shell, part
 
 
 def test_what_oneai_offers_on_settings_is_for_a_section_that_exists_and_is_documented():

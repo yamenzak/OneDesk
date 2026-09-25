@@ -363,7 +363,7 @@ def _notifications() -> dict:
 				"fieldname": kind,
 				"fieldtype": "HTML",
 				"options": f'<div class="os-kind-name">{esc(one["label"])}</div>'
-				f'<div class="os-quiet">{esc(_said_of(one))}</div>',
+				f'<div class="one-shell-quiet">{esc(_said_of(one))}</div>',
 				"depends_on": "eval:doc.enabled",
 			},
 			{

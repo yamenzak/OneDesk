@@ -648,6 +648,8 @@ setup_wizard_stages = "onedesk.one.setup_wizard.get_setup_stages"
 app_include_css = [
 	"/assets/onedesk/css/theme.css",
 	"/assets/onedesk/css/desk.css",
+	# The shell every page of ours is built in. See docs/SHELL.md.
+	"/assets/onedesk/css/shell.css",
 	"/assets/onedesk/css/oneai.css",
 	"/assets/onedesk/css/legal.css",
 	"/assets/onedesk/css/intake.css",
@@ -658,6 +660,7 @@ app_include_js = [
 	"/assets/onedesk/js/theme.js",
 	"/assets/onedesk/js/check.js",
 	"/assets/onedesk/js/desk.js",
+	"/assets/onedesk/js/shell.js",
 	"/assets/onedesk/js/passkey.js",
 	"/assets/onedesk/js/clock.js",
 	"/assets/onedesk/js/overtime.js",

@@ -260,7 +260,7 @@ nobody in the workspace can.
 Each deletes what it replaces in the same commit.
 
 1. **The shell**, taken out of Settings with no visible change: head, column
-   and wide, section, row, empty, editor. The guard.
+   and wide, section, row, empty, editor. The guard. Done.
 2. **The light pages** onto it: My Tasks, Legal, Intake, Ready to Submit,
    OneCalendar.
 3. **OneMail and OneCloud** take its head, panes, rows and empty states.
@@ -276,6 +276,30 @@ Each deletes what it replaces in the same commit.
 
 Stages 1–3 stand alone and are what the passover needs next. 4–8 can follow
 product by product.
+
+## Stage 1, as built
+
+- `public/js/shell.js` and `public/css/shell.css`, loaded on every desk page.
+  `onedesk.shell` has `page`, `body` (column, or `wide`), `name` (breadcrumb,
+  tab title, and OneAI told where the reader is), `button`, `section`, `row`,
+  `actions`, `empty` and `quiet`. `onedesk.shell.Editor` is Settings' save
+  core: `form()` with its row layout, dirty against a snapshot, the warning on
+  leaving, `doc_subscribe` and the conflict alert, and saving from the page
+  head with Ctrl+S. A page extending it says only `saver`, `redraw` and
+  `refresh`.
+- Settings extends the Editor and lost 190 lines. Its stylesheet keeps only
+  what is its own (the profile's photo, People's grid, the notification
+  preview); the rest moved to the shell under `.one-shell-*` names.
+- Verified by screenshots of eleven sections before and after, compared pixel
+  for pixel: ten identical, and the eleventh showed the one class the server
+  writes (`settings.py`, a notification kind's quiet line), which was renamed
+  too. Dirty, undo back to clean, a save elsewhere raising the conflict,
+  Refresh, and Ctrl+S were each tried in the browser.
+- `tests/test_shell.py`: every page is on the shell or named with the stage
+  that moves it; a page on the shell is made by `onedesk.shell.page`; only
+  `shell.css` styles the shell's parts; a page on the shell styles no row,
+  empty state, quiet line, card or section of its own, and writes no
+  `beforeunload`, `doc_subscribe` or timestamp check; the old names are gone.
 
 ## The risks
 
