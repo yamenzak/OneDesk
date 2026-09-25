@@ -182,7 +182,8 @@ onedesk.Settings = class Settings {
 	// head, the way a record is. `rows` lays fields out side by side: each row
 	// is a list of fieldnames, one per column, or `{ heading, note }` to start
 	// a part of its own under a rule, `{ stack }` for fields one under another
-	// in one column, or `{ html }` for something to read.
+	// in one column, `{ row, css }` for a row whose part carries a class, or
+	// `{ html }` for something to read.
 	form(data, { before = "", after = "", rows = null } = {}) {
 		const $card = $(`<div class="os-card">${before}<div class="os-form"></div>${after}</div>`).appendTo(this.$content);
 		const own = Object.fromEntries(data.fields.map((one) => [one.fieldname, { ...one, default: data.values[one.fieldname] }]));
@@ -191,11 +192,14 @@ onedesk.Settings = class Settings {
 		let heading = null;
 		const fields = rows
 			? rows.flatMap((row, at) => {
+					let css = null;
+					if (row.row) [css, row] = [row.css, row.row];
 					if (row.heading) {
 						heading = { fieldtype: "Section Break", fieldname: `os_part_${at}`, label: row.heading, description: row.note, css_class: "os-part" };
 						return [];
 					}
-					const opening = heading || (at ? { fieldtype: "Section Break", fieldname: `os_row_${at}` } : null);
+					let opening = heading || (at || css ? { fieldtype: "Section Break", fieldname: `os_row_${at}` } : null);
+					if (opening && css) opening = { ...opening, css_class: [opening.css_class, css].filter(Boolean).join(" ") };
 					heading = null;
 					if (row.html) return [...(opening ? [opening] : []), { fieldtype: "HTML", fieldname: `os_html_${at}`, options: row.html }];
 					if (row.stack) return [...(opening ? [opening] : []), ...row.stack.map((name) => own[name]).filter(Boolean)];
@@ -334,17 +338,78 @@ onedesk.Settings = class Settings {
 		$card.find("[data-unphoto]").on("click", () => photo(""));
 	}
 
-	// Everything One can tell you reaches the bell. What is also mailed is a
-	// tick per kind, grouped by the app that sends it, and only the kinds you
-	// can receive: HR's are for HR. A kind the workspace does not mail is shown
-	// and cannot be ticked, so the list is the whole answer.
+	// Everything One can tell you reaches the bell. What is also mailed, and
+	// what is pushed to the browsers you turned push on in, is a pair of ticks
+	// per kind, grouped by the app that sends it, and only the kinds you can
+	// receive: HR's are for HR. A tick the workspace does not allow is shown and
+	// cannot be changed, so the list is the whole answer.
 	draw_notifications(data) {
 		const rows = [{ stack: ["enabled", "enable_email_notifications"] }];
-		for (const group of data.groups) rows.push({ heading: group.app }, { stack: group.fields });
+		for (const group of data.groups) rows.push({ heading: group.app }, ...group.rows.map((row) => ({ row, css: "os-kind" })));
 		rows.push({ heading: __("Other Mail") }, { stack: ["enable_email_event_reminders", "enable_email_threads_on_assigned_document"] });
-		this.form(data, {
-			before: `<div class="os-quiet os-card-note">${__("Everything One tells you reaches the bell. Tick what you also want by email.")}</div>`,
+		const $card = this.form(data, {
+			before: `<div class="os-quiet os-card-note">${__("Everything One tells you reaches the bell. Tick what you also want by email, and pushed to this device.")}</div><div class="os-push"></div>`,
 			rows,
+		});
+		this.draw_push($card.find(".os-push"), data.push);
+	}
+
+	// Push in this browser, and the others this person turned it on in. Not a
+	// field of the record: turning it on asks the browser, and is done at once.
+	async draw_push($part, said) {
+		const esc = frappe.utils.escape_html;
+		const here = await onedesk.push.state();
+		const words = {
+			on: [__("On in this browser"), "green"],
+			off: [__("Off in this browser"), "gray"],
+			blocked: [__("Blocked by this browser"), "orange"],
+			unsupported: [__("This browser cannot receive push"), "gray"],
+		}[here.state];
+		const others = (said.devices || []).filter((one) => one.endpoint !== here.endpoint);
+		const action =
+			here.state === "off"
+				? this.button(__("Turn On Push"), { "data-push": "on" }, "solid", "bell-ring")
+				: here.state === "on"
+				? this.button(__("Send a Test"), { "data-push": "test" }, "subtle") + this.button(__("Turn Off"), { "data-push": "off" }, "ghost")
+				: "";
+		$part.html(`<div class="os-row">
+				<div class="os-row-main"><div class="os-row-title">${esc(__("Push"))}</div>
+					<div class="os-row-sub">${frappe.ui.badge.html({ label: words[0], theme: words[1] })}</div>
+					${here.state === "blocked" ? `<div class="os-quiet">${esc(__("Allow notifications for this site in the browser's settings, then come back."))}</div>` : ""}
+				</div>
+				<div class="os-row-actions">${action}</div>
+			</div>
+			${others
+				.map(
+					(one) => `<div class="os-row"><div class="os-row-main"><div>${esc(one.label || "")}</div><div class="os-quiet">${esc(
+						one.last_sent ? __("Last pushed {0}", [frappe.datetime.prettyDate(one.last_sent)]) : __("Nothing pushed yet")
+					)}</div></div><div class="os-row-actions">${this.button(__("Remove"), { "data-forget": one.name }, "ghost", "trash-2")}</div></div>`
+				)
+				.join("")}`);
+		const again = async () => this.draw_push($part, await frappe.xcall("onedesk.one.push.devices"));
+		$part.find('[data-push="on"]').on("click", async () => {
+			// A browser may refuse even when it offers push: a private window
+			// does, and so does one whose push service cannot be reached.
+			let on = false;
+			try {
+				on = await onedesk.push.on(said.key);
+			} catch (e) {
+				on = false;
+			}
+			if (!on) frappe.show_alert({ message: __("This browser did not turn push on. A private window cannot have it."), indicator: "orange" });
+			again();
+		});
+		$part.find('[data-push="off"]').on("click", async () => {
+			await onedesk.push.off();
+			again();
+		});
+		$part.find('[data-push="test"]').on("click", async () => {
+			const r = await frappe.xcall("onedesk.one.push.test");
+			frappe.show_alert({ message: r.sent ? __("Sent. It should appear in a moment.") : __("It could not be sent."), indicator: r.sent ? "green" : "orange" });
+		});
+		$part.find("[data-forget]").on("click", async (event) => {
+			await frappe.xcall("onedesk.one.push.forget", { name: $(event.currentTarget).attr("data-forget") });
+			again();
 		});
 	}
 
@@ -847,7 +912,6 @@ onedesk.Settings = class Settings {
 		if (data.type) return this.draw_notification_type(data);
 		const esc = frappe.utils.escape_html;
 		const channel = (label, allowed, on) => (allowed ? frappe.ui.badge.html({ label, theme: on ? "blue" : "gray" }) : "");
-		// Push is declared on every type, and shown once it can be sent (docs/NOTIFICATIONS.md, stage 4).
 		const row = (one) => {
 			const badges = one.ours
 				? [
@@ -857,7 +921,7 @@ onedesk.Settings = class Settings {
 							? frappe.ui.badge.html({ label: __("Mailed Outside"), theme: "gray" })
 							: one.always
 							? frappe.ui.badge.html({ label: __("Always Mailed"), theme: "gray" })
-							: channel(__("Email"), one.email, one.email_default),
+							: channel(__("Email"), one.email, one.email_default) + channel(__("Push"), one.push, one.push_default),
 				  ].join(" ")
 				: "";
 			return `<div class="os-row ${one.ours ? "os-row-link" : ""}" ${one.ours ? `data-type="${esc(one.name)}" tabindex="0"` : ""}>
@@ -869,7 +933,7 @@ onedesk.Settings = class Settings {
 		};
 		this.$content.html(
 			`<div class="os-card os-card-note os-quiet">${esc(
-				__("What One tells people. Open one to change what it says and whether it may also be mailed. A blue Email is on for new people, and each person can change their own.")
+				__("What One tells people. Open one to change what it says and whether it may also be mailed or pushed. Blue is on for new people, and each person can change their own.")
 			)}</div>` + data.apps.map((group) => this.card(group.app || __("Across One"), group.types.map(row).join(""))).join("")
 		);
 		const go = (event) => frappe.set_route("workspace-settings", { section: this.key, type: $(event.currentTarget).attr("data-type") });
@@ -913,11 +977,15 @@ onedesk.Settings = class Settings {
 				{ html: `${slots ? `<div class="os-quiet os-slots">${__("It can use {0}", [slots])}</div>` : ""}${preview}` }
 			);
 			if (type.always) {
-				rows.push({ html: `<div class="os-quiet">${esc(__("Its mail is always sent, so people can answer it by replying. The bell has it too."))}</div>` });
+				rows.push(
+					{ heading: __("Channels"), note: __("Its mail is always sent, so people can answer it by replying. The bell has it too, and push is theirs to choose.") },
+					["one_allow_push", "one_push_default"]
+				);
 			} else if (!type.outside) {
 				rows.push(
-					{ heading: __("Channels"), note: __("The bell is always on. Email is what people may add to it, and what a new person starts with.") },
-					["one_allow_email", "one_email_default"]
+					{ heading: __("Channels"), note: __("The bell is always on. These are what people may add to it, and what a new person starts with.") },
+					["one_allow_email", "one_allow_push"],
+					["one_email_default", "one_push_default"]
 				);
 			} else {
 				rows.push({ html: `<div class="os-quiet">${esc(__("Mailed to addresses outside the workspace, so nobody chooses a channel for it."))}</div>` });

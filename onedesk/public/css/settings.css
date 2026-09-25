@@ -405,3 +405,35 @@
 .os-form .form-column .frappe-control.input-max-width:has(> .checkbox) {
 	max-width: 640px;
 }
+
+/* A kind of notification is a row: what it is, then a tick per channel in
+   columns of their own, so Email and Push line up down the list. */
+.os-form .os-kind .section-body {
+	align-items: flex-start;
+}
+
+.os-form .os-kind .section-body > .form-column {
+	flex: 0 0 88px;
+	max-width: 88px;
+	padding-inline: 0;
+}
+
+.os-form .os-kind .section-body > .form-column:first-child {
+	flex: 1 1 auto;
+	max-width: none;
+	padding-inline-end: calc(var(--spacing) * 4);
+}
+
+.os-kind-name {
+	color: var(--ink-gray-8);
+	font-weight: var(--font-weight-medium);
+}
+
+.os-push {
+	margin-bottom: calc(var(--spacing) * 2);
+}
+
+/* A notification's subject is one line, but a long one: the whole column. */
+.os-form .form-column .frappe-control.input-max-width[data-fieldname="one_subject"] {
+	max-width: none;
+}

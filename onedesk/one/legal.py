@@ -53,6 +53,22 @@ clause(
 	order=6,
 )
 
+clause(
+	document="privacy",
+	section="modules",
+	key="push",
+	module=M,
+	body="""
+		If you turn push on in a browser, we keep that browser's push address and keys, and remove them when
+		you turn push off, when you remove the browser under Settings, or when the browser says it is gone.
+		Each push is encrypted on our servers for that one browser and carried by the browser's own push
+		service: Google's for Chrome, Mozilla's for Firefox, Apple's for Safari and Microsoft's for Windows.
+		They cannot read it; they see only that a message went to that address, when, and how large it was.
+		A push says what the notification says, and nothing more.
+	""",
+	order=7,
+)
+
 # Workspace Settings › Notifications
 
 clause(

@@ -334,16 +334,18 @@ def _save_profile(values: dict) -> None:
 
 
 def _notifications() -> dict:
-	"""A person's own notifications: the bell and email on or off, and a tick
-	for each kind they can receive, whether it is also mailed to them."""
+	"""A person's own notifications: the bell and email on or off, the browsers
+	they turned push on in, and for each kind they can receive, whether it is
+	also mailed to them and pushed to them."""
 	from frappe.desk.doctype.notification_settings.notification_settings import create_notification_settings
 
-	from onedesk.one import notify
+	from onedesk.one import notify, push
 
 	if not frappe.db.exists("Notification Settings", frappe.session.user):
 		create_notification_settings(frappe.session.user)
 	doc = frappe.get_doc("Notification Settings", frappe.session.user)
 	mailed = {row.notification_type for row in doc.email_notification_types}
+	pushed = {row.notification_type for row in doc.get(notify.PUSH_FIELD) or []}
 	fields = _fields("Notification Settings", NOTIFY)
 	for field in fields:
 		label, description = NOTIFY_SAID[field["fieldname"]]
@@ -352,61 +354,83 @@ def _notifications() -> dict:
 			field["depends_on"] = "eval:doc.enabled && doc.enable_email_notifications"
 	values = {name: doc.get(name) for name in NOTIFY}
 	groups: dict[str, list] = {}
+	esc = frappe.utils.escape_html
 	for one in notify.choosable():
-		fieldname = _email_field(one["name"])
-		fields.append(
+		kind, email, pushing = (_kind_field(prefix, one["name"]) for prefix in ("kind", "email", "push"))
+		fields += [
 			{
-				"fieldname": fieldname,
+				"fieldname": kind,
+				"fieldtype": "HTML",
+				"options": f'<div class="os-kind-name">{esc(one["label"])}</div>'
+				f'<div class="os-quiet">{esc(_said_of(one))}</div>',
+				"depends_on": "eval:doc.enabled",
+			},
+			{
+				"fieldname": email,
 				"fieldtype": "Check",
-				"label": one["label"],
-				"description": _said_of(one),
+				"label": str(_("Email")),
 				"read_only": 0 if one["allowed"] else 1,
-				"depends_on": "eval:doc.enabled && doc.enable_email_notifications",
-			}
-		)
-		values[fieldname] = 1 if one.get("always") or (one["allowed"] and one["name"] in mailed) else 0
-		groups.setdefault(one["app"] or "", []).append(fieldname)
+				"depends_on": "eval:doc.enabled",
+			},
+			{
+				"fieldname": pushing,
+				"fieldtype": "Check",
+				"label": str(_("Push")),
+				"read_only": 0 if one["push"] else 1,
+				"depends_on": "eval:doc.enabled",
+			},
+		]
+		values[email] = 1 if one["always"] or (one["allowed"] and one["name"] in mailed) else 0
+		values[pushing] = 1 if one["push"] and one["name"] in pushed else 0
+		groups.setdefault(one["app"] or "", []).append([kind, email, pushing])
 	return {
 		"fields": fields,
 		"values": values,
-		"groups": [{"app": app or str(_("Across One")), "fields": names} for app, names in groups.items()],
+		"groups": [{"app": app or str(_("Across One")), "rows": rows} for app, rows in groups.items()],
+		"push": push.devices(),
 		"opened": _opened(doc),
 	}
 
 
 def _said_of(one: dict) -> str:
-	"""What a kind is, and why its tick cannot be changed when it cannot."""
+	"""What a kind is, and why a tick cannot be changed when it cannot."""
+	said = [one["about"]]
 	if one.get("always"):
-		return f"{one['about']} {_('Its mail is always sent, so you can answer it by replying.')}".strip()
-	if not one["allowed"]:
-		return f"{one['about']} {_('It is not mailed in this workspace.')}".strip()
-	return one["about"]
+		said.append(_("Its mail is always sent, so you can answer it by replying."))
+	elif not one["allowed"]:
+		said.append(_("It is not mailed in this workspace."))
+	if not one["push"]:
+		said.append(_("It is not pushed in this workspace."))
+	return " ".join(filter(None, said))
 
 
-def _email_field(name: str) -> str:
-	"""A type's tick, named after it. Pure."""
+def _kind_field(prefix: str, name: str) -> str:
+	"""A kind's field, named after it: `email_shared_with_you`. Pure."""
 	import re
 
-	return "email_" + re.sub(r"\W+", "_", name.lower()).strip("_")
+	return f"{prefix}_" + re.sub(r"\W+", "_", name.lower()).strip("_")
 
 
 def _save_notifications(values: dict) -> None:
-	"""Their own switches, and their email choices for the kinds shown. A kind
-	not shown to them (another role's, or not mailed here) is left as it was."""
+	"""Their own switches, and their email and push choices for the kinds
+	shown. A kind not shown to them (another role's, or not sent here that way)
+	is left as it was."""
 	from onedesk.one import notify
 
 	doc = _as_opened(frappe.get_doc("Notification Settings", frappe.session.user))
 	doc.update({name: values[name] for name in NOTIFY if name in values})
-	chosen = {
-		one["name"]: frappe.utils.cint(values.get(_email_field(one["name"])))
-		for one in notify.choosable()
-		if one["allowed"] and _email_field(one["name"]) in values
-	}
-	kept = [row.notification_type for row in doc.email_notification_types if row.notification_type not in chosen]
-	doc.set(
-		"email_notification_types",
-		[{"notification_type": name} for name in kept + [name for name, on in chosen.items() if on]],
-	)
+	kinds = notify.choosable()
+	for field, prefix, may in (
+		(notify.EMAIL_FIELD, "email", lambda one: one["allowed"]),
+		(notify.PUSH_FIELD, "push", lambda one: one["push"]),
+	):
+		chosen = {
+			one["name"]: frappe.utils.cint(values.get(_kind_field(prefix, one["name"])))
+			for one in kinds
+			if may(one) and _kind_field(prefix, one["name"]) in values
+		}
+		kept = [row.notification_type for row in doc.get(field) or [] if row.notification_type not in chosen]
+		doc.set(field, [{"notification_type": name} for name in kept + [name for name, on in chosen.items() if on]])
 	doc.save(ignore_permissions=True)
 
 

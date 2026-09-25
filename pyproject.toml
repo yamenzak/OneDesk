@@ -17,6 +17,10 @@ dependencies = [
     # SFTP, for a server shown as a folder (one_storage/mounts.py). LGPL-2.1,
     # used as a library, which is what its licence is written for.
     "paramiko~=3.4",
+    # Web Push, for a notification on a person's devices (one/push.py).
+    # MPL-2.0, used as a library: RFC 8291 encryption and VAPID signing are
+    # security-critical and a solved problem.
+    "pywebpush>=2,<3",
 ]
 
 [build-system]

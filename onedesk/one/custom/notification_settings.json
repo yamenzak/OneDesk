@@ -1,0 +1,21 @@
+{
+ "custom_fields": [
+  {
+   "doctype": "Custom Field",
+   "dt": "Notification Settings",
+   "fieldname": "one_push_notification_types",
+   "fieldtype": "Table MultiSelect",
+   "hidden": 1,
+   "insert_after": "email_notification_types_html",
+   "label": "Push me for these notification types",
+   "module": "One",
+   "name": "Notification Settings-one_push_notification_types",
+   "options": "Notification Type Preference",
+   "description": "Written by Settings, Notifications. Sent to the devices a person turned push on in."
+  }
+ ],
+ "doctype": "Notification Settings",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

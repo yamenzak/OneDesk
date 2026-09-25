@@ -146,6 +146,8 @@ doc_events = {
 	"User": {"before_save": "onedesk.one_mail.addresses.for_person"},
 	# A type's text names only its own slots. See one/notify.py.
 	"Notification Type": {"validate": "onedesk.one.notify.validate", "on_update": "onedesk.one.notify.changed"},
+	# A notification is pushed to the devices its person chose. See one/push.py.
+	"Notification Log": {"after_insert": "onedesk.one.push.pushed"},
 	# A new person is mailed only what the administrator said. See one/notify.py.
 	"Notification Settings": {"before_insert": "onedesk.one.notify.new_person"},
 	# A customer's contact invited as a user can see the customer's projects.

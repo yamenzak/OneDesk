@@ -55,7 +55,8 @@ SUGGESTIONS = {
 		{
 			"label": _lt("Too many emails?"),
 			"ask": _lt(
-				"Which of the notifications I get by email could I leave to the bell? Say which to untick and why."
+				"Which of the notifications I get by email could I leave to the bell, or have pushed instead? "
+				"Say which to untick and why."
 			),
 			"expects": "my_notifications",
 		},
@@ -97,8 +98,8 @@ def page(said: dict) -> str | None:
 	if said.get("section") == "notifications":
 		return (
 			"The reader is on Notifications in their own Settings: every kind of notification they can "
-			"receive, which all reach their bell, and a tick for each they also want by email. my_notifications "
-			"reads what they get and how. They change the ticks themselves and save; how is in One's "
+			"receive, which all reach their bell, and ticks for each they also want by email or pushed to the "
+			"browsers they turned push on in. my_notifications reads what they get and how. They change the ticks themselves and save; how is in One's "
 			"documentation under Settings › Notifications (how_to)."
 		)
 	if said.get("section") == "agreements":
@@ -231,32 +232,41 @@ def rewrite_notification(
 
 def my_notifications() -> dict:
 	"""Every kind of notification the person asking can receive, what it is
-	about, and whether it is also mailed to them. Their own choices only."""
+	about, and whether it is also mailed and pushed to them, and in how many
+	browsers push is on. Their own choices only."""
 	from onedesk.one import notify
 
 	user = frappe.session.user
 	settings = frappe.db.get_value(
 		"Notification Settings", user, ["enabled", "enable_email_notifications"], as_dict=True
 	) or frappe._dict(enabled=1, enable_email_notifications=1)
-	mailed = set(
-		frappe.get_all(
-			"Notification Type Preference",
-			filters={"parenttype": "Notification Settings", "parent": user},
-			pluck="notification_type",
+
+	def chosen(field: str) -> set:
+		return set(
+			frappe.get_all(
+				"Notification Type Preference",
+				filters={"parenttype": "Notification Settings", "parentfield": field, "parent": user},
+				pluck="notification_type",
+			)
 		)
-	)
+
+	mailed, pushed = chosen(notify.EMAIL_FIELD), chosen(notify.PUSH_FIELD)
 	return {
 		"notifications_on": bool(settings.enabled),
 		"email_on": bool(settings.enable_email_notifications),
+		"push_browsers": frappe.db.count("Push Device", {"user": user}),
 		"kinds": [
 			{
 				"name": one["label"],
 				"app": one["app"],
 				"about": one["about"],
-				"by_email": bool(one.get("always") or (one["allowed"] and one["name"] in mailed)),
-				"may_change": one["allowed"],
+				"by_email": bool(one["always"] or (one["allowed"] and one["name"] in mailed)),
+				"by_push": bool(one["push"] and one["name"] in pushed),
+				"email_may_change": one["allowed"],
+				"push_may_change": one["push"],
 			}
 			for one in notify.choosable(user)
 		],
-		"next": "Everything reaches the bell. Advise; the person ticks and saves the page themselves.",
+		"next": "Everything reaches the bell. Push reaches only the browsers counted in push_browsers. "
+		"Advise; the person ticks and saves the page themselves.",
 	}

@@ -132,7 +132,8 @@ DOCUMENTS = {
 	"privacy": {
 		"title": "Privacy Policy",
 		"audience": "user",
-		"revision": 1,
+		# 2: push, a new thing kept about a person who turns it on.
+		"revision": 2,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {

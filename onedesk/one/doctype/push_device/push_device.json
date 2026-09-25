@@ -1,0 +1,79 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-09-25 13:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "user",
+  "label",
+  "endpoint",
+  "p256dh",
+  "auth",
+  "last_sent",
+  "failures"
+ ],
+ "fields": [
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Person",
+   "options": "User",
+   "reqd": 1,
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Device",
+   "read_only": 1
+  },
+  {
+   "fieldname": "endpoint",
+   "fieldtype": "Small Text",
+   "label": "Push Address",
+   "reqd": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "p256dh",
+   "fieldtype": "Data",
+   "label": "Public Key",
+   "reqd": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "auth",
+   "fieldtype": "Data",
+   "label": "Secret",
+   "reqd": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_sent",
+   "fieldtype": "Datetime",
+   "label": "Last Sent",
+   "read_only": 1
+  },
+  {
+   "fieldname": "failures",
+   "fieldtype": "Int",
+   "label": "Failures in a Row",
+   "read_only": 1
+  }
+ ],
+ "in_create": 1,
+ "links": [],
+ "modified": "2026-09-25 13:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One",
+ "name": "Push Device",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

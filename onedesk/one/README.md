@@ -80,16 +80,26 @@ well. Changing them here changes both.
 ### Notifications
 
 Everything One can tell you, and how. Everything reaches the **bell** at the
-top left. Here you choose what is also **mailed** to you.
+top left. Here you choose what is also **mailed** to you, and what is
+**pushed**: shown by your computer or phone even when One is not open.
+
+**Push** is at the top. **Turn On Push** asks your browser to allow
+notifications from One, and from then on this browser gets what you tick for
+push. **Send a Test** shows you one; **Turn Off** stops it here. Each browser is
+turned on by itself, and the others you turned it on in are listed with
+**Remove**. A private window cannot have push, and a browser you blocked
+notifications in says so: allow them in its settings and come back. An iPhone
+or iPad cannot have push yet: Apple allows it only to a site added to the Home
+Screen as an app, which One cannot be yet.
 
 - **Notifications** turns it all off: nothing reaches your bell or your inbox.
 - **Also by Email** turns every mail off at once, whatever is ticked below.
 - Below them is every kind of notification you can receive, grouped by the app
-  that sends it, each with a sentence on when it is sent. **Tick the ones you
-  also want by email.** You only see the kinds that can reach you: HR's are for
-  HR, for example.
-- A tick you cannot change says why. Either your workspace does not mail that
-  kind at all, or its mail is always sent because you answer it by replying,
+  that sends it, each with a sentence on when it is sent. **Tick Email or Push
+  for the ones you also want that way.** You only see the kinds that can reach
+  you: HR's are for HR, for example.
+- A tick you cannot change says why. Either your workspace does not send that
+  kind that way, or its mail is always sent because you answer it by replying,
   as a project's "how is it going?" is.
 - **Other Mail** is the two mails that are not notifications: a reminder before
   an event of yours, and the mails on a record you were given to do.
@@ -102,8 +112,8 @@ Notifications.
 
 - **What will I be told about?** Every kind that can reach you, and which you
   get by email.
-- **Too many emails?** Which of your mailed kinds you could leave to the bell,
-  and why. You untick them yourself.
+- **Too many emails?** Which of your mailed kinds you could leave to the bell
+  or have pushed instead, and why. You untick them yourself.
 
 ### Agreements
 
@@ -141,8 +151,8 @@ app that sends it: a file shared with you, a letter somebody asked HR for, a
 document OneAI thinks is phishing. Only the workspace's administrators see it.
 
 Each row says whether the notification is **Off**, whether its text was
-**Edited**, and whether it may also be sent by **Email**. A blue Email means a
-new person starts with it on. **Mailed Outside** means it goes to an address
+**Edited**, and whether it may also be sent by **Email** or **Push**. Blue means
+a new person starts with it on. **Mailed Outside** means it goes to an address
 outside the workspace, such as the mail a file request sends.
 
 **Open one to change it**, and save from the top right as you would a record:
@@ -157,11 +167,12 @@ outside the workspace, such as the mail a file request sends.
 - As it comes, the text is sent in each person's own language. Once you change
   it, it is sent as you wrote it, in your words, to everybody. **Back to the
   Default Text** puts ours back, and it is translated again.
-- **Channels**: the bell is always on. **Email Allowed** lets people have it
-  mailed as well, and **Email for New People** is whether a new person starts
-  with that. Turning email off stops it for everybody, including people who had
-  chosen it; turning it back on gives it to everybody again if it is on for new
-  people. Each person changes their own under You › Notifications.
+- **Channels**: the bell is always on. **Email Allowed** and **Push Allowed**
+  let people have it mailed or pushed as well, and **for New People** is
+  whether a new person starts with that. Turning a channel off stops it for
+  everybody, including people who had chosen it; turning it back on gives it to
+  everybody again if it is on for new people. Each person changes their own
+  under You › Notifications.
 
 Mentions, assignments and shares are frappe's own and listed at the bottom.
 Their text is frappe's, so they have nothing to change here.
@@ -197,6 +208,7 @@ For the people who build One. OneAI does not read past this heading.
 | `sidebar/one/one.json` | One's sidebar, with a link per section |
 | `ai.py` | What OneAI offers on these pages, and what it is told about where the reader is |
 | `notify.py` | The one door every notification goes through, and the sandbox an edited text renders in; see `docs/NOTIFICATIONS.md` |
+| `push.py`, `doctype/push_device`, `../public/js/push.js` | Web Push: a person's browsers, the site's keys, sending, and the service worker |
 | `custom/notification_type.json` | What a Notification Type carries here: its app, text and channels |
 
 Profile writes a person's own User record, and their own Employee record when

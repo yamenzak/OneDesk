@@ -7,6 +7,7 @@
 
 | Doctype | Fields | Kind |
 |---|--:|---|
+| Push Device | 7 | document |
 | Workspace Account | 28 | single |
 | Workspace Domain | 4 | child |
 
@@ -172,6 +173,11 @@ No doctypes yet.
 * `onedesk.one.account.domains`
 * `onedesk.one.account.domains_refresh`
 * `onedesk.one.account.mine`
+* `onedesk.one.push.devices`
+* `onedesk.one.push.forget`
+* `onedesk.one.push.register`
+* `onedesk.one.push.test`
+* `onedesk.one.push.worker`
 * `onedesk.one.settings.forget`
 * `onedesk.one.settings.invite`
 * `onedesk.one.settings.load`

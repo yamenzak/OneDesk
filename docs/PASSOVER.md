@@ -299,6 +299,48 @@ their `email_notification_types`, and nothing on this screen wrote that.
    already covered what the workspace holds. Frappe keeps notification records
    until a workspace clears them, so no period is promised.
 
+### Push (Notifications, stage 4)
+
+Stage 4 of `docs/NOTIFICATIONS.md`, on both Notifications screens.
+
+1. **Notifications**: a Notification Log is pushed, after it is committed and
+   in the background, to every browser its person turned push on in, when they
+   ticked push for its type and the workspace allows push for it. A browser the
+   push service says is gone is forgotten; so is one that fails five times in a
+   row.
+2. **OneAI**: `my_notifications` now says, per kind, whether it is pushed, and
+   in how many browsers push is on. **Too many emails?** may suggest push
+   instead of mail.
+3. **Intake**: phishing, a new IBAN and what waits start pushed for a new
+   person; the weekly digest does not.
+4. **Permissions**:
+   - A person registers, lists and removes only their own browsers; Push Device
+     has no desk permissions at all.
+   - A push goes only to Google's, Mozilla's, Apple's or Microsoft's push
+     service, over https (`push.SERVICES`): the address comes from a browser,
+     and a server that posts wherever a browser says is one anybody can aim.
+   - The VAPID private key is in the site's config, never the database.
+   - The worker is served for the whole site, and handles push and clicks
+     only; a test holds that it has no fetch handler.
+5. **Cross-module**: every module's types can be pushed as they can be
+   mailed; frappe's mentions, assignments and shares too.
+6. **UI**:
+   - You › Notifications: a Push part at the top (on, off, blocked, or
+     unsupported in this browser; Turn On Push, Send a Test, Turn Off; the
+     other browsers with Remove), and each kind a row with Email and Push.
+   - Workspace › Notifications: Push Allowed and Push for New People, and a
+     Push badge in the list.
+   - Found: headless Chromium is incognito and has no push, so turning it on
+     cannot be seen here. The whole path was checked instead against a local
+     push service: the push arrived VAPID-signed and aes128gcm-encrypted, and
+     decrypted with the browser's key to the notification's text.
+7. **Documented**: One's README, both Notifications sections.
+8. **Legal**: the Privacy Policy gains `push` (what is kept about a browser,
+   and that the push services carry messages they cannot read) and goes to
+   revision 2, so everybody is asked again: push is a new thing kept about a
+   person, not a clarification. The push services are named, not listed as
+   subprocessors, since they are the browser's own and never see content.
+
 ### Workspace › Notifications
 
 Built as stage 2 of `docs/NOTIFICATIONS.md`, and gone over against the eight

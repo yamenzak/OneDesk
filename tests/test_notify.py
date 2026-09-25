@@ -171,3 +171,43 @@ def test_the_workspace_screen_is_for_administrators():
 	assert "roles.require()" in preview
 	assert '"Notification Type": {"validate": "onedesk.one.notify.validate"' in HOOKS
 	assert '"onedesk.one.ai.rewrite_notification"' in HOOKS and '"onedesk.one.ai.notification_type"' in HOOKS
+
+
+def _push():
+	source = (tree.APP / "one" / "push.py").read_text(encoding="utf-8")
+	space = {"urlparse": __import__("urllib.parse", fromlist=["urlparse"]).urlparse}
+	for node in ast.parse(source).body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == "SERVICES":
+			exec(ast.unparse(node), space)
+		if isinstance(node, ast.FunctionDef) and node.name == "allowed_service":
+			exec(ast.unparse(node), space)
+	return source, space["allowed_service"]
+
+
+def test_push_goes_only_to_the_browsers_push_services():
+	"""The address comes from a browser, so a server that posts wherever it says
+	is a server anybody can aim. Only the four push services, over https."""
+	_source, allowed = _push()
+	assert allowed("https://fcm.googleapis.com/fcm/send/abc")
+	assert allowed("https://updates.push.services.mozilla.com/wpush/v2/x")
+	assert allowed("https://web.push.apple.com/QAbc")
+	assert allowed("https://wns2-db5p.notify.windows.com/w/?token=x")
+	for wrong in (
+		"http://fcm.googleapis.com/x",
+		"https://fcm.googleapis.com.evil.example/x",
+		"https://push.apple.com.evil.example/x",
+		"https://169.254.169.254/latest",
+		"https://localhost/x",
+		"",
+	):
+		assert not allowed(wrong), wrong
+
+
+def test_push_is_wired_and_its_keys_stay_out_of_the_database():
+	source, _allowed = _push()
+	assert '"Notification Log": {"after_insert": "onedesk.one.push.pushed"}' in HOOKS
+	assert "update_site_config(PRIVATE" in source
+	assert '"Service-Worker-Allowed": "/"' in source
+	# The worker handles push and clicks, and never a request the page makes.
+	worker = source.split('WORKER = """', 1)[1].split('"""', 1)[0]
+	assert '"fetch"' not in worker and "'fetch'" not in worker

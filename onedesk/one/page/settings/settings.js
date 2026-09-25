@@ -3,7 +3,7 @@
 
 frappe.pages["settings"].on_page_load = (wrapper) => {
 	const page = frappe.ui.make_app_page({ parent: wrapper, title: __("Settings"), single_column: true });
-	wrapper.loading = frappe.require(["/assets/onedesk/css/settings.css", "/assets/onedesk/js/settings.js"]).then(() => {
+	wrapper.loading = frappe.require(["/assets/onedesk/css/settings.css", "/assets/onedesk/js/push.js", "/assets/onedesk/js/settings.js"]).then(() => {
 		wrapper.settings = new onedesk.Settings(page, "you");
 	});
 };

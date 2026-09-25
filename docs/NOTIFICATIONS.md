@@ -143,7 +143,7 @@ entry and left until it matters.
    this".
 3. **The person's choices.** Done. You › Notifications as the matrix. The screen we
    are on now becomes this.
-4. **Push**, on the transport chosen. Registering a device, sending on
+4. **Push**, on the transport chosen. Done. Registering a device, sending on
    Notification Log, and its legal lines.
 5. **The builder.** Rules on their own screen, with `draft_notification` for
    OneAI.
@@ -227,3 +227,23 @@ on nothing but the browsers.
   update).
 - **OneAI** reads the person's own choices (`my_notifications`) and advises.
 - **Push** joins this page as a second column in stage 4.
+
+## Stage 4, as built
+
+- **Standard Web Push**, with `pywebpush` (MPL-2.0) for the RFC 8291
+  encryption and the VAPID signature. One key pair per site, in its config.
+- **A person's browsers** are Push Device rows, made when they press Turn On
+  Push and forgotten when they turn it off, remove it, or the push service
+  says it is gone.
+- **A person's push choices** are `one_push_notification_types` on their
+  Notification Settings, the same child doctype as frappe's email list. A type
+  marked Push for New People is seeded into everybody's once (when push
+  arrived, or when the type is made); after that the choice is theirs.
+- **Sending** is a Notification Log `after_insert` that queues `push.send`
+  after commit. Frappe's own kinds may be pushed too.
+- **Only the four push services** are ever posted to (`push.SERVICES`).
+- **The worker** is served by `push.worker` with `Service-Worker-Allowed: /`;
+  it shows the push and, on a click, brings a tab to the notification's page.
+- **Not yet**: iPhone and iPad, which Apple allows only for a site added to
+  the Home Screen as an app. That needs a web app manifest, which the desk does
+  not have.

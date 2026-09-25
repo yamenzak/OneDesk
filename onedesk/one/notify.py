@@ -131,6 +131,8 @@ def install(*_args) -> None:
 			doc.insert(ignore_permissions=True)
 			if values["one_email_default"] and not values["one_outside"]:
 				seed_type_into_settings(name)
+			if values["one_push_default"] and values["one_allow_push"]:
+				seed_push(name)
 			continue
 		was = frappe.db.get_value(
 			"Notification Type",
@@ -144,6 +146,48 @@ def install(*_args) -> None:
 			values["one_message"] = message
 		frappe.db.set_value("Notification Type", name, values, update_modified=False)
 	_grant()
+	_push_once()
+
+
+#: Where a person's push choices are kept: beside frappe's own email list on
+#: their Notification Settings, in the same child doctype.
+PUSH_FIELD = "one_push_notification_types"
+EMAIL_FIELD = "email_notification_types"
+
+
+def seed_push(name: str) -> None:
+	"""Put a type in everybody's push choices, as frappe's
+	`seed_type_into_settings` does for email. Without a device a person has
+	turned push on in, the choice sends nothing."""
+	have = set(
+		frappe.get_all(
+			"Notification Type Preference",
+			filters={
+				"parenttype": "Notification Settings",
+				"parentfield": PUSH_FIELD,
+				"notification_type": name,
+			},
+			pluck="parent",
+		)
+	)
+	for person in frappe.get_all("Notification Settings", pluck="name"):
+		if person in have:
+			continue
+		doc = frappe.get_doc("Notification Settings", person)
+		doc.append(PUSH_FIELD, {"notification_type": name})
+		doc.save(ignore_permissions=True)
+
+
+def _push_once() -> None:
+	"""When push first arrived, the types already made were seeded once, as a
+	new type is when it is made; after that a person's choices are theirs."""
+	if frappe.db.get_default("onedesk_push_seeded"):
+		return
+	for name in frappe.get_all(
+		"Notification Type", filters={"one_push_default": 1, "one_allow_push": 1, "enabled": 1}, pluck="name"
+	):
+		seed_push(name)
+	frappe.db.set_default("onedesk_push_seeded", "1")
 
 
 def _grant() -> None:
@@ -184,34 +228,39 @@ def validate(doc, method=None) -> None:
 
 
 def changed(doc, method=None) -> None:
-	"""Notification Type on_update: email turned off for a type is off for
-	everybody, because frappe mails whoever chose it whatever the type says.
-	Turned back on, it goes to everybody again if it is on for new people."""
+	"""Notification Type on_update: a channel turned off for a type is off for
+	everybody, because frappe mails (and we push to) whoever chose it whatever
+	the type says. Turned back on, it goes to everybody again if it is on for
+	new people."""
 	from frappe.desk.doctype.notification_type.notification_type import seed_type_into_settings
 
 	before = doc.get_doc_before_save()
 	if not before or not doc.get("one_app"):
 		return
 	if before.one_allow_email and not doc.one_allow_email:
-		chose = frappe.get_all(
-			"Notification Type Preference",
-			filters={"parenttype": "Notification Settings", "notification_type": doc.name},
-			pluck="parent",
-		)
-		frappe.db.delete(
-			"Notification Type Preference",
-			{"parenttype": "Notification Settings", "notification_type": doc.name},
-		)
-		for user in chose:
-			frappe.clear_document_cache("Notification Settings", user)
+		_take_out(doc.name, EMAIL_FIELD)
 	elif not before.one_allow_email and doc.one_allow_email and doc.one_email_default:
 		seed_type_into_settings(doc.name)
+	if before.one_allow_push and not doc.one_allow_push:
+		_take_out(doc.name, PUSH_FIELD)
+	elif not before.one_allow_push and doc.one_allow_push and doc.one_push_default:
+		seed_push(doc.name)
+
+
+def _take_out(name: str, field: str) -> None:
+	"""A type out of everybody's choices for one channel."""
+	where = {"parenttype": "Notification Settings", "parentfield": field, "notification_type": name}
+	chose = frappe.get_all("Notification Type Preference", filters=where, pluck="parent")
+	frappe.db.delete("Notification Type Preference", where)
+	for user in chose:
+		frappe.clear_document_cache("Notification Settings", user)
 
 
 def new_person(doc, method=None) -> None:
 	"""Notification Settings before_insert: a new person is mailed our types
-	only where the administrator said so. Frappe starts everybody on email for
-	every enabled type; for ours, "Email for New People" decides."""
+	only where the administrator said so, and pushed the ones marked for new
+	people. Frappe starts everybody on email for every enabled type; for ours,
+	"Email for New People" and "Push for New People" decide."""
 	ours = frappe.get_all(
 		"Notification Type",
 		filters={"one_app": ["is", "set"]},
@@ -227,6 +276,12 @@ def new_person(doc, method=None) -> None:
 		row for row in doc.get("email_notification_types") or [] if row.notification_type not in left_out
 	]
 	doc.set("email_notification_types", wanted)
+	pushed = frappe.get_all(
+		"Notification Type",
+		filters={"one_app": ["is", "set"], "enabled": 1, "one_allow_push": 1, "one_push_default": 1},
+		pluck="name",
+	)
+	doc.set(PUSH_FIELD, [{"notification_type": name} for name in pushed])
 
 
 def check(name: str, text: str | None) -> str | None:
@@ -279,14 +334,16 @@ FRAPPE_KINDS = {
 def choosable(user: str | None = None) -> list[dict]:
 	"""Every kind this person can receive, in the order the page lists them:
 	ours by app, frappe's after. A kind declared for some roles is theirs only;
-	one that goes outside the workspace is nobody's to choose."""
+	one that goes outside the workspace is nobody's to choose. For each, whether
+	it may be mailed (`allowed`), is always mailed (`always`), and may be
+	pushed (`push`)."""
 	user = user or frappe.session.user
 	held = set(frappe.get_roles(user))
 	declared_types = declared()
 	rows = frappe.get_all(
 		"Notification Type",
 		filters={"enabled": 1},
-		fields=["name", "one_app", "one_about", "one_allow_email", "one_outside"],
+		fields=["name", "one_app", "one_about", "one_allow_email", "one_allow_push", "one_outside"],
 		order_by="one_app asc, name asc",
 	)
 	out = []
@@ -295,32 +352,18 @@ def choosable(user: str | None = None) -> list[dict]:
 		if one:
 			if row.one_outside or (one.get("roles") and not held & set(one["roles"])):
 				continue
-			about, allowed = _(row.one_about) if row.one_about else "", bool(row.one_allow_email)
-			if one.get("always_mailed"):
-				out.append(
-					{
-						"name": row.name,
-						"label": _(row.name),
-						"app": row.one_app or "",
-						"about": about,
-						"allowed": False,
-						"always": True,
-					}
-				)
-				continue
+			always = bool(one.get("always_mailed"))
+			kind = {
+				"about": _(row.one_about) if row.one_about else "",
+				"allowed": bool(row.one_allow_email) and not always,
+				"always": always,
+				"push": bool(row.one_allow_push),
+			}
 		elif row.name in FRAPPE_KINDS:
-			about, allowed = str(FRAPPE_KINDS[row.name]), True
+			kind = {"about": str(FRAPPE_KINDS[row.name]), "allowed": True, "always": False, "push": True}
 		else:
 			continue
-		out.append(
-			{
-				"name": row.name,
-				"label": _(row.name),
-				"app": row.one_app or "",
-				"about": about,
-				"allowed": allowed,
-			}
-		)
+		out.append({"name": row.name, "label": _(row.name), "app": row.one_app or "", **kind})
 	return sorted(out, key=lambda one: (not one["app"], one["app"], one["label"]))
 
 
