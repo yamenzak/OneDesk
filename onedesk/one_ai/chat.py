@@ -233,7 +233,9 @@ def _tell(run: str, chat: str, step: dict) -> None:
 	"""One step of a run: kept for a browser that asks, and sent to the one listening."""
 	state = frappe.cache.get_value(_key(run)) or {"user": frappe.session.user, "chat": chat, "steps": []}
 	if step.get("tool"):
-		state["steps"].append(_looked({"tool": step["tool"], "args": step.get("args")}, {"ran": step.get("ran")}))
+		state["steps"].append(
+			_looked({"tool": step["tool"], "args": step.get("args")}, {"ran": step.get("ran")})
+		)
 	for end in ("done", "failed"):
 		if end in step:
 			state[end] = step[end]
@@ -297,6 +299,20 @@ def _suggests(row: dict) -> dict:
 	except Exception:
 		changes = {}
 
+	if row.get("kind") == "Customize":
+		# What approving it changes about the form, one line each, as the tool
+		# said it: the page's whole state underneath is not a diff anybody reads.
+		return {
+			"doctype": doctype,
+			"name": "",
+			"title": "",
+			"fields": [
+				{"label": str(one.get("label") or ""), "value": str(one.get("value") or "")}
+				for one in (changes.get("summary") or [])[: proposals.MOST_FIELDS]
+				if isinstance(one, dict)
+			],
+		}
+
 	meta = frappe.get_meta(doctype) if doctype and frappe.db.exists("DocType", doctype) else None
 	labels = {field.fieldname: field.label or field.fieldname for field in (meta.fields if meta else [])}
 	known = {field.fieldname: field for field in (meta.fields if meta else [])}
@@ -304,7 +320,11 @@ def _suggests(row: dict) -> dict:
 	# "Asked For On" on the card and pushed "To Date" off it.
 	place = {name: at for at, name in enumerate(labels)}
 	ordered = sorted(changes.items(), key=lambda one: place.get(one[0], len(place)))
-	tables = {f.fieldname: f.options for f in (meta.fields if meta else []) if f.fieldtype in frappe.model.table_fields}
+	tables = {
+		f.fieldname: f.options
+		for f in (meta.fields if meta else [])
+		if f.fieldtype in frappe.model.table_fields
+	}
 	# Every field, not the first six: approving a card approves all of it, and
 	# a card setting twenty settings had shown six. The panel folds the rest.
 	try:
@@ -313,7 +333,12 @@ def _suggests(row: dict) -> dict:
 		was = {}
 	for field, value in ordered[: proposals.MOST_FIELDS]:
 		if field in tables and isinstance(value, list):
-			fields.append({"label": frappe._(labels.get(field, field)), "rows": _card_rows(tables[field], value, changes)})
+			fields.append(
+				{
+					"label": frappe._(labels.get(field, field)),
+					"rows": _card_rows(tables[field], value, changes),
+				}
+			)
 			continue
 		drawn = {
 			"fieldname": field,
@@ -323,7 +348,9 @@ def _suggests(row: dict) -> dict:
 		if row.get("kind") == "Edit" and field in was:
 			# A change reads as one: what it holds now, and what it would hold.
 			held = was.get(field)
-			drawn["was"] = _formatted(known[field], held, was) if field in known and held not in (None, "") else ""
+			drawn["was"] = (
+				_formatted(known[field], held, was) if field in known and held not in (None, "") else ""
+			)
 		fields.append(drawn)
 
 	return {
@@ -430,7 +457,9 @@ def shown(turns: list[dict]) -> list[dict]:
 		]
 		# A record read twice while answering one question is one card.
 		for look in looked:
-			fresh = [rec for rec in look.get("records") or [] if (rec.get("doctype"), rec.get("name")) not in seen]
+			fresh = [
+				rec for rec in look.get("records") or [] if (rec.get("doctype"), rec.get("name")) not in seen
+			]
 			seen |= {(rec.get("doctype"), rec.get("name")) for rec in fresh}
 			look["records"] = fresh
 		said.append(
@@ -533,7 +562,9 @@ def _drawn(doctype: str, row: dict, most: int = FIELDS) -> dict:
 		value = row.get(field.fieldname)
 		if value in (None, "", 0) or field.fieldtype in NOT_ON_A_CARD:
 			continue
-		fields.append({"label": frappe._(field.label or field.fieldname), "value": _formatted(field, value, row)})
+		fields.append(
+			{"label": frappe._(field.label or field.fieldname), "value": _formatted(field, value, row)}
+		)
 		if len(fields) >= most:
 			break
 
@@ -606,7 +637,9 @@ def _card_rows(doctype: str, rows: list, parent: dict | None = None) -> list[dic
 				notes.append(shown)
 			else:
 				main.append(shown)
-		drawn.append({"main": " ".join(main) or (notes.pop(0) if notes else ""), "side": side, "notes": notes})
+		drawn.append(
+			{"main": " ".join(main) or (notes.pop(0) if notes else ""), "side": side, "notes": notes}
+		)
 	return drawn
 
 

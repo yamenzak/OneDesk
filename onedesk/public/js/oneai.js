@@ -62,8 +62,9 @@ onedesk.oneai = {
 			// A desk page has no record, so it is named by the page and the
 			// part of it that is open, like Settings and its sections.
 			const params = frappe.utils.get_query_params();
-			// A section that lists several records may be open on one of them.
-			return { doctype: "", name: "", page: route[0], section: params.section || "", record: params.type || params.rule || "", view: "Page", label: document.title };
+			// A section that lists several records may be open on one of them, and
+			// a page about one form (Customize) names it in its route.
+			return { doctype: "", name: "", page: route[0], section: params.section || "", record: params.type || params.rule || route[1] || "", view: "Page", label: document.title };
 		}
 		return null;
 	},

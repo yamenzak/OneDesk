@@ -103,11 +103,20 @@ def _ledger(doctype: str, kind: str) -> set[str]:
 	)
 
 
-def _note(doctype: str, kind: str, row: str) -> None:
+def _note(doctype: str, kind: str, row: str, was: str | None = None) -> None:
+	"""A row the workspace made, or one of a module's it changed: `was` is
+	what that one held, which Reset puts back rather than deleting it."""
 	if not frappe.db.exists("Workspace Customization", {"record_doctype": doctype, "kind": kind, "row": row}):
 		frappe.get_doc(
-			{"doctype": "Workspace Customization", "record_doctype": doctype, "kind": kind, "row": row}
-		).insert(ignore_permissions=True)
+			{
+				"doctype": "Workspace Customization",
+				"record_doctype": doctype,
+				"kind": kind,
+				"row": row,
+				"replaced": 0 if was is None else 1,
+				"was": was,
+			}
+		).insert(ignore_permissions=True, ignore_links=True)
 
 
 def _forget(doctype: str, kind: str, row: str) -> None:
@@ -239,12 +248,23 @@ def save(doctype: str, values: str | dict, token: str) -> dict:
 def _changed(doctype: str) -> None:
 	frappe.clear_cache(doctype=doctype)
 	frappe.cache.delete_value(heads.CACHE)
+	# Heard by any Customize page open on the form, as a form hears its
+	# record's doc_update: whoever saved, the page, a Reset, or a OneAI card.
+	frappe.publish_realtime(
+		"one_customized", {"doctype": doctype, "token": state(doctype)}, after_commit=True
+	)
 
 
 def _set(doctype: str, fieldname: str | None, prop: str, value) -> None:
 	"""A property of a field, or of the form when `fieldname` is None, as a
 	Property Setter the ledger names."""
 	kind = frappe.get_meta("DocField").get_field(prop)
+	# A setter a module wrote first stays the module's: what it held is noted
+	# for Reset to put back.
+	name = f"{doctype}-{fieldname or 'main'}-{prop}"
+	was = None
+	if frappe.db.exists("Property Setter", name) and name not in _ledger(doctype, "Property Setter"):
+		was = cstr(frappe.db.get_value("Property Setter", name, "value"))
 	setter = make_property_setter(
 		doctype,
 		fieldname,
@@ -255,7 +275,7 @@ def _set(doctype: str, fieldname: str | None, prop: str, value) -> None:
 		validate_fields_for_doctype=False,
 		is_system_generated=False,
 	)
-	_note(doctype, "Property Setter", setter.name)
+	_note(doctype, "Property Setter", setter.name, was)
 
 
 def _same(a, b) -> bool:
@@ -316,8 +336,13 @@ def _fields(doctype: str, rows: list) -> None:
 				"insert_after": order[-1] if order else None,
 				"is_system_generated": 0,
 			}
-		).insert(ignore_permissions=True)
+		)
+		# Noted first: the insert alters the table, which commits whatever
+		# the transaction holds, so a note written after it could be lost to
+		# a later refusal and leave a field Reset cannot find.
+		field.autoname()
 		_note(doctype, "Custom Field", field.name)
+		field.insert(ignore_permissions=True)
 		order.append(field.fieldname)
 	kept = set(order)
 	for name, row_name in custom.items():
@@ -481,8 +506,15 @@ def reset(doctype: str) -> dict:
 	for row in _ledger(doctype, "Custom Field"):
 		if frappe.db.exists("Custom Field", row):
 			frappe.delete_doc("Custom Field", row, ignore_permissions=True, force=True)
-	for row in _ledger(doctype, "Property Setter"):
-		frappe.db.delete("Property Setter", {"name": row})
+	for row in frappe.get_all(
+		"Workspace Customization",
+		filters={"record_doctype": doctype, "kind": "Property Setter"},
+		fields=["row", "replaced", "was"],
+	):
+		if row.replaced:
+			frappe.db.set_value("Property Setter", row.row, "value", row.was)
+		else:
+			frappe.db.delete("Property Setter", {"name": row.row})
 	frappe.db.delete("Workspace Customization", {"record_doctype": doctype})
 	_head(doctype, {})
 	frappe.db.delete("DocType Link", {"parent": doctype, "custom": 1})

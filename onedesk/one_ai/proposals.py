@@ -58,7 +58,9 @@ def propose(
 	person cannot edit is refused at the point it is suggested rather than at
 	the point somebody presses a button.
 	"""
-	changes = _plain(changes or {}, doctype)
+	# A customization is written by the tool that checked it (one/ai.py
+	# `customize`), as the Customize page would send it: not a record's values.
+	changes = (changes or {}) if kind == "Customize" else _plain(changes or {}, doctype)
 	if kind in ("Create", "Edit") and frappe.db.exists("DocType", doctype):
 		changes = _understood(doctype, changes)
 	held = _allowed(kind, doctype, record)
@@ -70,7 +72,9 @@ def propose(
 		changes = {key: value for key, value in changes.items() if not _same_value(held.get(key), value)}
 		if not changes:
 			# Said to the model, which then tells the person it is right as it is.
-			frappe.throw("That is what it already holds, so there is nothing to change. Say it is right as it is.")
+			frappe.throw(
+				"That is what it already holds, so there is nothing to change. Say it is right as it is."
+			)
 
 	entry = frappe.get_doc(
 		{
@@ -105,6 +109,24 @@ def apply(proposal: str) -> dict:
 		frappe.throw(frappe._("{0} was already {1}.").format(proposal, entry.state.lower()))
 
 	changes = json.loads(entry.changes or "{}")
+	if entry.kind == "Customize":
+		# The Customize page's own save, as the administrator who pressed
+		# Approve: the same holds, and refused if the form's customizations
+		# moved since this was suggested.
+		from onedesk.one import customize
+
+		if changes.get("token") != customize.state(entry.for_doctype):
+			entry.db_set("state", "Stale")
+			# Kept through the refusal's rollback: nothing else was written.
+			frappe.db.commit()
+			frappe.throw(
+				frappe._(
+					"How {0} looks has changed since this was suggested, so it no longer applies."
+				).format(frappe._(entry.for_doctype))
+			)
+		customize.save(entry.for_doctype, changes.get("values") or {}, changes.get("token"))
+		return _done(entry, entry.for_doctype)
+
 	if entry.kind == "Create":
 		made = frappe.get_doc({"doctype": entry.for_doctype, **changes})
 		if entry.for_doctype == "File":
@@ -236,7 +258,9 @@ def _ready(doctype: str, changes: dict) -> None:
 	if unknown:
 		# The model's own guess at a field name, said back so it can correct
 		# itself in one step instead of asking the person what a field is called.
-		bad.insert(0, f"{doctype} has no field {', '.join(unknown)}. Its fields: {', '.join(fields_of(meta))}")
+		bad.insert(
+			0, f"{doctype} has no field {', '.join(unknown)}. Its fields: {', '.join(fields_of(meta))}"
+		)
 	if bad:
 		frappe.throw(
 			". ".join(one.rstrip(".") for one in dict.fromkeys(bad))
@@ -311,6 +335,12 @@ def _allowed(kind: str, doctype: str, record: str | None):
 	carries — which is how a proposal about a workspace an operator may not see
 	is refused here rather than being written and then failing.
 	"""
+	if kind == "Customize":
+		# Whoever may open the Customize page on this form, and nobody else.
+		from onedesk.one import customize
+
+		customize.may(doctype)
+		return None
 	verb = {"Create": "create", "Edit": "write", "Delete": "delete", "Move": "write"}.get(kind)
 	if not verb:
 		frappe.throw(frappe._("{0} is not something that can be proposed.").format(kind))
@@ -407,6 +437,8 @@ def _attach(entry, name: str) -> None:
 def _said(kind: str, doctype: str, record: str | None, changes: dict) -> str:
 	if kind == "Create":
 		return frappe._("Create a {0}").format(doctype)
+	if kind == "Customize":
+		return frappe._("Customize {0}").format(doctype)
 	if kind == "Delete":
 		return frappe._("Delete {0}").format(record)
 	if kind == "Move":

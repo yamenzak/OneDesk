@@ -35,7 +35,7 @@
    "fieldname": "kind",
    "fieldtype": "Select",
    "label": "Kind",
-   "options": "Create\nEdit\nDelete\nMove",
+   "options": "Create\nEdit\nDelete\nMove\nCustomize",
    "reqd": 1,
    "read_only": 1,
    "in_standard_filter": 1
@@ -168,7 +168,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-23 17:00:00.000000",
+ "modified": "2026-09-25 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "One AI",
  "name": "AI Proposal",

@@ -278,7 +278,7 @@ Each deletes what it replaces in the same commit.
 5. **The Linked Section** and its save. Done.
 6. **The workspace layer**: the holds on Custom Field, Property Setter, DocType
    Link and Action, and Record Head; the Customize page; Reset. Done.
-7. **OneAI's `customize`.**
+7. **OneAI's `customize`.** Done.
 8. **Record tabs** (Files, Mail, Activity) declared as registered blocks
    instead of patching the layout.
 
@@ -555,6 +555,46 @@ some people. It was the desk's message; the other two it refused. Now:
   verb, the User form, a permission-level property setter and a calling
   condition, each refused with the reason; a migrate kept the workspace's
   rows; Export downloaded them; Reset from the menu took them all back.
+
+## Stage 7, as built
+
+- **One tool, one card.** `customize` (`one/ai.py`) takes what to add, what
+  to change about the fields the form has, numbers under the title and
+  linked sections, loads the page's own state (`customize.load`), applies
+  the asks to it, and checks the result with the page's `_check`, so a card
+  that reaches the administrator is one that applies. A field named by its
+  label is that field; a name that is not there is answered with the form's
+  fields, so the model corrects itself in one step.
+- **A proposal kind of its own**, `Customize`. The card says one line per
+  change ("Date of Birth: called Birthday", "New field: Shirt Size (Select)")
+  rather than the page's whole state, and carries the state it was made
+  against. Approve is the page's own `save`, as the administrator pressing
+  it, under the same holds; a card made before somebody changed the form is
+  marked stale and refused. Only whoever may open the Customize page on that
+  form may be proposed to or approve.
+- **The page hears it.** Every save, Reset and approved card publishes
+  `one_customized`, and a Customize page open on that form reloads, or, with
+  changes in it, says the form was changed, as it does for a record.
+- **The panel knows the page.** `where()` names the form in the page's
+  route, `page()` tells the model which form it is and what the page can and
+  cannot do, and the page offers three suggestions: changes to this form, a
+  field, and how customizing works (`how_to`).
+- **Found on the way**, both in the page and not the tool:
+  - Adding a field alters the table, which commits whatever the transaction
+    holds, so a ledger note written after the insert could be lost to a later
+    refusal and leave a field Reset could not find. The note is written
+    first now.
+  - A property a module had already set (the Employee's field order, Bio's
+    label) was taken over by the workspace's setter and then deleted by
+    Reset. The ledger now keeps what the module's setter held, and Reset
+    puts it back.
+- Checked as the probe administrator, with no model call: a field that is not
+  there, an HTML field, hiding a required field and the User form each came
+  back as words; a card hiding Middle Name, renaming Date of Birth and adding
+  a Shirt Size after Gender was approved from the panel, and the open
+  Customize page showed it without a reload; a second card made before
+  another save was refused as stale; Reset put the module's field order and
+  label back.
 
 ## The risks
 

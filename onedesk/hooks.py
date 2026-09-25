@@ -744,6 +744,7 @@ one_ai_suggests = [
 	"onedesk.one_crm.ai.write_up_call",
 	"onedesk.one.ai.rewrite_notification",
 	"onedesk.one.ai.draft_notification",
+	"onedesk.one.ai.customize",
 ]
 one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS", "onedesk.one_crm.ai.SUGGESTIONS", "onedesk.one.ai.SUGGESTIONS"]
 

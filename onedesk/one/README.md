@@ -259,6 +259,12 @@ changed the same form meanwhile, the page says so and saves nothing.
 **Export** on the menu downloads what this workspace changed; **Reset** takes
 it all back, and leaves what the form came with.
 
+**OneAI** on this page offers to suggest changes to the form, to add a field,
+or to explain how customizing works. Whatever it suggests comes as one card
+listing each change; nothing changes until you press Approve, and then it is
+saved exactly as Save would save it, with the same limits. A card made before
+somebody else changed the form no longer applies and says so.
+
 ## Asking OneAI
 
 Ask OneAI how anything in One works, in your own words and your own language.
@@ -279,7 +285,7 @@ For the people who build One. OneAI does not read past this heading.
 | `page/settings`, `page/workspace_settings` | The two pages: yours, and the workspace's (administrators only) |
 | `../public/js/settings.js` | Draws a section, and behaves like a desk form: dirty, stale saves, realtime |
 | `sidebar/one/one.json` | One's sidebar, with a link per section |
-| `ai.py` | What OneAI offers on these pages, and what it is told about where the reader is |
+| `ai.py` | What OneAI offers on these pages, what it is told about where the reader is, and its suggestion tools: a notification rule, its text, and a form customized (`customize`) |
 | `notify.py` | The one door every notification goes through, and the sandbox an edited text renders in; see `docs/NOTIFICATIONS.md` |
 | `push.py`, `doctype/push_device`, `../public/js/push.js` | Web Push: a person's browsers, the site's keys, sending, and the service worker |
 | `rules.py` | The workspace's own notification rules: frappe's Notification, held to what a workspace rule may do |

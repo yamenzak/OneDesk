@@ -112,7 +112,10 @@ def test_the_page_checks_everything_before_it_writes():
 
 def test_reset_takes_back_only_what_the_workspace_made():
 	body = CUSTOMIZE.split("def reset(", 1)[1].split("\n@frappe", 1)[0]
-	assert '_ledger(doctype, "Custom Field")' in body and '_ledger(doctype, "Property Setter")' in body
+	assert '_ledger(doctype, "Custom Field")' in body and '"kind": "Property Setter"' in body
+	# A module's setter the workspace changed is put back, not deleted.
+	assert "if row.replaced:" in body
+	assert 'frappe.db.exists("Property Setter", name) and name not in _ledger' in CUSTOMIZE
 	assert '"custom": 1' in body, "a connection or button of a module's stays"
 	# Nothing is taken by what it looks like: a property setter of a module's
 	# has no mark of its own, so only the ledger says which are the workspace's.
@@ -123,3 +126,24 @@ def test_a_migrate_keeps_the_workspaces_rows():
 	head = (tree.APP / "one" / "head.py").read_text(encoding="utf-8")
 	write = head.split("def _write(", 1)[1]
 	assert "kept = {table: [row for row in doc.get(table) if row.custom]" in write
+
+
+def test_a_new_field_is_in_the_ledger_before_the_table_is_altered():
+	body = CUSTOMIZE.split("def _fields(", 1)[1].split("\ndef ", 1)[0]
+	assert body.index('_note(doctype, "Custom Field", field.name)') < body.index(
+		"field.insert(ignore_permissions=True)"
+	), "the insert commits the transaction, so a note after it can be lost"
+
+
+def test_oneai_customizes_only_through_the_page():
+	"""decision 7: OneAI proposes; applying is the page's own save, as the
+	administrator who approves it, under the same holds."""
+	proposals = (tree.APP / "one_ai" / "proposals.py").read_text(encoding="utf-8")
+	apply = proposals.split("def apply(", 1)[1].split("\ndef ", 1)[0]
+	assert "customize.save(entry.for_doctype" in apply
+	allowed = proposals.split("def _allowed(", 1)[1].split("\ndef ", 1)[0]
+	assert "customize.may(doctype)" in allowed
+	tool = (tree.APP / "one" / "ai.py").read_text(encoding="utf-8").split("def customize(", 1)[1]
+	assert "page._check(doctype, values)" in tool, "a card that would be refused is not written"
+	assert "roles.administers" in tool or "workspace.administers()" in tool
+	assert '"onedesk.one.ai.customize"' in HOOKS

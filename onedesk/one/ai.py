@@ -11,7 +11,7 @@ import json
 from typing import Annotated
 
 import frappe
-from frappe import _lt
+from frappe import _, _lt
 
 #: What the panel offers on a Settings section, keyed `page:<page>/<section>`.
 SUGGESTIONS = {
@@ -62,6 +62,27 @@ SUGGESTIONS = {
 			"expects": "my_notifications",
 		},
 	],
+	"page:customize": [
+		{
+			"label": _lt("Suggest changes to this form"),
+			"ask": _lt(
+				"Look at the form I am customizing. What would make it quicker to fill in and to read: fields "
+				"to hide, rename, require or move, and numbers worth showing under the title? Suggest them as "
+				"one change I can apply."
+			),
+			"expects": "customize",
+		},
+		{
+			"label": _lt("Add a field"),
+			"ask": _lt("Help me add a field to this form. Ask me what it holds, then suggest it."),
+			"expects": "customize",
+		},
+		{
+			"label": _lt("How does customizing work?"),
+			"ask": _lt("How does customizing a form work in One, and what can and cannot be changed?"),
+			"expects": "how_to",
+		},
+	],
 	"page:workspace-settings/notification_types": [
 		{
 			"label": _lt("Rewrite this notification"),
@@ -102,6 +123,8 @@ def page(said: dict) -> str | None:
 	on the server rather than taken from the browser."""
 	if said.get("page") == "workspace-settings" and said.get("section") == "notification_types":
 		return _notifications_page(said.get("record"))
+	if said.get("page") == "customize":
+		return _customize_page(said.get("record"))
 	if said.get("page") != "settings":
 		return None
 	if said.get("section") == "notifications":
@@ -137,6 +160,21 @@ def page(said: dict) -> str | None:
 			else "."
 		)
 		+ " How to use the page is in One's documentation under Settings › Profile (how_to)."
+	)
+
+
+def _customize_page(doctype: str | None) -> str:
+	opened = (
+		f" They have {doctype} open: its fields, the numbers under its title, its buttons, its linked "
+		"sections and its connections. describe_type lists the form's fields."
+		if doctype and frappe.db.exists("DocType", doctype)
+		else " No form is open on it yet."
+	)
+	return (
+		"The reader is on the Customize page, where a workspace administrator changes how a form looks "
+		"for everybody." + opened + " customize suggests a change as a card they approve; it never writes "
+		"code, never removes a field the form came with, and never changes who may see a field. How it "
+		"works is in One's documentation under One › Customizing a Form (how_to)."
 	)
 
 
@@ -368,4 +406,151 @@ def draft_notification(
 		"proposal": proposals.propose("Create", "Notification", changes=changes, why=why),
 		"state": "Proposed",
 		"next": "Tell them it appears under Workspace Settings, Notifications, Rules once they approve it.",
+	}
+
+
+def customize(
+	doctype: Annotated[str, "The form, as its DocType name, such as Employee or Sales Invoice."],
+	add: Annotated[
+		list[dict],
+		"New fields, each {label, kind, choices, after, required, in_list}. kind is Data, Select, Check, Date, "
+		"Link, Currency, Phone, Small Text or another a person types; choices are a Select's options or a "
+		"Link's form; after names the field it follows.",
+	]
+	| None = None,
+	change: Annotated[
+		list[dict],
+		"Fields the form has, each {field, label, hidden, required, in_list, after}: field is its name or "
+		"label, and only what is given changes.",
+	]
+	| None = None,
+	band: Annotated[
+		list[dict],
+		"Numbers under the title, each {label, source, field, link_field, of_doctype, filters, measure, "
+		"tone}. source is Field, Linked Field, Count, Sum or Measure.",
+	]
+	| None = None,
+	linked: Annotated[
+		list[dict],
+		"Sections of a linked record's fields, edited on this form, each {label, through, fields, in_tab_of}: "
+		"through is a Link field of this form, fields are the linked form's field names.",
+	]
+	| None = None,
+	why: Annotated[str, "In a sentence, what the change is for."] | None = None,
+) -> dict:
+	"""Suggest a change to how a form looks, as a card the workspace
+	administrator applies: fields added, renamed, hidden, required or moved,
+	numbers under the title, and sections of a linked record's fields. Nothing
+	that runs, and nothing changes until they approve it. Workspace
+	administrators only."""
+	from frappe.utils import strip_html
+
+	from onedesk.one import customize as page
+	from onedesk.one import roles as workspace
+	from onedesk.one_ai import proposals
+
+	if not workspace.administers():
+		return {"error": "Only a workspace administrator customizes a form."}
+	try:
+		page.may(doctype)
+		said = page.load(doctype)
+		values, summary = said["values"], []
+		fields = values["fields"]
+
+		def find(name):
+			key = frappe.scrub(str(name or ""))
+			for row in fields:
+				if name == row["fieldname"] or (key and key == frappe.scrub(row["label"] or "")):
+					return row
+			return None
+
+		def missing(name) -> dict:
+			shown = [f"{row['fieldname']} ({row['label']})" for row in fields if row["label"]]
+			return {"error": f"{doctype} has no field {name}. Its fields: {', '.join(shown[:80])}."}
+
+		def place(row, after) -> None:
+			there = find(after)
+			if row in fields:
+				fields.remove(row)
+			fields.insert(fields.index(there) + 1 if there else len(fields), row)
+
+		for one in change or []:
+			row = find(one.get("field"))
+			if not row:
+				return missing(one.get("field"))
+			label = row["label"] or row["fieldname"]
+			said_of, called = [], _(label)
+			if one.get("label"):
+				row["label"] = one["label"]
+				said_of.append(_("called {0}").format(one["label"]))
+			for key, prop, yes, no in (
+				("hidden", "hidden", _("hidden"), _("shown")),
+				("required", "reqd", _("required"), _("optional")),
+				("in_list", "in_list_view", _("in the list"), _("not in the list")),
+			):
+				if one.get(key) is not None:
+					row[prop] = 1 if one[key] else 0
+					said_of.append(yes if one[key] else no)
+			if one.get("after"):
+				if not find(one["after"]):
+					return missing(one["after"])
+				place(row, one["after"])
+				before = find(one["after"])["label"] or one["after"]
+				said_of.append(_("after {0}").format(_(before)))
+			summary.append({"label": called, "value": ", ".join(said_of)})
+
+		for one in add or []:
+			kind = one.get("kind") or "Data"
+			choices = one.get("choices")
+			row = {
+				"fieldname": None,
+				"label": one.get("label") or "",
+				"fieldtype": kind,
+				"options": "\n".join(choices) if isinstance(choices, list) else (choices or ""),
+				"hidden": 0,
+				"reqd": 1 if one.get("required") else 0,
+				"in_list_view": 1 if one.get("in_list") else 0,
+				"mine": 1,
+			}
+			if one.get("after") and not find(one["after"]):
+				return missing(one["after"])
+			place(row, one.get("after"))
+			summary.append({"label": _("New field"), "value": f"{row['label']} ({_(kind)})"})
+
+		for one in band or []:
+			values["band"].append({key: one.get(key) for key in page.HEAD_COLUMNS["band"] if one.get(key)})
+			summary.append({"label": _("Under the title"), "value": one.get("label") or ""})
+
+		for one in linked or []:
+			through = find(one.get("through"))
+			if not through:
+				return missing(one.get("through"))
+			names = one.get("fields") or []
+			values["linked"].append(
+				{
+					"label": one.get("label"),
+					"link_field": through["fieldname"],
+					"fields": "\n".join(names) if isinstance(names, list) else names,
+					"placed_in": (find(one.get("in_tab_of")) or {}).get("fieldname"),
+				}
+			)
+			summary.append({"label": _("Linked section"), "value": one.get("label") or ""})
+
+		if not summary:
+			return {"error": "Say what to change: add, change, band or linked."}
+		# Everything the save would refuse, refused now, so the card that
+		# reaches the administrator is one that applies.
+		page._check(doctype, values)
+	except (frappe.ValidationError, frappe.PermissionError) as refused:
+		return {"error": strip_html(str(refused))}
+	return {
+		"proposal": proposals.propose(
+			"Customize",
+			doctype,
+			changes={"values": values, "token": said["token"], "summary": summary},
+			why=why,
+		),
+		"state": "Proposed",
+		"next": "Tell them it changes the form for everybody once they approve it, and that Reset on the "
+		"Customize page takes it back.",
 	}

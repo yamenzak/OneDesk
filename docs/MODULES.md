@@ -15,7 +15,7 @@
 | Record Head Sentence | 4 | child |
 | Record Head Verb | 4 | child |
 | Workspace Account | 28 | single |
-| Workspace Customization | 3 | document |
+| Workspace Customization | 5 | document |
 | Workspace Domain | 4 | child |
 
 ## One HR

@@ -11,6 +11,14 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 	constructor(page) {
 		super(page);
 		this.$section = page.$shell;
+		// Somebody else changed this form's customizations: another
+		// administrator, or a OneAI card approved. Untouched, the page
+		// reloads; with changes in it, it says so and keeps them.
+		frappe.realtime.on("one_customized", (data) => {
+			if (!this.data || data.doctype !== this.doctype || data.token === this.data.token || this.saving) return;
+			if (this.dirty) this.conflict();
+			else if (this.$content && this.$content.is(":visible")) this.refresh();
+		});
 	}
 
 	show() {
