@@ -680,6 +680,8 @@ app_include_js = [
 	"/assets/onedesk/js/next_step.js",
 	"/assets/onedesk/js/task_timer.js",
 	"/assets/onedesk/js/record_calendar.js",
+	# A record's tabs after its fields, declared under one_record_tabs.
+	"/assets/onedesk/js/record_tabs.js",
 	"/assets/onedesk/js/record_files.js",
 	"/assets/onedesk/js/record_mail.js",
 	"/assets/onedesk/js/record_activity.js",
@@ -766,6 +768,12 @@ one_notification_types = [
 one_record_heads = ["onedesk.one_inventory.heads.HEADS", "onedesk.one_book.heads.HEADS"]
 one_measures = ["onedesk.one_inventory.heads.MEASURES", "onedesk.one_book.heads.MEASURES"]
 one_verbs = ["onedesk.one_inventory.heads.VERBS", "onedesk.one_book.heads.VERBS"]
+# The tabs after a record's fields, each drawn by its module. See one/tabs.py.
+one_record_tabs = [
+	"onedesk.one_mail.linking.TABS",
+	"onedesk.one_storage.namespace.TABS",
+	"onedesk.one.tabs.TABS",
+]
 
 # What each module puts on the calendar, as layers. Each reads its own records
 # as the person looking; nothing is copied. See one_calendar/layers.py.

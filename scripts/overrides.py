@@ -1271,9 +1271,9 @@ OVERRIDES = [
 		"def validate_private_file_access(self):",
 	),
 	(
-		"Every form's fields end with a Files tab",
-		"record_files.js wraps Layout.get_doctype_fields to append a Tab Break and an HTML field holding OneCloud on the record's room, so the tab is on every doctype without a field written to any of them",
-		"onedesk/public/js/record_files.js",
+		"Every form's fields end with the tabs modules declare",
+		"record_tabs.js wraps Layout.get_doctype_fields to append a Tab Break and an HTML field for each tab under one_record_tabs (Mail, Files, Activity), drawn by what its module registers, so the tabs are on every doctype without a field written to any of them",
+		"onedesk/public/js/record_tabs.js",
 		"frappe/frappe/public/js/frappe/form/layout.js",
 		"get_doctype_fields() {",
 	),
@@ -1363,8 +1363,8 @@ OVERRIDES = [
 	),
 	(
 		"A form left with one visible tab shows no tab strip",
-		"record_files.js hides the Files tab on an unsaved record and asks Layout.refresh_tabs again, which hides the strip when only Details is left",
-		"onedesk/public/js/record_files.js",
+		"record_tabs.js hides the record's tabs on an unsaved record and asks Layout.refresh_tabs again, which hides the strip when only Details is left",
+		"onedesk/public/js/record_tabs.js",
 		"frappe/frappe/public/js/frappe/form/layout.js",
 		"visible_tabs[0].tab_link.toggleClass(\"hide show\");",
 	),

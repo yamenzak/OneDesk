@@ -373,11 +373,11 @@ not a second R2 integration.
   until it is looked at. The re-listing goes through `may`, so the event
   tells nobody about a file they cannot open.
 
-- `public/js/record_files.js` — the Files tab on every record. Frappe draws
-  a form from `Layout.get_doctype_fields`; that is wrapped to append a Tab
-  Break and an HTML field. So the tab is on every doctype, erpnext's and
-  hrms's included, and no field is written to any of them. Child tables,
-  Singles and File are left out. The HTML field holds the explorer in room
+- `public/js/record_files.js` — the Files tab on every record, declared as
+  `TABS` in `namespace.py` and added to the form by `record_tabs.js`, as
+  every record tab is (one/tabs.py). So the tab is on every doctype,
+  erpnext's and hrms's included, and no field is written to any of them.
+  Child tables, Singles and File are left out. The HTML field holds the explorer in room
   mode: `room` is `@records/<doctype>/<name>`, there is no tree and no
   back/forward, going anywhere else opens the OneCloud page, and the address
   is not touched. The tab hides on an unsaved record. Its count starts from

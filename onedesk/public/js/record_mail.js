@@ -4,41 +4,18 @@
 // conversation opens in OneMail; writing uses the desk's own composer on
 // the record, which files what is sent against it.
 //
-// Added to the layout, not to any doctype, as the Files tab is
-// (record_files.js), and only on the records mail is about.
+// Declared in one_mail/linking.py, with the records mail is about, and
+// drawn here, as every record tab is (record_tabs.js).
 frappe.provide("onedesk.record_mail");
 
-onedesk.record_mail.TAB = "__one_mail_tab";
-onedesk.record_mail.FIELD = "__one_mail";
+// The records mail is about, as linking.py declares them.
+onedesk.record_mail.doctypes = () =>
+	(onedesk.record_tabs.declared().find((tab) => tab.name === "mail") || {}).doctypes || [];
 
-onedesk.record_mail.DOCTYPES = [
-	"Customer", "Supplier", "Lead", "Contact", "Employee", "Opportunity", "Project", "Issue", "Job Applicant",
-	"Quotation", "Sales Order", "Sales Invoice", "Purchase Order", "Purchase Invoice", "Supplier Quotation",
-];
-
-(() => {
-	const Layout = frappe.ui.form.Layout;
-	const fields_of = Layout.prototype.get_doctype_fields;
-	Layout.prototype.get_doctype_fields = function () {
-		const fields = fields_of.call(this);
-		const frm = this.frm;
-		if (!frm || this.is_child_table || this.doctype !== frm.doctype || !onedesk.record_mail.DOCTYPES.includes(frm.doctype)) return fields;
-		const mail = [
-			{ fieldtype: "Tab Break", fieldname: onedesk.record_mail.TAB, label: __("Mail") },
-			{ fieldtype: "HTML", fieldname: onedesk.record_mail.FIELD },
-		];
-		// Beside Files, before it.
-		const files = fields.findIndex((one) => one.fieldname === "__one_files_tab");
-		files < 0 ? fields.push(...mail) : fields.splice(files, 0, ...mail);
-		return fields;
-	};
-})();
-
-onedesk.record_mail.tab = (frm) =>
-	((frm.layout && frm.layout.tabs) || []).find((one) => one.df.fieldname === onedesk.record_mail.TAB);
+onedesk.record_mail.tab = (frm) => onedesk.record_tabs.tab(frm, "mail");
 
 onedesk.record_mail.open = async (frm) => {
-	const field = frm.fields_dict[onedesk.record_mail.FIELD];
+	const field = frm.fields_dict[onedesk.record_tabs.FIELD("mail")];
 	if (!field || frm.is_new()) return;
 	await frappe.require("/assets/onedesk/css/onemail.css");
 	const esc = frappe.utils.escape_html;
@@ -71,23 +48,7 @@ onedesk.record_mail.open = async (frm) => {
 		const composer = new frappe.views.CommunicationComposer({ frm, doc: frm.doc });
 		composer.dialog.$wrapper.on("hidden.bs.modal", () => setTimeout(() => onedesk.record_mail.open(frm), 1500));
 	});
-	const tab = onedesk.record_mail.tab(frm);
-	const $link = tab && tab.tab_link.find(".nav-link");
-	if ($link) {
-		$link.find(".one-files-count").remove();
-		if (rows.length) $link.append(`<span class="one-files-count">${rows.length}</span>`);
-	}
+	onedesk.record_tabs.count(frm, "mail", rows.length);
 };
 
-frappe.ui.form.on("*", {
-	refresh(frm) {
-		const tab = onedesk.record_mail.tab(frm);
-		if (!tab) return;
-		tab.df.hidden = frm.is_new() ? 1 : 0;
-		frm.layout.refresh_tabs();
-		if (frm.is_new()) return;
-		const $link = tab.tab_link.find(".nav-link");
-		if (!$link.data("one-mail")) $link.data("one-mail", 1).on("click", () => onedesk.record_mail.open(frm));
-		if (tab.is_active && tab.is_active()) onedesk.record_mail.open(frm);
-	},
-});
+onedesk.record_tabs.register("mail", { open: (frm) => onedesk.record_mail.open(frm) });

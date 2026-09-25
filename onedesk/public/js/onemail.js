@@ -444,7 +444,7 @@ onedesk.OneMail = class OneMail {
 					fieldtype: "Autocomplete",
 					label: __("Kind of record"),
 					reqd: 1,
-					options: (onedesk.record_mail ? onedesk.record_mail.DOCTYPES : ["Customer", "Supplier", "Lead"]).map((one) => ({ value: one, label: __(one) })),
+					options: (onedesk.record_mail ? onedesk.record_mail.doctypes() : ["Customer", "Supplier", "Lead"]).map((one) => ({ value: one, label: __(one) })),
 				},
 				{ fieldname: "docname", fieldtype: "Dynamic Link", options: "doctype", label: __("Record"), reqd: 1 },
 			],

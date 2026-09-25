@@ -6,42 +6,15 @@
 // The tab holds Frappe's own footer (frappe.ui.form.Footer): its comment box
 // and timeline, moved into the tab rather than rebuilt, so everything they do
 // still works. Frappe had the same tab sketched and left commented out in
-// form.js. Like Files (record_files.js), the tab is added to the layout, not
-// to any doctype.
+// form.js. Declared in one/tabs.py and drawn here, as every record tab is
+// (record_tabs.js).
 frappe.provide("onedesk.record_activity");
 
-onedesk.record_activity.TAB = "__one_activity_tab";
-onedesk.record_activity.FIELD = "__one_activity";
-
-(() => {
-	const Layout = frappe.ui.form.Layout;
-	const fields_of = Layout.prototype.get_doctype_fields;
-	Layout.prototype.get_doctype_fields = function () {
-		const fields = fields_of.call(this);
-		const frm = this.frm;
-		// Where Frappe draws a footer at all, and where Files is: every record.
-		if (onedesk.record_files.wanted(this) && !frm.meta.hide_toolbar && frappe.boot.desk_settings.timeline) {
-			fields.push(
-				{ fieldtype: "Tab Break", fieldname: onedesk.record_activity.TAB, label: __("Activity") },
-				{ fieldtype: "HTML", fieldname: onedesk.record_activity.FIELD }
-			);
-		}
-		return fields;
-	};
-})();
-
-onedesk.record_activity.tab = (frm) =>
-	((frm.layout && frm.layout.tabs) || []).find((one) => one.df.fieldname === onedesk.record_activity.TAB);
+onedesk.record_activity.tab = (frm) => onedesk.record_tabs.tab(frm, "activity");
 
 // The comments beside the tab's name, as Files shows its files.
-onedesk.record_activity.count = (frm) => {
-	const tab = onedesk.record_activity.tab(frm);
-	if (!tab) return;
-	const count = ((frm.get_docinfo() || {}).comments || []).length;
-	const $link = tab.tab_link.find(".nav-link");
-	$link.find(".one-files-count").remove();
-	if (count) $link.append(`<span class="one-files-count">${cint(count)}</span>`);
-};
+onedesk.record_activity.count = (frm) =>
+	onedesk.record_tabs.count(frm, "activity", ((frm.get_docinfo() || {}).comments || []).length);
 
 // A comment added or deleted: the count follows, as Frappe's own does.
 (() => {
@@ -53,14 +26,11 @@ onedesk.record_activity.count = (frm) => {
 	};
 })();
 
-frappe.ui.form.on("*", {
-	refresh(frm) {
-		const tab = onedesk.record_activity.tab(frm);
-		const field = frm.fields_dict[onedesk.record_activity.FIELD];
-		if (!tab || !field || !frm.footer) return;
-		// A new record has nothing to show yet; Frappe hides its footer too.
-		tab.df.hidden = frm.is_new() ? 1 : 0;
-		frm.layout.refresh_tabs();
+onedesk.record_tabs.register("activity", {
+	// Where Frappe draws a footer at all.
+	wanted: (frm) => !frm.meta.hide_toolbar && frappe.boot.desk_settings.timeline,
+	refresh(frm, field, tab) {
+		if (!field || !frm.footer) return;
 		// Into the tab's pane itself, not the HTML field: inside a control,
 		// Frappe's `.frappe-control .action-btn` would pin the timeline's
 		// buttons as if they were a link field's. The field only makes the tab.

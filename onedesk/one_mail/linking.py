@@ -25,7 +25,7 @@ the messages the reader may open (`visible`).
 import re
 
 import frappe
-from frappe import _
+from frappe import _, _lt
 
 from onedesk.one_mail import actions, live
 
@@ -35,6 +35,33 @@ NAMED = (
 	"Delivery Note", "Purchase Receipt", "Payment Entry", "Material Request", "Request for Quotation",
 	"Opportunity", "Issue", "Project", "Task", "Job Applicant", "Expense Claim",
 )  # fmt: skip
+
+#: The Mail tab, on the records mail is about: the conversations filed on
+#: one, and a way to write from it (record_mail.js). See one/tabs.py.
+TABS = [
+	{
+		"name": "mail",
+		"label": _lt("Mail"),
+		"order": 70,
+		"doctypes": (
+			"Customer",
+			"Supplier",
+			"Lead",
+			"Contact",
+			"Employee",
+			"Opportunity",
+			"Project",
+			"Issue",
+			"Job Applicant",
+			"Quotation",
+			"Sales Order",
+			"Sales Invoice",
+			"Purchase Order",
+			"Purchase Invoice",
+			"Supplier Quotation",
+		),
+	}
+]
 
 #: The records an address is looked up on, beyond Frappe's contacts: (doctype, fields).
 BY_ADDRESS = (

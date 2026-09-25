@@ -280,7 +280,7 @@ Each deletes what it replaces in the same commit.
    Link and Action, and Record Head; the Customize page; Reset. Done.
 7. **OneAI's `customize`.** Done.
 8. **Record tabs** (Files, Mail, Activity) declared as registered blocks
-   instead of patching the layout.
+   instead of patching the layout. Done.
 
 Stages 1–3 stand alone and are what the passover needs next. 4–8 can follow
 product by product.
@@ -595,6 +595,30 @@ some people. It was the desk's message; the other two it refused. Now:
   Customize page showed it without a reload; a second card made before
   another save was refused as stale; Reset put the module's field order and
   label back.
+
+## Stage 8, as built
+
+- **Declared by the module that draws it.** A record tab is a row under
+  `one_record_tabs` (one/tabs.py): a name, a label, an order, and which
+  records carry it. Mail is `one_mail/linking.py`'s, with the fifteen kinds
+  of record mail is about, which had been a list in JavaScript; Files is
+  `one_storage/namespace.py`'s, on every record but File; Activity is One's
+  own. The boot hands them to the desk in the reader's language.
+- **Drawn in one place.** `record_tabs.js` is the one script that adds to a
+  form's layout for them, a Tab Break and an HTML field each, and does what
+  all three did alike: hides them on an unsaved record, asks frappe to
+  refresh its tab strip once rather than three times, opens a tab the first
+  time it is clicked, and draws the count beside its name. What is left in
+  each script is what that tab does: OneCloud on the record's room, the
+  record's conversations, frappe's footer moved in. Three patches of the
+  layout became one, and head.js's linked sections are the only other.
+- **Not yet declared by a workspace.** A tab is a module's, like a measure
+  or a verb, because what it draws is code. A workspace hiding one per form
+  is a Record Head row away and not built.
+- Checked on a customer (Mail, Files, Activity, in that order, after
+  Connections), an item (Files and Activity, no Mail), an employee (Files
+  with its count of three), a new customer (none) and a new ToDo (no strip
+  at all); each tab opened on click and drew as before.
 
 ## The risks
 

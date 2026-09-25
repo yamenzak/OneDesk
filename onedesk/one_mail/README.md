@@ -339,8 +339,9 @@ for OneAI's mail lane.
   `get_communications` are wrapped with `override_whitelisted_methods` and
   narrowed to what the reader may open. Tested: a sales user who holds no
   mailbox sees none of the customer's mail; Frappe alone showed all three.
-- **record_mail.js** adds the Mail tab beside Files on the records in its
-  list, as record_files.js adds Files: to the layout, not to any doctype.
+- **record_mail.js** draws the Mail tab beside Files on the records
+  `linking.TABS` names; `record_tabs.js` adds it to the layout, not to any
+  doctype, as it adds every record tab (one/tabs.py).
 
 Stage 9, rules, out-of-office and bounces, is built.
 

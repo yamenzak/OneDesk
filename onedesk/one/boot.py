@@ -31,6 +31,12 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_linked"] = linked.for_boot(bootinfo)
 
+	# The tabs after a record's fields, as each module declares them. See
+	# one/tabs.py.
+	from onedesk.one import tabs
+
+	bootinfo["one_record_tabs"] = tabs.for_boot()
+
 	# What each provisioning step is doing, in words. The list view needs it and
 	# so does the form; putting a copy in JavaScript would be a second list to
 	# be wrong the day somebody adds a step. Only on the admin site, where the

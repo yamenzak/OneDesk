@@ -147,3 +147,25 @@ def test_oneai_customizes_only_through_the_page():
 	assert "page._check(doctype, values)" in tool, "a card that would be refused is not written"
 	assert "roles.administers" in tool or "workspace.administers()" in tool
 	assert '"onedesk.one.ai.customize"' in HOOKS
+
+
+def test_a_record_tab_is_declared_by_its_module_and_drawn_in_one_place():
+	"""Stage 8: Mail, Files and Activity are rows under one_record_tabs, and
+	record_tabs.js is the only script that adds to a form's layout for them."""
+	js = tree.APP / "public" / "js"
+	patched = [
+		path.name
+		for path in js.glob("*.js")
+		if "Layout.prototype.get_doctype_fields" in path.read_text(encoding="utf-8")
+	]
+	assert sorted(patched) == ["head.js", "record_tabs.js"], patched
+	hooks = HOOKS.split("one_record_tabs = [", 1)[1].split("]", 1)[0]
+	for declared in ("one_mail.linking.TABS", "one_storage.namespace.TABS", "one.tabs.TABS"):
+		assert declared in hooks, declared
+	for name, script in (
+		("mail", "record_mail.js"),
+		("files", "record_files.js"),
+		("activity", "record_activity.js"),
+	):
+		assert f'onedesk.record_tabs.register("{name}"' in (js / script).read_text(encoding="utf-8"), name
+	assert HOOKS.index("record_tabs.js") < HOOKS.index("record_files.js")

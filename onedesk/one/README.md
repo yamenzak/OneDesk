@@ -292,6 +292,7 @@ For the people who build One. OneAI does not read past this heading.
 | `custom/notification_type.json` | What a Notification Type carries here: its app, text and channels |
 | `head.py`, `doctype/record_head*`, `../public/js/head.js` | What a record's form says above its fields, as rows: see below |
 | `linked.py` | Fields of a linked record, edited on the form and saved in its save |
+| `tabs.py`, `../public/js/record_tabs.js`, `../public/js/record_activity.js` | The tabs after a record's fields (Mail, Files, Activity), each declared by its module under `one_record_tabs` and added to the form in one place; Activity is One's own |
 | `customize.py`, `layer.py`, `page/customize`, `doctype/workspace_customization`, `../public/js/customize.js` | The Customize page, and the holds on what a workspace writes |
 
 **A record's head is rows.** The pill beside a form's title, the sentence

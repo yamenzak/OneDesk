@@ -560,12 +560,16 @@ RECORD_FILES = tree.APP / "public" / "js" / "record_files.js"
 
 def test_every_record_has_a_files_tab_on_its_own_room():
 	js = RECORD_FILES.read_text()
-	assert "Layout.prototype.get_doctype_fields" in js
-	assert '"Tab Break"' in js and '"HTML"' in js
-	for kept_out in ("meta.istable", "meta.issingle", 'frm.doctype !== "File"', "layout.is_child_table"):
-		assert kept_out in js, kept_out
+	tabs = (tree.APP / "public" / "js" / "record_tabs.js").read_text()
+	assert "Layout.prototype.get_doctype_fields" in tabs and "Layout.prototype" not in js
+	assert '"Tab Break"' in tabs and '"HTML"' in tabs
+	for kept_out in ("meta.istable", "meta.issingle", "layout.is_child_table"):
+		assert kept_out in tabs, kept_out
+	namespace = (tree.APP / "one_storage" / "namespace.py").read_text()
+	assert '"name": "files"' in namespace and '"leaves_out": ("File",)' in namespace
+	assert '"onedesk.one_storage.namespace.TABS"' in HOOKS
 	assert "`@records/${frm.doctype}/${frm.doc.name}`" in js
-	assert 'frappe.ui.form.on("*"' in js
+	assert 'onedesk.record_tabs.register("files"' in js
 	assert "/assets/onedesk/js/record_files.js" in HOOKS
 
 

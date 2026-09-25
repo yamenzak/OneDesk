@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-25 22:56+0000\n"
-"PO-Revision-Date: 2026-09-25 22:56+0000\n"
+"POT-Creation-Date: 2026-09-25 23:06+0000\n"
+"PO-Revision-Date: 2026-09-25 23:06+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -27,7 +27,7 @@ msgid "(from what was asked for)"
 msgstr "(aus dem Angefragten)"
 
 #: onedesk/public/js/onemail.js:319 onedesk/public/js/onemail.js:388
-#: onedesk/public/js/record_mail.js:59
+#: onedesk/public/js/record_mail.js:36
 msgid "(no subject)"
 msgstr "(kein Betreff)"
 
@@ -341,7 +341,7 @@ msgstr "Eine Nachricht kann nur in einen Ordner ihres eigenen Postfachs verschob
 msgid "A message that belongs to no mailbox cannot be changed here."
 msgstr "Eine Nachricht, die zu keinem Postfach gehört, kann hier nicht geändert werden."
 
-#: onedesk/one_mail/linking.py:358
+#: onedesk/one_mail/linking.py:385
 msgid "A message that belongs to no mailbox cannot be filed here."
 msgstr "Eine Nachricht, die zu keinem Postfach gehört, kann hier nicht abgelegt werden."
 
@@ -813,7 +813,7 @@ msgstr "Aktionen"
 msgid "Active"
 msgstr ""
 
-#: onedesk/public/js/onecloud.js:638 onedesk/public/js/record_activity.js:25
+#: onedesk/one/tabs.py:23 onedesk/public/js/onecloud.js:638
 msgid "Activity"
 msgstr "Aktivität"
 
@@ -2969,9 +2969,9 @@ msgstr "Kompakt"
 #. Option for the 'Ours' (Select) field in DocType 'Reading Party'
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/one_storage/history.py:218 onedesk/one_storage/namespace.py:383
-#: onedesk/one_storage/namespace.py:521 onedesk/one_storage/namespace.py:622
-#: onedesk/one_storage/namespace.py:781 onedesk/public/js/settings.js:445
+#: onedesk/one_storage/history.py:218 onedesk/one_storage/namespace.py:387
+#: onedesk/one_storage/namespace.py:525 onedesk/one_storage/namespace.py:626
+#: onedesk/one_storage/namespace.py:785 onedesk/public/js/settings.js:445
 msgid "Company"
 msgstr "Unternehmen"
 
@@ -5062,10 +5062,11 @@ msgstr "Abgelegt bei {0}"
 #. Label of a Sidebar Item
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
+#: onedesk/one_storage/namespace.py:40
 #: onedesk/one_storage/page/onecloud/onecloud.js:7
 #: onedesk/one_storage/sidebar/onecloud/onecloud.json
 #: onedesk/public/js/onecloud.js:342 onedesk/public/js/onecloud.js:987
-#: onedesk/public/js/record_files.js:33 onedesk/public/js/record_files.js:70
+#: onedesk/public/js/record_files.js:35
 msgid "Files"
 msgstr "Dateien"
 
@@ -7276,8 +7277,8 @@ msgstr "Briefart"
 msgid "Letters"
 msgstr "Briefe"
 
-#: onedesk/one_storage/namespace.py:382 onedesk/one_storage/namespace.py:624
-#: onedesk/one_storage/namespace.py:766
+#: onedesk/one_storage/namespace.py:386 onedesk/one_storage/namespace.py:628
+#: onedesk/one_storage/namespace.py:770
 msgid "Libraries"
 msgstr "Bibliotheken"
 
@@ -7630,9 +7631,10 @@ msgstr "{0} angelegt"
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #: onedesk/one/settings.py:35 onedesk/one/sidebar/one/one.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
-#: onedesk/one_mail/cloud.py:79 onedesk/one_mail/page/onemail/onemail.js:6
+#: onedesk/one_mail/cloud.py:79 onedesk/one_mail/linking.py:44
+#: onedesk/one_mail/page/onemail/onemail.js:6
 #: onedesk/one_mail/sidebar/onemail/onemail.json
-#: onedesk/one_storage/namespace.py:385 onedesk/public/js/record_mail.js:27
+#: onedesk/one_storage/namespace.py:389
 msgid "Mail"
 msgstr "Mail"
 
@@ -7665,7 +7667,7 @@ msgstr "Mail-Regel"
 msgid "Mail That Matches"
 msgstr "Passende Mails"
 
-#: onedesk/public/js/record_mail.js:68
+#: onedesk/public/js/record_mail.js:45
 msgid "Mail from its people is filed here as it arrives."
 msgstr "Mails seiner Kontakte werden hier abgelegt, sobald sie eintreffen."
 
@@ -8183,9 +8185,9 @@ msgstr "Wird mit den Anbieterkosten multipliziert. 2 berechnet das Doppelte des 
 msgid "My Events"
 msgstr "Meine Termine"
 
-#: onedesk/one_storage/history.py:217 onedesk/one_storage/namespace.py:353
-#: onedesk/one_storage/namespace.py:378 onedesk/one_storage/namespace.py:521
-#: onedesk/one_storage/namespace.py:626 onedesk/one_storage/namespace.py:763
+#: onedesk/one_storage/history.py:217 onedesk/one_storage/namespace.py:357
+#: onedesk/one_storage/namespace.py:382 onedesk/one_storage/namespace.py:525
+#: onedesk/one_storage/namespace.py:630 onedesk/one_storage/namespace.py:767
 msgid "My Files"
 msgstr "Meine Dateien"
 
@@ -8332,7 +8334,7 @@ msgstr "Netto"
 #. Label of the network_section (Section Break) field in DocType 'Clock
 #. Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
-#: onedesk/one_storage/mounts.py:360 onedesk/one_storage/namespace.py:386
+#: onedesk/one_storage/mounts.py:360 onedesk/one_storage/namespace.py:390
 msgid "Network"
 msgstr "Netzwerk"
 
@@ -8600,7 +8602,7 @@ msgstr "Kein Mindestbestand"
 msgid "No mail account can send as {0}."
 msgstr "Kein Mailkonto kann als {0} senden."
 
-#: onedesk/public/js/record_mail.js:68
+#: onedesk/public/js/record_mail.js:45
 msgid "No mail is filed on this yet."
 msgstr "Hier ist noch keine Mail abgelegt."
 
@@ -9504,7 +9506,7 @@ msgstr "OneCalendar"
 
 #. Title of a Sidebar
 #: onedesk/one_mail/cloud.py:79 onedesk/one_storage/file_requests.py:205
-#: onedesk/one_storage/mounts.py:360 onedesk/one_storage/namespace.py:729
+#: onedesk/one_storage/mounts.py:360 onedesk/one_storage/namespace.py:733
 #: onedesk/one_storage/sidebar/onecloud/onecloud.json
 #: onedesk/public/js/onecloud_picker.js:108
 msgid "OneCloud"
@@ -11344,7 +11346,7 @@ msgstr "Forderungen, Verbindlichkeiten, Erlöse, Kostenstelle und Rundung."
 msgid "Receivables"
 msgstr ""
 
-#: onedesk/one_storage/namespace.py:379
+#: onedesk/one_storage/namespace.py:383
 msgid "Recent"
 msgstr "Zuletzt verwendet"
 
@@ -11496,7 +11498,7 @@ msgstr "Überstunden werden erfasst"
 msgid "Recording…"
 msgstr "Aufnahme läuft…"
 
-#: onedesk/one_storage/namespace.py:384 onedesk/one_storage/namespace.py:747
+#: onedesk/one_storage/namespace.py:388 onedesk/one_storage/namespace.py:751
 msgid "Records"
 msgstr "Datensätze"
 
@@ -11514,7 +11516,7 @@ msgstr "Übersicht Personalgewinnung"
 msgid "Recurring"
 msgstr "Wiederkehrend"
 
-#: onedesk/one_storage/namespace.py:388
+#: onedesk/one_storage/namespace.py:392
 msgid "Recycle Bin"
 msgstr "Papierkorb"
 
@@ -11839,7 +11841,7 @@ msgid "Requested"
 msgstr "Angefordert"
 
 #: onedesk/one_storage/file_requests.py:206
-#: onedesk/one_storage/namespace.py:387
+#: onedesk/one_storage/namespace.py:391
 msgid "Requests"
 msgstr "Anfragen"
 
@@ -12633,8 +12635,8 @@ msgstr "Mit Ihnen geteilt"
 msgid "Shared by"
 msgstr "Geteilt von"
 
-#: onedesk/one_storage/namespace.py:381 onedesk/one_storage/namespace.py:626
-#: onedesk/one_storage/namespace.py:774
+#: onedesk/one_storage/namespace.py:385 onedesk/one_storage/namespace.py:630
+#: onedesk/one_storage/namespace.py:778
 msgid "Shared with Me"
 msgstr "Mit mir geteilt"
 
@@ -13039,7 +13041,7 @@ msgstr "Markieren Sie eine Datei oder einen Ordner mit einem Stern, um sie hier 
 
 #. Label of the one_flagged (Check) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json
-#: onedesk/one_storage/namespace.py:380 onedesk/public/js/onecloud.js:505
+#: onedesk/one_storage/namespace.py:384 onedesk/public/js/onecloud.js:505
 msgid "Starred"
 msgstr "Mit Stern"
 
@@ -15045,7 +15047,7 @@ msgstr "Zum Lesen. Niemand wird gebeten, ihnen zuzustimmen."
 msgid "To reclaim"
 msgstr "Zu erstatten"
 
-#: onedesk/public/js/onemail.js:296 onedesk/public/js/record_mail.js:52
+#: onedesk/public/js/onemail.js:296 onedesk/public/js/record_mail.js:29
 msgid "To {0}"
 msgstr "An {0}"
 
@@ -16730,7 +16732,7 @@ msgstr "Gut zu wissen vor dem Anruf"
 msgid "Worth weighing"
 msgstr "Abzuwägen"
 
-#: onedesk/public/js/onemail.js:75 onedesk/public/js/record_mail.js:66
+#: onedesk/public/js/onemail.js:75 onedesk/public/js/record_mail.js:43
 msgid "Write"
 msgstr "Schreiben"
 
