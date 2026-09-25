@@ -88,11 +88,11 @@ def test_every_call_that_changes_an_address_asks_who_is_asking():
 
 
 def test_the_account_is_in_the_rail():
-	"""Otherwise it is reachable only by typing its name, which is where it was."""
+	"""Otherwise it is reachable only by typing its name, which is where it was.
+	It is Settings' Plan and Credits and Domains now, and Settings is in the rail."""
 	rail = _json(ONE / "sidebar" / "one" / "one.json")
-	assert any(
-		item.get("link_to") == "Workspace Account" for item in rail["items"]
-	), "the One rail does not offer the account"
+	assert any(item.get("link_to") == "settings" for item in rail["items"]), "the One rail does not offer Settings"
+	assert '"Workspace Account"' in (ONE / "settings.py").read_text(), "Settings does not show the account"
 
 
 def test_the_screen_text_is_in_register():

@@ -163,6 +163,15 @@ No doctypes yet.
 * `onedesk.one.account.domains`
 * `onedesk.one.account.domains_refresh`
 * `onedesk.one.account.mine`
+* `onedesk.one.settings.forget`
+* `onedesk.one.settings.invite`
+* `onedesk.one.settings.load`
+* `onedesk.one.settings.save`
+* `onedesk.one.settings.sections`
+* `onedesk.one.settings.set_access`
+* `onedesk.one.settings.set_admin`
+* `onedesk.one.settings.set_enabled`
+* `onedesk.one.settings.sign_out_elsewhere`
 * `onedesk.one_admin.operator.credit_standing`
 * `onedesk.one_admin.operator.fall`
 * `onedesk.one_admin.operator.give_credits`

@@ -25,9 +25,9 @@
    "icon": "settings",
    "indent": 0,
    "keep_closed": 0,
-   "label": "Account",
-   "link_to": "Workspace Account",
-   "link_type": "DocType",
+   "label": "Settings",
+   "link_to": "settings",
+   "link_type": "Page",
    "show_arrow": 0,
    "type": "Link",
    "idx": 2
@@ -46,23 +46,12 @@
    "keep_closed": 0,
    "show_arrow": 0,
    "type": "Link",
-   "label": "Actions",
-   "link_to": "AI Action Setting",
-   "link_type": "DocType",
-   "icon": "sliders-horizontal",
-   "child": 1,
-   "idx": 4
-  },
-  {
-   "keep_closed": 0,
-   "show_arrow": 0,
-   "type": "Link",
    "label": "Credits",
    "link_to": "AI Credits",
    "link_type": "Report",
    "icon": "chart-column",
    "child": 1,
-   "idx": 5
+   "idx": 4
   },
   {
    "keep_closed": 0,
@@ -73,7 +62,7 @@
    "link_type": "DocType",
    "icon": "messages-square",
    "child": 1,
-   "idx": 6
+   "idx": 5
   },
   {
    "keep_closed": 0,
@@ -84,32 +73,10 @@
    "link_type": "DocType",
    "icon": "lightbulb",
    "child": 1,
-   "idx": 7
-  },
-  {
-   "keep_closed": 0,
-   "show_arrow": 0,
-   "type": "Link",
-   "label": "Knowledge",
-   "link_to": "AI Knowledge",
-   "link_type": "DocType",
-   "icon": "book-open",
-   "child": 1,
-   "idx": 8
-  },
-  {
-   "keep_closed": 0,
-   "show_arrow": 0,
-   "type": "Link",
-   "label": "Memory",
-   "link_to": "AI Memory",
-   "link_type": "DocType",
-   "icon": "brain",
-   "child": 1,
-   "idx": 9
+   "idx": 6
   }
  ],
- "modified": "2026-09-23 07:24:53.907693",
+ "modified": "2026-10-02 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

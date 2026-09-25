@@ -164,6 +164,18 @@ onedesk.dock.told = (done, ready) => {
 	});
 };
 
+// Settings in the avatar menu is One's page rather than frappe's dialog: one
+// place for what a person and a workspace set (one/settings.py). The menu
+// loads the dialog's bundle before calling this, and the bundle would put its
+// own back, so ours is held in place.
+(() => {
+	const ours = (section) => {
+		const known = { profile: "profile", notifications: "notifications" };
+		frappe.set_route("settings", { section: known[section] || "profile" });
+	};
+	Object.defineProperty(frappe.ui, "show_user_settings", { get: () => ours, set: () => {}, configurable: true });
+})();
+
 frappe.provide("onedesk.tenant");
 
 // Bytes, in the units somebody says out loud. Base ten rather than base two,

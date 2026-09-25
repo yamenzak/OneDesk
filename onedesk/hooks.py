@@ -627,6 +627,7 @@ app_include_css = [
 	"/assets/onedesk/css/desk.css",
 	"/assets/onedesk/css/oneai.css",
 	"/assets/onedesk/css/intake.css",
+	"/assets/onedesk/css/settings.css",
 ]
 # /start and /welcome, which are not desk screens and load none of the above.
 web_include_css = ["/assets/onedesk/css/portal.css"]

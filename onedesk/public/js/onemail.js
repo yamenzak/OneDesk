@@ -139,6 +139,8 @@ onedesk.OneMail = class OneMail {
 		const folders = (this.box && this.box.folders) || [];
 		this.folder = folders.find((one) => one.name === want.folder) || folders.find((one) => one.kind === "Inbox") || folders[0] || null;
 		this.draw_boxes();
+		// Settings' Connect a Mailbox lands here with ?connect=1.
+		if (frappe.utils.get_query_params().connect) this.connect();
 		if (!this.box) return this.draw_nothing();
 		await this.list();
 		if (want.thread) this.open(want.thread);
