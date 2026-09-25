@@ -146,3 +146,28 @@ def test_raw_keeps_the_untranslated_text():
 def test_installed_after_every_migrate():
 	after = HOOKS.split("after_migrate = [", 1)[1].split("]", 1)[0]
 	assert '"onedesk.one.notify.install"' in after
+
+
+def test_an_edited_text_sees_nothing_but_its_slots():
+	"""Frappe's render_template hands a template frappe.db; an administrator's
+	text is rendered in a sandbox with nothing in it but the values sent."""
+	source = NOTIFY.read_text(encoding="utf-8")
+	assert "frappe.render_template(" not in source
+	from jinja2.sandbox import SandboxedEnvironment
+
+	space = {"cache": lambda fn: fn}
+	for node in ast.parse(source).body:
+		if isinstance(node, ast.FunctionDef) and node.name == "_sandbox":
+			exec(ast.unparse(node), space)
+	sandbox = space["_sandbox"]()
+	assert isinstance(sandbox, SandboxedEnvironment)
+	assert sandbox.from_string("{{ frappe }}{{ who }}").render({"who": "Ann"}) == "Ann"
+
+
+def test_the_workspace_screen_is_for_administrators():
+	settings = (tree.APP / "one" / "settings.py").read_text(encoding="utf-8")
+	assert '("notification_types", _lt("Notifications"), "bell-ring", "workspace")' in settings
+	preview = settings.split("def preview_notification(", 1)[1].split("\ndef ", 1)[0]
+	assert "roles.require()" in preview
+	assert '"Notification Type": {"validate": "onedesk.one.notify.validate"' in HOOKS
+	assert '"onedesk.one.ai.rewrite_notification"' in HOOKS and '"onedesk.one.ai.notification_type"' in HOOKS

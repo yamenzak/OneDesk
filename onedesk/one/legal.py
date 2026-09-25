@@ -36,3 +36,20 @@ clause(
 	""",
 	order=5,
 )
+
+# Workspace Settings › Notifications
+
+clause(
+	document="aup",
+	section="modules",
+	key="notification-text",
+	module=M,
+	body="""
+		A workspace administrator can change what the notifications and mails One sends say, including the
+		mails that go to people outside the workspace, such as a file request or a shared link. What they
+		write is the workspace's own content, sent in its name, and this policy applies to it as it does to
+		anything else the workspace sends. The code that opens a shared link is always sent, whatever the
+		administrator sets.
+	""",
+	order=5,
+)

@@ -82,7 +82,7 @@ be ours; how it behaves is frappe's.
 | Area | Screen | State |
 |---|---|---|
 | Settings, You | Profile | done |
-| Settings, You | Notifications | building: stage 1 of 6 (the hub) done, see NOTIFICATIONS.md |
+| Settings, You | Notifications | building: stages 1 and 2 of 6 done, see NOTIFICATIONS.md; this screen is stage 3 |
 | Settings, You | Mail | |
 | Settings, You | Calendar | |
 | Settings, You | Sign-in | |
@@ -90,6 +90,7 @@ be ours; how it behaves is frappe's.
 | Settings, You | Agreements | done |
 | Settings, Workspace | General | |
 | Settings, Workspace | People | |
+| Settings, Workspace | Notifications | built in stage 2, below |
 | Settings, Workspace | Plan and Credits | |
 | Settings, Workspace | Domains | |
 | Settings, Workspace | OneAI | |
@@ -246,6 +247,67 @@ agreed to. The Terms already promise that.
    that a section OneAI offers anything on has its README section.
 8. **Legal**: no new lines. The Terms' "every version anybody agreed to is kept
    and can be read in One" is now true of a screen.
+
+### Workspace › Notifications
+
+Built as stage 2 of `docs/NOTIFICATIONS.md`, and gone over against the eight
+points as it was built.
+
+1. **Notifications**: this is where every one of them is decided. Saving sends
+   nothing. Turning email off takes the type out of everybody's email choices,
+   because frappe would otherwise keep mailing whoever had chosen it; turning
+   it back on gives it to everybody if it is on for new people. A new person
+   now starts on email only for the types marked for new people (frappe
+   started them on every type).
+2. **OneAI**:
+   - Two tools in `one/ai.py`: `notification_type` reads a type's text, slots
+     and channels, and `rewrite_notification` suggests new text as a card,
+     refused if it names anything but the type's slots. Applying the card is an
+     ordinary save, by the administrator.
+   - The panel is told the page and which type is open (`record` in
+     `oneai.where()`).
+   - It offers **Rewrite this notification**, **Which should be emailed?** and
+     **How do notifications work?**. The editor's **Rewrite with OneAI** asks
+     the first about the type that is open.
+3. **Intake**: six of the types are Intake's, listed and edited here like any
+   other.
+4. **Permissions**:
+   - Only workspace administrators see the section; `load`, `save` and
+     `preview_notification` all ask `roles.require()`.
+   - The Workspace Administrator gets read and write on Notification Type
+     (Custom DocPerm), so OneAI's card applies as them.
+   - An edited text is rendered in a Jinja sandbox with nothing but its slots.
+     Frappe's own `render_template` would have handed it `frappe.db`, and so
+     any record in the workspace. Saving a text that names anything else is
+     refused, from the page, from a card, or from the desk.
+   - The shared link's code cannot be turned off.
+5. **Cross-module**: every module's types in one list, grouped by the app that
+   sends them, with frappe's own (mentions, assignments, shares) at the
+   bottom, read-only, since their text is frappe's.
+6. **UI**:
+   - The list is rows on the page, grouped by app, each a link with a
+     frappe-ui list-row hover: its name, what it is about, and badges for Off,
+     Edited, and Email (blue when on for new people) or Mailed Outside.
+   - A type opens as a form: Send This, What It Says (subject as one line,
+     message as a small code field), the names it may use, a live preview with
+     each name as a chip where its value goes and the refusal in red, then
+     Channels. Save is in the page head; it is dirty against what loaded, warns
+     before leaving, saves against `modified`, and reloads on `doc_update`.
+   - Subjects no longer carry `<b>`: every name in a subject is bolded when it
+     is sent, so neither our text nor an administrator's has to say so.
+   - Push is declared on every type but not shown until it can be sent
+     (stage 4).
+7. **Documented**: One's README has Notifications, for the Workspace, which is
+   what `how_to` answers from.
+8. **Legal**: the Acceptable Use Policy gains `notification-text`: what an
+   administrator writes into a notification is the workspace's content, sent
+   in its name, including to outside addresses. Recorded as a clarification
+   (new hash, same revision): the policy already covered what a workspace
+   sends.
+   - Found doing it: the gate asked everybody again on a new hash, although
+     OneLegal's README says only a new revision does. It now compares
+     revisions (`gate.agreed`), and the Agreements page shows a clarified
+     document as still Agreed, with a link to the text that was agreed.
 
 ## OneLegal
 

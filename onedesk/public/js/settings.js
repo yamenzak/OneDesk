@@ -32,7 +32,7 @@ onedesk.Settings = class Settings {
 			event.preventDefault();
 			return (event.returnValue = "There are unsaved changes, are you sure you want to exit?");
 		};
-		this.reload = frappe.utils.debounce(() => this.open(this.key), 1000);
+		this.reload = frappe.utils.debounce(() => this.open(this.key, { record: this.record }), 1000);
 		frappe.realtime.on("doc_update", (data) => this.updated(data));
 		// Agreeing in the dialog changes what the Agreements section shows.
 		$(document).on("legal-agreed", () => this.key === "agreements" && this.open("agreements"));
@@ -41,15 +41,19 @@ onedesk.Settings = class Settings {
 	async show() {
 		if (!this.said) this.said = await frappe.xcall(Settings.API + "sections");
 		const mine = this.said.sections.filter((one) => one.group === this.group_name);
-		const asked = frappe.utils.get_query_params().section;
-		const found = mine.find((one) => one.key === asked) || mine[0];
-		if (found) this.open(found.key);
+		const params = frappe.utils.get_query_params();
+		const found = mine.find((one) => one.key === params.section) || mine[0];
+		if (found) this.open(found.key, { record: params.type || null });
 	}
 
-	async open(key, { fresh = false } = {}) {
-		if (this.dirty && this.values) this.kept[this.key] = { values: this.values(), opened: this.opened };
-		if (fresh) delete this.kept[key];
+	// `record` is the one record a section that lists several is open on, as a
+	// notification type is: the section is then that record's form.
+	async open(key, { fresh = false, record = null } = {}) {
+		const slot = (k, r) => (r ? `${k}:${r}` : k);
+		if (this.dirty && this.values) this.kept[slot(this.key, this.record)] = { values: this.values(), opened: this.opened };
+		if (fresh) delete this.kept[slot(key, record)];
 		this.key = key;
+		this.record = record;
 		this.values = null;
 		this.set_dirty(false);
 		const section = this.said.sections.find((one) => one.key === key);
@@ -60,7 +64,7 @@ onedesk.Settings = class Settings {
 		this.$section.html(`<div class="os-content"><div class="os-quiet">${__("Loading…")}</div></div>`);
 		this.$content = this.$section.find(".os-content").toggleClass("os-wide", Settings.WIDE.includes(key));
 		try {
-			this.data = await frappe.xcall(Settings.API + "load", { section: key });
+			this.data = await frappe.xcall(Settings.API + "load", { section: key, record });
 		} catch (e) {
 			this.$content.html(frappe.ui.alert.html({ title: __("This section could not be opened."), theme: "red" }));
 			return;
@@ -70,7 +74,7 @@ onedesk.Settings = class Settings {
 		this[`draw_${key}`](this.data);
 		// The router names the page after show; the section's name wins.
 		this.name_page(section);
-		await this.bring_back(key);
+		await this.bring_back(slot(key, record));
 	}
 
 	// Unsaved changes left in this section come back, and if the record has
@@ -111,7 +115,7 @@ onedesk.Settings = class Settings {
 		if (this.$content.find(".os-conflict").length) return;
 		// One title and one action is frappe-ui's row alert: the action on the
 		// right, a ghost button in the alert's own colour (Alert.vue).
-		const $refresh = $(this.button(__("Refresh"), {}, "ghost")).on("click", () => this.open(this.key, { fresh: true }));
+		const $refresh = $(this.button(__("Refresh"), {}, "ghost")).on("click", () => this.open(this.key, { fresh: true, record: this.record }));
 		$(frappe.ui.alert({ title: __("This form has been modified after you have loaded it"), theme: "yellow", footer: $refresh, css_class: "os-conflict os-alert-row" })).prependTo(
 			this.$content
 		);
@@ -230,7 +234,7 @@ onedesk.Settings = class Settings {
 		const said = await new Promise((done) =>
 			frappe.call({
 				method: Settings.API + "save",
-				args: { section: this.key, values, opened: this.opened },
+				args: { section: this.key, values, opened: this.opened, record: this.record },
 				freeze: true,
 				callback: (r) => done(r.message),
 				error: (r) => {
@@ -488,9 +492,11 @@ onedesk.Settings = class Settings {
 		const state = (one, whose) => {
 			if (!one.version) return frappe.ui.badge.html({ label: __("Not agreed yet"), theme: "orange" });
 			const when = whose === "organisation" ? __("by {0} on {1}", [one.by, one.on]) : __("on {0}", [one.on]);
-			if (one.version === one.current) return `${frappe.ui.badge.html({ label: __("Agreed"), theme: "green" })} <span class="os-quiet">${esc(when)}</span>`;
-			return `${frappe.ui.badge.html({ label: __("Updated since"), theme: "orange" })} <span class="os-quiet">${esc(when)}</span>
-				<a href="${read(one.key, one.version)}" target="_blank" rel="noopener">${esc(__("Read what was agreed"))}</a>`;
+			// A new revision asks again; a clarified text (a new hash only) is
+			// still agreed, and what was agreed can still be read.
+			const was = one.version === one.current ? "" : ` <a href="${read(one.key, one.version)}" target="_blank" rel="noopener">${esc(__("Read what was agreed"))}</a>`;
+			if (!one.owed) return `${frappe.ui.badge.html({ label: __("Agreed"), theme: "green" })} <span class="os-quiet">${esc(when)}</span>${was}`;
+			return `${frappe.ui.badge.html({ label: __("Updated since"), theme: "orange" })} <span class="os-quiet">${esc(when)}</span>${was}`;
 		};
 		const row = (doc, whose) => `<div class="os-row">
 			<div class="os-row-main">
@@ -503,9 +509,7 @@ onedesk.Settings = class Settings {
 		const yours = data.documents.filter((doc) => doc.you);
 		const ours = data.documents.filter((doc) => doc.organisation);
 		const published = data.documents.filter((doc) => !doc.you && !doc.organisation);
-		const owed = data.documents.some(
-			(doc) => (doc.you && doc.you.version !== doc.you.current) || (data.admin && doc.organisation && doc.organisation.version !== doc.organisation.current)
-		);
+		const owed = data.documents.some((doc) => (doc.you && doc.you.owed) || (data.admin && doc.organisation && doc.organisation.owed));
 		this.$content.html(
 			(owed
 				? `<div class="os-card">${frappe.ui.alert.html({ title: __("Some of these are waiting for you to agree."), theme: "yellow" })}
@@ -804,5 +808,131 @@ onedesk.Settings = class Settings {
 		);
 		$card.find("[data-open]").on("click", () => frappe.set_route("Form", "Holiday List", data.chosen));
 		$card.find("[data-new]").on("click", () => frappe.new_doc("Holiday List"));
+	}
+
+	// ---------------------------------------------------------------- notifications
+
+	// Every notification One sends, by the app that sends it, or the one that
+	// is open. Frappe's own (mentions, assignments, shares) are listed so the
+	// page is the whole answer, but their text is frappe's and not ours to edit.
+	draw_notification_types(data) {
+		if (data.type) return this.draw_notification_type(data);
+		const esc = frappe.utils.escape_html;
+		const channel = (label, allowed, on) => (allowed ? frappe.ui.badge.html({ label, theme: on ? "blue" : "gray" }) : "");
+		// Push is declared on every type, and shown once it can be sent (docs/NOTIFICATIONS.md, stage 4).
+		const row = (one) => {
+			const badges = one.ours
+				? [
+						one.enabled ? "" : frappe.ui.badge.html({ label: __("Off"), theme: "gray" }),
+						one.edited ? frappe.ui.badge.html({ label: __("Edited"), theme: "violet" }) : "",
+						one.outside ? frappe.ui.badge.html({ label: __("Mailed Outside"), theme: "gray" }) : channel(__("Email"), one.email, one.email_default),
+				  ].join(" ")
+				: "";
+			return `<div class="os-row ${one.ours ? "os-row-link" : ""}" ${one.ours ? `data-type="${esc(one.name)}" tabindex="0"` : ""}>
+				<div class="os-row-main"><div class="os-row-title">${esc(one.label)}</div>${
+					one.about ? `<div class="os-quiet">${esc(one.about)}</div>` : one.ours ? "" : `<div class="os-quiet">${esc(__("Written by frappe. Each person chooses whether it is also mailed."))}</div>`
+				}</div>
+				<div class="os-row-actions">${badges}${one.ours ? `<span class="os-chevron">${frappe.utils.icon("chevron-right", "sm")}</span>` : ""}</div>
+			</div>`;
+		};
+		this.$content.html(
+			`<div class="os-card os-card-note os-quiet">${esc(
+				__("What One tells people. Open one to change what it says and whether it may also be mailed. A blue Email is on for new people, and each person can change their own.")
+			)}</div>` + data.apps.map((group) => this.card(group.app || __("Across One"), group.types.map(row).join(""))).join("")
+		);
+		const go = (event) => frappe.set_route("workspace-settings", { section: this.key, type: $(event.currentTarget).attr("data-type") });
+		this.$content.find("[data-type]").on("click", go).on("keydown", (event) => event.key === "Enter" && go(event));
+	}
+
+	// One type, edited as a form is: its text and its channels, saved from the
+	// page head against the record as it was loaded. The preview renders the
+	// text as it will be sent, with each slot shown where its value goes.
+	draw_notification_type(data) {
+		const esc = frappe.utils.escape_html;
+		const type = data.type;
+		const slots = type.slots.map((one) => `<code>{{ ${esc(one)} }}</code>`).join(" ");
+		const head = `<div class="os-type-head">
+			<div class="os-type-back">${this.button(__("All Notifications"), { "data-back": "1" }, "ghost", "arrow-left")}</div>
+			<div class="os-who-name">${esc(type.label)}</div>
+			${type.about ? `<div class="os-quiet">${esc(type.about)}</div>` : ""}
+			${
+				type.ours
+					? `<div class="os-who-actions">${this.button(__("Rewrite with OneAI"), { "data-rewrite": "1" }, "subtle", "sparkles")}${this.button(
+							__("Back to the Default Text"),
+							{ "data-reset": "1" },
+							"ghost",
+							"rotate-ccw"
+					  )}</div>`
+					: ""
+			}
+		</div>`;
+		const preview = `<div class="os-preview">
+			<div class="os-preview-label">${esc(__("Preview"))}</div>
+			<div class="os-preview-subject"></div>
+			<div class="os-preview-message"></div>
+			<div class="os-preview-wrong"></div>
+		</div>`;
+		const rows = [["enabled"]];
+		if (type.ours) {
+			rows.push(
+				{ heading: __("What It Says"), note: __("Left as it came, it is sent in each reader's own language. Once you change it, it is sent as you wrote it.") },
+				["one_subject"],
+				["one_message"],
+				{ html: `${slots ? `<div class="os-quiet os-slots">${__("It can use {0}", [slots])}</div>` : ""}${preview}` }
+			);
+			if (!type.outside) {
+				rows.push(
+					{ heading: __("Channels"), note: __("The bell is always on. Email is what people may add to it, and what a new person starts with.") },
+					["one_allow_email", "one_email_default"]
+				);
+			} else {
+				rows.push({ html: `<div class="os-quiet">${esc(__("Mailed to addresses outside the workspace, so nobody chooses a channel for it."))}</div>` });
+			}
+		}
+		const $card = this.form(data, { before: head, rows });
+		const draw = frappe.utils.debounce(() => this.preview(type.name, $card), 400);
+		for (const name of ["one_subject", "one_message"]) {
+			const field = this.group.fields_dict[name];
+			if (!field) continue;
+			field.df.change = () => {
+				this.check();
+				draw();
+			};
+		}
+		for (const name of ["enabled", "one_allow_email", "one_email_default", "one_allow_push", "one_push_default"]) {
+			const field = this.group.fields_dict[name];
+			if (field) field.df.change = () => this.check();
+		}
+		if (type.ours) this.ready.then(() => this.preview(type.name, $card));
+		$card.find("[data-back]").on("click", () => frappe.set_route("workspace-settings", { section: this.key }));
+		$card.find("[data-reset]").on("click", async () => {
+			await this.group.set_values({ one_subject: type.default_subject, one_message: type.default_message });
+			this.check();
+			this.preview(type.name, $card);
+		});
+		$card.find("[data-rewrite]").on("click", () =>
+			onedesk.oneai.open({
+				ask: __(
+					'Rewrite the text of the "{0}" notification so it is short, plain and friendly, and keeps every slot it uses. Suggest it as a change I can apply.',
+					[type.label]
+				),
+			})
+		);
+	}
+
+	async preview(name, $card) {
+		if (!this.group) return;
+		const said = await frappe.xcall(Settings.API + "preview_notification", {
+			name,
+			subject: this.group.get_value("one_subject") || "",
+			message: this.group.get_value("one_message") || "",
+		});
+		// Rendered by the server from the administrator's own text, with every
+		// value escaped and each slot a chip we drew: the one place this page
+		// puts HTML it did not build itself.
+		$card.find(".os-preview-subject").html(said.subject || "");
+		$card.find(".os-preview-message").html(said.message || "");
+		const wrong = [said.subject_wrong, said.message_wrong].filter(Boolean);
+		$card.find(".os-preview-wrong").html(wrong.length ? frappe.ui.alert.html({ title: wrong.join(" "), theme: "red" }) : "");
 	}
 };

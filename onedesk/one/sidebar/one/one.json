@@ -148,13 +148,25 @@
   {
    "keep_closed": 0,
    "type": "Link",
+   "label": "Notifications",
+   "link_to": "workspace-settings",
+   "link_type": "Page",
+   "icon": "bell-ring",
+   "child": 1,
+   "route_options": "{\"section\": \"notification_types\"}",
+   "idx": 13,
+   "filters": "{\"section\": \"notification_types\"}"
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
    "label": "Plan and Credits",
    "link_to": "workspace-settings",
    "link_type": "Page",
    "icon": "credit-card",
    "child": 1,
    "route_options": "{\"section\": \"plan\"}",
-   "idx": 13,
+   "idx": 14,
    "filters": "{\"section\": \"plan\"}"
   },
   {
@@ -166,7 +178,7 @@
    "icon": "globe",
    "child": 1,
    "route_options": "{\"section\": \"domains\"}",
-   "idx": 14,
+   "idx": 15,
    "filters": "{\"section\": \"domains\"}"
   },
   {
@@ -178,7 +190,7 @@
    "icon": "sparkles",
    "child": 1,
    "route_options": "{\"section\": \"oneai\"}",
-   "idx": 15,
+   "idx": 16,
    "filters": "{\"section\": \"oneai\"}"
   },
   {
@@ -190,7 +202,7 @@
    "icon": "inbox",
    "child": 1,
    "route_options": "{\"section\": \"intake\"}",
-   "idx": 16,
+   "idx": 17,
    "filters": "{\"section\": \"intake\"}"
   },
   {
@@ -202,7 +214,7 @@
    "icon": "calendar-days",
    "child": 1,
    "route_options": "{\"section\": \"holidays\"}",
-   "idx": 17,
+   "idx": 18,
    "filters": "{\"section\": \"holidays\"}"
   },
   {
@@ -213,7 +225,7 @@
    "icon": "oneai",
    "indent": 0,
    "collapsible": 1,
-   "idx": 18
+   "idx": 19
   },
   {
    "keep_closed": 0,
@@ -224,7 +236,7 @@
    "link_type": "Report",
    "icon": "chart-column",
    "child": 1,
-   "idx": 19
+   "idx": 20
   },
   {
    "keep_closed": 0,
@@ -235,7 +247,7 @@
    "link_type": "DocType",
    "icon": "messages-square",
    "child": 1,
-   "idx": 20
+   "idx": 21
   },
   {
    "keep_closed": 0,
@@ -246,10 +258,10 @@
    "link_type": "DocType",
    "icon": "lightbulb",
    "child": 1,
-   "idx": 21
+   "idx": 22
   }
  ],
- "modified": "2026-10-03 17:00:00.000000",
+ "modified": "2026-10-04 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

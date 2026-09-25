@@ -144,6 +144,10 @@ doc_events = {
 	# Everyone who works here has an address on the mail domain. See
 	# one_mail/addresses.py.
 	"User": {"before_save": "onedesk.one_mail.addresses.for_person"},
+	# A type's text names only its own slots. See one/notify.py.
+	"Notification Type": {"validate": "onedesk.one.notify.validate", "on_update": "onedesk.one.notify.changed"},
+	# A new person is mailed only what the administrator said. See one/notify.py.
+	"Notification Settings": {"before_insert": "onedesk.one.notify.new_person"},
 	# A customer's contact invited as a user can see the customer's projects.
 	# See one_project/portal.py.
 	"Contact": {
@@ -683,6 +687,7 @@ one_ai_reads = [
 	"onedesk.one_crm.ai.gone_quiet",
 	"onedesk.one_crm.ai.why_we_lose",
 	"onedesk.one_legal.ai.agreement",
+	"onedesk.one.ai.notification_type",
 ]
 
 #: A sentence each about who is asking, added to what the model is told.
@@ -701,6 +706,7 @@ one_ai_suggests = [
 	"onedesk.one_crm.ai.add_lead",
 	"onedesk.one_crm.ai.plan_next_step",
 	"onedesk.one_crm.ai.write_up_call",
+	"onedesk.one.ai.rewrite_notification",
 ]
 one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS", "onedesk.one_crm.ai.SUGGESTIONS", "onedesk.one.ai.SUGGESTIONS"]
 

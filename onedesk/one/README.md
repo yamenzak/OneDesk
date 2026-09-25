@@ -106,6 +106,47 @@ offers:
 - **Who else sees my data?** Which other companies receive data from the
   workspace, what they get, and where it is kept.
 
+### Notifications, for the Workspace
+
+Under **Workspace**, **Notifications** lists everything One tells people, by the
+app that sends it: a file shared with you, a letter somebody asked HR for, a
+document OneAI thinks is phishing. Only the workspace's administrators see it.
+
+Each row says whether the notification is **Off**, whether its text was
+**Edited**, and whether it may also be sent by **Email**. A blue Email means a
+new person starts with it on. **Mailed Outside** means it goes to an address
+outside the workspace, such as the mail a file request sends.
+
+**Open one to change it**, and save from the top right as you would a record:
+
+- **Send This** turns it off for everybody. The code that opens a shared link
+  cannot be turned off, or nobody could open one.
+- **What It Says** is its subject and message. A name in `{{ }}`, such as
+  `{{ who }}`, is filled in when it is sent, and shown in bold in the subject.
+  The page lists the names each notification can use, and refuses a text with
+  any other name in it. The preview shows the text as it will read, with each
+  name where its value goes.
+- As it comes, the text is sent in each person's own language. Once you change
+  it, it is sent as you wrote it, in your words, to everybody. **Back to the
+  Default Text** puts ours back, and it is translated again.
+- **Channels**: the bell is always on. **Email Allowed** lets people have it
+  mailed as well, and **Email for New People** is whether a new person starts
+  with that. Turning email off stops it for everybody, including people who had
+  chosen it; turning it back on gives it to everybody again if it is on for new
+  people. Each person changes their own under You › Notifications.
+
+Mentions, assignments and shares are frappe's own and listed at the bottom.
+Their text is frappe's, so they have nothing to change here.
+
+**OneAI on this page** offers:
+
+- **Rewrite this notification**, also the button on an open notification. It
+  suggests a new text, using only the names it may, as a card. Applying the
+  card saves it, and the open page shows the new text.
+- **Which should be emailed?** It reads every notification and says which are
+  worth a mail and which are better left to the bell.
+- **How do notifications work?** From this page.
+
 ## Asking OneAI
 
 Ask OneAI how anything in One works, in your own words and your own language.
@@ -127,7 +168,7 @@ For the people who build One. OneAI does not read past this heading.
 | `../public/js/settings.js` | Draws a section, and behaves like a desk form: dirty, stale saves, realtime |
 | `sidebar/one/one.json` | One's sidebar, with a link per section |
 | `ai.py` | What OneAI offers on these pages, and what it is told about where the reader is |
-| `notify.py` | The one door every notification goes through; see `docs/NOTIFICATIONS.md` |
+| `notify.py` | The one door every notification goes through, and the sandbox an edited text renders in; see `docs/NOTIFICATIONS.md` |
 | `custom/notification_type.json` | What a Notification Type carries here: its app, text and channels |
 
 Profile writes a person's own User record, and their own Employee record when

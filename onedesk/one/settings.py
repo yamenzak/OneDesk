@@ -39,6 +39,7 @@ SECTIONS = [
 	("agreements", _lt("Agreements"), "scale", "you"),
 	("general", _lt("General"), "building-2", "workspace"),
 	("people", _lt("People"), "users", "workspace"),
+	("notification_types", _lt("Notifications"), "bell-ring", "workspace"),
 	("plan", _lt("Plan and Credits"), "credit-card", "workspace"),
 	("domains", _lt("Domains"), "globe", "workspace"),
 	("oneai", _lt("OneAI"), "sparkles", "workspace"),
@@ -110,6 +111,21 @@ INTAKE = ("records", "most_pages", "floor", "audit", "keep_in_place", "quiet_min
 
 SYSTEM = ("date_format", "time_format", "number_format", "first_day_of_the_week")
 
+#: Sections that list several records and open on one of them.
+ON_A_RECORD = ("notification_types",)
+
+#: What an administrator sets on a notification type: whether it is sent, its
+#: text, and the channels people may choose for it.
+NOTIFICATION_TYPE = (
+	"enabled",
+	"one_subject",
+	"one_message",
+	"one_allow_email",
+	"one_email_default",
+	"one_allow_push",
+	"one_push_default",
+)
+
 
 @frappe.whitelist()
 @frappe.read_only()
@@ -128,7 +144,10 @@ def sections() -> dict:
 
 
 @frappe.whitelist()
-def load(section: Annotated[str, "Which section."]) -> dict:
+def load(
+	section: Annotated[str, "Which section."],
+	record: Annotated[str | None, "The one record the section is open on, where it lists several."] = None,
+) -> dict:
 	loaders = {
 		"profile": _profile,
 		"notifications": _notifications,
@@ -144,12 +163,13 @@ def load(section: Annotated[str, "Which section."]) -> dict:
 		"oneai": _oneai,
 		"intake": _intake,
 		"holidays": _holidays,
+		"notification_types": _notification_types,
 	}
 	if section not in loaders:
 		frappe.throw(_("There is no such section."))
 	if _group(section) == "workspace":
 		roles.require()
-	return loaders[section]()
+	return loaders[section](record) if section in ON_A_RECORD else loaders[section]()
 
 
 @frappe.whitelist(methods=["POST"])
@@ -157,6 +177,7 @@ def save(
 	section: Annotated[str, "Which section."],
 	values: Annotated[str | dict, "What was changed."],
 	opened: Annotated[str | list | None, "The records as the page loaded them: doctype, name and modified."] = None,
+	record: Annotated[str | None, "The one record the section is open on, where it lists several."] = None,
 ) -> dict:
 	values = frappe.parse_json(values) or {}
 	# What the page loaded, so a record changed since is refused the way a
@@ -168,14 +189,18 @@ def save(
 		"general": _save_general,
 		"intake": _save_intake,
 		"holidays": _save_holidays,
+		"notification_types": _save_notification_type,
 	}
 	if section not in savers:
 		frappe.throw(_("There is nothing to save here."))
 	if _group(section) == "workspace":
 		roles.require()
-	savers[section](values)
+	if section in ON_A_RECORD:
+		savers[section](record, values)
+	else:
+		savers[section](values)
 	frappe.db.commit()
-	return load(section)
+	return load(section, record)
 
 
 def _as_opened(doc):
@@ -388,6 +413,8 @@ def _agreements() -> dict:
 		row = rows[0]
 		return {
 			"version": row.version,
+			# Asked again only for a new revision; a new hash is shown, not asked.
+			"owed": not gate.agreed(row.version, assemble.version_of(key)),
 			"on": frappe.utils.formatdate(row.accepted_on),
 			"by": frappe.utils.get_fullname(row.user) if party == gate.WORKSPACE else None,
 		}
@@ -405,8 +432,10 @@ def _agreements() -> dict:
 				"title": _(title),
 				"summary": _(summary),
 				"version": version,
-				"you": {"current": version, **(last(key, gate.USER) or {})} if gate.USER in parties else None,
-				"organisation": {"current": version, **(last(key, gate.WORKSPACE) or {})}
+				"you": {"current": version, "owed": True, **(last(key, gate.USER) or {})}
+				if gate.USER in parties
+				else None,
+				"organisation": {"current": version, "owed": True, **(last(key, gate.WORKSPACE) or {})}
 				if gate.WORKSPACE in parties
 				else None,
 			}
@@ -644,3 +673,108 @@ def _save_holidays(values: dict) -> None:
 	if company and values.get("holiday_list") and frappe.db.exists("Holiday List", values["holiday_list"]):
 		company.default_holiday_list = values["holiday_list"]
 		company.save(ignore_permissions=True)
+
+
+# ------------------------------------------------------------------ notifications
+
+
+def _notification_types(record: str | None = None) -> dict:
+	"""Every notification One sends, by app, or the one that is open."""
+	if record:
+		return _notification_type(record)
+	from onedesk.one import notify
+
+	declared = notify.declared()
+	rows = frappe.get_all(
+		"Notification Type",
+		fields=["name", "enabled", *notify.FIELDS],
+		order_by="one_app asc, name asc",
+	)
+	apps: dict[str, list] = {}
+	for row in rows:
+		one = declared.get(row.name) or {}
+		apps.setdefault(row.one_app or "", []).append(
+			{
+				"name": row.name,
+				"label": _(row.name),
+				"about": _(row.one_about) if row.one_about else None,
+				"enabled": row.enabled,
+				"edited": bool(row.one_default_subject)
+				and (row.one_subject != row.one_default_subject or row.one_message != row.one_default_message),
+				"outside": row.one_outside,
+				"required": bool(one.get("required")),
+				"ours": bool(one),
+				"email": row.one_allow_email if one else 1,
+				"email_default": row.one_email_default,
+				"push": row.one_allow_push if one else 0,
+				"push_default": row.one_push_default,
+			}
+		)
+	# Ours by app, then frappe's own, which every app shares.
+	return {
+		"apps": [{"app": app, "types": types} for app, types in sorted(apps.items(), key=lambda one: (not one[0], one[0]))]
+	}
+
+
+def _notification_type(name: str) -> dict:
+	from onedesk.one import notify
+
+	if not frappe.db.exists("Notification Type", name):
+		frappe.throw(_("There is no notification type {0}.").format(name))
+	doc = frappe.get_doc("Notification Type", name)
+	one = notify.declared().get(name) or {}
+	fields = _fields("Notification Type", NOTIFICATION_TYPE)
+	for field in fields:
+		if field["fieldname"] == "one_message":
+			# A few lines, wrapped, rather than a code editor's thirty.
+			field.update({"wrap": 1, "min_lines": 3, "max_lines": 12})
+		if field["fieldname"] == "enabled":
+			field["label"] = _("Send This")
+			field["read_only"] = 1 if one.get("required") else 0
+	return {
+		"type": {
+			"name": doc.name,
+			"label": _(doc.name),
+			"app": doc.one_app,
+			"about": _(doc.one_about) if doc.one_about else None,
+			"ours": bool(one),
+			"outside": doc.one_outside,
+			"required": bool(one.get("required")),
+			"slots": notify.slots(name),
+			"default_subject": doc.one_default_subject,
+			"default_message": doc.one_default_message,
+		},
+		"fields": fields if one else [one for one in fields if one["fieldname"] == "enabled"],
+		"values": {field: doc.get(field) for field in NOTIFICATION_TYPE},
+		"opened": _opened(doc),
+	}
+
+
+def _save_notification_type(name: str | None, values: dict) -> None:
+	if not name or not frappe.db.exists("Notification Type", name):
+		frappe.throw(_("There is nothing to save here."))
+	doc = _as_opened(frappe.get_doc("Notification Type", name))
+	doc.update({field: values[field] for field in NOTIFICATION_TYPE if field in values})
+	doc.save(ignore_permissions=True)
+
+
+@frappe.whitelist(methods=["POST"])
+def preview_notification(
+	name: Annotated[str, "The notification type."],
+	subject: Annotated[str | None, "Its subject as it is being written."] = None,
+	message: Annotated[str | None, "Its message as it is being written."] = None,
+) -> dict:
+	"""How a text being written reads, with each slot shown where it goes, and
+	what is wrong with it if anything is. Rendered as notify renders it."""
+	from markupsafe import Markup, escape
+
+	from onedesk.one import notify
+
+	roles.require()
+	shown = {slot: Markup('<span class="os-slot">{0}</span>').format(escape(slot)) for slot in notify.slots(name)}
+	out = {}
+	for key, text in (("subject", subject), ("message", message)):
+		wrong = notify.check(name, text)
+		out[key] = None if wrong else notify._sandbox().from_string(text or "").render(shown)
+		out[f"{key}_wrong"] = wrong
+	return out

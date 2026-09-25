@@ -73,6 +73,19 @@ def _may_bind() -> bool:
 	return roles.administers()
 
 
+def revision(version: str | None) -> str | None:
+	"""The part of a version that asks everybody again: `2` of `2.94da7c45`.
+	Pure."""
+	return version.split(".", 1)[0] if version else None
+
+
+def agreed(was: str | None, now: str) -> bool:
+	"""Whether what was accepted still holds: the same revision. A new hash
+	alone is a clarification or a typo, and asks nobody again (README.md).
+	Pure."""
+	return bool(was) and revision(was) == revision(now)
+
+
 def _accepted(key: str, party: str, user: str | None = None) -> str | None:
 	"""The version of `key` this party last accepted, if any."""
 	filters = {"document": key, "party": party}
@@ -113,7 +126,7 @@ def standing(user: str | None = None) -> list[dict]:
 					"summary": one["summary"],
 					"party": party,
 					"version": version,
-					"accepted": was == version,
+					"accepted": agreed(was, version),
 					"previously": was,
 				}
 			)
@@ -231,7 +244,7 @@ def accept(documents: str | list) -> dict:
 		for party in AUDIENCE[one["audience"]]:
 			if party == WORKSPACE and not _may_bind():
 				continue
-			if _accepted(key, party) == assemble.version_of(key):
+			if agreed(_accepted(key, party), assemble.version_of(key)):
 				continue
 			done.append(record(key, party))
 

@@ -313,3 +313,89 @@
 .es-alert.os-alert-row[data-theme="yellow"] .es-button {
 	color: var(--ink-amber-6);
 }
+
+/* Notifications: a type in the list opens its form. The row is the target,
+   with frappe-ui's list-row hover rather than a button of its own. */
+.os-row-link {
+	cursor: pointer;
+	margin-inline: calc(var(--spacing) * -2);
+	padding-inline: calc(var(--spacing) * 2);
+	border-radius: var(--radius-md);
+}
+
+.os-row-link:hover,
+.os-row-link:focus-visible {
+	background: var(--surface-gray-1);
+	outline: none;
+}
+
+.os-chevron {
+	display: inline-flex;
+	color: var(--ink-gray-4);
+}
+
+.os-type-head {
+	margin-bottom: calc(var(--spacing) * 6);
+}
+
+.os-type-back {
+	margin: 0 0 calc(var(--spacing) * 3) calc(var(--spacing) * -2);
+}
+
+.os-slots {
+	margin-top: calc(var(--spacing) * 1);
+}
+
+.os-slots code {
+	font-size: var(--text-xs);
+	color: var(--ink-gray-7);
+	background: var(--surface-gray-2);
+	padding: 1px calc(var(--spacing) * 1);
+	border-radius: var(--radius-sm);
+}
+
+/* The text as it will be sent, drawn as the bell draws it: the subject, then
+   the detail under it, each slot a chip where its value goes. */
+.os-preview {
+	margin-top: calc(var(--spacing) * 4);
+	padding: calc(var(--spacing) * 3) calc(var(--spacing) * 4);
+	background: var(--surface-gray-1);
+	border-radius: var(--radius-lg);
+	max-width: 760px;
+}
+
+.os-preview-label {
+	color: var(--ink-gray-5);
+	font-size: var(--text-xs);
+	font-weight: var(--font-weight-medium);
+	margin-bottom: calc(var(--spacing) * 1.5);
+}
+
+.os-preview-subject {
+	color: var(--ink-gray-9);
+}
+
+.os-preview-message {
+	color: var(--ink-gray-6);
+	margin-top: calc(var(--spacing) * 1);
+	white-space: pre-line;
+}
+
+.os-preview-message:empty,
+.os-preview-wrong:empty {
+	display: none;
+}
+
+.os-preview-wrong {
+	margin-top: calc(var(--spacing) * 2);
+}
+
+.os-slot {
+	display: inline-block;
+	padding: 0 calc(var(--spacing) * 1.5);
+	border-radius: var(--radius-sm);
+	background: var(--surface-violet-2);
+	color: var(--ink-violet-7);
+	font-size: var(--text-xs);
+	line-height: 1.6;
+}

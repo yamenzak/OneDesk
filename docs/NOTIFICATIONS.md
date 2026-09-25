@@ -138,7 +138,7 @@ entry and left until it matters.
 1. **The hub.** Done. `one/notify.py`, our own types, the custom fields on
    Notification Type, and our sixteen writes moved onto them. A test holds
    the door.
-2. **The administrator's types.** Workspace › Notifications: each type's
+2. **The administrator's types.** Done. Workspace › Notifications: each type's
    channels, defaults and text, with a preview, reset, and OneAI's "Rewrite
    this".
 3. **The person's choices.** You › Notifications as the matrix. The screen we
@@ -193,3 +193,21 @@ on nothing but the browsers.
 - `tests/test_notify.py` refuses `frappe.sendmail` and any Notification Log
   write outside `one/notify.py`, and checks that every type sent is declared,
   that outside types are only mailed, and that slots are named.
+
+## Stage 2, as built
+
+- **Workspace › Notifications** lists every type by app, and opens one as a
+  form: on or off, its subject and message with a live preview, and whether it
+  may be mailed and is for new people. What it checks is in
+  `docs/PASSOVER.md`.
+- **An edited text is sandboxed.** It renders in a Jinja environment with no
+  globals, and `notify.validate` refuses a text naming anything but the type's
+  slots, however it is saved.
+- **Names are bold in subjects** by `render`, so the default texts lost their
+  `<b>`.
+- **Email means email.** Turning it off for a type removes the type from
+  everybody's `email_notification_types`; a new person's settings start with
+  only the types marked for new people (`notify.new_person`).
+- **OneAI** reads a type (`notification_type`) and suggests new text as a card
+  (`rewrite_notification`), which the administrator applies.
+- **Push** is on every type and hidden until stage 4 sends it.

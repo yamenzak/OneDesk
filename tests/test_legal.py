@@ -22,7 +22,7 @@ from onedesk.one_legal import assemble, documents, registry  # noqa: E402
 #: if it is a typo, write the new hash here.
 VERSIONS = {
 	"terms": "1.4ca1a130",
-	"aup": "1.dcae3326",
+	"aup": "1.94da7c45",
 	"privacy": "1.47d1f4e9",
 	"cookies": "1.32b1addc",
 	"dpa": "1.75b9b74d",
@@ -100,3 +100,19 @@ def test_nobody_is_promised_what_is_not_built():
 	assert "full backup" not in everything
 	assert "without somebody asking for it" not in everything
 	assert "Intake" in assemble.text_of("ai")
+
+
+def test_only_a_new_revision_asks_again():
+	"""The README's rule, held: a new hash is a clarification and asks nobody
+	again; a new revision asks everybody."""
+	import ast as _ast
+
+	source = (Path(__file__).resolve().parent.parent / "onedesk" / "one_legal" / "gate.py").read_text(encoding="utf-8")
+	space = {}
+	for node in _ast.parse(source).body:
+		if isinstance(node, _ast.FunctionDef) and node.name in ("revision", "agreed"):
+			exec(_ast.unparse(node), space)
+	assert space["agreed"]("1.dcae3326", "1.94da7c45")
+	assert not space["agreed"]("1.dcae3326", "2.94da7c45")
+	assert not space["agreed"](None, "1.94da7c45")
+	assert '"accepted": agreed(was, version)' in source

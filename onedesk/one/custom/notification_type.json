@@ -51,13 +51,13 @@
    "doctype": "Custom Field",
    "dt": "Notification Type",
    "fieldname": "one_subject",
-   "fieldtype": "Code",
+   "fieldtype": "Data",
    "label": "Subject",
    "insert_after": "one_text_section",
    "module": "One",
    "name": "Notification Type-one_subject",
-   "options": "Jinja",
-   "description": "Jinja. Left as it came, it is sent in each reader's own language."
+   "description": "One line. A name in {{ }} is filled in when it is sent, and shown in bold.",
+   "length": 500
   },
   {
    "doctype": "Custom Field",
@@ -69,7 +69,7 @@
    "module": "One",
    "name": "Notification Type-one_message",
    "options": "Jinja",
-   "description": "Jinja. The body of the mail, and the detail under the bell."
+   "description": "The detail under the bell, and the body of the mail. It may be empty, and simple HTML is fine."
   },
   {
    "doctype": "Custom Field",

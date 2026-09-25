@@ -30,9 +30,17 @@ Nothing else in OneDesk calls `frappe.sendmail` or writes a Notification Log;
 
 Every value put into a text is escaped first, because the text is HTML in the
 bell and in the mail, and a file or person's name is not ours to trust.
+
+**An administrator's Jinja sees its slots and nothing else.** Frappe's own
+`render_template` hands a template `frappe.db` and the rest of its safe
+globals, which would let whoever edits a text read any record into it. A
+workspace administrator is not everybody's HR or accounts, so their text is
+rendered in a sandbox with no globals at all, and saving a text that names
+anything but its own slots is refused.
 """
 
 import re
+from functools import cache
 
 import frappe
 from frappe import _
@@ -82,6 +90,14 @@ def jinja(msgid) -> str:
 	return re.sub(r"\{(\w+)\}", r"{{ \1 }}", raw(msgid))
 
 
+def slots(name: str) -> list[str]:
+	"""What a type's text may name: the slots in its default subject and
+	message, in the order they first appear."""
+	one = declared().get(name) or {}
+	found = re.findall(r"\{(\w+)\}", raw(one.get("subject")) + " " + raw(one.get("message")))
+	return list(dict.fromkeys(found))
+
+
 def install(*_args) -> None:
 	"""Each declared type as a Notification Type, after every migrate.
 
@@ -127,6 +143,126 @@ def install(*_args) -> None:
 		if not was.one_message or was.one_message == was.one_default_message:
 			values["one_message"] = message
 		frappe.db.set_value("Notification Type", name, values, update_modified=False)
+	_grant()
+
+
+def _grant() -> None:
+	"""A workspace administrator may read and edit Notification Types, which is
+	how OneAI's suggested rewrite is applied as them. Written once: a doctype
+	with Custom DocPerm rows has been decided by the workspace."""
+	from frappe.permissions import add_permission, setup_custom_perms, update_permission_property
+
+	from onedesk.one import roles
+
+	if frappe.db.exists("Custom DocPerm", {"parent": "Notification Type", "role": roles.ADMINISTRATOR}):
+		return
+	setup_custom_perms("Notification Type")
+	add_permission("Notification Type", roles.ADMINISTRATOR, 0)
+	for ptype in ("read", "write"):
+		update_permission_property("Notification Type", roles.ADMINISTRATOR, 0, ptype, 1, validate=False)
+
+
+def validate(doc, method=None) -> None:
+	"""Notification Type validate: an administrator's text names only its own
+	slots and is Jinja that parses, a required type stays on, and a type that
+	goes outside the workspace is never pushed."""
+	one = declared().get(doc.name)
+	if not one:
+		return
+	if one.get("required") and not doc.enabled:
+		frappe.throw(_("{0} cannot be turned off, or nobody could open a shared link.").format(_(doc.name)))
+	if one.get("outside"):
+		doc.one_allow_push = doc.one_push_default = 0
+	if not doc.one_allow_email:
+		doc.one_email_default = 0
+	if not doc.one_allow_push:
+		doc.one_push_default = 0
+	for label, text in ((_("Subject"), doc.one_subject), (_("Message"), doc.one_message)):
+		wrong = check(doc.name, text)
+		if wrong:
+			frappe.throw(_("{0}: {1}").format(label, wrong))
+
+
+def changed(doc, method=None) -> None:
+	"""Notification Type on_update: email turned off for a type is off for
+	everybody, because frappe mails whoever chose it whatever the type says.
+	Turned back on, it goes to everybody again if it is on for new people."""
+	from frappe.desk.doctype.notification_type.notification_type import seed_type_into_settings
+
+	before = doc.get_doc_before_save()
+	if not before or not doc.get("one_app"):
+		return
+	if before.one_allow_email and not doc.one_allow_email:
+		chose = frappe.get_all(
+			"Notification Type Preference",
+			filters={"parenttype": "Notification Settings", "notification_type": doc.name},
+			pluck="parent",
+		)
+		frappe.db.delete(
+			"Notification Type Preference",
+			{"parenttype": "Notification Settings", "notification_type": doc.name},
+		)
+		for user in chose:
+			frappe.clear_document_cache("Notification Settings", user)
+	elif not before.one_allow_email and doc.one_allow_email and doc.one_email_default:
+		seed_type_into_settings(doc.name)
+
+
+def new_person(doc, method=None) -> None:
+	"""Notification Settings before_insert: a new person is mailed our types
+	only where the administrator said so. Frappe starts everybody on email for
+	every enabled type; for ours, "Email for New People" decides."""
+	ours = frappe.get_all(
+		"Notification Type",
+		filters={"one_app": ["is", "set"]},
+		fields=["name", "enabled", "one_allow_email", "one_email_default", "one_outside"],
+	)
+	mailed = {
+		one.name
+		for one in ours
+		if one.enabled and one.one_allow_email and one.one_email_default and not one.one_outside
+	}
+	left_out = {one.name for one in ours} - mailed
+	wanted = [
+		row for row in doc.get("email_notification_types") or [] if row.notification_type not in left_out
+	]
+	doc.set("email_notification_types", wanted)
+
+
+def check(name: str, text: str | None) -> str | None:
+	"""What is wrong with a text, or None: Jinja that does not parse, or a name
+	that is not one of the type's slots."""
+	from jinja2 import TemplateSyntaxError, meta
+
+	if not text:
+		return None
+	try:
+		named = meta.find_undeclared_variables(_sandbox().parse(text))
+	except TemplateSyntaxError as e:
+		return _("This does not read as a template: {0}").format(e.message)
+	unknown = sorted(named - set(slots(name)))
+	if unknown:
+		have = ", ".join(f"{{{{ {one} }}}}" for one in slots(name)) or _("nothing")
+		return _("{0} is not something this notification knows. It can use {1}.").format(
+			", ".join(unknown), have
+		)
+	return None
+
+
+@cache
+def _sandbox():
+	"""Jinja with nothing in it but what it is handed."""
+	from jinja2.sandbox import SandboxedEnvironment
+
+	return SandboxedEnvironment(autoescape=False)
+
+
+class _Slots(dict):
+	"""A translation that dropped a slot, or a sender that did not fill one,
+	says nothing there rather than failing the notification."""
+
+	def __missing__(self, key):
+		return ""
 
 
 # ------------------------------------------------------------------ the text
@@ -148,8 +284,12 @@ def render(name: str, context: dict, lang: str | None = None, words=None) -> tup
 	as its owner wrote it."""
 	row, one = _type(name), declared().get(name) or {}
 	safe = {key: _escaped(value) for key, value in context.items()}
+	# In the subject the names stand out, as frappe's own notifications bold
+	# them, so neither our text nor an administrator's has to say <b>.
+	strong = {key: f"<b>{value}</b>" if _named(value) else value for key, value in safe.items()}
 	said = []
-	for own, live, default, msgid in zip(
+	for values, own, live, default, msgid in zip(
+		(strong, safe),
 		words or (None, None),
 		(row.one_subject, row.one_message),
 		(row.one_default_subject, row.one_default_message),
@@ -161,10 +301,18 @@ def render(name: str, context: dict, lang: str | None = None, words=None) -> tup
 		elif not live:
 			said.append("")
 		elif live == default and msgid:
-			said.append(_(raw(msgid), lang=lang).format(**safe))
+			said.append(_(raw(msgid), lang=lang).format_map(_Slots(values)))
 		else:
-			said.append(frappe.render_template(live, safe))
+			said.append(_sandbox().from_string(live).render(values))
 	return said[0], said[1]
+
+
+def _named(value) -> bool:
+	"""A name, a title: text the sender filled in, not a number and not HTML
+	it built itself."""
+	from markupsafe import Markup
+
+	return isinstance(value, str) and not isinstance(value, Markup) and bool(value)
 
 
 def _escaped(value):

@@ -13,27 +13,27 @@ TYPES = [
 		"name": _lt("Shared With You"),
 		"app": "OneCloud",
 		"about": _lt("Somebody shared a file or folder with you."),
-		"subject": _lt("<b>{who}</b> shared <b>{file}</b> with you"),
+		"subject": _lt("{who} shared {file} with you"),
 	},
 	# library: somebody added to a library.
 	{
 		"name": _lt("Added to a Library"),
 		"app": "OneCloud",
 		"about": _lt("Somebody added you to a library."),
-		"subject": _lt("<b>{who}</b> added you to the library <b>{library}</b>"),
+		"subject": _lt("{who} added you to the library {library}"),
 	},
 	# file_requests: what came back for a file request.
 	{
 		"name": _lt("File Request Answered"),
 		"app": "OneCloud",
 		"about": _lt("Somebody sent a file you asked for. Sent to whoever asked."),
-		"subject": _lt("<b>{sender}</b> sent <b>{item}</b> for <b>{request}</b>"),
+		"subject": _lt("{sender} sent {item} for {request}"),
 	},
 	{
 		"name": _lt("File Request Complete"),
 		"app": "OneCloud",
 		"about": _lt("Somebody sent everything you asked for. Sent to whoever asked."),
-		"subject": _lt("<b>{sender}</b> sent everything for <b>{request}</b>"),
+		"subject": _lt("{sender} sent everything for {request}"),
 		"email_default": True,
 	},
 	# links: files that arrived through an upload link.
@@ -41,13 +41,13 @@ TYPES = [
 		"name": _lt("Arrived Through a Link"),
 		"app": "OneCloud",
 		"about": _lt("Somebody outside the workspace uploaded files through a link you made."),
-		"subject": _lt("{count} files arrived in <b>{folder}</b> through your link"),
+		"subject": _lt("{count} files arrived in {folder} through your link"),
 	},
 	{
 		"name": _lt("Arrived Through a Link, One File"),
 		"app": "OneCloud",
 		"about": _lt("The same, for a single file."),
-		"subject": _lt("<b>{file}</b> arrived in <b>{folder}</b> through your link"),
+		"subject": _lt("{file} arrived in {folder} through your link"),
 	},
 	# file_requests: the mail to the people asked.
 	{
@@ -79,7 +79,7 @@ TYPES = [
 		"about": _lt("Mailed to each address invited to a shared link."),
 		"subject": _lt("{who} shared {file} with you"),
 		"message": _lt(
-			'<b>{who}</b> shared <b>{file}</b> with you.<br><br><a href="{link}">Open it</a><br><br>'
+			'{who} shared {file} with you.<br><br><a href="{link}">Open it</a><br><br>'
 			"You will be asked for a code, which is sent to this address."
 		),
 		"outside": True,

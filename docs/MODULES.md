@@ -175,6 +175,7 @@ No doctypes yet.
 * `onedesk.one.settings.forget`
 * `onedesk.one.settings.invite`
 * `onedesk.one.settings.load`
+* `onedesk.one.settings.preview_notification`
 * `onedesk.one.settings.save`
 * `onedesk.one.settings.sections`
 * `onedesk.one.settings.set_access`

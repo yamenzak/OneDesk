@@ -11,14 +11,14 @@ TYPES = [
 		"name": _lt("Intake Waiting"),
 		"app": "Intake",
 		"about": _lt("OneAI read a document and something in it needs you. Sent to the person it reads for."),
-		"subject": _lt("{count} things OneAI read in <b>{title}</b> need a look."),
+		"subject": _lt("{count} things OneAI read in {title} need a look."),
 		"push_default": True,
 	},
 	{
 		"name": _lt("Intake Waiting, One Thing"),
 		"app": "Intake",
 		"about": _lt("The same, when only one thing needs you."),
-		"subject": _lt("One thing OneAI read in <b>{title}</b> needs a look."),
+		"subject": _lt("One thing OneAI read in {title} needs a look."),
 		"push_default": True,
 	},
 	# digest: the week, on Mondays.
@@ -37,7 +37,7 @@ TYPES = [
 		"name": _lt("Arrived After Closing"),
 		"app": "Intake",
 		"about": _lt("A document arrived for a task you had already closed. The task stays closed."),
-		"subject": _lt("<b>{title}</b> arrived after you closed this task."),
+		"subject": _lt("{title} arrived after you closed this task."),
 	},
 	# planning: a supplier asks to be paid somewhere new.
 	{
@@ -45,7 +45,7 @@ TYPES = [
 		"app": "Intake",
 		"about": _lt("A known supplier's document asks to be paid to an IBAN we do not have for them."),
 		"subject": _lt(
-			"<b>{title}</b> asks to be paid to an IBAN we do not have for <b>{supplier}</b>. Check with them by phone before paying."
+			"{title} asks to be paid to an IBAN we do not have for {supplier}. Check with them by phone before paying."
 		),
 		"email_default": True,
 		"push_default": True,
@@ -57,7 +57,7 @@ TYPES = [
 		"about": _lt(
 			"OneAI thinks a document is phishing. Sent to the person it reads for, and whoever put the file there."
 		),
-		"subject": _lt("OneAI thinks <b>{title}</b> is phishing. Do not pay, answer or open links in it."),
+		"subject": _lt("OneAI thinks {title} is phishing. Do not pay, answer or open links in it."),
 		"email_default": True,
 		"push_default": True,
 	},
