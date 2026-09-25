@@ -14,6 +14,10 @@ frappe.provide("onedesk");
 onedesk.Settings = class Settings {
 	static API = "onedesk.one.settings.";
 
+	// Sections that are a table rather than a form, so they get the width a
+	// table needs. Every other section is a column in the middle of the page.
+	static WIDE = ["people"];
+
 	constructor(page, group) {
 		this.page = page;
 		this.group_name = group;
@@ -52,7 +56,7 @@ onedesk.Settings = class Settings {
 		this.page.clear_indicator();
 		this.name_page(section);
 		this.$section.html(`<div class="os-content"><div class="os-quiet">${__("Loading…")}</div></div>`);
-		this.$content = this.$section.find(".os-content");
+		this.$content = this.$section.find(".os-content").toggleClass("os-wide", Settings.WIDE.includes(key));
 		try {
 			this.data = await frappe.xcall(Settings.API + "load", { section: key });
 		} catch (e) {

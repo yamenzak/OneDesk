@@ -91,6 +91,9 @@ Every settings screen, from the first commit of the pass:
 - Save is the page's primary action in the head, so Ctrl+S works. "Not Saved"
   shows once something changes.
 - The breadcrumb names the section.
+- A section is a column in the middle of the page, the form's width, so a wide
+  screen leaves room on both sides rather than all of it on the right. A
+  section that is a table (People) gets the width a table needs.
 
 ### Profile
 
