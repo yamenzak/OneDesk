@@ -1,17 +1,20 @@
-/* Settings: the section the sidebar chose, in one wide column. */
+/* Settings: the section the sidebar chose, in one wide column. It sits on the
+   page like a record does, not in a box: its parts are divided by a rule, and
+   Save is in the page head. */
 .os-section {
-	padding: calc(var(--spacing) * 2) 0 calc(var(--spacing) * 10);
+	padding: 0 0 calc(var(--spacing) * 10);
 	min-width: 0;
 }
 
 .os-card {
-	margin-bottom: calc(var(--spacing) * 4);
-	padding: calc(var(--spacing) * 5);
-	border: 1px solid var(--outline-gray-2);
-	border-radius: var(--radius-lg);
-	background: var(--surface-base);
+	padding: calc(var(--spacing) * 6) calc(var(--spacing) * 4);
+	border-bottom: 1px solid var(--outline-gray-1);
 	font-size: var(--text-sm);
 	color: var(--ink-gray-8);
+}
+
+.os-card:last-child {
+	border-bottom: 0;
 }
 
 .os-card-title {
@@ -40,6 +43,29 @@
 
 .os-form .frappe-control {
 	max-width: 480px;
+}
+
+/* Fields side by side: the columns carry the width, not the field. */
+.os-columns .os-form {
+	max-width: 760px;
+}
+
+.os-columns .os-form .frappe-control {
+	max-width: none;
+}
+
+.os-form .form-section {
+	padding: 0;
+	border: 0;
+}
+
+.os-form .form-section .section-body {
+	margin: 0;
+}
+
+/* The first column starts where the heading does. */
+.os-form .form-column:first-child {
+	padding-inline-start: 0;
 }
 
 .os-row {
@@ -93,7 +119,42 @@
 }
 
 .os-card > .os-who {
-	margin-bottom: calc(var(--spacing) * 5);
+	margin-bottom: calc(var(--spacing) * 6);
+}
+
+.os-who-actions {
+	display: flex;
+	gap: calc(var(--spacing) * 1);
+	margin: calc(var(--spacing) * 1.5) 0 0 calc(var(--spacing) * -2);
+}
+
+/* The photo is the button that changes it. */
+.os-photo {
+	position: relative;
+	flex: none;
+	border-radius: 50%;
+}
+
+.os-photo-edit {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	border: 2px solid var(--surface-base);
+	border-radius: 50%;
+	background: var(--surface-gray-7);
+	color: var(--ink-white);
+	opacity: 0;
+	transition: opacity 0.15s;
+}
+
+.os-photo:hover .os-photo-edit,
+.os-photo:focus-visible .os-photo-edit {
+	opacity: 1;
 }
 
 .os-facts {

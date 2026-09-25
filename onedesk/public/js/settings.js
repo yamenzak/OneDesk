@@ -32,7 +32,9 @@ onedesk.Settings = class Settings {
 	async open(key) {
 		this.key = key;
 		const section = this.said.sections.find((one) => one.key === key);
-		this.page.set_title(section.label);
+		this.page.clear_primary_action();
+		this.page.clear_indicator();
+		this.name_page(section);
 		this.$section.html(`<div class="os-content"><div class="os-quiet">${__("Loading…")}</div></div>`);
 		this.$content = this.$section.find(".os-content");
 		try {
@@ -43,8 +45,15 @@ onedesk.Settings = class Settings {
 		}
 		this.$content.empty();
 		this[`draw_${key}`](this.data);
-		// The router sets the page's own title after show; the section's wins.
-		this.page.set_title(section.label);
+		// The router names the page after show; the section's name wins.
+		this.name_page(section);
+	}
+
+	// The page head is a breadcrumb in v17, so the section's name goes there,
+	// and to the browser tab.
+	name_page(section) {
+		frappe.breadcrumbs.add({ type: "Custom", label: frappe.utils.escape_html(section.label), route: frappe.get_route_str() });
+		frappe.utils.set_title(section.label);
 	}
 
 	// ---------------------------------------------------------------- parts
@@ -53,6 +62,8 @@ onedesk.Settings = class Settings {
 		return frappe.ui.button.html({ label, attrs, variant, icon, theme: theme || undefined });
 	}
 
+	// One part of a section: a heading and what it holds, divided from the
+	// next by a rule, the way a record's sections are.
 	card(title, body, note) {
 		const esc = frappe.utils.escape_html;
 		return `<div class="os-card">${title ? `<div class="os-card-title">${esc(title)}</div>` : ""}${
@@ -60,21 +71,39 @@ onedesk.Settings = class Settings {
 		}${body}</div>`;
 	}
 
-	// A form made of the record's own fields, saved in one go.
-	form(data, { before = "", after = "" } = {}) {
-		const $card = $(`<div class="os-card">${before}<div class="os-form"></div><div class="os-actions"></div>${after}</div>`).appendTo(this.$content);
-		const fields = data.fields.map((one) => ({ ...one, default: data.values[one.fieldname] }));
+	// A form made of the record's own fields, saved in one go from the page
+	// head, the way a record is. `rows` lays fields out side by side: each row
+	// is a list of fieldnames, one per column.
+	form(data, { before = "", after = "", rows = null } = {}) {
+		const $card = $(`<div class="os-card">${before}<div class="os-form"></div>${after}</div>`).appendTo(this.$content);
+		const own = Object.fromEntries(data.fields.map((one) => [one.fieldname, { ...one, default: data.values[one.fieldname] }]));
+		const fields = rows
+			? rows.flatMap((row, at) => [
+					...(at ? [{ fieldtype: "Section Break", fieldname: `os_row_${at}` }] : []),
+					...row.flatMap((name, column) => [
+						...(column ? [{ fieldtype: "Column Break", fieldname: `os_col_${at}_${column}` }] : []),
+						...(own[name] ? [own[name]] : []),
+					]),
+			  ])
+			: Object.values(own);
 		this.group = new frappe.ui.FieldGroup({ fields, body: $card.find(".os-form")[0] });
 		this.group.make();
 		this.group.set_values(data.values);
-		$card.find(".os-actions").html(this.button(__("Save"), { "data-save": "1" }, "solid"));
-		$card.find("[data-save]").on("click", () => this.save(this.group.get_values(true)));
+		$card.toggleClass("os-columns", !!rows);
+		this.saves(() => this.group.get_values(true), $card);
 		return $card;
+	}
+
+	// Save goes in the page head; the head says so once something changed.
+	saves(values, $watch) {
+		this.page.set_primary_action(__("Save"), () => this.save(values()));
+		$watch.on("input change", "input, select, textarea", () => this.page.set_indicator(__("Not Saved"), "orange"));
 	}
 
 	async save(values) {
 		this.data = await frappe.xcall(Settings.API + "save", { section: this.key, values });
 		frappe.show_alert({ message: __("Saved."), indicator: "green" });
+		this.page.clear_indicator();
 		this.$content.empty();
 		this[`draw_${this.key}`](this.data);
 	}
@@ -87,11 +116,40 @@ onedesk.Settings = class Settings {
 
 	// ---------------------------------------------------------------- you
 
+	// The photo is the avatar itself: click it to change it. The rest is the
+	// name, how to reach you, and where you are.
 	draw_profile(data) {
 		const esc = frappe.utils.escape_html;
-		const who = `<div class="os-who">${frappe.ui.avatar.html({ label: data.full_name, image: data.values.user_image, size: "xl" })}
-			<div><div class="os-who-name">${esc(data.full_name || "")}</div><div class="os-quiet">${esc(data.email || "")}</div></div></div>`;
-		this.form(data, { before: who });
+		const image = data.values.user_image;
+		const who = `<div class="os-who">
+			<button class="btn-reset os-photo" data-photo="1" title="${esc(__("Change Photo"))}">
+				${frappe.ui.avatar.html({ label: data.full_name, image, size: "3xl" })}
+				<span class="os-photo-edit">${frappe.utils.icon("camera", "sm")}</span>
+			</button>
+			<div class="os-who-text">
+				<div class="os-who-name">${esc(data.full_name || "")}</div>
+				<div class="os-quiet">${esc(data.email || "")}</div>
+				<div class="os-who-actions">${this.button(image ? __("Change Photo") : __("Add a Photo"), { "data-photo": "1" }, "ghost")}${
+					image ? this.button(__("Remove Photo"), { "data-unphoto": "1" }, "ghost") : ""
+				}</div>
+			</div>
+		</div>`;
+		const $card = this.form(
+			{ ...data, fields: data.fields.filter((one) => one.fieldname !== "user_image") },
+			{ before: who, rows: [["first_name", "last_name"], ["mobile_no", ""], ["language", "time_zone"]] }
+		);
+		const photo = (user_image) => this.save({ ...this.group.get_values(true), user_image });
+		$card.find("[data-photo]").on("click", () => {
+			new frappe.ui.FileUploader({
+				doctype: "User",
+				docname: frappe.session.user,
+				fieldname: "user_image",
+				restrictions: { allowed_file_types: ["image/*"] },
+				make_attachments_public: true,
+				on_success: (file) => photo(file.file_url),
+			});
+		});
+		$card.find("[data-unphoto]").on("click", () => photo(""));
 	}
 
 	draw_notifications(data) {
@@ -521,7 +579,7 @@ onedesk.Settings = class Settings {
 		const $card = $(
 			this.card(
 				__("The Workspace's Holidays"),
-				`<div class="os-form"></div><div class="os-actions"></div><div class="os-card-title os-sub-title">${__("Coming Up")}</div>${
+				`<div class="os-form"></div><div class="os-actions"></div></div><div class="os-card"><div class="os-card-title">${__("Coming Up")}</div>${
 					coming || this.empty(__("None in the list."))
 				}`,
 				__("Days nobody works. Deadlines, leave and check-ins count around them.")
@@ -532,12 +590,11 @@ onedesk.Settings = class Settings {
 			body: $card.find(".os-form")[0],
 		});
 		this.group.make();
+		this.saves(() => this.group.get_values(true), $card);
 		$card.find(".os-actions").html(
-			this.button(__("Save"), { "data-save": "1" }, "solid") +
-				(data.chosen ? this.button(__("Open the List"), { "data-open": "1" }, "ghost", "external-link") : "") +
+			(data.chosen ? this.button(__("Open the List"), { "data-open": "1" }, "ghost", "external-link") : "") +
 				this.button(__("New List"), { "data-new": "1" }, "ghost", "plus")
 		);
-		$card.find("[data-save]").on("click", () => this.save(this.group.get_values(true)));
 		$card.find("[data-open]").on("click", () => frappe.set_route("Form", "Holiday List", data.chosen));
 		$card.find("[data-new]").on("click", () => frappe.new_doc("Holiday List"));
 	}
