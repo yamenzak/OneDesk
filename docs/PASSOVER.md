@@ -1,10 +1,10 @@
 # The passover
 
-Every screen of One, one at a time, checked against eight points. You decide when
+Every screen of One, one at a time, checked against nine points. You decide when
 a screen is done and when the next one starts. This file is where each screen's
 findings and fixes are written down.
 
-## The eight points
+## The nine points
 
 1. **Notifications and email templates**: what the screen's events send, to
    whom, and whether the message reads well.
@@ -38,10 +38,19 @@ findings and fixes are written down.
    - A changed clause fails `tests/test_legal.py` until it is either a new
      revision (material, so everybody agrees again) or a recorded hash (a
      typo).
+9. **Built from frappe, in this order**: every part of the screen is taken
+   from the first of these that has it, and only written by us when none does:
+   1. a **frappe-ui component** (`node_modules/frappe-ui/src/components/`);
+   2. the **desk's own parts**: its controls, `FieldGroup`, `FilterGroup`,
+      list and form views, dialogs, and espresso's `frappe.ui.button`,
+      `badge` and `alert`, looking the way frappe-ui draws them;
+   3. frappe's **primitives and utilities**: `frappe.call`/`xcall`,
+      `frappe.realtime`, `frappe.utils`, `frappe.format`, `__()`, the model
+      and the router.
 
 ## Everything follows frappe
 
-This applies to every screen, on top of the eight points. How a screen looks can
+This applies to every screen, on top of the nine points. How a screen looks can
 be ours; how it behaves is frappe's.
 
 - **Fields** are frappe's own controls (`frappe.ui.FieldGroup`, or the desk
@@ -72,7 +81,7 @@ be ours; how it behaves is frappe's.
 ## How one screen goes
 
 1. Screenshot it and read the code behind it.
-2. Write the findings under the eight points below.
+2. Write the findings under the nine points below.
 3. Fix them, look again in the browser, and run the gates.
 4. Commit, push, and show you a screenshot.
 5. Wait for your word before the next screen.
