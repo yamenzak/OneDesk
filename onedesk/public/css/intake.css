@@ -24,35 +24,6 @@
 	height: 16px;
 }
 
-.oi-chip {
-	padding: 0 calc(var(--spacing) * 1.5);
-	border-radius: var(--radius-full);
-	background: var(--surface-blue-2);
-	color: var(--ink-blue-7);
-	font-size: var(--text-xs);
-	line-height: 1.6;
-}
-
-.oi-chip[data-tone="orange"] {
-	background: var(--surface-amber-2);
-	color: var(--ink-amber-7);
-}
-
-.oi-chip[data-tone="red"] {
-	background: var(--surface-red-2);
-	color: var(--ink-red-7);
-}
-
-.oi-chip[data-tone="purple"] {
-	background: var(--surface-violet-2);
-	color: var(--ink-violet-7);
-}
-
-.oi-chip[data-tone="gray"] {
-	background: var(--surface-gray-3);
-	color: var(--ink-gray-7);
-}
-
 .oi-name {
 	margin-top: calc(var(--spacing) * 2);
 	font-weight: var(--font-weight-semibold);
@@ -96,10 +67,6 @@
 
 .oi-panel li {
 	padding: calc(var(--spacing) * 0.5) 0;
-}
-
-.oi-quiet {
-	color: var(--ink-gray-5);
 }
 
 .oi-dropped {
@@ -164,10 +131,6 @@
 }
 
 /* Ready to submit. */
-.oi-ready {
-	padding: calc(var(--spacing) * 4);
-}
-
 .oi-ready-table tr[data-tone="red"] td {
 	color: var(--ink-gray-7);
 }
@@ -175,12 +138,6 @@
 .oi-red-why {
 	color: var(--ink-red-7);
 	font-size: var(--text-xs);
-}
-
-.oi-empty {
-	padding: calc(var(--spacing) * 6) 0;
-	color: var(--ink-gray-5);
-	text-align: center;
 }
 
 /* Paying a bill from the document: each part copies, and the GiroCode. */
@@ -251,148 +208,9 @@
 	white-space: pre-wrap;
 }
 
-.oi-chip[data-tone="green"] {
-	background: var(--surface-green-2);
-	color: var(--ink-green-7);
-}
-
-/* Intake, the inbox: the boxes and their documents, and the reading pane. */
-.oi-inbox {
-	display: grid;
-	grid-template-columns: minmax(280px, 380px) 1fr;
-	height: calc(100vh - 150px);
-	border: 1px solid var(--outline-gray-2);
-	border-radius: var(--radius-lg);
-	background: var(--surface-base);
-	overflow: hidden;
-}
-
-.oi-inbox-list {
-	display: flex;
-	flex-direction: column;
-	min-height: 0;
-	border-inline-end: 1px solid var(--outline-gray-2);
-}
-
-.oi-inbox-tabs {
-	display: flex;
-	gap: calc(var(--spacing) * 1);
-	padding: calc(var(--spacing) * 2);
-	border-bottom: 1px solid var(--outline-gray-2);
-}
-
-.oi-inbox-tab {
-	flex: 1;
-	padding: calc(var(--spacing) * 1.5);
-	border: 0;
-	border-radius: var(--radius-md);
-	background: none;
-	color: var(--ink-gray-6);
-	font-size: var(--text-sm);
-	font-weight: var(--font-weight-medium);
-}
-
-.oi-inbox-tab.active {
-	background: var(--surface-gray-3);
-	color: var(--ink-gray-9);
-}
-
-.oi-inbox-n:not(:empty) {
-	margin-inline-start: calc(var(--spacing) * 1);
-	padding: 0 calc(var(--spacing) * 1.5);
-	border-radius: var(--radius-full);
-	background: var(--ink-gray-9);
-	color: var(--surface-base);
-	font-size: var(--text-xs);
-}
-
-.oi-inbox-rows {
-	flex: 1;
-	overflow-y: auto;
-}
-
-.oi-inbox-row {
-	display: block;
-	width: 100%;
-	padding: calc(var(--spacing) * 3);
-	border: 0;
-	border-bottom: 1px solid var(--outline-gray-1);
-	background: none;
-	text-align: start;
-	font-size: var(--text-sm);
-	color: var(--ink-gray-7);
-}
-
-.oi-inbox-row:hover {
-	background: var(--surface-gray-1);
-}
-
-.oi-inbox-row.active {
-	background: var(--surface-gray-2);
-}
-
-.oi-inbox-row-top {
-	display: flex;
-	justify-content: space-between;
-	gap: calc(var(--spacing) * 2);
-}
-
-.oi-inbox-title {
-	overflow: hidden;
-	color: var(--ink-gray-8);
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-/* Unread: bold, with a dot, as in a mailbox. */
-.oi-inbox-row.unread .oi-inbox-title {
-	color: var(--ink-gray-9);
-	font-weight: var(--font-weight-semibold);
-}
-
-.oi-inbox-row.unread .oi-inbox-title::before {
-	content: "";
-	display: inline-block;
-	width: 7px;
-	height: 7px;
-	margin-inline-end: calc(var(--spacing) * 1.5);
-	border-radius: var(--radius-full);
-	background: var(--ink-blue-6, var(--ink-gray-9));
-	vertical-align: 1px;
-}
-
-.oi-inbox-when {
-	flex: none;
-	font-size: var(--text-xs);
-}
-
-.oi-inbox-row-sub {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	gap: calc(var(--spacing) * 1.5);
-	margin-top: calc(var(--spacing) * 1);
-	font-size: var(--text-xs);
-}
-
-.oi-inbox-summary {
-	display: -webkit-box;
-	margin-top: calc(var(--spacing) * 1);
-	overflow: hidden;
-	color: var(--ink-gray-5);
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-}
-
 .oi-inbox-more {
 	padding: calc(var(--spacing) * 2);
 	text-align: center;
-}
-
-.oi-inbox-read {
-	min-height: 0;
-	padding: calc(var(--spacing) * 5);
-	overflow-y: auto;
 }
 
 .oi-read {
@@ -441,19 +259,6 @@
 
 .oi-more .oi-panel {
 	margin-top: calc(var(--spacing) * 2);
-}
-
-@media (max-width: 767px) {
-	.oi-inbox {
-		grid-template-columns: 1fr;
-		height: auto;
-	}
-
-	.oi-inbox-list {
-		max-height: 50vh;
-		border-inline-end: 0;
-		border-bottom: 1px solid var(--outline-gray-2);
-	}
 }
 
 /* The slim panel beside a file or above a message: the facts a person looks

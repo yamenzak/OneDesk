@@ -42,12 +42,12 @@ onedesk.intake.slim = (said) => {
 	const box = waits ? "waiting" : "done";
 	const status = acts.length
 		? `<a class="oi-status" href="/app/intake?box=${box}&reading=${encodeURIComponent(said.name)}">${
-				waits ? `<span class="oi-chip" data-tone="orange">${esc(__("{0} to decide", [waits]))}</span> ` : ""
+				waits ? `${frappe.ui.badge.html({ label: __("{0} to decide", [waits]), theme: "orange", size: "sm" })} ` : ""
 			}${esc(done === 1 ? __("OneAI did 1 thing with it") : __("OneAI did {0} things with it", [done]))} →</a>`
 		: "";
 	const chips = [
-		said.kind ? `<span class="oi-chip">${esc(__(said.kind))}</span>` : "",
-		said.unsure ? `<span class="oi-chip" data-tone="orange">${__("Unsure")}</span>` : "",
+		said.kind ? `${frappe.ui.badge.html({ label: __(said.kind), theme: "blue", size: "sm" })}` : "",
+		said.unsure ? `${frappe.ui.badge.html({ label: __("Unsure"), theme: "orange", size: "sm" })}` : "",
 	].join("");
 	const toggle = (key, label) => `<button class="btn btn-xs btn-default" data-fold="${key}">${label}</button>`;
 	const pay = said.pay ? toggle("pay", said.pay.warn ? __("Do Not Pay Yet") : __("Pay")) : "";
@@ -73,7 +73,7 @@ onedesk.intake.junk = (said) => {
 	const tone = said.verdict === "Phishing" ? "red" : "gray";
 	return `<div class="oi-panel">
 		<div class="oi-head"><img src="${onedesk.intake.MARK}" alt=""><span>${__("Read by OneAI")}</span>
-		<span class="oi-chip" data-tone="${tone}">${esc(__(said.verdict))}</span></div>
+		${frappe.ui.badge.html({ label: __(said.verdict), theme: tone, size: "sm" })}</div>
 	</div>`;
 };
 
@@ -81,9 +81,9 @@ onedesk.intake.html = (said) => {
 	const esc = frappe.utils.escape_html;
 	const date = (value) => (value ? frappe.datetime.str_to_user(value) : "");
 	const chips = [
-		said.kind ? `<span class="oi-chip">${esc(__(said.kind))}</span>` : "",
-		said.unsure ? `<span class="oi-chip" data-tone="orange">${__("Unsure")}</span>` : "",
-		said.sensitivity && said.sensitivity !== "Ordinary" ? `<span class="oi-chip" data-tone="purple">${esc(__(said.sensitivity))}</span>` : "",
+		said.kind ? `${frappe.ui.badge.html({ label: __(said.kind), theme: "blue", size: "sm" })}` : "",
+		said.unsure ? `${frappe.ui.badge.html({ label: __("Unsure"), theme: "orange", size: "sm" })}` : "",
+		said.sensitivity && said.sensitivity !== "Ordinary" ? `${frappe.ui.badge.html({ label: __(said.sensitivity), theme: "violet", size: "sm" })}` : "",
 	].join("");
 	const value = (fact) => {
 		if (fact.field === "gross") return format_currency(fact.value, fact.currency);
@@ -97,9 +97,9 @@ onedesk.intake.html = (said) => {
 		const link = one.record
 			? `<a href="/desk/${frappe.router.slug(one.record[0])}/${encodeURIComponent(one.record[1])}">${esc(__(one.record[0]))} ${esc(one.record[1])}</a>`
 			: one.ours
-			? `<span class="oi-quiet">${one.ours === "Company" ? __("us") : __("a colleague")}</span>`
-			: `<span class="oi-quiet">${__("not known yet")}</span>`;
-		return `<li><span class="oi-quiet">${esc(one.role)}</span> ${esc(one.name || "")} · ${link}</li>`;
+			? `<span class="one-shell-quiet">${one.ours === "Company" ? __("us") : __("a colleague")}</span>`
+			: `<span class="one-shell-quiet">${__("not known yet")}</span>`;
+		return `<li><span class="one-shell-quiet">${esc(one.role)}</span> ${esc(one.name || "")} · ${link}</li>`;
 	};
 	const list = (title, rows) => (rows.length ? `<div class="oi-title">${title}</div><ul>${rows.join("")}</ul>` : "");
 	const parties = list(__("Who"), (said.parties || []).map(party));
@@ -113,7 +113,7 @@ onedesk.intake.html = (said) => {
 	);
 	const parts = list(
 		__("Documents in it"),
-		(said.parts || []).map((one) => `<li><span class="oi-quiet">${esc(one.part || "")}</span> ${esc(__(one.kind || ""))} · ${esc(one.title || "")}</li>`)
+		(said.parts || []).map((one) => `<li><span class="one-shell-quiet">${esc(one.part || "")}</span> ${esc(__(one.kind || ""))} · ${esc(one.title || "")}</li>`)
 	);
 	const attached = list(
 		__("Attachments"),
@@ -201,7 +201,7 @@ onedesk.intake.matter = (matter) => {
 	const doc = matter.document || {};
 	const title = doc.route ? `<a href="${esc(doc.route)}">${esc(matter.title || "")}</a>` : esc(matter.title || "");
 	const said = matter.copy ? __("A copy of {0}", [title]) : __("About {0}", [title]);
-	const change = matter.change && !matter.copy ? ` <span class="oi-chip" data-tone="gray">${esc(matter.change)}</span>` : "";
+	const change = matter.change && !matter.copy ? ` ${frappe.ui.badge.html({ label: matter.change, theme: "gray", size: "sm" })}` : "";
 	return `<div class="oi-matter">${said}${change}</div>`;
 };
 
@@ -221,11 +221,11 @@ onedesk.intake.actions = (said) => {
 				<button class="btn btn-xs btn-default" data-settle="${esc(one.name)}" data-take="0">${__("Dismiss")}</button></span>`
 				: "";
 		const chip = waits
-			? `<span class="oi-chip" data-tone="orange">${__("Needs a look")}</span> `
+			? `${frappe.ui.badge.html({ label: __("Needs a look"), theme: "orange", size: "sm" })} `
 			: one.level === "Refused"
-			? `<span class="oi-chip" data-tone="gray">${__("Not allowed")}</span> `
+			? `${frappe.ui.badge.html({ label: __("Not allowed"), theme: "gray", size: "sm" })} `
 			: "";
-		const why = waits || one.level === "Refused" ? (one.why ? `<div class="oi-quiet">${esc(one.why)}</div>` : "") : "";
+		const why = waits || one.level === "Refused" ? (one.why ? `<div class="one-shell-quiet">${esc(one.why)}</div>` : "") : "";
 		const change = (one.change || [])
 			.map((it) => `<div class="oi-change">${esc(it.field)}: <s>${esc(String(it.from))}</s> → ${esc(String(it.to))}</div>`)
 			.join("");
@@ -250,7 +250,7 @@ onedesk.intake.bind = ($el, which, reading) => {
 		const cancel = $button.attr("data-explain") === "1";
 		$el.find("[data-explain]").prop("disabled", true);
 		const $out = $el.find(".oi-explained");
-		$out.html(`<div class="oi-quiet">${__("OneAI is reading it…")}</div>`);
+		$out.html(`<div class="one-shell-quiet">${__("OneAI is reading it…")}</div>`);
 		try {
 			const said = await frappe.xcall("onedesk.one_intake.explain.explain", {
 				reading,

@@ -4,7 +4,8 @@
 //
 // - the head is frappe's page head: the title, the breadcrumb, the indicator,
 //   Save as the primary action with Ctrl+S, the buttons and the menu;
-// - the body is a column (the desk form's width) or wide (a table's width);
+// - the body is a column (the desk form's width), wide (a table's width), or
+//   panes side by side, fitted to the window, for a list beside what it opens;
 // - a section is a heading, a note and what is under it, divided from the
 //   next by a rule, never boxed;
 // - a row, an empty state, a quiet line, one of each;
@@ -34,10 +35,44 @@ $.extend(onedesk.shell, {
 		return $shell.find(".one-shell-body").toggleClass("one-shell-wide", !!wide);
 	},
 
+	// Panes side by side, fitted to the window once for every page that has
+	// them: a list beside what it opens, or a column of choices beside what they
+	// choose. Each is `{ key, width }`, a width in pixels or none for the rest;
+	// a rule divides them, and nothing boxes them. Returns each pane by key.
+	panes($shell, panes) {
+		const columns = panes.map((one) => (one.width ? `${one.width}px` : "minmax(0, 1fr)")).join(" ");
+		const $panes = $(`<div class="one-shell-panes" style="grid-template-columns: ${columns}"></div>`);
+		const found = {};
+		for (const one of panes) found[one.key] = $(`<div class="one-shell-pane" data-pane="${one.key}"></div>`).appendTo($panes);
+		$shell.empty().append($panes);
+		onedesk.shell.fit($panes);
+		return found;
+	},
+
+	// A pane's own head: what switches or narrows what the pane shows, above
+	// it, on a rule.
+	pane_head($pane, html) {
+		return $(`<div class="one-shell-pane-head">${html || ""}</div>`).prependTo($pane);
+	},
+
+	// As tall as the window leaves it, from where it starts down to the bottom,
+	// and again when the window changes. The one place a page is sized to the
+	// window.
+	fit($el) {
+		const size = () => {
+			if (!$el.is(":visible") || window.innerWidth < 768) return $el.css("height", "");
+			$el.css("height", `${Math.max(window.innerHeight - $el[0].getBoundingClientRect().top - 16, 420)}px`);
+		};
+		requestAnimationFrame(size);
+		$(window).on("resize", frappe.utils.debounce(size, 100));
+		$(document).on("page-change", () => setTimeout(size, 50));
+	},
+
 	// The page head is a breadcrumb in v17, so a page's name goes there, and
-	// to the browser tab.
-	name(label) {
-		frappe.breadcrumbs.add({ type: "Custom", label: frappe.utils.escape_html(label), route: frappe.get_route_str() });
+	// to the browser tab. `route` is where the name leads, when that is not
+	// this page: a record's calendar leads back to the record.
+	name(label, { route = null } = {}) {
+		frappe.breadcrumbs.add({ type: "Custom", label: frappe.utils.escape_html(label), route: route || frappe.get_route_str() });
 		frappe.utils.set_title(label);
 		// OneAI's panel names where the reader is by the page's title, which the
 		// router's change came before; tell it again now that it is right.
@@ -49,36 +84,51 @@ $.extend(onedesk.shell, {
 	},
 
 	// One part of a page: a heading and what it holds, divided from the next
-	// by a rule, the way a record's sections are.
-	section(title, body, note) {
+	// by a rule, the way a record's sections are. `aside` goes beside the
+	// heading: a count, a badge.
+	section(title, body, note, aside = "") {
 		const esc = frappe.utils.escape_html;
-		return `<div class="one-shell-section">${title ? `<div class="one-shell-section-title">${esc(title)}</div>` : ""}${
+		return `<div class="one-shell-section">${title ? `<div class="one-shell-section-title">${esc(title)}${aside}</div>` : ""}${
 			note ? `<div class="one-shell-quiet one-shell-note">${esc(note)}</div>` : ""
 		}${body}</div>`;
 	},
 
-	// A row: what it is, a quiet line under it, and its actions on the right.
-	// `link` makes the whole row the target, with frappe-ui's list-row hover.
-	row({ title = "", sub = "", quiet = "", actions = "", link = null, css = "" } = {}) {
+	// A row of a list, as frappe-ui's ListRow is: what it is (`title`, which may
+	// carry badges), a line under it (`sub`), a quieter one (`quiet`), and on
+	// the right what it says in passing (`meta`: a date, a count) and its
+	// actions. `lead` goes before it all: a tick, an avatar. `link` makes the
+	// whole row the target, with the list-row hover, and `attrs` names a row
+	// that is not one; `active` is the row open beside the list, and `unread`
+	// one not yet opened, as in a mailbox.
+	row({ title = "", sub = "", quiet = "", meta = "", actions = "", lead = "", link = null, attrs = {}, css = "", active = false, unread = false } = {}) {
 		const esc = frappe.utils.escape_html;
-		const attrs = link ? Object.entries(link).map(([key, value]) => ` ${key}="${esc(value)}"`).join("") + ' tabindex="0"' : "";
-		return `<div class="one-shell-row${link ? " one-shell-row-link" : ""}${css ? ` ${css}` : ""}"${attrs}>
+		const named = (pairs) => Object.entries(pairs || {}).map(([key, value]) => ` ${key}="${esc(value)}"`).join("");
+		attrs = named(attrs) + (link ? named(link) + ' tabindex="0"' : "");
+		const states = [link ? "one-shell-row-link" : "", active ? "is-active" : "", unread ? "is-unread" : "", css].filter(Boolean);
+		const chevron = link && !active && !unread && !meta ? `<span class="one-shell-chevron">${frappe.utils.icon("chevron-right", "sm")}</span>` : "";
+		return `<div class="one-shell-row${states.length ? ` ${states.join(" ")}` : ""}"${attrs}>
+			${lead ? `<div class="one-shell-row-lead">${lead}</div>` : ""}
 			<div class="one-shell-row-main">${title ? `<div class="one-shell-row-title">${title}</div>` : ""}${
 				sub ? `<div class="one-shell-row-sub">${sub}</div>` : ""
-			}${quiet ? `<div class="one-shell-quiet">${quiet}</div>` : ""}</div>
-			<div class="one-shell-row-actions">${actions}${link ? `<span class="one-shell-chevron">${frappe.utils.icon("chevron-right", "sm")}</span>` : ""}</div>
+			}${quiet ? `<div class="one-shell-quiet one-shell-row-quiet">${quiet}</div>` : ""}</div>
+			${meta ? `<div class="one-shell-row-meta">${meta}</div>` : ""}
+			${actions || chevron ? `<div class="one-shell-row-actions">${actions}${chevron}</div>` : ""}
 		</div>`;
+	},
+
+	// Rows, as one list.
+	list(rows) {
+		return `<div class="one-shell-list">${rows}</div>`;
 	},
 
 	actions(html) {
 		return `<div class="one-shell-actions">${html}</div>`;
 	},
 
-	empty(title, description) {
-		const esc = frappe.utils.escape_html;
-		return `<div class="one-shell-empty"><div class="one-shell-empty-title">${esc(title)}</div>${
-			description ? `<div class="one-shell-quiet">${esc(description)}</div>` : ""
-		}</div>`;
+	// Nothing to show: frappe's own empty state, sized for a section rather
+	// than a whole page.
+	empty(title, description, { icon = null } = {}) {
+		return frappe.ui.empty_state.html({ title, description, icon: icon || undefined, css_class: "one-shell-empty" });
 	},
 
 	quiet(text) {

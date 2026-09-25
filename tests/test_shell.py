@@ -25,16 +25,19 @@ HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
 ON_THE_SHELL = {
 	"settings": ("public/js/settings.js", "public/css/settings.css"),
 	"workspace_settings": ("public/js/settings.js", "public/css/settings.css"),
+	"my_tasks": ("one_task/page/my_tasks/my_tasks.js", "one_task/page/my_tasks/my_tasks.css"),
+	"legal": ("one_legal/page/legal/legal.js", "public/css/legal.css"),
+	"intake": ("one_intake/page/intake/intake.js", "public/css/intake.css"),
+	"ready_to_submit": ("one_intake/page/ready_to_submit/ready_to_submit.js", "public/css/intake.css"),
+	"onecalendar": (
+		"one_calendar/page/onecalendar/onecalendar.js",
+		"one_calendar/page/onecalendar/onecalendar.css",
+	),
 }
 
 #: Pages not on it yet, and the stage of docs/SHELL.md that moves them. A new
 #: page is in neither, and fails until it is on the shell.
 NOT_YET = {
-	"my_tasks": 2,
-	"legal": 2,
-	"intake": 2,
-	"ready_to_submit": 2,
-	"onecalendar": 2,
 	"onemail": 3,
 	"onecloud": 3,
 }
@@ -107,9 +110,17 @@ def test_a_page_on_the_shell_draws_none_of_its_parts():
 		css = (tree.APP / style).read_text(encoding="utf-8")
 		own = {match.group(0) for match in PARTS.finditer(css)} - OWN
 		assert not own, f"{style} styles its own {sorted(own)}; use the shell's"
+		# The one place a page is sized to the window is the shell's fit().
+		assert not re.search(r"\d+d?vh", css), f"{style} sizes itself to the window; use the shell's panes"
 		js = (tree.APP / script).read_text(encoding="utf-8")
-		for mark in ("beforeunload", "doc_subscribe", "TimestampMismatchError", "make_app_page"):
-			assert mark not in js, f"{script} does {mark} itself; the shell's Editor does"
+		for mark in (
+			"beforeunload",
+			"doc_subscribe",
+			"TimestampMismatchError",
+			"make_app_page",
+			"empty_state(",
+		):
+			assert mark not in js, f"{script} does {mark} itself; the shell does"
 
 
 def test_the_old_names_are_gone():

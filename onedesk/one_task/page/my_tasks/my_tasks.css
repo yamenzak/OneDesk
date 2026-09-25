@@ -1,16 +1,10 @@
-/* Espresso tokens only (docs/FRAMEWORK.md): ink for text, outline for rules,
- * surface for fills, and spacing as multiples of --spacing. */
-
-.one-tasks {
-	max-width: 760px;
-	margin: 0 auto;
-	padding: calc(var(--spacing) * 4) 0 calc(var(--spacing) * 8);
-}
+/* My Tasks: what is its own. The column, the sections and the rows are the
+ * shell's (public/css/shell.css). Espresso tokens only (docs/FRAMEWORK.md). */
 
 .one-tasks-add {
 	display: flex;
 	gap: calc(var(--spacing) * 2);
-	margin-bottom: calc(var(--spacing) * 6);
+	padding: calc(var(--spacing) * 4) calc(var(--spacing) * 4) 0;
 }
 
 .one-tasks-subject {
@@ -31,48 +25,13 @@
 	display: none;
 }
 
-.one-tasks-group {
-	margin-bottom: calc(var(--spacing) * 6);
-}
-
-.one-tasks-heading {
-	display: flex;
-	align-items: center;
-	gap: calc(var(--spacing) * 2);
-	margin-bottom: calc(var(--spacing) * 1);
-	color: var(--ink-gray-5);
-}
-
-.one-tasks-row {
-	display: flex;
-	align-items: center;
-	gap: calc(var(--spacing) * 3);
-	min-height: calc(var(--spacing) * 10);
-	padding: 0 calc(var(--spacing) * 2);
-	border-bottom: 1px solid var(--outline-gray-1);
-	border-radius: var(--radius-sm);
-}
-
-.one-tasks-row:hover {
-	background: var(--surface-gray-2);
-}
-
-.one-tasks-tick {
-	flex: none;
-	margin: 0 !important;
-}
-
 .one-tasks-title {
-	flex: 1;
 	min-width: 0;
+	overflow: hidden;
 	color: var(--ink-gray-8);
-}
-
-.one-tasks-about {
-	flex: none;
-	display: flex;
-	gap: calc(var(--spacing) * 1);
-	color: var(--ink-gray-5);
+	font-weight: normal;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .one-tasks-project {
@@ -84,6 +43,6 @@
 }
 
 .one-tasks-done .one-tasks-title {
-	text-decoration: line-through;
 	color: var(--ink-gray-4);
+	text-decoration: line-through;
 }

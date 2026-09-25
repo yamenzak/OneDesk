@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-25 19:37+0000\n"
-"PO-Revision-Date: 2026-09-25 19:37+0000\n"
+"POT-Creation-Date: 2026-09-25 20:06+0000\n"
+"PO-Revision-Date: 2026-09-25 20:06+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -844,11 +844,11 @@ msgstr "Lead aus einer Signatur anlegen"
 msgid "Add a lead from each of these business cards."
 msgstr "Lege aus jeder dieser Visitenkarten einen Lead an."
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:71
+#: onedesk/one_task/page/my_tasks/my_tasks.js:67
 msgid "Add a task above, or ask for one to be assigned to you."
 msgstr "Fügen Sie oben eine Aufgabe hinzu oder lassen Sie sich eine zuweisen."
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:41
+#: onedesk/one_task/page/my_tasks/my_tasks.js:40
 msgid "Add a task and press Enter"
 msgstr "Aufgabe eingeben und Enter drücken"
 
@@ -1032,8 +1032,8 @@ msgstr "Vereinbarungen"
 msgid "All"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:113
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:298
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:108
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:293
 msgid "All Day"
 msgstr ""
 
@@ -1264,7 +1264,7 @@ msgstr "Alle mit dem Link"
 msgid "Anyone with the link can open this file"
 msgstr "Jeder mit dem Link kann diese Datei öffnen"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:352
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:347
 msgid "Anyone with the link can read your calendar."
 msgstr "Wer den Link hat, kann Ihren Kalender lesen."
 
@@ -1287,7 +1287,7 @@ msgstr "App"
 msgid "Appearance"
 msgstr "Erscheinungsbild"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:347
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:342
 msgid "Apple Calendar"
 msgstr "Apple Kalender"
 
@@ -1336,7 +1336,7 @@ msgid "Applies To"
 msgstr ""
 
 #: onedesk/one_intake/doctype/intake_action/intake_action.js:7
-#: onedesk/one_intake/page/intake/intake.js:174
+#: onedesk/one_intake/page/intake/intake.js:187
 #: onedesk/public/js/ai_proposal.js:12 onedesk/public/js/intake.js:220
 msgid "Apply"
 msgstr ""
@@ -1401,7 +1401,7 @@ msgstr ""
 msgid "Approved Request"
 msgstr "Genehmigter Antrag"
 
-#: onedesk/one_intake/page/intake/intake.js:161
+#: onedesk/one_intake/page/intake/intake.js:174
 msgid "Approved by the auditor"
 msgstr "Vom Prüfer genehmigt"
 
@@ -2136,6 +2136,10 @@ msgstr ""
 msgid "Bounced"
 msgstr "Unzustellbar"
 
+#: onedesk/one_intake/page/intake/intake.js:25
+msgid "Box"
+msgstr ""
+
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:82
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
@@ -2233,9 +2237,9 @@ msgstr "Lebenslauf"
 #. Label of a Sidebar Item
 #: onedesk/one/settings.py:36 onedesk/one/sidebar/one/one.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:13
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:92
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:93
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:154
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:87
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:88
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:149
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 #: onedesk/public/js/record_calendar.js:8
 msgid "Calendar"
@@ -2251,7 +2255,7 @@ msgstr "Kalenderlink"
 msgid "Calendar Links"
 msgstr "Kalenderlinks"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:161
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:156
 msgid "Calendar View"
 msgstr ""
 
@@ -3090,7 +3094,7 @@ msgstr "{0} Elemente kopiert"
 msgid "Copy"
 msgstr "Kopieren"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:349
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:344
 msgid "Copy Link"
 msgstr ""
 
@@ -3380,7 +3384,7 @@ msgstr "Auftragsverarbeitungsvertrag"
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:152
 #: onedesk/one_intake/bundle.py:83
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
-#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:42
+#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
 #: onedesk/one_intake/report/deadlines/deadlines.py:38
 #: onedesk/public/js/onemail.js:741 onedesk/public/js/overtime.js:25
 msgid "Date"
@@ -3409,7 +3413,7 @@ msgid "Dates"
 msgstr "Termine"
 
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:42
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:165
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:160
 msgid "Day"
 msgstr "Tag"
 
@@ -3724,7 +3728,7 @@ msgstr "Abschreibung, die der nächtliche Lauf nicht buchen konnte. Geht per Mai
 #. Label of the description (Small Text) field in DocType 'Attendance Reason'
 #. Label of the description (Small Text) field in DocType 'Clock Reason'
 #: onedesk/one_admin/doctype/offering/offering.json
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:308
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:303
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
 msgid "Description"
@@ -3801,7 +3805,7 @@ msgid "Discrimination"
 msgstr "Diskriminierung"
 
 #: onedesk/one_intake/doctype/intake_action/intake_action.js:8
-#: onedesk/one_intake/page/intake/intake.js:174 onedesk/public/js/intake.js:221
+#: onedesk/one_intake/page/intake/intake.js:187 onedesk/public/js/intake.js:221
 msgid "Dismiss"
 msgstr "Verwerfen"
 
@@ -3844,10 +3848,10 @@ msgstr "Jetzt in Ihrem Namen ausführen?"
 #. Label of the document (Data) field in DocType 'Legal Acceptance'
 #. Label of the document (Data) field in DocType 'Legal Document Version'
 #: onedesk/one_intake/calendar.py:110 onedesk/one_intake/inbox.py:76
-#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:42
+#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
-#: onedesk/one_legal/page/legal/legal.js:20 onedesk/public/js/onecloud.js:27
+#: onedesk/one_legal/page/legal/legal.js:21 onedesk/public/js/onecloud.js:27
 msgid "Document"
 msgstr "Dokument"
 
@@ -3926,7 +3930,7 @@ msgstr "Wartende Domains"
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:21
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:36
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
-#: onedesk/one_intake/page/intake/intake.js:24 onedesk/one_project/portal.py:38
+#: onedesk/one_intake/page/intake/intake.js:28 onedesk/one_project/portal.py:38
 #: onedesk/one_task/doctype/task_step/task_step.json
 #: onedesk/public/js/account_request.js:24 onedesk/public/js/ai_proposal.js:23
 #: onedesk/public/js/ai_proposal_list.js:10 onedesk/public/js/decision.js:39
@@ -3959,7 +3963,7 @@ msgstr "Erledigt: {0}"
 msgid "Download"
 msgstr "Herunterladen"
 
-#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:42
+#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
 msgid "Draft"
 msgstr "Entwurf"
 
@@ -4026,7 +4030,7 @@ msgstr "Entwurf. Nicht ausgestellt."
 msgid "Drafts"
 msgstr "Entwürfe"
 
-#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:45
+#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:50
 msgid "Drafts OneAI made whose facts checked out, whose party is known and whose totals match the document, and the order and receipt where there are some."
 msgstr "Entwürfe von OneAI, deren Angaben geprüft sind, deren Partei bekannt ist und deren Summen zum Dokument passen, und zu Bestellung und Wareneingang, wo es sie gibt."
 
@@ -4062,7 +4066,7 @@ msgstr "Verworfen"
 
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
-#: onedesk/one_task/page/my_tasks/my_tasks.js:44
+#: onedesk/one_task/page/my_tasks/my_tasks.js:43
 #: onedesk/public/js/invoice.js:16 onedesk/public/js/invoice.js:18
 #: onedesk/public/js/invoice.js:19 onedesk/public/js/project.js:73
 msgid "Due"
@@ -4432,7 +4436,7 @@ msgstr "Beendet am"
 msgid "Ends"
 msgstr "Endet"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:300
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:295
 msgid "Ends On"
 msgstr "Endet am"
 
@@ -4547,7 +4551,7 @@ msgstr "Jedes abgelaufene Jahr ist abgeschlossen"
 msgid "Everybody has One, OneCloud, OneMail, OneTask and OneCalendar. Here you give each person the apps that are somebody's job."
 msgstr "Alle haben One, OneCloud, OneMail, OneTask und OneCalendar. Hier geben Sie jeder Person die Apps, die jemandes Aufgabe sind."
 
-#: onedesk/one_intake/page/intake/intake.js:40
+#: onedesk/one_intake/page/intake/intake.js:43
 msgid "Everybody's"
 msgstr "Von allen"
 
@@ -4573,7 +4577,7 @@ msgstr "Alle, die hier arbeiten, brauchen ein Konto. Legen Sie sie jetzt an, dan
 msgid "Everything One tells you reaches the bell. Tick what you also want by email, and pushed to this device."
 msgstr "Alles, was One Ihnen mitteilt, erscheint in der Glocke. Haken Sie an, was Sie zusätzlich per E-Mail und als Push auf dieses Gerät möchten."
 
-#: onedesk/one_intake/page/intake/intake.js:144
+#: onedesk/one_intake/page/intake/intake.js:156
 msgid "Everything OneAI read"
 msgstr "Alles, was OneAI gelesen hat"
 
@@ -5369,7 +5373,7 @@ msgid "Gone"
 msgstr "Verschwunden"
 
 #. Label of a Sidebar Item
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:346
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:341
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 msgid "Google Calendar"
 msgstr "Google Kalender"
@@ -6462,7 +6466,7 @@ msgstr ""
 msgid "Kanban Board"
 msgstr ""
 
-#: onedesk/one_intake/page/intake/intake.js:176
+#: onedesk/one_intake/page/intake/intake.js:189
 msgid "Keep"
 msgstr "Behalten"
 
@@ -7085,7 +7089,7 @@ msgstr "Links zu {0}"
 msgid "Linux"
 msgstr "Linux"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:166
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:161
 msgid "List"
 msgstr ""
 
@@ -7110,12 +7114,12 @@ msgstr "Live seit"
 msgid "Load (%)"
 msgstr "Auslastung (%)"
 
-#: onedesk/public/js/shell.js:33
+#: onedesk/public/js/shell.js:34
 msgid "Loading…"
 msgstr "Wird geladen…"
 
 #. Label of the place_section (Section Break) field in DocType 'Clock Attempt'
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:301
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:296
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:13
 msgid "Location"
@@ -7474,7 +7478,7 @@ msgstr ""
 msgid "Margin"
 msgstr ""
 
-#: onedesk/one_intake/page/intake/intake.js:35
+#: onedesk/one_intake/page/intake/intake.js:38
 msgid "Mark All as Read"
 msgstr "Alle als gelesen markieren"
 
@@ -7724,7 +7728,7 @@ msgstr "Geändert"
 msgid "Money"
 msgstr "Geld"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:163
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:158
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:20
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:24
 msgid "Month"
@@ -7747,7 +7751,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
-#: onedesk/one_intake/page/intake/intake.js:27
+#: onedesk/one_intake/page/intake/intake.js:35
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "More"
 msgstr ""
@@ -7953,19 +7957,19 @@ msgstr "Braucht"
 msgid "Needs Review"
 msgstr "Prüfung nötig"
 
+#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:52
+msgid "Needs a Look First"
+msgstr "Erst ansehen"
+
 #. Option for the 'State' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Needs a Password"
 msgstr "Braucht ein Passwort"
 
 #: onedesk/one_intake/doctype/intake_action/intake_action_list.js:5
-#: onedesk/one_intake/page/intake/intake.js:157 onedesk/public/js/intake.js:224
+#: onedesk/one_intake/page/intake/intake.js:170 onedesk/public/js/intake.js:224
 msgid "Needs a look"
 msgstr "Bitte ansehen"
-
-#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:47
-msgid "Needs a look first ({0})"
-msgstr "Erst ansehen ({0})"
 
 #: onedesk/public/js/admin_settings.js:30
 msgid "Needs attention"
@@ -8014,7 +8018,7 @@ msgstr "Neu"
 msgid "New Bill"
 msgstr "Neue Eingangsrechnung"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:295
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:290
 msgid "New Event"
 msgstr ""
 
@@ -8036,7 +8040,7 @@ msgstr "Neue Rechnung"
 msgid "New Lead"
 msgstr "Neuer Lead"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:353
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:348
 msgid "New Link"
 msgstr "Neuer Link"
 
@@ -8083,7 +8087,7 @@ msgstr "Neuer Ordner"
 msgid "New library"
 msgstr "Neue Bibliothek"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:359
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:354
 msgid "New link made. The old one no longer works."
 msgstr "Neuer Link erstellt. Der alte funktioniert nicht mehr."
 
@@ -8111,7 +8115,7 @@ msgstr "Newsletter"
 msgid "Newsletters"
 msgstr "Newsletter"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:175
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:170
 msgid "Next"
 msgstr ""
 
@@ -8416,7 +8420,7 @@ msgstr "Nicht geschätzt"
 msgid "Not Recorded"
 msgstr "Nicht erfasst"
 
-#: onedesk/public/js/shell.js:149
+#: onedesk/public/js/shell.js:199
 msgid "Not Saved"
 msgstr "Nicht gespeichert"
 
@@ -8441,7 +8445,7 @@ msgstr "Kein Arbeitsbereich, den diese Site verwaltet."
 msgid "Not agreed yet"
 msgstr "Noch nicht zugestimmt"
 
-#: onedesk/one_intake/page/intake/intake.js:159 onedesk/public/js/intake.js:226
+#: onedesk/one_intake/page/intake/intake.js:172 onedesk/public/js/intake.js:226
 msgid "Not allowed"
 msgstr "Nicht erlaubt"
 
@@ -8575,7 +8579,7 @@ msgstr "Noch ist nichts geschehen. Beim Anwenden wird es gegen Ihre eigenen Bere
 msgid "Nothing here."
 msgstr "Hier ist nichts."
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:70
+#: onedesk/one_task/page/my_tasks/my_tasks.js:67
 msgid "Nothing is assigned to you."
 msgstr "Ihnen ist nichts zugewiesen."
 
@@ -8587,7 +8591,7 @@ msgstr "Noch ist nichts geplant."
 msgid "Nothing is spent and no attendance is marked."
 msgstr "Es wird nichts abgezogen und keine Anwesenheit erfasst."
 
-#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:46
+#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:49
 msgid "Nothing is waiting to be submitted."
 msgstr "Nichts wartet auf das Buchen."
 
@@ -8595,7 +8599,7 @@ msgstr "Nichts wartet auf das Buchen."
 msgid "Nothing matches."
 msgstr "Nichts passt."
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:114
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:109
 msgid "Nothing on these days."
 msgstr "An diesen Tagen ist nichts."
 
@@ -8624,9 +8628,9 @@ msgstr "Noch nichts auszuzahlen: diese Person hat am {0} kein Gehaltsschema."
 msgid "Nothing to pay yet: {0} has no Leave Encashment Amount Per Day, so a day is worth nought. Set it on the salary structure or on this person's assignment."
 msgstr "Noch nichts auszuzahlen: {0} hat keinen Tagessatz für Urlaubsabgeltung, also ist ein Tag nichts wert. Setzen Sie ihn im Gehaltsschema oder in der Zuordnung dieser Person."
 
-#: onedesk/one_intake/page/intake/intake.js:87
-msgid "Nothing waits for you. OneAI and its auditor dealt with everything."
-msgstr "Nichts wartet auf Sie. OneAI und sein Prüfer haben alles erledigt."
+#: onedesk/one_intake/page/intake/intake.js:95
+msgid "Nothing waits for you."
+msgstr "Nichts wartet auf Sie."
 
 #: onedesk/one_ai/chat.py:141
 msgid "Nothing was asked."
@@ -8640,12 +8644,12 @@ msgstr "Es wurde nichts abgebucht"
 msgid "Nothing will be written to attendance."
 msgstr "Es wird keine Anwesenheit erfasst."
 
-#: onedesk/one_intake/page/intake/intake.js:87
+#: onedesk/one_intake/page/intake/intake.js:96
 #: onedesk/public/js/settings.js:381
 msgid "Nothing yet."
 msgstr "Noch nichts."
 
-#: onedesk/one_intake/page/intake/intake.js:143
+#: onedesk/one_intake/page/intake/intake.js:155
 msgid "Nothing."
 msgstr "Nichts."
 
@@ -8798,7 +8802,7 @@ msgstr "An"
 msgid "On Behalf Of"
 msgstr "Im Namen von"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:305
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:300
 msgid "On Everybody's Calendar"
 msgstr "Im Kalender aller"
 
@@ -9019,6 +9023,10 @@ msgstr "OneAI-Bewertung"
 #: onedesk/one_hr/custom/job_applicant.json
 msgid "OneAI Summary"
 msgstr "OneAI-Zusammenfassung"
+
+#: onedesk/one_intake/page/intake/intake.js:95
+msgid "OneAI and its auditor dealt with everything."
+msgstr "OneAI und sein Prüfer haben alles erledigt."
 
 #: onedesk/one_ai/chat.py:372
 msgid "OneAI could not be reached just now. The question is still here — try again."
@@ -9385,7 +9393,7 @@ msgstr "Das können nur {0} oder eine Verwaltung dieses Arbeitsbereichs entschei
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/one_intake/page/intake/intake.js:151
+#: onedesk/one_intake/page/intake/intake.js:163
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_task/custom/task.json onedesk/public/js/intake.js:215
 #: onedesk/public/js/oneai/Record.vue:15 onedesk/public/js/onecloud.js:644
@@ -9420,7 +9428,7 @@ msgstr "Öffnen"
 msgid "Open record"
 msgstr "Datensatz öffnen"
 
-#: onedesk/one_intake/page/intake/intake.js:134
+#: onedesk/one_intake/page/intake/intake.js:146
 msgid "Open the Document"
 msgstr "Dokument öffnen"
 
@@ -9641,7 +9649,7 @@ msgstr "Ergebnis"
 msgid "Outgoing"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:348
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:343
 msgid "Outlook"
 msgstr "Outlook"
 
@@ -9849,7 +9857,7 @@ msgstr "Teile"
 #. Label of the party (Select) field in DocType 'Legal Acceptance'
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:42
+#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 msgid "Party"
 msgstr "Partei"
@@ -10157,8 +10165,7 @@ msgstr "Foto"
 msgid "Pick Lists"
 msgstr "Kommissionierlisten"
 
-#: onedesk/one_intake/page/intake/intake.js:29
-#: onedesk/one_intake/page/intake/intake.js:59
+#: onedesk/one_intake/page/intake/intake.js:54
 msgid "Pick a document to see what OneAI did with it."
 msgstr "Wählen Sie ein Dokument, um zu sehen, was OneAI damit getan hat."
 
@@ -10361,7 +10368,7 @@ msgstr "Vorschau"
 msgid "Preview pane"
 msgstr "Vorschaufenster"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:173
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:168
 msgid "Previous"
 msgstr ""
 
@@ -10900,6 +10907,7 @@ msgstr "Einchecken wird gelesen"
 msgid "Reading what it found…"
 msgstr "Liest, was es gefunden hat…"
 
+#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:48
 #: onedesk/public/js/check.js:14
 msgid "Ready"
 msgstr "Bereit"
@@ -11115,7 +11123,7 @@ msgstr "Referenzen"
 
 #: onedesk/public/js/onecloud.js:111 onedesk/public/js/onecloud.js:1804
 #: onedesk/public/js/onecloud.js:1805 onedesk/public/js/onecloud.js:1825
-#: onedesk/public/js/onemail.js:78 onedesk/public/js/shell.js:128
+#: onedesk/public/js/onemail.js:78 onedesk/public/js/shell.js:178
 #: onedesk/public/js/tenant.js:78 onedesk/public/js/tenant.js:83
 #: onedesk/public/js/tenant_domain.js:12
 #: onedesk/public/js/workspace_account.js:19
@@ -11690,12 +11698,12 @@ msgstr "Umsätze werden unter dem Emirat des Unternehmens gemeldet."
 
 #: onedesk/one_book/report/books_check/books_check.js:25
 #: onedesk/one_book/report/books_check/books_check.js:42
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:310
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:305
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:52
 #: onedesk/public/js/crm_record.js:218 onedesk/public/js/next_step.js:31
 #: onedesk/public/js/onecloud.js:1492 onedesk/public/js/onemail.js:834
 #: onedesk/public/js/onemail.js:858 onedesk/public/js/project.js:155
-#: onedesk/public/js/settings.js:263 onedesk/public/js/shell.js:236
+#: onedesk/public/js/settings.js:263 onedesk/public/js/shell.js:286
 msgid "Save"
 msgstr "Speichern"
 
@@ -11716,7 +11724,7 @@ msgid "Saved to My Files."
 msgstr "In Meinen Dateien gespeichert."
 
 #: onedesk/public/js/settings.js:267 onedesk/public/js/settings.js:501
-#: onedesk/public/js/shell.js:270
+#: onedesk/public/js/shell.js:320
 msgid "Saved."
 msgstr "Gespeichert."
 
@@ -11847,7 +11855,7 @@ msgstr "Siehe das angehängte Dokument."
 msgid "See the changes"
 msgstr "Änderungen ansehen"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:344
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:339
 msgid "See this calendar in another app. Google Calendar updates it a few times a day, the others more often."
 msgstr "Diesen Kalender in einer anderen App sehen. Google Kalender aktualisiert ihn einige Male am Tag, die anderen öfter."
 
@@ -12367,7 +12375,7 @@ msgstr "Einige davon warten auf deine Zustimmung."
 msgid "Some of what OneAI read is not in the document."
 msgstr "Einiges, was OneAI gelesen hat, steht nicht im Dokument."
 
-#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:59
+#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:64
 msgid "Some were not submitted"
 msgstr "Einige wurden nicht gebucht"
 
@@ -12617,7 +12625,7 @@ msgstr "Beginnt"
 msgid "Starts At (Seconds)"
 msgstr "Beginnt bei (Sekunden)"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:299
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:294
 msgid "Starts On"
 msgstr "Beginnt am"
 
@@ -12927,7 +12935,7 @@ msgstr "Unteraufgaben"
 #. Label of the one_subject (Data) field in DocType 'Notification Type'
 #: onedesk/one/custom/notification_type.json onedesk/one/notify.py:306
 #: onedesk/one/rules.py:75 onedesk/one/settings.py:954
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:297
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:292
 #: onedesk/public/js/onemail.js:741
 msgid "Subject"
 msgstr "Betreff"
@@ -12937,7 +12945,7 @@ msgstr "Betreff"
 msgid "Subject Contains"
 msgstr "Betreff enthält"
 
-#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:18
+#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:19
 msgid "Submit All"
 msgstr "Alle buchen"
 
@@ -12946,7 +12954,7 @@ msgstr "Alle buchen"
 msgid "Submit Matching E-Invoices"
 msgstr "Passende E-Rechnungen buchen"
 
-#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:55
+#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:60
 msgid "Submit {0} drafts?"
 msgstr "{0} Entwürfe buchen?"
 
@@ -12962,8 +12970,8 @@ msgstr "Das Buchen zahlt {0} {1} für {2} Tage {3}."
 msgid "Subprocessors"
 msgstr "Unterauftragsverarbeiter"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:94
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:335
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:89
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:330
 msgid "Subscribe"
 msgstr "Abonnieren"
 
@@ -13055,7 +13063,7 @@ msgstr ""
 msgid "Suspended For"
 msgstr "Gesperrt für"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:354
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:349
 msgid "Switch Off"
 msgstr "Abschalten"
 
@@ -13136,7 +13144,7 @@ msgstr "{0} zurücknehmen und mit „Zurücknehmen“ auf der Seite des Anlagegu
 msgid "Take off this record"
 msgstr "Von diesem Datensatz entfernen"
 
-#: onedesk/one_intake/page/intake/intake.js:198
+#: onedesk/one_intake/page/intake/intake.js:211
 msgid "Take this back?"
 msgstr "Das zurücknehmen?"
 
@@ -13359,7 +13367,7 @@ msgid "That folder is not in this mailbox."
 msgstr "Dieser Ordner ist nicht in diesem Postfach."
 
 #: onedesk/one_intake/explain.py:33 onedesk/one_intake/inbox.py:147
-#: onedesk/one_intake/page/intake/intake.js:122 onedesk/one_intake/panel.py:24
+#: onedesk/one_intake/page/intake/intake.js:134 onedesk/one_intake/panel.py:24
 #: onedesk/one_storage/api.py:33 onedesk/one_storage/api.py:91
 #: onedesk/one_storage/dav.py:319
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.py:24
@@ -13539,7 +13547,7 @@ msgstr "Die Vereinbarung zwischen deiner Organisation und Four Degree Labs über
 msgid "The app whose events send this."
 msgstr "Die App, deren Ereignisse dies senden."
 
-#: onedesk/one_intake/page/intake/intake.js:155
+#: onedesk/one_intake/page/intake/intake.js:168
 msgid "The auditor doubts this"
 msgstr "Der Prüfer zweifelt daran"
 
@@ -14241,7 +14249,7 @@ msgstr "Dieser Ordner ist leer."
 msgid "This folder is empty. Drop files here, or use New."
 msgstr "Dieser Ordner ist leer. Legen Sie Dateien hier ab oder verwenden Sie „Neu“."
 
-#: onedesk/public/js/shell.js:131
+#: onedesk/public/js/shell.js:181
 msgid "This form has been modified after you have loaded it"
 msgstr "Dieses Formular wurde geändert, nachdem du es geöffnet hast"
 
@@ -14509,7 +14517,7 @@ msgstr "Zu erstatten"
 msgid "To {0}"
 msgstr "An {0}"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:171
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:166
 #: onedesk/one_task/mine.py:23 onedesk/public/js/invoice.js:18
 #: onedesk/public/js/project.js:71
 msgid "Today"
@@ -14573,7 +14581,7 @@ msgstr "Zu viele E-Mails?"
 #. Label of the gross (Float) field in DocType 'Reading'
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:58
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:42
+#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
 #: onedesk/one_intake/panel.py:138 onedesk/public/js/invoice.js:24
 msgid "Total"
 msgstr "Gesamt"
@@ -14814,7 +14822,7 @@ msgid "Understood On"
 msgstr "Verstanden am"
 
 #: onedesk/one_intake/doctype/intake_action/intake_action.js:11
-#: onedesk/one_intake/page/intake/intake.js:176 onedesk/public/js/intake.js:235
+#: onedesk/one_intake/page/intake/intake.js:189 onedesk/public/js/intake.js:235
 #: onedesk/public/js/intake.js:363 onedesk/public/js/onemail.js:621
 msgid "Undo"
 msgstr "Rückgängig"
@@ -14831,7 +14839,7 @@ msgstr "Rückgängig gemacht"
 msgid "Undone By"
 msgstr "Rückgängig gemacht von"
 
-#: onedesk/one_intake/page/intake/intake.js:201 onedesk/public/js/intake.js:286
+#: onedesk/one_intake/page/intake/intake.js:214 onedesk/public/js/intake.js:286
 #: onedesk/public/js/intake.js:380
 msgid "Undone."
 msgstr "Rückgängig gemacht."
@@ -15182,7 +15190,7 @@ msgstr "Bildverstehen"
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:257
-#: onedesk/one_intake/page/intake/intake.js:23
+#: onedesk/one_intake/page/intake/intake.js:27
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/public/js/onecloud.js:1599 onedesk/public/js/tenant_domain.js:24
 msgid "Waiting"
@@ -15259,7 +15267,7 @@ msgstr "Webhook-Signaturgeheimnis"
 msgid "Website"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:164
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:159
 msgid "Week"
 msgstr ""
 
@@ -15336,7 +15344,7 @@ msgstr "Was One den Leuten mitteilt. Öffnen Sie eine, um zu ändern, was sie sa
 msgid "What OneAI Remembers"
 msgstr "Was OneAI sich merkt"
 
-#: onedesk/one_intake/page/intake/intake.js:142 onedesk/public/js/intake.js:236
+#: onedesk/one_intake/page/intake/intake.js:154 onedesk/public/js/intake.js:236
 msgid "What OneAI did"
 msgstr "Was OneAI getan hat"
 
@@ -16383,7 +16391,7 @@ msgstr "Die deiner Organisation"
 msgid "Your Update"
 msgstr "Ihr Update"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:363
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:358
 msgid "Your calendar link is switched off."
 msgstr "Ihr Kalenderlink ist abgeschaltet."
 
@@ -16627,7 +16635,7 @@ msgstr "Rückmeldungen"
 msgid "for"
 msgstr "für"
 
-#: onedesk/one_intake/page/intake/intake.js:139
+#: onedesk/one_intake/page/intake/intake.js:151
 #: onedesk/public/js/crm_record.js:104
 msgid "for {0}"
 msgstr "seit {0}"
@@ -16920,8 +16928,8 @@ msgstr "{0} (in Mails)"
 msgid "{0} AI credits a month"
 msgstr "{0} KI-Guthaben im Monat"
 
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:84
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:85
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:88
 msgid "{0} Calendar"
 msgstr ""
 
@@ -17133,7 +17141,7 @@ msgstr "{0} hat keinen Zugriff auf {1}."
 msgid "{0} does not point to this workspace. The customer has to change their DNS."
 msgstr "{0} zeigt nicht auf diesen Arbeitsbereich. Der Kunde muss sein DNS ändern."
 
-#: onedesk/one_intake/page/intake/intake.js:102
+#: onedesk/one_intake/page/intake/intake.js:110
 msgid "{0} done"
 msgstr "{0} erledigt"
 
@@ -17555,11 +17563,11 @@ msgstr "{0} hat dies mit Ihnen geteilt."
 msgid "{0} signed for and not yet counted."
 msgstr "{0} signiert und noch nicht gezählt."
 
-#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:63
+#: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:68
 msgid "{0} submitted."
 msgstr "{0} gebucht."
 
-#: onedesk/one_intake/page/intake/intake.js:101 onedesk/public/js/intake.js:45
+#: onedesk/one_intake/page/intake/intake.js:109 onedesk/public/js/intake.js:45
 msgid "{0} to decide"
 msgstr "{0} zu entscheiden"
 

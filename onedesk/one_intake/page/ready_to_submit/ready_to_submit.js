@@ -3,7 +3,7 @@
 // decides what is ready and submits as the reader (one_intake/drafts.py).
 
 frappe.pages["ready-to-submit"].on_page_load = (wrapper) => {
-	const page = frappe.ui.make_app_page({ parent: wrapper, title: __("Ready to Submit"), single_column: true });
+	const page = onedesk.shell.page(wrapper, __("Ready to Submit"));
 	wrapper.ready = new onedesk.ReadyToSubmit(page);
 };
 
@@ -14,7 +14,8 @@ frappe.provide("onedesk");
 onedesk.ReadyToSubmit = class ReadyToSubmit {
 	constructor(page) {
 		this.page = page;
-		this.$body = $('<div class="oi-ready"></div>').appendTo(page.main);
+		// Tables, so the shell's wide body.
+		this.$body = onedesk.shell.body(page.$shell, { wide: true });
 		this.page.set_primary_action(__("Submit All"), () => this.submit(), "check-check");
 	}
 
@@ -41,11 +42,15 @@ onedesk.ReadyToSubmit = class ReadyToSubmit {
 		const table = (rows, tone) =>
 			`<table class="table oi-ready-table"><thead><tr><th></th><th>${__("Draft")}</th><th>${__("Party")}</th><th>${__("Date")}</th><th class="text-right">${__("Total")}</th><th>${__("Document")}</th></tr></thead>
 			<tbody>${rows.map((one) => row(one, tone)).join("")}</tbody></table>`;
-		this.$body.html(`
-			<p class="oi-quiet">${__("Drafts OneAI made whose facts checked out, whose party is known and whose totals match the document, and the order and receipt where there are some.")}</p>
-			${ready.length ? table(ready, "ready") : `<div class="oi-empty">${__("Nothing is waiting to be submitted.")}</div>`}
-			${red.length ? `<h5 class="oi-title">${__("Needs a look first ({0})", [red.length])}</h5>${table(red, "red")}` : ""}
-		`);
+		const count = (n) => frappe.ui.badge.html({ label: String(n), size: "sm" });
+		this.$body.html(
+			onedesk.shell.section(
+				__("Ready"),
+				ready.length ? table(ready, "ready") : onedesk.shell.empty(__("Nothing is waiting to be submitted."), null, { icon: "check-check" }),
+				__("Drafts OneAI made whose facts checked out, whose party is known and whose totals match the document, and the order and receipt where there are some."),
+				ready.length ? count(ready.length) : ""
+			) + (red.length ? onedesk.shell.section(__("Needs a Look First"), table(red, "red"), null, count(red.length)) : "")
+		);
 		this.page.btn_primary.prop("disabled", !ready.length);
 	}
 

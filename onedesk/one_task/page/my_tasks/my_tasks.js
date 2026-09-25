@@ -7,7 +7,7 @@
 // does on the task's own page.
 
 frappe.pages["my-tasks"].on_page_load = (wrapper) => {
-	const page = frappe.ui.make_app_page({ parent: wrapper, title: __("My Tasks"), single_column: true });
+	const page = onedesk.shell.page(wrapper, __("My Tasks"));
 	wrapper.my_tasks = new onedesk.MyTasks(page);
 };
 
@@ -26,13 +26,12 @@ onedesk.MyTasks = class MyTasks {
 			() => frappe.new_doc("Task"),
 			"plus"
 		);
-		this.$body = $(`<div class="one-tasks">
-			<div class="one-tasks-add">
+		// The shell's column: the quick add, then a section per due group.
+		this.$body = onedesk.shell.body(page.$shell).html(`<div class="one-tasks-add">
 				<div class="one-tasks-subject"></div>
 				<div class="one-tasks-due"></div>
 			</div>
-			<div class="one-tasks-list"></div>
-		</div>`).appendTo(page.main);
+			<div class="one-tasks-list"></div>`);
 		const control = (parent, df) =>
 			frappe.ui.form.make_control({ parent: this.$body.find(parent), df, render_input: true });
 		this.subject = control(".one-tasks-subject", {
@@ -64,22 +63,23 @@ onedesk.MyTasks = class MyTasks {
 		this.running = running;
 		this.$list.empty();
 		if (!groups.length) {
-			this.$list.append(
-				frappe.ui.empty_state({
-					icon: "list-checks",
-					title: __("Nothing is assigned to you."),
-					description: __("Add a task above, or ask for one to be assigned to you."),
-				})
+			this.$list.html(
+				onedesk.shell.empty(__("Nothing is assigned to you."), __("Add a task above, or ask for one to be assigned to you."), { icon: "list-checks" })
 			);
 			return;
 		}
-		for (const group of groups) {
-			const $group = $(`<section class="one-tasks-group">
-				<div class="one-tasks-heading text-sm-semibold">${frappe.utils.escape_html(group.label)}
-					${frappe.ui.badge.html({ label: String(group.tasks.length), size: "sm" })}</div>
-			</section>`).appendTo(this.$list);
-			for (const task of group.tasks) $group.append(this.row(task, group.key));
-		}
+		this.$list.html(
+			groups
+				.map((group) =>
+					onedesk.shell.section(
+						group.label,
+						onedesk.shell.list(group.tasks.map((task) => this.row(task, group.key)).join("")),
+						null,
+						frappe.ui.badge.html({ label: String(group.tasks.length), size: "sm" })
+					)
+				)
+				.join("")
+		);
 	}
 
 	row(task, group) {
@@ -108,14 +108,16 @@ onedesk.MyTasks = class MyTasks {
 					css_class: "one-tasks-timer",
 			  })
 			: "";
-		return $(`<div class="one-tasks-row" data-name="${frappe.utils.escape_html(task.name)}">
-			<input type="checkbox" class="one-tasks-tick" title="${__("Complete")}">
-			<a class="one-tasks-title truncate" href="/desk/task/${encodeURIComponent(task.name)}">${frappe.utils.escape_html(task.subject)}</a>
-			${pressing ? frappe.ui.badge.html({ label: __(task.priority), theme: pressing, size: "sm" }) : ""}
-			${since}
-			<span class="one-tasks-about text-sm">${bits.join(`<span class="one-tasks-dot">·</span>`)}</span>
-			${timer}
-		</div>`);
+		return onedesk.shell.row({
+			lead: `<input type="checkbox" class="one-tasks-tick" title="${__("Complete")}">`,
+			title: `<a class="one-tasks-title" href="/desk/task/${encodeURIComponent(task.name)}">${frappe.utils.escape_html(task.subject)}</a>${
+				pressing ? frappe.ui.badge.html({ label: __(task.priority), theme: pressing, size: "sm" }) : ""
+			}${since}`,
+			meta: bits.join(" · "),
+			actions: timer,
+			attrs: { "data-name": task.name },
+			css: "one-tasks-task",
+		});
 	}
 
 	// A day in the next week is its weekday; anything else its date. Today and
@@ -142,7 +144,7 @@ onedesk.MyTasks = class MyTasks {
 
 	// One timer runs at a time; starting this one stops whichever was running.
 	async time($button) {
-		const name = $button.closest(".one-tasks-row").attr("data-name");
+		const name = $button.closest(".one-tasks-task").attr("data-name");
 		const timing = this.running && this.running.task === name;
 		if (timing) onedesk.task_timer.stopped(await frappe.xcall("onedesk.one_task.timer.stop"));
 		else await frappe.xcall("onedesk.one_task.timer.start", { task: name });
@@ -152,7 +154,7 @@ onedesk.MyTasks = class MyTasks {
 	// Ticked stays on the list, struck through, until the page is next opened,
 	// so a tick made by mistake is undone where it was made.
 	async tick($box) {
-		const $row = $box.closest(".one-tasks-row");
+		const $row = $box.closest(".one-tasks-task");
 		const done = $box.prop("checked");
 		$box.prop("disabled", true);
 		try {

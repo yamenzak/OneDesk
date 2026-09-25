@@ -10,7 +10,7 @@
 // nothing it changes is saved as the reader's main calendar.
 
 frappe.pages["onecalendar"].on_page_load = (wrapper) => {
-	const page = frappe.ui.make_app_page({ parent: wrapper, title: __("Calendar"), single_column: true });
+	const page = onedesk.shell.page(wrapper, __("Calendar"));
 	wrapper.onecalendar = new onedesk.OneCalendar(page);
 };
 
@@ -34,13 +34,12 @@ onedesk.OneCalendar = class OneCalendar {
 			"plus"
 		);
 		this.about = this.narrowed();
-		this.$body = $(`<div class="one-calendar">
-			<aside class="one-calendar-layers"></aside>
-			<div class="one-calendar-main">
-				<div class="one-calendar-toolbar"></div>
-				<div class="one-calendar-grid"></div>
-			</div>
-		</div>`).appendTo(page.main);
+		// The layers in a pane of their own beside the week, the week's own
+		// toolbar in its pane's head: the shell's panes, fitted to the window.
+		const panes = onedesk.shell.panes(page.$shell, [{ key: "layers", width: 220 }, { key: "week" }]);
+		this.$layers = $(`<div class="one-shell-pane-body one-calendar-layers"></div>`).appendTo(panes.layers);
+		this.$toolbar = onedesk.shell.pane_head(panes.week);
+		this.$grid = $(`<div class="one-calendar one-calendar-grid"></div>`).appendTo(panes.week);
 		frappe.require("calendar.bundle.js", () => this.start());
 	}
 
@@ -83,14 +82,10 @@ onedesk.OneCalendar = class OneCalendar {
 			const { doctype, name } = this.about;
 			const title = (await frappe.utils.fetch_link_title(doctype, name)) || name;
 			this.page.set_title(__("{0} Calendar", [title]));
-			frappe.breadcrumbs.add({
-				type: "Custom",
-				label: frappe.utils.escape_html(__("{0} Calendar", [title])),
-				route: `/desk/${frappe.router.slug(doctype)}/${encodeURIComponent(name)}`,
-			});
+			onedesk.shell.name(__("{0} Calendar", [title]), { route: `/desk/${frappe.router.slug(doctype)}/${encodeURIComponent(name)}` });
 		} else {
 			this.page.set_title(__("Calendar"));
-			frappe.breadcrumbs.add({ type: "Custom", label: __("Calendar") });
+			onedesk.shell.name(__("Calendar"));
 			this.page.set_secondary_action(__("Subscribe"), () => this.subscribe(), "rss");
 		}
 	}
@@ -106,7 +101,7 @@ onedesk.OneCalendar = class OneCalendar {
 		this.saved = { view: kept.view, off: typeof kept.off === "string" ? kept.off.split(",").filter(Boolean) : null };
 		await this.read_layers();
 		this.draw_toolbar();
-		this.calendar = new frappe.FullCalendar(this.$body.find(".one-calendar-grid")[0], {
+		this.calendar = new frappe.FullCalendar(this.$grid[0], {
 			plugins: frappe.FullCalendar.Plugins,
 			initialView: this.saved.view || "timeGridWeek",
 			headerToolbar: false,
@@ -169,7 +164,7 @@ onedesk.OneCalendar = class OneCalendar {
 			on_change: (view) => this.calendar.changeView(view),
 		});
 		this.$today = frappe.ui.button({ label: __("Today"), onclick: () => this.calendar.today() });
-		this.$body.find(".one-calendar-toolbar").append(
+		this.$toolbar.append(
 			frappe.ui.button({ icon: "chevron-left", variant: "ghost", title: __("Previous"), onclick: () => this.calendar.prev() }),
 			this.$title,
 			frappe.ui.button({ icon: "chevron-right", variant: "ghost", title: __("Next"), onclick: () => this.calendar.next() }),
@@ -202,7 +197,7 @@ onedesk.OneCalendar = class OneCalendar {
 	}
 
 	draw_layers() {
-		const $side = this.$body.find(".one-calendar-layers").empty();
+		const $side = this.$layers.empty();
 		for (const group of ["Mine", "Workspace"]) {
 			const mine = this.layers.filter((one) => one.group === group);
 			if (!mine.length) continue;

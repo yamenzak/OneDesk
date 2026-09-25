@@ -4,7 +4,7 @@
 // asked to agree to something has to be able to read it first.
 
 frappe.pages["legal"].on_page_load = (wrapper) => {
-	const page = frappe.ui.make_app_page({ parent: wrapper, title: __("Agreements"), single_column: true });
+	const page = onedesk.shell.page(wrapper, __("Agreements"));
 	wrapper.reader = new onedesk.legal.Reader(page);
 };
 
@@ -13,7 +13,8 @@ frappe.pages["legal"].on_page_show = (wrapper) => wrapper.reader && wrapper.read
 onedesk.legal.Reader = class Reader {
 	constructor(page) {
 		this.page = page;
-		this.$body = $(`<article class="ol-document"></article>`).appendTo(page.main);
+		// The text is read in the shell's column, as a record is.
+		this.$body = $(`<article class="ol-document"></article>`).appendTo(onedesk.shell.body(page.$shell).empty());
 		this.picker = page.add_field({
 			fieldname: "document",
 			fieldtype: "Select",
@@ -33,8 +34,7 @@ onedesk.legal.Reader = class Reader {
 		this.picker.refresh();
 		this.picker.set_value(this.key);
 		const said = await frappe.xcall("onedesk.one_legal.reading.document", { key: this.key, version: asked.version || "" }, "GET");
-		frappe.breadcrumbs.add({ type: "Custom", label: frappe.utils.escape_html(said.title), route: frappe.get_route_str() });
-		frappe.utils.set_title(said.title);
+		onedesk.shell.name(said.title);
 		const esc = frappe.utils.escape_html;
 		// The version goes under the title: which text this is, before any of it.
 		const meta = `<div class="ol-meta">${esc(__("Version {0}", [said.version]))}${

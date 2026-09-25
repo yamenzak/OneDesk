@@ -262,7 +262,7 @@ Each deletes what it replaces in the same commit.
 1. **The shell**, taken out of Settings with no visible change: head, column
    and wide, section, row, empty, editor. The guard. Done.
 2. **The light pages** onto it: My Tasks, Legal, Intake, Ready to Submit,
-   OneCalendar.
+   OneCalendar. Done.
 3. **OneMail and OneCloud** take its head, panes, rows and empty states.
 4. **Record Head**: the doctype, the onload hook, the renderer, measures and
    verbs. Ported first where the pattern is plainest (Item, Asset, Invoice),
@@ -300,6 +300,42 @@ product by product.
   `shell.css` styles the shell's parts; a page on the shell styles no row,
   empty state, quiet line, card or section of its own, and writes no
   `beforeunload`, `doc_subscribe` or timestamp check; the old names are gone.
+
+## Stage 2, as built
+
+- **The shell grew what the five pages needed, and nothing more:**
+  - `panes`: side by side, divided by a rule, never boxed, fitted to the
+    window by `fit()`, the one place a page is sized to it. Intake and
+    OneCalendar are its first two; OneMail and OneCloud are stage 3.
+    `pane_head` is a pane's own head on a rule.
+  - `row` gained `lead` (a tick), `meta` (a date or a count on the right),
+    `active` and `unread` (as a mailbox marks them) and `attrs`. `list` holds
+    rows, at a section's text size wherever it sits.
+  - `section` takes an `aside` beside its heading, for a count.
+  - `empty` is frappe's own `frappe.ui.empty_state`, sized for a section.
+- **My Tasks**: the column, a section per due group with its count, and each
+  task a shell row: its tick as the lead, the priority beside the title, the
+  project and the day on the right, the timer as its action.
+- **Legal**: the document in the shell's column; the name through
+  `shell.name`.
+- **Ready to Submit**: the wide body, a Ready section and a Needs a Look First
+  section, each counted; frappe's empty state when nothing is ready.
+- **Intake**: panes, the list with frappe's `TabButtons` for Waiting and Done
+  (the count a badge) in its head, each document a shell row, and the one
+  open beside it. It was a bordered box; it is not now. The Intake panel
+  that also appears in OneCloud, OneMail and on records lost its own chips
+  (frappe's badges now) and quiet lines (the shell's).
+- **OneCalendar**: panes, the layers in one, the week in the other with its
+  toolbar as the pane's head. `shell.name` takes a `route`, so a record's
+  calendar still leads back to the record.
+- About 280 lines of page CSS went, with every row, empty state, box and
+  window size the five pages drew for themselves. Settings, compared again
+  against stage 1's screenshots, is pixel for pixel the same.
+- Found: switching Intake from Done back to Waiting kept the last document
+  marked as open with nothing beside it. Opening a box now forgets it.
+- The guard now holds all seven pages, and refuses a page stylesheet that
+  sizes itself to the window or a page script that draws its own empty
+  state.
 
 ## The risks
 

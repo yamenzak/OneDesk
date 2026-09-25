@@ -29,9 +29,8 @@
 	font-size: var(--text-sm);
 }
 
+/* The text, in the shell's column (shell.css), read at a reading size. */
 .ol-document {
-	max-width: 760px;
-	margin: 0 auto;
 	padding: calc(var(--spacing) * 6) calc(var(--spacing) * 4) calc(var(--spacing) * 12);
 	color: var(--ink-gray-8);
 	line-height: 1.6;
