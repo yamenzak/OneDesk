@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-25 05:35+0000\n"
-"PO-Revision-Date: 2026-09-25 05:35+0000\n"
+"POT-Creation-Date: 2026-09-25 05:48+0000\n"
+"PO-Revision-Date: 2026-09-25 05:48+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -775,7 +775,7 @@ msgstr "Personen hinzufügen"
 msgid "Add the email address of at least one person to invite."
 msgstr "Fügen Sie die E-Mail-Adresse mindestens einer Person hinzu, die eingeladen werden soll."
 
-#: onedesk/one_intake/panel.py:150
+#: onedesk/one_intake/panel.py:210
 msgid "Add to {0}"
 msgstr "Zu {0} hinzufügen"
 
@@ -812,7 +812,7 @@ msgstr "Wird an die Anweisung angehängt, die diese Aktion bereits trägt. Sie w
 msgid "Added to what {0} already does. It is never replaced."
 msgstr "Wird zu dem hinzugefügt, was {0} bereits tut. Es wird nie ersetzt."
 
-#: onedesk/one_intake/panel.py:150
+#: onedesk/one_intake/panel.py:210
 msgid "Added to {0}"
 msgstr "Zu {0} hinzugefügt"
 
@@ -1360,7 +1360,7 @@ msgstr "Wird gefragt …"
 
 #. Label of the asks (Table) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/intake.js:111
+#: onedesk/one_intake/panel.py:151 onedesk/public/js/intake.js:111
 msgid "Asks"
 msgstr "Aufforderungen"
 
@@ -2102,6 +2102,10 @@ msgstr "Nimmt beim Einchecken ein Bild mit der Kamera auf. Stattdessen eine vorh
 msgid "Case"
 msgstr "Vorgang"
 
+#: onedesk/one_intake/panel.py:102
+msgid "Case Number"
+msgstr "Aktenzeichen"
+
 #. Label of a number card in the OneBook Workspace
 #: onedesk/one_book/workspace/onebook/onebook.json
 msgid "Cash"
@@ -2142,7 +2146,7 @@ msgstr "Überstunden ändern"
 msgid "Change the model"
 msgstr "Modell ändern"
 
-#: onedesk/one_intake/panel.py:147 onedesk/public/js/oneai/Record.vue:141
+#: onedesk/one_intake/panel.py:207 onedesk/public/js/oneai/Record.vue:141
 msgid "Change {0}"
 msgstr "{0} ändern"
 
@@ -2150,7 +2154,7 @@ msgstr "{0} ändern"
 msgid "Change {0} on {1}"
 msgstr "{0} an {1} ändern"
 
-#: onedesk/one_intake/panel.py:148
+#: onedesk/one_intake/panel.py:208
 msgid "Changed {0}"
 msgstr "{0} geändert"
 
@@ -2561,7 +2565,7 @@ msgstr "Kollege"
 msgid "Comment"
 msgstr ""
 
-#: onedesk/one_intake/panel.py:164
+#: onedesk/one_intake/panel.py:224
 msgid "Commented on {0}"
 msgstr "{0} kommentiert"
 
@@ -2730,6 +2734,10 @@ msgstr "Weiter zur Zahlung"
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 msgid "Contract"
 msgstr "Vertrag"
+
+#: onedesk/one_intake/panel.py:101
+msgid "Contract Number"
+msgstr "Vertragsnummer"
 
 #. Label of the said_section (Section Break) field in DocType 'AI Chat'
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
@@ -2989,6 +2997,10 @@ msgstr ""
 msgid "Customer Group"
 msgstr ""
 
+#: onedesk/one_intake/panel.py:100
+msgid "Customer Number"
+msgstr "Kundennummer"
+
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Customers"
@@ -3075,7 +3087,6 @@ msgstr "Tage je Status, bevor der nächste folgt. Null deaktiviert den Wechsel."
 
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
-#: onedesk/public/js/intake.js:39
 msgid "Deadline"
 msgstr "Frist"
 
@@ -3450,6 +3461,7 @@ msgstr "Dokument"
 #. Label of the document_number (Data) field in DocType 'Reading Party'
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
+#: onedesk/one_intake/panel.py:128
 msgid "Document Number"
 msgstr "Dokumentnummer"
 
@@ -3457,6 +3469,7 @@ msgstr "Dokumentnummer"
 #. Label of the document_type (Link) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one_intake/panel.py:143
 #: onedesk/one_intake/report/deadlines/deadlines.py:42
 msgid "Document Type"
 msgstr "Dokumentart"
@@ -3654,7 +3667,7 @@ msgstr "Verworfen"
 
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
-#: onedesk/one_task/page/my_tasks/my_tasks.js:44 onedesk/public/js/intake.js:39
+#: onedesk/one_task/page/my_tasks/my_tasks.js:44
 #: onedesk/public/js/invoice.js:16 onedesk/public/js/invoice.js:18
 #: onedesk/public/js/invoice.js:19 onedesk/public/js/project.js:73
 msgid "Due"
@@ -4382,7 +4395,7 @@ msgstr "Über den Kontakt abgelegt"
 msgid "Filed with its conversation"
 msgstr "Mit der Unterhaltung abgelegt"
 
-#: onedesk/one_intake/panel.py:154
+#: onedesk/one_intake/panel.py:214
 msgid "Filed with {0}"
 msgstr "Abgelegt bei {0}"
 
@@ -4450,11 +4463,11 @@ msgstr "Anzufordernde Dateien"
 msgid "Files you open or add will appear here."
 msgstr "Dateien, die Sie öffnen oder hinzufügen, erscheinen hier."
 
-#: onedesk/one_intake/panel.py:147
+#: onedesk/one_intake/panel.py:207
 msgid "Fill in {0}"
 msgstr "{0} ergänzen"
 
-#: onedesk/one_intake/panel.py:148
+#: onedesk/one_intake/panel.py:208
 msgid "Filled in {0}"
 msgstr "{0} ergänzt"
 
@@ -4652,7 +4665,7 @@ msgid "Free to Sell"
 msgstr "Frei verfügbar"
 
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.js:7
-#: onedesk/one_intake/bundle.py:83
+#: onedesk/one_intake/bundle.py:83 onedesk/one_intake/panel.py:124
 #: onedesk/one_intake/report/deadlines/deadlines.js:8
 #: onedesk/public/js/onemail.js:739
 msgid "From"
@@ -5540,6 +5553,10 @@ msgstr "Eingeladene"
 msgid "Invoice"
 msgstr ""
 
+#: onedesk/one_intake/panel.py:98
+msgid "Invoice Number"
+msgstr "Rechnungsnummer"
+
 #: onedesk/public/js/project.js:30 onedesk/public/js/project.js:168
 msgid "Invoice Time"
 msgstr "Zeit abrechnen"
@@ -5579,6 +5596,7 @@ msgstr "Ausgestellt von"
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one_intake/panel.py:133
 msgid "Issued On"
 msgstr "Ausgestellt am"
 
@@ -6302,7 +6320,7 @@ msgstr "Verknüpft mit"
 msgid "Linked To Type"
 msgstr "Verknüpft mit Typ"
 
-#: onedesk/one_intake/panel.py:152
+#: onedesk/one_intake/panel.py:212
 msgid "Linked to {0}"
 msgstr "Mit {0} verknüpft"
 
@@ -6508,7 +6526,7 @@ msgstr "Von OneAI angelegt. Noch hat es niemand geprüft."
 msgid "Made from {0}."
 msgstr "Angelegt aus {0}."
 
-#: onedesk/one_intake/panel.py:144
+#: onedesk/one_intake/panel.py:204
 msgid "Made {0}"
 msgstr "{0} angelegt"
 
@@ -6611,7 +6629,7 @@ msgstr "Kürzer machen"
 msgid "Make it smaller"
 msgstr "Kleiner machen"
 
-#: onedesk/one_intake/panel.py:144
+#: onedesk/one_intake/panel.py:204
 msgid "Make {0}"
 msgstr "{0} anlegen"
 
@@ -6951,7 +6969,7 @@ msgstr "Zurückverschoben"
 msgid "Moved down from {0}% to {1}%."
 msgstr "Von {0} % auf {1} % abgestuft."
 
-#: onedesk/one_intake/panel.py:159 onedesk/one_intake/panel.py:160
+#: onedesk/one_intake/panel.py:219 onedesk/one_intake/panel.py:220
 msgid "Moved it to {0}"
 msgstr "Nach {0} verschoben"
 
@@ -7088,7 +7106,7 @@ msgstr "Wird im Code genannt. Nicht mehr ändern, sobald etwas sie aufruft."
 msgid "Named in the message"
 msgstr "In der Nachricht genannt"
 
-#: onedesk/one_intake/panel.py:156
+#: onedesk/one_intake/panel.py:216
 msgid "Named it {0}"
 msgstr "{0} genannt"
 
@@ -7132,6 +7150,7 @@ msgstr "Prüfung nötig"
 
 #. Label of the net (Float) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one_intake/panel.py:135
 msgid "Net"
 msgstr "Netto"
 
@@ -7751,6 +7770,7 @@ msgstr "Kündigungsfrist endet am"
 #. Label of the notice_period (Data) field in DocType 'Reading'
 #: onedesk/one_intake/custom/contract.json
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one_intake/panel.py:145
 msgid "Notice Period"
 msgstr "Kündigungsfrist"
 
@@ -7783,9 +7803,9 @@ msgstr "Erinnerung"
 
 #. Label of the number (Data) field in DocType 'Employee Document'
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
-#: onedesk/one_intake/bundle.py:83
+#: onedesk/one_intake/bundle.py:83 onedesk/one_intake/panel.py:129
 msgid "Number"
-msgstr ""
+msgstr "Nummer"
 
 #. Description of the 'Confirmation Threshold' (Int) field in DocType 'HR
 #. Settings'
@@ -8490,6 +8510,10 @@ msgstr "Bestellen"
 msgid "Order Confirmation"
 msgstr "Auftragsbestätigung"
 
+#: onedesk/one_intake/panel.py:99
+msgid "Order Number"
+msgstr "Bestellnummer"
+
 #: onedesk/www/projects.html:73
 msgid "Order and Invoices"
 msgstr "Auftrag und Rechnungen"
@@ -8749,6 +8773,7 @@ msgstr "Bezahlt von"
 
 #. Label of the paid_how (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one_intake/panel.py:138
 msgid "Paid How"
 msgstr "Zahlungsweise"
 
@@ -8929,6 +8954,7 @@ msgstr "Zahlungsavis"
 
 #. Label of the payment_reference (Data) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one_intake/panel.py:147
 msgid "Payment Reference"
 msgstr "Verwendungszweck"
 
@@ -9214,6 +9240,10 @@ msgstr "Verlorene Punkte"
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 msgid "Policy"
 msgstr "Police"
+
+#: onedesk/one_intake/panel.py:104
+msgid "Policy Number"
+msgstr "Policennummer"
 
 #. Label of the port (Int) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
@@ -9981,6 +10011,7 @@ msgstr "Papierkorb"
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
+#: onedesk/one_intake/panel.py:105 onedesk/one_intake/panel.py:132
 #: onedesk/public/js/intake.js:162 onedesk/public/js/invoice.js:60
 msgid "Reference"
 msgstr "Referenz"
@@ -10051,6 +10082,7 @@ msgstr "Region"
 #. Label of the register (Data) field in DocType 'Reading Party'
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
+#: onedesk/one_intake/panel.py:127
 msgid "Register Number"
 msgstr "Registernummer"
 
@@ -11752,7 +11784,7 @@ msgstr "Steuernummer (TRN)"
 msgid "Tag"
 msgstr ""
 
-#: onedesk/one_intake/panel.py:162
+#: onedesk/one_intake/panel.py:222
 msgid "Tagged it {0}"
 msgstr "Mit {0} verschlagwortet"
 
@@ -11835,6 +11867,7 @@ msgstr "In diesem Projekt erstellte Aufgaben werden damit benannt, etwa WEB-14. 
 #: onedesk/one_book/report/vat_return/vat_return.py:45
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
+#: onedesk/one_intake/panel.py:136
 msgid "Tax"
 msgstr "Steuer"
 
@@ -11852,6 +11885,7 @@ msgstr "Steuerbescheid"
 #. Label of the tax_number (Data) field in DocType 'Reading Party'
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
+#: onedesk/one_intake/panel.py:126
 msgid "Tax Number"
 msgstr "Steuernummer"
 
@@ -11859,6 +11893,10 @@ msgstr "Steuernummer"
 #: onedesk/one_intake/doctype/reading_line/reading_line.json
 msgid "Tax Rate"
 msgstr "Steuersatz"
+
+#: onedesk/one_intake/panel.py:103
+msgid "Tax Reference"
+msgstr "Steuernummer"
 
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
@@ -12975,7 +13013,7 @@ msgstr "Zu groß zum Anhängen, daher als Links gesendet:"
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:58
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:42
-#: onedesk/public/js/invoice.js:24
+#: onedesk/one_intake/panel.py:137 onedesk/public/js/invoice.js:24
 msgid "Total"
 msgstr "Gesamt"
 
@@ -13426,7 +13464,7 @@ msgstr "Auslastung"
 #. Label of the vat_id (Data) field in DocType 'Reading Party'
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/public/js/crm_record.js:56
+#: onedesk/one_intake/panel.py:125 onedesk/public/js/crm_record.js:56
 msgid "VAT ID"
 msgstr "USt-IdNr."
 
@@ -13451,6 +13489,7 @@ msgstr "Gültig ab"
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
+#: onedesk/one_intake/panel.py:144
 msgid "Valid Until"
 msgstr "Gültig bis"
 
@@ -14681,7 +14720,8 @@ msgstr "Audio"
 msgid "business name"
 msgstr "Firmenname"
 
-#: onedesk/public/js/intake.js:112 onedesk/public/js/intake.js:187
+#: onedesk/one_intake/panel.py:150 onedesk/public/js/intake.js:112
+#: onedesk/public/js/intake.js:187
 msgid "by {0}"
 msgstr "bis {0}"
 

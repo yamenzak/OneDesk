@@ -456,11 +456,11 @@
 	}
 }
 
-/* The slim panel beside a file or above a message. */
-.oi-line {
-	margin-top: calc(var(--spacing) * 1.5);
-	color: var(--ink-gray-8);
-	font-weight: var(--font-weight-medium);
+/* The slim panel beside a file or above a message: the facts a person looks
+   for first, tight enough to read at a glance. */
+.oi-panel dl.oi-quick {
+	margin-top: calc(var(--spacing) * 2);
+	gap: calc(var(--spacing) * 0.5) calc(var(--spacing) * 3);
 	font-variant-numeric: tabular-nums;
 }
 

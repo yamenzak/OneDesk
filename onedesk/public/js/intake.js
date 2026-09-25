@@ -36,9 +36,9 @@ onedesk.intake.slim = (said) => {
 	const acts = said.actions || [];
 	const waits = acts.filter((one) => one.level === "Proposed" || (one.level === "Done" && one.audit === "Wrong")).length;
 	const done = acts.filter((one) => one.level === "Done").length;
-	const due = (said.dates || []).find((one) => one.what === __("Due") || one.what === __("Deadline"));
-	const gross = (said.facts || []).find((one) => one.field === "gross");
-	const line = [gross ? format_currency(gross.value, gross.currency) : "", due ? `${esc(due.what)} ${date(due.date)}` : ""].filter(Boolean).join(" · ");
+	const shown = (one) =>
+		one.type === "currency" ? format_currency(one.value, one.currency) : one.type === "date" ? date(one.value) : esc(String(one.value));
+	const quick = (said.quick || []).map((one) => `<dt>${esc(one.label)}</dt><dd>${shown(one)}</dd>`).join("");
 	const box = waits ? "waiting" : "done";
 	const status = acts.length
 		? `<a class="oi-status" href="/app/intake?box=${box}&reading=${encodeURIComponent(said.name)}">${
@@ -55,7 +55,7 @@ onedesk.intake.slim = (said) => {
 		<div class="oi-head"><img src="${onedesk.intake.MARK}" alt=""><span>${__("Read by OneAI")}</span>${chips}</div>
 		${said.title ? `<div class="oi-name">${esc(said.title)}</div>` : ""}
 		${said.summary ? `<div class="oi-summary">${esc(said.summary)}</div>` : ""}
-		${line ? `<div class="oi-line">${line}</div>` : ""}
+		${quick ? `<dl class="oi-quick">${quick}</dl>` : ""}
 		${status}
 		<div class="oi-buttons oi-folds">${pay}
 			<button class="btn btn-xs btn-default" data-explain="0" data-again="${said.explained ? 1 : 0}">${said.explained ? __("Explain Again") : __("Explain")}</button>

@@ -9,7 +9,7 @@ import hashlib
 import json
 
 import frappe
-from frappe import _
+from frappe import _, _lt
 
 from onedesk.one_storage import namespace as ns
 
@@ -72,6 +72,7 @@ def described(name: str, brief: bool = False) -> dict:
 	out["pay"] = pay.of(doc)
 	out["explained"] = json.loads(doc.explained or "{}").get(f"explain:{frappe.local.lang or 'en'}")
 	out["may_cancel"] = bool(doc.kind == "Contract" and explain._cancel_by(doc))
+	out["quick"] = quick(doc, out["pay"])
 	out["matter"] = matter_of(doc)
 	meta = frappe.get_meta("Reading")
 	# Paying says the IBAN and the reference once, beside its code.
@@ -89,6 +90,65 @@ def described(name: str, brief: bool = False) -> dict:
 		{"part": part.part, **described(part.name, brief=True)}
 		for part in frappe.get_all("Reading", filters={"part_of": name}, fields=["name", "part"], order_by="creation")
 	]
+	return out
+
+
+#: A reference's kind, as the line that shows it is called.
+REFERENCE = {
+	"Invoice": _lt("Invoice Number"),
+	"Order": _lt("Order Number"),
+	"Customer": _lt("Customer Number"),
+	"Contract": _lt("Contract Number"),
+	"Case": _lt("Case Number"),
+	"Tax": _lt("Tax Reference"),
+	"Policy": _lt("Policy Number"),
+	"Other": _lt("Reference"),
+}
+
+#: Who a document is from, in the order worth looking for.
+FROM = ("Sender", "Paid To", "Holder", "Patient", "Employee")
+
+
+def quick(doc, pay: dict | None) -> list[dict]:
+	"""The facts a person looks for first, for the short panel beside a file
+	or above a message: who it is from and their tax numbers, its numbers,
+	its dates and amounts, and what it asks. The rest is under Details."""
+	out = []
+
+	def add(label, value, kind: str = "text"):
+		if value not in (None, "", 0):
+			out.append({"label": str(label), "value": value, "type": kind, "currency": doc.currency})
+
+	sender = next((row for role in FROM for row in doc.parties if row.role == role and not row.ours), None)
+	if sender:
+		add(_("From"), sender.party_name or sender.email)
+		add(_("VAT ID"), sender.vat_id)
+		add(_("Tax Number"), sender.tax_number)
+		add(_("Register Number"), sender.register)
+		add(_("Document Number"), sender.document_number)
+	add(_("Number"), doc.number)
+	for row in doc.refs[:3]:
+		if row.value != doc.number:
+			add(REFERENCE.get(row.kind) or _("Reference"), row.value)
+	add(_("Issued On"), doc.issued_on, "date")
+	if doc.kind in ("Invoice", "Receipt", "Credit Note", "Reminder") or doc.gross:
+		add(_("Net"), doc.net if doc.tax else None, "currency")
+		add(_("Tax"), doc.tax, "currency")
+		add(_("Total"), doc.gross, "currency")
+	add(_("Paid How"), _(doc.paid_how) if doc.paid_how and doc.paid_how != "Transfer" else None)
+	for row in doc.dates:
+		if row.what in ("Due", "Deadline", "Appointment") and row.date:
+			add(_(row.what), row.date, "date")
+			break
+	add(_("Document Type"), _(doc.document_type) if doc.document_type else None)
+	add(_("Valid Until"), doc.valid_until, "date")
+	add(_("Notice Period"), doc.notice_period)
+	if not (pay and pay.get("code")):
+		add(_("Payment Reference"), doc.payment_reference)
+	asked = [row for row in doc.asks if not row.promise][:2]
+	for row in asked:
+		by = _("by {0}").format(frappe.format(row.by_date, "Date")) if row.by_date else ""
+		add(_("Asks"), " · ".join(filter(None, [_(row.what), row.detail, by])))
 	return out
 
 
