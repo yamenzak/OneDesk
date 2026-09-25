@@ -19,6 +19,27 @@ findings and fixes are written down.
    Nothing looks boxed in: sections sit on the page, and Save goes in the page
    head.
 
+## Everything follows frappe
+
+This applies to every screen, on top of the six points. How a screen looks can
+be ours; how it behaves is frappe's.
+
+- **Fields** are frappe's own controls (`frappe.ui.FieldGroup`, or the desk
+  form itself), never inputs drawn by hand. They carry frappe's Link search,
+  date picker, validation and translation.
+- **A record being edited** acts like a desk form:
+  - It knows it is dirty by comparing against what was loaded, and it is clean
+    again when a change is undone.
+  - It warns before the page is left with unsaved changes.
+  - It saves against the `modified` it loaded, so a change made elsewhere in
+    the meantime is refused, not silently overwritten.
+  - It listens on the record's realtime room (`doc_subscribe`, `doc_update`)
+    and says when somebody else has changed it.
+- **What a screen shows** changes live through `frappe.realtime` when the data
+  under it changes, the way the desk's lists do.
+- Where frappe already ships the behaviour, the screen uses it rather than a
+  copy of it.
+
 ## How one screen goes
 
 1. Screenshot it and read the code behind it.
@@ -83,7 +104,18 @@ Every settings screen, from the first commit of the pass:
    time the employee is saved. So those four are written to the employee as
    well, or HR's next save would undo the person's change. A department shows
    by its name, without the company's abbreviation.
-6. **UI**:
+6. **UI**: a Page of our own (`one/page/settings`), drawn by
+   `public/js/settings.js`. It is not frappe's User form with CSS laid over
+   it. The fields are frappe's controls in a `FieldGroup`, so they behave as on
+   any form.
+   - Where it falls short of "Everything follows frappe":
+     - Dirty is a bare listener for any input, so it stays set after a change
+       is undone.
+     - Nothing warns before the page is left with unsaved changes.
+     - Save does not send `modified`, so it would overwrite a change HR made to
+       the employee in the meantime.
+     - It is not subscribed to the User or Employee realtime rooms.
+     - All four are to fix before Profile is done.
    - The photo is the avatar, at 80px. Espresso's largest size is 3xl, which
      is 46px, so the page sets the avatar's own size variable instead of
      drawing its own.
