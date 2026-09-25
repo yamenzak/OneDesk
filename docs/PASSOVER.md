@@ -82,12 +82,12 @@ be ours; how it behaves is frappe's.
 | Area | Screen | State |
 |---|---|---|
 | Settings, You | Profile | done |
-| Settings, You | Notifications | next, after Agreements |
+| Settings, You | Notifications | studying |
 | Settings, You | Mail | |
 | Settings, You | Calendar | |
 | Settings, You | Sign-in | |
 | Settings, You | What OneAI Remembers | |
-| Settings, You | Agreements | built, waiting for your word |
+| Settings, You | Agreements | done |
 | Settings, Workspace | General | |
 | Settings, Workspace | People | |
 | Settings, Workspace | Plan and Credits | |
