@@ -688,6 +688,7 @@ one_ai_reads = [
 	"onedesk.one_crm.ai.why_we_lose",
 	"onedesk.one_legal.ai.agreement",
 	"onedesk.one.ai.notification_type",
+	"onedesk.one.ai.my_notifications",
 ]
 
 #: A sentence each about who is asking, added to what the model is told.

@@ -37,6 +37,22 @@ clause(
 	order=5,
 )
 
+# Settings › Notifications
+
+clause(
+	document="privacy",
+	section="modules",
+	key="notifications",
+	module=M,
+	body="""
+		Your bell keeps a record of every notification sent to you: what it said, who or what it came from,
+		and the record it is about. Whether each kind is also mailed to you is your choice, under Settings,
+		within what your workspace's administrators allow; a few are always mailed, because you answer them by
+		replying. What each notification says is decided by your workspace's administrators.
+	""",
+	order=6,
+)
+
 # Workspace Settings › Notifications
 
 clause(

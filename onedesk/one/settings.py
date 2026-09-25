@@ -97,15 +97,26 @@ TITLES = {"Employee": "employee_name", "Department": "department_name"}
 #: Where their pay goes, shown with all but the last four hidden.
 BANK = ("bank_name", "iban", "bank_ac_no")
 
+#: A person's own switches on Notification Settings. Which types they are
+#: mailed is the rest of the section, one tick each (`_notifications`); frappe
+#: hides its older per-kind checkboxes, which no longer decide anything.
 NOTIFY = (
 	"enabled",
 	"enable_email_notifications",
-	"enable_email_mention",
-	"enable_email_assignment",
-	"enable_email_share",
 	"enable_email_event_reminders",
 	"enable_email_threads_on_assigned_document",
 )
+
+#: Frappe's labels for those, as a person would say them.
+NOTIFY_SAID = {
+	"enabled": (_lt("Notifications"), _lt("Off, nothing reaches your bell or your inbox.")),
+	"enable_email_notifications": (_lt("Also by Email"), _lt("Off, nothing is mailed to you, whatever is ticked below.")),
+	"enable_email_event_reminders": (_lt("Event Reminders"), _lt("A mail before an event of yours starts.")),
+	"enable_email_threads_on_assigned_document": (
+		_lt("Mail About What Is Assigned to You"),
+		_lt("The mails on a record you were given to do, as they arrive."),
+	),
+}
 
 INTAKE = ("records", "most_pages", "floor", "audit", "keep_in_place", "quiet_minutes", "household", "submit_einvoices")
 
@@ -323,17 +334,79 @@ def _save_profile(values: dict) -> None:
 
 
 def _notifications() -> dict:
+	"""A person's own notifications: the bell and email on or off, and a tick
+	for each kind they can receive, whether it is also mailed to them."""
 	from frappe.desk.doctype.notification_settings.notification_settings import create_notification_settings
+
+	from onedesk.one import notify
 
 	if not frappe.db.exists("Notification Settings", frappe.session.user):
 		create_notification_settings(frappe.session.user)
 	doc = frappe.get_doc("Notification Settings", frappe.session.user)
-	return {"fields": _fields("Notification Settings", NOTIFY), "values": {name: doc.get(name) for name in NOTIFY}}
+	mailed = {row.notification_type for row in doc.email_notification_types}
+	fields = _fields("Notification Settings", NOTIFY)
+	for field in fields:
+		label, description = NOTIFY_SAID[field["fieldname"]]
+		field.update({"label": str(label), "description": str(description)})
+		if field["fieldname"] not in ("enabled", "enable_email_notifications"):
+			field["depends_on"] = "eval:doc.enabled && doc.enable_email_notifications"
+	values = {name: doc.get(name) for name in NOTIFY}
+	groups: dict[str, list] = {}
+	for one in notify.choosable():
+		fieldname = _email_field(one["name"])
+		fields.append(
+			{
+				"fieldname": fieldname,
+				"fieldtype": "Check",
+				"label": one["label"],
+				"description": _said_of(one),
+				"read_only": 0 if one["allowed"] else 1,
+				"depends_on": "eval:doc.enabled && doc.enable_email_notifications",
+			}
+		)
+		values[fieldname] = 1 if one.get("always") or (one["allowed"] and one["name"] in mailed) else 0
+		groups.setdefault(one["app"] or "", []).append(fieldname)
+	return {
+		"fields": fields,
+		"values": values,
+		"groups": [{"app": app or str(_("Across One")), "fields": names} for app, names in groups.items()],
+		"opened": _opened(doc),
+	}
+
+
+def _said_of(one: dict) -> str:
+	"""What a kind is, and why its tick cannot be changed when it cannot."""
+	if one.get("always"):
+		return f"{one['about']} {_('Its mail is always sent, so you can answer it by replying.')}".strip()
+	if not one["allowed"]:
+		return f"{one['about']} {_('It is not mailed in this workspace.')}".strip()
+	return one["about"]
+
+
+def _email_field(name: str) -> str:
+	"""A type's tick, named after it. Pure."""
+	import re
+
+	return "email_" + re.sub(r"\W+", "_", name.lower()).strip("_")
 
 
 def _save_notifications(values: dict) -> None:
-	doc = frappe.get_doc("Notification Settings", frappe.session.user)
+	"""Their own switches, and their email choices for the kinds shown. A kind
+	not shown to them (another role's, or not mailed here) is left as it was."""
+	from onedesk.one import notify
+
+	doc = _as_opened(frappe.get_doc("Notification Settings", frappe.session.user))
 	doc.update({name: values[name] for name in NOTIFY if name in values})
+	chosen = {
+		one["name"]: frappe.utils.cint(values.get(_email_field(one["name"])))
+		for one in notify.choosable()
+		if one["allowed"] and _email_field(one["name"]) in values
+	}
+	kept = [row.notification_type for row in doc.email_notification_types if row.notification_type not in chosen]
+	doc.set(
+		"email_notification_types",
+		[{"notification_type": name} for name in kept + [name for name, on in chosen.items() if on]],
+	)
 	doc.save(ignore_permissions=True)
 
 
@@ -703,6 +776,7 @@ def _notification_types(record: str | None = None) -> dict:
 				and (row.one_subject != row.one_default_subject or row.one_message != row.one_default_message),
 				"outside": row.one_outside,
 				"required": bool(one.get("required")),
+				"always": bool(one.get("always_mailed")),
 				"ours": bool(one),
 				"email": row.one_allow_email if one else 1,
 				"email_default": row.one_email_default,
@@ -740,6 +814,7 @@ def _notification_type(name: str) -> dict:
 			"ours": bool(one),
 			"outside": doc.one_outside,
 			"required": bool(one.get("required")),
+			"always": bool(one.get("always_mailed")),
 			"slots": notify.slots(name),
 			"default_subject": doc.one_default_subject,
 			"default_message": doc.one_default_message,

@@ -399,3 +399,9 @@
 	font-size: var(--text-xs);
 	line-height: 1.6;
 }
+
+/* A tick and what it is for read as one line where they can: a check's
+   description is its sentence, not an input's help under a narrow field. */
+.os-form .form-column .frappe-control.input-max-width:has(> .checkbox) {
+	max-width: 640px;
+}

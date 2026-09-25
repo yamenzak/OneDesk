@@ -46,6 +46,20 @@ SUGGESTIONS = {
 			"expects": "agreement",
 		},
 	],
+	"page:settings/notifications": [
+		{
+			"label": _lt("What will I be told about?"),
+			"ask": _lt("What can One tell me about, and which of those do I also get by email?"),
+			"expects": "my_notifications",
+		},
+		{
+			"label": _lt("Too many emails?"),
+			"ask": _lt(
+				"Which of the notifications I get by email could I leave to the bell? Say which to untick and why."
+			),
+			"expects": "my_notifications",
+		},
+	],
 	"page:workspace-settings/notification_types": [
 		{
 			"label": _lt("Rewrite this notification"),
@@ -80,6 +94,13 @@ def page(said: dict) -> str | None:
 		return _notifications_page(said.get("record"))
 	if said.get("page") != "settings":
 		return None
+	if said.get("section") == "notifications":
+		return (
+			"The reader is on Notifications in their own Settings: every kind of notification they can "
+			"receive, which all reach their bell, and a tick for each they also want by email. my_notifications "
+			"reads what they get and how. They change the ticks themselves and save; how is in One's "
+			"documentation under Settings › Notifications (how_to)."
+		)
 	if said.get("section") == "agreements":
 		return (
 			"The reader is on Agreements in Settings: every agreement One runs under, what they agreed to "
@@ -205,4 +226,37 @@ def rewrite_notification(
 	return {
 		"proposal": proposals.propose("Edit", "Notification Type", changes=changes, record=name, why=why),
 		"state": "Proposed",
+	}
+
+
+def my_notifications() -> dict:
+	"""Every kind of notification the person asking can receive, what it is
+	about, and whether it is also mailed to them. Their own choices only."""
+	from onedesk.one import notify
+
+	user = frappe.session.user
+	settings = frappe.db.get_value(
+		"Notification Settings", user, ["enabled", "enable_email_notifications"], as_dict=True
+	) or frappe._dict(enabled=1, enable_email_notifications=1)
+	mailed = set(
+		frappe.get_all(
+			"Notification Type Preference",
+			filters={"parenttype": "Notification Settings", "parent": user},
+			pluck="notification_type",
+		)
+	)
+	return {
+		"notifications_on": bool(settings.enabled),
+		"email_on": bool(settings.enable_email_notifications),
+		"kinds": [
+			{
+				"name": one["label"],
+				"app": one["app"],
+				"about": one["about"],
+				"by_email": bool(one.get("always") or (one["allowed"] and one["name"] in mailed)),
+				"may_change": one["allowed"],
+			}
+			for one in notify.choosable(user)
+		],
+		"next": "Everything reaches the bell. Advise; the person ticks and saves the page themselves.",
 	}

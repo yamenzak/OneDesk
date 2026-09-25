@@ -82,7 +82,7 @@ be ours; how it behaves is frappe's.
 | Area | Screen | State |
 |---|---|---|
 | Settings, You | Profile | done |
-| Settings, You | Notifications | building: stages 1 and 2 of 6 done, see NOTIFICATIONS.md; this screen is stage 3 |
+| Settings, You | Notifications | done (stage 3 of NOTIFICATIONS.md; push is stage 4) |
 | Settings, You | Mail | |
 | Settings, You | Calendar | |
 | Settings, You | Sign-in | |
@@ -247,6 +247,57 @@ agreed to. The Terms already promise that.
    that a section OneAI offers anything on has its README section.
 8. **Legal**: no new lines. The Terms' "every version anybody agreed to is kept
    and can be read in One" is now true of a screen.
+
+### Notifications
+
+Stage 3 of `docs/NOTIFICATIONS.md`. What was here were frappe's older
+per-kind checkboxes (Mentions, Assignments, Document Share), which v17 hides
+because they no longer decide anything: frappe mails a person the types in
+their `email_notification_types`, and nothing on this screen wrote that.
+
+1. **Notifications**: this screen is each person's half of the hub. Every kind
+   reaches the bell; a tick per kind says whether it is also mailed, and it
+   writes frappe's own `email_notification_types`, so frappe's mailing honours
+   it with nothing of ours in between. Saving sends nothing.
+2. **OneAI**:
+   - A read tool, `my_notifications`, returns the kinds the reader can receive
+     and which they get by email. It reads their own settings only.
+   - The panel is told the reader is on their own Notifications.
+   - It offers **What will I be told about?** and **Too many emails?**. Both
+     advise; the person ticks and saves.
+3. **Intake**: six kinds are Intake's (waiting, the weekly digest, a new IBAN,
+   phishing and two more), chosen here like any other.
+4. **Permissions**:
+   - A person's own Notification Settings, and only theirs.
+   - A kind declared for some roles (`roles` in a module's
+     `notifications.py`) is shown only to people holding one: HR's kinds are
+     for HR. A kind not shown is left as it was on save.
+   - A kind the workspace does not mail is shown and cannot be ticked, with the
+     reason. The project update, whose mail is always sent so people can
+     reply, is shown ticked and fixed.
+5. **Cross-module**: every module's kinds in one list, grouped by app, with
+   frappe's own (mentions, assignments, shares) as Across One. Energy points
+   left frappe with gamification, and frappe's Alert never mails, so neither is
+   listed. Workspace › Notifications shows the always-mailed kind as Always
+   Mailed.
+6. **UI**:
+   - Notifications and Also by Email first, then a part per app with a tick per
+     kind and a sentence on when it is sent, then Other Mail (event reminders,
+     mails on a record assigned to you).
+   - Turning either switch off hides the ticks it makes meaningless.
+   - Found doing it: frappe marks a section empty while a FieldGroup draws it,
+     before its values are in, and never looks again, so a section whose
+     fields have `depends_on` stayed hidden. `form()` now re-checks sections
+     once the values are in and on every change, for every Settings section.
+   - `form()` gains `{ stack }`, fields one under another in one part, so a
+     list of ticks is not a section each.
+7. **Documented**: One's README has Settings › Notifications.
+8. **Legal**: the Privacy Policy gains `notifications`: the bell keeps a record
+   of every notification, mail per kind is the person's choice within what the
+   workspace allows, and the workspace's administrators decide what each says.
+   Recorded as a clarification (new hash): the records existed and the policy
+   already covered what the workspace holds. Frappe keeps notification records
+   until a workspace clears them, so no period is promised.
 
 ### Workspace › Notifications
 

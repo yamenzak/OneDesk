@@ -77,6 +77,34 @@ well. Changing them here changes both.
 - **How do I fill this in?** It goes through the page with you: what each part
   is for, and what only HR can change.
 
+### Notifications
+
+Everything One can tell you, and how. Everything reaches the **bell** at the
+top left. Here you choose what is also **mailed** to you.
+
+- **Notifications** turns it all off: nothing reaches your bell or your inbox.
+- **Also by Email** turns every mail off at once, whatever is ticked below.
+- Below them is every kind of notification you can receive, grouped by the app
+  that sends it, each with a sentence on when it is sent. **Tick the ones you
+  also want by email.** You only see the kinds that can reach you: HR's are for
+  HR, for example.
+- A tick you cannot change says why. Either your workspace does not mail that
+  kind at all, or its mail is always sent because you answer it by replying,
+  as a project's "how is it going?" is.
+- **Other Mail** is the two mails that are not notifications: a reminder before
+  an event of yours, and the mails on a record you were given to do.
+
+Save from the top right. What a new person starts with, and what each kind
+says, is decided by the workspace's administrators under Workspace ›
+Notifications.
+
+**OneAI on this page** offers:
+
+- **What will I be told about?** Every kind that can reach you, and which you
+  get by email.
+- **Too many emails?** Which of your mailed kinds you could leave to the bell,
+  and why. You untick them yourself.
+
 ### Agreements
 
 Every agreement One runs under, and where you and your organisation stand on

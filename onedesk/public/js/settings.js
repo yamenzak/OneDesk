@@ -181,7 +181,8 @@ onedesk.Settings = class Settings {
 	// A form made of the record's own fields, saved in one go from the page
 	// head, the way a record is. `rows` lays fields out side by side: each row
 	// is a list of fieldnames, one per column, or `{ heading, note }` to start
-	// a part of its own under a rule, or `{ html }` for something to read.
+	// a part of its own under a rule, `{ stack }` for fields one under another
+	// in one column, or `{ html }` for something to read.
 	form(data, { before = "", after = "", rows = null } = {}) {
 		const $card = $(`<div class="os-card">${before}<div class="os-form"></div>${after}</div>`).appendTo(this.$content);
 		const own = Object.fromEntries(data.fields.map((one) => [one.fieldname, { ...one, default: data.values[one.fieldname] }]));
@@ -197,6 +198,7 @@ onedesk.Settings = class Settings {
 					const opening = heading || (at ? { fieldtype: "Section Break", fieldname: `os_row_${at}` } : null);
 					heading = null;
 					if (row.html) return [...(opening ? [opening] : []), { fieldtype: "HTML", fieldname: `os_html_${at}`, options: row.html }];
+					if (row.stack) return [...(opening ? [opening] : []), ...row.stack.map((name) => own[name]).filter(Boolean)];
 					return [
 						...(opening ? [opening] : []),
 						...row.flatMap((name, column) => [
@@ -209,7 +211,23 @@ onedesk.Settings = class Settings {
 		this.group = new frappe.ui.FieldGroup({ fields, body: $card.find(".os-form")[0] });
 		this.group.make();
 		$card.toggleClass("os-columns", !!rows);
-		this.saves(() => Settings.every(this.group, Object.keys(own)), $card, this.group.set_values(data.values));
+		// Frappe marks a section empty while it is drawn, before its values are
+		// in and its fields' depends_on can say they show, and a FieldGroup never
+		// looks again. So look again once the values are in, and on every change.
+		const shown = () => {
+			this.group.refresh_dependency();
+			this.group.refresh_sections();
+		};
+		const ready = this.group.set_values(data.values).then(shown);
+		for (const field of this.group.fields_list) {
+			const own_change = field.df.change;
+			field.df.change = (...args) => {
+				shown();
+				this.check();
+				return own_change && own_change(...args);
+			};
+		}
+		this.saves(() => Settings.every(this.group, Object.keys(own)), $card, ready);
 		return $card;
 	}
 
@@ -316,8 +334,18 @@ onedesk.Settings = class Settings {
 		$card.find("[data-unphoto]").on("click", () => photo(""));
 	}
 
+	// Everything One can tell you reaches the bell. What is also mailed is a
+	// tick per kind, grouped by the app that sends it, and only the kinds you
+	// can receive: HR's are for HR. A kind the workspace does not mail is shown
+	// and cannot be ticked, so the list is the whole answer.
 	draw_notifications(data) {
-		this.form(data, { before: `<div class="os-quiet os-card-note">${__("What reaches you in the bell, and what is also mailed to you.")}</div>` });
+		const rows = [{ stack: ["enabled", "enable_email_notifications"] }];
+		for (const group of data.groups) rows.push({ heading: group.app }, { stack: group.fields });
+		rows.push({ heading: __("Other Mail") }, { stack: ["enable_email_event_reminders", "enable_email_threads_on_assigned_document"] });
+		this.form(data, {
+			before: `<div class="os-quiet os-card-note">${__("Everything One tells you reaches the bell. Tick what you also want by email.")}</div>`,
+			rows,
+		});
 	}
 
 	draw_mail(data) {
@@ -825,7 +853,11 @@ onedesk.Settings = class Settings {
 				? [
 						one.enabled ? "" : frappe.ui.badge.html({ label: __("Off"), theme: "gray" }),
 						one.edited ? frappe.ui.badge.html({ label: __("Edited"), theme: "violet" }) : "",
-						one.outside ? frappe.ui.badge.html({ label: __("Mailed Outside"), theme: "gray" }) : channel(__("Email"), one.email, one.email_default),
+						one.outside
+							? frappe.ui.badge.html({ label: __("Mailed Outside"), theme: "gray" })
+							: one.always
+							? frappe.ui.badge.html({ label: __("Always Mailed"), theme: "gray" })
+							: channel(__("Email"), one.email, one.email_default),
 				  ].join(" ")
 				: "";
 			return `<div class="os-row ${one.ours ? "os-row-link" : ""}" ${one.ours ? `data-type="${esc(one.name)}" tabindex="0"` : ""}>
@@ -880,7 +912,9 @@ onedesk.Settings = class Settings {
 				["one_message"],
 				{ html: `${slots ? `<div class="os-quiet os-slots">${__("It can use {0}", [slots])}</div>` : ""}${preview}` }
 			);
-			if (!type.outside) {
+			if (type.always) {
+				rows.push({ html: `<div class="os-quiet">${esc(__("Its mail is always sent, so people can answer it by replying. The bell has it too."))}</div>` });
+			} else if (!type.outside) {
 				rows.push(
 					{ heading: __("Channels"), note: __("The bell is always on. Email is what people may add to it, and what a new person starts with.") },
 					["one_allow_email", "one_email_default"]
@@ -891,17 +925,15 @@ onedesk.Settings = class Settings {
 		}
 		const $card = this.form(data, { before: head, rows });
 		const draw = frappe.utils.debounce(() => this.preview(type.name, $card), 400);
+		// The preview follows the text; form() already keeps "Not Saved".
 		for (const name of ["one_subject", "one_message"]) {
 			const field = this.group.fields_dict[name];
 			if (!field) continue;
-			field.df.change = () => {
-				this.check();
+			const was = field.df.change;
+			field.df.change = (...args) => {
+				was && was(...args);
 				draw();
 			};
-		}
-		for (const name of ["enabled", "one_allow_email", "one_email_default", "one_allow_push", "one_push_default"]) {
-			const field = this.group.fields_dict[name];
-			if (field) field.df.change = () => this.check();
 		}
 		if (type.ours) this.ready.then(() => this.preview(type.name, $card));
 		$card.find("[data-back]").on("click", () => frappe.set_route("workspace-settings", { section: this.key }));

@@ -7,12 +7,16 @@ TYPES = [
 	{
 		"name": _lt("Project Update Asked"),
 		"app": "OneProject",
+		"roles": ("Projects User",),
 		"about": _lt(
-			"A project asks its people how it is going, as often as the project says. The email is one "
-			"they can reply to, so it is always sent, and a project's own question is asked instead of this text."
+			"A project asks its people how it is going, as often as the project says. A project's own "
+			"question is asked instead of this text."
 		),
 		"subject": _lt("How is {project} going?"),
 		"message": _lt("Post your update on the project's page, or reply to the email."),
+		# Not mailed through the bell, because its own mail is one people reply
+		# to, and that is always sent (updates.py, notify.mail).
 		"email": False,
+		"always_mailed": True,
 	},
 ]

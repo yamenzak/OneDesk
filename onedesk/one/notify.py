@@ -43,7 +43,7 @@ import re
 from functools import cache
 
 import frappe
-from frappe import _
+from frappe import _, _lt
 
 #: The custom fields on Notification Type (one/custom/notification_type.json).
 FIELDS = (
@@ -263,6 +263,65 @@ class _Slots(dict):
 
 	def __missing__(self, key):
 		return ""
+
+
+# ------------------------------------------------------------------ a person's choices
+
+#: Frappe's own kinds, said as a person would. Its "Alert" never mails, and
+#: energy points left frappe with gamification, so neither is offered.
+FRAPPE_KINDS = {
+	"Mention": _lt("Somebody mentioned you in a comment."),
+	"Assignment": _lt("Somebody gave you something to do, or it changed."),
+	"Share": _lt("Somebody shared a record with you."),
+}
+
+
+def choosable(user: str | None = None) -> list[dict]:
+	"""Every kind this person can receive, in the order the page lists them:
+	ours by app, frappe's after. A kind declared for some roles is theirs only;
+	one that goes outside the workspace is nobody's to choose."""
+	user = user or frappe.session.user
+	held = set(frappe.get_roles(user))
+	declared_types = declared()
+	rows = frappe.get_all(
+		"Notification Type",
+		filters={"enabled": 1},
+		fields=["name", "one_app", "one_about", "one_allow_email", "one_outside"],
+		order_by="one_app asc, name asc",
+	)
+	out = []
+	for row in rows:
+		one = declared_types.get(row.name)
+		if one:
+			if row.one_outside or (one.get("roles") and not held & set(one["roles"])):
+				continue
+			about, allowed = _(row.one_about) if row.one_about else "", bool(row.one_allow_email)
+			if one.get("always_mailed"):
+				out.append(
+					{
+						"name": row.name,
+						"label": _(row.name),
+						"app": row.one_app or "",
+						"about": about,
+						"allowed": False,
+						"always": True,
+					}
+				)
+				continue
+		elif row.name in FRAPPE_KINDS:
+			about, allowed = str(FRAPPE_KINDS[row.name]), True
+		else:
+			continue
+		out.append(
+			{
+				"name": row.name,
+				"label": _(row.name),
+				"app": row.one_app or "",
+				"about": about,
+				"allowed": allowed,
+			}
+		)
+	return sorted(out, key=lambda one: (not one["app"], one["app"], one["label"]))
 
 
 # ------------------------------------------------------------------ the text

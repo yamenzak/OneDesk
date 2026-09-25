@@ -2,7 +2,8 @@
 
 Each is sent through `notify.notify()` by the module named in its comment.
 The slots in `{braces}` are what the sender fills in; an administrator who
-edits a text uses the same names, as `{{ employee }}`.
+edits a text uses the same names, as `{{ employee }}`. `roles` is who can
+receive a type, so only they are asked how they want it (You › Notifications).
 """
 
 from frappe import _lt
@@ -12,6 +13,7 @@ TYPES = [
 	{
 		"name": _lt("Letter Requested"),
 		"app": "OneHR",
+		"roles": ("HR Manager",),
 		"about": _lt("An employee asks HR for a letter. Sent to HR Managers."),
 		"subject": _lt("{employee} asked for a {kind}"),
 		"email_default": True,
@@ -20,6 +22,7 @@ TYPES = [
 	{
 		"name": _lt("Sensitive Grievance"),
 		"app": "OneHR",
+		"roles": ("HR Manager",),
 		"about": _lt("OneAI read a new grievance as sensitive. Sent to the people trusted with grievances."),
 		"subject": _lt("A sensitive grievance was raised"),
 		"email_default": True,
@@ -28,6 +31,7 @@ TYPES = [
 	{
 		"name": _lt("Urgent Grievance"),
 		"app": "OneHR",
+		"roles": ("HR Manager",),
 		"about": _lt("OneAI read a new grievance as urgent. Sent to the people trusted with grievances."),
 		"subject": _lt("An urgent grievance was raised"),
 		"email_default": True,
@@ -37,6 +41,7 @@ TYPES = [
 	{
 		"name": _lt("Check-in Flagged"),
 		"app": "OneHR",
+		"roles": ("HR User", "HR Manager"),
 		"about": _lt(
 			"A check-in looked wrong, and waits for somebody to accept or reject it. Sent to its reviewers."
 		),
@@ -48,6 +53,7 @@ TYPES = [
 	{
 		"name": _lt("Shift Not Reading Check-ins"),
 		"app": "OneHR",
+		"roles": ("HR Manager",),
 		"about": _lt(
 			"A shift has check-ins but writes no attendance from them. Sent to HR Managers, at most weekly."
 		),
@@ -62,6 +68,7 @@ TYPES = [
 	{
 		"name": _lt("Could Not Mark Left"),
 		"app": "OneHR",
+		"roles": ("HR User", "HR Manager"),
 		"about": _lt(
 			"An employee's leaving date passed, but their status could not be set to Left. Sent to HR."
 		),
@@ -75,6 +82,7 @@ TYPES = [
 	{
 		"name": _lt("Check-in Closed for You"),
 		"app": "OneHR",
+		"roles": ("Employee",),
 		"about": _lt(
 			"Somebody checked in and never checked out, so One checked them out at the shift's end. Sent to them."
 		),
@@ -89,6 +97,7 @@ TYPES = [
 	{
 		"name": _lt("Check-in Place Proposed"),
 		"app": "OneHR",
+		"roles": ("HR Manager",),
 		"about": _lt(
 			"One added a network or location people check in from, because they kept using it. Sent to HR Managers."
 		),

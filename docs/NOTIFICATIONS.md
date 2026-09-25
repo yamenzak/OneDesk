@@ -141,7 +141,7 @@ entry and left until it matters.
 2. **The administrator's types.** Done. Workspace › Notifications: each type's
    channels, defaults and text, with a preview, reset, and OneAI's "Rewrite
    this".
-3. **The person's choices.** You › Notifications as the matrix. The screen we
+3. **The person's choices.** Done. You › Notifications as the matrix. The screen we
    are on now becomes this.
 4. **Push**, on the transport chosen. Registering a device, sending on
    Notification Log, and its legal lines.
@@ -211,3 +211,19 @@ on nothing but the browsers.
 - **OneAI** reads a type (`notification_type`) and suggests new text as a card
   (`rewrite_notification`), which the administrator applies.
 - **Push** is on every type and hidden until stage 4 sends it.
+
+## Stage 3, as built
+
+- **You › Notifications** is two switches (Notifications, Also by Email), a
+  tick per kind the person can receive, grouped by app, and Other Mail.
+- **A tick writes frappe's own `email_notification_types`**, so frappe's
+  mailing honours it as it is. Kinds not shown to the person are left as they
+  were.
+- **Only what can reach them.** A type may declare `roles`; the page lists it
+  only to people holding one (`notify.choosable`). Frappe's Mention,
+  Assignment and Share are everybody's.
+- **What cannot be changed says why**: not mailed in this workspace, or always
+  mailed because it is answered by replying (`always_mailed`, the project
+  update).
+- **OneAI** reads the person's own choices (`my_notifications`) and advises.
+- **Push** joins this page as a second column in stage 4.
