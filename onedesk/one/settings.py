@@ -3,13 +3,15 @@
 Before this a workspace manager had no single place to go. The account was a
 bare form, Intake Settings sat in its own sidebar, mailboxes were in OneMail,
 holidays in OneCalendar's Setup, people in frappe's User list, and a person's
-own settings were frappe's My Settings. **Settings** (the avatar menu, and One's
-sidebar) is one page with the sections down the side:
+own settings were frappe's My Settings. Now every section is an entry in One's
+own sidebar, so the page itself is one wide column, in two groups:
 
 - **You**, for everybody: profile, notifications, mail, calendar, sign-in, and
   what OneAI remembers about you.
 - **Workspace**, for its administrators only: general, people, plan and
-  credits, domains, OneAI, Intake and holidays.
+  credits, domains, OneAI, Intake and holidays. These open a second page,
+  `workspace-settings`, whose only role is Workspace Administrator, so frappe
+  hides the entries from everybody else.
 
 Nothing new is stored. Each section reads and writes the records that already
 hold it — User, Notification Settings, Company, System Settings, Workspace

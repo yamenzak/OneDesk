@@ -20,17 +20,178 @@
    "idx": 1
   },
   {
-   "child": 0,
-   "collapsible": 0,
-   "icon": "settings",
-   "indent": 0,
    "keep_closed": 0,
-   "label": "Settings",
+   "type": "Section Break",
+   "label": "You",
+   "icon": "user",
+   "indent": 1,
+   "collapsible": 1,
+   "idx": 2
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "Profile",
    "link_to": "settings",
    "link_type": "Page",
-   "show_arrow": 0,
+   "icon": "user",
+   "child": 1,
+   "route_options": "{\"section\": \"profile\"}",
+   "idx": 3,
+   "filters": "{\"section\": \"profile\"}"
+  },
+  {
+   "keep_closed": 0,
    "type": "Link",
-   "idx": 2
+   "label": "Notifications",
+   "link_to": "settings",
+   "link_type": "Page",
+   "icon": "bell",
+   "child": 1,
+   "route_options": "{\"section\": \"notifications\"}",
+   "idx": 4,
+   "filters": "{\"section\": \"notifications\"}"
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "Mail",
+   "link_to": "settings",
+   "link_type": "Page",
+   "icon": "mail",
+   "child": 1,
+   "route_options": "{\"section\": \"mail\"}",
+   "idx": 5,
+   "filters": "{\"section\": \"mail\"}"
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "Calendar",
+   "link_to": "settings",
+   "link_type": "Page",
+   "icon": "calendar",
+   "child": 1,
+   "route_options": "{\"section\": \"calendar\"}",
+   "idx": 6,
+   "filters": "{\"section\": \"calendar\"}"
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "Sign-in",
+   "link_to": "settings",
+   "link_type": "Page",
+   "icon": "key-round",
+   "child": 1,
+   "route_options": "{\"section\": \"signin\"}",
+   "idx": 7,
+   "filters": "{\"section\": \"signin\"}"
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "What OneAI Remembers",
+   "link_to": "settings",
+   "link_type": "Page",
+   "icon": "brain",
+   "child": 1,
+   "route_options": "{\"section\": \"memory\"}",
+   "idx": 8,
+   "filters": "{\"section\": \"memory\"}"
+  },
+  {
+   "keep_closed": 0,
+   "type": "Section Break",
+   "label": "Workspace",
+   "icon": "building-2",
+   "indent": 1,
+   "collapsible": 1,
+   "idx": 9
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "General",
+   "link_to": "workspace-settings",
+   "link_type": "Page",
+   "icon": "building-2",
+   "child": 1,
+   "route_options": "{\"section\": \"general\"}",
+   "idx": 10,
+   "filters": "{\"section\": \"general\"}"
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "People",
+   "link_to": "workspace-settings",
+   "link_type": "Page",
+   "icon": "users",
+   "child": 1,
+   "route_options": "{\"section\": \"people\"}",
+   "idx": 11,
+   "filters": "{\"section\": \"people\"}"
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "Plan and Credits",
+   "link_to": "workspace-settings",
+   "link_type": "Page",
+   "icon": "credit-card",
+   "child": 1,
+   "route_options": "{\"section\": \"plan\"}",
+   "idx": 12,
+   "filters": "{\"section\": \"plan\"}"
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "Domains",
+   "link_to": "workspace-settings",
+   "link_type": "Page",
+   "icon": "globe",
+   "child": 1,
+   "route_options": "{\"section\": \"domains\"}",
+   "idx": 13,
+   "filters": "{\"section\": \"domains\"}"
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "OneAI",
+   "link_to": "workspace-settings",
+   "link_type": "Page",
+   "icon": "sparkles",
+   "child": 1,
+   "route_options": "{\"section\": \"oneai\"}",
+   "idx": 14,
+   "filters": "{\"section\": \"oneai\"}"
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "Intake",
+   "link_to": "workspace-settings",
+   "link_type": "Page",
+   "icon": "inbox",
+   "child": 1,
+   "route_options": "{\"section\": \"intake\"}",
+   "idx": 15,
+   "filters": "{\"section\": \"intake\"}"
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "Holidays",
+   "link_to": "workspace-settings",
+   "link_type": "Page",
+   "icon": "calendar-days",
+   "child": 1,
+   "route_options": "{\"section\": \"holidays\"}",
+   "idx": 16,
+   "filters": "{\"section\": \"holidays\"}"
   },
   {
    "keep_closed": 0,
@@ -40,7 +201,7 @@
    "icon": "oneai",
    "indent": 1,
    "collapsible": 1,
-   "idx": 3
+   "idx": 17
   },
   {
    "keep_closed": 0,
@@ -51,7 +212,7 @@
    "link_type": "Report",
    "icon": "chart-column",
    "child": 1,
-   "idx": 4
+   "idx": 18
   },
   {
    "keep_closed": 0,
@@ -62,7 +223,7 @@
    "link_type": "DocType",
    "icon": "messages-square",
    "child": 1,
-   "idx": 5
+   "idx": 19
   },
   {
    "keep_closed": 0,
@@ -73,10 +234,10 @@
    "link_type": "DocType",
    "icon": "lightbulb",
    "child": 1,
-   "idx": 6
+   "idx": 20
   }
  ],
- "modified": "2026-10-02 12:00:00.000000",
+ "modified": "2026-10-03 15:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

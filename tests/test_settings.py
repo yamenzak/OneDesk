@@ -42,7 +42,7 @@ def test_a_manager_uses_the_app_as_well():
 
 def test_every_section_has_a_loader_and_a_drawing():
 	source = SETTINGS.read_text()
-	page = (tree.APP / "one" / "page" / "settings" / "settings.js").read_text()
+	page = (tree.APP / "public" / "js" / "settings.js").read_text()
 	for key, _label, _icon, group in S["SECTIONS"]:
 		assert f'"{key}": _{key}' in source, key
 		assert f"draw_{key}(" in page, key
@@ -55,3 +55,14 @@ def test_every_workspace_section_is_for_its_administrators():
 		body = source.split(f"def {name}(", 1)[1].split("\n@frappe.whitelist", 1)[0]
 		assert "roles.require()" in body, name
 	assert re.search(r'if _group\(section\) == "workspace":\s+roles\.require\(\)', source)
+
+
+def test_the_sections_are_the_ones_sidebar_and_the_workspaces_only_for_its_administrators():
+	import json
+
+	rail = json.loads((tree.APP / "one" / "sidebar" / "one" / "one.json").read_text())
+	linked = {(json.loads(item["route_options"])["section"], item["link_to"]) for item in rail["items"] if item.get("route_options")}
+	for key, _label, _icon, group in S["SECTIONS"]:
+		assert (key, "settings" if group == "you" else "workspace-settings") in linked, key
+	page = json.loads((tree.APP / "one" / "page" / "workspace_settings" / "workspace_settings.json").read_text())
+	assert [one["role"] for one in page["roles"]] == ["Workspace Administrator"]
