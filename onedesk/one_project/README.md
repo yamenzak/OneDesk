@@ -356,11 +356,12 @@ one field for it.
   is written before ERPNext makes its tasks (naming.py).
 - `overview.py` — what the band answers, over the tree the reader may see:
   tasks done of all, days to the expected end (`days_left`), ERPNext's cost,
-  billing and margin added up (tree.totals), overdue tasks and the next
-  milestone.
-- `public/js/project.js` — the Board, Calendar and Schedule buttons, the
-  overview in the band, Group Under New Project, Save as Template, Invoice
-  Time and Post Update;
+  billing and margin added up (tree.totals), overdue tasks, the next
+  milestone, and the hours logged a week for twelve weeks.
+- `heads.py` — the band and the hours chart as the project's Record Head
+  (one/head.py), each a measure or a chart over `overview`.
+- `public/js/project.js` — the Board, Calendar and Schedule buttons, Group
+  Under New Project, Save as Template, Invoice Time and Post Update;
   `public/js/project_template.js` is a template's New Project.
 
 ### What OneTask has to keep doing for projects

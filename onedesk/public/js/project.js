@@ -1,6 +1,6 @@
-// A project's page: its board, calendar and plan as buttons of their own, the
-// overview in the band, Group Under New Project, Save as Template, Invoice
-// Time and Post Update.
+// A project's page: its board, calendar and plan as buttons of their own,
+// Group Under New Project, Save as Template, Invoice Time and Post Update.
+// What it says above its fields is its Record Head (one_project/heads.py).
 //
 // The board is ERPNext's own, made the way their button makes it
 // (one_project/board.py shapes it as it is made). Calendar is OneCalendar
@@ -32,95 +32,11 @@ frappe.ui.form.on("Project", {
 		if (frappe.model.can_create("Project Template")) {
 			frm.add_custom_button(__("Save as Template"), () => onedesk.project.save_as(frm), __("Actions"));
 		}
-		onedesk.project.band(frm);
 		onedesk.project.asked(frm);
 	},
 });
 
 frappe.provide("onedesk.project");
-
-// What a project's page answers first (one_project/overview.py): how far it
-// has got, whether it is on time, cost against budget, billed against what
-// there is to bill (each with a meter), what is late and what comes next, and
-// beside them the hours logged week by week. The whole tree's, when
-// the project has sub-projects.
-onedesk.project.band = async (frm) => {
-	const said = await frappe.xcall("onedesk.one_project.overview.overview", { project: frm.doc.name });
-	if (frm.doc.name !== cur_frm?.doc?.name) return;
-	const money = (value) => format_currency(value, said.currency, 0);
-	const of = (part, whole) => (whole ? __("{0} of {1}", [money(part), money(whole)]) : money(part));
-	const stat = onedesk.band.stat;
-	const stats = [];
-	// Health is somebody's judgement, not a figure, so it leads: an Open project
-	// can be in trouble before any number here says so.
-	if (frm.doc.one_health && frm.doc.status === "Open") {
-		const tone = { "At Risk": "waiting", "Off Track": "alarm" }[frm.doc.one_health];
-		stats.push(stat(__("Health"), __(frm.doc.one_health), null, tone));
-	}
-	if (said.projects > 1) stats.push(stat(__("Sub-projects"), said.projects - 1, "/desk/query-report/Project Tree"));
-	stats.push(
-		stat(
-			__("Done"),
-			said.tasks ? __("{0}% · {1} of {2} tasks", [said.share, said.done, said.tasks]) : `${said.share}%`,
-			null,
-			null,
-			{ meter: { value: said.share, of: 100 } },
-		),
-	);
-	if (said.end) {
-		const left = said.days_left;
-		const when =
-			left === null ? frappe.datetime.str_to_user(said.end)
-			: left < 0 ? __("{0} days late", [-left])
-			: left === 0 ? __("Today")
-			: __("In {0} days", [left]);
-		stats.push(stat(__("Due"), when, null, left !== null && left < 0 ? "alarm" : null));
-	}
-	stats.push(
-		stat(__("Cost"), of(said.cost, said.estimated), null, said.estimated && said.cost > said.estimated ? "alarm" : null, {
-			meter: said.estimated ? { value: said.cost, of: said.estimated } : null,
-		}),
-	);
-	if (said.to_bill || said.billed) {
-		stats.push(stat(__("Billed"), of(said.billed, said.to_bill), null, null, { meter: said.to_bill ? { value: said.billed, of: said.to_bill } : null }));
-	}
-	if (said.billed || said.cost) stats.push(stat(__("Margin"), money(said.margin), null, said.margin < 0 ? "alarm" : null));
-	if (said.late) {
-		// The late ones, across the tree: the list, filtered the way the rail's
-		// Inbox is, by route options.
-		const route = (value) => encodeURIComponent(JSON.stringify(value));
-		const late =
-			`/desk/task?project=${route(["in", said.tree])}` +
-			`&status=${route(["not in", ["Completed", "Cancelled", "Template"]])}` +
-			`&exp_end_date=${route(["<", frappe.datetime.get_today()])}`;
-		stats.push(stat(__("Overdue Tasks"), said.late, late, "alarm"));
-	}
-	if (said.milestone) {
-		stats.push(
-			stat(
-				__("Next Milestone"),
-				`${said.milestone.subject} · ${frappe.datetime.str_to_user(said.milestone.exp_end_date.split(" ")[0])}`,
-				`/desk/task/${encodeURIComponent(said.milestone.name)}`,
-			),
-		);
-	}
-	// The hours logged, a bar a week: whether the work is moving, which none
-	// of the totals above can say.
-	const charts = said.weekly
-		? [
-				{
-					kind: "bar",
-					label: __("Hours Logged, Week by Week"),
-					labels: said.weekly.labels,
-					values: said.weekly.values,
-					said: __("{0} hours in 12 weeks", [format_number(said.weekly.total, null, 1)]),
-					route: `/desk/timesheet?parent_project=${encodeURIComponent(frm.doc.name)}`,
-					marked: said.weekly.values.length - 1,
-				},
-			]
-		: [];
-	onedesk.band.show(frm, stats, charts);
-};
 
 // The schedule: frappe's Gantt over the tasks of this project and everything under
 // it, the ones still in play. See one_project/plan.py.

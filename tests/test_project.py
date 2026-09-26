@@ -198,8 +198,12 @@ def test_the_overview_counts_days_and_work():
 def test_the_overview_is_the_whole_tree_and_its_chart_is_the_bands():
 	source = (PROJECT / "overview.py").read_text()
 	assert "tree.below({project}, tree.parents())" in source and "members.sees(one, user)" in source
+	# What the page says above its fields is its Record Head, over the overview.
+	heads = (PROJECT / "heads.py").read_text()
+	assert "overview.overview(name)" in heads and '"doctype": "Project"' in heads
+	assert '"charts": [{"chart": "project.hours"}]' in heads
 	page = (tree.APP / "public" / "js" / "project.js").read_text()
-	assert "onedesk.one_project.overview.overview" in page and "onedesk.band.show(frm, stats, charts)" in page
+	assert "onedesk.band" not in page
 	# The hours are the reader's own list of timesheets, and the chart is the
 	# band's (frappe.Chart in band.js), never one drawn here.
 	weekly = source.split("def _weekly(", 1)[1]
@@ -462,7 +466,7 @@ def test_what_the_old_oneproject_had_that_is_kept():
 	assert '"one_manager": user' in _body((PROJECT / "members.py").read_text(), "visible"), (
 		"who runs it sees it"
 	)
-	assert "frm.doc.one_health" in (tree.APP / "public" / "js" / "project.js").read_text()
+	assert "doc.one_health" in (PROJECT / "heads.py").read_text(), "health leads the band"
 	rail = json.loads((PROJECT / "sidebar" / "oneproject" / "oneproject.json").read_text())
 	items = {item["label"]: item for item in rail["items"]}
 	assert "is_milestone" in items["Milestones"]["filters"]

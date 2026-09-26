@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-26 02:06+0000\n"
-"PO-Revision-Date: 2026-09-26 02:06+0000\n"
+"POT-Creation-Date: 2026-09-26 02:09+0000\n"
+"PO-Revision-Date: 2026-09-26 02:09+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -805,7 +805,7 @@ msgid "Action"
 msgstr "إجراء"
 
 #: onedesk/public/js/project.js:27 onedesk/public/js/project.js:30
-#: onedesk/public/js/project.js:33 onedesk/public/js/project.js:236
+#: onedesk/public/js/project.js:33 onedesk/public/js/project.js:152
 msgid "Actions"
 msgstr "الإجراءات"
 
@@ -2086,7 +2086,7 @@ msgstr "قابل للفوترة"
 #: onedesk/one_book/heads.py:323
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:211
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:243
-#: onedesk/public/js/project.js:85
+#: onedesk/one_project/heads.py:171
 msgid "Billed"
 msgstr ""
 
@@ -3272,7 +3272,7 @@ msgstr "انسخ الملفات داخل {0}، لا المجلد، من الخا
 msgid "Correction"
 msgstr "تصحيح"
 
-#: onedesk/one_inventory/heads.py:353 onedesk/public/js/project.js:80
+#: onedesk/one_inventory/heads.py:353 onedesk/one_project/heads.py:170
 msgid "Cost"
 msgstr "التكلفة"
 
@@ -3338,8 +3338,8 @@ msgstr "شمول العطل أيضاً"
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/public/js/onecloud.js:1363 onedesk/public/js/opportunity.js:18
-#: onedesk/public/js/opportunity.js:19 onedesk/public/js/project.js:152
-#: onedesk/public/js/project.js:213
+#: onedesk/public/js/opportunity.js:19 onedesk/public/js/project.js:68
+#: onedesk/public/js/project.js:129
 msgid "Create"
 msgstr "إنشاء"
 
@@ -4122,14 +4122,14 @@ msgstr "نطاقات تنتظر"
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:21
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:36
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
-#: onedesk/one_intake/page/intake/intake.js:28 onedesk/one_project/portal.py:38
+#: onedesk/one_intake/page/intake/intake.js:28 onedesk/one_project/heads.py:168
+#: onedesk/one_project/portal.py:38
 #: onedesk/one_task/doctype/task_step/task_step.json
 #: onedesk/public/js/account_request.js:24 onedesk/public/js/ai_proposal.js:23
 #: onedesk/public/js/ai_proposal_list.js:10 onedesk/public/js/decision.js:39
 #: onedesk/public/js/job.js:27 onedesk/public/js/job.js:44
 #: onedesk/public/js/job.js:49 onedesk/public/js/learned.js:34
-#: onedesk/public/js/onecloud.js:2136 onedesk/public/js/project.js:63
-#: onedesk/public/js/shift_type.js:29
+#: onedesk/public/js/onecloud.js:2136 onedesk/public/js/shift_type.js:29
 msgid "Done"
 msgstr ""
 
@@ -4259,8 +4259,8 @@ msgstr "أُسقط"
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
 #: onedesk/one_book/heads.py:314
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
+#: onedesk/one_project/heads.py:169
 #: onedesk/one_task/page/my_tasks/my_tasks.js:43
-#: onedesk/public/js/project.js:77
 msgid "Due"
 msgstr "الاستحقاق"
 
@@ -5689,7 +5689,7 @@ msgstr ""
 msgid "Group By"
 msgstr "التجميع حسب"
 
-#: onedesk/public/js/project.js:27 onedesk/public/js/project.js:141
+#: onedesk/public/js/project.js:27 onedesk/public/js/project.js:57
 msgid "Group Under New Project"
 msgstr "تجميع تحت مشروع جديد"
 
@@ -5776,9 +5776,8 @@ msgid "Heading"
 msgstr ""
 
 #. Label of the one_health (Select) field in DocType 'Project'
-#: onedesk/one_project/custom/project.json
+#: onedesk/one_project/custom/project.json onedesk/one_project/heads.py:166
 #: onedesk/one_project/report/project_tree/project_tree.py:52
-#: onedesk/public/js/project.js:58
 msgid "Health"
 msgstr "الحالة الصحية"
 
@@ -5902,7 +5901,7 @@ msgstr "الرئيسية"
 msgid "Hours"
 msgstr ""
 
-#: onedesk/public/js/project.js:113
+#: onedesk/one_project/heads.py:159
 msgid "Hours Logged, Week by Week"
 msgstr "الساعات المسجلة أسبوعًا بأسبوع"
 
@@ -6269,7 +6268,7 @@ msgstr "في تبويب"
 msgid "In the order the form shows them; drag a row to move it. A field the record came with may be hidden, not removed."
 msgstr "بالترتيب الذي يعرضها به النموذج؛ اسحب صفًا لنقله. الحقل الذي جاء مع السجل يمكن إخفاؤه لا حذفه."
 
-#: onedesk/one_project/portal.py:143 onedesk/public/js/project.js:76
+#: onedesk/one_project/heads.py:77 onedesk/one_project/portal.py:143
 msgid "In {0} days"
 msgstr "خلال {0} يوم"
 
@@ -6537,7 +6536,7 @@ msgstr ""
 msgid "Invoice Number"
 msgstr "رقم الفاتورة"
 
-#: onedesk/public/js/project.js:30 onedesk/public/js/project.js:193
+#: onedesk/public/js/project.js:30 onedesk/public/js/project.js:109
 msgid "Invoice Time"
 msgstr "فوترة الوقت"
 
@@ -6656,7 +6655,7 @@ msgid "It would end somebody's employment."
 msgstr "سينهي عمل أحد الموظفين."
 
 #: onedesk/one_inventory/report/to_order/to_order.py:15
-#: onedesk/public/js/project.js:206
+#: onedesk/public/js/project.js:122
 msgid "Item"
 msgstr "الصنف"
 
@@ -7899,7 +7898,7 @@ msgstr ""
 msgid "Mar"
 msgstr ""
 
-#: onedesk/public/js/project.js:87
+#: onedesk/one_project/heads.py:172
 msgid "Margin"
 msgstr ""
 
@@ -8202,7 +8201,7 @@ msgstr "أقصى عدد من الصفحات المقروءة"
 msgid "Move"
 msgstr ""
 
-#: onedesk/public/js/project.js:147
+#: onedesk/public/js/project.js:63
 msgid "Move These Beside It"
 msgstr "انقل هذه بجانبه"
 
@@ -8574,7 +8573,7 @@ msgstr "الإهلاك التالي"
 msgid "Next Depreciation · {0}"
 msgstr "الإهلاك التالي · {0}"
 
-#: onedesk/public/js/project.js:101
+#: onedesk/one_project/heads.py:174
 msgid "Next Milestone"
 msgstr "المرحلة التالية"
 
@@ -8660,7 +8659,7 @@ msgstr "بلا مناوبة"
 msgid "No asset is marked Maintenance Required."
 msgstr "لا يوجد أصل مُعلَّم بأنه يحتاج صيانة."
 
-#: onedesk/public/js/project.js:189
+#: onedesk/public/js/project.js:105
 msgid "No billable time on {0} is waiting to be invoiced."
 msgstr "لا يوجد في {0} وقت قابل للفوترة بانتظار الفاتورة."
 
@@ -9870,7 +9869,7 @@ msgstr "لا يقرر هذا إلا {0} أو مسؤول مساحة العمل."
 #: onedesk/one_task/custom/task.json onedesk/public/js/intake.js:215
 #: onedesk/public/js/oneai/Record.vue:15 onedesk/public/js/onecloud.js:640
 #: onedesk/public/js/onecloud.js:1748 onedesk/public/js/onecloud.js:1756
-#: onedesk/public/js/onecloud.js:1772 onedesk/public/js/project.js:176
+#: onedesk/public/js/onecloud.js:1772 onedesk/public/js/project.js:92
 #: onedesk/public/js/settings.js:243 onedesk/public/js/settings.js:676
 #: onedesk/www/s.html:48 onedesk/www/s.html:56
 msgid "Open"
@@ -10174,7 +10173,7 @@ msgstr "مدة التأخر"
 msgid "Overdue Invoices"
 msgstr "فواتير متأخرة"
 
-#: onedesk/public/js/project.js:96
+#: onedesk/one_project/heads.py:173
 msgid "Overdue Tasks"
 msgstr ""
 
@@ -10806,12 +10805,12 @@ msgstr "تكرار محتمل لـ"
 msgid "Possible Duplicate Type"
 msgstr "نوع التكرار المحتمل"
 
-#: onedesk/public/js/project.js:255
+#: onedesk/public/js/project.js:171
 msgid "Post"
 msgstr "نشر"
 
-#: onedesk/public/js/project.js:234 onedesk/public/js/project.js:236
-#: onedesk/public/js/project.js:254
+#: onedesk/public/js/project.js:150 onedesk/public/js/project.js:152
+#: onedesk/public/js/project.js:170
 msgid "Post Update"
 msgstr "نشر تحديث"
 
@@ -10969,7 +10968,7 @@ msgstr ""
 msgid "Project Manager"
 msgstr ""
 
-#: onedesk/public/js/project.js:143
+#: onedesk/public/js/project.js:59
 msgid "Project Name"
 msgstr ""
 
@@ -12256,12 +12255,12 @@ msgstr "تُسجّل المبيعات تحت إمارة الشركة."
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:52
 #: onedesk/public/js/crm_record.js:106 onedesk/public/js/next_step.js:31
 #: onedesk/public/js/onecloud.js:1488 onedesk/public/js/onemail.js:829
-#: onedesk/public/js/onemail.js:853 onedesk/public/js/project.js:180
+#: onedesk/public/js/onemail.js:853 onedesk/public/js/project.js:96
 #: onedesk/public/js/settings.js:263 onedesk/public/js/shell.js:325
 msgid "Save"
 msgstr "حفظ"
 
-#: onedesk/public/js/project.js:33 onedesk/public/js/project.js:179
+#: onedesk/public/js/project.js:33 onedesk/public/js/project.js:95
 msgid "Save as Template"
 msgstr "حفظ كقالب"
 
@@ -13515,7 +13514,7 @@ msgstr "مهام متعثّرة"
 msgid "Sub-project Of"
 msgstr "مشروع فرعي من"
 
-#: onedesk/one_project/tree.py:192 onedesk/public/js/project.js:60
+#: onedesk/one_project/heads.py:167 onedesk/one_project/tree.py:192
 #: onedesk/www/projects.html:47
 msgid "Sub-projects"
 msgstr "المشاريع الفرعية"
@@ -13866,7 +13865,7 @@ msgstr "أخبرنا من أنت وما تحتاجه، وسنعاود التوا
 msgid "Template"
 msgstr ""
 
-#: onedesk/public/js/project.js:170
+#: onedesk/public/js/project.js:86
 msgid "Template Name"
 msgstr "اسم القالب"
 
@@ -15178,7 +15177,7 @@ msgstr "إلى {0}"
 
 #: onedesk/one_book/heads.py:47
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:166
-#: onedesk/one_task/mine.py:23 onedesk/public/js/project.js:75
+#: onedesk/one_project/heads.py:77 onedesk/one_task/mine.py:23
 msgid "Today"
 msgstr "اليوم"
 
@@ -16321,7 +16320,7 @@ msgstr "ما التدريب الذي سيساعد؟"
 msgid "What was done and for what, so the same thing is never done twice."
 msgstr "ما فُعل ولأجل ماذا، كي لا يتكرر الأمر نفسه."
 
-#: onedesk/public/js/project.js:247
+#: onedesk/public/js/project.js:163
 msgid "What was done, what comes next, and anything in the way."
 msgstr "ما أُنجز، وما التالي، وأي عائق."
 
@@ -17124,7 +17123,7 @@ msgstr "صناديق بريدك"
 msgid "Your Organisation's"
 msgstr "الخاصة بمؤسستك"
 
-#: onedesk/public/js/project.js:245
+#: onedesk/public/js/project.js:161
 msgid "Your Update"
 msgstr "تحديثك"
 
@@ -17200,11 +17199,11 @@ msgstr "دورك"
 msgid "Your trial has started. The workspace is being built."
 msgstr "بدأت تجربتك. ويجري إنشاء مساحة العمل."
 
-#: onedesk/public/js/project.js:251
+#: onedesk/public/js/project.js:167
 msgid "Your update is on the project."
 msgstr "تحديثك الآن في المشروع."
 
-#: onedesk/public/js/project.js:233
+#: onedesk/public/js/project.js:149
 msgid "Your update on this project is asked for today."
 msgstr "مطلوب منك اليوم تحديث عن هذا المشروع."
 
@@ -17961,7 +17960,7 @@ msgstr "قبل {0} أيام من {2} في {1}"
 msgid "{0} days before it falls to {1}."
 msgstr "{0} يوماً قبل أن تهبط إلى {1}."
 
-#: onedesk/one_project/portal.py:140 onedesk/public/js/project.js:74
+#: onedesk/one_project/heads.py:76 onedesk/one_project/portal.py:140
 msgid "{0} days late"
 msgstr "متأخر {0} يوم"
 
@@ -18093,11 +18092,11 @@ msgstr "{0} بحوزته"
 msgid "{0} hours"
 msgstr ""
 
-#: onedesk/public/js/project.js:116
+#: onedesk/one_project/heads.py:140
 msgid "{0} hours in 12 weeks"
 msgstr "{0} ساعة في 12 أسبوعًا"
 
-#: onedesk/public/js/project.js:200
+#: onedesk/public/js/project.js:116
 msgid "{0} hours, {1}, not invoiced yet."
 msgstr "{0} ساعة، {1}، لم تُفوتر بعد."
 
@@ -18113,7 +18112,7 @@ msgstr "{0} مجلد. اختر الملفات التي فيه."
 msgid "{0} is a sub-project of {1}."
 msgstr "أصبح {0} مشروعًا فرعيًا من {1}."
 
-#: onedesk/public/js/project.js:174
+#: onedesk/public/js/project.js:90
 msgid "{0} is a template."
 msgstr "أصبح {0} قالبًا."
 
@@ -18387,7 +18386,7 @@ msgstr "منها {0} تعمل."
 msgid "{0} of what shows above the fields comes with the form, from {1}, and stays as it is."
 msgstr "{0} مما يظهر فوق الحقول يأتي مع النموذج من {1}، ويبقى كما هو."
 
-#: onedesk/public/js/project.js:51
+#: onedesk/one_project/heads.py:35
 msgid "{0} of {1}"
 msgstr ""
 
@@ -18626,7 +18625,7 @@ msgstr "{0} · {1} مرجّحة"
 msgid "{0} – running"
 msgstr "{0} – جارٍ"
 
-#: onedesk/public/js/project.js:64
+#: onedesk/one_project/heads.py:61
 msgid "{0}% · {1} of {2} tasks"
 msgstr "{0}% · {1} من {2} مهام"
 
