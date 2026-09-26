@@ -78,10 +78,39 @@ be ours; how it behaves is frappe's.
   one row, and espresso put the button on a line of its own. The desk part
   stays; only its look is brought in line. Behaviour is still frappe's.
 
+## A record answers first
+
+On top of the nine points, every record screen is checked against the record
+shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
+
+- **Its head answers what somebody opened it for**, above the fields and on
+  every tab: where it stands (the pill), one sentence when there is news, a
+  band of metric cards (a value, a meter for a part of a whole, a change
+  against the period before), a chart only where the trend is the question,
+  and its verbs, each asking in frappe's own dialog, with at most one
+  primary. A record with nothing worth saying there gets no head; one that
+  has something gets a Record Head in its module's `heads.py`.
+- **No form script draws a head.** A pill, a headline, a band or a progress
+  bar set from a script is refused by `tests/test_head.py`, headed doctype or
+  not. A script keeps only what is not a head: a dialog that answers inside
+  itself, a sidebar action, a field's options.
+- **A sentence that reads a field the form changes redraws as it changes**
+  (`redraw_on`), so a new record says what it will do before it is saved.
+- **Another record's fields are edited in place**, as a Linked Section,
+  rather than by opening the other record.
+- **Mail, Files and Activity are the record's own tabs** (`one_record_tabs`),
+  not links out.
+- **A workspace administrator shapes it from the form's menu** (Customize),
+  and OneAI proposes a change through the same door. Nothing a workspace
+  does is code.
+- **Lists stay frappe's list.** No stat strip above one; numbers belong on a
+  record's head or a dashboard.
+
 ## How one screen goes
 
 1. Screenshot it and read the code behind it.
-2. Write the findings under the nine points below.
+2. Write the findings under the nine points, then "A record answers first"
+   for a record screen, then anything else about using it (UX).
 3. Fix them, look again in the browser, and run the gates.
 4. Commit, push, and show you a screenshot.
 5. Wait for your word before the next screen.
@@ -92,7 +121,7 @@ be ours; how it behaves is frappe's.
 |---|---|---|
 | Settings, You | Profile | done |
 | Settings, You | Notifications | done (stage 3 of NOTIFICATIONS.md; push is stage 4) |
-| Settings, You | Mail | |
+| Settings, You | Mail | findings written, waiting on your word |
 | Settings, You | Calendar | |
 | Settings, You | Sign-in | |
 | Settings, You | What OneAI Remembers | |
@@ -220,6 +249,48 @@ Every settings screen, from the first commit of the pass:
      category of personal data, and an emergency contact is personal data
      about somebody who is not a user. The organisation decides whether to
      collect them and needs a lawful basis to.
+
+### Mail
+
+Lists the reader's mailboxes (`holders.mailboxes`): the workspace's, their
+own address on the mail domain, and any they connected. Each opens in
+OneMail; one that sends has a Signature button (frappe's Text Editor in a
+Dialog, `holders.set_signature`). Connect a Mailbox goes to OneMail.
+
+Findings, with what is recommended. Nothing is changed yet.
+
+1. **Notifications**: a mailbox that stops being reachable says nothing to
+   anybody. `sync.py` writes `one_error` and stops; the only sign is a red
+   badge here and in OneMail. Recommended: one notice to its holders when it
+   breaks, through the hub, with a way to reconnect, and none on every
+   failed sync after that.
+2. **OneAI**: the panel knows the section (`page:settings/mail`) and has no
+   suggestion for it. Recommended: "Write my signature", from the profile
+   (name, designation, phone, company), into the same dialog to check
+   before saving.
+3. **Intake**: nothing to add. The badge says which mailbox Intake reads;
+   choosing one is Workspace › Intake.
+4. **Permissions**: anybody who holds the workspace's mailbox can change the
+   signature everybody sends under. By design (`set_signature`), but worth a
+   decision: keep it, or keep a shared mailbox's signature to Workspace
+   Administrators.
+5. **Cross-module**: OneMail owns the mailboxes; this reads them and opens
+   them there. Nothing to add.
+6. **Bespoke UI and UX**:
+   - What you sign with is behind a button. Recommended: the signature's
+     first line on the row, or "No signature".
+   - A personal address on the mail domain receives only, so it has no
+     Signature button and nothing says why. Recommended: "Receives only".
+   - A mailbox that is not reachable shows a red badge whose reason is in a
+     hover title. Recommended: the reason on the row, and Reconnect.
+   - The list does not change when a mailbox breaks or recovers until the
+     page is opened again. Recommended: redraw on the sync's realtime event.
+7. **Documented**: `one/README.md` has no Mail section, so OneAI cannot
+   answer "how do I change my signature". Recommended: write it.
+8. **Legal**: `one_mail/legal.py` already declares connected mailboxes
+   (`onemail-mailboxes`) and the mail carrier. Nothing to add.
+9. **Built from frappe**: the dialog is frappe's, the rows and buttons are
+   the settings shell's (espresso buttons and badges). Nothing to change.
 
 ### Agreements
 

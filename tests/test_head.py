@@ -185,12 +185,13 @@ def test_the_head_is_worked_out_on_the_server_and_drawn_once():
 	assert 'frappe.ui.form.on("*"' in js and "onedesk.one.head.run" in js
 
 
-def test_a_doctype_with_a_head_has_no_script_drawing_one():
-	headed = set()
-	for path in _hook("one_record_heads"):
-		source = tree.APP.parent / (path.rsplit(".", 1)[0].replace(".", "/") + ".py")
-		headed |= set(re.findall(r'"doctype": "([^"]+)"', source.read_text(encoding="utf-8")))
-	headed |= {"Sales Invoice", "Purchase Invoice"}
+def test_no_form_script_draws_a_head():
+	"""A pill, a headline, a band or a progress bar over a record's fields is
+	its Record Head, declared in its module's heads.py and drawn by head.js.
+	No form script draws one, headed doctype or not: a record that needs
+	something above its fields is given a head, which the workspace can then
+	customize and OneAI can read. A form script keeps what is not a head (a
+	dialog that answers inside itself, a sidebar action, a field's options)."""
 	scripts = ast.literal_eval(
 		next(
 			node.value
@@ -198,10 +199,11 @@ def test_a_doctype_with_a_head_has_no_script_drawing_one():
 			if isinstance(node, ast.Assign) and node.targets[0].id == "doctype_js"
 		)
 	)
-	# A headed doctype may keep a script for what is not its head (a lead's
-	# calendar, a deal's Declare Lost); it may not draw a band or a headline.
-	for doctype in sorted(headed & set(scripts)):
-		script = (tree.APP / scripts[doctype]).read_text(encoding="utf-8")
+	paths = {tree.APP / path for path in scripts.values()}
+	paths |= set(tree.APP.glob("*/doctype/*/*.js"))
+	assert len(paths) > 20
+	for path in sorted(paths):
+		script = path.read_text(encoding="utf-8")
 		for drawing in (
 			"onedesk.band.show",
 			"set_headline(",
@@ -211,6 +213,6 @@ def test_a_doctype_with_a_head_has_no_script_drawing_one():
 			"dashboard.add_progress(",
 			"onedesk.decision",
 		):
-			assert drawing not in script, f"{scripts[doctype]} still draws {doctype}'s head"
+			assert drawing not in script, f"{path.relative_to(tree.APP)} draws a head ({drawing}); declare a Record Head"
 	for gone in ("item.js", "asset.js", "invoice.js", "decision.js", "leave_application.js", "salary_slip.js"):
 		assert not (tree.APP / "public" / "js" / gone).exists(), gone
