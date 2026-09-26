@@ -1,18 +1,12 @@
-// A lead's and a deal's page: the answers in a band under the title, and calls
-// written down from the sidebar. See one_crm/record.py.
+// A lead's and a deal's page: calls written down from the sidebar, and a
+// possible duplicate said above the form. What the page says above its fields
+// and Take This Lead are its Record Head (one_crm/heads.py).
 frappe.provide("onedesk.crm_record");
 
 onedesk.crm_record.refresh = (frm) => {
 	onedesk.crm_record.one_series(frm);
 	if (frm.is_new()) return;
 	onedesk.crm_record.actions(frm);
-	frappe
-		.xcall("onedesk.one_crm.record.overview", { doctype: frm.doctype, name: frm.doc.name })
-		.then((said) => {
-			if (said && frm.doc.name === cur_frm?.doc?.name) {
-				onedesk.band.show(frm, onedesk.crm_record.stats(frm, said));
-			}
-		});
 };
 
 // erpnext shows a new record's Series whatever its property setters say
@@ -24,21 +18,10 @@ onedesk.crm_record.one_series = (frm) => {
 	}
 };
 
-onedesk.crm_record.OWNER = { Lead: "lead_owner", Opportunity: "opportunity_owner" };
-
 onedesk.crm_record.actions = (frm) => {
 	frm.sidebar.clear_user_actions();
 	if (!frm.perm[0]?.write) return;
 	frm.sidebar.add_user_action(__("Log a Call"), () => onedesk.crm_record.call(frm));
-
-	// Nobody's yet: it came in from the web form or the inbox. See one_crm/capture.py.
-	if (!frm.doc[onedesk.crm_record.OWNER[frm.doctype]]) {
-		frm.add_custom_button(frm.doctype === "Lead" ? __("Take This Lead") : __("Take This Deal"), () =>
-			frappe
-				.xcall("onedesk.one_crm.capture.take", { doctype: frm.doctype, name: frm.doc.name })
-				.then(() => frm.reload_doc()),
-		);
-	}
 	if (frm.doctype === "Lead" && frm.doc.one_duplicate_of) onedesk.crm_record.duplicate(frm);
 };
 
@@ -84,111 +67,6 @@ onedesk.crm_record.duplicate = (frm) => {
 		},
 	}),
 );
-
-onedesk.crm_record.stats = (frm, said) => {
-	const stat = onedesk.band.stat;
-	const stats = [];
-	const ago = (when) => frappe.datetime.prettyDate(when);
-
-	if (frm.doctype === "Opportunity") {
-		stats.push(stat(
-			__("Deal Value · {0}%", [said.probability]),
-			format_currency(said.value, said.currency, 0),
-			null,
-			null,
-			{ meter: { value: said.probability || 0, of: 100 } },
-		));
-		// Beside what is usual for the stage, once there is a usual: a deal
-		// here longer than most is one to look at.
-		stats.push(stat(
-			said.stage || __("Sales Stage"),
-			said.usual != null
-				? __("for {0} · usually {1}", [onedesk.crm_record.since(said.since), onedesk.crm_record.days(said.usual)])
-				: __("for {0}", [onedesk.crm_record.since(said.since)]),
-			null,
-			said.long ? "waiting" : null,
-			// How far through the stage's usual time it is: full, and amber, once
-			// it has been here longer than most.
-			{
-				meter: said.usual
-					? { value: frappe.datetime.get_day_diff(frappe.datetime.now_datetime(), said.since), of: said.usual }
-					: null,
-			},
-		));
-	} else {
-		stats.push(stat(__("Came In"), ago(said.since)));
-		if (said.first_reply) {
-			stats.push(stat(__("First Reply"), __("after {0}", [onedesk.crm_record.since(said.since, said.first_reply)])));
-		} else if (said.open) {
-			stats.push(stat(__("Waiting For a Reply"), onedesk.crm_record.since(said.since), null, "waiting"));
-		}
-	}
-
-	if (said.open) stats.push(onedesk.crm_record.next(said.next));
-
-	stats.push(
-		said.contact
-			? stat(
-				said.contact.kind === "Call" ? __("Last Call") : __("Last Email"),
-				ago(said.contact.at),
-				`/desk/${frappe.router.slug(said.contact.doctype)}/${encodeURIComponent(said.contact.name)}`,
-			)
-			: stat(__("Last Contact"), __("None yet"), null, said.open ? "waiting" : "quiet"),
-	);
-
-	if (frm.doctype === "Opportunity") {
-		if (said.closing) {
-			const late = said.open && frappe.datetime.get_diff(said.closing, frappe.datetime.get_today()) < 0;
-			stats.push(stat(__("Closes"), frappe.datetime.str_to_user(said.closing), null, late ? "alarm" : null));
-		}
-		if (said.quotation) {
-			const q = said.quotation;
-			stats.push(stat(
-				__("Quotation"),
-				`${__(q.status)} · ${format_currency(q.grand_total, q.currency, 0)}`,
-				`/desk/quotation/${encodeURIComponent(q.name)}`,
-			));
-		}
-	} else if (said.deals.count) {
-		stats.push(stat(
-			__("Deals"),
-			__("{0} open of {1}", [said.deals.open, said.deals.count]),
-			`/desk/opportunity?opportunity_from=Lead&party_name=${encodeURIComponent(frm.doc.name)}`,
-		));
-	}
-
-	if (said.source) stats.push(stat(__("Source"), said.source));
-	return stats;
-};
-
-onedesk.crm_record.next = (next) => {
-	if (!next.step && !next.on) return onedesk.band.stat(__("Next Step"), __("None planned"), null, "waiting");
-	const late = onedesk.next_step.late(next.on);
-	const when = next.on ? frappe.datetime.prettyDate(next.on) : "";
-	return onedesk.band.stat(
-		__("Next Step") + (when ? ` · ${when}` : ""),
-		next.step || __("Next Step"),
-		null,
-		late ? "alarm" : null,
-	);
-};
-
-// "12 days", "3 hours": how long, not when, up to `until` or now. Measured
-// against the system's clock, which is the one `when` was written in.
-onedesk.crm_record.since = (when, until) => {
-	const hours = moment(until || frappe.datetime.system_datetime()).diff(moment(when), "hours");
-	if (hours < 1) return __("under an hour");
-	if (hours < 24) return hours === 1 ? __("an hour") : __("{0} hours", [hours]);
-	const days = Math.floor(hours / 24);
-	return days === 1 ? __("a day") : __("{0} days", [days]);
-};
-
-// A number of days, as a person says it: "a day", "5 days", "under a day".
-onedesk.crm_record.days = (days) => {
-	const whole = Math.round(days);
-	if (whole < 1) return __("under a day");
-	return whole === 1 ? __("a day") : __("{0} days", [whole]);
-};
 
 onedesk.crm_record.call = (frm) => {
 	const dialog = new frappe.ui.Dialog({

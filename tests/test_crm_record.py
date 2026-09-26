@@ -29,13 +29,22 @@ def test_notes_are_comments_so_the_notes_tab_is_gone():
 	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
 	assert hooks.count('"onedesk.one_crm.record.settle"') == 2, "after install and after migrate"
 	for doctype in ("lead", "opportunity"):
-		setters = json.loads((tree.APP / "one_crm" / "custom" / f"{doctype}.json").read_text())["property_setters"]
+		setters = json.loads((tree.APP / "one_crm" / "custom" / f"{doctype}.json").read_text())[
+			"property_setters"
+		]
 		hidden = {row["field_name"] for row in setters if row["property"] == "hidden" and row["value"] == "1"}
 		assert {"notes_tab", "notes_html"} <= hidden, doctype
 	css = (tree.APP / "public" / "css" / "desk.css").read_text(encoding="utf-8")
 	assert '[data-page-route="Opportunity"] .comment-box' in css, "nowhere to write a comment"
 
 
-def test_both_pages_paint_the_band():
+def test_both_pages_say_it_through_their_record_head():
+	"""The band and Take This Lead are Record Head rows (one_crm/heads.py);
+	the pages' own script keeps the sidebar's calls and the duplicate."""
 	for script in ("lead.js", "opportunity.js"):
 		assert "onedesk.crm_record.refresh(frm)" in (tree.APP / "public" / "js" / script).read_text()
+	page = (tree.APP / "public" / "js" / "crm_record.js").read_text()
+	assert "onedesk.band" not in page and "overview" not in page and "capture.take" not in page
+	heads = (tree.APP / "one_crm" / "heads.py").read_text()
+	assert '"doctype": "Opportunity"' in heads and '"doctype": "Lead"' in heads
+	assert "record.overview(doctype, name)" in heads and "@request_cache" in heads

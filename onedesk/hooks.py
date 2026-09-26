@@ -765,9 +765,17 @@ one_notification_types = [
 
 # What a record's form says above its fields, as rows: each module's heads,
 # the measures they place and the verbs they offer. See one/head.py.
-one_record_heads = ["onedesk.one_inventory.heads.HEADS", "onedesk.one_book.heads.HEADS"]
-one_measures = ["onedesk.one_inventory.heads.MEASURES", "onedesk.one_book.heads.MEASURES"]
-one_verbs = ["onedesk.one_inventory.heads.VERBS", "onedesk.one_book.heads.VERBS"]
+one_record_heads = [
+	"onedesk.one_inventory.heads.HEADS",
+	"onedesk.one_book.heads.HEADS",
+	"onedesk.one_crm.heads.HEADS",
+]
+one_measures = [
+	"onedesk.one_inventory.heads.MEASURES",
+	"onedesk.one_book.heads.MEASURES",
+	"onedesk.one_crm.heads.MEASURES",
+]
+one_verbs = ["onedesk.one_inventory.heads.VERBS", "onedesk.one_book.heads.VERBS", "onedesk.one_crm.heads.VERBS"]
 one_charts = ["onedesk.one_inventory.heads.CHARTS", "onedesk.one_book.heads.CHARTS"]
 # The tabs after a record's fields, each drawn by its module. See one/tabs.py.
 one_record_tabs = [

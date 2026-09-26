@@ -110,6 +110,9 @@ anything is clicked:
   **First Reply** took, the Next Step, the last contact, the **Deals** made
   from it, and where it came from.
 
+A lead or deal nobody owns yet offers **Take This Lead** (or Deal), which
+makes it yours.
+
 A lead or deal that is closed — converted, won or lost — shows no next step
 and no waiting.
 
@@ -343,8 +346,9 @@ none edits erpnext.
 3. **The next step.** *Done* — `next.py`, `public/js/next_step.js`. Every
    open lead and deal carries what happens next and when. Home is *my day*:
    what is due, and what has no next step at all.
-4. **The record answers first.** *Done* — `record.py`,
-   `public/js/crm_record.js`. A lead and a deal open on what people
+4. **The record answers first.** *Done* — `record.py`, and the band and
+   Take This Lead as a Record Head (`heads.py`); `public/js/crm_record.js`
+   keeps Log a Call and the duplicate. A lead and a deal open on what people
    open them for — value, stage and how long it has been there, the last
    contact, the next step, where it came from — with notes, calls written down
    by hand, mail and comments on one timeline.

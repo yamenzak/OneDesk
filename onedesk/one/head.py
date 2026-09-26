@@ -259,7 +259,10 @@ def _stat(doc, row) -> dict | None:
 	if isinstance(value, dict):
 		# A measure may say how it changed (`delta`) and how far it is to a
 		# whole (`meter`), which the band draws as a metric card does.
-		stat.update({key: value[key] for key in ("label", "route", "tone", "delta", "meter") if key in value})
+		# A time since goes as the moment (`when`), for the desk to say.
+		stat.update(
+			{key: value[key] for key in ("label", "route", "tone", "delta", "meter", "when") if key in value}
+		)
 		value = value.get("value")
 	if value in (None, ""):
 		if row.hide_empty:

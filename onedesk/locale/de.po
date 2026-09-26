@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-26 00:29+0000\n"
-"PO-Revision-Date: 2026-09-26 00:29+0000\n"
+"POT-Creation-Date: 2026-09-26 02:06+0000\n"
+"PO-Revision-Date: 2026-09-26 02:06+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1283,7 +1283,7 @@ msgstr "Ein anderer Mitarbeiter hat sich heute bereits von diesem Browser aus ei
 msgid "Answer"
 msgstr "Antwort"
 
-#: onedesk/public/js/crm_record.js:212
+#: onedesk/public/js/crm_record.js:90
 msgid "Answered"
 msgstr "Angenommen"
 
@@ -2250,7 +2250,7 @@ msgstr "Arbeitsbereich anlegen"
 msgid "Building"
 msgstr "Im Aufbau"
 
-#: onedesk/public/js/crm_record.js:214
+#: onedesk/public/js/crm_record.js:92
 msgid "Busy"
 msgstr ""
 
@@ -2353,11 +2353,11 @@ msgstr "Kalenderlinks"
 msgid "Calendar View"
 msgstr ""
 
-#: onedesk/public/js/ai_model.js:80 onedesk/public/js/crm_record.js:200
+#: onedesk/public/js/ai_model.js:80 onedesk/public/js/crm_record.js:78
 msgid "Call"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:236
+#: onedesk/public/js/crm_record.js:114
 msgid "Call logged"
 msgstr "Anruf erfasst"
 
@@ -2367,7 +2367,7 @@ msgstr "Anruf erfasst"
 msgid "Calls"
 msgstr "Aufrufe"
 
-#: onedesk/public/js/crm_record.js:119
+#: onedesk/one_crm/heads.py:217
 msgid "Came In"
 msgstr "Eingegangen"
 
@@ -2905,7 +2905,7 @@ msgstr "Automatisch geschlossen"
 msgid "Closed. The links take nothing more."
 msgstr "Geschlossen. Die Links nehmen nichts mehr an."
 
-#: onedesk/public/js/crm_record.js:142
+#: onedesk/one_crm/heads.py:208
 msgid "Closes"
 msgstr "Abschluss"
 
@@ -3659,13 +3659,17 @@ msgstr "Nächste Schritte bei Deals"
 msgid "Deal Owner"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:95
+#: onedesk/one_crm/heads.py:204
+msgid "Deal Value"
+msgstr "Wert des Deals"
+
+#: onedesk/one_crm/heads.py:62
 msgid "Deal Value · {0}%"
 msgstr "Deal-Wert · {0} %"
 
+#: onedesk/one_crm/heads.py:221
 #: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:81
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:67
-#: onedesk/public/js/crm_record.js:154
 msgid "Deals"
 msgstr "Deals"
 
@@ -4134,7 +4138,7 @@ msgstr ""
 msgid "Done When"
 msgstr "Erledigt, wenn"
 
-#: onedesk/one/head.py:362 onedesk/one_ai/suggest.py:89
+#: onedesk/one/head.py:365 onedesk/one_ai/suggest.py:89
 msgid "Done."
 msgstr "Erledigt."
 
@@ -4283,11 +4287,11 @@ msgstr "Heute fällig"
 msgid "Due {0}."
 msgstr "Fällig am {0}."
 
-#: onedesk/public/js/crm_record.js:63
+#: onedesk/public/js/crm_record.js:46
 msgid "Duplicate"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:222
+#: onedesk/public/js/crm_record.js:100
 msgid "Duration (Minutes)"
 msgstr "Dauer (Minuten)"
 
@@ -4775,7 +4779,7 @@ msgstr "Alles, was One Ihnen mitteilt, erscheint in der Glocke. Haken Sie an, wa
 msgid "Everything OneAI read"
 msgstr "Alles, was OneAI gelesen hat"
 
-#: onedesk/public/js/crm_record.js:72
+#: onedesk/public/js/crm_record.js:55
 msgid "Everything on {0} moves to {1}, and {0} is deleted."
 msgstr "Alles aus {0} wird zu {1} verschoben, und {0} wird gelöscht."
 
@@ -5246,7 +5250,8 @@ msgid "First Name"
 msgstr ""
 
 #. Label of the one_first_reply_at (Datetime) field in DocType 'Lead'
-#: onedesk/one_crm/custom/lead.json onedesk/public/js/crm_record.js:121
+#: onedesk/one_crm/custom/lead.json onedesk/one_crm/heads.py:117
+#: onedesk/one_crm/heads.py:218
 msgid "First Reply"
 msgstr "Erste Antwort"
 
@@ -6084,7 +6089,7 @@ msgstr "Ich füge eine E-Mail-Signatur ein. Lege die Person darin als Lead an."
 #: onedesk/one_book/report/books_check/books_check.js:13
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/public/js/crm_record.js:58 onedesk/public/js/intake.js:160
+#: onedesk/public/js/crm_record.js:41 onedesk/public/js/intake.js:160
 msgid "IBAN"
 msgstr "IBAN"
 
@@ -6319,7 +6324,7 @@ msgstr ""
 msgid "Income Tax Slab"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:203
+#: onedesk/public/js/crm_record.js:81
 msgid "Incoming"
 msgstr ""
 
@@ -6609,6 +6614,10 @@ msgstr "Es wird in diesem Arbeitsbereich nicht gepusht."
 #: onedesk/one_intake/drafts.py:139
 msgid "It is not ready any more."
 msgstr "Es ist nicht mehr bereit."
+
+#: onedesk/one_crm/heads.py:195
+msgid "It is yours."
+msgstr "Er gehört jetzt dir."
 
 #: onedesk/public/js/settings.js:820
 msgid "It is {0}'s own rule, {1}, so it says what {0} wrote."
@@ -6939,7 +6948,7 @@ msgid "Last Bought · {0}"
 msgstr "Zuletzt gekauft · {0}"
 
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:44
-#: onedesk/public/js/crm_record.js:132
+#: onedesk/one_crm/heads.py:163
 msgid "Last Call"
 msgstr "Letzter Aufruf"
 
@@ -6948,7 +6957,8 @@ msgstr "Letzter Aufruf"
 msgid "Last Checked"
 msgstr "Zuletzt geprüft"
 
-#: onedesk/public/js/crm_record.js:136
+#: onedesk/one_crm/heads.py:158 onedesk/one_crm/heads.py:207
+#: onedesk/one_crm/heads.py:220
 msgid "Last Contact"
 msgstr "Letzter Kontakt"
 
@@ -6957,7 +6967,7 @@ msgstr "Letzter Kontakt"
 msgid "Last Day to Cancel"
 msgstr "Letzter Kündigungstag"
 
-#: onedesk/public/js/crm_record.js:132
+#: onedesk/one_crm/heads.py:163
 msgid "Last Email"
 msgstr "Letzte E-Mail"
 
@@ -7536,7 +7546,7 @@ msgstr ""
 msgid "Log Type"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:32 onedesk/public/js/crm_record.js:195
+#: onedesk/public/js/crm_record.js:24 onedesk/public/js/crm_record.js:73
 msgid "Log a Call"
 msgstr "Anruf erfassen"
 
@@ -8064,7 +8074,7 @@ msgstr "Mitglieder von {0}"
 msgid "Mentioned"
 msgstr "Erwähnt"
 
-#: onedesk/public/js/crm_record.js:70
+#: onedesk/public/js/crm_record.js:53
 msgid "Merge Into {0}"
 msgstr "Mit {0} zusammenführen"
 
@@ -8590,9 +8600,10 @@ msgstr "Nächster Status"
 #. Label of the one_next_step (Data) field in DocType 'Opportunity'
 #: onedesk/one_crm/calendar.py:31 onedesk/one_crm/calendar.py:41
 #: onedesk/one_crm/calendar.py:70 onedesk/one_crm/custom/lead.json
-#: onedesk/one_crm/custom/opportunity.json onedesk/one_crm/next.py:69
-#: onedesk/public/js/crm_record.js:165 onedesk/public/js/crm_record.js:169
-#: onedesk/public/js/crm_record.js:170 onedesk/public/js/next_step.js:23
+#: onedesk/one_crm/custom/opportunity.json onedesk/one_crm/heads.py:146
+#: onedesk/one_crm/heads.py:147 onedesk/one_crm/heads.py:206
+#: onedesk/one_crm/heads.py:219 onedesk/one_crm/next.py:69
+#: onedesk/public/js/next_step.js:23
 msgid "Next Step"
 msgstr "Nächster Schritt"
 
@@ -8619,7 +8630,7 @@ msgstr "Das nächste wird drei Tage vor Ende dieses Jahres angelegt."
 msgid "No"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:213
+#: onedesk/public/js/crm_record.js:91
 msgid "No Answer"
 msgstr ""
 
@@ -8835,11 +8846,11 @@ msgstr "Keine Zone des Tokens enthält {0}."
 msgid "None of your mailboxes can send. Connect one that does."
 msgstr "Keines Ihrer Postfächer kann senden. Verbinden Sie eines, das es kann."
 
-#: onedesk/public/js/crm_record.js:165
+#: onedesk/one_crm/heads.py:144
 msgid "None planned"
 msgstr "Nichts geplant"
 
-#: onedesk/one_book/heads.py:189 onedesk/public/js/crm_record.js:136
+#: onedesk/one_book/heads.py:189 onedesk/one_crm/heads.py:159
 msgid "None yet"
 msgstr "Noch keiner"
 
@@ -8878,7 +8889,7 @@ msgstr "Nicht angezeigt"
 msgid "Not Yet Registered"
 msgstr "Noch nicht erfasst"
 
-#: onedesk/public/js/crm_record.js:76
+#: onedesk/public/js/crm_record.js:59
 msgid "Not a Duplicate"
 msgstr "Kein Duplikat"
 
@@ -10114,11 +10125,11 @@ msgstr "Ausgabe pro 1 Mio. Tokens"
 #: onedesk/one_hr/custom/employee_checkin.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
-#: onedesk/public/js/crm_record.js:210
+#: onedesk/public/js/crm_record.js:88
 msgid "Outcome"
 msgstr "Ergebnis"
 
-#: onedesk/public/js/crm_record.js:202
+#: onedesk/public/js/crm_record.js:80
 msgid "Outgoing"
 msgstr ""
 
@@ -11210,8 +11221,7 @@ msgid "Quotas"
 msgstr "Kontingente"
 
 #. Label of a Sidebar Item
-#: onedesk/one_crm/sidebar/onecrm/onecrm.json
-#: onedesk/public/js/crm_record.js:147
+#: onedesk/one_crm/heads.py:209 onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Quotation"
 msgstr ""
 
@@ -12225,9 +12235,9 @@ msgid "Sales Person"
 msgstr ""
 
 #. Label of a Sidebar Item
+#: onedesk/one_crm/heads.py:73 onedesk/one_crm/heads.py:205
 #: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:80
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
-#: onedesk/public/js/crm_record.js:104
 msgid "Sales Stage"
 msgstr ""
 
@@ -12244,7 +12254,7 @@ msgstr "Umsätze werden unter dem Emirat des Unternehmens gemeldet."
 #: onedesk/one_book/report/books_check/books_check.js:42
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:305
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.js:52
-#: onedesk/public/js/crm_record.js:228 onedesk/public/js/next_step.js:31
+#: onedesk/public/js/crm_record.js:106 onedesk/public/js/next_step.js:31
 #: onedesk/public/js/onecloud.js:1488 onedesk/public/js/onemail.js:829
 #: onedesk/public/js/onemail.js:853 onedesk/public/js/project.js:180
 #: onedesk/public/js/settings.js:263 onedesk/public/js/shell.js:325
@@ -13070,10 +13080,10 @@ msgstr "Nach Typ sortieren"
 #. Label of the 'utm_analytics_section' field in DocType 'Opportunity'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_crm/custom/lead.json onedesk/one_crm/custom/opportunity.json
+#: onedesk/one_crm/heads.py:210 onedesk/one_crm/heads.py:222
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:63
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:22
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:217
-#: onedesk/public/js/crm_record.js:160
 msgid "Source"
 msgstr ""
 
@@ -13710,11 +13720,11 @@ msgstr "Mit {0} verschlagwortet"
 msgid "Take Back"
 msgstr "Zurücknehmen"
 
-#: onedesk/public/js/crm_record.js:36
+#: onedesk/one_crm/heads.py:192
 msgid "Take This Deal"
 msgstr "Diesen Deal übernehmen"
 
-#: onedesk/public/js/crm_record.js:36
+#: onedesk/one_crm/heads.py:192
 msgid "Take This Lead"
 msgstr "Diesen Lead übernehmen"
 
@@ -14846,7 +14856,7 @@ msgstr "Dieser Kalenderlink funktioniert nicht mehr."
 msgid "This cannot be changed later. Files stay where the workspace was built."
 msgstr "Das lässt sich später nicht ändern. Dateien bleiben dort, wo der Arbeitsbereich angelegt wurde."
 
-#: onedesk/one/head.py:360
+#: onedesk/one/head.py:363
 msgid "This cannot be done to {0} now."
 msgstr "Das ist bei {0} gerade nicht möglich."
 
@@ -14922,7 +14932,7 @@ msgstr "Dieses Postfach"
 msgid "This mailbox has no Archive folder."
 msgstr "Dieses Postfach hat keinen Archivordner."
 
-#: onedesk/public/js/crm_record.js:62
+#: onedesk/public/js/crm_record.js:45
 msgid "This may be {0} {1}: the same {2}."
 msgstr "Dies könnte {0} {1} sein: gleiche {2}."
 
@@ -15731,7 +15741,7 @@ msgstr "Auslastung"
 #. Label of the vat_id (Data) field in DocType 'Reading Party'
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
-#: onedesk/one_intake/panel.py:126 onedesk/public/js/crm_record.js:56
+#: onedesk/one_intake/panel.py:126 onedesk/public/js/crm_record.js:39
 msgid "VAT ID"
 msgstr "USt-IdNr."
 
@@ -15875,7 +15885,7 @@ msgstr "Bildverstehen"
 msgid "Waiting"
 msgstr "Wartend"
 
-#: onedesk/public/js/crm_record.js:123
+#: onedesk/one_crm/heads.py:121
 msgid "Waiting For a Reply"
 msgstr "Wartet auf Antwort"
 
@@ -16051,7 +16061,7 @@ msgstr "Was OneAI sagte, als es um eine Erklärung gebeten wurde, je Sprache."
 msgid "What Runs on Which Model"
 msgstr "Was auf welchem Modell läuft"
 
-#: onedesk/public/js/crm_record.js:226
+#: onedesk/public/js/crm_record.js:104
 msgid "What Was Said"
 msgstr "Was besprochen wurde"
 
@@ -17249,7 +17259,7 @@ msgstr "Null heißt unbegrenzt. Frappe setzt es aus der Site-Konfiguration durch
 msgid "a colleague"
 msgstr "eine Kollegin oder ein Kollege"
 
-#: onedesk/public/js/crm_record.js:183 onedesk/public/js/crm_record.js:190
+#: onedesk/one_crm/heads.py:41 onedesk/one_crm/heads.py:49
 msgid "a day"
 msgstr "einen Tag"
 
@@ -17274,7 +17284,7 @@ msgstr "eine Person hat es seitdem umbenannt"
 msgid "address"
 msgstr "Adresse"
 
-#: onedesk/one/ai.py:499 onedesk/public/js/crm_record.js:121
+#: onedesk/one/ai.py:499 onedesk/one_crm/heads.py:118
 msgid "after {0}"
 msgstr "nach {0}"
 
@@ -17287,7 +17297,7 @@ msgstr "Alarm"
 msgid "already set"
 msgstr "bereits gesetzt"
 
-#: onedesk/public/js/crm_record.js:181
+#: onedesk/one_crm/heads.py:39
 msgid "an hour"
 msgstr "eine Stunde"
 
@@ -17307,7 +17317,7 @@ msgstr "Audio"
 msgid "blue"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:54
+#: onedesk/public/js/crm_record.js:37
 msgid "business name"
 msgstr "Firmenname"
 
@@ -17358,11 +17368,11 @@ msgstr "bereitgestellt"
 msgid "document"
 msgstr "Dokument"
 
-#: onedesk/public/js/crm_record.js:60
+#: onedesk/public/js/crm_record.js:43
 msgid "document number"
 msgstr "Dokumentnummer"
 
-#: onedesk/public/js/crm_record.js:52 onedesk/public/js/crm_record.js:55
+#: onedesk/public/js/crm_record.js:35 onedesk/public/js/crm_record.js:38
 msgid "email"
 msgstr ""
 
@@ -17378,12 +17388,11 @@ msgstr "Rückmeldungen"
 msgid "for"
 msgstr "für"
 
-#: onedesk/one_intake/page/intake/intake.js:151
-#: onedesk/public/js/crm_record.js:107
+#: onedesk/one_crm/heads.py:76 onedesk/one_intake/page/intake/intake.js:151
 msgid "for {0}"
 msgstr "seit {0}"
 
-#: onedesk/public/js/crm_record.js:106
+#: onedesk/one_crm/heads.py:74
 msgid "for {0} · usually {1}"
 msgstr "seit {0} · üblich {1}"
 
@@ -17571,7 +17580,7 @@ msgstr "sonstige"
 msgid "output"
 msgstr "Ausgabe"
 
-#: onedesk/public/js/band.js:33
+#: onedesk/public/js/band.js:36
 msgid "over 999"
 msgstr "über 999"
 
@@ -17587,7 +17596,7 @@ msgstr "Seiten {0}–{1}"
 msgid "password"
 msgstr "Passwort"
 
-#: onedesk/public/js/crm_record.js:53
+#: onedesk/public/js/crm_record.js:36
 msgid "phone"
 msgstr "Telefonnummer"
 
@@ -17620,7 +17629,7 @@ msgstr "abgelaufen {0}"
 msgid "red"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:59
+#: onedesk/public/js/crm_record.js:42
 msgid "register number"
 msgstr "Registernummer"
 
@@ -17652,7 +17661,7 @@ msgstr ""
 msgid "something else uses it now"
 msgstr "etwas anderes verwendet es jetzt"
 
-#: onedesk/public/js/crm_record.js:57
+#: onedesk/public/js/crm_record.js:40
 msgid "tax number"
 msgstr "Steuernummer"
 
@@ -17684,11 +17693,11 @@ msgstr "dieser Teil konnte nicht transkribiert werden"
 msgid "thread"
 msgstr "Unterhaltung"
 
-#: onedesk/public/js/crm_record.js:189
+#: onedesk/one_crm/heads.py:48
 msgid "under a day"
 msgstr "unter einem Tag"
 
-#: onedesk/public/js/crm_record.js:180
+#: onedesk/one_crm/heads.py:37
 msgid "under an hour"
 msgstr "weniger als eine Stunde"
 
@@ -17935,8 +17944,8 @@ msgstr "{0} Guthaben – die Reservierung, weil nichts gemessen werden konnte."
 msgid "{0} credits."
 msgstr "{0} Guthaben."
 
-#: onedesk/one_intake/understand.py:359 onedesk/public/js/crm_record.js:183
-#: onedesk/public/js/crm_record.js:190
+#: onedesk/one_crm/heads.py:41 onedesk/one_crm/heads.py:49
+#: onedesk/one_intake/understand.py:359
 msgid "{0} days"
 msgstr "{0} Tage"
 
@@ -18080,7 +18089,7 @@ msgstr "{0} hat {1} Guthaben, davon {2} für laufende Aufrufe zugesagt."
 msgid "{0} held"
 msgstr "{0} in Besitz"
 
-#: onedesk/public/js/crm_record.js:181 onedesk/public/js/employee.js:109
+#: onedesk/one_crm/heads.py:39 onedesk/public/js/employee.js:109
 msgid "{0} hours"
 msgstr ""
 
@@ -18236,7 +18245,7 @@ msgstr "{0} ist keine gültige Adresse und kein gültiger Bereich. Beispiel: 203
 msgid "{0} is not a workspace."
 msgstr "{0} ist kein Arbeitsbereich."
 
-#: onedesk/one/head.py:357
+#: onedesk/one/head.py:360
 msgid "{0} is not offered here."
 msgstr "{0} wird hier nicht angeboten."
 
@@ -18427,7 +18436,7 @@ msgstr "{0} auf dem Kilometerzähler seit dem letzten Eintrag."
 msgid "{0} on {1}"
 msgstr "{0} bei {1}"
 
-#: onedesk/public/js/crm_record.js:155
+#: onedesk/one_crm/heads.py:130
 msgid "{0} open of {1}"
 msgstr "{0} von {1} offen"
 
@@ -18601,7 +18610,7 @@ msgstr "{0} · in {1} Tagen"
 msgid "{0} · waiting for you"
 msgstr "{0} · wartet auf Sie"
 
-#: onedesk/one_book/heads.py:195
+#: onedesk/one_book/heads.py:195 onedesk/one_crm/heads.py:101
 msgid "{0} · {1}"
 msgstr "{0} · {1}"
 

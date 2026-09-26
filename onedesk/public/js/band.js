@@ -12,9 +12,12 @@ frappe.provide("onedesk.band");
 
 onedesk.band.stat = (label, value, route, tone, extra = {}) => {
 	const esc = frappe.utils.escape_html;
+	// A time since is sent as the moment and said here, the way the desk says
+	// every other: "yesterday", "3 days ago".
+	const when = (text) => (extra.when ? String(text).replace("{when}", frappe.datetime.prettyDate(extra.when)) : String(text));
 	const inner =
-		`<span class="one-stat-label">${esc(label)}</span>` +
-		`<span class="one-stat-value">${esc(String(value))}</span>` +
+		`<span class="one-stat-label">${esc(when(label))}</span>` +
+		`<span class="one-stat-value">${esc(when(value))}</span>` +
 		onedesk.band.delta(extra.delta) +
 		onedesk.band.meter(extra.meter);
 	const cls = `one-stat${tone ? " one-stat-" + tone : ""}`;

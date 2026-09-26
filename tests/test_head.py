@@ -198,6 +198,11 @@ def test_a_doctype_with_a_head_has_no_script_drawing_one():
 			if isinstance(node, ast.Assign) and node.targets[0].id == "doctype_js"
 		)
 	)
-	assert not headed & set(scripts), f"a script still draws the head of {sorted(headed & set(scripts))}"
+	# A headed doctype may keep a script for what is not its head (a lead's
+	# calendar, a deal's Declare Lost); it may not draw a band or a headline.
+	for doctype in sorted(headed & set(scripts)):
+		script = (tree.APP / scripts[doctype]).read_text(encoding="utf-8")
+		for drawing in ("onedesk.band.show", "set_headline(", "dashboard.add_indicator"):
+			assert drawing not in script, f"{scripts[doctype]} still draws {doctype}'s head"
 	for gone in ("item.js", "asset.js", "invoice.js"):
 		assert not (tree.APP / "public" / "js" / gone).exists(), gone
