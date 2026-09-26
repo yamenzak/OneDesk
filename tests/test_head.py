@@ -202,7 +202,14 @@ def test_a_doctype_with_a_head_has_no_script_drawing_one():
 	# calendar, a deal's Declare Lost); it may not draw a band or a headline.
 	for doctype in sorted(headed & set(scripts)):
 		script = (tree.APP / scripts[doctype]).read_text(encoding="utf-8")
-		for drawing in ("onedesk.band.show", "set_headline(", "dashboard.add_indicator"):
+		for drawing in (
+			"onedesk.band.show",
+			"set_headline(",
+			"set_headline_alert(",
+			"dashboard.add_indicator",
+			"page.set_indicator(",
+			"onedesk.decision",
+		):
 			assert drawing not in script, f"{scripts[doctype]} still draws {doctype}'s head"
-	for gone in ("item.js", "asset.js", "invoice.js"):
+	for gone in ("item.js", "asset.js", "invoice.js", "decision.js", "leave_application.js", "salary_slip.js"):
 		assert not (tree.APP / "public" / "js" / gone).exists(), gone

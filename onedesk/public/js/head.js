@@ -14,6 +14,7 @@ frappe.ui.form.on("*", {
 		frm.page.set_inner_btn_group_as_primary = (label) =>
 			frm.one_primary_verb && frm.custom_buttons[frm.one_primary_verb] ? null : primary(label);
 		onedesk.head.listen(frm.doctype);
+		onedesk.head.watch(frm.doctype);
 	},
 	refresh(frm) {
 		onedesk.head.draw(frm);
@@ -26,9 +27,12 @@ frappe.ui.form.on("*", {
 	},
 });
 
-onedesk.head.draw = (frm) => {
+onedesk.head.draw = (frm, drawn = null) => {
 	frm.one_primary_verb = null;
-	const head = !frm.is_new() && frm.doc.__onload && frm.doc.__onload.one_head;
+	// A head that redraws as the form changes draws a new record from the form
+	// as it stands; any other has nothing to say before the record is saved.
+	if (!drawn && frm.is_new()) return onedesk.head.live(frm) && onedesk.head.preview(frm);
+	const head = drawn || (frm.doc.__onload && frm.doc.__onload.one_head);
 	// A form without a head is left as its own script drew it.
 	if (!head && !frm.one_headed) return;
 	frm.one_headed = !!head;
@@ -37,11 +41,18 @@ onedesk.head.draw = (frm) => {
 	if (!head) return;
 	if (head.indicator) frm.page.set_indicator(head.indicator.label, head.indicator.colour);
 	if (head.sentence) {
-		frm.dashboard.set_headline(
-			`<div class="one-head-sentence">${frappe.utils.escape_html(head.sentence.text)}</div>`,
-			head.sentence.colour,
-			true,
-		);
+		// The framework writes "Submit this document to confirm" from
+		// `show_submit_message`, after the refresh and stacking rather than
+		// replacing. The sentence is that sentence with the answer in it, so it
+		// goes after, in its place: frappe's own headline alert.
+		const said = head.sentence;
+		setTimeout(() => {
+			frm.layout.message.children(".form-message:not(:has(.one-band))").remove();
+			frm.dashboard.set_headline_alert(
+				`<span class="one-head-sentence">${frappe.utils.escape_html(said.text)}</span>`,
+				said.colour,
+			);
+		}, 0);
 	}
 	if (head.band.length || (head.charts || []).length) {
 		onedesk.band.show(
@@ -109,6 +120,33 @@ onedesk.head.act = (frm, verb) => {
 		for (const group of onedesk.head.drawn(doctype)) for (const df of group) copy[df.fieldname] = copy_dict(df);
 	};
 })();
+
+// ------------------------------------------------------------------ redrawn as the form changes
+
+onedesk.head.live = (frm) => (frappe.boot.one_heads_live || {})[frm.doctype];
+
+// The head of the record as it stands in the form, unsaved (one/head.py,
+// `preview`): a new record's, or a draft's once a field it reads changes.
+onedesk.head.preview = frappe.utils.debounce(async (frm) => {
+	const said = await frappe.xcall("onedesk.one.head.preview", { doc: frm.doc });
+	if (said && frm === cur_frm) onedesk.head.draw(frm, said);
+}, 300);
+
+// The fields a live head reads: a change to one, or to any row of a table
+// among them, redraws it.
+onedesk.head.watched = new Set();
+onedesk.head.watch = (doctype) => {
+	const live = (frappe.boot.one_heads_live || {})[doctype];
+	if (!live || onedesk.head.watched.has(doctype)) return;
+	onedesk.head.watched.add(doctype);
+	const redraw = (frm) => frm && frm.doctype === doctype && frm.doc.docstatus === 0 && onedesk.head.preview(frm);
+	frappe.model.on(doctype, "*", (fieldname) => live.fields.includes(fieldname) && redraw(cur_frm));
+	// A row removed is an event on the row's doctype, not the record's.
+	for (const [table, child] of Object.entries(live.tables)) {
+		frappe.model.on(child, "*", () => redraw(cur_frm));
+		frappe.ui.form.on(child, { [`${table}_remove`]: redraw });
+	}
+};
 
 onedesk.head.sections = (doctype) => (frappe.boot.one_linked || {})[doctype] || [];
 

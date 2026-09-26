@@ -16,7 +16,6 @@ frappe.ui.form.on("Overtime Slip", {
 		if (frm.doc.docstatus === 0) {
 			frm.add_custom_button(__("Read Attendance"), () => read(frm));
 		}
-		pay(frm);
 	},
 
 	// Replaces HRMS's, which called a document method that threw for anybody
@@ -29,10 +28,7 @@ frappe.ui.form.on("Overtime Slip", {
 				employee: frm.doc.employee,
 				posting_date: frm.doc.posting_date,
 			})
-			.then((when) => {
-				frm.set_value(when);
-				pay(frm);
-			});
+			.then((when) => frm.set_value(when));
 	},
 });
 
@@ -90,15 +86,4 @@ function told(trimmed) {
 		message: `<p>${__("These days go past the overtime type's daily maximum. Only the hours up to it are paid.")}</p><ul>${rows}</ul>`,
 		indicator: "orange",
 	});
-}
-
-function pay(frm) {
-	if (frm.is_new() || !frm.doc.overtime_details?.length) return;
-	const text = frm.doc.one_pay_note
-		? frm.doc.one_pay_note
-		: __("Submitting this pays {0} for {1} hours.", [
-				format_currency(frm.doc.one_amount, frappe.defaults.get_default("currency")),
-				frm.doc.total_overtime_duration,
-			]);
-	onedesk.decision.headline(frm, text, frm.doc.one_pay_note ? "orange" : "blue");
 }

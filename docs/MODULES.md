@@ -8,12 +8,12 @@
 | Doctype | Fields | Kind |
 |---|--:|---|
 | Push Device | 7 | document |
-| Record Head | 14 | document |
+| Record Head | 15 | document |
 | Record Head Band | 12 | child |
 | Record Head Chart | 4 | child |
 | Record Head Indicator | 5 | child |
 | Record Head Linked | 5 | child |
-| Record Head Sentence | 4 | child |
+| Record Head Sentence | 5 | child |
 | Record Head Verb | 4 | child |
 | Workspace Account | 28 | single |
 | Workspace Customization | 5 | document |
@@ -185,6 +185,7 @@ No doctypes yet.
 * `onedesk.one.customize.load`
 * `onedesk.one.customize.reset`
 * `onedesk.one.customize.save`
+* `onedesk.one.head.preview`
 * `onedesk.one.head.run`
 * `onedesk.one.push.devices`
 * `onedesk.one.push.forget`

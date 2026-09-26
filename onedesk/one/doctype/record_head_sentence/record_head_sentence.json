@@ -7,6 +7,7 @@
   "shown_when",
   "text",
   "colour",
+  "measure",
   "custom"
  ],
  "fields": [
@@ -21,9 +22,10 @@
    "fieldname": "text",
    "fieldtype": "Small Text",
    "label": "Sentence",
-   "reqd": 1,
+   "reqd": 0,
    "in_list_view": 1,
-   "description": "Names the record's fields as {{ doc.fieldname }}, and nothing else."
+   "description": "Names the record's fields as {{ doc.fieldname }}, and nothing else.",
+   "mandatory_depends_on": "eval:!doc.measure"
   },
   {
    "fieldname": "colour",
@@ -32,6 +34,12 @@
    "in_list_view": 1,
    "options": "blue\ngreen\norange\nred\nyellow",
    "default": "blue"
+  },
+  {
+   "fieldname": "measure",
+   "fieldtype": "Data",
+   "label": "Measure",
+   "description": "A measure a module registered that says the sentence itself, as a text and a colour. Nothing said is no sentence."
   },
   {
    "fieldname": "custom",
@@ -43,7 +51,7 @@
   }
  ],
  "links": [],
- "modified": "2026-09-26 12:00:00.000000",
+ "modified": "2026-09-27 13:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "Record Head Sentence",

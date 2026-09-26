@@ -438,7 +438,7 @@ For the people who build OneHR. OneAI does not read past this heading.
 | File | What it does |
 |---|---|
 | `employee.py`, `own.py`, `names.py`, `money.py`, `leaving.py` | The employee record's answers, who the reader is, names for IDs, currency, the last day |
-| `heads.py` | The employee record's pill, quarter and numbers as its Record Head (one/head.py), over `employee.overview` |
+| `heads.py` | Every OneHR Record Head (one/head.py): the employee's pill, quarter and numbers; the sentence each request and document opens on; Approve and Reject; a clock attempt's Accept and Reject |
 | `clock.py`, `gates.py`, `rules.py`, `ledger.py`, `passkey.py`, `signin.py` | Clocking in, the four checks, the score, Clock Attempt, passkeys, passkey login |
 | `presence.py`, `away.py`, `closing.py`, `healing.py`, `learned.py`, `review.py`, `checkin.py` | Who is in, approved days away, closing a day, learning networks and places, the review queue |
 | `marking.py`, `overtime.py`, `timesheet.py`, `setup.py`, `shift.py`, `request.py`, `decision.py` | Marking by hand, overtime, the timer, shift readiness, requests and their Approve/Reject |
@@ -459,7 +459,9 @@ Pipeline; HRMS's versions of those four are disabled rather than deleted.
   upstream line we depend on.
 - **A request is answered by Approve or Reject** from `decision.py`, the same
   on Attendance Request, Shift Request, Leave Application and Expense Claim:
-  Status is read-only, and the record carries who, when and the note.
+  Status is read-only, and the record carries who, when and the note. The
+  two buttons and the sentence above each record are its Record Head, in
+  `heads.py`; no form script draws either.
 - **A value HRMS's form script fills is filled on the server too**, before
   validate, when it is empty — `leave_balance`, the benefit limits, the expense
   cost centre, the appointment letter's terms, onboarding's holiday list. A

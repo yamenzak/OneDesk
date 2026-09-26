@@ -564,24 +564,13 @@ doctype_js = {
 	"Attendance": "public/js/attendance.js",
 	"Clock Network": "public/js/learned.js",
 	"Clock Place": "public/js/learned.js",
-	"Shift Type": "public/js/shift_type.js",
 	"Attendance Request": "public/js/attendance_request.js",
 	"Shift Request": "public/js/shift_request.js",
 	"Overtime Slip": "public/js/overtime_slip.js",
 	"Timesheet": "public/js/timesheet.js",
-	"Leave Application": "public/js/leave_application.js",
 	"Leave Control Panel": "public/js/leave_control_panel.js",
-	"Leave Encashment": "public/js/leave_encashment.js",
-	"Salary Slip": "public/js/salary_slip.js",
-	"Payroll Entry": "public/js/payroll_entry.js",
-	"Expense Claim": "public/js/expense_claim.js",
-	"Vehicle Log": "public/js/vehicle_log.js",
-	"Appraisal": "public/js/appraisal.js",
-	"Employee Promotion": "public/js/employee_promotion.js",
 	# The interview recorder; see one_hr/hiring.py.
 	"Interview": "public/js/hiring.js",
-	"Employee Tax Exemption Declaration": "public/js/exemption.js",
-	"Employee Tax Exemption Proof Submission": "public/js/exemption.js",
 	"Opportunity": "public/js/opportunity.js",
 	# Next Step Done, which asks what comes next. See public/js/next_step.js.
 	"Lead": "public/js/lead.js",
@@ -676,7 +665,6 @@ app_include_js = [
 	"/assets/onedesk/js/passkey.js",
 	"/assets/onedesk/js/clock.js",
 	"/assets/onedesk/js/overtime.js",
-	"/assets/onedesk/js/decision.js",
 	"/assets/onedesk/js/next_step.js",
 	"/assets/onedesk/js/task_timer.js",
 	"/assets/onedesk/js/record_calendar.js",
@@ -779,7 +767,12 @@ one_measures = [
 	"onedesk.one_project.heads.MEASURES",
 	"onedesk.one_hr.heads.MEASURES",
 ]
-one_verbs = ["onedesk.one_inventory.heads.VERBS", "onedesk.one_book.heads.VERBS", "onedesk.one_crm.heads.VERBS"]
+one_verbs = [
+	"onedesk.one_inventory.heads.VERBS",
+	"onedesk.one_book.heads.VERBS",
+	"onedesk.one_crm.heads.VERBS",
+	"onedesk.one_hr.heads.VERBS",
+]
 one_charts = [
 	"onedesk.one_inventory.heads.CHARTS",
 	"onedesk.one_book.heads.CHARTS",

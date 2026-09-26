@@ -7,6 +7,7 @@
   "record_doctype",
   "module",
   "enabled",
+  "redraw_on",
   "indicator_section",
   "indicators",
   "sentence_section",
@@ -42,6 +43,12 @@
    "fieldtype": "Check",
    "label": "Enabled",
    "default": "1"
+  },
+  {
+   "fieldname": "redraw_on",
+   "fieldtype": "Small Text",
+   "label": "Redraw On",
+   "description": "Fields whose change redraws the head from the form as it stands, before it is saved. One to a line."
   },
   {
    "fieldname": "indicator_section",
@@ -112,7 +119,7 @@
   }
  ],
  "links": [],
- "modified": "2026-09-27 01:00:00.000000",
+ "modified": "2026-09-27 13:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "Record Head",

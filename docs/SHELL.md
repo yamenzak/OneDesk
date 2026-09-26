@@ -156,7 +156,7 @@ A–D do in code today:
 | Rows | What it declares | Replaces |
 |---|---|---|
 | Indicator | a condition (frappe filters) → label and colour | `set_indicator` in scripts |
-| Sentence | a condition → a sentence naming only `{{ doc.field }}` | `decision.headline`, `set_headline` |
+| Sentence | a condition → a sentence naming only `{{ doc.field }}`, or what a measure says | `decision.headline`, `set_headline` |
 | Band | label, value, where it links, tone | `onedesk.band.show` and each "overview" method |
 | Block | a named block from a registry (the employee's attendance heat map) | the few drawn by hand |
 
@@ -430,10 +430,22 @@ product by product.
   desk (`when`, and `short` for the clock's "5 d"). What each page's script
   still does is not its head: Log a Call, a project's Board and Schedule, a
   person's sidebar actions and Reset Passkey.
-- **Not yet**: the HR records' sentences and the operator records' pills,
-  about twenty scripts that each set one headline or one pill beside their
-  Approve and Reject. `tests/test_head.py` refuses a script left drawing the
-  head of a doctype that has one.
+- **Then the HR records**: fourteen sentences and eight Approve and Reject
+  verbs, `decision.js` and eleven scripts deleted. A sentence row may name a
+  measure that says the sentence (`{text, colour}`), because every one of
+  these is arithmetic and a choice between wordings, never one template. A
+  head may name the fields it redraws on (`redraw_on`): a change to one, or
+  to a row of a table among them, asks `head.preview` for the head of the
+  record as it stands in the form, saved or not, so a leave encashment says
+  what it pays before it is saved. Twenty-five records are pixel for pixel
+  what they were, but for three changes on purpose: a submitted overtime slip
+  no longer says "Submitting this pays"; Expense Claim's Approve and Reject,
+  which called `decision.ask` with the wrong arguments and so did nothing,
+  work; and a clock attempt's Accept is the primary verb in the toolbar
+  rather than in Save's place, with no Save on a record nothing can edit.
+- **Not yet**: the operator records' pills, a handful of scripts on the admin
+  site that each set one headline or one pill. `tests/test_head.py` refuses a
+  script left drawing the head of a doctype that has one.
 
 ## Stage 5, as built
 

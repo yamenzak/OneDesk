@@ -249,9 +249,9 @@ OVERRIDES = [
 		"def make_property_setter",
 	),
 	(
-		"A shift request says what approving it will do",
+		"A record's sentence says what submitting it will do",
 		"their `show_submit_message` writes a generic line into the one message area after refresh",
-		"onedesk/public/js/decision.js",
+		"onedesk/public/js/head.js",
 		"frappe/frappe/public/js/frappe/form/form.js",
 		"Submit this document to confirm",
 	),

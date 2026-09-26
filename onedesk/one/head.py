@@ -159,7 +159,13 @@ def validate(head) -> None:
 		filters(row.shown_when, _("Indicator {0}").format(row.idx))
 	for row in head.sentences:
 		filters(row.shown_when, _("Sentence {0}").format(row.idx))
+		if row.get("measure") and row.measure not in measures():
+			frappe.throw(
+				_("Sentence {0} names the measure {1}, which no module has.").format(row.idx, row.measure)
+			)
 		template(row.text, _("Sentence {0}").format(row.idx))
+	for name in redrawn(head):
+		field(name, _("Redraw On"))
 	for row in head.band:
 		where = _("Band row {0}").format(row.idx)
 		filters(row.shown_when, where)
@@ -226,26 +232,74 @@ def onload(doc, method=None) -> None:
 	doc.set_onload("one_head", said(doc, frappe.get_cached_doc("Record Head", doc.doctype)))
 
 
-def said(doc, head) -> dict:
+def redrawn(head) -> list[str]:
+	"""The fields whose change redraws the head from the form as it stands."""
+	return [name for name in re.split(r"[\s,]+", head.get("redraw_on") or "") if name]
+
+
+def live() -> dict:
+	"""For the desk: each doctype whose head redraws as the form changes, and
+	on which fields (a table among them means any of its rows)."""
+	found = {}
+	for doctype in sorted(headed()):
+		head = frappe.get_cached_doc("Record Head", doctype)
+		names = redrawn(head)
+		if names:
+			meta = frappe.get_meta(doctype)
+			found[doctype] = {
+				"fields": names,
+				"tables": {
+					name: df.options
+					for name in names
+					if (df := meta.get_field(name)) and df.fieldtype in frappe.model.table_fields
+				},
+			}
+	return found
+
+
+@frappe.whitelist(methods=["POST"])
+def preview(doc: str | dict) -> dict | None:
+	"""What the head says of a record as it stands in the form, before it is
+	saved: for a head that redraws as its fields change. Worked out as the
+	reader, who must be able to make such a record or read this one; the
+	verbs and linked sections are left out, since both act on what is saved."""
+	doc = frappe.get_doc(frappe.parse_json(doc))
+	if doc.doctype not in headed():
+		return None
+	head = frappe.get_cached_doc("Record Head", doc.doctype)
+	if not redrawn(head):
+		return None
+	if doc.is_new() or not frappe.db.exists(doc.doctype, doc.name):
+		if not frappe.has_permission(doc.doctype, "create"):
+			frappe.throw(_("You cannot make a {0}.").format(_(doc.doctype)), frappe.PermissionError)
+	else:
+		frappe.has_permission(doc.doctype, "read", doc=doc.name, throw=True)
+	return said(doc, head, saved=False)
+
+
+def said(doc, head, saved: bool = True) -> dict:
 	"""What the head says of this record."""
 	indicator = next(
 		(said for row in head.indicators if holds(doc, row.shown_when) and (said := _indicator(doc, row))),
 		None,
 	)
-	sentence = next((row for row in head.sentences if holds(doc, row.shown_when)), None)
+	sentence = next(
+		(said for row in head.sentences if holds(doc, row.shown_when) and (said := _sentence(doc, row))),
+		None,
+	)
 	return {
 		"indicator": indicator,
-		"sentence": sentence and {"text": fill(_(sentence.text), _Formatted(doc)), "colour": sentence.colour},
+		"sentence": sentence,
 		# A measure may answer several numbers (one per leave type); each is
 		# a stat of its own.
 		"band": [stat for row in head.band if holds(doc, row.shown_when) for stat in _stats(doc, row)],
-		"verbs": [verb for row in head.verbs if (verb := _verb(doc, row))],
+		"verbs": [verb for row in head.verbs if (verb := _verb(doc, row))] if saved else [],
 		"charts": [
 			chart
 			for row in head.get("charts") or []
 			if holds(doc, row.shown_when) and (chart := _chart(doc, row))
 		],
-		"linked": linked.loaded(doc, head),
+		"linked": linked.loaded(doc, head) if saved else {},
 	}
 
 
@@ -257,6 +311,16 @@ class _Formatted:
 
 	def get(self, key, default=None):
 		return self.doc.get_formatted(key) if self.doc.meta.has_field(key) else self.doc.get(key, default)
+
+
+def _sentence(doc, row) -> dict | None:
+	"""The sentence: the row's own text with the record's fields in it, or
+	what its measure says of the record, or nothing when it says nothing."""
+	if not row.get("measure"):
+		return {"text": fill(_(row.text), _Formatted(doc)), "colour": row.colour}
+	measure = measures().get(row.measure)
+	said = measure(doc) if measure else None
+	return {"text": said["text"], "colour": said.get("colour") or "blue"} if said else None
 
 
 def _indicator(doc, row) -> dict | None:
@@ -443,7 +507,14 @@ def _write(head: dict) -> None:
 	if not doc.is_new() and not head.get("module") and not any(kept.values()):
 		frappe.delete_doc("Record Head", doc.name, ignore_permissions=True, force=True)
 		return
-	doc.update({"record_doctype": head["doctype"], "module": head["module"], "enabled": 1})
+	doc.update(
+		{
+			"record_doctype": head["doctype"],
+			"module": head["module"],
+			"enabled": 1,
+			"redraw_on": "\n".join(head.get("redraw_on") or []),
+		}
+	)
 	for table in TABLES:
 		doc.set(table, [])
 		for row in head.get(table) or []:

@@ -37,6 +37,12 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_record_tabs"] = tabs.for_boot()
 
+	# The heads that redraw as the form changes, and on which fields. See
+	# one/head.py, `preview`.
+	from onedesk.one import head
+
+	bootinfo["one_heads_live"] = head.live()
+
 	# What each provisioning step is doing, in words. The list view needs it and
 	# so does the form; putting a copy in JavaScript would be a second list to
 	# be wrong the day somebody adds a step. Only on the admin site, where the
