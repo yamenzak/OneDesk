@@ -64,7 +64,8 @@ def measures() -> dict:
 
 def verbs() -> dict:
 	"""Every verb, by name: `doctypes`, `label`, `when`, `fields`, `title`,
-	`action` and `run`. `label` and `title` may be functions of the record."""
+	`action`, `group` and `run`. `label`, `title` and `group` may be
+	functions of the record."""
 	return _merged("one_verbs")
 
 
@@ -456,6 +457,8 @@ def _verb(doc, row) -> dict | None:
 		"title": cstr(_said_of(verb.get("title"), doc) or label),
 		"action": cstr(_said_of(verb.get("action"), doc) or label),
 		"fields": verb["fields"](doc) if verb.get("fields") else [],
+		# Under a dropdown of the toolbar, as frappe groups a button.
+		"group": cstr(_said_of(verb.get("group"), doc)) or None,
 	}
 
 

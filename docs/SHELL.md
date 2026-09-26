@@ -443,9 +443,23 @@ product by product.
   which called `decision.ask` with the wrong arguments and so did nothing,
   work; and a clock attempt's Accept is the primary verb in the toolbar
   rather than in Save's place, with no Save on a record nothing can edit.
-- **Not yet**: the operator records' pills, a handful of scripts on the admin
-  site that each set one headline or one pill. `tests/test_head.py` refuses a
-  script left drawing the head of a doctype that has one.
+- **Then the operator's records and OneAI's**: Tenant, Provisioning Job,
+  Account Request, Tenant Domain, Offering and AI Model (`one_admin/heads.py`),
+  AI Proposal and AI Action Setting (`one_ai/heads.py`), and the workspace's
+  own Workspace Account (`one/heads.py`). `job.js`, `tenant_domain.js` and
+  `ai_proposal.js` are deleted; the rest keep what is not a head (a tenant's
+  credit actions and storage sentence, a model's Price a Call and an action's
+  Try It, which answer inside their own dialog, and a workspace's domain and
+  credit dialogs). The text on each is what it was. Frappe's progress bars
+  (`add_progress`) became metric cards with a meter, like every other band,
+  and a value that was a whole sentence is now a label and a short value
+  ("Step 2 of 4" over "Asking Frappe Cloud to delete the site"). A verb may
+  name a group (`group`), which puts it under a toolbar dropdown as frappe
+  groups a button: a tenant's Measure Storage and Refresh Domains. A record's
+  sentence now goes above its band, the news before the numbers.
+- **Every head is ported.** No form script draws a pill, a headline, a band
+  or a progress bar on a doctype with a head, and `tests/test_head.py` refuses
+  one that does.
 
 ## Stage 5, as built
 

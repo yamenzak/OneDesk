@@ -1,99 +1,29 @@
 // A workspace, from the operator's side.
 //
 // The record is read-only, all of it, because every field on it is the record
-// of something that happened rather than a setting: a signup, a call to press,
-// a measurement, a rung. The verbs are here instead, and each one does what the
-// nightly ladder does rather than a faster version of it — `one_admin/operator.py`
-// names the same `lifecycle` calls, so an operator acting early and a clock
-// acting on time run the same code.
-//
-// The rung a button offers comes from the server. Working it out here would be
-// a second copy of the ladder, and the two would disagree the week somebody
-// changed one of them.
+// of something that happened rather than a setting. Where it stands, its
+// storage, credits and rung, and the verbs that move it are its Record Head
+// (one_admin/heads.py). What is left here is what is not a head: the storage
+// sentence on its own tab, and the credit actions in the sidebar.
 frappe.ui.form.on("Tenant", {
 	refresh(frm) {
 		if (frm.is_new()) return;
-		frm.page.clear_indicator();
+		onedesk.tenant.said(frm);
 
-		frappe
-			.xcall("onedesk.one_admin.operator.standing", { tenant: frm.doc.name })
-			.then((where) => onedesk.tenant.draw(frm, where));
+		// Credits, in the form's own sidebar: none of them changes where the
+		// workspace stands, so none of them belongs beside the verbs that do.
+		frm.sidebar.clear_user_actions();
+		frm.sidebar.add_user_action(__("Give credits"), () => onedesk.tenant.give(frm));
+		frm.sidebar.add_user_action(__("Credit ledger"), () =>
+			frappe.set_route("List", "Credit Ledger Entry", { tenant: frm.doc.name }),
+		);
+		frm.sidebar.add_user_action(__("AI usage"), () =>
+			frappe.set_route("query-report", "AI Usage", { tenant: frm.doc.name, by: "Model" }),
+		);
 	},
 });
 
 frappe.provide("onedesk.tenant");
-
-// What each rung looks like at a glance, and the one word for it.
-onedesk.tenant.SAYS = {
-	Requested: ["orange", __("Waiting to be built")],
-	Provisioning: ["blue", __("Being built")],
-	Live: ["green", __("Live")],
-	Overdue: ["orange", __("Payment overdue")],
-	Suspended: ["red", __("Suspended")],
-	Archived: ["grey", __("Archived")],
-	Dropped: ["grey", __("Dropped")],
-	Failed: ["red", __("Provisioning failed")],
-};
-
-onedesk.tenant.draw = (frm, where) => {
-	const [colour, word] = onedesk.tenant.SAYS[frm.doc.status] || ["grey", frm.doc.status];
-	frm.page.set_indicator(word, colour);
-
-	// One headline. `set_headline` replaces rather than appends, so two calls
-	// meant the address and the storage disappeared the moment a workspace
-	// started falling — which is exactly when somebody is reading them.
-	const said = [`<b>${frm.doc.domain || frm.doc.site || frm.doc.name}</b>`];
-	if (where.days_left === 0 && where.next) {
-		said.push(__("Falls to {0} tonight.", [__(where.next)]));
-	} else if (where.days_left !== null && where.days_left !== undefined && where.next) {
-		said.push(__("Falls to {0} in {1} days.", [__(where.next), where.days_left]));
-	}
-	frm.dashboard.clear_headline();
-	frm.dashboard.set_headline(
-		said.join(" &nbsp;·&nbsp; "),
-		where.days_left !== null && where.days_left !== undefined && where.days_left <= 2
-			? "red"
-			: where.owing
-				? "orange"
-				: "blue",
-	);
-
-	onedesk.tenant.bars(frm, where);
-	onedesk.tenant.said(frm);
-
-	if (where.next) {
-		onedesk.tenant.verb(frm, where.next, where.verb, where.warning);
-	}
-	if (where.may_restore) {
-		frm.add_custom_button(__("Restore"), () =>
-			onedesk.tenant.run(frm, "onedesk.one_admin.operator.restore", {}),
-		).addClass("btn-primary");
-	}
-
-	// Under a group, because neither is something anybody does daily and both
-	// cost a round trip to somebody else's service.
-	frm.add_custom_button(
-		__("Measure storage"),
-		() => onedesk.tenant.run(frm, "onedesk.one_admin.operator.measure", {}),
-		__("Refresh"),
-	);
-	frm.add_custom_button(
-		__("Refresh domains"),
-		() => onedesk.tenant.run(frm, "onedesk.one_admin.operator.refresh_domains", {}),
-		__("Refresh"),
-	);
-
-	// Credits, in the form's own sidebar: none of them changes where the
-	// workspace stands, so none of them belongs beside the buttons that do.
-	frm.sidebar.clear_user_actions();
-	frm.sidebar.add_user_action(__("Give credits"), () => onedesk.tenant.give(frm));
-	frm.sidebar.add_user_action(__("Credit ledger"), () =>
-		frappe.set_route("List", "Credit Ledger Entry", { tenant: frm.doc.name }),
-	);
-	frm.sidebar.add_user_action(__("AI usage"), () =>
-		frappe.set_route("query-report", "AI Usage", { tenant: frm.doc.name, by: "Model" }),
-	);
-};
 
 // Credit an operator adds by hand: goodwill, a correction, a trial extended.
 //
@@ -172,99 +102,4 @@ onedesk.tenant.said = (frm) => {
 	field.$wrapper.html(
 		`<div class="text-muted" style="padding-bottom:8px">${lines.join("<br>")}</div>`,
 	);
-};
-
-// Frappe's own progress bars, the same ones a sales order uses for how much of
-// it has shipped. Two here, and both answer a question the fields cannot: a
-// Long Int of bytes against another Long Int is arithmetic somebody has to do,
-// and a date on a rung is a subtraction.
-onedesk.tenant.bars = (frm, where) => {
-	onedesk.tenant.credits(frm);
-	const limit = Number(frm.doc.storage_limit || 0);
-	const held = Number(frm.doc.storage_bytes || 0);
-	if (limit > 0) {
-		const part = Math.min(100, (held / limit) * 100);
-		const over = held > limit;
-		frm.dashboard.add_progress(
-			__("Storage"),
-			[
-				{
-					width: `${part}%`,
-					progress_class: over ? "progress-bar-danger" : "progress-bar-success",
-					title: onedesk.tenant.size(held),
-				},
-			],
-			over
-				? __("{0} over the {1} this plan allows.", [
-						onedesk.tenant.size(held - limit),
-						onedesk.tenant.size(limit),
-					])
-				: __("{0} of {1}.", [onedesk.tenant.size(held), onedesk.tenant.size(limit)]),
-		);
-	}
-
-	// Only while it is falling. A live workspace has no clock running against
-	// it, and a bar at zero would suggest one does.
-	if (where.days_left === null || where.days_left === undefined || !where.next) return;
-	const days = where.days || where.days_left;
-	const used = Math.max(0, Math.min(100, ((days - where.days_left) / days) * 100));
-	frm.dashboard.add_progress(
-		__("Time on this rung"),
-		[
-			{
-				width: `${used}%`,
-				progress_class: where.days_left <= 2 ? "progress-bar-danger" : "progress-bar-warning",
-				title: __("{0} days left", [where.days_left]),
-			},
-		],
-		where.days_left === 0
-			? __("Falls to {0} tonight.", [__(where.next)])
-			: __("{0} days before it falls to {1}.", [where.days_left, __(where.next)]),
-	);
-};
-
-// Every fall is confirmed, and the confirmation says what it costs rather than
-// asking "are you sure". Dropped deletes files; suspended stops a company
-// working. Neither is a thing to agree to without reading a sentence.
-onedesk.tenant.verb = (frm, rung, verb, warning) => {
-	frm.add_custom_button(verb || __(rung), () => {
-		frappe.confirm(
-			`<p>${__("{0} {1}?", [verb || __(rung), frm.doc.workspace_name || frm.doc.name])}</p>` +
-				(warning ? `<p class="text-danger">${warning}</p>` : ""),
-			() => onedesk.tenant.run(frm, "onedesk.one_admin.operator.fall", { rung }),
-		);
-	});
-};
-
-onedesk.tenant.run = (frm, method, args) =>
-	frappe
-		.xcall(method, { tenant: frm.doc.name, ...args })
-		.then(() => frm.reload_doc())
-		.catch(() => frm.reload_doc());
-
-// What the workspace has spent on AI since the month began, against what it
-// has left: the bar is the month's share of everything it has had to spend
-// since the month began. Empty when it is out, because an empty bar is the
-// first thing an operator should see on a workspace that cannot ask anything.
-onedesk.tenant.credits = (frm) => {
-	frappe.xcall("onedesk.one_admin.operator.credit_standing", { tenant: frm.doc.name }).then((now) => {
-		const used = Number(now.month_credits || 0);
-		const left = Math.max(0, Number(now.available || 0));
-		const whole = used + left;
-		const part = whole > 0 ? Math.min(100, (used / whole) * 100) : 0;
-		const say = (n) => format_number(n, null, 2);
-		frm.dashboard.add_progress(
-			__("Credits"),
-			[
-				{
-					width: `${part}%`,
-					progress_class: left <= 0 ? "progress-bar-danger" : part > 80 ? "progress-bar-warning" : "progress-bar-success",
-					title: __("{0} used this month", [say(used)]),
-				},
-			],
-			left <= 0
-				? __("Out of credits. {0} used this month in {1} calls.", [say(used), now.month_calls || 0])
-				: __("{0} used this month in {1} calls · {2} left.", [say(used), now.month_calls || 0, say(left)]),
-		);
-	});
 };

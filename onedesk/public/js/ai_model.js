@@ -1,50 +1,14 @@
-// One model in the catalogue, from the operator's side.
-//
-// Everything on it is a copy of what a provider said except three fields, and
-// the screen's job is to make the three obvious: whether it is offered, whether
-// its rates were typed by hand, and what is being charged on top.
-//
-// The headline says the markup in effect rather than the one on the record,
-// because an empty field meaning "the default" is a number somebody will read
-// as "none".
+// One model in the catalogue, from the operator's side. Whether it is offered
+// and the markup in effect are its Record Head (one_admin/heads.py); this is
+// the one verb that shows its answer in the dialog it was asked from.
 frappe.ui.form.on("AI Model", {
 	refresh(frm) {
-		if (frm.is_new()) return;
-		onedesk.model.draw(frm);
-		if (frm.doc.offered) {
-			frm.add_custom_button(__("Price a call"), () => onedesk.model.price(frm));
-		}
+		if (frm.is_new() || !frm.doc.offered) return;
+		frm.add_custom_button(__("Price a call"), () => onedesk.model.price(frm));
 	},
 });
 
 frappe.provide("onedesk.model");
-
-onedesk.model.SAYS = {
-	Priced: ["green", __("Priced")],
-	"Needs Review": ["orange", __("Needs review")],
-	Withdrawn: ["grey", __("Withdrawn")],
-};
-
-onedesk.model.draw = (frm) => {
-	const [colour, word] = onedesk.model.SAYS[frm.doc.status] || ["grey", frm.doc.status];
-	frm.page.set_indicator(frm.doc.offered ? __("Offered") : word, frm.doc.offered ? "green" : colour);
-
-	frm.dashboard.clear_headline();
-	if (frm.doc.status !== "Priced") {
-		if (frm.doc.why) frm.dashboard.set_headline(frm.doc.why, "orange");
-		return;
-	}
-	frappe.db.get_single_value("One Admin Settings", "default_markup").then((fallback) => {
-		const markup = frm.doc.markup || fallback;
-		frm.dashboard.set_headline(
-			markup
-				? __("Charged at {0}× what the provider charges.", [markup]) +
-						(frm.doc.markup ? "" : " " + __("From the default."))
-				: __("No markup is set, so this model cannot be called."),
-			markup ? "blue" : "red",
-		);
-	});
-};
 
 // What one call would cost, against a real workspace's real credits — because
 // a number worked out any other way is a number nobody can check against a

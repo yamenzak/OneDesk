@@ -52,6 +52,8 @@ onedesk.head.draw = (frm, drawn = null) => {
 				`<span class="one-head-sentence">${frappe.utils.escape_html(said.text)}</span>`,
 				said.colour,
 			);
+			// The news first, then the numbers.
+			frm.layout.message.children(".form-message:has(.one-head-sentence)").prependTo(frm.layout.message);
 		}, 0);
 	}
 	if (head.band.length || (head.charts || []).length) {
@@ -62,8 +64,8 @@ onedesk.head.draw = (frm, drawn = null) => {
 		);
 	}
 	for (const verb of head.verbs) {
-		frm.add_custom_button(verb.label, () => onedesk.head.act(frm, verb));
-		if (verb.primary) {
+		frm.add_custom_button(verb.label, () => onedesk.head.act(frm, verb), verb.group || undefined);
+		if (verb.primary && !verb.group) {
 			frm.change_custom_button_type(verb.label, null, "primary");
 			frm.one_primary_verb = verb.label;
 		}

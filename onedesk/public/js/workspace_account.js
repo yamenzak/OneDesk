@@ -30,62 +30,9 @@ frappe.ui.form.on("Workspace Account", {
 
 frappe.provide("onedesk.account");
 
-onedesk.account.SAYS = {
-	Requested: ["orange", __("Being set up")],
-	Provisioning: ["blue", __("Being set up")],
-	Live: ["green", __("Active")],
-	Overdue: ["orange", __("Payment overdue")],
-	Suspended: ["red", __("Suspended")],
-	Archived: ["grey", __("Archived")],
-};
-
-onedesk.account.draw = (frm) => {
-	const [colour, word] = onedesk.account.SAYS[frm.doc.status] || ["grey", frm.doc.status || ""];
-	if (word) frm.page.set_indicator(word, colour);
-
-	// One headline, and the money one wins. A workspace about to be suspended
-	// has to be told how long it has; that it could not reach its account is
-	// worth saying too, but not instead.
-	const said = [];
-	let colourOf = "blue";
-	if (frm.doc.owing && frm.doc.next_status) {
-		const left = frm.doc.days_left;
-		said.push(
-			left === 0
-				? __("Payment overdue. This workspace is suspended tonight.")
-				: __("Payment overdue. This workspace is suspended in {0} days.", [left]),
-		);
-		colourOf = left !== null && left <= 2 ? "red" : "orange";
-	} else if (frm.doc.last_error) {
-		said.push(__("Could not reach your account. Showing what was last known."));
-		colourOf = "orange";
-	}
-	frm.dashboard.clear_headline();
-	if (said.length) frm.dashboard.set_headline(said.join(" "), colourOf);
-
-	onedesk.account.credits(frm);
-
-	const limit = Number(frm.doc.storage_limit || 0);
-	const used = Number(frm.doc.storage_bytes || 0);
-	if (limit) {
-		frm.dashboard.add_progress(
-			__("Storage"),
-			[
-				{
-					width: `${Math.min(100, (used / limit) * 100)}%`,
-					progress_class: used > limit ? "progress-bar-danger" : "progress-bar-success",
-					title: onedesk.tenant.size(used),
-				},
-			],
-			used > limit
-				? __("{0} over the {1} this plan allows.", [
-						onedesk.tenant.size(used - limit),
-						onedesk.tenant.size(limit),
-					])
-				: __("{0} of {1} used.", [onedesk.tenant.size(used), onedesk.tenant.size(limit)]),
-		);
-	}
-};
+// Where it stands, the money or connection news and its storage are its
+// Record Head (one/heads.py). The credits sentence sits on its own field.
+onedesk.account.draw = (frm) => onedesk.account.credits(frm);
 
 // Credits, in words. The three numbers underneath are what a bill is settled
 // from and are the wrong things to read, so the sentence goes above them.

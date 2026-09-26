@@ -18,21 +18,15 @@ frappe.ui.form.on("AI Action Setting", {
 
 frappe.provide("onedesk.action");
 
+// What the action runs on is the Record Head's sentence (one_ai/heads.py),
+// redrawn as the action changes. This fills the two fields under it.
 onedesk.action.draw = (frm) => {
-	frm.dashboard.clear_headline();
 	frm.set_df_property("model", "options", [""]);
 	if (!frm.doc.action) return;
 
 	frappe.db
 		.get_doc("AI Action", frm.doc.action)
 		.then((asked) => {
-			frm.dashboard.set_headline(
-				__("{0} runs on a model that can do {1}. Anything added below is added to the instruction it already carries, and never replaces it.", [
-					asked.label,
-					asked.capability.toLowerCase(),
-				]),
-				"blue",
-			);
 			onedesk.action.ours(frm, asked);
 			return frappe.xcall("onedesk.one_ai.run.models", { needs: asked.capability });
 		})
@@ -64,7 +58,7 @@ onedesk.action.ours = (frm, asked) => {
 	if (!field) return;
 	// Not the instruction itself — that is the account's and a workspace has no
 	// copy of it. What a person needs here is that theirs is added to something
-	// rather than replacing it, which the headline already says.
+	// rather than replacing it, which the head's sentence already says.
 	frm.set_df_property(
 		"extra",
 		"description",

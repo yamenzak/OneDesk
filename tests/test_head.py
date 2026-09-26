@@ -208,6 +208,7 @@ def test_a_doctype_with_a_head_has_no_script_drawing_one():
 			"set_headline_alert(",
 			"dashboard.add_indicator",
 			"page.set_indicator(",
+			"dashboard.add_progress(",
 			"onedesk.decision",
 		):
 			assert drawing not in script, f"{scripts[doctype]} still draws {doctype}'s head"

@@ -543,12 +543,8 @@ doctype_js = {
 	# itself lives on the administrator. See one/account.py.
 	"Workspace Account": "public/js/workspace_account.js",
 	"Tenant": "public/js/tenant.js",
-	# A job says where in its walk it stopped; see one_admin/steps.py SAID.
-	"Provisioning Job": "public/js/job.js",
 	# A paid signup that never became a workspace can be built from its screen.
 	"Account Request": "public/js/account_request.js",
-	# A custom domain is Frappe Cloud's answer written down, and can be re-asked.
-	"Tenant Domain": "public/js/tenant_domain.js",
 	# A price list says how many workspaces already bought what is being edited.
 	"Offering": "public/js/offering.js",
 	# The gateway is the one credential here with nothing that later proves it.
@@ -557,8 +553,6 @@ doctype_js = {
 	"AI Model": "public/js/ai_model.js",
 	# The model list comes from the account, filtered to what the action needs.
 	"AI Action Setting": "public/js/ai_action_setting.js",
-	# Read-only with two verbs: nothing happened yet, and it is yours to decide.
-	"AI Proposal": "public/js/ai_proposal.js",
 	"Employee": "public/js/employee.js",
 	"Employee Attendance Tool": "public/js/attendance_tool.js",
 	"Attendance": "public/js/attendance.js",
@@ -759,6 +753,9 @@ one_record_heads = [
 	"onedesk.one_crm.heads.HEADS",
 	"onedesk.one_project.heads.HEADS",
 	"onedesk.one_hr.heads.HEADS",
+	"onedesk.one.heads.HEADS",
+	"onedesk.one_admin.heads.HEADS",
+	"onedesk.one_ai.heads.HEADS",
 ]
 one_measures = [
 	"onedesk.one_inventory.heads.MEASURES",
@@ -766,12 +763,17 @@ one_measures = [
 	"onedesk.one_crm.heads.MEASURES",
 	"onedesk.one_project.heads.MEASURES",
 	"onedesk.one_hr.heads.MEASURES",
+	"onedesk.one.heads.MEASURES",
+	"onedesk.one_admin.heads.MEASURES",
+	"onedesk.one_ai.heads.MEASURES",
 ]
 one_verbs = [
 	"onedesk.one_inventory.heads.VERBS",
 	"onedesk.one_book.heads.VERBS",
 	"onedesk.one_crm.heads.VERBS",
 	"onedesk.one_hr.heads.VERBS",
+	"onedesk.one_admin.heads.VERBS",
+	"onedesk.one_ai.heads.VERBS",
 ]
 one_charts = [
 	"onedesk.one_inventory.heads.CHARTS",
