@@ -19,6 +19,7 @@ sent to it is lost.
 """
 
 import json
+import re
 
 import frappe
 from frappe import _
@@ -33,6 +34,12 @@ WORKSPACE = "one_mail_workspace"
 ORDER = ("Inbox", "Drafts", "Sent", "Archive", "Junk", "Trash", "Other")
 
 
+def _administers() -> bool:
+	from onedesk.one import roles
+
+	return roles.administers()
+
+
 def _admin() -> None:
 	from onedesk.one import roles
 
@@ -45,6 +52,26 @@ def workspace() -> str | None:
 	if chosen and frappe.db.exists("Email Account", chosen):
 		return chosen
 	return addresses.ensure_workspace()
+
+
+def may_sign(account: str) -> bool:
+	"""Whether the reader may change how a mailbox signs: a mailbox that
+	sends, which they hold, and when it is the workspace's, which everybody
+	sends under, only as a workspace administrator."""
+	from onedesk.one import roles
+	from onedesk.one_mail import actions
+
+	sends, shared = frappe.db.get_value("Email Account", account, ["enable_outgoing", "one_shared"]) or (0, 0)
+	return bool(sends) and actions.holds(account) and (not shared or roles.administers())
+
+
+def first_line(html: str | None) -> str:
+	"""A signature's first line of text, to show what a mailbox signs with.
+	Pure."""
+	from frappe.utils import strip_html
+
+	text = re.sub(r"<\s*/?(br|p|div|li)\b[^>]*>", "\n", html or "", flags=re.I)
+	return next((line.strip() for line in strip_html(text).splitlines() if line.strip()), "")
 
 
 def ordered(folders: list[dict]) -> list[dict]:
@@ -74,6 +101,7 @@ def mailboxes() -> list[dict]:
 			"enable_outgoing",
 			"one_error",
 			"one_intake",
+			"signature",
 		],
 	)
 	folders: dict[str, list] = {}
@@ -97,6 +125,15 @@ def mailboxes() -> list[dict]:
 				"sends": account.enable_outgoing,
 				"error": account.one_error,
 				"intake": account.one_intake,
+				# An address on the mail domain that is somebody's own receives
+				# only: the workspace's address sends for everybody.
+				"receives_only": int(bool(account.one_hosted and not account.enable_outgoing)),
+				"may_sign": int(may_sign(account.name)) if account.enable_outgoing else 0,
+				"signed": first_line(account.signature),
+				# Only a connected mailbox has a password to give again.
+				"may_reconnect": int(
+					bool(account.one_connected) and (not account.one_shared or _administers())
+				),
 				"unread": sum(one.unread or 0 for one in listed if one.kind in ("Inbox", "Other")),
 				"folders": listed,
 			}
@@ -190,11 +227,16 @@ def signature_of(account: str) -> str | None:
 
 @frappe.whitelist(methods=["POST"])
 def set_signature(account: str, signature: str | None = None) -> None:
-	"""Change a mailbox's signature. Anybody who holds it may: a signature is
-	how the address signs, and they all write as it."""
+	"""Change a mailbox's signature: whoever holds it, and for one of the
+	workspace's, which everybody sends under, a workspace administrator."""
 	from onedesk.one_mail import actions
 
 	actions.require(account)
+	if not may_sign(account):
+		frappe.throw(
+			_("Only a workspace administrator changes how {0} signs.").format(account),
+			frappe.PermissionError,
+		)
 	frappe.db.set_value(
 		"Email Account",
 		account,

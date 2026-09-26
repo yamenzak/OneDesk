@@ -708,6 +708,7 @@ one_ai_reads = [
 	"onedesk.one_legal.ai.agreement",
 	"onedesk.one.ai.notification_type",
 	"onedesk.one.ai.my_notifications",
+	"onedesk.one.ai.my_mailboxes",
 ]
 
 #: A sentence each about who is asking, added to what the model is told.
@@ -729,6 +730,7 @@ one_ai_suggests = [
 	"onedesk.one.ai.rewrite_notification",
 	"onedesk.one.ai.draft_notification",
 	"onedesk.one.ai.customize",
+	"onedesk.one.ai.sign_mailbox",
 ]
 one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS", "onedesk.one_crm.ai.SUGGESTIONS", "onedesk.one.ai.SUGGESTIONS"]
 
@@ -743,6 +745,7 @@ one_notification_types = [
 	"onedesk.one_book.notifications.TYPES",
 	"onedesk.one_inventory.notifications.TYPES",
 	"onedesk.one_crm.notifications.TYPES",
+	"onedesk.one_mail.notifications.TYPES",
 ]
 
 # What a record's form says above its fields, as rows: each module's heads,

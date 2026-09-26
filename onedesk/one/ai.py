@@ -62,6 +62,28 @@ SUGGESTIONS = {
 			"expects": "my_notifications",
 		},
 	],
+	"page:settings/mail": [
+		{
+			"label": _lt("Write my signature"),
+			"ask": _lt(
+				"Write a signature for the mailbox I send from, from my name, my job and how to reach me. Keep "
+				"it short, and suggest it as a card I can approve."
+			),
+			"expects": "sign_mailbox",
+		},
+		{
+			"label": _lt("Why is a mailbox not working?"),
+			"ask": _lt("Are any of my mailboxes not working, why, and what do I do about it?"),
+			"expects": "my_mailboxes",
+		},
+		{
+			"label": _lt("How does mail work here?"),
+			"ask": _lt(
+				"How do my mailboxes work in One: which I have, which I send from, and how they sign?"
+			),
+			"expects": "how_to",
+		},
+	],
 	"page:customize": [
 		{
 			"label": _lt("Suggest changes to this form"),
@@ -133,6 +155,13 @@ def page(said: dict) -> str | None:
 			"receive, which all reach their bell, and ticks for each they also want by email or pushed to the "
 			"browsers they turned push on in. my_notifications reads what they get and how. They change the ticks themselves and save; how is in One's "
 			"documentation under Settings › Notifications (how_to)."
+		)
+	if said.get("section") == "mail":
+		return (
+			"The reader is on Mail in their own Settings: the mailboxes they hold, which of them they send "
+			"from and what each signs with, and any that stopped connecting. my_mailboxes reads them, with "
+			"what a signature is made of; sign_mailbox suggests a signature as a card they approve. How it "
+			"works is in One's documentation under Settings › Mail (how_to)."
 		)
 	if said.get("section") == "agreements":
 		return (
@@ -553,4 +582,74 @@ def customize(
 		"state": "Proposed",
 		"next": "Tell them it changes the form for everybody once they approve it, and that Reset on the "
 		"Customize page takes it back.",
+	}
+
+
+def my_mailboxes() -> dict:
+	"""The mailboxes the person asking holds: which they send from, what each
+	signs with now, which have stopped connecting and why; and what a
+	signature of theirs would be made of (name, job, phone, company)."""
+	from onedesk.one_hr import own
+	from onedesk.one_mail import holders
+
+	user = frappe.get_doc("User", frappe.session.user)
+	employee = own.employee_of()
+	work = (
+		frappe.db.get_value(
+			"Employee", employee, ["designation", "department", "company", "cell_number"], as_dict=True
+		)
+		if employee
+		else None
+	) or {}
+	return {
+		"mailboxes": [
+			{
+				"mailbox": one["name"],
+				"address": one["email"],
+				"whose": "the workspace's" if one["workspace"] or one["shared"] else "yours",
+				"sends": bool(one["sends"]),
+				"may_sign": bool(one["may_sign"]),
+				"signature": frappe.db.get_value("Email Account", one["name"], "signature")
+				if one["may_sign"]
+				else None,
+				"not_connecting": one["error"],
+				"fix": "Reconnect it on this page with its password" if one["may_reconnect"] else None,
+			}
+			for one in holders.mailboxes()
+		],
+		"signature_from": {
+			"name": user.full_name,
+			"designation": work.get("designation"),
+			"department": work.get("department"),
+			"company": work.get("company") or frappe.defaults.get_global_default("company"),
+			"phone": user.mobile_no or work.get("cell_number"),
+			"email": user.email,
+		},
+	}
+
+
+def sign_mailbox(
+	mailbox: Annotated[str, "The mailbox, as my_mailboxes named it."],
+	signature: Annotated[
+		str, "The signature: a few short lines of simple HTML (<br> between lines, <b> at most)."
+	],
+	why: Annotated[str, "In a sentence, what it says."] | None = None,
+) -> dict:
+	"""Suggest a signature for a mailbox the person asking sends from, as a
+	card they approve. Read my_mailboxes first. Nothing changes until they
+	approve it."""
+	from onedesk.one_ai import proposals
+	from onedesk.one_mail import holders
+
+	if not frappe.db.exists("Email Account", mailbox) or not holders.may_sign(mailbox):
+		return {"error": f"You cannot change how {mailbox} signs. my_mailboxes lists the ones you can."}
+	return {
+		"proposal": proposals.propose(
+			"Signature",
+			"Email Account",
+			changes={"signature": (signature or "").strip()},
+			record=mailbox,
+			why=why,
+		),
+		"state": "Proposed",
 	}

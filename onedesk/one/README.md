@@ -115,6 +115,40 @@ Notifications.
 - **Too many emails?** Which of your mailed kinds you could leave to the bell
   or have pushed instead, and why. You untick them yourself.
 
+### Mail
+
+Every mailbox you hold: the workspace's address, your own address on the
+workspace's mail domain, and any you connected from Gmail, Outlook or another
+provider. Each says whose it is, whether Intake reads it (**Read by OneAI**),
+and what it signs with. **Open** takes you to it in OneMail.
+
+**Connecting a mailbox** is **Connect a Mailbox** at the top right. It opens
+OneMail, where you give its address and password.
+
+**Signatures.** A mailbox you send from shows its signature's first line, or
+**No signature**. **Signature** changes it. A signature belongs to the
+address, so everybody who sends from that mailbox signs with it. The
+workspace's mailboxes, which everybody sends from, are signed by the
+workspace's administrators. Your own address on the mail domain says
+**Receives Only**: mail to it reaches you, and you send as the workspace.
+
+**A mailbox that stopped connecting** says **Not Connecting** and why,
+usually a password that changed. Everybody who holds it is told once, on the
+bell and by email. **Reconnect** asks for the password again, tries it, and
+reads the mailbox again at once. Gmail and Outlook want an app password, made
+in the account's security settings. A workspace mailbox is reconnected by an
+administrator.
+
+The page changes by itself when a mailbox stops connecting or comes back.
+
+**OneAI on this page** offers:
+
+- **Write my signature.** It writes one from your name, job and phone, and
+  suggests it as a card. **Approve** saves it; nothing changes before that.
+- **Why is a mailbox not working?** Which mailboxes are not connecting, why,
+  and what to do.
+- **How does mail work here?** This section, explained.
+
 ### Agreements
 
 Every agreement One runs under, and where you and your organisation stand on

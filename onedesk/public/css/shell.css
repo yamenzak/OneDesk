@@ -122,6 +122,16 @@
 	margin-top: calc(var(--spacing) * 1);
 }
 
+/* A line under a row's badges: what a mailbox signs with, or why it is not
+   connecting. One line, cut short rather than wrapped. */
+.one-shell-row-note {
+	margin-top: calc(var(--spacing) * 1.5);
+	font-size: var(--text-sm);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 .one-shell-row-actions {
 	display: flex;
 	flex: none;

@@ -42,6 +42,11 @@ MOST_FIELDS = 40
 MOST_ROWS = 20
 
 
+#: Kinds whose changes are the tool's own, checked by it, rather than a
+#: record's values: how a form looks, and how a mailbox signs.
+OWN_WORDS = ("Customize", "Signature")
+
+
 def propose(
 	kind: str,
 	doctype: str,
@@ -60,7 +65,7 @@ def propose(
 	"""
 	# A customization is written by the tool that checked it (one/ai.py
 	# `customize`), as the Customize page would send it: not a record's values.
-	changes = (changes or {}) if kind == "Customize" else _plain(changes or {}, doctype)
+	changes = (changes or {}) if kind in OWN_WORDS else _plain(changes or {}, doctype)
 	if kind in ("Create", "Edit") and frappe.db.exists("DocType", doctype):
 		changes = _understood(doctype, changes)
 	held = _allowed(kind, doctype, record)
@@ -341,6 +346,12 @@ def _allowed(kind: str, doctype: str, record: str | None):
 
 		customize.may(doctype)
 		return None
+	if kind == "Signature":
+		from onedesk.one_mail import holders
+
+		if not (record and holders.may_sign(record)):
+			frappe.throw(frappe._("You may not change how {0} signs.").format(record), frappe.PermissionError)
+		return None
 	verb = {"Create": "create", "Edit": "write", "Delete": "delete", "Move": "write"}.get(kind)
 	if not verb:
 		frappe.throw(frappe._("{0} is not something that can be proposed.").format(kind))
@@ -439,6 +450,8 @@ def _said(kind: str, doctype: str, record: str | None, changes: dict) -> str:
 		return frappe._("Create a {0}").format(doctype)
 	if kind == "Customize":
 		return frappe._("Customize {0}").format(doctype)
+	if kind == "Signature":
+		return frappe._("Signature for {0}").format(record)
 	if kind == "Delete":
 		return frappe._("Delete {0}").format(record)
 	if kind == "Move":

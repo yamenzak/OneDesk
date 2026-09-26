@@ -571,3 +571,36 @@ def test_a_message_is_signed_as_the_address_it_is_sent_from():
 	compose = (tree.APP / "public" / "js" / "mail_compose.js").read_text()
 	assert "holders.signature_for" in compose
 	assert "/assets/onedesk/js/mail_compose.js" in HOOKS
+
+
+def test_a_signature_is_shown_by_its_first_line(monkeypatch):
+	import types
+
+	strip = types.SimpleNamespace(strip_html=lambda text: re.sub(r"<[^>]+>", "", text))
+	monkeypatch.setitem(sys.modules, "frappe.utils", strip)
+	space = _load(MAIL / "holders.py", ("first_line",), re=re)
+	first = space["first_line"]
+	assert first("<p>Samir Aoun<br>Operations Lead</p>") == "Samir Aoun"
+	assert first("<div><b>Samir</b></div><div>Lead</div>") == "Samir"
+	assert first("") == "" and first(None) == ""
+
+
+def test_the_workspaces_signature_is_its_administrators():
+	holders = (MAIL / "holders.py").read_text()
+	may = holders.split("def may_sign(", 1)[1].split("\ndef ", 1)[0]
+	assert "enable_outgoing" in may and "actions.holds(account)" in may and "roles.administers()" in may
+	setter = holders.split("def set_signature(", 1)[1].split("\ndef ", 1)[0]
+	assert "may_sign(account)" in setter, "the server holds the line, not only the page"
+	# OneMail's own menu asks the same question.
+	assert "this.box.may_sign ?" in (tree.APP / "public" / "js" / "onemail.js").read_text()
+
+
+def test_a_mailbox_that_breaks_is_told_once_and_can_be_given_its_password_again():
+	sync = (MAIL / "sync.py").read_text()
+	assert "if not doc.one_error:\n\t\t\tbroke(doc, said)" in sync, "once, when it breaks"
+	assert '"Mailbox Not Reachable"' in sync and "one_mail.notifications.TYPES" in HOOKS
+	connect = (MAIL / "connect.py").read_text()
+	again = connect.split("def reconnect(", 1)[1].split("\ndef ", 1)[0]
+	# Tried where it already is, by a holder, and the workspace's by an administrator.
+	assert "actions.require(account)" in again and "frappe.only_for(roles.ADMINISTRATOR)" in again
+	assert "reach(doc.email_id, password, login, {key: doc.get(key) for key in WHERE})" in again

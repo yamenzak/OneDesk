@@ -30,6 +30,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.kept = {};
 		// Agreeing in the dialog changes what the Agreements section shows.
 		$(document).on("legal-agreed", () => this.key === "agreements" && this.open("agreements"));
+		// A mailbox broke or came back (one_mail/sync.py).
+		frappe.realtime.on("one_mailbox", () => this.key === "mail" && this.$content && this.$content.is(":visible") && this.refresh());
 	}
 
 	async show() {
@@ -227,6 +229,9 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
+	// The mailboxes the reader holds, each saying what it signs with, and why
+	// when it cannot sign or has stopped connecting. Connecting one is the
+	// page's one action, in its head; it happens in OneMail.
 	draw_mail(data) {
 		const esc = frappe.utils.escape_html;
 		const rows = (data.mailboxes || [])
@@ -235,40 +240,84 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				const badges = [
 					frappe.ui.badge.html({ label: kind, theme: one.workspace ? "blue" : "gray" }),
 					one.intake ? frappe.ui.badge.html({ label: __("Read by OneAI"), theme: "violet" }) : "",
-					one.error ? frappe.ui.badge.html({ label: __("Not reachable"), theme: "red", title: one.error }) : "",
+					one.receives_only ? frappe.ui.badge.html({ label: __("Receives Only"), theme: "gray" }) : "",
+					one.error ? frappe.ui.badge.html({ label: __("Not Connecting"), theme: "red" }) : "",
 				].join(" ");
+				const said = one.error
+					? `<div class="one-shell-row-note text-danger">${esc(one.error)}</div>`
+					: one.sends
+					? `<div class="one-shell-row-note one-shell-quiet">${one.signed ? esc(__("Signs with “{0}”", [one.signed])) : esc(__("No signature"))}</div>`
+					: "";
+				const actions = [
+					one.error && one.may_reconnect ? onedesk.shell.button(__("Reconnect"), { "data-reconnect": one.name, "data-email": one.email }) : "",
+					one.may_sign ? onedesk.shell.button(__("Signature"), { "data-signature": one.name }, one.error ? "ghost" : "subtle") : "",
+					onedesk.shell.button(__("Open"), { "data-open": one.name }, "ghost"),
+				].join("");
 				return `<div class="one-shell-row">
-					<div class="one-shell-row-main"><div class="one-shell-row-title">${esc(one.email)}</div><div class="one-shell-row-sub">${badges}</div></div>
-					<div class="one-shell-row-actions">${one.sends ? onedesk.shell.button(__("Signature"), { "data-signature": one.name }) : ""}
-					${onedesk.shell.button(__("Open"), { "data-open": one.name }, "ghost")}</div>
+					<div class="one-shell-row-main"><div class="one-shell-row-title">${esc(one.email)}</div><div class="one-shell-row-sub">${badges}</div>${said}</div>
+					<div class="one-shell-row-actions">${actions}</div>
 				</div>`;
 			})
 			.join("");
 		this.$content.html(
 			onedesk.shell.section(
 				__("Your Mailboxes"),
-				(rows || onedesk.shell.empty(__("No mailboxes yet."))) +
-					`<div class="one-shell-actions">${onedesk.shell.button(__("Connect a Mailbox"), { "data-connect": "1" }, "solid", "plug")}</div>`,
-				__("Mailboxes are connected and read in OneMail. Here you choose what you sign with.")
+				rows || onedesk.shell.empty(__("No mailboxes yet.")),
+				__("Mailboxes are read in OneMail. Here you see what each one signs with, and fix one that stopped connecting.")
 			)
 		);
+		this.page.set_primary_action(__("Connect a Mailbox"), () => frappe.set_route("onemail", { connect: 1 }), "plug");
 		this.$content.find("[data-open]").on("click", (event) => frappe.set_route("onemail", { box: $(event.currentTarget).attr("data-open") }));
-		this.$content.find("[data-connect]").on("click", () => frappe.set_route("onemail", { connect: 1 }));
-		this.$content.find("[data-signature]").on("click", async (event) => {
-			const account = $(event.currentTarget).attr("data-signature");
-			const signature = await frappe.xcall("onedesk.one_mail.holders.signature_of", { account });
-			const dialog = new frappe.ui.Dialog({
-				title: __("Signature"),
-				fields: [{ fieldname: "signature", fieldtype: "Text Editor", label: __("Signature"), default: signature }],
-				primary_action_label: __("Save"),
-				primary_action: async (values) => {
-					await frappe.xcall("onedesk.one_mail.holders.set_signature", { account, signature: values.signature || "" });
-					dialog.hide();
-					frappe.show_alert({ message: __("Saved."), indicator: "green" });
-				},
-			});
-			dialog.show();
+		this.$content.find("[data-signature]").on("click", (event) => this.sign($(event.currentTarget).attr("data-signature")));
+		this.$content.find("[data-reconnect]").on("click", (event) =>
+			this.reconnect($(event.currentTarget).attr("data-reconnect"), $(event.currentTarget).attr("data-email"))
+		);
+	}
+
+	async sign(account) {
+		const signature = await frappe.xcall("onedesk.one_mail.holders.signature_of", { account });
+		const dialog = new frappe.ui.Dialog({
+			title: __("Signature"),
+			fields: [{ fieldname: "signature", fieldtype: "Text Editor", label: __("Signature"), default: signature }],
+			primary_action_label: __("Save"),
+			primary_action: async (values) => {
+				await frappe.xcall("onedesk.one_mail.holders.set_signature", { account, signature: values.signature || "" });
+				dialog.hide();
+				frappe.show_alert({ message: __("Saved."), indicator: "green" });
+				this.refresh();
+			},
 		});
+		dialog.show();
+	}
+
+	// The password again, tried on the servers the mailbox already has.
+	reconnect(account, email) {
+		const dialog = new frappe.ui.Dialog({
+			title: __("Reconnect {0}", [email]),
+			fields: [
+				{
+					fieldname: "password",
+					fieldtype: "Password",
+					label: __("Password"),
+					reqd: 1,
+					description: __("Gmail and Outlook want an app password here, made in the account's security settings."),
+				},
+				{ fieldname: "login", fieldtype: "Data", label: __("Login, if not the address") },
+			],
+			primary_action_label: __("Reconnect"),
+			primary_action: async (values) => {
+				dialog.disable_primary_action();
+				try {
+					await frappe.xcall("onedesk.one_mail.connect.reconnect", { account, ...values });
+					dialog.hide();
+					frappe.show_alert({ message: __("Connected again. Its mail is on its way."), indicator: "green" });
+					this.refresh();
+				} finally {
+					dialog.enable_primary_action();
+				}
+			},
+		});
+		dialog.show();
 	}
 
 	draw_calendar(data) {

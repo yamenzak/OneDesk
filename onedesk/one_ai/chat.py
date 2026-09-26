@@ -313,6 +313,18 @@ def _suggests(row: dict) -> dict:
 			],
 		}
 
+	if row.get("kind") == "Signature":
+		# The signature as it will read, a line each.
+		from frappe.utils import strip_html
+
+		text = re.sub(r"<\s*/?(br|p|div|li)\b[^>]*>", "\n", str(changes.get("signature") or ""), flags=re.I)
+		return {
+			"doctype": doctype,
+			"name": row.get("record") or "",
+			"title": "",
+			"fields": [{"label": frappe._("Signature"), "value": strip_html(text).strip()}],
+		}
+
 	meta = frappe.get_meta(doctype) if doctype and frappe.db.exists("DocType", doctype) else None
 	labels = {field.fieldname: field.label or field.fieldname for field in (meta.fields if meta else [])}
 	known = {field.fieldname: field for field in (meta.fields if meta else [])}

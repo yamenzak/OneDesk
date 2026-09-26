@@ -125,7 +125,7 @@ const kind = computed(() => (props.suggested ? props.suggested.kind || "Create" 
 
 // A record, a new one, a change, a deletion or how a form looks — Lucide's own.
 const glyph = computed(
-	() => ({ Create: "file-plus", Edit: "file-pen", Delete: "trash-2", Customize: "settings-2" })[kind.value] || "file"
+	() => ({ Create: "file-plus", Edit: "file-pen", Delete: "trash-2", Customize: "settings-2", Signature: "pen-line" })[kind.value] || "file"
 );
 
 const doctype = computed(() => props.record.doctype || (props.suggested && props.suggested.for_doctype) || "");
@@ -141,6 +141,7 @@ const title = computed(() => {
 	if (kind.value === "Edit") return name ? __("Change {0}", [name]) : __("Change {0}", [__(doctype.value)]);
 	if (kind.value === "Delete") return __("Delete {0}", [name || __(doctype.value)]);
 	if (kind.value === "Customize") return __("Customize {0}", [__(doctype.value)]);
+	if (kind.value === "Signature") return __("Signature for {0}", [name]);
 	return name || __(doctype.value);
 });
 
@@ -162,6 +163,8 @@ const settled = computed(() => {
 function open(name) {
 	// A customization was applied to a form, not to a record of it.
 	if (kind.value === "Customize") frappe.set_route("customize", doctype.value);
+	// A mailbox's signature is set, and seen, in Settings › Mail.
+	else if (kind.value === "Signature") frappe.set_route("settings", { section: "mail" });
 	else frappe.set_route("Form", doctype.value, name);
 }
 

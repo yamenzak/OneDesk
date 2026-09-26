@@ -78,12 +78,45 @@ def sync_account(account: str) -> dict:
 				frappe.db.commit()
 		if doc.one_error:
 			frappe.db.set_value("Email Account", account, "one_error", None, update_modified=False)
+			told(account)
 	except Exception as error:
 		frappe.db.rollback()
-		frappe.db.set_value("Email Account", account, "one_error", imap.refused(error), update_modified=False)
+		said = imap.refused(error)
+		frappe.db.set_value("Email Account", account, "one_error", said, update_modified=False)
 		frappe.db.commit()
+		# Once, when it breaks: every sync after that fails the same way, and
+		# a notice each time would be a notice nobody reads.
+		if not doc.one_error:
+			broke(doc, said)
 		raise
 	return read
+
+
+def _holders(account: str) -> list[str]:
+	return frappe.get_all("User Email", filters={"email_account": account}, pluck="parent")
+
+
+def broke(doc, said: str) -> None:
+	"""Tell whoever holds a mailbox that it stopped connecting, and why."""
+	from onedesk.one import notify
+
+	holders = _holders(doc.name)
+	notify.notify(
+		"Mailbox Not Reachable",
+		holders,
+		link="/desk/settings?section=mail",
+		sender="Administrator",
+		mailbox=doc.email_id,
+		reason=said,
+	)
+	told(doc.name, holders)
+
+
+def told(account: str, holders: list[str] | None = None) -> None:
+	"""A mailbox broke or came back: whoever has the Mail settings open sees it
+	change there."""
+	for user in holders if holders is not None else _holders(account):
+		frappe.publish_realtime("one_mailbox", {"account": account}, user=user, after_commit=True)
 
 
 def _relist_due(account: str) -> bool:

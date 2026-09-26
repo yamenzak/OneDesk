@@ -943,11 +943,13 @@ onedesk.OneMail = class OneMail {
 						["paperclip", __("Attachments in OneCloud"), () => frappe.set_route("onecloud", { node: `@mail/${this.box.name}` })],
 						["list-filter", __("Rules"), () => frappe.set_route("List", "Mail Rule", { account: this.box.name })],
 						["plane", __("Out of office"), () => this.away()],
-						["signature", __("Signature"), () => this.signature()],
+						// A mailbox that sends, and a workspace one only for its
+						// administrators (holders.may_sign).
+						this.box.may_sign ? ["signature", __("Signature"), () => this.signature()] : null,
 						this.box.intake
 							? ["scan-text", __("Stop reading with OneAI"), () => this.intake(false)]
 							: ["scan-text", __("Read with OneAI…"), () => this.intake(true)],
-					]),
+					].filter(Boolean)),
 				rules: () => frappe.set_route("List", "Mail Rule", { account: this.box.name }),
 				away: () => this.away(),
 				signature: () => this.signature(),

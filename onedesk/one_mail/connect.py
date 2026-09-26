@@ -207,6 +207,54 @@ def connect(
 	return doc.name
 
 
+#: What an Email Account keeps of where its servers are, as `reach` takes it.
+WHERE = (
+	"email_server",
+	"incoming_port",
+	"use_ssl",
+	"use_starttls",
+	"smtp_server",
+	"smtp_port",
+	"use_tls",
+	"use_ssl_for_outgoing",
+)
+
+
+@frappe.whitelist(methods=["POST"])
+def reconnect(account: str, password: str, login: str | None = None) -> str:
+	"""A connected mailbox that stopped letting us in, given its password
+	again: tried on the servers it already has before it is kept, then read
+	again at once. The workspace's are a workspace administrator's, as
+	connecting one is."""
+	from onedesk.one import roles
+	from onedesk.one_mail import actions
+
+	actions.require(account)
+	doc = frappe.get_doc("Email Account", account)
+	if not doc.one_connected:
+		frappe.throw(_("Only a mailbox connected from another provider has a password to give again."))
+	if doc.one_shared:
+		frappe.only_for(roles.ADMINISTRATOR)
+	login = (login or "").strip() or (doc.login_id if doc.login_id_is_different else None)
+	reach(doc.email_id, password, login, {key: doc.get(key) for key in WHERE})
+	doc.update({"password": password, "login_id_is_different": int(bool(login)), "login_id": login})
+	doc.one_error = None
+	doc.flags.ignore_permissions = True
+	doc.save()
+	frappe.enqueue(
+		"onedesk.one_mail.sync.sync_account",
+		queue="long",
+		job_id=f"one_mail_sync:{doc.name}",
+		deduplicate=True,
+		enqueue_after_commit=True,
+		account=doc.name,
+	)
+	from onedesk.one_mail import sync
+
+	sync.told(doc.name)
+	return doc.name
+
+
 @frappe.whitelist(methods=["POST"])
 def disconnect(account: str) -> None:
 	"""Stop reading a connected mailbox. What was read stays, linked to what

@@ -121,7 +121,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 |---|---|---|
 | Settings, You | Profile | done |
 | Settings, You | Notifications | done (stage 3 of NOTIFICATIONS.md; push is stage 4) |
-| Settings, You | Mail | findings written, waiting on your word |
+| Settings, You | Mail | done |
 | Settings, You | Calendar | |
 | Settings, You | Sign-in | |
 | Settings, You | What OneAI Remembers | |
@@ -149,7 +149,9 @@ Every settings screen, from the first commit of the pass:
   inside the page.
 - No bordered card. Parts of a section are divided by a rule.
 - Save is the page's primary action in the head, so Ctrl+S works. "Not Saved"
-  shows once something changes.
+  shows once something changes. A section with nothing to save puts its one
+  action there instead (Mail's Connect a Mailbox), never as a button in the
+  page.
 - The breadcrumb names the section.
 - A section is a column in the middle of the page, the form's width, so a wide
   screen leaves room on both sides rather than all of it on the right. A
@@ -257,7 +259,8 @@ own address on the mail domain, and any they connected. Each opens in
 OneMail; one that sends has a Signature button (frappe's Text Editor in a
 Dialog, `holders.set_signature`). Connect a Mailbox goes to OneMail.
 
-Findings, with what is recommended. Nothing is changed yet.
+Findings, and what was done about each (all of them, on your word; the
+list stays a list, since three rows with actions read better than cards).
 
 1. **Notifications**: a mailbox that stops being reachable says nothing to
    anybody. `sync.py` writes `one_error` and stops; the only sign is a red
@@ -291,6 +294,30 @@ Findings, with what is recommended. Nothing is changed yet.
    (`onemail-mailboxes`) and the mail carrier. Nothing to add.
 9. **Built from frappe**: the dialog is frappe's, the rows and buttons are
    the settings shell's (espresso buttons and badges). Nothing to change.
+
+Done:
+
+- **Mailbox Not Reachable** (`one_mail/notifications.py`): when a sync first
+  fails, everybody who holds the mailbox is told, on the bell and by email,
+  with the reason and a link here. Only the first failure sends, so a
+  mailbox that stays broken is one notice.
+- **Reconnect** on a mailbox that is not connecting: its password again
+  (`connect.reconnect`), tried on the servers it already has before it is
+  kept, then read at once. A holder may; a workspace mailbox, an
+  administrator.
+- **Each row says what it signs with** ("Signs with …" or "No signature"),
+  **Receives Only** on a personal address on the mail domain, and a mailbox
+  that is not connecting says why on the row, in red, beside Reconnect.
+- **The page redraws** when a mailbox breaks or comes back (`one_mailbox`,
+  published by `sync.py` to its holders).
+- **A workspace mailbox is signed by its administrators** (`holders.may_sign`),
+  held on the server in `set_signature` and in OneMail's own menu.
+- **Connect a Mailbox is the page's primary action**, in the head.
+- **OneAI**: Write My Signature (`my_mailboxes` reads the mailboxes and what
+  a signature is made of, `sign_mailbox` suggests one as a card, a new
+  proposal kind `Signature` that Approve saves), Why Is a Mailbox Not
+  Working, and How Does Mail Work Here, which reads the new Settings › Mail
+  section of `one/README.md`.
 
 ### Agreements
 
