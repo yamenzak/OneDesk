@@ -273,8 +273,9 @@ Each deletes what it replaces in the same commit.
    Done.
 4. **Record Head**: the doctype, the onload hook, the renderer, measures and
    verbs. Ported first where the pattern is plainest (Item, Asset, Invoice),
-   then the rest. The first half is done; the rest ports with its product in
-   the passover.
+   then the rest. Item, Asset, the invoices, Customer, Supplier, Lead, Deal,
+   Project and Employee are done; the HR records' sentences and the operator
+   records' pills are not yet.
 5. **The Linked Section** and its save. Done.
 6. **The workspace layer**: the holds on Custom Field, Property Setter, DocType
    Link and Action, and Record Head; the Customize page; Reset. Done.
@@ -421,10 +422,18 @@ product by product.
   had and frappe shows only a tab with a visible section. Drawing the band in
   the same refresh made it happen on every asset. The section now stays,
   with no room taken (`desk.css`), and the tab stays.
-- **Not yet**: Employee (its heat map is the first registered block), Lead,
-  Opportunity and Project (bands), the twelve HR records' sentences and the
-  operator records' indicators. Each ports with its product in the passover,
-  and `tests/test_head.py` then refuses a script left drawing it.
+- **Since**: Lead and Deal, Project and Employee, each pixel-identical to
+  the script it replaced. They needed three things a head had not done: a
+  pill a measure says (where a person is today), a measure that answers
+  several numbers (one per leave type), and a heat map as a chart kind (a
+  quarter of named days). A time since is sent as the moment and said by the
+  desk (`when`, and `short` for the clock's "5 d"). What each page's script
+  still does is not its head: Log a Call, a project's Board and Schedule, a
+  person's sidebar actions and Reset Passkey.
+- **Not yet**: the HR records' sentences and the operator records' pills,
+  about twenty scripts that each set one headline or one pill beside their
+  Approve and Reject. `tests/test_head.py` refuses a script left drawing the
+  head of a doctype that has one.
 
 ## Stage 5, as built
 

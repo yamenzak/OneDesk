@@ -770,18 +770,21 @@ one_record_heads = [
 	"onedesk.one_book.heads.HEADS",
 	"onedesk.one_crm.heads.HEADS",
 	"onedesk.one_project.heads.HEADS",
+	"onedesk.one_hr.heads.HEADS",
 ]
 one_measures = [
 	"onedesk.one_inventory.heads.MEASURES",
 	"onedesk.one_book.heads.MEASURES",
 	"onedesk.one_crm.heads.MEASURES",
 	"onedesk.one_project.heads.MEASURES",
+	"onedesk.one_hr.heads.MEASURES",
 ]
 one_verbs = ["onedesk.one_inventory.heads.VERBS", "onedesk.one_book.heads.VERBS", "onedesk.one_crm.heads.VERBS"]
 one_charts = [
 	"onedesk.one_inventory.heads.CHARTS",
 	"onedesk.one_book.heads.CHARTS",
 	"onedesk.one_project.heads.CHARTS",
+	"onedesk.one_hr.heads.CHARTS",
 ]
 # The tabs after a record's fields, each drawn by its module. See one/tabs.py.
 one_record_tabs = [

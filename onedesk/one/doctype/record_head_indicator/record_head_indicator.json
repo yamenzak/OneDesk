@@ -7,6 +7,7 @@
   "shown_when",
   "label",
   "colour",
+  "measure",
   "custom"
  ],
  "fields": [
@@ -33,6 +34,12 @@
    "default": "gray"
   },
   {
+   "fieldname": "measure",
+   "fieldtype": "Data",
+   "label": "Measure",
+   "description": "A measure a module registered that says the pill itself, as a label and a colour. Nothing said is no pill."
+  },
+  {
    "fieldname": "custom",
    "fieldtype": "Check",
    "label": "Made Here",
@@ -42,7 +49,7 @@
   }
  ],
  "links": [],
- "modified": "2026-09-26 12:00:00.000000",
+ "modified": "2026-09-27 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "Record Head Indicator",

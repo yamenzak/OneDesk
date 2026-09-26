@@ -59,6 +59,14 @@ def overview(employee: str) -> dict:
 	}
 
 
+@frappe.whitelist()
+def passkey_of(employee: str) -> dict | None:
+	"""The person's credential for the Reset Passkey button, and nothing
+	else about them."""
+	frappe.has_permission("Employee", doc=employee, throw=True)
+	return _passkey(frappe.get_doc("Employee", employee))
+
+
 def _equipment(doc) -> int:
 	"""How many of the company's assets the person holds. See
 	one_inventory/custody.py."""

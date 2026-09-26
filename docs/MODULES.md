@@ -11,7 +11,7 @@
 | Record Head | 14 | document |
 | Record Head Band | 12 | child |
 | Record Head Chart | 4 | child |
-| Record Head Indicator | 4 | child |
+| Record Head Indicator | 5 | child |
 | Record Head Linked | 5 | child |
 | Record Head Sentence | 4 | child |
 | Record Head Verb | 4 | child |
@@ -290,6 +290,7 @@ No doctypes yet.
 * `onedesk.one_hr.clock.punch`
 * `onedesk.one_hr.clock.ready`
 * `onedesk.one_hr.employee.overview`
+* `onedesk.one_hr.employee.passkey_of`
 * `onedesk.one_hr.encashment.rate`
 * `onedesk.one_hr.expense.about`
 * `onedesk.one_hr.expense.approve`

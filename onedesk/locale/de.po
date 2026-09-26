@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-26 02:09+0000\n"
-"PO-Revision-Date: 2026-09-26 02:09+0000\n"
+"POT-Creation-Date: 2026-09-26 02:13+0000\n"
+"PO-Revision-Date: 2026-09-26 02:13+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -333,6 +333,11 @@ msgstr "Ein Aufschlag unter null hieße, jemanden fürs Aufrufen des Modells zu 
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 msgid "A measure a module registered by name. It may say its own label, tone and link."
 msgstr "Eine Kennzahl, die ein Modul unter ihrem Namen registriert hat. Sie kann eigene Beschriftung, Ton und Link angeben."
+
+#. Description of the 'Measure' (Data) field in DocType 'Record Head Indicator'
+#: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
+msgid "A measure a module registered that says the pill itself, as a label and a colour. Nothing said is no pill."
+msgstr "Eine von einem Modul registrierte Kennzahl, die das Etikett selbst bestimmt, mit Text und Farbe. Sagt sie nichts, gibt es kein Etikett."
 
 #: onedesk/one_storage/library.py:101
 msgid "A member is a Reader, a Member or an Owner."
@@ -710,7 +715,7 @@ msgstr "Über den Feldern"
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/presence.py:249
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:211
-#: onedesk/public/js/employee.js:47
+#: onedesk/public/js/band.js:173
 msgid "Absent"
 msgstr "Abwesend"
 
@@ -1387,7 +1392,7 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-#: onedesk/public/js/employee.js:188
+#: onedesk/public/js/employee.js:13
 msgid "Apply for Leave"
 msgstr "Urlaub beantragen"
 
@@ -1693,7 +1698,7 @@ msgstr "Gekaufte Anlagegüter werden von selbst erfasst und abgeschrieben."
 msgid "Assets have categories"
 msgstr "Anlagegüter haben Kategorien"
 
-#: onedesk/public/js/employee.js:193
+#: onedesk/public/js/employee.js:18
 msgid "Assign a Salary Structure"
 msgstr "Gehaltsstruktur zuweisen"
 
@@ -1767,6 +1772,7 @@ msgstr "Teilnehmen"
 #. Label of the one_attendance_tab (Tab Break) field in DocType 'HR Settings'
 #. Label of a Sidebar Item
 #: onedesk/one_hr/custom/employee.json onedesk/one_hr/custom/hr_settings.json
+#: onedesk/one_hr/heads.py:139
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:175
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Attendance"
@@ -1896,6 +1902,10 @@ msgstr "Beschwerden automatisch einordnen"
 msgid "Available"
 msgstr "Verfügbar"
 
+#: onedesk/one_hr/heads.py:150
+msgid "Awaiting"
+msgstr "Wartet"
+
 #. Label of the one_away (Check) field in DocType 'Email Account'
 #: onedesk/one_mail/custom/email_account.json
 msgid "Away"
@@ -1962,7 +1972,7 @@ msgstr ""
 msgid "Band"
 msgstr "Leiste"
 
-#: onedesk/one/head.py:160
+#: onedesk/one/head.py:164
 msgid "Band row {0}"
 msgstr "Leistenzeile {0}"
 
@@ -2560,11 +2570,11 @@ msgstr ""
 msgid "Chart of Accounts"
 msgstr ""
 
-#: onedesk/one/head.py:198
+#: onedesk/one/head.py:202
 msgid "Chart {0}"
 msgstr "Diagramm {0}"
 
-#: onedesk/one/head.py:201
+#: onedesk/one/head.py:205
 msgid "Chart {0} is {1}, which no module has."
 msgstr "Diagramm {0} ist {1}, das kein Modul hat."
 
@@ -2697,7 +2707,7 @@ msgstr "Eingecheckt"
 msgid "Checked Out"
 msgstr "Ausgecheckt"
 
-#: onedesk/one_hr/employee.py:147 onedesk/one_hr/presence.py:211
+#: onedesk/one_hr/employee.py:155 onedesk/one_hr/presence.py:211
 msgid "Checked in"
 msgstr "Eingecheckt"
 
@@ -2705,7 +2715,7 @@ msgstr "Eingecheckt"
 msgid "Checked in {0}"
 msgstr "Eingecheckt {0}"
 
-#: onedesk/one_hr/employee.py:163 onedesk/one_hr/presence.py:206
+#: onedesk/one_hr/employee.py:171 onedesk/one_hr/presence.py:206
 msgid "Checked out"
 msgstr "Ausgecheckt"
 
@@ -2797,7 +2807,7 @@ msgstr "Stadt"
 msgid "Claim a receipt"
 msgstr "Beleg einreichen"
 
-#: onedesk/public/js/employee.js:189
+#: onedesk/public/js/employee.js:14
 msgid "Claim an Expense"
 msgstr ""
 
@@ -4138,7 +4148,7 @@ msgstr ""
 msgid "Done When"
 msgstr "Erledigt, wenn"
 
-#: onedesk/one/head.py:365 onedesk/one_ai/suggest.py:89
+#: onedesk/one/head.py:411 onedesk/one_ai/suggest.py:89
 msgid "Done."
 msgstr "Erledigt."
 
@@ -4663,7 +4673,7 @@ msgstr "Überstunden eingeben."
 msgid "Enter the street address."
 msgstr "Geben Sie die Straßenadresse ein."
 
-#: onedesk/public/js/employee.js:169
+#: onedesk/one_hr/heads.py:151
 msgid "Equipment"
 msgstr "Ausstattung"
 
@@ -5467,7 +5477,7 @@ msgstr "Aus einer Krankmeldung, die per Mail kam."
 msgid "From address"
 msgstr "Von Adresse"
 
-#: onedesk/public/js/employee.js:43
+#: onedesk/public/js/band.js:169
 msgid "From home"
 msgstr "Von zuhause"
 
@@ -5738,7 +5748,7 @@ msgstr ""
 msgid "Half Day"
 msgstr ""
 
-#: onedesk/one_hr/presence.py:150 onedesk/public/js/employee.js:45
+#: onedesk/one_hr/presence.py:150 onedesk/public/js/band.js:171
 msgid "Half day"
 msgstr "Halbtags"
 
@@ -5853,8 +5863,8 @@ msgstr "Verlauf"
 msgid "Holder"
 msgstr "Inhaber"
 
-#: onedesk/one_hr/employee.py:122 onedesk/one_hr/employee.py:279
-#: onedesk/one_hr/presence.py:181 onedesk/public/js/employee.js:48
+#: onedesk/one_hr/employee.py:130 onedesk/one_hr/employee.py:287
+#: onedesk/one_hr/presence.py:181 onedesk/public/js/band.js:174
 msgid "Holiday"
 msgstr "Feiertag"
 
@@ -6201,8 +6211,8 @@ msgstr "Bilderzeugung"
 msgid "Improve it"
 msgstr "Verbessern"
 
+#: onedesk/one_hr/heads.py:65 onedesk/one_hr/heads.py:148
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:162
-#: onedesk/public/js/employee.js:139
 msgid "In"
 msgstr ""
 
@@ -6333,9 +6343,13 @@ msgstr ""
 msgid "Indicator"
 msgstr ""
 
-#: onedesk/one/head.py:155
+#: onedesk/one/head.py:159
 msgid "Indicator {0}"
 msgstr "Anzeige {0}"
+
+#: onedesk/one/head.py:157
+msgid "Indicator {0} names the measure {1}, which no module has."
+msgstr "Indikator {0} nennt die Kennzahl {1}, die kein Modul hat."
 
 #. Label of the indicators (Table) field in DocType 'Record Head'
 #: onedesk/one/doctype/record_head/record_head.json
@@ -7083,7 +7097,7 @@ msgstr "Zuletzt gepusht {0}"
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:220
 #: onedesk/one_project/report/workload/workload.py:152
-#: onedesk/public/js/employee.js:44
+#: onedesk/public/js/band.js:170
 msgid "Late"
 msgstr "Verspätet"
 
@@ -7185,7 +7199,7 @@ msgstr "Lernen"
 #. Label of a quick_list in the OneHR Workspace
 #. Label of a Card Break in the OneHR Setup Workspace
 #: onedesk/one_hr/calendar.py:55 onedesk/one_hr/custom/employee_grievance.json
-#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_hr/heads.py:149 onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Leave"
@@ -8033,7 +8047,9 @@ msgstr "Vielleicht dasselbe wie {0} {1}, nach {2}."
 
 #. Option for the 'Value' (Select) field in DocType 'Record Head Band'
 #. Label of the measure (Data) field in DocType 'Record Head Band'
+#. Label of the measure (Data) field in DocType 'Record Head Indicator'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
+#: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
 #: onedesk/public/js/customize.js:103
 msgid "Measure"
 msgstr "Kennzahl"
@@ -8908,7 +8924,7 @@ msgstr "Nicht erlaubt"
 msgid "Not answered"
 msgstr "Nicht beantwortet"
 
-#: onedesk/one_hr/employee.py:164
+#: onedesk/one_hr/employee.py:172
 msgid "Not checked in"
 msgstr "Nicht eingecheckt"
 
@@ -8933,7 +8949,7 @@ msgstr "Nicht im Dokument"
 msgid "Not in the document ({0})"
 msgstr "Nicht im Dokument ({0})"
 
-#: onedesk/public/js/employee.js:103
+#: onedesk/public/js/band.js:229
 msgid "Not marked"
 msgstr "Nicht erfasst"
 
@@ -9304,8 +9320,8 @@ msgstr ""
 msgid "On in this browser"
 msgstr "In diesem Browser an"
 
-#: onedesk/one_hr/employee.py:137 onedesk/one_hr/presence.py:150
-#: onedesk/one_hr/presence.py:252 onedesk/public/js/employee.js:46
+#: onedesk/one_hr/employee.py:145 onedesk/one_hr/presence.py:150
+#: onedesk/one_hr/presence.py:252 onedesk/public/js/band.js:172
 msgid "On leave"
 msgstr "Im Urlaub"
 
@@ -10072,8 +10088,8 @@ msgstr "Unsere Rechnung {0} vom {1} über {2} war am {3} fällig, und {4} davon 
 msgid "Ours"
 msgstr "Unser"
 
+#: onedesk/one_hr/heads.py:65
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:163
-#: onedesk/public/js/employee.js:139
 msgid "Out"
 msgstr "Aus"
 
@@ -10293,7 +10309,7 @@ msgstr "Bezahlt und nicht gebaut"
 msgid "Paid by direct debit."
 msgstr "Per Lastschrift bezahlt."
 
-#: onedesk/public/js/employee.js:176
+#: onedesk/one_hr/heads.py:152
 msgid "Paid under"
 msgstr "Vergütet nach"
 
@@ -10374,7 +10390,7 @@ msgstr "Passkey"
 msgid "Passkey for Checking In"
 msgstr "Passkey zum Einchecken"
 
-#: onedesk/public/js/employee.js:210
+#: onedesk/public/js/employee.js:35
 msgid "Passkey reset"
 msgstr "Passkey zurückgesetzt"
 
@@ -10834,7 +10850,7 @@ msgstr "Ich bereite es erneut vor. Die Gesprächsvorbereitung aktualisiert sich,
 #. Reason'
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:210
-#: onedesk/public/js/employee.js:42
+#: onedesk/public/js/band.js:168
 msgid "Present"
 msgstr "Anwesend"
 
@@ -11541,7 +11557,7 @@ msgstr "Satz des Datensatzkopfs"
 msgid "Record Head Verb"
 msgstr "Aktion des Datensatzkopfs"
 
-#: onedesk/public/js/attendance.js:8 onedesk/public/js/employee.js:232
+#: onedesk/public/js/attendance.js:8 onedesk/public/js/employee.js:57
 #: onedesk/public/js/overtime.js:10
 msgid "Record Overtime"
 msgstr "Überstunden erfassen"
@@ -11997,7 +12013,7 @@ msgstr "Erfordert einen Benutzer, der mit dem Mitarbeiterdatensatz verknüpft is
 msgid "Reset"
 msgstr ""
 
-#: onedesk/public/js/employee.js:201
+#: onedesk/public/js/employee.js:26
 msgid "Reset Passkey"
 msgstr "Passkey zurücksetzen"
 
@@ -12556,7 +12572,7 @@ msgstr "Gesendet: {0}"
 msgid "Sentence"
 msgstr "Satz"
 
-#: onedesk/one/head.py:157 onedesk/one/head.py:158
+#: onedesk/one/head.py:161 onedesk/one/head.py:162
 msgid "Sentence {0}"
 msgstr "Satz {0}"
 
@@ -13148,7 +13164,7 @@ msgstr "Standardarbeitstag: {0} Stunden. Alles darüber sind Überstunden."
 #. Label of the one_standing (Int) field in DocType 'Employee'
 #. Label of the one_ai_standing (Percent) field in DocType 'Job Applicant'
 #: onedesk/one_hr/custom/employee.json onedesk/one_hr/custom/job_applicant.json
-#: onedesk/public/js/employee.js:130
+#: onedesk/one_hr/heads.py:147
 msgid "Standing"
 msgstr "Bewertung"
 
@@ -14855,7 +14871,7 @@ msgstr "Dieser Kalenderlink funktioniert nicht mehr."
 msgid "This cannot be changed later. Files stay where the workspace was built."
 msgstr "Das lässt sich später nicht ändern. Dateien bleiben dort, wo der Arbeitsbereich angelegt wurde."
 
-#: onedesk/one/head.py:363
+#: onedesk/one/head.py:409
 msgid "This cannot be done to {0} now."
 msgstr "Das ist bei {0} gerade nicht möglich."
 
@@ -15806,7 +15822,7 @@ msgstr ""
 msgid "Verb"
 msgstr "Aktion"
 
-#: onedesk/one/head.py:193
+#: onedesk/one/head.py:197
 msgid "Verb {0} is {1}, which no module has."
 msgstr "Aktion {0} ist {1}, die kein Modul hat."
 
@@ -15978,7 +15994,7 @@ msgstr ""
 msgid "Weekly Off"
 msgstr ""
 
-#: onedesk/one_hr/employee.py:277
+#: onedesk/one_hr/employee.py:285
 msgid "Weekly off"
 msgstr "Wöchentlicher freier Tag"
 
@@ -16429,7 +16445,7 @@ msgstr "Wenn Sie OneAI bitten, sich etwas zu merken, steht es hier."
 
 #. Label of the where_section (Section Break) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
-#: onedesk/one_inventory/heads.py:357
+#: onedesk/one_hr/heads.py:145 onedesk/one_inventory/heads.py:357
 msgid "Where"
 msgstr "Wo"
 
@@ -17441,11 +17457,11 @@ msgstr "ausgeblendet"
 msgid "image"
 msgstr "Bild"
 
-#: onedesk/public/js/employee.js:107
+#: onedesk/public/js/band.js:233
 msgid "in late"
 msgstr "verspätet gekommen"
 
-#: onedesk/public/js/employee.js:106
+#: onedesk/public/js/band.js:232
 msgid "in late, left early"
 msgstr "verspätet gekommen, früher gegangen"
 
@@ -17472,7 +17488,7 @@ msgid "left as it is"
 msgstr "unverändert gelassen"
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:134
-#: onedesk/public/js/employee.js:108
+#: onedesk/public/js/band.js:234
 msgid "left early"
 msgstr "früher gegangen"
 
@@ -17579,7 +17595,7 @@ msgstr "sonstige"
 msgid "output"
 msgstr "Ausgabe"
 
-#: onedesk/public/js/band.js:36
+#: onedesk/public/js/band.js:41
 msgid "over 999"
 msgstr "über 999"
 
@@ -17832,7 +17848,7 @@ msgstr "{0} Anlagegüter sind Entwürfe und werden weder abgeschrieben noch gez�
 msgid "{0} at the end"
 msgstr "{0} am Ende"
 
-#: onedesk/public/js/employee.js:159
+#: onedesk/one_hr/heads.py:93
 msgid "{0} awaiting"
 msgstr "{0} ausstehend"
 
@@ -17914,7 +17930,7 @@ msgstr "{0} hat {1} für {2} geltend gemacht, davon sind {3} zulässig — der R
 msgid "{0} could not be registered; each says why on its page."
 msgstr "{0} konnten nicht erfasst werden; jedes nennt den Grund auf seiner Seite."
 
-#: onedesk/one/head.py:177
+#: onedesk/one/head.py:181
 msgid "{0} counts nothing."
 msgstr "{0} zählt nichts."
 
@@ -18036,7 +18052,7 @@ msgstr "{0} für {1}: {2} von {3} Tagen bezahlt."
 msgid "{0} from {1}"
 msgstr "{0} von {1}"
 
-#: onedesk/one/head.py:170 onedesk/one/linked.py:160
+#: onedesk/one/head.py:174 onedesk/one/linked.py:160
 msgid "{0} goes through {1}, which is not a link."
 msgstr "{0} geht über {1}, das keine Verknüpfung ist."
 
@@ -18084,11 +18100,11 @@ msgstr "{0} ist nicht gescheitert."
 msgid "{0} has {1} credits, {2} of them promised to calls in flight."
 msgstr "{0} hat {1} Guthaben, davon {2} für laufende Aufrufe zugesagt."
 
-#: onedesk/public/js/employee.js:169
+#: onedesk/one_hr/heads.py:108
 msgid "{0} held"
 msgstr "{0} in Besitz"
 
-#: onedesk/one_crm/heads.py:39 onedesk/public/js/employee.js:109
+#: onedesk/one_crm/heads.py:39 onedesk/public/js/band.js:235
 msgid "{0} hours"
 msgstr ""
 
@@ -18188,7 +18204,7 @@ msgstr "{0} ist mehr als die noch offenen {1}."
 msgid "{0} is not a capability any model carries."
 msgstr "{0} ist keine Fähigkeit, die ein Modell trägt."
 
-#: onedesk/one/head.py:203
+#: onedesk/one/head.py:207
 msgid "{0} is not a chart of {1}."
 msgstr "{0} ist kein Diagramm von {1}."
 
@@ -18244,7 +18260,7 @@ msgstr "{0} ist keine gültige Adresse und kein gültiger Bereich. Beispiel: 203
 msgid "{0} is not a workspace."
 msgstr "{0} ist kein Arbeitsbereich."
 
-#: onedesk/one/head.py:360
+#: onedesk/one/head.py:406
 msgid "{0} is not offered here."
 msgstr "{0} wird hier nicht angeboten."
 
@@ -18260,7 +18276,7 @@ msgstr "{0} gehört nicht zu diesem Arbeitsbereich."
 msgid "{0} is not somebody who works here."
 msgstr "{0} arbeitet nicht hier."
 
-#: onedesk/one/head.py:195
+#: onedesk/one/head.py:199
 msgid "{0} is not something done to {1}."
 msgstr "{0} ist nichts, was mit {1} gemacht wird."
 
@@ -18321,7 +18337,7 @@ msgstr "{0} Elemente"
 msgid "{0} items selected"
 msgstr "{0} Elemente ausgewählt"
 
-#: onedesk/public/js/employee.js:148
+#: onedesk/one_hr/heads.py:79
 msgid "{0} left"
 msgstr "{0} übrig"
 
@@ -18353,11 +18369,11 @@ msgstr "{0} Monate"
 msgid "{0} must be kept until {1} by law, and cannot be deleted before then."
 msgstr "{0} muss gesetzlich bis {1} aufbewahrt werden und kann vorher nicht gelöscht werden."
 
-#: onedesk/one/head.py:187
+#: onedesk/one/head.py:191
 msgid "{0} names the measure {1}, which no module has."
 msgstr "{0} nennt die Kennzahl {1}, die kein Modul hat."
 
-#: onedesk/one/head.py:141 onedesk/one/head.py:173 onedesk/one/linked.py:163
+#: onedesk/one/head.py:141 onedesk/one/head.py:177 onedesk/one/linked.py:163
 #: onedesk/one/linked.py:174
 msgid "{0} names {1}, which {2} does not have."
 msgstr "{0} nennt {1}, das {2} nicht hat."
@@ -18495,11 +18511,11 @@ msgstr "{0} signiert und noch nicht gezählt."
 msgid "{0} submitted."
 msgstr "{0} gebucht."
 
-#: onedesk/one/head.py:184
+#: onedesk/one/head.py:188
 msgid "{0} sums {1}, which {2} does not have."
 msgstr "{0} summiert {1}, das {2} nicht hat."
 
-#: onedesk/one/head.py:164
+#: onedesk/one/head.py:168
 msgid "{0} takes its value from nowhere."
 msgstr "{0} nimmt seinen Wert von nirgendwo."
 
@@ -18557,7 +18573,7 @@ msgid "{0} will not be able to check in or register another passkey."
 msgstr "{0} kann sich weder einchecken noch einen weiteren Passkey registrieren."
 
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:14
-#: onedesk/public/js/employee.js:203
+#: onedesk/public/js/employee.js:28
 msgid "{0} will register a new passkey on their next check-in. The old one is retired, not deleted."
 msgstr "{0} registriert beim nächsten Einchecken einen neuen Passkey. Der alte wird stillgelegt, nicht gelöscht."
 

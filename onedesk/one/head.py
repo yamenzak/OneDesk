@@ -152,6 +152,10 @@ def validate(head) -> None:
 			field(name, where)
 
 	for row in head.indicators:
+		if row.get("measure") and row.measure not in measures():
+			frappe.throw(
+				_("Indicator {0} names the measure {1}, which no module has.").format(row.idx, row.measure)
+			)
 		filters(row.shown_when, _("Indicator {0}").format(row.idx))
 	for row in head.sentences:
 		filters(row.shown_when, _("Sentence {0}").format(row.idx))
@@ -224,12 +228,17 @@ def onload(doc, method=None) -> None:
 
 def said(doc, head) -> dict:
 	"""What the head says of this record."""
-	indicator = next((row for row in head.indicators if holds(doc, row.shown_when)), None)
+	indicator = next(
+		(said for row in head.indicators if holds(doc, row.shown_when) and (said := _indicator(doc, row))),
+		None,
+	)
 	sentence = next((row for row in head.sentences if holds(doc, row.shown_when)), None)
 	return {
-		"indicator": indicator and {"label": _(indicator.label), "colour": indicator.colour},
+		"indicator": indicator,
 		"sentence": sentence and {"text": fill(_(sentence.text), _Formatted(doc)), "colour": sentence.colour},
-		"band": [stat for row in head.band if holds(doc, row.shown_when) and (stat := _stat(doc, row))],
+		# A measure may answer several numbers (one per leave type); each is
+		# a stat of its own.
+		"band": [stat for row in head.band if holds(doc, row.shown_when) for stat in _stats(doc, row)],
 		"verbs": [verb for row in head.verbs if (verb := _verb(doc, row))],
 		"charts": [
 			chart
@@ -250,9 +259,30 @@ class _Formatted:
 		return self.doc.get_formatted(key) if self.doc.meta.has_field(key) else self.doc.get(key, default)
 
 
-def _stat(doc, row) -> dict | None:
+def _indicator(doc, row) -> dict | None:
+	"""The pill: the row's own label and colour, or what its measure says of
+	the record (where a person is today), or nothing when it says nothing."""
+	if not row.get("measure"):
+		return {"label": _(row.label), "colour": row.colour}
+	measure = measures().get(row.measure)
+	said = measure(doc) if measure else None
+	return {"label": said["label"], "colour": said.get("colour") or "gray"} if said else None
+
+
+def _stats(doc, row) -> list[dict]:
+	if row.source == "Measure" and (measure := measures().get(row.measure)):
+		said = measure(doc)
+		if isinstance(said, list):
+			return [stat for one in said if (stat := _stat(doc, row, one))]
+		stat = _stat(doc, row, said)
+	else:
+		stat = _stat(doc, row)
+	return [stat] if stat else []
+
+
+def _stat(doc, row, measured=None) -> dict | None:
 	stat = {"label": _(row.label), "route": fill(row.route, doc, url=True) or None, "tone": row.tone or None}
-	value = _value(doc, row)
+	value = measured if row.source == "Measure" else _value(doc, row)
 	# A measure with nothing to say of this record is not shown.
 	if row.source == "Measure" and value is None:
 		return None
@@ -261,7 +291,11 @@ def _stat(doc, row) -> dict | None:
 		# whole (`meter`), which the band draws as a metric card does.
 		# A time since goes as the moment (`when`), for the desk to say.
 		stat.update(
-			{key: value[key] for key in ("label", "route", "tone", "delta", "meter", "when") if key in value}
+			{
+				key: value[key]
+				for key in ("label", "route", "tone", "delta", "meter", "when", "short")
+				if key in value
+			}
 		)
 		value = value.get("value")
 	if value in (None, ""):
@@ -304,8 +338,10 @@ def _value(doc, row):
 	return measure(doc) if measure else None
 
 
-#: How a chart may be drawn: frappe.Chart's own types.
-KINDS = ("bar", "line")
+#: How a chart may be drawn: frappe.Chart's own types, and a heat map of
+#: named days (a quarter of attendance), whose squares are frappe-charts'
+#: geometry and whose colours mean a state rather than an amount.
+KINDS = ("bar", "line", "heat")
 
 
 def _chart(doc, row) -> dict | None:
@@ -316,6 +352,16 @@ def _chart(doc, row) -> dict | None:
 	if not chart or doc.doctype not in chart["doctypes"]:
 		return None
 	figures = chart["figures"](doc)
+	if figures and figures.get("kind") == "heat":
+		return (
+			{
+				"label": _(row.label) if row.label else cstr(_said_of(chart["label"], doc)),
+				"kind": "heat",
+				"days": figures["days"],
+			}
+			if figures.get("days")
+			else None
+		)
 	if not figures or not any(flt(value) for value in figures.get("values") or []):
 		return None
 	return {

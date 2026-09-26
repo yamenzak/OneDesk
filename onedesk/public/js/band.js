@@ -14,7 +14,12 @@ onedesk.band.stat = (label, value, route, tone, extra = {}) => {
 	const esc = frappe.utils.escape_html;
 	// A time since is sent as the moment and said here, the way the desk says
 	// every other: "yesterday", "3 days ago".
-	const when = (text) => (extra.when ? String(text).replace("{when}", frappe.datetime.prettyDate(extra.when)) : String(text));
+	// `short` says it the way the clock does ("5 d").
+	const said = () =>
+		extra.short
+			? $("<div>").html(frappe.datetime.comment_when(extra.when, true)).text()
+			: frappe.datetime.prettyDate(extra.when);
+	const when = (text) => (extra.when ? String(text).replace("{when}", said()) : String(text));
 	const inner =
 		`<span class="one-stat-label">${esc(when(label))}</span>` +
 		`<span class="one-stat-value">${esc(when(value))}</span>` +
@@ -56,6 +61,27 @@ onedesk.band.show = (frm, stats, charts = []) => {
 	if (!stats.length && !charts.length) return frm.dashboard.clear_headline();
 	// A band replaces the one before it: set_headline appends.
 	frm.layout.message.children(".form-message:has(.one-band)").remove();
+	// A heat map of named days (a person's quarter) is laid out as it always
+	// was: the months, the numbers beside them, and the key across the foot.
+	const heat = charts.find((chart) => chart.kind === "heat");
+	if (heat) {
+		const drawn = onedesk.band.heat(heat.days);
+		// The legend is a third child rather than part of the chart: seven keys
+		// in a row are wider than four months of squares, so inside the left
+		// column it either shouldered the numbers off the edge or wrapped to
+		// three lines and stretched the band to fit. Across the foot it is one
+		// line with room over.
+		frm.dashboard.set_headline(
+			`<div class="one-band">` +
+				(drawn ? drawn.months : "") +
+				`<div class="one-stats">${stats.join("")}</div>` +
+				(drawn ? drawn.legend : "") +
+				`</div>`,
+			null,
+			true
+		);
+		return;
+	}
 	const key = frappe.scrub(frm.doctype);
 	frm.dashboard.set_headline(
 		`<div class="one-band ${charts.length ? "one-band-charted" : "one-band-plain"}">` +
@@ -133,4 +159,80 @@ onedesk.band.chart = (el, chart) => {
 	// frappe's own: more than ten labels get less room each.
 	frappe.utils.set_space_label_ratio(options);
 	return new frappe.Chart(el, options);
+};
+
+//: What a square can mean, in the order the legend reads them. Five are
+//: Attendance's own statuses; late is its two flags on an otherwise present
+//: day, and holiday is the list rather than the record.
+onedesk.band.MARKS = () => ({
+	present: __("Present"),
+	wfh: __("From home"),
+	late: __("Late"),
+	half: __("Half day"),
+	leave: __("On leave"),
+	absent: __("Absent"),
+	holiday: __("Holiday"),
+});
+
+// `frappe.Chart` ships a heatmap and it is the wrong instrument: it ramps a
+// *count* through five shades of one hue and labels the scale Less→More, where
+// a day here is one of seven named states and absent is not more than present.
+// So the geometry is frappe-charts' to the pixel — a ten pixel square, a two
+// pixel gutter, a three pixel radius, a month to a block, the month's name
+// above it — and only what the colours mean is ours.
+onedesk.band.heat = (days) => {
+	if (!days || !days.length) return "";
+
+	const marks = onedesk.band.MARKS();
+	const seen = new Set();
+	const months = [];
+
+	days.forEach((day, i) => {
+		const month = moment(day.date);
+		if (!months.length || month.date() === 1) {
+			// The server hands back one run that starts on a week boundary, so a
+			// day's row is its place in that run: no weekday arithmetic here, and
+			// a month opens with blanks down to the weekday it starts on.
+			months.push({ name: month.format("MMM"), cells: new Array(i % 7).fill("") });
+		}
+		seen.add(day.mark);
+		months[months.length - 1].cells.push(onedesk.band.square(day, marks));
+	});
+
+	const blocks = months.map((month) =>
+		`<div class="one-heat-month"><div class="one-heat-name">${month.name}</div>` +
+		`<div class="one-heat-grid">${month.cells
+			.map((cell) => cell || `<span class="one-day one-day-blank"></span>`)
+			.join("")}</div></div>`);
+
+	const legend = Object.keys(marks)
+		.filter((mark) => seen.has(mark))
+		.map((mark) => `<span class="one-key one-key-${mark}">${marks[mark]}</span>`);
+
+	return {
+		months: `<div class="one-heat-months">${blocks.join("")}</div>`,
+		legend: `<div class="one-heat-legend">${legend.join("")}</div>`,
+	};
+};
+
+onedesk.band.square = (day, marks) => {
+	const said = frappe.utils.escape_html(onedesk.band.said(day, marks).join(" · "));
+	const cls = `one-day one-day-${day.mark}`;
+	return day.doc
+		? `<a class="${cls}" title="${said}" href="/desk/attendance/${
+			encodeURIComponent(day.doc)}"></a>`
+		: `<span class="${cls}" title="${said}"></span>`;
+};
+
+// Everything the day knows, in the order somebody would say it out loud.
+onedesk.band.said = (day, marks) => {
+	const said = [frappe.datetime.str_to_user(day.date), marks[day.mark] || __("Not marked")];
+	if (day.holiday) said.push(day.holiday);
+	if (day.leave_type) said.push(day.leave_type);
+	if (day.late && day.early) said.push(__("in late, left early"));
+	else if (day.late) said.push(__("in late"));
+	else if (day.early) said.push(__("left early"));
+	if (day.hours) said.push(__("{0} hours", [day.hours]));
+	if (day.shift) said.push(day.shift);
+	return said;
 };

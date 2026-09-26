@@ -438,6 +438,7 @@ For the people who build OneHR. OneAI does not read past this heading.
 | File | What it does |
 |---|---|
 | `employee.py`, `own.py`, `names.py`, `money.py`, `leaving.py` | The employee record's answers, who the reader is, names for IDs, currency, the last day |
+| `heads.py` | The employee record's pill, quarter and numbers as its Record Head (one/head.py), over `employee.overview` |
 | `clock.py`, `gates.py`, `rules.py`, `ledger.py`, `passkey.py`, `signin.py` | Clocking in, the four checks, the score, Clock Attempt, passkeys, passkey login |
 | `presence.py`, `away.py`, `closing.py`, `healing.py`, `learned.py`, `review.py`, `checkin.py` | Who is in, approved days away, closing a day, learning networks and places, the review queue |
 | `marking.py`, `overtime.py`, `timesheet.py`, `setup.py`, `shift.py`, `request.py`, `decision.py` | Marking by hand, overtime, the timer, shift readiness, requests and their Approve/Reject |
