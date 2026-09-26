@@ -17,6 +17,7 @@ from frappe import _, _lt
 from frappe.utils import flt, fmt_money, formatdate, getdate, today
 from frappe.utils.caching import request_cache
 
+from onedesk.one import figures
 from onedesk.one_inventory import assets, custody, item
 
 FIXED = [["is_fixed_asset", "=", 1]]
@@ -51,7 +52,8 @@ def on_hand(doc):
 
 
 def free(doc):
-	return _count(doc, _item(doc.name)["free"])
+	said = _item(doc.name)
+	return {"value": _count(doc, said["free"]), "meter": {"value": said["free"], "of": said["on_hand"]}}
 
 
 def on_order(doc):
@@ -76,7 +78,11 @@ def last_bought(doc):
 	"""A service that is only ever sold was never bought, and saying so is noise."""
 	last = _item(doc.name)["last"]
 	if last:
-		return _("{0} from {1} · {2}").format(_money(last.rate), last.supplier, formatdate(last.on_date))
+		# The day goes in the label, as a party's last invoice does.
+		return {
+			"label": _("Last Bought · {0}").format(formatdate(last.on_date)),
+			"value": _("{0} from {1}").format(_money(last.rate), last.supplier),
+		}
 	return {"value": _("Never"), "tone": "quiet"} if doc.is_stock_item else None
 
 
@@ -108,9 +114,12 @@ def written_off(doc):
 	if not _depreciating(doc):
 		return None
 	said = _asset(doc.name)
-	return _("{0} of {1} months").format(
-		said["booked"] * said["frequency"], said["months"] * said["frequency"]
-	)
+	return {
+		"value": _("{0} of {1} months").format(
+			said["booked"] * said["frequency"], said["months"] * said["frequency"]
+		),
+		"meter": {"value": said["booked"], "of": said["months"]},
+	}
 
 
 def next_depreciation(doc):
@@ -119,7 +128,10 @@ def next_depreciation(doc):
 	upcoming = _asset(doc.name)["next"]
 	if not upcoming:
 		return {"value": _("None left"), "tone": "quiet"}
-	return _("{0} on {1}").format(_money(upcoming.depreciation_amount), formatdate(upcoming.schedule_date))
+	return {
+		"label": _("Next Depreciation · {0}").format(formatdate(upcoming.schedule_date)),
+		"value": _money(upcoming.depreciation_amount),
+	}
 
 
 def where(doc):
@@ -136,7 +148,8 @@ def next_service(doc):
 			"route": f"/desk/asset-maintenance/new?asset_name={quote(doc.name)}",
 		}
 	return {
-		"value": _("{0} · {1}").format(service.task_name, formatdate(service.due_date)),
+		"label": _("Next Service · {0}").format(formatdate(service.due_date)),
+		"value": service.task_name,
 		"tone": "alarm" if getdate(service.due_date) < getdate(today()) else None,
 		"route": f"/desk/asset-maintenance-log/{quote(service.name)}",
 	}
@@ -146,6 +159,72 @@ def who_has_it(doc):
 	if not doc.custodian:
 		return {"value": _("Nobody"), "tone": "quiet", "route": None}
 	return _asset(doc.name)["custodian_name"] or doc.custodian
+
+
+# ------------------------------------------------------------------ the charts
+
+
+def moved(doc):
+	"""What went out of stock each month for a year: sold, used or sent on.
+	Read from the stock ledger as the reader's list of it would give it."""
+	if not doc.is_stock_item or not frappe.has_permission("Stock Ledger Entry", "read"):
+		return None
+	day = getdate(today())
+	starts = figures.months(day)
+	rows = frappe.get_list(
+		"Stock Ledger Entry",
+		filters={
+			"item_code": doc.name,
+			"is_cancelled": 0,
+			"actual_qty": ["<", 0],
+			"posting_date": [">=", starts[0]],
+		},
+		fields=["posting_date", "actual_qty"],
+		limit_page_length=0,
+	)
+	values = figures.by_month(((getdate(row.posting_date), -flt(row.actual_qty)) for row in rows), day)
+	return {
+		"labels": [formatdate(one, "MMM") for one in starts],
+		"values": values,
+		"said": _("{0} in 12 months").format(_count(doc, sum(values))),
+		"route": f"/desk/query-report/Stock Ledger?item_code={quote(doc.name)}",
+	}
+
+
+def life(doc):
+	"""What the asset is worth after each depreciation, from what it cost to
+	what it will be worth at the end, as its own schedule books it."""
+	if not _depreciating(doc):
+		return None
+	schedule = frappe.db.get_value("Asset Depreciation Schedule", {"asset": doc.name, "docstatus": 1}, "name")
+	if not schedule:
+		return None
+	rows = frappe.get_all(
+		"Depreciation Schedule",
+		filters={"parent": schedule},
+		fields=["schedule_date", "accumulated_depreciation_amount"],
+		order_by="schedule_date asc",
+	)
+	if not rows:
+		return None
+	cost = flt(_asset(doc.name)["cost"])
+	start = getdate(doc.available_for_use_date or rows[0].schedule_date)
+	points = [(start, cost)] + [
+		(getdate(row.schedule_date), cost - flt(row.accumulated_depreciation_amount)) for row in rows
+	]
+	return {
+		"kind": "line",
+		"labels": [formatdate(day, "MMM yy") for day, _value in points],
+		"values": [value for _day, value in points],
+		"currency": frappe.db.get_default("currency"),
+		"said": _("{0} at the end").format(_money(points[-1][1])),
+	}
+
+
+CHARTS = {
+	"item.moved": {"doctypes": ["Item"], "label": _lt("Out of Stock, Month by Month"), "figures": moved},
+	"asset.life": {"doctypes": ["Asset"], "label": _lt("Worth Over Its Life"), "figures": life},
+}
 
 
 MEASURES = {
@@ -265,6 +344,7 @@ HEADS = [
 				"shown_when": [["is_fixed_asset", "=", 0]],
 			},
 		],
+		"charts": [{"chart": "item.moved", "shown_when": STOCK}],
 	},
 	{
 		"doctype": "Asset",
@@ -290,5 +370,6 @@ HEADS = [
 			},
 		],
 		"verbs": [{"verb": "asset.give"}, {"verb": "asset.take_back"}],
+		"charts": [{"chart": "asset.life", "shown_when": SUBMITTED}],
 	},
 ]

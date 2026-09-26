@@ -94,6 +94,9 @@ onedesk.crm_record.stats = (frm, said) => {
 		stats.push(stat(
 			__("Deal Value · {0}%", [said.probability]),
 			format_currency(said.value, said.currency, 0),
+			null,
+			null,
+			{ meter: { value: said.probability || 0, of: 100 } },
 		));
 		// Beside what is usual for the stage, once there is a usual: a deal
 		// here longer than most is one to look at.
@@ -104,6 +107,13 @@ onedesk.crm_record.stats = (frm, said) => {
 				: __("for {0}", [onedesk.crm_record.since(said.since)]),
 			null,
 			said.long ? "waiting" : null,
+			// How far through the stage's usual time it is: full, and amber, once
+			// it has been here longer than most.
+			{
+				meter: said.usual
+					? { value: frappe.datetime.get_day_diff(frappe.datetime.now_datetime(), said.since), of: said.usual }
+					: null,
+			},
 		));
 	} else {
 		stats.push(stat(__("Came In"), ago(said.since)));

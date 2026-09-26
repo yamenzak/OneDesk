@@ -123,6 +123,16 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 				data.values.verbs
 			),
 			table(
+				"charts",
+				__("Charts Beside the Numbers"),
+				__("What a module draws of this record, such as a customer's billing month by month."),
+				[
+					{ ...select(data.choices.charts), fieldname: "chart", label: __("Chart"), in_list_view: 1, columns: 5, reqd: 1 },
+					{ fieldtype: "Data", fieldname: "label", label: __("Label"), in_list_view: 1, columns: 5 },
+				],
+				data.values.charts
+			),
+			table(
 				"linked",
 				__("Linked Sections"),
 				__("Fields of a record this one links to, edited here and saved in the same save."),
@@ -165,9 +175,10 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 			{
 				rows: [
 					{ stack: ["fields"] },
-					{ heading: __("Above the Fields"), note: declared || __("The numbers under the title, the buttons, and fields of the records this one links to.") },
+					{ heading: __("Above the Fields"), note: declared || __("The numbers and charts under the title, the buttons, and fields of the records this one links to.") },
 					{ stack: ["band"] },
 					{ stack: ["verbs"] },
+					{ stack: ["charts"] },
 					{ stack: ["linked"] },
 					{ heading: __("Connections and Buttons") },
 					{ stack: ["links"] },

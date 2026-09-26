@@ -41,7 +41,8 @@ frappe.provide("onedesk.project");
 
 // What a project's page answers first (one_project/overview.py): how far it
 // has got, whether it is on time, cost against budget, billed against what
-// there is to bill, what is late and what comes next. The whole tree's, when
+// there is to bill (each with a meter), what is late and what comes next, and
+// beside them the hours logged week by week. The whole tree's, when
 // the project has sub-projects.
 onedesk.project.band = async (frm) => {
 	const said = await frappe.xcall("onedesk.one_project.overview.overview", { project: frm.doc.name });
@@ -61,6 +62,9 @@ onedesk.project.band = async (frm) => {
 		stat(
 			__("Done"),
 			said.tasks ? __("{0}% · {1} of {2} tasks", [said.share, said.done, said.tasks]) : `${said.share}%`,
+			null,
+			null,
+			{ meter: { value: said.share, of: 100 } },
 		),
 	);
 	if (said.end) {
@@ -72,8 +76,14 @@ onedesk.project.band = async (frm) => {
 			: __("In {0} days", [left]);
 		stats.push(stat(__("Due"), when, null, left !== null && left < 0 ? "alarm" : null));
 	}
-	stats.push(stat(__("Cost"), of(said.cost, said.estimated), null, said.estimated && said.cost > said.estimated ? "alarm" : null));
-	if (said.to_bill || said.billed) stats.push(stat(__("Billed"), of(said.billed, said.to_bill)));
+	stats.push(
+		stat(__("Cost"), of(said.cost, said.estimated), null, said.estimated && said.cost > said.estimated ? "alarm" : null, {
+			meter: said.estimated ? { value: said.cost, of: said.estimated } : null,
+		}),
+	);
+	if (said.to_bill || said.billed) {
+		stats.push(stat(__("Billed"), of(said.billed, said.to_bill), null, null, { meter: said.to_bill ? { value: said.billed, of: said.to_bill } : null }));
+	}
 	if (said.billed || said.cost) stats.push(stat(__("Margin"), money(said.margin), null, said.margin < 0 ? "alarm" : null));
 	if (said.late) {
 		// The late ones, across the tree: the list, filtered the way the rail's
@@ -94,7 +104,22 @@ onedesk.project.band = async (frm) => {
 			),
 		);
 	}
-	onedesk.band.show(frm, stats);
+	// The hours logged, a bar a week: whether the work is moving, which none
+	// of the totals above can say.
+	const charts = said.weekly
+		? [
+				{
+					kind: "bar",
+					label: __("Hours Logged, Week by Week"),
+					labels: said.weekly.labels,
+					values: said.weekly.values,
+					said: __("{0} hours in 12 weeks", [format_number(said.weekly.total, null, 1)]),
+					route: `/desk/timesheet?parent_project=${encodeURIComponent(frm.doc.name)}`,
+					marked: said.weekly.values.length - 1,
+				},
+			]
+		: [];
+	onedesk.band.show(frm, stats, charts);
 };
 
 // The schedule: frappe's Gantt over the tasks of this project and everything under

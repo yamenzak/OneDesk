@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "creation": "2026-09-27 01:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "chart",
+  "label",
+  "shown_when",
+  "custom"
+ ],
+ "fields": [
+  {
+   "fieldname": "chart",
+   "fieldtype": "Data",
+   "label": "Chart",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "A chart a module registered by name. It works out its own figures, as the reader."
+  },
+  {
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "label": "Label",
+   "in_list_view": 1,
+   "description": "What the chart is called, when not its own name."
+  },
+  {
+   "fieldname": "shown_when",
+   "fieldtype": "Small Text",
+   "label": "Shown When",
+   "description": "Conditions on the record, as frappe filters. Empty is always."
+  },
+  {
+   "fieldname": "custom",
+   "fieldtype": "Check",
+   "label": "Made Here",
+   "read_only": 1,
+   "hidden": 1,
+   "description": "Made by the workspace, not declared by a module. A migrate keeps it."
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-27 01:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One",
+ "name": "Record Head Chart",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1,
+ "editable_grid": 1
+}

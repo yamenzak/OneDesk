@@ -768,6 +768,7 @@ one_notification_types = [
 one_record_heads = ["onedesk.one_inventory.heads.HEADS", "onedesk.one_book.heads.HEADS"]
 one_measures = ["onedesk.one_inventory.heads.MEASURES", "onedesk.one_book.heads.MEASURES"]
 one_verbs = ["onedesk.one_inventory.heads.VERBS", "onedesk.one_book.heads.VERBS"]
+one_charts = ["onedesk.one_inventory.heads.CHARTS", "onedesk.one_book.heads.CHARTS"]
 # The tabs after a record's fields, each drawn by its module. See one/tabs.py.
 one_record_tabs = [
 	"onedesk.one_mail.linking.TABS",

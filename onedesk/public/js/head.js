@@ -1,4 +1,4 @@
-// A record's head: the pill, the sentence, the band of numbers and the verbs
+// A record's head: the pill, the sentence, the band of numbers and charts, and the verbs
 // above its fields, drawn from what the server worked out as the reader
 // (one/head.py, `__onload.one_head`). One renderer for every doctype with a
 // Record Head; nothing here knows any of them. docs/SHELL.md, decision 4.
@@ -43,10 +43,11 @@ onedesk.head.draw = (frm) => {
 			true,
 		);
 	}
-	if (head.band.length) {
+	if (head.band.length || (head.charts || []).length) {
 		onedesk.band.show(
 			frm,
-			head.band.map((one) => onedesk.band.stat(one.label, one.value, one.route, one.tone)),
+			head.band.map((one) => onedesk.band.stat(one.label, one.value, one.route, one.tone, one)),
+			head.charts || [],
 		);
 	}
 	for (const verb of head.verbs) {

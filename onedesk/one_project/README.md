@@ -395,8 +395,10 @@ stage below that touches tasks keeps them:
    sub-projects' tasks, titled by sub-project; the board stays one project's,
    since ERPNext's board is a filter fixed when it is made.
 4. **The overview.** *Done.* A project's page answers first: done so far, due against
-   expected, cost against budget, billed against billable, overdue tasks and
-   the next milestone. Figures, not charts.
+   expected, cost against budget, billed against billable (each of the three
+   with a line showing how far), overdue tasks and the next milestone, and
+   beside them the hours logged on its timesheets a bar a week for twelve
+   weeks, this week's in blue.
 5. **The plan.** *Done.* frappe's Gantt over a project's tasks and its
    sub-projects', milestones on it, and dependencies that move across projects
    in one tree, not only within one. Three things of frappe's needed fixing for
@@ -436,7 +438,7 @@ stage below that touches tasks keeps them:
     taken: its own board columns, labels, ranks, cycles and assignee mirror
     (OneTask's stage 6 says why); a colour per project; a board of projects by
     health, which anybody can make from Health with frappe's Kanban; its
-    dashboards and charts (figures, not charts); a Gantt of projects, since
+    dashboards and charts beyond the page's one hours chart; a Gantt of projects, since
     a project's own schedule is the one people plan with; a read-only
     Invoices screen, which is the project's connections; and members seeing
     only their own timesheets, which would stop a project lead invoicing

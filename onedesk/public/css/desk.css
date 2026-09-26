@@ -273,10 +273,69 @@ a.one-day:hover {
 	color: var(--ink-gray-5);
 }
 
+/* A metric card's value: larger than a field's, as frappe's Number Card and
+   frappe-ui's NumberChart set theirs, so the band reads as figures first. */
 .one-stat-value {
-	font-size: var(--text-base);
-	font-weight: var(--weight-medium);
+	font-size: var(--text-lg);
+	font-weight: var(--weight-semibold);
+	line-height: 1.35;
 	color: var(--ink-gray-8);
+}
+
+/* How it changed: the Number Card's own pill and wording, a size down. */
+.one-stat-delta {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	margin-top: 2px;
+	font-size: var(--text-xs);
+}
+
+.one-stat-delta .indicator-pill-round {
+	width: 16px;
+	height: 16px;
+}
+
+.one-stat-delta .indicator-pill-round .icon-xs {
+	width: 10px;
+	height: 10px;
+}
+
+.one-stat-delta.green-stat {
+	color: var(--ink-green-6, var(--green-600));
+}
+
+.one-stat-delta.red-stat {
+	color: var(--ink-red-6, var(--red-600));
+}
+
+/* A part of a whole: frappe-ui's Progress, a track in the page's grey with
+   the filled part in ink. Its small height, since it sits under a figure
+   that already says the number. */
+.one-stat-meter {
+	display: block;
+	width: 100%;
+	max-width: 9rem;
+	height: 3px;
+	margin-top: 6px;
+	overflow: hidden;
+	border-radius: var(--radius-full, 999px);
+	background: var(--surface-gray-2);
+}
+
+.one-stat-meter > span {
+	display: block;
+	height: 100%;
+	border-radius: inherit;
+	background: var(--surface-gray-7);
+}
+
+.one-stat-alarm .one-stat-meter > span {
+	background: var(--surface-red-5, var(--red-500));
+}
+
+.one-stat-waiting .one-stat-meter > span {
+	background: var(--surface-amber-5, var(--amber-500));
 }
 
 a.one-stat:hover {
@@ -372,6 +431,73 @@ a.one-stat:hover .one-stat-value {
 	margin: calc(-1 * var(--margin-sm)) 0 var(--margin-md);
 	font-size: var(--text-xs);
 	color: var(--ink-gray-5);
+}
+
+/* A band with charts: the charts take the width they need on the left and
+   the numbers the rest, split by the same rule as the Employee's heat map. */
+.one-band-charted {
+	grid-template-columns: max-content minmax(0, 1fr);
+	--one-chart-context: var(--gray-300);
+}
+
+[data-theme="dark"] .one-band-charted {
+	--one-chart-context: var(--gray-600);
+}
+
+.one-band-charts {
+	display: flex;
+	gap: var(--margin-lg);
+}
+
+.one-band-chart {
+	display: flex;
+	flex-direction: column;
+	width: 22rem;
+	min-width: 0;
+}
+
+.one-chart-head {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: var(--margin-sm);
+	color: inherit;
+	text-decoration: none;
+}
+
+a.one-chart-head:hover .one-stat-label {
+	text-decoration: underline;
+}
+
+.one-chart-said {
+	font-size: var(--text-xs);
+	color: var(--ink-gray-6);
+	white-space: nowrap;
+}
+
+/* frappe-charts pads its own container for a dashboard card; in the band the
+   panel's head is the title, so the chart sits flush under it. */
+.one-chart-body .chart-container {
+	margin: 0 -8px -8px;
+}
+
+.one-chart-body .chart-container .title {
+	display: none;
+}
+
+@media (max-width: 900px) {
+	.one-band-charted {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.one-band-charted .one-stats {
+		padding-left: 0;
+		border-left: none;
+	}
+
+	.one-band-chart {
+		width: 100%;
+	}
 }
 
 /* A band that is only numbers, as on a lead's or a deal's page: no chart to sit

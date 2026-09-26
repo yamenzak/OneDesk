@@ -93,12 +93,14 @@ def test_counting_puts_the_records_values_into_its_filters():
 
 
 def test_every_head_names_only_registered_measures_and_verbs():
-	measures, verbs = set(), set()
+	measures, verbs, charts = set(), set(), set()
 	for path in _hook("one_measures"):
 		measures |= {key.value for key in _declared(path).keys}
 	for path in _hook("one_verbs"):
 		verbs |= {key.value for key in _declared(path).keys}
-	assert measures and verbs
+	for path in _hook("one_charts"):
+		charts |= {key.value for key in _declared(path).keys}
+	assert measures and verbs and charts
 	for path in _hook("one_record_heads"):
 		source = tree.APP.parent / (path.rsplit(".", 1)[0].replace(".", "/") + ".py")
 		for node in ast.walk(ast.parse(source.read_text(encoding="utf-8"))):
@@ -107,10 +109,10 @@ def test_every_head_names_only_registered_measures_and_verbs():
 			for key, value in zip(node.keys, node.values, strict=True):
 				if (
 					isinstance(key, ast.Constant)
-					and key.value in ("measure", "verb")
+					and key.value in ("measure", "verb", "chart")
 					and isinstance(value, ast.Constant)
 				):
-					known = measures if key.value == "measure" else verbs
+					known = {"measure": measures, "verb": verbs, "chart": charts}[key.value]
 					assert value.value in known, (
 						f"{source.name} names {key.value} {value.value}, which nobody registered"
 					)
@@ -123,6 +125,47 @@ def test_a_verb_says_whom_it_is_for_when_and_what_it_does():
 			assert {"doctypes", "label", "when", "run"} <= said, (
 				f"{key.value} is missing { ({'doctypes', 'label', 'when', 'run'} - said) }"
 			)
+
+
+def test_a_chart_says_whom_it_is_for_and_works_its_figures_out():
+	for path in _hook("one_charts"):
+		for key, chart in zip(_declared(path).keys, _declared(path).values, strict=True):
+			said = {item.value for item in chart.keys}
+			assert {"doctypes", "label", "figures"} <= said, f"{key.value} is missing some of it"
+
+
+def test_a_chart_is_frappes_own_and_its_figures_the_readers():
+	band = (tree.APP / "public" / "js" / "band.js").read_text(encoding="utf-8")
+	assert "new frappe.Chart(" in band, "drawn by the desk's own charts, as a Dashboard Chart is"
+	assert "[...chart.values]" in band, "frappe-charts works on its data in place"
+	assert "disableEntryAnimation: 1" in band
+	# The Number Card's pill for a change, and one hue checked on both themes.
+	assert "indicator-pill-round" in band and '"--blue-400" : "--blue-500"' in band
+	# Every chart's figures are read as the reader would list them.
+	for module in ("one_book", "one_inventory"):
+		source = (tree.APP / module / "heads.py").read_text(encoding="utf-8")
+		for name in re.findall(r'"figures": (\w+)', source):
+			body = source.split(f"def {name}(", 1)[1].split("\ndef ", 1)[0]
+			assert "frappe.get_all(" not in body or name == "life", f"{module}.{name} reads past the reader"
+
+
+def test_months_and_weeks_are_counted_the_same_everywhere():
+	from datetime import date
+
+	space = {}
+	exec((tree.APP / "one" / "figures.py").read_text(encoding="utf-8"), space)
+	months, by_month, change = space["months"], space["by_month"], space["change"]
+	assert months(date(2026, 2, 14), 3) == [date(2025, 12, 1), date(2026, 1, 1), date(2026, 2, 1)]
+	assert len(months(date(2026, 9, 26))) == 12
+	rows = [(date(2026, 9, 3), 10), (date(2026, 9, 30), 5), (date(2025, 9, 30), 99), (None, 1)]
+	assert by_month(rows, date(2026, 9, 26), 2) == [0.0, 15.0], "last September is not this one's"
+	assert change(120, 100) == 20.0 and change(80, 100) == -20.0 and change(5, 0) is None
+	assert space["same_day_last_year"](date(2028, 2, 29)) == date(2027, 2, 28)
+	weeks, by_week = space["weeks"], space["by_week"]
+	assert weeks(date(2026, 9, 26), 2) == [date(2026, 9, 14), date(2026, 9, 21)], "Mondays"
+	assert by_week(
+		[(date(2026, 9, 20), 3), (date(2026, 9, 21), 4), (date(2026, 9, 1), 9)], date(2026, 9, 26), 2
+	) == [3.0, 4.0]
 
 
 def test_the_head_is_worked_out_on_the_server_and_drawn_once():

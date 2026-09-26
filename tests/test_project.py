@@ -195,12 +195,16 @@ def test_the_overview_counts_days_and_work():
 	assert space["share"](1, 4) == 25 and space["share"](0, 0) == 0
 
 
-def test_the_overview_is_the_whole_tree_and_only_figures():
+def test_the_overview_is_the_whole_tree_and_its_chart_is_the_bands():
 	source = (PROJECT / "overview.py").read_text()
 	assert "tree.below({project}, tree.parents())" in source and "members.sees(one, user)" in source
 	page = (tree.APP / "public" / "js" / "project.js").read_text()
-	assert "onedesk.one_project.overview.overview" in page and "onedesk.band.show" in page
-	assert "chart" not in page.lower().replace('__("gantt chart")', ""), "figures, not charts"
+	assert "onedesk.one_project.overview.overview" in page and "onedesk.band.show(frm, stats, charts)" in page
+	# The hours are the reader's own list of timesheets, and the chart is the
+	# band's (frappe.Chart in band.js), never one drawn here.
+	weekly = source.split("def _weekly(", 1)[1]
+	assert 'frappe.get_list(\n\t\t"Timesheet Detail"' in weekly and "frappe.get_all" not in weekly
+	assert "frappe.Chart" not in page
 
 
 def test_a_dependant_moves_after_what_it_waits_on():

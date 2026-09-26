@@ -246,6 +246,9 @@ everybody who opens it; nothing typed there is code.
   links to, a count or a sum of another form's records, or a measure a
   module keeps (an invoice's days late, say). Everybody sees only the
   numbers their own lists would show them.
+- **Charts Beside the Numbers**: what a module draws of this record, such
+  as a customer's billing month by month or an asset's worth over its life.
+  Each shows only the figures the reader's own lists would.
 - **Buttons That Do Something**: what the modules offer to do to this
   record, placed here. Each shows only when it can be done.
 - **Linked Sections**: fields of a record this one links to, edited on this
@@ -290,7 +293,7 @@ For the people who build One. OneAI does not read past this heading.
 | `push.py`, `doctype/push_device`, `../public/js/push.js` | Web Push: a person's browsers, the site's keys, sending, and the service worker |
 | `rules.py` | The workspace's own notification rules: frappe's Notification, held to what a workspace rule may do |
 | `custom/notification_type.json` | What a Notification Type carries here: its app, text and channels |
-| `head.py`, `doctype/record_head*`, `../public/js/head.js` | What a record's form says above its fields, as rows: see below |
+| `head.py`, `figures.py`, `doctype/record_head*`, `../public/js/head.js`, `../public/js/band.js` | What a record's form says above its fields, as rows, and the band that draws its numbers and charts: see below |
 | `linked.py` | Fields of a linked record, edited on the form and saved in its save |
 | `tabs.py`, `../public/js/record_tabs.js`, `../public/js/record_activity.js` | The tabs after a record's fields (Mail, Files, Activity), each declared by its module under `one_record_tabs` and added to the form in one place; Activity is One's own |
 | `customize.py`, `layer.py`, `page/customize`, `doctype/workspace_customization`, `../public/js/customize.js` | The Customize page, and the holds on what a workspace writes |
@@ -307,11 +310,18 @@ permissions, or a **measure**: a Python function a module registers by name
 label, tone and link. A verb row names a **verb** a module registers
 (`one_verbs`): whom it is for, when it can be done, what it asks in frappe's
 own dialog, and what it does; `head.run` checks again that it still can be
-done. A condition is frappe's filters, and a template names only
+done. A chart row names a **chart** a module registers (`one_charts`): a
+function of the record that answers a run of figures, drawn beside the band
+by frappe's own `frappe.Chart` in one hue (`public/js/band.js`), with the
+one figure the record is about in the hue and the rest in grey when it says
+which. A measure may add how its number changed (`delta`, drawn with the
+Number Card's own pill) and how far it is to a whole (`meter`, frappe-ui's
+Progress). `figures.py` is the month and week arithmetic every chart
+shares. A condition is frappe's filters, and a template names only
 `{{ doc.field }}`, so no row can run anything. Each module declares its heads
 (`one_record_heads`) and `head.install` writes them on every migrate. Nobody
-edits a Record Head on the desk yet; docs/SHELL.md, stage 6, is how a
-workspace will.
+edits a Record Head row by row; the Customize page (below) places a
+workspace's own numbers, charts, verbs and linked sections.
 
 **A linked section** puts fields of the record a form links to (the
 holder's mobile on an asset) on the form itself, in frappe's own controls,

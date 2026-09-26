@@ -14,6 +14,13 @@ What stays code is what is really a program, registered by name:
   stays Python and tested; where it goes on the page is a row.
 - a **verb** (`one_verbs`) is something done to the record: which doctypes it
   is for, when it can be done, what it asks, and what it does.
+- a **chart** (`one_charts`) is a function of the record that answers a run
+  of figures, drawn beside the band by frappe's own `frappe.Chart`: what this
+  customer was billed month by month, what the asset is worth over its life.
+
+A measure may also say how its number changed (`delta`) and how far it is to
+a whole (`meter`), which the band draws as frappe's Number Card draws a change
+and frappe-ui's Progress a part of a whole.
 
 A row names only those, the record's own fields, and frappe's filters, so a
 row cannot run anything. A count or a sum is taken with the reader's own list
@@ -29,7 +36,7 @@ from urllib.parse import quote
 
 import frappe
 from frappe import _
-from frappe.utils import cstr
+from frappe.utils import cstr, flt
 from frappe.utils.data import evaluate_filters
 
 from onedesk.one import linked
@@ -59,6 +66,13 @@ def verbs() -> dict:
 	"""Every verb, by name: `doctypes`, `label`, `when`, `fields`, `title`,
 	`action` and `run`. `label` and `title` may be functions of the record."""
 	return _merged("one_verbs")
+
+
+def charts() -> dict:
+	"""Every chart, by name: `doctypes`, `label` and `figures`, a function of
+	the record that answers what is drawn, or None when there is nothing to
+	draw. The figures are worked out as the reader, like a measure's."""
+	return _merged("one_charts")
 
 
 def declared() -> list[dict]:
@@ -179,6 +193,14 @@ def validate(head) -> None:
 			frappe.throw(_("Verb {0} is {1}, which no module has.").format(row.idx, row.verb))
 		if head.record_doctype not in verb["doctypes"]:
 			frappe.throw(_("{0} is not something done to {1}.").format(row.verb, _(head.record_doctype)))
+	drawn = charts()
+	for row in head.get("charts") or []:
+		filters(row.shown_when, _("Chart {0}").format(row.idx))
+		chart = drawn.get(row.chart)
+		if not chart:
+			frappe.throw(_("Chart {0} is {1}, which no module has.").format(row.idx, row.chart))
+		if head.record_doctype not in chart["doctypes"]:
+			frappe.throw(_("{0} is not a chart of {1}.").format(row.chart, _(head.record_doctype)))
 
 
 # ------------------------------------------------------------------ what the form is sent
@@ -209,6 +231,11 @@ def said(doc, head) -> dict:
 		"sentence": sentence and {"text": fill(_(sentence.text), _Formatted(doc)), "colour": sentence.colour},
 		"band": [stat for row in head.band if holds(doc, row.shown_when) and (stat := _stat(doc, row))],
 		"verbs": [verb for row in head.verbs if (verb := _verb(doc, row))],
+		"charts": [
+			chart
+			for row in head.get("charts") or []
+			if holds(doc, row.shown_when) and (chart := _chart(doc, row))
+		],
 		"linked": linked.loaded(doc, head),
 	}
 
@@ -230,7 +257,9 @@ def _stat(doc, row) -> dict | None:
 	if row.source == "Measure" and value is None:
 		return None
 	if isinstance(value, dict):
-		stat.update({key: value[key] for key in ("label", "route", "tone") if key in value})
+		# A measure may say how it changed (`delta`) and how far it is to a
+		# whole (`meter`), which the band draws as a metric card does.
+		stat.update({key: value[key] for key in ("label", "route", "tone", "delta", "meter") if key in value})
 		value = value.get("value")
 	if value in (None, ""):
 		if row.hide_empty:
@@ -272,6 +301,32 @@ def _value(doc, row):
 	return measure(doc) if measure else None
 
 
+#: How a chart may be drawn: frappe.Chart's own types.
+KINDS = ("bar", "line")
+
+
+def _chart(doc, row) -> dict | None:
+	"""A registered chart's figures for this record: labels along the bottom
+	and one value each, how to format them, and a line saying what they add
+	up to. Nothing when it has nothing to show."""
+	chart = charts().get(row.chart)
+	if not chart or doc.doctype not in chart["doctypes"]:
+		return None
+	figures = chart["figures"](doc)
+	if not figures or not any(flt(value) for value in figures.get("values") or []):
+		return None
+	return {
+		"label": _(row.label) if row.label else cstr(_said_of(chart["label"], doc)),
+		"kind": figures.get("kind") if figures.get("kind") in KINDS else "bar",
+		"labels": [cstr(one) for one in figures["labels"]],
+		"values": [flt(one) for one in figures["values"]],
+		"currency": figures.get("currency"),
+		"said": figures.get("said"),
+		"route": figures.get("route"),
+		"marked": figures.get("marked"),
+	}
+
+
 def _said_of(value, doc):
 	return value(doc) if callable(value) else value
 
@@ -310,7 +365,7 @@ def run(doctype: str, name: str, verb: str, values: dict | str | None = None) ->
 # ------------------------------------------------------------------ written on migrate
 
 
-TABLES = ("indicators", "sentences", "band", "verbs", "linked")
+TABLES = ("indicators", "sentences", "band", "verbs", "charts", "linked")
 
 
 def install() -> None:

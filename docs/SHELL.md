@@ -620,6 +620,48 @@ some people. It was the desk's message; the other two it refused. Now:
   with its count of three), a new customer (none) and a new ToDo (no strip
   at all); each tab opened on click and drew as before.
 
+## Charts in the head, as built
+
+Asked for after stage 8: headers with charts that mean something, from the
+desk's metric cards and charts or frappe-ui's.
+
+- **What is used, and why.** frappe-ui at our version ships no charts (its
+  echarts ones went); what it has is Progress, and the desk has
+  `frappe.Chart`, the one Dashboard Charts and reports draw with. So a chart
+  is `frappe.Chart`, a part of a whole is frappe-ui's Progress drawn in the
+  band, and a change is frappe's Number Card's own pill and wording
+  ("↗ 18% since last year").
+- **A chart is a row.** Record Head has a Charts table; a row names a chart a
+  module registers under `one_charts` (its doctypes, its label, and a
+  function of the record that answers labels and values, a line saying what
+  they add up to, where the title leads, and which figure the record is
+  about). The Customize page places them like verbs. A measure may add
+  `delta` and `meter` to what it answers.
+- **One hue.** Every chart is a single series in the desk's own blue, the
+  step of it that passes contrast on each theme (`--blue-500` light,
+  `--blue-400` dark), checked rather than guessed. Where a chart is about
+  one figure (this invoice's month, this week), that bar keeps the hue and
+  the rest go grey, which is the whole of the emphasis. No legends, no
+  animation; the tooltip is frappe-charts' own.
+- **Where they are.** An invoice and a bill: the customer's or supplier's
+  year, this one's month marked, and Paid against the total. A customer and
+  a supplier, new heads: owed (against the credit limit), overdue with the
+  oldest's age, this year against the same days last year, the last
+  invoice, open orders, and their year. An item: a year of what left stock,
+  and free against on hand. An asset: its worth over its life, and written
+  off against its life. A project: hours logged a week for twelve weeks, and
+  done, cost and billed each against its whole. An employee: each leave
+  balance against its allocation. A deal: its probability, and its time in
+  the stage against the usual.
+- **Found on the way.** frappe-charts works on the arrays it is given in
+  place and animates its bars up from nought, so a band drawn again from the
+  same head drew noughts. The band hands it copies and turns the entry
+  animation off. A date beside an amount in a right-to-left currency ran
+  into it; the day goes in the label now ("Last Invoice · 10-09-2026").
+- Not a chart where a number is the answer: the band's numbers stay the
+  first thing read, and a chart only appears when the record has figures to
+  draw.
+
 ## The risks
 
 - **Stage 5 is a second save path.** It is small, but every save now has two

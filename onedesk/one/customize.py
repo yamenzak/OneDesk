@@ -72,6 +72,7 @@ HEAD_COLUMNS = {
 		"hide_empty",
 	),
 	"verbs": ("verb", "label", "primary"),
+	"charts": ("chart", "label"),
 	"linked": ("label", "link_field", "fields", "placed_in"),
 }
 
@@ -203,6 +204,7 @@ def load(doctype: str) -> dict:
 		"choices": {
 			"kinds": list(layer.KINDS),
 			"verbs": sorted(name for name, verb in heads.verbs().items() if doctype in verb["doctypes"]),
+			"charts": sorted(name for name, chart in heads.charts().items() if doctype in chart["doctypes"]),
 			"measures": sorted(heads.measures()),
 			"links": [df.fieldname for df in meta.fields if df.fieldtype == "Link"],
 			"fields": [

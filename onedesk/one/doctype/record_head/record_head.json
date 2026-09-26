@@ -15,6 +15,7 @@
   "band",
   "verbs_section",
   "verbs",
+  "charts",
   "linked_section",
   "linked"
  ],
@@ -91,6 +92,13 @@
    "description": "Buttons that do something a module registered. Each shows only when it can be done."
   },
   {
+   "fieldname": "charts",
+   "fieldtype": "Table",
+   "options": "Record Head Chart",
+   "label": "Charts",
+   "description": "Charts a module registered, drawn beside the numbers under the title."
+  },
+  {
    "fieldname": "linked_section",
    "fieldtype": "Section Break",
    "label": "Linked Sections"
@@ -104,7 +112,7 @@
   }
  ],
  "links": [],
- "modified": "2026-09-26 09:00:00.000000",
+ "modified": "2026-09-27 01:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "Record Head",

@@ -148,6 +148,8 @@ onedesk.employee.stats = (data) => {
 			__("{0} left", [row.left]),
 			`/desk/leave-application?employee=${encodeURIComponent(cur_frm.doc.name)}`,
 			row.left > 0 ? null : "quiet",
+			// What is left of the year's allocation, as a meter under the days.
+			{ meter: row.allocated ? { value: row.left, of: row.allocated } : null },
 		));
 	}
 

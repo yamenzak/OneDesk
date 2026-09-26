@@ -84,7 +84,10 @@ bill, and says **Ready**, **To Do** or **Suggested** beside each, with a
    credited.
 3. The band under the title says what is **Outstanding**, when it is
    **Due** (in red, with how many days late, once it has passed), what is
-   **Paid** and the **Total**.
+   **Paid** (with a line showing how much of the total) and the **Total**.
+   Beside them, **Billed to** the customer is a bar a month for a year of
+   what they were invoiced, with this invoice's month in blue and the rest in
+   grey, so a first invoice and a regular's look different at a glance.
 4. When the customer pays, **Record Payment** asks how much, on what day,
    into which bank or cash account, and the bank's reference, and records
    it. The invoice turns **Paid**, or **Partly Paid** if they paid part. A
@@ -96,6 +99,16 @@ bill, and says **Ready**, **To Do** or **Suggested** beside each, with a
 
 A bill works the same way from **Bills**: the supplier, what they charged for,
 **Submit**, and **Record Payment** when you pay it.
+
+**A customer's page** answers first what they **Owe Us** (red when any of it
+is late, and against their credit limit when one is set), what is
+**Overdue** and how old the oldest is, what was **Billed This Year** (with
+how much more or less than by this day last year), the **Last Invoice**, and
+their **Open Orders**. Beside them, **Billed** is their year, a bar a month.
+A supplier's page says the same from the other side: **We Owe**,
+**Overdue**, **Bought This Year**, the **Last Bill**, **Open Orders** and
+**Bought**. Every figure is worked out from the invoices your own list would
+show you.
 
 **Reminding a late customer.** Once turned on (the Books Check's **A late
 customer is reminded**), a customer is mailed the invoice a week after it

@@ -41,14 +41,21 @@ The band under an item's name answers first:
 
 - **On Hand** — how many there are, across every warehouse. Click it for
   the Stock Balance, warehouse by warehouse.
-- **Free to Sell** — on hand, less what is promised to customers.
+- **Free to Sell** — on hand, less what is promised to customers, with a
+  line under it showing how much of what is on hand that is.
 - **On Order** — ordered from suppliers and not yet received. Click it for
   the open purchase orders.
 - **Worth** — what the stock on hand is valued at in the books.
 - **Reorder** — **Low in** a warehouse, in red, when what is there and on
   its way is at or below the reorder level set on the item's **Inventory**
   tab; **Above its level**; or **No level set**.
-- **Last Bought** — the price it last came at, from whom and when.
+- **Last Bought** — the price it last came at and from whom; the day is in
+  the label.
+
+Beside the numbers, **Out of Stock, Month by Month** is a bar a month for a
+year of what left stock (sold, used or sent on), with the year's total over
+it. Point at a bar for the month's figure; the title opens the Stock Ledger.
+It shows only what your own stock ledger list would.
 
 An item marked **Is Fixed Asset** says how many assets it has become
 instead, and how many of them are not yet registered.
@@ -111,7 +118,10 @@ the register by itself: kept at your location, in use from the day it was
 bought, and depreciating as its category says from the end of that month.
 
 An asset's page says what it is **Worth Now**, what it **Cost**, how much of
-its life is **Written Off**, the **Next Depreciation** and **Where** it is.
+its life is **Written Off** (with a line showing how far through), the
+**Next Depreciation** and **Where** it is. Once registered, **Worth Over Its
+Life** beside them is a line from what it cost to what it will be worth at
+the end, one point per depreciation its schedule books.
 The Inventory Check's **Every asset is registered** turns **To Do** if one
 could not register itself, and each says why on its page.
 
