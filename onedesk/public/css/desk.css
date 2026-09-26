@@ -98,10 +98,20 @@
  * this is a permanent summary rather than a notice, so it takes the page's own
  * surface back. */
 .form-message:has(.one-band) {
+	/* In line with the fields below it, and room above and below: frappe's
+	   own padding is a notice's, one line high. */
+	padding: var(--padding-md) var(--padding-xl);
 	background: var(--surface-elevation-1) !important;
 	border: none !important;
 	border-bottom: 1px solid var(--outline-gray-1) !important;
 	color: var(--ink-gray-7) !important;
+}
+
+/* A head's sentence (head.js) is frappe's own headline alert, in line with the
+   band and the fields under it. */
+.form-message:has(.one-head-sentence) {
+	padding-left: var(--padding-xl);
+	padding-right: var(--padding-lg);
 }
 
 /* Two panels rather than two things pushed to opposite walls. A flex row with
@@ -245,9 +255,9 @@ a.one-day:hover {
 	justify-content: space-between;
 	align-content: space-between;
 	min-width: 0;
-	padding-left: var(--margin-lg);
+	padding-left: var(--margin-xl);
 	border-left: 1px solid var(--outline-gray-2);
-	gap: var(--margin-md) var(--margin-lg);
+	gap: var(--margin-lg) var(--margin-xl);
 }
 
 @media (max-width: 900px) {
@@ -263,13 +273,13 @@ a.one-day:hover {
 .one-stat {
 	display: flex;
 	flex-direction: column;
-	gap: 1px;
+	gap: 4px;
 	text-decoration: none;
 }
 
 .one-stat-label {
-	font-size: var(--text-xs);
-	line-height: 1.2;
+	font-size: var(--text-sm);
+	line-height: 1.3;
 	color: var(--ink-gray-5);
 }
 
@@ -316,8 +326,8 @@ a.one-day:hover {
 	display: block;
 	width: 100%;
 	max-width: 9rem;
-	height: 3px;
-	margin-top: 6px;
+	height: 4px;
+	margin-top: 4px;
 	overflow: hidden;
 	border-radius: var(--radius-full, 999px);
 	background: var(--surface-gray-2);
@@ -437,6 +447,7 @@ a.one-stat:hover .one-stat-value {
    the numbers the rest, split by the same rule as the Employee's heat map. */
 .one-band-charted {
 	grid-template-columns: max-content minmax(0, 1fr);
+	gap: var(--margin-lg) var(--margin-xl);
 	--one-chart-context: var(--gray-300);
 }
 
@@ -449,18 +460,44 @@ a.one-stat:hover .one-stat-value {
 	gap: var(--margin-lg);
 }
 
+/* Beside a chart the numbers flow into as many columns as fit, rather than
+   three squeezed ones. */
+/* Beside a chart, and on a band of numbers alone, each number takes the
+   width it needs on one line and the row wraps where the next one would not
+   fit: a column grid broke "1,210 of 25,500" across two lines to keep its
+   columns even. */
+.one-band-charted .one-stats,
+.one-band-plain .one-stats {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-content: flex-start;
+	gap: var(--margin-md) var(--margin-xl);
+}
+
+/* Each grows into what is left of its row, so a row ends at the edge rather
+   than in a gap. */
+.one-band-charted .one-stat,
+.one-band-plain .one-stat {
+	flex: 1 0 auto;
+	min-width: 7rem;
+	white-space: nowrap;
+}
+
 .one-band-chart {
 	display: flex;
 	flex-direction: column;
-	width: 22rem;
+	gap: var(--margin-sm);
+	width: 18rem;
 	min-width: 0;
 }
 
+/* The chart's name over what it adds up to, as a Number Card's title sits
+   over its figure: side by side, a long name wrapped into the total. */
 .one-chart-head {
 	display: flex;
-	align-items: baseline;
-	justify-content: space-between;
-	gap: var(--margin-sm);
+	flex-direction: column;
+	gap: 2px;
 	color: inherit;
 	text-decoration: none;
 }
@@ -507,7 +544,6 @@ a.one-chart-head:hover .one-stat-label {
 }
 
 .one-band-plain .one-stats {
-	grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
 	padding-left: 0;
 	border-left: none;
 }
