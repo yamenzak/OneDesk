@@ -200,10 +200,8 @@ No doctypes yet.
 * `onedesk.one.settings.invite`
 * `onedesk.one.settings.keep`
 * `onedesk.one.settings.load`
-* `onedesk.one.settings.person`
 * `onedesk.one.settings.preview_notification`
 * `onedesk.one.settings.save`
-* `onedesk.one.settings.save_person`
 * `onedesk.one.settings.sections`
 * `onedesk.one.settings.send_reset`
 * `onedesk.one.settings.set_enabled`

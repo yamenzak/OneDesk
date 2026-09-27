@@ -948,6 +948,13 @@ Done:
   administrator, always mailed.
 - OneAI: the page sentence, **Who has access to what?** and **Who has not
   signed in lately?**, read by `workspace_people` (administrators only).
+- Your word after seeing it: the dialog was too crammed. A person is now a
+  page, `?section=people&person=`, as a desk form like Profile: Save in the
+  page head, against the User's `modified`, heard through realtime. Each app
+  is a Select with its mark and what it holds; Sign Out Everywhere, Send a
+  Password Reset and Turn Off sit under their name. The invite dialog shows
+  the marks too, and an invited person is not also sent Access Changed:
+  their welcome mail says it.
 - `one/README.md` gains People, for the Workspace. The privacy notice gains
   "people-sign-in" and goes to revision 4, since administrators now see
   where a person is signed in: everybody agrees again at their next

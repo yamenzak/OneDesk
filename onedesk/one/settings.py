@@ -58,6 +58,15 @@ APPS = [
 	("OneHR", "onehr", ("HR User",), ("HR Manager",)),
 ]
 
+#: What each of those holds, said under it on a person's page.
+APP_SAID = {
+	"OneCRM": _lt("Leads, deals, customers and quotes."),
+	"OneBook": _lt("Invoices, bills, payments and the books."),
+	"OneInventory": _lt("Items, stock, buying and assets."),
+	"OneProject": _lt("Projects, tasks and timesheets."),
+	"OneHR": _lt("Employees, leave, attendance and pay."),
+}
+
 LEVELS = ("None", "User", "Manager")
 
 #: Who is never listed among the people: the bench's own account, the guest,
@@ -147,7 +156,7 @@ INTAKE = ("records", "most_pages", "floor", "audit", "keep_in_place", "quiet_min
 SYSTEM = ("date_format", "time_format", "number_format", "first_day_of_the_week", "one_calendar_links")
 
 #: Sections that list several records and open on one of them.
-ON_A_RECORD = ("notification_types",)
+ON_A_RECORD = ("notification_types", "people")
 
 #: What an administrator sets on a notification type: whether it is sent, its
 #: text, and the channels people may choose for it.
@@ -225,6 +234,7 @@ def save(
 		"intake": _save_intake,
 		"holidays": _save_holidays,
 		"notification_types": _save_notification_type,
+		"people": _save_person,
 	}
 	if section not in savers:
 		frappe.throw(_("There is nothing to save here."))
@@ -911,7 +921,10 @@ def roles_for(level: str, used: tuple, managed: tuple) -> set:
 	return {"None": set(), "User": set(used), "Manager": set(used) | set(managed)}[level]
 
 
-def _people() -> dict:
+def _people(record: str | None = None) -> dict:
+	"""Everybody on the workspace; or the one person the section is open on."""
+	if record:
+		return _person_page(record)
 	users = frappe.get_all(
 		"User",
 		filters={"user_type": "System User", "name": ["not in", NOT_PEOPLE]},
@@ -956,43 +969,59 @@ def _one_of_the_people(user: str):
 	return frappe.get_doc("User", user)
 
 
-@frappe.whitelist()
-def person(user: Annotated[str, "The person."]) -> dict:
-	"""One person as an administrator sees them: what they may use, where they
-	are signed in and their last sign-ins (one/signin.py)."""
-	roles.require()
+def _person_page(user: str) -> dict:
+	"""One person as an administrator sees them, as a form: a Select per app
+	and the Administrator switch, saved against the User as it was loaded;
+	where they are signed in and their last sign-ins (one/signin.py)."""
 	from onedesk.one import signin
 
 	doc = _one_of_the_people(user)
 	held = {one.role for one in doc.roles}
+	levels = [{"value": one, "label": _(one)} for one in LEVELS]
+	fields = [
+		{"fieldname": f"app_{icon}", "fieldtype": "Select", "label": name, "options": levels, "description": str(APP_SAID[name])}
+		for name, icon, _used, _managed in APPS
+	]
+	fields.append(
+		{
+			"fieldname": "admin",
+			"fieldtype": "Switch",
+			"label": _("Administrator"),
+			"description": _("Opens Workspace settings: people, the plan, domains and OneAI. The other administrators are told."),
+		}
+	)
+	me = doc.name == frappe.session.user
 	return {
-		"name": doc.name,
-		"full_name": doc.full_name,
-		"enabled": doc.enabled,
-		"last_active": doc.last_active,
-		"modified": str(doc.modified),
-		"admin": roles.ADMINISTRATOR in held,
-		"access": {name: level_of(held, used, managed) for name, _icon, used, managed in APPS},
-		"employee": frappe.db.get_value("Employee", {"user_id": doc.name}, "name"),
-		"sessions": [{**one, "here": False} for one in signin.sessions(doc.name)] if doc.name != frappe.session.user else [],
-		"recent": signin.recent(doc.name),
-		"me": doc.name == frappe.session.user,
+		"person": {
+			"name": doc.name,
+			"full_name": doc.full_name,
+			"user_image": doc.user_image,
+			"enabled": doc.enabled,
+			"last_active": doc.last_active,
+			"employee": frappe.db.get_value("Employee", {"user_id": doc.name}, "name"),
+			"sessions": [] if me else signin.sessions(doc.name),
+			"recent": signin.recent(doc.name),
+			"me": me,
+		},
+		"apps": [{"name": name, "icon": icon} for name, icon, _used, _managed in APPS],
+		"fields": fields,
+		"values": {
+			**{f"app_{icon}": level_of(held, used, managed) for _name, icon, used, managed in APPS},
+			"admin": 1 if roles.ADMINISTRATOR in held else 0,
+		},
+		"opened": _opened(doc),
 	}
 
 
-@frappe.whitelist(methods=["POST"])
-def save_person(
-	user: Annotated[str, "The person."],
-	access: Annotated[str | dict, "Each app's level: None, User or Manager."],
-	admin: Annotated[int, "1 to make them an administrator."],
-	modified: Annotated[str | None, "The person's record as the dialog loaded it."] = None,
-) -> dict:
-	"""What a person may use, as frappe's roles, in one save against the
-	record as the dialog loaded it. They are told what changed, and every
-	administrator is told of a new administrator."""
-	roles.require()
-	doc = _one_of_the_people(user)
-	access = frappe.parse_json(access) or {}
+def _save_person(record: str, values: dict) -> None:
+	doc = _as_opened(_one_of_the_people(record))
+	access = {name: values.get(f"app_{icon}") for name, icon, _used, _managed in APPS if values.get(f"app_{icon}")}
+	_set_access(doc, access, frappe.utils.cint(values.get("admin")))
+
+
+def _set_access(doc, access: dict, admin: int, told: bool = True) -> None:
+	"""What a person may use, as frappe's roles, in one save. They are told
+	what changed, and every administrator is told of a new administrator."""
 	if any(level not in LEVELS for level in access.values()):
 		frappe.throw(_("That cannot be set."))
 	before = {one.role for one in doc.roles}
@@ -1001,20 +1030,18 @@ def save_person(
 	for name, _icon, used, managed in APPS:
 		ours |= set(used) | set(managed)
 		wanted |= roles_for(access.get(name) or level_of(before, used, managed), used, managed)
-	if int(admin):
+	if admin:
 		wanted.add(roles.ADMINISTRATOR)
 	elif roles.ADMINISTRATOR in before:
-		_not_the_last_administrator(user)
+		_not_the_last_administrator(doc.name)
 	# Desk User always: without a role that opens the desk, frappe makes the
 	# person a website user and they drop out of the workspace.
 	after = (before - ours) | {role for role in wanted | {"Desk User"} if frappe.db.exists("Role", role)}
 	if after != before:
-		if modified:
-			doc.modified = modified
 		doc.set("roles", [{"role": role} for role in sorted(after)])
 		doc.save(ignore_permissions=True)
-		_told_of_access(doc, before, after)
-	return _people()
+		if told:
+			_told_of_access(doc, before, after)
 
 
 def _not_the_last_administrator(user: str) -> None:
@@ -1062,7 +1089,7 @@ def sign_out_everywhere(user: Annotated[str, "The person."]) -> dict:
 	if doc.name == frappe.session.user:
 		frappe.throw(_("Sign yourself out from your own Sign-in page."))
 	clear_sessions(user=doc.name, force=True)
-	return person(doc.name)
+	return _person_page(doc.name)
 
 
 @frappe.whitelist(methods=["POST"])
@@ -1123,7 +1150,8 @@ def invite(
 	user.insert(ignore_permissions=True)
 	wanted = frappe.parse_json(access) or {}
 	if any(level != "None" for level in wanted.values()):
-		return save_person(user.name, wanted, 0)
+		# Their welcome mail is how they hear of it: no second notice.
+		_set_access(frappe.get_doc("User", user.name), wanted, 0, told=False)
 	return _people()
 
 

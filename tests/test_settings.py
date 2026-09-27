@@ -51,7 +51,7 @@ def test_every_section_has_a_loader_and_a_drawing():
 
 def test_every_workspace_section_is_for_its_administrators():
 	source = SETTINGS.read_text()
-	for name in ("person", "save_person", "sign_out_everywhere", "send_reset", "set_enabled", "invite"):
+	for name in ("sign_out_everywhere", "send_reset", "set_enabled", "invite"):
 		body = source.split(f"def {name}(", 1)[1].split("\n@frappe.whitelist", 1)[0]
 		assert "roles.require()" in body, name
 	assert re.search(r'if _group\(section\) == "workspace":\s+roles\.require\(\)', source)

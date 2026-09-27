@@ -385,3 +385,21 @@
 	margin-top: calc(-1 * var(--padding-xs));
 	font-variant-numeric: tabular-nums;
 }
+
+/* A person's page: their photo and name at the head, and each app's mark
+   before its name on the field that picks what they may do in it. */
+.os-person-head {
+	align-items: flex-start;
+	gap: calc(var(--spacing) * 4);
+}
+
+.os-app-mark {
+	display: inline-flex;
+	vertical-align: -3px;
+	margin-inline-end: calc(var(--spacing) * 1.5);
+}
+
+.os-app-mark .icon {
+	width: 16px;
+	height: 16px;
+}

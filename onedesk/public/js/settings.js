@@ -41,8 +41,9 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const mine = this.said.sections.filter((one) => one.group === this.group_name);
 		const params = frappe.utils.get_query_params();
 		const found = mine.find((one) => one.key === params.section) || mine[0];
-		// A notification type is ?type=, a workspace rule ?rule= (or ?rule=new).
-		if (found) this.open(found.key, { record: params.type || (params.rule ? `rule:${params.rule}` : null) });
+		// A notification type is ?type=, a workspace rule ?rule= (or ?rule=new),
+		// a person ?person=.
+		if (found) this.open(found.key, { record: params.type || params.person || (params.rule ? `rule:${params.rule}` : null) });
 	}
 
 	// `record` is the one record a section that lists several is open on, as a
@@ -749,8 +750,9 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 
 	// Everybody on the workspace, one line each, in frappe's EmbeddedList: what
 	// they may use, whether they administer it, when they were last here. A
-	// row opens the person (person_dialog), as a list row opens its record.
+	// row opens the person (draw_person), as a list row opens its record.
 	async draw_people(data) {
+		if (data.person) return this.draw_person(data);
 		const esc = frappe.utils.escape_html;
 		const seats = data.seats ? __("{0} of {1} seats used.", [data.used, data.seats]) : __("{0} people.", [data.used]);
 		const levels = Object.fromEntries(data.levels.map((one) => [one.value, one.label]));
@@ -770,7 +772,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			empty_message: __("Nobody yet. Invite somebody."),
 			no_match_message: __("Nobody by that name."),
 			get_data: () => Promise.resolve(data.people.map((one) => ({ ...one, search: `${one.full_name} ${one.name}` }))),
-			on_row_click: (one) => this.person_dialog(one.name),
+			on_row_click: (one) => frappe.set_route("workspace-settings", { section: "people", person: one.name }),
 			columns: [
 				{
 					label: __("Person"),
@@ -803,124 +805,103 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		}).refresh();
 	}
 
-	// One person: a Select per app and an Administrator switch, saved
-	// together against the User as it was loaded; where they are signed in
-	// and their last sign-ins; and in the footer, what an administrator does
-	// when somebody leaves.
-	async person_dialog(user) {
+	// One person, as a desk form like Profile: a Select per app with its
+	// mark, and the Administrator switch, saved from the page head against
+	// the User as it was loaded. Under their name, what an administrator does
+	// when somebody leaves; below, where they are signed in.
+	draw_person(data) {
 		const esc = frappe.utils.escape_html;
-		const one = await frappe.xcall(Settings.API + "person", { user });
-		const people = this.data;
-		const levels = people.levels.map((level) => ({ value: level.value, label: level.label }));
+		const one = data.person;
+		const name = esc(one.full_name || one.name);
 		const SHOWN = 5;
-		const signed = one.sessions.length
+		const place = (what, where, failed) =>
+			`<div class="os-place"><div class="${failed ? "text-danger" : ""}">${esc(what)}</div><div class="one-shell-quiet">${esc(where.filter(Boolean).join(" · "))}</div></div>`;
+		const signed = one.me
+			? `<div class="one-shell-quiet">${esc(__("You. Your own are on your Sign-in page."))}</div>`
+			: one.sessions.length
 			? one.sessions
 					.slice(0, SHOWN)
-					.map((at) => `<div class="os-place"><div>${esc(at.device)}</div><div class="one-shell-quiet">${esc([at.address, frappe.datetime.prettyDate(at.last_used)].filter(Boolean).join(" · "))}</div></div>`)
-					.join("") +
-			  (one.sessions.length > SHOWN ? `<div class="os-place one-shell-quiet">${esc(__("And {0} more.", [one.sessions.length - SHOWN]))}</div>` : "")
-			: `<div class="one-shell-quiet">${esc(one.me ? __("You. Your own are on your Sign-in page.") : __("Signed in nowhere."))}</div>`;
-		const recent = one.recent
-			.map(
-				(at) =>
-					`<div class="os-place"><div class="${at.failed ? "text-danger" : ""}">${esc(at.failed ? __("Failed") : __("Signed in"))}</div><div class="one-shell-quiet">${esc(
-						[at.address, frappe.datetime.prettyDate(at.on)].filter(Boolean).join(" · ")
-					)}</div></div>`
-			)
-			.join("");
-		const about = [
+					.map((at) => place(at.device, [at.address, frappe.datetime.prettyDate(at.last_used)]))
+					.join("") + (one.sessions.length > SHOWN ? `<div class="os-place one-shell-quiet">${esc(__("And {0} more.", [one.sessions.length - SHOWN]))}</div>` : "")
+			: `<div class="one-shell-quiet">${esc(__("Signed in nowhere."))}</div>`;
+		const recent = one.recent.map((at) => place(at.failed ? __("Failed") : __("Signed in"), [at.address, frappe.datetime.prettyDate(at.on)], at.failed)).join("");
+		const facts = [
+			esc(one.name),
 			one.employee ? `<a href="${frappe.utils.get_form_link("Employee", one.employee)}">${esc(__("Their employee record"))}</a>` : "",
 			esc(one.last_active ? __("Last active {0}.", [frappe.datetime.prettyDate(one.last_active)]) : __("Never signed in.")),
-			one.enabled ? "" : esc(__("Turned off: they cannot sign in.")),
 		]
 			.filter(Boolean)
 			.join(" · ");
-		const dialog = new frappe.ui.Dialog({
-			title: one.full_name || one.name,
-			size: "large",
-			fields: [
-				{ fieldname: "about", fieldtype: "HTML", options: `<div class="one-shell-quiet">${esc(one.name)} · ${about}</div>` },
-				{ fieldtype: "Section Break", label: __("What They Can Use"), description: __("Everybody has One, OneCloud, OneMail, OneTask and OneCalendar.") },
-				...Settings.two_columns(people.apps, (app, at) => ({ fieldname: `app_${at}`, fieldtype: "Select", label: app.name, options: levels })),
-				{ fieldtype: "Section Break" },
-				{
-					fieldname: "admin",
-					fieldtype: "Switch",
-					label: __("Administrator"),
-					description: __("Opens Workspace settings: people, the plan, domains and OneAI. The other administrators are told."),
-					default: one.admin ? 1 : 0,
-				},
-				{ fieldtype: "Section Break", label: __("Where They Are Signed In") },
-				{ fieldname: "signed", fieldtype: "HTML", options: signed },
-				...(recent ? [{ fieldtype: "Section Break", label: __("Last Sign-ins") }, { fieldname: "recent", fieldtype: "HTML", options: recent }] : []),
-			],
-			primary_action_label: __("Save"),
-			primary_action: async (values) => {
-				const access = Object.fromEntries(people.apps.map((app, at) => [app.name, values[`app_${at}`]]));
-				try {
-					const said = await frappe.xcall(Settings.API + "save_person", { user, access, admin: values.admin ? 1 : 0, modified: one.modified });
-					dialog.hide();
-					frappe.show_alert({ message: __("Saved."), indicator: "green" });
-					this.data = said;
-					this.$content.empty();
-					this.draw_people(said);
-				} catch (e) {
-					// frappe has said why (the last administrator, or changed since).
-				}
-			},
-		});
+		const actions = one.me
+			? ""
+			: one.enabled
+			? onedesk.shell.button(__("Sign Out Everywhere"), { "data-signout": "1" }, "subtle", "log-out") +
+			  onedesk.shell.button(__("Send a Password Reset"), { "data-reset": "1" }, "ghost", "key-round") +
+			  onedesk.shell.button(__("Turn Off"), { "data-off": "1" }, "ghost", "power", "red")
+			: onedesk.shell.button(__("Turn On"), { "data-on": "1" }, "subtle", "power");
+		const head = `<div class="os-type-head">
+			<div class="os-type-back">${onedesk.shell.button(__("All People"), { "data-back": "1" }, "ghost", "arrow-left")}</div>
+			<div class="os-person os-person-head">${frappe.ui.avatar.html({ label: one.full_name, image: one.user_image, size: "xl" })}
+				<div><div class="os-who-name">${name}${one.enabled ? "" : ` ${frappe.ui.badge.html({ label: __("Off"), theme: "gray" })}`}</div>
+				<div class="one-shell-quiet">${facts}</div>
+				${actions ? `<div class="os-who-actions">${actions}</div>` : ""}</div>
+			</div>
+		</div>`;
+		const apps = data.apps.map((app) => `app_${app.icon}`);
+		const rows = [
+			{ heading: __("What They Can Use"), note: __("Everybody has One, OneCloud, OneMail, OneTask and OneCalendar. A manager also sets the app up and sees everything in it.") },
+			...Settings.pairs(apps),
+			{ stack: ["admin"] },
+			{ heading: __("Where They Are Signed In") },
+			{ html: signed },
+			...(recent ? [{ heading: __("Last Sign-ins") }, { html: recent }] : []),
+		];
+		const $card = this.form(data, { before: head, rows });
+		Settings.marks($card, data.apps);
+		onedesk.shell.name(one.full_name || one.name);
+		const back = () => frappe.set_route("workspace-settings", { section: "people" });
 		const again = (said) => {
-			dialog.hide();
-			this.data = said;
 			this.$content.empty();
-			this.draw_people(said);
+			this.data = said;
+			this.hear(said.opened);
+			this.draw_person(said);
 		};
-		const actions = [];
-		if (!one.me) {
-			actions.push(
-				one.enabled
-					? frappe.ui.button({
-							label: __("Turn Off"),
-							variant: "ghost",
-							theme: "red",
-							icon: "power",
-							onclick: () =>
-								frappe.confirm(__("Turn {0} off? They are signed out now and cannot sign in. Everything they made stays.", [esc(one.full_name || one.name)]), async () =>
-									again(await frappe.xcall(Settings.API + "set_enabled", { user, on: 0 }))
-								),
-					  })
-					: frappe.ui.button({ label: __("Turn On"), variant: "ghost", icon: "power", onclick: async () => again(await frappe.xcall(Settings.API + "set_enabled", { user, on: 1 })) })
-			);
-			if (one.enabled) {
-				actions.push(
-					frappe.ui.button({
-						label: __("Sign Out Everywhere"),
-						variant: "ghost",
-						icon: "log-out",
-						onclick: () =>
-							frappe.confirm(__("Sign {0} out on every device?", [esc(one.full_name || one.name)]), async () => {
-								await frappe.xcall(Settings.API + "sign_out_everywhere", { user });
-								dialog.hide();
-								frappe.show_alert({ message: __("Signed out everywhere."), indicator: "green" });
-							}),
-					}),
-					frappe.ui.button({
-						label: __("Send a Password Reset"),
-						variant: "ghost",
-						icon: "key-round",
-						onclick: async () => {
-							await frappe.xcall(Settings.API + "send_reset", { user });
-							frappe.show_alert({ message: __("Sent. They get a mail to choose a new password."), indicator: "green" });
-						},
-					})
-				);
-			}
+		$card.find("[data-back]").on("click", back);
+		$card.find("[data-off]").on("click", () =>
+			frappe.confirm(__("Turn {0} off? They are signed out now and cannot sign in. Everything they made stays.", [name]), async () => {
+				await frappe.xcall(Settings.API + "set_enabled", { user: one.name, on: 0 });
+				this.refresh({ fresh: true });
+			})
+		);
+		$card.find("[data-on]").on("click", async () => {
+			await frappe.xcall(Settings.API + "set_enabled", { user: one.name, on: 1 });
+			this.refresh({ fresh: true });
+		});
+		$card.find("[data-signout]").on("click", () =>
+			frappe.confirm(__("Sign {0} out on every device?", [name]), async () => {
+				again(await frappe.xcall(Settings.API + "sign_out_everywhere", { user: one.name }));
+				frappe.show_alert({ message: __("Signed out everywhere."), indicator: "green" });
+			})
+		);
+		$card.find("[data-reset]").on("click", async () => {
+			await frappe.xcall(Settings.API + "send_reset", { user: one.name });
+			frappe.show_alert({ message: __("Sent. They get a mail to choose a new password."), indicator: "green" });
+		});
+	}
+
+	// Each app's mark before its name, on a field that picks what somebody
+	// may do in it.
+	static marks($wrapper, apps) {
+		for (const app of apps) {
+			$wrapper.find(`.frappe-control[data-fieldname="app_${app.icon}"] .control-label`).first().prepend(`<span class="os-app-mark">${frappe.utils.icon(app.icon, "sm")}</span>`);
 		}
-		dialog.custom_actions.append(...actions);
-		// Not as defaults: frappe reads a default of "User" as the person
-		// signed in (model.get_default_value).
-		dialog.set_values(Object.fromEntries(people.apps.map((app, at) => [`app_${at}`, one.access[app.name]])));
-		dialog.show();
+	}
+
+	// Fieldnames two to a row, for Editor.form's rows.
+	static pairs(names) {
+		const rows = [];
+		for (let at = 0; at < names.length; at += 2) rows.push([names[at], names[at + 1] || ""]);
+		return rows;
 	}
 
 	// Fields in two columns, the first taking the odd one: frappe's Column
@@ -941,11 +922,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				{ fieldname: "first_name", fieldtype: "Data", label: __("First Name"), reqd: 1 },
 				{ fieldname: "last_name", fieldtype: "Data", label: __("Last Name") },
 				{ fieldtype: "Section Break", label: __("What They Can Use"), description: __("Everybody has One, OneCloud, OneMail, OneTask and OneCalendar.") },
-				...Settings.two_columns(data.apps, (app, at) => ({ fieldname: `app_${at}`, fieldtype: "Select", label: app.name, options: levels, default: "None" })),
+				...Settings.two_columns(data.apps, (app) => ({ fieldname: `app_${app.icon}`, fieldtype: "Select", label: app.name, options: levels, default: "None" })),
 			],
 			primary_action_label: __("Invite"),
 			primary_action: async (values) => {
-				const access = Object.fromEntries(data.apps.map((app, at) => [app.name, values[`app_${at}`]]));
+				const access = Object.fromEntries(data.apps.map((app) => [app.name, values[`app_${app.icon}`]]));
 				const said = await frappe.xcall(Settings.API + "invite", { email: values.email, first_name: values.first_name, last_name: values.last_name, access });
 				dialog.hide();
 				frappe.show_alert({ message: __("Invited. They get a mail to set their password."), indicator: "green" });
@@ -954,6 +935,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				this.draw_people(said);
 			},
 		});
+		Settings.marks(dialog.$wrapper, data.apps);
 		dialog.show();
 	}
 
