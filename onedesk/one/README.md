@@ -92,23 +92,28 @@ top left. Here you choose what is also **mailed** to you, and what is
 **pushed**: shown by your computer or phone even when One is not open.
 
 **Push** is at the top. **Turn On Push** asks your browser to allow
-notifications from One, and from then on this browser gets what you tick for
-push. **Send a Test** shows you one; **Turn Off** stops it here. Each browser is
-turned on by itself, and the others you turned it on in are listed with
-**Remove**. A private window cannot have push, and a browser you blocked
+notifications from One, and from then on this browser gets what you switch on
+for push. **Send a Test** shows you one; **Turn Off** stops it here. Each
+browser is turned on by itself, and the others you turned it on in are listed
+with **Remove**. A private window cannot have push, and a browser you blocked
 notifications in says so: allow them in its settings and come back. An iPhone
 or iPad cannot have push yet: Apple allows it only to a site added to the Home
 Screen as an app, which One cannot be yet.
 
-- **Notifications** turns it all off: nothing reaches your bell or your inbox.
-- **Also by Email** turns every mail off at once, whatever is ticked below.
+- **Notifications** is the main switch. Off, nothing reaches your bell or your
+  inbox.
+- **Also by Email** turns every mail off at once, whatever is switched on
+  below.
 - Below them is every kind of notification you can receive, grouped by the app
-  that sends it, each with a sentence on when it is sent. **Tick Email or Push
-  for the ones you also want that way.** You only see the kinds that can reach
-  you: HR's are for HR, for example.
-- A tick you cannot change says why. Either your workspace does not send that
-  kind that way, or its mail is always sent because you answer it by replying,
-  as a project's "how is it going?" is.
+  that sends it, each with a sentence on when it is sent. Each app's heading
+  names two columns, **Email** and **Push**: **switch on the ones you also
+  want that way.** You only see the kinds that can reach you: HR's are for HR,
+  for example. The kinds OneAI sends carry the OneAI tag.
+- One event said two ways is one row: several things waiting in a document or
+  one, several files through a link or one. Its switches decide both.
+- A switch you cannot move is dimmed and says why. Either your workspace does
+  not send that kind that way, or its mail is always sent because you answer
+  it by replying, as a project's "how is it going?" is.
 - **Other Mail** is the two mails that are not notifications: a reminder before
   an event of yours, and the mails on a record you were given to do.
 
@@ -121,7 +126,8 @@ Notifications.
 - **What will I be told about?** Every kind that can reach you, and which you
   get by email.
 - **Too many emails?** Which of your mailed kinds you could leave to the bell
-  or have pushed instead, and why. You untick them yourself.
+  or have pushed instead, and why. You switch them off yourself. The same
+  question is the **Too Many Emails?** button at the top of the page.
 
 ### Mail
 
@@ -193,7 +199,8 @@ Under **Workspace**, **Notifications** lists everything One tells people, by the
 app that sends it: a file shared with you, a letter somebody asked HR for, a
 document OneAI thinks is phishing. Only the workspace's administrators see it.
 
-Each row says whether the notification is **Off**, whether its text was
+Each row says when it is sent and, under that, who it goes to. It says
+whether the notification is **Off**, whether its text was
 **Edited**, and whether it may also be sent by **Email** or **Push**. Blue means
 a new person starts with it on. **Mailed Outside** means it goes to an address
 outside the workspace, such as the mail a file request sends.

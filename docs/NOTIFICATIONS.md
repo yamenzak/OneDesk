@@ -217,7 +217,10 @@ on nothing but the browsers.
 ## Stage 3, as built
 
 - **You › Notifications** is two switches (Notifications, Also by Email), a
-  tick per kind the person can receive, grouped by app, and Other Mail.
+  switch per channel per kind the person can receive, grouped by app, and
+  Other Mail. The switches are frappe's `Switch` control. A kind that
+  `follows` another (one thing waiting rather than several) is not listed; it
+  takes the choices of the kind it follows.
 - **A tick writes frappe's own `email_notification_types`**, so frappe's
   mailing honours it as it is. Kinds not shown to the person are left as they
   were.

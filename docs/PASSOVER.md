@@ -126,7 +126,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Area | Screen | State |
 |---|---|---|
 | Settings, You | Profile | done (second pass too) |
-| Settings, You | Notifications | second pass: findings written, waiting on your word |
+| Settings, You | Notifications | done, second pass |
 | Settings, You | Mail | done |
 | Settings, You | Calendar | |
 | Settings, You | Sign-in | |
@@ -486,6 +486,34 @@ Against what the pass learned since. Nothing is changed yet.
    is done.
 8. **Legal**: nothing new.
 9. **Built from frappe**: nothing new.
+
+Your word: all of them, and two more. The ticks made the page cluttered: use
+a toggle. And the kinds' sentences had no one way of speaking ("The same,
+when only one thing needs you.").
+
+Done:
+
+- **Switches, in columns.** Every tick is frappe's own `Switch` control. Each
+  app's heading names the two columns, Email and Push, and each kind is one
+  line: its name and sentence on the left, its two switches on the right. A
+  switch the workspace decides is dimmed and shows how it stands (frappe
+  draws a read-only switch with no input, so an always-mailed kind looked
+  off).
+- **One way of saying a kind** (`docs/WORDING.md`): every sentence starts
+  with when it is sent, from the reader's side, and who it goes to is a
+  separate `to`, shown on the workspace's page under the sentence and never
+  on a person's own. All fifty-seven declared kinds and frappe's three were
+  rewritten; `tests/test_notify.py` holds the rule.
+- **Twins are one row.** A kind that `follows` another is not listed, and
+  saving sets it with the kind it follows (Intake Waiting, One Thing; Arrived
+  Through a Link, One File).
+- **OneAI**: **Too Many Emails?** is a OneAI button beside the page's
+  sentence; the kinds OneAI sends (Intake's, and the two grievance reads)
+  carry the OneAI tag (`oneai` on the declaration).
+- The switch sentences say what the switch does, then what off means.
+- **Turn On Push** is quiet; Save is the page's one primary action.
+- `one/README.md` says all of it; the workspace page and OneAI's
+  `notification_type` tool now say who each kind goes to.
 
 ### Push (Notifications, stage 4)
 

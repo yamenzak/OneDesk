@@ -7,9 +7,8 @@ TYPES = [
 	{
 		"name": _lt("Mailbox Not Reachable"),
 		"app": "OneMail",
-		"about": _lt(
-			"A mailbox you hold stopped connecting. Sent once, when it breaks, to everybody who holds it."
-		),
+		"about": _lt("When a mailbox you hold stops connecting. Once, when it breaks."),
+		"to": _lt("Everybody who holds it"),
 		"subject": _lt("{mailbox} is not connecting: {reason}"),
 		"message": _lt(
 			"No new mail is read from <b>{mailbox}</b> until it is connected again. Reconnect it from Settings › Mail."

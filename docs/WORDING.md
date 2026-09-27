@@ -53,6 +53,19 @@ happens at the boundary, or the cost:
 in the module README, in `docs/`, or in a docstring — never in a description a
 person reads while ticking a box.
 
+## A notification's sentence
+
+Every kind of notification says **when** it is sent, in one sentence that
+starts with the moment: "When somebody applies for leave.", "Every morning,
+…", "The day before your exit interview." Said from the reader's side where
+the reader is who gets it ("When your leave application is approved…").
+Never "the same" as another kind: a kind that is the same event said another
+way `follows` it and is not listed on its own.
+
+**Who** it goes to is `to`, apart, because a person's own page never needs it
+(it is them) and the workspace's page always does: "Their leave approver".
+`tests/test_notify.py` holds both.
+
 ## What is out
 
 No metaphor, no anecdote, no rhetorical contrast. All three of these were in

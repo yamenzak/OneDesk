@@ -12,9 +12,8 @@ TYPES = [
 		"name": _lt("Credit Limit Crossed"),
 		"app": "OneBook",
 		"roles": ("Accounts Manager", "Accounts User"),
-		"about": _lt(
-			"Somebody asked for the credit controllers to be told a customer is over their limit. Sent to them."
-		),
+		"about": _lt("When somebody flags a customer who is over their credit limit."),
+		"to": _lt("Accounts"),
 		"subject": _lt("{customer} is over their credit limit"),
 		"message": _lt("They owe {outstanding} against a limit of {limit}."),
 		"email_default": True,
@@ -25,7 +24,8 @@ TYPES = [
 		"name": _lt("New Fiscal Year"),
 		"app": "OneBook",
 		"roles": ("Accounts Manager", "Accounts User"),
-		"about": _lt("ERPNext made next year's fiscal year by itself, to be looked over. Sent to Accounts."),
+		"about": _lt("When ERPNext makes next year's fiscal year on its own, so somebody checks it."),
+		"to": _lt("Accounts"),
 		"words": "ERPNext",
 		"rule": "Notification for new fiscal year",
 		"email_default": True,
@@ -34,7 +34,8 @@ TYPES = [
 	{
 		"name": _lt("Statement of Accounts"),
 		"app": "OneBook",
-		"about": _lt("Statements mailed to customers on a schedule, in the words set on each statement run."),
+		"about": _lt("On each statement run's schedule, in the words set on the run."),
+		"to": _lt("Each customer on the run"),
 		"mailed_by": "ERPNext",
 		"outside": True,
 	},

@@ -10,9 +10,8 @@ TYPES = [
 	{
 		"name": _lt("Email Campaign"),
 		"app": "OneCRM",
-		"about": _lt(
-			"A campaign's mails to its leads or contacts, on its schedule, in the templates it names."
-		),
+		"about": _lt("On a campaign's schedule, in the templates it names."),
+		"to": _lt("The campaign's leads and contacts"),
 		"mailed_by": "ERPNext",
 		"outside": True,
 	},

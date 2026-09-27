@@ -95,6 +95,14 @@ def raw(msgid) -> str:
 	return getattr(msgid, "msg", None) or str(msgid or "")
 
 
+def to(name: str) -> str:
+	"""Who a declared type is sent to, in the reader's language: "Their leave
+	approver". Said on the workspace's page, never on a person's own, where
+	it is always them. Empty for a type not declared."""
+	said = (declared().get(name) or {}).get("to")
+	return str(said) if said else ""
+
+
 def jinja(msgid) -> str:
 	"""A default text as an administrator edits it: `{who}` becomes
 	`{{ who }}`. Pure."""
@@ -407,9 +415,9 @@ class _Slots(dict):
 #: Frappe's own kinds, said as a person would. Its "Alert" never mails, and
 #: energy points left frappe with gamification, so neither is offered.
 FRAPPE_KINDS = {
-	"Mention": _lt("Somebody mentioned you in a comment."),
-	"Assignment": _lt("Somebody gave you something to do, or it changed."),
-	"Share": _lt("Somebody shared a record with you."),
+	"Mention": _lt("When somebody mentions you in a comment."),
+	"Assignment": _lt("When somebody gives you something to do, or it changes."),
+	"Share": _lt("When somebody shares a record with you."),
 }
 
 
@@ -418,10 +426,18 @@ def choosable(user: str | None = None) -> list[dict]:
 	ours by app, frappe's after. A kind declared for some roles is theirs only;
 	one that goes outside the workspace is nobody's to choose. For each, whether
 	it may be mailed (`allowed`), is always mailed (`always`), and may be
-	pushed (`push`)."""
+	pushed (`push`).
+
+	A kind that `follows` another is the same event said another way (one
+	thing waiting rather than several), so it is not listed: it rides on the
+	kind it follows, whose `twins` it is in, and takes that kind's choices."""
 	user = user or frappe.session.user
 	held = set(frappe.get_roles(user))
 	declared_types = declared()
+	twins: dict[str, list] = {}
+	for name, one in declared_types.items():
+		if one.get("follows"):
+			twins.setdefault(one["follows"], []).append(name)
 	rows = frappe.get_all(
 		"Notification Type",
 		filters={"enabled": 1},
@@ -440,7 +456,12 @@ def choosable(user: str | None = None) -> list[dict]:
 	for row in rows:
 		one = declared_types.get(row.name)
 		if one:
-			if row.one_outside or one.get("mailed_by") or (one.get("roles") and not held & set(one["roles"])):
+			if (
+				row.one_outside
+				or one.get("mailed_by")
+				or one.get("follows")
+				or (one.get("roles") and not held & set(one["roles"]))
+			):
 				continue
 			always = bool(one.get("always_mailed"))
 			kind = {
@@ -448,11 +469,15 @@ def choosable(user: str | None = None) -> list[dict]:
 				"allowed": bool(row.one_allow_email) and not always,
 				"always": always,
 				"push": bool(row.one_allow_push),
+				"oneai": bool(one.get("oneai")),
+				"twins": twins.get(row.name, []),
 			}
 		elif row.one_rule:
 			# The workspace's own rules: everybody they reach may choose how.
+			said = row.one_about or ""
 			kind = {
-				"about": row.one_about or "",
+				# "When a ToDo is made", as a sentence like every other kind's.
+				"about": said + "." if said and not said.endswith(".") else said,
 				"allowed": bool(row.one_allow_email),
 				"always": False,
 				"push": bool(row.one_allow_push),

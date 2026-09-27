@@ -70,7 +70,7 @@ def _declared() -> dict[str, dict]:
 KEYS = {
 	"name", "app", "about", "subject", "message", "roles", "email", "push", "email_default",
 	"push_default", "outside", "required", "always_mailed", "words", "rule", "mailed_by", "switch",
-	"replaces", "starts_as",
+	"replaces", "starts_as", "to", "follows", "oneai",
 }  # fmt: skip
 
 
@@ -93,6 +93,27 @@ def test_every_type_says_what_it_needs():
 			*filter(None, [one.get("switch"), one.get("starts_as")]),
 		]:
 			assert doctype.endswith("Settings") and field, name
+
+
+def test_every_type_says_when_and_to_whom_the_same_way():
+	"""One way of saying a type (docs/WORDING.md): `about` is when it is sent,
+	one sentence from the reader's side, never "the same" as another; `to` is
+	who, apart, because on a person's own page it is always them."""
+	opening = ("When ", "On ", "Once ", "Every ", "Before ", "Shortly ", "The day ", "As often ")
+	for name, one in _declared().items():
+		assert one["about"].startswith(opening), f"{name}: {one['about']}"
+		assert "the same" not in one["about"].lower(), name
+		assert one.get("to"), f"{name} does not say who it is sent to"
+		assert "Sent to" not in one["about"], f"{name}: who it goes to is `to`"
+
+
+def test_a_twin_follows_a_kind_of_its_own_app():
+	declared = _declared()
+	for name, one in declared.items():
+		if one.get("follows"):
+			followed = declared[one["follows"]]
+			assert followed["app"] == one["app"] and not followed.get("follows"), name
+			assert followed.get("roles") == one.get("roles"), name
 
 
 def _sent():

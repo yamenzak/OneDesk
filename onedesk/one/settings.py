@@ -127,12 +127,18 @@ NOTIFY = (
 
 #: Frappe's labels for those, as a person would say them.
 NOTIFY_SAID = {
-	"enabled": (_lt("Notifications"), _lt("Off, nothing reaches your bell or your inbox.")),
-	"enable_email_notifications": (_lt("Also by Email"), _lt("Off, nothing is mailed to you, whatever is ticked below.")),
-	"enable_email_event_reminders": (_lt("Event Reminders"), _lt("A mail before an event of yours starts.")),
+	"enabled": (
+		_lt("Notifications"),
+		_lt("Everything One tells you reaches your bell. Turn it off and you are told nothing."),
+	),
+	"enable_email_notifications": (
+		_lt("Also by Email"),
+		_lt("Mails you what you switch on for email below. Turn it off and nothing is mailed."),
+	),
+	"enable_email_event_reminders": (_lt("Event Reminders"), _lt("Mails you before an event of yours starts.")),
 	"enable_email_threads_on_assigned_document": (
 		_lt("Mail About What Is Assigned to You"),
-		_lt("The mails on a record you were given to do, as they arrive."),
+		_lt("Mails you each new mail on a record you were given to do."),
 	),
 }
 
@@ -407,7 +413,7 @@ def _notifications() -> dict:
 	fields = _fields("Notification Settings", NOTIFY)
 	for field in fields:
 		label, description = NOTIFY_SAID[field["fieldname"]]
-		field.update({"label": str(label), "description": str(description)})
+		field.update({"fieldtype": "Switch", "label": str(label), "description": str(description)})
 		if field["fieldname"] not in ("enabled", "enable_email_notifications"):
 			field["depends_on"] = "eval:doc.enabled && doc.enable_email_notifications"
 	values = {name: doc.get(name) for name in NOTIFY}
@@ -419,20 +425,21 @@ def _notifications() -> dict:
 			{
 				"fieldname": kind,
 				"fieldtype": "HTML",
-				"options": f'<div class="os-kind-name">{esc(one["label"])}</div>'
-				f'<div class="one-shell-quiet">{esc(_said_of(one))}</div>',
+				"options": f'<div class="os-kind-name">{esc(one["label"])}'
+				+ ("<span data-oneai-tag></span>" if one.get("oneai") else "")
+				+ f'</div><div class="os-kind-about">{esc(_said_of(one))}</div>',
 				"depends_on": "eval:doc.enabled",
 			},
 			{
 				"fieldname": email,
-				"fieldtype": "Check",
+				"fieldtype": "Switch",
 				"label": str(_("Email")),
 				"read_only": 0 if one["allowed"] else 1,
 				"depends_on": "eval:doc.enabled",
 			},
 			{
 				"fieldname": pushing,
-				"fieldtype": "Check",
+				"fieldtype": "Switch",
 				"label": str(_("Push")),
 				"read_only": 0 if one["push"] else 1,
 				"depends_on": "eval:doc.enabled",
@@ -455,11 +462,11 @@ def _said_of(one: dict) -> str:
 	"""What a kind is, and why a tick cannot be changed when it cannot."""
 	said = [one["about"]]
 	if one.get("always"):
-		said.append(_("Its mail is always sent, so you can answer it by replying."))
+		said.append(_("Always mailed, so you can answer it by replying."))
 	elif not one["allowed"]:
-		said.append(_("It is not mailed in this workspace."))
+		said.append(_("Not mailed in this workspace."))
 	if not one["push"]:
-		said.append(_("It is not pushed in this workspace."))
+		said.append(_("Not pushed in this workspace."))
 	return " ".join(filter(None, said))
 
 
@@ -488,6 +495,10 @@ def _save_notifications(values: dict) -> None:
 			for one in kinds
 			if may(one) and _kind_field(prefix, one["name"]) in values
 		}
+		# A kind's twins take its choice: one event, said two ways.
+		for one in kinds:
+			if one["name"] in chosen:
+				chosen.update(dict.fromkeys(one.get("twins", []), chosen[one["name"]]))
 		kept = [row.notification_type for row in doc.get(field) or [] if row.notification_type not in chosen]
 		doc.set(field, [{"notification_type": name} for name in kept + [name for name, on in chosen.items() if on]])
 	doc.save(ignore_permissions=True)
@@ -859,6 +870,7 @@ def _notification_types(record: str | None = None) -> dict:
 				"name": row.name,
 				"label": _(row.name),
 				"about": _(row.one_about) if row.one_about else None,
+				"to": notify.to(row.name),
 				"enabled": row.enabled,
 				"edited": bool(row.one_default_subject)
 				and (row.one_subject != row.one_default_subject or row.one_message != row.one_default_message),
@@ -915,6 +927,7 @@ def _notification_type(name: str) -> dict:
 			"label": _(doc.name),
 			"app": doc.one_app,
 			"about": _(doc.one_about) if doc.one_about else None,
+			"to": notify.to(name),
 			"ours": bool(one),
 			"outside": doc.one_outside,
 			"required": bool(one.get("required")),

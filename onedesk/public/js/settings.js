@@ -175,17 +175,42 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	}
 
 	// Everything One can tell you reaches the bell. What is also mailed, and
-	// what is pushed to the browsers you turned push on in, is a pair of ticks
-	// per kind, grouped by the app that sends it, and only the kinds you can
-	// receive: HR's are for HR. A tick the workspace does not allow is shown and
-	// cannot be changed, so the list is the whole answer.
+	// what is pushed to the browsers you turned push on in, is a pair of
+	// frappe's switches per kind, under an Email and a Push column, grouped by
+	// the app that sends it, and only the kinds you can receive: HR's are for
+	// HR. A switch the workspace does not allow is shown and cannot be moved,
+	// so the list is the whole answer.
 	draw_notifications(data) {
 		const rows = [{ stack: ["enabled", "enable_email_notifications"] }];
 		for (const group of data.groups) rows.push({ heading: group.app }, ...group.rows.map((row) => ({ row, css: "os-kind" })));
 		rows.push({ heading: __("Other Mail") }, { stack: ["enable_email_event_reminders", "enable_email_threads_on_assigned_document"] });
+		// The page's own suggestion (one/ai.py), so it is answered the same way.
+		const fewer = onedesk.oneai.button(
+			__("Too Many Emails?"),
+			__("Which of the notifications I get by email could I leave to the bell, or have pushed instead? Say which to untick and why.")
+		);
+		const note = __("Everything One tells you reaches your bell. Choose what also comes by email, and what is pushed to your browsers.");
 		const $card = this.form(data, {
-			before: `<div class="one-shell-quiet one-shell-note">${__("Everything One tells you reaches the bell. Tick what you also want by email, and pushed to this device.")}</div><div class="os-push"></div>`,
+			before: `<div class="os-notify-intro"><div class="one-shell-quiet">${note}</div>${fewer}</div><div class="os-push"></div>`,
 			rows,
+		});
+		// Each app's part says which column is which, once, in its heading.
+		const columns = `<div class="os-kind-columns"><span>${__("Email")}</span><span>${__("Push")}</span></div>`;
+		$card.find(".form-section.os-kind.one-shell-part .section-head").append(columns);
+		$card.find(".os-kind .frappe-control[data-fieldtype='Switch']").each((_, control) => {
+			const $control = $(control);
+			const name = $control.closest(".section-body").find(".os-kind-name").first().text();
+			$control.find("input").attr("aria-label", `${$control.find(".label-area").text()}: ${name}`);
+		});
+		this.ready.then(() => {
+			// An HTML field draws its options once its value is in.
+			$card.find("[data-oneai-tag]").replaceWith(onedesk.oneai.tag(__("OneAI")));
+			// Frappe draws a read-only switch with no input, so it always looks
+			// off: an always-mailed kind would read as never mailed.
+			for (const field of this.group.fields_list) {
+				if (field.df.fieldtype !== "Switch" || !field.df.read_only) continue;
+				field.$wrapper.addClass("os-switch-fixed").toggleClass("os-switch-on", !!cint(field.get_value()));
+			}
 		});
 		this.draw_push($card.find(".os-push"), data.push);
 	}
@@ -204,7 +229,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const others = (said.devices || []).filter((one) => one.endpoint !== here.endpoint);
 		const action =
 			here.state === "off"
-				? onedesk.shell.button(__("Turn On Push"), { "data-push": "on" }, "solid", "bell-ring")
+				? onedesk.shell.button(__("Turn On Push"), { "data-push": "on" }, "subtle", "bell-ring")
 				: here.state === "on"
 				? onedesk.shell.button(__("Send a Test"), { "data-push": "test" }, "subtle") + onedesk.shell.button(__("Turn Off"), { "data-push": "off" }, "ghost")
 				: "";
@@ -804,6 +829,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		if (data.rule) return this.draw_rule(data);
 		if (data.type) return this.draw_notification_type(data);
 		const esc = frappe.utils.escape_html;
+		// Who it goes to, on its own line: the sentence above says when.
+		const to = (one) => (one.to ? `<div class="one-shell-quiet os-to">${frappe.utils.icon("users", "xs")}${esc(one.to)}</div>` : "");
 		const channel = (label, allowed, on) => (allowed ? frappe.ui.badge.html({ label, theme: on ? "blue" : "gray" }) : "");
 		const row = (one) => {
 			const badges = one.ours
@@ -821,7 +848,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				: "";
 			return `<div class="one-shell-row ${one.ours ? "one-shell-row-link" : ""}" ${one.ours ? `data-type="${esc(one.name)}" tabindex="0"` : ""}>
 				<div class="one-shell-row-main"><div class="one-shell-row-title">${esc(one.label)}</div>${
-					one.about ? `<div class="one-shell-quiet">${esc(one.about)}</div>` : one.ours ? "" : `<div class="one-shell-quiet">${esc(__("Written by frappe. Each person chooses whether it is also mailed."))}</div>`
+					one.about ? `<div class="one-shell-quiet">${esc(one.about)}</div>${to(one)}` : one.ours ? "" : `<div class="one-shell-quiet">${esc(__("Written by frappe. Each person chooses whether it is also mailed."))}</div>`
 				}</div>
 				<div class="one-shell-row-actions">${badges}${one.ours ? `<span class="one-shell-chevron">${frappe.utils.icon("chevron-right", "sm")}</span>` : ""}</div>
 			</div>`;
@@ -864,6 +891,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			<div class="os-type-back">${onedesk.shell.button(__("All Notifications"), { "data-back": "1" }, "ghost", "arrow-left")}</div>
 			<div class="os-who-name">${esc(type.label)}</div>
 			${type.about ? `<div class="one-shell-quiet">${esc(type.about)}</div>` : ""}
+			${type.to ? `<div class="one-shell-quiet os-to">${frappe.utils.icon("users", "xs")}${esc(type.to)}</div>` : ""}
 			${
 				type.ours && !type.upstream
 					? `<div class="os-who-actions">${onedesk.shell.button(__("Rewrite with OneAI"), { "data-rewrite": "1" }, "subtle", "sparkles")}${onedesk.shell.button(

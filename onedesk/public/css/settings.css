@@ -212,31 +212,126 @@
 	line-height: 1.6;
 }
 
-/* A kind of notification is a row: what it is, then a tick per channel in
-   columns of their own, so Email and Push line up down the list. */
+/* A kind of notification is a row: what it is on the left, then frappe's
+   switch per channel in a column of its own, so Email and Push line up down
+   the list under the columns their app's heading names. */
 .one-shell-form .os-kind .section-body {
-	align-items: flex-start;
+	align-items: center;
 }
 
 .one-shell-form .os-kind .section-body > .form-column {
-	flex: 0 0 88px;
-	max-width: 88px;
+	flex: 0 0 56px;
+	max-width: 56px;
 	padding-inline: 0;
+	display: flex;
+	justify-content: center;
+}
+
+.one-shell-form .os-kind .section-body {
+	flex-wrap: nowrap;
 }
 
 .one-shell-form .os-kind .section-body > .form-column:first-child {
-	flex: 1 1 auto;
+	flex: 1 1 0;
+	min-width: 0;
 	max-width: none;
+	display: block;
 	padding-inline-end: calc(var(--spacing) * 4);
 }
 
+.one-shell-form .os-kind .frappe-control {
+	margin-bottom: 0;
+}
+
+/* The column says which switch it is; the label stays for a screen reader. */
+/* A switch with its sentence spans the column, its switch at the end. */
+.one-shell-form .form-column .frappe-control[data-fieldtype="Switch"].input-max-width {
+	max-width: none;
+}
+
+.one-shell-form .os-kind .switch-control {
+	width: auto;
+	gap: 0;
+}
+
+.one-shell-form .os-kind .switch-text {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+
+/* A switch the workspace decides: shown as it stands, and not movable. */
+.os-switch-fixed .switch-control {
+	cursor: not-allowed;
+}
+
+.os-switch-fixed .switch-visual {
+	opacity: 0.45;
+}
+
+.os-switch-on .switch-visual {
+	background-color: var(--ink-gray-8);
+}
+
+.os-switch-on .switch-thumb {
+	transform: translateX(10px);
+}
+
+.one-shell-form .os-kind.one-shell-part .section-head {
+	display: flex;
+	align-items: baseline;
+}
+
+.os-kind-columns {
+	display: flex;
+	margin-inline-start: auto;
+	font-size: var(--text-xs);
+	font-weight: var(--font-weight-regular);
+	color: var(--ink-gray-5);
+}
+
+.os-kind-columns > span {
+	width: 56px;
+	text-align: center;
+}
+
 .os-kind-name {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
 	color: var(--ink-gray-8);
 	font-weight: var(--font-weight-medium);
 }
 
+.os-kind-about {
+	margin-top: 2px;
+	font-size: var(--text-sm);
+	color: var(--ink-gray-5);
+}
+
 .os-push {
 	margin-bottom: calc(var(--spacing) * 2);
+}
+
+.os-notify-intro {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: calc(var(--spacing) * 4);
+	margin-bottom: calc(var(--spacing) * 4);
+}
+
+.one-shell-row-main .os-to,
+.os-type-head .os-to {
+	display: flex;
+	justify-content: flex-start;
+	text-align: start;
+	align-items: center;
+	gap: calc(var(--spacing) * 1);
+	margin-top: 2px;
 }
 
 /* A notification's subject is one line, but a long one: the whole column. */
@@ -260,3 +355,10 @@
 	margin-top: calc(var(--spacing) * -3);
 }
 
+
+.os-to .icon {
+	flex: none;
+	margin: 0;
+	width: 12px;
+	height: 12px;
+}

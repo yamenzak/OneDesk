@@ -14,9 +14,8 @@ TYPES = [
 		"name": _lt("Employee Details Changed"),
 		"app": "OneHR",
 		"roles": ("HR Manager",),
-		"about": _lt(
-			"An employee changed their address or emergency contact in their profile. Sent to HR Managers."
-		),
+		"about": _lt("When an employee changes their address or emergency contact in their profile."),
+		"to": _lt("HR managers"),
 		"subject": _lt("{employee} changed their {what}"),
 	},
 	# doctype/employee_letter: an employee asks HR for a letter.
@@ -24,7 +23,8 @@ TYPES = [
 		"name": _lt("Letter Requested"),
 		"app": "OneHR",
 		"roles": ("HR Manager",),
-		"about": _lt("An employee asks HR for a letter. Sent to HR Managers."),
+		"about": _lt("When an employee asks HR for a letter."),
+		"to": _lt("HR managers"),
 		"subject": _lt("{employee} asked for a {kind}"),
 		"email_default": True,
 	},
@@ -33,7 +33,9 @@ TYPES = [
 		"name": _lt("Sensitive Grievance"),
 		"app": "OneHR",
 		"roles": ("HR Manager",),
-		"about": _lt("OneAI read a new grievance as sensitive. Sent to the people trusted with grievances."),
+		"about": _lt("When OneAI reads a new grievance as sensitive."),
+		"to": _lt("The people trusted with grievances"),
+		"oneai": True,
 		"subject": _lt("A sensitive grievance was raised"),
 		"email_default": True,
 		"push_default": True,
@@ -42,7 +44,9 @@ TYPES = [
 		"name": _lt("Urgent Grievance"),
 		"app": "OneHR",
 		"roles": ("HR Manager",),
-		"about": _lt("OneAI read a new grievance as urgent. Sent to the people trusted with grievances."),
+		"about": _lt("When OneAI reads a new grievance as urgent."),
+		"to": _lt("The people trusted with grievances"),
+		"oneai": True,
 		"subject": _lt("An urgent grievance was raised"),
 		"email_default": True,
 		"push_default": True,
@@ -52,9 +56,8 @@ TYPES = [
 		"name": _lt("Check-in Flagged"),
 		"app": "OneHR",
 		"roles": ("HR User", "HR Manager"),
-		"about": _lt(
-			"A check-in looked wrong, and waits for somebody to accept or reject it. Sent to its reviewers."
-		),
+		"about": _lt("When a check-in looks wrong and waits for somebody to accept or reject it."),
+		"to": _lt("Its reviewers"),
 		"subject": _lt("{employee}'s check-in needs a look"),
 		"message": "{reasons}",
 		"push_default": True,
@@ -64,9 +67,8 @@ TYPES = [
 		"name": _lt("Shift Not Reading Check-ins"),
 		"app": "OneHR",
 		"roles": ("HR Manager",),
-		"about": _lt(
-			"A shift has check-ins but writes no attendance from them. Sent to HR Managers, at most weekly."
-		),
+		"about": _lt("When a shift has check-ins but writes no attendance from them. At most once a week."),
+		"to": _lt("HR managers"),
 		"subject": _lt("Check-ins on {shift} are not becoming attendance"),
 		"message": _lt(
 			"This shift has check-ins but does not read them, so no Attendance is being written and every "
@@ -79,9 +81,8 @@ TYPES = [
 		"name": _lt("Could Not Mark Left"),
 		"app": "OneHR",
 		"roles": ("HR User", "HR Manager"),
-		"about": _lt(
-			"An employee's leaving date passed, but their status could not be set to Left. Sent to HR."
-		),
+		"about": _lt("When an employee's leaving date passes and their status could not be set to Left."),
+		"to": _lt("HR"),
 		"subject": _lt("{employee} could not be marked Left"),
 		"message": _lt(
 			"Their passkey and shift assignments have been ended, but the status is still Active: {why}"
@@ -94,8 +95,9 @@ TYPES = [
 		"app": "OneHR",
 		"roles": ("Employee",),
 		"about": _lt(
-			"Somebody checked in and never checked out, so One checked them out at the shift's end. Sent to them."
+			"When you checked in, never checked out, and One checked you out at the end of the shift."
 		),
+		"to": _lt("The employee"),
 		"subject": _lt("Your check-in was closed at the end of your shift"),
 		"message": _lt(
 			"You checked in but never checked out, so a check out was written for you at the shift end. "
@@ -108,9 +110,8 @@ TYPES = [
 		"name": _lt("Check-in Place Proposed"),
 		"app": "OneHR",
 		"roles": ("HR Manager",),
-		"about": _lt(
-			"One added a network or location people check in from, because they kept using it. Sent to HR Managers."
-		),
+		"about": _lt("When One adds a network or place people check in from, because they keep using it."),
+		"to": _lt("HR managers"),
 		"subject": _lt("A new check-in network or location was proposed"),
 	},
 	# tell: HRMS's approval moments, told here rather than to its phone app.
@@ -118,7 +119,8 @@ TYPES = [
 		"name": _lt("Leave Asked"),
 		"app": "OneHR",
 		"roles": ("Leave Approver", "HR User", "HR Manager"),
-		"about": _lt("Somebody applied for leave. Sent to their leave approver."),
+		"about": _lt("When somebody applies for leave."),
+		"to": _lt("Their leave approver"),
 		"subject": _lt("{employee} asked for {days} days of {leave_type}"),
 		"message": _lt("From {from_date} to {to_date}."),
 		"email_default": True,
@@ -129,7 +131,8 @@ TYPES = [
 		"name": _lt("Leave Answered"),
 		"app": "OneHR",
 		"roles": ("Employee",),
-		"about": _lt("A leave application was approved, rejected or cancelled. Sent to the employee."),
+		"about": _lt("When your leave application is approved, rejected or cancelled."),
+		"to": _lt("The employee"),
 		"subject": _lt("Your {leave_type} from {from_date} to {to_date} was {status}"),
 		"email_default": True,
 		"push_default": True,
@@ -138,7 +141,8 @@ TYPES = [
 		"name": _lt("Expense Claim Asked"),
 		"app": "OneHR",
 		"roles": ("Expense Approver", "HR User", "HR Manager"),
-		"about": _lt("Somebody claimed an expense. Sent to their expense approver."),
+		"about": _lt("When somebody claims an expense."),
+		"to": _lt("Their expense approver"),
 		"subject": _lt("{employee} claimed {amount}"),
 		"email_default": True,
 		"push_default": True,
@@ -147,7 +151,8 @@ TYPES = [
 		"name": _lt("Expense Claim Answered"),
 		"app": "OneHR",
 		"roles": ("Employee",),
-		"about": _lt("An expense claim was approved or rejected. Sent to the employee."),
+		"about": _lt("When your expense claim is approved or rejected."),
+		"to": _lt("The employee"),
 		"subject": _lt("Your expense claim for {amount} was {status}"),
 		"email_default": True,
 		"push_default": True,
@@ -155,7 +160,8 @@ TYPES = [
 	{
 		"name": _lt("Shift Asked"),
 		"app": "OneHR",
-		"about": _lt("Somebody asked for a shift. Sent to their shift approver."),
+		"about": _lt("When somebody asks for a shift."),
+		"to": _lt("Their shift approver"),
 		"subject": _lt("{employee} asked for {shift} from {from_date} to {to_date}"),
 		"push_default": True,
 	},
@@ -163,7 +169,8 @@ TYPES = [
 		"name": _lt("Shift Answered"),
 		"app": "OneHR",
 		"roles": ("Employee",),
-		"about": _lt("A shift request was approved or rejected. Sent to the employee."),
+		"about": _lt("When your shift request is approved or rejected."),
+		"to": _lt("The employee"),
 		"subject": _lt("Your request for {shift} from {from_date} was {status}"),
 		"push_default": True,
 	},
@@ -172,7 +179,8 @@ TYPES = [
 		"name": _lt("Birthday"),
 		"app": "OneHR",
 		"roles": ("Employee",),
-		"about": _lt("Somebody's birthday. Sent to everybody else at their company, in the morning."),
+		"about": _lt("On the morning of a colleague's birthday."),
+		"to": _lt("Everybody else at their company"),
 		"subject": _lt("It is {employee}'s birthday today"),
 		"message": _lt("Wish them a happy birthday."),
 		"replaces": (("HR Settings", "send_birthday_reminders"),),
@@ -182,7 +190,8 @@ TYPES = [
 		"name": _lt("Work Anniversary"),
 		"app": "OneHR",
 		"roles": ("Employee",),
-		"about": _lt("Somebody's work anniversary. Sent to everybody else at their company, in the morning."),
+		"about": _lt("On the morning of a colleague's work anniversary."),
+		"to": _lt("Everybody else at their company"),
 		"subject": _lt("It is {employee}'s work anniversary"),
 		"message": _lt("They joined on {joined}, {years} years ago today."),
 		"replaces": (("HR Settings", "send_work_anniversary_reminders"),),
@@ -192,9 +201,8 @@ TYPES = [
 		"name": _lt("Holidays Coming Up"),
 		"app": "OneHR",
 		"roles": ("Employee",),
-		"about": _lt(
-			"An employee's holidays in the coming week or month, as often as HR Settings says. Sent to them."
-		),
+		"about": _lt("Every week or month, as HR Settings says, when you have holidays coming up."),
+		"to": _lt("Each employee"),
 		"subject": _lt("You have holidays coming up"),
 		"message": "{holidays}",
 		"email_default": True,
@@ -205,9 +213,8 @@ TYPES = [
 		"name": _lt("Interview Soon"),
 		"app": "OneHR",
 		"roles": ("Interviewer", "HR User", "HR Manager"),
-		"about": _lt(
-			"An interview starts soon, as long before as HR Settings says. Sent to its interviewers."
-		),
+		"about": _lt("Shortly before an interview you are on, as long before as HR Settings says."),
+		"to": _lt("Its interviewers"),
 		"subject": _lt("Interview with {applicant} at {when}"),
 		"email_default": True,
 		"push_default": True,
@@ -217,7 +224,8 @@ TYPES = [
 	{
 		"name": _lt("Interview Soon, to the Applicant"),
 		"app": "OneHR",
-		"about": _lt("The same reminder, mailed to the applicant."),
+		"about": _lt("Shortly before an interview, as long before as HR Settings says."),
+		"to": _lt("The applicant"),
 		"subject": _lt("Your interview is at {when}"),
 		"message": _lt("Dear {applicant}, this is a reminder of your interview at {when}."),
 		"outside": True,
@@ -227,9 +235,8 @@ TYPES = [
 		"name": _lt("Interview Feedback Due"),
 		"app": "OneHR",
 		"roles": ("Interviewer", "HR User", "HR Manager"),
-		"about": _lt(
-			"An interview was held and its feedback is not in. Sent daily to each interviewer who owes it."
-		),
+		"about": _lt("Every day after an interview, until your feedback on it is in."),
+		"to": _lt("Each interviewer who owes it"),
 		"subject": _lt("Your feedback on {applicant}'s interview is due"),
 		"message": _lt("The interview was on {when}."),
 		"email_default": True,
@@ -240,7 +247,8 @@ TYPES = [
 		"name": _lt("Interview Moved"),
 		"app": "OneHR",
 		"roles": ("Interviewer", "HR User", "HR Manager"),
-		"about": _lt("An interview was moved to another time. Sent to its interviewers."),
+		"about": _lt("When an interview you are on moves to another time."),
+		"to": _lt("Its interviewers"),
 		"subject": _lt("The interview with {applicant} moved to {when}"),
 		"message": _lt("It was at {was}."),
 		"email_default": True,
@@ -249,7 +257,8 @@ TYPES = [
 	{
 		"name": _lt("Interview Moved, to the Applicant"),
 		"app": "OneHR",
-		"about": _lt("The same news, mailed to the applicant."),
+		"about": _lt("When an interview moves to another time."),
+		"to": _lt("The applicant"),
 		"subject": _lt("Your interview has moved to {when}"),
 		"message": _lt("Dear {applicant}, your interview has moved from {was} to {when}."),
 		"outside": True,
@@ -259,7 +268,8 @@ TYPES = [
 		"name": _lt("Training Scheduled"),
 		"app": "OneHR",
 		"roles": ("Employee",),
-		"about": _lt("A training event was scheduled. Sent to everybody attending it."),
+		"about": _lt("When a training event you attend is scheduled."),
+		"to": _lt("Everybody attending"),
 		"words": "HRMS",
 		"rule": "Training Scheduled",
 		"email_default": True,
@@ -268,7 +278,8 @@ TYPES = [
 		"name": _lt("Exit Interview Scheduled"),
 		"app": "OneHR",
 		"roles": ("Employee",),
-		"about": _lt("The day before somebody's exit interview. Sent to them."),
+		"about": _lt("The day before your exit interview."),
+		"to": _lt("The employee leaving"),
 		"words": "HRMS",
 		"rule": "Exit Interview Scheduled",
 		"email_default": True,
@@ -277,21 +288,24 @@ TYPES = [
 	{
 		"name": _lt("Payslip by Email"),
 		"app": "OneHR",
-		"about": _lt("Each payslip, mailed to its employee as a PDF when it is submitted."),
+		"about": _lt("When a payslip is submitted, with the payslip as a PDF."),
+		"to": _lt("Its employee"),
 		"mailed_by": "HRMS",
 		"switch": ("Payroll Settings", "email_salary_slip_to_employee"),
 	},
 	{
 		"name": _lt("Exit Questionnaire"),
 		"app": "OneHR",
-		"about": _lt("The questionnaire mailed to somebody leaving, in the template HR Settings names."),
+		"about": _lt("When somebody is leaving, in the template HR Settings names."),
+		"to": _lt("The employee leaving"),
 		"mailed_by": "HRMS",
 		"outside": True,
 	},
 	{
 		"name": _lt("Earned Leave Not Allocated"),
 		"app": "OneHR",
-		"about": _lt("Earned leave that could not be allocated by the nightly job. Mailed to HR Managers."),
+		"about": _lt("When the nightly job cannot allocate earned leave."),
+		"to": _lt("HR managers"),
 		"mailed_by": "HRMS",
 	},
 ]

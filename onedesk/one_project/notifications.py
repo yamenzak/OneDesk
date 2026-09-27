@@ -9,9 +9,9 @@ TYPES = [
 		"app": "OneProject",
 		"roles": ("Projects User",),
 		"about": _lt(
-			"A project asks its people how it is going, as often as the project says. A project's own "
-			"question is asked instead of this text."
+			"As often as a project says, to ask how it is going. A project's own question replaces this text."
 		),
+		"to": _lt("The project's people"),
 		"subject": _lt("How is {project} going?"),
 		"message": _lt("Post your update on the project's page, or reply to the email."),
 		# Not mailed through the bell, because its own mail is one people reply
@@ -24,7 +24,8 @@ TYPES = [
 		"name": _lt("Project Summary"),
 		"app": "OneProject",
 		"roles": ("Projects User",),
-		"about": _lt("What a project's people said about it yesterday. Sent to them each morning."),
+		"about": _lt("Every morning, what a project's people said about it the day before."),
+		"to": _lt("The project's people"),
 		"subject": _lt("What was said about {project} on {date}"),
 		"message": "{answers}",
 	},

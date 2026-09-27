@@ -13,9 +13,8 @@ TYPES = [
 		"name": _lt("Material Request Raised"),
 		"app": "OneInventory",
 		"roles": ("Purchase Manager", "Stock Manager"),
-		"about": _lt(
-			"Items fell to their reorder level and a material request was raised for them. Sent to Purchasing."
-		),
+		"about": _lt("When items fall to their reorder level and a material request is raised for them."),
+		"to": _lt("Purchasing"),
 		"subject": _lt("Reordering raised {request}"),
 		"message": _lt("For what fell to its reorder level: {items}."),
 		"email_default": True,
@@ -26,7 +25,8 @@ TYPES = [
 	{
 		"name": _lt("Material Request Received"),
 		"app": "OneInventory",
-		"about": _lt("What a material request asked for was received. Sent to whoever made the request."),
+		"about": _lt("When what your material request asked for is received."),
+		"to": _lt("Whoever made the request"),
 		"words": "ERPNext",
 		"rule": "Material Request Receipt Notification",
 		"email_default": True,
@@ -36,31 +36,29 @@ TYPES = [
 	{
 		"name": _lt("Depreciation Not Posted"),
 		"app": "OneInventory",
-		"about": _lt(
-			"Depreciation the nightly job could not post. Mailed to the role Accounts Settings names."
-		),
+		"about": _lt("When the nightly job cannot post depreciation."),
+		"to": _lt("The role Accounts Settings names"),
 		"mailed_by": "ERPNext",
 	},
 	{
 		"name": _lt("Reposting Failed"),
 		"app": "OneInventory",
-		"about": _lt(
-			"Stock values could not be recalculated after a back-dated entry. Mailed to Stock Managers."
-		),
+		"about": _lt("When stock values cannot be recalculated after a back-dated entry."),
+		"to": _lt("Stock managers"),
 		"mailed_by": "ERPNext",
 	},
 	{
 		"name": _lt("Stock Account Wrong"),
 		"app": "OneInventory",
-		"about": _lt(
-			"A warehouse's account is not a stock account, so stock and books disagree. Mailed to Stock Managers."
-		),
+		"about": _lt("When a warehouse's account is not a stock account, so stock and books disagree."),
+		"to": _lt("Stock managers"),
 		"mailed_by": "ERPNext",
 	},
 	{
 		"name": _lt("Reordering Failed"),
 		"app": "OneInventory",
-		"about": _lt("Reordering could not raise a material request. Mailed to the site's administrators."),
+		"about": _lt("When reordering cannot raise a material request."),
+		"to": _lt("The site's administrators"),
 		"mailed_by": "ERPNext",
 	},
 ]
