@@ -32,6 +32,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		$(document).on("legal-agreed", () => this.key === "agreements" && this.open("agreements"));
 		// A mailbox broke or came back (one_mail/sync.py).
 		frappe.realtime.on("one_mailbox", () => this.key === "mail" && this.$content && this.$content.is(":visible") && this.refresh());
+		// A memory was kept or forgotten, here, in the panel or in another tab.
+		frappe.realtime.on("one_memory", () => this.key === "memory" && this.$content && this.$content.is(":visible") && this.refresh());
 	}
 
 	async show() {
@@ -544,30 +546,92 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		);
 	}
 
+	// What OneAI keeps for the reader, which they add, correct and forget
+	// here as much as in a conversation; and, to read only, what the
+	// workspace's administrators told OneAI for everybody.
 	draw_memory(data) {
 		const esc = frappe.utils.escape_html;
-		const rows = (data.facts || [])
-			.map(
-				(one) => `<div class="one-shell-row">
-				<div class="one-shell-row-main"><div>${esc(one.fact || "")}</div>${
-					one.about_doctype ? `<div class="one-shell-row-sub one-shell-quiet">${esc(__(one.about_doctype))} ${esc(one.about_name || "")}</div>` : ""
-				}</div>
-				<div class="one-shell-row-actions">${onedesk.shell.button(__("Forget"), { "data-forget": one.name }, "ghost", "trash-2")}</div>
-			</div>`
-			)
+		const know = onedesk.oneai.button(
+			__("What Do You Know About Me?"),
+			__("What do you know about me? Say what you remember from our conversations, and what my workspace told you.")
+		);
+		const facts = data.facts || [];
+		const rows = facts
+			.map((one) => {
+				const about = one.about_doctype
+					? `<a href="${frappe.utils.get_form_link(one.about_doctype, one.about_name)}">${esc(one.about_title || one.about_name)}</a> · `
+					: "";
+				return `<div class="one-shell-row">
+					<div class="one-shell-row-main"><div>${esc(one.fact || "")}</div>
+						<div class="one-shell-row-sub one-shell-quiet">${about}${esc(__("kept {0}", [frappe.datetime.prettyDate(one.creation)]))}</div></div>
+					<div class="one-shell-row-actions">${onedesk.shell.button(__("Edit"), { "data-edit": one.name }, "ghost", "pencil")}${onedesk.shell.button(
+						__("Forget"),
+						{ "data-forget": one.name },
+						"ghost",
+						"trash-2"
+					)}</div>
+				</div>`;
+			})
+			.join("");
+		const told = (data.knowledge || [])
+			.map((one) => `<div class="one-shell-row"><div class="one-shell-row-main"><div>${esc(one.title)}</div>${
+				one.applies_to ? `<div class="one-shell-row-sub one-shell-quiet">${esc(__("On {0}", [one.applies_to]))}</div>` : ""
+			}</div></div>`)
 			.join("");
 		this.$content.html(
-			onedesk.shell.section(
-				__("Remembered"),
-				rows || onedesk.shell.empty(__("Nothing yet."), __("When you tell OneAI to remember something, it is listed here.")),
-				__("What you asked OneAI to keep in mind when it helps you. Only you see it.")
-			)
+			`<div class="one-shell-section"><div class="os-notify-intro"><div class="one-shell-quiet">${esc(
+				__("What OneAI keeps in mind when it helps you. Only you see it, and you can change or forget any of it.")
+			)}</div>${know}</div></div>` +
+				onedesk.shell.section(
+					__("Remembered"),
+					(rows || `<div class="one-shell-quiet">${esc(__("Nothing yet. Tell OneAI to remember something, or add it here."))}</div>`) +
+						(facts.length > 1
+							? `<div class="one-shell-actions">${onedesk.shell.button(__("Forget Everything"), { "data-forget-all": "1" }, "ghost", "trash-2", "red")}</div>`
+							: "")
+				) +
+				(told
+					? onedesk.shell.section(
+							__("From Your Workspace"),
+							told,
+							__("Written by your workspace's administrators for everybody. OneAI uses it when it helps you; they change it.")
+					  )
+					: "")
 		);
-		this.$content.find("[data-forget]").on("click", async (event) => {
-			const said = await frappe.xcall(Settings.API + "forget", { name: $(event.currentTarget).attr("data-forget") });
+		this.page.set_primary_action(__("Add a Memory"), () => this.memory_dialog(), "plus");
+		const redraw = (said) => {
 			this.$content.empty();
 			this.draw_memory(said);
+		};
+		this.$content.find("[data-edit]").on("click", (event) =>
+			this.memory_dialog(facts.find((one) => one.name === $(event.currentTarget).attr("data-edit")))
+		);
+		this.$content.find("[data-forget]").on("click", async (event) =>
+			redraw(await frappe.xcall(Settings.API + "forget", { name: $(event.currentTarget).attr("data-forget") }))
+		);
+		this.$content.find("[data-forget-all]").on("click", () =>
+			frappe.confirm(__("Forget everything OneAI remembers about you?"), async () => redraw(await frappe.xcall(Settings.API + "forget_all")))
+		);
+	}
+
+	// A memory the reader writes or corrects: frappe's own controls, the
+	// record it is about being any the reader can open.
+	memory_dialog(one = null) {
+		const dialog = new frappe.ui.Dialog({
+			title: one ? __("Edit Memory") : __("Add a Memory"),
+			fields: [
+				{ fieldname: "fact", fieldtype: "Small Text", label: __("What OneAI Should Keep in Mind"), reqd: 1, default: one ? one.fact : "" },
+				{ fieldname: "about_doctype", fieldtype: "Link", options: "DocType", label: __("About a Record Of"), default: one ? one.about_doctype : "" },
+				{ fieldname: "about_name", fieldtype: "Dynamic Link", options: "about_doctype", label: __("Record"), depends_on: "about_doctype", default: one ? one.about_name : "" },
+			],
+			primary_action_label: one ? __("Save") : __("Add"),
+			primary_action: async (values) => {
+				const said = await frappe.xcall(Settings.API + "keep", { ...values, name: one ? one.name : null });
+				dialog.hide();
+				this.$content.empty();
+				this.draw_memory(said);
+			},
 		});
+		dialog.show();
 	}
 
 	// Every agreement: what you agreed to, what your organisation agreed to and

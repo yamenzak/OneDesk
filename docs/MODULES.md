@@ -196,7 +196,9 @@ No doctypes yet.
 * `onedesk.one.rules.watchable`
 * `onedesk.one.settings.delete_rule`
 * `onedesk.one.settings.forget`
+* `onedesk.one.settings.forget_all`
 * `onedesk.one.settings.invite`
+* `onedesk.one.settings.keep`
 * `onedesk.one.settings.load`
 * `onedesk.one.settings.preview_notification`
 * `onedesk.one.settings.save`

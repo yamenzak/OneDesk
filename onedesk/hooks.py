@@ -700,6 +700,7 @@ code_only_modules = {"One AI": ["One"], "One Legal": ["One"]}
 one_ai_reads = [
 	# How the person signs in, and where they are signed in. See one/signin.py.
 	"onedesk.one.ai.my_sign_in",
+	"onedesk.one.ai.my_memories",
 	# Documents by what they say, and what they are. See one_intake/search.py.
 	"onedesk.one_intake.search.find_documents",
 	"onedesk.one_hr.ai.my_leave",

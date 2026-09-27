@@ -106,6 +106,12 @@
 						</div>
 					</template>
 
+					<div v-for="kept in said.remembered || []" :key="kept.memory" class="one-ai-looked one-ai-kept">
+						<span class="one-ai-looked__dot"></span>
+						<span>{{ kept.undone ? __("Forgotten") : __("Remembered: {0}", [kept.fact]) }}</span>
+						<button v-if="!kept.undone" class="one-ai-kept__undo" @click="unremember(kept)">{{ __("Undo") }}</button>
+					</div>
+
 					<Record
 						v-for="name in said.cards"
 						:key="name"
@@ -481,7 +487,13 @@ function toModel() {
 const aimed = ref(null);
 
 function toMemory() {
-	frappe.set_route("List", "AI Memory");
+	frappe.set_route("settings", { section: "memory" });
+}
+
+// A memory kept in this conversation, forgotten from where it was said.
+async function unremember(kept) {
+	await frappe.xcall("onedesk.one.settings.forget", { name: kept.memory });
+	kept.undone = true;
 }
 
 function listen() {

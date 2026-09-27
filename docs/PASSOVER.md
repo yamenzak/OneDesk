@@ -130,7 +130,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, You | Mail | done |
 | Settings, You | Calendar | done |
 | Settings, You | Sign-in | done |
-| Settings, You | What OneAI Remembers | findings written, waiting on your word |
+| Settings, You | What OneAI Remembers | done |
 | Settings, You | Agreements | done |
 | Settings, Workspace | General | |
 | Settings, Workspace | People | |
@@ -555,6 +555,25 @@ changed yet.
    listed in the person's settings and can be deleted.
 9. **Built from frappe**: the list is ours; the dialog would be frappe's
    (Small Text, Link, Dynamic Link).
+
+Your word: all of them.
+
+Done:
+
+- When OneAI keeps or updates a memory, the conversation shows one quiet line,
+  "Remembered: …", with Undo (`one_ai/chat.py` `_remembered`, `Panel.vue`).
+  Undo forgets it and the line says "Forgotten".
+- **What Do You Know About Me?** on the page and as its suggestion, read by
+  `my_memories`: what it keeps and what the workspace told it.
+- A memory about a record links to it. **From Your Workspace** lists the
+  enabled `AI Knowledge` by title, read-only.
+- **Add a Memory** in the page head, and Edit beside Forget: one frappe dialog
+  (Small Text, Link DocType, Dynamic Link). A record the person cannot read is
+  refused. "kept 3 days ago" under each; **Forget Everything** when there is
+  more than one, asking first. The empty state is one quiet line.
+- The page redraws through `frappe.realtime` (`one_memory`, sent by the
+  `AI Memory` controller) when a memory changes in the panel or another tab.
+- `one/README.md` gains Settings › What OneAI Remembers.
 
 ### Agreements
 

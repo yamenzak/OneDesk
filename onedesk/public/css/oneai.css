@@ -231,6 +231,18 @@
 	color: var(--text-muted);
 }
 
+/* What OneAI kept this turn, said once, with Undo. */
+.one-ai-kept__undo {
+	margin-inline-start: 4px;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: var(--ink-gray-7);
+	font-size: inherit;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
 .one-ai-looked--refused {
 	color: var(--text-color);
 }

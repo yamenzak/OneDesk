@@ -485,11 +485,27 @@ def shown(turns: list[dict]) -> list[dict]:
 					for file in one.get("files") or []
 				],
 				"looked": looked,
+				# What it kept this turn: not drawn as a lookup, but said in one
+				# quiet line with Undo, so a person knows it kept anything at all.
+				"remembered": _remembered(one, answers.get(at) or []),
 				"cards": [card for card in (look["card"] for look in looked) if card]
 				+ list(one.get("cards") or []),
 			}
 		)
 	return said
+
+
+def _remembered(turn: dict, after: list[dict]) -> list[dict]:
+	"""The memories a model turn kept or changed, from its remember calls."""
+	kept = []
+	for n, call in enumerate(turn.get("calls") or []):
+		if call.get("tool") != "remember":
+			continue
+		answered = (_answering(call, after, n) or {}).get("result")
+		if isinstance(answered, dict) and answered.get("state") in ("remembered", "updated"):
+			if frappe.db.exists("AI Memory", answered.get("memory")):
+				kept.append({"memory": answered["memory"], "fact": answered.get("fact")})
+	return kept
 
 
 def _answering(call: dict, after: list[dict], n: int) -> dict | None:

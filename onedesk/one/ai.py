@@ -70,6 +70,16 @@ SUGGESTIONS = {
 			"expects": "my_notifications",
 		},
 	],
+	"page:settings/memory": [
+		{
+			"label": _lt("What do you know about me?"),
+			"ask": _lt(
+				"What do you know about me? Say what you remember from our conversations, and what my "
+				"workspace told you."
+			),
+			"expects": "my_memories",
+		},
+	],
 	"page:settings/signin": [
 		{
 			"label": _lt("Is my account safe?"),
@@ -189,6 +199,13 @@ def page(said: dict) -> str | None:
 			"from and what each signs with, and any that stopped connecting. my_mailboxes reads them, with "
 			"what a signature is made of; sign_mailbox suggests a signature as a card they approve. How it "
 			"works is in One's documentation under Settings › Mail (how_to)."
+		)
+	if said.get("section") == "memory":
+		return (
+			"The reader is on What OneAI Remembers in their own Settings: the facts you keep for them, each "
+			"with when and the record it is about, which they add, edit and forget there; and, to read only, "
+			"what the workspace's administrators wrote for everybody. my_memories reads both. How it works "
+			"is in One's documentation under Settings › What OneAI Remembers (how_to)."
 		)
 	if said.get("section") == "signin":
 		return (
@@ -634,6 +651,23 @@ def customize(
 		"state": "Proposed",
 		"next": "Tell them it changes the form for everybody once they approve it, and that Reset on the "
 		"Customize page takes it back.",
+	}
+
+
+def my_memories() -> dict:
+	"""Everything OneAI keeps for the person asking, with when and the record
+	each is about, and the titles of what the workspace's administrators wrote
+	for everybody. For "what do you know about me?"."""
+	from onedesk.one import settings
+
+	said = settings._memory()
+	return {
+		"remembered": [
+			{"fact": one.fact, "about": one.about_title, "kept": str(one.creation)} for one in said["facts"]
+		],
+		"workspace_told": said["knowledge"],
+		"next": "Say it plainly, in their words. They add, correct and forget memories on Settings › What "
+		"OneAI Remembers; what the workspace told you is its administrators' to change.",
 	}
 
 

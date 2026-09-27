@@ -549,6 +549,9 @@ def sign_out_elsewhere() -> int:
 
 
 def _memory() -> dict:
+	"""What OneAI keeps for the reader, with when and the record each is about,
+	and what the workspace's administrators wrote down for everybody, which
+	OneAI also uses and which the reader can read but not change."""
 	rows = frappe.get_all(
 		"AI Memory",
 		filters={"owner": frappe.session.user},
@@ -556,15 +559,75 @@ def _memory() -> dict:
 		order_by="creation desc",
 		limit=200,
 	)
-	return {"facts": rows}
+	for one in rows:
+		one["about_title"] = _title_of(one.about_doctype, one.about_name)
+	knowledge = frappe.get_all(
+		"AI Knowledge",
+		filters={"enabled": 1},
+		fields=["title", "applies_to"],
+		order_by="title asc",
+		ignore_permissions=True,
+	)
+	return {
+		"facts": rows,
+		"knowledge": [{"title": one.title, "applies_to": _(one.applies_to) if one.applies_to else None} for one in knowledge],
+	}
+
+
+def _title_of(doctype: str | None, name: str | None) -> str | None:
+	"""A record as a person reads it: its title, or its id where it has none."""
+	if not doctype or not name or not frappe.db.exists("DocType", doctype):
+		return None
+	field = frappe.get_meta(doctype).title_field
+	return (frappe.db.get_value(doctype, name, field) if field else None) or name
+
+
+def _mine(name: str):
+	"""One of the reader's own memories. Administrator is not held by the
+	doctype's if-owner rule, so the owner is checked here too."""
+	doc = frappe.get_doc("AI Memory", name)
+	if doc.owner != frappe.session.user:
+		frappe.throw(_("That is not one of your memories."), frappe.PermissionError)
+	return doc
+
+
+@frappe.whitelist(methods=["POST"])
+def keep(
+	fact: Annotated[str, "What OneAI should keep in mind."],
+	about_doctype: Annotated[str | None, "The type of record it is about."] = None,
+	about_name: Annotated[str | None, "That record."] = None,
+	name: Annotated[str | None, "The memory to change; empty for a new one."] = None,
+) -> dict:
+	"""A memory the reader adds or corrects themselves."""
+	said = " ".join((fact or "").split())[:500]
+	if not said:
+		frappe.throw(_("Say what OneAI should keep in mind."))
+	about = {"about_doctype": about_doctype or None, "about_name": about_name or None}
+	if about["about_doctype"] and about["about_name"] and not frappe.has_permission(about["about_doctype"], "read", doc=about["about_name"]):
+		frappe.throw(_("You cannot open that record."), frappe.PermissionError)
+	if name:
+		doc = _mine(name)
+		doc.update({"fact": said, **about})
+		doc.save()
+	else:
+		frappe.get_doc({"doctype": "AI Memory", "fact": said, **about}).insert()
+	return _memory()
 
 
 @frappe.whitelist(methods=["POST"])
 def forget(name: Annotated[str, "The AI Memory to forget."]) -> dict:
 	"""One thing OneAI remembers about the reader, forgotten."""
-	doc = frappe.get_doc("AI Memory", name)
+	doc = _mine(name)
 	doc.check_permission("delete")
 	doc.delete()
+	return _memory()
+
+
+@frappe.whitelist(methods=["POST"])
+def forget_all() -> dict:
+	"""Everything OneAI remembers about the reader, forgotten."""
+	for name in frappe.get_all("AI Memory", filters={"owner": frappe.session.user}, pluck="name"):
+		frappe.delete_doc("AI Memory", name)
 	return _memory()
 
 

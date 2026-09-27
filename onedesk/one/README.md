@@ -193,6 +193,24 @@ reset your password from the sign-in page and tell your administrator.
 the **Is My Account Safe?** button: it reads all of the above and says what
 to do.
 
+### What OneAI Remembers
+
+What OneAI keeps in mind when it helps you. Only you see it.
+
+- **Remembered** lists each fact, when it was kept, and the record it is
+  about, which opens. OneAI keeps a fact when you tell it to, or when you
+  tell it something lasting about yourself or your work; the conversation
+  says **Remembered** under its answer, with **Undo**.
+- **Add a Memory**, at the top right, is the same without asking OneAI: the
+  fact, and a record it is about if it is about one. **Edit** corrects one,
+  **Forget** deletes one, and **Forget Everything** deletes them all.
+- **From Your Workspace** lists what your workspace's
+  administrators wrote down for everybody, such as a policy or how things
+  are done here. OneAI uses it too; only they change it.
+
+**OneAI on this page** offers **What do you know about me?**, the same
+question as the **What Do You Know About Me?** button.
+
 ### Calendar
 
 A private link to your calendar, for seeing it in another calendar app:
