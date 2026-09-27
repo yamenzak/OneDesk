@@ -132,7 +132,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, You | Sign-in | done |
 | Settings, You | What OneAI Remembers | done |
 | Settings, You | Agreements | done |
-| Settings, Workspace | General | |
+| Settings, Workspace | General | findings written, waiting on your word |
 | Settings, Workspace | People | |
 | Settings, Workspace | Notifications | done (stages 2 and 5 of NOTIFICATIONS.md) |
 | Settings, Workspace | Plan and Credits | |
@@ -781,6 +781,52 @@ Stage 4 of `docs/NOTIFICATIONS.md`, on both Notifications screens.
    revision 2, so everybody is asked again: push is a new thing kept about a
    person, not a clarification. The push services are named, not listed as
    subprocessors, since they are the browser's own and never see content.
+
+### Workspace › General
+
+What the workspace was made with (name, company, country, currency, read
+only), then one stack of fields: Company Logo, Language, Time Zone, Date,
+Time and Number Format, First Day of the Week, and the Calendar Links switch.
+Saved to Company and System Settings.
+
+1. **Notifications**: nothing is sent, and nothing needs to be.
+2. **OneAI**: the panel does not know the screen: no page sentence, no
+   suggestion. Recommended: the sentence, and with 6c below, **Is signing in
+   here safe enough?**, read from the sign-in rules and how many people have
+   a second step.
+3. **Intake**: nothing here.
+4. **Permissions**: hold. Only Workspace Administrator opens the page, and
+   `load` and `save` call `roles.require()` first.
+5. **Cross-module**:
+   - The Company Logo only reaches printed invoices, quotes and orders
+     (erpnext's letter head). One itself keeps its own mark. Nothing on the
+     page says so. Recommended: say it under the field.
+   - Language and Time Zone are only the starting point for people who have
+     not set their own in Profile. Nothing says that either. Recommended: one
+     line under each.
+6. **UI and UX**:
+   - a. One long stack, the formats half-width and the switch full-width.
+     Recommended: three parts divided by a rule: **Company** (the facts and
+     the logo), **Region and Formats** (in two columns), **Calendar Links**.
+   - b. Nothing shows what a format looks like until it is saved.
+     Recommended: one quiet line under the formats that reads as the choices
+     do, "Today reads 27-09-2026 14:05, and a number 1,234.56", redrawn as
+     they change.
+   - c. The rules for signing in are nowhere an administrator can reach.
+     Sign-in tells a person "your workspace decides" two-factor, and the
+     passkey sign-in switch (`one_login_with_passkey`) is only in System
+     Settings' desk form. Recommended: a **Signing In** part here, from
+     System Settings' own fields: two-factor and its method, Login with
+     Passkey, how long a session lasts, and the password strength rule.
+   - d. It does not save against `modified` or hear `doc_update`: two
+     administrators overwrite each other without a word. Recommended: the
+     section returns `opened` for System Settings and Company, and saves
+     through `_as_opened`, as Profile does.
+7. **Documented**: no section in `one/README.md`. Recommended: **General,
+   for the Workspace**.
+8. **Legal**: holds. Nothing here reaches another company.
+9. **Built from frappe**: holds. The fields are System Settings' and
+   Company's own, drawn by frappe's FieldGroup.
 
 ### Workspace › Notifications
 
