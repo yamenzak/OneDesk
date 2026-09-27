@@ -135,7 +135,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, Workspace | General | done |
 | Settings, Workspace | People | done |
 | Settings, Workspace | Notifications | done (stages 2 and 5 of NOTIFICATIONS.md) |
-| Settings, Workspace | Plan and Credits | |
+| Settings, Workspace | Plan and Credits | findings written, waiting on your word |
 | Settings, Workspace | Domains | |
 | Settings, Workspace | OneAI | |
 | Settings, Workspace | OneIntake | |
@@ -1117,6 +1117,87 @@ screens are whole before the passover comes back to them.
    three kinds.
 8. **Legal**: nothing new. Nothing is sent to anybody new or through anybody
    new; only which door it goes through changed.
+
+### Workspace › Plan and Credits
+
+Two sections drawn from the `Workspace Account` copy (`account.refresh`,
+nightly): Plan (plan, status, seats, a storage bar) and OneAI Credits
+(balance, what expires when, OneIntake's line for the month), then Buy
+Credits (a dialog of packs, then Stripe in a new tab) and See What Used Them
+(the AI Credits report). The same record also has its own desk form,
+`/desk/workspace-account`, with a Record Head and its own Buy credits.
+
+1. **Notifications**: nothing about the account is ever sent. Nobody is
+   told credits are running out, that 5,000 expire in three days, that a
+   pack they paid for has arrived, that storage is at 84%, or that payment
+   is overdue and the workspace is suspended in N days. Recommended, in
+   `one/notifications.py`, to administrators, sent from `refresh` by
+   comparing what it held with what it heard:
+   - **Credits Running Low**, on the bell and mailed, when the balance
+     falls under a tenth of the last thirty days' use.
+   - **Credits Expiring**, on the bell, seven days before.
+   - **Credits Added**, on the bell, when the balance rises by a pack.
+   - **Storage Nearly Full**, on the bell and mailed, at 90%.
+   - **Payment Overdue**, always mailed, with the days left.
+2. **OneAI**: the panel does not know the screen. Recommended: the page
+   sentence; **How long will our credits last?** and **What used the most
+   credits this month?**, read by a new `workspace_plan` (administrators
+   only): plan, seats, storage, balance, held, expiring, and the last
+   thirty days' use by model and person (the same `ai_usage` ask the report
+   makes; no AI call).
+3. **Intake**: "OneAI handled 26 of 39 documents this month" is OneIntake's
+   and is already on the OneIntake page. Here it answers nothing about
+   credits. Recommended: take it off.
+4. **Permissions**:
+   - The page and Buy ask `roles.require()`, and hold.
+   - `Workspace Account` gives read to **All**, so every desk user can
+     open `/desk/workspace-account` and read the balance, what is owed and
+     the last error; `account.mine` hands the same to anyone and nothing
+     calls it. Recommended: read for administrators only; delete `mine`.
+5. **Cross-module**:
+   - The OneAI rail's **Credits** and See What Used Them are the same
+     report. Fine, but the report is where the numbers are.
+   - Seats do not link to People, and the storage bar does not lead to
+     OneCloud. Recommended: "6 of 10 used" opens People; storage opens
+     OneCloud's Home, sorted by size.
+   - Two screens for one record. Recommended: `/desk/workspace-account`
+     sends administrators here, as the Customize form's own page does.
+6. **UI and UX**:
+   - a. Buy Credits is a button in the body. Recommended: the page head's
+     primary action; See What Used Them its secondary.
+   - b. A workspace days from suspension sees nothing: `account_said`
+     (the overdue sentence, or "could not reach your account") is only on
+     the desk form. Recommended: drawn as a record (`Editor.as_record`):
+     the standing badge (heads.py's "Active", "Payment overdue") and the
+     sentence at the top, the plan in the side.
+   - c. Status says "Live", the admin's word. Recommended: heads.py's
+     word.
+   - d. Days Left is a bare number. Recommended: only in the overdue
+     sentence.
+   - e. Held credits are not shown, so a balance that looks fine while
+     calls are refused says nothing. Recommended: "Held" under Credits,
+     when there is some.
+   - f. The page never says how old its numbers are, and a pack paid for
+     shows up tomorrow. Recommended: "As of 10:42", **Check Again** (a
+     `refresh`), and a refresh when the page is opened and older than an
+     hour.
+   - g. The storage bar is black at 84%. Recommended: frappe-ui's
+     Progress, amber from 90%, red over.
+   - h. The pack Select says only the pack's label. Recommended: "5,000
+     credits · $50" per pack.
+   - i. "OneAI  Credits" has a double space where the brand splits the
+     word.
+7. **Documented**: no section in `one/README.md`. Recommended: **Plan and
+   Credits, for the Workspace**: what each number is, where credits go
+   first, how to buy, what expires.
+8. **Legal**: the terms say credits are bought ahead and not refunded, but
+   not that they expire, that the plan's monthly credits do not roll over,
+   or that the soonest-expiring are used first (`topup.py`). Recommended:
+   say so in the terms' `credits` clause, and bump the terms' revision
+   (material). Stripe is already a subprocessor in `one_admin/legal.py`.
+9. **Built from frappe**: the dialog is frappe's; the bar is espresso's
+   `frappe.ui.progress` (6g); the facts are a hand-drawn list, which 6b
+   replaces with the record view's own parts.
 
 ## OneLegal
 
