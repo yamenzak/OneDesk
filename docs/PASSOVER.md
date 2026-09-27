@@ -573,6 +573,10 @@ Done:
   more than one, asking first. The empty state is one quiet line.
 - The page redraws through `frappe.realtime` (`one_memory`, sent by the
   `AI Memory` controller) when a memory changes in the panel or another tab.
+- Your word after seeing it with many: too cluttered. Both lists are now
+  frappe's `EmbeddedList` (the table DocType Settings uses): one line each
+  with Memory, About and Kept, a row opens the Edit dialog, the bin shows on
+  the row under the pointer, and Search appears past five.
 - `one/README.md` gains Settings › What OneAI Remembers.
 
 ### Agreements

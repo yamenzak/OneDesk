@@ -374,3 +374,14 @@
 	width: 12px;
 	height: 12px;
 }
+
+/* What OneAI Remembers: a row's Forget shows on the row the pointer is on,
+   so a long list is not a column of red bins. Touch keeps it visible. */
+@media (hover: hover) {
+	.os-memories .embedded-list-table tbody tr:not(:hover) .embedded-list-actions .es-button {
+		opacity: 0;
+	}
+}
+.os-memories .embedded-list-table td a:hover {
+	text-decoration: underline;
+}

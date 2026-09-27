@@ -548,69 +548,86 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 
 	// What OneAI keeps for the reader, which they add, correct and forget
 	// here as much as in a conversation; and, to read only, what the
-	// workspace's administrators told OneAI for everybody.
-	draw_memory(data) {
+	// workspace's administrators told OneAI for everybody. Both are frappe's
+	// EmbeddedList: one line each, searchable once there are many, a row
+	// opening the memory as a list row opens its record.
+	async draw_memory(data) {
 		const esc = frappe.utils.escape_html;
 		const know = onedesk.oneai.button(
 			__("What Do You Know About Me?"),
 			__("What do you know about me? Say what you remember from our conversations, and what my workspace told you.")
 		);
 		const facts = data.facts || [];
-		const rows = facts
-			.map((one) => {
-				const about = one.about_doctype
-					? `<a href="${frappe.utils.get_form_link(one.about_doctype, one.about_name)}">${esc(one.about_title || one.about_name)}</a> · `
-					: "";
-				return `<div class="one-shell-row">
-					<div class="one-shell-row-main"><div>${esc(one.fact || "")}</div>
-						<div class="one-shell-row-sub one-shell-quiet">${about}${esc(__("kept {0}", [frappe.datetime.prettyDate(one.creation)]))}</div></div>
-					<div class="one-shell-row-actions">${onedesk.shell.button(__("Edit"), { "data-edit": one.name }, "ghost", "pencil")}${onedesk.shell.button(
-						__("Forget"),
-						{ "data-forget": one.name },
-						"ghost",
-						"trash-2"
-					)}</div>
-				</div>`;
-			})
-			.join("");
-		const told = (data.knowledge || [])
-			.map((one) => `<div class="one-shell-row"><div class="one-shell-row-main"><div>${esc(one.title)}</div>${
-				one.applies_to ? `<div class="one-shell-row-sub one-shell-quiet">${esc(__("On {0}", [one.applies_to]))}</div>` : ""
-			}</div></div>`)
-			.join("");
+		const knowledge = data.knowledge || [];
 		this.$content.html(
 			`<div class="one-shell-section"><div class="os-notify-intro"><div class="one-shell-quiet">${esc(
 				__("What OneAI keeps in mind when it helps you. Only you see it, and you can change or forget any of it.")
-			)}</div>${know}</div></div>` +
-				onedesk.shell.section(
-					__("Remembered"),
-					(rows || `<div class="one-shell-quiet">${esc(__("Nothing yet. Tell OneAI to remember something, or add it here."))}</div>`) +
-						(facts.length > 1
-							? `<div class="one-shell-actions">${onedesk.shell.button(__("Forget Everything"), { "data-forget-all": "1" }, "ghost", "trash-2", "red")}</div>`
-							: "")
-				) +
-				(told
-					? onedesk.shell.section(
-							__("From Your Workspace"),
-							told,
-							__("Written by your workspace's administrators for everybody. OneAI uses it when it helps you; they change it.")
-					  )
-					: "")
+			)}</div>${know}</div></div>
+			<div class="one-shell-section os-memories" data-list="remembered"></div>
+			${knowledge.length ? '<div class="one-shell-section" data-list="workspace"></div>' : ""}`
 		);
 		this.page.set_primary_action(__("Add a Memory"), () => this.memory_dialog(), "plus");
 		const redraw = (said) => {
 			this.$content.empty();
 			this.draw_memory(said);
 		};
-		this.$content.find("[data-edit]").on("click", (event) =>
-			this.memory_dialog(facts.find((one) => one.name === $(event.currentTarget).attr("data-edit")))
-		);
-		this.$content.find("[data-forget]").on("click", async (event) =>
-			redraw(await frappe.xcall(Settings.API + "forget", { name: $(event.currentTarget).attr("data-forget") }))
-		);
-		this.$content.find("[data-forget-all]").on("click", () =>
-			frappe.confirm(__("Forget everything OneAI remembers about you?"), async () => redraw(await frappe.xcall(Settings.API + "forget_all")))
-		);
+		await frappe.require("embedded_list.bundle.js");
+		const remembered = new frappe.ui.EmbeddedList({
+			wrapper: this.$content.find('[data-list="remembered"]'),
+			title: esc(__("Remembered")),
+			description: esc(__("Click one to change it.")),
+			show_search: facts.length > 5,
+			empty_icon: "brain",
+			empty_message: __("Nothing yet. Tell OneAI to remember something, or add it here."),
+			no_match_message: __("No memory says that."),
+			get_data: () => Promise.resolve(facts),
+			on_row_click: (one) => this.memory_dialog(one),
+			columns: [
+				{ label: __("Memory"), fieldname: "fact" },
+				{
+					label: __("About"),
+					render: (one) =>
+						one.about_doctype
+							? `<a href="${frappe.utils.get_form_link(one.about_doctype, one.about_name)}" onclick="event.stopPropagation();">${esc(one.about_title || one.about_name)}</a>`
+							: "",
+				},
+				{ label: __("Kept"), render: (one) => `<span class="one-shell-quiet">${esc(frappe.datetime.prettyDate(one.creation))}</span>` },
+				{
+					type: "actions",
+					actions: [
+						{
+							label: __("Forget"),
+							icon: "trash-2",
+							danger: true,
+							action: async (one) => redraw(await frappe.xcall(Settings.API + "forget", { name: one.name })),
+						},
+					],
+				},
+			],
+		});
+		remembered.refresh();
+		// Everything at once is the header's quiet second action, asking first.
+		if (facts.length > 1) {
+			remembered.$header.find(".embedded-list-header-actions").append(
+				frappe.ui.button.html({ label: __("Forget Everything"), variant: "ghost", theme: "red", attrs: { "data-forget-all": "1" } })
+			);
+			remembered.$header.find("[data-forget-all]").on("click", () =>
+				frappe.confirm(__("Forget everything OneAI remembers about you?"), async () => redraw(await frappe.xcall(Settings.API + "forget_all")))
+			);
+		}
+		if (knowledge.length) {
+			new frappe.ui.EmbeddedList({
+				wrapper: this.$content.find('[data-list="workspace"]'),
+				title: esc(__("From Your Workspace")),
+				description: esc(__("Written by your workspace's administrators for everybody. OneAI uses it when it helps you; they change it.")),
+				show_search: knowledge.length > 5,
+				get_data: () => Promise.resolve(knowledge),
+				columns: [
+					{ label: __("Title"), fieldname: "title" },
+					{ label: __("Used On"), render: (one) => esc(one.applies_to || __("Everything")) },
+				],
+			}).refresh();
+		}
 	}
 
 	// A memory the reader writes or corrects: frappe's own controls, the

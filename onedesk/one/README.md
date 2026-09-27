@@ -202,8 +202,9 @@ What OneAI keeps in mind when it helps you. Only you see it.
   tell it something lasting about yourself or your work; the conversation
   says **Remembered** under its answer, with **Undo**.
 - **Add a Memory**, at the top right, is the same without asking OneAI: the
-  fact, and a record it is about if it is about one. **Edit** corrects one,
-  **Forget** deletes one, and **Forget Everything** deletes them all.
+  fact, and a record it is about if it is about one. Click a memory to
+  correct it; the bin at the end of its row forgets it, and **Forget
+  Everything** forgets them all. With more than five, **Search** finds one.
 - **From Your Workspace** lists what your workspace's
   administrators wrote down for everybody, such as a policy or how things
   are done here. OneAI uses it too; only they change it.
