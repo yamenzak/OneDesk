@@ -125,7 +125,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 
 | Area | Screen | State |
 |---|---|---|
-| Settings, You | Profile | done |
+| Settings, You | Profile | second pass: findings written, waiting on your word |
 | Settings, You | Notifications | done (stage 3 of NOTIFICATIONS.md; push is stage 4) |
 | Settings, You | Mail | done |
 | Settings, You | Calendar | |
@@ -257,6 +257,36 @@ Every settings screen, from the first commit of the pass:
      category of personal data, and an emergency contact is personal data
      about somebody who is not a user. The organisation decides whether to
      collect them and needs a lawful basis to.
+
+#### Profile, second pass
+
+Against what the pass learned since: the OneAI tag and button, one action in
+the page head, product names, and UX. Nothing is changed yet.
+
+1. **Notifications**: the question left open is worth a yes. HR relies on an
+   emergency contact and an address being right, and learns of a change only
+   by opening the record. Recommended: one notice to HR when a person
+   changes their addresses or emergency contact, saying what changed.
+2. **OneAI**: the panel offers its two suggestions, but nothing on the page
+   says OneAI can help. Recommended: a OneAI button under the name, **Check
+   My Profile**, asking the existing "What is missing?" question; and one
+   under Bio, **Write It With OneAI**, as records have on a prose field.
+3. **Intake**: still nothing; a proof of address offering to update the
+   address stays a later idea.
+4. **Permissions**: hold as the first pass left them.
+5. **Cross-module**: nothing new.
+6. **UI and UX**:
+   - An emergency contact can be half filled: this one has a relation
+     (Sister) and no name or phone, and saves without a word. Recommended:
+     once any of the three is filled, a name and a phone are asked for.
+   - The photo's placeholder shows "S" where the rail shows "SA".
+     Recommended: both initials, as frappe's own avatar gives them.
+   - "Mobile No" is frappe's label. Recommended: "Mobile".
+   - Save is in the head, the page's one action. Nothing to change.
+7. **Documented**: the Profile section of `one/README.md` gains whatever of
+   the above is done.
+8. **Legal**: nothing new.
+9. **Built from frappe**: nothing new.
 
 ### Mail
 
