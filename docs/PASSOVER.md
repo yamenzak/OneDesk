@@ -133,7 +133,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, You | What OneAI Remembers | done |
 | Settings, You | Agreements | done |
 | Settings, Workspace | General | done |
-| Settings, Workspace | People | |
+| Settings, Workspace | People | findings written, waiting on your word |
 | Settings, Workspace | Notifications | done (stages 2 and 5 of NOTIFICATIONS.md) |
 | Settings, Workspace | Plan and Credits | |
 | Settings, Workspace | Domains | |
@@ -865,6 +865,62 @@ Done:
   what is the operator's (backups, scheduler, telemetry, API logging, app
   name), what is OneBook's (precision, rounding) or OneCloud's (upload size
   and types), and "disable password login", which can lock everybody out.
+
+### Workspace › People
+
+Everybody on the workspace in one grid: a row per person with five
+dropdowns (OneCRM, OneBook, OneInventory, OneProject, OneHR: None, User,
+Manager), an Administrator tick and Turn Off. Seats above, Invite beside
+them. Each change saves at once through `set_access`, `set_admin`,
+`set_enabled`; Invite makes a User and sends frappe's welcome mail.
+
+1. **Notifications**: only the welcome mail. A person is not told when
+   they are given an app or made an administrator, and nobody is told when
+   somebody becomes an administrator, which is how a taken account widens
+   itself. Recommended: **Access Changed** to the person, on the bell
+   ("You can now use OneCRM as a manager"); **Administrator Added** to every
+   administrator, always mailed, like Password Changed.
+2. **OneAI**: the panel does not know the screen. Recommended: the page
+   sentence, and **Who has access to what?** and **Who has not signed in
+   lately?**, read by a new `workspace_people` (administrators only):
+   access, administrators, last active, turned off.
+3. **Intake**: nothing here.
+4. **Permissions**: hold. Every call asks `roles.require()`; nobody turns
+   themselves off or removes the last administrator; a seat is checked
+   before turning somebody on or inviting.
+5. **Cross-module**:
+   - Whether a person is an employee in OneHR is not shown. Recommended:
+     their Employee, linked, when they have one.
+   - An administrator cannot see where somebody is signed in or sign them
+     out: offboarding means Turn Off and hoping. Recommended: in the
+     person's dialog (6b), their devices and last sign-ins from
+     `signin.py`, **Sign Out Everywhere**, and **Send a Password Reset**
+     (frappe's own reset mail).
+6. **UI and UX**:
+   - a. A wall of thirty "None" dropdowns, a bare checkbox and a Turn Off
+     on every row; the app icons sit apart from their names. Recommended:
+     frappe's `EmbeddedList`, as What OneAI Remembers now is: Person (photo,
+     name, address), Apps (a badge per app they have, "OneCRM · Manager"),
+     Administrator, Last Active, and an Off badge; search built in.
+   - b. Recommended: a row opens the person in a frappe Dialog: a Select
+     per app, an Administrator switch, and Turn Off / Turn On, Sign Out
+     Everywhere and Send a Password Reset in its footer. Saved together,
+     against the User's `modified`.
+   - c. Invite is a button inside the page. Recommended: **Invite
+     Somebody** is the page head's primary action, and its dialog also
+     asks which apps they get, so nobody needs a second step.
+   - d. Turning somebody off asks nothing. Recommended: ask first, and say
+     their records stay.
+   - e. The seats badge floats alone. Recommended: one quiet line under
+     the intro, "6 of 10 seats used".
+7. **Documented**: no section in `one/README.md`. Recommended: **People,
+   for the Workspace**.
+8. **Legal**: with 5b, administrators see where people sign in from. The
+   privacy notice must say so. Recommended: a `clause()` in `one/legal.py`,
+   "Your workspace's administrators can see where you are signed in and
+   your last sign-ins, and can sign you out."
+9. **Built from frappe**: the dropdowns are a raw `<select>` and the tick a
+   raw checkbox, not frappe's controls. 6a and 6b replace both.
 
 ### Workspace › Notifications
 
