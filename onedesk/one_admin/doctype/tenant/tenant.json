@@ -32,8 +32,16 @@
   "offering",
   "stripe_customer",
   "stripe_subscription",
+  "add_ons",
   "column_break_billing",
   "archived_backup",
+  "limits_section",
+  "seats",
+  "press_plan",
+  "credits_a_month",
+  "column_break_limits",
+  "database_bytes",
+  "database_limit",
   "storage_section",
   "storage_said",
   "storage_bytes",
@@ -200,6 +208,14 @@
    "read_only": 1
   },
   {
+   "fieldname": "add_ons",
+   "fieldtype": "Table",
+   "options": "Tenant Add-on",
+   "label": "Add-ons",
+   "read_only": 1,
+   "description": "What was added to the plan. Changed from the workspace, through Stripe."
+  },
+  {
    "fieldname": "column_break_billing",
    "fieldtype": "Column Break"
   },
@@ -209,6 +225,53 @@
    "label": "Backup Before Archive",
    "read_only": 1,
    "description": "Name of the offsite backup Frappe Cloud held when the site was archived."
+  },
+  {
+   "fieldname": "limits_section",
+   "fieldtype": "Section Break",
+   "label": "Limits"
+  },
+  {
+   "default": "0",
+   "fieldname": "seats",
+   "fieldtype": "Int",
+   "label": "Seats",
+   "read_only": 1,
+   "description": "The plan's and the add-ons'. Zero means no limit."
+  },
+  {
+   "fieldname": "press_plan",
+   "fieldtype": "Data",
+   "label": "Frappe Cloud Plan",
+   "read_only": 1,
+   "description": "The site plan asked of Frappe Cloud for the database limit."
+  },
+  {
+   "default": "0",
+   "fieldname": "credits_a_month",
+   "fieldtype": "Int",
+   "label": "Credits a Month",
+   "read_only": 1,
+   "description": "Granted at the start of each month. The plan's and the add-ons'."
+  },
+  {
+   "fieldname": "column_break_limits",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "database_bytes",
+   "fieldtype": "Long Int",
+   "label": "Database Used",
+   "read_only": 1,
+   "description": "As the workspace last measured it."
+  },
+  {
+   "default": "0",
+   "fieldname": "database_limit",
+   "fieldtype": "Long Int",
+   "label": "Database Limit",
+   "read_only": 1
   },
   {
    "fieldname": "storage_section",
@@ -260,7 +323,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-22 13:00:00.000000",
+ "modified": "2026-09-27 14:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Tenant",

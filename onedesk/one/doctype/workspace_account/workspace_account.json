@@ -12,6 +12,10 @@
   "domain",
   "plan",
   "seats",
+  "database_bytes",
+  "database_limit",
+  "plan_key",
+  "add_ons",
   "storage_bytes",
   "storage_limit",
   "where_section",
@@ -134,6 +138,34 @@
    "description": "Zero means unlimited."
   },
   {
+   "default": "0",
+   "fieldname": "database_bytes",
+   "fieldtype": "Long Int",
+   "label": "Database Used",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "database_limit",
+   "fieldtype": "Long Int",
+   "label": "Database Limit",
+   "read_only": 1
+  },
+  {
+   "fieldname": "plan_key",
+   "fieldtype": "Data",
+   "label": "Plan Key",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "add_ons",
+   "fieldtype": "Table",
+   "options": "Workspace Add-on",
+   "label": "Add-ons",
+   "read_only": 1
+  },
+  {
    "fieldname": "credits_section",
    "fieldtype": "Section Break",
    "label": "Credits"
@@ -220,7 +252,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-09-27 12:00:00.000000",
+ "modified": "2026-09-27 14:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "Workspace Account",

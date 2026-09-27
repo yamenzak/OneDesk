@@ -89,7 +89,7 @@ def refresh() -> dict:
 	held = frappe.get_single("Workspace Account")
 	before = held.as_dict()
 	try:
-		said = ask("onedesk.one_admin.proxy.hello") or {}
+		said = ask("onedesk.one_admin.proxy.hello", database_bytes=database_bytes()) or {}
 	except faults.Refused as refused:
 		held.db_set("last_error", str(refused)[: faults.KEPT])
 		return held.as_dict()
@@ -106,6 +106,9 @@ def refresh() -> dict:
 			"cluster": said.get("cluster"),
 			"plan": said.get("plan"),
 			"seats": said.get("seats") or 0,
+			"plan_key": said.get("plan_key"),
+			"database_bytes": said.get("database_bytes") or 0,
+			"database_limit": said.get("database_limit") or 0,
 			"storage_bytes": said.get("storage_bytes") or 0,
 			"storage_limit": said.get("storage_limit") or 0,
 			"credits_balance": credits.get("balance") or 0,
@@ -120,7 +123,7 @@ def refresh() -> dict:
 			"last_error": None,
 		}
 	)
-	_keep(held, said.get("domains"))
+	_keep(held, said.get("domains"), said.get("add_ons"))
 	_tell(before, held)
 	return held.as_dict()
 
@@ -181,6 +184,15 @@ def _tell(before, after) -> None:
 		notify.notify("Storage Nearly Full", people, **told, **slots)
 		for email, lang in _addresses(people):
 			notify.mail("Storage Nearly Full", email, lang=lang, **slots)
+
+	limit = flt(after.database_limit)
+	if limit and flt(before.get("database_bytes")) < limit * NEARLY_FULL <= flt(after.database_bytes):
+		from onedesk.one.heads import size
+
+		slots = {"used": size(after.database_bytes), "limit": size(limit)}
+		notify.notify("Database Nearly Full", people, **told, **slots)
+		for email, lang in _addresses(people):
+			notify.mail("Database Nearly Full", email, lang=lang, **slots)
 
 	if after.owing and after.next_status and after.days_left is not None:
 		on = formatdate(add_days(today(), after.days_left))
@@ -283,7 +295,16 @@ def check_again() -> dict:
 	return {"ok": True}
 
 
-def _keep(held, rows) -> None:
+def database_bytes() -> int:
+	"""How big this workspace's database is, as MariaDB says: its tables and
+	their indexes. Frappe reports it in MB."""
+	try:
+		return int(float(frappe.db.get_database_size() or 0) * 1024 * 1024)
+	except Exception:
+		return 0
+
+
+def _keep(held, rows, add_ons=None) -> None:
 	"""Write down the addresses the administrator listed.
 
 	A copy, so the screen draws without a round trip and keeps drawing through
@@ -292,6 +313,21 @@ def _keep(held, rows) -> None:
 	already written stay rather than being cleared, because an absent answer is
 	not an answer of nothing.
 	"""
+	if add_ons is not None:
+		held.set(
+			"add_ons",
+			[
+				{
+					"offering": one.get("offering"),
+					"label": one.get("label"),
+					"quantity": one.get("quantity") or 1,
+					"amount": one.get("amount") or 0,
+				}
+				for one in add_ons
+			],
+		)
+		if rows is None:
+			held.save(ignore_permissions=True)
 	if rows is None:
 		return
 	held.set(

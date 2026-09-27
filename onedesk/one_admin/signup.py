@@ -107,6 +107,9 @@ def _tenant_for(asked) -> str:
 			# so 1024³ quietly gave them 26.8 GB and made the screen say 27 for
 			# a plan called 25. Found by putting a progress bar next to it.
 			"storage_limit": (sold.storage_gb or 0) * 1000 * 1000 * 1000,
+			"database_limit": (sold.database_gb or 0) * 1000 * 1000 * 1000,
+			"seats": sold.seats or 0,
+			"credits_a_month": sold.credits_a_month or 0,
 		}
 	).insert(ignore_permissions=True)
 	return asked.slug

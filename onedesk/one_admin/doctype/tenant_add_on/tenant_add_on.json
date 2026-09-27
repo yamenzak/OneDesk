@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-09-27 14:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "offering",
+  "quantity",
+  "stripe_item"
+ ],
+ "fields": [
+  {
+   "fieldname": "offering",
+   "fieldtype": "Link",
+   "options": "Offering",
+   "label": "Add-on",
+   "in_list_view": 1,
+   "reqd": 1,
+   "read_only": 1,
+   "columns": 4
+  },
+  {
+   "default": "1",
+   "fieldname": "quantity",
+   "fieldtype": "Int",
+   "label": "Quantity",
+   "in_list_view": 1,
+   "read_only": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "stripe_item",
+   "fieldtype": "Data",
+   "label": "Stripe Item",
+   "read_only": 1,
+   "in_list_view": 1,
+   "columns": 3,
+   "description": "The subscription item Stripe bills it on."
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-09-27 14:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Admin",
+ "name": "Tenant Add-on",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "idx",
+ "sort_order": "ASC",
+ "states": []
+}

@@ -125,6 +125,19 @@ TYPES = [
 		"always_mailed": True,
 	},
 	{
+		"name": _lt("Database Nearly Full"),
+		"app": "One",
+		"about": _lt("When the workspace's database takes nine tenths of what its plan allows."),
+		"to": _lt("Every administrator"),
+		"subject": _lt("The database is nearly full"),
+		"message": _lt(
+			"The workspace's database takes {used} of the {limit} its plan allows. Add database or move to a "
+			"bigger plan on Workspace › Plan and Credits before it is full."
+		),
+		"email": False,
+		"always_mailed": True,
+	},
+	{
 		"name": _lt("Payment Overdue"),
 		"app": "One",
 		"about": _lt("When payment for the workspace is overdue, with the day it will be suspended."),

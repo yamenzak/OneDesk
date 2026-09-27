@@ -1202,14 +1202,17 @@ def _plan() -> dict:
 		"account": {
 			key: held.get(key)
 			for key in (
-				"workspace_name", "plan", "seats", "storage_bytes", "storage_limit", "credits_balance", "credits_held",
-				"credits_month", "credits_expiring", "credits_expires_on", "last_heard",
+				"workspace_name", "plan", "plan_key", "seats", "storage_bytes", "storage_limit", "database_bytes",
+				"database_limit", "credits_balance", "credits_held", "credits_month", "credits_expiring",
+				"credits_expires_on", "last_heard",
 			)
 		},
 		"used": frappe.db.count("User", {"user_type": "System User", "enabled": 1, "name": ["not in", NOT_PEOPLE]}),
 		"state": heads.account_state(held),
 		"said": heads.account_said(held),
 		"storage": {"used": heads.size(held.storage_bytes), "limit": heads.size(held.storage_limit)},
+		"database": {"used": heads.size(held.database_bytes), "limit": heads.size(held.database_limit)},
+		"add_ons": [{"offering": one.offering, "label": one.label, "quantity": one.quantity, "amount": one.amount} for one in held.add_ons],
 		"ledger": account.ledger() if account.configured() else None,
 		"ledger_days": account.LEDGER_DAYS,
 	}

@@ -27,6 +27,7 @@ import hmac
 
 import frappe
 from frappe.rate_limiter import rate_limit
+from frappe.utils import cint
 
 from onedesk.one_admin import faults, site
 
@@ -111,8 +112,13 @@ def _refuse():
 
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
-def hello() -> dict:
+def hello(database_bytes: int | None = None) -> dict:
 	"""Who this workspace is and what it is allowed, in one call.
+
+	`database_bytes` is the workspace's own measure of its database, sent
+	along because the workspace can read it and admin cannot. It is shown
+	and warned about, never billed: the limit itself is Frappe Cloud's
+	(quota.move), which measures for itself.
 
 	The tenant caches the answer in its own `Workspace Account`, so a screen
 	showing a plan or a quota draws without a round trip and keeps drawing
@@ -130,10 +136,15 @@ def hello() -> dict:
 	about to be suspended is a workspace that will not ask.
 	"""
 	tenant = caller()
+	if database_bytes is not None:
+		frappe.db.set_value("Tenant", tenant.name, "database_bytes", cint(database_bytes), update_modified=False)
 	known = frappe.db.get_value(
 		"Tenant",
 		tenant.name,
 		[
+			"seats",
+			"database_bytes",
+			"database_limit",
 			"workspace_name",
 			"domain",
 			"primary_domain",
@@ -164,7 +175,11 @@ def hello() -> dict:
 		"cluster": known.cluster,
 		"live_on": str(known.live_on) if known.live_on else None,
 		"plan": plan.label if plan else None,
-		"seats": plan.seats if plan else None,
+		"seats": known.seats or (plan.seats if plan else None),
+		"plan_key": known.offering,
+		"database_bytes": known.database_bytes or 0,
+		"database_limit": known.database_limit or 0,
+		"add_ons": _add_ons(tenant.name),
 		"storage_bytes": known.storage_bytes or 0,
 		"storage_limit": known.storage_limit or 0,
 		# A sum over the ledger rather than a number anybody stored, which is
@@ -252,6 +267,31 @@ def buy_credits(pack: str) -> dict:
 	from onedesk.one_admin import topup
 
 	return topup.buy(caller().name, pack)
+
+
+def _add_ons(tenant: str) -> list[dict]:
+	"""What is on the workspace's plan, as it shows them."""
+	rows = frappe.get_all(
+		"Tenant Add-on",
+		filters={"parent": tenant, "parenttype": "Tenant"},
+		fields=["offering", "quantity"],
+		order_by="idx",
+	)
+	sold = {
+		one.name: one
+		for one in frappe.get_all(
+			"Offering", filters={"name": ["in", [one.offering for one in rows] or [""]]}, fields=["name", "label", "amount"]
+		)
+	}
+	return [
+		{
+			"offering": one.offering,
+			"label": (sold.get(one.offering) or {}).get("label") or one.offering,
+			"quantity": one.quantity or 1,
+			"amount": (sold.get(one.offering) or {}).get("amount") or 0,
+		}
+		for one in rows
+	]
 
 
 def _used_lately(tenant: str) -> float:

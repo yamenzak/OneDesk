@@ -15,7 +15,8 @@
 | Record Head Linked | 5 | child |
 | Record Head Sentence | 5 | child |
 | Record Head Verb | 4 | child |
-| Workspace Account | 29 | single |
+| Workspace Account | 33 | single |
+| Workspace Add-on | 4 | child |
 | Workspace Customization | 5 | document |
 | Workspace Domain | 4 | child |
 
@@ -59,7 +60,8 @@ No doctypes yet.
 | One Admin Settings | 49 | single |
 | Provisioning Job | 12 | document |
 | Stripe Webhook Event | 7 | document |
-| Tenant | 33 | document |
+| Tenant | 41 | document |
+| Tenant Add-on | 3 | child |
 | Tenant Domain | 7 | document |
 | Tenant Event | 4 | document |
 
