@@ -52,7 +52,7 @@ msgid "One Mail"
 msgstr "OneMail"
 
 msgid "One Intake"
-msgstr "Intake"
+msgstr "OneIntake"
 
 msgid "One Legal"
 msgstr "OneLegal"

@@ -43,7 +43,7 @@ SECTIONS = [
 	("plan", _lt("Plan and Credits"), "credit-card", "workspace"),
 	("domains", _lt("Domains"), "globe", "workspace"),
 	("oneai", _lt("OneAI"), "sparkles", "workspace"),
-	("intake", _lt("Intake"), "inbox", "workspace"),
+	("intake", _lt("OneIntake"), "inbox", "workspace"),
 	("holidays", _lt("Holidays"), "calendar-days", "workspace"),
 ]
 
@@ -452,10 +452,27 @@ def _notifications() -> dict:
 		"fields": fields,
 		"values": values,
 		# Product names are names; the workspace's own rules are "Rules", in the reader's words.
-		"groups": [{"app": _(app) if app else str(_("Across One")), "rows": rows} for app, rows in groups.items()],
+		"groups": [
+			{"app": _(app) if app else str(_("Across One")), "mark": _mark(app), "rows": rows}
+			for app, rows in groups.items()
+		],
 		"push": push.devices(),
 		"opened": _opened(doc),
 	}
+
+
+#: A product whose mark is named after its id rather than its name.
+MARK_OF = {"OneCloud": "onestorage", "OneWriter": "onedoc", "OneWorkbook": "onesheet"}
+
+
+def _mark(app: str) -> str | None:
+	"""The mark drawn beside an app's name (brand/): One's own for what every
+	app shares, none for the workspace's rules. Pure."""
+	if not app:
+		return "one"
+	if not app.startswith("One"):
+		return None
+	return MARK_OF.get(app, app.lower())
 
 
 def _said_of(one: dict) -> str:

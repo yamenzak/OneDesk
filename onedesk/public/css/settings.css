@@ -285,6 +285,18 @@
 	align-items: baseline;
 }
 
+.os-kind-mark {
+	display: inline-flex;
+	margin-inline-end: calc(var(--spacing) * 2);
+	align-self: center;
+}
+
+.os-kind-mark .icon {
+	width: 20px;
+	height: 20px;
+	margin: 0;
+}
+
 .os-kind-columns {
 	display: flex;
 	margin-inline-start: auto;

@@ -196,7 +196,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 		// Each app's part says which column is which, once, in its heading.
 		const columns = `<div class="os-kind-columns"><span>${__("Email")}</span><span>${__("Push")}</span></div>`;
-		$card.find(".form-section.os-kind.one-shell-part .section-head").append(columns);
+		$card.find(".form-section.os-kind.one-shell-part .section-head").each((at, head) => {
+			const mark = (data.groups[at] || {}).mark;
+			if (mark) $(head).prepend(`<span class="os-kind-mark">${frappe.utils.icon(mark, "md")}</span>`);
+			$(head).append(columns);
+		});
 		$card.find(".os-kind .frappe-control[data-fieldtype='Switch']").each((_, control) => {
 			const $control = $(control);
 			const name = $control.closest(".section-body").find(".os-kind-name").first().text();

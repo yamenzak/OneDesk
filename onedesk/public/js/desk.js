@@ -60,7 +60,7 @@ frappe.ui.Dock = class OneClockDock extends frappe.ui.Dock {
 			{
 				name: "intake",
 				icon: "inbox",
-				label: __("Intake"),
+				label: __("OneIntake"),
 				css_class: "one-intake-rail",
 				badge: `<span class="one-intake-count hide"></span>`,
 				on_click: () => frappe.set_route("intake"),
@@ -83,7 +83,7 @@ onedesk.dock.intake = () =>
 		$badge.toggleClass("hide", !said.waiting && !said.unread);
 		$badge.toggleClass("one-intake-dot", !said.waiting && !!said.unread);
 		$badge.text(said.waiting ? (said.waiting > 99 ? "99+" : String(said.waiting)) : "");
-		const label = said.waiting ? __("Intake: {0} wait for you", [said.waiting]) : __("Intake");
+		const label = said.waiting ? __("OneIntake: {0} wait for you", [said.waiting]) : __("OneIntake");
 		onedesk.dock.$intake.attr({ "aria-label": label, title: label });
 		return said;
 	});

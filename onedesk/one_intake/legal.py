@@ -4,7 +4,7 @@ one_legal/README.md and one_intake/README.md."""
 
 from onedesk.one_legal.registry import clause
 
-M = "Intake"
+M = "OneIntake"
 
 clause(
 	document="ai",

@@ -515,6 +515,17 @@ Done:
 - `one/README.md` says all of it; the workspace page and OneAI's
   `notification_type` tool now say who each kind goes to.
 
+Then, on your word:
+
+- **OneIntake** is a product: its name everywhere on screen (the rail, its
+  page, Workspace settings, the notification heading, its legal clauses), and
+  its own mark, `brand/oneintake.svg`, registered as a Custom Icon. The ids
+  (`one_intake`, the `intake` page and section) stay.
+- Each app's heading carries its mark (`settings._mark`); Across One carries
+  One's, and Rules none.
+- OneIntake's kinds no longer carry the OneAI tag; every one of them is
+  OneAI's, so the tag said nothing.
+
 ### Push (Notifications, stage 4)
 
 Stage 4 of `docs/NOTIFICATIONS.md`, on both Notifications screens.

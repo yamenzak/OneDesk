@@ -3,7 +3,7 @@
 // has seen what (one_intake/inbox.py); this draws it.
 
 frappe.pages["intake"].on_page_load = (wrapper) => {
-	const page = onedesk.shell.page(wrapper, __("Intake"));
+	const page = onedesk.shell.page(wrapper, __("OneIntake"));
 	wrapper.inbox = new onedesk.IntakeInbox(page);
 };
 
