@@ -24,6 +24,14 @@ SUGGESTIONS = {
 			),
 		},
 		{
+			"label": _lt("Write my bio"),
+			"ask": _lt(
+				"Write a short bio for my profile from my job, my department and what I work on, and suggest it "
+				"as a change to my profile I can approve."
+			),
+			"expects": "edit_record",
+		},
+		{
 			"label": _lt("How do I fill this in?"),
 			"ask": _lt(
 				"Go through the Profile page with me: what each part is for, and what only HR can change."

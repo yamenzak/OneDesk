@@ -46,8 +46,9 @@ yourself.
 an image from your computer, a link, your camera or OneCloud. **Remove Photo**
 takes it off. Your name and photo are shown to everybody in the workspace.
 
-**Your details**: first and last name, gender, birth date, mobile number,
-location and a short bio.
+**Your details**: first and last name, gender, birth date, mobile, location and
+a short bio. **Write It With OneAI**, under Bio, asks OneAI for one from your
+job, and suggests it as a card: **Approve** puts it in.
 
 **Language and Time**: the language One is shown to you in, and the time zone
 your times are shown in.
@@ -60,7 +61,9 @@ your times are shown in.
 - **Where You Live**: your current and permanent address, and your personal
   email.
 - **In an Emergency**: who HR should call if something happens to you at work,
-  how they are related to you, and their phone number.
+  how they are related to you, and their phone number. Fill in either all of
+  it or none: a relation without a name and a phone is nobody HR can call,
+  so the page asks for both.
 - **About You**: marital status and blood group. Only you and HR see these.
 - **Where Your Pay Goes**: your bank, IBAN and account number, with all but the
   last four characters hidden. Only HR can change this, so ask them when your
@@ -69,11 +72,16 @@ your times are shown in.
 Your gender, birth date, mobile number and photo are on your employee record as
 well. Changing them here changes both.
 
-**OneAI on this page** offers:
+**HR is told** when you change your addresses or your emergency contact, on
+their bell, with what changed, so what they have on file stays right.
+
+**OneAI on this page** offers, in its panel and as the **Check My Profile**
+button under your name:
 
 - **What is missing from my profile?** It reads your profile and your employee
   record, and tells you what is empty or looks out of date, and what each is
   used for.
+- **Write my bio.** A short bio from your job, suggested as a card.
 - **How do I fill this in?** It goes through the page with you: what each part
   is for, and what only HR can change.
 

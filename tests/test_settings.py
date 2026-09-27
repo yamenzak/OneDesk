@@ -119,3 +119,19 @@ def test_what_oneai_offers_on_settings_is_for_a_section_that_exists_and_is_docum
 	for key in offered:
 		assert key in keys, key
 		assert f"### {labels[key]}" in readme, f"Settings › {labels[key]} is not in one/README.md"
+
+
+def test_hr_hears_of_a_new_address_or_emergency_contact_and_a_contact_is_whole():
+	source = SETTINGS.read_text()
+	body = source[source.index("def _save_profile") :]
+	body = body[: body.index("\ndef ")]
+	# A relation alone is nobody HR can call.
+	assert "person_to_be_contacted and employee.emergency_phone_number" in body
+	assert body.index("frappe.throw(") < body.index("employee.save(")
+	assert "_tell_hr(employee, was)" in body
+	tell = source[source.index("def _tell_hr") :]
+	tell = tell[: tell.index("\ndef ")]
+	assert '"Employee Details Changed"' in tell and '"HR Manager"' in tell
+	assert "NOT_PEOPLE" in tell and "frappe.session.user" in tell, "not the bench account, not themselves"
+	types = (tree.APP / "one_hr" / "notifications.py").read_text()
+	assert '_lt("Employee Details Changed")' in types

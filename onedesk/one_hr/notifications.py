@@ -3,12 +3,22 @@
 Each is sent through `notify.notify()` by the module named in its comment.
 The slots in `{braces}` are what the sender fills in; an administrator who
 edits a text uses the same names, as `{{ employee }}`. `roles` is who can
-receive a type, so only they are asked how they want it (You › Notifications).
+receive a type, so only they are asked how they want it (Notifications, under You in Settings).
 """
 
 from frappe import _lt
 
 TYPES = [
+	# one/settings.py: a person changed where they live or who to call.
+	{
+		"name": _lt("Employee Details Changed"),
+		"app": "OneHR",
+		"roles": ("HR Manager",),
+		"about": _lt(
+			"An employee changed their address or emergency contact in their profile. Sent to HR Managers."
+		),
+		"subject": _lt("{employee} changed their {what}"),
+	},
 	# doctype/employee_letter: an employee asks HR for a letter.
 	{
 		"name": _lt("Letter Requested"),

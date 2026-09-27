@@ -254,3 +254,9 @@
 .one-shell-form .form-column .frappe-control.input-max-width[data-fieldname="subject"] {
 	max-width: none;
 }
+
+/* A button about the field above it, close under it rather than a row away. */
+.os-under-field {
+	margin-top: calc(var(--spacing) * -3);
+}
+

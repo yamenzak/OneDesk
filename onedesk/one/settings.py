@@ -81,6 +81,24 @@ EMPLOYEE_OWN = (
 	"blood_group",
 )
 
+#: What HR is told a person changed about themselves: where they live and
+#: who to call. Each says itself as it reads in the notice.
+TOLD_HR = {
+	"current_address": _lt("current address"),
+	"permanent_address": _lt("permanent address"),
+	"person_to_be_contacted": _lt("emergency contact"),
+	"relation": _lt("emergency contact"),
+	"emergency_phone_number": _lt("emergency contact"),
+}
+
+#: An emergency contact is its name and a phone: a relation alone is nobody
+#: HR can call.
+EMERGENCY = ("person_to_be_contacted", "relation", "emergency_phone_number")
+
+#: Labels this page says in its own words, where frappe's read as a field
+#: name ("Mobile No").
+LABELS = {"mobile_no": _lt("Mobile")}
+
 #: Said on both records. The employee's copy is the one HR reads, and erpnext
 #: copies it onto the login on every save of the employee, so a change here
 #: goes to the employee first or the next save would undo it.
@@ -249,7 +267,7 @@ def _fields(doctype: str, names: tuple) -> list[dict]:
 			{
 				"fieldname": field.fieldname,
 				"fieldtype": field.fieldtype,
-				"label": _(field.label),
+				"label": str(LABELS[name]) if name in LABELS else _(field.label),
 				"options": field.options,
 				"description": _(field.description) if field.description else None,
 			}
@@ -329,9 +347,48 @@ def _save_profile(values: dict) -> None:
 	# which would find a login changed underneath it the other way round.
 	changes = {name: values[name] for name in EMPLOYEE_OWN if name in values}
 	changes.update({theirs: values[mine] for mine, theirs in SHARED.items() if mine in values})
+	was = {name: employee.get(name) for name in TOLD_HR}
 	_as_opened(employee).update(changes)
+	if any(employee.get(name) for name in EMERGENCY) and not (
+		employee.person_to_be_contacted and employee.emergency_phone_number
+	):
+		frappe.throw(_("An emergency contact needs a name and a phone number, so HR can call them."))
 	# Their own record, and only these fields.
 	employee.save(ignore_permissions=True)
+	_tell_hr(employee, was)
+
+
+def _tell_hr(employee, was: dict) -> None:
+	"""HR learns when a person changes where they live or who to call, once
+	per save, saying what changed. Not the person themselves, if they are HR."""
+	from onedesk.one import notify
+
+	said = list(
+		dict.fromkeys(
+			str(label) for name, label in TOLD_HR.items() if (was.get(name) or "") != (employee.get(name) or "")
+		)
+	)
+	if not said:
+		return
+	hr = frappe.get_all("Has Role", filters={"role": "HR Manager", "parenttype": "User"}, pluck="parent")
+	hr = [
+		user
+		for user in dict.fromkeys(hr)
+		if user != frappe.session.user
+		and user not in NOT_PEOPLE
+		and frappe.db.get_value("User", user, "enabled")
+	]
+	if not hr:
+		return
+	what = said[0] if len(said) == 1 else _("{0} and {1}").format(", ".join(said[:-1]), said[-1])
+	notify.notify(
+		"Employee Details Changed",
+		hr,
+		record=("Employee", employee.name),
+		link=f"/desk/employee/{employee.name}",
+		employee=employee.employee_name or employee.name,
+		what=what,
+	)
 
 
 def _notifications() -> dict:

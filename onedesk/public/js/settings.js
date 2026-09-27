@@ -106,6 +106,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const image = data.values.user_image;
 		const employee = data.employee;
 		const job = employee ? employee.work.filter((one) => ["designation", "department"].includes(one.fieldname)).map((one) => one.value) : [];
+		// The page's own suggestion (one/ai.py), so it is answered the same way.
+		const check = onedesk.oneai.button(
+			__("Check My Profile"),
+			__("Look at my profile and my employee record, if I have one. What is empty or looks out of date, and what is each of those used for?")
+		);
 		const who = `<div class="os-who os-who-large">
 			<button class="btn-reset os-photo" data-photo="1" title="${esc(__("Change Photo"))}">
 				${frappe.ui.avatar.html({ label: data.full_name, image, size: "3xl" })}
@@ -116,12 +121,24 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				<div class="one-shell-quiet">${[data.email, ...job].map(esc).join(" · ")}</div>
 				<div class="os-who-actions">${onedesk.shell.button(image ? __("Change Photo") : __("Add a Photo"), { "data-photo": "1" }, "ghost")}${
 					image ? onedesk.shell.button(__("Remove Photo"), { "data-unphoto": "1" }, "ghost") : ""
-				}</div>
+				}${check}</div>
 			</div>
 		</div>`;
 		const facts = (list) =>
 			`<dl class="os-facts">${list.map((one) => `<dt>${esc(one.label)}</dt><dd>${esc(String(one.value))}</dd>`).join("")}</dl>`;
-		const rows = [["first_name", "last_name"], ["gender", "birth_date"], ["mobile_no", "location"], ["bio", ""], { heading: __("Language and Time") }, ["language", "time_zone"]];
+		const bio = onedesk.oneai.button(
+			__("Write It With OneAI"),
+			__("Write a short bio for my profile from my job, my department and what I work on, and suggest it as a change to my profile I can approve.")
+		);
+		const rows = [
+			["first_name", "last_name"],
+			["gender", "birth_date"],
+			["mobile_no", "location"],
+			["bio", ""],
+			{ html: `<div class="one-shell-actions os-under-field">${bio}</div>` },
+			{ heading: __("Language and Time") },
+			["language", "time_zone"],
+		];
 		if (employee) {
 			rows.push(
 				{ heading: __("At Work"), note: __("As HR keeps it. Ask them if something here is wrong.") },
@@ -140,6 +157,9 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			{ ...data, fields: [...data.fields.filter((one) => one.fieldname !== "user_image"), ...(employee ? employee.fields : [])] },
 			{ before: who, rows }
 		);
+		// Both initials, as the rail's avatar says them: espresso's fallback is
+		// the first letter only.
+		$card.find(".os-photo .es-avatar__fallback").text(frappe.get_abbr(data.full_name || ""));
 		const photo = (user_image) => this.save({ ...this.values(), user_image });
 		$card.find("[data-photo]").on("click", () => {
 			new frappe.ui.FileUploader({

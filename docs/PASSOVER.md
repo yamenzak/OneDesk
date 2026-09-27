@@ -125,7 +125,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 
 | Area | Screen | State |
 |---|---|---|
-| Settings, You | Profile | second pass: findings written, waiting on your word |
+| Settings, You | Profile | done (second pass too) |
 | Settings, You | Notifications | done (stage 3 of NOTIFICATIONS.md; push is stage 4) |
 | Settings, You | Mail | done |
 | Settings, You | Calendar | |
@@ -261,7 +261,7 @@ Every settings screen, from the first commit of the pass:
 #### Profile, second pass
 
 Against what the pass learned since: the OneAI tag and button, one action in
-the page head, product names, and UX. Nothing is changed yet.
+the page head, product names, and UX. All of it done, on your word.
 
 1. **Notifications**: the question left open is worth a yes. HR relies on an
    emergency contact and an address being right, and learns of a change only
@@ -287,6 +287,22 @@ the page head, product names, and UX. Nothing is changed yet.
    the above is done.
 8. **Legal**: nothing new.
 9. **Built from frappe**: nothing new.
+
+Done:
+
+- **Employee Details Changed** (`one_hr/notifications.py`): HR Managers are
+  told, once per save, when a person changes their current or permanent
+  address or their emergency contact, with what changed ("current address
+  and emergency contact"). Not the person themselves, and not the bench's
+  own account.
+- **An emergency contact is whole or empty**: once a name, relation or phone
+  is filled, a name and a phone are required, on the server.
+- **Check My Profile** under the name and **Write It With OneAI** under Bio,
+  both OneAI buttons; the second is a new suggestion, Write My Bio, which
+  comes back as an edit card to approve.
+- **Both initials** in the photo's placeholder, as the rail says them.
+- **Mobile**, not "Mobile No".
+- `one/README.md`'s Profile section says all of it.
 
 ### Mail
 
