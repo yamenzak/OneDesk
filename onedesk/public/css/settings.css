@@ -385,3 +385,9 @@
 .os-memories .embedded-list-table td a:hover {
 	text-decoration: underline;
 }
+
+/* Workspace › General: how the chosen formats read, under them. */
+.os-reads {
+	margin-top: calc(-1 * var(--padding-xs));
+	font-variant-numeric: tabular-nums;
+}

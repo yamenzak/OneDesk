@@ -272,6 +272,36 @@ offers:
 - **Who else sees my data?** Which other companies receive data from the
   workspace, what they get, and where it is kept.
 
+### General, for the Workspace
+
+Under **Workspace**, **General** is the workspace's own settings. Only its
+administrators see it, and they save from the top right.
+
+- **Company** is what the workspace was made with: its name, the company,
+  the country and the currency. They cannot be changed here, and the
+  currency cannot change at all once there are books. **Company Logo** goes
+  on invoices, quotes and orders, printed or sent; One itself keeps its own
+  mark.
+- **Region and Formats**: the language and time zone for everybody who has
+  not chosen their own in Profile, and how dates, times and numbers are
+  written. The line under them shows how they will read before you save.
+- **Signing In** is the rules for everybody. **Two-Factor Sign-in** asks
+  for a code after the password, from administrators or from everybody; each
+  person sets it up the next time they sign in, with an authenticator app or
+  by email. **Signed Out After** is how long One keeps somebody signed in
+  when they do not use it. **Passwords** is how hard to guess a new one must
+  be. **Passkey Sign-in** lets people sign in with the passkey on their own
+  device instead of a password.
+- **Sharing** has **Calendar Links**. Switched off, every calendar link
+  anybody made stops working and no new one can be made.
+
+If another administrator saved while you had the page open, it says so
+rather than saving over them.
+
+**OneAI on this page** offers **Is signing in here safe enough?**: the rules,
+how many people there are, whose password is over a year old, and the last
+week's failed sign-ins, with what to change.
+
 ### Notifications, for the Workspace
 
 Under **Workspace**, **Notifications** lists everything One tells people, by the

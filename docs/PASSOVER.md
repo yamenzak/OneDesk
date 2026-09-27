@@ -132,7 +132,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, You | Sign-in | done |
 | Settings, You | What OneAI Remembers | done |
 | Settings, You | Agreements | done |
-| Settings, Workspace | General | findings written, waiting on your word |
+| Settings, Workspace | General | done |
 | Settings, Workspace | People | |
 | Settings, Workspace | Notifications | done (stages 2 and 5 of NOTIFICATIONS.md) |
 | Settings, Workspace | Plan and Credits | |
@@ -827,6 +827,35 @@ Saved to Company and System Settings.
 8. **Legal**: holds. Nothing here reaches another company.
 9. **Built from frappe**: holds. The fields are System Settings' and
    Company's own, drawn by frappe's FieldGroup.
+
+Your word: all of them.
+
+Done:
+
+- Four parts under headings: **Company**, **Region and Formats** (two
+  columns), **Signing In** and **Sharing**. A form that opens on a heading
+  has no rule above it (`shell.css`).
+- Under the formats, "Now it reads 27-09-2026 18:26:14, and a number
+  1,234,567.89.", in the chosen time zone, redrawn as they change.
+- **Signing In** writes System Settings' own fields. **Two-Factor Sign-in**
+  is Off, Administrators or Everybody: frappe's switch plus its per-role
+  flag, where frappe's own "everybody" is the All role, set after the save
+  because frappe flags All whenever two-factor is switched on. The code
+  comes from an authenticator app or email (SMS needs a gateway nobody has).
+  **Signed Out After** is `session_expiry` as 8 hours to 30 days, keeping a
+  value set elsewhere. **Passwords** is the policy switch and score as one
+  choice. **Passkey Sign-in** is `one_login_with_passkey`.
+- The section returns `opened` for System Settings and Company and saves
+  through `_as_opened`: a stale save is refused, and another administrator's
+  save reloads the page or says so.
+- Help lines under Company Logo, Language, Time Zone and each sign-in rule.
+- OneAI: the page sentence, **Is signing in here safe enough?**, and a read,
+  `workspace_sign_in` (administrators only): the rules, people and
+  administrators, passwords over a year old, the last week's failed
+  sign-ins.
+- `one/README.md` gains General, for the Workspace. `test_settings.py` now
+  holds a workspace section OneAI offers anything on to its README section
+  too.
 
 ### Workspace › Notifications
 

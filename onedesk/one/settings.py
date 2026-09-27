@@ -701,20 +701,112 @@ def _general() -> dict:
 	company = _company()
 	system = frappe.get_single("System Settings")
 	account = frappe.get_single("Workspace Account")
+	fields = _fields("Company", ("company_logo",)) + _zones(_switches(_fields("System Settings", ("language", "time_zone", *SYSTEM, *SIGNING_IN))))
 	return {
 		"name": account.workspace_name,
 		"company": company.company_name if company else None,
 		"country": company.country if company else system.country,
 		"currency": company.default_currency if company else None,
-		"fields": _fields("Company", ("company_logo",)) + _zones(_switches(_fields("System Settings", ("language", "time_zone", *SYSTEM)))),
+		"fields": [{**one, **_said_on_general(one["fieldname"], system)} for one in fields] + _signing_in_fields(),
 		"values": {
 			"company_logo": company.company_logo if company else None,
 			"language": system.language,
 			"time_zone": system.time_zone,
-			**{name: system.get(name) for name in SYSTEM},
+			**{name: system.get(name) for name in (*SYSTEM, *SIGNING_IN)},
 			"one_calendar_links": 1 if feed.allowed() else 0,
+			"one_two_factor": _two_factor(system),
+			"one_password": str(system.minimum_password_score or "") if system.enable_password_policy else "",
 		},
+		"opened": _opened(company, system),
 	}
+
+
+#: How a person signs in to this workspace, as System Settings keeps it.
+SIGNING_IN = ("two_factor_method", "session_expiry", "one_login_with_passkey")
+
+#: How long a session lasts unused, in frappe's hh:mm.
+EXPIRY = (
+	("08:00", _lt("8 hours")),
+	("24:00", _lt("1 day")),
+	("168:00", _lt("1 week")),
+	("240:00", _lt("10 days")),
+	("720:00", _lt("30 days")),
+)
+
+#: What the page says under a field, where the doctype's own words are not
+#: what an administrator here needs to know.
+GENERAL_SAID = {
+	"company_logo": _lt("On invoices, quotes and orders, printed or sent. One itself keeps its own mark."),
+	"language": _lt("For everybody who has not chosen their own in Profile."),
+	"time_zone": _lt("For everybody who has not chosen their own in Profile."),
+	"one_login_with_passkey": _lt("People sign in with the passkey on their own device, without a password."),
+	"session_expiry": _lt("How long One keeps somebody signed in when they do not use it."),
+	"two_factor_method": _lt("An authenticator app on their phone, or a code by email."),
+}
+
+
+def _said_on_general(fieldname: str, system) -> dict:
+	said = {"description": str(GENERAL_SAID[fieldname])} if fieldname in GENERAL_SAID else {}
+	if fieldname == "one_login_with_passkey":
+		said["label"] = _("Passkey Sign-in")
+	if fieldname == "session_expiry":
+		options = [{"value": value, "label": str(label)} for value, label in EXPIRY]
+		if system.session_expiry and system.session_expiry not in dict(EXPIRY):
+			options.append({"value": system.session_expiry, "label": _("{0} hours").format(system.session_expiry.split(":")[0])})
+		said.update({"fieldtype": "Select", "options": options, "label": _("Signed Out After")})
+	if fieldname == "two_factor_method":
+		# SMS needs a gateway this workspace does not have.
+		said.update(
+			{
+				"options": [{"value": "OTP App", "label": _("Authenticator App")}, {"value": "Email", "label": _("Email")}],
+				"label": _("The Code Comes From"),
+				"depends_on": "eval:doc.one_two_factor && doc.one_two_factor != 'off'",
+			}
+		)
+	return said
+
+
+def _signing_in_fields() -> list:
+	"""Two of System Settings' rules as one choice each: two-factor is a switch
+	plus a flag on every role, and the password rule a switch plus a score."""
+	return [
+		{
+			"fieldname": "one_two_factor",
+			"fieldtype": "Select",
+			"label": _("Two-Factor Sign-in"),
+			"options": [
+				{"value": "off", "label": _("Off")},
+				{"value": "admins", "label": _("Administrators")},
+				{"value": "everybody", "label": _("Everybody")},
+			],
+			"description": _("A code after the password. Each person sets it up the next time they sign in."),
+		},
+		{
+			"fieldname": "one_password",
+			"fieldtype": "Select",
+			"label": _("Passwords"),
+			"options": [
+				{"value": "", "label": _("Any password")},
+				{"value": "2", "label": _("Hard to guess")},
+				{"value": "3", "label": _("Very hard to guess")},
+				{"value": "4", "label": _("Strongest")},
+			],
+			"description": _("Checked whenever somebody sets or changes their password."),
+		},
+	]
+
+
+#: Frappe asks for a second step from anybody holding a role flagged for it,
+#: and flags All, everybody, when it is switched on. Administrators hold ours.
+EVERYBODY = "All"
+
+
+def _two_factor(system) -> str:
+	if not system.enable_two_factor_auth:
+		return "off"
+	if frappe.db.get_value("Role", EVERYBODY, "two_factor_auth"):
+		return "everybody"
+	return "admins"
 
 
 def _zones(fields: list) -> list:
@@ -733,12 +825,22 @@ def _switches(fields: list) -> list:
 
 def _save_general(values: dict) -> None:
 	company = _company()
-	if company and "company_logo" in values:
-		company.company_logo = values["company_logo"]
+	if company and "company_logo" in values and (values["company_logo"] or None) != (company.company_logo or None):
+		_as_opened(company).company_logo = values["company_logo"]
 		company.save(ignore_permissions=True)
-	system = frappe.get_single("System Settings")
-	system.update({name: values[name] for name in ("language", "time_zone", *SYSTEM) if name in values})
+	system = _as_opened(frappe.get_single("System Settings"))
+	system.update({name: values[name] for name in ("language", "time_zone", *SYSTEM, *SIGNING_IN) if name in values})
+	if "one_password" in values:
+		system.enable_password_policy = 1 if values["one_password"] else 0
+		system.minimum_password_score = values["one_password"] or system.minimum_password_score
+	wanted = values.get("one_two_factor") or "off"
+	if "one_two_factor" in values:
+		system.enable_two_factor_auth = 0 if wanted == "off" else 1
 	system.save(ignore_permissions=True)
+	# After the save, which flags All whenever two-factor is switched on.
+	if "one_two_factor" in values and wanted != "off":
+		frappe.db.set_value("Role", roles.ADMINISTRATOR, "two_factor_auth", 1)
+		frappe.db.set_value("Role", EVERYBODY, "two_factor_auth", 1 if wanted == "everybody" else 0)
 
 
 def level_of(held: set, used: tuple, managed: tuple) -> str:

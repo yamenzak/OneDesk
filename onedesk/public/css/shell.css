@@ -153,6 +153,13 @@
 	border-top: 1px solid var(--outline-gray-1);
 }
 
+/* A form that opens on a heading has nothing above it to divide from. */
+.one-shell-form .form-section.one-shell-part:first-child {
+	margin-top: 0;
+	padding-top: 0;
+	border-top: 0;
+}
+
 .one-shell-form .one-shell-part .section-head {
 	padding: 0;
 	margin: 0;

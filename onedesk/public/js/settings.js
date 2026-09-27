@@ -700,6 +700,9 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 
 	// ---------------------------------------------------------------- the workspace
 
+	// The workspace's own settings, in three parts: what it was made with and
+	// its logo, how dates, times and numbers read, and the rules for signing
+	// in. Every field is System Settings' or Company's own.
 	draw_general(data) {
 		const esc = frappe.utils.escape_html;
 		const facts = [
@@ -711,8 +714,34 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			.filter(([, value]) => value)
 			.map(([label, value]) => `<dt>${esc(label)}</dt><dd>${esc(value)}</dd>`)
 			.join("");
-		this.$content.append(onedesk.shell.section(null, `<dl class="os-facts">${facts}</dl>`, __("Set when the workspace was made. The currency cannot change once there are books.")));
-		this.form(data);
+		const rows = [
+			{ heading: __("Company"), note: __("Set when the workspace was made. The currency cannot change once there are books.") },
+			{ html: `<dl class="os-facts">${facts}</dl>` },
+			["company_logo", ""],
+			{ heading: __("Region and Formats") },
+			["language", "time_zone"],
+			["date_format", "time_format"],
+			["number_format", "first_day_of_the_week"],
+			{ html: `<div class="one-shell-quiet os-reads" data-reads="1"></div>` },
+			{ heading: __("Signing In"), note: __("The rules for everybody who signs in to this workspace.") },
+			["one_two_factor", "two_factor_method"],
+			["session_expiry", "one_password"],
+			{ stack: ["one_login_with_passkey"] },
+			{ heading: __("Sharing") },
+			{ stack: ["one_calendar_links"] },
+		];
+		const $card = this.form(data, { rows });
+		// How a date, a time and a number will read, as they are chosen.
+		const reads = () => {
+			const values = this.values();
+			const now = values.time_zone && moment.tz && moment.tz.zone(values.time_zone) ? moment().tz(values.time_zone) : moment();
+			const date = now.format((values.date_format || "dd-mm-yyyy").toUpperCase());
+			const time = now.format(values.time_format || "HH:mm:ss");
+			const number = format_number(1234567.89, values.number_format, 2);
+			$card.find("[data-reads]").text(__("Now it reads {0} {1}, and a number {2}.", [date, time, number]));
+		};
+		this.ready.then(reads);
+		$card.on("change input", "select, input", () => setTimeout(reads));
 	}
 
 	draw_people(data) {

@@ -80,6 +80,16 @@ SUGGESTIONS = {
 			"expects": "my_memories",
 		},
 	],
+	"page:workspace-settings/general": [
+		{
+			"label": _lt("Is signing in here safe enough?"),
+			"ask": _lt(
+				"Is signing in to this workspace safe enough? Look at our rules and at how people sign in, and "
+				"say what to change."
+			),
+			"expects": "workspace_sign_in",
+		},
+	],
 	"page:settings/signin": [
 		{
 			"label": _lt("Is my account safe?"),
@@ -184,6 +194,14 @@ def page(said: dict) -> str | None:
 		return _notifications_page(said.get("record"))
 	if said.get("page") == "customize":
 		return _customize_page(said.get("record"))
+	if said.get("page") == "workspace-settings" and said.get("section") == "general":
+		return (
+			"The reader administers this workspace and is on Workspace › General: what it was made with, its "
+			"logo for printed documents, its language, time zone and formats, the rules for signing in "
+			"(two-factor, passkey sign-in, how long a session lasts, how strong a password must be) and "
+			"calendar links. workspace_sign_in reads the rules and how people sign in. They change them on "
+			"the page and save; how is in One's documentation under General, for the Workspace (how_to)."
+		)
 	if said.get("page") != "settings":
 		return None
 	if said.get("section") == "notifications":
@@ -651,6 +669,52 @@ def customize(
 		"state": "Proposed",
 		"next": "Tell them it changes the form for everybody once they approve it, and that Reset on the "
 		"Customize page takes it back.",
+	}
+
+
+def workspace_sign_in() -> dict:
+	"""How people sign in to this workspace, for its administrators: the rules
+	(two-factor and for whom, passkey sign-in, how long a session lasts
+	unused, the password rule) and how people follow them: how many people
+	there are, how many administer it, whose password is over a year old, and
+	the failed sign-ins of the last week."""
+	from frappe.utils import add_days, add_to_date, now_datetime
+
+	from onedesk.one import roles, settings
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator sees how everybody signs in."}
+	system = frappe.get_single("System Settings")
+	people = frappe.get_all("User", filters={"enabled": 1, "user_type": "System User", "name": ["not in", ("Administrator", "Guest")]}, pluck="name")
+	year_ago = add_to_date(now_datetime(), years=-1)
+	stale = [
+		one.name
+		for one in frappe.get_all("User", filters={"name": ["in", people or [""]]}, fields=["name", "last_password_reset_date", "creation"])
+		if (one.last_password_reset_date and str(one.last_password_reset_date) < str(year_ago.date()))
+		or (not one.last_password_reset_date and one.creation < year_ago)
+	]
+	failed = frappe.get_all(
+		"Activity Log",
+		filters={"operation": "Login", "status": ["!=", "Success"], "creation": [">", add_days(now_datetime(), -7)]},
+		fields=["user", "ip_address", "creation"],
+		order_by="creation desc",
+		limit=20,
+	)
+	return {
+		"two_factor": settings._two_factor(system),
+		"two_factor_by": system.two_factor_method if system.enable_two_factor_auth else None,
+		"passkey_sign_in": bool(system.get("one_login_with_passkey")),
+		"signed_out_after_unused": system.session_expiry or "240:00",
+		"password_rule": f"score {system.minimum_password_score} of 4" if system.enable_password_policy else "any password",
+		"people": len(people),
+		"administrators": len([one for one in people if roles.administers(one)]),
+		"passwords_over_a_year_old": len(stale),
+		"failed_sign_ins_last_week": [
+			{"user": one.user, "address": one.ip_address, "on": str(one.creation)} for one in failed
+		],
+		"next": "Say plainly what is fine and what to change, most important first. Two-factor for everybody, "
+		"or at least administrators, is the usual advice; failed sign-ins from one address are worth naming. "
+		"They change the rules themselves under Workspace › General › Signing In.",
 	}
 
 
