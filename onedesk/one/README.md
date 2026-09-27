@@ -164,6 +164,34 @@ The page changes by itself when a mailbox stops connecting or comes back.
   and what to do.
 - **How does mail work here?** This section, explained.
 
+### Calendar
+
+A private link to your calendar, for seeing it in another calendar app:
+Google Calendar, Apple Calendar or Outlook, on a computer or a phone.
+
+- **Make My Link**, at the top right, makes it. From then on the button is
+  **Copy Link**, for an app that is not one of the three.
+- **Google Calendar**, **Apple Calendar** and **Outlook** each open that app
+  ready to add it. On a phone, add it in the app on your computer and it
+  appears on the phone too; on an iPhone, Apple Calendar can take it
+  directly. A personal Outlook account pastes the copied link under *Add
+  calendar › Subscribe from web*.
+- **It carries** names what the link shows: what your calendar shows before
+  you switch anything off, from two months back to a year ahead, and nothing
+  you could not see in One yourself.
+- Under that, when a calendar app last read it, so you know it works. Google
+  Calendar reads it a few times a day; Apple Calendar and Outlook more often.
+- **Anyone with the link can read your calendar.** **New Link** makes a new
+  one and switches the old one off, so every app has to be given the new
+  one. **Switch Off** ends it.
+
+It goes one way: an event you add in Google stays in Google. OneCalendar's
+**Subscribe** is the same link, drawn the same way; its documentation is
+OneCalendar's.
+
+**OneAI on this page** offers **How do I add it?**, the same question as the
+**How Do I Add It?** button.
+
 ### Agreements
 
 Every agreement One runs under, and where you and your organisation stand on

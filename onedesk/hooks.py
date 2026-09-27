@@ -664,6 +664,8 @@ app_include_js = [
 	"/assets/onedesk/js/next_step.js",
 	"/assets/onedesk/js/task_timer.js",
 	"/assets/onedesk/js/record_calendar.js",
+	# The calendar link, drawn once for Settings and OneCalendar's Subscribe.
+	"/assets/onedesk/js/calendar_link.js",
 	# A record's tabs after its fields, declared under one_record_tabs.
 	"/assets/onedesk/js/record_tabs.js",
 	"/assets/onedesk/js/record_files.js",

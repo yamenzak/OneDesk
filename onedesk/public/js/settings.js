@@ -378,41 +378,33 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
+	// The reader's calendar link, drawn as OneCalendar's Subscribe draws it
+	// (calendar_link.js). The page's one action is making the link, or, once
+	// there is one, copying it; a new link and switching it off are quiet.
 	draw_calendar(data) {
-		const esc = frappe.utils.escape_html;
+		const how = onedesk.oneai.button(
+			__("How Do I Add It?"),
+			__("How do I add my calendar link to Google Calendar, Apple Calendar or Outlook, on my computer and my phone, and what does it carry?")
+		);
 		const $card = $(
 			onedesk.shell.section(
 				__("Your Calendar in Other Apps"),
-				`<div class="os-feed"></div><div class="one-shell-actions"></div>`,
-				__("A private link that shows your events, tasks and deadlines in Google Calendar, Outlook or on a phone.")
+				`<div class="os-calendar"></div><div class="one-shell-actions">${how}</div>`,
+				__("A private link that shows your calendar in Google Calendar, Apple Calendar or Outlook, on a computer or a phone.")
 			)
 		).appendTo(this.$content);
 		const draw = (link) => {
-			$card.find(".os-feed").html(
-				link
-					? `<div class="os-copy"><code>${esc(link.webcal)}</code>${onedesk.shell.button(__("Copy"), { "data-copy": link.webcal }, "ghost", "copy")}</div>
-					<div class="one-shell-quiet">${__("Anybody with this link can see your calendar. Make a new one if it was shared by mistake.")}</div>`
-					: ""
-			);
-			$card.find(".one-shell-actions").html(
-				link
-					? onedesk.shell.button(__("Make a New Link"), { "data-renew": "1" }, "subtle", "refresh-cw") + onedesk.shell.button(__("Turn the Link Off"), { "data-stop": "1" }, "ghost", null, "red")
-					: onedesk.shell.button(__("Make My Link"), { "data-make": "1" }, "solid")
-			);
-			$card.find("[data-copy]").on("click", (event) => frappe.utils.copy_to_clipboard($(event.currentTarget).attr("data-copy")));
-			$card.find("[data-make]").on("click", async () => draw(await frappe.xcall("onedesk.one_calendar.feed.mine")));
-			$card.find("[data-renew]").on("click", () =>
-				frappe.confirm(__("The old link stops working. Make a new one?"), async () => draw(await frappe.xcall("onedesk.one_calendar.feed.renew")))
-			);
-			$card.find("[data-stop]").on("click", () =>
-				frappe.confirm(__("Turn the link off? Calendars that read it stop updating."), async () => {
-					await frappe.xcall("onedesk.one_calendar.feed.stop");
-					draw(null);
-				})
-			);
+			const $body = $card.find(".os-calendar");
+			if (!link) {
+				$body.html(`<div class="one-shell-quiet">${__("You have no calendar link. Make one to see your calendar in another app.")}</div>`);
+				this.page.set_primary_action(__("Make My Link"), async () => draw(await frappe.xcall("onedesk.one_calendar.feed.mine")), "link");
+				return;
+			}
+			$body.html(onedesk.calendar_link.html(link, { copy: false }));
+			onedesk.calendar_link.bind($body, link, { drawn: draw, stopped: () => draw(null) });
+			this.page.set_primary_action(__("Copy Link"), () => onedesk.calendar_link.copy(link), "copy");
 		};
-		if (data.has_feed) frappe.xcall("onedesk.one_calendar.feed.mine").then(draw);
-		else draw(null);
+		draw(data.link);
 	}
 
 	draw_signin(data) {

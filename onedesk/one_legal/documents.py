@@ -133,7 +133,8 @@ DOCUMENTS = {
 		"title": "Privacy Policy",
 		"audience": "user",
 		# 2: push, a new thing kept about a person who turns it on.
-		"revision": 2,
+		# 3: a calendar link, the person's calendar read by an app they choose.
+		"revision": 3,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {

@@ -528,7 +528,9 @@ def _mail() -> dict:
 
 
 def _calendar() -> dict:
-	return {"has_feed": bool(frappe.db.exists("Calendar Feed", frappe.session.user))}
+	from onedesk.one_calendar import feed
+
+	return {"link": feed.current()}
 
 
 def _signin() -> dict:

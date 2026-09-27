@@ -606,3 +606,42 @@ a.one-chart-head:hover .one-stat-label {
 	font-weight: 300;
 }
 
+/* A calendar link (calendar_link.js): a row of app buttons, then what it
+   carries and how it ends. */
+.one-calendar-said {
+	color: var(--ink-gray-5);
+}
+
+.one-calendar-apps {
+	display: flex;
+	flex-wrap: wrap;
+	gap: calc(var(--spacing) * 2);
+	margin-bottom: calc(var(--spacing) * 3);
+}
+
+.one-calendar-carries {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: calc(var(--spacing) * 1.5);
+	margin-bottom: calc(var(--spacing) * 3);
+}
+
+.one-calendar-carries .one-calendar-said,
+.one-calendar-ends .one-calendar-said {
+	font-size: var(--text-sm);
+	margin-inline-end: calc(var(--spacing) * 1);
+}
+
+.one-calendar-ends {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: calc(var(--spacing) * 2);
+}
+
+.one-calendar-end-actions {
+	display: flex;
+	gap: calc(var(--spacing) * 1);
+}

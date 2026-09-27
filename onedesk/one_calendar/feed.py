@@ -23,8 +23,8 @@ from zoneinfo import ZoneInfo
 import frappe
 from frappe import _
 from frappe.rate_limiter import rate_limit
-from frappe.utils.password import get_decrypted_password
 from frappe.utils import add_days, get_system_timezone, get_url, getdate, now_datetime, nowdate
+from frappe.utils.password import get_decrypted_password
 
 from onedesk.one_calendar import layers
 
@@ -43,6 +43,12 @@ def mine() -> dict:
 	"""The reader's calendar link, made the first time they ask for it."""
 	token = _token(frappe.session.user) or _new(frappe.session.user)
 	return _addresses(token)
+
+
+def current() -> dict | None:
+	"""The reader's calendar link if they have one, without making one."""
+	token = _token(frappe.session.user)
+	return _addresses(token) if token else None
 
 
 @frappe.whitelist(methods=["POST"])
@@ -73,6 +79,10 @@ def _addresses(token: str) -> dict:
 		"https": address,
 		"webcal": "webcal://" + address.split("://", 1)[1],
 		"name": f"{frappe.get_hooks('app_title', app_name='onedesk')[0]} · {frappe.utils.get_fullname()}",
+		# What it carries, as the reader's calendar names its layers, and when
+		# an app last read it, so the person can see that it works.
+		"carries": [one["label"] for one in layers.offered() if one["on"]],
+		"last_read": frappe.db.get_value("Calendar Feed", frappe.session.user, "last_read"),
 	}
 
 

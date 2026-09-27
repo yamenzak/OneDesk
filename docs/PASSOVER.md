@@ -128,7 +128,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, You | Profile | done (second pass too) |
 | Settings, You | Notifications | done, second pass |
 | Settings, You | Mail | done |
-| Settings, You | Calendar | findings written, waiting on your word |
+| Settings, You | Calendar | done |
 | Settings, You | Sign-in | |
 | Settings, You | What OneAI Remembers | |
 | Settings, You | Agreements | done |
@@ -419,6 +419,26 @@ code box, Copy, Make a New Link and Turn the Link Off. Nothing is changed yet.
 9. **Built from frappe**: the code box is ours. The app buttons are
    espresso's, as Subscribe draws them; frappe's `copy_to_clipboard` and
    `confirm` are used as they are.
+
+Your word: all of them but the Google sync row (5), which leans on frappe's
+own Google integration.
+
+Done:
+
+- **One drawing of the link** (`public/js/calendar_link.js`), used by
+  Settings and by OneCalendar's Subscribe: the three app buttons with their
+  marks, what it carries as badges, whether an app has read it, and New Link
+  and Switch Off as quiet buttons, both asking first. Copy Link copies the
+  `https://` address everywhere.
+- **The page head's action** is Make My Link with no link, Copy Link with
+  one; Settings leaves the in-page Copy Link out.
+- `feed.mine` and `feed.renew` also return `carries` and `last_read`;
+  `feed.current` reads the link without making one.
+- **OneAI**: How Do I Add It? on the page and as its suggestion, and the
+  panel is told what the page is.
+- `one/README.md` gains Settings › Calendar.
+- **Legal**: `one_calendar/legal.py` says a person may publish their
+  calendar through a private link; the privacy notice is revision 3.
 
 ### Agreements
 

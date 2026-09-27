@@ -63,14 +63,3 @@
 	height: 28px;
 }
 
-/* The Subscribe dialog: a row of app buttons between two lines of text. */
-.one-calendar-said {
-	color: var(--ink-gray-5);
-}
-
-.one-calendar-apps {
-	display: flex;
-	flex-wrap: wrap;
-	gap: calc(var(--spacing) * 2);
-	margin-bottom: calc(var(--spacing) * 3);
-}

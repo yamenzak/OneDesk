@@ -70,6 +70,16 @@ SUGGESTIONS = {
 			"expects": "my_notifications",
 		},
 	],
+	"page:settings/calendar": [
+		{
+			"label": _lt("How do I add it?"),
+			"ask": _lt(
+				"How do I add my calendar link to Google Calendar, Apple Calendar or Outlook, on my computer "
+				"and my phone, and what does it carry?"
+			),
+			"expects": "how_to",
+		},
+	],
 	"page:settings/mail": [
 		{
 			"label": _lt("Write my signature"),
@@ -170,6 +180,14 @@ def page(said: dict) -> str | None:
 			"from and what each signs with, and any that stopped connecting. my_mailboxes reads them, with "
 			"what a signature is made of; sign_mailbox suggests a signature as a card they approve. How it "
 			"works is in One's documentation under Settings › Mail (how_to)."
+		)
+	if said.get("section") == "calendar":
+		return (
+			"The reader is on Calendar in their own Settings: a private link to their calendar that another "
+			"calendar app reads, with a button for Google Calendar, Apple Calendar and Outlook, what the link "
+			"carries, and when an app last read it. They make it, copy it, replace it or switch it off "
+			"themselves. How to add it to each app is in One's documentation under Settings › Calendar, and "
+			"OneCalendar's under Subscribe (how_to)."
 		)
 	if said.get("section") == "agreements":
 		return (

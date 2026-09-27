@@ -324,40 +324,12 @@ onedesk.OneCalendar = class OneCalendar {
 		dialog.show();
 	}
 
-	// One line, a button per app, and the link. Google and Outlook each take a
-	// calendar by its address in the web; Apple opens a webcal:// one itself.
+	// The link as Settings › Calendar draws it (public/js/calendar_link.js).
 	async subscribe() {
 		const dialog = new frappe.ui.Dialog({ title: __("Subscribe") });
 		const draw = (link) => {
-			const google = `https://calendar.google.com/calendar/render?cid=${encodeURIComponent(link.webcal)}`;
-			const outlook = `https://outlook.office.com/calendar/0/addfromweb?url=${encodeURIComponent(link.https)}&name=${encodeURIComponent(link.name)}`;
-			// Each app's own mark, from brand/others (registered as Custom Icons), on
-			// an espresso button drawn as a link, as frappe.ui.empty_state draws one.
-			const button = (href, icon, label) =>
-				`<a class="es-button" href="${href}" target="_blank" rel="noopener">${frappe.utils.icon(icon, "sm")}<span class="es-button__label">${label}</span></a>`;
-			dialog.$body.html(`
-				<p class="text-p-sm one-calendar-said">${__("See this calendar in another app. Google Calendar updates it a few times a day, the others more often.")}</p>
-				<div class="one-calendar-apps">
-					${button(google, "google-calendar", __("Google Calendar"))}
-					${button(link.webcal, "apple-calendar", __("Apple Calendar"))}
-					${button(outlook, "outlook", __("Outlook"))}
-					${frappe.ui.button.html({ label: __("Copy Link"), icon: "copy", css_class: "one-calendar-copy" })}
-				</div>
-				<p class="text-p-sm one-calendar-said one-calendar-private">
-					${__("Anyone with the link can read your calendar.")}
-					<a class="one-calendar-renew">${__("New Link")}</a> ·
-					<a class="one-calendar-stop">${__("Switch Off")}</a>
-				</p>`);
-			dialog.$body.find(".one-calendar-copy").on("click", () => frappe.utils.copy_to_clipboard(link.https));
-			dialog.$body.find(".one-calendar-renew").on("click", async () => {
-				draw(await frappe.xcall("onedesk.one_calendar.feed.renew"));
-				frappe.ui.toast({ message: __("New link made. The old one no longer works."), type: "success" });
-			});
-			dialog.$body.find(".one-calendar-stop").on("click", async () => {
-				await frappe.xcall("onedesk.one_calendar.feed.stop");
-				frappe.ui.toast({ message: __("Your calendar link is switched off."), type: "warning" });
-				dialog.hide();
-			});
+			dialog.$body.html(onedesk.calendar_link.html(link));
+			onedesk.calendar_link.bind(dialog.$body, link, { drawn: draw, stopped: () => dialog.hide() });
 		};
 		draw(await frappe.xcall("onedesk.one_calendar.feed.mine"));
 		dialog.show();
