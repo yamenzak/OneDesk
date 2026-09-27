@@ -11,7 +11,9 @@ and falls back to frappe's own hook, so that one has to be written as well.
 
 `footer_powered` is here for a third reason: a portal page left alone says
 **Powered by ERPNext** at the foot, which is erpnext's default and which a
-customer signing up to One should never be shown. Found on `/start`.
+customer signing up to One should never be shown. Found on `/start`. The
+mails had the same line, "Sent via ERPNext", which System Settings'
+`disable_standard_email_footer` leaves out.
 """
 
 import frappe
@@ -27,6 +29,8 @@ DEFAULTS = {
 		"footer_powered": "",
 	},
 	"Navbar Settings": {"app_logo": LOGO},
+	# Otherwise every mail ends "Sent via ERPNext" (erpnext's default_mail_footer).
+	"System Settings": {"disable_standard_email_footer": 1},
 }
 
 

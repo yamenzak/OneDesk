@@ -376,3 +376,113 @@ a.one-shell-row:hover {
 	}
 }
 
+
+/* A record in a page, drawn as a docview is (Editor.as_record): the page's
+   whole width, its fields in the main column in parts that run edge to edge
+   under full-width rules, and frappe's form sidebar on the right. */
+.one-shell-body.one-shell-record {
+	max-width: none;
+	margin: 0;
+}
+
+.one-record-view {
+	display: flex;
+	align-items: stretch;
+	min-height: calc(100vh - 48px);
+}
+
+.one-record-main {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.one-record-side {
+	flex: 0 0 276px;
+	border-inline-start: 1px solid var(--outline-gray-1);
+	padding: calc(var(--spacing) * 4);
+	font-size: var(--text-sm);
+}
+
+.one-record-main > .one-shell-section {
+	padding: 0;
+	border: 0;
+}
+
+.one-record-main .one-shell-form,
+.one-record-main .one-shell-columns .one-shell-form {
+	max-width: none;
+	padding: calc(var(--spacing) * 5) 0;
+}
+
+.one-record-main .one-shell-form .form-section {
+	padding: 0 calc(var(--spacing) * 7.5);
+}
+
+.one-record-main .one-shell-form .form-section.one-shell-part {
+	margin: calc(var(--spacing) * 5) 0 0;
+	padding-top: calc(var(--spacing) * 6);
+	border-top: 1px solid var(--outline-gray-1);
+}
+
+.one-record-main .one-shell-form .form-section.one-shell-part:first-child {
+	margin-top: 0;
+	padding-top: 0;
+	border-top: 0;
+}
+
+.one-record-side .sidebar-section {
+	padding: calc(var(--spacing) * 3) 0;
+}
+
+.one-record-side .sidebar-section:first-child {
+	padding-top: 0;
+}
+
+.one-record-side .sidebar-image-wrapper .sidebar-image,
+.one-record-side .sidebar-standard-image {
+	width: 80px;
+	height: 80px;
+	border-radius: var(--radius-lg, 12px);
+	object-fit: cover;
+}
+
+.one-record-side .sidebar-standard-image {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--surface-gray-2);
+	color: var(--ink-gray-5);
+	font-size: var(--text-3xl, 28px);
+}
+
+.one-record-mark .icon {
+	width: 40px;
+	height: 40px;
+}
+
+.one-record-sub,
+.one-record-meta {
+	color: var(--ink-gray-5);
+	margin-top: calc(var(--spacing) * 1);
+}
+
+.one-record-side .form-sidebar-label {
+	margin-bottom: calc(var(--spacing) * 1.5);
+	color: var(--ink-gray-5);
+}
+
+.one-record-link {
+	text-decoration: underline;
+	color: var(--ink-gray-8);
+}
+
+@media (max-width: 991px) {
+	.one-record-view {
+		flex-direction: column-reverse;
+	}
+	.one-record-side {
+		flex: none;
+		border-inline-start: 0;
+		border-bottom: 1px solid var(--outline-gray-1);
+	}
+}

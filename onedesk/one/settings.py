@@ -998,6 +998,7 @@ def _person_page(user: str) -> dict:
 			"user_image": doc.user_image,
 			"enabled": doc.enabled,
 			"last_active": doc.last_active,
+			"joined": bool(doc.last_login),
 			"employee": frappe.db.get_value("Employee", {"user_id": doc.name}, "name"),
 			"sessions": [] if me else signin.sessions(doc.name),
 			"recent": signin.recent(doc.name),
@@ -1143,16 +1144,39 @@ def invite(
 			"first_name": first_name,
 			"last_name": last_name,
 			"user_type": "System User",
-			"send_welcome_email": 1,
+			# One's own invitation instead (one/invite.py): frappe's is a reset
+			# link that lives twenty minutes, from nobody in particular.
+			"send_welcome_email": 0,
 			"roles": [{"role": "Desk User"}],
 		}
 	)
 	user.insert(ignore_permissions=True)
+	from onedesk.one import invite as invitation
+
 	wanted = frappe.parse_json(access) or {}
 	if any(level != "None" for level in wanted.values()):
-		# Their welcome mail is how they hear of it: no second notice.
+		# Their invitation is how they hear of it: no second notice.
 		_set_access(frappe.get_doc("User", user.name), wanted, 0, told=False)
+	invitation.send(user.name, _apps_said(wanted))
 	return _people()
+
+
+def _apps_said(access: dict) -> list[str]:
+	said = {"User": _("{0} as a user"), "Manager": _("{0} as a manager")}
+	return [said[level].format(name) for name, level in access.items() if level in said]
+
+
+@frappe.whitelist(methods=["POST"])
+def invite_again(user: Annotated[str, "The person."]) -> None:
+	"""A new invitation for somebody who has not joined yet; the old link stops."""
+	from onedesk.one import invite as invitation
+
+	roles.require()
+	doc = _one_of_the_people(user)
+	if doc.last_login:
+		frappe.throw(_("{0} has already joined. Send a password reset instead.").format(doc.full_name))
+	held = {one.role for one in doc.roles}
+	invitation.send(doc.name, _apps_said({name: level_of(held, used, managed) for name, _icon, used, managed in APPS}))
 
 
 def _seat_left() -> None:
@@ -1313,6 +1337,7 @@ def _notification_type(name: str) -> dict:
 			"name": doc.name,
 			"label": _(doc.name),
 			"app": doc.one_app,
+			"mark": _mark(doc.one_app),
 			"about": _(doc.one_about) if doc.one_about else None,
 			"to": notify.to(name),
 			"ours": bool(one),

@@ -955,6 +955,20 @@ Done:
   Password Reset and Turn Off sit under their name. The invite dialog shows
   the marks too, and an invited person is not also sent Access Changed:
   their welcome mail says it.
+- The invitation is One's own (`one/invite.py`): frappe's welcome mail was a
+  reset link that lived twenty minutes (`reset_password_link_expiry_duration`)
+  and said nothing of who asked. Ours is the hub's Invitation type, "Samir
+  Aoun invited you to Nine X", with the apps they get and a link that works
+  for seven days: opening it asks frappe for a fresh reset link and goes
+  there, so the password is still set on frappe's page. Choosing it spends
+  the link, and a first password is not told as Password Changed. Invite
+  Again for somebody who has not joined.
+- No mail says "Sent via ERPNext" any more: System Settings'
+  `disable_standard_email_footer`, by patch and in `brand.py`.
+- Your word on the sub-pages: a person, a notification type and a rule are
+  now drawn as docviews (`Editor.as_record`, docs/SHELL.md): "People /
+  Rania Sabbagh" in the breadcrumb with the status pill, Actions and Save in
+  the page head, full-width parts, frappe's form sidebar. No back buttons.
 - `one/README.md` gains People, for the Workspace. The privacy notice gains
   "people-sign-in" and goes to revision 4, since administrators now see
   where a person is signed in: everybody agrees again at their next

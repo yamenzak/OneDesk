@@ -67,8 +67,9 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.$content.empty();
 		this.hear(this.data.opened);
 		this[`draw_${key}`](this.data);
-		// The router names the page after show; the section's name wins.
-		onedesk.shell.name(section.label);
+		// The router names the page after show; the section's name wins,
+		// unless a record in it named itself after it (as_record).
+		if (!this.trailed) onedesk.shell.name(section.label);
 		await this.bring_back(slot(key, record));
 	}
 
@@ -805,14 +806,15 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		}).refresh();
 	}
 
-	// One person, as a desk form like Profile: a Select per app with its
-	// mark, and the Administrator switch, saved from the page head against
-	// the User as it was loaded. Under their name, what an administrator does
-	// when somebody leaves; below, where they are signed in.
+	// One person, drawn as a docview: their name after People in the
+	// breadcrumb, where they stand in the pill, a Select per app with its mark
+	// and the Administrator switch saved from the page head against the User
+	// as it was loaded, frappe's form sidebar with their photo and links, and
+	// what an administrator does when somebody leaves as the page's Actions.
 	draw_person(data) {
 		const esc = frappe.utils.escape_html;
 		const one = data.person;
-		const name = esc(one.full_name || one.name);
+		const name = one.full_name || one.name;
 		const SHOWN = 5;
 		const place = (what, where, failed) =>
 			`<div class="os-place"><div class="${failed ? "text-danger" : ""}">${esc(what)}</div><div class="one-shell-quiet">${esc(where.filter(Boolean).join(" · "))}</div></div>`;
@@ -823,30 +825,91 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					.slice(0, SHOWN)
 					.map((at) => place(at.device, [at.address, frappe.datetime.prettyDate(at.last_used)]))
 					.join("") + (one.sessions.length > SHOWN ? `<div class="os-place one-shell-quiet">${esc(__("And {0} more.", [one.sessions.length - SHOWN]))}</div>` : "")
-			: `<div class="one-shell-quiet">${esc(__("Signed in nowhere."))}</div>`;
+			: `<div class="one-shell-quiet">${esc(one.joined ? __("Signed in nowhere.") : __("Invited, and not joined yet."))}</div>`;
 		const recent = one.recent.map((at) => place(at.failed ? __("Failed") : __("Signed in"), [at.address, frappe.datetime.prettyDate(at.on)], at.failed)).join("");
-		const facts = [
-			esc(one.name),
-			one.employee ? `<a href="${frappe.utils.get_form_link("Employee", one.employee)}">${esc(__("Their employee record"))}</a>` : "",
-			esc(one.last_active ? __("Last active {0}.", [frappe.datetime.prettyDate(one.last_active)]) : __("Never signed in.")),
-		]
-			.filter(Boolean)
-			.join(" · ");
-		const actions = one.me
-			? ""
-			: one.enabled
-			? onedesk.shell.button(__("Sign Out Everywhere"), { "data-signout": "1" }, "subtle", "log-out") +
-			  onedesk.shell.button(__("Send a Password Reset"), { "data-reset": "1" }, "ghost", "key-round") +
-			  onedesk.shell.button(__("Turn Off"), { "data-off": "1" }, "ghost", "power", "red")
-			: onedesk.shell.button(__("Turn On"), { "data-on": "1" }, "subtle", "power");
-		const head = `<div class="os-type-head">
-			<div class="os-type-back">${onedesk.shell.button(__("All People"), { "data-back": "1" }, "ghost", "arrow-left")}</div>
-			<div class="os-person os-person-head">${frappe.ui.avatar.html({ label: one.full_name, image: one.user_image, size: "xl" })}
-				<div><div class="os-who-name">${name}${one.enabled ? "" : ` ${frappe.ui.badge.html({ label: __("Off"), theme: "gray" })}`}</div>
-				<div class="one-shell-quiet">${facts}</div>
-				${actions ? `<div class="os-who-actions">${actions}</div>` : ""}</div>
-			</div>
-		</div>`;
+		const done = (message) => frappe.show_alert({ message, indicator: "green" });
+		const actions = [];
+		if (!one.me && one.enabled && one.joined) {
+			actions.push(
+				{
+					label: __("Sign Out Everywhere"),
+					group: __("Actions"),
+					action: () =>
+						frappe.confirm(__("Sign {0} out on every device?", [esc(name)]), async () => {
+							await frappe.xcall(Settings.API + "sign_out_everywhere", { user: one.name });
+							this.refresh({ fresh: true });
+							done(__("Signed out everywhere."));
+						}),
+				},
+				{
+					label: __("Send a Password Reset"),
+					group: __("Actions"),
+					action: async () => {
+						await frappe.xcall(Settings.API + "send_reset", { user: one.name });
+						done(__("Sent. They get a mail to choose a new password."));
+					},
+				}
+			);
+		}
+		if (!one.me && one.enabled && !one.joined) {
+			actions.push({
+				label: __("Invite Again"),
+				group: __("Actions"),
+				action: async () => {
+					await frappe.xcall(Settings.API + "invite_again", { user: one.name });
+					done(__("Sent. The earlier link no longer works."));
+				},
+			});
+		}
+		if (!one.me) {
+			actions.push(
+				one.enabled
+					? {
+							label: __("Turn Off"),
+							group: __("Actions"),
+							action: () =>
+								frappe.confirm(__("Turn {0} off? They are signed out now and cannot sign in. Everything they made stays.", [esc(name)]), async () => {
+									await frappe.xcall(Settings.API + "set_enabled", { user: one.name, on: 0 });
+									this.refresh({ fresh: true });
+								}),
+					  }
+					: {
+							label: __("Turn On"),
+							group: __("Actions"),
+							action: async () => {
+								await frappe.xcall(Settings.API + "set_enabled", { user: one.name, on: 1 });
+								this.refresh({ fresh: true });
+							},
+					  }
+			);
+		}
+		const status = !one.enabled
+			? { label: __("Off"), colour: "gray" }
+			: !one.joined
+			? { label: __("Invited"), colour: "blue" }
+			: data.values.admin
+			? { label: __("Administrator"), colour: "orange" }
+			: { label: __("Active"), colour: "green" };
+		this.as_record({
+			parent: __("People"),
+			route: "/desk/workspace-settings?section=people",
+			title: name,
+			status,
+			side: onedesk.shell.side({
+				image: one.user_image,
+				initials: frappe.get_abbr(name),
+				title: name,
+				sub: esc(one.name),
+				groups: [
+					{
+						label: __("Links"),
+						html: one.employee ? `<a class="one-record-link" href="${frappe.utils.get_form_link("Employee", one.employee)}">${esc(__("Their employee record"))}</a>` : "",
+					},
+				],
+				meta: [one.last_active ? __("Last active {0}", [frappe.datetime.prettyDate(one.last_active)]) : one.joined ? __("Not active lately") : __("Has not joined yet")],
+			}),
+			actions,
+		});
 		const apps = data.apps.map((app) => `app_${app.icon}`);
 		const rows = [
 			{ heading: __("What They Can Use"), note: __("Everybody has One, OneCloud, OneMail, OneTask and OneCalendar. A manager also sets the app up and sees everything in it.") },
@@ -856,37 +919,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			{ html: signed },
 			...(recent ? [{ heading: __("Last Sign-ins") }, { html: recent }] : []),
 		];
-		const $card = this.form(data, { before: head, rows });
+		const $card = this.form(data, { rows });
 		Settings.marks($card, data.apps);
-		onedesk.shell.name(one.full_name || one.name);
-		const back = () => frappe.set_route("workspace-settings", { section: "people" });
-		const again = (said) => {
-			this.$content.empty();
-			this.data = said;
-			this.hear(said.opened);
-			this.draw_person(said);
-		};
-		$card.find("[data-back]").on("click", back);
-		$card.find("[data-off]").on("click", () =>
-			frappe.confirm(__("Turn {0} off? They are signed out now and cannot sign in. Everything they made stays.", [name]), async () => {
-				await frappe.xcall(Settings.API + "set_enabled", { user: one.name, on: 0 });
-				this.refresh({ fresh: true });
-			})
-		);
-		$card.find("[data-on]").on("click", async () => {
-			await frappe.xcall(Settings.API + "set_enabled", { user: one.name, on: 1 });
-			this.refresh({ fresh: true });
-		});
-		$card.find("[data-signout]").on("click", () =>
-			frappe.confirm(__("Sign {0} out on every device?", [name]), async () => {
-				again(await frappe.xcall(Settings.API + "sign_out_everywhere", { user: one.name }));
-				frappe.show_alert({ message: __("Signed out everywhere."), indicator: "green" });
-			})
-		);
-		$card.find("[data-reset]").on("click", async () => {
-			await frappe.xcall(Settings.API + "send_reset", { user: one.name });
-			frappe.show_alert({ message: __("Sent. They get a mail to choose a new password."), indicator: "green" });
-		});
 	}
 
 	// Each app's mark before its name, on a field that picks what somebody
@@ -1192,22 +1226,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const esc = frappe.utils.escape_html;
 		const type = data.type;
 		const slots = type.slots.map((one) => `<code>{{ ${esc(one)} }}</code>`).join(" ");
-		const head = `<div class="os-type-head">
-			<div class="os-type-back">${onedesk.shell.button(__("All Notifications"), { "data-back": "1" }, "ghost", "arrow-left")}</div>
-			<div class="os-who-name">${esc(type.label)}</div>
-			${type.about ? `<div class="one-shell-quiet">${esc(type.about)}</div>` : ""}
-			${type.to ? `<div class="one-shell-quiet os-to">${frappe.utils.icon("users", "xs")}${esc(type.to)}</div>` : ""}
-			${
-				type.ours && !type.upstream
-					? `<div class="os-who-actions">${onedesk.shell.button(__("Rewrite with OneAI"), { "data-rewrite": "1" }, "subtle", "sparkles")}${onedesk.shell.button(
-							__("Back to the Default Text"),
-							{ "data-reset": "1" },
-							"ghost",
-							"rotate-ccw"
-					  )}</div>`
-					: ""
-			}
-		</div>`;
 		const preview = `<div class="os-preview">
 			<div class="os-preview-label">${esc(__("Preview"))}</div>
 			<div class="os-preview-subject"></div>
@@ -1258,7 +1276,41 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				rows.push({ html: `<div class="one-shell-quiet">${esc(__("Mailed to addresses outside the workspace, so nobody chooses a channel for it."))}</div>` });
 			}
 		}
-		const $card = this.form(data, { before: head, rows });
+		const rewrite = () =>
+			onedesk.oneai.open({
+				ask: __(
+					'Rewrite the text of the "{0}" notification so it is short, plain and friendly, and keeps every slot it uses. Suggest it as a change I can apply.',
+					[type.label]
+				),
+			});
+		const reset = async () => {
+			await this.group.set_values({ one_subject: type.default_subject, one_message: type.default_message });
+			this.check();
+			this.preview(type.name, $card);
+		};
+		this.as_record({
+			parent: __("Notifications"),
+			route: "/desk/workspace-settings?section=notification_types",
+			title: type.label,
+			status: data.values.enabled ? { label: __("On"), colour: "green" } : { label: __("Off"), colour: "gray" },
+			side: onedesk.shell.side({
+				mark: type.mark || "bell",
+				title: type.label,
+				sub: type.app ? esc(type.app) : "",
+				groups: [
+					{ label: __("When"), html: type.about ? `<div>${esc(type.about)}</div>` : "" },
+					{ label: __("Who Gets It"), html: type.to ? `<div>${esc(type.to)}</div>` : "" },
+				],
+			}),
+			actions:
+				type.ours && !type.upstream
+					? [
+							{ label: __("Rewrite with OneAI"), action: rewrite },
+							{ label: __("Back to the Default Text"), action: reset, group: __("Actions") },
+					  ]
+					: [],
+		});
+		const $card = this.form(data, { rows });
 		const draw = frappe.utils.debounce(() => this.preview(type.name, $card), 400);
 		// The preview follows the text; form() already keeps "Not Saved".
 		for (const name of ["one_subject", "one_message"]) {
@@ -1271,20 +1323,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			};
 		}
 		if (type.ours && !type.upstream) this.ready.then(() => this.preview(type.name, $card));
-		$card.find("[data-back]").on("click", () => frappe.set_route("workspace-settings", { section: this.key }));
-		$card.find("[data-reset]").on("click", async () => {
-			await this.group.set_values({ one_subject: type.default_subject, one_message: type.default_message });
-			this.check();
-			this.preview(type.name, $card);
-		});
-		$card.find("[data-rewrite]").on("click", () =>
-			onedesk.oneai.open({
-				ask: __(
-					'Rewrite the text of the "{0}" notification so it is short, plain and friendly, and keeps every slot it uses. Suggest it as a change I can apply.',
-					[type.label]
-				),
-			})
-		);
 	}
 
 	async preview(name, $card) {
@@ -1309,12 +1347,24 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	draw_rule(data) {
 		const esc = frappe.utils.escape_html;
 		const rule = data.rule;
-		const head = `<div class="os-type-head">
-			<div class="os-type-back">${onedesk.shell.button(__("All Notifications"), { "data-back": "1" }, "ghost", "arrow-left")}</div>
-			<div class="os-who-name">${esc(rule.new ? __("New Rule") : rule.name)}</div>
-			${rule.said ? `<div class="one-shell-quiet">${esc(rule.said)}</div>` : ""}
-			${rule.new ? "" : `<div class="os-who-actions">${onedesk.shell.button(__("Delete"), { "data-delete": "1" }, "ghost", "trash-2", "red")}</div>`}
-		</div>`;
+		const remove = () =>
+			frappe.confirm(__("Delete the rule {0}? Nobody is told by it again.", [rule.name]), async () => {
+				await frappe.xcall(Settings.API + "delete_rule", { name: rule.name });
+				frappe.set_route("workspace-settings", { section: this.key });
+			});
+		this.as_record({
+			parent: __("Notifications"),
+			route: "/desk/workspace-settings?section=notification_types",
+			title: rule.new ? __("New Rule") : rule.name,
+			status: rule.new ? { label: __("Not Saved"), colour: "orange" } : data.values.enabled ? { label: __("On"), colour: "green" } : { label: __("Off"), colour: "gray" },
+			side: onedesk.shell.side({
+				mark: "bell-plus",
+				title: rule.new ? __("New Rule") : rule.name,
+				sub: esc(__("A rule of the workspace's")),
+				groups: [{ label: __("What It Does"), html: rule.said ? `<div>${esc(rule.said)}</div>` : "" }],
+			}),
+			actions: rule.new ? [] : [{ label: __("Delete"), action: remove, group: __("Actions") }],
+		});
 		const rows = [
 			["enabled"],
 			...(rule.new ? [["rule_name"]] : []),
@@ -1333,7 +1383,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			["one_allow_email", "one_allow_push"],
 			["one_email_default", "one_push_default"],
 		];
-		const $card = this.form(data, { before: head, rows });
+		const $card = this.form(data, { rows });
 		const options = (list) => [{ value: "", label: "" }, ...(list || [])];
 		const offer = (said) => {
 			for (const [field, list] of [
@@ -1379,13 +1429,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			filters(doctype, "");
 		};
 		this.rule_watches = data.values.document_type;
-		$card.find("[data-back]").on("click", () => frappe.set_route("workspace-settings", { section: this.key }));
-		$card.find("[data-delete]").on("click", () =>
-			frappe.confirm(__("Delete the rule {0}? Nobody is told by it again.", [rule.name]), async () => {
-				await frappe.xcall(Settings.API + "delete_rule", { name: rule.name });
-				frappe.set_route("workspace-settings", { section: this.key });
-			})
-		);
 		// A new rule, once saved, is opened under its own name.
 		if (!rule.new && this.record === "rule:new") frappe.set_route("workspace-settings", { section: this.key, rule: rule.name });
 	}

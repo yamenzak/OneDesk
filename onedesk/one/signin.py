@@ -159,9 +159,13 @@ def update_password(
 	the person is told. Named in hooks.py under override_whitelisted_methods."""
 	from frappe.core.doctype.user.user import update_password as frappes
 
+	from onedesk.one import invite
+
 	said = frappes(new_password, logout_all_sessions=logout_all_sessions, key=key, old_password=old_password)
 	if frappe.local.response.get("http_status_code") != 410 and frappe.session.user != "Guest":
-		told_password(frappe.session.user)
+		# A first password, set from an invitation, is joining, not a change.
+		if not invite.spend(frappe.session.user):
+			told_password(frappe.session.user)
 	return said
 
 

@@ -58,4 +58,17 @@ TYPES = [
 		"email": False,
 		"always_mailed": True,
 	},
+	{
+		"name": _lt("Invitation"),
+		"app": "One",
+		"about": _lt("When an administrator invites somebody to the workspace, with the link to join."),
+		"to": _lt("The person invited"),
+		"subject": _lt("{inviter} invited you to {workspace}"),
+		"message": _lt(
+			"<b>{inviter}</b> invited you to <b>{workspace}</b> on One.{apps}<br><br>"
+			'<a href="{link}">Choose your password</a><br><br>'
+			"The link works for {days} days. You sign in with {address}."
+		),
+		"outside": True,
+	},
 ]

@@ -88,6 +88,38 @@ $.extend(onedesk.shell, {
 		if (onedesk.oneai && onedesk.oneai.panel) onedesk.oneai.panel.moved(onedesk.oneai.where());
 	},
 
+	// A record inside a page: its section's name and then its own, as a
+	// form's breadcrumb reads "Customer / Client Example Ltd". Frappe's custom
+	// breadcrumb holds one name; `then` is the second (patched below).
+	trail(parent, route, label) {
+		const esc = frappe.utils.escape_html;
+		frappe.breadcrumbs.add({ type: "Custom", label: esc(parent), route, then: esc(label) });
+		frappe.utils.set_title(label);
+		if (onedesk.oneai && onedesk.oneai.panel) onedesk.oneai.panel.moved(onedesk.oneai.where());
+	},
+
+	// The sidebar of a record drawn as a docview, in frappe's own form-sidebar
+	// parts: its picture (a photo, initials, or a mark), its name and a line
+	// under it, groups of links, and a few quiet lines of when.
+	side({ image = null, initials = "", mark = null, title = "", sub = "", groups = [], meta = [] } = {}) {
+		const esc = frappe.utils.escape_html;
+		const picture = image
+			? `<img class="sidebar-image" src="${esc(image)}">`
+			: mark
+			? `<div class="sidebar-standard-image one-record-mark">${frappe.utils.icon(mark, "xl")}</div>`
+			: `<div class="sidebar-standard-image"><div class="standard-image">${esc(initials)}</div></div>`;
+		return `<div class="sidebar-section sidebar-image-section"><div class="sidebar-image-wrapper">${picture}</div></div>
+			<div class="sidebar-section sidebar-meta-details border-bottom">
+				<div class="form-title-text"><span class="bold">${esc(title)}</span></div>
+				${sub ? `<div class="text-muted one-record-sub">${sub}</div>` : ""}
+			</div>
+			${groups
+				.filter((group) => group.html)
+				.map((group) => `<div class="sidebar-section border-bottom">${group.label ? `<div class="form-sidebar-label">${esc(group.label)}</div>` : ""}${group.html}</div>`)
+				.join("")}
+			${meta.length ? `<div class="sidebar-section one-record-meta">${meta.map((line) => `<div>${esc(line)}</div>`).join("")}</div>` : ""}`;
+	},
+
 	button(label, attrs = {}, variant = "subtle", icon = null, theme = null) {
 		return frappe.ui.button.html({ label, attrs, variant, icon, theme: theme || undefined });
 	},
@@ -230,7 +262,10 @@ onedesk.shell.Editor = class Editor {
 	set_dirty(dirty) {
 		this.dirty = dirty;
 		if (dirty) this.page.set_indicator(__("Not Saved"), "orange");
-		else this.page.clear_indicator();
+		else {
+			this.page.clear_indicator();
+			this.show_status && this.show_status();
+		}
 		removeEventListener("beforeunload", this.leaving, { capture: true });
 		if (dirty && !frappe.boot.developer_mode) addEventListener("beforeunload", this.leaving, { capture: true });
 	}
@@ -330,13 +365,41 @@ onedesk.shell.Editor = class Editor {
 		$watch.on("click mouseup", ".frappe-control[data-fieldtype='Table']", frappe.utils.debounce(() => this.check(), 150));
 	}
 
-	// No save until a form says what it saves.
+	// No save until a form says what it saves; no record, its buttons or its
+	// status until one is drawn.
 	unsaved() {
 		this.values = null;
+		this.status = null;
+		this.trailed = false;
 		this.set_dirty(false);
 		this.page.clear_primary_action();
+		this.page.clear_inner_toolbar();
 		this.page.wrapper[0].save_action = null;
 		this.page.clear_indicator();
+	}
+
+	// A record the page is open on, drawn as a docview is: its name after the
+	// page's in the breadcrumb, its status in the page head's pill, frappe's
+	// form sections for its fields with frappe's form sidebar beside them, and
+	// what can be done to it as the page head's own buttons (`actions`, each
+	// `{ label, action, group }`). What form() draws goes in the main column.
+	as_record({ parent, route, title, status = null, side = "", actions = [] }) {
+		onedesk.shell.trail(parent, route, title);
+		this.trailed = true;
+		this.status = status;
+		this.show_status();
+		const $view = $(`<div class="one-record-view"><div class="one-record-main"></div><div class="one-record-side form-sidebar">${side}</div></div>`);
+		this.$content.empty().closest(".one-shell-body").addClass("one-shell-record");
+		this.$content.append($view);
+		this.$content = $view.find(".one-record-main");
+		for (const one of actions) this.page.add_inner_button(one.label, one.action, one.group);
+		return $view;
+	}
+
+	// The record's own status stands in the pill until something is changed,
+	// as a form's does; "Not Saved" takes it meanwhile.
+	show_status() {
+		if (this.status) this.page.set_indicator(this.status.label, this.status.colour);
 	}
 
 	// Saved against the records as they were loaded, so frappe refuses the
@@ -365,3 +428,13 @@ onedesk.shell.Editor = class Editor {
 		this.redraw(said);
 	}
 };
+
+// Frappe's custom breadcrumb is one name; a record in a page adds its own
+// after it (`trail`), linking back to the page as a form's links to its list.
+{
+	const theirs = frappe.breadcrumbs.set_custom_breadcrumbs.bind(frappe.breadcrumbs);
+	frappe.breadcrumbs.set_custom_breadcrumbs = function (breadcrumbs) {
+		theirs(breadcrumbs);
+		if (breadcrumbs.then) this.append_breadcrumb_element("", breadcrumbs.then, "title-text-form");
+	};
+}

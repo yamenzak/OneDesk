@@ -124,6 +124,14 @@ composes them rather than drawing its own:
   boxed.
 - **Row**: title, a quiet line, badges, a chevron; frappe-ui's list-row hover.
   Replaces `.os-row`, `.om-row`, `.oi-row` and the rest.
+- **Record**: a record a page opens on (a person, a notification type, a
+  rule) is drawn as a docview, never with a head of its own. `as_record` puts
+  its name after the page's in the breadcrumb ("People / Rania Sabbagh"),
+  its status in the page head's pill ("Not Saved" takes it while something
+  is changed, as on a form), what can be done to it as the page head's own
+  buttons, its fields in full-width parts, and frappe's form sidebar beside
+  them (`side`: the photo or mark, the name, links, when). No back buttons:
+  the breadcrumb goes back.
 - **Empty, quiet, loading**: one of each.
 - **Editor**: Settings' save core, lifted out: a FieldGroup from meta, dirty
   against what loaded, a warning before leaving, saving against `modified`,

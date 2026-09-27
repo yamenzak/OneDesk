@@ -187,6 +187,7 @@ No doctypes yet.
 * `onedesk.one.customize.save`
 * `onedesk.one.head.preview`
 * `onedesk.one.head.run`
+* `onedesk.one.invite.accept`
 * `onedesk.one.push.devices`
 * `onedesk.one.push.forget`
 * `onedesk.one.push.register`
@@ -198,6 +199,7 @@ No doctypes yet.
 * `onedesk.one.settings.forget`
 * `onedesk.one.settings.forget_all`
 * `onedesk.one.settings.invite`
+* `onedesk.one.settings.invite_again`
 * `onedesk.one.settings.keep`
 * `onedesk.one.settings.load`
 * `onedesk.one.settings.preview_notification`

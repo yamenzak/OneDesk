@@ -11,3 +11,4 @@ onedesk.one_intake.patches.identifiers
 onedesk.one_intake.patches.matters
 onedesk.one_intake.patches.people
 onedesk.one_intake.patches.no_new_iban
+onedesk.one.patches.no_erpnext_footer

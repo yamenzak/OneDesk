@@ -323,14 +323,18 @@ finds somebody once there are more than five. The line at the top says how
 many seats are used.
 
 - **Invite Somebody**, at the top right, asks for their address and name and
-  which apps they get. They are mailed a link to set their password.
+  which apps they get. They are mailed an invitation from you, saying what
+  they can use, with a link to choose their password. The link works for
+  seven days; once they have chosen a password it stops. Until they join,
+  their page has **Invite Again**, which sends a new one.
 - **Click somebody** to open their page: what they can use in each app,
   with what each app holds, and whether they administer the workspace. Save
   from the top right. They are told what changed, and when somebody
   becomes an administrator every other administrator is told by mail. The
   workspace always keeps at least one administrator.
 - Their page also shows their employee record if they have one, where they
-  are signed in and their last sign-ins. **Sign Out Everywhere** ends every
+  are signed in and their last sign-ins. Under **Actions** at the top right,
+  **Sign Out Everywhere** ends every
   session they have; **Send a Password Reset** mails them a link to choose
   a new password; **Turn Off** signs them out and stops them signing in,
   and frees their seat. Everything they made stays. **Turn On** lets them
