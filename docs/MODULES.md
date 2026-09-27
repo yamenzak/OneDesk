@@ -200,13 +200,15 @@ No doctypes yet.
 * `onedesk.one.settings.invite`
 * `onedesk.one.settings.keep`
 * `onedesk.one.settings.load`
+* `onedesk.one.settings.person`
 * `onedesk.one.settings.preview_notification`
 * `onedesk.one.settings.save`
+* `onedesk.one.settings.save_person`
 * `onedesk.one.settings.sections`
-* `onedesk.one.settings.set_access`
-* `onedesk.one.settings.set_admin`
+* `onedesk.one.settings.send_reset`
 * `onedesk.one.settings.set_enabled`
 * `onedesk.one.settings.sign_out_elsewhere`
+* `onedesk.one.settings.sign_out_everywhere`
 * `onedesk.one.signin.sign_out`
 * `onedesk.one.signin.update_password`
 * `onedesk.one_admin.operator.credit_standing`

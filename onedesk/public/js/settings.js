@@ -747,82 +747,214 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		$card.on("change input", "select, input", () => setTimeout(reads));
 	}
 
-	draw_people(data) {
+	// Everybody on the workspace, one line each, in frappe's EmbeddedList: what
+	// they may use, whether they administer it, when they were last here. A
+	// row opens the person (person_dialog), as a list row opens its record.
+	async draw_people(data) {
 		const esc = frappe.utils.escape_html;
-		const seats = data.seats ? __("{0} of {1} seats used", [data.used, data.seats]) : __("{0} people", [data.used]);
-		const options = (value) =>
-			data.levels.map((one) => `<option value="${esc(one.value)}" ${one.value === value ? "selected" : ""}>${esc(one.label)}</option>`).join("");
-		const head = `<div class="os-people-row os-people-head"><div>${__("Person")}</div>${data.apps
-			.map((app) => `<div class="os-people-app">${frappe.utils.icon(app.icon, "sm")}<span>${esc(app.name)}</span></div>`)
-			.join("")}<div>${__("Administrator")}</div><div></div></div>`;
-		const rows = data.people
+		const seats = data.seats ? __("{0} of {1} seats used.", [data.used, data.seats]) : __("{0} people.", [data.used]);
+		const levels = Object.fromEntries(data.levels.map((one) => [one.value, one.label]));
+		this.$content.html(
+			`<div class="one-shell-section"><div class="one-shell-quiet">${esc(
+				__("Everybody has One, OneCloud, OneMail, OneTask and OneCalendar. Here you give each person the apps that are somebody's job.")
+			)} ${esc(seats)}</div></div>
+			<div class="one-shell-section os-people-list" data-list="people"></div>`
+		);
+		this.page.set_primary_action(__("Invite Somebody"), () => this.invite_dialog(data), "plus");
+		await frappe.require("embedded_list.bundle.js");
+		new frappe.ui.EmbeddedList({
+			wrapper: this.$content.find('[data-list="people"]'),
+			title: esc(__("People")),
+			description: esc(__("Click somebody to change what they can use, or to sign them out.")),
+			show_search: data.people.length > 5,
+			empty_message: __("Nobody yet. Invite somebody."),
+			no_match_message: __("Nobody by that name."),
+			get_data: () => Promise.resolve(data.people.map((one) => ({ ...one, search: `${one.full_name} ${one.name}` }))),
+			on_row_click: (one) => this.person_dialog(one.name),
+			columns: [
+				{
+					label: __("Person"),
+					render: (one) => `<div class="os-person">${frappe.ui.avatar.html({ label: one.full_name, image: one.user_image, size: "sm" })}
+						<div><div class="os-person-name">${esc(one.full_name || one.name)}${one.enabled ? "" : ` ${frappe.ui.badge.html({ label: __("Off"), theme: "gray" })}`}</div>
+						<div class="one-shell-quiet">${esc(one.name)}</div></div></div>`,
+				},
+				{
+					label: __("Apps"),
+					render: (one) => {
+						const held = new Set(data.apps.map((app) => one.access[app.name]));
+						if (held.size === 1 && !held.has("None")) {
+							const [level] = held;
+							return frappe.ui.badge.html({ label: __("Every app · {0}", [levels[level]]), theme: level === "Manager" ? "blue" : "gray" });
+						}
+						return (
+							data.apps
+								.filter((app) => one.access[app.name] !== "None")
+							.map((app) => frappe.ui.badge.html({ label: `${app.name} · ${levels[one.access[app.name]]}`, theme: one.access[app.name] === "Manager" ? "blue" : "gray" }))
+								.join(" ") || `<span class="one-shell-quiet">${esc(__("The five everybody has"))}</span>`
+						);
+					},
+				},
+				{ label: __("Administrator"), render: (one) => (one.admin ? frappe.ui.badge.html({ label: __("Administrator"), theme: "orange" }) : "") },
+				{
+					label: __("Last Active"),
+					render: (one) => `<span class="one-shell-quiet">${esc(one.last_active ? frappe.datetime.prettyDate(one.last_active) : __("Never"))}</span>`,
+				},
+			],
+		}).refresh();
+	}
+
+	// One person: a Select per app and an Administrator switch, saved
+	// together against the User as it was loaded; where they are signed in
+	// and their last sign-ins; and in the footer, what an administrator does
+	// when somebody leaves.
+	async person_dialog(user) {
+		const esc = frappe.utils.escape_html;
+		const one = await frappe.xcall(Settings.API + "person", { user });
+		const people = this.data;
+		const levels = people.levels.map((level) => ({ value: level.value, label: level.label }));
+		const SHOWN = 5;
+		const signed = one.sessions.length
+			? one.sessions
+					.slice(0, SHOWN)
+					.map((at) => `<div class="os-place"><div>${esc(at.device)}</div><div class="one-shell-quiet">${esc([at.address, frappe.datetime.prettyDate(at.last_used)].filter(Boolean).join(" · "))}</div></div>`)
+					.join("") +
+			  (one.sessions.length > SHOWN ? `<div class="os-place one-shell-quiet">${esc(__("And {0} more.", [one.sessions.length - SHOWN]))}</div>` : "")
+			: `<div class="one-shell-quiet">${esc(one.me ? __("You. Your own are on your Sign-in page.") : __("Signed in nowhere."))}</div>`;
+		const recent = one.recent
 			.map(
-				(one) => `<div class="os-people-row ${one.enabled ? "" : "os-off"}" data-user="${esc(one.name)}">
-				<div class="os-who">${frappe.ui.avatar.html({ label: one.full_name, image: one.user_image, size: "sm" })}
-					<div><div class="one-shell-row-title">${esc(one.full_name || one.name)}</div><div class="one-shell-quiet">${esc(one.name)}</div></div></div>
-				${data.apps
-					.map(
-						(app) => `<div><select class="form-control input-xs" data-app="${esc(app.name)}" ${one.enabled ? "" : "disabled"}>${options(one.access[app.name])}</select></div>`
-					)
-					.join("")}
-				<div><input type="checkbox" data-admin ${one.admin ? "checked" : ""} ${one.enabled ? "" : "disabled"}></div>
-				<div>${onedesk.shell.button(one.enabled ? __("Turn Off") : __("Turn On"), { "data-enable": one.enabled ? "0" : "1" }, "ghost")}</div>
-			</div>`
+				(at) =>
+					`<div class="os-place"><div class="${at.failed ? "text-danger" : ""}">${esc(at.failed ? __("Failed") : __("Signed in"))}</div><div class="one-shell-quiet">${esc(
+						[at.address, frappe.datetime.prettyDate(at.on)].filter(Boolean).join(" · ")
+					)}</div></div>`
 			)
 			.join("");
-		this.$content.html(
-			onedesk.shell.section(
-				null,
-				`<div class="one-shell-row"><div class="one-shell-row-main">${frappe.ui.badge.html({ label: seats, theme: "gray" })}</div>
-				<div class="one-shell-row-actions">${onedesk.shell.button(__("Invite"), { "data-invite": "1" }, "solid", "plus")}</div></div>
-				<div class="os-people">${head}${rows}</div>`,
-				__("Everybody has One, OneCloud, OneMail, OneTask and OneCalendar. Here you give each person the apps that are somebody's job.")
-			)
-		);
+		const about = [
+			one.employee ? `<a href="${frappe.utils.get_form_link("Employee", one.employee)}">${esc(__("Their employee record"))}</a>` : "",
+			esc(one.last_active ? __("Last active {0}.", [frappe.datetime.prettyDate(one.last_active)]) : __("Never signed in.")),
+			one.enabled ? "" : esc(__("Turned off: they cannot sign in.")),
+		]
+			.filter(Boolean)
+			.join(" · ");
+		const dialog = new frappe.ui.Dialog({
+			title: one.full_name || one.name,
+			size: "large",
+			fields: [
+				{ fieldname: "about", fieldtype: "HTML", options: `<div class="one-shell-quiet">${esc(one.name)} · ${about}</div>` },
+				{ fieldtype: "Section Break", label: __("What They Can Use"), description: __("Everybody has One, OneCloud, OneMail, OneTask and OneCalendar.") },
+				...Settings.two_columns(people.apps, (app, at) => ({ fieldname: `app_${at}`, fieldtype: "Select", label: app.name, options: levels })),
+				{ fieldtype: "Section Break" },
+				{
+					fieldname: "admin",
+					fieldtype: "Switch",
+					label: __("Administrator"),
+					description: __("Opens Workspace settings: people, the plan, domains and OneAI. The other administrators are told."),
+					default: one.admin ? 1 : 0,
+				},
+				{ fieldtype: "Section Break", label: __("Where They Are Signed In") },
+				{ fieldname: "signed", fieldtype: "HTML", options: signed },
+				...(recent ? [{ fieldtype: "Section Break", label: __("Last Sign-ins") }, { fieldname: "recent", fieldtype: "HTML", options: recent }] : []),
+			],
+			primary_action_label: __("Save"),
+			primary_action: async (values) => {
+				const access = Object.fromEntries(people.apps.map((app, at) => [app.name, values[`app_${at}`]]));
+				try {
+					const said = await frappe.xcall(Settings.API + "save_person", { user, access, admin: values.admin ? 1 : 0, modified: one.modified });
+					dialog.hide();
+					frappe.show_alert({ message: __("Saved."), indicator: "green" });
+					this.data = said;
+					this.$content.empty();
+					this.draw_people(said);
+				} catch (e) {
+					// frappe has said why (the last administrator, or changed since).
+				}
+			},
+		});
 		const again = (said) => {
+			dialog.hide();
+			this.data = said;
 			this.$content.empty();
 			this.draw_people(said);
 		};
-		this.$content.find("[data-app]").on("change", async (event) => {
-			const $select = $(event.currentTarget);
-			again(
-				await frappe.xcall(Settings.API + "set_access", {
-					user: $select.closest("[data-user]").attr("data-user"),
-					app: $select.attr("data-app"),
-					level: $select.val(),
-				})
+		const actions = [];
+		if (!one.me) {
+			actions.push(
+				one.enabled
+					? frappe.ui.button({
+							label: __("Turn Off"),
+							variant: "ghost",
+							theme: "red",
+							icon: "power",
+							onclick: () =>
+								frappe.confirm(__("Turn {0} off? They are signed out now and cannot sign in. Everything they made stays.", [esc(one.full_name || one.name)]), async () =>
+									again(await frappe.xcall(Settings.API + "set_enabled", { user, on: 0 }))
+								),
+					  })
+					: frappe.ui.button({ label: __("Turn On"), variant: "ghost", icon: "power", onclick: async () => again(await frappe.xcall(Settings.API + "set_enabled", { user, on: 1 })) })
 			);
-			frappe.show_alert({ message: __("Saved."), indicator: "green" });
-		});
-		this.$content.find("[data-admin]").on("change", async (event) => {
-			const $box = $(event.currentTarget);
-			try {
-				again(await frappe.xcall(Settings.API + "set_admin", { user: $box.closest("[data-user]").attr("data-user"), on: $box.is(":checked") ? 1 : 0 }));
-			} catch (e) {
-				$box.prop("checked", !$box.is(":checked"));
+			if (one.enabled) {
+				actions.push(
+					frappe.ui.button({
+						label: __("Sign Out Everywhere"),
+						variant: "ghost",
+						icon: "log-out",
+						onclick: () =>
+							frappe.confirm(__("Sign {0} out on every device?", [esc(one.full_name || one.name)]), async () => {
+								await frappe.xcall(Settings.API + "sign_out_everywhere", { user });
+								dialog.hide();
+								frappe.show_alert({ message: __("Signed out everywhere."), indicator: "green" });
+							}),
+					}),
+					frappe.ui.button({
+						label: __("Send a Password Reset"),
+						variant: "ghost",
+						icon: "key-round",
+						onclick: async () => {
+							await frappe.xcall(Settings.API + "send_reset", { user });
+							frappe.show_alert({ message: __("Sent. They get a mail to choose a new password."), indicator: "green" });
+						},
+					})
+				);
 			}
+		}
+		dialog.custom_actions.append(...actions);
+		// Not as defaults: frappe reads a default of "User" as the person
+		// signed in (model.get_default_value).
+		dialog.set_values(Object.fromEntries(people.apps.map((app, at) => [`app_${at}`, one.access[app.name]])));
+		dialog.show();
+	}
+
+	// Fields in two columns, the first taking the odd one: frappe's Column
+	// Break, so the dialog reads down each column rather than in rows.
+	static two_columns(list, field) {
+		const half = Math.ceil(list.length / 2);
+		return list.flatMap((one, at) => [...(at === half ? [{ fieldtype: "Column Break" }] : []), field(one, at)]);
+	}
+
+	// A new person, with the apps they get, in one step.
+	invite_dialog(data) {
+		const levels = data.levels.map((level) => ({ value: level.value, label: level.label }));
+		const dialog = new frappe.ui.Dialog({
+			title: __("Invite Somebody"),
+			fields: [
+				{ fieldname: "email", fieldtype: "Data", options: "Email", label: __("Email"), reqd: 1 },
+				{ fieldtype: "Column Break" },
+				{ fieldname: "first_name", fieldtype: "Data", label: __("First Name"), reqd: 1 },
+				{ fieldname: "last_name", fieldtype: "Data", label: __("Last Name") },
+				{ fieldtype: "Section Break", label: __("What They Can Use"), description: __("Everybody has One, OneCloud, OneMail, OneTask and OneCalendar.") },
+				...Settings.two_columns(data.apps, (app, at) => ({ fieldname: `app_${at}`, fieldtype: "Select", label: app.name, options: levels, default: "None" })),
+			],
+			primary_action_label: __("Invite"),
+			primary_action: async (values) => {
+				const access = Object.fromEntries(data.apps.map((app, at) => [app.name, values[`app_${at}`]]));
+				const said = await frappe.xcall(Settings.API + "invite", { email: values.email, first_name: values.first_name, last_name: values.last_name, access });
+				dialog.hide();
+				frappe.show_alert({ message: __("Invited. They get a mail to set their password."), indicator: "green" });
+				this.data = said;
+				this.$content.empty();
+				this.draw_people(said);
+			},
 		});
-		this.$content.find("[data-enable]").on("click", async (event) => {
-			const $button = $(event.currentTarget);
-			again(await frappe.xcall(Settings.API + "set_enabled", { user: $button.closest("[data-user]").attr("data-user"), on: $button.attr("data-enable") }));
-		});
-		this.$content.find("[data-invite]").on("click", () => {
-			const dialog = new frappe.ui.Dialog({
-				title: __("Invite Somebody"),
-				fields: [
-					{ fieldname: "email", fieldtype: "Data", options: "Email", label: __("Email"), reqd: 1 },
-					{ fieldname: "first_name", fieldtype: "Data", label: __("First Name"), reqd: 1 },
-					{ fieldname: "last_name", fieldtype: "Data", label: __("Last Name") },
-				],
-				primary_action_label: __("Invite"),
-				primary_action: async (values) => {
-					again(await frappe.xcall(Settings.API + "invite", values));
-					dialog.hide();
-					frappe.show_alert({ message: __("Invited. They get a mail to set their password."), indicator: "green" });
-				},
-			});
-			dialog.show();
-		});
+		dialog.show();
 	}
 
 	draw_plan(data) {

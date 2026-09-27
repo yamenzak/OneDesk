@@ -80,6 +80,18 @@ SUGGESTIONS = {
 			"expects": "my_memories",
 		},
 	],
+	"page:workspace-settings/people": [
+		{
+			"label": _lt("Who has access to what?"),
+			"ask": _lt("Who in this workspace can use which apps, and who administers it? Say anything that looks too wide."),
+			"expects": "workspace_people",
+		},
+		{
+			"label": _lt("Who has not signed in lately?"),
+			"ask": _lt("Who has not signed in for a month or more, and should any of them be turned off to free a seat?"),
+			"expects": "workspace_people",
+		},
+	],
 	"page:workspace-settings/general": [
 		{
 			"label": _lt("Is signing in here safe enough?"),
@@ -194,6 +206,14 @@ def page(said: dict) -> str | None:
 		return _notifications_page(said.get("record"))
 	if said.get("page") == "customize":
 		return _customize_page(said.get("record"))
+	if said.get("page") == "workspace-settings" and said.get("section") == "people":
+		return (
+			"The reader administers this workspace and is on Workspace › People: everybody on it, which of "
+			"OneCRM, OneBook, OneInventory, OneProject and OneHR each may use and as a user or a manager, who "
+			"administers it, and when each was last active. workspace_people reads it all. They change a person "
+			"by clicking them, and turn off, sign out or send a password reset from there; how is in One's "
+			"documentation under People, for the Workspace (how_to)."
+		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "general":
 		return (
 			"The reader administers this workspace and is on Workspace › General: what it was made with, its "
@@ -669,6 +689,34 @@ def customize(
 		"state": "Proposed",
 		"next": "Tell them it changes the form for everybody once they approve it, and that Reset on the "
 		"Customize page takes it back.",
+	}
+
+
+def workspace_people() -> dict:
+	"""Everybody on this workspace, for its administrators: which apps each
+	may use and at what level, who administers it, when each was last active,
+	who is turned off, and the seats."""
+	from onedesk.one import roles, settings
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator sees everybody's access."}
+	said = settings._people()
+	return {
+		"seats": said["seats"] or "no limit",
+		"used": said["used"],
+		"people": [
+			{
+				"name": one.full_name or one.name,
+				"address": one.name,
+				"on": bool(one.enabled),
+				"administrator": one.admin,
+				"apps": {app: level for app, level in one.access.items() if level != "None"},
+				"last_active": str(one.last_active) if one.last_active else "never",
+			}
+			for one in said["people"]
+		],
+		"next": "Everybody has One, OneCloud, OneMail, OneTask and OneCalendar anyway. Name people by name. "
+		"The administrator changes a person on Workspace › People by clicking them.",
 	}
 
 

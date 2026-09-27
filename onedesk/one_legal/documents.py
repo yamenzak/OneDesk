@@ -134,7 +134,8 @@ DOCUMENTS = {
 		"audience": "user",
 		# 2: push, a new thing kept about a person who turns it on.
 		# 3: a calendar link, the person's calendar read by an app they choose.
-		"revision": 3,
+		# 4: administrators see where a person is signed in, and sign them out.
+		"revision": 4,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {

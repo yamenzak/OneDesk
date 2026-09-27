@@ -93,41 +93,35 @@
 	white-space: nowrap;
 }
 
-/* People: a person per row, an app per column. */
-.os-people {
-	margin-top: calc(var(--spacing) * 3);
-	overflow-x: auto;
+/* People: a person per line, in frappe's EmbeddedList. The badges wrap
+   rather than cut off, and a line reads as one person. */
+.os-people-list.embedded-list table.embedded-list-table td {
+	white-space: normal;
+	max-width: none;
 }
 
-.os-people-row {
-	display: grid;
-	grid-template-columns: minmax(220px, 1.6fr) repeat(5, minmax(96px, 1fr)) 96px 88px;
+.os-person {
+	display: flex;
 	align-items: center;
-	gap: calc(var(--spacing) * 2);
-	min-width: 900px;
-	padding: calc(var(--spacing) * 2.5) 0;
-	border-bottom: 1px solid var(--outline-gray-1);
+	gap: calc(var(--spacing) * 2.5);
 }
 
-.os-people-head {
-	color: var(--ink-gray-5);
-	font-size: var(--text-xs);
+.os-person-name {
+	color: var(--ink-gray-8);
 	font-weight: var(--font-weight-medium);
 }
 
-.os-people-app {
+/* A person's places and sign-ins, in their dialog: one line each. */
+.os-place {
 	display: flex;
-	align-items: center;
-	gap: calc(var(--spacing) * 1);
+	justify-content: space-between;
+	gap: calc(var(--spacing) * 3);
+	padding: calc(var(--spacing) * 1.5) 0;
+	border-bottom: 1px solid var(--outline-gray-1);
 }
 
-.os-people-app .icon {
-	width: 14px;
-	height: 14px;
-}
-
-.os-people-row.os-off .os-who {
-	opacity: 0.5;
+.os-place:last-child {
+	border-bottom: 0;
 }
 
 /* The profile's photo: larger than any size espresso names, set through the

@@ -133,7 +133,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, You | What OneAI Remembers | done |
 | Settings, You | Agreements | done |
 | Settings, Workspace | General | done |
-| Settings, Workspace | People | findings written, waiting on your word |
+| Settings, Workspace | People | done |
 | Settings, Workspace | Notifications | done (stages 2 and 5 of NOTIFICATIONS.md) |
 | Settings, Workspace | Plan and Credits | |
 | Settings, Workspace | Domains | |
@@ -921,6 +921,37 @@ them. Each change saves at once through `set_access`, `set_admin`,
    your last sign-ins, and can sign you out."
 9. **Built from frappe**: the dropdowns are a raw `<select>` and the tick a
    raw checkbox, not frappe's controls. 6a and 6b replace both.
+
+Your word: all of them.
+
+Done:
+
+- The list is frappe's `EmbeddedList`: Person (photo, name, address, an Off
+  badge), Apps (a badge per app, or "Every app · Manager"), Administrator,
+  Last Active; search past five. The seats are in the line under the intro.
+- A row opens the person in a frappe Dialog: a Select per app in two
+  columns, the Administrator switch, their employee record, where they are
+  signed in (five, then "And N more") and their last sign-ins. Its footer
+  has Turn Off (asks first, signs them out now, frees the seat), Turn On,
+  Sign Out Everywhere (frappe's `clear_sessions`) and Send a Password Reset
+  (frappe's own reset mail). One `save_person` sets the roles in one save
+  against the User's `modified`; a stale save is refused. The values are
+  set after the dialog is made, because frappe reads a field default of
+  "User" as the person signed in.
+- A save always keeps Desk User: found when taking the administrator role
+  from somebody who held nothing else made frappe turn them into a website
+  user, and they dropped out of the workspace.
+- **Invite Somebody** is the page head's primary action; its dialog asks
+  which apps they get.
+- Notifications: **Access Changed** to the person ("Samir Aoun changed what
+  you can use: OneCRM as a user."), **Administrator Added** to every other
+  administrator, always mailed.
+- OneAI: the page sentence, **Who has access to what?** and **Who has not
+  signed in lately?**, read by `workspace_people` (administrators only).
+- `one/README.md` gains People, for the Workspace. The privacy notice gains
+  "people-sign-in" and goes to revision 4, since administrators now see
+  where a person is signed in: everybody agrees again at their next
+  sign-in.
 
 ### Workspace › Notifications
 

@@ -86,3 +86,20 @@ clause(
 	""",
 	order=5,
 )
+
+
+# Workspace: People
+
+clause(
+	document="privacy",
+	section="modules",
+	key="people-sign-in",
+	module=M,
+	body="""
+		Your workspace's administrators can see which apps you may use, when you were last active, where you
+		are signed in (the device and network address) and your last sign-ins, failed ones included. They can
+		sign you out everywhere, send you a password reset, or turn your account off, and you are told when
+		what you may use changes.
+	""",
+	order=8,
+)

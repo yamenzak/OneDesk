@@ -310,6 +310,34 @@ rather than saving over them.
 how many people there are, whose password is over a year old, and the last
 week's failed sign-ins, with what to change.
 
+### People, for the Workspace
+
+Under **Workspace**, **People** is everybody on the workspace. Only its
+administrators see it.
+
+Everybody has One, OneCloud, OneMail, OneTask and OneCalendar. The list
+shows, for each person, the other apps they may use (OneCRM, OneBook,
+OneInventory, OneProject and OneHR, each as a user or a manager), whether
+they administer the workspace, and when they were last active. **Search**
+finds somebody once there are more than five. The line at the top says how
+many seats are used.
+
+- **Invite Somebody**, at the top right, asks for their address and name and
+  which apps they get. They are mailed a link to set their password.
+- **Click somebody** to change what they can use, or to make them an
+  administrator, and save. They are told what changed, and when somebody
+  becomes an administrator every other administrator is told by mail. The
+  workspace always keeps at least one administrator.
+- The same window shows their employee record if they have one, where they
+  are signed in and their last sign-ins. **Sign Out Everywhere** ends every
+  session they have; **Send a Password Reset** mails them a link to choose
+  a new password; **Turn Off** signs them out and stops them signing in,
+  and frees their seat. Everything they made stays. **Turn On** lets them
+  back in.
+
+**OneAI on this page** offers **Who has access to what?** and **Who has not
+signed in lately?**
+
 ### Notifications, for the Workspace
 
 Under **Workspace**, **Notifications** lists everything One tells people, by the
