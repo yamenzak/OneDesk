@@ -87,7 +87,9 @@ every few hours, and Google a few times a day, on its own schedule. It only goes
 **Anyone with the link can read your calendar.** **New Link** switches the old
 one off, and **Switch Off** ends it. A Workspace Administrator can switch
 anybody's off under **Setup › Calendar Links**, which shows when each was made
-and last read.
+and last read. To stop them altogether, **Calendar Links** under Workspace ›
+General switches them off: every link is deleted, nobody can make one, and
+Subscribe is gone. Switching it on again brings none of the old links back.
 
 For events that go both ways with Google, frappe's own **Google Calendar**
 connection is under Setup; it needs a Google API key in Google Settings first.

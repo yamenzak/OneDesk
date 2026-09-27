@@ -395,6 +395,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		).appendTo(this.$content);
 		const draw = (link) => {
 			const $body = $card.find(".os-calendar");
+			if (!data.allowed) {
+				$body.html(`<div class="one-shell-quiet">${__("Your workspace does not allow calendar links. Its administrators decide this under Workspace › General.")}</div>`);
+				$card.find(".one-shell-actions").remove();
+				return;
+			}
 			if (!link) {
 				$body.html(`<div class="one-shell-quiet">${__("You have no calendar link. Make one to see your calendar in another app.")}</div>`);
 				this.page.set_primary_action(__("Make My Link"), async () => draw(await frappe.xcall("onedesk.one_calendar.feed.mine")), "link");

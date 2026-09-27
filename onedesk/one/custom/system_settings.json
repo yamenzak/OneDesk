@@ -9,6 +9,16 @@
    "insert_after": "login_with_email_link",
    "label": "Login with Passkey",
    "module": "One"
+  },
+  {
+   "default": "1",
+   "description": "Lets people see their calendar in another app through a private link. Off, every link is deleted and none can be made.",
+   "dt": "System Settings",
+   "fieldname": "one_calendar_links",
+   "fieldtype": "Check",
+   "insert_after": "one_login_with_passkey",
+   "label": "Calendar Links",
+   "module": "One"
   }
  ],
  "doctype": "System Settings",

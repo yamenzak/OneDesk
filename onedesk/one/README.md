@@ -185,6 +185,9 @@ Google Calendar, Apple Calendar or Outlook, on a computer or a phone.
   one and switches the old one off, so every app has to be given the new
   one. **Switch Off** ends it.
 
+If your workspace switched calendar links off, the page says so instead,
+and nobody has one.
+
 It goes one way: an event you add in Google stays in Google. OneCalendar's
 **Subscribe** is the same link, drawn the same way; its documentation is
 OneCalendar's.

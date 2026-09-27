@@ -86,7 +86,8 @@ onedesk.OneCalendar = class OneCalendar {
 		} else {
 			this.page.set_title(__("Calendar"));
 			onedesk.shell.name(__("Calendar"));
-			this.page.set_secondary_action(__("Subscribe"), () => this.subscribe(), "rss");
+			// Only where the workspace allows calendar links (Workspace › General).
+			if (frappe.boot.one_calendar_links) this.page.set_secondary_action(__("Subscribe"), () => this.subscribe(), "rss");
 		}
 	}
 

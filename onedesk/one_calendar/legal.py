@@ -12,10 +12,11 @@ clause(
 	key="calendar-link",
 	module=M,
 	body="""
-		A person can make a private link to their own calendar and give it to another calendar app, such as
-		Google Calendar, Apple Calendar or Outlook. Whoever holds the link can read what that person's calendar
-		shows, from two months back to a year ahead, and never more than that person can see in One. That app
-		is the person's choice and keeps what it reads under its own terms. The link can be replaced or
-		switched off at any time, and it stops working when the person's account is disabled.
+		Where a workspace allows it, a person can make a private link to their own calendar and give it to
+		another calendar app, such as Google Calendar, Apple Calendar or Outlook. Whoever holds the link can
+		read what that person's calendar shows, from two months back to a year ahead, and never more than that
+		person can see in One. That app is the person's choice and keeps what it reads under its own terms. The
+		link can be replaced or switched off at any time, it stops working when the person's account is
+		disabled, and the workspace's administrators can delete every link at once.
 	""",
 )

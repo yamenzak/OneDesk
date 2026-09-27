@@ -182,6 +182,14 @@ def page(said: dict) -> str | None:
 			"works is in One's documentation under Settings › Mail (how_to)."
 		)
 	if said.get("section") == "calendar":
+		from onedesk.one_calendar import feed
+
+		if not feed.allowed():
+			return (
+				"The reader is on Calendar in their own Settings, but this workspace does not allow calendar "
+				"links: its administrators switched them off under Workspace › General › Calendar Links, so "
+				"nobody can have one. Say so rather than explaining how to add one."
+			)
 		return (
 			"The reader is on Calendar in their own Settings: a private link to their calendar that another "
 			"calendar app reads, with a button for Google Calendar, Apple Calendar and Outlook, what the link "

@@ -151,6 +151,8 @@ doc_events = {
 	# Everyone who works here has an address on the mail domain. See
 	# one_mail/addresses.py.
 	"User": {"before_save": "onedesk.one_mail.addresses.for_person"},
+	# Calendar Links off deletes every calendar link. See one_calendar/feed.py.
+	"System Settings": {"on_update": "onedesk.one_calendar.feed.switched"},
 	# What a workspace writes about a form is held: nothing that runs, nothing
 	# that weakens a guard. See one/layer.py.
 	"Custom Field": {"validate": "onedesk.one.layer.custom_field"},

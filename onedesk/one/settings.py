@@ -144,7 +144,7 @@ NOTIFY_SAID = {
 
 INTAKE = ("records", "most_pages", "floor", "audit", "keep_in_place", "quiet_minutes", "household", "submit_einvoices")
 
-SYSTEM = ("date_format", "time_format", "number_format", "first_day_of_the_week")
+SYSTEM = ("date_format", "time_format", "number_format", "first_day_of_the_week", "one_calendar_links")
 
 #: Sections that list several records and open on one of them.
 ON_A_RECORD = ("notification_types",)
@@ -530,7 +530,7 @@ def _mail() -> dict:
 def _calendar() -> dict:
 	from onedesk.one_calendar import feed
 
-	return {"link": feed.current()}
+	return {"link": feed.current(), "allowed": feed.allowed()}
 
 
 def _signin() -> dict:
@@ -638,6 +638,8 @@ def _company():
 
 
 def _general() -> dict:
+	from onedesk.one_calendar import feed
+
 	company = _company()
 	system = frappe.get_single("System Settings")
 	account = frappe.get_single("Workspace Account")
@@ -646,14 +648,29 @@ def _general() -> dict:
 		"company": company.company_name if company else None,
 		"country": company.country if company else system.country,
 		"currency": company.default_currency if company else None,
-		"fields": _fields("Company", ("company_logo",)) + _fields("System Settings", ("language", "time_zone", *SYSTEM)),
+		"fields": _fields("Company", ("company_logo",)) + _zones(_switches(_fields("System Settings", ("language", "time_zone", *SYSTEM)))),
 		"values": {
 			"company_logo": company.company_logo if company else None,
 			"language": system.language,
 			"time_zone": system.time_zone,
 			**{name: system.get(name) for name in SYSTEM},
+			"one_calendar_links": 1 if feed.allowed() else 0,
 		},
 	}
+
+
+def _zones(fields: list) -> list:
+	"""System Settings' form fills its Time Zone list in the browser, so the
+	field arrives with none: shown blank, and saved blank, which frappe refuses."""
+	from frappe.utils.momentjs import get_all_timezones
+
+	return [{**one, "options": "\n".join(get_all_timezones())} if one["fieldname"] == "time_zone" else one for one in fields]
+
+
+def _switches(fields: list) -> list:
+	"""A Check on a settings page is drawn as frappe's Switch, as the rest of
+	Settings draws them. The value is the same 0 or 1."""
+	return [{**one, "fieldtype": "Switch"} if one["fieldtype"] == "Check" else one for one in fields]
 
 
 def _save_general(values: dict) -> None:

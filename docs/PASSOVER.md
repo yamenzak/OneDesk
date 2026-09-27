@@ -440,6 +440,18 @@ Done:
 - **Legal**: `one_calendar/legal.py` says a person may publish their
   calendar through a private link; the privacy notice is revision 3.
 
+Then, on your word: **Calendar Links** under Workspace › General (a switch
+on System Settings). Off, every link is deleted at once (`feed.switched`),
+the feed refuses any link, Settings says the workspace does not allow them,
+OneCalendar has no Subscribe, and OneAI says so. On again, nobody's old link
+comes back. Found on the way and fixed:
+
+- Opening your own calendar link while signed in signed you out: the feed's
+  `frappe.set_user` rewrote the request's session, sid and all. It now reads
+  as the link's owner and gives the request its own session back (`feed._as`).
+- General could not be saved: System Settings' Time Zone arrived with no
+  options, so it showed blank and saved blank (`settings._zones`).
+
 ### Agreements
 
 Built during the pass, right after OneLegal, so a person can see what they

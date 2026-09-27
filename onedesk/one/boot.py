@@ -20,6 +20,10 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_titles"] = titles.for_boot()
 
+	from onedesk.one_calendar import feed
+
+	bootinfo["one_calendar_links"] = feed.allowed()
+
 	# The doctypes that hold a record OneAI made and nobody checked, so a list
 	# of anything else never asks. See one_intake/mark.py.
 	from onedesk.one_intake import mark

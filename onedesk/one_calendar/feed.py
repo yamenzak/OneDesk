@@ -17,6 +17,7 @@ integration syncs both ways for Events, and needs Google API keys to do it.
 
 import hashlib
 import secrets
+from contextlib import contextmanager
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -38,22 +39,48 @@ METHOD = "onedesk.one_calendar.feed.ics"
 LINE = 75
 
 
+def allowed() -> bool:
+	"""Whether this workspace lets people have a calendar link at all
+	(Calendar Links, under General in Workspace settings). On unless it was switched off:
+	frappe reads a single's field nobody has saved as 0, so the stored row is
+	read instead, and no row means on."""
+	said = frappe.db.sql(
+		"select value from `tabSingles` where doctype = 'System Settings' and field = 'one_calendar_links'"
+	)
+	said = said[0][0] if said else None
+	return said is None or bool(frappe.utils.cint(said))
+
+
+def _allowed() -> None:
+	if not allowed():
+		frappe.throw(_("Your workspace does not allow calendar links."), frappe.PermissionError)
+
+
+def switched(doc, _method=None) -> None:
+	"""Calendar Links switched off deletes every link, so switching it on
+	again brings none of them back: a link that leaked stays dead."""
+	if not doc.get("one_calendar_links"):
+		frappe.db.delete("Calendar Feed")
+
+
 @frappe.whitelist(methods=["POST"])
 def mine() -> dict:
 	"""The reader's calendar link, made the first time they ask for it."""
+	_allowed()
 	token = _token(frappe.session.user) or _new(frappe.session.user)
 	return _addresses(token)
 
 
 def current() -> dict | None:
 	"""The reader's calendar link if they have one, without making one."""
-	token = _token(frappe.session.user)
+	token = _token(frappe.session.user) if allowed() else None
 	return _addresses(token) if token else None
 
 
 @frappe.whitelist(methods=["POST"])
 def renew() -> dict:
 	"""A new link for the reader's calendar. The old one stops working."""
+	_allowed()
 	return _addresses(_new(frappe.session.user))
 
 
@@ -99,13 +126,13 @@ def stop() -> None:
 def ics(token: str) -> None:
 	"""The calendar behind a link, as the person it belongs to."""
 	user = frappe.db.get_value("Calendar Feed", {"token_hash": _hash(token or "")}, "user")
-	if not user or not frappe.db.get_value("User", user, "enabled"):
+	if not user or not allowed() or not frappe.db.get_value("User", user, "enabled"):
 		frappe.throw(_("This calendar link does not work any more."), frappe.PermissionError)
 	frappe.db.set_value("Calendar Feed", user, "last_read", now_datetime(), update_modified=False)
-	frappe.set_user(user)
-	keys = [one["key"] for one in layers.offered() if one["on"]]
-	today = getdate(nowdate())
-	found = layers.entries(str(add_days(today, -BEHIND)), str(add_days(today, AHEAD)), keys) if keys else []
+	with _as(user):
+		keys = [one["key"] for one in layers.offered() if one["on"]]
+		today = getdate(nowdate())
+		found = layers.entries(str(add_days(today, -BEHIND)), str(add_days(today, AHEAD)), keys) if keys else []
 	named = frappe.utils.get_fullname(user)
 	frappe.response.update(
 		{
@@ -122,6 +149,24 @@ def ics(token: str) -> None:
 			).encode("utf-8"),
 		}
 	)
+
+
+@contextmanager
+def _as(user: str):
+	"""Read as the link's owner, then give the request its own session back.
+	frappe.set_user rewrites the session in place, sid and all, so a person
+	opening their own link while signed in would otherwise be signed out."""
+	session = frappe.local.session
+	held = dict(session)
+	frappe.set_user(user)
+	try:
+		yield
+	finally:
+		session.clear()
+		session.update(held)
+		frappe.local.role_permissions = {}
+		frappe.local.user_perms = None
+		frappe.local.cache = {}
 
 
 def _hash(token: str) -> str:
