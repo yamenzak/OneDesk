@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-27 09:52+0000\n"
-"PO-Revision-Date: 2026-09-27 09:52+0000\n"
+"POT-Creation-Date: 2026-09-27 09:58+0000\n"
+"PO-Revision-Date: 2026-09-27 09:58+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -6623,6 +6623,10 @@ msgstr "بلد الإصدار"
 msgid "It asks for a password: make one for each computer below. A drive password opens your drive and nothing else, and everything you can open here, you can open there."
 msgstr "سيطلب كلمة مرور: أنشئ واحدة لكل حاسوب أدناه. كلمة مرور محرك الأقراص تفتح محركك ولا شيء غيره، وكل ما يمكنك فتحه هنا يمكنك فتحه هناك."
 
+#: onedesk/one_intake/planning.py:393
+msgid "It asks to be paid to an IBAN we do not have for {0}. Check with them by phone before paying."
+msgstr "يطلب الدفع إلى IBAN غير مسجّل لدينا لـ {0}. تحقّق منهم هاتفياً قبل الدفع."
+
 #: onedesk/public/js/settings.js:943
 msgid "It can use {0}"
 msgstr "يمكنه استخدام {0}"
@@ -8506,10 +8510,6 @@ msgstr ""
 msgid "New Fiscal Year"
 msgstr "سنة مالية جديدة"
 
-#: onedesk/one_intake/notifications.py:49
-msgid "New IBAN"
-msgstr "رقم IBAN جديد"
-
 #. Label of a shortcut in the OneBook Workspace
 #: onedesk/one_book/workspace/onebook/onebook.json
 msgid "New Invoice"
@@ -9620,7 +9620,7 @@ msgstr "يقرأ OneAI الملفات الجديدة في {0}."
 msgid "OneAI reads new mail in {0}."
 msgstr "يقرأ OneAI البريد الجديد في {0}."
 
-#: onedesk/one_intake/notifications.py:65
+#: onedesk/one_intake/notifications.py:53
 msgid "OneAI thinks {title} is phishing. Do not pay, answer or open links in it."
 msgstr "يعتقد OneAI أن {title} تصيّد احتيالي. لا تدفع ولا ترد ولا تفتح روابطه."
 
@@ -10702,7 +10702,7 @@ msgstr "شخصي"
 
 #. Option for the 'First Look' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/one_intake/notifications.py:61
+#: onedesk/one_intake/notifications.py:49
 msgid "Phishing"
 msgstr "تصيّد احتيالي"
 
@@ -14552,11 +14552,10 @@ msgstr "المؤتمنون على الشكاوى"
 #: onedesk/one_intake/notifications.py:14
 #: onedesk/one_intake/notifications.py:22
 #: onedesk/one_intake/notifications.py:32
-#: onedesk/one_intake/notifications.py:52
 msgid "The person it reads for"
 msgstr "الشخص الذي يقرأ له"
 
-#: onedesk/one_intake/notifications.py:64
+#: onedesk/one_intake/notifications.py:52
 msgid "The person it reads for, and whoever put the file there"
 msgstr "الشخص الذي يقرأ له، ومن وضع الملف هناك"
 
@@ -16463,7 +16462,7 @@ msgstr "عندما يعدّ OneAI شكوى جديدة حساسة."
 msgid "When OneAI reads a new grievance as urgent."
 msgstr "عندما يعدّ OneAI شكوى جديدة عاجلة."
 
-#: onedesk/one_intake/notifications.py:63
+#: onedesk/one_intake/notifications.py:51
 msgid "When OneAI thinks a document is phishing."
 msgstr "عندما يرى OneAI أن مستنداً احتيالي."
 
@@ -16478,10 +16477,6 @@ msgstr "عندما يصل مستند لمهمة أغلقتها. تبقى الم�
 #: onedesk/one_storage/notifications.py:63
 msgid "When a file request is sent, with the link to send the files."
 msgstr "عند إرسال طلب ملفات، مع رابط إرسال الملفات."
-
-#: onedesk/one_intake/notifications.py:51
-msgid "When a known supplier's document asks to be paid to an IBAN we do not have for them."
-msgstr "عندما يطلب مستند من مورّد معروف الدفع إلى IBAN غير مسجّل لدينا له."
 
 #: onedesk/one_storage/notifications.py:86
 msgid "When a link is shared with an address."
@@ -19099,10 +19094,6 @@ msgstr "أرسل {sender} ‏{item} لطلب {request}"
 #: onedesk/one_intake/notifications.py:45
 msgid "{title} arrived after you closed this task."
 msgstr "وصل {title} بعد أن أغلقت هذه المهمة."
-
-#: onedesk/one_intake/notifications.py:53
-msgid "{title} asks to be paid to an IBAN we do not have for {supplier}. Check with them by phone before paying."
-msgstr "يطلب {title} الدفع إلى رقم IBAN غير مسجل لدينا لـ {supplier}. تحقق منهم هاتفياً قبل الدفع."
 
 #: onedesk/one_storage/notifications.py:25
 msgid "{who} added you to the library {library}"

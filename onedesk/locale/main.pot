@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-27 09:52+0000\n"
-"PO-Revision-Date: 2026-09-27 09:52+0000\n"
+"POT-Creation-Date: 2026-09-27 09:58+0000\n"
+"PO-Revision-Date: 2026-09-27 09:58+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -6622,6 +6622,10 @@ msgstr ""
 msgid "It asks for a password: make one for each computer below. A drive password opens your drive and nothing else, and everything you can open here, you can open there."
 msgstr ""
 
+#: onedesk/one_intake/planning.py:393
+msgid "It asks to be paid to an IBAN we do not have for {0}. Check with them by phone before paying."
+msgstr ""
+
 #: onedesk/public/js/settings.js:943
 msgid "It can use {0}"
 msgstr ""
@@ -8506,10 +8510,6 @@ msgstr ""
 msgid "New Fiscal Year"
 msgstr ""
 
-#: onedesk/one_intake/notifications.py:49
-msgid "New IBAN"
-msgstr ""
-
 #. Label of a shortcut in the OneBook Workspace
 #: onedesk/one_book/workspace/onebook/onebook.json
 msgid "New Invoice"
@@ -9620,7 +9620,7 @@ msgstr ""
 msgid "OneAI reads new mail in {0}."
 msgstr ""
 
-#: onedesk/one_intake/notifications.py:65
+#: onedesk/one_intake/notifications.py:53
 msgid "OneAI thinks {title} is phishing. Do not pay, answer or open links in it."
 msgstr ""
 
@@ -10702,7 +10702,7 @@ msgstr ""
 
 #. Option for the 'First Look' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/one_intake/notifications.py:61
+#: onedesk/one_intake/notifications.py:49
 msgid "Phishing"
 msgstr ""
 
@@ -14552,11 +14552,10 @@ msgstr ""
 #: onedesk/one_intake/notifications.py:14
 #: onedesk/one_intake/notifications.py:22
 #: onedesk/one_intake/notifications.py:32
-#: onedesk/one_intake/notifications.py:52
 msgid "The person it reads for"
 msgstr ""
 
-#: onedesk/one_intake/notifications.py:64
+#: onedesk/one_intake/notifications.py:52
 msgid "The person it reads for, and whoever put the file there"
 msgstr ""
 
@@ -16463,7 +16462,7 @@ msgstr ""
 msgid "When OneAI reads a new grievance as urgent."
 msgstr ""
 
-#: onedesk/one_intake/notifications.py:63
+#: onedesk/one_intake/notifications.py:51
 msgid "When OneAI thinks a document is phishing."
 msgstr ""
 
@@ -16477,10 +16476,6 @@ msgstr ""
 
 #: onedesk/one_storage/notifications.py:63
 msgid "When a file request is sent, with the link to send the files."
-msgstr ""
-
-#: onedesk/one_intake/notifications.py:51
-msgid "When a known supplier's document asks to be paid to an IBAN we do not have for them."
 msgstr ""
 
 #: onedesk/one_storage/notifications.py:86
@@ -19091,10 +19086,6 @@ msgstr ""
 
 #: onedesk/one_intake/notifications.py:45
 msgid "{title} arrived after you closed this task."
-msgstr ""
-
-#: onedesk/one_intake/notifications.py:53
-msgid "{title} asks to be paid to an IBAN we do not have for {supplier}. Check with them by phone before paying."
 msgstr ""
 
 #: onedesk/one_storage/notifications.py:25

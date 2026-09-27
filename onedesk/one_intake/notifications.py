@@ -44,18 +44,6 @@ TYPES = [
 		"to": _lt("Whoever closed the task"),
 		"subject": _lt("{title} arrived after you closed this task."),
 	},
-	# planning: a supplier asks to be paid somewhere new.
-	{
-		"name": _lt("New IBAN"),
-		"app": "OneIntake",
-		"about": _lt("When a known supplier's document asks to be paid to an IBAN we do not have for them."),
-		"to": _lt("The person it reads for"),
-		"subject": _lt(
-			"{title} asks to be paid to an IBAN we do not have for {supplier}. Check with them by phone before paying."
-		),
-		"email_default": True,
-		"push_default": True,
-	},
 	# filing: a document reads as phishing.
 	{
 		"name": _lt("Phishing"),

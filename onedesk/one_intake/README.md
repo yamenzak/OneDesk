@@ -527,7 +527,8 @@ loses a value it had.
 - `plans.enrich` is stage 8: a matched party's empty fields from the reading,
   through the door, which proposes wherever the record already says
   something else. An update that changes nothing is not written down.
-  `planning._warn_iban` is the red warning.
+  `planning._hold_iban` marks the drafted bill wrong when the document asks to
+  be paid to an IBAN we do not have for the supplier, so it waits.
 
 - `search.find_documents` is stage 9, a read tool for OneAI's chat: the
   FULLTEXT index for words, the Reading's own fields for kind, party and

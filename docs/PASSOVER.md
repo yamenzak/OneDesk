@@ -525,6 +525,11 @@ Then, on your word:
   One's, and Rules none.
 - OneIntake's kinds no longer carry the OneAI tag; every one of them is
   OneAI's, so the tag said nothing.
+- **New IBAN is not a notification any more.** Its draft bill was already
+  held red and its pay panel shows no QR code; now the bill is also marked
+  wrong with why (`planning._hold_iban`), so it waits in OneIntake like
+  anything else OneAI could not settle, and Intake Waiting tells the person.
+  A patch removes the type.
 
 ### Push (Notifications, stage 4)
 

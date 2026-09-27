@@ -63,7 +63,7 @@ def run(name: str, which: str) -> None:
 		drafts.maybe_submit(reading)
 	if which == "rest":
 		_tell_closer(reading, ctx)
-		_warn_iban(reading)
+		_hold_iban(reading)
 
 
 def rematch(reading) -> None:
@@ -377,26 +377,21 @@ def _payable(ctx: dict, reading) -> None:
 	ctx["nobody_pays"] = reading.paid_how in ("Direct Debit", "Already Paid") or reading.kind == "Receipt"
 
 
-def _warn_iban(reading) -> None:
+def _hold_iban(reading) -> None:
 	"""A known supplier's document asking to be paid to an IBAN we do not have
-	for them is exactly what invoice fraud looks like: the person OneAI reads
-	for is told at once, in red, and the IBAN is never written over ours."""
+	for them is exactly what invoice fraud looks like. Its draft bill is held
+	(drafts.red) and the IBAN is never written over ours; here the bill is also
+	marked wrong, with why, so it waits for the person like anything else OneAI
+	could not settle, and Intake Waiting says so (inbox.tell)."""
 	if not reading.iban or reading.party_doctype != "Supplier" or not reading.party_name:
 		return
 	known = [one.replace(" ", "").upper() for one in frappe.get_all("Bank Account", filters={"party_type": "Supplier", "party": reading.party_name}, pluck="iban") if one]
 	if not known or reading.iban.replace(" ", "").upper() in known:
 		return
-	from onedesk.one import notify
-
-	notify.notify(
-		"New IBAN",
-		reading.on_behalf_of,
-		record=("Reading", reading.name),
-		sender=AUTHOR,
-		dedupe_on=["document_type", "document_name", "subject"],
-		title=reading.title or "",
-		supplier=reading.party_name,
-	)
+	made = frappe.db.get_value("Intake Action", {"reading": reading.name, "kind": "Create", "target_doctype": "Purchase Invoice", "level": "Done"}, "name")
+	if made:
+		why = _("It asks to be paid to an IBAN we do not have for {0}. Check with them by phone before paying.").format(reading.party_name)
+		frappe.db.set_value("Intake Action", made, {"audit": "Wrong", "audit_why": why}, update_modified=False)
 
 
 # ------------------------------------------------------------------ flows
