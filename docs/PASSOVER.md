@@ -129,7 +129,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, You | Notifications | done, second pass |
 | Settings, You | Mail | done |
 | Settings, You | Calendar | done |
-| Settings, You | Sign-in | |
+| Settings, You | Sign-in | findings written, waiting on your word |
 | Settings, You | What OneAI Remembers | |
 | Settings, You | Agreements | done |
 | Settings, Workspace | General | |
@@ -451,6 +451,49 @@ comes back. Found on the way and fixed:
   as the link's owner and gives the request its own session back (`feed._as`).
 - General could not be saved: System Settings' Time Zone arrived with no
   options, so it showed blank and saved blank (`settings._zones`).
+
+### Sign-in
+
+Three sections: Change Password (a dialog), the passkey for checking in with
+a dark Register This Device, and "475 sessions, this one included" with Sign
+Out Everywhere Else. Nothing is changed yet.
+
+1. **Notifications**: changing the password here tells nobody. Frappe mails
+   "Security Alert: Your password has been changed" only when a password is
+   set on the User form, and straight through `frappe.sendmail`, outside the
+   hub. Registering a passkey tells nobody either. Recommended: two kinds
+   through the hub, **Password Changed** and **Passkey Added**, mailed to the
+   person always (a security notice cannot be switched off), each saying
+   when, from which device, and what to do if it was not them.
+2. **OneAI**: no suggestions, no page sentence. Recommended: **Is My Account
+   Safe?**, reading this page's facts (password age, passkey, how many places
+   you are signed in, two-factor) and saying what to do.
+3. **Intake**: nothing here.
+4. **Permissions**: hold. Each action is the reader's own; Sign Out
+   Everywhere Else keeps this session.
+5. **Cross-module**: the passkey is OneHR's, for checking in, but when the
+   workspace allows Login with Passkey (System Settings) the same passkey
+   signs you in, and the page does not say so. Two-factor sign-in, where the
+   workspace requires it, is not mentioned either. Recommended: the passkey
+   section says what it is used for here (checking in, and signing in when
+   allowed), and a line says whether two-factor is on for you.
+6. **UI and UX**:
+   - "475 sessions" is a number nobody can act on, and most are old. Frappe
+     keeps each session's device (user agent), network address and last
+     activity. Recommended: a list of where you are signed in, as "Chrome on
+     Mac · 2 hours ago", this one marked, each with Sign Out, and Sign Out
+     Everywhere Else kept for all of them.
+   - Change Password does not offer to sign out elsewhere, which is what a
+     person changing a leaked password wants. Recommended: a switch in the
+     dialog, on by default.
+   - Register This Device is a dark button in the page. Recommended: quiet;
+     this page has nothing to save, so its head has no action.
+7. **Documented**: no Sign-in section in `one/README.md`. Recommended: one.
+8. **Legal**: holds. The privacy notice already covers sign-in records with
+   time and network address, and passkeys.
+9. **Built from frappe**: the password dialog is frappe's, with its Password
+   controls and strength check. Signing out one session is frappe's
+   `delete_session`.
 
 ### Agreements
 
