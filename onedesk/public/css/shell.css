@@ -408,6 +408,21 @@ a.one-shell-row:hover {
 	border: 0;
 }
 
+/* A record nothing on the page edits (Plan and Credits) has its parts as
+   sections of their own, laid out as the form's parts above them are. */
+.one-record-main > .one-shell-section:not(:has(.one-shell-form)) {
+	padding: calc(var(--spacing) * 6) calc(var(--spacing) * 7.5);
+	border-bottom: 1px solid var(--outline-gray-1);
+}
+
+.one-record-main > .one-shell-section:not(:has(.one-shell-form)):last-child {
+	border-bottom: 0;
+}
+
+.one-record-main > .one-record-news {
+	padding: calc(var(--spacing) * 5) calc(var(--spacing) * 7.5) 0;
+}
+
 .one-record-main .one-shell-form,
 .one-record-main .one-shell-columns .one-shell-form {
 	max-width: none;

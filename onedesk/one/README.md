@@ -430,6 +430,39 @@ Their text is frappe's, so they have nothing to change here.
   suggests the rule.
 - **How do notifications work?** From this page.
 
+### Plan and Credits, for the Workspace
+
+Under **Workspace**, **Plan and Credits** is the workspace's account: its
+plan, and the credits OneAI runs on. Only its administrators see it. Nothing
+here is typed; the numbers are the account's, and the page asks for them
+again when they are more than an hour old. The side says when they were
+last heard; **Check Again**, at the top, asks now.
+
+- The pill at the top says where the workspace stands: Active, or Payment
+  overdue. When a payment is overdue, a line above everything says the day
+  the workspace will be suspended.
+- **Plan** is the plan, the seats used (click them for People), and the
+  storage its files take against what the plan allows (click it for
+  OneCloud). The bar turns orange at nine tenths and red when full; once
+  full, nothing new can be uploaded.
+- **OneAI Credits** is what is left, what calls running now are holding,
+  what was used in the last thirty days, and how many expire when. The
+  plan's monthly credits expire at the end of the month and are used
+  first; credits you buy never expire.
+- **Buy Credits**, at the top right, offers the packs on sale with their
+  price, then opens the payment page in a new tab. The credits arrive once
+  the payment goes through, and the page asks again when you come back to
+  it. **See What Used Them** opens the AI Credits report, by model, person
+  or day.
+
+Every administrator is told when credits run low (about three days left at
+the rate of the last thirty) and when storage is nearly full, both also by
+mail; a week before credits expire; and when credits arrive. When payment is
+overdue they are mailed the day the workspace will be suspended.
+
+**OneAI on this page** offers **How long will our credits last?** and
+**What used the most credits this month?**
+
 ## Customizing a Form
 
 **Customize** on any form's menu opens the form's own customization page, for

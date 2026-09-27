@@ -704,6 +704,8 @@ one_ai_reads = [
 	# How everybody signs in, for the workspace's administrators.
 	"onedesk.one.ai.workspace_sign_in",
 	"onedesk.one.ai.workspace_people",
+	# The plan and the credits, for the workspace's administrators.
+	"onedesk.one.ai.workspace_plan",
 	# Documents by what they say, and what they are. See one_intake/search.py.
 	"onedesk.one_intake.search.find_documents",
 	"onedesk.one_hr.ai.my_leave",

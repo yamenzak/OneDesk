@@ -71,7 +71,20 @@
 }
 
 .os-bar {
+	display: block;
 	margin-top: calc(var(--spacing) * 5);
+	color: inherit;
+	text-decoration: none;
+}
+
+/* Storage near its limit, and over it: frappe-ui's bar, in the colour of the
+   warning it is. */
+.os-bar .os-bar-near .es-progress__fill {
+	background: var(--orange-500);
+}
+
+.os-bar .os-bar-over .es-progress__fill {
+	background: var(--red-500);
 }
 
 .os-copy {
@@ -395,4 +408,12 @@
 	display: inline-flex;
 	align-items: center;
 	white-space: nowrap;
+}
+
+/* A fact that leads somewhere: the seats to People. */
+.os-facts dd a {
+	color: inherit;
+	text-decoration: underline;
+	text-decoration-color: var(--outline-gray-3);
+	text-underline-offset: 3px;
 }

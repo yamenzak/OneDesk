@@ -105,7 +105,8 @@ $.extend(onedesk.shell, {
 	// (`side`) beside the main column, which it returns. `$into` is the
 	// shell's body. A record that is edited uses Editor.as_record instead.
 	record($into, { page, parent, route, title, status = null, side = "", actions = [] }) {
-		onedesk.shell.trail(parent, route, title);
+		// A page that is itself the record (Plan and Credits) keeps its own name.
+		if (parent) onedesk.shell.trail(parent, route, title);
 		if (status) page.set_indicator(status.label, status.colour);
 		const $view = $(`<div class="one-record-view"><div class="one-record-main"></div><div class="one-record-side form-sidebar">${side}</div></div>`);
 		$into.closest(".one-shell-body").addBack(".one-shell-body").addClass("one-shell-record");
@@ -168,10 +169,11 @@ $.extend(onedesk.shell, {
 
 	// One part of a page: a heading and what it holds, divided from the next
 	// by a rule, the way a record's sections are. `aside` goes beside the
-	// heading: a count, a badge.
+	// heading: a count, a badge. The title is one flex item, or a product
+	// name in it (brand.js) would be split from its words by the gap.
 	section(title, body, note, aside = "") {
 		const esc = frappe.utils.escape_html;
-		return `<div class="one-shell-section">${title ? `<div class="one-shell-section-title">${esc(title)}${aside}</div>` : ""}${
+		return `<div class="one-shell-section">${title ? `<div class="one-shell-section-title"><span>${esc(title)}</span>${aside}</div>` : ""}${
 			note ? `<div class="one-shell-quiet one-shell-note">${esc(note)}</div>` : ""
 		}${body}</div>`;
 	},

@@ -135,7 +135,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, Workspace | General | done |
 | Settings, Workspace | People | done |
 | Settings, Workspace | Notifications | done (stages 2 and 5 of NOTIFICATIONS.md) |
-| Settings, Workspace | Plan and Credits | findings written, waiting on your word |
+| Settings, Workspace | Plan and Credits | done |
 | Settings, Workspace | Domains | |
 | Settings, Workspace | OneAI | |
 | Settings, Workspace | OneIntake | |
@@ -1198,6 +1198,39 @@ Credits (a dialog of packs, then Stripe in a new tab) and See What Used Them
 9. **Built from frappe**: the dialog is frappe's; the bar is espresso's
    `frappe.ui.progress` (6g); the facts are a hand-drawn list, which 6b
    replaces with the record view's own parts.
+
+Your word: all of them.
+
+Done:
+
+- Five notices in `one/notifications.py`, sent from `account.refresh` to
+  every administrator when a line is crossed: Credits Running Low (under a
+  tenth of the last thirty days' use, which `hello` now sends as
+  `credits.month`), Storage Nearly Full (nine tenths) and Payment Overdue
+  (the suspension date, once per date), all three also mailed; Credits
+  Expiring (a week ahead, once per date) and Credits Added on the bell.
+  `roles.administrators()` is who hears, shared with Administrator Added.
+- The page is the account drawn as a record: the standing in the pill, the
+  overdue or out-of-touch sentence above everything (`heads.account_said`),
+  Plan (plan, seats leading to People, storage leading to OneCloud, orange
+  from nine tenths, red over) and OneAI Credits (left, held, used in the last
+  thirty days, expiring). The side has the name, the plan, links and "As of".
+  Buy Credits is the page head's primary action; See What Used Them and
+  Check Again sit beside it. Opening the page asks the account again when
+  its copy is over an hour old, and so does coming back from payment.
+- Packs read "1,000 credits · $ 9".
+- OneIntake's month line is gone from here.
+- `Workspace Account` is read by administrators only, `account.mine` is
+  deleted, and `/desk/workspace-account` sends its reader here.
+- OneAI: the page sentence, the two suggestions and `workspace_plan`.
+- `one/README.md` has Plan and Credits, for the Workspace.
+- The terms' credits clause says the plan's monthly credits expire at the
+  month's end and are used first, and bought ones never expire; terms
+  revision 2, so administrators agree again.
+- A section title is one flex item, so "OneAI Credits" no longer splits.
+
+Not done: storage leads to OneCloud's Home, not to a list of the biggest
+files, because OneCloud has no workspace-wide list by size to open.
 
 ## OneLegal
 

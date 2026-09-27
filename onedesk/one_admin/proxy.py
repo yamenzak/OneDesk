@@ -170,7 +170,7 @@ def hello() -> dict:
 		# A sum over the ledger rather than a number anybody stored, which is
 		# why it is safe to answer from here rather than keeping a copy on the
 		# workspace that could disagree with its own history.
-		"credits": ledger.standing(tenant.name),
+		"credits": {**ledger.standing(tenant.name), "month": _used_lately(tenant.name)},
 		# The addresses too, so the account screen is one call rather than two.
 		# A workspace that asked only about its account still gets them, which
 		# is what keeps the copy on its own site in step after an outage.
@@ -252,6 +252,19 @@ def buy_credits(pack: str) -> dict:
 	from onedesk.one_admin import topup
 
 	return topup.buy(caller().name, pack)
+
+
+def _used_lately(tenant: str) -> float:
+	"""Credits spent in the last thirty days, which is what "running low" is
+	measured against: a balance is low for what this workspace uses, not for a
+	number anybody picked."""
+	from frappe.utils import add_days, getdate
+
+	from onedesk.one_admin import ledger
+
+	today = getdate()
+	whole = ledger.usage(add_days(today, -30), add_days(today, 1), [], tenant=tenant)
+	return float((whole[0] or {}).get("credits") or 0) if whole else 0.0
 
 
 @frappe.whitelist(allow_guest=True)

@@ -92,6 +92,21 @@ SUGGESTIONS = {
 			"expects": "workspace_people",
 		},
 	],
+	"page:workspace-settings/plan": [
+		{
+			"label": _lt("How long will our credits last?"),
+			"ask": _lt(
+				"How long will our OneAI credits last at the rate we use them, and do any expire before we "
+				"would use them?"
+			),
+			"expects": "workspace_plan",
+		},
+		{
+			"label": _lt("What used the most credits this month?"),
+			"ask": _lt("What used the most OneAI credits in the last thirty days, by model and by person?"),
+			"expects": "workspace_plan",
+		},
+	],
 	"page:workspace-settings/general": [
 		{
 			"label": _lt("Is signing in here safe enough?"),
@@ -213,6 +228,14 @@ def page(said: dict) -> str | None:
 			"administers it, and when each was last active. workspace_people reads it all. They change a person "
 			"by clicking them, and turn off, sign out or send a password reset from there; how is in One's "
 			"documentation under People, for the Workspace (how_to)."
+		)
+	if said.get("page") == "workspace-settings" and said.get("section") == "plan":
+		return (
+			"The reader administers this workspace and is on Workspace › Plan and Credits: its plan, seats and "
+			"storage, and its OneAI credits (what is left, held by calls running now, used in the last thirty "
+			"days, and what expires when). workspace_plan reads it all, with the last thirty days by model and "
+			"by person. They buy credits from the page head; how is in One's documentation under Plan and "
+			"Credits, for the Workspace (how_to)."
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "general":
 		return (
@@ -717,6 +740,48 @@ def workspace_people() -> dict:
 		],
 		"next": "Everybody has One, OneCloud, OneMail, OneTask and OneCalendar anyway. Name people by name. "
 		"The administrator changes a person on Workspace › People by clicking them.",
+	}
+
+
+def workspace_plan() -> dict:
+	"""The workspace's plan and OneAI credits, for its administrators: plan,
+	seats, storage, credits left, held, used in the last thirty days and what
+	expires when, and the last thirty days by model and by person."""
+	from frappe.utils import add_days, getdate
+
+	from onedesk.one import roles, settings
+	from onedesk.one_ai.report.ai_credits import ai_credits
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator sees the plan and the credits."}
+	said = settings._plan()
+	held = said["account"]
+	end = getdate()
+	cut = {}
+	for by in ("Model", "Person"):
+		try:
+			_columns, rows, *_rest = ai_credits.execute({"from_date": add_days(end, -29), "to_date": end, "by": by})
+		except frappe.ValidationError:
+			# The account could not be reached: the cached numbers still answer.
+			rows = []
+		cut[by.lower()] = rows[:10]
+	return {
+		"standing": (said["state"] or {}).get("label"),
+		"news": (said["said"] or {}).get("text"),
+		"plan": held["plan"],
+		"seats": {"used": said["used"], "of": held["seats"] or "no limit"},
+		"storage": said["storage"],
+		"credits": {
+			"left": held["credits_balance"],
+			"held": held["credits_held"],
+			"used_in_30_days": held["credits_month"],
+			"expiring": held["credits_expiring"],
+			"expire_on": str(held["credits_expires_on"]) if held["credits_expires_on"] else None,
+		},
+		"last_30_days": cut,
+		"as_of": str(held["last_heard"]) if held["last_heard"] else None,
+		"next": "The plan's monthly credits expire at the end of the month and are used first; bought credits never expire. Credits "
+		"are bought from Buy Credits in the page head of Workspace › Plan and Credits.",
 	}
 
 

@@ -15,7 +15,7 @@
 | Record Head Linked | 5 | child |
 | Record Head Sentence | 5 | child |
 | Record Head Verb | 4 | child |
-| Workspace Account | 28 | single |
+| Workspace Account | 29 | single |
 | Workspace Customization | 5 | document |
 | Workspace Domain | 4 | child |
 
@@ -173,6 +173,7 @@ No doctypes yet.
 ## Whitelisted methods
 
 * `onedesk.one.account.buy_credits`
+* `onedesk.one.account.check_again`
 * `onedesk.one.account.credit_packs`
 * `onedesk.one.account.domain_add`
 * `onedesk.one.account.domain_check`
@@ -180,7 +181,6 @@ No doctypes yet.
 * `onedesk.one.account.domain_primary`
 * `onedesk.one.account.domains`
 * `onedesk.one.account.domains_refresh`
-* `onedesk.one.account.mine`
 * `onedesk.one.customize.export`
 * `onedesk.one.customize.load`
 * `onedesk.one.customize.reset`

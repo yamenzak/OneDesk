@@ -1066,11 +1066,7 @@ def _told_of_access(doc, before: set, after: set) -> None:
 	if said:
 		notify.notify("Access Changed", doc.name, link="/desk", changes=", ".join(said), by=frappe.utils.get_fullname())
 	if roles.ADMINISTRATOR in after and roles.ADMINISTRATOR not in before:
-		admins = [
-			one
-			for one in frappe.get_all("Has Role", filters={"role": roles.ADMINISTRATOR, "parenttype": "User", "parent": ["not in", (doc.name, *NOT_PEOPLE)]}, pluck="parent")
-			if frappe.db.get_value("User", one, "enabled")
-		]
+		admins = [one for one in roles.administrators() if one not in (doc.name, *NOT_PEOPLE)]
 		slots = {"person": doc.full_name or doc.name, "by": frappe.utils.get_fullname()}
 		notify.notify("Administrator Added", admins, link="/desk/workspace-settings?section=people", sender="Administrator", **slots)
 		for one in admins:
@@ -1186,12 +1182,35 @@ def _seat_left() -> None:
 		frappe.throw(_("All {0} seats are taken. Turn somebody off, or add seats to the plan.").format(seats))
 
 
-def _plan() -> dict:
-	account = frappe.get_single("Workspace Account").as_dict()
-	used = frappe.db.count("User", {"user_type": "System User", "enabled": 1, "name": ["not in", NOT_PEOPLE]})
-	from onedesk.one_intake import digest
+#: How old the copy of the account may be before opening the page asks again.
+STALE = 60 * 60
 
-	return {"account": account, "used": used, "month": digest.said(digest.this_month())}
+
+def _plan() -> dict:
+	"""The workspace's account, as the administrator last said it: asked again
+	first when that was over an hour ago, so a pack just paid for shows."""
+	from onedesk.one import account, heads
+
+	held = frappe.get_single("Workspace Account")
+	heard = held.last_heard
+	if account.configured() and (not heard or frappe.utils.time_diff_in_seconds(frappe.utils.now_datetime(), heard) > STALE):
+		account.refresh()
+		# A GET is not committed, and what refresh wrote is the page's.
+		frappe.db.commit()
+		held = frappe.get_single("Workspace Account")
+	return {
+		"account": {
+			key: held.get(key)
+			for key in (
+				"workspace_name", "plan", "seats", "storage_bytes", "storage_limit", "credits_balance", "credits_held",
+				"credits_month", "credits_expiring", "credits_expires_on", "last_heard",
+			)
+		},
+		"used": frappe.db.count("User", {"user_type": "System User", "enabled": 1, "name": ["not in", NOT_PEOPLE]}),
+		"state": heads.account_state(held),
+		"said": heads.account_said(held),
+		"storage": {"used": heads.size(held.storage_bytes), "limit": heads.size(held.storage_limit)},
+	}
 
 
 def _domains() -> dict:

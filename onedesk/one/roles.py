@@ -32,6 +32,22 @@ def administers(user: str | None = None) -> bool:
 	return ADMINISTRATOR in frappe.get_roles(user)
 
 
+def administrators() -> list[str]:
+	"""Everybody who administers this workspace and is turned on: who hears
+	about the workspace itself (its account, a new administrator)."""
+	held = frappe.get_all(
+		"Has Role",
+		filters={
+			"role": ADMINISTRATOR,
+			"parenttype": "User",
+			"parent": ["not in", ("Administrator", "Guest")],
+		},
+		pluck="parent",
+		distinct=True,
+	)
+	return frappe.get_all("User", filters={"name": ["in", held or [""]], "enabled": 1}, pluck="name")
+
+
 def require() -> None:
 	"""Refuse anyone who does not administer this workspace."""
 	if not administers():

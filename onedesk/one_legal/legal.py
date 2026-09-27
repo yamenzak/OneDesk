@@ -174,6 +174,10 @@ say(
 	OneAI is paid for with credits rather than included in the plan. Credits are bought in advance, used up
 	as OneAI works, and cannot be exchanged for money. Every use is recorded in the workspace, with what it
 	cost.
+
+	A plan's monthly credits expire at the end of the month they are given for and do not roll over.
+	Credits you buy do not expire. Credits that expire are always used before the ones you bought, and the
+	workspace's administrators are told a week before any expire.
 """,
 	order=30,
 )

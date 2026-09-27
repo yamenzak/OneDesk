@@ -978,73 +978,124 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
+	// The workspace's account, drawn as a record: where it stands in the pill
+	// and, when money or a lost connection is the news, a sentence above
+	// everything; the plan and the credits as its parts; how old the copy is
+	// in the side. Buying is the page's primary action.
 	draw_plan(data) {
 		const esc = frappe.utils.escape_html;
 		const account = data.account || {};
-		const gb = (bytes) => (bytes ? (bytes / 1e9).toFixed(bytes < 1e10 ? 1 : 0) : 0);
-		const storage =
-			account.storage_limit
-				? frappe.ui.progress
-						.html({
-							label: __("Storage"),
-							value: Math.min(100, Math.round((100 * (account.storage_bytes || 0)) / account.storage_limit)),
-							hint: () => __("{0} GB of {1} GB", [gb(account.storage_bytes), gb(account.storage_limit)]),
-							size: "md",
-						})
-				: "";
-		const facts = [
-			[__("Plan"), account.plan],
-			[__("Status"), account.status ? __(account.status) : ""],
-			[__("Seats"), account.seats ? __("{0} of {1} used", [data.used, account.seats]) : __("{0} used, no limit", [data.used])],
-			[__("Days Left"), account.days_left ? String(account.days_left) : ""],
-		]
-			.filter(([, value]) => value)
-			.map(([label, value]) => `<dt>${esc(label)}</dt><dd>${esc(value)}</dd>`)
-			.join("");
-		const credits = [
-			[__("Credits"), format_number(account.credits_balance || 0, null, 0)],
-			[__("Expiring"), account.credits_expiring ? __("{0} on {1}", [format_number(account.credits_expiring, null, 0), frappe.datetime.str_to_user(account.credits_expires_on)]) : ""],
-		]
-			.filter(([, value]) => value)
-			.map(([label, value]) => `<dt>${esc(label)}</dt><dd>${esc(value)}</dd>`)
-			.join("");
-		this.$content.html(
-			onedesk.shell.section(__("Plan"), `<dl class="os-facts">${facts}</dl>${storage ? `<div class="os-bar">${storage}</div>` : ""}`) +
-				onedesk.shell.section(
-					__("OneAI Credits"),
-					`<dl class="os-facts">${credits}</dl><div class="one-shell-quiet one-shell-note">${esc(data.month || "")}</div>
-					<div class="one-shell-actions">${onedesk.shell.button(__("Buy Credits"), { "data-buy": "1" }, "solid", "credit-card")}${onedesk.shell.button(__("See What Used Them"), { "data-used": "1" }, "ghost")}</div>`
-				)
-		);
-		this.$content.find("[data-used]").on("click", () => frappe.set_route("query-report", "AI Credits"));
-		this.$content.find("[data-buy]").on("click", async () => {
-			let packs = [];
-			try {
-				packs = await frappe.xcall("onedesk.one.account.credit_packs");
-			} catch (e) {
-				return;
-			}
-			if (!packs.length) return frappe.msgprint(__("There is nothing to buy just now."));
-			const dialog = new frappe.ui.Dialog({
-				title: __("Buy Credits"),
-				fields: [
+		const number = (value) => format_number(value || 0, null, 0);
+		this.page.set_primary_action(__("Buy Credits"), () => this.buy_credits(), "credit-card");
+		this.$content = onedesk.shell.record(this.$content, {
+			page: this.page,
+			status: data.state,
+			side: onedesk.shell.side({
+				initials: frappe.get_abbr(account.workspace_name || "One"),
+				title: account.workspace_name || __("This Workspace"),
+				sub: account.plan ? esc(__("{0} plan", [account.plan])) : "",
+				groups: [
 					{
-						fieldname: "pack",
-						fieldtype: "Select",
-						label: __("Pack"),
-						reqd: 1,
-						options: packs.map((one) => ({ value: one.name, label: one.label || one.name })),
+						label: __("Links"),
+						// Frappe's own sidebar list, as a form's links are.
+						html: `<ul class="list-unstyled sidebar-menu">${[
+							["/desk/workspace-settings?section=people", __("People")],
+							["/desk/onecloud", __("OneCloud")],
+							["/desk/query-report/AI Credits", __("What Used the Credits")],
+						]
+							.map(([href, label]) => `<li><a class="one-record-link" href="${esc(href)}">${esc(label)}</a></li>`)
+							.join("")}</ul>`,
 					},
 				],
-				primary_action_label: __("Continue to Payment"),
-				primary_action: async (values) => {
-					const said = await frappe.xcall("onedesk.one.account.buy_credits", { pack: values.pack });
-					dialog.hide();
-					if (said && said.url) window.open(said.url, "_blank");
-				},
-			});
-			dialog.show();
+				meta: [account.last_heard ? __("As of {0}", [frappe.datetime.prettyDate(account.last_heard)]) : __("Not heard from the account yet")],
+			}),
+			actions: [
+				{ label: __("See What Used Them"), action: () => frappe.set_route("query-report", "AI Credits") },
+				{ label: __("Check Again"), action: () => this.check_again() },
+			],
 		});
+		const facts = (rows) =>
+			`<dl class="os-facts">${rows
+				.filter(([, value]) => value)
+				.map(([label, value]) => `<dt>${esc(label)}</dt><dd>${value}</dd>`)
+				.join("")}</dl>`;
+		const seats = account.seats ? __("{0} of {1} used", [data.used, account.seats]) : __("{0} used, no limit", [data.used]);
+		const share = account.storage_limit ? (100 * (account.storage_bytes || 0)) / account.storage_limit : 0;
+		const storage = account.storage_limit
+			? frappe.ui.progress.html({
+					label: __("Storage"),
+					value: Math.min(100, Math.round(share)),
+					hint: () => __("{0} of {1}", [data.storage.used, data.storage.limit]),
+					size: "md",
+					css_class: share > 100 ? "os-bar-over" : share >= 90 ? "os-bar-near" : "",
+			  })
+			: "";
+		const expiring = account.credits_expiring
+			? esc(__("{0} on {1}", [number(account.credits_expiring), frappe.datetime.str_to_user(account.credits_expires_on)]))
+			: "";
+		this.$content.html(
+			(data.said ? `<div class="one-record-news">${frappe.ui.alert.html({ title: data.said.text, theme: data.said.colour === "red" ? "red" : "yellow" })}</div>` : "") +
+				onedesk.shell.section(
+					__("Plan"),
+					facts([
+						[__("Plan"), esc(account.plan || "")],
+						[__("Seats"), `<a href="/desk/workspace-settings?section=people">${esc(seats)}</a>`],
+					]) + (storage ? `<a class="os-bar" href="/desk/onecloud">${storage}</a>` : "")
+				) +
+				onedesk.shell.section(
+					__("OneAI Credits"),
+					facts([
+						[__("Left"), esc(number(account.credits_balance))],
+						[__("Held"), account.credits_held ? esc(number(account.credits_held)) : ""],
+						[__("Used in the Last 30 Days"), account.credits_month ? esc(number(account.credits_month)) : ""],
+						[__("Expiring"), expiring],
+					]),
+					__("OneAI is paid for with credits. The plan's monthly credits are used first, and the ones you buy never expire.")
+				)
+		);
+	}
+
+	// Ask the account now rather than tonight, and draw what it said.
+	async check_again() {
+		await frappe.xcall("onedesk.one.account.check_again");
+		this.refresh({ fresh: true });
+	}
+
+	// A pack from the account's price list, then Stripe in a new tab. The
+	// credit arrives when Stripe says the money moved, so the page asks again
+	// when the reader comes back to it.
+	async buy_credits() {
+		let packs = [];
+		try {
+			packs = await frappe.xcall("onedesk.one.account.credit_packs");
+		} catch (e) {
+			return;
+		}
+		if (!packs.length) return frappe.msgprint(__("There is nothing to buy just now."));
+		const dialog = new frappe.ui.Dialog({
+			title: __("Buy Credits"),
+			fields: [
+				{
+					fieldname: "pack",
+					fieldtype: "Select",
+					label: __("Pack"),
+					reqd: 1,
+					options: packs.map((one) => ({
+						value: one.name,
+						label: __("{0} credits · {1}", [format_number(one.credits, null, 0), format_currency(one.amount, one.currency, 0)]),
+					})),
+				},
+			],
+			primary_action_label: __("Continue to Payment"),
+			primary_action: async (values) => {
+				const said = await frappe.xcall("onedesk.one.account.buy_credits", { pack: values.pack });
+				dialog.hide();
+				if (!said || !said.url) return;
+				window.open(said.url, "_blank");
+				$(window).one("focus", () => this.key === "plan" && this.check_again());
+			},
+		});
+		dialog.show();
 	}
 
 	draw_domains(data) {

@@ -18,7 +18,7 @@ upload, an AI call — and that is the right thing to be fragile about.
 
 import frappe
 import requests
-from frappe.utils import now_datetime
+from frappe.utils import add_days, date_diff, flt, formatdate, now_datetime, today
 
 from onedesk.one import roles
 from onedesk.one_admin import faults, proxy
@@ -87,6 +87,7 @@ def refresh() -> dict:
 	able to ask" is two facts and a screen wants both.
 	"""
 	held = frappe.get_single("Workspace Account")
+	before = held.as_dict()
 	try:
 		said = ask("onedesk.one_admin.proxy.hello") or {}
 	except faults.Refused as refused:
@@ -109,6 +110,7 @@ def refresh() -> dict:
 			"storage_limit": said.get("storage_limit") or 0,
 			"credits_balance": credits.get("balance") or 0,
 			"credits_held": credits.get("held") or 0,
+			"credits_month": credits.get("month") or 0,
 			"credits_expiring": credits.get("expiring") or 0,
 			"credits_expires_on": credits.get("expires_on"),
 			"owing": 1 if standing.get("owing") else 0,
@@ -119,7 +121,114 @@ def refresh() -> dict:
 		}
 	)
 	_keep(held, said.get("domains"))
+	_tell(before, held)
 	return held.as_dict()
+
+
+#: A balance under this share of the last thirty days' use is running low:
+#: about three days left at the rate the workspace spends.
+LOW = 0.1
+
+#: How close to full storage is before the administrators hear of it.
+NEARLY_FULL = 0.9
+
+#: How many days before credits expire the administrators hear of it.
+EXPIRY_NOTICE = 7
+
+
+def _tell(before, after) -> None:
+	"""What changed since the account was last asked, told to the workspace's
+	administrators (one/notifications.py). Each is said when a line is crossed
+	rather than while it stays crossed, so a nightly refresh does not repeat
+	itself; the two told by date remember the date they were told of."""
+	from onedesk.one import notify
+
+	if not before.get("last_heard"):
+		# The first answer is where the workspace starts, not a change.
+		return
+	people = _administrators()
+	if not people:
+		return
+	told = {"link": PAGE, "sender": "Administrator"}
+
+	was, now = flt(before.get("credits_balance")), flt(after.credits_balance)
+	month = flt(after.credits_month)
+	if month and now < month * LOW <= was:
+		slots = {"balance": _number(now), "days": max(0, int(now / (month / 30)))}
+		notify.notify("Credits Running Low", people, **told, **slots)
+		for email, lang in _addresses(people):
+			notify.mail("Credits Running Low", email, lang=lang, **slots)
+	if now > was + 0.5:
+		notify.notify("Credits Added", people, **told, balance=_number(now))
+
+	expires_on = after.credits_expires_on
+	if flt(after.credits_expiring) and expires_on:
+		left = date_diff(expires_on, today())
+		if 0 <= left <= EXPIRY_NOTICE and _once("expiring", str(expires_on)):
+			notify.notify(
+				"Credits Expiring",
+				people,
+				**told,
+				credits=_number(after.credits_expiring),
+				date=formatdate(expires_on),
+			)
+
+	limit = flt(after.storage_limit)
+	if limit and flt(before.get("storage_bytes")) < limit * NEARLY_FULL <= flt(after.storage_bytes):
+		from onedesk.one.heads import size
+
+		slots = {"used": size(after.storage_bytes), "limit": size(limit)}
+		notify.notify("Storage Nearly Full", people, **told, **slots)
+		for email, lang in _addresses(people):
+			notify.mail("Storage Nearly Full", email, lang=lang, **slots)
+
+	if after.owing and after.next_status and after.days_left is not None:
+		on = formatdate(add_days(today(), after.days_left))
+		if _once("overdue", on):
+			notify.notify("Payment Overdue", people, **told, date=on)
+			for email, lang in _addresses(people):
+				notify.mail("Payment Overdue", email, lang=lang, date=on)
+
+
+def _once(what: str, value: str) -> bool:
+	"""Whether `what` has not yet been told for `value`, and remember it has."""
+	key = f"one_account_told_{what}"
+	if frappe.db.get_default(key) == value:
+		return False
+	frappe.db.set_default(key, value)
+	return True
+
+
+def _number(value) -> str:
+	return frappe.utils.fmt_money(value, precision=0)
+
+
+def _administrators() -> list[str]:
+	from onedesk.one.settings import NOT_PEOPLE
+
+	return [one for one in roles.administrators() if one not in NOT_PEOPLE]
+
+
+def _addresses(people) -> list[tuple[str, str]]:
+	"""Each person's address and language, for what is always mailed."""
+	return [
+		(one.email, one.language)
+		for one in frappe.get_all("User", filters={"name": ["in", people]}, fields=["email", "language"])
+		if one.email
+	]
+
+
+#: Where every one of those leads.
+PAGE = "/desk/workspace-settings?section=plan"
+
+
+@frappe.whitelist(methods=["POST"])
+def check_again() -> dict:
+	"""Ask the account now rather than tonight: after paying, or when the
+	page says its numbers are old."""
+	roles.require()
+	refresh()
+	return {"ok": True}
 
 
 def _keep(held, rows) -> None:
@@ -153,12 +262,6 @@ def nightly() -> None:
 	"""Keep the cached answer from going stale on a workspace nobody asks about."""
 	if configured():
 		refresh()
-
-
-@frappe.whitelist()
-def mine() -> dict:
-	"""What a screen draws, from the cache and without a round trip."""
-	return frappe.get_single("Workspace Account").as_dict()
 
 
 def put_url(key: str, size: int) -> dict:
