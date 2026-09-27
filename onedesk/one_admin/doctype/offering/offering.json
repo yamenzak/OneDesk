@@ -107,10 +107,11 @@
    "label": "Free Trial (Days)"
   },
   {
-   "description": "The Stripe price charged at checkout. Must match the amount above.",
+   "description": "Made in Stripe the first time the offering is sold, and again after its price changes.",
    "fieldname": "stripe_price",
    "fieldtype": "Data",
-   "label": "Stripe Price ID"
+   "label": "Stripe Price ID",
+   "read_only": 1
   },
   {
    "fieldname": "quota_section",

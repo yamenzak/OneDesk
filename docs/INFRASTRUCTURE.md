@@ -211,6 +211,48 @@ for what only they can answer. `one/setup_wizard.py` is already the place that
 decides what a new workspace gets; this adds the facts it should not have to ask
 for.
 
+## Plans, add-ons and what they cost
+
+A workspace is sold four things it can run out of: **seats**, **storage**
+(its files, in R2), **database** (its site's database on Frappe Cloud and the
+backups kept of it) and **OneAI credits**. A plan is a bundle of all four at a
+monthly price; an add-on is one of them in one size, on top of a plan, billed
+monthly with it; a credit pack is credits once. All three are `Offering`
+rows. `one_admin/offerings.py` seeds an admin site with four plans from 30 a
+month (Starter 30, Team 70, Business 150, Scale 300), storage, database and
+seat add-ons, and three packs; it adds what is missing and never changes an
+operator's prices.
+
+**The calculator** (`one_admin/plans.py`, no frappe in it) is what keeps the
+list coherent, because three things have to hold at once and changing one
+price can quietly break another: every price covers its cost times the least
+margin; a step up the ladder is a better deal than buying the difference as
+add-ons (each fixture step saves 53 to 68 per cent), or nobody moves up; and
+the smallest add-on is cheaper than any step, or nobody buys one. `check`
+says what does not hold (the **Price Check** report), and `quote` answers the
+customer's side: for what I need in all, each plan with the cheapest mix of
+add-ons on top, cheapest first (the **Plan Calculator** report, and the
+workspace's own Add dialog). What each thing costs us is One Admin Settings,
+Costs; a credit costs what the gateway charges for one.
+
+**Limits are copied, not looked up.** `quota.py` sums the plan and the
+add-ons and writes seats, storage, database and credits a month onto the
+`Tenant` at signup and whenever the plan or an add-on changes, and only
+then: re-pricing an offering never changes what a customer already bought.
+Storage is refused at upload; seats at turning somebody on; the database is
+Frappe Cloud's to enforce, so `quota.move` puts the site on the cheapest
+press plan whose database limit covers it, and a move press refuses is
+retried nightly. The workspace measures its own database and sends the
+number with `hello`; it is shown and warned about, never billed.
+
+**Changing what is paid for** is `billing.take`: a plan and exactly these
+add-ons. The plan item on the Stripe subscription is swapped and each
+add-on is a subscription item at its count, every change prorated and
+charged at once, and refused at once if the card declines. A change that
+would leave the workspace over what it uses is refused before Stripe is
+asked. Stripe prices are made the first time an offering is sold
+(`stripe.price_for`) and again after its price changes, never typed.
+
 ## What lives where
 
 Fifteen doctypes on the operator side, against thirty-eight in the old control

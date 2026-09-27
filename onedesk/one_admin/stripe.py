@@ -57,12 +57,10 @@ def checkout(request: str) -> str:
 	site.require_admin()
 	asked = frappe.get_doc("Account Request", request)
 	sold = frappe.get_cached_doc("Offering", asked.offering)
-	if not sold.stripe_price:
-		frappe.throw(frappe._("{0} has no Stripe price.").format(sold.name))
 
 	form = {
 		"mode": "subscription" if sold.recurring else "payment",
-		"line_items[0][price]": sold.stripe_price,
+		"line_items[0][price]": price_for(sold.name),
 		"line_items[0][quantity]": 1,
 		"customer_email": asked.email,
 		"client_reference_id": asked.name,
@@ -160,19 +158,18 @@ def checkout_for_credits(tenant: str, pack: str) -> str:
 	"""
 	site.require_admin()
 	sold = frappe.get_cached_doc("Offering", pack)
-	if not sold.stripe_price:
-		frappe.throw(frappe._("{0} has no Stripe price.").format(sold.name))
+	price = price_for(sold.name)
 
 	held = frappe.db.get_value(
 		"Tenant", tenant, ["owner_email", "stripe_customer", "domain", "primary_domain"],
 		as_dict=True,
 	)
-	back = f"https://{held.primary_domain or held.domain}/app/workspace-account"
+	back = f"https://{held.primary_domain or held.domain}/desk/workspace-settings?section=plan"
 	made = _post(
 		"checkout/sessions",
 		{
 			"mode": "payment",
-			"line_items[0][price]": sold.stripe_price,
+			"line_items[0][price]": price,
 			"line_items[0][quantity]": 1,
 			"client_reference_id": tenant,
 			"metadata[tenant]": tenant,
@@ -270,20 +267,113 @@ def _remember(event: dict):
 	return frappe.get_doc("Stripe Webhook Event", held) if held else None
 
 
+#: How a change to a running subscription is charged: the difference for the
+#: rest of the period, invoiced now, and refused at once if the card declines
+#: rather than left as an unpaid invoice the ladder would notice days later.
+#: A step down is a credit on the next invoice, which Stripe does by itself.
+PRORATED = {"proration_behavior": "always_invoice", "payment_behavior": "error_if_incomplete"}
+
+
+def price_for(offering: str) -> str:
+	"""The Stripe price an offering is sold at, made the first time it is sold.
+
+	Made rather than typed: a price id pasted by hand is a price that can say
+	one amount on the price list and charge another. A price in Stripe cannot
+	be changed, so an offering whose amount changes gets a new one the next
+	time it is sold (Offering clears the id when the amount changes).
+	"""
+	site.require_admin()
+	sold = frappe.get_doc("Offering", offering)
+	if sold.stripe_price:
+		return sold.stripe_price
+	form = {
+		"product_data[name]": sold.label,
+		"unit_amount": round(float(sold.amount) * 100),
+		"currency": (sold.currency or "USD").lower(),
+		"metadata[offering]": sold.name,
+	}
+	if sold.recurring:
+		form["recurring[interval]"] = "month"
+	made = _post("prices", form)
+	frappe.db.set_value("Offering", sold.name, "stripe_price", made.get("id"), update_modified=False)
+	return made.get("id")
+
+
+def subscription(sub: str) -> dict:
+	return _get(f"subscriptions/{sub}")
+
+
+def swap_plan(sub: str, old_price: str | None, new_price: str) -> dict:
+	"""Move a subscription's plan item to another plan's price, prorated.
+
+	The plan item is the one on the old plan's price, or failing that the one
+	no add-on is billed on: a subscription carries one plan and any number of
+	add-ons, and only the plan moves here.
+	"""
+	held = subscription(sub)
+	items = ((held.get("items") or {}).get("data")) or []
+	add_ons = set(frappe.get_all("Tenant Add-on", filters={"stripe_item": ["is", "set"]}, pluck="stripe_item"))
+	plan_item = next((one for one in items if (one.get("price") or {}).get("id") == old_price), None) or next(
+		(one for one in items if one.get("id") not in add_ons), None
+	)
+	if not plan_item:
+		raise faults.Refused(f"{sub} has no plan to change")
+	return _post(
+		f"subscriptions/{sub}",
+		{"items[0][id]": plan_item["id"], "items[0][price]": new_price, **PRORATED},
+	)
+
+
+def set_item(sub: str, item: str | None, price: str, quantity: int) -> str | None:
+	"""Put an add-on on the subscription at this quantity, prorated: add it,
+	change how many, or take it off at zero. Returns the item's id."""
+	if quantity <= 0:
+		if item:
+			_delete(f"subscription_items/{item}", {"proration_behavior": "always_invoice"})
+		return None
+	if item:
+		return _post(f"subscription_items/{item}", {"quantity": quantity, **PRORATED}).get("id")
+	return _post(
+		"subscription_items",
+		{"subscription": sub, "price": price, "quantity": quantity, **PRORATED},
+	).get("id")
+
+
 def _post(path: str, form: dict) -> dict:
+	return _call("post", path, data=form)
+
+
+def _get(path: str) -> dict:
+	return _call("get", path)
+
+
+def _delete(path: str, form: dict | None = None) -> dict:
+	return _call("delete", path, params=form or {})
+
+
+def _call(way: str, path: str, **kwargs) -> dict:
 	try:
-		answer = requests.post(
-			f"{STRIPE}/{path}",
-			data=form,
+		answer = getattr(requests, way)(
+			f"{_base()}/{path}",
 			auth=(_key(), ""),
 			timeout=PATIENCE,
+			**kwargs,
 		)
 	except requests.RequestException as raised:
 		raise faults.Again(f"Stripe could not be reached: {raised}") from raised
 	if answer.status_code == 200:
 		return answer.json()
-	detail = (answer.json().get("error") or {}).get("message", answer.text[:300])
+	try:
+		detail = (answer.json().get("error") or {}).get("message", answer.text[:300])
+	except ValueError:
+		detail = answer.text[:300]
 	raise faults.raised(path, answer.status_code, detail)
+
+
+def _base() -> str:
+	"""Stripe's API, or a stand-in a developer names in site_config as
+	`stripe_url`, the way `press_url` names press."""
+	return (frappe.conf.get("stripe_url") or STRIPE).rstrip("/")
 
 
 def _back_to(asked, outcome: str) -> str:

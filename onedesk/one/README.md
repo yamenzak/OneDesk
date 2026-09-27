@@ -433,39 +433,52 @@ Their text is frappe's, so they have nothing to change here.
 ### Plan and Credits, for the Workspace
 
 Under **Workspace**, **Plan and Credits** is the workspace's account: its
-plan, and the credits OneAI runs on. Only its administrators see it. Nothing
-here is typed; the numbers are the account's, and the page asks for them
-again when they are more than an hour old. The side says when they were
-last heard; **Check Again**, at the top, asks now.
+plan, what is added to it, and the credits OneAI runs on. Only its
+administrators see it. Nothing here is typed; the numbers are the account's,
+and the page asks for them again when they are more than an hour old. The
+side says when they were last heard; **Check Again**, at the top, asks now.
 
 - The pill at the top says where the workspace stands: Active, or Payment
   overdue. When a payment is overdue, a line above everything says the day
   the workspace will be suspended.
-- **Plan** is the plan, the seats used (click them for People), and the
-  storage its files take against what the plan allows (click it for
-  OneCloud). The bar turns orange at nine tenths and red when full; once
-  full, nothing new can be uploaded.
+- **Plan** is the plan and what it costs a month with its add-ons, the seats
+  used (click them for People), and two bars: the storage its files take
+  (click it for OneCloud) and the database its records take, each against
+  what the plan and its add-ons allow. A bar turns orange at nine tenths and
+  red when full. **Added to the Plan** lists the add-ons, each with
+  **Remove**.
+- **Change Plan**, at the top right, shows every plan side by side with the
+  current one marked. Pick one and it says what that costs a month against
+  now: moving up is charged for the rest of the month at once, moving down
+  comes off the next invoice. Add-ons stay.
+- **Add**, beside it, has **Seats, Storage or Database** and **OneAI
+  Credits**. The first asks how much the workspace needs in all and prices
+  every way to have it, cheapest first: the plan it is on with add-ons, or
+  another plan. Pick one and **Change the Plan**. A plan is the better deal
+  for a lot more; an add-on for a little.
+- A change that would leave the workspace over what it uses (more people
+  turned on than seats, more files than storage) is refused and says what
+  to clear first.
 - **OneAI Credits** is what is left, what calls running now are holding,
   what was used in the last thirty days, and how many expire when. The
   plan's monthly credits expire at the end of the month and are used
-  first; credits you buy never expire.
+  first; credits you buy never expire. **Add**, **OneAI Credits** offers the
+  packs on sale with their price, then opens the payment page in a new tab.
+  The credits arrive once the payment goes through, and the page asks
+  again when you come back to it.
 - **Ledger** is the last ninety days, newest first: every time credits
   came in (a pack bought, the plan's monthly credits, credits given by One,
   a refund) and what OneAI used each day. Click a day to open the AI
   Credits report for it, by person.
-- **Buy Credits**, at the top right, offers the packs on sale with their
-  price, then opens the payment page in a new tab. The credits arrive once
-  the payment goes through, and the page asks again when you come back to
-  it. **See What Used Them** opens the AI Credits report, by model, person
-  or day.
 
 Every administrator is told when credits run low (about three days left at
-the rate of the last thirty) and when storage is nearly full, both also by
-mail; a week before credits expire; and when credits arrive. When payment is
+the rate of the last thirty) and when storage or the database is nearly
+full, all three also by mail; a week before credits expire; when credits
+arrive; and when another administrator changes the plan. When payment is
 overdue they are mailed the day the workspace will be suspended.
 
-**OneAI on this page** offers **How long will our credits last?** and
-**What used the most credits this month?**
+**OneAI on this page** offers **Are we on the cheapest plan?**, **How long
+will our credits last?** and **What used the most credits this month?**
 
 ## Customizing a Form
 

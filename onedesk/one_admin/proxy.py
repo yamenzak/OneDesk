@@ -157,7 +157,7 @@ def hello(database_bytes: int | None = None) -> dict:
 		],
 		as_dict=True,
 	)
-	from onedesk.one_admin import domains, ledger, lifecycle
+	from onedesk.one_admin import billing, domains, ledger, lifecycle, offerings
 
 	plan = (
 		frappe.db.get_value("Offering", known.offering, ["label", "seats"], as_dict=True)
@@ -177,6 +177,8 @@ def hello(database_bytes: int | None = None) -> dict:
 		"plan": plan.label if plan else None,
 		"seats": known.seats or (plan.seats if plan else None),
 		"plan_key": known.offering,
+		"monthly": billing.monthly(_tenant_doc(tenant)),
+		"currency": offerings.currency(),
 		"database_bytes": known.database_bytes or 0,
 		"database_limit": known.database_limit or 0,
 		"add_ons": _add_ons(tenant.name),
@@ -267,6 +269,33 @@ def buy_credits(pack: str) -> dict:
 	from onedesk.one_admin import topup
 
 	return topup.buy(caller().name, pack)
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def plans_offered(seats_used: int = 0) -> dict:
+	"""What this workspace has, and the plans and add-ons it could have."""
+	from onedesk.one_admin import billing
+
+	return billing.offered(caller().name, cint(seats_used))
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def plans_quote(needs: str | dict, seats_used: int = 0) -> dict:
+	"""Every plan with the add-ons that bring it up to `needs`, cheapest first."""
+	from onedesk.one_admin import billing
+
+	return billing.quote(caller().name, frappe.parse_json(needs) or {}, cint(seats_used))
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def plans_take(plan: str, extras: str | dict | None = None, seats_used: int = 0) -> dict:
+	"""Make this workspace's subscription this plan with exactly these add-ons."""
+	from onedesk.one_admin import billing
+
+	return billing.take(caller().name, plan, frappe.parse_json(extras) or {}, cint(seats_used))
 
 
 def _add_ons(tenant: str) -> list[dict]:

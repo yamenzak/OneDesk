@@ -110,7 +110,9 @@ def test_the_check_catches_what_does_not_make_sense():
 	assert any(one.level == "red" and one.offer == "scale" for one in plans.check(dear, sold, costs))
 	# A price under what it costs us.
 	cheap = [
-		plans.Offer("starter", "Starter", "Plan", 5, seats=5, storage_gb=20, database_gb=1, credits_a_month=1000),
+		plans.Offer(
+			"starter", "Starter", "Plan", 5, seats=5, storage_gb=20, database_gb=1, credits_a_month=1000
+		),
 		*ladder[1:],
 	]
 	assert any(one.level == "red" and one.offer == "starter" for one in plans.check(cheap, sold, costs))
@@ -135,3 +137,24 @@ def test_zero_on_a_plan_is_no_limit():
 	unlimited = plans.Offer("any", "Any", "Plan", 100)
 	assert unlimited.quota("storage_gb") == plans.INF
 	assert unlimited.quota("credits_a_month") == 0
+
+
+def test_every_change_to_a_subscription_is_prorated_and_refused_on_a_declined_card():
+	"""A plan swapped or an add-on set without these would bill the whole
+	month again, or leave an unpaid invoice the ladder notices days later."""
+	source = (tree.APP / "one_admin" / "stripe.py").read_text(encoding="utf-8")
+	assert '"proration_behavior": "always_invoice"' in source
+	assert '"payment_behavior": "error_if_incomplete"' in source
+	for name in ("def swap_plan", "def set_item"):
+		body = source.split(name, 1)[1].split("\ndef ", 1)[0]
+		assert "PRORATED" in body, name
+
+
+def test_a_limit_is_copied_onto_the_workspace_not_read_from_the_price_list():
+	"""Re-pricing an offering must not change what a customer already bought."""
+	topup = (tree.APP / "one_admin" / "topup.py").read_text(encoding="utf-8")
+	body = topup.split("def allowance", 1)[1]
+	assert 'frappe.db.get_value("Tenant", tenant, "credits_a_month")' in body
+	signup = (tree.APP / "one_admin" / "signup.py").read_text(encoding="utf-8")
+	for field in ("storage_limit", "database_limit", "seats", "credits_a_month"):
+		assert f'"{field}":' in signup, field

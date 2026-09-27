@@ -15,6 +15,8 @@
   "database_bytes",
   "database_limit",
   "plan_key",
+  "monthly",
+  "plan_currency",
   "add_ons",
   "storage_bytes",
   "storage_limit",
@@ -155,6 +157,20 @@
    "fieldname": "plan_key",
    "fieldtype": "Data",
    "label": "Plan Key",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "monthly",
+   "fieldtype": "Float",
+   "label": "A Month",
+   "read_only": 1,
+   "description": "The plan and its add-ons."
+  },
+  {
+   "fieldname": "plan_currency",
+   "fieldtype": "Data",
+   "label": "Currency",
    "read_only": 1,
    "hidden": 1
   },

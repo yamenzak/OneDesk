@@ -107,6 +107,8 @@ def refresh() -> dict:
 			"plan": said.get("plan"),
 			"seats": said.get("seats") or 0,
 			"plan_key": said.get("plan_key"),
+			"monthly": said.get("monthly") or 0,
+			"plan_currency": said.get("currency"),
 			"database_bytes": said.get("database_bytes") or 0,
 			"database_limit": said.get("database_limit") or 0,
 			"storage_bytes": said.get("storage_bytes") or 0,
@@ -402,6 +404,64 @@ def _after(rows):
 	held = frappe.get_single("Workspace Account")
 	_keep(held, rows)
 	return rows
+
+
+def _plainly(refused) -> str:
+	"""What the account said, without the exception's name in front of it."""
+	import re
+
+	return re.sub(r"^[\w.]+: ", "", str(refused.detail or refused)).strip()
+
+
+def _seats_used() -> int:
+	from onedesk.one.settings import seats_used
+
+	return seats_used()
+
+
+@frappe.whitelist()
+def plans_offered() -> dict:
+	"""The plans and add-ons this workspace could have, and what it has."""
+	roles.require()
+	return ask("onedesk.one_admin.proxy.plans_offered", seats_used=_seats_used())
+
+
+@frappe.whitelist()
+def plans_quote(needs: str | dict) -> dict:
+	"""Every way to have this much in all, cheapest first (one_admin/plans.py)."""
+	roles.require()
+	return ask("onedesk.one_admin.proxy.plans_quote", needs=frappe.parse_json(needs) or {}, seats_used=_seats_used())
+
+
+@frappe.whitelist(methods=["POST"])
+def plans_take(plan: str, extras: str | dict | None = None, label: str | None = None) -> dict:
+	"""Make the plan this, with exactly these add-ons, then ask the account
+	again so the page draws what was bought. Every other administrator hears
+	of it: it changes what the workspace pays."""
+	roles.require()
+	try:
+		said = ask(
+			"onedesk.one_admin.proxy.plans_take",
+			plan=plan,
+			extras=frappe.parse_json(extras) or {},
+			seats_used=_seats_used(),
+		)
+	except faults.Refused as refused:
+		frappe.throw(_plainly(refused), title=frappe._("The plan was not changed"))
+	refresh()
+	from onedesk.one import notify
+
+	people = [one for one in _administrators() if one != frappe.session.user]
+	if people:
+		notify.notify(
+			"Plan Changed",
+			people,
+			link=PAGE,
+			by=frappe.utils.get_fullname(),
+			plan=label or plan,
+			monthly=frappe.utils.fmt_money(said.get("monthly") or 0, currency=said.get("currency") or "USD"),
+		)
+	return said
 
 
 @frappe.whitelist()

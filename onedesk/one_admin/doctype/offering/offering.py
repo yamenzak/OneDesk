@@ -46,6 +46,10 @@ class Offering(Document):
 				frappe.throw(frappe._("An add-on adds one thing, in one size."))
 			if not self.recurring:
 				frappe.throw(frappe._("An add-on is paid for monthly with the plan, so it recurs."))
+		if not self.is_new() and (self.has_value_changed("amount") or self.has_value_changed("currency") or self.has_value_changed("recurring")):
+			# A Stripe price cannot be changed, so the next sale makes a new one
+			# (stripe.price_for). Customers already on the old one keep it.
+			self.stripe_price = None
 		if self.trial_days and not self.recurring:
 			# Stripe carries a trial on the subscription, so there is nowhere to
 			# put one on a single payment. A trial here would be a number that

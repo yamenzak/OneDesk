@@ -1175,9 +1175,14 @@ def invite_again(user: Annotated[str, "The person."]) -> None:
 	invitation.send(doc.name, _apps_said({name: level_of(held, used, managed) for name, _icon, used, managed in APPS}))
 
 
+def seats_used() -> int:
+	"""Everybody turned on who takes a seat."""
+	return frappe.db.count("User", {"user_type": "System User", "enabled": 1, "name": ["not in", NOT_PEOPLE]})
+
+
 def _seat_left() -> None:
 	seats = frappe.get_single("Workspace Account").seats or 0
-	used = frappe.db.count("User", {"user_type": "System User", "enabled": 1, "name": ["not in", NOT_PEOPLE]})
+	used = seats_used()
 	if seats and used >= seats:
 		frappe.throw(_("All {0} seats are taken. Turn somebody off, or add seats to the plan.").format(seats))
 
@@ -1202,12 +1207,12 @@ def _plan() -> dict:
 		"account": {
 			key: held.get(key)
 			for key in (
-				"workspace_name", "plan", "plan_key", "seats", "storage_bytes", "storage_limit", "database_bytes",
+				"workspace_name", "plan", "plan_key", "monthly", "plan_currency", "seats", "storage_bytes", "storage_limit", "database_bytes",
 				"database_limit", "credits_balance", "credits_held", "credits_month", "credits_expiring",
 				"credits_expires_on", "last_heard",
 			)
 		},
-		"used": frappe.db.count("User", {"user_type": "System User", "enabled": 1, "name": ["not in", NOT_PEOPLE]}),
+		"used": seats_used(),
 		"state": heads.account_state(held),
 		"said": heads.account_said(held),
 		"storage": {"used": heads.size(held.storage_bytes), "limit": heads.size(held.storage_limit)},

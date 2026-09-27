@@ -417,3 +417,17 @@
 	text-decoration-color: var(--outline-gray-3);
 	text-underline-offset: 3px;
 }
+
+/* The plans side by side in Change Plan, and the ways to have a need in Add
+   to the Plan: frappe's table, the current or cheapest row tinted. */
+.os-plans {
+	font-size: var(--text-sm);
+}
+
+.os-plans .os-plan-current td {
+	background: var(--surface-gray-1);
+}
+
+.os-add-ons {
+	margin-top: calc(var(--spacing) * 6);
+}

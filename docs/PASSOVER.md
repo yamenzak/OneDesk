@@ -1236,6 +1236,14 @@ because the account keeps a spend row per call and per bucket. A day opens
 the AI Credits report for that day, by person. The admin's `ai_usage` now
 sends `arrived` (`ledger.arrived`), and `workspace_plan` reads the ledger.
 
+Afterwards, on your word: plans and add-ons are sold here. Change Plan
+shows the plans side by side and what a move costs a month; Add, Seats,
+Storage or Database is the calculator, pricing every way to have what the
+workspace needs, cheapest first; the Plan section shows the database beside
+storage, what it costs a month, and the add-ons with Remove. How the price
+list is built and kept coherent is `docs/INFRASTRUCTURE.md`, Plans, add-ons
+and what they cost. Terms revision 3.
+
 Not done: storage leads to OneCloud's Home, not to a list of the biggest
 files, because OneCloud has no workspace-wide list by size to open.
 

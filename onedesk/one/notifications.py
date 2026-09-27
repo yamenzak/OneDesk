@@ -138,6 +138,15 @@ TYPES = [
 		"always_mailed": True,
 	},
 	{
+		"name": _lt("Plan Changed"),
+		"app": "One",
+		"about": _lt("When another administrator changes the workspace's plan or its add-ons."),
+		"to": _lt("Every other administrator"),
+		"subject": _lt("{by} changed the plan to {plan}"),
+		"message": _lt("{by} changed the workspace's plan to {plan}. It now costs {monthly} a month."),
+		"email": False,
+	},
+	{
 		"name": _lt("Payment Overdue"),
 		"app": "One",
 		"about": _lt("When payment for the workspace is overdue, with the day it will be suspended."),

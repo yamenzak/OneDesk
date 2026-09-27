@@ -15,7 +15,7 @@
 | Record Head Linked | 5 | child |
 | Record Head Sentence | 5 | child |
 | Record Head Verb | 4 | child |
-| Workspace Account | 33 | single |
+| Workspace Account | 35 | single |
 | Workspace Add-on | 4 | child |
 | Workspace Customization | 5 | document |
 | Workspace Domain | 4 | child |
@@ -183,6 +183,9 @@ No doctypes yet.
 * `onedesk.one.account.domain_primary`
 * `onedesk.one.account.domains`
 * `onedesk.one.account.domains_refresh`
+* `onedesk.one.account.plans_offered`
+* `onedesk.one.account.plans_quote`
+* `onedesk.one.account.plans_take`
 * `onedesk.one.customize.export`
 * `onedesk.one.customize.load`
 * `onedesk.one.customize.reset`
@@ -243,6 +246,9 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.mail_names`
 * `onedesk.one_admin.proxy.mail_send`
 * `onedesk.one_admin.proxy.mail_waiting`
+* `onedesk.one_admin.proxy.plans_offered`
+* `onedesk.one_admin.proxy.plans_quote`
+* `onedesk.one_admin.proxy.plans_take`
 * `onedesk.one_admin.proxy.storage_delete`
 * `onedesk.one_admin.proxy.storage_get`
 * `onedesk.one_admin.proxy.storage_put`

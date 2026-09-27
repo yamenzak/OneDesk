@@ -149,9 +149,20 @@ say(
 	"fees",
 	"subscription",
 	"""
-	A workspace runs on a plan. The plan's price and what it includes are shown before you subscribe and in
-	the workspace's settings. Fees are charged in advance for each billing period and are not refundable
-	except where the law requires.
+	A workspace runs on a plan. Each plan includes a number of seats, an amount of file storage, an amount
+	of database and OneAI credits each month. Its price and what it includes are shown before you subscribe
+	and in the workspace's settings. Fees are charged in advance for each billing period and are not
+	refundable except where the law requires.
+
+	A workspace's administrators can move it to another plan, or add seats, storage or database to its plan
+	as add-ons billed monthly with it. A change takes effect at once: moving up or adding is charged for the
+	rest of the billing period when it is made, and moving down or taking an add-on off is credited against
+	the next invoice. A change that would leave the workspace using more than it allows is refused until
+	enough is cleared.
+
+	When a workspace reaches a limit, people past its seats cannot be turned on and files past its storage
+	cannot be uploaded. A database past its limit can stop accepting new records until database is added.
+	Nothing already stored is deleted, and the administrators are told before a limit is reached.
 """,
 )
 
@@ -171,8 +182,8 @@ say(
 	"fees",
 	"credits",
 	"""
-	OneAI is paid for with credits rather than included in the plan. Credits are bought in advance, used up
-	as OneAI works, and cannot be exchanged for money. Every use is recorded in the workspace, with what it
+	OneAI is paid for with credits. A plan includes some each month, and more are bought in advance. Credits
+	are used up as OneAI works and cannot be exchanged for money. Every use is recorded in the workspace, with what it
 	cost.
 
 	A plan's monthly credits expire at the end of the month they are given for and do not roll over.

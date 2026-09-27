@@ -986,7 +986,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const esc = frappe.utils.escape_html;
 		const account = data.account || {};
 		const number = (value) => format_number(value || 0, null, 0);
-		this.page.set_primary_action(__("Buy Credits"), () => this.buy_credits(), "credit-card");
+		const money = (value) => format_currency(value || 0, account.plan_currency || "USD", 0);
+		this.page.set_primary_action(__("Change Plan"), () => this.change_plan(), "arrow-up-down");
 		this.$content = onedesk.shell.record(this.$content, {
 			page: this.page,
 			status: data.state,
@@ -1010,7 +1011,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				meta: [account.last_heard ? __("As of {0}", [frappe.datetime.prettyDate(account.last_heard)]) : __("Not heard from the account yet")],
 			}),
 			actions: [
-				{ label: __("See What Used Them"), action: () => frappe.set_route("query-report", "AI Credits") },
+				{ label: __("Seats, Storage or Database"), action: () => this.add_to_plan(data), group: __("Add") },
+				{ label: __("OneAI Credits"), action: () => this.buy_credits(), group: __("Add") },
 				{ label: __("Check Again"), action: () => this.check_again() },
 			],
 		});
@@ -1020,16 +1022,30 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				.map(([label, value]) => `<dt>${esc(label)}</dt><dd>${value}</dd>`)
 				.join("")}</dl>`;
 		const seats = account.seats ? __("{0} of {1} used", [data.used, account.seats]) : __("{0} used, no limit", [data.used]);
-		const share = account.storage_limit ? (100 * (account.storage_bytes || 0)) / account.storage_limit : 0;
-		const storage = account.storage_limit
-			? frappe.ui.progress.html({
-					label: __("Storage"),
-					value: Math.min(100, Math.round(share)),
-					hint: () => __("{0} of {1}", [data.storage.used, data.storage.limit]),
-					size: "md",
-					css_class: share > 100 ? "os-bar-over" : share >= 90 ? "os-bar-near" : "",
-			  })
-			: "";
+		// Storage and database as frappe-ui's bar, orange from nine tenths and
+		// red over, each leading to where the room is taken.
+		const bar = (label, used, limit, said) => {
+			if (!limit) return "";
+			const share = (100 * (used || 0)) / limit;
+			return frappe.ui.progress.html({
+				label,
+				value: Math.min(100, Math.round(share)),
+				hint: () => __("{0} of {1}", [said.used, said.limit]),
+				size: "md",
+				css_class: share > 100 ? "os-bar-over" : share >= 90 ? "os-bar-near" : "",
+			});
+		};
+		const storage = bar(__("Storage"), account.storage_bytes, account.storage_limit, data.storage);
+		const database = bar(__("Database"), account.database_bytes, account.database_limit, data.database);
+		const add_ons = (data.add_ons || [])
+			.map(
+				(one) => `<div class="one-shell-row" data-add-on="${esc(one.offering)}">
+					<div class="one-shell-row-main"><div class="one-shell-row-title">${esc(one.quantity > 1 ? __("{0} × {1}", [one.quantity, one.label]) : one.label)}</div>
+					<div class="one-shell-row-sub">${esc(__("{0} a month", [money(one.amount * (one.quantity || 1))]))}</div></div>
+					<div class="one-shell-row-actions">${onedesk.shell.button(__("Remove"), { "data-drop": "1" }, "ghost")}</div>
+				</div>`
+			)
+			.join("");
 		const expiring = account.credits_expiring
 			? esc(__("{0} on {1}", [number(account.credits_expiring), frappe.datetime.str_to_user(account.credits_expires_on)]))
 			: "";
@@ -1039,8 +1055,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					__("Plan"),
 					facts([
 						[__("Plan"), esc(account.plan || "")],
+						[__("A Month"), account.monthly ? esc(money(account.monthly)) : ""],
 						[__("Seats"), `<a href="/desk/workspace-settings?section=people">${esc(seats)}</a>`],
-					]) + (storage ? `<a class="os-bar" href="/desk/onecloud">${storage}</a>` : "")
+					]) +
+						(storage ? `<a class="os-bar" href="/desk/onecloud">${storage}</a>` : "") +
+						(database ? `<div class="os-bar">${database}</div>` : "") +
+						(add_ons ? `<div class="os-add-ons"><div class="one-shell-section-title"><span>${esc(__("Added to the Plan"))}</span></div>${add_ons}</div>` : "")
 				) +
 				onedesk.shell.section(
 					__("OneAI Credits"),
@@ -1058,6 +1078,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					__("The last {0} days: what came in, and what OneAI used each day. Click a day to see who and what used it.", [data.ledger_days])
 				)
 		);
+		this.$content.find("[data-add-on] [data-drop]").on("click", (event) => {
+			const key = $(event.currentTarget).closest("[data-add-on]").attr("data-add-on");
+			const kept = Object.fromEntries((data.add_ons || []).filter((one) => one.offering !== key).map((one) => [one.offering, one.quantity]));
+			frappe.confirm(__("Take this off the plan? What it gave the workspace goes with it."), () => this.take(account.plan_key, kept));
+		});
 		// The account's ledger as frappe's table, as every list of ours is.
 		if (data.ledger) {
 			// A day of a few small calls is a fraction of a credit, which rounds to nothing.
@@ -1077,6 +1102,128 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				open: (one) => one.day && frappe.set_route("query-report", "AI Credits", { from_date: one.day, to_date: one.day, by: "Person" }),
 			});
 		}
+	}
+
+	// Make the plan this with exactly these add-ons (one_admin/billing.py),
+	// then draw what the account says now.
+	async take(plan, extras, label = null) {
+		await frappe.xcall("onedesk.one.account.plans_take", { plan, extras, label });
+		frappe.show_alert({ message: __("The plan was changed."), indicator: "green" });
+		this.refresh({ fresh: true });
+	}
+
+	// Every plan side by side, the current one marked, and what moving to one
+	// costs a month against now. The add-ons stay.
+	async change_plan() {
+		const said = await frappe.xcall("onedesk.one.account.plans_offered");
+		const esc = frappe.utils.escape_html;
+		const money = (value) => format_currency(value || 0, said.currency, 0);
+		const gb = (value) => (value == null ? __("Unlimited") : __("{0} GB", [format_number(value, null, 0)]));
+		const table = `<table class="table table-bordered os-plans"><thead><tr>
+			<th>${esc(__("Plan"))}</th><th>${esc(__("Seats"))}</th><th>${esc(__("Storage"))}</th><th>${esc(__("Database"))}</th><th>${esc(__("Credits a Month"))}</th><th>${esc(__("A Month"))}</th>
+		</tr></thead><tbody>${said.plans
+			.map(
+				(one) => `<tr${one.key === said.plan ? ' class="os-plan-current"' : ""}>
+				<td>${esc(one.label)}${one.key === said.plan ? " " + frappe.ui.badge.html({ label: __("Current"), theme: "blue" }) : ""}</td>
+				<td>${one.seats == null ? esc(__("Unlimited")) : esc(format_number(one.seats, null, 0))}</td>
+				<td>${esc(gb(one.storage_gb))}</td><td>${esc(gb(one.database_gb))}</td>
+				<td>${esc(format_number(one.credits_a_month || 0, null, 0))}</td><td>${esc(money(one.price))}</td></tr>`
+			)
+			.join("")}</tbody></table>`;
+		const current = said.plans.find((one) => one.key === said.plan);
+		const dialog = new frappe.ui.Dialog({
+			title: __("Change Plan"),
+			size: "large",
+			fields: [
+				{ fieldtype: "HTML", fieldname: "plans", options: table },
+				{
+					fieldname: "plan",
+					fieldtype: "Select",
+					label: __("Move To"),
+					reqd: 1,
+					options: said.plans.filter((one) => one.key !== said.plan).map((one) => ({ value: one.key, label: one.label })),
+					change: () => show(),
+				},
+				{ fieldtype: "HTML", fieldname: "change" },
+			],
+			primary_action_label: __("Change Plan"),
+			primary_action: async (values) => {
+				const chosen = said.plans.find((one) => one.key === values.plan);
+				dialog.hide();
+				await this.take(values.plan, said.add_ons, chosen && chosen.label);
+			},
+		});
+		const show = () => {
+			const chosen = said.plans.find((one) => one.key === dialog.get_value("plan"));
+			if (!chosen) return dialog.fields_dict.change.$wrapper.empty();
+			const step = chosen.price - (current ? current.price : 0);
+			dialog.fields_dict.change.$wrapper.html(
+				frappe.ui.alert.html({
+					title:
+						step >= 0
+							? __("{0} a month more. The difference for the rest of this month is charged now.", [money(step)])
+							: __("{0} a month less. The rest of this month comes off the next invoice.", [money(-step)]),
+					theme: "blue",
+				})
+			);
+		};
+		dialog.show();
+		show();
+	}
+
+	// The calculator: how much the workspace needs in all, and every way to
+	// have it, cheapest first: the plan it is on with add-ons, or another
+	// plan. The same arithmetic the operator prices with (one_admin/plans.py).
+	add_to_plan(data) {
+		const account = data.account || {};
+		const esc = frappe.utils.escape_html;
+		const gb = (bytes) => Math.round((bytes || 0) / 1e9);
+		let options = [];
+		const dialog = new frappe.ui.Dialog({
+			title: __("Add to the Plan"),
+			size: "large",
+			fields: [
+				{ fieldtype: "HTML", fieldname: "intro", options: `<p class="text-muted">${esc(__("Say how much the workspace needs in all. Each way to have it is priced below, cheapest first."))}</p>` },
+				{ fieldtype: "Section Break" },
+				{ fieldname: "seats", fieldtype: "Int", label: __("Seats"), default: account.seats || data.used, change: () => ask() },
+				{ fieldtype: "Column Break" },
+				{ fieldname: "storage_gb", fieldtype: "Int", label: __("Storage (GB)"), default: gb(account.storage_limit), change: () => ask() },
+				{ fieldtype: "Column Break" },
+				{ fieldname: "database_gb", fieldtype: "Int", label: __("Database (GB)"), default: gb(account.database_limit), change: () => ask() },
+				{ fieldtype: "Section Break" },
+				{ fieldtype: "HTML", fieldname: "options" },
+				{ fieldname: "choice", fieldtype: "Select", label: __("Take"), reqd: 1, options: [] },
+			],
+			primary_action_label: __("Change the Plan"),
+			primary_action: async (values) => {
+				const option = options[cint(values.choice)];
+				if (!option) return;
+				dialog.hide();
+				await this.take(option.plan, Object.fromEntries(option.extras.map((one) => [one.offering, one.count])), option.label);
+			},
+		});
+		const ask = frappe.utils.debounce(async () => {
+			const need = (name) => cint(dialog.get_value(name));
+			const said = await frappe.xcall("onedesk.one.account.plans_quote", { needs: { seats: need("seats"), storage_gb: need("storage_gb"), database_gb: need("database_gb") } });
+			const money = (value) => format_currency(value || 0, said.currency, 0);
+			options = said.options;
+			const named = (one) => [one.label, ...one.extras.map((extra) => __("{0} × {1}", [extra.count, extra.label]))].join(" + ");
+			dialog.fields_dict.options.$wrapper.html(
+				`<table class="table table-bordered os-plans"><thead><tr><th>${esc(__("Way"))}</th><th>${esc(__("A Month"))}</th><th>${esc(__("Against Now"))}</th></tr></thead><tbody>${options
+					.map(
+						(one, at) => `<tr${at === 0 ? ' class="os-plan-current"' : ""}><td>${esc(named(one))}${at === 0 ? " " + frappe.ui.badge.html({ label: __("Cheapest"), theme: "green" }) : ""}${
+							one.current ? " " + frappe.ui.badge.html({ label: __("What You Have"), theme: "blue" }) : ""
+						}</td><td>${esc(money(one.monthly))}</td><td>${esc(one.change > 0 ? "+" + money(one.change) : one.change < 0 ? "−" + money(-one.change) : __("The same"))}</td></tr>`
+					)
+					.join("")}</tbody></table>`
+			);
+			const field = dialog.fields_dict.choice;
+			field.df.options = options.map((one, at) => ({ value: String(at), label: `${named(one)} · ${money(one.monthly)}` }));
+			field.refresh();
+			dialog.set_value("choice", "0");
+		}, 300);
+		dialog.show();
+		ask();
 	}
 
 	// Ask the account now rather than tonight, and draw what it said.
@@ -1114,8 +1261,9 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			primary_action: async (values) => {
 				const said = await frappe.xcall("onedesk.one.account.buy_credits", { pack: values.pack });
 				dialog.hide();
-				if (!said || !said.url) return;
-				window.open(said.url, "_blank");
+				const url = said && (said.pay_at || said.url);
+				if (!url) return;
+				window.open(url, "_blank");
 				$(window).one("focus", () => this.key === "plan" && this.check_again());
 			},
 		});

@@ -83,16 +83,28 @@ SUGGESTIONS = {
 	"page:workspace-settings/people": [
 		{
 			"label": _lt("Who has access to what?"),
-			"ask": _lt("Who in this workspace can use which apps, and who administers it? Say anything that looks too wide."),
+			"ask": _lt(
+				"Who in this workspace can use which apps, and who administers it? Say anything that looks too wide."
+			),
 			"expects": "workspace_people",
 		},
 		{
 			"label": _lt("Who has not signed in lately?"),
-			"ask": _lt("Who has not signed in for a month or more, and should any of them be turned off to free a seat?"),
+			"ask": _lt(
+				"Who has not signed in for a month or more, and should any of them be turned off to free a seat?"
+			),
 			"expects": "workspace_people",
 		},
 	],
 	"page:workspace-settings/plan": [
+		{
+			"label": _lt("Are we on the cheapest plan?"),
+			"ask": _lt(
+				"Is our plan, with what is added to it, the cheapest way to have what we use now? If not, what "
+				"should we change to and what would it save?"
+			),
+			"expects": "workspace_plan",
+		},
 		{
 			"label": _lt("How long will our credits last?"),
 			"ask": _lt(
@@ -231,10 +243,11 @@ def page(said: dict) -> str | None:
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "plan":
 		return (
-			"The reader administers this workspace and is on Workspace › Plan and Credits: its plan, seats and "
-			"storage, and its OneAI credits (what is left, held by calls running now, used in the last thirty "
+			"The reader administers this workspace and is on Workspace › Plan and Credits: its plan and what is "
+			"added to it, its seats, storage and database, and its OneAI credits (what is left, held by calls running now, used in the last thirty "
 			"days, and what expires when). workspace_plan reads it all, with the last thirty days by model and "
-			"by person. They buy credits from the page head; how is in One's documentation under Plan and "
+			"by person, and the cheapest ways to have what it uses now. They change the plan from the page head, and "
+			"add seats, storage, database or credits from Add; how is in One's documentation under Plan and "
 			"Credits, for the Workspace (how_to)."
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "general":
@@ -761,7 +774,9 @@ def workspace_plan() -> dict:
 	cut = {}
 	for by in ("Model", "Person"):
 		try:
-			_columns, rows, *_rest = ai_credits.execute({"from_date": add_days(end, -29), "to_date": end, "by": by})
+			_columns, rows, *_rest = ai_credits.execute(
+				{"from_date": add_days(end, -29), "to_date": end, "by": by}
+			)
 		except frappe.ValidationError:
 			# The account could not be reached: the cached numbers still answer.
 			rows = []
@@ -770,8 +785,12 @@ def workspace_plan() -> dict:
 		"standing": (said["state"] or {}).get("label"),
 		"news": (said["said"] or {}).get("text"),
 		"plan": held["plan"],
+		"a_month": held["monthly"],
 		"seats": {"used": said["used"], "of": held["seats"] or "no limit"},
 		"storage": said["storage"],
+		"database": said["database"],
+		"added_to_the_plan": said["add_ons"],
+		"cheapest_for_what_is_used": _cheapest(said),
 		"credits": {
 			"left": held["credits_balance"],
 			"held": held["credits_held"],
@@ -788,6 +807,34 @@ def workspace_plan() -> dict:
 	}
 
 
+def _cheapest(said: dict) -> list | None:
+	"""The three cheapest ways to have what the workspace uses now, from the
+	account's calculator (one_admin/plans.py). No AI call; None when the
+	account cannot be reached."""
+	from onedesk.one import account
+
+	held = said["account"]
+	gb = 1000 * 1000 * 1000
+	needs = {
+		"seats": said["used"],
+		"storage_gb": -(-(held["storage_bytes"] or 0) // gb),
+		"database_gb": -(-(held["database_bytes"] or 0) // gb),
+	}
+	try:
+		quoted = account.plans_quote(needs)
+	except Exception:
+		return None
+	return [
+		{
+			"plan": one["label"],
+			"add_ons": [f"{extra['count']} × {extra['label']}" for extra in one["extras"]],
+			"a_month": one["monthly"],
+			"against_now": one["change"],
+		}
+		for one in quoted.get("options", [])[:3]
+	]
+
+
 def workspace_sign_in() -> dict:
 	"""How people sign in to this workspace, for its administrators: the rules
 	(two-factor and for whom, passkey and email link sign-in, one device at a
@@ -802,17 +849,29 @@ def workspace_sign_in() -> dict:
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees how everybody signs in."}
 	system = frappe.get_single("System Settings")
-	people = frappe.get_all("User", filters={"enabled": 1, "user_type": "System User", "name": ["not in", ("Administrator", "Guest")]}, pluck="name")
+	people = frappe.get_all(
+		"User",
+		filters={"enabled": 1, "user_type": "System User", "name": ["not in", ("Administrator", "Guest")]},
+		pluck="name",
+	)
 	year_ago = add_to_date(now_datetime(), years=-1)
 	stale = [
 		one.name
-		for one in frappe.get_all("User", filters={"name": ["in", people or [""]]}, fields=["name", "last_password_reset_date", "creation"])
+		for one in frappe.get_all(
+			"User",
+			filters={"name": ["in", people or [""]]},
+			fields=["name", "last_password_reset_date", "creation"],
+		)
 		if (one.last_password_reset_date and str(one.last_password_reset_date) < str(year_ago.date()))
 		or (not one.last_password_reset_date and one.creation < year_ago)
 	]
 	failed = frappe.get_all(
 		"Activity Log",
-		filters={"operation": "Login", "status": ["!=", "Success"], "creation": [">", add_days(now_datetime(), -7)]},
+		filters={
+			"operation": "Login",
+			"status": ["!=", "Success"],
+			"creation": [">", add_days(now_datetime(), -7)],
+		},
 		fields=["user", "ip_address", "creation"],
 		order_by="creation desc",
 		limit=20,
@@ -827,7 +886,9 @@ def workspace_sign_in() -> dict:
 		"passwords_expire_after_days": system.force_user_to_reset_password or None,
 		"record_sharing": not system.disable_document_sharing,
 		"signed_out_after_unused": system.session_expiry or "240:00",
-		"password_rule": f"score {system.minimum_password_score} of 4" if system.enable_password_policy else "any password",
+		"password_rule": f"score {system.minimum_password_score} of 4"
+		if system.enable_password_policy
+		else "any password",
 		"people": len(people),
 		"administrators": len([one for one in people if roles.administers(one)]),
 		"passwords_over_a_year_old": len(stale),
@@ -866,16 +927,24 @@ def my_sign_in() -> dict:
 
 	said = signin.facts()
 	return {
-		"password_last_changed": str(said["password_changed"]) if said["password_changed"] else "never recorded",
+		"password_last_changed": str(said["password_changed"])
+		if said["password_changed"]
+		else "never recorded",
 		"passkey": None if said["employee"] is None else bool(said["passkey"]),
 		"passkey_also_signs_in": said["passkey_signs_in"],
 		"two_factor": said["two_factor"],
 		"signed_in_on": [
-			{"device": one["device"], "address": one["address"], "last_used": str(one["last_used"]), "this_one": one["here"]}
+			{
+				"device": one["device"],
+				"address": one["address"],
+				"last_used": str(one["last_used"]),
+				"this_one": one["here"],
+			}
 			for one in said["sessions"]
 		],
 		"recent_sign_ins": [
-			{"failed": one["failed"], "address": one["address"], "on": str(one["on"])} for one in said["recent"]
+			{"failed": one["failed"], "address": one["address"], "on": str(one["on"])}
+			for one in said["recent"]
 		],
 		"next": "Say plainly what looks fine and what to do: an old password, no two-factor, places they do not "
 		"recognise, failed sign-ins they did not make. They change it themselves on Settings › Sign-in.",
