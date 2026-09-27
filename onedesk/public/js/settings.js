@@ -718,6 +718,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			{ heading: __("Company"), note: __("Set when the workspace was made. The currency cannot change once there are books.") },
 			{ html: `<dl class="os-facts">${facts}</dl>` },
 			["company_logo", ""],
+			["email_footer_address", ""],
 			{ heading: __("Region and Formats") },
 			["language", "time_zone"],
 			["date_format", "time_format"],
@@ -726,9 +727,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			{ heading: __("Signing In"), note: __("The rules for everybody who signs in to this workspace.") },
 			["one_two_factor", "two_factor_method"],
 			["session_expiry", "one_password"],
-			{ stack: ["one_login_with_passkey"] },
+			["allow_consecutive_login_attempts", "allow_login_after_fail"],
+			["force_user_to_reset_password", ""],
+			{ stack: ["one_login_with_passkey", "login_with_email_link", "deny_multiple_sessions"] },
 			{ heading: __("Sharing") },
-			{ stack: ["one_calendar_links"] },
+			{ stack: ["one_calendar_links", "one_record_sharing"] },
 		];
 		const $card = this.form(data, { rows });
 		// How a date, a time and a number will read, as they are chosen.

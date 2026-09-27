@@ -856,6 +856,15 @@ Done:
 - `one/README.md` gains General, for the Workspace. `test_settings.py` now
   holds a workspace section OneAI offers anything on to its README section
   too.
+- Your question, "anything else to bring from frappe settings?", and your
+  word, all of them: **Address in Mails** (`email_footer_address`) under
+  Company; **Email Link Sign-in**, **One Device at a Time**, the lockout
+  (**Wrong Passwords Before a Lockout**, **Locked Out For**) and **Passwords
+  Expire After** under Signing In; **Record Sharing** (frappe's
+  `disable_document_sharing`, the other way round) under Sharing. Left out:
+  what is the operator's (backups, scheduler, telemetry, API logging, app
+  name), what is OneBook's (precision, rounding) or OneCloud's (upload size
+  and types), and "disable password login", which can lock everybody out.
 
 ### Workspace › Notifications
 

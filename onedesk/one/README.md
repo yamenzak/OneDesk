@@ -281,7 +281,8 @@ administrators see it, and they save from the top right.
   the country and the currency. They cannot be changed here, and the
   currency cannot change at all once there are books. **Company Logo** goes
   on invoices, quotes and orders, printed or sent; One itself keeps its own
-  mark.
+  mark. **Address in Mails** is printed at the foot of every mail the
+  workspace sends.
 - **Region and Formats**: the language and time zone for everybody who has
   not chosen their own in Profile, and how dates, times and numbers are
   written. The line under them shows how they will read before you save.
@@ -290,10 +291,17 @@ administrators see it, and they save from the top right.
   person sets it up the next time they sign in, with an authenticator app or
   by email. **Signed Out After** is how long One keeps somebody signed in
   when they do not use it. **Passwords** is how hard to guess a new one must
-  be. **Passkey Sign-in** lets people sign in with the passkey on their own
-  device instead of a password.
-- **Sharing** has **Calendar Links**. Switched off, every calendar link
-  anybody made stops working and no new one can be made.
+  be, and **Passwords Expire After** asks for a new one at sign-in once that
+  many days have passed. After **Wrong Passwords Before a Lockout** in a
+  row, signing in is refused for **Locked Out For**. **Passkey Sign-in** and
+  **Email Link Sign-in** let people sign in without a password, with the
+  passkey on their own device or a link sent to their email. **One Device
+  at a Time** signs a person out everywhere else when they sign in
+  somewhere new.
+- **Sharing** has **Calendar Links**: switched off, every calendar link
+  anybody made stops working and no new one can be made. **Record Sharing**
+  lets people share a record with somebody who could not otherwise open it;
+  off, nobody can.
 
 If another administrator saved while you had the page open, it says so
 rather than saving over them.

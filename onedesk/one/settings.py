@@ -701,18 +701,20 @@ def _general() -> dict:
 	company = _company()
 	system = frappe.get_single("System Settings")
 	account = frappe.get_single("Workspace Account")
-	fields = _fields("Company", ("company_logo",)) + _zones(_switches(_fields("System Settings", ("language", "time_zone", *SYSTEM, *SIGNING_IN))))
+	fields = _fields("Company", ("company_logo",)) + _zones(_switches(_fields("System Settings", ("language", "time_zone", *SYSTEM, *SIGNING_IN, *FOOTER))))
 	return {
 		"name": account.workspace_name,
 		"company": company.company_name if company else None,
 		"country": company.country if company else system.country,
 		"currency": company.default_currency if company else None,
-		"fields": [{**one, **_said_on_general(one["fieldname"], system)} for one in fields] + _signing_in_fields(),
+		"fields": [{**one, **_said_on_general(one["fieldname"], system)} for one in fields] + _signing_in_fields() + _sharing_fields(),
 		"values": {
 			"company_logo": company.company_logo if company else None,
 			"language": system.language,
 			"time_zone": system.time_zone,
-			**{name: system.get(name) for name in (*SYSTEM, *SIGNING_IN)},
+			**{name: system.get(name) for name in (*SYSTEM, *SIGNING_IN, *FOOTER)},
+			"allow_login_after_fail": str(system.allow_login_after_fail or 60),
+			"one_record_sharing": 0 if system.disable_document_sharing else 1,
 			"one_calendar_links": 1 if feed.allowed() else 0,
 			"one_two_factor": _two_factor(system),
 			"one_password": str(system.minimum_password_score or "") if system.enable_password_policy else "",
@@ -722,7 +724,22 @@ def _general() -> dict:
 
 
 #: How a person signs in to this workspace, as System Settings keeps it.
-SIGNING_IN = ("two_factor_method", "session_expiry", "one_login_with_passkey")
+SIGNING_IN = (
+	"two_factor_method",
+	"session_expiry",
+	"one_login_with_passkey",
+	"login_with_email_link",
+	"deny_multiple_sessions",
+	"allow_consecutive_login_attempts",
+	"allow_login_after_fail",
+	"force_user_to_reset_password",
+)
+
+#: The address frappe puts at the foot of every mail the workspace sends.
+FOOTER = ("email_footer_address",)
+
+#: How long a lockout lasts after too many wrong passwords, in seconds.
+LOCKOUT = (("60", _lt("1 minute")), ("300", _lt("5 minutes")), ("900", _lt("15 minutes")), ("3600", _lt("1 hour")))
 
 #: How long a session lasts unused, in frappe's hh:mm.
 EXPIRY = (
@@ -742,13 +759,36 @@ GENERAL_SAID = {
 	"one_login_with_passkey": _lt("People sign in with the passkey on their own device, without a password."),
 	"session_expiry": _lt("How long One keeps somebody signed in when they do not use it."),
 	"two_factor_method": _lt("An authenticator app on their phone, or a code by email."),
+	"email_footer_address": _lt("At the foot of every mail the workspace sends. Leave it empty for none."),
+	"login_with_email_link": _lt("People can sign in with a link sent to their email instead of a password."),
+	"deny_multiple_sessions": _lt("Signing in somewhere new signs a person out everywhere else."),
+	"allow_consecutive_login_attempts": _lt("After this many wrong passwords in a row, signing in is refused for a while."),
+	"allow_login_after_fail": _lt("How long signing in is refused after too many wrong passwords."),
+	"force_user_to_reset_password": _lt("Then a new one is asked for at sign-in. 0 means they never expire."),
+}
+
+#: Frappe's labels for those, as an administrator here would say them.
+GENERAL_LABELS = {
+	"one_login_with_passkey": _lt("Passkey Sign-in"),
+	"email_footer_address": _lt("Address in Mails"),
+	"login_with_email_link": _lt("Email Link Sign-in"),
+	"deny_multiple_sessions": _lt("One Device at a Time"),
+	"allow_consecutive_login_attempts": _lt("Wrong Passwords Before a Lockout"),
+	"allow_login_after_fail": _lt("Locked Out For"),
+	"force_user_to_reset_password": _lt("Passwords Expire After (Days)"),
 }
 
 
 def _said_on_general(fieldname: str, system) -> dict:
 	said = {"description": str(GENERAL_SAID[fieldname])} if fieldname in GENERAL_SAID else {}
-	if fieldname == "one_login_with_passkey":
-		said["label"] = _("Passkey Sign-in")
+	if fieldname in GENERAL_LABELS:
+		said["label"] = str(GENERAL_LABELS[fieldname])
+	if fieldname == "allow_login_after_fail":
+		options = [{"value": value, "label": str(label)} for value, label in LOCKOUT]
+		now = str(system.allow_login_after_fail or 60)
+		if now not in dict(LOCKOUT):
+			options.append({"value": now, "label": _("{0} seconds").format(now)})
+		said.update({"fieldtype": "Select", "options": options})
 	if fieldname == "session_expiry":
 		options = [{"value": value, "label": str(label)} for value, label in EXPIRY]
 		if system.session_expiry and system.session_expiry not in dict(EXPIRY):
@@ -796,6 +836,18 @@ def _signing_in_fields() -> list:
 	]
 
 
+def _sharing_fields() -> list:
+	"""Frappe's switch says sharing is off; the page's says it is on."""
+	return [
+		{
+			"fieldname": "one_record_sharing",
+			"fieldtype": "Switch",
+			"label": _("Record Sharing"),
+			"description": _("People can share a record with somebody who could not otherwise open it. Off, nobody can."),
+		}
+	]
+
+
 #: Frappe asks for a second step from anybody holding a role flagged for it,
 #: and flags All, everybody, when it is switched on. Administrators hold ours.
 EVERYBODY = "All"
@@ -829,7 +881,9 @@ def _save_general(values: dict) -> None:
 		_as_opened(company).company_logo = values["company_logo"]
 		company.save(ignore_permissions=True)
 	system = _as_opened(frappe.get_single("System Settings"))
-	system.update({name: values[name] for name in ("language", "time_zone", *SYSTEM, *SIGNING_IN) if name in values})
+	system.update({name: values[name] for name in ("language", "time_zone", *SYSTEM, *SIGNING_IN, *FOOTER) if name in values})
+	if "one_record_sharing" in values:
+		system.disable_document_sharing = 0 if frappe.utils.cint(values["one_record_sharing"]) else 1
 	if "one_password" in values:
 		system.enable_password_policy = 1 if values["one_password"] else 0
 		system.minimum_password_score = values["one_password"] or system.minimum_password_score

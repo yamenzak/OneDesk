@@ -198,8 +198,8 @@ def page(said: dict) -> str | None:
 		return (
 			"The reader administers this workspace and is on Workspace › General: what it was made with, its "
 			"logo for printed documents, its language, time zone and formats, the rules for signing in "
-			"(two-factor, passkey sign-in, how long a session lasts, how strong a password must be) and "
-			"calendar links. workspace_sign_in reads the rules and how people sign in. They change them on "
+			"(two-factor, passkey and email link sign-in, one device at a time, how long a session lasts, "
+			"passwords and their expiry, the lockout after wrong passwords), calendar links and record sharing. workspace_sign_in reads the rules and how people sign in. They change them on "
 			"the page and save; how is in One's documentation under General, for the Workspace (how_to)."
 		)
 	if said.get("page") != "settings":
@@ -674,8 +674,9 @@ def customize(
 
 def workspace_sign_in() -> dict:
 	"""How people sign in to this workspace, for its administrators: the rules
-	(two-factor and for whom, passkey sign-in, how long a session lasts
-	unused, the password rule) and how people follow them: how many people
+	(two-factor and for whom, passkey and email link sign-in, one device at a
+	time, how long a session lasts unused, the password rule, the lockout,
+	password expiry, whether records may be shared) and how people follow them: how many people
 	there are, how many administer it, whose password is over a year old, and
 	the failed sign-ins of the last week."""
 	from frappe.utils import add_days, add_to_date, now_datetime
@@ -704,6 +705,11 @@ def workspace_sign_in() -> dict:
 		"two_factor": settings._two_factor(system),
 		"two_factor_by": system.two_factor_method if system.enable_two_factor_auth else None,
 		"passkey_sign_in": bool(system.get("one_login_with_passkey")),
+		"email_link_sign_in": bool(system.login_with_email_link),
+		"one_device_at_a_time": bool(system.deny_multiple_sessions),
+		"lockout": f"after {system.allow_consecutive_login_attempts or 'unlimited'} wrong passwords, for {system.allow_login_after_fail or 60} seconds",
+		"passwords_expire_after_days": system.force_user_to_reset_password or None,
+		"record_sharing": not system.disable_document_sharing,
 		"signed_out_after_unused": system.session_expiry or "240:00",
 		"password_rule": f"score {system.minimum_password_score} of 4" if system.enable_password_policy else "any password",
 		"people": len(people),
