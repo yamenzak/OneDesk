@@ -519,7 +519,8 @@ Then, on your word:
 
 - **OneIntake** is a product: its name everywhere on screen (the rail, its
   page, Workspace settings, the notification heading, its legal clauses), and
-  its own mark, `brand/oneintake.svg`, registered as a Custom Icon. The ids
+  its own mark, `brand/oneintake.svg` (a page read by a line of light, in
+  OneAI's sky-to-violet), registered as a Custom Icon. The ids
   (`one_intake`, the `intake` page and section) stay.
 - Each app's heading carries its mark (`settings._mark`); Across One carries
   One's, and Rules none.
