@@ -126,7 +126,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Area | Screen | State |
 |---|---|---|
 | Settings, You | Profile | done (second pass too) |
-| Settings, You | Notifications | done (stage 3 of NOTIFICATIONS.md; push is stage 4) |
+| Settings, You | Notifications | second pass: findings written, waiting on your word |
 | Settings, You | Mail | done |
 | Settings, You | Calendar | |
 | Settings, You | Sign-in | |
@@ -457,6 +457,35 @@ their `email_notification_types`, and nothing on this screen wrote that.
    Recorded as a clarification (new hash): the records existed and the policy
    already covered what the workspace holds. Frappe keeps notification records
    until a workspace clears them, so no period is promised.
+
+#### Notifications, second pass
+
+Against what the pass learned since. Nothing is changed yet.
+
+1. **Notifications**: two kinds come in pairs that are one event said two
+   ways: Intake Waiting and Intake Waiting, One Thing; Arrived Through a
+   Link and its One File. Each has its own ticks, so a person who ticks one
+   and not the other gets mail for some of the same event and not the rest.
+   Recommended: one row per pair, and its ticks set both.
+2. **OneAI**: the panel offers its two suggestions, and nothing on the page
+   says so. Recommended: a OneAI button at the top, **Too Many Emails?**,
+   asking the existing question; and the kinds OneAI itself sends (Intake's)
+   carry the OneAI tag, since what OneAI does is drawn one way.
+3. **Intake**: covered by 1 and 2.
+4. **Permissions**: hold.
+5. **Cross-module**: nothing new.
+6. **UI and UX**:
+   - The two switches say what happens when they are off, beside a ticked
+     box: "Notifications ✓ — Off, nothing reaches your bell". Recommended:
+     say what the tick does ("Everything One tells you reaches your bell"),
+     and what unticking stops.
+   - Turn On Push is a dark button in the page, a second primary beside
+     Save in the head. Recommended: a quiet one; Save stays the page's one
+     primary action.
+7. **Documented**: Settings › Notifications in `one/README.md` gains what
+   is done.
+8. **Legal**: nothing new.
+9. **Built from frappe**: nothing new.
 
 ### Push (Notifications, stage 4)
 
