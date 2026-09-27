@@ -325,13 +325,7 @@ onedesk.OneCalendar = class OneCalendar {
 	}
 
 	// The link as Settings › Calendar draws it (public/js/calendar_link.js).
-	async subscribe() {
-		const dialog = new frappe.ui.Dialog({ title: __("Subscribe") });
-		const draw = (link) => {
-			dialog.$body.html(onedesk.calendar_link.html(link));
-			onedesk.calendar_link.bind(dialog.$body, link, { drawn: draw, stopped: () => dialog.hide() });
-		};
-		draw(await frappe.xcall("onedesk.one_calendar.feed.mine"));
-		dialog.show();
+	subscribe() {
+		return onedesk.calendar_link.dialog();
 	}
 };

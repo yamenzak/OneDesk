@@ -6,8 +6,9 @@
 // has read it, and the two things that end it. See one_calendar/feed.py.
 frappe.provide("onedesk.calendar_link");
 
-// `copy: false` where the page head already copies it.
-onedesk.calendar_link.html = (link, { copy = true } = {}) => {
+// `actions: false` where they live elsewhere: the page head copies it in
+// Settings, and a dialog's footer holds all three in Subscribe.
+onedesk.calendar_link.html = (link, { copy = true, ends = true } = {}) => {
 	const esc = frappe.utils.escape_html;
 	const google = `https://calendar.google.com/calendar/render?cid=${encodeURIComponent(link.webcal)}`;
 	const outlook = `https://outlook.office.com/calendar/0/addfromweb?url=${encodeURIComponent(link.https)}&name=${encodeURIComponent(link.name)}`;
@@ -27,32 +28,57 @@ onedesk.calendar_link.html = (link, { copy = true } = {}) => {
 		${carries ? `<div class="one-calendar-carries"><span class="one-calendar-said">${esc(__("It carries"))}</span>${carries}</div>` : ""}
 		<div class="one-calendar-ends">
 			<span class="one-calendar-said">${esc(read)} ${esc(__("Anyone with the link can read your calendar."))}</span>
-			<span class="one-calendar-end-actions">${onedesk.shell.button(__("New Link"), { "data-calendar-renew": "1" }, "ghost", "refresh-cw")}${onedesk.shell.button(
-				__("Switch Off"),
-				{ "data-calendar-stop": "1" },
-				"ghost",
-				"power",
-				"red"
-			)}</span>
+			${
+				ends
+					? `<span class="one-calendar-end-actions">${onedesk.shell.button(__("New Link"), { "data-calendar-renew": "1" }, "ghost", "refresh-cw")}${onedesk.shell.button(
+							__("Switch Off"),
+							{ "data-calendar-stop": "1" },
+							"ghost",
+							"power",
+							"red"
+					  )}</span>`
+					: ""
+			}
 		</div>`;
 };
 
 onedesk.calendar_link.copy = (link) => frappe.utils.copy_to_clipboard(link.https);
 
-// `drawn` gets the new link after New Link; `stopped` runs once it is off.
+// Both ask first. `drawn` gets the new link; `stopped` runs once it is off.
+onedesk.calendar_link.renew = (drawn) =>
+	frappe.confirm(__("The old link stops working, so every app that reads it has to be given the new one. Make a new link?"), async () => {
+		drawn(await frappe.xcall("onedesk.one_calendar.feed.renew"));
+		frappe.ui.toast({ message: __("New link made. The old one no longer works."), type: "success" });
+	});
+
+onedesk.calendar_link.stop = (stopped) =>
+	frappe.confirm(__("Switch the link off? Calendars that read it stop updating."), async () => {
+		await frappe.xcall("onedesk.one_calendar.feed.stop");
+		frappe.ui.toast({ message: __("Your calendar link is switched off."), type: "warning" });
+		stopped();
+	});
+
 onedesk.calendar_link.bind = ($root, link, { drawn, stopped }) => {
 	$root.find("[data-calendar-copy]").on("click", () => onedesk.calendar_link.copy(link));
-	$root.find("[data-calendar-renew]").on("click", () =>
-		frappe.confirm(__("The old link stops working, so every app that reads it has to be given the new one. Make a new link?"), async () => {
-			drawn(await frappe.xcall("onedesk.one_calendar.feed.renew"));
-			frappe.ui.toast({ message: __("New link made. The old one no longer works."), type: "success" });
-		})
+	$root.find("[data-calendar-renew]").on("click", () => onedesk.calendar_link.renew(drawn));
+	$root.find("[data-calendar-stop]").on("click", () => onedesk.calendar_link.stop(stopped));
+};
+
+// The link in a dialog: what it is in the body, what to do with it in the
+// footer, as frappe's dialogs put their actions. Copy Link is the primary.
+onedesk.calendar_link.dialog = async () => {
+	const dialog = new frappe.ui.Dialog({ title: __("Subscribe") });
+	let link = await frappe.xcall("onedesk.one_calendar.feed.mine");
+	const draw = (made) => {
+		link = made;
+		dialog.$body.html(onedesk.calendar_link.html(link, { copy: false, ends: false }));
+	};
+	dialog.set_primary_action(__("Copy Link"), () => onedesk.calendar_link.copy(link));
+	dialog.custom_actions.append(
+		frappe.ui.button({ label: __("New Link"), variant: "ghost", icon: "refresh-cw", onclick: () => onedesk.calendar_link.renew(draw) }),
+		frappe.ui.button({ label: __("Switch Off"), variant: "ghost", theme: "red", icon: "power", onclick: () => onedesk.calendar_link.stop(() => dialog.hide()) })
 	);
-	$root.find("[data-calendar-stop]").on("click", () =>
-		frappe.confirm(__("Switch the link off? Calendars that read it stop updating."), async () => {
-			await frappe.xcall("onedesk.one_calendar.feed.stop");
-			frappe.ui.toast({ message: __("Your calendar link is switched off."), type: "warning" });
-			stopped();
-		})
-	);
+	draw(link);
+	dialog.show();
+	return dialog;
 };
