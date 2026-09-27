@@ -98,6 +98,22 @@ $.extend(onedesk.shell, {
 		if (onedesk.oneai && onedesk.oneai.panel) onedesk.oneai.panel.moved(onedesk.oneai.where());
 	},
 
+	// A record a page opens on, drawn as a docview is, on any page: its name
+	// after the page's in the breadcrumb (`trail`), its status in the page
+	// head's pill, what can be done to it as the page head's own buttons
+	// (`actions`, each `{ label, action, group }`), and frappe's form sidebar
+	// (`side`) beside the main column, which it returns. `$into` is the
+	// shell's body. A record that is edited uses Editor.as_record instead.
+	record($into, { page, parent, route, title, status = null, side = "", actions = [] }) {
+		onedesk.shell.trail(parent, route, title);
+		if (status) page.set_indicator(status.label, status.colour);
+		const $view = $(`<div class="one-record-view"><div class="one-record-main"></div><div class="one-record-side form-sidebar">${side}</div></div>`);
+		$into.closest(".one-shell-body").addBack(".one-shell-body").addClass("one-shell-record");
+		$into.empty().append($view);
+		for (const one of actions) page.add_inner_button(one.label, one.action, one.group);
+		return $view.find(".one-record-main");
+	},
+
 	// The sidebar of a record drawn as a docview, in frappe's own form-sidebar
 	// parts: its picture (a photo, initials, or a mark), its name and a line
 	// under it, groups of links, and a few quiet lines of when.
@@ -383,17 +399,11 @@ onedesk.shell.Editor = class Editor {
 	// form sections for its fields with frappe's form sidebar beside them, and
 	// what can be done to it as the page head's own buttons (`actions`, each
 	// `{ label, action, group }`). What form() draws goes in the main column.
-	as_record({ parent, route, title, status = null, side = "", actions = [] }) {
-		onedesk.shell.trail(parent, route, title);
+	as_record(record) {
 		this.trailed = true;
-		this.status = status;
-		this.show_status();
-		const $view = $(`<div class="one-record-view"><div class="one-record-main"></div><div class="one-record-side form-sidebar">${side}</div></div>`);
-		this.$content.empty().closest(".one-shell-body").addClass("one-shell-record");
-		this.$content.append($view);
-		this.$content = $view.find(".one-record-main");
-		for (const one of actions) this.page.add_inner_button(one.label, one.action, one.group);
-		return $view;
+		this.status = record.status || null;
+		this.$content = onedesk.shell.record(this.$content, { ...record, page: this.page });
+		return this.$content;
 	}
 
 	// The record's own status stands in the pill until something is changed,

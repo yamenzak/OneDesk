@@ -29,11 +29,29 @@
 	font-size: var(--text-sm);
 }
 
-/* The text, in the shell's column (shell.css), read at a reading size. */
+/* The text, in a record's main column (shell.css), read at a reading size
+   and a reading width. */
 .ol-document {
-	padding: calc(var(--spacing) * 6) calc(var(--spacing) * 4) calc(var(--spacing) * 12);
+	max-width: 760px;
+	padding: calc(var(--spacing) * 5) calc(var(--spacing) * 7.5) calc(var(--spacing) * 12);
 	color: var(--ink-gray-8);
 	line-height: 1.6;
+}
+
+.ol-document > h2:first-child {
+	margin-top: 0;
+}
+
+/* The documents, in the sidebar: this one named, the others links. */
+.ol-here {
+	font-weight: var(--font-weight-medium);
+	color: var(--ink-gray-9);
+}
+
+.ol-here,
+.ol-other {
+	display: block;
+	padding: calc(var(--spacing) * 1) 0;
 }
 
 .ol-document h1 {
@@ -49,9 +67,7 @@
 	color: var(--ink-gray-9);
 }
 
-.ol-document .summary,
-.ol-meta,
-.ol-party {
+.ol-document .summary {
 	color: var(--ink-gray-5);
 }
 

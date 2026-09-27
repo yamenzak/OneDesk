@@ -55,7 +55,8 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 	}
 
 	draw(data) {
-		onedesk.shell.name(__("Customize {0}", [data.label]), { route: `customize/${encodeURIComponent(data.doctype)}` });
+		// "Customer / Customize": the doctype leads back to its list.
+		onedesk.shell.trail(data.label, `/desk/${frappe.router.slug(data.doctype)}`, __("Customize"));
 		this.menu(data);
 		const table = (fieldname, label, description, fields, rows) => ({
 			fieldtype: "Table",

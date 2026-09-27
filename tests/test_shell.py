@@ -137,3 +137,37 @@ def test_the_old_names_are_gone():
 			continue
 		found = old.search(path.read_text(encoding="utf-8"))
 		assert not found, f"{path.relative_to(tree.APP)}: {found.group(0)}"
+
+
+#: The one back button left is OneCloud's, and it is the explorer's own
+#: history (back to the folder you came from), not a way out of a page.
+BACK_ALLOWED = {"onecloud.js"}
+
+
+def _page_scripts():
+	"""Every script a page of ours is drawn by."""
+	return {tree.APP / script for script, _style in ON_THE_SHELL.values()} | set(_pages().values())
+
+
+def test_a_record_a_page_opens_on_is_drawn_as_a_docview():
+	"""A record a page opens on (a person, a notification type, a document, a
+	doctype's customizing, a record's calendar) is named in the breadcrumb
+	after its page, "People / Rania Sabbagh", and drawn by the shell's record
+	part, never with a head or a back button of its own. docs/SHELL.md, Record."""
+	shell = SHELL_JS.read_text(encoding="utf-8")
+	for part in ("trail(", "record($into", "side(", "as_record(", "then: esc(label)"):
+		assert part in shell, part
+	for path in _page_scripts():
+		js = path.read_text(encoding="utf-8")
+		# A way out of a page is the breadcrumb, not a button in it.
+		if path.name not in BACK_ALLOWED:
+			assert '"arrow-left"' not in js and "data-back" not in js, f"{path.name} draws its own back button"
+		# Naming a page after something inside another is the trail's job.
+		for call in re.findall(r"shell\.name\(([^;]*)\);", js):
+			assert "route:" not in call, f"{path.name}: shell.name(..., {{ route }}) names a record; use shell.trail"
+		# A page that opens on something from its address, and names itself,
+		# names that something through the trail.
+		if "get_query_params" in js and "shell.name(" in js:
+			assert re.search(r"shell\.trail\(|as_record\(|shell\.record\(", js), (
+				f"{path.name} opens on a record from its address but never names it with the trail"
+			)

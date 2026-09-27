@@ -131,7 +131,13 @@ composes them rather than drawing its own:
   is changed, as on a form), what can be done to it as the page head's own
   buttons, its fields in full-width parts, and frappe's form sidebar beside
   them (`side`: the photo or mark, the name, links, when). No back buttons:
-  the breadcrumb goes back.
+  the breadcrumb goes back. A record that is not edited (an agreement's
+  text) uses `onedesk.shell.record` directly; a page that only opens on
+  something (a doctype's Customize, a record's Calendar) still names it with
+  `trail`: "Customer / Customize", "Client Example Ltd / Calendar".
+  `tests/test_shell.py` fails on a back button in a page, on `shell.name`
+  given a route, and on a page that opens on a record from its address
+  without the trail.
 - **Empty, quiet, loading**: one of each.
 - **Editor**: Settings' save core, lifted out: a FieldGroup from meta, dirty
   against what loaded, a warning before leaving, saving against `modified`,

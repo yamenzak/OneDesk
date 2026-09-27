@@ -81,8 +81,9 @@ onedesk.OneCalendar = class OneCalendar {
 		if (this.about) {
 			const { doctype, name } = this.about;
 			const title = (await frappe.utils.fetch_link_title(doctype, name)) || name;
-			this.page.set_title(__("{0} Calendar", [title]));
-			onedesk.shell.name(__("{0} Calendar", [title]), { route: `/desk/${frappe.router.slug(doctype)}/${encodeURIComponent(name)}` });
+			// "Client Example Ltd / Calendar": the record leads back to itself.
+			this.page.set_title(__("Calendar"));
+			onedesk.shell.trail(title, `/desk/${frappe.router.slug(doctype)}/${encodeURIComponent(name)}`, __("Calendar"));
 		} else {
 			this.page.set_title(__("Calendar"));
 			onedesk.shell.name(__("Calendar"));
