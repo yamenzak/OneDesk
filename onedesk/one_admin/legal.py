@@ -3,7 +3,7 @@ takes the money. See one_legal/README.md."""
 
 from onedesk.one_legal.registry import subprocessor
 
-M = "One Admin"
+M = "OneAdmin"
 
 subprocessor(
 	name="Frappe Technologies Pvt. Ltd.",

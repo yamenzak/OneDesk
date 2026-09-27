@@ -67,6 +67,20 @@ in"), no wink at the reader, no sentence that is there because it reads well.
 The test is whether the line would look out of place two rows above
 `Allow Login using Mobile Number`.
 
+## A product's name
+
+A product is written as one word: **OneMail**, **OneHR**, **OneAdmin**, never
+"One Mail". "One" on its own is the product itself. On screen the "One" is at
+a light weight and the rest at the weight around it, as the marks letter it;
+`public/js/brand.js` does that to every name the desk draws, so nothing is
+written with a span by hand.
+
+A Frappe module or doctype named before this rule keeps its id ("One HR",
+"One Admin Settings"), because an id is never renamed. Where the desk shows
+one, `locale/en.po` gives it the product's name, as ar.po and de.po do in
+theirs. `tests/test_names.py` refuses a string on screen with the name
+spaced, and an id the English catalogue does not name.
+
 ## The two pages a customer reads
 
 `/start` and `/welcome` are the only screens somebody reads before they have a

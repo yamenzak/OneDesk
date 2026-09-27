@@ -629,6 +629,6 @@ def _settings() -> dict:
 	if missing:
 		raise Refused(
 			f"The AI gateway is not configured: {', '.join(sorted(missing))}. "
-			"Set it in One Admin Settings."
+			"Set it in OneAdmin Settings."
 		)
 	return found

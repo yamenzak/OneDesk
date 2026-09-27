@@ -302,5 +302,5 @@ def _from_settings(conf_key: str, field: str) -> str:
 	stored = frappe.get_cached_doc("One Admin Settings")
 	found = frappe.conf.get(conf_key) or stored.get_password(field, raise_exception=False)
 	if not found:
-		frappe.throw(frappe._("Stripe is not configured. Set it in One Admin Settings."))
+		frappe.throw(frappe._("Stripe is not configured. Set it in OneAdmin Settings."))
 	return found

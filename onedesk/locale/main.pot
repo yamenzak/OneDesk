@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-27 05:57+0000\n"
-"PO-Revision-Date: 2026-09-27 05:57+0000\n"
+"POT-Creation-Date: 2026-09-27 08:11+0000\n"
+"PO-Revision-Date: 2026-09-27 08:11+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -4612,7 +4612,7 @@ msgstr ""
 
 #. Description of the 'Markup' (Float) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Empty uses the default in One Admin Settings."
+msgid "Empty uses the default in OneAdmin Settings."
 msgstr ""
 
 #. Description of the 'Model' (Select) field in DocType 'AI Action Setting'
@@ -9396,9 +9396,7 @@ msgstr ""
 msgid "One"
 msgstr ""
 
-#. Title of a Sidebar
 #. Name of a Workspace
-#: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "One Admin"
 msgstr ""
@@ -9651,6 +9649,11 @@ msgstr ""
 
 #: onedesk/public/js/onemail.js:678
 msgid "OneAI will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos are read with OneAI credits."
+msgstr ""
+
+#. Title of a Sidebar
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json
+msgid "OneAdmin"
 msgstr ""
 
 #. Title of a Sidebar
@@ -11313,7 +11316,7 @@ msgid "R2 buckets. A workspace is a prefix in one of them, fixed by its jurisdic
 msgstr ""
 
 #: onedesk/one_admin/storage.py:210
-msgid "R2 is not configured. Set it in One Admin Settings."
+msgid "R2 is not configured. Set it in OneAdmin Settings."
 msgstr ""
 
 #. Label of the radius (Int) field in DocType 'Clock Place'
@@ -13592,7 +13595,7 @@ msgid "Stripe Webhook Event"
 msgstr ""
 
 #: onedesk/one_admin/stripe.py:305
-msgid "Stripe is not configured. Set it in One Admin Settings."
+msgid "Stripe is not configured. Set it in OneAdmin Settings."
 msgstr ""
 
 #. Description of the 'Event ID' (Data) field in DocType 'Stripe Webhook Event'

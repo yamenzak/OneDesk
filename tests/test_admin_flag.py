@@ -7,7 +7,7 @@ and nobody would see it happen.
 
 So both are held here, off the shipped JSON:
 
-* every doctype in the One Admin module grants exactly `One Operator` and
+* every doctype in the OneAdmin module grants exactly `One Operator` and
   grants it to nobody else;
 * the switch is read from `site_config` and from nowhere a request can write.
 """
@@ -37,7 +37,7 @@ def admin_doctypes() -> list[tuple[str, dict]]:
 
 
 def test_the_module_has_doctypes_to_hold_to_the_rule():
-	assert admin_doctypes(), "no One Admin doctypes found — this file is guarding nothing"
+	assert admin_doctypes(), "no OneAdmin doctypes found — this file is guarding nothing"
 
 
 def test_every_operator_doctype_grants_one_role_and_it_is_the_operator():
@@ -46,7 +46,7 @@ def test_every_operator_doctype_grants_one_role_and_it_is_the_operator():
 			continue  # A child is reached through its parent and grants nothing.
 		roles = [row.get("role") for row in spec.get("permissions") or []]
 		assert roles == [OPERATOR], (
-			f"{name} grants {roles!r}. Every One Admin doctype grants exactly "
+			f"{name} grants {roles!r}. Every OneAdmin doctype grants exactly "
 			f"{OPERATOR!r}, because that role is the only thing keeping the "
 			"operator side off a tenant's own desk."
 		)

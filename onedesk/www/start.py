@@ -5,7 +5,7 @@ A tenant workspace carries this file like every other, and answers 404 for it:
 signup form would be a confusing thing to stumble onto.
 
 Nothing here decides a price. The offerings are read as they are, and the page
-draws what it is given — so a plan withdrawn in One Admin is a plan that stops
+draws what it is given — so a plan withdrawn in OneAdmin is a plan that stops
 being offered without anybody editing a template.
 
 The quota line is built here rather than in the template because it is three

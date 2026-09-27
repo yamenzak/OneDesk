@@ -566,7 +566,7 @@ def applicant_arrived(doc, method=None) -> None:
 	"""Job Applicant after_insert, by the form or a person: an application
 	OneAI made from a mail for the same person, with no opening or this one,
 	and nobody has touched, is folded into this one, which keeps its values.
-	One HR worked on is only flagged."""
+	OneHR worked on is only flagged."""
 	from onedesk.one_intake import mark
 
 	if frappe.flags.one_intake_writing or not doc.email_id:

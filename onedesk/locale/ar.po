@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-27 05:57+0000\n"
-"PO-Revision-Date: 2026-09-27 05:57+0000\n"
+"POT-Creation-Date: 2026-09-27 08:11+0000\n"
+"PO-Revision-Date: 2026-09-27 08:11+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -4614,8 +4614,8 @@ msgstr "فارغ عند إنفاق تجاوز الرصيد ولا ينتمي إ�
 
 #. Description of the 'Markup' (Float) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
-msgid "Empty uses the default in One Admin Settings."
-msgstr "تركه فارغاً يستخدم الافتراضي في إعدادات One Admin."
+msgid "Empty uses the default in OneAdmin Settings."
+msgstr "إذا تُرك فارغًا يُستخدم الافتراضي في إعدادات OneAdmin."
 
 #. Description of the 'Model' (Select) field in DocType 'AI Action Setting'
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
@@ -9396,17 +9396,15 @@ msgstr "مرة في الأسبوع: ما وصلك، وما تعامل معه One
 msgid "One"
 msgstr "One"
 
-#. Title of a Sidebar
 #. Name of a Workspace
-#: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "One Admin"
-msgstr "One Admin"
+msgstr "OneAdmin"
 
 #. Name of a DocType
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "One Admin Settings"
-msgstr "إعدادات One Admin"
+msgstr "إعدادات OneAdmin"
 
 #. Name of a role
 #: onedesk/one_admin/doctype/account_request/account_request.json
@@ -9652,6 +9650,11 @@ msgstr "سيقرأ OneAI الملفات الجديدة في {0} والمجلدا
 #: onedesk/public/js/onemail.js:678
 msgid "OneAI will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos are read with OneAI credits."
 msgstr "سيقرأ OneAI البريد الجديد في {0} ومرفقاته، ويحفظها ويتصرف بناءً عليها نيابةً عنك. تُقرأ المستندات الممسوحة والصور برصيد OneAI."
+
+#. Title of a Sidebar
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json
+msgid "OneAdmin"
+msgstr "OneAdmin"
 
 #. Title of a Sidebar
 #. Name of a Workspace
@@ -11313,8 +11316,8 @@ msgid "R2 buckets. A workspace is a prefix in one of them, fixed by its jurisdic
 msgstr "حاويات R2. مساحة العمل بادئة في إحداها، يحددها نطاقها القضائي."
 
 #: onedesk/one_admin/storage.py:210
-msgid "R2 is not configured. Set it in One Admin Settings."
-msgstr "لم يُضبط R2. اضبطه في إعدادات One Admin."
+msgid "R2 is not configured. Set it in OneAdmin Settings."
+msgstr "لم يُضبط R2. اضبطه في إعدادات OneAdmin."
 
 #. Label of the radius (Int) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
@@ -13592,8 +13595,8 @@ msgid "Stripe Webhook Event"
 msgstr "حدث Stripe"
 
 #: onedesk/one_admin/stripe.py:305
-msgid "Stripe is not configured. Set it in One Admin Settings."
-msgstr "لم يُضبط Stripe. اضبطه في إعدادات One Admin."
+msgid "Stripe is not configured. Set it in OneAdmin Settings."
+msgstr "لم يُضبط Stripe. اضبطه في إعدادات OneAdmin."
 
 #. Description of the 'Event ID' (Data) field in DocType 'Stripe Webhook Event'
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json

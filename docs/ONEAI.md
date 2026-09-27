@@ -14,7 +14,7 @@ Admin; the operator side and the billing exist, and there is no AI.
 **The operator is a separate site, and the ledger is on it.** `docs/INFRASTRUCTURE.md`
 is the whole of that argument; what matters here is the consequence, which is
 that a workspace has no credit table to write to. `Credit Ledger Entry`,
-`Credit Reservation`, `AI Model` and its rates all live in One Admin on the
+`Credit Reservation`, `AI Model` and its rates all live in OneAdmin on the
 admin site, behind `one_admin/proxy.py`, and a tenant reaches them the same way
 it reaches a signed upload URL: by asking, one direction only, holding a token
 that identifies it and authorises nothing else.
@@ -256,7 +256,7 @@ and exactly one model named in this app — `gateway.FIRST`, which AI 2 removes.
 A 200 whose shape we do not recognise raises rather than reading as an empty
 answer, because the other way is a changed response quietly returning blanks.
 
-The One AI module itself arrives with AI 5, when there is a doctype that belongs
+The OneAI module itself arrives with AI 5, when there is a doctype that belongs
 on every site rather than only on admin.
 
 **AI 2 — the catalogue.** *Done.* `AI Model` and its `AI Model Rate` rows in One
@@ -298,7 +298,7 @@ charge somebody for holding still, so it is skipped — and skipped rather than
 flagged, because a model is perfectly sellable without it.
 
 **AI 3 — the ledger.** *Done.* `Credit Ledger Entry` and `Credit Reservation` in
-One Admin, `one_admin/ledger.py` for the rows and `one_admin/credits.py` for the
+OneAdmin, `one_admin/ledger.py` for the rows and `one_admin/credits.py` for the
 arithmetic, which has no frappe in it. No AI in this stage at all: it is an
 accounting module and is tested like one.
 
@@ -329,7 +329,7 @@ mid-flight would otherwise promise a customer's credits to nothing, for good.
 **AI 4 — pricing and the three-step call.** *Done.* `one_admin/pricing.py` for
 the arithmetic and `one_admin/meter.py` for reading a provider's answer, both
 pure; `markup` on a model with `default_markup` and `credits_per_dollar` behind
-it in One Admin Settings; and `gateway.call` holding, calling and settling.
+it in OneAdmin Settings; and `gateway.call` holding, calling and settling.
 
 **The markup is per model with one fallback, and neither number has a default.**
 A flux tile at $0.0000528 and a Gemini Pro call at $2.50 a million tokens will
@@ -365,7 +365,7 @@ The operator gets `Price a call` on a model: a real call against a real
 workspace's real credits, because a number worked out any other way is a number
 nobody can check against a bill.
 
-**AI 5 — actions.** *Done.* The One AI module arrives, on every site, with
+**AI 5 — actions.** *Done.* The OneAI module arrives, on every site, with
 `AI Action` as a fixture and `AI Action Setting` per workspace.
 `one_admin/actions.py` joins the two and is where the safety of the feature is
 actually written down.
@@ -405,7 +405,7 @@ workspace that never pays.
 
 **Packs rather than amounts.** A customer buys a row from a price list, not a
 number they typed, because a calculator on that screen would be a second place
-where credits per dollar is decided and the first is in One Admin Settings. A
+where credits per dollar is decided and the first is in OneAdmin Settings. A
 pack carries `credits`; a plan carries `credits_a_month`. Two fields, because a
 lump granted once and an allowance granted monthly under one name is a nightly
 job granting somebody's one-off purchase every night.
@@ -956,7 +956,7 @@ model's own markup or the default. They are the number an operator chooses
 on, and the rates table is not: the rates are the provider's dollars, and what
 a workspace pays is those times the markup times the credit rate. Worked out
 by `pricing.per_million` on every save, and again for every model when
-One Admin Settings changes the default markup or the credit rate. A model not
+OneAdmin Settings changes the default markup or the credit rate. A model not
 priced in tokens — an image or audio model — has no such number; the column
 cannot hold nothing, so it holds zero and the list and the form both leave it
 blank rather than print a price of 0.00 that reads as free.
@@ -981,11 +981,11 @@ credits, 0.96 a call; gemma-4 selling at 200 in and 600 out a million, granite
 at 34 and 224.
 
 **Where OneAI lives.** It is not a place on the rail. frappe gives every
-module a sidebar of its own, and One AI's was five doctype lists nobody
+module a sidebar of its own, and OneAI's was five doctype lists nobody
 navigates to; `code_only_modules = {"One AI": ["One"]}` takes it off the dock
 and hands its screens to One. A workspace administrator finds them under
 **One → OneAI**: Actions (what each action runs on and is told), Credits,
-Conversations and Suggestions. The operator's side is **One Admin → OneAI**:
+Conversations and Suggestions. The operator's side is **OneAdmin → OneAI**:
 Models and AI Usage.
 
 **Credits** is the workspace's own analytics: credits left, used, calls and

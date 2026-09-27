@@ -1,0 +1,59 @@
+# The product names of One's ids, in English.
+#
+# A Frappe module or doctype is named once and never renamed (an id), and the
+# desk draws its name through __() wherever it shows it: a module in a list's
+# filters, "One Admin Settings" as its form's title. The names people read
+# are the products', written as one word ("OneAdmin"), so English carries
+# them here as it would a translation. Nothing else belongs in this file;
+# every other English string is its own msgid. ar.po and de.po say the same
+# names in theirs. See docs/WORDING.md.
+msgid ""
+msgstr ""
+"Project-Id-Version: OneDesk\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "One Admin"
+msgstr "OneAdmin"
+
+msgid "One Admin Settings"
+msgstr "OneAdmin Settings"
+
+msgid "One HR"
+msgstr "OneHR"
+
+msgid "One CRM"
+msgstr "OneCRM"
+
+msgid "One AI"
+msgstr "OneAI"
+
+msgid "One Calendar"
+msgstr "OneCalendar"
+
+msgid "One Task"
+msgstr "OneTask"
+
+msgid "One Project"
+msgstr "OneProject"
+
+msgid "One Book"
+msgstr "OneBook"
+
+msgid "One Inventory"
+msgstr "OneInventory"
+
+msgid "One Storage"
+msgstr "OneCloud"
+
+msgid "One Mail"
+msgstr "OneMail"
+
+msgid "One Intake"
+msgstr "Intake"
+
+msgid "One Legal"
+msgstr "OneLegal"
+

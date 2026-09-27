@@ -3,10 +3,10 @@
 Three of these are about a rail going wrong quietly. A sidebar naming a doctype
 that does not exist renders an entry that 404s; a doctype nobody put in the rail
 is reachable only by typing its name into the awesomebar, which is how the seven
-One Admin doctypes were reached before this stage existed.
+OneAdmin doctypes were reached before this stage existed.
 
 One is about something worse. The console is hidden by one thing and one thing
-only — every One Admin document grants `One Operator` and `site.apply` strips
+only — every OneAdmin document grants `One Operator` and `site.apply` strips
 that role from every user on a workspace site. A workspace page that forgot its
 `roles` would put the whole operator console in every tenant's dock.
 """
@@ -27,7 +27,7 @@ OPERATOR = "One Operator"
 #: fails on a layout choice rather than on a mistake.
 NOT_A_FIELD = ("Section Break", "Column Break", "Tab Break", "HTML", "Heading", "Image")
 
-#: One Admin's own doctypes that are deliberately not in the rail, and why.
+#: OneAdmin's own doctypes that are deliberately not in the rail, and why.
 #: Anything else missing from it is an oversight rather than a decision.
 UNRAILED = {
 	# Stripe's deliveries and the unique index that makes a redelivery harmless.
@@ -65,7 +65,7 @@ def _workspace() -> dict:
 
 
 def _owned() -> set[str]:
-	"""Every doctype the One Admin module ships that a person can open.
+	"""Every doctype the OneAdmin module ships that a person can open.
 
 	Child tables are left out throughout this file: they have no list, no rail
 	entry and no permission of their own — frappe reaches one through its parent
@@ -83,7 +83,7 @@ def _owned() -> set[str]:
 def test_the_console_is_gated_on_the_operator_role():
 	"""The whole of the hiding, and the only thing standing between a tenant and it."""
 	roles = [row["role"] for row in _workspace().get("roles") or []]
-	assert roles == [OPERATOR], f"the One Admin page grants {roles}"
+	assert roles == [OPERATOR], f"the OneAdmin page grants {roles}"
 
 
 def test_every_rail_entry_points_at_something_real():
@@ -93,7 +93,7 @@ def test_every_rail_entry_points_at_something_real():
 		if item.get("link_type") != "DocType":
 			continue
 		assert item["link_to"] in owned, (
-			f"the rail names {item['link_to']!r}, which One Admin does not own"
+			f"the rail names {item['link_to']!r}, which OneAdmin does not own"
 		)
 
 
@@ -107,7 +107,7 @@ def test_nothing_is_reachable_only_by_typing_its_name():
 	rail = {i.get("link_to") for i in _sidebar()["items"] if i.get("link_type") == "DocType"}
 	missing = sorted(_owned() - rail - UNRAILED)
 	assert not missing, (
-		f"{missing} are One Admin's and are in no rail entry. Add them, or say in "
+		f"{missing} are OneAdmin's and are in no rail entry. Add them, or say in "
 		"UNRAILED why an operator should have to type the name."
 	)
 

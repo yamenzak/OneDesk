@@ -653,6 +653,8 @@ app_include_css = [
 web_include_css = ["/assets/onedesk/css/portal.css"]
 app_include_js = [
 	"/assets/onedesk/js/theme.js",
+	# "One" of a product's name at a light weight, wherever it is drawn.
+	"/assets/onedesk/js/brand.js",
 	"/assets/onedesk/js/check.js",
 	"/assets/onedesk/js/desk.js",
 	"/assets/onedesk/js/shell.js",
@@ -680,7 +682,7 @@ app_include_js = [
 ]
 
 # OneAI is not a place. Its screens live in One — what a workspace
-# administers — and in One Admin, what the operator does; a module sidebar of
+# administers — and in OneAdmin, what the operator does; a module sidebar of
 # its own was five doctype lists nobody navigates to. Its doctypes and reports
 # stay where they are; only the dock entry goes, and One inherits the rest.
 # A mapping, as frappe's and erpnext's are: module to where its navigation went.

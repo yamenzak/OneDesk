@@ -163,6 +163,6 @@ def _configured(markup: float, per_dollar: float) -> None:
 	is a decision, and a default here would be us inventing somebody's margin.
 	"""
 	if not markup or markup <= 0:
-		raise Unpriceable("no markup is set for this model or in One Admin Settings")
+		raise Unpriceable("no markup is set for this model or in OneAdmin Settings")
 	if not per_dollar or per_dollar <= 0:
-		raise Unpriceable("credits per dollar is not set in One Admin Settings")
+		raise Unpriceable("credits per dollar is not set in OneAdmin Settings")

@@ -12,7 +12,7 @@ So the question "may this site provision workspaces and hold the ledger that
 bills people" has an answer the people being billed cannot change.
 
 **Hiding is Frappe's own permission machinery, not a layer over it.** Every
-doctype in the One Admin module grants exactly one role, `One Operator`, and
+doctype in the OneAdmin module grants exactly one role, `One Operator`, and
 grants it to nobody else — not System Manager, not Administrator by DocPerm.
 So a tenant site carries the tables and refuses every route a person has to
 them. Measured on the dev site as a System Manager who is not Administrator:
@@ -66,7 +66,7 @@ import frappe
 #: bench console.
 FLAG = "one_admin"
 
-#: The role every One Admin doctype grants, and the only role any of them
+#: The role every OneAdmin doctype grants, and the only role any of them
 #: grants. `tests/test_admin_flag.py` holds that.
 OPERATOR = "One Operator"
 

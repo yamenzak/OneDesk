@@ -166,7 +166,7 @@
    "fieldtype": "Float",
    "precision": "4",
    "label": "Markup",
-   "description": "Empty uses the default in One Admin Settings."
+   "description": "Empty uses the default in OneAdmin Settings."
   },
   {
    "fieldname": "input_per_million",

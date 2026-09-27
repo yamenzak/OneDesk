@@ -2,7 +2,7 @@
 
 `docs/WORDING.md` is the house style. This holds every doctype and every
 custom field in the app to the parts of it a machine can check — the console
-guard in test_console.py only ever covered One Admin, which is how the hiring
+guard in test_console.py only ever covered OneAdmin, which is how the hiring
 switches came to read like commit messages.
 
 A description: at most 130 characters and two sentences, no first person, no

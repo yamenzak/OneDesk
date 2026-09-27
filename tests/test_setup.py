@@ -1,4 +1,4 @@
-"""One Admin's Set up Cloudflare: one key, everything found or made, nothing
+"""OneAdmin's Set up Cloudflare: one key, everything found or made, nothing
 of anybody else's taken."""
 
 import ast

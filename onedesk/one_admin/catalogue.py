@@ -93,7 +93,7 @@ def _cloudflare_models() -> list[dict]:
 		"One Admin Settings"
 	).get_password("cloudflare_token", raise_exception=False)
 	if not account or not token:
-		raise Refused("Cloudflare is not configured. Set it in One Admin Settings.")
+		raise Refused("Cloudflare is not configured. Set it in OneAdmin Settings.")
 
 	where = f"{frappe.conf.get('cloudflare_url') or CLOUDFLARE}/accounts/{account}/ai/models/search"
 	found, page = [], 1

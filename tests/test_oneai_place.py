@@ -1,7 +1,7 @@
 """OneAI is not a place on the rail.
 
 What a workspace administers of it lives in One; what the operator does lives in
-One Admin. A module sidebar of its own was five doctype lists nobody navigated
+OneAdmin. A module sidebar of its own was five doctype lists nobody navigated
 to, and it would come back the day somebody added a doctype to the module —
 which is what `code_only_modules` stops.
 """

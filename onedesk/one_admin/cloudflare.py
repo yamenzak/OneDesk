@@ -152,6 +152,6 @@ def _settings():
 	if not (account and token and namespace):
 		raise faults.Refused(
 			"Cloudflare is not configured. Set the account, the token and the KV namespace"
-			" in One Admin Settings."
+			" in OneAdmin Settings."
 		)
 	return account, token, namespace

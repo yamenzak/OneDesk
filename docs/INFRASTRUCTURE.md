@@ -43,7 +43,7 @@ own database and nothing in their own `site_config`.
 
 What the flag changes:
 
-* the One Admin workspace, its rail and its doctypes are visible;
+* the OneAdmin workspace, its rail and its doctypes are visible;
 * the proxy endpoints answer instead of refusing;
 * the provisioning scheduler runs.
 
@@ -218,13 +218,13 @@ plane. The four that described SPA spaces die with the SPA, the four that
 mirrored press become live calls, and plan, pack, add-on and catalogue price
 collapse into one `Offering` with quota rows.
 
-**One Admin** — `One Admin Settings` (single), `Tenant` (+ `Tenant Member`),
+**OneAdmin** — `One Admin Settings` (single), `Tenant` (+ `Tenant Member`),
 `Tenant Event`, `Account Request`, `Provisioning Job`, `Standby Site`,
 `Offering` (+ `Offering Quota`), `Promo Code`, `Subscription`,
 `Stripe Webhook Event`, `Credit Ledger Entry`, `Credit Reservation`,
 `AI Model` (+ `AI Model Rate`), `AI Usage Record`, `Support Login`.
 
-**One AI**, on every site — `AI Action` (a fixture an operator may edit),
+**OneAI**, on every site — `AI Action` (a fixture an operator may edit),
 `AI Action Setting`, `AI Run`, `AI Proposal`.
 
 **One**, on every site — `Workspace Account`, a single holding what this
@@ -242,7 +242,7 @@ certificate, `host_name` in site config, and a real tenant site reachable at
 `<slug>.t.4dl.app`. Nothing else is built until this is proved, because the
 fallback changes what provisioning does.
 
-**INFRA 2 — the admin flag.** `one_admin` in site config, the One Admin module,
+**INFRA 2 — the admin flag.** `one_admin` in site config, the OneAdmin module,
 the rail, and the hiding on tenant sites. A guard that fails if an operator
 doctype is reachable on a site without the flag.
 
@@ -380,7 +380,7 @@ tenant at signup and editing one here changes nothing for anybody who bought.
 **What the operator cannot reach is enforced twice.** `has_permission` only fires
 when frappe has a document in hand, so it guarded the single and left `get_list`
 wide open; `permission_query_conditions` is the other half, and both hooks name
-all eight One Admin doctypes.
+all eight OneAdmin doctypes.
 
 **`/start` and `/welcome` draw their own chrome.** Frappe's Standard Footer says
 "Powered by ERPNext", which on our own signup page is somebody else's badge, so

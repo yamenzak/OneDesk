@@ -207,7 +207,7 @@ def _client(jurisdiction: str):
 	key_id = frappe.conf.get("r2_key_id") or stored.r2_key_id
 	secret = frappe.conf.get("r2_secret") or stored.get_password("r2_secret", raise_exception=False)
 	if not (account and key_id and secret):
-		frappe.throw(frappe._("R2 is not configured. Set it in One Admin Settings."))
+		frappe.throw(frappe._("R2 is not configured. Set it in OneAdmin Settings."))
 	# Any S3-compatible endpoint instead of R2's, for a self-hosted bench and
 	# for development against a local stand-in. Site config only: an endpoint is
 	# where every tenant's bytes go, so no screen may change it.

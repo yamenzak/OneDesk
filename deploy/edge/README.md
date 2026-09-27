@@ -36,9 +36,9 @@ it, checks the DNS, and issues a Let's Encrypt certificate over HTTP-01. That is
    fine — it is never dialled, because the Worker answers before the origin is
    consulted. It must be proxied (orange), or the Worker never runs.
 3. **A Workers KV namespace.** Put its id in `wrangler.toml` and the same id in
-   One Admin Settings as the Workers KV Namespace.
+   OneAdmin Settings as the Workers KV Namespace.
 4. **An API token** with exactly one permission: *Workers KV Storage: Edit*, on
-   that namespace. It goes in One Admin Settings. It can do nothing else to the
+   that namespace. It goes in OneAdmin Settings. It can do nothing else to the
    account — it cannot touch DNS, certificates, or any other Worker.
 5. `wrangler deploy`.
 

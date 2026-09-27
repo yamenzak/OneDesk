@@ -116,7 +116,7 @@ For the people who build OneMail. OneAI does not read past this heading.
 Stage 1, mail arriving at the mail domain, is built. Nothing yet shows it but
 the desk's own Communication list.
 
-- **One Admin's Set Up Cloudflare** (one_admin/setup.py) deploys the mail
+- **OneAdmin's Set Up Cloudflare** (one_admin/setup.py) deploys the mail
   Worker, points the zone's catch-all at it, and onboards the mail domain
   for sending. Email Routing on the subdomain waits on the key's
   Zone Settings: Edit.

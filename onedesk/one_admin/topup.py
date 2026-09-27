@@ -10,7 +10,7 @@ remembered to write.
 **Packs rather than amounts.** A customer buys a row from a price list, not a
 number they typed. That is a decision rather than a shortcut: a calculator on
 this screen is a second place where credits per dollar is decided, and the first
-one is in One Admin Settings where it belongs.
+one is in OneAdmin Settings where it belongs.
 
 **A plan's monthly credit does not roll over.** It carries the end of its own
 month as `expires_on`, which is the case the ledger's draw order was built for —

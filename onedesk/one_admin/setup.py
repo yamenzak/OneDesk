@@ -1,6 +1,6 @@
 """Cloudflare, set up from one key.
 
-The operator gives One Admin Settings one API token and presses **Set up
+The operator gives OneAdmin Settings one API token and presses **Set up
 Cloudflare**. Everything a workspace needs from Cloudflare is then found or
 made here:
 - the account and the zone;
@@ -284,7 +284,7 @@ class Refused(Exception):
 
 @frappe.whitelist(methods=["POST"])
 def set_up() -> list[dict]:
-	"""The button on One Admin Settings."""
+	"""The button on OneAdmin Settings."""
 	frappe.only_for(site.OPERATOR)
 	site.require_admin()
 	token = frappe.conf.get("cloudflare_token") or frappe.get_doc("One Admin Settings").get_password(
