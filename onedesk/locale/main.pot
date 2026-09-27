@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-27 20:31+0000\n"
-"PO-Revision-Date: 2026-09-27 20:31+0000\n"
+"POT-Creation-Date: 2026-09-27 20:55+0000\n"
+"PO-Revision-Date: 2026-09-27 20:55+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -126,6 +126,10 @@ msgstr ""
 msgid "<span class=\"h4\"><b>Today</b></span>"
 msgstr ""
 
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:55
+msgid "A Month"
+msgstr ""
+
 #. Label of the is_person (Check) field in DocType 'Reading Party'
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 msgid "A Person"
@@ -200,11 +204,11 @@ msgstr ""
 msgid "A copy of {0}"
 msgstr ""
 
-#: onedesk/one_admin/doctype/offering/offering.py:39
+#: onedesk/one_admin/doctype/offering/offering.py:40
 msgid "A credit pack is bought once, so it does not recur."
 msgstr ""
 
-#: onedesk/one_admin/doctype/offering/offering.py:41
+#: onedesk/one_admin/doctype/offering/offering.py:42
 msgid "A credit pack with no credits in it sells nothing."
 msgstr ""
 
@@ -404,6 +408,12 @@ msgstr ""
 msgid "A model that can do more than this may still answer it."
 msgstr ""
 
+#. Description of the 'Costs' (Section Break) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "A month, in the price list's currency. The Price Check and the Plan Calculator price from these."
+msgstr ""
+
 #: onedesk/one_hr/doctype/clock_network/clock_network.py:24
 msgid "A network belongs to a Shift Location or to one employee, not to both."
 msgstr ""
@@ -598,7 +608,7 @@ msgstr ""
 msgid "A workspace needs at least one administrator."
 msgstr ""
 
-#: onedesk/one_admin/doctype/offering/offering.py:33
+#: onedesk/one_admin/doctype/offering/offering.py:34
 msgid "A {0} does not carry {1}."
 msgstr ""
 
@@ -987,6 +997,10 @@ msgstr ""
 msgid "Add-on"
 msgstr ""
 
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:52
+msgid "Add-ons"
+msgstr ""
+
 #: onedesk/one/account.py:253
 msgid "Added"
 msgstr ""
@@ -1112,6 +1126,10 @@ msgstr ""
 
 #: onedesk/one/settings.py:775
 msgid "After this many wrong passwords in a row, signing in is refused for a while."
+msgstr ""
+
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:68
+msgid "Against the Cheapest"
 msgstr ""
 
 #: onedesk/public/js/legal.js:73
@@ -1256,6 +1274,14 @@ msgstr ""
 
 #: onedesk/one_ai/doctype/ai_action/ai_action.py:25
 msgid "An action with no instruction is a prompt with no shape."
+msgstr ""
+
+#: onedesk/one_admin/doctype/offering/offering.py:46
+msgid "An add-on adds one thing, in one size."
+msgstr ""
+
+#: onedesk/one_admin/doctype/offering/offering.py:48
+msgid "An add-on is paid for monthly with the plan, so it recurs."
 msgstr ""
 
 #. Description of the 'Approved Request' (Link) field in DocType 'Clock
@@ -2037,6 +2063,11 @@ msgstr ""
 msgid "Backup Before Archive"
 msgstr ""
 
+#. Label of the backups_kept (Int) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Backups Kept"
+msgstr ""
+
 #. Label of the credits_balance (Float) field in DocType 'Workspace Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 msgid "Balance"
@@ -2544,6 +2575,10 @@ msgstr ""
 msgid "Cannot get file contents of a Folder"
 msgstr ""
 
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:32
+msgid "Cannot reach it"
+msgstr ""
+
 #. Label of the capability (Select) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Capability"
@@ -2680,6 +2715,11 @@ msgstr ""
 #. Description of the 'Charts' (Table) field in DocType 'Record Head'
 #: onedesk/one/doctype/record_head/record_head.json
 msgid "Charts a module registered, drawn beside the numbers under the title."
+msgstr ""
+
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.js:11
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:34
+msgid "Cheapest"
 msgstr ""
 
 #. Label of the signal (Data) field in DocType 'Clock Signal'
@@ -2991,6 +3031,10 @@ msgstr ""
 #: onedesk/public/js/oneai/Panel.vue:30 onedesk/public/js/onecloud.js:2129
 #: onedesk/public/js/opportunity.js:17
 msgid "Close"
+msgstr ""
+
+#: onedesk/one_admin/report/price_check/price_check.py:64
+msgid "Close Calls"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:1622
@@ -3386,6 +3430,8 @@ msgstr ""
 msgid "Correction"
 msgstr ""
 
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:62
+#: onedesk/one_admin/report/price_check/price_check.py:118
 #: onedesk/one_inventory/heads.py:353 onedesk/one_project/heads.py:170
 msgid "Cost"
 msgstr ""
@@ -3393,6 +3439,12 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Cost Centers"
+msgstr ""
+
+#. Label of the costs_section (Section Break) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Costs"
 msgstr ""
 
 #: onedesk/one_hr/notifications.py:81
@@ -3570,6 +3622,7 @@ msgstr ""
 
 #. Label of the credits_a_month (Int) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.js:7
 msgid "Credits a Month"
 msgstr ""
 
@@ -3601,6 +3654,8 @@ msgstr ""
 #. Label of the currency (Link) field in DocType 'Offering'
 #. Label of the currency (Link) field in DocType 'Reading'
 #: onedesk/one_admin/doctype/offering/offering.json
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:46
+#: onedesk/one_admin/report/price_check/price_check.py:95
 #: onedesk/one_intake/bundle.py:83
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/report/spending/spending.py:37
@@ -3687,6 +3742,12 @@ msgstr ""
 
 #: onedesk/one_legal/gate.py:44
 msgid "Data Processing Addendum"
+msgstr ""
+
+#. Label of the database_gb (Int) field in DocType 'Offering'
+#: onedesk/one_admin/doctype/offering/offering.json
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.js:6
+msgid "Database (GB)"
 msgstr ""
 
 #. Label of the date (Date) field in DocType 'Reading Date'
@@ -5379,6 +5440,12 @@ msgstr ""
 msgid "Files asked of somebody, by name, each landing in a folder or on a record."
 msgstr ""
 
+#. Description of the 'Per GB of Storage' (Currency) field in DocType 'One
+#. Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Files in R2."
+msgstr ""
+
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:22
 msgid "Files land in a folder, and {0} is not one."
 msgstr ""
@@ -6113,6 +6180,10 @@ msgstr ""
 msgid "Holder"
 msgstr ""
 
+#: onedesk/one_admin/report/price_check/price_check.py:108
+msgid "Holds"
+msgstr ""
+
 #: onedesk/one_hr/employee.py:130 onedesk/one_hr/employee.py:287
 #: onedesk/one_hr/presence.py:181 onedesk/public/js/band.js:174
 msgid "Holiday"
@@ -6302,6 +6373,12 @@ msgstr ""
 #. Description of the 'expected_hours' field in DocType 'Timesheet Detail'
 #: onedesk/one_hr/custom/timesheet_detail.json
 msgid "How long you expect this to take. The timer says so when it runs past it. Leave it empty and it never does."
+msgstr ""
+
+#. Description of the 'Backups Kept' (Int) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "How many copies of the database are kept at any time."
 msgstr ""
 
 #. Description of the 'Credits per Dollar' (Float) field in DocType 'One Admin
@@ -7053,6 +7130,12 @@ msgstr ""
 msgid "Its reviewers"
 msgstr ""
 
+#. Description of the 'Per Workspace' (Currency) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Its site on Frappe Cloud at the smallest size, and its mail."
+msgstr ""
+
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:27
 msgid "Jan"
 msgstr ""
@@ -7203,6 +7286,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
+#: onedesk/one_admin/report/price_check/price_check.py:107
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/bundle.py:83
 #: onedesk/one_intake/doctype/identifier/identifier.json
@@ -7538,6 +7622,11 @@ msgstr ""
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Learning"
+msgstr ""
+
+#. Label of the least_margin (Float) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Least Margin"
 msgstr ""
 
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
@@ -8260,6 +8349,10 @@ msgstr ""
 
 #: onedesk/one_intake/panel.py:211
 msgid "Make {0}"
+msgstr ""
+
+#: onedesk/one_admin/report/price_check/price_check.py:51
+msgid "Makes sense."
 msgstr ""
 
 #. Label of the 'reports_to' field in DocType 'Employee'
@@ -9432,6 +9525,10 @@ msgstr ""
 msgid "Note"
 msgstr ""
 
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:28
+msgid "Nothing"
+msgstr ""
+
 #. Option for the 'Change' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Nothing New"
@@ -9694,7 +9791,12 @@ msgstr ""
 #. Name of a DocType
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/offering/offering.json
+#: onedesk/one_admin/report/price_check/price_check.py:102
 msgid "Offering"
+msgstr ""
+
+#: onedesk/one_admin/report/price_check/price_check.py:56
+msgid "Offerings"
 msgstr ""
 
 #: onedesk/one_ai/chat.py:622 onedesk/public/js/settings.js:451
@@ -9822,6 +9924,12 @@ msgstr ""
 #. Description of the 'Address' (Data) field in DocType 'Clock Network'
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 msgid "One address or a CIDR range. Example: 203.0.113.7 or 203.0.113.0/24"
+msgstr ""
+
+#. Description of the 'Per GB of Backup' (Currency) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "One backup copy of one GB of database, kept a month."
 msgstr ""
 
 #. Description of a DocType
@@ -10196,7 +10304,7 @@ msgstr ""
 msgid "Only a mailbox connected from another provider has a password to give again."
 msgstr ""
 
-#: onedesk/one_admin/doctype/offering/offering.py:46
+#: onedesk/one_admin/doctype/offering/offering.py:53
 msgid "Only a recurring offering can have a trial."
 msgstr ""
 
@@ -11117,6 +11225,33 @@ msgstr ""
 msgid "Per Call"
 msgstr ""
 
+#. Label of the cost_backup_gb (Currency) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Per GB of Backup"
+msgstr ""
+
+#. Label of the cost_database_gb (Currency) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Per GB of Database"
+msgstr ""
+
+#. Label of the cost_storage_gb (Currency) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Per GB of Storage"
+msgstr ""
+
+#. Label of the cost_seat (Currency) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Per Seat"
+msgstr ""
+
+#. Label of the cost_workspace (Currency) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Per Workspace"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Period Closing"
@@ -11246,9 +11381,17 @@ msgstr ""
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:51
 #: onedesk/public/js/settings.js:1039 onedesk/public/js/settings.js:1041
 #: onedesk/www/start.html:46
 msgid "Plan"
+msgstr ""
+
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.json
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json
+msgid "Plan Calculator"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -11385,7 +11528,15 @@ msgstr ""
 
 #. Label of the price_section (Section Break) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
+#: onedesk/one_admin/report/price_check/price_check.py:111
 msgid "Price"
+msgstr ""
+
+#. Name of a report
+#. Label of a Sidebar Item
+#: onedesk/one_admin/report/price_check/price_check.json
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json
+msgid "Price Check"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -12831,6 +12982,10 @@ msgstr ""
 msgid "Saved."
 msgstr ""
 
+#: onedesk/one_admin/report/price_check/price_check.py:124
+msgid "Saves Over Add-ons (%)"
+msgstr ""
+
 #: onedesk/public/js/hiring.js:238
 msgid "Saving…"
 msgstr ""
@@ -12865,6 +13020,10 @@ msgstr ""
 
 #: onedesk/one/rules.py:189
 msgid "Say who the rule tells: a role, a person on the record, or its assignees."
+msgstr ""
+
+#: onedesk/one_admin/report/price_check/price_check.py:125
+msgid "Says"
 msgstr ""
 
 #. Label of the attachment (Attach) field in DocType 'Employee Document'
@@ -12935,6 +13094,7 @@ msgstr ""
 #. Label of the seats (Int) field in DocType 'Offering'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/offering/offering.json
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.js:4
 #: onedesk/public/js/settings.js:1042
 msgid "Seats"
 msgstr ""
@@ -13996,6 +14156,7 @@ msgstr ""
 
 #. Label of the storage_gb (Int) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.js:5
 msgid "Storage (GB)"
 msgstr ""
 
@@ -14995,6 +15156,12 @@ msgstr ""
 msgid "The law says a business keeps this until then. It cannot be deleted before."
 msgstr ""
 
+#. Description of the 'Least Margin' (Float) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "The least a price may be over its cost. 2 means twice."
+msgstr ""
+
 #. Description of the 'Employee Checkin' (Link) field in DocType 'Clock
 #. Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -15263,6 +15430,11 @@ msgstr ""
 
 #: onedesk/one_inventory/notifications.py:61
 msgid "The site's administrators"
+msgstr ""
+
+#. Description of the 'Database (GB)' (Int) field in DocType 'Offering'
+#: onedesk/one_admin/doctype/offering/offering.json
+msgid "The site's database and its backups. Zero means unlimited on a plan."
 msgstr ""
 
 #: onedesk/one_legal/gate.py:51
@@ -15774,6 +15946,11 @@ msgstr ""
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_project/billing.py:77
 msgid "Time"
+msgstr ""
+
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:67
+#: onedesk/one_admin/report/price_check/price_check.py:123
+msgid "Times Cost"
 msgstr ""
 
 #. Label of the opened (Int) field in DocType 'Cloud Link'
@@ -16866,6 +17043,12 @@ msgstr ""
 
 #: onedesk/one_hr/ai.py:51
 msgid "What does our leave policy say — how many days of each kind do I get, what carries forward, and which days are holidays?"
+msgstr ""
+
+#. Description of the 'Per GB of Database' (Currency) field in DocType 'One
+#. Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "What each GB of database adds to the site's Frappe Cloud plan."
 msgstr ""
 
 #. Description of the 'Clock Attempt' (Link) field in DocType 'Employee
@@ -18047,6 +18230,7 @@ msgid "Written one way however it was typed, such as an IBAN without spaces or a
 msgstr ""
 
 #. Option for the 'Audit' (Select) field in DocType 'Intake Action'
+#: onedesk/one_admin/report/price_check/price_check.py:58
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 msgid "Wrong"
 msgstr ""
@@ -18830,6 +19014,10 @@ msgstr ""
 msgid "units"
 msgstr ""
 
+#: onedesk/one_admin/report/price_check/price_check.py:85
+msgid "unlimited"
+msgstr ""
+
 #: onedesk/public/js/onecloud.js:1275
 msgid "until {0}"
 msgstr ""
@@ -18885,6 +19073,11 @@ msgstr ""
 msgid "{0} AI credits a month"
 msgstr ""
 
+#: onedesk/one_admin/report/price_check/price_check.py:80
+msgid "{0} GB database"
+msgstr ""
+
+#: onedesk/one_admin/report/price_check/price_check.py:79
 #: onedesk/www/start.py:101
 msgid "{0} GB storage"
 msgstr ""
@@ -19040,6 +19233,10 @@ msgstr ""
 msgid "{0} counts nothing."
 msgstr ""
 
+#: onedesk/one_admin/report/price_check/price_check.py:81
+msgid "{0} credits a month"
+msgstr ""
+
 #: onedesk/public/js/oneai/Panel.vue:213
 msgid "{0} credits in this conversation"
 msgstr ""
@@ -19054,6 +19251,10 @@ msgstr ""
 
 #: onedesk/public/js/ai_model.js:71
 msgid "{0} credits — the hold, because nothing could be metered."
+msgstr ""
+
+#: onedesk/one_admin/report/price_check/price_check.py:75
+msgid "{0} credits, once"
 msgstr ""
 
 #: onedesk/public/js/ai_action_setting.js:88 onedesk/public/js/ai_model.js:70
@@ -19467,6 +19668,10 @@ msgstr ""
 msgid "{0} months"
 msgstr ""
 
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:36
+msgid "{0} more"
+msgstr ""
+
 #: onedesk/one_intake/keep.py:61
 msgid "{0} must be kept until {1} by law, and cannot be deleted before then."
 msgstr ""
@@ -19572,6 +19777,10 @@ msgstr ""
 
 #: onedesk/one_ai/heads.py:59
 msgid "{0} runs on a model that can do {1}. Anything added below is added to the instruction it already carries, and never replaces it."
+msgstr ""
+
+#: onedesk/one_admin/report/price_check/price_check.py:78
+msgid "{0} seats"
 msgstr ""
 
 #: onedesk/one/settings.py:800

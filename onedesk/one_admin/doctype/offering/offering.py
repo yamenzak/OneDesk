@@ -15,11 +15,12 @@ from onedesk.one_admin import site
 #: What each kind is allowed to carry. A credit pack with a storage quota is
 #: somebody filling in a field because it was there.
 CARRIES = {
-	"Plan": ("storage_gb", "seats", "credits_a_month"),
+	"Plan": ("storage_gb", "database_gb", "seats", "credits_a_month"),
 	# A pack is bought once, so it grants once. The same number under the
 	# monthly field would be a lump somebody's nightly job kept granting.
 	"Credit Pack": ("credits",),
-	"Add-on": ("storage_gb", "seats", "credits_a_month"),
+	# An add-on is one thing in one size, so it can be bought several times.
+	"Add-on": ("storage_gb", "database_gb", "seats", "credits_a_month"),
 }
 
 
@@ -27,7 +28,7 @@ class Offering(Document):
 	def validate(self) -> None:
 		site.require_admin()
 		self.key = (self.key or "").strip().lower()
-		for field in ("storage_gb", "seats", "credits", "credits_a_month"):
+		for field in ("storage_gb", "database_gb", "seats", "credits", "credits_a_month"):
 			if self.get(field) and field not in CARRIES[self.kind]:
 				frappe.throw(
 					frappe._("A {0} does not carry {1}.").format(
@@ -39,6 +40,12 @@ class Offering(Document):
 				frappe.throw(frappe._("A credit pack is bought once, so it does not recur."))
 			if not self.credits:
 				frappe.throw(frappe._("A credit pack with no credits in it sells nothing."))
+		if self.kind == "Add-on":
+			held = [one for one in CARRIES["Add-on"] if self.get(one)]
+			if len(held) != 1:
+				frappe.throw(frappe._("An add-on adds one thing, in one size."))
+			if not self.recurring:
+				frappe.throw(frappe._("An add-on is paid for monthly with the plan, so it recurs."))
 		if self.trial_days and not self.recurring:
 			# Stripe carries a trial on the subscription, so there is nowhere to
 			# put one on a single payment. A trial here would be a number that

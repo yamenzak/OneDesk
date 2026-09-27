@@ -21,6 +21,7 @@
   "stripe_price",
   "quota_section",
   "storage_gb",
+  "database_gb",
   "seats",
   "column_break_quota",
   "credits",
@@ -125,6 +126,13 @@
   },
   {
    "default": "0",
+   "fieldname": "database_gb",
+   "fieldtype": "Int",
+   "label": "Database (GB)",
+   "description": "The site's database and its backups. Zero means unlimited on a plan."
+  },
+  {
+   "default": "0",
    "description": "Zero means unlimited. Enforced by Frappe from the site's config.",
    "fieldname": "seats",
    "fieldtype": "Int",
@@ -162,7 +170,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-22 16:00:00.000000",
+ "modified": "2026-09-27 13:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Offering",

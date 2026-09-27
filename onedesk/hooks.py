@@ -26,6 +26,8 @@ after_install = [
 	"onedesk.one.companions.apply",
 	# Which kind of site this is, and the role that follows from it.
 	"onedesk.one_admin.site.apply",
+	# The price list an admin site starts with. See one_admin/offerings.py.
+	"onedesk.one_admin.offerings.install",
 	# After that, because what it does depends on which kind this is.
 	"onedesk.one_ai.instructions.trim",
 	"onedesk.one_ai.instructions.ready",

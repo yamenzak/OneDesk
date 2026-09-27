@@ -38,6 +38,15 @@
   "ai_gateway_token",
   "credits_per_dollar",
   "default_markup",
+  "costs_section",
+  "cost_workspace",
+  "cost_seat",
+  "cost_storage_gb",
+  "column_break_costs",
+  "cost_database_gb",
+  "cost_backup_gb",
+  "backups_kept",
+  "least_margin",
   "persona_section",
   "persona",
   "ladder_section",
@@ -229,6 +238,60 @@
    "description": "Multiplied onto provider cost. 2 charges twice the provider's price."
   },
   {
+   "fieldname": "costs_section",
+   "fieldtype": "Section Break",
+   "label": "Costs",
+   "description": "A month, in the price list's currency. The Price Check and the Plan Calculator price from these."
+  },
+  {
+   "fieldname": "cost_workspace",
+   "fieldtype": "Currency",
+   "label": "Per Workspace",
+   "description": "Its site on Frappe Cloud at the smallest size, and its mail."
+  },
+  {
+   "fieldname": "cost_seat",
+   "fieldtype": "Currency",
+   "label": "Per Seat"
+  },
+  {
+   "fieldname": "cost_storage_gb",
+   "fieldtype": "Currency",
+   "label": "Per GB of Storage",
+   "precision": "4",
+   "description": "Files in R2."
+  },
+  {
+   "fieldname": "column_break_costs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cost_database_gb",
+   "fieldtype": "Currency",
+   "label": "Per GB of Database",
+   "precision": "4",
+   "description": "What each GB of database adds to the site's Frappe Cloud plan."
+  },
+  {
+   "fieldname": "cost_backup_gb",
+   "fieldtype": "Currency",
+   "label": "Per GB of Backup",
+   "precision": "4",
+   "description": "One backup copy of one GB of database, kept a month."
+  },
+  {
+   "fieldname": "backups_kept",
+   "fieldtype": "Int",
+   "label": "Backups Kept",
+   "description": "How many copies of the database are kept at any time."
+  },
+  {
+   "fieldname": "least_margin",
+   "fieldtype": "Float",
+   "label": "Least Margin",
+   "description": "The least a price may be over its cost. 2 means twice."
+  },
+  {
    "fieldname": "persona_section",
    "fieldtype": "Section Break",
    "label": "Persona"
@@ -275,7 +338,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-09-24 18:00:00.000000",
+ "modified": "2026-09-27 13:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",
