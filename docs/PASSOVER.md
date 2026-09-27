@@ -130,7 +130,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, You | Mail | done |
 | Settings, You | Calendar | done |
 | Settings, You | Sign-in | done |
-| Settings, You | What OneAI Remembers | |
+| Settings, You | What OneAI Remembers | findings written, waiting on your word |
 | Settings, You | Agreements | done |
 | Settings, Workspace | General | |
 | Settings, Workspace | People | |
@@ -516,6 +516,45 @@ Done (`one/signin.py`):
 - **OneAI**: Is My Account Safe? on the page and as its suggestion, read by
   `my_sign_in`.
 - `one/README.md` gains Settings › Sign-in.
+
+### What OneAI Remembers
+
+One section: the facts OneAI keeps for this person (`AI Memory`, private to
+them), each with Forget, or a large centred "Nothing yet." Nothing is
+changed yet.
+
+1. **Notifications**: nothing is sent, and nothing needs to be.
+2. **OneAI**: the panel links here ("What OneAI remembers"), but the page
+   has no OneAI part, and OneAI keeps a memory quietly: nothing in the
+   conversation says it did. Recommended: when OneAI keeps something, one
+   quiet line in the conversation, "Remembered", with Undo; and a OneAI
+   button here, **What Do You Know About Me?**, that says what it keeps and
+   what the workspace told it.
+3. **Intake**: nothing here.
+4. **Permissions**: hold. A memory is its owner's only (`if_owner`), and
+   Forget checks delete permission.
+5. **Cross-module**: a memory about a record names the record as plain text.
+   Recommended: a link that opens it. And OneAI also uses what the
+   workspace's administrators wrote for everybody (`AI Knowledge`), which a
+   person cannot see anywhere. Recommended: a second section, read-only,
+   **What Your Workspace Told OneAI**, listing those by title.
+6. **UI and UX**:
+   - A person can only add a memory by asking OneAI. Recommended: **Add a
+     Memory** in the page head, a dialog with the fact and an optional
+     record, frappe's own controls.
+   - A memory cannot be corrected, only forgotten. Recommended: Edit beside
+     Forget, the same dialog.
+   - Nothing says when each was kept. Recommended: "kept 3 days ago" under
+     each.
+   - With many, there is no way to clear them. Recommended: **Forget
+     Everything**, quiet, asking first.
+   - The empty state is large and centred, unlike every other section.
+     Recommended: one quiet line, as the other sections say it.
+7. **Documented**: no section in `one/README.md`. Recommended: one.
+8. **Legal**: holds. The AI Addendum already says what OneAI remembers is
+   listed in the person's settings and can be deleted.
+9. **Built from frappe**: the list is ours; the dialog would be frappe's
+   (Small Text, Link, Dynamic Link).
 
 ### Agreements
 
