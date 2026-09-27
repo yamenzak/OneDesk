@@ -1306,7 +1306,10 @@ def _notification_types(record: str | None = None) -> dict:
 	# Ours by app, then frappe's own, which every app shares.
 	return {
 		"rules": [{"name": one.name, "enabled": one.enabled, "said": rules.said(one)} for one in made],
-		"apps": [{"app": app, "types": types} for app, types in sorted(apps.items(), key=lambda one: (not one[0], one[0]))],
+		"apps": [
+			{"app": app, "mark": _mark(app), "types": types}
+			for app, types in sorted(apps.items(), key=lambda one: (not one[0], one[0]))
+		],
 	}
 
 

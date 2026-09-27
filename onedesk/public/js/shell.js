@@ -114,6 +114,32 @@ $.extend(onedesk.shell, {
 		return $view.find(".one-record-main");
 	},
 
+	// A list of records: frappe's EmbeddedList, the one table every page of
+	// ours lists records in (docs/SHELL.md, Lists). A heading and a note above
+	// it, searchable once there are more than five, `open` for what a row
+	// does when clicked, `actions` for buttons beside the search (html, bound
+	// by the page), and `page_size` before Load More. Resolves to the list.
+	async table($into, { title = "", note = "", rows = [], columns, open = null, empty = "", none = "", icon = "list", page_size = 20, actions = "" } = {}) {
+		await frappe.require("embedded_list.bundle.js");
+		const esc = frappe.utils.escape_html;
+		const list = new frappe.ui.EmbeddedList({
+			wrapper: $into,
+			title: title ? esc(title) : "",
+			description: note ? esc(note) : "",
+			show_search: rows.length > 5,
+			page_size,
+			empty_icon: icon,
+			empty_message: empty || __("Nothing yet."),
+			no_match_message: none || __("Nothing matches that."),
+			get_data: () => Promise.resolve(rows),
+			on_row_click: open,
+			columns,
+		});
+		list.refresh();
+		if (actions) list.$header.show().find(".embedded-list-header-actions").append(actions);
+		return list;
+	},
+
 	// The sidebar of a record drawn as a docview, in frappe's own form-sidebar
 	// parts: its picture (a photo, initials, or a mark), its name and a line
 	// under it, groups of links, and a few quiet lines of when.

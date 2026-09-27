@@ -46,3 +46,11 @@
 	color: var(--ink-gray-4);
 	text-decoration: line-through;
 }
+
+/* A task in its table: the tick, its name and its badges on one line. */
+.one-tasks-task {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+}

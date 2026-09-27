@@ -486,3 +486,15 @@ a.one-shell-row:hover {
 		border-bottom: 1px solid var(--outline-gray-1);
 	}
 }
+
+/* A list of records (shell.table, frappe's EmbeddedList): a cell says all
+   it has to, over as many lines as it needs, rather than cutting off, and a
+   long list grows with the page rather than scrolling inside itself. */
+.one-shell .embedded-list table.embedded-list-table td {
+	white-space: normal;
+	max-width: 32rem;
+}
+
+.one-shell .embedded-list .embedded-list-table-wrap {
+	max-height: none;
+}

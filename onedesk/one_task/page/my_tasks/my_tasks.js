@@ -68,55 +68,57 @@ onedesk.MyTasks = class MyTasks {
 			);
 			return;
 		}
-		this.$list.html(
-			groups
-				.map((group) =>
-					onedesk.shell.section(
-						group.label,
-						onedesk.shell.list(group.tasks.map((task) => this.row(task, group.key)).join("")),
-						null,
-						frappe.ui.badge.html({ label: String(group.tasks.length), size: "sm" })
-					)
-				)
-				.join("")
-		);
+		// A table per due group: frappe's, as every list of records is. The
+		// task's name opens it; the tick and the timer act on it where it is.
+		this.$list.html(groups.map((group) => `<div class="one-shell-section" data-group="${group.key}"></div>`).join(""));
+		for (const group of groups) {
+			onedesk.shell.table(this.$list.find(`[data-group="${group.key}"]`), {
+				title: `${group.label} · ${group.tasks.length}`,
+				rows: group.tasks,
+				icon: "list-checks",
+				columns: [
+					{ label: __("Task"), render: (task) => this.task(task) },
+					{ label: __("Project"), render: (task) => this.project(task) },
+					{
+						label: __("Due"),
+						render: (task) =>
+							task.due ? `<span class="${group.key === "overdue" ? "one-tasks-late" : ""}">${this.day(task.due, group.key) || frappe.datetime.str_to_user(task.due)}</span>` : "",
+					},
+					...(this.times ? [{ label: "", render: (task) => this.timer(task) }] : []),
+				],
+			});
+		}
 	}
 
-	row(task, group) {
+	// A task's tick, name (which opens it) and how pressing it is.
+	task(task) {
+		const esc = frappe.utils.escape_html;
 		const pressing = { Urgent: "red", High: "amber" }[task.priority];
-		const bits = [];
-		if (task.project) {
-			bits.push(`<a class="one-tasks-project" href="/desk/project/${encodeURIComponent(task.project)}">${frappe.utils.escape_html(task.project_title)}</a>`);
-		}
-		if (task.is_milestone) bits.push(`<span>${__("Milestone")}</span>`);
-		if (task.due) bits.push(`<span class="${group === "overdue" ? "one-tasks-late" : ""}">${this.day(task.due, group)}</span>`);
 		const timing = this.running && this.running.task === task.name;
-		const since = timing
-			? frappe.ui.badge.html({
-					label: __("Since {0}", [moment(this.running.since).format("HH:mm")]),
-					theme: "blue",
-					size: "sm",
-					icon: "timer",
-			  })
+		return `<div class="one-tasks-task" data-name="${esc(task.name)}">
+			<input type="checkbox" class="one-tasks-tick" title="${esc(__("Complete"))}">
+			<a class="one-tasks-title" href="/desk/task/${encodeURIComponent(task.name)}">${esc(task.subject)}</a>
+			${pressing ? frappe.ui.badge.html({ label: __(task.priority), theme: pressing, size: "sm" }) : ""}
+			${task.is_milestone ? frappe.ui.badge.html({ label: __("Milestone"), theme: "gray", size: "sm" }) : ""}
+			${timing ? frappe.ui.badge.html({ label: __("Since {0}", [moment(this.running.since).format("HH:mm")]), theme: "blue", size: "sm", icon: "timer" }) : ""}
+		</div>`;
+	}
+
+	project(task) {
+		return task.project
+			? `<a class="one-tasks-project" href="/desk/project/${encodeURIComponent(task.project)}">${frappe.utils.escape_html(task.project_title)}</a>`
 			: "";
-		const timer = this.times
-			? frappe.ui.button.html({
-					icon: timing ? "square" : "play",
-					variant: "ghost",
-					size: "sm",
-					title: timing ? __("Stop Timer") : __("Start Timer"),
-					css_class: "one-tasks-timer",
-			  })
-			: "";
-		return onedesk.shell.row({
-			lead: `<input type="checkbox" class="one-tasks-tick" title="${__("Complete")}">`,
-			title: `<a class="one-tasks-title" href="/desk/task/${encodeURIComponent(task.name)}">${frappe.utils.escape_html(task.subject)}</a>${
-				pressing ? frappe.ui.badge.html({ label: __(task.priority), theme: pressing, size: "sm" }) : ""
-			}${since}`,
-			meta: bits.join(" · "),
-			actions: timer,
+	}
+
+	timer(task) {
+		const timing = this.running && this.running.task === task.name;
+		return frappe.ui.button.html({
+			icon: timing ? "square" : "play",
+			variant: "ghost",
+			size: "sm",
+			title: timing ? __("Stop Timer") : __("Start Timer"),
+			css_class: "one-tasks-timer",
 			attrs: { "data-name": task.name },
-			css: "one-tasks-task",
 		});
 	}
 
@@ -144,7 +146,7 @@ onedesk.MyTasks = class MyTasks {
 
 	// One timer runs at a time; starting this one stops whichever was running.
 	async time($button) {
-		const name = $button.closest(".one-tasks-task").attr("data-name");
+		const name = $button.attr("data-name");
 		const timing = this.running && this.running.task === name;
 		if (timing) onedesk.task_timer.stopped(await frappe.xcall("onedesk.one_task.timer.stop"));
 		else await frappe.xcall("onedesk.one_task.timer.start", { task: name });

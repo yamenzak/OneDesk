@@ -93,13 +93,6 @@
 	white-space: nowrap;
 }
 
-/* People: a person per line, in frappe's EmbeddedList. The badges wrap
-   rather than cut off, and a line reads as one person. */
-.os-people-list.embedded-list table.embedded-list-table td {
-	white-space: normal;
-	max-width: none;
-}
-
 .os-person {
 	display: flex;
 	align-items: center;
@@ -109,19 +102,6 @@
 .os-person-name {
 	color: var(--ink-gray-8);
 	font-weight: var(--font-weight-medium);
-}
-
-/* A person's places and sign-ins, in their dialog: one line each. */
-.os-place {
-	display: flex;
-	justify-content: space-between;
-	gap: calc(var(--spacing) * 3);
-	padding: calc(var(--spacing) * 1.5) 0;
-	border-bottom: 1px solid var(--outline-gray-1);
-}
-
-.os-place:last-child {
-	border-bottom: 0;
 }
 
 /* The profile's photo: larger than any size espresso names, set through the
@@ -331,7 +311,7 @@
 }
 
 .one-shell-row-main .os-to,
-.os-type-head .os-to {
+.embedded-list .os-to {
 	display: flex;
 	justify-content: flex-start;
 	text-align: start;
@@ -402,4 +382,17 @@
 .os-app-mark .icon {
 	width: 16px;
 	height: 16px;
+}
+
+/* What One sends, in frappe's table: a notification's name over what it is
+   for, and its app with its mark. */
+.os-type-name {
+	color: var(--ink-gray-8);
+	font-weight: var(--font-weight-medium);
+}
+
+.os-app {
+	display: inline-flex;
+	align-items: center;
+	white-space: nowrap;
 }

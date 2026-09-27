@@ -1,5 +1,6 @@
-/* The two pages a customer sees before they have a workspace: /start and
- * /welcome.
+/* Every page of ours outside the desk (tests/test_shell.py holds them to
+ * it): /start and /welcome before a customer has a workspace, the share and
+ * request pages (/s, /r), and a customer's project (/projects).
  *
  * These are not desk screens, so none of espresso's tokens are loaded and the
  * ramp is written out here. It is the same ramp as theme.css — kept in step by
@@ -535,4 +536,77 @@
 
 .one-drop__file small {
 	color: var(--ink-faint);
+}
+
+/* A page with lists on it, a customer's project: the same look, wider. */
+.one-portal.one-portal--wide {
+	max-width: 48rem;
+}
+
+.one-portal__quiet {
+	color: var(--ink-faint);
+}
+
+.one-portal__late {
+	color: var(--wrong);
+}
+
+.one-portal__heading {
+	margin: 2.5rem 0 0.5rem;
+	font-size: 1.0625rem;
+	font-weight: 600;
+}
+
+.one-portal__figures {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+	gap: 1rem;
+	margin-bottom: 1rem;
+}
+
+.one-portal__label {
+	color: var(--ink-soft);
+	font-size: 0.8125rem;
+}
+
+.one-portal__value {
+	font-size: 1.375rem;
+	font-weight: 600;
+}
+
+.one-portal__bar {
+	height: 6px;
+	border-radius: 3px;
+	background: var(--sunk);
+	overflow: hidden;
+}
+
+.one-portal__bar > span {
+	display: block;
+	height: 100%;
+	background: var(--picked);
+}
+
+.one-portal__row {
+	display: grid;
+	grid-template-columns: 1fr 12rem 7rem;
+	gap: 1rem;
+	align-items: center;
+	padding: 0.75rem 0;
+	border-bottom: 1px solid var(--line);
+	color: inherit;
+	text-decoration: none;
+}
+
+.one-portal__row > :last-child {
+	justify-self: end;
+}
+
+a.one-portal__row:hover {
+	background: var(--sunk);
+	text-decoration: none;
+}
+
+.one-portal__row--under span:first-child {
+	padding-inline-start: 1.25rem;
 }

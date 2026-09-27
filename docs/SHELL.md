@@ -137,7 +137,22 @@ composes them rather than drawing its own:
   `trail`: "Customer / Customize", "Client Example Ltd / Calendar".
   `tests/test_shell.py` fails on a back button in a page, on `shell.name`
   given a route, and on a page that opens on a record from its address
-  without the trail.
+  without the trail. It fails too on a table made anywhere but the shell,
+  a row that opens a record outside a pane, sessions drawn by hand, a modal
+  of a page's own, and a `www/` page out of the portal's look.
+- **Lists**: a list of records a person searches or opens (people, memories,
+  notifications, rules, their tasks, where they are signed in and their
+  sign-ins) is `onedesk.shell.table`, frappe's EmbeddedList, made in that
+  one place: a heading and a note, search past five, a row opening its
+  record, buttons beside the search, Load More. A **row** is for a short
+  list of settings that say how things stand (Signing In, Passkey, a
+  mailbox), and a row that opens something only in a pane beside it
+  (OneMail, OneIntake, a record's Mail).
+- **Dialogs** are frappe.ui.Dialog; nothing draws a modal of its own.
+- **Pages outside the desk** (`www/`: /start, /welcome, the share and
+  request pages, a customer's project) are frappe's web pages in One's
+  portal look (`public/css/portal.css`), without frappe's footer, and
+  without styles of their own.
 - **Empty, quiet, loading**: one of each.
 - **Editor**: Settings' save core, lifted out: a FieldGroup from meta, dirty
   against what loaded, a warning before leaving, saving against `modified`,

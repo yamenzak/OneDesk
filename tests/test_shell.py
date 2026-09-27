@@ -171,3 +171,61 @@ def test_a_record_a_page_opens_on_is_drawn_as_a_docview():
 			assert re.search(r"shell\.trail\(|as_record\(|shell\.record\(", js), (
 				f"{path.name} opens on a record from its address but never names it with the trail"
 			)
+
+
+#: Lists whose rows open what they are in the pane beside them: a mailbox,
+#: and OneIntake's reading list. Every other list of records is a table.
+PANE_LISTS = {"onemail.js", "intake.js", "record_mail.js"}
+
+
+def _ours(*patterns):
+	for pattern in patterns:
+		for path in tree.APP.rglob(pattern):
+			if "node_modules" in path.parts or "dist" in path.parts:
+				continue
+			yield path
+
+
+def test_a_list_of_records_is_frappes_table():
+	"""A list of records a person searches or opens is the shell's table,
+	frappe's EmbeddedList, made in one place; a row that opens something is
+	only a mailbox's, in its pane. Sessions and sign-ins are tables too, never
+	lines drawn by hand. docs/SHELL.md, Lists."""
+	shell = SHELL_JS.read_text(encoding="utf-8")
+	assert "table($into" in shell and "new frappe.ui.EmbeddedList" in shell
+	for path in _ours("*.js"):
+		if path == SHELL_JS:
+			continue
+		js = path.read_text(encoding="utf-8")
+		assert "new frappe.ui.EmbeddedList" not in js and "embedded_list.bundle" not in js, (
+			f"{path.name} makes its own table; use onedesk.shell.table"
+		)
+		if path.name not in PANE_LISTS:
+			assert "one-shell-row-link" not in js and not re.search(r"\blink:\s*\{", js), (
+				f"{path.name}: a row that opens a record; a list of records is onedesk.shell.table"
+			)
+	for path in _ours("*.js", "*.css"):
+		assert "os-place" not in path.read_text(encoding="utf-8"), f"{path.name} draws sessions by hand"
+
+
+def test_a_dialog_is_frappes():
+	"""Every dialog is frappe.ui.Dialog: nothing draws a modal of its own."""
+	for path in _ours("*.js", "*.vue", "*.html"):
+		source = path.read_text(encoding="utf-8")
+		assert not re.search(r"""class=["'][^"']*\bmodal\b""", source), f"{path.name} draws its own modal"
+		assert "bootstrap.Modal" not in source and '.modal("show")' not in source, f"{path.name} opens its own modal"
+
+
+def test_every_page_outside_the_desk_wears_the_portal():
+	"""The pages a customer or a guest sees (/start, /welcome, the share and
+	request pages, a customer's project) are frappe's web pages in One's
+	portal look (public/css/portal.css), without frappe's footer, which says
+	"Powered by ERPNext"."""
+	pages = sorted((tree.APP / "www").glob("*.html"))
+	assert pages
+	for page in pages:
+		html = page.read_text(encoding="utf-8")
+		assert html.lstrip().startswith('{% extends "templates/web.html" %}'), f"{page.name} is not a web page"
+		assert 'class="one-portal' in html, f"{page.name} is not in the portal's look"
+		assert "{%- block footer -%}{%- endblock -%}" in html, f"{page.name} keeps frappe's footer"
+		assert "<style" not in html, f"{page.name} styles itself; portal.css does"
