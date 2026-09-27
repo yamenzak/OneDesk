@@ -1210,6 +1210,8 @@ def _plan() -> dict:
 		"state": heads.account_state(held),
 		"said": heads.account_said(held),
 		"storage": {"used": heads.size(held.storage_bytes), "limit": heads.size(held.storage_limit)},
+		"ledger": account.ledger() if account.configured() else None,
+		"ledger_days": account.LEDGER_DAYS,
 	}
 
 

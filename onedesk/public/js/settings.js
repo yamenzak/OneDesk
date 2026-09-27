@@ -1051,8 +1051,32 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 						[__("Expiring"), expiring],
 					]),
 					__("OneAI is paid for with credits. The plan's monthly credits are used first, and the ones you buy never expire.")
+				) +
+				onedesk.shell.section(
+					__("Ledger"),
+					data.ledger ? '<div data-list="ledger"></div>' : `<div class="one-shell-quiet">${esc(__("The account could not be reached for the ledger just now."))}</div>`,
+					__("The last {0} days: what came in, and what OneAI used each day. Click a day to see who and what used it.", [data.ledger_days])
 				)
 		);
+		// The account's ledger as frappe's table, as every list of ours is.
+		if (data.ledger) {
+			// A day of a few small calls is a fraction of a credit, which rounds to nothing.
+			const amount = (value, sign) =>
+				value ? `<span class="${sign === "+" ? "text-success" : ""}">${sign}${esc(format_number(value, null, value < 10 ? 2 : 0))}</span>` : "";
+			onedesk.shell.table(this.$content.find('[data-list="ledger"]'), {
+				rows: data.ledger,
+				page_size: 15,
+				icon: "coins",
+				empty: __("Nothing came in or went out in that time."),
+				columns: [
+					{ label: __("Date"), render: (one) => esc(frappe.datetime.str_to_user(one.on)) },
+					{ label: __("What"), fieldname: "what" },
+					{ label: __("In"), render: (one) => amount(one.came, "+") },
+					{ label: __("Out"), render: (one) => amount(one.went, "−") },
+				],
+				open: (one) => one.day && frappe.set_route("query-report", "AI Credits", { from_date: one.day, to_date: one.day, by: "Person" }),
+			});
+		}
 	}
 
 	// Ask the account now rather than tonight, and draw what it said.

@@ -288,6 +288,14 @@ def ai_usage(start: str, end: str) -> dict:
 		"standing": ledger.standing(tenant),
 		"total": whole[0] if whole else {},
 		"days": ledger.daily(tenant, start, end),
+		"arrived": [
+			{
+				**one,
+				"creation": str(one.creation),
+				"expires_on": str(one.expires_on) if one.expires_on else None,
+			}
+			for one in ledger.arrived(tenant, start, end)
+		],
 		"models": ledger.usage(start, end, ["why"], tenant=tenant),
 		"references": ledger.usage(start, end, ["reference"], tenant=tenant),
 	}

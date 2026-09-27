@@ -449,6 +449,10 @@ last heard; **Check Again**, at the top, asks now.
   what was used in the last thirty days, and how many expire when. The
   plan's monthly credits expire at the end of the month and are used
   first; credits you buy never expire.
+- **Ledger** is the last ninety days, newest first: every time credits
+  came in (a pack bought, the plan's monthly credits, credits given by One,
+  a refund) and what OneAI used each day. Click a day to open the AI
+  Credits report for it, by person.
 - **Buy Credits**, at the top right, offers the packs on sale with their
   price, then opens the payment page in a new tab. The credits arrive once
   the payment goes through, and the page asks again when you come back to

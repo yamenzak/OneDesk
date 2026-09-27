@@ -746,7 +746,8 @@ def workspace_people() -> dict:
 def workspace_plan() -> dict:
 	"""The workspace's plan and OneAI credits, for its administrators: plan,
 	seats, storage, credits left, held, used in the last thirty days and what
-	expires when, and the last thirty days by model and by person."""
+	expires when, the last thirty days by model and by person, and the ledger:
+	what came in and what OneAI used each day."""
 	from frappe.utils import add_days, getdate
 
 	from onedesk.one import roles, settings
@@ -779,6 +780,8 @@ def workspace_plan() -> dict:
 			"expire_on": str(held["credits_expires_on"]) if held["credits_expires_on"] else None,
 		},
 		"last_30_days": cut,
+		# What came in and what went out each day, newest first.
+		"ledger": (said["ledger"] or [])[:40],
 		"as_of": str(held["last_heard"]) if held["last_heard"] else None,
 		"next": "The plan's monthly credits expire at the end of the month and are used first; bought credits never expire. Credits "
 		"are bought from Buy Credits in the page head of Workspace › Plan and Credits.",

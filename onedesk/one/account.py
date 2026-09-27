@@ -18,7 +18,7 @@ upload, an AI call — and that is the right thing to be fragile about.
 
 import frappe
 import requests
-from frappe.utils import add_days, date_diff, flt, formatdate, now_datetime, today
+from frappe.utils import add_days, date_diff, flt, formatdate, getdate, now_datetime, today
 
 from onedesk.one import roles
 from onedesk.one_admin import faults, proxy
@@ -216,6 +216,58 @@ def _addresses(people) -> list[tuple[str, str]]:
 		for one in frappe.get_all("User", filters={"name": ["in", people]}, fields=["email", "language"])
 		if one.email
 	]
+
+
+#: How far back the ledger on Plan and Credits goes.
+LEDGER_DAYS = 90
+
+
+def ledger() -> list[dict] | None:
+	"""Where the credits came from and where they went, newest first: each
+	grant and refund on a line of its own, and what OneAI used summed by day,
+	because the account keeps a spend per call and that is the wrong thing to
+	read. Asked every time, since the ledger is the account's and a copy would
+	be a second history. None when the account cannot be reached."""
+	from frappe import _
+
+	end = getdate(today())
+	start = add_days(end, -(LEDGER_DAYS - 1))
+	try:
+		said = ask("onedesk.one_admin.proxy.ai_usage", start=str(start), end=str(end)) or {}
+	except faults.Refused:
+		return None
+	came = {
+		"Purchase": lambda one: _("Bought {0}").format(one.get("why") or _("credits")),
+		"Plan": lambda one: (
+			_("The plan's monthly credits, until {0}").format(formatdate(one.get("expires_on")))
+			if one.get("expires_on")
+			else _("The plan's monthly credits")
+		),
+		"Operator": lambda _one: _("Given by One"),
+	}
+	rows = [
+		{
+			"on": str(one.get("creation"))[:10],
+			"what": _("Refunded")
+			if one.get("kind") == "Refund"
+			else came.get(one.get("source"), lambda _one: _("Added"))(one),
+			"came": flt(one.get("credits")),
+		}
+		for one in said.get("arrived") or []
+	]
+	rows += [
+		{
+			"on": str(one.get("day"))[:10],
+			"what": _("Used by OneAI, one call")
+			if one.get("calls") == 1
+			else _("Used by OneAI, {0} calls").format(one.get("calls")),
+			"went": flt(one.get("credits")),
+			"day": str(one.get("day"))[:10],
+		}
+		for one in said.get("days") or []
+	]
+	# Newest first; on one day, what came in above what went out.
+	return sorted(rows, key=lambda one: (one["on"], "came" in one), reverse=True)
 
 
 #: Where every one of those leads.

@@ -1229,6 +1229,13 @@ Done:
   revision 2, so administrators agree again.
 - A section title is one flex item, so "OneAI Credits" no longer splits.
 
+Afterwards, on your word: a **Ledger** section, the account's last ninety
+days newest first. Each grant and refund is a line of its own (bought, the
+plan's monthly credits, given by One, refunded); spend is summed per day,
+because the account keeps a spend row per call and per bucket. A day opens
+the AI Credits report for that day, by person. The admin's `ai_usage` now
+sends `arrived` (`ledger.arrived`), and `workspace_plan` reads the ledger.
+
 Not done: storage leads to OneCloud's Home, not to a list of the biggest
 files, because OneCloud has no workspace-wide list by size to open.
 

@@ -346,6 +346,25 @@ def usage(start, end, by: list[str], tenant: str | None = None, model: str | Non
 	)
 
 
+def arrived(tenant: str, start, end) -> list:
+	"""What came into one workspace between two dates: every grant and refund,
+	one row each, for its own ledger. What went out is `daily`, because a spend
+	is a row per call and per bucket, which is the right record and the wrong
+	thing to read."""
+	site.require_admin()
+	return frappe.get_all(
+		"Credit Ledger Entry",
+		filters={
+			"tenant": tenant,
+			"kind": ["in", ("Grant", "Refund")],
+			"docstatus": 1,
+			"creation": ["between", (start, end)],
+		},
+		fields=["creation", "kind", "source", "credits", "expires_on", "why"],
+		order_by="creation desc",
+	)
+
+
 def daily(tenant: str, start, end) -> list:
 	"""What one workspace spent each day between two dates, for its own chart.
 
