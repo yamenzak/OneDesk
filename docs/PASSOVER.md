@@ -128,7 +128,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, You | Profile | done (second pass too) |
 | Settings, You | Notifications | done, second pass |
 | Settings, You | Mail | done |
-| Settings, You | Calendar | |
+| Settings, You | Calendar | findings written, waiting on your word |
 | Settings, You | Sign-in | |
 | Settings, You | What OneAI Remembers | |
 | Settings, You | Agreements | done |
@@ -138,9 +138,9 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, Workspace | Plan and Credits | |
 | Settings, Workspace | Domains | |
 | Settings, Workspace | OneAI | |
-| Settings, Workspace | Intake | |
+| Settings, Workspace | OneIntake | |
 | Settings, Workspace | Holidays | |
-| Products | One home, OneMail, OneCloud, OneCalendar, OneTask, OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, Intake, OneAdmin | each screen listed here once we reach it |
+| Products | One home, OneMail, OneCloud, OneCalendar, OneTask, OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, OneAdmin | each screen listed here once we reach it |
 
 Noticed along the way, for the screen it belongs to:
 
@@ -370,6 +370,55 @@ Done:
   proposal kind `Signature` that Approve saves), Why Is a Mailbox Not
   Working, and How Does Mail Work Here, which reads the new Settings › Mail
   section of `one/README.md`.
+
+### Calendar
+
+The page is one section: the calendar link as a raw `webcal://` address in a
+code box, Copy, Make a New Link and Turn the Link Off. Nothing is changed yet.
+
+1. **Notifications**: nothing is sent, and nothing needs to be. The link is
+   the person's own, made by them.
+2. **OneAI**: the page has no suggestions and no page sentence, and the panel
+   cannot answer "how do I get this on my phone?". Recommended: a OneAI button,
+   **How Do I Add It?**, answering from the README for Google, Apple and
+   Outlook.
+3. **Intake**: nothing here.
+4. **Permissions**: hold. The secret is stored encrypted and found by its
+   hash, the feed is rate-limited per link, a disabled person's link stops,
+   and it carries only what that person can see. Administrators switch
+   anybody's link off under OneCalendar › Calendar Links.
+5. **Cross-module**: OneCalendar's own **Subscribe** dialog already does this
+   better: a button per app with its mark (Google Calendar, Apple Calendar,
+   Outlook) that opens the app ready to add it, and Copy Link. The two
+   disagree: different words ("New Link" and "Switch Off" there, "Make a New
+   Link" and "Turn the Link Off" here), and Copy copies the `https://` link
+   there and the `webcal://` one here. Recommended: one drawing of the link,
+   used by both.
+6. **UI and UX**:
+   - A raw address nobody reads fills the page. Recommended: the three app
+     buttons, as in Subscribe, with Copy Link for anything else.
+   - Nothing says whether the link works. The feed records when an app last
+     read it (`last_read`). Recommended: "Read by a calendar app 2 hours ago",
+     or "No app has read it yet".
+   - Nothing says what the link carries. Recommended: the layers it carries,
+     named ("Your events, your tasks, holidays…").
+   - No action in the page head, and with no link, **Make My Link** is a dark
+     button in the page. Recommended: **Make My Link** in the head when there
+     is none, **Copy Link** when there is; New Link and Switch Off stay quiet
+     in the page.
+   - For both ways with Google, frappe's own Google Calendar sync exists
+     once an administrator has set Google up. Recommended: a row saying so,
+     shown only when Google Settings is on, opening the person's own Google
+     Calendar record.
+7. **Documented**: Settings has no Calendar section in `one/README.md`.
+   Recommended: one, pointing at OneCalendar's README for the rest.
+8. **Legal**: the privacy notice does not say a person can publish their
+   own calendar to another app through a private link, readable by whoever
+   holds it. Recommended: a clause in OneCalendar's `legal.py` (which does
+   not exist yet); a new processing purpose, so a new revision.
+9. **Built from frappe**: the code box is ours. The app buttons are
+   espresso's, as Subscribe draws them; frappe's `copy_to_clipboard` and
+   `confirm` are used as they are.
 
 ### Agreements
 
