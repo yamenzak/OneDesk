@@ -123,6 +123,9 @@ def finish_registration(credential: str, seen: str | dict | None = None) -> dict
 		}
 	)
 	device.insert(ignore_permissions=True)
+	from onedesk.one import signin
+
+	signin.told_passkey(frappe.session.user)
 	return {"device": device.name, "label": device.label}
 
 

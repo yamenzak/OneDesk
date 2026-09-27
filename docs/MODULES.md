@@ -205,6 +205,8 @@ No doctypes yet.
 * `onedesk.one.settings.set_admin`
 * `onedesk.one.settings.set_enabled`
 * `onedesk.one.settings.sign_out_elsewhere`
+* `onedesk.one.signin.sign_out`
+* `onedesk.one.signin.update_password`
 * `onedesk.one_admin.operator.credit_standing`
 * `onedesk.one_admin.operator.fall`
 * `onedesk.one_admin.operator.give_credits`

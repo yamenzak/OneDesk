@@ -412,50 +412,127 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		draw(data.link);
 	}
 
+	// How the reader signs in, and where they are signed in, read from what
+	// frappe keeps (one/signin.py). Nothing here is saved as a form: each
+	// action is done at once, so the page head has none.
 	draw_signin(data) {
-		const password = onedesk.shell.section(
-			__("Password"),
-			`<div class="one-shell-actions">${onedesk.shell.button(__("Change Password"), { "data-password": "1" }, "subtle", "key-round")}</div>`
+		const esc = frappe.utils.escape_html;
+		const when = (value) => (value ? frappe.datetime.prettyDate(value) : "");
+		const safe = onedesk.oneai.button(
+			__("Is My Account Safe?"),
+			__("Is my account safe? Look at how I sign in and where I am signed in, and tell me what to do.")
 		);
+		const intro = `<div class="one-shell-section"><div class="os-notify-intro"><div class="one-shell-quiet">${esc(
+			__("How you sign in to One, and every place you are signed in now.")
+		)}</div>${safe}</div></div>`;
+		const row = (title, sub, actions = "") =>
+			`<div class="one-shell-row"><div class="one-shell-row-main"><div class="one-shell-row-title">${title}</div>${
+				sub ? `<div class="one-shell-quiet">${sub}</div>` : ""
+			}</div>${actions ? `<div class="one-shell-row-actions">${actions}</div>` : ""}</div>`;
+
+		const password = onedesk.shell.section(
+			__("Signing In"),
+			row(
+				esc(__("Password")),
+				esc(data.password_changed ? __("Changed {0}", [when(data.password_changed)]) : __("No change recorded")),
+				onedesk.shell.button(__("Change Password"), { "data-password": "1" }, "subtle", "key-round")
+			) +
+				row(
+					esc(__("Two-Factor Sign-in")),
+					esc(
+						data.two_factor
+							? __("A code is asked for after your password ({0}). Your workspace decides this.", [__(data.two_factor_method || "OTP App")])
+							: __("Not asked for. Your workspace decides this.")
+					),
+					frappe.ui.badge.html({ label: data.two_factor ? __("On") : __("Off"), theme: data.two_factor ? "green" : "gray" })
+				)
+		);
+
 		const passkey = data.employee
 			? onedesk.shell.section(
-					__("Passkey for Checking In"),
-					`<div class="one-shell-row"><div class="one-shell-row-main">${frappe.ui.badge.html({
-						label: data.passkey ? __("Registered") : __("Not registered"),
-						theme: data.passkey ? "green" : "gray",
-					})}</div>${data.passkey ? "" : `<div class="one-shell-row-actions">${onedesk.shell.button(__("Register This Device"), { "data-passkey": "1" }, "solid")}</div>`}</div>`,
-					__("Your fingerprint or face on this phone or laptop, used when you check in.")
+					__("Passkey"),
+					row(
+						frappe.ui.badge.html({ label: data.passkey ? __("Registered") : __("Not registered"), theme: data.passkey ? "green" : "gray" }),
+						"",
+						data.passkey ? "" : onedesk.shell.button(__("Register This Device"), { "data-passkey": "1" }, "subtle", "fingerprint")
+					),
+					data.passkey_signs_in
+						? __("Your fingerprint or face on this phone or laptop. You use it to check in, and to sign in.")
+						: __("Your fingerprint or face on this phone or laptop, used when you check in.")
 			  )
 			: "";
-		const sessions = onedesk.shell.section(
+
+		const shown = data.sessions.slice(0, 10);
+		const more = data.sessions.length - shown.length;
+		const places = onedesk.shell.section(
 			__("Where You Are Signed In"),
-			`<div class="one-shell-row"><div class="one-shell-row-main">${
-				data.sessions ? __("{0} sessions, this one included.", [data.sessions]) : __("Only here.")
-			}</div><div class="one-shell-row-actions">${onedesk.shell.button(__("Sign Out Everywhere Else"), { "data-elsewhere": "1" }, "subtle", "log-out")}</div></div>`
+			shown
+				.map((one) =>
+					row(
+						`${esc(one.device)}${one.here ? " " + frappe.ui.badge.html({ label: __("This One"), theme: "blue" }) : ""}`,
+						esc([one.address, __("last used {0}", [when(one.last_used)])].filter(Boolean).join(" · ")),
+						one.here ? "" : onedesk.shell.button(__("Sign Out"), { "data-sign-out": one.key }, "ghost", "log-out")
+					)
+				)
+				.join("") +
+				(more > 0 ? `<div class="one-shell-quiet one-shell-note">${esc(__("And {0} more.", [more]))}</div>` : "") +
+				(data.sessions.length > 1
+					? `<div class="one-shell-actions">${onedesk.shell.button(__("Sign Out Everywhere Else"), { "data-elsewhere": "1" }, "subtle", "log-out")}</div>`
+					: "")
 		);
-		this.$content.html(password + passkey + sessions);
+
+		const recent = data.recent.length
+			? onedesk.shell.section(
+					__("Recent Sign-ins"),
+					data.recent
+						.map((one) =>
+							row(
+								esc(frappe.datetime.str_to_user(one.on)),
+								esc(one.address),
+								one.failed ? frappe.ui.badge.html({ label: __("Failed"), theme: "red" }) : ""
+							)
+						)
+						.join(""),
+					__("A failed sign-in you did not make is somebody trying your password. Change it.")
+			  )
+			: "";
+
+		this.$content.html(intro + password + passkey + places + recent);
 		this.$content.find("[data-password]").on("click", () => {
 			const dialog = new frappe.ui.Dialog({
 				title: __("Change Password"),
 				fields: [
 					{ fieldname: "old_password", fieldtype: "Password", label: __("Current Password"), reqd: 1 },
 					{ fieldname: "new_password", fieldtype: "Password", label: __("New Password"), reqd: 1 },
+					{
+						fieldname: "elsewhere",
+						fieldtype: "Switch",
+						label: __("Sign Out Everywhere Else"),
+						description: __("Every other phone and computer signed in as you is signed out."),
+						default: 1,
+					},
 				],
 				primary_action_label: __("Change"),
 				primary_action: async (values) => {
 					await frappe.xcall("frappe.core.doctype.user.user.update_password", {
 						old_password: values.old_password,
 						new_password: values.new_password,
-						logout_all_sessions: 0,
+						logout_all_sessions: values.elsewhere ? 1 : 0,
 					});
 					dialog.hide();
 					frappe.show_alert({ message: __("Your password is changed."), indicator: "green" });
+					this.open("signin");
 				},
 			});
 			dialog.show();
 		});
 		this.$content.find("[data-passkey]").on("click", async () => {
 			await onedesk.passkey.register();
+			this.open("signin");
+		});
+		this.$content.find("[data-sign-out]").on("click", async (event) => {
+			await frappe.xcall("onedesk.one.signin.sign_out", { key_of: $(event.currentTarget).attr("data-sign-out") });
+			frappe.show_alert({ message: __("Signed out there."), indicator: "green" });
 			this.open("signin");
 		});
 		this.$content.find("[data-elsewhere]").on("click", () =>

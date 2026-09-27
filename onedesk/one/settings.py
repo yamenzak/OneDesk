@@ -534,14 +534,9 @@ def _calendar() -> dict:
 
 
 def _signin() -> dict:
-	employee = frappe.db.get_value("Employee", {"user_id": frappe.session.user, "status": "Active"}, "name")
-	passkey = None
-	if employee:
-		from onedesk.one_hr import passkey as keys
+	from onedesk.one import signin
 
-		passkey = bool(keys.held_by(employee))
-	sessions = frappe.db.count("Sessions", {"user": frappe.session.user}) if frappe.db.table_exists("Sessions") else None
-	return {"employee": employee, "passkey": passkey, "sessions": sessions}
+	return signin.facts()
 
 
 @frappe.whitelist(methods=["POST"])

@@ -129,7 +129,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, You | Notifications | done, second pass |
 | Settings, You | Mail | done |
 | Settings, You | Calendar | done |
-| Settings, You | Sign-in | findings written, waiting on your word |
+| Settings, You | Sign-in | done |
 | Settings, You | What OneAI Remembers | |
 | Settings, You | Agreements | done |
 | Settings, Workspace | General | |
@@ -494,6 +494,28 @@ Out Everywhere Else. Nothing is changed yet.
 9. **Built from frappe**: the password dialog is frappe's, with its Password
    controls and strength check. Signing out one session is frappe's
    `delete_session`.
+
+Your word: all of them, reading what frappe already keeps rather than
+keeping anything new.
+
+Done (`one/signin.py`):
+
+- **Where You Are Signed In** reads `tabSessions`: each session's user agent
+  as "Chrome on Mac", its network address and when it was last used, this
+  one marked, each with Sign Out (frappe's `delete_session`, so the Activity
+  Log records it). The page names a session by a hash, never its id.
+- **Recent Sign-ins** are the Activity Log's last six, failed ones in red.
+- **Password** says when it last changed (User's
+  `last_password_reset_date`); **Two-Factor Sign-in** says whether frappe asks
+  this person for a code, and that the workspace decides it.
+- **Passkey** says it also signs you in where Login with Passkey is on.
+- **Change Password** has Sign Out Everywhere Else, on by default.
+- **Password Changed** and **Passkey Added** go through the hub, always
+  mailed. Frappe's `update_password` is overridden to tell the person after
+  it, so the reset link tells them too.
+- **OneAI**: Is My Account Safe? on the page and as its suggestion, read by
+  `my_sign_in`.
+- `one/README.md` gains Settings › Sign-in.
 
 ### Agreements
 

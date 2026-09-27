@@ -70,6 +70,15 @@ SUGGESTIONS = {
 			"expects": "my_notifications",
 		},
 	],
+	"page:settings/signin": [
+		{
+			"label": _lt("Is my account safe?"),
+			"ask": _lt(
+				"Is my account safe? Look at how I sign in and where I am signed in, and tell me what to do."
+			),
+			"expects": "my_sign_in",
+		},
+	],
 	"page:settings/calendar": [
 		{
 			"label": _lt("How do I add it?"),
@@ -180,6 +189,13 @@ def page(said: dict) -> str | None:
 			"from and what each signs with, and any that stopped connecting. my_mailboxes reads them, with "
 			"what a signature is made of; sign_mailbox suggests a signature as a card they approve. How it "
 			"works is in One's documentation under Settings › Mail (how_to)."
+		)
+	if said.get("section") == "signin":
+		return (
+			"The reader is on Sign-in in their own Settings: their password, their passkey, whether two-factor "
+			"sign-in applies to them, every place they are signed in with a Sign Out each, and their last "
+			"sign-ins. my_sign_in reads it all. They change things themselves on the page; how is in One's "
+			"documentation under Settings › Sign-in (how_to)."
 		)
 	if said.get("section") == "calendar":
 		from onedesk.one_calendar import feed
@@ -618,6 +634,31 @@ def customize(
 		"state": "Proposed",
 		"next": "Tell them it changes the form for everybody once they approve it, and that Reset on the "
 		"Customize page takes it back.",
+	}
+
+
+def my_sign_in() -> dict:
+	"""How the person asking signs in and where they are signed in: when their
+	password last changed, whether they have a passkey and what it is for,
+	whether two-factor sign-in applies to them, the devices they are signed in
+	on, and their last sign-ins, failed ones included."""
+	from onedesk.one import signin
+
+	said = signin.facts()
+	return {
+		"password_last_changed": str(said["password_changed"]) if said["password_changed"] else "never recorded",
+		"passkey": None if said["employee"] is None else bool(said["passkey"]),
+		"passkey_also_signs_in": said["passkey_signs_in"],
+		"two_factor": said["two_factor"],
+		"signed_in_on": [
+			{"device": one["device"], "address": one["address"], "last_used": str(one["last_used"]), "this_one": one["here"]}
+			for one in said["sessions"]
+		],
+		"recent_sign_ins": [
+			{"failed": one["failed"], "address": one["address"], "on": str(one["on"])} for one in said["recent"]
+		],
+		"next": "Say plainly what looks fine and what to do: an old password, no two-factor, places they do not "
+		"recognise, failed sign-ins they did not make. They change it themselves on Settings › Sign-in.",
 	}
 
 

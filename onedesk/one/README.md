@@ -164,6 +164,35 @@ The page changes by itself when a mailbox stops connecting or comes back.
   and what to do.
 - **How does mail work here?** This section, explained.
 
+### Sign-in
+
+How you sign in, and everywhere you are signed in now. Each action happens
+at once; there is nothing to save.
+
+- **Password** says when you last changed it. **Change Password** asks for
+  the current one and the new one; **Sign Out Everywhere Else** in the same
+  window, on unless you switch it off, signs out every other phone and
+  computer, which is what you want if somebody else might know it.
+- **Two-Factor Sign-in** says whether a code is asked for after your
+  password. Your workspace decides that, not you.
+- **Passkey**, if you work here, is your fingerprint or face on this phone or
+  laptop. You use it to check in, and also to sign in where your workspace
+  allows signing in with a passkey. **Register This Device** makes one.
+- **Where You Are Signed In** lists each phone and computer, as "Chrome on
+  Mac", with its network address and when it was last used. This one is
+  marked. **Sign Out** ends one; **Sign Out Everywhere Else** ends all the
+  others.
+- **Recent Sign-ins** are your last six, failed ones in red. A failed
+  sign-in you did not make is somebody trying your password: change it.
+
+When your password changes, or a passkey is added, you are told on the bell
+and always by email, with when and from which device. If it was not you,
+reset your password from the sign-in page and tell your administrator.
+
+**OneAI on this page** offers **Is my account safe?**, the same question as
+the **Is My Account Safe?** button: it reads all of the above and says what
+to do.
+
 ### Calendar
 
 A private link to your calendar, for seeing it in another calendar app:

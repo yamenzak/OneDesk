@@ -458,6 +458,8 @@ override_whitelisted_methods = {
 	"frappe.desk.form.load.get_communications": "onedesk.one_mail.linking.get_communications",
 	# The credit limit dialog tells the credit controllers in One. See one_book/tell.py.
 	"erpnext.selling.doctype.customer.customer.send_emails": "onedesk.one_book.tell.credit_limit",
+	# A changed password tells the person, always by mail. See one/signin.py.
+	"frappe.core.doctype.user.user.update_password": "onedesk.one.signin.update_password",
 }
 
 # What Intake wrote down about a record is its history, not a reason to keep
@@ -696,6 +698,8 @@ code_only_modules = {"One AI": ["One"], "One Legal": ["One"]}
 # person asking; suggests write a card. Suggestions are what the panel offers
 # when it opens on a page. See one_ai/tools.py and one_ai/suggest.py.
 one_ai_reads = [
+	# How the person signs in, and where they are signed in. See one/signin.py.
+	"onedesk.one.ai.my_sign_in",
 	# Documents by what they say, and what they are. See one_intake/search.py.
 	"onedesk.one_intake.search.find_documents",
 	"onedesk.one_hr.ai.my_leave",
@@ -744,6 +748,7 @@ one_ai_page = ["onedesk.one.ai.page"]
 
 # What each module tells people, as notification types. See one/notify.py.
 one_notification_types = [
+	"onedesk.one.notifications.TYPES",
 	"onedesk.one_hr.notifications.TYPES",
 	"onedesk.one_intake.notifications.TYPES",
 	"onedesk.one_storage.notifications.TYPES",
