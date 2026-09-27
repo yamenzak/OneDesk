@@ -239,7 +239,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				const kind = one.workspace ? __("Workspace") : one.shared ? __("Shared") : one.connected ? __("Connected") : __("Yours");
 				const badges = [
 					frappe.ui.badge.html({ label: kind, theme: one.workspace ? "blue" : "gray" }),
-					one.intake ? frappe.ui.badge.html({ label: __("Read by OneAI"), theme: "violet" }) : "",
+					one.intake ? onedesk.oneai.tag(__("Read by OneAI")) : "",
 					one.receives_only ? frappe.ui.badge.html({ label: __("Receives Only"), theme: "gray" }) : "",
 					one.error ? frappe.ui.badge.html({ label: __("Not Connecting"), theme: "red" }) : "",
 				].join(" ");
@@ -276,9 +276,18 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 
 	async sign(account) {
 		const signature = await frappe.xcall("onedesk.one_mail.holders.signature_of", { account });
+		// The same question as the page's own suggestion (one/ai.py), so OneAI
+		// answers it as a card to approve.
+		const write = onedesk.oneai.button(
+			__("Write It With OneAI"),
+			__("Write a signature for the mailbox I send from, from my name, my job and how to reach me. Keep it short, and suggest it as a card I can approve.")
+		);
 		const dialog = new frappe.ui.Dialog({
 			title: __("Signature"),
-			fields: [{ fieldname: "signature", fieldtype: "Text Editor", label: __("Signature"), default: signature }],
+			fields: [
+				{ fieldname: "signature", fieldtype: "Text Editor", label: __("Signature"), default: signature },
+				{ fieldname: "write", fieldtype: "HTML", options: `<div class="one-shell-actions">${write}</div>` },
+			],
 			primary_action_label: __("Save"),
 			primary_action: async (values) => {
 				await frappe.xcall("onedesk.one_mail.holders.set_signature", { account, signature: values.signature || "" });

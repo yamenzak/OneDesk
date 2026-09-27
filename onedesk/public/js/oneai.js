@@ -176,6 +176,35 @@ onedesk.oneai.fields = function (frm) {
 	}
 };
 
+// What is AI, drawn one way everywhere (oneai.css): frappe's own badge and
+// button, with OneAI's mark in front and its spectrum round the edge. A tag
+// says something OneAI does or did ("Read by OneAI"); a button asks it
+// something, opening the panel on the question, which is the same question a
+// suggestion on that page asks when there is one (so it runs the same way).
+// A violet badge or a plain button standing in for either is the thing this
+// replaces: one look, so a person learns it once.
+onedesk.oneai.tag = (label, opts = {}) =>
+	frappe.ui.badge.html({ ...opts, label, css_class: ["one-ai-tag", opts.css_class].filter(Boolean).join(" ") });
+
+onedesk.oneai.button = (label, ask, opts = {}) =>
+	frappe.ui.button.html({
+		variant: "subtle",
+		...opts,
+		label,
+		attrs: { ...(opts.attrs || {}), ...(ask ? { "data-one-ai-ask": ask } : {}) },
+		css_class: ["one-ai-button", opts.css_class].filter(Boolean).join(" "),
+	});
+
+// Every OneAI button with a question asks it, wherever it is drawn. A button
+// inside a dialog closes the dialog first: the panel is where the answer is.
+$(document).on("click", "[data-one-ai-ask]", (event) => {
+	event.preventDefault();
+	const $button = $(event.currentTarget);
+	const dialog = $button.closest(".modal");
+	if (dialog.length) dialog.modal("hide");
+	onedesk.oneai.open({ ask: $button.attr("data-one-ai-ask") });
+});
+
 // On a settings page, every field a person may not know the meaning of gets a
 // quiet mark beside its label, shown on hover: it asks OneAI what the field is
 // for and what it should be here, with a card to set it if it should change —

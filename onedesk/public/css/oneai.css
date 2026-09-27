@@ -1233,3 +1233,44 @@ button.one-ai-model:hover {
 @media (prefers-reduced-motion: reduce) {
 	.one-rec__dot { animation: none; }
 }
+
+/* ------------------------------------------------------ a tag and a button */
+
+/* What is AI, one look everywhere (onedesk.oneai.tag and .button): frappe's
+ * own badge and button, filled as they are, with the spectrum as a hairline
+ * edge and the mark in front. The fill is the part's own, tinted a touch
+ * towards the spectrum's middle, so it reads on either theme. */
+.es-badge.one-ai-tag,
+.es-button.one-ai-button {
+	--one-ai-fill: color-mix(in srgb, var(--one-ai-3) 8%, var(--surface-white, var(--fg-color)));
+	border: 1px solid transparent;
+	background:
+		linear-gradient(var(--one-ai-fill), var(--one-ai-fill)) padding-box,
+		var(--one-ai-spectrum) border-box;
+	color: var(--ink-gray-8);
+}
+
+.es-badge.one-ai-tag::before,
+.es-button.one-ai-button::before {
+	content: "";
+	flex: none;
+	width: 14px;
+	height: 14px;
+	background: url("/assets/onedesk/images/oneai.svg") center / contain no-repeat;
+}
+
+.es-button.one-ai-button::before {
+	width: 16px;
+	height: 16px;
+}
+
+/* Pointed at, it glows the way a field OneAI changed does. */
+.es-button.one-ai-button:hover,
+.es-button.one-ai-button:focus-visible {
+	--one-ai-fill: color-mix(in srgb, var(--one-ai-3) 14%, var(--surface-white, var(--fg-color)));
+	box-shadow:
+		-6px 0 14px -6px var(--one-ai-1),
+		6px 0 14px -6px var(--one-ai-6),
+		0 0 0 3px var(--one-ai-ring);
+}
+

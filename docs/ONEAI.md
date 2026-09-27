@@ -218,6 +218,25 @@ immediately and subscribes. The transport is the one the bench already runs:
 subscribed and already has this person's browser in a room. No second runtime, no
 second port, nothing new to deploy.
 
+## What is AI looks one way
+
+Anything on a screen that is OneAI's is drawn in its spectrum with its mark,
+so a person who has learned the colour once recognises it everywhere: the
+launcher's ring, the panel's edge, a field it wrote, and on any page two
+shared parts in `public/js/oneai.js`:
+
+- **`onedesk.oneai.tag(label)`** says something OneAI does or did ("Read by
+  OneAI"). It is frappe's own badge with the mark in front and the spectrum
+  as its edge.
+- **`onedesk.oneai.button(label, ask)`** asks OneAI something. It is frappe's
+  own button, drawn the same way, and pressing it opens the panel on `ask`,
+  which is the same question the page's own suggestion asks, so the answer
+  comes back the same way (a card to approve, where there is one). Inside a
+  dialog it closes the dialog first.
+
+Nothing badges OneAI by hand (`tests/test_ai_look.py`), and the passover
+counts a violet badge or a plain button standing in for either as a finding.
+
 ## The stages
 
 Each one is worth having on its own, and each one is a commit.

@@ -129,7 +129,8 @@ OneMail, where you give its address and password.
 **No signature**. **Signature** changes it. A signature belongs to the
 address, so everybody who sends from that mailbox signs with it. The
 workspace's mailboxes, which everybody sends from, are signed by the
-workspace's administrators. Your own address on the mail domain says
+workspace's administrators. In the Signature window, **Write It With OneAI**
+asks OneAI for one, as the suggestion below does. Your own address on the mail domain says
 **Receives Only**: mail to it reaches you, and you send as the workspace.
 
 **A mailbox that stopped connecting** says **Not Connecting** and why,

@@ -8,7 +8,13 @@ findings and fixes are written down.
 
 1. **Notifications and email templates**: what the screen's events send, to
    whom, and whether the message reads well.
-2. **OneAI**: what OneAI does here, or should.
+2. **OneAI**: what OneAI does here, or should. Whatever is AI on the screen
+   is drawn one way: something OneAI does or did is `onedesk.oneai.tag`
+   ("Read by OneAI"), and something that asks it is `onedesk.oneai.button`,
+   which opens the panel on the same question the page's suggestion asks.
+   Both are frappe's own badge and button with OneAI's mark and spectrum
+   (`oneai.css`). A violet badge or a plain button standing in for one is a
+   finding.
 3. **Intake**: whether what Intake reads lands here, or should.
 4. **Permissions and roles**: who sees the screen, who may change what, and
    whether the server holds that line.
