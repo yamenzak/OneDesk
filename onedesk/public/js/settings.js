@@ -34,6 +34,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		frappe.realtime.on("one_mailbox", () => this.key === "mail" && this.$content && this.$content.is(":visible") && this.refresh());
 		// A memory was kept or forgotten, here, in the panel or in another tab.
 		frappe.realtime.on("one_memory", () => this.key === "memory" && this.$content && this.$content.is(":visible") && this.refresh());
+		// A domain started or stopped working (one/account.py, _tell_domains).
+		frappe.realtime.on("one_domains", () => this.key === "domains" && this.$content && this.$content.is(":visible") && this.refresh());
 	}
 
 	async show() {
@@ -1361,57 +1363,142 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
+	// Where the workspace opens: the address One gives it, which always works,
+	// and the customer's own, each once its DNS points here (one/account.py,
+	// one_admin/domains.py). Add a Domain is the page's action.
 	draw_domains(data) {
 		const esc = frappe.utils.escape_html;
-		const rows = (data.domains || [])
-			.map((one) => {
-				const status = one.status || "";
-				const theme = status === "Active" ? "green" : status ? "amber" : "gray";
-				return `<div class="one-shell-row" data-domain="${esc(one.domain)}">
-					<div class="one-shell-row-main"><div class="one-shell-row-title">${esc(one.domain)}</div><div class="one-shell-row-sub">
-						${status ? frappe.ui.badge.html({ label: __(status), theme }) : ""}
-						${one.primary ? frappe.ui.badge.html({ label: __("Primary"), theme: "blue" }) : ""}
-						${(one.provided || one.given) ? frappe.ui.badge.html({ label: __("Ours"), theme: "gray" }) : ""}
-					</div>${one.said ? `<div class="one-shell-quiet">${esc(one.said)}</div>` : ""}</div>
-					<div class="one-shell-row-actions">
-						${!one.primary && status === "Active" ? onedesk.shell.button(__("Make Primary"), { "data-primary": "1" }, "ghost") : ""}
-						${!(one.provided || one.given) ? onedesk.shell.button(__("Remove"), { "data-drop": "1" }, "ghost", null, "red") : ""}
-					</div>
-				</div>`;
-			})
-			.join("");
+		const target = data.target || "";
+		const rows = data.domains || [];
+		const given = rows.find((one) => one.given);
+		const primary = rows.find((one) => one.primary) || given;
+		this.page.set_primary_action(__("Add a Domain"), () => this.add_domain(target), "plus");
+		this.page.add_inner_button(__("Check Again"), async () => {
+			await frappe.xcall("onedesk.one.account.domains_refresh");
+			this.refresh();
+		});
+		const record = (name) =>
+			`<dl class="os-facts os-dns">
+				<dt>${esc(__("Type"))}</dt><dd>CNAME</dd>
+				<dt>${esc(__("Name"))}</dt><dd>${esc(name)}</dd>
+				<dt>${esc(__("Target"))}</dt><dd>${esc(target)} ${onedesk.shell.button(__("Copy"), { "data-copy": target }, "ghost", "copy")}</dd>
+			</dl>`;
 		this.$content.html(
 			onedesk.shell.section(
 				__("Addresses"),
-				(rows || onedesk.shell.empty(__("No domains yet."))) +
-					`<div class="one-shell-actions">${onedesk.shell.button(__("Add a Domain"), { "data-add": "1" }, "solid", "plus")}${onedesk.shell.button(__("Check Again"), { "data-refresh": "1" }, "ghost", "refresh-cw")}</div>`,
-				__("Where the workspace answers. The one we provide always works; your own is added once its DNS points here.")
-			)
+				`<div data-list="domains"></div>${
+					primary
+						? `<div class="one-shell-quiet one-shell-note">${esc(
+								__("{0} is the main address: sign-in, invitations and every link in mail use it.", [primary.domain])
+						  )}</div>`
+						: ""
+				}`,
+				__("Where the workspace opens in a browser. {0} always works; your own domain works once its DNS points here. Email addresses do not change.", [
+					given ? given.domain : "",
+				])
+			) +
+				(target
+					? onedesk.shell.section(
+							__("Your Own Domain"),
+							record(__("your domain, such as office.example.com")) +
+								`<div class="one-shell-quiet one-shell-note">${esc(
+									__("Make this record where your domain's DNS is kept, then add the domain here. If that is Cloudflare, set the record to DNS only: the certificate cannot be issued through its proxy.")
+								)}</div>`,
+							__("What the DNS has to say.")
+					  )
+					: "")
 		);
-		const again = (domains) => {
-			this.$content.empty();
-			this.draw_domains({ domains });
-		};
-		const of = (event) => $(event.currentTarget).closest("[data-domain]").attr("data-domain");
-		this.$content.find("[data-primary]").on("click", async (event) => again(await frappe.xcall("onedesk.one.account.domain_primary", { domain: of(event) })));
-		this.$content.find("[data-drop]").on("click", (event) => {
-			const domain = of(event);
-			frappe.confirm(__("Stop answering at {0}?", [domain]), async () => again(await frappe.xcall("onedesk.one.account.domain_drop", { domain })));
-		});
-		this.$content.find("[data-refresh]").on("click", async () => again(await frappe.xcall("onedesk.one.account.domains_refresh")));
-		this.$content.find("[data-add]").on("click", () => {
-			const dialog = new frappe.ui.Dialog({
-				title: __("Add a Domain"),
-				fields: [{ fieldname: "domain", fieldtype: "Data", label: __("Domain"), reqd: 1, description: __("For example office.example.com") }],
-				primary_action_label: __("Add"),
-				primary_action: async (values) => {
-					await frappe.xcall("onedesk.one.account.domain_add", { domain: values.domain });
-					dialog.hide();
-					this.open("domains");
+		const states = { Active: [__("Working"), "green"], Pending: [__("Waiting"), "orange"] };
+		const said = (one) =>
+			one.status === "Active"
+				? ""
+				: one.status === "Pending"
+				? __("Waiting for the certificate. This takes a few minutes once the DNS points here.")
+				: __("Not working. Check the DNS record below, then press Check Again.");
+		onedesk.shell.table(this.$content.find('[data-list="domains"]'), {
+			rows,
+			icon: "globe",
+			empty: __("No domains yet."),
+			columns: [
+				{
+					label: __("Domain"),
+					render: (one) =>
+						`<div>${esc(one.domain)} ${one.given ? frappe.ui.badge.html({ label: __("Given by One"), theme: "gray" }) : ""}</div>${
+							said(one) ? `<div class="one-shell-quiet">${esc(said(one))}</div>` : ""
+						}`,
 				},
-			});
-			dialog.show();
+				{
+					label: __("Status"),
+					render: (one) => {
+						const [label, theme] = states[one.status] || [__("Not Working"), "red"];
+						return frappe.ui.badge.html({ label, theme }) + (one.primary ? " " + frappe.ui.badge.html({ label: __("Main Address"), theme: "blue" }) : "");
+					},
+				},
+				{
+					label: "",
+					render: (one) =>
+						`<div class="one-shell-row-actions" data-domain="${esc(one.domain)}">${
+							!one.primary && one.status === "Active" ? onedesk.shell.button(__("Make Main Address"), { "data-primary": "1" }, "ghost") : ""
+						}${!one.given && !one.primary ? onedesk.shell.button(__("Remove"), { "data-drop": "1" }, "ghost", null, "red") : ""}</div>`,
+				},
+			],
 		});
+		const of = (event) => $(event.currentTarget).closest("[data-domain]").attr("data-domain");
+		this.$content.on("click", "[data-copy]", (event) => frappe.utils.copy_to_clipboard($(event.currentTarget).attr("data-copy")));
+		this.$content.on("click", "[data-primary]", (event) => {
+			const domain = of(event);
+			frappe.confirm(__("Make {0} the main address? Sign-in, invitations and every link in mail will use it.", [esc(domain)]), async () => {
+				await frappe.xcall("onedesk.one.account.domain_primary", { domain });
+				this.refresh();
+			});
+		});
+		this.$content.on("click", "[data-drop]", (event) => {
+			const domain = of(event);
+			frappe.confirm(__("Stop opening the workspace at {0}?", [esc(domain)]), async () => {
+				await frappe.xcall("onedesk.one.account.domain_drop", { domain });
+				this.refresh();
+			});
+		});
+	}
+
+	// The domain and the record it needs, together: Add checks the DNS first
+	// and says what is wrong rather than adding a name that cannot work yet.
+	add_domain(target) {
+		const esc = frappe.utils.escape_html;
+		const dialog = new frappe.ui.Dialog({
+			title: __("Add a Domain"),
+			fields: [
+				{
+					fieldname: "domain",
+					fieldtype: "Data",
+					label: __("Domain"),
+					reqd: 1,
+					placeholder: "office.example.com",
+					onchange: () => draw(),
+				},
+				{ fieldname: "record", fieldtype: "HTML" },
+			],
+			primary_action_label: __("Add"),
+			primary_action: async (values) => {
+				await frappe.xcall("onedesk.one.account.domain_add", { domain: values.domain });
+				dialog.hide();
+				frappe.show_alert({ message: __("Added. It works once the certificate is issued, usually in a few minutes."), indicator: "green" });
+				this.refresh();
+			},
+		});
+		const draw = () =>
+			dialog.fields_dict.record.$wrapper.html(
+				`<div class="one-shell-quiet">${esc(__("First make this record where the domain's DNS is kept."))}</div>
+				<dl class="os-facts os-dns">
+					<dt>${esc(__("Type"))}</dt><dd>CNAME</dd>
+					<dt>${esc(__("Name"))}</dt><dd>${esc(dialog.get_value("domain") || "office.example.com")}</dd>
+					<dt>${esc(__("Target"))}</dt><dd>${esc(target)} ${onedesk.shell.button(__("Copy"), { "data-copy": target }, "ghost", "copy")}</dd>
+				</dl>
+				<div class="one-shell-quiet">${esc(__("On Cloudflare, set it to DNS only."))}</div>`
+			);
+		draw();
+		dialog.$wrapper.on("click", "[data-copy]", (event) => frappe.utils.copy_to_clipboard($(event.currentTarget).attr("data-copy")));
+		dialog.show();
 	}
 
 	draw_oneai(data) {

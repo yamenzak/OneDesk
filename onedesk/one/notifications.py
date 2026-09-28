@@ -158,4 +158,43 @@ TYPES = [
 		"email": False,
 		"always_mailed": True,
 	},
+	{
+		"name": _lt("Domain Working"),
+		"app": "One",
+		"about": _lt("When one of the workspace's own domains starts working."),
+		"to": _lt("Every administrator"),
+		"subject": _lt("{domain} works now"),
+		"message": _lt(
+			"The workspace now opens at {domain}. To have sign-in and links in mail use it, make it the main "
+			"address on Workspace › Domains."
+		),
+		"email": False,
+		"always_mailed": True,
+	},
+	{
+		"name": _lt("Domain Stopped Working"),
+		"app": "One",
+		"about": _lt("When one of the workspace's own domains stops working."),
+		"to": _lt("Every administrator"),
+		"subject": _lt("{domain} stopped working"),
+		"message": _lt(
+			"The workspace no longer opens at {domain}. Check that its DNS still points at {target}, then "
+			"press Check Again on Workspace › Domains."
+		),
+		"email": False,
+		"always_mailed": True,
+	},
+	{
+		"name": _lt("Main Address Changed"),
+		"app": "One",
+		"about": _lt("When another administrator changes the address the workspace calls itself."),
+		"to": _lt("Every other administrator"),
+		"subject": _lt("{by} changed the workspace's address to {domain}"),
+		"message": _lt(
+			"{by} made {domain} the workspace's main address. Sign-in, invitations and every link in mail "
+			"now use it."
+		),
+		"email": False,
+		"always_mailed": True,
+	},
 ]

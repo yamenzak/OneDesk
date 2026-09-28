@@ -16,4 +16,4 @@ class TenantDomain(Document):
 		try:
 			self.domain = hosts.tidy(self.domain)
 		except hosts.Unclaimable as why:
-			frappe.throw(str(why))
+			frappe.throw(why.translated(frappe._))

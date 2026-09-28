@@ -435,3 +435,12 @@
 .os-add-ons {
 	margin-top: calc(var(--spacing) * 6);
 }
+
+/* The DNS record on Domains: a Copy button beside the target keeps its row level. */
+.os-dns dt,
+.os-dns dd {
+	display: flex;
+	align-items: center;
+	gap: var(--margin-sm);
+	min-height: 28px;
+}

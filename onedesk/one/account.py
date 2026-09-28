@@ -102,6 +102,7 @@ def refresh() -> dict:
 			"workspace_name": said.get("workspace"),
 			"status": said.get("status"),
 			"domain": said.get("domain"),
+			"dns_target": said.get("dns_target"),
 			"jurisdiction": said.get("jurisdiction"),
 			"cluster": said.get("cluster"),
 			"plan": said.get("plan"),
@@ -195,6 +196,8 @@ def _tell(before, after) -> None:
 		notify.notify("Database Nearly Full", people, **told, **slots)
 		for email, lang in _addresses(people):
 			notify.mail("Database Nearly Full", email, lang=lang, **slots)
+
+	_tell_domains(before.get("domains") or [], [one.as_dict() for one in after.domains], after.dns_target)
 
 	if after.owing and after.next_status and after.days_left is not None:
 		on = formatdate(add_days(today(), after.days_left))
@@ -367,12 +370,6 @@ def drop(key: str) -> dict:
 	return ask("onedesk.one_admin.proxy.storage_delete", key=key)
 
 
-#: Who on a workspace may change what it is called. Not everybody who can read
-#: the settings screen: a domain change moves where the login page lives, so it
-#: belongs to whoever already administers the site.
-MAY_RENAME = roles.ADMINISTRATOR
-
-
 @frappe.whitelist()
 def credit_packs() -> list:
 	"""What this workspace may buy, asked of the account.
@@ -380,29 +377,24 @@ def credit_packs() -> list:
 	Not cached: a price list is the administrator's and a copy of one here is a
 	price that goes stale the day it changes.
 	"""
-	_may_rename()
+	roles.require()
 	return ask("onedesk.one_admin.proxy.credit_packs") or []
 
 
 @frappe.whitelist()
 def buy_credits(pack: str) -> dict:
 	"""Somewhere to pay for a pack. The credit arrives by webhook, not here."""
-	_may_rename()
+	roles.require()
 	return ask("onedesk.one_admin.proxy.buy_credits", pack=pack)
 
 
-def _may_rename() -> None:
-	if MAY_RENAME not in frappe.get_roles():
-		frappe.throw(
-			frappe._("Only an administrator of this workspace can change its address."),
-			frappe.PermissionError,
-		)
-
-
 def _after(rows):
-	"""Write the administrator's answer into the account and hand it back."""
+	"""Write the administrator's answer into the account, tell the other
+	administrators what changed, and hand it back."""
 	held = frappe.get_single("Workspace Account")
+	before = [one.as_dict() for one in held.domains]
 	_keep(held, rows)
+	_tell_domains(before, rows, held.dns_target, but=frappe.session.user)
 	return rows
 
 
@@ -469,22 +461,22 @@ def domains() -> list:
 	"""Every address this workspace answers at.
 
 	Ours is first and is never removable. The rest are the customer's own, and
-	each carries what press last said about it — which is the part that helps
-	when one is not working.
+	each carries where press last said it got to.
 	"""
-	_may_rename()
-	return _after(ask("onedesk.one_admin.proxy.domain_list") or [])
+	roles.require()
+	return _after(_domains_ask("domain_list") or [])
 
 
 @frappe.whitelist()
 def domains_refresh() -> list:
 	"""Go and ask, rather than draw what was last known.
 
-	The button beside the list. A domain goes live minutes after it is added and
-	nothing tells the workspace, so there has to be something to press.
+	Check Again. A domain goes live minutes after it is added; the nightly
+	refresh and the notice tell the administrators, and this is for somebody
+	waiting on it.
 	"""
-	_may_rename()
-	return _after(ask("onedesk.one_admin.proxy.domain_refresh") or [])
+	roles.require()
+	return _after(_domains_ask("domain_refresh") or [])
 
 
 @frappe.whitelist()
@@ -496,35 +488,101 @@ def domain_check(domain: str) -> dict:
 	check and is refused until it is turned off. Relayed rather than reworded,
 	because press's sentence names the fix.
 	"""
-	_may_rename()
-	return ask("onedesk.one_admin.proxy.domain_check", domain=domain) or {}
+	roles.require()
+	said = _domains_ask("domain_check", domain=domain) or {}
+	return {**said, "points_here": bool(said.get("matched") or said.get("valid"))}
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def domain_add(domain: str) -> dict:
-	_may_rename()
-	answer = ask("onedesk.one_admin.proxy.domain_add", domain=domain) or {}
-	_after(ask("onedesk.one_admin.proxy.domain_list") or [])
+	"""Add a name once its DNS points here. Press issues the certificate over
+	HTTP, which fails on a name that does not reach it yet, so a name added
+	before its record is right only sits there broken."""
+	checked = domain_check(domain)
+	if not checked["points_here"]:
+		frappe.throw(
+			frappe._("{0} does not point here yet. Make a CNAME record for it pointing at {1}, then add it again.").format(
+				frappe.utils.escape_html(domain), frappe.get_single("Workspace Account").dns_target or ""
+			),
+			title=frappe._("Not added yet"),
+		)
+	answer = _domains_ask("domain_add", domain=domain) or {}
+	_after(_domains_ask("domain_list") or [])
 	return answer
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def domain_drop(domain: str) -> dict:
-	_may_rename()
-	answer = ask("onedesk.one_admin.proxy.domain_drop", domain=domain) or {}
-	_after(ask("onedesk.one_admin.proxy.domain_list") or [])
+	roles.require()
+	answer = _domains_ask("domain_drop", domain=domain) or {}
+	_after(_domains_ask("domain_list") or [])
 	return answer
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def domain_primary(domain: str) -> dict:
 	"""Make one of them the address the workspace calls itself.
 
 	This is the one that changes what the site believes rather than only what
 	reaches it: press writes `host_name` into the site's config, so a link in an
-	email starts using the new name.
+	email starts using the new name. The other administrators hear of it.
 	"""
-	_may_rename()
-	answer = ask("onedesk.one_admin.proxy.domain_primary", domain=domain) or {}
-	_after(ask("onedesk.one_admin.proxy.domain_list") or [])
+	roles.require()
+	answer = _domains_ask("domain_primary", domain=domain) or {}
+	_after(_domains_ask("domain_list") or [])
+	people = [one for one in _administrators() if one != frappe.session.user]
+	if people:
+		from onedesk.one import notify
+
+		slots = {"by": frappe.utils.get_fullname(), "domain": answer.get("domain") or domain}
+		notify.notify("Main Address Changed", people, link=DOMAINS, **slots)
+		for email, lang in _addresses(people):
+			notify.mail("Main Address Changed", email, lang=lang, **slots)
 	return answer
+
+
+def _domains_ask(what: str, **params):
+	"""Ask the account about domains, and put its refusal (press's sentence,
+	or ours) in front of the administrator as it was said."""
+	try:
+		return ask(f"onedesk.one_admin.proxy.{what}", **params)
+	except faults.Refused as refused:
+		frappe.throw(_plainly(refused), title=frappe._("Domains"))
+
+
+#: The page the domain notices open.
+DOMAINS = "/desk/workspace-settings?section=domains"
+
+#: Press's word for a name that works.
+WORKING = "Active"
+
+
+def _tell_domains(before: list, after: list | None, target: str | None, but: str | None = None) -> None:
+	"""Tell the administrators when one of the workspace's own names starts or
+	stops working. A name removed on purpose is not one that stopped."""
+	if not before or after is None:
+		return
+	was = {one.get("domain"): one.get("status") for one in before}
+	if was != {one.get("domain"): one.get("status") for one in after}:
+		# An open Domains page redraws (settings.js).
+		for user in _administrators():
+			frappe.publish_realtime("one_domains", {}, user=user, after_commit=True)
+	people = [one for one in _administrators() if one != but]
+	if not people:
+		return
+	from onedesk.one import notify
+
+	for one in after:
+		name, status = one.get("domain"), one.get("status")
+		if one.get("given") or not name:
+			continue
+		if status == WORKING and was.get(name) != WORKING:
+			slots = {"domain": name}
+			notify.notify("Domain Working", people, link=DOMAINS, sender="Administrator", **slots)
+			for email, lang in _addresses(people):
+				notify.mail("Domain Working", email, lang=lang, **slots)
+		elif name in was and was[name] == WORKING and status != WORKING:
+			slots = {"domain": name, "target": target or ""}
+			notify.notify("Domain Stopped Working", people, link=DOMAINS, sender="Administrator", **slots)
+			for email, lang in _addresses(people):
+				notify.mail("Domain Stopped Working", email, lang=lang, **slots)

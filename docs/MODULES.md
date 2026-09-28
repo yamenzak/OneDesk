@@ -15,7 +15,7 @@
 | Record Head Linked | 5 | child |
 | Record Head Sentence | 5 | child |
 | Record Head Verb | 4 | child |
-| Workspace Account | 35 | single |
+| Workspace Account | 36 | single |
 | Workspace Add-on | 4 | child |
 | Workspace Customization | 5 | document |
 | Workspace Domain | 4 | child |

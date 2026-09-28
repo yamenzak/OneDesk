@@ -76,5 +76,19 @@ def detail(body: dict | None, text: str) -> str:
 		return text[:KEPT]
 	for key in SAYS:
 		if body.get(key):
+			if key == "_server_messages":
+				return _messages(body[key])[:KEPT]
 			return str(body[key])[:KEPT]
 	return str(body)[:KEPT]
+
+
+def _messages(said) -> str:
+	"""What `frappe.throw` said: `_server_messages` is a JSON list of JSON
+	objects, each with its sentence under `message`. Anything else as it came."""
+	import json
+
+	try:
+		sentences = [json.loads(one).get("message") if isinstance(one, str) else None for one in json.loads(said)]
+	except (TypeError, ValueError, AttributeError):
+		return str(said)
+	return " ".join(one for one in sentences if one) or str(said)

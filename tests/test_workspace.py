@@ -70,7 +70,7 @@ def test_the_addresses_are_a_copy_too():
 
 
 def test_every_call_that_changes_an_address_asks_who_is_asking():
-	"""`_may_rename` is the whole of it: a domain change moves the login page."""
+	"""`roles.require` is the whole of it: a domain change moves the login page."""
 	source = (ONE / "account.py").read_text(encoding="utf-8")
 	found = {
 		node.name: node
@@ -80,11 +80,11 @@ def test_every_call_that_changes_an_address_asks_who_is_asking():
 	for name in GATED:
 		assert name in found, f"{name} is gone from one/account.py"
 		calls = {
-			one.func.id
+			one.func.attr if isinstance(one.func, ast.Attribute) else getattr(one.func, "id", None)
 			for one in ast.walk(found[name])
-			if isinstance(one, ast.Call) and isinstance(one.func, ast.Name)
+			if isinstance(one, ast.Call)
 		}
-		assert "_may_rename" in calls, f"{name} does not ask who is asking"
+		assert "require" in calls or "domain_check" in calls, f"{name} does not ask who is asking"
 
 
 def test_the_account_is_in_the_rail():

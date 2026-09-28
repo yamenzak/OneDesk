@@ -33,6 +33,7 @@
   "credits_expires_on",
   "domains_section",
   "domains",
+  "dns_target",
   "heard_section",
   "last_heard",
   "column_break_heard",
@@ -242,6 +243,13 @@
    "label": "Domains",
    "options": "Workspace Domain",
    "read_only": 1
+  },
+  {
+   "fieldname": "dns_target",
+   "fieldtype": "Data",
+   "label": "DNS Target",
+   "read_only": 1,
+   "description": "What the workspace's own domains point at, as a CNAME record."
   },
   {
    "fieldname": "owing",

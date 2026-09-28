@@ -55,8 +55,22 @@ RESERVED = frozenset(
 )
 
 
+def _(text: str) -> str:
+	"""Marks a sentence for translation without importing Frappe. The caller
+	translates it (`Unclaimable.translated`)."""
+	return text
+
+
 class Unclaimable(ValueError):
-	"""The name a workspace asked for is not one it may have."""
+	"""The name a workspace asked for is not one it may have: a sentence and
+	what goes into its `{0}`."""
+
+	def __init__(self, sentence: str, *values) -> None:
+		super().__init__(sentence.format(*values))
+		self.sentence, self.values = sentence, values
+
+	def translated(self, translate) -> str:
+		return translate(self.sentence).format(*self.values)
 
 
 def tidy(raw: str) -> str:
@@ -67,7 +81,7 @@ def tidy(raw: str) -> str:
 	else is refused rather than repaired.
 	"""
 	if not isinstance(raw, str):
-		raise Unclaimable("no domain")
+		raise Unclaimable(_("Type a domain, such as office.example.com."))
 	name = raw.strip().lower()
 	for scheme in ("https://", "http://"):
 		if name.startswith(scheme):
@@ -75,17 +89,17 @@ def tidy(raw: str) -> str:
 	name = name.split("/", 1)[0].split("?", 1)[0]
 	name = name.rstrip(".")
 	if not name:
-		raise Unclaimable("no domain")
+		raise Unclaimable(_("Type a domain, such as office.example.com."))
 	if len(name) > LONGEST:
-		raise Unclaimable(f"a domain is at most {LONGEST} characters")
+		raise Unclaimable(_("A domain is at most {0} characters."), LONGEST)
 	if ":" in name:
-		raise Unclaimable("a domain does not carry a port")
+		raise Unclaimable(_("A domain does not have a port. Leave out the colon and what follows it."))
 	labels = name.split(".")
 	if len(labels) < FEWEST_LABELS:
-		raise Unclaimable(f"{name} is not a domain")
+		raise Unclaimable(_("{0} is not a domain."), name)
 	for label in labels:
 		if not LABEL.match(label):
-			raise Unclaimable(f"{label!r} is not a usable part of a domain name")
+			raise Unclaimable(_("{0} cannot be part of a domain name."), label)
 	return name
 
 
@@ -119,14 +133,14 @@ def claimable(raw: str, *served) -> str:
 	"""
 	name = tidy(raw)
 	if ours(name, *served):
-		raise Unclaimable(f"{name} is a name we hand out, so it cannot be added as your own")
+		raise Unclaimable(_("{0} is an address One gives out, so it cannot be added as your own."), name)
 	return name
 
 
 def under(slug: str, tenant_domain: str) -> str:
 	"""The name we give a workspace, which is never asked for and never refused."""
 	if not slug or not tenant_domain:
-		raise Unclaimable("a workspace needs a slug and a domain")
+		raise Unclaimable(_("A workspace needs a slug and a domain."))
 	return f"{slug}.{tenant_domain.strip().lower().rstrip('.')}"
 
 

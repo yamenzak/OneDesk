@@ -194,6 +194,9 @@ def hello(database_bytes: int | None = None) -> dict:
 		# A workspace that asked only about its account still gets them, which
 		# is what keeps the copy on its own site in step after an outage.
 		"domains": domains.mine(_tenant_doc(tenant)),
+		# What a customer's own name has to point at: press checks for a CNAME
+		# to the site's own press name (domains.check).
+		"dns_target": frappe.db.get_value("Tenant", tenant.name, "site"),
 	}
 
 

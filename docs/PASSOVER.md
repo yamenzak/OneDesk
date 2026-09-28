@@ -136,7 +136,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, Workspace | People | done |
 | Settings, Workspace | Notifications | done (stages 2 and 5 of NOTIFICATIONS.md) |
 | Settings, Workspace | Plan and Credits | done |
-| Settings, Workspace | Domains | findings written, waiting on your word |
+| Settings, Workspace | Domains | done |
 | Settings, Workspace | OneAI | |
 | Settings, Workspace | OneIntake | |
 | Settings, Workspace | Holidays | |
@@ -1337,6 +1337,44 @@ hourly.
    control and the confirm is `frappe.confirm`. The rows are hand-drawn
    (see 6e), and the page does not update when a name goes Active; with the
    notice in 1 it would, through `frappe.realtime` from `account.refresh`.
+
+Your word: all of them.
+
+Done:
+
+- **The dead end is gone.** Make Main Address on the address One gave the
+  workspace puts press's own record back on the press name and writes our
+  name into the site's `host_name` again, as provisioning does
+  (`domains._back_to_given`). Ours is the main address whenever none of
+  the customer's is, so a stale `primary_domain` can no longer hide it,
+  and removing a domain that was primary clears it.
+- **The DNS is explained.** `hello` sends the CNAME target (the site's
+  Frappe Cloud name) and the account keeps it (`dns_target`). The Add
+  dialog shows the record to make as the domain is typed, with Copy and the
+  Cloudflare note; Add checks the DNS first and says what to do when it
+  does not point here yet. Your Own Domain shows the same record on the
+  page.
+- **No raw JSON.** `mine` no longer sends what press said; a row says in
+  our words what Waiting and Not Working mean. A refusal from the admin
+  site now reads as the sentence it was (`faults.detail` reads
+  `_server_messages`), and `hosts` refusals are sentences, translated.
+- **The page.** Add a Domain is the page head's action and Check Again
+  beside it; the list is `shell.table`; Working is green, Waiting orange,
+  anything else Not Working in red; Main Address and Given by One are
+  badges. A line under the list says what the main address changes, and
+  the note says email addresses do not change. The page asks the account
+  again when its copy is over an hour old, and redraws on `one_domains`.
+- **Notices**: Domain Working and Domain Stopped Working, to every
+  administrator, on the bell and by mail, told when the account's answer
+  changes (`account._tell_domains`, from `refresh` and from every domain
+  call); Main Address Changed to every other administrator.
+- **Guards**: every call asks `roles.require()`; `MAY_RENAME` and
+  `_may_rename` are gone.
+- **OneAI**: the page sentence, **Why is our domain not working?**, and
+  `workspace_domains`.
+- `one/README.md` has Domains, for the Workspace.
+- The terms say what having your own domain means (`one/legal.py`,
+  own-domain); terms revision 4.
 
 ## OneLegal
 

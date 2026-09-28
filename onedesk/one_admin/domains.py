@@ -99,6 +99,8 @@ def drop(tenant, raw: str) -> dict:
 	name = _held(tenant, raw)
 	press.call("press.api.site.remove_domain", name=tenant.site, domain=name)
 	frappe.delete_doc("Tenant Domain", name, ignore_permissions=True, force=True)
+	if tenant.primary_domain == name:
+		frappe.db.set_value("Tenant", tenant.name, "primary_domain", None)
 	return {"dropped": name}
 
 
@@ -110,6 +112,8 @@ def make_primary(tenant, raw: str) -> dict:
 	one call here that changes what the site believes about itself, rather than
 	only what the world can reach it at.
 	"""
+	if (raw or "").strip().lower().rstrip(".") == tenant.domain:
+		return _back_to_given(tenant)
 	name = _held(tenant, raw)
 	settled = frappe.db.get_value("Tenant Domain", name, "status")
 	if settled not in SETTLED:
@@ -121,6 +125,26 @@ def make_primary(tenant, raw: str) -> dict:
 	return _as_said(name)
 
 
+def _back_to_given(tenant) -> dict:
+	"""Make the name we gave the main address again.
+
+	It is not a `Site Domain`, so press's `set_host_name` cannot take it (see
+	steps.py, where it was first written). Press's own record goes back to the
+	press name, which it always accepts, and then the site's config is given
+	our name directly, as provisioning did. Without this a workspace that made
+	its own name primary could neither go back nor remove it, since press
+	refuses to remove the primary.
+	"""
+	press.call("press.api.site.set_host_name", name=tenant.site, domain=tenant.site)
+	press.call(
+		"press.api.site.update_config",
+		name=tenant.site,
+		config=frappe.as_json([{"key": "host_name", "value": f"https://{tenant.domain}", "type": "String"}]),
+	)
+	frappe.db.set_value("Tenant", tenant.name, "primary_domain", None)
+	return {"domain": tenant.domain, "status": "Active"}
+
+
 def mine(tenant) -> list[dict]:
 	"""Every name on this workspace, ours first.
 
@@ -128,21 +152,22 @@ def mine(tenant) -> list[dict]:
 	about it can fail — so it is put at the front here rather than stored as a
 	row that would need keeping true.
 	"""
-	given = {
-		"domain": tenant.domain,
-		"status": "Active",
-		"primary": not tenant.primary_domain,
-		"given": True,
-	}
 	held = frappe.get_all(
 		"Tenant Domain",
 		filters={"tenant": tenant.name},
-		fields=["domain", "status", "said", "asked_on"],
+		fields=["domain", "status", "asked_on"],
 		order_by="asked_on asc",
 	)
 	for one in held:
 		one["primary"] = one["domain"] == tenant.primary_domain
 		one["given"] = False
+	given = {
+		"domain": tenant.domain,
+		"status": "Active",
+		# Ours is the main address unless one of theirs is.
+		"primary": not any(one["primary"] for one in held),
+		"given": True,
+	}
 	return [given, *held]
 
 
@@ -213,7 +238,7 @@ def _claimable(raw: str) -> str:
 	try:
 		return hosts.claimable(raw, _tenant_domain(), _admin_host())
 	except hosts.Unclaimable as why:
-		frappe.throw(str(why))
+		frappe.throw(why.translated(frappe._))
 
 
 def _held(tenant, raw: str) -> str:

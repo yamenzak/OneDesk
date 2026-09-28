@@ -119,6 +119,16 @@ SUGGESTIONS = {
 			"expects": "workspace_plan",
 		},
 	],
+	"page:workspace-settings/domains": [
+		{
+			"label": _lt("Why is our domain not working?"),
+			"ask": _lt(
+				"Which of our own domains are not working, and what should we check or change in the DNS "
+				"to fix each one?"
+			),
+			"expects": "workspace_domains",
+		},
+	],
 	"page:workspace-settings/general": [
 		{
 			"label": _lt("Is signing in here safe enough?"),
@@ -249,6 +259,15 @@ def page(said: dict) -> str | None:
 			"by person, and the cheapest ways to have what it uses now. They change the plan from the page head, and "
 			"add seats, storage, database or credits from Add; how is in One's documentation under Plan and "
 			"Credits, for the Workspace (how_to)."
+		)
+	if said.get("page") == "workspace-settings" and said.get("section") == "domains":
+		return (
+			"The reader administers this workspace and is on Workspace › Domains: the addresses it opens at in a "
+			"browser. The one One gives it always works; their own domain works once a CNAME record points it at "
+			"the target the page shows, with Cloudflare's proxy off, and Frappe Cloud has issued its certificate. "
+			"The main address is the one sign-in, invitations and links in mail use. workspace_domains reads each "
+			"domain, its status and the target. They add one from the page head and make it the main address or "
+			"remove it from its row; how is in One's documentation under Domains, for the Workspace (how_to)."
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "general":
 		return (
@@ -753,6 +772,41 @@ def workspace_people() -> dict:
 		],
 		"next": "Everybody has One, OneCloud, OneMail, OneTask and OneCalendar anyway. Name people by name. "
 		"The administrator changes a person on Workspace › People by clicking them.",
+	}
+
+
+#: What each of Frappe Cloud's words for a domain means, for the model.
+DOMAIN_STATES = {
+	"Active": "working",
+	"Pending": "added; waiting for Frappe Cloud to issue the certificate, which needs the DNS to point at the target",
+	"Broken": "the certificate could not be issued, almost always because the DNS does not point at the target "
+	"or goes through Cloudflare's proxy",
+	"Gone": "Frappe Cloud no longer has it; remove it and add it again",
+}
+
+
+def workspace_domains() -> dict:
+	"""The workspace's addresses, for its administrators: each domain, whether
+	it works and what that means, which is the main address, and the CNAME
+	target a domain of its own has to point at."""
+	from onedesk.one import roles, settings
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator sees the domains."}
+	said = settings._domains()
+	return {
+		"cname_target": said["target"],
+		"domains": [
+			{
+				"domain": one["domain"],
+				"given_by_one": bool(one["given"]),
+				"main_address": bool(one["primary"]),
+				"status": one["status"],
+				"means": DOMAIN_STATES.get(one["status"], "not working"),
+			}
+			for one in said["domains"]
+		],
+		"as_of": str(said["last_heard"]) if said["last_heard"] else None,
 	}
 
 

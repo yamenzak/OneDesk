@@ -1224,9 +1224,23 @@ def _plan() -> dict:
 
 
 def _domains() -> dict:
-	"""What the account last said, without a round trip: Check Again asks."""
-	rows = frappe.get_single("Workspace Account").domains
-	return {"domains": [{"domain": one.domain, "status": one.status, "primary": one.primary, "provided": one.given} for one in rows]}
+	"""What the account last said, asked again first when that was over an
+	hour ago or never said where a domain should point. Check Again asks."""
+	from onedesk.one import account
+
+	held = frappe.get_single("Workspace Account")
+	heard = held.last_heard
+	stale = not heard or frappe.utils.time_diff_in_seconds(frappe.utils.now_datetime(), heard) > STALE
+	if account.configured() and (stale or not held.dns_target):
+		account.refresh()
+		# A GET is not committed, and what refresh wrote is the page's.
+		frappe.db.commit()
+		held = frappe.get_single("Workspace Account")
+	return {
+		"domains": [{"domain": one.domain, "status": one.status, "primary": one.primary, "given": one.given} for one in held.domains],
+		"target": held.dns_target,
+		"last_heard": held.last_heard,
+	}
 
 
 def _oneai() -> dict:

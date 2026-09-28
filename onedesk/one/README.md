@@ -492,6 +492,37 @@ overdue they are mailed the day the workspace will be suspended.
 **OneAI on this page** offers **Are we on the cheapest plan?**, **How long
 will our credits last?** and **What used the most credits this month?**
 
+### Domains, for the Workspace
+
+Under **Workspace**, **Domains** is where the workspace opens in a browser.
+Only its administrators see it and change it.
+
+- **Addresses** lists every domain. The one One gives the workspace (such as
+  acme.t.4dl.app) is marked **Given by One**; it always works and cannot be
+  removed. Each of your own says **Working**, **Waiting** (added, and waiting
+  for its certificate) or **Not Working**, with what to do about it.
+- The **Main Address** is the one sign-in, invitations, calendar links and
+  every link in mail use. **Make Main Address** on a working domain makes it
+  that; the address One gave can always be made the main one again. Email
+  addresses do not change with it.
+- **Add a Domain**, at the top right, asks for the domain and shows the
+  record to make where its DNS is kept: a **CNAME** from the domain to the
+  target shown, which **Copy** copies. If the DNS is at Cloudflare, set the
+  record to DNS only: the certificate cannot be issued through Cloudflare's
+  proxy. **Add** checks the DNS first and says what is wrong if it does not
+  point here yet. Once added, the certificate usually takes a few minutes.
+- **Your Own Domain** shows the same record, for when you come back to it.
+- **Check Again** asks Frappe Cloud now; the page also checks every night
+  and redraws on its own when a domain starts or stops working.
+- **Remove** stops the workspace opening at that domain. The main address
+  cannot be removed; make another one the main address first.
+
+Every administrator is told, on the bell and by mail, when one of your own
+domains starts working or stops working, and when another administrator
+changes the main address.
+
+**OneAI on this page** offers **Why is our domain not working?**
+
 ## Customizing a Form
 
 **Customize** on any form's menu opens the form's own customization page, for
