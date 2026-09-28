@@ -1654,3 +1654,76 @@ reaches it (point 8). `one_legal/README.md` is the reference.
     agreed to, and when;
   - asking at sign-up, before the workspace exists;
   - `gate.require()` on turning an application on.
+
+### Workspace › Holidays
+
+The page is a Select of Holiday Lists ("One 2026"), **Open the List** and
+**New List** buttons in the body, and a hand-drawn **Coming Up** list of
+the next eight public holidays. Save sets `Company.default_holiday_list`.
+The site has one list, One 2026: Friday off, the UAE's public holidays from
+erpnext's `get_local_holidays`, made by the setup wizard, with a company
+`Holiday List Assignment` from 1 January.
+
+1. **Notifications**: changing the list sends nothing, though it moves
+   everybody's leave, attendance and deadlines. HR Settings' **Holidays
+   Coming Up** reminds each person of their own holidays; that holds.
+   Nobody is told the list is running out (see 5b). Recommended:
+   **Holidays Changed** on the bell to the other administrators and the HR
+   managers, and **Holidays Run Out Soon** to the same people 60 days
+   before the list's last day, when no list follows it.
+2. **OneAI**: the panel does not know the page. Recommended: the page
+   sentence, and one suggestion, **Are our holidays ready for next year?**,
+   read by `workspace_holidays` (the list, its last day, the next list if
+   any, who is on a different list). No AI call to read it.
+3. **Intake**: deadlines move past a public holiday (§ 193 BGB) using
+   `Company.default_holiday_list`, whatever the date. A deadline in January
+   2027 is counted against the 2026 list, which has no 2027 days.
+   Recommended: Intake reads the list in force on the date (the
+   assignments, as hrms does).
+4. **Permissions**: the page is administrators'. `Holiday List` is written
+   by HR Manager only, so an administrator without it opens **Open the
+   List** read-only and gets refused on **New List**. Recommended: the page
+   edits the list itself, under the administrator's own check, so the two
+   agree.
+5. **Cross-module**:
+   - a. **Save does not reach OneHR.** hrms reads only a submitted
+     `Holiday List Assignment` (`hrms.utils.holiday_list`), never the
+     company field. Choosing another list here changes the OneHR calendar,
+     Intake deadlines and ERPNext's reports, and leaves leave, attendance,
+     shifts and check-ins on the old one. The two answers disagree.
+     Recommended: Save also assigns the chosen list to the company, from its
+     first day, as the setup wizard does.
+   - b. **The year ends.** One 2026 ends on 31 December. From 1 January
+     the 2026 assignment still holds, but its list has no days, so every
+     Friday is a working day for leave and attendance and nothing warns.
+     Recommended: **Next Year's List**, made from this one (same day off,
+     the country's public holidays), assigned from 1 January; plus the
+     notice in 1.
+   - c. People or branches on another list (an employee's own assignment)
+     are not shown. Recommended: the count, with a link to them.
+   - d. OneCalendar's sidebar has a **Holiday List** entry that opens
+     erpnext's desk list. Recommended: it opens this page.
+6. **UI and UX**:
+   - a. The page shows eight days of a list and cannot change any of them;
+     every change is a trip to erpnext's Holiday List form. Recommended:
+     the page is the list: its name and dates, the day off, the country,
+     and the year's holidays as a table with add and remove, saved with
+     the page's Save.
+   - b. The list is a Select, not a Link, so there is no "create new" and
+     no search.
+   - c. Coming Up is hand-drawn rows. National Day shows twice, 2 and 3
+     December, as two identical lines; names stay in Arabic for an English
+     reader because they were written in the language the list was made in.
+     "(تقديري)" (estimated) is how the package marks lunar dates and is
+     worth keeping, as a badge.
+   - d. **Open the List** and **New List** are buttons in the body.
+7. **Documented**: there is no Holidays section in `one/README.md`, so
+   `how_to` cannot answer "how do I add a holiday". Recommended: **Holidays,
+   for the Workspace**.
+8. **Legal**: nothing to add. The public holidays come from the `holidays`
+   package, which runs on the server and sends nothing out.
+9. **Built from frappe**: recommended: a Link control; the holidays as
+   frappe's EmbeddedList (`onedesk.shell.table`); erpnext's own
+   `get_weekly_off_dates` and `get_local_holidays` behind the buttons;
+   saving against `modified`; and a redraw on `doc_update` when somebody
+   else saves the list.
