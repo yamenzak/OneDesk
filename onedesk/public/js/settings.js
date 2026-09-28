@@ -1482,7 +1482,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const bare = names.filter((name) => name && name.split(".").length === 2);
 		if (!bare.length) return "";
 		return `<div class="one-shell-quiet os-dns-lead">${frappe.utils.escape_html(
-			__("{0} is a bare domain. It works only if your DNS provider allows a CNAME there, which some call ALIAS. www.{0} always works.", [bare[0]])
+			__("{0} is a bare domain. It works only if your DNS provider allows a CNAME there, which some call ALIAS. If it does not, add www.{0} here instead and have your registrar redirect {0} to it.", [bare[0]])
 		)}</div>`;
 	}
 

@@ -514,8 +514,10 @@ Only its administrators see it and change it.
   works a few minutes after that, once its certificate is issued.
 - **The DNS Record** shows the record each domain still waiting needs.
 - A bare domain such as acme.com works only if your DNS provider allows a
-  CNAME there (some call it ALIAS); the page says so when you type one.
-  www.acme.com always works.
+  CNAME there (some call it ALIAS); the page says so when you type one. If
+  it does not, add www.acme.com instead and have your registrar redirect
+  acme.com to it. An A record is not offered: Cloudflare does not promise
+  the addresses behind the workspace's own name stay the same.
 - **Check Again** asks now; the domains are also checked every night, and the
   page redraws on its own when one starts or stops working.
 - **Remove** stops the workspace opening at that domain.

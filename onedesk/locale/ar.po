@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-28 08:11+0000\n"
-"PO-Revision-Date: 2026-09-28 08:11+0000\n"
+"POT-Creation-Date: 2026-09-28 08:12+0000\n"
+"PO-Revision-Date: 2026-09-28 08:12+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -19892,8 +19892,8 @@ msgid "{0} in {1} calls"
 msgstr "{0} في {1} طلبًا"
 
 #: onedesk/public/js/settings.js:1485
-msgid "{0} is a bare domain. It works only if your DNS provider allows a CNAME there, which some call ALIAS. www.{0} always works."
-msgstr "{0} نطاق مجرد. يعمل فقط إذا سمح مزوّد DNS لديك بسجل CNAME هناك، ويسمّيه بعضهم ALIAS. أما www.{0} فيعمل دائمًا."
+msgid "{0} is a bare domain. It works only if your DNS provider allows a CNAME there, which some call ALIAS. If it does not, add www.{0} here instead and have your registrar redirect {0} to it."
+msgstr "{0} نطاق مجرد. يعمل فقط إذا سمح مزوّد DNS لديك بسجل CNAME هناك، ويسمّيه بعضهم ALIAS. إن لم يسمح، فأضف www.{0} هنا بدلًا منه واطلب من مسجّل النطاق إعادة توجيه {0} إليه."
 
 #: onedesk/one_storage/api.py:272
 msgid "{0} is a folder. Choose the files in it."
