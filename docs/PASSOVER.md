@@ -141,7 +141,8 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, Workspace | OneIntake (now OneIntake › Settings) | done |
 | Settings, Workspace | Holidays | done |
 | Products | One › Home | done |
-| Products | OneMail, OneCloud, OneCalendar, OneTask, OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, OneAdmin | each screen listed here once we reach it |
+| Products | OneMail | findings |
+| Products | OneCloud, OneCalendar, OneTask, OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, OneAdmin | each screen listed here once we reach it |
 
 Noticed along the way, for the screen it belongs to:
 
@@ -1832,6 +1833,66 @@ Done:
 - `one/README.md` has **Home**.
 - Checked with a mailbox made to fail for a moment: the block showed it,
   and went when it was cleared.
+
+### OneMail
+
+OneMail is its own page (`public/js/onemail.js`): the mailboxes and their
+folders on the left, the conversations in the middle, the reading pane on
+the right, and frappe's own email window for writing. All nine of its
+README's stages are built; the README says the AI lane waits.
+
+1. **Notifications**: one type, **Mailbox Not Reachable**, to everybody who
+   holds the mailbox, once, when it breaks. New mail is the rail's count,
+   not a notice. Holds.
+2. **OneAI**: the panel knows nothing on this page: no page sentence, no
+   suggestions, nothing it can read about the open conversation. The one
+   OneAI part is OneIntake's, below. Recommended:
+   - the page sentence, naming the mailbox, the folder and the open
+     conversation (only one the reader holds);
+   - `open_conversation`, reading its messages as text, as the reader;
+   - three suggestions: **Summarise this conversation**, **Draft a reply**
+     (a card whose Approve opens frappe's email window with the reply
+     written in, never sent by itself), and in a folder **What needs an
+     answer?** (conversations whose last message is not ours, oldest
+     first).
+3. **Intake**: a mailbox's ⋯ menu has **Read with OneAI…**, asked of its
+   holder, and each message OneAI read carries its panel (`.om-intake`).
+   OneIntake Settings lists every mailbox. Holds.
+4. **Permissions**: a message opens only for the people who hold its
+   mailbox (`access.allowed`), filing it on a record never widens that
+   (`linking.py`), and nobody sees into anybody's own mailbox,
+   administrators included. Holds.
+5. **Cross-module**: mail is filed on the customer, supplier, employee,
+   lead or document it is about, with a Mail tab on each; attachments live
+   in OneCloud; faces and logos come from contacts. Holds.
+6. **UI and UX**:
+   - a. The page is titled **Mail**; the product is OneMail.
+   - b. **Reply, Reply all and Forward are there twice**: as icons in the
+     conversation's head and as buttons under the last message.
+     Recommended: the buttons under the message stay (where the eye is when
+     it finishes reading); the head keeps star, read, move, archive, delete
+     and link.
+   - c. **A folded message runs its lines together**: "Hello,Please find
+     our quote attached.Rana". `api.snippet` strips the HTML without
+     leaving a space where a paragraph or line ended.
+   - d. **Every mailbox is open**, six folders each: three mailboxes already
+     fill the column. Recommended: the open mailbox unfolded, the others
+     folded to their name and unread count, and what a person folds stays
+     folded.
+   - e. A mailbox's name is its address, cut off
+     ("member.probe9x@m.4dl…."). The workspace's says **Workspace** with the
+     address under it; recommended: the reader's own says **Yours**, a
+     shared one its name, each with the address under it.
+7. **Documented**: `one_mail/README.md` is the manual above Under the hood
+   and OneAI answers from it. When the AI part in 2 is built, it gets its
+   paragraph.
+8. **Legal**: the clauses and subprocessors cover mail, OneCloud and faces.
+   Asking OneAI about a conversation sends its text to the model, which the
+   AI Addendum must say: recommended, a clause in `one_mail/legal.py`
+   (only when asked, only a conversation the asker holds, nothing kept).
+9. **Built from frappe**: writing is frappe's email window, dates are
+   `frappe.datetime`, a new message redraws an open mailbox through
+   `frappe.realtime` (`live.py`), and buttons are espresso's. Holds.
 
 ## OneLegal
 
