@@ -1434,12 +1434,22 @@ def _holidays(record: str | None = None) -> dict:
 	doc = frappe.get_doc("Holiday List", name)
 	public = [one for one in doc.holidays if not one.weekly_off]
 	upcoming = [one for one in public if frappe.utils.getdate(one.holiday_date) >= frappe.utils.getdate(frappe.utils.today())]
-	day_off = holidays.day_off(doc)
-	fields = _fields("Holiday List", ("weekly_off", "country", "subdivision"))
+	off = holidays.days_off(doc)
+	fields = [
+		{
+			"fieldname": "weekly_offs",
+			"fieldtype": "MultiCheck",
+			"label": _("Days Off Each Week"),
+			"columns": 4,
+			"sort_options": False,
+			# frappe's MultiCheck reads its ticks from its options.
+			"options": [{"label": _(day), "value": day, "checked": day in off} for day in holidays.WEEK],
+			"description": _("Every one of these days in the list is a day off. Tick two for a weekend of two days."),
+		},
+		*_fields("Holiday List", ("country", "subdivision")),
+	]
 	for one in fields:
-		if one["fieldname"] == "weekly_off":
-			one.update({"label": _("Day Off Each Week"), "description": _("Every one of these days in the list is a day off.")})
-		elif one["fieldname"] == "country":
+		if one["fieldname"] == "country":
 			one.update({"label": _("Country"), "options": holidays.countries(), "description": None})
 		elif one["fieldname"] == "subdivision":
 			one.update({"label": _("State or Region"), "options": holidays.subdivisions(doc.country) if doc.country else [], "description": _("Some countries have holidays only in part of the country.")})
@@ -1461,7 +1471,6 @@ def _holidays(record: str | None = None) -> dict:
 	return {
 		"fields": fields,
 		"values": {
-			"weekly_off": day_off,
 			"country": doc.country,
 			"subdivision": doc.subdivision,
 			"holidays": rows,
@@ -1472,6 +1481,8 @@ def _holidays(record: str | None = None) -> dict:
 			"to_date": str(doc.to_date),
 			"days_left": frappe.utils.date_diff(doc.to_date, frappe.utils.today()),
 			"in_force": name == now,
+			# Not a value: frappe's MultiCheck takes its ticks from its options.
+			"weekly": off,
 			"days_off": len(doc.holidays) - len(public),
 			"public": len(public),
 		},
@@ -1491,28 +1502,26 @@ def _save_holidays(record: str | None, values: dict) -> str:
 
 	name = record or holidays.in_force()
 	doc = _as_opened(frappe.get_doc("Holiday List", name))
-	was_off = holidays.day_off(doc)
+	was_off = holidays.days_off(doc)
 	was = {str(one.holiday_date): frappe.utils.strip_html_tags(one.description or "") for one in doc.holidays if not one.weekly_off}
 	wanted = {}
 	for one in values.get("holidays") or []:
 		if one.get("holiday_date"):
 			wanted[str(frappe.utils.getdate(one["holiday_date"]))] = (one.get("description") or "").strip() or _("Holiday")
-	off = values.get("weekly_off") or was_off
+	off = [day for day in holidays.WEEK if day in (values["weekly_offs"] if "weekly_offs" in values else was_off)]
 	doc.country = values.get("country") or None
 	doc.subdivision = (values.get("subdivision") or None) if doc.country else None
-	# The week's days off are made again from the day off every time, so a
-	# holiday removed from a Friday leaves that Friday a day off.
+	# The week's days off are made again every time, so a holiday removed
+	# from a Friday leaves that Friday a day off.
 	doc.set("holidays", [])
 	for day, what in sorted(wanted.items()):
 		doc.append("holidays", {"holiday_date": day, "description": what, "weekly_off": 0})
-	doc.weekly_off = off
-	if off:
-		doc.get_weekly_off_dates()
+	holidays.set_days_off(doc, off)
 	doc.flags.ignore_permissions = True
 	doc.save()
 	said = []
 	if off != was_off:
-		said.append(_("the day off each week is now {0}").format(_(off)))
+		said.append(_("the days off each week are now {0}").format(", ".join(_(day) for day in off) or _("none")))
 	added = [day for day in wanted if day not in was]
 	dropped = [day for day in was if day not in wanted]
 	renamed = [day for day in wanted if day in was and was[day] != wanted[day]]

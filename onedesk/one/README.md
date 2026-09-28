@@ -625,8 +625,9 @@ it too.
   the next holiday, and its last day. **People on Their Own List** appears
   when somebody has a list assigned just to them, and opens those
   assignments.
-- **Day Off Each Week** is the day nobody works, every week of the list.
-  Changing it and saving remakes every one of those days.
+- **Days Off Each Week** are the days nobody works, every week of the list:
+  tick two for a weekend of two days. Saving remakes every one of those
+  days.
 - **Public Holidays** is a table: add a row, change a date or a name, or
   remove one, then **Save** in the page head. **Add the Country's Public
   Holidays** fills in what the country (and, where it matters, the state or
@@ -635,11 +636,16 @@ it too.
 - A list is one year. When it ends in less than 90 days with nothing after
   it, the page says so: after its last day every day counts as a working day
   for leave and attendance. **Make Next Year's List**, in the page head,
-  makes next year's from this one (the same day off, the country's public
+  makes next year's from this one (the same days off, the country's public
   holidays) and puts it in force from 1 January. Open it with **Next Year's
   List** to check it.
 - **Use Another List** puts a different list in force for everybody, from
   today, or from its first day if it starts later.
+- **Or ask OneAI**: "add 15 November as Founders Day", "we are closed 24 to
+  31 December", "Saturday and Sunday off from now on". It shows a card with
+  each day it would add, rename or remove, or the new days off, and nothing
+  changes until you press **Approve**. A day on next year's list goes on
+  next year's list, once it is made.
 
 Every administrator is told on the bell when somebody else
 changes the holidays, and on the bell and by mail 60, 30 and 7 days before

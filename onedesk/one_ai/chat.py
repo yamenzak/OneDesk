@@ -299,12 +299,12 @@ def _suggests(row: dict) -> dict:
 	except Exception:
 		changes = {}
 
-	if row.get("kind") == "Customize":
-		# What approving it changes about the form, one line each, as the tool
-		# said it: the page's whole state underneath is not a diff anybody reads.
+	if row.get("kind") in ("Customize", "Holidays"):
+		# What approving it changes, one line each, as the tool said it: the
+		# page's whole state underneath is not a diff anybody reads.
 		return {
 			"doctype": doctype,
-			"name": "",
+			"name": (row.get("record") or "") if row.get("kind") == "Holidays" else "",
 			"title": "",
 			"fields": [
 				{"label": str(one.get("label") or ""), "value": str(one.get("value") or "")}

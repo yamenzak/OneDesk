@@ -74,6 +74,16 @@ def after(holiday_list: str, held: str | None = None) -> str | None:
 	return later[0].holiday_list if later else None
 
 
+def covering(day, held: str | None = None) -> str | None:
+	"""The company's list whose dates hold a day, if any."""
+	day = getdate(day)
+	for name in lists(held):
+		start, end = frappe.db.get_value("Holiday List", name, ["from_date", "to_date"])
+		if getdate(start) <= day <= getdate(end):
+			return name
+	return None
+
+
 def lists(held: str | None = None) -> list[str]:
 	"""Every list the company has been given, and its field's."""
 	held = held or company()
@@ -111,10 +121,29 @@ def public(start, end, held: str | None = None) -> list:
 	return [one for one in rows if in_force(one.holiday_date, held) == one.parent]
 
 
-def day_off(doc) -> str | None:
-	"""The week's day off, as the rows say it: the weekday most of them fall on."""
+#: The week, in erpnext's words for it (Holiday List's `weekly_off`).
+WEEK = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+
+
+def days_off(doc) -> list[str]:
+	"""The week's days off, as the rows say them: every weekday most of whose
+	dates in the list are days off. erpnext keeps one `weekly_off` and writes
+	its rows; a weekend of two is two runs of it (`set_days_off`)."""
 	counted = Counter(getdate(one.holiday_date).strftime("%A") for one in doc.holidays if one.weekly_off)
-	return counted.most_common(1)[0][0] if counted else doc.weekly_off
+	start, end = getdate(doc.from_date), getdate(doc.to_date)
+	weeks = max(1, ((end - start).days + 1) // 7)
+	found = [day for day in WEEK if counted.get(day, 0) * 2 >= weeks]
+	return found or ([doc.weekly_off] if doc.weekly_off else [])
+
+
+def set_days_off(doc, days: list[str]) -> None:
+	"""The week's days off made again: every weekly row goes, and each day's
+	dates are written by erpnext's own `get_weekly_off_dates`, which leaves a
+	date that is already a holiday as it is."""
+	doc.set("holidays", [one for one in doc.holidays if not one.weekly_off])
+	for day in [one for one in WEEK if one in (days or [])]:
+		doc.weekly_off = day
+		doc.get_weekly_off_dates()
 
 
 def assign(holiday_list: str, held: str | None = None) -> bool:
@@ -152,11 +181,11 @@ def _follow(held: str) -> None:
 
 
 def make(
-	held: str, year: int, weekly_off: str | None, country: str | None, subdivision: str | None = None
+	held: str, year: int, weekly_offs: list[str], country: str | None, subdivision: str | None = None
 ) -> str:
-	"""A year's list: the day off, and the country's public holidays in the
+	"""A year's list: the days off, and the country's public holidays in the
 	reader's language (`local`). A country the `holidays` package does not
-	know gets the day off alone."""
+	know gets the days off alone."""
 	name = f"{held} {year}"
 	if frappe.db.exists("Holiday List", name):
 		return name
@@ -166,7 +195,6 @@ def make(
 			"holiday_list_name": name,
 			"from_date": f"{year}-01-01",
 			"to_date": f"{year}-12-31",
-			"weekly_off": weekly_off,
 			"country": country,
 			"subdivision": subdivision,
 		}
@@ -177,8 +205,7 @@ def make(
 				doc.append("holidays", {**one, "weekly_off": 0})
 		except Exception:
 			frappe.log_error(f"public holidays for {country}")
-	if weekly_off:
-		doc.get_weekly_off_dates()
+	set_days_off(doc, weekly_offs)
 	doc.flags.ignore_permissions = True
 	doc.insert()
 	return doc.name
@@ -197,7 +224,7 @@ def next_year() -> str:
 	waiting = after(now, held)
 	if waiting:
 		return waiting
-	name = make(held, getdate(doc.to_date).year + 1, day_off(doc), doc.country, doc.subdivision)
+	name = make(held, getdate(doc.to_date).year + 1, days_off(doc), doc.country, doc.subdivision)
 	assign(name, held)
 	told(_("made next year's list, {0}").format(name), name)
 	return name

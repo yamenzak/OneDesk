@@ -122,6 +122,9 @@ def _typed(tool: str, name: str, hint) -> dict:
 	# it, so the stricter reading is the one written.
 	if typing.get_origin(hint) is list or hint is list:
 		inside = typing.get_args(hint)
+		# A list of lists (a filter's [field, operator, value]) nests.
+		if inside and (inside[0] is list or typing.get_origin(inside[0]) is list):
+			return {"type": "array", "items": _typed(tool, name, inside[0])}
 		of = CALLED.get(inside[0]) if inside else "string"
 		if of is None:
 			raise Unreadable(f"{tool}({name}) is a list of {inside[0]!r}, which has no name in JSON Schema")

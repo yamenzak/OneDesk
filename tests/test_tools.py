@@ -160,6 +160,17 @@ def test_a_description_comes_from_the_annotation():
 	assert said == {"type": "string", "description": "What to look in."}
 
 
+def test_a_list_of_lists_nests():
+	"""A filter's [field, operator, value] rows. Unreadable, it raised inside
+	`declared()` and took every tool down with it (draft_notification)."""
+
+	def one(x: Annotated[list[list], "Conditions."]) -> None:
+		"""Does a thing."""
+
+	said = _of(one)["properties"]["x"]
+	assert said["items"] == {"type": "array", "items": {"type": "string"}}
+
+
 def test_a_closed_list_is_an_enum():
 	"""A model given an open string where three values are allowed will
 	eventually invent a fourth."""

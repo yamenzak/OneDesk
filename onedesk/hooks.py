@@ -768,6 +768,8 @@ one_ai_suggests = [
 	"onedesk.one.ai.draft_notification",
 	"onedesk.one.ai.customize",
 	"onedesk.one.ai.sign_mailbox",
+	# Holidays and days off, as Workspace › Holidays would save them.
+	"onedesk.one.ai.change_holidays",
 ]
 one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS", "onedesk.one_crm.ai.SUGGESTIONS", "onedesk.one.ai.SUGGESTIONS"]
 

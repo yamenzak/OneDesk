@@ -43,8 +43,9 @@ MOST_ROWS = 20
 
 
 #: Kinds whose changes are the tool's own, checked by it, rather than a
-#: record's values: how a form looks, and how a mailbox signs.
-OWN_WORDS = ("Customize", "Signature")
+#: record's values: how a form looks, how a mailbox signs, and the
+#: workspace's holidays.
+OWN_WORDS = ("Customize", "Signature", "Holidays")
 
 
 def propose(
@@ -131,6 +132,21 @@ def apply(proposal: str) -> dict:
 			)
 		customize.save(entry.for_doctype, changes.get("values") or {}, changes.get("token"))
 		return _done(entry, entry.for_doctype)
+
+	if entry.kind == "Holidays":
+		# The Holidays page's own save, as the administrator who pressed
+		# Approve: the same notice, and refused if the list moved since.
+		from onedesk.one import roles, settings
+
+		roles.require()
+		if str(frappe.db.get_value("Holiday List", entry.record, "modified")) != changes.get("modified"):
+			entry.db_set("state", "Stale")
+			frappe.db.commit()
+			frappe.throw(
+				frappe._("{0} has changed since this was suggested, so it no longer applies.").format(entry.record)
+			)
+		settings._save_holidays(entry.record, changes.get("values") or {})
+		return _done(entry, entry.record)
 
 	if entry.kind == "Create":
 		made = frappe.get_doc({"doctype": entry.for_doctype, **changes})
@@ -346,6 +362,11 @@ def _allowed(kind: str, doctype: str, record: str | None):
 
 		customize.may(doctype)
 		return None
+	if kind == "Holidays":
+		from onedesk.one import roles
+
+		roles.require()
+		return None
 	if kind == "Signature":
 		from onedesk.one_mail import holders
 
@@ -452,6 +473,8 @@ def _said(kind: str, doctype: str, record: str | None, changes: dict) -> str:
 		return frappe._("Customize {0}").format(doctype)
 	if kind == "Signature":
 		return frappe._("Signature for {0}").format(record)
+	if kind == "Holidays":
+		return frappe._("Holidays in {0}").format(record)
 	if kind == "Delete":
 		return frappe._("Delete {0}").format(record)
 	if kind == "Move":

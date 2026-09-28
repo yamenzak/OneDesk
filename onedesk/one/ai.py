@@ -307,11 +307,13 @@ def page(said: dict) -> str | None:
 	if said.get("page") == "workspace-settings" and said.get("section") == "holidays":
 		return (
 			"The reader administers this workspace and is on Workspace › Holidays: the holiday list in force "
-			"(its first and last day, the day off each week, the country and its public holidays), whether a list "
+			"(its first and last day, the days off each week, the country and its public holidays), whether a list "
 			"follows it, and how many people are on a list of their own. Leave, attendance, check-ins, the calendar "
 			"and deadlines count around these days. workspace_holidays reads it all. They add, rename or remove a "
 			"holiday in the table and save from the page head, make next year's list or use another list from the "
-			"page head; how is in One's documentation under Holidays, for the Workspace (how_to)."
+			"page head. Asked to add, rename or remove a holiday or a day the workplace is closed, or to change the "
+			"days off, change_holidays suggests it as a card they approve. How is in One's documentation under "
+			"Holidays, for the Workspace (how_to)."
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "oneai":
 		return (
@@ -893,13 +895,120 @@ def workspace_holidays() -> dict:
 		"from": listed["from_date"],
 		"to": listed["to_date"],
 		"days_left": listed["days_left"],
-		"day_off_each_week": values.get("weekly_off"),
+		"days_off_each_week": listed["weekly"],
 		"country": values.get("country"),
 		"public_holidays": values["holidays"],
 		"next_list": said["next"],
 		"meaning": "with no next list, from the day after the last day every day counts as a working day for leave and attendance",
 		"country_holidays_not_in_the_list": missing,
 		"people_on_their_own_list": said["elsewhere"],
+	}
+
+
+def change_holidays(
+	add: Annotated[
+		list[dict],
+		"Days to add or rename, each {date, name}: date as YYYY-MM-DD. A closure of several days is one entry per day.",
+	]
+	| None = None,
+	remove: Annotated[list[str], "Dates to take off the list, as YYYY-MM-DD."] | None = None,
+	days_off: Annotated[
+		list[str],
+		"The week's days off from now on, in English (Monday to Sunday): every one of them, not only a new one.",
+	]
+	| None = None,
+	why: Annotated[str, "In a sentence, what the change is for."] | None = None,
+) -> dict:
+	"""Suggest a change to the workspace's holidays, as a card a workspace
+	administrator approves: a public holiday or a day the workplace is closed
+	added, renamed or removed, and the week's days off (a weekend of two is
+	two days). Read workspace_holidays first. The dates go on the list whose
+	year holds them. Nothing changes until they approve it. Workspace
+	administrators only."""
+	from frappe.utils import formatdate, getdate
+
+	from onedesk.one import holidays, roles, settings
+	from onedesk.one_ai import proposals
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator changes the workspace's holidays."}
+	given = [one.get("date") for one in (add or []) if isinstance(one, dict)] + list(remove or [])
+	try:
+		days = [getdate(day) for day in given]
+	except Exception:
+		return {"error": "Give every date as YYYY-MM-DD."}
+	covering = set()
+	for day in days:
+		found = holidays.covering(day)
+		if not found:
+			return {
+				"error": f"No holiday list holds {day}. Next year's list is made with Make Next Year's List on "
+				"Workspace › Holidays; suggest this once it is there."
+			}
+		covering.add(found)
+	if len(covering) > 1:
+		return {"error": f"Those dates are on {len(covering)} lists ({', '.join(sorted(covering))}); suggest each list's days apart."}
+	target = covering.pop() if covering else holidays.in_force()
+	if not target:
+		return {"error": "The workspace has no holiday list yet."}
+	said = settings._holidays(target)
+	values = said["values"]
+	rows = {one["holiday_date"]: one["description"] for one in values["holidays"]}
+	was_off = list(said["list"]["weekly"])
+	summary = []
+	for one in add or []:
+		day, name = str(getdate(one.get("date"))), (one.get("name") or "").strip()
+		if not name:
+			return {"error": f"Give {day} a name, such as the holiday or why the workplace is closed."}
+		label = _("Rename") if day in rows else _("Add")
+		if rows.get(day) == name:
+			continue
+		value = f"{formatdate(day)} · {name}"
+		summary.append({"label": label, "value": _("{0} (was {1})").format(value, rows[day]) if day in rows else value})
+		rows[day] = name
+	for one in remove or []:
+		day = str(getdate(one))
+		if day not in rows:
+			return {"error": f"{day} is not a holiday on {target}. A weekly day off is changed with days_off."}
+		summary.append({"label": _("Remove"), "value": f"{formatdate(day)} · {rows.pop(day)}"})
+	off = was_off
+	if days_off is not None:
+		named = {day.lower(): day for day in holidays.WEEK}
+		wrong = [one for one in days_off if str(one).strip().lower() not in named]
+		if wrong:
+			return {"error": f"{', '.join(map(str, wrong))}: say a weekday in English, Monday to Sunday."}
+		off = [day for day in holidays.WEEK if day.lower() in {str(one).strip().lower() for one in days_off}]
+		if off != was_off:
+			summary.append(
+				{
+					"label": _("Days Off Each Week"),
+					"value": _("{0} (was {1})").format(
+						", ".join(_(day) for day in off) or _("none"), ", ".join(_(day) for day in was_off) or _("none")
+					),
+				}
+			)
+	if not summary:
+		return {"error": "That is what the list already says, so there is nothing to change. Say it is right as it is."}
+	return {
+		"proposal": proposals.propose(
+			"Holidays",
+			"Holiday List",
+			changes={
+				"modified": said["opened"][0]["modified"],
+				"values": {
+					"weekly_offs": off,
+					"country": values.get("country"),
+					"subdivision": values.get("subdivision"),
+					"holidays": [{"holiday_date": day, "description": name} for day, name in sorted(rows.items())],
+				},
+				"summary": summary,
+			},
+			record=target,
+			why=why,
+		),
+		"state": "Proposed",
+		"next": "Tell them leave, attendance, check-ins, the calendar and deadlines count around it once they "
+		"approve it, and that Workspace › Holidays shows the whole list.",
 	}
 
 

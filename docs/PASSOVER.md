@@ -1741,6 +1741,23 @@ Done:
   list lacks. No AI call.
 - `one/README.md` has Holidays, for the Workspace.
 
+Afterwards, on your word: days off of more than one day, and changing the
+holidays by asking.
+
+- **Days Off Each Week** is frappe's MultiCheck, a tick per weekday, so a
+  weekend of two (Saturday and Sunday, or Friday and Saturday) is two ticks.
+  erpnext keeps one `weekly_off`; saving runs its `get_weekly_off_dates` once
+  per day ticked (`holidays.set_days_off`), and the page reads the ticks
+  back from the rows (`days_off`). Next year's list keeps them.
+- **Ask OneAI**: `change_holidays` suggests a card an administrator
+  approves: days added or renamed ("15 November, Founders Day"; a closure is
+  a day each), days removed, and the days off. The card lists each change
+  and what it was. Approving runs the page's own save as the approver, so
+  the same notice goes out, and it is refused as stale if the list changed
+  since. A date goes on the list whose year holds it; a date no list holds
+  is refused with where to make next year's. A new proposal kind,
+  **Holidays**, beside Customize and Signature.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

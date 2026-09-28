@@ -1932,8 +1932,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		);
 		this.form(data, {
 			rows: [
-				{ heading: __("Days Off"), note: __("The day nobody works, every week of the list.") },
-				["weekly_off", "_"],
+				{ heading: __("Days Off"), note: __("The days nobody works, every week of the list.") },
+				{ stack: ["weekly_offs"] },
 				{ heading: __("Public Holidays"), note: __("Add a day, change its name or remove it, then save.") },
 				["country", "subdivision"],
 				{ html: onedesk.shell.button(__("Add the Country's Public Holidays"), { "data-local": "1" }, "subtle", "plus") },
