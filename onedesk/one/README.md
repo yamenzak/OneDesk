@@ -575,8 +575,14 @@ the page head.
 what OneAI handled, what needed a person, what waits now and what was
 undone. Each opens the inbox, on everybody's documents.
 
-- **What Is Read.** Mail and files arriving in connected mailboxes and
-  folders are always read. **Read Files Attached to Records** also reads
+- **What Is Read.** **Mailboxes** lists every mailbox and whether OneAI
+  reads it, and on whose behalf; **Folders** lists every OneCloud folder it
+  reads (and the folders inside it). Click a mailbox to start or stop
+  reading it. Starting is for somebody who holds the mailbox, because OneAI
+  then acts as them; an administrator can stop any. **Add a Folder** starts
+  reading a folder, and clicking one stops it. A person can also switch
+  their own mailbox in OneMail and their own folders in OneCloud.
+  **Read Files Attached to Records** also reads
   scans and photos attached on a form, on behalf of whoever attached them.
   **Most Pages Read** (60 unless changed) is how much of a long scan is
   read; the rest stays findable by its name.
@@ -595,6 +601,12 @@ undone. Each opens the inbox, on everybody's documents.
   E-Invoices** lets OneAI submit an e-invoice from a known supplier that
   matches an order already placed; off unless switched on. Drafts wait in
   **Ready to Submit**.
+
+- **OneHR.** What OneAI does by itself when something arrives in OneHR:
+  **Screen New Applicants**, **Prepare Interviews**, **Transcribe Interview
+  Recordings** and **Triage Grievances**. Each uses credits. Whether
+  interviews may be recorded, and how long audio is kept, stay in HR
+  Settings.
 
 Every other administrator is told on the bell when somebody switches the
 audit, household or submitting e-invoices, or moves the confidence floor.

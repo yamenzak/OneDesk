@@ -223,27 +223,30 @@
    "fieldtype": "Section Break",
    "label": "OneAI",
    "insert_after": "hiring_sender_email",
-   "module": "One HR"
+   "module": "One HR",
+   "description": "What OneAI does by itself in OneHR is switched on OneIntake Settings. Recording consent and how long audio is kept stay here."
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_ai_screen",
    "fieldtype": "Check",
-   "label": "Auto Screen New Applicants",
+   "label": "Screen New Applicants",
    "insert_after": "one_hiring_ai_section",
    "default": "1",
-   "description": "If enabled, OneAI rates and ranks each new Job Applicant. Uses AI credits.",
-   "module": "One HR"
+   "description": "OneAI rates and ranks each new job applicant against the opening.",
+   "module": "One HR",
+   "hidden": 1
   },
   {
    "dt": "HR Settings",
    "fieldname": "one_ai_prepare",
    "fieldtype": "Check",
-   "label": "Auto Prepare Interviews",
+   "label": "Prepare Interviews",
    "insert_after": "one_ai_screen",
    "default": "1",
-   "description": "If enabled, OneAI adds questions to each new Interview. Uses AI credits.",
-   "module": "One HR"
+   "description": "OneAI adds questions to each new interview.",
+   "module": "One HR",
+   "hidden": 1
   },
   {
    "dt": "HR Settings",
@@ -266,11 +269,12 @@
    "dt": "HR Settings",
    "fieldname": "one_ai_transcribe",
    "fieldtype": "Check",
-   "label": "Auto Transcribe Recordings",
+   "label": "Transcribe Interview Recordings",
    "insert_after": "one_ai_record",
    "default": "1",
-   "description": "If enabled, recordings are transcribed and OneAI comments on the Interview. Uses AI credits.",
-   "module": "One HR"
+   "description": "Recordings are written out and OneAI comments on the interview.",
+   "module": "One HR",
+   "hidden": 1
   },
   {
    "dt": "HR Settings",
@@ -286,11 +290,12 @@
    "dt": "HR Settings",
    "fieldname": "one_ai_grievances",
    "fieldtype": "Check",
-   "label": "Auto Triage Grievances",
+   "label": "Triage Grievances",
    "module": "One HR",
    "insert_after": "exit_questionnaire_notification_template",
    "default": "1",
-   "description": "If enabled, OneAI categorises each new Employee Grievance and marks sensitive ones. Uses AI credits."
+   "description": "OneAI sorts each new grievance into a category and marks sensitive ones.",
+   "hidden": 1
   }
  ],
  "doctype": "HR Settings",

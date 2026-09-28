@@ -1603,6 +1603,23 @@ Done:
 - `one/README.md` has OneIntake Settings, for the Workspace;
   `one_intake/README.md` points to it.
 
+Afterwards, on your word: OneIntake's settings that lived elsewhere are on
+this page too.
+
+- **Where OneAI Reads**: every mailbox, whether OneAI reads it and on whose
+  behalf, and every OneCloud folder it reads, as lists. Starting one stays
+  its holder's (OneAI then acts as them, `switches.py`); an administrator
+  can stop any from here, and **Add a Folder** starts one. A person can
+  still switch their own mailbox in OneMail and their own folders in
+  OneCloud, since that is their consent rather than a workspace setting.
+- **OneHR**: Screen New Applicants, Prepare Interviews, Transcribe
+  Interview Recordings and Triage Grievances, still stored on HR Settings
+  and hidden there, switched and saved here. Recording consent and how long
+  audio is kept stay in HR Settings, which says where the rest went.
+- OneCalendar, OneTask, OneProject, OneCRM, OneBook and OneInventory had no
+  OneIntake settings to move.
+- `workspace_intake` also reads which mailboxes and folders are read.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

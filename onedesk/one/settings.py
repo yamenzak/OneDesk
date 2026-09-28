@@ -1318,7 +1318,37 @@ def _intake() -> dict:
 		{**one, "fieldtype": "Switch"} if one["fieldtype"] == "Check" else one
 		for one in _fields("Intake Settings", INTAKE)
 	]
-	return {"fields": fields, "values": values, "month": _intake_month(), "opened": _opened(doc)}
+	from onedesk.one_intake import switches
+
+	opened = [doc]
+	hr = _intake_hr()
+	if hr:
+		held = frappe.get_single("HR Settings")
+		fields += [{**one, "fieldtype": "Switch"} for one in _fields("HR Settings", hr)]
+		values.update({name: held.get(name) for name in hr})
+		opened.append(held)
+	return {
+		"fields": fields,
+		"values": values,
+		"month": _intake_month(),
+		"hr": list(hr),
+		**switches.overview(),
+		"opened": _opened(*opened),
+	}
+
+
+#: What OneAI does by itself when something arrives in OneHR, kept on HR
+#: Settings (hiring.py, ai_grievance.py) and switched here with the rest of
+#: what OneAI does on its own. Recording consent and how long audio is kept
+#: are HR's policy, and stay in HR Settings.
+INTAKE_HR = ("one_ai_screen", "one_ai_prepare", "one_ai_transcribe", "one_ai_grievances")
+
+
+def _intake_hr() -> tuple:
+	if not frappe.db.exists("DocType", "HR Settings"):
+		return ()
+	meta = frappe.get_meta("HR Settings")
+	return tuple(name for name in INTAKE_HR if meta.get_field(name))
 
 
 def _intake_month() -> dict:
@@ -1351,6 +1381,12 @@ def _save_intake(values: dict) -> None:
 	was = {name: meant(name) for name in TOLD_OF}
 	doc.update({name: values[name] for name in INTAKE if name in values})
 	doc.save(ignore_permissions=True)
+	hr = [name for name in _intake_hr() if name in values]
+	if hr:
+		held = _as_opened(frappe.get_single("HR Settings"))
+		if any(frappe.utils.cint(held.get(name)) != frappe.utils.cint(values[name]) for name in hr):
+			held.update({name: values[name] for name in hr})
+			held.save(ignore_permissions=True)
 	changed = [name for name in TOLD_OF if was[name] != meant(name)]
 	if changed:
 		_told_of_intake(doc, changed)

@@ -5,6 +5,10 @@ mailbox, and Intake Settings' "Read Files Attached to Records". Each is turned
 on by a person and remembers who, because OneAI may only do there what that
 person may do (docs/INTAKE.md §4.3). A person's My Files and own mailbox are
 theirs to turn on, not an administrator's.
+
+OneIntake Settings lists every mailbox and every folder OneAI reads
+(`overview`). An administrator may stop any of them from there; turning one
+on is still for whoever holds it, since OneAI then acts as that person.
 """
 
 import frappe
@@ -60,11 +64,12 @@ def folder_state(folder: str) -> dict:
 def set_folder(folder: str, on: int) -> dict:
 	"""Turn reading on or off for a folder and everything inside it."""
 	item = ns.row(folder)
-	if not item or not item.get("is_folder") or not _may_switch(item):
+	on = int(on or 0)
+	stopping = not on and _administers()
+	if not item or not item.get("is_folder") or not (stopping or _may_switch(item)):
 		frappe.throw(_("Only somebody who may change {0} can say whether OneAI reads it.").format(
 			(item or {}).get("file_name") or folder
 		), frappe.PermissionError)
-	on = int(on or 0)
 	frappe.db.set_value(
 		"File", folder, {"one_intake": on, "one_intake_for": frappe.session.user if on else None}, update_modified=False
 	)
@@ -96,8 +101,9 @@ def set_mailbox(account: str, on: int) -> dict:
 	"""Turn reading on or off for a mailbox. Any of its holders may."""
 	from onedesk.one_mail import actions
 
-	actions.require(account)
 	on = int(on or 0)
+	if on or not _administers():
+		actions.require(account)
 	values = {"one_intake": on, "one_intake_for": frappe.session.user if on else None}
 	if on:
 		# Frappe makes a bare Contact for every address on every message, junk
@@ -105,4 +111,37 @@ def set_mailbox(account: str, on: int) -> dict:
 		# actually writing, once the mail is known to be real (planning.py).
 		values["create_contact"] = 0
 	frappe.db.set_value("Email Account", account, values, update_modified=False)
-	return mailbox_state(account)
+	held = frappe.db.get_value("Email Account", account, ["one_intake", "one_intake_for"], as_dict=True)
+	return {"on": bool(held.one_intake), "for": held.one_intake_for}
+
+
+def overview() -> dict:
+	"""Every mailbox, and every folder OneAI reads, for OneIntake Settings."""
+	from onedesk.one_mail import actions
+
+	name = frappe.utils.get_fullname
+	mailboxes = [
+		{
+			"name": one.name,
+			"email": one.email_id or one.name,
+			"on": bool(one.one_intake),
+			"for": name(one.one_intake_for) if one.one_intake_for else None,
+			"mine": actions.holds(one.name),
+		}
+		for one in frappe.get_all(
+			"Email Account", fields=["name", "email_id", "one_intake", "one_intake_for"], order_by="email_id asc"
+		)
+	]
+	folders = [
+		{"name": one.name, "path": one.name, "for": name(one.one_intake_for) if one.one_intake_for else None}
+		for one in frappe.get_all(
+			"File", filters={"is_folder": 1, "one_intake": 1}, fields=["name", "one_intake_for"], order_by="name asc"
+		)
+	]
+	return {"mailboxes": mailboxes, "folders": folders}
+
+
+def _administers() -> bool:
+	from onedesk.one.roles import administers
+
+	return administers()

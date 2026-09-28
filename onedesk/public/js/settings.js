@@ -16,7 +16,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 
 	// Sections that are a table rather than a form, so they get the width a
 	// table needs. Every other section is a column in the middle of the page.
-	static WIDE = ["people", "oneai"];
+	static WIDE = ["people", "oneai", "intake"];
 
 	constructor(page, group) {
 		// Dirty, the warning on leaving, saving against `modified` and hearing
@@ -1724,13 +1724,20 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			fact(month.undone, __("Undone"), inbox("done")),
 		].join("")}</div>`;
 		this.$content.append(onedesk.shell.section(__("This Month"), facts, __("For everybody in the workspace. Each number opens the inbox.")));
+		this.$content.append(
+			onedesk.shell.section(
+				__("Where OneAI Reads"),
+				`<div class="os-intake-list" data-list="mailboxes"></div><div class="os-intake-list" data-list="folders"></div>`,
+				__("New mail in these mailboxes and new files in these folders are read. Starting one is for whoever holds it, since OneAI then acts as them; an administrator can stop any.")
+			)
+		);
 		const links = (pairs) =>
 			`<div class="one-shell-quiet os-intake-links">${pairs
 				.map(([href, label]) => `<a class="one-record-link" href="${esc(href)}">${esc(label)}</a>`)
 				.join(" · ")}</div>`;
 		this.form(data, {
 			rows: [
-				{ heading: __("What Is Read"), note: __("Mail and files arriving in connected mailboxes and folders are always read.") },
+				{ heading: __("What Is Read"), note: __("Besides the mailboxes and folders above.") },
 				{ stack: ["records"] },
 				["most_pages", "_"],
 				{ heading: __("How Sure OneAI Must Be"), note: __("Anything OneAI is less sure of than this percentage waits for a person.") },
@@ -1742,10 +1749,100 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				{ heading: __("Books"), note: __("What OneAI may do with bills and invoices it reads.") },
 				{ stack: ["household", "submit_einvoices"] },
 				{ html: links([["/desk/ready-to-submit", __("Ready to Submit")], ["/desk/query-report/Spending", __("Spending")]]) },
+				...((data.hr || []).length
+					? [
+							{ heading: __("OneHR"), note: __("What OneAI does by itself when something arrives in OneHR. Each uses credits.") },
+							{ stack: data.hr },
+							{ html: links([["/desk/hr-settings", __("Interview recording and how long audio is kept are in HR Settings")]]) },
+					  ]
+					: []),
 			],
 		});
+		this.draw_intake_sources(data);
 		// What OneIntake's reading runs on is set with the rest of OneAI's actions.
 		this.page.add_inner_button(__("Models"), () => frappe.set_route("workspace-settings", { section: "oneai", product: "OneIntake" }));
+	}
+
+	// The mailboxes and folders OneAI reads, as lists. Turning one on is its
+	// holder's consent, since OneAI then acts as them; an administrator may
+	// stop any (one_intake/switches.py).
+	draw_intake_sources(data) {
+		const esc = frappe.utils.escape_html;
+		const reading = (on) => frappe.ui.badge.html({ label: on ? __("Reading") : __("Off"), theme: on ? "green" : "gray" });
+		const again = () => this.refresh();
+		onedesk.shell.table(this.$content.find('[data-list="mailboxes"]'), {
+			title: __("Mailboxes"),
+			rows: data.mailboxes || [],
+			page_size: 10,
+			icon: "mail",
+			empty: __("No mailboxes yet."),
+			columns: [
+				{ label: __("Mailbox"), fieldname: "email" },
+				{ label: __("Read by OneAI"), render: (one) => reading(one.on) },
+				{ label: __("On Behalf Of"), render: (one) => esc(one.for || "") },
+			],
+			open: (one) => {
+				if (one.on)
+					return frappe.confirm(__("Stop OneAI reading new mail in {0}?", [esc(one.email)]), async () => {
+						await frappe.xcall("onedesk.one_intake.switches.set_mailbox", { account: one.name, on: 0 });
+						again();
+					});
+				if (!one.mine) return frappe.msgprint(__("Only somebody who holds {0} can let OneAI read it, because OneAI then acts as them.", [esc(one.email)]));
+				frappe.confirm(
+					__("OneAI will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos are read with OneAI credits.", [`<b>${esc(one.email)}</b>`]),
+					async () => {
+						await frappe.xcall("onedesk.one_intake.switches.set_mailbox", { account: one.name, on: 1 });
+						again();
+					}
+				);
+			},
+		});
+		onedesk.shell.table(this.$content.find('[data-list="folders"]'), {
+			title: __("Folders"),
+			rows: data.folders || [],
+			page_size: 10,
+			icon: "folder",
+			empty: __("OneAI reads no folders yet."),
+			columns: [
+				{ label: __("Folder"), render: (one) => esc(one.path.replace(/^Home\//, "")) },
+				{ label: __("On Behalf Of"), render: (one) => esc(one.for || "") },
+			],
+			actions: onedesk.shell.button(__("Add a Folder"), { "data-add-folder": "1" }, "subtle", "plus"),
+			open: (one) =>
+				frappe.confirm(__("Stop OneAI reading new files in {0} and the folders inside it?", [esc(one.path)]), async () => {
+					await frappe.xcall("onedesk.one_intake.switches.set_folder", { folder: one.name, on: 0 });
+					again();
+				}),
+		});
+		this.$content.on("click", "[data-add-folder]", () => {
+			const dialog = new frappe.ui.Dialog({
+				title: __("Add a Folder"),
+				fields: [
+					{
+						fieldname: "folder",
+						fieldtype: "Link",
+						options: "File",
+						label: __("Folder"),
+						reqd: 1,
+						get_query: () => ({ filters: { is_folder: 1, one_intake: 0 } }),
+					},
+					{
+						fieldname: "said",
+						fieldtype: "HTML",
+						options: `<div class="one-shell-quiet">${esc(
+							__("OneAI will read new files in it and the folders inside it, file them and act on them on your behalf. Scans and photos are read with OneAI credits.")
+						)}</div>`,
+					},
+				],
+				primary_action_label: __("Read It"),
+				primary_action: async (values) => {
+					await frappe.xcall("onedesk.one_intake.switches.set_folder", { folder: values.folder, on: 1 });
+					dialog.hide();
+					again();
+				},
+			});
+			dialog.show();
+		});
 	}
 
 	draw_holidays(data) {

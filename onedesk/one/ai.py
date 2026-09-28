@@ -289,9 +289,9 @@ def page(said: dict) -> str | None:
 		return (
 			"The reader administers this workspace and is on OneIntake › Settings: this month's numbers (arrived, "
 			"handled by OneAI, needed a person, waiting now, undone), and what OneIntake may do: read files "
-			"attached to records and how many pages of a scan; the confidence floor below which things wait for a "
+			"attached to records and how many pages of a scan, and which mailboxes and folders it reads; the confidence floor below which things wait for a "
 			"person, and the audit; filing, and how many quiet minutes before it acts; and the books, household "
-			"and submitting matching e-invoices. workspace_intake reads it all. They change a switch or a number "
+			"and submitting matching e-invoices; and what it does by itself in OneHR. workspace_intake reads it all. They change a switch or a number "
 			"and save from the page head; how is in One's documentation under OneIntake Settings, for the Workspace (how_to)."
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "oneai":
@@ -840,6 +840,11 @@ def workspace_intake() -> dict:
 			"submit_matching_e_invoices": "on means OneAI submits e-invoices from known suppliers that match an order",
 		},
 		"this_month": said["month"],
+		"mailboxes_read": [
+			{"mailbox": one["email"], "on_behalf_of": one["for"]} for one in said["mailboxes"] if one["on"]
+		],
+		"mailboxes_not_read": [one["email"] for one in said["mailboxes"] if not one["on"]],
+		"folders_read": [{"folder": one["path"], "on_behalf_of": one["for"]} for one in said["folders"]],
 	}
 
 

@@ -415,14 +415,18 @@ names where it came from. When nothing covers the question, OneAI says so.
 **Asking how OneHR works.** OneAI reads this page to answer questions like
 "how do I register my passkey?" and names the section it used.
 
-**What runs on its own**, each with a switch in HR Settings:
+**What runs on its own**, each with a switch on OneIntake › Settings, under
+OneHR, with the rest of what OneAI does by itself when something arrives:
 
 | When | What | Switch |
 |---|---|---|
-| A new applicant | Rated and ranked | Auto Screen New Applicants |
-| A new interview | Questions prepared | Auto Prepare Interviews |
-| A recording ends | Transcribed and commented on | Auto Transcribe Recordings |
-| A new grievance | Summarised and categorised | Auto Triage Grievances |
+| A new applicant | Rated and ranked | Screen New Applicants |
+| A new interview | Questions prepared | Prepare Interviews |
+| A recording ends | Transcribed and commented on | Transcribe Interview Recordings |
+| A new grievance | Summarised and categorised | Triage Grievances |
+
+Whether interviews may be recorded, and how long their audio is kept, are
+HR's policy and stay in HR Settings.
 
 Each is one AI call per event and uses the workspace's AI credits. Comments
 from these are written by a user called **OneAI**. Which model each uses is set
