@@ -51,6 +51,9 @@ ACTED_ON = "checkout.session.completed"
 OWED = "invoice.payment_failed"
 SETTLED = "invoice.paid"
 
+#: A refund, which our books credit (books.refunded).
+REFUNDED = "charge.refunded"
+
 
 def checkout(request: str) -> str:
 	"""A Stripe Checkout URL for this request, and the session recorded on it."""
@@ -115,8 +118,15 @@ def webhook():
 		except Exception as raised:
 			seen.db_set("error", str(raised)[:500])
 			raise
+		if kind == SETTLED:
+			_book("invoiced", body)
 		seen.db_set({"handled": 1, "error": None})
 		return answer
+
+	if kind == REFUNDED:
+		_book("refunded", body)
+		seen.db_set("handled", 1)
+		return {"refunded": body.get("id")}
 
 	if kind != ACTED_ON:
 		seen.db_set("handled", 1)
@@ -134,6 +144,7 @@ def webhook():
 		except Exception as raised:
 			seen.db_set("error", str(raised)[:500])
 			raise
+		_book("pack_bought", body)
 		seen.db_set({"handled": 1, "error": None})
 		return {"tenant": meta.get("tenant"), "entry": entry}
 
@@ -144,8 +155,27 @@ def webhook():
 		seen.db_set({"error": str(raised)[:500], "request": request})
 		raise
 	_remember_customer(tenant, body)
+	from onedesk.one_admin import sales
+
+	sales.paid(request, tenant)
 	seen.db_set({"handled": 1, "request": request, "error": None})
 	return {"tenant": tenant}
+
+
+def _book(what: str, body: dict) -> None:
+	"""Our own books for what Stripe says happened (books.py), never in the
+	way of the workspace: a failure is logged, rolled back to here, and
+	booked by the nightly catch-up instead."""
+	from onedesk.one_admin import books
+
+	mark = "one_books"
+	frappe.db.savepoint(mark)
+	try:
+		getattr(books, what)(body)
+		frappe.db.release_savepoint(mark)
+	except Exception:
+		frappe.db.rollback(save_point=mark)
+		frappe.log_error(title=f"Booking {body.get('id')}")
 
 
 def checkout_for_credits(tenant: str, pack: str) -> str:
@@ -345,6 +375,12 @@ def _post(path: str, form: dict) -> dict:
 
 def _get(path: str) -> dict:
 	return _call("get", path)
+
+
+def fetch(path: str, params: dict | None = None) -> dict:
+	"""Read one Stripe object or list, for the books (books.py)."""
+	site.require_admin()
+	return _call("get", path, params=params or {})
 
 
 def _delete(path: str, form: dict | None = None) -> dict:

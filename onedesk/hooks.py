@@ -28,6 +28,8 @@ after_install = [
 	"onedesk.one_admin.site.apply",
 	# The price list an admin site starts with. See one_admin/offerings.py.
 	"onedesk.one_admin.offerings.install",
+	# The Stripe account, the receivable in dollars and an Item per offering.
+	"onedesk.one_admin.books.ensure",
 	# After that, because what it does depends on which kind this is.
 	"onedesk.one_ai.instructions.trim",
 	"onedesk.one_ai.instructions.ready",
@@ -125,6 +127,9 @@ scheduler_events = {
 		"onedesk.one_admin.storage.nightly",
 		# A site whose move to a bigger Frappe Cloud plan did not go through.
 		"onedesk.one_admin.quota.nightly",
+		# Deals whose checkout nobody finished, and paid invoices not yet booked.
+		"onedesk.one_admin.sales.abandoned",
+		"onedesk.one_admin.books.catch_up",
 		"onedesk.one_hr.healing.nightly",
 		# The sound of old interview recordings; their transcripts stay.
 		"onedesk.one_hr.hiring.purge",
@@ -152,6 +157,8 @@ scheduler_events = {
 override_email_send = "onedesk.one_mail.outbound.send"
 
 doc_events = {
+	# Our own books sell each offering as an Item. See one_admin/books.py.
+	"Offering": {"on_update": "onedesk.one_admin.books.synced"},
 	# Everyone who works here has an address on the mail domain. See
 	# one_mail/addresses.py.
 	"User": {"before_save": "onedesk.one_mail.addresses.for_person"},

@@ -22,7 +22,9 @@
   "tenant",
   "column_break_outcome",
   "failed_reason",
-  "stripe_session"
+  "stripe_session",
+  "deal",
+  "lead"
  ],
  "fields": [
   {
@@ -131,11 +133,25 @@
    "fieldtype": "Data",
    "label": "Stripe Session",
    "read_only": 1
+  },
+  {
+   "fieldname": "deal",
+   "fieldtype": "Link",
+   "options": "Opportunity",
+   "label": "Deal",
+   "read_only": 1
+  },
+  {
+   "fieldname": "lead",
+   "fieldtype": "Link",
+   "options": "Lead",
+   "label": "Lead",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-22 16:00:00.000000",
+ "modified": "2026-09-28 10:00:00.000000",
  "modified_by": "Administrator",
  "name": "Account Request",
  "module": "One Admin",

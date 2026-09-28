@@ -30,6 +30,7 @@
   "tab_billing",
   "billing_section",
   "offering",
+  "customer",
   "stripe_customer",
   "stripe_subscription",
   "add_ons",
@@ -194,6 +195,14 @@
    "read_only": 1,
    "description": "What the workspace was sold. Quotas are copied to this record, not read from here.",
    "in_standard_filter": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "options": "Customer",
+   "label": "Customer",
+   "read_only": 1,
+   "description": "Who this workspace is in the admin site's own books. Made when it first paid."
   },
   {
    "fieldname": "stripe_customer",

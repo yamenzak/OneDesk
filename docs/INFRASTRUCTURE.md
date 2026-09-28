@@ -255,6 +255,38 @@ would leave the workspace over what it uses is refused before Stripe is
 asked. Stripe prices are made the first time an offering is sold
 (`stripe.price_for`) and again after its price changes, never typed.
 
+## Our own sales and books
+
+The admin site is a One workspace, and One is what it sells, so every sale is
+kept the way any company using One keeps one, in its own OneCRM and OneBook.
+
+**In OneCRM** (`one_admin/sales.py`): a signup makes a **Lead** (source
+Website, the workspace and plan in a note) and, because a signup goes
+straight to pay, a **Deal** from it at the **Checkout** stage, worth a year of
+the plan. Paying wins the deal and makes the **Customer** from the lead,
+billed in the price list's currency and written on the Tenant. A checkout
+left unpaid for seven days loses its deal with the reason **Checkout
+Abandoned**: the list of people to follow up. Upgrades and add-ons are not
+deals; they are invoices.
+
+**In OneBook** (`one_admin/books.py`): each Offering is an **Item** under One
+Subscriptions, kept in step with the price list. Each paid Stripe invoice is
+a **Sales Invoice** (the plan, each add-on at its quantity, and a mid-month
+change's proration credit as the invoice's discount), a **Payment Entry**
+into the **Stripe USD** bank account referenced by the charge, and Stripe's
+**fee** as a Journal Entry to **Stripe Fees**. A credit pack is an invoice of
+one line. A refund is a **credit note** against the invoice, paid back out
+of the Stripe account. The company keeps its books in its own currency, so
+the invoices are in dollars into **Debtors USD** at the day's rate; ERPNext
+does the conversion. A payout from Stripe to the bank is an internal
+transfer somebody records when it lands, as with any bank.
+
+Each is booked once: the invoice carries the Stripe object it came from
+(`one_stripe_invoice`), so a redelivered webhook finds it, and a nightly
+catch-up books any paid invoice the webhook missed. Neither the CRM nor the
+books ever stop a signup or a webhook: a failure is logged and rolled back,
+because the customer has paid either way.
+
 ## What lives where
 
 Fifteen doctypes on the operator side, against thirty-eight in the old control

@@ -170,8 +170,10 @@ def start(email: str, workspace_name: str, offering: str, jurisdiction: str = "G
 		}
 	).insert(ignore_permissions=True)
 
-	from onedesk.one_admin import stripe
+	from onedesk.one_admin import sales, stripe
 
+	# Our own lead and deal for it, before the customer leaves to pay (sales.py).
+	sales.signed_up(asked.name)
 	return {"request": asked.name, "pay_at": stripe.checkout(asked.name)}
 
 

@@ -53,14 +53,14 @@ No doctypes yet.
 |---|--:|---|
 | AI Model | 27 | document |
 | AI Model Rate | 7 | child |
-| Account Request | 16 | document |
+| Account Request | 18 | document |
 | Credit Ledger Entry | 14 | submittable |
 | Credit Reservation | 8 | document |
 | Offering | 21 | document |
 | One Admin Settings | 49 | single |
 | Provisioning Job | 12 | document |
 | Stripe Webhook Event | 7 | document |
-| Tenant | 41 | document |
+| Tenant | 42 | document |
 | Tenant Add-on | 3 | child |
 | Tenant Domain | 7 | document |
 | Tenant Event | 4 | document |

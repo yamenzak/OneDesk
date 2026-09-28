@@ -1,5 +1,20 @@
 {
- "custom_fields": [],
+ "custom_fields": [
+  {
+   "dt": "Sales Invoice",
+   "fieldname": "one_stripe_invoice",
+   "fieldtype": "Data",
+   "label": "Stripe",
+   "insert_after": "po_no",
+   "read_only": 1,
+   "no_copy": 1,
+   "search_index": 1,
+   "allow_on_submit": 0,
+   "depends_on": "eval:doc.one_stripe_invoice",
+   "description": "The Stripe invoice, checkout or refund this books. Written by the admin site.",
+   "module": "One Book"
+  }
+ ],
  "doctype": "Sales Invoice",
  "links": [],
  "property_setters": [

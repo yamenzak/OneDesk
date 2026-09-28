@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-28 05:45+0000\n"
-"PO-Revision-Date: 2026-09-28 05:45+0000\n"
+"POT-Creation-Date: 2026-09-28 06:54+0000\n"
+"PO-Revision-Date: 2026-09-28 06:54+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -3732,8 +3732,10 @@ msgstr "Derzeit"
 msgid "Custom Field"
 msgstr ""
 
+#. Label of the customer (Link) field in DocType 'Tenant'
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
+#: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_project/report/project_tree/project_tree.py:50
@@ -3897,6 +3899,11 @@ msgstr "Frist"
 #: onedesk/one_intake/report/deadlines/deadlines.json
 msgid "Deadlines"
 msgstr "Fristen"
+
+#. Label of the deal (Link) field in DocType 'Account Request'
+#: onedesk/one_admin/doctype/account_request/account_request.json
+msgid "Deal"
+msgstr "Deal"
 
 #. Name of a report
 #. Label of a Sidebar Item
@@ -7647,7 +7654,9 @@ msgstr ""
 msgid "Latitude and longitude values are required for checking in."
 msgstr ""
 
+#. Label of the lead (Link) field in DocType 'Account Request'
 #. Label of a Sidebar Item
+#: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Lead"
 msgstr ""
@@ -14326,7 +14335,9 @@ msgstr "Straße und Hausnummer"
 
 #. Label of the stripe_section (Section Break) field in DocType 'One Admin
 #. Settings'
+#. Label of the one_stripe_invoice (Data) field in DocType 'Sales Invoice'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+#: onedesk/one_book/custom/sales_invoice.json
 msgid "Stripe"
 msgstr "Stripe"
 
@@ -14360,7 +14371,7 @@ msgstr "Stripe-Abonnement"
 msgid "Stripe Webhook Event"
 msgstr "Stripe-Webhook-Ereignis"
 
-#: onedesk/one_admin/stripe.py:395
+#: onedesk/one_admin/stripe.py:431
 msgid "Stripe is not configured. Set it in OneAdmin Settings."
 msgstr "Stripe ist nicht eingerichtet. Richten Sie es in den OneAdmin-Einstellungen ein."
 
@@ -14979,6 +14990,11 @@ msgstr "Die Person im Datensatz"
 #: onedesk/public/js/onecloud.js:356
 msgid "The Recycle Bin is empty."
 msgstr "Der Papierkorb ist leer."
+
+#. Description of the 'Stripe' (Data) field in DocType 'Sales Invoice'
+#: onedesk/one_book/custom/sales_invoice.json
+msgid "The Stripe invoice, checkout or refund this books. Written by the admin site."
+msgstr "Die Stripe-Rechnung, der Checkout oder die Erstattung, die hier gebucht wird. Wird von der Admin-Site geschrieben."
 
 #. Description of the 'Reference' (Data) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
@@ -17976,6 +17992,11 @@ msgstr "Wer in diesem Arbeitsbereich kann welche Apps nutzen, und wer verwaltet 
 #: onedesk/one_project/custom/project.json
 msgid "Who runs it. They always see it, listed under Users or not."
 msgstr "Wer es leitet. Diese Person sieht es immer, ob unter Benutzer aufgeführt oder nicht."
+
+#. Description of the 'Customer' (Link) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "Who this workspace is in the admin site's own books. Made when it first paid."
+msgstr "Wer dieser Arbeitsbereich in den eigenen Büchern der Admin-Site ist. Angelegt bei der ersten Zahlung."
 
 #. Description of the Onboarding Step 'Add a customer'
 #: onedesk/one/onboarding_step/one_add_a_customer/one_add_a_customer.json
