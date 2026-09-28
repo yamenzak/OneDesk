@@ -2266,6 +2266,93 @@ Done:
   were laid out with breaks. Every other dialog from the passes holds one
   to four fields and needs none.
 
+### OneTask
+
+OneTask is where a person's work is kept, and all of it is ERPNext's Task: a
+to-do of one's own is a task in no project, a step in a project is a task in
+it. The dock opens it on **My Tasks** (`one_task/page/my_tasks`): what is
+assigned to the reader and still to do, in frappe tables grouped Overdue,
+Today, Tomorrow, Next 7 Days, Later and No Due Date, with a quick add at the
+top, a tick to complete and a timer that writes the week's timesheet. The
+rail has My Tasks, Inbox (one's own tasks in no project), Tasks (frappe's
+list) and Setup. Projects are OneProject's, over the same tasks, and
+OneTask is the door to them.
+
+1. **Notifications**: OneTask sends nothing of its own. frappe's do the work,
+   and they fall short.
+   - Being given a task reads "Samir Aoun assigned a new task **Task**
+     *Write the home page copy* to you": "task Task", no due date, no
+     project, in frappe's mail.
+   - **Nobody is told a task is done.** Checked on the dev site: Rania
+     completed a task Samir gave her, and Samir heard nothing.
+   - Nothing reminds anybody of what is due. Today's Events, OneCalendar's
+     morning note, lists events only.
+   Recommended: three types in `one_task/notifications.py`, through the hub.
+   **Task Given** replaces frappe's line for a task, and says who, the
+   task, when it is due and its project. **Task Done** goes to whoever gave
+   the task and whoever made it, when somebody else completes it.
+   **Today's Tasks** goes each morning with what is due that day and what
+   is overdue, from My Tasks, and is not sent on a day with nothing.
+2. **OneAI**: the panel knows only that this is "My Tasks": no page
+   sentence, no suggestions, nothing it can read or add. Recommended:
+   - a page sentence naming the view shown (My Tasks, the Inbox, or a
+     project's tasks);
+   - a reader, `my_tasks`, which is `mine.tasks` as the reader, with each
+     task's project and what it is about;
+   - a suggest, `plan_task`: a card that adds a task when approved. It can
+     have a due date, a project, a checklist, and a colleague to give it
+     to;
+   - suggestions: **What should I do first?**, **Add a task…** (a fill
+     chip), and **Break a task into steps…**.
+3. **Intake**: the tasks OneIntake makes land on My Tasks, assigned to the
+   person they are for (`planning.py`), with the record they are about in
+   `one_about` (a supplier, a party). **My Tasks does not show what a task
+   is about**: "Decide whether to cancel" appears with nothing beside it.
+   Recommended: the About link where the project would be.
+4. **Permissions**: `access.py` holds. One's own tasks are theirs. A
+   project's tasks are seen by the project's readers. Somebody given a
+   task may do it but not delete it. The page runs as the reader, and
+   ticking a task is frappe's own save. Nothing to change.
+5. **Cross-module, and the door to OneProject**: My Tasks names each
+   task's project, and the name opens the project. There is no way from
+   OneTask to one project's tasks, though. "What is left on Website
+   Relaunch" means OneProject › Projects › the project › its board.
+   Recommended: the projects the reader is on, listed in OneTask's column,
+   each opening that project's open tasks on the same page, grouped by due
+   date, with **Open Project** leading to OneProject. The quick add then
+   adds to the project shown. The calendar (drag to move) and the timer
+   (the week's timesheet) hold.
+6. **UI and UX**:
+   - a. **Two sidebars.** My Tasks has the rail's four entries beside it,
+     as OneCalendar had. Recommended: one column, as OneMail and
+     OneCalendar have. **Add Task** on top; My Tasks, Inbox and All Tasks
+     with counts; the reader's projects; Setup (Task Type) at the foot.
+   - b. **The Tasks list is cramped**: the subject is cut to ten letters,
+     while an ID column and two checkbox columns (Is Group, Is Milestone,
+     ERPNext's `in_list_view`) take the room. Recommended: Subject, Status,
+     Project, Priority and Due.
+   - c. **A task's due date is hidden**: it is in the collapsed Timeline
+     section. The Details tab opens instead on Issue, Weight, Type, Color,
+     Is Group and Is Template, ERPNext's planning fields. Recommended:
+     Timeline open, and Weight, Color and Issue folded into it rather than
+     ahead of it. Company goes off More Info, as it has everywhere else.
+   - d. My Tasks does not update while it is open: a task somebody gives
+     you appears only on reload.
+7. **Documented**: `one_task/README.md` is the manual above Under the hood
+   and OneAI answers from it. When 1, 2, 5 and 6a are built they get their
+   paragraphs.
+8. **Legal**: nothing about a task leaves the workspace, and the timer
+   writes only the person's own timesheet. If 2 is built, the AI Addendum
+   says a person's tasks are read when they ask, and that a task is only
+   added when they approve the card.
+9. **Built from frappe**: the groups are frappe tables (the shell's
+   EmbeddedList), the quick add is frappe's Data and Date controls, the
+   badges are `frappe.ui.badge`, and a task is added and ticked through
+   `frappe.db`. The tick is a bare checkbox, as frappe's own list rows
+   draw theirs (`list-row-checkbox`), so it stays. Not frappe: **nothing
+   listens on `frappe.realtime`** (6d). `doctype_subscribe("Task")` and
+   `list_update` are how a screen hears of a change.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
