@@ -1294,6 +1294,11 @@ def _oneai() -> dict:
 				"calls": int(spent.get("calls") or 0),
 			}
 		)
+	from onedesk.one_ai import logos
+
+	for offered in catalogue.values():
+		for model in offered:
+			model["logo"] = logos.url(model.get("logo_domain"))
 	return {"actions": rows, "catalogue": catalogue}
 
 

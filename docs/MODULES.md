@@ -271,6 +271,7 @@ No doctypes yet.
 * `onedesk.one_ai.chat.start`
 * `onedesk.one_ai.chat.suggestions`
 * `onedesk.one_ai.files.attached`
+* `onedesk.one_ai.logos.logo`
 * `onedesk.one_ai.run.apply`
 * `onedesk.one_ai.run.landed`
 * `onedesk.one_ai.run.models`

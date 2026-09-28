@@ -534,9 +534,10 @@ Under **OneAI** in the sidebar, **Actions** is every thing OneAI does in this
 workspace, with the model each runs on. Only administrators see it and
 change it.
 
-- The list shows each action, the product it works for (OneAI, OneIntake,
-  OneHR, OneMail), its model with its maker's logo, and the credits it used
-  in the last thirty days. **Default** means One picked the model.
+- The list shows each action with a badge for the product it works for
+  (OneAI, OneIntake, OneHR, OneMail), what it does in a line, its model with
+  its maker's logo, and the credits it used in the last thirty days.
+  **Default** means One picked the model.
 - Click an action to change it. **Model** lists the models on offer that can
   do what it needs, with who made them, who runs them and roughly what they
   cost per thousand words read and written. **Added Instructions** are

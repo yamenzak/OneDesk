@@ -504,8 +504,10 @@
 	border-radius: 4px;
 	flex: none;
 }
-.os-ai-about {
-	max-width: 420px;
+.os-ai-action {
+	display: flex;
+	align-items: center;
+	gap: 8px;
 }
 .os-ai-picked {
 	display: flex;

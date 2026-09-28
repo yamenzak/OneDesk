@@ -16,7 +16,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 
 	// Sections that are a table rather than a form, so they get the width a
 	// table needs. Every other section is a column in the middle of the page.
-	static WIDE = ["people"];
+	static WIDE = ["people", "oneai"];
 
 	constructor(page, group) {
 		// Dirty, the warning on leaving, saving against `modified` and hearing
@@ -1558,9 +1558,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			columns: [
 				{
 					label: __("Action"),
-					render: (one) => `<div>${esc(one.label)}</div>${one.about ? `<div class="one-shell-quiet os-ai-about">${esc(one.about)}</div>` : ""}`,
+					render: (one) =>
+						`<div class="os-ai-action"><span>${esc(one.label)}</span>${Settings.product_badge(one.product)}</div>${
+							one.about ? `<div class="one-shell-quiet">${esc(one.about)}</div>` : ""
+						}`,
 				},
-				{ label: __("Product"), render: (one) => esc(one.product) },
 				{ label: __("Model"), render: (one) => Settings.model_html(Settings.model_of(data.catalogue, one)) },
 				{
 					label: __("Last 30 Days"),
@@ -1587,6 +1589,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		if (picked) return { ...picked, chosen: true };
 		if (one.model) return { name: one.model, label: one.model, chosen: true, gone: true };
 		return fallback ? { ...fallback, chosen: false } : null;
+	}
+
+	// The product an action works for, as a badge with its mark.
+	static product_badge(product) {
+		if (!product) return "";
+		return frappe.ui.badge.html({ label: product, icon: product.toLowerCase(), size: "sm", css_class: "os-ai-product" });
 	}
 
 	static model_html(model) {

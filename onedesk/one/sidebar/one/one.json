@@ -17,7 +17,7 @@
    "link_type": "Workspace",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 0
+   "idx": 1
   },
   {
    "keep_closed": 0,
@@ -26,7 +26,7 @@
    "icon": "user",
    "indent": 0,
    "collapsible": 1,
-   "idx": 1
+   "idx": 2
   },
   {
    "keep_closed": 0,
@@ -37,7 +37,7 @@
    "icon": "user",
    "child": 1,
    "route_options": "{\"section\": \"profile\"}",
-   "idx": 2,
+   "idx": 3,
    "filters": "{\"section\": \"profile\"}"
   },
   {
@@ -49,7 +49,7 @@
    "icon": "bell",
    "child": 1,
    "route_options": "{\"section\": \"notifications\"}",
-   "idx": 3,
+   "idx": 4,
    "filters": "{\"section\": \"notifications\"}"
   },
   {
@@ -61,7 +61,7 @@
    "icon": "mail",
    "child": 1,
    "route_options": "{\"section\": \"mail\"}",
-   "idx": 4,
+   "idx": 5,
    "filters": "{\"section\": \"mail\"}"
   },
   {
@@ -73,7 +73,7 @@
    "icon": "calendar",
    "child": 1,
    "route_options": "{\"section\": \"calendar\"}",
-   "idx": 5,
+   "idx": 6,
    "filters": "{\"section\": \"calendar\"}"
   },
   {
@@ -85,7 +85,7 @@
    "icon": "key-round",
    "child": 1,
    "route_options": "{\"section\": \"signin\"}",
-   "idx": 6,
+   "idx": 7,
    "filters": "{\"section\": \"signin\"}"
   },
   {
@@ -97,7 +97,7 @@
    "icon": "brain",
    "child": 1,
    "route_options": "{\"section\": \"memory\"}",
-   "idx": 7,
+   "idx": 8,
    "filters": "{\"section\": \"memory\"}"
   },
   {
@@ -109,7 +109,7 @@
    "icon": "scale",
    "child": 1,
    "route_options": "{\"section\": \"agreements\"}",
-   "idx": 8,
+   "idx": 9,
    "filters": "{\"section\": \"agreements\"}"
   },
   {
@@ -119,7 +119,7 @@
    "icon": "building-2",
    "indent": 0,
    "collapsible": 1,
-   "idx": 9
+   "idx": 10
   },
   {
    "keep_closed": 0,
@@ -130,7 +130,7 @@
    "icon": "building-2",
    "child": 1,
    "route_options": "{\"section\": \"general\"}",
-   "idx": 10,
+   "idx": 11,
    "filters": "{\"section\": \"general\"}"
   },
   {
@@ -142,7 +142,7 @@
    "icon": "users",
    "child": 1,
    "route_options": "{\"section\": \"people\"}",
-   "idx": 11,
+   "idx": 12,
    "filters": "{\"section\": \"people\"}"
   },
   {
@@ -154,7 +154,7 @@
    "icon": "bell-ring",
    "child": 1,
    "route_options": "{\"section\": \"notification_types\"}",
-   "idx": 12,
+   "idx": 13,
    "filters": "{\"section\": \"notification_types\"}"
   },
   {
@@ -166,7 +166,7 @@
    "icon": "credit-card",
    "child": 1,
    "route_options": "{\"section\": \"plan\"}",
-   "idx": 13,
+   "idx": 14,
    "filters": "{\"section\": \"plan\"}"
   },
   {
@@ -178,7 +178,7 @@
    "icon": "globe",
    "child": 1,
    "route_options": "{\"section\": \"domains\"}",
-   "idx": 14,
+   "idx": 15,
    "filters": "{\"section\": \"domains\"}"
   },
   {
@@ -190,7 +190,7 @@
    "icon": "inbox",
    "child": 1,
    "route_options": "{\"section\": \"intake\"}",
-   "idx": 15,
+   "idx": 16,
    "filters": "{\"section\": \"intake\"}"
   },
   {
@@ -202,7 +202,7 @@
    "icon": "calendar-days",
    "child": 1,
    "route_options": "{\"section\": \"holidays\"}",
-   "idx": 16,
+   "idx": 17,
    "filters": "{\"section\": \"holidays\"}"
   },
   {
@@ -213,7 +213,7 @@
    "icon": "oneai",
    "indent": 0,
    "collapsible": 1,
-   "idx": 17
+   "idx": 18
   },
   {
    "keep_closed": 0,
@@ -221,10 +221,10 @@
    "label": "Actions",
    "link_to": "workspace-settings",
    "link_type": "Page",
-   "icon": "sparkles",
+   "icon": "oneai",
    "child": 1,
    "route_options": "{\"section\": \"oneai\"}",
-   "idx": 18,
+   "idx": 19,
    "filters": "{\"section\": \"oneai\"}"
   },
   {
@@ -236,7 +236,7 @@
    "link_type": "DocType",
    "icon": "book-open",
    "child": 1,
-   "idx": 19
+   "idx": 20
   },
   {
    "keep_closed": 0,
@@ -247,7 +247,7 @@
    "link_type": "Report",
    "icon": "chart-column",
    "child": 1,
-   "idx": 20
+   "idx": 21
   },
   {
    "keep_closed": 0,
@@ -258,7 +258,7 @@
    "link_type": "DocType",
    "icon": "messages-square",
    "child": 1,
-   "idx": 21
+   "idx": 22
   },
   {
    "keep_closed": 0,
@@ -269,10 +269,10 @@
    "link_type": "DocType",
    "icon": "lightbulb",
    "child": 1,
-   "idx": 22
+   "idx": 23
   }
  ],
- "modified": "2026-10-06 09:00:00.000000",
+ "modified": "2026-10-06 10:30:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

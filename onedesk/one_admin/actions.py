@@ -212,7 +212,9 @@ def offered(needs: str) -> list[dict]:
 				"capability": row.capability,
 				"default": row.default_for == needs,
 				"maker": made_by,
-				"logo": makers.logo(domain),
+				# A domain, not a URL: the workspace serves the logo itself
+				# (one_ai/logos.py) rather than send its browser to Google.
+				"logo_domain": domain,
 				"company": makers.PROVIDERS[row.provider],
 				"read": _per_words(row.input_per_million),
 				"written": _per_words(row.output_per_million),
