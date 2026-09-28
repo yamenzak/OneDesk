@@ -137,7 +137,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, Workspace | Notifications | done (stages 2 and 5 of NOTIFICATIONS.md) |
 | Settings, Workspace | Plan and Credits | done |
 | Settings, Workspace | Domains | done |
-| Settings, Workspace | OneAI | |
+| Settings, Workspace | OneAI | findings written, waiting on your word |
 | Settings, Workspace | OneIntake | |
 | Settings, Workspace | Holidays | |
 | Products | One home, OneMail, OneCloud, OneCalendar, OneTask, OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, OneAdmin | each screen listed here once we reach it |
@@ -1389,6 +1389,84 @@ network every workspace is reached through (subprocessors revision 2).
 Tested live on `one-test.4dl.dev`: Working in 100 seconds with a valid
 certificate, served through the router, then removed with its hostname,
 route and key.
+
+### Workspace › OneAI
+
+Two sections. **What Runs on Which Model** lists every enabled AI Action
+(seventeen: Chat, Look It Up, Draft a Reply, the five OneIntake reads, the
+OneHR ones, Summarise, Transcribe…), each with its model as a badge
+("Default", or the model's raw id) and **Change**, which opens the desk
+form `AI Action Setting` for it: the model (a Select filled from the
+account's catalogue) and Added Instructions, with **Try it**. **Knowledge**
+is a count ("1 notes OneAI reads before it answers") and Open, to the desk
+list of AI Knowledge.
+
+1. **Notifications**: nothing is sent. Changing an action's model or its
+   added instructions changes what OneAI does, and what it costs, for
+   everybody, and the other administrators are not told. Recommended: **OneAI
+   Changed**, on the bell, to every other administrator, naming the action
+   and what changed (model, instructions, back to default).
+2. **OneAI**: the panel does not know the page. Recommended: the page
+   sentence, and **Which of these costs us the most?** and **Is there a
+   cheaper model that would do?**, read by a new `workspace_oneai`
+   (administrators only): each action, its model or the default, its added
+   instructions, the models the account offers for it with their price, and
+   what each action used in the last thirty days. No AI call to read it.
+3. **Intake**: five of the rows are OneIntake's (First look, Read a
+   document, Place a document, Read scans, Transcribe recordings), mixed
+   in alphabetically with Chat and the OneHR ones, and Workspace ›
+   OneIntake does not link here. Recommended: the rows grouped by the
+   product they belong to (OneAI, OneIntake, OneHR, OneMail), and OneIntake's
+   page linking to its group.
+4. **Permissions**:
+   - The page is administrators'; `AI Action Setting` is written by
+     Workspace Administrator (and System Manager). Holds.
+   - `AI Knowledge` is read by All. That is needed, because OneAI reads it
+     as the person asking (`memory.py`), so everybody can open the list; it
+     is what OneAI would tell them anyway. Holds, and the docs should say so.
+   - **Try it** charges the workspace's credits, and says so after, not
+     before. Recommended: the cost is said on the button's dialog before
+     running.
+5. **Cross-module**:
+   - What each action costs is nowhere: the AI Credits report groups by
+     model, person or day, not by action. Recommended: a last-thirty-days
+     column here, and **Action** in the report's By (the ledger's
+     reference carries it).
+   - Knowledge is a count and a link out. Recommended: the notes listed
+     here (title, what they apply to), opened and added from the page.
+6. **UI and UX**:
+   - a. **Raw model ids.** Chosen models show as
+     `google-ai-studio:gemini-2.5-flash-lite` in a violet badge, and the
+     form says "Empty uses gemma-4-26b-a4b-it". Recommended: the model's
+     name from the catalogue ("Gemini 2.5 Flash Lite"), "Default (Gemma 4)"
+     in gray, and the price per million tokens in the picker.
+   - b. **Change leaves the page** for a desk form that shows the action's
+     key ("chat") in a Link field, a Templates button and a blue banner.
+     Recommended: a dialog on this page: Model, Added Instructions, Try It
+     and Use the Default, saved against `modified`.
+   - c. Labels are in two cases ("Look It Up", "Draft a Reply" beside
+     "Explain a document", "Read scans"), and "Audit what OneAI did" puts
+     gaps round OneAI. Recommended: Title Case throughout, brand span fixed.
+   - d. Hand-drawn rows. Recommended: `shell.table`, grouped as in 3.
+   - e. "1 notes": the plural is not handled.
+7. **Documented**: `one/README.md` has no section for Workspace › OneAI,
+   so `how_to` cannot answer "how do I make OneAI answer in Arabic" or
+   "what is knowledge". And `one_ai/` has no README at all. Recommended: a
+   section, OneAI, for the Workspace (what each part does, what added
+   instructions can and cannot change, what knowledge is and who reads it,
+   what Try it costs), and the module README when the pass reaches OneAI
+   itself.
+8. **Legal**: choosing a model chooses who receives the data. The catalogue
+   offers two providers, `google-ai-studio` and `workers-ai`, and both are
+   listed (Google, Cloudflare). Holds today, but nothing stops an operator
+   enabling a provider the subprocessors do not name. Recommended: a guard
+   that every provider offered is a listed subprocessor, and the picker
+   saying which company runs the model.
+9. **Built from frappe**: the setting is a frappe form with frappe
+   controls, which is right for behaviour, but it is reached by leaving the
+   page (6b). The rows are hand-drawn (6d). No realtime: a change made by
+   another administrator does not redraw an open page; it would with
+   `doc_update` on AI Action Setting.
 
 ## OneLegal
 
