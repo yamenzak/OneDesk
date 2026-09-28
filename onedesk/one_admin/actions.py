@@ -71,6 +71,7 @@ def run(
 		system=instruction(asked, extra),
 		turns=spoken,
 		tools=offered,
+		action=asked.key,
 	)
 	wants = answer.get("wants") or []
 	return {
@@ -187,13 +188,49 @@ def offered(needs: str) -> list[dict]:
 	able = capability.covers(needs)
 	if not able:
 		return []
+	from onedesk.one_admin import makers
+
 	rows = frappe.get_all(
 		"AI Model",
-		filters={"offered": 1, "status": "Priced", "capability": ["in", sorted(able)]},
-		fields=["name", "label", "provider", "capability", "default_for"],
+		filters={
+			"offered": 1,
+			"status": "Priced",
+			"capability": ["in", sorted(able)],
+			# Only a provider the subprocessors list names (makers.py).
+			"provider": ["in", sorted(makers.PROVIDERS)],
+		},
+		fields=["name", "label", "provider", "model", "capability", "default_for", "input_per_million", "output_per_million"],
 		order_by="provider, label",
 	)
-	return [{**row, "default": row.default_for == needs} for row in rows]
+	offered = []
+	for row in rows:
+		made_by, domain = makers.maker(row.provider, row.model or "")
+		offered.append(
+			{
+				"name": row.name,
+				"label": makers.pretty(row.label or row.model or row.name),
+				"capability": row.capability,
+				"default": row.default_for == needs,
+				"maker": made_by,
+				"logo": makers.logo(domain),
+				"company": makers.PROVIDERS[row.provider],
+				"read": _per_words(row.input_per_million),
+				"written": _per_words(row.output_per_million),
+			}
+		)
+	return offered
+
+
+#: Tokens in a thousand words of English, near enough to price by.
+TOKENS_A_THOUSAND_WORDS = 1333
+
+
+def _per_words(per_million) -> float | None:
+	"""Credits per thousand words, which a person can weigh, from credits per
+	million tokens, which they cannot."""
+	if not per_million:
+		return None
+	return round(float(per_million) * TOKENS_A_THOUSAND_WORDS / 1_000_000, 3)
 
 
 def _action(key: str):

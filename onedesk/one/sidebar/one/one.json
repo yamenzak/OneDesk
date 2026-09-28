@@ -17,7 +17,7 @@
    "link_type": "Workspace",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 1
+   "idx": 0
   },
   {
    "keep_closed": 0,
@@ -26,7 +26,7 @@
    "icon": "user",
    "indent": 0,
    "collapsible": 1,
-   "idx": 2
+   "idx": 1
   },
   {
    "keep_closed": 0,
@@ -37,7 +37,7 @@
    "icon": "user",
    "child": 1,
    "route_options": "{\"section\": \"profile\"}",
-   "idx": 3,
+   "idx": 2,
    "filters": "{\"section\": \"profile\"}"
   },
   {
@@ -49,7 +49,7 @@
    "icon": "bell",
    "child": 1,
    "route_options": "{\"section\": \"notifications\"}",
-   "idx": 4,
+   "idx": 3,
    "filters": "{\"section\": \"notifications\"}"
   },
   {
@@ -61,7 +61,7 @@
    "icon": "mail",
    "child": 1,
    "route_options": "{\"section\": \"mail\"}",
-   "idx": 5,
+   "idx": 4,
    "filters": "{\"section\": \"mail\"}"
   },
   {
@@ -73,7 +73,7 @@
    "icon": "calendar",
    "child": 1,
    "route_options": "{\"section\": \"calendar\"}",
-   "idx": 6,
+   "idx": 5,
    "filters": "{\"section\": \"calendar\"}"
   },
   {
@@ -85,7 +85,7 @@
    "icon": "key-round",
    "child": 1,
    "route_options": "{\"section\": \"signin\"}",
-   "idx": 7,
+   "idx": 6,
    "filters": "{\"section\": \"signin\"}"
   },
   {
@@ -97,7 +97,7 @@
    "icon": "brain",
    "child": 1,
    "route_options": "{\"section\": \"memory\"}",
-   "idx": 8,
+   "idx": 7,
    "filters": "{\"section\": \"memory\"}"
   },
   {
@@ -109,7 +109,7 @@
    "icon": "scale",
    "child": 1,
    "route_options": "{\"section\": \"agreements\"}",
-   "idx": 9,
+   "idx": 8,
    "filters": "{\"section\": \"agreements\"}"
   },
   {
@@ -119,7 +119,7 @@
    "icon": "building-2",
    "indent": 0,
    "collapsible": 1,
-   "idx": 10
+   "idx": 9
   },
   {
    "keep_closed": 0,
@@ -130,7 +130,7 @@
    "icon": "building-2",
    "child": 1,
    "route_options": "{\"section\": \"general\"}",
-   "idx": 11,
+   "idx": 10,
    "filters": "{\"section\": \"general\"}"
   },
   {
@@ -142,7 +142,7 @@
    "icon": "users",
    "child": 1,
    "route_options": "{\"section\": \"people\"}",
-   "idx": 12,
+   "idx": 11,
    "filters": "{\"section\": \"people\"}"
   },
   {
@@ -154,7 +154,7 @@
    "icon": "bell-ring",
    "child": 1,
    "route_options": "{\"section\": \"notification_types\"}",
-   "idx": 13,
+   "idx": 12,
    "filters": "{\"section\": \"notification_types\"}"
   },
   {
@@ -166,7 +166,7 @@
    "icon": "credit-card",
    "child": 1,
    "route_options": "{\"section\": \"plan\"}",
-   "idx": 14,
+   "idx": 13,
    "filters": "{\"section\": \"plan\"}"
   },
   {
@@ -178,20 +178,8 @@
    "icon": "globe",
    "child": 1,
    "route_options": "{\"section\": \"domains\"}",
-   "idx": 15,
+   "idx": 14,
    "filters": "{\"section\": \"domains\"}"
-  },
-  {
-   "keep_closed": 0,
-   "type": "Link",
-   "label": "OneAI",
-   "link_to": "workspace-settings",
-   "link_type": "Page",
-   "icon": "sparkles",
-   "child": 1,
-   "route_options": "{\"section\": \"oneai\"}",
-   "idx": 16,
-   "filters": "{\"section\": \"oneai\"}"
   },
   {
    "keep_closed": 0,
@@ -202,7 +190,7 @@
    "icon": "inbox",
    "child": 1,
    "route_options": "{\"section\": \"intake\"}",
-   "idx": 17,
+   "idx": 15,
    "filters": "{\"section\": \"intake\"}"
   },
   {
@@ -214,7 +202,7 @@
    "icon": "calendar-days",
    "child": 1,
    "route_options": "{\"section\": \"holidays\"}",
-   "idx": 18,
+   "idx": 16,
    "filters": "{\"section\": \"holidays\"}"
   },
   {
@@ -225,6 +213,29 @@
    "icon": "oneai",
    "indent": 0,
    "collapsible": 1,
+   "idx": 17
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "Actions",
+   "link_to": "workspace-settings",
+   "link_type": "Page",
+   "icon": "sparkles",
+   "child": 1,
+   "route_options": "{\"section\": \"oneai\"}",
+   "idx": 18,
+   "filters": "{\"section\": \"oneai\"}"
+  },
+  {
+   "keep_closed": 0,
+   "show_arrow": 0,
+   "type": "Link",
+   "label": "Knowledge",
+   "link_to": "AI Knowledge",
+   "link_type": "DocType",
+   "icon": "book-open",
+   "child": 1,
    "idx": 19
   },
   {
@@ -261,7 +272,7 @@
    "idx": 22
   }
  ],
- "modified": "2026-10-05 09:00:00.000000",
+ "modified": "2026-10-06 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

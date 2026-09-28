@@ -181,6 +181,7 @@ def call(
 	system: str | None = None,
 	turns: list[dict] | None = None,
 	tools: list[dict] | None = None,
+	action: str | None = None,
 ) -> dict:
 	"""One model call, billed: hold a ceiling, make it, settle the actual.
 
@@ -208,7 +209,7 @@ def call(
 		raise Refused(f"{model} cannot be priced: {raised}") from raised
 
 	spoken = turns or [said(prompt or "")]
-	holding = ledger.reserve(tenant, max(most.credits, _LEAST), why=model, reference=reference)
+	holding = ledger.reserve(tenant, max(most.credits, _LEAST), why=model, reference=reference, action=action)
 	try:
 		answer, wants, body = _said(sold, spoken, caps or {}, tenant, system, tools)
 	except Exception:

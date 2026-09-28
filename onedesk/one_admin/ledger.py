@@ -116,7 +116,9 @@ def grant(
 	return entry.name
 
 
-def reserve(tenant: str, amount: float, why: str | None = None, reference: str | None = None) -> str:
+def reserve(
+	tenant: str, amount: float, why: str | None = None, reference: str | None = None, action: str | None = None
+) -> str:
 	"""Hold credits for a call that is about to be made, or refuse it.
 
 	This is the only place a call is ever refused for money, and it runs before
@@ -143,6 +145,7 @@ def reserve(tenant: str, amount: float, why: str | None = None, reference: str |
 			"credits": amount,
 			"why": why,
 			"reference": reference,
+			"action": action,
 		}
 	)
 	holding.flags.ignore_permissions = True
@@ -309,7 +312,7 @@ def _today() -> date:
 
 
 #: What usage may be grouped by, as the reservation's own columns.
-USAGE_BY = ("tenant", "why", "reference")
+USAGE_BY = ("tenant", "why", "reference", "action")
 
 
 def usage(start, end, by: list[str], tenant: str | None = None, model: str | None = None) -> list:

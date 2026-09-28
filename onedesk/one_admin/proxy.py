@@ -399,6 +399,7 @@ def ai_usage(start: str, end: str) -> dict:
 		],
 		"models": ledger.usage(start, end, ["why"], tenant=tenant),
 		"references": ledger.usage(start, end, ["reference"], tenant=tenant),
+		"actions": ledger.usage(start, end, ["action"], tenant=tenant),
 	}
 
 
@@ -415,6 +416,17 @@ def ai_models(needs: str) -> list[dict]:
 
 	caller()
 	return actions.offered(needs)
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def ai_models_for(needs: str | list) -> dict:
+	"""The models for several capabilities at once, so a screen listing every
+	action asks once rather than once per capability."""
+	from onedesk.one_admin import actions
+
+	caller()
+	return {one: actions.offered(one) for one in sorted(set(frappe.parse_json(needs) or []))}
 
 
 @frappe.whitelist(allow_guest=True)

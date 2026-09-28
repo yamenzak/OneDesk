@@ -18,7 +18,7 @@ frappe.query_reports["AI Credits"] = {
 			fieldname: "by",
 			label: __("By"),
 			fieldtype: "Select",
-			options: ["Model", "Person", "Day"].join("\n"),
+			options: ["Model", "Action", "Person", "Day"].join("\n"),
 			default: "Model",
 		},
 	],

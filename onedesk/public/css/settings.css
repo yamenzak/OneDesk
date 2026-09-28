@@ -490,3 +490,30 @@
 .os-dns-lead {
 	margin: 8px 0;
 }
+
+/* OneAI › Actions: a model is its maker's logo and its name. */
+.os-ai-model {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	white-space: nowrap;
+}
+.os-ai-logo {
+	width: 16px;
+	height: 16px;
+	border-radius: 4px;
+	flex: none;
+}
+.os-ai-about {
+	max-width: 420px;
+}
+.os-ai-picked {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	margin-bottom: var(--margin-md);
+}
+.os-ai-said {
+	white-space: pre-wrap;
+	margin: 8px 0 4px;
+}

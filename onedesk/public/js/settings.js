@@ -34,6 +34,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		frappe.realtime.on("one_mailbox", () => this.key === "mail" && this.$content && this.$content.is(":visible") && this.refresh());
 		// A memory was kept or forgotten, here, in the panel or in another tab.
 		frappe.realtime.on("one_memory", () => this.key === "memory" && this.$content && this.$content.is(":visible") && this.refresh());
+		// An action's model or instructions changed (one_ai/run.py, _told).
+		frappe.realtime.on("one_oneai", () => this.key === "oneai" && this.$content && this.$content.is(":visible") && this.refresh());
 		// A domain started or stopped working (one/account.py, _tell_domains).
 		frappe.realtime.on("one_domains", () => this.key === "domains" && this.$content && this.$content.is(":visible") && this.refresh());
 	}
@@ -1524,40 +1526,183 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
+	// OneAI's actions: what each does, for which product, the model it runs
+	// on (its maker's logo and name) and what it used in the last thirty
+	// days. A row opens it: the model, what is added to it, and Try It.
 	draw_oneai(data) {
 		const esc = frappe.utils.escape_html;
-		const rows = (data.actions || [])
-			.map(
-				(one) => `<div class="one-shell-row" data-action="${esc(one.name)}">
-				<div class="one-shell-row-main"><div class="one-shell-row-title">${esc(one.label)}</div>${one.about ? `<div class="one-shell-quiet">${esc(one.about)}</div>` : ""}</div>
-				<div class="one-shell-row-actions">${frappe.ui.badge.html({ label: one.model || __("Default"), theme: one.model ? "violet" : "gray" })}
-				${onedesk.shell.button(__("Change"), { "data-change": "1" }, "ghost")}</div>
-			</div>`
-			)
-			.join("");
+		const params = frappe.utils.get_query_params();
+		const only = params.product || null;
+		const rows = (data.actions || []).filter((one) => !only || one.product === only);
+		this.page.add_inner_button(__("Knowledge"), () => frappe.set_route("List", "AI Knowledge"));
+		this.page.add_inner_button(__("What Used the Credits"), () => frappe.set_route("query-report", "AI Credits", { by: "Action" }));
+		const note = only
+			? __("{0}'s actions only.", [only])
+			: __("Each thing OneAI does, and the model it runs on. Default is what One picked. Click one to change it.");
 		this.$content.html(
 			onedesk.shell.section(
-				__("What Runs on Which Model"),
-				rows,
-				__("Each thing OneAI does can run on a model you choose, and be told something more. Default is what One picked.")
-			) +
-				onedesk.shell.section(
-					__("Knowledge"),
-					`<div class="one-shell-row"><div class="one-shell-row-main">${esc(__("{0} notes OneAI reads before it answers", [data.knowledge || 0]))}</div>
-				<div class="one-shell-row-actions">${onedesk.shell.button(__("Open"), { "data-knowledge": "1" }, "ghost", "external-link")}</div></div>`
-				)
+				__("Actions"),
+				`${only ? `<div class="one-shell-note"><a class="one-record-link" data-all>${esc(__("Show every action"))}</a></div>` : ""}<div data-list="actions"></div>`,
+				note
+			)
 		);
-		this.$content.find("[data-knowledge]").on("click", () => frappe.set_route("List", "AI Knowledge"));
-		this.$content.find("[data-change]").on("click", (event) => {
-			const name = $(event.currentTarget).closest("[data-action]").attr("data-action");
-			const one = data.actions.find((row) => row.name === name);
-			if (one.setting) frappe.set_route("Form", "AI Action Setting", one.setting);
-			else frappe.new_doc("AI Action Setting", { action: one.name });
+		this.$content.find("[data-all]").on("click", () => {
+			frappe.set_route("workspace-settings", { section: "oneai" });
+			this.open("oneai");
 		});
+		onedesk.shell.table(this.$content.find('[data-list="actions"]'), {
+			rows,
+			page_size: 50,
+			icon: "sparkles",
+			empty: __("No actions are switched on."),
+			columns: [
+				{
+					label: __("Action"),
+					render: (one) => `<div>${esc(one.label)}</div>${one.about ? `<div class="one-shell-quiet os-ai-about">${esc(one.about)}</div>` : ""}`,
+				},
+				{ label: __("Product"), render: (one) => esc(one.product) },
+				{ label: __("Model"), render: (one) => Settings.model_html(Settings.model_of(data.catalogue, one)) },
+				{
+					label: __("Last 30 Days"),
+					render: (one) =>
+						one.calls
+							? `<span title="${esc(__("{0} calls", [one.calls]))}">${esc(__("{0} credits", [format_number(one.credits, null, one.credits < 10 ? 2 : 0)]))}</span>`
+							: `<span class="text-muted">${esc(__("Not used"))}</span>`,
+				},
+			],
+			open: (one) => this.action_dialog(one, data.catalogue),
+		});
+		if (params.action) {
+			const one = rows.find((row) => row.name === params.action);
+			if (one) this.action_dialog(one, data.catalogue);
+		}
+	}
+
+	// The model an action runs on: what it chose, else the catalogue's
+	// default for what it needs. `chosen` says which.
+	static model_of(catalogue, one) {
+		const offered = (catalogue || {})[one.capability] || [];
+		const picked = one.model && offered.find((m) => m.name === one.model);
+		const fallback = offered.find((m) => m.default);
+		if (picked) return { ...picked, chosen: true };
+		if (one.model) return { name: one.model, label: one.model, chosen: true, gone: true };
+		return fallback ? { ...fallback, chosen: false } : null;
+	}
+
+	static model_html(model) {
+		const esc = frappe.utils.escape_html;
+		if (!model) return `<span class="text-muted">${esc(__("Default"))}</span>`;
+		const logo = model.logo ? `<img class="os-ai-logo" src="${esc(model.logo)}" alt="">` : "";
+		const tag = model.chosen ? "" : ` ${frappe.ui.badge.html({ label: __("Default"), theme: "gray" })}`;
+		const gone = model.gone ? ` ${frappe.ui.badge.html({ label: __("No longer offered"), theme: "red" })}` : "";
+		return `<span class="os-ai-model">${logo}<span>${esc(model.label)}</span>${tag}${gone}</span>`;
+	}
+
+	// One action, changed where it is listed: its model, what is added to it,
+	// Try It and Use the Default. Saved against when it was opened, as a
+	// desk form is.
+	action_dialog(one, catalogue) {
+		const esc = frappe.utils.escape_html;
+		const offered = (catalogue || {})[one.capability] || [];
+		const fallback = offered.find((m) => m.default);
+		const options = [
+			{ value: "", label: fallback ? __("Default: {0}", [fallback.label]) : __("Default") },
+			...offered.map((m) => ({ value: m.name, label: `${m.label} · ${m.maker}` })),
+		];
+		const describe = (name) => {
+			const m = offered.find((x) => x.name === name) || fallback;
+			if (!m) return "";
+			const cost =
+				m.read != null && m.written != null
+					? __("About {0} credits per 1,000 words it reads, and {1} per 1,000 it writes.", [format_number(m.read, null, 2), format_number(m.written, null, 2)])
+					: __("Priced per use rather than per word.");
+			return `<div class="os-ai-picked">${Settings.model_html({ ...m, chosen: true })}<div class="one-shell-quiet">${esc(
+				__("Made by {0}, run by {1}.", [m.maker, m.company])
+			)} ${esc(cost)}</div></div>`;
+		};
+		const dialog = new frappe.ui.Dialog({
+			title: one.label,
+			fields: [
+				{ fieldname: "about", fieldtype: "HTML", options: one.about ? `<div class="one-shell-quiet">${esc(one.about)}</div>` : "" },
+				{
+					fieldname: "model",
+					fieldtype: "Select",
+					label: __("Model"),
+					options,
+					default: one.model || "",
+					onchange: () => dialog.fields_dict.picked.$wrapper.html(describe(dialog.get_value("model"))),
+				},
+				{ fieldname: "picked", fieldtype: "HTML" },
+				{
+					fieldname: "extra",
+					fieldtype: "Small Text",
+					label: __("Added Instructions"),
+					default: one.extra || "",
+					description: __("Added to what {0} already does, for everybody who uses it. It never replaces it.", [one.label]),
+				},
+			],
+			primary_action_label: __("Save"),
+			primary_action: async (values) => {
+				await frappe.xcall("onedesk.one_ai.run.set_action", {
+					action: one.name,
+					model: values.model || "",
+					extra: values.extra || "",
+					modified: one.modified || "",
+				});
+				dialog.hide();
+				frappe.show_alert({ message: __("Saved."), indicator: "green" });
+				this.refresh();
+			},
+			secondary_action_label: __("Try It"),
+			secondary_action: () => this.try_action(one, dialog.get_value("model"), dialog.get_value("extra")),
+		});
+		dialog.fields_dict.picked.$wrapper.html(describe(one.model || ""));
+		if (one.setting) {
+			dialog.add_custom_action(__("Use the Default"), () =>
+				frappe.confirm(__("Run {0} on the default model with nothing added?", [esc(one.label)]), async () => {
+					await frappe.xcall("onedesk.one_ai.run.reset_action", { action: one.name });
+					dialog.hide();
+					this.refresh();
+				})
+			);
+		}
+		dialog.show();
+	}
+
+	// Runs the action once as the dialog stands, saved or not. It costs
+	// credits like any call, and says so before it runs.
+	try_action(one, model, extra) {
+		const esc = frappe.utils.escape_html;
+		const asking = new frappe.ui.Dialog({
+			title: __("Try {0}", [one.label]),
+			fields: [
+				{ fieldname: "warn", fieldtype: "HTML", options: `<div class="one-shell-quiet">${esc(__("This runs it once, as it stands in the dialog, and uses the workspace's credits like any other use."))}</div>` },
+				{ fieldname: "text", fieldtype: "Small Text", label: __("Text"), reqd: 1 },
+				{ fieldname: "said", fieldtype: "HTML" },
+			],
+			primary_action_label: __("Run"),
+			primary_action: async (values) => {
+				const where = asking.fields_dict.said.$wrapper;
+				where.html(`<div class="one-shell-quiet">${esc(__("Asking…"))}</div>`);
+				try {
+					const out = await frappe.xcall("onedesk.one_ai.run.try_it", { action: one.name, text: values.text, model: model || "", extra: extra || "" });
+					where.html(
+						`<div class="os-ai-said">${esc(out.said || out.text || "")}</div><div class="one-shell-quiet">${esc(
+							__("{0} credits.", [format_number(out.credits || 0, null, 2)])
+						)}</div>`
+					);
+				} catch (e) {
+					where.empty();
+				}
+			},
+		});
+		asking.show();
 	}
 
 	draw_intake(data) {
 		this.form(data, { before: data.month ? `<div class="one-shell-note">${frappe.ui.badge.html({ label: data.month, theme: "violet" })}</div>` : "" });
+		// What OneIntake's reading runs on is set with the rest of OneAI's actions.
+		this.page.add_inner_button(__("Models"), () => frappe.set_route("workspace-settings", { section: "oneai", product: "OneIntake" }));
 	}
 
 	draw_holidays(data) {

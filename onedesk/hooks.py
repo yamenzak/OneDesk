@@ -719,6 +719,8 @@ one_ai_reads = [
 	"onedesk.one.ai.workspace_plan",
 	# The addresses the workspace opens at, for its administrators.
 	"onedesk.one.ai.workspace_domains",
+	# OneAI's actions, their models and what they cost, for the administrators.
+	"onedesk.one.ai.workspace_oneai",
 	# Documents by what they say, and what they are. See one_intake/search.py.
 	"onedesk.one_intake.search.find_documents",
 	"onedesk.one_hr.ai.my_leave",

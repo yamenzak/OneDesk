@@ -116,3 +116,15 @@ def test_only_a_new_revision_asks_again():
 	assert not space["agreed"]("1.dcae3326", "2.94da7c45")
 	assert not space["agreed"](None, "1.94da7c45")
 	assert '"accepted": agreed(was, version)' in source
+
+
+def test_every_model_provider_offered_is_a_declared_subprocessor():
+	"""A workspace choosing a model chooses who receives its data. Only a
+	provider named here is ever offered (one_admin/actions.offered), and each
+	has to be a subprocessor the agreements name."""
+	from onedesk.one_admin import makers
+
+	assemble.documents()
+	declared = set(registry.SUBPROCESSORS)
+	unnamed = {provider: company for provider, company in makers.PROVIDERS.items() if company not in declared}
+	assert not unnamed, f"Model providers offered without a subprocessor entry: {unnamed}"

@@ -42,7 +42,7 @@ SECTIONS = [
 	("notification_types", _lt("Notifications"), "bell-ring", "workspace"),
 	("plan", _lt("Plan and Credits"), "credit-card", "workspace"),
 	("domains", _lt("Domains"), "globe", "workspace"),
-	("oneai", _lt("OneAI"), "sparkles", "workspace"),
+	("oneai", _lt("OneAI Actions"), "sparkles", "workspace"),
 	("intake", _lt("OneIntake"), "inbox", "workspace"),
 	("holidays", _lt("Holidays"), "calendar-days", "workspace"),
 ]
@@ -1247,15 +1247,54 @@ def _domains() -> dict:
 
 
 def _oneai() -> dict:
-	chosen = {one.action: one for one in frappe.get_all("AI Action Setting", fields=["name", "action", "model", "extra"])}
-	actions = frappe.get_all("AI Action", filters={"enabled": 1}, fields=["name", "label", "about", "capability"], order_by="label asc")
-	return {
-		"actions": [
-			{**one, "label": _(one.label), "about": _(one.about) if one.about else None, "model": (chosen.get(one.name) or {}).get("model"), "setting": (chosen.get(one.name) or {}).get("name")}
-			for one in actions
-		],
-		"knowledge": frappe.db.count("AI Knowledge", {"enabled": 1}),
+	"""Every action, what it runs on, what it used in the last thirty days, and
+	the models it could run on instead, from the account's catalogue. The
+	catalogue and the usage are the account's; either being unreachable leaves
+	the list drawn from what this site knows."""
+	from frappe.utils import add_days, today
+
+	from onedesk.one import account
+
+	chosen = {
+		one.action: one
+		for one in frappe.get_all("AI Action Setting", fields=["name", "action", "model", "extra", "modified"])
 	}
+	actions = frappe.get_all(
+		"AI Action",
+		filters={"enabled": 1},
+		fields=["name", "label", "about", "capability", "product"],
+		order_by="product asc, label asc",
+	)
+	catalogue, used = {}, {}
+	if account.configured():
+		try:
+			catalogue = account.ask(
+				"onedesk.one_admin.proxy.ai_models_for", needs=sorted({one.capability for one in actions})
+			) or {}
+			said = account.ask("onedesk.one_admin.proxy.ai_usage", start=add_days(today(), -29), end=today()) or {}
+			used = {one.get("action"): one for one in said.get("actions") or [] if one.get("action")}
+		except Exception:
+			frappe.log_error(title="OneAI Actions could not ask the account")
+	rows = []
+	for one in actions:
+		held = chosen.get(one.name) or {}
+		spent = used.get(one.name) or {}
+		rows.append(
+			{
+				"name": one.name,
+				"label": _(one.label),
+				"about": _(one.about) if one.about else None,
+				"capability": one.capability,
+				"product": one.product or "OneAI",
+				"model": held.get("model"),
+				"extra": held.get("extra"),
+				"setting": held.get("name"),
+				"modified": str(held.get("modified")) if held.get("modified") else None,
+				"credits": round(float(spent.get("credits") or 0), 2),
+				"calls": int(spent.get("calls") or 0),
+			}
+		)
+	return {"actions": rows, "catalogue": catalogue}
 
 
 def _intake() -> dict:

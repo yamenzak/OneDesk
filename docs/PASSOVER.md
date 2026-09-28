@@ -137,7 +137,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, Workspace | Notifications | done (stages 2 and 5 of NOTIFICATIONS.md) |
 | Settings, Workspace | Plan and Credits | done |
 | Settings, Workspace | Domains | done |
-| Settings, Workspace | OneAI | findings written, waiting on your word |
+| Settings, Workspace | OneAI (now OneAI › Actions) | done |
 | Settings, Workspace | OneIntake | |
 | Settings, Workspace | Holidays | |
 | Products | One home, OneMail, OneCloud, OneCalendar, OneTask, OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, OneAdmin | each screen listed here once we reach it |
@@ -1467,6 +1467,49 @@ list of AI Knowledge.
    page (6b). The rows are hand-drawn (6d). No realtime: a change made by
    another administrator does not redraw an open page; it would with
    `doc_update` on AI Action Setting.
+
+Your word: all of them, with model makers' logos (Google's favicon service,
+v2), a proper list for the actions, and the page under OneAI in the rail.
+
+Done:
+
+- **Where it lives.** The rail's OneAI group now has **Actions** (this page,
+  titled OneAI Actions) and **Knowledge** (the AI Knowledge list) beside
+  Credits, Conversations and Suggestions. It left the Workspace group.
+- **The list.** `shell.table`: Action (with what it does), Product, Model
+  and Last 30 Days. A model is its maker's logo and its name, read from the
+  catalogue and made readable (`makers.pretty`: "Gemma 4 26B A4B IT", not
+  `gemma-4-26b-a4b-it`), with a gray Default when One picked it. The logo
+  is the maker's, not the host's: Meta for Llama even though Cloudflare
+  runs it (`one_admin/makers.py`).
+- **Change is a dialog on the page**: Model (every model on offer that can
+  do it, named with its maker), what the picked one is (made by, run by,
+  and about how many credits per thousand words read and written), Added
+  Instructions, **Try It** (runs what the dialog holds, saved or not, and
+  says it uses credits before it runs), **Use the Default** and **Save**,
+  which refuses when another administrator changed it since it was opened.
+  The old desk form sends its reader here.
+- **What each action costs.** Every reservation now records its action
+  (`Credit Reservation.action`, from `actions.run` through the gateway),
+  `ai_usage` answers by action, the list shows the last thirty days, and
+  the AI Credits report has **Action** in By. Calls from before this show
+  as Other.
+- **Grouped by product**: `AI Action.product` (OneAI, OneIntake, OneHR,
+  OneMail), labels in Title Case. OneIntake's page has **Models**, which
+  opens this list showing its actions only.
+- **Notice**: OneAI Changed, on the bell, to every other administrator,
+  saying what changed ("the model to Gemini 3 Flash Preview", "the added
+  instructions"). The page redraws on `one_oneai`.
+- **OneAI**: the page sentence, **Which actions cost the most?** and **Is
+  there a cheaper model that would do?**, read by `workspace_oneai`.
+- **Legal**: `makers.PROVIDERS` is every provider a workspace's data may go
+  to; `actions.offered` never offers another, and
+  `test_every_model_provider_offered_is_a_declared_subprocessor` holds it
+  to the Subprocessors list.
+- `one/README.md` has OneAI Actions, for the Workspace, with Knowledge.
+
+Not done: `one_ai/` still has no README of its own; that is the OneAI
+product's screen, when the pass reaches it.
 
 ## OneLegal
 

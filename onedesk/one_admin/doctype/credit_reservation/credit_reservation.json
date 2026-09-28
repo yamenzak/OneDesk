@@ -14,7 +14,8 @@
   "settled",
   "why_section",
   "why",
-  "reference"
+  "reference",
+  "action"
  ],
  "fields": [
   {
@@ -75,6 +76,14 @@
    "fieldtype": "Data",
    "label": "Reference",
    "read_only": 1
+  },
+  {
+   "fieldname": "action",
+   "fieldtype": "Data",
+   "label": "Action",
+   "read_only": 1,
+   "search_index": 1,
+   "description": "The AI Action the call was made for, so a workspace can see what each costs."
   }
  ],
  "index_web_pages_for_search": 0,

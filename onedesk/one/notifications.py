@@ -197,4 +197,16 @@ TYPES = [
 		"email": False,
 		"always_mailed": True,
 	},
+	{
+		"name": _lt("OneAI Changed"),
+		"app": "One",
+		"about": _lt("When another administrator changes the model or the added instructions of one of OneAI's actions."),
+		"to": _lt("Every other administrator"),
+		"subject": _lt("{by} changed {action}"),
+		"message": _lt(
+			"{by} changed {what} for {action}. It applies to everybody's use of it from now on, and may change "
+			"what it costs. See OneAI › Actions."
+		),
+		"email": False,
+	},
 ]

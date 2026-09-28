@@ -426,7 +426,7 @@ names where it came from. When nothing covers the question, OneAI says so.
 
 Each is one AI call per event and uses the workspace's AI credits. Comments
 from these are written by a user called **OneAI**. Which model each uses is set
-on the OneAI settings screen: **Screen applicants**, **Interviews**,
+on the OneAI settings screen: **Screen Applicants**, **Interviews**,
 **Grievances** and **Transcribe**. Transcribe needs a model that reads audio.
 
 ## Under the hood

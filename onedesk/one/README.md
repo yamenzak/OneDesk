@@ -528,6 +528,42 @@ changes the main address.
 
 **OneAI on this page** offers **Why is our domain not working?**
 
+### OneAI Actions, for the Workspace
+
+Under **OneAI** in the sidebar, **Actions** is every thing OneAI does in this
+workspace, with the model each runs on. Only administrators see it and
+change it.
+
+- The list shows each action, the product it works for (OneAI, OneIntake,
+  OneHR, OneMail), its model with its maker's logo, and the credits it used
+  in the last thirty days. **Default** means One picked the model.
+- Click an action to change it. **Model** lists the models on offer that can
+  do what it needs, with who made them, who runs them and roughly what they
+  cost per thousand words read and written. **Added Instructions** are
+  added to what the action already does, for everybody who uses it, such as
+  "answer in Arabic" or "keep it to three lines". They never replace what it
+  was told, so they cannot make it touch what it may not.
+- **Try It** runs the action once on some text you type, as it stands in the
+  dialog, saved or not. It uses credits like any other use, and says so
+  first.
+- **Use the Default** puts the action back on One's model with nothing added.
+- **Save** refuses if another administrator changed the action since you
+  opened it; close it and open it again.
+- **What Used the Credits** opens the AI Credits report by action.
+- OneIntake's settings page has **Models**, which opens this list showing
+  OneIntake's actions only.
+
+**Knowledge**, beside Actions, is the notes OneAI reads before it answers:
+policies, a glossary, how things are done here. Administrators write them;
+everybody can read them, because OneAI reads them as the person asking.
+
+Every other administrator is told on the bell when somebody changes an
+action's model or its added instructions. The models on offer come only from
+companies listed in the Subprocessors agreement.
+
+**OneAI on this page** offers **Which actions cost the most?** and **Is
+there a cheaper model that would do?**
+
 ## Customizing a Form
 
 **Customize** on any form's menu opens the form's own customization page, for

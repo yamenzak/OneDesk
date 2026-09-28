@@ -13,7 +13,7 @@ from frappe.utils import add_days, getdate
 from onedesk.one import account, roles
 
 #: How the table is cut.
-BY = ("Model", "Person", "Day")
+BY = ("Model", "Action", "Person", "Day")
 
 
 def execute(filters=None):
@@ -31,13 +31,14 @@ def execute(filters=None):
 		frappe.throw(frappe._("The account could not be reached just now. Try again in a moment."))
 	except faults.Refused as raised:
 		frappe.throw(frappe.utils.strip_html(str(raised)))
-	rows = {"Model": _by_model, "Person": _by_person, "Day": _by_day}[by](said)
+	rows = {"Model": _by_model, "Action": _by_action, "Person": _by_person, "Day": _by_day}[by](said)
 	return _columns(by), rows, None, _chart(said, start, end), _summary(said)
 
 
 def _columns(by: str) -> list[dict]:
 	first = {
 		"Model": {"fieldname": "what", "label": frappe._("Model"), "fieldtype": "Data", "width": 260},
+		"Action": {"fieldname": "what", "label": frappe._("Action"), "fieldtype": "Data", "width": 260},
 		"Person": {"fieldname": "what", "label": frappe._("Person"), "fieldtype": "Link", "options": "User", "width": 240},
 		"Day": {"fieldname": "what", "label": frappe._("Day"), "fieldtype": "Date", "width": 140},
 	}[by]
@@ -58,6 +59,16 @@ def _by_model(said: dict) -> list[dict]:
 	from onedesk.one_ai.chat import named
 
 	return [_row(named(one.get("why")), one.get("calls"), one.get("credits")) for one in said.get("models") or []]
+
+
+def _by_action(said: dict) -> list[dict]:
+	"""Each action by its name here. A call made before actions were recorded
+	on the ledger has none, and is counted as Other."""
+	labels = dict(frappe.get_all("AI Action", fields=["name", "label"], as_list=True))
+	return [
+		_row(frappe._(labels.get(one.get("action")) or one.get("action") or "Other"), one.get("calls"), one.get("credits"))
+		for one in said.get("actions") or []
+	]
 
 
 def _by_day(said: dict) -> list[dict]:
