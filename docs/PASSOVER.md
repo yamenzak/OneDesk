@@ -1971,6 +1971,96 @@ is a dialog, so it never got one. Now (`oneai.js` `compose`):
   mark, the chips, and a card applied into the window with the signature
   and quote kept.
 
+### OneCloud
+
+OneCloud is its own page (`public/js/onecloud.js`, 2,145 lines): an
+explorer with a tree on the left (My Files, Recent, Starred, Shared with Me,
+Libraries, Company, Records, Mail, Network, Requests, Recycle Bin), the
+folder in the middle, and a preview pane with details and activity on the
+right. The same explorer opens as a record's Files tab and as the picker.
+
+1. **Notifications**: nine types. Shared with you, added to a library,
+   file requests (sent, reminded, answered, complete), uploads through a
+   link, a link shared with an address, and its code. Storage Nearly Full
+   is One's, and Attachments Not Saved is OneMail's. They read well. Holds.
+2. **OneAI**: the panel knows only that this is "Files": no page sentence,
+   no suggestions, nothing about the open folder or the selected file. The
+   only OneAI part is OneIntake's **Read with OneAI…** on a folder.
+   Recommended:
+   - a page sentence naming the open folder and the selected file (only
+     what the reader may open);
+   - a reader, `open_file`, that reads a text, PDF or office file's text as
+     the reader;
+   - suggestions: with a file selected, **Summarise this file** and **Who
+     can see this?**; in a folder, **Find a file…** (a fill chip, "Find the
+     file that…", searched by meaning through OneIntake's search) and
+     **What is taking the space?**.
+3. **Intake**: **Read with OneAI…** turns reading on for a folder, and a
+   file OneAI read carries its panel. But the item is on every file's menu
+   too, greyed out, because it only works on a folder. **Connect as a
+   drive…** is the same. Recommended: hide what cannot apply to a file,
+   and on a file offer **Read with OneAI** once, for that file.
+4. **Permissions**: My Files is the owner's; Shared, Libraries and Company
+   follow their members and roles; anybody on the team may connect a
+   server under Network, for themselves or shared with the team, and only
+   its owner or an administrator changes it; Storage Check is for
+   administrators; a record's files follow the record. Two leaks:
+   - **Records counts every file of a type**, not what the reader may
+     open: "Employee 3" shows to somebody who may open one employee. The
+     list under it is filtered (`get_list`); the count is not
+     (`record_doctypes`). Recommended: count what they may read, or show no
+     count.
+   - **Records lists AI Chat and ToDo**: a OneAI conversation's uploads
+     and an assignment's are not "records" anybody files by. Recommended:
+     add both to `UNLISTED`.
+5. **Cross-module**: mail attachments are under Mail, record files under
+   Records, OneWriter and OneWorkbook open from here, and OneIntake reads
+   folders. Two gaps:
+   - **New has no Document or Workbook**: only folder, upload and file
+     request. Recommended: **Document** and **Workbook** in New, made in
+     the open folder and opened in their window.
+   - Record types show their doctype names ("ToDo", "AI Chat"); the rest
+     of One calls them what the product calls them.
+6. **UI and UX**:
+   - a. The page is titled **Files**; the product is OneCloud (as Mail was
+     for OneMail).
+   - b. With nothing selected, the preview pane is a large empty column
+     saying "Select a file to preview it." Recommended: the folder's own
+     details there (items, size, who can see it, reading on or off), which
+     is what Windows and Drive show.
+   - c. Requested files land in a folder named after the sender's address
+     ("vendor@example.org") in the folder the request was made in, so My
+     Files fills with email addresses. Recommended: one folder per request,
+     named after it, with a folder per sender inside it named by their
+     name.
+7. **Documented**: `one_storage/README.md` covers finding your way,
+   sharing, libraries, versions, the drive, servers, requests and limits.
+   Nothing says what OneAI does here (Read with OneAI is not mentioned).
+   Recommended: an **Asking OneAI** section, with 2 and 3.
+8. **Legal**: R2 is a subprocessor and `onecloud-files` says where files
+   are kept. Not said anywhere: that files can be shared outside the
+   workspace by link, and that people outside can upload through a file
+   request, so the workspace holds what third parties send. Also that a
+   connected server's password is kept, encrypted, to reach it. Recommended:
+   a clause `onecloud-outside` in the privacy notice, and, if 2 is built,
+   a line in the AI Addendum that a file's text goes to the model when
+   asked.
+9. **Built from frappe**: dialogs are `frappe.ui.Dialog`, and changes
+   arrive through `frappe.realtime` (`doctype_subscribe("File")`,
+   `onecloud_change`). But the desk ships parts this page draws by hand:
+   - the right-click menu is ours (`menu()`), and frappe has
+     `frappe.ui.ContextMenu`;
+   - the New menu is ours, and frappe has `frappe.ui.Dropdown`;
+   - every toolbar button is hand-written `es-button` markup rather than
+     `frappe.ui.button.html`;
+   - the crumbs are hand-written `es-breadcrumbs` rather than
+     `frappe.ui.breadcrumbs`;
+   - the empty preview is ours, and frappe has `frappe.ui.empty_state`;
+   - the search box is a bare `<input>` rather than a frappe control.
+   The path box and the rename-in-place box are explorer parts frappe has
+   no equivalent for, so they stay ours, drawn like a frappe-ui TextInput.
+   Recommended: move each of the six onto frappe's part.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
