@@ -2113,6 +2113,89 @@ Done:
   suggestions with a file chosen, Records; `open_file` read a fresh file
   on the dev site. No model was called.
 
+### OneCalendar
+
+OneCalendar is its own page (`one_calendar/page/onecalendar`): the layers on
+the left in two groups, Mine and Workspace, and frappe's own FullCalendar on
+the right with Month, Week, Day and List. Every dated thing in One is a
+layer read as the reader (`layers.py`); nothing is copied. Add Event makes a
+frappe Event, Subscribe gives a private link for Google, Apple or Outlook,
+and a record's own calendar is the same page with `?doctype=&name=`.
+
+1. **Notifications**: One sends nothing about events.
+   - Nobody is told they were invited, or that an event they are on moved
+     or was cancelled.
+   - The only mail is frappe's own morning digest, "Upcoming Events for
+     Today" (`send_event_digest`). It goes around One's notification hub,
+     in frappe's template, and it leaves out events you are only invited
+     to (frappe's `get_events`). Settings calls it "Mails you before an
+     event of yours starts", which it does not do.
+   - frappe's Event has a reminders table (a notification some minutes
+     before), but nothing sends it.
+   Recommended: four types in `one_calendar/notifications.py`, through the
+   hub: **Invited to an Event** (to each person added, with when and where),
+   **Event Changed** (its time or place, to everybody on it), **Event
+   Cancelled**, and **Starting Soon** (from the event's reminders, default
+   ten minutes before, as a push and in the bell). And the morning digest
+   as One's own **Today's Events**, from `events.mine`, replacing frappe's.
+2. **OneAI**: the panel knows only that this is "Calendar": no page
+   sentence, no suggestions, nothing it can read. Recommended:
+   - a page sentence naming the days shown (and the record, on a record's
+     calendar);
+   - a reader, `my_calendar(start, end)`, which is `layers.entries` as the
+     reader;
+   - a reader, `busy_times(people, start, end)`, when colleagues are busy
+     and never what the event is;
+   - a suggest, `plan_event`: a card that makes the event when approved;
+   - suggestions: **What is on this week?**, **Find a time to meet…** (a
+     fill chip, "Find a time this week to meet "), and **Plan my day**.
+3. **Intake**: an invitation OneIntake reads (an `.ics` in mail or a file)
+   becomes an event shared with the person it is for (`planning.make_event`),
+   and OneIntake's deadlines are a layer. Holds.
+4. **Permissions**: each layer reads as the reader; an event about a record
+   is seen by the record's readers and opens the record; Public is kept to
+   Workspace Administrator and HR Manager on save (`events.validate`);
+   Who's Off needs leave to be readable. Holds.
+5. **Cross-module**: tasks, projects, deals and leads, leave and
+   interviews, maintenance, and OneIntake's deadlines are all layers; a
+   project, deal, lead or employee has a Calendar button. Two gaps:
+   - **The workspace's days off are not on it**: Holidays shows the
+     holiday list without the weekly days off, and a weekend looks like any
+     other day. Recommended: holidays and weekly days off drawn as a shaded
+     background, as the desk shades non-working hours.
+   - **An event has no people from the calendar**: inviting somebody means
+     opening the event's own form. Recommended: **Invite** in Add Event
+     (team members by name, shared with them; outside guests by address,
+     as participants), and outside guests mailed an invitation with the
+     `.ics` so it lands in their own calendar.
+6. **UI and UX**:
+   - a. The page is titled **Calendar**; the product is OneCalendar.
+   - b. **Clicking an event leaves the calendar** for frappe's Event form.
+     Recommended: a small card on the event (`frappe.ui.Popover`) with
+     when, where, who, the description, a Join link when there is one, and
+     Open and Delete; the form stays one press away.
+   - c. The page does not update while it is open: an event somebody adds
+     or moves appears only on reload.
+7. **Documented**: `one_calendar/README.md` is the manual above Under the
+   hood and OneAI answers from it. When 1, 2 and 5 are built they get their
+   paragraphs.
+8. **Legal**: `calendar-link` covers the subscription. Not said: that
+   frappe's **Google Calendar** connection (Setup) sends events to the
+   Google account it is connected to, both ways, and a Meet link is made by
+   Google. Recommended: a line in `calendar-link`'s document, and, if 2 is
+   built, the AI Addendum says a calendar is read when asked, and that busy
+   times are read without what they are.
+9. **Built from frappe**: FullCalendar is the one frappe bundles, the
+   toolbar is the desk calendar's own (`frappe.ui.button`,
+   `frappe.ui.TabButtons`, `frappe.ui.Popover` date jumper), Add Event is a
+   `frappe.ui.Dialog`, and the layers and view are frappe user settings.
+   Two things are not:
+   - **the layer switches are bare `<input type="checkbox">`**, and
+     frappe's Check control is the part;
+   - **nothing listens on `frappe.realtime`** (6c): frappe's
+     `doctype_subscribe("Event")` and `list_update` are how a screen hears
+     of a change.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
