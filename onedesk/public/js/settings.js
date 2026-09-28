@@ -1396,8 +1396,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				(target
 					? onedesk.shell.section(
 							__("The DNS Record"),
-							Settings.dns_records(waiting.length ? waiting : [null], target) +
-								`<div class="one-shell-quiet one-shell-note">${esc(Settings.dns_note())}</div>`,
+							Settings.dns_records(waiting.length ? waiting : [null], target) + Settings.dns_note(waiting),
 							waiting.length
 								? __("Make this where your domain's DNS is kept. It works a few minutes after the record is right.")
 								: __("What a domain of your own needs, where its DNS is kept.")
@@ -1477,10 +1476,14 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		return `<table class="os-dns"><thead><tr><th>${esc(__("Type"))}</th><th>${esc(__("Name"))}</th><th>${esc(__("Value"))}</th></tr></thead><tbody>${rows}</tbody></table>`;
 	}
 
-	static dns_note() {
-		return __(
-			"Some DNS providers want only the part before your domain as the name, such as office. A bare domain such as example.com works only where your provider can point it with a CNAME, which some call ALIAS or flattening; otherwise use a subdomain such as www."
-		);
+	// Said only when it applies: a bare domain (acme.com) can take a CNAME
+	// only where the DNS provider flattens it.
+	static dns_note(names) {
+		const bare = names.filter((name) => name && name.split(".").length === 2);
+		if (!bare.length) return "";
+		return `<div class="one-shell-quiet os-dns-lead">${frappe.utils.escape_html(
+			__("{0} is a bare domain. It works only if your DNS provider allows a CNAME there, which some call ALIAS. www.{0} always works.", [bare[0]])
+		)}</div>`;
 	}
 
 	// The domain and the record it needs, together. Adding does not wait on
@@ -1507,13 +1510,15 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				this.refresh();
 			},
 		});
-		const draw = () =>
+		const draw = () => {
+			const name = (dialog.get_value("domain") || "").trim().toLowerCase() || null;
 			dialog.fields_dict.record.$wrapper.html(
 				`<div class="one-shell-quiet os-dns-lead">${frappe.utils.escape_html(__("Make this record where the domain's DNS is kept."))}</div>${Settings.dns_records(
-					[(dialog.get_value("domain") || "").trim().toLowerCase() || null],
+					[name],
 					target
-				)}<div class="one-shell-quiet os-dns-lead">${frappe.utils.escape_html(Settings.dns_note())}</div>`
+				)}${Settings.dns_note([name])}`
 			);
+		};
 		draw();
 		dialog.$wrapper.on("click", "[data-copy]", (event) => frappe.utils.copy_to_clipboard($(event.currentTarget).attr("data-copy")));
 		dialog.show();

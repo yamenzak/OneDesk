@@ -513,10 +513,9 @@ Only its administrators see it and change it.
   the record: the domain shows **Waiting** until the record is right, and
   works a few minutes after that, once its certificate is issued.
 - **The DNS Record** shows the record each domain still waiting needs.
-- Some DNS providers want only the part before your domain as the name, such
-  as office. A bare domain such as example.com works only where your provider
-  can point it with a CNAME (called ALIAS or flattening by some); otherwise
-  use a subdomain such as www or app.
+- A bare domain such as acme.com works only if your DNS provider allows a
+  CNAME there (some call it ALIAS); the page says so when you type one.
+  www.acme.com always works.
 - **Check Again** asks now; the domains are also checked every night, and the
   page redraws on its own when one starts or stops working.
 - **Remove** stops the workspace opening at that domain.
