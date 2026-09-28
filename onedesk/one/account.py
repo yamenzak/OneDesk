@@ -127,6 +127,9 @@ def refresh() -> dict:
 	)
 	_keep(held, said.get("domains"), said.get("add_ons"))
 	_tell(before, held)
+	from onedesk.one import bills
+
+	bills.keep_supplier(said.get("seller"))
 	return held.as_dict()
 
 

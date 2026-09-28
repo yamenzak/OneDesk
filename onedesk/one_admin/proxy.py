@@ -182,6 +182,8 @@ def hello(database_bytes: int | None = None) -> dict:
 		"database_bytes": known.database_bytes or 0,
 		"database_limit": known.database_limit or 0,
 		"add_ons": _add_ons(tenant.name),
+		# Who its invoices are from, so its books can know us as a supplier.
+		"seller": billing.seller(),
 		"storage_bytes": known.storage_bytes or 0,
 		"storage_limit": known.storage_limit or 0,
 		# A sum over the ledger rather than a number anybody stored, which is
@@ -296,6 +298,33 @@ def plans_take(plan: str, extras: str | dict | None = None, seats_used: int = 0)
 	from onedesk.one_admin import billing
 
 	return billing.take(caller().name, plan, frappe.parse_json(extras) or {}, cint(seats_used))
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def billing_invoices() -> dict:
+	"""This workspace's invoices, and who they are from."""
+	from onedesk.one_admin import billing
+
+	return billing.invoices(caller().name)
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def billing_invoice(invoice: str) -> dict:
+	"""One of this workspace's invoices with its lines."""
+	from onedesk.one_admin import billing
+
+	return billing.invoice(caller().name, invoice)
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def billing_portal(back: str) -> dict:
+	"""Stripe's billing portal for this workspace."""
+	from onedesk.one_admin import billing
+
+	return {"url": billing.portal(caller().name, back)}
 
 
 def _add_ons(tenant: str) -> list[dict]:

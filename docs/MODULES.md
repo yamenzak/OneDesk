@@ -186,6 +186,9 @@ No doctypes yet.
 * `onedesk.one.account.plans_offered`
 * `onedesk.one.account.plans_quote`
 * `onedesk.one.account.plans_take`
+* `onedesk.one.bills.invoices`
+* `onedesk.one.bills.payment_portal`
+* `onedesk.one.bills.to_books`
 * `onedesk.one.customize.export`
 * `onedesk.one.customize.load`
 * `onedesk.one.customize.reset`
@@ -234,6 +237,9 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.ai_models`
 * `onedesk.one_admin.proxy.ai_run`
 * `onedesk.one_admin.proxy.ai_usage`
+* `onedesk.one_admin.proxy.billing_invoice`
+* `onedesk.one_admin.proxy.billing_invoices`
+* `onedesk.one_admin.proxy.billing_portal`
 * `onedesk.one_admin.proxy.buy_credits`
 * `onedesk.one_admin.proxy.credit_packs`
 * `onedesk.one_admin.proxy.domain_add`

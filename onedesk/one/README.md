@@ -460,6 +460,17 @@ side says when they were last heard; **Check Again**, at the top, asks now.
 - A change that would leave the workspace over what it uses (more people
   turned on than seats, more files than storage) is refused and says what
   to clear first.
+- **Invoices** lists what One has charged the workspace, newest first:
+  the date, the number, the amount and whether it is paid. Click one for
+  Stripe's own copy; **PDF** downloads it. A paid invoice has **Add to
+  OneBook**, which makes it a draft bill from the supplier One in your own
+  books, with its lines, for you to check and submit; after that the
+  column links to the bill. Nothing is added to your books unless you ask.
+  When OneIntake reads one of your mailboxes, One is added as a supplier,
+  so a receipt Stripe mails is recognised and drafted by OneIntake itself;
+  either way the same invoice is only ever booked once.
+- **Payment Method**, at the top, opens Stripe's billing page: the card,
+  the billing address and past receipts.
 - **OneAI Credits** is what is left, what calls running now are holding,
   what was used in the last thirty days, and how many expire when. The
   plan's monthly credits expire at the end of the month and are used

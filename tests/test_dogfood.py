@@ -58,3 +58,19 @@ def test_the_books_run_on_the_admin_site_only():
 		for function in functions:
 			body = source.split(function, 1)[1].split("\ndef ", 1)[0]
 			assert "site.is_admin()" in body, f"{name} {function}"
+
+
+def test_a_workspace_books_our_invoice_only_when_asked_and_only_once():
+	"""Add to OneBook is a button: nothing writes a bill into a workspace's
+	books on its own, and a bill with the same number is found, not doubled
+	(OneIntake finds it the same way)."""
+	bills = (tree.APP / "one" / "bills.py").read_text(encoding="utf-8")
+	body = bills.split("def to_books", 1)[1].split("\ndef ", 1)[0]
+	assert "roles.require()" in body and "_bill(" in body
+	assert '"Purchase Invoice"' in body and ".submit()" not in body, (
+		"a bill from One is a draft for somebody to check"
+	)
+	keep = bills.split("def keep_supplier", 1)[1].split("\ndef ", 1)[0]
+	assert '"one_intake": 1' in keep, "One is a supplier unasked only where OneIntake reads mail"
+	money = (tree.APP / "one_intake" / "money.py").read_text(encoding="utf-8")
+	assert 'ctx.get("existing_invoice")' in money

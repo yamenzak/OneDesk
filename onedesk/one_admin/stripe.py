@@ -377,6 +377,13 @@ def _get(path: str) -> dict:
 	return _call("get", path)
 
 
+def portal(customer: str, back: str) -> str:
+	"""A billing portal session for a customer: Stripe's own page for their
+	card, billing address and receipts, coming back to `back`."""
+	site.require_admin()
+	return _post("billing_portal/sessions", {"customer": customer, "return_url": back}).get("url")
+
+
 def fetch(path: str, params: dict | None = None) -> dict:
 	"""Read one Stripe object or list, for the books (books.py)."""
 	site.require_admin()

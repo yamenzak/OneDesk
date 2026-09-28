@@ -1013,6 +1013,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			actions: [
 				{ label: __("Storage, Database or Seats"), action: () => this.add_to_plan(data), group: __("Add") },
 				{ label: __("OneAI Credits"), action: () => this.buy_credits(), group: __("Add") },
+				{ label: __("Payment Method"), action: () => this.payment_portal() },
 				{ label: __("Check Again"), action: () => this.check_again() },
 			],
 		});
@@ -1063,6 +1064,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 						(add_ons ? `<div class="os-add-ons"><div class="one-shell-section-title"><span>${esc(__("Added to the Plan"))}</span></div>${add_ons}</div>` : "")
 				) +
 				onedesk.shell.section(
+					__("Invoices"),
+					'<div data-list="invoices"><div class="one-shell-quiet">' + esc(__("Asking for them…")) + "</div></div>",
+					__("What One has charged the workspace. Each opens Stripe's own copy; Add to OneBook makes it a draft bill in your books.")
+				) +
+				onedesk.shell.section(
 					__("OneAI Credits"),
 					facts([
 						[__("Left"), esc(number(account.credits_balance))],
@@ -1078,6 +1084,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					__("The last {0} days: what came in, and what OneAI used each day. Click a day to see who and what used it.", [data.ledger_days])
 				)
 		);
+		this.draw_invoices(this.$content.find('[data-list="invoices"]'));
 		// One at a time: 2 × 1 GB becomes 1 × 1 GB, the last one comes off.
 		this.$content.find("[data-add-on] [data-drop]").on("click", (event) => {
 			const key = $(event.currentTarget).closest("[data-add-on]").attr("data-add-on");
@@ -1111,6 +1118,59 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				open: (one) => one.day && frappe.set_route("query-report", "AI Credits", { from_date: one.day, to_date: one.day, by: "Person" }),
 			});
 		}
+	}
+
+	// The workspace's Stripe invoices, asked for after the page is drawn so
+	// the page does not wait on Stripe. Each opens Stripe's own page; one not
+	// yet in this workspace's books can be added as a draft bill (one/bills.py).
+	async draw_invoices($into) {
+		const esc = frappe.utils.escape_html;
+		let said;
+		try {
+			said = await frappe.xcall("onedesk.one.bills.invoices");
+		} catch (e) {
+			return $into.html(`<div class="one-shell-quiet">${esc(__("The invoices could not be fetched just now."))}</div>`);
+		}
+		const themes = { paid: "green", open: "orange", uncollectible: "red", void: "gray" };
+		const states = { paid: __("Paid"), open: __("Due"), uncollectible: __("Unpaid"), void: __("Void") };
+		const list = await onedesk.shell.table($into.empty(), {
+			rows: said.invoices || [],
+			page_size: 12,
+			icon: "receipt",
+			empty: __("No invoices yet."),
+			columns: [
+				{ label: __("Date"), render: (one) => esc(frappe.datetime.str_to_user(frappe.datetime.obj_to_str(new Date(one.created * 1000)))) },
+				{ label: __("Number"), fieldname: "number" },
+				{ label: __("Amount"), render: (one) => esc(format_currency(one.total, one.currency)) },
+				{ label: __("Status"), render: (one) => frappe.ui.badge.html({ label: states[one.status] || one.status, theme: themes[one.status] || "gray" }) },
+				{
+					label: __("In OneBook"),
+					render: (one) =>
+						one.bill
+							? `<a class="one-record-link" href="${esc(frappe.utils.get_form_link("Purchase Invoice", one.bill))}">${esc(one.bill)}</a>`
+							: one.status === "paid"
+							? onedesk.shell.button(__("Add to OneBook"), { "data-book": one.id }, "subtle")
+							: "",
+				},
+				{ label: "", render: (one) => (one.pdf ? `<a class="one-record-link" href="${esc(one.pdf)}" target="_blank" rel="noopener">${esc(__("PDF"))}</a>` : "") },
+			],
+			open: (one) => one.page && window.open(one.page, "_blank", "noopener"),
+		});
+		// The button is inside a row that opens Stripe's page: it acts, and the row does not.
+		$into.on("click", "[data-book]", async (event) => {
+			event.stopPropagation();
+			const bill = await frappe.xcall("onedesk.one.bills.to_books", { invoice: $(event.currentTarget).attr("data-book") });
+			frappe.show_alert({ message: __("Added to OneBook as a draft bill."), indicator: "green" });
+			frappe.set_route("Form", "Purchase Invoice", bill);
+		});
+		$into.on("click", "a[target=_blank]", (event) => event.stopPropagation());
+		return list;
+	}
+
+	// Stripe's billing portal, in a new tab: the card, the billing address, old receipts.
+	async payment_portal() {
+		const said = await frappe.xcall("onedesk.one.bills.payment_portal");
+		if (said && said.url) window.open(said.url, "_blank", "noopener");
 	}
 
 	// Make the plan this with exactly these add-ons (one_admin/billing.py),

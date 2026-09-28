@@ -194,3 +194,73 @@ def _log(slug: str, kind: str, plan: str, extras: dict) -> None:
 	frappe.get_doc({"doctype": "Tenant Event", "tenant": slug, "kind": kind, "detail": detail}).insert(
 		ignore_permissions=True
 	)
+
+
+# ------------------------------------------------------------------ invoices
+
+
+def invoices(tenant: str) -> dict:
+	"""The workspace's Stripe invoices, newest first, as its own screen lists
+	them, and who they are from."""
+	site.require_admin()
+	customer = frappe.db.get_value("Tenant", tenant, "stripe_customer")
+	if not customer:
+		return {"invoices": [], "seller": seller()}
+	found = stripe.fetch("invoices", {"customer": customer, "limit": 24}).get("data") or []
+	return {"invoices": [_said(one) for one in found if one.get("status") != "draft"], "seller": seller()}
+
+
+def invoice(tenant: str, invoice_id: str) -> dict:
+	"""One of the workspace's invoices with its lines, for its own books.
+	Refused when it is another customer's."""
+	site.require_admin()
+	held = stripe.fetch(f"invoices/{invoice_id}")
+	if held.get("customer") != frappe.db.get_value("Tenant", tenant, "stripe_customer"):
+		raise Refused(_("That is not one of this workspace's invoices."))
+	said = _said(held)
+	said["lines"] = [
+		{
+			"description": line.get("description") or "",
+			"quantity": max(1, int(line.get("quantity") or 1)),
+			"amount": flt(line.get("amount")) / 100,
+			"offering": ((line.get("price") or {}).get("metadata") or {}).get("offering"),
+		}
+		for line in (held.get("lines") or {}).get("data") or []
+	]
+	said["seller"] = seller()
+	return said
+
+
+def portal(tenant: str, back: str) -> str:
+	"""Stripe's billing portal for the workspace: its card, its billing
+	address, its receipts. Stripe draws it; we only open it."""
+	site.require_admin()
+	customer = frappe.db.get_value("Tenant", tenant, "stripe_customer")
+	if not customer:
+		raise Refused(_("This workspace has no billing account yet."))
+	return stripe.portal(customer, back)
+
+
+def seller() -> dict:
+	"""Who the invoices are from, as a workspace's books name a supplier: the
+	admin site's company, with what OneIntake recognises it by."""
+	from onedesk.one_admin import books
+
+	held = frappe.db.get_value(
+		"Company", books.company(), ["company_name", "tax_id", "website", "email", "phone_no"], as_dict=True
+	) or {}
+	return {key: value for key, value in held.items() if value}
+
+
+def _said(one: dict) -> dict:
+	return {
+		"id": one.get("id"),
+		"number": one.get("number") or one.get("id"),
+		"created": one.get("created"),
+		"currency": (one.get("currency") or "usd").upper(),
+		"total": flt(one.get("total")) / 100,
+		"paid": flt(one.get("amount_paid")) / 100,
+		"status": one.get("status"),
+		"page": one.get("hosted_invoice_url"),
+		"pdf": one.get("invoice_pdf"),
+	}
