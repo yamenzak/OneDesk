@@ -2244,6 +2244,28 @@ Done:
   guest. In the browser: the column, the card, New Event and the panel's
   suggestions. No model was called.
 
+Your word, after: the New Event dialog wanted polish, and so did any dialog
+an earlier pass left as one long column.
+
+Done:
+
+- **New Event**: laid out with frappe's own Section and Column Breaks.
+  Subject; Starts On and All Day beside Ends On; Location beside Invite;
+  Guests; and a collapsed **More** with the description and, for whoever
+  may publish, On Everybody's Calendar.
+- **OneCloud's Create link**: Can download beside Can upload, Expires on
+  beside Password.
+- **OneCloud's Connect a server**: Name and Server beside Kind and Port,
+  the folder, **Sign In** (user name beside password), and a collapsed
+  **Sign In With a Key**. A frappe dialog hides a section whose fields all
+  have `depends_on`, so the key has none and says it is for SFTP.
+- **Ask for files** said files land in the folder asked from; they land in
+  a folder of their own there, named after the request, one per person
+  when several are asked. The note now says so.
+- Checked and already right: Connect a mailbox (OneMail) and Ask for files
+  were laid out with breaks. Every other dialog from the passes holds one
+  to four fields and needs none.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

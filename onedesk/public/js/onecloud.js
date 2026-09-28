@@ -1400,9 +1400,15 @@ onedesk.OneCloud = class OneCloud {
 					depends_on: "eval:doc.audience=='Invited people'",
 					mandatory_depends_on: "eval:doc.audience=='Invited people'",
 				},
+				// What the link lets them do, and how long and how guarded it is,
+				// side by side (frappe's own sections and columns).
+				{ fieldtype: "Section Break" },
 				{ fieldtype: "Check", fieldname: "allow_download", label: __("Can download"), default: 1 },
+				{ fieldtype: "Column Break" },
 				{ fieldtype: "Check", fieldname: "allow_upload", label: __("Can upload files into it"), default: 0, hidden: item.folder ? 0 : 1 },
+				{ fieldtype: "Section Break" },
 				{ fieldtype: "Datetime", fieldname: "expires_on", label: __("Expires on") },
+				{ fieldtype: "Column Break" },
 				{
 					fieldtype: "Password",
 					fieldname: "password",
@@ -1539,10 +1545,16 @@ onedesk.OneCloud = class OneCloud {
 		const dialog = new frappe.ui.Dialog({
 			title: item ? __("Edit {0}", [item.name]) : __("Connect a server"),
 			fields: [
+				// Name and kind with the server under them, then how to sign in:
+				// frappe's own sections, two columns where two things belong
+				// together. A section of only conditional fields would be hidden
+				// when the dialog is drawn, so the server rides in the first one.
 				{ fieldtype: "Data", fieldname: "title", label: __("Name"), reqd: 1, default: values.title },
-				{ fieldtype: "Select", fieldname: "protocol", label: __("Kind"), options: ["SFTP", "WebDAV"], default: values.protocol || "SFTP" },
 				{ fieldtype: "Data", fieldname: "host", label: __("Server"), default: values.host, depends_on: "eval:doc.protocol=='SFTP'" },
+				{ fieldtype: "Column Break" },
+				{ fieldtype: "Select", fieldname: "protocol", label: __("Kind"), options: ["SFTP", "WebDAV"], default: values.protocol || "SFTP" },
 				{ fieldtype: "Int", fieldname: "port", label: __("Port"), default: values.port || 22, depends_on: "eval:doc.protocol=='SFTP'" },
+				{ fieldtype: "Section Break" },
 				{
 					fieldtype: "Data",
 					fieldname: "url",
@@ -1551,21 +1563,25 @@ onedesk.OneCloud = class OneCloud {
 					depends_on: "eval:doc.protocol=='WebDAV'",
 					description: __("The WebDAV address, starting https://."),
 				},
+				{ fieldtype: "Data", fieldname: "root_path", label: __("Folder on the Server"), default: values.root_path || "/" },
+				{ fieldtype: "Section Break", label: __("Sign In") },
 				{ fieldtype: "Data", fieldname: "username", label: __("User Name"), default: values.username },
+				{ fieldtype: "Column Break" },
 				{
 					fieldtype: "Password",
 					fieldname: "password",
 					label: __("Password"),
 					description: item ? __("Leave it empty to keep the one saved.") : "",
 				},
+				{ fieldtype: "Section Break", label: __("Sign In With a Key"), collapsible: 1 },
 				{
 					fieldtype: "Small Text",
 					fieldname: "private_key",
 					label: __("Private Key"),
-					depends_on: "eval:doc.protocol=='SFTP'",
-					description: __("Instead of a password, for a server that signs in with a key."),
+					// Not conditional: frappe hides a section whose only field is.
+					description: __("Instead of a password, for an SFTP server that signs in with a key."),
 				},
-				{ fieldtype: "Data", fieldname: "root_path", label: __("Folder on the Server"), default: values.root_path || "/" },
+				{ fieldtype: "Section Break" },
 				{
 					fieldtype: "Check",
 					fieldname: "shared",
@@ -1634,7 +1650,7 @@ onedesk.OneCloud = class OneCloud {
 					options: `<p class="oc-people-note">${frappe.utils.escape_html(
 						record
 							? __("Files land on {0}; one with a record field fills that field.", [here ? here.name : ""])
-							: __("Files land in {0}, in a folder per person when you ask several.", [here ? here.name : __("a folder of their own in My Files")])
+							: __("Files land in a folder of their own in {0}, named after the request, with a folder per person when you ask several.", [here ? here.name : __("My Files")])
 					)}</p>`,
 				},
 			],

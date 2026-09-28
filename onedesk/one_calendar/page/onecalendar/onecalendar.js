@@ -420,11 +420,17 @@ onedesk.OneCalendar = class OneCalendar {
 		const dialog = new frappe.ui.Dialog({
 			title: __("New Event"),
 			fields: [
+				// frappe's own sections and columns: what an event needs on top,
+				// who it is with beside it, and the rest folded under More.
 				{ fieldtype: "Data", fieldname: "subject", label: __("Subject"), reqd: 1 },
-				{ fieldtype: "Check", fieldname: "all_day", label: __("All Day"), default: all_day ? 1 : 0 },
+				{ fieldtype: "Section Break" },
 				{ fieldtype: "Datetime", fieldname: "starts_on", label: __("Starts On"), reqd: 1, default: start.format("YYYY-MM-DD HH:mm:ss") },
+				{ fieldtype: "Check", fieldname: "all_day", label: __("All Day"), default: all_day ? 1 : 0 },
+				{ fieldtype: "Column Break" },
 				{ fieldtype: "Datetime", fieldname: "ends_on", label: __("Ends On"), default: end.format("YYYY-MM-DD HH:mm:ss") },
+				{ fieldtype: "Section Break" },
 				{ fieldtype: "Data", fieldname: "location", label: __("Location") },
+				{ fieldtype: "Column Break" },
 				{
 					// People in the workspace, by name; frappe's own pills.
 					fieldtype: "MultiSelectPills",
@@ -440,19 +446,21 @@ onedesk.OneCalendar = class OneCalendar {
 							})
 							.then((found) => (found || []).map((one) => ({ value: one.value, description: one.description }))),
 				},
+				{ fieldtype: "Section Break" },
 				{
 					fieldtype: "Data",
 					fieldname: "guests",
 					label: __("Guests"),
 					description: __("Email addresses of people outside the workspace. Each is mailed an invitation for their own calendar."),
 				},
+				{ fieldtype: "Section Break", label: __("More"), collapsible: 1 },
+				{ fieldtype: "Small Text", fieldname: "description", label: __("Description") },
 				{
 					fieldtype: "Check",
 					fieldname: "public",
 					label: __("On Everybody's Calendar"),
 					hidden: may_publish ? 0 : 1,
 				},
-				{ fieldtype: "Small Text", fieldname: "description", label: __("Description") },
 			],
 			primary_action_label: __("Save"),
 			primary_action: async (values) => {
