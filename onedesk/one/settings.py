@@ -1332,6 +1332,8 @@ def _intake() -> dict:
 		"values": values,
 		"month": _intake_month(),
 		"hr": list(hr),
+		# The products this page has parts about, and their marks.
+		"marks": {app: _mark(app) for app in ("OneBook", "OneHR", "OneMail", "OneCloud")},
 		**switches.overview(),
 		"opened": _opened(*opened),
 	}

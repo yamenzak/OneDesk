@@ -1735,6 +1735,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			`<div class="one-shell-quiet os-intake-links">${pairs
 				.map(([href, label]) => `<a class="one-record-link" href="${esc(href)}">${esc(label)}</a>`)
 				.join(" · ")}</div>`;
+		const marks = data.marks || {};
 		this.form(data, {
 			rows: [
 				{ heading: __("What Is Read"), note: __("Besides the mailboxes and folders above.") },
@@ -1746,12 +1747,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				{ heading: __("Filing") },
 				{ stack: ["keep_in_place"] },
 				["quiet_minutes", "_"],
-				{ heading: __("Books"), note: __("What OneAI may do with bills and invoices it reads.") },
+				{ heading: __("OneBook"), note: __("What OneAI may do with bills and invoices it reads."), mark: marks.OneBook },
 				{ stack: ["household", "submit_einvoices"] },
 				{ html: links([["/desk/ready-to-submit", __("Ready to Submit")], ["/desk/query-report/Spending", __("Spending")]]) },
 				...((data.hr || []).length
 					? [
-							{ heading: __("OneHR"), note: __("What OneAI does by itself when something arrives in OneHR. Each uses credits.") },
+							{ heading: __("OneHR"), note: __("What OneAI does by itself when something arrives in OneHR. Each uses credits."), mark: marks.OneHR },
 							{ stack: data.hr },
 							{ html: links([["/desk/hr-settings", __("Interview recording and how long audio is kept are in HR Settings")]]) },
 					  ]
@@ -1770,8 +1771,10 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const esc = frappe.utils.escape_html;
 		const reading = (on) => frappe.ui.badge.html({ label: on ? __("Reading") : __("Off"), theme: on ? "green" : "gray" });
 		const again = () => this.refresh();
+		const marks = data.marks || {};
 		onedesk.shell.table(this.$content.find('[data-list="mailboxes"]'), {
 			title: __("Mailboxes"),
+			mark: marks.OneMail,
 			rows: data.mailboxes || [],
 			page_size: 10,
 			icon: "mail",
@@ -1799,6 +1802,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 		onedesk.shell.table(this.$content.find('[data-list="folders"]'), {
 			title: __("Folders"),
+			mark: marks.OneCloud,
 			rows: data.folders || [],
 			page_size: 10,
 			icon: "folder",

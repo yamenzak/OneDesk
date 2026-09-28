@@ -120,12 +120,13 @@ $.extend(onedesk.shell, {
 	// it, searchable once there are more than five, `open` for what a row
 	// does when clicked, `actions` for buttons beside the search (html, bound
 	// by the page), and `page_size` before Load More. Resolves to the list.
-	async table($into, { title = "", note = "", rows = [], columns, open = null, empty = "", none = "", icon = "list", page_size = 20, actions = "" } = {}) {
+	async table($into, { title = "", note = "", rows = [], columns, open = null, empty = "", none = "", icon = "list", page_size = 20, actions = "", mark = null } = {}) {
 		await frappe.require("embedded_list.bundle.js");
 		const esc = frappe.utils.escape_html;
 		const list = new frappe.ui.EmbeddedList({
 			wrapper: $into,
-			title: title ? esc(title) : "",
+			// `mark` is a product's mark before the title, for a list of its things.
+			title: title ? `${mark ? `<span class="one-shell-part-mark">${frappe.utils.icon(mark, "md")}</span>` : ""}${esc(title)}` : "",
 			description: note ? esc(note) : "",
 			show_search: rows.length > 5,
 			page_size,
@@ -339,7 +340,8 @@ onedesk.shell.Editor = class Editor {
 	// A form made of the record's own fields, saved in one go from the page
 	// head, the way a record is. `rows` lays fields out side by side: each row
 	// is a list of fieldnames, one per column, or `{ heading, note }` to start
-	// a part of its own under a rule, `{ stack }` for fields one under another
+	// a part of its own under a rule (`mark` puts a product's mark before the
+	// heading), `{ stack }` for fields one under another
 	// in one column, `{ row, css }` for a row whose part carries a class, or
 	// `{ html }` for something to read.
 	form(data, { before = "", after = "", rows = null } = {}) {
@@ -348,12 +350,15 @@ onedesk.shell.Editor = class Editor {
 		// A heading names the section the rows after it are in: a section with
 		// no fields of its own, frappe hides.
 		let heading = null;
+		// A part about one of the products carries its mark before its heading.
+		const marks = {};
 		const fields = rows
 			? rows.flatMap((row, at) => {
 					let css = null;
 					if (row.row) [css, row] = [row.css, row.row];
 					if (row.heading) {
 						heading = { fieldtype: "Section Break", fieldname: `shell_part_${at}`, label: row.heading, description: row.note, css_class: "one-shell-part" };
+						if (row.mark) marks[`shell_part_${at}`] = row.mark;
 						return [];
 					}
 					let opening = heading || (at || css ? { fieldtype: "Section Break", fieldname: `shell_row_${at}` } : null);
@@ -372,6 +377,10 @@ onedesk.shell.Editor = class Editor {
 			: Object.values(own);
 		this.group = new frappe.ui.FieldGroup({ fields, body: $card.find(".one-shell-form")[0] });
 		this.group.make();
+		for (const [fieldname, mark] of Object.entries(marks)) {
+			const part = this.group.fields_dict[fieldname];
+			if (part) part.wrapper.find(".section-head").first().prepend(`<span class="one-shell-part-mark">${frappe.utils.icon(mark, "md")}</span>`);
+		}
 		$card.toggleClass("one-shell-columns", !!rows);
 		// Frappe marks a section empty while it is drawn, before its values are
 		// in and its fields' depends_on can say they show, and a FieldGroup never

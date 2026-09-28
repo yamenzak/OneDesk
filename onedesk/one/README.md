@@ -596,12 +596,11 @@ undone. Each opens the inbox, on everybody's documents.
   **Quiet Minutes** is how long a matter must be quiet before OneAI acts on
   it, so a burst of mails is handled once; 0 is at once. Money and deadlines
   due within a day never wait.
-- **Books.** **Household** is for a workspace that keeps no books: nothing
+- **OneBook.** **Household** is for a workspace that keeps no books: nothing
   is drafted, and Spending shows what was bought. **Submit Matching
   E-Invoices** lets OneAI submit an e-invoice from a known supplier that
   matches an order already placed; off unless switched on. Drafts wait in
   **Ready to Submit**.
-
 - **OneHR.** What OneAI does by itself when something arrives in OneHR:
   **Screen New Applicants**, **Prepare Interviews**, **Transcribe Interview
   Recordings** and **Triage Grievances**. Each uses credits. Whether

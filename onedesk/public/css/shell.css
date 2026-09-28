@@ -513,3 +513,21 @@ a.one-shell-row:hover {
 .one-shell .embedded-list .embedded-list-table-wrap {
 	max-height: none;
 }
+
+/* A product's mark before a part's heading or a list's title. */
+.one-shell-part-mark {
+	display: inline-flex;
+	align-self: center;
+	vertical-align: middle;
+	margin-inline-end: 8px;
+}
+.one-shell-part-mark .icon {
+	width: 20px;
+	height: 20px;
+	margin: 0;
+}
+.one-shell-form .section-head:has(.one-shell-part-mark),
+.embedded-list-title:has(.one-shell-part-mark) {
+	display: flex;
+	align-items: center;
+}
