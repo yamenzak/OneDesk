@@ -100,6 +100,14 @@ folder. An attachment's folder button saves a copy
 to My Files, and a file from OneCloud can be attached when writing. A file
 too large to send from the workspace's address goes as a link that works
 for thirty days.
+
+When the workspace's storage is full, mail still arrives. Its attachments
+are not saved: the message shows each one as **Not saved, storage is full**,
+and administrators and the mailbox's holders get **Attachments Not Saved**,
+once a day at most. Every hour the workspace tries again, reading the
+message from where it was kept, and saves each attachment once there is
+room. Free some space or add storage in Plan and Credits.
+
 People who write to you show with their contact picture, or their photo from
 Gravatar, or their organisation's logo. A contact, lead, customer, supplier
 or bank without a picture gets one the same way, trying a face and a logo in

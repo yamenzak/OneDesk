@@ -19,9 +19,8 @@ tenant cannot be the authority on what it owes.
 """
 
 import boto3
-from botocore.client import Config
-
 import frappe
+from botocore.client import Config
 from frappe.utils import cint
 
 from onedesk.one_admin import keys
@@ -41,6 +40,11 @@ HOSTS = {
 REGION = "auto"
 
 
+class NoRoom(frappe.ValidationError):
+	"""The workspace's storage is full. Its name travels back as `exc_type`,
+	so the workspace can tell "full" from any other refusal (store.NoRoom)."""
+
+
 def put_url(tenant, key: str, size: int) -> dict:
 	"""A URL the browser may PUT this object to, if there is room for it."""
 	held = cint(tenant.storage_bytes)
@@ -50,7 +54,7 @@ def put_url(tenant, key: str, size: int) -> dict:
 			frappe._("This workspace has no room for another {0}.").format(
 				frappe.format_value(size, {"fieldtype": "Int"})
 			),
-			frappe.ValidationError,
+			NoRoom,
 		)
 
 	full = keys.under(tenant.name, key)

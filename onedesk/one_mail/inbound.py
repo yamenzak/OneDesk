@@ -167,6 +167,35 @@ class Arrival(InboundMail):
 			pipeline.mail_arrived(made, self)
 		return made
 
+	def save_attachments_in_doc(self, doc):
+		"""Frappe's own, one attachment at a time, so that one refused for want
+		of room is written down on the message rather than failing it: the
+		message always arrives, and its attachments follow once there is room
+		(room.py)."""
+		from urllib.parse import unquote
+
+		from onedesk.one_mail import room
+		from onedesk.one_storage import store
+
+		everything, saved, missing = self.attachments, [], []
+		try:
+			for one in everything:
+				self.attachments = [one]
+				mark = "one_mail_attachment"
+				frappe.db.savepoint(mark)
+				try:
+					saved += super().save_attachments_in_doc(doc)
+					frappe.db.release_savepoint(mark)
+				except store.NoRoom:
+					frappe.db.rollback(save_point=mark)
+					frappe.clear_last_message()
+					missing.append({"file_name": unquote(one["fname"]), "size": len(one["fcontent"] or b"")})
+		finally:
+			self.attachments = everything
+		if missing:
+			room.kept(doc, missing)
+		return saved
+
 	def is_sender_same_as_receiver(self):
 		return False if self.sent else super().is_sender_same_as_receiver()
 

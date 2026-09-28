@@ -73,6 +73,19 @@
    "read_only": 1,
    "module": "One Mail",
    "name": "Communication-one_raw_key"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Communication",
+   "fieldname": "one_unsaved",
+   "fieldtype": "Small Text",
+   "insert_after": "one_raw_key",
+   "label": "Not Saved",
+   "description": "Attachments that arrived while storage was full. They are saved once there is room.",
+   "hidden": 1,
+   "read_only": 1,
+   "module": "One Mail",
+   "name": "Communication-one_unsaved"
   }
  ],
  "doctype": "Communication",

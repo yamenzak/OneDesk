@@ -15,4 +15,17 @@ TYPES = [
 		),
 		"email_default": True,
 	},
+	# room: storage is full, and mail arrived with attachments it could not keep.
+	{
+		"name": _lt("Attachments Not Saved"),
+		"app": "OneMail",
+		"about": _lt("When mail arrives with attachments and the workspace's storage is full. Once a day at most."),
+		"to": _lt("Every administrator, and everybody who holds the mailbox"),
+		"subject": _lt("Storage is full: attachments to {mailbox} are not being saved"),
+		"message": _lt(
+			"Mail to <b>{mailbox}</b> still arrives, but its attachments wait until there is room. Free some "
+			"space or add storage in Plan and Credits, and they are saved within the hour."
+		),
+		"email_default": True,
+	},
 ]

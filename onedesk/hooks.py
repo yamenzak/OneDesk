@@ -148,6 +148,9 @@ scheduler_events = {
 		"onedesk.one_hr.closing.hourly",
 		# A project asks its team for an update. See one_project/updates.py.
 		"onedesk.one_project.updates.ask",
+		# Attachments that arrived while storage was full, saved once it is not.
+		# See one_mail/room.py.
+		"onedesk.one_mail.room.again",
 	],
 	# What OneAI read for each person this week. See one_intake/digest.py.
 	"weekly": ["onedesk.one_intake.digest.weekly", "onedesk.one_hr.tell.holidays_weekly"],
@@ -550,7 +553,7 @@ fixtures = [
 	{"dt": "Quotation Lost Reason", "filters": [["name", "in", ["Price", "Went With a Competitor", "No Budget", "No Decision", "Timing", "Not a Fit", "Other"]]]},
 	# Where a lead from the web form says it came from.
 	{"dt": "UTM Source", "filters": [["name", "=", "Website"]]},
-	# One › Home's part for administrators: what in the workspace needs them
+	# One's Home, the part for administrators: what in the workspace needs them
 	# (one/home.py, attention). A block has no module to be standard in.
 	{"dt": "Custom HTML Block", "filters": [["name", "=", "One Needs You"]]},
 ]
@@ -776,7 +779,7 @@ one_ai_suggests = [
 	"onedesk.one.ai.draft_notification",
 	"onedesk.one.ai.customize",
 	"onedesk.one.ai.sign_mailbox",
-	# Holidays and days off, as Workspace › Holidays would save them.
+	# Holidays and days off, as the Holidays settings would save them.
 	"onedesk.one.ai.change_holidays",
 	# A reply, written as the reader asked, opened in the email window to send.
 	"onedesk.one_mail.ai.draft_reply",

@@ -512,6 +512,16 @@ onedesk.OneMail = class OneMail {
 				</span>`
 			)
 			.join("");
+		// Arrived while storage was full: saved within the hour once there is
+		// room (one_mail/room.py).
+		const waiting = (message.unsaved || [])
+			.map(
+				(file) => `<span class="om-file om-file-waiting" title="${esc(__("Not saved yet: storage is full. It is saved within the hour once there is room."))}">
+					${frappe.utils.icon("hard-drive", "sm")}<span class="om-file-name">${esc(file.file_name)}</span>
+					<span class="om-file-size">${esc(__("Not saved, storage is full"))}</span>
+				</span>`
+			)
+			.join("");
 		return `<div class="om-message" data-message="${esc(message.name)}">
 			<div class="om-message-head">
 				${this.face(message.sender_full_name, message.sender, message.face)}
@@ -527,7 +537,7 @@ onedesk.OneMail = class OneMail {
 				<button class="es-button" data-variant="subtle" data-act="pictures">${__("Show pictures")}</button>
 			</div>
 			<iframe class="om-body" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin" referrerpolicy="no-referrer" title="${__("Message")}"></iframe>
-			${files ? `<div class="om-files">${files}</div>` : ""}
+			${files || waiting ? `<div class="om-files">${files}${waiting}</div>` : ""}
 			<div class="om-intake" data-intake="${esc(message.name)}"></div>
 		</div>`;
 	}

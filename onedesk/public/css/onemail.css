@@ -576,6 +576,17 @@ img.om-face {
 	flex: none;
 }
 
+/* An attachment that arrived while storage was full (one_mail/room.py). */
+.om-file-waiting {
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
+	border-style: dashed;
+	border-color: var(--outline-amber-2);
+	color: var(--ink-amber-8);
+	background: var(--surface-amber-1);
+}
+
 .om-answer {
 	display: flex;
 	gap: calc(var(--spacing) * 2);

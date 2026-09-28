@@ -1928,6 +1928,26 @@ Done:
 - Checked without a model: every reader and the card on the dev site, the
   chip filling the box, and Approve's email window with the reply in.
 
+Then, on your word: **mail when storage is full**. Before, an attachment
+the store refused failed the whole message, and it was lost. Now:
+
+- The message always arrives. Each attachment is saved on its own
+  (`inbound.Arrival.save_attachments_in_doc`, a savepoint each); one the
+  store refuses as full (`store.NoRoom`, from the admin site's `NoRoom`) is
+  written on the message (`one_unsaved`) instead.
+- The reading pane shows it as an amber chip, **Not saved, storage is
+  full**.
+- **Attachments Not Saved**, a new notification type, to every
+  administrator and everybody who holds the mailbox, once a day at most,
+  linking Plan and Credits.
+- `one_mail/room.py` `again`, hourly, reads the message back (from R2 on
+  the workspace's address, from the server on a connected mailbox), saves
+  what now fits and clears the mark.
+- `README.md` says so under Attachments and faces.
+- Checked on the dev site: a message arriving to a full store kept its text
+  with the attachment marked and told both people; the hourly run saved it
+  and the chip became the file.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

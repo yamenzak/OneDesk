@@ -77,10 +77,22 @@ def url_for(key: str) -> str:
 	return f"{FETCH}?key={quote(key, safe='/')}"
 
 
+class NoRoom(frappe.ValidationError):
+	"""The workspace's storage is full, so the file was not stored. Whoever
+	writes files without a person watching (mail arriving) catches it and
+	keeps what it can (one_mail/room.py)."""
+
+
 def put(key: str, content: bytes) -> None:
 	from onedesk.one import account
+	from onedesk.one_admin import faults
 
-	signed = account.put_url(key, len(content))
+	try:
+		signed = account.put_url(key, len(content))
+	except faults.Refused as refused:
+		if refused.said == "NoRoom":
+			raise NoRoom(_("The workspace's storage is full, so this file was not saved.")) from refused
+		raise
 	kind = mimetypes.guess_type(key)[0] or "application/octet-stream"
 	answer = requests.put(signed["url"], data=content, headers={"Content-Type": kind}, timeout=PATIENCE)
 	answer.raise_for_status()

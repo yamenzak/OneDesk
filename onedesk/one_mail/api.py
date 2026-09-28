@@ -213,7 +213,7 @@ def conversation(account: str, thread: str) -> dict:
 		fields=[
 			"name", "subject", "sender", "sender_full_name", "recipients", "cc", "bcc", "content",
 			"communication_date", "sent_or_received", "seen", "one_flagged", "one_folder", "has_attachment",
-			"reference_doctype", "reference_name", "message_id",
+			"reference_doctype", "reference_name", "message_id", "one_unsaved",
 		],
 		order_by="communication_date asc",
 	)  # fmt: skip
@@ -230,6 +230,8 @@ def conversation(account: str, thread: str) -> dict:
 	for one in messages:
 		one["face"] = pictures.get(_address(one.sender))
 		one["attachments"] = files.get(one.name, [])
+		# Attachments that arrived while storage was full (room.py).
+		one["unsaved"] = frappe.parse_json(one.pop("one_unsaved") or "[]") or []
 		one["snippet"] = snippet(one.content)
 	return {"thread": thread, "messages": messages}
 
