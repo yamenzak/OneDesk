@@ -64,7 +64,18 @@ onedesk.oneai = {
 			const params = frappe.utils.get_query_params();
 			// A section that lists several records may be open on one of them, and
 			// a page about one form (Customize) names it in its route.
-			return { doctype: "", name: "", page: route[0], section: params.section || "", record: params.type || params.rule || route[1] || "", view: "Page", label: document.title };
+			// OneMail names its open mailbox, folder and conversation the same way.
+			return {
+				doctype: "",
+				name: "",
+				page: route[0],
+				section: params.section || "",
+				record: params.type || params.rule || params.thread || route[1] || "",
+				box: params.box || "",
+				folder: params.folder || "",
+				view: "Page",
+				label: document.title,
+			};
 		}
 		return null;
 	},

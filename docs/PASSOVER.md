@@ -141,7 +141,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, Workspace | OneIntake (now OneIntake › Settings) | done |
 | Settings, Workspace | Holidays | done |
 | Products | One › Home | done |
-| Products | OneMail | findings |
+| Products | OneMail | done |
 | Products | OneCloud, OneCalendar, OneTask, OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, OneAdmin | each screen listed here once we reach it |
 
 Noticed along the way, for the screen it belongs to:
@@ -1893,6 +1893,40 @@ README's stages are built; the README says the AI lane waits.
 9. **Built from frappe**: writing is frappe's email window, dates are
    `frappe.datetime`, a new message redraws an open mailbox through
    `frappe.realtime` (`live.py`), and buttons are espresso's. Holds.
+
+Your word: all of them, and a reply drafted from what we tell it ("turn
+down their offer", "we agree only if…").
+
+Done:
+
+- **OneAI** (`one_mail/ai.py`): the page sentence names the mailbox, the
+  folder and the open conversation, only one the reader holds. Two
+  readers, `open_conversation` and `waiting_for_answer`, and a suggest,
+  `draft_reply`. Three suggestions: **Summarise this conversation**, **What
+  needs an answer?**, and **Draft a reply**, a new kind of suggestion
+  (`fill`) that puts "Draft a reply to this conversation that says:" in
+  the panel's box for the reader to finish with what the reply should say.
+  The reply comes back as a card (a new proposal kind, **Reply**) showing
+  it in full; **Approve** opens frappe's email window with it written in,
+  addressed and quoted as Reply opens it (`OneMail.reply_to`), to be read,
+  changed and sent by the reader. Nothing is sent by OneAI.
+- **Legal**: the AI Addendum's `onemail-asks` says a conversation's text
+  goes to the model only when asked, only from a mailbox the asker holds,
+  and that a drafted reply is never sent by OneAI. AI Addendum revision 3,
+  so administrators agree again.
+- **The title** is OneMail.
+- **Reply, Reply all and Forward** are under the last message only; the
+  head keeps star, read, move, archive, delete and file.
+- **A folded message** keeps a space where each paragraph or line ended.
+- **Mailboxes fold**: only the one open is unfolded, a folded one shows
+  its unread count, and what a person folds or unfolds is kept in frappe's
+  user settings (not the browser, which the borrowing guard refuses).
+- **Mailbox names**: **Workspace**, **Yours** or a shared one's address,
+  each with its address under it.
+- `one_mail/README.md` has **Asking OneAI**; the line saying the AI lane
+  waits is gone.
+- Checked without a model: every reader and the card on the dev site, the
+  chip filling the box, and Approve's email window with the reply in.
 
 ## OneLegal
 

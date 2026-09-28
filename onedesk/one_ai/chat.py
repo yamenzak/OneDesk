@@ -313,6 +313,15 @@ def _suggests(row: dict) -> dict:
 			],
 		}
 
+	if row.get("kind") == "Reply":
+		# The reply as it will be sent, to be read before it opens to send.
+		return {
+			"doctype": doctype,
+			"name": changes.get("subject") or "",
+			"title": "",
+			"fields": [{"label": frappe._("Reply"), "value": str(changes.get("text") or "")}],
+		}
+
 	if row.get("kind") == "Signature":
 		# The signature as it will read, a line each.
 		from frappe.utils import strip_html

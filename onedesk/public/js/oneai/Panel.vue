@@ -439,6 +439,17 @@ async function offer() {
 // A suggestion taken: asked straight away, or once the file it needs is in.
 function take(one) {
 	if (one.run) return run(one);
+	// A question to be finished by the reader: in the box, waiting for their
+	// words ("Draft a reply that says: turn down their offer").
+	if (one.fill) {
+		text.value = one.ask;
+		nextTick(() => {
+			if (!box.value) return;
+			box.value.focus();
+			box.value.setSelectionRange(text.value.length, text.value.length);
+		});
+		return;
+	}
 	if (one.file) return attach(() => ask(one.ask));
 	ask(one.ask);
 }

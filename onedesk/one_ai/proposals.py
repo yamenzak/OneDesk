@@ -43,9 +43,9 @@ MOST_ROWS = 20
 
 
 #: Kinds whose changes are the tool's own, checked by it, rather than a
-#: record's values: how a form looks, how a mailbox signs, and the
-#: workspace's holidays.
-OWN_WORDS = ("Customize", "Signature", "Holidays")
+#: record's values: how a form looks, how a mailbox signs, the workspace's
+#: holidays, and a reply to a conversation.
+OWN_WORDS = ("Customize", "Signature", "Holidays", "Reply")
 
 
 def propose(
@@ -132,6 +132,16 @@ def apply(proposal: str) -> dict:
 			)
 		customize.save(entry.for_doctype, changes.get("values") or {}, changes.get("token"))
 		return _done(entry, entry.for_doctype)
+
+	if entry.kind == "Reply":
+		# Nothing is sent from here. Approving hands the reply to frappe's email
+		# window, where the person reads it, changes it and sends it themselves
+		# (Record.vue, onemail.js `reply_to`).
+		from onedesk.one_mail import actions
+
+		actions.require(changes.get("account"))
+		_done(entry, entry.record)
+		return {"proposal": entry.name, "state": "Applied", "reply": changes}
 
 	if entry.kind == "Holidays":
 		# The Holidays page's own save, as the administrator who pressed
@@ -367,6 +377,13 @@ def _allowed(kind: str, doctype: str, record: str | None):
 
 		roles.require()
 		return None
+	if kind == "Reply":
+		# Whoever holds the mailbox the conversation is in; `record` is its
+		# last message.
+		from onedesk.one_mail import actions
+
+		actions.require(frappe.db.get_value("Communication", record, "email_account"))
+		return None
 	if kind == "Signature":
 		from onedesk.one_mail import holders
 
@@ -475,6 +492,8 @@ def _said(kind: str, doctype: str, record: str | None, changes: dict) -> str:
 		return frappe._("Signature for {0}").format(record)
 	if kind == "Holidays":
 		return frappe._("Holidays in {0}").format(record)
+	if kind == "Reply":
+		return frappe._("A reply to {0}").format(changes.get("subject") or record)
 	if kind == "Delete":
 		return frappe._("Delete {0}").format(record)
 	if kind == "Move":

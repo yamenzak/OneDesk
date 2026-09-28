@@ -62,3 +62,19 @@ clause(
 	""",
 	order=20,
 )
+
+
+clause(
+	document="ai",
+	section="modules",
+	key="onemail-asks",
+	module=M,
+	body="""
+		In OneMail, when you ask OneAI about a conversation, to summarise it, to say what waits for an answer
+		or to draft a reply, the text of that conversation is sent to the model to answer you. Only when you
+		ask, only a conversation in a mailbox you hold, and nothing of it is kept but the answer. A drafted
+		reply is never sent by OneAI: approving it opens it in the email window, where you read it, change it
+		and send it yourself.
+	""",
+)
+

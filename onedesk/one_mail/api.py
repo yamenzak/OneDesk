@@ -30,7 +30,10 @@ SNIPPET = 140
 
 def snippet(html: str | None) -> str:
 	"""A message's first words, as text. Pure apart from Frappe's strip_html."""
-	text = unescape(strip_html(html or ""))
+	# A paragraph or a line that ended is a space, or "Hello,<p>Please" reads
+	# "Hello,Please".
+	text = re.sub(r"(?i)<\s*(br|/p|/div|/li|/tr|/h\d)\b[^>]*>", " ", html or "")
+	text = unescape(strip_html(text))
 	text = re.sub(r"\s+", " ", text).strip()
 	return text[:SNIPPET]
 

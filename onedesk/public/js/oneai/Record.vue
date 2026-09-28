@@ -125,7 +125,7 @@ const kind = computed(() => (props.suggested ? props.suggested.kind || "Create" 
 
 // A record, a new one, a change, a deletion or how a form looks — Lucide's own.
 const glyph = computed(
-	() => ({ Create: "file-plus", Edit: "file-pen", Delete: "trash-2", Customize: "settings-2", Signature: "pen-line", Holidays: "calendar-days" })[kind.value] || "file"
+	() => ({ Create: "file-plus", Edit: "file-pen", Delete: "trash-2", Customize: "settings-2", Signature: "pen-line", Holidays: "calendar-days", Reply: "reply" })[kind.value] || "file"
 );
 
 const doctype = computed(() => props.record.doctype || (props.suggested && props.suggested.for_doctype) || "");
@@ -143,6 +143,7 @@ const title = computed(() => {
 	if (kind.value === "Customize") return __("Customize {0}", [__(doctype.value)]);
 	if (kind.value === "Signature") return __("Signature for {0}", [name]);
 	if (kind.value === "Holidays") return __("Holidays in {0}", [name]);
+	if (kind.value === "Reply") return __("A reply to {0}", [name]);
 	return name || __(doctype.value);
 });
 
@@ -168,6 +169,8 @@ function open(name) {
 	else if (kind.value === "Signature") frappe.set_route("settings", { section: "mail" });
 	// The holidays are read, and changed by hand, on Workspace › Holidays.
 	else if (kind.value === "Holidays") frappe.set_route("workspace-settings", { section: "holidays" });
+	// A reply is read, and sent, in OneMail.
+	else if (kind.value === "Reply") frappe.set_route("onemail");
 	else frappe.set_route("Form", doctype.value, name);
 }
 
@@ -187,7 +190,14 @@ async function answer(what) {
 	busy.value = true;
 	try {
 		const frm = what === "apply" ? form() : null;
-		if (frm) {
+		if (what === "apply" && kind.value === "Reply") {
+			// Nothing is sent: the reply opens in frappe's email window, as Reply
+			// opens it, to be read, changed and sent (onemail.js reply_to).
+			const out = await frappe.xcall("onedesk.one_ai.run.apply", { proposal: props.suggested.name });
+			const said = out.reply || {};
+			await frappe.require(["/assets/onedesk/css/onemail.css", "/assets/onedesk/js/onemail.js"]);
+			await onedesk.OneMail.reply_to(said.account, said.thread, { text: said.text });
+		} else if (frm) {
 			const out = await frappe.xcall("onedesk.one_ai.run.took", { proposal: props.suggested.name });
 			for (const [fieldname, value] of Object.entries(out.changes || {})) {
 				await frm.set_value(fieldname, value);

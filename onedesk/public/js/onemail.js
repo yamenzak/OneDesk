@@ -51,7 +51,14 @@ onedesk.OneMail = class OneMail {
 		this.search = "";
 		this.selected = new Set();
 		this.pictures = new Set();
-		this.closed = new Set();
+		// What the person folded or unfolded, kept in frappe's user settings
+		// under OneMail. A mailbox nobody touched is unfolded only while it is
+		// the one open.
+		this.folds = {};
+		frappe.model.user_settings.get("OneMail").then((said) => {
+			this.folds = (said && said.folds) || {};
+			if (this.boxes.length) this.draw_boxes();
+		});
 		this.build();
 		this.bind();
 		this.listen();
@@ -185,7 +192,7 @@ onedesk.OneMail = class OneMail {
 		const esc = frappe.utils.escape_html;
 		const html = this.boxes
 			.map((box) => {
-				const closed = this.closed.has(box.name);
+				const closed = this.folded(box);
 				const kind = box.workspace ? "building-2" : box.shared ? "users" : "at-sign";
 				const folders = closed
 					? ""
@@ -200,14 +207,16 @@ onedesk.OneMail = class OneMail {
 							})
 							.join("");
 				const trouble = box.error ? `<span class="om-trouble" title="${esc(box.error)}">${frappe.utils.icon("triangle-alert", "sm")}</span>` : "";
+				// Folded, a mailbox still says how much is unread in it.
+				const unread = closed && box.unread ? `<span class="om-count">${box.unread}</span>` : "";
 				return `<div class="om-box" data-box="${esc(box.name)}">
 					<button class="om-box-head" data-toggle="${esc(box.name)}" aria-expanded="${closed ? "false" : "true"}">
 						${frappe.utils.icon(closed ? "chevron-right" : "chevron-down", "xs")}
 						${frappe.utils.icon(kind, "sm")}
-						<span class="om-box-name" title="${esc(box.email)}">${esc(box.workspace ? __("Workspace") : box.email)}</span>
-						${trouble}
+						<span class="om-box-name" title="${esc(box.email)}">${esc(OneMail.called(box))}</span>
+						${trouble}${unread}
 					</button>
-					${box.workspace ? `<div class="om-box-address">${esc(box.email)}</div>` : ""}
+					${OneMail.called(box) !== box.email ? `<div class="om-box-address">${esc(box.email)}</div>` : ""}
 					<div class="om-folders">${folders}</div>
 				</div>`;
 			})
@@ -215,6 +224,27 @@ onedesk.OneMail = class OneMail {
 		this.$boxes.html(html || onedesk.shell.quiet(__("You hold no mailbox yet.")));
 		// A person's own address that only receives cannot be written from.
 		this.$root.find("[data-act=write]").prop("disabled", !this.sender());
+	}
+
+	// What a mailbox is called: the workspace's, yours, or a shared one by
+	// its address.
+	static called(box) {
+		if (box.workspace) return __("Workspace");
+		if (!box.shared) return __("Yours");
+		return box.email;
+	}
+
+	folded(box) {
+		if (box.name in this.folds) return this.folds[box.name];
+		return !(this.box && this.box.name === box.name);
+	}
+
+	fold(name) {
+		const box = this.boxes.find((one) => one.name === name);
+		if (!box) return;
+		this.folds[name] = !this.folded(box);
+		frappe.model.user_settings.save("OneMail", "folds", { [name]: this.folds[name] });
+		this.draw_boxes();
 	}
 
 	draw_nothing() {
@@ -387,10 +417,6 @@ onedesk.OneMail = class OneMail {
 		this.$read.html(`<div class="om-conv-head">
 				<h2 class="om-conv-subject">${esc(first.subject || __("(no subject)"))}</h2>
 				<div class="om-conv-actions">
-					${bare("reply", "reply", __("Reply"))}
-					${bare("reply-all", "reply-all", __("Reply all"))}
-					${bare("forward", "forward", __("Forward"))}
-					<span class="om-sep"></span>
 					${bare("conv-star", "star", flagged ? __("Unstar") : __("Star"), flagged ? 'data-state="on"' : "")}
 					${bare("conv-unread", "mail", __("Mark as unread"))}
 					${bare("conv-move", "folder-input", __("Move to"))}
@@ -742,26 +768,58 @@ onedesk.OneMail = class OneMail {
 				message: header + `<blockquote>${message.content || ""}</blockquote>`,
 			});
 		} else {
-			const mine = this.boxes.map((one) => one.email.toLowerCase());
-			const others = (list) =>
-				(list || "")
-					.split(",")
-					.map((one) => one.trim())
-					.filter((one) => one && !mine.some((me) => one.toLowerCase().includes(me)));
-			const from_me = mine.includes((message.sender || "").toLowerCase());
-			const recipients = from_me ? message.recipients : message.sender;
-			const cc = all ? [...others(message.recipients), ...others(message.cc)].filter((one) => !recipients.includes(one)).join(", ") : "";
-			composer = new frappe.views.CommunicationComposer({
-				sender,
-				doc,
-				subject: /^re:/i.test(subject) ? subject : `Re: ${subject}`,
-				recipients,
-				cc,
-				is_a_reply: true,
-				last_email: message,
-			});
+			composer = OneMail.replying(this.boxes, this.messages, sender, { all });
 		}
 		composer.dialog.$wrapper.on("hidden.bs.modal", done);
+	}
+
+	// frappe's email window as Reply opens it: to whoever the last message
+	// should be answered by, quoted, on the record it is filed on. `text` is
+	// written in above the quote: OneAI's draft, from its card.
+	static replying(boxes, messages, sender, { all = false, text = "" } = {}) {
+		const message = messages[messages.length - 1];
+		const subject = message.subject || "";
+		const record = messages.find((one) => one.reference_doctype && one.reference_name);
+		const doc = record ? { doctype: record.reference_doctype, name: record.reference_name } : undefined;
+		const mine = boxes.map((one) => one.email.toLowerCase());
+		const others = (list) =>
+			(list || "")
+				.split(",")
+				.map((one) => one.trim())
+				.filter((one) => one && !mine.some((me) => one.toLowerCase().includes(me)));
+		const from_me = mine.includes((message.sender || "").toLowerCase());
+		const recipients = from_me ? message.recipients : message.sender;
+		const cc = all ? [...others(message.recipients), ...others(message.cc)].filter((one) => !recipients.includes(one)).join(", ") : "";
+		const esc = frappe.utils.escape_html;
+		const written = (text || "")
+			.split(/\n{2,}/)
+			.map((one) => `<p>${esc(one.trim()).replace(/\n/g, "<br>")}</p>`)
+			.join("");
+		return new frappe.views.CommunicationComposer({
+			sender,
+			doc,
+			subject: /^re:/i.test(subject) ? subject : `Re: ${subject}`,
+			recipients,
+			cc,
+			is_a_reply: true,
+			last_email: message,
+			...(written ? { message: written } : {}),
+		});
+	}
+
+	// A reply to a conversation from wherever the reader is, as Reply writes
+	// it in that mailbox: what approving OneAI's drafted reply opens
+	// (one_mail/ai.py, draft_reply). Nothing is sent until they send it.
+	static async reply_to(account, thread, { text = "" } = {}) {
+		const [boxes, said] = await Promise.all([
+			frappe.xcall(OneMail.API + "mailboxes"),
+			frappe.xcall(OneMail.API + "conversation", { account, thread }),
+		]);
+		const box = boxes.find((one) => one.name === account);
+		const sends = boxes.filter((one) => one.sends);
+		const pick = (box && box.sends && box) || sends.find((one) => one.workspace) || sends[0];
+		if (!pick) return frappe.msgprint(__("None of your mailboxes can send. Connect one that does."));
+		return OneMail.replying(boxes, said.messages, pick.email, { text });
 	}
 
 	connect() {
@@ -870,9 +928,7 @@ onedesk.OneMail = class OneMail {
 	bind() {
 		const $root = this.$root;
 		$root.on("click", ".om-box-head", (e) => {
-			const name = e.currentTarget.dataset.toggle;
-			this.closed.has(name) ? this.closed.delete(name) : this.closed.add(name);
-			this.draw_boxes();
+			this.fold(e.currentTarget.dataset.toggle);
 		});
 		$root.on("click", ".om-folder", (e) => this.choose(e.currentTarget.dataset.box, e.currentTarget.dataset.folder));
 		$root.on("click", ".om-items [data-thread]", (e) => {

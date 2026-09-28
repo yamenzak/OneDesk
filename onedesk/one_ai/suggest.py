@@ -31,8 +31,10 @@ MOST = 4
 SETTINGS = [
 	{
 		"label": _lt("Help me set this up"),
-		"ask": _lt("Go through these settings with me: which ones matter for a company like ours, what each "
-		"is set to now, and what you would change. Suggest the changes."),
+		"ask": _lt(
+			"Go through these settings with me: which ones matter for a company like ours, what each "
+			"is set to now, and what you would change. Suggest the changes."
+		),
 		"can": "write",
 	},
 ]
@@ -92,7 +94,16 @@ def for_page(page: dict | None) -> list[dict]:
 			continue
 		# Labels and questions are `_lt`, so each is in the reader's language:
 		# the question is what the panel shows as theirs, and what it sends.
-		said.append({"label": str(one["label"]), "ask": str(one["ask"]), "file": bool(one.get("file"))})
+		# `fill` puts the question in the panel's box to be finished by the
+		# reader ("Draft a reply that says: …") rather than asking it at once.
+		said.append(
+			{
+				"label": str(one["label"]),
+				"ask": str(one["ask"]),
+				"file": bool(one.get("file")),
+				"fill": bool(one.get("fill")),
+			}
+		)
 	return said[:MOST]
 
 
@@ -109,6 +120,10 @@ def expected(text: str | None) -> str | None:
 	for path in frappe.get_hooks("one_ai_suggestions") or []:
 		for offered in frappe.get_attr(path).values():
 			for one in offered:
-				if one.get("expects") and str(one.get("ask", "")).strip() == said:
+				asked = str(one.get("ask", "")).strip()
+				if not one.get("expects") or not asked:
+					continue
+				# A question the reader finished is theirs from where it stops.
+				if said == asked or (one.get("fill") and said.startswith(asked)):
 					return one["expects"]
 	return None

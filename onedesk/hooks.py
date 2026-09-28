@@ -732,6 +732,9 @@ one_ai_reads = [
 	"onedesk.one.ai.workspace_holidays",
 	# What waits for the reader today, as Home counts it.
 	"onedesk.one.ai.my_day",
+	# A conversation the reader holds, and what in a folder waits for an answer.
+	"onedesk.one_mail.ai.open_conversation",
+	"onedesk.one_mail.ai.waiting_for_answer",
 	# Documents by what they say, and what they are. See one_intake/search.py.
 	"onedesk.one_intake.search.find_documents",
 	"onedesk.one_hr.ai.my_leave",
@@ -775,10 +778,17 @@ one_ai_suggests = [
 	"onedesk.one.ai.sign_mailbox",
 	# Holidays and days off, as Workspace › Holidays would save them.
 	"onedesk.one.ai.change_holidays",
+	# A reply, written as the reader asked, opened in the email window to send.
+	"onedesk.one_mail.ai.draft_reply",
 ]
-one_ai_suggestions = ["onedesk.one_hr.ai.SUGGESTIONS", "onedesk.one_crm.ai.SUGGESTIONS", "onedesk.one.ai.SUGGESTIONS"]
+one_ai_suggestions = [
+	"onedesk.one_hr.ai.SUGGESTIONS",
+	"onedesk.one_crm.ai.SUGGESTIONS",
+	"onedesk.one.ai.SUGGESTIONS",
+	"onedesk.one_mail.ai.SUGGESTIONS",
+]
 
-one_ai_page = ["onedesk.one.ai.page"]
+one_ai_page = ["onedesk.one.ai.page", "onedesk.one_mail.ai.page"]
 
 # What each module tells people, as notification types. See one/notify.py.
 one_notification_types = [

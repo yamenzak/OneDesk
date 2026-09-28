@@ -3,7 +3,7 @@
 Written by hand. All nine stages are built: addresses on the mail domain,
 sending, connected mailboxes, holders, the page, mail in OneCloud, faces and
 logos, mail on records, and rules, out-of-office and bounces. What waits is
-the AI lane and real inbound mail from outside, which needs the Cloudflare
+real inbound mail from outside, which needs the Cloudflare
 key's Zone Settings: Edit. The part above
 **Under the hood** is the manual; below it are the decisions and the stages
 still to come.
@@ -106,6 +106,26 @@ or bank without a picture gets one the same way, trying a face and a logo in
 whichever order fits it. Every picture is fetched once by
 the workspace, never by your browser, and kept in Company › Logos, so
 opening a message tells nobody anything.
+
+## Asking OneAI
+
+The OneAI panel in OneMail knows the mailbox, the folder and the
+conversation you have open, and offers three things:
+
+- **Summarise this conversation**: who wants what, what was agreed, and
+  what is still open.
+- **Draft a reply**: puts "Draft a reply to this conversation that says:"
+  in the panel's box for you to finish with what the reply should say,
+  such as "turn down their offer" or "we agree only if they deliver by the
+  10th". OneAI writes the whole reply in the conversation's language and
+  shows it as a card. **Approve** opens it in the email window, addressed
+  and quoted as Reply would, for you to read, change and send. OneAI never
+  sends it.
+- **What needs an answer?**: the conversations in the folder whose last
+  message came to you, oldest first.
+
+OneAI reads only a conversation in a mailbox you hold, and only when you
+ask; each question uses OneAI credits.
 
 ## Under the hood
 
