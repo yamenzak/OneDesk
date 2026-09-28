@@ -43,7 +43,7 @@ SECTIONS = [
 	("plan", _lt("Plan and Credits"), "credit-card", "workspace"),
 	("domains", _lt("Domains"), "globe", "workspace"),
 	("oneai", _lt("OneAI Actions"), "sparkles", "workspace"),
-	("intake", _lt("OneIntake"), "inbox", "workspace"),
+	("intake", _lt("OneIntake Settings"), "oneintake", "workspace"),
 	("holidays", _lt("Holidays"), "calendar-days", "workspace"),
 ]
 

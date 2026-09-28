@@ -138,7 +138,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, Workspace | Plan and Credits | done |
 | Settings, Workspace | Domains | done |
 | Settings, Workspace | OneAI (now OneAI › Actions) | done |
-| Settings, Workspace | OneIntake | |
+| Settings, Workspace | OneIntake (now OneIntake › Settings) | findings written, waiting on your word |
 | Settings, Workspace | Holidays | |
 | Products | One home, OneMail, OneCloud, OneCalendar, OneTask, OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, OneAdmin | each screen listed here once we reach it |
 
@@ -1510,6 +1510,67 @@ Done:
 
 Not done: `one_ai/` still has no README of its own; that is the OneAI
 product's screen, when the pass reaches it.
+
+### OneIntake › Settings (was Workspace › OneIntake)
+
+Moved on your word before the findings: the One sidebar has a **OneIntake**
+group (Inbox, Ready to Submit, Deadlines, Spending, Settings) under OneAI,
+and this page is its Settings, titled OneIntake Settings.
+
+The page is `Intake Settings` as one flat form of eight fields, under a
+violet line "OneAI handled 26 of 39 documents this month; 13 needed a
+person", with **Models** and **Save** in the page head.
+
+1. **Notifications**: nothing is sent when these change, and three of them
+   change what OneAI does with money for everybody. **Submit Matching
+   E-Invoices** lets OneAI post invoices to the books; **Household** stops
+   every draft; **Audit What OneAI Does** off removes the second check.
+   Recommended: **OneIntake Changed**, on the bell, to every other
+   administrator, naming what was switched and by whom.
+2. **OneAI**: the panel does not know the page. Recommended: the page
+   sentence, and **Is OneIntake set up well for us?**, read by a new
+   `workspace_intake`: the settings, this month's numbers (handled, needed a
+   person, undone), what waits now, and how often the floor sent things to a
+   person. No AI call to read it.
+3. **Intake**: this is Intake's own page. The month line answers nothing on
+   its own: 13 needed a person, but which, and are they still waiting?
+   Recommended: a **This Month** section (handled, needed a person, undone,
+   waiting now), each number opening the Inbox on that box.
+4. **Permissions**: the page is administrators'; `Intake Settings` is
+   written by Workspace Administrator only. Holds. The sidebar group's
+   Inbox, Deadlines and Spending are every desk user's, Ready to Submit
+   the accounts and purchase roles', and Settings administrators'; frappe
+   hides what a person cannot open.
+5. **Cross-module**: Household and Submit Matching E-Invoices are OneBook
+   decisions made here with no link to OneBook; Read Files Attached to
+   Records reaches every module. Recommended: each says where it lands
+   (Ready to Submit, Spending), as a link.
+6. **UI and UX**:
+   - a. **Empty fields that are not empty.** Most Pages Read and Confidence
+     Floor show blank, but blank means 60 pages and 70% (`pipeline.py`,
+     `act.py`). Quiet Minutes shows 0, which is its real value: OneAI acts
+     at once. Recommended: the defaults written in, and each field saying
+     what it does now ("60 pages", "70%").
+   - b. **One flat list.** Eight settings of four kinds. Recommended:
+     sections: What Is Read (attached files, most pages), How Sure (floor,
+     audit), Filing (leave in place, quiet minutes), Books (household,
+     submit e-invoices).
+   - c. The month line is a violet badge. Recommended: the This Month
+     section in 3, drawn as the page's own facts, not a badge.
+   - d. "Confidence Floor" is a Percent field with no unit shown.
+7. **Documented**: OneIntake's README describes each setting where it
+   applies, but has no section for this page, so `how_to` cannot answer
+   "what should the confidence floor be". Recommended: a section,
+   OneIntake Settings, in `one_intake/README.md` (above Under the hood):
+   each setting, its default, and who changes it.
+8. **Legal**: the AI Addendum's `intake-acts` says OneAI files, links and
+   *drafts*. With Submit Matching E-Invoices on, it also *submits* an
+   invoice to the books, which the clause does not say. Recommended: the
+   clause says a workspace may let it submit e-invoices from known
+   suppliers that match an order, off unless switched on.
+9. **Built from frappe**: the form is frappe's controls in a FieldGroup
+   with Save in the page head, dirty-tracked and saved against the loaded
+   values. Holds. It does not redraw when another administrator saves.
 
 ## OneLegal
 

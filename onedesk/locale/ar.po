@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-28 08:36+0000\n"
-"PO-Revision-Date: 2026-09-28 08:36+0000\n"
+"POT-Creation-Date: 2026-09-28 08:59+0000\n"
+"PO-Revision-Date: 2026-09-28 08:59+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -3959,6 +3959,7 @@ msgstr "مهلة"
 
 #. Label of a Sidebar Item
 #. Name of a report
+#: onedesk/one/sidebar/one/one.json
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 #: onedesk/one_intake/calendar.py:35
 #: onedesk/one_intake/report/deadlines/deadlines.json
@@ -6837,8 +6838,9 @@ msgstr "خلال {0} يوم"
 msgid "In, per 1M Tokens"
 msgstr "المدخل لكل مليون رمز"
 
-#. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
 #. Label of a Sidebar Item
+#. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
+#: onedesk/one/sidebar/one/one.json
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_task/sidebar/onetask/onetask.json
 #: onedesk/public/js/onemail.js:34
@@ -10474,12 +10476,16 @@ msgstr "إعداد OneHR"
 
 #. Label of a Sidebar Item
 #. Option for the 'Product' (Select) field in DocType 'AI Action'
-#: onedesk/one/settings.py:46 onedesk/one/sidebar/one/one.json
+#: onedesk/one/sidebar/one/one.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
 #: onedesk/one_intake/page/intake/intake.js:6 onedesk/public/js/desk.js:63
 #: onedesk/public/js/desk.js:86
 msgid "OneIntake"
 msgstr "OneIntake"
+
+#: onedesk/one/settings.py:46
+msgid "OneIntake Settings"
+msgstr "إعدادات OneIntake"
 
 #: onedesk/public/js/desk.js:86
 msgid "OneIntake: {0} wait for you"
@@ -12415,6 +12421,7 @@ msgid "Ready"
 msgstr "جاهز"
 
 #. Label of a Sidebar Item
+#: onedesk/one/sidebar/one/one.json
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:6
 msgid "Ready to Submit"
@@ -13750,7 +13757,7 @@ msgstr "جارٍ إعداد One"
 
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
-#: onedesk/one/page/settings/settings.js:5
+#: onedesk/one/page/settings/settings.js:5 onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Settings"
@@ -14156,6 +14163,7 @@ msgstr "إنفاق"
 
 #. Label of a Sidebar Item
 #. Name of a report
+#: onedesk/one/sidebar/one/one.json
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_intake/report/spending/spending.json
 msgid "Spending"
