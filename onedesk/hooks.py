@@ -550,6 +550,9 @@ fixtures = [
 	{"dt": "Quotation Lost Reason", "filters": [["name", "in", ["Price", "Went With a Competitor", "No Budget", "No Decision", "Timing", "Not a Fit", "Other"]]]},
 	# Where a lead from the web form says it came from.
 	{"dt": "UTM Source", "filters": [["name", "=", "Website"]]},
+	# One › Home's part for administrators: what in the workspace needs them
+	# (one/home.py, attention). A block has no module to be standard in.
+	{"dt": "Custom HTML Block", "filters": [["name", "=", "One Needs You"]]},
 ]
 
 
@@ -727,6 +730,8 @@ one_ai_reads = [
 	"onedesk.one.ai.workspace_intake",
 	# The holiday list in force, when it ends and what follows it.
 	"onedesk.one.ai.workspace_holidays",
+	# What waits for the reader today, as Home counts it.
+	"onedesk.one.ai.my_day",
 	# Documents by what they say, and what they are. See one_intake/search.py.
 	"onedesk.one_intake.search.find_documents",
 	"onedesk.one_hr.ai.my_leave",

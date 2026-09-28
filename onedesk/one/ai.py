@@ -154,6 +154,17 @@ SUGGESTIONS = {
 			"expects": "workspace_intake",
 		},
 	],
+	# Home: what waits for the reader today, across every product.
+	"workspace:One": [
+		{
+			"label": _lt("What needs me today?"),
+			"ask": _lt(
+				"What needs me today? Look at my tasks, my meetings, what waits for me in OneIntake, OneAI's "
+				"suggestions and what I have to approve, and say what to do first."
+			),
+			"expects": "my_day",
+		},
+	],
 	"page:workspace-settings/holidays": [
 		{
 			"label": _lt("Are our holidays ready for next year?"),
@@ -303,6 +314,13 @@ def page(said: dict) -> str | None:
 			"person, and the audit; filing, and how many quiet minutes before it acts; and the books, household "
 			"and submitting matching e-invoices; and what it does by itself in OneHR. workspace_intake reads it all. They change a switch or a number "
 			"and save from the page head; how is in One's documentation under OneIntake Settings, for the Workspace (how_to)."
+		)
+	if said.get("workspace") == "One":
+		return (
+			"The reader is on One's Home: today's numbers for them (tasks due or late, meetings today, documents "
+			"waiting in OneIntake, OneAI suggestions waiting for their approval, leave and expense claims waiting "
+			"on them as approver), each opening its list, and for an administrator what in the workspace needs "
+			"them. my_day reads it all, with the first tasks. How is in One's documentation under Home (how_to)."
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "holidays":
 		return (
@@ -903,6 +921,16 @@ def workspace_holidays() -> dict:
 		"country_holidays_not_in_the_list": missing,
 		"people_on_their_own_list": said["elsewhere"],
 	}
+
+
+def my_day() -> dict:
+	"""What waits for the reader today, as One's Home counts it: tasks due or
+	late (with the first few), meetings today, documents waiting in OneIntake,
+	OneAI suggestions waiting for their approval, approvals waiting on them,
+	and for an administrator what in the workspace needs them."""
+	from onedesk.one import home
+
+	return home.my_day()
 
 
 def change_holidays(

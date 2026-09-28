@@ -1,9 +1,14 @@
 {
  "app": "onedesk",
  "charts": [],
- "content": "[{\"id\": \"one_welcome\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>One</b></span>\", \"col\": 12}}, {\"id\": \"one_onboarding\", \"type\": \"onboarding\", \"data\": {\"onboarding_name\": \"One Onboarding\", \"col\": 12}}]",
+ "content": "[{\"id\": \"one_today\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Today</b></span>\", \"col\": 12}}, {\"id\": \"one_nc_0\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Tasks Due or Late\", \"col\": 4}}, {\"id\": \"one_nc_1\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Meetings Today\", \"col\": 4}}, {\"id\": \"one_nc_2\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Documents Waiting\", \"col\": 4}}, {\"id\": \"one_nc_3\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"OneAI Suggestions\", \"col\": 4}}, {\"id\": \"one_nc_4\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Approvals Waiting\", \"col\": 4}}, {\"id\": \"one_needs\", \"type\": \"custom_block\", \"data\": {\"custom_block_name\": \"One Needs You\", \"col\": 12}}]",
  "creation": "2026-09-20 12:00:00.000000",
- "custom_blocks": [],
+ "custom_blocks": [
+  {
+   "custom_block_name": "One Needs You",
+   "label": "One Needs You"
+  }
+ ],
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
@@ -13,11 +18,32 @@
  "is_hidden": 0,
  "label": "One",
  "links": [],
- "modified": "2026-09-20 15:00:00.000000",
+ "modified": "2026-09-28 20:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",
- "number_cards": [],
+ "number_cards": [
+  {
+   "number_card_name": "Tasks Due or Late",
+   "label": "Tasks Due or Late"
+  },
+  {
+   "number_card_name": "Meetings Today",
+   "label": "Meetings Today"
+  },
+  {
+   "number_card_name": "Documents Waiting",
+   "label": "Documents Waiting"
+  },
+  {
+   "number_card_name": "OneAI Suggestions",
+   "label": "OneAI Suggestions"
+  },
+  {
+   "number_card_name": "Approvals Waiting",
+   "label": "Approvals Waiting"
+  }
+ ],
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,

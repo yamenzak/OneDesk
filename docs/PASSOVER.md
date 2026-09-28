@@ -140,7 +140,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, Workspace | OneAI (now OneAI › Actions) | done |
 | Settings, Workspace | OneIntake (now OneIntake › Settings) | done |
 | Settings, Workspace | Holidays | done |
-| Products | One › Home | findings |
+| Products | One › Home | done |
 | Products | OneMail, OneCloud, OneCalendar, OneTask, OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, OneAdmin | each screen listed here once we reach it |
 
 Noticed along the way, for the screen it belongs to:
@@ -1806,6 +1806,32 @@ everybody lands and where every product meets, has none.
    method that counts for the reader), and the workspace part a
    `Custom HTML Block`, so the page stays editable in frappe's workspace
    editor.
+
+Your word: build it.
+
+Done:
+
+- **Today**, for everybody: five of frappe's `Number Card`s of type Custom,
+  each a method in `one/home.py` that counts for the reader and says where
+  a click goes. Tasks Due or Late (OneTask's own `mine.tasks`, overdue and
+  today) opens My Tasks; Meetings Today (OneCalendar's `events.mine`) the
+  calendar; Documents Waiting (OneIntake's `inbox.counts`) the inbox on
+  Waiting; OneAI Suggestions the reader's proposals still Proposed; and
+  Approvals Waiting, leave and expense claims where the reader is the
+  approver, the list with most of them.
+- **The Workspace**, for administrators: a `Custom HTML Block` (`One Needs
+  You`, a fixture) limited to Workspace Administrator, filled by
+  `home.attention`. It reads only what the workspace keeps (the account's
+  copy, its mailboxes, its holiday list), draws each as espresso's yellow
+  alert linking to where it is fixed, and hides itself when nothing needs
+  them. The thresholds are the notices' own (`account.LOW`,
+  `account.NEARLY_FULL`).
+- The "One" heading and the empty onboarding block are gone; Getting
+  Started stays where it floats.
+- **OneAI**: the page sentence, **What needs me today?** and `my_day`.
+- `one/README.md` has **Home**.
+- Checked with a mailbox made to fail for a moment: the block showed it,
+  and went when it was cleared.
 
 ## OneLegal
 

@@ -17,6 +17,30 @@ One's sidebar has three groups:
 **OneAI is the round button in the corner.** Open it on any page and it offers
 what makes sense there. You can also ask it how anything in One works.
 
+## Home
+
+**Home** is where One opens: what waits for you today, from every product.
+Each number counts only what you may open, and a click opens its list.
+
+- **Tasks Due or Late**: tasks given to you that are due today or already
+  late, from OneTask's My Tasks.
+- **Meetings Today**: what is on your own calendar today.
+- **Documents Waiting**: documents OneIntake read that wait for you.
+- **OneAI Suggestions**: OneAI's cards you have not approved or refused.
+- **Approvals Waiting**: leave and expense claims waiting on you as their
+  approver.
+
+Administrators also see **The Workspace**, and only when something needs
+them: a mailbox not connecting, a domain not working, OneAI credits running
+low, storage or the database nearly full, every seat taken, a payment
+overdue, or the holiday list ending with none after it. Each opens the page
+where it is fixed.
+
+Home is frappe's workspace: an administrator can add to it or move things
+on it with frappe's own Edit.
+
+**OneAI on this page** offers **What needs me today?**
+
 ## Settings
 
 Each entry under **You** and **Workspace** opens one section of Settings in the

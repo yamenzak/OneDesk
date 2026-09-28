@@ -198,6 +198,12 @@ No doctypes yet.
 * `onedesk.one.holidays.next_year`
 * `onedesk.one.holidays.subdivisions`
 * `onedesk.one.holidays.use`
+* `onedesk.one.home.approvals_waiting`
+* `onedesk.one.home.attention`
+* `onedesk.one.home.intake_waiting`
+* `onedesk.one.home.meetings_today`
+* `onedesk.one.home.suggestions_waiting`
+* `onedesk.one.home.tasks_due`
 * `onedesk.one.invite.accept`
 * `onedesk.one.push.devices`
 * `onedesk.one.push.forget`

@@ -1,0 +1,19 @@
+[
+ {
+  "doctype": "Custom HTML Block",
+  "name": "One Needs You",
+  "html": "<div class=\"one-needs\"></div>",
+  "script": "// What in the workspace needs an administrator now (one/home.py, attention).\n// Nothing, and the block takes no room on Home.\nfrappe.xcall(\"onedesk.one.home.attention\").then((rows) => {\n\tconst box = root_element.querySelector(\".one-needs\");\n\tconst block = root_element.host.closest(\".ce-block\");\n\tif (!rows.length) {\n\t\tif (block) block.style.display = \"none\";\n\t\treturn;\n\t}\n\tconst esc = frappe.utils.escape_html;\n\tbox.innerHTML =\n\t\t`<div class=\"one-needs-head\"><span class=\"h4\"><b>${esc(__(\"The Workspace\"))}</b></span></div>` +\n\t\trows\n\t\t\t.map((one) => `<a class=\"one-needs-row\" href=\"${esc(one.route)}\">${frappe.ui.alert.html({ title: one.what, description: one.detail, theme: \"yellow\" })}</a>`)\n\t\t\t.join(\"\");\n\t// frappe's icons are a sprite in the page, which a shadow root cannot\n\t// reach: the alert's words carry it without one.\n\tbox.querySelectorAll(\".es-alert svg\").forEach((icon) => icon.remove());\n});\n",
+  "style": "/* As a workspace header draws (desktop.scss, .ce-header .h4). */\n.one-needs { margin: 0 -7px; }\n.one-needs-head { margin: 0 0 12px; }\n.one-needs-head .h4 { font-size: var(--text-lg); color: var(--text-light); }\n.one-needs-row { display: block; margin-bottom: 8px; text-decoration: none; color: inherit; }\n.one-needs-row:hover { text-decoration: none; }\n",
+  "private": 0,
+  "roles": [
+   {
+    "doctype": "Has Role",
+    "role": "Workspace Administrator",
+    "parentfield": "roles",
+    "parenttype": "Custom HTML Block"
+   }
+  ],
+  "modified": "2026-09-28 20:30:00.000000"
+ }
+]
