@@ -445,8 +445,10 @@ side says when they were last heard; **Check Again**, at the top, asks now.
   used (click them for People), and two bars: the storage its files take
   (click it for OneCloud) and the database its records take, each against
   what the plan and its add-ons allow. A bar turns orange at nine tenths and
-  red when full. **Added to the Plan** lists the add-ons, each with
-  **Remove**.
+  red when full. **Added to the Plan** lists the add-ons and how many of each.
+  **Remove One** takes one off (2 × 1 GB becomes 1 × 1 GB); on the last it
+  says **Remove**. Buying the same add-on again adds to the count. All of
+  them are billed on the workspace's one subscription, with the plan.
 - **Change Plan**, at the top right, shows every plan side by side with the
   current one marked. Pick one and it says what that costs a month against
   now: moving up is charged for the rest of the month at once, moving down

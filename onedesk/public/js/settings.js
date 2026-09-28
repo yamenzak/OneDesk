@@ -1042,7 +1042,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				(one) => `<div class="one-shell-row" data-add-on="${esc(one.offering)}">
 					<div class="one-shell-row-main"><div class="one-shell-row-title">${esc(one.quantity > 1 ? __("{0} × {1}", [one.quantity, one.label]) : one.label)}</div>
 					<div class="one-shell-row-sub">${esc(__("{0} a month", [money(one.amount * (one.quantity || 1))]))}</div></div>
-					<div class="one-shell-row-actions">${onedesk.shell.button(__("Remove"), { "data-drop": "1" }, "ghost")}</div>
+					<div class="one-shell-row-actions">${onedesk.shell.button(one.quantity > 1 ? __("Remove One") : __("Remove"), { "data-drop": "1" }, "ghost")}</div>
 				</div>`
 			)
 			.join("");
@@ -1078,10 +1078,19 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					__("The last {0} days: what came in, and what OneAI used each day. Click a day to see who and what used it.", [data.ledger_days])
 				)
 		);
+		// One at a time: 2 × 1 GB becomes 1 × 1 GB, the last one comes off.
 		this.$content.find("[data-add-on] [data-drop]").on("click", (event) => {
 			const key = $(event.currentTarget).closest("[data-add-on]").attr("data-add-on");
-			const kept = Object.fromEntries((data.add_ons || []).filter((one) => one.offering !== key).map((one) => [one.offering, one.quantity]));
-			frappe.confirm(__("Take this off the plan? What it gave the workspace goes with it."), () => this.take(account.plan_key, kept));
+			const kept = Object.fromEntries((data.add_ons || []).map((one) => [one.offering, one.quantity]));
+			const one = (data.add_ons || []).find((row) => row.offering === key);
+			kept[key] = (kept[key] || 1) - 1;
+			frappe.confirm(
+				__("Take one {0} off the plan? It saves {1} a month, and what it gave the workspace goes with it.", [
+					one ? one.label : key,
+					money(one ? one.amount : 0),
+				]),
+				() => this.take(account.plan_key, kept)
+			);
 		});
 		// The account's ledger as frappe's table, as every list of ours is.
 		if (data.ledger) {
