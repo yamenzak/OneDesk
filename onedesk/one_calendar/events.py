@@ -92,7 +92,13 @@ def _rows(start, end, wanted: str, record: tuple | None = None) -> list[dict]:
 	if not found:
 		return []
 	names = [one.name for one in found]
-	shared = set(frappe.get_all("DocShare", filters={"share_doctype": "Event", "share_name": ["in", names], "user": user}, pluck="share_name"))
+	shared = set(
+		frappe.get_all(
+			"DocShare",
+			filters={"share_doctype": "Event", "share_name": ["in", names], "user": user},
+			pluck="share_name",
+		)
+	)
 	people, about = _participants(names)
 	for one in found:
 		about.setdefault(one.name, set())
@@ -214,7 +220,11 @@ def occurrences(event, start: date, end: date) -> list[tuple[datetime, datetime 
 
 	if not event.repeat_this_event:
 		last = get_datetime(event.ends_on).date() if event.ends_on else first.date()
-		return [(first, get_datetime(event.ends_on) if event.ends_on else None)] if last >= start and first.date() <= end else []
+		return (
+			[(first, get_datetime(event.ends_on) if event.ends_on else None)]
+			if last >= start and first.date() <= end
+			else []
+		)
 
 	until = min(end, getdate(event.repeat_till) if event.repeat_till else end)
 	days = []
@@ -255,7 +265,13 @@ def move(event: str, start: str, end: str | None = None, all_day: int | None = N
 
 
 def validate(doc, method=None) -> None:
-	"""Only a publisher makes an event Public, or keeps editing one."""
+	"""Guests typed as addresses become participants; and only a publisher
+	makes an event Public, or keeps editing one."""
+	if doc.get("one_guests"):
+		# An address carried in by a suggestion OneAI made (ai.py plan_event) or
+		# typed anywhere else: each becomes a participant, a Contact if needed.
+		invite(doc, None, doc.one_guests)
+		doc.one_guests = None
 	if doc.event_type != "Public" or frappe.flags.in_install or frappe.flags.in_migrate:
 		return
 	before = doc.get_doc_before_save()
@@ -263,6 +279,160 @@ def validate(doc, method=None) -> None:
 		return
 	if not set(PUBLISHERS) & set(frappe.get_roles()):
 		frappe.throw(
-			frappe._("Only an administrator puts an event on everybody's calendar. Make it private and add the people it is for."),
+			frappe._(
+				"Only an administrator puts an event on everybody's calendar. Make it private and add the people it is for."
+			),
 			frappe.PermissionError,
 		)
+
+
+# ------------------------------------------------------------------ making and showing
+
+
+@frappe.whitelist(methods=["POST"])
+def make(values: str | dict) -> str:
+	"""An event from Add Event, with the people it is for.
+
+	Team members are invited by name, outside guests by address; both become
+	frappe's own participants, which is what lets frappe show each of them the
+	event. A guest is a Contact, found by their address or made for it, so the
+	event is on their timeline. Being told of it is `tell.py`'s, on save."""
+	values = frappe.parse_json(values) if isinstance(values, str) else dict(values or {})
+	doc = frappe.get_doc(
+		{
+			"doctype": "Event",
+			"subject": (values.get("subject") or "").strip(),
+			"all_day": 1 if values.get("all_day") else 0,
+			"starts_on": values.get("starts_on"),
+			"ends_on": values.get("ends_on") or None,
+			"location": values.get("location"),
+			"description": values.get("description"),
+			"event_type": "Public" if values.get("public") else "Private",
+			"reference_doctype": values.get("reference_doctype") or None,
+			"reference_docname": values.get("reference_docname") or None,
+		}
+	)
+	invite(doc, values.get("team"), None)
+	doc.one_guests = values.get("guests") or None
+	doc.insert()
+	return doc.name
+
+
+def invite(doc, team=None, guests=None) -> None:
+	"""People added to an event as its participants: team members by user,
+	guests by address. Nobody is added twice, and the maker is not added."""
+	team = frappe.parse_json(team) if isinstance(team, str) and team.strip().startswith("[") else team
+	if isinstance(team, str):
+		team = [one.strip() for one in team.split(",")]
+	have = {(row.email or "").lower() for row in doc.get("event_participants") or []}
+	me = frappe.session.user
+	for user in team or []:
+		found = frappe.db.get_value("User", {"name": user, "enabled": 1}, ["name", "email"], as_dict=True)
+		if not found or found.name == me or (found.email or "").lower() in have:
+			continue
+		doc.append(
+			"event_participants",
+			{"reference_doctype": "User", "reference_docname": found.name, "email": found.email},
+		)
+		have.add((found.email or "").lower())
+	for email in addresses(guests):
+		if email in have:
+			continue
+		user = frappe.db.get_value("User", {"email": email, "enabled": 1}, "name")
+		if user:
+			doc.append(
+				"event_participants", {"reference_doctype": "User", "reference_docname": user, "email": email}
+			)
+		else:
+			doc.append(
+				"event_participants",
+				{"reference_doctype": "Contact", "reference_docname": contact(email), "email": email},
+			)
+		have.add(email)
+
+
+def addresses(text) -> list[str]:
+	"""Email addresses out of what was typed: commas, semicolons, spaces or
+	lines between them; anything that is not one is left out. Pure."""
+	import re
+
+	if isinstance(text, list):
+		text = ",".join(text)
+	found = re.findall(r"[^\s,;<>]+@[^\s,;<>]+\.[^\s,;<>]+", text or "")
+	return list(dict.fromkeys(one.lower() for one in found))
+
+
+def contact(email: str) -> str:
+	"""The Contact an address belongs to, made for it when there is none."""
+	found = frappe.db.get_value("Contact Email", {"email_id": email, "parenttype": "Contact"}, "parent")
+	if found:
+		return found
+	made = frappe.get_doc(
+		{
+			"doctype": "Contact",
+			"first_name": email.split("@", 1)[0],
+			"email_ids": [{"email_id": email, "is_primary": 1}],
+		}
+	)
+	# Made as a side effect of inviting them, which the person may do whether
+	# or not they may add contacts by hand.
+	made.insert(ignore_permissions=True)
+	return made.name
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def card(name: str) -> dict:
+	"""What the calendar shows when an event is clicked, for whoever sees it
+	on their calendar: by frappe's rule (theirs, shared, invited, Public) or
+	because it is about a record they may open. The card says whether they
+	may open the event's own page and change it."""
+	doc = frappe.get_doc("Event", name)
+	user = frappe.session.user
+	shared = bool(frappe.db.exists("DocShare", {"share_doctype": "Event", "share_name": name, "user": user}))
+	people = {(row.email or "").lower() for row in doc.event_participants}
+	opens = frappe.has_permission("Event", "read", doc=doc)
+	if not (whose(doc, user, shared, user.lower() in people) or opens or _about_readable(doc)):
+		frappe.throw(frappe._("That event is not on your calendar."), frappe.PermissionError)
+	return {
+		"name": doc.name,
+		"subject": doc.subject,
+		"starts_on": str(doc.starts_on),
+		"ends_on": str(doc.ends_on) if doc.ends_on else None,
+		"all_day": bool(doc.all_day),
+		"repeats": doc.repeat_on if doc.repeat_this_event else None,
+		"location": doc.location,
+		"description": frappe.utils.sanitize_html(doc.description or ""),
+		"join": doc.google_meet_link or None,
+		"owner": frappe.utils.get_fullname(doc.owner),
+		"public": doc.event_type == "Public",
+		"people": [
+			{
+				"name": frappe.utils.get_fullname(row.reference_docname)
+				if row.reference_doctype == "User"
+				else (
+					frappe.db.get_value(row.reference_doctype, row.reference_docname, "full_name")
+					if row.reference_doctype == "Contact"
+					else None
+				)
+				or row.email,
+				"email": row.email,
+				"answer": row.attending or None,
+			}
+			for row in doc.event_participants
+		],
+		"about": [doc.reference_doctype, doc.reference_docname]
+		if doc.reference_doctype and doc.reference_docname
+		else None,
+		"can_open": bool(opens),
+		"can_edit": bool(opens and frappe.has_permission("Event", "write", doc=doc)),
+	}
+
+
+def _about_readable(doc) -> bool:
+	pairs = []
+	if doc.reference_doctype and doc.reference_docname:
+		pairs.append((doc.reference_doctype, doc.reference_docname))
+	pairs += [(row.link_doctype, row.link_name) for row in doc.get("links") or []]
+	seen = {}
+	return any(_can_read(pair, seen) for pair in pairs)

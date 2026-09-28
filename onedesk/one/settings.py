@@ -130,7 +130,6 @@ BANK = ("bank_name", "iban", "bank_ac_no")
 NOTIFY = (
 	"enabled",
 	"enable_email_notifications",
-	"enable_email_event_reminders",
 	"enable_email_threads_on_assigned_document",
 )
 
@@ -144,7 +143,6 @@ NOTIFY_SAID = {
 		_lt("Also by Email"),
 		_lt("Mails you what you switch on for email below. Turn it off and nothing is mailed."),
 	),
-	"enable_email_event_reminders": (_lt("Event Reminders"), _lt("Mails you before an event of yours starts.")),
 	"enable_email_threads_on_assigned_document": (
 		_lt("Mail About What Is Assigned to You"),
 		_lt("Mails you each new mail on a record you were given to do."),

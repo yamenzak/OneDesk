@@ -143,7 +143,8 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | One › Home | done |
 | Products | OneMail | done |
 | Products | OneCloud | done |
-| Products | OneCalendar, OneTask, OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, OneAdmin | each screen listed here once we reach it |
+| Products | OneCalendar | done |
+| Products | OneTask, OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, OneAdmin | each screen listed here once we reach it |
 
 Noticed along the way, for the screen it belongs to:
 
@@ -2195,6 +2196,53 @@ and a record's own calendar is the same page with `?doctype=&name=`.
    - **nothing listens on `frappe.realtime`** (6c): frappe's
      `doctype_subscribe("Event")` and `list_update` are how a screen hears
      of a change.
+
+Your word: all of them, and one sidebar, as OneMail has.
+
+Done:
+
+- **One sidebar**: the page hides the rail (`hide_sidebar`), as OneMail
+  does, and its left column is the navigation: **New Event** on top, the
+  layers, and at the foot **All Events**, **Deadlines**, **Subscribe**, and
+  **Setup** (Google Calendar, Calendar Links) for those who may read them.
+  The rail still leads to the list and setup pages themselves.
+- **Title**: OneCalendar (page and its record).
+- **Layers** are frappe's Check control, each with its colour.
+- **Live**: `frappe.realtime.doctype_subscribe` on Event and every layer's
+  doctype; a `list_update` draws the calendar again.
+- **Days off**: holidays and weekly days off as a background, from the list
+  in force on each day (`layers.days_off`); a holiday carries its name.
+- **The card**: clicking an event opens a `frappe.ui.Popover` with the time
+  clicked (a repeat's, not its first), where, who made it, who is on it and
+  their answer, what it says, **Join** for a video call, **Open**, and
+  **Delete** for whoever may. Anything else opens its record.
+- **Invite and Guests** in New Event (`events.make`): team members by name
+  (frappe's MultiSelectPills), guests by address; both are frappe's own
+  participants, a guest a Contact. Addresses may also ride in on Event's new
+  hidden `one_guests`, which is how OneAI's card carries them.
+- **Notifications** (`one_calendar/notifications.py`, `tell.py`): Invited
+  to an Event, Event Changed (time or place), Event Cancelled (cancelled or
+  deleted), Starting Soon (the event's own reminders, else ten minutes
+  before, every five minutes, once per time), and Today's Events each
+  morning from the reader's own calendar. Guests are mailed **Event
+  Invitation** with an `.ics` (METHOD REQUEST or CANCEL, a growing
+  SEQUENCE, the repeat as RRULE). frappe's morning digest is stopped on
+  migrate, and its "Event Reminders" switch is gone from Settings.
+- **OneAI** (`one_calendar/ai.py`): the page sentence (and a record's
+  calendar by name), `my_calendar` (the page's own merge, with days off),
+  `busy_times` (times only, never what), and `plan_event`, a Create card
+  whose Approve makes the event and invites its people. Suggestions: What
+  is on this week?, Find a time to meet… (fill), Plan my day.
+- **Legal**: `calendar-guests` in the Privacy Policy (guests kept as
+  contacts and mailed; the Google Calendar connection), revision 6;
+  `onecalendar-asks` in the AI Addendum, revision 6.
+- **README**: the column, days off, invites and guests, the card, Being
+  told, Asking OneAI, and Under the hood.
+- Checked on the dev site: an invite, a change and a delete told the right
+  people; Starting Soon came ten minutes before; the guest's mail carried
+  the `.ics`; OneAI's card, approved, made the event with a colleague and a
+  guest. In the browser: the column, the card, New Event and the panel's
+  suggestions. No model was called.
 
 ## OneLegal
 

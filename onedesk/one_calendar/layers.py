@@ -54,7 +54,13 @@ def offered(about: tuple | None = None) -> list[dict]:
 	"""The layers this reader may see, without their functions: the main
 	calendar's, or the ones that can draw one record's calendar."""
 	return [
-		{"key": one["key"], "label": str(one["label"]), "color": one["color"], "group": one["group"], "on": one.get("on", True)}
+		{
+			"key": one["key"],
+			"label": str(one["label"]),
+			"color": one["color"],
+			"group": one["group"],
+			"on": one.get("on", True),
+		}
 		for one in every()
 		if _fits(one, about) and _may(one)
 	]
@@ -72,7 +78,9 @@ def _about(doctype: str | None, name: str | None) -> tuple | None:
 	if not doctype or not name:
 		return None
 	if not frappe.has_permission(doctype, "read", doc=name):
-		frappe.throw(frappe._("You cannot open {0} {1}.").format(frappe._(doctype), name), frappe.PermissionError)
+		frappe.throw(
+			frappe._("You cannot open {0} {1}.").format(frappe._(doctype), name), frappe.PermissionError
+		)
 	return (doctype, name)
 
 
@@ -113,6 +121,41 @@ def entries(
 		rows = frappe.get_attr(layer["rows"])
 		for row in (rows(start, end, about) if about else rows(start, end))[:MOST]:
 			out.append(entry(layer, row))
+	return out
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def days_off(
+	start: Annotated[str, "The first day shown, as YYYY-MM-DD."],
+	end: Annotated[str, "The last day shown, as YYYY-MM-DD."],
+) -> list[dict]:
+	"""The workspace's days off between two days, to shade the calendar: its
+	holidays and its weekly days off, each from the list in force on that day.
+
+	When the company is closed is nobody's secret, so every desk user sees it,
+	whether or not they may open a Holiday List: read here rather than through
+	`get_list`, which would refuse them."""
+	from onedesk.one import holidays
+
+	named = holidays.lists()
+	if not named:
+		return []
+	rows = frappe.get_all(
+		"Holiday",
+		filters=[["parent", "in", named], ["holiday_date", "between", [getdate(start), getdate(end)]]],
+		fields=["parent", "holiday_date", "weekly_off", "description"],
+		order_by="holiday_date asc",
+	)
+	force = {}
+	out = []
+	for one in rows:
+		day = getdate(one.holiday_date)
+		if day not in force:
+			force[day] = holidays.in_force(day)
+		if force[day] != one.parent:
+			continue
+		out.append({"date": str(day), "weekly": bool(one.weekly_off), "title": plain(one.description, 60)})
 	return out
 
 

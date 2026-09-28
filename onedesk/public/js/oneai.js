@@ -73,8 +73,9 @@ onedesk.oneai = {
 				name: "",
 				page: route[0],
 				section: params.section || (cloud && cloud.file ? "file" : ""),
-				record: params.type || params.rule || params.thread || (cloud && cloud.file) || route[1] || "",
-				box: params.box || "",
+				// A record's own calendar names it as ?doctype=&name=.
+				record: params.type || params.rule || params.thread || (cloud && cloud.file) || params.name || route[1] || "",
+				box: params.box || params.doctype || "",
 				folder: params.folder || (cloud && cloud.folder) || "",
 				view: "Page",
 				label: (cloud && cloud.label) || document.title,

@@ -34,7 +34,9 @@ def get_datetime(value):
 
 
 def getdate(value):
-	return value if isinstance(value, date) and not isinstance(value, datetime) else get_datetime(value).date()
+	return (
+		value if isinstance(value, date) and not isinstance(value, datetime) else get_datetime(value).date()
+	)
 
 
 def add_months(day, months):
@@ -142,12 +144,29 @@ FEED = _load(CAL / "feed.py", ("LINE", "calendar", "utc", "escape", "fold", "slu
 
 def test_the_ics_file_is_utc_dates_and_folded():
 	found = [
-		{"id": "k:E1", "title": "Call; Rana, about the quote", "start": "2026-09-24T10:00:00",
-		 "end": "2026-09-24T11:00:00", "all_day": False, "doctype": "Event", "name": "E1", "description": "x" * 200},
-		{"id": "k:L1", "title": "Annual Leave", "start": "2026-09-24T00:00:00",
-		 "end": "2026-09-27T00:00:00", "all_day": True, "doctype": "Leave Application", "name": "L1"},
+		{
+			"id": "k:E1",
+			"title": "Call; Rana, about the quote",
+			"start": "2026-09-24T10:00:00",
+			"end": "2026-09-24T11:00:00",
+			"all_day": False,
+			"doctype": "Event",
+			"name": "E1",
+			"description": "x" * 200,
+		},
+		{
+			"id": "k:L1",
+			"title": "Annual Leave",
+			"start": "2026-09-24T00:00:00",
+			"end": "2026-09-27T00:00:00",
+			"all_day": True,
+			"doctype": "Leave Application",
+			"name": "L1",
+		},
 	]
-	said = FEED["calendar"](found, "One · Rana", ZoneInfo("Asia/Dubai"), datetime(2026, 9, 23, 12), "https://acme.one")
+	said = FEED["calendar"](
+		found, "One · Rana", ZoneInfo("Asia/Dubai"), datetime(2026, 9, 23, 12), "https://acme.one"
+	)
 	assert said.startswith("BEGIN:VCALENDAR\r\n") and said.endswith("END:VCALENDAR\r\n")
 	assert "DTSTART:20260924T060000Z" in said, "10:00 in Dubai is 06:00 UTC"
 	assert "DTSTART;VALUE=DATE:20260924\r\nDTEND;VALUE=DATE:20260927" in said
@@ -175,7 +194,9 @@ def test_a_link_is_found_by_its_hash_kept_encrypted_and_read_as_its_owner():
 
 
 def test_every_layer_is_declared_whole_and_registered():
-	registered = re.findall(r'"(onedesk\.[\w.]+\.LAYERS)"', HOOKS.split("one_calendar_layers = [", 1)[1].split("]", 1)[0])
+	registered = re.findall(
+		r'"(onedesk\.[\w.]+\.LAYERS)"', HOOKS.split("one_calendar_layers = [", 1)[1].split("]", 1)[0]
+	)
 	assert len(registered) == 7
 	keys = []
 	for path in registered:
@@ -187,7 +208,20 @@ def test_every_layer_is_declared_whole_and_registered():
 			keys.append(key)
 			assert re.search(r'"group": "(Mine|Workspace)"', one), key
 			color = re.search(r'"color": "(\w+)"', one).group(1)
-			assert color in {"blue", "cyan", "green", "orange", "purple", "pink", "red", "yellow", "gray", "teal", "violet", "amber"}, key
+			assert color in {
+				"blue",
+				"cyan",
+				"green",
+				"orange",
+				"purple",
+				"pink",
+				"red",
+				"yellow",
+				"gray",
+				"teal",
+				"violet",
+				"amber",
+			}, key
 			rows = re.search(r'"rows": "([\w.]+)"', one).group(1)
 			assert f"def {rows.rsplit('.', 1)[1]}(" in source, rows
 	assert len(keys) == len(set(keys)), "a layer key is used twice"
@@ -198,26 +232,49 @@ def test_who_may_publish_is_one_list_in_both_halves():
 	js = (CAL / "page" / "onecalendar" / "onecalendar.js").read_text()
 	listed = json.loads(re.search(r"CALENDAR_PUBLISHERS = (\[.*?\]);", js).group(1))
 	assert tuple(listed) == py
-	assert '"Event": {"validate": "onedesk.one_calendar.events.validate"}' in HOOKS
+	assert (
+		'"validate": "onedesk.one_calendar.events.validate"'
+		in HOOKS.split('"Event": {', 1)[1].split("}", 1)[0]
+	)
 
 
 def test_nothing_is_copied_into_an_event():
-	for path in [*CAL.glob("*.py"), tree.APP / "one_crm" / "calendar.py", tree.APP / "one_hr" / "calendar.py", tree.APP / "one_task" / "calendar.py", tree.APP / "one_project" / "calendar.py"]:
+	for path in [
+		*CAL.glob("*.py"),
+		tree.APP / "one_crm" / "calendar.py",
+		tree.APP / "one_hr" / "calendar.py",
+		tree.APP / "one_task" / "calendar.py",
+		tree.APP / "one_project" / "calendar.py",
+	]:
 		said = path.read_text()
+		if path.name == "events.py":
+			# New Event as the person makes it, and a guest's Contact: made on
+			# purpose, never copied from another record.
+			for name in ("make", "contact"):
+				said = re.sub(rf"\ndef {name}\(.*?(?=\ndef |\Z)", "", said, flags=re.S)
 		assert '"doctype": "Event", "' not in said and 'new_doc("Event"' not in said, path.name
 		assert ".insert(" not in said or path.name == "feed.py", path.name
 
 
 def test_a_record_calendar_offers_only_the_layers_that_can_draw_it():
 	fits = _load(CAL / "layers.py", ("_fits",))["_fits"]
-	mine, tasks, events = {"key": "mine"}, {"about": ["Project"], "only_about": True}, {"about": ["*"], "only_about": True}
+	mine, tasks, events = (
+		{"key": "mine"},
+		{"about": ["Project"], "only_about": True},
+		{"about": ["*"], "only_about": True},
+	)
 	assert fits(mine, None) and not fits(tasks, None) and not fits(events, None)
 	assert fits(tasks, ("Project", "P1")) and fits(events, ("Opportunity", "D1"))
 	assert not fits(tasks, ("Opportunity", "D1")) and not fits(mine, ("Project", "P1"))
 	source = (CAL / "layers.py").read_text()
-	assert 'frappe.has_permission(doctype, "read", doc=name)' in source, "a record's calendar needs the record"
+	assert 'frappe.has_permission(doctype, "read", doc=name)' in source, (
+		"a record's calendar needs the record"
+	)
 	assert '"editable": bool(layer.get("move") and row.get("editable"))' in source
-	assert "@frappe.whitelist" not in (CAL / "events.py").read_text().split("def move(", 1)[0].rsplit("\n\n", 1)[-1]
+	assert (
+		"@frappe.whitelist"
+		not in (CAL / "events.py").read_text().split("def move(", 1)[0].rsplit("\n\n", 1)[-1]
+	)
 
 
 def test_a_deal_a_lead_and_an_employee_have_calendars_of_their_own():
@@ -230,3 +287,87 @@ def test_a_deal_a_lead_and_an_employee_have_calendars_of_their_own():
 	for script in ("opportunity.js", "lead.js", "employee.js", "project.js"):
 		assert "onedesk.record_calendar(frm)" in (tree.APP / "public" / "js" / script).read_text(), script
 	assert '"/assets/onedesk/js/record_calendar.js"' in HOOKS
+
+
+# ------------------------------------------------------------------ the passover
+
+
+def _tell():
+	return _load(
+		CAL / "tell.py", ("invitation", "moved"), escape=FEED["escape"], fold=FEED["fold"], utc=FEED["utc"]
+	)
+
+
+def test_a_guest_is_sent_an_invitation_their_calendar_can_take():
+	tell = _tell()
+	event = {
+		"name": "EV00010-20260928180000",
+		"subject": "Pricing review",
+		"starts_on": datetime(2026, 10, 1, 11, 0),
+		"ends_on": datetime(2026, 10, 1, 12, 0),
+		"all_day": False,
+		"location": "Room 5",
+		"description": "",
+		"repeat": "FREQ=WEEKLY;BYDAY=TH",
+	}
+	zone = ZoneInfo("Asia/Dubai")
+	said = tell["invitation"](
+		event,
+		"REQUEST",
+		"samir@acme.one",
+		["rana@supplier.example"],
+		zone,
+		datetime(2026, 9, 28, 12),
+		"https://acme.one",
+		7,
+	)
+	assert "METHOD:REQUEST" in said and "STATUS:CONFIRMED" in said
+	assert "UID:EV00010-20260928180000@acme.one" in said and "SEQUENCE:7" in said
+	assert "DTSTART:20261001T070000Z" in said, "11:00 in Dubai is 07:00 UTC"
+	assert "RRULE:FREQ=WEEKLY;BYDAY=TH" in said
+	assert "ATTENDEE;ROLE=REQ-PARTICIPANT;RSVP=TRUE:mailto:rana@supplier.example" in said
+	cancel = tell["invitation"](
+		event,
+		"CANCEL",
+		"samir@acme.one",
+		["rana@supplier.example"],
+		zone,
+		datetime(2026, 9, 28, 12),
+		"https://acme.one",
+		8,
+	)
+	assert "METHOD:CANCEL" in cancel and "STATUS:CANCELLED" in cancel
+
+
+def test_only_a_new_time_or_place_is_a_change_worth_telling():
+	moved = _tell()["moved"]
+	was = Row(starts_on="2026-10-01 11:00:00", ends_on="2026-10-01 12:00:00", location="Room 2", subject="A")
+	assert not moved(was, Row(was, subject="B"))
+	assert moved(was, Row(was, location="Room 5"))
+	assert moved(was, Row(was, starts_on="2026-10-01 12:00:00"))
+
+
+def test_guests_are_read_out_of_whatever_was_typed():
+	addresses = _load(CAL / "events.py", ("addresses",))["addresses"]
+	assert addresses("Rana <rana@supplier.example>; x, ali@acme.one\nRANA@supplier.example") == [
+		"rana@supplier.example",
+		"ali@acme.one",
+	]
+
+
+def test_events_are_told_through_the_hub_and_frappes_own_morning_mail_is_stopped():
+	assert '"on_update": "onedesk.one_calendar.tell.saved"' in HOOKS
+	assert '"on_trash": "onedesk.one_calendar.tell.removed"' in HOOKS
+	assert '"onedesk.one_calendar.tell.install"' in HOOKS
+	assert '"onedesk.one_calendar.tell.soon"' in HOOKS and '"onedesk.one_calendar.tell.today_events"' in HOOKS
+	assert "send_event_digest" in (CAL / "tell.py").read_text()
+
+
+def test_oneai_sees_when_colleagues_are_busy_never_what_they_do():
+	source = (CAL / "ai.py").read_text()
+	busy = source.split("def busy_times(", 1)[1].split("\ndef ", 1)[0]
+	given = busy.split("found[user].append(", 1)[1].split(")", 1)[0]
+	for said in ("subject", "title", "description", "location"):
+		assert said not in given
+	plan = source.split("def plan_event(", 1)[1]
+	assert "proposals.propose(" in plan and ".insert(" not in plan

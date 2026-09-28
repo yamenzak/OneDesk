@@ -1,0 +1,20 @@
+{
+ "custom_fields": [
+  {
+   "doctype": "Custom Field",
+   "dt": "Event",
+   "fieldname": "one_guests",
+   "fieldtype": "Small Text",
+   "insert_after": "event_participants",
+   "label": "Guests",
+   "description": "Email addresses of people outside the workspace to invite. Each is mailed the event for their own calendar.",
+   "hidden": 1,
+   "module": "One Calendar",
+   "name": "Event-one_guests"
+  }
+ ],
+ "doctype": "Event",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

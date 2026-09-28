@@ -137,7 +137,9 @@ DOCUMENTS = {
 		# 4: administrators see where a person is signed in, and sign them out.
 		# 5: OneCloud's links and file requests reach people outside, and a
 		#    connected server's password is kept.
-		"revision": 5,
+		# 6: OneCalendar's guests are kept as contacts and mailed, and the
+		#    Google Calendar connection.
+		"revision": 6,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {
@@ -162,7 +164,8 @@ DOCUMENTS = {
 		"title": "AI Addendum",
 		"audience": "customer",
 		# 5: OneAI reads a file in OneCloud when asked.
-		"revision": 5,
+		# 6: OneAI reads your calendar, and colleagues' busy times.
+		"revision": 6,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {

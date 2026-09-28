@@ -52,6 +52,8 @@ after_install = [
 after_migrate = [
 	"onedesk.one.roles.ensure",
 	"onedesk.one.notify.install",
+	# frappe's own morning event mail stopped; Today's Events replaces it.
+	"onedesk.one_calendar.tell.install",
 	# What each module's records say above their fields. See one/head.py.
 	"onedesk.one.head.install",
 	# The index that makes document text searchable. See one_intake/search.py.
@@ -104,7 +106,9 @@ scheduler_events = {
 		# never read are caught up. See one_intake/pipeline.py.
 		"*/15 * * * *": ["onedesk.one_intake.pipeline.again"],
 		# An interview starting soon, told to its interviewers. See one_hr/tell.py.
-		"*/5 * * * *": ["onedesk.one_hr.tell.interviews_soon"],
+		"*/5 * * * *": ["onedesk.one_hr.tell.interviews_soon", "onedesk.one_calendar.tell.soon"],
+		# Each person's day, in the morning. See one_calendar/tell.py.
+		"45 6 * * *": ["onedesk.one_calendar.tell.today_events"],
 	},
 	"daily": [
 		# Task steps that waited for a day. See one_intake/steps.py.
@@ -233,7 +237,12 @@ doc_events = {
 		"on_submit": "onedesk.one_inventory.assets.registered",
 	},
 	# A Public event is on everybody's calendar. See one_calendar/events.py.
-	"Event": {"validate": "onedesk.one_calendar.events.validate"},
+	# Who is told of an event: invited, changed, cancelled. See one_calendar/tell.py.
+	"Event": {
+		"validate": "onedesk.one_calendar.events.validate",
+		"on_update": "onedesk.one_calendar.tell.saved",
+		"on_trash": "onedesk.one_calendar.tell.removed",
+	},
 	# hrms counts milestones by letting an insert fail, and the message outlives
 	# the savepoint. See one/quiet.py.
 	"*": {
@@ -738,6 +747,9 @@ one_ai_reads = [
 	# A conversation the reader holds, and what in a folder waits for an answer.
 	"onedesk.one_mail.ai.open_conversation",
 	"onedesk.one_mail.ai.waiting_for_answer",
+	# The reader's calendar, and when colleagues are busy. See one_calendar/ai.py.
+	"onedesk.one_calendar.ai.my_calendar",
+	"onedesk.one_calendar.ai.busy_times",
 	# A file's text, who can see it, and what takes the space. See one_storage/ai.py.
 	"onedesk.one_storage.ai.open_file",
 	"onedesk.one_storage.ai.who_can_see",
@@ -787,6 +799,8 @@ one_ai_suggests = [
 	"onedesk.one.ai.change_holidays",
 	# A reply, written as the reader asked, opened in the email window to send.
 	"onedesk.one_mail.ai.draft_reply",
+	# An event, with the people on it, made when the reader approves.
+	"onedesk.one_calendar.ai.plan_event",
 ]
 one_ai_suggestions = [
 	"onedesk.one_hr.ai.SUGGESTIONS",
@@ -794,9 +808,15 @@ one_ai_suggestions = [
 	"onedesk.one.ai.SUGGESTIONS",
 	"onedesk.one_mail.ai.SUGGESTIONS",
 	"onedesk.one_storage.ai.SUGGESTIONS",
+	"onedesk.one_calendar.ai.SUGGESTIONS",
 ]
 
-one_ai_page = ["onedesk.one.ai.page", "onedesk.one_mail.ai.page", "onedesk.one_storage.ai.page"]
+one_ai_page = [
+	"onedesk.one.ai.page",
+	"onedesk.one_mail.ai.page",
+	"onedesk.one_storage.ai.page",
+	"onedesk.one_calendar.ai.page",
+]
 
 # What each module tells people, as notification types. See one/notify.py.
 one_notification_types = [
@@ -804,6 +824,7 @@ one_notification_types = [
 	"onedesk.one_hr.notifications.TYPES",
 	"onedesk.one_intake.notifications.TYPES",
 	"onedesk.one_storage.notifications.TYPES",
+	"onedesk.one_calendar.notifications.TYPES",
 	"onedesk.one_project.notifications.TYPES",
 	"onedesk.one_book.notifications.TYPES",
 	"onedesk.one_inventory.notifications.TYPES",

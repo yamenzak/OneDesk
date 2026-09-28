@@ -304,9 +304,12 @@ No doctypes yet.
 * `onedesk.one_book.paid.settle`
 * `onedesk.one_book.ready.fix`
 * `onedesk.one_book.tell.credit_limit`
+* `onedesk.one_calendar.events.card`
+* `onedesk.one_calendar.events.make`
 * `onedesk.one_calendar.feed.mine`
 * `onedesk.one_calendar.feed.renew`
 * `onedesk.one_calendar.feed.stop`
+* `onedesk.one_calendar.layers.days_off`
 * `onedesk.one_calendar.layers.entries`
 * `onedesk.one_calendar.layers.layers`
 * `onedesk.one_calendar.layers.move`

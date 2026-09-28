@@ -20,3 +20,29 @@ clause(
 		disabled, and the workspace's administrators can delete every link at once.
 	""",
 )
+
+clause(
+	document="privacy",
+	section="modules",
+	key="calendar-guests",
+	module=M,
+	body="""
+		A person can invite somebody outside the workspace to an event by their email address. That address
+		is kept as a contact of the workspace, and the guest is mailed the event, and any change to it or its
+		cancellation, as an invitation for their own calendar. Where the workspace connects a Google account
+		under Google Calendar, the events it syncs are sent to that account and read back from it, both ways,
+		and a video call link is made by Google, under Google's terms with that account's holder.
+	""",
+)
+
+clause(
+	document="ai",
+	section="modules",
+	key="onecalendar-asks",
+	module=M,
+	body="""
+		In OneCalendar, when you ask OneAI about your time, it reads your calendar as you see it. To find a
+		time to meet, it reads only when colleagues are busy, never what their events are. An event it
+		suggests is made only when you approve it, and the people on it are told then.
+	""",
+)

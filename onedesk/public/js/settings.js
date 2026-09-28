@@ -191,7 +191,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	draw_notifications(data) {
 		const rows = [{ stack: ["enabled", "enable_email_notifications"] }];
 		for (const group of data.groups) rows.push({ heading: group.app }, ...group.rows.map((row) => ({ row, css: "os-kind" })));
-		rows.push({ heading: __("Other Mail") }, { stack: ["enable_email_event_reminders", "enable_email_threads_on_assigned_document"] });
+		rows.push({ heading: __("Other Mail") }, { stack: ["enable_email_threads_on_assigned_document"] });
 		// The page's own suggestion (one/ai.py), so it is answered the same way.
 		const fewer = onedesk.oneai.button(
 			__("Too Many Emails?"),

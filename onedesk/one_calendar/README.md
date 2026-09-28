@@ -12,13 +12,17 @@ moves when the deal does.
 
 ## Finding your way
 
-**OneCalendar** in the dock opens the calendar. The rail has **Calendar**,
-**Event** (every event as a list), and under **Setup** the
-**Holiday List**, **Google Calendar** and **Calendar Links**.
+**OneCalendar** in the dock opens the calendar, with one column on the left
+as OneMail has: **New Event** at the top, the layers, and at the foot **All
+Events** (every event as a list), **Deadlines**, **Subscribe**, and for
+those who may, **Setup** with **Google Calendar** and **Calendar Links**.
 
 The calendar shows a **Month**, a **Week**, a **Day** or a **List**; the
 arrows move it and **Today** brings it back. It opens on the view you used
-last, with the layers you left on, on any computer you log in from.
+last, with the layers you left on, on any computer you log in from. The
+workspace's days off are shaded: its weekly days off lightly, and its
+holidays in red with their names. What changes elsewhere, somebody's new
+event or a task moved, appears without reloading.
 
 ## Layers
 
@@ -43,8 +47,17 @@ deal or lead, a task opens the task, and an assignment opens the record it is ab
 
 ## Events
 
-**Add Event**, or drag across the hours you want, asks for a subject, when,
-where and a description. Drag an event you made to move it, or its bottom edge
+**New Event**, or drag across the hours you want, asks for a subject, when,
+where, who and a description. **Invite** takes people in the workspace by
+name; **Guests** takes the email addresses of people outside it, each of whom
+is mailed the event as an invitation for their own calendar (and mailed again
+if it moves or is cancelled).
+
+Clicking an event opens its card beside it: when, where, who made it, who is
+on it and whether they said yes, and what it says, with **Join** when it has
+a video call, **Open** for its own page, and **Delete** for whoever may.
+Anything else on the calendar, a task or a deal's next step, opens its
+record. Drag an event you made to move it, or its bottom edge
 to make it longer; drag a task to move it to another day; a repeating event is changed from its own page, for all its
 times at once. Everything else about an event — who is invited, reminders,
 repeating, a video call link — is on the event's own page.
@@ -61,6 +74,30 @@ repeating, a video call link — is on the event's own page.
   a Workspace Administrator or an HR Manager may make one; anybody else makes
   it private and invites the people it is for.
 
+## Being told
+
+- **Invited to an Event** when somebody adds you to one.
+- **Event Changed** when the time or the place of an event you are on
+  changes, and **Event Cancelled** when it is cancelled or deleted. Whoever
+  made the change is not told.
+- **Starting Soon** as an event's reminders say (on its own page), or ten
+  minutes before when it has none.
+- **Today's Events** each morning, with what is on your calendar that day,
+  and nothing on a day with nothing on it.
+
+Each comes to the bell, and by email or push as you choose under Settings ›
+Notifications.
+
+## Asking OneAI
+
+The OneAI panel on the calendar offers **What is on this week?**, **Find a
+time to meet…** and **Plan my day**. **Find a time to meet…** puts "Find a
+time this week to meet" in the box for you to finish with who. OneAI reads
+your calendar as you see it and, for a meeting, only when colleagues are
+busy, never what their events are. It suggests the event as a card:
+**Approve** puts it on your calendar and invites the people on it; nothing
+is made or sent before.
+
 ## A record's own calendar
 
 **Calendar** on a project, a deal, a lead or an employee opens the calendar of
@@ -71,7 +108,7 @@ open (they open the record instead), and what it has with a date on it —
 - a **deal** or a **lead**: its next step, whoever owns it;
 - an **employee**: their leave, if you may see it.
 
-**Add Event** there makes an event about the record. Nothing you switch off
+**New Event** there makes an event about the record. Nothing you switch off
 there changes your own calendar.
 
 ## In Google, Apple or Outlook
@@ -114,6 +151,14 @@ For the people who build OneCalendar. OneAI does not read past this heading.
   `occurrences` expands repeats; `validate` keeps Public to PUBLISHERS.
 - `one_task/calendar.py` — tasks, and assignments on anything but a task.
 - `one_crm/calendar.py`, `one_hr/calendar.py` — each module's own layers.
+- `tell.py` — who is told of an event (invited, changed, cancelled, starting
+  soon, and each morning), through the hub; guests mailed an iCalendar
+  invitation. frappe's own morning mail is stopped on migrate. The types are
+  `notifications.py`.
+- `ai.py` — OneAI here: `my_calendar`, `busy_times` (times only) and
+  `plan_event`, a Create card whose guests ride on Event's `one_guests`.
+- `events.make` and `events.card` — New Event with its people, and an
+  event's card.
 - `feed.py` — the subscription: a token per person, kept encrypted and found
   by its SHA-256, read as a guest and rate-limited, answered as that person. `calendar` writes RFC
   5545 by hand: UTC times, all-day dates, escaped and folded lines.
