@@ -254,8 +254,12 @@ def _pages_label(pages: list[int]) -> str:
 	return frappe._("page {0}").format(first) if first == last else frappe._("pages {0}–{1}").format(first, last)
 
 
+#: Pages of a scan read when Intake Settings says nothing.
+MOST_PAGES = 60
+
+
 def _most_pages() -> int:
-	return cint(frappe.db.get_single_value("Intake Settings", "most_pages")) or 60
+	return cint(frappe.db.get_single_value("Intake Settings", "most_pages")) or MOST_PAGES
 
 
 # ------------------------------------------------------------------ mail

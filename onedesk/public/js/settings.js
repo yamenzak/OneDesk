@@ -1707,8 +1707,43 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		asking.show();
 	}
 
+	// OneIntake's settings in four parts, each a heading and what it decides,
+	// under the month: what arrived, what OneAI handled and what waits, each
+	// opening the inbox where it is.
 	draw_intake(data) {
-		this.form(data, { before: data.month ? `<div class="one-shell-note">${frappe.ui.badge.html({ label: data.month, theme: "violet" })}</div>` : "" });
+		const esc = frappe.utils.escape_html;
+		const month = data.month || {};
+		const inbox = (box) => `/desk/intake?box=${box}&everyone=1`;
+		const fact = (value, label, href) =>
+			`<a class="os-intake-fact" href="${esc(href)}"><span class="os-intake-number">${esc(format_number(value || 0, null, 0))}</span><span class="one-shell-quiet">${esc(label)}</span></a>`;
+		const facts = `<div class="os-intake-facts">${[
+			fact(month.arrived, __("Arrived"), inbox("done")),
+			fact(month.handled, __("Handled by OneAI"), inbox("done")),
+			fact(month.needed, __("Needed a Person"), inbox("waiting")),
+			fact(month.waiting, __("Waiting Now"), inbox("waiting")),
+			fact(month.undone, __("Undone"), inbox("done")),
+		].join("")}</div>`;
+		this.$content.append(onedesk.shell.section(__("This Month"), facts, __("For everybody in the workspace. Each number opens the inbox.")));
+		const links = (pairs) =>
+			`<div class="one-shell-quiet os-intake-links">${pairs
+				.map(([href, label]) => `<a class="one-record-link" href="${esc(href)}">${esc(label)}</a>`)
+				.join(" · ")}</div>`;
+		this.form(data, {
+			rows: [
+				{ heading: __("What Is Read"), note: __("Mail and files arriving in connected mailboxes and folders are always read.") },
+				{ stack: ["records"] },
+				["most_pages", "_"],
+				{ heading: __("How Sure OneAI Must Be"), note: __("Anything OneAI is less sure of than this percentage waits for a person.") },
+				["floor", "_"],
+				{ stack: ["audit"] },
+				{ heading: __("Filing") },
+				{ stack: ["keep_in_place"] },
+				["quiet_minutes", "_"],
+				{ heading: __("Books"), note: __("What OneAI may do with bills and invoices it reads.") },
+				{ stack: ["household", "submit_einvoices"] },
+				{ html: links([["/desk/ready-to-submit", __("Ready to Submit")], ["/desk/query-report/Spending", __("Spending")]]) },
+			],
+		});
 		// What OneIntake's reading runs on is set with the rest of OneAI's actions.
 		this.page.add_inner_button(__("Models"), () => frappe.set_route("workspace-settings", { section: "oneai", product: "OneIntake" }));
 	}

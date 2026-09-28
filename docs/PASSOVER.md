@@ -138,7 +138,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, Workspace | Plan and Credits | done |
 | Settings, Workspace | Domains | done |
 | Settings, Workspace | OneAI (now OneAI › Actions) | done |
-| Settings, Workspace | OneIntake (now OneIntake › Settings) | findings written, waiting on your word |
+| Settings, Workspace | OneIntake (now OneIntake › Settings) | done |
 | Settings, Workspace | Holidays | |
 | Products | One home, OneMail, OneCloud, OneCalendar, OneTask, OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, OneAdmin | each screen listed here once we reach it |
 
@@ -1571,6 +1571,37 @@ person", with **Models** and **Save** in the page head.
 9. **Built from frappe**: the form is frappe's controls in a FieldGroup
    with Save in the page head, dirty-tracked and saved against the loaded
    values. Holds. It does not redraw when another administrator saves.
+
+Your word: all of them, with switches instead of ticks, and cleaned up.
+
+Done:
+
+- **Switches.** Every on/off setting is frappe's Switch control, as
+  frappe-ui draws one, the sentence beside it and the switch at the end.
+- **Four parts.** What Is Read, How Sure OneAI Must Be, Filing and Books,
+  each a heading and a line saying what it decides. Numbers sit in half a
+  row rather than across the page.
+- **Defaults written in.** Most Pages Read shows 60 and the Confidence
+  Floor 70 where the record was empty, and the doctype now defaults to
+  them.
+- **This Month** is five numbers for everybody (arrived, handled by OneAI,
+  needed a person, waiting now, undone), each opening the inbox on
+  everybody's documents (`intake?box=…&everyone=1`), in place of the violet
+  line.
+- **Books** links to Ready to Submit and Spending.
+- **Notice**: OneIntake Changed, on the bell, to every other administrator
+  when the audit, household or submitting e-invoices is switched, or the
+  floor moves ("Submit Matching E-Invoices on"). An empty floor saved as 70
+  is not a change. Saving is against `modified`, so a second
+  administrator's save since opening is refused; the page hears the record
+  change through `opened`.
+- **OneAI**: the page sentence, **Is OneIntake set up well for us?** and
+  `workspace_intake`.
+- **Legal**: the AI Addendum's `intake-acts` says OneAI drafts and does not
+  submit, unless an administrator switches on submitting e-invoices, and
+  what it then submits. AI Addendum revision 2.
+- `one/README.md` has OneIntake Settings, for the Workspace;
+  `one_intake/README.md` points to it.
 
 ## OneLegal
 

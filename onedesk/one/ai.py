@@ -144,6 +144,16 @@ SUGGESTIONS = {
 			"expects": "workspace_oneai",
 		},
 	],
+	"page:workspace-settings/intake": [
+		{
+			"label": _lt("Is OneIntake set up well for us?"),
+			"ask": _lt(
+				"Look at OneIntake's settings and this month's numbers. Is anything set in a way that sends too "
+				"much to a person, or lets too much through, and what would you change?"
+			),
+			"expects": "workspace_intake",
+		},
+	],
 	"page:workspace-settings/general": [
 		{
 			"label": _lt("Is signing in here safe enough?"),
@@ -274,6 +284,15 @@ def page(said: dict) -> str | None:
 			"by person, and the cheapest ways to have what it uses now. They change the plan from the page head, and "
 			"add seats, storage, database or credits from Add; how is in One's documentation under Plan and "
 			"Credits, for the Workspace (how_to)."
+		)
+	if said.get("page") == "workspace-settings" and said.get("section") == "intake":
+		return (
+			"The reader administers this workspace and is on OneIntake › Settings: this month's numbers (arrived, "
+			"handled by OneAI, needed a person, waiting now, undone), and what OneIntake may do: read files "
+			"attached to records and how many pages of a scan; the confidence floor below which things wait for a "
+			"person, and the audit; filing, and how many quiet minutes before it acts; and the books, household "
+			"and submitting matching e-invoices. workspace_intake reads it all. They change a switch or a number "
+			"and save from the page head; how is in One's documentation under OneIntake Settings, for the Workspace (how_to)."
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "oneai":
 		return (
@@ -799,6 +818,28 @@ def workspace_people() -> dict:
 		],
 		"next": "Everybody has One, OneCloud, OneMail, OneTask and OneCalendar anyway. Name people by name. "
 		"The administrator changes a person on Workspace › People by clicking them.",
+	}
+
+
+def workspace_intake() -> dict:
+	"""OneIntake's settings and this month, for the workspace's administrators:
+	each setting with what it means now, and what arrived, what OneAI handled,
+	what needed a person, what waits and what was undone."""
+	from onedesk.one import roles, settings
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator sees OneIntake's settings."}
+	said = settings._intake()
+	labels = {one["fieldname"]: one["label"] for one in said["fields"]}
+	return {
+		"settings": {labels.get(name, name): value for name, value in said["values"].items()},
+		"meaning": {
+			"confidence_floor": "what OneAI is less sure of than this percentage waits for a person",
+			"quiet_minutes": "0 means OneAI acts on a matter at once",
+			"household": "on means no draft bills or invoices at all",
+			"submit_matching_e_invoices": "on means OneAI submits e-invoices from known suppliers that match an order",
+		},
+		"this_month": said["month"],
 	}
 
 

@@ -565,6 +565,44 @@ companies listed in the Subprocessors agreement.
 **OneAI on this page** offers **Which actions cost the most?** and **Is
 there a cheaper model that would do?**
 
+### OneIntake Settings, for the Workspace
+
+Under **OneIntake** in the sidebar, **Settings** is what OneIntake may do in
+this workspace. Only administrators see it and change it, and they save from
+the page head.
+
+**This Month** is five numbers for everybody in the workspace: what arrived,
+what OneAI handled, what needed a person, what waits now and what was
+undone. Each opens the inbox, on everybody's documents.
+
+- **What Is Read.** Mail and files arriving in connected mailboxes and
+  folders are always read. **Read Files Attached to Records** also reads
+  scans and photos attached on a form, on behalf of whoever attached them.
+  **Most Pages Read** (60 unless changed) is how much of a long scan is
+  read; the rest stays findable by its name.
+- **How Sure OneAI Must Be.** **Confidence Floor** (70% unless changed):
+  anything OneAI is less sure of waits for a person in the inbox's Waiting
+  box. **Audit What OneAI Does** has a second model check each document's
+  actions, approving what is right and sending what is wrong to a person.
+  Raise the floor if OneAI gets things wrong; lower it if too much waits.
+- **Filing.** **Leave Unmatched Files in Place** keeps a file that belongs
+  to no record where it arrived, instead of a folder for its kind and year.
+  **Quiet Minutes** is how long a matter must be quiet before OneAI acts on
+  it, so a burst of mails is handled once; 0 is at once. Money and deadlines
+  due within a day never wait.
+- **Books.** **Household** is for a workspace that keeps no books: nothing
+  is drafted, and Spending shows what was bought. **Submit Matching
+  E-Invoices** lets OneAI submit an e-invoice from a known supplier that
+  matches an order already placed; off unless switched on. Drafts wait in
+  **Ready to Submit**.
+
+Every other administrator is told on the bell when somebody switches the
+audit, household or submitting e-invoices, or moves the confidence floor.
+**Models**, in the page head, opens OneAI's actions for OneIntake, where the
+model each part runs on is chosen.
+
+**OneAI on this page** offers **Is OneIntake set up well for us?**
+
 ## Customizing a Form
 
 **Customize** on any form's menu opens the form's own customization page, for

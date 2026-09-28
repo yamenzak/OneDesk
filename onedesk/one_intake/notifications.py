@@ -54,4 +54,16 @@ TYPES = [
 		"email_default": True,
 		"push_default": True,
 	},
+	# settings: an administrator changed what OneAI may do with money.
+	{
+		"name": _lt("OneIntake Changed"),
+		"app": "OneIntake",
+		"about": _lt(
+			"When another administrator changes how OneIntake treats money or checks itself: submitting "
+			"e-invoices, household, the audit or the confidence floor."
+		),
+		"to": _lt("Every other administrator"),
+		"subject": _lt("{by} changed OneIntake: {what}"),
+		"message": _lt("{by} changed OneIntake's settings: {what}. It applies to every document from now on."),
+	},
 ]

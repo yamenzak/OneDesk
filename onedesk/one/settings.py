@@ -1303,16 +1303,82 @@ def _oneai() -> dict:
 
 
 def _intake() -> dict:
-	from onedesk.one_intake import digest
+	"""OneIntake's settings, with the defaults written in where the record is
+	empty (an empty floor is 70%, not nothing), and the month: what arrived,
+	what OneAI handled, what needed a person, what was undone, and what waits
+	now, for everybody."""
+	from onedesk.one_intake import act, pipeline
 
 	doc = frappe.get_single("Intake Settings")
-	return {"fields": _fields("Intake Settings", INTAKE), "values": {name: doc.get(name) for name in INTAKE}, "month": digest.said(digest.this_month())}
+	values = {name: doc.get(name) for name in INTAKE}
+	values["most_pages"] = values["most_pages"] or pipeline.MOST_PAGES
+	values["floor"] = values["floor"] or act.FLOOR
+	fields = [
+		# A setting switched on or off reads as a switch, as frappe-ui draws one.
+		{**one, "fieldtype": "Switch"} if one["fieldtype"] == "Check" else one
+		for one in _fields("Intake Settings", INTAKE)
+	]
+	return {"fields": fields, "values": values, "month": _intake_month(), "opened": _opened(doc)}
+
+
+def _intake_month() -> dict:
+	from frappe.utils import get_first_day, today
+
+	from onedesk.one_intake import digest, inbox
+
+	month = digest.this_month()
+	start = get_first_day(today())
+	waiting = frappe.db.sql(f"select count(*) from `tabReading` r where {inbox._box('waiting')}")[0][0]
+	undone = frappe.db.count("Intake Action", {"level": "Undone", "modified": [">=", start]})
+	return {**month, "waiting": int(waiting or 0), "undone": int(undone or 0)}
+
+
+#: What changes what OneAI does with money, or whether anybody checks it:
+#: the other administrators hear of these.
+TOLD_OF = ("audit", "household", "submit_einvoices", "floor")
 
 
 def _save_intake(values: dict) -> None:
-	doc = frappe.get_single("Intake Settings")
+	from onedesk.one_intake import act
+
+	doc = _as_opened(frappe.get_single("Intake Settings"))
+
+	def meant(name):
+		# An empty floor always meant the default, so writing it in is no change.
+		value = frappe.utils.flt(doc.get(name))
+		return (value or act.FLOOR) if name == "floor" else value
+
+	was = {name: meant(name) for name in TOLD_OF}
 	doc.update({name: values[name] for name in INTAKE if name in values})
 	doc.save(ignore_permissions=True)
+	changed = [name for name in TOLD_OF if was[name] != meant(name)]
+	if changed:
+		_told_of_intake(doc, changed)
+
+
+def _told_of_intake(doc, changed: list[str]) -> None:
+	"""Every other administrator hears what was switched, in the page's words."""
+	from onedesk.one import notify
+	from onedesk.one.account import _administrators
+
+	people = [one for one in _administrators() if one != frappe.session.user]
+	if not people:
+		return
+	meta = frappe.get_meta("Intake Settings")
+	said = []
+	for name in changed:
+		label = _(meta.get_label(name))
+		if name == "floor":
+			said.append(_("{0} to {1}%").format(label, frappe.utils.cint(doc.floor)))
+		else:
+			said.append(_("{0} on").format(label) if doc.get(name) else _("{0} off").format(label))
+	notify.notify(
+		"OneIntake Changed",
+		people,
+		link="/desk/workspace-settings?section=intake",
+		by=frappe.utils.get_fullname(),
+		what=", ".join(said),
+	)
 
 
 def _holidays() -> dict:

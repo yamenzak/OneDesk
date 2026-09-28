@@ -16,7 +16,10 @@ clause(
 		being asked each time: it files them, links them to the records they are about, and drafts what they
 		call for. It acts only as far as the workspace's Intake settings allow, and as the person the document
 		was read for. A second model checks what the first did. Every action is recorded and marked as OneAI's,
-		anything uncertain waits for a person, and whatever it did can be undone.
+		anything uncertain waits for a person, and whatever it did can be undone. It drafts bills and invoices
+		and does not submit them, unless an administrator switches on submitting e-invoices: then an e-invoice
+		from a known supplier that matches an order already placed is submitted to the books by OneAI, and can
+		be cancelled like any other.
 	""",
 )
 

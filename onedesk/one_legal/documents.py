@@ -159,7 +159,7 @@ DOCUMENTS = {
 	"ai": {
 		"title": "AI Addendum",
 		"audience": "customer",
-		"revision": 1,
+		"revision": 2,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {

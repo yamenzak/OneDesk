@@ -403,6 +403,12 @@ everything on it (mail, files, comments, links) to the one it duplicates,
 fills that one's empty fields from it, and deletes it. The one you keep never
 loses a value it had.
 
+## OneIntake Settings
+
+What OneIntake may do in a workspace is set under **OneIntake** in the
+sidebar, **Settings**. Each setting, its default and who changes it is in
+One's documentation, OneIntake Settings, for the Workspace.
+
 ## Under the hood
 
 - `read.py` turns any file into text without a site or a model, and says

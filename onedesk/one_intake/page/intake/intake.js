@@ -58,6 +58,11 @@ onedesk.IntakeInbox = class IntakeInbox {
 		const asked = frappe.utils.get_query_params();
 		if (asked.box) this.box = asked.box === "done" ? "done" : "waiting";
 		this.tabs.set_value(this.box, { silent: true });
+		// Opened from OneIntake Settings' month: everybody's, for an administrator.
+		if (asked.everyone && this.$everyone) {
+			this.everyone = 1;
+			this.$everyone.set_value(1);
+		}
 		this.load().then(() => asked.reading && this.read(asked.reading));
 	}
 

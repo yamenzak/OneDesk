@@ -519,3 +519,31 @@
 	white-space: pre-wrap;
 	margin: 8px 0 4px;
 }
+
+/* OneIntake › Settings: the month as five numbers, each opening the inbox. */
+.os-intake-facts {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+	gap: var(--margin-sm);
+}
+.os-intake-fact {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: var(--padding-sm) var(--padding-md);
+	border: 1px solid var(--border-color);
+	border-radius: var(--border-radius-md);
+	color: var(--text-color);
+	text-decoration: none;
+}
+.os-intake-fact:hover {
+	background: var(--subtle-fg);
+	text-decoration: none;
+}
+.os-intake-number {
+	font-size: var(--text-2xl);
+	font-weight: 600;
+}
+.os-intake-links {
+	margin-top: var(--margin-xs);
+}
