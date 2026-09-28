@@ -53,6 +53,14 @@ def test_an_invoice_from_somebody_new_makes_a_supplier():
 	assert made[0].confidence == 0.9
 
 
+def test_a_receipt_from_somebody_new_makes_a_supplier_unless_a_colleague_paid_it():
+	"""A receipt the company paid, from a first supplier, is booked like an
+	invoice; one a colleague forwards is their expense claim."""
+	receipt = {**INVOICE, "kind": "Receipt"}
+	assert kinds(PLANS["parties"](receipt, CTX)) == [("Create", "Supplier")]
+	assert PLANS["parties"](receipt, {**CTX, "sender_is_colleague": True}) == []
+
+
 def test_a_name_alone_makes_nobody():
 	named = {**INVOICE, "parties": [{"role": "Sender", "party_name": "Stadtwerke"}]}
 	assert PLANS["parties"](named, CTX) == []

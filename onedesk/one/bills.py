@@ -12,13 +12,12 @@ for somebody to check the expense account and submit. Never unasked: a
 workspace that does not use OneBook, or books its software another way,
 would find a bill it did not make.
 
-**And OneIntake.** A Stripe receipt mailed to a mailbox OneIntake reads is
-recognised by the supplier's tax ID and website, and drafted by OneIntake
-itself. So on a workspace whose mailboxes OneIntake reads, the supplier is
-made when the account is refreshed (`ensure_supplier`), and whichever gets
-there first books it: Add to OneBook finds a bill with the same number, and
-OneIntake links the mail to the bill that exists rather than making another
-(one_intake/money.py, purchase).
+**And OneIntake.** A Stripe invoice or receipt mailed to a mailbox OneIntake
+reads needs nothing from here: OneIntake makes a first-time supplier from
+the name and tax ID on the document and drafts the bill against it
+(one_intake/plans.py, parties). Whichever gets there first books it: Add to
+OneBook finds a bill with the same number, and OneIntake links the mail to
+the bill that exists rather than making another (one_intake/money.py).
 """
 
 import frappe
@@ -141,19 +140,6 @@ def ensure_supplier(seller: dict, currency: str | None = None) -> str | None:
 	supplier.flags.ignore_permissions = True
 	supplier.insert()
 	return supplier.name
-
-
-def keep_supplier(seller: dict | None) -> None:
-	"""On refresh: when OneIntake reads any mailbox here, One is a supplier,
-	so a mailed Stripe receipt is recognised. Otherwise nothing is made."""
-	if not seller or not frappe.db.table_exists("Supplier"):
-		return
-	if not frappe.db.exists("Email Account", {"one_intake": 1}):
-		return
-	try:
-		ensure_supplier(seller)
-	except Exception:
-		frappe.log_error(title="One as a supplier")
 
 
 def _payable_for(supplier: str, currency: str | None) -> None:

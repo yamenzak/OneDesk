@@ -88,7 +88,10 @@ def parties(reading: dict, ctx: dict) -> list[Action]:
 		return []
 	name = _name(party)
 	why = ctx.get("why_made") or ""
-	if kind in ("Invoice", "Credit Note") and name and strong(party):
+	# A receipt the company paid is a bill like an invoice, first supplier or
+	# not; one a colleague forwards is their expense claim, not a supplier.
+	billed = kind in ("Invoice", "Credit Note") or (kind == "Receipt" and not ctx.get("sender_is_colleague"))
+	if billed and name and strong(party):
 		return [
 			Action(
 				"Create",

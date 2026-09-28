@@ -70,7 +70,6 @@ def test_a_workspace_books_our_invoice_only_when_asked_and_only_once():
 	assert '"Purchase Invoice"' in body and ".submit()" not in body, (
 		"a bill from One is a draft for somebody to check"
 	)
-	keep = bills.split("def keep_supplier", 1)[1].split("\ndef ", 1)[0]
-	assert '"one_intake": 1' in keep, "One is a supplier unasked only where OneIntake reads mail"
+	assert "def keep_supplier" not in bills, "OneIntake makes a first supplier itself"
 	money = (tree.APP / "one_intake" / "money.py").read_text(encoding="utf-8")
 	assert 'ctx.get("existing_invoice")' in money

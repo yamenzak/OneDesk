@@ -174,7 +174,10 @@ only flagged.
 A company keeps books, so what arrives becomes a **draft** that a person
 posts:
 
-- **an invoice from a known supplier** is a draft bill with its lines. A line
+- **an invoice from a supplier** is a draft bill with its lines. A supplier
+  seen for the first time is made from the name and tax ID on the invoice
+  first; a receipt the company paid is the same, and one a colleague
+  forwards is their expense claim. A line
   is booked to the item it is (the supplier's own code for it, or an item of
   that name), else in its own words to the account this supplier's bills
   went to last time. An invoice naming one of our purchase orders is billed

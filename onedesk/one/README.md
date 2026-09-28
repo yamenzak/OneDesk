@@ -466,9 +466,9 @@ side says when they were last heard; **Check Again**, at the top, asks now.
   OneBook**, which makes it a draft bill from the supplier One in your own
   books, with its lines, for you to check and submit; after that the
   column links to the bill. Nothing is added to your books unless you ask.
-  When OneIntake reads one of your mailboxes, One is added as a supplier,
-  so a receipt Stripe mails is recognised and drafted by OneIntake itself;
-  either way the same invoice is only ever booked once.
+  When OneIntake reads the mailbox Stripe sends to, it drafts the bill
+  itself, making One a supplier the first time; either way the same
+  invoice is only ever booked once.
 - **Payment Method**, at the top, opens Stripe's billing page: the card,
   the billing address and past receipts.
 - **OneAI Credits** is what is left, what calls running now are holding,
