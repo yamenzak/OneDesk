@@ -46,8 +46,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const params = frappe.utils.get_query_params();
 		const found = mine.find((one) => one.key === params.section) || mine[0];
 		// A notification type is ?type=, a workspace rule ?rule= (or ?rule=new),
-		// a person ?person=.
-		if (found) this.open(found.key, { record: params.type || params.person || (params.rule ? `rule:${params.rule}` : null) });
+		// a person ?person=, a holiday list other than today's ?list=.
+		if (found) this.open(found.key, { record: params.type || params.person || params.list || (params.rule ? `rule:${params.rule}` : null) });
 	}
 
 	// `record` is the one record a section that lists several is open on, as a
@@ -1849,32 +1849,125 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
+	// The holiday list in force today, edited here: its day off, its country
+	// and its public holidays. Saving it is what OneHR, OneCalendar and
+	// Intake's deadlines all read (one/holidays.py). Next year's list is made
+	// from this one, and opened here with ?list=.
 	draw_holidays(data) {
 		const esc = frappe.utils.escape_html;
-		const coming = (data.coming || [])
-			.map((one) => `<div class="one-shell-row"><div class="one-shell-row-main">${esc(one.what || "")}</div><div class="one-shell-quiet">${frappe.datetime.str_to_user(one.date)}</div></div>`)
-			.join("");
-		const $card = $(
-			onedesk.shell.section(
-				__("The Workspace's Holidays"),
-				`<div class="one-shell-form"></div><div class="one-shell-actions"></div></div><div class="one-shell-section"><div class="one-shell-section-title">${__("Coming Up")}</div>${
-					coming || onedesk.shell.empty(__("None in the list."))
-				}`,
-				__("Days nobody works. Deadlines, leave and check-ins count around them.")
-			)
-		).appendTo(this.$content);
-		this.group = new frappe.ui.FieldGroup({
-			fields: [{ fieldname: "holiday_list", fieldtype: "Select", label: __("Holiday List"), options: ["", ...(data.lists || [])], default: data.chosen }],
-			body: $card.find(".one-shell-form")[0],
-		});
-		this.group.make();
-		this.saves(() => Settings.every(this.group, ["holiday_list"]), $card);
-		$card.find(".one-shell-actions").html(
-			(data.chosen ? onedesk.shell.button(__("Open the List"), { "data-open": "1" }, "ghost", "external-link") : "") +
-				onedesk.shell.button(__("New List"), { "data-new": "1" }, "ghost", "plus")
+		const open_list = (name) => this.open("holidays", { record: name === data.now ? null : name });
+		const use_another = () => {
+			const dialog = new frappe.ui.Dialog({
+				title: __("Use Another List"),
+				fields: [
+					{ fieldname: "holiday_list", fieldtype: "Link", options: "Holiday List", label: __("Holiday List"), reqd: 1 },
+					{
+						fieldname: "said",
+						fieldtype: "HTML",
+						options: `<div class="one-shell-quiet">${esc(
+							__("It is in force for everybody from today, or from its first day if it starts later: leave, attendance, check-ins, the calendar and deadlines.")
+						)}</div>`,
+					},
+				],
+				primary_action_label: __("Use It"),
+				primary_action: async (values) => {
+					await frappe.xcall("onedesk.one.holidays.use", { holiday_list: values.holiday_list });
+					dialog.hide();
+					this.refresh({ fresh: true });
+				},
+			});
+			dialog.show();
+		};
+		const next_year = async () => {
+			const name = await frappe.xcall("onedesk.one.holidays.next_year");
+			frappe.show_alert({ message: __("{0} is ready and starts on its first day.", [name]), indicator: "green" });
+			open_list(name);
+		};
+		if (data.empty) {
+			this.$content.append(
+				onedesk.shell.section(__("Holidays"), onedesk.shell.empty(__("No holiday list yet"), __("Choose one, and it is in force for everybody.")))
+			);
+			this.page.add_inner_button(__("Use Another List"), use_another);
+			return;
+		}
+		const list = data.list;
+		const day = (value) => frappe.datetime.str_to_user(value);
+		if (list.in_force && !data.next && list.days_left <= 90) {
+			const $make = $(onedesk.shell.button(__("Make Next Year's List"), {}, "ghost")).on("click", next_year);
+			this.$content.append(
+				$(
+					frappe.ui.alert({
+						title: __("This list ends on {0}, in {1} days", [day(list.to_date), list.days_left]),
+						description: __("After that, every day counts as a working day for leave and attendance, until another list starts."),
+						theme: "yellow",
+						footer: $make,
+					})
+				).addClass("os-holiday-alert")
+			);
+		} else if (!list.in_force) {
+			const $back = $(onedesk.shell.button(__("Back to {0}", [data.now]), {}, "ghost")).on("click", () => open_list(data.now));
+			this.$content.append(
+				$(
+					frappe.ui.alert({
+						title: __("{0} starts on {1}", [list.name, day(list.from_date)]),
+						description: __("Until then {0} is in force.", [data.now]),
+						theme: "blue",
+						footer: $back,
+					})
+				).addClass("os-holiday-alert")
+			);
+		}
+		const fact = (value, label, href) =>
+			`<${href ? `a href="${esc(href)}"` : "div"} class="os-intake-fact"><span class="os-intake-number">${esc(String(value))}</span><span class="one-shell-quiet">${esc(label)}</span></${href ? "a" : "div"}>`;
+		const coming = (data.coming || [])[0];
+		const facts = `<div class="os-intake-facts">${[
+			fact(list.public, __("Public Holidays")),
+			fact(list.days_off, __("Weekly Days Off")),
+			coming ? fact(day(coming.date), coming.what) : fact("–", __("No More Holidays This Year")),
+			fact(day(list.to_date), list.days_left >= 0 ? __("Last Day, in {0} days", [list.days_left]) : __("Last Day, passed")),
+			...(data.elsewhere ? [fact(data.elsewhere, __("People on Their Own List"), "/desk/holiday-list-assignment?applicable_for=Employee&docstatus=1")] : []),
+		].join("")}</div>`;
+		this.$content.append(
+			onedesk.shell.section(list.name, facts, __("{0} to {1}. Leave, attendance, check-ins, the calendar and deadlines all count around these days.", [day(list.from_date), day(list.to_date)]))
 		);
-		$card.find("[data-open]").on("click", () => frappe.set_route("Form", "Holiday List", data.chosen));
-		$card.find("[data-new]").on("click", () => frappe.new_doc("Holiday List"));
+		this.form(data, {
+			rows: [
+				{ heading: __("Days Off"), note: __("The day nobody works, every week of the list.") },
+				["weekly_off", "_"],
+				{ heading: __("Public Holidays"), note: __("Add a day, change its name or remove it, then save.") },
+				["country", "subdivision"],
+				{ html: onedesk.shell.button(__("Add the Country's Public Holidays"), { "data-local": "1" }, "subtle", "plus") },
+				{ stack: ["holidays"] },
+			],
+		});
+		const country = this.group.get_field("country");
+		const region = this.group.get_field("subdivision");
+		const regions = async () => {
+			const code = this.group.get_value("country");
+			region.set_data(code ? await frappe.xcall("onedesk.one.holidays.subdivisions", { country: code }) : []);
+		};
+		country.df.onchange = regions;
+		this.$content.find("[data-local]").on("click", async () => {
+			const code = this.group.get_value("country");
+			if (!code) return frappe.msgprint(__("Choose the country first."));
+			const found = await frappe.xcall("onedesk.one.holidays.country_holidays", {
+				country: code,
+				subdivision: this.group.get_value("subdivision") || null,
+				from_date: list.from_date,
+				to_date: list.to_date,
+			});
+			const table = this.group.get_field("holidays");
+			const held = new Set((table.df.data || []).map((one) => one.holiday_date));
+			const added = found.filter((one) => !held.has(one.holiday_date));
+			table.df.data = [...(table.df.data || []), ...added].sort((a, b) => (a.holiday_date < b.holiday_date ? -1 : 1));
+			table.df.data.forEach((one, at) => (one.idx = at + 1));
+			table.grid.refresh();
+			this.check();
+			frappe.show_alert({ message: added.length ? __("{0} holidays added. Save to keep them.", [added.length]) : __("Every one of them is already in the list."), indicator: "blue" });
+		});
+		if (list.in_force && data.next) this.page.add_inner_button(__("Next Year's List"), () => open_list(data.next));
+		else if (list.in_force) this.page.add_inner_button(__("Make Next Year's List"), next_year);
+		this.page.add_inner_button(__("Use Another List"), use_another);
 	}
 
 	// ---------------------------------------------------------------- notifications

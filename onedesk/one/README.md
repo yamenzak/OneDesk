@@ -614,6 +614,39 @@ model each part runs on is chosen.
 
 **OneAI on this page** offers **Is OneIntake set up well for us?**
 
+### Holidays, for the Workspace
+
+Under **Workspace**, **Holidays** is the days nobody works: the holiday list
+in force today. Leave, attendance, check-ins, OneCalendar and OneIntake's
+deadlines all count around it. Only administrators see it and change it; OneCalendar's **Holidays** opens
+it too.
+
+- The top says how many public holidays and weekly days off the list has,
+  the next holiday, and its last day. **People on Their Own List** appears
+  when somebody has a list assigned just to them, and opens those
+  assignments.
+- **Day Off Each Week** is the day nobody works, every week of the list.
+  Changing it and saving remakes every one of those days.
+- **Public Holidays** is a table: add a row, change a date or a name, or
+  remove one, then **Save** in the page head. **Add the Country's Public
+  Holidays** fills in what the country (and, where it matters, the state or
+  region) has that the table lacks, in your language; dates of lunar
+  holidays are marked as estimates and are worth checking.
+- A list is one year. When it ends in less than 90 days with nothing after
+  it, the page says so: after its last day every day counts as a working day
+  for leave and attendance. **Make Next Year's List**, in the page head,
+  makes next year's from this one (the same day off, the country's public
+  holidays) and puts it in force from 1 January. Open it with **Next Year's
+  List** to check it.
+- **Use Another List** puts a different list in force for everybody, from
+  today, or from its first day if it starts later.
+
+Every administrator is told on the bell when somebody else
+changes the holidays, and on the bell and by mail 60, 30 and 7 days before
+the list ends with no list after it.
+
+**OneAI on this page** offers **Are our holidays ready for next year?**
+
 ## Customizing a Form
 
 **Customize** on any form's menu opens the form's own customization page, for

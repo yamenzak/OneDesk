@@ -194,6 +194,10 @@ No doctypes yet.
 * `onedesk.one.customize.save`
 * `onedesk.one.head.preview`
 * `onedesk.one.head.run`
+* `onedesk.one.holidays.country_holidays`
+* `onedesk.one.holidays.next_year`
+* `onedesk.one.holidays.subdivisions`
+* `onedesk.one.holidays.use`
 * `onedesk.one.invite.accept`
 * `onedesk.one.push.devices`
 * `onedesk.one.push.forget`

@@ -69,18 +69,6 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
-   "label": "Holiday List",
-   "link_type": "DocType",
-   "show_arrow": 0,
-   "type": "Link",
-   "link_to": "Holiday List"
-  },
-  {
-   "child": 1,
-   "collapsible": 1,
-   "indent": 0,
-   "is_default_module": 1,
-   "keep_closed": 0,
    "label": "Google Calendar",
    "link_type": "DocType",
    "show_arrow": 0,

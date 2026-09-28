@@ -109,6 +109,8 @@ scheduler_events = {
 	"daily": [
 		# Task steps that waited for a day. See one_intake/steps.py.
 		"onedesk.one_intake.steps.daily",
+		# The company field follows the holiday list in force; a list about to end is told.
+		"onedesk.one.holidays.daily",
 		# Faces not found a month ago are looked for again. See one_mail/faces.py.
 		"onedesk.one_mail.faces.again",
 		# The Recycle Bin keeps things thirty days. See one_storage/api.py.
@@ -723,6 +725,8 @@ one_ai_reads = [
 	"onedesk.one.ai.workspace_oneai",
 	# OneIntake's settings and its month, for the administrators.
 	"onedesk.one.ai.workspace_intake",
+	# The holiday list in force, when it ends and what follows it.
+	"onedesk.one.ai.workspace_holidays",
 	# Documents by what they say, and what they are. See one_intake/search.py.
 	"onedesk.one_intake.search.find_documents",
 	"onedesk.one_hr.ai.my_leave",

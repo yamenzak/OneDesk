@@ -365,9 +365,11 @@ def rule(result: dict) -> str:
 
 
 def _holidays() -> set:
-	company = frappe.defaults.get_global_default("company")
-	holiday_list = frappe.db.get_value("Company", company, "default_holiday_list") if company else None
-	return set(frappe.get_all("Holiday", filters={"parent": holiday_list}, pluck="holiday_date")) if holiday_list else set()
+	"""Every day off on any of the company's lists, so a deadline in January
+	is moved by January's list, not last year's."""
+	from onedesk.one import holidays
+
+	return holidays.all_dates()
 
 
 def learned(shop: str | None, text: str | None) -> str | None:

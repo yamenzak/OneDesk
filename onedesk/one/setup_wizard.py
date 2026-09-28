@@ -121,8 +121,8 @@ def _payroll_period(company: str | None) -> None:
 def _holiday_list(company: str | None, weekly_off: str | None) -> str | None:
 	"""This year's list: the week's day off, plus the country's public holidays.
 
-	The public holidays come from erpnext's own `get_local_holidays`, which
-	reads the `holidays` package by country code. A country it does not know
+	The public holidays come from the `holidays` package by country code, in
+	the language of whoever sets the workspace up (one/holidays.py, `local`). A country it does not know
 	leaves the list with the weekly off alone, which is still better than a
 	workspace where every Sunday is an absence.
 	"""
@@ -140,12 +140,15 @@ def _holiday_list(company: str | None, weekly_off: str | None) -> str | None:
 	doc.to_date = f"{year}-12-31"
 	doc.weekly_off = weekly_off
 	doc.country = _country_code(company)
-	doc.get_weekly_off_dates()
 	if doc.country:
+		from onedesk.one import holidays
+
 		try:
-			doc.get_local_holidays()
+			for one in holidays.local(doc.country, None, doc.from_date, doc.to_date):
+				doc.append("holidays", {**one, "weekly_off": 0})
 		except Exception:
 			frappe.clear_last_message()
+	doc.get_weekly_off_dates()
 	doc.insert(ignore_permissions=True)
 
 	_assign(doc.name, company, f"{year}-01-01")

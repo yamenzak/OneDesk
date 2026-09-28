@@ -139,7 +139,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, Workspace | Domains | done |
 | Settings, Workspace | OneAI (now OneAI › Actions) | done |
 | Settings, Workspace | OneIntake (now OneIntake › Settings) | done |
-| Settings, Workspace | Holidays | |
+| Settings, Workspace | Holidays | done |
 | Products | One home, OneMail, OneCloud, OneCalendar, OneTask, OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, OneAdmin | each screen listed here once we reach it |
 
 Noticed along the way, for the screen it belongs to:
@@ -1620,41 +1620,6 @@ this page too.
   OneIntake settings to move.
 - `workspace_intake` also reads which mailboxes and folders are read.
 
-## OneLegal
-
-Founded during the pass, so that each screen can add its lines as the pass
-reaches it (point 8). `one_legal/README.md` is the reference.
-
-- **Ported from OneApp's `onelegal`**:
-  - the registry, the eight documents and `revision.hash` versions;
-  - the two parties (the organisation, agreed by an administrator; the
-    person, agreed by each person);
-  - Legal Acceptance and Legal Document Version.
-- **The desk's own parts**:
-  - A dialog that cannot be closed asks when the desk starts. The documents
-    open on the Agreements page (`/app/legal`), which is never behind the
-    dialog.
-  - Only a Workspace Administrator agrees for the organisation. A person
-    whose workspace has not agreed yet is told so, rather than shown a button
-    that would refuse them.
-- **The text is OneDesk's, not OneApp's**:
-  - Intake acts without being asked each time, and the AI Addendum says so.
-  - The lifecycle's periods are read from `one_admin/ladder.py`.
-  - Nothing is promised that is not built.
-- **Every company One calls is declared**, and `tests/test_legal.py` fails on a
-  new outside host that is not:
-  - Cloudflare (R2, AI Gateway and Workers AI, sending mail);
-  - Google (Gemini, and the favicon lookup);
-  - Automattic (Gravatar, by a hash of the address);
-  - Stripe;
-  - Frappe (Frappe Cloud).
-  - Gravatar and the favicon lookup were in no document before.
-- **Not yet built**, for the screens they belong to:
-  - an Agreements section in Settings showing what you and the workspace
-    agreed to, and when;
-  - asking at sign-up, before the workspace exists;
-  - `gate.require()` on turning an application on.
-
 ### Workspace › Holidays
 
 The page is a Select of Holiday Lists ("One 2026"), **Open the List** and
@@ -1727,3 +1692,86 @@ erpnext's `get_local_holidays`, made by the setup wizard, with a company
    `get_weekly_off_dates` and `get_local_holidays` behind the buttons;
    saving against `modified`; and a redraw on `doc_update` when somebody
    else saves the list.
+
+Your word: all of them. Two changes to the findings as they were built:
+the notices go to administrators only, since the page is theirs and an HR
+manager could not open it; and the names being in Arabic turned out to be
+erpnext's bug, not the list's language.
+
+Done:
+
+- **Save reaches OneHR.** The page edits the list in force today, as hrms
+  decides it (`one/holidays.py`, `in_force`). Choosing another list
+  (**Use Another List**) submits a company `Holiday List Assignment` from
+  today, or from the list's first day, and the company field follows it.
+  A daily job keeps the field on the list in force, so erpnext's reports
+  move to the new year on 1 January.
+- **The page is the list.** Its dates and counts at the top (public
+  holidays, weekly days off, the next holiday, the last day and how far
+  off it is); **Day Off Each Week**, which remakes every such day on save;
+  **Country** and **State or Region**; and the public holidays as frappe's
+  own table, add, rename and remove, saved with the page's Save against
+  `modified` and redrawn when somebody else saves the list. **Add the
+  Country's Public Holidays** adds what the country has that the table
+  lacks, without saving. **Open the List** and **New List** are gone.
+- **Next year.** **Make Next Year's List** in the page head makes it from
+  this one (same day off, the country's public holidays) and assigns it
+  from 1 January; the page then opens it (`?list=`), with a line saying
+  when it starts and **Back to** this year's. Under 90 days from the end
+  with nothing after it, the page says so above everything, with the same
+  button.
+- **Notices**: **Holidays Changed** on the bell to every other
+  administrator, naming what was added, removed or renamed, or the new day
+  off; **Holidays Run Out Soon** on the bell and by mail 60, 30 and 7 days
+  before the list ends with no list after it.
+- **Holidays in the reader's language.** erpnext's `get_local_holidays`
+  passes frappe's `en`; the `holidays` package knows English as `en_US`, so
+  it fell back to the country's own language. `holidays.local` picks the
+  package's own code, and the setup wizard uses it. A patch renames the
+  names nobody changed into the workspace's language: One 2026 reads
+  "National Day", with lunar dates marked "(estimated)".
+- **Intake and OneCalendar read by date**: deadlines count days off from
+  every list the company has had, and the calendar shows each holiday from
+  the list in force on its day. OneCalendar's sidebar no longer has
+  erpnext's Holiday List; the page is One › Workspace › Holidays.
+- **People on Their Own List** shows when anybody has an assignment of
+  their own, and opens them.
+- **OneAI**: the page sentence, **Are our holidays ready for next year?**,
+  and `workspace_holidays`, which also lists what the country has that the
+  list lacks. No AI call.
+- `one/README.md` has Holidays, for the Workspace.
+
+## OneLegal
+
+Founded during the pass, so that each screen can add its lines as the pass
+reaches it (point 8). `one_legal/README.md` is the reference.
+
+- **Ported from OneApp's `onelegal`**:
+  - the registry, the eight documents and `revision.hash` versions;
+  - the two parties (the organisation, agreed by an administrator; the
+    person, agreed by each person);
+  - Legal Acceptance and Legal Document Version.
+- **The desk's own parts**:
+  - A dialog that cannot be closed asks when the desk starts. The documents
+    open on the Agreements page (`/app/legal`), which is never behind the
+    dialog.
+  - Only a Workspace Administrator agrees for the organisation. A person
+    whose workspace has not agreed yet is told so, rather than shown a button
+    that would refuse them.
+- **The text is OneDesk's, not OneApp's**:
+  - Intake acts without being asked each time, and the AI Addendum says so.
+  - The lifecycle's periods are read from `one_admin/ladder.py`.
+  - Nothing is promised that is not built.
+- **Every company One calls is declared**, and `tests/test_legal.py` fails on a
+  new outside host that is not:
+  - Cloudflare (R2, AI Gateway and Workers AI, sending mail);
+  - Google (Gemini, and the favicon lookup);
+  - Automattic (Gravatar, by a hash of the address);
+  - Stripe;
+  - Frappe (Frappe Cloud).
+  - Gravatar and the favicon lookup were in no document before.
+- **Not yet built**, for the screens they belong to:
+  - an Agreements section in Settings showing what you and the workspace
+    agreed to, and when;
+  - asking at sign-up, before the workspace exists;
+  - `gate.require()` on turning an application on.

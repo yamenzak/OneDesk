@@ -117,17 +117,11 @@ def whos_off(start, end) -> list[dict]:
 def holidays(start, end) -> list[dict]:
 	"""The company's holidays, not its weekly days off: a calendar with every
 	Friday marked is a calendar nobody reads."""
-	company = frappe.defaults.get_global_default("company")
-	listed = company and frappe.db.get_value("Company", company, "default_holiday_list")
-	if not listed:
-		return []
+	from onedesk.one import holidays as lists
+
 	return [
-		{"name": listed, "id": f"Holiday:{one.name}", "title": layers.plain(one.description, 80), "start": one.holiday_date, "all_day": 1}
-		for one in frappe.get_all(
-			"Holiday",
-			filters=[["parent", "=", listed], ["weekly_off", "=", 0], *layers.within("holiday_date", start, end)],
-			fields=["name", "holiday_date", "description"],
-		)
+		{"name": one.parent, "id": f"Holiday:{one.name}", "title": layers.plain(one.description, 80), "start": one.holiday_date, "all_day": 1}
+		for one in lists.public(start, end)
 	]
 
 

@@ -156,7 +156,7 @@ INTAKE = ("records", "most_pages", "floor", "audit", "keep_in_place", "quiet_min
 SYSTEM = ("date_format", "time_format", "number_format", "first_day_of_the_week", "one_calendar_links")
 
 #: Sections that list several records and open on one of them.
-ON_A_RECORD = ("notification_types", "people")
+ON_A_RECORD = ("notification_types", "people", "holidays")
 
 #: What an administrator sets on a notification type: whether it is sent, its
 #: text, and the channels people may choose for it.
@@ -1419,32 +1419,115 @@ def _told_of_intake(doc, changed: list[str]) -> None:
 	)
 
 
-def _holidays() -> dict:
-	company = _company()
-	chosen = company.default_holiday_list if company else None
-	coming = (
-		frappe.get_all(
-			"Holiday",
-			filters={"parent": chosen, "holiday_date": [">=", frappe.utils.today()], "weekly_off": 0},
-			fields=["holiday_date", "description"],
-			order_by="holiday_date asc",
-			limit=8,
-		)
-		if chosen
-		else []
+def _holidays(record: str | None = None) -> dict:
+	"""One holiday list, as the page edits it: the list in force today unless
+	another is asked for (next year's). Its day off, its country and its
+	public holidays are the form; the week's days off are made from the day
+	off rather than listed (one/holidays.py)."""
+	from onedesk.one import holidays
+
+	held = holidays.company()
+	now = holidays.in_force(held=held)
+	name = record if record and frappe.db.exists("Holiday List", record) else now
+	if not name:
+		return {"fields": [], "values": {}, "empty": True, "opened": []}
+	doc = frappe.get_doc("Holiday List", name)
+	public = [one for one in doc.holidays if not one.weekly_off]
+	upcoming = [one for one in public if frappe.utils.getdate(one.holiday_date) >= frappe.utils.getdate(frappe.utils.today())]
+	day_off = holidays.day_off(doc)
+	fields = _fields("Holiday List", ("weekly_off", "country", "subdivision"))
+	for one in fields:
+		if one["fieldname"] == "weekly_off":
+			one.update({"label": _("Day Off Each Week"), "description": _("Every one of these days in the list is a day off.")})
+		elif one["fieldname"] == "country":
+			one.update({"label": _("Country"), "options": holidays.countries(), "description": None})
+		elif one["fieldname"] == "subdivision":
+			one.update({"label": _("State or Region"), "options": holidays.subdivisions(doc.country) if doc.country else [], "description": _("Some countries have holidays only in part of the country.")})
+	fields.append(
+		{
+			"fieldname": "holidays",
+			"fieldtype": "Table",
+			"label": _("Public Holidays"),
+			"fields": [
+				{"fieldname": "holiday_date", "fieldtype": "Date", "label": _("Date"), "in_list_view": 1, "reqd": 1, "columns": 3},
+				{"fieldname": "description", "fieldtype": "Data", "label": _("Holiday"), "in_list_view": 1, "reqd": 1, "columns": 7},
+			],
+		}
 	)
+	rows = [{"holiday_date": str(one.holiday_date), "description": frappe.utils.strip_html_tags(one.description or "")} for one in public]
+	# frappe's table control reads its rows from the field, not from a value.
+	fields[-1]["data"] = [dict(one) for one in rows]
+	next_list = holidays.after(name, held)
 	return {
-		"lists": frappe.get_all("Holiday List", pluck="name", order_by="to_date desc"),
-		"chosen": chosen,
-		"coming": [{"date": one.holiday_date, "what": frappe.utils.strip_html_tags(one.description or "")} for one in coming],
+		"fields": fields,
+		"values": {
+			"weekly_off": day_off,
+			"country": doc.country,
+			"subdivision": doc.subdivision,
+			"holidays": rows,
+		},
+		"list": {
+			"name": doc.name,
+			"from_date": str(doc.from_date),
+			"to_date": str(doc.to_date),
+			"days_left": frappe.utils.date_diff(doc.to_date, frappe.utils.today()),
+			"in_force": name == now,
+			"days_off": len(doc.holidays) - len(public),
+			"public": len(public),
+		},
+		"coming": [{"date": str(one.holiday_date), "what": frappe.utils.strip_html_tags(one.description or "")} for one in upcoming[:1]],
+		"next": next_list,
+		"now": now,
+		"elsewhere": holidays.elsewhere(held),
+		"opened": _opened(doc),
 	}
 
 
-def _save_holidays(values: dict) -> None:
-	company = _company()
-	if company and values.get("holiday_list") and frappe.db.exists("Holiday List", values["holiday_list"]):
-		company.default_holiday_list = values["holiday_list"]
-		company.save(ignore_permissions=True)
+def _save_holidays(record: str | None, values: dict) -> str:
+	"""The list's day off, country and public holidays, saved against when the
+	page loaded it. A new day off remakes the week's days off; the other
+	administrators and the HR managers hear what changed."""
+	from onedesk.one import holidays
+
+	name = record or holidays.in_force()
+	doc = _as_opened(frappe.get_doc("Holiday List", name))
+	was_off = holidays.day_off(doc)
+	was = {str(one.holiday_date): frappe.utils.strip_html_tags(one.description or "") for one in doc.holidays if not one.weekly_off}
+	wanted = {}
+	for one in values.get("holidays") or []:
+		if one.get("holiday_date"):
+			wanted[str(frappe.utils.getdate(one["holiday_date"]))] = (one.get("description") or "").strip() or _("Holiday")
+	off = values.get("weekly_off") or was_off
+	doc.country = values.get("country") or None
+	doc.subdivision = (values.get("subdivision") or None) if doc.country else None
+	# The week's days off are made again from the day off every time, so a
+	# holiday removed from a Friday leaves that Friday a day off.
+	doc.set("holidays", [])
+	for day, what in sorted(wanted.items()):
+		doc.append("holidays", {"holiday_date": day, "description": what, "weekly_off": 0})
+	doc.weekly_off = off
+	if off:
+		doc.get_weekly_off_dates()
+	doc.flags.ignore_permissions = True
+	doc.save()
+	said = []
+	if off != was_off:
+		said.append(_("the day off each week is now {0}").format(_(off)))
+	added = [day for day in wanted if day not in was]
+	dropped = [day for day in was if day not in wanted]
+	renamed = [day for day in wanted if day in was and was[day] != wanted[day]]
+	for label, days, names in (
+		(_("added {0}"), added, wanted),
+		(_("removed {0}"), dropped, was),
+		(_("renamed {0}"), renamed, wanted),
+	):
+		if days:
+			shown = ", ".join(f"{names[day]} ({frappe.utils.formatdate(day)})" for day in sorted(days)[:3])
+			more = len(days) - 3
+			said.append(label.format(shown + (" " + _("and {0} more").format(more) if more > 0 else "")))
+	if said:
+		holidays.told("; ".join(said), doc.name)
+	return doc.name
 
 
 # ------------------------------------------------------------------ notifications

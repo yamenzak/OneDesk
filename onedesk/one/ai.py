@@ -154,6 +154,16 @@ SUGGESTIONS = {
 			"expects": "workspace_intake",
 		},
 	],
+	"page:workspace-settings/holidays": [
+		{
+			"label": _lt("Are our holidays ready for next year?"),
+			"ask": _lt(
+				"Look at our holiday list. When does it end, is there a list after it, is anything missing for "
+				"our country, and who is on a list of their own?"
+			),
+			"expects": "workspace_holidays",
+		},
+	],
 	"page:workspace-settings/general": [
 		{
 			"label": _lt("Is signing in here safe enough?"),
@@ -293,6 +303,15 @@ def page(said: dict) -> str | None:
 			"person, and the audit; filing, and how many quiet minutes before it acts; and the books, household "
 			"and submitting matching e-invoices; and what it does by itself in OneHR. workspace_intake reads it all. They change a switch or a number "
 			"and save from the page head; how is in One's documentation under OneIntake Settings, for the Workspace (how_to)."
+		)
+	if said.get("page") == "workspace-settings" and said.get("section") == "holidays":
+		return (
+			"The reader administers this workspace and is on Workspace › Holidays: the holiday list in force "
+			"(its first and last day, the day off each week, the country and its public holidays), whether a list "
+			"follows it, and how many people are on a list of their own. Leave, attendance, check-ins, the calendar "
+			"and deadlines count around these days. workspace_holidays reads it all. They add, rename or remove a "
+			"holiday in the table and save from the page head, make next year's list or use another list from the "
+			"page head; how is in One's documentation under Holidays, for the Workspace (how_to)."
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "oneai":
 		return (
@@ -845,6 +864,42 @@ def workspace_intake() -> dict:
 		],
 		"mailboxes_not_read": [one["email"] for one in said["mailboxes"] if not one["on"]],
 		"folders_read": [{"folder": one["path"], "on_behalf_of": one["for"]} for one in said["folders"]],
+	}
+
+
+def workspace_holidays() -> dict:
+	"""The holiday list in force, for the workspace's administrators: its days,
+	when it ends, the list after it if any, the public holidays the country
+	has that it lacks, and how many people are on a list of their own."""
+	from onedesk.one import holidays, roles, settings
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator sees the workspace's holidays."}
+	said = settings._holidays()
+	if said.get("empty"):
+		return {"holiday_list": None, "meaning": "no list: every day is a working day for leave and attendance"}
+	listed = said["list"]
+	values = said["values"]
+	missing = []
+	if values.get("country"):
+		held = {one["holiday_date"] for one in values["holidays"]}
+		try:
+			found = holidays.country_holidays(values["country"], listed["from_date"], listed["to_date"], values.get("subdivision"))
+		except Exception:
+			found = []
+		missing = [one for one in found if one["holiday_date"] not in held]
+	return {
+		"holiday_list": listed["name"],
+		"from": listed["from_date"],
+		"to": listed["to_date"],
+		"days_left": listed["days_left"],
+		"day_off_each_week": values.get("weekly_off"),
+		"country": values.get("country"),
+		"public_holidays": values["holidays"],
+		"next_list": said["next"],
+		"meaning": "with no next list, from the day after the last day every day counts as a working day for leave and attendance",
+		"country_holidays_not_in_the_list": missing,
+		"people_on_their_own_list": said["elsewhere"],
 	}
 
 

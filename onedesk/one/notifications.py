@@ -209,4 +209,26 @@ TYPES = [
 		),
 		"email": False,
 	},
+	# holidays: which days nobody works, for leave, attendance and deadlines.
+	{
+		"name": _lt("Holidays Changed"),
+		"app": "One",
+		"about": _lt("When another administrator changes the workspace's holidays."),
+		"to": _lt("Every other administrator"),
+		"subject": _lt("{by} changed the holidays"),
+		"message": _lt("{by} changed the holidays in {holiday_list}: {what}. Leave, attendance and deadlines count around them from now on."),
+		"email": False,
+	},
+	{
+		"name": _lt("Holidays Run Out Soon"),
+		"app": "One",
+		"about": _lt("When the holiday list ends in 60, 30 or 7 days with no list after it."),
+		"to": _lt("Every administrator"),
+		"subject": _lt("The holiday list ends in {days} days"),
+		"message": _lt(
+			"{holiday_list} ends on {last_day} and no list follows it. From {first_day} every day counts as a "
+			"working day for leave and attendance. Make next year's list in Workspace › Holidays."
+		),
+		"email_default": True,
+	},
 ]
