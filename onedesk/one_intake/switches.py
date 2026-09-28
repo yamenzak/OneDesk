@@ -54,10 +54,27 @@ def folder_state(folder: str) -> dict:
 	return {
 		"on": bool(covering),
 		"here": covering == folder,
-		"from": frappe.db.get_value("File", covering, "file_name") if covering and covering != folder else None,
+		"from": frappe.db.get_value("File", covering, "file_name")
+		if covering and covering != folder
+		else None,
 		"for": person,
 		"may": _may_switch(item),
 	}
+
+
+@frappe.whitelist(methods=["POST"])
+def read_now(file: str) -> None:
+	"""Read one file with OneAI, as the person asking, when no folder of it is
+	read. Whoever may open the file may ask; a message's attachment is read
+	with its mailbox, and a folder is switched on instead."""
+	item = ns.row(file)
+	if not item or item.get("is_folder") or item.get("one_deleted") or not ns.may(item):
+		frappe.throw(_("There is no file {0} you may open.").format(file), frappe.PermissionError)
+	if item.get("attached_to_doctype") == "Communication":
+		frappe.throw(_("A message's attachments are read with its mailbox."))
+	from onedesk.one_intake import pipeline
+
+	pipeline.later("read_file", f"file:{item['name']}", name=item["name"], person=frappe.session.user)
 
 
 @frappe.whitelist(methods=["POST"])
@@ -67,11 +84,17 @@ def set_folder(folder: str, on: int) -> dict:
 	on = int(on or 0)
 	stopping = not on and _administers()
 	if not item or not item.get("is_folder") or not (stopping or _may_switch(item)):
-		frappe.throw(_("Only somebody who may change {0} can say whether OneAI reads it.").format(
-			(item or {}).get("file_name") or folder
-		), frappe.PermissionError)
+		frappe.throw(
+			_("Only somebody who may change {0} can say whether OneAI reads it.").format(
+				(item or {}).get("file_name") or folder
+			),
+			frappe.PermissionError,
+		)
 	frappe.db.set_value(
-		"File", folder, {"one_intake": on, "one_intake_for": frappe.session.user if on else None}, update_modified=False
+		"File",
+		folder,
+		{"one_intake": on, "one_intake_for": frappe.session.user if on else None},
+		update_modified=False,
 	)
 	return folder_state(folder)
 
@@ -129,13 +152,18 @@ def overview() -> dict:
 			"mine": actions.holds(one.name),
 		}
 		for one in frappe.get_all(
-			"Email Account", fields=["name", "email_id", "one_intake", "one_intake_for"], order_by="email_id asc"
+			"Email Account",
+			fields=["name", "email_id", "one_intake", "one_intake_for"],
+			order_by="email_id asc",
 		)
 	]
 	folders = [
 		{"name": one.name, "path": one.name, "for": name(one.one_intake_for) if one.one_intake_for else None}
 		for one in frappe.get_all(
-			"File", filters={"is_folder": 1, "one_intake": 1}, fields=["name", "one_intake_for"], order_by="name asc"
+			"File",
+			filters={"is_folder": 1, "one_intake": 1},
+			fields=["name", "one_intake_for"],
+			order_by="name asc",
 		)
 	]
 	return {"mailboxes": mailboxes, "folders": folders}

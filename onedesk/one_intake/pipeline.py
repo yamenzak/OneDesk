@@ -88,18 +88,31 @@ def _readable_file(doc) -> bool:
 # ------------------------------------------------------------------ files
 
 
-def read_file(name: str, history: int = 0) -> str | None:
+def read_file(name: str, history: int = 0, person: str | None = None) -> str | None:
 	"""A File, read. Returns the Reading's name, or None when there is
-	nothing to read or nobody asked for a model to read it."""
+	nothing to read or nobody asked for a model to read it. `person` is who
+	asked for this one file to be read (switches.read_now), when no folder
+	switch covers it."""
 	doc = frappe.db.get_value(
 		"File",
 		name,
-		["name", "file_name", "file_url", "content_hash", "is_folder", "attached_to_doctype", "attached_to_name", "folder", "owner", "file_size"],
+		[
+			"name",
+			"file_name",
+			"file_url",
+			"content_hash",
+			"is_folder",
+			"attached_to_doctype",
+			"attached_to_name",
+			"folder",
+			"owner",
+			"file_size",
+		],
 		as_dict=True,
 	)
 	if not doc or doc.is_folder:
 		return None
-	person = switches.of_file(doc)
+	person = switches.of_file(doc) or person
 	if doc.content_hash:
 		held = _held(doc.content_hash)
 		if held and held.state in DONE and not _waiting_parts(held.name):
@@ -139,7 +152,9 @@ def understood(name: str) -> None:
 
 
 def _waiting_parts(name: str) -> bool:
-	return bool(frappe.db.exists("Reading", {"part_of": name, "state": ["in", ("Queued", "Waiting for Credits")]}))
+	return bool(
+		frappe.db.exists("Reading", {"part_of": name, "state": ["in", ("Queued", "Waiting for Credits")]})
+	)
 
 
 def _held(key: str):
@@ -189,7 +204,12 @@ def _fill(reading, name: str, content: bytes, said: read.Text, person: str | Non
 			said.how, reading.model = said.how or "Scan", vision.PAGES
 			said.needs = None
 		elif said.needs == "ears":
-			said.text, said.how, reading.model, said.needs = vision.hear(name, content, ext, reading.name), "Recording", vision.SOUND, None
+			said.text, said.how, reading.model, said.needs = (
+				vision.hear(name, content, ext, reading.name),
+				"Recording",
+				vision.SOUND,
+				None,
+			)
 	except Exception as raised:
 		_failed(reading, raised)
 		return
@@ -216,17 +236,37 @@ def _fill(reading, name: str, content: bytes, said: read.Text, person: str | Non
 	)
 	if len(said.documents) > 1:
 		for pages in said.documents:
-			_part(reading, f"{reading.key}#{pages[0] + 1}-{pages[-1] + 1}", _pages_label(pages), "\n\n".join(said.pages[index] for index in pages))
+			_part(
+				reading,
+				f"{reading.key}#{pages[0] + 1}-{pages[-1] + 1}",
+				_pages_label(pages),
+				"\n\n".join(said.pages[index] for index in pages),
+			)
 	if depth < DEEPEST:
 		for inner in said.inner:
 			_inner(reading, inner, person, depth)
 
 
 def _part(parent, key: str, label: str, text: str) -> None:
-	doc = _reading(key, f"{parent.title} · {label}", (parent.source_doctype, parent.source_name), parent.on_behalf_of, parent.history, part_of=parent.name, part=label)
+	doc = _reading(
+		key,
+		f"{parent.title} · {label}",
+		(parent.source_doctype, parent.source_name),
+		parent.on_behalf_of,
+		parent.history,
+		part_of=parent.name,
+		part=label,
+	)
 	from onedesk.one_intake import language
 
-	_set(doc, state="Read", how=parent.how, text=text[:MOST_TEXT], language=language.guess(text) or parent.language, read_on=now_datetime())
+	_set(
+		doc,
+		state="Read",
+		how=parent.how,
+		text=text[:MOST_TEXT],
+		language=language.guess(text) or parent.language,
+		read_on=now_datetime(),
+	)
 
 
 def _inner(parent, inner: dict, person: str | None, depth: int) -> None:
@@ -251,7 +291,9 @@ def _inner(parent, inner: dict, person: str | None, depth: int) -> None:
 
 def _pages_label(pages: list[int]) -> str:
 	first, last = pages[0] + 1, pages[-1] + 1
-	return frappe._("page {0}").format(first) if first == last else frappe._("pages {0}–{1}").format(first, last)
+	return (
+		frappe._("page {0}").format(first) if first == last else frappe._("pages {0}–{1}").format(first, last)
+	)
 
 
 #: Pages of a scan read when Intake Settings says nothing.
@@ -273,14 +315,34 @@ def read_mail(name: str, history: int = 0, automatic: int = 0) -> str | None:
 	comm = frappe.db.get_value(
 		"Communication",
 		name,
-		["name", "subject", "content", "sender", "sender_full_name", "recipients", "cc", "communication_date", "sent_or_received", "message_id", "email_account", "communication_medium"],
+		[
+			"name",
+			"subject",
+			"content",
+			"sender",
+			"sender_full_name",
+			"recipients",
+			"cc",
+			"communication_date",
+			"sent_or_received",
+			"message_id",
+			"email_account",
+			"communication_medium",
+		],
 		as_dict=True,
 	)
 	if not comm or comm.communication_medium != "Email":
 		return None
 	person = switches.of_mailbox(comm.email_account)
 	key = "mail-" + hashlib.md5((comm.message_id or comm.name).encode()).hexdigest()
-	reading = _reading(key, comm.subject or "(no subject)", ("Communication", name), person, history, message_id=comm.message_id)
+	reading = _reading(
+		key,
+		comm.subject or "(no subject)",
+		("Communication", name),
+		person,
+		history,
+		message_id=comm.message_id,
+	)
 	attachments = [
 		read_file(one.name, history) if _worth_reading(one, comm.content) else None
 		for one in frappe.get_all(
@@ -393,7 +455,9 @@ def unread_files(most: int) -> list[str]:
 	"""Files with no Reading, leaving out pictures and sound (read only where
 	OneAI is switched on, when they arrive) and those already tried."""
 	skipped = ", ".join(frappe.db.escape(one) for one in SKIPPED | {"Communication"})
-	media = " and ".join(f"f.file_name not like {frappe.db.escape('%.' + ext)}" for ext in read.IMAGES + read.SOUNDS)
+	media = " and ".join(
+		f"f.file_name not like {frappe.db.escape('%.' + ext)}" for ext in read.IMAGES + read.SOUNDS
+	)
 	found = frappe.db.sql(
 		f"""select f.name from `tabFile` f
 		where f.is_folder = 0 and ifnull(f.one_deleted, 0) = 0 and f.content_hash is not null

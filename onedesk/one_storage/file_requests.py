@@ -9,8 +9,9 @@ until the request is closed.
 
 **Where a file lands** is decided per item. One asked for a record's field
 (an Employee's *Passport*) is attached to the record through that field and
-fills it. Any other goes into the request's folder — a folder per person
-when several are asked — or, with no folder and a record, onto the record.
+fills it. Any other goes into the request's own folder, made where the
+request was made and named after it — a folder per person, by name, when
+several are asked — or, with no folder and a record, onto the record.
 Either way it is a File like any other: it has versions, it is in the
 explorer, and the request only lists it. A replacement for an item that
 takes one file becomes a new version of the file sent before.
@@ -85,7 +86,10 @@ def make(node: str, values: str | dict) -> dict:
 			"due_date": values.get("due_date") or None,
 			**where,
 			"items": [
-				{key: one.get(key) for key in ("label", "description", "required", "several", "accept", "fieldname")}
+				{
+					key: one.get(key)
+					for key in ("label", "description", "required", "several", "accept", "fieldname")
+				}
 				for one in values.get("items") or []
 				if one.get("label")
 			],
@@ -106,7 +110,9 @@ def make(node: str, values: str | dict) -> dict:
 def _emails(text) -> list[str]:
 	if isinstance(text, list):
 		return [one.strip() for one in text if one and one.strip()]
-	return [one.strip() for one in (text or "").replace(";", ",").replace("\n", ",").split(",") if one.strip()]
+	return [
+		one.strip() for one in (text or "").replace(";", ",").replace("\n", ",").split(",") if one.strip()
+	]
 
 
 def _where(node: str, title: str | None) -> dict:
@@ -119,9 +125,10 @@ def _where(node: str, title: str | None) -> dict:
 	folder = ns.folder_of(node) if kind[0] in (ns.MY, ns.COMPANY, "file") else None
 	if folder:
 		api._need(api._item(folder), "add")
-		return {"folder": folder}
-	# Made from nowhere in particular: a folder of its own in My Files.
-	made = api.make_folder(ns.MY, title or _("File request"))
+	# A folder of its own, named after the request, in the folder it was made
+	# in (or My Files): what arrives stays together and the folder around it
+	# does not fill with the senders' addresses.
+	made = api.make_folder(folder or ns.MY, title or _("File request"))
 	return {"folder": made["id"]}
 
 
@@ -138,9 +145,22 @@ def _ask(doc, tokens: dict) -> bool:
 	who = get_fullname(doc.owner)
 	# The note and the due date are left out, gap and all, when there are none.
 	note = Markup("<br><br>") + escape(doc.message) if doc.message else ""
-	due = Markup("<br><br>") + escape(_("Due {0}.").format(frappe.format(doc.due_date, "Date"))) if doc.due_date else ""
+	due = (
+		Markup("<br><br>") + escape(_("Due {0}.").format(frappe.format(doc.due_date, "Date")))
+		if doc.due_date
+		else ""
+	)
 	for email, token in tokens.items():
-		notify.mail("File Request", email, now=False, who=who, request=doc.title, note=note, due=due, link=url_of(token))
+		notify.mail(
+			"File Request",
+			email,
+			now=False,
+			who=who,
+			request=doc.title,
+			note=note,
+			due=due,
+			link=url_of(token),
+		)
 	return True
 
 
@@ -181,7 +201,9 @@ def visible() -> list[dict]:
 				"request": True,
 				"icon": "inbox",
 				"modified": row.modified,
-				"where": _("Closed") if row.status == "Closed" else _("{0} of {1} complete").format(done, asked),
+				"where": _("Closed")
+				if row.status == "Closed"
+				else _("{0} of {1} complete").format(done, asked),
 			}
 		)
 	return out
@@ -191,7 +213,10 @@ def children(node: str) -> list[dict]:
 	"""What has arrived for a request, as the files themselves."""
 	doc = _mine(node[len(PREFIX) + 1 :])
 	names = [one.file for one in doc.uploads if one.file]
-	rows = {one.name: one for one in frappe.get_all("File", filters={"name": ["in", names or [""]]}, fields=ns.FIELDS)}
+	rows = {
+		one.name: one
+		for one in frappe.get_all("File", filters={"name": ["in", names or [""]]}, fields=ns.FIELDS)
+	}
 	out = []
 	for one in doc.uploads:
 		if one.file in rows:
@@ -222,7 +247,9 @@ def progress(name: str) -> dict:
 		"title": doc.title,
 		"status": doc.status,
 		"due_date": doc.due_date,
-		"items": [{"label": one.label, "required": one.required, "field": one.fieldname} for one in doc.items],
+		"items": [
+			{"label": one.label, "required": one.required, "field": one.fieldname} for one in doc.items
+		],
 		"people": [
 			{
 				"email": person.email,
@@ -264,7 +291,9 @@ def _remind(doc, people) -> int:
 			request=doc.title,
 			link=url_of(person.get_password("token")),
 		)
-		frappe.db.set_value("Cloud File Request Recipient", person.name, "last_reminded", today(), update_modified=False)
+		frappe.db.set_value(
+			"Cloud File Request Recipient", person.name, "last_reminded", today(), update_modified=False
+		)
 	return len(people)
 
 
@@ -278,7 +307,14 @@ def remind_due() -> None:
 		doc = frappe.get_doc("Cloud File Request", name)
 		frappe.set_user(doc.owner)
 		try:
-			_remind(doc, [one for one in doc.recipients if one.state != "Complete" and str(one.last_reminded or "") != today()])
+			_remind(
+				doc,
+				[
+					one
+					for one in doc.recipients
+					if one.state != "Complete" and str(one.last_reminded or "") != today()
+				],
+			)
 		finally:
 			frappe.set_user("Administrator")
 
@@ -291,7 +327,10 @@ def live(token: str | None):
 	if not token or len(token) > 64:
 		return None, None
 	found = frappe.db.get_value(
-		"Cloud File Request Recipient", {"token_hash": hashed(token), "parenttype": "Cloud File Request"}, ["parent", "name"], as_dict=True
+		"Cloud File Request Recipient",
+		{"token_hash": hashed(token), "parenttype": "Cloud File Request"},
+		["parent", "name"],
+		as_dict=True,
 	)
 	if not found:
 		return None, None
@@ -346,9 +385,7 @@ def _land(doc, person, item, filename: str, content: bytes) -> None:
 
 	extension = os.path.splitext(filename)[1].lower()
 	name = f"{item.label}{extension}"
-	before = next(
-		(one for one in doc.uploads if one.email == person.email and one.item == item.label), None
-	)
+	before = next((one for one in doc.uploads if one.email == person.email and one.item == item.label), None)
 	if item.fieldname:
 		node = ns.record_node(doc.reference_doctype, doc.reference_name)
 	elif doc.folder:
@@ -365,7 +402,9 @@ def _land(doc, person, item, filename: str, content: bytes) -> None:
 		before.sent_on = now_datetime()
 	else:
 		kept = placed["id"]
-		doc.append("uploads", {"email": person.email, "item": item.label, "file": kept, "sent_on": now_datetime()})
+		doc.append(
+			"uploads", {"email": person.email, "item": item.label, "file": kept, "sent_on": now_datetime()}
+		)
 	if item.fieldname:
 		url = frappe.db.get_value("File", kept, "file_url")
 		frappe.db.set_value(doc.reference_doctype, doc.reference_name, item.fieldname, url)
@@ -373,13 +412,28 @@ def _land(doc, person, item, filename: str, content: bytes) -> None:
 
 def _their_folder(doc, person) -> str:
 	"""The request's folder, or a folder in it for this person when several
-	were asked."""
+	were asked, named as the workspace knows them."""
 	if len(doc.recipients) < 2:
 		return doc.folder
-	found = frappe.db.get_value(
-		"File", {"folder": doc.folder, "is_folder": 1, "file_name": person.email, "one_deleted": 0}, "name"
-	)
-	return found or api.make_folder(doc.folder, person.email)["id"]
+	called = _called(person.email)
+	for name in {called, person.email}:
+		found = frappe.db.get_value(
+			"File", {"folder": doc.folder, "is_folder": 1, "file_name": name, "one_deleted": 0}, "name"
+		)
+		if found:
+			return found
+	return api.make_folder(doc.folder, called)["id"]
+
+
+def _called(email: str) -> str:
+	"""A sender's name: their contact's, or the user's, or else their address."""
+	contact = frappe.db.get_value("Contact Email", {"email_id": email, "parenttype": "Contact"}, "parent")
+	if contact:
+		name = frappe.db.get_value("Contact", contact, "full_name")
+		if name and name.strip():
+			return name.strip()
+	name = frappe.db.get_value("User", {"email": email}, "full_name")
+	return (name or "").strip() or email
 
 
 def _settle(doc, person) -> None:

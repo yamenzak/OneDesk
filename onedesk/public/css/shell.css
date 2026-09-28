@@ -531,3 +531,28 @@ a.one-shell-row:hover {
 	display: flex;
 	align-items: center;
 }
+
+/* A search box: frappe's own Data control with a search icon in front, as
+ * frappe-ui's TextInput draws one with a prefix (shell.js `search`). */
+.one-shell-search {
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.one-shell-search > .icon {
+	position: absolute;
+	z-index: 1;
+	inset-inline-start: calc(var(--spacing) * 2);
+	color: var(--ink-gray-5);
+	pointer-events: none;
+}
+
+.one-shell-search .form-control {
+	height: 30px;
+	padding-inline-start: calc(var(--spacing) * 7);
+}
+
+.one-shell-search .form-control::-webkit-search-cancel-button {
+	cursor: pointer;
+}

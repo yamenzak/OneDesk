@@ -738,6 +738,10 @@ one_ai_reads = [
 	# A conversation the reader holds, and what in a folder waits for an answer.
 	"onedesk.one_mail.ai.open_conversation",
 	"onedesk.one_mail.ai.waiting_for_answer",
+	# A file's text, who can see it, and what takes the space. See one_storage/ai.py.
+	"onedesk.one_storage.ai.open_file",
+	"onedesk.one_storage.ai.who_can_see",
+	"onedesk.one_storage.ai.largest_files",
 	# Documents by what they say, and what they are. See one_intake/search.py.
 	"onedesk.one_intake.search.find_documents",
 	"onedesk.one_hr.ai.my_leave",
@@ -789,9 +793,10 @@ one_ai_suggestions = [
 	"onedesk.one_crm.ai.SUGGESTIONS",
 	"onedesk.one.ai.SUGGESTIONS",
 	"onedesk.one_mail.ai.SUGGESTIONS",
+	"onedesk.one_storage.ai.SUGGESTIONS",
 ]
 
-one_ai_page = ["onedesk.one.ai.page", "onedesk.one_mail.ai.page"]
+one_ai_page = ["onedesk.one.ai.page", "onedesk.one_mail.ai.page", "onedesk.one_storage.ai.page"]
 
 # What each module tells people, as notification types. See one/notify.py.
 one_notification_types = [

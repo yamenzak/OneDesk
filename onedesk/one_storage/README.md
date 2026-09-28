@@ -216,9 +216,10 @@ For each file you say:
   for *Photo* with the field *Image* sets the employee's photo when it
   arrives. A request that fills fields goes to one person.
 
-Asked from a folder, files land in that folder, in a folder per person when
-you ask several people. Asked from a record, they are attached to the
-record. Asked from **Requests**, a folder for them is made in My Files.
+Asked from a folder, files land in a folder of their own inside it, named
+after the request, with a folder per person, by name, when you ask several
+people. Asked from a record, they are attached to the record. Asked from
+**Requests**, the request's folder is made in My Files.
 
 **Requests** shows each request and how many people have sent everything.
 Opening one shows what has arrived and from whom; right-click › **Progress…**
@@ -251,6 +252,29 @@ saves it under its own name when you download it. A file only you may see
 opens only for you and for people allowed to see the record it is attached
 to; a link to it passed to anybody else shows them nothing. Public files —
 a logo on a web page, a picture in an email — open for anybody.
+
+## Asking OneAI
+
+The OneAI panel in OneCloud knows the folder you have open and the file
+you have chosen. With a file chosen it offers **Summarise this file**, **Who
+can see this?** and **Find a file…**; with none, **Find a file…** and
+**What is taking the space?**. **Find a file…** puts "Find the file that" in
+the box for you to finish ("…has our trade licence in it") and searches
+what the files say, not only their names. **What is taking the space?**
+lists your own largest files and how full the workspace's storage is.
+
+OneAI reads only a file you may open, and only when you ask; nothing in
+OneCloud is changed by it. Sharing, moving and deleting stay yours, in the
+explorer.
+
+**Read with OneAI** on a file's menu has OneAI read that one file now, file
+it and act on it as it would in a folder it reads. On a folder, **Read with
+OneAI…** has it read every new file that arrives there. A scan or a photo
+is read with OneAI credits.
+
+With nothing chosen, the pane on the right shows the folder itself: how
+many folders and files it holds and their size, and for a folder of yours,
+who can see it and whether OneAI reads it.
 
 ## Under the hood
 

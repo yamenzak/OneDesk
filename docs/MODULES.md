@@ -388,6 +388,7 @@ No doctypes yet.
 * `onedesk.one_intake.panel.for_message`
 * `onedesk.one_intake.switches.folder_state`
 * `onedesk.one_intake.switches.mailbox_state`
+* `onedesk.one_intake.switches.read_now`
 * `onedesk.one_intake.switches.set_folder`
 * `onedesk.one_intake.switches.set_mailbox`
 * `onedesk.one_inventory.assets.said`

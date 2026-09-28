@@ -142,7 +142,8 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, Workspace | Holidays | done |
 | Products | One › Home | done |
 | Products | OneMail | done |
-| Products | OneCloud, OneCalendar, OneTask, OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, OneAdmin | each screen listed here once we reach it |
+| Products | OneCloud | done |
+| Products | OneCalendar, OneTask, OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, OneAdmin | each screen listed here once we reach it |
 
 Noticed along the way, for the screen it belongs to:
 
@@ -2060,6 +2061,57 @@ right. The same explorer opens as a record's Files tab and as the picker.
    The path box and the rename-in-place box are explorer parts frappe has
    no equivalent for, so they stay ours, drawn like a frappe-ui TextInput.
    Recommended: move each of the six onto frappe's part.
+
+Your word: all of them.
+
+Two findings were wrong, and are corrected here rather than built:
+- **New › Document and Workbook** cannot be built yet: OneWriter and
+  OneWorkbook are not rebuilt in OneDesk (only their marks are here), so
+  there is no window for a new document to open in. It waits for them.
+- **The empty state** was already frappe's (`onedesk.shell.empty` is
+  `frappe.ui.empty_state`).
+
+Done:
+
+- **OneAI** (`one_storage/ai.py`): the page sentence names the open folder
+  and the chosen file, only what the reader may open (`OneCloud.here`,
+  sent by `oneai.where` as the page's folder and record). Three readers:
+  `open_file` (what OneIntake read of it, or read now; a scan says to use
+  Read with OneAI), `who_can_see` (owner, people, through a folder, links
+  without their key) and `largest_files` (the reader's own, and how full
+  the workspace is). Suggestions: in a folder **Find a file…** (a fill
+  chip, searched by `find_documents`) and **What is taking the space?**;
+  with one file chosen (section `file`) **Summarise this file**, **Who can
+  see this?** and **Find a file…**. An open panel is told when the chosen
+  file changes.
+- **Intake**: folder-only rows are no longer shown on a file. A file has
+  **Read with OneAI**, which reads that one file now as the person asking
+  (`switches.read_now`, `pipeline.read_file(person=)`); a message's
+  attachment is read with its mailbox.
+- **Records** counts only files on records the reader may open
+  (`_readable_files`, through `get_list`), and no longer lists AI Chat or
+  ToDo.
+- **File requests** make a folder of their own named after the request,
+  where they were made, with a folder per person named by their contact's
+  or user's name (`_where`, `_called`).
+- **The title** is OneCloud.
+- **The preview pane**, with nothing chosen, shows the folder: its folders,
+  files and size, and for a folder of ours its owner, who it is shared
+  with and whether OneAI reads it.
+- **Frappe's parts**: the right-click menu is `frappe.ui.ContextMenu`, New
+  is `frappe.ui.Dropdown`, every button (toolbar and dialogs) is
+  `frappe.ui.button.html`, Details or Tiles is `frappe.ui.tab_buttons`, the
+  crumbs are `frappe.ui.breadcrumbs`, and the search box is a frappe Data
+  control through a new shared `onedesk.shell.search` (OneMail's box can
+  move onto it next). The hand-drawn menu and its CSS are gone.
+- **Legal**: `onecloud-outside` in the Privacy Policy (links, file
+  requests, a connected server's password), revision 5; `onecloud-asks`
+  in the AI Addendum, revision 5.
+- **README**: an **Asking OneAI** section; the request folders.
+- A guard, `tests/test_onecloud_ai.py`. Checked in the browser: the title,
+  the folder pane, a file's and a folder's menus, New, the panel's
+  suggestions with a file chosen, Records; `open_file` read a fresh file
+  on the dev site. No model was called.
 
 ## OneLegal
 

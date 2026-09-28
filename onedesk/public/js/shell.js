@@ -233,6 +233,21 @@ $.extend(onedesk.shell, {
 		return frappe.ui.empty_state.html({ title, description, icon: icon || undefined, css_class: "one-shell-empty" });
 	},
 
+	// A search box: frappe's own Data control, with a search icon in front
+	// as frappe-ui's TextInput draws one with a prefix. Its input is returned
+	// for the page to listen to.
+	search($parent, { placeholder = "", title = "" } = {}) {
+		const $box = $(`<div class="one-shell-search">${frappe.utils.icon("search", "sm")}</div>`).appendTo($parent);
+		const control = frappe.ui.form.make_control({
+			df: { fieldtype: "Data", fieldname: "search", placeholder },
+			parent: $box,
+			render_input: true,
+			only_input: true,
+		});
+		control.$input.attr({ type: "search", spellcheck: "false", autocomplete: "off", title: title || null });
+		return control.$input;
+	},
+
 	quiet(text) {
 		return `<div class="one-shell-quiet">${frappe.utils.escape_html(text)}</div>`;
 	},

@@ -135,7 +135,9 @@ DOCUMENTS = {
 		# 2: push, a new thing kept about a person who turns it on.
 		# 3: a calendar link, the person's calendar read by an app they choose.
 		# 4: administrators see where a person is signed in, and sign them out.
-		"revision": 4,
+		# 5: OneCloud's links and file requests reach people outside, and a
+		#    connected server's password is kept.
+		"revision": 5,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {
@@ -159,7 +161,8 @@ DOCUMENTS = {
 	"ai": {
 		"title": "AI Addendum",
 		"audience": "customer",
-		"revision": 4,
+		# 5: OneAI reads a file in OneCloud when asked.
+		"revision": 5,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {

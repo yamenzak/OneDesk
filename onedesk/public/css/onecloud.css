@@ -42,6 +42,8 @@
 }
 
 .oc-crumbs {
+	display: flex;
+	align-items: center;
 	flex: 1;
 	min-width: 0;
 	overflow: hidden;
@@ -71,28 +73,7 @@
 }
 
 .oc-search {
-	display: flex;
-	align-items: center;
-	gap: calc(var(--spacing) * 1.5);
 	width: 240px;
-	height: 30px;
-	margin: 0;
-	padding: 0 calc(var(--spacing) * 2);
-	border: 1px solid var(--outline-gray-2);
-	border-radius: var(--radius);
-	background: var(--surface-gray-1);
-	color: var(--ink-gray-5);
-	font-weight: normal;
-}
-
-.oc-search input {
-	flex: 1;
-	min-width: 0;
-	border: 0;
-	background: transparent;
-	outline: none;
-	color: var(--ink-gray-8);
-	font-size: var(--text-base);
 }
 
 /* The three panes, the shell's, fill what the bars leave. */
@@ -518,18 +499,6 @@
 	color: var(--ink-gray-5);
 	font-size: var(--text-sm);
 	white-space: pre;
-}
-
-/* The context menu: espresso's own menu, placed where the pointer is. */
-.oc-menu {
-	min-width: 220px;
-}
-
-.oc-keys {
-	margin-inline-start: auto;
-	padding-inline-start: calc(var(--spacing) * 4);
-	color: var(--ink-gray-4);
-	font-size: var(--text-xs);
 }
 
 /* Uploads in progress. */

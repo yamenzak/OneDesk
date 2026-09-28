@@ -20,6 +20,17 @@ frappe.provide("onedesk");
 
 onedesk.OneCloud = class OneCloud {
 	static API = "onedesk.one_storage.api.";
+
+	// What OneAI is told about the OneCloud page (oneai.js `where`): the
+	// folder open and, when one file is chosen, that file. Only the page's
+	// own explorer, never a picker or a record's Files tab.
+	static here() {
+		const cloud = frappe.pages.onecloud && frappe.pages.onecloud.onecloud;
+		if (!cloud || (frappe.get_route() || [])[0] !== "onecloud") return null;
+		const chosen = cloud.chosen();
+		const file = chosen.length === 1 && !chosen[0].folder && cloud.filed(chosen[0]) ? chosen[0] : null;
+		return { folder: cloud.node || "", file: file ? file.id : "", label: file ? file.name : "" };
+	}
 	static UPLOAD = "onedesk.one_storage.upload.";
 	static KINDS = [
 		[["png", "jpg", "jpeg", "gif", "webp", "svg", "bmp", "heic", "avif", "ico"], "file-image", __("Image")],
@@ -76,14 +87,14 @@ onedesk.OneCloud = class OneCloud {
 	// ------------------------------------------------------------- the frame
 
 	build() {
-		const icon = (name) => frappe.utils.icon(name, "sm");
-		const button = (act, name, label, more = "") =>
-			`<button class="es-button" data-variant="ghost" data-act="${act}" title="${label}" ${more}>${icon(name)}<span class="es-button__label">${label}</span></button>`;
+		// Every button is frappe's own (frappe.ui.button), named by what it does.
+		const button = (act, name, label, more = {}) =>
+			frappe.ui.button.html({ variant: "ghost", icon: name, label, title: label, attrs: { "data-act": act, ...more } });
 		const bare = (act, name, label) =>
-			`<button class="es-button" data-variant="ghost" data-icon-button="true" data-act="${act}" title="${label}" aria-label="${label}">${icon(name)}</button>`;
+			frappe.ui.button.html({ variant: "ghost", icon: name, title: label, attrs: { "data-act": act } });
 		this.$root = $(`<div class="oc${this.room ? " oc-room" : ""}${this.picker ? " oc-pick" : ""}" tabindex="-1">
 			<div class="oc-bar">
-				<button class="es-button" data-variant="solid" data-act="new-menu">${icon("plus")}<span class="es-button__label">${__("New")}</span>${icon("chevron-down")}</button>
+				${frappe.ui.button.html({ variant: "solid", icon: "plus", icon_right: "chevron-down", label: __("New"), attrs: { "data-act": "new-menu" } })}
 				<span class="oc-sep"></span>
 				${bare("cut", "scissors", __("Cut"))}
 				${bare("copy", "copy", __("Copy"))}
@@ -93,22 +104,21 @@ onedesk.OneCloud = class OneCloud {
 				${bare("download", "download", __("Download"))}
 				${bare("delete", "trash-2", __("Delete"))}
 				<span class="oc-sep oc-in-bin"></span>
-				${button("restore", "rotate-ccw", __("Restore"), 'data-bin="1"')}
-				${button("empty-bin", "trash-2", __("Empty Recycle Bin"), 'data-bin="1"')}
-				${button("open-record", "external-link", __("Open record"), 'data-record="1"')}
-				${button("members", "users", __("Members"), 'data-library="1"')}
+				${button("restore", "rotate-ccw", __("Restore"), { "data-bin": "1" })}
+				${button("empty-bin", "trash-2", __("Empty Recycle Bin"), { "data-bin": "1" })}
+				${button("open-record", "external-link", __("Open record"), { "data-record": "1" })}
+				${button("members", "users", __("Members"), { "data-library": "1" })}
 				<span class="oc-grow"></span>
-				${bare("view-details", "layout-list", __("Details"))}
-				${bare("view-tiles", "layout-grid", __("Tiles"))}
+				<span class="oc-views"></span>
 				${bare("toggle-preview", "panel-right", __("Preview pane"))}
 			</div>
 			<div class="oc-address">
 				${bare("back", "arrow-left", __("Back"))}
 				${bare("forward", "arrow-right", __("Forward"))}
 				${bare("up", "arrow-up", __("Up"))}
-				<nav class="oc-crumbs es-breadcrumbs"><ol></ol></nav>
+				<div class="oc-crumbs"></div>
 				${bare("refresh", "refresh-cw", __("Refresh"))}
-				<label class="oc-search">${icon("search")}<input type="search" spellcheck="false"></label>
+				<div class="oc-search"></div>
 			</div>
 			<div class="oc-body"></div>
 			<div class="oc-status"></div>
@@ -140,7 +150,19 @@ onedesk.OneCloud = class OneCloud {
 			<div class="oc-items" tabindex="0" role="listbox" aria-multiselectable="true"></div>`);
 		this.$preview = panes.preview.addClass("oc-preview").attr("role", "complementary");
 		this.$items = this.$root.find(".oc-items");
-		this.$search = this.$root.find(".oc-search input");
+		this.$search = onedesk.shell.search(this.$root.find(".oc-search"));
+		// Details or tiles: frappe's segmented control (frappe.ui.tab_buttons).
+		this.$views = frappe.ui
+			.tab_buttons({
+				type: "ghost",
+				label: __("View"),
+				options: [
+					{ value: "details", icon: "layout-list", label: __("Details"), title: __("Details") },
+					{ value: "tiles", icon: "layout-grid", label: __("Tiles"), title: __("Tiles") },
+				],
+				on_change: (value) => this.act(value === "tiles" ? "view-tiles" : "view-details"),
+			})
+			.appendTo(this.$root.find(".oc-views"));
 		// On its page, the explorer runs to the bottom of the window; a tab's
 		// or a dialog's height is its stylesheet's.
 		if (!this.room && !this.picker) onedesk.shell.fit(this.$root);
@@ -149,8 +171,7 @@ onedesk.OneCloud = class OneCloud {
 	apply_settings() {
 		this.$root.attr("data-view", this.settings.view);
 		this.$preview.prop("hidden", !cint(this.settings.preview));
-		this.$root.find("[data-act=view-details]").attr("data-state", this.settings.view === "details" ? "on" : null);
-		this.$root.find("[data-act=view-tiles]").attr("data-state", this.settings.view === "tiles" ? "on" : null);
+		this.$views && this.$views.data("es-tab-buttons").set_value(this.settings.view, { silent: true });
 		this.$root.find("[data-act=toggle-preview]").attr("data-state", cint(this.settings.preview) ? "on" : null);
 		this.$root.find(".oc-head button").each((_, el) => {
 			const on = el.dataset.sort === this.settings.sort;
@@ -183,7 +204,7 @@ onedesk.OneCloud = class OneCloud {
 
 	redraw() {
 		// Not under somebody's hands: a menu open, a name being typed, a drag.
-		if (this.$menu || this.dragging || this.$root.find("input.oc-rename, input.oc-path").length) {
+		if (this.menu_open() || this.dragging || this.$root.find("input.oc-rename, input.oc-path").length) {
 			return setTimeout(() => this.redraw(), 1500);
 		}
 		this.forget_tree(this.node);
@@ -371,15 +392,21 @@ onedesk.OneCloud = class OneCloud {
 	}
 
 	draw_crumbs() {
-		const $ol = this.$root.find(".oc-crumbs ol").empty();
-		this.trail.forEach((one) => {
-			$(`<li><button class="es-breadcrumbs__item" data-node=""></button></li>`)
-				.find("button")
-				.attr("data-node", one.id)
-				.text(one.name)
-				.end()
-				.appendTo($ol);
+		// frappe's breadcrumbs: each folder above goes there, the last is here.
+		const last = this.trail.length - 1;
+		const $crumbs = frappe.ui.breadcrumbs({
+			items: this.trail.map((one, at) => ({
+				label: one.name,
+				onclick:
+					at < last
+						? (e) => {
+								e.stopPropagation();
+								this.go(one.id);
+						  }
+						: undefined,
+			})),
 		});
+		this.$root.find(".oc-crumbs").children(".es-breadcrumbs").remove().end().prepend($crumbs);
 		this.$root.find("[data-act=back]").prop("disabled", !this.past.length);
 		this.$root.find("[data-act=forward]").prop("disabled", !this.ahead.length);
 		this.$root.find("[data-act=up]").prop("disabled", this.trail.length < 2);
@@ -393,12 +420,12 @@ onedesk.OneCloud = class OneCloud {
 			.map((one) => one.name)
 			.join("/");
 		const $box = $(`<input class="oc-path" spellcheck="false">`).val(path);
-		$crumbs.find("ol").hide();
+		$crumbs.children(".es-breadcrumbs").hide();
 		$crumbs.append($box);
 		$box.trigger("focus").trigger("select");
 		const done = () => {
 			$box.remove();
-			$crumbs.find("ol").show();
+			$crumbs.children(".es-breadcrumbs").show();
 		};
 		$box.on("keydown", async (e) => {
 			e.stopPropagation();
@@ -529,6 +556,18 @@ onedesk.OneCloud = class OneCloud {
 		this.draw_preview();
 		this.draw_bar();
 		if (this.picker && this.picker.on_select) this.picker.on_select(this.chosen().filter((one) => !one.folder));
+		this.tell_oneai();
+	}
+
+	// An open OneAI panel is told when the chosen file changes, so what it
+	// offers and what it is told are about that file.
+	tell_oneai() {
+		if (this.picker || this.room || !onedesk.oneai || !onedesk.oneai.panel) return;
+		const here = OneCloud.here();
+		const key = here ? `${here.folder}|${here.file}` : "";
+		if (key === this.told_oneai) return;
+		this.told_oneai = key;
+		onedesk.oneai.panel.moved(onedesk.oneai.where());
 	}
 
 	chosen() {
@@ -584,14 +623,15 @@ onedesk.OneCloud = class OneCloud {
 		if (!cint(this.settings.preview)) return;
 		const chosen = this.chosen();
 		const esc = frappe.utils.escape_html;
-		if (chosen.length !== 1) {
-			const text = chosen.length
-				? __("{0} items selected", [chosen.length])
-				: __("Select a file to preview it.");
-			this.$preview.html(onedesk.shell.empty(text, "", { icon: chosen.length ? "files" : "file" }));
+		if (chosen.length > 1) {
+			const bytes = chosen.reduce((sum, one) => sum + (one.folder ? 0 : one.size || 0), 0);
+			this.$preview.html(
+				onedesk.shell.empty(__("{0} items selected", [chosen.length]), bytes ? this.size_text(bytes) : "", { icon: "files" })
+			);
 			this.previewing = null;
 			return;
 		}
+		if (!chosen.length) return this.draw_folder();
 		const item = chosen[0];
 		if (this.previewing === item.id) return;
 		this.previewing = item.id;
@@ -622,6 +662,46 @@ onedesk.OneCloud = class OneCloud {
 		if (this.filed(item)) this.draw_history(item);
 		// What OneAI read in it (intake.js).
 		if (this.filed(item) && !item.folder) onedesk.intake.panel(this.$preview.find(".oc-intake-panel"), { file: item.id });
+	}
+
+	// With nothing chosen, the folder itself: what is in it, who can see it,
+	// and whether OneAI reads it, as a file's details are shown.
+	draw_folder() {
+		// Drawn again when what is in the folder changes.
+		const key = `@folder:${this.node}:${this.items.length}:${this.items.reduce((sum, one) => sum + (one.size || 0), 0)}`;
+		if (this.previewing === key) return;
+		this.previewing = key;
+		const esc = frappe.utils.escape_html;
+		const here = this.trail[this.trail.length - 1];
+		const files = this.items.filter((one) => !one.folder);
+		const folders = this.items.length - files.length;
+		const bytes = files.reduce((sum, one) => sum + (one.size || 0), 0);
+		const rows = [
+			[__("Folders"), folders ? String(folders) : ""],
+			[__("Files"), files.length ? String(files.length) : ""],
+			[__("Size"), bytes ? this.size_text(bytes) : ""],
+		].filter(([, value]) => value);
+		this.$preview.html(`
+			<div class="oc-preview-shown"><div class="oc-preview-icon">${frappe.utils.icon("folder", "xl")}</div></div>
+			<div class="oc-preview-name">${esc(here ? here.name : "OneCloud")}</div>
+			<dl class="oc-folder-facts">${rows.map(([name, value]) => `<dt>${name}</dt><dd>${esc(value)}</dd>`).join("")}</dl>`);
+		// A folder of ours says who can see it and whether OneAI reads it.
+		if (!this.node || this.node.startsWith("@")) return;
+		const node = this.node;
+		Promise.all([
+			frappe.xcall("onedesk.one_storage.share.people", { node }).catch(() => null),
+			frappe.xcall("onedesk.one_intake.switches.folder_state", { folder: node }).catch(() => null),
+		]).then(([people, reading]) => {
+			if (this.previewing !== key) return;
+			const more = [];
+			if (people) {
+				const seen = [...people.people, ...people.inherited];
+				more.push([__("Owner"), people.owner.name]);
+				more.push([__("Shared with"), seen.length ? seen.map((one) => one.name).join(", ") : __("Nobody else")]);
+			}
+			if (reading) more.push([__("Read by OneAI"), reading.on ? __("Yes") : __("No")]);
+			this.$preview.find(".oc-folder-facts").append(more.map(([name, value]) => `<dt>${name}</dt><dd>${esc(value)}</dd>`).join(""));
+		});
 	}
 
 	// A file's versions and what was done to it, under its preview.
@@ -705,13 +785,14 @@ onedesk.OneCloud = class OneCloud {
 
 	bind() {
 		const $r = this.$root;
+		// New is frappe's own action menu on its button (frappe.ui.Dropdown).
+		this.new_dropdown = new frappe.ui.Dropdown({
+			trigger: $r.find("[data-act=new-menu]"),
+			options: () => this.as_menu(this.new_menu()),
+		});
 		$r.on("click", "[data-act]", (e) => {
 			e.stopPropagation();
 			this.act(e.currentTarget.dataset.act, e);
-		});
-		$r.on("click", ".oc-crumbs [data-node]", (e) => {
-			e.stopPropagation();
-			this.go(e.currentTarget.dataset.node);
 		});
 		// The empty part of the address bar turns it into a path to type.
 		$r.on("click", ".oc-crumbs", () => this.type_path());
@@ -745,17 +826,26 @@ onedesk.OneCloud = class OneCloud {
 			}
 		});
 		this.$items.on("dblclick", ".oc-item", (e) => this.open_items([this.find(e.currentTarget.dataset.id)]));
-		this.$items.on("contextmenu", (e) => {
-			e.preventDefault();
-			if (this.picker) return; // choosing, not changing
-			const $item = $(e.target).closest(".oc-item");
-			if ($item.length && !this.selected.has($item.attr("data-id"))) this.pick($item.attr("data-id"), {});
-			if (!$item.length) {
-				this.selected.clear();
-				this.mark();
-			}
-			this.menu(e.clientX, e.clientY, $item.length ? this.item_menu() : this.space_menu());
-		});
+		// The right-click menu is frappe's own (frappe.ui.ContextMenu): what it
+		// offers is decided as it opens, from what was clicked. A picker is for
+		// choosing, not changing, and has none.
+		if (this.picker) {
+			this.$items.on("contextmenu", (e) => e.preventDefault());
+		} else {
+			this.context = new frappe.ui.ContextMenu({
+				target: this.$items[0],
+				on_open: (e) => {
+					const $item = $(e.target).closest(".oc-item");
+					if ($item.length && !this.selected.has($item.attr("data-id"))) this.pick($item.attr("data-id"), {});
+					if (!$item.length) {
+						this.selected.clear();
+						this.mark();
+					}
+					this.offered = $item.length ? this.item_menu() : this.space_menu();
+				},
+				options: () => this.as_menu(this.offered || []),
+			});
+		}
 		$r.on("keydown", (e) => this.key(e));
 
 		// Search, as you type.
@@ -794,7 +884,6 @@ onedesk.OneCloud = class OneCloud {
 		this.bind_drag();
 		$(document).on("mousedown.onecloud-menu keydown.onecloud-menu", (e) => {
 			if (e.type === "keydown" && e.key !== "Escape") return;
-			if (this.$menu && !$(e.target).closest(".es-menu").length) this.close_menu();
 		});
 	}
 
@@ -864,7 +953,6 @@ onedesk.OneCloud = class OneCloud {
 		if (k === "Enter") return handled(), this.open_items(this.chosen());
 		if (k === "Escape") {
 			handled();
-			if (this.$menu) return this.close_menu();
 			if (this.clipboard) this.clipboard = null;
 			this.selected.clear();
 			return this.mark();
@@ -924,10 +1012,9 @@ onedesk.OneCloud = class OneCloud {
 				this.previewing = null;
 				this.remember({ preview: cint(this.settings.preview) ? 0 : 1 });
 				return this.draw_preview();
-			case "new-menu": {
-				const at = e.currentTarget.getBoundingClientRect();
-				return this.menu(at.left, at.bottom + 4, this.new_menu());
-			}
+			case "new-menu":
+				// Opened by its own frappe.ui.Dropdown (see `draw`).
+				return;
 			case "new-folder":
 				if (!this.can_make_folder) return;
 				return this.new_folder();
@@ -978,6 +1065,8 @@ onedesk.OneCloud = class OneCloud {
 			case "intake-on":
 			case "intake-off":
 				return this.intake(this.chosen()[0], act === "intake-on");
+			case "read-file":
+				return this.read_file(chosen[0]);
 			case "drive":
 				return this.drive(chosen[0].id, chosen[0].name);
 			case "storage-check":
@@ -1220,7 +1309,7 @@ onedesk.OneCloud = class OneCloud {
 			const choose = (person) =>
 				who.can_share
 					? `<select class="oc-person-access"><option value="view" ${person.edit ? "" : "selected"}>${__("Can view")}</option><option value="edit" ${person.edit ? "selected" : ""}>${__("Can edit")}</option></select>
-						<button class="es-button" data-variant="ghost" data-icon-button="true" data-size="sm" data-remove title="${__("Remove")}">${frappe.utils.icon("x", "sm")}</button>`
+						${frappe.ui.button.html({ variant: "ghost", size: "sm", icon: "x", title: __("Remove"), attrs: { "data-remove": true } })}`
 					: `<span class="oc-person-right">${person.edit ? __("Can edit") : __("Can view")}</span>`;
 			const inherited = (person) => `<span class="oc-person-right">${person.edit ? __("Can edit") : __("Can view")} · ${esc(__("from {0}", [person.from]))}</span>`;
 			const owner_note = __("Owner");
@@ -1279,13 +1368,13 @@ onedesk.OneCloud = class OneCloud {
 				return `<div class="oc-link" data-name="${esc(one.name)}" data-url="${esc(one.url)}">
 					${frappe.utils.icon("link", "sm")}
 					<span class="oc-link-said">${esc(said.join(" · "))}</span>
-					<button class="es-button" data-variant="ghost" data-icon-button="true" data-size="sm" data-copy-link title="${copy}">${frappe.utils.icon("copy", "sm")}</button>
-					<button class="es-button" data-variant="ghost" data-icon-button="true" data-size="sm" data-drop-link title="${remove}">${frappe.utils.icon("x", "sm")}</button>
+					${frappe.ui.button.html({ variant: "ghost", size: "sm", icon: "copy", title: copy, attrs: { "data-copy-link": true } })}
+					${frappe.ui.button.html({ variant: "ghost", size: "sm", icon: "x", title: remove, attrs: { "data-drop-link": true } })}
 				</div>`;
 			})
 			.join("");
 		return `<div class="oc-people-head">${head}</div>${rows}
-			<button class="es-button" data-variant="subtle" data-new-link>${frappe.utils.icon("link", "sm")}<span class="es-button__label">${make}</span></button>`;
+			${frappe.ui.button.html({ variant: "subtle", icon: "link", label: make, attrs: { "data-new-link": true } })}`;
 	}
 
 	// A link for people outside the team: who, what they can do, until when.
@@ -1407,7 +1496,7 @@ onedesk.OneCloud = class OneCloud {
 					? `<select class="oc-person-access">${roles
 							.map((role) => `<option value="${role.value}" ${role.value === one.role ? "selected" : ""}>${esc(role.label)}</option>`)
 							.join("")}</select>
-						<button class="es-button" data-variant="ghost" data-icon-button="true" data-size="sm" data-remove>${frappe.utils.icon("x", "sm")}</button>`
+						${frappe.ui.button.html({ variant: "ghost", size: "sm", icon: "x", title: __("Remove"), attrs: { "data-remove": true } })}`
 					: `<span class="oc-person-right">${esc(__(one.role))}</span>`;
 			const head = __("Members");
 			dialog.fields_dict.people.$wrapper.html(`<div class="oc-people-head">${head}</div>${found.members
@@ -1578,7 +1667,7 @@ onedesk.OneCloud = class OneCloud {
 					options: `<p class="oc-people-note">${esc(__("This workspace cannot send email yet, so pass each link on yourself. Each link is that person's own."))}</p>
 						${links
 							.map(
-								(one) => `<div class="oc-drive-row"><span>${esc(one.email)}</span><code>${esc(one.url)}</code><button class="es-button" data-variant="ghost" data-size="sm" data-copy="${esc(one.url)}">${copy}</button></div>`
+								(one) => `<div class="oc-drive-row"><span>${esc(one.email)}</span><code>${esc(one.url)}</code>${frappe.ui.button.html({ variant: "ghost", size: "sm", label: copy, attrs: { "data-copy": one.url } })}</div>`
 							)
 							.join("")}`,
 				},
@@ -1599,7 +1688,7 @@ onedesk.OneCloud = class OneCloud {
 			.map(
 				(person) => `<tr><td>${esc(person.email)}<br><small>${esc(states[person.state] || person.state)}</small></td>
 					${found.items.map((one) => `<td title="${esc((person.sent[one.label] || []).join(", "))}">${(person.sent[one.label] || []).length ? "✓" : "–"}</td>`).join("")}
-					<td><button class="es-button" data-variant="ghost" data-size="sm" data-copy="${esc(person.url)}">${copy}</button></td></tr>`
+					<td>${frappe.ui.button.html({ variant: "ghost", size: "sm", label: copy, attrs: { "data-copy": person.url } })}</td></tr>`
 			)
 			.join("");
 		const closed = found.status === "Closed";
@@ -1669,7 +1758,7 @@ onedesk.OneCloud = class OneCloud {
 						const $how = dialog.fields_dict.how.$wrapper;
 						$how.find(".oc-drive-key").html(`
 							<div class="oc-people-head">${esc(__("Shown once. Keep it somewhere safe."))}</div>
-							<div class="oc-drive-row"><span>${esc(__("Password"))}</span><code>${esc(made.password)}</code><button class="es-button" data-variant="ghost" data-size="sm" data-copy="${esc(made.password)}">${copy}</button></div>`);
+							<div class="oc-drive-row"><span>${esc(__("Password"))}</span><code>${esc(made.password)}</code>${frappe.ui.button.html({ variant: "ghost", size: "sm", label: copy, attrs: { "data-copy": made.password } })}</div>`);
 						$how.find("[data-copy]").on("click", (e) => frappe.utils.copy_to_clipboard(e.currentTarget.dataset.copy));
 						list();
 					},
@@ -1690,7 +1779,7 @@ onedesk.OneCloud = class OneCloud {
 					(one) => `<div class="oc-person" data-name="${esc(one.name)}">${frappe.utils.icon("key", "sm")}
 						<span class="oc-person-name">${esc(one.label)}</span>
 						<span class="oc-person-right">${one.last_used ? esc(__("Used {0}", [this.date_text(one.last_used)])) : never}</span>
-						<button class="es-button" data-variant="ghost" data-icon-button="true" data-size="sm" data-drop title="${remove}">${frappe.utils.icon("x", "sm")}</button></div>`
+						${frappe.ui.button.html({ variant: "ghost", size: "sm", icon: "x", title: remove, attrs: { "data-drop": true } })}</div>`
 				)
 				.join("")}`);
 			$list.find("[data-drop]").on("click", async (e) => {
@@ -1716,6 +1805,19 @@ onedesk.OneCloud = class OneCloud {
 				`<b>${frappe.utils.escape_html(item.name)}</b>`,
 			]),
 			set
+		);
+	}
+
+	// One file read now, as the person asking, where no folder of it is read.
+	read_file(item) {
+		frappe.confirm(
+			__("OneAI will read {0}, file it and act on it on your behalf. A scan or a photo is read with OneAI credits.", [
+				`<b>${frappe.utils.escape_html(item.name)}</b>`,
+			]),
+			async () => {
+				await frappe.xcall("onedesk.one_intake.switches.read_now", { file: item.id });
+				frappe.show_alert({ message: __("OneAI is reading {0}.", [item.name]), indicator: "green" });
+			}
 		);
 	}
 
@@ -1785,11 +1887,15 @@ onedesk.OneCloud = class OneCloud {
 				chosen.every((item) => item.starred)
 					? ["unstar", "star-off", __("Remove star"), chosen.every((item) => this.filed(item))]
 					: ["star", "star", __("Star"), chosen.every((item) => this.filed(item))],
-				["new-version", "upload", __("Upload new version"), !!(one && !one.folder && this.filed(one) && !one.record)],
-				["drive", "hard-drive", __("Connect as a drive…"), !!(one && one.folder && !one.virtual)],
-				one && one.intake
-					? ["intake-off", "scan-text", __("Stop reading with OneAI"), this.filed(one) && one.folder]
-					: ["intake-on", "scan-text", __("Read with OneAI…"), !!(one && one.folder && !one.virtual && this.filed(one) && !["Home/Attachments", "Home/Libraries"].includes(one.id))],
+				one && !one.folder && this.filed(one) ? ["new-version", "upload", __("Upload new version"), !one.record] : null,
+				// A folder is connected as a drive and read as it fills; a file is
+				// read once. Neither is offered where it cannot apply.
+				one && one.folder && !one.virtual ? ["drive", "hard-drive", __("Connect as a drive…"), true] : null,
+				one && one.folder && one.intake ? ["intake-off", "scan-text", __("Stop reading with OneAI"), this.filed(one)] : null,
+				one && one.folder && !one.intake && this.filed(one) && !["Home/Attachments", "Home/Libraries"].includes(one.id)
+					? ["intake-on", "scan-text", __("Read with OneAI…"), true]
+					: null,
+				one && !one.folder && this.filed(one) && !(one.record && one.record[0] === "Communication") ? ["read-file", "scan-text", __("Read with OneAI"), true] : null,
 				["rename", "pencil", __("Rename"), !!(one && stored) && this.kind() !== "record", "F2"],
 				["delete", "trash-2", __("Delete"), stored, "Del", "red"],
 			],
@@ -1824,41 +1930,29 @@ onedesk.OneCloud = class OneCloud {
 		];
 	}
 
-	menu(x, y, groups) {
-		this.close_menu();
-		const esc = frappe.utils.escape_html;
-		const html = groups
+	// The explorer's menus as frappe's menu rows: a group each, no heading.
+	// A row that could apply here but not now is disabled; one that cannot
+	// apply to what was chosen is not offered at all (`null` in the lists).
+	as_menu(groups) {
+		return groups
+			.map((group) => group.filter(Boolean))
 			.filter((group) => group.length)
-			.map(
-				(group) =>
-					`<div class="es-menu__group" role="group">${group
-						.map(
-							([act, icon, label, on, keys, theme]) =>
-								`<button class="es-menu__item" role="menuitem" data-menu="${act}" ${on ? "" : "disabled"} ${theme ? `data-theme="${theme}"` : ""}>${frappe.utils.icon(icon, "sm")}<span class="es-menu__label">${esc(label)}</span>${keys ? `<span class="oc-keys">${esc(keys)}</span>` : ""}</button>`
-						)
-						.join("")}</div>`
-			)
-			.join("");
-		this.$menu = $(`<div class="es-menu oc-menu" role="menu">${html}</div>`).appendTo(document.body);
-		const box = this.$menu[0].getBoundingClientRect();
-		this.$menu.css({
-			left: Math.min(x, window.innerWidth - box.width - 8),
-			top: Math.min(y, window.innerHeight - box.height - 8),
-		});
-		this.$menu.on("mouseenter", ".es-menu__item", (e) => {
-			this.$menu.find("[data-highlighted]").removeAttr("data-highlighted");
-			e.currentTarget.setAttribute("data-highlighted", "");
-		});
-		this.$menu.on("click", ".es-menu__item", (e) => {
-			const act = e.currentTarget.dataset.menu;
-			this.close_menu();
-			this.act(act, e);
-		});
+			.map((group) => ({
+				group: "",
+				hide_label: true,
+				options: group.map(([act, icon, label, on, keys, theme]) => ({
+					label,
+					icon,
+					disabled: !on,
+					shortcut: keys || undefined,
+					theme: theme || undefined,
+					onclick: (e) => this.act(act, e),
+				})),
+			}));
 	}
 
-	close_menu() {
-		this.$menu && this.$menu.remove();
-		this.$menu = null;
+	menu_open() {
+		return !!((this.context && this.context.is_open) || (this.new_dropdown && this.new_dropdown.menu));
 	}
 
 	// ------------------------------------------------------------- dragging
@@ -2126,7 +2220,7 @@ onedesk.OneCloud = class OneCloud {
 			: __("{0} uploaded", [done]);
 		$box.removeAttr("hidden").html(`
 			<div class="oc-uploads-head"><span>${title}</span>
-				<button class="es-button" data-variant="ghost" data-icon-button="true" data-size="sm" data-close aria-label="${__("Close")}" ${busy ? "disabled" : ""}>${frappe.utils.icon("x", "sm")}</button></div>
+				${frappe.ui.button.html({ variant: "ghost", size: "sm", icon: "x", title: __("Close"), disabled: !!busy, attrs: { "data-close": true } })}</div>
 			<div class="oc-uploads-rows">${rows
 				.slice(-50)
 				.map(

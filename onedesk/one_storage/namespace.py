@@ -51,6 +51,8 @@ UNLISTED = frozenset(
 	(
 		"Prepared Report", "Data Import", "Data Export", "Access Log", "Error Log", "Deleted Document", "Version",
 		"Communication",
+		# A OneAI conversation's uploads and an assignment's: nobody files by them.
+		"AI Chat", "ToDo",
 	)
 )  # fmt: skip
 
@@ -643,16 +645,40 @@ def _parent_of(item: dict) -> str:
 
 
 def record_doctypes() -> list[dict]:
-	counted = frappe.db.sql(
-		"""select attached_to_doctype, count(*) from `tabFile`
+	"""The types with files on them, each counting only the files on records
+	the reader may open: a count of every employee's files, shown to somebody
+	who may open one employee, would say what the list under it hides."""
+	kinds = frappe.db.sql_list(
+		"""select distinct attached_to_doctype from `tabFile`
 		where is_folder = 0 and ifnull(attached_to_doctype, '') != '' and ifnull(attached_to_name, '') != ''
-		group by attached_to_doctype order by attached_to_doctype"""
+		order by attached_to_doctype"""
 	)
-	return [
-		virtual(record_node(doctype), _(doctype), count=count, doctype=doctype)
-		for doctype, count in counted
-		if doctype not in UNLISTED and frappe.db.exists("DocType", doctype) and frappe.has_permission(doctype, "read")
-	]
+	out = []
+	for doctype in kinds:
+		if doctype in UNLISTED or not frappe.db.exists("DocType", doctype):
+			continue
+		if not frappe.has_permission(doctype, "read"):
+			continue
+		count = _readable_files(doctype)
+		if count:
+			out.append(virtual(record_node(doctype), _(doctype), count=count, doctype=doctype))
+	return out
+
+
+def _readable_files(doctype: str) -> int:
+	"""How many files are on the records of a doctype the reader may read."""
+	counted = dict(
+		frappe.db.sql(
+			"""select attached_to_name, count(*) from `tabFile`
+			where attached_to_doctype = %s and is_folder = 0 and ifnull(attached_to_name, '') != ''
+			group by attached_to_name order by max(creation) desc limit 2000""",
+			doctype,
+		)
+	)
+	if not counted:
+		return 0
+	readable = frappe.get_list(doctype, filters={"name": ["in", list(counted)]}, pluck="name", limit=len(counted))
+	return sum(counted.get(str(name), 0) for name in readable)
 
 
 def records(doctype: str, search: str | None = None, most: int = 500) -> list[dict]:

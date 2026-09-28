@@ -62,6 +62,9 @@ onedesk.oneai = {
 			// A desk page has no record, so it is named by the page and the
 			// part of it that is open, like Settings and its sections.
 			const params = frappe.utils.get_query_params();
+			// OneCloud names its open folder and the file chosen in it; with a
+			// file chosen its section is `file`, which is what it offers on.
+			const cloud = onedesk.OneCloud && onedesk.OneCloud.here ? onedesk.OneCloud.here() : null;
 			// A section that lists several records may be open on one of them, and
 			// a page about one form (Customize) names it in its route.
 			// OneMail names its open mailbox, folder and conversation the same way.
@@ -69,12 +72,12 @@ onedesk.oneai = {
 				doctype: "",
 				name: "",
 				page: route[0],
-				section: params.section || "",
-				record: params.type || params.rule || params.thread || route[1] || "",
+				section: params.section || (cloud && cloud.file ? "file" : ""),
+				record: params.type || params.rule || params.thread || (cloud && cloud.file) || route[1] || "",
 				box: params.box || "",
-				folder: params.folder || "",
+				folder: params.folder || (cloud && cloud.folder) || "",
 				view: "Page",
-				label: document.title,
+				label: (cloud && cloud.label) || document.title,
 			};
 		}
 		return null;
