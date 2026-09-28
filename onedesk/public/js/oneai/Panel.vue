@@ -51,8 +51,8 @@
 				<div v-if="!chat.said.length && target" class="one-ai-empty">
 					{{ __("Say what to write in {0}, or pick one of these.", [target.label]) }}
 					<div class="one-ai-quick">
-						<button v-for="one in quick" :key="one" class="one-ai-quick__one" :disabled="busy" @click="ask(one)">
-							{{ one }}
+						<button v-for="one in quick" :key="one.label" class="one-ai-quick__one" :disabled="busy" @click="take(one)">
+							{{ one.label }}
 						</button>
 					</div>
 				</div>
@@ -274,12 +274,30 @@ onBeforeUnmount(() => {
 });
 
 // Three asks that cover most of what anybody wants from a paragraph, pressed
-// rather than typed. An empty field has one thing to ask for.
-const quick = computed(() =>
-	target.value && (current() || "").trim()
-		? [__("Improve it"), __("Make it shorter"), __("Fix spelling and grammar")]
-		: [__("Write a first draft")]
-);
+// rather than typed. An empty field has one thing to ask for. An email has a
+// reader, so it also gets its length and its tone, and a translation whose
+// language the writer finishes in the box.
+const said = (label) => ({ label, ask: label });
+const quick = computed(() => {
+	if (!target.value) return [];
+	if (!words(current())) {
+		return target.value.email && target.value.quoted
+			? [said(__("Write a first draft")), { label: __("Reply saying…"), ask: __("Write a reply that says: "), fill: true }]
+			: [said(__("Write a first draft"))];
+	}
+	if (!target.value.email) return [said(__("Improve it")), said(__("Make it shorter")), said(__("Fix spelling and grammar"))];
+	return [
+		said(__("Improve it")),
+		said(__("Make it shorter")),
+		said(__("Make it longer")),
+		said(__("Make it more formal")),
+		said(__("Make it friendlier")),
+		said(__("Fix spelling and grammar")),
+		{ label: __("Translate…"), ask: __("Translate it into "), fill: true },
+	];
+});
+
+const words = (html) => $("<div>").html(String(html || "")).text().trim();
 
 // The browser's own speech recognition, where there is one. Chrome and Safari
 // have it and Firefox does not, so the button is simply absent there rather
@@ -479,12 +497,26 @@ function ask(one) {
 }
 
 // The field's text as the form has it now, if that form is still the one open.
+// An email's is what is written in its window now, without the signature and
+// the quoted message.
 function current() {
 	const aim = target.value;
 	if (!aim) return "";
+	if (aim.email) {
+		const writing = onedesk.oneai.writing;
+		return writing && writing.composer.dialog.display ? onedesk.oneai.parts(writing).written : aim.value || "";
+	}
 	const frm = window.cur_frm;
 	const same = frm && frm.doctype === aim.doctype && (aim.name ? frm.docname === aim.name : frm.is_new());
 	return same ? frm.doc[aim.fieldname] || "" : aim.value || "";
+}
+
+// An email's subject and recipients as they are now in its window.
+function latest() {
+	const writing = target.value && target.value.email && onedesk.oneai.writing;
+	if (!writing || !writing.composer.dialog.display) return {};
+	const dialog = writing.composer.dialog;
+	return { subject: dialog.get_value("subject") || "", to: dialog.get_value("recipients") || "" };
 }
 
 // The model is the workspace's choice for the chat action, so changing it is
@@ -555,7 +587,7 @@ async function send(again) {
 			files: sending.map((one) => one.url),
 			// What the field says now, read at the moment of asking — the person
 			// may have typed in it since the panel opened.
-			field: target.value ? { ...target.value, value: current() } : null,
+			field: target.value ? { ...target.value, value: current(), ...latest() } : null,
 		});
 		chat.value = started;
 		follow(started.run);

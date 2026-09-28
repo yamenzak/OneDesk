@@ -45,13 +45,15 @@ def test_the_control_goes_where_the_server_accepts_a_target():
 	"""Two lists of prose fieldtypes, one in the browser and one checked on the
 	way in. A type in one and not the other is a button that does nothing."""
 	server = {elt.value for elt in constant(TOUCH, "WRITES").elts}
-	browser = set(re.search(r"const PROSE = \[([^\]]+)\]", LAUNCHER.read_text()).group(1).replace('"', "").split(", "))
+	browser = set(
+		re.search(r"const PROSE = \[([^\]]+)\]", LAUNCHER.read_text()).group(1).replace('"', "").split(", ")
+	)
 	assert server == browser
 
 
 def test_the_question_never_reads_the_record():
 	"""What the field says comes from the browser; `told` reads nothing."""
-	for name in ("told", "target"):
+	for name in ("told", "target", "_email"):
 		said = spoken(TOUCH, name)
 		for reading in ("get_doc", "get_value", "get_list", "get_all", "db.sql"):
 			assert reading not in said, f"{name} reads the record: {reading}"
@@ -90,4 +92,23 @@ def test_the_card_applies_into_the_open_form():
 def test_the_badge_rides_on_the_document_and_goes_with_it():
 	said = HOOKS.read_text(encoding="utf-8")
 	assert re.search(r'"onload": \[?[^\]]*"onedesk\.one_ai\.touch\.onload"', said)
-	assert re.search(r'"on_trash": \[?[^\]]*"onedesk\.one_ai\.touch\.forget"', said), "forgotten with its record"
+	assert re.search(r'"on_trash": \[?[^\]]*"onedesk\.one_ai\.touch\.forget"', said), (
+		"forgotten with its record"
+	)
+
+
+def test_the_email_window_is_written_into_and_never_saved():
+	"""The email window's Message is Communication's own `content`, the pair
+	`touch.EMAIL` accepts. Its card goes into the open window, keeping the
+	signature and the quoted message, and nothing is written on the server:
+	sending is frappe's own step, with frappe's own checks."""
+	pair = tuple(elt.value for elt in constant(TOUCH, "EMAIL").elts)
+	launcher = LAUNCHER.read_text(encoding="utf-8")
+	assert f'doctype: "{pair[0]}"' in launcher and f'fieldname: "{pair[1]}"' in launcher
+	assert "Composer.prototype.make" in launcher
+	card = CARD.read_text(encoding="utf-8")
+	assert "writes()" in card and "onedesk.oneai.rewrite(" in card
+	allowed = spoken(PROPOSALS, "_allowed")
+	assert "doctype == 'Communication' and (not record)" in allowed
+	for writing in ("insert(", "save(", "db_set", "set_value"):
+		assert writing not in spoken(TOUCH, "_email")

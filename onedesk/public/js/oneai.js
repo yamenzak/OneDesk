@@ -344,6 +344,134 @@ onedesk.oneai.landing = function (frm) {
 	}
 };
 
+// ------------------------------------------------------------ the email window
+//
+// frappe's email window is a dialog, not a form, so `fields` never reaches its
+// Message. The same mark goes beside it, and opens the same panel pointed at
+// Communication's own `content` field: the same check on the way in
+// (touch.target), the same card, the same Approve. Only where Approve lands
+// differs: into the open window, beside the signature and the quoted message,
+// which are kept as they are and are not OneAI's to write.
+
+// frappe's own line between what is written and the message replied to
+// (views/communication.js separator_regex).
+const QUOTED = /<(?:div|p)(?:\s[^>]*)?>---<\/(?:div|p)>/i;
+
+// Compared with every space taken out: a signature given as "Best,<br>Nadia"
+// is two paragraphs by the time the editor has drawn it.
+const squash = (value) => words(value).replace(/\s+/g, "");
+
+onedesk.oneai.writing = null;
+
+// The window's Message in three: what the writer wrote, their signature as the
+// editor holds it, and the rest (frappe's separator and the quoted message).
+onedesk.oneai.parts = function (writing) {
+	const html = (writing && writing.composer.dialog.get_value("content")) || "";
+	const at = html.search(QUOTED);
+	const head = at < 0 ? html : html.slice(0, at);
+	const rest = at < 0 ? "" : html.slice(at);
+	const signed = squash(writing && writing.signature);
+	// The editor hands its value back wrapped in its own `.ql-editor` div,
+	// which is taken off here: its paragraphs are the lines.
+	let $head = $("<div>").html(head);
+	while ($head.children().length === 1 && $head.children(".ql-editor").length) $head = $head.children().first();
+	const kids = $head.contents().toArray();
+	let cut = kids.length;
+	if (signed) {
+		for (let i = kids.length - 1; i >= 0; i--) {
+			const tail = squash(kids.slice(i).map((one) => one.textContent).join(""));
+			if (tail === signed) {
+				cut = i;
+				break;
+			}
+			if (tail.length > signed.length) break;
+		}
+	}
+	const html_of = (nodes) => nodes.map((one) => one.outerHTML || one.textContent).join("");
+	// A blank line or two left between the text and the signature is spacing,
+	// not writing.
+	let end = cut;
+	while (end > 0 && !words(kids[end - 1].textContent) && !$(kids[end - 1]).find("img").length) end--;
+	return {
+		written: html_of(kids.slice(0, end)),
+		signature: html_of(kids.slice(end)),
+		rest,
+		quoted: rest ? words($("<div>").html(rest.replace(QUOTED, "")).text()) : "",
+	};
+};
+
+// Put new text in the window, keeping its signature and quoted message.
+onedesk.oneai.rewrite = function (html) {
+	const writing = onedesk.oneai.writing;
+	if (!writing || !writing.composer.dialog.display) return false;
+	const parts = onedesk.oneai.parts(writing);
+	// The editor draws paragraphs with no space between them, so an email's
+	// are set apart by an empty line, as a person typing it would.
+	const spaced = String(html || "").replace(/<\/p>\s*<p>/g, "</p><p><br></p><p>");
+	writing.composer.dialog.set_value("content", spaced + (parts.signature || "") + (parts.rest || ""));
+	return true;
+};
+
+// The email window beside the panel rather than under it (oneai.css).
+onedesk.oneai.beside = function (on) {
+	document.body.classList.toggle("one-ai-writing", !!on);
+};
+
+onedesk.oneai.compose = function (composer) {
+	const field = composer.dialog && composer.dialog.fields_dict.content;
+	const top = field && field.$wrapper.find(".clearfix").first();
+	if (!top || !top.length || top.find(".one-ai-write").length) return;
+	$(`<button type="button" class="one-ai-write" title="${__("Write with {0}", [ONEAI])}"><img src="${MARK}" alt="${ONEAI}"></button>`)
+		.appendTo(top)
+		.on("click", async (event) => {
+			event.preventDefault();
+			const sender = composer.dialog.get_value("sender") || "";
+			let signature = "";
+			try {
+				signature = await composer.get_signature(sender);
+			} catch (e) {
+				signature = "";
+			}
+			const writing = { composer, signature };
+			onedesk.oneai.writing = writing;
+			const parts = onedesk.oneai.parts(writing);
+			onedesk.oneai.beside(true);
+			onedesk.oneai.open({
+				field: {
+					doctype: "Communication",
+					name: "",
+					fieldname: "content",
+					label: __("Message"),
+					value: parts.written,
+					email: true,
+					subject: composer.dialog.get_value("subject") || "",
+					to: composer.dialog.get_value("recipients") || "",
+					quoted: parts.quoted,
+				},
+			});
+		});
+	const hidden = composer.dialog.onhide;
+	composer.dialog.onhide = function (...args) {
+		if (onedesk.oneai.writing && onedesk.oneai.writing.composer === composer) {
+			onedesk.oneai.writing = null;
+			onedesk.oneai.beside(false);
+		}
+		return hidden && hidden.apply(this, args);
+	};
+};
+
+(() => {
+	const Composer = frappe.views && frappe.views.CommunicationComposer;
+	if (!Composer || Composer.prototype.one_ai_made) return;
+	const made = Composer.prototype.make;
+	Composer.prototype.make = function (...args) {
+		const out = made.apply(this, args);
+		onedesk.oneai.compose(this);
+		return out;
+	};
+	Composer.prototype.one_ai_made = true;
+})();
+
 $(document).on("form-refresh", (event, frm) => onedesk.oneai.fields(frm));
 
 $(document).on("app_ready", () => {

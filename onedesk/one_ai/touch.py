@@ -34,6 +34,14 @@ TEXTS = ("Data", *WRITES, "HTML Editor")
 #: document; past this the question is about something else.
 MOST_SHOWN = 8000
 
+#: frappe's email window, written through Communication's own Message field.
+#: It comes with what an email is written against: its subject, who it is to,
+#: and the message it replies to, which the writer has in front of them.
+EMAIL = ("Communication", "content")
+
+#: What the model is shown of the message being replied to.
+MOST_QUOTED = 6000
+
 
 def same(one, other) -> bool:
 	return _words(one) == _words(other)
@@ -61,7 +69,7 @@ def target(field: dict | str | None) -> dict | None:
 	df = frappe.get_meta(doctype).get_field(fieldname)
 	if not df or df.fieldtype not in WRITES:
 		return None
-	return {
+	said = {
 		"doctype": doctype,
 		"name": (field.get("name") or "").strip(),
 		"fieldname": fieldname,
@@ -69,6 +77,13 @@ def target(field: dict | str | None) -> dict | None:
 		"label": df.label or fieldname,
 		"value": str(field.get("value") or "")[:MOST_SHOWN],
 	}
+	if (doctype, fieldname) == EMAIL and field.get("email") and not said["name"]:
+		said["email"] = {
+			"subject": str(field.get("subject") or "")[:300],
+			"to": str(field.get("to") or "")[:500],
+			"quoted": str(field.get("quoted") or "")[:MOST_QUOTED],
+		}
+	return said
 
 
 def told(field: dict) -> str:
@@ -78,6 +93,8 @@ def told(field: dict) -> str:
 	what the person has in front of them, typed and perhaps not saved, and it is
 	theirs to send. Nothing here reads the record.
 	"""
+	if field.get("email"):
+		return _email(field)
 	where = (
 		f"the {field['doctype']} record {field['name']}"
 		if field["name"]
@@ -94,6 +111,26 @@ def told(field: dict) -> str:
 		f"It holds this now:\n---\n{now}\n---\n"
 		"Answer with only the new text for this field: no preamble, no quotation marks, "
 		f"no explanation of what changed. {shape}"
+	)
+
+
+def _email(field: dict) -> str:
+	"""What the model is told when the reader is writing an email."""
+	email = field["email"]
+	now = field["value"].strip() if _words(field["value"]) else "(nothing yet)"
+	said = "The reader is writing an email in the email window"
+	if email["to"]:
+		said += f", to {email['to']}"
+	if email["subject"]:
+		said += f', subject "{email["subject"]}"'
+	said += f". What they have written so far:\n---\n{now}\n---\n"
+	if email["quoted"]:
+		said += f"It replies to this message, which is not yours to change:\n---\n{email['quoted']}\n---\n"
+	return said + (
+		"Answer with only the new text of their email: greeting, body and closing, in the language they "
+		"wrote in unless they ask for another. No signature (their own is kept below what you write), no "
+		"subject line, no preamble, no quotation marks, no explanation of what changed. Markdown is fine; it "
+		"is shown formatted."
 	)
 
 
@@ -202,4 +239,3 @@ def landed(proposal: str, record: str) -> dict:
 	wrote(entry.for_doctype, record, kept, entry.name)
 	entry.db_set({"record": record, "applied_doc": record})
 	return kept
-

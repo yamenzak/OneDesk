@@ -1286,3 +1286,21 @@ button.one-ai-model:hover {
 		0 0 0 3px var(--one-ai-ring);
 }
 
+
+/* ------------------------------------------------- beside the email window */
+
+/* Opened from the email window's Message, the panel sits above the window's
+ * backdrop rather than under it, and on a screen wide enough the window moves
+ * left to make room, so what is written and what is suggested are both in
+ * view (oneai.js `beside`). */
+body.one-ai-writing .one-ai-panel,
+body.one-ai-writing .one-ai-dial {
+	z-index: 1060;
+}
+
+@media (min-width: 1280px) {
+	body.one-ai-writing .modal.show:not(.modal-minimize) .modal-dialog.modal-lg {
+		margin-left: max(16px, calc((100vw - 448px - 800px) / 2));
+		margin-right: auto;
+	}
+}

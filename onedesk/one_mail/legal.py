@@ -74,7 +74,9 @@ clause(
 		or to draft a reply, the text of that conversation is sent to the model to answer you. Only when you
 		ask, only a conversation in a mailbox you hold, and nothing of it is kept but the answer. A drafted
 		reply is never sent by OneAI: approving it opens it in the email window, where you read it, change it
-		and send it yourself.
+		and send it yourself. When you ask OneAI to help with an email you are writing, to improve it, shorten
+		it, change its tone or translate it, what you have written, its subject and recipients, and the
+		message it replies to are sent to the model. Your signature is not, and the suggestion goes into your
+		email window only when you approve it.
 	""",
 )
-

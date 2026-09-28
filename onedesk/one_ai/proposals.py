@@ -153,7 +153,9 @@ def apply(proposal: str) -> dict:
 			entry.db_set("state", "Stale")
 			frappe.db.commit()
 			frappe.throw(
-				frappe._("{0} has changed since this was suggested, so it no longer applies.").format(entry.record)
+				frappe._("{0} has changed since this was suggested, so it no longer applies.").format(
+					entry.record
+				)
 			)
 		settings._save_holidays(entry.record, changes.get("values") or {})
 		return _done(entry, entry.record)
@@ -168,6 +170,8 @@ def apply(proposal: str) -> dict:
 		return _done(entry, made.name)
 
 	if entry.kind == "Edit" and not entry.record:
+		if entry.for_doctype == "Communication":
+			frappe.throw(frappe._("This is for an email being written. Apply it with its email window open."))
 		frappe.throw(frappe._("This is for a document that is not saved yet. Apply it from its form."))
 
 	held = frappe.get_doc(entry.for_doctype, entry.record)
@@ -389,6 +393,11 @@ def _allowed(kind: str, doctype: str, record: str | None):
 
 		if not (record and holders.may_sign(record)):
 			frappe.throw(frappe._("You may not change how {0} signs.").format(record), frappe.PermissionError)
+		return None
+	if kind == "Edit" and doctype == "Communication" and not record:
+		# A message for the email window the person has open (touch.EMAIL).
+		# Taking it puts text in their own window and writes nothing, and
+		# sending it is frappe's own check, when they send.
 		return None
 	verb = {"Create": "create", "Edit": "write", "Delete": "delete", "Move": "write"}.get(kind)
 	if not verb:

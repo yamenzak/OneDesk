@@ -132,6 +132,18 @@ conversation you have open, and offers three things:
 - **What needs an answer?**: the conversations in the folder whose last
   message came to you, oldest first.
 
+In the email window, the OneAI mark beside **Message** helps with what you
+are writing. It offers **Improve it**, **Make it shorter**, **Make it
+longer**, **Make it more formal**, **Make it friendlier**, **Fix spelling
+and grammar** and **Translate…** (you finish it with the language), or you
+say what you want in your own words. With nothing written yet in a reply,
+it offers **Write a first draft** and **Reply saying…**. OneAI reads what
+you have written, the subject, who it is to and the message you are
+replying to, and never your signature. The suggestion comes back as a card.
+**Approve** puts it in the window in place of what you wrote, with your
+signature and the quoted message left as they were, for you to read and
+send.
+
 OneAI reads only a conversation in a mailbox you hold, and only when you
 ask; each question uses OneAI credits.
 

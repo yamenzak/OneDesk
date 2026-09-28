@@ -186,6 +186,20 @@ function form() {
 	return (card.record ? frm.docname === card.record : frm.is_new()) ? frm : null;
 }
 
+// A new message written for the email window that is still open.
+function writes() {
+	const card = props.suggested;
+	const writing = onedesk.oneai.writing;
+	return !!(
+		card &&
+		card.kind === "Edit" &&
+		card.for_doctype === "Communication" &&
+		!card.record &&
+		writing &&
+		writing.composer.dialog.display
+	);
+}
+
 async function answer(what) {
 	busy.value = true;
 	try {
@@ -197,6 +211,10 @@ async function answer(what) {
 			const said = out.reply || {};
 			await frappe.require(["/assets/onedesk/css/onemail.css", "/assets/onedesk/js/onemail.js"]);
 			await onedesk.OneMail.reply_to(said.account, said.thread, { text: said.text });
+		} else if (what === "apply" && writes()) {
+			// Into the open email window, its signature and quoted message kept.
+			const out = await frappe.xcall("onedesk.one_ai.run.took", { proposal: props.suggested.name });
+			onedesk.oneai.rewrite((out.changes || {}).content || "");
 		} else if (frm) {
 			const out = await frappe.xcall("onedesk.one_ai.run.took", { proposal: props.suggested.name });
 			for (const [fieldname, value] of Object.entries(out.changes || {})) {

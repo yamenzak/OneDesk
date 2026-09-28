@@ -1948,6 +1948,29 @@ the store refused failed the whole message, and it was lost. Now:
   with the attachment marked and told both people; the hourly run saved it
   and the chip became the file.
 
+Then, on your question "does writing an email have AI text tools": it did
+not. Forms have the OneAI mark on every prose field, but the email window
+is a dialog, so it never got one. Now (`oneai.js` `compose`):
+
+- The mark sits beside **Message** in frappe's email window, wherever it is
+  opened. It points the panel at Communication's own `content` field, so it
+  is the same check (`touch.target`), the same card and the same Approve.
+- The panel offers Improve it, Make it shorter, Make it longer, Make it
+  more formal, Make it friendlier, Fix spelling and grammar, and
+  Translate… (finished in the box). On an empty reply, Write a first draft
+  and Reply saying….
+- The model gets what is written, the subject, the recipients and the
+  message replied to (`touch._email`), never the signature. Approve
+  replaces only what was written; the signature and the quote stay
+  (`oneai.parts`, `oneai.rewrite`). Nothing is saved on the server.
+- The panel sits above the window's backdrop, and on a wide screen the
+  window moves left to make room.
+- Legal: `onemail-asks` says what goes to the model; AI Addendum
+  revision 4.
+- README: under Asking OneAI. Checked in the browser without a model: the
+  mark, the chips, and a card applied into the window with the signature
+  and quote kept.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

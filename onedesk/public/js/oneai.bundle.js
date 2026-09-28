@@ -29,7 +29,10 @@ onedesk.oneai.mount = function (where) {
 				? h(Panel, {
 						ref: panel,
 						here: here.value,
-						onClosed: () => (showing.value = false),
+						onClosed: () => {
+							showing.value = false;
+							onedesk.oneai.beside(false);
+						},
 						onCounted: () => onedesk.oneai.count(),
 				  })
 				: null,
