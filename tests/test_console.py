@@ -60,8 +60,8 @@ def _sidebar() -> dict:
 	return _json(ADMIN / "sidebar" / "one_admin" / "one_admin.json")
 
 
-def _workspace() -> dict:
-	return _json(ADMIN / "workspace" / "one_admin" / "one_admin.json")
+def _page() -> dict:
+	return _json(ADMIN / "page" / "oneadmin" / "oneadmin.json")
 
 
 def _owned() -> set[str]:
@@ -82,8 +82,11 @@ def _owned() -> set[str]:
 
 def test_the_console_is_gated_on_the_operator_role():
 	"""The whole of the hiding, and the only thing standing between a tenant and it."""
-	roles = [row["role"] for row in _workspace().get("roles") or []]
+	roles = [row["role"] for row in _page().get("roles") or []]
 	assert roles == [OPERATOR], f"the OneAdmin page grants {roles}"
+	# A workspace is offered to every Workspace Manager whatever its roles say,
+	# which is how a non-operator was shown the console: Home is a page.
+	assert not (ADMIN / "workspace").exists(), "OneAdmin's Home is a page, not a workspace"
 
 
 def test_every_rail_entry_points_at_something_real():
@@ -99,8 +102,8 @@ def test_every_rail_entry_points_at_something_real():
 
 def test_the_rail_starts_at_home():
 	first = _sidebar()["items"][0]
-	assert first["link_type"] == "Workspace"
-	assert first["link_to"] == "One Admin"
+	assert first["link_type"] == "Page"
+	assert first["link_to"] == "oneadmin"
 
 
 def test_nothing_is_reachable_only_by_typing_its_name():
@@ -112,14 +115,12 @@ def test_nothing_is_reachable_only_by_typing_its_name():
 	)
 
 
-def test_the_home_page_names_number_cards_that_exist():
-	shipped = {
-		_json(one / f"{one.name}.json")["name"]
-		for one in (ADMIN / "number_card").iterdir()
-		if one.is_dir()
-	}
-	named = {row["number_card_name"] for row in _workspace().get("number_cards") or []}
-	assert named <= shipped, f"the home page names cards that do not exist: {named - shipped}"
+def test_home_counts_what_its_lists_show():
+	source = (ADMIN / "home.py").read_text()
+	assert "operator._may()" in source, "Home is the operator's alone"
+	page = (ADMIN / "page" / "oneadmin" / "oneadmin.js").read_text()
+	assert 'frappe.set_route("List", one.doctype, one.filters)' in page, "a number opens the list it counted"
+	assert "frappe.realtime.doctype_subscribe" in page
 
 
 def test_a_record_the_machinery_makes_cannot_be_typed_by_hand():
@@ -171,7 +172,6 @@ def test_both_gates_are_registered_on_every_owned_doctype():
 def test_the_console_wears_its_own_mark():
 	"""OneAdmin is its own product with its own mark; `one` is a different one."""
 	assert _sidebar()["header_icon"] == "oneadmin"
-	assert _workspace()["icon"] == "oneadmin"
 	shipped = json.loads(
 		(tree.APP / "fixtures" / "custom_icon.json").read_text(encoding="utf-8")
 	)
@@ -332,3 +332,28 @@ def test_every_step_says_what_it_is_doing():
 	said = {key.value for key in found["SAID"].keys}
 	assert walked <= said, f"no words for {sorted(walked - said)}"
 	assert said <= walked, f"words for steps that do not exist: {sorted(said - walked)}"
+
+
+def test_the_operator_is_told_where_each_thing_happens():
+	"""The machinery writes with db_set, which runs no hooks: each notice is
+	called at the one place its thing happens."""
+	for path, call in (
+		("runner.py", "tell.job_failed(job)"),
+		("signup.py", "tell.signup_paid(asked)"),
+		("signup.py", "tell.signup_not_built(asked, str(raised))"),
+		("steps.py", "tell.owing(tenant, rung, why)"),
+		("domains.py", "tell.domains_waiting()"),
+	):
+		assert call in (ADMIN / path).read_text(), f"{path} does not call {call}"
+	tell = (ADMIN / "tell.py").read_text()
+	assert "frappe.log_error" in tell, "a notice that fails must not stop the job"
+	assert '"roles": ("One Operator",)' in (ADMIN / "notifications.py").read_text()
+	assert '"onedesk.one_admin.notifications.TYPES"' in (tree.APP / "hooks.py").read_text()
+
+
+def test_oneai_reads_the_console_for_an_operator_only():
+	source = (ADMIN / "ai.py").read_text()
+	body = source.split("def console_today(", 1)[1]
+	assert "site.is_admin()" in body and "site.OPERATOR not in frappe.get_roles()" in body
+	assert "home.needs()" in body, "the panel is told what the page shows"
+	assert '"onedesk.one_admin.ai.console_today"' in (tree.APP / "hooks.py").read_text()

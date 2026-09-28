@@ -145,7 +145,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | OneCloud | done |
 | Products | OneCalendar | done |
 | Products | OneTask | done |
-| Products | OneAdmin › Home | findings |
+| Products | OneAdmin › Home | done |
 | Products | OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin | each screen listed here once we reach it |
 
 Noticed along the way, for the screen it belongs to:
@@ -2480,6 +2480,42 @@ suspended, and no domain waiting.
    stays frappe's: the shell's tables are EmbeddedList,
    `frappe.ui.button`, `frappe.ui.badge`, and `frappe.realtime` on the
    three doctypes.
+
+Your word: all of them.
+
+Done:
+
+- **Home is a page** (`one_admin/page/oneadmin`, `home.py`), for One
+  Operator only. A page's roles are its own, so the rail has nothing for
+  anybody else and the dock drops OneAdmin for them. Checked as
+  admin@example.com (Workspace Manager, not an operator): OneAdmin is gone
+  from the dock, and `/desk/oneadmin` answers "Not permitted". The old
+  workspace and its four number cards go (`patches/home_is_a_page.py`).
+- **The numbers** sit on the page: Live, Building, Owing, Failed and Paid,
+  Not Built. Each opens its list with the filters it counted.
+- **Needs You**: one list, most pressing first, each row saying why and
+  since when, with its action. A failed job has **Resume**
+  (`operator.resume`), a paid signup with no workspace has **Build It**
+  (`retry_signup`), and a domain waiting a day or broken has **Check
+  Again** (`refresh_domain`). A workspace owing opens. Paid signups are on
+  Home now.
+- **One word**: Failed, on the count, the badge, the job's list and its
+  head ("Failed at Step 3 of 7").
+- **Live**: `frappe.realtime` on jobs, workspaces, domains and signups.
+- **The rail**: Price Check and Plan Calculator were in the rail's file all
+  along; this site had not migrated since they were added. Reloaded.
+- **Notifications** (`one_admin/notifications.py`, `tell.py`), to One
+  Operator only: **Job Failed**, **Signup Not Built**, **New Signup**,
+  **Workspace Owing** (overdue and suspended), and **Domains Waiting**
+  each morning. Each is called where its thing happens, since the
+  machinery writes with `db_set`. Checked: the failed job told op@one.test
+  "Archiving Gone Ltd failed", with the step and the error.
+- **OneAI** (`one_admin/ai.py`): the page sentence, `console_today` (Home's
+  own list, refused to anybody who is not an operator on the admin site,
+  checked both ways), **What needs me today?**, and on a job **Why did
+  this job fail?**. No model was called.
+- **`one_admin/README.md`**: Home, Being told, Asking OneAI, Under the hood.
+- **Legal**: `oneadmin-asks` in the Privacy Policy, revision 7.
 
 ## OneLegal
 

@@ -19,7 +19,7 @@ frappe.listview_settings["Provisioning Job"] = {
 			Pending: ["orange", __("Waiting to run")],
 			Waiting: ["blue", __("Waiting on Frappe Cloud")],
 			Done: ["green", __("Done")],
-			Failed: ["red", __("Stopped")],
+			Failed: ["red", __("Failed")],
 		};
 		const [colour, word] = says[doc.status] || ["grey", doc.status];
 		return [word, colour, `status,=,${doc.status}`];

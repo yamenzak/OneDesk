@@ -160,6 +160,10 @@ def nightly() -> None:
 		except Exception:
 			frappe.log_error(f"asking Cloudflare about {slug}'s domains")
 		frappe.db.commit()
+	# What is still waiting a day on, or broken, told to the operator.
+	from onedesk.one_admin import tell
+
+	tell.domains_waiting()
 
 
 def unroute(tenant) -> None:

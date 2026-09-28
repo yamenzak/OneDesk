@@ -761,6 +761,8 @@ one_ai_reads = [
 	"onedesk.one_calendar.ai.my_calendar",
 	# The reader's tasks, as My Tasks shows them. See one_task/ai.py.
 	"onedesk.one_task.ai.my_tasks",
+	# What needs the operator, as OneAdmin's Home lists it. See one_admin/ai.py.
+	"onedesk.one_admin.ai.console_today",
 	"onedesk.one_calendar.ai.busy_times",
 	# A file's text, who can see it, and what takes the space. See one_storage/ai.py.
 	"onedesk.one_storage.ai.open_file",
@@ -825,6 +827,7 @@ one_ai_suggestions = [
 	"onedesk.one_storage.ai.SUGGESTIONS",
 	"onedesk.one_calendar.ai.SUGGESTIONS",
 	"onedesk.one_task.ai.SUGGESTIONS",
+	"onedesk.one_admin.ai.SUGGESTIONS",
 ]
 
 one_ai_page = [
@@ -833,6 +836,7 @@ one_ai_page = [
 	"onedesk.one_storage.ai.page",
 	"onedesk.one_calendar.ai.page",
 	"onedesk.one_task.ai.page",
+	"onedesk.one_admin.ai.page",
 ]
 
 # What each module tells people, as notification types. See one/notify.py.
@@ -843,6 +847,7 @@ one_notification_types = [
 	"onedesk.one_storage.notifications.TYPES",
 	"onedesk.one_calendar.notifications.TYPES",
 	"onedesk.one_task.notifications.TYPES",
+	"onedesk.one_admin.notifications.TYPES",
 	"onedesk.one_project.notifications.TYPES",
 	"onedesk.one_book.notifications.TYPES",
 	"onedesk.one_inventory.notifications.TYPES",

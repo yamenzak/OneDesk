@@ -170,7 +170,7 @@ No doctypes yet.
 
 * **dock** — onedesk
 * **sidebar** — one, one_admin, onebook, onecalendar, onecloud, onecrm, onehr, oneinventory, onemail, oneproject, onetask
-* **workspace** — one, one_admin, onebook, onecrm, onehr, onehr_setup
+* **workspace** — one, onebook, onecrm, onehr, onehr_setup
 
 ## Whitelisted methods
 
@@ -228,6 +228,8 @@ No doctypes yet.
 * `onedesk.one.settings.sign_out_everywhere`
 * `onedesk.one.signin.sign_out`
 * `onedesk.one.signin.update_password`
+* `onedesk.one_admin.home.counts`
+* `onedesk.one_admin.home.needs`
 * `onedesk.one_admin.operator.credit_standing`
 * `onedesk.one_admin.operator.fall`
 * `onedesk.one_admin.operator.give_credits`

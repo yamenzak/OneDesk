@@ -144,6 +144,10 @@ def _stop(job, tenant, why: str) -> str:
 	job.db_set({"status": "Failed", "error": why, "finished_at": now_datetime()})
 	if job.kind in (None, "", "Provision"):
 		tenant.db_set("status", "Failed")
+	# The operator is told; see one_admin/tell.py.
+	from onedesk.one_admin import tell
+
+	tell.job_failed(job)
 	return "Failed"
 
 

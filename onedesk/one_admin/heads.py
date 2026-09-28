@@ -34,7 +34,7 @@ JOB = {
 	"Pending": ("orange", _lt("Waiting to run")),
 	"Waiting": ("blue", _lt("Waiting on Frappe Cloud")),
 	"Done": ("green", _lt("Done")),
-	"Failed": ("red", _lt("Stopped")),
+	"Failed": ("red", _lt("Failed")),
 }
 
 REQUEST = {
@@ -43,7 +43,7 @@ REQUEST = {
 	"Paid": ("orange", _lt("Paid, not built")),
 	"Provisioning": ("blue", _lt("Being set up")),
 	"Done": ("green", _lt("Done")),
-	"Failed": ("red", _lt("Stopped")),
+	"Failed": ("red", _lt("Failed")),
 }
 
 DOMAIN = {
@@ -224,7 +224,7 @@ def job_steps(doc):
 	if walk["status"] == "Done":
 		return {"label": _("Steps"), "value": _("Finished all {0}").format(walk["of"]), "meter": meter}
 	now = walk["steps"][walk["at"]] if walk["at"] < len(walk["steps"]) else None
-	label = (_("Stopped at Step {0} of {1}") if walk["status"] == "Failed" else _("Step {0} of {1}")).format(
+	label = (_("Failed at Step {0} of {1}") if walk["status"] == "Failed" else _("Step {0} of {1}")).format(
 		walk["at"] + 1, walk["of"]
 	)
 	if walk["attempts"] and walk["status"] != "Failed":
@@ -252,9 +252,9 @@ def request_said(doc):
 		return None
 	if doc.status == "Failed":
 		return {
-			"text": _("Stopped: {0}").format(doc.failed_reason)
+			"text": _("Failed: {0}").format(doc.failed_reason)
 			if doc.get("failed_reason")
-			else _("Stopped before the workspace was created."),
+			else _("Failed before the workspace was created."),
 			"colour": "red",
 		}
 	if doc.status == "Paid" and not doc.get("tenant"):

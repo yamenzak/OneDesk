@@ -1,7 +1,7 @@
 """What running a workspace adds to the agreements: where it runs, how it is
 reached, and who takes the money. See one_legal/README.md."""
 
-from onedesk.one_legal.registry import subprocessor
+from onedesk.one_legal.registry import clause, subprocessor
 
 M = "OneAdmin"
 
@@ -36,4 +36,17 @@ subprocessor(
 	where="The United States and Ireland",
 	safeguard="Standard Contractual Clauses and Stripe's data processing agreement",
 	url="https://stripe.com/legal/dpa",
+)
+
+clause(
+	document="privacy",
+	section="modules",
+	key="oneadmin-asks",
+	module=M,
+	body="""
+		The people who run One can ask OneAI what needs their attention in the console. To answer, it reads
+		your organisation's account as the console shows it: the workspace's name, its contact's email
+		address, what is owed and since when, and why a job or a domain has stopped. OneAI changes nothing
+		from there, and what it reads is handled as the AI Addendum says.
+	""",
 )

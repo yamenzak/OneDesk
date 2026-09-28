@@ -364,3 +364,7 @@ def _arrive(tenant, rung: str, why: str) -> None:
 			"detail": why,
 		}
 	).insert(ignore_permissions=True)
+	# Overdue and Suspended are told to the operator; see one_admin/tell.py.
+	from onedesk.one_admin import tell
+
+	tell.owing(tenant, rung, why)

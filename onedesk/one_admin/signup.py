@@ -67,10 +67,15 @@ def accept(request: str) -> str:
 	if asked.tenant:
 		return asked.tenant
 
+	# Money was taken: the operator is told, and told again if it is not built.
+	from onedesk.one_admin import tell
+
+	tell.signup_paid(asked)
 	try:
 		tenant = _tenant_for(asked)
 	except Exception as raised:
 		asked.db_set({"status": "Failed", "failed_reason": str(raised)[:500]})
+		tell.signup_not_built(asked, str(raised))
 		raise
 
 	asked.db_set({"tenant": tenant, "status": "Provisioning", "failed_reason": None})
