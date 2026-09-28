@@ -140,7 +140,8 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, Workspace | OneAI (now OneAI › Actions) | done |
 | Settings, Workspace | OneIntake (now OneIntake › Settings) | done |
 | Settings, Workspace | Holidays | done |
-| Products | One home, OneMail, OneCloud, OneCalendar, OneTask, OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, OneAdmin | each screen listed here once we reach it |
+| Products | One › Home | findings |
+| Products | OneMail, OneCloud, OneCalendar, OneTask, OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, OneAdmin | each screen listed here once we reach it |
 
 Noticed along the way, for the screen it belongs to:
 
@@ -1757,6 +1758,54 @@ holidays by asking.
   since. A date goes on the list whose year holds it; a date no list holds
   is refused with where to make next year's. A new proposal kind,
   **Holidays**, beside Customize and Signature.
+
+## Products
+
+### One › Home
+
+Home is the `One` workspace: a header that says "One" (the page title
+already does) and a `One Onboarding` block that draws nothing, because the
+Getting Started panel floats in the corner instead. The rest of the page is
+empty. OneCRM, OneHR and OneBook each have a home made of frappe's
+workspace blocks (shortcuts, number cards, quick lists); One, where
+everybody lands and where every product meets, has none.
+
+1. **Notifications**: Home sends nothing, and needs to send nothing. What
+   is waiting for a person is scattered over the bell, the OneIntake inbox,
+   OneAI's cards, approvals and tasks, and Home gathers none of it.
+2. **OneAI**: the panel does not know the page. Recommended: the page
+   sentence and **What needs me today?**, read by a new `my_day` (the
+   numbers in 5, and the first few of each). No AI call to read it.
+3. **Intake**: what waits for this person in the OneIntake inbox is not on
+   Home. Recommended: a number for it, opening the inbox on Waiting.
+4. **Permissions**: the workspace is public with no roles, so everybody
+   sees it. Holds. Recommended: each block counts only what the reader may
+   open (`frappe.get_list`), and the workspace part in 5 shows only to
+   administrators.
+5. **Cross-module**: Home is where the products meet, and nothing meets
+   here. Recommended, for everybody, **Today**, one number each, each
+   opening its list:
+   - tasks due today or late (OneTask's My Tasks);
+   - meetings today (OneCalendar);
+   - documents waiting for them (OneIntake);
+   - OneAI suggestions waiting for their approval;
+   - approvals waiting on them (leave, expense claims, where they approve).
+   For administrators only, **The Workspace**, shown only when something
+   needs them: a mailbox not connecting, a domain not working, credits
+   running low, storage or seats nearly full, the holiday list ending.
+6. **UI and UX**: a blank page with a heading repeating the title. The
+   Getting Started panel (Set One up, 0 of 4) is the only thing on it, and
+   it floats. Recommended: the two parts in 5 as the page; the "One"
+   heading goes.
+7. **Documented**: `one/README.md` has no Home section. Recommended:
+   **Home**, saying what each number counts and who sees the workspace part.
+8. **Legal**: nothing to add. Home only counts what the products already
+   hold.
+9. **Built from frappe**: the workspace is frappe's, and its blocks should
+   stay frappe's: each number a `Number Card` of type Custom (a whitelisted
+   method that counts for the reader), and the workspace part a
+   `Custom HTML Block`, so the page stays editable in frappe's workspace
+   editor.
 
 ## OneLegal
 
