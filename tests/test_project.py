@@ -231,10 +231,8 @@ def test_a_dependant_moves_after_what_it_waits_on():
 
 
 def test_a_slip_crosses_sub_projects_and_the_plan_is_the_tree():
-	assert (
-		'"on_update": "onedesk.one_project.plan.reschedule"'
-		in HOOKS.split('"Task": {', 1)[1].split("},", 1)[0]
-	)
+	task = HOOKS.split('"Task": {', 1)[1].split("\n\t},", 1)[0]
+	assert '"onedesk.one_project.plan.reschedule"' in task.split('"on_update"', 1)[1]
 	body = _body((PROJECT / "plan.py").read_text(), "reschedule")
 	assert 'has_value_changed("exp_end_date")' in body and "- {doc.project}" in body, (
 		"ERPNext's own pass does its project"

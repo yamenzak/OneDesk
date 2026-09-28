@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-28 18:17+0000\n"
-"PO-Revision-Date: 2026-09-28 18:17+0000\n"
+"POT-Creation-Date: 2026-09-28 18:53+0000\n"
+"PO-Revision-Date: 2026-09-28 18:53+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -106,6 +106,14 @@ msgstr "<b>{event}</b>, {when}{where}."
 #: onedesk/one/notifications.py:71
 msgid "<b>{inviter}</b> invited you to <b>{workspace}</b> on One.{apps}<br><br><a href=\"{link}\">Choose your password</a><br><br>The link works for {days} days. You sign in with {address}."
 msgstr "<b>{inviter}</b> hat Sie zu <b>{workspace}</b> auf One eingeladen.{apps}<br><br><a href=\"{link}\">Passwort wählen</a><br><br>Der Link gilt {days} Tage. Sie melden sich mit {address} an."
+
+#: onedesk/one_task/notifications.py:17
+msgid "<b>{task}</b>{due}{project}"
+msgstr "<b>{task}</b>{due}{project}"
+
+#: onedesk/one_task/notifications.py:27
+msgid "<b>{task}</b>{project} is done."
+msgstr "<b>{task}</b>{project} ist erledigt."
 
 #: onedesk/one_storage/notifications.py:66
 msgid "<b>{who}</b> asks you for files: <b>{request}</b>{note}{due}<br><br><a href=\"{link}\">Send them</a>"
@@ -611,6 +619,10 @@ msgstr "Eine Kennung besteht aus Buchstaben, Ziffern und Bindestrichen: {0}"
 msgid "A supplier's bill cannot be entered twice"
 msgstr "Eine Lieferantenrechnung kann nicht zweimal erfasst werden"
 
+#: onedesk/one_task/page/my_tasks/my_tasks.js:29
+msgid "A task of your own that is in no project lands here."
+msgstr "Eine eigene Aufgabe, die in keinem Projekt ist, landet hier."
+
 #: onedesk/one_project/naming.py:32
 msgid "A task prefix is 2 to 10 letters and digits, starting with a letter."
 msgstr "Ein Aufgabenpräfix besteht aus 2 bis 10 Buchstaben und Ziffern und beginnt mit einem Buchstaben."
@@ -947,7 +959,6 @@ msgstr ""
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:20
-#: onedesk/one_task/page/my_tasks/my_tasks.js:25
 #: onedesk/public/js/onecloud.js:1489 onedesk/public/js/settings.js:653
 #: onedesk/public/js/settings.js:1018 onedesk/public/js/settings.js:1019
 #: onedesk/public/js/settings.js:1272 onedesk/public/js/settings.js:1507
@@ -957,6 +968,10 @@ msgstr "Hinzufügen"
 #: onedesk/one_book/report/books_check/books_check.js:17
 msgid "Add Bank Account"
 msgstr "Bankkonto hinzufügen"
+
+#: onedesk/one_task/page/my_tasks/my_tasks.js:40
+msgid "Add Task"
+msgstr "Aufgabe hinzufügen"
 
 #: onedesk/public/js/settings.js:1377 onedesk/public/js/settings.js:1495
 msgid "Add a Domain"
@@ -1000,13 +1015,21 @@ msgstr "Lead aus einer Signatur anlegen"
 msgid "Add a lead from each of these business cards."
 msgstr "Lege aus jeder dieser Visitenkarten einen Lead an."
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:67
+#: onedesk/one_task/page/my_tasks/my_tasks.js:28
 msgid "Add a task above, or ask for one to be assigned to you."
 msgstr "Fügen Sie oben eine Aufgabe hinzu oder lassen Sie sich eine zuweisen."
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:40
+#: onedesk/one_task/page/my_tasks/my_tasks.js:59
 msgid "Add a task and press Enter"
 msgstr "Aufgabe eingeben und Enter drücken"
+
+#: onedesk/one_task/ai.py:31
+msgid "Add a task to "
+msgstr "Aufgabe hinzufügen: "
+
+#: onedesk/one_task/ai.py:30
+msgid "Add a task…"
+msgstr "Aufgabe hinzufügen…"
 
 #: onedesk/one_hr/ai.py:91 onedesk/one_hr/ai.py:123
 msgid "Add an applicant from each of these CVs, to the open job each one fits best."
@@ -1053,10 +1076,6 @@ msgstr "Zum Tarif hinzufügen"
 #: onedesk/one_intake/panel.py:217
 msgid "Add to {0}"
 msgstr "Zu {0} hinzufügen"
-
-#: onedesk/one_task/page/my_tasks/my_tasks.js:25
-msgid "Add {0}"
-msgstr ""
 
 #. Label of the offering (Data) field in DocType 'Workspace Add-on'
 #. Option for the 'Kind' (Select) field in DocType 'Offering'
@@ -1273,6 +1292,10 @@ msgstr "Alle Termine"
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "All Read"
 msgstr "Alles gelesen"
+
+#: onedesk/one_task/page/my_tasks/my_tasks.js:83
+msgid "All Tasks"
+msgstr "Alle Aufgaben"
 
 #: onedesk/public/js/oneai/Panel.vue:12
 msgid "All conversations"
@@ -2492,6 +2515,14 @@ msgstr ""
 msgid "Brands"
 msgstr "Marken"
 
+#: onedesk/one_task/ai.py:41
+msgid "Break this into steps"
+msgstr "In Schritte zerlegen"
+
+#: onedesk/one_task/ai.py:42
+msgid "Break this task into the steps it takes to finish it, as its checklist. Keep the steps it has."
+msgstr "Zerlegen Sie diese Aufgabe in die Schritte bis zu ihrem Abschluss, als ihre Checkliste. Behalten Sie die Schritte, die sie schon hat."
+
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:12
@@ -3303,6 +3334,11 @@ msgstr "Einklappen"
 msgid "Colleague"
 msgstr "Kollege"
 
+#. Description of the 'Give To' (Small Text) field in DocType 'Task'
+#: onedesk/one_task/custom/task.json
+msgid "Colleagues to give the task to once it is made, by user. How OneAI's card carries them."
+msgstr "Kollegen, denen die Aufgabe nach dem Anlegen gegeben wird, nach Benutzer. So trägt die Karte von OneAI sie."
+
 #. Label of the colour (Select) field in DocType 'Record Head Indicator'
 #. Label of the colour (Select) field in DocType 'Record Head Sentence'
 #: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
@@ -3353,10 +3389,10 @@ msgstr "Wird als Text mit dem aktuellen Feldinhalt verglichen. Eine Bearbeitung 
 #. Option for the 'State' (Select) field in DocType 'Cloud File Request
 #. Recipient'
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
-#: onedesk/one_task/page/my_tasks/my_tasks.js:99
+#: onedesk/one_task/page/my_tasks/my_tasks.js:182
 #: onedesk/public/js/onecloud.js:1700 onedesk/public/js/timesheet.js:76
 msgid "Complete"
-msgstr ""
+msgstr "Erledigen"
 
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: onedesk/one_task/custom/task.json
@@ -4675,8 +4711,8 @@ msgstr "Verworfen"
 #: onedesk/one_book/heads.py:314
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_project/heads.py:169
-#: onedesk/one_task/page/my_tasks/my_tasks.js:43
-#: onedesk/one_task/page/my_tasks/my_tasks.js:83
+#: onedesk/one_task/page/my_tasks/my_tasks.js:62
+#: onedesk/one_task/page/my_tasks/my_tasks.js:150
 #: onedesk/public/js/settings.js:1139
 msgid "Due"
 msgstr "Fällig"
@@ -4772,6 +4808,14 @@ msgstr "Jede hinzugefügte Person"
 #: onedesk/public/js/settings.js:1990
 msgid "Each person chooses"
 msgstr "Jede Person wählt"
+
+#: onedesk/one_task/notifications.py:15
+msgid "Each person given it, but whoever gave it"
+msgstr "Jede Person, der sie gegeben wurde, außer wer sie gab"
+
+#: onedesk/one_task/notifications.py:36
+msgid "Each person, for the tasks given to them"
+msgstr "Jede Person, für die ihr gegebenen Aufgaben"
 
 #: onedesk/one_calendar/notifications.py:56
 msgid "Each person, for their own day"
@@ -5226,6 +5270,10 @@ msgstr "Jede in One hochgeladene Datei wird im Cloud-Speicher abgelegt."
 #: onedesk/one_project/notifications.py:27
 msgid "Every morning, what a project's people said about it the day before."
 msgstr "Jeden Morgen, was die Leute eines Projekts am Vortag darüber gesagt haben."
+
+#: onedesk/one_task/notifications.py:33
+msgid "Every morning, what is due that day and what is late. Not sent on a day with nothing due."
+msgstr "Jeden Morgen, was an dem Tag fällig und was überfällig ist. Nicht an einem Tag ohne Fälliges gesendet."
 
 #: onedesk/one_calendar/notifications.py:53
 msgid "Every morning, what is on your calendar that day. Not sent on a day with nothing on it."
@@ -6191,7 +6239,8 @@ msgstr "Kontaktformular"
 msgid "Give"
 msgstr "Geben"
 
-#: onedesk/one_inventory/heads.py:264
+#. Label of the one_for (Small Text) field in DocType 'Task'
+#: onedesk/one_inventory/heads.py:264 onedesk/one_task/custom/task.json
 msgid "Give To"
 msgstr "Geben an"
 
@@ -7012,6 +7061,7 @@ msgstr "Eingabe pro 1 Mio. Tokens"
 #. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+#: onedesk/one_task/page/my_tasks/my_tasks.js:29
 #: onedesk/one_task/sidebar/onetask/onetask.json
 #: onedesk/public/js/onemail.js:34
 msgid "Inbox"
@@ -7937,7 +7987,7 @@ msgstr "Zu spät um"
 msgid "Late Only"
 msgstr "Nur Verspätungen"
 
-#: onedesk/one_task/mine.py:26
+#: onedesk/one_task/mine.py:28
 msgid "Later"
 msgstr "Später"
 
@@ -8481,6 +8531,10 @@ msgstr "Sieh dir meinen Kalender für heute an und schlage vor, wie ich den Tag 
 #: onedesk/one/ai.py:21 onedesk/public/js/settings.js:120
 msgid "Look at my profile and my employee record, if I have one. What is empty or looks out of date, and what is each of those used for?"
 msgstr "Sieh dir mein Profil und, falls vorhanden, meinen Mitarbeiterdatensatz an. Was ist leer oder wirkt veraltet, und wofür wird jedes davon gebraucht?"
+
+#: onedesk/one_task/ai.py:22
+msgid "Look at my tasks and say which I should do first and why: what is late, what is due soonest, and what is most pressing."
+msgstr "Sehen Sie sich meine Aufgaben an und sagen Sie, welche ich zuerst erledigen soll und warum: was überfällig ist, was am ehesten fällig ist und was am dringendsten ist."
 
 #: onedesk/one/ai.py:171
 msgid "Look at our holiday list. When does it end, is there a list after it, is anything missing for our country, and who is on a list of their own?"
@@ -9054,9 +9108,9 @@ msgstr "Nachrichten-ID"
 msgid "Messages"
 msgstr "Nachrichten"
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:102
+#: onedesk/one_task/page/my_tasks/my_tasks.js:185
 msgid "Milestone"
-msgstr ""
+msgstr "Meilenstein"
 
 #. Label of a Sidebar Item
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
@@ -9275,7 +9329,7 @@ msgstr "Meine Wartung"
 
 #. Label of a Sidebar Item
 #: onedesk/one_task/calendar.py:29
-#: onedesk/one_task/page/my_tasks/my_tasks.js:10
+#: onedesk/one_task/page/my_tasks/my_tasks.js:28
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "My Tasks"
 msgstr "Meine Aufgaben"
@@ -9534,9 +9588,9 @@ msgstr "Newsletter"
 msgid "Next"
 msgstr ""
 
-#: onedesk/one_task/mine.py:25
+#: onedesk/one_task/mine.py:27
 msgid "Next 7 Days"
-msgstr ""
+msgstr "Nächste 7 Tage"
 
 #: onedesk/one_inventory/heads.py:356
 msgid "Next Depreciation"
@@ -9614,7 +9668,7 @@ msgstr ""
 msgid "No Closing Date"
 msgstr "Kein Abschlussdatum"
 
-#: onedesk/one_task/mine.py:27
+#: onedesk/one_task/mine.py:29
 msgid "No Due Date"
 msgstr "Ohne Fälligkeitsdatum"
 
@@ -10111,7 +10165,7 @@ msgstr "Noch ist nichts geschehen. Beim Anwenden wird es gegen Ihre eigenen Bere
 msgid "Nothing here."
 msgstr "Hier ist nichts."
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:67
+#: onedesk/one_task/page/my_tasks/my_tasks.js:28
 msgid "Nothing is assigned to you."
 msgstr "Ihnen ist nichts zugewiesen."
 
@@ -10838,6 +10892,7 @@ msgid "OneProject"
 msgstr "OneProject"
 
 #. Title of a Sidebar
+#: onedesk/one_task/page/my_tasks/my_tasks.js:14
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "OneTask"
 msgstr "OneTask"
@@ -11361,7 +11416,8 @@ msgstr "Speicher überschritten"
 #: onedesk/one_book/heads.py:350 onedesk/one_book/heads.py:372
 #: onedesk/one_book/workspace/onebook/onebook.json
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.py:43
-#: onedesk/one_task/mine.py:22
+#: onedesk/one_task/mine.py:24 onedesk/one_task/page/my_tasks/my_tasks.js:167
+#: onedesk/one_task/tell.py:127
 msgid "Overdue"
 msgstr "Überfällig"
 
@@ -12300,7 +12356,6 @@ msgstr "Fortschritt…"
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:25
 #: onedesk/one_project/report/project_tree/project_tree.py:49
 #: onedesk/one_project/report/workload/workload.js:7
-#: onedesk/one_task/page/my_tasks/my_tasks.js:81
 #: onedesk/public/js/timesheet.js:49
 msgid "Project"
 msgstr ""
@@ -12339,6 +12394,10 @@ msgstr ""
 #: onedesk/one_project/notifications.py:8
 msgid "Project Update Asked"
 msgstr "Projekt-Update angefragt"
+
+#: onedesk/one_task/page/my_tasks/my_tasks.js:148
+msgid "Project or About"
+msgstr "Projekt oder Bezug"
 
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -14155,6 +14214,7 @@ msgstr ""
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 #: onedesk/one_storage/sidebar/onecloud/onecloud.json
+#: onedesk/one_task/page/my_tasks/my_tasks.js:86
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Setup"
 msgstr ""
@@ -14431,7 +14491,7 @@ msgstr "Signiert mit „{0}“"
 msgid "Signups"
 msgstr "Anmeldungen"
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:103
+#: onedesk/one_task/page/my_tasks/my_tasks.js:186
 msgid "Since {0}"
 msgstr "Seit {0}"
 
@@ -14636,7 +14696,7 @@ msgstr ""
 msgid "Start Date"
 msgstr ""
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:119 onedesk/public/js/task.js:11
+#: onedesk/one_task/page/my_tasks/my_tasks.js:207 onedesk/public/js/task.js:11
 #: onedesk/public/js/timesheet.js:22 onedesk/public/js/timesheet.js:27
 #: onedesk/public/js/timesheet.js:40
 msgid "Start Timer"
@@ -14849,7 +14909,7 @@ msgstr "Soll OneAI keine neuen Dateien in {0} und den Ordnern darin mehr lesen?"
 msgid "Stop OneAI reading new mail in {0}?"
 msgstr "Soll OneAI keine neuen Mails in {0} mehr lesen?"
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:119
+#: onedesk/one_task/page/my_tasks/my_tasks.js:207
 msgid "Stop Timer"
 msgstr "Timer stoppen"
 
@@ -15288,10 +15348,18 @@ msgstr "Zurückgenommen."
 msgid "Taken from the provider's own word for the model and from every input price it publishes."
 msgstr "Übernommen aus der Bezeichnung des Anbieters und aus jedem Eingabepreis, den er veröffentlicht."
 
-#: onedesk/one_task/page/my_tasks/my_tasks.js:80
+#: onedesk/one_task/page/my_tasks/my_tasks.js:147
 #: onedesk/public/js/timesheet.js:50
 msgid "Task"
 msgstr ""
+
+#: onedesk/one_task/notifications.py:22
+msgid "Task Done"
+msgstr "Aufgabe erledigt"
+
+#: onedesk/one_task/notifications.py:12
+msgid "Task Given"
+msgstr "Aufgabe erhalten"
 
 #. Label of the one_key (Data) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
@@ -15304,6 +15372,7 @@ msgid "Task Step"
 msgstr "Aufgabenschritt"
 
 #. Label of a Sidebar Item
+#: onedesk/one_task/page/my_tasks/my_tasks.js:91
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Task Type"
 msgstr ""
@@ -16979,7 +17048,8 @@ msgstr "An {0}"
 
 #: onedesk/one_book/heads.py:47
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:242
-#: onedesk/one_project/heads.py:77 onedesk/one_task/mine.py:23
+#: onedesk/one_project/heads.py:77 onedesk/one_task/mine.py:25
+#: onedesk/one_task/tell.py:127
 msgid "Today"
 msgstr "Heute"
 
@@ -16990,6 +17060,10 @@ msgstr "Heute liegt in einem Geschäftsjahr"
 #: onedesk/one_calendar/notifications.py:51
 msgid "Today's Events"
 msgstr "Heutige Termine"
+
+#: onedesk/one_task/notifications.py:31
+msgid "Today's Tasks"
+msgstr "Heutige Aufgaben"
 
 #. Label of the token (Password) field in DocType 'Calendar Feed'
 #. Label of the token (Password) field in DocType 'Cloud File Request
@@ -17018,7 +17092,7 @@ msgstr "Token-Hash"
 msgid "Told to OneAI whenever somebody is on this type's list or form. Leave empty for a note it finds when it looks."
 msgstr "Wird OneAI mitgeteilt, sobald jemand in der Liste oder im Formular dieses Typs ist. Leer lassen für eine Notiz, die es beim Suchen findet."
 
-#: onedesk/one_task/mine.py:24
+#: onedesk/one_task/mine.py:26
 msgid "Tomorrow"
 msgstr ""
 
@@ -17752,6 +17826,10 @@ msgstr "Videoerzeugung"
 msgid "View"
 msgstr "Ansehen"
 
+#: onedesk/one_task/page/my_tasks/my_tasks.js:37
+msgid "Views"
+msgstr "Ansichten"
+
 #. Option for the 'Capability' (Select) field in DocType 'AI Model'
 #. Option for the 'Default For' (Select) field in DocType 'AI Model'
 #. Option for the 'Needs' (Select) field in DocType 'AI Action'
@@ -18151,6 +18229,10 @@ msgstr "Was braucht mich heute? Sieh dir meine Aufgaben, meine Termine, was in O
 #: onedesk/one_hr/ai.py:115
 msgid "What should I ask first?"
 msgstr "Was sollte ich zuerst fragen?"
+
+#: onedesk/one_task/ai.py:21
+msgid "What should I do first?"
+msgstr "Was soll ich zuerst tun?"
 
 #: onedesk/one_ai/suggest.py:23
 msgid "What stands out here?"
@@ -18593,9 +18675,17 @@ msgstr "Wenn jemand eine Schicht anfragt."
 msgid "When somebody claims an expense."
 msgstr "Wenn jemand eine Ausgabe einreicht."
 
+#: onedesk/one_task/notifications.py:24
+msgid "When somebody else completes a task you gave them or made."
+msgstr "Wenn jemand anderes eine Aufgabe erledigt, die Sie ihm gegeben oder angelegt haben."
+
 #: onedesk/one_book/notifications.py:15
 msgid "When somebody flags a customer who is over their credit limit."
 msgstr "Wenn jemand einen Kunden meldet, der über seinem Kreditlimit liegt."
+
+#: onedesk/one_task/notifications.py:14
+msgid "When somebody gives you a task."
+msgstr "Wenn Ihnen jemand eine Aufgabe gibt."
 
 #: onedesk/one/notify.py:419
 msgid "When somebody gives you something to do, or it changes."
@@ -18952,6 +19042,10 @@ msgstr "Wer gefragt hat"
 #: onedesk/one_intake/notifications.py:44
 msgid "Whoever closed the task"
 msgstr "Wer die Aufgabe geschlossen hat"
+
+#: onedesk/one_task/notifications.py:25
+msgid "Whoever gave the task and whoever made it, but whoever completed it"
+msgstr "Wer die Aufgabe gab und wer sie anlegte, außer wer sie erledigte"
 
 #: onedesk/one_storage/notifications.py:75
 msgid "Whoever has not sent everything"
@@ -19631,6 +19725,10 @@ msgstr "Ihr Fingerabdruck oder Gesicht auf diesem Handy oder Laptop, beim Einche
 #: onedesk/public/js/settings.js:468
 msgid "Your fingerprint or face on this phone or laptop. You use it to check in, and to sign in."
 msgstr "Dein Fingerabdruck oder Gesicht auf diesem Handy oder Laptop. Du nutzt es zum Einchecken und zum Anmelden."
+
+#: onedesk/one_task/page/my_tasks/my_tasks.js:29
+msgid "Your inbox is empty."
+msgstr "Ihr Eingang ist leer."
 
 #: onedesk/one_hr/notifications.py:262
 msgid "Your interview has moved to {when}"
@@ -21454,6 +21552,10 @@ msgstr "{count} heute in Ihrem Kalender"
 msgid "{count} things OneAI read in {title} need a look."
 msgstr "{count} Dinge, die OneAI in {title} gelesen hat, brauchen einen Blick."
 
+#: onedesk/one_task/notifications.py:37
+msgid "{count} to do today"
+msgstr "{count} heute zu erledigen"
+
 #: onedesk/one/notifications.py:96
 msgid "{credits} OneAI credits expire on {date}"
 msgstr "{credits} OneAI-Guthaben verfällt am {date}"
@@ -21550,6 +21652,10 @@ msgstr "{sender} hat {item} für {request} gesendet"
 msgid "{state}: {event}, {when}"
 msgstr "{state}: {event}, {when}"
 
+#: onedesk/one_task/notifications.py:38
+msgid "{tasks}"
+msgstr "{tasks}"
+
 #: onedesk/one_intake/notifications.py:45
 msgid "{title} arrived after you closed this task."
 msgstr "{title} ist angekommen, nachdem Sie diese Aufgabe geschlossen haben."
@@ -21569,6 +21675,14 @@ msgstr "{who} hat <b>{event}</b> abgesagt, das {when} war."
 #: onedesk/one_calendar/notifications.py:27
 msgid "{who} changed <b>{event}</b>. It is now {when}{where}."
 msgstr "{who} hat <b>{event}</b> geändert. Es ist jetzt {when}{where}."
+
+#: onedesk/one_task/notifications.py:26
+msgid "{who} completed {task}"
+msgstr "{who} hat {task} erledigt"
+
+#: onedesk/one_task/notifications.py:16
+msgid "{who} gave you {task}"
+msgstr "{who} hat Ihnen {task} gegeben"
 
 #: onedesk/one_calendar/notifications.py:16
 msgid "{who} invited you to {event}"

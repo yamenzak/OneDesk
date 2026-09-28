@@ -276,7 +276,8 @@ def test_push_goes_only_to_the_browsers_push_services():
 
 def test_push_is_wired_and_its_keys_stay_out_of_the_database():
 	source, _allowed = _push()
-	assert '"Notification Log": {"after_insert": "onedesk.one.push.pushed"}' in HOOKS
+	logs = HOOKS.split('"Notification Log": {', 1)[1].split("},", 1)[0]
+	assert '"after_insert": "onedesk.one.push.pushed"' in logs
 	assert "update_site_config(PRIVATE" in source
 	assert '"Service-Worker-Allowed": "/"' in source
 	# The worker handles push and clicks, and never a request the page makes.

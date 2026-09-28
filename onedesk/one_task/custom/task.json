@@ -47,6 +47,16 @@
    "search_index": 1,
    "module": "One Task",
    "name": "Task-one_about"
+  },
+  {
+   "dt": "Task",
+   "fieldname": "one_for",
+   "fieldtype": "Small Text",
+   "label": "Give To",
+   "hidden": 1,
+   "insert_after": "auto_repeat",
+   "module": "One Task",
+   "description": "Colleagues to give the task to once it is made, by user. How OneAI's card carries them."
   }
  ],
  "doctype": "Task",
@@ -82,6 +92,53 @@
    "property": "allow_auto_repeat",
    "property_type": "Check",
    "value": "1"
+  },
+  {
+   "doc_type": "Task",
+   "doctype_or_field": "DocType",
+   "property": "field_order",
+   "property_type": "Text",
+   "value": "[\"subject\", \"project\", \"one_about_doctype\", \"one_about\", \"type\", \"parent_task\", \"is_group\", \"column_break0\", \"status\", \"priority\", \"completed_by\", \"completed_on\", \"sb_timeline\", \"exp_start_date\", \"exp_end_date\", \"is_milestone\", \"column_break_11\", \"expected_time\", \"progress\", \"task_weight\", \"section_break_dafi\", \"is_template\", \"issue\", \"color\", \"column_break_vvfp\", \"start\", \"duration\", \"sb_details\", \"description\", \"one_steps\", \"auto_repeat\", \"dependencies_tab\", \"sb_depends_on\", \"depends_on\", \"depends_on_tasks\", \"sb_actual\", \"act_start_date\", \"actual_time\", \"column_break_15\", \"act_end_date\", \"sb_costing\", \"total_costing_amount\", \"column_break_20\", \"total_billing_amount\", \"more_info_tab\", \"sb_more_info\", \"company\", \"review_date\", \"closing_date\", \"column_break_22\", \"department\", \"lft\", \"rgt\", \"old_parent\", \"template_task\"]"
+  },
+  {
+   "doc_type": "Task",
+   "doctype_or_field": "DocField",
+   "property": "collapsible",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "sb_timeline"
+  },
+  {
+   "doc_type": "Task",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "is_group"
+  },
+  {
+   "doc_type": "Task",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "is_milestone"
+  },
+  {
+   "doc_type": "Task",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "exp_end_date"
+  },
+  {
+   "doc_type": "Task",
+   "doctype_or_field": "DocField",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "company"
   }
  ],
  "sync_on_migrate": 1

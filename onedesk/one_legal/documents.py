@@ -165,7 +165,8 @@ DOCUMENTS = {
 		"audience": "customer",
 		# 5: OneAI reads a file in OneCloud when asked.
 		# 6: OneAI reads your calendar, and colleagues' busy times.
-		"revision": 6,
+		# 7: OneAI reads your tasks, and suggests tasks and their steps.
+		"revision": 7,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {

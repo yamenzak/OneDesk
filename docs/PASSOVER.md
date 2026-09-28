@@ -2353,6 +2353,53 @@ OneTask is the door to them.
    listens on `frappe.realtime`** (6d). `doctype_subscribe("Task")` and
    `list_update` are how a screen hears of a change.
 
+Your word: all of them but the door. OneTask and OneProject stay two
+things. OneTask is one person's work from everywhere, and OneProject is a
+team running a project. They share the task, so a project's task given to
+you is on My Tasks, and its project's name opens OneProject. That is the
+whole of the seam. OneTask lists no projects.
+
+Done:
+
+- **One sidebar**: the page hides the rail, as OneMail and OneCalendar do.
+  Its column has **Add Task**; **My Tasks** (how many, and how many late,
+  in red) and **Inbox** (how many); and at the foot **All Tasks** and
+  **Setup** (Task Type). The open view is `?section=inbox`, which is how
+  OneAI knows it. Title: OneTask.
+- **Live**: `doctype_subscribe` on Task and ToDo, so a task given, saved
+  or ticked elsewhere is drawn again. Checked with a second tab.
+- **About**: a task in no project names what it is about and opens it
+  (OneIntake's supplier tasks). The column is **Project or About**. A late
+  task says how long ago it was due.
+- **The Tasks list**: Subject, Status, Project, Priority and Expected End
+  Date. frappe's ID column is off (`hide_name_column`), and so are Is
+  Group and Is Milestone.
+- **A task's page**: Timeline is open, straight after what the task is,
+  with the due date in it. Is Template, Issue and Color follow it, and
+  Company is hidden.
+- **Notifications** (`one_task/notifications.py`, `tell.py`):
+  - **Task Given** is frappe's own assignment line said in ours: who, the
+    task, the due date and the project. A Notification Log
+    `before_insert` turns it, since frappe writes it with no switch.
+  - **Task Done** goes to whoever gave the task and whoever made it,
+    unless they completed it themselves.
+  - **Today's Tasks** goes each morning at 06:40, with what is due and
+    what is late, and is not sent on a day with nothing due.
+  Checked on the dev site: Samir gave Rania a task, she was told in
+  ours, she completed it, and Samir was told.
+- **OneAI** (`one_task/ai.py`): the page sentence (My Tasks or the Inbox),
+  `my_tasks`, `plan_task` and `plan_steps`. `plan_task` is a Create card
+  with a due date, a project, a checklist, and colleagues on the hidden
+  `one_for`, who are given the task on approval. `plan_steps` is an Edit
+  card that keeps the steps a task has. Suggestions: **What should I do
+  first?** and **Add a task…**, and on a task **Break this into steps**.
+  Checked by calling the tools and approving the cards; no model was
+  called.
+- **Legal**: `onetask-asks` in the AI Addendum, revision 7. OneLegal asked
+  for agreement to it again on the next visit, as it should.
+- **README**: the column, the About column, the task's page, Being told,
+  Asking OneAI, and Under the hood.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

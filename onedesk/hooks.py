@@ -109,6 +109,8 @@ scheduler_events = {
 		"*/5 * * * *": ["onedesk.one_hr.tell.interviews_soon", "onedesk.one_calendar.tell.soon"],
 		# Each person's day, in the morning. See one_calendar/tell.py.
 		"45 6 * * *": ["onedesk.one_calendar.tell.today_events"],
+		# Each person's tasks due today and late. See one_task/tell.py.
+		"40 6 * * *": ["onedesk.one_task.tell.today"],
 	},
 	"daily": [
 		# Task steps that waited for a day. See one_intake/steps.py.
@@ -182,7 +184,11 @@ doc_events = {
 	# A type's text names only its own slots. See one/notify.py.
 	"Notification Type": {"validate": "onedesk.one.notify.validate", "on_update": "onedesk.one.notify.changed"},
 	# A notification is pushed to the devices its person chose. See one/push.py.
-	"Notification Log": {"after_insert": "onedesk.one.push.pushed"},
+	"Notification Log": {
+		# frappe's line for a task given, said in OneTask's. See one_task/tell.py.
+		"before_insert": "onedesk.one_task.tell.given",
+		"after_insert": "onedesk.one.push.pushed",
+	},
 	# A new person is mailed only what the administrator said. See one/notify.py.
 	"Notification Settings": {"before_insert": "onedesk.one.notify.new_person"},
 	# An app's own switch for a mail it sends is that type's Send This.
@@ -373,8 +379,12 @@ doc_events = {
 			"onedesk.one_project.plan.before_validate",
 		],
 		"on_recurring": "onedesk.one_task.task.recurring",
-		# A slip moves what waits on it, across sub-projects. See one_project/plan.py.
-		"on_update": "onedesk.one_project.plan.reschedule",
+		"on_update": [
+			# A slip moves what waits on it, across sub-projects. See one_project/plan.py.
+			"onedesk.one_project.plan.reschedule",
+			# A task done is told to whoever gave it. See one_task/tell.py.
+			"onedesk.one_task.tell.done",
+		],
 	},
 	# A project's tasks are named with its prefix. See one_project/naming.py.
 	"Project": {
@@ -749,6 +759,8 @@ one_ai_reads = [
 	"onedesk.one_mail.ai.waiting_for_answer",
 	# The reader's calendar, and when colleagues are busy. See one_calendar/ai.py.
 	"onedesk.one_calendar.ai.my_calendar",
+	# The reader's tasks, as My Tasks shows them. See one_task/ai.py.
+	"onedesk.one_task.ai.my_tasks",
 	"onedesk.one_calendar.ai.busy_times",
 	# A file's text, who can see it, and what takes the space. See one_storage/ai.py.
 	"onedesk.one_storage.ai.open_file",
@@ -801,6 +813,9 @@ one_ai_suggests = [
 	"onedesk.one_mail.ai.draft_reply",
 	# An event, with the people on it, made when the reader approves.
 	"onedesk.one_calendar.ai.plan_event",
+	# A task, and the steps of a task's checklist. See one_task/ai.py.
+	"onedesk.one_task.ai.plan_task",
+	"onedesk.one_task.ai.plan_steps",
 ]
 one_ai_suggestions = [
 	"onedesk.one_hr.ai.SUGGESTIONS",
@@ -809,6 +824,7 @@ one_ai_suggestions = [
 	"onedesk.one_mail.ai.SUGGESTIONS",
 	"onedesk.one_storage.ai.SUGGESTIONS",
 	"onedesk.one_calendar.ai.SUGGESTIONS",
+	"onedesk.one_task.ai.SUGGESTIONS",
 ]
 
 one_ai_page = [
@@ -816,6 +832,7 @@ one_ai_page = [
 	"onedesk.one_mail.ai.page",
 	"onedesk.one_storage.ai.page",
 	"onedesk.one_calendar.ai.page",
+	"onedesk.one_task.ai.page",
 ]
 
 # What each module tells people, as notification types. See one/notify.py.
@@ -825,6 +842,7 @@ one_notification_types = [
 	"onedesk.one_intake.notifications.TYPES",
 	"onedesk.one_storage.notifications.TYPES",
 	"onedesk.one_calendar.notifications.TYPES",
+	"onedesk.one_task.notifications.TYPES",
 	"onedesk.one_project.notifications.TYPES",
 	"onedesk.one_book.notifications.TYPES",
 	"onedesk.one_inventory.notifications.TYPES",

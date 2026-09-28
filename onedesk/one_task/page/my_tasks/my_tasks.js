@@ -1,4 +1,8 @@
-// My Tasks: what is assigned to me and still to do, grouped by when it is due.
+// OneTask: the reader's tasks still to do, grouped by when they are due.
+//
+// Its column is its own navigation, as OneMail's mailboxes and OneCalendar's
+// layers are: Add Task, the two views (My Tasks and the Inbox) with how many
+// each holds, and at the foot every task as frappe's list and the setup.
 //
 // The list comes from one_task/mine.py, read as the reader. Adding a task and
 // ticking one off go through frappe's own insert and save, so every rule on a
@@ -7,33 +11,48 @@
 // does on the task's own page.
 
 frappe.pages["my-tasks"].on_page_load = (wrapper) => {
-	const page = onedesk.shell.page(wrapper, __("My Tasks"));
+	const page = onedesk.shell.page(wrapper, __("OneTask"), { hide_sidebar: true });
 	wrapper.my_tasks = new onedesk.MyTasks(page);
 };
 
 frappe.pages["my-tasks"].on_page_show = (wrapper) => {
-	wrapper.my_tasks && wrapper.my_tasks.refresh();
+	wrapper.my_tasks && wrapper.my_tasks.show();
 };
 
 frappe.provide("onedesk");
 
 onedesk.MyTasks = class MyTasks {
+	// The views, in the column's order: the key is `?section=`, which is also
+	// how OneAI knows which is open (oneai.js `where`).
+	static VIEWS = [
+		{ key: "mine", label: __("My Tasks"), icon: "list-checks", empty: __("Nothing is assigned to you."), hint: __("Add a task above, or ask for one to be assigned to you.") },
+		{ key: "inbox", label: __("Inbox"), icon: "inbox", empty: __("Your inbox is empty."), hint: __("A task of your own that is in no project lands here.") },
+	];
+
 	constructor(page) {
 		this.page = page;
-		// The list view's own button: same label, same short label, same icon.
-		page.set_primary_action(
-			{ label: __("Add {0}", [__("Task")]), short_label: __("Add") },
-			() => frappe.new_doc("Task"),
-			"plus"
-		);
-		// The shell's column: the quick add, then a section per due group.
-		this.$body = onedesk.shell.body(page.$shell).html(`<div class="one-tasks-add">
-				<div class="one-tasks-subject"></div>
-				<div class="one-tasks-due"></div>
-			</div>
-			<div class="one-tasks-list"></div>`);
-		const control = (parent, df) =>
-			frappe.ui.form.make_control({ parent: this.$body.find(parent), df, render_input: true });
+		this.view = "mine";
+		const panes = onedesk.shell.panes(page.$shell, [{ key: "side", width: 236 }, { key: "list" }]);
+		const $side = $(`<div class="one-tasks-side"></div>`)
+			.attr({ role: "navigation", "aria-label": __("Views") })
+			.appendTo(panes.side);
+		frappe.ui
+			.button({ label: __("Add Task"), icon: "plus", variant: "solid", css_class: "one-tasks-new", onclick: () => frappe.new_doc("Task") })
+			.appendTo($side);
+		this.$views = $(`<div class="one-tasks-views"></div>`).appendTo($side);
+		this.$views.on("click", "[data-view]", (e) => this.go($(e.currentTarget).attr("data-view")));
+		this.draw_foot($(`<div class="one-tasks-foot"></div>`).appendTo($side));
+
+		// The open view: its name, the quick add, then a section per due group.
+		const $main = $(`<div class="one-tasks-main">
+				<div class="one-tasks-name"></div>
+				<div class="one-tasks-add">
+					<div class="one-tasks-subject"></div>
+					<div class="one-tasks-due"></div>
+				</div>
+				<div class="one-tasks-list"></div>
+			</div>`).appendTo(panes.list);
+		const control = (parent, df) => frappe.ui.form.make_control({ parent: $main.find(parent), df, render_input: true });
 		this.subject = control(".one-tasks-subject", {
 			fieldtype: "Data",
 			fieldname: "subject",
@@ -48,24 +67,72 @@ onedesk.MyTasks = class MyTasks {
 				this.add();
 			}
 		});
-		this.$list = this.$body.find(".one-tasks-list");
+		this.$name = $main.find(".one-tasks-name");
+		this.$list = $main.find(".one-tasks-list");
 		this.$list.on("change", ".one-tasks-tick", (e) => this.tick($(e.currentTarget)));
 		this.$list.on("click", ".one-tasks-timer", (e) => this.time($(e.currentTarget)));
 		// Whoever may keep a timesheet may time a task (one_task/timer.py).
 		this.times = frappe.model.can_create("Timesheet");
+		this.listen();
+	}
+
+	// Every task as frappe's list, and the setup for those who may read it.
+	draw_foot($foot) {
+		const link = (label, icon, onclick) =>
+			frappe.ui.button({ label, icon, variant: "ghost", css_class: "one-tasks-link", onclick }).appendTo($foot);
+		link(__("All Tasks"), "circle-check", () => frappe.set_route("List", "Task", { is_template: 0 }));
+		if (!frappe.model.can_read("Task Type")) return;
+		const $setup = frappe.ui
+			.button({ label: __("Setup"), icon: "settings", icon_right: "chevron-down", variant: "ghost", css_class: "one-tasks-link" })
+			.appendTo($foot);
+		new frappe.ui.Dropdown({
+			trigger: $setup,
+			side: "top",
+			options: [{ label: __("Task Type"), onclick: () => frappe.set_route("List", "Task Type") }],
+		});
+	}
+
+	// The view the address asks for, drawn again on coming back to the page.
+	show() {
+		const { section } = frappe.utils.get_query_params();
+		this.view = MyTasks.VIEWS.some((one) => one.key === section) ? section : "mine";
+		this.refresh();
+	}
+
+	go(view) {
+		if (view === this.view) return;
+		this.view = view;
+		history.pushState(null, "", view === "mine" ? location.pathname : `${location.pathname}?section=${view}`);
+		this.refresh();
+		// An open OneAI panel offers and is told what fits the view now open.
+		if (onedesk.oneai && onedesk.oneai.panel) onedesk.oneai.panel.moved(onedesk.oneai.where());
+	}
+
+	// Anything about a task that changes elsewhere draws the page again: a task
+	// saved, or given to somebody (an assignment is a ToDo), a moment after the
+	// last change.
+	listen() {
+		const doctypes = ["Task", "ToDo"];
+		doctypes.forEach((doctype) => frappe.realtime.doctype_subscribe(doctype));
+		const again = frappe.utils.debounce(() => this.refresh(), 800);
+		frappe.realtime.on("list_update", (data) => {
+			if (data && doctypes.includes(data.doctype) && this.$list.is(":visible") && !this.busy) again();
+		});
 	}
 
 	async refresh() {
-		const [groups, running] = await Promise.all([
-			frappe.xcall("onedesk.one_task.mine.tasks"),
+		const view = MyTasks.VIEWS.find((one) => one.key === this.view);
+		const [groups, running, counts] = await Promise.all([
+			frappe.xcall("onedesk.one_task.mine.tasks", { view: this.view }),
 			this.times ? frappe.xcall("onedesk.one_task.timer.running") : null,
+			frappe.xcall("onedesk.one_task.mine.counts"),
 		]);
 		this.running = running;
+		this.draw_views(counts || {});
+		this.$name.text(view.label);
 		this.$list.empty();
 		if (!groups.length) {
-			this.$list.html(
-				onedesk.shell.empty(__("Nothing is assigned to you."), __("Add a task above, or ask for one to be assigned to you."), { icon: "list-checks" })
-			);
+			this.$list.html(onedesk.shell.empty(view.empty, view.hint, { icon: view.icon }));
 			return;
 		}
 		// A table per due group: frappe's, as every list of records is. The
@@ -78,16 +145,32 @@ onedesk.MyTasks = class MyTasks {
 				icon: "list-checks",
 				columns: [
 					{ label: __("Task"), render: (task) => this.task(task) },
-					{ label: __("Project"), render: (task) => this.project(task) },
+					{ label: __("Project or About"), render: (task) => this.where(task) },
 					{
 						label: __("Due"),
 						render: (task) =>
-							task.due ? `<span class="${group.key === "overdue" ? "one-tasks-late" : ""}">${this.day(task.due, group.key) || frappe.datetime.str_to_user(task.due)}</span>` : "",
+							task.due ? `<span class="${group.key === "overdue" ? "one-tasks-late" : ""}">${this.day(task.due, group.key)}</span>` : "",
 					},
 					...(this.times ? [{ label: "", render: (task) => this.timer(task) }] : []),
 				],
 			});
 		}
+	}
+
+	// The column's views, each with how many it holds; My Tasks says how many
+	// are late as well.
+	draw_views(counts) {
+		const esc = frappe.utils.escape_html;
+		this.$views.html(
+			MyTasks.VIEWS.map((one) => {
+				const on = one.key === this.view;
+				const late = one.key === "mine" && counts.late ? `<span class="one-tasks-count one-tasks-late" title="${esc(__("Overdue"))}">${counts.late}</span>` : "";
+				const count = counts[one.key] ? `<span class="one-tasks-count">${counts[one.key]}</span>` : "";
+				return `<button class="one-tasks-view${on ? " one-tasks-on" : ""}" data-view="${one.key}" ${on ? 'aria-current="page"' : ""}>
+					${frappe.utils.icon(one.icon, "sm")}<span class="one-tasks-view-label">${esc(one.label)}</span>${late}${count}
+				</button>`;
+			}).join("")
+		);
 	}
 
 	// A task's tick, name (which opens it) and how pressing it is.
@@ -104,10 +187,15 @@ onedesk.MyTasks = class MyTasks {
 		</div>`;
 	}
 
-	project(task) {
-		return task.project
-			? `<a class="one-tasks-project" href="/desk/project/${encodeURIComponent(task.project)}">${frappe.utils.escape_html(task.project_title)}</a>`
-			: "";
+	// The project a task is in, or, for one in no project, the record it is
+	// about (a task OneIntake made about a supplier, say).
+	where(task) {
+		const esc = frappe.utils.escape_html;
+		if (task.project)
+			return `<a class="one-tasks-project" href="/desk/project/${encodeURIComponent(task.project)}">${esc(task.project_title)}</a>`;
+		if (task.about_title)
+			return `<a class="one-tasks-project" href="/desk/${frappe.router.slug(task.one_about_doctype)}/${encodeURIComponent(task.one_about)}" title="${esc(__(task.one_about_doctype))}">${esc(task.about_title)}</a>`;
+		return "";
 	}
 
 	timer(task) {
@@ -122,10 +210,11 @@ onedesk.MyTasks = class MyTasks {
 		});
 	}
 
-	// A day in the next week is its weekday; anything else its date. Today and
-	// tomorrow are already the group's name.
+	// Late, how long ago it was due; in the next week, its weekday; anything
+	// else its date. Today and tomorrow are already the group's name.
 	day(due, group) {
 		if (group === "today" || group === "tomorrow") return "";
+		if (group === "overdue") return frappe.datetime.prettyDate(due) || frappe.datetime.str_to_user(due);
 		if (group === "week") return moment(due).format("dddd");
 		return frappe.datetime.str_to_user(due);
 	}
@@ -134,6 +223,7 @@ onedesk.MyTasks = class MyTasks {
 		const subject = (this.subject.get_value() || "").trim();
 		if (!subject) return;
 		this.$subject.prop("disabled", true);
+		this.busy = true;
 		try {
 			await frappe.db.insert({ doctype: "Task", subject, exp_end_date: this.due.get_value() || null });
 			this.subject.set_value("");
@@ -141,6 +231,7 @@ onedesk.MyTasks = class MyTasks {
 			await this.refresh();
 		} finally {
 			this.$subject.prop("disabled", false).trigger("focus");
+			this.quiet();
 		}
 	}
 
@@ -153,12 +244,13 @@ onedesk.MyTasks = class MyTasks {
 		await this.refresh();
 	}
 
-	// Ticked stays on the list, struck through, until the page is next opened,
+	// Ticked stays on the list, struck through, until the page is next drawn,
 	// so a tick made by mistake is undone where it was made.
 	async tick($box) {
 		const $row = $box.closest(".one-tasks-task");
 		const done = $box.prop("checked");
 		$box.prop("disabled", true);
+		this.busy = true;
 		try {
 			await frappe.db.set_value("Task", $row.attr("data-name"), "status", done ? "Completed" : "Open");
 			$row.toggleClass("one-tasks-done", done);
@@ -166,6 +258,14 @@ onedesk.MyTasks = class MyTasks {
 			$box.prop("checked", !done);
 		} finally {
 			$box.prop("disabled", false);
+			this.quiet();
 		}
+	}
+
+	// A change made here comes back a moment later as a list_update; it is not
+	// heard as somebody else's, or a tick would take its row away at once.
+	quiet() {
+		clearTimeout(this.quieting);
+		this.quieting = setTimeout(() => (this.busy = false), 1500);
 	}
 };

@@ -51,8 +51,13 @@ def todo_made(doc, method=None) -> None:
 def task_made(doc, method=None) -> None:
 	"""Task after_insert: a task of nobody's, with no project, is its maker's;
 	a repeat is given to whoever had the task it repeats (task.recurring)."""
-	if doc.flags.one_assign_to:
-		assign({"doctype": "Task", "name": doc.name, "assign_to": doc.flags.one_assign_to})
+	# A repeat's people, or the colleagues OneAI's card named (one_task/ai.py).
+	given = doc.flags.one_assign_to or [one.strip() for one in (doc.get("one_for") or "").split(",") if one.strip()]
+	if given:
+		assign({"doctype": "Task", "name": doc.name, "assign_to": given})
+		# Said once: a repeat of this task is given to whoever has it then.
+		if doc.get("one_for"):
+			frappe.db.set_value("Task", doc.name, "one_for", None, update_modified=False)
 		return
 	if doc.project or doc.is_template or doc.flags.one_assigned or frappe.flags.in_install or frappe.flags.in_migrate:
 		return

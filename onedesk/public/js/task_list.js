@@ -19,6 +19,11 @@
 	};
 })();
 
+// The list's subject is the task, so frappe's ID column beside it is its
+// number again, taking the room the subject needs.
+frappe.listview_settings["Task"] = frappe.listview_settings["Task"] || {};
+frappe.listview_settings["Task"].hide_name_column = true;
+
 // On the Gantt, a task with a due date and no start is a day on its due date;
 // frappe's view draws a bar from the start and has none to draw. And the view
 // mode pills light the first, Hour, whatever the chart is in: frappe-gantt's

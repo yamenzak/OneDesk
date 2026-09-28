@@ -173,3 +173,44 @@ def test_a_repeat_is_due_when_it_repeats_and_given_to_the_same_people():
 	custom = json.loads((TASK / "custom" / "task.json").read_text())
 	assert any(p["property"] == "allow_auto_repeat" and p["value"] == "1" for p in custom["property_setters"])
 	assert any(f["fieldname"] == "auto_repeat" for f in custom["custom_fields"])
+
+
+def test_onetask_is_one_column_that_listens():
+	page = (TASK / "page" / "my_tasks" / "my_tasks.js").read_text()
+	assert "hide_sidebar: true" in page, "the column is the page's only sidebar"
+	assert "frappe.realtime.doctype_subscribe" in page and '"list_update"' in page
+	assert "section=${view}" in page, "the open view is in the address, where OneAI reads it"
+	assert '"one_about_doctype"' in (TASK / "mine.py").read_text(), "what OneIntake's task is about is shown"
+
+
+def test_a_task_given_is_said_in_ours_and_a_task_done_is_told():
+	assert '"before_insert": "onedesk.one_task.tell.given"' in HOOKS
+	assert '"onedesk.one_task.tell.done"' in HOOKS and '"onedesk.one_task.tell.today"' in HOOKS
+	assert '"onedesk.one_task.notifications.TYPES"' in HOOKS
+	given = _body((TASK / "tell.py").read_text(), "given")
+	assert 'doc.type != "Assignment"' in given and '"status": "Open"' in given, "a removal stays frappe's"
+	done = _body((TASK / "tell.py").read_text(), "done")
+	assert "people.discard(frappe.session.user)" in done, "nobody is told of what they did"
+
+
+def test_oneai_only_suggests_a_task_and_its_steps():
+	source = (TASK / "ai.py").read_text()
+	for name in ("plan_task", "plan_steps"):
+		body = _body(source, name)
+		assert "proposals.propose(" in body
+		assert ".insert(" not in body and ".save(" not in body
+	assert "one_for" in _body((TASK / "capture.py").read_text(), "task_made"), "the card's colleagues get it"
+	for name in ("my_tasks", "plan_task", "plan_steps", "SUGGESTIONS", "page"):
+		assert f'"onedesk.one_task.ai.{name}"' in HOOKS
+	assert '"one_task"' in (tree.APP / "one_legal" / "assemble.py").read_text(), "its AI Addendum line is read"
+
+
+def test_a_tasks_due_date_is_in_sight_and_the_list_has_room_for_its_subject():
+	custom = json.loads((TASK / "custom" / "task.json").read_text())
+	setters = {(one.get("field_name"), one["property"]): one["value"] for one in custom["property_setters"]}
+	order = json.loads(setters[(None, "field_order")])
+	assert order.index("sb_timeline") < order.index("is_template") < order.index("issue")
+	assert setters[("sb_timeline", "collapsible")] == "0"
+	assert setters[("company", "hidden")] == "1"
+	assert setters[("is_group", "in_list_view")] == "0" and setters[("exp_end_date", "in_list_view")] == "1"
+	assert "hide_name_column = true" in (tree.APP / "public" / "js" / "task_list.js").read_text()

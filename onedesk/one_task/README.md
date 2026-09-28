@@ -12,23 +12,34 @@ the calendar's — but everything you have to *do* is here.
 
 ## Finding your way
 
-**OneTask** in the dock opens it, on **My Tasks**. The rail has:
+**OneTask** in the dock opens it, on **My Tasks**. Its column on the left is
+all there is to find your way by:
 
-- **My Tasks** — everything assigned to you and still to do, by when it is
-  due.
-- **Inbox** — your own tasks that are in no project, still to do. A quick note
-  to yourself lands here.
-- **Tasks** — every task you may see, in projects and out of them.
-- Under **Setup**, **Task Type**.
+- **Add Task** on top, which opens a new task.
+- **My Tasks**: everything assigned to you and still to do, by when it is
+  due. The red number beside it is how many are late, the other how many
+  there are.
+- **Inbox**: your own tasks that are in no project, still to do. A quick
+  note to yourself lands here.
+- At the foot, **All Tasks** (every task you may see, in projects and out of
+  them, as a list) and **Setup** (Task Type), for whoever may change it.
 
-Projects — their boards, calendars and money — are **OneProject**'s, over the
-same tasks.
+The page keeps itself up to date: a task somebody gives you, or one ticked
+off elsewhere, shows without reloading.
+
+OneTask is your own work, from everywhere. Projects, with their boards,
+calendars and money, are **OneProject**'s, over the same tasks. A project's
+task given to you is on My Tasks like any other, and its project's name
+opens the project in OneProject.
 
 ## My Tasks
 
 Your work, in groups: **Overdue**, **Today**, **Tomorrow**, **Next 7 Days**,
 **Later** and **No Due Date**. Within a day the most pressing comes first, and
-Urgent and High say so. A task in a project names the project.
+Urgent and High say so. A task in a project names the project; a task in no
+project that is about something (one OneIntake made about a supplier, say)
+names what it is about, and opens it. A late task says how long ago it was
+due.
 
 **Tick a task to complete it.** It stays on the list, struck through, until you
 next open the page, so a tick made by mistake is undone by ticking it again.
@@ -42,7 +53,7 @@ when it has no end.
 
 ## Adding a task
 
-**Add Task** on the Inbox asks for the subject, the project if it belongs to
+**Add Task** asks for the subject, the project if it belongs to
 one, and the **Expected End Date**, which is when it is due. That is all a
 to-do needs; everything else is on the task's own page.
 
@@ -52,6 +63,13 @@ is on your calendar and in every list of your work.
 **A to-do is a task.** Anything that makes a to-do with nothing it is about —
 the To Do form, a reminder to yourself — makes a task, assigned to whoever the
 to-do was for.
+
+## A task's page
+
+**Details** has what the task is and its project, then **Timeline**, open,
+with when it starts and when it is due, how long it should take, how far it
+has got, and its weight. **Is Template**, the issue it came from and its
+colour follow. The description and the checklist are under **Details**.
 
 ## On the calendar
 
@@ -105,6 +123,29 @@ more than one person.
   since you were the one doing it. On a task in a project it only takes it off
   your list; the task is done when it is completed.
 
+## Being told
+
+- **Task Given**: when somebody gives you a task, the bell says who, the
+  task, when it is due and its project, and you are mailed it if you chose
+  to be.
+- **Task Done**: when somebody else completes a task you gave them, or one
+  you made, you are told.
+- **Today's Tasks**: each morning, what is due that day and what is late,
+  if anything is.
+
+Each can be turned off, or changed, under **Settings › Notifications**.
+
+## Asking OneAI
+
+On My Tasks, OneAI offers **What should I do first?** and **Add a task…**.
+It reads your tasks as you see them. A task it suggests comes as a card:
+with a due date, a project, a checklist, and a colleague to give it to if
+you asked for one. Nothing is added until you approve the card, and the
+colleague is told then.
+
+On a task's page, **Break this into steps** suggests the steps of its
+checklist, kept after the ones it has. They are added when you approve.
+
 ## Who sees a task
 
 - **Your own tasks** — ones you made, or that are assigned to you — are yours
@@ -154,7 +195,10 @@ is:
   task dragged shifts both its dates by the same days (`shifted` is pure).
 - `custom/task.json` — the due date is asked for when a task is added, the
   Checklist (Task Step) is added, and Overdue is taken off the statuses
-  (one_project/board.py says why).
+  (one_project/board.py says why). The page's order puts Timeline, open,
+  ahead of Is Template, Issue and Color; Company is hidden; the list shows
+  Subject, Status, Project, Priority and the due date (`task_list.js` drops
+  frappe's ID column).
 - `task.py` — a sub-task's parent becomes a group and lends its project; the
   checklist is the progress; sub-tasks are a connection on the task's page.
 - `public/js/task_list.js` — a due date read as a day, red once passed.
@@ -164,10 +208,19 @@ is:
   `public/js/task.js` and `task_timer.js` are its buttons and what they say.
 - `task.py` also has `recurring`, which gives a repeat (frappe's Auto Repeat, switched on for Task in custom/task.json) its
   dates, its status and its people.
-- `mine.py` and `page/my_tasks` — My Tasks. The server only reads, as the
-  reader, and groups (`when` is pure); adding and ticking are `frappe.db.insert`
-  and `frappe.db.set_value` from the page, so every rule a task has on its own
-  page holds here.
+- `tell.py` and `notifications.py` — Task Given, Task Done and Today's
+  Tasks. Task Given is frappe's own assignment line said in ours: a
+  Notification Log `before_insert` turns frappe's "assigned a new task Task"
+  into it, since `assign_to.add` writes that line with no switch to stop it.
+- `ai.py` — the page sentence, `my_tasks`, `plan_task` (a Create card; the
+  colleagues it names ride on the hidden `one_for` and are given the task by
+  `capture.task_made`), `plan_steps` (an Edit card on the checklist), and the
+  suggestions. `legal.py` is its line in the AI Addendum.
+- `mine.py` and `page/my_tasks` — OneTask's page: the column, the two views
+  (`?section=inbox`), their counts, and `frappe.realtime` on Task and ToDo.
+  The server only reads, as the reader, and groups (`when` is pure); adding
+  and ticking are `frappe.db.insert` and `frappe.db.set_value` from the page,
+  so every rule a task has on its own page holds here.
 
 ### The plan
 
