@@ -144,7 +144,9 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | OneMail | done |
 | Products | OneCloud | done |
 | Products | OneCalendar | done |
-| Products | OneTask, OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, OneAdmin | each screen listed here once we reach it |
+| Products | OneTask | done |
+| Products | OneAdmin › Home | findings |
+| Products | OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin | each screen listed here once we reach it |
 
 Noticed along the way, for the screen it belongs to:
 
@@ -2399,6 +2401,85 @@ Done:
   for agreement to it again on the next visit, as it should.
 - **README**: the column, the About column, the task's page, Being told,
   Asking OneAI, and Under the hood.
+
+### OneAdmin › Home
+
+OneAdmin is the operator's console, and only on the admin site
+(`"one_admin": 1` in site_config) and for One Operator. Its rail has 15
+entries: Home, Workspaces, What is happening (Jobs, Log, Domains), Selling
+(Price List, Price Check, Plan Calculator, Signups, Credits), OneAI (Models,
+AI Usage) and Settings. They are taken one screen at a time, Home first.
+
+Home is frappe's own Workspace (`one_admin/workspace/one_admin`), headed
+"Right now". It has four number cards: Workspaces (live), Building, Owing
+and Stuck. Below them are three quick lists: Stuck jobs, Owing, and Domains
+waiting. On the dev site these show 6, 1, 1 and 1, one stopped job (PROV-26-00012), Gone Ltd
+suspended, and no domain waiting.
+
+1. **Notifications**: OneAdmin tells the operator nothing. Nothing in
+   `one_admin` calls the hub. A job that fails, a signup that arrives, a
+   payment that fails or a domain that never checks in is found only by
+   opening Home. Recommended: operator-only types (roles One Operator) in a
+   new `one_admin/notifications.py`:
+   - **Job Failed**, with the step and the error;
+   - **New Signup**, with the company and the plan;
+   - **Workspace Owing**, when a workspace falls overdue and when it is
+     suspended;
+   - **Domain Waiting**, when a domain has not checked in after a day.
+2. **OneAI**: the panel knows only that this is "OneAdmin". It has no page
+   sentence, no suggestions and nothing it can read, and no OneAI tool
+   reads an operator record. Recommended:
+   - a reader, `console_today`, behind `require_admin()`: what needs the
+     operator, each with its reason (a job's failed step and error, what
+     a workspace owes and since when, what a domain is waiting on, a
+     signup waiting);
+   - suggestions: **What needs me today?** and **Why did this job fail?**
+     (on a job).
+3. **Intake**: nothing OneIntake reads lands here, and nothing should.
+   Holds.
+4. **Permissions**: the records hold: every OneAdmin doctype grants only
+   One Operator, and `site.py` refuses them on a site that is not the admin
+   site. Two gaps in what is *offered*:
+   - **A Workspace Manager who is not an operator sees OneAdmin in the
+     dock**, and Home opens on "Insufficient Permission for Tenant".
+     frappe gives every workspace to Workspace Manager so it can be
+     arranged, so the rail keeps Home and the dock keeps the entry. It
+     would happen on a customer's own site to anybody holding that role.
+     Recommended: a `boot_session` hook that takes OneAdmin's dock entry
+     and rail out of the boot for anybody without One Operator, and for
+     everybody on a site that is not the admin site.
+   - **Price Check and Plan Calculator are missing from the operator's
+     rail**, though both open for them.
+5. **Cross-module**: Home counts Tenant, Provisioning Job and Tenant Domain.
+   Signups (Account Request) waiting for a workspace are not on it, and
+   nor is OneAI spend. Recommended: a signup waiting counts as something
+   that needs the operator.
+6. **UI and UX**:
+   - a. **It is the stock desk**: four boxed cards, and quick lists with
+     big grey View List bars and "No Data...". Recommended: Home as a page
+     in the shell's look, as One › Home is. The counts sit on the page and
+     each opens its list. Below them is one list, **Needs you**, of what
+     is stuck, owing, waiting or new, each row saying why, with its one
+     action (Retry a job, open the workspace, check the domain again).
+   - b. **One thing has four names**: the card says Stuck, the list Stuck
+     jobs, the job's status Failed, and its badge Stopped. Recommended:
+     one word, Failed.
+   - c. Building counts pending and waiting jobs, which Home does not
+     list.
+   - d. Nothing updates while it is open.
+7. **Documented**: `one_admin` has **no README**, so OneAI cannot answer
+   how the console works, and nothing says what Home is for.
+   `docs/INFRASTRUCTURE.md` and `docs/ACCOUNTS.md` are the builders'
+   documents, not the operator's. Recommended: `one_admin/README.md`, with
+   Home's section first.
+8. **Legal**: Home sends nothing anywhere. If 2 is built, OneAI reads
+   customers' account details (company, contact, what they owe) for the
+   operator, and the Privacy Policy says so under OneAI.
+9. **Built from frappe**: it is all frappe (Workspace, Number Card, Quick
+   List), which is why it looks like the stock desk. Rebuilt as in 6a, it
+   stays frappe's: the shell's tables are EmbeddedList,
+   `frappe.ui.button`, `frappe.ui.badge`, and `frappe.realtime` on the
+   three doctypes.
 
 ## OneLegal
 
