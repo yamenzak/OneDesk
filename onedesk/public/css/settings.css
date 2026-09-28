@@ -428,6 +428,10 @@
 	background: var(--surface-gray-1);
 }
 
+.os-better {
+	margin-top: calc(var(--spacing) * 3);
+}
+
 .os-add-ons {
 	margin-top: calc(var(--spacing) * 6);
 }

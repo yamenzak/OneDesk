@@ -451,11 +451,10 @@ side says when they were last heard; **Check Again**, at the top, asks now.
   current one marked. Pick one and it says what that costs a month against
   now: moving up is charged for the rest of the month at once, moving down
   comes off the next invoice. Add-ons stay.
-- **Add**, beside it, has **Seats, Storage or Database** and **OneAI
-  Credits**. The first asks how much the workspace needs in all and prices
-  every way to have it, cheapest first: the plan it is on with add-ons, or
-  another plan. Pick one and **Change the Plan**. A plan is the better deal
-  for a lot more; an add-on for a little.
+- **Add**, beside it, has **Storage, Database or Seats** and **OneAI
+  Credits**. The first is an add-on and how many, with what it costs a
+  month; **Add** buys it. When the plan above would give the same for less,
+  the dialog says so and offers **Move to … Instead**.
 - A change that would leave the workspace over what it uses (more people
   turned on than seats, more files than storage) is refused and says what
   to clear first.

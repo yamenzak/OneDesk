@@ -1237,9 +1237,9 @@ the AI Credits report for that day, by person. The admin's `ai_usage` now
 sends `arrived` (`ledger.arrived`), and `workspace_plan` reads the ledger.
 
 Afterwards, on your word: plans and add-ons are sold here. Change Plan
-shows the plans side by side and what a move costs a month; Add, Seats,
-Storage or Database is the calculator, pricing every way to have what the
-workspace needs, cheapest first; the Plan section shows the database beside
+shows the plans side by side and what a move costs a month; Add, Storage,
+Database or Seats is an add-on and how many, and says when the plan above
+gives the same for less; the Plan section shows the database beside
 storage, what it costs a month, and the add-ons with Remove. How the price
 list is built and kept coherent is `docs/INFRASTRUCTURE.md`, Plans, add-ons
 and what they cost. Terms revision 3.

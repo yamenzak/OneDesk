@@ -231,8 +231,10 @@ add-ons (each fixture step saves 53 to 68 per cent), or nobody moves up; and
 the smallest add-on is cheaper than any step, or nobody buys one. `check`
 says what does not hold (the **Price Check** report), and `quote` answers the
 customer's side: for what I need in all, each plan with the cheapest mix of
-add-ons on top, cheapest first (the **Plan Calculator** report, and the
-workspace's own Add dialog). What each thing costs us is One Admin Settings,
+add-ons on top, cheapest first (the **Plan Calculator** report). The
+customer never sees the calculator: they buy an add-on or change plan, and
+the Add dialog only says so when the plan above would give them the same
+for less. What each thing costs us is One Admin Settings,
 Costs; a credit costs what the gateway charges for one.
 
 **Limits are copied, not looked up.** `quota.py` sums the plan and the

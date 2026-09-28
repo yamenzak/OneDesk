@@ -1011,7 +1011,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				meta: [account.last_heard ? __("As of {0}", [frappe.datetime.prettyDate(account.last_heard)]) : __("Not heard from the account yet")],
 			}),
 			actions: [
-				{ label: __("Seats, Storage or Database"), action: () => this.add_to_plan(data), group: __("Add") },
+				{ label: __("Storage, Database or Seats"), action: () => this.add_to_plan(data), group: __("Add") },
 				{ label: __("OneAI Credits"), action: () => this.buy_credits(), group: __("Add") },
 				{ label: __("Check Again"), action: () => this.check_again() },
 			],
@@ -1171,59 +1171,81 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		show();
 	}
 
-	// The calculator: how much the workspace needs in all, and every way to
-	// have it, cheapest first: the plan it is on with add-ons, or another
-	// plan. The same arithmetic the operator prices with (one_admin/plans.py).
-	add_to_plan(data) {
+	// An add-on and how many, and what that costs a month. When the plan above
+	// would give the same for less, it says so and offers that instead: the
+	// calculator's one job on this side (one_admin/plans.py, quote).
+	async add_to_plan(data) {
 		const account = data.account || {};
+		const said = await frappe.xcall("onedesk.one.account.plans_offered");
 		const esc = frappe.utils.escape_html;
-		const gb = (bytes) => Math.round((bytes || 0) / 1e9);
-		let options = [];
+		const money = (value) => format_currency(value || 0, said.currency, 0);
+		const sold = said.add_ons_sold || [];
+		if (!sold.length) return frappe.msgprint(__("There is nothing to add just now."));
 		const dialog = new frappe.ui.Dialog({
 			title: __("Add to the Plan"),
-			size: "large",
 			fields: [
-				{ fieldtype: "HTML", fieldname: "intro", options: `<p class="text-muted">${esc(__("Say how much the workspace needs in all. Each way to have it is priced below, cheapest first."))}</p>` },
-				{ fieldtype: "Section Break" },
-				{ fieldname: "seats", fieldtype: "Int", label: __("Seats"), default: account.seats || data.used, change: () => ask() },
-				{ fieldtype: "Column Break" },
-				{ fieldname: "storage_gb", fieldtype: "Int", label: __("Storage (GB)"), default: gb(account.storage_limit), change: () => ask() },
-				{ fieldtype: "Column Break" },
-				{ fieldname: "database_gb", fieldtype: "Int", label: __("Database (GB)"), default: gb(account.database_limit), change: () => ask() },
-				{ fieldtype: "Section Break" },
-				{ fieldtype: "HTML", fieldname: "options" },
-				{ fieldname: "choice", fieldtype: "Select", label: __("Take"), reqd: 1, options: [] },
+				{
+					fieldname: "add_on",
+					fieldtype: "Select",
+					label: __("Add-on"),
+					reqd: 1,
+					options: sold.map((one) => ({ value: one.key, label: __("{0} · {1} a month", [one.label, money(one.price)]) })),
+					default: sold[0].key,
+					change: () => show(),
+				},
+				{ fieldname: "count", fieldtype: "Int", label: __("How Many"), reqd: 1, default: 1, change: () => show() },
+				{ fieldtype: "HTML", fieldname: "said" },
 			],
-			primary_action_label: __("Change the Plan"),
+			primary_action_label: __("Add"),
 			primary_action: async (values) => {
-				const option = options[cint(values.choice)];
-				if (!option) return;
+				const extras = { ...said.add_ons };
+				extras[values.add_on] = (extras[values.add_on] || 0) + Math.max(1, cint(values.count));
 				dialog.hide();
-				await this.take(option.plan, Object.fromEntries(option.extras.map((one) => [one.offering, one.count])), option.label);
+				await this.take(said.plan, extras);
 			},
 		});
-		const ask = frappe.utils.debounce(async () => {
-			const need = (name) => cint(dialog.get_value(name));
-			const said = await frappe.xcall("onedesk.one.account.plans_quote", { needs: { seats: need("seats"), storage_gb: need("storage_gb"), database_gb: need("database_gb") } });
-			const money = (value) => format_currency(value || 0, said.currency, 0);
-			options = said.options;
-			const named = (one) => [one.label, ...one.extras.map((extra) => __("{0} × {1}", [extra.count, extra.label]))].join(" + ");
-			dialog.fields_dict.options.$wrapper.html(
-				`<table class="table table-bordered os-plans"><thead><tr><th>${esc(__("Way"))}</th><th>${esc(__("A Month"))}</th><th>${esc(__("Against Now"))}</th></tr></thead><tbody>${options
-					.map(
-						(one, at) => `<tr${at === 0 ? ' class="os-plan-current"' : ""}><td>${esc(named(one))}${at === 0 ? " " + frappe.ui.badge.html({ label: __("Cheapest"), theme: "green" }) : ""}${
-							one.current ? " " + frappe.ui.badge.html({ label: __("What You Have"), theme: "blue" }) : ""
-						}</td><td>${esc(money(one.monthly))}</td><td>${esc(one.change > 0 ? "+" + money(one.change) : one.change < 0 ? "−" + money(-one.change) : __("The same"))}</td></tr>`
-					)
-					.join("")}</tbody></table>`
+		const show = frappe.utils.debounce(async () => {
+			const chosen = sold.find((one) => one.key === dialog.get_value("add_on"));
+			const count = Math.max(1, cint(dialog.get_value("count")));
+			if (!chosen) return;
+			const cost = __("{0} a month more. The difference for the rest of this month is charged now.", [money(chosen.price * count)]);
+			// What the workspace would have with it, and whether a plan gives that for less.
+			const gb = (bytes) => Math.round((bytes || 0) / 1e9);
+			const needs = {
+				seats: (account.seats || 0) + (chosen.seats || 0) * count,
+				storage_gb: gb(account.storage_limit) + (chosen.storage_gb || 0) * count,
+				database_gb: gb(account.database_limit) + (chosen.database_gb || 0) * count,
+			};
+			let better = null;
+			try {
+				const quoted = await frappe.xcall("onedesk.one.account.plans_quote", { needs });
+				const staying = (account.monthly || 0) + chosen.price * count;
+				better = (quoted.options || []).find((one) => one.plan !== said.plan && one.monthly < staying);
+				if (better) better.saves = staying - better.monthly;
+			} catch (e) {
+				better = null;
+			}
+			dialog.fields_dict.said.$wrapper.html(
+				frappe.ui.alert.html({ title: cost, theme: "blue" }) +
+					(better
+						? `<div class="os-better">${frappe.ui.alert.html({
+								title: __("{0} gives you this for {1} a month, {2} less.", [
+									[better.label, ...better.extras.map((one) => __("{0} × {1}", [one.count, one.label]))].join(" + "),
+									money(better.monthly),
+									money(better.saves),
+								]),
+								theme: "green",
+						  })}<div class="one-shell-actions">${onedesk.shell.button(__("Move to {0} Instead", [better.label]), { "data-better": better.plan }, "subtle")}</div></div>`
+						: "")
 			);
-			const field = dialog.fields_dict.choice;
-			field.df.options = options.map((one, at) => ({ value: String(at), label: `${named(one)} · ${money(one.monthly)}` }));
-			field.refresh();
-			dialog.set_value("choice", "0");
-		}, 300);
+			dialog.fields_dict.said.$wrapper.find("[data-better]").on("click", async () => {
+				dialog.hide();
+				// The plan and exactly the add-ons it needs, in place of what is there.
+				await this.take(better.plan, Object.fromEntries(better.extras.map((one) => [one.offering, one.count])), better.label);
+			});
+		}, 250);
 		dialog.show();
-		ask();
+		show();
 	}
 
 	// Ask the account now rather than tonight, and draw what it said.
