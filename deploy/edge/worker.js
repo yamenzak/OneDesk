@@ -12,6 +12,12 @@
  * wildcard on *.t.4dl.app. The hop to press is TLS too, to a hostname whose
  * certificate press holds. Nothing is unencrypted and no certificate is ours.
  *
+ * A customer's own name (office.acme.com) arrives the same way: it is a
+ * custom hostname on the zone (Cloudflare for SaaS), whose certificate
+ * Cloudflare issues, with a route of its own to this Worker. Its site is under
+ * `host:<name>` in KV; a name we give is `<slug>.<TENANT_DOMAIN>` and its site
+ * is under the slug. Nothing else is served.
+ *
  * The slug-to-site map lives in Workers KV, written by the admin site as each
  * workspace is provisioned. It is read here rather than asked for, because the
  * admin site is the control path and must never be in the data path — a Worker
@@ -30,13 +36,18 @@ const STRIPPED = ["x-forwarded-host", "x-one-slug", "x-real-ip"];
 export default {
 	async fetch(request, env, ctx) {
 		const asked = new URL(request.url);
-		const slug = asked.hostname.split(".")[0];
+		const host = asked.hostname.toLowerCase();
+		const ours = env.TENANT_DOMAIN ? `.${env.TENANT_DOMAIN}` : null;
 
-		if (!slug || slug === asked.hostname) {
-			return new Response("Not found", { status: 404 });
+		let site = null;
+		if (ours && host.endsWith(ours)) {
+			// Ours: one label in front of the tenant domain, nothing deeper.
+			const slug = host.slice(0, -ours.length);
+			if (slug && !slug.includes(".")) site = await env.SITES.get(slug, { cacheTtl: REMEMBER_FOR });
+		} else {
+			// A customer's own name, routed here only because it was added.
+			site = await env.SITES.get(`host:${host}`, { cacheTtl: REMEMBER_FOR });
 		}
-
-		const site = await env.SITES.get(slug, { cacheTtl: REMEMBER_FOR });
 		if (!site) {
 			// No workspace by that name. Said plainly rather than passed to press,
 			// which would answer with its own "site not found" page and confuse

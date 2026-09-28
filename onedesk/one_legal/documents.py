@@ -153,7 +153,7 @@ DOCUMENTS = {
 	"subprocessors": {
 		"title": "Subprocessors",
 		"audience": "customer",
-		"revision": 1,
+		"revision": 2,
 		"summary": "Every third party that receives customer data, what for, and where it is kept.",
 	},
 	"ai": {

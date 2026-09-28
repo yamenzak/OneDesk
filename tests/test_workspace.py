@@ -34,7 +34,6 @@ NOT_A_FIELD = ("Section Break", "Column Break", "Tab Break", "HTML", "Heading", 
 GATED = (
 	"domains",
 	"domains_refresh",
-	"domain_check",
 	"domain_add",
 	"domain_drop",
 	"domain_primary",
@@ -84,7 +83,7 @@ def test_every_call_that_changes_an_address_asks_who_is_asking():
 			for one in ast.walk(found[name])
 			if isinstance(one, ast.Call)
 		}
-		assert "require" in calls or "domain_check" in calls, f"{name} does not ask who is asking"
+		assert "require" in calls, f"{name} does not ask who is asking"
 
 
 def test_the_account_is_in_the_rail():

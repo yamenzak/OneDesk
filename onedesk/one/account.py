@@ -341,6 +341,7 @@ def _keep(held, rows, add_ons=None) -> None:
 			{
 				"domain": one.get("domain"),
 				"status": one.get("status"),
+				"problem": one.get("problem"),
 				"primary": 1 if one.get("primary") else 0,
 				"given": 1 if one.get("given") else 0,
 			}
@@ -476,36 +477,18 @@ def domains_refresh() -> list:
 	waiting on it.
 	"""
 	roles.require()
-	return _after(_domains_ask("domain_refresh") or [])
-
-
-@frappe.whitelist()
-def domain_check(domain: str) -> dict:
-	"""Whether the DNS is right, before claiming anything.
-
-	Answers in press's own words, including the one about proxying: a name
-	behind Cloudflare's orange cloud answers `server: cloudflare` to press's
-	check and is refused until it is turned off. Relayed rather than reworded,
-	because press's sentence names the fix.
-	"""
-	roles.require()
-	said = _domains_ask("domain_check", domain=domain) or {}
-	return {**said, "points_here": bool(said.get("matched") or said.get("valid"))}
+	rows = _after(_domains_ask("domain_refresh") or [])
+	# And the rest of the account, so what the DNS points at is current too.
+	refresh()
+	return rows
 
 
 @frappe.whitelist(methods=["POST"])
 def domain_add(domain: str) -> dict:
-	"""Add a name once its DNS points here. Press issues the certificate over
-	HTTP, which fails on a name that does not reach it yet, so a name added
-	before its record is right only sits there broken."""
-	checked = domain_check(domain)
-	if not checked["points_here"]:
-		frappe.throw(
-			frappe._("{0} does not point here yet. Make a CNAME record for it pointing at {1}, then add it again.").format(
-				frappe.utils.escape_html(domain), frappe.get_single("Workspace Account").dns_target or ""
-			),
-			title=frappe._("Not added yet"),
-		)
+	"""Add a name. It works once its CNAME points at the workspace's own
+	address and Cloudflare has issued its certificate, usually minutes later;
+	until then it waits, and the administrators are told when it works."""
+	roles.require()
 	answer = _domains_ask("domain_add", domain=domain) or {}
 	_after(_domains_ask("domain_list") or [])
 	return answer

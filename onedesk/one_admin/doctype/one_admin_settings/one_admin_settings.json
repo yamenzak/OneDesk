@@ -15,6 +15,7 @@
   "cloudflare_account",
   "cloudflare_token",
   "cloudflare_kv",
+  "cloudflare_zone",
   "column_break_cf",
   "tenant_domain",
   "mail_domain",
@@ -110,6 +111,12 @@
    "fieldtype": "Data",
    "label": "Workers KV Namespace",
    "description": "The Workers KV namespace the edge router reads. The API token needs edit access to this namespace only."
+  },
+  {
+   "fieldname": "cloudflare_zone",
+   "fieldtype": "Data",
+   "label": "Zone ID",
+   "description": "The zone the workspace domain is in. Customers' own domains are added to it as custom hostnames."
   },
   {
    "fieldname": "column_break_cf",

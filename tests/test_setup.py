@@ -39,10 +39,16 @@ def test_a_setting_already_filled_in_is_never_replaced():
 
 def test_somebody_elses_record_or_route_is_left_as_it_is():
 	assert "THEIRS" in _method("dns") and "THEIRS" in _method("route")
-	# The catch-all is the one thing taken over, and it is the only PUT on a
-	# zone setting.
+	# The catch-all is the one thing taken over. The fallback origin is set
+	# only on a zone that has none: one the zone holds is somebody else's.
 	puts = re.findall(r'self\.call\(\s*"PUT",\s*f"([^"]+)"', SOURCE)
-	assert puts == ["/zones/{zone}/email/routing/rules/catch_all", "/accounts/{self.account}/workers/scripts/{name}"]
+	assert puts == [
+		"/zones/{zone}/custom_hostnames/fallback_origin",
+		"/zones/{zone}/email/routing/rules/catch_all",
+		"/accounts/{self.account}/workers/scripts/{name}",
+	]
+	custom = _method("custom_hostnames")
+	assert custom.index("if held.get('origin'):") < custom.index("'PUT'"), "a held fallback origin is kept"
 
 
 def test_our_workers_are_the_repositorys_code_and_redeploy_when_it_changes():

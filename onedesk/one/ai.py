@@ -264,7 +264,9 @@ def page(said: dict) -> str | None:
 		return (
 			"The reader administers this workspace and is on Workspace › Domains: the addresses it opens at in a "
 			"browser. The one One gives it always works; their own domain works once a CNAME record points it at "
-			"the target the page shows, with Cloudflare's proxy off, and Frappe Cloud has issued its certificate. "
+			"that address, as the page shows, and Cloudflare has issued its certificate, usually minutes later. A "
+			"bare domain such as acme.com needs a DNS provider that flattens a CNAME (ALIAS); otherwise use a "
+			"subdomain. "
 			"The main address is the one sign-in, invitations and links in mail use. workspace_domains reads each "
 			"domain, its status and the target. They add one from the page head and make it the main address or "
 			"remove it from its row; how is in One's documentation under Domains, for the Workspace (how_to)."
@@ -775,13 +777,14 @@ def workspace_people() -> dict:
 	}
 
 
-#: What each of Frappe Cloud's words for a domain means, for the model.
+#: What each status of a domain means, for the model.
 DOMAIN_STATES = {
 	"Active": "working",
-	"Pending": "added; waiting for Frappe Cloud to issue the certificate, which needs the DNS to point at the target",
-	"Broken": "the certificate could not be issued, almost always because the DNS does not point at the target "
-	"or goes through Cloudflare's proxy",
-	"Gone": "Frappe Cloud no longer has it; remove it and add it again",
+	"Pending": "added; waiting for its CNAME to point at the workspace's own address (cname_target) and for "
+	"Cloudflare to issue its certificate, which it does by itself within minutes of the record being right",
+	"Broken": "Cloudflare gave up issuing its certificate, almost always because the CNAME was never made or "
+	"points elsewhere; fix the record, then remove the domain and add it again",
+	"Gone": "Cloudflare no longer has it; remove it and add it again",
 }
 
 
@@ -803,6 +806,7 @@ def workspace_domains() -> dict:
 				"main_address": bool(one["primary"]),
 				"status": one["status"],
 				"means": DOMAIN_STATES.get(one["status"], "not working"),
+				"cloudflare_says": one.get("problem"),
 			}
 			for one in said["domains"]
 		],

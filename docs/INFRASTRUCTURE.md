@@ -150,12 +150,23 @@ customer domain is added later. Simple, entirely supported, and every signup
 waits out certificate issuance. It is the same code path as a custom domain, so
 choosing it costs a configuration switch rather than a rewrite.
 
-**A customer's own domain is the other case and is per-domain by nature.** They
-enter `erp.acme.com` in their One area, their site asks the proxy, admin calls
-press's add-domain and hands back the CNAME target to display, and the tenant
-site polls admin until press reports it active. The tenant never holds a press
-token. Certificate issuance takes a minute or two here and that is fine — a
-customer pointing their own DNS expects to wait for something.
+**A customer's own domain goes the same way, as a Cloudflare custom
+hostname.** They enter `erp.acme.com` on Workspace › Domains and make one CNAME,
+from it to their `<slug>.t.4dl.app`. Admin adds the name to the zone as a custom
+hostname (Cloudflare for SaaS), gives it a Worker route to the same router, and
+writes `host:erp.acme.com` against the site in KV. Cloudflare validates over
+HTTP once the CNAME is there and issues the certificate, measured at under two
+minutes. Frappe Cloud never hears of the name, so there is no clash between two
+certificate authorities and nothing about Cloudflare's proxy to switch off on
+the customer's side; press is asked only to write `host_name` when the name
+becomes the main address.
+
+This replaced adding the name to press, which made customers CNAME to
+`*.frappe.cloud`, failed for anybody whose own DNS was proxied, and left a
+workspace that had made its name primary unable to go back. It costs a custom
+hostname each (Cloudflare includes the first hundred), and a bare `acme.com`
+needs a DNS provider that flattens a CNAME, because pointing an apex at fixed
+addresses is Enterprise-only.
 
 ## Where a workspace lives
 
@@ -370,15 +381,17 @@ rung for and nothing counts an expiry against. Everything above assumes a
 payment method exists from the first minute.
 
 **INFRA 8 — domains.** *Done.* `hosts.py` decides what a workspace may claim
-and is pure, like `keys.py` and for the same reason. `cloudflare.py` writes the
-one KV key. `domains.py` relays add, check, drop and make-primary to press and
-keeps a `Tenant Domain` row so the workspace's screen draws without a round
-trip; `nightly` catches up on what press did while nobody was looking. The
-Worker and its one-time Cloudflare setup are in `deploy/edge/`.
+and is pure, like `keys.py` and for the same reason; it also reads a custom
+hostname's answer into Active, Pending or Broken (`standing`). `cloudflare.py`
+writes the KV keys, the custom hostnames and their routes. `domains.py` adds,
+drops, refreshes and makes primary, and keeps a `Tenant Domain` row so the
+workspace's screen draws without a round trip; `nightly` catches up on what
+Cloudflare did while nobody was looking. The Worker and its setup are in
+`deploy/edge/` and Set up Cloudflare.
 
-The certificates, plainly: `*.t.4dl.app` is Cloudflare's, from the Advanced
-Certificate Manager wildcard. A customer's own domain is press's, over Let's
-Encrypt and HTTP-01. Neither is ours to renew.
+The certificates, plainly: all of them are Cloudflare's. `*.t.4dl.app` from
+the Advanced Certificate Manager wildcard, a customer's own name from its
+custom hostname. None is ours to renew, and none is press's.
 
 **INFRA 9 — the ladder.** *Done.* Five rungs — Live, Overdue, Suspended,
 Archived, Dropped — walked one at a time and never skipped. `ladder.py` decides

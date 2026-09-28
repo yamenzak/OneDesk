@@ -1,36 +1,39 @@
-"""A customer's own name on their workspace, added through us rather than by us.
+"""A customer's own name on their workspace, served at the edge like ours.
 
-Two names reach a workspace and only one of them is asked for. `<slug>.t.4dl.app`
-is given at provisioning and lives entirely at the edge: a proxied wildcard, a
-Worker that rewrites `Host` to the press site name, and the Advanced Certificate
-Manager wildcard on the zone. Press is never told that name exists, which is why
-there is nothing to verify — press serves a request for its own site name and
-answers it.
+Two names reach a workspace. `<slug>.t.4dl.app` is given at provisioning and
+lives entirely at the edge: a proxied wildcard, a Worker that rewrites `Host`
+to the Frappe Cloud site name, and the Advanced Certificate Manager wildcard on
+the zone. Frappe Cloud is never told that name exists.
 
-A customer's own name is the opposite in every respect. Press adds it, checks
-the DNS itself, and issues a Let's Encrypt certificate over HTTP-01 on its proxy
-server. So this module does almost nothing: it validates what was typed, records
-it, and relays. The certificate is never ours and never Cloudflare's.
+**A customer's own name goes the same way.** It is a *custom hostname* on our
+zone (Cloudflare for SaaS). The customer makes one CNAME record, from their
+name to their `<slug>.t.4dl.app`; Cloudflare sees the name arrive, validates
+it over HTTP and issues its certificate; a Worker route for the name sends it
+to the same router, which finds the site under `host:<name>` in KV. So the
+customer only ever sees our name, Frappe Cloud never sees theirs, and nothing
+issues a certificate but Cloudflare.
 
-**Proxying is what breaks this, and it is worth knowing why.** Press refuses a
-domain whose `server:` response header is anything but its own — a HEAD request,
-and Cloudflare's orange cloud answers `server: cloudflare`. So a customer
-pointing their name at us through their own Cloudflare, proxied, will be refused
-by press with a sentence about turning proxying off. We relay that sentence
-rather than rewriting it, because it is the true one and it names the fix.
+This replaced adding the name to Frappe Cloud, which had three costs: the
+CNAME pointed at `*.frappe.cloud`, Frappe Cloud's Let's Encrypt check failed
+for anybody who kept Cloudflare's proxy on, and a workspace that made its
+name primary could not go back. Both at once would clash: Frappe Cloud's
+check would reach Cloudflare and fail. So press is only asked one thing
+here, to write `host_name` into the site's config (`_call_itself`).
 
-**A refusal here is thrown rather than raised.** `faults.Refused` is the
-runner's word — it stops a provisioning job — and nothing in this module is a
-step. More to the point, a refusal here is something a customer has to act on:
-the name is taken, the DNS is not pointing here yet. `frappe.throw` puts the
-sentence in `_server_messages`, which is the only route by which it reaches the
-workspace that asked; a raised exception arrives there as `exc_type` and nothing
-else, which is a dialog saying something went wrong and not what.
+**What we keep and what we ask.** A `Tenant Domain` row per name, with
+Cloudflare's id for it, so the workspace's screen draws without a round trip.
+Status is Cloudflare's to decide (`hosts.standing` puts it in our words), and
+`refresh` is what asks: when the screen's Check Again is pressed and nightly
+for names not yet working.
 
-**What we keep and what we ask.** A `Tenant Domain` row per name, so the
-workspace's own screen draws without a round trip to press and keeps drawing
-when press is slow. Status is press's to decide, and `refresh` is what asks.
-Nothing here is the authority on whether a domain works.
+**A refusal here is thrown rather than raised.** It is something a customer
+has to act on, the name is taken or is ours, and `frappe.throw` is the route
+by which the sentence reaches the workspace that asked.
+
+**Bare domains.** A CNAME at the apex (`acme.com`) only works where the
+customer's DNS flattens it (Cloudflare, Route 53's ALIAS and many others).
+Pointing an apex at fixed addresses is an Enterprise feature of Cloudflare
+for SaaS, so the screen says to use a subdomain otherwise.
 """
 
 import frappe
@@ -38,124 +41,83 @@ from frappe.utils import now_datetime
 
 from onedesk.one_admin import cloudflare, hosts, press
 
-#: Press's own names for where a domain has got to. Kept as press says them
-#: rather than mapped onto ours: a status we invented would be a status that
-#: disagrees with the one in their dashboard.
+#: Our word for a name that works.
 SETTLED = ("Active",)
 
-#: The most names one workspace may add. Not a technical limit — press has none
-#: — but a number beyond which somebody is doing something we should look at.
+#: The most names one workspace may add. Not a technical limit, but a number
+#: beyond which somebody is doing something we should look at.
 MOST = 10
 
 
 def add(tenant, raw: str) -> dict:
-	"""Claim a name, once it is a name this workspace may claim.
+	"""Claim a name: the row, the custom hostname, the route and the KV key.
 
-	The row is written before press is asked, so a call that times out leaves a
-	record of what was wanted rather than nothing at all. Press is the authority
-	on whether it works; we are the authority on whether it was allowed.
+	Nothing waits on the customer's DNS. Cloudflare keeps checking and issues
+	the certificate once the CNAME is there, and `refresh` notices.
 	"""
 	name = _claimable(raw)
 	if frappe.db.exists("Tenant Domain", name):
-		held = frappe.db.get_value("Tenant Domain", name, ["tenant", "status"], as_dict=True)
-		if held.tenant != tenant.name:
+		if frappe.db.get_value("Tenant Domain", name, "tenant") != tenant.name:
 			frappe.throw(frappe._("{0} is already on another workspace.").format(name))
-		return _as_said(name)
+	else:
+		if frappe.db.count("Tenant Domain", {"tenant": tenant.name}) >= MOST:
+			frappe.throw(frappe._("A workspace may have at most {0} of its own domains.").format(MOST))
+		frappe.get_doc(
+			{
+				"doctype": "Tenant Domain",
+				"domain": name,
+				"tenant": tenant.name,
+				"status": "Pending",
+				"asked_on": now_datetime(),
+			}
+		).insert(ignore_permissions=True)
 
-	if frappe.db.count("Tenant Domain", {"tenant": tenant.name}) >= MOST:
-		frappe.throw(frappe._("A workspace may have at most {0} of its own domains.").format(MOST))
-
-	frappe.get_doc(
-		{
-			"doctype": "Tenant Domain",
-			"domain": name,
-			"tenant": tenant.name,
-			"status": "Pending",
-			"asked_on": now_datetime(),
-		}
-	).insert(ignore_permissions=True)
-
-	press.call("press.api.site.add_domain", name=tenant.site, domain=name)
+	said = cloudflare.hostname_add(name)
+	cloudflare.host_route(name, tenant.site)
+	_keep(name, said)
 	return _as_said(name)
 
 
-def check(tenant, raw: str) -> dict:
-	"""What press makes of the DNS, before anybody commits to anything.
-
-	Relayed whole. Press's answer names the record it wanted and the one it
-	found, and a summary of ours would lose exactly the part that helps.
-	"""
-	name = _claimable(raw)
-	return press.call("press.api.site.check_dns", name=tenant.site, domain=name) or {}
-
-
 def drop(tenant, raw: str) -> dict:
-	"""Give a name back.
-
-	Press refuses to remove the primary domain, and that refusal is relayed
-	rather than pre-empted: making it primary again is the fix, and press's
-	sentence says so.
-	"""
+	"""Give a name back. The main address cannot go: make another one main
+	first, or links in mail would point at a name that no longer answers."""
 	name = _held(tenant, raw)
-	press.call("press.api.site.remove_domain", name=tenant.site, domain=name)
-	frappe.delete_doc("Tenant Domain", name, ignore_permissions=True, force=True)
 	if tenant.primary_domain == name:
-		frappe.db.set_value("Tenant", tenant.name, "primary_domain", None)
+		frappe.throw(frappe._("{0} is the main address. Make another address the main one first.").format(name))
+	ident = frappe.db.get_value("Tenant Domain", name, "cloudflare_id")
+	cloudflare.host_unroute(name)
+	if ident:
+		cloudflare.hostname_drop(ident)
+	frappe.delete_doc("Tenant Domain", name, ignore_permissions=True, force=True)
 	return {"dropped": name}
 
 
 def make_primary(tenant, raw: str) -> dict:
-	"""Which name the workspace calls itself.
-
-	Press writes `host_name` into the site's own config when this changes, which
-	is what makes links in mail and in the desk use the new name. So this is the
-	one call here that changes what the site believes about itself, rather than
-	only what the world can reach it at.
-	"""
+	"""Which name the workspace calls itself: `host_name` in the site's own
+	config, which is what makes links in mail and in the desk use it. The
+	given name can always be made main again."""
 	if (raw or "").strip().lower().rstrip(".") == tenant.domain:
-		return _back_to_given(tenant)
+		_call_itself(tenant, tenant.domain)
+		frappe.db.set_value("Tenant", tenant.name, "primary_domain", None)
+		return {"domain": tenant.domain, "status": "Active"}
 	name = _held(tenant, raw)
-	settled = frappe.db.get_value("Tenant Domain", name, "status")
-	if settled not in SETTLED:
-		frappe.throw(
-			frappe._("{0} is not working yet, so it cannot be the main address.").format(name)
-		)
-	press.call("press.api.site.set_host_name", name=tenant.site, domain=name)
+	if frappe.db.get_value("Tenant Domain", name, "status") not in SETTLED:
+		frappe.throw(frappe._("{0} is not working yet, so it cannot be the main address.").format(name))
+	_call_itself(tenant, name)
 	frappe.db.set_value("Tenant", tenant.name, "primary_domain", name)
 	return _as_said(name)
-
-
-def _back_to_given(tenant) -> dict:
-	"""Make the name we gave the main address again.
-
-	It is not a `Site Domain`, so press's `set_host_name` cannot take it (see
-	steps.py, where it was first written). Press's own record goes back to the
-	press name, which it always accepts, and then the site's config is given
-	our name directly, as provisioning did. Without this a workspace that made
-	its own name primary could neither go back nor remove it, since press
-	refuses to remove the primary.
-	"""
-	press.call("press.api.site.set_host_name", name=tenant.site, domain=tenant.site)
-	press.call(
-		"press.api.site.update_config",
-		name=tenant.site,
-		config=frappe.as_json([{"key": "host_name", "value": f"https://{tenant.domain}", "type": "String"}]),
-	)
-	frappe.db.set_value("Tenant", tenant.name, "primary_domain", None)
-	return {"domain": tenant.domain, "status": "Active"}
 
 
 def mine(tenant) -> list[dict]:
 	"""Every name on this workspace, ours first.
 
-	The given name is not a `Tenant Domain` row — it is not press's and nothing
-	about it can fail — so it is put at the front here rather than stored as a
-	row that would need keeping true.
+	The given name is not a `Tenant Domain` row, since nothing about it can
+	fail, so it is put at the front here rather than stored.
 	"""
 	held = frappe.get_all(
 		"Tenant Domain",
 		filters={"tenant": tenant.name},
-		fields=["domain", "status", "asked_on"],
+		fields=["domain", "status", "problem", "asked_on"],
 		order_by="asked_on asc",
 	)
 	for one in held:
@@ -172,41 +134,16 @@ def mine(tenant) -> list[dict]:
 
 
 def refresh(tenant) -> list[dict]:
-	"""Ask press where each name got to, and keep what it said.
-
-	Called when the workspace opens the screen and nightly. Press is the
-	authority; this only writes down its answer so the screen has something to
-	draw when press is slow.
-	"""
-	said = press.call("press.api.site.domains", name=tenant.site) or []
-	seen = {}
-	for one in said:
-		if not isinstance(one, dict) or not one.get("domain"):
-			continue
-		seen[one["domain"]] = one
-
-	for row in frappe.get_all(
-		"Tenant Domain", filters={"tenant": tenant.name}, fields=["name", "domain", "status"]
-	):
-		found = seen.get(row.domain)
-		if not found:
-			frappe.db.set_value("Tenant Domain", row.name, "status", "Gone")
-			continue
-		frappe.db.set_value(
-			"Tenant Domain",
-			row.name,
-			{"status": found.get("status") or "Pending", "said": frappe.as_json(found)},
-		)
+	"""Ask Cloudflare where each name has got to, and keep its answer."""
+	for row in frappe.get_all("Tenant Domain", filters={"tenant": tenant.name}, fields=["domain", "cloudflare_id"]):
+		said = cloudflare.hostname(row.cloudflare_id) if row.cloudflare_id else cloudflare.hostname_find(row.domain)
+		_keep(row.domain, said)
 	return mine(frappe.get_doc("Tenant", tenant.name))
 
 
 def nightly() -> None:
-	"""Catch up on what press did while nobody was looking.
-
-	A domain goes Active minutes after it is added, and nothing tells us. Only
-	workspaces with a name of their own are asked about, so this costs one call
-	per workspace that has one rather than one per workspace.
-	"""
+	"""Catch up on what Cloudflare did while nobody was looking. Only
+	workspaces with a name not yet working are asked about."""
 	from onedesk.one_admin import site
 
 	if not site.is_admin():
@@ -221,16 +158,43 @@ def nightly() -> None:
 		try:
 			refresh(frappe.get_doc("Tenant", slug))
 		except Exception:
-			frappe.log_error(f"asking press about {slug}'s domains")
+			frappe.log_error(f"asking Cloudflare about {slug}'s domains")
+		frappe.db.commit()
 
 
 def unroute(tenant) -> None:
-	"""Take the given name off the edge, when a workspace is archived.
-
-	Its own domains need nothing: they are press's records and go when the site
-	does. Ours is a key we wrote and a key we remove.
-	"""
+	"""Take every name off the edge when a workspace is archived: ours, and
+	each of the customer's with its custom hostname."""
+	for row in frappe.get_all("Tenant Domain", filters={"tenant": tenant.name}, fields=["domain", "cloudflare_id"]):
+		cloudflare.host_unroute(row.domain)
+		if row.cloudflare_id:
+			cloudflare.hostname_drop(row.cloudflare_id)
 	cloudflare.forget(tenant.slug)
+
+
+def _keep(name: str, said: dict | None) -> None:
+	status, problem = hosts.standing(said)
+	frappe.db.set_value(
+		"Tenant Domain",
+		name,
+		{
+			"status": status,
+			"problem": problem,
+			"cloudflare_id": (said or {}).get("id") or frappe.db.get_value("Tenant Domain", name, "cloudflare_id"),
+			"said": frappe.as_json(said) if said else None,
+		},
+	)
+
+
+def _call_itself(tenant, name: str) -> None:
+	"""Write the name the site calls itself into its config, as provisioning
+	first did (steps.py). Press's own `set_host_name` wants a domain press
+	serves, and neither of ours is one."""
+	press.call(
+		"press.api.site.update_config",
+		name=tenant.site,
+		config=frappe.as_json([{"key": "host_name", "value": f"https://{name}", "type": "String"}]),
+	)
 
 
 def _claimable(raw: str) -> str:
@@ -249,7 +213,7 @@ def _held(tenant, raw: str) -> str:
 
 
 def _as_said(name: str) -> dict:
-	held = frappe.db.get_value("Tenant Domain", name, ["domain", "status"], as_dict=True)
+	held = frappe.db.get_value("Tenant Domain", name, ["domain", "status", "problem"], as_dict=True)
 	return dict(held or {"domain": name, "status": "Pending"})
 
 

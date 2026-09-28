@@ -436,11 +436,57 @@
 	margin-top: calc(var(--spacing) * 6);
 }
 
-/* The DNS record on Domains: a Copy button beside the target keeps its row level. */
-.os-dns dt,
-.os-dns dd {
-	display: flex;
+/* A DNS record on Domains, as a DNS provider lists one. */
+.os-dns {
+	width: 100%;
+	border: 1px solid var(--border-color);
+	border-radius: var(--border-radius-md);
+	border-collapse: separate;
+	border-spacing: 0;
+	overflow: hidden;
+	font-size: var(--text-base);
+}
+.os-dns th {
+	background: var(--subtle-fg);
+	color: var(--text-muted);
+	font-weight: 500;
+	font-size: var(--text-sm);
+	padding: 6px 12px;
+	text-align: left;
+}
+.os-dns td {
+	border-top: 1px solid var(--border-color);
+	padding: 8px 12px;
+	vertical-align: middle;
+}
+.os-dns th:first-child,
+.os-dns td:first-child {
+	width: 88px;
+}
+.os-dns-value {
+	font-family: var(--font-stack-monospace, monospace);
+	font-size: var(--text-sm);
+	color: var(--text-color);
+	word-break: break-all;
+}
+.os-dns-copy {
+	display: inline-flex;
 	align-items: center;
-	gap: var(--margin-sm);
-	min-height: 28px;
+	margin-left: 6px;
+	padding: 3px;
+	border: 0;
+	border-radius: var(--border-radius-sm);
+	background: transparent;
+	color: var(--text-muted);
+	vertical-align: middle;
+}
+.os-dns td > * {
+	vertical-align: middle;
+}
+.os-dns-copy:hover {
+	background: var(--subtle-fg);
+	color: var(--text-color);
+}
+.os-dns-lead {
+	margin: 8px 0;
 }

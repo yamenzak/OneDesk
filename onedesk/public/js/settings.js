@@ -1377,12 +1377,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			await frappe.xcall("onedesk.one.account.domains_refresh");
 			this.refresh();
 		});
-		const record = (name) =>
-			`<dl class="os-facts os-dns">
-				<dt>${esc(__("Type"))}</dt><dd>CNAME</dd>
-				<dt>${esc(__("Name"))}</dt><dd>${esc(name)}</dd>
-				<dt>${esc(__("Target"))}</dt><dd>${esc(target)} ${onedesk.shell.button(__("Copy"), { "data-copy": target }, "ghost", "copy")}</dd>
-			</dl>`;
+		// The record each of their own domains still needs, or an example one.
+		const waiting = rows.filter((one) => !one.given && one.status !== "Active").map((one) => one.domain);
 		this.$content.html(
 			onedesk.shell.section(
 				__("Addresses"),
@@ -1399,12 +1395,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			) +
 				(target
 					? onedesk.shell.section(
-							__("Your Own Domain"),
-							record(__("your domain, such as office.example.com")) +
-								`<div class="one-shell-quiet one-shell-note">${esc(
-									__("Make this record where your domain's DNS is kept, then add the domain here. If that is Cloudflare, set the record to DNS only: the certificate cannot be issued through its proxy.")
-								)}</div>`,
-							__("What the DNS has to say.")
+							__("The DNS Record"),
+							Settings.dns_records(waiting.length ? waiting : [null], target) +
+								`<div class="one-shell-quiet one-shell-note">${esc(Settings.dns_note())}</div>`,
+							waiting.length
+								? __("Make this where your domain's DNS is kept. It works a few minutes after the record is right.")
+								: __("What a domain of your own needs, where its DNS is kept.")
 					  )
 					: "")
 		);
@@ -1412,9 +1408,11 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const said = (one) =>
 			one.status === "Active"
 				? ""
+				: one.problem
+				? one.problem
 				: one.status === "Pending"
-				? __("Waiting for the certificate. This takes a few minutes once the DNS points here.")
-				: __("Not working. Check the DNS record below, then press Check Again.");
+				? __("Waiting for the DNS record below. It works a few minutes after the record is right.")
+				: __("Not working. Check the DNS record below, then remove the domain and add it again.");
 		onedesk.shell.table(this.$content.find('[data-list="domains"]'), {
 			rows,
 			icon: "globe",
@@ -1461,10 +1459,33 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
-	// The domain and the record it needs, together: Add checks the DNS first
-	// and says what is wrong rather than adding a name that cannot work yet.
-	add_domain(target) {
+	// The CNAME record each name needs, drawn as a DNS provider lists one:
+	// type, name and value, each value with Copy. `null` is an example row.
+	static dns_records(names, target) {
 		const esc = frappe.utils.escape_html;
+		const copy = (value) =>
+			`<button type="button" class="os-dns-copy" data-copy="${esc(value)}" title="${esc(__("Copy"))}" aria-label="${esc(__("Copy"))}">${frappe.utils.icon("copy", "sm")}</button>`;
+		const rows = names
+			.map(
+				(name) => `<tr>
+					<td><span class="os-dns-value">CNAME</span></td>
+					<td>${name ? `<span class="os-dns-value">${esc(name)}</span>${copy(name)}` : `<span class="text-muted">${esc(__("Your domain, such as office.example.com"))}</span>`}</td>
+					<td><span class="os-dns-value">${esc(target)}</span>${copy(target)}</td>
+				</tr>`
+			)
+			.join("");
+		return `<table class="os-dns"><thead><tr><th>${esc(__("Type"))}</th><th>${esc(__("Name"))}</th><th>${esc(__("Value"))}</th></tr></thead><tbody>${rows}</tbody></table>`;
+	}
+
+	static dns_note() {
+		return __(
+			"Some DNS providers want only the part before your domain as the name, such as office. A bare domain such as example.com works only where your provider can point it with a CNAME, which some call ALIAS or flattening; otherwise use a subdomain such as www."
+		);
+	}
+
+	// The domain and the record it needs, together. Adding does not wait on
+	// the DNS: the domain waits, and works a few minutes after the record does.
+	add_domain(target) {
 		const dialog = new frappe.ui.Dialog({
 			title: __("Add a Domain"),
 			fields: [
@@ -1482,19 +1503,16 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			primary_action: async (values) => {
 				await frappe.xcall("onedesk.one.account.domain_add", { domain: values.domain });
 				dialog.hide();
-				frappe.show_alert({ message: __("Added. It works once the certificate is issued, usually in a few minutes."), indicator: "green" });
+				frappe.show_alert({ message: __("Added. It works a few minutes after the DNS record is right."), indicator: "green" });
 				this.refresh();
 			},
 		});
 		const draw = () =>
 			dialog.fields_dict.record.$wrapper.html(
-				`<div class="one-shell-quiet">${esc(__("First make this record where the domain's DNS is kept."))}</div>
-				<dl class="os-facts os-dns">
-					<dt>${esc(__("Type"))}</dt><dd>CNAME</dd>
-					<dt>${esc(__("Name"))}</dt><dd>${esc(dialog.get_value("domain") || "office.example.com")}</dd>
-					<dt>${esc(__("Target"))}</dt><dd>${esc(target)} ${onedesk.shell.button(__("Copy"), { "data-copy": target }, "ghost", "copy")}</dd>
-				</dl>
-				<div class="one-shell-quiet">${esc(__("On Cloudflare, set it to DNS only."))}</div>`
+				`<div class="one-shell-quiet os-dns-lead">${frappe.utils.escape_html(__("Make this record where the domain's DNS is kept."))}</div>${Settings.dns_records(
+					[(dialog.get_value("domain") || "").trim().toLowerCase() || null],
+					target
+				)}<div class="one-shell-quiet os-dns-lead">${frappe.utils.escape_html(Settings.dns_note())}</div>`
 			);
 		draw();
 		dialog.$wrapper.on("click", "[data-copy]", (event) => frappe.utils.copy_to_clipboard($(event.currentTarget).attr("data-copy")));

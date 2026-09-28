@@ -5,7 +5,13 @@
  "doctype": "DocType",
  "editable_grid": 0,
  "engine": "InnoDB",
- "field_order": ["domain", "status", "primary", "given"],
+ "field_order": [
+  "domain",
+  "status",
+  "primary",
+  "given",
+  "problem"
+ ],
  "fields": [
   {
    "fieldname": "domain",
@@ -41,6 +47,13 @@
    "read_only": 1,
    "columns": 1,
    "description": "The address this workspace was given. It cannot be removed."
+  },
+  {
+   "fieldname": "problem",
+   "fieldtype": "Small Text",
+   "label": "Problem",
+   "read_only": 1,
+   "description": "What Cloudflare says is stopping the domain."
   }
  ],
  "index_web_pages_for_search": 0,

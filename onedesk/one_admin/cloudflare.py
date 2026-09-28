@@ -12,13 +12,18 @@ means an admin outage is an outage for every workspace, which is exactly the
 coupling the rest of this design avoids. KV is Cloudflare's own edge store: once
 the key is written, serving a workspace needs nothing of ours at all.
 
-**Nothing here issues a certificate.** `*.t.4dl.app` is covered by the Advanced
-Certificate Manager wildcard on the zone, which is a one-time purchase rather
-than a per-tenant call. A customer's own domain is press's to certify, over
-Let's Encrypt — see `domains.py`.
+**Certificates.** `*.t.4dl.app` is covered by the Advanced Certificate
+Manager wildcard on the zone, a one-time purchase rather than a per-tenant
+call. A customer's own domain is a **custom hostname** on the same zone
+(Cloudflare for SaaS): the customer points a CNAME at their `<slug>.t.4dl.app`,
+Cloudflare validates it over HTTP and issues its certificate, and a route
+for that name sends it to the same router, which finds its site under
+`host:<name>` in KV. Frappe Cloud is never told the name exists, exactly as
+it is never told ours — see `domains.py`.
 
-The token this uses needs one permission, Workers KV Storage: Edit, on one
-namespace. It can do nothing else to the account.
+The token needs Workers KV Storage: Edit on the namespace for routing, and
+for customers' own domains SSL and Certificates: Edit and Workers Routes:
+Edit on the zone.
 """
 
 import json
@@ -77,6 +82,99 @@ def mail_domain() -> str:
 def mail_record(slug: str) -> dict | None:
 	answered = _call("GET", f"values/mail:{slug}", raw=True)
 	return json.loads(answered) if answered else None
+
+
+# ------------------------------------------------------------ own domains
+
+
+def host_route(name: str, site: str) -> None:
+	"""Serve a customer's own name from this site: the KV key the router reads,
+	and a route that sends the name to the router. Both a PUT of the same
+	thing, or found before made, so a retry is free."""
+	_call("PUT", f"values/host:{name}", data=site)
+	from onedesk.one_admin.setup import ROUTER
+
+	pattern = f"{name}/*"
+	held = _zone("GET", "workers/routes") or []
+	if not any(one.get("pattern") == pattern for one in held):
+		_zone("POST", "workers/routes", json={"pattern": pattern, "script": ROUTER})
+
+
+def host_unroute(name: str) -> None:
+	"""Stop serving a customer's own name: its route and its KV key."""
+	for one in _zone("GET", "workers/routes") or []:
+		if one.get("pattern") == f"{name}/*":
+			_zone("DELETE", f"workers/routes/{one['id']}")
+	_call("DELETE", f"values/host:{name}")
+
+
+def hostname_add(name: str) -> dict:
+	"""Ask Cloudflare to certify a customer's name, or find the request it
+	already has. HTTP validation: once the CNAME points here, Cloudflare
+	checks and issues without anybody doing anything more."""
+	found = hostname_find(name)
+	if found:
+		return found
+	return _zone(
+		"POST",
+		"custom_hostnames",
+		json={"hostname": name, "ssl": {"method": "http", "type": "dv", "settings": {"min_tls_version": "1.2"}}},
+	)
+
+
+def hostname_find(name: str) -> dict | None:
+	found = _zone("GET", "custom_hostnames", params={"hostname": name}) or []
+	return next((one for one in found if one.get("hostname") == name), None)
+
+
+def hostname(ident: str) -> dict | None:
+	"""Where Cloudflare has got to with a custom hostname, or None if it has
+	none by that id."""
+	return _zone("GET", f"custom_hostnames/{ident}", missing_ok=True)
+
+
+def hostname_drop(ident: str) -> None:
+	_zone("DELETE", f"custom_hostnames/{ident}", missing_ok=True)
+
+
+def _zone(method: str, path: str, json: dict | None = None, params: dict | None = None, missing_ok: bool = False):
+	"""One call to the zone's own API, answering its `result`."""
+	_account, token, _namespace = _settings()
+	try:
+		answered = requests.request(
+			method,
+			f"{API}/zones/{_zone_id(token)}/{path}",
+			headers={"Authorization": f"Bearer {token}"},
+			json=json,
+			params=params,
+			timeout=TIMEOUT,
+		)
+	except requests.RequestException as reason:
+		raise faults.Again(f"cloudflare did not answer: {reason}") from reason
+	if answered.status_code == 404 and missing_ok:
+		return None
+	if answered.status_code >= 400:
+		raise faults.raised("cloudflare", answered.status_code, _detail(answered))
+	return answered.json().get("result")
+
+
+def _zone_id(token: str) -> str:
+	"""The zone the workspace domain is in: from settings when Set up
+	Cloudflare wrote it, else found by name once and remembered."""
+	held = frappe.conf.get("cloudflare_zone") or frappe.get_cached_value("One Admin Settings", None, "cloudflare_zone")
+	if held:
+		return held
+	domain = frappe.get_cached_value("One Admin Settings", None, "tenant_domain") or "t.4dl.app"
+	labels = domain.split(".")
+	for at in range(len(labels) - 1):
+		name = ".".join(labels[at:])
+		found = requests.get(
+			f"{API}/zones", headers={"Authorization": f"Bearer {token}"}, params={"name": name}, timeout=TIMEOUT
+		).json().get("result") or []
+		if found:
+			frappe.db.set_single_value("One Admin Settings", "cloudflare_zone", found[0]["id"])
+			return found[0]["id"]
+	raise faults.Refused(f"None of the token's zones holds {domain}.")
 
 
 def forget(slug: str) -> None:

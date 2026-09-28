@@ -313,9 +313,12 @@ def unroute(job, tenant) -> None:
 
 	After the site is gone rather than before, so a failed archive leaves a
 	workspace that still answers. A DELETE of a key that is not there succeeds,
-	so this is safe on a workspace that never had one.
+	so this is safe on a workspace that never had one. The customer's own
+	names go with it (domains.unroute).
 	"""
-	cloudflare.forget(tenant.slug)
+	from onedesk.one_admin import domains
+
+	domains.unroute(tenant)
 
 
 def mark_archived(job, tenant) -> None:

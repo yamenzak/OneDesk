@@ -194,9 +194,9 @@ def hello(database_bytes: int | None = None) -> dict:
 		# A workspace that asked only about its account still gets them, which
 		# is what keeps the copy on its own site in step after an outage.
 		"domains": domains.mine(_tenant_doc(tenant)),
-		# What a customer's own name has to point at: press checks for a CNAME
-		# to the site's own press name (domains.check).
-		"dns_target": frappe.db.get_value("Tenant", tenant.name, "site"),
+		# What a customer's own name points at, as a CNAME: the name we gave the
+		# workspace, which is what Cloudflare serves it from (domains.py).
+		"dns_target": known.domain,
 	}
 
 
@@ -516,20 +516,6 @@ def domain_refresh() -> list:
 	from onedesk.one_admin import domains
 
 	return domains.refresh(_tenant_doc(caller()))
-
-
-@frappe.whitelist(allow_guest=True)
-@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
-def domain_check(domain: str) -> dict:
-	"""What press makes of the DNS, without claiming anything.
-
-	A customer types a name, points a CNAME at us, and wants to know whether it
-	took. This answers that without adding anything, so the impatient path costs
-	nothing to undo.
-	"""
-	from onedesk.one_admin import domains
-
-	return domains.check(_tenant_doc(caller()), domain)
 
 
 @frappe.whitelist(allow_guest=True)

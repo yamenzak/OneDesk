@@ -130,3 +130,23 @@ def test_a_served_domain_carrying_a_port_still_matches():
 
 def test_a_served_domain_that_is_only_a_port_matches_nothing():
 	assert hosts.ours("hr.acme.com", ":8002") is False
+
+
+def test_a_custom_hostname_works_only_when_routed_and_certified():
+	assert hosts.standing({"status": "active", "ssl": {"status": "active"}}) == ("Active", None)
+	assert hosts.standing({"status": "active", "ssl": {"status": "pending_validation"}})[0] == "Pending"
+	assert hosts.standing({"status": "pending", "ssl": {"status": "active"}})[0] == "Pending"
+
+
+def test_a_custom_hostname_that_gave_up_is_broken_and_says_why():
+	said = {"status": "pending", "ssl": {"status": "validation_timed_out", "validation_errors": [{"message": "no CNAME"}]}}
+	assert hosts.standing(said) == ("Broken", "no CNAME")
+	assert hosts.standing({"status": "blocked", "ssl": {}})[0] == "Broken"
+	assert hosts.standing({"status": "pending", "verification_errors": ["custom hostname does not CNAME to this zone."]}) == (
+		"Pending",
+		"custom hostname does not CNAME to this zone.",
+	)
+
+
+def test_a_custom_hostname_cloudflare_no_longer_has_is_gone():
+	assert hosts.standing(None) == ("Gone", None)

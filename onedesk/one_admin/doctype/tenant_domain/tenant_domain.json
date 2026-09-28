@@ -12,6 +12,8 @@
   "column_break_who",
   "status",
   "asked_on",
+  "cloudflare_id",
+  "problem",
   "said_section",
   "said"
  ],
@@ -42,8 +44,8 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Pending\nIn Progress\nActive\nBroken\nGone",
-   "description": "As reported by Frappe Cloud.",
+   "options": "Pending\nActive\nBroken\nGone",
+   "description": "As Cloudflare reports it.",
    "read_only": 1,
    "in_list_view": 1,
    "in_standard_filter": 1
@@ -53,6 +55,20 @@
    "fieldtype": "Datetime",
    "label": "Asked On",
    "read_only": 1
+  },
+  {
+   "fieldname": "cloudflare_id",
+   "fieldtype": "Data",
+   "label": "Custom Hostname ID",
+   "read_only": 1,
+   "description": "Cloudflare's id for this custom hostname."
+  },
+  {
+   "fieldname": "problem",
+   "fieldtype": "Small Text",
+   "label": "Problem",
+   "read_only": 1,
+   "description": "What Cloudflare says is stopping the domain, in its words."
   },
   {
    "fieldname": "said_section",
@@ -65,7 +81,7 @@
    "label": "Last Response",
    "options": "JSON",
    "read_only": 1,
-   "description": "The last response from Frappe Cloud, unmodified."
+   "description": "Cloudflare's last answer about this custom hostname, unmodified."
   }
  ],
  "index_web_pages_for_search": 0,

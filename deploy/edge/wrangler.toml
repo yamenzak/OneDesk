@@ -17,3 +17,8 @@ routes = [
 [[kv_namespaces]]
 binding = "SITES"
 id = "replace-me"
+
+# The domain we give workspaces: only `<slug>.<this>` is looked up by slug.
+# Any other name is a customer's own and is looked up as `host:<name>`.
+[vars]
+TENANT_DOMAIN = "t.4dl.app"

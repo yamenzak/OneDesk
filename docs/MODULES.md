@@ -18,7 +18,7 @@
 | Workspace Account | 36 | single |
 | Workspace Add-on | 4 | child |
 | Workspace Customization | 5 | document |
-| Workspace Domain | 4 | child |
+| Workspace Domain | 5 | child |
 
 ## One HR
 
@@ -57,12 +57,12 @@ No doctypes yet.
 | Credit Ledger Entry | 14 | submittable |
 | Credit Reservation | 8 | document |
 | Offering | 21 | document |
-| One Admin Settings | 49 | single |
+| One Admin Settings | 50 | single |
 | Provisioning Job | 12 | document |
 | Stripe Webhook Event | 7 | document |
 | Tenant | 42 | document |
 | Tenant Add-on | 3 | child |
-| Tenant Domain | 7 | document |
+| Tenant Domain | 9 | document |
 | Tenant Event | 4 | document |
 
 ## One AI
@@ -178,7 +178,6 @@ No doctypes yet.
 * `onedesk.one.account.check_again`
 * `onedesk.one.account.credit_packs`
 * `onedesk.one.account.domain_add`
-* `onedesk.one.account.domain_check`
 * `onedesk.one.account.domain_drop`
 * `onedesk.one.account.domain_primary`
 * `onedesk.one.account.domains`
@@ -243,7 +242,6 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.buy_credits`
 * `onedesk.one_admin.proxy.credit_packs`
 * `onedesk.one_admin.proxy.domain_add`
-* `onedesk.one_admin.proxy.domain_check`
 * `onedesk.one_admin.proxy.domain_drop`
 * `onedesk.one_admin.proxy.domain_list`
 * `onedesk.one_admin.proxy.domain_primary`

@@ -1,8 +1,8 @@
 """A name a customer owns, pointed at their workspace.
 
-The row is ours; the domain is press's to verify and certify. So there is
-nothing to validate here beyond the shape of the name, which `one_admin.hosts`
-already did before this was written — see `one_admin/domains.py`.
+The row is ours; the name is Cloudflare's to verify and certify, as a custom
+hostname on our zone. So there is nothing to validate here beyond the shape
+of the name, which `one_admin.hosts` already did — see `one_admin/domains.py`.
 """
 
 import frappe

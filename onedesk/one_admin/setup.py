@@ -97,6 +97,7 @@ class Setup:
 			self.buckets,
 			self.r2_keys,
 			self.router,
+			self.custom_hostnames,
 			self.mailer,
 			self.mail_routing,
 			self.catch_all,
@@ -137,6 +138,7 @@ class Setup:
 		if not (mail.endswith("." + zone["name"]) or mail == zone["name"]):
 			raise Refused(_("{0} and {1} are not in one zone.").format(domain, mail))
 		self.zone = zone
+		self.keep("cloudflare_zone", zone["id"])
 		self.keep("tenant_domain", domain)
 		self.keep("mail_domain", mail)
 		self.note("zone", OURS, zone["name"])
@@ -178,9 +180,37 @@ class Setup:
 
 	def router(self) -> None:
 		domain = self.settings.tenant_domain
-		self.deploy(ROUTER, DEPLOY / "edge" / "worker.js", [self.kv_binding()])
+		bindings = [self.kv_binding(), {"type": "plain_text", "name": "TENANT_DOMAIN", "text": domain}]
+		self.deploy(ROUTER, DEPLOY / "edge" / "worker.js", bindings)
 		self.dns("A", f"*.{domain}", NOWHERE)
 		self.route(f"*.{domain}/*", ROUTER)
+
+	def custom_hostnames(self) -> None:
+		"""Cloudflare for SaaS on the zone, for customers' own domains
+		(domains.py). A custom hostname needs a fallback origin on the zone
+		before it works; each one gets its own route to the router, so the
+		origin is never actually dialled. One the zone already has is kept:
+		another product on the zone may be using it."""
+		zone = self.zone["id"]
+		try:
+			self.call("GET", f"/zones/{zone}/custom_hostnames", params={"per_page": 1})
+		except Refused as reason:
+			return self.note(
+				"custom hostnames", WAITING, _("{0}. The key needs SSL and Certificates: Edit on the zone.").format(reason)
+			)
+		try:
+			held = self.call("GET", f"/zones/{zone}/custom_hostnames/fallback_origin").get("result") or {}
+		except Refused:
+			# Cloudflare answers a zone with no fallback origin with an error.
+			held = {}
+		if held.get("origin"):
+			return self.note("fallback origin", OURS if held["origin"] == self.fallback() else THEIRS, held["origin"])
+		self.dns("A", self.fallback(), NOWHERE)
+		self.call("PUT", f"/zones/{zone}/custom_hostnames/fallback_origin", json={"origin": self.fallback()})
+		self.note("fallback origin", MADE, self.fallback())
+
+	def fallback(self) -> str:
+		return f"fallback.{self.settings.tenant_domain}"
 
 	def mailer(self) -> None:
 		bindings = [

@@ -1376,6 +1376,20 @@ Done:
 - The terms say what having your own domain means (`one/legal.py`,
   own-domain); terms revision 4.
 
+Afterwards, on your word: a customer's own domain is a Cloudflare custom
+hostname on our zone, not a Frappe Cloud domain. The customer CNAMEs it to
+their `<slug>.t.4dl.app`; Cloudflare issues the certificate; a Worker route
+and a `host:` key in KV send it to the site, as ours already are. Frappe
+Cloud never sees the name, so `*.frappe.cloud` is never shown and a customer
+behind Cloudflare's proxy needs to change nothing. Add no longer waits on the
+DNS: the domain waits, and says Cloudflare's own sentence about what is
+stopping it. The record is drawn as a DNS provider lists one, with Copy on
+each value, and a note on bare domains. Cloudflare is now listed as the
+network every workspace is reached through (subprocessors revision 2).
+Tested live on `one-test.4dl.dev`: Working in 100 seconds with a valid
+certificate, served through the router, then removed with its hostname,
+route and key.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

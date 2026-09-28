@@ -1237,7 +1237,10 @@ def _domains() -> dict:
 		frappe.db.commit()
 		held = frappe.get_single("Workspace Account")
 	return {
-		"domains": [{"domain": one.domain, "status": one.status, "primary": one.primary, "given": one.given} for one in held.domains],
+		"domains": [
+			{"domain": one.domain, "status": one.status, "problem": one.problem, "primary": one.primary, "given": one.given}
+			for one in held.domains
+		],
 		"target": held.dns_target,
 		"last_heard": held.last_heard,
 	}

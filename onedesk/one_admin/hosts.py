@@ -43,6 +43,8 @@ RESERVED = frozenset(
 		"billing",
 		"cdn",
 		"dashboard",
+		# The zone's fallback origin for custom hostnames (setup.py).
+		"fallback",
 		"mail",
 		"one",
 		"portal",
@@ -153,3 +155,33 @@ def reserved_here(name: str, *served) -> bool:
 	if not ours(name, *served):
 		return False
 	return name.split(".", 1)[0] in RESERVED
+
+
+#: Where Cloudflare can leave a custom hostname that will not come right by
+#: waiting: blocked, moved away, or a certificate step that gave up.
+STUCK = frozenset({"blocked", "moved", "deleted", "pending_deletion", "test_blocked", "test_failed"})
+GAVE_UP = frozenset(
+	{"expired", "deleted", "initializing_timed_out", "validation_timed_out", "issuance_timed_out", "deployment_timed_out"}
+)
+
+
+def standing(said: dict | None) -> tuple[str, str | None]:
+	"""A custom hostname as Cloudflare answers it, in our three words, with
+	Cloudflare's own sentence about what is stopping it when there is one.
+
+	Active only when both halves are: Cloudflare routes the name (its
+	ownership is verified) and the certificate is live. Anything still on its
+	way is Pending, because Cloudflare keeps checking by itself.
+	"""
+	if not said:
+		return "Gone", None
+	ssl = said.get("ssl") or {}
+	status, certificate = said.get("status"), ssl.get("status")
+	problems = [str(one) for one in said.get("verification_errors") or []]
+	problems += [str(one.get("message") if isinstance(one, dict) else one) for one in ssl.get("validation_errors") or []]
+	problem = problems[0] if problems else None
+	if status == "active" and certificate == "active":
+		return "Active", None
+	if status in STUCK or certificate in GAVE_UP:
+		return "Broken", problem
+	return "Pending", problem

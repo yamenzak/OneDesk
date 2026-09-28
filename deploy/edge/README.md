@@ -23,9 +23,12 @@ it already holds. The browser sees Cloudflare's certificate, from the Advanced
 Certificate Manager wildcard on the zone. There is nothing to verify because
 nothing is asked.
 
-A customer's own domain is the opposite and goes the ordinary way: press adds
-it, checks the DNS, and issues a Let's Encrypt certificate over HTTP-01. That is
-`one_admin/domains.py`, and it needs no Cloudflare call at all.
+A customer's own domain goes the same way. It is a custom hostname on the zone
+(Cloudflare for SaaS): the customer CNAMEs it to their `<slug>.t.4dl.app`,
+Cloudflare validates it and issues its certificate, and a route for the name
+sends it here, where its site is found under `host:<name>` in KV. Only
+`<slug>.<TENANT_DOMAIN>` is looked up by slug, so no other name can reach a
+workspace by accident. That is `one_admin/domains.py`.
 
 ## One-time setup
 
@@ -37,10 +40,15 @@ it, checks the DNS, and issues a Let's Encrypt certificate over HTTP-01. That is
    consulted. It must be proxied (orange), or the Worker never runs.
 3. **A Workers KV namespace.** Put its id in `wrangler.toml` and the same id in
    OneAdmin Settings as the Workers KV Namespace.
-4. **An API token** with exactly one permission: *Workers KV Storage: Edit*, on
-   that namespace. It goes in OneAdmin Settings. It can do nothing else to the
-   account — it cannot touch DNS, certificates, or any other Worker.
-5. `wrangler deploy`.
+4. **An API token** with *Workers KV Storage: Edit* on that namespace, and for
+   customers' own domains *SSL and Certificates: Edit* and *Workers Routes:
+   Edit* on the zone. It goes in OneAdmin Settings.
+5. **Cloudflare for SaaS** on the zone, with a fallback origin. Set up
+   Cloudflare makes `fallback.t.4dl.app` the fallback origin if the zone has
+   none, and keeps the one it has otherwise; each custom hostname has its own
+   route here, so the origin is never dialled.
+6. `wrangler deploy`, or Set up Cloudflare, which deploys this Worker with its
+   `SITES` and `TENANT_DOMAIN` bindings.
 
 ## Per tenant
 

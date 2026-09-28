@@ -1,5 +1,5 @@
-"""What running a workspace adds to the agreements: where it runs, and who
-takes the money. See one_legal/README.md."""
+"""What running a workspace adds to the agreements: where it runs, how it is
+reached, and who takes the money. See one_legal/README.md."""
 
 from onedesk.one_legal.registry import subprocessor
 
@@ -14,6 +14,17 @@ subprocessor(
 	where="The region chosen when the workspace was created",
 	safeguard="Standard Contractual Clauses and Frappe's data processing addendum",
 	url="https://frappecloud.com/policies",
+)
+
+subprocessor(
+	name="Cloudflare, Inc.",
+	module=M,
+	purpose="The network every workspace is reached through: its addresses, their certificates, and the router "
+	"that sends each request to the workspace",
+	data="Every request to the workspace and its answer, as they pass through",
+	where="The Cloudflare data centre nearest the person, then the region the workspace runs in",
+	safeguard="Standard Contractual Clauses and Cloudflare's data processing addendum",
+	url="https://www.cloudflare.com/cloudflare-customer-dpa/",
 )
 
 subprocessor(

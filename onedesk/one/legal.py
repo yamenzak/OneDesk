@@ -114,9 +114,10 @@ clause(
 	heading="Your own domain",
 	body="""
 		You may have your workspace open at a domain of your own. You must own or control it and keep its DNS
-		pointing where we ask. The certificate for it is issued by Let's Encrypt through Frappe Cloud, which
-		sees only the domain's name. We may refuse a domain that belongs to somebody else or that would route
-		another customer's traffic. When the workspace is closed, or you remove the domain, it stops opening
-		there; the address we give your workspace keeps working for as long as the workspace does.
+		pointing where we ask. Cloudflare, which already carries every request to your workspace, issues its
+		certificate and sees only the domain's name. We may refuse a domain that belongs to somebody else or
+		that would route another customer's traffic. When the workspace is closed, or you remove the domain,
+		it stops opening there; the address we give your workspace keeps working for as long as the workspace
+		does.
 	""",
 )
