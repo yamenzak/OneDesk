@@ -136,7 +136,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Settings, Workspace | People | done |
 | Settings, Workspace | Notifications | done (stages 2 and 5 of NOTIFICATIONS.md) |
 | Settings, Workspace | Plan and Credits | done |
-| Settings, Workspace | Domains | |
+| Settings, Workspace | Domains | findings written, waiting on your word |
 | Settings, Workspace | OneAI | |
 | Settings, Workspace | OneIntake | |
 | Settings, Workspace | Holidays | |
@@ -1246,6 +1246,97 @@ and what they cost. Terms revision 3.
 
 Not done: storage leads to OneCloud's Home, not to a list of the biggest
 files, because OneCloud has no workspace-wide list by size to open.
+
+### Workspace › Domains
+
+One section, Addresses: each name the workspace answers at, with a status
+badge, Primary and Ours, and Make Primary and Remove per row. Add a Domain
+and Check Again are buttons in the body. The rows come from the
+`Workspace Account` copy (`settings._domains`); every button asks the admin
+site, which asks Frappe Cloud (`one_admin/domains.py`) and writes the answer
+back into the copy (`account._keep`). The admin site asks Frappe Cloud
+nightly about names not yet Active, and `hello` carries the list back
+hourly.
+
+1. **Notifications**: nothing is sent. A name goes Active minutes or hours
+   after it is added and nobody is told, so the administrator has to come
+   back and press Check Again. Nobody is told when a name stops working
+   (Frappe Cloud drops it, status Gone), and the other administrators are
+   not told when somebody adds a name, removes one or changes the main
+   address, which moves the sign-in page and every link in every mail.
+   Recommended, in `one/notifications.py`, to administrators, sent from
+   `account.refresh` comparing before and after as the credit notices are:
+   - **Domain Working**, on the bell and mailed, when a name goes Active.
+   - **Domain Stopped Working**, on the bell and mailed, when one that was
+     Active is not.
+   - **Main Address Changed**, on the bell and mailed, to every other
+     administrator, from `domain_primary`.
+2. **OneAI**: the panel does not know the screen. Recommended: the page
+   sentence, and **Why is our domain not working?**, read by a new
+   `workspace_domains` (administrators only): each name, its status, what
+   Frappe Cloud last said about it, and what its DNS should say. No AI call
+   is needed to read it; the model only explains.
+3. **Intake**: nothing here, and nothing should be.
+4. **Permissions**:
+   - The page is in the Workspace group (administrators), and every call
+     asks `_may_rename` (Workspace Administrator). Holds.
+   - The guard's names are wrong: `MAY_RENAME` and "Only an administrator
+     of this workspace can change its address" also guard buying credits.
+     Recommended: `roles.require()`, as Plan and Credits uses, and the
+     constant gone.
+5. **Cross-module**:
+   - The main address is what the site calls itself (`host_name`), so it is
+     every link in One's mail, the invite link, the calendar feed and a
+     OneCloud share link. The screen does not say so. Recommended: one line
+     under Primary saying it.
+   - OneMail's mail domain is a separate thing (Settings › Mail) and the
+     two are easy to confuse. Recommended: the note says this page is where
+     the workspace opens, and names where mail addresses are set.
+6. **UI and UX**:
+   - a. **A dead end.** Once your own name is primary, Make Primary on
+     ours fails ("a name we hand out, so it cannot be added as your own"),
+     because `_held` runs every name through `hosts.claimable`. And Frappe
+     Cloud refuses to remove the primary name. So a workspace that makes
+     its own name primary can never go back or remove it. Recommended: the
+     given name is always allowed back as primary (`set_host_name` to the
+     site's own name, `primary_domain` cleared).
+   - b. **The DNS is never explained.** Add a Domain is one field, "For
+     example office.example.com", and nothing says what to point it at.
+     `domain_check` exists and nothing calls it. Recommended: the dialog
+     says the record to make (a CNAME to the site's Frappe Cloud name, with
+     Copy) and that Cloudflare's proxy must be off; Add checks the DNS first
+     and shows Frappe Cloud's own sentence when it is wrong; a Pending row
+     shows the same record, so the instructions are there when somebody
+     comes back to it.
+   - c. **Raw JSON.** After Check Again or any action, a custom name's row
+     prints what Frappe Cloud said as a JSON string (`Tenant Domain.said`
+     via `domains.mine`); after a reload it is gone, because `_keep` drops
+     it. Recommended: keep the one sentence worth keeping (Frappe Cloud's
+     message) on the copy, and draw it as the row's sub-line.
+   - d. Add a Domain is a solid button in the body. Recommended: the page
+     head's primary action; Check Again beside it, as on Plan and Credits.
+   - e. Hand-drawn rows. Recommended: `shell.table` (Domain, Status, a
+     Primary badge, actions), as Invoices is on Plan and Credits.
+   - f. Status words are Frappe Cloud's raw ones and all amber: Pending,
+     Broken and Gone look the same. Recommended: Active green, Pending
+     orange, anything else red; translated.
+   - g. The note says "The one we provide", which is first person.
+     Recommended: "The t.4dl.app address always works".
+   - h. `hosts.Unclaimable` sentences are not translated.
+7. **Documented**: `one/README.md` has no Domains section, so OneAI's
+   `how_to` cannot answer "how do I use our own domain". Recommended: a
+   section on what the page is for, the DNS record, why Cloudflare's proxy
+   has to be off, what Primary changes, and who may do it.
+8. **Legal**: the terms say nothing about a customer's own name.
+   Recommended, a clause in `one/legal.py`: the customer must own or
+   control the name, the certificate is issued for it by Let's Encrypt
+   through Frappe Cloud, and the name stops answering when the workspace
+   is closed. Let's Encrypt only sees the name, which is not personal
+   data, so it is not a subprocessor.
+9. **Built from frappe**: the dialog is `frappe.ui.Dialog` with a Data
+   control and the confirm is `frappe.confirm`. The rows are hand-drawn
+   (see 6e), and the page does not update when a name goes Active; with the
+   notice in 1 it would, through `frappe.realtime` from `account.refresh`.
 
 ## OneLegal
 
