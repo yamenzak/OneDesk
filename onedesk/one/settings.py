@@ -41,6 +41,7 @@ SECTIONS = [
 	("people", _lt("People"), "users", "workspace"),
 	("notification_types", _lt("Notifications"), "bell-ring", "workspace"),
 	("numbering", _lt("Numbering"), "hash", "workspace"),
+	("printing", _lt("Printing"), "printer", "workspace"),
 	("plan", _lt("Plan and Credits"), "credit-card", "workspace"),
 	("domains", _lt("Domains"), "globe", "workspace"),
 	("oneai", _lt("OneAI Actions"), "sparkles", "workspace"),
@@ -208,6 +209,7 @@ def load(
 		"holidays": _holidays,
 		"notification_types": _notification_types,
 		"numbering": _numbering,
+		"printing": _printing,
 	}
 	if section not in loaders:
 		frappe.throw(_("There is no such section."))
@@ -1547,6 +1549,13 @@ def _numbering() -> dict:
 	from onedesk.one import numbering
 
 	return {"rows": numbering.doctypes()}
+
+
+def _printing() -> dict:
+	"""The workspace's letter heads and its own print formats (one/printing.py)."""
+	from onedesk.one import printing
+
+	return {"letter_heads": printing.letter_heads(), "formats": printing.formats()}
 
 
 # ------------------------------------------------------------------ notifications

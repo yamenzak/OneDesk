@@ -4022,6 +4022,16 @@ back), through `one/numbering.py` rather than Document Naming Settings, whose
 methods run for anybody who can read it. Frappe's General tab is held back:
 it saved Accounts Settings just by opening.
 
+**Stage 3, Printing: done.** Settings › Print Formats on any record: preview,
+star the default, New, and open one in frappe's print format builder, which
+the administrator now reaches. Workspace › Printing lists the letter heads
+(an image at the top and one at the foot) and the formats the workspace made.
+A printed page runs on the workspace's own address, so what the workspace
+writes into one is held to the builder's escaped blocks: no raw HTML or Typst,
+no hand-written format, no HTML letter head, no style that loads from
+elsewhere, checked on save and on the builder's live preview. Found on the
+way: a letter head picture kept in One's store never printed.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

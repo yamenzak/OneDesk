@@ -40,7 +40,7 @@ onedesk.doctype_settings.open = (doctype, tab = null) =>
 // (docs/DESK-COVERAGE.md). Frappe shows a tab to whoever can read its doctype, and
 // reading an Email Template is everybody's; a tab is offered here once what it
 // opens can be used, and the rail beside it is One's.
-onedesk.doctype_settings.TABS = ["notifications", "naming"];
+onedesk.doctype_settings.TABS = ["notifications", "naming", "print-format"];
 
 onedesk.doctype_settings.adapt = () => {
 	if (onedesk.doctype_settings.adapted) return;
@@ -59,6 +59,33 @@ onedesk.doctype_settings.adapt = () => {
 			item.condition = (doctype) => onedesk.doctype_settings.TABS.includes(item.id) && (shown ? shown(doctype) : true);
 		}
 	}
+	// The Print Formats tab is frappe's own. Its star makes a format the default by
+	// writing a Property Setter, which the workspace layer refuses, so that one property
+	// goes through One's door (one/printing.py set_default), which is frappe's make_default.
+	const set_property = frappe.doctype_settings.set_property;
+	frappe.doctype_settings.set_property = (doctype, property, value) =>
+		property === "default_print_format"
+			? frappe
+					.xcall("onedesk.one.printing.set_default", { doctype, print_format: value })
+					.then(() => frappe.show_alert({ message: __("Default updated"), indicator: "green" }))
+			: set_property(doctype, property, value);
+	// The tab reads the current default from Property Setter and from DocType, which a
+	// workspace administrator cannot read, so those two reads, and only those, are
+	// answered by the same door: the Property Setter one with the doctype's default,
+	// the DocType one with nothing, as frappe's own answer is the first it finds.
+	const get_value = frappe.db.get_value;
+	frappe.db.get_value = function (doctype, filters, fieldname, callback) {
+		const setter = doctype === "Property Setter" && filters && filters.property === "default_print_format";
+		const own = doctype === "DocType" && fieldname === "default_print_format";
+		if ((!setter && !own) || frappe.model.can_read(doctype)) return get_value.apply(this, arguments);
+		const answer = setter
+			? frappe.xcall("onedesk.one.printing.default", { doctype: filters.doc_type }).then((value) => ({ message: { value } }))
+			: Promise.resolve({ message: { default_print_format: null } });
+		return answer.then((r) => {
+			callback && callback(r.message);
+			return r;
+		});
+	};
 	// Frappe keeps the sidebar on screen for a page of the same app, and every One sidebar is
 	// one app, so the rule would open inside OneCRM's; One's is selected as a dock row would.
 	const go = (panel, args) => {

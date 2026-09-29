@@ -95,6 +95,29 @@ One's sidebar, as lists.
    General, beside the logo it already has. Checked before granting: that a
    format's Jinja renders in frappe's sandbox for a non-System Manager, as a
    Notification's already does.
+   **Done, with the print page held to what the builder makes.** A printed
+   page is drawn on the workspace's own address (and a PDF by a browser on
+   the server), so what an administrator writes into one runs as whoever
+   opens it. `one/printing.py` grants Print Format, Letter Head, the
+   builder's Library (Print Format Snippet) and read on Print Settings
+   through Custom DocPerm, and the builder page through a Custom Role that
+   keeps the page's own roles. A format the workspace writes is a builder
+   format of frappe's escaped blocks: no HTML or Typst block (bar the empty
+   ones and the heading frappe's own layout makes), no hand-written, raw or
+   JS format, no block key frappe's renderer trusts (`renderer`, `_value`),
+   formatted text only from a field that holds it, and styles without markup,
+   imports or URLs off the site. The builder's previews of an unsaved format
+   run the same checks first (`override_whitelisted_methods`), and its
+   canvas previews frappe's own templates, which it keeps to System Managers.
+   A letter head written here is an image; one that came with the workspace
+   can be made the default or turned off. The star goes through
+   `printing.set_default`, since frappe's writes a Property Setter as the
+   caller, and the tab's two reads of the default are answered by
+   `printing.default`. Letter heads live in Workspace › Printing, not
+   General. Found on the way: a letter head picture kept in One's store never
+   became its markup, because frappe's `is_image` drops the query where the
+   store names the file; it now does, for everybody. The builder's rail is
+   frappe's own, as the page is.
 4. **Mail Templates.** Email Template, read and write. OneMail's composer
    already has frappe's template field; HR Settings' leave mails start working
    when somebody writes one.

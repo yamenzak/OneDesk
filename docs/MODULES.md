@@ -211,6 +211,12 @@ No doctypes yet.
 * `onedesk.one.numbering.save`
 * `onedesk.one.numbering.series`
 * `onedesk.one.numbering.set_current`
+* `onedesk.one.printing.default`
+* `onedesk.one.printing.download_builder_preview_pdf`
+* `onedesk.one.printing.render_builder_preview`
+* `onedesk.one.printing.render_jinja_template`
+* `onedesk.one.printing.save_letter_head`
+* `onedesk.one.printing.set_default`
 * `onedesk.one.push.devices`
 * `onedesk.one.push.forget`
 * `onedesk.one.push.register`

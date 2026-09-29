@@ -52,6 +52,8 @@ after_install = [
 after_migrate = [
 	"onedesk.one.roles.ensure",
 	"onedesk.one.notify.install",
+	# Print formats, letter heads and the builder for the workspace administrator. See one/printing.py.
+	"onedesk.one.printing.settle",
 	# frappe's own morning event mail stopped; Today's Events replaces it.
 	"onedesk.one_calendar.tell.install",
 	# What each module's records say above their fields. See one/head.py.
@@ -190,6 +192,10 @@ doc_events = {
 	"Server Script": {"validate": "onedesk.one.layer.script"},
 	# A type's text names only its own slots. See one/notify.py.
 	"Notification Type": {"validate": "onedesk.one.notify.validate", "on_update": "onedesk.one.notify.changed"},
+	# What a print format, letter head or snippet written by the workspace may carry. See one/printing.py.
+	"Print Format": {"validate": "onedesk.one.printing.validate_format"},
+	"Letter Head": {"validate": "onedesk.one.printing.validate_letter_head"},
+	"Print Format Snippet": {"validate": "onedesk.one.printing.validate_snippet"},
 	# A notification is pushed to the devices its person chose. See one/push.py.
 	"Notification Log": {
 		# frappe's line for a task given, said in OneTask's. See one_task/tell.py.
@@ -505,6 +511,11 @@ override_whitelisted_methods = {
 	# On the admin site the mailed sign-in link is for One accounts only, and
 	# in our words. Anywhere else it is frappe's. See one_admin/accounts.py.
 	"frappe.www.login.send_login_link": "onedesk.one_admin.accounts.send_login_link",
+	# The builder previews a format before it is saved; a workspace's is checked as
+	# its save would be. See one/printing.py.
+	"frappe.utils.print_format_generator.render_builder_preview": "onedesk.one.printing.render_builder_preview",
+	"frappe.utils.print_format_generator.download_builder_preview_pdf": "onedesk.one.printing.download_builder_preview_pdf",
+	"frappe.utils.print_format_generator.render_jinja_template": "onedesk.one.printing.render_jinja_template",
 }
 
 # What Intake wrote down about a record is its history, not a reason to keep

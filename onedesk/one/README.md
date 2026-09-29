@@ -475,6 +475,30 @@ record they can open. The framework's own kinds of record and One's have no
 numbering here. Naming rules by condition (frappe's Document Naming Rule) are
 not offered yet.
 
+### Printing, for the Workspace
+
+How the workspace's documents look on paper. **Letter Heads** are the logo
+printed at the top of a document and, if you like, a picture at its foot:
+**New Letter Head**, give it a name, attach the logo, and say how tall it
+prints and which side it sits on. **Default** prints it on every document
+unless another is chosen; **Off** keeps it without offering it. The letter
+heads that came with the workspace can be made the default or turned off.
+
+**Print Formats** lists the formats this workspace made. Opening one opens its
+kind of record's **Settings** on **Print Formats** (see A Form's Settings),
+where it is previewed, starred as the default, or opened in the builder. A new
+format is made there too, since a format belongs to one kind of record.
+
+In the builder a format is laid out from the record's fields, tables, text,
+images, barcodes and the standard field templates. What is not offered here:
+a block of raw HTML or Typst, a format written by hand, a letter head written
+in HTML, or a style that loads anything from another site. Each of those
+prints exactly what is written, on this workspace's address, so it stays with
+the people who run the platform.
+
+Only administrators of the workspace see this, and only formats for the kinds
+of record they can open.
+
 ### Plan and Credits, for the Workspace
 
 Under **Workspace**, **Plan and Credits** is the workspace's account: its
@@ -756,12 +780,18 @@ Each part appears once the workspace may use it:
   another kind of record uses is refused. **Workspace › Numbering** lists
   every kind of record numbered by a series that you can open, and opens
   each here.
+- **Print Formats**: every format this kind of record can print with, each
+  shown as a page. Click a page to see it large, the star to make it the one
+  used unless another is chosen, the name to open it in the print format
+  builder. **New** makes one and opens it in the builder, laid out from the
+  record's own fields. The formats that came with the workspace are shown and
+  can be printed with or starred, not changed: open one in the builder and
+  save it under a new name to change the copy.
 - **Notifications**: the workspace's own rules on this kind of record. Open
   one, or **New Rule**, and it is written in Workspace › Notifications,
   already set to this kind of record.
 
-Print Formats, Email Templates and Workflows join it as they are opened to
-workspaces. The framework's own and One's own records have none, as
+Email Templates and Workflows join it as they are opened to workspaces. The framework's own and One's own records have none, as
 they have no Customize.
 
 ## Asking OneAI

@@ -158,6 +158,13 @@ def property_setter(doc, method=None) -> None:
 		and doc.property in ("options", "default")
 	):
 		return
+	# A doctype's default print format, set by Printing (one/printing.py) as frappe's make_default sets it.
+	if (
+		frappe.flags.one_printing
+		and doc.doctype_or_field == "DocType"
+		and doc.property == "default_print_format"
+	):
+		return
 	if doc.property not in PROPERTIES:
 		frappe.throw(_("{0}: {1} is not the workspace's to change.").format(where, doc.property))
 	if doc.property in ("depends_on", "mandatory_depends_on", "read_only_depends_on") and not plain(

@@ -17,6 +17,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	// Sections that are a table rather than a form, so they get the width a
 	// table needs. Every other section is a column in the middle of the page.
 	static WIDE = ["people", "oneai", "intake"];
+	// A letter head the workspace did not make: frappe's own, or written in HTML.
+	static theirs = (one) => one.standard === "Yes" || one.source !== "Image";
 
 	constructor(page, group) {
 		// Dirty, the warning on leaving, saving against `modified` and hearing
@@ -1398,9 +1400,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
-	// Where the workspace opens: the address One gives it, which always works,
-	// and the customer's own, each once its DNS points here (one/account.py,
-	// one_admin/domains.py). Add a Domain is the page's action.
 	// Every kind of record numbered by a series that this administrator may open, with
 	// the series a new one starts with and the name it would get. Opening one opens that
 	// record's Settings on Numbering, where its series are changed (one/numbering.py).
@@ -1428,6 +1427,107 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
+	// How the workspace's documents look on paper (one/printing.py): its letter heads,
+	// which are an image at the top and one at the foot, and the formats it made in
+	// frappe's print format builder. A format opens its record's Settings on Print
+	// Formats, where it is previewed, made the default, or opened in the builder.
+	draw_printing(data) {
+		const esc = frappe.utils.escape_html;
+		this.page.set_primary_action(__("New Letter Head"), () => this.letter_head(), "plus");
+		this.$content.html(`<div class="one-shell-section" data-list="heads"></div><div class="one-shell-section" data-list="formats"></div>`);
+		onedesk.shell.table(this.$content.find('[data-list="heads"]'), {
+			title: __("Letter Heads"),
+			note: __("The logo printed at the top of a document, and a picture at its foot if you like."),
+			rows: data.letter_heads || [],
+			icon: "image",
+			empty: __("No letter head yet."),
+			open: (one) => this.letter_head(one),
+			columns: [
+				{
+					label: __("Letter Head"),
+					render: (one) =>
+						esc(one.name) +
+						(one.is_default ? " " + frappe.ui.badge.html({ label: __("Default"), theme: "blue" }) : "") +
+						(Settings.theirs(one) ? " " + frappe.ui.badge.html({ label: __("Standard"), theme: "gray" }) : "") +
+						(one.disabled ? " " + frappe.ui.badge.html({ label: __("Off"), theme: "gray" }) : ""),
+				},
+				{ label: __("Changed"), render: (one) => frappe.datetime.comment_when(one.modified) },
+			],
+		});
+		onedesk.shell.table(this.$content.find('[data-list="formats"]'), {
+			title: __("Print Formats"),
+			note: __("Formats this workspace made. A new one is made from a record's Settings, under Print Formats."),
+			rows: data.formats || [],
+			page_size: 100,
+			icon: "printer",
+			empty: __("No print format made here yet."),
+			none: __("No format is called that."),
+			open: (one) => onedesk.doctype_settings.open(one.doc_type, "print-format"),
+			columns: [
+				{ label: __("Format"), fieldname: "name" },
+				{ label: __("Kind of Record"), fieldname: "label" },
+				{ label: __("Changed"), render: (one) => frappe.datetime.comment_when(one.modified) },
+			],
+		});
+	}
+
+	// A letter head, made or changed in frappe's dialog. The image is uploaded public,
+	// as a printed page shows it to whoever it is sent to.
+	// One the workspace did not make is only made the default or turned off here.
+	letter_head(one = null) {
+		const theirs = !!one && Settings.theirs(one);
+		const image = (fieldname, label) => ({ fieldtype: "Attach Image", fieldname, label, make_attachment_public: 1 });
+		const align = (fieldname) => ({ fieldtype: "Select", fieldname, label: __("Align"), options: ["Left", "Center", "Right"], default: "Left" });
+		const dialog = new frappe.ui.Dialog({
+			title: one ? one.name : __("New Letter Head"),
+			fields: [
+				...(theirs ? [{ fieldtype: "HTML", fieldname: "theirs", options: frappe.ui.alert.html({ title: __("This letter head came with the workspace. It can be made the default or turned off."), theme: "gray" }) }] : []),
+				{ fieldtype: "Data", fieldname: "letter_head_name", label: __("Name"), reqd: 1, hidden: one ? 1 : 0 },
+				...(theirs
+					? []
+					: [
+							{ fieldtype: "Section Break", label: __("Top") },
+							{ ...image("image", __("Logo")), reqd: 1 },
+							{ fieldtype: "Column Break" },
+							{ fieldtype: "Float", fieldname: "image_height", label: __("Height"), description: __("In pixels. Empty keeps the picture's own.") },
+							align("align"),
+							{ fieldtype: "Section Break", label: __("Foot"), collapsible: one && one.footer_image ? 0 : 1 },
+							image("footer_image", __("Picture")),
+							{ fieldtype: "Column Break" },
+							{ fieldtype: "Float", fieldname: "footer_image_height", label: __("Height") },
+							align("footer_align"),
+							{ fieldtype: "Section Break" },
+					  ]),
+				{ fieldtype: "Check", fieldname: "is_default", label: __("Default"), description: __("Printed on a document unless another is chosen.") },
+				{ fieldtype: "Check", fieldname: "disabled", label: __("Off") },
+			],
+			primary_action_label: one ? __("Update") : __("Create"),
+			primary_action: async (values) => {
+				await frappe.xcall("onedesk.one.printing.save_letter_head", {
+					values: { ...values, name: one ? one.name : null, modified: one ? one.modified : null },
+				});
+				dialog.hide();
+				frappe.show_alert({ message: one ? __("Letter head updated") : __("Letter head made"), indicator: "green" });
+				this.refresh({ fresh: true });
+			},
+		});
+		if (one) dialog.set_values(one);
+		if (one && !theirs) {
+			dialog.set_secondary_action_label(__("Delete"));
+			dialog.set_secondary_action(() =>
+				frappe.confirm(__("Delete letter head {0}?", [one.name]), async () => {
+					await frappe.xcall("frappe.client.delete", { doctype: "Letter Head", name: one.name });
+					dialog.hide();
+					this.refresh({ fresh: true });
+				})
+			);
+		}
+		dialog.show();
+	}
+
+	// Where the workspace opens: the address One gives it, which always works,
+	// and the customer's own, each once its DNS points here (one/account.py,
+	// one_admin/domains.py). Add a Domain is the page's action.
 	draw_domains(data) {
 		const esc = frappe.utils.escape_html;
 		const target = data.target || "";
