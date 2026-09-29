@@ -87,7 +87,8 @@ clause(
 		Whoever pays for a workspace has a One account with us, under the email address they paid with. It
 		keeps that address and which workspaces it holds, so the account can list them in one place. You sign
 		in to it with a link we mail to that address, which works once and for a few minutes; there is no
-		password to keep. The account is separate from your sign-in to each workspace. A workspace's
+		password to keep. Each sign-in to the account is logged with its time and the network address it came
+		from, to keep the account safe. The account is separate from your sign-in to each workspace. A workspace's
 		administrator can make another address the one who pays; that address gets an account, and both
 		addresses are told. A new address for your account is used only once a link mailed to it is followed.
 	""",
