@@ -3154,6 +3154,52 @@ Done:
   `one_ai/suggest.py`). No model was called.
 - **README**: a Price Check section with the five rules.
 
+### OneAdmin › Plan Calculator
+
+Plan Calculator is a frappe Script Report (`report/plan_calculator`, sums
+in `plans.quote`): given how many seats, how much storage and database and
+how many credits a month a workspace needs, every enabled plan with the
+add-ons that bring it up to that, cheapest first, what each way costs us,
+and how much dearer each is than the cheapest. It is the same answer a
+customer's own Plan and Credits screen gets (`billing.quote`, through the
+proxy). On the dev site, for 10 seats, 50 GB, 2 GB and 2,000 credits:
+Team at $70, then Starter with three add-ons at $73.
+
+1. **Notifications**: it sends nothing, and nothing it does needs telling.
+   Holds.
+2. **OneAI**: nothing but "What stands out here?". The question an
+   operator brings here is a customer's: "we have 25 people and 80 GB,
+   what should we buy?". Recommended: **What should they buy?**, and a
+   reader, `plan_quote`, that answers for any needs said in words, with
+   the cheapest way and the next; operator-only.
+3. **Intake**: nothing OneIntake reads lands here, and nothing should.
+   Holds.
+4. **Permissions**: holds. One Operator's, refused off the admin site.
+5. **Cross-module**:
+   - **It cannot start from a real workspace.** The usual question is
+     what an existing customer should move to, and the operator has to
+     read their seats, storage, database and credits off the workspace
+     and type them in. Recommended: a **Workspace** filter that fills
+     the needs from what it uses now, and marks the plan it is on.
+   - A plan's row does not say what the plan gives, so "Team, Nothing"
+     does not say why nothing is needed. Recommended: the plan's
+     **Gives** line (the Price List's).
+6. **UI and UX**:
+   - a. **The four filters show only numbers** once filled: "10", "50",
+     "2", "2000", with no word for which is which (frappe shows a filter's
+     label only while it is empty). Recommended: the needs said back in
+     the summary ("10 seats · 50 GB storage · 2 GB database · 2,000
+     credits a month"), with the cheapest answer beside it.
+   - b. "Times Cost" as on Price Check before; recommended **Margin**
+     ("2.4×"), and "Against the Cheapest" as **Dearer By**.
+   - c. Starter's add-ons are cut off ("1 × 5 Seats, 1 × 50 GB of
+     Storage, 1 × 1 G…"). Recommended: the add-ons column wider, the
+     rest narrower.
+7. **Documented**: nothing in the README on what it is for, or that it
+   is the customer's own sum. Recommended: a **Plan Calculator** section.
+8. **Legal**: nothing leaves the admin site. Holds.
+9. **Built from frappe**: a Script Report and its summary. Holds.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
