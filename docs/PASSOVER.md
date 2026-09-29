@@ -3988,6 +3988,17 @@ that may take it (EU only on EU rows), has room and carries the bench group
 four-fifths full, and when no open server is left for new or EU
 workspaces. A patch moves an old Server setting into the first row.
 
+### Frappe's doctypes, against One (before finishing One and OneAdmin)
+
+Not a screen: what frappe does that a workspace cannot reach once the
+Framework app is gone. `docs/DESK-COVERAGE.md` answers all 194 doctypes that
+are not child tables: 36 are in One, 57 run underneath, 31 are the platform's
+and 15 are the website builder. 55 are worth adding. In the order a new
+workspace meets them: Import and Export, Numbering, Printing, Mail Templates,
+Approvals and Automations (P1); Access, Reports and Dashboards, Recycle Bin,
+Audit Log, Privacy Requests and Integrations (P2); and a handful of small ones
+(P3). Waiting for your word on which to build and in what order.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
