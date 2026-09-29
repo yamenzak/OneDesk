@@ -3380,7 +3380,7 @@ of about one credit each by Nine X.
      leads each row as on the other lists, and credits show two places.
      The **Kind** column repeats the indicator.
    - c. **A grant does not say what is left of it.** CR-26-000053 is 5,000
-     credits expiring on 30 September, and nothing says 4,640 of them are
+     credits expiring on 30 September, and nothing says 4,640 of them (5,000 less the 360 spent) are
      still there. Recommended: a Record Head sentence ("4,640 of 5,000
      left, until 30 Sep") and, on a spend, which grant it came from.
    - d. The form shows **Drawn From** and an empty **Grant** field on a
