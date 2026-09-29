@@ -3222,6 +3222,81 @@ Done:
   (operator-only) for needs in words or a workspace by name.
 - README: a **Plan Calculator** section and an Under the hood line.
 
+### OneAdmin › Signups
+
+Signups is the `Account Request` list: somebody who filled in the signup
+page, before and after they paid. `signup.start` writes the request and our
+own lead and deal (`sales.py`), sends them to Stripe, and Stripe's
+`checkout.session.completed` calls `signup.accept`, which makes the
+workspace and starts its job. The list shows each one's state in words
+(Not paid, At Stripe, Paid, Being built, Done, Paid and not built); the
+record has a Record Head with the failure in red and **Build Workspace**.
+On the dev site: six, one failed (Borja SL), two paid with no workspace,
+three never paid.
+
+1. **Notifications**:
+   - The operators get **New Signup** when somebody pays and **Signup Not
+     Built** when the workspace could not be made. Not Built's message is
+     the email and the raw error on two lines. Recommended: "It stopped
+     because: {error}. Build Workspace on the signup tries again."
+   - **The customer hears nothing if it is not built.** They paid, Stripe
+     sent a receipt, and no workspace and no word follows until an
+     operator fixes it. Recommended: a **Workspace Delayed** mail to them
+     when it fails ("We have your payment. Setting up {workspace} hit a
+     problem on our side; we are on it and will write when it is ready"),
+     then Workspace Ready as now.
+2. **OneAI**: nothing but "What stands out here?". Recommended: **Why
+   wasn't this built?** on a failed or paid-and-unbuilt signup, and a
+   reader, `signup_facts` (operator-only: its state and why, its payment,
+   its workspace and job, whether Build Workspace will help).
+3. **Intake**: nothing OneIntake reads lands here, and nothing should.
+   Holds.
+4. **Permissions**: One Operator reads, nobody writes, creates or deletes;
+   Build Workspace is the one action. Holds, except **Share** is on, as it
+   was on the other operator records. Recommended: off.
+5. **Cross-module**:
+   - **The status stops at "Being built".** `accept` sets Provisioning and
+     nothing sets Done when the job finishes, so every signup ever built
+     says "Being built" forever. And nothing sets **Paid** either: a
+     request goes from Not paid (or At Stripe) straight to Being built.
+     acmeco says **Not paid** and has a workspace. Recommended: the job's
+     end sets the request **Done** (or Failed with the job's error), a
+     payment sets Paid first, and a patch mends the rows there are.
+   - **A signup nobody paid for keeps its name forever.** Not paid and At
+     Stripe both hold the slug (`HOLDING`), and the nightly sweep that
+     loses their deal after a few days (`sales.abandoned`) leaves the
+     request as it was, so "gone2" can never be taken again. Recommended:
+     the same sweep marks it **Abandoned**, which lets the name go.
+   - The record does not show its Stripe payment events (`Stripe Webhook
+     Event.request`) or its workspace's job. Recommended: **Connections**
+     to the workspace, its job and its Stripe events.
+6. **UI and UX**:
+   - a. The list shows the **ID** column and filter (REQ-26-01235), which
+     says nothing; the other lists show the workspace instead.
+     Recommended: off, as on the others. "Offering" is **Plan**, as on
+     Workspaces.
+   - b. **Three words for one state.** The list says "Paid and not
+     built", the head's pill says "Failed", the Status field says
+     "Failed" with "A workspace is only created after payment is
+     confirmed" under it. "Not paid" in the list is "New" on the form.
+     Recommended: the head's pill in the list's words, and the Status
+     field off the form (the pill is it).
+   - c. Labels: "Workspace" is the name they typed, while "Tenant" is the
+     workspace. Recommended: **Workspace Name** and **Workspace**. "Slug"
+     is **Address**.
+   - d. The last section has no heading, and repeats the failure the red
+     line above it already says. Recommended: headed **What Came of It**,
+     the failure only in the head, and the Stripe session as **Open in
+     Stripe** in the menu rather than a raw `cs_…` id.
+7. **Documented**: nothing in the README on what a signup is, its states,
+   or what Build Workspace does. Recommended: a **Signups** section.
+8. **Legal**: the privacy notice says nothing about the signup page: that
+   it keeps the email, workspace name and country somebody typed, whether
+   or not they pay, and that it becomes a lead and a deal in our own
+   records. Recommended: a clause in `one_admin/legal.py`. Stripe is
+   already a subprocessor.
+9. **Built from frappe**: a list, a form and a Record Head. Holds.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
