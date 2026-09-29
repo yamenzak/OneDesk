@@ -40,6 +40,7 @@ WAIT = "wait"
 #: their own module because they are the same kind of thing: an idempotent step
 #: that talks to press, driven by the same runner and the same backoff.
 ORDER = (
+	"place_it",
 	"name_is_free",
 	"create_site",
 	"site_is_up",
@@ -55,7 +56,7 @@ WALKS = {
 	"Provision": ORDER,
 	"Suspend": ("deactivate_site", "mark_suspended"),
 	"Restore": ("activate_site", "route_it", "mark_live"),
-	"Archive": ("note_backup", "archive_site", "unroute", "mark_archived"),
+	"Archive": ("note_backup", "archive_site", "stop_billing", "unroute", "mark_archived"),
 	"Drop": ("empty_storage", "mark_dropped"),
 }
 
@@ -67,6 +68,7 @@ WALKS = {
 #: because the failure is silent: the screen falls back to the function name and
 #: nobody notices it was meant to say something.
 SAID = {
+	"place_it": _lt("Choosing the server it goes on"),
 	"name_is_free": _lt("Checking nobody has the name"),
 	"create_site": _lt("Asking Frappe Cloud for the site"),
 	"site_is_up": _lt("Waiting for Frappe Cloud to build it"),
@@ -80,6 +82,7 @@ SAID = {
 	"mark_live": _lt("Marking it live"),
 	"note_backup": _lt("Recording the latest backup"),
 	"archive_site": _lt("Asking Frappe Cloud to delete the site"),
+	"stop_billing": _lt("Cancelling its subscription in Stripe"),
 	"unroute": _lt("Taking the name off the edge"),
 	"mark_archived": _lt("Marking it archived"),
 	"empty_storage": _lt("Deleting the files"),
@@ -90,6 +93,46 @@ SAID = {
 #: Every app a workspace gets. The same on every bench, so a site is never
 #: missing one because it landed somewhere else.
 APPS = ("erpnext", "hrms", "onedesk")
+
+
+#: Words in a region's title that put it in the European Union, for a
+#: workspace that asked for its files there and a bench that offers a region.
+EU = (
+	"Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czech", "Denmark", "Estonia", "Finland",
+	"France", "Frankfurt", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania",
+	"Luxembourg", "Malta", "Netherlands", "Amsterdam", "Nuremberg", "Poland", "Portugal", "Romania",
+	"Slovakia", "Slovenia", "Spain", "Sweden", "Stockholm", "Paris", "Dublin", "Milan", "Madrid",
+)
+
+
+def place_it(job, tenant) -> None:
+	"""Which of our servers, bench groups and regions the site goes on.
+
+	Chosen here, by the job, and not on the signup page: a Frappe Cloud that is
+	slow or down must not stop anybody signing up or paying. The bench group
+	is the one Settings names (the first the team owns when none is named),
+	and it has to carry every app a workspace gets: a site asked for on a bench
+	missing one is refused by press half way, so it is refused here first, in
+	words that say what to add. A workspace that asked for its files in the EU
+	goes on an EU region when the bench offers one.
+	"""
+	if tenant.site or (tenant.bench and tenant.cluster):
+		return
+	bench = tenant.bench or _setting("press_bench") or next(
+		(one.get("name") for one in press.benches() or [] if one.get("name")), None
+	)
+	if not bench:
+		raise faults.Refused("Frappe Cloud has no bench group to place a site on")
+	held = {one.get("name") or one.get("app") for one in press.apps(bench) or [] if isinstance(one, dict)}
+	missing = [one for one in APPS if one not in held]
+	if missing:
+		raise faults.Refused(
+			f"{', '.join(missing)} is not on the bench group {bench}. Add it in Frappe Cloud, deploy, then resume"
+		)
+	regions = [one for one in press.clusters(bench) or [] if isinstance(one, dict)]
+	eu = [one for one in regions if any(word in (one.get("title") or "") for word in EU)]
+	chosen = (eu if tenant.jurisdiction == "EU" and eu else regions)[:1]
+	tenant.db_set({"bench": bench, "cluster": tenant.cluster or (chosen[0].get("name") if chosen else None)})
 
 
 def name_is_free(job, tenant) -> None:
@@ -125,6 +168,9 @@ def create_site(job, tenant) -> None:
 			"domain": _press_domain(),
 			"group": tenant.bench,
 			"cluster": tenant.cluster,
+			# Our own server, where sites are unlimited and carry no Frappe
+			# Cloud plan: the limits a customer bought are ours (quota.py).
+			**({"server": _setting("press_server")} if _setting("press_server") else {}),
 			"apps": list(APPS),
 		},
 	)
@@ -259,6 +305,10 @@ def _press_domain() -> str:
 	return frappe.get_cached_value("One Admin Settings", None, "press_domain") or "frappe.cloud"
 
 
+def _setting(field: str) -> str | None:
+	return (frappe.get_cached_value("One Admin Settings", None, field) or "").strip() or None
+
+
 def _tenant_domain() -> str:
 	return frappe.get_cached_value("One Admin Settings", None, "tenant_domain") or "t.4dl.app"
 
@@ -341,6 +391,21 @@ def archive_site(job, tenant) -> None:
 	if not tenant.site:
 		return
 	press.call("press.api.site.archive", name=tenant.site, force=False)
+
+
+def stop_billing(job, tenant) -> None:
+	"""Cancel the workspace's subscription, now that the workspace is gone.
+
+	Without this Stripe keeps invoicing a workspace that no longer exists, and
+	a customer who comes back pays for nothing. After the site is archived, so
+	a failed archive leaves a workspace still billed and still there. Safe
+	twice: a subscription Stripe has already cancelled answers as missing.
+	"""
+	if not tenant.get("stripe_subscription"):
+		return
+	from onedesk.one_admin import stripe
+
+	stripe.cancel(tenant.stripe_subscription)
 
 
 def unroute(job, tenant) -> None:

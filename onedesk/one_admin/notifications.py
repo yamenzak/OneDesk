@@ -138,6 +138,20 @@ TYPES = [
 		"required": True,
 	},
 	{
+		"name": _lt("Paid While Archived"),
+		"app": "OneAdmin",
+		"roles": ("One Operator",),
+		"about": _lt("When a payment arrives for a workspace whose site has already been archived."),
+		"to": _lt("The operators"),
+		"subject": _lt("{workspace} paid, and it is {state}"),
+		"message": _lt(
+			"A payment arrived for {workspace}, whose site is gone. Rebuild it from its backup, or refund the "
+			"payment in Stripe."
+		),
+		"email_default": True,
+		"push_default": True,
+	},
+	{
 		"name": _lt("New Signup"),
 		"app": "OneAdmin",
 		"roles": ("One Operator",),

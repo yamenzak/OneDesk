@@ -3934,6 +3934,40 @@ fall leaves the workspace where it was. What does not hold, worst first:
    Recommended: I check press's billing for inactive sites and say so in
    the README; no code unless it does.
 
+**Your word:** fix all of them, knowing the servers are ours: we rent them
+from Frappe Cloud, a server takes unlimited benches and sites, and customers
+never know Frappe Cloud is there.
+
+**Done.**
+1. `lifecycle.paid` no longer throws for an archived or dropped workspace:
+   the payment stands and the operators get **Paid While Archived**
+   (rebuild from backup, or refund in Stripe).
+2. Archive has a **Cancelling its subscription in Stripe** step
+   (`stop_billing`, `stripe.cancel`, safe twice: a subscription already gone
+   or cancelled is fine).
+3. `cloudflare.forget` deletes `mail:{slug}` with the address.
+4. Reversed, given the servers are ours: a site on our own server has no
+   press plan and no database limit, so `quota.press_plan_for`, `quota.move`
+   and the nightly retry are gone. The database is watched by us: Home shows
+   a workspace **Over Database**.
+5. The server and bench are chosen by a new first step, **Choosing the
+   server it goes on** (`place_it`), not by `/start`, so a Frappe Cloud
+   outage no longer stops a signup; the job waits instead.
+6. Waiting is not failing: a step waiting on Frappe Cloud is checked every
+   minute and never uses up an attempt (`runner._waiting`). A build still
+   waiting after three hours is on Home as **Slow**.
+7. Settings gains **Server** and **Bench Group**. `place_it` refuses a bench
+   group missing erpnext, hrms or onedesk, saying which to add, and an EU
+   workspace goes on an EU region when there is one. Checked read-only
+   against the real account: bench-46919 is refused for onedesk, which it
+   does not carry yet (it has oneapp and oneapp_control); with onedesk
+   pretended in, it picks Nuremberg-3.
+8. Home shows **An update is waiting for bench-46919** with the apps that
+   have one (read from press, seen live). Deploying stays in Frappe Cloud.
+9. Moot: the servers are ours at a flat price, so a deactivated site costs
+   nothing extra. The Frappe subprocessor entry now says Frappe Cloud runs
+   servers rented for One alone, in Nuremberg.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

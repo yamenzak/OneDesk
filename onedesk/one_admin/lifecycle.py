@@ -63,19 +63,22 @@ def paid(tenant) -> str | None:
 	"""Money arrived. Climb.
 
 	From Overdue this is a field; from Suspended it is a job, because press has
-	to be asked to serve the site again. From Archived it refuses: the site was
+	to be asked to serve the site again. From Archived or Dropped the site was
 	destroyed, and putting a new one in its place from a backup is somebody's
-	decision rather than a webhook's.
+	decision rather than a webhook's: the operators are told (Paid While
+	Archived), and the webhook answers as handled.
 	"""
 	if tenant.status == "Live":
 		return None
-	if tenant.status == "Archived":
-		frappe.throw(
-			frappe._(
-				"{0} was archived. Its site has to be rebuilt from the backup before it can"
-				" be live again, and that is not something a payment does on its own."
-			).format(tenant.name)
-		)
+	if tenant.status in ("Archived", "Dropped"):
+		# The site is gone, so a payment cannot bring it back on its own; and
+		# throwing here made Stripe redeliver the event for days while nobody
+		# was told. The operators hear it and decide: rebuild from the backup,
+		# or refund.
+		from onedesk.one_admin import tell
+
+		tell.paid_while_archived(tenant)
+		return None
 	rung = ladder.climbing(tenant.status)
 	if tenant.status == "Overdue":
 		_arrive(tenant, rung, log.said("paid"))

@@ -103,11 +103,14 @@ def needs() -> list[dict]:
 		*_failed_jobs(),
 		*_unbuilt_signups(),
 		*_stalled_jobs(),
+		*_slow_builds(),
 		*_owing(),
 		*_over_storage(),
+		*_over_database(),
 		*_mispriced(),
 		*_unmodelled(),
 		*_domains(),
+		*_updates(),
 	]
 
 
@@ -253,6 +256,103 @@ def _over_storage() -> list[dict]:
 		for one in rows
 		if (one.storage_bytes or 0) > one.storage_limit
 	][:MOST]
+
+
+def _over_database() -> list[dict]:
+	"""Live workspaces whose database is past what they bought. On our own
+	servers Frappe Cloud sets no limit, so this is the only place it is
+	watched (quota.py). Opening one is the action."""
+	from onedesk.one.heads import size
+
+	rows = frappe.get_all(
+		"Tenant",
+		filters={"status": "Live", "database_limit": [">", 0]},
+		fields=["name", "workspace_name", "database_bytes", "database_limit"],
+		limit=MOST * 4,
+	)
+	return [
+		{
+			"kind": "storage",
+			"doctype": "Tenant",
+			"name": one.name,
+			"title": one.workspace_name or one.name,
+			"why": f"{size(one.database_bytes)} / {size(one.database_limit)}",
+			"detail": "",
+			"since": "",
+			"badge": _("Over Database"),
+			"action": None,
+		}
+		for one in rows
+		if (one.database_bytes or 0) > one.database_limit
+	][:MOST]
+
+
+#: Hours a build may wait on Frappe Cloud before a person should look.
+SLOW_BUILD_HOURS = 3
+
+
+def _slow_builds() -> list[dict]:
+	"""Builds still waiting on Frappe Cloud after hours. Waiting never fails a
+	job (runner._waiting), so this is where a build that will never finish is
+	seen."""
+	from onedesk.one_admin import steps
+
+	rows = frappe.get_all(
+		"Provisioning Job",
+		filters={
+			"kind": "Provision",
+			"status": "Waiting",
+			"creation": ["<", add_to_date(now_datetime(), hours=-SLOW_BUILD_HOURS)],
+		},
+		fields=["name", "tenant", "step", "creation"],
+		order_by="creation asc",
+		limit=MOST,
+	)
+	return [
+		{
+			"kind": "stalled",
+			"doctype": "Provisioning Job",
+			"name": one.name,
+			"title": _("Building {0} is taking hours").format(_workspace(one.tenant)),
+			"why": _("At: {0}").format(str(steps.SAID.get(one.step, one.step))) if one.step else "",
+			"detail": _("Look at the site in Frappe Cloud."),
+			"badge": _("Slow"),
+			"since": str(one.creation),
+			"action": None,
+		}
+		for one in rows
+	]
+
+
+def _updates() -> list[dict]:
+	"""An update waiting for the bench group new workspaces go on. Every site
+	on it runs the same release, so this is every workspace's release; the
+	deploy itself is started in Frappe Cloud."""
+	from onedesk.one_admin import press
+
+	bench = frappe.db.get_single_value("One Admin Settings", "press_bench")
+	if not bench:
+		return []
+	try:
+		held = [one for one in press.apps(bench) or [] if isinstance(one, dict)]
+	except Exception:
+		return []
+	waiting = [one.get("name") or one.get("app") for one in held if one.get("update_available")]
+	if not waiting:
+		return []
+	return [
+		{
+			"kind": "update",
+			"doctype": "One Admin Settings",
+			"name": "One Admin Settings",
+			"title": _("An update is waiting for {0}").format(bench),
+			"why": ", ".join(waiting),
+			"detail": _("Deploy it in Frappe Cloud; every workspace on it is updated."),
+			"since": "",
+			"badge": _("Update"),
+			"action": None,
+		}
+	]
 
 
 def _mispriced() -> list[dict]:

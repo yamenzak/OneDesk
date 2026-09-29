@@ -390,6 +390,18 @@ def fetch(path: str, params: dict | None = None) -> dict:
 	return _call("get", path, params=params or {})
 
 
+def cancel(sub: str) -> None:
+	"""Cancel a subscription now (steps.stop_billing). One already cancelled,
+	or never there, is the answer wanted, not an error."""
+	try:
+		_delete(f"subscriptions/{sub}")
+	except faults.Refused as refused:
+		said = str(refused)
+		if "No such subscription" in said or "resource_missing" in said or "canceled" in said:
+			return
+		raise
+
+
 def _delete(path: str, form: dict | None = None) -> dict:
 	return _call("delete", path, params=form or {})
 

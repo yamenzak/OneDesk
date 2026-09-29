@@ -9,10 +9,11 @@ reads the copy:
 * **seats**, pushed to the workspace in `hello`, where People refuses a seat
   past it;
 * **storage**, refused at upload by `storage.put_url`;
-* **database**, which is Frappe Cloud's to enforce: the site is moved to the
-  smallest Frappe Cloud plan whose database limit covers it (`move`). A move
-  that press refuses or cannot be asked is left pending on the tenant and
-  tried again nightly, because the customer has paid for the room either way;
+* **database**, measured by the workspace itself and sent in `hello`, where
+  it is shown and warned about. The sites are on our own Frappe Cloud
+  servers, where a site is unlimited and carries no Frappe Cloud plan, so
+  there is nothing to move it to: the limit is ours to watch, and Home says
+  when a workspace is past it;
 * **credits a month**, granted by `topup.monthly`.
 
 A zero on the plan is no limit, as Offering says; an add-on on an unlimited
@@ -49,7 +50,7 @@ def limits(tenant) -> dict:
 
 
 def apply(tenant) -> dict:
-	"""Write the limits onto the tenant, and move its site for the database."""
+	"""Write the limits onto the tenant."""
 	site.require_admin()
 	tenant = _doc(tenant)
 	held = limits(tenant)
@@ -64,67 +65,7 @@ def apply(tenant) -> dict:
 		},
 		update_modified=False,
 	)
-	move(tenant.name)
 	return held
-
-
-def press_plan_for(database_gb: int | None) -> str | None:
-	"""The cheapest Frappe Cloud plan whose database limit covers this many
-	GB, or None when the list cannot be read. Press states the limit in MB."""
-	from onedesk.one_admin import faults, press
-
-	try:
-		offered = press.plans() or []
-	except faults.Refused:
-		return None
-	wanted = (database_gb or 0) * 1024
-	fits = [
-		one
-		for one in offered
-		if not one.get("max_database_usage") or cint(one.get("max_database_usage")) >= wanted
-	]
-	fits.sort(key=lambda one: float(one.get("price_usd") or one.get("price") or 0))
-	return fits[0].get("name") if fits else None
-
-
-def move(slug: str) -> str | None:
-	"""Put the tenant's site on the Frappe Cloud plan its database limit
-	needs. Returns the plan asked for, or None when nothing was asked."""
-	from onedesk.one_admin import faults, press
-
-	tenant = frappe.get_doc("Tenant", slug)
-	if not tenant.site:
-		return None
-	wanted = press_plan_for(round(cint(tenant.database_limit) / GB) or None)
-	if not wanted or wanted == tenant.press_plan:
-		return None
-	try:
-		press.call("press.api.site.change_plan", name=tenant.site, plan=wanted)
-	except faults.Refused as refused:
-		_event(slug, "Plan Change Pending", f"{wanted} · {refused}")
-		return None
-	frappe.db.set_value("Tenant", slug, "press_plan", wanted, update_modified=False)
-	_event(slug, "Plan Changed", f"{wanted} · {cint(tenant.database_limit) // GB} GB")
-	return wanted
-
-
-def nightly() -> None:
-	"""Move any site whose last move was refused or could not be asked."""
-	if not site.is_admin():
-		return
-	for slug in frappe.get_all("Tenant", filters={"status": ["in", ("Live", "Overdue")]}, pluck="name"):
-		try:
-			move(slug)
-		except Exception:
-			frappe.log_error(title=f"Moving {slug} to its plan")
-		frappe.db.commit()
-
-
-def _event(slug: str, kind: str, detail: str) -> None:
-	"""Frappe Cloud's plan for the site, moved to fit its database (log.py)."""
-	from onedesk.one_admin import log
-
-	log.write(slug, kind, detail)
 
 
 def _doc(tenant):

@@ -119,6 +119,20 @@ def _told_delayed(asked) -> bool:
 
 
 @_quietly
+def paid_while_archived(tenant) -> None:
+	"""Money arrived for a workspace whose site is gone (lifecycle.paid)."""
+	notify.notify(
+		"Paid While Archived",
+		operators(),
+		link=HOME,
+		sender="Administrator",
+		record=("Tenant", tenant.name),
+		workspace=tenant.workspace_name or tenant.name,
+		state=_(tenant.status),
+	)
+
+
+@_quietly
 def owing(tenant, rung: str, why: str) -> None:
 	"""A workspace arrived on Overdue or Suspended (steps._arrive)."""
 	said = {"Overdue": _("Payment overdue"), "Suspended": _("Suspended for not paying")}

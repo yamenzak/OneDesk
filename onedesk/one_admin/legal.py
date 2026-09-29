@@ -8,10 +8,10 @@ M = "OneAdmin"
 subprocessor(
 	name="Frappe Technologies Pvt. Ltd.",
 	module=M,
-	purpose="Frappe Cloud, the managed platform each workspace runs on: the site, its database and its daily "
-	"backups",
+	purpose="Frappe Cloud, which runs the servers we rent for One: each workspace's site, its database and its "
+	"daily backups",
 	data="Everything in the workspace's database",
-	where="The region chosen when the workspace was created",
+	where="Germany (Nuremberg), on servers rented for One alone",
 	safeguard="Standard Contractual Clauses and Frappe's data processing addendum",
 	url="https://frappecloud.com/policies",
 )

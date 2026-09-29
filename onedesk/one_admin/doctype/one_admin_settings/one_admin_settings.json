@@ -12,6 +12,8 @@
   "column_break_press",
   "press_url",
   "press_domain",
+  "press_server",
+  "press_bench",
   "cloudflare_section",
   "cloudflare_account",
   "cloudflare_token",
@@ -93,7 +95,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "https://frappecloud.com",
+   "default": "https://cloud.frappe.io",
    "fieldname": "press_url",
    "fieldtype": "Data",
    "label": "Base URL"
@@ -407,12 +409,24 @@
    "label": "Sender Email",
    "default": "noreply@4dl.app",
    "description": "Sign-in links, signups and notices to customers come from this address. It must be in the same zone as the mail domain."
+  },
+  {
+   "fieldname": "press_server",
+   "fieldtype": "Data",
+   "label": "Server",
+   "description": "The Frappe Cloud server new workspaces are built on, for example u25-nuremberg-3.frappe.cloud."
+  },
+  {
+   "fieldname": "press_bench",
+   "fieldtype": "Data",
+   "label": "Bench Group",
+   "description": "The bench group on that server new workspaces go on. It must carry erpnext, hrms and onedesk."
   }
  ],
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-09-29 22:10:00.000000",
+ "modified": "2026-09-29 23:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",

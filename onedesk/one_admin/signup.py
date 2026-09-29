@@ -160,7 +160,7 @@ def _tenant_for(asked) -> str:
 			"jurisdiction": asked.jurisdiction,
 			"cluster": asked.cluster,
 			"country": asked.country,
-			"bench": _bench_for(asked.cluster),
+			# The bench and region are chosen by the build (steps.place_it).
 			# Decimal gigabytes, not binary. The plan says 25 GB, R2 bills in
 			# decimal, and every tool a customer checks with reports decimal —
 			# so 1024³ quietly gave them 26.8 GB and made the screen say 27 for
@@ -172,20 +172,6 @@ def _tenant_for(asked) -> str:
 		}
 	).insert(ignore_permissions=True)
 	return asked.slug
-
-
-def _bench_for(cluster: str | None) -> str:
-	"""The bench group a site for this cluster goes on.
-
-	Asked of press rather than kept in a table. With one bench it is the one
-	there is; the day there are several this is where the choosing goes.
-	"""
-	from onedesk.one_admin import press
-
-	benches = press.benches()
-	if not benches:
-		frappe.throw(frappe._("Frappe Cloud has no bench group to place a site on."))
-	return benches[0].get("name")
 
 
 #: Signups a minute from one address. A person filling in a form makes one; a
@@ -349,7 +335,8 @@ def start(workspace_name: str, offering: str, jurisdiction: str = "Global", emai
 			"slug": workspace_name,
 			"offering": sold.name,
 			"jurisdiction": jurisdiction if jurisdiction in ("Global", "EU") else "Global",
-			"cluster": _one_cluster(),
+			# Where it goes is the build job's to choose (steps.place_it), so a
+			# Frappe Cloud outage never stops a signup.
 			"status": "New",
 		}
 	).insert(ignore_permissions=True)
@@ -359,16 +346,3 @@ def start(workspace_name: str, offering: str, jurisdiction: str = "Global", emai
 	# Our own lead and deal for it, before the customer leaves to pay (sales.py).
 	sales.signed_up(asked.name)
 	return {"request": asked.name, "pay_at": stripe.checkout(asked.name)}
-
-
-def _one_cluster() -> str | None:
-	"""Where a workspace goes when there is nowhere else for it to go.
-
-	With one cluster the signup page asks nothing — a picker with one option is
-	a question with one answer. The day there are several, this is replaced by
-	what the customer chose.
-	"""
-	from onedesk.one_admin import press
-
-	found = press.clusters(_bench_for(None))
-	return found[0].get("name") if found else None

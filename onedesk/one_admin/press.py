@@ -127,6 +127,11 @@ def clusters(bench: str) -> list[dict]:
 	return _catalogue(f"clusters:{bench}", "press.api.bench.regions", name=bench) or []
 
 
+def apps(bench: str) -> list[dict]:
+	"""The apps a bench group carries, each with whether an update is waiting."""
+	return _catalogue(f"apps:{bench}", "press.api.bench.apps", name=bench) or []
+
+
 def plans() -> list[dict]:
 	"""What press charges us per site. Never what we charge a customer."""
 	return _catalogue("plans", "press.api.site.get_plans") or []

@@ -117,8 +117,8 @@ def hello(database_bytes: int | None = None) -> dict:
 
 	`database_bytes` is the workspace's own measure of its database, sent
 	along because the workspace can read it and admin cannot. It is shown
-	and warned about, never billed: the limit itself is Frappe Cloud's
-	(quota.move), which measures for itself.
+	and warned about, never billed: the sites are on our own servers, where
+	Frappe Cloud sets no limit, so the limit is ours (quota.py).
 
 	The tenant caches the answer in its own `Workspace Account`, so a screen
 	showing a plan or a quota draws without a round trip and keeps drawing

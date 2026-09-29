@@ -47,6 +47,14 @@ action:
   suspended, and since when. Open it to see its standing and act on it.
 - **A domain** that has waited a day for its DNS, or has stopped working.
   **Check Again** asks Cloudflare where it has got to.
+- **A build taking hours**: a new workspace still waiting on Frappe Cloud
+  after three hours. Waiting never fails a job, so this is where a build
+  that will never finish is seen. Look at the site in Frappe Cloud.
+- **A workspace over its database**: it holds more than it bought. Frappe
+  Cloud sets no limit on our own servers, so this is where it is watched.
+- **An update waiting** for the bench group new workspaces go on, with the
+  apps that have one. Deploying it is done in Frappe Cloud, and updates
+  every workspace on it at once.
 
 Clicking a row opens the record. Home keeps itself up to date: a job that
 fails, a signup that arrives or a domain that comes up changes it without
@@ -99,9 +107,16 @@ told on their own workspace, which still works then.
 A **job** is the work that builds a workspace or moves it on the ladder, one
 step at a time. There are five kinds:
 
-- **Provision** builds a new workspace: checks the name is free, asks Frappe
-  Cloud for the site, waits for it to be built, puts it on our own name,
-  tells the site who it is, invites the owner, and marks it live.
+- **Provision** builds a new workspace: chooses the server it goes on,
+  checks the name is free, asks Frappe Cloud for the site, waits for it to
+  be built, puts it on our own name, tells the site who it is, invites the
+  owner, and marks it live. The server and bench group are the ones
+  Settings names; a bench group missing erpnext, hrms or onedesk is refused
+  at the first step, saying which to add. A workspace that asked for the EU
+  goes on an EU region when the bench offers one.
+- **Archive** also cancels the workspace's subscription in Stripe, so a
+  workspace that is gone is not invoiced, and takes its mail route down
+  with its address.
 - **Suspend**, **Restore**, **Archive** and **Drop** move a workspace down
   or back up the ladder (see Workspaces).
 
@@ -111,8 +126,10 @@ moved. A failed job has its error under its step.
 
 A job is **Waiting to run** when its next step is due, and **Waiting on
 Frappe Cloud** while a step waits for somebody else, such as a site being
-built. A step that keeps not answering is tried again, less often each time,
-and after twelve tries the job **Fails** and the operators are told.
+built. Waiting is checked every minute and never counts against the job: a
+slow build is put on Home after three hours, not failed. A step that errors
+is tried again, less often each time, and after twelve tries the job
+**Fails** and the operators are told.
 
 Open a job to see its walk: every step in words, the ones done ticked, the
 one it is on marked, and a failed step's error under it. **Resume** runs a
@@ -429,9 +446,7 @@ in words, who did it, and when:
   it reached a rung, and why: a payment failed, its time on the last rung
   ran out, it was paid, it was moved by hand, or what Frappe Cloud did.
 - **Plan Changed** and **Add-on Changed**: the customer changed their plan
-  from their own workspace, by name. **Plan Change Pending**: Frappe Cloud
-  refused to move the site to the plan its database needs; it is asked
-  again each night.
+  from their own workspace, by name.
 - **Over Storage**: it holds more than its plan allows, with both sizes.
   Written when it goes over, and again only when it moves by a gigabyte or
   a month has passed. It is also on Home until it is back under.
@@ -447,7 +462,9 @@ beside its changes, and a job lists what it wrote.
 
 **Settings** is what OneAdmin runs on, in four tabs:
 
-- **Connections**: the Frappe Cloud account the sites are built on,
+- **Connections**: the Frappe Cloud account the sites are built on, with
+  the **Server** and **Bench Group** new workspaces go on (the servers are
+  ours, rented from Frappe Cloud; customers never see it),
   Cloudflare (one token; **Set Up Cloudflare** finds or makes the rest and
   says what it did under Last Setup), the R2 buckets and keys, Stripe's keys,
   and the AI Gateway. Keys are shown as dots and never read back. **Sender
@@ -486,6 +503,9 @@ Operators are told without opening Home:
   what now runs instead.
 - **Domains Waiting**: each morning, the domains that have waited a day or
   stopped working.
+- **Paid While Archived**: a payment arrived for a workspace whose site is
+  already archived or dropped. The payment is kept; rebuilding it from its
+  backup or refunding it in Stripe is the operator's call.
 
 An account holder asking to sign in is mailed **Sign-in Link**, which cannot
 be turned off, and one changing their address **Confirm Your New Email**

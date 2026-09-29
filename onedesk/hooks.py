@@ -137,8 +137,6 @@ scheduler_events = {
 		# The credit every plan promises. Keyed by month, so nightly is harmless.
 		"onedesk.one_admin.topup.monthly",
 		"onedesk.one_admin.storage.nightly",
-		# A site whose move to a bigger Frappe Cloud plan did not go through.
-		"onedesk.one_admin.quota.nightly",
 		# Deals whose checkout nobody finished and their signups, and paid
 		# invoices not yet booked.
 		"onedesk.one_admin.sales.abandoned",

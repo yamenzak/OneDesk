@@ -252,11 +252,11 @@ Costs; a credit costs what the gateway charges for one.
 add-ons and writes seats, storage, database and credits a month onto the
 `Tenant` at signup and whenever the plan or an add-on changes, and only
 then: re-pricing an offering never changes what a customer already bought.
-Storage is refused at upload; seats at turning somebody on; the database is
-Frappe Cloud's to enforce, so `quota.move` puts the site on the cheapest
-press plan whose database limit covers it, and a move press refuses is
-retried nightly. The workspace measures its own database and sends the
-number with `hello`; it is shown and warned about, never billed.
+Storage is refused at upload; seats at turning somebody on. The database is
+ours to watch: the sites run on servers we rent from Frappe Cloud, where a
+site carries no press plan and no limit, so there is nothing to move it
+between. The workspace measures its own database and sends the number with
+`hello`; it is shown, warned about and put on Home when over, never billed.
 
 **Changing what is paid for** is `billing.take`: a plan and exactly these
 add-ons. The plan item on the Stripe subscription is swapped and each

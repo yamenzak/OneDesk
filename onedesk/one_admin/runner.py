@@ -9,6 +9,9 @@ that died between two steps comes back to the second one. Every step is written
 to be safe run twice anyway — see `steps.py` — because the field is written
 after the step returns and a crash in that gap is real.
 
+**Waiting is not failing.** A step that answers WAIT is asked again in a
+minute and never counts toward giving up; only an attempt that failed does.
+
 **Backoff is per step and grows.** A site press has not finished building is
 worth asking about again in a few seconds; a call that failed for a reason we
 cannot see is worth leaving longer each time. The cap stops a stuck job from
@@ -80,7 +83,7 @@ def advance(name: str) -> str:
 		return _stop(job, tenant, str(refused))
 
 	if waiting:
-		return _later(job, None)
+		return _waiting(job)
 	return _next(job, tenant, step, walk)
 
 
@@ -130,6 +133,29 @@ def _later(job, why: str | None) -> str:
 			"attempts": attempts,
 			"error": why,
 			"next_run_at": add_to_date(now_datetime(), seconds=_backoff(attempts)),
+		},
+		notify=True,
+	)
+	return "Waiting"
+
+
+#: Seconds between asks while press is still working on something.
+WAIT_SECONDS = 60
+
+
+def _waiting(job) -> str:
+	"""Press is still at it. Ask again in a minute, and do not count it.
+
+	Waiting was counted as a failed attempt, which gave a build about forty
+	minutes before it was marked Failed and the customer mailed Delayed,
+	though press might finish at forty-five. A job that waits for hours is on
+	Home instead (home._slow_builds), where a person can look.
+	"""
+	job.db_set(
+		{
+			"status": "Waiting",
+			"error": None,
+			"next_run_at": add_to_date(now_datetime(), seconds=WAIT_SECONDS),
 		},
 		notify=True,
 	)
