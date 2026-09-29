@@ -528,3 +528,19 @@ def test_price_check_says_its_findings_in_words_and_warns_on_save():
 	report = (ADMIN / "report" / "price_check" / "price_check.py").read_text()
 	assert "_holds" not in report and '"gives"' in report and "include_disabled" in report
 	assert '"report:Price Check"' in (ADMIN / "ai.py").read_text()
+
+
+def test_plan_calculator_quotes_as_the_customer_is_quoted():
+	"""The calculator counts add-ons as billing.quote does, never credit
+	packs; says the needs back in its summary; and a workspace fills them."""
+	report = (ADMIN / "report" / "plan_calculator" / "plan_calculator.py").read_text()
+	assert 'one.kind == "Add-on"' in report
+	assert "def needs_of(" in report and "frappe.only_for(site.OPERATOR)" in report
+	assert "_summary(needs" in report and '"gives"' in report and '"dearer_by"' in report
+	script = (ADMIN / "report" / "plan_calculator" / "plan_calculator.js").read_text()
+	assert 'fieldname: "workspace"' in script and "needs_of" in script
+	ai = (ADMIN / "ai.py").read_text()
+	assert '"report:Plan Calculator"' in ai and '"expects": "plan_quote"' in ai
+	assert "def plan_quote(" in ai and "if not _operator():" in ai.split("def plan_quote(")[1]
+	assert '"onedesk.one_admin.ai.plan_quote"' in (tree.APP / "hooks.py").read_text()
+	assert "## Plan Calculator" in (ADMIN / "README.md").read_text()

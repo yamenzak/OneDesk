@@ -173,6 +173,29 @@ shows at once what the price list now gets wrong, and anything Wrong is on
 Home, under Needs You, until it is fixed. On the report, OneAI answers **What
 should we change?**.
 
+## Plan Calculator
+
+**Plan Calculator** answers what a customer should buy. Say how many
+**Seats**, how much **Storage** and **Database** in GB, and how many OneAI
+**Credits a Month** they need, and it lists every plan with the add-ons that
+bring it up to that, cheapest first: what the plan **Gives**, the add-ons,
+what it comes to **A Month**, what it **Costs** us, its **Margin**, and how
+much **Dearer** it is than the cheapest. The summary says the needs back and
+the cheapest answer. It is the same sum a workspace's own Plan and Credits
+screen does when its administrator adds to their plan, so what it says is
+what they will be offered. Credit packs are not in it: they are bought once,
+not monthly.
+
+For a customer you already have, pick the **Workspace**: the needs fill in
+from what it has now (the seats it pays for, the storage and database it
+uses, and its credits a month or this month's spend, whichever is more), the
+summary says what it **Pays Now**, and the row of its plan says **Their
+plan**. Change any need from there to ask "and with ten more people?".
+
+Only an operator of One sees it, and it changes nothing. On the report,
+OneAI answers **What should they buy?**, for needs said in words or a
+workspace by name.
+
 ## Domains
 
 **Domains** lists every name customers have put on their workspaces, such
@@ -250,7 +273,8 @@ explains where it stopped and what the error means, and on one waiting, **Why
 is this job waiting?** says what it is waiting for. On a domain that does not
 work, **Why isn't this domain working?** says what the customer has to change.
 On the price list, **How do our plans compare?**, and on a plan or add-on,
-**Who has this?**. On a workspace, **How is
+**Who has this?**. On Price Check, **What should we change?**, and on Plan
+Calculator, **What should they buy?**. On a workspace, **How is
 this workspace doing?** reads its standing, plan, storage, credits, domains,
 last jobs and log, and says whether anything is wrong.
 
@@ -303,6 +327,10 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   says them in the reader's language, and `offerings.warn` says them on
   saving an offering or the costs. `home._mispriced` is the Wrong ones.
   OneAI's suggestions reach a report as `report:<name>` (`one_ai/suggest.py`).
+- **Plan Calculator** (`report/plan_calculator`): `quote` is `plans.quote`
+  over the add-ons, as `billing.quote` is for the customer, with what each
+  way costs us; `needs_of` is a workspace's needs now. `ai.plan_quote` reads
+  both for OneAI.
 - **Domains** (`domains.py`): the customer's own names are custom
   hostnames on our Cloudflare zone; Frappe Cloud is never told of them.
   `Tenant Domain.is_main` is the console's copy of the workspace's

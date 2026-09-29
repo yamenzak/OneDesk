@@ -774,6 +774,7 @@ one_ai_reads = [
 	"onedesk.one_admin.ai.domain_facts",
 	"onedesk.one_admin.ai.price_list",
 	"onedesk.one_admin.ai.price_check",
+	"onedesk.one_admin.ai.plan_quote",
 	"onedesk.one_calendar.ai.busy_times",
 	# A file's text, who can see it, and what takes the space. See one_storage/ai.py.
 	"onedesk.one_storage.ai.open_file",

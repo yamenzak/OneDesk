@@ -271,6 +271,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.storage_delete`
 * `onedesk.one_admin.proxy.storage_get`
 * `onedesk.one_admin.proxy.storage_put`
+* `onedesk.one_admin.report.plan_calculator.plan_calculator.needs_of`
 * `onedesk.one_admin.setup.set_up`
 * `onedesk.one_admin.signup.available`
 * `onedesk.one_admin.signup.start`

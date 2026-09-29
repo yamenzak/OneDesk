@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-29 07:42+0000\n"
-"PO-Revision-Date: 2026-09-29 07:42+0000\n"
+"POT-Creation-Date: 2026-09-29 08:27+0000\n"
+"PO-Revision-Date: 2026-09-29 08:27+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -144,7 +144,7 @@ msgstr ""
 
 #. Label of the monthly (Float) field in DocType 'Workspace Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
-#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:55
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:165
 #: onedesk/public/js/settings.js:1063 onedesk/public/js/settings.js:1196
 msgid "A Month"
 msgstr ""
@@ -1102,7 +1102,7 @@ msgstr ""
 #. Label of the add_ons (Table) field in DocType 'Tenant'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
-#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:52
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:162
 msgid "Add-ons"
 msgstr ""
 
@@ -1248,10 +1248,6 @@ msgstr ""
 
 #: onedesk/one/settings.py:773
 msgid "After this many wrong passwords in a row, signing in is refused for a while."
-msgstr ""
-
-#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:68
-msgid "Against the Cheapest"
 msgstr ""
 
 #: onedesk/public/js/legal.js:73
@@ -1840,6 +1836,10 @@ msgstr ""
 
 #: onedesk/public/js/onecloud.js:1615
 msgid "Ask for files"
+msgstr ""
+
+#: onedesk/one_admin/ai.py:86
+msgid "Ask me what they need, or which workspace, if I have not said. Then say the cheapest plan and add-ons for it, what it costs a month, and the next best way."
 msgstr ""
 
 #: onedesk/one_hr/hiring.py:793
@@ -2791,10 +2791,6 @@ msgstr ""
 msgid "Cannot get file contents of a Folder"
 msgstr ""
 
-#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:32
-msgid "Cannot reach it"
-msgstr ""
-
 #. Label of the capability (Select) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Capability"
@@ -2934,8 +2930,9 @@ msgstr ""
 msgid "Charts a module registered, drawn beside the numbers under the title."
 msgstr ""
 
-#: onedesk/one_admin/report/plan_calculator/plan_calculator.js:11
-#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:34
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:52
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:128
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:138
 msgid "Cheapest"
 msgstr ""
 
@@ -3263,7 +3260,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: onedesk/one_admin/report/price_check/price_check.py:71
+#: onedesk/one_admin/report/price_check/price_check.py:75
 msgid "Close Calls"
 msgstr ""
 
@@ -3683,8 +3680,8 @@ msgstr ""
 msgid "Correction"
 msgstr ""
 
-#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:62
-#: onedesk/one_admin/report/price_check/price_check.py:89
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:172
+#: onedesk/one_admin/report/price_check/price_check.py:113
 #: onedesk/one_inventory/heads.py:353 onedesk/one_project/heads.py:170
 msgid "Cost"
 msgstr ""
@@ -3882,7 +3879,8 @@ msgstr ""
 #. Label of the credits_a_month (Int) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
-#: onedesk/one_admin/report/plan_calculator/plan_calculator.js:7
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.js:26
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:122
 #: onedesk/public/js/settings.js:1196
 msgid "Credits a Month"
 msgstr ""
@@ -3917,8 +3915,8 @@ msgstr ""
 #. Label of the currency (Link) field in DocType 'Reading'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/offering/offering.json
-#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:46
-#: onedesk/one_admin/report/price_check/price_check.py:83
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:155
+#: onedesk/one_admin/report/price_check/price_check.py:89
 #: onedesk/one_intake/bundle.py:83
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/report/spending/spending.py:37
@@ -4021,13 +4019,14 @@ msgstr ""
 msgid "Data Processing Addendum"
 msgstr ""
 
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:118
 #: onedesk/public/js/settings.js:1044 onedesk/public/js/settings.js:1196
 msgid "Database"
 msgstr ""
 
 #. Label of the database_gb (Int) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
-#: onedesk/one_admin/report/plan_calculator/plan_calculator.js:6
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.js:25
 msgid "Database (GB)"
 msgstr ""
 
@@ -4186,6 +4185,10 @@ msgstr ""
 
 #: onedesk/one_hr/notifications.py:263
 msgid "Dear {applicant}, your interview has moved from {was} to {when}."
+msgstr ""
+
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:178
+msgid "Dearer By"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -6371,7 +6374,8 @@ msgstr ""
 
 #. Label of the gives (Data) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
-#: onedesk/one_admin/report/price_check/price_check.py:87
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:161
+#: onedesk/one_admin/report/price_check/price_check.py:103
 msgid "Gives"
 msgstr ""
 
@@ -7867,7 +7871,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
-#: onedesk/one_admin/report/price_check/price_check.py:86
+#: onedesk/one_admin/report/price_check/price_check.py:102
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/bundle.py:83
 #: onedesk/one_intake/doctype/identifier/identifier.json
@@ -9025,7 +9029,7 @@ msgstr ""
 msgid "Make {0} the main address? Sign-in, invitations and every link in mail will use it."
 msgstr ""
 
-#: onedesk/one_admin/report/price_check/price_check.py:48
+#: onedesk/one_admin/report/price_check/price_check.py:52
 msgid "Makes sense."
 msgstr ""
 
@@ -9045,12 +9049,13 @@ msgstr ""
 msgid "Mar"
 msgstr ""
 
-#: onedesk/one_admin/report/price_check/price_check.py:90
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:177
+#: onedesk/one_admin/report/price_check/price_check.py:118
 #: onedesk/one_project/heads.py:172
 msgid "Margin"
 msgstr ""
 
-#: onedesk/one_admin/report/price_check/price_check.py:76
+#: onedesk/one_admin/report/price_check/price_check.py:80
 msgid "Margin Wanted"
 msgstr ""
 
@@ -9990,6 +9995,10 @@ msgstr ""
 msgid "No plan is on offer at the moment."
 msgstr ""
 
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:138
+msgid "No plan reaches it"
+msgstr ""
+
 #: onedesk/one_hr/rules.py:40
 msgid "No position was sent."
 msgstr ""
@@ -10315,7 +10324,7 @@ msgstr ""
 msgid "Note"
 msgstr ""
 
-#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:28
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:46
 msgid "Nothing"
 msgstr ""
 
@@ -10477,6 +10486,10 @@ msgstr ""
 msgid "Nov"
 msgstr ""
 
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:181
+msgid "Now"
+msgstr ""
+
 #: onedesk/public/js/settings.js:754
 msgid "Now it reads {0} {1}, and a number {2}."
 msgstr ""
@@ -10582,11 +10595,11 @@ msgstr ""
 #. Name of a DocType
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/offering/offering.json
-#: onedesk/one_admin/report/price_check/price_check.py:84
+#: onedesk/one_admin/report/price_check/price_check.py:96
 msgid "Offering"
 msgstr ""
 
-#: onedesk/one_admin/report/price_check/price_check.py:63
+#: onedesk/one_admin/report/price_check/price_check.py:67
 msgid "Offerings"
 msgstr ""
 
@@ -12031,6 +12044,10 @@ msgstr ""
 msgid "Payroll Settings"
 msgstr ""
 
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:143
+msgid "Pays Now"
+msgstr ""
+
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Payslip"
@@ -12281,7 +12298,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/tenant/tenant.json onedesk/one_admin/heads.py:474
-#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:51
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:160
 #: onedesk/public/js/settings.js:1060 onedesk/public/js/settings.js:1062
 #: onedesk/public/js/settings.js:1196 onedesk/www/start.html:46
 msgid "Plan"
@@ -12453,7 +12470,7 @@ msgstr ""
 
 #. Label of the price_section (Section Break) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
-#: onedesk/one_admin/report/price_check/price_check.py:88
+#: onedesk/one_admin/report/price_check/price_check.py:106
 msgid "Price"
 msgstr ""
 
@@ -13979,7 +13996,7 @@ msgstr ""
 msgid "Saved."
 msgstr ""
 
-#: onedesk/one_admin/report/price_check/price_check.py:91
+#: onedesk/one_admin/report/price_check/price_check.py:119
 msgid "Saves"
 msgstr ""
 
@@ -14019,7 +14036,7 @@ msgstr ""
 msgid "Say who the rule tells: a role, a person on the record, or its assignees."
 msgstr ""
 
-#: onedesk/one_admin/report/price_check/price_check.py:85
+#: onedesk/one_admin/report/price_check/price_check.py:101
 msgid "Says"
 msgstr ""
 
@@ -14098,7 +14115,8 @@ msgstr ""
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
-#: onedesk/one_admin/report/plan_calculator/plan_calculator.js:4
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.js:23
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:115
 #: onedesk/public/js/settings.js:1064 onedesk/public/js/settings.js:1196
 msgid "Seats"
 msgstr ""
@@ -14550,6 +14568,10 @@ msgstr ""
 #. Label of the 'shift_settings_section' field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Shifts"
+msgstr ""
+
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:50
+msgid "Short of {0}"
 msgstr ""
 
 #: onedesk/one_hr/notifications.py:216
@@ -15189,13 +15211,14 @@ msgstr ""
 #: onedesk/one/heads.py:85
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 #: onedesk/one_admin/doctype/tenant/tenant.json onedesk/one_admin/heads.py:475
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:116
 #: onedesk/public/js/settings.js:1043 onedesk/public/js/settings.js:1196
 msgid "Storage"
 msgstr ""
 
 #. Label of the storage_gb (Int) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
-#: onedesk/one_admin/report/plan_calculator/plan_calculator.js:5
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.js:24
 msgid "Storage (GB)"
 msgstr ""
 
@@ -16763,6 +16786,10 @@ msgstr ""
 msgid "Their passkey and shift assignments have been ended, but the status is still Active: {why}"
 msgstr ""
 
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:58
+msgid "Their plan"
+msgstr ""
+
 #: onedesk/one_hr/notifications.py:164
 msgid "Their shift approver"
 msgstr ""
@@ -17223,10 +17250,6 @@ msgstr ""
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_project/billing.py:77
 msgid "Time"
-msgstr ""
-
-#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:67
-msgid "Times Cost"
 msgstr ""
 
 #. Label of the opened (Int) field in DocType 'Cloud Link'
@@ -18531,6 +18554,10 @@ msgstr ""
 msgid "What should I do first?"
 msgstr ""
 
+#: onedesk/one_admin/ai.py:85
+msgid "What should they buy?"
+msgstr ""
+
 #: onedesk/one_admin/ai.py:75
 msgid "What should we change?"
 msgstr ""
@@ -19441,11 +19468,11 @@ msgstr ""
 msgid "Why are we losing deals?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:85
+#: onedesk/one_admin/ai.py:95
 msgid "Why did this job fail?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:86
+#: onedesk/one_admin/ai.py:96
 msgid "Why did this job fail? Say where it stopped, what the error means in plain words, and whether resuming it is likely to work."
 msgstr ""
 
@@ -19465,11 +19492,11 @@ msgstr ""
 msgid "Why is our domain not working?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:95
+#: onedesk/one_admin/ai.py:105
 msgid "Why is this job waiting?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:96
+#: onedesk/one_admin/ai.py:106
 msgid "Why is this job waiting? Say which step it is on, what it is waiting for, how many times it has tried, and whether anything is wrong."
 msgstr ""
 
@@ -19614,6 +19641,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:26
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:31
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.js:7
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_mail/cloud.py:47 onedesk/public/js/ai_model.js:23
 #: onedesk/public/js/onemail.js:232 onedesk/public/js/settings.js:296
@@ -19901,7 +19929,7 @@ msgid "Written one way however it was typed, such as an IBAN without spaces or a
 msgstr ""
 
 #. Option for the 'Audit' (Select) field in DocType 'Intake Action'
-#: onedesk/one_admin/report/price_check/price_check.py:65
+#: onedesk/one_admin/report/price_check/price_check.py:69
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 msgid "Wrong"
 msgstr ""
@@ -20363,6 +20391,7 @@ msgid "created it"
 msgstr ""
 
 #: onedesk/one/account.py:280
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:26
 msgid "credits"
 msgstr ""
 
@@ -20375,6 +20404,7 @@ msgid "current address"
 msgstr ""
 
 #: onedesk/one_admin/offerings.py:194
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:25
 msgid "database"
 msgstr ""
 
@@ -20702,6 +20732,7 @@ msgid "restored version {0}"
 msgstr ""
 
 #: onedesk/one_admin/offerings.py:192
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:23
 msgid "seats"
 msgstr ""
 
@@ -20722,6 +20753,7 @@ msgid "something else uses it now"
 msgstr ""
 
 #: onedesk/one_admin/offerings.py:193
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:24
 msgid "storage"
 msgstr ""
 
@@ -20864,6 +20896,8 @@ msgstr ""
 msgid "{0} AI credits a month"
 msgstr ""
 
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:116
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:119
 #: onedesk/public/js/settings.js:1194
 msgid "{0} GB"
 msgstr ""
@@ -20955,6 +20989,10 @@ msgstr ""
 
 #: onedesk/one_inventory/heads.py:220
 msgid "{0} at the end"
+msgstr ""
+
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:129
+msgid "{0} at {1}"
 msgstr ""
 
 #: onedesk/one_hr/heads.py:104
@@ -21534,10 +21572,6 @@ msgstr ""
 
 #: onedesk/one_intake/understand.py:359
 msgid "{0} months"
-msgstr ""
-
-#: onedesk/one_admin/report/plan_calculator/plan_calculator.py:36
-msgid "{0} more"
 msgstr ""
 
 #: onedesk/one_intake/keep.py:61

@@ -3200,6 +3200,28 @@ Team at $70, then Starter with three add-ons at $73.
 8. **Legal**: nothing leaves the admin site. Holds.
 9. **Built from frappe**: a Script Report and its summary. Holds.
 
+Your word: all of them.
+
+Done:
+
+- The summary says the four needs back with their words (Seats 15,
+  Storage 20 GB, Database 1 GB, Credits a Month 3,000) and the cheapest
+  answer ("Team at $70.00").
+- A **Workspace** filter fills the needs from what it has now (`needs_of`:
+  the seats it pays for, storage and database used, its credits a month or
+  this month's spend, whichever is more). The summary adds what it **Pays
+  Now**, and a **Now** column marks **Their plan**.
+- Each row has the plan's **Gives** line. **Margin** reads "2.4×", and
+  "Against the Cheapest" is **Dearer By**. Columns resized so the add-ons
+  fit.
+- Found while fixing: the report counted credit packs as monthly add-ons,
+  so Starter reached 2,000 credits a month with a pack the customer's own
+  screen never offers. It now counts add-ons only, as `billing.quote` does,
+  and a plan no add-on can reach says what it is **Short of**.
+- OneAI: **What should they buy?** on the report, and `plan_quote`
+  (operator-only) for needs in words or a workspace by name.
+- README: a **Plan Calculator** section and an Under the hood line.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

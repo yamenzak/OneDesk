@@ -80,6 +80,16 @@ SUGGESTIONS = {
 			"expects": "price_check",
 		},
 	],
+	"report:Plan Calculator": [
+		{
+			"label": _lt("What should they buy?"),
+			"ask": _lt(
+				"Ask me what they need, or which workspace, if I have not said. Then say the cheapest plan and "
+				"add-ons for it, what it costs a month, and the next best way."
+			),
+			"expects": "plan_quote",
+		},
+	],
 	"Provisioning Job": [
 		{
 			"label": _lt("Why did this job fail?"),
@@ -339,5 +349,52 @@ def price_check() -> dict:
 				"costs_us": plans.cost(one, costs),
 			}
 			for one in [*ladder, *sold]
+		],
+	}
+
+
+def plan_quote(
+	seats: Annotated[int, "How many people need a seat."] = 0,
+	storage_gb: Annotated[float, "How many GB of files."] = 0,
+	database_gb: Annotated[float, "How many GB of database."] = 0,
+	credits_a_month: Annotated[int, "How many OneAI credits a month."] = 0,
+	workspace: Annotated[str, "A workspace's id, to start from what it has now instead."] | None = None,
+) -> dict:
+	"""For an operator of One only: what a workspace needing this much should
+	buy, as Plan Calculator answers it. Every plan with the add-ons that bring
+	it up to the needs, cheapest first, with what each costs a month and what
+	it costs us. With `workspace`, the needs are what it has now, and the plan
+	it is on is marked. Changes nothing."""
+	if not _operator():
+		return {"error": "Only an operator of One, on the admin site, sees the plan calculator."}
+	from onedesk.one_admin.report.plan_calculator import plan_calculator
+
+	held = None
+	if workspace:
+		if not frappe.db.exists("Tenant", workspace):
+			return {"error": f"There is no workspace {workspace}. Ask which one they meant."}
+		held = frappe.db.get_value("Tenant", workspace, "offering")
+		needs = plan_calculator.needs_of(workspace)
+	else:
+		needs = {
+			"seats": seats,
+			"storage_gb": storage_gb,
+			"database_gb": database_gb,
+			"credits_a_month": credits_a_month,
+		}
+	options, currency = plan_calculator.quote(needs)
+	return {
+		"needs": needs,
+		"currency": currency,
+		"options": [
+			{
+				"plan": one["plan"].label,
+				"add_ons": [f"{count} × {extra.label}" for extra, count in one["extras"]],
+				"a_month": one["monthly"],
+				"costs_us": one["costs_us"],
+				"cannot_reach": one["unmet"],
+				"their_plan": bool(held) and one["plan"].key == held,
+			}
+			for one in options
 		],
 	}
