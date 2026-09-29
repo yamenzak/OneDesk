@@ -3678,6 +3678,86 @@ Done:
 OneAdmin is done: Home, Workspaces, Jobs, Log, Domains, Price List, Price
 Check, Plan Calculator, Signups, Credits, Models, AI Usage and Settings.
 
+### OneAdmin › Start (the signup page)
+
+`/start` on the admin site, the first portal page: a guest names a
+workspace, gives an email, picks where it runs and a plan, and is sent to
+Stripe. `/welcome` is where Stripe sends them back. It answers 404 on a
+workspace. Both are hand-written Jinja pages over `templates/web.html`
+(`www/start.py`, `start.html`, `welcome.py`, `welcome.html`,
+`public/css/portal.css`).
+
+1. **Notifications**: the operators hear of a paid signup (Signup Paid) and
+   of one not built (Workspace Delayed); the customer gets Stripe's receipt
+   and, once built, the workspace's own set-password mail. Two gaps:
+   - Somebody who fills the form and closes Stripe hears nothing, though
+     the privacy clause already says we follow up. Recommended: one
+     **Finish Signing Up** mail a day later, with a link back to the
+     request's checkout, and never a second.
+   - A signup whose build fails is told on `/welcome` only if they are
+     still looking at it. Recommended: the customer gets a short **We Are
+     On It** mail when Workspace Delayed goes to the operators.
+2. **OneAI**: nothing, and nothing needed on a guest page (every call costs
+   us and the guest has no credits). Holds. Operators already have OneAI
+   on the Signups list.
+3. **Intake**: nothing. Holds.
+4. **Permissions**: guest, admin site only, both calls rate-limited at five
+   a minute. One bug: the name check fires as you type (300 ms after you
+   stop), so a name typed in bursts passes five in under a minute and the
+   sixth answers 429, which the page drops silently and the hint freezes.
+   Recommended: the name check at thirty a minute and the rejection caught;
+   Start stays at five.
+5. **Cross-module**:
+   - The address preview is hard-coded `.t.4dl.app`, not the Tenant
+     Domain in Settings (`tenant.py` reads it). Recommended: the page is
+     given the domain.
+   - **European Union** only moves the files: `storage._bucket` picks the
+     EU bucket, but `_one_cluster()` ignores the choice, so the database
+     runs wherever the one cluster is. And with no EU bucket set, the first
+     upload fails ("No EU bucket is configured"). Recommended: EU is
+     offered only when the EU bucket is set, and its note says what it
+     does: "Files are kept in the European Union."
+   - The quota line leaves out the database size the plan sells (Price
+     List and the Plan Calculator both show it). Recommended: add it.
+   - Only Starter has a description, so the four plans read unevenly.
+     Recommended: a line each, written in Price List (data, not code).
+6. **UI and UX** (a portal page is ours to draw, and should look like One):
+   - a. The **email box is grey** and the name box white, so email looks
+     disabled. Recommended: both the same, as frappe-ui's TextInput draws
+     them (`surface-gray-2`, no border, a ring on focus), which is what
+     every field inside One looks like.
+   - b. The empty address hint leaves a gap under the name box.
+     Recommended: the hint takes no room until there is something to say,
+     and says it as "Your address: acme.t.4dl.app".
+   - c. The chosen radio boxes are drawn with a heavy black border.
+     Recommended: frappe-ui's selected look, a gray-7 ring, lighter.
+   - d. The button only disables while it waits. Recommended: frappe-ui's
+     loading button (spinner, "Taking you to Stripe…").
+   - e. Errors land as raw server text under the button (a 429 reads
+     "Too Many Requests"). Recommended: a frappe-ui-style error alert,
+     with the rate-limit case in words.
+   - f. No way in for somebody who already has a workspace. Recommended:
+     a small **Already have one? Sign in** line under the lede, asking for
+     the workspace name and sending them to its address.
+   - g. `/welcome` does not move: it says "being built" and stays there
+     until reloaded. Recommended: it asks every ten seconds while Paid or
+     Provisioning and shows **Open it** the moment it is Done.
+7. **Documented**: the README's Signups section is about the operator's
+   list; nothing says what the page asks, what EU means or what happens
+   after payment. Recommended: a **The signup page** section.
+8. **Legal**: the customer pays before seeing a single agreement. The Terms
+   are agreed on first sign-in, which binds them, but they have paid by
+   then. Recommended: "By continuing you agree to the Terms of Service and
+   the Privacy Policy" above the button, each a link, which needs the
+   agreements readable without signing in: a public `/legal/<document>`
+   route on the admin site from OneLegal's `assemble`. The first-sign-in
+   acceptance stays; it is the record. The signup privacy clause
+   (`oneadmin-signup`) holds.
+9. **Built from frappe**: `frappe.call` and `__()` are frappe's; the
+   inputs and radios are plain HTML, which a guest page has to be (the
+   desk controls do not load on a web page). Holds, drawn to frappe-ui's
+   look as 6 says.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
