@@ -2662,6 +2662,88 @@ Done:
 - **Legal**: the Terms' non-payment clause says the owner is mailed at each
   step and before deletion, revision 5.
 
+### OneAdmin › Jobs
+
+Jobs is frappe's list and form of `Provisioning Job`: one walk of steps that
+builds a workspace (Provision, six steps) or moves it on the ladder (Suspend,
+Restore, Archive, Drop). `runner.tick` runs every two minutes, advances up
+to five due jobs a step each, retries a slow step with backoff, and marks a
+job Failed after twelve tries. The list opens on jobs not done. On the dev
+site: Nine B's suspension waiting to run, Gone Ltd's archive failed on step
+2, Nine X's build waiting on Frappe Cloud after three tries, and Nine S's
+build done.
+
+1. **Notifications**: a failed job tells the operators (Job Failed, from
+   Home's pass). Two gaps:
+   - **Nobody is told a workspace is ready.** When a build finishes, the
+     owner learns it only if they are still on the welcome page, which says
+     "The workspace is ready" and links to it. A build that waits on Frappe
+     Cloud can take a long time. Recommended: **Workspace Ready** mailed to
+     the owner from `steps.live`, with the address.
+   - **Nothing makes the owner a user of their new workspace.** No step
+     invites `owner_email` into the site it built, so "Open it" leads to a
+     sign-in page they have no account for. Recommended: a last step,
+     `invite_owner`, that asks the new site to invite them as its
+     administrator (One's own Invitation mail, with the 7-day link). The
+     Workspace Ready mail then says to use that link. This needs a call the
+     new site answers with the token `push_config` wrote, so it is the one
+     change here that touches the tenant side.
+   - The Job Failed text says "At: {step}" and the raw error ("press
+     answered 503 three times"). "press" is our word for Frappe Cloud.
+     Recommended: "Stopped while asking Frappe Cloud to delete the site",
+     and the error as it is under it.
+2. **OneAI**: **Why did this job fail?** is offered on every job, done or
+   not, and has nothing to read but the fields: the step as a function name
+   and the payload as JSON. Recommended: a reader, `job_facts`, with every
+   step of the walk in words and which are done, the attempts, when it runs
+   next, the error, and the workspace's status; operator-only. The question
+   offered only on a failed job; on one waiting, **Why is this job
+   waiting?**.
+3. **Intake**: nothing OneIntake reads lands here, and nothing should.
+   Holds.
+4. **Permissions**: holds. Read-only for One Operator, refused off the
+   admin site, no create or delete; Resume is `operator.resume`, behind
+   `_may`. Share is offered and does nothing; recommended off, as on
+   Workspaces.
+5. **Cross-module**: a job belongs to a workspace, and the workspace's log
+   (Tenant Event) records what the job did, but the job does not show its
+   log, and the log does not say which job. Home counts only builds as
+   Building, so a suspension or archive **waiting to run for a week**
+   (Nine B's) shows nowhere. When the scheduler stops, every job stops and
+   nothing says so. Recommended: Needs You lists a job whose next run is
+   more than fifteen minutes past ("Jobs are not moving: the last ran at
+   …"), whatever its kind.
+6. **UI and UX**:
+   - a. **The list**: the ID column (PROV-26-00013) is the widest thing on
+     it; the Tenant column is called Tenant; the step is cut off; there is
+     no age, and a job's error is not on its row. Recommended: Workspace
+     (named), Kind, Status, Step, and when it last moved ("3 hours ago"),
+     with the error under a failed row's step; no ID column or filter.
+   - b. **The form repeats the head**: the head says "Failed at Step 2 of
+     4 · Asking Frappe Cloud to delete the site", and the fields below say
+     Status Failed and Step `archive_site`. Attempts reads 0 and Next Run a
+     week ago on a failed job, and both show on a done one. Payload is raw
+     JSON. Recommended: the walk as a checklist of its steps in words, done
+     ticked, the one it is on marked (the head has this data already,
+     `operator.walk`); Attempts and Next Run only while it waits; the error
+     in full on a failed one; Payload folded away.
+   - c. **Tenant** is the label on the form too. Recommended: Workspace.
+   - d. The required stars on read-only fields: nobody types here.
+   - e. Nothing updates while it is open: a waiting job moves on while
+     the operator watches it and the page stays. Recommended: `db_set(...,
+     notify=True)` in the runner, as the workspace now does.
+7. **Documented**: the README says what Home does with a failed job, but
+   nothing on what a job is, its kinds and steps, what Waiting means, when
+   one gives up, or that Resume is safe. Recommended: a **Jobs** section.
+8. **Legal**: jobs send the workspace's name, region and config to Frappe
+   Cloud and its routes to Cloudflare, both already listed as
+   subprocessors in `one_admin/legal.py`. If the owner is invited (1), the
+   owner's email goes into their new workspace, which the Terms should say
+   when they describe how a workspace is set up. Nothing else is new.
+9. **Built from frappe**: list, form, indicators and the Record Head are
+   frappe's; the checklist in 6b would be the head's own steps drawn with
+   frappe's badge and icon, not a new widget.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
