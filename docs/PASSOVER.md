@@ -2882,6 +2882,70 @@ Done:
 - **README**: a Log section.
 - Also fixed on the way: the workspace head said "Team + 1 add-ons".
 
+### OneAdmin › Domains
+
+Domains is frappe's list and form of `Tenant Domain`: one row per name a
+customer has put on their workspace (`crm.acme.com`), a custom hostname on
+our Cloudflare zone. The customer adds, removes and chooses the main one on
+their own site (Workspace › Domains); Cloudflare decides whether it works,
+and the admin site asks it when the customer presses Check Again, when an
+operator does, and each night for names not yet working. On the dev site:
+one, `nine.example.com`, working, for Nine Ltd.
+
+1. **Notifications**: holds. The customer's administrators are told on
+   their own site when a name starts or stops working (Domain Working,
+   Domain Stopped Working), and the operators each morning when one has
+   waited a day or broken (Domains Waiting, from Home's pass).
+2. **OneAI**: nothing reads a domain but the generic "Summarise this", and
+   the one question anybody opens a domain for is why it does not work.
+   Recommended: **Why isn't this domain working?** on a domain not
+   working, reading its status, Cloudflare's problem, where its CNAME must
+   point, how long it has waited and when it was last asked;
+   operator-only.
+3. **Intake**: nothing OneIntake reads lands here, and nothing should.
+   Holds.
+4. **Permissions**: holds. Read-only for One Operator, refused off the
+   admin site; the one verb asks Cloudflare and changes nothing of the
+   customer's. Share is offered and does nothing; recommended off.
+5. **Cross-module**: the workspace's form lists its domains, but nothing
+   here says which name is the workspace's **main address** (Tenant's
+   `primary_domain`), which is the first thing to know before touching
+   one. Recommended: a Main column and a line on the form.
+6. **UI and UX**:
+   - a. **Still written for Frappe Cloud.** Domains moved to Cloudflare,
+     and the words did not: the list says "Frappe Cloud is setting it
+     up" and "Removed at Frappe Cloud", the head says "Asked for, and
+     Frappe Cloud has not answered yet" and "Frappe Cloud no longer has
+     this domain", and both handle an **In Progress** status that no
+     longer exists. Each is wrong about what is happening.
+   - b. **Three words for one state**: Pending is "Waiting on DNS" in the
+     list, "Waiting" on the pill; Active is "Working" in the list and
+     "Active" on the pill and field; Broken is "Broken" and "Not
+     working". Recommended: one set, the customer's own (Waiting,
+     Working, Not working).
+   - c. **The form says almost nothing**: Workspace and Status. For a name
+     that is waiting it should say what the customer has to do ("Point
+     crm.acme.com at acme.t.4dl.app with a CNAME record"), Cloudflare's
+     problem in full, since when it has waited, and when it was last
+     asked. Cloudflare's id and raw answer are for somebody debugging:
+     folded.
+   - d. **The list** is headed ID, with no age, no problem and no main
+     mark. Recommended: Domain, Workspace, Status, Main, and Cloudflare's
+     problem under a name not working.
+   - e. **The button says Refresh**, and the same action on Home says
+     Check Again. Recommended: Check Again, as the customer's own screen
+     says it.
+   - f. The required star on Workspace; nothing updates while open
+     (`_keep` writes without publishing).
+7. **Documented**: nothing in the README on domains: how a customer adds
+   one, what each status means, what Check Again does, and why an
+   operator cannot add or remove a name for a customer. Recommended: a
+   **Domains** section.
+8. **Legal**: a customer's names go to Cloudflare, which
+   `one_admin/legal.py` already lists as the network every workspace is
+   reached through. Holds.
+9. **Built from frappe**: frappe's list, form and Record Head. Holds.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
