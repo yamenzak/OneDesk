@@ -14,7 +14,8 @@ whatever roles they hold there.
 
 **OneAdmin** in the dock opens it on **Home**.
 
-Along the top are five numbers. Each opens the list it counts:
+Along the top are five numbers, frappe's number cards. Each opens the list
+it counts:
 
 - **Live**: workspaces serving their customers.
 - **Building**: workspaces whose job is still being built.
@@ -70,12 +71,15 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   other site the role is taken off everybody, and the permission hooks refuse
   every record and every list. `docs/INFRASTRUCTURE.md` and
   `docs/ACCOUNTS.md` are the long form.
-- **Home is a page** (`page/oneadmin`, `home.py`), not a workspace. frappe
-  offers every workspace to Workspace Manager, whatever its roles, so a
-  workspace here showed OneAdmin in the dock of people who could open
-  nothing in it. A page's roles are its own, and a rail with nothing its
-  reader may open drops out of the dock. `patches/home_is_a_page.py` removes
-  the old workspace and its four number cards.
+- **Home is frappe's `One Admin` workspace**, as One's Home is: five
+  number cards, and Needs You as a Custom HTML Block (`OneAdmin Needs You`,
+  a fixture, for One Operator only) drawn with frappe's own quick list
+  markup. frappe offers every workspace to Workspace Manager, whatever its
+  roles, so `site.offer` (`extend_bootinfo`) takes OneAdmin's rail and
+  Home out of the boot for anybody who is not an operator on the admin site.
+  With its rail gone, the dock drops its entry, and the address answers
+  "not found". `patches/home_is_a_workspace.py` removes the page Home was
+  for a while, and the Stuck card, which is Failed now.
 - `home.counts` and `home.needs` are the operator's only (`operator._may`).
   The actions are `operator.py`'s own verbs: `resume`, `retry_signup` and
   `refresh_domain`.

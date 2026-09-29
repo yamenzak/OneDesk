@@ -11,7 +11,7 @@ import frappe
 from frappe import _lt
 
 SUGGESTIONS = {
-	"page:oneadmin": [
+	"workspace:One Admin": [
 		{
 			"label": _lt("What needs me today?"),
 			"ask": _lt(
@@ -35,7 +35,7 @@ SUGGESTIONS = {
 
 def page(said: dict) -> str | None:
 	"""The sentence the model is told on OneAdmin's Home."""
-	if said.get("page") != "oneadmin":
+	if said.get("workspace") != "One Admin":
 		return None
 	return (
 		"The reader is an operator of One, on OneAdmin's Home: how many workspaces are live, being built, "

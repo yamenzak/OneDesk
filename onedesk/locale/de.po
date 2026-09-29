@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-28 19:35+0000\n"
-"PO-Revision-Date: 2026-09-28 19:35+0000\n"
+"POT-Creation-Date: 2026-09-29 05:10+0000\n"
+"PO-Revision-Date: 2026-09-29 05:10+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -127,6 +127,11 @@ msgstr "<b>{who}</b> wartet noch auf Dateien für <b>{request}</b>.<br><br><a hr
 #: onedesk/one_crm/workspace/onecrm/onecrm.json
 msgid "<span class=\"h4\"><b>My Day</b></span>"
 msgstr "<span class=\"h4\"><b>Mein Tag</b></span>"
+
+#. Header text in the One Admin Workspace
+#: onedesk/one_admin/workspace/one_admin/one_admin.json
+msgid "<span class=\"h4\"><b>Right now</b></span>"
+msgstr "<span class=\"h4\"><b>Gerade jetzt</b></span>"
 
 #. Header text in the OneCRM Workspace
 #: onedesk/one_crm/workspace/onecrm/onecrm.json
@@ -1987,7 +1992,7 @@ msgstr "Am Ende jeder E-Mail, die der Arbeitsbereich sendet. Leer lassen für ke
 msgid "At: {0}"
 msgstr "Bei: {0}"
 
-#: onedesk/one_admin/notifications.py:21
+#: onedesk/one_admin/notifications.py:19
 msgid "At: {step}<br>{error}"
 msgstr "Bei: {step}<br>{error}"
 
@@ -2551,7 +2556,9 @@ msgstr "Anlegen"
 msgid "Build Workspace"
 msgstr "Arbeitsbereich anlegen"
 
+#. Label of a number card in the One Admin Workspace
 #: onedesk/one_admin/home.py:62
+#: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "Building"
 msgstr "Im Aufbau"
 
@@ -4551,7 +4558,6 @@ msgstr "Wird nicht abgeschrieben"
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
-#: onedesk/one_admin/page/oneadmin/oneadmin.js:29
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/public/js/settings.js:1423 onedesk/public/js/settings.js:1500
 msgid "Domain"
@@ -4574,7 +4580,7 @@ msgstr "Domain funktioniert"
 msgid "Domains"
 msgstr "Domains"
 
-#: onedesk/one_admin/notifications.py:57
+#: onedesk/one_admin/notifications.py:55
 msgid "Domains Waiting"
 msgstr "Wartende Domains"
 
@@ -5285,7 +5291,7 @@ msgstr "Alle Dateien sind im Cloud-Speicher."
 msgid "Every file uploaded anywhere in One is kept in cloud storage."
 msgstr "Jede in One hochgeladene Datei wird im Cloud-Speicher abgelegt."
 
-#: onedesk/one_admin/notifications.py:60
+#: onedesk/one_admin/notifications.py:58
 msgid "Every morning, the domains that have waited a day for their DNS or stopped working. Not sent when there are none."
 msgstr "Jeden Morgen die Domains, die einen Tag auf ihr DNS gewartet haben oder nicht mehr funktionieren. Nicht gesendet, wenn es keine gibt."
 
@@ -5585,6 +5591,7 @@ msgstr "Fakt"
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
+#. Label of a number card in the One Admin Workspace
 #. Option for the 'Status' (Select) field in DocType 'Interview Recording'
 #. Option for the 'State' (Select) field in DocType 'Interview Recording Part'
 #. Option for the 'State' (Select) field in DocType 'Reading'
@@ -5593,7 +5600,7 @@ msgstr "Fakt"
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:22
 #: onedesk/one_admin/doctype/tenant/tenant.json onedesk/one_admin/heads.py:37
 #: onedesk/one_admin/heads.py:46 onedesk/one_admin/home.py:64
-#: onedesk/one_admin/page/oneadmin/oneadmin.js:26
+#: onedesk/one_admin/workspace/one_admin/one_admin.json
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -7614,7 +7621,7 @@ msgstr ""
 msgid "Job Applicant"
 msgstr ""
 
-#: onedesk/one_admin/notifications.py:13
+#: onedesk/one_admin/notifications.py:11
 msgid "Job Failed"
 msgstr "Auftrag fehlgeschlagen"
 
@@ -8447,9 +8454,11 @@ msgid "List Everyone Unmarked"
 msgstr "Alle ohne Eintrag auflisten"
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
+#. Label of a number card in the One Admin Workspace
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:15
 #: onedesk/one_admin/heads.py:25 onedesk/one_admin/home.py:61
+#: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "Live"
 msgstr "Live"
 
@@ -9461,11 +9470,6 @@ msgstr "Braucht"
 msgid "Needs Review"
 msgstr "Prüfung nötig"
 
-#: onedesk/one_admin/page/oneadmin/oneadmin.js:86
-#: onedesk/one_admin/page/oneadmin/oneadmin.js:109
-msgid "Needs You"
-msgstr "Braucht Sie"
-
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:52
 msgid "Needs a Look First"
 msgstr "Erst ansehen"
@@ -9563,7 +9567,7 @@ msgstr "Neues Projekt"
 msgid "New Rule"
 msgstr "Neue Regel"
 
-#: onedesk/one_admin/notifications.py:37
+#: onedesk/one_admin/notifications.py:35
 msgid "New Signup"
 msgstr "Neue Anmeldung"
 
@@ -9791,10 +9795,6 @@ msgstr "Noch keine Rechnungen."
 #: onedesk/public/js/onecloud.js:375
 msgid "No items match your search."
 msgstr "Keine Elemente entsprechen Ihrer Suche."
-
-#: onedesk/one_admin/page/oneadmin/oneadmin.js:87
-msgid "No job has failed, nobody owes, and every domain is working."
-msgstr "Kein Auftrag ist fehlgeschlagen, niemand schuldet etwas, und jede Domain funktioniert."
 
 #: onedesk/one_inventory/heads.py:74
 msgid "No level set"
@@ -10243,10 +10243,6 @@ msgstr "Nichts passt dazu."
 msgid "Nothing matches."
 msgstr "Nichts passt."
 
-#: onedesk/one_admin/page/oneadmin/oneadmin.js:87
-msgid "Nothing needs you."
-msgstr "Nichts braucht Sie."
-
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:140
 msgid "Nothing on these days."
 msgstr "An diesen Tagen ist nichts."
@@ -10544,6 +10540,11 @@ msgstr "Einmal pro Woche: was für Sie angekommen ist, was OneAI erledigt hat un
 #: onedesk/one/sidebar/one/one.json onedesk/one/workspace/one/one.json
 msgid "One"
 msgstr "One"
+
+#. Name of a Workspace
+#: onedesk/one_admin/workspace/one_admin/one_admin.json
+msgid "One Admin"
+msgstr "OneAdmin"
 
 #. Name of a DocType
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -10852,7 +10853,6 @@ msgid "OneAI will read {0}, file it and act on it on your behalf. A scan or a ph
 msgstr "OneAI liest {0}, legt es ab und handelt in Ihrem Namen danach. Ein Scan oder Foto wird mit OneAI-Guthaben gelesen."
 
 #. Title of a Sidebar
-#: onedesk/one_admin/page/oneadmin/oneadmin.js:13
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 msgid "OneAdmin"
 msgstr "OneAdmin"
@@ -11540,8 +11540,10 @@ msgid "Owes Us"
 msgstr "Schuldet uns"
 
 #. Label of the owing (Check) field in DocType 'Workspace Account'
+#. Label of a number card in the One Admin Workspace
 #: onedesk/one/doctype/workspace_account/workspace_account.json
-#: onedesk/one_admin/home.py:63 onedesk/one_admin/page/oneadmin/oneadmin.js:28
+#: onedesk/one_admin/home.py:63
+#: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "Owing"
 msgstr "Offen"
 
@@ -11612,7 +11614,9 @@ msgstr "Per Lastschrift bezahlt."
 msgid "Paid under"
 msgstr "Vergütet nach"
 
-#: onedesk/one_admin/home.py:65 onedesk/one_admin/page/oneadmin/oneadmin.js:27
+#. Label of a number card in the One Admin Workspace
+#: onedesk/one_admin/home.py:65
+#: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "Paid, Not Built"
 msgstr "Bezahlt, nicht angelegt"
 
@@ -11831,7 +11835,7 @@ msgstr "Die Zahlung läuft über Stripe. Es wird nichts abgebucht, bis sie dort 
 
 #: onedesk/one/heads.py:18 onedesk/one_admin/doctype/tenant/tenant_list.js:16
 #: onedesk/one_admin/heads.py:26 onedesk/one_admin/home.py:153
-#: onedesk/one_admin/tell.py:80
+#: onedesk/one_admin/tell.py:100
 msgid "Payment overdue"
 msgstr "Zahlung überfällig"
 
@@ -13183,11 +13187,10 @@ msgid "References"
 msgstr "Referenzen"
 
 #: onedesk/one_admin/heads.py:386 onedesk/one_admin/heads.py:393
-#: onedesk/one_admin/heads.py:415
-#: onedesk/one_admin/page/oneadmin/oneadmin.js:34
-#: onedesk/public/js/onecloud.js:120 onedesk/public/js/onecloud.js:1922
-#: onedesk/public/js/onecloud.js:1923 onedesk/public/js/onecloud.js:1943
-#: onedesk/public/js/onemail.js:93 onedesk/public/js/shell.js:260
+#: onedesk/one_admin/heads.py:415 onedesk/public/js/onecloud.js:120
+#: onedesk/public/js/onecloud.js:1922 onedesk/public/js/onecloud.js:1923
+#: onedesk/public/js/onecloud.js:1943 onedesk/public/js/onemail.js:93
+#: onedesk/public/js/shell.js:260
 msgid "Refresh"
 msgstr "Aktualisieren"
 
@@ -14549,7 +14552,7 @@ msgstr "Eine Anmeldung an einem neuen Ort meldet die Person überall sonst ab."
 msgid "Signs with “{0}”"
 msgstr "Signiert mit „{0}“"
 
-#: onedesk/one_admin/notifications.py:26
+#: onedesk/one_admin/notifications.py:24
 msgid "Signup Not Built"
 msgstr "Anmeldung nicht angelegt"
 
@@ -15283,7 +15286,7 @@ msgstr ""
 msgid "Suspended For"
 msgstr "Gesperrt für"
 
-#: onedesk/one_admin/home.py:153 onedesk/one_admin/tell.py:80
+#: onedesk/one_admin/home.py:153 onedesk/one_admin/tell.py:100
 msgid "Suspended for not paying"
 msgstr "Wegen Nichtzahlung gesperrt"
 
@@ -16190,9 +16193,9 @@ msgstr "Die eine dunkle Schaltfläche, solange sie erscheint."
 msgid "The one word for it. What it can be fed is below, and the picker filters on both."
 msgstr "Das eine Wort dafür. Was es verarbeiten kann, steht darunter, und die Auswahl filtert nach beidem."
 
-#: onedesk/one_admin/notifications.py:19 onedesk/one_admin/notifications.py:30
-#: onedesk/one_admin/notifications.py:41 onedesk/one_admin/notifications.py:51
-#: onedesk/one_admin/notifications.py:63
+#: onedesk/one_admin/notifications.py:17 onedesk/one_admin/notifications.py:28
+#: onedesk/one_admin/notifications.py:39 onedesk/one_admin/notifications.py:49
+#: onedesk/one_admin/notifications.py:61
 msgid "The operators"
 msgstr "Die Betreiber"
 
@@ -18595,11 +18598,11 @@ msgstr "Wenn eine Schulung geplant wird, an der du teilnimmst."
 msgid "When a warehouse's account is not a stock account, so stock and books disagree."
 msgstr "Wenn das Konto eines Lagers kein Bestandskonto ist, sodass Bestand und Bücher nicht übereinstimmen."
 
-#: onedesk/one_admin/notifications.py:50
+#: onedesk/one_admin/notifications.py:48
 msgid "When a workspace falls overdue, or is suspended for not paying."
 msgstr "Wenn ein Arbeitsbereich in Zahlungsverzug gerät oder wegen Nichtzahlung gesperrt wird."
 
-#: onedesk/one_admin/notifications.py:16
+#: onedesk/one_admin/notifications.py:14
 msgid "When a workspace job stops on a step: building, suspending, restoring, archiving or deleting files."
 msgstr "Wenn ein Auftrag eines Arbeitsbereichs bei einem Schritt stehen bleibt: Aufbau, Sperren, Wiederherstellen, Archivieren oder Löschen von Dateien."
 
@@ -18761,7 +18764,7 @@ msgstr "Wenn Ihnen jemand eine Aufgabe gibt."
 msgid "When somebody gives you something to do, or it changes."
 msgstr "Wenn dir jemand etwas zu tun gibt oder es sich ändert."
 
-#: onedesk/one_admin/notifications.py:29
+#: onedesk/one_admin/notifications.py:27
 msgid "When somebody has paid for a workspace and it could not be made."
 msgstr "Wenn jemand für einen Arbeitsbereich bezahlt hat und er nicht angelegt werden konnte."
 
@@ -18793,7 +18796,7 @@ msgstr "Wenn jemand außerhalb des Workspace Dateien über einen Link hochlädt,
 msgid "When somebody outside the workspace uploads one file through a link you made."
 msgstr "Wenn jemand außerhalb des Workspace eine Datei über einen Link hochlädt, den du erstellt hast."
 
-#: onedesk/one_admin/notifications.py:40
+#: onedesk/one_admin/notifications.py:38
 msgid "When somebody pays for a new workspace."
 msgstr "Wenn jemand für einen neuen Arbeitsbereich bezahlt."
 
@@ -19393,7 +19396,7 @@ msgstr "Arbeitsbereich-ID"
 msgid "Workspace Mailbox"
 msgstr "Postfach des Arbeitsbereichs"
 
-#: onedesk/one_admin/notifications.py:47
+#: onedesk/one_admin/notifications.py:45
 msgid "Workspace Owing"
 msgstr "Arbeitsbereich im Rückstand"
 
@@ -21564,10 +21567,6 @@ msgstr "{0}: Ein per Code berechnetes Feld kann der Arbeitsbereich nicht hinzuf�
 msgid "{0}: a workspace cannot add a field of the kind {1}."
 msgstr "{0}: Ein Arbeitsbereich kann kein Feld der Art {1} hinzufügen."
 
-#: onedesk/one_admin/page/oneadmin/oneadmin.js:121
-msgid "{0}: done."
-msgstr "{0}: erledigt."
-
 #: onedesk/one/customize.py:391 onedesk/one/layer.py:163
 msgid "{0}: this field is required by the record itself."
 msgstr "{0}: Dieses Feld verlangt der Datensatz selbst."
@@ -21640,7 +21639,7 @@ msgstr "{by} hat {domain} zur Hauptadresse des Arbeitsbereichs gemacht. Anmeldun
 msgid "{by} made {person} an administrator of the workspace. If you did not expect this, check Workspace › People now."
 msgstr "{by} hat {person} zum Administrator des Arbeitsbereichs gemacht. Wenn Sie das nicht erwartet haben, prüfen Sie jetzt Arbeitsbereich › Personen."
 
-#: onedesk/one_admin/notifications.py:64
+#: onedesk/one_admin/notifications.py:62
 msgid "{count} domains need a look"
 msgstr "{count} Domains brauchen einen Blick"
 
@@ -21672,7 +21671,7 @@ msgstr "{credits} des OneAI-Guthabens des Arbeitsbereichs verfällt am {date}. E
 msgid "{customer} is over their credit limit"
 msgstr "{customer} hat das Kreditlimit überschritten"
 
-#: onedesk/one_admin/notifications.py:65
+#: onedesk/one_admin/notifications.py:63
 msgid "{domains}"
 msgstr "{domains}"
 
@@ -21684,11 +21683,11 @@ msgstr "{domain} funktioniert nicht mehr"
 msgid "{domain} works now"
 msgstr "{domain} funktioniert jetzt"
 
-#: onedesk/one_admin/notifications.py:32
+#: onedesk/one_admin/notifications.py:30
 msgid "{email}<br>{error}"
 msgstr "{email}<br>{error}"
 
-#: onedesk/one_admin/notifications.py:43
+#: onedesk/one_admin/notifications.py:41
 msgid "{email}{plan}"
 msgstr "{email}{plan}"
 
@@ -21776,7 +21775,7 @@ msgstr "{tasks}"
 msgid "{title} arrived after you closed this task."
 msgstr "{title} ist angekommen, nachdem Sie diese Aufgabe geschlossen haben."
 
-#: onedesk/one_admin/notifications.py:20
+#: onedesk/one_admin/notifications.py:18
 msgid "{what}"
 msgstr "{what}"
 
@@ -21821,19 +21820,19 @@ msgstr "{who} hat {file} mit Ihnen geteilt.<br><br><a href=\"{link}\">Öffnen</a
 msgid "{who} {said} <b>{event}</b>, {when}{where}.<br><br>The event is attached, to add to your own calendar."
 msgstr "{who} {said} <b>{event}</b>, {when}{where}.<br><br>Der Termin ist angehängt, zum Hinzufügen in Ihren eigenen Kalender."
 
-#: onedesk/one_admin/notifications.py:53
+#: onedesk/one_admin/notifications.py:51
 msgid "{why}"
 msgstr "{why}"
 
-#: onedesk/one_admin/notifications.py:31
+#: onedesk/one_admin/notifications.py:29
 msgid "{workspace} paid and has no workspace"
 msgstr "{workspace} hat bezahlt und hat keinen Arbeitsbereich"
 
-#: onedesk/one_admin/notifications.py:42
+#: onedesk/one_admin/notifications.py:40
 msgid "{workspace} signed up"
 msgstr "{workspace} hat sich angemeldet"
 
-#: onedesk/one_admin/notifications.py:52
+#: onedesk/one_admin/notifications.py:50
 msgid "{workspace}: {state}"
 msgstr "{workspace}: {state}"
 

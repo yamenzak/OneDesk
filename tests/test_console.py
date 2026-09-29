@@ -60,8 +60,8 @@ def _sidebar() -> dict:
 	return _json(ADMIN / "sidebar" / "one_admin" / "one_admin.json")
 
 
-def _page() -> dict:
-	return _json(ADMIN / "page" / "oneadmin" / "oneadmin.json")
+def _workspace() -> dict:
+	return _json(ADMIN / "workspace" / "one_admin" / "one_admin.json")
 
 
 def _owned() -> set[str]:
@@ -82,11 +82,13 @@ def _owned() -> set[str]:
 
 def test_the_console_is_gated_on_the_operator_role():
 	"""The whole of the hiding, and the only thing standing between a tenant and it."""
-	roles = [row["role"] for row in _page().get("roles") or []]
+	roles = [row["role"] for row in _workspace().get("roles") or []]
 	assert roles == [OPERATOR], f"the OneAdmin page grants {roles}"
-	# A workspace is offered to every Workspace Manager whatever its roles say,
-	# which is how a non-operator was shown the console: Home is a page.
-	assert not (ADMIN / "workspace").exists(), "OneAdmin's Home is a page, not a workspace"
+	# frappe offers every workspace to Workspace Manager whatever its roles say,
+	# so the boot is told of OneAdmin only for an operator on the admin site.
+	assert '"onedesk.one_admin.site.offer"' in (tree.APP / "hooks.py").read_text()
+	offer = (ADMIN / "site.py").read_text().split("def offer(", 1)[1]
+	assert "is_admin() and OPERATOR in frappe.get_roles()" in offer and 'pop(MODULE' in offer
 
 
 def test_every_rail_entry_points_at_something_real():
@@ -102,8 +104,8 @@ def test_every_rail_entry_points_at_something_real():
 
 def test_the_rail_starts_at_home():
 	first = _sidebar()["items"][0]
-	assert first["link_type"] == "Page"
-	assert first["link_to"] == "oneadmin"
+	assert first["link_type"] == "Workspace"
+	assert first["link_to"] == "One Admin"
 
 
 def test_nothing_is_reachable_only_by_typing_its_name():
@@ -115,12 +117,27 @@ def test_nothing_is_reachable_only_by_typing_its_name():
 	)
 
 
-def test_home_counts_what_its_lists_show():
-	source = (ADMIN / "home.py").read_text()
-	assert "operator._may()" in source, "Home is the operator's alone"
-	page = (ADMIN / "page" / "oneadmin" / "oneadmin.js").read_text()
-	assert 'frappe.set_route("List", one.doctype, one.filters)' in page, "a number opens the list it counted"
-	assert "frappe.realtime.doctype_subscribe" in page
+def test_the_home_page_names_number_cards_that_exist():
+	shipped = {
+		_json(one / f"{one.name}.json")["name"]
+		for one in (ADMIN / "number_card").iterdir()
+		if one.is_dir()
+	}
+	named = {row["number_card_name"] for row in _workspace().get("number_cards") or []}
+	assert named <= shipped, f"the home page names cards that do not exist: {named - shipped}"
+	# The layout names a card by the workspace's own row label, not the card.
+	labels = {row["label"] for row in _workspace()["number_cards"]}
+	laid = {one["data"]["number_card_name"] for one in json.loads(_workspace()["content"]) if one["type"] == "number_card"}
+	assert laid == labels, f"the layout names cards the workspace does not carry: {laid ^ labels}"
+
+
+def test_what_needs_the_operator_is_a_block_of_their_own():
+	blocks = {one["name"]: one for one in _json(tree.APP / "fixtures" / "custom_html_block.json")}
+	needs = blocks["OneAdmin Needs You"]
+	assert [row["role"] for row in needs["roles"]] == [OPERATOR]
+	assert "onedesk.one_admin.home.needs" in needs["script"]
+	assert "frappe.realtime.doctype_subscribe" in needs["script"]
+	assert "operator._may()" in (ADMIN / "home.py").read_text(), "Home is the operator's alone"
 
 
 def test_a_record_the_machinery_makes_cannot_be_typed_by_hand():
@@ -172,6 +189,7 @@ def test_both_gates_are_registered_on_every_owned_doctype():
 def test_the_console_wears_its_own_mark():
 	"""OneAdmin is its own product with its own mark; `one` is a different one."""
 	assert _sidebar()["header_icon"] == "oneadmin"
+	assert _workspace()["icon"] == "oneadmin"
 	shipped = json.loads(
 		(tree.APP / "fixtures" / "custom_icon.json").read_text(encoding="utf-8")
 	)

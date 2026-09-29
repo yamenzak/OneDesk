@@ -2485,14 +2485,20 @@ Your word: all of them.
 
 Done:
 
-- **Home is a page** (`one_admin/page/oneadmin`, `home.py`), for One
-  Operator only. A page's roles are its own, so the rail has nothing for
-  anybody else and the dock drops OneAdmin for them. Checked as
-  admin@example.com (Workspace Manager, not an operator): OneAdmin is gone
-  from the dock, and `/desk/oneadmin` answers "Not permitted". The old
-  workspace and its four number cards go (`patches/home_is_a_page.py`).
-- **The numbers** sit on the page: Live, Building, Owing, Failed and Paid,
-  Not Built. Each opens its list with the filters it counted.
+- **Home stays frappe's workspace**, as One › Home is. It was a page of
+  ours for one commit, and it looked worse than the standard dashboard, so
+  it went back: frappe's number cards, and Needs You as a Custom HTML Block
+  (`OneAdmin Needs You`, for One Operator) drawn with frappe's own quick
+  list markup and a number card's border.
+- **Who is offered it**: `site.offer` (`extend_bootinfo`) takes OneAdmin's
+  rail and Home out of the boot for anybody who is not an operator on the
+  admin site, since frappe offers every workspace to Workspace Manager.
+  Checked as admin@example.com (Workspace Manager, not an operator):
+  OneAdmin is gone from the dock, and `/desk/one-admin` answers "not
+  found".
+- **The numbers**: Live, Building, Owing, Failed and Paid, Not Built, five
+  number cards. Stuck is Failed, and Owing no longer counts archived
+  workspaces.
 - **Needs You**: one list, most pressing first, each row saying why and
   since when, with its action. A failed job has **Resume**
   (`operator.resume`), a paid signup with no workspace has **Build It**

@@ -1,0 +1,60 @@
+{
+ "app": "onedesk",
+ "charts": [],
+ "content": "[{\"id\": \"one-admin-head\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Right now</b></span>\", \"col\": 12}}, {\"id\": \"one-admin-nc-0\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Live\", \"col\": 4}}, {\"id\": \"one-admin-nc-1\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Building\", \"col\": 4}}, {\"id\": \"one-admin-nc-2\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Owing\", \"col\": 4}}, {\"id\": \"one-admin-nc-3\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Failed\", \"col\": 4}}, {\"id\": \"one-admin-nc-4\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Paid, Not Built\", \"col\": 4}}, {\"id\": \"one-admin-needs\", \"type\": \"custom_block\", \"data\": {\"custom_block_name\": \"OneAdmin Needs You\", \"col\": 12}}]",
+ "creation": "2026-09-22 12:00:00.000000",
+ "custom_blocks": [
+  {
+   "custom_block_name": "OneAdmin Needs You",
+   "label": "OneAdmin Needs You"
+  }
+ ],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "oneadmin",
+ "idx": 1,
+ "is_hidden": 0,
+ "label": "One Admin",
+ "links": [],
+ "modified": "2026-09-29 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Admin",
+ "name": "One Admin",
+ "number_cards": [
+  {
+   "label": "Live",
+   "number_card_name": "Workspaces"
+  },
+  {
+   "label": "Building",
+   "number_card_name": "Building"
+  },
+  {
+   "label": "Owing",
+   "number_card_name": "Owing"
+  },
+  {
+   "label": "Failed",
+   "number_card_name": "Failed"
+  },
+  {
+   "label": "Paid, Not Built",
+   "number_card_name": "Paid, Not Built"
+  }
+ ],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "restrict_to_domain": "",
+ "roles": [
+  {
+   "role": "One Operator"
+  }
+ ],
+ "sequence_id": 1.0,
+ "shortcuts": [],
+ "title": "OneAdmin"
+}

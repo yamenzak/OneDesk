@@ -146,3 +146,34 @@ def nothing_on_a_tenant(user=None, doctype=None) -> str:
 	a doctype holding no rows, and a workspace site holds none of these anyway.
 	"""
 	return "" if is_admin() else "1=0"
+
+
+#: OneAdmin's module, and the workspace that is its Home.
+MODULE = "One Admin"
+
+
+def offer(bootinfo=None) -> None:
+	"""`extend_bootinfo`: OneAdmin's rail and Home are offered to operators only.
+
+	frappe gives every workspace to Workspace Manager so they can be arranged,
+	whatever roles the workspace names, so a person holding that role and
+	nothing of OneAdmin's was offered its rail and its Home, and landed on a
+	permission error. The records were never theirs to read; this takes the
+	way to them out of what the desk is told. With its rail gone, the dock
+	drops OneAdmin's entry, as it does for any app a person cannot reach.
+	"""
+	if is_admin() and OPERATOR in frappe.get_roles():
+		return
+	sidebars = bootinfo.get("module_sidebars")
+	if isinstance(sidebars, dict):
+		sidebars.pop(MODULE, None)
+	for key in ("allowed_workspaces", "workspaces"):
+		held = bootinfo.get(key)
+		if isinstance(held, dict) and isinstance(held.get("pages"), list):
+			held["pages"] = [page for page in held["pages"] if _named(page) != MODULE]
+		elif isinstance(held, list):
+			bootinfo[key] = [page for page in held if _named(page) != MODULE]
+
+
+def _named(page) -> str | None:
+	return page.get("name") if isinstance(page, dict) else page

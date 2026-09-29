@@ -13,8 +13,8 @@
    "indent": 0,
    "keep_closed": 0,
    "label": "Home",
-   "link_to": "oneadmin",
-   "link_type": "Page",
+   "link_to": "One Admin",
+   "link_type": "Workspace",
    "show_arrow": 0,
    "type": "Link",
    "idx": 1
@@ -209,7 +209,7 @@
    "idx": 16
   }
  ],
- "modified": "2026-09-29 10:00:00.000000",
+ "modified": "2026-09-29 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin",

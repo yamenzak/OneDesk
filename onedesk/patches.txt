@@ -13,4 +13,4 @@ onedesk.one_intake.patches.people
 onedesk.one_intake.patches.no_new_iban
 onedesk.one.patches.no_erpnext_footer
 onedesk.one.patches.holiday_names
-onedesk.one_admin.patches.home_is_a_page
+onedesk.one_admin.patches.home_is_a_workspace

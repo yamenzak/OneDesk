@@ -83,7 +83,11 @@ after_migrate = [
 	"onedesk.one_project.updates.settle",
 	"onedesk.one_hr.lifecycle.settle_boardings",
 ]
-extend_bootinfo = "onedesk.one.boot.boot_session"
+extend_bootinfo = [
+	"onedesk.one.boot.boot_session",
+	# OneAdmin's rail and Home are offered to operators only. See one_admin/site.py.
+	"onedesk.one_admin.site.offer",
+]
 
 # A pattern is not visible from inside one request. See one_hr/healing.py.
 scheduler_events = {
@@ -574,7 +578,8 @@ fixtures = [
 	{"dt": "UTM Source", "filters": [["name", "=", "Website"]]},
 	# One's Home, the part for administrators: what in the workspace needs them
 	# (one/home.py, attention). A block has no module to be standard in.
-	{"dt": "Custom HTML Block", "filters": [["name", "=", "One Needs You"]]},
+	# OneAdmin's Home, the operator's list of what needs them (one_admin/home.py).
+	{"dt": "Custom HTML Block", "filters": [["name", "in", ["One Needs You", "OneAdmin Needs You"]]]},
 ]
 
 

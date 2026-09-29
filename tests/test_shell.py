@@ -35,7 +35,6 @@ ON_THE_SHELL = {
 	),
 	"onemail": ("public/js/onemail.js", "public/css/onemail.css"),
 	"onecloud": ("public/js/onecloud.js", "public/css/onecloud.css"),
-	"oneadmin": ("one_admin/page/oneadmin/oneadmin.js", "one_admin/page/oneadmin/oneadmin.css"),
 	# Nothing of its own to style: every part is the shell's or frappe's.
 	"customize": ("public/js/customize.js", None),
 }

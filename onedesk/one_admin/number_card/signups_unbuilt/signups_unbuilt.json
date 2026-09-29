@@ -1,0 +1,20 @@
+{
+ "creation": "2026-09-29 12:00:00.000000",
+ "modified": "2026-09-29 12:00:00.000000",
+ "modified_by": "Administrator",
+ "owner": "Administrator",
+ "docstatus": 0,
+ "idx": 0,
+ "doctype": "Number Card",
+ "name": "Paid, Not Built",
+ "label": "Paid, Not Built",
+ "module": "One Admin",
+ "is_standard": 1,
+ "is_public": 1,
+ "show_percentage_stats": 0,
+ "type": "Document Type",
+ "document_type": "Account Request",
+ "function": "Count",
+ "filters_json": "[[\"Account Request\", \"status\", \"in\", [\"Paid\", \"Failed\"]], [\"Account Request\", \"tenant\", \"is\", \"not set\"]]",
+ "color": "#C4453D"
+}
