@@ -120,7 +120,7 @@ DOCUMENTS = {
 	"terms": {
 		"title": "Terms of Service",
 		"audience": "customer",
-		"revision": 4,
+		"revision": 5,
 		"summary": "The agreement between your organisation and Four Degree Labs for the use of One.",
 	},
 	"aup": {

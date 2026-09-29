@@ -1,10 +1,11 @@
-"""Telling the operator (one_admin/notifications.py).
+"""Telling the operator, and a workspace's owner (one_admin/notifications.py).
 
 Each is called where the thing happens rather than from a document hook,
 because the machinery writes with `db_set`, which runs no hooks: a job stops
 in `runner._stop`, a signup is paid for and built in `signup.accept`, a
 workspace arrives on a rung in `steps._arrive`, and the domains are asked
-about in `domains.nightly`. Nothing here may stop the thing it tells of, so
+about in `domains.nightly`. The owner is mailed from `steps._arrive` when
+their workspace is suspended, archived or restored. Nothing here may stop the thing it tells of, so
 each is wrapped: a notice that fails is logged, and the job carries on.
 """
 
@@ -17,7 +18,7 @@ from markupsafe import Markup
 from onedesk.one import notify
 from onedesk.one_admin import site
 
-HOME = "/desk/oneadmin"
+HOME = "/desk/one-admin"
 
 
 def operators() -> list[str]:
@@ -110,6 +111,34 @@ def owing(tenant, rung: str, why: str) -> None:
 		state=said[rung],
 		why=why or "",
 	)
+
+
+@_quietly
+def owner(tenant, rung: str, was: str | None) -> None:
+	"""The workspace's owner, mailed when it is suspended, archived or
+	restored (steps._arrive). Overdue is told on their own site
+	(one/account.py); a suspended one cannot tell them anything."""
+	if not tenant.get("owner_email"):
+		return
+	from frappe.utils import add_days, formatdate, today
+
+	from onedesk.one_admin import lifecycle
+
+	days = lifecycle._days()
+	said = {
+		"workspace": tenant.workspace_name or tenant.name,
+		"reference_doctype": "Tenant",
+		"reference_name": tenant.name,
+	}
+	if rung == "Suspended":
+		on = formatdate(add_days(today(), days["Suspended"]))
+		notify.mail("Workspace Suspended", tenant.owner_email, date=on, **said)
+	elif rung == "Archived":
+		on = formatdate(add_days(today(), days["Archived"]))
+		notify.mail("Workspace Archived", tenant.owner_email, date=on, **said)
+	elif rung == "Live" and was == "Suspended":
+		address = tenant.get("domain") or tenant.get("site") or tenant.name
+		notify.mail("Workspace Restored", tenant.owner_email, address=address, **said)
 
 
 @_quietly

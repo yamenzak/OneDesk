@@ -2622,6 +2622,46 @@ suspended.
    (`add_user_action`) are frappe's too but drawn as bare links; the
    toolbar's group is the frappe way to hold them.
 
+Your word: all of them.
+
+Done:
+
+- **The owner is mailed** from the admin site when their workspace is
+  suspended (**Workspace Suspended**, with the day it is archived), archived
+  (**Workspace Archived**, with the day it and its files are deleted) and
+  restored (**Workspace Restored**, with its address). `tell.owner`, called
+  from `steps._arrive`. Operator-only in Settings › Notifications, where
+  they can be reworded. Checked: both queue to buyer@acme.test.
+- **The clock**: `_arrive` and the live step write `status_since` with every
+  status, and `patches/status_since.py` dated the workspaces that had none,
+  from their log. Gone Ltd now says "Falls to Archived in 8 days".
+- **Live**: every status write publishes (`db_set(..., notify=True)`), so an
+  open form and list change as a job moves.
+- **Workspaces**: our own lists are called what the rail calls them
+  (`one/titles.py` hands down the labels of our doctypes that the rails name
+  one way; `reports.js` writes the list's title, the crumb and a record's
+  connections). Tenant is Workspaces, and the other OneAdmin lists read Jobs,
+  Log, Domains, Signups and so on. erpnext's keep their names.
+- **The list**: Workspace (with its slug, so the two Probe Ltds differ),
+  Status, Owner, Plan, Storage ("21 GB of 100 GB", red over). Filters
+  Workspace, Status, Plan, Jurisdiction; the ID filter is gone.
+- **The head**: Plan, Storage, Credits Left (0, not "None"), Used This Month.
+  Storage shows even with no limit. The sentence has no close X, on every
+  head: it is where a record stands, not a message.
+- **The form**: Plan and Customer on the first tab beside Status; Placement
+  and Site folded. A **Billing** menu in the toolbar: Invoices (for somebody
+  who may read them; an operator alone may not read the books, so the
+  Customer connection is not drawn for them either), Give Credits, Credit
+  Ledger, AI Usage. Share is gone, and the role can no longer share.
+- **OneAI**: **How is this workspace doing?** on a workspace, reading
+  `workspace_facts` (standing, plan, storage, credits, domains, last jobs
+  and log), refused to anybody not an operator on the admin site. No model
+  was called.
+- **README**: a Workspaces section after Home; Being told and Asking OneAI
+  name the new mails and question.
+- **Legal**: the Terms' non-payment clause says the owner is mailed at each
+  step and before deletion, revision 5.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

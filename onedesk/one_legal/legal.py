@@ -244,7 +244,8 @@ say(
 	then suspended for {DAYS["Suspended"]} days: nobody can sign in, and nothing in it is touched. It is
 	then archived for {DAYS["Archived"]} days: the workspace is taken down after a backup is kept, your
 	files stay where they are, and it can be restored on request. After that, it is deleted. Paying at any
-	point before it is deleted brings it straight back.
+	point before it is deleted brings it straight back. We email the workspace's owner when it is
+	suspended, when it is archived, with the day it will be deleted, and when it is restored.
 """,
 	order=20,
 )

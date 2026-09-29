@@ -1,11 +1,15 @@
-"""What OneAI does in OneAdmin: says what needs the operator, and why.
+"""What OneAI does in OneAdmin: says what needs the operator, and why, and
+how one workspace is doing.
 
-The operator's own reader, on the admin site only and for One Operator only,
-as every console read is (`operator._may`). It is Home's own list
-(`home.needs`), so the panel and the page say the same thing. Nothing is
-changed from here: resuming a job, building a signup or checking a domain is
-Home's button, which the operator presses.
+The operator's own readers, on the admin site only and for One Operator only,
+as every console read is (`operator._may`). `console_today` is Home's own list
+(`home.needs`), so the panel and the page say the same thing;
+`workspace_facts` is what a workspace's own form shows, its head and its
+connections. Nothing is changed from here: resuming a job, building a signup,
+checking a domain or giving credits is a button the operator presses.
 """
+
+from typing import Annotated
 
 import frappe
 from frappe import _lt
@@ -18,6 +22,18 @@ SUGGESTIONS = {
 				"What needs me in OneAdmin today? Say what is most urgent first, why each one is stuck, and what I should do about it."
 			),
 			"expects": "console_today",
+		},
+	],
+	"Tenant": [
+		{
+			"label": _lt("How is this workspace doing?"),
+			"ask": _lt(
+				"How is this workspace doing? Say where it stands and whether anything is wrong: its payments, "
+				"storage, credits, domains and its last jobs, and what I should do about anything that is."
+			),
+			"can": "read",
+			"view": "Form",
+			"expects": "workspace_facts",
 		},
 	],
 	"Provisioning Job": [
@@ -45,6 +61,12 @@ def page(said: dict) -> str | None:
 	)
 
 
+def _operator() -> bool:
+	from onedesk.one_admin import site
+
+	return site.is_admin() and site.OPERATOR in frappe.get_roles()
+
+
 def console_today() -> dict:
 	"""For an operator of One only: what needs them in OneAdmin, as Home lists
 	it. Jobs that failed with their step and error, workspaces paid for and not
@@ -60,4 +82,66 @@ def console_today() -> dict:
 			{key: one.get(key) for key in ("kind", "doctype", "name", "title", "why", "detail", "since")}
 			for one in home.needs()
 		],
+	}
+
+
+def workspace_facts(
+	workspace: Annotated[str, "The workspace's id, its slug, as the page names it."],
+) -> dict:
+	"""For an operator of One only: how one workspace stands. Its status and
+	since when, whether it owes and when it falls a rung, its plan and
+	add-ons, its storage against its limit, its OneAI credits and this month's
+	spend, its domains, and its last jobs and log entries."""
+	if not _operator():
+		return {"error": "Only an operator of One, on the admin site, sees a workspace."}
+	if not frappe.db.exists("Tenant", workspace):
+		return {"error": f"There is no workspace {workspace}. Ask which one they meant."}
+	from onedesk.one.heads import size
+	from onedesk.one_admin import operator
+
+	held = frappe.get_doc("Tenant", workspace)
+	where = operator.standing(held.name)
+	credits = operator.credit_standing(held.name)
+	return {
+		"workspace": held.workspace_name,
+		"owner": held.owner_email,
+		"status": held.status,
+		"since": str(held.status_since) if held.status_since else None,
+		"owing": bool(where.get("owing")),
+		"falls_to": where.get("next") if where.get("days_left") is not None else None,
+		"days_left": where.get("days_left"),
+		"plan": frappe.db.get_value("Offering", held.offering, "label") if held.offering else None,
+		"add_ons": [
+			{
+				"add_on": frappe.db.get_value("Offering", one.offering, "label") or one.offering,
+				"quantity": one.quantity,
+			}
+			for one in held.get("add_ons") or []
+		],
+		"address": held.domain or held.site,
+		"storage": size(held.storage_bytes),
+		"storage_limit": size(held.storage_limit) if held.storage_limit else None,
+		"database": size(held.database_bytes),
+		"database_limit": size(held.database_limit) if held.database_limit else None,
+		"credits_left": credits.get("available"),
+		"credits_a_month": held.credits_a_month,
+		"credits_this_month": credits.get("month_credits"),
+		"calls_this_month": credits.get("month_calls"),
+		"domains": frappe.get_all(
+			"Tenant Domain", filters={"tenant": held.name}, fields=["domain", "status", "problem"]
+		),
+		"jobs": frappe.get_all(
+			"Provisioning Job",
+			filters={"tenant": held.name},
+			fields=["name", "kind", "status", "step", "error", "modified"],
+			order_by="modified desc",
+			limit=5,
+		),
+		"log": frappe.get_all(
+			"Tenant Event",
+			filters={"tenant": held.name},
+			fields=["kind", "detail", "creation"],
+			order_by="creation desc",
+			limit=10,
+		),
 	}

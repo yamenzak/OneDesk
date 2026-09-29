@@ -1,25 +1,43 @@
 // A workspace, from the operator's side.
 //
 // The record is read-only, all of it, because every field on it is the record
-// of something that happened rather than a setting. Where it stands, its
+// of something that happened rather than a setting. Where it stands, its plan,
 // storage, credits and rung, and the verbs that move it are its Record Head
 // (one_admin/heads.py). What is left here is what is not a head: the storage
-// sentence on its own tab, and the credit actions in the sidebar.
+// sentence on its own tab, and the Billing menu.
 frappe.ui.form.on("Tenant", {
 	refresh(frm) {
 		if (frm.is_new()) return;
 		onedesk.tenant.said(frm);
 
-		// Credits, in the form's own sidebar: none of them changes where the
-		// workspace stands, so none of them belongs beside the verbs that do.
-		frm.sidebar.clear_user_actions();
-		frm.sidebar.add_user_action(__("Give credits"), () => onedesk.tenant.give(frm));
-		frm.sidebar.add_user_action(__("Credit ledger"), () =>
-			frappe.set_route("List", "Credit Ledger Entry", { tenant: frm.doc.name }),
+		// Billing, as a menu of the toolbar where frappe keeps a record's
+		// actions: none of them changes where the workspace stands, so none of
+		// them is beside the verbs that do.
+		const billing = __("Billing");
+		// The books are the accounts people's: an operator who may not read
+		// invoices is not offered them, as the Customer connection is not drawn.
+		if (frm.doc.customer && frappe.model.can_read("Sales Invoice")) {
+			frm.add_custom_button(
+				__("Invoices"),
+				() => frappe.set_route("List", "Sales Invoice", { customer: frm.doc.customer }),
+				billing,
+			);
+		}
+		frm.add_custom_button(__("Give Credits"), () => onedesk.tenant.give(frm), billing);
+		frm.add_custom_button(
+			__("Credit Ledger"),
+			() => frappe.set_route("List", "Credit Ledger Entry", { tenant: frm.doc.name }),
+			billing,
 		);
-		frm.sidebar.add_user_action(__("AI usage"), () =>
-			frappe.set_route("query-report", "AI Usage", { tenant: frm.doc.name, by: "Model" }),
+		frm.add_custom_button(
+			__("AI Usage"),
+			() => frappe.set_route("query-report", "AI Usage", { tenant: frm.doc.name, by: "Model" }),
+			billing,
 		);
+
+		// Only operators read a workspace, so sharing it with anybody else
+		// gives them nothing; the role cannot share it either.
+		frm.sidebar.sidebar.find(".form-shared").addClass("hidden");
 	},
 });
 
@@ -34,7 +52,7 @@ frappe.provide("onedesk.tenant");
 onedesk.tenant.give = (frm) => {
 	frappe.xcall("onedesk.one_admin.operator.credit_standing", { tenant: frm.doc.name }).then((now) => {
 		const asking = new frappe.ui.Dialog({
-			title: __("Give credits"),
+			title: __("Give Credits"),
 			fields: [
 				{
 					fieldtype: "HTML",

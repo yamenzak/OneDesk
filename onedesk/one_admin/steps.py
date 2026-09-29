@@ -209,7 +209,7 @@ def push_config(job, tenant) -> None:
 
 
 def live(job, tenant) -> None:
-	tenant.db_set({"status": "Live", "live_on": now_datetime()})
+	tenant.db_set({"status": "Live", "live_on": now_datetime(), "status_since": now_datetime()}, notify=True)
 
 
 def _press_domain() -> str:
@@ -355,7 +355,9 @@ def _arrive(tenant, rung: str, why: str) -> None:
 	two together are what the ladder reads: a status without a timestamp is a
 	workspace the ladder refuses to touch.
 	"""
-	tenant.db_set({"status": rung, "status_since": now_datetime()})
+	was = tenant.status
+	# `notify` publishes the change, so an open form and list show it at once.
+	tenant.db_set({"status": rung, "status_since": now_datetime()}, notify=True)
 	frappe.get_doc(
 		{
 			"doctype": "Tenant Event",
@@ -364,7 +366,9 @@ def _arrive(tenant, rung: str, why: str) -> None:
 			"detail": why,
 		}
 	).insert(ignore_permissions=True)
-	# Overdue and Suspended are told to the operator; see one_admin/tell.py.
+	# Overdue and Suspended are told to the operator, and Suspended, Archived
+	# and Live again to the owner; see one_admin/tell.py.
 	from onedesk.one_admin import tell
 
 	tell.owing(tenant, rung, why)
+	tell.owner(tenant, rung, was)

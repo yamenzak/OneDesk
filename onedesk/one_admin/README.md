@@ -41,6 +41,47 @@ Clicking a row opens the record. Home keeps itself up to date: a job that
 fails, a signup that arrives or a domain that comes up changes it without
 reloading. When nothing needs you, it says so.
 
+## Workspaces
+
+**Workspaces** lists every customer's workspace: its name with its slug
+after it (two companies can share a name), its status, plan, owner and
+storage against what its plan allows, in red when over. Filter by status,
+plan or jurisdiction.
+
+A workspace is read-only. Nothing on it is typed; it is the record of what
+happened to it. At the top it says its address, and how soon it falls if it
+owes, then its **Plan**, **Storage**, **Credits** left and what it has
+**Used This Month** on OneAI. Placement and Site are folded away: open them
+when something breaks.
+
+**Where it stands.** A workspace is built, then **Live**. When a payment
+fails it is **Payment overdue** and carries on as before for 7 days, then
+**Suspended** for 14 (nobody can sign in, nothing is touched), then
+**Archived** for 30 (the site is taken down after a backup; the files stay),
+then its files are deleted. It falls one rung a night, and the periods are
+set in **Settings**. Paying before the files go brings it back: from
+overdue at once, from suspended by a job that serves the site again.
+
+**The buttons** move it by hand, one rung at a time, and each asks first:
+
+- **Mark Overdue**, **Suspend**, **Archive** and **Delete Files** send it
+  down the next rung now rather than when the clock says. Archiving and
+  deleting files cannot be undone.
+- **Restore** brings an overdue or suspended workspace back.
+- **Refresh** measures its storage again, or asks Cloudflare about its
+  domains.
+- **Billing**: its **Invoices** in our books, **Give Credits** (goodwill,
+  a correction, a trial extended, with a note and an expiry), its **Credit
+  Ledger**, and its **AI Usage** by model.
+
+Below the fields are its **Jobs** and **Log**, its **Domains**, and on the
+billing side the **Customer** it is in our books and the **Signup** that
+paid for it.
+
+The owner is emailed when their workspace is suspended, when it is archived
+(with the day it will be deleted) and when it is restored. Being overdue is
+told on their own workspace, which still works then.
+
 ## Being told
 
 Operators are told without opening Home:
@@ -52,6 +93,9 @@ Operators are told without opening Home:
 - **Domains Waiting**: each morning, the domains that have waited a day or
   stopped working.
 
+The workspace's owner is mailed **Workspace Suspended**, **Workspace
+Archived** and **Workspace Restored** (see Workspaces).
+
 Each can be turned off or changed under **Settings › Notifications**, and
 none of them is offered to anybody who is not an operator.
 
@@ -60,7 +104,9 @@ none of them is offered to anybody who is not an operator.
 On Home, OneAI offers **What needs me today?**. It reads the same list Home
 shows, with each item's reason, and changes nothing: resuming, building and
 checking again are Home's buttons. On a job, **Why did this job fail?**
-explains where it stopped and what the error means.
+explains where it stopped and what the error means. On a workspace, **How is
+this workspace doing?** reads its standing, plan, storage, credits, domains,
+last jobs and log, and says whether anything is wrong.
 
 ## Under the hood
 
@@ -87,5 +133,13 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   there is no document hook to hang a notice on. Each is called where the
   thing happens: `runner._stop`, `signup.accept`, `steps._arrive` and
   `domains.nightly`. A notice that fails is logged and never stops the job.
-- `ai.py`: `console_today` is `home.needs` for OneAI, refused to anybody
-  who is not an operator on the admin site.
+- `ai.py`: `console_today` is `home.needs` for OneAI, and `workspace_facts`
+  one workspace's head and connections; both are refused to anybody who is
+  not an operator on the admin site.
+- **Workspaces is Tenant.** `one/titles.py` hands the rail's labels for our
+  own doctypes down in the boot, and `public/js/reports.js` writes them as the
+  list's title, the crumb back to it and a record's connections. The owner's
+  mails are `tell.owner`, from `steps._arrive`, which writes `status_since`
+  with every status and publishes the change (`notify=True`), so an open
+  form and list update. `patches/status_since.py` dated the workspaces
+  written before it, which the ladder otherwise never moved.

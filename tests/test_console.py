@@ -375,3 +375,39 @@ def test_oneai_reads_the_console_for_an_operator_only():
 	assert "site.is_admin()" in body and "site.OPERATOR not in frappe.get_roles()" in body
 	assert "home.needs()" in body, "the panel is told what the page shows"
 	assert '"onedesk.one_admin.ai.console_today"' in (tree.APP / "hooks.py").read_text()
+
+
+def test_the_owner_is_mailed_as_their_workspace_falls_and_comes_back():
+	"""A suspended site cannot tell its owner anything: the admin site mails
+	them, from where every rung is reached."""
+	steps = (ADMIN / "steps.py").read_text()
+	arrive = steps.split("def _arrive(", 1)[1].split("\ndef ", 1)[0]
+	assert "was = tenant.status" in arrive and "tell.owner(tenant, rung, was)" in arrive
+	assert '"status_since": now_datetime()' in arrive and "notify=True" in arrive
+	tell = (ADMIN / "tell.py").read_text().split("def owner(", 1)[1].split("\n@", 1)[0]
+	for name in ("Workspace Suspended", "Workspace Archived", "Workspace Restored"):
+		assert f'notify.mail("{name}"' in tell, name
+	types = (ADMIN / "notifications.py").read_text()
+	assert types.count('"outside": True') == 3
+
+
+def test_a_workspace_is_read_by_operators_only_and_never_shared():
+	tenant = json.loads((ADMIN / "doctype" / "tenant" / "tenant.json").read_text())
+	assert [p["role"] for p in tenant["permissions"]] == ["One Operator"]
+	assert not tenant["permissions"][0]["share"]
+	assert "status_since" in (tree.APP / "patches.txt").read_text()
+
+
+def test_oneai_reads_a_workspace_for_an_operator_only():
+	source = (ADMIN / "ai.py").read_text()
+	body = source.split("def workspace_facts(", 1)[1]
+	assert body.index("if not _operator()") < body.index("frappe.get_doc")
+	assert '"expects": "workspace_facts"' in source
+	assert '"onedesk.one_admin.ai.workspace_facts"' in (tree.APP / "hooks.py").read_text()
+
+
+def test_our_lists_are_called_what_the_rail_calls_them():
+	titles = (tree.APP / "one" / "titles.py").read_text()
+	assert '"DocType"' in titles and "_ours(" in titles and "len(labels) == 1" in titles
+	reports = (tree.APP / "public" / "js" / "reports.js").read_text()
+	assert "onedesk.reports.lists_too();" in reports

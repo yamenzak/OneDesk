@@ -128,14 +128,30 @@ def tenant_address(doc):
 	return {"text": " · ".join(said), "colour": colour}
 
 
+def tenant_plan(doc):
+	"""The plan it pays for, and how many add-ons on top: what every other
+	number in the band is measured against. Opens the plan."""
+	if doc.is_new() or not doc.get("offering"):
+		return None
+	label = frappe.db.get_value("Offering", doc.offering, "label") or doc.offering
+	extra = len(doc.get("add_ons") or [])
+	return {
+		"value": _("{0} + {1} add-ons").format(label, extra) if extra else label,
+		"route": f"/desk/offering/{quote(doc.offering, safe='')}",
+	}
+
+
 def tenant_storage(doc):
 	"""What it stores against what its plan allows: a Long Int of bytes over
-	another is arithmetic somebody has to do. Over the limit is in red."""
+	another is arithmetic somebody has to do. Over the limit is in red. With no
+	limit written, what it stores on its own."""
 	limit, held = flt(doc.get("storage_limit")), flt(doc.get("storage_bytes"))
-	if doc.is_new() or limit <= 0:
+	if doc.is_new():
 		return None
+	if limit <= 0:
+		return {"value": size(held) if held else "0"}
 	return {
-		"value": _("{0} of {1}").format(size(held), size(limit)),
+		"value": _("{0} of {1}").format(size(held) if held else "0", size(limit)),
 		"tone": "alarm" if held > limit else None,
 		"meter": {"value": min(held, limit), "of": limit},
 	}
@@ -152,7 +168,7 @@ def tenant_credits(doc):
 	return [
 		{
 			"label": _("Credits Left"),
-			"value": _number(left) if left > 0 else _("None"),
+			"value": _number(left) if left > 0 else "0",
 			"tone": "alarm" if left <= 0 else "waiting" if whole and used / whole > 0.8 else None,
 			"meter": {"value": left, "of": whole} if whole else None,
 		},
@@ -348,6 +364,7 @@ def model_markup(doc):
 MEASURES = {
 	"tenant.state": tenant_state,
 	"tenant.address": tenant_address,
+	"tenant.plan": tenant_plan,
 	"tenant.storage": tenant_storage,
 	"tenant.credits": tenant_credits,
 	"tenant.rung": tenant_rung,
@@ -424,6 +441,7 @@ HEADS = [
 		"indicators": [{"label": _lt("Standing"), "measure": "tenant.state"}],
 		"sentences": [{"measure": "tenant.address"}],
 		"band": [
+			{"label": _lt("Plan"), "source": "Measure", "measure": "tenant.plan"},
 			{"label": _lt("Storage"), "source": "Measure", "measure": "tenant.storage"},
 			{"label": _lt("Credits"), "source": "Measure", "measure": "tenant.credits"},
 			{"label": _lt("Falls"), "source": "Measure", "measure": "tenant.rung"},

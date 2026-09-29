@@ -310,6 +310,46 @@ onedesk.reports.who_is_leaving = () => {
 	};
 };
 
+// A list of ours is called what the rail calls it too: Tenant is Workspaces,
+// Provisioning Job is Jobs. Its title, the crumb that leads back to it from a
+// record, and its name among another record's connections, which frappe all
+// write as the doctype's name.
+onedesk.reports.lists_too = () => {
+	const BaseList = frappe.views && frappe.views.BaseList;
+	const ours = (doctype) => ((frappe.boot.one_titles || {}).DocType || {})[doctype];
+	if (BaseList && !BaseList.prototype.__one_titles) {
+		BaseList.prototype.__one_titles = true;
+		const theirs = BaseList.prototype.set_title;
+		BaseList.prototype.set_title = function () {
+			if (ours(this.doctype) && !frappe.router.doctype_layout) this.page_title = __(ours(this.doctype));
+			return theirs.call(this);
+		};
+	}
+	// A record's connections name each list, and frappe writes the doctype.
+	const Dashboard = frappe.ui.form && frappe.ui.form.Dashboard;
+	if (Dashboard && !Dashboard.prototype.__one_titles) {
+		Dashboard.prototype.__one_titles = true;
+		const theirs = Dashboard.prototype.render_links;
+		Dashboard.prototype.render_links = function () {
+			const out = theirs.apply(this, arguments);
+			this.transactions_area.find(".document-link[data-doctype]").each(function () {
+				const label = ours($(this).attr("data-doctype"));
+				if (label) $(this).find(".badge-link").text(__(label));
+			});
+			return out;
+		};
+	}
+	if (frappe.breadcrumbs && !frappe.breadcrumbs.__one_lists) {
+		frappe.breadcrumbs.__one_lists = true;
+		const theirs = frappe.breadcrumbs.set_list_breadcrumb;
+		frappe.breadcrumbs.set_list_breadcrumb = function (breadcrumbs) {
+			theirs.call(this, breadcrumbs);
+			const label = ours(breadcrumbs.doctype);
+			if (label) this.$breadcrumbs.find("li a.title-text").last().text(__(label));
+		};
+	}
+};
+
 frappe.after_ajax(() => {
 	onedesk.reports.one_company();
 	onedesk.reports.one_name();
@@ -317,6 +357,7 @@ frappe.after_ajax(() => {
 	onedesk.reports.the_period();
 	onedesk.reports.called_what_the_rail_called_it();
 	onedesk.reports.dashboards_too();
+	onedesk.reports.lists_too();
 	onedesk.reports.a_choice_is_made();
 	onedesk.reports.who_is_leaving();
 });

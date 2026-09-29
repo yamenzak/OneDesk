@@ -44,13 +44,16 @@ onedesk.head.draw = (frm, drawn = null) => {
 		// The framework writes "Submit this document to confirm" from
 		// `show_submit_message`, after the refresh and stacking rather than
 		// replacing. The sentence is that sentence with the answer in it, so it
-		// goes after, in its place: frappe's own headline alert.
+		// goes after, in its place: frappe's own headline alert. Permanent,
+		// with no close: it is where the record stands, not a message to
+		// dismiss, and it is drawn again on every refresh anyway.
 		const said = head.sentence;
 		setTimeout(() => {
 			frm.layout.message.children(".form-message:not(:has(.one-band))").remove();
 			frm.dashboard.set_headline_alert(
 				`<span class="one-head-sentence">${frappe.utils.escape_html(said.text)}</span>`,
 				said.colour,
+				true,
 			);
 			// The news first, then the numbers.
 			frm.layout.message.children(".form-message:has(.one-head-sentence)").prependTo(frm.layout.message);

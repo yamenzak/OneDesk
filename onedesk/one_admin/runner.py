@@ -112,7 +112,7 @@ def _next(job, tenant, step: str, walk: tuple) -> str:
 		}
 	)
 	if job.kind in (None, "", "Provision") and tenant.status == "Requested":
-		tenant.db_set("status", "Provisioning")
+		tenant.db_set("status", "Provisioning", notify=True)
 	return "Pending"
 
 
@@ -143,7 +143,7 @@ def _stop(job, tenant, why: str) -> str:
 	"""
 	job.db_set({"status": "Failed", "error": why, "finished_at": now_datetime()})
 	if job.kind in (None, "", "Provision"):
-		tenant.db_set("status", "Failed")
+		tenant.db_set("status", "Failed", notify=True)
 	# The operator is told; see one_admin/tell.py.
 	from onedesk.one_admin import tell
 

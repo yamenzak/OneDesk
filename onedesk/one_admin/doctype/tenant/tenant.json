@@ -10,9 +10,11 @@
   "tab_workspace",
   "slug",
   "workspace_name",
+  "owner_email",
   "column_break_who",
   "status",
-  "owner_email",
+  "offering",
+  "customer",
   "place_section",
   "cluster",
   "country",
@@ -29,8 +31,6 @@
   "status_since",
   "tab_billing",
   "billing_section",
-  "offering",
-  "customer",
   "stripe_customer",
   "stripe_subscription",
   "add_ons",
@@ -52,6 +52,12 @@
  ],
  "fields": [
   {
+   "fieldname": "tab_workspace",
+   "fieldtype": "Tab Break",
+   "label": "Workspace",
+   "show_dashboard": 1
+  },
+  {
    "fieldname": "slug",
    "fieldtype": "Data",
    "label": "Slug",
@@ -64,6 +70,14 @@
    "fieldname": "workspace_name",
    "fieldtype": "Data",
    "label": "Workspace",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "owner_email",
+   "fieldtype": "Data",
+   "label": "Owner",
+   "options": "Email",
    "read_only": 1,
    "in_list_view": 1
   },
@@ -84,16 +98,28 @@
    "in_list_view": 1
   },
   {
-   "fieldname": "owner_email",
-   "fieldtype": "Data",
-   "label": "Owner",
-   "options": "Email",
-   "read_only": 1
+   "fieldname": "offering",
+   "fieldtype": "Link",
+   "label": "Plan",
+   "options": "Offering",
+   "read_only": 1,
+   "description": "What the workspace was sold. Quotas are copied to this record, not read from here.",
+   "in_standard_filter": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "options": "Customer",
+   "label": "Customer",
+   "read_only": 1,
+   "description": "Who this workspace is in the admin site's own books. Made when it first paid."
   },
   {
    "fieldname": "place_section",
    "fieldtype": "Section Break",
-   "label": "Placement"
+   "label": "Placement",
+   "collapsible": 1
   },
   {
    "fieldname": "cluster",
@@ -134,7 +160,8 @@
   {
    "fieldname": "site_section",
    "fieldtype": "Section Break",
-   "label": "Site"
+   "label": "Site",
+   "collapsible": 1
   },
   {
    "fieldname": "site",
@@ -146,8 +173,7 @@
    "fieldname": "domain",
    "fieldtype": "Data",
    "label": "Domain",
-   "read_only": 1,
-   "in_list_view": 1
+   "read_only": 1
   },
   {
    "fieldname": "primary_domain",
@@ -183,26 +209,14 @@
    "description": "When the current status was set."
   },
   {
+   "fieldname": "tab_billing",
+   "fieldtype": "Tab Break",
+   "label": "Billing and Storage"
+  },
+  {
    "fieldname": "billing_section",
    "fieldtype": "Section Break",
    "label": "Billing"
-  },
-  {
-   "fieldname": "offering",
-   "fieldtype": "Link",
-   "label": "Plan",
-   "options": "Offering",
-   "read_only": 1,
-   "description": "What the workspace was sold. Quotas are copied to this record, not read from here.",
-   "in_standard_filter": 1
-  },
-  {
-   "fieldname": "customer",
-   "fieldtype": "Link",
-   "options": "Customer",
-   "label": "Customer",
-   "read_only": 1,
-   "description": "Who this workspace is in the admin site's own books. Made when it first paid."
   },
   {
    "fieldname": "stripe_customer",
@@ -288,9 +302,14 @@
    "label": "Storage"
   },
   {
+   "fieldname": "storage_said",
+   "fieldtype": "HTML",
+   "label": "Usage"
+  },
+  {
    "fieldname": "storage_bytes",
    "fieldtype": "Long Int",
-   "label": "Used",
+   "label": "Storage",
    "read_only": 1,
    "in_list_view": 1,
    "description": "Bytes, from the last measurement."
@@ -312,27 +331,11 @@
    "label": "Limit",
    "description": "In bytes. Zero means unlimited.",
    "read_only": 1
-  },
-  {
-   "fieldname": "tab_workspace",
-   "fieldtype": "Tab Break",
-   "label": "Workspace",
-   "show_dashboard": 1
-  },
-  {
-   "fieldname": "tab_billing",
-   "fieldtype": "Tab Break",
-   "label": "Billing and Storage"
-  },
-  {
-   "fieldname": "storage_said",
-   "fieldtype": "HTML",
-   "label": "Usage"
   }
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-27 14:00:00.000000",
+ "modified": "2026-09-29 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Tenant",
@@ -348,7 +351,7 @@
    "read": 1,
    "report": 1,
    "role": "One Operator",
-   "share": 1,
+   "share": 0,
    "write": 0
   }
  ],
