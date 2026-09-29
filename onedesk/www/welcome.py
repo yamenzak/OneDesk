@@ -6,6 +6,8 @@ what actually provisions, and it may not have arrived yet — so this reads the
 request rather than assuming, and says so either way.
 """
 
+from urllib.parse import urlencode
+
 import frappe
 
 from onedesk.one_admin import site
@@ -57,12 +59,40 @@ def get_context(context):
 	if asked:
 		says = (ON_TRIAL.get(asked.status) if trial else None) or SAYS.get(asked.status)
 	context.said = says() if says else None
-	context.domain = (
-		frappe.db.get_value("Tenant", asked.tenant, "domain") if asked and asked.tenant else None
+	held = (
+		frappe.db.get_value(
+			"Tenant", asked.tenant, ["workspace_name", "domain", "primary_domain", "live_on", "creation"], as_dict=True
+		)
+		if asked and asked.tenant
+		else None
 	)
-	# Asked again every few seconds while it is being built, so "Open it"
-	# appears without anybody reloading.
+	# Its own name once there is a workspace: a quick signup's request may
+	# carry only the slug.
+	context.title_said = (held.workspace_name if held else None) or (asked.workspace_name if asked else None)
+	# Its own domain when it has one, and straight to signing in.
+	context.open_at = f"https://{held.primary_domain or held.domain}/login" if held and (held.primary_domain or held.domain) else None
+	context.trial_ends = _trial_ends(held, trial) if asked and asked.status == "Done" else None
+	# Asked again every few seconds while it is being built (signup.state), so
+	# "Open it" appears without anybody reloading.
 	context.watching = bool(asked) and asked.status in ("Paid", "Provisioning")
+	context.slow = bool(asked) and signup.slow(asked)
 	context.can_pay = bool(asked) and asked.status in ("New", "Paying") and not asked.tenant
 	context.signed_in = frappe.session.user != "Guest"
+	# Whoever paid has a One account from the moment the payment landed.
+	context.has_account = bool(asked) and asked.status in ("Paid", "Provisioning", "Done")
+	# Start again with what they had chosen, after closing Stripe.
+	context.again = (
+		"/start?" + urlencode({"name": asked.workspace_name or "", "plan": asked.offering or ""})
+		if asked
+		else "/start"
+	)
 	return context
+
+
+def _trial_ends(held, days) -> str | None:
+	"""The day a trial's free period ends, counted from when it went live."""
+	if not held or not days:
+		return None
+	from frappe.utils import add_days, formatdate, getdate
+
+	return formatdate(add_days(getdate(held.live_on or held.creation), days))

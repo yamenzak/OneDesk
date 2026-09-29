@@ -36,6 +36,10 @@ def get_context(context):
 	context.offerings = [_drawn(one) for one in _plans()]
 	context.jurisdictions = _jurisdictions()
 	context.pay_note = _pay_note(context.offerings)
+	# Back from Stripe with "Start again" (welcome): what they had chosen.
+	context.prefill_name = (frappe.form_dict.get("name") or "")[:140]
+	offered = [one["name"] for one in context.offerings]
+	context.chosen = frappe.form_dict.get("plan") if frappe.form_dict.get("plan") in offered else (offered[0] if offered else None)
 	# Signed in to a One account: the workspace joins it, and no email is asked.
 	context.me = (
 		frappe.db.get_value("User", frappe.session.user, "email") if frappe.session.user != "Guest" else None

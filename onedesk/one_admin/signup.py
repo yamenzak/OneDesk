@@ -209,6 +209,31 @@ def available(name: str) -> dict:
 	return free(name)
 
 
+#: Minutes a build may take before the welcome page stops saying "a few".
+SLOW_MINUTES = 15
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(limit=CHECKS_A_MINUTE, seconds=A_MINUTE)
+def state(request: str, key: str) -> dict:
+	"""Where a signup stands, for the welcome page to look again without
+	reloading. The key or nothing, as the page itself (owned)."""
+	site.require_admin()
+	asked = owned(request, key)
+	if not asked:
+		return {"status": None}
+	return {"status": asked.status, "slow": slow(asked)}
+
+
+def slow(asked) -> bool:
+	"""Being built for longer than a build takes: the page says so honestly."""
+	if asked.status not in ("Paid", "Provisioning"):
+		return False
+	from frappe.utils import now_datetime, time_diff_in_seconds
+
+	return time_diff_in_seconds(now_datetime(), asked.modified) > SLOW_MINUTES * 60
+
+
 def owned(request: str, key: str):
 	"""The request, if the key is the one it was given, else None.
 

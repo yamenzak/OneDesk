@@ -4,6 +4,8 @@
 {%- block navbar -%}{%- endblock -%}
 {%- block footer -%}{%- endblock -%}
 {% block breadcrumbs %}{% endblock %}
+{#- The key is in this page's address: sites it links to are not told it. -#}
+{% block head_include %}{{ super() }}<meta name="referrer" content="no-referrer">{% endblock %}
 
 {% block page_content %}
 <div class="one-portal">
@@ -14,17 +16,20 @@
 
 	{% if cancelled %}
 		<h1>{{ _("Nothing was charged") }}</h1>
-		<p class="one-portal__lede">{{ _("The payment page was closed, and the name is free again.") }} <a href="/start">{{ _("Start again") }}</a>.</p>
+		<p class="one-portal__lede">{{ _("The payment page was closed, and the name is free again.") }} <a href="{{ again|e }}">{{ _("Start again") }}</a>.</p>
 	{% elif not asked %}
 		<h1>{{ _("Not found") }}</h1>
 		<p class="one-portal__lede">{{ _("If a payment went through, the receipt is in your email and somebody will be in touch.") }}</p>
 	{% else %}
-		<h1>{{ asked.workspace_name|e }}</h1>
-		<p class="one-portal__lede">{{ said }}{% if asked.status == "Abandoned" %} <a href="/start">{{ _("Start again") }}</a>.{% endif %}</p>
-		{% if domain and asked.status == "Done" %}
-			<a class="one-done" href="https://{{ domain }}">{{ _("Open it") }}</a>
+		<h1>{{ title_said|e }}</h1>
+		<p class="one-portal__lede">{{ said }}{% if asked.status == "Abandoned" %} <a href="{{ again|e }}">{{ _("Start again") }}</a>.{% endif %}</p>
+		{% if asked.status == "Done" %}
+			{% if trial_ends %}<p class="one-note">{{ _("Free until {0}.").format(trial_ends) }}</p>{% endif %}
+			{% if open_at %}<a class="one-done" href="{{ open_at }}">{{ _("Open it") }}</a>{% endif %}
 		{% elif watching %}
-			<p class="one-wait"><span class="one-spin" aria-hidden="true"></span>{{ _("This takes a few minutes. This page updates by itself, and a link will be emailed to {0} when it is ready.").format(asked.email|e) }}</p>
+			<p class="one-wait" id="one-wait"><span class="one-spin" aria-hidden="true"></span><span data-slow="{{ _('This is taking longer than usual. We will mail {0} when it is ready.').format(asked.email|e) }}">{% if slow %}{{ _("This is taking longer than usual. We will mail {0} when it is ready.").format(asked.email|e) }}{% else %}{{ _("This takes a few minutes. This page updates by itself, and a link will be emailed to {0} when it is ready.").format(asked.email|e) }}{% endif %}</span></p>
+		{% elif asked.status == "Failed" %}
+			<p class="one-note">{{ _("Your reference is {0}. Reply to the mail we sent you and quote it.").format(asked.name) }}</p>
 		{% elif can_pay %}
 			<form id="one-pay">
 				<button type="submit" class="one-go">
@@ -37,14 +42,41 @@
 				</div>
 			</form>
 		{% endif %}
-		{% if signed_in %}<p class="one-signed one-signed--after"><a href="/account">{{ _("Back to your account") }}</a></p>{% endif %}
+		{% if signed_in %}
+			<p class="one-signed one-signed--after"><a href="/account">{{ _("Back to your account") }}</a></p>
+		{% elif has_account %}
+			<p class="one-signed one-signed--after">{{ _("It is also in your One account, with your invoices.") }} <a href="/login?redirect-to=/account#login-with-email-link">{{ _("Sign in") }}</a></p>
+		{% endif %}
 	{% endif %}
 </div>
 
 {% if watching %}
 <script>
-// The build is a background job: look again in ten seconds.
-setTimeout(() => window.location.reload(), 10000);
+// Ask where the build stands (signup.state) rather than reloading the page;
+// reload only when it has moved on, and say so honestly when it is slow.
+(() => {
+	const args = new URLSearchParams(window.location.search);
+	const was = {{ asked.status|tojson }};
+	const look = () =>
+		frappe
+			.call({
+				method: "onedesk.one_admin.signup.state",
+				args: { request: args.get("request"), key: args.get("key") },
+				statusCode: {},
+				error_msg: document.createElement("div"),
+			})
+			.done((r) => {
+				const it = r.message || {};
+				if (it.status && it.status !== was) return window.location.reload();
+				if (it.slow) {
+					const line = document.querySelector("#one-wait [data-slow]");
+					line.textContent = line.dataset.slow;
+				}
+				setTimeout(look, 10000);
+			})
+			.fail(() => setTimeout(look, 30000));
+	setTimeout(look, 10000);
+})();
 </script>
 {% elif can_pay %}
 <script>

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-29 17:14+0000\n"
-"PO-Revision-Date: 2026-09-29 17:14+0000\n"
+"POT-Creation-Date: 2026-09-29 17:27+0000\n"
+"PO-Revision-Date: 2026-09-29 17:27+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1498,7 +1498,7 @@ msgstr "OneAI bucht eine E-Rechnung eines bekannten Lieferanten, die aus einer B
 msgid "An email address for a person, a domain for an organisation."
 msgstr "Eine E-Mail-Adresse für eine Person, eine Domain für eine Organisation."
 
-#: onedesk/one_admin/signup.py:314
+#: onedesk/one_admin/signup.py:339
 msgid "An email address is needed."
 msgstr "Eine E-Mail-Adresse wird benötigt."
 
@@ -2284,7 +2284,7 @@ msgstr "Zurück"
 msgid "Back to the Default Text"
 msgstr "Zurück zum Standardtext"
 
-#: onedesk/www/welcome.html:40
+#: onedesk/www/welcome.html:46
 msgid "Back to your account"
 msgstr "Zurück zu Ihrem Konto"
 
@@ -3702,7 +3702,7 @@ msgstr "Inhalts-Hash"
 msgid "Continue to Payment"
 msgstr "Weiter zur Zahlung"
 
-#: onedesk/www/start.html:79 onedesk/www/welcome.html:32
+#: onedesk/www/start.html:79 onedesk/www/welcome.html:37
 msgid "Continue to payment"
 msgstr "Weiter zur Zahlung"
 
@@ -6318,13 +6318,17 @@ msgstr "Frei (Stunden)"
 msgid "Free Trial (Days)"
 msgstr "Kostenlose Testphase (Tage)"
 
-#: onedesk/www/start.py:110
+#: onedesk/www/start.py:114
 msgid "Free for {0} days"
 msgstr "{0} Tage kostenlos"
 
 #: onedesk/one_inventory/heads.py:330
 msgid "Free to Sell"
 msgstr "Frei verfügbar"
+
+#: onedesk/www/welcome.html:27
+msgid "Free until {0}."
+msgstr "Kostenlos bis {0}."
 
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.js:7
 #: onedesk/one_intake/bundle.py:83 onedesk/one_intake/panel.py:125
@@ -7182,7 +7186,7 @@ msgstr "Ausweisdokument"
 msgid "Identity Documents"
 msgstr "Ausweisdokumente"
 
-#: onedesk/www/welcome.html:20
+#: onedesk/www/welcome.html:22
 msgid "If a payment went through, the receipt is in your email and somebody will be in touch."
 msgstr "Falls eine Zahlung durchging, liegt die Quittung in Ihrem Postfach und jemand meldet sich."
 
@@ -7727,6 +7731,10 @@ msgstr "Es gibt noch keinen Artikel dafür."
 #: onedesk/one_inventory/assets.py:80
 msgid "It has no asset category."
 msgstr "Es hat keine Anlagenkategorie."
+
+#: onedesk/www/welcome.html:48
+msgid "It is also in your One account, with your invoices."
+msgstr "Er ist auch in Ihrem One-Konto, zusammen mit Ihren Rechnungen."
 
 #: onedesk/public/js/settings.js:1898
 msgid "It is in force for everybody from today, or from its first day if it starts later: leave, attendance, check-ins, the calendar and deadlines."
@@ -10413,7 +10421,7 @@ msgstr "Heute kein Einchecken"
 msgid "Not counted yet"
 msgstr "Noch nicht gezählt"
 
-#: onedesk/www/r.html:3 onedesk/www/s.html:3 onedesk/www/welcome.html:19
+#: onedesk/www/r.html:3 onedesk/www/s.html:3 onedesk/www/welcome.html:21
 msgid "Not found"
 msgstr "Nicht gefunden"
 
@@ -10635,7 +10643,7 @@ msgstr "Nichts wartet auf Sie."
 msgid "Nothing was asked."
 msgstr "Es wurde nichts gefragt."
 
-#: onedesk/www/welcome.html:16
+#: onedesk/www/welcome.html:18
 msgid "Nothing was charged"
 msgstr "Es wurde nichts abgebucht"
 
@@ -11599,7 +11607,7 @@ msgstr "Dateispeicherort öffnen"
 msgid "Open in Stripe"
 msgstr "In Stripe öffnen"
 
-#: onedesk/www/welcome.html:25
+#: onedesk/www/welcome.html:28
 msgid "Open it"
 msgstr "Öffnen"
 
@@ -12281,11 +12289,11 @@ msgstr "Die Zahlung für den Arbeitsbereich ist überfällig. Wird sie nicht beg
 msgid "Payment for {workspace} did not arrive, so it is suspended: nobody can sign in, and nothing in it is touched.<br><br>Pay the invoice we sent you and it comes straight back. Unless it is paid, it is archived on {date}. If something is wrong, reply to this mail."
 msgstr "Die Zahlung für {workspace} ist nicht eingegangen, daher ist der Arbeitsbereich gesperrt: Niemand kann sich anmelden, und nichts darin wird angetastet.<br><br>Bezahlen Sie die Rechnung, die wir Ihnen geschickt haben, und er ist sofort wieder da. Wird sie nicht bezahlt, wird er am {date} archiviert. Wenn etwas nicht stimmt, antworten Sie auf diese E-Mail."
 
-#: onedesk/www/start.py:72
+#: onedesk/www/start.py:76
 msgid "Payment is taken by Stripe. A plan with a trial takes your card now and charges it when the trial ends."
 msgstr "Die Zahlung läuft über Stripe. Ein Tarif mit Testphase nimmt Ihre Karte jetzt und bucht ab, wenn die Testphase endet."
 
-#: onedesk/www/start.py:76
+#: onedesk/www/start.py:80
 msgid "Payment is taken by Stripe. Nothing is charged until it is confirmed there."
 msgstr "Die Zahlung läuft über Stripe. Es wird nichts abgebucht, bis sie dort bestätigt ist."
 
@@ -12304,7 +12312,7 @@ msgstr "Zahlung überfällig. Dieser Arbeitsbereich wird in {0} Tagen gesperrt."
 msgid "Payment overdue. This workspace is suspended tonight."
 msgstr "Zahlung überfällig. Dieser Arbeitsbereich wird heute Nacht gesperrt."
 
-#: onedesk/www/welcome.py:18 onedesk/www/welcome.py:19
+#: onedesk/www/welcome.py:20 onedesk/www/welcome.py:21
 msgid "Payment received. The workspace is being built."
 msgstr "Zahlung eingegangen. Der Arbeitsbereich wird angelegt."
 
@@ -14998,7 +15006,7 @@ msgstr "Überall abmelden"
 msgid "Sign Out Everywhere Else"
 msgstr "Überall sonst abmelden"
 
-#: onedesk/www/start.html:25
+#: onedesk/www/start.html:25 onedesk/www/welcome.html:48
 msgid "Sign in"
 msgstr "Anmelden"
 
@@ -15335,7 +15343,7 @@ msgstr "Projekt anlegen"
 msgid "Start a workspace"
 msgstr "Einen Arbeitsbereich starten"
 
-#: onedesk/www/welcome.html:17 onedesk/www/welcome.html:23
+#: onedesk/www/welcome.html:19 onedesk/www/welcome.html:25
 msgid "Start again"
 msgstr "Neu beginnen"
 
@@ -15998,7 +16006,7 @@ msgstr "Übernommen aus der Bezeichnung des Anbieters und aus jedem Eingabepreis
 msgid "Taking the name off the edge"
 msgstr "Den Namen vom Netz nehmen"
 
-#: onedesk/www/start.html:79 onedesk/www/welcome.html:32
+#: onedesk/www/start.html:79 onedesk/www/welcome.html:37
 msgid "Taking you to Stripe…"
 msgstr "Sie werden zu Stripe weitergeleitet…"
 
@@ -16227,7 +16235,7 @@ msgstr "Das ist nicht durchgegangen."
 
 #: onedesk/templates/includes/one_account_pay.html:18
 #: onedesk/www/account_profile.html:57 onedesk/www/start.html:118
-#: onedesk/www/welcome.html:74
+#: onedesk/www/welcome.html:106
 msgid "That did not work. Try again in a moment."
 msgstr "Das hat nicht funktioniert. Versuchen Sie es gleich noch einmal."
 
@@ -16275,7 +16283,7 @@ msgstr "Das ist keine Rechnung dieses Arbeitsbereichs."
 msgid "That is not one of your memories."
 msgstr "Das ist keine deiner Erinnerungen."
 
-#: onedesk/one_admin/signup.py:317
+#: onedesk/one_admin/signup.py:342
 msgid "That is not something on offer."
 msgstr "Das wird nicht angeboten."
 
@@ -16307,7 +16315,7 @@ msgstr "Dieser Passkey ist auf dieser Site nicht registriert."
 msgid "That password is not right."
 msgstr "Dieses Passwort ist falsch."
 
-#: onedesk/one_admin/signup.py:242
+#: onedesk/one_admin/signup.py:267
 msgid "That plan is no longer on offer. Start again."
 msgstr "Dieser Tarif wird nicht mehr angeboten. Beginnen Sie von vorn."
 
@@ -16878,7 +16886,7 @@ msgstr "Die Partei ist nicht bekannt."
 msgid "The passkey was not unlocked with a face, fingerprint or PIN."
 msgstr "Der Passkey wurde nicht per Gesicht, Fingerabdruck oder PIN entsperrt."
 
-#: onedesk/www/welcome.html:17
+#: onedesk/www/welcome.html:19
 msgid "The payment page was closed, and the name is free again."
 msgstr "Die Zahlungsseite wurde geschlossen, und der Name ist wieder frei."
 
@@ -17159,7 +17167,7 @@ msgstr "Die Formulierung auf der Anbieterseite, an der der Parser gescheitert is
 msgid "The work is in the sub-projects."
 msgstr "Die Arbeit liegt in den Unterprojekten."
 
-#: onedesk/www/welcome.py:22
+#: onedesk/www/welcome.py:24
 msgid "The workspace could not be built. Somebody has been told and will be in touch."
 msgstr "Der Arbeitsbereich konnte nicht angelegt werden. Jemand wurde benachrichtigt und meldet sich."
 
@@ -17175,7 +17183,7 @@ msgstr "Der Arbeitsbereich hat noch {balance} OneAI-Guthaben, etwa {days} Tage b
 msgid "The workspace is being built. Its job has the detail."
 msgstr "Der Arbeitsbereich wird eingerichtet. Die Einzelheiten stehen in seinem Auftrag."
 
-#: onedesk/www/welcome.py:20
+#: onedesk/www/welcome.py:22
 msgid "The workspace is ready. We have emailed you a link to choose your password."
 msgstr "Der Arbeitsbereich ist bereit. Wir haben Ihnen einen Link geschickt, mit dem Sie Ihr Passwort wählen."
 
@@ -17541,6 +17549,10 @@ msgstr "So teilt One Ihnen auf diesem Gerät etwas mit."
 msgid "This is paid in another currency. Use Create › Payment."
 msgstr "Dies wird in einer anderen Währung bezahlt. Verwenden Sie Erstellen › Zahlung."
 
+#: onedesk/www/welcome.html:30
+msgid "This is taking longer than usual. We will mail {0} when it is ready."
+msgstr "Das dauert länger als üblich. Wir schreiben an {0}, sobald er bereit ist."
+
 #: onedesk/www/r.html:17 onedesk/www/s.html:35
 msgid "This link does not open anything"
 msgstr "Dieser Link öffnet nichts"
@@ -17617,11 +17629,11 @@ msgstr "Dieser Bereich konnte nicht geöffnet werden."
 msgid "This shift has check-ins but does not read them, so no Attendance is being written and every count that reads Attendance is empty. Open the shift and press Read Check-ins."
 msgstr "In dieser Schicht wird eingecheckt, aber nicht ausgewertet: Es wird keine Anwesenheit erfasst und jede Auswertung darüber bleibt leer. Öffnen Sie die Schicht und klicken Sie auf Einchecken auswerten."
 
-#: onedesk/one_admin/signup.py:240
+#: onedesk/one_admin/signup.py:265
 msgid "This signup can no longer be paid for. Start again."
 msgstr "Diese Anmeldung kann nicht mehr bezahlt werden. Beginnen Sie von vorn."
 
-#: onedesk/www/welcome.py:21
+#: onedesk/www/welcome.py:23
 msgid "This signup was closed without paying, and the name is free again."
 msgstr "Diese Anmeldung wurde ohne Zahlung beendet, und der Name ist wieder frei."
 
@@ -17629,7 +17641,7 @@ msgstr "Diese Anmeldung wurde ohne Zahlung beendet, und der Name ist wieder frei
 msgid "This site does not administer workspaces."
 msgstr "Diese Site verwaltet keine Arbeitsbereiche."
 
-#: onedesk/www/welcome.html:27
+#: onedesk/www/welcome.html:30
 msgid "This takes a few minutes. This page updates by itself, and a link will be emailed to {0} when it is ready."
 msgstr "Das dauert ein paar Minuten. Diese Seite aktualisiert sich von selbst, und ein Link wird an {0} gesendet, sobald er bereit ist."
 
@@ -17681,7 +17693,7 @@ msgstr "In diesem Arbeitsbereich ist kein Platz für weitere {0}."
 msgid "This workspace has no subscription to change. Ask us to set one up."
 msgstr "Dieser Arbeitsbereich hat kein Abonnement zum Ändern. Bitten Sie uns, eines einzurichten."
 
-#: onedesk/www/welcome.py:16 onedesk/www/welcome.py:17
+#: onedesk/www/welcome.py:18 onedesk/www/welcome.py:19
 msgid "This workspace has not been paid for yet."
 msgstr "Dieser Arbeitsbereich wurde noch nicht bezahlt."
 
@@ -20871,6 +20883,10 @@ msgstr "Dein Passwort wurde geändert"
 msgid "Your password was changed on {when}, from {device} ({address}). If this was not you, reset it now from the sign-in page and tell your administrator."
 msgstr "Dein Passwort wurde am {when} geändert, von {device} ({address}). Warst du das nicht, setze es jetzt auf der Anmeldeseite zurück und sag es deinem Administrator."
 
+#: onedesk/www/welcome.html:32
+msgid "Your reference is {0}. Reply to the mail we sent you and quote it."
+msgstr "Ihre Referenz ist {0}. Antworten Sie auf unsere Mail und geben Sie sie an."
+
 #: onedesk/one_hr/notifications.py:174
 msgid "Your request for {shift} from {from_date} was {status}"
 msgstr "Ihr Antrag auf {shift} ab {from_date}: {status}"
@@ -20883,7 +20899,7 @@ msgstr "Ihre Rolle"
 msgid "Your sign-in link for One"
 msgstr "Ihr Anmeldelink für One"
 
-#: onedesk/www/welcome.py:30 onedesk/www/welcome.py:31
+#: onedesk/www/welcome.py:32 onedesk/www/welcome.py:33
 msgid "Your trial has started. The workspace is being built."
 msgstr "Ihre Testphase hat begonnen. Der Arbeitsbereich wird angelegt."
 
@@ -21663,7 +21679,7 @@ msgstr "{0} + 1 Zusatzpaket"
 msgid "{0} + {1} add-ons"
 msgstr "{0} + {1} Zusatzpakete"
 
-#: onedesk/www/start.py:130
+#: onedesk/www/start.py:134
 msgid "{0} AI credits a month"
 msgstr "{0} KI-Guthaben im Monat"
 
@@ -21673,16 +21689,16 @@ msgstr "{0} KI-Guthaben im Monat"
 msgid "{0} GB"
 msgstr "{0} GB"
 
-#: onedesk/one_admin/doctype/offering/offering.py:89 onedesk/www/start.py:126
+#: onedesk/one_admin/doctype/offering/offering.py:89 onedesk/www/start.py:130
 msgid "{0} GB database"
 msgstr "{0} GB Datenbank"
 
-#: onedesk/one_admin/doctype/offering/offering.py:88 onedesk/www/start.py:124
+#: onedesk/one_admin/doctype/offering/offering.py:88 onedesk/www/start.py:128
 msgid "{0} GB storage"
 msgstr "{0} GB Speicher"
 
 #: onedesk/one_admin/doctype/offering/offering_list.js:23
-#: onedesk/public/js/settings.js:1050 onedesk/www/start.py:106
+#: onedesk/public/js/settings.js:1050 onedesk/www/start.py:110
 msgid "{0} a month"
 msgstr "{0} pro Monat"
 
@@ -22468,7 +22484,7 @@ msgstr "{0} hat bezahlt und hat keinen Arbeitsbereich"
 msgid "{0} pays for the workspace now."
 msgstr "{0} zahlt jetzt für den Arbeitsbereich."
 
-#: onedesk/www/start.py:128
+#: onedesk/www/start.py:132
 msgid "{0} people"
 msgstr "{0} Personen"
 

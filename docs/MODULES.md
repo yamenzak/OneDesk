@@ -284,6 +284,7 @@ No doctypes yet.
 * `onedesk.one_admin.signup.available`
 * `onedesk.one_admin.signup.pay`
 * `onedesk.one_admin.signup.start`
+* `onedesk.one_admin.signup.state`
 * `onedesk.one_admin.stripe.webhook`
 * `onedesk.one_ai.chat.cards`
 * `onedesk.one_ai.chat.chats`

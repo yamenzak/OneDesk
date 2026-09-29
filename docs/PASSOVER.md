@@ -3846,6 +3846,27 @@ not be built, closed without paying (**Start again**), or not found.
 9. **Built from frappe**: `frappe.call` and a page template. The reload loop
    is ours and goes with 6a. Holds otherwise.
 
+Your word: all of them.
+
+Done:
+
+- **The key stays on this page.** `/welcome` asks for no referrer, so
+  **Open it** and Stripe are not told its address.
+- **Open it** goes to the workspace's own domain when it has one, and to
+  its sign-in.
+- **No more reloading.** While it is built the page asks `signup.state`
+  (key-checked, rate-limited) every ten seconds and reloads only when the
+  status moves; after fifteen minutes it says the build is taking longer
+  than usual, and that we will mail when it is ready.
+- **Ready** shows the workspace's own name (Acme Co, not acmeco) and "Free
+  until" on a trial; **could not be built** gives the reference to quote.
+- **The account**: paid, being built or ready say it is in their One
+  account, with **Sign in**; a signed-in person gets **Back to your
+  account**.
+- **Start again** fills `/start` with the name and plan they had chosen,
+  and the address check runs at once.
+- README: The signup page says what `/welcome` shows now.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

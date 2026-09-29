@@ -28,7 +28,7 @@
 	<form id="one-start">
 		<label class="one-field" for="workspace_name">
 			<span>{{ _("Workspace name") }}</span>
-			<input id="workspace_name" name="workspace_name" type="text" required autocomplete="organization" autofocus>
+			<input id="workspace_name" name="workspace_name" type="text" required autocomplete="organization" autofocus value="{{ prefill_name|e }}">
 			<small class="one-hint" id="one-slug" hidden></small>
 		</label>
 
@@ -59,7 +59,7 @@
 			{% for one in offerings %}
 			<label class="one-choice">
 				<span class="one-choice__head">
-					<span><input type="radio" name="offering" value="{{ one.name }}" {% if loop.first %}checked{% endif %}>{{ one.label }}</span>
+					<span><input type="radio" name="offering" value="{{ one.name }}" {% if one.name == chosen %}checked{% endif %}>{{ one.label }}</span>
 					<span class="one-choice__price">{{ one.price }}</span>
 				</span>
 				{% if one.trial %}<small class="one-choice__trial">{{ one.trial }}</small>{% endif %}
@@ -141,6 +141,8 @@
 			}
 		}, 300);
 	});
+
+	if (form.workspace_name.value) form.workspace_name.dispatchEvent(new Event("input"));
 
 	const button = form.querySelector(".one-go");
 	const label = button.querySelector(".one-go__label");

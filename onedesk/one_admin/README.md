@@ -231,9 +231,15 @@ agrees to the Terms of Service and the Privacy Policy, each linked to
   the account (an address that already has one joins it).
 
 Stripe sends them back to **/welcome**, which says where their workspace
-stands and looks again every ten seconds while it is built, until **Open it**
-appears. Closing Stripe's page lets the name go at once, so **Start again**
-works. The welcome page only opens with the key in the link Stripe and our
+stands. While it is built the page asks again every ten seconds without
+reloading, and after fifteen minutes says it is taking longer than usual
+rather than "a few minutes". Ready shows the workspace's own name, the day
+a trial's free period ends, and **Open it**, which goes to the workspace's
+own domain when it has one, straight to its sign-in. A build that failed
+gives its reference to quote. Paid, being built or ready, it says the
+workspace is in their One account, with **Sign in**. Closing Stripe's page
+lets the name go at once, and **Start again** comes back to the form with
+the name and plan they had chosen. The welcome page only opens with the key in the link Stripe and our
 mails carry; a request's name alone shows nothing.
 
 Somebody who filled the page and never paid is mailed **Finish Signing Up**
@@ -518,7 +524,7 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   `www/account_invoices` and `www/account_profile` (routed from
   `/account/invoices` and `/account/profile`) and `www/legal`, drawn
   in `public/css/portal.css` to frappe-ui's look (a guest page loads no desk
-  controls). `signup.available`, `start` and `pay` are the guest
+  controls). `signup.available`, `start`, `pay` and `state` are the guest
   calls, each rate-limited; `start` takes the signed-in account's email over
   whatever the form sent. `Account Request.access_key` opens `/welcome`
   (`signup.owned`); `signup.remind` is the daily Finish Signing Up.
