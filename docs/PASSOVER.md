@@ -2785,6 +2785,73 @@ Done:
 - **README**: a Jobs section. **Terms**: the person who paid is made the
   first administrator and emailed an invitation, revision 6.
 
+### OneAdmin › Log
+
+Log is frappe's list of `Tenant Event`: one row for each thing that
+happened to a workspace, written by the machinery. A workspace reaching a
+rung (Overdue, Suspended, Restored, Archived, Dropped), a plan or add-on
+changed, a plan change Frappe Cloud refused (Plan Change Pending), and a
+workspace over its storage. Nobody types in it. On the dev site: 12 rows,
+all Nine X and Nine S, eight of them add-on changes from yesterday.
+
+1. **Notifications**: the log sends nothing, and needs to send nothing
+   of its own: the rungs are told already (Workspace Owing, the owner's
+   mails). One gap it shows: **a workspace over its storage** is written
+   here every night and told to nobody on our side (its own site tells
+   its administrators when it is nearly full). Recommended: over its
+   limit is a row in Needs You, not a notice.
+2. **OneAI**: the list offers "What stands out here?" and reads the raw
+   rows. `workspace_facts` already reads a workspace's last ten entries.
+   Holds, once 6c makes the rows say something.
+3. **Intake**: nothing OneIntake reads lands here, and nothing should.
+   Holds.
+4. **Permissions**: holds. Read-only for One Operator, refused off the
+   admin site. Share is offered and does nothing; recommended off.
+5. **Cross-module**:
+   - The log does not say **who** did it. A plan changed by the
+     customer (through the proxy, so "Guest"), an operator pressing
+     Suspend, and the nightly clock all read alike. Recommended: a **By**
+     column: the customer, the operator's name, or One.
+   - **An operator's manual fall is logged as "the clock".**
+     `operator.fall` goes through `lifecycle.fall`, which always writes
+     that. Recommended: it says who pressed it.
+   - The log does not say **which job** wrote it, and a job does not
+     show its entries. Recommended: a Job link on the row, and the job's
+     entries under its steps.
+   - The same things are also the workspace's story, and its form's
+     Activity tab does not show them: they sit behind the Log connection.
+     Recommended: frappe's own timeline, through
+     `additional_timeline_content`, so a workspace's Activity reads
+     "Suspended by the clock · 3 days ago" beside its edits.
+6. **UI and UX**:
+   - a. **The ID column** (a hash, "teg3ejoa4k") leads every row, and
+     the ID filter is first. `hide_name_column` does nothing without a
+     title field. Recommended: the workspace leads, as on Jobs.
+   - b. The **Status** column holds the kind; **Tenant** is the
+     workspace. Recommended: What, Workspace, Detail, By, and when.
+   - c. **The detail is the code's own words**: "the clock", "paid",
+     "press has stopped serving the site", "team with 2 × database-1"
+     (the plan's key and the add-on's key, not their names),
+     "holding 22548578304 bytes against a limit of 26843545600". None
+     is translated. Recommended: each written as a sentence in words
+     at the time, with plan and add-on names and sizes in GB, and `_lt`
+     so it reads in the operator's language.
+   - d. **Over Storage is written every night** while a workspace is
+     over, so a month over is thirty rows. Recommended: once when it
+     goes over, and again only when it changes by a gigabyte or more.
+   - e. **Drifted** and **Over Database** are kinds nothing writes.
+     Recommended: remove them.
+   - f. Opening a row shows the same three fields again, with the
+     required stars. Recommended: the row opens its workspace; the form
+     stays for a link from elsewhere.
+7. **Documented**: nothing in the README says what the log is or what
+   each kind means. Recommended: a **Log** section.
+8. **Legal**: the log is our own record of what happened to a
+   customer's workspace, kept on the admin site. Nothing leaves. Holds.
+9. **Built from frappe**: frappe's list and indicators; 5's timeline is
+   frappe's own `additional_timeline_content`, which OneProject uses
+   already.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
