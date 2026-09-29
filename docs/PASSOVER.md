@@ -3867,6 +3867,73 @@ Done:
   and the address check runs at once.
 - README: The signup page says what `/welcome` shows now.
 
+### OneAdmin › The lifecycle (Frappe Cloud, benches, sites)
+
+Not a screen: the path a workspace takes from payment to deletion, read end
+to end. Payment (`signup.accept`) makes a Tenant and a Provision job; the
+runner (every two minutes, five jobs a tick) walks `name_is_free`,
+`create_site` on the first bench group and its first region, `site_is_up`,
+`route_it` (our name at the edge), `push_config` (token, host name, mail
+secret), `invite_owner` and `live`. A failed payment starts the ladder:
+Overdue, then Suspended (`deactivate`), Archived (backup noted, site
+archived, edge unrouted) and Dropped (files deleted), one rung a night, each
+a job. Paying climbs back from Overdue or Suspended. Nothing is stored about
+Frappe Cloud but what a Tenant needs; benches, regions and plans are asked
+for and cached a minute.
+
+The design holds: every step is safe to run twice, nothing unwinds, a failed
+fall leaves the workspace where it was. What does not hold, worst first:
+
+1. **Paying an archived workspace breaks the webhook.** `lifecycle.paid`
+   throws for Archived, the webhook re-raises, and Stripe redelivers the
+   event for days. The customer has paid and nobody is told. Recommended:
+   no throw; the payment is recorded, the operators are told (Paid While
+   Archived), and rebuilding or refunding is their decision.
+2. **Stripe is never told a workspace has gone.** Archive and Drop leave the
+   subscription running, so Stripe keeps invoicing a workspace that no
+   longer exists, and a customer who comes back pays for nothing.
+   Recommended: the Archive walk cancels the subscription (a step,
+   `stop_billing`, safe twice).
+3. **Archiving leaves the mail route.** `unroute` deletes the edge key
+   `values/{slug}` but not `values/mail:{slug}`, so the mail Worker keeps
+   accepting mail for an archived workspace, storing it in R2 and knocking on
+   a site that is gone. Recommended: `unroute` deletes both.
+4. **The site is created with no Frappe Cloud plan.** `create_site` names no
+   plan, so press gives its default, and the plan that fits the database the
+   customer bought is only set the next time their plan changes
+   (`quota.apply` is never called at signup). Recommended: `create_site`
+   asks for `quota.press_plan_for(database)` and records it.
+5. **A Frappe Cloud outage stops every signup.** `signup.start` asks press
+   for a region before the request is even written, so when press is down
+   the signup page answers "That did not work" (seen on the dev site).
+   Recommended: the region is chosen by the job, not the page; the signup is
+   taken, paid for, and built when press answers.
+6. **A slow build is failed at about forty minutes.** Waiting on
+   `site_is_up` counts as an attempt, and twelve attempts with the backoff
+   is about forty minutes, after which the workspace is marked Failed and
+   the customer mailed Delayed, though press may finish at minute
+   forty-five. Recommended: waiting on press does not count toward giving
+   up; a real error does. A build still waiting after three hours is put on
+   Home instead.
+7. **The bench and the region are "the first one".** `_bench_for` takes the
+   first bench group the team owns and `_one_cluster` its first region, with
+   no check that the bench carries erpnext, hrms and onedesk. A second bench
+   group (a staging one, an old one) could take new customers.
+   Recommended: Settings names the bench group new workspaces go on (chosen
+   from press's list), and `name_is_free` refuses a bench missing an app.
+   The EU choice picks an EU region when that bench offers one.
+8. **Updates are nowhere in OneAdmin.** A new One release reaches customers
+   when the bench group is deployed in Frappe Cloud's dashboard; OneAdmin
+   neither starts it nor says which release each workspace runs.
+   Recommended, smallest first: Home says when the bench group has an
+   undeployed update and which release workspaces are on (both are press
+   reads); starting the deploy stays in Frappe Cloud for now.
+9. **Unchecked: whether Frappe Cloud bills a deactivated site.** Suspended
+   workspaces are deactivated, not archived, for fourteen days. If press
+   charges for them, a non-paying customer costs us two weeks of hosting.
+   Recommended: I check press's billing for inactive sites and say so in
+   the README; no code unless it does.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
