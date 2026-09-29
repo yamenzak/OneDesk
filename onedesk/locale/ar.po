@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-29 18:44+0000\n"
-"PO-Revision-Date: 2026-09-29 18:44+0000\n"
+"POT-Creation-Date: 2026-09-29 19:19+0000\n"
+"PO-Revision-Date: 2026-09-29 19:19+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -474,6 +474,10 @@ msgstr "تم اقتراح شبكة أو موقع جديد لتسجيل الحض�
 #: onedesk/one/customize.py:324 onedesk/one/customize.py:399
 msgid "A new field needs a label."
 msgstr "يحتاج الحقل الجديد إلى عنوان."
+
+#: onedesk/one_admin/home.py:375
+msgid "A new one fails to be built until a server is listed under Servers."
+msgstr "تفشل مساحة العمل الجديدة في البناء حتى يُضاف خادم تحت الخوادم."
 
 #: onedesk/one/account.py:196
 msgid "A note from One: {0}"
@@ -1538,7 +1542,7 @@ msgstr "يمكن أن يكون للصنف أرقام تسلسلية أو دفع�
 msgid "An unknown device"
 msgstr "جهاز غير معروف"
 
-#: onedesk/one_admin/home.py:348
+#: onedesk/one_admin/home.py:405
 msgid "An update is waiting for {0}"
 msgstr "تحديث بانتظار {0}"
 
@@ -2077,7 +2081,7 @@ msgstr "عند الدفع"
 msgid "At the foot of every mail the workspace sends. Leave it empty for none."
 msgstr "في أسفل كل رسالة ترسلها مساحة العمل. اتركه فارغًا لعدم إظهار شيء."
 
-#: onedesk/one_admin/home.py:133 onedesk/one_admin/home.py:317
+#: onedesk/one_admin/home.py:134 onedesk/one_admin/home.py:318
 msgid "At: {0}"
 msgstr "عند: {0}"
 
@@ -2641,7 +2645,7 @@ msgstr "معطّل"
 msgid "Browser"
 msgstr "المتصفح"
 
-#: onedesk/one_admin/home.py:199
+#: onedesk/one_admin/home.py:200
 msgid "Build It"
 msgstr "أنشئها"
 
@@ -2663,7 +2667,7 @@ msgstr "فشل إنشاء {0}"
 msgid "Building {0} has not moved"
 msgstr "لم يتقدّم إنشاء {0}"
 
-#: onedesk/one_admin/home.py:316
+#: onedesk/one_admin/home.py:317
 msgid "Building {0} is taking hours"
 msgstr "بناء {0} يستغرق ساعات"
 
@@ -2696,6 +2700,10 @@ msgstr "الأزرار: يحتاج {0} إلى عنوان ومكان في الم�
 #: onedesk/public/js/settings.js:1372
 msgid "Buy Credits"
 msgstr "شراء أرصدة"
+
+#: onedesk/one_admin/home.py:349
+msgid "Buy the next server in Frappe Cloud, add it to the bench group, and list it under Servers."
+msgstr "اشترِ الخادم التالي في Frappe Cloud، وأضفه إلى مجموعة bench، ثم أدرجه تحت الخوادم."
 
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -3045,7 +3053,7 @@ msgstr "الأرخص"
 msgid "Check"
 msgstr "الفحص"
 
-#: onedesk/one_admin/heads.py:658 onedesk/one_admin/home.py:427
+#: onedesk/one_admin/heads.py:658 onedesk/one_admin/home.py:484
 #: onedesk/public/js/legal.js:73 onedesk/public/js/settings.js:1022
 #: onedesk/public/js/settings.js:1408
 msgid "Check Again"
@@ -4541,7 +4549,7 @@ msgstr "إشعار تسليم"
 msgid "Department"
 msgstr ""
 
-#: onedesk/one_admin/home.py:350
+#: onedesk/one_admin/home.py:407
 msgid "Deploy it in Frappe Cloud; every workspace on it is updated."
 msgstr "انشره في Frappe Cloud، فتُحدَّث كل مساحات العمل عليه."
 
@@ -4963,8 +4971,10 @@ msgstr "المدة (بالدقائق)"
 
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Account Request'
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Tenant'
+#. Label of the eu (Check) field in DocType 'Workspace Server'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
 msgid "EU"
 msgstr "الاتحاد الأوروبي"
 
@@ -6081,6 +6091,10 @@ msgstr "املأ {0}"
 msgid "Filled in {0}"
 msgstr "ملأ {0}"
 
+#: onedesk/one_admin/home.py:353
+msgid "Filling Up"
+msgstr "يمتلئ"
+
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:7
 msgid "Filter Based On"
 msgstr ""
@@ -6330,6 +6344,10 @@ msgstr "Frappe Cloud"
 msgid "Frappe Cloud Plan"
 msgstr "خطة Frappe Cloud"
 
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:56
+msgid "Frappe Cloud has no server {0} on this account."
+msgstr "لا يوجد في Frappe Cloud خادم باسم {0} على هذا الحساب."
+
 #: onedesk/one_admin/log.py:27
 msgid "Frappe Cloud stopped serving the site"
 msgstr "أوقفت Frappe Cloud تشغيل الموقع"
@@ -6441,6 +6459,10 @@ msgstr "من {0} يُحسب كل يوم يوم عمل. أنشئ قائمة ال�
 #: onedesk/one_hr/notifications.py:125
 msgid "From {from_date} to {to_date}."
 msgstr "من {from_date} إلى {to_date}."
+
+#: onedesk/one_admin/home.py:353 onedesk/one_admin/home.py:377
+msgid "Full"
+msgstr ""
 
 #: onedesk/public/js/onecloud.js:496 onedesk/public/js/onemail.js:303
 msgid "GB"
@@ -7087,6 +7109,12 @@ msgstr "كم رصيدًا يصبح دولار واحد من كلفة المزو�
 #: onedesk/one_hr/custom/training_result.json
 msgid "How many people the result covers, kept on the document so the list can say it."
 msgstr "عدد الأشخاص الذين تشملهم النتيجة، محفوظاً على المستند كي تذكره القائمة."
+
+#. Description of the 'Most Workspaces' (Int) field in DocType 'Workspace
+#. Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
+msgid "How many workspaces it holds before it is full. Leave it at 0 for no limit."
+msgstr "عدد مساحات العمل التي يتسع لها قبل أن يمتلئ. اتركه 0 بلا حد."
 
 #: onedesk/one_hr/ai.py:59 onedesk/one_hr/ai.py:287
 msgid "How much leave do I have left, and who on my team is off in the next two weeks?"
@@ -7875,6 +7903,11 @@ msgstr "المُقابِلون فيها"
 #: onedesk/public/js/settings.js:2127
 msgid "Its mail is always sent, so people can answer it by replying. The bell has it too, and push is theirs to choose."
 msgstr "بريده يُرسل دائماً ليتمكن الناس من الرد عليه. ويصل إلى الجرس أيضاً، والإشعار الفوري اختيارهم."
+
+#. Description of the 'Server' (Data) field in DocType 'Workspace Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
+msgid "Its name in Frappe Cloud, for example u25-nuremberg-3.frappe.cloud."
+msgstr "اسمه في Frappe Cloud، مثل u25-nuremberg-3.frappe.cloud."
 
 #. Description of the 'Path' (Data) field in DocType 'Mail Folder'
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
@@ -8896,7 +8929,7 @@ msgstr "انظر إلى الإشعارات التي يرسلها One هنا. أ�
 msgid "Look at the price check: what is wrong and what is close, with the numbers. Say what to change first, and by how much, to make the price list hold."
 msgstr "انظر إلى فحص الأسعار: ما الخاطئ وما القريب من الخطأ، بالأرقام. قل ما الذي يجب تغييره أولًا، وبكم، لتصبح قائمة الأسعار متماسكة."
 
-#: onedesk/one_admin/home.py:318
+#: onedesk/one_admin/home.py:319
 msgid "Look at the site in Frappe Cloud."
 msgstr "راجع الموقع في Frappe Cloud."
 
@@ -9594,6 +9627,11 @@ msgstr ""
 msgid "Most Pages Read"
 msgstr "أقصى عدد من الصفحات المقروءة"
 
+#. Label of the capacity (Int) field in DocType 'Workspace Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
+msgid "Most Workspaces"
+msgstr "أقصى عدد لمساحات العمل"
+
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
@@ -10060,7 +10098,7 @@ msgstr "التالي في {0}"
 msgid "Next year's is made three days before this one ends."
 msgstr "تُنشأ السنة التالية قبل ثلاثة أيام من نهاية هذه السنة."
 
-#: onedesk/one_admin/home.py:167
+#: onedesk/one_admin/home.py:168
 msgid "Next: {0}"
 msgstr "التالي: {0}"
 
@@ -10085,7 +10123,7 @@ msgstr "بلا تاريخ استحقاق"
 msgid "No Location"
 msgstr "لا يوجد موقع"
 
-#: onedesk/one_admin/home.py:400
+#: onedesk/one_admin/home.py:457
 msgid "No Model"
 msgstr "لا نموذج"
 
@@ -10198,7 +10236,7 @@ msgstr "لا توجد ذكرى بهذا النص."
 msgid "No new mail is read from <b>{mailbox}</b> until it is connected again. Reconnect it from Settings › Mail."
 msgstr "لن يُقرأ بريد جديد من <b>{mailbox}</b> حتى يُعاد الاتصال به. أعد الاتصال من الإعدادات › البريد."
 
-#: onedesk/one_admin/home.py:397
+#: onedesk/one_admin/home.py:454
 msgid "No offered model can do {0}."
 msgstr "لا يستطيع أي نموذج معروض القيام بـ{0}."
 
@@ -10207,6 +10245,14 @@ msgstr "لا يستطيع أي نموذج معروض القيام بـ{0}."
 #: onedesk/one_hr/custom/employee_checkin.json
 msgid "No one checked out, so this OUT was written at the shift end."
 msgstr "لم يسجّل أحد الانصراف، فكُتب سجل الانصراف هذا عند نهاية المناوبة."
+
+#: onedesk/one_admin/home.py:363
+msgid "No open server for EU workspaces"
+msgstr "لا خادم مفتوح لمساحات عمل الاتحاد الأوروبي"
+
+#: onedesk/one_admin/home.py:362
+msgid "No open server for new workspaces"
+msgstr "لا خادم مفتوح لمساحات العمل الجديدة"
 
 #: onedesk/public/js/overtime_slip.js:52
 msgid "No overtime was recorded on any attendance between {0} and {1}."
@@ -10374,7 +10420,7 @@ msgstr "لا يتصل"
 msgid "Not Estimated"
 msgstr "غير مُقدَّرة"
 
-#: onedesk/one_admin/home.py:169
+#: onedesk/one_admin/home.py:170
 msgid "Not Moving"
 msgstr "لا تتقدّم"
 
@@ -10531,7 +10577,7 @@ msgid "Not used"
 msgstr "غير مستخدم"
 
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:15
-#: onedesk/one_admin/heads.py:55 onedesk/one_admin/home.py:423
+#: onedesk/one_admin/heads.py:55 onedesk/one_admin/home.py:480
 msgid "Not working"
 msgstr "لا يعمل"
 
@@ -11585,10 +11631,12 @@ msgstr "{0} فقط"
 msgid "Only {0} or an administrator of this workspace can decide this."
 msgstr "لا يقرر هذا إلا {0} أو مسؤول مساحة العمل."
 
+#. Label of the open (Check) field in DocType 'Workspace Server'
 #. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
 #. Option for the 'Matter State' (Select) field in DocType 'Reading'
 #. Option for the 'Status' (Select) field in DocType 'Cloud File Request'
 #. Option for the 'status' (Select) field in DocType 'Task'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:376
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -11901,13 +11949,13 @@ msgstr "رموز المخرجات"
 msgid "Outstanding"
 msgstr "المتبقي"
 
-#: onedesk/one_admin/home.py:282
+#: onedesk/one_admin/home.py:283
 msgid "Over Database"
 msgstr "تجاوز قاعدة البيانات"
 
 #. Option for the 'What' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
-#: onedesk/one_admin/home.py:253
+#: onedesk/one_admin/home.py:254
 msgid "Over Storage"
 msgstr "تجاوز التخزين"
 
@@ -12336,7 +12384,7 @@ msgstr "تتم الدفعة عبر Stripe. ولا يُخصم شيء حتى تُ�
 
 #: onedesk/one/heads.py:18 onedesk/one_admin/accounts.py:137
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:23
-#: onedesk/one_admin/heads.py:26 onedesk/one_admin/home.py:216
+#: onedesk/one_admin/heads.py:26 onedesk/one_admin/home.py:217
 #: onedesk/one_admin/tell.py:138
 msgid "Payment overdue"
 msgstr "دفعة متأخرة"
@@ -13351,6 +13399,11 @@ msgstr "يقرؤه ويكتبه OneMail عبر IMAP بمجلداته كلها، 
 msgid "Read by OneAI"
 msgstr "يقرؤه OneAI"
 
+#. Description of the 'Region' (Data) field in DocType 'Workspace Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
+msgid "Read from Frappe Cloud when Settings is saved."
+msgstr "يُقرأ من Frappe Cloud عند حفظ الإعدادات."
+
 #. Description of the 'When' (Data) field in DocType 'Timesheet Detail'
 #: onedesk/one_hr/custom/timesheet_detail.json
 msgid "Read from the two times below."
@@ -13774,7 +13827,9 @@ msgid "Refused."
 msgstr "مرفوض."
 
 #. Label of the cluster (Data) field in DocType 'Workspace Account'
+#. Label of the region (Data) field in DocType 'Workspace Server'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
 msgid "Region"
 msgstr "المنطقة"
 
@@ -14118,7 +14173,7 @@ msgstr "نتائج من كل مكان"
 msgid "Results in {0}"
 msgstr "النتائج في {0}"
 
-#: onedesk/one_admin/heads.py:634 onedesk/one_admin/home.py:137
+#: onedesk/one_admin/heads.py:634 onedesk/one_admin/home.py:138
 #: onedesk/public/js/timesheet.js:75
 msgid "Resume"
 msgstr "استئناف"
@@ -14218,7 +14273,7 @@ msgstr "لا تُجرَّب القواعد التالية على البريد ا
 msgid "Run"
 msgstr "تشغيل"
 
-#: onedesk/one_admin/home.py:172
+#: onedesk/one_admin/home.py:173
 msgid "Run Now"
 msgstr "شغّل الآن"
 
@@ -14711,9 +14766,11 @@ msgstr "الأرقام التسلسلية"
 msgid "Serial and batch numbers can be used"
 msgstr "يمكن استخدام الأرقام التسلسلية والدفعات"
 
-#. Label of the press_server (Data) field in DocType 'One Admin Settings'
+#. Label of the server (Data) field in DocType 'Tenant'
+#. Label of the server (Data) field in DocType 'Workspace Server'
 #. Label of the host (Data) field in DocType 'Cloud Mount'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+#: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 #: onedesk/public/js/onecloud.js:1553 onedesk/public/js/onemail.js:856
 msgid "Server"
@@ -14722,6 +14779,12 @@ msgstr "الخادم"
 #: onedesk/public/js/onecloud.js:1844
 msgid "Server connection"
 msgstr "اتصال بخادم"
+
+#. Label of the servers (Table) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:93
+msgid "Servers"
+msgstr "الخوادم"
 
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
@@ -15185,7 +15248,7 @@ msgstr "خطة الموقع"
 msgid "Size"
 msgstr "الحجم"
 
-#: onedesk/one_admin/home.py:319
+#: onedesk/one_admin/home.py:320
 msgid "Slow"
 msgstr "بطيء"
 
@@ -15931,7 +15994,7 @@ msgstr "موقوف"
 msgid "Suspended For"
 msgstr "مدة الإيقاف"
 
-#: onedesk/one_admin/home.py:216 onedesk/one_admin/tell.py:138
+#: onedesk/one_admin/home.py:217 onedesk/one_admin/tell.py:138
 msgid "Suspended for not paying"
 msgstr "معلّقة لعدم الدفع"
 
@@ -16060,6 +16123,16 @@ msgstr "تم الاسترجاع."
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Taken from the provider's own word for the model and from every input price it publishes."
 msgstr "مأخوذ من وصف المزوّد نفسه للنموذج ومن كل سعر مدخلات ينشره."
+
+#. Description of the 'Open' (Check) field in DocType 'Workspace Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
+msgid "Takes new workspaces. Untick it to stop a server filling any further."
+msgstr "يستقبل مساحات عمل جديدة. ألغِ التحديد ليتوقف الخادم عن الامتلاء أكثر."
+
+#. Description of the 'EU' (Check) field in DocType 'Workspace Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
+msgid "Takes the workspaces that asked for their data to stay in the EU. Tick it only for a server in the EU."
+msgstr "يستقبل مساحات العمل التي طلبت بقاء بياناتها في الاتحاد الأوروبي. حدده فقط لخادم داخل الاتحاد الأوروبي."
 
 #: onedesk/one_admin/steps.py:86
 msgid "Taking the name off the edge"
@@ -16443,11 +16516,6 @@ msgstr "الحقل"
 msgid "The Frappe Cloud root domain sites are created on, for example frappe.cloud."
 msgstr "النطاق الجذر في Frappe Cloud الذي تُنشأ عليه المواقع، مثل frappe.cloud."
 
-#. Description of the 'Server' (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "The Frappe Cloud server new workspaces are built on, for example u25-nuremberg-3.frappe.cloud."
-msgstr "خادم Frappe Cloud الذي تُبنى عليه مساحات العمل الجديدة، مثل u25-nuremberg-3.frappe.cloud."
-
 #. Description of the 'Thread' (Data) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json
 msgid "The Message-ID of the first message in its conversation."
@@ -16563,12 +16631,6 @@ msgstr "الجرس يعمل دائماً. هذه هي القنوات التي ي
 #: onedesk/public/js/settings.js:2243
 msgid "The bell is always on. These are what people may add to it, and what a new person starts with."
 msgstr "الجرس يعمل دائماً. هذه ما يمكن للناس إضافته إليه، وما يبدأ به الشخص الجديد."
-
-#. Description of the 'Bench Group' (Data) field in DocType 'One Admin
-#. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "The bench group on that server new workspaces go on. It must carry erpnext, hrms and onedesk."
-msgstr "مجموعة bench على ذلك الخادم التي توضع عليها مساحات العمل الجديدة. يجب أن تحمل erpnext وhrms وonedesk."
 
 #: onedesk/one_book/ready.py:196
 msgid "The books are locked up to {0}."
@@ -16758,8 +16820,8 @@ msgstr "الخمسة التي يملكها الجميع"
 
 #. Description of the 'Site Plan' (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "The free Frappe Cloud plan each site on that server takes. It sets only its CPU time a day."
-msgstr "خطة Frappe Cloud المجانية التي يأخذها كل موقع على ذلك الخادم. تحدد وقت المعالج اليومي فقط."
+msgid "The free Frappe Cloud plan each site on these servers takes. It sets only its CPU time a day."
+msgstr "خطة Frappe Cloud المجانية التي يأخذها كل موقع على هذه الخوادم. تحدد وقت المعالج اليومي فقط."
 
 #. Description of the 'Flow' (Data) field in DocType 'Intake Action'
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
@@ -16920,6 +16982,12 @@ msgstr "سيتوقف الرابط القديم عن العمل، لذا يجب �
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "The oldest message read so far. Older ones are read a batch at a time until there are none."
 msgstr "أقدم رسالة قُرئت حتى الآن. تُقرأ الأقدم منها دفعةً بعد دفعة حتى لا يبقى شيء."
+
+#. Description of the 'Bench Group' (Data) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "The one bench group every workspace runs on, added to each server below. It must carry erpnext, hrms and onedesk."
+msgstr "مجموعة bench الواحدة التي تعمل عليها كل مساحات العمل، مضافة إلى كل خادم أدناه. يجب أن تحمل erpnext وhrms وonedesk."
 
 #. Description of the 'Primary' (Check) field in DocType 'Record Head Verb'
 #: onedesk/one/doctype/record_head_verb/record_head_verb.json
@@ -17151,6 +17219,11 @@ msgstr "لم يقبل الخادم العنوان وكلمة المرور."
 #: onedesk/one_mail/imap.py:361
 msgid "The server did not answer in time."
 msgstr "لم يُجب الخادم في الوقت المحدد."
+
+#. Description of the 'Server' (Data) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "The server it runs on, chosen from Settings when it was built."
+msgstr "الخادم الذي تعمل عليه، مختار من الإعدادات عند بنائها."
 
 #: onedesk/one_storage/mounts.py:213
 msgid "The server said {0}."
@@ -18431,7 +18504,7 @@ msgstr "حتى"
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
 #. Option for the 'Change' (Select) field in DocType 'Reading'
-#: onedesk/one_admin/home.py:352
+#: onedesk/one_admin/home.py:409
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -18772,7 +18845,7 @@ msgstr "بانتظار الرصيد"
 msgid "Waiting for Frappe Cloud to build it"
 msgstr "انتظار Frappe Cloud لإنشائه"
 
-#: onedesk/one_admin/home.py:423
+#: onedesk/one_admin/home.py:480
 msgid "Waiting for its DNS"
 msgstr "بانتظار إعداد DNS"
 
@@ -19906,6 +19979,11 @@ msgstr "أين وصلت هذه الصفقة؟ قل في بضعة أسطر ما �
 msgid "Where files are kept"
 msgstr "أين تُحفظ الملفات"
 
+#. Description of the 'Servers' (Table) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Where new workspaces are built. Each goes on the emptiest open server that may take it."
+msgstr "حيث تُبنى مساحات العمل الجديدة. توضع كل منها على أفرغ خادم مفتوح يقبلها."
+
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:16
 msgid "Where the company's equipment is kept. Add more later under Setup › Locations."
 msgstr "مكان حفظ معدات الشركة. أضف المزيد لاحقًا من الإعداد › المواقع."
@@ -20477,6 +20555,11 @@ msgstr "استُعيدت مساحة العمل"
 msgid "Workspace Rule"
 msgstr "قاعدة مساحة العمل"
 
+#. Name of a DocType
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
+msgid "Workspace Server"
+msgstr "خادم مساحات العمل"
+
 #: onedesk/one/page/workspace_settings/workspace_settings.js:5
 msgid "Workspace Settings"
 msgstr "إعدادات مساحة العمل"
@@ -20691,7 +20774,7 @@ msgstr "خطأ"
 msgid "Wrong Passwords Before a Lockout"
 msgstr "كلمات المرور الخاطئة قبل الإيقاف"
 
-#: onedesk/one_admin/home.py:372
+#: onedesk/one_admin/home.py:429
 msgid "Wrong Price"
 msgstr "سعر خاطئ"
 
@@ -21086,7 +21169,7 @@ msgstr "نقله شخص منذ ذلك الحين"
 msgid "a person has renamed it since"
 msgstr "أعاد شخص تسميته منذ ذلك الحين"
 
-#: onedesk/one_admin/home.py:438
+#: onedesk/one_admin/home.py:495
 msgid "a workspace"
 msgstr "مساحة عمل"
 
@@ -21740,7 +21823,7 @@ msgstr "workers-ai"
 msgid "yellow"
 msgstr ""
 
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:64
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:95
 msgid "{0} (changed)"
 msgstr "{0} (تغيّر)"
 
@@ -22224,6 +22307,10 @@ msgstr "{0} مفوتر بسعر {1} ومطلوب بسعر {2}."
 msgid "{0} is billed {1} times, ordered {2}."
 msgstr "{0} مفوتر {1} مرات ومطلوب {2}."
 
+#: onedesk/one_admin/home.py:347
+msgid "{0} is filling up"
+msgstr "{0} يمتلئ"
+
 #: onedesk/one_storage/api.py:217
 msgid "{0} is in somebody else's files. Copy it instead."
 msgstr "{0} ضمن ملفات شخص آخر. انسخه بدلًا من ذلك."
@@ -22231,6 +22318,10 @@ msgstr "{0} ضمن ملفات شخص آخر. انسخه بدلًا من ذلك."
 #: onedesk/one_ai/files.py:85
 msgid "{0} is larger than {1} MB, which is as much as one question may carry."
 msgstr "{0} أكبر من {1} ميغابايت، وهذا أقصى ما يحمله سؤال واحد."
+
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:47
+msgid "{0} is listed twice under Servers."
+msgstr "{0} مدرج مرتين تحت الخوادم."
 
 #: onedesk/public/js/next_step.js:48
 msgid "{0} is marked done on the timeline. Leave empty if nothing comes next."
@@ -22528,6 +22619,10 @@ msgstr "أُنجزت {0} من {1} مهام"
 msgid "{0} of {1} used"
 msgstr "{0} من {1} مستخدم"
 
+#: onedesk/one_admin/home.py:348
+msgid "{0} of {1} workspaces"
+msgstr "{0} من {1} مساحة عمل"
+
 #: onedesk/public/js/tenant.js:111
 msgid "{0} of {1} — {2}%"
 msgstr "{0} من {1} — {2}%"
@@ -22565,7 +22660,7 @@ msgstr "{0} مفتوحة من {1}"
 msgid "{0} out of 5"
 msgstr "{0} من 5"
 
-#: onedesk/one_admin/home.py:194
+#: onedesk/one_admin/home.py:195
 msgid "{0} paid and has no workspace"
 msgstr "دفع {0} وليس لديه مساحة عمل"
 

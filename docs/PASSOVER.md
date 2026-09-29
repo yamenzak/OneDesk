@@ -3977,6 +3977,17 @@ the server, the group's version (read from press) and Settings › **Site
 Plan** (default Unlimited - Hetzner), and `place_it` refuses when no Server
 is set. Built this way the site was Active in about a minute.
 
+**The server list** (your word, after asking whether it is set and forget).
+Settings' one Server became **Servers**, a table (`Workspace Server`): each
+row a server bought in Frappe Cloud and added to the one bench group, its
+region read back from Frappe Cloud on save, **EU**, **Open** and **Most
+Workspaces**. `place_it` puts a new workspace on the emptiest open server
+that may take it (EU only on EU rows), has room and carries the bench group
+(`press.api.bench.all(server=)`), and records it on the Tenant's new
+**Server**. None fitting fails the job saying what to buy; Home warns at
+four-fifths full, and when no open server is left for new or EU
+workspaces. A patch moves an old Server setting into the first row.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-29 18:44+0000\n"
-"PO-Revision-Date: 2026-09-29 18:44+0000\n"
+"POT-Creation-Date: 2026-09-29 19:19+0000\n"
+"PO-Revision-Date: 2026-09-29 19:19+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -474,6 +474,10 @@ msgstr "Ein neues Einchecken-Netzwerk oder ein neuer Ort wurde vorgeschlagen"
 #: onedesk/one/customize.py:324 onedesk/one/customize.py:399
 msgid "A new field needs a label."
 msgstr "Ein neues Feld braucht eine Beschriftung."
+
+#: onedesk/one_admin/home.py:375
+msgid "A new one fails to be built until a server is listed under Servers."
+msgstr "Ein neuer Arbeitsbereich kann erst aufgebaut werden, wenn unter Server ein Server eingetragen ist."
 
 #: onedesk/one/account.py:196
 msgid "A note from One: {0}"
@@ -1538,7 +1542,7 @@ msgstr "Ein Artikel kann Seriennummern oder Chargen haben."
 msgid "An unknown device"
 msgstr "Ein unbekanntes Gerät"
 
-#: onedesk/one_admin/home.py:348
+#: onedesk/one_admin/home.py:405
 msgid "An update is waiting for {0}"
 msgstr "Für {0} wartet ein Update"
 
@@ -2077,7 +2081,7 @@ msgstr "An der Kasse"
 msgid "At the foot of every mail the workspace sends. Leave it empty for none."
 msgstr "Am Ende jeder E-Mail, die der Arbeitsbereich sendet. Leer lassen für keine."
 
-#: onedesk/one_admin/home.py:133 onedesk/one_admin/home.py:317
+#: onedesk/one_admin/home.py:134 onedesk/one_admin/home.py:318
 msgid "At: {0}"
 msgstr "Bei: {0}"
 
@@ -2641,7 +2645,7 @@ msgstr "Defekt"
 msgid "Browser"
 msgstr "Browser"
 
-#: onedesk/one_admin/home.py:199
+#: onedesk/one_admin/home.py:200
 msgid "Build It"
 msgstr "Anlegen"
 
@@ -2663,7 +2667,7 @@ msgstr "Aufbau von {0} fehlgeschlagen"
 msgid "Building {0} has not moved"
 msgstr "Der Aufbau von {0} kommt nicht voran"
 
-#: onedesk/one_admin/home.py:316
+#: onedesk/one_admin/home.py:317
 msgid "Building {0} is taking hours"
 msgstr "Der Aufbau von {0} dauert Stunden"
 
@@ -2696,6 +2700,10 @@ msgstr "Schaltflächen: {0} braucht eine Beschriftung und einen Ort im Desk als 
 #: onedesk/public/js/settings.js:1372
 msgid "Buy Credits"
 msgstr "Guthaben kaufen"
+
+#: onedesk/one_admin/home.py:349
+msgid "Buy the next server in Frappe Cloud, add it to the bench group, and list it under Servers."
+msgstr "Kaufen Sie den nächsten Server in Frappe Cloud, fügen Sie ihn der Bench-Gruppe hinzu und tragen Sie ihn unter Server ein."
 
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -3045,7 +3053,7 @@ msgstr "Am günstigsten"
 msgid "Check"
 msgstr "Prüfung"
 
-#: onedesk/one_admin/heads.py:658 onedesk/one_admin/home.py:427
+#: onedesk/one_admin/heads.py:658 onedesk/one_admin/home.py:484
 #: onedesk/public/js/legal.js:73 onedesk/public/js/settings.js:1022
 #: onedesk/public/js/settings.js:1408
 msgid "Check Again"
@@ -4541,7 +4549,7 @@ msgstr "Lieferschein"
 msgid "Department"
 msgstr ""
 
-#: onedesk/one_admin/home.py:350
+#: onedesk/one_admin/home.py:407
 msgid "Deploy it in Frappe Cloud; every workspace on it is updated."
 msgstr "Stellen Sie es in Frappe Cloud bereit; jeder Arbeitsbereich darauf wird aktualisiert."
 
@@ -4963,8 +4971,10 @@ msgstr "Dauer (Minuten)"
 
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Account Request'
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Tenant'
+#. Label of the eu (Check) field in DocType 'Workspace Server'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
 msgid "EU"
 msgstr "EU"
 
@@ -6081,6 +6091,10 @@ msgstr "{0} ergänzen"
 msgid "Filled in {0}"
 msgstr "{0} ergänzt"
 
+#: onedesk/one_admin/home.py:353
+msgid "Filling Up"
+msgstr "Wird voll"
+
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:7
 msgid "Filter Based On"
 msgstr ""
@@ -6330,6 +6344,10 @@ msgstr "Frappe Cloud"
 msgid "Frappe Cloud Plan"
 msgstr "Frappe-Cloud-Tarif"
 
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:56
+msgid "Frappe Cloud has no server {0} on this account."
+msgstr "Frappe Cloud hat keinen Server {0} in diesem Konto."
+
 #: onedesk/one_admin/log.py:27
 msgid "Frappe Cloud stopped serving the site"
 msgstr "Frappe Cloud stellt die Website nicht mehr bereit"
@@ -6441,6 +6459,10 @@ msgstr "Ab {0} zählt jeder Tag als Arbeitstag. Legen Sie die Liste für nächst
 #: onedesk/one_hr/notifications.py:125
 msgid "From {from_date} to {to_date}."
 msgstr "Vom {from_date} bis {to_date}."
+
+#: onedesk/one_admin/home.py:353 onedesk/one_admin/home.py:377
+msgid "Full"
+msgstr ""
 
 #: onedesk/public/js/onecloud.js:496 onedesk/public/js/onemail.js:303
 msgid "GB"
@@ -7087,6 +7109,12 @@ msgstr "Wie viele Credits ein Dollar Anbieterkosten vor dem Aufschlag ergibt. Ni
 #: onedesk/one_hr/custom/training_result.json
 msgid "How many people the result covers, kept on the document so the list can say it."
 msgstr "Wie viele Personen das Ergebnis umfasst, auf dem Dokument gehalten, damit die Liste es nennen kann."
+
+#. Description of the 'Most Workspaces' (Int) field in DocType 'Workspace
+#. Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
+msgid "How many workspaces it holds before it is full. Leave it at 0 for no limit."
+msgstr "Wie viele Arbeitsbereiche er aufnimmt, bevor er voll ist. Lassen Sie 0 für keine Grenze."
 
 #: onedesk/one_hr/ai.py:59 onedesk/one_hr/ai.py:287
 msgid "How much leave do I have left, and who on my team is off in the next two weeks?"
@@ -7875,6 +7903,11 @@ msgstr "Die Interviewer"
 #: onedesk/public/js/settings.js:2127
 msgid "Its mail is always sent, so people can answer it by replying. The bell has it too, and push is theirs to choose."
 msgstr "Die E-Mail wird immer gesendet, damit man per Antwort reagieren kann. Die Glocke zeigt sie auch, und Push wählt jede Person selbst."
+
+#. Description of the 'Server' (Data) field in DocType 'Workspace Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
+msgid "Its name in Frappe Cloud, for example u25-nuremberg-3.frappe.cloud."
+msgstr "Sein Name in Frappe Cloud, zum Beispiel u25-nuremberg-3.frappe.cloud."
 
 #. Description of the 'Path' (Data) field in DocType 'Mail Folder'
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
@@ -8896,7 +8929,7 @@ msgstr "Sieh dir die Benachrichtigungen an, die One hier sendet. Welche sollten 
 msgid "Look at the price check: what is wrong and what is close, with the numbers. Say what to change first, and by how much, to make the price list hold."
 msgstr "Sehen Sie sich die Preisprüfung an: was falsch und was knapp ist, mit den Zahlen. Sagen Sie, was zuerst geändert werden sollte und um wie viel, damit die Preisliste stimmig ist."
 
-#: onedesk/one_admin/home.py:318
+#: onedesk/one_admin/home.py:319
 msgid "Look at the site in Frappe Cloud."
 msgstr "Sehen Sie sich die Website in Frappe Cloud an."
 
@@ -9594,6 +9627,11 @@ msgstr ""
 msgid "Most Pages Read"
 msgstr "Höchstens gelesene Seiten"
 
+#. Label of the capacity (Int) field in DocType 'Workspace Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
+msgid "Most Workspaces"
+msgstr "Höchstzahl Arbeitsbereiche"
+
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
@@ -10060,7 +10098,7 @@ msgstr "Nächste am {0}"
 msgid "Next year's is made three days before this one ends."
 msgstr "Das nächste wird drei Tage vor Ende dieses Jahres angelegt."
 
-#: onedesk/one_admin/home.py:167
+#: onedesk/one_admin/home.py:168
 msgid "Next: {0}"
 msgstr "Als Nächstes: {0}"
 
@@ -10085,7 +10123,7 @@ msgstr "Ohne Fälligkeitsdatum"
 msgid "No Location"
 msgstr "Kein Standort"
 
-#: onedesk/one_admin/home.py:400
+#: onedesk/one_admin/home.py:457
 msgid "No Model"
 msgstr "Kein Modell"
 
@@ -10198,7 +10236,7 @@ msgstr "Keine Erinnerung enthält das."
 msgid "No new mail is read from <b>{mailbox}</b> until it is connected again. Reconnect it from Settings › Mail."
 msgstr "Aus <b>{mailbox}</b> wird keine neue Post gelesen, bis es wieder verbunden ist. Verbinden Sie es unter Einstellungen › Mail neu."
 
-#: onedesk/one_admin/home.py:397
+#: onedesk/one_admin/home.py:454
 msgid "No offered model can do {0}."
 msgstr "Kein angebotenes Modell kann {0}."
 
@@ -10207,6 +10245,14 @@ msgstr "Kein angebotenes Modell kann {0}."
 #: onedesk/one_hr/custom/employee_checkin.json
 msgid "No one checked out, so this OUT was written at the shift end."
 msgstr "Niemand hat ausgecheckt, daher wurde dieses AUS zum Schichtende geschrieben."
+
+#: onedesk/one_admin/home.py:363
+msgid "No open server for EU workspaces"
+msgstr "Kein offener Server für EU-Arbeitsbereiche"
+
+#: onedesk/one_admin/home.py:362
+msgid "No open server for new workspaces"
+msgstr "Kein offener Server für neue Arbeitsbereiche"
 
 #: onedesk/public/js/overtime_slip.js:52
 msgid "No overtime was recorded on any attendance between {0} and {1}."
@@ -10374,7 +10420,7 @@ msgstr "Keine Verbindung"
 msgid "Not Estimated"
 msgstr "Nicht geschätzt"
 
-#: onedesk/one_admin/home.py:169
+#: onedesk/one_admin/home.py:170
 msgid "Not Moving"
 msgstr "Kommt nicht voran"
 
@@ -10531,7 +10577,7 @@ msgid "Not used"
 msgstr "Nicht genutzt"
 
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:15
-#: onedesk/one_admin/heads.py:55 onedesk/one_admin/home.py:423
+#: onedesk/one_admin/heads.py:55 onedesk/one_admin/home.py:480
 msgid "Not working"
 msgstr "Funktioniert nicht"
 
@@ -11585,10 +11631,12 @@ msgstr "Nur {0}"
 msgid "Only {0} or an administrator of this workspace can decide this."
 msgstr "Das können nur {0} oder eine Verwaltung dieses Arbeitsbereichs entscheiden."
 
+#. Label of the open (Check) field in DocType 'Workspace Server'
 #. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
 #. Option for the 'Matter State' (Select) field in DocType 'Reading'
 #. Option for the 'Status' (Select) field in DocType 'Cloud File Request'
 #. Option for the 'status' (Select) field in DocType 'Task'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:376
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -11901,13 +11949,13 @@ msgstr "Ausgabe-Token"
 msgid "Outstanding"
 msgstr "Offen"
 
-#: onedesk/one_admin/home.py:282
+#: onedesk/one_admin/home.py:283
 msgid "Over Database"
 msgstr "Datenbank überschritten"
 
 #. Option for the 'What' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
-#: onedesk/one_admin/home.py:253
+#: onedesk/one_admin/home.py:254
 msgid "Over Storage"
 msgstr "Speicher überschritten"
 
@@ -12336,7 +12384,7 @@ msgstr "Die Zahlung läuft über Stripe. Es wird nichts abgebucht, bis sie dort 
 
 #: onedesk/one/heads.py:18 onedesk/one_admin/accounts.py:137
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:23
-#: onedesk/one_admin/heads.py:26 onedesk/one_admin/home.py:216
+#: onedesk/one_admin/heads.py:26 onedesk/one_admin/home.py:217
 #: onedesk/one_admin/tell.py:138
 msgid "Payment overdue"
 msgstr "Zahlung überfällig"
@@ -13351,6 +13399,11 @@ msgstr "Wird von OneMail über IMAP gelesen und geschrieben, samt Ordnern, statt
 msgid "Read by OneAI"
 msgstr "Von OneAI gelesen"
 
+#. Description of the 'Region' (Data) field in DocType 'Workspace Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
+msgid "Read from Frappe Cloud when Settings is saved."
+msgstr "Wird beim Speichern der Einstellungen aus Frappe Cloud gelesen."
+
 #. Description of the 'When' (Data) field in DocType 'Timesheet Detail'
 #: onedesk/one_hr/custom/timesheet_detail.json
 msgid "Read from the two times below."
@@ -13774,7 +13827,9 @@ msgid "Refused."
 msgstr "Abgelehnt."
 
 #. Label of the cluster (Data) field in DocType 'Workspace Account'
+#. Label of the region (Data) field in DocType 'Workspace Server'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
 msgid "Region"
 msgstr "Region"
 
@@ -14118,7 +14173,7 @@ msgstr "Ergebnisse von überall"
 msgid "Results in {0}"
 msgstr "Ergebnisse in {0}"
 
-#: onedesk/one_admin/heads.py:634 onedesk/one_admin/home.py:137
+#: onedesk/one_admin/heads.py:634 onedesk/one_admin/home.py:138
 #: onedesk/public/js/timesheet.js:75
 msgid "Resume"
 msgstr "Fortsetzen"
@@ -14218,7 +14273,7 @@ msgstr "Nachfolgende Regeln werden bei Mails, auf die diese passte, nicht mehr g
 msgid "Run"
 msgstr "Lauf"
 
-#: onedesk/one_admin/home.py:172
+#: onedesk/one_admin/home.py:173
 msgid "Run Now"
 msgstr "Jetzt ausführen"
 
@@ -14711,9 +14766,11 @@ msgstr "Seriennummern"
 msgid "Serial and batch numbers can be used"
 msgstr "Serien- und Chargennummern sind nutzbar"
 
-#. Label of the press_server (Data) field in DocType 'One Admin Settings'
+#. Label of the server (Data) field in DocType 'Tenant'
+#. Label of the server (Data) field in DocType 'Workspace Server'
 #. Label of the host (Data) field in DocType 'Cloud Mount'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+#: onedesk/one_admin/doctype/tenant/tenant.json
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 #: onedesk/public/js/onecloud.js:1553 onedesk/public/js/onemail.js:856
 msgid "Server"
@@ -14722,6 +14779,12 @@ msgstr "Server"
 #: onedesk/public/js/onecloud.js:1844
 msgid "Server connection"
 msgstr "Serververbindung"
+
+#. Label of the servers (Table) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:93
+msgid "Servers"
+msgstr "Server"
 
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
@@ -15185,7 +15248,7 @@ msgstr "Website-Tarif"
 msgid "Size"
 msgstr "Größe"
 
-#: onedesk/one_admin/home.py:319
+#: onedesk/one_admin/home.py:320
 msgid "Slow"
 msgstr "Langsam"
 
@@ -15931,7 +15994,7 @@ msgstr ""
 msgid "Suspended For"
 msgstr "Gesperrt für"
 
-#: onedesk/one_admin/home.py:216 onedesk/one_admin/tell.py:138
+#: onedesk/one_admin/home.py:217 onedesk/one_admin/tell.py:138
 msgid "Suspended for not paying"
 msgstr "Wegen Nichtzahlung gesperrt"
 
@@ -16060,6 +16123,16 @@ msgstr "Zurückgenommen."
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Taken from the provider's own word for the model and from every input price it publishes."
 msgstr "Übernommen aus der Bezeichnung des Anbieters und aus jedem Eingabepreis, den er veröffentlicht."
+
+#. Description of the 'Open' (Check) field in DocType 'Workspace Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
+msgid "Takes new workspaces. Untick it to stop a server filling any further."
+msgstr "Nimmt neue Arbeitsbereiche auf. Deaktivieren Sie es, damit sich ein Server nicht weiter füllt."
+
+#. Description of the 'EU' (Check) field in DocType 'Workspace Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
+msgid "Takes the workspaces that asked for their data to stay in the EU. Tick it only for a server in the EU."
+msgstr "Nimmt die Arbeitsbereiche auf, deren Daten in der EU bleiben sollen. Aktivieren Sie es nur für einen Server in der EU."
 
 #: onedesk/one_admin/steps.py:86
 msgid "Taking the name off the edge"
@@ -16443,11 +16516,6 @@ msgstr "Das Feld"
 msgid "The Frappe Cloud root domain sites are created on, for example frappe.cloud."
 msgstr "Die Frappe-Cloud-Hauptdomain, auf der Sites angelegt werden, zum Beispiel frappe.cloud."
 
-#. Description of the 'Server' (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "The Frappe Cloud server new workspaces are built on, for example u25-nuremberg-3.frappe.cloud."
-msgstr "Der Frappe-Cloud-Server, auf dem neue Arbeitsbereiche aufgebaut werden, zum Beispiel u25-nuremberg-3.frappe.cloud."
-
 #. Description of the 'Thread' (Data) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json
 msgid "The Message-ID of the first message in its conversation."
@@ -16563,12 +16631,6 @@ msgstr "Die Glocke ist immer an. Dies sind die Kanäle, die man hinzufügen kann
 #: onedesk/public/js/settings.js:2243
 msgid "The bell is always on. These are what people may add to it, and what a new person starts with."
 msgstr "Die Glocke ist immer an. Dies können die Leute hinzufügen, und damit starten neue Personen."
-
-#. Description of the 'Bench Group' (Data) field in DocType 'One Admin
-#. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "The bench group on that server new workspaces go on. It must carry erpnext, hrms and onedesk."
-msgstr "Die Bench-Gruppe auf diesem Server, auf die neue Arbeitsbereiche kommen. Sie muss erpnext, hrms und onedesk enthalten."
 
 #: onedesk/one_book/ready.py:196
 msgid "The books are locked up to {0}."
@@ -16758,8 +16820,8 @@ msgstr "Die fünf, die alle haben"
 
 #. Description of the 'Site Plan' (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "The free Frappe Cloud plan each site on that server takes. It sets only its CPU time a day."
-msgstr "Der kostenlose Frappe-Cloud-Tarif, den jede Website auf diesem Server erhält. Er legt nur ihre tägliche CPU-Zeit fest."
+msgid "The free Frappe Cloud plan each site on these servers takes. It sets only its CPU time a day."
+msgstr "Der kostenlose Frappe-Cloud-Tarif, den jede Website auf diesen Servern erhält. Er legt nur ihre tägliche CPU-Zeit fest."
 
 #. Description of the 'Flow' (Data) field in DocType 'Intake Action'
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
@@ -16920,6 +16982,12 @@ msgstr "Der alte Link funktioniert dann nicht mehr, also muss jede App, die ihn 
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "The oldest message read so far. Older ones are read a batch at a time until there are none."
 msgstr "Die älteste bisher gelesene Nachricht. Ältere werden stapelweise gelesen, bis keine mehr übrig ist."
+
+#. Description of the 'Bench Group' (Data) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "The one bench group every workspace runs on, added to each server below. It must carry erpnext, hrms and onedesk."
+msgstr "Die eine Bench-Gruppe, auf der jeder Arbeitsbereich läuft, jedem Server unten hinzugefügt. Sie muss erpnext, hrms und onedesk enthalten."
 
 #. Description of the 'Primary' (Check) field in DocType 'Record Head Verb'
 #: onedesk/one/doctype/record_head_verb/record_head_verb.json
@@ -17151,6 +17219,11 @@ msgstr "Der Server hat Adresse und Passwort nicht akzeptiert."
 #: onedesk/one_mail/imap.py:361
 msgid "The server did not answer in time."
 msgstr "Der Server hat nicht rechtzeitig geantwortet."
+
+#. Description of the 'Server' (Data) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "The server it runs on, chosen from Settings when it was built."
+msgstr "Der Server, auf dem er läuft, beim Aufbau aus den Einstellungen gewählt."
 
 #: onedesk/one_storage/mounts.py:213
 msgid "The server said {0}."
@@ -18431,7 +18504,7 @@ msgstr "Bis"
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
 #. Option for the 'Change' (Select) field in DocType 'Reading'
-#: onedesk/one_admin/home.py:352
+#: onedesk/one_admin/home.py:409
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -18772,7 +18845,7 @@ msgstr "Wartet auf Guthaben"
 msgid "Waiting for Frappe Cloud to build it"
 msgstr "Warten, bis Frappe Cloud sie aufbaut"
 
-#: onedesk/one_admin/home.py:423
+#: onedesk/one_admin/home.py:480
 msgid "Waiting for its DNS"
 msgstr "Wartet auf sein DNS"
 
@@ -19906,6 +19979,11 @@ msgstr "Wo steht dieser Deal? Sag in wenigen Zeilen, worum es geht, wie weit er 
 msgid "Where files are kept"
 msgstr "Wo die Dateien gespeichert werden"
 
+#. Description of the 'Servers' (Table) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Where new workspaces are built. Each goes on the emptiest open server that may take it."
+msgstr "Wo neue Arbeitsbereiche aufgebaut werden. Jeder kommt auf den leersten offenen Server, der ihn aufnehmen darf."
+
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:16
 msgid "Where the company's equipment is kept. Add more later under Setup › Locations."
 msgstr "Wo die Ausstattung des Unternehmens steht. Weitere später unter Einrichtung › Standorte."
@@ -20477,6 +20555,11 @@ msgstr "Arbeitsbereich wiederhergestellt"
 msgid "Workspace Rule"
 msgstr "Arbeitsbereichsregel"
 
+#. Name of a DocType
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
+msgid "Workspace Server"
+msgstr "Arbeitsbereich-Server"
+
 #: onedesk/one/page/workspace_settings/workspace_settings.js:5
 msgid "Workspace Settings"
 msgstr "Arbeitsbereich-Einstellungen"
@@ -20691,7 +20774,7 @@ msgstr "Falsch"
 msgid "Wrong Passwords Before a Lockout"
 msgstr "Falsche Passwörter vor einer Sperre"
 
-#: onedesk/one_admin/home.py:372
+#: onedesk/one_admin/home.py:429
 msgid "Wrong Price"
 msgstr "Falscher Preis"
 
@@ -21086,7 +21169,7 @@ msgstr "eine Person hat es seitdem verschoben"
 msgid "a person has renamed it since"
 msgstr "eine Person hat es seitdem umbenannt"
 
-#: onedesk/one_admin/home.py:438
+#: onedesk/one_admin/home.py:495
 msgid "a workspace"
 msgstr "ein Arbeitsbereich"
 
@@ -21740,7 +21823,7 @@ msgstr "workers-ai"
 msgid "yellow"
 msgstr ""
 
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:64
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:95
 msgid "{0} (changed)"
 msgstr "{0} (geändert)"
 
@@ -22224,6 +22307,10 @@ msgstr "{0} ist zu {1} berechnet, bestellt zu {2}."
 msgid "{0} is billed {1} times, ordered {2}."
 msgstr "{0} ist {1}-mal berechnet, bestellt {2}."
 
+#: onedesk/one_admin/home.py:347
+msgid "{0} is filling up"
+msgstr "{0} wird voll"
+
 #: onedesk/one_storage/api.py:217
 msgid "{0} is in somebody else's files. Copy it instead."
 msgstr "{0} liegt in den Dateien einer anderen Person. Kopieren Sie es stattdessen."
@@ -22231,6 +22318,10 @@ msgstr "{0} liegt in den Dateien einer anderen Person. Kopieren Sie es stattdess
 #: onedesk/one_ai/files.py:85
 msgid "{0} is larger than {1} MB, which is as much as one question may carry."
 msgstr "{0} ist größer als {1} MB, und mehr darf eine Frage nicht tragen."
+
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:47
+msgid "{0} is listed twice under Servers."
+msgstr "{0} ist unter Server zweimal eingetragen."
 
 #: onedesk/public/js/next_step.js:48
 msgid "{0} is marked done on the timeline. Leave empty if nothing comes next."
@@ -22528,6 +22619,10 @@ msgstr "{0} von {1} Aufgaben erledigt"
 msgid "{0} of {1} used"
 msgstr "{0} von {1} belegt"
 
+#: onedesk/one_admin/home.py:348
+msgid "{0} of {1} workspaces"
+msgstr "{0} von {1} Arbeitsbereichen"
+
 #: onedesk/public/js/tenant.js:111
 msgid "{0} of {1} — {2}%"
 msgstr "{0} von {1} — {2} %"
@@ -22565,7 +22660,7 @@ msgstr "{0} von {1} offen"
 msgid "{0} out of 5"
 msgstr "{0} von 5"
 
-#: onedesk/one_admin/home.py:194
+#: onedesk/one_admin/home.py:195
 msgid "{0} paid and has no workspace"
 msgstr "{0} hat bezahlt und hat keinen Arbeitsbereich"
 

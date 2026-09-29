@@ -52,6 +52,9 @@ action:
   that will never finish is seen. Look at the site in Frappe Cloud.
 - **A workspace over its database**: it holds more than it bought. Frappe
   Cloud sets no limit on our own servers, so this is where it is watched.
+- **A server filling up**: four-fifths of its Most Workspaces, or full,
+  or no open server left for new or EU workspaces. Buy the next one before
+  a signup fails to be placed.
 - **An update waiting** for the bench group new workspaces go on, with the
   apps that have one. Deploying it is done in Frappe Cloud, and updates
   every workspace on it at once.
@@ -110,10 +113,10 @@ step at a time. There are five kinds:
 - **Provision** builds a new workspace: chooses the server it goes on,
   checks the name is free, asks Frappe Cloud for the site, waits for it to
   be built, puts it on our own name, tells the site who it is, invites the
-  owner, and marks it live. The server and bench group are the ones
-  Settings names; a bench group missing erpnext, hrms or onedesk is refused
-  at the first step, saying which to add. A workspace that asked for the EU
-  goes on an EU region when the bench offers one.
+  owner, and marks it live. The server is chosen from Settings › Servers
+  (the emptiest open one, an EU one for an EU workspace), and a bench group
+  missing erpnext, hrms or onedesk is refused at the first step, saying
+  which to add. The workspace's **Server** is on its record.
 - **Archive** also cancels the workspace's subscription in Stripe, so a
   workspace that is gone is not invoiced, and takes its mail route down
   with its address.
@@ -462,11 +465,11 @@ beside its changes, and a job lists what it wrote.
 
 **Settings** is what OneAdmin runs on, in four tabs:
 
-- **Connections**: the Frappe Cloud account the sites are built on, with
-  the **Server** and **Bench Group** new workspaces go on (the servers are
-  ours, rented from Frappe Cloud; customers never see it) and the **Site
-  Plan** each site takes there, one of Frappe Cloud's free Unlimited plans,
-  which only sets its CPU time a day,
+- **Connections**: the Frappe Cloud account the sites are built on (the
+  servers are ours, rented from Frappe Cloud; customers never see it): the
+  one **Bench Group** every workspace runs on, the **Site Plan** each site
+  takes, one of Frappe Cloud's free Unlimited plans, which only sets its CPU
+  time a day, and **Servers** (see below),
   Cloudflare (one token; **Set Up Cloudflare** finds or makes the rest and
   says what it did under Last Setup), the R2 buckets and keys, Stripe's keys,
   and the AI Gateway. Keys are shown as dots and never read back. **Sender
@@ -484,6 +487,17 @@ beside its changes, and a job lists what it wrote.
   before every action.
 - **Grace Periods**: the days a workspace spends overdue, suspended and
   archived before the next step.
+
+**Servers** lists the servers new workspaces are built on. To add one, buy
+it in Frappe Cloud, add it to the bench group there and deploy, then add a
+row here with its name; its **Region** is read back from Frappe Cloud when
+you save. Tick **EU** for a server in the EU: a workspace that asked for its
+data to stay in the EU only goes on one of those. Untick **Open** to stop a
+server taking new workspaces, and set **Most Workspaces** to say when it is
+full (0 is no limit). A new workspace goes on the emptiest open server that
+may take it, has room and carries the bench group. When none does its job
+fails saying what to buy or add, and **Resume** places it once there is one;
+Home warns before that, when a server is four-fifths full.
 
 The line at the top says what is not filled in and what that stops (no
 Stripe webhook secret: every payment is refused). **Try the Gateway** makes

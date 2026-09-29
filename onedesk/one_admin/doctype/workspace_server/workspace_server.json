@@ -1,0 +1,74 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-09-29 20:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "server",
+  "region",
+  "eu",
+  "open",
+  "capacity"
+ ],
+ "fields": [
+  {
+   "fieldname": "server",
+   "fieldtype": "Data",
+   "label": "Server",
+   "in_list_view": 1,
+   "reqd": 1,
+   "columns": 4,
+   "description": "Its name in Frappe Cloud, for example u25-nuremberg-3.frappe.cloud."
+  },
+  {
+   "fieldname": "region",
+   "fieldtype": "Data",
+   "label": "Region",
+   "in_list_view": 1,
+   "read_only": 1,
+   "columns": 2,
+   "description": "Read from Frappe Cloud when Settings is saved."
+  },
+  {
+   "default": "0",
+   "fieldname": "eu",
+   "fieldtype": "Check",
+   "label": "EU",
+   "in_list_view": 1,
+   "columns": 1,
+   "description": "Takes the workspaces that asked for their data to stay in the EU. Tick it only for a server in the EU."
+  },
+  {
+   "default": "1",
+   "fieldname": "open",
+   "fieldtype": "Check",
+   "label": "Open",
+   "in_list_view": 1,
+   "columns": 1,
+   "description": "Takes new workspaces. Untick it to stop a server filling any further."
+  },
+  {
+   "default": "0",
+   "fieldname": "capacity",
+   "fieldtype": "Int",
+   "label": "Most Workspaces",
+   "in_list_view": 1,
+   "columns": 2,
+   "description": "How many workspaces it holds before it is full. Leave it at 0 for no limit."
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-09-29 20:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Admin",
+ "name": "Workspace Server",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "idx",
+ "sort_order": "ASC",
+ "states": []
+}

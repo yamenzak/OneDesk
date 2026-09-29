@@ -29,6 +29,32 @@ class OneAdminSettings(Document):
 
 	def validate(self) -> None:
 		site.require_admin()
+		self._servers()
+
+	def _servers(self) -> None:
+		"""Each listed server once, and its region read back from Frappe Cloud
+		rather than typed. A name Frappe Cloud does not know is refused; a
+		Frappe Cloud that does not answer leaves the region to be read when
+		the server is first used."""
+		from onedesk.one_admin import faults, press
+
+		before = self.get_doc_before_save()
+		known = {one.server: one.region for one in (before.get("servers") if before else None) or []}
+		seen = set()
+		for row in self.get("servers") or []:
+			row.server = (row.server or "").strip()
+			if row.server in seen:
+				frappe.throw(frappe._("{0} is listed twice under Servers.").format(row.server))
+			seen.add(row.server)
+			if row.region and known.get(row.server) == row.region:
+				continue
+			try:
+				found = press.call("press.api.server.get", timeout=press.READ_TIMEOUT, name=row.server) or {}
+			except faults.Again:
+				continue
+			except faults.Refused:
+				frappe.throw(frappe._("Frappe Cloud has no server {0} on this account.").format(row.server))
+			row.region = (found.get("region_info") or {}).get("name")
 
 	def on_update(self) -> None:
 		self._tell()
@@ -60,6 +86,8 @@ class OneAdminSettings(Document):
 				)
 			else:
 				said.append(frappe._(df.label))
+		if _listed(before) != _listed(self):
+			said.append(frappe._("Servers"))
 		said += [
 			frappe._("{0} (changed)").format(frappe._(label))
 			for label in self.flags.get("keys_changed") or []
@@ -68,3 +96,8 @@ class OneAdminSettings(Document):
 			from onedesk.one_admin import tell
 
 			tell.settings_changed(said)
+
+
+def _listed(doc) -> list:
+	"""The server list as the operators would read it, to tell whether it changed."""
+	return [(one.server, one.eu, one.open, one.capacity) for one in doc.get("servers") or []]

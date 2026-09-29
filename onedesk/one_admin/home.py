@@ -111,6 +111,7 @@ def needs() -> list[dict]:
 		*_unmodelled(),
 		*_domains(),
 		*_updates(),
+		*_filling(),
 	]
 
 
@@ -322,6 +323,62 @@ def _slow_builds() -> list[dict]:
 		}
 		for one in rows
 	]
+
+
+#: The share of a server's limit at which Home says it is filling up.
+FILLING = 0.8
+
+
+def _filling() -> list[dict]:
+	"""Servers new workspaces go on that are near their limit or at it, and a
+	jurisdiction with no open server at all. Buying the next one takes a
+	while, so this is said before a workspace fails to be placed."""
+	from onedesk.one_admin import quota
+
+	listed = [one for one in frappe.get_cached_doc("One Admin Settings").get("servers") or [] if one.server]
+	if not listed:
+		return []
+	counts = quota.held_on_servers()
+	said = [
+		{
+			"kind": "storage",
+			"doctype": "One Admin Settings",
+			"name": "One Admin Settings",
+			"title": _("{0} is filling up").format(one.server),
+			"why": _("{0} of {1} workspaces").format(counts.get(one.server, 0), one.capacity),
+			"detail": _(
+				"Buy the next server in Frappe Cloud, add it to the bench group, and list it under Servers."
+			),
+			"since": "",
+			"badge": _("Full") if counts.get(one.server, 0) >= one.capacity else _("Filling Up"),
+			"action": None,
+		}
+		for one in listed
+		if one.open and one.capacity and counts.get(one.server, 0) >= FILLING * one.capacity
+	]
+	# EU is only asked about on /start once there is an EU bucket.
+	offers_eu = bool(frappe.get_cached_value("One Admin Settings", None, "bucket_eu"))
+	for eu, title in (
+		(False, _("No open server for new workspaces")),
+		(True, _("No open server for EU workspaces")),
+	):
+		if eu and not offers_eu:
+			continue
+		if not any(one.open and (one.eu or not eu) for one in listed):
+			said.append(
+				{
+					"kind": "storage",
+					"doctype": "One Admin Settings",
+					"name": "One Admin Settings",
+					"title": title,
+					"why": "",
+					"detail": _("A new one fails to be built until a server is listed under Servers."),
+					"since": "",
+					"badge": _("Full"),
+					"action": None,
+				}
+			)
+	return said
 
 
 def _updates() -> list[dict]:

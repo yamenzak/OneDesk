@@ -27,3 +27,4 @@ onedesk.one_admin.patches.ai_usage_one_total
 onedesk.one_admin.patches.house_workspace
 onedesk.one_admin.patches.signup_keys
 onedesk.one_admin.patches.accounts
+onedesk.one_admin.patches.server_list

@@ -23,6 +23,7 @@
   "column_break_place",
   "jurisdiction",
   "bench",
+  "server",
   "site_section",
   "site",
   "domain",
@@ -166,6 +167,14 @@
    "fieldtype": "Data",
    "label": "Bench",
    "read_only": 1
+  },
+  {
+   "fieldname": "server",
+   "fieldtype": "Data",
+   "label": "Server",
+   "read_only": 1,
+   "in_standard_filter": 1,
+   "description": "The server it runs on, chosen from Settings when it was built."
   },
   {
    "fieldname": "site_section",
@@ -354,7 +363,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-29 20:30:00.000000",
+ "modified": "2026-09-29 20:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Tenant",

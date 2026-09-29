@@ -70,3 +70,17 @@ def apply(tenant) -> dict:
 
 def _doc(tenant):
 	return frappe.get_doc("Tenant", tenant) if isinstance(tenant, str) else tenant
+
+
+def held_on_servers() -> dict:
+	"""How many workspaces each server holds: every one placed on it that is
+	not archived or dropped, since those have no site any more."""
+	from collections import Counter
+
+	return Counter(
+		frappe.get_all(
+			"Tenant",
+			filters={"server": ["is", "set"], "status": ["not in", ("Archived", "Dropped")]},
+			pluck="server",
+		)
+	)

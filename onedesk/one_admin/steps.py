@@ -26,7 +26,7 @@ import requests
 from frappe import _lt
 from frappe.utils import now_datetime
 
-from onedesk.one_admin import cloudflare, faults, hosts, log, press
+from onedesk.one_admin import cloudflare, faults, hosts, log, press, quota
 from onedesk.one_storage import store
 
 #: Returned by a step that has started something and is waiting on press.
@@ -95,31 +95,23 @@ SAID = {
 APPS = ("erpnext", "hrms", "onedesk")
 
 
-#: Words in a region's title that put it in the European Union, for a
-#: workspace that asked for its files there and a bench that offers a region.
-EU = (
-	"Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czech", "Denmark", "Estonia", "Finland",
-	"France", "Frankfurt", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania",
-	"Luxembourg", "Malta", "Netherlands", "Amsterdam", "Nuremberg", "Poland", "Portugal", "Romania",
-	"Slovakia", "Slovenia", "Spain", "Sweden", "Stockholm", "Paris", "Dublin", "Milan", "Madrid",
-)
-
-
 def place_it(job, tenant) -> None:
-	"""Which of our servers, bench groups and regions the site goes on.
+	"""Which of our servers the site goes on.
 
 	Chosen here, by the job, and not on the signup page: a Frappe Cloud that is
-	slow or down must not stop anybody signing up or paying. The bench group
-	is the one Settings names (the first the team owns when none is named),
-	and it has to carry every app a workspace gets: a site asked for on a bench
-	missing one is refused by press half way, so it is refused here first, in
-	words that say what to add. A workspace that asked for its files in the EU
-	goes on an EU region when the bench offers one.
+	slow or down must not stop anybody signing up or paying. Every workspace
+	runs on the one bench group Settings names (the first the team owns when
+	none is named), and it has to carry every app a workspace gets: a site
+	asked for on a bench missing one is refused by press half way, so it is
+	refused here first, in words that say what to add.
+
+	The server is the emptiest open one in Settings' list, an EU one for a
+	workspace that asked for the EU, that has room and that the bench group
+	has been added to. None fitting fails the job, saying what to buy or
+	add, and Resume places it once there is one.
 	"""
-	if tenant.site or (tenant.bench and tenant.cluster):
+	if tenant.site or (tenant.bench and tenant.server):
 		return
-	if not _setting("press_server"):
-		raise faults.Refused("Settings names no Server to build workspaces on")
 	bench = tenant.bench or _setting("press_bench") or next(
 		(one.get("name") for one in press.benches() or [] if one.get("name")), None
 	)
@@ -131,10 +123,46 @@ def place_it(job, tenant) -> None:
 		raise faults.Refused(
 			f"{', '.join(missing)} is not on the bench group {bench}. Add it in Frappe Cloud, deploy, then resume"
 		)
-	regions = [one for one in press.clusters(bench) or [] if isinstance(one, dict)]
-	eu = [one for one in regions if any(word in (one.get("title") or "") for word in EU)]
-	chosen = (eu if tenant.jurisdiction == "EU" and eu else regions)[:1]
-	tenant.db_set({"bench": bench, "cluster": tenant.cluster or (chosen[0].get("name") if chosen else None)})
+	row = _server_for(tenant.jurisdiction, bench)
+	tenant.db_set({"bench": bench, "server": row.server, "cluster": row.region or _region_of(row.server)})
+
+
+def _server_for(jurisdiction: str, bench: str):
+	"""The emptiest open server that may take this workspace and carries the
+	bench group. Emptiest by the share of its limit used; a server with no
+	limit counts as holding a thousand."""
+	eu = jurisdiction == "EU"
+	rows = [one for one in _servers() if one.open and one.server and (one.eu or not eu)]
+	kind = "open server that takes EU workspaces" if eu else "open server"
+	if not rows:
+		raise faults.Refused(f"Settings lists no {kind}. List one under Servers, then resume")
+	counts = quota.held_on_servers()
+	room = [one for one in rows if not one.capacity or counts.get(one.server, 0) < one.capacity]
+	if not room:
+		raise faults.Refused(
+			f"Every {kind} is full. Buy a server in Frappe Cloud, add it to the bench group {bench}, "
+			"list it under Servers in Settings, then resume"
+		)
+	room.sort(key=lambda one: counts.get(one.server, 0) / (one.capacity or 1000))
+	for one in room:
+		carried = {group.get("name") for group in press.call("press.api.bench.all", server=one.server) or []}
+		if bench in carried:
+			return one
+	raise faults.Refused(
+		f"The bench group {bench} is not on {', '.join(one.server for one in room)}. "
+		"Add the server to it in Frappe Cloud, deploy, then resume"
+	)
+
+
+def _servers() -> list:
+	return frappe.get_cached_doc("One Admin Settings").get("servers") or []
+
+
+def _region_of(server: str) -> str | None:
+	"""The Frappe Cloud region a server is in, asked for when Settings has not
+	read it back yet."""
+	found = press.call("press.api.server.get", timeout=press.READ_TIMEOUT, name=server) or {}
+	return (found.get("region_info") or {}).get("name")
 
 
 def name_is_free(job, tenant) -> None:
@@ -176,7 +204,7 @@ def create_site(job, tenant) -> None:
 			"domain": _press_domain(),
 			"group": tenant.bench,
 			"cluster": tenant.cluster,
-			"server": _setting("press_server"),
+			"server": tenant.server,
 			"version": group.get("version"),
 			"plan": _setting("press_plan") or "Unlimited - Hetzner",
 			"apps": list(APPS),
