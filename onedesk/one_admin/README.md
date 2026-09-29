@@ -116,6 +116,30 @@ owner** step: the new site makes whoever paid its first administrator and
 emails them a link to choose their password, good for a week. When the job
 finishes they are emailed **Workspace Ready**, with its address.
 
+## Log
+
+**Log** is what happened to each workspace, newest first, written by One as
+it happens. Nobody types in it. Each row says the workspace, what happened,
+in words, who did it, and when:
+
+- **Overdue**, **Suspended**, **Archived**, **Dropped** and **Restored**:
+  it reached a rung, and why: a payment failed, its time on the last rung
+  ran out, it was paid, it was moved by hand, or what Frappe Cloud did.
+- **Plan Changed** and **Add-on Changed**: the customer changed their plan
+  from their own workspace, by name. **Plan Change Pending**: Frappe Cloud
+  refused to move the site to the plan its database needs; it is asked
+  again each night.
+- **Over Storage**: it holds more than its plan allows, with both sizes.
+  Written when it goes over, and again only when it moves by a gigabyte or
+  a month has passed. It is also on Home until it is back under.
+
+**By** is **the customer**, from their own workspace, **an operator** by
+name, for a button they pressed or a job they started, or **One**, for the
+clock, a payment or a nightly measure. A row written by a job links it.
+
+A row opens its workspace. A workspace's **Activity** shows its own log
+beside its changes, and a job lists what it wrote.
+
 ## Being told
 
 Operators are told without opening Home:
@@ -183,6 +207,12 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   and `operator.run_now` are the job that has not moved. `ai.job_facts` is the
   walk for OneAI, and a suggestion's `when` (`one_ai/suggest.py`) offers the
   failed question only on a failed job.
+- **The log** (`log.py`): every row is `log.write`, which says who from the
+  session or the job's owner (the proxy passes Customer), links the job,
+  and stores a fixed phrase from `SAID` (`_lt`) in English for the list to
+  translate. `log.over_storage` keeps one row per stretch over.
+  `log.timeline` is the workspace's `additional_timeline_content`.
+  `patches/log_in_words.py` reworded the rows written before.
 - **Workspaces is Tenant.** `one/titles.py` hands the rail's labels for our
   own doctypes down in the boot, and `public/js/reports.js` writes them as the
   list's title, the crumb back to it and a record's connections. The owner's

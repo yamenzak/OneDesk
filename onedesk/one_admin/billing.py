@@ -190,10 +190,15 @@ def _offer(one) -> dict:
 
 
 def _log(slug: str, kind: str, plan: str, extras: dict) -> None:
-	detail = plan + (" with " + ", ".join(f"{count} × {key}" for key, count in extras.items()) if extras else "")
-	frappe.get_doc({"doctype": "Tenant Event", "tenant": slug, "kind": kind, "detail": detail}).insert(
-		ignore_permissions=True
-	)
+	"""The customer changed their plan (only ever from their own workspace,
+	through the proxy): the plan and add-ons by name."""
+	from onedesk.one_admin import log
+
+	def label(key):
+		return frappe.db.get_value("Offering", key, "label") or key
+
+	detail = " + ".join([label(plan), *(f"{count} × {label(key)}" for key, count in extras.items() if count)])
+	log.write(slug, kind, detail, by="Customer")
 
 
 # ------------------------------------------------------------------ invoices

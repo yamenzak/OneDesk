@@ -27,7 +27,7 @@ on that rung, which is the forgiving direction.
 import frappe
 from frappe.utils import now_datetime
 
-from onedesk.one_admin import ladder, runner, site
+from onedesk.one_admin import ladder, log, runner, site
 
 #: What to call the job that gets a workspace to each rung.
 BY = {
@@ -55,7 +55,7 @@ def owed(tenant) -> str | None:
 	"""
 	if tenant.status != "Live":
 		return None
-	_arrive(tenant, "Overdue", "a payment failed")
+	_arrive(tenant, "Overdue", log.said("owed"))
 	return "Overdue"
 
 
@@ -78,12 +78,12 @@ def paid(tenant) -> str | None:
 		)
 	rung = ladder.climbing(tenant.status)
 	if tenant.status == "Overdue":
-		_arrive(tenant, rung, "paid")
+		_arrive(tenant, rung, log.said("paid"))
 		return rung
 	return _job(tenant, rung)
 
 
-def fall(tenant, rung: str | None = None) -> str | None:
+def fall(tenant, rung: str | None = None, why: str | None = None) -> str | None:
 	"""Move one rung down, doing whatever that rung needs.
 
 	`rung` is for an operator doing it by hand. Left out, the clock decides, and
@@ -99,7 +99,7 @@ def fall(tenant, rung: str | None = None) -> str | None:
 			)
 		)
 	if BY.get(rung) is None:
-		_arrive(tenant, rung, "the clock")
+		_arrive(tenant, rung, why or log.said("clock"))
 		return rung
 	return _job(tenant, rung)
 

@@ -79,7 +79,9 @@ def fall(tenant: str, rung: str) -> dict:
 	if rung not in BY_HAND:
 		frappe.throw(frappe._("{0} is not a rung an operator sets.").format(rung))
 	held = frappe.get_doc("Tenant", tenant)
-	lifecycle.fall(held, rung)
+	from onedesk.one_admin import log
+
+	lifecycle.fall(held, rung, log.said("by_hand"))
 	return standing(tenant)
 
 

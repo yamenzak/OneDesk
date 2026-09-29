@@ -10,26 +10,30 @@
   "tenant",
   "kind",
   "column_break_what",
-  "detail"
+  "detail",
+  "column_break_who",
+  "by",
+  "by_user",
+  "job",
+  "amount"
  ],
  "fields": [
   {
    "fieldname": "tenant",
    "fieldtype": "Link",
-   "label": "Tenant",
+   "label": "Workspace",
    "options": "Tenant",
-   "reqd": 1,
    "read_only": 1,
-   "in_list_view": 1
+   "in_standard_filter": 1
   },
   {
    "fieldname": "kind",
    "fieldtype": "Select",
-   "label": "Kind",
-   "options": "Over Storage\nOverdue\nSuspended\nRestored\nArchived\nDropped\nDrifted\nOver Database\nPlan Changed\nPlan Change Pending\nAdd-on Changed",
-   "reqd": 1,
+   "label": "What",
+   "options": "Over Storage\nOverdue\nSuspended\nRestored\nArchived\nDropped\nPlan Changed\nPlan Change Pending\nAdd-on Changed",
    "read_only": 1,
-   "in_standard_filter": 1
+   "in_standard_filter": 1,
+   "in_list_view": 1
   },
   {
    "fieldname": "column_break_what",
@@ -41,11 +45,50 @@
    "label": "Detail",
    "read_only": 1,
    "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_who",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "by",
+   "fieldtype": "Select",
+   "label": "By",
+   "options": "One\nCustomer\nOperator",
+   "default": "One",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "The customer from their own workspace, an operator here, or One on its own.",
+   "read_only": 1
+  },
+  {
+   "fieldname": "by_user",
+   "fieldtype": "Link",
+   "label": "Operator",
+   "options": "User",
+   "depends_on": "eval:doc.by=='Operator'",
+   "read_only": 1
+  },
+  {
+   "fieldname": "job",
+   "fieldtype": "Link",
+   "label": "Job",
+   "options": "Provisioning Job",
+   "depends_on": "eval:doc.job",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Long Int",
+   "label": "Amount",
+   "hidden": 1,
+   "description": "Bytes held, on an Over Storage row, so the next is written only when it moves.",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-27 14:00:00.000000",
+ "modified": "2026-09-29 14:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Tenant Event",
@@ -60,7 +103,7 @@
    "read": 1,
    "report": 1,
    "role": "One Operator",
-   "share": 1,
+   "share": 0,
    "write": 0,
    "delete": 0
   }
@@ -69,5 +112,6 @@
  "sort_order": "DESC",
  "states": [],
  "track_changes": 0,
- "description": "A record of something that happened to a workspace."
+ "description": "A record of something that happened to a workspace.",
+ "title_field": "tenant"
 }

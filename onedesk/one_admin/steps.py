@@ -26,7 +26,7 @@ import requests
 from frappe import _lt
 from frappe.utils import now_datetime
 
-from onedesk.one_admin import cloudflare, faults, hosts, press
+from onedesk.one_admin import cloudflare, faults, hosts, log, press
 from onedesk.one_storage import store
 
 #: Returned by a step that has started something and is waiting on press.
@@ -289,7 +289,7 @@ def deactivate_site(job, tenant) -> None:
 
 
 def mark_suspended(job, tenant) -> None:
-	_arrive(tenant, "Suspended", "press has stopped serving the site")
+	_arrive(tenant, "Suspended", log.said("stopped"), job)
 
 
 def activate_site(job, tenant) -> None:
@@ -305,7 +305,7 @@ def activate_site(job, tenant) -> None:
 
 
 def mark_live(job, tenant) -> None:
-	_arrive(tenant, "Live", "paid")
+	_arrive(tenant, "Live", log.said("paid"), job)
 
 
 def note_backup(job, tenant) -> None:
@@ -356,7 +356,7 @@ def unroute(job, tenant) -> None:
 
 
 def mark_archived(job, tenant) -> None:
-	_arrive(tenant, "Archived", "the site is gone; the files are not")
+	_arrive(tenant, "Archived", log.said("archived"), job)
 
 
 def empty_storage(job, tenant) -> None:
@@ -372,7 +372,7 @@ def empty_storage(job, tenant) -> None:
 
 
 def mark_dropped(job, tenant) -> None:
-	_arrive(tenant, "Dropped", "the files are gone")
+	_arrive(tenant, "Dropped", log.said("dropped"), job)
 
 
 #: What a Tenant Event calls each rung. Only one differs: arriving at Live is
@@ -382,7 +382,7 @@ def mark_dropped(job, tenant) -> None:
 CALLED = {"Live": "Restored"}
 
 
-def _arrive(tenant, rung: str, why: str) -> None:
+def _arrive(tenant, rung: str, why: str, job=None) -> None:
 	"""Put the workspace on a rung and start its clock there.
 
 	`status_since` is written with the status and never separately, because the
@@ -392,14 +392,8 @@ def _arrive(tenant, rung: str, why: str) -> None:
 	was = tenant.status
 	# `notify` publishes the change, so an open form and list show it at once.
 	tenant.db_set({"status": rung, "status_since": now_datetime()}, notify=True)
-	frappe.get_doc(
-		{
-			"doctype": "Tenant Event",
-			"tenant": tenant.name,
-			"kind": CALLED.get(rung, rung),
-			"detail": why,
-		}
-	).insert(ignore_permissions=True)
+	# Who did it and which job, in the log (one_admin/log.py).
+	log.write(tenant.name, CALLED.get(rung, rung), why, job=job)
 	# Overdue and Suspended are told to the operator, and Suspended, Archived
 	# and Live again to the owner; see one_admin/tell.py.
 	from onedesk.one_admin import tell

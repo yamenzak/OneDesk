@@ -378,7 +378,7 @@ def test_updates_replace_erpnexts_asking_and_are_kept_on_the_project():
 	assert (
 		'"onedesk.one_project.updates.answered"' in HOOKS.split('"Communication": {', 1)[1].split("},", 1)[0]
 	)
-	assert 'additional_timeline_content = {"Project": ["onedesk.one_project.updates.timeline"]}' in HOOKS
+	assert '"Project": ["onedesk.one_project.updates.timeline"]' in HOOKS
 	assert 'notify.notify("Project Update Asked"' in _body(source, "_ask") and "if _mail()" in _body(
 		source, "_ask"
 	), "asked in One, mailed where mail goes"

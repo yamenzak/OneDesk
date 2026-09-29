@@ -2852,6 +2852,36 @@ all Nine X and Nine S, eight of them add-on changes from yesterday.
    frappe's own `additional_timeline_content`, which OneProject uses
    already.
 
+Your word: all of them.
+
+Done:
+
+- **One writer** (`one_admin/log.py`): every row goes through `log.write`,
+  and a test refuses anything else that writes the log.
+- **In words**: a rung's reason is a fixed phrase ("A payment failed",
+  "Its time on the last rung ran out", "Moved by hand", "Frappe Cloud
+  stopped serving the site", "Paid"…), `_lt`, stored in English and shown
+  in the operator's language. A plan change names the plan and add-ons
+  ("Team + 2 × 1 GB of Database"); storage is "21 GB / 25 GB".
+  `patches/log_in_words.py` reworded the rows already written.
+- **By**: the customer (a plan they changed, through the proxy), the
+  operator by name (a button, or a job they started, from the job's
+  owner), or One. An operator's manual fall says "Moved by hand" and names
+  them; Nine X's Overdue, which read "the clock", now does.
+- **Which job**: a row written by a job links it, and a job's form has a
+  Log connection.
+- **Over Storage** is written once when a workspace goes over, then only
+  when it moves by a gigabyte or a month has passed; and a workspace over
+  is in Needs You until it is back under.
+- **The workspace's Activity** shows its log (frappe's
+  `additional_timeline_content`, `log.timeline`), as "Suspended · Frappe
+  Cloud stopped serving the site · by One".
+- **The list**: Workspace, What (a coloured badge), Detail, By, and when.
+  No ID column or filter. A row opens its workspace. Drifted and Over
+  Database are gone, Share is off.
+- **README**: a Log section.
+- Also fixed on the way: the workspace head said "Team + 1 add-ons".
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

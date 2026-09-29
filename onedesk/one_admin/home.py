@@ -8,7 +8,8 @@ Two reads, both for the operator only on the admin site (`operator._may`):
   disagree.
 - `needs`: one list of what needs a person, each with why and the one thing
   to do about it. A failed job is resumed where it stopped, a job that is
-  due and has not moved is run now, a paid signup
+  due and has not moved is run now, a workspace over its storage is
+  opened, a paid signup
   with no workspace is built again, a domain is asked about again, and a
   workspace owing is opened.
 
@@ -97,7 +98,7 @@ def needs() -> list[dict]:
 	that failed, money taken for a workspace that was never built, a
 	workspace owing, and a domain that has not come up."""
 	_may()
-	return [*_failed_jobs(), *_unbuilt_signups(), *_stalled_jobs(), *_owing(), *_domains()]
+	return [*_failed_jobs(), *_unbuilt_signups(), *_stalled_jobs(), *_owing(), *_over_storage(), *_domains()]
 
 
 def _failed_jobs() -> list[dict]:
@@ -213,6 +214,35 @@ def _owing() -> list[dict]:
 		}
 		for one in rows
 	]
+
+
+def _over_storage() -> list[dict]:
+	"""Live workspaces holding more than their plan allows: storage we pay for
+	and they do not. Their own site tells their administrators when nearly
+	full; this is our side of it. Opening one is the action."""
+	from onedesk.one.heads import size
+
+	rows = frappe.get_all(
+		"Tenant",
+		filters={"status": "Live", "storage_limit": [">", 0]},
+		fields=["name", "workspace_name", "storage_bytes", "storage_limit", "modified"],
+		limit=MOST * 4,
+	)
+	return [
+		{
+			"kind": "storage",
+			"doctype": "Tenant",
+			"name": one.name,
+			"title": one.workspace_name or one.name,
+			"why": f"{size(one.storage_bytes)} / {size(one.storage_limit)}",
+			"detail": "",
+			"since": "",
+			"badge": _("Over Storage"),
+			"action": None,
+		}
+		for one in rows
+		if (one.storage_bytes or 0) > one.storage_limit
+	][:MOST]
 
 
 def _domains() -> list[dict]:

@@ -450,3 +450,30 @@ def test_oneai_asks_about_a_job_only_in_the_state_it_is_in():
 	assert body.index("if not _operator()") < body.index("frappe.get_doc")
 	assert '"onedesk.one_admin.ai.job_facts"' in (tree.APP / "hooks.py").read_text()
 	assert "def _holds(" in (tree.APP / "one_ai" / "suggest.py").read_text()
+
+
+def test_every_log_row_goes_through_log_write():
+	"""Who did it, which job, and words the list can translate: so nothing
+	writes a Tenant Event but `log.py`."""
+	import re
+
+	for path in ADMIN.rglob("*.py"):
+		if path.name == "log.py" or "patches" in path.parts or "doctype" in path.parts:
+			continue
+		text = path.read_text()
+		assert not re.search(r'"doctype":\s*"Tenant Event"', text), f"{path.name} writes the log itself"
+	log = (ADMIN / "log.py").read_text()
+	assert "_lt(" in log and 'by or ("Operator" if operator else "One")' in log
+	assert 'log.write(slug, kind, detail, by="Customer")' in (ADMIN / "billing.py").read_text()
+	assert 'lifecycle.fall(held, rung, log.said("by_hand"))' in (ADMIN / "operator.py").read_text()
+	assert '"Tenant": ["onedesk.one_admin.log.timeline"]' in (tree.APP / "hooks.py").read_text()
+
+
+def test_the_log_keeps_one_row_per_stretch_over_storage_and_no_dead_kinds():
+	log = (ADMIN / "log.py").read_text()
+	assert "AGAIN_BYTES" in log and "AGAIN_DAYS" in log
+	event = json.loads((ADMIN / "doctype" / "tenant_event" / "tenant_event.json").read_text())
+	kinds = [f for f in event["fields"] if f["fieldname"] == "kind"][0]["options"].split("\n")
+	assert "Drifted" not in kinds and "Over Database" not in kinds
+	assert not event["permissions"][0]["share"] and event["title_field"] == "tenant"
+	assert "*_over_storage()" in (ADMIN / "home.py").read_text()

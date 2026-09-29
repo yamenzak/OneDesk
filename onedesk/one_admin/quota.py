@@ -101,10 +101,10 @@ def move(slug: str) -> str | None:
 	try:
 		press.call("press.api.site.change_plan", name=tenant.site, plan=wanted)
 	except faults.Refused as refused:
-		_event(slug, "Plan Change Pending", f"asked for {wanted}: {refused}")
+		_event(slug, "Plan Change Pending", f"{wanted} · {refused}")
 		return None
 	frappe.db.set_value("Tenant", slug, "press_plan", wanted, update_modified=False)
-	_event(slug, "Plan Changed", f"database limit {cint(tenant.database_limit) // GB} GB on {wanted}")
+	_event(slug, "Plan Changed", f"{wanted} · {cint(tenant.database_limit) // GB} GB")
 	return wanted
 
 
@@ -121,9 +121,10 @@ def nightly() -> None:
 
 
 def _event(slug: str, kind: str, detail: str) -> None:
-	frappe.get_doc({"doctype": "Tenant Event", "tenant": slug, "kind": kind, "detail": detail}).insert(
-		ignore_permissions=True
-	)
+	"""Frappe Cloud's plan for the site, moved to fit its database (log.py)."""
+	from onedesk.one_admin import log
+
+	log.write(slug, kind, detail)
 
 
 def _doc(tenant):

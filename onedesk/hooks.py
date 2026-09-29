@@ -918,7 +918,11 @@ one_calendar_layers = [
 ]
 
 # A project's updates in its activity, under who wrote them. See one_project/updates.py.
-additional_timeline_content = {"Project": ["onedesk.one_project.updates.timeline"]}
+additional_timeline_content = {
+	"Project": ["onedesk.one_project.updates.timeline"],
+	# A workspace's log in its Activity. See one_admin/log.py.
+	"Tenant": ["onedesk.one_admin.log.timeline"],
+}
 
 # A OneCloud link: /s/<token> is www/s.py, for somebody with no account.
 website_route_rules = [

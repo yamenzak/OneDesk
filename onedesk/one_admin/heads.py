@@ -136,7 +136,11 @@ def tenant_plan(doc):
 	label = frappe.db.get_value("Offering", doc.offering, "label") or doc.offering
 	extra = len(doc.get("add_ons") or [])
 	return {
-		"value": _("{0} + {1} add-ons").format(label, extra) if extra else label,
+		"value": (
+			_("{0} + 1 add-on").format(label) if extra == 1 else _("{0} + {1} add-ons").format(label, extra)
+		)
+		if extra
+		else label,
 		"route": f"/desk/offering/{quote(doc.offering, safe='')}",
 	}
 

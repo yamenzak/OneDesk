@@ -187,14 +187,9 @@ def nightly() -> None:
 
 
 def _over(slug: str, held: int, limit: int) -> None:
-	frappe.get_doc(
-		{
-			"doctype": "Tenant Event",
-			"tenant": slug,
-			"kind": "Over Storage",
-			"detail": f"holding {held} bytes against a limit of {limit}",
-		}
-	).insert(ignore_permissions=True)
+	from onedesk.one_admin import log
+
+	log.over_storage(slug, held, limit)
 
 
 def _bucket(jurisdiction: str) -> str:

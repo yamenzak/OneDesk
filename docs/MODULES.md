@@ -63,7 +63,7 @@ No doctypes yet.
 | Tenant | 42 | document |
 | Tenant Add-on | 3 | child |
 | Tenant Domain | 9 | document |
-| Tenant Event | 4 | document |
+| Tenant Event | 9 | document |
 
 ## One AI
 
