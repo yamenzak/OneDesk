@@ -2523,6 +2523,105 @@ Done:
 - **`one_admin/README.md`**: Home, Being told, Asking OneAI, Under the hood.
 - **Legal**: `oneadmin-asks` in the Privacy Policy, revision 7.
 
+### OneAdmin › Workspaces
+
+Workspaces is frappe's list and form of `Tenant`: one row per customer
+workspace, with its status, placement, site, plan, Stripe ids, limits and
+storage. Everything on it is read-only; it changes through the toolbar's
+verbs (Mark Overdue, Suspend, Archive, Delete Files, Restore, and Refresh
+for storage and domains) and the sidebar's credit actions. On the dev site
+it lists 8: six Live, Probe Ltd waiting to be built, and Gone Ltd
+suspended.
+
+1. **Notifications**: the operator is told when a workspace falls
+   (Workspace Owing, from Home's pass). The customer is told once, on their
+   own site, when they go overdue, with the date it falls
+   (`one/account.py`, Payment Overdue, bell and mail). After that, nothing:
+   - nobody tells the owner their workspace was **suspended**, and a
+     suspended site cannot tell them itself;
+   - nobody warns them before it is **archived** or its **files deleted**,
+     which cannot be undone;
+   - nobody tells them it was **restored**.
+   Recommended: three mails from the admin site to `owner_email`, sent
+   where the rung is reached (`steps._arrive` and the job's last step):
+   **Workspace Suspended** (what to pay and by when before it is
+   archived), **Workspace Archived** (when its files go), and **Workspace
+   Restored**. Through the hub's templates, so an operator can reword them
+   under Settings › Notifications.
+2. **OneAI**: on a workspace the panel offers only the generic "Summarise
+   this", and nothing it can read knows a workspace's standing, credits,
+   jobs or domains. Recommended: **How is this workspace doing?** on the
+   form, reading `operator.standing`, `credit_standing`, its last jobs and
+   its domains, operator-only as `console_today` is. It changes nothing.
+3. **Intake**: nothing OneIntake reads lands here, and nothing should.
+   Holds.
+4. **Permissions**: holds. `Tenant` grants only One Operator, `site.py`
+   refuses it off the admin site, every field is read-only, and every verb
+   calls `operator._may()`. `fall` refuses a rung that is not the next one.
+   Two small things:
+   - Assign, Tags and Share are offered on a record only operators can
+     read; sharing it with anybody else does nothing. Recommended: hide
+     Share.
+   - A workspace whose `status_since` is empty never falls: `standing`
+     gives no `days_left`, so the nightly walk passes it by. Gone Ltd is
+     one (suspended, no date). Recommended: `_arrive` always writes it (it
+     does now), and a patch sets it from the last Tenant Event for any
+     that lack it.
+5. **Cross-module**: a workspace is a Customer in our own books
+   (`customer`, `sales.py`) and a plan (`offering`). Neither is reachable
+   from the form's connections, which list raw doctype names (Provisioning
+   Job, Tenant Event, Tenant Domain, Account Request). The customer's
+   invoices, what they have paid and what they owe, are one click further
+   than they should be. Recommended: connections named as the rail names
+   them (Jobs, Log, Domains, Signups), plus **Invoices** (Sales Invoice by
+   the customer) under Billing.
+6. **UI and UX**:
+   - a. **Two names**: the rail says Workspaces, the list and the
+     breadcrumb say Tenant. Recommended: Workspaces and Workspace.
+   - b. **The list**: "Used" is storage and reads "nothing" or "21 GB",
+     with no limit beside it. The ID filter stays though the ID column is
+     hidden, and there is a Plan filter but no Plan column, no owner and no
+     credits. Two rows are both "Probe Ltd". Recommended: columns
+     Workspace, Status, Plan, Owner, Storage ("21 GB of 25 GB", red over),
+     and the site's slug under the name so two alike can be told apart;
+     filters Status, Plan, Jurisdiction.
+   - c. **The head**: the address banner has a close X, as if it were a
+     message to dismiss. **Credits Left** says "None" in red on Acme Co,
+     a live workspace on Starter, because the dev tenants were never given
+     their plan's allowance (`credits_a_month` 0, `storage_limit` 0), so
+     storage is missing from the band too. On a real workspace the band
+     is right; "None" should say "0 credits" and the plan should be in the
+     band. Recommended: the address as the head's sentence without the X,
+     the band Plan, Storage, Credits Left, Used This Month.
+   - d. **The sidebar**: "Give credits", "Credit ledger" and "AI usage"
+     are lowercase underlined links, not frappe's buttons. Recommended:
+     a **Credits** group in the toolbar (Give Credits, Credit Ledger, AI
+     Usage) in Title Case, since the toolbar is where frappe puts a
+     record's actions.
+   - e. **The Workspace tab**: Owner is missing on Gone Ltd because it is
+     empty (a workspace built before signups wrote it). Placement shows
+     Cluster, Country, Jurisdiction and Bench, which the operator reads
+     only when something breaks. Recommended: Placement and Site
+     collapsed, the plan and the customer on the first tab.
+   - f. Nothing updates while it is open: a job that finishes changes the
+     status only on reload. Recommended: frappe's `doc_subscribe` does
+     this for a form already; the job's `db_set` does not publish. Publish
+     `doc_update` for the tenant when a job changes its status.
+7. **Documented**: `one_admin/README.md` has Home and nothing on
+   Workspaces: what a status means, how a workspace falls and comes back,
+   what each verb does and cannot undo, and how credits are given.
+   Recommended: a **Workspaces** section after Home.
+8. **Legal**: the Terms' non-payment clause (`one_legal/legal.py`,
+   `nonpayment`) promises only "we tell you" when a payment fails. With
+   the mails in 1, it says we tell the owner at each step, and before
+   anything is deleted, a material change to the Terms. If 2 is built,
+   OneAI reads a workspace's billing standing for the operator, which
+   `oneadmin-asks` already says.
+9. **Built from frappe**: it is frappe's list, form, connections
+   (`tenant_dashboard.py`), indicators and Record Head. The sidebar links
+   (`add_user_action`) are frappe's too but drawn as bare links; the
+   toolbar's group is the frappe way to hold them.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
