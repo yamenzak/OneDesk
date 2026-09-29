@@ -55,7 +55,7 @@ No doctypes yet.
 | AI Model Rate | 7 | child |
 | Account Request | 18 | document |
 | Credit Ledger Entry | 15 | submittable |
-| Credit Reservation | 9 | document |
+| Credit Reservation | 10 | document |
 | Offering | 24 | document |
 | One Admin Settings | 51 | single |
 | Provisioning Job | 15 | document |

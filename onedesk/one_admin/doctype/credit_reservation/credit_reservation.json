@@ -12,6 +12,7 @@
   "column_break_what",
   "credits",
   "settled",
+  "usd",
   "why_section",
   "why",
   "reference",
@@ -62,6 +63,14 @@
    "in_list_view": 1
   },
   {
+   "fieldname": "usd",
+   "fieldtype": "Float",
+   "label": "Provider Cost (USD)",
+   "precision": "6",
+   "read_only": 1,
+   "description": "What the provider charged for the call, before markup."
+  },
+  {
    "fieldname": "why_section",
    "fieldtype": "Section Break"
   },
@@ -88,7 +97,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-22 21:00:00.000000",
+ "modified": "2026-09-29 18:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Credit Reservation",

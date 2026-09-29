@@ -1,5 +1,5 @@
-// Who spends on AI, and on what. A month at a time unless asked otherwise,
-// because a month is what a workspace is billed in.
+// Who spends on AI, on what, and what it cost us. A month at a time unless
+// asked otherwise, because a month is what a workspace is billed in.
 frappe.query_reports["AI Usage"] = {
 	filters: [
 		{
@@ -18,7 +18,7 @@ frappe.query_reports["AI Usage"] = {
 			fieldname: "by",
 			label: __("By"),
 			fieldtype: "Select",
-			options: ["Workspace", "Model", "Workspace and Model"].join("\n"),
+			options: ["Workspace", "Model", "Action", "Workspace and Model", "Workspace and Action"].join("\n"),
 			default: "Workspace",
 		},
 		{
@@ -34,4 +34,8 @@ frappe.query_reports["AI Usage"] = {
 			options: "AI Model",
 		},
 	],
+	formatter(value, row, column, data, default_formatter) {
+		const shown = default_formatter(value, row, column, data);
+		return data && data.bold ? `<b>${shown}</b>` : shown;
+	},
 };

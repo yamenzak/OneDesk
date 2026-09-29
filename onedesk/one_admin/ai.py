@@ -114,6 +114,16 @@ SUGGESTIONS = {
 			"expects": "job_facts",
 		},
 	],
+	"report:AI Usage": [
+		{
+			"label": _lt("Who is spending the most?"),
+			"ask": _lt(
+				"Who is spending the most on OneAI this month, on which models and for which actions? Say what it "
+				"was charged, what it cost us and the margin, and anything that looks wrong."
+			),
+			"expects": "ai_usage",
+		},
+	],
 	"AI Model": [
 		{
 			"label": _lt("Is this model worth offering?"),
@@ -293,6 +303,45 @@ def job_facts(
 		"started": str(held.creation),
 		"last_moved": str(held.modified),
 		"gives_up_after": runner.GIVE_UP_AFTER,
+	}
+
+
+def ai_usage(
+	by: Annotated[
+		str, "Workspace, Model, Action, Workspace and Model, or Workspace and Action."
+	] = "Workspace",
+	from_date: Annotated[str, "The first day, as YYYY-MM-DD. Empty is the first of this month."]
+	| None = None,
+	to_date: Annotated[str, "The last day, as YYYY-MM-DD. Empty is today."] | None = None,
+	workspace: Annotated[str, "One workspace's id, to see only its calls."] | None = None,
+) -> dict:
+	"""For an operator of One only: OneAI's calls over a period, as AI Usage
+	cuts them, each with how many calls, the credits charged, what that is in
+	dollars, what the provider charged us, and the margin; and the whole
+	period. Changes nothing."""
+	if not _operator():
+		return {"error": "Only an operator of One, on the admin site, sees AI usage."}
+	from onedesk.one_admin.report.ai_usage import ai_usage as report
+
+	cut = report.BY.get(by) or report.BY["Workspace"]
+	rows, whole = report.usage(frappe._dict(from_date=from_date, to_date=to_date, tenant=workspace), cut)
+	keep = (
+		"tenant",
+		"model",
+		"action_name",
+		"calls",
+		"credits",
+		"charged",
+		"cost_us",
+		"margin",
+		"workspaces",
+		"models",
+	)
+	return {
+		"by": by,
+		"currency": report.CURRENCY,
+		"rows": [{key: one.get(key) for key in keep if one.get(key) is not None} for one in rows[:-1]][:40],
+		"total": {key: whole.get(key) for key in keep if whole.get(key) is not None} if whole else None,
 	}
 
 

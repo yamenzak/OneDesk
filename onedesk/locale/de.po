@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-29 09:38+0000\n"
-"PO-Revision-Date: 2026-09-29 09:38+0000\n"
+"POT-Creation-Date: 2026-09-29 13:08+0000\n"
+"PO-Revision-Date: 2026-09-29 13:08+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -927,6 +927,7 @@ msgstr "Gehandelt am"
 #. Label of the action_label (Data) field in DocType 'AI Action Setting'
 #. Option for the 'First Look' (Select) field in DocType 'Reading'
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:83
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:41
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -2727,7 +2728,8 @@ msgstr ""
 msgid "Call logged"
 msgstr "Anruf erfasst"
 
-#: onedesk/one_admin/report/ai_usage/ai_usage.py:41
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:107
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:143
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:47
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:140
 msgid "Calls"
@@ -2911,6 +2913,11 @@ msgstr ""
 #: onedesk/public/js/settings.js:2102 onedesk/public/js/settings.js:2213
 msgid "Channels"
 msgstr "Kanäle"
+
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:117
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:145
+msgid "Charged"
+msgstr "Berechnet"
 
 #: onedesk/one_admin/heads.py:487
 msgid "Charged at {0}× what the provider charges."
@@ -3699,6 +3706,8 @@ msgstr "Kopieren Sie die Dateien in {0}, nicht den Ordner, zu oder von einem Ser
 msgid "Correction"
 msgstr "Korrektur"
 
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:126
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:146
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:172
 #: onedesk/one_admin/report/price_check/price_check.py:113
 #: onedesk/one_inventory/heads.py:353 onedesk/one_project/heads.py:170
@@ -3864,7 +3873,8 @@ msgstr "Guthabenreservierung"
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/heads.py:619
-#: onedesk/one_admin/report/ai_usage/ai_usage.py:42
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:110
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:144
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:48
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:119
@@ -3914,7 +3924,7 @@ msgstr "Credits, die ein Arbeitsbereich für eine Million gesendete Text-Tokens 
 msgid "Credits for a million text tokens answered, after markup."
 msgstr "Credits für eine Million beantwortete Text-Tokens, nach Aufschlag."
 
-#: onedesk/one_admin/ledger.py:456
+#: onedesk/one_admin/ledger.py:479
 msgid "Credits have to be more than nothing."
 msgstr "Guthaben muss mehr als nichts sein."
 
@@ -3934,6 +3944,7 @@ msgstr "Guthaben je Dollar"
 #. Label of the currency (Link) field in DocType 'Reading'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/offering/offering.json
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:91
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:155
 #: onedesk/one_admin/report/price_check/price_check.py:89
 #: onedesk/one_intake/bundle.py:83
@@ -7539,11 +7550,11 @@ msgstr "Ist die Anmeldung in diesem Arbeitsbereich sicher genug? Sieh dir unsere
 msgid "Is there a cheaper model that would do?"
 msgstr "Gibt es ein günstigeres Modell, das reicht?"
 
-#: onedesk/one_admin/ai.py:119
+#: onedesk/one_admin/ai.py:129
 msgid "Is this model worth offering?"
 msgstr "Lohnt es sich, dieses Modell anzubieten?"
 
-#: onedesk/one_admin/ai.py:120
+#: onedesk/one_admin/ai.py:130
 msgid "Is this model worth offering? Compare what it costs a workspace with the offered models that can do the same, say what it can read, which actions would run on it, and whether anyone used it."
 msgstr "Lohnt es sich, dieses Modell anzubieten? Vergleichen Sie, was es einen Arbeitsbereich kostet, mit den angebotenen Modellen, die dasselbe können, und nennen Sie, was es lesen kann, welche Aktionen darauf laufen würden und ob es jemand genutzt hat."
 
@@ -8006,7 +8017,7 @@ msgstr "Zuletzt gekauft"
 msgid "Last Bought · {0}"
 msgstr "Zuletzt gekauft · {0}"
 
-#: onedesk/one_admin/report/ai_usage/ai_usage.py:44
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:134
 #: onedesk/one_crm/heads.py:163
 msgid "Last Call"
 msgstr "Letzter Aufruf"
@@ -9079,6 +9090,8 @@ msgstr ""
 msgid "Mar"
 msgstr ""
 
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:133
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:148
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:177
 #: onedesk/one_admin/report/price_check/price_check.py:118
 #: onedesk/one_project/heads.py:172
@@ -9351,7 +9364,7 @@ msgstr "Modalität"
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:32
-#: onedesk/one_admin/report/ai_usage/ai_usage.py:32
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:80
 #: onedesk/one_ai/doctype/ai_action_setting/ai_action_setting.json
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:40
@@ -9367,7 +9380,7 @@ msgid "Model Withdrawn"
 msgstr "Modell zurückgezogen"
 
 #. Label of a Sidebar Item
-#: onedesk/one_admin/report/ai_usage/ai_usage.py:37
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:100
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/public/js/settings.js:1764
 msgid "Models"
@@ -10310,6 +10323,10 @@ msgstr "Wird in diesem Workspace nicht gepusht."
 #: onedesk/one_hr/hiring.py:791
 msgid "Not reached"
 msgstr "Nicht erreicht"
+
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:63
+msgid "Not recorded"
+msgstr "Nicht erfasst"
 
 #: onedesk/public/js/settings.js:463
 msgid "Not registered"
@@ -11310,7 +11327,7 @@ msgstr "Nur ein Eigentümer von {0} kann bestimmen, wer dazugehört."
 msgid "Only check-ins that passed another check are counted. Nothing learned widens who may check in."
 msgstr "Es zählen nur Eincheckungen, die eine andere Prüfung bestanden haben. Nichts Gelerntes erweitert den Kreis derer, die einchecken dürfen."
 
-#: onedesk/one_admin/ledger.py:302
+#: onedesk/one_admin/ledger.py:323
 msgid "Only credits an operator gave can be taken back."
 msgstr "Nur Credits, die ein Betreiber vergeben hat, können zurückgenommen werden."
 
@@ -12227,7 +12244,6 @@ msgstr "Man schreibt in Schüben. OneAI handelt, wenn ein Vorgang so lange ruhig
 msgid "Per"
 msgstr "Je"
 
-#: onedesk/one_admin/report/ai_usage/ai_usage.py:43
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:49
 msgid "Per Call"
 msgstr "Pro Aufruf"
@@ -12823,6 +12839,11 @@ msgstr "Zugewiesen"
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Provider"
 msgstr ""
+
+#. Label of the usd (Float) field in DocType 'Credit Reservation'
+#: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
+msgid "Provider Cost (USD)"
+msgstr "Anbieterkosten (USD)"
 
 #. Description of the 'Gateway Token' (Password) field in DocType 'One Admin
 #. Settings'
@@ -14147,7 +14168,7 @@ msgstr "Geben Sie an, mit welchem Server verbunden werden soll."
 msgid "Say who the rule tells: a role, a person on the record, or its assignees."
 msgstr "Legen Sie fest, wen die Regel benachrichtigt: eine Rolle, eine Person im Datensatz oder die Zugewiesenen."
 
-#: onedesk/one_admin/ledger.py:304
+#: onedesk/one_admin/ledger.py:325
 msgid "Say why they are taken back."
 msgstr "Geben Sie an, warum sie zurückgenommen werden."
 
@@ -17578,7 +17599,7 @@ msgid "Too many emails?"
 msgstr "Zu viele E-Mails?"
 
 #. Label of the gross (Float) field in DocType 'Reading'
-#: onedesk/one_admin/report/ai_usage/ai_usage.py:58
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:52
 #: onedesk/one_book/heads.py:316
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
@@ -18812,6 +18833,12 @@ msgstr "Was die Zeile des Moduls enthielt, von Zurücksetzen wiederhergestellt."
 msgid "What the person deciding wrote, if anything."
 msgstr "Was die entscheidende Person geschrieben hat, sofern etwas."
 
+#. Description of the 'Provider Cost (USD)' (Float) field in DocType 'Credit
+#. Reservation'
+#: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
+msgid "What the provider charged for the call, before markup."
+msgstr "Was der Anbieter für den Aufruf berechnet hat, vor dem Aufschlag."
+
 #. Description of the 'Bounced' (Small Text) field in DocType 'Email
 #. Unsubscribe'
 #: onedesk/one_mail/custom/email_unsubscribe.json
@@ -19376,11 +19403,11 @@ msgstr "Wo du wohnst"
 msgid "Where Your Pay Goes"
 msgstr "Wohin dein Gehalt geht"
 
-#: onedesk/one_admin/ai.py:141
+#: onedesk/one_admin/ai.py:151
 msgid "Where did the credits go?"
 msgstr "Wohin sind die Credits gegangen?"
 
-#: onedesk/one_admin/ai.py:142
+#: onedesk/one_admin/ai.py:152
 msgid "Where did this workspace's OneAI credits go? Say what it has left and until when, what it spent this month and on which models, and anything given or taken back by hand, with its note."
 msgstr "Wohin sind die OneAI-Credits dieses Arbeitsbereichs gegangen? Nennen Sie, was noch übrig ist und bis wann, was diesen Monat auf welchen Modellen ausgegeben wurde und was von Hand vergeben oder zurückgenommen wurde, mit der Nachricht dazu."
 
@@ -19436,7 +19463,7 @@ msgstr "Von wo die Desk-Sitzung dieses Benutzers aktiv war, sofern vorhanden."
 msgid "Whether a running project is going to plan. Status says whether it is running."
 msgstr "Ob ein laufendes Projekt nach Plan verläuft. Der Status sagt, ob es läuft."
 
-#: onedesk/one_admin/ai.py:130
+#: onedesk/one_admin/ai.py:140
 msgid "Which OneAI actions have no model to run on, and which offered model would each fall to? Say which models are the defaults and what they cost."
 msgstr "Welche OneAI-Aktionen haben kein Modell, und auf welches angebotene Modell würde jede zurückfallen? Nennen Sie die Standardmodelle und was sie kosten."
 
@@ -19444,7 +19471,7 @@ msgstr "Welche OneAI-Aktionen haben kein Modell, und auf welches angebotene Mode
 msgid "Which actions cost the most?"
 msgstr "Welche Aktionen kosten am meisten?"
 
-#: onedesk/one_admin/ai.py:129
+#: onedesk/one_admin/ai.py:139
 msgid "Which actions have no model?"
 msgstr "Welche Aktionen haben kein Modell?"
 
@@ -19571,6 +19598,14 @@ msgstr "Wer hat das?"
 #: onedesk/one/ai.py:86
 msgid "Who in this workspace can use which apps, and who administers it? Say anything that looks too wide."
 msgstr "Wer in diesem Arbeitsbereich kann welche Apps nutzen, und wer verwaltet ihn? Nenne alles, was zu weit gefasst wirkt."
+
+#: onedesk/one_admin/ai.py:120
+msgid "Who is spending the most on OneAI this month, on which models and for which actions? Say what it was charged, what it cost us and the margin, and anything that looks wrong."
+msgstr "Wer gibt diesen Monat am meisten für OneAI aus, auf welchen Modellen und für welche Aktionen? Nennen Sie, was berechnet wurde, was es uns gekostet hat, die Marge und alles, was falsch aussieht."
+
+#: onedesk/one_admin/ai.py:119
+msgid "Who is spending the most?"
+msgstr "Wer gibt am meisten aus?"
 
 #. Description of the 'Project Manager' (Link) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
@@ -19707,11 +19742,11 @@ msgstr "Warum funktioniert diese Domain nicht? Sagen Sie in einfachen Worten, wa
 msgid "Why these days should count as worked. HR keeps the list in Attendance Reason."
 msgstr "Warum diese Tage als gearbeitet zählen sollen. Die Liste pflegt die Personalabteilung unter Anwesenheitsgrund."
 
-#: onedesk/one_admin/ai.py:153
+#: onedesk/one_admin/ai.py:163
 msgid "Why wasn't this built?"
 msgstr "Warum wurde das nicht erstellt?"
 
-#: onedesk/one_admin/ai.py:154
+#: onedesk/one_admin/ai.py:164
 msgid "Why wasn't this signup's workspace built? Say what stopped it in plain words, whether Build Workspace is likely to work now, and what to do if it is not."
 msgstr "Warum wurde der Arbeitsbereich dieser Anmeldung nicht erstellt? Sagen Sie in einfachen Worten, was ihn aufgehalten hat, ob „Arbeitsbereich erstellen“ jetzt wahrscheinlich funktioniert und was zu tun ist, falls nicht."
 
@@ -19842,7 +19877,7 @@ msgstr "Arbeitslast"
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:26
-#: onedesk/one_admin/report/ai_usage/ai_usage.py:31
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:75
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.js:7
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_mail/cloud.py:47 onedesk/public/js/ai_model.js:38
@@ -19950,7 +19985,8 @@ msgid "Workspace name"
 msgstr "Name des Arbeitsbereichs"
 
 #. Label of a Sidebar Item
-#: onedesk/one_admin/report/ai_usage/ai_usage.py:39
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:103
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:153
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 msgid "Workspaces"
 msgstr "Arbeitsbereiche"
@@ -21673,7 +21709,7 @@ msgstr "{0} ist kein Werkzeug."
 msgid "{0} is not a valid address or range. Example: 203.0.113.7 or 203.0.113.0/24"
 msgstr "{0} ist keine gültige Adresse und kein gültiger Bereich. Beispiel: 203.0.113.7 oder 203.0.113.0/24"
 
-#: onedesk/one_admin/ledger.py:450
+#: onedesk/one_admin/ledger.py:473
 msgid "{0} is not a workspace."
 msgstr "{0} ist kein Arbeitsbereich."
 

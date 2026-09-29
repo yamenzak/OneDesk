@@ -222,7 +222,7 @@ def call(
 		# Charged the hold, named, and never zero.
 		charged = max(most.credits, _LEAST)
 		note = unmetered or _unpriced(spent)
-		ledger.commit(holding, charged)
+		ledger.commit(holding, charged, spent.usd)
 		return {
 			"said": answer,
 			"wants": wants,
@@ -232,7 +232,7 @@ def call(
 			"why": note,
 		}
 
-	ledger.commit(holding, spent.credits)
+	ledger.commit(holding, spent.credits, spent.usd)
 	return {
 		"said": answer,
 		"wants": wants,

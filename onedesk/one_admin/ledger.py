@@ -157,7 +157,7 @@ def reserve(
 	return holding.name
 
 
-def commit(reservation: str, amount: float) -> list[str]:
+def commit(reservation: str, amount: float, usd: float | None = None) -> list[str]:
 	"""Charge what the call actually cost and let the rest of the hold go.
 
 	The actual may come to more than the hold, and when it does it is charged
@@ -174,7 +174,7 @@ def commit(reservation: str, amount: float) -> list[str]:
 	amount = round(float(amount or 0), credits.PLACES)
 	_lock(holding.tenant)
 	if amount <= 0:
-		_settle(holding, 0)
+		_settle(holding, 0, usd)
 		return []
 
 	written = []
@@ -208,7 +208,7 @@ def commit(reservation: str, amount: float) -> list[str]:
 			{"owner": "Administrator", "modified_by": "Administrator"},
 			update_modified=False,
 		)
-	_settle(holding, amount)
+	_settle(holding, amount, usd)
 	return written
 
 
@@ -265,6 +265,27 @@ def taken(tenant: str, limit: int = 5) -> list[dict]:
 def said_of(grant: str) -> dict:
 	"""What a grant was for, for a spend drawn from it to name."""
 	return frappe.db.get_value("Credit Ledger Entry", grant, ["why", "source"], as_dict=True) or {}
+
+
+def mend_costs() -> None:
+	"""What the provider charged us for calls settled before that was kept:
+	the credits charged over the markup and the credits a dollar buys, which
+	is how they were priced (pricing.bill). Close, not exact, for a call that
+	was charged its hold."""
+	settings = frappe.get_single("One Admin Settings")
+	per_dollar = float(settings.credits_per_dollar or 0)
+	if not per_dollar:
+		return
+	default = float(settings.default_markup or 0) or 1
+	frappe.db.sql(
+		"""
+		UPDATE `tabCredit Reservation` r
+		  LEFT JOIN `tabAI Model` m ON m.name = r.why
+		   SET r.usd = r.settled / (%(per_dollar)s * COALESCE(NULLIF(m.markup, 0), %(default)s))
+		 WHERE r.state = 'Settled' AND (r.usd IS NULL OR r.usd = 0) AND r.settled > 0
+		""",
+		{"per_dollar": per_dollar, "default": default},
+	)
 
 
 def mend() -> None:
@@ -425,8 +446,10 @@ def _summed(query: str, tenant: str, locking: bool = False) -> float:
 	return round(float(rows[0][0] or 0) if rows else 0.0, credits.PLACES)
 
 
-def _settle(holding, amount: float) -> None:
-	holding.db_set({"state": "Settled", "settled": amount}, update_modified=False)
+def _settle(holding, amount: float, usd: float | None = None) -> None:
+	"""Settled at what was charged, and what the provider charged us for it,
+	which is what AI Usage sets the charge against."""
+	holding.db_set({"state": "Settled", "settled": amount, "usd": usd or 0}, update_modified=False)
 
 
 def _lock(tenant: str) -> None:
@@ -488,6 +511,7 @@ def usage(start, end, by: list[str], tenant: str | None = None, model: str | Non
 		       COUNT(DISTINCT tenant) AS workspaces,
 		       COUNT(*) AS calls,
 		       SUM(settled) AS credits,
+		       SUM(usd) AS usd,
 		       MAX(creation) AS last
 		  FROM `tabCredit Reservation`
 		 WHERE {" AND ".join(where)}

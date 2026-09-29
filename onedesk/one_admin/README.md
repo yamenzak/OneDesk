@@ -286,6 +286,22 @@ workspaces that picked nothing, and how many workspaces called it this month.
 what it cost: it is charged. OneAI answers **Is this model worth offering?**
 on a model and **Which actions have no model?** on the list.
 
+## AI Usage
+
+**AI Usage** says who spent what on OneAI, on what, and whether we made money
+on it. Pick the dates (this month unless you say) and cut it **By**
+Workspace, Model, Action (which of OneAI's features made the calls: Chat,
+Summarise, Read Scans, the intake readings), or a workspace by model or by
+action. Each row has its **Calls**, the **Credits** charged, what those are
+**Charged** in dollars (at what a dollar of credit buys, in Settings), what
+the provider charged us (**Cost**) and the **Margin** between them; the
+summary says the same for the whole period, green when OneAI made money.
+
+Charged is the credits' list price: a plan's monthly credits and packs sold
+at a discount earn less. Calls made before the action and the cost were kept
+say "Not recorded" and carry a cost worked back from their markup. Only an
+operator of One sees it. OneAI answers **Who is spending the most?**.
+
 ## Domains
 
 **Domains** lists every name customers have put on their workspaces, such
@@ -369,8 +385,8 @@ work, **Why isn't this domain working?** says what the customer has to change.
 On the price list, **How do our plans compare?**, and on a plan or add-on,
 **Who has this?**. On Price Check, **What should we change?**, and on Plan
 Calculator, **What should they buy?**. On a signup paid and not built,
-**Why wasn't this built?**. On a credit entry, **Where did the credits go?**. On a model, **Is this model
-worth offering?**, and on the list, **Which actions have no model?**. On a workspace, **How is
+**Why wasn't this built?**. On a credit entry, **Where did the credits go?**. On AI Usage, **Who is spending
+the most?**. On a model, **Is this model worth offering?**, and on the list, **Which actions have no model?**. On a workspace, **How is
 this workspace doing?** reads its standing, plan, storage, credits, domains,
 last jobs and log, and says whether anything is wrong.
 
@@ -423,6 +439,10 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   says them in the reader's language, and `offerings.warn` says them on
   saving an offering or the costs. `home._mispriced` is the Wrong ones.
   OneAI's suggestions reach a report as `report:<name>` (`one_ai/suggest.py`).
+- **AI Usage** (`report/ai_usage`): `ledger.usage` sums the calls (one
+  settled Credit Reservation each, with `usd`, what the provider charged, kept
+  by `ledger.commit` since `patches/call_costs.py`); `usage` in the report is
+  the cut and the margin, and `ai.ai_usage` reads it for OneAI.
 - **Models** (`catalogue.py`, `prices.py`, `capability.py`):
   `actions.default_model` is what an action runs on when nobody picked, and
   what a withdrawn pick falls back to; `tell.models_gone` is Model Withdrawn;

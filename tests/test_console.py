@@ -619,3 +619,19 @@ def test_an_action_nobody_picked_a_model_for_still_runs_on_gemini():
 	ai = (ADMIN / "ai.py").read_text()
 	assert '"expects": "model_facts"' in ai and "if not _operator():" in ai.split("def model_facts(")[1]
 	assert "## Models" in (ADMIN / "README.md").read_text()
+
+
+def test_ai_usage_says_what_a_call_cost_us_and_counts_it_once():
+	"""A call keeps what the provider charged; the report sets it against what
+	was charged, cuts by action too, and has one total, its own."""
+	ledger = (ADMIN / "ledger.py").read_text()
+	assert "SUM(usd) AS usd" in ledger and '"usd": usd or 0' in ledger
+	gateway = (ADMIN / "gateway.py").read_text()
+	assert "ledger.commit(holding, spent.credits, spent.usd)" in gateway
+	report = json.loads((ADMIN / "report" / "ai_usage" / "ai_usage.json").read_text())
+	assert not report["add_total_row"]
+	usage = (ADMIN / "report" / "ai_usage" / "ai_usage.py").read_text()
+	assert '"Action": ["action"]' in usage and '"cost_us"' in usage and "_summary(whole)" in usage
+	ai = (ADMIN / "ai.py").read_text()
+	assert '"report:AI Usage"' in ai and "if not _operator():" in ai.split("def ai_usage(")[1]
+	assert "## AI Usage" in (ADMIN / "README.md").read_text()

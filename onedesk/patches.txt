@@ -22,3 +22,5 @@ onedesk.one_admin.patches.signup_states
 onedesk.one_admin.patches.credit_model
 onedesk.one_admin.patches.model_rank
 onedesk.one_admin.patches.gemini_default
+onedesk.one_admin.patches.call_costs
+onedesk.one_admin.patches.ai_usage_one_total

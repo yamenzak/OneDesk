@@ -3579,6 +3579,29 @@ calls, 359.92 credits, on 35 models.
    what was asked or answered. Holds.
 9. **Built from frappe**: a Script Report and its summary. Holds.
 
+Your word: yes.
+
+Done:
+
+- **One total.** The site's copy of the report kept frappe's total row
+  beside ours (`patches/ai_usage_one_total.py`), so the page said 912 calls
+  and 719.84 credits for 456 and 359.92. Now it counts once.
+- **What it cost us.** Each call now keeps what the provider charged for it
+  (`Credit Reservation.usd`, written by `ledger.commit` from the gateway's
+  bill); the calls before were worked back from their markup
+  (`patches/call_costs.py`). The report shows **Charged** (the credits at
+  what a dollar buys), **Cost** and **Margin**, per row and in a summary
+  over the table (Calls, Credits, Charged, Cost, Margin, Workspaces). On
+  the dev site: $0.36 charged, $0.18 cost, 2.0×; the old calls read exactly
+  2.0× because their cost was worked back from the 2× markup, and new calls
+  will show the real one.
+- **By Action**, and Workspace and Action: which of OneAI's features spends.
+  The dev calls predate the action being written and say "Not recorded".
+- Models by name, credits to two places, money to four (a call costs
+  fractions of a cent), Last Call in full.
+- OneAI: **Who is spending the most?**, with `ai_usage` (operator-only).
+- README: an **AI Usage** section and an Under the hood line.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
