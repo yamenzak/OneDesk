@@ -98,7 +98,9 @@ class Offer:
 class Finding:
 	level: str  # "red" when the list does not make sense, "orange" when it is close
 	offer: str
-	said: str
+	said: str  # in English, for a test or a log; the screens say `rule` with `slots`
+	rule: str = ""  # which of the five rules, so a screen can say it in its reader's words
+	slots: dict = field(default_factory=dict)  # the numbers and names the sentence names
 
 
 @dataclass
@@ -205,6 +207,14 @@ def check(plans: list[Offer], sold: list[Offer], costs: Costs) -> list[Finding]:
 					offer.key,
 					f"{offer.label} sells for {offer.price:g} and costs {ours:.2f} to run, "
 					f"under the {costs.margin:g}× margin ({ours * costs.margin:.2f}).",
+					"margin",
+					{
+						"label": offer.label,
+						"price": f"{offer.price:g}",
+						"cost": f"{ours:.2f}",
+						"margin": f"{costs.margin:g}",
+						"least": f"{ours * costs.margin:.2f}",
+					},
 				)
 			)
 
@@ -217,6 +227,8 @@ def check(plans: list[Offer], sold: list[Offer], costs: Costs) -> list[Finding]:
 						"red",
 						upper.key,
 						f"{upper.label} costs more than {lower.label} and gives fewer {NAMED[resource]}.",
+						"fewer",
+						{"upper": upper.label, "lower": lower.label, "resource": resource},
 					)
 				)
 
@@ -234,6 +246,8 @@ def check(plans: list[Offer], sold: list[Offer], costs: Costs) -> list[Finding]:
 					upper.key,
 					f"Moving from {lower.label} to {upper.label} costs {step:g} more a month, and buying the "
 					f"difference as add-ons costs {alone:g}, so nobody would move up.",
+					"no_upgrade",
+					{"lower": lower.label, "upper": upper.label, "step": f"{step:g}", "alone": f"{alone:g}"},
 				)
 			)
 		elif alone and step > alone * 0.8:
@@ -242,6 +256,8 @@ def check(plans: list[Offer], sold: list[Offer], costs: Costs) -> list[Finding]:
 					"orange",
 					upper.key,
 					f"{upper.label} saves only {100 * (1 - step / alone):.0f}% over {lower.label} with add-ons.",
+					"thin_upgrade",
+					{"upper": upper.label, "lower": lower.label, "saves": f"{100 * (1 - step / alone):.0f}"},
 				)
 			)
 
@@ -261,6 +277,13 @@ def check(plans: list[Offer], sold: list[Offer], costs: Costs) -> list[Finding]:
 						smallest.key,
 						f"{smallest.label} costs {smallest.price:g} a month, as much as moving from {lower.label} "
 						f"to {upper.label}.",
+						"addon_dear",
+						{
+							"addon": smallest.label,
+							"price": f"{smallest.price:g}",
+							"lower": lower.label,
+							"upper": upper.label,
+						},
 					)
 				)
 
@@ -272,7 +295,13 @@ def check(plans: list[Offer], sold: list[Offer], costs: Costs) -> list[Finding]:
 		for small, big in pairwise(sizes):
 			if big.price / big.size > small.price / small.size + 1e-9:
 				found.append(
-					Finding("orange", big.key, f"{big.label} costs more per unit than {small.label}.")
+					Finding(
+						"orange",
+						big.key,
+						f"{big.label} costs more per unit than {small.label}.",
+						"per_unit",
+						{"big": big.label, "small": small.label},
+					)
 				)
 	return found
 

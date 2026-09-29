@@ -508,3 +508,23 @@ def test_the_price_list_says_who_has_an_offering_and_shows_only_what_its_kind_ca
 	assert fields["storage_gb"]["depends_on"] == "eval:doc.kind!='Credit Pack'"
 	assert offering["sort_field"] == "sort_key" and not offering["permissions"][0]["share"]
 	assert '"onedesk.one_admin.ai.price_list"' in (tree.APP / "hooks.py").read_text()
+
+
+def test_price_check_says_its_findings_in_words_and_warns_on_save():
+	"""plans.check stays frappe-free; each finding names its rule, and the
+	screens say it through offerings.RULES."""
+	import re
+
+	plans_py = (ADMIN / "plans.py").read_text()
+	assert "import frappe" not in plans_py
+	rules = set(re.findall(r'"(margin|fewer|no_upgrade|thin_upgrade|addon_dear|per_unit)",\n\t*\{', plans_py))
+	offerings = (ADMIN / "offerings.py").read_text()
+	for rule in ("margin", "fewer", "no_upgrade", "thin_upgrade", "addon_dear", "per_unit"):
+		assert f'"{rule}": _lt(' in offerings, rule
+	assert rules, "each finding carries its rule"
+	hooks = (tree.APP / "hooks.py").read_text()
+	assert '"onedesk.one_admin.offerings.warn"' in hooks
+	assert "*_mispriced()" in (ADMIN / "home.py").read_text()
+	report = (ADMIN / "report" / "price_check" / "price_check.py").read_text()
+	assert "_holds" not in report and '"gives"' in report and "include_disabled" in report
+	assert '"report:Price Check"' in (ADMIN / "ai.py").read_text()

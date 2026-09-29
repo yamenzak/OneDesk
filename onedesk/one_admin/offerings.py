@@ -20,6 +20,7 @@ Why these numbers, briefly (the Price Check shows the rest):
 """
 
 import frappe
+from frappe import _lt
 from frappe.utils import flt
 
 from onedesk.one_admin import plans, site
@@ -169,3 +170,67 @@ def costs() -> "plans.Costs":
 def currency() -> str:
 	"""What the price list is in: the plans', which every offering shares."""
 	return frappe.db.get_value("Offering", {"kind": "Plan", "enabled": 1}, "currency") or CURRENCY
+
+
+#: Each of plans.check's rules, in words a translator can reach: plans.py is
+#: frappe-free and keeps its English for tests and logs, so a screen says a
+#: finding by its `rule`, with its `slots`.
+RULES = {
+	"margin": _lt("{label} sells for {price} and costs {cost} to run, under the {margin}× margin ({least})."),
+	"fewer": _lt("{upper} costs more than {lower} and gives less {what}."),
+	"no_upgrade": _lt(
+		"Moving from {lower} to {upper} costs {step} more a month, and buying the difference as add-ons "
+		"costs {alone}, so nobody would move up."
+	),
+	"thin_upgrade": _lt("{upper} saves only {saves}% over {lower} with add-ons."),
+	"addon_dear": _lt("{addon} costs {price} a month, as much as moving from {lower} to {upper}."),
+	"per_unit": _lt("{big} costs more per unit than {small}."),
+}
+
+#: What a plan runs out of, as `fewer` names it.
+RESOURCE_SAID = {
+	"seats": _lt("seats"),
+	"storage_gb": _lt("storage"),
+	"database_gb": _lt("database"),
+	"credits_a_month": _lt("credits a month"),
+}
+
+
+def said(finding) -> str:
+	"""One finding in the reader's language."""
+	words = RULES.get(finding.rule)
+	if not words:
+		return finding.said
+	slots = dict(finding.slots)
+	if "resource" in slots:
+		slots["what"] = str(RESOURCE_SAID.get(slots["resource"], slots["resource"]))
+	return str(words).format(**slots)
+
+
+def findings(offer: str | None = None) -> list[dict]:
+	"""What plans.check finds about the enabled price list, in words, the
+	wrong first: all of it, or only what is about one offering."""
+	ladder, sold, costs = listed()
+	found = plans.check(ladder, sold, costs)
+	if offer:
+		found = [one for one in found if one.offer == offer]
+	found.sort(key=lambda one: one.level != "red")
+	return [{"level": one.level, "offering": one.offer, "said": said(one)} for one in found]
+
+
+def warn(doc, method=None) -> None:
+	"""Offering and One Admin Settings on_update: say at once what the price
+	list now gets wrong, rather than leaving it for Price Check to find. An
+	offering says what is about it; the costs say everything."""
+	if not site.is_admin() or frappe.flags.in_install or frappe.flags.in_migrate or frappe.flags.in_patch:
+		return
+	if doc.doctype == "Offering" and not doc.enabled:
+		return
+	found = findings(doc.name if doc.doctype == "Offering" else None)
+	if not found:
+		return
+	frappe.msgprint(
+		"<br>".join(frappe.utils.escape_html(one["said"]) for one in found),
+		title=frappe._("The price list does not hold"),
+		indicator="red" if any(one["level"] == "red" for one in found) else "orange",
+	)

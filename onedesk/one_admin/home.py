@@ -98,7 +98,15 @@ def needs() -> list[dict]:
 	that failed, money taken for a workspace that was never built, a
 	workspace owing, and a domain that has not come up."""
 	_may()
-	return [*_failed_jobs(), *_unbuilt_signups(), *_stalled_jobs(), *_owing(), *_over_storage(), *_domains()]
+	return [
+		*_failed_jobs(),
+		*_unbuilt_signups(),
+		*_stalled_jobs(),
+		*_owing(),
+		*_over_storage(),
+		*_mispriced(),
+		*_domains(),
+	]
 
 
 def _failed_jobs() -> list[dict]:
@@ -242,6 +250,28 @@ def _over_storage() -> list[dict]:
 		}
 		for one in rows
 		if (one.storage_bytes or 0) > one.storage_limit
+	][:MOST]
+
+
+def _mispriced() -> list[dict]:
+	"""What Price Check calls wrong: a price under its cost, a plan nobody
+	would move up to. A close call is left to the report."""
+	from onedesk.one_admin import offerings
+
+	return [
+		{
+			"kind": "price",
+			"doctype": "Offering",
+			"name": one["offering"],
+			"title": frappe.db.get_value("Offering", one["offering"], "label") or one["offering"],
+			"why": one["said"],
+			"detail": "",
+			"since": "",
+			"badge": _("Wrong Price"),
+			"action": None,
+		}
+		for one in offerings.findings()
+		if one["level"] == "red"
 	][:MOST]
 
 

@@ -3129,6 +3129,31 @@ calls. On the dev site: 12 offerings, nothing wrong.
 9. **Built from frappe**: a Script Report with its summary; the message
    on save is frappe's `msgprint`. Holds.
 
+Your word: all of them.
+
+Done:
+
+- **Told at once**: saving an offering says what the price list now gets
+  wrong about it, and saving the costs in Settings says everything it gets
+  wrong (`offerings.warn`, frappe's message on save). Anything **Wrong** is
+  on Home under Needs You, as "Wrong Price", until fixed. Checked with 5
+  Seats at 1: "5 Seats sells for 1 and costs 2.50 to run, under the 2×
+  margin (5.00)", and the Home row; rolled back.
+- **Findings in words**: `plans.check` stays frappe-free, and each finding
+  now carries its rule and its numbers; `offerings.RULES` says them with
+  named slots, translated.
+- **The report**: findings first (Wrong, then Close Calls), Says right
+  after the offering, the offering's own **Gives** line in place of the
+  report's second description, **Margin** as "2.1×" and **Saves** as
+  "53%", all on the screen at once. The summary shows the **Margin
+  Wanted**; **Costs in Settings** in the menu opens them; **Include
+  Disabled** checks withdrawn offerings.
+- **OneAI**: **What should we change?** on the report, reading
+  `price_check` (findings with numbers, costs, margin); operator-only. A
+  report can now carry suggestions (`report:<name>` in
+  `one_ai/suggest.py`). No model was called.
+- **README**: a Price Check section with the five rules.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

@@ -173,7 +173,8 @@ override_email_send = "onedesk.one_mail.outbound.send"
 
 doc_events = {
 	# Our own books sell each offering as an Item. See one_admin/books.py.
-	"Offering": {"on_update": "onedesk.one_admin.books.synced"},
+	"Offering": {"on_update": ["onedesk.one_admin.books.synced", "onedesk.one_admin.offerings.warn"]},
+	"One Admin Settings": {"on_update": "onedesk.one_admin.offerings.warn"},
 	# Everyone who works here has an address on the mail domain. See
 	# one_mail/addresses.py.
 	"User": {"before_save": "onedesk.one_mail.addresses.for_person"},
@@ -772,6 +773,7 @@ one_ai_reads = [
 	"onedesk.one_admin.ai.job_facts",
 	"onedesk.one_admin.ai.domain_facts",
 	"onedesk.one_admin.ai.price_list",
+	"onedesk.one_admin.ai.price_check",
 	"onedesk.one_calendar.ai.busy_times",
 	# A file's text, who can see it, and what takes the space. See one_storage/ai.py.
 	"onedesk.one_storage.ai.open_file",

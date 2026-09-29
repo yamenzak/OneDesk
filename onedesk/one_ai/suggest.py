@@ -57,6 +57,9 @@ def for_page(page: dict | None) -> list[dict]:
 		key, view = f"page:{desk}/{section}" if section else f"page:{desk}", "Page"
 	elif workspace:
 		key, view = f"workspace:{workspace}", ""
+	elif not doctype and page.get("view") and frappe.db.exists("Report", page.get("view")):
+		# A report: the panel names it by `view` (oneai.js), with no doctype.
+		key, view = f"report:{page['view']}", "Report"
 	elif doctype and frappe.db.exists("DocType", doctype):
 		key, view = doctype, "Form" if page.get("name") else "List"
 	else:

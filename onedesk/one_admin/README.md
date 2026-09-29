@@ -145,6 +145,34 @@ the workspaces already on it keep it. An offering a workspace has cannot be
 deleted. **See the Signup Page** in the list's menu opens it as a customer
 sees it.
 
+## Price Check
+
+**Price Check** says whether the price list makes sense. For every enabled
+offering it shows what it gives, its price, what it costs us a month, its
+**Margin** (how many times its cost it sells for) and, for a plan, how much
+it **Saves** over the plan below bought as add-ons. Anything that does not
+hold comes first: **Wrong** in red, a **Close Call** in orange.
+
+It checks five things:
+
+- every price covers its cost with the **Margin Wanted** (2× unless
+  Settings says otherwise);
+- each plan up gives at least as much of everything, for more;
+- moving up a plan is cheaper than buying the difference as add-ons, or
+  nobody moves up;
+- the smallest add-on is cheaper than moving up, or nobody buys it;
+- a bigger size of the same add-on is no dearer per unit.
+
+What each thing costs us (a workspace, a seat, a GB of storage and of
+database, the backups kept, a credit) and the margin wanted are set in
+**Settings**; **Costs in Settings** in the report's menu opens them.
+**Include Disabled** checks withdrawn offerings too.
+
+You are also told without opening it: saving an offering, or the costs,
+shows at once what the price list now gets wrong, and anything Wrong is on
+Home, under Needs You, until it is fixed. On the report, OneAI answers **What
+should we change?**.
+
 ## Domains
 
 **Domains** lists every name customers have put on their workspaces, such
@@ -270,6 +298,11 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   written on save (`patches/offering_gives.py` for the rows before).
   `operator.sold` counts a plan's workspaces and an add-on's (from `Tenant
   Add-on`); `ai.price_list` reads it all for OneAI.
+- **Price Check** (`report/price_check`): the rules are `plans.check`,
+  frappe-free, whose findings carry a `rule` and `slots`; `offerings.RULES`
+  says them in the reader's language, and `offerings.warn` says them on
+  saving an offering or the costs. `home._mispriced` is the Wrong ones.
+  OneAI's suggestions reach a report as `report:<name>` (`one_ai/suggest.py`).
 - **Domains** (`domains.py`): the customer's own names are custom
   hostnames on our Cloudflare zone; Frappe Cloud is never told of them.
   `Tenant Domain.is_main` is the console's copy of the workspace's

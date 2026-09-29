@@ -70,6 +70,16 @@ SUGGESTIONS = {
 			"expects": "price_list",
 		},
 	],
+	"report:Price Check": [
+		{
+			"label": _lt("What should we change?"),
+			"ask": _lt(
+				"Look at the price check: what is wrong and what is close, with the numbers. Say what to change "
+				"first, and by how much, to make the price list hold."
+			),
+			"expects": "price_check",
+		},
+	],
 	"Provisioning Job": [
 		{
 			"label": _lt("Why did this job fail?"),
@@ -299,3 +309,35 @@ def price_list(
 			"Tenant", filters={"name": ["in", names or [""]]}, fields=["name", "workspace_name", "status"]
 		)
 	return said
+
+
+def price_check() -> dict:
+	"""For an operator of One only: what Price Check finds wrong or close in
+	the price list, each in words with its numbers, what each offering costs
+	us against its price, and the margin wanted. Changes nothing."""
+	if not _operator():
+		return {"error": "Only an operator of One, on the admin site, sees the price check."}
+	from onedesk.one_admin import offerings, plans
+
+	ladder, sold, costs = offerings.listed()
+	return {
+		"margin_wanted": costs.margin,
+		"costs": {
+			"workspace": costs.workspace,
+			"seat": costs.seat,
+			"storage_gb": costs.storage_gb,
+			"database_gb": costs.database_gb,
+			"credit": costs.credit,
+		},
+		"findings": offerings.findings(),
+		"offerings": [
+			{
+				"key": one.key,
+				"label": one.label,
+				"kind": one.kind,
+				"price": one.price,
+				"costs_us": plans.cost(one, costs),
+			}
+			for one in [*ladder, *sold]
+		],
+	}
