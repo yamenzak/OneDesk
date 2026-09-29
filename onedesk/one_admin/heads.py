@@ -329,25 +329,35 @@ def domain_said(doc):
 
 
 def offering_sold(doc):
-	"""How many workspaces already bought it: quotas are copied onto a
-	workspace when it signs up, so an edit here changes nothing for them."""
+	"""Who has it, and what an edit here does to them: the price never
+	reaches them, the quotas do the next time they change their plan or
+	add-ons (`quota.apply` copies them from here then)."""
 	if doc.is_new():
 		return None
+	if doc.kind == "Credit Pack":
+		return {
+			"text": _("A pack is bought once and used up. Changing it changes only the next one sold."),
+			"colour": "blue",
+		}
 	count = operator.sold(doc.name)
 	if not count["all"]:
-		return {"text": _("No workspace has bought this yet."), "colour": "blue"}
+		return {"text": _("No workspace has this yet."), "colour": "blue"}
 	many = (
-		_("One workspace bought this")
+		_("One workspace has this")
 		if count["all"] == 1
-		else _("{0} workspaces bought this").format(count["all"])
+		else _("{0} workspaces have this").format(count["all"])
 	)
 	on = (
-		many + ", " + _("{0} of them live.").format(count["live"])
-		if count["live"]
-		else many + ", " + _("none of them live.")
+		many
+		+ ", "
+		+ (_("{0} of them live.").format(count["live"]) if count["live"] else _("none of them live."))
 	)
 	return {
-		"text": on + " " + _("Changing a price or a quota here does not change theirs."),
+		"text": on
+		+ " "
+		+ _(
+			"They keep the price they pay. A changed quota reaches them the next time they change their plan or add-ons."
+		),
 		"colour": "orange",
 	}
 

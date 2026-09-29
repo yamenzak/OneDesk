@@ -116,6 +116,35 @@ owner** step: the new site makes whoever paid its first administrator and
 emails them a link to choose their password, good for a week. When the job
 finishes they are emailed **Workspace Ready**, with its address.
 
+## Price List
+
+**Price List** is everything One sells, and the one OneAdmin screen an
+operator writes in. The signup page, a customer's Plan and Credits screen,
+the Plan Calculator and Price Check all read it, and each offering is an
+Item in our books. Plans come first, then add-ons, then credit packs, each
+by price, with what it costs and what it gives in one line.
+
+There are three kinds:
+
+- A **Plan** is what a workspace is on: its price a month (or once), a free
+  trial if it has one, and its quotas: storage, database, seats and credits
+  a month. Nought means unlimited.
+- An **Add-on** adds one thing, in one size, to a plan, and is paid monthly
+  with it: 50 GB of storage, 5 seats. Fill in the one thing it adds.
+- A **Credit Pack** is bought once, for OneAI credits that do not expire at
+  the month's end.
+
+**Changing one** reaches customers in two different ways. The price never
+does: Stripe keeps each subscriber on the price they signed up at, and the
+next sale makes a new Stripe price. The quotas do, the next time the
+customer changes their plan or add-ons, when they are copied from here
+again. The top of each offering says how many workspaces have it.
+
+**Disabling one** takes it off the signup page and the customer's choices;
+the workspaces already on it keep it. An offering a workspace has cannot be
+deleted. **See the Signup Page** in the list's menu opens it as a customer
+sees it.
+
 ## Domains
 
 **Domains** lists every name customers have put on their workspaces, such
@@ -191,7 +220,9 @@ shows, with each item's reason, and changes nothing: resuming, building and
 checking again are Home's buttons. On a job, **Why did this job fail?**
 explains where it stopped and what the error means, and on one waiting, **Why
 is this job waiting?** says what it is waiting for. On a domain that does not
-work, **Why isn't this domain working?** says what the customer has to change. On a workspace, **How is
+work, **Why isn't this domain working?** says what the customer has to change.
+On the price list, **How do our plans compare?**, and on a plan or add-on,
+**Who has this?**. On a workspace, **How is
 this workspace doing?** reads its standing, plan, storage, credits, domains,
 last jobs and log, and says whether anything is wrong.
 
@@ -234,6 +265,11 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   and `operator.run_now` are the job that has not moved. `ai.job_facts` is the
   walk for OneAI, and a suggestion's `when` (`one_ai/suggest.py`) offers the
   failed question only on a failed job.
+- **The price list** (`doctype/offering`): `CARRIES` says what each kind
+  carries, and the form shows only that; `gives` and `sort_key` are
+  written on save (`patches/offering_gives.py` for the rows before).
+  `operator.sold` counts a plan's workspaces and an add-on's (from `Tenant
+  Add-on`); `ai.price_list` reads it all for OneAI.
 - **Domains** (`domains.py`): the customer's own names are custom
   hostnames on our Cloudflare zone; Frappe Cloud is never told of them.
   `Tenant Domain.is_main` is the console's copy of the workspace's

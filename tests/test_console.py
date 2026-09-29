@@ -495,3 +495,16 @@ def test_a_domain_is_said_in_the_customers_words_and_says_what_it_needs():
 	source = (ADMIN / "ai.py").read_text()
 	assert '"expects": "domain_facts"' in source
 	assert source.split("def domain_facts(", 1)[1].index("if not _operator()") < source.split("def domain_facts(", 1)[1].index("frappe.get_doc")
+
+
+def test_the_price_list_says_who_has_an_offering_and_shows_only_what_its_kind_carries():
+	operator = (ADMIN / "operator.py").read_text().split("def sold(", 1)[1].split("\ndef ", 1)[0]
+	assert '"Tenant Add-on"' in operator, "an add-on's workspaces are counted"
+	heads = (ADMIN / "heads.py").read_text().split("def offering_sold(", 1)[1].split("\ndef ", 1)[0]
+	assert "does not change theirs" not in heads and "next time they change their plan or add-ons" in heads
+	offering = json.loads((ADMIN / "doctype" / "offering" / "offering.json").read_text())
+	fields = {f["fieldname"]: f for f in offering["fields"]}
+	assert fields["trial_days"]["depends_on"].startswith("eval:doc.kind=='Plan'")
+	assert fields["storage_gb"]["depends_on"] == "eval:doc.kind!='Credit Pack'"
+	assert offering["sort_field"] == "sort_key" and not offering["permissions"][0]["share"]
+	assert '"onedesk.one_admin.ai.price_list"' in (tree.APP / "hooks.py").read_text()

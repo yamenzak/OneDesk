@@ -56,7 +56,7 @@ No doctypes yet.
 | Account Request | 18 | document |
 | Credit Ledger Entry | 14 | submittable |
 | Credit Reservation | 9 | document |
-| Offering | 21 | document |
+| Offering | 24 | document |
 | One Admin Settings | 50 | single |
 | Provisioning Job | 15 | document |
 | Stripe Webhook Event | 7 | document |

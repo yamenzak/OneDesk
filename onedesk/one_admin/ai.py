@@ -6,7 +6,7 @@ as every console read is (`operator._may`). `console_today` is Home's own list
 (`home.needs`), so the panel and the page say the same thing;
 `workspace_facts` is what a workspace's own form shows, its head and its
 connections, `job_facts` a job's walk in words, and `domain_facts` why a
-customer's domain does or does not work. Nothing is changed from here: resuming a job, building a signup,
+customer's domain does or does not work, and `price_list` the price list. Nothing is changed from here: resuming a job, building a signup,
 checking a domain or giving credits is a button the operator presses.
 """
 
@@ -48,6 +48,26 @@ SUGGESTIONS = {
 			"view": "Form",
 			"when": {"status": ["Pending", "Broken", "Gone"]},
 			"expects": "domain_facts",
+		},
+	],
+	"Offering": [
+		{
+			"label": _lt("How do our plans compare?"),
+			"ask": _lt(
+				"How do our plans compare? Go through the price list: what each plan costs and gives, where the steps "
+				"between plans are uneven, and whether the add-ons and packs are priced in line with them."
+			),
+			"can": "read",
+			"view": "List",
+			"expects": "price_list",
+		},
+		{
+			"label": _lt("Who has this?"),
+			"ask": _lt("Which workspaces have this, how many of them are live, and what they pay for it."),
+			"can": "read",
+			"view": "Form",
+			"when": {"kind": ["Plan", "Add-on"]},
+			"expects": "price_list",
 		},
 	],
 	"Provisioning Job": [
@@ -239,3 +259,43 @@ def domain_facts(
 		"last_asked": str(held.modified),
 		"checked": "Cloudflare checks by itself; One asks it each night until the name works, and Check Again asks now.",
 	}
+
+
+def price_list(
+	offering: Annotated[str, "One offering's key, to also list the workspaces that have it."] | None = None,
+) -> dict:
+	"""For an operator of One only: the price list. Every offering, enabled
+	or not, with its kind, price, whether it recurs, its trial, what it
+	gives, and how many workspaces have it; with `offering`, also which
+	workspaces. Changes nothing."""
+	if not _operator():
+		return {"error": "Only an operator of One, on the admin site, sees the price list."}
+	from onedesk.one_admin import operator
+
+	rows = frappe.get_all(
+		"Offering",
+		fields=["name", "label", "kind", "enabled", "amount", "currency", "recurring", "trial_days", "gives"],
+		order_by="sort_key asc",
+	)
+	said = {"offerings": []}
+	for one in rows:
+		sold = operator.sold(one.name)
+		said["offerings"].append(
+			{
+				"key": one.name,
+				"label": one.label,
+				"kind": one.kind,
+				"enabled": bool(one.enabled),
+				"price": f"{one.amount} {one.currency}" + (" a month" if one.recurring else " once"),
+				"trial_days": one.trial_days or 0,
+				"gives": one.gives,
+				"workspaces": sold["all"],
+				"live": sold["live"],
+			}
+		)
+	if offering and frappe.db.exists("Offering", offering):
+		names = operator.sold(offering)["workspaces"][:50]
+		said["workspaces_with_it"] = frappe.get_all(
+			"Tenant", filters={"name": ["in", names or [""]]}, fields=["name", "workspace_name", "status"]
+		)
+	return said

@@ -236,16 +236,27 @@ def refresh_domain(domain: str) -> dict:
 
 @frappe.whitelist()
 def sold(offering: str) -> dict:
-	"""How many workspaces are on this plan.
+	"""Which workspaces have this: a plan's are those on it, an add-on's
+	those carrying it. A credit pack is bought once and used up, so nobody
+	"has" one: `kind` says so and the counts are nought.
 
-	Shown before somebody withdraws one. Withdrawing stops new signups and
-	changes nothing for the workspaces already on it, because a workspace
-	carries its own copy of the quotas — which is worth saying on the screen
-	rather than leaving somebody to guess.
+	Shown before somebody edits one. The price never reaches them (Stripe
+	keeps a subscriber on the price they signed up at); the quotas do, the
+	next time the customer changes their plan or add-ons (`quota.apply`
+	copies them from here again).
 	"""
 	_may()
-	return {"live": frappe.db.count("Tenant", {"offering": offering, "status": "Live"}),
-	        "all": frappe.db.count("Tenant", {"offering": offering})}
+	kind = frappe.db.get_value("Offering", offering, "kind")
+	if kind == "Add-on":
+		names = frappe.get_all(
+			"Tenant Add-on", filters={"offering": offering, "parenttype": "Tenant"}, pluck="parent", distinct=True
+		)
+	elif kind == "Plan":
+		names = frappe.get_all("Tenant", filters={"offering": offering}, pluck="name")
+	else:
+		names = []
+	live = frappe.get_all("Tenant", filters={"name": ["in", names or [""]], "status": "Live"}, pluck="name")
+	return {"kind": kind, "all": len(names), "live": len(live), "workspaces": names}
 
 
 @frappe.whitelist()

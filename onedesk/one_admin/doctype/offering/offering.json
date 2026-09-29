@@ -18,7 +18,6 @@
   "column_break_price",
   "recurring",
   "trial_days",
-  "stripe_price",
   "quota_section",
   "storage_gb",
   "database_gb",
@@ -26,8 +25,12 @@
   "column_break_quota",
   "credits",
   "credits_a_month",
+  "gives",
   "about_section",
-  "description"
+  "description",
+  "stripe_section",
+  "stripe_price",
+  "sort_key"
  ],
  "fields": [
   {
@@ -57,7 +60,6 @@
    "label": "Kind",
    "options": "Plan\nCredit Pack\nAdd-on",
    "reqd": 1,
-   "in_list_view": 1,
    "in_standard_filter": 1
   },
   {
@@ -97,21 +99,16 @@
    "fieldname": "recurring",
    "fieldtype": "Check",
    "label": "Recurring",
-   "description": "Clear for a one-time purchase such as a credit pack."
+   "description": "Clear for a plan paid once. A pack is always once and an add-on always monthly.",
+   "depends_on": "eval:doc.kind=='Plan'"
   },
   {
    "default": "0",
    "description": "Zero means no trial. The card is taken at checkout either way.",
    "fieldname": "trial_days",
    "fieldtype": "Int",
-   "label": "Free Trial (Days)"
-  },
-  {
-   "description": "Made in Stripe the first time the offering is sold, and again after its price changes.",
-   "fieldname": "stripe_price",
-   "fieldtype": "Data",
-   "label": "Stripe Price ID",
-   "read_only": 1
+   "label": "Free Trial (Days)",
+   "depends_on": "eval:doc.kind=='Plan' && doc.recurring"
   },
   {
    "fieldname": "quota_section",
@@ -123,21 +120,24 @@
    "description": "Zero means unlimited.",
    "fieldname": "storage_gb",
    "fieldtype": "Int",
-   "label": "Storage (GB)"
+   "label": "Storage (GB)",
+   "depends_on": "eval:doc.kind!='Credit Pack'"
   },
   {
    "default": "0",
    "fieldname": "database_gb",
    "fieldtype": "Int",
    "label": "Database (GB)",
-   "description": "The site's database and its backups. Zero means unlimited on a plan."
+   "description": "The site's database and its backups. Zero means unlimited on a plan.",
+   "depends_on": "eval:doc.kind!='Credit Pack'"
   },
   {
    "default": "0",
    "description": "Zero means unlimited. Enforced by Frappe from the site's config.",
    "fieldname": "seats",
    "fieldtype": "Int",
-   "label": "Seats"
+   "label": "Seats",
+   "depends_on": "eval:doc.kind!='Credit Pack'"
   },
   {
    "fieldname": "column_break_quota",
@@ -160,6 +160,14 @@
    "depends_on": "eval:doc.kind!='Credit Pack'"
   },
   {
+   "fieldname": "gives",
+   "fieldtype": "Data",
+   "label": "Gives",
+   "read_only": 1,
+   "in_list_view": 1,
+   "description": "What it gives, in one line, written when it is saved."
+  },
+  {
    "fieldname": "about_section",
    "fieldtype": "Section Break"
   },
@@ -167,11 +175,30 @@
    "fieldname": "description",
    "fieldtype": "Small Text",
    "label": "Description"
+  },
+  {
+   "fieldname": "stripe_section",
+   "fieldtype": "Section Break",
+   "label": "Stripe",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "stripe_price",
+   "fieldtype": "Data",
+   "label": "Stripe Price ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sort_key",
+   "fieldtype": "Float",
+   "label": "Sort Key",
+   "hidden": 1,
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-27 13:00:00.000000",
+ "modified": "2026-09-29 16:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Offering",
@@ -187,13 +214,13 @@
    "read": 1,
    "report": 1,
    "role": "One Operator",
-   "share": 1,
+   "share": 0,
    "write": 1
   }
  ],
  "show_title_field_in_link": 1,
  "title_field": "label",
- "sort_field": "amount",
+ "sort_field": "sort_key",
  "sort_order": "ASC",
  "states": [],
  "track_changes": 1

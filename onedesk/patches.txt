@@ -17,3 +17,4 @@ onedesk.one_admin.patches.home_is_a_workspace
 onedesk.one_admin.patches.status_since
 onedesk.one_admin.patches.log_in_words
 onedesk.one_admin.patches.domain_is_main
+onedesk.one_admin.patches.offering_gives

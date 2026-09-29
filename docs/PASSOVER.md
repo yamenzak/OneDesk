@@ -3046,6 +3046,35 @@ dev site: 13 (five plans, one disabled; three packs; five add-ons).
    `depends_on` shows each field for its kind; connections are frappe's
    dashboard. Holds.
 
+Your word: all of them.
+
+Done:
+
+- **The head is right for every kind.** An add-on counts the workspaces
+  carrying it (`Tenant Add-on`), so 1 GB of Database says "One workspace
+  has this, 1 of them live"; a plan counts its workspaces; a pack says it
+  is bought once and used up. And it says what an edit does: "They keep
+  the price they pay. A changed quota reaches them the next time they
+  change their plan or add-ons."
+- **Only what the kind carries**: a pack shows Credits; a plan and an
+  add-on show storage, database, seats and credits a month, with "Zero
+  means unlimited" on a plan and "Fill in the one thing this add-on adds"
+  on an add-on. The trial and Recurring show only on a plan; the
+  controller sets them for the other kinds.
+- **The list**: plans, then add-ons, then packs, each by price (`sort_key`);
+  the kind as a coloured badge, Disabled in grey; "$30 a month" or "$9
+  once"; and **Gives**, one line of what it gives ("20 GB storage · 1 GB
+  database · 5 seats · 1,000 credits a month"), written on save
+  (`patches/offering_gives.py` for the rows before). No ID column or filter.
+- **See the Signup Page** in the list's menu opens `/start`.
+- **Connections**: a plan's Workspaces and Signups; on an add-on,
+  **Workspaces With It**; **Item in Books** for somebody who may read the
+  books (an operator alone may not, so it does not show for them).
+- **OneAI**: `price_list`, operator-only; **How do our plans compare?** on
+  the list and **Who has this?** on a plan or add-on. No model was called.
+- Stripe's price id is folded under Stripe; Share is off.
+- **README**: a Price List section.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
