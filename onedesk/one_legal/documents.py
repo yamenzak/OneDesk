@@ -121,7 +121,8 @@ DOCUMENTS = {
 		"title": "Terms of Service",
 		"audience": "customer",
 		# 7: credits we give by hand, their expiry, and taking back a mistake.
-		"revision": 7,
+		# 8: first agreed on the signup page, before payment.
+		"revision": 8,
 		"summary": "The agreement between your organisation and Four Degree Labs for the use of One.",
 	},
 	"aup": {

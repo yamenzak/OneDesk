@@ -18,8 +18,10 @@
 	--line: #e4e7ec;
 	--line-strong: #cdd2d9;
 	--paper: #ffffff;
-	--sunk: #f7f8f9;
+	--sunk: #f3f4f6;
+	--sunk-hover: #ebedf0;
 	--picked: #171c23;
+	--picked-ring: #566070;
 	--wrong: #b4232c;
 
 	color: var(--ink);
@@ -70,22 +72,39 @@
 	margin-bottom: 0.375rem;
 }
 
+/* frappe-ui's TextInput, subtle variant: a grey well with no edge of its own,
+ * darker under the pointer, white with an edge once typed in. The grey is not
+ * "disabled"; it is how every field inside One looks. */
 .one-portal input[type="text"],
 .one-portal input[type="email"],
 .one-portal input[type="password"] {
 	width: 100%;
 	padding: 0.5rem 0.75rem;
-	border: 1px solid var(--line);
+	border: 1px solid var(--sunk);
 	border-radius: 8px;
 	background: var(--sunk);
 	font-size: 0.9375rem;
 	color: var(--ink);
+	transition: background-color 0.1s, border-color 0.1s;
 }
 
-.one-portal input:focus {
+.one-portal input[type="text"]:hover,
+.one-portal input[type="email"]:hover,
+.one-portal input[type="password"]:hover {
+	background: var(--sunk-hover);
+	border-color: var(--sunk-hover);
+}
+
+.one-portal input:focus,
+.one-portal input:focus:hover {
 	outline: none;
-	border-color: var(--ink-faint);
+	border-color: var(--line-strong);
 	background: var(--paper);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.one-portal [hidden] {
+	display: none !important;
 }
 
 .one-portal .one-hint,
@@ -94,7 +113,6 @@
 	font-size: 0.8125rem;
 	color: var(--ink-faint);
 	margin-top: 0.375rem;
-	min-height: 1.2em;
 }
 
 .one-portal .one-hint.is-taken {
@@ -127,9 +145,12 @@
 	background: var(--paper);
 }
 
+.one-portal .one-choice:hover {
+	border-color: var(--line-strong);
+}
+
 .one-portal .one-choice:has(input:checked) {
-	border-color: var(--picked);
-	box-shadow: 0 0 0 1px var(--picked);
+	border-color: var(--picked-ring);
 }
 
 .one-portal .one-choice input {
@@ -173,6 +194,10 @@
 }
 
 .one-portal .one-go {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
 	width: 100%;
 	padding: 0.625rem 1rem;
 	border: 0;
@@ -187,6 +212,121 @@
 .one-portal .one-go[disabled] {
 	opacity: 0.6;
 	cursor: default;
+}
+
+/* frappe-ui's Button while `loading`: a spinner before the label, and the
+ * button held rather than greyed out. */
+.one-portal .one-go.is-busy {
+	opacity: 0.85;
+}
+
+.one-portal .one-spin {
+	display: none;
+	width: 14px;
+	height: 14px;
+	border: 2px solid currentColor;
+	border-right-color: transparent;
+	border-radius: 50%;
+	animation: one-spin 0.7s linear infinite;
+}
+
+.one-portal .one-go.is-busy .one-spin {
+	display: inline-block;
+}
+
+@keyframes one-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* /welcome while the workspace is built. */
+.one-portal .one-wait {
+	display: flex;
+	align-items: center;
+	gap: 0.625rem;
+	font-size: 0.875rem;
+	color: var(--ink-soft);
+}
+
+.one-portal .one-wait .one-spin {
+	display: inline-block;
+	flex: none;
+}
+
+/* frappe-ui's Alert, red: a quiet grey panel, the colour in the icon alone. */
+.one-portal .one-alert {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.5rem;
+	margin-top: 0.75rem;
+	padding: 0.625rem 0.875rem;
+	border-radius: 8px;
+	background: var(--sunk);
+	color: var(--ink);
+	font-size: 0.875rem;
+}
+
+.one-portal .one-alert__icon {
+	flex: none;
+	width: 16px;
+	height: 16px;
+	margin-top: 0.125rem;
+	fill: var(--wrong);
+	stroke: var(--paper);
+	stroke-width: 2;
+	stroke-linecap: round;
+}
+
+.one-portal .one-agree {
+	font-size: 0.8125rem;
+	color: var(--ink-soft);
+	margin: 0 0 0.75rem;
+}
+
+.one-portal .one-agree a {
+	color: var(--ink);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+/* "Already have a workspace?": asked in one line, under the lede. */
+.one-portal .one-have {
+	margin: -1rem 0 2rem;
+	font-size: 0.875rem;
+}
+
+.one-portal .one-have summary {
+	color: var(--ink-soft);
+	cursor: pointer;
+	width: fit-content;
+}
+
+.one-portal .one-have summary:hover {
+	color: var(--ink);
+}
+
+.one-portal .one-have__form {
+	display: flex;
+	gap: 0.5rem;
+	margin-top: 0.625rem;
+}
+
+/* frappe-ui's secondary Button. */
+.one-portal .one-button {
+	flex: none;
+	padding: 0.5rem 0.875rem;
+	border: 0;
+	border-radius: 8px;
+	background: var(--sunk);
+	color: var(--ink);
+	font-size: 0.875rem;
+	font-weight: 500;
+	cursor: pointer;
+}
+
+.one-portal .one-button:hover {
+	background: var(--sunk-hover);
 }
 
 .one-portal .one-said {
@@ -216,7 +356,9 @@
 		--line-strong: #4a525e;
 		--paper: #1b2129;
 		--sunk: #232a33;
+		--sunk-hover: #2b333d;
 		--picked: #eff1f4;
+		--picked-ring: #a9b2be;
 		--wrong: #e8828a;
 	}
 	.one-portal .one-go,
@@ -609,4 +751,81 @@ a.one-portal__row:hover {
 
 .one-portal__row--under span:first-child {
 	padding-inline-start: 1.25rem;
+}
+
+/* /legal/<document>: the agreements, for somebody with no account yet. The
+ * text comes from one_legal/assemble.render, the same HTML the desk reads. */
+.one-legal__back {
+	display: inline-block;
+	margin-bottom: 1.5rem;
+	font-size: 0.875rem;
+	color: var(--ink-soft);
+	text-decoration: none;
+}
+
+.one-legal__back:hover {
+	color: var(--ink);
+}
+
+.one-legal h2 {
+	font-size: 1.125rem;
+	font-weight: 600;
+	margin: 2rem 0 0.5rem;
+}
+
+.one-legal h3 {
+	font-size: 0.9375rem;
+	font-weight: 600;
+	margin: 1.25rem 0 0.25rem;
+}
+
+.one-legal p {
+	margin: 0 0 0.75rem;
+}
+
+.one-legal .summary {
+	color: var(--ink-soft);
+}
+
+.one-legal table {
+	display: block;
+	overflow-x: auto;
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.8125rem;
+	margin: 0.5rem 0 1rem;
+}
+
+.one-legal th,
+.one-legal td {
+	text-align: left;
+	vertical-align: top;
+	padding: 0.5rem 0.625rem;
+	border-bottom: 1px solid var(--line);
+}
+
+.one-legal__list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.one-legal__list li {
+	padding: 0.75rem 0;
+	border-bottom: 1px solid var(--line);
+}
+
+.one-legal__list a {
+	color: var(--ink);
+	font-weight: 500;
+	text-decoration: none;
+}
+
+.one-legal__list a:hover {
+	text-decoration: underline;
+}
+
+.one-legal__list small {
+	display: block;
+	color: var(--ink-soft);
 }

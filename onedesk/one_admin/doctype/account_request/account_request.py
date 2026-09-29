@@ -12,6 +12,10 @@ from onedesk.one_admin import signup, site
 
 
 class AccountRequest(Document):
+	def before_insert(self) -> None:
+		# What the welcome page and the reminder carry (signup.owned).
+		self.access_key = frappe.generate_hash(length=32)
+
 	def validate(self) -> None:
 		site.require_admin()
 		self.slug = signup.tidy_slug(self.slug or self.workspace_name or "")

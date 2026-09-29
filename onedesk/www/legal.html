@@ -1,0 +1,32 @@
+{% extends "templates/web.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{%- block navbar -%}{%- endblock -%}
+{%- block footer -%}{%- endblock -%}
+{% block breadcrumbs %}{% endblock %}
+
+{% block page_content %}
+<div class="one-portal one-portal--wide">
+	<a class="one-portal__mark" href="/">
+		<img src="/assets/onedesk/images/one.svg" alt="">
+		<span>One</span>
+	</a>
+
+	{% if shown %}
+		<a class="one-legal__back" href="/legal">{{ _("All agreements") }}</a>
+		<article class="one-legal">{{ shown.html }}</article>
+		<small class="one-note">{{ _("Version {0}. In English, which governs.").format(shown.version) }}</small>
+	{% else %}
+		<h1>{{ _("Agreements") }}</h1>
+		<p class="one-portal__lede">{{ _("What you agree to when you use One. The English text governs.") }}</p>
+		<ul class="one-legal__list">
+			{% for one in documents %}
+			<li>
+				<a href="/legal/{{ one.key }}">{{ one.title }}</a>
+				<small>{{ one.summary }}</small>
+			</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+</div>
+{% endblock %}

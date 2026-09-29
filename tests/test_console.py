@@ -388,7 +388,7 @@ def test_the_owner_is_mailed_as_their_workspace_falls_and_comes_back():
 	for name in ("Workspace Suspended", "Workspace Archived", "Workspace Restored"):
 		assert f'notify.mail("{name}"' in tell, name
 	types = (ADMIN / "notifications.py").read_text()
-	assert types.count('"outside": True') == 5, "Ready, Suspended, Archived, Restored, Delayed"
+	assert types.count('"outside": True') == 6, "Ready, Suspended, Archived, Restored, Delayed, Finish"
 
 
 def test_a_workspace_is_read_by_operators_only_and_never_shared():

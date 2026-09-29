@@ -23,8 +23,10 @@
   "column_break_outcome",
   "failed_reason",
   "stripe_session",
+  "reminded_on",
   "deal",
-  "lead"
+  "lead",
+  "access_key"
  ],
  "fields": [
   {
@@ -151,11 +153,28 @@
    "options": "Lead",
    "label": "Lead",
    "read_only": 1
+  },
+  {
+   "fieldname": "reminded_on",
+   "fieldtype": "Datetime",
+   "label": "Reminded On",
+   "read_only": 1,
+   "no_copy": 1,
+   "description": "When the one mail asking them to finish went."
+  },
+  {
+   "fieldname": "access_key",
+   "fieldtype": "Data",
+   "label": "Access Key",
+   "hidden": 1,
+   "read_only": 1,
+   "no_copy": 1,
+   "description": "Opens the welcome page for this signup."
   }
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-29 12:00:00.000000",
+ "modified": "2026-09-29 18:00:00.000000",
  "modified_by": "Administrator",
  "name": "Account Request",
  "module": "One Admin",

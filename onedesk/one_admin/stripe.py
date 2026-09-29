@@ -420,7 +420,7 @@ def _base() -> str:
 
 
 def _back_to(asked, outcome: str) -> str:
-	return f"{frappe.utils.get_url()}/welcome?request={asked.name}&outcome={outcome}"
+	return f"{frappe.utils.get_url()}/welcome?request={asked.name}&key={asked.access_key}&outcome={outcome}"
 
 
 def _key() -> str:

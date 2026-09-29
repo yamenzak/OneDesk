@@ -8,7 +8,7 @@ Nothing here decides a price. The offerings are read as they are, and the page
 draws what it is given — so a plan withdrawn in OneAdmin is a plan that stops
 being offered without anybody editing a template.
 
-The quota line is built here rather than in the template because it is three
+The quota line is built here rather than in the template because it is four
 translated fragments joined by a separator, and a template that does that reads
 worse than the Python does.
 """
@@ -34,9 +34,27 @@ def get_context(context):
 
 	context.no_cache = 1
 	context.offerings = [_drawn(one) for one in _plans()]
-	context.jurisdictions = [(key, frappe._(label)) for key, label in WHERE.items()]
+	context.jurisdictions = _jurisdictions()
 	context.pay_note = _pay_note(context.offerings)
+	# The address preview, from the same setting a Tenant's domain is made of.
+	context.tenant_domain = (
+		frappe.db.get_single_value("One Admin Settings", "tenant_domain") or "t.4dl.app"
+	)
 	return context
+
+
+def _jurisdictions() -> list[tuple[str, str]]:
+	"""Where a workspace may be put, and only where there is somewhere to put it.
+
+	The EU choice moves the workspace's files to the EU bucket (storage._bucket)
+	and nothing else yet: there is one cluster. So it is offered only once that
+	bucket is set, since without it the first upload fails, and its note says
+	files rather than the workspace.
+	"""
+	eu = frappe.db.get_single_value("One Admin Settings", "bucket_eu")
+	return [
+		(key, frappe._(label)) for key, label in WHERE.items() if key != "EU" or eu
+	]
 
 
 def _pay_note(offerings: list[dict]) -> str:
@@ -66,6 +84,7 @@ def _plans() -> list[dict]:
 			"amount",
 			"trial_days",
 			"storage_gb",
+			"database_gb",
 			"seats",
 			"credits_a_month",
 		],
@@ -99,6 +118,8 @@ def _quota(one: dict) -> list[str]:
 	said = []
 	if one.get("storage_gb"):
 		said.append(frappe._("{0} GB storage").format(one["storage_gb"]))
+	if one.get("database_gb"):
+		said.append(frappe._("{0} GB database").format(one["database_gb"]))
 	if one.get("seats"):
 		said.append(frappe._("{0} people").format(one["seats"]))
 	if one.get("credits_a_month"):

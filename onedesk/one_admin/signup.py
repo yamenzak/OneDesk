@@ -189,13 +189,127 @@ def _bench_for(cluster: str | None) -> str:
 A_MINUTE = 60
 STARTS_A_MINUTE = 5
 
+#: Name checks a minute. The page asks after every pause in the typing, and five
+#: was measured running out on one name typed in bursts, which froze the hint.
+CHECKS_A_MINUTE = 30
+
+#: Days after an unpaid signup before its one reminder goes (remind).
+REMIND_AFTER_DAYS = 1
+
 
 @frappe.whitelist(allow_guest=True)
-@rate_limit(limit=STARTS_A_MINUTE, seconds=A_MINUTE)
+@rate_limit(limit=CHECKS_A_MINUTE, seconds=A_MINUTE)
 def available(name: str) -> dict:
 	"""What the signup page asks while somebody is still typing."""
 	site.require_admin()
 	return free(name)
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(limit=CHECKS_A_MINUTE, seconds=A_MINUTE)
+def where(name: str) -> dict:
+	"""The address of a workspace that exists, for "Already have one?".
+
+	Says no more than the address itself would: a workspace's address is public
+	the moment it has one, so asking by name gives nothing away.
+	"""
+	site.require_admin()
+	try:
+		slug = keys.slug(name)
+	except keys.Unnameable:
+		return {"at": None}
+	held = frappe.db.get_value(
+		"Tenant",
+		{"slug": slug, "status": ["in", ("Live", "Overdue", "Suspended")]},
+		["domain", "primary_domain"],
+		as_dict=True,
+	)
+	return {"at": f"https://{held.primary_domain or held.domain}" if held else None}
+
+
+def owned(request: str, key: str):
+	"""The request, if the key is the one it was given, else None.
+
+	The key is what the welcome page and the reminder carry. Without it a
+	request's name, which counts up, would open anybody's signup: their
+	workspace's name and their email address.
+	"""
+	import secrets
+
+	if not request or not key:
+		return None
+	held = frappe.db.get_value("Account Request", request, "access_key")
+	if not held or not secrets.compare_digest(held, key):
+		return None
+	return frappe.get_doc("Account Request", request)
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(limit=STARTS_A_MINUTE, seconds=A_MINUTE)
+def pay(request: str, key: str) -> dict:
+	"""A fresh checkout for a signup somebody left before paying.
+
+	Stripe's own page lasts a day, so the reminder cannot link to it; it links
+	to the welcome page, which asks for a new one here.
+	"""
+	site.require_admin()
+	asked = owned(request, key)
+	if not asked or asked.status not in ("New", "Paying") or asked.tenant:
+		frappe.throw(frappe._("This signup can no longer be paid for. Start again."))
+	if not frappe.db.get_value("Offering", asked.offering, "enabled"):
+		frappe.throw(frappe._("That plan is no longer on offer. Start again."))
+	from onedesk.one_admin import stripe
+
+	return {"pay_at": stripe.checkout(asked.name)}
+
+
+def let_go(asked) -> None:
+	"""Somebody closed the payment page: the name is theirs to ask for again.
+
+	Abandoned at once rather than after a week, because "Start again" is the
+	link they are given, and a name still held by their own request answers
+	"taken" to them. A payment that arrives anyway is still taken (accept).
+	"""
+	if asked.status in ("New", "Paying") and not asked.tenant:
+		asked.db_set("status", "Abandoned", notify=True)
+
+
+def remind() -> None:
+	"""Daily: one mail to somebody who filled the form and never paid.
+
+	Once, a day after, and never for a request that is Abandoned. The link is
+	the welcome page with the request's key, which offers a fresh checkout.
+	"""
+	if not site.is_admin():
+		return
+	from frappe.utils import add_days, get_url, now_datetime
+
+	from onedesk.one import notify
+
+	for asked in frappe.get_all(
+		"Account Request",
+		filters={
+			"status": ["in", ["New", "Paying"]],
+			"tenant": ["is", "not set"],
+			"reminded_on": ["is", "not set"],
+			"creation": ["<", add_days(now_datetime(), -REMIND_AFTER_DAYS)],
+		},
+		fields=["name", "email", "workspace_name", "slug", "access_key"],
+	):
+		if not asked.email or not asked.access_key:
+			continue
+		notify.mail(
+			"Finish Signing Up",
+			asked.email,
+			workspace=asked.workspace_name or asked.slug,
+			link=f"{get_url()}/welcome?request={asked.name}&key={asked.access_key}",
+			reference_doctype="Account Request",
+			reference_name=asked.name,
+		)
+		frappe.db.set_value(
+			"Account Request", asked.name, "reminded_on", now_datetime(), update_modified=False
+		)
+	frappe.db.commit()
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])

@@ -3758,6 +3758,49 @@ workspace. Both are hand-written Jinja pages over `templates/web.html`
    desk controls do not load on a web page). Holds, drawn to frappe-ui's
    look as 6 says.
 
+Your word: all of them.
+
+Done:
+
+- **The welcome page needs the key.** `Account Request` has an
+  `access_key`, Stripe's return links and the reminder carry it, and
+  `/welcome` shows nothing without it (`signup.owned`). Found on the way:
+  request names count up, so before this anybody could read anybody's
+  workspace name and email by counting.
+- **Closing Stripe lets the name go.** It was held for a week, so "Start
+  again" and the same name answered "taken" to its own owner. Cancelling
+  now marks the signup Abandoned (committed from the page, since frappe
+  rolls a GET back).
+- **Finish Signing Up**: one mail a day after an unpaid signup, never twice,
+  with a link to `/welcome`, which offers **Continue to payment**
+  (`signup.pay`, a fresh Stripe page: Stripe's own lasts a day). The second
+  gap in finding 1 was mine: the customer already gets Workspace Delayed.
+- **The agreements before payment**: "By continuing you agree to the Terms
+  of Service and the Privacy Policy" above the button, each linking to a
+  new public **/legal** page (every document, rendered by
+  `assemble.render`, reading records nothing). A Terms clause says the
+  signup page is where they are first agreed to (revision 8); the privacy
+  clause names the one reminder (hash recorded).
+- **The name check** is thirty a minute, and a refusal shows in the hint
+  instead of freezing it. **Start** stays at five.
+- **The address** reads Tenant Domain ("Your address: acme-labs.t.4dl.app")
+  and takes no room until there is one.
+- **Where files are kept**: offered only when the EU bucket is set, and
+  says the EU keeps the files.
+- **The plan line** has the database.
+- **The look**: the inputs are frappe-ui's subtle TextInput exactly (the
+  grey was already that; the name box was white only because it had focus,
+  so 6a was half wrong), a lighter chosen ring, a spinner and "Taking you to
+  Stripe…" on the button, and errors in a frappe-ui alert, with a 429 said
+  in words.
+- **Already have a workspace? Sign in** finds a live workspace by name
+  (`signup.where`) and opens its sign-in.
+- **/welcome** reloads every ten seconds while it is built, so **Open it**
+  appears by itself. The workspace name and email it shows are escaped.
+- README: **The signup page**, Finish Signing Up under Being told, and an
+  Under the hood line. Plan descriptions (5, last point) are Price List
+  data, left for you to write.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

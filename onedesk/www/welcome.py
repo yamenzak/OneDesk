@@ -13,11 +13,12 @@ from onedesk.one_admin import site
 no_cache = 1
 
 SAYS = {
-	"New": lambda: frappe._("The payment has not arrived yet."),
-	"Paying": lambda: frappe._("Waiting for the payment to settle."),
+	"New": lambda: frappe._("This workspace has not been paid for yet."),
+	"Paying": lambda: frappe._("This workspace has not been paid for yet."),
 	"Paid": lambda: frappe._("Payment received. The workspace is being built."),
 	"Provisioning": lambda: frappe._("Payment received. The workspace is being built."),
 	"Done": lambda: frappe._("The workspace is ready. We have emailed you a link to choose your password."),
+	"Abandoned": lambda: frappe._("This signup was closed without paying, and the name is free again."),
 	"Failed": lambda: frappe._("The workspace could not be built. Somebody has been told and will be in touch."),
 }
 
@@ -35,14 +36,17 @@ def get_context(context):
 	if not site.is_admin():
 		raise frappe.DoesNotExistError
 
+	from onedesk.one_admin import signup
+
 	context.no_cache = 1
-	context.cancelled = frappe.form_dict.get("outcome") == "cancelled"
-	asked = frappe.db.get_value(
-		"Account Request",
-		frappe.form_dict.get("request"),
-		["workspace_name", "status", "tenant", "email", "offering"],
-		as_dict=True,
-	)
+	# Only with the key the request was given: its name counts up, and would
+	# otherwise open anybody's signup (signup.owned).
+	asked = signup.owned(frappe.form_dict.get("request"), frappe.form_dict.get("key"))
+	context.cancelled = bool(asked) and frappe.form_dict.get("outcome") == "cancelled"
+	if context.cancelled:
+		signup.let_go(asked)
+		# A page is a GET, and frappe rolls a GET back: said here or not at all.
+		frappe.db.commit()
 	context.asked = asked
 	trial = (
 		frappe.db.get_value("Offering", asked.offering, "trial_days")
@@ -56,4 +60,8 @@ def get_context(context):
 	context.domain = (
 		frappe.db.get_value("Tenant", asked.tenant, "domain") if asked and asked.tenant else None
 	)
+	# Asked again every few seconds while it is being built, so "Open it"
+	# appears without anybody reloading.
+	context.watching = bool(asked) and asked.status in ("Paid", "Provisioning")
+	context.can_pay = bool(asked) and asked.status in ("New", "Paying") and not asked.tenant
 	return context

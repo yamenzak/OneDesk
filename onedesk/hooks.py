@@ -143,6 +143,8 @@ scheduler_events = {
 		# invoices not yet booked.
 		"onedesk.one_admin.sales.abandoned",
 		"onedesk.one_admin.signup.abandon",
+		# One mail to somebody who filled the signup form and never paid.
+		"onedesk.one_admin.signup.remind",
 		"onedesk.one_admin.books.catch_up",
 		"onedesk.one_hr.healing.nightly",
 		# The sound of old interview recordings; their transcripts stay.
@@ -942,6 +944,9 @@ website_route_rules = [
 	{"from_route": "/s/<token>", "to_route": "s"},
 	# A file request: /r/<token> is www/r.py.
 	{"from_route": "/r/<token>", "to_route": "r"},
+	# The agreements, readable before anybody has an account: /legal/terms is
+	# www/legal.py, and /start links to it.
+	{"from_route": "/legal/<document>", "to_route": "legal"},
 ]
 
 # OneCloud as a network drive: a drive password signs a person in on the

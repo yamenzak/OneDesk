@@ -53,7 +53,7 @@ No doctypes yet.
 |---|--:|---|
 | AI Model | 28 | document |
 | AI Model Rate | 7 | child |
-| Account Request | 18 | document |
+| Account Request | 20 | document |
 | Credit Ledger Entry | 15 | submittable |
 | Credit Reservation | 10 | document |
 | Offering | 24 | document |
@@ -275,7 +275,9 @@ No doctypes yet.
 * `onedesk.one_admin.report.plan_calculator.plan_calculator.needs_of`
 * `onedesk.one_admin.setup.set_up`
 * `onedesk.one_admin.signup.available`
+* `onedesk.one_admin.signup.pay`
 * `onedesk.one_admin.signup.start`
+* `onedesk.one_admin.signup.where`
 * `onedesk.one_admin.stripe.webhook`
 * `onedesk.one_ai.chat.cards`
 * `onedesk.one_ai.chat.chats`

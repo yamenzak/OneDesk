@@ -62,8 +62,22 @@ clause(
 		the workspace's name and address, the plan and their country) whether or not they go on to pay. It
 		becomes a lead and a deal in our own records, so we can follow up a signup that was not finished. A
 		signup not paid for within seven days lets its workspace name go; what was typed is kept with our
-		sales records. If payment is taken and the workspace cannot be made yet, we write to that address to
-		say so.
+		sales records. We write to that address once, a day after, if payment was not finished, and if
+		payment is taken and the workspace cannot be made yet, we write to say so.
+	""",
+)
+
+
+clause(
+	document="terms",
+	section="account",
+	key="oneadmin-signup-agree",
+	module=M,
+	body="""
+		You first agree to these terms and the Privacy Policy when you continue
+		to payment on our signup page, where each is linked and can be read in full. The first time you sign
+		in to the workspace you are asked again, and that acceptance, with its date, version and account, is
+		the one recorded.
 	""",
 )
 

@@ -207,6 +207,36 @@ Only an operator of One sees it, and it changes nothing. On the report,
 OneAI answers **What should they buy?**, for needs said in words or a
 workspace by name.
 
+## The signup page
+
+**/start** on this site is where a customer asks for a workspace, before they
+have any account. They type the workspace's name and see its address as they
+type (`acme.t.4dl.app`, from Tenant Domain in Settings), give the email the
+first account and the receipt go to, pick where files are kept, and pick a
+plan. Continue takes them to Stripe; above it they are told that continuing
+agrees to the Terms of Service and the Privacy Policy, each linked to
+**/legal**, where every agreement can be read without signing in.
+
+- **Where files are kept** is offered only when the EU bucket is set in
+  Settings. Choosing the European Union keeps the workspace's files in the EU;
+  the workspace itself runs where the one cluster is. It cannot be changed
+  later.
+- **The plans** are the enabled plans in Price List, cheapest first, each with
+  its trial, its description and what it gives: storage, database, people and
+  credits a month. Changing a plan there changes this page.
+- **Already have a workspace? Sign in** asks for the workspace's name and
+  sends them to its address.
+
+Stripe sends them back to **/welcome**, which says where their workspace
+stands and looks again every ten seconds while it is built, until **Open it**
+appears. Closing Stripe's page lets the name go at once, so **Start again**
+works. The welcome page only opens with the key in the link Stripe and our
+mails carry; a request's name alone shows nothing.
+
+Somebody who filled the page and never paid is mailed **Finish Signing Up**
+once, a day later, with a link that takes them back to payment. Nobody signs
+in to use either page, and neither changes anything but the signup itself.
+
 ## Signups
 
 **Signups** are the people who asked for a workspace on the signup page,
@@ -221,8 +251,8 @@ where it stands:
   signup says why.
 - **Being built**: its workspace's job is running (the workspace has the
   job). **Built**: the workspace went live.
-- **Abandoned**: not paid within seven days, so the name they asked for is
-  free for somebody else. If they pay after all, the workspace is still
+- **Abandoned**: not paid within seven days, or closed at Stripe, so the
+  name they asked for is free for somebody else. If they pay after all, the workspace is still
   built, unless the name was taken in the meantime.
 
 A paid signup with no workspace is the worst state there is, so it is on
@@ -403,7 +433,8 @@ Operators are told without opening Home:
   stopped working.
 
 The person who signed up is mailed **Workspace Delayed** once if it could not
-be made, so a payment is never followed by silence. The workspace's owner is
+be made, so a payment is never followed by silence, and **Finish Signing Up**
+once, a day after, if they never paid. The workspace's owner is
 mailed **Workspace Ready** when it is built (see Jobs), and **Workspace Suspended**, **Workspace Archived** and **Workspace
 Restored** (see Workspaces).
 
@@ -429,6 +460,12 @@ last jobs and log, and says whether anything is wrong.
 ## Under the hood
 
 For the people who build OneAdmin. OneAI does not read past this heading.
+
+- **The portal pages** are `www/start`, `www/welcome` and `www/legal`, drawn
+  in `public/css/portal.css` to frappe-ui's look (a guest page loads no desk
+  controls). `signup.available`, `where`, `start` and `pay` are the guest
+  calls, each rate-limited. `Account Request.access_key` opens `/welcome`
+  (`signup.owned`); `signup.remind` is the daily Finish Signing Up.
 
 - **Two gates** (`site.py`): the site config key `one_admin` makes a site the
   admin site, and every OneAdmin doctype grants only One Operator. On any

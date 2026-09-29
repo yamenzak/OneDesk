@@ -1,9 +1,10 @@
 """What OneAdmin tells, as notification types (one/notify.py).
 
 Sent by `tell.py`. Most go to everybody holding One Operator and to nobody
-else. The last four are mailed to a workspace's owner (`outside`): when it is
+else. The outside ones are mailed to a workspace's owner (`outside`): when it is
 ready, and when it is suspended, archived or restored, since a new site has
-no way to reach them yet and a suspended one cannot. All are offered only to
+no way to reach them yet and a suspended one cannot; and to somebody who signed
+up, when it is delayed or when they never paid. All are offered only to
 operators (`roles`), who may reword them.
 """
 
@@ -48,6 +49,20 @@ TYPES = [
 			"We have your payment for {workspace}. Setting it up hit a problem on our side, and we are on it."
 			"<br><br>We will write again when it is ready. You do not need to do anything. If you have a "
 			"question, reply to this mail."
+		),
+		"outside": True,
+	},
+	{
+		"name": _lt("Finish Signing Up"),
+		"app": "OneAdmin",
+		"roles": ("One Operator",),
+		"about": _lt("When somebody filled in the signup page a day ago and has not paid. Sent once."),
+		"to": _lt("The person who signed up"),
+		"subject": _lt("{workspace} is waiting for you"),
+		"message": _lt(
+			"You started setting up {workspace} on One and did not finish paying. The name is kept for you "
+			'for a week.<br><br><a href="{link}">Finish signing up</a><br><br>If you changed your mind, '
+			"there is nothing to do. If something went wrong, reply to this mail."
 		),
 		"outside": True,
 	},

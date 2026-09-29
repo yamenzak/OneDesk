@@ -19,11 +19,20 @@
 	{% else %}
 	<p class="one-portal__lede">{{ _("Pick a name and a plan. The workspace is built as soon as the card is accepted.") }}</p>
 
+	<details class="one-have">
+		<summary>{{ _("Already have a workspace? Sign in") }}</summary>
+		<form id="one-find" class="one-have__form">
+			<input name="name" type="text" required autocomplete="organization" aria-label="{{ _('Workspace name') }}" placeholder="{{ _('Workspace name') }}">
+			<button type="submit" class="one-button">{{ _("Go") }}</button>
+		</form>
+		<small class="one-hint is-taken" id="one-found" hidden></small>
+	</details>
+
 	<form id="one-start">
 		<label class="one-field" for="workspace_name">
 			<span>{{ _("Workspace name") }}</span>
 			<input id="workspace_name" name="workspace_name" type="text" required autocomplete="organization" autofocus>
-			<small class="one-hint" id="one-slug"></small>
+			<small class="one-hint" id="one-slug" hidden></small>
 		</label>
 
 		<label class="one-field" for="email">
@@ -32,15 +41,19 @@
 			<small class="one-note">{{ _("The first account, and where the receipt goes.") }}</small>
 		</label>
 
+		{% if jurisdictions|length > 1 %}
 		<fieldset>
-			<legend>{{ _("Where it runs") }}</legend>
+			<legend>{{ _("Where files are kept") }}</legend>
 			{% for key, label in jurisdictions %}
 			<label class="one-choice">
 				<input type="radio" name="jurisdiction" value="{{ key }}" {% if loop.first %}checked{% endif %}>{{ label }}
 			</label>
 			{% endfor %}
-			<small class="one-note">{{ _("This cannot be changed later. Files stay where the workspace was built.") }}</small>
+			<small class="one-note">{{ _("The European Union keeps the workspace's files in the EU. This cannot be changed later.") }}</small>
 		</fieldset>
+		{% else %}
+		<input type="hidden" name="jurisdiction" value="{{ jurisdictions[0][0] }}">
+		{% endif %}
 
 		<fieldset>
 			<legend>{{ _("Plan") }}</legend>
@@ -57,8 +70,19 @@
 			{% endfor %}
 		</fieldset>
 
-		<button type="submit" class="one-go">{{ _("Continue to payment") }}</button>
-		<p class="one-said" id="one-said"></p>
+		<p class="one-agree">{{ _("By continuing you agree to the {0} and the {1}.").format(
+			'<a href="/legal/terms" target="_blank" rel="noopener">' ~ _("Terms of Service") ~ '</a>',
+			'<a href="/legal/privacy" target="_blank" rel="noopener">' ~ _("Privacy Policy") ~ '</a>'
+		) }}</p>
+
+		<button type="submit" class="one-go">
+			<span class="one-spin" aria-hidden="true"></span>
+			<span class="one-go__label" data-busy="{{ _('Taking you to Stripe…') }}">{{ _("Continue to payment") }}</span>
+		</button>
+		<div class="one-alert" id="one-said" role="alert" hidden>
+			<svg class="one-alert__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+			<span></span>
+		</div>
 		<small class="one-note">{{ pay_note }}</small>
 	</form>
 	{% endif %}
@@ -70,37 +94,99 @@
 	if (!form) return;
 	const said = document.getElementById("one-said");
 	const slug = document.getElementById("one-slug");
+	const DOMAIN = {{ tenant_domain|tojson }};
+
+	// frappe.call, answered as a promise, with the server's words on refusal
+	// rather than frappe's dialog: a guest page has one place to say things.
+	const ask = (method, args) =>
+		new Promise((resolve, reject) => {
+			frappe
+				.call({ method, args, statusCode: {}, error_msg: document.createElement("div") })
+				.done((r) => resolve(r.message))
+				.fail((xhr) => reject(refusal(xhr)));
+		});
+
+	const refusal = (xhr) => {
+		if (xhr.status === 429) return __("Too many tries in a minute. Wait a moment and try again.");
+		try {
+			const told = JSON.parse(xhr.responseJSON._server_messages).map((m) => JSON.parse(m).message);
+			const plain = document.createElement("div");
+			plain.innerHTML = told.join(" ");
+			if (plain.textContent.trim()) return plain.textContent.trim();
+		} catch (e) {
+			// Nothing said: the line below.
+		}
+		return __("That did not work. Try again in a moment.");
+	};
+
+	const hint = (text, wrong) => {
+		slug.textContent = text || "";
+		slug.hidden = !text;
+		slug.classList.toggle("is-taken", Boolean(wrong));
+	};
 
 	let asking;
+	let latest = 0;
 	form.workspace_name.addEventListener("input", () => {
 		clearTimeout(asking);
 		asking = setTimeout(async () => {
 			const name = form.workspace_name.value.trim();
-			if (!name) return (slug.textContent = "");
-			const answer = await frappe.call("onedesk.one_admin.signup.available", { name });
-			const it = answer.message || {};
-			slug.textContent = it.free ? `${it.slug}.t.4dl.app` : it.why || "";
-			slug.classList.toggle("is-taken", !it.free);
+			if (!name) return hint("");
+			const mine = ++latest;
+			try {
+				const it = (await ask("onedesk.one_admin.signup.available", { name })) || {};
+				if (mine !== latest) return;
+				hint(it.free ? __("Your address: {0}", [`${it.slug}.${DOMAIN}`]) : it.why, !it.free);
+			} catch (refused) {
+				if (mine === latest) hint(refused, true);
+			}
 		}, 300);
 	});
 
+	const button = form.querySelector(".one-go");
+	const label = button.querySelector(".one-go__label");
+	const idle = label.textContent;
+	const busy = (on) => {
+		button.disabled = on;
+		button.classList.toggle("is-busy", on);
+		label.textContent = on ? label.dataset.busy : idle;
+	};
+	const tell = (text) => {
+		said.querySelector("span").textContent = text || "";
+		said.hidden = !text;
+	};
+
 	form.addEventListener("submit", async (event) => {
 		event.preventDefault();
-		said.textContent = "";
-		const button = form.querySelector("button");
-		button.disabled = true;
+		tell("");
+		busy(true);
 		try {
-			const answer = await frappe.call("onedesk.one_admin.signup.start", {
+			const answer = await ask("onedesk.one_admin.signup.start", {
 				email: form.email.value,
 				workspace_name: form.workspace_name.value,
 				offering: form.offering.value,
 				jurisdiction: form.jurisdiction.value,
 			});
-			window.location.href = answer.message.pay_at;
+			window.location.href = answer.pay_at;
 		} catch (refused) {
-			said.textContent = (refused && refused.message) || __("That did not work.");
-			button.disabled = false;
+			tell(refused);
+			busy(false);
 		}
+	});
+
+	const find = document.getElementById("one-find");
+	const found = document.getElementById("one-found");
+	find.addEventListener("submit", async (event) => {
+		event.preventDefault();
+		found.hidden = true;
+		try {
+			const it = await ask("onedesk.one_admin.signup.where", { name: find.name.value });
+			if (it && it.at) return (window.location.href = `${it.at}/login`);
+			found.textContent = __("There is no workspace by that name.");
+		} catch (refused) {
+			found.textContent = refused;
+		}
+		found.hidden = false;
 	});
 })();
 </script>

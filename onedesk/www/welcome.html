@@ -14,18 +14,77 @@
 
 	{% if cancelled %}
 		<h1>{{ _("Nothing was charged") }}</h1>
-		<p class="one-portal__lede">{{ _("The payment page was closed.") }} <a href="/start">{{ _("Start again") }}</a>.</p>
+		<p class="one-portal__lede">{{ _("The payment page was closed, and the name is free again.") }} <a href="/start">{{ _("Start again") }}</a>.</p>
 	{% elif not asked %}
 		<h1>{{ _("Not found") }}</h1>
 		<p class="one-portal__lede">{{ _("If a payment went through, the receipt is in your email and somebody will be in touch.") }}</p>
 	{% else %}
-		<h1>{{ asked.workspace_name }}</h1>
-		<p class="one-portal__lede">{{ said }}</p>
+		<h1>{{ asked.workspace_name|e }}</h1>
+		<p class="one-portal__lede">{{ said }}{% if asked.status == "Abandoned" %} <a href="/start">{{ _("Start again") }}</a>.{% endif %}</p>
 		{% if domain and asked.status == "Done" %}
 			<a class="one-done" href="https://{{ domain }}">{{ _("Open it") }}</a>
-		{% elif asked.status in ("Paid", "Provisioning") %}
-			<small class="one-note">{{ _("This takes a few minutes. A link will be emailed to {0} when it is ready.").format(asked.email) }}</small>
+		{% elif watching %}
+			<p class="one-wait"><span class="one-spin" aria-hidden="true"></span>{{ _("This takes a few minutes. This page updates by itself, and a link will be emailed to {0} when it is ready.").format(asked.email|e) }}</p>
+		{% elif can_pay %}
+			<form id="one-pay">
+				<button type="submit" class="one-go">
+					<span class="one-spin" aria-hidden="true"></span>
+					<span class="one-go__label" data-busy="{{ _('Taking you to Stripe…') }}">{{ _("Continue to payment") }}</span>
+				</button>
+				<div class="one-alert" id="one-said" role="alert" hidden>
+					<svg class="one-alert__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+					<span></span>
+				</div>
+			</form>
 		{% endif %}
 	{% endif %}
 </div>
+
+{% if watching %}
+<script>
+// The build is a background job: look again in ten seconds.
+setTimeout(() => window.location.reload(), 10000);
+</script>
+{% elif can_pay %}
+<script>
+(() => {
+	const form = document.getElementById("one-pay");
+	const button = form.querySelector(".one-go");
+	const label = button.querySelector(".one-go__label");
+	const idle = label.textContent;
+	const said = document.getElementById("one-said");
+	const args = new URLSearchParams(window.location.search);
+
+	form.addEventListener("submit", (event) => {
+		event.preventDefault();
+		said.hidden = true;
+		button.disabled = true;
+		button.classList.add("is-busy");
+		label.textContent = label.dataset.busy;
+		frappe
+			.call({
+				method: "onedesk.one_admin.signup.pay",
+				args: { request: args.get("request"), key: args.get("key") },
+				statusCode: {},
+				error_msg: document.createElement("div"),
+			})
+			.done((r) => (window.location.href = r.message.pay_at))
+			.fail((xhr) => {
+				let text = __("That did not work. Try again in a moment.");
+				try {
+					const told = JSON.parse(xhr.responseJSON._server_messages).map((m) => JSON.parse(m).message);
+					if (told.length) text = told.join(" ");
+				} catch (e) {
+					// Nothing said: the line above.
+				}
+				said.querySelector("span").textContent = text;
+				said.hidden = false;
+				button.disabled = false;
+				button.classList.remove("is-busy");
+				label.textContent = idle;
+			});
+	});
+})();
+</script>
+{% endif %}
 {% endblock %}
