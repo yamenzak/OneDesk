@@ -67,6 +67,22 @@ TYPES = [
 		"outside": True,
 	},
 	{
+		"name": _lt("Sign-in Link"),
+		"app": "OneAdmin",
+		"roles": ("One Operator",),
+		"about": _lt(
+			"When somebody asks to sign in to their One account by email. It cannot be turned off, or nobody could."
+		),
+		"to": _lt("The account holder"),
+		"subject": _lt("Your sign-in link for One"),
+		"message": _lt(
+			'<a href="{link}">Sign in to your One account</a><br><br>The link works once, for {minutes} '
+			"minutes. If you did not ask for it, you can ignore this mail."
+		),
+		"outside": True,
+		"required": True,
+	},
+	{
 		"name": _lt("New Signup"),
 		"app": "OneAdmin",
 		"roles": ("One Operator",),

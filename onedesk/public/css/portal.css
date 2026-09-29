@@ -829,3 +829,37 @@ a.one-portal__row:hover {
 	display: block;
 	color: var(--ink-soft);
 }
+
+/* /account: the workspaces an account holds. */
+.one-held {
+	list-style: none;
+	padding: 0;
+	margin: 0 0 0.5rem;
+}
+
+.one-held li {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 0.75rem 0;
+	border-bottom: 1px solid var(--line);
+}
+
+.one-held li > span {
+	min-width: 0;
+}
+
+.one-held__name {
+	display: block;
+	font-weight: 500;
+}
+
+.one-held small {
+	color: var(--ink-soft);
+	overflow-wrap: anywhere;
+}
+
+.one-portal a.one-button {
+	text-decoration: none;
+}

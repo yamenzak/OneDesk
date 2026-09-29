@@ -136,8 +136,12 @@ Each stage lands whole (code, translations, docs, legal, gates) and is shown to
 you before the next.
 
 1. **The account exists.** `Tenant.account`; a Website User made at payment;
-   the patch for today's workspaces; sign-in by mailed link, Website Users only;
-   `/login` in the portal look.
+   the patch for today's workspaces; sign-in by mailed link, Website Users only.
+   Done. Two changes on the way: frappe's `/login` already draws One's mark in
+   frappe-ui's look, so it stays frappe's; and signing in landed on frappe's
+   `/portal`, which is ERPNext's customer menu, so a first `/account` (who is
+   signed in, the workspaces held, Open, Start a workspace) came forward from
+   stage 2.
 2. **`/account`.** Your workspaces with their standing and Open; Start another;
    what is owed.
 3. **Signed in on `/start`.** No email box, the workspace joins the account, the

@@ -11,6 +11,7 @@
   "slug",
   "workspace_name",
   "owner_email",
+  "account",
   "column_break_who",
   "status",
   "is_house",
@@ -340,11 +341,20 @@
    "label": "Limit",
    "description": "In bytes. Zero means unlimited.",
    "read_only": 1
+  },
+  {
+   "fieldname": "account",
+   "fieldtype": "Link",
+   "options": "User",
+   "label": "Account",
+   "in_standard_filter": 1,
+   "description": "Whose One account holds this workspace. Set when it is paid for.",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-29 21:00:00.000000",
+ "modified": "2026-09-29 20:30:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Tenant",

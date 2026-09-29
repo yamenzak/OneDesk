@@ -69,6 +69,20 @@ clause(
 
 
 clause(
+	document="privacy",
+	section="modules",
+	key="oneadmin-account",
+	module=M,
+	body="""
+		Whoever pays for a workspace has a One account with us, under the email address they paid with. It
+		keeps that address and which workspaces it holds, so the account can list them in one place. You sign
+		in to it with a link we mail to that address, which works once and for a few minutes; there is no
+		password to keep. The account is separate from your sign-in to each workspace.
+	""",
+)
+
+
+clause(
 	document="terms",
 	section="account",
 	key="oneadmin-signup-agree",

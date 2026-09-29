@@ -57,7 +57,8 @@ reloading. When nothing needs you, it says so.
 **Workspaces** lists every customer's workspace: its name with its slug
 after it (two companies can share a name), its status, plan, owner and
 storage against what its plan allows, in red when over. Filter by status,
-plan or jurisdiction.
+plan, jurisdiction or account. Its **Account** is whose One account holds it
+(see Your One account).
 
 A workspace is read-only. Nothing on it is typed; it is the record of what
 happened to it. At the top it says its address, and how soon it falls if it
@@ -236,6 +237,23 @@ mails carry; a request's name alone shows nothing.
 Somebody who filled the page and never paid is mailed **Finish Signing Up**
 once, a day later, with a link that takes them back to payment. Nobody signs
 in to use either page, and neither changes anything but the signup itself.
+
+## Your One account
+
+Whoever pays for a workspace has a **One account** on this site, under the
+email they paid with. It is made when the payment lands, and it holds the
+workspace. Somebody who pays for a second workspace with the same email has
+both in one account.
+
+An account signs in at **/login** with **Login with Email Link**: One mails a
+link that works once, for a few minutes (**Sign-in Link**). There is no
+password. Signed in, it lands on **/account**, which lists its workspaces,
+each with **Open** to that workspace's own sign-in, and **Start a workspace**.
+The account is not a sign-in to any workspace, and it has no desk.
+
+Only a customer's account can sign in by mailed link here. An operator of One
+asking for one gets nothing, the same as an address nobody holds, and signs in
+with their password.
 
 ## Signups
 
@@ -432,7 +450,8 @@ Operators are told without opening Home:
 - **Domains Waiting**: each morning, the domains that have waited a day or
   stopped working.
 
-The person who signed up is mailed **Workspace Delayed** once if it could not
+An account holder asking to sign in is mailed **Sign-in Link**, which cannot
+be turned off. The person who signed up is mailed **Workspace Delayed** once if it could not
 be made, so a payment is never followed by silence, and **Finish Signing Up**
 once, a day after, if they never paid. The workspace's owner is
 mailed **Workspace Ready** when it is built (see Jobs), and **Workspace Suspended**, **Workspace Archived** and **Workspace
@@ -461,7 +480,12 @@ last jobs and log, and says whether anything is wrong.
 
 For the people who build OneAdmin. OneAI does not read past this heading.
 
-- **The portal pages** are `www/start`, `www/welcome` and `www/legal`, drawn
+- **The account** (`accounts.py`, docs/ONE-ACCOUNT.md) is a frappe Website
+  User named by its email, and `Tenant.account` links a workspace to it;
+  `accounts.hold` runs from `signup.accept` and from the `accounts` patch.
+  `send_login_link` overrides frappe's on the admin site only, and
+  `home_page` (hooks `get_website_user_home_page`) sends it to `/account`.
+- **The portal pages** are `www/start`, `www/welcome`, `www/account` and `www/legal`, drawn
   in `public/css/portal.css` to frappe-ui's look (a guest page loads no desk
   controls). `signup.available`, `where`, `start` and `pay` are the guest
   calls, each rate-limited. `Account Request.access_key` opens `/welcome`

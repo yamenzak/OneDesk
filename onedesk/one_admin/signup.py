@@ -90,6 +90,10 @@ def accept(request: str) -> str:
 		raise
 
 	asked.db_set({"tenant": tenant, "status": "Provisioning", "failed_reason": None}, notify=True)
+	# Paid for, so theirs: into the account for the address it was bought with.
+	from onedesk.one_admin import accounts
+
+	accounts.hold(tenant, asked.email)
 	runner.start(tenant)
 	return tenant
 

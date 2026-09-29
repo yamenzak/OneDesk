@@ -60,7 +60,7 @@ No doctypes yet.
 | One Admin Settings | 59 | single |
 | Provisioning Job | 15 | document |
 | Stripe Webhook Event | 7 | document |
-| Tenant | 43 | document |
+| Tenant | 44 | document |
 | Tenant Add-on | 3 | child |
 | Tenant Domain | 10 | document |
 | Tenant Event | 9 | document |
@@ -229,6 +229,7 @@ No doctypes yet.
 * `onedesk.one.settings.sign_out_everywhere`
 * `onedesk.one.signin.sign_out`
 * `onedesk.one.signin.update_password`
+* `onedesk.one_admin.accounts.send_login_link`
 * `onedesk.one_admin.home.counts`
 * `onedesk.one_admin.home.needs`
 * `onedesk.one_admin.operator.credit_standing`

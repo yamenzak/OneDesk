@@ -1,0 +1,36 @@
+{% extends "templates/web.html" %}
+{% block title %}{{ _("Your One account") }}{% endblock %}
+
+{%- block navbar -%}{%- endblock -%}
+{%- block footer -%}{%- endblock -%}
+{% block breadcrumbs %}{% endblock %}
+
+{% block page_content %}
+<div class="one-portal">
+	<a class="one-portal__mark" href="/account">
+		<img src="/assets/onedesk/images/one.svg" alt="">
+		<span>One</span>
+	</a>
+
+	<h1>{{ _("Your workspaces") }}</h1>
+	<p class="one-portal__lede">{{ _("Signed in as {0}.").format(me|e) }} <a href="/logout">{{ _("Sign out") }}</a></p>
+
+	{% if held %}
+	<ul class="one-held">
+		{% for one in held %}
+		<li>
+			<span>
+				<span class="one-held__name">{{ (one.workspace_name or one.name)|e }}</span>
+				{% if one.at %}<small>{{ one.at }}</small>{% endif %}
+			</span>
+			{% if one.at %}<a class="one-button" href="https://{{ one.at }}/login">{{ _("Open") }}</a>{% endif %}
+		</li>
+		{% endfor %}
+	</ul>
+	{% else %}
+	<p class="one-note">{{ _("This account holds no workspace yet.") }}</p>
+	{% endif %}
+
+	<a class="one-done" href="/start">{{ _("Start a workspace") }}</a>
+</div>
+{% endblock %}

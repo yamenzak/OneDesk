@@ -504,6 +504,9 @@ override_whitelisted_methods = {
 	"erpnext.selling.doctype.customer.customer.send_emails": "onedesk.one_book.tell.credit_limit",
 	# A changed password tells the person, always by mail. See one/signin.py.
 	"frappe.core.doctype.user.user.update_password": "onedesk.one.signin.update_password",
+	# On the admin site the mailed sign-in link is for One accounts only, and
+	# in our words. Anywhere else it is frappe's. See one_admin/accounts.py.
+	"frappe.www.login.send_login_link": "onedesk.one_admin.accounts.send_login_link",
 }
 
 # What Intake wrote down about a record is its history, not a reason to keep
@@ -685,6 +688,10 @@ add_to_apps_screen = [
 		"sequence_id": 0.5,
 	}
 ]
+
+# An account signing in on the admin site lands on /account, not frappe's
+# /portal. See one_admin/accounts.py.
+get_website_user_home_page = "onedesk.one_admin.accounts.home_page"
 
 # `setup_wizard_url` is ignored while erpnext or hrms are installed.
 # Reaches the login page: base.html renders these and login.html extends it.
