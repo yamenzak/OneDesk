@@ -4015,6 +4015,13 @@ was sent to `/account` after signing in, because frappe asks the website-user
 home page hook for desk users too; it now answers `account` for Website
 Users only.
 
+**Stage 2, Numbering: done.** Settings › Numbering on any record numbered by a
+series, and Workspace › Numbering listing them all with the real next name.
+Series are added, renamed, made the default or deleted, and moved on (never
+back), through `one/numbering.py` rather than Document Naming Settings, whose
+methods run for anybody who can read it. Frappe's General tab is held back:
+it saved Accounts Settings just by opening.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

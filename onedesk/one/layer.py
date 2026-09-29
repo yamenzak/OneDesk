@@ -149,6 +149,15 @@ def property_setter(doc, method=None) -> None:
 	if not held():
 		return
 	where = doc.field_name or doc.doc_type
+	# A doctype's series, written by Numbering (one/numbering.py), which has checked
+	# the doctype is the workspace's and frappe's own update_series has checked each
+	# series; only the naming_series field's options and default, and only from there.
+	if (
+		frappe.flags.one_numbering
+		and doc.field_name == "naming_series"
+		and doc.property in ("options", "default")
+	):
+		return
 	if doc.property not in PROPERTIES:
 		frappe.throw(_("{0}: {1} is not the workspace's to change.").format(where, doc.property))
 	if doc.property in ("depends_on", "mandatory_depends_on", "read_only_depends_on") and not plain(

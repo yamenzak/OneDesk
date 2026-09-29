@@ -20,11 +20,17 @@ onedesk.doctype_settings.offered = (meta) =>
 	!(frappe.model.can_create("Custom Field") && frappe.model.can_create("Property Setter")) &&
 	!(frappe.boot.one_refused_modules || []).includes(meta.module);
 
-onedesk.doctype_settings.open = (doctype) =>
-	frappe.require("doctype_settings.bundle.js", () => {
-		onedesk.doctype_settings.adapt();
-		frappe.doctype_settings.open(doctype);
-	});
+// `tab` opens it on one of its tabs, as Workspace › Numbering opens it on Naming.
+// The doctype's meta is loaded first: opened from Workspace › Numbering, no form of it
+// has been, and the tabs ask it which apply.
+onedesk.doctype_settings.open = (doctype, tab = null) =>
+	frappe.require("doctype_settings.bundle.js", () =>
+		frappe.model.with_doctype(doctype, () => {
+			onedesk.doctype_settings.adapt();
+			const opening = frappe.doctype_settings.open(doctype);
+			opening && tab && opening.then((dialog) => dialog && dialog.activate(tab));
+		})
+	);
 
 // The dialog's Notifications tab lists the workspace's own rules on the doctype
 // and opens them in Workspace › Notifications, the one place a rule is written
@@ -34,15 +40,23 @@ onedesk.doctype_settings.open = (doctype) =>
 // (docs/DESK-COVERAGE.md). Frappe shows a tab to whoever can read its doctype, and
 // reading an Email Template is everybody's; a tab is offered here once what it
 // opens can be used, and the rail beside it is One's.
-onedesk.doctype_settings.TABS = ["general", "notifications"];
+onedesk.doctype_settings.TABS = ["notifications", "naming"];
 
 onedesk.doctype_settings.adapt = () => {
 	if (onedesk.doctype_settings.adapted) return;
 	onedesk.doctype_settings.adapted = true;
+	// General is held back: frappe's tab sets each control's value as it draws, and its
+	// onchange compares with ===, so a value that comes back as another type is saved on
+	// opening, twice, and the second meets the first as a conflict (tabs/settings_map.js).
+	// It is added outside the groups, so it is taken out by its builder.
+	delete frappe.doctype_settings.builders.general;
 	for (const group of frappe.doctype_settings.groups) {
 		for (const item of group.items) {
 			const theirs = item.condition;
-			item.condition = (doctype) => onedesk.doctype_settings.TABS.includes(item.id) && (theirs ? theirs(doctype) : true);
+			// Naming is offered on a doctype named by a series, which is all the tab
+			// below shows; frappe's asks for read on Document Naming Rule, which is not given.
+			const shown = item.id === "naming" ? (doctype) => !!frappe.meta.get_docfield(doctype, "naming_series") : theirs;
+			item.condition = (doctype) => onedesk.doctype_settings.TABS.includes(item.id) && (shown ? shown(doctype) : true);
 		}
 	}
 	// Frappe keeps the sidebar on screen for a page of the same app, and every One sidebar is
@@ -79,6 +93,115 @@ onedesk.doctype_settings.adapt = () => {
 			},
 		})
 	);
+	// The dialog's Naming tab: the doctype's series, through One's guarded doors
+	// (one/numbering.py), since frappe's calls Document Naming Settings, which is not
+	// given. The shell's table, which is frappe's EmbeddedList, and frappe's dialog. Rules
+	// (Document Naming Rule) stay the framework's.
+	frappe.doctype_settings.register("naming", (panel, doctype) => {
+		let list;
+		panel.set_view({
+			title: __("Numbering"),
+			description: __("How a new {0} is named. The first series is the one a new record starts with.", [__(doctype)]),
+			actions: [{ label: __("Add Series"), icon: "plus", click: () => onedesk.numbering.add(doctype, () => list.refresh()) }],
+			render: (p) => {
+				list = onedesk.numbering.list(p.body.empty(), doctype);
+			},
+		});
+	});
+};
+
+// ------------------------------------------------------------------ numbering
+
+frappe.provide("onedesk.numbering");
+
+onedesk.numbering.API = "onedesk.one.numbering.";
+
+onedesk.numbering.list = ($wrapper, doctype) => {
+	const esc = frappe.utils.escape_html;
+	const draw = async () => {
+		const rows = await frappe.xcall(onedesk.numbering.API + "series", { doctype });
+		$wrapper.empty();
+		onedesk.shell.table($wrapper, {
+			rows,
+			icon: "hash",
+			empty: __("{0} is not named by a series.", [__(doctype)]),
+			open: (row) => onedesk.numbering.edit(doctype, row, rows, draw),
+			columns: [
+				{
+					label: __("Series"),
+					render: (row) => esc(row.series) + (rows[0].series === row.series ? " " + frappe.ui.badge.html({ label: __("Default"), theme: "blue" }) : ""),
+				},
+				{ label: __("Next"), render: (row) => `<samp>${esc(row.next || "")}</samp>` },
+			],
+		});
+	};
+	draw();
+	return { refresh: draw };
+};
+
+onedesk.numbering.add = (doctype, done) =>
+	frappe.prompt(
+		{ fieldtype: "Data", label: __("New Series"), fieldname: "series", reqd: 1, description: __("For example {0}", ["INV-.YYYY.-.####"]) },
+		async ({ series }) => {
+			const rows = await frappe.xcall(onedesk.numbering.API + "series", { doctype });
+			await frappe.xcall(onedesk.numbering.API + "save", { doctype, options: [...rows.map((one) => one.series), series.trim()] });
+			frappe.show_alert({ message: __("Series added"), indicator: "green" });
+			done();
+		},
+		__("Add Series"),
+		__("Add")
+	);
+
+// One series: its pattern, and the number it has reached, which only goes up.
+onedesk.numbering.edit = (doctype, row, rows, done) => {
+	const dialog = new frappe.ui.Dialog({
+		title: __("Edit Series"),
+		fields: [
+			{ fieldtype: "Data", fieldname: "series", label: __("Series"), reqd: 1, default: row.series, description: __("Next: {0}", [row.next]) },
+			{
+				fieldtype: "Check",
+				fieldname: "first",
+				label: __("Default"),
+				default: rows[0].series === row.series ? 1 : 0,
+				read_only: rows[0].series === row.series ? 1 : 0,
+				description: __("A new record starts with this series."),
+			},
+			{
+				fieldtype: "Int",
+				fieldname: "current",
+				label: __("Reached"),
+				default: row.current,
+				description: __("The next name continues after this number. It can only go up."),
+			},
+			{ fieldtype: "Section Break", label: __("How a Series Is Written"), collapsible: 1 },
+			{ fieldtype: "HTML", fieldname: "help", options: frappe.ui.NamingSeriesDialog.help_html() },
+		],
+		primary_action_label: __("Update"),
+		primary_action: async ({ series, current, first }) => {
+			series = (series || "").trim();
+			let options = rows.map((one) => (one.series === row.series ? series : one.series));
+			if (first && rows[0].series !== row.series) options = [series, ...options.filter((one) => one !== series)];
+			if (options.join("\n") !== rows.map((one) => one.series).join("\n")) {
+				await frappe.xcall(onedesk.numbering.API + "save", { doctype, options });
+			}
+			if (cint(current) !== cint(row.current)) {
+				await frappe.xcall(onedesk.numbering.API + "set_current", { doctype, one: series, current: cint(current) });
+			}
+			dialog.hide();
+			frappe.show_alert({ message: __("Series updated"), indicator: "green" });
+			done();
+		},
+	});
+	// A series is deleted from its own window; the last one is refused by the server.
+	dialog.set_secondary_action_label(__("Delete"));
+	dialog.set_secondary_action(() =>
+		frappe.confirm(__("Delete series {0}?", [row.series]), async () => {
+			await frappe.xcall(onedesk.numbering.API + "save", { doctype, options: rows.map((one) => one.series).filter((one) => one !== row.series) });
+			dialog.hide();
+			done();
+		})
+	);
+	dialog.show();
 };
 
 // A list's menu carries it too. Frappe's list menu has no hook for an item, so

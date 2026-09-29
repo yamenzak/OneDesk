@@ -1401,6 +1401,33 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	// Where the workspace opens: the address One gives it, which always works,
 	// and the customer's own, each once its DNS points here (one/account.py,
 	// one_admin/domains.py). Add a Domain is the page's action.
+	// Every kind of record numbered by a series that this administrator may open, with
+	// the series a new one starts with and the name it would get. Opening one opens that
+	// record's Settings on Numbering, where its series are changed (one/numbering.py).
+	draw_numbering(data) {
+		const esc = frappe.utils.escape_html;
+		this.$content.html(`<div class="one-shell-section" data-list="numbering"></div>`);
+		onedesk.shell.table(this.$content.find('[data-list="numbering"]'), {
+			title: __("Numbering"),
+			note: __("How each kind of record is named when it is made. Open one to change its series or move its number on."),
+			rows: data.rows || [],
+			page_size: 100,
+			icon: "hash",
+			empty: __("Nothing you can open is numbered by a series."),
+			none: __("Nothing numbered is called that."),
+			open: (one) => onedesk.doctype_settings.open(one.doctype, "naming"),
+			columns: [
+				{ label: __("Kind of Record"), fieldname: "label" },
+				{
+					label: __("Series"),
+					render: (one) =>
+						esc(one.series) + (one.others ? " " + frappe.ui.badge.html({ label: __("+{0} more", [one.others]), theme: "gray" }) : ""),
+				},
+				{ label: __("Next"), render: (one) => `<samp>${esc(one.next || "")}</samp>` },
+			],
+		});
+	}
+
 	draw_domains(data) {
 		const esc = frappe.utils.escape_html;
 		const target = data.target || "";

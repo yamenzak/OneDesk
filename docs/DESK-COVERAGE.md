@@ -75,6 +75,19 @@ One's sidebar, as lists.
    write. The tab's "current value" calls `update_series_start`, which is
    `only_for("System Manager")`, so it gets a guarded door of ours or is left
    out. Workspace › Numbering lists every document's series.
+   **Done, differently.** Document Naming Settings is not granted after all:
+   its whitelisted methods run for anybody who can read it and change any
+   doctype's series. `one/numbering.py` is the door instead, guarded to a
+   doctype the workspace may change and its administrator may read, calling
+   frappe's own `update_series` and `NamingSeries`; the one thing it does not
+   do that frappe's System Managers may is move a number down. The Naming tab
+   is re-registered over it (series only; Document Naming Rule is not offered
+   yet), `layer.py` lets exactly the `naming_series` options and default
+   through from there, and Workspace › Numbering lists every kind of record
+   numbered by a series, with the real next name (frappe's preview counts
+   from one). The General tab is held back: frappe's saves a field on opening
+   (a strict `===` after `set_value`), which wrote Accounts Settings twice and
+   met itself as a conflict.
 3. **Printing.** Print Format, Letter Head and Print Settings, and the print
    format builder through a Custom Role. A standard format stays read-only
    (frappe refuses to change one outside developer mode); a workspace copies

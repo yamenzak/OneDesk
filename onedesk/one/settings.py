@@ -40,6 +40,7 @@ SECTIONS = [
 	("general", _lt("General"), "building-2", "workspace"),
 	("people", _lt("People"), "users", "workspace"),
 	("notification_types", _lt("Notifications"), "bell-ring", "workspace"),
+	("numbering", _lt("Numbering"), "hash", "workspace"),
 	("plan", _lt("Plan and Credits"), "credit-card", "workspace"),
 	("domains", _lt("Domains"), "globe", "workspace"),
 	("oneai", _lt("OneAI Actions"), "sparkles", "workspace"),
@@ -206,6 +207,7 @@ def load(
 		"intake": _intake,
 		"holidays": _holidays,
 		"notification_types": _notification_types,
+		"numbering": _numbering,
 	}
 	if section not in loaders:
 		frappe.throw(_("There is no such section."))
@@ -1535,6 +1537,16 @@ def _save_holidays(record: str | None, values: dict) -> str:
 	if said:
 		holidays.told("; ".join(said), doc.name)
 	return doc.name
+
+
+# ------------------------------------------------------------------ numbering
+
+
+def _numbering() -> dict:
+	"""Every kind of record the administrator may renumber (one/numbering.py)."""
+	from onedesk.one import numbering
+
+	return {"rows": numbering.doctypes()}
 
 
 # ------------------------------------------------------------------ notifications

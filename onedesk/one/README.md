@@ -454,6 +454,27 @@ Their text is frappe's, so they have nothing to change here.
   suggests the rule.
 - **How do notifications work?** From this page.
 
+### Numbering, for the Workspace
+
+How each kind of record is named when it is made: an invoice
+`ACC-SINV-2026-00006`, a customer `CUST-2026-00001`. The list shows every kind
+of record numbered by a series that you can open, the series a new one starts
+with, and the exact name the next one will get. Opening one opens that kind of
+record's **Settings** on **Numbering** (see A Form's Settings), where its series
+are added, changed, made the default or deleted, and a series is moved on.
+
+A series is written in frappe's own way (`.YYYY.` the year, `.MM.` the month,
+`####` the number and how many digits it has); **How a Series Is Written** in
+the edit window says it all. A series another kind of record already uses is
+refused, so two kinds never share numbers. A series' number can be moved up,
+to start a new year at 1000, say, but never down: a lower number would repeat
+a name already used. Each move is kept in the record's history.
+
+Only administrators of the workspace see this, and only for the kinds of
+record they can open. The framework's own kinds of record and One's have no
+numbering here. Naming rules by condition (frappe's Document Naming Rule) are
+not offered yet.
+
 ### Plan and Credits, for the Workspace
 
 Under **Workspace**, **Plan and Credits** is the workspace's account: its
@@ -728,14 +749,19 @@ workspace has set up for that kind of record, for an administrator of this
 workspace. It is the framework's own Settings window; One only opens it.
 Each part appears once the workspace may use it:
 
+- **Numbering**: the series a new record of this kind is named by, the first
+  being the one it starts with, and the name the next one gets. **Add
+  Series**, or open one to change it or move its number on; a number only
+  goes up, since going down would repeat a name already used. A series
+  another kind of record uses is refused. **Workspace › Numbering** lists
+  every kind of record numbered by a series that you can open, and opens
+  each here.
 - **Notifications**: the workspace's own rules on this kind of record. Open
   one, or **New Rule**, and it is written in Workspace › Notifications,
   already set to this kind of record.
-- **General**: the settings from elsewhere that apply to this kind of record,
-  where the workspace may change them.
 
-Numbering, Print Formats, Email Templates and Workflows join it as they are
-opened to workspaces. The framework's own and One's own records have none, as
+Print Formats, Email Templates and Workflows join it as they are opened to
+workspaces. The framework's own and One's own records have none, as
 they have no Customize.
 
 ## Asking OneAI

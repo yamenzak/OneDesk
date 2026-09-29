@@ -208,6 +208,9 @@ No doctypes yet.
 * `onedesk.one.home.suggestions_waiting`
 * `onedesk.one.home.tasks_due`
 * `onedesk.one.invite.accept`
+* `onedesk.one.numbering.save`
+* `onedesk.one.numbering.series`
+* `onedesk.one.numbering.set_current`
 * `onedesk.one.push.devices`
 * `onedesk.one.push.forget`
 * `onedesk.one.push.register`
