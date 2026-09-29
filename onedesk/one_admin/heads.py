@@ -37,13 +37,15 @@ JOB = {
 	"Failed": ("red", _lt("Failed")),
 }
 
+#: A signup's state, as its list says it too (account_request_list.js).
 REQUEST = {
 	"New": ("grey", _lt("Not paid")),
 	"Paying": ("orange", _lt("At checkout")),
 	"Paid": ("orange", _lt("Paid, not built")),
-	"Provisioning": ("blue", _lt("Being set up")),
-	"Done": ("green", _lt("Done")),
-	"Failed": ("red", _lt("Failed")),
+	"Provisioning": ("blue", _lt("Being built")),
+	"Done": ("green", _lt("Built")),
+	"Failed": ("red", _lt("Paid, build failed")),
+	"Abandoned": ("grey", _lt("Abandoned")),
 }
 
 #: A domain's state in the customer's own words (settings.js says the same).
@@ -272,16 +274,27 @@ def request_said(doc):
 		return None
 	if doc.status == "Failed":
 		return {
-			"text": _("Failed: {0}").format(doc.failed_reason)
+			"text": _("Paid, and making the workspace stopped: {0}").format(doc.failed_reason)
 			if doc.get("failed_reason")
-			else _("Failed before the workspace was created."),
+			else _("Paid, and making the workspace stopped before it was created."),
 			"colour": "red",
 		}
 	if doc.status == "Paid" and not doc.get("tenant"):
 		return {"text": _("Paid, and no workspace was created. Build it."), "colour": "orange"}
 	if doc.status == "Provisioning":
-		return {"text": _("The workspace is being set up. Its job has the detail."), "colour": "blue"}
+		return {"text": _("The workspace is being built. Its job has the detail."), "colour": "blue"}
+	if doc.status == "Abandoned":
+		return {
+			"text": _("Not paid within {0} days, so its name is free again.").format(signup_days()),
+			"colour": "grey",
+		}
 	return None
+
+
+def signup_days() -> int:
+	from onedesk.one_admin.signup import ABANDONED_DAYS
+
+	return ABANDONED_DAYS
 
 
 # ------------------------------------------------------------------ a domain

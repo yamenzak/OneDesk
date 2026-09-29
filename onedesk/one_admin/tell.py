@@ -98,6 +98,24 @@ def signup_not_built(asked, error: str) -> None:
 		email=asked.email,
 		error=(error or "")[:300],
 	)
+	# They paid: they hear it is delayed rather than nothing. Once, since
+	# Build Workspace failing again is not news to them.
+	if asked.email and not _told_delayed(asked):
+		notify.mail(
+			"Workspace Delayed",
+			asked.email,
+			workspace=asked.workspace_name or asked.slug,
+			reference_doctype="Account Request",
+			reference_name=asked.name,
+		)
+
+
+def _told_delayed(asked) -> bool:
+	return bool(
+		frappe.db.exists(
+			"Email Queue", {"reference_doctype": "Account Request", "reference_name": asked.name}
+		)
+	)
 
 
 @_quietly

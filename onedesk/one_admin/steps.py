@@ -241,8 +241,9 @@ def invite_owner(job, tenant) -> str | None:
 def live(job, tenant) -> None:
 	tenant.db_set({"status": "Live", "live_on": now_datetime(), "status_since": now_datetime()}, notify=True)
 	# The owner hears it is ready; their invitation left a step ago.
-	from onedesk.one_admin import tell
+	from onedesk.one_admin import signup, tell
 
+	signup.built(tenant)
 	tell.ready(tenant)
 
 

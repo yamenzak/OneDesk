@@ -388,7 +388,7 @@ def test_the_owner_is_mailed_as_their_workspace_falls_and_comes_back():
 	for name in ("Workspace Suspended", "Workspace Archived", "Workspace Restored"):
 		assert f'notify.mail("{name}"' in tell, name
 	types = (ADMIN / "notifications.py").read_text()
-	assert types.count('"outside": True') == 4, "Ready, Suspended, Archived, Restored"
+	assert types.count('"outside": True') == 5, "Ready, Suspended, Archived, Restored, Delayed"
 
 
 def test_a_workspace_is_read_by_operators_only_and_never_shared():
@@ -544,3 +544,29 @@ def test_plan_calculator_quotes_as_the_customer_is_quoted():
 	assert "def plan_quote(" in ai and "if not _operator():" in ai.split("def plan_quote(")[1]
 	assert '"onedesk.one_admin.ai.plan_quote"' in (tree.APP / "hooks.py").read_text()
 	assert "## Plan Calculator" in (ADMIN / "README.md").read_text()
+
+
+def test_a_signup_moves_on_its_own_and_lets_an_unpaid_name_go():
+	"""Paid on payment, Done when its workspace goes live, Abandoned nightly;
+	the list and the head say its state in the same words; the customer is
+	told once when it cannot be built."""
+	import re
+
+	signup = (ADMIN / "signup.py").read_text()
+	assert '"Abandoned"' not in signup.split("HOLDING =")[1].split("\n")[0]
+	assert 'db_set("status", "Paid"' in signup and "def built(" in signup and "def abandon(" in signup
+	assert "signup.built(tenant)" in (ADMIN / "steps.py").read_text()
+	assert '"onedesk.one_admin.signup.abandon"' in (tree.APP / "hooks.py").read_text()
+	heads = (ADMIN / "heads.py").read_text().split("REQUEST = {")[1].split("}")[0]
+	listed = (ADMIN / "doctype" / "account_request" / "account_request_list.js").read_text()
+	head_words = dict(re.findall(r'"(\w+)": \("\w+", _lt\("([^"]+)"\)\)', heads))
+	list_words = dict(re.findall(r'(\w+): \["\w+", __\("([^"]+)"\)\]', listed))
+	assert head_words == list_words and "Abandoned" in head_words
+	assert "hide_name_column: true" in listed
+	assert '"Workspace Delayed"' in (ADMIN / "tell.py").read_text()
+	request = json.loads((ADMIN / "doctype" / "account_request" / "account_request.json").read_text())
+	assert not request["permissions"][0]["share"]
+	ai = (ADMIN / "ai.py").read_text()
+	assert '"expects": "signup_facts"' in ai and "if not _operator():" in ai.split("def signup_facts(")[1]
+	assert '"onedesk.one_admin.ai.signup_facts"' in (tree.APP / "hooks.py").read_text()
+	assert "## Signups" in (ADMIN / "README.md").read_text()

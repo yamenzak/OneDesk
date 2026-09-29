@@ -139,8 +139,10 @@ scheduler_events = {
 		"onedesk.one_admin.storage.nightly",
 		# A site whose move to a bigger Frappe Cloud plan did not go through.
 		"onedesk.one_admin.quota.nightly",
-		# Deals whose checkout nobody finished, and paid invoices not yet booked.
+		# Deals whose checkout nobody finished and their signups, and paid
+		# invoices not yet booked.
 		"onedesk.one_admin.sales.abandoned",
+		"onedesk.one_admin.signup.abandon",
 		"onedesk.one_admin.books.catch_up",
 		"onedesk.one_hr.healing.nightly",
 		# The sound of old interview recordings; their transcripts stay.
@@ -771,6 +773,7 @@ one_ai_reads = [
 	"onedesk.one_admin.ai.console_today",
 	"onedesk.one_admin.ai.workspace_facts",
 	"onedesk.one_admin.ai.job_facts",
+	"onedesk.one_admin.ai.signup_facts",
 	"onedesk.one_admin.ai.domain_facts",
 	"onedesk.one_admin.ai.price_list",
 	"onedesk.one_admin.ai.price_check",

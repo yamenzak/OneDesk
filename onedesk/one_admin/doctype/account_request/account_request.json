@@ -39,7 +39,7 @@
   {
    "fieldname": "workspace_name",
    "fieldtype": "Data",
-   "label": "Workspace",
+   "label": "Workspace Name",
    "reqd": 1,
    "read_only": 1,
    "in_list_view": 1
@@ -51,21 +51,22 @@
   {
    "fieldname": "slug",
    "fieldtype": "Data",
-   "label": "Slug",
+   "label": "Address",
    "reqd": 1,
-   "read_only": 1
+   "read_only": 1,
+   "description": "What the workspace's address starts with."
   },
   {
    "default": "New",
-   "description": "A workspace is only created after payment is confirmed.",
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "New\nPaying\nPaid\nProvisioning\nDone\nFailed",
+   "options": "New\nPaying\nPaid\nProvisioning\nDone\nFailed\nAbandoned",
    "reqd": 1,
    "read_only": 1,
    "in_list_view": 1,
-   "in_standard_filter": 1
+   "in_standard_filter": 1,
+   "depends_on": "eval:doc.__islocal"
   },
   {
    "fieldname": "wants_section",
@@ -75,7 +76,7 @@
   {
    "fieldname": "offering",
    "fieldtype": "Link",
-   "label": "Offering",
+   "label": "Plan",
    "options": "Offering",
    "reqd": 1,
    "read_only": 1,
@@ -109,12 +110,13 @@
   },
   {
    "fieldname": "outcome_section",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Outcome"
   },
   {
    "fieldname": "tenant",
    "fieldtype": "Link",
-   "label": "Tenant",
+   "label": "Workspace",
    "options": "Tenant",
    "read_only": 1
   },
@@ -126,13 +128,15 @@
    "fieldname": "failed_reason",
    "fieldtype": "Small Text",
    "label": "Failure Reason",
-   "read_only": 1
+   "read_only": 1,
+   "hidden": 1
   },
   {
    "fieldname": "stripe_session",
    "fieldtype": "Data",
    "label": "Stripe Session",
-   "read_only": 1
+   "read_only": 1,
+   "hidden": 1
   },
   {
    "fieldname": "deal",
@@ -151,7 +155,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-28 10:00:00.000000",
+ "modified": "2026-09-29 12:00:00.000000",
  "modified_by": "Administrator",
  "name": "Account Request",
  "module": "One Admin",
@@ -166,7 +170,7 @@
    "read": 1,
    "report": 1,
    "role": "One Operator",
-   "share": 1,
+   "share": 0,
    "write": 0,
    "delete": 0
   }
@@ -176,5 +180,6 @@
  "sort_order": "DESC",
  "states": [],
  "track_changes": 1,
- "description": "A signup from the public sign-up page."
+ "description": "A signup from the public sign-up page.",
+ "hide_name_column": null
 }

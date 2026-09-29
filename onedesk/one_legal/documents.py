@@ -140,7 +140,8 @@ DOCUMENTS = {
 		# 6: OneCalendar's guests are kept as contacts and mailed, and the
 		#    Google Calendar connection.
 		# 7: OneAI reads an organisation's account for the people who run One.
-		"revision": 7,
+		# 8: what the signup page keeps, and that it becomes a lead of ours.
+		"revision": 8,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {

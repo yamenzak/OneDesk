@@ -22,6 +22,10 @@ from onedesk.one_admin import keys, runner, site
 #: name go; one being paid for does not.
 HOLDING = ("New", "Paying", "Paid", "Provisioning", "Done")
 
+#: Days a request may sit unpaid before it is Abandoned and its name is free
+#: again. The same days sales.abandoned loses its deal after.
+ABANDONED_DAYS = 7
+
 
 def tidy_slug(raw: str) -> str:
 	try:
@@ -70,17 +74,63 @@ def accept(request: str) -> str:
 	# Money was taken: the operator is told, and told again if it is not built.
 	from onedesk.one_admin import tell
 
-	tell.signup_paid(asked)
+	was = asked.status
+	if was in ("New", "Paying", "Abandoned"):
+		asked.db_set("status", "Paid", notify=True)
+		tell.signup_paid(asked)
 	try:
+		if was == "Abandoned":
+			# Paid after its name was let go: somebody else may have it now,
+			# and _tenant_for would hand them this customer's money.
+			_still_free(asked)
 		tenant = _tenant_for(asked)
 	except Exception as raised:
-		asked.db_set({"status": "Failed", "failed_reason": str(raised)[:500]})
+		asked.db_set({"status": "Failed", "failed_reason": str(raised)[:500]}, notify=True)
 		tell.signup_not_built(asked, str(raised))
 		raise
 
-	asked.db_set({"tenant": tenant, "status": "Provisioning", "failed_reason": None})
+	asked.db_set({"tenant": tenant, "status": "Provisioning", "failed_reason": None}, notify=True)
 	runner.start(tenant)
 	return tenant
+
+
+def _still_free(asked) -> None:
+	if frappe.db.exists("Tenant", asked.slug) or frappe.db.exists(
+		"Account Request", {"slug": asked.slug, "status": ["in", HOLDING], "name": ["!=", asked.name]}
+	):
+		frappe.throw(
+			frappe._("{0} was taken by somebody else after this signup was abandoned.").format(asked.slug)
+		)
+
+
+def built(tenant) -> None:
+	"""The workspace a signup paid for is live (steps.live)."""
+	for name in frappe.get_all(
+		"Account Request",
+		filters={"tenant": tenant.name, "status": ["in", ["Paid", "Provisioning", "Failed"]]},
+		pluck="name",
+	):
+		frappe.get_doc("Account Request", name).db_set({"status": "Done", "failed_reason": None}, notify=True)
+
+
+def abandon() -> None:
+	"""Nightly: a request nobody paid for in a week is Abandoned, which lets
+	its name go. A payment that still arrives is taken (accept)."""
+	if not site.is_admin():
+		return
+	from frappe.utils import add_days, now_datetime
+
+	for name in frappe.get_all(
+		"Account Request",
+		filters={
+			"status": ["in", ["New", "Paying"]],
+			"tenant": ["is", "not set"],
+			"creation": ["<", add_days(now_datetime(), -ABANDONED_DAYS)],
+		},
+		pluck="name",
+	):
+		frappe.db.set_value("Account Request", name, "status", "Abandoned", update_modified=False)
+	frappe.db.commit()
 
 
 def _tenant_for(asked) -> str:

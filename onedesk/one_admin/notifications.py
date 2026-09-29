@@ -30,9 +30,26 @@ TYPES = [
 		"about": _lt("When somebody has paid for a workspace and it could not be made."),
 		"to": _lt("The operators"),
 		"subject": _lt("{workspace} paid and has no workspace"),
-		"message": _lt("{email}<br>{error}"),
+		"message": _lt(
+			"{email} paid, and making their workspace stopped because: {error}<br><br>Build Workspace on the "
+			"signup tries again. They have been told it is delayed."
+		),
 		"email_default": True,
 		"push_default": True,
+	},
+	{
+		"name": _lt("Workspace Delayed"),
+		"app": "OneAdmin",
+		"roles": ("One Operator",),
+		"about": _lt("When somebody has paid for a workspace and it could not be made yet."),
+		"to": _lt("The person who signed up"),
+		"subject": _lt("{workspace} is delayed"),
+		"message": _lt(
+			"We have your payment for {workspace}. Setting it up hit a problem on our side, and we are on it."
+			"<br><br>We will write again when it is ready. You do not need to do anything. If you have a "
+			"question, reply to this mail."
+		),
+		"outside": True,
 	},
 	{
 		"name": _lt("New Signup"),

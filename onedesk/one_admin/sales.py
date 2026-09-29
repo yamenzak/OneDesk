@@ -26,7 +26,7 @@ from frappe.utils import add_days, flt, now_datetime
 from onedesk.one_admin import site
 
 #: How long a checkout waits before its deal is lost.
-ABANDONED_DAYS = 7
+ABANDONED_DAYS = 7  # signup.ABANDONED_DAYS
 
 #: Where a signup's deal waits between leaving for Stripe and paying.
 CHECKOUT = "Checkout"

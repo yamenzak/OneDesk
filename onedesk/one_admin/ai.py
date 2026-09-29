@@ -112,6 +112,19 @@ SUGGESTIONS = {
 			"expects": "job_facts",
 		},
 	],
+	"Account Request": [
+		{
+			"label": _lt("Why wasn't this built?"),
+			"ask": _lt(
+				"Why wasn't this signup's workspace built? Say what stopped it in plain words, whether Build "
+				"Workspace is likely to work now, and what to do if it is not."
+			),
+			"can": "read",
+			"view": "Form",
+			"when": {"status": ["Failed", "Paid"]},
+			"expects": "signup_facts",
+		},
+	],
 }
 
 
@@ -245,6 +258,54 @@ def job_facts(
 		"last_moved": str(held.modified),
 		"gives_up_after": runner.GIVE_UP_AFTER,
 	}
+
+
+def signup_facts(
+	signup: Annotated[str, "The signup's id, as the page names it, such as REQ-26-00015."],
+) -> dict:
+	"""For an operator of One only: one signup. Who asked for which workspace
+	on which plan, where it stands in words, why making it stopped, whether
+	its name is still free for Build Workspace, what Stripe told us of its
+	payment, and its workspace and last job if it has one."""
+	if not _operator():
+		return {"error": "Only an operator of One, on the admin site, sees a signup."}
+	if not frappe.db.exists("Account Request", signup):
+		return {"error": f"There is no signup {signup}. Ask which one they meant."}
+	from onedesk.one_admin import heads
+
+	held = frappe.get_doc("Account Request", signup)
+	taken = frappe.db.exists("Tenant", held.slug) and held.tenant != held.slug
+	said = {
+		"signup": held.name,
+		"email": held.email,
+		"workspace_name": held.workspace_name,
+		"address": held.slug,
+		"plan": frappe.db.get_value("Offering", held.offering, "label") or held.offering,
+		"status": str(heads.REQUEST.get(held.status, (None, held.status))[1]),
+		"why_it_stopped": held.failed_reason,
+		"asked_on": str(held.creation),
+		"name_taken_by_another_workspace": bool(taken),
+		"build_workspace_offered": not held.tenant and held.status in ("Paid", "Failed"),
+		"stripe": frappe.get_all(
+			"Stripe Webhook Event",
+			filters={"request": held.name},
+			fields=["kind", "handled", "error", "creation"],
+			order_by="creation asc",
+		),
+	}
+	if held.tenant:
+		said["workspace"] = {
+			"id": held.tenant,
+			"status": frappe.db.get_value("Tenant", held.tenant, "status"),
+			"last_job": frappe.db.get_value(
+				"Provisioning Job",
+				{"tenant": held.tenant},
+				["name", "status", "step", "error"],
+				as_dict=True,
+				order_by="creation desc",
+			),
+		}
+	return said
 
 
 def domain_facts(

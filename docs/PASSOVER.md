@@ -3297,6 +3297,36 @@ three never paid.
    already a subprocessor.
 9. **Built from frappe**: a list, a form and a Record Head. Holds.
 
+Your word: all of them.
+
+Done:
+
+- **A signup moves on its own now.** A payment sets **Paid**, making the
+  workspace sets **Being built**, and the workspace going live sets
+  **Built** (`signup.built` from `steps.live`). A signup not paid for in
+  seven days is **Abandoned** each night (`signup.abandon`), and its name
+  is free again. If they pay after all it is still built, unless the name
+  was taken in the meantime, in which case it fails and says so.
+  `patches/signup_states.py` mended the rows there were: acmeco and Dup
+  Ltd are Built, gone2 is Abandoned.
+- The list and the head say a state in the same words (Not paid, At
+  checkout, Paid, not built, Being built, Built, Paid, build failed,
+  Abandoned), and the Status field is off the form.
+- **Workspace Delayed** is mailed to the person who paid, once, when their
+  workspace cannot be made. **Signup Not Built** says why it stopped and
+  that Build Workspace tries again.
+- OneAI: **Why wasn't this built?** on a paid, unbuilt signup, with
+  `signup_facts` (operator-only).
+- List: no ID column or filter; **Plan**. Form: **Workspace Name**,
+  **Address**, **Workspace**; the failure only in the head; the last
+  section is **Outcome**; the Stripe session is **Open in Stripe** in the
+  menu; Share off; Connections to the workspace, our lead and deal, and
+  Stripe's events.
+- README: a **Signups** section, the new mail under Being told, and an
+  Under the hood line.
+- Legal: a privacy clause on what the signup page keeps and that it
+  becomes a lead of ours; the Privacy Policy is revision 8.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

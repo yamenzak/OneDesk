@@ -196,6 +196,34 @@ Only an operator of One sees it, and it changes nothing. On the report,
 OneAI answers **What should they buy?**, for needs said in words or a
 workspace by name.
 
+## Signups
+
+**Signups** are the people who asked for a workspace on the signup page,
+before and after they paid. Nobody types one in: the page writes it, and
+Stripe's word that the payment went through builds the workspace. Each says
+where it stands:
+
+- **Not paid**: they filled in the page and never paid. **At checkout**:
+  they are, or were, at Stripe.
+- **Paid, not built**: the money arrived and the workspace was not made.
+  **Paid, build failed**: making it stopped, and the red line on the
+  signup says why.
+- **Being built**: its workspace's job is running (the workspace has the
+  job). **Built**: the workspace went live.
+- **Abandoned**: not paid within seven days, so the name they asked for is
+  free for somebody else. If they pay after all, the workspace is still
+  built, unless the name was taken in the meantime.
+
+A paid signup with no workspace is the worst state there is, so it is on
+Home under Needs You, and **Build Workspace** on it tries again. Look at why
+it stopped first: a name taken since, or a Frappe Cloud refusal, will stop it
+again. Its **Workspace** is linked once there is one, with **Open
+Workspace**; **Open in Stripe** in the menu finds its payment; and our own
+lead and deal for it are under Outcome.
+
+Only an operator of One sees signups, and nobody edits them. On one that was
+paid and not built, OneAI answers **Why wasn't this built?**.
+
 ## Domains
 
 **Domains** lists every name customers have put on their workspaces, such
@@ -251,14 +279,16 @@ beside its changes, and a job lists what it wrote.
 Operators are told without opening Home:
 
 - **Job Failed**: a job stopped on a step, with the step and the error.
-- **Signup Not Built**: somebody paid and their workspace could not be made.
+- **Signup Not Built**: somebody paid and their workspace could not be made,
+  with why it stopped.
 - **New Signup**: somebody paid for a new workspace.
 - **Workspace Owing**: a workspace fell overdue, or was suspended.
 - **Domains Waiting**: each morning, the domains that have waited a day or
   stopped working.
 
-The workspace's owner is mailed **Workspace Ready** when it is built (see
-Jobs), and **Workspace Suspended**, **Workspace Archived** and **Workspace
+The person who signed up is mailed **Workspace Delayed** once if it could not
+be made, so a payment is never followed by silence. The workspace's owner is
+mailed **Workspace Ready** when it is built (see Jobs), and **Workspace Suspended**, **Workspace Archived** and **Workspace
 Restored** (see Workspaces).
 
 Each can be turned off or changed under **Settings › Notifications**, and
@@ -274,7 +304,8 @@ is this job waiting?** says what it is waiting for. On a domain that does not
 work, **Why isn't this domain working?** says what the customer has to change.
 On the price list, **How do our plans compare?**, and on a plan or add-on,
 **Who has this?**. On Price Check, **What should we change?**, and on Plan
-Calculator, **What should they buy?**. On a workspace, **How is
+Calculator, **What should they buy?**. On a signup paid and not built,
+**Why wasn't this built?**. On a workspace, **How is
 this workspace doing?** reads its standing, plan, storage, credits, domains,
 last jobs and log, and says whether anything is wrong.
 
@@ -327,6 +358,11 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   says them in the reader's language, and `offerings.warn` says them on
   saving an offering or the costs. `home._mispriced` is the Wrong ones.
   OneAI's suggestions reach a report as `report:<name>` (`one_ai/suggest.py`).
+- **Signups** (`signup.py`): `accept` is what a payment calls; it sets
+  Paid, then Provisioning, and never unwinds. `built` sets Done from
+  `steps.live`; `abandon` is nightly; `tell.signup_not_built` mails the
+  operators and, once, the customer. `patches/signup_states.py` mended the
+  rows from before. `ai.signup_facts` is a signup for OneAI.
 - **Plan Calculator** (`report/plan_calculator`): `quote` is `plans.quote`
   over the add-ons, as `billing.quote` is for the customer, with what each
   way costs us; `needs_of` is a workspace's needs now. `ai.plan_quote` reads
