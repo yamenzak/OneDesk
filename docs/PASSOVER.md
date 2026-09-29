@@ -3327,6 +3327,77 @@ Done:
 - Legal: a privacy clause on what the signup page keeps and that it
   becomes a lead of ours; the Privacy Policy is revision 8.
 
+### OneAdmin › Credits
+
+Credits is the `Credit Ledger Entry` list: every movement of every
+workspace's OneAI credits, one submitted row each, never edited. A **Grant**
+adds (a plan's monthly credits, a pack bought, or an operator's **Give
+Credits** on a workspace) and may expire; a **Spend** is one AI call, drawn
+from a grant; a **Refund** gives an over-charge back. A balance is a sum of
+the rows (`ledger.py`). On the dev site: 459 rows, of which 456 are spends
+of about one credit each by Nine X.
+
+1. **Notifications**: the customer's administrators are told on their own
+   site: **Credits Running Low**, **Credits Expiring**, **Credits Added**
+   (`one/account.py`). Two gaps:
+   - An operator's **Give Credits** reaches them only as "OneAI credits
+     were added. The workspace now has 3,200." The note the operator had to
+     write ("sorry for the outage on the 12th") never reaches them, and
+     Credits Added's own description says it is for packs and the plan.
+     Recommended: the note travels with the grant (`proxy.hello`), and
+     Credits Added says it when there is one.
+   - Operators are told nothing, and need not be. Holds.
+2. **OneAI**: nothing but "What stands out here?". The question here is a
+   customer's: "where did our credits go?". Recommended: **Where did the
+   credits go?** on an entry, and a reader, `credit_facts` (operator-only:
+   the workspace's balance and held, each grant with what is left of it
+   and until when, this month's spend by model, and the last grants with
+   their notes).
+3. **Intake**: nothing OneIntake reads lands here, and nothing should.
+   Holds.
+4. **Permissions**: One Operator reads; nobody writes, submits or cancels,
+   and grants come only through Give Credits. Two gaps:
+   - **A wrong grant cannot be undone.** Give 5,000 instead of 500 and the
+     only way back is the database. Recommended: **Take Back** on an
+     operator's grant, which writes a Spend of what is left of it (source
+     Operator, with a note), so the ledger stays append-only.
+   - **Share** is on, as it was on the other operator records.
+     Recommended: off.
+5. **Cross-module**:
+   - A spend's **Note** is the model's id ("workers-ai:@cf/google/gemma-4…")
+     and its **Reference** a run on the customer's site. Recommended: a
+     spend shows **Model**, linked to OneAI's Models, and says what ran.
+   - A plan grant's Reference is the plan's key ("starter"). Recommended:
+     it links the plan; a purchase's Stripe session is **Open in Stripe**.
+6. **UI and UX**:
+   - a. **The list is 456 spends of about one credit.** The rows an
+     operator comes here for, grants and refunds, are lost among them, and
+     the spends are what AI Usage already sums. Recommended: the list
+     opens on grants and refunds, with spends one filter away, and each
+     workspace's balance stays on the workspace, where it is.
+   - b. The list shows the **ID** column (CR-26-001204) and ID filter, and
+     every credit to six places ("-1.047600"). Recommended: the workspace
+     leads each row as on the other lists, and credits show two places.
+     The **Kind** column repeats the indicator.
+   - c. **A grant does not say what is left of it.** CR-26-000053 is 5,000
+     credits expiring on 30 September, and nothing says 4,640 of them are
+     still there. Recommended: a Record Head sentence ("4,640 of 5,000
+     left, until 30 Sep") and, on a spend, which grant it came from.
+   - d. The form shows **Drawn From** and an empty **Grant** field on a
+     grant, which is drawn from nothing, and the rows a caller wrote say
+     "Created by Guest". Recommended: Drawn From only on a spend or a
+     refund; the gateway writes as Administrator.
+7. **Documented**: the README mentions Give Credits and the Credit Ledger
+   on a workspace, but has no section saying what an entry is, what the
+   kinds mean, or how a balance is made. Recommended: a **Credits**
+   section.
+8. **Legal**: the Terms say a plan's credits expire at the month's end and
+   bought ones never do, but nothing about credits we give by hand, which
+   may carry any expiry. Recommended: a sentence in the Terms' credits
+   section (credits we give may expire on the date we say when we give
+   them).
+9. **Built from frappe**: a submittable doctype, its list and form. Holds.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
