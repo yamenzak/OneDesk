@@ -2946,6 +2946,39 @@ one, `nine.example.com`, working, for Nine Ltd.
    reached through. Holds.
 9. **Built from frappe**: frappe's list, form and Record Head. Holds.
 
+Your word: all of them.
+
+Done:
+
+- **Cloudflare, not Frappe Cloud**: every sentence about a domain is
+  rewritten for Cloudflare, and the In Progress state that no longer exists
+  is gone from the list and the head. A test refuses "Frappe Cloud" there.
+- **One set of words**, the customer's: Working, Waiting, Not working (and
+  Not at Cloudflare for a name Cloudflare has lost), on the list, the pill
+  and OneAI. The Status field, which said Pending and Active, is not shown
+  on the form; the pill says it.
+- **The head says what it needs**: "Waiting for the customer's DNS. It
+  needs a CNAME record from crm.acme.com to acme.t.4dl.app. Waiting since
+  27 Sep 2026. Cloudflare says: …". A working name says whether it is the
+  workspace's main address.
+- **Main address**: `is_main` on each domain, kept by `make_primary`
+  (`patches/domain_is_main.py` set it from each workspace), a Main badge in
+  the list.
+- **The list**: Domain, Status, Workspace (by name), Main, and
+  Cloudflare's problem on the row. No ID column or filter.
+- **Check Again**, as Home and the customer say it.
+- **Live**: each answer from Cloudflare is published to an open domain.
+- **OneAI**: **Why isn't this domain working?** on a domain waiting, not
+  working or lost, reading `domain_facts` (status, problem, the CNAME
+  target, main, since when); operator-only. No model was called.
+- **The form**: no star, no Share; Cloudflare's id and last answer are
+  folded under Cloudflare.
+- **README**: a Domains section, including why an operator cannot add or
+  remove a customer's name.
+- For looking at it, the dev site has a waiting domain now
+  (`crm.acme.test` on Acme Co), and Nine Ltd's `nine.example.com` is its
+  main address.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

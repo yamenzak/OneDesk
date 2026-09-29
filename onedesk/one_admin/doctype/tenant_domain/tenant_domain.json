@@ -9,12 +9,13 @@
  "field_order": [
   "domain",
   "tenant",
+  "is_main",
   "column_break_who",
   "status",
   "asked_on",
-  "cloudflare_id",
   "problem",
   "said_section",
+  "cloudflare_id",
   "said"
  ],
  "fields": [
@@ -24,16 +25,25 @@
    "label": "Domain",
    "reqd": 1,
    "unique": 1,
-   "read_only": 1
+   "read_only": 1,
+   "in_list_view": 0
   },
   {
    "fieldname": "tenant",
    "fieldtype": "Link",
    "label": "Workspace",
    "options": "Tenant",
-   "reqd": 1,
    "read_only": 1,
-   "in_list_view": 1
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "is_main",
+   "fieldtype": "Check",
+   "label": "Main Address",
+   "read_only": 1,
+   "in_list_view": 1,
+   "description": "The address the workspace calls itself, in links and in mail. The customer chooses it."
   },
   {
    "fieldname": "column_break_who",
@@ -45,7 +55,7 @@
    "fieldtype": "Select",
    "label": "Status",
    "options": "Pending\nActive\nBroken\nGone",
-   "description": "As Cloudflare reports it.",
+   "description": "As Cloudflare reports it, checked each night until it works.",
    "read_only": 1,
    "in_list_view": 1,
    "in_standard_filter": 1
@@ -57,36 +67,38 @@
    "read_only": 1
   },
   {
-   "fieldname": "cloudflare_id",
-   "fieldtype": "Data",
-   "label": "Custom Hostname ID",
-   "read_only": 1,
-   "description": "Cloudflare's id for this custom hostname."
-  },
-  {
    "fieldname": "problem",
    "fieldtype": "Small Text",
    "label": "Problem",
    "read_only": 1,
-   "description": "What Cloudflare says is stopping the domain, in its words."
+   "description": "What Cloudflare says is stopping the domain, in its words.",
+   "in_list_view": 1,
+   "depends_on": "eval:doc.problem"
   },
   {
    "fieldname": "said_section",
    "fieldtype": "Section Break",
-   "label": "Response"
+   "label": "Cloudflare",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "cloudflare_id",
+   "fieldtype": "Data",
+   "label": "Custom Hostname ID",
+   "read_only": 1
   },
   {
    "fieldname": "said",
    "fieldtype": "Code",
-   "label": "Last Response",
+   "label": "Last Answer",
    "options": "JSON",
    "read_only": 1,
-   "description": "Cloudflare's last answer about this custom hostname, unmodified."
+   "description": "Cloudflare's last answer about this name, as it gave it."
   }
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-22 12:00:00.000000",
+ "modified": "2026-09-29 15:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Tenant Domain",
@@ -101,7 +113,7 @@
    "read": 1,
    "report": 1,
    "role": "One Operator",
-   "share": 1,
+   "share": 0,
    "write": 0
   }
  ],
@@ -109,5 +121,6 @@
  "sort_order": "DESC",
  "states": [],
  "track_changes": 1,
- "description": "A custom domain on a workspace. Created when the workspace requests one."
+ "description": "A custom domain on a workspace. Created when the workspace requests one.",
+ "title_field": "domain"
 }

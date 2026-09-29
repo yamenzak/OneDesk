@@ -114,7 +114,7 @@ def measure(tenant: str) -> dict:
 
 @frappe.whitelist()
 def refresh_domains(tenant: str) -> list:
-	"""Ask press where each of this workspace's domains got to."""
+	"""Ask Cloudflare where each of this workspace's domains has got to."""
 	_may()
 	from onedesk.one_admin import domains
 
@@ -220,10 +220,10 @@ def retry_signup(request: str) -> dict:
 
 @frappe.whitelist()
 def refresh_domain(domain: str) -> dict:
-	"""Ask Frappe Cloud what it makes of this domain now.
+	"""Ask Cloudflare where this domain has got to, now.
 
-	A domain sits on Pending until somebody points the DNS, and nothing tells
-	us when they do. The workspace has the same button; this is the one for
+	A domain waits until somebody points the DNS, and nothing tells us when
+	they do; Cloudflare keeps checking, and this asks it what it found. The workspace has the same button; this is the one for
 	whoever is on the phone to them.
 	"""
 	_may()

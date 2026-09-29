@@ -116,6 +116,32 @@ owner** step: the new site makes whoever paid its first administrator and
 emails them a link to choose their password, good for a week. When the job
 finishes they are emailed **Workspace Ready**, with its address.
 
+## Domains
+
+**Domains** lists every name customers have put on their workspaces, such
+as `crm.acme.com`: the workspace, whether it is **Working**, **Waiting** or
+**Not working**, Cloudflare's reason when it does not work, and which is the
+workspace's **Main** address. Every workspace also has the name One gave it
+(`acme.t.4dl.app`), which always works and is not listed here.
+
+The customer does all of it from their own workspace, under **Workspace ›
+Domains**: they add a name, make one CNAME record in their DNS from it to
+the name One gave them, and choose which is the main address, the one links
+and mail use. An operator cannot add, remove or make a name main for them:
+it is their DNS, and only they can change it.
+
+A name **Waits** until its DNS record is right; Cloudflare keeps checking by
+itself and issues its certificate once it is. One asks Cloudflare where each
+waiting name has got to every night, and **Check Again** asks now. Open a
+domain to see what it needs: the CNAME record it must have, what Cloudflare
+says is wrong, and since when it has waited. A name **Not at Cloudflare**
+has been lost there; the customer can remove it and add it again.
+
+A name that has waited a day, or stopped working, is on Home under Needs
+You, and in the morning's **Domains Waiting**. The customer's
+administrators are told on their own site when a name starts or stops
+working.
+
 ## Log
 
 **Log** is what happened to each workspace, newest first, written by One as
@@ -164,7 +190,8 @@ On Home, OneAI offers **What needs me today?**. It reads the same list Home
 shows, with each item's reason, and changes nothing: resuming, building and
 checking again are Home's buttons. On a job, **Why did this job fail?**
 explains where it stopped and what the error means, and on one waiting, **Why
-is this job waiting?** says what it is waiting for. On a workspace, **How is
+is this job waiting?** says what it is waiting for. On a domain that does not
+work, **Why isn't this domain working?** says what the customer has to change. On a workspace, **How is
 this workspace doing?** reads its standing, plan, storage, credits, domains,
 last jobs and log, and says whether anything is wrong.
 
@@ -207,6 +234,11 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   and `operator.run_now` are the job that has not moved. `ai.job_facts` is the
   walk for OneAI, and a suggestion's `when` (`one_ai/suggest.py`) offers the
   failed question only on a failed job.
+- **Domains** (`domains.py`): the customer's own names are custom
+  hostnames on our Cloudflare zone; Frappe Cloud is never told of them.
+  `Tenant Domain.is_main` is the console's copy of the workspace's
+  `primary_domain`, kept by `make_primary`; `_keep` publishes each answer.
+  `ai.domain_facts` is a domain for OneAI.
 - **The log** (`log.py`): every row is `log.write`, which says who from the
   session or the job's owner (the proxy passes Customer), links the job,
   and stores a fixed phrase from `SAID` (`_lt`) in English for the list to

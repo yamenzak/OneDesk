@@ -46,12 +46,12 @@ REQUEST = {
 	"Failed": ("red", _lt("Failed")),
 }
 
+#: A domain's state in the customer's own words (settings.js says the same).
 DOMAIN = {
 	"Pending": ("orange", _lt("Waiting")),
-	"In Progress": ("blue", _lt("Being set up")),
-	"Active": ("green", _lt("Active")),
+	"Active": ("green", _lt("Working")),
 	"Broken": ("red", _lt("Not working")),
-	"Gone": ("grey", _lt("Removed")),
+	"Gone": ("grey", _lt("Not at Cloudflare")),
 }
 
 MODEL = {
@@ -292,22 +292,37 @@ def domain_state(doc):
 
 
 def domain_said(doc):
-	"""Why a name is not working yet, of which there are three answers: nobody
-	has asked Frappe Cloud, it is working on it, or the DNS does not point
-	here."""
-	said = {
-		"Broken": (
-			"red",
-			_("{0} does not point to this workspace. The customer has to change their DNS."),
-		),
-		"Gone": ("grey", _("Frappe Cloud no longer has this domain.")),
-		"In Progress": ("blue", _("Frappe Cloud is issuing the certificate. This takes a few minutes.")),
-		"Pending": ("orange", _("Asked for, and Frappe Cloud has not answered yet.")),
-	}.get(doc.status)
-	if doc.is_new() or not said:
+	"""What is true of a name now, and what has to happen for it to work:
+	where its CNAME must point, Cloudflare's own words about what stops it,
+	and since when. A working name says only whether it is the main one."""
+	if doc.is_new():
 		return None
-	colour, text = said
-	return {"text": text.format(doc.domain), "colour": colour}
+	target = frappe.db.get_value("Tenant", doc.tenant, "domain") if doc.tenant else None
+	record = _("It needs a CNAME record from {0} to {1}.").format(doc.domain, target) if target else ""
+	problem = " " + _("Cloudflare says: {0}").format(doc.problem) if doc.get("problem") else ""
+	if doc.status == "Active":
+		return {"text": _("The workspace's main address."), "colour": "blue"} if doc.get("is_main") else None
+	if doc.status == "Pending":
+		since = (
+			" " + _("Waiting since {0}.").format(frappe.utils.format_datetime(doc.asked_on, "d MMM yyyy"))
+			if doc.get("asked_on")
+			else ""
+		)
+		return {
+			"text": (_("Waiting for the customer's DNS.") + " " + record + since + problem).strip(),
+			"colour": "orange",
+		}
+	if doc.status == "Broken":
+		return {
+			"text": (_("{0} is not working.").format(doc.domain) + " " + record + problem).strip(),
+			"colour": "red",
+		}
+	return {
+		"text": _("Cloudflare has no record of {0}. The customer can remove it and add it again.").format(
+			doc.domain
+		),
+		"colour": "grey",
+	}
 
 
 # ------------------------------------------------------------------ an offering
@@ -433,7 +448,8 @@ VERBS = {
 	},
 	"domain.refresh": {
 		"doctypes": ["Tenant Domain"],
-		"label": lambda doc: _("Refresh"),
+		# The customer's own screen and Home both say this.
+		"label": lambda doc: _("Check Again"),
 		"when": lambda doc: not doc.is_new(),
 		"run": lambda doc, **_values: operator.refresh_domain(doc.name) and None,
 	},

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-29 06:47+0000\n"
-"PO-Revision-Date: 2026-09-29 06:47+0000\n"
+"POT-Creation-Date: 2026-09-29 06:54+0000\n"
+"PO-Revision-Date: 2026-09-29 06:54+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -933,7 +933,6 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Clock Device'
 #: onedesk/one/heads.py:17
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
-#: onedesk/one_admin/heads.py:52
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 #: onedesk/public/js/settings.js:886
 msgid "Active"
@@ -1766,7 +1765,7 @@ msgstr ""
 
 #. Description of the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
-msgid "As Cloudflare reports it."
+msgid "As Cloudflare reports it, checked each night until it works."
 msgstr ""
 
 #: onedesk/public/js/settings.js:152
@@ -1885,10 +1884,6 @@ msgstr ""
 #. Label of the asked_on (Datetime) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "Asked On"
-msgstr ""
-
-#: onedesk/one_admin/heads.py:303
-msgid "Asked for, and Frappe Cloud has not answered yet."
 msgstr ""
 
 #. Description of the 'Reason' (Link) field in DocType 'Employee Checkin'
@@ -2351,7 +2346,7 @@ msgid "Being built"
 msgstr ""
 
 #: onedesk/one/heads.py:15 onedesk/one/heads.py:16
-#: onedesk/one_admin/heads.py:44 onedesk/one_admin/heads.py:51
+#: onedesk/one_admin/heads.py:44
 msgid "Being set up"
 msgstr ""
 
@@ -2558,7 +2553,6 @@ msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
-#: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:12
 msgid "Broken"
 msgstr ""
 
@@ -2573,7 +2567,7 @@ msgstr ""
 msgid "Build It"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:427
+#: onedesk/one_admin/heads.py:436
 msgid "Build Workspace"
 msgstr ""
 
@@ -2891,7 +2885,7 @@ msgstr ""
 msgid "Changes"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:333
+#: onedesk/one_admin/heads.py:342
 msgid "Changing a price or a quota here does not change theirs."
 msgstr ""
 
@@ -2903,7 +2897,7 @@ msgstr ""
 msgid "Channels"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:360
+#: onedesk/one_admin/heads.py:369
 msgid "Charged at {0}× what the provider charges."
 msgstr ""
 
@@ -2951,8 +2945,9 @@ msgstr ""
 msgid "Check"
 msgstr ""
 
-#: onedesk/one_admin/home.py:268 onedesk/public/js/legal.js:73
-#: onedesk/public/js/settings.js:1021 onedesk/public/js/settings.js:1378
+#: onedesk/one_admin/heads.py:444 onedesk/one_admin/home.py:268
+#: onedesk/public/js/legal.js:73 onedesk/public/js/settings.js:1021
+#: onedesk/public/js/settings.js:1378
 msgid "Check Again"
 msgstr ""
 
@@ -3353,20 +3348,24 @@ msgstr ""
 
 #. Label of the cloudflare_section (Section Break) field in DocType 'One Admin
 #. Settings'
+#. Label of the said_section (Section Break) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 #: onedesk/public/js/admin_settings.js:38
 msgid "Cloudflare"
 msgstr ""
 
-#. Description of the 'Custom Hostname ID' (Data) field in DocType 'Tenant
-#. Domain'
-#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
-msgid "Cloudflare's id for this custom hostname."
+#: onedesk/one_admin/heads.py:315
+msgid "Cloudflare has no record of {0}. The customer can remove it and add it again."
 msgstr ""
 
-#. Description of the 'Last Response' (Code) field in DocType 'Tenant Domain'
+#: onedesk/one_admin/heads.py:302
+msgid "Cloudflare says: {0}"
+msgstr ""
+
+#. Description of the 'Last Answer' (Code) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
-msgid "Cloudflare's last answer about this custom hostname, unmodified."
+msgid "Cloudflare's last answer about this name, as it gave it."
 msgstr ""
 
 #. Label of the cluster (Data) field in DocType 'Account Request'
@@ -3773,7 +3772,7 @@ msgstr ""
 msgid "Create link"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:429
+#: onedesk/one_admin/heads.py:438
 msgid "Create {0} for {1} now?"
 msgstr ""
 
@@ -3844,7 +3843,7 @@ msgstr ""
 #: onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/offering/offering.json
-#: onedesk/one_admin/heads.py:448
+#: onedesk/one_admin/heads.py:458
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:42
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:48
@@ -3861,7 +3860,7 @@ msgstr ""
 msgid "Credits Expiring"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:172
+#: onedesk/one_admin/heads.py:174
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:135
 msgid "Credits Left"
 msgstr ""
@@ -5662,11 +5661,11 @@ msgstr ""
 msgid "Failed Checks"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:245
+#: onedesk/one_admin/heads.py:247
 msgid "Failed at Step {0} of {1}"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:275
+#: onedesk/one_admin/heads.py:277
 msgid "Failed before the workspace was created."
 msgstr ""
 
@@ -5682,7 +5681,7 @@ msgstr ""
 msgid "Failed to set up One"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:273
+#: onedesk/one_admin/heads.py:275
 msgid "Failed: {0}"
 msgstr ""
 
@@ -5696,11 +5695,11 @@ msgstr ""
 msgid "Failures in a Row"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:449
+#: onedesk/one_admin/heads.py:459
 msgid "Falls"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:196
+#: onedesk/one_admin/heads.py:198
 msgid "Falls to {0}"
 msgstr ""
 
@@ -5975,7 +5974,7 @@ msgstr ""
 msgid "Finished"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:243
+#: onedesk/one_admin/heads.py:245
 msgid "Finished all {0}"
 msgstr ""
 
@@ -6172,18 +6171,6 @@ msgstr ""
 msgid "Frappe Cloud has no bench group to place a site on."
 msgstr ""
 
-#: onedesk/one_admin/heads.py:302
-msgid "Frappe Cloud is issuing the certificate. This takes a few minutes."
-msgstr ""
-
-#: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:10
-msgid "Frappe Cloud is setting it up"
-msgstr ""
-
-#: onedesk/one_admin/heads.py:301
-msgid "Frappe Cloud no longer has this domain."
-msgstr ""
-
 #: onedesk/one_admin/log.py:27
 msgid "Frappe Cloud stopped serving the site"
 msgstr ""
@@ -6260,7 +6247,7 @@ msgstr ""
 msgid "From the day it arrived"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:362
+#: onedesk/one_admin/heads.py:371
 msgid "From the default."
 msgstr ""
 
@@ -6838,11 +6825,11 @@ msgstr ""
 msgid "How good the browser said the position was."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:29
+#: onedesk/one_admin/ai.py:30
 msgid "How is this workspace doing?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:30
+#: onedesk/one_admin/ai.py:31
 msgid "How is this workspace doing? Say where it stands and whether anything is wrong: its payments, storage, credits, domains and its last jobs, and what I should do about anything that is."
 msgstr ""
 
@@ -7151,7 +7138,7 @@ msgstr ""
 msgid "In the order the form shows them; drag a row to move it. A field the record came with may be hidden, not removed."
 msgstr ""
 
-#: onedesk/one_admin/heads.py:197 onedesk/one_project/heads.py:77
+#: onedesk/one_admin/heads.py:199 onedesk/one_project/heads.py:77
 #: onedesk/one_project/portal.py:143
 msgid "In {0} days"
 msgstr ""
@@ -7590,6 +7577,10 @@ msgstr ""
 msgid "It may have run out or been turned off. Ask whoever sent it for a new one."
 msgstr ""
 
+#: onedesk/one_admin/heads.py:301
+msgid "It needs a CNAME record from {0} to {1}."
+msgstr ""
+
 #: onedesk/public/js/settings.js:2081
 msgid "It says what {0} wrote."
 msgstr ""
@@ -7932,6 +7923,11 @@ msgstr ""
 msgid "Last Address"
 msgstr ""
 
+#. Label of the said (Code) field in DocType 'Tenant Domain'
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
+msgid "Last Answer"
+msgstr ""
+
 #: onedesk/one_book/heads.py:193 onedesk/one_book/heads.py:374
 msgid "Last Bill"
 msgstr ""
@@ -8029,11 +8025,6 @@ msgstr ""
 #. Recipient'
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 msgid "Last Reminded"
-msgstr ""
-
-#. Label of the said (Code) field in DocType 'Tenant Domain'
-#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
-msgid "Last Response"
 msgstr ""
 
 #. Label of the last_said_on (Datetime) field in DocType 'AI Chat'
@@ -8897,6 +8888,12 @@ msgstr ""
 msgid "Mails you what you switch on for email below. Turn it off and nothing is mailed."
 msgstr ""
 
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:24
+msgid "Main"
+msgstr ""
+
+#. Label of the is_main (Check) field in DocType 'Tenant Domain'
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 #: onedesk/public/js/settings.js:1433
 msgid "Main Address"
 msgstr ""
@@ -9178,7 +9175,7 @@ msgstr ""
 msgid "Measure"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:404
+#: onedesk/one_admin/heads.py:413
 msgid "Measure storage"
 msgstr ""
 
@@ -9924,7 +9921,7 @@ msgstr ""
 msgid "No mailboxes yet."
 msgstr ""
 
-#: onedesk/one_admin/heads.py:358
+#: onedesk/one_admin/heads.py:367
 msgid "No markup is set, so this model cannot be called."
 msgstr ""
 
@@ -9998,7 +9995,7 @@ msgstr ""
 msgid "No template is the default, so nothing is charged unless somebody picks one."
 msgstr ""
 
-#: onedesk/one_admin/heads.py:321
+#: onedesk/one_admin/heads.py:330
 msgid "No workspace has bought this yet."
 msgstr ""
 
@@ -10155,6 +10152,11 @@ msgstr ""
 msgid "Not asked for. Your workspace decides this."
 msgstr ""
 
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:16
+#: onedesk/one_admin/heads.py:54
+msgid "Not at Cloudflare"
+msgstr ""
+
 #: onedesk/one_hr/employee.py:172
 msgid "Not checked in"
 msgstr ""
@@ -10239,6 +10241,7 @@ msgstr ""
 msgid "Not used"
 msgstr ""
 
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:15
 #: onedesk/one_admin/heads.py:53 onedesk/one_admin/home.py:264
 msgid "Not working"
 msgstr ""
@@ -10511,7 +10514,7 @@ msgstr ""
 
 #. Label of the offered (Check) field in DocType 'AI Model'
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
-#: onedesk/one_admin/heads.py:345
+#: onedesk/one_admin/heads.py:354
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:259
 #: onedesk/public/js/ai_model_list.js:18
 msgid "Offered"
@@ -10769,7 +10772,7 @@ msgstr ""
 msgid "One way of telling who somebody is, and the record it belongs to."
 msgstr ""
 
-#: onedesk/one_admin/heads.py:323
+#: onedesk/one_admin/heads.py:332
 msgid "One workspace bought this"
 msgstr ""
 
@@ -11722,7 +11725,7 @@ msgstr ""
 msgid "Paid, Not Built"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:279
+#: onedesk/one_admin/heads.py:281
 msgid "Paid, and no workspace was created. Build it."
 msgstr ""
 
@@ -12238,7 +12241,7 @@ msgstr ""
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/offering/offering.json
-#: onedesk/one_admin/doctype/tenant/tenant.json onedesk/one_admin/heads.py:446
+#: onedesk/one_admin/doctype/tenant/tenant.json onedesk/one_admin/heads.py:456
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:51
 #: onedesk/public/js/settings.js:1060 onedesk/public/js/settings.js:1062
 #: onedesk/public/js/settings.js:1196 onedesk/www/start.html:46
@@ -13304,15 +13307,14 @@ msgstr ""
 msgid "References"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:405 onedesk/one_admin/heads.py:412
-#: onedesk/one_admin/heads.py:434 onedesk/public/js/onecloud.js:120
-#: onedesk/public/js/onecloud.js:1922 onedesk/public/js/onecloud.js:1923
-#: onedesk/public/js/onecloud.js:1943 onedesk/public/js/onemail.js:93
-#: onedesk/public/js/shell.js:260
+#: onedesk/one_admin/heads.py:414 onedesk/one_admin/heads.py:421
+#: onedesk/public/js/onecloud.js:120 onedesk/public/js/onecloud.js:1922
+#: onedesk/public/js/onecloud.js:1923 onedesk/public/js/onecloud.js:1943
+#: onedesk/public/js/onemail.js:93 onedesk/public/js/shell.js:260
 msgid "Refresh"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:411
+#: onedesk/one_admin/heads.py:420
 msgid "Refresh domains"
 msgstr ""
 
@@ -13479,14 +13481,6 @@ msgstr ""
 
 #: onedesk/public/js/onecloud.js:1235
 msgid "Remove {0} from its record? This cannot be undone."
-msgstr ""
-
-#: onedesk/one_admin/heads.py:54
-msgid "Removed"
-msgstr ""
-
-#: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:13
-msgid "Removed at Frappe Cloud"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
@@ -13659,14 +13653,9 @@ msgstr ""
 msgid "Resignation date plus the notice period. Differs from the Relieving Date when notice is waived or extended."
 msgstr ""
 
-#. Label of the said_section (Section Break) field in DocType 'Tenant Domain'
-#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
-msgid "Response"
-msgstr ""
-
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
-#: onedesk/one_admin/heads.py:396 onedesk/public/js/onecloud.js:107
+#: onedesk/one_admin/heads.py:405 onedesk/public/js/onecloud.js:107
 #: onedesk/public/js/onecloud.js:721 onedesk/public/js/onecloud.js:1883
 msgid "Restore"
 msgstr ""
@@ -13708,7 +13697,7 @@ msgstr ""
 msgid "Results in {0}"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:418 onedesk/one_admin/home.py:124
+#: onedesk/one_admin/heads.py:427 onedesk/one_admin/home.py:124
 #: onedesk/public/js/timesheet.js:75
 msgid "Resume"
 msgstr ""
@@ -13812,7 +13801,7 @@ msgstr ""
 msgid "Run Now"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:420
+#: onedesk/one_admin/heads.py:429
 msgid "Run {0} again, from the step it stopped on?"
 msgstr ""
 
@@ -14861,7 +14850,7 @@ msgstr ""
 
 #. Label of the one_standing (Int) field in DocType 'Employee'
 #. Label of the one_ai_standing (Percent) field in DocType 'Job Applicant'
-#: onedesk/one/heads.py:83 onedesk/one_admin/heads.py:443
+#: onedesk/one/heads.py:83 onedesk/one_admin/heads.py:453
 #: onedesk/one_hr/custom/employee.json onedesk/one_hr/custom/job_applicant.json
 #: onedesk/one_hr/heads.py:668
 msgid "Standing"
@@ -14992,8 +14981,8 @@ msgstr ""
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
-#: onedesk/one_admin/heads.py:460 onedesk/one_admin/heads.py:466
-#: onedesk/one_admin/heads.py:472 onedesk/one_admin/heads.py:482
+#: onedesk/one_admin/heads.py:470 onedesk/one_admin/heads.py:476
+#: onedesk/one_admin/heads.py:482 onedesk/one_admin/heads.py:492
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
@@ -15020,7 +15009,7 @@ msgstr ""
 msgid "Step"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:245
+#: onedesk/one_admin/heads.py:247
 msgid "Step {0} of {1}"
 msgstr ""
 
@@ -15028,7 +15017,7 @@ msgstr ""
 #. Job'
 #. Label of the walk_said (HTML) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
-#: onedesk/one_admin/heads.py:243 onedesk/one_admin/heads.py:461
+#: onedesk/one_admin/heads.py:245 onedesk/one_admin/heads.py:471
 msgid "Steps"
 msgstr ""
 
@@ -15151,7 +15140,7 @@ msgstr ""
 #. Label of the storage_bytes (Long Int) field in DocType 'Tenant'
 #: onedesk/one/heads.py:85
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-#: onedesk/one_admin/doctype/tenant/tenant.json onedesk/one_admin/heads.py:447
+#: onedesk/one_admin/doctype/tenant/tenant.json onedesk/one_admin/heads.py:457
 #: onedesk/public/js/settings.js:1043 onedesk/public/js/settings.js:1196
 msgid "Storage"
 msgstr ""
@@ -15955,6 +15944,11 @@ msgstr ""
 msgid "The address the request came from."
 msgstr ""
 
+#. Description of the 'Main Address' (Check) field in DocType 'Tenant Domain'
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
+msgid "The address the workspace calls itself, in links and in mail. The customer chooses it."
+msgstr ""
+
 #. Description of the 'Provided' (Check) field in DocType 'Workspace Domain'
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
 msgid "The address this workspace was given. It cannot be removed."
@@ -16642,7 +16636,7 @@ msgstr ""
 msgid "The workspace has {balance} OneAI credits left, about {days} days at the rate of the last thirty. Buy more on Workspace › Plan and Credits."
 msgstr ""
 
-#: onedesk/one_admin/heads.py:281
+#: onedesk/one_admin/heads.py:283
 msgid "The workspace is being set up. Its job has the detail."
 msgstr ""
 
@@ -16664,6 +16658,10 @@ msgstr ""
 
 #: onedesk/one/notifications.py:120
 msgid "The workspace's files take {used} of the {limit} its plan allows. Once it is full, nothing new can be uploaded."
+msgstr ""
+
+#: onedesk/one_admin/heads.py:304
+msgid "The workspace's main address."
 msgstr ""
 
 #: onedesk/public/js/settings.js:2010
@@ -17321,7 +17319,7 @@ msgstr ""
 msgid "Tone"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:197
+#: onedesk/one_admin/heads.py:199
 msgid "Tonight"
 msgstr ""
 
@@ -17495,7 +17493,7 @@ msgid "Trial Balance"
 msgstr ""
 
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.js:35
-#: onedesk/one_admin/heads.py:249
+#: onedesk/one_admin/heads.py:251
 msgid "Tried {0} times"
 msgstr ""
 
@@ -17846,7 +17844,7 @@ msgstr ""
 msgid "Used On"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:178
+#: onedesk/one_admin/heads.py:180
 msgid "Used This Month"
 msgstr ""
 
@@ -18065,7 +18063,8 @@ msgstr ""
 #. Option for the 'State' (Select) field in DocType 'Cloud File Request
 #. Recipient'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
-#: onedesk/one_admin/heads.py:50
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:13
+#: onedesk/one_admin/heads.py:51
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:257
 #: onedesk/one_intake/page/intake/intake.js:27
@@ -18099,6 +18098,10 @@ msgstr ""
 msgid "Waiting for the DNS record below. It works a few minutes after the record is right."
 msgstr ""
 
+#: onedesk/one_admin/heads.py:311
+msgid "Waiting for the customer's DNS."
+msgstr ""
+
 #: onedesk/www/welcome.py:17
 msgid "Waiting for the payment to settle."
 msgstr ""
@@ -18108,13 +18111,13 @@ msgstr ""
 msgid "Waiting for you"
 msgstr ""
 
-#: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:9
-msgid "Waiting on DNS"
-msgstr ""
-
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:34
 #: onedesk/one_admin/heads.py:35
 msgid "Waiting on Frappe Cloud"
+msgstr ""
+
+#: onedesk/one_admin/heads.py:307
+msgid "Waiting since {0}."
 msgstr ""
 
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:18
@@ -18446,11 +18449,11 @@ msgstr ""
 msgid "What needs an answer?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:21
+#: onedesk/one_admin/ai.py:22
 msgid "What needs me in OneAdmin today? Say what is most urgent first, why each one is stuck, and what I should do about it."
 msgstr ""
 
-#: onedesk/one/ai.py:160 onedesk/one_admin/ai.py:20
+#: onedesk/one/ai.py:160 onedesk/one_admin/ai.py:21
 msgid "What needs me today?"
 msgstr ""
 
@@ -19364,11 +19367,11 @@ msgstr ""
 msgid "Why are we losing deals?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:41
+#: onedesk/one_admin/ai.py:55
 msgid "Why did this job fail?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:42
+#: onedesk/one_admin/ai.py:56
 msgid "Why did this job fail? Say where it stopped, what the error means in plain words, and whether resuming it is likely to work."
 msgstr ""
 
@@ -19388,12 +19391,20 @@ msgstr ""
 msgid "Why is our domain not working?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:51
+#: onedesk/one_admin/ai.py:65
 msgid "Why is this job waiting?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:52
+#: onedesk/one_admin/ai.py:66
 msgid "Why is this job waiting? Say which step it is on, what it is waiting for, how many times it has tried, and whether anything is wrong."
+msgstr ""
+
+#: onedesk/one_admin/ai.py:42
+msgid "Why isn't this domain working?"
+msgstr ""
+
+#: onedesk/one_admin/ai.py:43
+msgid "Why isn't this domain working? Say what Cloudflare says is wrong in plain words, what the customer has to change in their DNS, and whether anything is ours to fix."
 msgstr ""
 
 #. Description of the 'Reason' (Link) field in DocType 'Attendance Request'
@@ -19485,8 +19496,9 @@ msgid "Workers KV Namespace"
 msgstr ""
 
 #. Option for the 'status' (Select) field in DocType 'Task'
-#: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:11
-#: onedesk/one_task/custom/task.json onedesk/public/js/settings.js:1408
+#: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:14
+#: onedesk/one_admin/heads.py:52 onedesk/one_task/custom/task.json
+#: onedesk/public/js/settings.js:1408
 msgid "Working"
 msgstr ""
 
@@ -20216,15 +20228,15 @@ msgstr ""
 msgid "business name"
 msgstr ""
 
-#: onedesk/one_admin/log.py:115
+#: onedesk/one_admin/log.py:119
 msgid "by One"
 msgstr ""
 
-#: onedesk/one_admin/log.py:114
+#: onedesk/one_admin/log.py:118
 msgid "by the customer"
 msgstr ""
 
-#: onedesk/one_admin/log.py:112 onedesk/one_intake/panel.py:157
+#: onedesk/one_admin/log.py:116 onedesk/one_intake/panel.py:157
 #: onedesk/public/js/intake.js:112 onedesk/public/js/intake.js:187
 msgid "by {0}"
 msgstr ""
@@ -20442,7 +20454,7 @@ msgstr ""
 msgid "none"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:330
+#: onedesk/one_admin/heads.py:339
 msgid "none of them live."
 msgstr ""
 
@@ -20649,7 +20661,7 @@ msgstr ""
 msgid "the self appraisal"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:252
+#: onedesk/one_admin/heads.py:254
 msgid "the start"
 msgstr ""
 
@@ -20733,11 +20745,11 @@ msgstr ""
 msgid "{0} (was {1})"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:139
+#: onedesk/one_admin/heads.py:140
 msgid "{0} + 1 add-on"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:139
+#: onedesk/one_admin/heads.py:140
 msgid "{0} + {1} add-ons"
 msgstr ""
 
@@ -21002,10 +21014,6 @@ msgstr ""
 msgid "{0} does not have {1}."
 msgstr ""
 
-#: onedesk/one_admin/heads.py:299
-msgid "{0} does not point to this workspace. The customer has to change their DNS."
-msgstr ""
-
 #: onedesk/one_intake/page/intake/intake.js:115
 msgid "{0} done"
 msgstr ""
@@ -21123,7 +21131,7 @@ msgstr ""
 msgid "{0} in 12 months"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:179
+#: onedesk/one_admin/heads.py:181
 msgid "{0} in {1} calls"
 msgstr ""
 
@@ -21299,7 +21307,7 @@ msgstr ""
 msgid "{0} is not offered, so nothing can default to it."
 msgstr ""
 
-#: onedesk/one_admin/domains.py:215
+#: onedesk/one_admin/domains.py:226
 msgid "{0} is not on this workspace."
 msgstr ""
 
@@ -21331,8 +21339,12 @@ msgstr ""
 msgid "{0} is not working"
 msgstr ""
 
-#: onedesk/one_admin/domains.py:105
+#: onedesk/one_admin/domains.py:106
 msgid "{0} is not working yet, so it cannot be the main address."
+msgstr ""
+
+#: onedesk/one_admin/heads.py:313
+msgid "{0} is not working."
 msgstr ""
 
 #: onedesk/one_storage/mounts.py:117
@@ -21445,7 +21457,7 @@ msgstr ""
 msgid "{0} of it is already covered by an advance."
 msgstr ""
 
-#: onedesk/one_admin/heads.py:328
+#: onedesk/one_admin/heads.py:337
 msgid "{0} of them live."
 msgstr ""
 
@@ -21454,7 +21466,7 @@ msgid "{0} of what shows above the fields comes with the form, from {1}, and sta
 msgstr ""
 
 #: onedesk/one/heads.py:68 onedesk/one_admin/doctype/tenant/tenant_list.js:41
-#: onedesk/one_admin/heads.py:156 onedesk/one_project/heads.py:35
+#: onedesk/one_admin/heads.py:158 onedesk/one_project/heads.py:35
 #: onedesk/public/js/settings.js:1038
 msgid "{0} of {1}"
 msgstr ""
@@ -21654,7 +21666,7 @@ msgstr ""
 msgid "{0} worked, {1} paid"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:325
+#: onedesk/one_admin/heads.py:334
 msgid "{0} workspaces bought this"
 msgstr ""
 
@@ -21686,7 +21698,7 @@ msgstr ""
 msgid "{0} {1} → {2}"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:216
+#: onedesk/one_admin/heads.py:218
 msgid "{0} {1}?"
 msgstr ""
 

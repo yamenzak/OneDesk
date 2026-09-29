@@ -5,7 +5,8 @@ The operator's own readers, on the admin site only and for One Operator only,
 as every console read is (`operator._may`). `console_today` is Home's own list
 (`home.needs`), so the panel and the page say the same thing;
 `workspace_facts` is what a workspace's own form shows, its head and its
-connections, and `job_facts` a job's walk in words. Nothing is changed from here: resuming a job, building a signup,
+connections, `job_facts` a job's walk in words, and `domain_facts` why a
+customer's domain does or does not work. Nothing is changed from here: resuming a job, building a signup,
 checking a domain or giving credits is a button the operator presses.
 """
 
@@ -34,6 +35,19 @@ SUGGESTIONS = {
 			"can": "read",
 			"view": "Form",
 			"expects": "workspace_facts",
+		},
+	],
+	"Tenant Domain": [
+		{
+			"label": _lt("Why isn't this domain working?"),
+			"ask": _lt(
+				"Why isn't this domain working? Say what Cloudflare says is wrong in plain words, what the customer "
+				"has to change in their DNS, and whether anything is ours to fix."
+			),
+			"can": "read",
+			"view": "Form",
+			"when": {"status": ["Pending", "Broken", "Gone"]},
+			"expects": "domain_facts",
 		},
 	],
 	"Provisioning Job": [
@@ -190,4 +204,38 @@ def job_facts(
 		"started": str(held.creation),
 		"last_moved": str(held.modified),
 		"gives_up_after": runner.GIVE_UP_AFTER,
+	}
+
+
+def domain_facts(
+	domain: Annotated[str, "The domain, as the page names it, such as crm.acme.com."],
+) -> dict:
+	"""For an operator of One only: one customer domain. Whose it is, whether
+	it works, what Cloudflare says stops it, where its CNAME record must
+	point, whether it is the workspace's main address, and since when it
+	has waited."""
+	if not _operator():
+		return {"error": "Only an operator of One, on the admin site, sees a domain."}
+	if not frappe.db.exists("Tenant Domain", domain):
+		return {"error": f"There is no domain {domain}. Ask which one they meant."}
+	held = frappe.get_doc("Tenant Domain", domain)
+	tenant = (
+		frappe.db.get_value("Tenant", held.tenant, ["workspace_name", "domain", "status"], as_dict=True) or {}
+	)
+	return {
+		"domain": held.domain,
+		"workspace": tenant.get("workspace_name") or held.tenant,
+		"workspace_status": tenant.get("status"),
+		"status": {
+			"Pending": "Waiting",
+			"Active": "Working",
+			"Broken": "Not working",
+			"Gone": "Not at Cloudflare",
+		}.get(held.status, held.status),
+		"problem": held.problem,
+		"cname_to": tenant.get("domain"),
+		"main_address": bool(held.is_main),
+		"asked_on": str(held.asked_on) if held.asked_on else None,
+		"last_asked": str(held.modified),
+		"checked": "Cloudflare checks by itself; One asks it each night until the name works, and Check Again asks now.",
 	}

@@ -99,13 +99,22 @@ def make_primary(tenant, raw: str) -> dict:
 	if (raw or "").strip().lower().rstrip(".") == tenant.domain:
 		_call_itself(tenant, tenant.domain)
 		frappe.db.set_value("Tenant", tenant.name, "primary_domain", None)
+		_mark_main(tenant.name, None)
 		return {"domain": tenant.domain, "status": "Active"}
 	name = _held(tenant, raw)
 	if frappe.db.get_value("Tenant Domain", name, "status") not in SETTLED:
 		frappe.throw(frappe._("{0} is not working yet, so it cannot be the main address.").format(name))
 	_call_itself(tenant, name)
 	frappe.db.set_value("Tenant", tenant.name, "primary_domain", name)
+	_mark_main(tenant.name, name)
 	return _as_said(name)
+
+
+def _mark_main(tenant: str, name: str | None) -> None:
+	"""The console's copy of which name is main (`Tenant Domain.is_main`),
+	so its list can say so; the workspace's `primary_domain` is the truth."""
+	for one in frappe.get_all("Tenant Domain", filters={"tenant": tenant}, pluck="name"):
+		frappe.db.set_value("Tenant Domain", one, "is_main", 1 if one == name else 0)
 
 
 def mine(tenant) -> list[dict]:
@@ -188,6 +197,8 @@ def _keep(name: str, said: dict | None) -> None:
 			"said": frappe.as_json(said) if said else None,
 		},
 	)
+	# Published, so a domain open in the console changes as Cloudflare answers.
+	frappe.get_doc("Tenant Domain", name).notify_update()
 
 
 def _call_itself(tenant, name: str) -> None:

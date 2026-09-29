@@ -62,7 +62,7 @@ No doctypes yet.
 | Stripe Webhook Event | 7 | document |
 | Tenant | 42 | document |
 | Tenant Add-on | 3 | child |
-| Tenant Domain | 9 | document |
+| Tenant Domain | 10 | document |
 | Tenant Event | 9 | document |
 
 ## One AI

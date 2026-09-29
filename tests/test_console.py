@@ -477,3 +477,21 @@ def test_the_log_keeps_one_row_per_stretch_over_storage_and_no_dead_kinds():
 	assert "Drifted" not in kinds and "Over Database" not in kinds
 	assert not event["permissions"][0]["share"] and event["title_field"] == "tenant"
 	assert "*_over_storage()" in (ADMIN / "home.py").read_text()
+
+
+def test_a_domain_is_said_in_the_customers_words_and_says_what_it_needs():
+	"""Domains moved to Cloudflare: no screen may still say Frappe Cloud does
+	them, and the console says a state as the customer's own screen does."""
+	heads = (ADMIN / "heads.py").read_text()
+	said = heads.split("def domain_said(", 1)[1].split("\ndef ", 1)[0]
+	assert "Frappe Cloud" not in said and "It needs a CNAME record from {0} to {1}." in said
+	pills = heads.split("DOMAIN = {", 1)[1].split("}", 1)[0]
+	assert '"Working"' in pills and '"Waiting"' in pills and '"Not working"' in pills and "In Progress" not in pills
+	listing = (ADMIN / "doctype" / "tenant_domain" / "tenant_domain_list.js").read_text()
+	assert "Frappe Cloud" not in listing and "In Progress" not in listing
+	assert '_("Check Again")' in heads.split('"domain.refresh"', 1)[1][:300]
+	domains = (ADMIN / "domains.py").read_text()
+	assert "_mark_main(" in domains and ".notify_update()" in domains
+	source = (ADMIN / "ai.py").read_text()
+	assert '"expects": "domain_facts"' in source
+	assert source.split("def domain_facts(", 1)[1].index("if not _operator()") < source.split("def domain_facts(", 1)[1].index("frappe.get_doc")
