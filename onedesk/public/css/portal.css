@@ -290,26 +290,21 @@
 	text-underline-offset: 2px;
 }
 
-/* "Already have a workspace?": asked in one line, under the lede. */
-.one-portal .one-have {
+/* Who is signing up: their account, or a way to sign in to one. */
+.one-portal .one-signed {
 	margin: -1rem 0 2rem;
 	font-size: 0.875rem;
-}
-
-.one-portal .one-have summary {
 	color: var(--ink-soft);
-	cursor: pointer;
-	width: fit-content;
 }
 
-.one-portal .one-have summary:hover {
+.one-portal .one-signed--after {
+	margin: 1.5rem 0 0;
+}
+
+.one-portal .one-signed a {
 	color: var(--ink);
-}
-
-.one-portal .one-have__form {
-	display: flex;
-	gap: 0.5rem;
-	margin-top: 0.625rem;
+	text-decoration: underline;
+	text-underline-offset: 2px;
 }
 
 /* frappe-ui's secondary Button. */

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-29 16:39+0000\n"
-"PO-Revision-Date: 2026-09-29 16:39+0000\n"
+"POT-Creation-Date: 2026-09-29 16:49+0000\n"
+"PO-Revision-Date: 2026-09-29 16:49+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1388,10 +1388,6 @@ msgstr ""
 msgid "Already Paid"
 msgstr "مدفوع مسبقاً"
 
-#: onedesk/www/start.html:23
-msgid "Already have a workspace? Sign in"
-msgstr "لديك مساحة عمل بالفعل؟ سجّل الدخول"
-
 #: onedesk/one_intake/planning.py:137
 msgid "Already paid."
 msgstr "مدفوعة مسبقًا."
@@ -1484,6 +1480,10 @@ msgstr "يعتمد OneAI فاتورة إلكترونية من مورد معرو�
 #: onedesk/one_mail/doctype/face/face.json
 msgid "An email address for a person, a domain for an organisation."
 msgstr "عنوان بريد لشخص، ونطاق لجهة."
+
+#: onedesk/one_admin/signup.py:314
+msgid "An email address is needed."
+msgstr "مطلوب عنوان بريد إلكتروني."
 
 #: onedesk/one/settings.py:369
 msgid "An emergency contact needs a name and a phone number, so HR can call them."
@@ -2267,6 +2267,10 @@ msgstr "رجوع"
 msgid "Back to the Default Text"
 msgstr "العودة إلى النص الافتراضي"
 
+#: onedesk/www/welcome.html:40
+msgid "Back to your account"
+msgstr "العودة إلى حسابك"
+
 #: onedesk/public/js/settings.js:1908
 msgid "Back to {0}"
 msgstr "العودة إلى {0}"
@@ -2680,7 +2684,7 @@ msgstr ""
 msgid "By"
 msgstr "حسب"
 
-#: onedesk/www/start.html:73
+#: onedesk/www/start.html:72
 msgid "By continuing you agree to the {0} and the {1}."
 msgstr "بالمتابعة فإنك توافق على {0} و{1}."
 
@@ -3667,7 +3671,7 @@ msgstr "بصمة المحتوى"
 msgid "Continue to Payment"
 msgstr "المتابعة إلى الدفع"
 
-#: onedesk/www/start.html:80 onedesk/www/welcome.html:32
+#: onedesk/www/start.html:79 onedesk/www/welcome.html:32
 msgid "Continue to payment"
 msgstr "المتابعة إلى الدفع"
 
@@ -5037,7 +5041,7 @@ msgstr "«أحدهما» يقبل تسجيل الحضور الذي يجتاز أ
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json
 #: onedesk/one_storage/doctype/cloud_link_invitee/cloud_link_invitee.json
 #: onedesk/public/js/settings.js:206 onedesk/public/js/settings.js:963
-#: onedesk/public/js/settings.js:1997 onedesk/www/start.html:39
+#: onedesk/public/js/settings.js:1997 onedesk/www/start.html:37
 msgid "Email"
 msgstr "البريد الإلكتروني"
 
@@ -6273,7 +6277,7 @@ msgstr "المتاح (ساعات)"
 msgid "Free Trial (Days)"
 msgstr "تجربة مجانية (أيام)"
 
-#: onedesk/www/start.py:106
+#: onedesk/www/start.py:110
 msgid "Free for {0} days"
 msgstr "مجاناً لمدة {0} يوماً"
 
@@ -6476,10 +6480,6 @@ msgstr "الحاوية العالمية"
 msgid "Gmail and Outlook want an app password here, made in the account's security settings."
 msgstr "يتطلب Gmail وOutlook هنا كلمة مرور تطبيق، تُنشأ من إعدادات أمان الحساب."
 
-#: onedesk/www/start.html:26
-msgid "Go"
-msgstr ""
-
 #: onedesk/one/ai.py:36
 msgid "Go through the Profile page with me: what each part is for, and what only HR can change."
 msgstr "اشرح لي صفحة الملف الشخصي: ما الغرض من كل جزء، وما الذي لا يغيّره إلا الموارد البشرية."
@@ -6679,6 +6679,10 @@ msgstr "فيها مرفق"
 #: onedesk/public/js/settings.js:903
 msgid "Has not joined yet"
 msgstr "لم ينضم بعد"
+
+#: onedesk/www/start.html:25
+msgid "Have a One account?"
+msgstr "لديك حساب في One؟"
 
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:15
 msgid "Head Office"
@@ -10829,7 +10833,7 @@ msgstr "صباح عيد ميلاد زميل."
 msgid "On the morning of a colleague's work anniversary."
 msgstr "صباح ذكرى عمل زميل."
 
-#: onedesk/one_admin/accounts.py:164
+#: onedesk/one_admin/accounts.py:168
 msgid "On trial"
 msgstr "فترة تجريبية"
 
@@ -12136,7 +12140,7 @@ msgstr "الرواتب"
 msgid "Pay it from Payment Method so the workspace stays open."
 msgstr "ادفعها من طريقة الدفع لتبقى مساحة العمل مفتوحة."
 
-#: onedesk/one_admin/accounts.py:172
+#: onedesk/one_admin/accounts.py:174
 msgid "Pay to keep it running."
 msgstr "ادفع لإبقائها تعمل."
 
@@ -12211,11 +12215,11 @@ msgstr "دفع مساحة العمل متأخر. ما لم يُدفع، ستُع
 msgid "Payment for {workspace} did not arrive, so it is suspended: nobody can sign in, and nothing in it is touched.<br><br>Pay the invoice we sent you and it comes straight back. Unless it is paid, it is archived on {date}. If something is wrong, reply to this mail."
 msgstr "لم تصل دفعة {workspace}، لذا عُلّقت: لا يمكن لأحد تسجيل الدخول، ولا يُمسّ شيء فيها.<br><br>ادفع الفاتورة التي أرسلناها إليك وستعود فورًا. ما لم تُدفع، ستُؤرشف في {date}. إن كان هناك خطأ، فردّ على هذه الرسالة."
 
-#: onedesk/www/start.py:68
+#: onedesk/www/start.py:72
 msgid "Payment is taken by Stripe. A plan with a trial takes your card now and charges it when the trial ends."
 msgstr "تتم الدفعة عبر Stripe. والخطة ذات التجربة تأخذ بطاقتك الآن وتخصم منها عند انتهاء التجربة."
 
-#: onedesk/www/start.py:72
+#: onedesk/www/start.py:76
 msgid "Payment is taken by Stripe. Nothing is charged until it is confirmed there."
 msgstr "تتم الدفعة عبر Stripe. ولا يُخصم شيء حتى تُؤكَّد هناك."
 
@@ -12523,7 +12527,7 @@ msgstr "أعيد ترتيب الجميع بناءً على ما كتبته عن 
 #: onedesk/one_admin/doctype/tenant/tenant.json onedesk/one_admin/heads.py:670
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:160
 #: onedesk/public/js/settings.js:1060 onedesk/public/js/settings.js:1062
-#: onedesk/public/js/settings.js:1196 onedesk/www/start.html:59
+#: onedesk/public/js/settings.js:1196 onedesk/www/start.html:58
 msgid "Plan"
 msgstr "الخطة"
 
@@ -12760,7 +12764,7 @@ msgstr "أساسي"
 msgid "Primary Domain"
 msgstr "النطاق الرئيسي"
 
-#: onedesk/one_legal/gate.py:40 onedesk/www/start.html:75
+#: onedesk/one_legal/gate.py:40 onedesk/www/start.html:74
 msgid "Privacy Policy"
 msgstr "سياسة الخصوصية"
 
@@ -14685,7 +14689,7 @@ msgstr "يُعيَّن عندما كان الصف لوحدة قبل أن تغي�
 msgid "Set when the workspace was made. The currency cannot change once there are books."
 msgstr "حُدّد عند إنشاء مساحة العمل. لا يمكن تغيير العملة بعد وجود دفاتر."
 
-#: onedesk/one_admin/accounts.py:177
+#: onedesk/one_admin/accounts.py:179
 msgid "Setting it up hit a problem on our side, and we are on it."
 msgstr "واجه الإعداد مشكلة من جهتنا، ونحن نعمل على حلّها."
 
@@ -14925,11 +14929,15 @@ msgstr "تسجيل الخروج من كل مكان"
 msgid "Sign Out Everywhere Else"
 msgstr "تسجيل الخروج من كل مكان آخر"
 
+#: onedesk/www/start.html:25
+msgid "Sign in"
+msgstr "تسجيل الدخول"
+
 #: onedesk/one/push.py:115
 msgid "Sign in first."
 msgstr "سجّل الدخول أولاً."
 
-#: onedesk/one_admin/accounts.py:195
+#: onedesk/one_admin/accounts.py:197
 msgid "Sign in to your One account first."
 msgstr "سجّل الدخول إلى حسابك في One أولًا."
 
@@ -14987,6 +14995,10 @@ msgstr "سجّل الدخول"
 #: onedesk/www/account.html:16
 msgid "Signed in as {0}."
 msgstr "مسجّل الدخول باسم {0}."
+
+#: onedesk/www/start.html:23
+msgid "Signed in as {0}. The workspace joins your account."
+msgstr "مسجّل الدخول باسم {0}. ستنضم مساحة العمل إلى حسابك."
 
 #: onedesk/public/js/settings.js:928
 msgid "Signed in nowhere."
@@ -15913,7 +15925,7 @@ msgstr "مأخوذ من وصف المزوّد نفسه للنموذج ومن ك�
 msgid "Taking the name off the edge"
 msgstr "إزالة الاسم من الشبكة"
 
-#: onedesk/www/start.html:80 onedesk/www/welcome.html:32
+#: onedesk/www/start.html:79 onedesk/www/welcome.html:32
 msgid "Taking you to Stripe…"
 msgstr "جارٍ نقلك إلى Stripe…"
 
@@ -16065,7 +16077,7 @@ msgstr "نطاق مساحة عمل"
 msgid "Tenant Event"
 msgstr "حدث مساحة عمل"
 
-#: onedesk/one_legal/gate.py:36 onedesk/www/start.html:74
+#: onedesk/one_legal/gate.py:36 onedesk/www/start.html:73
 msgid "Terms of Service"
 msgstr "شروط الخدمة"
 
@@ -16136,8 +16148,8 @@ msgstr "هذا الرمز غير صحيح، أو انتهت صلاحيته."
 msgid "That did not go through."
 msgstr "لم يتم ذلك."
 
-#: onedesk/www/account.html:62 onedesk/www/start.html:119
-#: onedesk/www/welcome.html:73
+#: onedesk/www/account.html:62 onedesk/www/start.html:118
+#: onedesk/www/welcome.html:74
 msgid "That did not work. Try again in a moment."
 msgstr "لم ينجح ذلك. حاول مرة أخرى بعد لحظة."
 
@@ -16181,7 +16193,7 @@ msgstr "ليست هذه من فواتير مساحة العمل هذه."
 msgid "That is not one of your memories."
 msgstr "هذه ليست من ذكرياتك."
 
-#: onedesk/one_admin/signup.py:331
+#: onedesk/one_admin/signup.py:317
 msgid "That is not something on offer."
 msgstr "هذا ليس ضمن المعروض."
 
@@ -16213,7 +16225,7 @@ msgstr "مفتاح المرور هذا غير مسجَّل في هذا المو�
 msgid "That password is not right."
 msgstr "كلمة المرور هذه غير صحيحة."
 
-#: onedesk/one_admin/signup.py:264
+#: onedesk/one_admin/signup.py:242
 msgid "That plan is no longer on offer. Start again."
 msgstr "هذه الخطة لم تعد معروضة. ابدأ من جديد."
 
@@ -16268,7 +16280,7 @@ msgstr "سجل DNS"
 msgid "The Date"
 msgstr "التاريخ"
 
-#: onedesk/www/start.html:52
+#: onedesk/www/start.html:51
 msgid "The European Union keeps the workspace's files in the EU. This cannot be changed later."
 msgstr "اختيار الاتحاد الأوروبي يحفظ ملفات مساحة العمل داخل الاتحاد الأوروبي. لا يمكن تغيير ذلك لاحقًا."
 
@@ -16549,10 +16561,6 @@ msgstr "تُسجَّل المصروفات ويصبح المبلغ مستحقًا
 #: onedesk/one_admin/log.py:29
 msgid "The files were deleted"
 msgstr "حُذفت الملفات"
-
-#: onedesk/www/start.html:41
-msgid "The first account, and where the receipt goes."
-msgstr "أول حساب، وإليه يصل الإيصال."
 
 #. Description of the 'Matter' (Link) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -17240,10 +17248,6 @@ msgstr "لا يوجد قسم كهذا."
 msgid "There is no warehouse, so nothing can be received."
 msgstr "لا يوجد مستودع، لذا لا يمكن استلام شيء."
 
-#: onedesk/www/start.html:185
-msgid "There is no workspace by that name."
-msgstr "لا توجد مساحة عمل بهذا الاسم."
-
 #: onedesk/one_storage/api.py:138
 msgid "There is no {0} here."
 msgstr "لا يوجد {0} هنا."
@@ -17501,7 +17505,7 @@ msgstr "تعذّر فتح هذا القسم."
 msgid "This shift has check-ins but does not read them, so no Attendance is being written and every count that reads Attendance is empty. Open the shift and press Read Check-ins."
 msgstr "لهذه المناوبة تسجيلات حضور لكنها لا تقرأها، فلا يُكتب أي سجل حضور وتبقى كل الأرقام التي تعتمد عليه فارغة. افتح المناوبة واضغط قراءة تسجيلات الحضور."
 
-#: onedesk/one_admin/signup.py:262
+#: onedesk/one_admin/signup.py:240
 msgid "This signup can no longer be paid for. Start again."
 msgstr "لم يعد بالإمكان الدفع لهذا التسجيل. ابدأ من جديد."
 
@@ -17517,7 +17521,7 @@ msgstr "هذا الموقع لا يدير مساحات عمل."
 msgid "This takes a few minutes. This page updates by itself, and a link will be emailed to {0} when it is ready."
 msgstr "يستغرق ذلك بضع دقائق. تتحدّث هذه الصفحة تلقائيًا، وسيُرسل رابط إلى {0} عندما تصبح جاهزة."
 
-#: onedesk/one_admin/accounts.py:175
+#: onedesk/one_admin/accounts.py:177
 msgid "This takes a few minutes. We will mail you when it is ready."
 msgstr "يستغرق ذلك بضع دقائق. سنراسلك عندما تصبح جاهزة."
 
@@ -17565,7 +17569,7 @@ msgstr "ليس لمساحة العمل هذه اشتراك لتغييره. اط�
 msgid "This workspace has not been paid for yet."
 msgstr "لم يُدفع ثمن مساحة العمل هذه بعد."
 
-#: onedesk/one_admin/accounts.py:197
+#: onedesk/one_admin/accounts.py:199
 msgid "This workspace is not in your account."
 msgstr "مساحة العمل هذه ليست في حسابك."
 
@@ -17802,7 +17806,7 @@ msgstr "أكبر من أن تُرفق، لذا أُرسلت كروابط:"
 msgid "Too many emails?"
 msgstr "رسائل بريد كثيرة؟"
 
-#: onedesk/www/start.html:110
+#: onedesk/www/start.html:109
 msgid "Too many tries in a minute. Wait a moment and try again."
 msgstr "محاولات كثيرة خلال دقيقة. انتظر لحظة ثم حاول مرة أخرى."
 
@@ -19655,7 +19659,7 @@ msgstr "أين وصلت هذه الصفقة؟"
 msgid "Where does this deal stand? Say in a few lines what it is, how far it has got, what was said last and by whom, and what should happen next."
 msgstr "أين وصلت هذه الصفقة؟ قل في بضعة أسطر ما هي، وإلى أين وصلت، وما آخر ما قيل ومن قاله، وما الذي يجب أن يحدث بعد ذلك."
 
-#: onedesk/www/start.html:46
+#: onedesk/www/start.html:45
 msgid "Where files are kept"
 msgstr "أين تُحفظ الملفات"
 
@@ -20221,7 +20225,7 @@ msgstr "إعدادات مساحة العمل"
 msgid "Workspace Suspended"
 msgstr "عُلّقت مساحة العمل"
 
-#: onedesk/www/start.html:25 onedesk/www/start.html:33
+#: onedesk/www/start.html:30
 msgid "Workspace name"
 msgstr "اسم مساحة العمل"
 
@@ -20586,6 +20590,10 @@ msgstr "صناديق بريدك"
 msgid "Your One account"
 msgstr "حسابك في One"
 
+#: onedesk/www/start.html:39
+msgid "Your One account, the workspace's first administrator, and where the receipt goes."
+msgstr "حسابك في One، والمسؤول الأول عن مساحة العمل، والعنوان الذي يُرسل إليه الإيصال."
+
 #: onedesk/public/js/settings.js:699
 msgid "Your Organisation's"
 msgstr "الخاصة بمؤسستك"
@@ -20594,7 +20602,11 @@ msgstr "الخاصة بمؤسستك"
 msgid "Your Update"
 msgstr "تحديثك"
 
-#: onedesk/www/start.html:139
+#: onedesk/www/start.html:23
+msgid "Your account"
+msgstr "حسابك"
+
+#: onedesk/www/start.html:138
 msgid "Your address: {0}"
 msgstr "عنوانك: {0}"
 
@@ -21470,7 +21482,7 @@ msgstr "{0} + إضافة واحدة"
 msgid "{0} + {1} add-ons"
 msgstr "{0} + {1} إضافات"
 
-#: onedesk/www/start.py:126
+#: onedesk/www/start.py:130
 msgid "{0} AI credits a month"
 msgstr "{0} رصيد ذكاء اصطناعي شهرياً"
 
@@ -21480,16 +21492,16 @@ msgstr "{0} رصيد ذكاء اصطناعي شهرياً"
 msgid "{0} GB"
 msgstr "{0} غيغابايت"
 
-#: onedesk/one_admin/doctype/offering/offering.py:89 onedesk/www/start.py:122
+#: onedesk/one_admin/doctype/offering/offering.py:89 onedesk/www/start.py:126
 msgid "{0} GB database"
 msgstr "{0} غيغابايت قاعدة بيانات"
 
-#: onedesk/one_admin/doctype/offering/offering.py:88 onedesk/www/start.py:120
+#: onedesk/one_admin/doctype/offering/offering.py:88 onedesk/www/start.py:124
 msgid "{0} GB storage"
 msgstr "{0} غيغابايت تخزين"
 
 #: onedesk/one_admin/doctype/offering/offering_list.js:23
-#: onedesk/public/js/settings.js:1049 onedesk/www/start.py:102
+#: onedesk/public/js/settings.js:1049 onedesk/www/start.py:106
 msgid "{0} a month"
 msgstr "{0} شهرياً"
 
@@ -22271,7 +22283,7 @@ msgstr "{0} من 5"
 msgid "{0} paid and has no workspace"
 msgstr "دفع {0} وليس لديه مساحة عمل"
 
-#: onedesk/www/start.py:124
+#: onedesk/www/start.py:128
 msgid "{0} people"
 msgstr "{0} أشخاص"
 
@@ -22498,7 +22510,7 @@ msgstr "{0}% · {1} من {2} مهام"
 msgid "{0}'s actions only."
 msgstr "إجراءات {0} فقط."
 
-#: onedesk/one_admin/accounts.py:165
+#: onedesk/one_admin/accounts.py:169
 msgid "{0}, free until {1}"
 msgstr "{0}، مجانًا حتى {1}"
 

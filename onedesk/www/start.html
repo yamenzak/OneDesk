@@ -19,14 +19,11 @@
 	{% else %}
 	<p class="one-portal__lede">{{ _("Pick a name and a plan. The workspace is built as soon as the card is accepted.") }}</p>
 
-	<details class="one-have">
-		<summary>{{ _("Already have a workspace? Sign in") }}</summary>
-		<form id="one-find" class="one-have__form">
-			<input name="name" type="text" required autocomplete="organization" aria-label="{{ _('Workspace name') }}" placeholder="{{ _('Workspace name') }}">
-			<button type="submit" class="one-button">{{ _("Go") }}</button>
-		</form>
-		<small class="one-hint is-taken" id="one-found" hidden></small>
-	</details>
+	{% if me %}
+	<p class="one-signed">{{ _("Signed in as {0}. The workspace joins your account.").format(me|e) }} <a href="/account">{{ _("Your account") }}</a></p>
+	{% else %}
+	<p class="one-signed">{{ _("Have a One account?") }} <a href="/login?redirect-to=/start#login-with-email-link">{{ _("Sign in") }}</a></p>
+	{% endif %}
 
 	<form id="one-start">
 		<label class="one-field" for="workspace_name">
@@ -35,11 +32,13 @@
 			<small class="one-hint" id="one-slug" hidden></small>
 		</label>
 
+		{% if not me %}
 		<label class="one-field" for="email">
 			<span>{{ _("Email") }}</span>
 			<input id="email" name="email" type="email" required autocomplete="email">
-			<small class="one-note">{{ _("The first account, and where the receipt goes.") }}</small>
+			<small class="one-note">{{ _("Your One account, the workspace's first administrator, and where the receipt goes.") }}</small>
 		</label>
+		{% endif %}
 
 		{% if jurisdictions|length > 1 %}
 		<fieldset>
@@ -162,7 +161,7 @@
 		busy(true);
 		try {
 			const answer = await ask("onedesk.one_admin.signup.start", {
-				email: form.email.value,
+				email: form.email ? form.email.value : null,
 				workspace_name: form.workspace_name.value,
 				offering: form.offering.value,
 				jurisdiction: form.jurisdiction.value,
@@ -174,20 +173,6 @@
 		}
 	});
 
-	const find = document.getElementById("one-find");
-	const found = document.getElementById("one-found");
-	find.addEventListener("submit", async (event) => {
-		event.preventDefault();
-		found.hidden = true;
-		try {
-			const it = await ask("onedesk.one_admin.signup.where", { name: find.name.value });
-			if (it && it.at) return (window.location.href = `${it.at}/login`);
-			found.textContent = __("There is no workspace by that name.");
-		} catch (refused) {
-			found.textContent = refused;
-		}
-		found.hidden = false;
-	});
 })();
 </script>
 {% endblock %}

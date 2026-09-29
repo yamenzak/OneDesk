@@ -37,6 +37,7 @@
 				</div>
 			</form>
 		{% endif %}
+		{% if signed_in %}<p class="one-signed one-signed--after"><a href="/account">{{ _("Back to your account") }}</a></p>{% endif %}
 	{% endif %}
 </div>
 

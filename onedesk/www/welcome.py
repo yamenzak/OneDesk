@@ -64,4 +64,5 @@ def get_context(context):
 	# appears without anybody reloading.
 	context.watching = bool(asked) and asked.status in ("Paid", "Provisioning")
 	context.can_pay = bool(asked) and asked.status in ("New", "Paying") and not asked.tenant
+	context.signed_in = frappe.session.user != "Guest"
 	return context

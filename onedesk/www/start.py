@@ -36,6 +36,10 @@ def get_context(context):
 	context.offerings = [_drawn(one) for one in _plans()]
 	context.jurisdictions = _jurisdictions()
 	context.pay_note = _pay_note(context.offerings)
+	# Signed in to a One account: the workspace joins it, and no email is asked.
+	context.me = (
+		frappe.db.get_value("User", frappe.session.user, "email") if frappe.session.user != "Guest" else None
+	)
 	# The address preview, from the same setting a Tenant's domain is made of.
 	context.tenant_domain = (
 		frappe.db.get_single_value("One Admin Settings", "tenant_domain") or "t.4dl.app"

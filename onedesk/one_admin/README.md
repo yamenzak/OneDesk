@@ -225,8 +225,10 @@ agrees to the Terms of Service and the Privacy Policy, each linked to
 - **The plans** are the enabled plans in Price List, cheapest first, each with
   its trial, its description and what it gives: storage, database, people and
   credits a month. Changing a plan there changes this page.
-- **Already have a workspace? Sign in** asks for the workspace's name and
-  sends them to its address.
+- **Signed in to a One account**, the page asks no email: it says who is
+  signed in, and the workspace joins that account. Not signed in, it offers
+  **Sign in** for somebody who has an account, and the email typed becomes
+  the account (an address that already has one joins it).
 
 Stripe sends them back to **/welcome**, which says where their workspace
 stands and looks again every ten seconds while it is built, until **Open it**
@@ -492,8 +494,9 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   `home_page` (hooks `get_website_user_home_page`) sends it to `/account`.
 - **The portal pages** are `www/start`, `www/welcome`, `www/account` and `www/legal`, drawn
   in `public/css/portal.css` to frappe-ui's look (a guest page loads no desk
-  controls). `signup.available`, `where`, `start` and `pay` are the guest
-  calls, each rate-limited. `Account Request.access_key` opens `/welcome`
+  controls). `signup.available`, `start` and `pay` are the guest
+  calls, each rate-limited; `start` takes the signed-in account's email over
+  whatever the form sent. `Account Request.access_key` opens `/welcome`
   (`signup.owned`); `signup.remind` is the daily Finish Signing Up.
 
 - **Two gates** (`site.py`): the site config key `one_admin` makes a site the

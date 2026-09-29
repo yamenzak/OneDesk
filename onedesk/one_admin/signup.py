@@ -209,28 +209,6 @@ def available(name: str) -> dict:
 	return free(name)
 
 
-@frappe.whitelist(allow_guest=True)
-@rate_limit(limit=CHECKS_A_MINUTE, seconds=A_MINUTE)
-def where(name: str) -> dict:
-	"""The address of a workspace that exists, for "Already have one?".
-
-	Says no more than the address itself would: a workspace's address is public
-	the moment it has one, so asking by name gives nothing away.
-	"""
-	site.require_admin()
-	try:
-		slug = keys.slug(name)
-	except keys.Unnameable:
-		return {"at": None}
-	held = frappe.db.get_value(
-		"Tenant",
-		{"slug": slug, "status": ["in", ("Live", "Overdue", "Suspended")]},
-		["domain", "primary_domain"],
-		as_dict=True,
-	)
-	return {"at": f"https://{held.primary_domain or held.domain}" if held else None}
-
-
 def owned(request: str, key: str):
 	"""The request, if the key is the one it was given, else None.
 
@@ -318,14 +296,22 @@ def remind() -> None:
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
 @rate_limit(limit=STARTS_A_MINUTE, seconds=A_MINUTE)
-def start(email: str, workspace_name: str, offering: str, jurisdiction: str = "Global") -> dict:
+def start(workspace_name: str, offering: str, jurisdiction: str = "Global", email: str | None = None) -> dict:
 	"""Take a signup and hand back somewhere to pay.
 
 	The request is written before the customer is sent to Stripe, so a payment
 	that completes always has something to attach itself to. The reverse — a
 	session created first — leaves a paid customer whose request never existed.
+
+	Somebody signed in to their One account signs up as that account: the
+	email is theirs, whatever the form sent, so the workspace joins the account
+	they are looking at (accounts.hold, at payment).
 	"""
 	site.require_admin()
+	if frappe.session.user != "Guest":
+		email = frappe.db.get_value("User", frappe.session.user, "email") or frappe.session.user
+	if not email:
+		frappe.throw(frappe._("An email address is needed."))
 	sold = frappe.db.get_value("Offering", offering, ["name", "enabled"], as_dict=True)
 	if not sold or not sold.enabled:
 		frappe.throw(frappe._("That is not something on offer."))

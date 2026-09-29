@@ -151,6 +151,18 @@ you before the next.
    account.
 3. **Signed in on `/start`.** No email box, the workspace joins the account, the
    account's Stripe customer and card are reused. The lookup box goes.
+   Done, but for one part. The page says who is signed in and asks no email;
+   `signup.start` takes the account's email over anything posted; a guest is
+   offered Sign in; the lookup box and `signup.where` are gone; `/welcome`
+   links back to the account. **The Stripe customer is not shared.** Every
+   invoice event is matched to its workspace by customer (`stripe._ladder`,
+   `books`, `billing.invoices` and `billing.invoice` all read
+   `Tenant.stripe_customer`), so two workspaces on one customer would have one
+   workspace's failed payment suspend the other. Sharing it means matching by
+   subscription in those four places, proven against real Stripe events. Until
+   then each workspace keeps its own customer; where Link is switched on in our
+   Stripe account, Stripe offers the saved card to the same email at checkout. Stage 4 lists invoices per
+   workspace, so it does not need the shared customer either.
 4. **Invoices and card.** `/account/invoices` across workspaces, and Update
    card through Stripe's portal.
 5. **Profile and the move.** `/account/profile`; Who pays for this workspace in
