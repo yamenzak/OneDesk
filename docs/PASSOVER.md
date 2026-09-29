@@ -3801,6 +3801,51 @@ Done:
   Under the hood line. Plan descriptions (5, last point) are Price List
   data, left for you to write.
 
+### OneAdmin › Welcome (the page after Stripe)
+
+`/welcome` is where Stripe sends somebody back, paid or not. It opens only
+with the signup's key (from the start pass), reads the signup, and says one
+of six things: not paid yet (with **Continue to payment**), being built or
+trial started (looking again every ten seconds), ready (**Open it**), could
+not be built, closed without paying (**Start again**), or not found.
+
+1. **Notifications**: the page sends nothing. What it promises is true: the
+   set-password mail, Workspace Delayed on a failure. One gap: since the
+   account, whoever paid also has a One account, and the page never says
+   so. Recommended: ready and being built say "It is in your One account"
+   with **Sign in**.
+2. **OneAI**: nothing, and nothing needed on a guest page. Holds.
+3. **Intake**: nothing. Holds.
+4. **Permissions**: guest, admin site only, the key or nothing. One leak:
+   the key is in the address, and **Open it** and Stripe are other sites, so
+   the browser sends this address to them as the referrer. Recommended: the
+   page asks for no referrer (`<meta name="referrer" content="no-referrer">`).
+5. **Cross-module**:
+   - **Open it** goes to the workspace's given address (`Tenant.domain`),
+     not its own domain when it has one, and to the front page rather than
+     the sign-in. Recommended: `primary_domain` first, and `/login`.
+   - Ready on a trial says nothing about the trial; only "being built" did.
+     Recommended: "Free until {date}" under it, from the plan's trial days.
+   - **Start again** after closing Stripe opens an empty form, though we
+     know the name and plan they chose. Recommended: `/start` filled in.
+   - Could not be built gives nothing to quote. Recommended: the signup's
+     number and "reply to the mail we sent", so support can find it.
+6. **UI and UX**:
+   - a. While building, the whole page reloads every ten seconds, which
+     flickers and redraws everything. Recommended: ask for the status with
+     one `frappe.call` (`signup.state`, key-checked) and swap the text in
+     place; reload only when it changes.
+   - b. "This takes a few minutes" is said forever. A build stuck for an
+     hour still says it. Recommended: after fifteen minutes, "This is taking
+     longer than usual. We will mail you when it is ready."
+   - c. Ready shows the signup's name, which on a quick signup is the slug
+     (`acmeco`). Recommended: the workspace's name from the Tenant.
+7. **Documented**: README's The signup page covers it in two lines.
+   Recommended: a line each for the states above, once they change.
+8. **Legal**: nothing new. Holds.
+9. **Built from frappe**: `frappe.call` and a page template. The reload loop
+   is ours and goes with 6a. Holds otherwise.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
