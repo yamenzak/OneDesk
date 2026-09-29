@@ -143,7 +143,12 @@ you before the next.
    signed in, the workspaces held, Open, Start a workspace) came forward from
    stage 2.
 2. **`/account`.** Your workspaces with their standing and Open; Start another;
-   what is owed.
+   what is owed. Done: each says Being built, Live, On trial (free until when),
+   Payment overdue, Suspended or Archived, and an owing one says how many days
+   are left before the next fall and comes first. **Pay** opens Stripe's
+   billing portal for that workspace rather than its Plan screen, since a
+   suspended workspace cannot be opened to reach it. Workspace Ready links the
+   account.
 3. **Signed in on `/start`.** No email box, the workspace joins the account, the
    account's Stripe customer and card are reused. The lookup box goes.
 4. **Invoices and card.** `/account/invoices` across workspaces, and Update

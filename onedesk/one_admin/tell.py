@@ -175,6 +175,7 @@ def ready(tenant) -> None:
 		tenant.owner_email,
 		workspace=tenant.workspace_name or tenant.name,
 		address=tenant.get("domain") or tenant.get("site") or tenant.name,
+		account=frappe.utils.get_url("/account"),
 		reference_doctype="Tenant",
 		reference_name=tenant.name,
 	)

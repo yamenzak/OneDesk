@@ -145,7 +145,8 @@ TYPES = [
 		"subject": _lt("{workspace} is ready"),
 		"message": _lt(
 			"{workspace} is ready at {address}.<br><br>We have sent you a second email with a link to choose "
-			"your password. It works for 7 days. If it has not arrived, reply to this mail."
+			"your password. It works for 7 days. If it has not arrived, reply to this mail.<br><br>It is also "
+			'in <a href="{account}">your One account</a>, with every other workspace you hold.'
 		),
 		"outside": True,
 	},

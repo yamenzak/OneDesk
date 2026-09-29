@@ -20,17 +20,57 @@
 		{% for one in held %}
 		<li>
 			<span>
-				<span class="one-held__name">{{ (one.workspace_name or one.name)|e }}</span>
+				<span class="one-held__name">{{ (one.workspace_name or one.name)|e }} <span class="one-pill one-pill--{{ one.tone }}">{{ one.pill }}</span></span>
 				{% if one.at %}<small>{{ one.at }}</small>{% endif %}
+				{% if one.line %}<small class="one-held__line{% if one.may_pay %} is-owing{% endif %}">{{ one.line }}</small>{% endif %}
 			</span>
-			{% if one.at %}<a class="one-button" href="https://{{ one.at }}/login">{{ _("Open") }}</a>{% endif %}
+			<span class="one-held__do">
+				{% if one.may_pay %}<button type="button" class="one-button one-button--solid" data-pay="{{ one.name }}">{{ _("Pay") }}</button>{% endif %}
+				{% if one.opens and one.at %}<a class="one-button" href="https://{{ one.at }}/login">{{ _("Open") }}</a>{% endif %}
+			</span>
 		</li>
 		{% endfor %}
 	</ul>
+	<div class="one-alert" id="one-said" role="alert" hidden>
+		<svg class="one-alert__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+		<span></span>
+	</div>
+	<a class="one-done" href="/start">{{ _("Start another workspace") }}</a>
 	{% else %}
 	<p class="one-note">{{ _("This account holds no workspace yet.") }}</p>
-	{% endif %}
-
 	<a class="one-done" href="/start">{{ _("Start a workspace") }}</a>
+	{% endif %}
 </div>
+
+<script>
+// Pay opens Stripe's own page for the workspace's open invoice and card, and
+// Stripe sends them back here.
+document.querySelectorAll("[data-pay]").forEach((button) => {
+	button.addEventListener("click", () => {
+		const said = document.getElementById("one-said");
+		said.hidden = true;
+		button.disabled = true;
+		frappe
+			.call({
+				method: "onedesk.one_admin.accounts.pay",
+				args: { tenant: button.dataset.pay },
+				statusCode: {},
+				error_msg: document.createElement("div"),
+			})
+			.done((r) => (window.location.href = r.message.url))
+			.fail((xhr) => {
+				let text = __("That did not work. Try again in a moment.");
+				try {
+					const told = JSON.parse(xhr.responseJSON._server_messages).map((m) => JSON.parse(m).message);
+					if (told.length) text = told.join(" ");
+				} catch (e) {
+					// Nothing said: the line above.
+				}
+				said.querySelector("span").textContent = text;
+				said.hidden = false;
+				button.disabled = false;
+			});
+	});
+});
+</script>
 {% endblock %}

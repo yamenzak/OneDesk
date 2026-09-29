@@ -365,6 +365,10 @@
 	.one-portal .one-done {
 		color: #171c23;
 	}
+	.one-pill--green { background: rgba(34, 197, 94, 0.16); color: #6ee7a0; }
+	.one-pill--blue { background: rgba(59, 130, 246, 0.18); color: #93bbfd; }
+	.one-pill--orange { background: rgba(249, 115, 22, 0.18); color: #fdb07a; }
+	.one-pill--red { background: rgba(239, 68, 68, 0.18); color: #f19a9f; }
 	body {
 		background: #161b22;
 	}
@@ -851,8 +855,56 @@ a.one-portal__row:hover {
 }
 
 .one-held__name {
-	display: block;
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.5rem;
 	font-weight: 500;
+}
+
+.one-held small {
+	display: block;
+}
+
+.one-held__line.is-owing {
+	color: var(--ink);
+}
+
+.one-held__do {
+	display: flex;
+	flex: none;
+	gap: 0.5rem;
+}
+
+.one-held li {
+	align-items: flex-start;
+}
+
+/* frappe-ui's Badge, subtle, small: a tinted pill whose colour says the state. */
+.one-pill {
+	display: inline-block;
+	padding: 0.0625rem 0.5rem;
+	border-radius: 999px;
+	font-size: 0.75rem;
+	font-weight: 500;
+	line-height: 1.4;
+}
+
+.one-pill--gray { background: var(--sunk); color: var(--ink-soft); }
+.one-pill--green { background: #e4f5e9; color: #16794c; }
+.one-pill--blue { background: #e6f0ff; color: #1d59c9; }
+.one-pill--orange { background: #fff0e3; color: #b8520a; }
+.one-pill--red { background: #fdecec; color: #b4232c; }
+
+/* frappe-ui's solid Button. */
+.one-portal .one-button--solid {
+	background: var(--picked);
+	color: var(--paper);
+}
+
+.one-portal .one-button--solid:hover {
+	background: var(--picked);
+	opacity: 0.9;
 }
 
 .one-held small {

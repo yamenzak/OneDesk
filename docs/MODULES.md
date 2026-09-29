@@ -229,6 +229,7 @@ No doctypes yet.
 * `onedesk.one.settings.sign_out_everywhere`
 * `onedesk.one.signin.sign_out`
 * `onedesk.one.signin.update_password`
+* `onedesk.one_admin.accounts.pay`
 * `onedesk.one_admin.accounts.send_login_link`
 * `onedesk.one_admin.home.counts`
 * `onedesk.one_admin.home.needs`

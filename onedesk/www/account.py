@@ -1,8 +1,8 @@
 """A One account's own page (docs/ONE-ACCOUNT.md), on the admin site only.
 
-Where an account lands after signing in (accounts.home_page). For now it says
-who is signed in and which workspaces the account holds; stage 2 of the plan
-adds each one's standing, what is owed, and starting another.
+Where an account lands after signing in (accounts.home_page): who is signed
+in, the workspaces the account holds with where each stands, Pay for one that
+owes (Stripe's portal), Open for one that runs, and starting another.
 """
 
 import frappe
@@ -21,7 +21,5 @@ def get_context(context):
 
 	context.no_cache = 1
 	context.me = frappe.session.user
-	context.held = [
-		{**one, "at": one.primary_domain or one.domain} for one in accounts.workspaces(frappe.session.user)
-	]
+	context.held = accounts.workspaces(frappe.session.user)
 	return context

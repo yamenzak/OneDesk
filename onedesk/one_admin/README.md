@@ -247,8 +247,13 @@ both in one account.
 
 An account signs in at **/login** with **Login with Email Link**: One mails a
 link that works once, for a few minutes (**Sign-in Link**). There is no
-password. Signed in, it lands on **/account**, which lists its workspaces,
-each with **Open** to that workspace's own sign-in, and **Start a workspace**.
+password. Signed in, it lands on **/account**, which lists its workspaces
+and where each stands: **Being built**, **Live**, **On trial** with the day it
+ends, **Payment overdue**, **Suspended** or **Archived**. One that owes comes
+first and says how many days are left before it falls further, with **Pay**,
+which opens Stripe's page for its invoice and card. One that runs has
+**Open**, to that workspace's own sign-in. **Start another workspace** is at
+the foot. Workspace Ready links the account too.
 The account is not a sign-in to any workspace, and it has no desk.
 
 Only a customer's account can sign in by mailed link here. An operator of One

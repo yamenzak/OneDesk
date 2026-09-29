@@ -12,6 +12,7 @@ were already there.
 """
 
 import frappe
+from frappe import _lt
 from frappe.rate_limiter import rate_limit
 from frappe.www import login
 
@@ -103,10 +104,99 @@ def home_page(user: str) -> str | None:
 
 
 def workspaces(user: str) -> list[dict]:
-	"""The workspaces this account holds, for its own page."""
-	return frappe.get_all(
+	"""The workspaces this account holds, each with where it stands, for its
+	own page. A dropped one is gone and is not listed."""
+	held = frappe.get_all(
 		"Tenant",
-		filters={"account": user, "is_house": 0},
-		fields=["name", "workspace_name", "domain", "primary_domain", "status"],
+		filters={"account": user, "is_house": 0, "status": ["!=", "Dropped"]},
+		fields=[
+			"name",
+			"workspace_name",
+			"domain",
+			"primary_domain",
+			"status",
+			"status_since",
+			"offering",
+			"live_on",
+			"creation",
+			"stripe_customer",
+		],
 		order_by="creation asc",
 	)
+	told = [{**one, **_stands(one)} for one in held]
+	# What owes money first: it is the one thing on the page with a clock.
+	return sorted(told, key=lambda one: not one["owing"])
+
+
+#: What a customer reads for each rung: the pill, its colour, and whether the
+#: workspace can be opened. Words a customer would use, not the ladder's.
+STANDS = {
+	"Requested": (_lt("Being built"), "gray", False),
+	"Provisioning": (_lt("Being built"), "gray", False),
+	"Live": (_lt("Live"), "green", True),
+	"Overdue": (_lt("Payment overdue"), "orange", True),
+	"Suspended": (_lt("Suspended"), "red", False),
+	"Archived": (_lt("Archived"), "red", False),
+	"Failed": (_lt("Not built yet"), "red", False),
+}
+
+#: The sentence under an owing workspace: what happens next, and when.
+FALLS = {
+	"Overdue": _lt("Pay within {0} days, or it is suspended."),
+	"Suspended": _lt("Pay within {0} days, or it is archived."),
+	"Archived": _lt("Pay within {0} days, or it is closed for good."),
+}
+
+
+def _stands(one) -> dict:
+	"""Where one workspace stands, in the account's words (lifecycle.standing
+	for the clock, so the days here are the days the ladder will walk)."""
+	from frappe.utils import add_days, formatdate, getdate, today
+
+	from onedesk.one_admin import lifecycle
+
+	pill, tone, opens = STANDS.get(one.status, (_lt("Closed"), "gray", False))
+	plan = (
+		frappe.db.get_value("Offering", one.offering, ["label", "trial_days"], as_dict=True)
+		if one.offering
+		else None
+	)
+	line = plan.label if plan else ""
+	if one.status == "Live" and plan and plan.trial_days:
+		ends = add_days(getdate(one.live_on or one.creation), plan.trial_days)
+		if ends >= getdate(today()):
+			pill, tone = _lt("On trial"), "blue"
+			line = frappe._("{0}, free until {1}").format(plan.label, formatdate(ends))
+	owing = one.status in FALLS
+	if owing:
+		left = lifecycle.standing(one).get("days_left")
+		line = (
+			str(FALLS[one.status]).format(left) if left is not None else frappe._("Pay to keep it running.")
+		)
+	elif one.status in ("Requested", "Provisioning"):
+		line = frappe._("This takes a few minutes. We will mail you when it is ready.")
+	elif one.status == "Failed":
+		line = frappe._("Setting it up hit a problem on our side, and we are on it.")
+	return {
+		"at": one.primary_domain or one.domain,
+		"pill": str(pill),
+		"tone": tone,
+		"line": line,
+		"opens": opens,
+		"owing": owing,
+		"may_pay": owing and bool(one.stripe_customer),
+	}
+
+
+@frappe.whitelist(methods=["POST"])
+@rate_limit(limit=10, seconds=60)
+def pay(tenant: str) -> dict:
+	"""Stripe's billing portal for a workspace this account holds: its open
+	invoice, its card. Back to /account after."""
+	if not site.is_admin() or frappe.session.user == "Guest":
+		frappe.throw(frappe._("Sign in to your One account first."), frappe.PermissionError)
+	if frappe.db.get_value("Tenant", tenant, "account") != frappe.session.user:
+		frappe.throw(frappe._("This workspace is not in your account."), frappe.PermissionError)
+	from onedesk.one_admin import billing
+
+	return {"url": billing.portal(tenant, frappe.utils.get_url("/account"))}
