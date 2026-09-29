@@ -3602,6 +3602,57 @@ Done:
 - OneAI: **Who is spending the most?**, with `ai_usage` (operator-only).
 - README: an **AI Usage** section and an Under the hood line.
 
+### OneAdmin › Settings
+
+Settings is `One Admin Settings`, one page: the connections OneAdmin runs on
+(Frappe Cloud, Cloudflare, R2, Stripe, the AI Gateway), the money (credits
+per dollar, default markup, the preferred provider, what each thing costs
+us, the least margin), OneAI's persona, and the grace periods of the
+ladder. **Set Up Cloudflare** finds or makes everything Cloudflare needs
+from one token; **Try the Gateway** makes one call.
+
+1. **Notifications**: nothing is said when these change. A new markup
+   reprices every model and every AI call; new Stripe keys decide whether
+   payments land. Changes are kept (Version), but nobody hears.
+   Recommended: a **Settings Changed** notice to the other operators when
+   anything under money, a key or a grace period changes, naming who and
+   what (never the key's value).
+2. **OneAI**: nothing but "What stands out here?". Recommended: **Is
+   everything set up?**, with a reader, `settings_check` (operator-only):
+   which connections are filled in and which are empty, what Set Up
+   Cloudflare last said, and the money settings. Never a key.
+3. **Intake**: nothing. Holds.
+4. **Permissions**: One Operator reads and writes, refused off the admin
+   site. Holds, except **Share** is on. Recommended: off.
+5. **Cross-module**:
+   - **AI Usage's Charged is wrong, and it was mine.** It priced a credit
+     at Credits per Dollar (1,000 a dollar, so $0.001), which is what a
+     dollar of *provider cost* becomes. A credit *sells* at a pack's
+     price: $9 for 1,000, $0.009. So Charged read $0.36 where it was about
+     $3.24, and the margin 2.0× where it was nearer 18×. Recommended: Charged
+     at the smallest pack's price a credit, and Credits per Dollar's
+     description saying it is the cost side, not the price.
+   - The money here is used by Price Check, the Plan Calculator, the
+     Models list and AI Usage, and none of them links back. Holds: Price
+     Check has **Costs in Settings**.
+6. **UI and UX**:
+   - a. **One long page of eleven sections** mixing credentials with
+     prices and the ladder. Recommended: frappe's tabs: **Connections**
+     (Frappe Cloud, Cloudflare, Storage, Stripe, AI Gateway), **Money**
+     (credits, markup, costs, margin), **OneAI** (preferred provider,
+     persona), **Grace Periods**.
+   - b. **Last Setup** is raw JSON in a code box. Recommended: the same
+     table Set Up Cloudflare shows when pressed.
+   - c. Nothing says what is missing. An empty Stripe webhook secret means
+     every payment is refused, and the page looks the same as one that
+     works. Recommended: a Record Head sentence naming what is not set and
+     what it stops.
+7. **Documented**: the README points at Settings from five places and has
+   no section on it. Recommended: a **Settings** section.
+8. **Legal**: the persona is sent to the model before every action, as
+   every prompt is (the AI Addendum covers it). Holds.
+9. **Built from frappe**: a Single doctype and its form. Holds.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
