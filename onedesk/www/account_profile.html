@@ -1,0 +1,100 @@
+{% extends "templates/web.html" %}
+{% block title %}{{ _("Profile") }}{% endblock %}
+
+{%- block navbar -%}{%- endblock -%}
+{%- block footer -%}{%- endblock -%}
+{% block breadcrumbs %}{% endblock %}
+
+{% block page_content %}
+<div class="one-portal">
+	<a class="one-portal__mark" href="/account">
+		<img src="/assets/onedesk/images/one.svg" alt="">
+		<span>One</span>
+	</a>
+
+	{% include "templates/includes/one_account_tabs.html" %}
+
+	<h1>{{ _("Profile") }}</h1>
+	{% if changed %}<p class="one-portal__lede">{{ _("Your account's address is now {0}.").format(me.name|e) }}</p>{% endif %}
+
+	<form id="one-name">
+		<label class="one-field" for="first_name">
+			<span>{{ _("First Name") }}</span>
+			<input id="first_name" name="first_name" type="text" required autocomplete="given-name" value="{{ (me.first_name or '')|e }}">
+		</label>
+		<label class="one-field" for="last_name">
+			<span>{{ _("Last Name") }}</span>
+			<input id="last_name" name="last_name" type="text" autocomplete="family-name" value="{{ (me.last_name or '')|e }}">
+		</label>
+		<button type="submit" class="one-button one-button--solid">{{ _("Save") }}</button>
+		<small class="one-note" id="one-name-said" hidden></small>
+	</form>
+
+	<h2 class="one-portal__heading">{{ _("Email") }}</h2>
+	<p class="one-note">{{ _("You sign in with {0}, and it is where invoices and notices about paying go.").format(me.name|e) }}</p>
+	<form id="one-email" class="one-inline">
+		<input name="email" type="email" required autocomplete="email" aria-label="{{ _('New Email') }}" placeholder="{{ _('New Email') }}">
+		<button type="submit" class="one-button">{{ _("Change") }}</button>
+	</form>
+	<small class="one-note" id="one-email-said" hidden></small>
+
+	<div class="one-alert" id="one-said" role="alert" hidden>
+		<svg class="one-alert__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+		<span></span>
+	</div>
+</div>
+
+<script>
+(() => {
+	const said = document.getElementById("one-said");
+	const refusal = (xhr) => {
+		try {
+			const told = JSON.parse(xhr.responseJSON._server_messages).map((m) => JSON.parse(m).message);
+			if (told.length) return told.join(" ");
+		} catch (e) {
+			// Nothing said: the line below.
+		}
+		return __("That did not work. Try again in a moment.");
+	};
+	const ask = (method, args) =>
+		new Promise((resolve, reject) =>
+			frappe
+				.call({ method, args, statusCode: {}, error_msg: document.createElement("div") })
+				.done((r) => resolve(r.message))
+				.fail((xhr) => reject(refusal(xhr)))
+		);
+	const tell = (text) => {
+		said.querySelector("span").textContent = text || "";
+		said.hidden = !text;
+	};
+
+	const name = document.getElementById("one-name");
+	name.addEventListener("submit", async (event) => {
+		event.preventDefault();
+		tell("");
+		const done = document.getElementById("one-name-said");
+		try {
+			await ask("onedesk.one_admin.accounts.save_name", { first_name: name.first_name.value, last_name: name.last_name.value });
+			done.textContent = __("Saved.");
+			done.hidden = false;
+		} catch (refused) {
+			tell(refused);
+		}
+	});
+
+	const email = document.getElementById("one-email");
+	email.addEventListener("submit", async (event) => {
+		event.preventDefault();
+		tell("");
+		const done = document.getElementById("one-email-said");
+		try {
+			const it = await ask("onedesk.one_admin.accounts.ask_email_change", { email: email.email.value });
+			done.textContent = __("We sent a link to {0}. The address changes when it is followed, within the hour.", [it.sent_to]);
+			done.hidden = false;
+		} catch (refused) {
+			tell(refused);
+		}
+	});
+})();
+</script>
+{% endblock %}

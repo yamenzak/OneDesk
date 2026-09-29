@@ -101,6 +101,7 @@ def refresh() -> dict:
 		{
 			"tenant": said.get("tenant"),
 			"workspace_name": said.get("workspace"),
+			"billed_to": said.get("billed_to"),
 			"status": said.get("status"),
 			"domain": said.get("domain"),
 			"dns_target": said.get("dns_target"),
@@ -486,6 +487,31 @@ def plans_take(plan: str, extras: str | dict | None = None, label: str | None = 
 			by=frappe.utils.get_fullname(),
 			plan=label or plan,
 			monthly=frappe.utils.fmt_money(said.get("monthly") or 0, currency=said.get("currency") or "USD"),
+		)
+	return said
+
+
+@frappe.whitelist(methods=["POST"])
+def move_billing(email: str) -> dict:
+	"""Make somebody else the one who pays: the workspace moves to the One
+	account for their address (one_admin/accounts.py, move). Both addresses are
+	mailed there; the other administrators hear it here."""
+	roles.require()
+	try:
+		said = ask("onedesk.one_admin.proxy.billed_to", email=email, by=frappe.utils.get_fullname())
+	except faults.Refused as refused:
+		frappe.throw(_plainly(refused), title=frappe._("Who pays was not changed"))
+	refresh()
+	from onedesk.one import notify
+
+	people = [one for one in _administrators() if one != frappe.session.user]
+	if people:
+		notify.notify(
+			"Payer Changed",
+			people,
+			link=PAGE,
+			by=frappe.utils.get_fullname(),
+			email=said.get("billed_to") or email,
 		)
 	return said
 

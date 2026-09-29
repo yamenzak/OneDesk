@@ -142,6 +142,7 @@ def hello(database_bytes: int | None = None) -> dict:
 		"Tenant",
 		tenant.name,
 		[
+			"account",
 			"seats",
 			"database_bytes",
 			"database_limit",
@@ -174,6 +175,8 @@ def hello(database_bytes: int | None = None) -> dict:
 		# Who paid for it: made its first administrator and invited, once, by a
 		# workspace nobody administers yet (one/owner.py).
 		"owner": known.owner_email,
+		# Whose One account holds it now: who is billed and told (accounts.py).
+		"billed_to": known.get("account"),
 		"domain": known.primary_domain or known.domain,
 		"given_domain": known.domain,
 		"jurisdiction": known.jurisdiction,
@@ -332,6 +335,16 @@ def billing_invoice(invoice: str) -> dict:
 	from onedesk.one_admin import billing
 
 	return billing.invoice(caller().name, invoice)
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def billed_to(email: str, by: str | None = None) -> dict:
+	"""Move this workspace to the One account for this address. The workspace
+	asks only for its administrators (one/account.py, move_billing)."""
+	from onedesk.one_admin import accounts
+
+	return {"billed_to": accounts.move(caller().name, email, by)}
 
 
 @frappe.whitelist(allow_guest=True)

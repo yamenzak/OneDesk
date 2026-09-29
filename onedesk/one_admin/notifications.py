@@ -83,6 +83,61 @@ TYPES = [
 		"required": True,
 	},
 	{
+		"name": _lt("Workspace Moved to You"),
+		"app": "OneAdmin",
+		"roles": ("One Operator",),
+		"about": _lt("When a workspace's administrator makes somebody the one who pays for it."),
+		"to": _lt("The new account holder"),
+		"subject": _lt("{workspace} is now in your One account"),
+		"message": _lt(
+			"{by} made you the one who pays for {workspace}. Its invoices and notices about paying come to "
+			'you from now on.<br><br><a href="{account}">Open your One account</a> and sign in with this '
+			"address. If this is a mistake, reply to this mail."
+		),
+		"outside": True,
+	},
+	{
+		"name": _lt("Workspace Moved Away"),
+		"app": "OneAdmin",
+		"roles": ("One Operator",),
+		"about": _lt("When a workspace's administrator moves it to somebody else's account."),
+		"to": _lt("The previous account holder"),
+		"subject": _lt("{workspace} has left your One account"),
+		"message": _lt(
+			"{by} made somebody else the one who pays for {workspace}. You will get no more invoices for "
+			"it. If this is a mistake, reply to this mail."
+		),
+		"outside": True,
+	},
+	{
+		"name": _lt("Confirm Your New Email"),
+		"app": "OneAdmin",
+		"roles": ("One Operator",),
+		"about": _lt("When an account holder asks to change their address. It cannot be turned off."),
+		"to": _lt("The new address"),
+		"subject": _lt("Confirm your new address for One"),
+		"message": _lt(
+			'<a href="{link}">Use this address for my One account</a><br><br>The link works once, for '
+			"{minutes} minutes. If you did not ask for this, you can ignore this mail."
+		),
+		"outside": True,
+		"required": True,
+	},
+	{
+		"name": _lt("Account Email Changed"),
+		"app": "OneAdmin",
+		"roles": ("One Operator",),
+		"about": _lt("When an account holder's address has changed. It cannot be turned off."),
+		"to": _lt("The previous address"),
+		"subject": _lt("Your One account has a new address"),
+		"message": _lt(
+			"Your One account now signs in with {address}, and its invoices go there. If you did not do "
+			"this, reply to this mail at once."
+		),
+		"outside": True,
+		"required": True,
+	},
+	{
 		"name": _lt("New Signup"),
 		"app": "OneAdmin",
 		"roles": ("One Operator",),

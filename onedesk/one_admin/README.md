@@ -257,6 +257,18 @@ which opens Stripe's page for its invoice and card. One that runs has
 **Open**, to that workspace's own sign-in. **Start another workspace** is at
 the foot. Workspace Ready links the account too.
 
+**Profile**, the third tab, has the account holder's name, and their
+address. A new address is mailed a link that works for an hour; the account
+moves to it only when the link is followed, and the old address is told
+(**Confirm Your New Email**, **Account Email Changed**).
+
+A workspace's administrator can make somebody else the one who pays, from
+the workspace's own Plan and Credits (**Who Pays**). The workspace moves to
+that email's One account, made if needed; they are mailed **Workspace Moved
+to You** and the previous holder **Workspace Moved Away**, and the log says
+**Account Moved**. From then on the suspension, archive and restore mails go
+to them rather than to the address the workspace was bought with.
+
 **Invoices**, the account's second tab, lists every invoice across its
 workspaces, newest first: the date, the workspace, the invoice number, the
 amount and whether it is **Paid**, **Due**, **Unpaid** or **Cancelled**, with
@@ -465,7 +477,10 @@ Operators are told without opening Home:
   stopped working.
 
 An account holder asking to sign in is mailed **Sign-in Link**, which cannot
-be turned off. The person who signed up is mailed **Workspace Delayed** once if it could not
+be turned off, and one changing their address **Confirm Your New Email**
+and, once changed, **Account Email Changed** at the old one. A workspace
+moved to another account mails **Workspace Moved to You** and **Workspace
+Moved Away**. The person who signed up is mailed **Workspace Delayed** once if it could not
 be made, so a payment is never followed by silence, and **Finish Signing Up**
 once, a day after, if they never paid. The workspace's owner is
 mailed **Workspace Ready** when it is built (see Jobs), and **Workspace Suspended**, **Workspace Archived** and **Workspace
@@ -500,7 +515,8 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   `send_login_link` overrides frappe's on the admin site only, and
   `home_page` (hooks `get_website_user_home_page`) sends it to `/account`.
 - **The portal pages** are `www/start`, `www/welcome`, `www/account`,
-  `www/account_invoices` (routed from `/account/invoices`) and `www/legal`, drawn
+  `www/account_invoices` and `www/account_profile` (routed from
+  `/account/invoices` and `/account/profile`) and `www/legal`, drawn
   in `public/css/portal.css` to frappe-ui's look (a guest page loads no desk
   controls). `signup.available`, `start` and `pay` are the guest
   calls, each rate-limited; `start` takes the signed-in account's email over

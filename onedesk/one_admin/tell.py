@@ -138,10 +138,13 @@ def owing(tenant, rung: str, why: str) -> None:
 
 @_quietly
 def owner(tenant, rung: str, was: str | None) -> None:
-	"""The workspace's owner, mailed when it is suspended, archived or
+	"""Whoever pays for the workspace, mailed when it is suspended, archived or
 	restored (steps._arrive). Overdue is told on their own site
 	(one/account.py); a suspended one cannot tell them anything."""
-	if not tenant.get("owner_email"):
+	# Whoever holds it in their One account is who pays, so who is told; the
+	# address it was bought with only if nobody holds it yet.
+	to = tenant.get("account") or tenant.get("owner_email")
+	if not to:
 		return
 	from frappe.utils import add_days, formatdate, today
 
@@ -155,13 +158,13 @@ def owner(tenant, rung: str, was: str | None) -> None:
 	}
 	if rung == "Suspended":
 		on = formatdate(add_days(today(), days["Suspended"]))
-		notify.mail("Workspace Suspended", tenant.owner_email, date=on, **said)
+		notify.mail("Workspace Suspended", to, date=on, **said)
 	elif rung == "Archived":
 		on = formatdate(add_days(today(), days["Archived"]))
-		notify.mail("Workspace Archived", tenant.owner_email, date=on, **said)
+		notify.mail("Workspace Archived", to, date=on, **said)
 	elif rung == "Live" and was == "Suspended":
 		address = tenant.get("domain") or tenant.get("site") or tenant.name
-		notify.mail("Workspace Restored", tenant.owner_email, address=address, **said)
+		notify.mail("Workspace Restored", to, address=address, **said)
 
 
 @_quietly

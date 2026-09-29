@@ -253,3 +253,120 @@ def invoices(user: str) -> dict:
 			)
 	found.sort(key=lambda bill: bill["created"] or 0, reverse=True)
 	return {"invoices": found, "missed": missed}
+
+
+def move(tenant: str, email: str, by: str | None = None) -> str:
+	"""Put a workspace in another account: whoever pays for it now.
+
+	Asked by the workspace for one of its administrators (proxy.billed_to).
+	The new holder is mailed that it is theirs and how to sign in; the old one
+	that it has gone. The log keeps both addresses.
+	"""
+	from frappe.utils import get_url, validate_email_address
+
+	from onedesk.one import notify
+	from onedesk.one_admin import log
+
+	email = (validate_email_address((email or "").strip().lower(), throw=True) or "").strip().lower()
+	held = frappe.db.get_value("Tenant", tenant, ["account", "workspace_name", "is_house"], as_dict=True)
+	if not held or held.is_house:
+		frappe.throw(frappe._("This workspace cannot be moved."))
+	was = held.account
+	now = ensure(email)
+	if now == was:
+		return now
+	frappe.db.set_value("Tenant", tenant, "account", now)
+	log.write(tenant, "Account Moved", f"{was or '—'} → {now}", by="Customer")
+	said = {
+		"workspace": held.workspace_name or tenant,
+		"by": by or frappe._("An administrator"),
+		"reference_doctype": "Tenant",
+		"reference_name": tenant,
+	}
+	notify.mail("Workspace Moved to You", now, account=get_url("/account"), **said)
+	if was:
+		notify.mail("Workspace Moved Away", was, **said)
+	return now
+
+
+def _me() -> str:
+	if not site.is_admin() or frappe.session.user == "Guest":
+		frappe.throw(frappe._("Sign in to your One account first."), frappe.PermissionError)
+	return frappe.session.user
+
+
+@frappe.whitelist(methods=["POST"])
+def save_name(first_name: str, last_name: str | None = None) -> dict:
+	"""The account holder's own name, as their mails address them."""
+	me = frappe.get_doc("User", _me())
+	me.first_name = (first_name or "").strip() or me.first_name
+	me.last_name = (last_name or "").strip()
+	me.save(ignore_permissions=True)
+	return {"full_name": me.full_name}
+
+
+#: How long the link to confirm a new address lasts.
+CONFIRM_MINUTES = 60
+
+
+@frappe.whitelist(methods=["POST"])
+@rate_limit(limit=5, seconds=60 * 60)
+def ask_email_change(email: str) -> dict:
+	"""Mail the new address a link; nothing changes until it is followed.
+
+	The account is proven by its mailbox, so a new address has to be proven
+	the same way before the account moves to it.
+	"""
+	from frappe.utils import get_url, validate_email_address
+
+	from onedesk.one import notify
+
+	me = _me()
+	email = (validate_email_address((email or "").strip().lower(), throw=True) or "").strip().lower()
+	if email == me:
+		frappe.throw(frappe._("That is already this account's address."))
+	if frappe.db.exists("User", email):
+		frappe.throw(frappe._("That address already has an account. Sign in with it instead."))
+	key = frappe.generate_hash(length=32)
+	frappe.cache.set_value(f"one_account_email:{key}", [me, email], expires_in_sec=CONFIRM_MINUTES * 60)
+	notify.mail(
+		"Confirm Your New Email",
+		email,
+		link=get_url(f"/api/method/onedesk.one_admin.accounts.confirm_email?key={key}"),
+		minutes=CONFIRM_MINUTES,
+		now=True,
+	)
+	return {"sent_to": email}
+
+
+@frappe.whitelist(allow_guest=True, methods=["GET"])
+@rate_limit(limit=5, seconds=60 * 60)
+def confirm_email(key: str):
+	"""The link in Confirm Your New Email: the account becomes the new address.
+
+	frappe's own rename moves the User and every link to it, Tenant.account
+	included. The person is signed in as the new address, which the click just
+	proved, and the old address is told it changed.
+	"""
+	from onedesk.one import notify
+
+	held = frappe.cache.get_value(f"one_account_email:{key}")
+	if not held or not site.is_admin():
+		frappe.respond_as_web_page(
+			frappe._("Link expired"),
+			frappe._("This link has been used or has expired. Ask for a new one from your account."),
+			http_status_code=403,
+			indicator_color="red",
+		)
+		return
+	frappe.cache.delete_value(f"one_account_email:{key}")
+	was, now = held
+	from frappe.model.rename_doc import rename_doc
+
+	rename_doc("User", was, now, force=True, ignore_permissions=True, show_alert=False)
+	frappe.db.set_value("User", now, "email", now)
+	frappe.db.commit()
+	notify.mail("Account Email Changed", was, address=now, now=True)
+	frappe.local.login_manager.login_as(now)
+	frappe.local.response["type"] = "redirect"
+	frappe.local.response["location"] = "/account/profile?changed=1"

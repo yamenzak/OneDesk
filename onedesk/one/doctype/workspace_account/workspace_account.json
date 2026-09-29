@@ -10,6 +10,7 @@
   "column_break_who",
   "status",
   "domain",
+  "billed_to",
   "plan",
   "seats",
   "database_bytes",
@@ -271,12 +272,20 @@
    "label": "Next Status",
    "read_only": 1,
    "hidden": 1
+  },
+  {
+   "fieldname": "billed_to",
+   "fieldtype": "Data",
+   "options": "Email",
+   "label": "Payer",
+   "read_only": 1,
+   "description": "The One account that holds this workspace, gets its invoices and hears about paying."
   }
  ],
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-09-27 14:00:00.000000",
+ "modified": "2026-09-29 21:30:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "Workspace Account",

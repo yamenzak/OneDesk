@@ -147,6 +147,15 @@ TYPES = [
 		"email": False,
 	},
 	{
+		"name": _lt("Payer Changed"),
+		"app": "One",
+		"about": _lt("When another administrator changes who pays for the workspace."),
+		"to": _lt("Every other administrator"),
+		"subject": _lt("{by} changed who pays for the workspace"),
+		"message": _lt("{by} made {email} the one who pays. The workspace's invoices go to them from now on."),
+		"email": False,
+	},
+	{
 		"name": _lt("Payment Overdue"),
 		"app": "One",
 		"about": _lt("When payment for the workspace is overdue, with the day it will be suspended."),

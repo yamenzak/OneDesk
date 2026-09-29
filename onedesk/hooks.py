@@ -956,6 +956,7 @@ website_route_rules = [
 	{"from_route": "/legal/<document>", "to_route": "legal"},
 	# A One account's invoices: www/account_invoices.py.
 	{"from_route": "/account/invoices", "to_route": "account_invoices"},
+	{"from_route": "/account/profile", "to_route": "account_profile"},
 ]
 
 # OneCloud as a network drive: a drive password signs a person in on the

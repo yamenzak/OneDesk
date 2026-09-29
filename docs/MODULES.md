@@ -15,7 +15,7 @@
 | Record Head Linked | 5 | child |
 | Record Head Sentence | 5 | child |
 | Record Head Verb | 4 | child |
-| Workspace Account | 36 | single |
+| Workspace Account | 37 | single |
 | Workspace Add-on | 4 | child |
 | Workspace Customization | 5 | document |
 | Workspace Domain | 5 | child |
@@ -182,6 +182,7 @@ No doctypes yet.
 * `onedesk.one.account.domain_primary`
 * `onedesk.one.account.domains`
 * `onedesk.one.account.domains_refresh`
+* `onedesk.one.account.move_billing`
 * `onedesk.one.account.plans_offered`
 * `onedesk.one.account.plans_quote`
 * `onedesk.one.account.plans_take`
@@ -229,7 +230,10 @@ No doctypes yet.
 * `onedesk.one.settings.sign_out_everywhere`
 * `onedesk.one.signin.sign_out`
 * `onedesk.one.signin.update_password`
+* `onedesk.one_admin.accounts.ask_email_change`
+* `onedesk.one_admin.accounts.confirm_email`
 * `onedesk.one_admin.accounts.pay`
+* `onedesk.one_admin.accounts.save_name`
 * `onedesk.one_admin.accounts.send_login_link`
 * `onedesk.one_admin.home.counts`
 * `onedesk.one_admin.home.needs`
@@ -254,6 +258,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.ai_models_for`
 * `onedesk.one_admin.proxy.ai_run`
 * `onedesk.one_admin.proxy.ai_usage`
+* `onedesk.one_admin.proxy.billed_to`
 * `onedesk.one_admin.proxy.billing_invoice`
 * `onedesk.one_admin.proxy.billing_invoices`
 * `onedesk.one_admin.proxy.billing_portal`

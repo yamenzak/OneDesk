@@ -1018,6 +1018,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				{ label: __("Storage, Database or Seats"), action: () => this.add_to_plan(data), group: __("Add") },
 				{ label: __("OneAI Credits"), action: () => this.buy_credits(), group: __("Add") },
 				{ label: __("Payment Method"), action: () => this.payment_portal() },
+				{ label: __("Who Pays"), action: () => this.move_billing(account) },
 				{ label: __("Check Again"), action: () => this.check_again() },
 			],
 		});
@@ -1061,6 +1062,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					facts([
 						[__("Plan"), esc(account.plan || "")],
 						[__("A Month"), account.monthly ? esc(money(account.monthly)) : ""],
+						[__("Who Pays"), esc(account.billed_to || "")],
 						[__("Seats"), `<a href="/desk/workspace-settings?section=people">${esc(seats)}</a>`],
 					]) +
 						(storage ? `<a class="os-bar" href="/desk/onecloud">${storage}</a>` : "") +
@@ -1175,6 +1177,34 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	async payment_portal() {
 		const said = await frappe.xcall("onedesk.one.bills.payment_portal");
 		if (said && said.url) window.open(said.url, "_blank", "noopener");
+	}
+
+	// Somebody else pays from now on: the workspace moves to their One account
+	// (one/account.py, move_billing), and both addresses are mailed.
+	move_billing(account) {
+		const dialog = new frappe.ui.Dialog({
+			title: __("Who Pays"),
+			fields: [
+				{
+					fieldname: "email",
+					fieldtype: "Data",
+					options: "Email",
+					label: __("Email"),
+					reqd: 1,
+					default: account.billed_to || "",
+					description: __("Their One account holds this workspace from now on: its invoices and notices about paying go to them."),
+				},
+			],
+			primary_action_label: __("Change"),
+			primary_action: async (values) => {
+				if (values.email === account.billed_to) return dialog.hide();
+				await frappe.xcall("onedesk.one.account.move_billing", { email: values.email });
+				dialog.hide();
+				frappe.show_alert({ message: __("{0} pays for the workspace now.", [values.email]), indicator: "green" });
+				this.refresh({ fresh: true });
+			},
+		});
+		dialog.show();
 	}
 
 	// Make the plan this with exactly these add-ons (one_admin/billing.py),

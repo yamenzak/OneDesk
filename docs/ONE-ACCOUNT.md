@@ -170,7 +170,14 @@ you before the next.
    card is per workspace, since each is its own Stripe customer (stage 3).
    The two account pages share a tab strip.
 5. **Profile and the move.** `/account/profile`; Who pays for this workspace in
-   Workspace › Plan; the two mails.
+   Workspace › Plan; the two mails. Done. The profile sets the name, and a new
+   address is proven by a mailed link before frappe's own rename moves the
+   User and every link to it, `Tenant.account` included (four mails in all,
+   the two about the address required). Who Pays is on the workspace's Plan
+   and Credits for its administrators; `proxy.billed_to` moves
+   `Tenant.account`, logs **Account Moved** and mails both holders, and the
+   ladder's suspension, archive and restore mails now go to the account
+   holder. `hello` carries `billed_to` so the workspace shows who pays.
 
 ## Not in this plan
 

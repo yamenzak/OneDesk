@@ -495,6 +495,12 @@ side says when they were last heard; **Check Again**, at the top, asks now.
   invoice is only ever booked once.
 - **Payment Method**, at the top, opens Stripe's billing page: the card,
   the billing address and past receipts.
+- **Who Pays** is the One account that holds the workspace: whoever its
+  invoices and the notices about paying go to. **Who Pays**, at the top,
+  changes it to another email; that person's One account holds the
+  workspace from then on, and both they and the one before are mailed. The
+  other administrators hear it (**Payer Changed**). Only an administrator can
+  change it.
 - **OneAI Credits** is what is left, what calls running now are holding,
   what was used in the last thirty days, and how many expire when. The
   plan's monthly credits expire at the end of the month and are used

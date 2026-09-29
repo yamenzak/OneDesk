@@ -20,6 +20,7 @@ def get_context(context):
 		raise frappe.Redirect
 
 	context.no_cache = 1
+	context.tab = "invoices"
 	context.me = frappe.session.user
 	told = accounts.invoices(frappe.session.user)
 	context.invoices = told["invoices"]

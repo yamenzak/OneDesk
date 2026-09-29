@@ -20,6 +20,7 @@ def get_context(context):
 		raise frappe.Redirect
 
 	context.no_cache = 1
+	context.tab = "workspaces"
 	context.me = frappe.session.user
 	context.held = accounts.workspaces(frappe.session.user)
 	return context
