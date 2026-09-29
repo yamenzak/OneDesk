@@ -2979,6 +2979,73 @@ Done:
   (`crm.acme.test` on Acme Co), and Nine Ltd's `nine.example.com` is its
   main address.
 
+### OneAdmin › Price List
+
+Price List is frappe's list and form of `Offering`: every plan, credit pack
+and add-on One sells, with its price, trial, Stripe price and quotas. It is
+the one screen in OneAdmin an operator writes in: the signup page, the
+customer's Plan and Credits screen, the Plan Calculator and Price Check all
+read it, and each offering has an Item in our books (`books.synced`). On the
+dev site: 13 (five plans, one disabled; three packs; five add-ons).
+
+1. **Notifications**: holds. A change reaches no customer by itself:
+   Stripe keeps a subscriber on the price they signed up at, and quotas
+   are copied onto a workspace. A change is money, though, and nothing
+   but the form's own history records who made it. Holds with
+   `track_changes`, which it has.
+2. **OneAI**: nothing but "Summarise this". Recommended: **How do our
+   plans compare?** on the list, reading every enabled offering (price,
+   trial, quotas, what an add-on adds) and saying where the steps between
+   plans are uneven; and on a plan, **Who is on this plan?**. Both read
+   only.
+3. **Intake**: nothing OneIntake reads lands here, and nothing should.
+   Holds.
+4. **Permissions**: holds. One Operator creates, edits and deletes; the
+   Key cannot change once set (`set_only_once`); frappe refuses to delete
+   one a workspace links to. Share is offered and does nothing;
+   recommended off.
+5. **Cross-module**:
+   - **The head is wrong for add-ons and packs.** "No workspace has bought
+     this yet" on 1 GB of Database, which Nine X has. `operator.sold`
+     counts only `Tenant.offering`, the plan. Recommended: an add-on
+     counts the workspaces carrying it (`Tenant Add-on`), a plan its
+     workspaces; a pack says it is bought once and not tracked per pack.
+   - **"Changing a price or a quota here does not change theirs" is half
+     true.** The price is true (Stripe keeps them on theirs). The quotas
+     are copied again, from this row, whenever the customer next changes
+     their plan or add-ons (`quota.apply`), so an edit reaches them then.
+     Recommended: say that.
+   - Nothing on the form leads to the workspaces on it, the signups that
+     chose it, or its Item in our books. Recommended: connections
+     Workspaces (plan and add-on) and Signups, and the Item for somebody
+     who may read the books.
+6. **UI and UX**:
+   - a. **Every field shows for every kind.** An add-on of 1 GB of
+     Database shows Storage 0, Seats 0 and Credits a Month 0, each
+     described "Zero means unlimited", which on an add-on is wrong; the
+     trial shows on add-ons, which cannot have one. `CARRIES` already
+     says what each kind carries. Recommended: show only those fields,
+     the trial only on a plan, and "Zero means unlimited" only on a plan.
+   - b. **The list mixes kinds** sorted by amount (a pack between two
+     add-ons), shows a Status column that is the Enabled tick, the ID,
+     and no quotas. Recommended: grouped by kind (plans first), Label,
+     Kind, Price ("$30 a month", "$9 once"), and what it gives in one
+     line ("20 GB · 1 GB database · 5 seats · 1,000 credits a month");
+     disabled rows greyed; no ID.
+   - c. **Nowhere to see it as a customer does.** Recommended: **See the
+     Signup Page** in the list's menu, opening `/start`.
+   - d. Stripe Price ID is shown to an operator who cannot change it;
+     folded.
+7. **Documented**: nothing in the README on the price list: the three
+   kinds, what each carries, what changing a price or quota does to
+   existing customers, trials, and why disabling only stops new signups.
+   Recommended: a **Price List** section.
+8. **Legal**: the Terms describe plans, trials and add-ons in general and
+   name no price. Holds.
+9. **Built from frappe**: frappe's list, form and Record Head.
+   `depends_on` shows each field for its kind; connections are frappe's
+   dashboard. Holds.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
