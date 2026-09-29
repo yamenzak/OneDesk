@@ -162,7 +162,8 @@ DOCUMENTS = {
 	"subprocessors": {
 		"title": "Subprocessors",
 		"audience": "customer",
-		"revision": 2,
+		# 3: Cloudflare also sends One's own mails to customers.
+		"revision": 3,
 		"summary": "Every third party that receives customer data, what for, and where it is kept.",
 	},
 	"ai": {

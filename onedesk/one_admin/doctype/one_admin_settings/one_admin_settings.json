@@ -20,6 +20,7 @@
   "column_break_cf",
   "tenant_domain",
   "mail_domain",
+  "sender_email",
   "set_up_cloudflare",
   "cloudflare_setup_said",
   "cloudflare_setup",
@@ -398,12 +399,20 @@
    "fieldtype": "Int",
    "label": "Archived For",
    "description": "The site is deleted, after an offsite backup. Files are deleted at the end of this period."
+  },
+  {
+   "fieldname": "sender_email",
+   "fieldtype": "Data",
+   "options": "Email",
+   "label": "Sender Email",
+   "default": "noreply@4dl.app",
+   "description": "Sign-in links, signups and notices to customers come from this address. It must be in the same zone as the mail domain."
   }
  ],
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-09-29 20:00:00.000000",
+ "modified": "2026-09-29 22:10:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",

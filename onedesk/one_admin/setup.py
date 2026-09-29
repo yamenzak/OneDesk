@@ -102,6 +102,8 @@ class Setup:
 			self.mail_routing,
 			self.catch_all,
 			self.mail_sending,
+			self.sender_sending,
+			self.sender_account,
 		):
 			try:
 				step()
@@ -258,6 +260,55 @@ class Setup:
 			return self.note("mail sending", OURS if found.get("enabled") else WAITING, mail)
 		made = self.call("POST", f"/zones/{zone}/email/sending/subdomains", json={"name": mail})["result"]
 		self.note("mail sending", MADE if made.get("enabled") else WAITING, mail)
+
+	def sender_sending(self) -> None:
+		"""Sending for the domain One's own mails come from (Sender Email), the
+		way mail_sending does it for the mail domain. Nothing to do when the
+		sender is on the mail domain itself."""
+		sender = (self.settings.sender_email or "noreply@4dl.app").strip().lower()
+		self.keep("sender_email", sender)
+		domain = sender.rpartition("@")[2]
+		if domain == self.settings.mail_domain:
+			return self.note("sender", OURS, _("{0}, on the mail domain").format(sender))
+		zone = self.zone
+		if not (domain == zone["name"] or domain.endswith("." + zone["name"])):
+			raise Refused(_("{0} is not in the zone {1}.").format(domain, zone["name"]))
+		held = self.call("GET", f"/zones/{zone['id']}/email/sending/subdomains")["result"] or []
+		found = next((one for one in held if one["name"] == domain), None)
+		if found:
+			return self.note("sender", OURS if found.get("enabled") else WAITING, sender)
+		made = self.call("POST", f"/zones/{zone['id']}/email/sending/subdomains", json={"name": domain})["result"]
+		self.note("sender", MADE if made.get("enabled") else WAITING, sender)
+
+	def sender_account(self) -> None:
+		"""The admin site's own outgoing account, as the sender: frappe's
+		queue sends from it, and outbound.deliver hands it to Cloudflare
+		(mailing.send_ours). It becomes the default, so no mail of ours goes
+		out from a workspace's address."""
+		sender = (self.settings.sender_email or "noreply@4dl.app").strip().lower()
+		name = frappe.db.get_value("Email Account", {"email_id": sender})
+		held = frappe.get_doc("Email Account", name) if name else frappe.new_doc("Email Account")
+		held.update(
+			{
+				"email_account_name": held.email_account_name or "One",
+				"email_id": sender,
+				"enable_incoming": 0,
+				"enable_outgoing": 1,
+				"default_outgoing": 1,
+				# Never dialled: outbound.deliver sends it through Cloudflare.
+				"smtp_server": sender.rpartition("@")[2],
+				"no_smtp_authentication": 1,
+				"always_use_account_email_id_as_sender": 1,
+				"always_use_account_name_as_sender_name": 1,
+			}
+		)
+		held.flags.ignore_permissions = True
+		held.save()
+		for other in frappe.get_all(
+			"Email Account", filters={"default_outgoing": 1, "name": ["!=", held.name]}, pluck="name"
+		):
+			frappe.db.set_value("Email Account", other, "default_outgoing", 0)
+		self.note("sender account", OURS if name else MADE, sender)
 
 	# ------------------------------------------------------------ helpers
 

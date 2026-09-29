@@ -450,7 +450,12 @@ beside its changes, and a job lists what it wrote.
 - **Connections**: the Frappe Cloud account the sites are built on,
   Cloudflare (one token; **Set Up Cloudflare** finds or makes the rest and
   says what it did under Last Setup), the R2 buckets and keys, Stripe's keys,
-  and the AI Gateway. Keys are shown as dots and never read back.
+  and the AI Gateway. Keys are shown as dots and never read back. **Sender
+  Email** (noreply@4dl.app) is where One's own mails come from: sign-in links,
+  signups and notices to customers. Set Up Cloudflare turns on sending for
+  its domain and makes it this site's outgoing account, and those mails go
+  straight to Cloudflare; workspaces' mail still comes from their own
+  addresses on the mail domain.
 - **Money**: Credits per Dollar (what a dollar of provider cost becomes, not
   what a credit sells for, which is the credit packs' price) and the default
   markup, which together price every AI call; and what each thing costs us

@@ -28,6 +28,16 @@ subprocessor(
 )
 
 subprocessor(
+	name="Cloudflare, Inc.",
+	module=M,
+	purpose="Sending One's own mails to customers: sign-in links, signup and billing notices",
+	data="The recipient's address and the mail",
+	where="Cloudflare's network",
+	safeguard="Standard Contractual Clauses and Cloudflare's data processing addendum",
+	url="https://www.cloudflare.com/cloudflare-customer-dpa/",
+)
+
+subprocessor(
 	name="Stripe, Inc.",
 	module=M,
 	purpose="Taking payment and holding the payment method",

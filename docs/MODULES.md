@@ -57,7 +57,7 @@ No doctypes yet.
 | Credit Ledger Entry | 15 | submittable |
 | Credit Reservation | 10 | document |
 | Offering | 24 | document |
-| One Admin Settings | 59 | single |
+| One Admin Settings | 60 | single |
 | Provisioning Job | 15 | document |
 | Stripe Webhook Event | 7 | document |
 | Tenant | 44 | document |

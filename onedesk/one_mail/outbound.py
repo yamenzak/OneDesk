@@ -6,6 +6,8 @@ replaces the transport for every account, not only ours, so it picks by the
 account the queue is sending from:
 - an address on the mail domain (`one_hosted`) goes to admin, which checks
   it is this workspace's own and hands it to Cloudflare (one_admin/mailing.py);
+- on the admin site, its own Sender Email goes to Cloudflare directly
+  (one_admin/mailing.py, send_ours);
 - any other account goes over its own SMTP, as Frappe would have sent it.
 
 Email Queue keeps everything else: retries, statuses, the IMAP Sent copy for
@@ -61,6 +63,12 @@ def deliver(account, recipient: str, raw: bytes, sender: str | None = None) -> N
 	address on the mail domain through admin to Cloudflare, anything else
 	over its own SMTP. Also what an out-of-office reply goes by (rules.py)."""
 	sender = sender or account.email_id
+	from onedesk.one_admin import mailing
+
+	if (account.email_id or "").lower() == mailing.ours():
+		# The admin site's own mails, from Sender Email (one_admin/setup.py).
+		mailing.send_ours(recipient, raw)
+		return
 	if account.get("one_hosted"):
 		from onedesk.one import account as admin
 

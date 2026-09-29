@@ -76,3 +76,35 @@ def send(tenant, sender: str, recipient: str, message: str) -> dict:
 	if not answered.ok or not body.get("success"):
 		raise faults.raised("cloudflare", answered.status_code, cloudflare._detail(answered))
 	return body.get("result") or {}
+
+
+def ours() -> str | None:
+	"""The address One's own mails come from, on the admin site only."""
+	from onedesk.one_admin import site
+
+	if not site.is_admin():
+		return None
+	return (
+		(frappe.db.get_single_value("One Admin Settings", "sender_email") or "noreply@4dl.app")
+		.strip()
+		.lower()
+	)
+
+
+def send_ours(recipient: str, raw: bytes) -> dict:
+	"""One of the admin site's own mails, from Sender Email, straight to
+	Cloudflare: no workspace to check it against and no hourly allowance,
+	since these are sign-in links and notices a customer is waiting for."""
+	if len(raw) > LARGEST:
+		frappe.throw(frappe._("This message is larger than 5 MB."))
+	account, token, _namespace = cloudflare._settings()
+	answered = requests.post(
+		f"{cloudflare.API}/accounts/{account}/email/sending/send_raw",
+		headers={"Authorization": f"Bearer {token}"},
+		json={"from": ours(), "recipients": [recipient], "mime_message": raw.decode("utf-8", "replace")},
+		timeout=30,
+	)
+	body = answered.json() if answered.headers.get("content-type", "").startswith("application/json") else {}
+	if not answered.ok or not body.get("success"):
+		raise faults.raised("cloudflare", answered.status_code, cloudflare._detail(answered))
+	return body.get("result") or {}

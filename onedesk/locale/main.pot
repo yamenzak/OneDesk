@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-29 17:27+0000\n"
-"PO-Revision-Date: 2026-09-29 17:27+0000\n"
+"POT-Creation-Date: 2026-09-29 17:38+0000\n"
+"PO-Revision-Date: 2026-09-29 17:38+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -5341,7 +5341,7 @@ msgstr ""
 msgid "Ends the Shift"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:324
+#: onedesk/one_admin/setup.py:375
 msgid "Enter the Cloudflare API token first."
 msgstr ""
 
@@ -10137,7 +10137,7 @@ msgstr ""
 msgid "No longer offered"
 msgstr ""
 
-#: onedesk/one_mail/outbound.py:51
+#: onedesk/one_mail/outbound.py:53
 msgid "No mail account can send as {0}."
 msgstr ""
 
@@ -10307,7 +10307,7 @@ msgstr ""
 msgid "None left"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:137
+#: onedesk/one_admin/setup.py:139
 msgid "None of the key's zones holds {0}."
 msgstr ""
 
@@ -14555,6 +14555,11 @@ msgstr ""
 msgid "Sender"
 msgstr ""
 
+#. Label of the sender_email (Data) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Sender Email"
+msgstr ""
+
 #: onedesk/www/r.html:47 onedesk/www/s.html:107
 msgid "Sending…"
 msgstr ""
@@ -15041,6 +15046,12 @@ msgstr ""
 
 #: onedesk/one_admin/notifications.py:70
 msgid "Sign-in Link"
+msgstr ""
+
+#. Description of the 'Sender Email' (Data) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Sign-in links, signups and notices to customers come from this address. It must be in the same zone as the mail domain."
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
@@ -16737,7 +16748,7 @@ msgstr ""
 msgid "The invoices could not be fetched just now."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:123
+#: onedesk/one_admin/setup.py:125
 msgid "The key reaches {0} accounts. Enter the Account ID to choose one."
 msgstr ""
 
@@ -17577,6 +17588,10 @@ msgstr ""
 msgid "This may be {0} {1}: the same {2}."
 msgstr ""
 
+#: onedesk/one_admin/mailing.py:99
+msgid "This message is larger than 5 MB."
+msgstr ""
+
 #: onedesk/one_admin/mailing.py:66
 msgid "This message is larger than 5 MB. Share large files as OneCloud links."
 msgstr ""
@@ -17926,7 +17941,7 @@ msgstr ""
 msgid "Too far from your last check-in for the time in between."
 msgstr ""
 
-#: onedesk/one_mail/outbound.py:53
+#: onedesk/one_mail/outbound.py:55
 msgid "Too large to attach, so sent as links:"
 msgstr ""
 
@@ -21027,7 +21042,7 @@ msgstr ""
 msgid "alarm"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:175
+#: onedesk/one_admin/setup.py:177
 msgid "already set"
 msgstr ""
 
@@ -21129,7 +21144,7 @@ msgstr ""
 msgid "database"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:288
+#: onedesk/one_admin/setup.py:339
 msgid "deployed"
 msgstr ""
 
@@ -21170,7 +21185,7 @@ msgstr ""
 msgid "for {0} · usually {1}"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:179
+#: onedesk/one_admin/setup.py:181
 msgid "from the token"
 msgstr ""
 
@@ -21253,7 +21268,7 @@ msgstr ""
 msgid "late"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:299
+#: onedesk/one_admin/setup.py:350
 msgid "left as it is"
 msgstr ""
 
@@ -21746,7 +21761,7 @@ msgstr ""
 msgid "{0} and {1}"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:139
+#: onedesk/one_admin/setup.py:141
 msgid "{0} and {1} are not in one zone."
 msgstr ""
 
@@ -22226,6 +22241,10 @@ msgstr ""
 
 #: onedesk/one/home.py:121
 msgid "{0} is not connecting"
+msgstr ""
+
+#: onedesk/one_admin/setup.py:275
+msgid "{0} is not in the zone {1}."
 msgstr ""
 
 #: onedesk/one/head.py:473
@@ -22716,12 +22735,16 @@ msgstr ""
 msgid "{0}, from {1}: {2}."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:250
+#: onedesk/one_admin/setup.py:252
 msgid "{0}, in place of what it held"
 msgstr ""
 
 #: onedesk/one_intake/understand.py:364
 msgid "{0}, moved to the next working day"
+msgstr ""
+
+#: onedesk/one_admin/setup.py:272
+msgid "{0}, on the mail domain"
 msgstr ""
 
 #: onedesk/one_intake/understand.py:363
@@ -22744,11 +22767,11 @@ msgstr ""
 msgid "{0}, {1}. Nothing has been rated yet, so the score is not a verdict."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:199
+#: onedesk/one_admin/setup.py:201
 msgid "{0}. The key needs SSL and Certificates: Edit on the zone."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:232
+#: onedesk/one_admin/setup.py:234
 msgid "{0}. The key needs Zone Settings: Edit."
 msgstr ""
 

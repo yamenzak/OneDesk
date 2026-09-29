@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-29 17:27+0000\n"
-"PO-Revision-Date: 2026-09-29 17:27+0000\n"
+"POT-Creation-Date: 2026-09-29 17:38+0000\n"
+"PO-Revision-Date: 2026-09-29 17:38+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -5343,7 +5343,7 @@ msgstr "Endet am"
 msgid "Ends the Shift"
 msgstr "Beendet die Schicht"
 
-#: onedesk/one_admin/setup.py:324
+#: onedesk/one_admin/setup.py:375
 msgid "Enter the Cloudflare API token first."
 msgstr "Geben Sie zuerst das Cloudflare-API-Token ein."
 
@@ -10137,7 +10137,7 @@ msgstr "Kein Mindestbestand"
 msgid "No longer offered"
 msgstr "Nicht mehr angeboten"
 
-#: onedesk/one_mail/outbound.py:51
+#: onedesk/one_mail/outbound.py:53
 msgid "No mail account can send as {0}."
 msgstr "Kein Mailkonto kann als {0} senden."
 
@@ -10307,7 +10307,7 @@ msgstr "Noch niemand. Laden Sie jemanden ein."
 msgid "None left"
 msgstr "Keine mehr"
 
-#: onedesk/one_admin/setup.py:137
+#: onedesk/one_admin/setup.py:139
 msgid "None of the key's zones holds {0}."
 msgstr "Keine Zone des Tokens enthält {0}."
 
@@ -14555,6 +14555,11 @@ msgstr "Dies wieder senden"
 msgid "Sender"
 msgstr "Absender"
 
+#. Label of the sender_email (Data) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Sender Email"
+msgstr ""
+
 #: onedesk/www/r.html:47 onedesk/www/s.html:107
 msgid "Sending…"
 msgstr "Wird gesendet…"
@@ -15042,6 +15047,12 @@ msgstr "Anmeldung"
 #: onedesk/one_admin/notifications.py:70
 msgid "Sign-in Link"
 msgstr "Anmeldelink"
+
+#. Description of the 'Sender Email' (Data) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Sign-in links, signups and notices to customers come from this address. It must be in the same zone as the mail domain."
+msgstr "Anmeldelinks, Anmeldungen und Hinweise an Kunden kommen von dieser Adresse. Sie muss in derselben Zone wie die Mail-Domain liegen."
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/chat.py:334
@@ -16737,7 +16748,7 @@ msgstr "Die Rechnungs-, Auftrags- oder Vorgangsnummer, die das Dokument selbst t
 msgid "The invoices could not be fetched just now."
 msgstr "Die Rechnungen konnten gerade nicht abgerufen werden."
 
-#: onedesk/one_admin/setup.py:123
+#: onedesk/one_admin/setup.py:125
 msgid "The key reaches {0} accounts. Enter the Account ID to choose one."
 msgstr "Das Token erreicht {0} Konten. Geben Sie die Konto-ID ein, um eines zu wählen."
 
@@ -17577,6 +17588,10 @@ msgstr "Dieses Postfach hat keinen Archivordner."
 msgid "This may be {0} {1}: the same {2}."
 msgstr "Dies könnte {0} {1} sein: gleiche {2}."
 
+#: onedesk/one_admin/mailing.py:99
+msgid "This message is larger than 5 MB."
+msgstr "Diese Nachricht ist größer als 5 MB."
+
 #: onedesk/one_admin/mailing.py:66
 msgid "This message is larger than 5 MB. Share large files as OneCloud links."
 msgstr "Diese Nachricht ist größer als 5 MB. Teilen Sie große Dateien als OneCloud-Links."
@@ -17926,7 +17941,7 @@ msgstr "Zu viele Überstunden"
 msgid "Too far from your last check-in for the time in between."
 msgstr "Zu weit von Ihrem letzten Einchecken entfernt für die Zeit dazwischen."
 
-#: onedesk/one_mail/outbound.py:53
+#: onedesk/one_mail/outbound.py:55
 msgid "Too large to attach, so sent as links:"
 msgstr "Zu groß zum Anhängen, daher als Links gesendet:"
 
@@ -21027,7 +21042,7 @@ msgstr "nach {0}"
 msgid "alarm"
 msgstr "Alarm"
 
-#: onedesk/one_admin/setup.py:175
+#: onedesk/one_admin/setup.py:177
 msgid "already set"
 msgstr "bereits gesetzt"
 
@@ -21129,7 +21144,7 @@ msgstr "aktuelle Adresse"
 msgid "database"
 msgstr "Datenbank"
 
-#: onedesk/one_admin/setup.py:288
+#: onedesk/one_admin/setup.py:339
 msgid "deployed"
 msgstr "bereitgestellt"
 
@@ -21170,7 +21185,7 @@ msgstr "seit {0}"
 msgid "for {0} · usually {1}"
 msgstr "seit {0} · üblich {1}"
 
-#: onedesk/one_admin/setup.py:179
+#: onedesk/one_admin/setup.py:181
 msgid "from the token"
 msgstr "aus dem Token"
 
@@ -21253,7 +21268,7 @@ msgstr "sein Preis ist nicht mehr lesbar"
 msgid "late"
 msgstr "zu spät"
 
-#: onedesk/one_admin/setup.py:299
+#: onedesk/one_admin/setup.py:350
 msgid "left as it is"
 msgstr "unverändert gelassen"
 
@@ -21746,7 +21761,7 @@ msgstr "{0} erfasst am {2} bereits {1} Überstunden. Diese Zeile entfernen."
 msgid "{0} and {1}"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:139
+#: onedesk/one_admin/setup.py:141
 msgid "{0} and {1} are not in one zone."
 msgstr "{0} und {1} liegen nicht in einer Zone."
 
@@ -22234,6 +22249,10 @@ msgstr "{0} ist kein angebotenes Zusatzpaket."
 #: onedesk/one/home.py:121
 msgid "{0} is not connecting"
 msgstr "{0} verbindet sich nicht"
+
+#: onedesk/one_admin/setup.py:275
+msgid "{0} is not in the zone {1}."
+msgstr "{0} liegt nicht in der Zone {1}."
 
 #: onedesk/one/head.py:473
 msgid "{0} is not offered here."
@@ -22723,13 +22742,17 @@ msgstr "{0}, ab {1}. Es ist noch keine Änderung eingetragen."
 msgid "{0}, from {1}: {2}."
 msgstr "{0}, ab {1}: {2}."
 
-#: onedesk/one_admin/setup.py:250
+#: onedesk/one_admin/setup.py:252
 msgid "{0}, in place of what it held"
 msgstr "{0}, anstelle des bisherigen Inhalts"
 
 #: onedesk/one_intake/understand.py:364
 msgid "{0}, moved to the next working day"
 msgstr "{0}, auf den nächsten Werktag verschoben"
+
+#: onedesk/one_admin/setup.py:272
+msgid "{0}, on the mail domain"
+msgstr "{0}, auf der Mail-Domain"
 
 #: onedesk/one_intake/understand.py:363
 msgid "{0}, plus {1}"
@@ -22751,11 +22774,11 @@ msgstr "{0}, {1} — {2}."
 msgid "{0}, {1}. Nothing has been rated yet, so the score is not a verdict."
 msgstr "{0}, {1}. Es wurde noch nichts bewertet, die Punktzahl ist also kein Urteil."
 
-#: onedesk/one_admin/setup.py:199
+#: onedesk/one_admin/setup.py:201
 msgid "{0}. The key needs SSL and Certificates: Edit on the zone."
 msgstr "{0}. Der Schlüssel braucht SSL and Certificates: Edit für die Zone."
 
-#: onedesk/one_admin/setup.py:232
+#: onedesk/one_admin/setup.py:234
 msgid "{0}. The key needs Zone Settings: Edit."
 msgstr "{0}. Das Token braucht Zone Settings: Edit."
 
