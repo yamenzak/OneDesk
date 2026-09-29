@@ -3075,6 +3075,60 @@ Done:
 - Stripe's price id is folded under Stripe; Share is off.
 - **README**: a Price List section.
 
+### OneAdmin › Price Check
+
+Price Check is a frappe Script Report over the price list
+(`report/price_check`, rules in `plans.check`): every enabled offering, what
+it holds, its price, what it costs us a month (from the costs in Settings),
+how many times its cost it sells for, how much each plan saves over the one
+below bought as add-ons, and a sentence on anything that does not hold. Along
+the top, how many offerings, how many are wrong, and how many are close
+calls. On the dev site: 12 offerings, nothing wrong.
+
+1. **Notifications**: a price that does not cover its cost, or a plan that
+   nobody would move up to, is found only by opening this report. Nothing
+   warns the operator who just saved the offering, or who just raised a
+   cost in Settings. Recommended: saving an offering, or the costs in
+   Settings, says at once what `plans.check` finds about it (frappe's
+   message on save), and Needs You lists anything **Wrong** until fixed.
+2. **OneAI**: nothing but "What stands out here?", reading the rows.
+   Recommended: **What should we change?** here, reading every finding
+   with its numbers, the costs and the margin wanted, and saying what to
+   change first; operator-only, and it changes nothing.
+3. **Intake**: nothing OneIntake reads lands here, and nothing should.
+   Holds.
+4. **Permissions**: holds. The report is One Operator's, refused off the
+   admin site (`site.require_admin`).
+5. **Cross-module**:
+   - **Two lines for one thing**: the report's "Holds" is its own
+     (`_holds`: "5 seats, 20 GB storage, …"), and the Price List's new
+     Gives line is another, in another order. Recommended: one, the
+     offering's `gives`.
+   - **Where the cost comes from is not said.** Cost is the costs in
+     OneAdmin Settings (a workspace, a seat, a GB of storage and of
+     database, backups kept, a credit) and the margin wanted there
+     (2×). Nothing on the report names them or leads to them.
+     Recommended: the summary says the margin wanted, and the report's
+     menu opens Settings at the costs.
+   - Disabled offerings are left out without saying so (Standard).
+     Recommended: an **Include disabled** filter, off.
+6. **UI and UX**:
+   - a. **The findings are cut off**: Says is the last column, past the
+     edge of the screen, and every row reads "Makes sense" in it.
+     Recommended: rows with a finding first, Says right after the
+     offering, and the rest of the columns narrower.
+   - b. **The findings are English only**, built as f-strings in
+     `plans.check`. Recommended: `_()` with named slots.
+   - c. "Times Cost" and "Saves Over Add-ons (%)": the second is cut off
+     in its header. Recommended: **Margin** ("2.0×") and **Saves**
+     ("53%").
+7. **Documented**: nothing in the README on what Price Check checks: the
+   five rules, where the costs come from, and what Wrong and Close Call
+   mean. Recommended: a **Price Check** section.
+8. **Legal**: nothing leaves the admin site. Holds.
+9. **Built from frappe**: a Script Report with its summary; the message
+   on save is frappe's `msgprint`. Holds.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
