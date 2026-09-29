@@ -12,23 +12,24 @@
   "column_break_what",
   "status",
   "step",
+  "steps_section",
+  "walk_said",
   "progress_section",
   "attempts",
   "next_run_at",
   "column_break_when",
   "finished_at",
   "error",
+  "collected_section",
   "payload"
  ],
  "fields": [
   {
    "fieldname": "tenant",
    "fieldtype": "Link",
-   "label": "Tenant",
+   "label": "Workspace",
    "options": "Tenant",
-   "reqd": 1,
-   "read_only": 1,
-   "in_list_view": 1
+   "read_only": 1
   },
   {
    "default": "Provision",
@@ -36,7 +37,6 @@
    "fieldtype": "Select",
    "label": "Kind",
    "options": "Provision\nSuspend\nRestore\nArchive\nDrop",
-   "reqd": 1,
    "read_only": 1,
    "in_list_view": 1,
    "in_standard_filter": 1
@@ -51,7 +51,6 @@
    "fieldtype": "Select",
    "label": "Status",
    "options": "Pending\nWaiting\nDone\nFailed",
-   "reqd": 1,
    "read_only": 1,
    "in_list_view": 1,
    "in_standard_filter": 1
@@ -65,6 +64,16 @@
    "in_list_view": 1
   },
   {
+   "fieldname": "steps_section",
+   "fieldtype": "Section Break",
+   "label": "Steps"
+  },
+  {
+   "fieldname": "walk_said",
+   "fieldtype": "HTML",
+   "label": "Steps"
+  },
+  {
    "fieldname": "progress_section",
    "fieldtype": "Section Break"
   },
@@ -74,13 +83,15 @@
    "fieldname": "attempts",
    "fieldtype": "Int",
    "label": "Attempts",
-   "read_only": 1
+   "read_only": 1,
+   "depends_on": "eval:['Pending','Waiting'].includes(doc.status)"
   },
   {
    "fieldname": "next_run_at",
    "fieldtype": "Datetime",
    "label": "Next Run",
-   "read_only": 1
+   "read_only": 1,
+   "depends_on": "eval:['Pending','Waiting'].includes(doc.status)"
   },
   {
    "fieldname": "column_break_when",
@@ -90,14 +101,22 @@
    "fieldname": "finished_at",
    "fieldtype": "Datetime",
    "label": "Finished",
-   "read_only": 1
+   "read_only": 1,
+   "depends_on": "eval:['Done','Failed'].includes(doc.status)"
   },
   {
-   "description": "The last failure message, as reported by Frappe Cloud.",
+   "description": "The last failure, as the service that failed reported it.",
    "fieldname": "error",
    "fieldtype": "Small Text",
    "label": "Error",
-   "read_only": 1
+   "read_only": 1,
+   "depends_on": "eval:doc.error"
+  },
+  {
+   "fieldname": "collected_section",
+   "fieldtype": "Section Break",
+   "label": "Collected",
+   "collapsible": 1
   },
   {
    "description": "Values collected by the steps that have run so far.",
@@ -110,7 +129,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-22 13:00:00.000000",
+ "modified": "2026-09-29 13:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Provisioning Job",
@@ -125,7 +144,7 @@
    "read": 1,
    "report": 1,
    "role": "One Operator",
-   "share": 1,
+   "share": 0,
    "write": 0,
    "delete": 0
   }
@@ -134,5 +153,7 @@
  "sort_order": "DESC",
  "states": [],
  "track_changes": 1,
- "description": "A queued unit of work against a workspace. Created by the system."
+ "description": "A queued unit of work against a workspace. Created by the system.",
+ "title_field": "tenant",
+ "show_title_field_in_link": 0
 }

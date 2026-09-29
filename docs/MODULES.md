@@ -58,7 +58,7 @@ No doctypes yet.
 | Credit Reservation | 9 | document |
 | Offering | 21 | document |
 | One Admin Settings | 50 | single |
-| Provisioning Job | 12 | document |
+| Provisioning Job | 15 | document |
 | Stripe Webhook Event | 7 | document |
 | Tenant | 42 | document |
 | Tenant Add-on | 3 | child |
@@ -185,6 +185,7 @@ No doctypes yet.
 * `onedesk.one.account.plans_offered`
 * `onedesk.one.account.plans_quote`
 * `onedesk.one.account.plans_take`
+* `onedesk.one.account.wake`
 * `onedesk.one.bills.invoices`
 * `onedesk.one.bills.payment_portal`
 * `onedesk.one.bills.to_books`
@@ -240,6 +241,7 @@ No doctypes yet.
 * `onedesk.one_admin.operator.restore`
 * `onedesk.one_admin.operator.resume`
 * `onedesk.one_admin.operator.retry_signup`
+* `onedesk.one_admin.operator.run_now`
 * `onedesk.one_admin.operator.sold`
 * `onedesk.one_admin.operator.standing`
 * `onedesk.one_admin.operator.sync_catalogue`

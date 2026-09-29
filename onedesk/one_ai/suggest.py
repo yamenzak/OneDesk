@@ -79,6 +79,11 @@ def for_page(page: dict | None) -> list[dict]:
 		# opening" on the list of openings has no opening to add to.
 		if one.get("view") and one["view"] != view:
 			continue
+		# And for a record in one state only: "why did this job fail?" on a
+		# job that did not fail is a question with no answer. `when` is
+		# {field: [values]}, read from the record the panel is open on.
+		if one.get("when") and not _holds(on, page.get("name"), one["when"]):
+			continue
 		if one.get("run"):
 			# Something to do rather than something to ask: a job run on the
 			# record the panel is open on, with no model call in between.
@@ -127,3 +132,11 @@ def expected(text: str | None) -> str | None:
 				if said == asked or (one.get("fill") and said.startswith(asked)):
 					return one["expects"]
 	return None
+
+
+def _holds(doctype: str | None, name: str | None, when: dict) -> bool:
+	"""Whether the open record's fields have one of the values `when` names."""
+	if not doctype or not name or not frappe.db.exists(doctype, name):
+		return False
+	held = frappe.db.get_value(doctype, name, list(when), as_dict=True) or {}
+	return all(held.get(field) in values for field, values in when.items())

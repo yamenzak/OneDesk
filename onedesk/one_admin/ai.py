@@ -5,7 +5,7 @@ The operator's own readers, on the admin site only and for One Operator only,
 as every console read is (`operator._may`). `console_today` is Home's own list
 (`home.needs`), so the panel and the page say the same thing;
 `workspace_facts` is what a workspace's own form shows, its head and its
-connections. Nothing is changed from here: resuming a job, building a signup,
+connections, and `job_facts` a job's walk in words. Nothing is changed from here: resuming a job, building a signup,
 checking a domain or giving credits is a button the operator presses.
 """
 
@@ -44,6 +44,18 @@ SUGGESTIONS = {
 			),
 			"can": "read",
 			"view": "Form",
+			"when": {"status": ["Failed"]},
+			"expects": "job_facts",
+		},
+		{
+			"label": _lt("Why is this job waiting?"),
+			"ask": _lt(
+				"Why is this job waiting? Say which step it is on, what it is waiting for, how many times it has tried, and whether anything is wrong."
+			),
+			"can": "read",
+			"view": "Form",
+			"when": {"status": ["Pending", "Waiting"]},
+			"expects": "job_facts",
 		},
 	],
 }
@@ -144,4 +156,38 @@ def workspace_facts(
 			order_by="creation desc",
 			limit=10,
 		),
+	}
+
+
+def job_facts(
+	job: Annotated[str, "The job's id, as the page names it, such as PROV-26-00012."],
+) -> dict:
+	"""For an operator of One only: one job, as its form shows it. What it is
+	doing to which workspace, every step of its walk in words with the ones
+	done, the step it is on, how many times it has tried it and when it runs
+	next, the error it stopped with, and where the workspace stands now."""
+	if not _operator():
+		return {"error": "Only an operator of One, on the admin site, sees a job."}
+	if not frappe.db.exists("Provisioning Job", job):
+		return {"error": f"There is no job {job}. Ask which one they meant."}
+	from onedesk.one_admin import operator, runner
+
+	held = frappe.get_doc("Provisioning Job", job)
+	walk = operator.walk(job)
+	return {
+		"job": held.name,
+		"kind": held.kind,
+		"status": held.status,
+		"workspace": frappe.db.get_value("Tenant", held.tenant, "workspace_name") or held.tenant,
+		"workspace_status": frappe.db.get_value("Tenant", held.tenant, "status"),
+		"steps": [{"step": one["said"], "done": one["done"]} for one in walk["steps"]],
+		"on_step": walk["at"] + 1 if walk["at"] < walk["of"] else None,
+		"of": walk["of"],
+		"attempts": held.attempts,
+		"next_run": str(held.next_run_at) if held.next_run_at else None,
+		"finished": str(held.finished_at) if held.finished_at else None,
+		"error": held.error,
+		"started": str(held.creation),
+		"last_moved": str(held.modified),
+		"gives_up_after": runner.GIVE_UP_AFTER,
 	}

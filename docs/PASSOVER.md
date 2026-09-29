@@ -2744,6 +2744,47 @@ build done.
    frappe's; the checklist in 6b would be the head's own steps drawn with
    frappe's badge and icon, not a new widget.
 
+Your word: all of them.
+
+Done:
+
+- **The owner is invited.** A build has a new step, **Inviting the owner**,
+  between telling the site who it is and marking it live. The admin site
+  cannot sign in to a site it built, so the site does it: `proxy.hello` now
+  names the owner, and a workspace nobody administers yet makes them its
+  first **Workspace Administrator** and mails One's own invitation, from
+  "One", with the 7-day link (`one/owner.py`). The step posts to the new
+  site's `account.wake` (rate-limited, takes nothing, only makes the site
+  ask) and waits until it says it has an administrator. Checked on the dev
+  site with the check forced: the user is made, "One invited you to Nine X"
+  is queued, and a second call does nothing. Not run against a real Frappe
+  Cloud site.
+- **Workspace Ready** is mailed to the owner from `steps.live`, saying the
+  password link is in a second mail. The welcome page says the same.
+- **Job Failed** reads "It stopped on step 2 of 4: Asking Frappe Cloud to
+  delete the site", with the error under it.
+- **Home**: a job due and not run for fifteen minutes, whatever its kind, is
+  under Needs You as "Suspending Nine B has not moved", with **Run Now**
+  (`operator.run_now`, operator-only, one step).
+- **The list** leads with the workspace (the job's title is now its
+  workspace), then Status, Kind, Step; a failed job's error is under its
+  step in red. No ID column or filter.
+- **The form**: a **Steps** section, the walk in words, done ticked, the one
+  it is on marked, with its tries and error under it. The raw step, Attempts
+  and Error fields are gone from view; Next Run shows only while waiting,
+  Finished only when done or failed; Payload is folded under Collected. No
+  required stars, no Share (and the role cannot share).
+- **Live**: every job write publishes (`notify=True`), as the workspace's do.
+- **OneAI**: `job_facts` reads the walk, attempts, error and the
+  workspace's status, operator-only. **Why did this job fail?** is offered
+  only on a failed job and **Why is this job waiting?** only on one waiting:
+  a suggestion can now name a `when` on the record (`one_ai/suggest.py`).
+  No model was called.
+- **Translated**: the step words were never in the translation files; they
+  are `_lt` now, and read in each operator's language.
+- **README**: a Jobs section. **Terms**: the person who paid is made the
+  first administrator and emailed an invitation, revision 6.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

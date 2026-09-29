@@ -7,7 +7,8 @@ Two reads, both for the operator only on the admin site (`operator._may`):
   opens, with its filters, so a number and the list it stands for cannot
   disagree.
 - `needs`: one list of what needs a person, each with why and the one thing
-  to do about it. A failed job is resumed where it stopped, a paid signup
+  to do about it. A failed job is resumed where it stopped, a job that is
+  due and has not moved is run now, a paid signup
   with no workspace is built again, a domain is asked about again, and a
   workspace owing is opened.
 
@@ -24,6 +25,19 @@ DOMAIN_GRACE_HOURS = 24
 
 #: The most of each kind listed at once; the count says how many there are.
 MOST = 50
+
+#: A job due longer ago than this has not moved: the scheduler has stopped,
+#: or a worker died holding it. Two ticks is four minutes; this is patient.
+STALLED_MINUTES = 15
+
+#: A job that has not moved, said by what it is doing.
+STALLED = {
+	"Provision": _lt("Building {0} has not moved"),
+	"Suspend": _lt("Suspending {0} has not moved"),
+	"Restore": _lt("Restoring {0} has not moved"),
+	"Archive": _lt("Archiving {0} has not moved"),
+	"Drop": _lt("Deleting the files of {0} has not moved"),
+}
 
 #: A failed job, said by what it was doing.
 FAILED = {
@@ -83,7 +97,7 @@ def needs() -> list[dict]:
 	that failed, money taken for a workspace that was never built, a
 	workspace owing, and a domain that has not come up."""
 	_may()
-	return [*_failed_jobs(), *_unbuilt_signups(), *_owing(), *_domains()]
+	return [*_failed_jobs(), *_unbuilt_signups(), *_stalled_jobs(), *_owing(), *_domains()]
 
 
 def _failed_jobs() -> list[dict]:
@@ -102,12 +116,47 @@ def _failed_jobs() -> list[dict]:
 			"doctype": "Provisioning Job",
 			"name": one.name,
 			"title": str(FAILED.get(one.kind, FAILED["Provision"])).format(_workspace(one.tenant)),
-			"why": _("At: {0}").format(_(steps.SAID.get(one.step, one.step))) if one.step else "",
+			"why": _("At: {0}").format(str(steps.SAID.get(one.step, one.step))) if one.step else "",
 			"detail": (one.error or "").strip().splitlines()[0][:200] if one.error else "",
 			"since": str(one.modified),
 			"action": {
 				"label": _("Resume"),
 				"method": "onedesk.one_admin.operator.resume",
+				"args": {"job": one.name},
+			},
+		}
+		for one in rows
+	]
+
+
+def _stalled_jobs() -> list[dict]:
+	"""Jobs due and not run: whatever their kind, since a suspension that never
+	happens is as wrong as a build that never finishes."""
+	from onedesk.one_admin import steps
+
+	rows = frappe.get_all(
+		"Provisioning Job",
+		filters={
+			"status": ["in", ["Pending", "Waiting"]],
+			"next_run_at": ["<", add_to_date(now_datetime(), minutes=-STALLED_MINUTES)],
+		},
+		fields=["name", "tenant", "kind", "step", "next_run_at"],
+		order_by="next_run_at asc",
+		limit=MOST,
+	)
+	return [
+		{
+			"kind": "stalled",
+			"doctype": "Provisioning Job",
+			"name": one.name,
+			"title": str(STALLED.get(one.kind, STALLED["Provision"])).format(_workspace(one.tenant)),
+			"why": _("Next: {0}").format(str(steps.SAID.get(one.step, one.step))) if one.step else "",
+			"detail": "",
+			"badge": _("Not Moving"),
+			"since": str(one.next_run_at),
+			"action": {
+				"label": _("Run Now"),
+				"method": "onedesk.one_admin.operator.run_now",
 				"args": {"job": one.name},
 			},
 		}

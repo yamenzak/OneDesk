@@ -5,7 +5,8 @@ because the machinery writes with `db_set`, which runs no hooks: a job stops
 in `runner._stop`, a signup is paid for and built in `signup.accept`, a
 workspace arrives on a rung in `steps._arrive`, and the domains are asked
 about in `domains.nightly`. The owner is mailed from `steps._arrive` when
-their workspace is suspended, archived or restored. Nothing here may stop the thing it tells of, so
+their workspace is suspended, archived or restored, and from `steps.live`
+when a new one is ready. Nothing here may stop the thing it tells of, so
 each is wrapped: a notice that fails is logged, and the job carries on.
 """
 
@@ -52,6 +53,7 @@ def job_failed(job) -> None:
 	"""A job stopped on a step (runner._stop)."""
 	from onedesk.one_admin import home, steps
 
+	walk = steps.WALKS.get(job.kind or "Provision", steps.ORDER)
 	notify.notify(
 		"Job Failed",
 		operators(),
@@ -59,7 +61,10 @@ def job_failed(job) -> None:
 		sender="Administrator",
 		record=("Provisioning Job", job.name),
 		what=str(home.FAILED.get(job.kind, home.FAILED["Provision"])).format(home._workspace(job.tenant)),
-		step=_(steps.SAID.get(job.step, job.step or "")),
+		number=walk.index(job.step) + 1 if job.step in walk else 1,
+		steps=len(walk),
+		# `_lt`, so each operator reads it in their own language (notify._said).
+		step=steps.SAID.get(job.step, job.step or ""),
 		error=(job.error or "").strip()[:300],
 	)
 
@@ -139,6 +144,22 @@ def owner(tenant, rung: str, was: str | None) -> None:
 	elif rung == "Live" and was == "Suspended":
 		address = tenant.get("domain") or tenant.get("site") or tenant.name
 		notify.mail("Workspace Restored", tenant.owner_email, address=address, **said)
+
+
+@_quietly
+def ready(tenant) -> None:
+	"""A build finished (steps.live): the owner hears their workspace is
+	ready. Their invitation to it left the step before (steps.invite_owner)."""
+	if not tenant.get("owner_email"):
+		return
+	notify.mail(
+		"Workspace Ready",
+		tenant.owner_email,
+		workspace=tenant.workspace_name or tenant.name,
+		address=tenant.get("domain") or tenant.get("site") or tenant.name,
+		reference_doctype="Tenant",
+		reference_name=tenant.name,
+	)
 
 
 @_quietly

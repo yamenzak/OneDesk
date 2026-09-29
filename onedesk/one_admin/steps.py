@@ -22,6 +22,8 @@ import hashlib
 import secrets
 
 import frappe
+import requests
+from frappe import _lt
 from frappe.utils import now_datetime
 
 from onedesk.one_admin import cloudflare, faults, hosts, press
@@ -43,6 +45,7 @@ ORDER = (
 	"site_is_up",
 	"route_it",
 	"push_config",
+	"invite_owner",
 	"live",
 )
 
@@ -64,22 +67,23 @@ WALKS = {
 #: because the failure is silent: the screen falls back to the function name and
 #: nobody notices it was meant to say something.
 SAID = {
-	"name_is_free": "Checking nobody has the name",
-	"create_site": "Asking Frappe Cloud for the site",
-	"site_is_up": "Waiting for Frappe Cloud to build it",
-	"route_it": "Putting it on our own name",
-	"push_config": "Telling the site who it is",
-	"live": "Marking it live",
-	"deactivate_site": "Asking Frappe Cloud to stop serving it",
-	"mark_suspended": "Marking it suspended",
-	"activate_site": "Asking Frappe Cloud to serve it again",
-	"mark_live": "Marking it live",
-	"note_backup": "Recording the latest backup",
-	"archive_site": "Asking Frappe Cloud to delete the site",
-	"unroute": "Taking the name off the edge",
-	"mark_archived": "Marking it archived",
-	"empty_storage": "Deleting the files",
-	"mark_dropped": "Marking it dropped",
+	"name_is_free": _lt("Checking nobody has the name"),
+	"create_site": _lt("Asking Frappe Cloud for the site"),
+	"site_is_up": _lt("Waiting for Frappe Cloud to build it"),
+	"route_it": _lt("Putting it on our own name"),
+	"push_config": _lt("Telling the site who it is"),
+	"invite_owner": _lt("Inviting the owner"),
+	"live": _lt("Marking it live"),
+	"deactivate_site": _lt("Asking Frappe Cloud to stop serving it"),
+	"mark_suspended": _lt("Marking it suspended"),
+	"activate_site": _lt("Asking Frappe Cloud to serve it again"),
+	"mark_live": _lt("Marking it live"),
+	"note_backup": _lt("Recording the latest backup"),
+	"archive_site": _lt("Asking Frappe Cloud to delete the site"),
+	"unroute": _lt("Taking the name off the edge"),
+	"mark_archived": _lt("Marking it archived"),
+	"empty_storage": _lt("Deleting the files"),
+	"mark_dropped": _lt("Marking it dropped"),
 }
 
 
@@ -208,8 +212,38 @@ def push_config(job, tenant) -> None:
 	cloudflare.mail_route(tenant.slug, cloudflare.mail_entry(tenant, mail_secret, [tenant.slug]))
 
 
+def invite_owner(job, tenant) -> str | None:
+	"""Have the new site invite whoever paid for it as its first administrator.
+
+	We cannot sign in to the site we built, and we hold only a hash of its
+	token, so the site does it: `account.wake` makes it ask `proxy.hello`,
+	which names the owner, and a workspace nobody administers yet makes them
+	its administrator and mails One's own invitation (one/owner.py). Safe to
+	run twice: a workspace that has an administrator does nothing. A site that
+	has not read its new config yet answers that nobody administers it, and
+	the step waits and asks again, as `site_is_up` does.
+	"""
+	if not tenant.get("owner_email"):
+		return None
+	try:
+		answer = requests.post(
+			f"https://{tenant.site}/api/method/onedesk.one.account.wake", timeout=30
+		)
+	except requests.RequestException as raised:
+		raise faults.Again(f"the site could not be reached: {raised}") from raised
+	if answer.status_code != 200:
+		raise faults.Again(f"the site answered {answer.status_code}")
+	if not (answer.json().get("message") or {}).get("administered"):
+		return WAIT
+	return None
+
+
 def live(job, tenant) -> None:
 	tenant.db_set({"status": "Live", "live_on": now_datetime(), "status_since": now_datetime()}, notify=True)
+	# The owner hears it is ready; their invitation left a step ago.
+	from onedesk.one_admin import tell
+
+	tell.ready(tenant)
 
 
 def _press_domain() -> str:

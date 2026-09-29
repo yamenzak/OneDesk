@@ -100,7 +100,9 @@ def _next(job, tenant, step: str, walk: tuple) -> str:
 	"""That step is done. Move to the one after it, or finish."""
 	after = walk.index(step) + 1
 	if after >= len(walk):
-		job.db_set({"status": "Done", "step": None, "finished_at": now_datetime(), "error": None})
+		job.db_set(
+			{"status": "Done", "step": None, "finished_at": now_datetime(), "error": None}, notify=True
+		)
 		return "Done"
 	job.db_set(
 		{
@@ -109,7 +111,8 @@ def _next(job, tenant, step: str, walk: tuple) -> str:
 			"attempts": 0,
 			"error": None,
 			"next_run_at": now_datetime(),
-		}
+		},
+		notify=True,
 	)
 	if job.kind in (None, "", "Provision") and tenant.status == "Requested":
 		tenant.db_set("status", "Provisioning", notify=True)
@@ -127,7 +130,8 @@ def _later(job, why: str | None) -> str:
 			"attempts": attempts,
 			"error": why,
 			"next_run_at": add_to_date(now_datetime(), seconds=_backoff(attempts)),
-		}
+		},
+		notify=True,
 	)
 	return "Waiting"
 
@@ -141,7 +145,7 @@ def _stop(job, tenant, why: str) -> str:
 	workspace from every screen that filters on status — and, worse, take it off
 	the ladder so nothing ever tries again.
 	"""
-	job.db_set({"status": "Failed", "error": why, "finished_at": now_datetime()})
+	job.db_set({"status": "Failed", "error": why, "finished_at": now_datetime()}, notify=True)
 	if job.kind in (None, "", "Provision"):
 		tenant.db_set("status", "Failed", notify=True)
 	# The operator is told; see one_admin/tell.py.

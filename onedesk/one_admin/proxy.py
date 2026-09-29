@@ -154,6 +154,7 @@ def hello(database_bytes: int | None = None) -> dict:
 			"offering",
 			"storage_bytes",
 			"storage_limit",
+			"owner_email",
 		],
 		as_dict=True,
 	)
@@ -169,6 +170,9 @@ def hello(database_bytes: int | None = None) -> dict:
 		"status": tenant.status,
 		"standing": lifecycle.standing(_tenant_doc(tenant)),
 		"workspace": known.workspace_name,
+		# Who paid for it: made its first administrator and invited, once, by a
+		# workspace nobody administers yet (one/owner.py).
+		"owner": known.owner_email,
 		"domain": known.primary_domain or known.domain,
 		"given_domain": known.domain,
 		"jurisdiction": known.jurisdiction,

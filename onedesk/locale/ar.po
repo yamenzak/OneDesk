@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-29 06:06+0000\n"
-"PO-Revision-Date: 2026-09-29 06:06+0000\n"
+"POT-Creation-Date: 2026-09-29 06:32+0000\n"
+"PO-Revision-Date: 2026-09-29 06:32+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -352,6 +352,10 @@ msgstr "المنحة لا تُسحب من شيء."
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
 msgid "A household keeps no books. No drafts are made, and Spending shows what was bought."
 msgstr "الأسرة لا تمسك دفاتر. لا تُنشأ مسودات، ويعرض الإنفاق ما اشتُري."
+
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.py:22
+msgid "A job is for a workspace."
+msgstr "المهمة تخص مساحة عمل."
 
 #: onedesk/one_book/ready.py:155
 msgid "A late customer is reminded"
@@ -1097,7 +1101,7 @@ msgstr "تغيّرت الإضافة"
 msgid "Add-ons"
 msgstr "الإضافات"
 
-#: onedesk/one/account.py:270
+#: onedesk/one/account.py:293
 msgid "Added"
 msgstr ""
 
@@ -1712,9 +1716,13 @@ msgstr "مدة الأرشفة"
 msgid "Archived."
 msgstr "أُرشفت."
 
-#: onedesk/one_admin/home.py:33
+#: onedesk/one_admin/home.py:47
 msgid "Archiving {0} failed"
 msgstr "فشلت أرشفة {0}"
+
+#: onedesk/one_admin/home.py:38
+msgid "Archiving {0} has not moved"
+msgstr "لم تتقدّم أرشفة {0}"
 
 #: onedesk/one/ai.py:218
 msgid "Are any of my mailboxes not working, why, and what do I do about it?"
@@ -1835,11 +1843,11 @@ msgstr "اسأل في الجولة التالية"
 msgid "Ask people for files by name, each landing in a folder or on a record. Use New › File request in any folder or record."
 msgstr "اطلب من الأشخاص ملفات بأسمائها، ويصل كل منها إلى مجلد أو سجل. استخدم جديد › طلب ملفات في أي مجلد أو سجل."
 
-#: onedesk/one/invite.py:80
+#: onedesk/one/invite.py:82
 msgid "Ask whoever invited you to send it again, from Workspace, People."
 msgstr "اطلب ممن دعاك أن يرسلها مجددًا من مساحة العمل، الأشخاص."
 
-#: onedesk/one/invite.py:87
+#: onedesk/one/invite.py:89
 msgid "Ask whoever invited you."
 msgstr "اسأل من دعاك."
 
@@ -1887,6 +1895,22 @@ msgstr "يُطلب عند تسجيل الانصراف فقط. الخيارات �
 #: onedesk/public/js/onecloud.js:1667
 msgid "Asked. Each person has their link by email."
 msgstr "تم الطلب. وصل لكل شخص رابطه بالبريد الإلكتروني."
+
+#: onedesk/one_admin/steps.py:72
+msgid "Asking Frappe Cloud for the site"
+msgstr "طلب الموقع من Frappe Cloud"
+
+#: onedesk/one_admin/steps.py:83
+msgid "Asking Frappe Cloud to delete the site"
+msgstr "طلب حذف الموقع من Frappe Cloud"
+
+#: onedesk/one_admin/steps.py:80
+msgid "Asking Frappe Cloud to serve it again"
+msgstr "طلب إعادة تشغيله من Frappe Cloud"
+
+#: onedesk/one_admin/steps.py:78
+msgid "Asking Frappe Cloud to stop serving it"
+msgstr "طلب إيقافه من Frappe Cloud"
 
 #: onedesk/public/js/settings.js:1072
 msgid "Asking for them…"
@@ -1985,13 +2009,9 @@ msgstr "عند الدفع"
 msgid "At the foot of every mail the workspace sends. Leave it empty for none."
 msgstr "في أسفل كل رسالة ترسلها مساحة العمل. اتركه فارغًا لعدم إظهار شيء."
 
-#: onedesk/one_admin/home.py:105
+#: onedesk/one_admin/home.py:119
 msgid "At: {0}"
 msgstr "عند: {0}"
-
-#: onedesk/one_admin/notifications.py:21
-msgid "At: {step}<br>{error}"
-msgstr "عند: {step}<br>{error}"
 
 #. Option for the 'Kind' (Select) field in DocType 'Intake Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
@@ -2500,7 +2520,7 @@ msgstr "المشتريات"
 msgid "Bought This Year"
 msgstr "المشتريات هذا العام"
 
-#: onedesk/one/account.py:257
+#: onedesk/one/account.py:280
 msgid "Bought {0}"
 msgstr "شراء {0}"
 
@@ -2545,7 +2565,7 @@ msgstr "معطّل"
 msgid "Browser"
 msgstr "المتصفح"
 
-#: onedesk/one_admin/home.py:136
+#: onedesk/one_admin/home.py:185
 msgid "Build It"
 msgstr "أنشئها"
 
@@ -2554,14 +2574,18 @@ msgid "Build Workspace"
 msgstr "أنشئ مساحة العمل"
 
 #. Label of a number card in the One Admin Workspace
-#: onedesk/one_admin/home.py:62
+#: onedesk/one_admin/home.py:76
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "Building"
 msgstr "قيد الإنشاء"
 
-#: onedesk/one_admin/home.py:30
+#: onedesk/one_admin/home.py:44
 msgid "Building {0} failed"
 msgstr "فشل إنشاء {0}"
+
+#: onedesk/one_admin/home.py:35
+msgid "Building {0} has not moved"
+msgstr "لم يتقدّم إنشاء {0}"
 
 #: onedesk/public/js/crm_record.js:92
 msgid "Busy"
@@ -2916,7 +2940,7 @@ msgstr "الأرخص"
 msgid "Check"
 msgstr "الفحص"
 
-#: onedesk/one_admin/home.py:189 onedesk/public/js/legal.js:73
+#: onedesk/one_admin/home.py:238 onedesk/public/js/legal.js:73
 #: onedesk/public/js/settings.js:1021 onedesk/public/js/settings.js:1378
 msgid "Check Again"
 msgstr "تحقق مرة أخرى"
@@ -3045,6 +3069,10 @@ msgstr "يُتحقق منها كلما عيّن أحد كلمة مروره أو 
 #: onedesk/public/js/desk.js:126
 msgid "Checking in…"
 msgstr "جارٍ تسجيل الحضور…"
+
+#: onedesk/one_admin/steps.py:71
+msgid "Checking nobody has the name"
+msgstr "التحقق من أن الاسم غير مستخدم"
 
 #: onedesk/public/js/desk.js:126
 msgid "Checking out…"
@@ -3356,6 +3384,12 @@ msgstr "زميل"
 #: onedesk/one_task/custom/task.json
 msgid "Colleagues to give the task to once it is made, by user. How OneAI's card carries them."
 msgstr "الزملاء الذين تُسند إليهم المهمة عند إنشائها، باسم المستخدم. هكذا تحملهم بطاقة OneAI."
+
+#. Label of the collected_section (Section Break) field in DocType
+#. 'Provisioning Job'
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
+msgid "Collected"
+msgstr "ما جُمع"
 
 #. Label of the colour (Select) field in DocType 'Record Head Indicator'
 #. Label of the colour (Select) field in DocType 'Record Head Sentence'
@@ -4318,9 +4352,17 @@ msgstr "حذفه"
 msgid "Deleted On"
 msgstr "تاريخ الحذف"
 
-#: onedesk/one_admin/home.py:34
+#: onedesk/one_admin/steps.py:86
+msgid "Deleting the files"
+msgstr "حذف الملفات"
+
+#: onedesk/one_admin/home.py:48
 msgid "Deleting the files of {0} failed"
 msgstr "فشل حذف ملفات {0}"
+
+#: onedesk/one_admin/home.py:39
+msgid "Deleting the files of {0} has not moved"
+msgstr "لم يتقدّم حذف ملفات {0}"
 
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -4570,14 +4612,14 @@ msgstr "النطاق يعمل"
 
 #. Label of the domains (Table) field in DocType 'Workspace Account'
 #. Label of a Sidebar Item
-#: onedesk/one/account.py:533
+#: onedesk/one/account.py:556
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one/settings.py:44 onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 msgid "Domains"
 msgstr "النطاقات"
 
-#: onedesk/one_admin/notifications.py:57
+#: onedesk/one_admin/notifications.py:58
 msgid "Domains Waiting"
 msgstr "نطاقات بالانتظار"
 
@@ -4588,7 +4630,7 @@ msgstr "نطاقات بالانتظار"
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:12
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
-#: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:21
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:35
 #: onedesk/one_admin/heads.py:36 onedesk/one_admin/heads.py:45
 #: onedesk/one_ai/heads.py:18
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:36
@@ -4606,7 +4648,7 @@ msgstr ""
 msgid "Done When"
 msgstr "يكتمل عندما"
 
-#: onedesk/one/head.py:478 onedesk/one_ai/suggest.py:91
+#: onedesk/one/head.py:478 onedesk/one_ai/suggest.py:96
 msgid "Done."
 msgstr "تم."
 
@@ -5288,7 +5330,7 @@ msgstr "كل الملفات في التخزين السحابي."
 msgid "Every file uploaded anywhere in One is kept in cloud storage."
 msgstr "كل ملف يُرفع في أي مكان في One يُحفظ في التخزين السحابي."
 
-#: onedesk/one_admin/notifications.py:60
+#: onedesk/one_admin/notifications.py:61
 msgid "Every morning, the domains that have waited a day for their DNS or stopped working. Not sent when there are none."
 msgstr "كل صباح، النطاقات التي انتظرت يوماً لإعداد DNS أو توقفت عن العمل. لا يُرسل إن لم يكن هناك أي منها."
 
@@ -5594,9 +5636,9 @@ msgstr "المعلومة"
 #. Option for the 'State' (Select) field in DocType 'Reading'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
-#: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:22
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:36
 #: onedesk/one_admin/doctype/tenant/tenant.json onedesk/one_admin/heads.py:37
-#: onedesk/one_admin/heads.py:46 onedesk/one_admin/home.py:64
+#: onedesk/one_admin/heads.py:46 onedesk/one_admin/home.py:78
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
@@ -6310,7 +6352,7 @@ msgstr "حدّد عميلًا لـ {0} لفوترة وقته."
 msgid "Given"
 msgstr "مُقدَّم"
 
-#: onedesk/one/account.py:263 onedesk/public/js/settings.js:1425
+#: onedesk/one/account.py:286 onedesk/public/js/settings.js:1425
 msgid "Given by One"
 msgstr "مقدَّمة من One"
 
@@ -7376,6 +7418,10 @@ msgstr "تمت الدعوة. سيصلهم بريد لتعيين كلمة الم�
 msgid "Invitees"
 msgstr "المدعوون"
 
+#: onedesk/one_admin/steps.py:76
+msgid "Inviting the owner"
+msgstr "دعوة المالك"
+
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -7535,6 +7581,10 @@ msgstr "ربما انتهت صلاحيته أو تم إيقافه. اطلب را
 msgid "It says what {0} wrote."
 msgstr "يقول ما كتبه {0}."
 
+#: onedesk/one_admin/notifications.py:22
+msgid "It stopped on step {number} of {steps}: {step}.<br>{error}"
+msgstr "توقفت عند الخطوة {number} من {steps}: {step}.<br>{error}"
+
 #: onedesk/one_hr/notifications.py:253
 msgid "It was at {was}."
 msgstr "كانت في {was}."
@@ -7626,7 +7676,7 @@ msgstr ""
 msgid "Job Applicant"
 msgstr "متقدم للوظيفة"
 
-#: onedesk/one_admin/notifications.py:13
+#: onedesk/one_admin/notifications.py:14
 msgid "Job Failed"
 msgstr "فشلت مهمة"
 
@@ -8462,7 +8512,7 @@ msgstr "عرض كل من لم يُسجَّل"
 #. Label of a number card in the One Admin Workspace
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:20
-#: onedesk/one_admin/heads.py:25 onedesk/one_admin/home.py:61
+#: onedesk/one_admin/heads.py:25 onedesk/one_admin/home.py:75
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "Live"
 msgstr "يعمل"
@@ -8995,6 +9045,22 @@ msgstr "مُسجَّل حاضراً"
 #: onedesk/one_hr/learned.py:28
 msgid "Marked {0}."
 msgstr "تم تعليمه كـ {0}."
+
+#: onedesk/one_admin/steps.py:85
+msgid "Marking it archived"
+msgstr "تعليمها مؤرشفة"
+
+#: onedesk/one_admin/steps.py:87
+msgid "Marking it dropped"
+msgstr "تعليمها محذوفة"
+
+#: onedesk/one_admin/steps.py:77 onedesk/one_admin/steps.py:81
+msgid "Marking it live"
+msgstr "تعليمها قيد التشغيل"
+
+#: onedesk/one_admin/steps.py:79
+msgid "Marking it suspended"
+msgstr "تعليمها معلّقة"
 
 #. Label of the marks_as (Select) field in DocType 'Attendance Reason'
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
@@ -9572,7 +9638,7 @@ msgstr "مشروع جديد"
 msgid "New Rule"
 msgstr "قاعدة جديدة"
 
-#: onedesk/one_admin/notifications.py:37
+#: onedesk/one_admin/notifications.py:38
 msgid "New Signup"
 msgstr "اشتراك جديد"
 
@@ -9714,6 +9780,10 @@ msgstr "التالي في {0}"
 #: onedesk/one_book/ready.py:90
 msgid "Next year's is made three days before this one ends."
 msgstr "تُنشأ السنة التالية قبل ثلاثة أيام من نهاية هذه السنة."
+
+#: onedesk/one_admin/home.py:153
+msgid "Next: {0}"
+msgstr "التالي: {0}"
 
 #: onedesk/one_ai/chat.py:632 onedesk/public/js/onecloud.js:702
 msgid "No"
@@ -10005,6 +10075,10 @@ msgstr "لا يتصل"
 msgid "Not Estimated"
 msgstr "غير مُقدَّرة"
 
+#: onedesk/one_admin/home.py:155
+msgid "Not Moving"
+msgstr "لا تتقدّم"
+
 #: onedesk/one_crm/measure.py:144
 msgid "Not Recorded"
 msgstr "غير مسجّل"
@@ -10140,7 +10214,7 @@ msgstr "لا يظهر حين لا تكون له قيمة. وإلا تظهر ال
 msgid "Not used"
 msgstr "غير مستخدم"
 
-#: onedesk/one_admin/heads.py:53 onedesk/one_admin/home.py:185
+#: onedesk/one_admin/heads.py:53 onedesk/one_admin/home.py:234
 msgid "Not working"
 msgstr "لا يعمل"
 
@@ -11543,7 +11617,7 @@ msgstr "مستحق لنا"
 #. Label of the owing (Check) field in DocType 'Workspace Account'
 #. Label of a number card in the One Admin Workspace
 #: onedesk/one/doctype/workspace_account/workspace_account.json
-#: onedesk/one_admin/home.py:63
+#: onedesk/one_admin/home.py:77
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "Owing"
 msgstr "عليها مستحقات"
@@ -11616,7 +11690,7 @@ msgid "Paid under"
 msgstr "يُدفع وفق"
 
 #. Label of a number card in the One Admin Workspace
-#: onedesk/one_admin/home.py:65
+#: onedesk/one_admin/home.py:79
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "Paid, Not Built"
 msgstr "مدفوعة ولم تُنشأ"
@@ -11818,7 +11892,7 @@ msgstr "مرجع الدفع"
 msgid "Payment Terms"
 msgstr ""
 
-#: onedesk/one_admin/notifications.py:104
+#: onedesk/one_admin/notifications.py:118
 msgid "Payment arrived, and {workspace} is open again at {address}. Thank you."
 msgstr "وصلت الدفعة، و{workspace} مفتوحة من جديد على {address}. شكرًا لك."
 
@@ -11830,7 +11904,7 @@ msgstr "دفع مساحة العمل متأخر"
 msgid "Payment for the workspace is overdue. Unless it is paid, the workspace is suspended on {date}."
 msgstr "دفع مساحة العمل متأخر. ما لم يُدفع، ستُعلَّق مساحة العمل في {date}."
 
-#: onedesk/one_admin/notifications.py:75
+#: onedesk/one_admin/notifications.py:89
 msgid "Payment for {workspace} did not arrive, so it is suspended: nobody can sign in, and nothing in it is touched.<br><br>Pay the invoice we sent you and it comes straight back. Unless it is paid, it is archived on {date}. If something is wrong, reply to this mail."
 msgstr "لم تصل دفعة {workspace}، لذا عُلّقت: لا يمكن لأحد تسجيل الدخول، ولا يُمسّ شيء فيها.<br><br>ادفع الفاتورة التي أرسلناها إليك وستعود فورًا. ما لم تُدفع، ستُؤرشف في {date}. إن كان هناك خطأ، فردّ على هذه الرسالة."
 
@@ -11843,8 +11917,8 @@ msgid "Payment is taken by Stripe. Nothing is charged until it is confirmed ther
 msgstr "تتم الدفعة عبر Stripe. ولا يُخصم شيء حتى تُؤكَّد هناك."
 
 #: onedesk/one/heads.py:18 onedesk/one_admin/doctype/tenant/tenant_list.js:21
-#: onedesk/one_admin/heads.py:26 onedesk/one_admin/home.py:153
-#: onedesk/one_admin/tell.py:101
+#: onedesk/one_admin/heads.py:26 onedesk/one_admin/home.py:202
+#: onedesk/one_admin/tell.py:106
 msgid "Payment overdue"
 msgstr "دفعة متأخرة"
 
@@ -12675,6 +12749,10 @@ msgstr "أرسل إليّ إشعارات فورية لهذه الأنواع"
 msgid "Push works"
 msgstr "الإشعار الفوري يعمل"
 
+#: onedesk/one_admin/steps.py:74
+msgid "Putting it on our own name"
+msgstr "وضعها على اسمنا"
+
 #. Label of a Sidebar Item
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 msgid "Quality Inspections"
@@ -13133,6 +13211,10 @@ msgstr "حُفظ التسجيل. سيفرّغه OneAI كتابيًا ويعلّ�
 msgid "Recording starts only after the interviewer confirms the candidate's consent."
 msgstr "لا يبدأ التسجيل إلا بعد أن يؤكد المُحاور موافقة المرشح."
 
+#: onedesk/one_admin/steps.py:82
+msgid "Recording the latest backup"
+msgstr "تسجيل أحدث نسخة احتياطية"
+
 #: onedesk/public/js/overtime.js:62
 msgid "Recording the overtime"
 msgstr "جارٍ تسجيل العمل الإضافي"
@@ -13212,7 +13294,7 @@ msgstr "تحديث النطاقات"
 msgid "Refund"
 msgstr "استرداد"
 
-#: onedesk/one/account.py:268 onedesk/public/js/credit_ledger_entry_list.js:17
+#: onedesk/one/account.py:291 onedesk/public/js/credit_ledger_entry_list.js:17
 msgid "Refunded"
 msgstr "مُسترد"
 
@@ -13575,9 +13657,13 @@ msgstr "تمت استعادة عنصر واحد"
 msgid "Restored {0} items"
 msgstr "تمت استعادة {0} عناصر"
 
-#: onedesk/one_admin/home.py:32
+#: onedesk/one_admin/home.py:46
 msgid "Restoring {0} failed"
 msgstr "فشلت استعادة {0}"
+
+#: onedesk/one_admin/home.py:37
+msgid "Restoring {0} has not moved"
+msgstr "لم تتقدّم استعادة {0}"
 
 #: onedesk/public/js/settings.js:563
 msgid "Result"
@@ -13595,7 +13681,7 @@ msgstr "نتائج من كل مكان"
 msgid "Results in {0}"
 msgstr "النتائج في {0}"
 
-#: onedesk/one_admin/heads.py:416 onedesk/one_admin/home.py:109
+#: onedesk/one_admin/heads.py:416 onedesk/one_admin/home.py:123
 #: onedesk/public/js/timesheet.js:75
 msgid "Resume"
 msgstr "استئناف"
@@ -13694,6 +13780,10 @@ msgstr "لا تُجرَّب القواعد التالية على البريد ا
 #: onedesk/public/js/settings.js:1691
 msgid "Run"
 msgstr "تشغيل"
+
+#: onedesk/one_admin/home.py:158
+msgid "Run Now"
+msgstr "شغّل الآن"
 
 #: onedesk/one_admin/heads.py:418
 msgid "Run {0} again, from the step it stopped on?"
@@ -14561,7 +14651,7 @@ msgstr "تسجيل الدخول من مكان جديد يُخرج الشخص م�
 msgid "Signs with “{0}”"
 msgstr "يوقّع بـ «{0}»"
 
-#: onedesk/one_admin/notifications.py:26
+#: onedesk/one_admin/notifications.py:27
 msgid "Signup Not Built"
 msgstr "اشتراك لم يُنشأ"
 
@@ -14907,6 +14997,10 @@ msgstr "خطوة"
 msgid "Step {0} of {1}"
 msgstr "الخطوة {0} من {1}"
 
+#. Label of the steps_section (Section Break) field in DocType 'Provisioning
+#. Job'
+#. Label of the walk_said (HTML) field in DocType 'Provisioning Job'
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/heads.py:241 onedesk/one_admin/heads.py:459
 msgid "Steps"
 msgstr ""
@@ -15296,13 +15390,17 @@ msgstr "موقوف"
 msgid "Suspended For"
 msgstr "مدة الإيقاف"
 
-#: onedesk/one_admin/home.py:153 onedesk/one_admin/tell.py:101
+#: onedesk/one_admin/home.py:202 onedesk/one_admin/tell.py:106
 msgid "Suspended for not paying"
 msgstr "معلّقة لعدم الدفع"
 
-#: onedesk/one_admin/home.py:31
+#: onedesk/one_admin/home.py:45
 msgid "Suspending {0} failed"
 msgstr "فشل تعليق {0}"
+
+#: onedesk/one_admin/home.py:36
+msgid "Suspending {0} has not moved"
+msgstr "لم يتقدّم تعليق {0}"
 
 #: onedesk/public/js/calendar_link.js:34 onedesk/public/js/calendar_link.js:79
 msgid "Switch Off"
@@ -15408,6 +15506,10 @@ msgstr "تم الاسترجاع."
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 msgid "Taken from the provider's own word for the model and from every input price it publishes."
 msgstr "مأخوذ من وصف المزوّد نفسه للنموذج ومن كل سعر مدخلات ينشره."
+
+#: onedesk/one_admin/steps.py:84
+msgid "Taking the name off the edge"
+msgstr "إزالة الاسم من الشبكة"
 
 #: onedesk/one_task/page/my_tasks/my_tasks.js:147
 #: onedesk/public/js/timesheet.js:50
@@ -15524,6 +15626,10 @@ msgstr "مكتبة الفريق"
 msgid "Tell us who you are and what you need, and we will get back to you."
 msgstr "أخبرنا من أنت وما تحتاجه، وسنعاود التواصل معك."
 
+#: onedesk/one_admin/steps.py:75
+msgid "Telling the site who it is"
+msgstr "إخبار الموقع بهويته"
+
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: onedesk/one_task/custom/task.json
 msgid "Template"
@@ -15534,11 +15640,9 @@ msgid "Template Name"
 msgstr "اسم القالب"
 
 #. Label of the tenant (Link) field in DocType 'Account Request'
-#. Label of the tenant (Link) field in DocType 'Provisioning Job'
 #. Name of a DocType
 #. Label of the tenant (Link) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/account_request/account_request.json
-#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 msgid "Tenant"
@@ -16109,8 +16213,8 @@ msgstr "آخر يوم تُحتسب فيه هذه المنحة. وتركه فار
 
 #. Description of the 'Error' (Small Text) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
-msgid "The last failure message, as reported by Frappe Cloud."
-msgstr "آخر رسالة فشل، حسبما تُبلّغ Frappe Cloud."
+msgid "The last failure, as the service that failed reported it."
+msgstr "آخر إخفاق، كما أبلغت عنه الخدمة التي أخفقت."
 
 #: onedesk/public/js/settings.js:1088
 msgid "The last {0} days: what came in, and what OneAI used each day. Click a day to see who and what used it."
@@ -16203,9 +16307,9 @@ msgstr "الزر الداكن الوحيد ما دام ظاهرًا."
 msgid "The one word for it. What it can be fed is below, and the picker filters on both."
 msgstr "الكلمة الواحدة الدالة عليه. وما يمكن أن يُغذّى به أدناه، ويُرشّح المنتقي على أساسهما معاً."
 
-#: onedesk/one_admin/notifications.py:19 onedesk/one_admin/notifications.py:30
-#: onedesk/one_admin/notifications.py:41 onedesk/one_admin/notifications.py:51
-#: onedesk/one_admin/notifications.py:63
+#: onedesk/one_admin/notifications.py:20 onedesk/one_admin/notifications.py:31
+#: onedesk/one_admin/notifications.py:42 onedesk/one_admin/notifications.py:52
+#: onedesk/one_admin/notifications.py:64
 msgid "The operators"
 msgstr "المشغّلون"
 
@@ -16290,7 +16394,7 @@ msgstr "الخطة وإضافاتها."
 msgid "The plan was changed."
 msgstr "تم تغيير الخطة."
 
-#: onedesk/one/account.py:443
+#: onedesk/one/account.py:466
 msgid "The plan was not changed"
 msgstr "لم تتغيّر الخطة"
 
@@ -16299,11 +16403,11 @@ msgstr "لم تتغيّر الخطة"
 msgid "The plan's and the add-ons'. Zero means no limit."
 msgstr "من الخطة والإضافات. الصفر يعني بلا حد."
 
-#: onedesk/one/account.py:261
+#: onedesk/one/account.py:284
 msgid "The plan's monthly credits"
 msgstr "الأرصدة الشهرية للخطة"
 
-#: onedesk/one/account.py:259
+#: onedesk/one/account.py:282
 msgid "The plan's monthly credits, until {0}"
 msgstr "الأرصدة الشهرية للخطة، حتى {0}"
 
@@ -16501,8 +16605,8 @@ msgid "The workspace is being set up. Its job has the detail."
 msgstr "يجري تجهيز مساحة العمل. والتفاصيل في مهمتها."
 
 #: onedesk/www/welcome.py:20
-msgid "The workspace is ready."
-msgstr "مساحة العمل جاهزة."
+msgid "The workspace is ready. We have emailed you a link to choose your password."
+msgstr "مساحة العمل جاهزة. أرسلنا إليك بريدًا فيه رابط لاختيار كلمة المرور."
 
 #: onedesk/one/notifications.py:180
 msgid "The workspace no longer opens at {domain}. Check that its DNS still points at {target}, then press Check Again on Workspace › Domains."
@@ -16529,8 +16633,9 @@ msgstr "إشعارات مساحة العمل الخاصة: عندما يحدث �
 msgid "The workspace's own rule this type is for, made with it. The rule's name, since the type is made first."
 msgstr "قاعدة مساحة العمل التي أُنشئ هذا النوع لها. اسم القاعدة، لأن النوع يُنشأ أولاً."
 
-#: onedesk/one_admin/notifications.py:73 onedesk/one_admin/notifications.py:87
-#: onedesk/one_admin/notifications.py:102
+#: onedesk/one_admin/notifications.py:74 onedesk/one_admin/notifications.py:87
+#: onedesk/one_admin/notifications.py:101
+#: onedesk/one_admin/notifications.py:116
 msgid "The workspace's owner"
 msgstr "مالك مساحة العمل"
 
@@ -16816,11 +16921,11 @@ msgstr "لا يمكن تخصيص هذا النموذج هنا."
 msgid "This form has been modified after you have loaded it"
 msgstr "تم تعديل هذا النموذج بعد أن فتحته"
 
-#: onedesk/one/invite.py:79
+#: onedesk/one/invite.py:81
 msgid "This invitation has expired"
 msgstr "انتهت صلاحية هذه الدعوة"
 
-#: onedesk/one/invite.py:87
+#: onedesk/one/invite.py:89
 msgid "This invitation was withdrawn"
 msgstr "سُحبت هذه الدعوة"
 
@@ -16952,7 +17057,7 @@ msgstr "لدى مساحة العمل هذه اتفاقيات لم يُوافق �
 msgid "This workspace has no billing account yet."
 msgstr "ليس لمساحة العمل هذه حساب فوترة بعد."
 
-#: onedesk/one_admin/proxy.py:487
+#: onedesk/one_admin/proxy.py:491
 msgid "This workspace has no mail route yet."
 msgstr "لا يوجد لمساحة العمل هذه مسار بريد بعد."
 
@@ -16968,7 +17073,7 @@ msgstr "ليس لمساحة العمل هذه اشتراك لتغييره. اط�
 msgid "This workspace is not linked to an account, so files are kept on the server's disk."
 msgstr "مساحة العمل هذه غير مرتبطة بحساب، لذا تُحفظ الملفات على قرص الخادم."
 
-#: onedesk/one_admin/proxy.py:484
+#: onedesk/one_admin/proxy.py:488
 msgid "Those are not this workspace's addresses."
 msgstr "هذه ليست عناوين مساحة العمل هذه."
 
@@ -17347,6 +17452,7 @@ msgstr "فرز الشكاوى"
 msgid "Trial Balance"
 msgstr ""
 
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.js:35
 #: onedesk/one_admin/heads.py:247
 msgid "Tried {0} times"
 msgstr "جُرّبت {0} مرات"
@@ -17702,11 +17808,11 @@ msgstr "يُستخدم في"
 msgid "Used This Month"
 msgstr "المستخدم هذا الشهر"
 
-#: onedesk/one/account.py:278
+#: onedesk/one/account.py:301
 msgid "Used by OneAI, one call"
 msgstr "استخدمه OneAI، طلب واحد"
 
-#: onedesk/one/account.py:280
+#: onedesk/one/account.py:303
 msgid "Used by OneAI, {0} calls"
 msgstr "استخدمه OneAI، {0} طلبات"
 
@@ -17939,7 +18045,11 @@ msgstr "بانتظار الآن"
 msgid "Waiting for Credits"
 msgstr "بانتظار الرصيد"
 
-#: onedesk/one_admin/home.py:185
+#: onedesk/one_admin/steps.py:73
+msgid "Waiting for Frappe Cloud to build it"
+msgstr "انتظار Frappe Cloud لإنشائه"
+
+#: onedesk/one_admin/home.py:234
 msgid "Waiting for its DNS"
 msgstr "بانتظار إعداد DNS"
 
@@ -17960,7 +18070,7 @@ msgstr "بانتظارك"
 msgid "Waiting on DNS"
 msgstr "بانتظار DNS"
 
-#: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:20
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:34
 #: onedesk/one_admin/heads.py:35
 msgid "Waiting on Frappe Cloud"
 msgstr "بانتظار Frappe Cloud"
@@ -17970,7 +18080,7 @@ msgstr "بانتظار Frappe Cloud"
 msgid "Waiting to be built"
 msgstr "بانتظار الإنشاء"
 
-#: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:19
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:33
 #: onedesk/one_admin/heads.py:34
 msgid "Waiting to run"
 msgstr "بانتظار التشغيل"
@@ -18586,6 +18696,10 @@ msgstr "عند مشاركة رابط مع عنوان."
 msgid "When a mailbox you hold stops connecting. Once, when it breaks."
 msgstr "عندما يتوقف صندوق بريد تملكه عن الاتصال. مرة واحدة، عند تعطّله."
 
+#: onedesk/one_admin/notifications.py:73
+msgid "When a new workspace has been built and is ready to use."
+msgstr "عندما تُنشأ مساحة عمل جديدة وتصبح جاهزة للاستخدام."
+
 #: onedesk/one/notifications.py:33
 msgid "When a passkey is added to your account."
 msgstr "عند إضافة مفتاح مرور إلى حسابك."
@@ -18603,11 +18717,11 @@ msgstr "متى يحلّ سعر منشور محلّ الذي قبله."
 msgid "When a shift has check-ins but writes no attendance from them. At most once a week."
 msgstr "عندما تكون لمناوبة تسجيلات حضور لكنها لا تسجّل منها حضوراً. مرة في الأسبوع على الأكثر."
 
-#: onedesk/one_admin/notifications.py:86
+#: onedesk/one_admin/notifications.py:100
 msgid "When a suspended workspace is archived for not paying."
 msgstr "عندما تُؤرشف مساحة عمل معلّقة لعدم الدفع."
 
-#: onedesk/one_admin/notifications.py:101
+#: onedesk/one_admin/notifications.py:115
 msgid "When a suspended workspace is paid for and opens again."
 msgstr "عندما تُدفع مساحة عمل معلّقة وتُفتح من جديد."
 
@@ -18619,15 +18733,15 @@ msgstr "عند جدولة فعالية تدريب تحضرها."
 msgid "When a warehouse's account is not a stock account, so stock and books disagree."
 msgstr "عندما لا يكون حساب المستودع حساب مخزون، فيختلف المخزون عن الدفاتر."
 
-#: onedesk/one_admin/notifications.py:50
+#: onedesk/one_admin/notifications.py:51
 msgid "When a workspace falls overdue, or is suspended for not paying."
 msgstr "عندما تتأخر مساحة عمل في الدفع، أو تُعلّق لعدم الدفع."
 
-#: onedesk/one_admin/notifications.py:72
+#: onedesk/one_admin/notifications.py:86
 msgid "When a workspace is suspended for not paying."
 msgstr "عندما تُعلّق مساحة عمل لعدم الدفع."
 
-#: onedesk/one_admin/notifications.py:16
+#: onedesk/one_admin/notifications.py:17
 msgid "When a workspace job stops on a step: building, suspending, restoring, archiving or deleting files."
 msgstr "عندما تتوقف مهمة مساحة عمل عند خطوة: الإنشاء أو التعليق أو الاستعادة أو الأرشفة أو حذف الملفات."
 
@@ -18789,7 +18903,7 @@ msgstr "عندما يُسند إليك أحدٌ مهمة."
 msgid "When somebody gives you something to do, or it changes."
 msgstr "عندما يُسند إليك أحد مهمة، أو تتغير."
 
-#: onedesk/one_admin/notifications.py:29
+#: onedesk/one_admin/notifications.py:30
 msgid "When somebody has paid for a workspace and it could not be made."
 msgstr "عندما يدفع أحد مقابل مساحة عمل ولا يمكن إنشاؤها."
 
@@ -18821,7 +18935,7 @@ msgstr "عندما يرفع أحد من خارج مساحة العمل ملفا�
 msgid "When somebody outside the workspace uploads one file through a link you made."
 msgstr "عندما يرفع أحد من خارج مساحة العمل ملفاً واحداً عبر رابط أنشأته."
 
-#: onedesk/one_admin/notifications.py:40
+#: onedesk/one_admin/notifications.py:41
 msgid "When somebody pays for a new workspace."
 msgstr "عندما يدفع أحد مقابل مساحة عمل جديدة."
 
@@ -19230,6 +19344,14 @@ msgstr "لماذا لا يعمل صندوق بريد؟"
 msgid "Why is our domain not working?"
 msgstr "لماذا لا يعمل نطاقنا؟"
 
+#: onedesk/one_admin/ai.py:51
+msgid "Why is this job waiting?"
+msgstr "لماذا تنتظر هذه المهمة؟"
+
+#: onedesk/one_admin/ai.py:52
+msgid "Why is this job waiting? Say which step it is on, what it is waiting for, how many times it has tried, and whether anything is wrong."
+msgstr "لماذا تنتظر هذه المهمة؟ قل عند أي خطوة هي، وما الذي تنتظره، وكم مرة حاولت، وهل هناك خطأ ما."
+
 #. Description of the 'Reason' (Link) field in DocType 'Attendance Request'
 #: onedesk/one_hr/custom/attendance_request.json
 msgid "Why these days should count as worked. HR keeps the list in Attendance Reason."
@@ -19346,6 +19468,7 @@ msgstr "عبء العمل"
 #. Label of the workspace_name (Data) field in DocType 'Account Request'
 #. Label of the tenant (Link) field in DocType 'Credit Ledger Entry'
 #. Label of the tenant (Link) field in DocType 'Credit Reservation'
+#. Label of the tenant (Link) field in DocType 'Provisioning Job'
 #. Label of the tab_workspace (Tab Break) field in DocType 'Tenant'
 #. Label of the workspace_name (Data) field in DocType 'Tenant'
 #. Label of the tenant (Link) field in DocType 'Tenant Domain'
@@ -19354,6 +19477,7 @@ msgstr "عبء العمل"
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:26
@@ -19399,7 +19523,7 @@ msgstr "إضافة مساحة العمل"
 msgid "Workspace Administrator"
 msgstr "مسؤول مساحة العمل"
 
-#: onedesk/one_admin/notifications.py:83
+#: onedesk/one_admin/notifications.py:97
 msgid "Workspace Archived"
 msgstr "أُرشفت مساحة العمل"
 
@@ -19425,11 +19549,15 @@ msgstr "معرّف مساحة العمل"
 msgid "Workspace Mailbox"
 msgstr "صندوق بريد مساحة العمل"
 
-#: onedesk/one_admin/notifications.py:47
+#: onedesk/one_admin/notifications.py:48
 msgid "Workspace Owing"
 msgstr "مساحة عمل مدينة"
 
-#: onedesk/one_admin/notifications.py:98
+#: onedesk/one_admin/notifications.py:70
+msgid "Workspace Ready"
+msgstr "مساحة العمل جاهزة"
+
+#: onedesk/one_admin/notifications.py:112
 msgid "Workspace Restored"
 msgstr "استُعيدت مساحة العمل"
 
@@ -19442,7 +19570,7 @@ msgstr "قاعدة مساحة العمل"
 msgid "Workspace Settings"
 msgstr "إعدادات مساحة العمل"
 
-#: onedesk/one_admin/notifications.py:69
+#: onedesk/one_admin/notifications.py:83
 msgid "Workspace Suspended"
 msgstr "عُلّقت مساحة العمل"
 
@@ -19683,7 +19811,7 @@ msgstr "يمكنك تغيير هذا لاحقاً من إعداداتك الخا
 msgid "You can only ask for a letter about yourself."
 msgstr "يمكنك طلب خطاب عن نفسك فقط."
 
-#: onedesk/one/invite.py:49
+#: onedesk/one/invite.py:51
 msgid "You can use {0}."
 msgstr "يمكنك استخدام {0}."
 
@@ -19987,7 +20115,7 @@ msgstr "نقله شخص منذ ذلك الحين"
 msgid "a person has renamed it since"
 msgstr "أعاد شخص تسميته منذ ذلك الحين"
 
-#: onedesk/one_admin/home.py:200
+#: onedesk/one_admin/home.py:249
 msgid "a workspace"
 msgstr "مساحة عمل"
 
@@ -20085,7 +20213,7 @@ msgstr "جهة الاتصال"
 msgid "created it"
 msgstr "أنشأه"
 
-#: onedesk/one/account.py:257
+#: onedesk/one/account.py:280
 msgid "credits"
 msgstr "أرصدة"
 
@@ -20596,7 +20724,7 @@ msgstr "يسمح {0} بحد أقصى {1} من ساعات العمل الإضاف
 msgid "{0} already belongs to {1}."
 msgstr "{0} يخص {1} بالفعل."
 
-#: onedesk/one_admin/operator.py:198
+#: onedesk/one_admin/operator.py:214
 msgid "{0} already has a workspace. Resume its job instead."
 msgstr "لدى {0} مساحة عمل بالفعل. استأنف مهمتها بدلاً من ذلك."
 
@@ -20907,7 +21035,7 @@ msgstr "لا يوجد في {0} قسم عبر {1}."
 msgid "{0} has no tasks to make a template from."
 msgstr "لا توجد في {0} مهام يُصنع منها قالب."
 
-#: onedesk/one_admin/operator.py:192
+#: onedesk/one_admin/operator.py:208
 msgid "{0} has not been paid, so there is nothing to build."
 msgstr "لم تُدفع {0}، فلا شيء لإنشائه."
 
@@ -21064,7 +21192,7 @@ msgstr "{0} ليس نموذجًا هنا."
 msgid "{0} is not a grant."
 msgstr "{0} ليست منحة."
 
-#: onedesk/one_admin/operator.py:160
+#: onedesk/one_admin/operator.py:176
 msgid "{0} is not a job."
 msgstr "{0} ليست مهمة."
 
@@ -21143,6 +21271,10 @@ msgstr "{0} ليس مما يقترحه نظام التسجيل."
 #: onedesk/one/notify.py:391
 msgid "{0} is not something this notification knows. It can use {1}."
 msgstr "{0} ليس شيئاً يعرفه هذا الإشعار. يمكنه استخدام {1}."
+
+#: onedesk/one_admin/operator.py:156
+msgid "{0} is not waiting to run."
+msgstr "{0} لا تنتظر التشغيل."
 
 #: onedesk/one/home.py:140
 msgid "{0} is not working"
@@ -21329,7 +21461,7 @@ msgstr "{0} مفتوحة من {1}"
 msgid "{0} out of 5"
 msgstr "{0} من 5"
 
-#: onedesk/one_admin/home.py:131
+#: onedesk/one_admin/home.py:180
 msgid "{0} paid and has no workspace"
 msgstr "دفع {0} وليس لديه مساحة عمل"
 
@@ -21681,7 +21813,7 @@ msgstr "جعل {by} ‏{domain} العنوان الرئيسي لمساحة ال�
 msgid "{by} made {person} an administrator of the workspace. If you did not expect this, check Workspace › People now."
 msgstr "جعل {by} {person} مسؤولًا عن مساحة العمل. إن لم تكن تتوقع ذلك، راجع مساحة العمل › الأشخاص الآن."
 
-#: onedesk/one_admin/notifications.py:64
+#: onedesk/one_admin/notifications.py:65
 msgid "{count} domains need a look"
 msgstr "{count} نطاقات تحتاج إلى نظرة"
 
@@ -21713,7 +21845,7 @@ msgstr "تنتهي صلاحية {credits} من أرصدة OneAI لمساحة ا�
 msgid "{customer} is over their credit limit"
 msgstr "تجاوز {customer} حد الائتمان"
 
-#: onedesk/one_admin/notifications.py:65
+#: onedesk/one_admin/notifications.py:66
 msgid "{domains}"
 msgstr "{domains}"
 
@@ -21725,11 +21857,11 @@ msgstr "توقف {domain} عن العمل"
 msgid "{domain} works now"
 msgstr "{domain} يعمل الآن"
 
-#: onedesk/one_admin/notifications.py:32
+#: onedesk/one_admin/notifications.py:33
 msgid "{email}<br>{error}"
 msgstr "{email}<br>{error}"
 
-#: onedesk/one_admin/notifications.py:43
+#: onedesk/one_admin/notifications.py:44
 msgid "{email}{plan}"
 msgstr "{email}{plan}"
 
@@ -21817,7 +21949,7 @@ msgstr "{tasks}"
 msgid "{title} arrived after you closed this task."
 msgstr "وصل {title} بعد أن أغلقت هذه المهمة."
 
-#: onedesk/one_admin/notifications.py:20
+#: onedesk/one_admin/notifications.py:21
 msgid "{what}"
 msgstr "{what}"
 
@@ -21862,35 +21994,43 @@ msgstr "شارك {who} ‏{file} معك.<br><br><a href=\"{link}\">افتحه</a
 msgid "{who} {said} <b>{event}</b>, {when}{where}.<br><br>The event is attached, to add to your own calendar."
 msgstr "{who} {said} <b>{event}</b>، {when}{where}.<br><br>الحدث مرفق لتضيفه إلى تقويمك."
 
-#: onedesk/one_admin/notifications.py:53
+#: onedesk/one_admin/notifications.py:54
 msgid "{why}"
 msgstr "{why}"
 
-#: onedesk/one_admin/notifications.py:88
+#: onedesk/one_admin/notifications.py:102
 msgid "{workspace} is archived"
 msgstr "أُرشفت {workspace}"
 
-#: onedesk/one_admin/notifications.py:103
+#: onedesk/one_admin/notifications.py:117
 msgid "{workspace} is open again"
 msgstr "{workspace} مفتوحة من جديد"
 
-#: onedesk/one_admin/notifications.py:74
+#: onedesk/one_admin/notifications.py:75
+msgid "{workspace} is ready"
+msgstr "{workspace} جاهزة"
+
+#: onedesk/one_admin/notifications.py:76
+msgid "{workspace} is ready at {address}.<br><br>We have sent you a second email with a link to choose your password. It works for 7 days. If it has not arrived, reply to this mail."
+msgstr "{workspace} جاهزة على {address}.<br><br>أرسلنا إليك رسالة ثانية فيها رابط لاختيار كلمة المرور، وهو صالح لمدة 7 أيام. إن لم تصلك، فردّ على هذه الرسالة."
+
+#: onedesk/one_admin/notifications.py:88
 msgid "{workspace} is suspended"
 msgstr "عُلّقت {workspace}"
 
-#: onedesk/one_admin/notifications.py:31
+#: onedesk/one_admin/notifications.py:32
 msgid "{workspace} paid and has no workspace"
 msgstr "دفع {workspace} وليس لديه مساحة عمل"
 
-#: onedesk/one_admin/notifications.py:42
+#: onedesk/one_admin/notifications.py:43
 msgid "{workspace} signed up"
 msgstr "اشترك {workspace}"
 
-#: onedesk/one_admin/notifications.py:89
+#: onedesk/one_admin/notifications.py:103
 msgid "{workspace} was suspended and not paid for, so it has been taken down. A backup is kept, and your files are where they were.<br><br>On {date} the workspace and its files are deleted, and that cannot be undone. To have it restored before then, pay the invoice we sent you and reply to this mail."
 msgstr "عُلّقت {workspace} ولم تُدفع، لذا أُوقفت. احتُفظ بنسخة احتياطية، وملفاتك في مكانها.<br><br>في {date} تُحذف مساحة العمل وملفاتها، ولا يمكن التراجع عن ذلك. لاستعادتها قبل ذلك، ادفع الفاتورة التي أرسلناها إليك وردّ على هذه الرسالة."
 
-#: onedesk/one_admin/notifications.py:52
+#: onedesk/one_admin/notifications.py:53
 msgid "{workspace}: {state}"
 msgstr "{workspace}: {state}"
 

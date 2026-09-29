@@ -56,7 +56,7 @@ def boot_session(bootinfo) -> None:
 	if admin.is_admin():
 		from onedesk.one_admin import steps
 
-		bootinfo["one_steps"] = {name: frappe._(said) for name, said in steps.SAID.items()}
+		bootinfo["one_steps"] = {name: str(said) for name, said in steps.SAID.items()}
 
 	if "System Manager" in frappe.get_roles():
 		return

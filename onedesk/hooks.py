@@ -769,6 +769,7 @@ one_ai_reads = [
 	# What needs the operator, as OneAdmin's Home lists it. See one_admin/ai.py.
 	"onedesk.one_admin.ai.console_today",
 	"onedesk.one_admin.ai.workspace_facts",
+	"onedesk.one_admin.ai.job_facts",
 	"onedesk.one_calendar.ai.busy_times",
 	# A file's text, who can see it, and what takes the space. See one_storage/ai.py.
 	"onedesk.one_storage.ai.open_file",

@@ -71,9 +71,10 @@ say(
 	"who",
 	"""
 	You decide who may sign in to your workspace and what each person may do. Your workspace's
-	administrators do this in its settings. People you invite are your users; you are responsible for
-	their use of the service and for keeping their access current. We may refuse or remove an account used
-	in breach of the Acceptable Use Policy.
+	administrators do this in its settings. When the workspace is built, the person who paid for it is
+	made its first administrator and emailed an invitation to it. People you invite are your users; you
+	are responsible for their use of the service and for keeping their access current. We may refuse or
+	remove an account used in breach of the Acceptable Use Policy.
 """,
 )
 

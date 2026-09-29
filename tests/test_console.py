@@ -388,7 +388,7 @@ def test_the_owner_is_mailed_as_their_workspace_falls_and_comes_back():
 	for name in ("Workspace Suspended", "Workspace Archived", "Workspace Restored"):
 		assert f'notify.mail("{name}"' in tell, name
 	types = (ADMIN / "notifications.py").read_text()
-	assert types.count('"outside": True') == 3
+	assert types.count('"outside": True') == 4, "Ready, Suspended, Archived, Restored"
 
 
 def test_a_workspace_is_read_by_operators_only_and_never_shared():
@@ -411,3 +411,42 @@ def test_our_lists_are_called_what_the_rail_calls_them():
 	assert '"DocType"' in titles and "_ours(" in titles and "len(labels) == 1" in titles
 	reports = (tree.APP / "public" / "js" / "reports.js").read_text()
 	assert "onedesk.reports.lists_too();" in reports
+
+
+def test_a_new_workspace_invites_its_owner_and_says_it_is_ready():
+	"""The admin site cannot sign in to a site it built: the site invites
+	whoever paid, once, when nobody administers it yet."""
+	steps = (ADMIN / "steps.py").read_text()
+	order = steps.split("ORDER = (", 1)[1].split(")", 1)[0]
+	assert order.index('"push_config"') < order.index('"invite_owner"') < order.index('"live"')
+	assert "onedesk.one.account.wake" in steps and "tell.ready(tenant)" in steps
+	assert '"owner": known.owner_email' in (ADMIN / "proxy.py").read_text()
+	owner = (tree.APP / "one" / "owner.py").read_text()
+	assert "if roles.administrators() or frappe.db.exists(\"User\", email)" in owner
+	assert "roles.ADMINISTRATOR" in owner and 'invite.send(user.name, inviter="One")' in owner
+	account = (tree.APP / "one" / "account.py").read_text()
+	assert "owner.arrive(said)" in account and "@rate_limit(" in account.split("def wake(", 1)[0][-200:]
+	assert 'notify.mail(\n\t\t"Workspace Ready"' in (ADMIN / "tell.py").read_text()
+
+
+def test_a_job_that_has_not_moved_is_on_home_with_run_now():
+	home = (ADMIN / "home.py").read_text()
+	assert "*_stalled_jobs()" in home and "operator.run_now" in home
+	body = (ADMIN / "operator.py").read_text().split("def run_now(", 1)[1].split("\ndef ", 1)[0]
+	assert body.index("_may()") < body.index("runner.advance(job)")
+
+
+def test_jobs_are_published_and_never_shared():
+	runner = (ADMIN / "runner.py").read_text()
+	assert runner.count("job.db_set(") == runner.count("notify=True") - runner.count("tenant.db_set(")
+	job = json.loads((ADMIN / "doctype" / "provisioning_job" / "provisioning_job.json").read_text())
+	assert not job["permissions"][0]["share"] and job["title_field"] == "tenant"
+
+
+def test_oneai_asks_about_a_job_only_in_the_state_it_is_in():
+	source = (ADMIN / "ai.py").read_text()
+	assert '"when": {"status": ["Failed"]}' in source and '"when": {"status": ["Pending", "Waiting"]}' in source
+	body = source.split("def job_facts(", 1)[1]
+	assert body.index("if not _operator()") < body.index("frappe.get_doc")
+	assert '"onedesk.one_admin.ai.job_facts"' in (tree.APP / "hooks.py").read_text()
+	assert "def _holds(" in (tree.APP / "one_ai" / "suggest.py").read_text()

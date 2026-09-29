@@ -17,7 +17,7 @@ SAYS = {
 	"Paying": lambda: frappe._("Waiting for the payment to settle."),
 	"Paid": lambda: frappe._("Payment received. The workspace is being built."),
 	"Provisioning": lambda: frappe._("Payment received. The workspace is being built."),
-	"Done": lambda: frappe._("The workspace is ready."),
+	"Done": lambda: frappe._("The workspace is ready. We have emailed you a link to choose your password."),
 	"Failed": lambda: frappe._("The workspace could not be built. Somebody has been told and will be in touch."),
 }
 

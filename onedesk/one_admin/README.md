@@ -82,6 +82,40 @@ The owner is emailed when their workspace is suspended, when it is archived
 (with the day it will be deleted) and when it is restored. Being overdue is
 told on their own workspace, which still works then.
 
+## Jobs
+
+A **job** is the work that builds a workspace or moves it on the ladder, one
+step at a time. There are five kinds:
+
+- **Provision** builds a new workspace: checks the name is free, asks Frappe
+  Cloud for the site, waits for it to be built, puts it on our own name,
+  tells the site who it is, invites the owner, and marks it live.
+- **Suspend**, **Restore**, **Archive** and **Drop** move a workspace down
+  or back up the ladder (see Workspaces).
+
+Jobs run by themselves every two minutes. **Jobs** lists the ones not done:
+the workspace, the kind, where it is, the step it is on, and when it last
+moved. A failed job has its error under its step.
+
+A job is **Waiting to run** when its next step is due, and **Waiting on
+Frappe Cloud** while a step waits for somebody else, such as a site being
+built. A step that keeps not answering is tried again, less often each time,
+and after twelve tries the job **Fails** and the operators are told.
+
+Open a job to see its walk: every step in words, the ones done ticked, the
+one it is on marked, and a failed step's error under it. **Resume** runs a
+failed job again from the step it stopped on. Every step is safe to run
+twice, so this never builds a second site or suspends a workspace twice.
+
+A job that was due and has not run for fifteen minutes is on Home, under
+Needs You, with **Run Now**: the scheduler has stopped, or a worker died
+holding it. Run Now runs its next step at once.
+
+**The owner of a new workspace** is invited by the job, at its **Inviting the
+owner** step: the new site makes whoever paid its first administrator and
+emails them a link to choose their password, good for a week. When the job
+finishes they are emailed **Workspace Ready**, with its address.
+
 ## Being told
 
 Operators are told without opening Home:
@@ -93,8 +127,9 @@ Operators are told without opening Home:
 - **Domains Waiting**: each morning, the domains that have waited a day or
   stopped working.
 
-The workspace's owner is mailed **Workspace Suspended**, **Workspace
-Archived** and **Workspace Restored** (see Workspaces).
+The workspace's owner is mailed **Workspace Ready** when it is built (see
+Jobs), and **Workspace Suspended**, **Workspace Archived** and **Workspace
+Restored** (see Workspaces).
 
 Each can be turned off or changed under **Settings › Notifications**, and
 none of them is offered to anybody who is not an operator.
@@ -104,7 +139,8 @@ none of them is offered to anybody who is not an operator.
 On Home, OneAI offers **What needs me today?**. It reads the same list Home
 shows, with each item's reason, and changes nothing: resuming, building and
 checking again are Home's buttons. On a job, **Why did this job fail?**
-explains where it stopped and what the error means. On a workspace, **How is
+explains where it stopped and what the error means, and on one waiting, **Why
+is this job waiting?** says what it is waiting for. On a workspace, **How is
 this workspace doing?** reads its standing, plan, storage, credits, domains,
 last jobs and log, and says whether anything is wrong.
 
@@ -136,6 +172,17 @@ For the people who build OneAdmin. OneAI does not read past this heading.
 - `ai.py`: `console_today` is `home.needs` for OneAI, and `workspace_facts`
   one workspace's head and connections; both are refused to anybody who is
   not an operator on the admin site.
+- **A new workspace's owner** (`one/owner.py`, on the tenant): the admin site
+  cannot sign in to a site it built and holds only a hash of its token, so
+  `proxy.hello` names the owner and a workspace with no administrator yet
+  makes them one and invites them. `steps.invite_owner` posts to the new
+  site's `account.wake`, which only makes it ask, and waits until it says it
+  has an administrator. `tell.ready` mails Workspace Ready from `steps.live`.
+- **Jobs**: `runner.py` publishes every write (`notify=True`); the form's
+  walk is `operator.walk`, drawn by `provisioning_job.js`; `home._stalled_jobs`
+  and `operator.run_now` are the job that has not moved. `ai.job_facts` is the
+  walk for OneAI, and a suggestion's `when` (`one_ai/suggest.py`) offers the
+  failed question only on a failed job.
 - **Workspaces is Tenant.** `one/titles.py` hands the rail's labels for our
   own doctypes down in the boot, and `public/js/reports.js` writes them as the
   list's title, the crumb back to it and a record's connections. The owner's

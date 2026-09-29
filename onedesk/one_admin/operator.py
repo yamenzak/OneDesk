@@ -136,8 +136,24 @@ def resume(job: str) -> str:
 			"attempts": 0,
 			"error": None,
 			"next_run_at": frappe.utils.now_datetime(),
-		}
+		},
+		notify=True,
 	)
+	return runner.advance(job)
+
+
+@frappe.whitelist(methods=["POST"])
+def run_now(job: str) -> str:
+	"""Run the next step of a job that is due and has not moved, now.
+
+	For when the scheduler has stopped or a worker died holding it. The same
+	`runner.advance` the tick calls, one step, and every step is safe to run
+	twice, so pressing it on a job that was about to move does no harm.
+	"""
+	_may()
+	status = frappe.db.get_value("Provisioning Job", job, "status")
+	if status not in ("Pending", "Waiting"):
+		frappe.throw(frappe._("{0} is not waiting to run.").format(job))
 	return runner.advance(job)
 
 
@@ -169,7 +185,7 @@ def walk(job: str) -> dict:
 		"at": at,
 		"of": len(order),
 		"steps": [
-			{"name": name, "said": frappe._(steps.SAID.get(name, name)), "done": i < at}
+			{"name": name, "said": str(steps.SAID.get(name, name)), "done": i < at}
 			for i, name in enumerate(order)
 		],
 	}

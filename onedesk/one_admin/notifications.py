@@ -1,9 +1,10 @@
 """What OneAdmin tells, as notification types (one/notify.py).
 
 Sent by `tell.py`. Most go to everybody holding One Operator and to nobody
-else. The last three are mailed to a workspace's owner (`outside`) when it is
-suspended, archived or restored, since a suspended site cannot tell them
-itself. All are offered only to operators (`roles`), who may reword them.
+else. The last four are mailed to a workspace's owner (`outside`): when it is
+ready, and when it is suspended, archived or restored, since a new site has
+no way to reach them yet and a suspended one cannot. All are offered only to
+operators (`roles`), who may reword them.
 """
 
 from frappe import _lt
@@ -18,7 +19,7 @@ TYPES = [
 		),
 		"to": _lt("The operators"),
 		"subject": _lt("{what}"),
-		"message": _lt("At: {step}<br>{error}"),
+		"message": _lt("It stopped on step {number} of {steps}: {step}.<br>{error}"),
 		"email_default": True,
 		"push_default": True,
 	},
@@ -64,6 +65,19 @@ TYPES = [
 		"subject": _lt("{count} domains need a look"),
 		"message": _lt("{domains}"),
 		"email_default": True,
+	},
+	{
+		"name": _lt("Workspace Ready"),
+		"app": "OneAdmin",
+		"roles": ("One Operator",),
+		"about": _lt("When a new workspace has been built and is ready to use."),
+		"to": _lt("The workspace's owner"),
+		"subject": _lt("{workspace} is ready"),
+		"message": _lt(
+			"{workspace} is ready at {address}.<br><br>We have sent you a second email with a link to choose "
+			"your password. It works for 7 days. If it has not arrived, reply to this mail."
+		),
+		"outside": True,
 	},
 	{
 		"name": _lt("Workspace Suspended"),

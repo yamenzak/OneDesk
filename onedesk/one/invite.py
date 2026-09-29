@@ -31,9 +31,11 @@ def _hash(token: str) -> str:
 	return hashlib.sha256(token.encode()).hexdigest()
 
 
-def send(user: str, apps: list[str] | None = None) -> None:
+def send(user: str, apps: list[str] | None = None, inviter: str | None = None) -> None:
 	"""Mail an invitation to somebody just added: who asked, to what, what
-	they may use besides the five everybody has, and the link to join."""
+	they may use besides the five everybody has, and the link to join. The
+	owner of a new workspace is invited by One (one/owner.py), since nobody
+	on it asked."""
 	from onedesk.one import notify
 
 	token = frappe.generate_hash(length=32)
@@ -44,7 +46,7 @@ def send(user: str, apps: list[str] | None = None) -> None:
 		email,
 		lang=lang,
 		now=False,
-		inviter=frappe.utils.get_fullname(),
+		inviter=inviter or frappe.utils.get_fullname(),
 		workspace=frappe.db.get_single_value("Workspace Account", "workspace_name") or "One",
 		apps=(" " + _("You can use {0}.").format(", ".join(apps))) if apps else "",
 		address=email,

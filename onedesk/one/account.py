@@ -18,6 +18,7 @@ upload, an AI call — and that is the right thing to be fragile about.
 
 import frappe
 import requests
+from frappe.rate_limiter import rate_limit
 from frappe.utils import add_days, date_diff, flt, formatdate, getdate, now_datetime, today
 
 from onedesk.one import roles
@@ -128,7 +129,29 @@ def refresh() -> dict:
 	)
 	_keep(held, said.get("domains"), said.get("add_ons"))
 	_tell(before, held)
+	# A new workspace's first administrator is whoever paid for it (one/owner.py).
+	from onedesk.one import owner
+
+	owner.arrive(said)
 	return held.as_dict()
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(limit=5, seconds=60)
+def wake() -> dict:
+	"""Ask the administrator who this workspace is, now: the admin site's last
+	step of a build calls this, so the owner's invitation leaves as the build
+	finishes (one/owner.py). It takes nothing and trusts nobody: all it does
+	is make this site ask, with its own token, and it says only whether the
+	workspace has an administrator after."""
+	if not configured():
+		return {"administered": False}
+	frappe.set_user("Administrator")
+	try:
+		refresh()
+	finally:
+		frappe.set_user("Guest")
+	return {"administered": bool(roles.administrators())}
 
 
 #: A balance under this share of the last thirty days' use is running low:
