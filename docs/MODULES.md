@@ -51,13 +51,13 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| AI Model | 27 | document |
+| AI Model | 28 | document |
 | AI Model Rate | 7 | child |
 | Account Request | 18 | document |
 | Credit Ledger Entry | 15 | submittable |
 | Credit Reservation | 9 | document |
 | Offering | 24 | document |
-| One Admin Settings | 50 | single |
+| One Admin Settings | 51 | single |
 | Provisioning Job | 15 | document |
 | Stripe Webhook Event | 7 | document |
 | Tenant | 42 | document |

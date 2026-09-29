@@ -33,7 +33,8 @@
   "seen_section",
   "seen_on",
   "column_break_seen",
-  "priced_on"
+  "priced_on",
+  "rank"
  ],
  "fields": [
   {
@@ -43,7 +44,6 @@
    "options": "workers-ai\ngoogle-ai-studio",
    "reqd": 1,
    "read_only": 1,
-   "in_list_view": 0,
    "in_standard_filter": 1
   },
   {
@@ -87,16 +87,14 @@
    "fieldname": "reads_text",
    "fieldtype": "Check",
    "label": "Text",
-   "read_only": 1,
-   "in_standard_filter": 1
+   "read_only": 1
   },
   {
    "default": "0",
    "fieldname": "reads_image",
    "fieldtype": "Check",
    "label": "Image",
-   "read_only": 1,
-   "in_standard_filter": 1
+   "read_only": 1
   },
   {
    "fieldname": "column_break_reads",
@@ -107,16 +105,14 @@
    "fieldname": "reads_audio",
    "fieldtype": "Check",
    "label": "Audio",
-   "read_only": 1,
-   "in_standard_filter": 1
+   "read_only": 1
   },
   {
    "default": "0",
    "fieldname": "reads_video",
    "fieldtype": "Check",
    "label": "Video",
-   "read_only": 1,
-   "in_standard_filter": 1
+   "read_only": 1
   },
   {
    "fieldname": "sold_section",
@@ -136,7 +132,6 @@
    "fieldtype": "Select",
    "label": "Default For",
    "options": "Text Generation\nVision\nMultimodal\nTranscription\nImage Generation\nVideo Generation\nAudio Generation\nEmbedding\nTranslation\nText Classification",
-   "in_standard_filter": 1,
    "description": "What an action needing this runs on when a workspace has picked nothing."
   },
   {
@@ -158,13 +153,12 @@
    "fieldname": "priced_by_hand",
    "fieldtype": "Check",
    "label": "Priced by Hand",
-   "in_standard_filter": 1,
    "description": "The sync leaves the rates below alone. For a model whose page this cannot read."
   },
   {
    "fieldname": "markup",
    "fieldtype": "Float",
-   "precision": "4",
+   "precision": "2",
    "label": "Markup",
    "description": "Empty uses the default in OneAdmin Settings."
   },
@@ -231,11 +225,19 @@
    "fieldtype": "Datetime",
    "label": "Last Priced",
    "read_only": 1
+  },
+  {
+   "fieldname": "rank",
+   "fieldtype": "Int",
+   "label": "Rank",
+   "hidden": 1,
+   "read_only": 1,
+   "description": "Offered first, then priced, then needing review, then withdrawn. For the list's order."
   }
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-23 14:00:00.000000",
+ "modified": "2026-09-29 16:30:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "AI Model",
@@ -250,11 +252,11 @@
    "read": 1,
    "report": 1,
    "role": "One Operator",
-   "share": 1,
+   "share": 0,
    "write": 1
   }
  ],
- "sort_field": "provider",
+ "sort_field": "rank",
  "sort_order": "ASC",
  "states": [],
  "track_changes": 1,

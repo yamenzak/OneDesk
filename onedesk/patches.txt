@@ -20,3 +20,5 @@ onedesk.one_admin.patches.domain_is_main
 onedesk.one_admin.patches.offering_gives
 onedesk.one_admin.patches.signup_states
 onedesk.one_admin.patches.credit_model
+onedesk.one_admin.patches.model_rank
+onedesk.one_admin.patches.gemini_default

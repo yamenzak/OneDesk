@@ -7,6 +7,7 @@
 // than the provider's: whether to sell it. That is one press on the row.
 frappe.listview_settings["AI Model"] = {
 	hide_name_column: true,
+	hide_name_filter: true,
 	add_fields: ["status", "offered", "default_for"],
 
 	get_indicator(doc) {

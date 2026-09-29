@@ -62,6 +62,16 @@ TYPES = [
 		"push_default": True,
 	},
 	{
+		"name": _lt("Model Withdrawn"),
+		"app": "OneAdmin",
+		"roles": ("One Operator",),
+		"about": _lt("When the nightly sync takes an offered model off sale, and what now runs instead."),
+		"to": _lt("The operators"),
+		"subject": _lt("{count} OneAI models were taken off sale"),
+		"message": _lt("{models}<br><br>Workspaces that picked them now run on the default."),
+		"email_default": True,
+	},
+	{
 		"name": _lt("Workspace Owing"),
 		"app": "OneAdmin",
 		"roles": ("One Operator",),

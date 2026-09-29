@@ -776,6 +776,7 @@ one_ai_reads = [
 	"onedesk.one_admin.ai.job_facts",
 	"onedesk.one_admin.ai.signup_facts",
 	"onedesk.one_admin.ai.credit_facts",
+	"onedesk.one_admin.ai.model_facts",
 	"onedesk.one_admin.ai.domain_facts",
 	"onedesk.one_admin.ai.price_list",
 	"onedesk.one_admin.ai.price_check",

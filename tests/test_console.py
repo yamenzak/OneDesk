@@ -593,3 +593,29 @@ def test_credits_say_what_is_left_and_an_operator_can_take_back_a_gift():
 	ai = (ADMIN / "ai.py").read_text()
 	assert '"expects": "credit_facts"' in ai and "if not _operator():" in ai.split("def credit_facts(")[1]
 	assert "## Credits" in (ADMIN / "README.md").read_text()
+
+
+def test_an_action_nobody_picked_a_model_for_still_runs_on_gemini():
+	"""The default model rule: the capability's default, else a default that
+	can do it, else the preferred provider's cheapest; a withdrawn pick falls
+	back rather than failing; the operators hear what the sync took off sale."""
+	actions = (ADMIN / "actions.py").read_text()
+	assert 'PREFERRED = "google-ai-studio"' in actions and "def default_model(" in actions
+	choose = actions.split("def _model(")[1].split("\ndef ")[0]
+	assert "default_model(asked.capability)" in choose and "is not a model this account offers" not in choose
+	settings = json.loads((ADMIN / "doctype" / "one_admin_settings" / "one_admin_settings.json").read_text())
+	assert {f["fieldname"]: f for f in settings["fields"]}["prefer_models_from"]["default"] == "google-ai-studio"
+	catalogue = (ADMIN / "catalogue.py").read_text()
+	assert "tell.models_gone(" in catalogue and '"Model Withdrawn"' in (ADMIN / "tell.py").read_text()
+	assert "*_unmodelled()" in (ADMIN / "home.py").read_text()
+	model = json.loads((ADMIN / "doctype" / "ai_model" / "ai_model.json").read_text())
+	assert model["sort_field"] == "rank" and not model["permissions"][0]["share"]
+	assert {f["fieldname"] for f in model["fields"] if f.get("in_standard_filter")} == {
+		"provider",
+		"capability",
+		"status",
+		"offered",
+	}
+	ai = (ADMIN / "ai.py").read_text()
+	assert '"expects": "model_facts"' in ai and "if not _operator():" in ai.split("def model_facts(")[1]
+	assert "## Models" in (ADMIN / "README.md").read_text()

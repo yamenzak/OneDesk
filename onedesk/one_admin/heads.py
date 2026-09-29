@@ -469,8 +469,17 @@ def model_markup(doc):
 	meaning "the default" is a number somebody will read as "none"."""
 	if doc.is_new():
 		return None
+	if doc.status == "Withdrawn":
+		return {
+			"text": _("The provider no longer lists this model, so nobody can pick it."),
+			"colour": "grey",
+		}
 	if doc.status != "Priced":
-		return {"text": doc.why, "colour": "orange"} if doc.get("why") else None
+		then = _(
+			"Price it by hand (tick Priced by Hand and add its rates from the provider's page), or leave it off sale."
+		)
+		why = (doc.get("why") or "").strip().rstrip(".")
+		return {"text": f"{why}. {then}" if why else then, "colour": "orange"}
 	markup = flt(doc.get("markup")) or flt(frappe.db.get_single_value("One Admin Settings", "default_markup"))
 	if not markup:
 		return {"text": _("No markup is set, so this model cannot be called."), "colour": "red"}
@@ -478,7 +487,42 @@ def model_markup(doc):
 	text = _("Charged at {0}× what the provider charges.").format(times)
 	if not flt(doc.get("markup")):
 		text += " " + _("From the default.")
+	used = model_used(doc)
+	if used:
+		text += " " + used["text"]
 	return {"text": text, "colour": "blue"}
+
+
+def model_used(doc):
+	"""Which actions run on it when a workspace picked nothing, and how many
+	workspaces called it this month."""
+	if doc.is_new() or not doc.offered:
+		return None
+	from frappe.utils import add_days, get_first_day, getdate
+
+	from onedesk.one_admin import actions
+
+	runs = [
+		_(one.label)
+		for one in frappe.get_all(
+			"AI Action", filters={"enabled": 1}, fields=["label", "capability"], order_by="label"
+		)
+		if actions.default_model(one.capability) == doc.name
+	]
+	month = ledger.usage(get_first_day(getdate()), add_days(getdate(), 1), ["tenant"], model=doc.name)
+	said = []
+	if runs:
+		shown = ", ".join(runs[:4]) + (" " + _("and {0} more").format(len(runs) - 4) if len(runs) > 4 else "")
+		said.append(_("Runs {0} for every workspace that picked nothing.").format(shown))
+	calls = sum(one.calls for one in month)
+	said.append(
+		_("No workspace called it this month.")
+		if not month
+		else _("One workspace called it this month, {0} times.").format(calls)
+		if len(month) == 1
+		else _("{0} workspaces called it this month, {1} times.").format(len(month), calls)
+	)
+	return {"text": " ".join(said)}
 
 
 MEASURES = {

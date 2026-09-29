@@ -22,6 +22,7 @@ write it.
 """
 
 import frappe
+from frappe.utils import flt
 
 from onedesk.one_admin import capability, gateway, site
 from onedesk.one_admin.faults import Refused
@@ -203,6 +204,7 @@ def offered(needs: str) -> list[dict]:
 		order_by="provider, label",
 	)
 	offered = []
+	usual = default_model(needs)
 	for row in rows:
 		made_by, domain = makers.maker(row.provider, row.model or "")
 		offered.append(
@@ -210,7 +212,7 @@ def offered(needs: str) -> list[dict]:
 				"name": row.name,
 				"label": makers.pretty(row.label or row.model or row.name),
 				"capability": row.capability,
-				"default": row.default_for == needs,
+				"default": row.name == usual,
 				"maker": made_by,
 				# A domain, not a URL: the workspace serves the logo itself
 				# (one_ai/logos.py) rather than send its browser to Google.
@@ -256,21 +258,61 @@ def _model(asked, wanted: str | None) -> str:
 		says = frappe.db.get_value(
 			"AI Model", wanted, ["capability", "offered", "status"], as_dict=True
 		)
-		if not says or not says.offered or says.status != "Priced":
-			raise Refused(f"{wanted} is not a model this account offers")
-		if not capability.able(says.capability, asked.capability):
-			raise Refused(f"{wanted} cannot do {asked.capability.lower()}")
-		return wanted
+		# A model the workspace picked that has since been withdrawn, or come
+		# off sale, falls back to the default rather than failing every call
+		# until somebody notices.
+		if says and says.offered and says.status == "Priced" and capability.able(says.capability, asked.capability):
+			return wanted
 
-	fallback = frappe.db.get_value(
-		"AI Model", {"default_for": asked.capability, "offered": 1, "status": "Priced"}, "name"
-	)
+	fallback = default_model(asked.capability)
 	if not fallback:
 		raise Refused(
-			f"nothing is set as the default for {asked.capability.lower()}, "
-			f"and this workspace has not picked a model for {asked.label}"
+			f"no offered model can do {asked.capability.lower()}, "
+			f"and this workspace has not picked one for {asked.label}"
 		)
 	return fallback
+
+
+#: Whose models run an action nobody chose a model for, until One Admin
+#: Settings says otherwise. The owner's call: Gemini is the better model for
+#: everything OneAI does.
+PREFERRED = "google-ai-studio"
+
+
+def default_model(needs: str) -> str | None:
+	"""What an action needing `needs` runs on when the workspace picked
+	nothing, or picked a model that is no longer offered.
+
+	The model set as the default for it, if there is one. Otherwise an offered
+	model that can do it, from the preferred provider first, a model that is
+	the default for something else before one that is not, and the cheapest of
+	those: so a Gemini default for text generation, which also reads pictures
+	and sound, runs the transcriptions and the scans too.
+	"""
+	from onedesk.one_admin import makers
+
+	able = capability.covers(needs)
+	if not able:
+		return None
+	sold = {"offered": 1, "status": "Priced", "provider": ["in", sorted(makers.PROVIDERS)]}
+	named = frappe.db.get_value("AI Model", {**sold, "default_for": needs}, "name")
+	if named:
+		return named
+	preferred = frappe.db.get_single_value("One Admin Settings", "prefer_models_from") or PREFERRED
+	rows = frappe.get_all(
+		"AI Model",
+		filters={**sold, "capability": ["in", sorted(able)]},
+		fields=["name", "provider", "default_for", "input_per_million", "output_per_million"],
+	)
+	rows.sort(
+		key=lambda one: (
+			one.provider != preferred,
+			not one.default_for,
+			flt(one.input_per_million) + flt(one.output_per_million),
+			one.name,
+		)
+	)
+	return rows[0].name if rows else None
 
 
 def _caps(asked) -> dict:

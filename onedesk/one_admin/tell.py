@@ -196,3 +196,32 @@ def domains_waiting() -> None:
 		count=len(waiting),
 		domains=Markup("<br>").join(f"{one['title']} · {one['why']}" for one in waiting),
 	)
+
+
+@_quietly
+def models_gone(gone: list[dict]) -> None:
+	"""Offered models the nightly sync took off sale (catalogue.sync): the
+	provider stopped listing them, or their price stopped being readable.
+	What ran on them now runs on the default (actions.default_model)."""
+	from onedesk.one_admin import actions
+
+	said = {"withdrawn": _("the provider withdrew it"), "unpriced": _("its price can no longer be read")}
+	lines = []
+	for one in gone:
+		line = f"{one.get('label') or one['name']}: {said.get(one['why'], one['why'])}"
+		if one.get("default_for"):
+			now = actions.default_model(one["default_for"])
+			line += " · " + (
+				_("the default for {0} is now {1}").format(one["default_for"], now)
+				if now
+				else _("nothing can do {0} now").format(one["default_for"])
+			)
+		lines.append(line)
+	notify.notify(
+		"Model Withdrawn",
+		operators(),
+		link="/desk/ai-model",
+		sender="Administrator",
+		count=len(gone),
+		models=Markup("<br>").join(lines),
+	)

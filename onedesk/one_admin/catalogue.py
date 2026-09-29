@@ -71,8 +71,12 @@ def sync(provider: str) -> dict:
 		rates, why = found.get(one["model"], ([], ""))
 		_write(provider, one, rates, why, now, touched)
 
-	touched["withdrawn"] = _withdraw(provider, {one["model"] for one in listed})
-	return touched
+	touched["withdrawn"] = _withdraw(provider, {one["model"] for one in listed}, touched)
+	if touched.get("gone"):
+		from onedesk.one_admin import tell
+
+		tell.models_gone(touched["gone"])
+	return {key: value for key, value in touched.items() if key != "gone"}
 
 
 def discover(provider: str) -> list[dict]:
@@ -234,7 +238,13 @@ def _write(
 	# is the only statement Google's API gives us for Lyria at all.
 	_what_it_does(model, one, [_rated(row) for row in model.rates or []])
 	if model.status != "Priced":
+		if model.offered or model.default_for:
+			# Off sale, with what it was, for the operators to hear of.
+			touched.setdefault("gone", []).append(
+				{"name": key, "label": model.label, "why": "unpriced", "default_for": model.default_for}
+			)
 		model.offered = 0
+		model.default_for = None
 
 	# A provider may reclassify a model — Cloudflare moved llama-3.2-11b-vision
 	# from Vision to Text Generation — and a default it still carries then names
@@ -296,7 +306,7 @@ def _row(rate: prices.Rate) -> dict:
 	}
 
 
-def _withdraw(provider: str, still_listed: set[str]) -> int:
+def _withdraw(provider: str, still_listed: set[str], touched: dict | None = None) -> int:
 	"""A model the provider stopped listing.
 
 	The second and last decision the sync makes on its own. Not deleted: a row
@@ -306,10 +316,14 @@ def _withdraw(provider: str, still_listed: set[str]) -> int:
 	gone = 0
 	for row in frappe.get_all(
 		"AI Model", filters={"provider": provider, "status": ["!=", "Withdrawn"]},
-		fields=["name", "model"],
+		fields=["name", "model", "label", "offered", "default_for"],
 	):
 		if row.model in still_listed:
 			continue
+		if touched is not None and (row.offered or row.default_for):
+			touched.setdefault("gone", []).append(
+				{"name": row.name, "label": row.label, "why": "withdrawn", "default_for": row.default_for}
+			)
 		# The default goes with it. A withdrawn model that is still the default
 		# for a capability is a default nothing can replace — every attempt is
 		# refused because the old one still holds the name — and the first call
@@ -318,7 +332,7 @@ def _withdraw(provider: str, still_listed: set[str]) -> int:
 		frappe.db.set_value(
 			"AI Model",
 			row.name,
-			{"status": "Withdrawn", "offered": 0, "default_for": None},
+			{"status": "Withdrawn", "offered": 0, "default_for": None, "rank": 3},
 			update_modified=False,
 		)
 		gone += 1

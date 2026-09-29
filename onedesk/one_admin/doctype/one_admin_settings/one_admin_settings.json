@@ -39,6 +39,7 @@
   "ai_gateway_token",
   "credits_per_dollar",
   "default_markup",
+  "prefer_models_from",
   "costs_section",
   "cost_workspace",
   "cost_seat",
@@ -245,6 +246,14 @@
    "description": "Multiplied onto provider cost. 2 charges twice the provider's price."
   },
   {
+   "fieldname": "prefer_models_from",
+   "fieldtype": "Select",
+   "label": "Preferred Provider",
+   "options": "google-ai-studio\nworkers-ai",
+   "default": "google-ai-studio",
+   "description": "When nothing is the default for what an action needs, the cheapest offered model from here runs it."
+  },
+  {
    "fieldname": "costs_section",
    "fieldtype": "Section Break",
    "label": "Costs",
@@ -345,7 +354,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-09-27 13:00:00.000000",
+ "modified": "2026-09-29 16:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",

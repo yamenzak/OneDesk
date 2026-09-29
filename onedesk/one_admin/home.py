@@ -105,6 +105,7 @@ def needs() -> list[dict]:
 		*_owing(),
 		*_over_storage(),
 		*_mispriced(),
+		*_unmodelled(),
 		*_domains(),
 	]
 
@@ -273,6 +274,33 @@ def _mispriced() -> list[dict]:
 		for one in offerings.findings()
 		if one["level"] == "red"
 	][:MOST]
+
+
+def _unmodelled() -> list[dict]:
+	"""An action nothing can run: no offered model can do what it needs, so it
+	fails in every workspace that has not picked one."""
+	from onedesk.one_admin import actions
+
+	rows = []
+	for one in frappe.get_all(
+		"AI Action", filters={"enabled": 1}, fields=["name", "label", "capability"], order_by="label"
+	):
+		if actions.default_model(one.capability):
+			continue
+		rows.append(
+			{
+				"kind": "model",
+				"doctype": "AI Action",
+				"name": one.name,
+				"title": _(one.label),
+				"why": _("No offered model can do {0}.").format(_(one.capability).lower()),
+				"detail": "",
+				"since": "",
+				"badge": _("No Model"),
+				"action": None,
+			}
+		)
+	return rows[:MOST]
 
 
 def _domains() -> list[dict]:

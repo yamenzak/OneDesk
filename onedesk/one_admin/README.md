@@ -253,6 +253,39 @@ When an operator gives credits, the workspace's administrators are told
 operator of One sees the ledger. On an entry, OneAI answers **Where did the
 credits go?**.
 
+## Models
+
+**Models** is every OneAI model the two providers offer, Cloudflare Workers AI
+and Google AI Studio. Nobody types one in: each night the list is read from
+each provider, and each price from the page the provider publishes. The sync
+decides two things on its own, and tells the operators when either touches a
+model on sale (**Model Withdrawn**): a model the provider stops listing is
+**Withdrawn**, and one whose price can no longer be read comes off sale.
+
+What is yours to decide:
+
+- **Offered**: workspaces may pick it. **Offer** and **Stop offering** are on
+  each row.
+- **Default For**: what an action needing that runs on when a workspace picked
+  nothing. Gemini is the default: the owner's call is that it is better at
+  everything OneAI does. When nothing is the default for what an action needs
+  (reading a scan, transcribing a recording), it runs on the default for
+  something else that can do it, else the cheapest offered model from the
+  **Preferred Provider** in Settings (Google). A workspace whose own pick is
+  withdrawn falls back the same way rather than failing. An action nothing can
+  run is on Home, under Needs You.
+- **Markup**: empty uses the default in Settings.
+- **Priced by Hand**: for a model whose price page cannot be read. **Needs
+  review** says what the page said that could not be read; price it by hand,
+  or leave it off sale.
+
+The list opens on what is offered, then priced, then needing review, then
+withdrawn. A model's head says its markup, which actions run on it for
+workspaces that picked nothing, and how many workspaces called it this month.
+**Price a call** makes one real call against a workspace's credits and shows
+what it cost: it is charged. OneAI answers **Is this model worth offering?**
+on a model and **Which actions have no model?** on the list.
+
 ## Domains
 
 **Domains** lists every name customers have put on their workspaces, such
@@ -312,6 +345,8 @@ Operators are told without opening Home:
   with why it stopped.
 - **New Signup**: somebody paid for a new workspace.
 - **Workspace Owing**: a workspace fell overdue, or was suspended.
+- **Model Withdrawn**: the nightly sync took an offered model off sale, and
+  what now runs instead.
 - **Domains Waiting**: each morning, the domains that have waited a day or
   stopped working.
 
@@ -334,7 +369,8 @@ work, **Why isn't this domain working?** says what the customer has to change.
 On the price list, **How do our plans compare?**, and on a plan or add-on,
 **Who has this?**. On Price Check, **What should we change?**, and on Plan
 Calculator, **What should they buy?**. On a signup paid and not built,
-**Why wasn't this built?**. On a credit entry, **Where did the credits go?**. On a workspace, **How is
+**Why wasn't this built?**. On a credit entry, **Where did the credits go?**. On a model, **Is this model
+worth offering?**, and on the list, **Which actions have no model?**. On a workspace, **How is
 this workspace doing?** reads its standing, plan, storage, credits, domains,
 last jobs and log, and says whether anything is wrong.
 
@@ -387,6 +423,11 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   says them in the reader's language, and `offerings.warn` says them on
   saving an offering or the costs. `home._mispriced` is the Wrong ones.
   OneAI's suggestions reach a report as `report:<name>` (`one_ai/suggest.py`).
+- **Models** (`catalogue.py`, `prices.py`, `capability.py`):
+  `actions.default_model` is what an action runs on when nobody picked, and
+  what a withdrawn pick falls back to; `tell.models_gone` is Model Withdrawn;
+  `home._unmodelled` the Needs You row. `patches/gemini_default.py` made
+  Gemini 2.5 Flash the default. `ai.model_facts` is the catalogue for OneAI.
 - **Credits** (`ledger.py`, over `credits.py`, which has no frappe in it):
   a balance is a sum; `left_of` is one grant's rest; `take_back` writes a
   spend of it (source Operator); `last_gift` travels in `proxy.hello` so the

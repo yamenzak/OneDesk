@@ -67,6 +67,15 @@ class AIModel(Document):
 		# the list and the form both read zero as "not priced in tokens".
 		held, said = priced(self)
 		self.input_per_million, self.output_per_million = held or 0, said or 0
+		self.rank = rank(self)
+
+
+def rank(model) -> int:
+	"""Where it sits on the list: offered first, then priced, then needing
+	review, then withdrawn."""
+	if model.offered:
+		return 0
+	return {"Priced": 1, "Needs Review": 2}.get(model.status, 3)
 
 
 def priced(model, money=None) -> tuple[float | None, float | None]:

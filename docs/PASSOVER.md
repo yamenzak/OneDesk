@@ -3502,6 +3502,35 @@ models, 30 offered, 44 needing review, one default.
 9. **Built from frappe**: a list with a row button, a form and a Record
    Head. Holds.
 
+Your word: all of them, and Gemini is always the default: "gemini models are
+much better for everything".
+
+Done:
+
+- **Gemini runs OneAI by default.** Gemini 2.5 Flash is the default for Text
+  Generation (`patches/gemini_default.py`; Gemma no longer is). It reads
+  text, pictures, sound and video, so **Transcribe Interviews**,
+  **Transcribe Recordings** and **Read Scans** run on it too.
+- **One rule for which model runs** (`actions.default_model`): the default
+  set for what the action needs; else a default for something else that can
+  do it; else the cheapest offered model from the **Preferred Provider**
+  (One Admin Settings, Google). A workspace whose own pick is withdrawn or
+  off sale falls back the same way instead of failing.
+- **Model Withdrawn** tells the operators when the nightly sync takes an
+  offered or default model off sale, and what runs instead; an action
+  nothing can run is on Home, under Needs You (**No Model**).
+- List: four filters (Provider, Capability, Status, Offered), no ID filter,
+  and it opens on what is offered, then priced, then needing review, then
+  withdrawn (`rank`). Share off.
+- Head: the markup, which actions run on it for workspaces that picked
+  nothing, and how many workspaces called it this month; a model needing
+  review says what to do; a withdrawn one says nobody can pick it.
+  **Markup** shows "Default, 2×" when empty instead of "0.0000".
+- OneAI: **Is this model worth offering?** and **Which actions have no
+  model?**, with `model_facts` (operator-only).
+- README: a **Models** section, Model Withdrawn under Being told, and an
+  Under the hood line.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

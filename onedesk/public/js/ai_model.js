@@ -3,12 +3,27 @@
 // the one verb that shows its answer in the dialog it was asked from.
 frappe.ui.form.on("AI Model", {
 	refresh(frm) {
+		// Only operators read the catalogue, so sharing a model gives nobody anything.
+		frm.sidebar.sidebar.find(".form-shared").addClass("hidden");
+		onedesk.model.markup(frm);
 		if (frm.is_new() || !frm.doc.offered) return;
 		frm.add_custom_button(__("Price a call"), () => onedesk.model.price(frm));
 	},
 });
 
 frappe.provide("onedesk.model");
+
+// No markup of its own is the default, and a column that cannot be empty holds
+// it as 0: shown as "0.00" it reads as "sold at cost". So the box stays empty
+// and says the default it falls back to.
+onedesk.model.markup = (frm) => {
+	const field = frm.fields_dict.markup;
+	if (!field || frm.doc.markup) return;
+	frappe.db.get_single_value("One Admin Settings", "default_markup").then((times) => {
+		field.$input && field.$input.val("").attr("placeholder", __("Default, {0}×", [times || 0]));
+		field.$wrapper.find(".control-value").text(__("Default, {0}×", [times || 0]));
+	});
+};
 
 // What one call would cost, against a real workspace's real credits — because
 // a number worked out any other way is a number nobody can check against a
