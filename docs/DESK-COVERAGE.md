@@ -20,64 +20,83 @@ sidebars, settings pages and code, then read one by one.
 | Not a customer's | the platform's or a developer's: schema, scripts, the desk's own furniture | 31 |
 | Website, out | frappe's website builder; One is not one | 15 |
 
-## What to add, grouped into what a person would call it
+## The plan: Frappe's Settings dialog is the door
 
-P1, in the order a new workspace meets them:
+Frappe `develop` has a **Settings** dialog per doctype
+(`frappe/public/js/frappe/form/doctype_settings/`), opened from a form's or
+a list's menu. Its tabs are Naming, Workflow, Permissions, Print Format,
+Notifications, Email Templates, Global Search, and a General tab that shows
+the doctype's settings where a Settings Map names them. Each tab lists that
+doctype's rules and opens frappe's own form or builder to change one. It is
+most of the P1 list, per document, where a person already is.
 
-1. **Import and Export** (Data Import, Data Export). Customers, items, employees
-   and opening balances from a spreadsheet, and any list back out. The first
-   thing a new workspace does, and today it cannot.
-2. **Numbering** (Document Naming Settings, Document Naming Rule). INV-2026-0001
-   and the like, per document. Accountants ask on the first day.
-3. **Printing** (Print Format, Letter Head, Print Settings, Print Style, Print
-   Heading, Print Format Field Template). How an invoice, a quote or a letter
-   looks. Frappe has a drag-and-drop format builder; One only ships OneHR's
-   employee letter, and a workspace cannot put its own logo on an invoice.
-4. **Mail Templates** (Email Template). Saved replies in OneMail and the body
-   of a notification. HR Settings already points at templates nobody can write.
-5. **Approvals** (Workflow and its four parts). Who approves a purchase, a leave
-   or a discount, in what order, with a **Waiting on Me** inbox (Workflow
-   Action). One honours a workflow on a record; nobody can build one.
-6. **Automations** (Automation Flow). New in frappe: when a record changes, on
-   a date field or on a schedule, check conditions, then set a field, create
-   a record, notify, assign, wait or call a webhook. A no-code builder, and
-   the biggest single thing a customer would miss.
+Two things keep it from a workspace administrator today, and neither is
+fixed by System Manager:
 
-P2:
+- **The menu item** is shown only to whoever may create a Custom Field and a
+  Property Setter. The Customize page writes those under its own guard, so
+  the workspace administrator is given neither, and the item never shows.
+- **Each tab** is shown only when its doctype can be read (`condition` in
+  `registry.js`), and the Workspace Administrator reads none of them but
+  Notification. The builders behind two tabs, `print-format-builder` and
+  `workflow-builder`, are pages whose only role is System Manager, and the
+  permission manager is `only_for("System Manager")` on the server.
 
-7. **Access** (Role Profile, User Permission, Custom DocPerm, User Group,
-   Module Profile). Today People gives an app level per person. Missing: a
-   salesperson who sees only their own territory, a manager only their
-   department, and bundles of access handed out by job.
-8. **Reports and Dashboards** (Dashboard, Dashboard Chart Source, Auto Email
-   Report). A workspace's own dashboards, and a report mailed every Monday.
-9. **Recycle Bin** (Deleted Document). Frappe keeps every deleted record;
-   nobody can restore one.
-10. **Audit Log** (Version, Activity Log, Access Log, Audit Trail). Who changed,
-    exported or printed what, across the workspace, for its administrators.
-11. **Privacy Requests** (Personal Data Download and Deletion Request). A
-    person asks for their data or to be erased; GDPR expects the door.
-12. **Integrations** (Webhook, OAuth Client, Connected App, OAuth settings,
-    Social Login Key). Tell Zapier or another system when something changes,
-    let another app act for a person, and **Sign in with Google or Microsoft**.
+So the work is doors and grants, not screens: One's own **Settings** menu
+item beside **Customize** that calls `frappe.doctype_settings.open`, refused
+on the same modules Customize refuses; grants per stage; and a **Custom
+Role** row per builder page, which is frappe's own way to add a role to a
+standard page. Every route a tab sends to is listed in One's sidebar, so the
+rail stays One's and never flips to frappe's Printing or Workflow sidebar.
+Across doctypes, the same records get one entry each under Workspace in
+One's sidebar, as lists.
 
-P3: Translation (a workspace's own words), SMS, UTM Campaign and Medium in
-OneCRM, announcements (Note), following a record (Document Follow), prefilled
+**Import and Export is out of this plan**; it is a different feature, later.
+
+### Stages
+
+1. **The door.** The Settings item on forms and lists for workspace
+   administrators, and the sidebar entries. Permissions and Global Search are
+   hidden from anybody who is not a System Manager: access is our app levels
+   and, later, its own screen; the search index is ours. Useful from the first
+   day, because Notifications is already granted.
+2. **Numbering.** Document Naming Rule and Document Naming Settings, read and
+   write. The tab's "current value" calls `update_series_start`, which is
+   `only_for("System Manager")`, so it gets a guarded door of ours or is left
+   out. Workspace › Numbering lists every document's series.
+3. **Printing.** Print Format, Letter Head and Print Settings, and the print
+   format builder through a Custom Role. A standard format stays read-only
+   (frappe refuses to change one outside developer mode); a workspace copies
+   it and changes the copy. The letter head and its logo go under Workspace ›
+   General, beside the logo it already has. Checked before granting: that a
+   format's Jinja renders in frappe's sandbox for a non-System Manager, as a
+   Notification's already does.
+4. **Mail Templates.** Email Template, read and write. OneMail's composer
+   already has frappe's template field; HR Settings' leave mails start working
+   when somebody writes one.
+5. **Approvals.** Workflow, Workflow State and Workflow Action Master, and the
+   workflow builder through a Custom Role. A workflow is refused on the
+   framework's and One's own doctypes. **Waiting on Me** (Workflow Action,
+   scoped by frappe's own permission query) goes on Home.
+6. **Automations.** Not a tab in frappe's dialog, but the dialog takes new
+   ones (`frappe.doctype_settings.register`), so an **Automations** tab lists
+   that doctype's Automation Flows and opens frappe's form for one. Run Script
+   is refused, since it runs a Server Script; Call Webhook is https only.
+   Automation Settings stays the operator's.
+
+Then P2, each its own screen: Access (where the Permissions tab would have
+been), Reports and Dashboards, Recycle Bin, Audit Log, Privacy Requests and
+Integrations. Each stage runs the nine points like any screen in the pass.
+
+## What was missing, grouped into what a person would call it
+
+P1: Import and Export (later, a different feature), Numbering, Printing, Mail
+Templates, Approvals, Automations. P2: Access, Reports and Dashboards,
+Recycle Bin, Audit Log, Privacy Requests, Integrations. P3: Translation, SMS,
+UTM Campaign and Medium, announcements (Note), following a record, prefilled
 new records (Document Template), a Lists page for Salutation, Gender and
 Address Template, Slack notifications, session defaults, LDAP, and the action
 after saving.
-
-## Where they would live
-
-Most of this is **Workspace settings**, next to General and People: Numbering,
-Printing, Mail Templates, Access, Integrations, Privacy Requests, Translation.
-Two are **tools of their own** in One's sidebar, because people use them
-rather than set them: **Import and Export**, and **Automations** with
-**Approvals** beside it. The **Recycle Bin** and the **Audit Log** go under
-Workspace for administrators. **Waiting on Me** goes on Home.
-
-Everything above is frappe's own doctype and its own engine; each is a door
-and a look, never a second implementation.
 
 ## Every doctype
 

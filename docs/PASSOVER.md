@@ -3997,7 +3997,14 @@ and 15 are the website builder. 55 are worth adding. In the order a new
 workspace meets them: Import and Export, Numbering, Printing, Mail Templates,
 Approvals and Automations (P1); Access, Reports and Dashboards, Recycle Bin,
 Audit Log, Privacy Requests and Integrations (P2); and a handful of small ones
-(P3). Waiting for your word on which to build and in what order.
+(P3).
+
+**Your word:** plan it around frappe's per-doctype Settings dialog; Import and
+Export is a different feature, later. The plan is in `docs/DESK-COVERAGE.md`:
+One's own Settings item beside Customize opens frappe's dialog, each stage
+grants what its tabs read (and a Custom Role for the print and workflow
+builders), and every route a tab opens is in One's sidebar. Six stages: the
+door, Numbering, Printing, Mail Templates, Approvals, Automations.
 
 ## OneLegal
 
