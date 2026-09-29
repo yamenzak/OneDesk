@@ -464,7 +464,9 @@ beside its changes, and a job lists what it wrote.
 
 - **Connections**: the Frappe Cloud account the sites are built on, with
   the **Server** and **Bench Group** new workspaces go on (the servers are
-  ours, rented from Frappe Cloud; customers never see it),
+  ours, rented from Frappe Cloud; customers never see it) and the **Site
+  Plan** each site takes there, one of Frappe Cloud's free Unlimited plans,
+  which only sets its CPU time a day,
   Cloudflare (one token; **Set Up Cloudflare** finds or makes the rest and
   says what it did under Last Setup), the R2 buckets and keys, Stripe's keys,
   and the AI Gateway. Keys are shown as dots and never read back. **Sender

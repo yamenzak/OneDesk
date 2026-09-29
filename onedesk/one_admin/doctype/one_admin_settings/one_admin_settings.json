@@ -14,6 +14,7 @@
   "press_domain",
   "press_server",
   "press_bench",
+  "press_plan",
   "cloudflare_section",
   "cloudflare_account",
   "cloudflare_token",
@@ -421,12 +422,19 @@
    "fieldtype": "Data",
    "label": "Bench Group",
    "description": "The bench group on that server new workspaces go on. It must carry erpnext, hrms and onedesk."
+  },
+  {
+   "default": "Unlimited - Hetzner",
+   "fieldname": "press_plan",
+   "fieldtype": "Data",
+   "label": "Site Plan",
+   "description": "The free Frappe Cloud plan each site on that server takes. It sets only its CPU time a day."
   }
  ],
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-09-29 23:00:00.000000",
+ "modified": "2026-09-29 19:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",

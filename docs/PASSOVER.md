@@ -3968,6 +3968,15 @@ never know Frappe Cloud is there.
    nothing extra. The Frappe subprocessor entry now says Frappe Cloud runs
    servers rented for One alone, in Nuremberg.
 
+**Proven with a real site** (onetest-8dbda.frappe.cloud, built with frappe
+only, then archived). Frappe Cloud's own code showed my first `create_site`
+was wrong: naming a server without the bench group's version sends press
+down a path that deploys a new private bench group, and a site on our
+server only lands there on a free dedicated plan. `create_site` now names
+the server, the group's version (read from press) and Settings › **Site
+Plan** (default Unlimited - Hetzner), and `place_it` refuses when no Server
+is set. Built this way the site was Active in about a minute.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

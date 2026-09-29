@@ -118,6 +118,8 @@ def place_it(job, tenant) -> None:
 	"""
 	if tenant.site or (tenant.bench and tenant.cluster):
 		return
+	if not _setting("press_server"):
+		raise faults.Refused("Settings names no Server to build workspaces on")
 	bench = tenant.bench or _setting("press_bench") or next(
 		(one.get("name") for one in press.benches() or [] if one.get("name")), None
 	)
@@ -161,6 +163,12 @@ def create_site(job, tenant) -> None:
 	"""
 	if tenant.site:
 		return
+	# Our own server: press puts a site there only when it is named with the
+	# bench group's version, and on one of its free Unlimited plans, which
+	# sets the CPU time a day and nothing we charge for. The limits a customer
+	# bought are ours (quota.py). Named so, press takes the group on that
+	# server carrying these apps; place_it has already checked it is ours.
+	group = press.call("press.api.bench.get", name=tenant.bench) or {}
 	answered = press.call(
 		"press.api.site.new",
 		site={
@@ -168,9 +176,9 @@ def create_site(job, tenant) -> None:
 			"domain": _press_domain(),
 			"group": tenant.bench,
 			"cluster": tenant.cluster,
-			# Our own server, where sites are unlimited and carry no Frappe
-			# Cloud plan: the limits a customer bought are ours (quota.py).
-			**({"server": _setting("press_server")} if _setting("press_server") else {}),
+			"server": _setting("press_server"),
+			"version": group.get("version"),
+			"plan": _setting("press_plan") or "Unlimited - Hetzner",
 			"apps": list(APPS),
 		},
 	)

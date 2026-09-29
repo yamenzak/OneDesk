@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-29 18:19+0000\n"
-"PO-Revision-Date: 2026-09-29 18:19+0000\n"
+"POT-Creation-Date: 2026-09-29 18:44+0000\n"
+"PO-Revision-Date: 2026-09-29 18:44+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -15173,6 +15173,11 @@ msgstr ""
 msgid "Site"
 msgstr ""
 
+#. Label of the press_plan (Data) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Site Plan"
+msgstr ""
+
 #. Label of the file_size (Int) field in DocType 'Cloud File Version'
 #: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
 #: onedesk/public/js/onecloud.js:147 onedesk/public/js/onecloud.js:649
@@ -16749,6 +16754,11 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:802
 msgid "The five everybody has"
+msgstr ""
+
+#. Description of the 'Site Plan' (Data) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "The free Frappe Cloud plan each site on that server takes. It sets only its CPU time a day."
 msgstr ""
 
 #. Description of the 'Flow' (Data) field in DocType 'Intake Action'
