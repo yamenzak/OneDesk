@@ -3429,6 +3429,79 @@ Done:
 - Legal: the Terms say credits we give expire on the date we tell the
   administrators, and a mistake may be taken back; Terms revision 7.
 
+### OneAdmin › Models
+
+Models is the `AI Model` list: every model the two providers list
+(Cloudflare Workers AI and Google AI Studio), synced nightly from each
+provider's API with prices parsed from each provider's pricing page
+(`catalogue.py`, `prices.py`). Nothing on it is typed. The operator decides
+two things per model: whether it is **Offered** (workspaces may pick it) and
+whether it is the **Default** for a capability (what an action runs on when
+the workspace picked nothing). Its head says the markup in effect, and
+**Price a call** makes and charges one real call. On the dev site: 120
+models, 30 offered, 44 needing review, one default.
+
+1. **Notifications**:
+   - **The sync changes what customers get and tells nobody.** A model the
+     provider stops listing is Withdrawn, and one whose price stops being
+     readable comes off sale; if it was offered, or the default, the
+     actions on it start failing with "not a model this account offers",
+     and no operator hears of it until a customer does. Recommended: a
+     **Model Withdrawn** notice to operators when an offered or default
+     model goes, naming the actions that ran on it, and a Needs You row on
+     Home until a default is set again.
+   - A workspace that picked the withdrawn model for an action fails from
+     then on. Recommended: it falls back to the default for that
+     capability, rather than fail.
+2. **OneAI**: nothing but "What stands out here?". Recommended: **Is this
+   model worth offering?** on a model (its price after markup against the
+   offered ones for the same capability, and what it reads), and
+   **Which actions have no model?** on the list, with a reader,
+   `model_facts` (operator-only).
+3. **Intake**: OneIntake's readings run on these models (Read Scans, the
+   intake actions), and depend on the defaults below. Nothing else lands
+   here. Holds.
+4. **Permissions**: One Operator reads and writes; only the operator's two
+   decisions, markup and hand prices, are editable (`THEIRS`). Holds,
+   except **Share** is on. Recommended: off.
+5. **Cross-module**:
+   - **Three actions have no model.** Only Text Generation has a default
+     (Gemma 4). **Transcribe Interviews** and **Transcribe Recordings**
+     (Transcription) and **Read Scans** (Vision) run only in a workspace
+     that picked a model for them; everywhere else they fail. A
+     Transcription model is offered (Whisper) and six Multimodal ones,
+     none of them the default. Recommended: the head of a model says which
+     actions it is the default for, and Home lists a capability an action
+     needs with no default.
+   - A model does not say which actions use it or which workspaces picked
+     it. Recommended: both on its head.
+6. **UI and UX**:
+   - a. **Twelve filters in two rows** (ID, Provider, Name, Capability,
+     Default For, Status, Text, Image, Audio, Video, Offered, Priced by
+     Hand). Recommended: Provider, Capability, Status and Offered; the ID
+     filter off.
+   - b. **The list opens on 44 models needing review**, sorted by provider,
+     and the 30 on sale are scattered among them. Recommended: offered
+     first, then priced, then needing review, then withdrawn.
+   - c. Names are cut off ("Model that perfor…", three "Antigravity
+     Agent"s). Recommended: the Name column wider and the provider shown.
+   - d. **Markup shows "0.0000"** when it is empty and the default applies,
+     under a head that says "From the default". Recommended: empty shown
+     empty, and the default named in its description ("Empty uses 2×").
+   - e. A model needing review says the parser's reasons in a red
+     paragraph, and not what to do about it. Recommended: a second
+     sentence: price it by hand (tick Priced by Hand, add its rates) or
+     leave it off sale.
+7. **Documented**: the README has no Models section: what the sync does
+   and does not decide, what offered and default mean, what Needs Review
+   asks of an operator, and what Price a call costs. Recommended: a
+   **Models** section.
+8. **Legal**: Cloudflare and Google are OneAI's subprocessors
+   (`one_ai/legal.py`), and a model from any other provider cannot appear
+   here without code. Holds.
+9. **Built from frappe**: a list with a row button, a form and a Record
+   Head. Holds.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
