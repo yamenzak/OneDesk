@@ -3653,6 +3653,31 @@ from one token; **Try the Gateway** makes one call.
    every prompt is (the AI Addendum covers it). Holds.
 9. **Built from frappe**: a Single doctype and its form. Holds.
 
+Your word: all of them.
+
+Done:
+
+- **AI Usage prices a credit at what it sells for.** Charged is now the
+  credits at the smallest pack's price a credit (`offerings.credit_price`,
+  $0.009), not at Credits per Dollar. The dev month reads $3.24 charged,
+  $0.18 cost, **18.0×**, where it read $0.36 and 2.0×. Credits per Dollar
+  says it is the cost side and not the price of a credit.
+- **Four tabs**: Connections, Money, OneAI, Grace Periods.
+- **The head says what is missing and what it stops**, reading the site's
+  config too where the code does (on the dev site: "Stripe's secret key is
+  not set, so nobody can pay"); green when everything is filled in.
+- **Last Setup** is the same table Set Up Cloudflare shows, not JSON.
+- **Settings Changed** tells the other operators who changed what, with the
+  old and new value of a price, markup or grace period, and only "(changed)"
+  for a key, which is caught before frappe hides it.
+- OneAI: **Is everything set up?**, with `settings_check` (operator-only,
+  never a key). Share off.
+- README: a **Settings** section, Settings Changed under Being told, and an
+  Under the hood line.
+
+OneAdmin is done: Home, Workspaces, Jobs, Log, Domains, Price List, Price
+Check, Plan Calculator, Signups, Credits, Models, AI Usage and Settings.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

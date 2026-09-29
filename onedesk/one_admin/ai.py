@@ -114,6 +114,18 @@ SUGGESTIONS = {
 			"expects": "job_facts",
 		},
 	],
+	"One Admin Settings": [
+		{
+			"label": _lt("Is everything set up?"),
+			"ask": _lt(
+				"Is everything OneAdmin runs on set up? Say which connections are missing and what each stops, "
+				"what Set Up Cloudflare last said, and whether the money settings look sensible."
+			),
+			"can": "read",
+			"view": "Form",
+			"expects": "settings_check",
+		},
+	],
 	"report:AI Usage": [
 		{
 			"label": _lt("Who is spending the most?"),
@@ -303,6 +315,37 @@ def job_facts(
 		"started": str(held.creation),
 		"last_moved": str(held.modified),
 		"gives_up_after": runner.GIVE_UP_AFTER,
+	}
+
+
+def settings_check() -> dict:
+	"""For an operator of One only: which of OneAdmin's connections are filled
+	in and what each missing one stops, what Set Up Cloudflare last said, and
+	the money settings. A key is only ever said to be set or not."""
+	if not _operator():
+		return {"error": "Only an operator of One, on the admin site, sees the settings."}
+	import json
+
+	from onedesk.one_admin import heads, offerings
+
+	held = frappe.get_single("One Admin Settings")
+	try:
+		setup = json.loads(held.cloudflare_setup or "[]")
+	except ValueError:
+		setup = []
+	return {
+		"missing": heads.settings_missing(held),
+		"cloudflare_setup": [{key: one.get(key) for key in ("step", "state", "detail")} for one in setup],
+		"money": {
+			"credits_per_dollar_of_provider_cost": held.credits_per_dollar,
+			"default_markup": held.default_markup,
+			"a_credit_sells_for": round(offerings.credit_price(), 5),
+			"least_margin": held.least_margin,
+			"prefer_models_from": held.prefer_models_from,
+		},
+		"grace_days": {"overdue": held.grace_days, "suspended": held.held_days, "archived": held.kept_days},
+		"workspace_domain": held.tenant_domain,
+		"mail_domain": held.mail_domain,
 	}
 
 

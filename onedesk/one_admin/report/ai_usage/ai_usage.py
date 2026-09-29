@@ -4,8 +4,9 @@ actions, and what it cost us.
 The numbers are `ledger.usage`'s — one row per model call, what it was charged
 once the provider said what it used, and what the provider charged us for it
 — because only the ledger reads its own tables. This is the cut and the
-columns. Charged is the credits at what a dollar buys (One Admin Settings),
-so Margin is what OneAI makes on the calls, before plans and packs.
+columns. Charged is the credits at the smallest credit pack's price a
+credit (offerings.credit_price), so Margin is what OneAI makes on the calls
+at list price.
 """
 
 import frappe
@@ -23,6 +24,7 @@ BY = {
 	"Workspace and Action": ["tenant", "action"],
 }
 
+#: What the price list, the provider and so every column here is in.
 CURRENCY = "USD"
 
 
@@ -42,7 +44,9 @@ def usage(filters, by: list[str]) -> tuple[list[dict], dict | None]:
 	rows = ledger.usage(start, end, by, tenant=filters.get("tenant"), model=filters.get("model"))
 	if not rows:
 		return [], None
-	per_dollar = flt(frappe.db.get_single_value("One Admin Settings", "credits_per_dollar"))
+	from onedesk.one_admin import offerings
+
+	each = offerings.credit_price()
 	models = dict(frappe.get_all("AI Model", fields=["name", "label"], as_list=True))
 	actions = dict(frappe.get_all("AI Action", fields=["name", "label"], as_list=True))
 	# frappe's own total row adds every number up, and a sum of "workspaces" or
@@ -54,7 +58,7 @@ def usage(filters, by: list[str]) -> tuple[list[dict], dict | None]:
 	for row in [*rows, whole]:
 		row.currency = CURRENCY
 		row.credits = round(flt(row.credits), 2)
-		row.charged = round(row.credits / per_dollar, 4) if per_dollar else 0
+		row.charged = round(row.credits * each, 4)
 		row.cost_us = round(flt(row.usd), 4)
 		row.margin = f"{row.charged / row.cost_us:.1f}×" if row.cost_us else ""
 		if "why" in by and row is not whole:

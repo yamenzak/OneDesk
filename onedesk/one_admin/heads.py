@@ -375,6 +375,58 @@ def _take_back_fields(doc) -> list[dict]:
 	]
 
 
+# ------------------------------------------------------------------ the settings
+
+#: What each connection needs, and what stops without it. Read by the head and
+#: by OneAI (ai.settings_check); a key is only ever said to be set or not.
+NEEDED = (
+	(("press_team", "press_token", "press_url"), _lt("Frappe Cloud"), _lt("no workspace can be built")),
+	(
+		("cloudflare_account", "cloudflare_token", "cloudflare_zone"),
+		_lt("Cloudflare"),
+		_lt("no address or domain works"),
+	),
+	(("tenant_domain",), _lt("the workspace domain"), _lt("no workspace has an address")),
+	(("bucket_global", "r2_key_id", "r2_secret"), _lt("storage"), _lt("no file can be kept")),
+	(("stripe_secret_key",), _lt("Stripe's secret key"), _lt("nobody can pay")),
+	(("stripe_webhook_secret",), _lt("Stripe's webhook secret"), _lt("every payment is refused")),
+	(("ai_gateway", "ai_gateway_token"), _lt("the AI Gateway"), _lt("OneAI cannot answer")),
+	(
+		("credits_per_dollar", "default_markup"),
+		_lt("the credit rate and markup"),
+		_lt("no AI call can be priced"),
+	),
+)
+
+
+def settings_missing(doc) -> list[dict]:
+	"""Each connection that is not filled in, and what it stops."""
+	missing = []
+	for fields, named, stops in NEEDED:
+		empty = [one for one in fields if not _held(doc, one)]
+		if empty:
+			missing.append({"what": str(named), "stops": str(stops), "fields": empty})
+	return missing
+
+
+def _held(doc, fieldname: str) -> bool:
+	# The site's own config wins where the code reads it (cloudflare.py,
+	# gateway.py), so a value kept there is set.
+	if frappe.conf.get(fieldname):
+		return True
+	if doc.meta.get_field(fieldname).fieldtype == "Password":
+		return bool(doc.get_password(fieldname, raise_exception=False))
+	return bool(doc.get(fieldname))
+
+
+def settings_said(doc):
+	missing = settings_missing(doc)
+	if not missing:
+		return {"text": _("Everything OneAdmin runs on is filled in."), "colour": "green"}
+	said = "; ".join(_("{0} is not set, so {1}").format(one["what"], one["stops"]) for one in missing)
+	return {"text": said[0].upper() + said[1:] + ".", "colour": "red"}
+
+
 # ------------------------------------------------------------------ a domain
 
 
@@ -540,6 +592,7 @@ MEASURES = {
 	"domain.said": domain_said,
 	"offering.sold": offering_sold,
 	"credit.said": credit_said,
+	"settings.said": settings_said,
 	"model.state": model_state,
 	"model.markup": model_markup,
 }
@@ -647,6 +700,10 @@ HEADS = [
 	{
 		"doctype": "Offering",
 		"sentences": [{"measure": "offering.sold"}],
+	},
+	{
+		"doctype": "One Admin Settings",
+		"sentences": [{"measure": "settings.said"}],
 	},
 	{
 		"doctype": ledger.ENTRY,

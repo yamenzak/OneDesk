@@ -7,6 +7,9 @@
 frappe.ui.form.on("One Admin Settings", {
 	refresh(frm) {
 		frm.add_custom_button(__("Try the Gateway"), () => onedesk.admin.tryGateway());
+		// Only operators read these, so sharing them gives nobody anything.
+		frm.sidebar.sidebar.find(".form-shared").addClass("hidden");
+		onedesk.admin.drawSetup(frm);
 	},
 	// One token, and everything else found or made from it (one_admin/setup.py).
 	set_up_cloudflare(frm) {
@@ -24,7 +27,29 @@ frappe.ui.form.on("One Admin Settings", {
 
 frappe.provide("onedesk.admin");
 
+// What Set Up Cloudflare last said, as the table it showed when pressed
+// rather than the JSON it is kept as.
+onedesk.admin.drawSetup = (frm) => {
+	const field = frm.fields_dict.cloudflare_setup_said;
+	if (!field) return;
+	let said = [];
+	try {
+		said = JSON.parse(frm.doc.cloudflare_setup || "[]");
+	} catch {
+		said = [];
+	}
+	field.$wrapper.html(
+		said.length
+			? `<div class="control-label">${__("Last Setup")}</div>${onedesk.admin.setupTable(said)}`
+			: `<p class="text-muted small">${__("Set Up Cloudflare has not been pressed yet.")}</p>`,
+	);
+};
+
 onedesk.admin.showSetup = (said) => {
+	frappe.msgprint({ title: __("Cloudflare"), message: onedesk.admin.setupTable(said), wide: true });
+};
+
+onedesk.admin.setupTable = (said) => {
 	const esc = frappe.utils.escape_html;
 	const colour = { ours: "green", created: "blue", theirs: "gray", failed: "red", "needs attention": "orange" };
 	const states = { ours: __("In place"), created: __("Created"), theirs: __("Left as it is"), failed: __("Failed"), "needs attention": __("Needs attention") };
@@ -35,7 +60,7 @@ onedesk.admin.showSetup = (said) => {
 				<td class="text-muted">${esc(one.detail || "")}</td></tr>`
 		)
 		.join("");
-	frappe.msgprint({ title: __("Cloudflare"), message: `<table class="table table-sm">${rows}</table>`, wide: true });
+	return `<div class="table-responsive"><table class="table table-sm">${rows}</table></div>`;
 };
 
 frappe.provide("onedesk.admin");

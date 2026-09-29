@@ -225,3 +225,20 @@ def models_gone(gone: list[dict]) -> None:
 		count=len(gone),
 		models=Markup("<br>").join(lines),
 	)
+
+
+@_quietly
+def settings_changed(said: list[str]) -> None:
+	"""An operator saved OneAdmin Settings (one_admin_settings.py): the others
+	hear what changed. A key is only ever said to have changed."""
+	others = [one for one in operators() if one != frappe.session.user]
+	if not others:
+		return
+	notify.notify(
+		"Settings Changed",
+		others,
+		link="/desk/one-admin-settings",
+		sender=frappe.session.user,
+		who=frappe.utils.get_fullname(frappe.session.user),
+		changes=Markup("<br>").join(said),
+	)

@@ -62,6 +62,18 @@ TYPES = [
 		"push_default": True,
 	},
 	{
+		"name": _lt("Settings Changed"),
+		"app": "OneAdmin",
+		"roles": ("One Operator",),
+		"about": _lt(
+			"When another operator changes OneAdmin Settings. A key is only ever said to have changed."
+		),
+		"to": _lt("The other operators"),
+		"subject": _lt("{who} changed OneAdmin Settings"),
+		"message": _lt("{changes}"),
+		"email_default": True,
+	},
+	{
 		"name": _lt("Model Withdrawn"),
 		"app": "OneAdmin",
 		"roles": ("One Operator",),

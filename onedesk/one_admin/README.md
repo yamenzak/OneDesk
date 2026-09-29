@@ -293,7 +293,7 @@ on it. Pick the dates (this month unless you say) and cut it **By**
 Workspace, Model, Action (which of OneAI's features made the calls: Chat,
 Summarise, Read Scans, the intake readings), or a workspace by model or by
 action. Each row has its **Calls**, the **Credits** charged, what those are
-**Charged** in dollars (at what a dollar of credit buys, in Settings), what
+**Charged** in dollars (at the smallest credit pack's price a credit), what
 the provider charged us (**Cost**) and the **Margin** between them; the
 summary says the same for the whole period, green when OneAI made money.
 
@@ -352,6 +352,30 @@ clock, a payment or a nightly measure. A row written by a job links it.
 A row opens its workspace. A workspace's **Activity** shows its own log
 beside its changes, and a job lists what it wrote.
 
+## Settings
+
+**Settings** is what OneAdmin runs on, in four tabs:
+
+- **Connections**: the Frappe Cloud account the sites are built on,
+  Cloudflare (one token; **Set Up Cloudflare** finds or makes the rest and
+  says what it did under Last Setup), the R2 buckets and keys, Stripe's keys,
+  and the AI Gateway. Keys are shown as dots and never read back.
+- **Money**: Credits per Dollar (what a dollar of provider cost becomes, not
+  what a credit sells for, which is the credit packs' price) and the default
+  markup, which together price every AI call; and what each thing costs us
+  and the least margin, which Price Check and the Plan Calculator use.
+- **OneAI**: the Preferred Provider (Google), whose cheapest model runs an
+  action nothing is the default for, and the persona said to the model
+  before every action.
+- **Grace Periods**: the days a workspace spends overdue, suspended and
+  archived before the next step.
+
+The line at the top says what is not filled in and what that stops (no
+Stripe webhook secret: every payment is refused). **Try the Gateway** makes
+one real call. Saving tells the other operators what changed and who changed
+it (**Settings Changed**); a key is only said to have changed. OneAI answers
+**Is everything set up?**. Only an operator of One sees this page.
+
 ## Being told
 
 Operators are told without opening Home:
@@ -361,6 +385,7 @@ Operators are told without opening Home:
   with why it stopped.
 - **New Signup**: somebody paid for a new workspace.
 - **Workspace Owing**: a workspace fell overdue, or was suspended.
+- **Settings Changed**: another operator saved Settings, and what changed.
 - **Model Withdrawn**: the nightly sync took an offered model off sale, and
   what now runs instead.
 - **Domains Waiting**: each morning, the domains that have waited a day or
@@ -386,7 +411,7 @@ On the price list, **How do our plans compare?**, and on a plan or add-on,
 **Who has this?**. On Price Check, **What should we change?**, and on Plan
 Calculator, **What should they buy?**. On a signup paid and not built,
 **Why wasn't this built?**. On a credit entry, **Where did the credits go?**. On AI Usage, **Who is spending
-the most?**. On a model, **Is this model worth offering?**, and on the list, **Which actions have no model?**. On a workspace, **How is
+the most?**. On Settings, **Is everything set up?**. On a model, **Is this model worth offering?**, and on the list, **Which actions have no model?**. On a workspace, **How is
 this workspace doing?** reads its standing, plan, storage, credits, domains,
 last jobs and log, and says whether anything is wrong.
 
@@ -439,6 +464,10 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   says them in the reader's language, and `offerings.warn` says them on
   saving an offering or the costs. `home._mispriced` is the Wrong ones.
   OneAI's suggestions reach a report as `report:<name>` (`one_ai/suggest.py`).
+- **Settings** (`doctype/one_admin_settings`): `heads.NEEDED` is what each
+  connection needs and what stops without it, for the head and for
+  `ai.settings_check`; `_tell` is Settings Changed. `offerings.credit_price`
+  is what a credit sells for, from the smallest pack.
 - **AI Usage** (`report/ai_usage`): `ledger.usage` sums the calls (one
   settled Credit Reservation each, with `usd`, what the provider charged, kept
   by `ledger.commit` since `patches/call_costs.py`); `usage` in the report is

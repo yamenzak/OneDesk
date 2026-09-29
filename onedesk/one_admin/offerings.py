@@ -172,6 +172,20 @@ def currency() -> str:
 	return frappe.db.get_value("Offering", {"kind": "Plan", "enabled": 1}, "currency") or CURRENCY
 
 
+def credit_price() -> float:
+	"""What one credit sells for: the smallest enabled credit pack's price over
+	its credits, the list price before any bigger pack's discount. Not
+	Credits per Dollar, which is what a dollar of provider cost becomes."""
+	pack = frappe.get_all(
+		"Offering",
+		filters={"kind": "Credit Pack", "enabled": 1, "credits": [">", 0]},
+		fields=["amount", "credits"],
+		order_by="credits asc",
+		limit=1,
+	)
+	return flt(pack[0].amount) / flt(pack[0].credits) if pack else 0.0
+
+
 #: Each of plans.check's rules, in words a translator can reach: plans.py is
 #: frappe-free and keeps its English for tests and logs, so a screen says a
 #: finding by its `rule`, with its `slots`.

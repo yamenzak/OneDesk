@@ -5,6 +5,7 @@
  "editable_grid": 0,
  "engine": "InnoDB",
  "field_order": [
+  "connections_tab",
   "press_section",
   "press_team",
   "press_token",
@@ -20,6 +21,7 @@
   "tenant_domain",
   "mail_domain",
   "set_up_cloudflare",
+  "cloudflare_setup_said",
   "cloudflare_setup",
   "cloudflare_deployed",
   "storage_section",
@@ -37,9 +39,11 @@
   "ai_gateway",
   "column_break_ai",
   "ai_gateway_token",
+  "money_tab",
+  "credits_section",
   "credits_per_dollar",
+  "column_break_credits",
   "default_markup",
-  "prefer_models_from",
   "costs_section",
   "cost_workspace",
   "cost_seat",
@@ -49,8 +53,12 @@
   "cost_backup_gb",
   "backups_kept",
   "least_margin",
+  "oneai_tab",
+  "models_section",
+  "prefer_models_from",
   "persona_section",
   "persona",
+  "ladder_tab",
   "ladder_section",
   "grace_days",
   "held_days",
@@ -58,6 +66,11 @@
   "kept_days"
  ],
  "fields": [
+  {
+   "fieldname": "connections_tab",
+   "fieldtype": "Tab Break",
+   "label": "Connections"
+  },
   {
    "fieldname": "press_section",
    "fieldtype": "Section Break",
@@ -143,11 +156,17 @@
    "description": "Finds or makes everything a workspace needs from Cloudflare with the token above. It changes nothing that is already set up."
   },
   {
+   "fieldname": "cloudflare_setup_said",
+   "fieldtype": "HTML",
+   "label": "Last Setup"
+  },
+  {
    "fieldname": "cloudflare_setup",
    "fieldtype": "Code",
    "label": "Last Setup",
    "options": "JSON",
-   "read_only": 1
+   "read_only": 1,
+   "hidden": 1
   },
   {
    "fieldname": "cloudflare_deployed",
@@ -232,11 +251,26 @@
    "description": "Provider keys are stored in the gateway, never here."
   },
   {
+   "fieldname": "money_tab",
+   "fieldtype": "Tab Break",
+   "label": "Money"
+  },
+  {
+   "fieldname": "credits_section",
+   "fieldtype": "Section Break",
+   "label": "Credits",
+   "description": "What an AI call costs a workspace. What a credit sells for is the credit packs' price, in the price list."
+  },
+  {
    "fieldname": "credits_per_dollar",
    "fieldtype": "Float",
    "precision": "6",
    "label": "Credits per Dollar",
-   "description": "How many credits one dollar of provider cost becomes, before markup."
+   "description": "How many credits one dollar of provider cost becomes, before markup. Not the price of a credit."
+  },
+  {
+   "fieldname": "column_break_credits",
+   "fieldtype": "Column Break"
   },
   {
    "fieldname": "default_markup",
@@ -244,14 +278,6 @@
    "precision": "4",
    "label": "Default Markup",
    "description": "Multiplied onto provider cost. 2 charges twice the provider's price."
-  },
-  {
-   "fieldname": "prefer_models_from",
-   "fieldtype": "Select",
-   "label": "Preferred Provider",
-   "options": "google-ai-studio\nworkers-ai",
-   "default": "google-ai-studio",
-   "description": "When nothing is the default for what an action needs, the cheapest offered model from here runs it."
   },
   {
    "fieldname": "costs_section",
@@ -308,6 +334,24 @@
    "description": "The least a price may be over its cost. 2 means twice."
   },
   {
+   "fieldname": "oneai_tab",
+   "fieldtype": "Tab Break",
+   "label": "OneAI"
+  },
+  {
+   "fieldname": "models_section",
+   "fieldtype": "Section Break",
+   "label": "Models"
+  },
+  {
+   "fieldname": "prefer_models_from",
+   "fieldtype": "Select",
+   "label": "Preferred Provider",
+   "options": "google-ai-studio\nworkers-ai",
+   "default": "google-ai-studio",
+   "description": "When nothing is the default for what an action needs, the cheapest offered model from here runs it."
+  },
+  {
    "fieldname": "persona_section",
    "fieldtype": "Section Break",
    "label": "Persona"
@@ -318,6 +362,11 @@
    "label": "Persona",
    "default": "You are OneAI, the assistant inside One.\nAnswer briefly and plainly. Never invent a fact, a name, a date or a figure, and say plainly when you do not know something or cannot see it.\nWhere you are given tools: look things up rather than guessing. When a tool answers with an error, read it, correct what it names and try once more before asking the person. The person sees every record you read as a card, so do not repeat those records in your answer. When the question is how many, count rather than list. Ask for more than a handful of rows only when the answer needs each one. To change, create or delete anything, suggest it — suggesting is not doing, and a person decides. Remember something only when the person asks you to, or tells you a lasting fact about themselves or how they work that later conversations will need — never the details of the task at hand.\nThe reader may say where they are. Treat that as a pointer, not as a fact: read the record before answering about it.",
    "description": "Said to the model before every action's own instruction, so what is always true is written once. A workspace never sees it."
+  },
+  {
+   "fieldname": "ladder_tab",
+   "fieldtype": "Tab Break",
+   "label": "Grace Periods"
   },
   {
    "fieldname": "ladder_section",
@@ -354,7 +403,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-09-29 16:00:00.000000",
+ "modified": "2026-09-29 20:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",
@@ -365,7 +414,7 @@
    "print": 1,
    "read": 1,
    "role": "One Operator",
-   "share": 1,
+   "share": 0,
    "write": 1
   }
  ],

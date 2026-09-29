@@ -635,3 +635,20 @@ def test_ai_usage_says_what_a_call_cost_us_and_counts_it_once():
 	ai = (ADMIN / "ai.py").read_text()
 	assert '"report:AI Usage"' in ai and "if not _operator():" in ai.split("def ai_usage(")[1]
 	assert "## AI Usage" in (ADMIN / "README.md").read_text()
+
+
+def test_settings_say_what_is_missing_and_tell_the_other_operators():
+	"""Tabs, a head naming what is not set and what it stops, a notice on
+	save that never carries a key, and AI Usage pricing a credit at a pack's
+	price rather than at the provider-cost rate."""
+	spec = json.loads((ADMIN / "doctype" / "one_admin_settings" / "one_admin_settings.json").read_text())
+	tabs = [f["label"] for f in spec["fields"] if f["fieldtype"] == "Tab Break"]
+	assert tabs == ["Connections", "Money", "OneAI", "Grace Periods"] and not spec["permissions"][0]["share"]
+	settings = (ADMIN / "doctype" / "one_admin_settings" / "one_admin_settings.py").read_text()
+	assert "tell.settings_changed(" in settings and 'df.fieldtype == "Password"' in settings
+	assert '"settings.said": settings_said' in (ADMIN / "heads.py").read_text()
+	usage = (ADMIN / "report" / "ai_usage" / "ai_usage.py").read_text()
+	assert "offerings.credit_price()" in usage and "credits_per_dollar" not in usage
+	ai = (ADMIN / "ai.py").read_text()
+	assert '"expects": "settings_check"' in ai and "if not _operator():" in ai.split("def settings_check(")[1]
+	assert "## Settings" in (ADMIN / "README.md").read_text()
