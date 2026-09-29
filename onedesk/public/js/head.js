@@ -24,6 +24,11 @@ frappe.ui.form.on("*", {
 		if (!frm.meta.istable && !frm.meta.issingle && frappe.user.has_role("Workspace Administrator")) {
 			frm.page.add_menu_item(__("Customize"), () => frappe.set_route("customize", frm.doctype), true);
 		}
+		// And frappe's Settings dialog for the doctype, which frappe offers only to its
+		// System Managers (public/js/doctype_settings.js).
+		if (onedesk.doctype_settings.offered(frm.meta)) {
+			frm.page.add_menu_item(__("Settings"), () => onedesk.doctype_settings.open(frm.doctype), true);
+		}
 	},
 });
 

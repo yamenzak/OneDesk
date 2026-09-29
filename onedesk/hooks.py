@@ -733,6 +733,8 @@ app_include_js = [
 	"/assets/onedesk/js/onecloud_picker.js",
 	"/assets/onedesk/js/band.js",
 	# Every record's head, from its Record Head. See one/head.py.
+	# Frappe's Settings dialog for a doctype, for a workspace administrator.
+	"/assets/onedesk/js/doctype_settings.js",
 	"/assets/onedesk/js/head.js",
 	"/assets/onedesk/js/crm_record.js",
 	"/assets/onedesk/js/reports.js",

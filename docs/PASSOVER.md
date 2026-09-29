@@ -4006,6 +4006,15 @@ grants what its tabs read (and a Custom Role for the print and workflow
 builders), and every route a tab opens is in One's sidebar. Six stages: the
 door, Numbering, Printing, Mail Templates, Approvals, Automations.
 
+**Stage 1, the door: done.** Settings sits beside Customize on a form's and
+a list's menu for a workspace administrator, and opens frappe's dialog with
+General and the workspace's own Notifications rules; a rule opens, or a new
+one starts on that doctype, in Workspace › Notifications with One's sidebar.
+Found on the way: since the One account, every desk user on the admin site
+was sent to `/account` after signing in, because frappe asks the website-user
+home page hook for desk users too; it now answers `account` for Website
+Users only.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

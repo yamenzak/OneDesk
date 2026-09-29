@@ -20,6 +20,11 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_titles"] = titles.for_boot()
 
+	# The modules no workspace changes, for the Customize and Settings menu items.
+	from onedesk.one import customize
+
+	bootinfo["one_refused_modules"] = list(customize.REFUSED_MODULES)
+
 	from onedesk.one_calendar import feed
 
 	bootinfo["one_calendar_links"] = feed.allowed()

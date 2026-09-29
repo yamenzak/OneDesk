@@ -47,6 +47,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const found = mine.find((one) => one.key === params.section) || mine[0];
 		// A notification type is ?type=, a workspace rule ?rule= (or ?rule=new),
 		// a person ?person=, a holiday list other than today's ?list=.
+		// A new rule opened from a doctype's Settings dialog starts on that doctype (?for=).
+		this.for_doctype = params.rule === "new" ? params.for || null : null;
 		if (found) this.open(found.key, { record: params.type || params.person || params.list || (params.rule ? `rule:${params.rule}` : null) });
 	}
 
@@ -64,6 +66,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.$content = onedesk.shell.body(this.$section, { wide: Settings.WIDE.includes(key) });
 		try {
 			this.data = await frappe.xcall(Settings.API + "load", { section: key, record });
+			if (record === "rule:new" && this.for_doctype && this.data.values) this.data.values.document_type = this.for_doctype;
 		} catch (e) {
 			this.$content.html(frappe.ui.alert.html({ title: __("This section could not be opened."), theme: "red" }));
 			return;

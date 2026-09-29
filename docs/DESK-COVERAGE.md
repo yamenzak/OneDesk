@@ -60,6 +60,17 @@ One's sidebar, as lists.
    hidden from anybody who is not a System Manager: access is our app levels
    and, later, its own screen; the search index is ours. Useful from the first
    day, because Notifications is already granted.
+   **Done.** `public/js/doctype_settings.js`: **Settings** beside Customize on
+   forms, and on lists by wrapping `ListView.get_menu_items`, offered when
+   frappe's own item is not (the same `can_create` test frappe makes) and on
+   modules Customize does not refuse. The dialog's tabs are narrowed to what
+   has been opened to workspaces (`TABS`: General and Notifications), since
+   frappe shows a tab to whoever can read its doctype and reading an Email
+   Template is everybody's. The Notifications tab is re-registered under its
+   own id on frappe's list panel: it lists the workspace's rules on the
+   doctype and opens them, or a new one already set to it, in Workspace ›
+   Notifications, selecting One's sidebar first (frappe keeps the sidebar on
+   screen for a page of the same app, and every One sidebar is one app).
 2. **Numbering.** Document Naming Rule and Document Naming Settings, read and
    write. The tab's "current value" calls `update_series_start`, which is
    `only_for("System Manager")`, so it gets a guarded door of ours or is left

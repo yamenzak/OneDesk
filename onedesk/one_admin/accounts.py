@@ -95,9 +95,10 @@ def home_page(user: str) -> str | None:
 	"""Where an account lands after signing in (hooks: get_website_user_home_page).
 
 	On the admin site, its own page rather than frappe's /portal, whose menu is
-	ERPNext's customer portal. Anywhere else, what it would have been.
+	ERPNext's customer portal. Anywhere else, and for anybody who is not an
+	account (frappe asks this hook for desk users too), what it would have been.
 	"""
-	if site.is_admin():
+	if site.is_admin() and frappe.db.get_value("User", user, "user_type") == "Website User":
 		return "account"
 	named = frappe.get_hooks("website_user_home_page")
 	return named[-1] if named else None

@@ -721,6 +721,23 @@ listing each change; nothing changes until you press Approve, and then it is
 saved exactly as Save would save it, with the same limits. A card made before
 somebody else changed the form no longer applies and says so.
 
+## A Form's Settings
+
+**Settings** on a form's or a list's menu, beside Customize, opens what the
+workspace has set up for that kind of record, for an administrator of this
+workspace. It is the framework's own Settings window; One only opens it.
+Each part appears once the workspace may use it:
+
+- **Notifications**: the workspace's own rules on this kind of record. Open
+  one, or **New Rule**, and it is written in Workspace › Notifications,
+  already set to this kind of record.
+- **General**: the settings from elsewhere that apply to this kind of record,
+  where the workspace may change them.
+
+Numbering, Print Formats, Email Templates and Workflows join it as they are
+opened to workspaces. The framework's own and One's own records have none, as
+they have no Customize.
+
 ## Asking OneAI
 
 Ask OneAI how anything in One works, in your own words and your own language.
