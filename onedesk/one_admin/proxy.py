@@ -193,7 +193,13 @@ def hello(database_bytes: int | None = None) -> dict:
 		# A sum over the ledger rather than a number anybody stored, which is
 		# why it is safe to answer from here rather than keeping a copy on the
 		# workspace that could disagree with its own history.
-		"credits": {**ledger.standing(tenant.name), "month": _used_lately(tenant.name)},
+		# The last credits an operator gave, with their note, so the customer
+		# hears why and not only that the number went up (one/account.py).
+		"credits": {
+			**ledger.standing(tenant.name),
+			"month": _used_lately(tenant.name),
+			"gift": ledger.last_gift(tenant.name),
+		},
 		# The addresses too, so the account screen is one call rather than two.
 		# A workspace that asked only about its account still gets them, which
 		# is what keeps the copy on its own site in step after an outage.

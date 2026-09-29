@@ -27,6 +27,10 @@ import frappe
 
 from onedesk.one_admin import credits, site
 
+#: The doctype a head or a suggestion registers against, named here so the
+#: ledger stays the only module that spells it (tests/test_ledger.py).
+ENTRY = "Credit Ledger Entry"
+
 
 class NotEnough(frappe.ValidationError):
 	"""The workspace cannot afford this call. Said before one is made."""
@@ -174,6 +178,8 @@ def commit(reservation: str, amount: float) -> list[str]:
 		return []
 
 	written = []
+	# A call's `why` is the model it ran on (gateway.call), named as one.
+	model = holding.why if holding.why and frappe.db.exists("AI Model", holding.why) else None
 	for one in credits.draw(_buckets(holding.tenant, locking=True), amount, _today()):
 		entry = frappe.get_doc(
 			{
@@ -185,6 +191,7 @@ def commit(reservation: str, amount: float) -> list[str]:
 				"source": "Run",
 				"reference": holding.reference,
 				"why": holding.why,
+				"model": model,
 			}
 		)
 		entry.flags.ignore_permissions = True
@@ -192,8 +199,151 @@ def commit(reservation: str, amount: float) -> list[str]:
 		entry.submit()
 		written.append(entry.name)
 
+	if frappe.session.user == "Guest" and written:
+		# The call came through the proxy, signed by the workspace rather than
+		# signed in, and a spend "created by Guest" reads as nobody's.
+		frappe.db.set_value(
+			"Credit Ledger Entry",
+			{"name": ["in", written]},
+			{"owner": "Administrator", "modified_by": "Administrator"},
+			update_modified=False,
+		)
 	_settle(holding, amount)
 	return written
+
+
+def left_of(grant: str) -> float:
+	"""What is left of one grant: it, plus everything drawn from it."""
+	rows = frappe.db.sql(
+		"""
+		SELECT g.credits + COALESCE(SUM(d.credits), 0)
+		  FROM `tabCredit Ledger Entry` g
+		  LEFT JOIN `tabCredit Ledger Entry` d ON d.against = g.name AND d.docstatus = 1
+		 WHERE g.name = %s
+		 GROUP BY g.name, g.credits
+		""",
+		(grant,),
+	)
+	return round(float(rows[0][0] or 0) if rows else 0.0, credits.PLACES)
+
+
+def taken_back(grant: str) -> float:
+	"""How much of a grant an operator took back (take_back)."""
+	rows = frappe.db.sql(
+		"""
+		SELECT COALESCE(SUM(credits), 0) FROM `tabCredit Ledger Entry`
+		 WHERE against = %s AND kind = 'Spend' AND source = 'Operator' AND docstatus = 1
+		""",
+		(grant,),
+	)
+	return round(-float(rows[0][0] or 0), credits.PLACES)
+
+
+def grants(tenant: str, limit: int = 12) -> list[dict]:
+	"""A workspace's latest grants, each with what is left of it."""
+	rows = frappe.get_all(
+		"Credit Ledger Entry",
+		filters={"tenant": tenant, "kind": "Grant", "docstatus": 1},
+		fields=["name", "credits", "source", "why", "expires_on", "creation"],
+		order_by="creation desc",
+		limit=limit,
+	)
+	return [{**one, "left": left_of(one.name)} for one in rows]
+
+
+def taken(tenant: str, limit: int = 5) -> list[dict]:
+	"""The credits operators took back from a workspace (take_back)."""
+	return frappe.get_all(
+		"Credit Ledger Entry",
+		filters={"tenant": tenant, "kind": "Spend", "source": "Operator", "docstatus": 1},
+		fields=["credits", "against", "reference", "why", "creation"],
+		order_by="creation desc",
+		limit=limit,
+	)
+
+
+def said_of(grant: str) -> dict:
+	"""What a grant was for, for a spend drawn from it to name."""
+	return frappe.db.get_value("Credit Ledger Entry", grant, ["why", "source"], as_dict=True) or {}
+
+
+def mend() -> None:
+	"""A spend's model as a link to it, and the spends a workspace's calls
+	wrote as nobody (Guest), for rows written before commit said either
+	(patches/credit_model.py)."""
+	frappe.db.sql(
+		"""
+		UPDATE `tabCredit Ledger Entry` e
+		  JOIN `tabAI Model` m ON m.name = e.why
+		   SET e.model = e.why
+		 WHERE e.source = 'Run' AND (e.model IS NULL OR e.model = '')
+		"""
+	)
+	frappe.db.sql(
+		"""
+		UPDATE `tabCredit Ledger Entry`
+		   SET owner = 'Administrator', modified_by = 'Administrator'
+		 WHERE owner = 'Guest'
+		"""
+	)
+
+
+def take_back(grant: str, why: str) -> dict:
+	"""What is left of a grant an operator gave, taken back.
+
+	A spend of the rest of it against it, rather than cancelling the grant:
+	what was already spent from it stays spent, and the ledger stays a list of
+	things that happened. Only an operator's grant: a plan's or a pack's was
+	paid for.
+	"""
+	site.require_admin()
+	held = frappe.get_doc("Credit Ledger Entry", grant)
+	if held.kind != "Grant" or held.source != "Operator" or held.docstatus != 1:
+		frappe.throw(frappe._("Only credits an operator gave can be taken back."))
+	if not (why or "").strip():
+		frappe.throw(frappe._("Say why they are taken back."))
+	_lock(held.tenant)
+	left = left_of(grant)
+	if left <= 0:
+		return {"entry": None, "tenant": held.tenant}
+	entry = frappe.get_doc(
+		{
+			"doctype": "Credit Ledger Entry",
+			"tenant": held.tenant,
+			"kind": "Spend",
+			"credits": -left,
+			"against": grant,
+			"source": "Operator",
+			"reference": frappe.session.user,
+			"why": why,
+		}
+	)
+	entry.flags.ignore_permissions = True
+	entry.insert()
+	entry.submit()
+	return {"entry": entry.name, "tenant": held.tenant}
+
+
+def last_gift(tenant: str) -> dict | None:
+	"""The last credits an operator gave, and their note, for the workspace's
+	administrators to be told of (proxy.hello)."""
+	held = frappe.get_all(
+		"Credit Ledger Entry",
+		filters={"tenant": tenant, "kind": "Grant", "source": "Operator", "docstatus": 1},
+		fields=["name", "credits", "why", "expires_on"],
+		order_by="creation desc",
+		limit=1,
+	)
+	if not held or taken_back(held[0].name):
+		# Taken back before the workspace heard of it: nothing to tell.
+		return None
+	one = held[0]
+	return {
+		"entry": one.name,
+		"credits": one.credits,
+		"why": one.why,
+		"expires_on": str(one.expires_on) if one.expires_on else None,
+	}
 
 
 def release(reservation: str) -> None:

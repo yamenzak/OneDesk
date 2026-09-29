@@ -595,6 +595,7 @@ doctype_js = {
 	"Tenant": "public/js/tenant.js",
 	# A paid signup that never became a workspace can be built from its screen.
 	"Account Request": "public/js/account_request.js",
+	"Credit Ledger Entry": "public/js/credit_ledger_entry.js",
 	# A price list says how many workspaces already bought what is being edited.
 	"Offering": "public/js/offering.js",
 	# The gateway is the one credential here with nothing that later proves it.
@@ -774,6 +775,7 @@ one_ai_reads = [
 	"onedesk.one_admin.ai.workspace_facts",
 	"onedesk.one_admin.ai.job_facts",
 	"onedesk.one_admin.ai.signup_facts",
+	"onedesk.one_admin.ai.credit_facts",
 	"onedesk.one_admin.ai.domain_facts",
 	"onedesk.one_admin.ai.price_list",
 	"onedesk.one_admin.ai.price_check",

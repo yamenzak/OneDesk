@@ -128,7 +128,7 @@ def refresh() -> dict:
 		}
 	)
 	_keep(held, said.get("domains"), said.get("add_ons"))
-	_tell(before, held)
+	_tell(before, held, credits.get("gift"))
 	# A new workspace's first administrator is whoever paid for it (one/owner.py).
 	from onedesk.one import owner
 
@@ -165,13 +165,15 @@ NEARLY_FULL = 0.9
 EXPIRY_NOTICE = 7
 
 
-def _tell(before, after) -> None:
+def _tell(before, after, gift: dict | None = None) -> None:
 	"""What changed since the account was last asked, told to the workspace's
 	administrators (one/notifications.py). Each is said when a line is crossed
 	rather than while it stays crossed, so a nightly refresh does not repeat
 	itself; the two told by date remember the date they were told of."""
 	from onedesk.one import notify
 
+	# Credits One gave by hand are told once each, with the operator's note.
+	given = gift and _once("gift", gift.get("entry") or "")
 	if not before.get("last_heard"):
 		# The first answer is where the workspace starts, not a change.
 		return
@@ -187,8 +189,16 @@ def _tell(before, after) -> None:
 		notify.notify("Credits Running Low", people, **told, **slots)
 		for email, lang in _addresses(people):
 			notify.mail("Credits Running Low", email, lang=lang, **slots)
-	if now > was + 0.5:
-		notify.notify("Credits Added", people, **told, balance=_number(now))
+	if given:
+		from markupsafe import Markup, escape
+
+		said = [frappe._("A note from One: {0}").format(gift["why"])] if gift.get("why") else []
+		if gift.get("expires_on"):
+			said.append(frappe._("They expire on {0}.").format(formatdate(gift["expires_on"])))
+		note = Markup("<br><br>") + escape(" ".join(said)) if said else ""
+		notify.notify("Credits Added", people, **told, balance=_number(now), note=note)
+	elif now > was + 0.5:
+		notify.notify("Credits Added", people, **told, balance=_number(now), note="")
 
 	expires_on = after.credits_expires_on
 	if flt(after.credits_expiring) and expires_on:

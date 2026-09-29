@@ -20,6 +20,7 @@
   "reference",
   "why_section",
   "why",
+  "model",
   "key",
   "amended_from"
  ],
@@ -54,7 +55,7 @@
    "precision": "6",
    "reqd": 1,
    "in_list_view": 1,
-   "description": "Positive for a grant, negative for a spend."
+   "description": "Positive adds, negative takes away."
   },
   {
    "fieldname": "expires_on",
@@ -67,12 +68,12 @@
   {
    "fieldname": "against_section",
    "fieldtype": "Section Break",
-   "label": "Drawn From"
+   "label": "Origin"
   },
   {
    "fieldname": "against",
    "fieldtype": "Link",
-   "label": "Grant",
+   "label": "Drawn From",
    "options": "Credit Ledger Entry",
    "depends_on": "eval:doc.kind!='Grant'",
    "description": "Empty on a spend that overdrew and belongs to no grant."
@@ -102,7 +103,17 @@
   {
    "fieldname": "why",
    "fieldtype": "Small Text",
-   "label": "Note"
+   "label": "Note",
+   "depends_on": "eval:doc.source!='Run'"
+  },
+  {
+   "fieldname": "model",
+   "fieldtype": "Link",
+   "label": "Model",
+   "options": "AI Model",
+   "read_only": 1,
+   "depends_on": "eval:doc.source=='Run'",
+   "description": "The OneAI model the call ran on."
   },
   {
    "fieldname": "key",
@@ -125,7 +136,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-22 21:00:00.000000",
+ "modified": "2026-09-29 14:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Credit Ledger Entry",
@@ -141,7 +152,7 @@
    "read": 1,
    "report": 1,
    "role": "One Operator",
-   "share": 1,
+   "share": 0,
    "write": 0,
    "submit": 0,
    "cancel": 0,
@@ -152,5 +163,6 @@
  "sort_order": "DESC",
  "states": [],
  "track_changes": 1,
- "description": "One movement of credit. Submitted on insert and never edited in place."
+ "description": "One movement of credit. Submitted on insert and never edited in place.",
+ "title_field": "tenant"
 }

@@ -15,6 +15,8 @@ from typing import Annotated
 import frappe
 from frappe import _lt
 
+from onedesk.one_admin import ledger
+
 SUGGESTIONS = {
 	"workspace:One Admin": [
 		{
@@ -110,6 +112,18 @@ SUGGESTIONS = {
 			"view": "Form",
 			"when": {"status": ["Pending", "Waiting"]},
 			"expects": "job_facts",
+		},
+	],
+	ledger.ENTRY: [
+		{
+			"label": _lt("Where did the credits go?"),
+			"ask": _lt(
+				"Where did this workspace's OneAI credits go? Say what it has left and until when, what it spent "
+				"this month and on which models, and anything given or taken back by hand, with its note."
+			),
+			"can": "read",
+			"view": "Form",
+			"expects": "credit_facts",
 		},
 	],
 	"Account Request": [
@@ -257,6 +271,43 @@ def job_facts(
 		"started": str(held.creation),
 		"last_moved": str(held.modified),
 		"gives_up_after": runner.GIVE_UP_AFTER,
+	}
+
+
+def credit_facts(
+	workspace: Annotated[str, "The workspace's id, its slug, as the page names it."],
+) -> dict:
+	"""For an operator of One only: a workspace's OneAI credits. What it has
+	and what is promised to calls in flight, each grant with what is left of
+	it and until when, this month's spend by model, and the credits given or
+	taken back by hand with their notes."""
+	if not _operator():
+		return {"error": "Only an operator of One, on the admin site, sees a workspace's credits."}
+	if not frappe.db.exists("Tenant", workspace):
+		return {"error": f"There is no workspace {workspace}. Ask which one they meant."}
+	from frappe.utils import add_days, get_first_day, getdate
+
+	return {
+		"standing": ledger.standing(workspace),
+		"grants": [
+			{
+				"entry": one["name"],
+				"credits": one["credits"],
+				"left": one["left"],
+				"from": one["source"],
+				"note": one["why"],
+				"expires_on": str(one["expires_on"]) if one["expires_on"] else None,
+				"given_on": str(one["creation"].date()),
+			}
+			for one in ledger.grants(workspace)
+		],
+		"this_month_by_model": [
+			{"model": row.why, "calls": row.calls, "credits": round(row.credits or 0, 2)}
+			for row in ledger.usage(
+				get_first_day(getdate()), add_days(getdate(), 1), ["why"], tenant=workspace
+			)
+		],
+		"taken_back": ledger.taken(workspace),
 	}
 
 

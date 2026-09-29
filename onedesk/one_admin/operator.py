@@ -310,6 +310,16 @@ def give_credits(tenant: str, credits: float, why: str, expires_on: str | None =
 
 
 @frappe.whitelist()
+def take_back_credits(entry: str, why: str) -> dict:
+	"""What is left of credits an operator gave, taken back (ledger.take_back)."""
+	_may()
+	from onedesk.one_admin import ledger
+
+	taken = ledger.take_back(entry, why)
+	return {"entry": taken["entry"], "standing": ledger.standing(taken["tenant"])}
+
+
+@frappe.whitelist()
 def credit_standing(tenant: str) -> dict:
 	"""What a workspace has, and what it has spent on AI since the month began."""
 	_may()

@@ -3398,6 +3398,37 @@ of about one credit each by Nine X.
    them).
 9. **Built from frappe**: a submittable doctype, its list and form. Holds.
 
+Your word: all of them.
+
+Done:
+
+- **Take Back** on credits an operator gave writes a spend of what is left
+  of them, with a note (`ledger.take_back`); the grant then says "50 of its
+  50 credits were taken back", and the list shows it as **Taken back**.
+  Plan and pack credits cannot be taken back.
+- **The customer hears the note.** `proxy.hello` carries the last credits
+  an operator gave (`ledger.last_gift`, not one already taken back), and
+  the workspace says **Credits Added** once with "A note from One: …" and
+  when they expire. Its description now names credits One gives.
+- A grant's Record Head says what is left of it and until when, and where
+  it came from ("4,640.08 of 5,000 credits left, until 30-09-2026. The
+  plan's monthly credits."); a spend says which grant it came out of; a
+  spend beyond the balance says it is owed.
+- The list opens on what people did (grants, refunds, taken back), with
+  calls one filter away; the workspace leads each row; no ID column or
+  filter; credits to two places. (Kind was a filter, not a column.)
+- A call's spend links its **Model** (AI Model) instead of a Note;
+  `patches/credit_model.py` linked the 456 old ones. Spends a call wrote
+  say Administrator, not Guest. **Drawn From** shows only on a spend.
+  **Open Plan** on a plan grant, **Open in Stripe** on a bought one, and
+  **AI Usage** in the menu. Share off.
+- OneAI: **Where did the credits go?**, with `credit_facts`
+  (operator-only). The queries it needs live in `ledger.py`, which stays
+  the only module that reads the ledger (`tests/test_ledger.py`).
+- README: a **Credits** section and an Under the hood line.
+- Legal: the Terms say credits we give expire on the date we tell the
+  administrators, and a mistake may be taken back; Terms revision 7.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

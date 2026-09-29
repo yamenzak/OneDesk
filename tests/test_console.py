@@ -570,3 +570,26 @@ def test_a_signup_moves_on_its_own_and_lets_an_unpaid_name_go():
 	assert '"expects": "signup_facts"' in ai and "if not _operator():" in ai.split("def signup_facts(")[1]
 	assert '"onedesk.one_admin.ai.signup_facts"' in (tree.APP / "hooks.py").read_text()
 	assert "## Signups" in (ADMIN / "README.md").read_text()
+
+
+def test_credits_say_what_is_left_and_an_operator_can_take_back_a_gift():
+	"""A grant says what is left of it; an operator's grant can be taken back
+	as a spend of the rest; the customer hears the operator's note; the list
+	opens on what people did rather than on calls."""
+	ledger = (ADMIN / "ledger.py").read_text()
+	assert "def left_of(" in ledger and "def take_back(" in ledger and "def last_gift(" in ledger
+	take = ledger.split("def take_back(")[1].split("\ndef ")[0]
+	assert '"kind": "Spend"' in take and 'held.source != "Operator"' in take
+	assert '"gift": ledger.last_gift(' in (ADMIN / "proxy.py").read_text()
+	assert '_once("gift"' in (tree.APP / "one" / "account.py").read_text()
+	assert "{note}" in (tree.APP / "one" / "notifications.py").read_text()
+	heads = (ADMIN / "heads.py").read_text()
+	assert '"credit.said": credit_said' in heads and '"credit.take_back": {' in heads
+	listed = (tree.APP / "public" / "js" / "credit_ledger_entry_list.js").read_text()
+	assert 'filters: [["source", "!=", "Run"]]' in listed and "hide_name_filter: true" in listed
+	entry = json.loads((ADMIN / "doctype" / "credit_ledger_entry" / "credit_ledger_entry.json").read_text())
+	assert not entry["permissions"][0]["share"] and entry["title_field"] == "tenant"
+	assert {f["fieldname"]: f for f in entry["fields"]}["model"]["options"] == "AI Model"
+	ai = (ADMIN / "ai.py").read_text()
+	assert '"expects": "credit_facts"' in ai and "if not _operator():" in ai.split("def credit_facts(")[1]
+	assert "## Credits" in (ADMIN / "README.md").read_text()

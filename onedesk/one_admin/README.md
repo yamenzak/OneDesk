@@ -224,6 +224,35 @@ lead and deal for it are under Outcome.
 Only an operator of One sees signups, and nobody edits them. On one that was
 paid and not built, OneAI answers **Why wasn't this built?**.
 
+## Credits
+
+**Credits** is every movement of every workspace's OneAI credits, one row
+each, written once and never edited. A workspace's balance is the sum of its
+rows; nobody types a balance anywhere.
+
+- A **Grant** adds credits: the plan's monthly credits (they expire at the
+  month's end), a credit pack they bought (never expires), or credits an
+  operator gave with **Give Credits** on the workspace (with a note, and an
+  expiry if one was set).
+- A **Spend** is one OneAI call, drawn from the grant that expires soonest.
+  It names the **Model** it ran on. A spend beyond what the workspace had is
+  owed, and belongs to no grant.
+- A **Refund** gives back an over-charge.
+
+The list opens on everything but calls: grants, refunds and credits taken
+back. A call's spends, hundreds a day, are one filter away, and **AI Usage** sums them by workspace and model. A grant says what is
+left of it and until when; a spend says which grant it came out of.
+
+**Take Back** on credits an operator gave takes back what is left of them,
+with a note saying why. It writes a spend of the rest rather than deleting the
+grant, so what was already spent stays spent. Credits a plan or a pack gave
+cannot be taken back: they were paid for.
+
+When an operator gives credits, the workspace's administrators are told
+**Credits Added** with the operator's note and when they expire. Only an
+operator of One sees the ledger. On an entry, OneAI answers **Where did the
+credits go?**.
+
 ## Domains
 
 **Domains** lists every name customers have put on their workspaces, such
@@ -305,7 +334,7 @@ work, **Why isn't this domain working?** says what the customer has to change.
 On the price list, **How do our plans compare?**, and on a plan or add-on,
 **Who has this?**. On Price Check, **What should we change?**, and on Plan
 Calculator, **What should they buy?**. On a signup paid and not built,
-**Why wasn't this built?**. On a workspace, **How is
+**Why wasn't this built?**. On a credit entry, **Where did the credits go?**. On a workspace, **How is
 this workspace doing?** reads its standing, plan, storage, credits, domains,
 last jobs and log, and says whether anything is wrong.
 
@@ -358,6 +387,12 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   says them in the reader's language, and `offerings.warn` says them on
   saving an offering or the costs. `home._mispriced` is the Wrong ones.
   OneAI's suggestions reach a report as `report:<name>` (`one_ai/suggest.py`).
+- **Credits** (`ledger.py`, over `credits.py`, which has no frappe in it):
+  a balance is a sum; `left_of` is one grant's rest; `take_back` writes a
+  spend of it (source Operator); `last_gift` travels in `proxy.hello` so the
+  workspace says Credits Added with the note (`one/account.py`).
+  `patches/credit_model.py` linked old spends to their model.
+  `ai.credit_facts` is a workspace's credits for OneAI.
 - **Signups** (`signup.py`): `accept` is what a payment calls; it sets
   Paid, then Provisioning, and never unwinds. `built` sets Done from
   `steps.live`; `abandon` is nightly; `tell.signup_not_built` mails the

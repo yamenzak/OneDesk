@@ -12,11 +12,11 @@ from urllib.parse import quote
 
 import frappe
 from frappe import _, _lt
-from frappe.utils import escape_html, flt
+from frappe.utils import escape_html, flt, get_fullname
 from frappe.utils.caching import request_cache
 
 from onedesk.one.heads import size
-from onedesk.one_admin import operator
+from onedesk.one_admin import ledger, operator
 
 #: Each rung of a workspace in a word, and its colour.
 TENANT = {
@@ -297,6 +297,84 @@ def signup_days() -> int:
 	return ABANDONED_DAYS
 
 
+# ------------------------------------------------------------------ a credit
+
+
+def _n(value) -> str:
+	"""Credits to two places, and none when they are whole."""
+	said = _number(value)
+	return said.rstrip("0").rstrip(".") if "." in said else said
+
+
+def credit_said(doc):
+	"""A grant says what is left of it and until when; a spend, what it came
+	out of; one taken back, by whom and why."""
+	if doc.is_new() or doc.docstatus != 1:
+		return None
+	from frappe.utils import formatdate, getdate, today
+
+	if doc.kind == "Grant":
+		left = ledger.left_of(doc.name)
+		gone = doc.expires_on and getdate(doc.expires_on) < getdate(today())
+		taken = ledger.taken_back(doc.name)
+		if taken:
+			text = _("{0} of its {1} credits were taken back.").format(_n(taken), _n(doc.credits))
+		elif left <= 0:
+			text = _("All {0} credits of it are used.").format(_n(doc.credits))
+		elif gone:
+			text = _("It expired on {0} with {1} of {2} credits unused.").format(
+				formatdate(doc.expires_on), _n(left), _n(doc.credits)
+			)
+		elif doc.expires_on:
+			text = _("{0} of {1} credits left, until {2}.").format(
+				_n(left), _n(doc.credits), formatdate(doc.expires_on)
+			)
+		else:
+			text = _("{0} of {1} credits left, and they never expire.").format(_n(left), _n(doc.credits))
+		came = {
+			"Plan": _("The plan's monthly credits."),
+			"Purchase": _("A credit pack they bought."),
+			"Operator": _("Given by {0}.").format(
+				get_fullname(doc.reference) if doc.reference else _("an operator")
+			),
+		}.get(doc.source)
+		return {
+			"text": f"{text} {came}" if came else text,
+			"colour": "grey" if gone or left <= 0 else "green",
+		}
+	if doc.source == "Operator":
+		return {
+			"text": _("Taken back by {0}: {1}").format(get_fullname(doc.reference), doc.why or ""),
+			"colour": "orange",
+		}
+	if not doc.against:
+		return {"text": _("Spent beyond what the workspace had, so it is owed."), "colour": "orange"}
+	grant = ledger.said_of(doc.against)
+	return {
+		"text": _("Drawn from {0}: {1}").format(doc.against, grant.get("why") or grant.get("source") or ""),
+		"colour": "grey",
+	}
+
+
+def _may_take_back(doc) -> bool:
+	return (
+		doc.docstatus == 1
+		and doc.kind == "Grant"
+		and doc.source == "Operator"
+		and ledger.left_of(doc.name) > 0
+	)
+
+
+def _take_back_fields(doc) -> list[dict]:
+	return [
+		*_confirm(
+			_("Take back the {0} credits left of this?").format(_n(ledger.left_of(doc.name))),
+			_("What was already spent from it stays spent."),
+		),
+		{"fieldtype": "Small Text", "fieldname": "why", "label": _("Why"), "reqd": 1},
+	]
+
+
 # ------------------------------------------------------------------ a domain
 
 
@@ -417,6 +495,7 @@ MEASURES = {
 	"domain.state": domain_state,
 	"domain.said": domain_said,
 	"offering.sold": offering_sold,
+	"credit.said": credit_said,
 	"model.state": model_state,
 	"model.markup": model_markup,
 }
@@ -469,6 +548,13 @@ VERBS = {
 		"fields": lambda doc: _confirm(_("Create {0} for {1} now?").format(doc.slug, doc.email)),
 		"run": lambda doc, **_values: operator.retry_signup(doc.name) and None,
 	},
+	"credit.take_back": {
+		"doctypes": [ledger.ENTRY],
+		"label": lambda doc: _("Take Back"),
+		"when": _may_take_back,
+		"fields": _take_back_fields,
+		"run": lambda doc, why=None, **_values: operator.take_back_credits(doc.name, why) and None,
+	},
 	"domain.refresh": {
 		"doctypes": ["Tenant Domain"],
 		# The customer's own screen and Home both say this.
@@ -517,6 +603,11 @@ HEADS = [
 	{
 		"doctype": "Offering",
 		"sentences": [{"measure": "offering.sold"}],
+	},
+	{
+		"doctype": ledger.ENTRY,
+		"sentences": [{"measure": "credit.said"}],
+		"verbs": [{"verb": "credit.take_back"}],
 	},
 	{
 		"doctype": "AI Model",

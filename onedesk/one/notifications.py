@@ -104,11 +104,11 @@ TYPES = [
 		"name": _lt("Credits Added"),
 		"app": "One",
 		"about": _lt(
-			"When OneAI credits arrive, from a pack that was paid for or the plan's monthly credits."
+			"When OneAI credits arrive: a pack paid for, the plan's monthly credits, or credits One gives, with its note."
 		),
 		"to": _lt("Every administrator"),
 		"subject": _lt("OneAI credits were added"),
-		"message": _lt("OneAI credits were added. The workspace now has {balance}."),
+		"message": _lt("OneAI credits were added. The workspace now has {balance}.{note}"),
 		"email": False,
 	},
 	{

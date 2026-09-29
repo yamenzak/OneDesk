@@ -66,3 +66,17 @@ clause(
 		say so.
 	""",
 )
+
+
+clause(
+	document="terms",
+	section="fees",
+	key="oneadmin-given-credits",
+	module=M,
+	order=31,
+	body="""
+		We may also give your workspace credits ourselves, for example to make up for a problem. Those
+		credits expire on the date we tell your workspace's administrators when we give them, or never if we
+		give none. If we give credits by mistake, we may take back what is left of them unused.
+	""",
+)

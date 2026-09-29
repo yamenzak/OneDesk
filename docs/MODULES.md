@@ -54,7 +54,7 @@ No doctypes yet.
 | AI Model | 27 | document |
 | AI Model Rate | 7 | child |
 | Account Request | 18 | document |
-| Credit Ledger Entry | 14 | submittable |
+| Credit Ledger Entry | 15 | submittable |
 | Credit Reservation | 9 | document |
 | Offering | 24 | document |
 | One Admin Settings | 50 | single |
@@ -245,6 +245,7 @@ No doctypes yet.
 * `onedesk.one_admin.operator.sold`
 * `onedesk.one_admin.operator.standing`
 * `onedesk.one_admin.operator.sync_catalogue`
+* `onedesk.one_admin.operator.take_back_credits`
 * `onedesk.one_admin.operator.try_the_gateway`
 * `onedesk.one_admin.operator.walk`
 * `onedesk.one_admin.proxy.ai_models`
