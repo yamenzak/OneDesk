@@ -910,3 +910,76 @@ a.one-portal__row:hover {
 .one-portal a.one-button {
 	text-decoration: none;
 }
+
+/* The account's two pages: frappe-ui's TabButtons, a grey track with the
+ * chosen one raised. */
+.one-tabs {
+	display: inline-flex;
+	gap: 0.125rem;
+	padding: 0.125rem;
+	margin-bottom: 1.5rem;
+	border-radius: 8px;
+	background: var(--sunk);
+	font-size: 0.875rem;
+}
+
+.one-tabs a {
+	padding: 0.25rem 0.75rem;
+	border-radius: 6px;
+	color: var(--ink-soft);
+	text-decoration: none;
+}
+
+.one-tabs a[aria-current="page"] {
+	background: var(--paper);
+	color: var(--ink);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+/* /account/invoices: one line an invoice. */
+.one-bills {
+	list-style: none;
+	padding: 0;
+	margin: 0 0 2rem;
+}
+
+.one-bills li {
+	display: grid;
+	grid-template-columns: 6.5rem 1fr auto auto;
+	align-items: center;
+	gap: 1rem;
+	padding: 0.75rem 0;
+	border-bottom: 1px solid var(--line);
+}
+
+.one-bills__when {
+	color: var(--ink-soft);
+	font-size: 0.875rem;
+}
+
+.one-bills__what small {
+	display: block;
+	color: var(--ink-soft);
+}
+
+.one-bills__amount {
+	font-variant-numeric: tabular-nums;
+	font-weight: 500;
+}
+
+.one-bills__do {
+	display: flex;
+	gap: 0.5rem;
+}
+
+@media (max-width: 600px) {
+	.one-bills li {
+		grid-template-columns: 1fr auto;
+	}
+	.one-bills__when {
+		grid-column: 1 / -1;
+	}
+	.one-bills__do {
+		grid-column: 1 / -1;
+	}
+}

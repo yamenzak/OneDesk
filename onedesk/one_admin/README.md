@@ -256,6 +256,13 @@ first and says how many days are left before it falls further, with **Pay**,
 which opens Stripe's page for its invoice and card. One that runs has
 **Open**, to that workspace's own sign-in. **Start another workspace** is at
 the foot. Workspace Ready links the account too.
+
+**Invoices**, the account's second tab, lists every invoice across its
+workspaces, newest first: the date, the workspace, the invoice number, the
+amount and whether it is **Paid**, **Due**, **Unpaid** or **Cancelled**, with
+**Pay** on one that is due and **View** and **PDF** on each, all Stripe's own
+pages. Under them, **Card and billing details** has **Update card** for each
+workspace: each workspace is billed on its own, so each has its own card.
 The account is not a sign-in to any workspace, and it has no desk.
 
 Only a customer's account can sign in by mailed link here. An operator of One
@@ -492,7 +499,8 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   `accounts.hold` runs from `signup.accept` and from the `accounts` patch.
   `send_login_link` overrides frappe's on the admin site only, and
   `home_page` (hooks `get_website_user_home_page`) sends it to `/account`.
-- **The portal pages** are `www/start`, `www/welcome`, `www/account` and `www/legal`, drawn
+- **The portal pages** are `www/start`, `www/welcome`, `www/account`,
+  `www/account_invoices` (routed from `/account/invoices`) and `www/legal`, drawn
   in `public/css/portal.css` to frappe-ui's look (a guest page loads no desk
   controls). `signup.available`, `start` and `pay` are the guest
   calls, each rate-limited; `start` takes the signed-in account's email over

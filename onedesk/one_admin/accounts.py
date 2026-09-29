@@ -123,7 +123,7 @@ def workspaces(user: str) -> list[dict]:
 		],
 		order_by="creation asc",
 	)
-	told = [{**one, **_stands(one)} for one in held]
+	told = [frappe._dict({**one, **_stands(one)}) for one in held]
 	# What owes money first: it is the one thing on the page with a clock.
 	return sorted(told, key=lambda one: not one["owing"])
 
@@ -200,3 +200,56 @@ def pay(tenant: str) -> dict:
 	from onedesk.one_admin import billing
 
 	return {"url": billing.portal(tenant, frappe.utils.get_url("/account"))}
+
+
+#: What an invoice's Stripe status is called on the account's page, and its
+#: colour. Draft never reaches here (billing.invoices leaves drafts out).
+INVOICE = {
+	"paid": (_lt("Paid"), "green"),
+	"open": (_lt("Due"), "orange"),
+	"uncollectible": (_lt("Unpaid"), "red"),
+	"void": (_lt("Cancelled"), "gray"),
+}
+
+
+def invoices(user: str) -> dict:
+	"""Every invoice across the workspaces this account holds, newest first.
+
+	Asked of Stripe per workspace, since each workspace is its own Stripe
+	customer (docs/ONE-ACCOUNT.md, stage 3). A workspace Stripe cannot answer
+	for is left out and said, rather than failing the whole page.
+	"""
+	from datetime import UTC, datetime
+
+	from frappe.utils import convert_utc_to_system_timezone, fmt_money, formatdate
+
+	from onedesk.one_admin import billing
+
+	found, missed = [], []
+	for one in workspaces(user):
+		if not one.get("stripe_customer"):
+			continue
+		try:
+			listed = billing.invoices(one.name)["invoices"]
+		except Exception:
+			missed.append(one.workspace_name or one.name)
+			continue
+		for bill in listed:
+			said, tone = INVOICE.get(bill["status"], (bill["status"] or "", "gray"))
+			found.append(
+				{
+					**bill,
+					"workspace": one.workspace_name or one.name,
+					"tenant": one.name,
+					"when": formatdate(
+						convert_utc_to_system_timezone(
+							datetime.fromtimestamp(bill["created"] or 0, UTC).replace(tzinfo=None)
+						)
+					),
+					"amount": fmt_money(bill["total"], currency=bill["currency"]),
+					"pill": str(said),
+					"tone": tone,
+				}
+			)
+	found.sort(key=lambda bill: bill["created"] or 0, reverse=True)
+	return {"invoices": found, "missed": missed}

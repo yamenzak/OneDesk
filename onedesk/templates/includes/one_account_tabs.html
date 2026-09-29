@@ -1,0 +1,5 @@
+{#- The account's two pages, as frappe-ui's TabButtons draw a choice of two. -#}
+<nav class="one-tabs" aria-label="{{ _('Your One account') }}">
+	<a href="/account" {% if path == "account" %}aria-current="page"{% endif %}>{{ _("Workspaces") }}</a>
+	<a href="/account/invoices" {% if path != "account" %}aria-current="page"{% endif %}>{{ _("Invoices") }}</a>
+</nav>

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-29 16:49+0000\n"
-"PO-Revision-Date: 2026-09-29 16:49+0000\n"
+"POT-Creation-Date: 2026-09-29 16:54+0000\n"
+"PO-Revision-Date: 2026-09-29 16:54+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -2823,7 +2823,8 @@ msgid "Cancel By"
 msgstr "Kündigen bis"
 
 #. Option for the 'status' (Select) field in DocType 'Task'
-#: onedesk/one_calendar/tell.py:176 onedesk/one_task/custom/task.json
+#: onedesk/one_admin/accounts.py:211 onedesk/one_calendar/tell.py:176
+#: onedesk/one_task/custom/task.json
 msgid "Cancelled"
 msgstr "Abgesagt"
 
@@ -2858,6 +2859,10 @@ msgstr "Kapazität (Stunden)"
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Captures a frame from the camera at check-in. Choosing an existing file instead is not allowed."
 msgstr "Nimmt beim Einchecken ein Bild mit der Kamera auf. Stattdessen eine vorhandene Datei zu wählen, ist nicht erlaubt."
+
+#: onedesk/www/account_invoices.html:50
+msgid "Card and billing details"
+msgstr "Karte und Rechnungsdaten"
 
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
@@ -4861,7 +4866,7 @@ msgid "Dropped"
 msgstr "Verworfen"
 
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
-#: onedesk/one_book/heads.py:314
+#: onedesk/one_admin/accounts.py:209 onedesk/one_book/heads.py:314
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_project/heads.py:169
 #: onedesk/one_task/page/my_tasks/my_tasks.js:62
@@ -4986,6 +4991,10 @@ msgstr "Jeder Absender erhält alle vier Tage eine Antwort. Mailinglisten und au
 #: onedesk/public/js/settings.js:1541
 msgid "Each thing OneAI does, and the model it runs on. Default is what One picked. Click one to change it."
 msgstr "Alles, was OneAI tut, und das Modell, auf dem es läuft. Standard ist, was One gewählt hat. Klicken Sie auf eine Aktion, um sie zu ändern."
+
+#: onedesk/www/account_invoices.html:51
+msgid "Each workspace is billed on its own, so each has its own card."
+msgstr "Jeder Arbeitsbereich wird einzeln abgerechnet, daher hat jeder seine eigene Karte."
 
 #: onedesk/one_hr/notifications.py:305
 msgid "Earned Leave Not Allocated"
@@ -5420,6 +5429,10 @@ msgstr "Alle Dateien sind im Cloud-Speicher."
 #: onedesk/one_storage/ready.py:28
 msgid "Every file uploaded anywhere in One is kept in cloud storage."
 msgstr "Jede in One hochgeladene Datei wird im Cloud-Speicher abgelegt."
+
+#: onedesk/www/account_invoices.html:18
+msgid "Every invoice for the workspaces in your account, newest first."
+msgstr "Alle Rechnungen für die Arbeitsbereiche in Ihrem Konto, die neuesten zuerst."
 
 #: onedesk/one_admin/notifications.py:131
 msgid "Every morning, the domains that have waited a day for their DNS or stopped working. Not sent when there are none."
@@ -7557,6 +7570,8 @@ msgstr "Zeit abrechnen"
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/public/js/settings.js:1071 onedesk/public/js/tenant.js:21
+#: onedesk/templates/includes/one_account_tabs.html:4
+#: onedesk/www/account_invoices.html:2 onedesk/www/account_invoices.html:17
 msgid "Invoices"
 msgstr ""
 
@@ -10062,6 +10077,10 @@ msgstr "Noch keine Feiertagsliste"
 msgid "No invoices yet."
 msgstr "Noch keine Rechnungen."
 
+#: onedesk/www/account_invoices.html:46
+msgid "No invoices yet. A plan with a trial sends its first when the trial ends."
+msgstr "Noch keine Rechnungen. Ein Tarif mit Testphase stellt die erste Rechnung, wenn die Testphase endet."
+
 #: onedesk/public/js/onecloud.js:375
 msgid "No items match your search."
 msgstr "Keine Elemente entsprechen Ihrer Suche."
@@ -11506,7 +11525,7 @@ msgstr "Das können nur {0} oder eine Verwaltung dieses Arbeitsbereichs entschei
 #: onedesk/public/js/oneai/Record.vue:15 onedesk/public/js/onecloud.js:720
 #: onedesk/public/js/onecloud.js:1866 onedesk/public/js/onecloud.js:1874
 #: onedesk/public/js/onecloud.js:1890 onedesk/public/js/project.js:92
-#: onedesk/public/js/settings.js:311 onedesk/www/account.html:29
+#: onedesk/public/js/settings.js:311 onedesk/www/account.html:31
 #: onedesk/www/s.html:48 onedesk/www/s.html:56
 msgid "Open"
 msgstr "Offen"
@@ -11911,7 +11930,7 @@ msgstr "Eigene Nutzung"
 msgid "Owner"
 msgstr "Eigentümer"
 
-#: onedesk/public/js/settings.js:1159
+#: onedesk/public/js/settings.js:1159 onedesk/www/account_invoices.html:40
 msgid "PDF"
 msgstr ""
 
@@ -11929,6 +11948,7 @@ msgid "Pages"
 msgstr "Seiten"
 
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
+#: onedesk/one_admin/accounts.py:208
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/log.py:24 onedesk/one_book/heads.py:315
 #: onedesk/public/js/settings.js:1139 onedesk/www/projects.html:90
@@ -12132,7 +12152,8 @@ msgstr "Patient"
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
-#: onedesk/public/js/intake.js:53 onedesk/www/account.html:28
+#: onedesk/public/js/intake.js:53 onedesk/www/account.html:30
+#: onedesk/www/account_invoices.html:38
 msgid "Pay"
 msgstr "Vergütung"
 
@@ -14941,7 +14962,7 @@ msgstr "Melden Sie sich zuerst an."
 msgid "Sign in to your One account first."
 msgstr "Melden Sie sich zuerst bei Ihrem One-Konto an."
 
-#: onedesk/www/account.html:16
+#: onedesk/www/account.html:18
 msgid "Sign out"
 msgstr "Abmelden"
 
@@ -14992,7 +15013,7 @@ msgstr "Abgemeldet nach"
 msgid "Signed in"
 msgstr "Angemeldet"
 
-#: onedesk/www/account.html:16
+#: onedesk/www/account.html:18
 msgid "Signed in as {0}."
 msgstr "Angemeldet als {0}."
 
@@ -15261,7 +15282,7 @@ msgstr "Timer starten"
 msgid "Start a project"
 msgstr "Projekt anlegen"
 
-#: onedesk/www/account.html:41 onedesk/www/start.html:2
+#: onedesk/www/account.html:43 onedesk/www/start.html:2
 #: onedesk/www/start.html:15
 msgid "Start a workspace"
 msgstr "Einen Arbeitsbereich starten"
@@ -15270,7 +15291,7 @@ msgstr "Einen Arbeitsbereich starten"
 msgid "Start again"
 msgstr "Neu beginnen"
 
-#: onedesk/www/account.html:38
+#: onedesk/www/account.html:40
 msgid "Start another workspace"
 msgstr "Weiteren Arbeitsbereich starten"
 
@@ -15596,6 +15617,10 @@ msgstr "Stripe-Abonnement"
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
 msgid "Stripe Webhook Event"
 msgstr "Stripe-Webhook-Ereignis"
+
+#: onedesk/www/account_invoices.html:23
+msgid "Stripe did not answer for {0}. Try again in a moment."
+msgstr "Stripe hat für {0} nicht geantwortet. Versuchen Sie es gleich noch einmal."
 
 #: onedesk/one_admin/stripe.py:438
 msgid "Stripe is not configured. Set it in OneAdmin Settings."
@@ -16148,8 +16173,8 @@ msgstr "Dieser Code ist falsch oder abgelaufen."
 msgid "That did not go through."
 msgstr "Das ist nicht durchgegangen."
 
-#: onedesk/www/account.html:62 onedesk/www/start.html:118
-#: onedesk/www/welcome.html:74
+#: onedesk/templates/includes/one_account_pay.html:18
+#: onedesk/www/start.html:118 onedesk/www/welcome.html:74
 msgid "That did not work. Try again in a moment."
 msgstr "Das hat nicht funktioniert. Versuchen Sie es gleich noch einmal."
 
@@ -17325,7 +17350,7 @@ msgstr "Dieses hier"
 msgid "This Workspace"
 msgstr "Dieser Arbeitsbereich"
 
-#: onedesk/www/account.html:40
+#: onedesk/www/account.html:42
 msgid "This account holds no workspace yet."
 msgstr "Dieses Konto hat noch keinen Arbeitsbereich."
 
@@ -18148,7 +18173,8 @@ msgstr "Unbegrenzt"
 msgid "Unlock"
 msgstr "Entsperren"
 
-#: onedesk/public/js/settings.js:1139 onedesk/www/projects.html:90
+#: onedesk/one_admin/accounts.py:210 onedesk/public/js/settings.js:1139
+#: onedesk/www/projects.html:90
 msgid "Unpaid"
 msgstr ""
 
@@ -18227,6 +18253,10 @@ msgstr "Bis"
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Update"
 msgstr "Aktualisierung"
+
+#: onedesk/www/account_invoices.html:56
+msgid "Update card"
+msgstr "Karte aktualisieren"
 
 #: onedesk/public/js/legal.js:38
 msgid "Updated"
@@ -18506,6 +18536,7 @@ msgstr "Videoerzeugung"
 
 #: onedesk/public/js/onecloud.js:158 onedesk/public/js/onecloud.js:1287
 #: onedesk/public/js/project.js:13 onedesk/public/js/project.js:23
+#: onedesk/www/account_invoices.html:39
 msgid "View"
 msgstr "Ansehen"
 
@@ -20233,6 +20264,7 @@ msgstr "Name des Arbeitsbereichs"
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:130
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:180
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
+#: onedesk/templates/includes/one_account_tabs.html:3
 msgid "Workspaces"
 msgstr "Arbeitsbereiche"
 
@@ -20586,6 +20618,7 @@ msgstr "Ihre Anweisungen"
 msgid "Your Mailboxes"
 msgstr "Ihre Postfächer"
 
+#: onedesk/templates/includes/one_account_tabs.html:2
 #: onedesk/www/account.html:2
 msgid "Your One account"
 msgstr "Ihr One-Konto"
@@ -20734,7 +20767,7 @@ msgstr "Dein Workspace erlaubt keine Kalender-Links. Seine Administratoren entsc
 msgid "Your workspace's administrator has not yet agreed to {0} for your organisation. One opens once they have."
 msgstr "Der Administrator deines Arbeitsbereichs hat {0} für deine Organisation noch nicht zugestimmt. One öffnet sich, sobald das geschehen ist."
 
-#: onedesk/www/account.html:15
+#: onedesk/www/account.html:17
 msgid "Your workspaces"
 msgstr "Ihre Arbeitsbereiche"
 

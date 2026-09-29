@@ -164,7 +164,11 @@ you before the next.
    Stripe account, Stripe offers the saved card to the same email at checkout. Stage 4 lists invoices per
    workspace, so it does not need the shared customer either.
 4. **Invoices and card.** `/account/invoices` across workspaces, and Update
-   card through Stripe's portal.
+   card through Stripe's portal. Done: `accounts.invoices` asks Stripe per
+   workspace (`billing.invoices`) and merges them newest first; a workspace
+   Stripe does not answer for is named rather than failing the page. Update
+   card is per workspace, since each is its own Stripe customer (stage 3).
+   The two account pages share a tab strip.
 5. **Profile and the move.** `/account/profile`; Who pays for this workspace in
    Workspace › Plan; the two mails.
 

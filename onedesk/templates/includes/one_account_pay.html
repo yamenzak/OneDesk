@@ -1,0 +1,31 @@
+<script>
+// Pay and Update card open Stripe's own page for that workspace's invoices and
+// card (accounts.pay), and Stripe sends them back to /account.
+document.querySelectorAll("[data-pay]").forEach((button) => {
+	button.addEventListener("click", () => {
+		const said = document.getElementById("one-said");
+		said.hidden = true;
+		button.disabled = true;
+		frappe
+			.call({
+				method: "onedesk.one_admin.accounts.pay",
+				args: { tenant: button.dataset.pay },
+				statusCode: {},
+				error_msg: document.createElement("div"),
+			})
+			.done((r) => (window.location.href = r.message.url))
+			.fail((xhr) => {
+				let text = __("That did not work. Try again in a moment.");
+				try {
+					const told = JSON.parse(xhr.responseJSON._server_messages).map((m) => JSON.parse(m).message);
+					if (told.length) text = told.join(" ");
+				} catch (e) {
+					// Nothing said: the line above.
+				}
+				said.querySelector("span").textContent = text;
+				said.hidden = false;
+				button.disabled = false;
+			});
+	});
+});
+</script>

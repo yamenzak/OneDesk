@@ -1,0 +1,68 @@
+{% extends "templates/web.html" %}
+{% block title %}{{ _("Invoices") }}{% endblock %}
+
+{%- block navbar -%}{%- endblock -%}
+{%- block footer -%}{%- endblock -%}
+{% block breadcrumbs %}{% endblock %}
+
+{% block page_content %}
+<div class="one-portal one-portal--wide">
+	<a class="one-portal__mark" href="/account">
+		<img src="/assets/onedesk/images/one.svg" alt="">
+		<span>One</span>
+	</a>
+
+	{% include "templates/includes/one_account_tabs.html" %}
+
+	<h1>{{ _("Invoices") }}</h1>
+	<p class="one-portal__lede">{{ _("Every invoice for the workspaces in your account, newest first.") }}</p>
+
+	{% if missed %}
+	<div class="one-alert" role="alert">
+		<svg class="one-alert__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+		<span>{{ _("Stripe did not answer for {0}. Try again in a moment.").format(missed|join(", ")|e) }}</span>
+	</div>
+	{% endif %}
+
+	{% if invoices %}
+	<ul class="one-bills">
+		{% for bill in invoices %}
+		<li>
+			<span class="one-bills__when">{{ bill.when }}</span>
+			<span class="one-bills__what">
+				<span>{{ bill.workspace|e }} <span class="one-pill one-pill--{{ bill.tone }}">{{ bill.pill }}</span></span>
+				<small>{{ bill.number|e }}</small>
+			</span>
+			<span class="one-bills__amount">{{ bill.amount }}</span>
+			<span class="one-bills__do">
+				{% if bill.status == "open" and bill.page %}<a class="one-button one-button--solid" href="{{ bill.page }}" rel="noopener">{{ _("Pay") }}</a>
+				{% elif bill.page %}<a class="one-button" href="{{ bill.page }}" rel="noopener">{{ _("View") }}</a>{% endif %}
+				{% if bill.pdf %}<a class="one-button" href="{{ bill.pdf }}" rel="noopener">{{ _("PDF") }}</a>{% endif %}
+			</span>
+		</li>
+		{% endfor %}
+	</ul>
+	{% elif not missed %}
+	<p class="one-note">{{ _("No invoices yet. A plan with a trial sends its first when the trial ends.") }}</p>
+	{% endif %}
+
+	{% if cards %}
+	<h2 class="one-portal__heading">{{ _("Card and billing details") }}</h2>
+	<p class="one-note">{{ _("Each workspace is billed on its own, so each has its own card.") }}</p>
+	<ul class="one-held">
+		{% for one in cards %}
+		<li>
+			<span><span class="one-held__name">{{ (one.workspace_name or one.name)|e }}</span></span>
+			<span class="one-held__do"><button type="button" class="one-button" data-pay="{{ one.name }}">{{ _("Update card") }}</button></span>
+		</li>
+		{% endfor %}
+	</ul>
+	<div class="one-alert" id="one-said" role="alert" hidden>
+		<svg class="one-alert__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+		<span></span>
+	</div>
+	{% endif %}
+</div>
+
+{% include "templates/includes/one_account_pay.html" %}
+{% endblock %}

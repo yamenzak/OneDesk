@@ -954,6 +954,8 @@ website_route_rules = [
 	# The agreements, readable before anybody has an account: /legal/terms is
 	# www/legal.py, and /start links to it.
 	{"from_route": "/legal/<document>", "to_route": "legal"},
+	# A One account's invoices: www/account_invoices.py.
+	{"from_route": "/account/invoices", "to_route": "account_invoices"},
 ]
 
 # OneCloud as a network drive: a drive password signs a person in on the
