@@ -55,12 +55,19 @@ def usage(filters, by: list[str]) -> tuple[list[dict], dict | None]:
 	whole = ledger.usage(start, end, [], tenant=filters.get("tenant"), model=filters.get("model"))[0]
 	whole[by[0]] = frappe._("Total")
 	whole.bold = 1
+	# Our own workspace's calls (house.py) cost what they cost, and are sold to
+	# nobody: nothing of them is charged, and the margin is the customers'.
+	ours = _ours(start, end, by, filters)
 	for row in [*rows, whole]:
+		key = "whole" if row is whole else tuple(row.get(one) for one in by)
+		own = ours.get(key) or {}
 		row.currency = CURRENCY
 		row.credits = round(flt(row.credits), 2)
-		row.charged = round(row.credits * each, 4)
+		row.charged = round((row.credits - flt(own.get("credits"))) * each, 4)
 		row.cost_us = round(flt(row.usd), 4)
-		row.margin = f"{row.charged / row.cost_us:.1f}×" if row.cost_us else ""
+		row.own_cost = round(flt(own.get("usd")), 4)
+		sold = row.cost_us - row.own_cost
+		row.margin = f"{row.charged / sold:.1f}×" if sold > 0 else ""
 		if "why" in by and row is not whole:
 			row.model = models.get(row.why) or row.why
 		if "action" in by and row is not whole:
@@ -70,6 +77,22 @@ def usage(filters, by: list[str]) -> tuple[list[dict], dict | None]:
 	if "action" in by:
 		whole.action_name = whole.pop("action", None)
 	return [*rows, whole], whole
+
+
+def _ours(start, end, by: list[str], filters) -> dict:
+	"""Our own workspace's share of each row, by the row's key, and of the
+	whole period."""
+	from onedesk.one_admin import house
+
+	held = house.slug()
+	if not held or filters.get("tenant") not in (None, "", held):
+		return {}
+	rows = ledger.usage(start, end, by, tenant=held, model=filters.get("model"))
+	said = {tuple(one.get(key) for key in by): one for one in rows}
+	whole = ledger.usage(start, end, [], tenant=held, model=filters.get("model"))
+	if whole and whole[0].calls:
+		said["whole"] = whole[0]
+	return said
 
 
 def _columns(by: list[str]) -> list[dict]:
@@ -152,7 +175,8 @@ def _summary(whole) -> list[dict]:
 			"label": frappe._("Margin"),
 			"value": whole.margin or "—",
 			"datatype": "Data",
-			"indicator": "Green" if whole.cost_us and whole.charged > whole.cost_us else "Red",
+			"indicator": "Green" if whole.charged > whole.cost_us - whole.own_cost else "Red",
 		},
 		{"label": frappe._("Workspaces"), "value": whole.workspaces, "datatype": "Int"},
+		{"label": frappe._("Own Use"), "value": whole.own_cost, **money},
 	]

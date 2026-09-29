@@ -133,7 +133,10 @@ def reserve(
 	amount = _amount(amount)
 	_lock(tenant)
 
-	if not credits.enough(
+	# Our own workspace (house.py) is never refused: its calls are our cost,
+	# and what it spends is written down all the same.
+	ours = frappe.db.get_value("Tenant", tenant, "is_house")
+	if not ours and not credits.enough(
 		_buckets(tenant, locking=True), amount, held(tenant, locking=True), _today()
 	):
 		frappe.throw(

@@ -10,6 +10,17 @@ signups and the credits, and OneAI's models. It is only on the admin site,
 and only for **One Operator**. Nobody on a customer's workspace can open it,
 whatever roles they hold there.
 
+## Our own workspace
+
+The admin site is **Four Degree Labs**' own workspace of One (`4dl`): it
+uses One as a customer does, OneAI included. It is a workspace on the list,
+marked **Ours**, and three things are true of it that are true of no
+customer: nobody bills it (no plan, no Stripe, so it never falls overdue);
+its OneAI is never refused for credits, however many it has; and what its AI
+costs is our cost, not a sale, so AI Usage charges nothing for it (its cost
+is **Own Use**) and Home does not count it as a live customer. It was made
+once, and the admin site linked to it, by `house.ensure`.
+
 ## Home
 
 **OneAdmin** in the dock opens it on **Home**.
@@ -464,6 +475,10 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   says them in the reader's language, and `offerings.warn` says them on
   saving an offering or the costs. `home._mispriced` is the Wrong ones.
   OneAI's suggestions reach a report as `report:<name>` (`one_ai/suggest.py`).
+- **Our own workspace** (`house.py`): `Tenant.is_house`; `ensure` makes it
+  and writes `one_tenant` and `one_token` into the admin site's config;
+  `ledger.reserve` never refuses it; AI Usage's `_ours` takes its share out
+  of Charged and the margin.
 - **Settings** (`doctype/one_admin_settings`): `heads.NEEDED` is what each
   connection needs and what stops without it, for the head and for
   `ai.settings_check`; `_tell` is Settings Changed. `offerings.credit_price`

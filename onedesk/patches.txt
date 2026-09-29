@@ -24,3 +24,4 @@ onedesk.one_admin.patches.model_rank
 onedesk.one_admin.patches.gemini_default
 onedesk.one_admin.patches.call_costs
 onedesk.one_admin.patches.ai_usage_one_total
+onedesk.one_admin.patches.house_workspace

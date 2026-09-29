@@ -155,6 +155,7 @@ def hello(database_bytes: int | None = None) -> dict:
 			"storage_bytes",
 			"storage_limit",
 			"owner_email",
+			"is_house",
 		],
 		as_dict=True,
 	)
@@ -197,7 +198,9 @@ def hello(database_bytes: int | None = None) -> dict:
 		# hears why and not only that the number went up (one/account.py).
 		"credits": {
 			**ledger.standing(tenant.name),
-			"month": _used_lately(tenant.name),
+			# Nothing to run low against on our own workspace, which is never
+			# refused (house.py), so it is never told it is running low.
+			"month": 0 if known.get("is_house") else _used_lately(tenant.name),
 			"gift": ledger.last_gift(tenant.name),
 		},
 		# The addresses too, so the account screen is one call rather than two.

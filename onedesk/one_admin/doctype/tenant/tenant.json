@@ -13,6 +13,7 @@
   "owner_email",
   "column_break_who",
   "status",
+  "is_house",
   "offering",
   "customer",
   "place_section",
@@ -96,6 +97,14 @@
    "description": "Set by billing events and by the actions in the toolbar.",
    "read_only": 1,
    "in_list_view": 1
+  },
+  {
+   "fieldname": "is_house",
+   "fieldtype": "Check",
+   "label": "Ours",
+   "read_only": 1,
+   "depends_on": "eval:doc.is_house",
+   "description": "Four Degree Labs' own workspace. Nobody bills it, its OneAI is never refused for credits, and its AI use is a cost, not a sale."
   },
   {
    "fieldname": "offering",
@@ -335,7 +344,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-29 12:00:00.000000",
+ "modified": "2026-09-29 21:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Tenant",

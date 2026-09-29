@@ -9,11 +9,13 @@
 // be called Probe Ltd, and the slug is what tells them apart. The slug is
 // searched as the workspace is, so the ID filter goes.
 frappe.listview_settings["Tenant"] = {
-	add_fields: ["status", "storage_bytes", "storage_limit", "domain"],
+	add_fields: ["status", "storage_bytes", "storage_limit", "domain", "is_house"],
 	hide_name_column: true,
 	hide_name_filter: true,
 
 	get_indicator(doc) {
+		// Our own workspace (house.py): nobody bills it, so it has no standing.
+		if (doc.is_house) return [__("Ours"), "blue", "is_house,=,1"];
 		const says = {
 			Requested: ["orange", __("Waiting to be built")],
 			Provisioning: ["blue", __("Being built")],

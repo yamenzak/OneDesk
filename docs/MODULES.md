@@ -60,7 +60,7 @@ No doctypes yet.
 | One Admin Settings | 59 | single |
 | Provisioning Job | 15 | document |
 | Stripe Webhook Event | 7 | document |
-| Tenant | 42 | document |
+| Tenant | 43 | document |
 | Tenant Add-on | 3 | child |
 | Tenant Domain | 10 | document |
 | Tenant Event | 9 | document |

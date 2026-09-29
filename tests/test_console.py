@@ -652,3 +652,17 @@ def test_settings_say_what_is_missing_and_tell_the_other_operators():
 	ai = (ADMIN / "ai.py").read_text()
 	assert '"expects": "settings_check"' in ai and "if not _operator():" in ai.split("def settings_check(")[1]
 	assert "## Settings" in (ADMIN / "README.md").read_text()
+
+
+def test_our_own_workspace_is_never_billed_or_refused_or_sold():
+	"""Four Degree Labs' own workspace: marked ours, never refused for
+	credits, not a live customer on Home, and not charged in AI Usage."""
+	house = (ADMIN / "house.py").read_text()
+	assert 'NAME = "Four Degree Labs"' in house and 'update_site_config("one_tenant", held)' in house
+	tenant = json.loads((ADMIN / "doctype" / "tenant" / "tenant.json").read_text())
+	assert {f["fieldname"]: f for f in tenant["fields"]}["is_house"]["read_only"]
+	reserve = (ADMIN / "ledger.py").read_text().split("def reserve(")[1].split("\ndef ")[0]
+	assert "if not ours and not credits.enough(" in reserve
+	assert '"live": ("Tenant", {"status": "Live", "is_house": 0})' in (ADMIN / "home.py").read_text()
+	assert "_ours(start, end, by, filters)" in (ADMIN / "report" / "ai_usage" / "ai_usage.py").read_text()
+	assert "## Our own workspace" in (ADMIN / "README.md").read_text()
