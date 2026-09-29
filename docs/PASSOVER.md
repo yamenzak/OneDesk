@@ -3531,6 +3531,54 @@ Done:
 - README: a **Models** section, Model Withdrawn under Being told, and an
   Under the hood line.
 
+### OneAdmin › AI Usage
+
+AI Usage is a Script Report over the calls every workspace made
+(`ledger.usage`, one settled Credit Reservation per call): from a date to a
+date, cut **By** Workspace, Model, or both, with how many calls, the credits
+charged, per call, and the last call. On the dev site this month: Nine X, 456
+calls, 359.92 credits, on 35 models.
+
+1. **Notifications**: it sends nothing. A workspace running low is already
+   told on its own site (Credits Running Low), and a call that cannot be
+   paid for is refused before it is made. Holds.
+2. **OneAI**: nothing but "What stands out here?". The operator's questions
+   here are "who is spending the most, and on what?" and "are we making
+   money on AI?". Recommended: **Who is spending the most?** on the report,
+   with a reader, `ai_usage` (operator-only: a period cut any of the ways
+   below, with what it cost us).
+3. **Intake**: OneIntake's readings are calls and are counted here, as
+   their actions. Holds, once the Action cut below exists.
+4. **Permissions**: One Operator, refused off the admin site. Holds.
+5. **Cross-module**:
+   - **It does not say what AI costs us.** Credits are what the workspace
+     was charged; what the provider charged us is that over the model's
+     markup, and the difference is the only margin OneAI has.
+     Recommended: **Cost Us** and **Margin** beside Credits, in the
+     price list's currency.
+   - **It cannot say which OneAI feature spends.** Every call records its
+     action (Summarise, Chat, Read Scans, the intake readings), and the
+     report cannot cut by it. Recommended: **By Action** (and by Workspace
+     and Action). The 456 calls on the dev site predate the action being
+     written, so they will show as "Not recorded".
+6. **UI and UX**:
+   - a. **Everything is counted twice.** Our own Total row (359.92 credits)
+     and then frappe's total row under it, which adds ours in: 70 models,
+     912 calls, 719.84 credits. The report's JSON says no total row, and
+     the site's copy says yes, so the JSON never synced. Recommended: one
+     total, ours, bold.
+   - b. The Model column shows the id ("workers-ai:@cf/google/gemma-…"),
+     not the model's name. Recommended: the name.
+   - c. Credits and Per Call to four places; Last Call cut off.
+     Recommended: two places, and a wider Last Call.
+   - d. The numbers that matter sit in a table row. Recommended: a summary
+     over the table (Calls, Credits, Cost Us, Margin, Workspaces).
+7. **Documented**: the README mentions AI Usage on the Credits screen and a
+   workspace, but has no section. Recommended: an **AI Usage** section.
+8. **Legal**: it reads what a call cost and which model and action, never
+   what was asked or answered. Holds.
+9. **Built from frappe**: a Script Report and its summary. Holds.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
