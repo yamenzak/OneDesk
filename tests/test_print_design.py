@@ -104,6 +104,8 @@ def test_a_weak_model_is_read_as_it_meant():
 	assert 'column.get("field") or column.get("fieldname")' in _body(AI, "_column")
 	assert 'rstrip("%")' in _body(AI, "_share")
 	assert '"true"' in _body(AI, "_parsed") and '"null"' in _body(AI, "_parsed")
+	# The sections and then something after them: the sections.
+	assert "raw_decode" in _body(AI, "_parsed")
 
 
 def test_a_document_of_trade_prints_who_and_how_much():

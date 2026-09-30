@@ -2052,6 +2052,11 @@ def _parsed(text: str):
 		return json.loads(text)
 	except ValueError:
 		pass
+	try:
+		# The sections and then something after them: the sections.
+		return json.JSONDecoder().raw_decode(text.strip())[0]
+	except ValueError:
+		pass
 	# Outside strings only: split on quoted runs and mend the pieces between.
 	parts = re.split(r'("(?:[^"\\]|\\.)*")', text)
 	mended = "".join(
@@ -2061,7 +2066,7 @@ def _parsed(text: str):
 		for n, part in enumerate(parts)
 	)
 	try:
-		return json.loads(mended)
+		return json.JSONDecoder().raw_decode(mended.strip())[0]
 	except ValueError as e:
 		frappe.throw(_("sections is not JSON: {0}.").format(str(e)))
 
