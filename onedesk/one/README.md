@@ -614,12 +614,21 @@ builder like any other. It starts from a layout made from that kind's fields
 (for an invoice, quotation, order or bill: who it is for on the left, the dates
 on the right, the items as one table, the totals under it beside the amount in
 words, the terms last) and changes only what was asked, so two requests for the
-same thing come out the same. It prints in frappe's own print style, like every
-other format, with no styling of its own unless a look is asked for. It can set
-a field's label, hide it or put it beside the value, align and bold it, add a
-barcode or QR code, and choose where the page number prints; a layout that
-would print badly (an empty section, a table wider than the page) goes back to
-it to fix before any card is shown. It also suggests which letter head is the
+same thing come out the same. It prints in the house style: frappe's print
+style with its labels small and muted, room between sections, the items table
+lined under a soft header rather than boxed, and the totals as label and figure
+on one line with the grand total set off above a rule, in frappe's own classes
+and greys. A look somebody asks for (a colour, a band behind the title, a
+typeface) replaces the house style entirely; the house style is never kept
+against their taste. A typeface is frappe's own Google Font setting on the
+format. It can set a field's label, hide it or put it beside the value, align
+and bold it, give columns their widths, add a barcode or QR code, and choose
+where the page number prints. An HTML block may use only the record: its
+fields and rows, `get_formatted`, conditions, loops and plain filters, and
+nothing of frappe's beyond that. A layout that would print badly (an empty
+section, a table wider than the page, an invoice without its customer or its
+total) goes back to it to mend before any card is shown, and if it still does
+not hold, OneAI says nothing was made rather than that it was. It also suggests which letter head is the
 default and which format a kind of record prints with. Each
 comes as a card an administrator approves, and **See the Page** on the card
 shows the page before they do: a format on the kind's latest record, a letter

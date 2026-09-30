@@ -4367,6 +4367,54 @@ site: Sales and Purchase Invoice formats made from their starting layouts
 print in the same look as frappe's Standard, tidier; tables no longer print a
 label frappe's own formats leave off.
 
+**The house style, Jinja, and two live runs. Fixed.** The spacing was frappe's
+default: the table touched the totals, every table was boxed, and the totals
+read as `Net Total:` far from its figure. Now:
+
+1. **A house style.** `print_recipes.HOUSE_CSS` goes on every format OneAI makes
+   unless a look is asked for. It uses frappe's own print classes and greys:
+   - labels small and muted, and room between sections;
+   - tables lined under a soft rounded header;
+   - the grand total set off above a rule.
+
+   The totals are a `labels_beside` section (frappe's `field_orientation`) with
+   `spread` fields (its `label_justify`) in a 45% column (a column `width`).
+   Tables are lined unless `bordered` or `striped`, because frappe boxes a
+   table unless told not to.
+2. **Their taste wins.** Their own CSS replaces the house style, or goes over
+   it with `house_style`. Left out on a changed format, it keeps that format's
+   own CSS. `print_layout` reads the house style back as `house_style: true`.
+   A typeface is frappe's own `font` (Google Font) on the format, so Google
+   Fonts is now a subprocessor (subprocessors revision 4).
+3. **Jinja.** `LAYOUT_HELP` now names exactly what the sandbox in
+   `print_html.py` allows:
+   - `doc`, `loop`, `_`, `get` and `get_formatted`;
+   - conditions, loops and `set`;
+   - every allowed test and filter.
+
+   It also says what is not there: no `frappe`, `frappe.db` or other records,
+   no macros or `|safe`. A test reads the lists back from the sandbox.
+4. **Live, on the workspace's own model (flash-lite).** Both runs found real
+   faults, and both now hold:
+   - It never called `print_layout`. It wrote the table as
+     `"items", {columns}`, columns as `{field, width}`, widths as `"45%"`, and
+     Python's `True` inside the JSON. These are now read as meant.
+   - Its first layout had no customer and no total. A document of trade now
+     has to print both (`print_recipes.essentials`).
+   - Given an error, it apologised to the person instead of retrying. A failed
+     design now comes back with `mend`, the starting layout and the rules, and
+     the loop asks once for the call again (`MEND_IT`). The superseded apology
+     is taken back (`_unsaid`).
+   - When a design still did not hold, the "now answer" nudge made it say the
+     format was created. It now says nothing was made (`GAVE_UP`).
+   - Left out, `sections` prints the starting layout, or keeps a changed
+     format's own layout, so a restyle changes only its look.
+
+   House run ("a clean, polished invoice"): the starting layout in the house
+   style. Creative run ("boutique, serif, charcoal band, striped rows, teal
+   total"): Playfair Display, the band, the striped rows and the teal grand
+   total, all written over frappe's classes.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

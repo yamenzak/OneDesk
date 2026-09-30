@@ -4,8 +4,10 @@ OneAI designs a print format as the builder lays one out (ai.design_print_format
 Left to itself, two requests for the same invoice came out as two different
 pages. So print_layout offers a starting layout made from the kind's own fields,
 in the order a reader looks for them, and OneAI changes only what was asked.
-The look is frappe's own print style, not ours: a format made here reads like
-every other format the workspace prints.
+The look is frappe's own print style with HOUSE_CSS over it: the same page,
+spaced and toned the way frappe-ui draws one, so it still reads like every
+other format the workspace prints. A format made to a look somebody asked for
+carries their css instead, never this one as well.
 
 Two shapes cover what a workspace prints:
 
@@ -22,6 +24,31 @@ blocks.
 
 import frappe
 from frappe import _
+
+#: The house finish over frappe's print style, in frappe's own classes and its
+#: grey scale: labels small and muted, room between sections, tables lined
+#: rather than boxed under a soft header, the totals as label and figure on one
+#: line and the grand total set off above them. Sizes are em, as frappe's are.
+HOUSE_CSS = """\
+.print-format-doc { line-height: 1.5; }
+.print-format-doc .document-header-content { margin: 1.25em 0 0.5em; }
+.print-format-doc .print-heading { border-bottom: none; padding-bottom: 0; margin-bottom: 0.75em; }
+.print-format-doc .print-heading h2 { font-size: 1.6em; font-weight: 600; letter-spacing: -0.01em; color: var(--gray-900); }
+.print-format-doc .print-heading .sub-heading { display: block; font-size: 0.55em; font-weight: 400; letter-spacing: 0; color: var(--gray-600); margin-top: 0.25em; }
+.print-format-doc .section + .section { margin-top: 1.5em; }
+.print-format-doc .section-label { font-size: 0.9em; font-weight: 600; color: var(--gray-800); border-bottom: 1px solid var(--gray-200); padding-bottom: 0.4em; margin-bottom: 0.8em; }
+.print-format-doc .field + .field { margin-top: 0.75em; }
+.print-format-doc .field .label { font-size: 0.85em; color: var(--gray-600); margin-bottom: 0.15em; }
+.print-format-doc .field.left-right + .field.left-right { margin-top: 0.35em; }
+.print-format-doc .field.left-right .label, .print-format-doc .field.field-inline .label { font-size: 1em; color: var(--gray-600); }
+.print-format-doc .child-table { --pfb-radius: 6px; --pfb-header-bg: var(--gray-100); margin-top: 0; }
+.print-format-doc .child-table .table th { color: var(--gray-600); font-weight: 500; font-size: 0.85em; }
+.print-format-doc .child-table--lined .table td { border-bottom-color: var(--gray-200) !important; }
+.print-format-doc .child-table .table td { padding-top: 0.6em; padding-bottom: 0.6em; }
+.print-format-doc .field[data-fieldname="grand_total"] { font-weight: 600; color: var(--gray-900); border-top: 1px solid var(--gray-300); padding-top: 0.5em; margin-top: 0.5em; }
+.print-format-doc .field[data-fieldname="rounded_total"] { font-weight: 600; }
+.print-format-doc .field[data-fieldname="grand_total"] .label, .print-format-doc .field[data-fieldname="rounded_total"] .label { color: var(--gray-900); }
+"""
 
 #: Who a document of trade is for, the first a kind has.
 PARTY = ("customer_name", "supplier_name", "party_name", "customer", "supplier")
@@ -86,6 +113,16 @@ def starting_layout(doctype: str) -> list:
 	return _trade(meta) or _plain(meta)
 
 
+def essentials(doctype: str) -> list[str]:
+	"""What a page of this kind must print to be read at all: a document of
+	trade says who it is for and what it comes to. Anything else, nothing."""
+	meta = frappe.get_meta(doctype)
+	if not _trade(meta):
+		return []
+	total = _first(meta, ("grand_total", "rounded_total"))
+	return [one for one in (_first(meta, PARTY), total) if one]
+
+
 def _first(meta, names) -> str | None:
 	return next((name for name in names if meta.has_field(name)), None)
 
@@ -103,16 +140,24 @@ def _trade(meta) -> list | None:
 			columns.append(f"{found}:{share}")
 	who = [party, *(one for one in ADDRESS if meta.has_field(one))]
 	when = [one for one in (_first(meta, DATED), _first(meta, UNTIL), _first(meta, REFERENCE)) if one]
-	# The totals read as a column of label and figure, each on its line.
-	totals = [
-		{"field": one, "show_label": "inline", "align": "right"} for one in TOTALS if meta.has_field(one)
-	]
+	# The totals read as a column of label and figure, each on its line, the
+	# label at the column's left edge and the figure at its right.
+	totals = [{"field": one, "spread": True} for one in TOTALS if meta.has_field(one)]
 	layout = [
 		[who, when],
 		[[{"table": "items", "columns": columns}]],
 	]
 	if totals:
-		layout.append([["in_words"] if meta.has_field("in_words") else [], totals])
+		layout.append(
+			{
+				"labels_beside": True,
+				"keep_together": True,
+				"columns": [
+					{"width": 55, "blocks": ["in_words"] if meta.has_field("in_words") else []},
+					{"width": 45, "blocks": totals},
+				],
+			}
+		)
 	if meta.has_field("terms"):
 		layout.append({"label": _("Terms"), "columns": [["terms"]]})
 	return layout

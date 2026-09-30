@@ -163,7 +163,8 @@ DOCUMENTS = {
 		"title": "Subprocessors",
 		"audience": "customer",
 		# 3: Cloudflare also sends One's own mails to customers.
-		"revision": 3,
+		# 4: Google Fonts, for a print format that prints in one of its typefaces.
+		"revision": 4,
 		"summary": "Every third party that receives customer data, what for, and where it is kept.",
 	},
 	"ai": {

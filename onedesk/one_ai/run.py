@@ -60,7 +60,10 @@ def ask(
 	turns = list(turns) if turns else None
 	spent, rounds, cards = 0.0, 0, []
 	asked: dict[str, dict] = {}
-	nudged = reminded = pressed = False
+	nudged = reminded = pressed = mended = False
+	# A tool that sends a call back to be mended names itself here, until a
+	# later call to it holds.
+	mend = None
 	called: set[str] = set()
 
 	tell = heard or (lambda step: None)
@@ -93,6 +96,20 @@ def ask(
 			turns = [*out["turns"], {"role": "user", "text": CALL_IT.format(expects), "calls": [], "context": True}]
 			rounds += 1
 			continue
+		if out.get("done") and mend and not mended and rounds < ROUNDS:
+			# A small model handed "mend this and call again" apologises to the
+			# person instead. Asked once more, it makes the call.
+			mended = True
+			turns = [*_unsaid(out["turns"]), {"role": "user", "text": MEND_IT.format(mend), "calls": [], "context": True}]
+			rounds += 1
+			continue
+		if out.get("done") and mend and mended and not nudged and rounds < ROUNDS:
+			# Asked to mend it and it still did not hold: told to answer, a small
+			# model says the thing was made. It was not, and it says that.
+			nudged = True
+			turns = [*_unsaid(out["turns"]), {"role": "user", "text": GAVE_UP.format(mend), "calls": [], "context": True}]
+			rounds += 1
+			continue
 		if out.get("done") and _silent(out, cards) and not nudged and rounds < ROUNDS:
 			# Gemini answers the round after a tool result with nothing, which
 			# is "done" when a card said it and a blank panel when none did.
@@ -120,6 +137,11 @@ def ask(
 			else:
 				answer = asked[key] = _tried(want)
 			card = _card(answer)
+			said = answer.get("answer")
+			if isinstance(said, dict) and said.get("mend"):
+				mend = said["mend"]
+			elif want.get("tool") == mend and not answer.get("error"):
+				mend = None
 			tell({"tool": want.get("tool"), "args": want.get("args") or {}, "ran": bool(answer.get("ran"))})
 			if card:
 				cards.append(card)
@@ -178,6 +200,18 @@ NUDGE = "Now answer the question in one or two sentences from what the tools ret
 CALL_IT = "Now call {0} with what you just wrote. Do not answer in the chat."
 
 
+#: Said to a model that stopped at a call a tool sent back to be mended.
+MEND_IT = (
+	"The call to {0} did not hold. Mend what its answer says and call {0} again. Do not answer in the chat, "
+	"and do not tell them about the error."
+)
+
+#: Said to a model whose mended call still did not hold, so it does not say it did.
+GAVE_UP = (
+	"The call to {0} still did not go through, so nothing was made. Say so in one sentence, without the "
+	"error, and offer something simpler they could ask for."
+)
+
 #: Said to a model that was asked to remember something and did not.
 KEEP_IT = (
 	"The person just said: \"{0}\". Call remember now with the lasting fact in those words — "
@@ -189,6 +223,15 @@ REMEMBER = re.compile(
 	r"\b(remember|keep in mind|don'?t forget|do not forget|make a note|note that|merk|vergiss nicht)\b|تذك|احفظ|لا تنس",
 	re.IGNORECASE,
 )
+
+
+def _unsaid(turns: list[dict]) -> list[dict]:
+	"""The turns with the model's last words taken back: what it said about a
+	call it is now asked to mend is not what the person should read."""
+	turns = list(turns)
+	if turns and turns[-1].get("role") == "model":
+		turns[-1] = {**turns[-1], "text": ""}
+	return turns
 
 
 def _unkept(text: str | None, called: set[str]) -> bool:

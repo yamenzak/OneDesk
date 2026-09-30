@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-30 20:34+0000\n"
-"PO-Revision-Date: 2026-09-30 20:34+0000\n"
+"POT-Creation-Date: 2026-09-30 20:56+0000\n"
+"PO-Revision-Date: 2026-09-30 20:56+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: onedesk/one_ai/run.py:339
+#: onedesk/one_ai/run.py:382
 msgid " and "
 msgstr " und "
 
@@ -192,15 +192,15 @@ msgstr "Eine WebDAV-Adresse beginnt mit https://."
 msgid "A bank account is set up"
 msgstr "Ein Bankkonto ist eingerichtet"
 
-#: onedesk/one/ai.py:1994
+#: onedesk/one/ai.py:2020
 msgid "A barcode's format is QR or CODE128."
 msgstr "Das Format eines Barcodes ist QR oder CODE128."
 
-#: onedesk/one/ai.py:1955 onedesk/one/ai.py:2010
+#: onedesk/one/ai.py:1973 onedesk/one/ai.py:2040
 msgid "A block is a fieldname, '---', or one of table, text, space, barcode, image or html."
 msgstr "Ein Block ist ein Feldname, '---' oder eines von Tabelle, Text, Abstand, Barcode, Bild oder HTML."
 
-#: onedesk/one/ai.py:1957
+#: onedesk/one/ai.py:1975
 msgid "A block's align is left, center or right."
 msgstr "Die Ausrichtung eines Blocks ist links, mittig oder rechts."
 
@@ -371,6 +371,10 @@ msgstr "Ein Ordner, der nur andere wiederholt, etwa „Alle Nachrichten“ in Gm
 msgid "A folder's name cannot hold {0}."
 msgstr "Der Name eines Ordners darf {0} nicht enthalten."
 
+#: onedesk/one/printing.py:603
+msgid "A font is a Google Font's name, such as Playfair Display."
+msgstr "Eine Schrift ist der Name einer Google-Schrift, etwa Playfair Display."
+
 #. Description of the 'Kind' (Select) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 msgid "A grant adds and may expire. A spend and a refund are always against one."
@@ -397,8 +401,8 @@ msgstr "Eine Art von Datensatz, die nach einer Serie nummeriert wird, braucht mi
 msgid "A late customer is reminded"
 msgstr "Ein säumiger Kunde wird erinnert"
 
-#: onedesk/one/printing.py:548 onedesk/one/printing.py:622
-#: onedesk/one/printing.py:625
+#: onedesk/one/printing.py:553 onedesk/one/printing.py:631
+#: onedesk/one/printing.py:634
 msgid "A layout has sections, each of columns of blocks."
 msgstr "Ein Layout besteht aus Abschnitten, jeder aus Spalten mit Blöcken."
 
@@ -731,7 +735,7 @@ msgstr "Ein längerer Scan wird bis hierhin gelesen. Der Rest bleibt über seine
 msgid "A second agent checks each document's actions, approves what is right and sends what is wrong to a person."
 msgstr "Ein zweiter Agent prüft die Aktionen zu jedem Dokument, genehmigt, was stimmt, und gibt Falsches an einen Menschen weiter."
 
-#: onedesk/one/ai.py:2032
+#: onedesk/one/ai.py:2121
 msgid "A section is a list of columns, each a list of blocks."
 msgstr "Ein Abschnitt ist eine Liste von Spalten, jede eine Liste von Blöcken."
 
@@ -760,6 +764,10 @@ msgstr "Eine Kennung besteht aus Buchstaben, Ziffern und Bindestrichen: {0}"
 #: onedesk/one_book/ready.py:148 onedesk/one_book/ready.py:149
 msgid "A supplier's bill cannot be entered twice"
 msgstr "Eine Lieferantenrechnung kann nicht zweimal erfasst werden"
+
+#: onedesk/one/ai.py:1980
+msgid "A table block names its table: {table: 'items', columns: ['item_name:45', 'qty:15']}."
+msgstr "Ein Tabellenblock nennt seine Tabelle: {table: 'items', columns: ['item_name:45', 'qty:15']}."
 
 #: onedesk/one_task/page/my_tasks/my_tasks.js:29
 msgid "A task of your own that is in no project lands here."
@@ -3188,7 +3196,7 @@ msgstr "{0} an {1} ändern"
 msgid "Changed"
 msgstr "Geändert"
 
-#: onedesk/one/ai.py:2244
+#: onedesk/one/ai.py:2456
 msgid "Changed Format"
 msgstr "Geändertes Format"
 
@@ -10433,7 +10441,7 @@ msgstr "Neuer Termin"
 msgid "New Fiscal Year"
 msgstr "Neues Geschäftsjahr"
 
-#: onedesk/one/ai.py:2244
+#: onedesk/one/ai.py:2456
 msgid "New Format"
 msgstr "Neues Format"
 
@@ -10914,7 +10922,7 @@ msgstr "Kein Jahr ist mit offenen Buchungen abgelaufen."
 msgid "No {0} bucket is configured."
 msgstr "Es ist kein {0}-Bucket eingerichtet."
 
-#: onedesk/one/printing.py:574
+#: onedesk/one/printing.py:579
 msgid "No."
 msgstr ""
 
@@ -13585,7 +13593,7 @@ msgstr ""
 msgid "Printing of {0}"
 msgstr "Druck von {0}"
 
-#: onedesk/one/ai.py:1782 onedesk/one/ai.py:2248
+#: onedesk/one/ai.py:1782 onedesk/one/ai.py:2460
 msgid "Prints With"
 msgstr "Druckt mit"
 
@@ -15258,7 +15266,7 @@ msgstr "Geheimnis"
 msgid "Secret Key"
 msgstr "Geheimer Schlüssel"
 
-#: onedesk/one/ai.py:2245
+#: onedesk/one/ai.py:2457
 msgid "Sections"
 msgstr "Abschnitte"
 
@@ -16026,7 +16034,7 @@ msgstr "Jemand, von dem, an den oder über den ein Dokument ist."
 msgid "Somebody changed how {0} looks after you opened this. Refresh to see it; nothing was saved."
 msgstr "Jemand hat das Aussehen von {0} geändert, nachdem Sie dies geöffnet haben. Aktualisieren Sie; nichts wurde gespeichert."
 
-#: onedesk/one/printing.py:862
+#: onedesk/one/printing.py:872
 msgid "Somebody changed {0} after you opened it."
 msgstr "Jemand hat {0} geändert, nachdem Sie es geöffnet haben."
 
@@ -17075,7 +17083,7 @@ msgstr "Arbeitsbereich-Domain"
 msgid "Tenant Event"
 msgstr "Arbeitsbereich-Ereignis"
 
-#: onedesk/one/print_recipes.py:117
+#: onedesk/one/print_recipes.py:162
 msgid "Terms"
 msgstr "Bedingungen"
 
@@ -17701,7 +17709,7 @@ msgstr "Die letzten {0} Tage: was hinzukam und was OneAI jeden Tag verbraucht ha
 msgid "The law says a business keeps this until then. It cannot be deleted before."
 msgstr "Das Gesetz verlangt, dass ein Unternehmen dies bis dahin aufbewahrt. Vorher kann es nicht gelöscht werden."
 
-#: onedesk/one/ai.py:2062
+#: onedesk/one/ai.py:2176
 msgid "The layout would print badly: {0}."
 msgstr "Das Layout würde schlecht gedruckt: {0}."
 
@@ -17836,7 +17844,7 @@ msgstr "Der Verantwortliche wird zu diesem Zeitpunkt erinnert."
 msgid "The page lists this model and no price in effect today."
 msgstr "Die Seite listet dieses Modell und heute keinen gültigen Preis."
 
-#: onedesk/one/printing.py:595
+#: onedesk/one/printing.py:600
 msgid "The page number prints at one of: {0}."
 msgstr "Die Seitenzahl wird an einer dieser Stellen gedruckt: {0}."
 
@@ -18119,7 +18127,7 @@ msgstr "Die Abonnementposition, über die Stripe sie abrechnet."
 msgid "The sync leaves the rates below alone. For a model whose page this cannot read."
 msgstr "Der Abgleich lässt die Preise unten unangetastet. Für ein Modell, dessen Seite nicht gelesen werden kann."
 
-#: onedesk/one/ai.py:1971
+#: onedesk/one/ai.py:1994
 msgid "The table {0} needs its columns."
 msgstr "Die Tabelle {0} braucht ihre Spalten."
 
@@ -18310,11 +18318,11 @@ msgstr "Es gibt keine Feiertagsliste, von der man ausgehen kann."
 msgid "There is no holiday list {0}."
 msgstr "Es gibt keine Feiertagsliste {0}."
 
-#: onedesk/one/printing.py:739
+#: onedesk/one/printing.py:749
 msgid "There is no kind of record here to lay a letter head out on."
 msgstr "Hier gibt es keine Datensatzart, auf der ein Briefkopf gestaltet werden kann."
 
-#: onedesk/one/printing.py:592 onedesk/one/printing.py:719
+#: onedesk/one/printing.py:597 onedesk/one/printing.py:729
 msgid "There is no letter head {0}."
 msgstr "Es gibt keinen Briefkopf {0}."
 
@@ -18654,7 +18662,7 @@ msgstr "Diese Anmeldung wurde ohne Zahlung beendet, und der Name ist wieder frei
 msgid "This site does not administer workspaces."
 msgstr "Diese Site verwaltet keine Arbeitsbereiche."
 
-#: onedesk/one/printing.py:672
+#: onedesk/one/printing.py:682
 msgid "This suggestion does not change how anything prints."
 msgstr "Dieser Vorschlag ändert nicht, wie etwas gedruckt wird."
 
@@ -22355,6 +22363,10 @@ msgstr "Eingabe"
 msgid "invites you to"
 msgstr "lädt Sie ein zu"
 
+#: onedesk/one/ai.py:2174
+msgid "it does not print {0}"
+msgstr "es druckt {0} nicht"
+
 #: onedesk/one_intake/act.py:613 onedesk/one_intake/act.py:623
 #: onedesk/one_intake/act.py:638
 msgid "it has been submitted"
@@ -22611,13 +22623,17 @@ msgstr "hat Version {0} wiederhergestellt"
 msgid "seats"
 msgstr "Plätze"
 
-#: onedesk/one/ai.py:2036
+#: onedesk/one/ai.py:2133
 msgid "section {0} is empty"
 msgstr "Abschnitt {0} ist leer"
 
-#: onedesk/one/ai.py:2023
+#: onedesk/one/ai.py:2107
 msgid "sections is a list of sections, each a list of columns."
 msgstr "sections ist eine Liste von Abschnitten, jeder eine Liste von Spalten."
+
+#: onedesk/one/ai.py:2061
+msgid "sections is not JSON: {0}."
+msgstr "sections ist kein JSON: {0}."
 
 #: onedesk/one_storage/share.py:121
 msgid "shared it with {0}"
@@ -22655,15 +22671,15 @@ msgstr "Text"
 msgid "the AI Gateway"
 msgstr "das AI Gateway"
 
-#: onedesk/one_ai/run.py:328
+#: onedesk/one_ai/run.py:371
 msgid "the added instructions"
 msgstr "die zusätzlichen Anweisungen"
 
-#: onedesk/one_ai/run.py:328
+#: onedesk/one_ai/run.py:371
 msgid "the added instructions, to none"
 msgstr "die zusätzlichen Anweisungen, auf keine"
 
-#: onedesk/one/ai.py:2046
+#: onedesk/one/ai.py:2143
 msgid "the columns of {0} come to {1}%, more than the page"
 msgstr "die Spalten von {0} ergeben {1} %, mehr als die Seite"
 
@@ -22695,11 +22711,11 @@ msgstr "der Standard für {0} ist jetzt {1}"
 msgid "the fiscal year, and .TFY. its short form"
 msgstr "das Geschäftsjahr, und .TFY. seine Kurzform"
 
-#: onedesk/one_ai/run.py:325
+#: onedesk/one_ai/run.py:368
 msgid "the model back to the default"
 msgstr "das Modell zurück auf den Standard"
 
-#: onedesk/one_ai/run.py:325
+#: onedesk/one_ai/run.py:368
 msgid "the model to {0}"
 msgstr "das Modell auf {0}"
 
@@ -22739,7 +22755,7 @@ msgstr "die letzten zwei Ziffern des Jahres, 26"
 msgid "the year, 2026"
 msgstr "das Jahr, 2026"
 
-#: onedesk/one/ai.py:2053
+#: onedesk/one/ai.py:2150
 msgid "there is no field {0} for the barcode"
 msgstr "es gibt kein Feld {0} für den Barcode"
 
@@ -23037,7 +23053,7 @@ msgstr "{0} hat sich nach dem Vorschlag geändert, daher gilt er nicht mehr."
 msgid "{0} changed in this save. Save it first, then edit what it links to."
 msgstr "{0} hat sich mit diesem Speichern geändert. Zuerst speichern, dann das Verknüpfte bearbeiten."
 
-#: onedesk/one_ai/run.py:284
+#: onedesk/one_ai/run.py:327
 msgid "{0} changed this since you opened it. Close it and open it again."
 msgstr "{0} hat dies geändert, seit Sie es geöffnet haben. Schließen und öffnen Sie es erneut."
 
@@ -23219,7 +23235,7 @@ msgstr "Für {0} ist am {1} keine Anwesenheit erfasst."
 msgid "{0} has no billable time that is not invoiced yet."
 msgstr "{0} hat keine abrechenbare Zeit, die noch nicht abgerechnet ist."
 
-#: onedesk/one/mail_templates.py:64 onedesk/one/printing.py:587
+#: onedesk/one/mail_templates.py:64 onedesk/one/printing.py:592
 msgid "{0} has no field {1}."
 msgstr "{0} hat kein Feld {1}."
 
@@ -23288,7 +23304,7 @@ msgstr "{0} ist ein Ordner. Wählen Sie die Dateien darin."
 msgid "{0} is a sub-project of {1}."
 msgstr "{0} ist jetzt ein Unterprojekt von {1}."
 
-#: onedesk/one/ai.py:2051
+#: onedesk/one/ai.py:2148
 msgid "{0} is a table: give it its columns"
 msgstr "{0} ist eine Tabelle: geben Sie ihre Spalten an"
 
@@ -23408,7 +23424,7 @@ msgstr "{0} ist kein Formular, das ein Arbeitsbereich anpasst."
 msgid "{0} is not a form here."
 msgstr "{0} ist hier kein Formular."
 
-#: onedesk/one/printing.py:643
+#: onedesk/one/printing.py:653
 msgid "{0} is not a format of {1} this workspace made."
 msgstr "{0} ist kein Format von {1}, das dieser Arbeitsbereich erstellt hat."
 
@@ -23460,7 +23476,7 @@ msgstr "{0} ist keine Stufe, die ein Betreiber setzt."
 msgid "{0} is not a series of {1}."
 msgstr "{0} ist keine Serie von {1}."
 
-#: onedesk/one/ai.py:2042
+#: onedesk/one/ai.py:2139
 msgid "{0} is not a table"
 msgstr "{0} ist keine Tabelle"
 
@@ -23552,7 +23568,7 @@ msgstr "{0} kennt diese Benachrichtigung nicht. Verwendbar ist {1}."
 msgid "{0} is not the workspace's to change."
 msgstr "{0} kann der Arbeitsbereich nicht ändern."
 
-#: onedesk/one/printing.py:317 onedesk/one/printing.py:723
+#: onedesk/one/printing.py:317 onedesk/one/printing.py:733
 msgid "{0} is not the workspace's to change; it can be made the default or turned off."
 msgstr "{0} kann der Arbeitsbereich nicht ändern; er kann zum Standard gemacht oder ausgeschaltet werden."
 

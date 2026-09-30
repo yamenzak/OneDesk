@@ -527,6 +527,10 @@ PALETTE = ("HTML", "Spacer", "Divider", "Image", "Barcode", "Repeater", "Static 
 
 
 #: Where a format may print its page number (Print Format's page_number).
+#: A Google Font's name as frappe's Print Format takes it (its `font`, which
+#: frappe imports from Google Fonts itself): words of letters and digits.
+FONT = re.compile(r"[A-Za-z0-9]+(?: [A-Za-z0-9]+){0,5}")
+
 PAGE_NUMBER = ("Hide", "Top Left", "Top Center", "Top Right", "Bottom Left", "Bottom Center", "Bottom Right")
 
 
@@ -537,6 +541,7 @@ def format_doc(
 	css: str | None = None,
 	letter_head: str | None = None,
 	page_number: str | None = None,
+	font: str | None = None,
 ):
 	"""A builder format, unsaved, from a layout as the builder stores one: a
 	`header`, `sections` and a `footer`, each of columns of blocks. Every block
@@ -593,10 +598,14 @@ def format_doc(
 		layout["letter_head"] = letter_head
 	if page_number and page_number not in PAGE_NUMBER:
 		frappe.throw(_("The page number prints at one of: {0}.").format(", ".join(PAGE_NUMBER)))
+	font = (font or "").strip()
+	if font and not FONT.fullmatch(font):
+		frappe.throw(_("A font is a Google Font's name, such as Playfair Display."))
 	doc = frappe.new_doc("Print Format")
 	doc.update(
 		{
 			**({"page_number": page_number} if page_number else {}),
+			**({"font": font} if font else {}),
 			"doc_type": doctype,
 			"standard": "No",
 			"print_format_for": "DocType",
@@ -636,6 +645,7 @@ def save_format(values: dict) -> str:
 		json.loads(values["format_data"]),
 		values.get("css"),
 		page_number=values.get("page_number"),
+		font=values.get("font"),
 	)
 	if frappe.db.exists("Print Format", name):
 		held = frappe.get_doc("Print Format", name)

@@ -1922,28 +1922,46 @@ def _on_documents(company) -> dict:
 #: How a print format is written, for a model writing one.
 LAYOUT_HELP = (
 	"sections is a list of sections, top to bottom. A section is a list of columns side by side, or "
-	"{label, columns, keep_together} (label prints above it; keep_together keeps it on one page). A column "
-	"is a list of blocks, top to bottom. A block is: a fieldname of the record, printed as its label and "
-	"value, or {field, label, show_label: false|'inline', align: left|center|right, bold, show_empty} for one "
-	"printed another way; '---' for a line; {table: fieldname, columns: ['item_name:45', 'qty:15', "
-	"'rate:20:Price', 'amount:20'], bordered, show_label} for a table (its label printed above only with show_label), each column a field of its rows with its share "
-	"of the width (together at most 100) and, if it should read differently, its heading; {text: '...', "
-	"align, bold} for fixed words; {space: 12} for room; {barcode: fieldname, format: QR|CODE128}; {image: "
-	"url} for a file of this workspace; or {html: '...'}, a Jinja template of the record only: "
-	"{{ doc.fieldname }}, {{ doc.get_formatted('grand_total') }}, {% for row in doc.items %}...{% endfor %}, "
-	"{% if %}, _('text') and plain filters; values are escaped, and scripts, forms and outside pictures are "
-	"taken out. An empty column is []. heading is the title at the top in the same HTML, frappe's own when "
-	"left out. How it should look: start from print_layout's starting_layout (or the format being changed) "
-	"and change only what was asked. It prints in frappe's own print style, like every other format here, "
-	"so there is no css and no colours or font sizes unless they ask for a look of their own. The party "
-	"and its address go on the left and the dates and references on the right; the items are one table, "
-	"the description widest and the figures narrower; the totals sit under it on the right with the amount "
-	"in words on the left; terms and notes come last, each in a labelled section. The letter head already "
-	"prints the company, so the body does not repeat it. Prefer fields to html."
+	"{label, columns, keep_together, labels_beside} (label prints above it; keep_together keeps it on one "
+	"page; labels_beside prints every field's label on its line, beside the value, as totals read). A column "
+	"is a list of blocks, top to bottom, or {width, blocks} to give it its share of the section (widths are "
+	"shares, such as 55 and 45). A block is: a fieldname of the record, printed as its label above its "
+	"value; or {field, label, show_label: false|'inline', align: left|center|right, bold, show_empty, "
+	"spread} for one printed another way (spread, in a labels_beside section, puts the label at the "
+	"column's left edge and the value at its right); '---' for a line; {table: fieldname, columns: "
+	"['item_name:45', 'qty:15', 'rate:20:Price', 'amount:20'], bordered, striped, show_label} for a table, "
+	"lined between rows unless bordered (boxed) or striped, its label printed above only with show_label, "
+	"each column a field of its rows with its share of the width (together at most 100) and, if it should "
+	"read differently, its heading; {text: '...', align, bold} for fixed words; {space: 12} for room; "
+	"{barcode: fieldname, format: QR|CODE128}; {image: url} for a file of this workspace; or {html: '...'}. "
+	"An empty column is []. heading is the title at the top in the same HTML, frappe's own when left out. "
+	"An html block or heading is Jinja over this one record and nothing else: {{ doc.fieldname }}, "
+	"{{ doc.get('fieldname') }}, {{ doc.get_formatted('grand_total') }} (a value as the form shows it, "
+	"with its currency), {% for row in doc.items %}{{ row.item_name }} {{ row.get_formatted('amount') "
+	"}}{% endfor %} with loop.index, loop.first and loop.last, {% if %}/{% elif %}/{% else %}, {% set x = "
+	"... %}, arithmetic and comparisons, _('text') to translate, the tests defined, undefined, none, number, string, "
+	"odd, even, divisibleby, eq, ne, lt, gt, le, ge and in, and only the filters abs, capitalize, center, "
+	"count, default, escape, first, float, format, int, join, last, length, lower, replace, reverse, "
+	"round, sort, string, striptags, sum, title, trim, truncate, upper and wordcount. Nothing else is "
+	"there: no frappe, no frappe.db or get_all, no other record, no macros, includes or imports, no "
+	"|safe, and no names that start with _; values are escaped, and scripts, forms and outside pictures "
+	"are taken out. For a value from another record, print the field that links to it. How it should "
+	"look: start from print_layout's starting_layout (or the format being changed) and change only what "
+	"was asked. Unless they ask for a look of their own, it prints in the house style, frappe's print "
+	"style spaced and toned as frappe-ui draws a page, so leave css out. When they do ask for a look (a "
+	"colour, a font, a feel), write it as css over frappe's classes (.print-format-doc, .print-heading, "
+	".section, .section-label, .field, .field .label, .field .value, .child-table .table th and td, "
+	"[data-fieldname=...]) and it replaces the house style; with house_style true it is added over the "
+	"house style instead, for a change to it. Their taste wins over the house's. The party and its "
+	"address go on the left and the dates and references on the right; the items are one table, the "
+	"description widest and the figures narrower; the totals sit under it on the right, in a "
+	"labels_beside section with spread fields, and the amount in words on the left; terms and notes come "
+	"last, each in a labelled section. The letter head already prints the company, so the body does not "
+	"repeat it. Prefer fields to html."
 )
 
 #: What a block may say about itself beyond what it is.
-FIELD_OPTIONS = ("label", "show_label", "align", "bold", "show_empty")
+FIELD_OPTIONS = ("label", "show_label", "align", "bold", "show_empty", "spread")
 ALIGN = ("left", "center", "right")
 
 
@@ -1955,15 +1973,20 @@ def _block(one) -> dict:
 		frappe.throw(_("A block is a fieldname, '---', or one of table, text, space, barcode, image or html."))
 	if one.get("align") and one["align"] not in ALIGN:
 		frappe.throw(_("A block's align is left, center or right."))
+	if one.get("columns") and not one.get("table") and (one.get("field") or one.get("fieldname")):
+		# {field: 'items', columns: [...]} can only mean the table.
+		one = {**one, "table": one.get("field") or one.get("fieldname")}
+	if one.get("columns") and not one.get("table"):
+		frappe.throw(_("A table block names its table: {table: 'items', columns: ['item_name:45', 'qty:15']}."))
 	if one.get("table"):
 		columns = []
 		for column in one.get("columns") or []:
-			fieldname, _sep, rest = str(column).partition(":")
+			fieldname, _sep, rest = _column(column).partition(":")
 			width, _sep, label = rest.partition(":")
 			columns.append(
 				{
 					"fieldname": fieldname.strip(),
-					**({"width": frappe.utils.cint(width)} if width.strip() else {}),
+					**({"width": _share(width)} if _share(width) else {}),
 					**({"label": label.strip()} if label.strip() else {}),
 				}
 			)
@@ -1974,7 +1997,10 @@ def _block(one) -> dict:
 			"table_columns": columns,
 			# As frappe's own formats print a table: its columns say what it is.
 			**({} if one.get("show_label") else {"show_label": "hide"}),
-			**({"table_bordered": 1} if one.get("bordered") else {}),
+			# Lined unless boxed or striped is asked for; frappe boxes a table
+			# unless told not to.
+			"table_bordered": 1 if one.get("bordered") else 0,
+			**({"table_style": "striped"} if one.get("striped") else {}),
 		}
 	if "html" in one:
 		return {"fieldtype": "HTML", "html": str(one["html"])}
@@ -1999,6 +2025,10 @@ def _block(one) -> dict:
 		for key in FIELD_OPTIONS:
 			if key in one and one[key] not in (None, ""):
 				block[key] = one[key]
+		if block.pop("spread", None):
+			# Label at the left edge and value at the right, in a section whose
+			# labels sit beside their values.
+			block["label_justify"] = "space-between"
 		if "show_label" in block:
 			# frappe's word for it: show, hide, or inline (beside the value).
 			said = block.pop("show_label")
@@ -2010,6 +2040,58 @@ def _block(one) -> dict:
 	frappe.throw(_("A block is a fieldname, '---', or one of table, text, space, barcode, image or html."))
 
 
+def _parsed(text: str):
+	"""Sections written as JSON text, or as the Python a model sometimes writes
+	instead: True, False and None outside a string are JSON's words for them."""
+	try:
+		return json.loads(text)
+	except ValueError:
+		pass
+	# Outside strings only: split on quoted runs and mend the pieces between.
+	parts = re.split(r'("(?:[^"\\]|\\.)*")', text)
+	mended = "".join(
+		part
+		if n % 2
+		else re.sub(r"\bTrue\b", "true", re.sub(r"\bFalse\b", "false", re.sub(r"\bNone\b", "null", part)))
+		for n, part in enumerate(parts)
+	)
+	try:
+		return json.loads(mended)
+	except ValueError as e:
+		frappe.throw(_("sections is not JSON: {0}.").format(str(e)))
+
+
+def _share(value) -> int:
+	"""A width as a share of the page: 45, "45" and "45%" alike."""
+	return frappe.utils.cint(str(value or "").strip().rstrip("%").strip())
+
+
+def _column(column) -> str:
+	"""A table column as 'fieldname:width:Heading', however it was written:
+	{field: 'qty', width: 15, label: 'Qty'} is the same column spelled out."""
+	if not isinstance(column, dict):
+		return str(column)
+	fieldname, _sep, rest = str(column.get("field") or column.get("fieldname") or "").partition(":")
+	width, _sep, label = rest.partition(":")
+	width = str(_share(column.get("width") or width) or "")
+	label = str(column.get("label") or label)
+	return ":".join((fieldname, width, label)).rstrip(":")
+
+
+def _paired(column: list) -> list:
+	"""A column as a model meant it: a table's fieldname written just before
+	its columns, as "items", {"columns": [...]}, is that table once."""
+	out = []
+	for one in column:
+		before = out[-1] if out else None
+		if isinstance(one, dict) and one.get("columns") and isinstance(before, str):
+			if one.get("table") in (None, before.strip()):
+				out[-1] = {**one, "table": before.strip()}
+				continue
+		out.append(one)
+	return out
+
+
 def _built(sections, heading: str | None, doctype: str | None = None) -> dict:
 	"""The builder's layout from sections as a model writes them, checked for
 	what would print badly: an empty section, a table without columns or wider
@@ -2017,21 +2099,36 @@ def _built(sections, heading: str | None, doctype: str | None = None) -> dict:
 	field the kind does not have."""
 	from frappe.printing.doctype.print_format.classic_converter import DEFAULT_PRINT_HEADING
 
+	from onedesk.one import print_recipes
+
 	if isinstance(sections, str):
-		sections = frappe.parse_json(sections)
+		sections = _parsed(sections)
 	if not isinstance(sections, list) or not sections:
 		frappe.throw(_("sections is a list of sections, each a list of columns."))
 	meta = frappe.get_meta(doctype) if doctype else None
 	problems = []
 	built = []
 	for n, section in enumerate(sections, 1):
-		label, keep = "", False
+		label, keep, beside = "", False, False
 		if isinstance(section, dict):
-			label, keep, section = section.get("label") or "", section.get("keep_together"), section.get("columns") or []
+			label, keep, beside = (
+				section.get("label") or "",
+				section.get("keep_together"),
+				section.get("labels_beside"),
+			)
+			section = section.get("columns") or []
 		if not isinstance(section, list):
 			frappe.throw(_("A section is a list of columns, each a list of blocks."))
-		columns = [column if isinstance(column, list) else [column] for column in section]
-		blocks = [[_block(b) for b in c] for c in columns]
+		widths = []
+		columns = []
+		for column in section:
+			if isinstance(column, dict) and "blocks" in column:
+				widths.append(_share(column.get("width")))
+				column = column["blocks"]
+			else:
+				widths.append(0)
+			columns.append(column if isinstance(column, list) else [column])
+		blocks = [[_block(b) for b in _paired(c)] for c in columns]
 		if not any(blocks):
 			problems.append(_("section {0} is empty").format(label or n))
 		for column in blocks:
@@ -2055,9 +2152,26 @@ def _built(sections, heading: str | None, doctype: str | None = None) -> dict:
 			{
 				"label": label,
 				**({"keep_together": 1} if keep else {}),
-				"columns": [{"label": "", "fields": column} for column in blocks],
+				**({"field_orientation": "left-right"} if beside else {}),
+				"columns": [
+					{"label": "", "fields": column, **({"width": width} if width else {})}
+					for column, width in zip(blocks, widths, strict=True)
+				],
 			}
 		)
+	if doctype:
+		printed = {
+			block.get("fieldname") for section in built for c in section["columns"] for block in c["fields"]
+		}
+		written = " ".join(
+			str(block.get("html") or block.get("text") or "")
+			for section in built
+			for c in section["columns"]
+			for block in c["fields"]
+		) + str(heading or "")
+		missing = [one for one in print_recipes.essentials(doctype) if one not in printed and one not in written]
+		if missing:
+			problems.append(_("it does not print {0}").format(", ".join(missing)))
 	if problems:
 		frappe.throw(_("The layout would print badly: {0}.").format("; ".join(problems)))
 	top = heading or DEFAULT_PRINT_HEADING
@@ -2091,7 +2205,8 @@ def _written(layout, meta=None) -> dict | None:
 			return {
 				"table": one.get("fieldname"),
 				"columns": [column(c) for c in one["table_columns"]],
-				**({"bordered": True} if one.get("table_bordered") else {}),
+				**({"bordered": True} if one.get("table_bordered") not in (0, False) else {}),
+				**({"striped": True} if one.get("table_style") == "striped" else {}),
 				**({"show_label": True} if one.get("show_label") not in (None, "hide") else {}),
 			}
 		if kind == "HTML":
@@ -2110,7 +2225,7 @@ def _written(layout, meta=None) -> dict | None:
 		options = {
 			key: one[key]
 			for key in FIELD_OPTIONS
-			if key not in ("label", "show_label") and one.get(key) not in (None, "")
+			if key not in ("label", "show_label", "spread") and one.get(key) not in (None, "")
 		}
 		if one.get("show_label") == "hide":
 			options["show_label"] = False
@@ -2118,21 +2233,27 @@ def _written(layout, meta=None) -> dict | None:
 			options["show_label"] = "inline"
 		if own and one.get("label") and one["label"] != own.label:
 			options["label"] = one["label"]
+		if one.get("label_justify") == "space-between":
+			options["spread"] = True
 		return {"field": one.get("fieldname"), **options} if options else one.get("fieldname")
 
 	sections = []
 	for section in layout.get("sections") or []:
-		columns = [
-			[b for b in (block(one) for one in column.get("fields") or [] if isinstance(one, dict)) if b]
-			for column in section.get("columns") or []
-		]
-		if any(columns):
-			if section.get("label") or section.get("keep_together"):
+		columns = []
+		for column in section.get("columns") or []:
+			said = [
+				b for b in (block(one) for one in column.get("fields") or [] if isinstance(one, dict)) if b
+			]
+			columns.append({"width": column["width"], "blocks": said} if column.get("width") else said)
+		if any(one.get("blocks") if isinstance(one, dict) else one for one in columns):
+			beside = section.get("field_orientation") == "left-right"
+			if section.get("label") or section.get("keep_together") or beside:
 				sections.append(
 					{
 						"label": section.get("label") or "",
 						"columns": columns,
 						**({"keep_together": True} if section.get("keep_together") else {}),
+						**({"labels_beside": True} if beside else {}),
 					}
 				)
 			else:
@@ -2145,6 +2266,70 @@ def _written(layout, meta=None) -> dict | None:
 	]
 	heading = top[0] if top and top[0] != DEFAULT_PRINT_HEADING else None
 	return {"sections": sections, **({"heading": heading} if heading else {})}
+
+
+def _laid_out(doctype: str, sections, heading: str | None, existing) -> dict:
+	"""The layout a design prints: the sections given; without them, a changed
+	format's own layout as the builder left it (a restyle changes only its
+	css), or a new one's starting layout."""
+	from onedesk.one import print_recipes
+
+	if sections:
+		return _built(sections, heading, doctype)
+	if existing and existing.format_data:
+		if not heading:
+			return json.loads(existing.format_data)
+		written = _written(json.loads(existing.format_data), frappe.get_meta(doctype))
+		return _built(written["sections"], heading, doctype)
+	return _built(print_recipes.starting_layout(doctype), heading, doctype)
+
+
+def _redo(doctype: str, error: str) -> dict:
+	"""A design that did not hold, handed back with what to start again from,
+	so a model that skipped print_layout, or wrote a block wrong, mends it in
+	the next round rather than telling the person what went wrong inside."""
+	from onedesk.one import print_recipes
+
+	try:
+		start = print_recipes.starting_layout(doctype)
+	except (frappe.ValidationError, frappe.PermissionError, frappe.DoesNotExistError):
+		frappe.clear_last_message()
+		start = None
+	return {
+		"error": error,
+		"mend": "design_print_format",
+		"next": "Mend the sections and call design_print_format again; this is for you, not for them. Start "
+		"from starting_layout and change only what they asked, or leave sections out for the starting "
+		"layout as it is. When they asked for a look rather than a layout, leave sections out and send only "
+		"css (over the classes css names) and font.",
+		**({"starting_layout": start} if start else {}),
+		"how": LAYOUT_HELP,
+	}
+
+
+def _styled(css: str | None, house: bool | None, before: str | None) -> str | None:
+	"""The css a format prints with: the house style unless a look was asked
+	for, that look alone, or the house style with it over the top. A changed
+	format left without css keeps its own."""
+	from onedesk.one.print_recipes import HOUSE_CSS
+
+	css = (css or "").strip()
+	if house:
+		return f"{HOUSE_CSS}\n{css}" if css else HOUSE_CSS
+	if css:
+		return css
+	return before if before is not None else HOUSE_CSS
+
+
+def _style_of(css: str | None) -> dict:
+	"""A format's css as print_layout tells it: whether it is the house style,
+	and whatever it carries beyond it."""
+	from onedesk.one.print_recipes import HOUSE_CSS
+
+	css = css or ""
+	if css.startswith(HOUSE_CSS):
+		return {"house_style": True, "css": css[len(HOUSE_CSS) :].strip() or None}
+	return {"house_style": False, "css": css or None}
 
 
 def print_layout(
@@ -2164,7 +2349,7 @@ def print_layout(
 		meta = frappe.get_meta(doctype)
 		name = print_format or next(iter(printing.starts(doctype)), frappe._dict()).get("name")
 		held = (
-			frappe.db.get_value("Print Format", name, ["doc_type", "format_data", "css", "page_number"], as_dict=True)
+			frappe.db.get_value("Print Format", name, ["doc_type", "format_data", "css", "page_number", "font"], as_dict=True)
 			if name
 			else None
 		)
@@ -2180,8 +2365,9 @@ def print_layout(
 			"starting_layout": print_recipes.starting_layout(doctype),
 			"format": name,
 			"written": _written(json.loads(held.format_data), meta) if held and held.format_data else None,
-			"css": held.css if held else None,
+			**(_style_of(held.css) if held else {"house_style": True, "css": None}),
 			"page_number": held.page_number if held else None,
+			"font": held.font if held else None,
 			"how": LAYOUT_HELP,
 		}
 	except (frappe.ValidationError, frappe.PermissionError) as e:
@@ -2195,15 +2381,33 @@ def design_print_format(
 	sections: Annotated[
 		str,
 		"The sections as JSON text, top to bottom: each a list of columns, each a list of blocks, as "
-		"print_layout's how says. Example: [[['customer_name'], ['posting_date', 'due_date']], "
-		"[[{\"table\": \"items\", \"columns\": [\"item_name:60\", \"qty:15\", \"amount:25\"]}]], [[], ['grand_total']]]",
-	],
+		"print_layout's how says: its starting_layout with only what they asked changed. Leave out to "
+		"print the starting layout as it is, which is what a plain request for a good format wants, or, "
+		"changing a format, to keep its layout and change only its look.",
+	]
+	| None = None,
 	heading: Annotated[str, "The title at the top, as an HTML template of the record; frappe's own if left out."]
 	| None = None,
 	css: Annotated[
 		str,
-		"Leave out: the format prints in frappe's own print style, like every other one here. Only for a "
-		"look they asked for by name, and then no imports or outside URLs.",
+		"Leave out for the house style (a changed format keeps its own). Only for a look they asked for: "
+		"css that replaces the house style, written over frappe's print classes and nothing else: "
+		".print-format-doc (the page), .print-heading h2 and .print-heading .sub-heading (the title), "
+		".section, .section-label, .field .label, .field .value, .child-table .table th, .child-table "
+		".table td, .child-table .table tr.even td (every other row), and .field[data-fieldname=grand_total] "
+		"for one field. No imports or outside URLs; a typeface is font.",
+	]
+	| None = None,
+	font: Annotated[
+		str,
+		"A Google Font the whole page prints in, by its name, such as Playfair Display or Lora, when they "
+		"ask for a typeface; frappe's own Inter when left out.",
+	]
+	| None = None,
+	house_style: Annotated[
+		bool,
+		"True to print in the house style with css added over it, for a change to the house look rather "
+		"than a look of their own.",
 	]
 	| None = None,
 	page_number: Annotated[
@@ -2231,15 +2435,23 @@ def design_print_format(
 	if not name:
 		return {"error": "Give the format a name."}
 	try:
-		existing = frappe.db.get_value("Print Format", name, ["standard", "doc_type"], as_dict=True)
+		existing = frappe.db.get_value(
+			"Print Format", name, ["standard", "doc_type", "css", "format_data"], as_dict=True
+		)
 		if existing and (existing.standard == "Yes" or existing.doc_type != doctype):
 			return {"error": f"{name} is not a format of {doctype} this workspace made; choose another name."}
 		doc = printing.format_doc(
-			doctype, name, _built(sections, heading, doctype), css, letter_head, page_number
+			doctype,
+			name,
+			_laid_out(doctype, sections, heading, existing),
+			_styled(css, house_style, (existing.css or "") if existing else None),
+			letter_head,
+			page_number,
+			font,
 		)
 	except (frappe.ValidationError, frappe.PermissionError) as e:
 		frappe.clear_last_message()
-		return {"error": str(e)}
+		return _redo(doctype, str(e))
 	summary = [
 		{"label": _("Changed Format") if existing else _("New Format"), "value": name},
 		{"label": _("Sections"), "value": str(len(frappe.parse_json(doc.format_data).get("sections") or []))},
@@ -2258,6 +2470,7 @@ def design_print_format(
 					"format_data": doc.format_data,
 					"css": doc.css,
 					**({"page_number": doc.page_number} if page_number else {}),
+					**({"font": doc.font} if font else {}),
 				},
 				"default_format": name if make_default else None,
 				"summary": summary,

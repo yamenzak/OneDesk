@@ -2,7 +2,7 @@
 docs/PASSOVER.md point 8: each screen's lines are added as the pass reaches it.
 """
 
-from onedesk.one_legal.registry import clause
+from onedesk.one_legal.registry import clause, subprocessor
 
 M = "One"
 
@@ -120,4 +120,18 @@ clause(
 		it stops opening there; the address we give your workspace keeps working for as long as the workspace
 		does.
 	""",
+)
+
+# Workspace Settings › Printing
+
+subprocessor(
+	name="Google LLC",
+	module=M,
+	purpose="Google Fonts, for a print format set to print in one of its typefaces: the page asks Google for "
+	"the font when it is opened or turned into a PDF",
+	data="The address of the browser or server opening the page, and which font it asks for; nothing printed "
+	"on the page",
+	where="Google's network",
+	safeguard="Standard Contractual Clauses and Google's data processing terms",
+	url="https://developers.google.com/fonts/faq/privacy",
 )
