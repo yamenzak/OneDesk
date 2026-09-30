@@ -60,7 +60,7 @@ def ask(
 	turns = list(turns) if turns else None
 	spent, rounds, cards = 0.0, 0, []
 	asked: dict[str, dict] = {}
-	nudged = reminded = pressed = mended = False
+	nudged = reminded = pressed = mended = handed = False
 	# A tool that sends a call back to be mended names itself here, until a
 	# later call to it holds.
 	mend = None
@@ -81,6 +81,19 @@ def ask(
 			tools=offered,
 		)
 		spent += float(out.get("credits") or 0)
+		wanted = {surface.action_of(want.get("tool")) for want in out.get("wants") or []} - {None, action}
+		if wanted and not handed and rounds < ROUNDS:
+			# The model reached for a tool that another action runs, on a model
+			# that does it well: Print Design lays a page out, which the chat's
+			# small model gets wrong. That action takes the conversation from
+			# here, asked the same thing again, and keeps it to the end of the
+			# run; its calls are charged to it.
+			handed = True
+			action = sorted(wanted)[0]
+			chose = mine(action)
+			tell({"handed": action})
+			rounds += 1
+			continue
 		if out.get("done") and not reminded and _unkept(text, called) and rounds < ROUNDS:
 			# "I will remember that" with no call behind it is a promise a
 			# small model makes and does not keep. Asked for the call, it makes it.

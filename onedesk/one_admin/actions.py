@@ -264,7 +264,7 @@ def _model(asked, wanted: str | None) -> str:
 		if says and says.offered and says.status == "Priced" and capability.able(says.capability, asked.capability):
 			return wanted
 
-	fallback = default_model(asked.capability)
+	fallback = action_default(asked)
 	if not fallback:
 		raise Refused(
 			f"no offered model can do {asked.capability.lower()}, "
@@ -277,6 +277,18 @@ def _model(asked, wanted: str | None) -> str:
 #: Settings says otherwise. The owner's call: Gemini is the better model for
 #: everything OneAI does.
 PREFERRED = "google-ai-studio"
+
+
+def action_default(asked) -> str | None:
+	"""What an action runs on when the workspace picked nothing: the model the
+	action names for itself (Print Design, which a small model gets wrong),
+	while it is offered, else the default for what it needs."""
+	own = asked.get("default_model")
+	if own:
+		says = frappe.db.get_value("AI Model", own, ["capability", "offered", "status"], as_dict=True)
+		if says and says.offered and says.status == "Priced" and capability.able(says.capability, asked.capability):
+			return own
+	return default_model(asked.capability)
 
 
 def default_model(needs: str) -> str | None:

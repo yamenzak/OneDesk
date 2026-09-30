@@ -499,6 +499,15 @@ def declared() -> list[dict]:
 	return [schema.of(fn) for fn in reads + suggests]
 
 
+def action_of(name: str | None) -> str | None:
+	"""The action a tool asks to be run under, when it is not whichever is
+	running: a tool a small model gets wrong names a stronger one (Print
+	Design), and the loop hands the conversation to it."""
+	reads, suggests = _every()
+	fn = {one.__name__: one for one in reads + suggests}.get(name or "")
+	return getattr(fn, "action", None)
+
+
 def run(name: str, args: dict | None = None) -> dict:
 	"""Call one tool as the person asking, and say whether it happened.
 

@@ -4442,6 +4442,36 @@ and "not printed" where frappe's own formats leave a field off (97 of Sales
 Invoice's 148). It is written a line a field, which puts Sales Invoice at 25KB
 rather than 42KB.
 
+**Print design on a stronger model. Fixed.** Live, on the chat's flash-lite:
+- of four requests (a bill with a QR code, a PAID stamp, a receipt, a fully
+  custom page), two failed;
+- the other two made poor pages: six fields squeezed into one row, and a
+  "custom" page that was a yellow background.
+
+Now:
+- `AI Action` has **Runs On**, a model an action names for itself ahead of the
+  default for what it needs (`actions.action_default`, used wherever a
+  default is worked out).
+- A **Print Design** action runs on gemini-2.5-flash with 4000 output tokens.
+- The two tools that lay a page out name that action, and the loop hands the
+  conversation over the moment the chat's model reaches for one
+  (`tools.action_of`, `handed`).
+- A second fault was hiding behind "answered with nothing in it": Gemini's
+  `MALFORMED_FUNCTION_CALL`, which a long multi-line stylesheet brings on. The
+  gateway now recognises it (`faults.Malformed`) and asks once more for the
+  arguments on one line.
+
+The same four requests all made cards:
+- a bill with its QR code;
+- the invoice with a PAID stamp in an HTML block beside the builder's totals;
+- a tidy receipt;
+- a centred receipt with the amount large.
+
+A design costs about 15 to 35 credits against about 4 on flash-lite. Still
+wrong on the last one: it printed the naming series where the receipt's number
+belongs, and the amount unformatted. Fixture action labels are not in the
+translation files, for any action.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

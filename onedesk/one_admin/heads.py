@@ -557,9 +557,12 @@ def model_used(doc):
 	runs = [
 		_(one.label)
 		for one in frappe.get_all(
-			"AI Action", filters={"enabled": 1}, fields=["label", "capability"], order_by="label"
+			"AI Action",
+			filters={"enabled": 1},
+			fields=["label", "capability", "default_model"],
+			order_by="label",
 		)
-		if actions.default_model(one.capability) == doc.name
+		if actions.action_default(one) == doc.name
 	]
 	month = ledger.usage(get_first_day(getdate()), add_days(getdate(), 1), ["tenant"], model=doc.name)
 	said = []

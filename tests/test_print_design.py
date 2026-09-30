@@ -165,3 +165,34 @@ def test_blocks_then_a_block_of_html_then_a_page_of_it():
 	assert first < then < last
 	assert "Never " in help_ and "html for what a block already prints" in help_
 	assert "not written by hand" in PRINTING
+
+
+def test_print_design_runs_on_a_model_that_lays_a_page_out():
+	"""The two tools that lay a page out name Print Design; the chat hands the
+	conversation to it the moment its model reaches for one; and Print Design
+	names its own model, a stronger one than the chat's, with room for a
+	page's long answer."""
+	import json
+
+	assert 'print_layout.action = design_print_format.action = "print_design"' in AI
+	tools = (tree.APP / "one_ai" / "tools.py").read_text()
+	assert 'getattr(fn, "action", None)' in _body(tools, "action_of")
+	assert "surface.action_of(" in RUN and "chose = mine(action)" in RUN
+	fixture = json.loads((tree.APP / "fixtures" / "ai_action.json").read_text())
+	design = next(one for one in fixture if one["name"] == "print_design")
+	chat = next(one for one in fixture if one["name"] == "chat")
+	assert design["default_model"] and design["may_use_tools"]
+	assert design["max_output_tokens"] > chat["max_output_tokens"]
+	actions = (tree.APP / "one_admin" / "actions.py").read_text()
+	assert "fallback = action_default(asked)" in _body(actions, "_model")
+	assert 'asked.get("default_model")' in _body(actions, "action_default")
+
+
+def test_a_tool_call_the_provider_could_not_read_is_asked_again():
+	"""Gemini's MALFORMED_FUNCTION_CALL, which a long stylesheet or layout
+	brings on, is recognised rather than said as an empty answer, and the call
+	is asked for again on one line."""
+	gateway = (tree.APP / "one_admin" / "gateway.py").read_text()
+	assert '"MALFORMED_FUNCTION_CALL"' in _body(gateway, "_malformed")
+	assert "except faults.Malformed:" in _body(gateway, "_said")
+	assert "ONE_LINE" in _body(gateway, "_said")

@@ -286,15 +286,22 @@ def _unpriced(spent: pricing.Bill) -> str:
 	return f"nothing in the catalogue prices {said}" if said else ""
 
 
+#: Said to a model whose tool call its provider could not read.
+ONE_LINE = (
+	"Your last tool call could not be read. Make it again with every argument on one line: plain JSON "
+	"strings with \\n for a line break, no triple quotes and no code around the call."
+)
+
+
 def _said(
 	sold, turns: list[dict], caps: dict, tenant: str, system: str | None, tools: list[dict] | None
 ) -> tuple[str, list[dict], dict]:
 	"""The words, what it asked for, and the whole body — which carries the usage."""
 	most = int(caps.get("output_tokens") or MOST)
-	asking = lambda: through(  # noqa: E731
+	asking = lambda said=(): through(  # noqa: E731
 		sold.provider,
 		sold.model,
-		turns,
+		[*turns, *said],
 		most=most,
 		tenant=tenant,
 		whole=True,
@@ -303,6 +310,11 @@ def _said(
 	)
 	try:
 		return asking()
+	except faults.Malformed:
+		# Measured: gemini-2.5-flash designing a print format writes its
+		# stylesheet and layout over many lines, and the call does not read.
+		# Told so, in a turn only it sees, it writes them on one line.
+		return asking(({"role": "user", "text": ONE_LINE, "calls": []},))
 	except faults.Blank as raised:
 		# Right after a tool answered, nothing is an answer: the model did what
 		# it was asked — a receipt became a card — and has nothing to add.
@@ -365,6 +377,8 @@ def _answered(model: str, spoken: dict, answer, whole: bool = False):
 		empty = faults.Blank(f"{model} answered with nothing in it", 200, json.dumps(body)[: faults.KEPT])
 		empty.body = body
 		raise empty
+	if words is None and not wants and _malformed(body):
+		raise faults.Malformed(f"{model} wrote a tool call it could not read", 200, json.dumps(body)[: faults.KEPT])
 	if words is None and not wants:
 		# A 200 with neither words nor a tool call in it is not an empty answer,
 		# it is a shape we do not understand — and treating it as an empty
@@ -372,6 +386,14 @@ def _answered(model: str, spoken: dict, answer, whole: bool = False):
 		# returning blanks to customers.
 		raise Refused(f"{model} answered 200 with nothing in it", 200, json.dumps(body)[: faults.KEPT])
 	return (words or "", wants, body) if whole else (words or "")
+
+
+def _malformed(body) -> bool:
+	"""Gemini's own word for a tool call it wrote and could not read."""
+	candidates = (body or {}).get("candidates") if isinstance(body, dict) else None
+	return bool(candidates) and isinstance(candidates[0], dict) and (
+		candidates[0].get("finishReason") == "MALFORMED_FUNCTION_CALL"
+	)
 
 
 def _blank(body) -> bool:

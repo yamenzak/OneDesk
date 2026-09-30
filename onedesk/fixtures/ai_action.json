@@ -57,6 +57,21 @@
  },
  {
   "doctype": "AI Action",
+  "name": "print_design",
+  "key": "print_design",
+  "label": "Print Design",
+  "capability": "Text Generation",
+  "enabled": 1,
+  "may_use_tools": 1,
+  "instruction": "Design the print format asked for. Read print_layout first and build from its starting_layout, or from the format being changed, and change only what was asked. When the card is made, say in one sentence what the page does.",
+  "max_output_tokens": 4000,
+  "max_input_tokens": 0,
+  "about": "Designs print formats when the chat is asked for one. It runs on a stronger model than the chat, because a page is laid out in one long, exact answer that a small model gets wrong.",
+  "product": "OneAI",
+  "default_model": "google-ai-studio:gemini-2.5-flash"
+ },
+ {
+  "doctype": "AI Action",
   "name": "screen",
   "key": "screen",
   "label": "Screen Applicants",

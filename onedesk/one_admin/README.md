@@ -384,7 +384,12 @@ What is yours to decide:
   something else that can do it, else the cheapest offered model from the
   **Preferred Provider** in Settings (Google). A workspace whose own pick is
   withdrawn falls back the same way rather than failing. An action nothing can
-  run is on Home, under Needs You.
+  run is on Home, under Needs You. An action may name its own model instead
+  (**Runs On** on the AI Action): **Print Design** runs on gemini-2.5-flash,
+  because laying a page out is one long, exact answer that the chat's small
+  model gets wrong. The chat hands a conversation to Print Design the moment
+  it reaches for `print_layout` or `design_print_format`, and those rounds are
+  charged to Print Design.
 - **Markup**: empty uses the default in Settings.
 - **Priced by Hand**: for a model whose price page cannot be read. **Needs
   review** says what the page said that could not be read; price it by hand,

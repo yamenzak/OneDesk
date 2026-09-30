@@ -36,6 +36,15 @@ class Blank(Again):
 	"""
 
 
+class Malformed(Again):
+	"""A model wrote a tool call its own provider could not read back.
+
+	Gemini's MALFORMED_FUNCTION_CALL: it writes the call as code and a long
+	argument spread over lines (a layout, a stylesheet) breaks it. Asked again
+	with that said, it writes the arguments on one line and the call reads.
+	"""
+
+
 def worth_retrying(status: int) -> bool:
 	"""Whether this status will plausibly answer differently in two minutes.
 

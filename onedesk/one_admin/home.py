@@ -441,9 +441,12 @@ def _unmodelled() -> list[dict]:
 
 	rows = []
 	for one in frappe.get_all(
-		"AI Action", filters={"enabled": 1}, fields=["name", "label", "capability"], order_by="label"
+		"AI Action",
+		filters={"enabled": 1},
+		fields=["name", "label", "capability", "default_model"],
+		order_by="label",
 	):
-		if actions.default_model(one.capability):
+		if actions.action_default(one):
 			continue
 		rows.append(
 			{

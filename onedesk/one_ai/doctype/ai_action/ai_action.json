@@ -14,6 +14,7 @@
   "product",
   "column_break_what",
   "capability",
+  "default_model",
   "enabled",
   "may_use_tools",
   "instruction_section",
@@ -65,6 +66,12 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "description": "A model that can do more than this may still answer it."
+  },
+  {
+   "fieldname": "default_model",
+   "fieldtype": "Data",
+   "label": "Runs On",
+   "description": "An AI Model's name this action runs on when a workspace picks none, in place of the default for what it needs."
   },
   {
    "default": "1",
@@ -129,7 +136,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-22 23:00:00.000000",
+ "modified": "2026-10-01 02:00:00.000000",
  "modified_by": "Administrator",
  "module": "One AI",
  "name": "AI Action",

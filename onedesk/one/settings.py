@@ -1340,7 +1340,7 @@ def _oneai() -> dict:
 	actions = frappe.get_all(
 		"AI Action",
 		filters={"enabled": 1},
-		fields=["name", "label", "about", "capability", "product"],
+		fields=["name", "label", "about", "capability", "product", "default_model"],
 		order_by="product asc, label asc",
 	)
 	catalogue, used = {}, {}
@@ -1364,6 +1364,9 @@ def _oneai() -> dict:
 				"about": _(one.about) if one.about else None,
 				"capability": one.capability,
 				"product": one.product or "OneAI",
+				# The model the action names for itself, when it names one: the
+				# screen's Default for it rather than the default for what it needs.
+				"default_model": one.default_model,
 				"model": held.get("model"),
 				"extra": held.get("extra"),
 				"setting": held.get("name"),

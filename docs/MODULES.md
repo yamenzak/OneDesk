@@ -72,7 +72,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| AI Action | 15 | document |
+| AI Action | 16 | document |
 | AI Action Setting | 6 | document |
 | AI Chat | 7 | document |
 | AI Knowledge | 6 | document |

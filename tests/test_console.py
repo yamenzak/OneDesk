@@ -604,7 +604,9 @@ def test_an_action_nobody_picked_a_model_for_still_runs_on_gemini():
 	actions = (ADMIN / "actions.py").read_text()
 	assert 'PREFERRED = "google-ai-studio"' in actions and "def default_model(" in actions
 	choose = actions.split("def _model(")[1].split("\ndef ")[0]
-	assert "default_model(asked.capability)" in choose and "is not a model this account offers" not in choose
+	assert "fallback = action_default(asked)" in choose and "is not a model this account offers" not in choose
+	# An action may name its own model (Print Design); else the capability's.
+	assert "return default_model(asked.capability)" in actions.split("def action_default(")[1].split("\ndef ")[0]
 	settings = json.loads((ADMIN / "doctype" / "one_admin_settings" / "one_admin_settings.json").read_text())
 	assert {f["fieldname"]: f for f in settings["fields"]}["prefer_models_from"]["default"] == "google-ai-studio"
 	catalogue = (ADMIN / "catalogue.py").read_text()

@@ -414,8 +414,10 @@ def model_facts(
 	]
 	said = {
 		"actions": [
-			{"action": one.label, "needs": one.capability, "runs_on": actions.default_model(one.capability)}
-			for one in frappe.get_all("AI Action", filters={"enabled": 1}, fields=["label", "capability"])
+			{"action": one.label, "needs": one.capability, "runs_on": actions.action_default(one)}
+			for one in frappe.get_all(
+				"AI Action", filters={"enabled": 1}, fields=["label", "capability", "default_model"]
+			)
 		],
 		"offered": frappe.get_all(
 			"AI Model", filters={"offered": 1}, fields=fields, order_by="provider, label"

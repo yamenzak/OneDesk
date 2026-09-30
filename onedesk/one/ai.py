@@ -2489,3 +2489,9 @@ def design_print_format(
 		"next": "Tell them See the Page on the card shows it on their latest record, and that once approved "
 		"it opens in the print format builder from the record's Settings > Print Formats.",
 	}
+
+
+# The two tools that lay a page out are run by Print Design, not the chat: a
+# small model lays a page out wrong, so the chat hands the conversation over
+# the moment it reaches for one (one_ai/run.py, tools.action_of).
+print_layout.action = design_print_format.action = "print_design"

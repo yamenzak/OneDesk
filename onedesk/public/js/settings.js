@@ -2007,10 +2007,16 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	static model_of(catalogue, one) {
 		const offered = (catalogue || {})[one.capability] || [];
 		const picked = one.model && offered.find((m) => m.name === one.model);
-		const fallback = offered.find((m) => m.default);
+		const fallback = Settings.fallback(offered, one);
 		if (picked) return { ...picked, chosen: true };
 		if (one.model) return { name: one.model, label: one.model, chosen: true, gone: true };
 		return fallback ? { ...fallback, chosen: false } : null;
+	}
+
+	// What an action runs on when nothing is chosen: the model it names for
+	// itself, while it is offered, else the default for what it needs.
+	static fallback(offered, one) {
+		return (one.default_model && offered.find((m) => m.name === one.default_model)) || offered.find((m) => m.default);
 	}
 
 	// The product an action works for, as a badge with its mark.
@@ -2034,7 +2040,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	action_dialog(one, catalogue) {
 		const esc = frappe.utils.escape_html;
 		const offered = (catalogue || {})[one.capability] || [];
-		const fallback = offered.find((m) => m.default);
+		const fallback = Settings.fallback(offered, one);
 		const options = [
 			{ value: "", label: fallback ? __("Default: {0}", [fallback.label]) : __("Default") },
 			...offered.map((m) => ({ value: m.name, label: `${m.label} · ${m.maker}` })),
