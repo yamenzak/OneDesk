@@ -16,7 +16,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 
 	// Sections that are a table rather than a form, so they get the width a
 	// table needs. Every other section is a column in the middle of the page.
-	static WIDE = ["people", "oneai", "intake"];
+	static WIDE = ["people", "oneai", "intake", "numbering", "printing", "mail_templates", "approvals"];
 	// A letter head the workspace did not make: frappe's own, or written in HTML.
 	static theirs = (one) => one.standard === "Yes" || one.source !== "Image";
 
