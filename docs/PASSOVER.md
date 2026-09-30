@@ -4045,6 +4045,13 @@ administrator now reaches. An approval the workspace writes runs no code: no
 condition on an action, no worked-out value, no tasks, and a state sets only an
 ordinary field. Steps waiting on one of your roles count in Approvals Waiting on Home.
 
+**Stage 6, Automations: done.** Settings › Automations on any record and
+Workspace › Automations, each opening frappe's own automation form with One's
+rail. An automation the workspace writes runs as whoever saved it, decides by
+its field rules only (no code condition, no If step), runs no script, names
+only fields in its values, and calls webhooks over https. That completes the
+six stages of the door.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

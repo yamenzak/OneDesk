@@ -540,6 +540,28 @@ state sets only a field anybody who may edit the record may set.
 Only administrators of the workspace see this, and only for the kinds of
 record they can open; frappe's own and One's own records take no approval.
 
+### Automations, for the Workspace
+
+What happens by itself: when a record is made, changed, submitted or deleted,
+when a field changes to a value, on a date before or after one of its dates,
+or on a schedule. An automation matches the records it is for by their fields
+(**Match Fields**), then takes its steps in order: set a field, add to a
+number, make another record, notify or mail somebody, assign it to somebody,
+call a web address, or wait. A value can name a field of the record, as
+`{{ doc.customer_name }}`. **Test Run** runs it against one record and undoes
+everything it did, so you can see what it would do. Turn it **On** once it has
+at least one step. **Automations** under Workspace lists them all.
+
+An automation runs as whoever last saved it: every step can do only what that
+person could do by hand. What cannot be set here, since it would run as code:
+an advanced condition, an If step, a script, or a value worked out rather
+than named. A web address is https.
+
+Only administrators of the workspace see this, and only for the kinds of
+record they can open; frappe's own and One's own records take no automation.
+How often automations may run, and switching them all off, stays with the
+people who run the platform.
+
 ### Plan and Credits, for the Workspace
 
 Under **Workspace**, **Plan and Credits** is the workspace's account: its
@@ -837,7 +859,10 @@ Each part appears once the workspace may use it:
   Workspace.
 - **Approvals**: the approvals on this kind of record. **New** opens the
   approval builder set to it; open one to change it, or turn it on or off.
-  See Approvals, for the Workspace. The framework's own and One's own records have none, as
+  See Approvals, for the Workspace.
+- **Automations**: what happens by itself to this kind of record. **New**
+  opens a new automation already set to it; open one to change it, or turn
+  it on or off. See Automations, for the Workspace. The framework's own and One's own records have none, as
 they have no Customize.
 
 ## Asking OneAI

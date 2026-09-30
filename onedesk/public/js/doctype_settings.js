@@ -40,7 +40,7 @@ onedesk.doctype_settings.open = (doctype, tab = null) =>
 // (docs/DESK-COVERAGE.md). Frappe shows a tab to whoever can read its doctype, and
 // reading an Email Template is everybody's; a tab is offered here once what it
 // opens can be used, and the rail beside it is One's.
-onedesk.doctype_settings.TABS = ["notifications", "naming", "print-format", "email-template", "workflow"];
+onedesk.doctype_settings.TABS = ["notifications", "naming", "print-format", "email-template", "workflow", "automations"];
 
 onedesk.doctype_settings.adapt = () => {
 	if (onedesk.doctype_settings.adapted) return;
@@ -50,6 +50,10 @@ onedesk.doctype_settings.adapt = () => {
 	// opening, twice, and the second meets the first as a conflict (tabs/settings_map.js).
 	// It is added outside the groups, so it is taken out by its builder.
 	delete frappe.doctype_settings.builders.general;
+	// Automations is not one of frappe's tabs; it goes beside Approvals (one/automations.py).
+	const beside = frappe.doctype_settings.groups.find((group) => group.items.some((item) => item.id === "workflow"));
+	beside &&
+		beside.items.push({ id: "automations", label: __("Automations"), icon: "zap", condition: () => frappe.model.can_read("Automation Flow") });
 	for (const group of frappe.doctype_settings.groups) {
 		for (const item of group.items) {
 			const theirs = item.condition;
@@ -177,6 +181,48 @@ onedesk.doctype_settings.adapt = () => {
 				title: __("No approvals yet"),
 				description: __("An approval moves a {0} through states, each action taken by a role.", [__(doctype)]),
 				action: { label: __("New Approval"), onclick: create },
+			},
+		});
+	});
+	// The Automations tab: the doctype's Automation Flows, each opened in frappe's own form,
+	// which One's sidebar lists, so the rail stays One's.
+	frappe.doctype_settings.register("automations", (panel, doctype) => {
+		const form = (name) => {
+			panel.dialog.hide();
+			frappe.app.sidebar && frappe.app.sidebar.select_module("One");
+			name ? frappe.set_route("Form", "Automation Flow", name) : frappe.new_doc("Automation Flow", { document_type: doctype });
+		};
+		frappe.doctype_settings.render_list(panel, {
+			title: __("Automations"),
+			description: __("What happens by itself when a {0} is made, changed or reaches a date.", [__(doctype)]),
+			show_header: true,
+			primary_action: { label: __("New"), icon: "plus", onclick: () => form(null) },
+			load: () =>
+				frappe.doctype_settings.get_list("Automation Flow", {
+					filters: { document_type: doctype },
+					fields: ["name", "title", "trigger_type", "enabled"],
+					order_by: "title asc",
+					limit: 0,
+				}),
+			title_column: {
+				label: __("Automation"),
+				primary: (row) => row.title || row.name,
+				onclick: (row) => form(row.name),
+				tags: (row) => (row.enabled ? [{ label: __("On"), color: "green" }] : []),
+			},
+			columns: [{ label: __("When"), badge: (row) => (row.trigger_type ? { label: __(row.trigger_type), color: "gray" } : null) }],
+			actions: (row) => [
+				{
+					label: row.enabled ? __("Turn Off") : __("Turn On"),
+					icon: row.enabled ? "ban" : "circle-check",
+					onclick: (list) => frappe.db.set_value("Automation Flow", row.name, { enabled: row.enabled ? 0 : 1 }).then(() => list.reload()),
+				},
+				{ label: __("Edit"), icon: "pencil", onclick: () => form(row.name) },
+			],
+			empty_state: {
+				title: __("No automations yet"),
+				description: __("An automation sets a field, makes a record or tells somebody, by itself, when a {0} changes.", [__(doctype)]),
+				action: { label: __("New Automation"), onclick: () => form(null) },
 			},
 		});
 	});
@@ -388,6 +434,19 @@ onedesk.mail_templates.edit = async (name, { doctype = null, done = null } = {})
 	dialog.show();
 	if (!doc && doctype) dialog.set_value("reference_doctype", doctype);
 };
+
+// ------------------------------------------------------------------ automations
+
+// A flow the workspace writes runs as whoever wrote it and decides by its field rules
+// (one/automations.py), so its form does not offer the code condition or who it runs as.
+frappe.ui.form.on("Automation Flow", {
+	refresh(frm) {
+		if (frappe.model.can_create("Custom Field")) return;
+		for (const fieldname of ["advanced_condition_section", "condition", "run_as", "automation_user"]) {
+			frm.toggle_display(fieldname, false);
+		}
+	},
+});
 
 // ------------------------------------------------------------------ approvals
 

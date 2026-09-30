@@ -52,10 +52,11 @@ after_install = [
 after_migrate = [
 	"onedesk.one.roles.ensure",
 	"onedesk.one.notify.install",
-	# Printing, mail templates and approvals for the workspace administrator: one/printing.py and beside it.
+	# Printing, mail templates, approvals and automations for the workspace administrator: one/printing.py and beside it.
 	"onedesk.one.printing.settle",
 	"onedesk.one.mail_templates.settle",
 	"onedesk.one.approvals.settle",
+	"onedesk.one.automations.settle",
 	# frappe's own morning event mail stopped; Today's Events replaces it.
 	"onedesk.one_calendar.tell.install",
 	# What each module's records say above their fields. See one/head.py.
@@ -194,12 +195,13 @@ doc_events = {
 	"Server Script": {"validate": "onedesk.one.layer.script"},
 	# A type's text names only its own slots. See one/notify.py.
 	"Notification Type": {"validate": "onedesk.one.notify.validate", "on_update": "onedesk.one.notify.changed"},
-	# What the workspace may write into a print, a mail template or an approval: one/printing.py and beside it.
+	# What the workspace may write into a print, a mail template, an approval or an automation: one/printing.py and beside it.
 	"Print Format": {"validate": "onedesk.one.printing.validate_format"},
 	"Letter Head": {"validate": "onedesk.one.printing.validate_letter_head"},
 	"Print Format Snippet": {"validate": "onedesk.one.printing.validate_snippet"},
 	"Email Template": {"validate": "onedesk.one.mail_templates.validate"},
 	"Workflow": {"validate": "onedesk.one.approvals.validate"},
+	"Automation Flow": {"validate": "onedesk.one.automations.validate"},
 	# A notification is pushed to the devices its person chose. See one/push.py.
 	"Notification Log": {
 		# frappe's line for a task given, said in OneTask's. See one_task/tell.py.

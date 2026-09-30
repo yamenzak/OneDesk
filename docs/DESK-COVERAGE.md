@@ -159,6 +159,21 @@ One's sidebar, as lists.
    that doctype's Automation Flows and opens frappe's form for one. Run Script
    is refused, since it runs a Server Script; Call Webhook is https only.
    Automation Settings stays the operator's.
+   **Done, with a flow that runs as its author.** A flow runs as
+   Administrator unless told otherwise, its condition and an If step's are
+   Python, every step's values are Jinja with frappe's globals, and a step
+   can run a Server Script. `one/automations.py` grants Automation Flow and
+   holds one the workspace writes to: it runs as whoever saved it
+   (`run_as` Automation User, `automation_user` the author), so each step
+   meets frappe's own permission checks as them; no condition and no If
+   step; the steps are Set Field, Increment, Create Document (not of
+   frappe's or One's doctypes), Send Notification, Assign, Call Webhook
+   (https, and frappe already refuses internal addresses) and the two
+   waits; and every value's tags are field tags on `doc`, `target`,
+   `trigger` or `payload`. The tab is ours, added beside Approvals, and
+   opens frappe's own form, which One's sidebar now lists (Workspace ›
+   Automations), so the rail stays One's; the form hides the advanced
+   condition and Run As from a workspace administrator.
 
 Then P2, each its own screen: Access (where the Permissions tab would have
 been), Reports and Dashboards, Recycle Bin, Audit Log, Privacy Requests and
