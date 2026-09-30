@@ -44,6 +44,9 @@ SHOWN = {
 #: What a new top shows.
 SHOWN_FIRST = ("name", "address", "phone", "email", "website")
 
+#: How the company is reached, and the icon each is shown with.
+CONTACTS = (("phone", "phone"), ("email", "mail"), ("website", "globe"))
+
 #: A colour as General's control writes one.
 COLOUR = re.compile(r"^#[0-9a-fA-F]{3,8}$")
 
@@ -122,12 +125,27 @@ def draw(raw, details: dict | None = None) -> str:
 
 	name = e(details.get("name")) if "name" in shown else ""
 	address = [e(one) for one in details.get("address") or []] if "address" in shown else []
-	contacts = [
-		e(details.get(key)) for key in ("phone", "email", "website") if key in shown and details.get(key)
-	]
 	# The tax ID on a line of its own: beside the contacts it wraps.
 	tax = f"{e(_('Tax ID'))} {e(details['tax_id'])}" if "tax_id" in shown and details.get("tax_id") else ""
 	small = f"font-size:11px;line-height:1.5;color:{MUTED};"
+
+	# Each detail after its icon in the colour: the contacts on one line, kept
+	# whole each, the address and the tax ID each on theirs.
+	def icon(name: str, tint: str | None = None) -> str:
+		return (
+			f'<img src="{_icon(name, tint or colour)}" alt="" '
+			'style="width:11px;height:11px;display:inline-block;vertical-align:-1px;margin-right:4px">'
+		)
+
+	gap = '<span style="display:inline-block;width:12px"></span>'
+	contacts = [
+		f'<span style="white-space:nowrap">{icon(glyph)}{e(details.get(key))}</span>'
+		for key, glyph in CONTACTS
+		if key in shown and details.get(key)
+	]
+	reach = gap.join(contacts)
+	taxed = f"{icon('receipt')}{tax}" if tax else ""
+	where = f"{icon('map-pin')}{', '.join(address)}" if address else ""
 
 	preset = said["preset"]
 	if preset == "logo":
@@ -142,9 +160,9 @@ def draw(raw, details: dict | None = None) -> str:
 				if name
 				else ""
 			)
-			+ (f'<div style="{small}">{", ".join(address)}</div>' if address else "")
-			+ (f'<div style="{small}">{" · ".join(contacts)}</div>' if contacts else "")
-			+ (f'<div style="{small}">{tax}</div>' if tax else "")
+			+ (f'<div style="{small}">{where}</div>' if where else "")
+			+ (f'<div style="{small}">{reach}</div>' if reach else "")
+			+ (f'<div style="{small}">{taxed}</div>' if taxed else "")
 			+ f'</div><div style="height:2px;background:{colour};margin-top:12px;{EXACT}"></div>'
 		)
 
@@ -155,13 +173,17 @@ def draw(raw, details: dict | None = None) -> str:
 			f'<div style="display:table-cell;vertical-align:middle;text-align:left">{logo()}</div>'
 			'<div style="display:table-cell;vertical-align:middle;text-align:right">'
 			+ (f'<div style="font-size:20px;font-weight:700">{name}</div>' if name else "")
-			+ (f'<div style="font-size:11px;opacity:0.85">{", ".join(address)}</div>' if address else "")
+			+ (
+				f'<div style="font-size:11px;opacity:0.85">{icon("map-pin", "#ffffff")}{", ".join(address)}</div>'
+				if address
+				else ""
+			)
 			+ "</div></div></div>"
 			+ (
 				f'<div style="{small}text-align:right;margin-top:6px">'
-				+ "<br>".join(one for one in (" · ".join(contacts), tax) if one)
+				+ "<br>".join(one for one in (reach, taxed) if one)
 				+ "</div>"
-				if contacts or tax
+				if reach or taxed
 				else ""
 			)
 		)
@@ -184,7 +206,7 @@ def draw(raw, details: dict | None = None) -> str:
 			)
 			+ "</div>"
 			f'<div style="display:table-cell;vertical-align:bottom;padding-bottom:8px;text-align:right;{small}">'
-			+ "<br>".join(one for one in (", ".join(address), " · ".join(contacts), tax) if one)
+			+ "<br>".join(one for one in (where, reach, taxed) if one)
 			+ "</div></div>"
 		)
 
@@ -201,9 +223,7 @@ def draw(raw, details: dict | None = None) -> str:
 
 		where = line("map-pin", "<br>".join(address)) if address else ""
 		reach = "".join(
-			line(icon, e(details.get(key)))
-			for key, icon in (("phone", "phone"), ("email", "mail"), ("website", "globe"))
-			if key in shown and details.get(key)
+			line(icon, e(details.get(key))) for key, icon in CONTACTS if key in shown and details.get(key)
 		) + (line("receipt", tax) if tax else "")
 		columns = [one for one in (where, reach) if one]
 		left = logo() or (
@@ -236,9 +256,9 @@ def draw(raw, details: dict | None = None) -> str:
 			if name and details.get("logo")
 			else ""
 		)
-		+ "".join(f"<div>{one}</div>" for one in address)
-		+ (f"<div>{' · '.join(contacts)}</div>" if contacts else "")
-		+ (f"<div>{tax}</div>" if tax else "")
+		+ "".join(f"<div>{icon('map-pin') if not n else ''}{one}</div>" for n, one in enumerate(address))
+		+ (f"<div>{reach}</div>" if reach else "")
+		+ (f"<div>{taxed}</div>" if taxed else "")
 	)
 	return (
 		'<div style="display:table;width:100%">'

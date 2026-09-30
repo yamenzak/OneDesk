@@ -4275,7 +4275,9 @@ left and the company in two columns beside it, where it is and how to reach
 it, each line after one of frappe's Lucide icons in the Brand Colour. frappe's
 XSS filter takes inline pictures out of a letter head's top, so the top is
 filtered in `validate_letter_head` instead: a drawn top is ours and escaped,
-any other gets frappe's own `sanitize_html`.
+any other gets frappe's own `sanitize_html`. The other presets that show details (Classic,
+Centred, Banner, Minimal) carry the same icons inline, the contacts kept whole
+each on one line; Logo Only shows none.
 
 ## OneLegal
 
