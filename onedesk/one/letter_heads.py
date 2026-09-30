@@ -182,13 +182,17 @@ def draw(raw, details: dict | None = None) -> str:
 			'style="width:11px;height:11px;display:inline-block;vertical-align:-1px;margin-right:4px">'
 		)
 
-	gap = '<span style="display:inline-block;width:12px"></span>'
+	# The room between contacts is before each one after the first, not after
+	# it: a line that wraps then ends on a contact rather than on a gap, so a
+	# right-aligned column keeps one edge.
 	contacts = [
-		f'<span style="white-space:nowrap">{icon(glyph)}{e(details.get(key))}</span>'
-		for key, glyph in CONTACTS
-		if key in shown and details.get(key)
+		f'<span style="white-space:nowrap;display:inline-block;{"margin-left:12px" if n else ""}">'
+		f"{icon(glyph)}{e(details.get(key))}</span>"
+		for n, (key, glyph) in enumerate(
+			(key, glyph) for key, glyph in CONTACTS if key in shown and details.get(key)
+		)
 	]
-	reach = gap.join(contacts)
+	reach = "".join(contacts)
 	taxed = f"{icon('receipt')}{tax}" if tax else ""
 	where = f"{icon('map-pin')}{', '.join(address)}" if address else ""
 
@@ -305,13 +309,23 @@ def draw(raw, details: dict | None = None) -> str:
 			if name and details.get("logo")
 			else ""
 		)
-		+ "".join(f"<div>{icon('map-pin') if not n else ''}{one}</div>" for n, one in enumerate(address))
+		+ (f"<div>{where}</div>" if where else "")
 		+ (f"<div>{reach}</div>" if reach else "")
 		+ (f"<div>{taxed}</div>" if taxed else "")
 	)
+	# The logo's cell as wide as the logo, so the company's lines have the rest
+	# of the width and the address and the contacts each stay one line. Said in
+	# pixels: frappe's print style holds every letter head picture to its cell,
+	# and a cell sized to its content would hold it to nothing.
+	ratio = _ratio(details["logo"]) if details.get("logo") else None
+	held = (
+		f"width:{round(said['logo_height'] * (ratio or 1)) + 24}px;padding-right:24px;"
+		if details.get("logo")
+		else "width:50%;"
+	)
 	return (
 		'<div style="display:table;width:100%">'
-		f'<div style="display:table-cell;vertical-align:middle;text-align:left;width:50%">{left}</div>'
+		f'<div style="display:table-cell;vertical-align:middle;text-align:left;{held}">{left}</div>'
 		f'<div style="display:table-cell;vertical-align:middle;text-align:right;{small}color:#374151">{right}</div>'
 		"</div>" + rule
 	)

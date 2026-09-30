@@ -4415,6 +4415,16 @@ read as `Net Total:` far from its figure. Now:
    total"): Playfair Display, the band, the striped rows and the teal grand
    total, all written over frappe's classes.
 
+**The company's lines in the header. Fixed.** Classic printed the address a
+line at a time, gave the company only half the width so the contacts wrapped,
+and put the room between contacts after each one, so a wrapped line ended 12px
+short of the right edge. Every preset now reads as the name, the address on
+one line, the contacts on one line and the tax ID on its own. The room is
+before each contact after the first, and Classic's logo cell is as wide as the
+logo, in pixels. It cannot be sized to its content, because frappe's print
+style holds every letter head picture to its cell, and the logo came out at
+nothing.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

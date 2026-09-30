@@ -150,3 +150,16 @@ def test_oneai_changes_only_what_it_names():
 def test_icons_by_name_in_html_written_by_hand():
 	assert "letter_heads.icons_in(html)" in (tree.APP / "one" / "print_html.py").read_text()
 	assert "_known(name)" in _body("icons_in")
+
+
+def test_the_company_reads_as_three_lines_with_one_edge():
+	"""The address on one line and the contacts on one line, in every preset;
+	the room between contacts before each, so a wrapped line ends on a contact
+	and a right-aligned column keeps one edge."""
+	draw = SOURCE.split("def draw(", 1)[1].split("\ndef ", 1)[0]
+	assert "enumerate(address)" not in draw, "Classic printed the address a line at a time"
+	assert '"margin-left:12px" if n else ""' in draw
+	assert "gap.join(contacts)" not in draw
+	# Classic's logo cell is as wide as the logo, in pixels: frappe's print style
+	# holds letter head pictures to their cell.
+	assert "* (ratio or 1)) + 24}px" in draw
