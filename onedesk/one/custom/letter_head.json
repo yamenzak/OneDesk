@@ -1,0 +1,19 @@
+{
+ "custom_fields": [
+  {
+   "description": "Which preset draws the top from the company's details, and what it shows. It is drawn again whenever the company changes.",
+   "dt": "Letter Head",
+   "fieldname": "one_top",
+   "fieldtype": "Code",
+   "options": "JSON",
+   "hidden": 1,
+   "insert_after": "content",
+   "label": "Top Preset",
+   "module": "One"
+  }
+ ],
+ "doctype": "Letter Head",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

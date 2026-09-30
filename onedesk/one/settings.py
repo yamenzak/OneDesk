@@ -751,7 +751,7 @@ def _general() -> dict:
 #: (an Address linked to it, marked as the company's own and primary). ERPNext
 #: asks for exactly these when an invoice is printed without them
 #: (erpnext/public/js/print.js), so they are asked here once instead.
-ON_DOCUMENTS = ("phone_no", "email", "website")
+ON_DOCUMENTS = ("one_brand_colour", "phone_no", "email", "website", "tax_id")
 ADDRESS = ("address_line1", "address_line2", "city", "state", "pincode")
 
 
@@ -834,6 +834,7 @@ EXPIRY = (
 #: what an administrator here needs to know.
 GENERAL_SAID = {
 	"company_logo": _lt("On invoices, quotes and orders, printed or sent. One itself keeps its own mark."),
+	"one_brand_colour": _lt("The colour a letter head carries, in the company's name, its lines and a banner's band."),
 	"language": _lt("For everybody who has not chosen their own in Profile."),
 	"time_zone": _lt("For everybody who has not chosen their own in Profile."),
 	"one_login_with_passkey": _lt("People sign in with the passkey on their own device, without a password."),

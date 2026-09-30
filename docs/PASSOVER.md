@@ -4238,6 +4238,36 @@ heads, and OneAI designing both.
   answered with markup, so the conversation would not load. `turns` now
   carries `ignore_xss_filter`.
 
+**Letter heads, one part at a time: the header. Fixed.**
+
+1. A header is one picture (aligned, sized) or HTML written by hand. The usual
+   header, a logo with the company's name, address and contacts beside it,
+   needs HTML, which an administrator does not write.
+2. A header does not follow the company. It may hold no template, so a header
+   written from General's details keeps them as they were when it was written.
+   ERPNext's own Company Letterhead reads the logo, name, address and contacts
+   when the page prints.
+3. The builder's picture mode offers "or image URL", which the save then
+   refuses for any address off this workspace.
+4. The header is designed on a page called "Print Format / Letter Head
+   Designer", beside a whole invoice and its layer tree. The letter head's
+   own name is only in the inspector.
+
+Fixed with presets. A header is now one of five tops (Classic, Centred,
+Banner, Minimal, Logo Only) that `one/letter_heads.py` draws from General: the
+logo, name, address, phone, email, website, tax ID and a new **Brand Colour**
+on Company. The letter head keeps its choice (`one_top`), and the top is
+drawn again whenever the letter head, the Company or its address is saved, so
+it follows the company as ERPNext's own letter head does. The window shows
+the five as they print with the company's details, what they show, the logo's
+height and a page preview. Write It Yourself is the builder, for the rare
+hand-written top. OneAI's `change_printing` suggests a preset. The picture
+URL box and the designer's framing are left as they are: the builder is now
+only the advanced route. Found while checking the print: frappe's stylesheet
+stretches any picture inside a table cell to the cell's width, so the presets
+lay out with table-display divs and give the logo its width from its own
+proportions.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

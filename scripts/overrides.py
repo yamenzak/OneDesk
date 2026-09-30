@@ -172,6 +172,20 @@ OVERRIDES = [
 		'df.get("ignore_xss_filter")',
 	),
 	(
+		"A letter head's top is drawn from the company, as ERPNext's own reads it",
+		"ERPNext's Company Letterhead reads the logo, name, address and contacts as the page prints; a workspace's letter head may hold no template, so letter_heads.py draws its top from a preset whenever the letter head, the Company or its address is saved",
+		"onedesk/one/letter_heads.py",
+		"erpnext/erpnext/accounts/letter_head/company_letterhead/company_letterhead.json",
+		'frappe.db.get_value(\\"Company\\", doc.company, \\"company_logo\\")',
+	),
+	(
+		"A drawn top lays out without table cells",
+		"frappe's print stylesheet stretches every picture in a table cell to the cell's width; the presets lay out with divs displayed as a table, and give the logo its width from its own proportions",
+		"onedesk/one/letter_heads.py",
+		"frappe/frappe/templates/styles/standard.css",
+		"body:last-child .print-format td img {",
+	),
+	(
 		"A workspace's automation runs as whoever wrote it",
 		"the runner switches to the flow's automation_user, Administrator when none is set; automations.py sets it to the author on a flow the workspace writes",
 		"onedesk/one/automations.py",

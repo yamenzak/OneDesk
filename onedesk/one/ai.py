@@ -100,8 +100,11 @@ SUGGESTIONS = {
 	],
 	"page:workspace-settings/printing": [
 		{
-			"label": _lt("Make a letter head from our logo"),
-			"ask": _lt("Suggest a letter head with the logo from Workspace › General, as the default."),
+			"label": _lt("Suggest a letter head top"),
+			"ask": _lt(
+				"Suggest a letter head whose top is one of the presets drawn from our details in "
+				"Workspace › General, the one that suits us, as the default."
+			),
 			"expects": "change_printing",
 		},
 		{
@@ -1681,7 +1684,10 @@ def change_printing(
 	| None = None,
 	letter_head: Annotated[
 		dict,
-		"A letter head to make or change: {name} of an existing one, or {new_name} for a new one; {logo}, "
+		"A letter head to make or change: {name} of an existing one, or {new_name} for a new one; {preset}, "
+		"one of classic, centred, banner, minimal or logo, to draw its top from the company's details in "
+		"Workspace > General (with {show}, a list of name, address, phone, email, website, tax_id, and "
+		"{logo_height} in pixels), which is what to suggest first; or {logo}, "
 		"'company' for the logo Workspace > General keeps or a file URL the workspace already has; or "
 		"{top_html} and {foot_html}, the top and foot of the page written in plain HTML with inline styles "
 		"(no template tags, no scripts, pictures only from this workspace's files), from the company's "
@@ -1698,7 +1704,7 @@ def change_printing(
 	design_print_format. Read workspace_printing first. The card shows the
 	page before it is approved; nothing changes until they approve it.
 	Workspace administrators only."""
-	from onedesk.one import print_html, printing, roles, settings
+	from onedesk.one import letter_heads, print_html, printing, roles, settings
 	from onedesk.one_ai import proposals
 
 	if not roles.administers():
@@ -1734,13 +1740,23 @@ def change_printing(
 				if not logo:
 					return {"error": "Workspace > General has no logo yet; ask them to add one there first."}
 			top, foot = letter_head.get("top_html"), letter_head.get("foot_html")
-			if not name and not (letter_head.get("new_name") and (logo or top)):
-				return {"error": "A new letter head needs new_name, and a logo or top_html."}
+			preset = letter_head.get("preset")
+			if preset and preset not in letter_heads.PRESETS:
+				return {"error": f"{preset} is not a preset; they are {', '.join(letter_heads.PRESETS)}."}
+			if not name and not (letter_head.get("new_name") and (logo or top or preset)):
+				return {"error": "A new letter head needs new_name, and a preset, a logo or top_html."}
 			head = {"name": name}
 			if not name:
 				head["letter_head_name"] = letter_head["new_name"].strip()
 				summary.append({"label": _("New Letter Head"), "value": head["letter_head_name"]})
-			if logo and not top:
+			if preset:
+				head["one_top"] = letter_heads.settings(
+					{key: letter_head.get(key) for key in ("preset", "show", "logo_height", "align")}
+				)
+				head["source"] = "HTML"
+				head["content"] = letter_heads.draw(head["one_top"])
+				summary.append({"label": _("Top"), "value": str(letter_heads.PRESETS[preset])})
+			if logo and not top and not preset:
 				head["source"] = "Image"
 				head["image"] = logo
 				summary.append({"label": _("Logo"), "value": logo.rsplit("/", 1)[-1].split("?")[0]})

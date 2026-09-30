@@ -1,0 +1,17 @@
+{
+ "custom_fields": [
+  {
+   "description": "The colour a letter head carries, in the company's name, its lines and a banner's band.",
+   "dt": "Company",
+   "fieldname": "one_brand_colour",
+   "fieldtype": "Color",
+   "insert_after": "company_logo",
+   "label": "Brand Colour",
+   "module": "One"
+  }
+ ],
+ "doctype": "Company",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

@@ -82,9 +82,11 @@ DEFINES_TOKENS = (
 #: (rule, file) pairs where we looked and the framework has nothing. The
 #: explorer PUTs a file's bytes straight to a URL R2 signed, on another
 #: origin, and shows its progress; frappe.call only posts to this site, and
-#: FileUploader only to upload_file.
+#: FileUploader only to upload_file. A letter head reads the proportions of the
+#: company's uploaded logo, which may be an SVG file; it draws no icon.
 LOOKED = {
 	("fetching", "onedesk/public/js/onecloud.js"),
+	("icons", "onedesk/one/letter_heads.py"),
 }
 
 

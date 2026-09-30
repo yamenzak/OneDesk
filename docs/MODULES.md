@@ -208,6 +208,7 @@ No doctypes yet.
 * `onedesk.one.home.suggestions_waiting`
 * `onedesk.one.home.tasks_due`
 * `onedesk.one.invite.accept`
+* `onedesk.one.letter_heads.presets`
 * `onedesk.one.mail_templates.default`
 * `onedesk.one.mail_templates.set_default`
 * `onedesk.one.numbering.kinds`

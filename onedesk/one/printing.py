@@ -292,7 +292,11 @@ def _rich_fields(doctype: str) -> set:
 
 def validate_letter_head(doc, method=None) -> None:
 	"""Letter Head validate: a letter head written by the workspace is a picture
-	or plain HTML, at its top and at its foot."""
+	or plain HTML, at its top and at its foot; a top drawn from a preset is
+	drawn first (letter_heads.apply) and held like any other."""
+	from onedesk.one import letter_heads
+
+	letter_heads.apply(doc)
 	_stored_images(doc)
 	if not layer.held():
 		return
@@ -777,6 +781,7 @@ DRAWN = (
 
 LETTER_HEAD = (
 	"letter_head_name",
+	"one_top",
 	"source",
 	"content",
 	"footer_source",
@@ -803,16 +808,9 @@ def letter_heads() -> list[dict]:
 
 
 def _start_letter_head(doc) -> None:
-	"""A new letter head starts from what Workspace > General keeps: the logo at
-	the top, or the company's name when there is no logo yet."""
-	from onedesk.one import settings
-
-	company = settings._company()
-	if company and company.company_logo:
-		doc.update({"source": "Image", "image": company.company_logo, "image_height": 60, "align": "Left"})
-		return
-	called = frappe.utils.escape_html(company.company_name if company else doc.letter_head_name or "")
-	doc.update({"source": "HTML", "content": f"<div><h2>{called}</h2></div>"})
+	"""A new letter head starts as the Classic top, drawn from what Workspace >
+	General keeps (letter_heads.py)."""
+	doc.one_top = frappe.as_json({"preset": "classic"})
 
 
 @frappe.whitelist(methods=["POST"])
@@ -827,7 +825,7 @@ def save_letter_head(values: Annotated[str | dict, "The letter head's fields."])
 			_("Somebody changed {0} after you opened it.").format(name), frappe.TimestampMismatchError
 		)
 	ours = not name or not (doc.standard == "Yes" or doc.header_script or doc.footer_script)
-	if not name and not values.get("image") and not values.get("content"):
+	if not name and not values.get("image") and not values.get("content") and not values.get("one_top"):
 		_start_letter_head(doc)
 	keys = LETTER_HEAD if ours else ("is_default", "disabled")
 	doc.update(

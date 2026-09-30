@@ -734,9 +734,9 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			{ html: `<dl class="os-facts">${facts}</dl>` },
 			["email_footer_address", ""],
 			{ heading: __("On Documents"), note: __("What invoices, quotes and orders show about the company, printed or sent.") },
-			["company_logo", ""],
+			["company_logo", "one_brand_colour"],
 			["phone_no", "email"],
-			["website", ""],
+			["website", "tax_id"],
 			["address_line1", "address_line2"],
 			["city", "state"],
 			["pincode", ""],
@@ -1541,44 +1541,136 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
-	// A letter head: its name, whether it is the default, whether it is off, and
-	// the top and foot of a page as they print. They are designed where frappe
-	// designs them, on the print format builder's page (printing.design_letter_head).
-	// One the workspace did not make is only made the default or turned off here.
+	// A letter head: its name, its top, whether it is the default, whether it is off.
+	// The top is one of the presets letter_heads.py draws from Workspace > General,
+	// each shown as it prints with the company's own details, or one written by hand
+	// on frappe's print format builder (Write It Yourself). The foot, for now, is the
+	// builder's. One the workspace did not make is only made the default or turned off.
 	letter_head(one = null) {
 		const theirs = !!one && Settings.theirs(one);
+		const esc = frappe.utils.escape_html;
+		// The top's preset, or null when it was written by hand.
+		const kept = one && one.one_top ? frappe.utils.parse_json(one.one_top) : null;
+		let preset = one ? (kept && kept.preset) || null : "classic";
+		const shows = (kept && kept.show) || ["name", "address", "phone", "email", "website"];
+		const SHOWN = [
+			["name", __("Name")],
+			["address", __("Address")],
+			["phone", __("Phone")],
+			["email", __("Email")],
+			["website", __("Website")],
+			["tax_id", __("Tax ID")],
+		];
+		const page = (top, foot, scale) =>
+			`<!doctype html><html><head><style>html,body{margin:0;background:#fff;color:#111;font-family:sans-serif}` +
+			`body{padding:24px;width:746px;transform:scale(${scale});transform-origin:0 0}img{max-width:100%}` +
+			`.lines{height:48px;margin:16px 0;background:repeating-linear-gradient(to bottom,#e5e7eb 0,#e5e7eb 6px,transparent 6px,transparent 14px)}` +
+			`</style></head><body>${top || ""}${foot === null ? "" : `<div class="lines"></div>${foot || ""}`}</body></html>`;
+		const frame = (html, className) => {
+			const it = document.createElement("iframe");
+			it.className = className;
+			// The markup frappe prints, which runs nothing here.
+			it.setAttribute("sandbox", "");
+			it.srcdoc = html;
+			return it;
+		};
 		const dialog = new frappe.ui.Dialog({
 			title: one ? one.name : __("New Letter Head"),
+			size: theirs ? "" : "large",
 			fields: [
 				...(theirs ? [{ fieldtype: "HTML", fieldname: "theirs", options: frappe.ui.alert.html({ title: __("This letter head came with the workspace. It can be made the default or turned off."), theme: "gray" }) }] : []),
 				{ fieldtype: "Data", fieldname: "letter_head_name", label: __("Name"), reqd: 1, hidden: one ? 1 : 0 },
-				...(one ? [{ fieldtype: "HTML", fieldname: "preview" }] : [{ fieldtype: "HTML", fieldname: "starts", options: `<p class="text-muted small">${frappe.utils.escape_html(__("It starts with the logo from General, or the company's name, and opens in the builder to design its top and foot."))}</p>` }]),
+				{ fieldtype: "HTML", fieldname: "preview" },
+				...(theirs
+					? []
+					: [
+							{ fieldtype: "Section Break", label: __("Top") },
+							{ fieldtype: "HTML", fieldname: "presets" },
+							{ fieldtype: "Section Break" },
+							{
+								fieldtype: "MultiCheck",
+								fieldname: "show",
+								label: __("Shows"),
+								columns: 3,
+								sort_options: false,
+								options: SHOWN.map(([value, label]) => ({ value, label, checked: shows.includes(value) ? 1 : 0 })),
+								on_change: () => drawn(),
+							},
+							{ fieldtype: "Int", fieldname: "logo_height", label: __("Logo Height"), description: __("In pixels."), default: (kept && kept.logo_height) || 60, change: () => drawn() },
+							{ fieldtype: "Column Break" },
+							{ fieldtype: "Select", fieldname: "align", label: __("Logo Sits"), options: [{ value: "left", label: __("Left") }, { value: "center", label: __("Centre") }, { value: "right", label: __("Right") }], default: (kept && kept.align) || "left", change: () => drawn() },
+							{ fieldtype: "HTML", fieldname: "from_general", options: `<p class="text-muted small">${esc(__("The name, logo, address, contacts and colour come from Workspace › General, and the top is drawn again whenever they change there."))}</p>` },
+							{ fieldtype: "Section Break" },
+					  ]),
 				{ fieldtype: "Check", fieldname: "is_default", label: __("Default"), description: __("Printed on a document unless another is chosen.") },
 				{ fieldtype: "Check", fieldname: "disabled", label: __("Off") },
 			],
-			primary_action_label: one ? __("Update") : __("Create and Design"),
+			primary_action_label: one ? __("Update") : __("Create"),
 			primary_action: async (values) => {
-				const saved = await frappe.xcall("onedesk.one.printing.save_letter_head", {
-					values: { ...values, name: one ? one.name : null, modified: one ? one.modified : null },
+				await frappe.xcall("onedesk.one.printing.save_letter_head", {
+					values: {
+						letter_head_name: values.letter_head_name,
+						is_default: values.is_default,
+						disabled: values.disabled,
+						...(preset && !theirs ? { one_top: settings() } : {}),
+						name: one ? one.name : null,
+						modified: one ? one.modified : null,
+					},
 				});
 				dialog.hide();
-				if (!one) return this.design_letter_head(saved.name);
-				frappe.show_alert({ message: __("Letter head updated"), indicator: "green" });
+				frappe.show_alert({ message: one ? __("Letter head updated") : __("Letter head made"), indicator: "green" });
 				this.refresh({ fresh: true });
 			},
 		});
-		if (one) {
-			dialog.set_values(one);
-			// The page as it prints, in a frame of its own: the top and the foot are
-			// the markup frappe prints, which runs nothing here.
-			const frame = document.createElement("iframe");
-			frame.className = "one-letter-head-sheet";
-			frame.setAttribute("sandbox", "");
-			frame.srcdoc = `<!doctype html><html><head><style>body{margin:0;padding:16px;font-family:sans-serif;background:#fff;color:#111}img{max-width:100%}.body{height:48px;margin:12px 0;background:repeating-linear-gradient(to bottom,#e5e7eb 0,#e5e7eb 6px,transparent 6px,transparent 14px);opacity:.6}</style></head><body>${one.content || ""}<div class="body"></div>${one.footer || ""}</body></html>`;
-			dialog.get_field("preview").$wrapper.empty().append(frame);
-		}
+		const settings = () => ({
+			preset,
+			show: dialog.get_value("show") || [],
+			logo_height: dialog.get_value("logo_height"),
+			align: dialog.get_value("align"),
+		});
+		const show_preview = (top) => {
+			const field = dialog.get_field("preview");
+			field.$wrapper.empty().append(frame(page(top, one ? one.footer || "" : "", 0.95), "one-letter-head-sheet"));
+		};
+		// Every preset as it prints with the company's details, the chosen one
+		// marked; a top written by hand is shown as it is until one is chosen.
+		let drawn_with = [];
+		const cards = () => {
+			const field = dialog.get_field("presets");
+			if (!field) return;
+			const $grid = $(`<div class="one-lh-presets"></div>`);
+			for (const one_preset of drawn_with) {
+				const $card = $(`<button type="button" class="one-lh-preset"></button>`)
+					.toggleClass("one-lh-preset--chosen", one_preset.preset === preset)
+					.append(frame(page(one_preset.html, null, 0.29), "one-lh-preset__page"))
+					.append(`<span class="one-lh-preset__label">${esc(one_preset.label)}</span>`)
+					.on("click", () => {
+						preset = one_preset.preset;
+						cards();
+						shown();
+					});
+				$grid.append($card);
+			}
+			const note = preset
+				? ""
+				: `<p class="text-muted small">${esc(__("Its top was written by hand. Choosing a preset replaces it."))}</p>`;
+			field.$wrapper.empty().append(note).append($grid);
+		};
+		const shown = () => {
+			if (theirs) return show_preview(one.content);
+			dialog.set_df_property("align", "hidden", preset !== "logo");
+			const chosen = drawn_with.find((d) => d.preset === preset);
+			show_preview(chosen ? chosen.html : one && one.content);
+		};
+		const drawn = frappe.utils.debounce(async () => {
+			if (theirs) return shown();
+			drawn_with = await frappe.xcall("onedesk.one.letter_heads.presets", { settings_of: settings() });
+			cards();
+			shown();
+		}, 200);
+		if (one) dialog.set_values({ letter_head_name: one.letter_head_name || one.name, is_default: one.is_default, disabled: one.disabled });
 		if (one && !theirs) {
-			dialog.set_secondary_action_label(__("Design"));
+			dialog.set_secondary_action_label(__("Write It Yourself"));
 			dialog.set_secondary_action(() => {
 				dialog.hide();
 				this.design_letter_head(one.name);
@@ -1592,6 +1684,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			);
 		}
 		dialog.show();
+		drawn();
 	}
 
 	// frappe's print format builder, on the designer pointed at this letter head.

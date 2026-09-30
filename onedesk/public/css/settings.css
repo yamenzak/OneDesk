@@ -563,3 +563,46 @@
 	background: var(--surface-white);
 	margin-bottom: calc(var(--spacing) * 2);
 }
+
+/* The letter head window's presets: each top as it prints, the chosen one marked. */
+.one-lh-presets {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: calc(var(--spacing) * 3);
+	margin-bottom: calc(var(--spacing) * 3);
+}
+
+.one-lh-preset {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--spacing) * 1.5);
+	padding: calc(var(--spacing) * 2);
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-lg, 8px);
+	background: var(--surface-white);
+	text-align: left;
+	cursor: pointer;
+}
+
+.one-lh-preset:hover {
+	border-color: var(--outline-gray-3);
+}
+
+.one-lh-preset--chosen {
+	border-color: var(--outline-gray-5);
+	box-shadow: 0 0 0 1px var(--outline-gray-5);
+}
+
+.one-lh-preset__page {
+	width: 100%;
+	height: 48px;
+	border: 0;
+	border-radius: var(--radius, 6px);
+	background: var(--surface-white);
+	pointer-events: none;
+}
+
+.one-lh-preset__label {
+	font-size: var(--text-sm);
+	color: var(--ink-gray-8);
+}

@@ -199,6 +199,9 @@ doc_events = {
 	# What the workspace may write into a print, a mail template, an approval or an automation: one/printing.py and beside it.
 	"Print Format": {"validate": "onedesk.one.printing.validate_format"},
 	"Letter Head": {"validate": "onedesk.one.printing.validate_letter_head"},
+	# A letter head's drawn top says what General says now (one/letter_heads.py).
+	"Company": {"on_update": "onedesk.one.letter_heads.redraw"},
+	"Address": {"on_update": "onedesk.one.letter_heads.redraw"},
 	"Print Format Snippet": {"validate": "onedesk.one.printing.validate_snippet"},
 	"Email Template": {"validate": "onedesk.one.mail_templates.validate"},
 	"Workflow": {"validate": "onedesk.one.approvals.validate"},

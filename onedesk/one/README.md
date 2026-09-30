@@ -307,7 +307,8 @@ administrators see it, and they save from the top right.
   is printed at the foot of every mail the workspace sends.
 - **On Documents** is what invoices, quotes and orders show about the
   company, printed or sent: **Company Logo** (One itself keeps its own mark),
-  **Phone**, **Email**, **Website** and the company's address. Fill these once
+  **Brand Colour**, which a letter head's top carries, **Phone**, **Email**,
+  **Website**, **Tax ID** and the company's address. Fill these once
   and printing an invoice never stops to ask for them. The address is kept as
   the company's own, so a new invoice picks it up.
 - **Region and Formats**: the language and time zone for everybody who has
@@ -540,14 +541,19 @@ and so are the framework's own kinds and One's. Rules work on any of them.
 ### Printing, for the Workspace
 
 How the workspace's documents look on paper. **Letter Heads** are the top and
-foot of every printed page. **New Letter Head** asks for a name, starts it with
-the logo from General (or the company's name when there is no logo yet), and
-opens it in the print format builder, where the top and the foot are each
-clicked and made a picture (aligned and sized) or HTML (**Edit HTML**, with a
-preview beside it). Opening a letter head here shows its page as it prints,
-with **Design** to open it in the builder again. **Default** prints it on
-every document unless another is chosen; **Off** keeps it without offering it.
-The letter heads that came with the workspace can be made the default or
+foot of every printed page. A letter head's top is one of five presets drawn
+from Workspace › General: **Classic** (the logo on the left, the company on the
+right), **Centred**, **Banner** (a band in the Brand Colour), **Minimal** and
+**Logo Only**. The letter head window shows each as it prints with the
+company's own name, logo, address, contacts and colour; pick one, tick what it
+**Shows** (name, address, phone, email, website, tax ID), and set the **Logo
+Height**. Change any of those in General, Brand Colour included, and every
+drawn top is drawn again. **Write It Yourself** opens the letter head in the
+print format builder instead, where the top and the foot are each a picture or
+HTML; a top changed there stays as it was written, and choosing a preset
+again replaces it. The foot is the builder's for now. **Default** prints it on
+every document unless another is chosen; **Off** keeps it without offering
+it. The letter heads that came with the workspace can be made the default or
 turned off.
 
 **Print Formats** lists the formats this workspace made. Opening one opens its
@@ -573,11 +579,11 @@ address.
 Only administrators of the workspace see this, and only formats for the kinds
 of record they can open.
 
-**OneAI on this page** offers **Make a letter head from our logo**, **Design a
+**OneAI on this page** offers **Suggest a letter head top**, **Design a
 letter head from our details**, **Design a clean invoice format** and **Which
 format do invoices print with?**. It designs a print format for any kind of
-record, laid out as the builder lays one out, and a letter head in HTML from
-the details in General; it also suggests which letter head is the default and
+record, laid out as the builder lays one out, and a letter head: a preset top
+drawn from General, or one in HTML from its details; it also suggests which letter head is the default and
 which format a kind of record prints with. Each comes as a card an
 administrator approves, and **See the Page** on the card shows the page before
 they do: a format on the kind's latest record, a letter head's top and foot. A
