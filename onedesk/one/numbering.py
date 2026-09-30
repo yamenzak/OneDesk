@@ -118,6 +118,31 @@ def series(doctype: Annotated[str, "The kind of record."]) -> list[dict]:
 	return [_row(settings, one) for one in _options(settings)]
 
 
+@frappe.whitelist()
+def preview(
+	doctype: Annotated[str, "The kind of record."],
+	one: Annotated[str, "A series as it is being written."],
+) -> dict:
+	"""The name a series being written would give next, or what frappe would
+	say is wrong with it, while it is typed in the Add Series window."""
+	from frappe.utils import strip_html
+
+	_meta(doctype)
+	one = (one or "").strip()
+	if not one:
+		return {}
+	settings = _settings(doctype)
+	try:
+		NamingSeries(one).validate()
+		if one not in _options(settings):
+			settings.naming_series_options = one
+			settings.check_duplicate()
+	except frappe.ValidationError as e:
+		frappe.clear_messages()
+		return {"error": strip_html(str(e))}
+	return {**_row(_settings(doctype), one), "mine": one in _options(settings)}
+
+
 @frappe.whitelist(methods=["POST"])
 def save(
 	doctype: Annotated[str, "The kind of record."],

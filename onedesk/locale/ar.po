@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-30 08:03+0000\n"
-"PO-Revision-Date: 2026-09-30 08:03+0000\n"
+"POT-Creation-Date: 2026-09-30 08:09+0000\n"
+"PO-Revision-Date: 2026-09-30 08:09+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -373,7 +373,7 @@ msgstr "الأسرة لا تمسك دفاتر. لا تُنشأ مسودات، و
 msgid "A job is for a workspace."
 msgstr "المهمة تخص مساحة عمل."
 
-#: onedesk/one/numbering.py:131
+#: onedesk/one/numbering.py:156
 msgid "A kind of record numbered by a series needs at least one."
 msgstr "نوع السجل المرقّم بسلسلة يحتاج إلى سلسلة واحدة على الأقل."
 
@@ -507,7 +507,8 @@ msgstr "يحتاج الحقل الجديد إلى عنوان."
 msgid "A new one fails to be built until a server is listed under Servers."
 msgstr "تفشل مساحة العمل الجديدة في البناء حتى يُضاف خادم تحت الخوادم."
 
-#: onedesk/public/js/doctype_settings.js:335
+#: onedesk/public/js/doctype_settings.js:324
+#: onedesk/public/js/doctype_settings.js:380
 msgid "A new record starts with this series."
 msgstr "يبدأ السجل الجديد بهذه السلسلة."
 
@@ -1061,7 +1062,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:20
-#: onedesk/public/js/doctype_settings.js:320 onedesk/public/js/onecloud.js:1489
+#: onedesk/public/js/doctype_settings.js:328 onedesk/public/js/onecloud.js:1489
 #: onedesk/public/js/settings.js:658 onedesk/public/js/settings.js:1023
 #: onedesk/public/js/settings.js:1024 onedesk/public/js/settings.js:1307
 #: onedesk/public/js/settings.js:1722
@@ -1073,7 +1074,7 @@ msgid "Add Bank Account"
 msgstr "إضافة حساب بنكي"
 
 #: onedesk/public/js/doctype_settings.js:273
-#: onedesk/public/js/doctype_settings.js:319
+#: onedesk/public/js/doctype_settings.js:314
 msgid "Add Series"
 msgstr "إضافة سلسلة"
 
@@ -3990,7 +3991,7 @@ msgstr "شمول العطل أيضاً"
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
-#: onedesk/public/js/doctype_settings.js:410 onedesk/public/js/onecloud.js:1458
+#: onedesk/public/js/doctype_settings.js:456 onedesk/public/js/onecloud.js:1458
 #: onedesk/public/js/opportunity.js:18 onedesk/public/js/opportunity.js:19
 #: onedesk/public/js/project.js:68 onedesk/public/js/project.js:129
 #: onedesk/public/js/settings.js:1559
@@ -4500,7 +4501,8 @@ msgstr "صرّحت به"
 #: onedesk/public/js/ai_model_list.js:17
 #: onedesk/public/js/doctype_settings.js:130
 #: onedesk/public/js/doctype_settings.js:300
-#: onedesk/public/js/doctype_settings.js:332 onedesk/public/js/settings.js:1505
+#: onedesk/public/js/doctype_settings.js:324
+#: onedesk/public/js/doctype_settings.js:377 onedesk/public/js/settings.js:1505
 #: onedesk/public/js/settings.js:1556 onedesk/public/js/settings.js:1817
 #: onedesk/public/js/settings.js:1819 onedesk/public/js/settings.js:1832
 msgid "Default"
@@ -4554,8 +4556,8 @@ msgstr "الافتراضي: {0}"
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:381
-#: onedesk/public/js/doctype_settings.js:366
-#: onedesk/public/js/doctype_settings.js:428 onedesk/public/js/onecloud.js:105
+#: onedesk/public/js/doctype_settings.js:412
+#: onedesk/public/js/doctype_settings.js:474 onedesk/public/js/onecloud.js:105
 #: onedesk/public/js/onecloud.js:1916 onedesk/public/js/onemail.js:103
 #: onedesk/public/js/onemail.js:424 onedesk/public/js/settings.js:1571
 #: onedesk/public/js/settings.js:2412
@@ -4584,11 +4586,11 @@ msgstr "حذف نهائي"
 msgid "Delete letter head {0}?"
 msgstr "حذف ترويسة الرسائل {0}؟"
 
-#: onedesk/public/js/doctype_settings.js:368
+#: onedesk/public/js/doctype_settings.js:414
 msgid "Delete series {0}?"
 msgstr "حذف السلسلة {0}؟"
 
-#: onedesk/public/js/doctype_settings.js:430
+#: onedesk/public/js/doctype_settings.js:476
 msgid "Delete template {0}?"
 msgstr "حذف القالب {0}؟"
 
@@ -5208,7 +5210,7 @@ msgstr "تعديل"
 msgid "Edit Memory"
 msgstr "تعديل الذكرى"
 
-#: onedesk/public/js/doctype_settings.js:326
+#: onedesk/public/js/doctype_settings.js:363
 msgid "Edit Series"
 msgstr "تعديل السلسلة"
 
@@ -5463,7 +5465,7 @@ msgstr "إفراغ سلة المحذوفات"
 msgid "Empty for a new record."
 msgstr "فارغ لسجل جديد."
 
-#: onedesk/public/js/doctype_settings.js:399
+#: onedesk/public/js/doctype_settings.js:445
 msgid "Empty offers it on any kind of record."
 msgstr "تركه فارغًا يعرضه على أي نوع من السجلات."
 
@@ -6403,7 +6405,7 @@ msgstr ""
 #. Label of the label (Data) field in DocType 'Cloud Drive Password'
 #: onedesk/one_hr/print_format/employee_letter/employee_letter.html:9
 #: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json
-#: onedesk/public/js/doctype_settings.js:396 onedesk/public/js/settings.js:1480
+#: onedesk/public/js/doctype_settings.js:442 onedesk/public/js/settings.js:1480
 msgid "For"
 msgstr "لـ"
 
@@ -6415,7 +6417,8 @@ msgstr "لكل من في مساحة العمل. كل رقم يفتح صندوق 
 msgid "For everybody who has not chosen their own in Profile."
 msgstr "لكل من لم يختر إعداده الخاص في الملف الشخصي."
 
-#: onedesk/public/js/doctype_settings.js:312
+#: onedesk/public/js/doctype_settings.js:321
+#: onedesk/public/js/doctype_settings.js:356
 msgid "For example {0}"
 msgstr "مثل {0}"
 
@@ -7149,7 +7152,8 @@ msgstr "كيف يعمل OneAI، وأي النماذج تعمل، وماذا يح
 msgid "How Sure OneAI Must Be"
 msgstr "مدى يقين OneAI المطلوب"
 
-#: onedesk/public/js/doctype_settings.js:346
+#: onedesk/public/js/doctype_settings.js:325
+#: onedesk/public/js/doctype_settings.js:391
 msgid "How a Series Is Written"
 msgstr "كيف تُكتب السلسلة"
 
@@ -9730,8 +9734,8 @@ msgstr "دمج في {0}"
 #: onedesk/one_crm/custom/lead.json
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
-#: onedesk/public/js/doctype_settings.js:402
-#: onedesk/public/js/doctype_settings.js:403 onedesk/public/js/oneai.js:448
+#: onedesk/public/js/doctype_settings.js:448
+#: onedesk/public/js/doctype_settings.js:449 onedesk/public/js/oneai.js:448
 #: onedesk/public/js/onecloud.js:1622 onedesk/public/js/onemail.js:539
 #: onedesk/public/js/onemail.js:895
 msgid "Message"
@@ -10015,14 +10019,14 @@ msgstr "مهامي"
 #: onedesk/one_project/report/workload/workload.py:146
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/public/js/customize.js:91 onedesk/public/js/doctype_settings.js:391
+#: onedesk/public/js/customize.js:91 onedesk/public/js/doctype_settings.js:437
 #: onedesk/public/js/leave_control_panel.js:34
 #: onedesk/public/js/onecloud.js:143 onedesk/public/js/onecloud.js:1552
 #: onedesk/public/js/settings.js:1540 onedesk/public/js/settings.js:1693
 msgid "Name"
 msgstr "الاسم"
 
-#: onedesk/public/js/doctype_settings.js:407
+#: onedesk/public/js/doctype_settings.js:453
 msgid "Name a field of the record in double braces, as {0}, and it is filled in when the mail is written."
 msgstr "اذكر حقلًا من السجل بين قوسين مزدوجين، مثل {0}، فيُملأ عند كتابة الرسالة."
 
@@ -10189,7 +10193,7 @@ msgstr "ترويسة رسائل جديدة"
 msgid "New Link"
 msgstr "رابط جديد"
 
-#: onedesk/public/js/doctype_settings.js:388 onedesk/public/js/settings.js:1462
+#: onedesk/public/js/doctype_settings.js:434 onedesk/public/js/settings.js:1462
 msgid "New Mail Template"
 msgstr "قالب بريد جديد"
 
@@ -10207,7 +10211,7 @@ msgstr "مشروع جديد"
 msgid "New Rule"
 msgstr "قاعدة جديدة"
 
-#: onedesk/public/js/doctype_settings.js:312
+#: onedesk/public/js/doctype_settings.js:319
 msgid "New Series"
 msgstr "سلسلة جديدة"
 
@@ -10359,7 +10363,8 @@ msgstr "التالي في {0}"
 msgid "Next year's is made three days before this one ends."
 msgstr "تُنشأ السنة التالية قبل ثلاثة أيام من نهاية هذه السنة."
 
-#: onedesk/one_admin/home.py:168 onedesk/public/js/doctype_settings.js:328
+#: onedesk/one_admin/home.py:168 onedesk/public/js/doctype_settings.js:355
+#: onedesk/public/js/doctype_settings.js:371
 msgid "Next: {0}"
 msgstr "التالي: {0}"
 
@@ -13701,7 +13706,7 @@ msgstr ""
 msgid "Rating"
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:340
+#: onedesk/public/js/doctype_settings.js:385
 msgid "Reached"
 msgstr "وصلت إلى"
 
@@ -15127,15 +15132,15 @@ msgid "Serial and batch numbers can be used"
 msgstr "يمكن استخدام الأرقام التسلسلية والدفعات"
 
 #: onedesk/one/ai.py:1481 onedesk/public/js/doctype_settings.js:299
-#: onedesk/public/js/doctype_settings.js:328 onedesk/public/js/settings.js:1421
+#: onedesk/public/js/doctype_settings.js:368 onedesk/public/js/settings.js:1421
 msgid "Series"
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:316
+#: onedesk/public/js/doctype_settings.js:335
 msgid "Series added"
 msgstr "أُضيفت السلسلة"
 
-#: onedesk/public/js/doctype_settings.js:361
+#: onedesk/public/js/doctype_settings.js:406
 msgid "Series updated"
 msgstr "حُدّثت السلسلة"
 
@@ -15267,7 +15272,7 @@ msgstr "جارٍ إعداد One"
 #: onedesk/one/page/settings/settings.js:5 onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-#: onedesk/public/js/doctype_settings.js:475 onedesk/public/js/head.js:30
+#: onedesk/public/js/doctype_settings.js:521 onedesk/public/js/head.js:30
 msgid "Settings"
 msgstr "الإعدادات"
 
@@ -16237,7 +16242,7 @@ msgstr "المهام الفرعية"
 #: onedesk/one/notify.py:304 onedesk/one/rules.py:75
 #: onedesk/one/settings.py:1762
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:425
-#: onedesk/public/js/doctype_settings.js:392 onedesk/public/js/onemail.js:772
+#: onedesk/public/js/doctype_settings.js:438 onedesk/public/js/onemail.js:772
 #: onedesk/public/js/settings.js:1479
 msgid "Subject"
 msgstr "الموضوع"
@@ -16672,11 +16677,11 @@ msgstr ""
 msgid "Template Name"
 msgstr "اسم القالب"
 
-#: onedesk/public/js/doctype_settings.js:422
+#: onedesk/public/js/doctype_settings.js:468
 msgid "Template made"
 msgstr "تم إنشاء القالب"
 
-#: onedesk/public/js/doctype_settings.js:422
+#: onedesk/public/js/doctype_settings.js:468
 msgid "Template updated"
 msgstr "تم تحديث القالب"
 
@@ -17374,11 +17379,11 @@ msgstr "الأيام الجديدة مضافاً إليها ما رُحِّل. �
 msgid "The new designation, kept on the document so the list and a filter can reach what is otherwise only a child row."
 msgstr "المسمى الوظيفي الجديد، محفوظاً على المستند كي تصل إليه القائمة والفلتر، وهو خلاف ذلك مجرد صف في جدول فرعي."
 
-#: onedesk/public/js/doctype_settings.js:343
+#: onedesk/public/js/doctype_settings.js:388
 msgid "The next name continues after this number. It can only go up, and not below {0}, the highest a {1} already has ({2})."
 msgstr "يستمر الاسم التالي بعد هذا الرقم. يمكنه الارتفاع فقط، ولا ينزل عن {0}، وهو أعلى رقم يحمله {1} حاليًا ({2})."
 
-#: onedesk/public/js/doctype_settings.js:344
+#: onedesk/public/js/doctype_settings.js:389
 msgid "The next name continues after this number. It can only go up."
 msgstr "يستمر الاسم التالي بعد هذا الرقم. لا يمكن إلا أن يزيد."
 
@@ -18963,8 +18968,8 @@ msgstr "حتى"
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/doctype_settings.js:349
-#: onedesk/public/js/doctype_settings.js:410 onedesk/public/js/settings.js:1559
+#: onedesk/public/js/doctype_settings.js:394
+#: onedesk/public/js/doctype_settings.js:456 onedesk/public/js/settings.js:1559
 msgid "Update"
 msgstr "تحديث"
 
@@ -21131,7 +21136,7 @@ msgstr "اكتب توقيعًا لصندوق البريد الذي أرسل من
 msgid "Write attendance on the holidays inside these dates as well. Left off, holidays in the range are skipped."
 msgstr "اكتب الحضور في العطل الواقعة ضمن هذه التواريخ أيضاً. وإن تُرك دون تفعيل، تُتخطى العطل ضمن المدة."
 
-#: onedesk/public/js/doctype_settings.js:401
+#: onedesk/public/js/doctype_settings.js:447
 msgid "Write in HTML"
 msgstr "الكتابة بلغة HTML"
 
@@ -22650,7 +22655,7 @@ msgstr "{0} يمنحك هذا مقابل {1} شهريًا، أقل بـ {2}."
 msgid "{0} goes through {1}, which is not a link."
 msgstr "{0} يمر عبر {1}، وهو ليس رابطًا."
 
-#: onedesk/one/numbering.py:161
+#: onedesk/one/numbering.py:186
 msgid "{0} goes up to {1} already, so it can only be moved to {1} or more."
 msgstr "يصل {0} إلى {1} فعلًا، لذا يمكن نقله إلى {1} أو أكثر فقط."
 
@@ -22698,7 +22703,7 @@ msgstr "لم تُدفع {0}، فلا شيء لإنشائه."
 msgid "{0} has not failed."
 msgstr "{0} لم تفشل."
 
-#: onedesk/one/numbering.py:165
+#: onedesk/one/numbering.py:190
 msgid "{0} has reached {1}. It can only go up: a lower number would repeat a name already used."
 msgstr "وصلت {0} إلى {1}. لا يمكن إلا أن تزيد: الرقم الأقل سيكرر اسمًا مستخدمًا."
 
@@ -22770,6 +22775,10 @@ msgstr "{0} موجود أصلاً على مساحة عمل أخرى."
 #: onedesk/one/settings.py:1140
 msgid "{0} is already on the workspace."
 msgstr "{0} موجود بالفعل في مساحة العمل."
+
+#: onedesk/public/js/doctype_settings.js:353
+msgid "{0} is already one of its series."
+msgstr "{0} هي بالفعل إحدى سلاسله."
 
 #: onedesk/one_mail/addresses.py:125
 msgid "{0} is already somebody's."
@@ -22895,7 +22904,7 @@ msgstr "{0} ليست خطة معروضة للبيع."
 msgid "{0} is not a rung an operator sets."
 msgstr "{0} ليست درجة يضبطها المشغّل."
 
-#: onedesk/one/numbering.py:154
+#: onedesk/one/numbering.py:179
 msgid "{0} is not a series of {1}."
 msgstr "{0} ليست سلسلة لـ {1}."
 

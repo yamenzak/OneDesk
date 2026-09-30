@@ -307,25 +307,70 @@ onedesk.numbering.list = ($wrapper, doctype) => {
 	return { refresh: draw };
 };
 
-onedesk.numbering.add = (doctype, done) =>
-	frappe.prompt(
-		{ fieldtype: "Data", label: __("New Series"), fieldname: "series", reqd: 1, description: __("For example {0}", ["INV-.YYYY.-.####"]) },
-		async ({ series }) => {
+// A new series, with the name it would give next shown as it is typed (or what is
+// wrong with it, in frappe's words), and how a series is written beside it.
+onedesk.numbering.add = (doctype, done) => {
+	const dialog = new frappe.ui.Dialog({
+		title: __("Add Series"),
+		fields: [
+			{
+				fieldtype: "Data",
+				fieldname: "series",
+				label: __("New Series"),
+				reqd: 1,
+				description: __("For example {0}", ["INV-.YYYY.-.#####"]),
+				onchange: () => onedesk.numbering.preview(doctype, dialog, "series", true),
+			},
+			{ fieldtype: "Check", fieldname: "first", label: __("Default"), description: __("A new record starts with this series.") },
+			{ fieldtype: "Section Break", label: __("How a Series Is Written"), collapsible: 1 },
+			{ fieldtype: "HTML", fieldname: "help", options: frappe.ui.NamingSeriesDialog.help_html() },
+		],
+		primary_action_label: __("Add"),
+		primary_action: async ({ series, first }) => {
 			const rows = await frappe.xcall(onedesk.numbering.API + "series", { doctype });
-			await frappe.xcall(onedesk.numbering.API + "save", { doctype, options: [...rows.map((one) => one.series), series.trim()] });
+			const kept = rows.map((one) => one.series);
+			series = series.trim();
+			await frappe.xcall(onedesk.numbering.API + "save", { doctype, options: first ? [series, ...kept] : [...kept, series] });
+			dialog.hide();
 			frappe.show_alert({ message: __("Series added"), indicator: "green" });
 			done();
 		},
-		__("Add Series"),
-		__("Add")
+	});
+	dialog.fields_dict.series.$input.on("input", frappe.utils.debounce(() => onedesk.numbering.preview(doctype, dialog, "series", true), 300));
+	dialog.show();
+};
+
+// What a series being written would give next, under its field. `adding` says so when
+// it is one the record already has.
+onedesk.numbering.preview = async (doctype, dialog, fieldname, adding = false) => {
+	const field = dialog.fields_dict[fieldname];
+	const one = (field.get_value() || "").trim();
+	const said = one ? await frappe.xcall(onedesk.numbering.API + "preview", { doctype, one }) : {};
+	if ((field.get_value() || "").trim() !== one) return;
+	const esc = frappe.utils.escape_html;
+	field.set_description(
+		said.error || (adding && said.mine)
+			? `<span class="text-danger">${esc(said.error || __("{0} is already one of its series.", [one]))}</span>`
+			: said.next
+			? __("Next: {0}", [`<samp>${esc(said.next)}</samp>`])
+			: __("For example {0}", ["INV-.YYYY.-.#####"])
 	);
+};
 
 // One series: its pattern, and the number it has reached, which only goes up.
 onedesk.numbering.edit = (doctype, row, rows, done) => {
 	const dialog = new frappe.ui.Dialog({
 		title: __("Edit Series"),
 		fields: [
-			{ fieldtype: "Data", fieldname: "series", label: __("Series"), reqd: 1, default: row.series, description: __("Next: {0}", [row.next]) },
+			{
+				fieldtype: "Data",
+				fieldname: "series",
+				label: __("Series"),
+				reqd: 1,
+				default: row.series,
+				description: __("Next: {0}", [row.next]),
+				onchange: () => onedesk.numbering.preview(doctype, dialog, "series"),
+			},
 			{
 				fieldtype: "Check",
 				fieldname: "first",
@@ -362,6 +407,7 @@ onedesk.numbering.edit = (doctype, row, rows, done) => {
 			done();
 		},
 	});
+	dialog.fields_dict.series.$input.on("input", frappe.utils.debounce(() => onedesk.numbering.preview(doctype, dialog, "series"), 300));
 	// A series is deleted from its own window; the last one is refused by the server.
 	dialog.set_secondary_action_label(__("Delete"));
 	dialog.set_secondary_action(() =>

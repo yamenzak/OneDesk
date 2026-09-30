@@ -461,7 +461,7 @@ How each kind of record is named when it is made: an invoice
 of record numbered by a series that you can open, the series a new one starts
 with, and the exact name the next one will get. Opening one opens that kind of
 record's **Settings** on **Numbering** (see A Form's Settings), where its series
-are added, changed, made the default or deleted, and a series is moved on.
+are added, changed, made the default or deleted, and a series is moved on. While a series is typed, the window shows the name it would give next, or what is wrong with it.
 
 A series is parts joined by dots, read left to right. Text stays as written
 (`INV-`, `SO/`). `YYYY` is the year (2026) and `YY` its last two digits (26),
