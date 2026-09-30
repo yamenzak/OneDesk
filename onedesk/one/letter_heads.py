@@ -40,6 +40,8 @@ FEET = {
 	"centred": _lt("Centred"),
 	"split": _lt("Two Sides"),
 	"band": _lt("Band"),
+	"above": _lt("Logo Above"),
+	"spread": _lt("Spread"),
 }
 
 #: What a foot may show: what a top may, and a small logo before it.
@@ -380,11 +382,15 @@ def draw_foot(raw, details: dict | None = None) -> str:
 		line = gap.join(one for one in (name, *rest) if one)
 		band = (mark() + f"{middle}{line}</span>") if (line or mark()) else ""
 		return (
-			f'<div style="background:{colour};color:#ffffff;padding:8px 16px;border-radius:4px;'
-			f'text-align:center;font-size:10px;line-height:1.6;{EXACT}">{band}</div>'
-			if band
-			else ""
-		) + note("center")
+			rule
+			+ (
+				f'<div style="background:{colour};color:#ffffff;padding:8px 16px;border-radius:4px;'
+				f'text-align:center;font-size:10px;line-height:1.6;{EXACT}">{band}</div>'
+				if band
+				else ""
+			)
+			+ note("center")
+		)
 
 	name, rest = parts()
 	if preset == "split":
@@ -395,6 +401,32 @@ def draw_foot(raw, details: dict | None = None) -> str:
 			f"{mark()}{middle}{name}</span></div>"
 			f'<div style="display:table-cell;vertical-align:middle;text-align:right">{gap.join(rest)}</div>'
 			"</div>" + note("left")
+		)
+
+	if preset == "above":
+		# The logo centred on its own, and the line under it.
+		line = gap.join(one for one in (name, *rest) if one)
+		return (
+			rule
+			+ (f'<div style="text-align:center;margin-bottom:4px">{mark()}</div>' if mark() else "")
+			+ f'<div style="text-align:center;{small}color:#374151">{line}</div>'
+			+ note("center")
+		)
+
+	if preset == "spread":
+		# The logo and name, then each detail, spaced evenly across the page.
+		items = [one for one in (f"{mark()}{middle}{name}</span>" if (mark() or name) else "", *rest) if one]
+		last = len(items) - 1
+		return (
+			rule
+			+ f'<div style="display:table;width:100%;{small}color:#374151">'
+			+ "".join(
+				f'<div style="display:table-cell;vertical-align:middle;white-space:nowrap;'
+				f'text-align:{"left" if n == 0 else "right" if n == last else "center"}">{one}</div>'
+				for n, one in enumerate(items)
+			)
+			+ "</div>"
+			+ note("center")
 		)
 
 	# Centred: the logo, the name and the rest on one line.

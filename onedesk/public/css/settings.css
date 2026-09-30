@@ -572,10 +572,6 @@
 	margin-bottom: calc(var(--spacing) * 3);
 }
 
-.one-lh-presets--feet {
-	grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
 .one-lh-preset {
 	display: flex;
 	flex-direction: column;

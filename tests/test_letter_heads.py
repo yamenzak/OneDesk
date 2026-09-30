@@ -89,7 +89,7 @@ def test_every_foot_is_drawn_and_carries_no_page_number():
 	"""The page number is the print format's own (Print Format's page_number),
 	which frappe draws on every page; a foot that drew one too would print it twice."""
 	feet = _keys("FEET")
-	assert feet == ["centred", "split", "band"]
+	assert feet == ["centred", "split", "band", "above", "spread"]
 	draw_foot = _body("draw_foot")
 	for preset in feet[1:]:
 		assert f'preset == "{preset}"' in draw_foot, preset

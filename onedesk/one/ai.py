@@ -1688,7 +1688,7 @@ def change_printing(
 		"one of classic, centred, banner, minimal, details or logo, to draw its top from the company's details in "
 		"Workspace > General (with {show}, a list of name, address, phone, email, website, tax_id, and "
 		"{logo_height} in pixels, and {line} 0 to leave out the line in the Brand Colour under it), which is what to suggest first; {foot}, "
-		"{preset} one of centred, split or band, to draw the foot from the same details (with {show}, "
+		"{preset} one of centred, split, band, above or spread, to draw the foot from the same details (with {show}, "
 		"{note}, a short line of their own such as a thank-you, and {line}; the page number is the print "
 		"format's own); or {logo}, "
 		"'company' for the logo Workspace > General keeps or a file URL the workspace already has; or "

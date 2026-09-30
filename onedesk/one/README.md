@@ -557,10 +557,12 @@ print format builder instead, where the top and the foot are each a picture or
 HTML; a top changed there stays as it was written, and choosing a preset
 again replaces it.
 
-The **Foot** is chosen the same way, from three presets drawn from the same
+The **Foot** is chosen the same way, from five presets drawn from the same
 details, each a single quiet line since the top already says the rest:
 **Centred**, **Two Sides** (the logo and name on the left, the rest on the
-right) and **Band** (the line in a band of the Brand Colour), or **None**. A
+right), **Band** (the line in a band of the Brand Colour), **Logo Above** (the
+logo centred over the line) and **Spread** (each detail spaced evenly across
+the page), or **None**. Every one takes the Brand Line or leaves it out. A
 new foot shows the website and the tax ID; tick what else it **Shows**,
 **Logo** included (a small mark at the start of the line), add a **Note** of
 your own ("Thank you for your business."), and leave out its **Brand Line** if
