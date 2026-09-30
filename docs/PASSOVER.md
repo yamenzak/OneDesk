@@ -4342,6 +4342,31 @@ and touched no header, None cleared the footer, `[icon:phone]` drew while an
 unknown name stayed as written, and a change to what is already so was
 refused.
 
+**Print formats and OneAI. Fixed.** OneAI already designed with the builder's
+blocks, not HTML, but its results would not have been consistent:
+
+1. It knew the grammar of a layout and nothing of what a good one is, so two
+   requests for the same invoice came out as two pages.
+2. It wrote its own CSS for every format.
+3. It had part of the builder: no label changes, hidden or inline labels,
+   alignment, bold, barcodes, table headings, and no page number setting.
+4. Nothing checked a layout before the card: an empty section or a table wider
+   than the page reached the person.
+
+Now `print_layout` offers a `starting_layout` from `print_recipes.py` (a
+document of trade: party left, dates right, items table, totals beside the
+amount in words, terms last; anything else: main fields in two columns, up to
+three tables, long text last) and the rules say to change only what was asked;
+the format prints in frappe's own style with no CSS unless a look is asked for;
+blocks take `label`, `show_label` (hide or inline, frappe's words), `align`,
+`bold`, `show_empty`, table headings and `bordered`, and `{barcode, format}`;
+`page_number` is a format setting; and `_built` sends back a layout with an
+empty section, a table without columns or wider than the page, a field given
+columns that is not a table, or a barcode of a missing field. Checked on the
+site: Sales and Purchase Invoice formats made from their starting layouts
+print in the same look as frappe's Standard, tidier; tables no longer print a
+label frappe's own formats leave off.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

@@ -1922,16 +1922,29 @@ def _on_documents(company) -> dict:
 #: How a print format is written, for a model writing one.
 LAYOUT_HELP = (
 	"sections is a list of sections, top to bottom. A section is a list of columns side by side, or "
-	"{label, columns}. A column is a list of blocks, top to bottom. A block is a fieldname of the record "
-	"(printed as its label and value); '---' for a line; {table: fieldname, columns: ['item_name:50', "
-	"'qty:15', 'amount:35']} for a table with each column's share of the width; {text: '...'} for fixed "
-	"words; {space: 12} for room; {image: url} for a file of this workspace; or {html: '...'}, a Jinja "
-	"template of the record only: {{ doc.fieldname }}, {{ doc.get_formatted('grand_total') }}, "
-	"{% for row in doc.items %}...{% endfor %}, {% if %}, _('text') and plain filters; values are "
-	"escaped, and scripts, forms and outside pictures are taken out. An empty column is []. heading is "
-	"the title at the top in the same HTML, frappe's own when left out. css is the format's stylesheet, "
-	"with no imports or outside URLs."
+	"{label, columns, keep_together} (label prints above it; keep_together keeps it on one page). A column "
+	"is a list of blocks, top to bottom. A block is: a fieldname of the record, printed as its label and "
+	"value, or {field, label, show_label: false|'inline', align: left|center|right, bold, show_empty} for one "
+	"printed another way; '---' for a line; {table: fieldname, columns: ['item_name:45', 'qty:15', "
+	"'rate:20:Price', 'amount:20'], bordered, show_label} for a table (its label printed above only with show_label), each column a field of its rows with its share "
+	"of the width (together at most 100) and, if it should read differently, its heading; {text: '...', "
+	"align, bold} for fixed words; {space: 12} for room; {barcode: fieldname, format: QR|CODE128}; {image: "
+	"url} for a file of this workspace; or {html: '...'}, a Jinja template of the record only: "
+	"{{ doc.fieldname }}, {{ doc.get_formatted('grand_total') }}, {% for row in doc.items %}...{% endfor %}, "
+	"{% if %}, _('text') and plain filters; values are escaped, and scripts, forms and outside pictures are "
+	"taken out. An empty column is []. heading is the title at the top in the same HTML, frappe's own when "
+	"left out. How it should look: start from print_layout's starting_layout (or the format being changed) "
+	"and change only what was asked. It prints in frappe's own print style, like every other format here, "
+	"so there is no css and no colours or font sizes unless they ask for a look of their own. The party "
+	"and its address go on the left and the dates and references on the right; the items are one table, "
+	"the description widest and the figures narrower; the totals sit under it on the right with the amount "
+	"in words on the left; terms and notes come last, each in a labelled section. The letter head already "
+	"prints the company, so the body does not repeat it. Prefer fields to html."
 )
+
+#: What a block may say about itself beyond what it is.
+FIELD_OPTIONS = ("label", "show_label", "align", "bold", "show_empty")
+ALIGN = ("left", "center", "right")
 
 
 def _block(one) -> dict:
@@ -1939,43 +1952,114 @@ def _block(one) -> dict:
 	if isinstance(one, str):
 		return {"fieldtype": "Divider"} if one.strip("- ") == "" else {"fieldname": one.strip()}
 	if not isinstance(one, dict):
-		frappe.throw(_("A block is a fieldname, '---', or one of table, text, space, image or html."))
+		frappe.throw(_("A block is a fieldname, '---', or one of table, text, space, barcode, image or html."))
+	if one.get("align") and one["align"] not in ALIGN:
+		frappe.throw(_("A block's align is left, center or right."))
 	if one.get("table"):
 		columns = []
 		for column in one.get("columns") or []:
-			fieldname, _sep, width = str(column).partition(":")
-			columns.append({"fieldname": fieldname.strip(), **({"width": frappe.utils.cint(width)} if width else {})})
-		return {"fieldname": one["table"], "table_columns": columns}
+			fieldname, _sep, rest = str(column).partition(":")
+			width, _sep, label = rest.partition(":")
+			columns.append(
+				{
+					"fieldname": fieldname.strip(),
+					**({"width": frappe.utils.cint(width)} if width.strip() else {}),
+					**({"label": label.strip()} if label.strip() else {}),
+				}
+			)
+		if not columns:
+			frappe.throw(_("The table {0} needs its columns.").format(one["table"]))
+		return {
+			"fieldname": one["table"],
+			"table_columns": columns,
+			# As frappe's own formats print a table: its columns say what it is.
+			**({} if one.get("show_label") else {"show_label": "hide"}),
+			**({"table_bordered": 1} if one.get("bordered") else {}),
+		}
 	if "html" in one:
 		return {"fieldtype": "HTML", "html": str(one["html"])}
 	if "text" in one:
-		return {"fieldtype": "Static Text", "text": str(one["text"])}
+		return {
+			"fieldtype": "Static Text",
+			"text": str(one["text"]),
+			**{key: one[key] for key in ("align", "bold") if one.get(key)},
+		}
 	if "space" in one:
 		return {"fieldtype": "Spacer", "height": frappe.utils.cint(one["space"]) or 10}
 	if "image" in one:
 		return {"fieldtype": "Image", "image_url": str(one["image"])}
-	if one.get("fieldname"):
-		return {"fieldname": one["fieldname"]}
-	frappe.throw(_("A block is a fieldname, '---', or one of table, text, space, image or html."))
+	if one.get("barcode"):
+		kind = str(one.get("format") or "CODE128").upper()
+		if kind not in ("QR", "CODE128"):
+			frappe.throw(_("A barcode's format is QR or CODE128."))
+		return {"fieldtype": "Barcode", "barcode_field": str(one["barcode"]), "barcode_format": kind}
+	fieldname = one.get("field") or one.get("fieldname")
+	if fieldname:
+		block = {"fieldname": str(fieldname).strip()}
+		for key in FIELD_OPTIONS:
+			if key in one and one[key] not in (None, ""):
+				block[key] = one[key]
+		if "show_label" in block:
+			# frappe's word for it: show, hide, or inline (beside the value).
+			said = block.pop("show_label")
+			if said == "inline":
+				block["show_label"] = "inline"
+			elif said in (False, 0, "hide", "false"):
+				block["show_label"] = "hide"
+		return block
+	frappe.throw(_("A block is a fieldname, '---', or one of table, text, space, barcode, image or html."))
 
 
-def _built(sections, heading: str | None) -> dict:
-	"""The builder's layout from sections as a model writes them."""
+def _built(sections, heading: str | None, doctype: str | None = None) -> dict:
+	"""The builder's layout from sections as a model writes them, checked for
+	what would print badly: an empty section, a table without columns or wider
+	than the page, a field that is not a table given columns, a barcode of a
+	field the kind does not have."""
 	from frappe.printing.doctype.print_format.classic_converter import DEFAULT_PRINT_HEADING
 
 	if isinstance(sections, str):
 		sections = frappe.parse_json(sections)
 	if not isinstance(sections, list) or not sections:
 		frappe.throw(_("sections is a list of sections, each a list of columns."))
+	meta = frappe.get_meta(doctype) if doctype else None
+	problems = []
 	built = []
-	for section in sections:
-		label = ""
+	for n, section in enumerate(sections, 1):
+		label, keep = "", False
 		if isinstance(section, dict):
-			label, section = section.get("label") or "", section.get("columns") or []
+			label, keep, section = section.get("label") or "", section.get("keep_together"), section.get("columns") or []
 		if not isinstance(section, list):
 			frappe.throw(_("A section is a list of columns, each a list of blocks."))
 		columns = [column if isinstance(column, list) else [column] for column in section]
-		built.append({"label": label, "columns": [{"label": "", "fields": [_block(b) for b in c]} for c in columns]})
+		blocks = [[_block(b) for b in c] for c in columns]
+		if not any(blocks):
+			problems.append(_("section {0} is empty").format(label or n))
+		for column in blocks:
+			for block in column:
+				if meta and block.get("table_columns"):
+					field = meta.get_field(block["fieldname"])
+					if field and field.fieldtype not in frappe.model.table_fields:
+						problems.append(_("{0} is not a table").format(block["fieldname"]))
+					width = sum(frappe.utils.cint(c.get("width")) for c in block["table_columns"])
+					if width > 100:
+						problems.append(
+							_("the columns of {0} come to {1}%, more than the page").format(block["fieldname"], width)
+						)
+				elif meta and block.get("fieldname") and not block.get("fieldtype"):
+					field = meta.get_field(block["fieldname"])
+					if field and field.fieldtype in frappe.model.table_fields:
+						problems.append(_("{0} is a table: give it its columns").format(block["fieldname"]))
+				if meta and block.get("fieldtype") == "Barcode" and not meta.has_field(block["barcode_field"]):
+					problems.append(_("there is no field {0} for the barcode").format(block["barcode_field"]))
+		built.append(
+			{
+				"label": label,
+				**({"keep_together": 1} if keep else {}),
+				"columns": [{"label": "", "fields": column} for column in blocks],
+			}
+		)
+	if problems:
+		frappe.throw(_("The layout would print badly: {0}.").format("; ".join(problems)))
 	top = heading or DEFAULT_PRINT_HEADING
 	return {
 		"header": {"columns": [{"label": "", "fields": [{"fieldtype": "HTML", "label": "", "html": top}]}]},
@@ -1984,7 +2068,7 @@ def _built(sections, heading: str | None) -> dict:
 	}
 
 
-def _written(layout) -> dict | None:
+def _written(layout, meta=None) -> dict | None:
 	"""A builder layout as a model writes one (_built's inverse): its sections,
 	and its heading when it is not frappe's own."""
 	from frappe.printing.doctype.print_format.classic_converter import DEFAULT_PRINT_HEADING
@@ -1995,24 +2079,46 @@ def _written(layout) -> dict | None:
 	def block(one: dict):
 		kind = one.get("fieldtype")
 		if one.get("table_columns"):
+			rows = frappe.get_meta(one["options"]) if one.get("options") else None
+
+			def column(c):
+				said = [c.get("fieldname"), str(c.get("width") or "")]
+				own = rows.get_field(c.get("fieldname")) if rows else None
+				if c.get("label") and own and c["label"] != own.label:
+					said.append(c["label"])
+				return ":".join(said).rstrip(":")
+
 			return {
 				"table": one.get("fieldname"),
-				"columns": [
-					f"{c.get('fieldname')}:{c.get('width')}" if c.get("width") else c.get("fieldname")
-					for c in one["table_columns"]
-				],
+				"columns": [column(c) for c in one["table_columns"]],
+				**({"bordered": True} if one.get("table_bordered") else {}),
+				**({"show_label": True} if one.get("show_label") not in (None, "hide") else {}),
 			}
 		if kind == "HTML":
 			return {"html": one.get("html") or ""}
 		if kind == "Static Text":
-			return {"text": one.get("text") or ""}
+			return {"text": one.get("text") or "", **{k: one[k] for k in ("align", "bold") if one.get(k)}}
 		if kind == "Divider":
 			return "---"
 		if kind == "Spacer":
 			return {"space": one.get("height") or 10}
 		if kind == "Image":
 			return {"image": one.get("image_url") or ""}
-		return one.get("fieldname")
+		if kind == "Barcode":
+			return {"barcode": one.get("barcode_field"), "format": one.get("barcode_format") or "CODE128"}
+		own = meta.get_field(one.get("fieldname")) if meta and one.get("fieldname") else None
+		options = {
+			key: one[key]
+			for key in FIELD_OPTIONS
+			if key not in ("label", "show_label") and one.get(key) not in (None, "")
+		}
+		if one.get("show_label") == "hide":
+			options["show_label"] = False
+		elif one.get("show_label") == "inline":
+			options["show_label"] = "inline"
+		if own and one.get("label") and one["label"] != own.label:
+			options["label"] = one["label"]
+		return {"field": one.get("fieldname"), **options} if options else one.get("fieldname")
 
 	sections = []
 	for section in layout.get("sections") or []:
@@ -2021,7 +2127,16 @@ def _written(layout) -> dict | None:
 			for column in section.get("columns") or []
 		]
 		if any(columns):
-			sections.append({"label": section["label"], "columns": columns} if section.get("label") else columns)
+			if section.get("label") or section.get("keep_together"):
+				sections.append(
+					{
+						"label": section.get("label") or "",
+						"columns": columns,
+						**({"keep_together": True} if section.get("keep_together") else {}),
+					}
+				)
+			else:
+				sections.append(columns)
 	top = [
 		one.get("html")
 		for column in (layout.get("header") or {}).get("columns") or []
@@ -2036,10 +2151,10 @@ def print_layout(
 	doctype: Annotated[str, "The kind of record, such as Sales Invoice."],
 	print_format: Annotated[str, "A format of that kind to start from; its default when left out."] | None = None,
 ) -> dict:
-	"""A kind of record's fields and one of its builder formats as sections, the
-	way design_print_format takes them: read it before designing one.
-	Workspace administrators only."""
-	from onedesk.one import printing, roles
+	"""A kind of record's fields, the layout a format of it starts from, and one
+	of its builder formats as sections, the way design_print_format takes them:
+	read it before designing one. Workspace administrators only."""
+	from onedesk.one import print_recipes, printing, roles
 	from onedesk.one_ai import kind
 
 	if not roles.administers():
@@ -2048,7 +2163,11 @@ def print_layout(
 		printing._doctype(doctype)
 		meta = frappe.get_meta(doctype)
 		name = print_format or next(iter(printing.starts(doctype)), frappe._dict()).get("name")
-		held = frappe.db.get_value("Print Format", name, ["doc_type", "format_data", "css"], as_dict=True) if name else None
+		held = (
+			frappe.db.get_value("Print Format", name, ["doc_type", "format_data", "css", "page_number"], as_dict=True)
+			if name
+			else None
+		)
 		if held and held.doc_type != doctype:
 			return {"error": f"{name} is not a format of {doctype}."}
 		return {
@@ -2058,12 +2177,14 @@ def print_layout(
 				table.fieldname: kind.fields_of(frappe.get_meta(table.options), most=30)
 				for table in meta.get_table_fields()
 			},
+			"starting_layout": print_recipes.starting_layout(doctype),
 			"format": name,
-			"written": _written(json.loads(held.format_data)) if held and held.format_data else None,
+			"written": _written(json.loads(held.format_data), meta) if held and held.format_data else None,
 			"css": held.css if held else None,
+			"page_number": held.page_number if held else None,
 			"how": LAYOUT_HELP,
 		}
-	except frappe.ValidationError as e:
+	except (frappe.ValidationError, frappe.PermissionError) as e:
 		frappe.clear_last_message()
 		return {"error": str(e)}
 
@@ -2079,7 +2200,18 @@ def design_print_format(
 	],
 	heading: Annotated[str, "The title at the top, as an HTML template of the record; frappe's own if left out."]
 	| None = None,
-	css: Annotated[str, "The format's own stylesheet, if it needs one."] | None = None,
+	css: Annotated[
+		str,
+		"Leave out: the format prints in frappe's own print style, like every other one here. Only for a "
+		"look they asked for by name, and then no imports or outside URLs.",
+	]
+	| None = None,
+	page_number: Annotated[
+		str,
+		"Where the page number prints on every page: Hide, Top Left, Top Center, Top Right, Bottom Left, "
+		"Bottom Center or Bottom Right. Leave out to keep the format's own.",
+	]
+	| None = None,
 	letter_head: Annotated[str, "The letter head it prints with, if not the default."] | None = None,
 	make_default: Annotated[bool, "True to make it the one this kind prints with."] | None = None,
 	why: Annotated[str, "In a sentence, what the design is for."] | None = None,
@@ -2102,8 +2234,10 @@ def design_print_format(
 		existing = frappe.db.get_value("Print Format", name, ["standard", "doc_type"], as_dict=True)
 		if existing and (existing.standard == "Yes" or existing.doc_type != doctype):
 			return {"error": f"{name} is not a format of {doctype} this workspace made; choose another name."}
-		doc = printing.format_doc(doctype, name, _built(sections, heading), css, letter_head)
-	except frappe.ValidationError as e:
+		doc = printing.format_doc(
+			doctype, name, _built(sections, heading, doctype), css, letter_head, page_number
+		)
+	except (frappe.ValidationError, frappe.PermissionError) as e:
 		frappe.clear_last_message()
 		return {"error": str(e)}
 	summary = [
@@ -2118,7 +2252,13 @@ def design_print_format(
 			doctype,
 			changes={
 				"state": printing.state(doctype, name),
-				"format": {"doctype": doctype, "name": name, "format_data": doc.format_data, "css": doc.css},
+				"format": {
+					"doctype": doctype,
+					"name": name,
+					"format_data": doc.format_data,
+					"css": doc.css,
+					**({"page_number": doc.page_number} if page_number else {}),
+				},
 				"default_format": name if make_default else None,
 				"summary": summary,
 			},

@@ -609,8 +609,18 @@ one: ask it to turn off the footer's line or add a note, and only that
 changes. It draws a header or footer from any preset, or writes one in HTML
 from the company's details, where `[icon:phone]` (any of frappe's Lucide
 names) draws that icon in the Brand Colour. It also designs a print format for
-any kind of record, laid out as the builder lays one out, and suggests which
-letter head is the default and which format a kind of record prints with. Each
+any kind of record from the builder's own blocks, so the result opens in the
+builder like any other. It starts from a layout made from that kind's fields
+(for an invoice, quotation, order or bill: who it is for on the left, the dates
+on the right, the items as one table, the totals under it beside the amount in
+words, the terms last) and changes only what was asked, so two requests for the
+same thing come out the same. It prints in frappe's own print style, like every
+other format, with no styling of its own unless a look is asked for. It can set
+a field's label, hide it or put it beside the value, align and bold it, add a
+barcode or QR code, and choose where the page number prints; a layout that
+would print badly (an empty section, a table wider than the page) goes back to
+it to fix before any card is shown. It also suggests which letter head is the
+default and which format a kind of record prints with. Each
 comes as a card an administrator approves, and **See the Page** on the card
 shows the page before they do: a format on the kind's latest record, a letter
 head's header and footer. A format it made opens in the builder like any other.

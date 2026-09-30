@@ -526,7 +526,18 @@ def new_format(
 PALETTE = ("HTML", "Spacer", "Divider", "Image", "Barcode", "Repeater", "Static Text", "Linked Field")
 
 
-def format_doc(doctype: str, name: str, layout: dict, css: str | None = None, letter_head: str | None = None):
+#: Where a format may print its page number (Print Format's page_number).
+PAGE_NUMBER = ("Hide", "Top Left", "Top Center", "Top Right", "Bottom Left", "Bottom Center", "Bottom Right")
+
+
+def format_doc(
+	doctype: str,
+	name: str,
+	layout: dict,
+	css: str | None = None,
+	letter_head: str | None = None,
+	page_number: str | None = None,
+):
 	"""A builder format, unsaved, from a layout as the builder stores one: a
 	`header`, `sections` and a `footer`, each of columns of blocks. Every block
 	is a field of the kind (a table's columns fields of its rows) or one of the
@@ -580,9 +591,12 @@ def format_doc(doctype: str, name: str, layout: dict, css: str | None = None, le
 		if not frappe.db.exists("Letter Head", letter_head):
 			frappe.throw(_("There is no letter head {0}.").format(letter_head))
 		layout["letter_head"] = letter_head
+	if page_number and page_number not in PAGE_NUMBER:
+		frappe.throw(_("The page number prints at one of: {0}.").format(", ".join(PAGE_NUMBER)))
 	doc = frappe.new_doc("Print Format")
 	doc.update(
 		{
+			**({"page_number": page_number} if page_number else {}),
 			"doc_type": doctype,
 			"standard": "No",
 			"print_format_for": "DocType",
@@ -616,12 +630,25 @@ def _placed(layout: dict) -> list[dict]:
 def save_format(values: dict) -> str:
 	"""A format OneAI designed, made or changed as whoever approved it."""
 	name, kind = (values.get("name") or "").strip(), values["doctype"]
-	doc = format_doc(kind, name, json.loads(values["format_data"]), values.get("css"))
+	doc = format_doc(
+		kind,
+		name,
+		json.loads(values["format_data"]),
+		values.get("css"),
+		page_number=values.get("page_number"),
+	)
 	if frappe.db.exists("Print Format", name):
 		held = frappe.get_doc("Print Format", name)
 		if held.standard == "Yes" or held.doc_type != kind:
 			frappe.throw(_("{0} is not a format of {1} this workspace made.").format(name, _(kind)))
-		held.update({"format_data": doc.format_data, "css": doc.css, "draft_data": None})
+		held.update(
+			{
+				"format_data": doc.format_data,
+				"css": doc.css,
+				"draft_data": None,
+				**({"page_number": doc.page_number} if values.get("page_number") else {}),
+			}
+		)
 		held.save()
 		return held.name
 	doc.name = None
