@@ -56,6 +56,9 @@ FOOT_LOGO = 20
 #: How long a foot's note may be.
 NOTE = 200
 
+#: The settings a header is drawn with.
+TOP_KEYS = ("preset", "show", "logo_height", "align", "line")
+
 #: What a top may show beside the logo, in the order it is written.
 SHOWN = {
 	"name": _lt("Name"),
@@ -462,6 +465,38 @@ def _icon(name: str, colour: str) -> str:
 		f"{found.group(1) if found else ''}</svg>"
 	)
 	return "data:image/svg+xml;base64," + base64.b64encode(drawn.encode()).decode()
+
+
+#: An icon asked for by name in a letter head written by hand: [icon:phone], or
+#: [icon:phone:#0f766e] for a colour other than the Brand Colour.
+ICON = re.compile(r"\[icon:([a-z0-9-]+)(?::(#[0-9a-fA-F]{3,8}))?\]")
+
+
+def icons_in(html: str | None) -> str | None:
+	"""A letter head written by hand, with each [icon:name] it asks for drawn as
+	one of frappe's Lucide icons: the same small picture the presets use, since
+	HTML written by hand cannot carry the icon itself. A name frappe does not
+	ship is left as it was written."""
+	if not html or "[icon:" not in html:
+		return html
+	colour = company().get("colour") or INK
+
+	def one(found: re.Match) -> str:
+		name, tint = found.group(1), found.group(2)
+		if not _known(name):
+			return found.group(0)
+		return (
+			f'<img src="{_icon(name, tint or colour)}" alt="" '
+			'style="width:11px;height:11px;display:inline-block;vertical-align:-1px;margin-right:4px">'
+		)
+
+	return ICON.sub(one, html)
+
+
+def _known(name: str) -> bool:
+	_icon(name, INK)
+	sprite = frappe.cache.get_value("one_lucide_sprite") or ""
+	return f'id="icon-{name}"' in sprite
 
 
 def _ratio(url: str) -> float | None:

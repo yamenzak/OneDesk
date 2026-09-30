@@ -125,3 +125,28 @@ def test_spread_gives_each_detail_an_equal_share():
 	beside it pushed it; an equal share each puts it on the page's centre."""
 	spread = _body("draw_foot").split('preset == "spread"', 1)[1].split("# Centred", 1)[0]
 	assert "table-layout:fixed" in spread and "share" in spread
+
+
+AI = (tree.APP / "one" / "ai.py").read_text()
+
+
+def test_oneai_reads_each_header_and_footer_as_they_are():
+	part = AI.split("def _letter_head_part(", 1)[1].split("\ndef ", 1)[0]
+	assert '"drawn_from"' in part and '"settings"' in part and '"written_in"' in part
+	reading = AI.split("def workspace_printing(", 1)[1].split("\ndef ", 1)[0]
+	assert '"header": _letter_head_part(one, "header")' in reading
+	assert '"footer": _letter_head_part(one, "footer")' in reading and '"presets"' in reading
+
+
+def test_oneai_changes_only_what_it_names():
+	"""A change to a letter head that is there is made to what it is now, so
+	turning off the footer's line leaves its preset, ticks and note alone."""
+	change = AI.split("def change_printing(", 1)[1].split("\ndef ", 1)[0]
+	assert "{**(before or {}), **top_said}" in change
+	assert "{**(before or {}), **foot_said}" in change
+	assert 'foot_said.get("preset") == "none"' in change
+
+
+def test_icons_by_name_in_html_written_by_hand():
+	assert "letter_heads.icons_in(html)" in (tree.APP / "one" / "print_html.py").read_text()
+	assert "_known(name)" in _body("icons_in")

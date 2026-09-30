@@ -600,15 +600,20 @@ address.
 Only administrators of the workspace see this, and only formats for the kinds
 of record they can open.
 
-**OneAI on this page** offers **Suggest a letter head top**, **Design a
-letter head from our details**, **Design a clean invoice format** and **Which
-format do invoices print with?**. It designs a print format for any kind of
-record, laid out as the builder lays one out, and a letter head: a preset top
-drawn from General, or one in HTML from its details; it also suggests which letter head is the default and
-which format a kind of record prints with. Each comes as a card an
-administrator approves, and **See the Page** on the card shows the page before
-they do: a format on the kind's latest record, a letter head's top and foot. A
-format it made opens in the builder like any other.
+**OneAI on this page** offers **Suggest a letter head**, **Tidy our footer**,
+**Design a letter head from our details**, **Design a clean invoice format**
+and **Which format do invoices print with?**. It reads every letter head's
+header and footer as they are now (the preset each is drawn from and what it
+shows, or the HTML it was written as), so it can change one as well as make
+one: ask it to turn off the footer's line or add a note, and only that
+changes. It draws a header or footer from any preset, or writes one in HTML
+from the company's details, where `[icon:phone]` (any of frappe's Lucide
+names) draws that icon in the Brand Colour. It also designs a print format for
+any kind of record, laid out as the builder lays one out, and suggests which
+letter head is the default and which format a kind of record prints with. Each
+comes as a card an administrator approves, and **See the Page** on the card
+shows the page before they do: a format on the kind's latest record, a letter
+head's header and footer. A format it made opens in the builder like any other.
 
 ### Mail Templates, for the Workspace
 

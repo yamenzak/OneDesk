@@ -272,9 +272,13 @@ TEMPLATE = re.compile(r"\{[{%#]")
 
 
 def letter_head_html(html: str | None, where: str) -> str | None:
-	"""A letter head's HTML as it is stored: no template, cleaned."""
+	"""A letter head's HTML as it is stored: no template, cleaned, with each
+	[icon:name] it asks for drawn (letter_heads.icons_in)."""
 	if not html:
 		return html
+	from onedesk.one import letter_heads
+
+	html = letter_heads.icons_in(html)
 	if TEMPLATE.search(html):
 		frappe.throw(_("{0}: a letter head is written as it prints, without template tags.").format(where))
 	cleaned = clean(html)

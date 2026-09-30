@@ -8,6 +8,7 @@ OneAI reads through `how_to`.
 """
 
 import json
+import re
 from typing import Annotated
 
 import frappe
@@ -100,10 +101,18 @@ SUGGESTIONS = {
 	],
 	"page:workspace-settings/printing": [
 		{
-			"label": _lt("Suggest a letter head top"),
+			"label": _lt("Suggest a letter head"),
 			"ask": _lt(
-				"Suggest a letter head whose top is one of the presets drawn from our details in "
-				"Workspace › General, the one that suits us, as the default."
+				"Suggest a letter head drawn from our details in Workspace › General: the header and the "
+				"footer presets that suit us, as the default."
+			),
+			"expects": "change_printing",
+		},
+		{
+			"label": _lt("Tidy our footer"),
+			"ask": _lt(
+				"Look at our default letter head's footer and suggest a cleaner one: what it should show, "
+				"which preset, and whether it needs a note."
 			),
 			"expects": "change_printing",
 		},
@@ -111,7 +120,7 @@ SUGGESTIONS = {
 			"label": _lt("Design a letter head from our details"),
 			"ask": _lt(
 				"Design a letter head in HTML from the company's details in Workspace › General: the name "
-				"and logo at the top, the address, phone and email at the foot."
+				"and logo in the header, the address, phone and email in the footer, each after its icon."
 			),
 			"expects": "change_printing",
 		},
@@ -1636,11 +1645,13 @@ def workspace_printing(
 	| None = None,
 ) -> dict:
 	"""How the workspace's documents look on paper, for its administrators:
-	its letter heads (which is the default, which are off), the logo Workspace
-	> General keeps, the print formats the workspace made, and for a kind of
-	record the formats it may print with and the one it prints with unless
-	another is chosen. Read it before suggesting a change."""
-	from onedesk.one import printing, roles, settings
+	its letter heads (which is the default, which are off, and each one's header
+	and footer as they are now: the preset each is drawn from and what it shows,
+	or the HTML or picture it was written as), the presets to choose from, the
+	logo Workspace > General keeps, the print formats the workspace made, and for
+	a kind of record the formats it may print with and the one it prints with
+	unless another is chosen. Read it before suggesting a change."""
+	from onedesk.one import letter_heads, printing, roles, settings
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees how documents are printed."}
@@ -1649,11 +1660,21 @@ def workspace_printing(
 		said = {
 			"letter_heads": [
 				{
-					key: one.get(key)
-					for key in ("name", "is_default", "disabled", "image", "standard", "source")
+					**{key: one.get(key) for key in ("name", "is_default", "disabled", "standard")},
+					"header": _letter_head_part(one, "header"),
+					"footer": _letter_head_part(one, "footer"),
 				}
 				for one in printing.letter_heads()
 			],
+			"presets": {
+				"header": {key: str(label) for key, label in letter_heads.PRESETS.items()},
+				"footer": {
+					**{key: str(label) for key, label in letter_heads.FEET.items()},
+					"none": "None",
+				},
+				"header_shows": list(letter_heads.SHOWN),
+				"footer_shows": [*letter_heads.FOOT_SHOWN, *letter_heads.SHOWN],
+			},
 			"company_logo": company.company_logo if company else None,
 			# What a letter head is written from: Workspace > General's On Documents.
 			"company": _on_documents(company),
@@ -1675,6 +1696,34 @@ def workspace_printing(
 		return {"error": str(e)}
 
 
+#: A picture held inline in a letter head's HTML, shown to OneAI by what it is.
+INLINE_PICTURE = re.compile(r'src="data:image/[^"]+"')
+
+
+def _letter_head_part(one: dict, part: str) -> dict | None:
+	"""A letter head's header or footer as it is now: the preset it is drawn from
+	and its settings, or the HTML or picture it was written as. None for a
+	letter head with no footer."""
+	from onedesk.one import letter_heads
+
+	top = part == "header"
+	drawn = one.get("one_top" if top else "one_foot")
+	if drawn:
+		said = letter_heads.settings(drawn) if top else letter_heads.foot_settings(drawn)
+		presets = letter_heads.PRESETS if top else letter_heads.FEET
+		return {"drawn_from": said["preset"], "called": str(presets[said["preset"]]), "settings": said}
+	source = one.get("source" if top else "footer_source") or "Image"
+	html = one.get("content" if top else "footer")
+	picture = one.get("image" if top else "footer_image")
+	if source == "HTML" and (html or "").strip():
+		# Inline pictures (the icons) are long and say nothing to read; [icon:name]
+		# puts one back.
+		return {"written_in": "HTML", "html": INLINE_PICTURE.sub('src="[inline picture]"', html)[:4000]}
+	if picture:
+		return {"picture": picture}
+	return None
+
+
 def change_printing(
 	doctype: Annotated[str, "The kind of record whose default format changes, such as Sales Invoice."]
 	| None = None,
@@ -1684,18 +1733,22 @@ def change_printing(
 	| None = None,
 	letter_head: Annotated[
 		dict,
-		"A letter head to make or change: {name} of an existing one, or {new_name} for a new one; {preset}, "
-		"one of classic, centred, banner, minimal, details or logo, to draw its top from the company's details in "
-		"Workspace > General (with {show}, a list of name, address, phone, email, website, tax_id, and "
-		"{logo_height} in pixels, and {line} 0 to leave out the line in the Brand Colour under it), which is what to suggest first; {foot}, "
-		"{preset} one of centred, split, band, above or spread, to draw the foot from the same details (with {show}, "
-		"{note}, a short line of their own such as a thank-you, and {line}; the page number is the print "
-		"format's own); or {logo}, "
-		"'company' for the logo Workspace > General keeps or a file URL the workspace already has; or "
-		"{top_html} and {foot_html}, the top and foot of the page written in plain HTML with inline styles "
-		"(no template tags, no scripts, pictures only from this workspace's files), from the company's "
-		"details workspace_printing gives; {default} true to make it the one printed unless another is "
-		"chosen; {off} true to turn it off.",
+		"A letter head to make or change: {name} of an existing one (read workspace_printing first: it "
+		"gives each one's header and footer as they are now), or {new_name} for a new one. The header: "
+		"{preset}, one of workspace_printing's header presets, drawn from the company's details in "
+		"Workspace > General, with {show} (a list of its header_shows), {logo_height} in pixels, {align} "
+		"for Logo Only, and {line} 0 to leave out the line in the Brand Colour under it; this is what to "
+		"suggest first. The footer: {foot}, an object with {preset} (one of its footer presets, or none "
+		"for no footer), {show} (its footer_shows, logo included), {note} (a short line of their own, "
+		"such as a thank-you; empty for none) and {line}. On a letter head that is there, give only what "
+		"changes: the rest stays as it is, and the preset may be left out when its header or footer is "
+		"already drawn from one. Or {logo}, 'company' for the logo Workspace > General keeps or a file "
+		"URL the workspace already has; or {top_html} and {foot_html}, the header and footer written in "
+		"plain HTML with inline styles (no template tags, no scripts, pictures only from this workspace's "
+		"files), from the company's details workspace_printing gives, where [icon:phone] (any Lucide "
+		"name: map-pin, mail, globe, receipt...) draws that icon in the Brand Colour. The page number is "
+		"the print format's own, never the footer's. {default} true to make it the one printed unless "
+		"another is chosen; {off} true to turn it off.",
 	]
 	| None = None,
 	why: Annotated[str, "In a sentence, what the change is for."] | None = None,
@@ -1743,26 +1796,49 @@ def change_printing(
 				if not logo:
 					return {"error": "Workspace > General has no logo yet; ask them to add one there first."}
 			top, foot = letter_head.get("top_html"), letter_head.get("foot_html")
-			preset = letter_head.get("preset")
+			# A change to a letter head that is there is made to what it is now: the
+			# settings named change, the rest stay as they are.
+			was = (
+				frappe.db.get_value("Letter Head", name, ["one_top", "one_foot"], as_dict=True)
+				if name
+				else frappe._dict()
+			)
+			top_said = {key: letter_head[key] for key in letter_heads.TOP_KEYS if key in letter_head}
+			preset = top_said.get("preset")
 			if preset and preset not in letter_heads.PRESETS:
-				return {"error": f"{preset} is not a preset; they are {', '.join(letter_heads.PRESETS)}."}
+				return {"error": f"{preset} is not a header preset; they are {', '.join(letter_heads.PRESETS)}."}
+			if top_said and not preset and not was.one_top:
+				return {
+					"error": "Its header is not drawn from a preset (it is a picture or written by hand); "
+					"give a preset to draw one, or top_html to write it."
+				}
 			foot_said = letter_head.get("foot") if isinstance(letter_head.get("foot"), dict) else None
-			if foot_said and foot_said.get("preset") not in letter_heads.FEET:
-				return {"error": f"The foot's preset is one of {', '.join(letter_heads.FEET)}."}
+			no_foot = bool(foot_said) and foot_said.get("preset") == "none"
+			if foot_said and not no_foot:
+				if foot_said.get("preset") and foot_said["preset"] not in letter_heads.FEET:
+					return {
+						"error": f"The footer's preset is one of {', '.join(letter_heads.FEET)}, or none."
+					}
+				if not foot_said.get("preset") and not was.one_foot:
+					return {
+						"error": "Its footer is not drawn from a preset; give a preset to draw one, "
+						"or foot_html to write it."
+					}
 			if not name and not (letter_head.get("new_name") and (logo or top or preset)):
 				return {"error": "A new letter head needs new_name, and a preset, a logo or top_html."}
 			head = {"name": name}
 			if not name:
 				head["letter_head_name"] = letter_head["new_name"].strip()
 				summary.append({"label": _("New Letter Head"), "value": head["letter_head_name"]})
-			if preset:
-				head["one_top"] = letter_heads.settings(
-					{key: letter_head.get(key) for key in ("preset", "show", "logo_height", "align", "line") if key in letter_head}
-				)
-				head["source"] = "HTML"
-				head["content"] = letter_heads.draw(head["one_top"])
-				summary.append({"label": _("Header"), "value": str(letter_heads.PRESETS[preset])})
-			if logo and not top and not preset:
+			if top_said:
+				before = letter_heads.settings(was.one_top) if was.one_top else None
+				after = letter_heads.settings({**(before or {}), **top_said})
+				if after != before:
+					head["one_top"] = after
+					head["source"] = "HTML"
+					head["content"] = letter_heads.draw(after)
+					summary.append({"label": _("Header"), "value": str(letter_heads.PRESETS[after["preset"]])})
+			if logo and not top and not top_said:
 				head["source"] = "Image"
 				head["image"] = logo
 				summary.append({"label": _("Logo"), "value": logo.rsplit("/", 1)[-1].split("?")[0]})
@@ -1770,11 +1846,19 @@ def change_printing(
 				head["source"] = "HTML"
 				head["content"] = print_html.letter_head_html(top, _("Header"))
 				summary.append({"label": _("Header"), "value": _("Designed in HTML")})
-			if foot_said:
-				head["one_foot"] = letter_heads.foot_settings(foot_said)
+			if no_foot and (was.one_foot or name is None or frappe.db.get_value("Letter Head", name, "footer")):
+				head["one_foot"] = None
 				head["footer_source"] = "HTML"
-				head["footer"] = letter_heads.draw_foot(head["one_foot"])
-				summary.append({"label": _("Footer"), "value": str(letter_heads.FEET[foot_said["preset"]])})
+				head["footer"] = ""
+				summary.append({"label": _("Footer"), "value": _("None")})
+			elif foot_said and not no_foot:
+				before = letter_heads.foot_settings(was.one_foot) if was.one_foot else None
+				after = letter_heads.foot_settings({**(before or {}), **foot_said})
+				if after != before:
+					head["one_foot"] = after
+					head["footer_source"] = "HTML"
+					head["footer"] = letter_heads.draw_foot(after)
+					summary.append({"label": _("Footer"), "value": str(letter_heads.FEET[after["preset"]])})
 			if foot and not foot_said:
 				head["footer_source"] = "HTML"
 				head["footer"] = print_html.letter_head_html(foot, _("Footer"))

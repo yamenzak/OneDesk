@@ -4319,6 +4319,29 @@ whose cells were each as wide as their text so the middle one sat off the
 page's centre, gives every detail an equal share of the width (`table-layout:
 fixed`): with three, the middle one is centred on the page, measured.
 
+**Letter heads and OneAI. Fixed.** OneAI could make a letter head from any
+preset or write one in HTML, but not change one well:
+
+1. `workspace_printing` named each letter head without saying what its header
+   and footer were, so "change our letter head" was a guess.
+2. A change replaced the whole preset: asking only to turn off the footer's
+   line reset its ticks and note. It could not set the footer to None.
+3. HTML it wrote could not carry the icons the presets draw.
+4. Its suggestions still said "top" and none was about the footer.
+
+Now `workspace_printing` gives each letter head's header and footer as they
+are (`_letter_head_part`: the preset and its settings, or the HTML or picture,
+inline pictures shortened) and every preset to choose from; `change_printing`
+merges what it is given into what is there, takes a footer of `none`, and
+refuses a partial change to a header or footer that is not drawn from a
+preset; `[icon:name]` in any letter head's HTML is drawn as that Lucide icon
+(`letter_heads.icons_in`, called by `print_html.letter_head_html`); and the page
+offers Suggest a Letter Head, Tidy Our Footer and Design a Letter Head. Checked
+against the site: a footer-line change left the preset, ticks and note alone
+and touched no header, None cleared the footer, `[icon:phone]` drew while an
+unknown name stayed as written, and a change to what is already so was
+refused.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
