@@ -4313,7 +4313,11 @@ dialog with tabs puts every field in one). The tabs are frappe's own
 `frappe.ui.Tabs` (frappe-ui's Tabs as the desk ships them), a FieldGroup in
 each; the form's tab row restyled by hand is gone, and `test_borrowing` now
 refuses a stylesheet or template that draws tabs of its own (`.form-tabs`,
-`.nav-link`, `role="tablist"`).
+`.nav-link`, `role="tablist"`). Then the words: the window says Header and
+Footer, not Top and Foot, and so do its messages and OneAI's card. And Spread,
+whose cells were each as wide as their text so the middle one sat off the
+page's centre, gives every detail an equal share of the width (`table-layout:
+fixed`): with three, the middle one is centred on the page, measured.
 
 ## OneLegal
 

@@ -328,13 +328,13 @@ def validate_letter_head(doc, method=None) -> None:
 	if any(ch in (doc.name or "") + (doc.letter_head_name or "") for ch in '"<>'):
 		frappe.throw(_("A letter head's name may not contain quotes or angle brackets."))
 	if (doc.source or "Image") == "HTML":
-		doc.content = print_html.letter_head_html(doc.content, _("Top"))
+		doc.content = print_html.letter_head_html(doc.content, _("Header"))
 		if not (doc.content or "").strip():
-			frappe.throw(_("A letter head's top needs something to print."))
+			frappe.throw(_("A letter head's header needs something to print."))
 	elif not FILE_URL.match(doc.image or ""):
 		frappe.throw(_("A letter head needs its image, uploaded here."))
 	if (doc.footer_source or "Image") == "HTML":
-		doc.footer = print_html.letter_head_html(doc.footer, _("Foot"))
+		doc.footer = print_html.letter_head_html(doc.footer, _("Footer"))
 	else:
 		if doc.footer_image and not FILE_URL.match(doc.footer_image):
 			frappe.throw(_("A letter head's footer is an image uploaded here."))
@@ -347,7 +347,7 @@ def validate_letter_head(doc, method=None) -> None:
 		"Image",
 		"HTML",
 	):
-		frappe.throw(_("A letter head's top and foot are each a picture or HTML."))
+		frappe.throw(_("A letter head's header and footer are each a picture or HTML."))
 	_style(doc.custom_css, _("Style"))
 
 

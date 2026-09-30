@@ -1761,24 +1761,24 @@ def change_printing(
 				)
 				head["source"] = "HTML"
 				head["content"] = letter_heads.draw(head["one_top"])
-				summary.append({"label": _("Top"), "value": str(letter_heads.PRESETS[preset])})
+				summary.append({"label": _("Header"), "value": str(letter_heads.PRESETS[preset])})
 			if logo and not top and not preset:
 				head["source"] = "Image"
 				head["image"] = logo
 				summary.append({"label": _("Logo"), "value": logo.rsplit("/", 1)[-1].split("?")[0]})
 			if top:
 				head["source"] = "HTML"
-				head["content"] = print_html.letter_head_html(top, _("Top"))
-				summary.append({"label": _("Top"), "value": _("Designed in HTML")})
+				head["content"] = print_html.letter_head_html(top, _("Header"))
+				summary.append({"label": _("Header"), "value": _("Designed in HTML")})
 			if foot_said:
 				head["one_foot"] = letter_heads.foot_settings(foot_said)
 				head["footer_source"] = "HTML"
 				head["footer"] = letter_heads.draw_foot(head["one_foot"])
-				summary.append({"label": _("Foot"), "value": str(letter_heads.FEET[foot_said["preset"]])})
+				summary.append({"label": _("Footer"), "value": str(letter_heads.FEET[foot_said["preset"]])})
 			if foot and not foot_said:
 				head["footer_source"] = "HTML"
-				head["footer"] = print_html.letter_head_html(foot, _("Foot"))
-				summary.append({"label": _("Foot"), "value": _("Designed in HTML")})
+				head["footer"] = print_html.letter_head_html(foot, _("Footer"))
+				summary.append({"label": _("Footer"), "value": _("Designed in HTML")})
 			if letter_head.get("default") is not None:
 				head["is_default"] = 1 if letter_head["default"] else 0
 				summary.append({"label": _("Default"), "value": _("Yes") if head["is_default"] else _("No")})

@@ -414,14 +414,17 @@ def draw_foot(raw, details: dict | None = None) -> str:
 		)
 
 	if preset == "spread":
-		# The logo and name, then each detail, spaced evenly across the page.
+		# The logo and name, then each detail, each in an equal share of the width:
+		# the first against the left edge, the last against the right, and the
+		# rest centred in theirs, so with three the middle one is the page's centre.
 		items = [one for one in (f"{mark()}{middle}{name}</span>" if (mark() or name) else "", *rest) if one]
 		last = len(items) - 1
+		share = f"{100 / len(items):.4f}%" if items else "100%"
 		return (
 			rule
-			+ f'<div style="display:table;width:100%;{small}color:#374151">'
+			+ f'<div style="display:table;table-layout:fixed;width:100%;{small}color:#374151">'
 			+ "".join(
-				f'<div style="display:table-cell;vertical-align:middle;white-space:nowrap;'
+				f'<div style="display:table-cell;width:{share};vertical-align:middle;'
 				f'text-align:{"left" if n == 0 else "right" if n == last else "center"}">{one}</div>'
 				for n, one in enumerate(items)
 			)

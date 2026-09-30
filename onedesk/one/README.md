@@ -540,37 +540,39 @@ and so are the framework's own kinds and One's. Rules work on any of them.
 
 ### Printing, for the Workspace
 
-How the workspace's documents look on paper. **Letter Heads** are the top and
-foot of every printed page. A letter head's top is one of six presets drawn
-from Workspace › General: **Classic** (the logo on the left, the company on the
-right), **Centred**, **Banner** (a band in the Brand Colour), **Minimal** (the
-logo and name over a line), **Logo and Details** (the logo with the name and
-address beside it, and the contacts on the right) and **Logo Only**. Every preset that shows
-the company's details shows each after a small icon in the Brand Colour, and
-the tax ID always prints on a line of its own. The letter head window shows the whole page at the top, with a **Top** tab and a
-**Foot** tab under it. The Top tab shows each as it prints with the
-company's own name, logo, address, contacts and colour; pick one, tick what it
-**Shows** (name, address, phone, email, website, tax ID), set the **Logo
-Height**, and leave out the **Brand Line**, the line in the Brand Colour under
-the top, on any preset. Change any of those in General, Brand Colour included, and every
-drawn top is drawn again. **Write It Yourself** opens the letter head in the
-print format builder instead, where the top and the foot are each a picture or
-HTML; a top changed there stays as it was written, and choosing a preset
-again replaces it.
+How the workspace's documents look on paper. **Letter Heads** are the header
+and footer of every printed page. The letter head window shows the whole page
+at the top, with a **Header** tab and a **Footer** tab under it.
 
-The **Foot** is chosen the same way, from five presets drawn from the same
-details, each a single quiet line since the top already says the rest:
+The header is one of six presets drawn from Workspace › General: **Classic**
+(the logo on the left, the company on the right), **Centred**, **Banner** (a
+band in the Brand Colour), **Minimal** (the logo and name over a line), **Logo
+and Details** (the logo with the name and address beside it, and the contacts
+on the right) and **Logo Only**. Every preset that shows the company's details
+shows each after a small icon in the Brand Colour, and the tax ID always prints
+on a line of its own. The Header tab shows each as it prints with the company's
+own name, logo, address, contacts and colour; pick one, tick what it **Shows**
+(name, address, phone, email, website, tax ID), set the **Logo Height**, and
+leave out the **Brand Line**, the line in the Brand Colour under the header, on
+any preset. Change any of those in General, Brand Colour included, and every
+drawn header and footer is drawn again. **Write It Yourself** opens the letter
+head in the print format builder instead, where the header and the footer are
+each a picture or HTML; one changed there stays as it was written, and choosing
+a preset again replaces it.
+
+The **Footer** is chosen the same way, from five presets drawn from the same
+details, each a single quiet line since the header already says the rest:
 **Centred**, **Two Sides** (the logo and name on the left, the rest on the
 right), **Band** (the line in a band of the Brand Colour), **Logo Above** (the
-logo centred over the line) and **Spread** (each detail spaced evenly across
-the page), or **None**. Every one takes the Brand Line or leaves it out. A
-new foot shows the website and the tax ID; tick what else it **Shows**,
-**Logo** included (a small mark at the start of the line), add a **Note** of
-your own ("Thank you for your business."), and leave out its **Brand Line** if
-you like. A new letter head
-starts with the Centred foot. The page number is not the foot's: it is the
-print format's own (Page Number, in the builder), which frappe prints on every
-page. **Default** prints it on
+logo centred over the line) and **Spread** (each detail in an equal share of
+the width, the first at the left edge, the last at the right, the middle one on
+the page's centre), or **None**. Every one takes the Brand Line or leaves it
+out. A new footer shows the website and the tax ID; tick what else it
+**Shows**, **Logo** included (a small mark at the start of the line), add a
+**Note** of your own ("Thank you for your business."), and leave out its
+**Brand Line** if you like. A new letter head starts with the Centred footer.
+The page number is not the footer's: it is the print format's own (Page Number,
+in the builder), which frappe prints on every page. **Default** prints it on
 every document unless another is chosen; **Off** keeps it without offering
 it. The letter heads that came with the workspace can be made the default or
 turned off.

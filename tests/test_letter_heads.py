@@ -118,3 +118,10 @@ def test_a_foot_is_one_quiet_line_that_may_carry_the_logo():
 	assert source == '("website", "tax_id")'
 	assert '"logo"' in SOURCE.split("FOOT_SHOWN = ", 1)[1].split("\n", 1)[0]
 	assert "_ratio(" in _body("draw_foot")
+
+
+def test_spread_gives_each_detail_an_equal_share():
+	"""With cells as wide as their text, the middle detail sat wherever the two
+	beside it pushed it; an equal share each puts it on the page's centre."""
+	spread = _body("draw_foot").split('preset == "spread"', 1)[1].split("# Centred", 1)[0]
+	assert "table-layout:fixed" in spread and "share" in spread

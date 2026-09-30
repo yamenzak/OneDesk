@@ -1507,7 +1507,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.$content.html(`<div class="one-shell-section" data-list="heads"></div><div class="one-shell-section" data-list="formats"></div>`);
 		onedesk.shell.table(this.$content.find('[data-list="heads"]'), {
 			title: __("Letter Heads"),
-			note: __("The top and foot of a printed page: a logo, or a design of your own. Design opens it in the print format builder."),
+			note: __("The header and footer of a printed page: a logo, or a design of your own. Design opens it in the print format builder."),
 			rows: data.letter_heads || [],
 			icon: "image",
 			empty: __("No letter head yet."),
@@ -1635,9 +1635,9 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					},
 					{ fieldtype: "Int", fieldname: "logo_height", label: __("Logo Height"), description: __("In pixels."), default: (kept && kept.logo_height) || 60, change: () => drawn() },
 					{ fieldtype: "Column Break" },
-					{ fieldtype: "Check", fieldname: "line", label: __("Brand Line"), description: __("A line in the Brand Colour under the top."), default: kept && kept.line === 0 ? 0 : 1, change: () => drawn() },
+					{ fieldtype: "Check", fieldname: "line", label: __("Brand Line"), description: __("A line in the Brand Colour under the header."), default: kept && kept.line === 0 ? 0 : 1, change: () => drawn() },
 					{ fieldtype: "Select", fieldname: "align", label: __("Logo Sits"), options: [{ value: "left", label: __("Left") }, { value: "center", label: __("Centre") }, { value: "right", label: __("Right") }], default: (kept && kept.align) || "left", change: () => drawn() },
-					{ fieldtype: "HTML", fieldname: "from_general", options: `<p class="text-muted small">${esc(__("The name, logo, address, contacts and colour come from Workspace › General, and the top is drawn again whenever they change there."))}</p>` },
+					{ fieldtype: "HTML", fieldname: "from_general", options: `<p class="text-muted small">${esc(__("The name, logo, address, contacts and colour come from Workspace › General, and the header and footer are drawn again whenever they change there."))}</p>` },
 				]);
 		const foot_part = theirs
 			? null
@@ -1655,7 +1655,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					},
 					{ fieldtype: "Data", fieldname: "foot_note", label: __("Note"), description: __("A line of your own, such as a thank-you."), default: (kept_foot && kept_foot.note) || "", change: () => drawn() },
 					{ fieldtype: "Column Break" },
-					{ fieldtype: "Check", fieldname: "foot_line", label: __("Brand Line"), description: __("A line in the Brand Colour over the foot."), default: kept_foot && kept_foot.line === 0 ? 0 : 1, change: () => drawn() },
+					{ fieldtype: "Check", fieldname: "foot_line", label: __("Brand Line"), description: __("A line in the Brand Colour over the footer."), default: kept_foot && kept_foot.line === 0 ? 0 : 1, change: () => drawn() },
 				]);
 		const part = (fieldname) => (top_part.fields_dict[fieldname] ? top_part : foot_part);
 		const parts = theirs
@@ -1668,8 +1668,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		if (!theirs) {
 			const tabs = new frappe.ui.Tabs({
 				tabs: [
-					{ label: __("Top"), content: $(top_part.body)[0] },
-					{ label: __("Foot"), content: $(foot_part.body)[0] },
+					{ label: __("Header"), content: $(top_part.body)[0] },
+					{ label: __("Footer"), content: $(foot_part.body)[0] },
 				],
 			});
 			dialog.get_field("parts").$wrapper.empty().append(tabs.$el);
@@ -1718,7 +1718,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			}
 			const note = preset
 				? ""
-				: `<p class="text-muted small">${esc(__("Its top was written by hand. Choosing a preset replaces it."))}</p>`;
+				: `<p class="text-muted small">${esc(__("Its header was written by hand. Choosing a preset replaces it."))}</p>`;
 			field.$wrapper.empty().append(note).append($grid);
 		};
 		// Every foot the same way, and None, since a letter head may have no foot.
@@ -1740,7 +1740,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			}
 			const note = foot
 				? ""
-				: `<p class="text-muted small">${esc(__("Its foot was written by hand. Choosing a preset replaces it."))}</p>`;
+				: `<p class="text-muted small">${esc(__("Its footer was written by hand. Choosing a preset replaces it."))}</p>`;
 			field.$wrapper.empty().append(note).append($grid);
 		};
 		const shown = () => {
