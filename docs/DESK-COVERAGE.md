@@ -138,6 +138,22 @@ One's sidebar, as lists.
    workflow builder through a Custom Role. A workflow is refused on the
    framework's and One's own doctypes. **Waiting on Me** (Workflow Action,
    scoped by frappe's own permission query) goes on Home.
+   **Done, with an approval that runs no code.** A workflow can run code:
+   a transition's condition and a state's value expression go through
+   `safe_eval`, a transition can run tasks, and the state field is written
+   on every record of the kind. `one/approvals.py` grants Workflow,
+   Workflow State and Workflow Action Master, opens the builder through
+   `roles.open_page` (printing's Custom Role code, moved there), and holds
+   a workflow the workspace writes to: a kind of record it can open, not
+   frappe's or One's; no condition and no tasks on an action; a state sets
+   a plain value, only on a first-level field that is not the record's own
+   bookkeeping; and a state field that is a Link to Workflow State, made
+   by `approvals.py` as the workspace since frappe's step makes it as the
+   caller. The tab is re-registered only so New opens the builder's own
+   create dialog rather than frappe's Workflow form. **Approvals** on
+   Home now counts Open Workflow Actions beside leave and expenses, and
+   Workspace › Approvals lists every approval. The builder's rail is
+   frappe's, as the print builder's is.
 6. **Automations.** Not a tab in frappe's dialog, but the dialog takes new
    ones (`frappe.doctype_settings.register`), so an **Automations** tab lists
    that doctype's Automation Flows and opens frappe's form for one. Run Script

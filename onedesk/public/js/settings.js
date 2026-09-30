@@ -1427,6 +1427,32 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
+	// The workspace's approvals (one/approvals.py): each workflow, the kind of record
+	// it moves, and whether it is on. One opens in frappe's workflow builder.
+	draw_approvals(data) {
+		const esc = frappe.utils.escape_html;
+		this.page.set_primary_action(__("New Approval"), () => onedesk.approvals.create(), "plus");
+		this.$content.html(`<div class="one-shell-section" data-list="approvals"></div>`);
+		onedesk.shell.table(this.$content.find('[data-list="approvals"]'), {
+			title: __("Approvals"),
+			note: __("The states a kind of record moves through, and the role that takes each step. Steps waiting on somebody are on their Home."),
+			rows: data.rows || [],
+			page_size: 100,
+			icon: "route",
+			empty: __("No approval yet."),
+			none: __("No approval is called that."),
+			open: (one) => frappe.set_route("workflow-builder", one.name),
+			columns: [
+				{
+					label: __("Approval"),
+					render: (one) => esc(one.workflow_name || one.name) + (one.is_active ? " " + frappe.ui.badge.html({ label: __("On"), theme: "green" }) : ""),
+				},
+				{ label: __("Kind of Record"), fieldname: "label" },
+				{ label: __("Steps"), render: (one) => esc(String(one.steps)) },
+			],
+		});
+	}
+
 	// The words the workspace mails again and again (one/mail_templates.py): each
 	// template, the kind of record it is for, and what it is the default for. A template
 	// opens in the same editor the record's Settings uses.

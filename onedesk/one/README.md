@@ -518,6 +518,28 @@ that kind can be added here, since a template runs as whoever sends it.
 Only administrators of the workspace see this. A template for a kind of record
 they cannot open is listed but not changed by them.
 
+### Approvals, for the Workspace
+
+The states a kind of record moves through before it is done, and who moves
+it: a purchase order Waiting for Approval until a manager approves it, a
+customer Pending until the accounts team checks it. **New Approval** asks for
+the kind of record and a name, and opens the approval builder: drag a state
+onto the page for each step, join two states with an action (Approve, Reject)
+and choose the role that may take it. A state can also set a field of the
+record to a value, for example Status to Approved. **Save**, then turn the
+approval **On**; one approval is on for a kind of record at a time.
+
+Whoever holds the role sees the action on the record, and each step waiting
+on one of their roles counts in **Approvals Waiting** on their Home.
+
+An action here is always taken by a role. What cannot be set here, since it
+would run as whoever takes the action: a condition written as code on an
+action, a value worked out rather than typed, or a task an action runs. A
+state sets only a field anybody who may edit the record may set.
+
+Only administrators of the workspace see this, and only for the kinds of
+record they can open; frappe's own and One's own records take no approval.
+
 ### Plan and Credits, for the Workspace
 
 Under **Workspace**, **Plan and Credits** is the workspace's account: its
@@ -813,8 +835,9 @@ Each part appears once the workspace may use it:
   about one starts with. **New**, or open one to change it; **Set as
   Default** makes the composer start with it. See Mail Templates, for the
   Workspace.
-
-Workflows join it as they are opened to workspaces. The framework's own and One's own records have none, as
+- **Approvals**: the approvals on this kind of record. **New** opens the
+  approval builder set to it; open one to change it, or turn it on or off.
+  See Approvals, for the Workspace. The framework's own and One's own records have none, as
 they have no Customize.
 
 ## Asking OneAI

@@ -82,19 +82,7 @@ def settle() -> None:
 	"""The grants, once per doctype (a doctype with a Custom DocPerm row for
 	the role has been decided by the workspace), and the builder page."""
 	roles.grant(GRANTS)
-
-	# A Custom Role replaces the page's roles, so it keeps the page's own too.
-	name = frappe.db.get_value("Custom Role", {"page": BUILDER})
-	custom = frappe.get_doc("Custom Role", name) if name else frappe.new_doc("Custom Role")
-	if not name:
-		custom.page = BUILDER
-	held = {row.role for row in custom.roles}
-	own = frappe.get_all("Has Role", filters={"parenttype": "Page", "parent": BUILDER}, pluck="role")
-	for role in (*own, roles.ADMINISTRATOR):
-		if role not in held:
-			custom.append("roles", {"role": role})
-	if not name or len(custom.roles) != len(held):
-		custom.save(ignore_permissions=True)
+	roles.open_page(BUILDER)
 
 
 def _doctype(doctype: str) -> None:

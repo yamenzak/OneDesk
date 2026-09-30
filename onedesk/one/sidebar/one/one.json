@@ -196,13 +196,25 @@
   {
    "keep_closed": 0,
    "type": "Link",
+   "label": "Approvals",
+   "link_to": "workspace-settings",
+   "link_type": "Page",
+   "icon": "route",
+   "child": 1,
+   "route_options": "{\"section\": \"approvals\"}",
+   "filters": "{\"section\": \"approvals\"}",
+   "idx": 17
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
    "label": "Plan and Credits",
    "link_to": "workspace-settings",
    "link_type": "Page",
    "icon": "credit-card",
    "child": 1,
    "route_options": "{\"section\": \"plan\"}",
-   "idx": 17,
+   "idx": 18,
    "filters": "{\"section\": \"plan\"}"
   },
   {
@@ -214,7 +226,7 @@
    "icon": "globe",
    "child": 1,
    "route_options": "{\"section\": \"domains\"}",
-   "idx": 18,
+   "idx": 19,
    "filters": "{\"section\": \"domains\"}"
   },
   {
@@ -226,7 +238,7 @@
    "icon": "calendar-days",
    "child": 1,
    "route_options": "{\"section\": \"holidays\"}",
-   "idx": 19,
+   "idx": 20,
    "filters": "{\"section\": \"holidays\"}"
   },
   {
@@ -237,7 +249,7 @@
    "icon": "oneai",
    "indent": 0,
    "collapsible": 1,
-   "idx": 20
+   "idx": 21
   },
   {
    "keep_closed": 0,
@@ -248,7 +260,7 @@
    "icon": "oneai",
    "child": 1,
    "route_options": "{\"section\": \"oneai\"}",
-   "idx": 21,
+   "idx": 22,
    "filters": "{\"section\": \"oneai\"}"
   },
   {
@@ -260,7 +272,7 @@
    "link_type": "DocType",
    "icon": "book-open",
    "child": 1,
-   "idx": 22
+   "idx": 23
   },
   {
    "keep_closed": 0,
@@ -271,7 +283,7 @@
    "link_type": "Report",
    "icon": "chart-column",
    "child": 1,
-   "idx": 23
+   "idx": 24
   },
   {
    "keep_closed": 0,
@@ -282,7 +294,7 @@
    "link_type": "DocType",
    "icon": "messages-square",
    "child": 1,
-   "idx": 24
+   "idx": 25
   },
   {
    "keep_closed": 0,
@@ -293,7 +305,7 @@
    "link_type": "DocType",
    "icon": "lightbulb",
    "child": 1,
-   "idx": 25
+   "idx": 26
   },
   {
    "keep_closed": 0,
@@ -303,7 +315,7 @@
    "icon": "oneintake",
    "indent": 0,
    "collapsible": 1,
-   "idx": 26
+   "idx": 27
   },
   {
    "keep_closed": 0,
@@ -314,7 +326,7 @@
    "link_type": "Page",
    "link_to": "intake",
    "icon": "inbox",
-   "idx": 27
+   "idx": 28
   },
   {
    "keep_closed": 0,
@@ -325,7 +337,7 @@
    "link_type": "Page",
    "link_to": "ready-to-submit",
    "icon": "file-check",
-   "idx": 28
+   "idx": 29
   },
   {
    "keep_closed": 0,
@@ -336,7 +348,7 @@
    "link_type": "Report",
    "link_to": "Deadlines",
    "icon": "calendar-clock",
-   "idx": 29
+   "idx": 30
   },
   {
    "keep_closed": 0,
@@ -347,7 +359,7 @@
    "link_type": "Report",
    "link_to": "Spending",
    "icon": "wallet",
-   "idx": 30
+   "idx": 31
   },
   {
    "keep_closed": 0,
@@ -358,11 +370,11 @@
    "icon": "settings",
    "child": 1,
    "route_options": "{\"section\": \"intake\"}",
-   "idx": 31,
+   "idx": 32,
    "filters": "{\"section\": \"intake\"}"
   }
  ],
- "modified": "2026-10-09 10:00:00.000000",
+ "modified": "2026-10-10 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

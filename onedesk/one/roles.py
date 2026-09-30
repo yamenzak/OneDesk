@@ -70,3 +70,19 @@ def grant(grants: dict) -> None:
 		add_permission(doctype, ADMINISTRATOR, 0)
 		for ptype in ptypes:
 			update_permission_property(doctype, ADMINISTRATOR, 0, ptype, 1, validate=False)
+
+
+def open_page(page: str) -> None:
+	"""A frappe page opened to the role, through frappe's Custom Role. A Custom
+	Role replaces the page's roles, so it keeps the page's own too."""
+	name = frappe.db.get_value("Custom Role", {"page": page})
+	custom = frappe.get_doc("Custom Role", name) if name else frappe.new_doc("Custom Role")
+	if not name:
+		custom.page = page
+	held = {row.role for row in custom.roles}
+	own = frappe.get_all("Has Role", filters={"parenttype": "Page", "parent": page}, pluck="role")
+	for role in (*own, ADMINISTRATOR):
+		if role not in held:
+			custom.append("roles", {"role": role})
+	if not name or len(custom.roles) != len(held):
+		custom.save(ignore_permissions=True)

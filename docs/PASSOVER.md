@@ -4039,6 +4039,12 @@ workspace writes may only add field names, `{{ customer_name }}`; what a
 shipped template already did stays, so HR's leave and interview mails can be
 reworded but not given new code, since a template runs as whoever sends it.
 
+**Stage 5, Approvals: done.** Settings › Approvals on any record and
+Workspace › Approvals, each opening frappe's workflow builder, which the
+administrator now reaches. An approval the workspace writes runs no code: no
+condition on an action, no worked-out value, no tasks, and a state sets only an
+ordinary field. Steps waiting on one of your roles count in Approvals Waiting on Home.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

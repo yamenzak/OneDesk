@@ -69,14 +69,17 @@ def suggestions_waiting(filters=None) -> dict:
 APPROVALS = (
 	("Leave Application", lambda user: {"leave_approver": user, "status": "Open", "docstatus": 0}),
 	("Expense Claim", lambda user: {"expense_approver": user, "approval_status": "Draft", "docstatus": 0}),
+	# A step of an approval the workspace set (one/approvals.py) that one of the
+	# reader's roles takes; frappe's own permission query keeps it to those.
+	("Workflow Action", lambda user: {"status": "Open"}),
 )
 
 
 @frappe.whitelist()
 @frappe.read_only()
 def approvals_waiting(filters=None) -> dict:
-	"""Leave and expense claims waiting on the reader as their approver. A
-	click opens the list with the most of them."""
+	"""Leave and expense claims waiting on the reader as their approver, and
+	approval steps their roles take. A click opens the list with the most."""
 	user = frappe.session.user
 	counted = []
 	for doctype, wanted in APPROVALS:

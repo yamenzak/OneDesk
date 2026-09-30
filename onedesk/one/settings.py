@@ -43,6 +43,7 @@ SECTIONS = [
 	("numbering", _lt("Numbering"), "hash", "workspace"),
 	("printing", _lt("Printing"), "printer", "workspace"),
 	("mail_templates", _lt("Mail Templates"), "mails", "workspace"),
+	("approvals", _lt("Approvals"), "route", "workspace"),
 	("plan", _lt("Plan and Credits"), "credit-card", "workspace"),
 	("domains", _lt("Domains"), "globe", "workspace"),
 	("oneai", _lt("OneAI Actions"), "sparkles", "workspace"),
@@ -212,6 +213,7 @@ def load(
 		"numbering": _numbering,
 		"printing": _printing,
 		"mail_templates": _mail_templates,
+		"approvals": _approvals,
 	}
 	if section not in loaders:
 		frappe.throw(_("There is no such section."))
@@ -1551,6 +1553,13 @@ def _numbering() -> dict:
 	from onedesk.one import numbering
 
 	return {"rows": numbering.doctypes()}
+
+
+def _approvals() -> dict:
+	"""Every approval, and how many steps it has (one/approvals.py)."""
+	from onedesk.one import approvals
+
+	return {"rows": approvals.approvals()}
 
 
 def _mail_templates() -> dict:

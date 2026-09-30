@@ -40,7 +40,7 @@ onedesk.doctype_settings.open = (doctype, tab = null) =>
 // (docs/DESK-COVERAGE.md). Frappe shows a tab to whoever can read its doctype, and
 // reading an Email Template is everybody's; a tab is offered here once what it
 // opens can be used, and the rail beside it is One's.
-onedesk.doctype_settings.TABS = ["notifications", "naming", "print-format", "email-template"];
+onedesk.doctype_settings.TABS = ["notifications", "naming", "print-format", "email-template", "workflow"];
 
 onedesk.doctype_settings.adapt = () => {
 	if (onedesk.doctype_settings.adapted) return;
@@ -57,6 +57,7 @@ onedesk.doctype_settings.adapt = () => {
 			// below shows; frappe's asks for read on Document Naming Rule, which is not given.
 			const shown = item.id === "naming" ? (doctype) => !!frappe.meta.get_docfield(doctype, "naming_series") : theirs;
 			if (item.id === "email-template") item.label = __("Mail Templates");
+			if (item.id === "workflow") item.label = __("Approvals");
 			item.condition = (doctype) => onedesk.doctype_settings.TABS.includes(item.id) && (shown ? shown(doctype) : true);
 		}
 	}
@@ -131,6 +132,51 @@ onedesk.doctype_settings.adapt = () => {
 				title: __("No mail templates yet"),
 				description: __("A template is the words a mail about a {0} starts with.", [__(doctype)]),
 				action: { label: __("New Template"), onclick: (list) => edit(null, list) },
+			},
+		});
+	});
+	// The dialog's Workflow tab, as frappe's, but a new one is made in frappe's workflow
+	// builder, set to this doctype, rather than frappe's Workflow form (one/approvals.py).
+	frappe.doctype_settings.register("workflow", (panel, doctype) => {
+		const open = (name) => {
+			panel.dialog.hide();
+			frappe.set_route("workflow-builder", name);
+		};
+		const create = () => {
+			panel.dialog.hide();
+			onedesk.approvals.create(doctype);
+		};
+		frappe.doctype_settings.render_list(panel, {
+			title: __("Approvals"),
+			description: __("The states a {0} moves through, and who moves it.", [__(doctype)]),
+			show_header: true,
+			primary_action: { label: __("New"), icon: "plus", onclick: create },
+			load: () =>
+				frappe.doctype_settings.get_list("Workflow", {
+					filters: { document_type: doctype },
+					fields: ["name", "workflow_name", "is_active"],
+					order_by: "name asc",
+					limit: 0,
+				}),
+			title_column: {
+				label: __("Approval"),
+				primary: (row) => row.workflow_name || row.name,
+				onclick: (row) => open(row.name),
+				tags: (row) => (row.is_active ? [{ label: __("On"), color: "green" }] : []),
+			},
+			actions: (row) => [
+				{
+					label: row.is_active ? __("Turn Off") : __("Turn On"),
+					icon: row.is_active ? "ban" : "circle-check",
+					onclick: (list) =>
+						frappe.db.set_value("Workflow", row.name, { is_active: row.is_active ? 0 : 1 }).then(() => list.reload()),
+				},
+				{ label: __("Edit"), icon: "pencil", onclick: () => open(row.name) },
+			],
+			empty_state: {
+				title: __("No approvals yet"),
+				description: __("An approval moves a {0} through states, each action taken by a role.", [__(doctype)]),
+				action: { label: __("New Approval"), onclick: create },
 			},
 		});
 	});
@@ -341,6 +387,17 @@ onedesk.mail_templates.edit = async (name, { doctype = null, done = null } = {})
 	}
 	dialog.show();
 	if (!doc && doctype) dialog.set_value("reference_doctype", doctype);
+};
+
+// ------------------------------------------------------------------ approvals
+
+frappe.provide("onedesk.approvals");
+
+// frappe's builder page asks for the doctype and a name when opened without a
+// workflow, and makes it; route_options preselects the doctype.
+onedesk.approvals.create = (doctype = null) => {
+	frappe.route_options = doctype ? { doctype } : null;
+	frappe.set_route("workflow-builder");
 };
 
 // A list's menu carries it too. Frappe's list menu has no hook for an item, so
