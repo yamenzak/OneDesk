@@ -111,3 +111,10 @@ def test_the_foot_is_drawn_kept_and_filtered_as_the_top_is():
 	printing = (tree.APP / "one" / "printing.py").read_text()
 	validate = printing.split("def validate_letter_head(", 1)[1].split("\ndef ", 1)[0]
 	assert "sanitize_html(doc.footer)" in validate and 'not doc.get("one_foot")' in validate
+
+
+def test_a_foot_is_one_quiet_line_that_may_carry_the_logo():
+	source = SOURCE.split("FOOT_FIRST = ", 1)[1].split("\n", 1)[0]
+	assert source == '("website", "tax_id")'
+	assert '"logo"' in SOURCE.split("FOOT_SHOWN = ", 1)[1].split("\n", 1)[0]
+	assert "_ratio(" in _body("draw_foot")

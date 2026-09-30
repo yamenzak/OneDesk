@@ -4301,7 +4301,11 @@ by hand in the builder. The window has a Foot section under the Top: the three
 and None as cards, Shows, a Note and the Brand Line. `footer` skips frappe's
 XSS filter as `content` does, and `validate_letter_head` filters any foot not
 drawn here with frappe's own `sanitize_html`. OneAI's `change_printing` takes a
-`foot`. Page numbers stay the print format's.
+`foot`. Page numbers stay the print format's. Then, on the renders: each foot said
+everything the top already says, on two or three lines, and had no logo. A foot
+is now one quiet line: a new one shows the website and the tax ID, a Logo tick
+puts a small mark at its start, Two Sides has the logo and name on the left and
+the rest on the right, and the note sits under the line.
 
 ## OneLegal
 

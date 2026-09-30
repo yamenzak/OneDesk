@@ -42,8 +42,14 @@ FEET = {
 	"band": _lt("Band"),
 }
 
-#: What a new foot shows.
-FOOT_FIRST = ("name", "address", "phone", "email", "website")
+#: What a foot may show: what a top may, and a small logo before it.
+FOOT_SHOWN = {"logo": _lt("Logo")}
+
+#: What a new foot shows: a quiet line, since the top already says the rest.
+FOOT_FIRST = ("website", "tax_id")
+
+#: How tall the logo in a foot is, in pixels.
+FOOT_LOGO = 20
 
 #: How long a foot's note may be.
 NOTE = 200
@@ -97,7 +103,7 @@ def foot_settings(raw) -> dict:
 	said = raw if isinstance(raw, dict) else (frappe.parse_json(raw) if raw else None) or {}
 	return {
 		"preset": said.get("preset") if said.get("preset") in FEET else "centred",
-		"show": [one for one in (said.get("show") or FOOT_FIRST) if one in SHOWN],
+		"show": [one for one in (said.get("show") or FOOT_FIRST) if one in SHOWN or one in FOOT_SHOWN],
 		# A line of the workspace's own, such as "Thank you for your business."
 		"note": " ".join(str(said.get("note") or "").split())[:NOTE],
 		"line": 1 if cint(said.get("line", 1)) else 0,
@@ -307,15 +313,15 @@ def draw(raw, details: dict | None = None) -> str:
 
 
 def draw_foot(raw, details: dict | None = None) -> str:
-	"""A foot's HTML: its preset, from the company, showing what was ticked, with
-	the note when there is one."""
+	"""A foot's HTML: its preset, from the company, showing what was ticked on one
+	line, with the note under it when there is one."""
 	said = foot_settings(raw)
 	details = details or company()
 	shown = set(said["show"])
 	colour = details.get("colour") or INK
 	e = lambda value: escape_html(str(value or ""))  # noqa: E731
 	small = f"font-size:10px;line-height:1.6;color:{MUTED};"
-	gap = '<span style="display:inline-block;width:12px"></span>'
+	gap = '<span style="display:inline-block;width:14px"></span>'
 
 	def icon(name: str, tint: str | None = None) -> str:
 		return (
@@ -323,68 +329,80 @@ def draw_foot(raw, details: dict | None = None) -> str:
 			'style="width:10px;height:10px;display:inline-block;vertical-align:-1px;margin-right:4px">'
 		)
 
-	def details_of(tint: str | None = None) -> tuple[str, str, str, str]:
-		name = f'<span style="font-weight:700;color:{tint or INK}">{e(details.get("name"))}</span>'
-		address = details.get("address") or []
+	def item(glyph: str, text: str, tint: str | None = None) -> str:
+		return f'<span style="white-space:nowrap">{icon(glyph, tint)}{text}</span>'
+
+	def mark() -> str:
+		if "logo" not in shown or not details.get("logo"):
+			return ""
+		ratio = _ratio(details["logo"])
+		width = f"width:{round(FOOT_LOGO * ratio)}px;" if ratio else "width:auto;"
 		return (
-			name if "name" in shown and details.get("name") else "",
-			f"{icon('map-pin', tint)}{e(', '.join(address))}" if "address" in shown and address else "",
-			gap.join(
-				f'<span style="white-space:nowrap">{icon(glyph, tint)}{e(details.get(key))}</span>'
-				for key, glyph in CONTACTS
-				if key in shown and details.get(key)
-			),
-			f'<span style="white-space:nowrap">{icon("receipt", tint)}{e(_("Tax ID"))} {e(details["tax_id"])}</span>'
-			if "tax_id" in shown and details.get("tax_id")
-			else "",
+			f'<img src="{e(details["logo"])}" alt="{e(details.get("name"))}" '
+			f'style="height:{FOOT_LOGO}px;{width}display:inline-block;vertical-align:middle;margin-right:8px">'
 		)
 
-	note = f'<span style="font-style:italic">{e(said["note"])}</span>' if said["note"] else ""
+	def parts(tint: str | None = None) -> tuple[str, list[str]]:
+		"""The name, and everything else in the order it is read."""
+		name = (
+			f'<span style="font-weight:700;color:{tint or INK}">{e(details.get("name"))}</span>'
+			if "name" in shown and details.get("name")
+			else ""
+		)
+		address = details.get("address") or []
+		rest = [item("map-pin", e(", ".join(address)), tint)] if "address" in shown and address else []
+		rest += [
+			item(glyph, e(details.get(key)), tint)
+			for key, glyph in CONTACTS
+			if key in shown and details.get(key)
+		]
+		if "tax_id" in shown and details.get("tax_id"):
+			rest.append(item("receipt", f"{e(_('Tax ID'))} {e(details['tax_id'])}", tint))
+		return name, rest
+
+	def note(align: str) -> str:
+		if not said["note"]:
+			return ""
+		return (
+			f'<div style="margin-top:4px;text-align:{align};{small}font-style:italic">{e(said["note"])}</div>'
+		)
+
 	rule = (
 		f'<div style="height:2px;background:{colour};margin-bottom:8px;{EXACT}"></div>'
 		if said["line"]
 		else ""
 	)
-
-	def under(align: str) -> str:
-		return f'<div style="margin-top:4px;text-align:{align};{small}">{note}</div>' if note else ""
+	middle = '<span style="display:inline-block;vertical-align:middle">'
 
 	preset = said["preset"]
 	if preset == "band":
-		name, where, reach, taxed = details_of("#ffffff")
-		lines = [
-			gap.join(one for one in (name, where) if one),
-			gap.join(one for one in (reach, taxed) if one),
-		]
-		band = "".join(f"<div>{one}</div>" for one in lines if one)
+		name, rest = parts("#ffffff")
+		line = gap.join(one for one in (name, *rest) if one)
+		band = (mark() + f"{middle}{line}</span>") if (line or mark()) else ""
 		return (
 			f'<div style="background:{colour};color:#ffffff;padding:8px 16px;border-radius:4px;'
-			f'text-align:center;font-size:10px;line-height:1.7;{EXACT}">{band}</div>'
+			f'text-align:center;font-size:10px;line-height:1.6;{EXACT}">{band}</div>'
 			if band
 			else ""
-		) + under("center")
+		) + note("center")
 
-	name, where, reach, taxed = details_of()
+	name, rest = parts()
 	if preset == "split":
-		left = "<br>".join(one for one in (name, where) if one)
-		right = "<br>".join(one for one in (reach, taxed) if one)
+		# The logo and the name on the left; the rest on one line on the right.
 		return (
 			rule + f'<div style="display:table;width:100%;{small}color:#374151">'
-			f'<div style="display:table-cell;vertical-align:top;text-align:left">{left}</div>'
-			f'<div style="display:table-cell;vertical-align:top;text-align:right">{right}</div></div>'
-			+ under("left")
+			f'<div style="display:table-cell;vertical-align:middle;text-align:left;white-space:nowrap">'
+			f"{mark()}{middle}{name}</span></div>"
+			f'<div style="display:table-cell;vertical-align:middle;text-align:right">{gap.join(rest)}</div>'
+			"</div>" + note("left")
 		)
 
-	# Centred: the company on one line, how to reach it on the next, then the note.
-	lines = [
-		gap.join(one for one in (name, where) if one),
-		gap.join(one for one in (reach, taxed) if one),
-		note,
-	]
-	return rule + (
-		f'<div style="text-align:center;{small}color:#374151">'
-		+ "".join(f"<div>{one}</div>" for one in lines if one)
-		+ "</div>"
+	# Centred: the logo, the name and the rest on one line.
+	line = gap.join(one for one in (name, *rest) if one)
+	return (
+		rule
+		+ f'<div style="text-align:center;{small}color:#374151">{mark()}{middle}{line}</span></div>'
+		+ note("center")
 	)
 
 

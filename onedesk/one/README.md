@@ -558,11 +558,13 @@ HTML; a top changed there stays as it was written, and choosing a preset
 again replaces it.
 
 The **Foot** is chosen the same way, from three presets drawn from the same
-details: **Centred** (the company on one line, how to reach it on the next),
-**Two Sides** (the company and its address on the left, the contacts on the
-right) and **Band** (the details in a band of the Brand Colour), or **None**.
-Tick what it **Shows**, add a **Note** of your own ("Thank you for your
-business."), and leave out its **Brand Line** if you like. A new letter head
+details, each a single quiet line since the top already says the rest:
+**Centred**, **Two Sides** (the logo and name on the left, the rest on the
+right) and **Band** (the line in a band of the Brand Colour), or **None**. A
+new foot shows the website and the tax ID; tick what else it **Shows**,
+**Logo** included (a small mark at the start of the line), add a **Note** of
+your own ("Thank you for your business."), and leave out its **Brand Line** if
+you like. A new letter head
 starts with the Centred foot. The page number is not the foot's: it is the
 print format's own (Page Number, in the builder), which frappe prints on every
 page. **Default** prints it on

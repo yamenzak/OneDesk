@@ -1557,7 +1557,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		// The foot's preset; null when it was written by hand, "none" when there is none.
 		const kept_foot = one && one.one_foot ? frappe.utils.parse_json(one.one_foot) : null;
 		let foot = one ? (kept_foot && kept_foot.preset) || (one.footer ? null : "none") : "centred";
-		const foot_shows = (kept_foot && kept_foot.show) || ["name", "address", "phone", "email", "website"];
+		// A foot is one quiet line: the top already says the rest.
+		const foot_shows = (kept_foot && kept_foot.show) || ["website", "tax_id"];
 		const SHOWN = [
 			["name", __("Name")],
 			["address", __("Address")],
@@ -1615,7 +1616,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 								label: __("Shows"),
 								columns: 3,
 								sort_options: false,
-								options: SHOWN.map(([value, label]) => ({ value, label, checked: foot_shows.includes(value) ? 1 : 0 })),
+								options: [["logo", __("Logo")], ...SHOWN].map(([value, label]) => ({ value, label, checked: foot_shows.includes(value) ? 1 : 0 })),
 								on_change: () => drawn(),
 							},
 							{ fieldtype: "Data", fieldname: "foot_note", label: __("Note"), description: __("A line of your own, such as a thank-you."), default: (kept_foot && kept_foot.note) || "", change: () => drawn() },
