@@ -541,10 +541,12 @@ and so are the framework's own kinds and One's. Rules work on any of them.
 ### Printing, for the Workspace
 
 How the workspace's documents look on paper. **Letter Heads** are the top and
-foot of every printed page. A letter head's top is one of five presets drawn
+foot of every printed page. A letter head's top is one of six presets drawn
 from Workspace › General: **Classic** (the logo on the left, the company on the
-right), **Centred**, **Banner** (a band in the Brand Colour), **Minimal** and
-**Logo Only**. The letter head window shows each as it prints with the
+right), **Centred**, **Banner** (a band in the Brand Colour), **Minimal** (the
+logo and name over a line), **Logo and Details** (the logo on the left, the
+company one line at a time on the right) and **Logo Only**. The tax ID always
+prints on a line of its own. The letter head window shows each as it prints with the
 company's own name, logo, address, contacts and colour; pick one, tick what it
 **Shows** (name, address, phone, email, website, tax ID), and set the **Logo
 Height**. Change any of those in General, Brand Colour included, and every

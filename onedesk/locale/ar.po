@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-30 17:34+0000\n"
-"PO-Revision-Date: 2026-09-30 17:34+0000\n"
+"POT-Creation-Date: 2026-09-30 17:44+0000\n"
+"PO-Revision-Date: 2026-09-30 17:44+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1337,7 +1337,7 @@ msgstr ""
 #. Label of the address (Data) field in DocType 'Clock Network'
 #. Label of the address (Small Text) field in DocType 'Reading Party'
 #. Label of the url (Data) field in DocType 'Cloud Mount'
-#: onedesk/one/letter_heads.py:36
+#: onedesk/one/letter_heads.py:37
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
@@ -5369,7 +5369,7 @@ msgstr "«أحدهما» يقبل تسجيل الحضور الذي يجتاز أ
 #. Label of the email (Data) field in DocType 'Cloud File Request Recipient'
 #. Label of the email (Data) field in DocType 'Cloud File Request Upload'
 #. Label of the email (Data) field in DocType 'Cloud Link Invitee'
-#: onedesk/one/letter_heads.py:38 onedesk/one/settings.py:452
+#: onedesk/one/letter_heads.py:39 onedesk/one/settings.py:452
 #: onedesk/one/settings.py:882
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
@@ -9270,13 +9270,17 @@ msgstr "الشعار"
 msgid "Logo Height"
 msgstr "ارتفاع الشعار"
 
-#: onedesk/one/letter_heads.py:30
+#: onedesk/one/letter_heads.py:31
 msgid "Logo Only"
 msgstr "الشعار فقط"
 
 #: onedesk/public/js/settings.js:1601
 msgid "Logo Sits"
 msgstr "موضع الشعار"
+
+#: onedesk/one/letter_heads.py:30
+msgid "Logo and Details"
+msgstr "الشعار والتفاصيل"
 
 #: onedesk/one_crm/report/how_long_deals_take/how_long_deals_take.py:85
 msgid "Longer Than Usual"
@@ -10195,7 +10199,7 @@ msgstr "مهامي"
 #. Label of the file_name (Data) field in DocType 'Cloud Link'
 #. Label of the title (Data) field in DocType 'Cloud Mount'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
-#: onedesk/one/letter_heads.py:35 onedesk/one/settings.py:1873
+#: onedesk/one/letter_heads.py:36 onedesk/one/settings.py:1873
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
@@ -13174,7 +13178,7 @@ msgstr "تصيّد احتيالي"
 
 #. Option for the 'Kind' (Select) field in DocType 'Identifier'
 #. Label of the phone (Data) field in DocType 'Reading Party'
-#: onedesk/one/letter_heads.py:37 onedesk/one/settings.py:113
+#: onedesk/one/letter_heads.py:38 onedesk/one/settings.py:113
 #: onedesk/one_intake/doctype/identifier/identifier.json
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 #: onedesk/public/js/settings.js:1559
@@ -16916,7 +16920,7 @@ msgstr "الضرائب والمزايا"
 msgid "Tax Assessment"
 msgstr "إشعار تقدير ضريبي"
 
-#: onedesk/one/letter_heads.py:40 onedesk/one/letter_heads.py:128
+#: onedesk/one/letter_heads.py:41 onedesk/one/letter_heads.py:129
 #: onedesk/public/js/settings.js:1562
 msgid "Tax ID"
 msgstr ""
@@ -19731,7 +19735,7 @@ msgid "Webhook Signing Secret"
 msgstr "سر توقيع الـ webhook"
 
 #. Label of the website (Data) field in DocType 'Reading Party'
-#: onedesk/one/letter_heads.py:39
+#: onedesk/one/letter_heads.py:40
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 #: onedesk/public/js/settings.js:1561
 msgid "Website"

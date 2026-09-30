@@ -4268,6 +4268,12 @@ stretches any picture inside a table cell to the cell's width, so the presets
 lay out with table-display divs and give the logo its width from its own
 proportions.
 
+Then, on the renders: Classic's contacts line wrapped the tax ID, so the tax
+ID now prints on its own line in every preset. Minimal carries the logo
+beside the name. A sixth preset, **Logo and Details**, puts the logo on the
+left and the company one line at a time on the right, set off by a bar in
+the Brand Colour.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

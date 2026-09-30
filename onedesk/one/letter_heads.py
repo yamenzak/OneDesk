@@ -27,6 +27,7 @@ PRESETS = {
 	"centred": _lt("Centred"),
 	"banner": _lt("Banner"),
 	"minimal": _lt("Minimal"),
+	"details": _lt("Logo and Details"),
 	"logo": _lt("Logo Only"),
 }
 
@@ -124,8 +125,8 @@ def draw(raw, details: dict | None = None) -> str:
 	contacts = [
 		e(details.get(key)) for key in ("phone", "email", "website") if key in shown and details.get(key)
 	]
-	if "tax_id" in shown and details.get("tax_id"):
-		contacts.append(f"{e(_('Tax ID'))} {e(details['tax_id'])}")
+	# The tax ID on a line of its own: beside the contacts it wraps.
+	tax = f"{e(_('Tax ID'))} {e(details['tax_id'])}" if "tax_id" in shown and details.get("tax_id") else ""
 	small = f"font-size:11px;line-height:1.5;color:{MUTED};"
 
 	preset = said["preset"]
@@ -143,6 +144,7 @@ def draw(raw, details: dict | None = None) -> str:
 			)
 			+ (f'<div style="{small}">{", ".join(address)}</div>' if address else "")
 			+ (f'<div style="{small}">{" · ".join(contacts)}</div>' if contacts else "")
+			+ (f'<div style="{small}">{tax}</div>' if tax else "")
 			+ f'</div><div style="height:2px;background:{colour};margin-top:12px;{EXACT}"></div>'
 		)
 
@@ -156,19 +158,60 @@ def draw(raw, details: dict | None = None) -> str:
 			+ (f'<div style="font-size:11px;opacity:0.85">{", ".join(address)}</div>' if address else "")
 			+ "</div></div></div>"
 			+ (
-				f'<div style="{small}text-align:right;margin-top:6px">{" · ".join(contacts)}</div>'
-				if contacts
+				f'<div style="{small}text-align:right;margin-top:6px">'
+				+ "<br>".join(one for one in (" · ".join(contacts), tax) if one)
+				+ "</div>"
+				if contacts or tax
 				else ""
 			)
 		)
 
 	if preset == "minimal":
+		# The logo, when there is one, beside the name, both over a line in the colour.
+		mark = (
+			f'<span style="display:inline-block;vertical-align:middle;margin-right:10px">{logo()}</span>'
+			if details.get("logo")
+			else ""
+		)
 		return (
 			f'<div style="display:table;width:100%;border-bottom:2px solid {colour}">'
-			f'<div style="display:table-cell;vertical-align:bottom;text-align:left;padding-bottom:8px;font-size:18px;font-weight:700;color:{colour}">{name}</div>'
+			'<div style="display:table-cell;vertical-align:bottom;text-align:left;padding-bottom:8px">'
+			+ mark
+			+ (
+				f'<span style="display:inline-block;vertical-align:middle;font-size:18px;font-weight:700;color:{colour}">{name}</span>'
+				if name
+				else ""
+			)
+			+ "</div>"
 			f'<div style="display:table-cell;vertical-align:bottom;padding-bottom:8px;text-align:right;{small}">'
-			+ "<br>".join(one for one in (", ".join(address), " · ".join(contacts)) if one)
+			+ "<br>".join(one for one in (", ".join(address), " · ".join(contacts), tax) if one)
 			+ "</div></div>"
+		)
+
+	if preset == "details":
+		# The logo on the left; on the right, set off by a bar in the colour, the
+		# company one line at a time.
+		lines = (
+			([f'<div style="font-weight:700;color:{INK}">{name}</div>'] if name else [])
+			+ [f"<div>{one}</div>" for one in address]
+			+ [f"<div>{one}</div>" for one in contacts]
+			+ ([f"<div>{tax}</div>"] if tax else [])
+		)
+		left = logo() or (
+			f'<div style="font-size:20px;font-weight:700;color:{colour}">{name}</div>' if name else ""
+		)
+		return (
+			'<div style="display:table;width:100%">'
+			f'<div style="display:table-cell;vertical-align:middle;text-align:left">{left}</div>'
+			+ (
+				'<div style="display:table-cell;vertical-align:middle;width:1%;white-space:nowrap">'
+				f'<div style="border-left:3px solid {colour};padding-left:12px;{small}color:#374151;{EXACT}">'
+				+ "".join(lines)
+				+ "</div></div>"
+				if lines
+				else ""
+			)
+			+ "</div>"
 		)
 
 	# Classic: the logo on the left, the company on the right, a line under both.
@@ -183,6 +226,7 @@ def draw(raw, details: dict | None = None) -> str:
 		)
 		+ "".join(f"<div>{one}</div>" for one in address)
 		+ (f"<div>{' · '.join(contacts)}</div>" if contacts else "")
+		+ (f"<div>{tax}</div>" if tax else "")
 	)
 	return (
 		'<div style="display:table;width:100%">'

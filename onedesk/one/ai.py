@@ -1685,7 +1685,7 @@ def change_printing(
 	letter_head: Annotated[
 		dict,
 		"A letter head to make or change: {name} of an existing one, or {new_name} for a new one; {preset}, "
-		"one of classic, centred, banner, minimal or logo, to draw its top from the company's details in "
+		"one of classic, centred, banner, minimal, details or logo, to draw its top from the company's details in "
 		"Workspace > General (with {show}, a list of name, address, phone, email, website, tax_id, and "
 		"{logo_height} in pixels), which is what to suggest first; or {logo}, "
 		"'company' for the logo Workspace > General keeps or a file URL the workspace already has; or "

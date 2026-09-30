@@ -29,7 +29,7 @@ def _body(name: str) -> str:
 def test_every_preset_is_drawn():
 	draw = _body("draw")
 	presets = _keys("PRESETS")
-	assert presets == ["classic", "centred", "banner", "minimal", "logo"]
+	assert presets == ["classic", "centred", "banner", "minimal", "details", "logo"]
 	for preset in presets[1:]:
 		assert f'preset == "{preset}"' in draw, preset
 
