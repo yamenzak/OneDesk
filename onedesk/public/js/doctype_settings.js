@@ -590,7 +590,9 @@ onedesk.numbering.named_by = async ($wrapper, doctype, shown = () => {}) => {
 				fieldname: "by",
 				label: __("Name each new {0} by", [__(doctype)]),
 				options: said.kinds,
-				description: __("Records already made keep their names."),
+				description: said.made
+					? __("Records already made keep their names. One makes some of these itself, so they are not typed by hand, and only a field always filled is offered.")
+					: __("Records already made keep their names."),
 				change: () => group.get_value("by") !== EXPRESSION && apply(),
 			},
 			{ fieldtype: "Column Break" },
@@ -637,7 +639,7 @@ onedesk.numbering.named_by = async ($wrapper, doctype, shown = () => {}) => {
 				row.error
 					? `<span class="text-danger">${frappe.utils.escape_html(row.error)}</span>`
 					: row.next
-						? __("Next: {0}", [`<span class="font-mono">${frappe.utils.escape_html(row.next)}</span>`])
+						? __("Next: {0}", [`<samp>${frappe.utils.escape_html(row.next)}</samp>`])
 						: __("Written as a series is.")
 			);
 		}, 300)
@@ -777,8 +779,26 @@ onedesk.numbering.rule = async (doctype, name, done) => {
 			done();
 		},
 	});
+	// The name the rule would give next, or what frappe says is wrong, as it is typed.
+	const prefix = dialog.get_field("prefix");
+	const said = prefix.df.description;
+	const next = frappe.utils.debounce(async () => {
+		const value = (prefix.get_input_value() || "").trim();
+		const digits = dialog.get_value("prefix_digits") || 5;
+		const row = value ? await frappe.xcall(onedesk.numbering.API + "preview_rule", { doctype, prefix: value, digits }) : {};
+		prefix.set_description(
+			row.error
+				? `<span class="text-danger">${frappe.utils.escape_html(row.error)}</span>`
+				: row.next
+					? __("Next: {0}", [`<samp>${frappe.utils.escape_html(row.next)}</samp>`])
+					: said
+		);
+	}, 300);
+	prefix.$input.on("input", next);
+	dialog.get_field("prefix_digits").$input.on("input change", next);
 	if (doc) {
 		dialog.set_values({ ...doc, conditions: doc.conditions });
+		next();
 		dialog.set_secondary_action_label(__("Delete"));
 		dialog.set_secondary_action(() =>
 			frappe.confirm(__("Delete this rule?"), async () => {

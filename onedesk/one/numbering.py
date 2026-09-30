@@ -421,16 +421,23 @@ def naming_by(doctype: Annotated[str, "The kind of record."]) -> dict | None:
 	if _names_itself(doctype) or (meta.autoname or "").lower() == "autoincrement" or _made_by_code(meta):
 		return None
 	by, value = _by(meta)
+	made = made_by(doctype)
 	fields = _fields(meta)
+	if made:
+		# Code that makes the record fills its required fields, and no other.
+		fields = [one for one in fields if meta.get_field(one["value"][6:]).reqd]
 	kinds = [SERIES] if meta.get_field("naming_series") else []
 	kinds += [FIELD] if fields else []
-	kinds += [EXPRESSION, "prompt", "hash"]
+	kinds += [EXPRESSION] + ([] if made else ["prompt"]) + ["hash"]
 	kinds = [{"value": one, "label": _(WORDS.get(one, one))} for one in kinds]
-	if not by:
-		# Named some other way (a newer expression, a UUID): kept until
-		# something else is picked.
-		by = value
-		kinds.append({"value": value, "label": _("As {0} names it now").format(_(doctype))})
+	if by == FIELD and value not in [one["value"] for one in fields]:
+		field = meta.get_field(value[6:])
+		fields.append({"value": value, "label": _(field.label) if field else value[6:]})
+	elif by not in [one["value"] for one in kinds] + [FIELD]:
+		# Named some other way (a newer expression, a UUID, or typed on a kind
+		# One's code makes): kept until something else is picked.
+		kinds.append({"value": by or value, "label": _("As {0} names it now").format(_(doctype))})
+		by = by or value
 	return {
 		"by": by,
 		"value": value,
@@ -439,7 +446,15 @@ def naming_by(doctype: Annotated[str, "The kind of record."]) -> dict | None:
 		"pattern": value if by == EXPRESSION else "",
 		"app": False,
 		"series": by == SERIES,
+		"made": bool(made),
 	}
+
+
+def made_by(doctype: str) -> list[str]:
+	"""The modules whose code makes records of the kind without a name
+	(hooks.py `one_makes_records`): such a kind is never named by hand, and
+	only by a field that code always fills."""
+	return frappe.get_hooks("one_makes_records").get(doctype) or []
 
 
 def choices(said: dict) -> list[str]:
@@ -659,6 +674,37 @@ def check_rule(doc) -> None:
 			)
 		if row.condition not in COMPARISONS:
 			frappe.throw(_("A rule compares with one of {0}.").format(" ".join(COMPARISONS)))
+
+
+@frappe.whitelist()
+def preview_rule(
+	doctype: Annotated[str, "The kind of record."],
+	prefix: Annotated[str, "A rule's prefix as it is being written."],
+	digits: Annotated[int, "How many digits its number has."] = 5,
+) -> dict:
+	"""The name a rule being written would give next, as frappe's Document
+	Naming Rule.apply makes it (the prefix parsed, then its own counter), or
+	what is wrong with it."""
+	from frappe.utils import strip_html
+
+	_meta(doctype)
+	prefix = (prefix or "").strip()
+	if not prefix:
+		return {}
+	doc = frappe._dict(document_type=doctype, prefix=prefix, prefix_digits=cint(digits) or 5, conditions=[])
+	try:
+		check_rule(doc)
+	except frappe.ValidationError as e:
+		frappe.clear_messages()
+		return {"error": strip_html(str(e))}
+	last = _settings(doctype)._fetch_last_doc_if_available()
+	try:
+		parsed = parse_naming_series(prefix, doc=last)
+	except Exception:
+		frappe.clear_last_message()
+		parsed = prefix.replace(".", "")
+	current = cint(frappe.db.get_value("Series", parsed, "current", order_by="name"))
+	return {"next": parsed + str(current + 1).zfill(doc.prefix_digits), "current": current}
 
 
 def naming_rules(doctype: str) -> list[dict]:

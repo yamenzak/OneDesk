@@ -214,6 +214,7 @@ No doctypes yet.
 * `onedesk.one.numbering.naming_by`
 * `onedesk.one.numbering.preview`
 * `onedesk.one.numbering.preview_pattern`
+* `onedesk.one.numbering.preview_rule`
 * `onedesk.one.numbering.save`
 * `onedesk.one.numbering.series`
 * `onedesk.one.numbering.set_current`

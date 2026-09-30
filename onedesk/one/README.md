@@ -497,7 +497,10 @@ its name, with the framework's own choices:
 - **Expression**: a pattern written as a series is, `PRJ-.YYYY.-.####`, for a
   kind with no series of its own. The window shows the name it would give next
   as it is typed, and **Use This Expression** takes it.
-- **Set by User**: whoever makes the record types its name.
+- **Set by User**: whoever makes the record types its name. Not offered on a
+  kind One makes itself (a task Intake writes, an expense claim OneHR files),
+  since nobody is there to type it; such a kind is named by a field only when
+  the field is one that is always filled.
 - **Random**: a name nobody reads, for records nobody refers to by name.
 
 A **Customer**, **Supplier**, **Item**, **Employee** or **Campaign** names
@@ -512,7 +515,7 @@ carries on from the number it had reached.
 **Rules** name a record by a prefix of their own when its fields match,
 whatever it is otherwise named by: returns as `RET-.YYYY.-`, a government customer as
 `CUST-GOV-.YYYY.-`. **Add Rule**, give the prefix (written as a series is, but
-without the `#`), how many digits the number has, and **When**: each line a
+without the `#`; the window shows the name it would give next), how many digits the number has, and **When**: each line a
 field, how it compares and a value, all of which must match (none means
 always, so such a rule names every new record). When two rules match, the
 higher **Priority** wins. A rule looks only at the record's ordinary fields.

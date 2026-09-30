@@ -4110,6 +4110,42 @@ can be known, and Rules. It lists kinds with a series, kinds the workspace
 changed and kinds with rules; **Set Up Naming** opens any other; the list is
 read again when the dialog closes.
 
+**Stage 2, Numbering: passed, most of it during stage 1.** Checked on the nine
+points:
+
+1. Notifications: nothing is sent, and nothing should be. Every change is kept
+   by frappe already: Property Setter and Document Naming Rule both track
+   changes, and a counter moved is a Version on Document Naming Settings.
+2. OneAI: reads naming, series and rules, suggests any of them as one card
+   (done in stage 1). Workspace › Numbering offers two suggestions.
+3. Intake: **finding.** Intake makes Task, Event, Contract, Purchase Invoice,
+   Bank Transaction and Employee records in code, without a name. Set by User
+   on any of them makes Intake's save fail ("Please set the document name"),
+   and so does naming by a field Intake does not fill.
+4. Permissions: workspace administrators only (roles.require), each door
+   guarded to a kind they can read, naming changes only on kinds they can make.
+   Holds.
+5. Cross-module: the same as 3 for any module whose code makes records (OneHR's
+   check-ins, OneBook's payments): the kinds a module makes are not declared
+   anywhere Numbering can read.
+6. Bespoke UI: frappe's dialog, FieldGroup and EmbeddedList, sections on the
+   page. **Finding:** Add Series shows the next name as it is typed; Add Rule
+   does not.
+7. Documented: the README's Numbering section and A Form's Settings are
+   current; `docs/DESK-COVERAGE.md` stage 2 still says rules are not offered
+   and only series kinds are covered. **Finding.**
+8. Legal: nothing leaves the workspace; no clause.
+9. Built from frappe: frappe's own naming, NamingSeries, Document Naming Rule,
+   Customize Form's autoname and unique, frappe's Settings dialog.
+
+Fixed, all three. `hooks.py` `one_makes_records` names every kind a module's
+code makes without a name (found by reading every insert in the app: ten
+modules, 63 kinds), and on those Numbering offers no Set by User and only
+fields that are always filled, and says why; OneAI is told the same. Add Rule
+shows the name the rule would give next, as frappe's Document Naming Rule makes
+it, or what is wrong with the prefix. DESK-COVERAGE's stage 2 says what is
+built.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

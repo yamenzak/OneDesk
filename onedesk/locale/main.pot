@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-30 10:21+0000\n"
-"PO-Revision-Date: 2026-09-30 10:21+0000\n"
+"POT-Creation-Date: 2026-09-30 10:30+0000\n"
+"PO-Revision-Date: 2026-09-30 10:30+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -598,7 +598,7 @@ msgstr ""
 msgid "A record of something that happened to a workspace."
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:709
+#: onedesk/public/js/doctype_settings.js:711
 msgid "A record whose fields match a rule is named by the rule's own prefix, whatever it is named by above."
 msgstr ""
 
@@ -628,7 +628,7 @@ msgstr ""
 msgid "A retried webhook meets this index rather than a check somebody remembered to write."
 msgstr ""
 
-#: onedesk/one/numbering.py:658
+#: onedesk/one/numbering.py:673
 msgid "A rule can only look at an ordinary field of the record, not {0}."
 msgstr ""
 
@@ -640,7 +640,7 @@ msgstr ""
 msgid "A rule can only watch records you can open yourself."
 msgstr ""
 
-#: onedesk/one/numbering.py:661
+#: onedesk/one/numbering.py:676
 msgid "A rule compares with one of {0}."
 msgstr ""
 
@@ -664,11 +664,11 @@ msgstr ""
 msgid "A rule's condition is chosen from the record's fields, not written as code."
 msgstr ""
 
-#: onedesk/one/numbering.py:653
+#: onedesk/one/numbering.py:668
 msgid "A rule's number has between 1 and 10 digits."
 msgstr ""
 
-#: onedesk/one/numbering.py:650
+#: onedesk/one/numbering.py:665
 msgid "A rule's prefix is the text before the number, such as RET-.YYYY.-"
 msgstr ""
 
@@ -1085,7 +1085,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:20
 #: onedesk/public/js/doctype_settings.js:352
-#: onedesk/public/js/doctype_settings.js:764 onedesk/public/js/onecloud.js:1489
+#: onedesk/public/js/doctype_settings.js:766 onedesk/public/js/onecloud.js:1489
 #: onedesk/public/js/settings.js:658 onedesk/public/js/settings.js:1023
 #: onedesk/public/js/settings.js:1024 onedesk/public/js/settings.js:1307
 #: onedesk/public/js/settings.js:1731
@@ -1096,8 +1096,8 @@ msgstr ""
 msgid "Add Bank Account"
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:706
-#: onedesk/public/js/doctype_settings.js:736
+#: onedesk/public/js/doctype_settings.js:708
+#: onedesk/public/js/doctype_settings.js:738
 msgid "Add Rule"
 msgstr ""
 
@@ -1519,7 +1519,7 @@ msgstr ""
 msgid "Also propose networks and locations belonging to a single employee, such as a home."
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:722
+#: onedesk/public/js/doctype_settings.js:724
 msgid "Always"
 msgstr ""
 
@@ -1998,7 +1998,7 @@ msgstr ""
 msgid "As {0}"
 msgstr ""
 
-#: onedesk/one/numbering.py:433
+#: onedesk/one/numbering.py:439
 msgid "As {0} names it now"
 msgstr ""
 
@@ -3875,7 +3875,7 @@ msgstr ""
 msgid "Continue to payment"
 msgstr ""
 
-#: onedesk/one/ai.py:1563
+#: onedesk/one/ai.py:1564
 msgid "Continues after {0} (was {1})"
 msgstr ""
 
@@ -4594,7 +4594,7 @@ msgstr ""
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:381
 #: onedesk/public/js/doctype_settings.js:436
 #: onedesk/public/js/doctype_settings.js:498
-#: onedesk/public/js/doctype_settings.js:782 onedesk/public/js/onecloud.js:105
+#: onedesk/public/js/doctype_settings.js:802 onedesk/public/js/onecloud.js:105
 #: onedesk/public/js/onecloud.js:1916 onedesk/public/js/onemail.js:103
 #: onedesk/public/js/onemail.js:424 onedesk/public/js/settings.js:1580
 #: onedesk/public/js/settings.js:2421
@@ -4647,7 +4647,7 @@ msgstr ""
 msgid "Delete these {0} items from the server? This cannot be undone."
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:784
+#: onedesk/public/js/doctype_settings.js:804
 msgid "Delete this rule?"
 msgstr ""
 
@@ -4805,7 +4805,7 @@ msgstr ""
 msgid "Device ID"
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:745
+#: onedesk/public/js/doctype_settings.js:747
 msgid "Digits"
 msgstr ""
 
@@ -5255,7 +5255,7 @@ msgstr ""
 msgid "Edit Memory"
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:736
+#: onedesk/public/js/doctype_settings.js:738
 msgid "Edit Rule"
 msgstr ""
 
@@ -5692,7 +5692,7 @@ msgstr ""
 msgid "Every invoice for the workspaces in your account, newest first."
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:750
+#: onedesk/public/js/doctype_settings.js:752
 msgid "Every line must match. None means always."
 msgstr ""
 
@@ -5985,7 +5985,7 @@ msgstr ""
 msgid "Export"
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:609
+#: onedesk/public/js/doctype_settings.js:611
 msgid "Expression"
 msgstr ""
 
@@ -6101,8 +6101,8 @@ msgstr ""
 #. Label of the fieldname (Data) field in DocType 'AI Touch'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
-#: onedesk/public/js/customize.js:103 onedesk/public/js/doctype_settings.js:600
-#: onedesk/public/js/doctype_settings.js:754
+#: onedesk/public/js/customize.js:103 onedesk/public/js/doctype_settings.js:602
+#: onedesk/public/js/doctype_settings.js:756
 msgid "Field"
 msgstr ""
 
@@ -7217,7 +7217,7 @@ msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:349
 #: onedesk/public/js/doctype_settings.js:415
-#: onedesk/public/js/doctype_settings.js:761
+#: onedesk/public/js/doctype_settings.js:763
 msgid "How a Series Is Written"
 msgstr ""
 
@@ -7934,7 +7934,7 @@ msgstr ""
 msgid "Invoices, bills, payments and the books."
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:755
+#: onedesk/public/js/doctype_settings.js:757
 msgid "Is"
 msgstr ""
 
@@ -8031,7 +8031,7 @@ msgstr ""
 msgid "It asks to be paid to an IBAN we do not have for {0}. Check with them by phone before paying."
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:603
+#: onedesk/public/js/doctype_settings.js:605
 msgid "It becomes required, and no two records may share its value."
 msgstr ""
 
@@ -10121,7 +10121,7 @@ msgstr ""
 msgid "Name each new {0} by"
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:666
+#: onedesk/public/js/doctype_settings.js:668
 msgid "Name each new {0} by {1}? Records already made keep their names."
 msgstr ""
 
@@ -10142,7 +10142,7 @@ msgstr ""
 msgid "Name the template."
 msgstr ""
 
-#: onedesk/one/ai.py:1545 onedesk/public/js/settings.js:1425
+#: onedesk/one/ai.py:1546 onedesk/public/js/settings.js:1425
 msgid "Named By"
 msgstr ""
 
@@ -10165,7 +10165,7 @@ msgstr ""
 msgid "Names the record's fields as {{ doc.fieldname }}, and nothing else."
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:669
+#: onedesk/public/js/doctype_settings.js:671
 msgid "Naming updated"
 msgstr ""
 
@@ -10303,7 +10303,7 @@ msgstr ""
 msgid "New Project"
 msgstr ""
 
-#: onedesk/one/ai.py:1573 onedesk/public/js/doctype_settings.js:248
+#: onedesk/one/ai.py:1574 onedesk/public/js/doctype_settings.js:248
 #: onedesk/public/js/doctype_settings.js:266 onedesk/public/js/settings.js:2241
 #: onedesk/public/js/settings.js:2413 onedesk/public/js/settings.js:2417
 msgid "New Rule"
@@ -10463,7 +10463,8 @@ msgstr ""
 
 #: onedesk/one_admin/home.py:168 onedesk/public/js/doctype_settings.js:379
 #: onedesk/public/js/doctype_settings.js:395
-#: onedesk/public/js/doctype_settings.js:640
+#: onedesk/public/js/doctype_settings.js:642
+#: onedesk/public/js/doctype_settings.js:793
 msgid "Next: {0}"
 msgstr ""
 
@@ -10691,7 +10692,7 @@ msgstr ""
 msgid "No rules yet."
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:712
+#: onedesk/public/js/doctype_settings.js:714
 msgid "No rules."
 msgstr ""
 
@@ -11268,8 +11269,8 @@ msgstr ""
 
 #: onedesk/one/settings.py:834 onedesk/one_ai/chat.py:631
 #: onedesk/public/js/doctype_settings.js:260
-#: onedesk/public/js/doctype_settings.js:720
-#: onedesk/public/js/doctype_settings.js:760 onedesk/public/js/settings.js:460
+#: onedesk/public/js/doctype_settings.js:722
+#: onedesk/public/js/doctype_settings.js:762 onedesk/public/js/settings.js:460
 #: onedesk/public/js/settings.js:792 onedesk/public/js/settings.js:886
 #: onedesk/public/js/settings.js:1516 onedesk/public/js/settings.js:1566
 #: onedesk/public/js/settings.js:1996 onedesk/public/js/settings.js:2209
@@ -13266,8 +13267,8 @@ msgstr ""
 msgid "Preferred Provider"
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:717
-#: onedesk/public/js/doctype_settings.js:741
+#: onedesk/public/js/doctype_settings.js:719
+#: onedesk/public/js/doctype_settings.js:743
 msgid "Prefix"
 msgstr ""
 
@@ -13398,7 +13399,7 @@ msgstr ""
 msgid "Printing"
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:759
+#: onedesk/public/js/doctype_settings.js:761
 msgid "Priority"
 msgstr ""
 
@@ -14215,8 +14216,12 @@ msgstr ""
 msgid "Records"
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:593
+#: onedesk/public/js/doctype_settings.js:595
 msgid "Records already made keep their names."
+msgstr ""
+
+#: onedesk/public/js/doctype_settings.js:594
+msgid "Records already made keep their names. One makes some of these itself, so they are not typed by hand, and only a field always filled is offered."
 msgstr ""
 
 #: onedesk/public/js/customize.js:151
@@ -14442,7 +14447,7 @@ msgstr ""
 msgid "Remove these {0} files from their records? This cannot be undone."
 msgstr ""
 
-#: onedesk/one/ai.py:1569
+#: onedesk/one/ai.py:1570
 msgid "Remove {0}"
 msgstr ""
 
@@ -14739,7 +14744,7 @@ msgstr ""
 
 #. Label of the one_rule (Data) field in DocType 'Notification Type'
 #. Label of the rule (Data) field in DocType 'Reading Date'
-#: onedesk/one/ai.py:1569 onedesk/one/ai.py:1573
+#: onedesk/one/ai.py:1570 onedesk/one/ai.py:1574
 #: onedesk/one/custom/notification_type.json
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_intake/report/deadlines/deadlines.py:46
@@ -14747,15 +14752,15 @@ msgstr ""
 msgid "Rule"
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:776
+#: onedesk/public/js/doctype_settings.js:778
 msgid "Rule added"
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:776
+#: onedesk/public/js/doctype_settings.js:778
 msgid "Rule updated"
 msgstr ""
 
-#: onedesk/one/rules.py:47 onedesk/public/js/doctype_settings.js:708
+#: onedesk/one/rules.py:47 onedesk/public/js/doctype_settings.js:710
 #: onedesk/public/js/onemail.js:1010 onedesk/public/js/settings.js:1434
 #: onedesk/public/js/settings.js:2233
 msgid "Rules"
@@ -15267,7 +15272,7 @@ msgstr ""
 msgid "Serial and batch numbers can be used"
 msgstr ""
 
-#: onedesk/one/ai.py:1533 onedesk/public/js/doctype_settings.js:323
+#: onedesk/one/ai.py:1534 onedesk/public/js/doctype_settings.js:323
 #: onedesk/public/js/doctype_settings.js:392 onedesk/public/js/settings.js:1427
 msgid "Series"
 msgstr ""
@@ -15280,7 +15285,7 @@ msgstr ""
 msgid "Series updated"
 msgstr ""
 
-#: onedesk/one/numbering.py:474
+#: onedesk/one/numbering.py:489
 msgid "Series {0} already used in {1}"
 msgstr ""
 
@@ -15416,7 +15421,7 @@ msgstr ""
 #: onedesk/one/page/settings/settings.js:5 onedesk/one/sidebar/one/one.json
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
-#: onedesk/public/js/doctype_settings.js:804 onedesk/public/js/head.js:30
+#: onedesk/public/js/doctype_settings.js:824 onedesk/public/js/head.js:30
 msgid "Settings"
 msgstr ""
 
@@ -17876,7 +17881,7 @@ msgstr ""
 msgid "The text as it was agreed to"
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:743
+#: onedesk/public/js/doctype_settings.js:745
 msgid "The text before the number, such as {0}"
 msgstr ""
 
@@ -19118,7 +19123,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/public/js/doctype_settings.js:418
 #: onedesk/public/js/doctype_settings.js:480
-#: onedesk/public/js/doctype_settings.js:764 onedesk/public/js/settings.js:1568
+#: onedesk/public/js/doctype_settings.js:766 onedesk/public/js/settings.js:1568
 msgid "Update"
 msgstr ""
 
@@ -19191,7 +19196,7 @@ msgstr ""
 msgid "Use My Location"
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:618
+#: onedesk/public/js/doctype_settings.js:620
 msgid "Use This Expression"
 msgstr ""
 
@@ -19316,7 +19321,7 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.py:66
 #: onedesk/one_intake/doctype/identifier/identifier.json
-#: onedesk/public/js/customize.js:102 onedesk/public/js/doctype_settings.js:756
+#: onedesk/public/js/customize.js:102 onedesk/public/js/doctype_settings.js:758
 #: onedesk/public/js/settings.js:1702
 msgid "Value"
 msgstr ""
@@ -20105,8 +20110,8 @@ msgstr ""
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 #: onedesk/public/js/doctype_settings.js:220
 #: onedesk/public/js/doctype_settings.js:262
-#: onedesk/public/js/doctype_settings.js:722
-#: onedesk/public/js/doctype_settings.js:749 onedesk/public/js/intake.js:107
+#: onedesk/public/js/doctype_settings.js:724
+#: onedesk/public/js/doctype_settings.js:751 onedesk/public/js/intake.js:107
 #: onedesk/public/js/settings.js:565 onedesk/public/js/settings.js:2356
 msgid "When"
 msgstr ""
@@ -20532,7 +20537,7 @@ msgstr ""
 msgid "When this shift runs, read from the Shift Type."
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:759
+#: onedesk/public/js/doctype_settings.js:761
 msgid "When two rules match, the higher one names the record."
 msgstr ""
 
@@ -21361,8 +21366,8 @@ msgstr ""
 msgid "Written Value"
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:612
-#: onedesk/public/js/doctype_settings.js:641
+#: onedesk/public/js/doctype_settings.js:614
+#: onedesk/public/js/doctype_settings.js:643
 msgid "Written as a series is."
 msgstr ""
 
@@ -22517,8 +22522,8 @@ msgstr ""
 msgid "{0} (in mail)"
 msgstr ""
 
-#: onedesk/one/ai.py:1013 onedesk/one/ai.py:1031 onedesk/one/ai.py:1533
-#: onedesk/one/ai.py:1546
+#: onedesk/one/ai.py:1013 onedesk/one/ai.py:1031 onedesk/one/ai.py:1534
+#: onedesk/one/ai.py:1547
 msgid "{0} (was {1})"
 msgstr ""
 
@@ -22665,8 +22670,8 @@ msgstr ""
 msgid "{0} cannot be deleted."
 msgstr ""
 
-#: onedesk/one/numbering.py:516 onedesk/one/numbering.py:521
-#: onedesk/one/numbering.py:526
+#: onedesk/one/numbering.py:531 onedesk/one/numbering.py:536
+#: onedesk/one/numbering.py:541
 msgid "{0} cannot be named that way."
 msgstr ""
 
@@ -22693,7 +22698,7 @@ msgstr ""
 msgid "{0} cannot hold an approval's state."
 msgstr ""
 
-#: onedesk/one/numbering.py:561
+#: onedesk/one/numbering.py:576
 msgid "{0} cannot name each {1}: two records already have {2} in it."
 msgstr ""
 
@@ -23112,7 +23117,7 @@ msgstr ""
 msgid "{0} is not a plan on sale."
 msgstr ""
 
-#: onedesk/one/numbering.py:695
+#: onedesk/one/numbering.py:741
 msgid "{0} is not a rule of {1}."
 msgstr ""
 
@@ -23575,7 +23580,7 @@ msgstr ""
 msgid "{0} will register a new passkey on their next check-in. The old one is retired, not deleted."
 msgstr ""
 
-#: onedesk/one/ai.py:1470
+#: onedesk/one/ai.py:1471
 msgid "{0} with {1} digits"
 msgstr ""
 
@@ -23668,7 +23673,7 @@ msgstr ""
 msgid "{0}'s actions only."
 msgstr ""
 
-#: onedesk/one/ai.py:1471
+#: onedesk/one/ai.py:1472
 msgid "{0}, for every record"
 msgstr ""
 
@@ -23704,7 +23709,7 @@ msgstr ""
 msgid "{0}, unmetered"
 msgstr ""
 
-#: onedesk/one/ai.py:1471
+#: onedesk/one/ai.py:1472
 msgid "{0}, when {1}"
 msgstr ""
 

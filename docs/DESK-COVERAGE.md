@@ -80,14 +80,20 @@ One's sidebar, as lists.
    doctype's series. `one/numbering.py` is the door instead, guarded to a
    doctype the workspace may change and its administrator may read, calling
    frappe's own `update_series` and `NamingSeries`; the one thing it does not
-   do that frappe's System Managers may is move a number down. The Naming tab
-   is re-registered over it (series only; Document Naming Rule is not offered
-   yet), `layer.py` lets exactly the `naming_series` options and default
-   through from there, and Workspace › Numbering lists every kind of record
-   numbered by a series, with the real next name (frappe's preview counts
-   from one). The General tab is held back: frappe's saves a field on opening
-   (a strict `===` after `set_value`), which wrote Accounts Settings twice and
-   met itself as a conflict.
+   do that frappe's System Managers may is move a number down. Document Naming
+   Rule is granted, so the Naming tab shows on frappe's own condition, on every
+   kind of record. It says how a new record is named, with Customize Form's
+   choices written as Customize Form writes them (series, a field made unique,
+   an expression, typed, random; the four apps' own switches for the kinds that
+   name themselves), the series where the kind has them, and the rules, each
+   with the name it would give next. A kind whose records are made by code
+   (frappe's User Cannot Create, One's own, or declared by a module in
+   `one_makes_records`) is never typed by hand. `layer.py` lets exactly these
+   property setters through from there. Workspace › Numbering lists every kind
+   with a series, a naming the workspace chose, or rules, read from what the tab
+   reads. The General tab is held back: frappe's saves a field on opening (a
+   strict `===` after `set_value`), which wrote Accounts Settings twice and met
+   itself as a conflict.
 3. **Printing.** Print Format, Letter Head and Print Settings, and the print
    format builder through a Custom Role. A standard format stays read-only
    (frappe refuses to change one outside developer mode); a workspace copies
