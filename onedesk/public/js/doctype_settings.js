@@ -60,6 +60,7 @@ onedesk.doctype_settings.adapt = () => {
 			// Naming is offered on a doctype named by a series, which is all the tab
 			// below shows; frappe's asks for read on Document Naming Rule, which is not given.
 			const shown = item.id === "naming" ? (doctype) => !!frappe.meta.get_docfield(doctype, "naming_series") : theirs;
+			if (item.id === "naming") item.label = __("Numbering");
 			if (item.id === "email-template") item.label = __("Mail Templates");
 			if (item.id === "workflow") item.label = __("Approvals");
 			item.condition = (doctype) => onedesk.doctype_settings.TABS.includes(item.id) && (shown ? shown(doctype) : true);
@@ -338,7 +339,9 @@ onedesk.numbering.edit = (doctype, row, rows, done) => {
 				fieldname: "current",
 				label: __("Reached"),
 				default: row.current,
-				description: __("The next name continues after this number. It can only go up."),
+				description: row.last_name
+					? __("The next name continues after this number. It can only go up, and not below {0}, the highest a {1} already has ({2}).", [row.used, __(doctype), row.last_name])
+					: __("The next name continues after this number. It can only go up."),
 			},
 			{ fieldtype: "Section Break", label: __("How a Series Is Written"), collapsible: 1 },
 			{ fieldtype: "HTML", fieldname: "help", options: frappe.ui.NamingSeriesDialog.help_html() },

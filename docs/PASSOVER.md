@@ -4052,6 +4052,20 @@ its field rules only (no code condition, no If step), runs no script, names
 only fields in its values, and calls webhooks over https. That completes the
 six stages of the door.
 
+**Passed together: stage 1, the door.** Found: the Numbering tab was labelled
+Naming; the panel cannot be opened over the dialog, and should not be. Done:
+the tab reads Numbering. OneAI works the numbering from outside the dialog
+instead: `workspace_numbering` reads a kind of record's series, the name the
+next one gets, its counter, and the highest number its records already carry
+(read from their names), and `change_numbering` suggests series added,
+changed, reordered or removed and a counter moved on, as a Numbering card the
+administrator approves; it is told every part a series may have, frappe's and
+erpnext's (`YYYY`, `YY`, `MM`, `DD`, `JJJ`, `WW`, `FY`, `TFY`, `ABBR`,
+`{field}`, `timestamp`, `#`), and checks a series the way frappe will before
+suggesting it. A counter can no longer be moved below the highest number a
+record already has, by hand or by OneAI, and the edit window says what that
+is. Workspace › Numbering offers two suggestions.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

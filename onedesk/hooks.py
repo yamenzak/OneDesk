@@ -771,6 +771,8 @@ code_only_modules = {"One AI": ["One"], "One Legal": ["One"]}
 # person asking; suggests write a card. Suggestions are what the panel offers
 # when it opens on a page. See one_ai/tools.py and one_ai/suggest.py.
 one_ai_reads = [
+	# How records are numbered, for the workspace's administrators. See one/numbering.py.
+	"onedesk.one.ai.workspace_numbering",
 	# How the person signs in, and where they are signed in. See one/signin.py.
 	"onedesk.one.ai.my_sign_in",
 	"onedesk.one.ai.my_memories",
@@ -853,6 +855,7 @@ one_ai_suggests = [
 	"onedesk.one_crm.ai.write_up_call",
 	"onedesk.one.ai.rewrite_notification",
 	"onedesk.one.ai.draft_notification",
+	"onedesk.one.ai.change_numbering",
 	"onedesk.one.ai.customize",
 	"onedesk.one.ai.sign_mailbox",
 	# Holidays and days off, as the Holidays settings would save them.

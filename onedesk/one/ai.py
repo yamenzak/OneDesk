@@ -80,6 +80,24 @@ SUGGESTIONS = {
 			"expects": "my_memories",
 		},
 	],
+	"page:workspace-settings/numbering": [
+		{
+			"label": _lt("Is any numbering out of step?"),
+			"ask": _lt(
+				"Look at how each kind of record is numbered. Is any counter behind the records already made, "
+				"or any series that looks mistyped?"
+			),
+			"expects": "workspace_numbering",
+		},
+		{
+			"label": _lt("Number invoices by year"),
+			"ask": _lt(
+				"Suggest numbering new Sales Invoices as INV-, the year and a five-digit number that starts again "
+				"each year, keeping the series already in use."
+			),
+			"expects": "change_numbering",
+		},
+	],
 	"page:workspace-settings/people": [
 		{
 			"label": _lt("Who has access to what?"),
@@ -1381,4 +1399,117 @@ def sign_mailbox(
 			why=why,
 		),
 		"state": "Proposed",
+	}
+
+
+# ------------------------------------------------------------------ numbering
+
+#: How frappe reads a series, for the model: every part it understands.
+SERIES_HELP = (
+	"A series is parts joined by dots, read left to right. Text is kept as written (INV-, SO/, -). "
+	"YYYY is the year (2026), YY the year's last two digits (26), MM the month (01-12), DD the day, "
+	"JJJ the day of the year (001-366), WW the week of the year; FY is the fiscal year (2025-2026) and "
+	"TFY its short form, ABBR the company's abbreviation; {fieldname} or a bare fieldname is that field "
+	"of the record (such as {branch}), and timestamp the moment it is made. The number is # once per "
+	"digit (##### gives 00001), must follow a dot, and only the first run of # counts. The number "
+	"restarts whenever the text before it changes, so INV-.YYYY.-.#### starts at 0001 each year and "
+	"INV-.YYYY.-.MM.-.#### each month. Only letters, digits, spaces, - / _ . # { } are allowed. "
+	"Examples: INV-.YYYY.-.#####, SO/.YY./.####, .ABBR.-QTN-.#####, EMP-.{department}.-.###."
+)
+
+
+def workspace_numbering(
+	doctype: Annotated[str, "The kind of record, as its DocType name, such as Sales Invoice. Empty lists them all."]
+	| None = None,
+) -> dict:
+	"""How a kind of record is numbered, for the workspace's administrators:
+	each series it may be named by (the first is the one a new record starts
+	with), the name the next one gets, the number its counter has reached,
+	and the highest number records of it already use (`used`, from their
+	names), which a counter may never go below. Empty: every kind of record
+	numbered by a series. Read it before suggesting a change."""
+	from onedesk.one import numbering, roles
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator sees how records are numbered."}
+	try:
+		if not doctype:
+			return {"kinds": numbering.doctypes()}
+		return {"doctype": doctype, "series": numbering.series(doctype), "how_a_series_is_written": SERIES_HELP}
+	except frappe.ValidationError as e:
+		frappe.clear_last_message()
+		return {"error": str(e)}
+
+
+def change_numbering(
+	doctype: Annotated[str, "The kind of record, as its DocType name, such as Sales Invoice."],
+	series: Annotated[
+		list[str],
+		"Every series it may be named by, the default first, when they change: the whole list, not only a new "
+		"one. " + SERIES_HELP,
+	]
+	| None = None,
+	move: Annotated[
+		list[dict],
+		"Counters to move on, each {series, to}: the next name continues after `to`. Never below what the "
+		"counter has reached or the highest number records already use.",
+	]
+	| None = None,
+	why: Annotated[str, "In a sentence, what the change is for."] | None = None,
+) -> dict:
+	"""Suggest how a kind of record is numbered, as a card a workspace
+	administrator approves: its series added, changed, reordered (the first
+	is the default) or removed, and a series' counter moved on, to start a new
+	year at 1000 or to carry on after records brought in from elsewhere. Read
+	workspace_numbering first, and check `used` before moving a counter.
+	Nothing changes until they approve it. Workspace administrators only."""
+	from onedesk.one import numbering, roles
+	from onedesk.one_ai import proposals
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator changes how records are numbered."}
+	try:
+		now = numbering.series(doctype)
+		was = [row["series"] for row in now]
+		wanted = [one.strip() for one in series or [] if one and one.strip()] or was
+		if not wanted:
+			return {"error": f"{doctype} needs at least one series."}
+		if wanted != was:
+			numbering.check(doctype, wanted)
+		moves, summary = [], []
+		if wanted != was:
+			summary.append({"label": _("Series"), "value": _("{0} (was {1})").format(", ".join(wanted), ", ".join(was))})
+		rows = {row["series"]: row for row in now}
+		for one in move or []:
+			name, to = (one.get("series") or "").strip(), frappe.utils.cint(one.get("to"))
+			if name not in wanted:
+				return {"error": f"{name} is not one of {doctype}'s series: {', '.join(wanted)}."}
+			row = rows.get(name) or {"current": 0, "used": 0}
+			floor = max(row["current"], row["used"])
+			if to < floor:
+				return {"error": f"{name} has reached {floor}; a lower number would repeat a name already used."}
+			if to == row["current"]:
+				continue
+			moves.append({"series": name, "to": to})
+			summary.append({"label": name, "value": _("Continues after {0} (was {1})").format(to, row["current"])})
+	except frappe.ValidationError as e:
+		frappe.clear_last_message()
+		return {"error": str(e)}
+	if not summary:
+		return {"error": "That is how it is numbered already, so there is nothing to change. Say it is right as it is."}
+	return {
+		"proposal": proposals.propose(
+			"Numbering",
+			doctype,
+			changes={
+				"state": numbering.state(doctype),
+				"series": wanted if wanted != was else None,
+				"move": moves,
+				"summary": summary,
+			},
+			why=why,
+		),
+		"state": "Proposed",
+		"next": "Tell them it applies to records made after they approve it, and that the record's Settings › "
+		"Numbering shows the series.",
 	}

@@ -463,12 +463,28 @@ with, and the exact name the next one will get. Opening one opens that kind of
 record's **Settings** on **Numbering** (see A Form's Settings), where its series
 are added, changed, made the default or deleted, and a series is moved on.
 
-A series is written in frappe's own way (`.YYYY.` the year, `.MM.` the month,
-`####` the number and how many digits it has); **How a Series Is Written** in
-the edit window says it all. A series another kind of record already uses is
-refused, so two kinds never share numbers. A series' number can be moved up,
-to start a new year at 1000, say, but never down: a lower number would repeat
-a name already used. Each move is kept in the record's history.
+A series is parts joined by dots, read left to right. Text stays as written
+(`INV-`, `SO/`). `YYYY` is the year (2026) and `YY` its last two digits (26),
+`MM` the month, `DD` the day, `JJJ` the day of the year and `WW` the week of
+the year. `FY` is the fiscal year (2025-2026) and `TFY` its short form, and
+`ABBR` the company's abbreviation. `{department}`, or a field's name on its
+own, is that field of the record, and `timestamp` the moment it is made. The
+number is `#` once per digit, after a dot: `.#####` gives 00001, and only the
+first run of `#` counts. The number starts again whenever the text before it
+changes, so `INV-.YYYY.-.####` starts at 0001 each year and
+`INV-.YYYY.-.MM.-.####` each month. Only letters, digits, spaces and
+`- / _ . # { }` are allowed. **How a Series Is Written** in the edit window
+says the same.
+
+A series another kind of record already uses is refused, so two kinds never
+share numbers. A series' number can be moved up, to start a new year at 1000,
+say, but never down, and never below the highest number a record already has:
+the edit window says what that is. Each move is kept in the record's history.
+
+**Ask OneAI** to do it for you: "number our invoices by year", "start this
+year's quotations at 500", "is any numbering behind?". It reads how the kind
+of record is numbered and the names its records already have, and suggests
+the change as a card you approve; nothing changes before you do.
 
 Only administrators of the workspace see this, and only for the kinds of
 record they can open. The framework's own kinds of record and One's have no

@@ -20,6 +20,7 @@ from typing import Annotated
 import frappe
 from frappe import _
 from frappe.model.naming import NamingSeries, parse_naming_series
+from frappe.query_builder.functions import Length, Max
 from frappe.utils import cint
 
 from onedesk.one import roles
@@ -67,7 +68,45 @@ def _row(settings, one: str) -> dict:
 		frappe.clear_last_message()
 		settings.try_naming_series = one
 		following = (settings.preview_series() or "").split("\n")[0]
-	return {"series": one, "next": following, "current": current}
+	return {"series": one, "next": following, "current": current, **used(settings.transaction_type, counter)}
+
+
+def used(doctype: str, counter) -> dict:
+	"""The highest number records of the doctype already carry under the
+	series' prefix as it stands today, read from their names: what a counter
+	moved below it would repeat. A name of the prefix and exactly the series'
+	digits is one it gave; an amendment's `-1` is longer and not counted, and
+	a wildcard in the prefix only widens what the digits check then narrows."""
+	prefix = counter.get_prefix()
+	digits = counter.series.count("#")
+	table = frappe.qb.DocType(doctype)
+	found = (
+		frappe.qb.from_(table)
+		.select(Max(table.name))
+		.where(table.name.like(prefix + "%"))
+		.where(Length(table.name) == len(prefix) + digits)
+	).run()
+	highest = found[0][0] if found and found[0][0] else None
+	number = cint(highest[len(prefix) :]) if highest and highest[len(prefix) :].isdigit() else 0
+	return {"used": number, "last_name": highest if number else None}
+
+
+def check(doctype: str, options: list[str]) -> None:
+	"""Whether a list of series would be taken, without taking it: frappe's
+	own checks, a series written as frappe reads one and not another
+	doctype's."""
+	_meta(doctype)
+	for one in options:
+		NamingSeries(one).validate()
+	settings = _settings(doctype)
+	settings.naming_series_options = "\n".join(options)
+	settings.check_duplicate()
+
+
+def state(doctype: str) -> str:
+	"""What the doctype's numbering is now, so a change suggested against an
+	older one is refused."""
+	return frappe.as_json({row["series"]: row["current"] for row in series(doctype)})
 
 
 @frappe.whitelist()
@@ -116,6 +155,11 @@ def set_current(
 	counter = NamingSeries(one)
 	was = counter.get_current_value()
 	current = cint(current)
+	reached = used(doctype, counter)["used"]
+	if current < reached:
+		frappe.throw(
+			_("{0} goes up to {1} already, so it can only be moved to {1} or more.").format(one, reached)
+		)
 	if current < was:
 		frappe.throw(
 			_(

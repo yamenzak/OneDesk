@@ -125,7 +125,7 @@ const kind = computed(() => (props.suggested ? props.suggested.kind || "Create" 
 
 // A record, a new one, a change, a deletion or how a form looks — Lucide's own.
 const glyph = computed(
-	() => ({ Create: "file-plus", Edit: "file-pen", Delete: "trash-2", Customize: "settings-2", Signature: "pen-line", Holidays: "calendar-days", Reply: "reply" })[kind.value] || "file"
+	() => ({ Create: "file-plus", Edit: "file-pen", Delete: "trash-2", Customize: "settings-2", Signature: "pen-line", Holidays: "calendar-days", Reply: "reply", Numbering: "hash" })[kind.value] || "file"
 );
 
 const doctype = computed(() => props.record.doctype || (props.suggested && props.suggested.for_doctype) || "");
@@ -143,6 +143,7 @@ const title = computed(() => {
 	if (kind.value === "Customize") return __("Customize {0}", [__(doctype.value)]);
 	if (kind.value === "Signature") return __("Signature for {0}", [name]);
 	if (kind.value === "Holidays") return __("Holidays in {0}", [name]);
+	if (kind.value === "Numbering") return __("Numbering of {0}", [__(doctype.value)]);
 	if (kind.value === "Reply") return __("A reply to {0}", [name]);
 	return name || __(doctype.value);
 });
@@ -171,6 +172,8 @@ function open(name) {
 	else if (kind.value === "Holidays") frappe.set_route("workspace-settings", { section: "holidays" });
 	// A reply is read, and sent, in OneMail.
 	else if (kind.value === "Reply") frappe.set_route("onemail");
+	// A kind of record's series are read, and changed by hand, in its Settings.
+	else if (kind.value === "Numbering") onedesk.doctype_settings.open(doctype.value, "naming");
 	else frappe.set_route("Form", doctype.value, name);
 }
 
