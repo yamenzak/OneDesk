@@ -138,6 +138,29 @@ SUGGESTIONS = {
 			"expects": "workspace_printing",
 		},
 	],
+	"page:workspace-settings/mail_templates": [
+		{
+			"label": _lt("Write a payment reminder"),
+			"ask": _lt(
+				"Write a polite mail template for Sales Invoice reminding the customer that an invoice is due, "
+				"with its number, amount and due date."
+			),
+			"expects": "write_mail_template",
+		},
+		{
+			"label": _lt("Tidy the leave mails"),
+			"ask": _lt(
+				"Read the leave approval and leave status mails and suggest clearer, friendlier wording for each, "
+				"keeping what they already fill in."
+			),
+			"expects": "write_mail_template",
+		},
+		{
+			"label": _lt("Which mails use a template?"),
+			"ask": _lt("Which of our mail templates does a setting send, and which are only picked in the composer?"),
+			"expects": "workspace_mail_templates",
+		},
+	],
 	"page:workspace-settings/people": [
 		{
 			"label": _lt("Who has access to what?"),
@@ -2630,6 +2653,127 @@ def design_print_format(
 		"it opens in the print format builder from the record's Settings > Print Formats.",
 	}
 
+
+
+# ------------------------------------------------------------------ mail templates
+
+#: What a template may say, for the model: the same words the editor's help gives.
+TEMPLATE_HELP = (
+	"A template is a subject and a message. Name a field of the record in double braces, bare, as "
+	"{{ customer_name }} or {{ due_date }}: never {{ doc.customer_name }}, which frappe's composer, the leave "
+	"mails and the salary slip all fail on. Nothing else in braces: no conditions, loops or filters. The "
+	"message is plain sentences, a blank line between paragraphs. It ends with a closing line such as Kind "
+	"regards and no name under it: the mailbox it is sent from signs it. Read workspace_mail_templates with "
+	"the kind of record first, for the fields it may name."
+)
+
+
+def workspace_mail_templates(
+	doctype: Annotated[str, "A kind of record, such as Sales Invoice, to also read the fields a template may name."]
+	| None = None,
+) -> dict:
+	"""The workspace's mail templates, for its administrators: each one's
+	subject and message as written, the kind of record it is for (none: any
+	record), which kinds start the composer with it, and which setting sends
+	it (the leave mails, the interview reminders). For a kind of record, the
+	fields a template for it may name. Read it before suggesting one."""
+	from onedesk.one import mail_templates, roles, rules
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator sees the mail templates."}
+	named_by = {}
+	for single, field, _kind in mail_templates.NAMED_BY:
+		if frappe.db.exists("DocType", single):
+			template = frappe.db.get_single_value(single, field)
+			if template:
+				named_by.setdefault(template, []).append(f"{_(single)}: {frappe.get_meta(single).get_label(field)}")
+	said = {
+		"templates": [
+			{
+				"name": one["name"],
+				"for": one["reference_doctype"] or "any record",
+				"subject": one["subject"],
+				"message": frappe.utils.strip_html_tags(
+					frappe.db.get_value("Email Template", one["name"], "response") or ""
+				)[:1500],
+				"default_for": one["default_for"],
+				"sent_by": named_by.get(one["name"], []),
+			}
+			for one in mail_templates.templates()
+		],
+		"how_a_template_is_written": TEMPLATE_HELP,
+	}
+	if doctype:
+		try:
+			mail_templates._doctype(doctype)
+		except frappe.ValidationError as e:
+			frappe.clear_last_message()
+			return {"error": str(e)}
+		said["fields"] = {"doctype": doctype, "may_name": rules.readable(doctype)}
+	return said
+
+
+def write_mail_template(
+	subject: Annotated[str, "One line. Fields of the record as {{ fieldname }}."],
+	message: Annotated[str, "The mail itself, paragraphs separated by a blank line. " + TEMPLATE_HELP],
+	name: Annotated[str, "An existing template to change, as workspace_mail_templates names it."] | None = None,
+	new_name: Annotated[str, "A new template's name, such as Payment Reminder."] | None = None,
+	for_doctype: Annotated[str, "The kind of record it is for, such as Sales Invoice. Empty: any record."]
+	| None = None,
+	why: Annotated[str, "In a sentence, what the template is for."] | None = None,
+) -> dict:
+	"""Suggest a mail template, new or changed, as a card a workspace
+	administrator approves: the words a mail about a kind of record starts
+	with, picked in the composer on the record and in OneMail. Read
+	workspace_mail_templates first. Nothing is saved until they approve it.
+	Workspace administrators only."""
+	from onedesk.one import mail_templates, roles, rules
+	from onedesk.one_ai import proposals
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator writes mail templates."}
+	if bool(name) == bool(new_name):
+		return {"error": "Give name to change a template, or new_name for a new one."}
+	held = frappe.get_doc("Email Template", name) if name and frappe.db.exists("Email Template", name) else None
+	if name and not held:
+		return {"error": f"There is no template {name}; read workspace_mail_templates for them."}
+	if new_name and frappe.db.exists("Email Template", new_name.strip()):
+		return {"error": f"{new_name} is already a template; change it by its name instead."}
+	kind = (for_doctype or "").strip() or (held.reference_doctype if held else None) or None
+	try:
+		if kind:
+			mail_templates._doctype(kind)
+	except frappe.ValidationError as e:
+		frappe.clear_last_message()
+		return {"error": str(e)}
+	# Notification rules name a field as {{ doc.x }}; a template names it bare, and
+	# the one is the other, so it is written the way that works.
+	subject, message = (re.sub(r"\{\{-?\s*doc\.(\w+)\s*-?\}\}", r"{{ \1 }}", text or "") for text in (subject, message))
+	if not kind and mail_templates.FIELD.search(subject + message):
+		return {"error": "A template that names fields is for one kind of record: give for_doctype, such as Sales Invoice."}
+	kept = mail_templates._tags(held)
+	for text in (subject, message):
+		wrong = mail_templates.check(kind, text, kept)
+		if wrong:
+			fields = f" Read workspace_mail_templates with doctype {kind} for the fields it may name." if kind else ""
+			return {"error": wrong + fields}
+	paragraphs = [one.strip() for one in re.split(r"\n\s*\n", message or "") if one.strip()]
+	html = "".join(f"<p>{frappe.utils.escape_html(one).replace(chr(10), '<br>')}</p>" for one in paragraphs)
+	changes = {"subject": subject.strip(), "reference_doctype": kind}
+	changes["response_html" if held and held.use_html else "response"] = html
+	proposal = (
+		proposals.propose("Edit", "Email Template", changes=changes, record=held.name, why=why)
+		if held
+		else proposals.propose("Create", "Email Template", changes={"name": new_name.strip(), **changes}, why=why)
+	)
+	return {
+		"proposal": proposal,
+		"state": "Proposed",
+		"next": "Tell them it is offered in the composer on "
+		+ (f"a {kind}" if kind else "any record")
+		+ " and in OneMail once they approve it, and that the record's Settings › Mail Templates makes it the "
+		"one the composer starts with.",
+	}
 
 # The two tools that lay a page out are run by Print Design, not the chat: a
 # small model lays a page out wrong, so the chat hands the conversation over

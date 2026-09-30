@@ -354,6 +354,27 @@ OVERRIDES = [
 		"async get_signature(sender_email) {",
 	),
 	(
+		"The email composer offers the templates of the record it is about, form or none",
+		"mail_compose.js wraps CommunicationComposer.get_fields and replaces the Email Template field's get_query, which asks only the form, so OneMail's composer, which has none, asks the record it is about, and with none is offered templates for any record",
+		"onedesk/public/js/mail_compose.js",
+		"frappe/frappe/public/js/frappe/views/communication.js",
+		'query: "frappe.email.doctype.email_template.email_template.get_email_templates",',
+	),
+	(
+		"A picked template is filled in from the record itself",
+		"get_email_template is overridden (hooks override_whitelisted_methods): OneMail passes only a doctype and name, or no record, and a template that only names fields gets each as the record shows it",
+		"onedesk/one/mail_templates.py",
+		"frappe/frappe/email/doctype/email_template/email_template.py",
+		"def get_email_template(template_name: str, doc: str | dict[str, Any], sender: str | None = None):",
+	),
+	(
+		"The templates hrms and erpnext make on setup are told what they are for",
+		"mail_templates.settle sets reference_doctype on the templates the apps make with none, by the setting that names each or the name it is made with, so the composer offers them only on their record",
+		"onedesk/one/mail_templates.py",
+		"hrms/hrms/setup.py",
+		'"name": _("Exit Questionnaire Notification"),',
+	),
+	(
 		"Mail sent from here is not signed again on save",
 		"Communication.before_save appends the sender's or the default account's signature after the composer closed; file_sent sets skip_add_signature",
 		"onedesk/one_mail/outbound.py",

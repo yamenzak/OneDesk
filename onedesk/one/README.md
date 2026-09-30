@@ -665,8 +665,23 @@ empty, it is offered everywhere. A template that is the default for a kind of
 record says so; a record's **Settings › Mail Templates** makes one the default.
 
 Name a field of the record in double braces and it is filled in when the mail
-is written: `{{ customer_name }}`, `{{ due_date }}`. That is all a template
-written here can add. Some templates that came with the workspace do more, a
+is written, as the record shows it: `{{ customer_name }}`, `{{ grand_total }}`
+prints as $ 1,250.00 and `{{ due_date }}` as 21-09-2026. Write the field's
+name alone, never `{{ doc.customer_name }}`. That is all a template written
+here can add.
+
+A template is picked under **Email Template** in the email window, on a record
+and in OneMail alike. On a record, or replying to a conversation filed on one,
+it offers the templates for that kind of record and fills them in from it; a
+new message in OneMail, about no record, offers only the templates for any
+record. The templates the apps make, the leave mails, the interview reminders,
+the exit questionnaire and the dispatch notice, are each for their own kind of
+record, so they are not offered anywhere else.
+
+**OneAI on this page** offers **Write a payment reminder**, **Tidy the leave
+mails** and **Which mails use a template?**. It reads every template, which
+setting sends it and the fields a kind of record may name, and suggests a new
+template or new wording as a card you approve. Some templates that came with the workspace do more, a
 link to the record or a line that shows only when something is filled in;
 their wording can be changed and what they already did stays, but nothing of
 that kind can be added here, since a template runs as whoever sends it.

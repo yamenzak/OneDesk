@@ -89,6 +89,10 @@ with a cross to take the message off, and the link button files it on
 another. A customer, supplier, lead, employee or document has a **Mail** tab
 beside Files with its conversations and a Write button.
 
+The email window's **Email Template** offers the templates for the record a
+conversation is filed on, filled in from it, or those for any record in a new
+message (see Mail Templates, for the Workspace, in One's documentation).
+
 Filing a message on a record never shows it to anybody new. The Mail tab and
 the record's activity list only the messages you could already open.
 

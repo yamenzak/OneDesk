@@ -484,7 +484,9 @@ def _attach(entry, name: str) -> None:
 
 def _said(kind: str, doctype: str, record: str | None, changes: dict) -> str:
 	if kind == "Create":
-		return frappe._("Create a {0}").format(doctype)
+		if changes.get("name"):
+			return frappe._("New {0}: {1}").format(frappe._(doctype), changes["name"])
+		return frappe._("New {0}").format(frappe._(doctype))
 	if kind == "Customize":
 		return frappe._("Customize {0}").format(doctype)
 	if kind == "Signature":

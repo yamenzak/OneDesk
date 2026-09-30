@@ -530,6 +530,9 @@ override_whitelisted_methods = {
 	"frappe.utils.print_format_generator.render_builder_preview": "onedesk.one.printing.render_builder_preview",
 	"frappe.utils.print_format_generator.download_builder_preview_pdf": "onedesk.one.printing.download_builder_preview_pdf",
 	"frappe.utils.print_format_generator.render_jinja_template": "onedesk.one.printing.render_jinja_template",
+	# A template picked in OneMail's composer, which has no form behind it, is filled
+	# in from the record read here. See one/mail_templates.py.
+	"frappe.email.doctype.email_template.email_template.get_email_template": "onedesk.one.mail_templates.get_email_template",
 }
 
 # What Intake wrote down about a record is its history, not a reason to keep
@@ -848,6 +851,8 @@ one_ai_reads = [
 	# How records are numbered, for the workspace's administrators. See one/numbering.py.
 	"onedesk.one.ai.workspace_numbering",
 	"onedesk.one.ai.workspace_printing",
+	# The mail templates, what each is for and which setting sends it. See one/mail_templates.py.
+	"onedesk.one.ai.workspace_mail_templates",
 	"onedesk.one.ai.print_layout",
 	# How the person signs in, and where they are signed in. See one/signin.py.
 	"onedesk.one.ai.my_sign_in",
@@ -934,6 +939,7 @@ one_ai_suggests = [
 	"onedesk.one.ai.change_numbering",
 	"onedesk.one.ai.change_printing",
 	"onedesk.one.ai.design_print_format",
+	"onedesk.one.ai.write_mail_template",
 	"onedesk.one.ai.customize",
 	"onedesk.one.ai.sign_mailbox",
 	# Holidays and days off, as the Holidays settings would save them.

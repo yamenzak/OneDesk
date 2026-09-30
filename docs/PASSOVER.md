@@ -4529,6 +4529,66 @@ Formats shows each format as a card with its page on it.
   refused. It is now made the default or turned off by frappe's own
   `set_as_default`, without the save.
 
+**Stage 4, Mail Templates: done.** Seen as a workspace administrator:
+Workspace › Mail Templates, a record's Settings › Mail Templates, the editor,
+and the email window in OneMail and on a record. The user asked for OneMail
+in particular.
+
+1. Notifications: **finding.** A template is what the composer and the leave
+   mails, interview reminders, salary slip and dispatch notice send. Amounts
+   and dates filled in by a template read `9.0` and `2026-09-21`, since
+   frappe gives raw values and a template written here may not format them.
+2. OneAI: **finding.** Nothing at all: no suggestions, no read, no way to
+   write one.
+3. Intake: nothing here. Intake files mail on records, which is what makes a
+   reply's templates the record's (point 5).
+4. Permissions: held. Everybody reads a template (frappe's), the workspace
+   administrator writes them, and one they write may only name fields.
+   **Finding:** the check let `{{ doc.customer_name }}` through, and frappe's
+   composer, the leave mails and the salary slip all render a template with
+   no `doc`, so such a template failed wherever it was used.
+5. Cross-module, OneMail: **findings.**
+   - Frappe's composer asks its form for the kind of record, and OneMail's
+     has none, so a new message or a reply offered every template, the leave
+     mails in a mail to a customer among them.
+   - A reply on a conversation filed on an invoice passed only its name, so a
+     template came out blank, and a new message passed no record, so picking
+     a template failed.
+   - Four templates the apps made on setup (the interview reminders, the exit
+     questionnaire, the dispatch notice) had no kind, so they were offered
+     on every record.
+6. Bespoke UI: the page's table and the dialog's list are One's; the email
+   window is frappe's.
+7. Documented: the README said nothing of OneMail, formatting or OneAI.
+8. Legal: nothing new; the mail it starts is sent as any mail is.
+9. Built from frappe: frappe's composer, its template field and its
+   `get_email_template`, each met where it falls short.
+
+Fixed:
+- **The composer offers the record's templates.** `mail_compose.js` points
+  the template field at the record the composer is about, form or not, and
+  with none at the templates for any record.
+- **Filled in from the record, as it shows it.** `get_email_template` is
+  One's (`override_whitelisted_methods`). It reads the record when only its
+  name is given, as the reader, and a template that only names fields gets
+  each as the record shows it: `$ 9.00` and `21-09-2026`. A template the
+  apps wrote that does more gets frappe's raw values, which it may work on.
+- **Fields are named bare.** `{{ doc.x }}` is refused with the right way
+  to write it.
+- **The apps' templates say what they are for.** `settle` sets their kind
+  from the setting that names each, or the name it was made with.
+- **OneAI.** `workspace_mail_templates` reads every template, which setting
+  sends it and the fields a kind may name. `write_mail_template` suggests a
+  new one or new wording as a card, rewriting `{{ doc.x }}` to `{{ x }}`
+  itself. The page offers three suggestions.
+- **The card's title.** It said "Create a Email Template"; a new record's
+  card now says "New Email Template: Invoice Due Reminder".
+
+Live, twice, on "Write a payment reminder": a card on the second call each
+time, the first being refused (`{{ doc.name }}`, then `{{ amount }}`, which
+is not a field). Still wrong: the model signs off with a name ("One Team")
+though the mailbox signs, which the card shows before it is approved.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
