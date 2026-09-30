@@ -4087,6 +4087,21 @@ switch did not; it writes it now. Workspace › Notifications says Mailed by
 OneHR, OneBook, OneInventory or OneCRM, read from the type's product rather
 than typed, instead of ERPNext or HRMS.
 
+Then the three gaps, closed as frappe closes them. **Unique**: a field a record
+is named by is marked unique with the index Customize Form adds, refused first
+with frappe's own duplicate query, and unmarked when the kind is named some
+other way. **Every kind**: Numbering is on frappe's own tab condition (read on
+Document Naming Rule, now granted), and offers frappe's own naming choices on
+any kind the administrator can make: Naming Series where it has one, Field,
+Expression (old style, written as a series is, with the next name shown as it
+is typed), Set by User and Random. Autoincrement, UUID and By script are not
+offered; ledgers, logs and One's own kinds are named by the code that writes
+them, so they only take rules. **OneAI**: `workspace_numbering` reads the
+naming, the series and the rules with their conditions; `change_numbering`
+suggests any naming choice and rules added, changed or removed, each checked as
+frappe checks a rule before the card is offered, and saved as frappe's own
+Document Naming Rule on approval. Nothing renames a record already made.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

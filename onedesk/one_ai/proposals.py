@@ -179,6 +179,12 @@ def apply(proposal: str) -> dict:
 			numbering.save(entry.for_doctype, changes["series"])
 		for one in changes.get("move") or []:
 			numbering.set_current(entry.for_doctype, one["series"], one["to"])
+		for one in changes.get("rules") or []:
+			# frappe's own Document Naming Rule, saved as its form would save it.
+			if one.get("delete"):
+				frappe.delete_doc("Document Naming Rule", one["name"])
+			else:
+				numbering.rule_doc(entry.for_doctype, one).save()
 		return _done(entry, entry.for_doctype)
 
 	if entry.kind == "Create":

@@ -188,12 +188,13 @@ def property_setter(doc, method=None) -> None:
 	):
 		return
 	# How a kind of record is named, from Numbering (one/numbering.py set_naming_by),
-	# which has checked the kind and the choice: by its series or a field, and the
-	# series and the name field shown or hidden, made optional or required.
+	# which has checked the kind and the choice, and writes what Customize Form would:
+	# the autoname and naming rule, the series shown or hidden, and the field a record
+	# is named by made required and unique.
 	if (
 		frappe.flags.one_named_by
 		and doc.doc_type == frappe.flags.one_named_by
-		and doc.property in ("hidden", "reqd", "autoname", "naming_rule")
+		and doc.property in ("hidden", "reqd", "unique", "autoname", "naming_rule")
 	):
 		return
 	if doc.property not in PROPERTIES:

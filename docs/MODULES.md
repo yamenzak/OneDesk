@@ -212,6 +212,7 @@ No doctypes yet.
 * `onedesk.one.mail_templates.set_default`
 * `onedesk.one.numbering.naming_by`
 * `onedesk.one.numbering.preview`
+* `onedesk.one.numbering.preview_pattern`
 * `onedesk.one.numbering.save`
 * `onedesk.one.numbering.series`
 * `onedesk.one.numbering.set_current`

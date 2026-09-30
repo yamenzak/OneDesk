@@ -1418,16 +1418,32 @@ SERIES_HELP = (
 )
 
 
+#: How frappe names a new record, for the model: every way this workspace may choose.
+NAMING_HELP = (
+	"A new record is named one of these ways, as frappe offers them. Naming Series: the next name in one "
+	"of its series (only a kind with a Naming Series field). field:<fieldname>: the value of that field, "
+	"which becomes required and unique, so only a field no two records will share, such as a title or a "
+	"code; the fields offered are named_by.fields. An expression: a pattern written as a series is, such "
+	"as PRJ-.YYYY.-.#### for a kind with no series field, its prefix no other kind's. prompt: typed by "
+	"whoever makes the record. hash: a random name. A Customer, Supplier, Item, Employee or Campaign names "
+	"itself, so its choices are its app's own (named_by.kinds). Naming Rules come first: a record whose "
+	"fields match a rule is named by the rule's prefix and its own counter, whatever else is chosen; the "
+	"highest priority matching rule wins. Nothing renames a record already made: every change applies to "
+	"records made afterwards, and old ones keep their names."
+)
+
+
 def workspace_numbering(
 	doctype: Annotated[str, "The kind of record, as its DocType name, such as Sales Invoice. Empty lists them all."]
 	| None = None,
 ) -> dict:
-	"""How a kind of record is numbered, for the workspace's administrators:
-	each series it may be named by (the first is the one a new record starts
-	with), the name the next one gets, the number its counter has reached,
-	and the highest number records of it already use (`used`, from their
-	names), which a counter may never go below. Empty: every kind of record
-	numbered by a series. Read it before suggesting a change."""
+	"""How a kind of record is named, for the workspace's administrators:
+	what a new one is named by and what else it may be (`named_by`), each
+	series it may take its name from (the first is the default) with the name
+	the next one gets, the number its counter has reached and the highest
+	number records already use (`used`), which a counter may never go below,
+	and its naming rules with what each must match. Empty: every kind of
+	record numbered by a series. Read it before suggesting a change."""
 	from onedesk.one import numbering, roles
 
 	if not roles.administers():
@@ -1439,11 +1455,8 @@ def workspace_numbering(
 			"doctype": doctype,
 			"named_by": numbering.naming_by(doctype),
 			"series": numbering.series(doctype),
-			"rules": frappe.get_list(
-				"Document Naming Rule",
-				filters={"document_type": doctype},
-				fields=["name", "prefix", "prefix_digits", "priority", "disabled"],
-			),
+			"rules": numbering.naming_rules(doctype),
+			"how_a_record_is_named": NAMING_HELP,
 			"how_a_series_is_written": SERIES_HELP,
 		}
 	except frappe.ValidationError as e:
@@ -1451,12 +1464,19 @@ def workspace_numbering(
 		return {"error": str(e)}
 
 
+def _rule_said(doc) -> str:
+	"""A naming rule, in a line: its prefix and what it matches."""
+	matches = ", ".join(f"{one.field} {one.condition} {one.value}" for one in doc.conditions or [])
+	said = _("{0} with {1} digits").format(doc.prefix, doc.prefix_digits)
+	return _("{0}, when {1}").format(said, matches) if matches else _("{0}, for every record").format(said)
+
+
 def change_numbering(
 	doctype: Annotated[str, "The kind of record, as its DocType name, such as Sales Invoice."],
 	series: Annotated[
 		list[str],
 		"Every series it may be named by, the default first, when they change: the whole list, not only a new "
-		"one. " + SERIES_HELP,
+		"one. Only a kind with a Naming Series field. " + SERIES_HELP,
 	]
 	| None = None,
 	move: Annotated[
@@ -1467,44 +1487,64 @@ def change_numbering(
 	| None = None,
 	name_by: Annotated[
 		str,
-		"What a new one is named by: the `value` of one of workspace_numbering's named_by options, such as "
-		"Naming Series, field:<fieldname> for a field a person fills in (the name must then be unique, so "
-		"only a field no two records share), or, for a Customer, Supplier, Item, Employee or Campaign, its "
-		"app's own choice such as Customer Name.",
+		"What a new one is named by: Naming Series, field:<fieldname> from named_by.fields, an expression such "
+		"as PRJ-.YYYY.-.####, prompt, hash, or one of named_by.kinds for a kind that names itself. "
+		+ NAMING_HELP,
+	]
+	| None = None,
+	rules: Annotated[
+		list[dict],
+		"Naming rules to add, change or remove, each {name?, prefix, digits, priority, disabled, conditions, "
+		"delete}: name only for an existing rule (from workspace_numbering), delete true to remove it; prefix "
+		"the text before the number written as a series is but with no #, such as RET-.YYYY.-; digits 1-10; "
+		"conditions [{field, condition, value}] all of which must match, condition one of = != > < >= <=, "
+		"field an ordinary field of the record, none meaning every record; the higher priority wins.",
 	]
 	| None = None,
 	why: Annotated[str, "In a sentence, what the change is for."] | None = None,
 ) -> dict:
-	"""Suggest how a kind of record is numbered, as a card a workspace
-	administrator approves: a new record named by a series or by one of its
-	fields (a Customer by its name, a Project by its title), its series added, changed, reordered (the first
-	is the default) or removed, and a series' counter moved on, to start a new
-	year at 1000 or to carry on after records brought in from elsewhere. Read
-	workspace_numbering first, and check `used` before moving a counter.
-	Nothing changes until they approve it. Workspace administrators only."""
+	"""Suggest how a kind of record is named, as a card a workspace
+	administrator approves: named by a series, one of its fields, an
+	expression, typed or random; its series added, changed, reordered (the
+	first is the default) or removed; a series' counter moved on, to start a
+	new year at 1000 or to carry on after records brought in from elsewhere;
+	and its naming rules added, changed or removed. Read workspace_numbering
+	first, and check `used` before moving a counter. Nothing changes until
+	they approve it, and records already made keep their names. Workspace
+	administrators only."""
 	from onedesk.one import numbering, roles
 	from onedesk.one_ai import proposals
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator changes how records are numbered."}
 	try:
+		numbering._meta(doctype)
 		now = numbering.series(doctype)
 		was = [row["series"] for row in now]
 		wanted = [one.strip() for one in series or [] if one and one.strip()] or was
-		if not wanted:
+		if series and not frappe.get_meta(doctype).get_field("naming_series"):
+			return {"error": f"{doctype} has no series; name it by an expression instead."}
+		if series and not wanted:
 			return {"error": f"{doctype} needs at least one series."}
 		if wanted != was:
 			numbering.check(doctype, wanted)
-		moves, summary = [], []
+		moves, summary, changed_rules = [], [], []
 		if wanted != was:
 			summary.append({"label": _("Series"), "value": _("{0} (was {1})").format(", ".join(wanted), ", ".join(was))})
 		named = numbering.naming_by(doctype)
-		labels = {one["value"]: one["label"] for one in (named or {}).get("options", [])}
-		if name_by and name_by not in labels:
-			return {"error": f"{doctype} cannot be named by {name_by}; the choices are {', '.join(labels) or 'none'}."}
+		name_by = (name_by or "").strip() or None
+		if name_by and not named:
+			return {"error": f"{doctype} is named by its own code, so only its rules can change."}
 		if name_by and name_by != named["value"]:
+			if name_by not in numbering.choices(named):
+				if named["app"] or name_by.startswith("field:"):
+					return {"error": f"{doctype} cannot be named by {name_by}; the choices are {', '.join(numbering.choices(named))}."}
+				numbering.check_pattern(doctype, name_by)
 			summary.append(
-				{"label": _("Named By"), "value": _("{0} (was {1})").format(labels[name_by], labels.get(named["value"], named["value"]))}
+				{
+					"label": _("Named By"),
+					"value": _("{0} (was {1})").format(numbering.label(named, name_by), numbering.label(named, named["value"])),
+				}
 			)
 		else:
 			name_by = None
@@ -1521,6 +1561,16 @@ def change_numbering(
 				continue
 			moves.append({"series": name, "to": to})
 			summary.append({"label": name, "value": _("Continues after {0} (was {1})").format(to, row["current"])})
+		for one in rules or []:
+			if one.get("delete"):
+				if not one.get("name") or not frappe.db.exists("Document Naming Rule", {"name": one["name"], "document_type": doctype}):
+					return {"error": f"{one.get('name')} is not a rule of {doctype}."}
+				changed_rules.append({"name": one["name"], "delete": True})
+				summary.append({"label": _("Rule"), "value": _("Remove {0}").format(one["name"])})
+				continue
+			doc = numbering.rule_doc(doctype, one)
+			changed_rules.append({key: one.get(key) for key in ("name", "prefix", "digits", "priority", "disabled", "conditions")})
+			summary.append({"label": _("Rule") if one.get("name") else _("New Rule"), "value": _rule_said(doc)})
 	except frappe.ValidationError as e:
 		frappe.clear_last_message()
 		return {"error": str(e)}
@@ -1535,11 +1585,12 @@ def change_numbering(
 				"series": wanted if wanted != was else None,
 				"move": moves,
 				"name_by": name_by,
+				"rules": changed_rules,
 				"summary": summary,
 			},
 			why=why,
 		),
 		"state": "Proposed",
-		"next": "Tell them it applies to records made after they approve it, and that the record's Settings › "
-		"Numbering shows the series.",
+		"next": "Tell them it applies to records made after they approve it, that records already made keep "
+		"their names, and that the record's Settings › Numbering shows it.",
 	}

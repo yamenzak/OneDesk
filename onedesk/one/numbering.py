@@ -40,8 +40,22 @@ NAMED_BY = {
 	"Campaign": ("CRM Settings", "campaign_naming_by", None, True),
 }
 
-#: What any other kind may be named by: its series, or a field a person fills.
+#: How any other kind may be named, as frappe's Customize Form offers it:
+#: the naming rule it records, and what it writes as `autoname`. Frappe's
+#: Autoincrement cannot be changed to or from once records exist, UUID
+#: changes how the name is stored, and By script is code, so none is offered.
 SERIES = "Naming Series"
+FIELD = "Field"
+EXPRESSION = "Expression"
+#: The two kinds frappe's autoname spells as a word, as a person reads them.
+WORDS = {"prompt": "Set by User", "hash": "Random"}
+NAMING_RULE = {
+	SERIES: 'By "Naming Series" field',
+	FIELD: "By fieldname",
+	EXPRESSION: "Expression (old style)",
+	"prompt": "Set by user",
+	"hash": "Random",
+}
 FIELD_KINDS = ("Data", "Link", "Select", "Int")
 
 #: What a workspace administrator is given to write Naming Rules with.
@@ -49,15 +63,23 @@ GRANTS = {"Document Naming Rule": ("read", "write", "create", "delete")}
 
 
 def _meta(doctype: str):
-	"""The doctype, if its numbering is this workspace's to change."""
+	"""The doctype, if how it is named is this workspace's to change."""
 	roles.require()
 	if not doctype or not frappe.db.exists("DocType", doctype):
 		frappe.throw(_("There is no such kind of record."))
 	meta = frappe.get_meta(doctype)
-	if meta.istable or meta.issingle or meta.module in REFUSED_MODULES or not meta.get_field("naming_series"):
-		frappe.throw(_("{0} is not numbered by a series this workspace sets.").format(_(doctype)))
+	if meta.istable or meta.issingle or meta.module in REFUSED_MODULES:
+		frappe.throw(_("{0} is not named in a way this workspace sets.").format(_(doctype)))
 	if not frappe.has_permission(doctype, "read"):
 		frappe.throw(_("You cannot open {0}.").format(_(doctype)), frappe.PermissionError)
+	return meta
+
+
+def _series_meta(doctype: str):
+	"""The doctype, if it also has the Naming Series field its series live in."""
+	meta = _meta(doctype)
+	if not meta.get_field("naming_series"):
+		frappe.throw(_("{0} is not numbered by a series.").format(_(doctype)))
 	return meta
 
 
@@ -114,7 +136,7 @@ def check(doctype: str, options: list[str]) -> None:
 	"""Whether a list of series would be taken, without taking it: frappe's
 	own checks, a series written as frappe reads one and not another
 	doctype's."""
-	_meta(doctype)
+	_series_meta(doctype)
 	for one in options:
 		NamingSeries(one).validate()
 	settings = _settings(doctype)
@@ -130,6 +152,10 @@ def state(doctype: str) -> str:
 		{
 			"series": {row["series"]: row["current"] for row in series(doctype)},
 			"named_by": said and said["value"],
+			"rules": [
+				{**rule, "conditions": [dict(one) for one in rule["conditions"]]}
+				for rule in naming_rules(doctype)
+			],
 		}
 	)
 
@@ -137,8 +163,9 @@ def state(doctype: str) -> str:
 @frappe.whitelist()
 def series(doctype: Annotated[str, "The kind of record."]) -> list[dict]:
 	"""Each series the doctype may be named by, the name it would give next,
-	and the number it has reached."""
-	_meta(doctype)
+	and the number it has reached. None for a kind with no series field."""
+	if not _meta(doctype).get_field("naming_series"):
+		return []
 	settings = _settings(doctype)
 	return [_row(settings, one) for one in _options(settings)]
 
@@ -152,7 +179,7 @@ def preview(
 	say is wrong with it, while it is typed in the Add Series window."""
 	from frappe.utils import strip_html
 
-	_meta(doctype)
+	_series_meta(doctype)
 	one = (one or "").strip()
 	if not one:
 		return {}
@@ -175,7 +202,7 @@ def save(
 ) -> list[dict]:
 	"""The doctype's series, as a whole list. Frappe's own `update_series`
 	validates each and refuses one another doctype already uses."""
-	_meta(doctype)
+	_series_meta(doctype)
 	wanted = [one.strip() for one in (frappe.parse_json(options) or []) if one and one.strip()]
 	if not wanted:
 		frappe.throw(_("A kind of record numbered by a series needs at least one."))
@@ -198,7 +225,7 @@ def set_current(
 ) -> list[dict]:
 	"""Move a series on, as frappe's `update_series_start` does, and keep the
 	change in its Version log the same way. Never back: see the module."""
-	_meta(doctype)
+	_series_meta(doctype)
 	settings = _settings(doctype)
 	if one not in _options(settings):
 		frappe.throw(_("{0} is not a series of {1}.").format(one, _(doctype)))
@@ -269,6 +296,17 @@ def _names_itself(doctype: str) -> bool:
 	return hasattr(get_controller(doctype), "autoname")
 
 
+def _made_by_code(meta) -> bool:
+	"""Whether records of the kind are made by code rather than by a person
+	(a ledger, a log, One's own kinds), which names them as it expects to find
+	them: frappe's User Cannot Create, or no create for whoever is asking."""
+	return (
+		bool(meta.in_create)
+		or not frappe.has_permission(meta.name, "create")
+		or frappe.db.get_value("Module Def", meta.module, "app_name") == "onedesk"
+	)
+
+
 def _fields(meta) -> list[dict]:
 	"""The fields a new record could be named by: one a person fills in, on
 	the form, that every reader of the record may see."""
@@ -285,58 +323,153 @@ def _fields(meta) -> list[dict]:
 	]
 
 
+def _by(meta) -> tuple[str, str]:
+	"""How the doctype is named now, as (the choice, what `autoname` holds)."""
+	autoname = (meta.autoname or "").strip()
+	lowered = autoname.lower()
+	if lowered.startswith("naming_series:"):
+		return SERIES, SERIES
+	if lowered.startswith("field:"):
+		return FIELD, autoname
+	if lowered == "prompt":
+		return "prompt", "prompt"
+	if lowered in ("", "hash"):
+		return "hash", "hash"
+	if "#" in autoname and ":" not in autoname and "." in autoname:
+		return EXPRESSION, autoname
+	return "", autoname
+
+
 @frappe.whitelist()
 def naming_by(doctype: Annotated[str, "The kind of record."]) -> dict | None:
-	"""How a new record of a kind is named, and what else it may be named by:
-	its app's own setting for the kinds that name themselves, else its series
-	or one of its fields. None where there is no choice."""
+	"""How a new record of a kind is named, and what else it may be named by.
+	For the kinds that name themselves, their app's own choices; for any
+	other, frappe's own: its series, one of its fields, an expression of its
+	own, a name typed by whoever makes it, or a random one. None where there
+	is no choice to make."""
 	meta = _meta(doctype)
 	if doctype in NAMED_BY:
 		single, field, _method, _default = NAMED_BY[doctype]
 		df = frappe.get_meta(single).get_field(field)
 		value = frappe.db.get_single_value(single, field)
 		return {
+			"by": value,
 			"value": value,
-			"options": [{"value": one, "label": _(one)} for one in (df.options or "").split("\n") if one],
-			"by_field": False,
+			"kinds": [{"value": one, "label": _(one)} for one in (df.options or "").split("\n") if one],
+			"fields": [],
+			"pattern": "",
+			"app": True,
 			# Auto Name falls back to the doctype's autoname, which is its series.
 			"series": value in (SERIES, "Auto Name"),
 		}
-	if _names_itself(doctype):
+	if _names_itself(doctype) or (meta.autoname or "").lower() == "autoincrement" or _made_by_code(meta):
 		return None
-	autoname = meta.autoname or ""
-	options = [{"value": SERIES, "label": _(SERIES)}, *_fields(meta)]
-	value = SERIES if autoname.startswith("naming_series:") else autoname
-	if value not in [one["value"] for one in options]:
-		# Named some other way by its app (a fixed series, an expression): kept
-		# until something else is picked.
-		options.append({"value": value, "label": _("As {0} names it now").format(_(doctype))})
-	return {"value": value, "options": options, "by_field": True, "series": value == SERIES}
+	by, value = _by(meta)
+	fields = _fields(meta)
+	kinds = [SERIES] if meta.get_field("naming_series") else []
+	kinds += [FIELD] if fields else []
+	kinds += [EXPRESSION, "prompt", "hash"]
+	kinds = [{"value": one, "label": _(WORDS.get(one, one))} for one in kinds]
+	if not by:
+		# Named some other way (a newer expression, a UUID): kept until
+		# something else is picked.
+		by = value
+		kinds.append({"value": value, "label": _("As {0} names it now").format(_(doctype))})
+	return {
+		"by": by,
+		"value": value,
+		"kinds": kinds,
+		"fields": fields,
+		"pattern": value if by == EXPRESSION else "",
+		"app": False,
+		"series": by == SERIES,
+	}
+
+
+def choices(said: dict) -> list[str]:
+	"""Every value set_naming_by takes for a kind, bar an expression, which
+	is written rather than picked."""
+	return [one["value"] for one in said["kinds"] if one["value"] not in (FIELD, EXPRESSION)] + [
+		one["value"] for one in said["fields"]
+	]
+
+
+def label(said: dict, value: str) -> str:
+	"""A value set_naming_by takes, as a person reads it."""
+	for one in said["kinds"] + said["fields"]:
+		if one["value"] == value:
+			return one["label"]
+	return _(WORDS[value]) if value in WORDS else value
+
+
+def check_pattern(doctype: str, pattern: str) -> None:
+	"""An expression a new record is named by, checked as frappe checks one
+	on a DocType: written as a series is, and its prefix no other kind's."""
+	NamingSeries(pattern).validate()
+	prefix = pattern.split(".", 1)[0]
+	taken = frappe.get_all(
+		"DocType", filters={"autoname": ["like", prefix + ".%"], "name": ["!=", doctype]}, pluck="name"
+	) + frappe.get_all(
+		"Property Setter",
+		filters={"property": "autoname", "value": ["like", prefix + ".%"], "doc_type": ["!=", doctype]},
+		pluck="doc_type",
+	)
+	if taken:
+		frappe.throw(_("Series {0} already used in {1}").format(prefix, _(taken[0])))
+
+
+@frappe.whitelist()
+def preview_pattern(
+	doctype: Annotated[str, "The kind of record."],
+	pattern: Annotated[str, "An expression as it is being written."],
+) -> dict:
+	"""The name an expression being written would give next, or what is wrong
+	with it."""
+	from frappe.utils import strip_html
+
+	_meta(doctype)
+	pattern = (pattern or "").strip()
+	if not pattern:
+		return {}
+	try:
+		check_pattern(doctype, pattern)
+	except frappe.ValidationError as e:
+		frappe.clear_messages()
+		return {"error": strip_html(str(e))}
+	return _row(_settings(doctype), pattern)
 
 
 @frappe.whitelist(methods=["POST"])
 def set_naming_by(
 	doctype: Annotated[str, "The kind of record."],
 	value: Annotated[
-		str, "One of the values naming_by lists: Naming Series, field:<fieldname>, or an app's choice."
+		str,
+		"Naming Series, field:<fieldname>, an expression such as PRJ-.YYYY.-.####, prompt (typed by whoever "
+		"makes it), hash (random), or an app's own choice.",
 	],
 ) -> dict | None:
 	"""Change how a new record of a kind is named. For the kinds that name
 	themselves, their app's own setting and its own method; for any other,
-	frappe's `autoname` as Customize Form writes it, with the series shown or
-	hidden and the field made required. Either way through property setters
-	the workspace layer would otherwise refuse (layer.property_setter)."""
+	frappe's `autoname` and naming rule as Customize Form writes them, with
+	the series shown or hidden and a field made required and unique. Either
+	way through property setters the workspace layer would otherwise refuse
+	(layer.property_setter). Records already made keep their names."""
 	said = naming_by(doctype)
-	if not said or value not in [one["value"] for one in said["options"]]:
+	value = (value or "").strip()
+	if not said or not value:
 		frappe.throw(_("{0} cannot be named that way.").format(_(doctype)))
 	if value == said["value"]:
 		return said
-	if not said["by_field"]:
+	if said["app"]:
+		if value not in choices(said):
+			frappe.throw(_("{0} cannot be named that way.").format(_(doctype)))
 		_set_app(doctype, value)
-	elif value == SERIES or value.startswith("field:"):
-		_set_autoname(doctype, said["value"], value)
 	else:
-		frappe.throw(_("{0} cannot be named that way.").format(_(doctype)))
+		if value not in choices(said):
+			if value.startswith("field:") or value in (SERIES, "prompt", "hash"):
+				frappe.throw(_("{0} cannot be named that way.").format(_(doctype)))
+			check_pattern(doctype, value)
+		_set_autoname(doctype, said["value"], value)
 	frappe.clear_cache(doctype=doctype)
 	return naming_by(doctype)
 
@@ -356,6 +489,25 @@ def _set_app(doctype: str, value: str) -> None:
 		frappe.db.set_default(field, value)
 
 
+def _unique_already(doctype: str, fieldname: str) -> bool:
+	return bool(frappe.db.get_value("DocField", {"parent": doctype, "fieldname": fieldname}, "unique"))
+
+
+def _duplicates(doctype: str, fieldname: str) -> None:
+	"""Refuse a field records already share, as frappe refuses marking it
+	unique (DocType's check_unique_fields), before anything is written."""
+	found = frappe.db.sql(
+		f"""select `{fieldname}`, count(*) from `tab{doctype}` where ifnull(`{fieldname}`, '') != ''
+		group by `{fieldname}` having count(*) > 1 limit 1"""
+	)
+	if found and found[0][0]:
+		frappe.throw(
+			_("{0} cannot name each {1}: two records already have {2} in it.").format(
+				_(frappe.get_meta(doctype).get_label(fieldname)), _(doctype), found[0][0]
+			)
+		)
+
+
 def _set_autoname(doctype: str, was: str, value: str) -> None:
 	from frappe.custom.doctype.property_setter.property_setter import make_property_setter
 
@@ -371,23 +523,43 @@ def _set_autoname(doctype: str, was: str, value: str) -> None:
 			is_system_generated=False,
 		)
 
-	by_field = value.startswith("field:")
+	by = value if value in (SERIES, "prompt", "hash") else FIELD if value.startswith("field:") else EXPRESSION
+	field = value[6:] if by == FIELD else None
+	left = was[6:] if was.startswith("field:") else None
+	if field and frappe.db.has_column(doctype, field):
+		_duplicates(doctype, field)
+	schema = False
 	frappe.flags.one_named_by = doctype
 	try:
-		put(None, "autoname", "naming_series:" if not by_field else value, "Data")
-		put(None, "naming_rule", "By fieldname" if by_field else 'By "Naming Series" field', "Data")
-		put("naming_series", "hidden", 1 if by_field else 0)
-		put("naming_series", "reqd", 0 if by_field else 1)
-		if by_field:
-			put(value[6:], "reqd", 1)
-		if was.startswith("field:"):
-			# The field it was named by is as required as its app made it again.
+		put(None, "autoname", "naming_series:" if by == SERIES else value, "Data")
+		put(None, "naming_rule", NAMING_RULE[by], "Data")
+		if frappe.get_meta(doctype).get_field("naming_series"):
+			put("naming_series", "hidden", 0 if by == SERIES else 1)
+			put("naming_series", "reqd", 1 if by == SERIES else 0)
+		if field:
+			# Required and unique, as Customize Form marks a field a record is named by.
+			put(field, "reqd", 1)
+			if not _unique_already(doctype, field):
+				put(field, "unique", 1)
+				schema = True
+		if left:
+			# The field it was named by is as required and as unique as its app made it again.
 			frappe.db.delete(
 				"Property Setter",
-				{"doc_type": doctype, "field_name": was[6:], "property": "reqd", "is_system_generated": 0},
+				{
+					"doc_type": doctype,
+					"field_name": left,
+					"property": ["in", ("reqd", "unique")],
+					"is_system_generated": 0,
+				},
 			)
+			schema = schema or not _unique_already(doctype, left)
 	finally:
 		frappe.flags.one_named_by = None
+	if schema:
+		# The unique index, added or dropped, as Customize Form's save does.
+		frappe.clear_cache(doctype=doctype)
+		frappe.db.updatedb(doctype)
 
 
 # ------------------------------------------------------------------ naming rules
@@ -400,13 +572,22 @@ def settle() -> None:
 
 
 def validate_rule(doc, method=None) -> None:
-	"""Document Naming Rule validate: a rule the workspace writes is on a kind of
-	record Numbering covers, names by a plain prefix, and decides by the
-	record's ordinary fields."""
-	from onedesk.one import layer, rules
+	"""Document Naming Rule validate: what a rule the workspace writes may do."""
+	from onedesk.one import layer
 
-	if not layer.held():
-		return
+	if layer.held():
+		check_rule(doc)
+
+
+#: How a rule's condition compares a field with its value: frappe's own.
+COMPARISONS = ("=", "!=", ">", "<", ">=", "<=")
+
+
+def check_rule(doc) -> None:
+	"""A naming rule is on a kind of record Numbering covers, names by a plain
+	prefix, and decides by the record's ordinary fields."""
+	from onedesk.one import rules
+
 	_meta(doc.document_type)
 	prefix = (doc.prefix or "").strip()
 	if not prefix or "#" in prefix:
@@ -420,3 +601,62 @@ def validate_rule(doc, method=None) -> None:
 			frappe.throw(
 				_("A rule can only look at an ordinary field of the record, not {0}.").format(row.field)
 			)
+		if row.condition not in COMPARISONS:
+			frappe.throw(_("A rule compares with one of {0}.").format(" ".join(COMPARISONS)))
+
+
+def naming_rules(doctype: str) -> list[dict]:
+	"""A kind's naming rules, each with what it must match, highest priority
+	first: as frappe tries them."""
+	_meta(doctype)
+	rows = frappe.get_list(
+		"Document Naming Rule",
+		filters={"document_type": doctype},
+		fields=["name", "prefix", "prefix_digits", "priority", "disabled"],
+		order_by="priority desc",
+		limit_page_length=0,
+	)
+	matches = {}
+	for one in frappe.get_all(
+		"Document Naming Rule Condition",
+		filters={"parenttype": "Document Naming Rule", "parent": ["in", [row.name for row in rows] or [""]]},
+		fields=["parent", "field", "condition", "value"],
+		order_by="idx asc",
+	):
+		matches.setdefault(one.parent, []).append(
+			{"field": one.field, "condition": one.condition, "value": one.value}
+		)
+	return [dict(row, conditions=matches.get(row.name, [])) for row in rows]
+
+
+def rule_doc(doctype: str, one: dict):
+	"""A naming rule as a change describes it, new or an existing one of the
+	kind with the change made, not saved: {name?, prefix, digits, priority,
+	disabled, conditions: [{field, condition, value}]}."""
+	if one.get("name"):
+		doc = frappe.get_doc("Document Naming Rule", one["name"])
+		if doc.document_type != doctype:
+			frappe.throw(_("{0} is not a rule of {1}.").format(one["name"], _(doctype)))
+	else:
+		doc = frappe.new_doc("Document Naming Rule")
+		doc.document_type = doctype
+		doc.prefix_digits = 5
+	for key, field in (("prefix", "prefix"), ("digits", "prefix_digits"), ("priority", "priority")):
+		if one.get(key) is not None:
+			doc.set(field, one[key])
+	if one.get("disabled") is not None:
+		doc.disabled = 1 if one["disabled"] else 0
+	if one.get("conditions") is not None:
+		doc.set("conditions", [])
+		for row in one["conditions"]:
+			doc.append(
+				"conditions",
+				{
+					"field": row.get("field"),
+					"condition": row.get("condition") or "=",
+					"value": row.get("value"),
+				},
+			)
+	check_rule(doc)
+	doc.validate_fields_in_conditions()
+	return doc

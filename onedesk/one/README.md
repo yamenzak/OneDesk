@@ -481,19 +481,31 @@ share numbers. A series' number can be moved up, to start a new year at 1000,
 say, but never down, and never below the highest number a record already has:
 the edit window says what that is. Each move is kept in the record's history.
 
-**Name each new ... by**, at the top of Numbering, says whether a new record
-takes the next name in its series or is named by one of its own fields: pick
-**Field**, then which one. A project by its title, a vehicle by its plate. That
-field becomes required, and the name must be new each time, so pick a field no
-two records share; a second record with the same value is refused. A
-**Customer**, **Supplier**, **Item**, **Employee** or **Campaign** names itself,
-so there the choice is its own: Customer Name, Naming Series or Auto Name, an
-Item by its Item Code, an Employee by Full Name or Employee Number. Records
-already made keep their names. The series, and Add Series, show only while it
-is named by Naming Series (or Auto Name, which uses them too).
+**Name each new ... by**, at the top of Numbering, is how a new record gets
+its name, with the framework's own choices:
 
-**Rules** name a record by a prefix of their own when its fields match, before
-any series: returns as `RET-.YYYY.-`, a government customer as
+- **Naming Series**: the next name in one of its series, for a kind that has
+  them.
+- **Field**, then which one: a project by its title, a vehicle by its plate.
+  The field becomes required and unique, so no two records may share its value.
+  It is refused while two records already do, saying which value.
+- **Expression**: a pattern written as a series is, `PRJ-.YYYY.-.####`, for a
+  kind with no series of its own. The window shows the name it would give next
+  as it is typed, and **Use This Expression** takes it.
+- **Set by User**: whoever makes the record types its name.
+- **Random**: a name nobody reads, for records nobody refers to by name.
+
+A **Customer**, **Supplier**, **Item**, **Employee** or **Campaign** names
+itself, so there the choice is its own: Customer Name, Naming Series or Auto
+Name, an Item by its Item Code, an Employee by Full Name or Employee Number.
+The series, and Add Series, show only while a record takes its name from one.
+
+**Nothing renames a record already made.** Every change is for records made
+afterwards, and old ones keep the names they have. Going back to a series
+carries on from the number it had reached.
+
+**Rules** name a record by a prefix of their own when its fields match,
+whatever it is otherwise named by: returns as `RET-.YYYY.-`, a government customer as
 `CUST-GOV-.YYYY.-`. **Add Rule**, give the prefix (written as a series is, but
 without the `#`), how many digits the number has, and **When**: each line a
 field, how it compares and a value, all of which must match (none means
@@ -501,13 +513,16 @@ always, so such a rule names every new record). When two rules match, the
 higher **Priority** wins. A rule looks only at the record's ordinary fields.
 
 **Ask OneAI** to do it for you: "number our invoices by year", "start this
-year's quotations at 500", "is any numbering behind?". It reads how the kind
-of record is numbered and the names its records already have, and suggests
-the change as a card you approve; nothing changes before you do.
+year's quotations at 500", "name projects by their title", "give government
+customers their own prefix", "is any numbering behind?". It reads how the kind
+of record is named, its series and rules and the names its records already
+have, and suggests the change as a card you approve; nothing changes before you
+do.
 
 Only administrators of the workspace see this, and only for the kinds of
-record they can open. The framework's own kinds of record and One's have no
-numbering here.
+record they can open. How a record is named can be changed only on a kind
+they can make: a ledger or a log is written by the software, which names it,
+and so are the framework's own kinds and One's. Rules work on any of them.
 
 ### Printing, for the Workspace
 
@@ -870,9 +885,10 @@ workspace has set up for that kind of record, for an administrator of this
 workspace. It is the framework's own Settings window; One only opens it.
 Each part appears once the workspace may use it:
 
-- **Numbering**: the series a new record of this kind is named by, the first
-  being the one it starts with, and the name the next one gets. **Add
-  Series**, or open one to change it or move its number on; a number only
+- **Numbering**: how a new record of this kind is named (its series, a field,
+  an expression, typed or random), its Rules, and for a kind with series, the
+  series, the first being the one it starts with, and the name the next one
+  gets. **Add Series**, or open one to change it or move its number on; a number only
   goes up, since going down would repeat a name already used. A series
   another kind of record uses is refused. **Workspace › Numbering** lists
   every kind of record numbered by a series that you can open, and opens

@@ -56,10 +56,9 @@ onedesk.doctype_settings.adapt = () => {
 		beside.items.push({ id: "automations", label: __("Automations"), icon: "zap", condition: () => frappe.model.can_read("Automation Flow") });
 	for (const group of frappe.doctype_settings.groups) {
 		for (const item of group.items) {
-			const theirs = item.condition;
-			// Naming is offered on a doctype named by a series, which is all the tab
-			// below shows; frappe's asks for read on Document Naming Rule, which is not given.
-			const shown = item.id === "naming" ? (doctype) => !!frappe.meta.get_docfield(doctype, "naming_series") : theirs;
+			// Frappe's own test for each tab; Naming's, read on Document Naming Rule, is
+			// given with the rules (one/numbering.py GRANTS).
+			const shown = item.condition;
 			if (item.id === "naming") item.label = __("Numbering");
 			if (item.id === "email-template") item.label = __("Mail Templates");
 			if (item.id === "workflow") item.label = __("Approvals");
@@ -281,11 +280,15 @@ onedesk.doctype_settings.adapt = () => {
 				const $by = $('<div class="one-numbering-by"></div>').appendTo($body);
 				const $series = $('<div class="one-numbering-series"></div>').appendTo($body);
 				list = onedesk.numbering.list($series, doctype);
-				// The series only while a new record takes its name from one.
-				onedesk.numbering.named_by($by, doctype, (said) => {
-					$series.toggle(said.series);
-					panel.set_header(head(said.series));
-				});
+				// The series only while a new record takes its name from one; a kind that
+				// names itself shows them wherever it has a series field.
+				const series = (said) => (said ? said.series : !!frappe.meta.has_field(doctype, "naming_series"));
+				const shown = (said) => {
+					$series.toggle(series(said));
+					panel.set_header(head(series(said)));
+				};
+				shown(null);
+				onedesk.numbering.named_by($by, doctype, shown);
 				onedesk.numbering.rules($('<div class="one-numbering-rules"></div>').appendTo($body), doctype);
 			},
 		});
@@ -544,16 +547,18 @@ onedesk.numbering.help_html = () => {
 	</div>`;
 };
 
-// How a new record is named: by its series or by a field a person fills in, or, for a
-// kind that names itself (a Customer, an Item), by its app's own choice. Changed
-// through one/numbering.py set_naming_by. Nothing is drawn where there is no choice.
+// How a new record is named, with frappe's own choices: its series, one of its fields
+// (made required and unique), an expression written as a series is, typed by whoever
+// makes it, or random; or, for a kind that names itself (a Customer, an Item), its
+// app's own choice. Changed through one/numbering.py set_naming_by. Nothing is drawn
+// where there is no choice.
 onedesk.numbering.named_by = async ($wrapper, doctype, shown = () => {}) => {
-	let said = await frappe.xcall(onedesk.numbering.API + "naming_by", { doctype });
+	const API = onedesk.numbering.API;
+	let said = await frappe.xcall(API + "naming_by", { doctype });
 	if (!said) return;
 	const FIELD = "Field";
-	const fields = () => said.options.filter((one) => one.value.startsWith("field:"));
-	const others = () => said.options.filter((one) => !one.value.startsWith("field:"));
-	const by = (value) => (said.by_field && value.startsWith("field:") ? FIELD : value);
+	const EXPRESSION = "Expression";
+	let checked = null;
 	const group = new frappe.ui.FieldGroup({
 		body: $wrapper,
 		fields: [
@@ -561,37 +566,83 @@ onedesk.numbering.named_by = async ($wrapper, doctype, shown = () => {}) => {
 				fieldtype: "Select",
 				fieldname: "by",
 				label: __("Name each new {0} by", [__(doctype)]),
-				options: [...others(), ...(said.by_field && fields().length ? [{ label: __("Field"), value: FIELD }] : [])],
+				options: said.kinds,
 				description: __("Records already made keep their names."),
-				change: () => apply(),
+				change: () => group.get_value("by") !== EXPRESSION && apply(),
 			},
 			{ fieldtype: "Column Break" },
 			{
 				fieldtype: "Select",
 				fieldname: "field",
 				label: __("Field"),
-				options: fields(),
+				options: said.fields,
 				depends_on: `eval:doc.by === "${FIELD}"`,
 				description: __("It becomes required, and no two records may share its value."),
 				change: () => apply(),
 			},
+			{
+				fieldtype: "Data",
+				fieldname: "pattern",
+				label: __("Expression"),
+				depends_on: `eval:doc.by === "${EXPRESSION}"`,
+				placeholder: "PRJ-.YYYY.-.####",
+				description: __("Written as a series is."),
+				input_class: "font-mono",
+			},
+			{
+				fieldtype: "Button",
+				fieldname: "use",
+				label: __("Use This Expression"),
+				depends_on: `eval:doc.by === "${EXPRESSION}"`,
+				click: () => apply(),
+			},
+			{ fieldtype: "Section Break", depends_on: `eval:doc.by === "${EXPRESSION}"` },
+			{ fieldtype: "HTML", fieldname: "help" },
 		],
 	});
 	group.make();
+	group.get_field("help").$wrapper.html(onedesk.numbering.help_html());
+	// The name it would give next, or what frappe says is wrong, as it is typed.
+	const $pattern = group.get_field("pattern");
+	$pattern.$input.on(
+		"input",
+		frappe.utils.debounce(async () => {
+			const pattern = ($pattern.get_input_value() || "").trim();
+			const row = pattern ? await frappe.xcall(API + "preview_pattern", { doctype, pattern }) : {};
+			checked = row.error ? null : pattern;
+			$pattern.set_description(
+				row.error
+					? `<span class="text-danger">${frappe.utils.escape_html(row.error)}</span>`
+					: row.next
+						? __("Next: {0}", [`<span class="font-mono">${frappe.utils.escape_html(row.next)}</span>`])
+						: __("Written as a series is.")
+			);
+		}, 300)
+	);
 	const load = () => {
-		group.set_values({ by: by(said.value), field: said.value.startsWith("field:") ? said.value : "" });
+		group.set_values({
+			by: said.by,
+			field: said.value.startsWith("field:") ? said.value : "",
+			pattern: said.pattern || "",
+		});
+		checked = said.pattern || null;
 		group.refresh_dependency();
 		shown(said);
 	};
 	const apply = () => {
 		const values = group.get_values(true) || {};
-		const value = values.by === FIELD ? values.field : values.by;
+		const value =
+			values.by === FIELD
+				? values.field
+				: values.by === EXPRESSION
+					? checked && (values.pattern || "").trim() === checked && checked
+					: values.by;
 		if (!value || value === said.value) return;
-		const label = (said.options.find((one) => one.value === value) || {}).label || value;
+		const label = [...said.kinds, ...said.fields].find((one) => one.value === value)?.label || value;
 		frappe.confirm(
-			__("Name each new {0} by {1}? Records already made keep their names.", [__(doctype), label]),
+			__("Name each new {0} by {1}? Records already made keep their names.", [__(doctype), frappe.utils.escape_html(label)]),
 			async () => {
-				said = await frappe.xcall(onedesk.numbering.API + "set_naming_by", { doctype, value });
+				said = await frappe.xcall(API + "set_naming_by", { doctype, value });
 				frappe.show_alert({ message: __("Naming updated"), indicator: "green" });
 				load();
 			},
@@ -632,7 +683,7 @@ onedesk.numbering.rules = async ($wrapper, doctype) => {
 		const add = $(onedesk.shell.button(__("Add Rule"), {}, "subtle", "plus")).on("click", () => onedesk.numbering.rule(doctype, null, draw));
 		onedesk.shell.table($wrapper, {
 			title: __("Rules"),
-			note: __("A {0} whose fields match a rule is named by the rule's own prefix, whatever it is named by above.", [__(doctype)]),
+			note: __("A record whose fields match a rule is named by the rule's own prefix, whatever it is named by above."),
 			rows,
 			icon: "list-filter",
 			empty: __("No rules."),
