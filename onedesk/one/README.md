@@ -499,6 +499,25 @@ the people who run the platform.
 Only administrators of the workspace see this, and only formats for the kinds
 of record they can open.
 
+### Mail Templates, for the Workspace
+
+The words the workspace mails again and again: a subject and a message, picked
+in the mail composer, or named by a setting such as HR's leave mails and the
+interview reminders. **New Mail Template**, or open one to change or delete it.
+**For** ties it to one kind of record, so the composer offers it there; left
+empty, it is offered everywhere. A template that is the default for a kind of
+record says so; a record's **Settings › Mail Templates** makes one the default.
+
+Name a field of the record in double braces and it is filled in when the mail
+is written: `{{ customer_name }}`, `{{ due_date }}`. That is all a template
+written here can add. Some templates that came with the workspace do more, a
+link to the record or a line that shows only when something is filled in;
+their wording can be changed and what they already did stays, but nothing of
+that kind can be added here, since a template runs as whoever sends it.
+
+Only administrators of the workspace see this. A template for a kind of record
+they cannot open is listed but not changed by them.
+
 ### Plan and Credits, for the Workspace
 
 Under **Workspace**, **Plan and Credits** is the workspace's account: its
@@ -790,8 +809,12 @@ Each part appears once the workspace may use it:
 - **Notifications**: the workspace's own rules on this kind of record. Open
   one, or **New Rule**, and it is written in Workspace › Notifications,
   already set to this kind of record.
+- **Mail Templates**: the templates for this kind of record, the words a mail
+  about one starts with. **New**, or open one to change it; **Set as
+  Default** makes the composer start with it. See Mail Templates, for the
+  Workspace.
 
-Email Templates and Workflows join it as they are opened to workspaces. The framework's own and One's own records have none, as
+Workflows join it as they are opened to workspaces. The framework's own and One's own records have none, as
 they have no Customize.
 
 ## Asking OneAI

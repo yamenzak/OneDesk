@@ -40,7 +40,7 @@ onedesk.doctype_settings.open = (doctype, tab = null) =>
 // (docs/DESK-COVERAGE.md). Frappe shows a tab to whoever can read its doctype, and
 // reading an Email Template is everybody's; a tab is offered here once what it
 // opens can be used, and the rail beside it is One's.
-onedesk.doctype_settings.TABS = ["notifications", "naming", "print-format"];
+onedesk.doctype_settings.TABS = ["notifications", "naming", "print-format", "email-template"];
 
 onedesk.doctype_settings.adapt = () => {
 	if (onedesk.doctype_settings.adapted) return;
@@ -56,6 +56,7 @@ onedesk.doctype_settings.adapt = () => {
 			// Naming is offered on a doctype named by a series, which is all the tab
 			// below shows; frappe's asks for read on Document Naming Rule, which is not given.
 			const shown = item.id === "naming" ? (doctype) => !!frappe.meta.get_docfield(doctype, "naming_series") : theirs;
+			if (item.id === "email-template") item.label = __("Mail Templates");
 			item.condition = (doctype) => onedesk.doctype_settings.TABS.includes(item.id) && (shown ? shown(doctype) : true);
 		}
 	}
@@ -86,6 +87,53 @@ onedesk.doctype_settings.adapt = () => {
 			return r;
 		});
 	};
+	// The dialog's Email Templates tab: frappe's list, with a template opened in One's
+	// editor (onedesk.mail_templates.edit) rather than frappe's form, whose rail is
+	// frappe's, and made the default through One's door (one/mail_templates.py).
+	frappe.doctype_settings.register("email-template", (panel, doctype) => {
+		let current = null;
+		const edit = (name, list) => onedesk.mail_templates.edit(name, { doctype, done: () => list && list.reload() });
+		const set_default = (name, list) =>
+			frappe.xcall(onedesk.mail_templates.API + "set_default", { doctype, template: name }).then(() => {
+				frappe.show_alert({ message: __("Default updated"), indicator: "green" });
+				list.reload();
+			});
+		frappe.doctype_settings.render_list(panel, {
+			title: __("Mail Templates"),
+			description: __("Words to start a mail about a {0} with, picked in the composer.", [__(doctype)]),
+			show_header: true,
+			primary_action: { label: __("New"), icon: "plus", onclick: (list) => edit(null, list) },
+			load: () =>
+				Promise.all([
+					frappe.doctype_settings.get_list("Email Template", {
+						filters: { reference_doctype: doctype },
+						fields: ["name", "subject"],
+						order_by: "name asc",
+						limit: 0,
+					}),
+					frappe.xcall(onedesk.mail_templates.API + "default", { doctype }),
+				]).then(([rows, value]) => {
+					current = value;
+					return rows;
+				}),
+			title_column: {
+				label: __("Template"),
+				primary: (row) => row.name,
+				secondary: (row) => row.subject,
+				onclick: (row, list) => edit(row.name, list),
+				tags: (row) => (row.name === current ? [{ label: __("Default"), color: "green" }] : []),
+			},
+			actions: (row) => [
+				...(row.name === current ? [] : [{ label: __("Set as Default"), icon: "star", onclick: (list) => set_default(row.name, list) }]),
+				{ label: __("Edit"), icon: "pencil", onclick: (list) => edit(row.name, list) },
+			],
+			empty_state: {
+				title: __("No mail templates yet"),
+				description: __("A template is the words a mail about a {0} starts with.", [__(doctype)]),
+				action: { label: __("New Template"), onclick: (list) => edit(null, list) },
+			},
+		});
+	});
 	// Frappe keeps the sidebar on screen for a page of the same app, and every One sidebar is
 	// one app, so the rule would open inside OneCRM's; One's is selected as a dock row would.
 	const go = (panel, args) => {
@@ -229,6 +277,70 @@ onedesk.numbering.edit = (doctype, row, rows, done) => {
 		})
 	);
 	dialog.show();
+};
+
+// ------------------------------------------------------------------ mail templates
+
+frappe.provide("onedesk.mail_templates");
+
+onedesk.mail_templates.API = "onedesk.one.mail_templates.";
+
+// A template in frappe's own dialog and controls, saved as a desk form saves: against
+// the version it was opened at. What it may say is checked by one/mail_templates.py.
+onedesk.mail_templates.edit = async (name, { doctype = null, done = null } = {}) => {
+	const doc = name ? await frappe.db.get_doc("Email Template", name) : null;
+	const dialog = new frappe.ui.Dialog({
+		title: name || __("New Mail Template"),
+		size: "large",
+		fields: [
+			{ fieldtype: "Data", fieldname: "template_name", label: __("Name"), reqd: name ? 0 : 1, hidden: name ? 1 : 0 },
+			{ fieldtype: "Data", fieldname: "subject", label: __("Subject"), reqd: 1 },
+			{
+				fieldtype: "Link",
+				fieldname: "reference_doctype",
+				label: __("For"),
+				options: "DocType",
+				get_query: () => ({ query: "onedesk.one.rules.watchable" }),
+				description: __("Empty offers it on any kind of record."),
+			},
+			{ fieldtype: "Check", fieldname: "use_html", label: __("Write in HTML") },
+			{ fieldtype: "Text Editor", fieldname: "response", label: __("Message"), depends_on: "eval:!doc.use_html" },
+			{ fieldtype: "Code", fieldname: "response_html", label: __("Message"), options: "HTML", depends_on: "eval:doc.use_html" },
+			{
+				fieldtype: "HTML",
+				fieldname: "help",
+				options: `<p class="text-muted small">${__("Name a field of the record in double braces, as {0}, and it is filled in when the mail is written.", ["<code>{{ customer_name }}</code>"])}</p>`,
+			},
+		],
+		primary_action_label: name ? __("Update") : __("Create"),
+		primary_action: async (values) => {
+			const fields = {
+				subject: values.subject,
+				reference_doctype: values.reference_doctype || null,
+				use_html: values.use_html ? 1 : 0,
+				response: values.response || "",
+				response_html: values.response_html || "",
+			};
+			if (doc) await frappe.xcall("frappe.client.save", { doc: { ...doc, ...fields } });
+			else await frappe.db.insert({ doctype: "Email Template", name: values.template_name.trim(), ...fields });
+			dialog.hide();
+			frappe.show_alert({ message: name ? __("Template updated") : __("Template made"), indicator: "green" });
+			done && done();
+		},
+	});
+	if (doc) {
+		dialog.set_values(doc);
+		dialog.set_secondary_action_label(__("Delete"));
+		dialog.set_secondary_action(() =>
+			frappe.confirm(__("Delete template {0}?", [name]), async () => {
+				await frappe.xcall("frappe.client.delete", { doctype: "Email Template", name });
+				dialog.hide();
+				done && done();
+			})
+		);
+	}
+	dialog.show();
+	if (!doc && doctype) dialog.set_value("reference_doctype", doctype);
 };
 
 // A list's menu carries it too. Frappe's list menu has no hook for an item, so

@@ -121,6 +121,19 @@ One's sidebar, as lists.
 4. **Mail Templates.** Email Template, read and write. OneMail's composer
    already has frappe's template field; HR Settings' leave mails start working
    when somebody writes one.
+   **Done, with a template held to a rule's text.** Frappe renders a
+   template as Jinja with its globals, as whoever sends it, so its author
+   could make it read anything the sender may. `one/mail_templates.py` grants
+   Email Template and holds one written by the workspace to what
+   `one/rules.py` holds a rule's text to: every tag it adds is a field,
+   `{{ field }}` or `{{ doc.field }}`, of the record it is for; every tag it
+   already had stays, so hrms's leave and interview mails can be reworded.
+   A template is edited in One's dialog (`onedesk.mail_templates.edit`,
+   frappe's controls, saved with `frappe.client.save` against `modified`),
+   from the re-registered tab and from Workspace › Mail Templates, not
+   frappe's form, whose rail is frappe's. The default goes through
+   `layer.set_default`, which printing now shares, and `roles.grant` is the
+   one grant loop for notify, printing and mail templates.
 5. **Approvals.** Workflow, Workflow State and Workflow Action Master, and the
    workflow builder through a Custom Role. A workflow is refused on the
    framework's and One's own doctypes. **Waiting on Me** (Workflow Action,

@@ -52,8 +52,9 @@ after_install = [
 after_migrate = [
 	"onedesk.one.roles.ensure",
 	"onedesk.one.notify.install",
-	# Print formats, letter heads and the builder for the workspace administrator. See one/printing.py.
+	# Printing and mail templates for the workspace administrator. See one/printing.py, one/mail_templates.py.
 	"onedesk.one.printing.settle",
+	"onedesk.one.mail_templates.settle",
 	# frappe's own morning event mail stopped; Today's Events replaces it.
 	"onedesk.one_calendar.tell.install",
 	# What each module's records say above their fields. See one/head.py.
@@ -192,10 +193,11 @@ doc_events = {
 	"Server Script": {"validate": "onedesk.one.layer.script"},
 	# A type's text names only its own slots. See one/notify.py.
 	"Notification Type": {"validate": "onedesk.one.notify.validate", "on_update": "onedesk.one.notify.changed"},
-	# What a print format, letter head or snippet written by the workspace may carry. See one/printing.py.
+	# What the workspace may write into a print or mail template. See one/printing.py, one/mail_templates.py.
 	"Print Format": {"validate": "onedesk.one.printing.validate_format"},
 	"Letter Head": {"validate": "onedesk.one.printing.validate_letter_head"},
 	"Print Format Snippet": {"validate": "onedesk.one.printing.validate_snippet"},
+	"Email Template": {"validate": "onedesk.one.mail_templates.validate"},
 	# A notification is pushed to the devices its person chose. See one/push.py.
 	"Notification Log": {
 		# frappe's line for a task given, said in OneTask's. See one_task/tell.py.

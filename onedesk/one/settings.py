@@ -42,6 +42,7 @@ SECTIONS = [
 	("notification_types", _lt("Notifications"), "bell-ring", "workspace"),
 	("numbering", _lt("Numbering"), "hash", "workspace"),
 	("printing", _lt("Printing"), "printer", "workspace"),
+	("mail_templates", _lt("Mail Templates"), "mails", "workspace"),
 	("plan", _lt("Plan and Credits"), "credit-card", "workspace"),
 	("domains", _lt("Domains"), "globe", "workspace"),
 	("oneai", _lt("OneAI Actions"), "sparkles", "workspace"),
@@ -210,6 +211,7 @@ def load(
 		"notification_types": _notification_types,
 		"numbering": _numbering,
 		"printing": _printing,
+		"mail_templates": _mail_templates,
 	}
 	if section not in loaders:
 		frappe.throw(_("There is no such section."))
@@ -1549,6 +1551,13 @@ def _numbering() -> dict:
 	from onedesk.one import numbering
 
 	return {"rows": numbering.doctypes()}
+
+
+def _mail_templates() -> dict:
+	"""Every mail template, and what each is the default for (one/mail_templates.py)."""
+	from onedesk.one import mail_templates
+
+	return {"rows": mail_templates.templates()}
 
 
 def _printing() -> dict:

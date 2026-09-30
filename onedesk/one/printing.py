@@ -81,15 +81,7 @@ SAFE_URL = re.compile(rf"""url\(\s*['"]?\s*({FILES}|data:image/)""", re.I)
 def settle() -> None:
 	"""The grants, once per doctype (a doctype with a Custom DocPerm row for
 	the role has been decided by the workspace), and the builder page."""
-	from frappe.permissions import add_permission, setup_custom_perms, update_permission_property
-
-	for doctype, ptypes in GRANTS.items():
-		if frappe.db.exists("Custom DocPerm", {"parent": doctype, "role": roles.ADMINISTRATOR}):
-			continue
-		setup_custom_perms(doctype)
-		add_permission(doctype, roles.ADMINISTRATOR, 0)
-		for ptype in ptypes:
-			update_permission_property(doctype, roles.ADMINISTRATOR, 0, ptype, 1, validate=False)
+	roles.grant(GRANTS)
 
 	# A Custom Role replaces the page's roles, so it keeps the page's own too.
 	name = frappe.db.get_value("Custom Role", {"page": BUILDER})
@@ -386,22 +378,7 @@ def set_default(
 	if frappe.db.get_value("Print Format", print_format, "doc_type") != doctype:
 		frappe.throw(_("{0} is not a format of {1}.").format(print_format, _(doctype)))
 	frappe.has_permission("Print Format", "write", doc=print_format, throw=True)
-	from frappe.custom.doctype.property_setter.property_setter import make_property_setter
-
-	frappe.flags.one_printing = True
-	try:
-		make_property_setter(
-			doctype,
-			None,
-			"default_print_format",
-			print_format,
-			"Data",
-			for_doctype=True,
-			is_system_generated=False,
-		)
-	finally:
-		frappe.flags.one_printing = False
-	frappe.clear_cache(doctype=doctype)
+	layer.set_default(doctype, "default_print_format", print_format)
 
 
 @frappe.whitelist()

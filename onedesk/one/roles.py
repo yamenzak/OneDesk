@@ -55,3 +55,18 @@ def require() -> None:
 			frappe._("Only an administrator of this workspace can do this."),
 			frappe.PermissionError,
 		)
+
+
+def grant(grants: dict) -> None:
+	"""What the role is given on frappe's doctypes, {doctype: (ptype, ...)},
+	written once per doctype: a doctype with a Custom DocPerm row for the role
+	has been decided by the workspace, which may have changed it since."""
+	from frappe.permissions import add_permission, setup_custom_perms, update_permission_property
+
+	for doctype, ptypes in grants.items():
+		if frappe.db.exists("Custom DocPerm", {"parent": doctype, "role": ADMINISTRATOR}):
+			continue
+		setup_custom_perms(doctype)
+		add_permission(doctype, ADMINISTRATOR, 0)
+		for ptype in ptypes:
+			update_permission_property(doctype, ADMINISTRATOR, 0, ptype, 1, validate=False)

@@ -144,6 +144,27 @@ def custom_field(doc, method=None) -> None:
 	_conditions(doc, where)
 
 
+#: The doctype defaults a module may set through set_default.
+DEFAULTS = ("default_print_format", "default_email_template")
+
+
+def set_default(doctype: str, prop: str, value: str) -> None:
+	"""A doctype's default print format or mail template, as frappe's own
+	make_default writes it: a property setter, which this layer would refuse
+	and which frappe writes as whoever calls it. The caller has checked the
+	doctype and the value."""
+	from frappe.custom.doctype.property_setter.property_setter import make_property_setter
+
+	if prop not in DEFAULTS:
+		frappe.throw(_("{0} is not the workspace's to change.").format(prop))
+	frappe.flags.one_default = prop
+	try:
+		make_property_setter(doctype, None, prop, value, "Data", for_doctype=True, is_system_generated=False)
+	finally:
+		frappe.flags.one_default = None
+	frappe.clear_cache(doctype=doctype)
+
+
 def property_setter(doc, method=None) -> None:
 	"""A change to a field the workspace did not make."""
 	if not held():
@@ -158,11 +179,12 @@ def property_setter(doc, method=None) -> None:
 		and doc.property in ("options", "default")
 	):
 		return
-	# A doctype's default print format, set by Printing (one/printing.py) as frappe's make_default sets it.
+	# A doctype's default print format or mail template, set through set_default by
+	# the module that has checked it (one/printing.py, one/mail_templates.py).
 	if (
-		frappe.flags.one_printing
+		frappe.flags.one_default
 		and doc.doctype_or_field == "DocType"
-		and doc.property == "default_print_format"
+		and doc.property == frappe.flags.one_default
 	):
 		return
 	if doc.property not in PROPERTIES:

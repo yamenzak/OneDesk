@@ -4032,6 +4032,13 @@ no hand-written format, no HTML letter head, no style that loads from
 elsewhere, checked on save and on the builder's live preview. Found on the
 way: a letter head picture kept in One's store never printed.
 
+**Stage 4, Mail Templates: done.** Settings › Mail Templates on any record
+(new, edit, set the default the composer starts with) and Workspace › Mail
+Templates listing all of them, each opened in One's own editor. A template the
+workspace writes may only add field names, `{{ customer_name }}`; what a
+shipped template already did stays, so HR's leave and interview mails can be
+reworded but not given new code, since a template runs as whoever sends it.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

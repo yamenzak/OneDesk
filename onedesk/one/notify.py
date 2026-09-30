@@ -267,19 +267,9 @@ GRANTS = {
 
 
 def _grant() -> None:
-	"""Written once per doctype: a doctype with a Custom DocPerm row for the
-	role has been decided by the workspace."""
-	from frappe.permissions import add_permission, setup_custom_perms, update_permission_property
-
 	from onedesk.one import roles
 
-	for doctype, ptypes in GRANTS.items():
-		if frappe.db.exists("Custom DocPerm", {"parent": doctype, "role": roles.ADMINISTRATOR}):
-			continue
-		setup_custom_perms(doctype)
-		add_permission(doctype, roles.ADMINISTRATOR, 0)
-		for ptype in ptypes:
-			update_permission_property(doctype, roles.ADMINISTRATOR, 0, ptype, 1, validate=False)
+	roles.grant(GRANTS)
 
 
 def validate(doc, method=None) -> None:

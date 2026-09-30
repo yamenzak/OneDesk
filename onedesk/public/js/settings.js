@@ -1427,6 +1427,35 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
+	// The words the workspace mails again and again (one/mail_templates.py): each
+	// template, the kind of record it is for, and what it is the default for. A template
+	// opens in the same editor the record's Settings uses.
+	draw_mail_templates(data) {
+		const esc = frappe.utils.escape_html;
+		const again = () => this.refresh({ fresh: true });
+		this.page.set_primary_action(__("New Mail Template"), () => onedesk.mail_templates.edit(null, { done: again }), "plus");
+		this.$content.html(`<div class="one-shell-section" data-list="templates"></div>`);
+		onedesk.shell.table(this.$content.find('[data-list="templates"]'), {
+			title: __("Mail Templates"),
+			note: __("The words a mail starts with, picked in the composer or named by a setting such as the leave mails."),
+			rows: data.rows || [],
+			page_size: 100,
+			icon: "mails",
+			empty: __("No mail template yet."),
+			none: __("No template is called that."),
+			open: (one) => onedesk.mail_templates.edit(one.name, { done: again }),
+			columns: [
+				{
+					label: __("Template"),
+					render: (one) =>
+						esc(one.name) + one.default_for.map((kind) => " " + frappe.ui.badge.html({ label: __("Default for {0}", [kind]), theme: "blue" })).join(""),
+				},
+				{ label: __("Subject"), fieldname: "subject" },
+				{ label: __("For"), render: (one) => esc(one.label || __("Any record")) },
+			],
+		});
+	}
+
 	// How the workspace's documents look on paper (one/printing.py): its letter heads,
 	// which are an image at the top and one at the foot, and the formats it made in
 	// frappe's print format builder. A format opens its record's Settings on Print
