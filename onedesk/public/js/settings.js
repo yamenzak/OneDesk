@@ -1653,6 +1653,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					],
 			  });
 		parts && parts.make();
+		dialog.$wrapper.addClass("one-lh-window");
 		const settings = () => ({
 			preset,
 			show: parts.get_value("show") || [],
