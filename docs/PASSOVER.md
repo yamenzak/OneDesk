@@ -4425,6 +4425,23 @@ logo, in pixels. It cannot be sized to its content, because frappe's print
 style holds every letter head picture to its cell, and the logo came out at
 nothing.
 
+**Which way OneAI builds a page, and what it knows of the kind. Fixed.** Its
+instructions said "prefer fields to html" and nothing more. They now set out
+the order:
+1. the builder's blocks;
+2. one HTML block in place for a part blocks cannot draw;
+3. one HTML block across the whole body only for a page designed end to end.
+
+A format written by hand is not a step: `validate_format` refuses it, because
+it is Jinja with all of frappe behind it. `print_layout` also read the kind
+through `fields_of`, which gives a name and a label, a type only for links and
+selects, and nothing about printing, cut at 150 fields and 30 a table. It now
+reads it through `kind.fields`, the describer OneAI and Intake share, told it
+is for a page. That gives every field with its type, each table with its rows,
+and "not printed" where frappe's own formats leave a field off (97 of Sales
+Invoice's 148). It is written a line a field, which puts Sales Invoice at 25KB
+rather than 42KB.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

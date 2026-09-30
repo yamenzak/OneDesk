@@ -137,3 +137,29 @@ def test_leaving_the_sections_out():
 	laid = _body(AI, "_laid_out")
 	assert "json.loads(existing.format_data)" in laid
 	assert "print_recipes.starting_layout(doctype)" in laid
+
+
+def test_it_reads_a_kind_as_oneai_and_intake_do():
+	"""print_layout reads a kind through the describer OneAI and Intake share,
+	told it is for a page: every field with its type, each table with its
+	rows, and what frappe's own formats leave off said to be."""
+	assert "kind.fields(meta, printing=True)" in _body(AI, "print_layout")
+	assert "fields_of" not in _body(AI, "print_layout")
+	kind = (tree.APP / "one_ai" / "kind.py").read_text()
+	fields = kind.split("def fields(", 1)[1].split("\ndef ", 1)[0]
+	assert "not printed" in fields and "f.print_hide" in fields
+	assert '"rows": fields(frappe.get_meta(f.options), depth + 1, printing=True)' in fields
+
+
+def test_blocks_then_a_block_of_html_then_a_page_of_it():
+	"""The order a page is built in, so what OneAI makes stays the builder's:
+	its blocks, an html block for a part they cannot draw, and one across the
+	whole body only for a page designed end to end. A format written by hand
+	is not a step at all: validate_format refuses it."""
+	help_ = AI.split("LAYOUT_HELP = (", 1)[1].split("\n)\n", 1)[0]
+	first = help_.index("first the")
+	then = help_.index("one html block in its place")
+	last = help_.index("one html block across the whole body")
+	assert first < then < last
+	assert "Never " in help_ and "html for what a block already prints" in help_
+	assert "not written by hand" in PRINTING

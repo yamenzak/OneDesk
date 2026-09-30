@@ -1957,7 +1957,12 @@ LAYOUT_HELP = (
 	"description widest and the figures narrower; the totals sit under it on the right, in a "
 	"labels_beside section with spread fields, and the amount in words on the left; terms and notes come "
 	"last, each in a labelled section. The letter head already prints the company, so the body does not "
-	"repeat it. Prefer fields to html."
+	"repeat it. A field frappe's own formats leave off the page says not printed; print it only when "
+	"asked. Build it in this order, so the person can go on changing it in the builder: first the "
+	"builder's own blocks, which cover most of any page; then, for a part they cannot draw (a stamp, a "
+	"grid of terms, a figure worked out from the rows), one html block in its place among them; and "
+	"only for a page designed from end to end, one html block across the whole body, with css. Never "
+	"html for what a block already prints."
 )
 
 #: What a block may say about itself beyond what it is.
@@ -2357,11 +2362,9 @@ def print_layout(
 			return {"error": f"{name} is not a format of {doctype}."}
 		return {
 			"doctype": doctype,
-			"fields": kind.fields_of(meta, most=150),
-			"tables": {
-				table.fieldname: kind.fields_of(frappe.get_meta(table.options), most=30)
-				for table in meta.get_table_fields()
-			},
+			# Every field and its type, each table's with its rows, as OneAI and
+			# Intake read a kind: the same describer, told it is for a page.
+			"fields": kind.fields(meta, printing=True),
 			"starting_layout": print_recipes.starting_layout(doctype),
 			"format": name,
 			"written": _written(json.loads(held.format_data), meta) if held and held.format_data else None,

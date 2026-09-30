@@ -610,7 +610,13 @@ changes. It draws a header or footer from any preset, or writes one in HTML
 from the company's details, where `[icon:phone]` (any of frappe's Lucide
 names) draws that icon in the Brand Colour. It also designs a print format for
 any kind of record from the builder's own blocks, so the result opens in the
-builder like any other. It starts from a layout made from that kind's fields
+builder like any other. It builds in that order: the builder's blocks for
+everything they can draw; an HTML block, in its place among them, for a part
+they cannot (a stamp, a grid of terms, a figure worked out from the rows); and
+one HTML block across the whole body only for a page designed from end to end.
+A format written by hand is not offered at all. It reads the kind the way
+OneAI and Intake read any kind: every field with its type, each table with its
+rows, and which fields frappe's own formats leave off the page. It starts from a layout made from that kind's fields
 (for an invoice, quotation, order or bill: who it is for on the left, the dates
 on the right, the items as one table, the totals under it beside the amount in
 words, the terms last) and changes only what was asked, so two requests for the

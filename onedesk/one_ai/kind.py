@@ -57,17 +57,32 @@ def naming(doctype: str) -> dict:
 	return {"by": "expression", "pattern": autoname}
 
 
-def fields(meta, depth: int = 0) -> list[dict]:
-	"""A kind's fields as a model needs them to fill a form in.
+def fields(meta, depth: int = 0, printing: bool = False) -> list:
+	"""A kind's fields as a model needs them to fill a form in, or, printing,
+	to lay a page out.
 
 	Hidden fields are left out — that is how a workspace takes a field away,
 	Company among them — and so is anything the reader may not see. A field
 	the system fills (read only, or fetched from a link) is said to be, so the
-	model neither asks for it nor invents it.
+	model neither asks for it nor invents it. Printing, what only filling needs
+	(required, defaults, what the system fills) is left out, and a field
+	frappe's own formats leave off the page is said to be, since most of a
+	document of trade's fields are.
 	"""
 	said = []
 	for f in meta.fields:
 		if f.fieldtype in LAYOUT or f.fieldtype in NEVER_READ or f.hidden:
+			continue
+		if printing:
+			# A line a field, as fields_of writes one, with its type: a page
+			# lays out forty of a kind's hundred and fifty, and the model reads
+			# them all on every round.
+			kind = f"Link to {f.options}" if f.fieldtype == "Link" and f.options else f.fieldtype
+			line = f"{f.fieldname} ({f.label or f.fieldname}, {kind}{', not printed' if f.print_hide else ''})"
+			if f.fieldtype in frappe.model.table_fields and depth == 0:
+				said.append({"table": line, "rows": fields(frappe.get_meta(f.options), depth + 1, printing=True)})
+			else:
+				said.append(line)
 			continue
 		one = {"fieldname": f.fieldname, "label": f.label, "fieldtype": f.fieldtype}
 		if f.reqd:
