@@ -294,10 +294,13 @@ def naming_by(doctype: Annotated[str, "The kind of record."]) -> dict | None:
 	if doctype in NAMED_BY:
 		single, field, _method, _default = NAMED_BY[doctype]
 		df = frappe.get_meta(single).get_field(field)
+		value = frappe.db.get_single_value(single, field)
 		return {
-			"value": frappe.db.get_single_value(single, field),
+			"value": value,
 			"options": [{"value": one, "label": _(one)} for one in (df.options or "").split("\n") if one],
 			"by_field": False,
+			# Auto Name falls back to the doctype's autoname, which is its series.
+			"series": value in (SERIES, "Auto Name"),
 		}
 	if _names_itself(doctype):
 		return None
@@ -308,7 +311,7 @@ def naming_by(doctype: Annotated[str, "The kind of record."]) -> dict | None:
 		# Named some other way by its app (a fixed series, an expression): kept
 		# until something else is picked.
 		options.append({"value": value, "label": _("As {0} names it now").format(_(doctype))})
-	return {"value": value, "options": options, "by_field": True}
+	return {"value": value, "options": options, "by_field": True, "series": value == SERIES}
 
 
 @frappe.whitelist(methods=["POST"])

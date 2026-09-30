@@ -267,15 +267,25 @@ onedesk.doctype_settings.adapt = () => {
 	// (Document Naming Rule) stay the framework's.
 	frappe.doctype_settings.register("naming", (panel, doctype) => {
 		let list;
-		panel.set_view({
+		const head = (series) => ({
 			title: __("Numbering"),
-			description: __("How a new {0} is named. The first series is the one a new record starts with.", [__(doctype)]),
-			actions: [{ label: __("Add Series"), icon: "plus", click: () => onedesk.numbering.add(doctype, () => list.refresh()) }],
+			description: series
+				? __("How a new {0} is named. The first series is the one a new record starts with.", [__(doctype)])
+				: __("How a new {0} is named.", [__(doctype)]),
+			actions: series ? [{ label: __("Add Series"), icon: "plus", click: () => onedesk.numbering.add(doctype, () => list.refresh()) }] : [],
+		});
+		panel.set_view({
+			...head(true),
 			render: (p) => {
 				const $body = p.body.empty();
 				const $by = $('<div class="one-numbering-by"></div>').appendTo($body);
-				list = onedesk.numbering.list($('<div class="one-numbering-series"></div>').appendTo($body), doctype);
-				onedesk.numbering.named_by($by, doctype);
+				const $series = $('<div class="one-numbering-series"></div>').appendTo($body);
+				list = onedesk.numbering.list($series, doctype);
+				// The series only while a new record takes its name from one.
+				onedesk.numbering.named_by($by, doctype, (said) => {
+					$series.toggle(said.series);
+					panel.set_header(head(said.series));
+				});
 				onedesk.numbering.rules($('<div class="one-numbering-rules"></div>').appendTo($body), doctype);
 			},
 		});
@@ -537,7 +547,7 @@ onedesk.numbering.help_html = () => {
 // How a new record is named: by its series or by a field a person fills in, or, for a
 // kind that names itself (a Customer, an Item), by its app's own choice. Changed
 // through one/numbering.py set_naming_by. Nothing is drawn where there is no choice.
-onedesk.numbering.named_by = async ($wrapper, doctype) => {
+onedesk.numbering.named_by = async ($wrapper, doctype, shown = () => {}) => {
 	let said = await frappe.xcall(onedesk.numbering.API + "naming_by", { doctype });
 	if (!said) return;
 	const FIELD = "Field";
@@ -552,7 +562,7 @@ onedesk.numbering.named_by = async ($wrapper, doctype) => {
 				fieldname: "by",
 				label: __("Name each new {0} by", [__(doctype)]),
 				options: [...others(), ...(said.by_field && fields().length ? [{ label: __("Field"), value: FIELD }] : [])],
-				description: __("The series below are used only when it is named by Naming Series. Records already made keep their names."),
+				description: __("Records already made keep their names."),
 				change: () => apply(),
 			},
 			{ fieldtype: "Column Break" },
@@ -571,6 +581,7 @@ onedesk.numbering.named_by = async ($wrapper, doctype) => {
 	const load = () => {
 		group.set_values({ by: by(said.value), field: said.value.startsWith("field:") ? said.value : "" });
 		group.refresh_dependency();
+		shown(said);
 	};
 	const apply = () => {
 		const values = group.get_values(true) || {};
@@ -621,10 +632,10 @@ onedesk.numbering.rules = async ($wrapper, doctype) => {
 		const add = $(onedesk.shell.button(__("Add Rule"), {}, "subtle", "plus")).on("click", () => onedesk.numbering.rule(doctype, null, draw));
 		onedesk.shell.table($wrapper, {
 			title: __("Rules"),
-			note: __("A {0} whose fields match a rule is named by the rule's own prefix, before any series.", [__(doctype)]),
+			note: __("A {0} whose fields match a rule is named by the rule's own prefix, whatever it is named by above.", [__(doctype)]),
 			rows,
 			icon: "list-filter",
-			empty: __("No rules. Every {0} is named by its series.", [__(doctype)]),
+			empty: __("No rules."),
 			actions: add,
 			open: (row) => onedesk.numbering.rule(doctype, row.name, draw),
 			columns: [

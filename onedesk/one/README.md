@@ -489,8 +489,8 @@ two records share; a second record with the same value is refused. A
 **Customer**, **Supplier**, **Item**, **Employee** or **Campaign** names itself,
 so there the choice is its own: Customer Name, Naming Series or Auto Name, an
 Item by its Item Code, an Employee by Full Name or Employee Number. Records
-already made keep their names, and the series are used only when it is named by
-Naming Series.
+already made keep their names. The series, and Add Series, show only while it
+is named by Naming Series (or Auto Name, which uses them too).
 
 **Rules** name a record by a prefix of their own when its fields match, before
 any series: returns as `RET-.YYYY.-`, a government customer as
