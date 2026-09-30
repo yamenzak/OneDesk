@@ -4306,7 +4306,10 @@ everything the top already says, on two or three lines, and had no logo. A foot
 is now one quiet line: a new one shows the website and the tax ID, a Logo tick
 puts a small mark at its start, Two Sides has the logo and name on the left and
 the rest on the right, and the note sits under the line. Two more followed, Logo Above and Spread,
-and Band, which had ignored it, takes the Brand Line like the others.
+and Band, which had ignored it, takes the Brand Line like the others. The window,
+one long scroll by then, splits into a Top tab and a Foot tab under the page they
+make, with Default and Off below both (a FieldGroup inside the dialog, since a
+dialog with tabs puts every field in one).
 
 ## OneLegal
 

@@ -547,7 +547,8 @@ right), **Centred**, **Banner** (a band in the Brand Colour), **Minimal** (the
 logo and name over a line), **Logo and Details** (the logo with the name and
 address beside it, and the contacts on the right) and **Logo Only**. Every preset that shows
 the company's details shows each after a small icon in the Brand Colour, and
-the tax ID always prints on a line of its own. The letter head window shows each as it prints with the
+the tax ID always prints on a line of its own. The letter head window shows the whole page at the top, with a **Top** tab and a
+**Foot** tab under it. The Top tab shows each as it prints with the
 company's own name, logo, address, contacts and colour; pick one, tick what it
 **Shows** (name, address, phone, email, website, tax ID), set the **Logo
 Height**, and leave out the **Brand Line**, the line in the Brand Colour under
