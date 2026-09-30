@@ -545,7 +545,7 @@ foot of every printed page. A letter head's top is one of six presets drawn
 from Workspace › General: **Classic** (the logo on the left, the company on the
 right), **Centred**, **Banner** (a band in the Brand Colour), **Minimal** (the
 logo and name over a line), **Logo and Details** (the logo on the left, the
-company one line at a time on the right) and **Logo Only**. The tax ID always
+company in two columns beside it, each line after an icon in the Brand Colour) and **Logo Only**. The tax ID always
 prints on a line of its own. The letter head window shows each as it prints with the
 company's own name, logo, address, contacts and colour; pick one, tick what it
 **Shows** (name, address, phone, email, website, tax ID), and set the **Logo

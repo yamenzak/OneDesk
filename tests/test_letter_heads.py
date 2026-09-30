@@ -60,3 +60,19 @@ def test_no_table_cells():
 	draw = _body("draw")
 	assert "<td" not in draw and "<table" not in draw
 	assert "_ratio(" in draw
+
+
+def test_the_top_is_still_filtered():
+	"""Letter Head's content skips frappe's XSS filter so a drawn top's icons
+	survive; every top not drawn here gets frappe's own filter instead."""
+	import json
+
+	custom = json.loads((tree.APP / "one" / "custom" / "letter_head.json").read_text())
+	assert any(
+		one["field_name"] == "content" and one["property"] == "ignore_xss_filter"
+		for one in custom["property_setters"]
+	)
+	printing = (tree.APP / "one" / "printing.py").read_text()
+	validate = printing.split("def validate_letter_head(", 1)[1].split("\ndef ", 1)[0]
+	assert "sanitize_html(doc.content)" in validate and "not doc.one_top" in validate
+	assert "print_html.letter_head_html(doc.content" in validate

@@ -5,15 +5,24 @@
    "dt": "Letter Head",
    "fieldname": "one_top",
    "fieldtype": "Code",
-   "options": "JSON",
    "hidden": 1,
    "insert_after": "content",
    "label": "Top Preset",
-   "module": "One"
+   "module": "One",
+   "options": "JSON"
   }
  ],
  "doctype": "Letter Head",
  "links": [],
- "property_setters": [],
+ "property_setters": [
+  {
+   "doc_type": "Letter Head",
+   "doctype_or_field": "DocField",
+   "field_name": "content",
+   "property": "ignore_xss_filter",
+   "property_type": "Check",
+   "value": "1"
+  }
+ ],
  "sync_on_migrate": 1
 }

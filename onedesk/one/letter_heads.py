@@ -189,29 +189,41 @@ def draw(raw, details: dict | None = None) -> str:
 		)
 
 	if preset == "details":
-		# The logo on the left; on the right, set off by a bar in the colour, the
-		# company one line at a time.
-		lines = (
-			([f'<div style="font-weight:700;color:{INK}">{name}</div>'] if name else [])
-			+ [f"<div>{one}</div>" for one in address]
-			+ [f"<div>{one}</div>" for one in contacts]
-			+ ([f"<div>{tax}</div>"] if tax else [])
-		)
+		# The logo on the left; the company across the rest, in two columns: where
+		# it is, and how to reach it, each line after its icon in the colour.
+		def line(icon: str, text: str) -> str:
+			return (
+				'<div style="display:table;margin-bottom:4px">'
+				'<div style="display:table-cell;width:18px;vertical-align:top;padding-top:2px">'
+				f'<img src="{_icon(icon, colour)}" alt="" style="width:12px;height:12px;display:block">'
+				f'</div><div style="display:table-cell;vertical-align:top">{text}</div></div>'
+			)
+
+		where = line("map-pin", "<br>".join(address)) if address else ""
+		reach = "".join(
+			line(icon, e(details.get(key)))
+			for key, icon in (("phone", "phone"), ("email", "mail"), ("website", "globe"))
+			if key in shown and details.get(key)
+		) + (line("receipt", tax) if tax else "")
+		columns = [one for one in (where, reach) if one]
 		left = logo() or (
 			f'<div style="font-size:20px;font-weight:700;color:{colour}">{name}</div>' if name else ""
 		)
 		return (
 			'<div style="display:table;width:100%">'
-			f'<div style="display:table-cell;vertical-align:middle;text-align:left">{left}</div>'
+			f'<div style="display:table-cell;vertical-align:middle;text-align:left;width:35%">{left}</div>'
+			'<div style="display:table-cell;vertical-align:middle">'
 			+ (
-				'<div style="display:table-cell;vertical-align:middle;width:1%;white-space:nowrap">'
-				f'<div style="border-left:3px solid {colour};padding-left:12px;{small}color:#374151;{EXACT}">'
-				+ "".join(lines)
-				+ "</div></div>"
-				if lines
+				f'<div style="font-size:15px;font-weight:700;color:{colour};margin-bottom:6px">{name}</div>'
+				if name and details.get("logo")
 				else ""
 			)
-			+ "</div>"
+			+ '<div style="display:table;width:100%">'
+			+ "".join(
+				f'<div style="display:table-cell;vertical-align:top;width:50%;padding-right:12px;{small}color:#374151">{one}</div>'
+				for one in columns
+			)
+			+ "</div></div></div>"
 		)
 
 	# Classic: the logo on the left, the company on the right, a line under both.
@@ -234,6 +246,29 @@ def draw(raw, details: dict | None = None) -> str:
 		f'<div style="display:table-cell;vertical-align:middle;text-align:right;{small}color:#374151">{right}</div>'
 		f'</div><div style="height:2px;background:{colour};margin-top:12px;{EXACT}"></div>'
 	)
+
+
+#: Lucide, as frappe ships it to the desk.
+SPRITE = ("frappe", "public", "icons", "lucide", "icons.svg")
+
+
+def _icon(name: str, colour: str) -> str:
+	"""One of frappe's Lucide icons, in the colour, as a picture a printed page
+	may carry: an inline image, since a letter head holds no markup but HTML's."""
+	import base64
+
+	sprite = frappe.cache.get_value("one_lucide_sprite") or ""
+	if not sprite:
+		with open(frappe.get_app_path(*SPRITE)) as held:
+			sprite = held.read()
+		frappe.cache.set_value("one_lucide_sprite", sprite)
+	found = re.search(rf'<symbol[^>]*id="icon-{re.escape(name)}"[^>]*>(.*?)</symbol>', sprite, re.S)
+	drawn = (
+		'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" '
+		f'stroke="{colour}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+		f"{found.group(1) if found else ''}</svg>"
+	)
+	return "data:image/svg+xml;base64," + base64.b64encode(drawn.encode()).decode()
 
 
 def _ratio(url: str) -> float | None:

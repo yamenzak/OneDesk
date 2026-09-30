@@ -35,6 +35,7 @@ import frappe
 from frappe import _
 from frappe.printing.doctype.print_format.classic_converter import DEFAULT_PRINT_HEADING
 from frappe.utils import flt, is_image
+from frappe.utils.html_utils import sanitize_html
 
 from onedesk.one import layer, print_html, roles
 from onedesk.one.customize import REFUSED_MODULES
@@ -299,6 +300,11 @@ def validate_letter_head(doc, method=None) -> None:
 	letter_heads.apply(doc)
 	_stored_images(doc)
 	if not layer.held():
+		# The top is filtered here rather than by frappe's XSS filter, which takes out
+		# an inline picture (letter_heads draws its icons as one): a drawn top is
+		# ours and escaped, and any other gets frappe's own filter.
+		if doc.content and not doc.one_top:
+			doc.content = sanitize_html(doc.content)
 		return
 	# One the workspace did not make, frappe's own or one that runs a script, may be
 	# made the default or turned off, and nothing else.

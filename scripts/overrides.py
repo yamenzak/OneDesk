@@ -172,6 +172,13 @@ OVERRIDES = [
 		'df.get("ignore_xss_filter")',
 	),
 	(
+		"A letter head's top is filtered by One, not by frappe's XSS filter",
+		"frappe's XSS filter takes an inline picture out of HTML, and a drawn top's icons are inline pictures; Letter Head's content carries ignore_xss_filter, and validate_letter_head filters it instead: print_html.clean for the workspace, frappe's own sanitize_html for any top not drawn by letter_heads",
+		"onedesk/one/custom/letter_head.json",
+		"frappe/frappe/model/base_document.py",
+		'df.get("ignore_xss_filter")',
+	),
+	(
 		"A letter head's top is drawn from the company, as ERPNext's own reads it",
 		"ERPNext's Company Letterhead reads the logo, name, address and contacts as the page prints; a workspace's letter head may hold no template, so letter_heads.py draws its top from a preset whenever the letter head, the Company or its address is saved",
 		"onedesk/one/letter_heads.py",

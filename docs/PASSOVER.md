@@ -4271,8 +4271,11 @@ proportions.
 Then, on the renders: Classic's contacts line wrapped the tax ID, so the tax
 ID now prints on its own line in every preset. Minimal carries the logo
 beside the name. A sixth preset, **Logo and Details**, puts the logo on the
-left and the company one line at a time on the right, set off by a bar in
-the Brand Colour.
+left and the company in two columns beside it, where it is and how to reach
+it, each line after one of frappe's Lucide icons in the Brand Colour. frappe's
+XSS filter takes inline pictures out of a letter head's top, so the top is
+filtered in `validate_letter_head` instead: a drawn top is ours and escaped,
+any other gets frappe's own `sanitize_html`.
 
 ## OneLegal
 
