@@ -4277,7 +4277,11 @@ XSS filter takes inline pictures out of a letter head's top, so the top is
 filtered in `validate_letter_head` instead: a drawn top is ours and escaped,
 any other gets frappe's own `sanitize_html`. The other presets that show details (Classic,
 Centred, Banner, Minimal) carry the same icons inline, the contacts kept whole
-each on one line; Logo Only shows none.
+each on one line; Logo Only shows none. Logo and Details was then drawn again: the logo with
+the name and the address under the name beside it, and the contacts and tax
+ID on the right. The Brand Line, the line in the colour under the top, is a
+tick in the letter head window (`one_top.line`) and every preset leaves it out
+when it is off.
 
 ## OneLegal
 

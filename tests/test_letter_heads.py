@@ -76,3 +76,10 @@ def test_the_top_is_still_filtered():
 	validate = printing.split("def validate_letter_head(", 1)[1].split("\ndef ", 1)[0]
 	assert "sanitize_html(doc.content)" in validate and "not doc.one_top" in validate
 	assert "print_html.letter_head_html(doc.content" in validate
+
+
+def test_the_brand_line_may_be_left_out_of_every_preset():
+	assert '"line":' in _body("settings")
+	draw = _body("draw")
+	assert 'said["line"]' in draw
+	assert draw.count("rule") >= 6  # its definition, and every preset but Minimal, whose line is its border

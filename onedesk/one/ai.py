@@ -1687,7 +1687,7 @@ def change_printing(
 		"A letter head to make or change: {name} of an existing one, or {new_name} for a new one; {preset}, "
 		"one of classic, centred, banner, minimal, details or logo, to draw its top from the company's details in "
 		"Workspace > General (with {show}, a list of name, address, phone, email, website, tax_id, and "
-		"{logo_height} in pixels), which is what to suggest first; or {logo}, "
+		"{logo_height} in pixels, and {line} 0 to leave out the line in the Brand Colour under it), which is what to suggest first; or {logo}, "
 		"'company' for the logo Workspace > General keeps or a file URL the workspace already has; or "
 		"{top_html} and {foot_html}, the top and foot of the page written in plain HTML with inline styles "
 		"(no template tags, no scripts, pictures only from this workspace's files), from the company's "
@@ -1751,7 +1751,7 @@ def change_printing(
 				summary.append({"label": _("New Letter Head"), "value": head["letter_head_name"]})
 			if preset:
 				head["one_top"] = letter_heads.settings(
-					{key: letter_head.get(key) for key in ("preset", "show", "logo_height", "align")}
+					{key: letter_head.get(key) for key in ("preset", "show", "logo_height", "align", "line") if key in letter_head}
 				)
 				head["source"] = "HTML"
 				head["content"] = letter_heads.draw(head["one_top"])

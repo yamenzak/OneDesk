@@ -1598,6 +1598,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 							},
 							{ fieldtype: "Int", fieldname: "logo_height", label: __("Logo Height"), description: __("In pixels."), default: (kept && kept.logo_height) || 60, change: () => drawn() },
 							{ fieldtype: "Column Break" },
+							{ fieldtype: "Check", fieldname: "line", label: __("Brand Line"), description: __("A line in the Brand Colour under the top."), default: kept && kept.line === 0 ? 0 : 1, change: () => drawn() },
 							{ fieldtype: "Select", fieldname: "align", label: __("Logo Sits"), options: [{ value: "left", label: __("Left") }, { value: "center", label: __("Centre") }, { value: "right", label: __("Right") }], default: (kept && kept.align) || "left", change: () => drawn() },
 							{ fieldtype: "HTML", fieldname: "from_general", options: `<p class="text-muted small">${esc(__("The name, logo, address, contacts and colour come from Workspace › General, and the top is drawn again whenever they change there."))}</p>` },
 							{ fieldtype: "Section Break" },
@@ -1627,6 +1628,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			show: dialog.get_value("show") || [],
 			logo_height: dialog.get_value("logo_height"),
 			align: dialog.get_value("align"),
+			line: dialog.get_value("line") ? 1 : 0,
 		});
 		const show_preview = (top) => {
 			const field = dialog.get_field("preview");

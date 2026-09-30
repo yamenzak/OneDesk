@@ -67,6 +67,8 @@ def settings(raw) -> dict:
 		"preset": preset,
 		"show": shown,
 		"logo_height": min(max(cint(said.get("logo_height")) or 60, 24), 160),
+		# The line in the Brand Colour under the top, which every preset may leave out.
+		"line": 1 if cint(said.get("line", 1)) else 0,
 		"align": (said.get("align") or "left").lower()
 		if (said.get("align") or "").lower() in ("left", "center", "right")
 		else "left",
@@ -128,6 +130,9 @@ def draw(raw, details: dict | None = None) -> str:
 	# The tax ID on a line of its own: beside the contacts it wraps.
 	tax = f"{e(_('Tax ID'))} {e(details['tax_id'])}" if "tax_id" in shown and details.get("tax_id") else ""
 	small = f"font-size:11px;line-height:1.5;color:{MUTED};"
+	rule = (
+		f'<div style="height:2px;background:{colour};margin-top:12px;{EXACT}"></div>' if said["line"] else ""
+	)
 
 	# Each detail after its icon in the colour: the contacts on one line, kept
 	# whole each, the address and the tax ID each on theirs.
@@ -149,7 +154,7 @@ def draw(raw, details: dict | None = None) -> str:
 
 	preset = said["preset"]
 	if preset == "logo":
-		return f'<div style="text-align:{said["align"]}">{logo()}</div>'
+		return f'<div style="text-align:{said["align"]}">{logo()}</div>{rule}'
 
 	if preset == "centred":
 		return (
@@ -163,7 +168,8 @@ def draw(raw, details: dict | None = None) -> str:
 			+ (f'<div style="{small}">{where}</div>' if where else "")
 			+ (f'<div style="{small}">{reach}</div>' if reach else "")
 			+ (f'<div style="{small}">{taxed}</div>' if taxed else "")
-			+ f'</div><div style="height:2px;background:{colour};margin-top:12px;{EXACT}"></div>'
+			+ "</div>"
+			+ rule
 		)
 
 	if preset == "banner":
@@ -186,6 +192,7 @@ def draw(raw, details: dict | None = None) -> str:
 				if reach or taxed
 				else ""
 			)
+			+ rule
 		)
 
 	if preset == "minimal":
@@ -196,7 +203,7 @@ def draw(raw, details: dict | None = None) -> str:
 			else ""
 		)
 		return (
-			f'<div style="display:table;width:100%;border-bottom:2px solid {colour}">'
+			f'<div style="display:table;width:100%;{f"border-bottom:2px solid {colour}" if said["line"] else ""}">'
 			'<div style="display:table-cell;vertical-align:bottom;text-align:left;padding-bottom:8px">'
 			+ mark
 			+ (
@@ -211,39 +218,41 @@ def draw(raw, details: dict | None = None) -> str:
 		)
 
 	if preset == "details":
-		# The logo on the left; the company across the rest, in two columns: where
-		# it is, and how to reach it, each line after its icon in the colour.
-		def line(icon: str, text: str) -> str:
+		# The logo, and beside it the name with the address under it; how to reach
+		# the company on the right, each line after its icon.
+		def line(glyph: str, text: str) -> str:
 			return (
-				'<div style="display:table;margin-bottom:4px">'
-				'<div style="display:table-cell;width:18px;vertical-align:top;padding-top:2px">'
-				f'<img src="{_icon(icon, colour)}" alt="" style="width:12px;height:12px;display:block">'
-				f'</div><div style="display:table-cell;vertical-align:top">{text}</div></div>'
+				'<div style="display:table;margin-bottom:3px">'
+				'<div style="display:table-cell;width:17px;vertical-align:top;padding-top:2px">'
+				f'<img src="{_icon(glyph, colour)}" alt="" style="width:11px;height:11px;display:block">'
+				f'</div><div style="display:table-cell;vertical-align:top;white-space:nowrap">{text}</div></div>'
 			)
 
-		where = line("map-pin", "<br>".join(address)) if address else ""
-		reach = "".join(
-			line(icon, e(details.get(key))) for key, icon in CONTACTS if key in shown and details.get(key)
+		reached = "".join(
+			line(glyph, e(details.get(key))) for key, glyph in CONTACTS if key in shown and details.get(key)
 		) + (line("receipt", tax) if tax else "")
-		columns = [one for one in (where, reach) if one]
-		left = logo() or (
-			f'<div style="font-size:20px;font-weight:700;color:{colour}">{name}</div>' if name else ""
-		)
+		held = (
+			f'<div style="font-size:18px;font-weight:700;color:{colour}">{name}</div>' if name else ""
+		) + (f'<div style="{small}color:#374151;margin-top:2px">{where}</div>' if where else "")
 		return (
 			'<div style="display:table;width:100%">'
-			f'<div style="display:table-cell;vertical-align:middle;text-align:left;width:35%">{left}</div>'
-			'<div style="display:table-cell;vertical-align:middle">'
+			'<div style="display:table-cell;vertical-align:middle;text-align:left">'
+			'<div style="display:table">'
 			+ (
-				f'<div style="font-size:15px;font-weight:700;color:{colour};margin-bottom:6px">{name}</div>'
-				if name and details.get("logo")
+				f'<div style="display:table-cell;vertical-align:middle;padding-right:12px">{logo()}</div>'
+				if details.get("logo")
 				else ""
 			)
-			+ '<div style="display:table;width:100%">'
-			+ "".join(
-				f'<div style="display:table-cell;vertical-align:top;width:50%;padding-right:12px;{small}color:#374151">{one}</div>'
-				for one in columns
+			+ f'<div style="display:table-cell;vertical-align:middle">{held}</div>'
+			"</div></div>"
+			+ (
+				'<div style="display:table-cell;vertical-align:middle;text-align:right">'
+				f'<div style="display:inline-table;text-align:left;{small}color:#374151">{reached}</div></div>'
+				if reached
+				else ""
 			)
-			+ "</div></div></div>"
+			+ "</div>"
+			+ rule
 		)
 
 	# Classic: the logo on the left, the company on the right, a line under both.
@@ -264,7 +273,7 @@ def draw(raw, details: dict | None = None) -> str:
 		'<div style="display:table;width:100%">'
 		f'<div style="display:table-cell;vertical-align:middle;text-align:left;width:50%">{left}</div>'
 		f'<div style="display:table-cell;vertical-align:middle;text-align:right;{small}color:#374151">{right}</div>'
-		f'</div><div style="height:2px;background:{colour};margin-top:12px;{EXACT}"></div>'
+		"</div>" + rule
 	)
 
 
