@@ -356,6 +356,16 @@ read from that document; and a zero tax is how a receipt without VAT reads.
 What still waits is mostly what no approval fixes: somebody without
 permission to post to an account, a currency without an exchange rate.
 
+## Fields your workspace requires
+
+A record OneAI makes from a document is filled with what it knows that kind of
+record by: a task's subject and dates, a bill's supplier and lines. When your
+workspace requires more, a field made required on the Customize page, or a
+kind named by one of its fields or by a name somebody types (**Numbering**),
+OneAI reads the document again for exactly those, before the record is saved.
+What the document does not say is left empty, and the record then waits for
+you rather than being made with a guess.
+
 ## What OneAI did, and taking it back
 
 The panel beside a document ends with **What OneAI did**: made this record,

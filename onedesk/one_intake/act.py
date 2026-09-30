@@ -199,7 +199,7 @@ def apply(action: Action, reading) -> str | None:
 		frappe.db.savepoint("one_intake_act")
 		try:
 			with as_oneai(person if action.as_person else None):
-				done = _write(action, before)
+				done = _write(action, before, reading.name)
 		except Exception as raised:
 			frappe.db.rollback(save_point="one_intake_act")
 			frappe.clear_messages()
@@ -299,7 +299,15 @@ def _before(action: Action) -> dict:
 	return {}
 
 
-def _write(action: Action, before: dict) -> dict:
+def _write(action: Action, before: dict, reading: str | None = None) -> dict:
+	"""The write itself. A new record is made with what the document can still
+	tell it: whatever its kind requires that the planner did not fill, and its
+	name when a person would otherwise type one (fill.py)."""
+	if action.kind == "Create" and reading:
+		from onedesk.one_intake import fill
+
+		with fill.filling(reading, action.doctype):
+			return WRITES[action.kind](action, before)
 	return WRITES[action.kind](action, before)
 
 
@@ -484,7 +492,7 @@ def settle(action: str, take: int = 1) -> dict:
 	before = _before(planned)
 	frappe.flags.one_intake_writing = True
 	try:
-		done = _write(planned, before)
+		done = _write(planned, before, row.reading)
 	finally:
 		frappe.flags.one_intake_writing = False
 	_settled(row, before, done, frappe.session.user)
@@ -532,7 +540,7 @@ def settle_for(row, take: bool, why: str) -> str:
 	frappe.db.savepoint("one_intake_audit")
 	try:
 		with as_oneai(row.on_behalf_of if planned.as_person else None):
-			done = _write(planned, before)
+			done = _write(planned, before, row.reading)
 	except Exception as raised:
 		frappe.db.rollback(save_point="one_intake_audit")
 		frappe.clear_messages()

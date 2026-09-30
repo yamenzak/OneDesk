@@ -102,6 +102,20 @@ OVERRIDES = [
 		"def validate_fields_in_conditions(self):",
 	),
 	(
+		"Intake fills a new record's name before frappe names it",
+		"one_intake/fill.py's before_insert hook sets __newname or the naming field, which works because frappe's insert runs before_insert immediately before set_new_name",
+		"onedesk/one_intake/fill.py",
+		"frappe/frappe/model/document.py",
+		'self.run_method("before_insert")',
+	),
+	(
+		"A typed name is given as __newname",
+		"one_ai/kind.py names a kind whose autoname is prompt as needing __newname, and OneAI's cards and Intake set it; frappe's set_new_name reads it only for prompt",
+		"onedesk/one_ai/kind.py",
+		"frappe/frappe/model/document.py",
+		'if self.get("__newname") and autoname.lower() == "prompt":',
+	),
+	(
 		"The Settings dialog gains an Automations tab beside Approvals",
 		"frappe's dialog has no tab for Automation Flow; doctype_settings.js registers one and adds it to the group that holds frappe's Workflow tab",
 		"onedesk/public/js/doctype_settings.js",

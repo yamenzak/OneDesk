@@ -21,6 +21,10 @@ import pytest
 ROOT = Path(__file__).resolve().parent.parent / "onedesk"
 APPS = Path("/home/frappe/bench1/apps")
 
+#: Modules that ask OneAI for whatever a record they make still needs, its
+#: name included (one_intake/fill.py), so any naming holds for them.
+FILLS = ("one_intake",)
+
 #: The three ways the app builds a record of a named kind.
 MADE = re.compile(r'(?:get_doc\(\s*\{\s*"doctype":\s*"|new_doc\("|"doctype":\s*")([A-Z][A-Za-z ]+)"')
 
@@ -67,7 +71,7 @@ def _made(upstream: dict) -> dict:
 	made = {}
 	for path in ROOT.rglob("*.py"):
 		parts = path.relative_to(ROOT).parts
-		if len(parts) < 2 or parts[0] in ("tests", "patches") or path.name.startswith("test_"):
+		if len(parts) < 2 or parts[0] in ("tests", "patches", *FILLS) or path.name.startswith("test_"):
 			continue
 		for kind in MADE.findall(path.read_text()):
 			meta = upstream.get(kind)

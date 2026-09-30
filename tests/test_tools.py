@@ -236,14 +236,17 @@ def test_a_new_record_is_tried_before_it_becomes_a_card():
 	proposals = (tree.APP / "one_ai" / "proposals.py").read_text()
 	propose = proposals.split("def propose(", 1)[1].split("\ndef ", 1)[0]
 	assert "_ready(doctype, changes)" in propose
-	ready = proposals.split("def _ready(", 1)[1].split("\ndef ", 1)[0]
-	for step in ("get_invalid_links(", 'run_method("validate")', "_get_missing_mandatory_fields(", "rollback(save_point="):
+	assert "kind.ready(doctype, changes)" in proposals.split("def _ready(", 1)[1].split("\ndef ", 1)[0]
+	kind = (tree.APP / "one_ai" / "kind.py").read_text()
+	ready = kind.split("def ready(", 1)[1].split("\ndef ", 1)[0]
+	for step in ("get_invalid_links(", 'run_method("validate")', "missing(doc)", "rollback(save_point="):
 		assert step in ready, step
+	assert "_get_missing_mandatory_fields(" in kind.split("def missing(", 1)[1].split("\ndef ", 1)[0]
 	assert ready.index("savepoint(") < ready.index('run_method("validate")') < ready.index("rollback(")
 
 
 def test_describing_a_type_says_what_is_required_and_what_the_system_fills():
-	said = (tree.APP / "one_ai" / "tools.py").read_text().split("def _fields(", 1)[1].split("\ndef ", 1)[0]
+	said = (tree.APP / "one_ai" / "kind.py").read_text().split("def fields(", 1)[1].split("\ndef ", 1)[0]
 	for key in ('"required"', '"required_when"', '"filled_by_the_system"', '"options"', '"rows"', "f.hidden"):
 		assert key in said, key
 

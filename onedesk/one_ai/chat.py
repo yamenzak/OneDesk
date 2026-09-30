@@ -336,6 +336,8 @@ def _suggests(row: dict) -> dict:
 
 	meta = frappe.get_meta(doctype) if doctype and frappe.db.exists("DocType", doctype) else None
 	labels = {field.fieldname: field.label or field.fieldname for field in (meta.fields if meta else [])}
+	# A name typed for a kind whose name a person types (one_ai/kind.py), first.
+	labels = {"__newname": "Name", **labels}
 	known = {field.fieldname: field for field in (meta.fields if meta else [])}
 	# In the form's own order: stored JSON comes back alphabetical, which put
 	# "Asked For On" on the card and pushed "To Date" off it.
@@ -900,7 +902,7 @@ def _fields_said(doctype: str) -> str:
 	whose field is "date"."""
 	if not frappe.db.exists("DocType", doctype) or not frappe.has_permission(doctype, "read"):
 		return ""
-	from onedesk.one_ai.proposals import fields_of
+	from onedesk.one_ai.kind import fields_of
 
 	return f" {doctype}'s fields: {', '.join(fields_of(frappe.get_meta(doctype), most=40))}."
 

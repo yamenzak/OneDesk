@@ -273,6 +273,9 @@ doc_events = {
 	# hrms counts milestones by letting an insert fail, and the message outlives
 	# the savepoint. See one/quiet.py.
 	"*": {
+		# What a record Intake makes still needs, from the document. See one_intake/fill.py.
+		"before_insert": "onedesk.one_intake.fill.before_insert",
+		"before_save": "onedesk.one_intake.fill.before_save",
 		"on_submit": [
 			"onedesk.one.quiet.milestone",
 			"onedesk.one_intake.mark.looked_at",
@@ -772,7 +775,8 @@ code_only_modules = {"One AI": ["One"], "One Legal": ["One"]}
 # What OneAI can do in each module, owned by the module. Reads run as the
 # person asking; suggests write a card. Suggestions are what the panel offers
 # when it opens on a page. See one_ai/tools.py and one_ai/suggest.py.
-# Kinds of record a module's code makes without a name; Numbering keeps them nameable by it.
+# Kinds of record a module's code makes without a name or a model to ask; Numbering keeps them
+# nameable by it. Intake is not here: it asks OneAI for what is missing (one_intake/fill.py).
 one_makes_records = {
 	"Account": ["one", "one_admin", "one_book"],
 	"Address": ["one_book"],
@@ -785,12 +789,10 @@ one_makes_records = {
 	"Attendance Request": ["one_hr"],
 	"Bank": ["one_book"],
 	"Bank Account": ["one_book"],
-	"Bank Transaction": ["one_intake"],
 	"Call Log": ["one_crm"],
 	"Contact": ["one_admin", "one_calendar"],
-	"Contract": ["one_intake"],
 	"Customer": ["one_admin", "one_book", "one_crm"],
-	"Employee": ["one_hr", "one_intake"],
+	"Employee": ["one_hr"],
 	"Employee Checkin": ["one_hr"],
 	"Employee Performance Feedback": ["one_hr"],
 	"Employee Promotion": ["one_hr"],
@@ -824,7 +826,7 @@ one_makes_records = {
 	"Project Template": ["one_project"],
 	"Project Type": ["one_hr"],
 	"Project Update": ["one_project"],
-	"Purchase Invoice": ["one", "one_intake"],
+	"Purchase Invoice": ["one"],
 	"Purchase Order": ["one_inventory"],
 	"Salary Slip": ["one_hr"],
 	"Sales Invoice": ["one_admin", "one_project"],
@@ -832,7 +834,7 @@ one_makes_records = {
 	"Shift Request": ["one_hr"],
 	"Shift Type": ["one", "one_hr"],
 	"Supplier": ["one", "one_book"],
-	"Task": ["one_intake", "one_project", "one_task"],
+	"Task": ["one_project", "one_task"],
 	"Timesheet": ["one_task"],
 	"UAE VAT Settings": ["one_book"],
 	"Vehicle Log": ["one_hr"],

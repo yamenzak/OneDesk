@@ -31,7 +31,7 @@ from typing import Annotated
 import frappe
 from frappe.utils import strip_html_tags
 
-from onedesk.one_ai import guide, memory, proposals, schema
+from onedesk.one_ai import guide, kind, memory, proposals, schema
 
 #: Fieldtypes never handed to a model, whatever the caller may see. A password
 #: is a credential rather than a fact about a record, and a model that can read
@@ -100,7 +100,7 @@ def _known(doctype: str, filters=None, fields=None, order_by: str | None = None)
 	unknown = [one for one in named if not meta.has_field(one) and one not in frappe.model.default_fields]
 	if unknown:
 		frappe.throw(
-			f"{doctype} has no field {', '.join(unknown)}. Its fields: {', '.join(proposals.fields_of(meta))}, "
+			f"{doctype} has no field {', '.join(unknown)}. Its fields: {', '.join(kind.fields_of(meta))}, "
 			"plus name, owner, creation and modified."
 		)
 	# A link filtered on a record that does not exist matches nothing, and an
@@ -188,45 +188,10 @@ def describe_type(
 		frappe.throw(
 			frappe._("You may not read {0}.").format(doctype), frappe.PermissionError
 		)
-	return {"doctype": doctype, "fields": _fields(frappe.get_meta(doctype))}
+	return kind.describe(doctype)
 
 
 LAYOUT = proposals.LAYOUT
-
-
-def _fields(meta, depth: int = 0) -> list[dict]:
-	"""A type's fields as a model needs them to fill a form in.
-
-	Hidden fields are left out — that is how a workspace takes a field away,
-	Company among them — and so is anything the reader may not see. A field
-	the system fills (read only, or fetched from a link) is said to be, so the
-	model neither asks for it nor invents it.
-	"""
-	said = []
-	for f in meta.fields:
-		if f.fieldtype in LAYOUT or f.fieldtype in NEVER_READ or f.hidden:
-			continue
-		one = {"fieldname": f.fieldname, "label": f.label, "fieldtype": f.fieldtype}
-		if f.reqd:
-			one["required"] = True
-		if f.mandatory_depends_on:
-			one["required_when"] = f.mandatory_depends_on
-		if f.depends_on:
-			one["shown_when"] = f.depends_on
-		if f.read_only or f.fetch_from:
-			one["filled_by_the_system"] = True
-		if f.default not in (None, ""):
-			one["default"] = f.default
-		if f.fieldtype == "Select":
-			one["options"] = [o for o in (f.options or "").split("\n") if o]
-		elif f.fieldtype in ("Link", "Dynamic Link"):
-			one["links_to"] = f.options
-		elif f.fieldtype in frappe.model.table_fields and depth == 0:
-			one["rows"] = _fields(frappe.get_meta(f.options), depth + 1)
-		if f.description:
-			one["description"] = strip_html_tags(f.description)[:200]
-		said.append(one)
-	return said
 
 
 # ------------------------------------------------------ what it may only suggest
@@ -293,7 +258,7 @@ def about_field(
 		match = _meant(fieldname or "", [f.label for f in labels])
 		df = next((f for f in labels if f.label == match), None)
 	if not df:
-		frappe.throw(f"{doctype} has no field {fieldname!r}. Its fields: {', '.join(proposals.fields_of(meta))}.")
+		frappe.throw(f"{doctype} has no field {fieldname!r}. Its fields: {', '.join(kind.fields_of(meta))}.")
 	record = doctype if meta.issingle else name
 	held = frappe.get_doc(doctype, record) if record else None
 	if held:
@@ -320,7 +285,7 @@ def about_field(
 			"some": there[:10],
 			# What a new one needs, so a field pointing at nothing can be
 			# set up by suggesting the record first.
-			"a_new_one_needs": [f for f in proposals.fields_of(frappe.get_meta(df.options), most=40) if "required" in f],
+			"a_new_one_needs": [f for f in kind.fields_of(frappe.get_meta(df.options), most=40) if "required" in f],
 		}
 	return said
 
@@ -397,14 +362,14 @@ def what_links_here(
 
 	found = linked(doctype=doctype, docname=name) or {}
 	said = {}
-	for kind, rows in found.items():
+	for linked_type, rows in found.items():
 		# v17 answers {"docs": [...], "hidden_count": n} per type — n being the
 		# ones the reader may not see, said as a number and never as names.
 		hidden = rows.get("hidden_count", 0) if isinstance(rows, dict) else 0
 		rows = rows.get("docs", []) if isinstance(rows, dict) else rows
 		names = [row.get("name") for row in rows or [] if isinstance(row, dict)][:MOST_LINKS]
 		if names or hidden:
-			said[kind] = {"names": names, "not_visible_to_the_reader": hidden} if hidden else names
+			said[linked_type] = {"names": names, "not_visible_to_the_reader": hidden} if hidden else names
 	return said
 
 

@@ -4146,6 +4146,19 @@ shows the name the rule would give next, as frappe's Document Naming Rule makes
 it, or what is wrong with the prefix. DESK-COVERAGE's stage 2 says what is
 built.
 
+Then, on your word, one reading of a kind for everything that fills one in.
+`one_ai/kind.py` is it: `describe` (every field, its type, choices, links,
+required, unique, and how a new one is named), `fields_of`, `missing` (frappe's
+required fields plus the name where the kind is named by a field or typed) and
+`ready` (frappe's own checks, rolled back). OneAI's cards, its describe_type
+tool and its messages read it; a card now knows a typed name (`__newname`).
+Intake uses it at the save: while Intake makes a record, `one_intake/fill.py`
+asks OneAI (`intake_fill`) for the name before frappe names it and for every
+required field still empty after validate, from the document only; what the
+document does not say stays empty and the record waits for a person. So a
+required field added on Customize no longer breaks Intake, and Intake is off
+`one_makes_records`: the list is now only code that has no model to ask.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

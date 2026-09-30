@@ -498,9 +498,11 @@ its name, with the framework's own choices:
   kind with no series of its own. The window shows the name it would give next
   as it is typed, and **Use This Expression** takes it.
 - **Set by User**: whoever makes the record types its name. Not offered on a
-  kind One makes itself (a task Intake writes, an expense claim OneHR files),
-  since nobody is there to type it; such a kind is named by a field only when
-  the field is one that is always filled.
+  kind One makes itself in the background (an expense claim OneHR files, a
+  timesheet the timer keeps), since nobody is there to type it; such a kind is
+  named by a field only when the field is one that is always filled. What
+  OneAI makes from a document is not held back this way: it reads the name, or
+  the field, from the document.
 - **Random**: a name nobody reads, for records nobody refers to by name.
 
 A **Customer**, **Supplier**, **Item**, **Employee** or **Campaign** names

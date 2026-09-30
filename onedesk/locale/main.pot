@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-09-30 10:30+0000\n"
-"PO-Revision-Date: 2026-09-30 10:30+0000\n"
+"POT-Creation-Date: 2026-09-30 10:55+0000\n"
+"PO-Revision-Date: 2026-09-30 10:55+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -614,7 +614,7 @@ msgstr ""
 msgid "A repeating event is moved from its own page, for all its times at once."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:539 onedesk/public/js/oneai/Record.vue:147
+#: onedesk/one_ai/proposals.py:466 onedesk/public/js/oneai/Record.vue:147
 msgid "A reply to {0}"
 msgstr ""
 
@@ -763,7 +763,7 @@ msgstr ""
 msgid "A {0} does not carry {1}."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:445
+#: onedesk/one_ai/proposals.py:372
 msgid "A {0} has to name a record."
 msgstr ""
 
@@ -3110,7 +3110,7 @@ msgstr ""
 msgid "Change {0}"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:546
+#: onedesk/one_ai/proposals.py:473
 msgid "Change {0} on {1}"
 msgstr ""
 
@@ -4034,7 +4034,7 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:529
+#: onedesk/one_ai/proposals.py:456
 msgid "Create a {0}"
 msgstr ""
 
@@ -4259,7 +4259,7 @@ msgstr ""
 msgid "Customize"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:531 onedesk/public/js/oneai/Record.vue:143
+#: onedesk/one_ai/proposals.py:458 onedesk/public/js/oneai/Record.vue:143
 msgid "Customize {0}"
 msgstr ""
 
@@ -4651,7 +4651,7 @@ msgstr ""
 msgid "Delete this rule?"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:541 onedesk/public/js/oneai/Record.vue:142
+#: onedesk/one_ai/proposals.py:468 onedesk/public/js/oneai/Record.vue:142
 msgid "Delete {0}"
 msgstr ""
 
@@ -7143,7 +7143,7 @@ msgstr ""
 msgid "Holidays Run Out Soon"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:535 onedesk/public/js/oneai/Record.vue:145
+#: onedesk/one_ai/proposals.py:462 onedesk/public/js/oneai/Record.vue:145
 msgid "Holidays in {0}"
 msgstr ""
 
@@ -7410,11 +7410,11 @@ msgstr ""
 msgid "How you sign in to One, and every place you are signed in now."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:172
+#: onedesk/one_ai/proposals.py:173
 msgid "How {0} is numbered has changed since this was suggested, so it no longer applies."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:129
+#: onedesk/one_ai/proposals.py:130
 msgid "How {0} looks has changed since this was suggested, so it no longer applies."
 msgstr ""
 
@@ -10468,7 +10468,7 @@ msgstr ""
 msgid "Next: {0}"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:632 onedesk/public/js/onecloud.js:702
+#: onedesk/one_ai/chat.py:634 onedesk/public/js/onecloud.js:702
 msgid "No"
 msgstr ""
 
@@ -10881,7 +10881,7 @@ msgstr ""
 msgid "Not allowed"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:421 onedesk/one_ai/chat.py:424
+#: onedesk/one_ai/chat.py:423 onedesk/one_ai/chat.py:426
 msgid "Not answered"
 msgstr ""
 
@@ -11239,7 +11239,7 @@ msgstr ""
 msgid "Numbering"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:537 onedesk/public/js/oneai/Record.vue:146
+#: onedesk/one_ai/proposals.py:464 onedesk/public/js/oneai/Record.vue:146
 msgid "Numbering of {0}"
 msgstr ""
 
@@ -11267,7 +11267,7 @@ msgstr ""
 msgid "Of Whom"
 msgstr ""
 
-#: onedesk/one/settings.py:834 onedesk/one_ai/chat.py:631
+#: onedesk/one/settings.py:834 onedesk/one_ai/chat.py:633
 #: onedesk/public/js/doctype_settings.js:260
 #: onedesk/public/js/doctype_settings.js:722
 #: onedesk/public/js/doctype_settings.js:762 onedesk/public/js/settings.js:460
@@ -11337,7 +11337,7 @@ msgstr ""
 msgid "Offerings"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:631 onedesk/public/js/doctype_settings.js:176
+#: onedesk/one_ai/chat.py:633 onedesk/public/js/doctype_settings.js:176
 #: onedesk/public/js/doctype_settings.js:218 onedesk/public/js/settings.js:460
 #: onedesk/public/js/settings.js:1457 onedesk/public/js/settings.js:2350
 #: onedesk/public/js/settings.js:2414
@@ -11645,7 +11645,7 @@ msgstr ""
 msgid "OneAI cannot answer"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:420
+#: onedesk/one_ai/chat.py:422
 msgid "OneAI could not be reached just now. The question is still here — try again."
 msgstr ""
 
@@ -12077,7 +12077,7 @@ msgstr ""
 msgid "Only {0}"
 msgstr ""
 
-#: onedesk/one_intake/act.py:463
+#: onedesk/one_intake/act.py:471
 msgid "Only {0} or an administrator of this workspace can decide this."
 msgstr ""
 
@@ -15697,7 +15697,7 @@ msgstr ""
 msgid "Signature"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:533 onedesk/public/js/oneai/Record.vue:144
+#: onedesk/one_ai/proposals.py:460 onedesk/public/js/oneai/Record.vue:144
 #: onedesk/public/js/onemail.js:911
 msgid "Signature for {0}"
 msgstr ""
@@ -16455,7 +16455,7 @@ msgstr ""
 msgid "Suggested a change to {0}"
 msgstr ""
 
-#: onedesk/one_ai/tools.py:573 onedesk/one_hr/ai.py:351
+#: onedesk/one_ai/tools.py:538 onedesk/one_hr/ai.py:351
 msgid "Suggested. It happens when somebody approves it."
 msgstr ""
 
@@ -18280,7 +18280,7 @@ msgstr ""
 msgid "This invitation was withdrawn"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:202
+#: onedesk/one_ai/proposals.py:203
 msgid "This is for a document that is not saved yet. Apply it from its form."
 msgstr ""
 
@@ -18288,7 +18288,7 @@ msgstr ""
 msgid "This is for a person to decide."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:201
+#: onedesk/one_ai/proposals.py:202
 msgid "This is for an email being written. Apply it with its email window open."
 msgstr ""
 
@@ -18408,7 +18408,7 @@ msgstr ""
 msgid "This takes a few minutes. We will mail you when it is ready."
 msgstr ""
 
-#: onedesk/one_intake/act.py:474 onedesk/one_intake/act.py:576
+#: onedesk/one_intake/act.py:482 onedesk/one_intake/act.py:584
 msgid "This was already {0}."
 msgstr ""
 
@@ -21345,7 +21345,7 @@ msgstr ""
 msgid "Write your update first."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:545
+#: onedesk/one_ai/proposals.py:472
 msgid "Write {0} on a new {1}"
 msgstr ""
 
@@ -21431,7 +21431,7 @@ msgstr ""
 msgid "Year-end close of {0}"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:632 onedesk/public/js/onecloud.js:702
+#: onedesk/one_ai/chat.py:634 onedesk/public/js/onecloud.js:702
 msgid "Yes"
 msgstr ""
 
@@ -21518,7 +21518,7 @@ msgstr ""
 msgid "You may not add to this folder."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:427
+#: onedesk/one_ai/proposals.py:354
 msgid "You may not change how {0} signs."
 msgstr ""
 
@@ -21526,7 +21526,7 @@ msgstr ""
 msgid "You may not change {0}."
 msgstr ""
 
-#: onedesk/one_intake/act.py:483
+#: onedesk/one_intake/act.py:491
 msgid "You may not do this yourself."
 msgstr ""
 
@@ -21535,15 +21535,15 @@ msgstr ""
 msgid "You may not open {0}."
 msgstr ""
 
-#: onedesk/one_ai/tools.py:396
+#: onedesk/one_ai/tools.py:361
 msgid "You may not read {0} {1}."
 msgstr ""
 
-#: onedesk/one_ai/tools.py:189 onedesk/one_ai/tools.py:372
+#: onedesk/one_ai/tools.py:189 onedesk/one_ai/tools.py:337
 msgid "You may not read {0}."
 msgstr ""
 
-#: onedesk/one_ai/tools.py:457
+#: onedesk/one_ai/tools.py:422
 msgid "You may not run {0}."
 msgstr ""
 
@@ -21551,7 +21551,7 @@ msgstr ""
 msgid "You may not share {0}."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:450
+#: onedesk/one_ai/proposals.py:377
 msgid "You may not {0} {1}."
 msgstr ""
 
@@ -21804,19 +21804,19 @@ msgstr ""
 msgid "a field of the record, such as .{branch}."
 msgstr ""
 
-#: onedesk/one_intake/act.py:618
+#: onedesk/one_intake/act.py:626
 msgid "a person has changed it since"
 msgstr ""
 
-#: onedesk/one_intake/act.py:603
+#: onedesk/one_intake/act.py:611
 msgid "a person has checked it since"
 msgstr ""
 
-#: onedesk/one_intake/act.py:657 onedesk/one_intake/act.py:675
+#: onedesk/one_intake/act.py:665 onedesk/one_intake/act.py:683
 msgid "a person has moved it since"
 msgstr ""
 
-#: onedesk/one_intake/act.py:666
+#: onedesk/one_intake/act.py:674
 msgid "a person has renamed it since"
 msgstr ""
 
@@ -22059,8 +22059,8 @@ msgstr ""
 msgid "invites you to"
 msgstr ""
 
-#: onedesk/one_intake/act.py:605 onedesk/one_intake/act.py:615
-#: onedesk/one_intake/act.py:630
+#: onedesk/one_intake/act.py:613 onedesk/one_intake/act.py:623
+#: onedesk/one_intake/act.py:638
 msgid "it has been submitted"
 msgstr ""
 
@@ -22327,7 +22327,7 @@ msgstr ""
 msgid "since last year"
 msgstr ""
 
-#: onedesk/one_intake/act.py:589
+#: onedesk/one_intake/act.py:597
 msgid "something else uses it now"
 msgstr ""
 
@@ -22880,7 +22880,7 @@ msgstr ""
 msgid "{0} has already joined. Send a password reset instead."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:156 onedesk/one_ai/proposals.py:208
+#: onedesk/one_ai/proposals.py:157 onedesk/one_ai/proposals.py:209
 msgid "{0} has changed since this was suggested, so it no longer applies."
 msgstr ""
 
@@ -23133,7 +23133,7 @@ msgstr ""
 msgid "{0} is not a template for {1}."
 msgstr ""
 
-#: onedesk/one_ai/tools.py:546
+#: onedesk/one_ai/tools.py:511
 msgid "{0} is not a tool."
 msgstr ""
 
@@ -23201,7 +23201,7 @@ msgstr ""
 msgid "{0} is not something done to {1}."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:436
+#: onedesk/one_ai/proposals.py:363
 msgid "{0} is not something that can be proposed."
 msgstr ""
 
@@ -23413,7 +23413,7 @@ msgstr ""
 msgid "{0} on the odometer since the last log."
 msgstr ""
 
-#: onedesk/one/signin.py:54 onedesk/one_ai/proposals.py:543
+#: onedesk/one/signin.py:54 onedesk/one_ai/proposals.py:470
 #: onedesk/public/js/push.js:47 onedesk/public/js/settings.js:1061
 msgid "{0} on {1}"
 msgstr ""
@@ -23550,8 +23550,8 @@ msgstr ""
 msgid "{0} used, no limit"
 msgstr ""
 
-#: onedesk/one_admin/ledger.py:175 onedesk/one_ai/proposals.py:115
-#: onedesk/one_ai/proposals.py:238 onedesk/one_ai/touch.py:211
+#: onedesk/one_admin/ledger.py:175 onedesk/one_ai/proposals.py:116
+#: onedesk/one_ai/proposals.py:239 onedesk/one_ai/touch.py:211
 msgid "{0} was already {1}."
 msgstr ""
 
