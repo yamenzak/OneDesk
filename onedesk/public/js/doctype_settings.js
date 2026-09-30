@@ -272,7 +272,11 @@ onedesk.doctype_settings.adapt = () => {
 			description: __("How a new {0} is named. The first series is the one a new record starts with.", [__(doctype)]),
 			actions: [{ label: __("Add Series"), icon: "plus", click: () => onedesk.numbering.add(doctype, () => list.refresh()) }],
 			render: (p) => {
-				list = onedesk.numbering.list(p.body.empty(), doctype);
+				const $body = p.body.empty();
+				const $by = $('<div class="one-numbering-by"></div>').appendTo($body);
+				list = onedesk.numbering.list($('<div class="one-numbering-series"></div>').appendTo($body), doctype);
+				onedesk.numbering.named_by($by, doctype);
+				onedesk.numbering.rules($('<div class="one-numbering-rules"></div>').appendTo($body), doctype);
 			},
 		});
 	});
@@ -323,7 +327,7 @@ onedesk.numbering.add = (doctype, done) => {
 			},
 			{ fieldtype: "Check", fieldname: "first", label: __("Default"), description: __("A new record starts with this series.") },
 			{ fieldtype: "Section Break", label: __("How a Series Is Written"), collapsible: 1 },
-			{ fieldtype: "HTML", fieldname: "help", options: frappe.ui.NamingSeriesDialog.help_html() },
+			{ fieldtype: "HTML", fieldname: "help", options: onedesk.numbering.help_html() },
 		],
 		primary_action_label: __("Add"),
 		primary_action: async ({ series, first }) => {
@@ -389,7 +393,7 @@ onedesk.numbering.edit = (doctype, row, rows, done) => {
 					: __("The next name continues after this number. It can only go up."),
 			},
 			{ fieldtype: "Section Break", label: __("How a Series Is Written"), collapsible: 1 },
-			{ fieldtype: "HTML", fieldname: "help", options: frappe.ui.NamingSeriesDialog.help_html() },
+			{ fieldtype: "HTML", fieldname: "help", options: onedesk.numbering.help_html() },
 		],
 		primary_action_label: __("Update"),
 		primary_action: async ({ series, current, first }) => {
@@ -506,6 +510,175 @@ frappe.provide("onedesk.approvals");
 onedesk.approvals.create = (doctype = null) => {
 	frappe.route_options = doctype ? { doctype } : null;
 	frappe.set_route("workflow-builder");
+};
+
+// How a series is written, in One's words: every part the series here accept.
+onedesk.numbering.help_html = () => {
+	const part = (code, said) => `<li><code>${code}</code> ${said}</li>`;
+	return `<div class="text-muted small">
+		<p>${__("A series is parts joined by dots. Text stays as written, such as INV- or SO/.")}</p>
+		<ul>
+			${part(".YYYY.", __("the year, 2026"))}
+			${part(".YY.", __("the year's last two digits, 26"))}
+			${part(".MM.", __("the month"))}
+			${part(".DD.", __("the day of the month"))}
+			${part(".JJJ.", __("the day of the year"))}
+			${part(".WW.", __("the week of the year"))}
+			${part(".FY.", __("the fiscal year, and .TFY. its short form"))}
+			${part(".ABBR.", __("the company's abbreviation"))}
+			${part(".{fieldname}.", __("a field of the record, such as .{branch}."))}
+			${part(".#####", __("the number, one # per digit; it starts again whenever the text before it changes"))}
+		</ul>
+		<p>${__("Only letters, digits, spaces and - / _ . # { } are allowed.")}</p>
+		<p>${__("Examples: {0}, {1}, {2}", ["<code>INV-.YYYY.-.#####</code>", "<code>SO/.YY./.####</code>", "<code>INV-.YYYY.-.MM.-.####</code>"])}</p>
+	</div>`;
+};
+
+// How a Customer, Supplier, Item or Employee is named: its app's own setting, changed
+// through one/numbering.py set_naming_by. Nothing is drawn for any other kind.
+onedesk.numbering.named_by = async ($wrapper, doctype) => {
+	const said = await frappe.xcall(onedesk.numbering.API + "naming_by", { doctype });
+	if (!said) return;
+	const control = frappe.ui.form.make_control({
+		parent: $wrapper,
+		df: {
+			fieldtype: "Select",
+			fieldname: "named_by",
+			label: __("Name each new {0} by", [__(doctype)]),
+			options: said.options.map((one) => ({ label: __(one), value: one })),
+			description: __("The series below are used only when it is named by Naming Series. Records already made keep their names."),
+			change() {
+				const value = control.get_value();
+				if (!value || value === said.value) return;
+				frappe.confirm(
+					__("Name each new {0} by {1}? Records already made keep their names.", [__(doctype), __(value)]),
+					async () => {
+						Object.assign(said, await frappe.xcall(onedesk.numbering.API + "set_naming_by", { doctype, value }));
+						frappe.show_alert({ message: __("Naming updated"), indicator: "green" });
+					},
+					() => control.set_value(said.value)
+				);
+			},
+		},
+		render_input: true,
+	});
+	control.set_value(said.value);
+};
+
+// Naming Rules: a record whose fields match is named by the rule's own prefix,
+// before any series. frappe's Document Naming Rule, held by one/numbering.py
+// validate_rule, in frappe's dialog and saved as a desk form saves.
+onedesk.numbering.rules = async ($wrapper, doctype) => {
+	const esc = frappe.utils.escape_html;
+	const draw = async () => {
+		const rows = await frappe.xcall("frappe.client.get_list", {
+			doctype: "Document Naming Rule",
+			filters: { document_type: doctype },
+			fields: ["name", "prefix", "prefix_digits", "priority", "disabled"],
+			order_by: "priority desc",
+			limit_page_length: 0,
+		});
+		const conditions = rows.length
+			? await frappe.xcall("frappe.client.get_list", {
+					doctype: "Document Naming Rule Condition",
+					parent: "Document Naming Rule",
+					filters: { parent: ["in", rows.map((one) => one.name)] },
+					fields: ["parent", "field", "condition", "value"],
+					limit_page_length: 0,
+			  })
+			: [];
+		const when = (name) =>
+			conditions
+				.filter((one) => one.parent === name)
+				.map((one) => `${__(frappe.meta.get_label(doctype, one.field))} ${one.condition} ${one.value}`)
+				.join(", ");
+		$wrapper.empty();
+		const add = $(onedesk.shell.button(__("Add Rule"), {}, "subtle", "plus")).on("click", () => onedesk.numbering.rule(doctype, null, draw));
+		onedesk.shell.table($wrapper, {
+			title: __("Rules"),
+			note: __("A {0} whose fields match a rule is named by the rule's own prefix, before any series.", [__(doctype)]),
+			rows,
+			icon: "list-filter",
+			empty: __("No rules. Every {0} is named by its series.", [__(doctype)]),
+			actions: add,
+			open: (row) => onedesk.numbering.rule(doctype, row.name, draw),
+			columns: [
+				{
+					label: __("Prefix"),
+					render: (row) =>
+						`<samp>${esc(row.prefix)}${"#".repeat(row.prefix_digits || 5)}</samp>` +
+						(row.disabled ? " " + frappe.ui.badge.html({ label: __("Off"), theme: "gray" }) : ""),
+				},
+				{ label: __("When"), render: (row) => esc(when(row.name) || __("Always")) },
+			],
+		});
+	};
+	draw();
+};
+
+onedesk.numbering.rule = async (doctype, name, done) => {
+	const doc = name ? await frappe.db.get_doc("Document Naming Rule", name) : null;
+	const fields = frappe.meta
+		.get_docfields(doctype)
+		.filter((df) => !frappe.model.no_value_type.includes(df.fieldtype) && !df.permlevel && df.label)
+		.map((df) => ({ label: __(df.label), value: df.fieldname }));
+	const dialog = new frappe.ui.Dialog({
+		title: name ? __("Edit Rule") : __("Add Rule"),
+		fields: [
+			{
+				fieldtype: "Data",
+				fieldname: "prefix",
+				label: __("Prefix"),
+				reqd: 1,
+				description: __("The text before the number, such as {0}", ["RET-.YYYY.-"]),
+			},
+			{ fieldtype: "Int", fieldname: "prefix_digits", label: __("Digits"), default: 5 },
+			{
+				fieldtype: "Table",
+				fieldname: "conditions",
+				label: __("When"),
+				description: __("Every line must match. None means always."),
+				cannot_add_rows: false,
+				in_place_edit: true,
+				fields: [
+					{ fieldtype: "Select", fieldname: "field", label: __("Field"), options: fields, in_list_view: 1, reqd: 1 },
+					{ fieldtype: "Select", fieldname: "condition", label: __("Is"), options: ["=", "!=", ">", "<", ">=", "<="], default: "=", in_list_view: 1, reqd: 1 },
+					{ fieldtype: "Data", fieldname: "value", label: __("Value"), in_list_view: 1 },
+				],
+			},
+			{ fieldtype: "Int", fieldname: "priority", label: __("Priority"), description: __("When two rules match, the higher one names the record.") },
+			{ fieldtype: "Check", fieldname: "disabled", label: __("Off") },
+			{ fieldtype: "Section Break", label: __("How a Series Is Written"), collapsible: 1 },
+			{ fieldtype: "HTML", fieldname: "help", options: onedesk.numbering.help_html() },
+		],
+		primary_action_label: name ? __("Update") : __("Add"),
+		primary_action: async (values) => {
+			const fields_of = {
+				prefix: values.prefix.trim(),
+				prefix_digits: values.prefix_digits || 5,
+				priority: values.priority || 0,
+				disabled: values.disabled ? 1 : 0,
+				conditions: (values.conditions || []).map(({ field, condition, value }) => ({ field, condition, value })),
+			};
+			if (doc) await frappe.xcall("frappe.client.save", { doc: { ...doc, ...fields_of } });
+			else await frappe.db.insert({ doctype: "Document Naming Rule", document_type: doctype, ...fields_of });
+			dialog.hide();
+			frappe.show_alert({ message: name ? __("Rule updated") : __("Rule added"), indicator: "green" });
+			done();
+		},
+	});
+	if (doc) {
+		dialog.set_values({ ...doc, conditions: doc.conditions });
+		dialog.set_secondary_action_label(__("Delete"));
+		dialog.set_secondary_action(() =>
+			frappe.confirm(__("Delete this rule?"), async () => {
+				await frappe.xcall("frappe.client.delete", { doctype: "Document Naming Rule", name });
+				dialog.hide();
+				done();
+			})
+		);
+	}
+	dialog.show();
 };
 
 // A list's menu carries it too. Frappe's list menu has no hook for an item, so

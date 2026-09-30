@@ -481,6 +481,20 @@ share numbers. A series' number can be moved up, to start a new year at 1000,
 say, but never down, and never below the highest number a record already has:
 the edit window says what that is. Each move is kept in the record's history.
 
+A **Customer**, **Supplier**, **Item** or **Employee** can be named by what it
+is instead: **Name each new Customer by** at the top of its Numbering says
+Customer Name, Naming Series or Auto Name (an Item by its Item Code, an Employee
+by Full Name or Employee Number). Records already made keep their names, and
+the series are used only when it is named by Naming Series.
+
+**Rules** name a record by a prefix of their own when its fields match, before
+any series: returns as `RET-.YYYY.-`, a government customer as
+`CUST-GOV-.YYYY.-`. **Add Rule**, give the prefix (written as a series is, but
+without the `#`), how many digits the number has, and **When**: each line a
+field, how it compares and a value, all of which must match (none means
+always, so such a rule names every new record). When two rules match, the
+higher **Priority** wins. A rule looks only at the record's ordinary fields.
+
 **Ask OneAI** to do it for you: "number our invoices by year", "start this
 year's quotations at 500", "is any numbering behind?". It reads how the kind
 of record is numbered and the names its records already have, and suggests
@@ -488,8 +502,7 @@ the change as a card you approve; nothing changes before you do.
 
 Only administrators of the workspace see this, and only for the kinds of
 record they can open. The framework's own kinds of record and One's have no
-numbering here. Naming rules by condition (frappe's Document Naming Rule) are
-not offered yet.
+numbering here.
 
 ### Printing, for the Workspace
 

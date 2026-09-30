@@ -28,6 +28,19 @@ from onedesk.one.customize import REFUSED_MODULES
 
 SETTINGS = "Document Naming Settings"
 
+#: Kinds of record whose app decides how they are named, in one of its own
+#: settings: the Single, the field, and the method that applies a change
+#: (hides or shows the series and the name field as the choice needs).
+NAMED_BY = {
+	"Customer": ("Selling Settings", "cust_master_name", "update_customer_naming_settings"),
+	"Supplier": ("Buying Settings", "supp_master_name", "update_supplier_naming_settings"),
+	"Item": ("Stock Settings", "item_naming_by", "update_item_naming_settings"),
+	"Employee": ("HR Settings", "emp_created_by", "set_naming_series"),
+}
+
+#: What a workspace administrator is given to write Naming Rules with.
+GRANTS = {"Document Naming Rule": ("read", "write", "create", "delete")}
+
 
 def _meta(doctype: str):
 	"""The doctype, if its numbering is this workspace's to change."""
@@ -106,7 +119,13 @@ def check(doctype: str, options: list[str]) -> None:
 def state(doctype: str) -> str:
 	"""What the doctype's numbering is now, so a change suggested against an
 	older one is refused."""
-	return frappe.as_json({row["series"]: row["current"] for row in series(doctype)})
+	said = naming_by(doctype)
+	return frappe.as_json(
+		{
+			"series": {row["series"]: row["current"] for row in series(doctype)},
+			"named_by": said and said["value"],
+		}
+	)
 
 
 @frappe.whitelist()
@@ -231,3 +250,80 @@ def doctypes() -> list[dict]:
 			}
 		)
 	return sorted(rows, key=lambda one: one["label"])
+
+
+# ------------------------------------------------------------------ named by
+
+
+@frappe.whitelist()
+def naming_by(doctype: Annotated[str, "The kind of record."]) -> dict | None:
+	"""How a Customer, Supplier, Item or Employee is named, as its app's own
+	setting holds it, and what else it may be named by; None for any other."""
+	_meta(doctype)
+	if doctype not in NAMED_BY:
+		return None
+	single, field, _method = NAMED_BY[doctype]
+	df = frappe.get_meta(single).get_field(field)
+	return {
+		"value": frappe.db.get_single_value(single, field),
+		"options": [one for one in (df.options or "").split("\n") if one],
+	}
+
+
+@frappe.whitelist(methods=["POST"])
+def set_naming_by(
+	doctype: Annotated[str, "Customer, Supplier, Item or Employee."],
+	value: Annotated[str, "One of the choices naming_by lists."],
+) -> dict | None:
+	"""Change how a Customer, Supplier, Item or Employee is named: the app's
+	own setting, and the app's own method that shows or hides the series and
+	the name field to match, which writes property setters the workspace
+	layer would otherwise refuse (layer.property_setter)."""
+	said = naming_by(doctype)
+	if not said or value not in said["options"]:
+		frappe.throw(_("{0} cannot be named that way.").format(_(doctype)))
+	if value == said["value"]:
+		return said
+	single, field, method = NAMED_BY[doctype]
+	settings = frappe.get_single(single)
+	settings.set(field, value)
+	frappe.flags.one_named_by = doctype
+	try:
+		getattr(settings, method)()
+	finally:
+		frappe.flags.one_named_by = None
+	settings.db_set(field, value)
+	frappe.clear_cache(doctype=doctype)
+	return naming_by(doctype)
+
+
+# ------------------------------------------------------------------ naming rules
+
+
+def settle() -> None:
+	from onedesk.one import roles
+
+	roles.grant(GRANTS)
+
+
+def validate_rule(doc, method=None) -> None:
+	"""Document Naming Rule validate: a rule the workspace writes is on a kind of
+	record Numbering covers, names by a plain prefix, and decides by the
+	record's ordinary fields."""
+	from onedesk.one import layer, rules
+
+	if not layer.held():
+		return
+	_meta(doc.document_type)
+	prefix = (doc.prefix or "").strip()
+	if not prefix or "#" in prefix:
+		frappe.throw(_("A rule's prefix is the text before the number, such as RET-.YYYY.-"))
+	NamingSeries(prefix + ".#").validate()
+	if not 1 <= cint(doc.prefix_digits) <= 10:
+		frappe.throw(_("A rule's number has between 1 and 10 digits."))
+	allowed = set(rules.readable(doc.document_type))
+	for row in doc.conditions or []:
+		if row.field not in allowed:
+			frappe.throw(
+				_("A rule can only look at an ordinary field of the record, not {0}.").format(row.field)
+			)

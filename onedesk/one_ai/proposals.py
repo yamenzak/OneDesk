@@ -173,6 +173,8 @@ def apply(proposal: str) -> dict:
 					"How {0} is numbered has changed since this was suggested, so it no longer applies."
 				).format(frappe._(entry.for_doctype))
 			)
+		if changes.get("name_by"):
+			numbering.set_naming_by(entry.for_doctype, changes["name_by"])
 		if changes.get("series"):
 			numbering.save(entry.for_doctype, changes["series"])
 		for one in changes.get("move") or []:

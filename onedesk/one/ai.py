@@ -1435,7 +1435,17 @@ def workspace_numbering(
 	try:
 		if not doctype:
 			return {"kinds": numbering.doctypes()}
-		return {"doctype": doctype, "series": numbering.series(doctype), "how_a_series_is_written": SERIES_HELP}
+		return {
+			"doctype": doctype,
+			"named_by": numbering.naming_by(doctype),
+			"series": numbering.series(doctype),
+			"rules": frappe.get_list(
+				"Document Naming Rule",
+				filters={"document_type": doctype},
+				fields=["name", "prefix", "prefix_digits", "priority", "disabled"],
+			),
+			"how_a_series_is_written": SERIES_HELP,
+		}
 	except frappe.ValidationError as e:
 		frappe.clear_last_message()
 		return {"error": str(e)}
@@ -1455,10 +1465,17 @@ def change_numbering(
 		"counter has reached or the highest number records already use.",
 	]
 	| None = None,
+	name_by: Annotated[
+		str,
+		"Only for a Customer, Supplier, Item or Employee: what a new one is named by, one of "
+		"workspace_numbering's named_by options, such as its name or Naming Series.",
+	]
+	| None = None,
 	why: Annotated[str, "In a sentence, what the change is for."] | None = None,
 ) -> dict:
 	"""Suggest how a kind of record is numbered, as a card a workspace
-	administrator approves: its series added, changed, reordered (the first
+	administrator approves: a Customer, Supplier, Item or Employee named by
+	its name or by a series, its series added, changed, reordered (the first
 	is the default) or removed, and a series' counter moved on, to start a new
 	year at 1000 or to carry on after records brought in from elsewhere. Read
 	workspace_numbering first, and check `used` before moving a counter.
@@ -1479,6 +1496,13 @@ def change_numbering(
 		moves, summary = [], []
 		if wanted != was:
 			summary.append({"label": _("Series"), "value": _("{0} (was {1})").format(", ".join(wanted), ", ".join(was))})
+		named = numbering.naming_by(doctype)
+		if name_by and (not named or name_by not in named["options"]):
+			return {"error": f"{doctype} cannot be named by {name_by}."}
+		if name_by and name_by != named["value"]:
+			summary.append({"label": _("Named By"), "value": _("{0} (was {1})").format(_(name_by), _(named["value"]))})
+		else:
+			name_by = None
 		rows = {row["series"]: row for row in now}
 		for one in move or []:
 			name, to = (one.get("series") or "").strip(), frappe.utils.cint(one.get("to"))
@@ -1505,6 +1529,7 @@ def change_numbering(
 				"state": numbering.state(doctype),
 				"series": wanted if wanted != was else None,
 				"move": moves,
+				"name_by": name_by,
 				"summary": summary,
 			},
 			why=why,

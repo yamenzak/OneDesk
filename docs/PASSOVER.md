@@ -4066,6 +4066,15 @@ suggesting it. A counter can no longer be moved below the highest number a
 record already has, by hand or by OneAI, and the edit window says what that
 is. Workspace › Numbering offers two suggestions.
 
+Then, on your word: the Add Series window shows the name a series would give
+next as it is typed, or what is wrong with it. A Customer, Supplier, Item or
+Employee can be named by its name or by a series, from the top of its
+Numbering (the app's own setting, applied by the app's own method; OneAI can
+suggest it too). **Rules** (frappe's Document Naming Rule) name a record by a
+prefix of their own when its fields match, held to the kinds Numbering covers,
+a plain prefix and the record's ordinary fields. How a Series Is Written is
+One's own text, naming no product.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

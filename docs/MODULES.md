@@ -210,10 +210,12 @@ No doctypes yet.
 * `onedesk.one.invite.accept`
 * `onedesk.one.mail_templates.default`
 * `onedesk.one.mail_templates.set_default`
+* `onedesk.one.numbering.naming_by`
 * `onedesk.one.numbering.preview`
 * `onedesk.one.numbering.save`
 * `onedesk.one.numbering.series`
 * `onedesk.one.numbering.set_current`
+* `onedesk.one.numbering.set_naming_by`
 * `onedesk.one.printing.default`
 * `onedesk.one.printing.download_builder_preview_pdf`
 * `onedesk.one.printing.render_builder_preview`

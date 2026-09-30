@@ -187,6 +187,15 @@ def property_setter(doc, method=None) -> None:
 		and doc.property == frappe.flags.one_default
 	):
 		return
+	# How a Customer, Supplier, Item or Employee is named, applied by its app's own
+	# method from Numbering (one/numbering.py set_naming_by): the series and the name
+	# field shown or hidden, made optional or required.
+	if (
+		frappe.flags.one_named_by
+		and doc.doc_type == frappe.flags.one_named_by
+		and doc.property in ("hidden", "reqd")
+	):
+		return
 	if doc.property not in PROPERTIES:
 		frappe.throw(_("{0}: {1} is not the workspace's to change.").format(where, doc.property))
 	if doc.property in ("depends_on", "mandatory_depends_on", "read_only_depends_on") and not plain(

@@ -57,6 +57,7 @@ after_migrate = [
 	"onedesk.one.mail_templates.settle",
 	"onedesk.one.approvals.settle",
 	"onedesk.one.automations.settle",
+	"onedesk.one.numbering.settle",
 	# frappe's own morning event mail stopped; Today's Events replaces it.
 	"onedesk.one_calendar.tell.install",
 	# What each module's records say above their fields. See one/head.py.
@@ -202,6 +203,7 @@ doc_events = {
 	"Email Template": {"validate": "onedesk.one.mail_templates.validate"},
 	"Workflow": {"validate": "onedesk.one.approvals.validate"},
 	"Automation Flow": {"validate": "onedesk.one.automations.validate"},
+	"Document Naming Rule": {"validate": "onedesk.one.numbering.validate_rule"},
 	# A notification is pushed to the devices its person chose. See one/push.py.
 	"Notification Log": {
 		# frappe's line for a task given, said in OneTask's. See one_task/tell.py.
