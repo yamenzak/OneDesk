@@ -10,16 +10,18 @@ origin, where a script runs as whoever opens it, and a PDF is drawn by a
 browser on the server:
 
 - **A format is made in the builder.** No hand-written HTML format, no raw
-  printing, no JS format, and in the builder no HTML or Typst block: an HTML
-  block is markup rendered as it is, Typst reads files. Everything else the
-  builder offers (fields, tables, text, images, barcodes, a standard field
-  template) is escaped by frappe's own macros.
+  printing, no JS format, and in the builder no Typst block, which reads
+  files. An HTML block is allowed as print_html.py holds it: a template that
+  reads only the record, rendered in a sandbox of its own, its markup cleaned.
+  Everything else the builder offers (fields, tables, text, images, barcodes,
+  a standard field template) is escaped by frappe's own macros.
 - **Styles are styles.** A format's CSS goes into a <style> element as it
   is, so it may not contain markup, `@import`, or a URL that is not this
   site's file or an inline image; a block's own style, likewise.
-- **A letter head is an image.** Its header and footer are pictures, which
-  frappe turns into its own markup; the HTML sources and the header and
-  footer scripts stay frappe's System Managers'.
+- **A letter head is a picture or plain HTML.** Its top and foot are each a
+  picture, which frappe turns into its own markup, or HTML with no template in
+  it, stored cleaned (print_html.letter_head_html). The header and footer
+  scripts stay frappe's System Managers'.
 
 A standard format stays frappe's (it refuses changes outside developer
 mode); a workspace copies it in the builder and changes the copy.
@@ -34,7 +36,7 @@ from frappe import _
 from frappe.printing.doctype.print_format.classic_converter import DEFAULT_PRINT_HEADING
 from frappe.utils import flt, is_image
 
-from onedesk.one import layer, roles
+from onedesk.one import layer, print_html, roles
 from onedesk.one.customize import REFUSED_MODULES
 from onedesk.one_storage import store
 
@@ -51,10 +53,12 @@ GRANTS = {
 #: frappe's print format builder, a page whose only role is System Manager.
 BUILDER = "print-format-builder"
 
-#: Builder blocks that are not frappe's escaped macros. The HTML blocks kept are the
-#: ones frappe's own default layout makes: its heading, and an empty block where the
-#: doctype has an HTML field, which prints nothing.
-UNSAFE_BLOCKS = ("HTML", "Typst")
+#: Builder blocks the workspace may not add: Typst reads files.
+UNSAFE_BLOCKS = ("Typst",)
+
+#: The HTML blocks frappe's own default layout makes, which stay frappe's: its
+#: heading, and an empty block where the doctype has an HTML field.
+FRAPPES_HTML = (None, "", DEFAULT_PRINT_HEADING)
 
 #: What frappe's renderer sets on a block as it draws, and trusts when it finds it
 #: already there (print_format_generator: a stored `renderer` is used as is, a
@@ -132,7 +136,9 @@ def _content(doc) -> None:
 	if doc.custom_format or doc.raw_printing or (doc.print_format_type or "Jinja") != "Jinja":
 		frappe.throw(_("Print formats are made in the print format builder here, not written by hand."))
 	_style(doc.css, _("Style"))
-	_layout(json.loads(doc.format_data or "[]"), doc.doc_type, doc.name)
+	data = json.loads(doc.format_data or "[]")
+	_layout(data, doc.doc_type, doc.name)
+	doc.format_data = json.dumps(data)
 
 
 def _layout(data, doctype: str | None, name: str) -> None:
@@ -151,18 +157,28 @@ def _layout(data, doctype: str | None, name: str) -> None:
 			frappe.throw(
 				_("{0}: only a field that holds formatted text may print as formatted text.").format(where)
 			)
-		if kind in UNSAFE_BLOCKS and not (
-			kind == "HTML" and block.get("html") in (None, "", DEFAULT_PRINT_HEADING)
-		):
+		if kind in UNSAFE_BLOCKS:
 			frappe.throw(
 				_("{0}: an {1} block is not the workspace's to add; it prints as it is written.").format(
 					where, kind
 				)
 			)
+		if kind == "HTML":
+			# Marked or not by this save alone, so a mark is never the writer's to leave off.
+			block.pop(print_html.MARK, None)
+			if block.get("html") not in FRAPPES_HTML:
+				if not isinstance(block["html"], str):
+					frappe.throw(
+						_("{0}: this block is not one the print format builder makes.").format(where)
+					)
+				print_html.check_template(block["html"], where)
+				block[print_html.MARK] = 1
 		if kind == "Field Template" and not frappe.db.get_value(
 			"Print Format Field Template", block.get("field_template"), "standard"
 		):
 			frappe.throw(_("{0}: only a standard field template may be used.").format(where))
+		if kind == "Image" and block.get("image_url") and not print_html.IMAGE.match(str(block["image_url"])):
+			frappe.throw(_("{0}: a picture here is one uploaded to this workspace.").format(where))
 		for key in ("custom_style", "style", "label_color", "value_color"):
 			_style(block.get(key), where)
 
@@ -181,6 +197,7 @@ def validate_snippet(doc, method=None) -> None:
 	except ValueError:
 		frappe.throw(_("{0}: this block is not one the print format builder makes.").format(doc.name))
 	_layout(data, doc.document_type, doc.name)
+	doc.content = json.dumps(data)
 
 
 def _known(template: str) -> bool:
@@ -201,13 +218,18 @@ def _known(template: str) -> bool:
 def render_jinja_template(template: str, doctype: str, docname: str) -> str:
 	"""frappe's canvas preview of a Jinja template, which frappe keeps to its System
 	Managers since a template is code. The ones frappe wrote are previewed for
-	whoever may print the record; anything else goes to frappe's, which refuses."""
+	whoever may print the record, and a workspace's HTML block as it will print
+	(print_html.render); anything else goes to frappe's, which refuses."""
 	from frappe.utils import print_format_generator
 
-	if not _known(template):
+	held = layer.held()
+	if not _known(template) and not held:
 		return print_format_generator.render_jinja_template(template, doctype, docname)
 	doc = frappe.get_doc(doctype, docname)
 	doc.check_permission("print")
+	if not _known(template):
+		print_html.check_template(template, _("HTML"))
+		return print_html.render(template, doc)
 	try:
 		return frappe.render_template(template, {"doc": doc})
 	except Exception as e:
@@ -215,16 +237,18 @@ def render_jinja_template(template: str, doctype: str, docname: str) -> str:
 		frappe.throw(_("Failed to render template: {0}").format(str(e)), frappe.ValidationError)
 
 
-def _previewed(print_format) -> None:
+def _previewed(print_format):
 	"""The builder previews a format before it is saved, so before the save's own
-	checks: the same content checks run first (hooks.override_whitelisted_methods)."""
+	checks: the same content checks run first (hooks.override_whitelisted_methods),
+	and what is previewed is the format as they leave it, its HTML blocks marked."""
 	if not layer.held():
-		return
+		return print_format
 	doc = frappe.get_doc(frappe.parse_json(print_format))
 	if doc.doctype != "Print Format":
 		frappe.throw(_("Expected an unsaved Print Format document"))
 	_doctype(doc.doc_type)
 	_content(doc)
+	return doc.as_dict()
 
 
 @frappe.whitelist()
@@ -238,7 +262,7 @@ def render_builder_preview(
 	"""frappe's builder preview, of a format the workspace may print."""
 	from frappe.utils import print_format_generator
 
-	_previewed(print_format)
+	print_format = _previewed(print_format)
 	return print_format_generator.render_builder_preview(print_format, doctype, name, letterhead, settings)
 
 
@@ -253,7 +277,7 @@ def download_builder_preview_pdf(
 	"""frappe's builder preview as a PDF, of a format the workspace may print."""
 	from frappe.utils import print_format_generator
 
-	_previewed(print_format)
+	print_format = _previewed(print_format)
 	return print_format_generator.download_builder_preview_pdf(
 		print_format, doctype, name, letterhead, settings
 	)
@@ -267,14 +291,15 @@ def _rich_fields(doctype: str) -> set:
 
 
 def validate_letter_head(doc, method=None) -> None:
-	"""Letter Head validate: a letter head written by the workspace is an image."""
+	"""Letter Head validate: a letter head written by the workspace is a picture
+	or plain HTML, at its top and at its foot."""
 	_stored_images(doc)
 	if not layer.held():
 		return
-	# One the workspace did not make, frappe's own or its System Managers', may be made
-	# the default or turned off, and nothing else.
+	# One the workspace did not make, frappe's own or one that runs a script, may be
+	# made the default or turned off, and nothing else.
 	before = doc.get_doc_before_save()
-	if before and (before.standard == "Yes" or before.source != "Image"):
+	if before and (before.standard == "Yes" or before.header_script or before.footer_script):
 		if any(doc.get(key) != before.get(key) for key in DRAWN):
 			frappe.throw(
 				_("{0} is not the workspace's to change; it can be made the default or turned off.").format(
@@ -282,22 +307,35 @@ def validate_letter_head(doc, method=None) -> None:
 				)
 			)
 		return
-	if doc.standard == "Yes" or doc.source != "Image" or (doc.footer_source or "Image") != "Image":
-		frappe.throw(
-			_("A letter head here is an image: the logo at the top, and a picture at the foot if you like.")
-		)
+	if doc.standard == "Yes":
+		frappe.throw(_("A workspace makes its own letter heads."))
 	if doc.header_script or doc.footer_script:
 		frappe.throw(_("A letter head may not run a script."))
 	# frappe writes the image into the letter head's markup as it is, and keeps
 	# whatever markup was sent when there is no image to write.
 	if any(ch in (doc.name or "") + (doc.letter_head_name or "") for ch in '"<>'):
 		frappe.throw(_("A letter head's name may not contain quotes or angle brackets."))
-	if not FILE_URL.match(doc.image or ""):
+	if (doc.source or "Image") == "HTML":
+		doc.content = print_html.letter_head_html(doc.content, _("Top"))
+		if not (doc.content or "").strip():
+			frappe.throw(_("A letter head's top needs something to print."))
+	elif not FILE_URL.match(doc.image or ""):
 		frappe.throw(_("A letter head needs its image, uploaded here."))
-	if doc.footer_image and not FILE_URL.match(doc.footer_image):
-		frappe.throw(_("A letter head's footer is an image uploaded here."))
-	if not doc.footer_image:
-		doc.footer = None
+	if (doc.footer_source or "Image") == "HTML":
+		doc.footer = print_html.letter_head_html(doc.footer, _("Foot"))
+	else:
+		if doc.footer_image and not FILE_URL.match(doc.footer_image):
+			frappe.throw(_("A letter head's footer is an image uploaded here."))
+		if not doc.footer_image:
+			doc.footer = None
+			# The foot is optional; frappe's reminder that it has no picture is not said.
+			failed = _(PICTURES[1][-1])
+			frappe.local.message_log = [one for one in frappe.local.message_log if failed not in str(one)]
+	if (doc.source or "Image") not in ("Image", "HTML") or (doc.footer_source or "Image") not in (
+		"Image",
+		"HTML",
+	):
+		frappe.throw(_("A letter head's top and foot are each a picture or HTML."))
 	_style(doc.custom_css, _("Style"))
 
 
@@ -421,7 +459,12 @@ def starts(doctype: str) -> list[dict]:
 	default = frappe.get_meta(doctype).default_print_format
 	rows = frappe.get_all(
 		"Print Format",
-		filters={"doc_type": doctype, "print_format_builder_beta": 1, "disabled": 0},
+		filters={
+			"doc_type": doctype,
+			"print_format_builder_beta": 1,
+			"disabled": 0,
+			"name": ["!=", DESIGNER],
+		},
 		fields=["name", "standard"],
 		order_by="name asc",
 	)
@@ -467,12 +510,218 @@ def new_format(
 	return doc.name
 
 
-def state(doctype: str | None = None) -> str:
+#: Builder blocks that are not a field of the record: the builder's palette.
+PALETTE = ("HTML", "Spacer", "Divider", "Image", "Barcode", "Repeater", "Static Text", "Linked Field")
+
+
+def format_doc(doctype: str, name: str, layout: dict, css: str | None = None, letter_head: str | None = None):
+	"""A builder format, unsaved, from a layout as the builder stores one: a
+	`header`, `sections` and a `footer`, each of columns of blocks. Every block
+	is a field of the kind (a table's columns fields of its rows) or one of the
+	builder's own (PALETTE), and the whole is held as the builder's save holds
+	it (_content). What OneAI designs is made here, and checked here."""
+	_doctype(doctype)
+	if not isinstance(layout, dict) or not isinstance(layout.get("sections"), list):
+		frappe.throw(_("A layout has sections, each of columns of blocks."))
+	meta = frappe.get_meta(doctype)
+	unknown = []
+	for block in _placed(layout):
+		kind = block.get("fieldtype")
+		if kind in PALETTE:
+			block["custom"] = 1
+			if not block.get("fieldname") or meta.has_field(block["fieldname"]):
+				block["fieldname"] = f"{kind.lower().replace(' ', '_')}_{frappe.generate_hash(length=8)}"
+			continue
+		fieldname = block.get("fieldname")
+		if fieldname in ("name", "doctype"):
+			continue
+		field = meta.get_field(fieldname) if fieldname else None
+		if not field:
+			# A table's column is a field of its rows.
+			if not any(frappe.get_meta(one.options).has_field(fieldname) for one in meta.get_table_fields()):
+				unknown.append(str(fieldname))
+			continue
+		block.setdefault("label", field.label)
+		block["fieldtype"] = field.fieldtype
+		if field.fieldtype in frappe.model.table_fields:
+			block["options"] = field.options
+			rows = frappe.get_meta(field.options)
+			for column in block.get("table_columns") or []:
+				if column.get("fieldname") == "idx":
+					column.setdefault("label", _("No."))
+					column.setdefault("fieldtype", "Int")
+					continue
+				row_field = rows.get_field(column.get("fieldname"))
+				if not row_field:
+					unknown.append(f"{fieldname}.{column.get('fieldname')}")
+					continue
+				column.setdefault("label", row_field.label)
+				column["fieldtype"] = row_field.fieldtype
+				if row_field.options:
+					column["options"] = row_field.options
+	if unknown:
+		frappe.throw(
+			_("{0} has no field {1}.").format(_(doctype), ", ".join(dict.fromkeys(unknown))),
+			frappe.ValidationError,
+		)
+	if letter_head:
+		if not frappe.db.exists("Letter Head", letter_head):
+			frappe.throw(_("There is no letter head {0}.").format(letter_head))
+		layout["letter_head"] = letter_head
+	doc = frappe.new_doc("Print Format")
+	doc.update(
+		{
+			"doc_type": doctype,
+			"standard": "No",
+			"print_format_for": "DocType",
+			"print_format_builder_beta": 1,
+			"format_data": json.dumps(layout),
+			"css": css or None,
+		}
+	)
+	doc.name = name
+	_content(doc)
+	return doc
+
+
+def _placed(layout: dict) -> list[dict]:
+	"""Every block a layout places, whether it says its kind or not."""
+	parts = [layout.get("header"), *(layout.get("sections") or []), layout.get("footer")]
+	placed = []
+	for part in parts:
+		if not isinstance(part, dict):
+			continue
+		for column in part.get("columns") or []:
+			if not isinstance(column, dict) or not isinstance(column.get("fields") or [], list):
+				frappe.throw(_("A layout has sections, each of columns of blocks."))
+			for block in column.get("fields") or []:
+				if not isinstance(block, dict):
+					frappe.throw(_("A layout has sections, each of columns of blocks."))
+				placed.append(block)
+	return placed
+
+
+def save_format(values: dict) -> str:
+	"""A format OneAI designed, made or changed as whoever approved it."""
+	name, kind = (values.get("name") or "").strip(), values["doctype"]
+	doc = format_doc(kind, name, json.loads(values["format_data"]), values.get("css"))
+	if frappe.db.exists("Print Format", name):
+		held = frappe.get_doc("Print Format", name)
+		if held.standard == "Yes" or held.doc_type != kind:
+			frappe.throw(_("{0} is not a format of {1} this workspace made.").format(name, _(kind)))
+		held.update({"format_data": doc.format_data, "css": doc.css, "draft_data": None})
+		held.save()
+		return held.name
+	doc.name = None
+	doc.set("__newname", name)
+	doc.insert()
+	return doc.name
+
+
+def _sample(doctype: str) -> str | None:
+	found = frappe.get_list(doctype, limit_page_length=1, order_by="modified desc", pluck="name")
+	return found[0] if found else None
+
+
+@frappe.whitelist()
+def proposal_preview(proposal: Annotated[str, "An AI Proposal of kind Printing."]) -> str:
+	"""The page a Printing card would make, drawn before it is approved: a
+	format on the kind's latest record, or a letter head's top and foot."""
+	entry = frappe.get_doc("AI Proposal", proposal)
+	entry.check_permission("read")
+	if entry.kind != "Printing":
+		frappe.throw(_("This suggestion does not change how anything prints."))
+	changes = frappe.parse_json(entry.changes or "{}") or {}
+	made = changes.get("format")
+	if made:
+		print_format = frappe.new_doc("Print Format")
+		print_format.update(
+			{
+				"doc_type": made["doctype"],
+				"standard": "No",
+				"print_format_for": "DocType",
+				"print_format_builder_beta": 1,
+				"format_data": made["format_data"],
+				"css": made.get("css"),
+			}
+		)
+		print_format.name = made["name"]
+		return render_builder_preview(print_format.as_dict(), made["doctype"], _sample(made["doctype"]))
+	head = changes.get("letter_head") or {}
+	held = frappe.db.get_value("Letter Head", head.get("name"), ["content", "footer"], as_dict=True) or {}
+	top = head.get("content") if "content" in head else held.get("content")
+	if not top and head.get("image"):
+		top = f'<div><img src="{frappe.utils.escape_html(head["image"])}" style="max-height:80px"></div>'
+	foot = head.get("footer") if "footer" in head else held.get("footer")
+	lines = "".join('<div style="height:6px;margin:8px 0;background:#e5e7eb"></div>' for _ in range(4))
+	return (
+		'<!doctype html><html><body style="margin:0;padding:24px;font-family:sans-serif;background:#fff;color:#111">'
+		f'{print_html.clean(top or "")}<div style="margin:24px 0">{lines}</div>{print_html.clean(foot or "")}'
+		"</body></html>"
+	)
+
+
+#: The workspace's own format frappe's builder opens to design a letter head on:
+#: the builder draws a format's letter head above and below it, top and foot, each
+#: a picture or HTML. It is kept off, so nothing prints with it, and out of every
+#: list of formats.
+DESIGNER = "Letter Head Designer"
+
+#: The kinds of record the designer is laid out as, the first one they can open.
+DESIGNED_ON = ("Sales Invoice", "Quotation", "Sales Order", "Purchase Order", "Project", "Employee")
+
+
+@frappe.whitelist(methods=["POST"])
+def design_letter_head(letter_head: Annotated[str, "The letter head to design."]) -> str:
+	"""Point the designer at a letter head and say where it is: frappe's print
+	format builder, whose letter head zones are where it is drawn."""
+	roles.require()
+	if not frappe.db.exists("Letter Head", letter_head):
+		frappe.throw(_("There is no letter head {0}.").format(letter_head))
+	frappe.has_permission("Letter Head", "write", doc=letter_head, throw=True)
+	if frappe.db.get_value("Letter Head", letter_head, "standard") == "Yes":
+		frappe.throw(
+			_("{0} is not the workspace's to change; it can be made the default or turned off.").format(
+				letter_head
+			)
+		)
+	if not frappe.db.exists("Print Format", DESIGNER):
+		doctype = next(
+			(
+				one
+				for one in DESIGNED_ON
+				if frappe.db.exists("DocType", one)
+				and frappe.get_meta(one).module not in REFUSED_MODULES
+				and frappe.has_permission(one, "read")
+			),
+			None,
+		)
+		if not doctype:
+			frappe.throw(_("There is no kind of record here to lay a letter head out on."))
+		first = starts(doctype)
+		new_format(doctype, DESIGNER, first[0].name if first else None)
+	doc = frappe.get_doc("Print Format", DESIGNER)
+	data = json.loads(doc.format_data or "{}")
+	if isinstance(data, dict):
+		data["letter_head"] = letter_head
+		doc.format_data = json.dumps(data)
+	# The builder opens a draft over the format when there is one.
+	doc.draft_data = None
+	doc.disabled = 1
+	doc.save()
+	return doc.name
+
+
+def state(doctype: str | None = None, print_format: str | None = None) -> str:
 	"""How printing stands now, so a card suggested against an older state is
-	refused: the kind's default format, and every letter head as it was."""
+	refused: the kind's default format, the format it changes, and every letter
+	head as it was."""
 	return frappe.as_json(
 		{
 			"default": frappe.get_meta(doctype).default_print_format if doctype else None,
+			"format": str(frappe.db.get_value("Print Format", print_format, "modified") or "")
+			if print_format
+			else None,
 			"letter_heads": {
 				one.name: str(one.modified)
 				for one in frappe.get_all("Letter Head", fields=["name", "modified"], order_by="name asc")
@@ -495,7 +744,7 @@ def formats() -> list[dict]:
 	roles.require()
 	rows = frappe.get_all(
 		"Print Format",
-		filters={"standard": "No", "print_format_for": "DocType", "disabled": 0},
+		filters={"standard": "No", "print_format_for": "DocType", "disabled": 0, "name": ["!=", DESIGNER]},
 		fields=["name", "doc_type", "modified"],
 		order_by="doc_type asc, name asc",
 	)
@@ -528,6 +777,10 @@ DRAWN = (
 
 LETTER_HEAD = (
 	"letter_head_name",
+	"source",
+	"content",
+	"footer_source",
+	"footer",
 	"image",
 	"image_height",
 	"align",
@@ -544,9 +797,22 @@ def letter_heads() -> list[dict]:
 	return frappe.get_all(
 		"Letter Head",
 		filters={"letter_head_for": "DocType"},
-		fields=["name", *LETTER_HEAD, "source", "standard", "modified"],
+		fields=["name", *LETTER_HEAD, "standard", "modified"],
 		order_by="is_default desc, name asc",
 	)
+
+
+def _start_letter_head(doc) -> None:
+	"""A new letter head starts from what Workspace > General keeps: the logo at
+	the top, or the company's name when there is no logo yet."""
+	from onedesk.one import settings
+
+	company = settings._company()
+	if company and company.company_logo:
+		doc.update({"source": "Image", "image": company.company_logo, "image_height": 60, "align": "Left"})
+		return
+	called = frappe.utils.escape_html(company.company_name if company else doc.letter_head_name or "")
+	doc.update({"source": "HTML", "content": f"<div><h2>{called}</h2></div>"})
 
 
 @frappe.whitelist(methods=["POST"])
@@ -560,18 +826,14 @@ def save_letter_head(values: Annotated[str | dict, "The letter head's fields."])
 		frappe.throw(
 			_("Somebody changed {0} after you opened it.").format(name), frappe.TimestampMismatchError
 		)
-	ours = not name or (doc.standard != "Yes" and doc.source == "Image")
+	ours = not name or not (doc.standard == "Yes" or doc.header_script or doc.footer_script)
+	if not name and not values.get("image") and not values.get("content"):
+		_start_letter_head(doc)
 	keys = LETTER_HEAD if ours else ("is_default", "disabled")
 	doc.update(
 		{key: values.get(key) for key in keys if key in values and not (name and key == "letter_head_name")}
 	)
 	if ours:
-		doc.source = "Image"
-		doc.footer_source = "Image"
 		doc.letter_head_for = "DocType"
 	doc.save()
-	# The foot is optional here; frappe's reminder that it has no picture is not said.
-	if not doc.footer_image:
-		failed = _(PICTURES[1][-1])
-		frappe.local.message_log = [one for one in frappe.local.message_log if failed not in str(one)]
 	return doc.as_dict()

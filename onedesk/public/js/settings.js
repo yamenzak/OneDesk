@@ -18,7 +18,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	// table needs. Every other section is a column in the middle of the page.
 	static WIDE = ["people", "oneai", "intake", "numbering", "printing", "mail_templates", "approvals"];
 	// A letter head the workspace did not make: frappe's own, or written in HTML.
-	static theirs = (one) => one.standard === "Yes" || one.source !== "Image";
+	static theirs = (one) => one.standard === "Yes";
 
 	constructor(page, group) {
 		// Dirty, the warning on leaving, saving against `modified` and hearing
@@ -1507,7 +1507,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		this.$content.html(`<div class="one-shell-section" data-list="heads"></div><div class="one-shell-section" data-list="formats"></div>`);
 		onedesk.shell.table(this.$content.find('[data-list="heads"]'), {
 			title: __("Letter Heads"),
-			note: __("The logo printed at the top of a document, and a picture at its foot if you like."),
+			note: __("The top and foot of a printed page: a logo, or a design of your own. Design opens it in the print format builder."),
 			rows: data.letter_heads || [],
 			icon: "image",
 			empty: __("No letter head yet."),
@@ -1541,82 +1541,49 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
-	// A letter head, made or changed in frappe's dialog. The image is uploaded public,
-	// as a printed page shows it to whoever it is sent to.
+	// A letter head: its name, whether it is the default, whether it is off, and
+	// the top and foot of a page as they print. They are designed where frappe
+	// designs them, on the print format builder's page (printing.design_letter_head).
 	// One the workspace did not make is only made the default or turned off here.
 	letter_head(one = null) {
 		const theirs = !!one && Settings.theirs(one);
-		const image = (fieldname, label) => ({ fieldtype: "Attach Image", fieldname, label, make_attachment_public: 1, change: () => shown() });
-		const height = (fieldname, label, description) => ({ fieldtype: "Float", fieldname, label, precision: "0", description, change: () => shown() });
-		const align = (fieldname) => ({ fieldtype: "Select", fieldname, label: __("Align"), options: ["Left", "Center", "Right"], default: "Left", change: () => shown() });
 		const dialog = new frappe.ui.Dialog({
 			title: one ? one.name : __("New Letter Head"),
 			fields: [
 				...(theirs ? [{ fieldtype: "HTML", fieldname: "theirs", options: frappe.ui.alert.html({ title: __("This letter head came with the workspace. It can be made the default or turned off."), theme: "gray" }) }] : []),
 				{ fieldtype: "Data", fieldname: "letter_head_name", label: __("Name"), reqd: 1, hidden: one ? 1 : 0 },
-				...(theirs
-					? []
-					: [
-							{ fieldtype: "HTML", fieldname: "preview" },
-							{ fieldtype: "Section Break", label: __("Top") },
-							{ ...image("image", __("Logo")), reqd: 1 },
-							{ fieldtype: "Column Break" },
-							height("image_height", __("Height"), __("In pixels. Empty keeps the picture's own.")),
-							align("align"),
-							{ fieldtype: "Section Break", label: __("Foot"), collapsible: one && one.footer_image ? 0 : 1 },
-							image("footer_image", __("Picture")),
-							{ fieldtype: "Column Break" },
-							height("footer_image_height", __("Height")),
-							align("footer_align"),
-							{ fieldtype: "Section Break" },
-					  ]),
+				...(one ? [{ fieldtype: "HTML", fieldname: "preview" }] : [{ fieldtype: "HTML", fieldname: "starts", options: `<p class="text-muted small">${frappe.utils.escape_html(__("It starts with the logo from General, or the company's name, and opens in the builder to design its top and foot."))}</p>` }]),
 				{ fieldtype: "Check", fieldname: "is_default", label: __("Default"), description: __("Printed on a document unless another is chosen.") },
 				{ fieldtype: "Check", fieldname: "disabled", label: __("Off") },
 			],
-			primary_action_label: one ? __("Update") : __("Create"),
+			primary_action_label: one ? __("Update") : __("Create and Design"),
 			primary_action: async (values) => {
-				await frappe.xcall("onedesk.one.printing.save_letter_head", {
+				const saved = await frappe.xcall("onedesk.one.printing.save_letter_head", {
 					values: { ...values, name: one ? one.name : null, modified: one ? one.modified : null },
 				});
 				dialog.hide();
-				frappe.show_alert({ message: one ? __("Letter head updated") : __("Letter head made"), indicator: "green" });
+				if (!one) return this.design_letter_head(saved.name);
+				frappe.show_alert({ message: __("Letter head updated"), indicator: "green" });
 				this.refresh({ fresh: true });
 			},
 		});
-		// The page as it will print: the top and the foot as frappe's Letter Head draws
-		// them from these pictures, on a sheet's width. And each picture by its file's
-		// name rather than the address it is kept at.
-		const esc = frappe.utils.escape_html;
-		const named = async (fieldname) => {
-			const field = dialog.get_field(fieldname);
-			const url = field && field.get_value();
-			if (!url || !field.$value) return;
-			const file = await frappe.db.get_value("File", { file_url: url }, "file_name");
-			const called = file && file.message && file.message.file_name;
-			called && field.$value.find(".attached-file-link").text(called);
-		};
-		const shown = () => {
-			const field = dialog.get_field("preview");
-			if (!field) return;
-			const value = (fieldname) => dialog.get_value(fieldname);
-			const part = (url, h, where) =>
-				url
-					? `<div style="text-align:${esc((where || "Left").toLowerCase())}"><img src="${esc(url)}" style="max-width:100%;${h ? `height:${cint(h)}px;` : "max-height:80px;"}"></div>`
-					: "";
-			field.$wrapper.html(`<div class="one-letter-head-sheet">
-				${part(value("image"), value("image_height"), value("align")) || `<div class="text-muted small">${esc(__("The logo goes here."))}</div>`}
-				<div class="one-letter-head-body"></div>
-				${part(value("footer_image"), value("footer_image_height"), value("footer_align"))}
-			</div>`);
-			named("image");
-			named("footer_image");
-		};
-		if (one) dialog.set_values(one);
-		else if (this.data && this.data.company_logo) dialog.set_value("image", this.data.company_logo);
-		setTimeout(shown);
+		if (one) {
+			dialog.set_values(one);
+			// The page as it prints, in a frame of its own: the top and the foot are
+			// the markup frappe prints, which runs nothing here.
+			const frame = document.createElement("iframe");
+			frame.className = "one-letter-head-sheet";
+			frame.setAttribute("sandbox", "");
+			frame.srcdoc = `<!doctype html><html><head><style>body{margin:0;padding:16px;font-family:sans-serif;background:#fff;color:#111}img{max-width:100%}.body{height:48px;margin:12px 0;background:repeating-linear-gradient(to bottom,#e5e7eb 0,#e5e7eb 6px,transparent 6px,transparent 14px);opacity:.6}</style></head><body>${one.content || ""}<div class="body"></div>${one.footer || ""}</body></html>`;
+			dialog.get_field("preview").$wrapper.empty().append(frame);
+		}
 		if (one && !theirs) {
-			dialog.set_secondary_action_label(__("Delete"));
-			dialog.set_secondary_action(() =>
+			dialog.set_secondary_action_label(__("Design"));
+			dialog.set_secondary_action(() => {
+				dialog.hide();
+				this.design_letter_head(one.name);
+			});
+			dialog.add_custom_action(__("Delete"), () =>
 				frappe.confirm(__("Delete letter head {0}?", [one.name]), async () => {
 					await frappe.xcall("frappe.client.delete", { doctype: "Letter Head", name: one.name });
 					dialog.hide();
@@ -1625,6 +1592,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			);
 		}
 		dialog.show();
+	}
+
+	// frappe's print format builder, on the designer pointed at this letter head.
+	async design_letter_head(name) {
+		const designer = await frappe.xcall("onedesk.one.printing.design_letter_head", { letter_head: name });
+		frappe.set_route("print-format-builder", designer);
 	}
 
 	// Where the workspace opens: the address One gives it, which always works,

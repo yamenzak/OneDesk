@@ -193,15 +193,20 @@ def apply(proposal: str) -> dict:
 		# Approve, and refused if the default or a letter head changed since.
 		from onedesk.one import printing
 
-		kind_of = entry.for_doctype if changes.get("default_format") else None
-		if changes.get("state") != printing.state(kind_of):
+		made = changes.get("format") or {}
+		kind_of = entry.for_doctype if changes.get("default_format") or made else None
+		if changes.get("state") != printing.state(kind_of, made.get("name")):
 			entry.db_set("state", "Stale")
 			frappe.db.commit()
 			frappe.throw(
 				frappe._("How documents print has changed since this was suggested, so it no longer applies.")
 			)
+		if made:
+			printing.save_format(made)
 		if changes.get("default_format"):
 			printing.set_default(entry.for_doctype, changes["default_format"])
+		if made:
+			return _done(entry, made["name"])
 		if changes.get("letter_head"):
 			made = printing.save_letter_head(changes["letter_head"])
 			return _done(entry, (made or {}).get("name") or changes["letter_head"].get("name"))

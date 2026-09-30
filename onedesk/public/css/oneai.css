@@ -1304,3 +1304,13 @@ body.one-ai-writing .one-ai-dial {
 		margin-right: auto;
 	}
 }
+
+/* A Printing card's page, as it would print (Record.vue see_page). */
+.one-ai-page {
+	display: block;
+	width: 100%;
+	height: 70vh;
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-lg, 8px);
+	background: var(--surface-white);
+}

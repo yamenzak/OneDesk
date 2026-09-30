@@ -539,14 +539,16 @@ and so are the framework's own kinds and One's. Rules work on any of them.
 
 ### Printing, for the Workspace
 
-How the workspace's documents look on paper. **Letter Heads** are the logo
-printed at the top of a document and, if you like, a picture at its foot:
-**New Letter Head**, give it a name, attach the logo, and say how tall it
-prints and which side it sits on; the window shows the top of a page as it
-will print, and a new letter head starts with the logo from General.
-**Default** prints it on every document unless another is chosen; **Off**
-keeps it without offering it. The letter heads that came with the workspace
-can be made the default or turned off.
+How the workspace's documents look on paper. **Letter Heads** are the top and
+foot of every printed page. **New Letter Head** asks for a name, starts it with
+the logo from General (or the company's name when there is no logo yet), and
+opens it in the print format builder, where the top and the foot are each
+clicked and made a picture (aligned and sized) or HTML (**Edit HTML**, with a
+preview beside it). Opening a letter head here shows its page as it prints,
+with **Design** to open it in the builder again. **Default** prints it on
+every document unless another is chosen; **Off** keeps it without offering it.
+The letter heads that came with the workspace can be made the default or
+turned off.
 
 **Print Formats** lists the formats this workspace made. Opening one opens its
 kind of record's **Settings** on **Print Formats** (see A Form's Settings),
@@ -557,20 +559,29 @@ kind already prints with or every one of its fields, and opens it in the
 builder. A printed record stays inside its app, with that app's sidebar.
 
 In the builder a format is laid out from the record's fields, tables, text,
-images, barcodes and the standard field templates. What is not offered here:
-a block of raw HTML or Typst, a format written by hand, a letter head written
-in HTML, or a style that loads anything from another site. Each of those
-prints exactly what is written, on this workspace's address, so it stays with
-the people who run the platform.
+images, barcodes, the standard field templates, and **Custom HTML** blocks. An
+HTML block is a template of the record and nothing else: its fields and rows
+(`{{ doc.customer_name }}`, `{% for row in doc.items %}`),
+`doc.get_formatted(...)`, conditions, loops, `_()` and plain filters. Every
+value is escaped, and scripts, forms, frames and pictures from other sites are
+taken out, as they are from a letter head's HTML, which holds no template at
+all. A picture is one uploaded to the workspace. A Typst block, a format
+written by hand, and a style that loads anything from another site are not
+offered: each would print exactly what is written, on this workspace's
+address.
 
 Only administrators of the workspace see this, and only formats for the kinds
 of record they can open.
 
-**OneAI on this page** offers **Make a letter head from our logo** and **Which
-format do invoices print with?**. It can suggest a new letter head from the
-workspace's logo, which letter head is the default, and which format a kind of
-record prints with, each as a card an administrator approves. It does not lay
-formats out; that is the builder's.
+**OneAI on this page** offers **Make a letter head from our logo**, **Design a
+letter head from our details**, **Design a clean invoice format** and **Which
+format do invoices print with?**. It designs a print format for any kind of
+record, laid out as the builder lays one out, and a letter head in HTML from
+the details in General; it also suggests which letter head is the default and
+which format a kind of record prints with. Each comes as a card an
+administrator approves, and **See the Page** on the card shows the page before
+they do: a format on the kind's latest record, a letter head's top and foot. A
+format it made opens in the builder like any other.
 
 ### Mail Templates, for the Workspace
 

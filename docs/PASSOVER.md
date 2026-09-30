@@ -4210,6 +4210,34 @@ All five fixed:
   kind's default format as a Printing card (`change_printing`); two page
   suggestions on Workspace › Printing.
 
+**Printing, second pass: HTML, the letter head builder, OneAI designs.** Asked
+for after the five: whether formats should be HTML, a builder for letter
+heads, and OneAI designing both.
+
+- Builder formats stay the base, with **HTML blocks allowed**
+  (`one/print_html.py`). A block's Jinja is checked to read the record and
+  nothing else, since frappe's render globals read any table
+  (`frappe.db.sql`) and fetch any address (`make_get_request`). A block the
+  workspace saves is marked, and onedesk's copy of frappe's HTML block macro
+  renders it in a sandbox holding only the record, escaping every value, with
+  the markup cleaned (nh3: no scripts, forms, frames or media; pictures only
+  this site's files). Typst stays refused. An Image block's `image_url` is now
+  checked too, which it was not.
+- **Letter heads may be HTML**, top and foot, with no template tags (frappe
+  renders them raw at print), stored cleaned. They are designed in **frappe's
+  builder**, whose letter head zones already edit both. `Design` points a
+  designer format, kept off and out of every list, at the letter head. Our
+  window shrank to name, Default, Off and a sandboxed preview.
+- **OneAI**: `print_layout` reads a kind's fields and a format as sections;
+  `design_print_format` takes sections of columns of blocks, compiled to the
+  builder's layout and held by the same checks; `change_printing` takes
+  `top_html`/`foot_html`. Cards carry **See the Page**. Checked live on
+  gemini-2.5-flash-lite: the whole builder layout as one argument came back
+  malformed, which is why the tool takes the compact form.
+- Found on the way: frappe's XSS filter rewrote an AI Chat's JSON once a tool
+  answered with markup, so the conversation would not load. `turns` now
+  carries `ignore_xss_filter`.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

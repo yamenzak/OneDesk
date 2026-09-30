@@ -105,6 +105,22 @@ SUGGESTIONS = {
 			"expects": "change_printing",
 		},
 		{
+			"label": _lt("Design a letter head from our details"),
+			"ask": _lt(
+				"Design a letter head in HTML from the company's details in Workspace › General: the name "
+				"and logo at the top, the address, phone and email at the foot."
+			),
+			"expects": "change_printing",
+		},
+		{
+			"label": _lt("Design a clean invoice format"),
+			"ask": _lt(
+				"Design a clean, modern print format for Sales Invoice: the customer and dates at the top, "
+				"the items as a table, and the totals on the right."
+			),
+			"expects": "design_print_format",
+		},
+		{
 			"label": _lt("Which format do invoices print with?"),
 			"ask": _lt("Which print format do Sales Invoices print with, and which others could they use?"),
 			"expects": "workspace_printing",
@@ -1629,10 +1645,15 @@ def workspace_printing(
 		company = settings._company()
 		said = {
 			"letter_heads": [
-				{key: one.get(key) for key in ("name", "is_default", "disabled", "image", "standard", "source")}
+				{
+					key: one.get(key)
+					for key in ("name", "is_default", "disabled", "image", "standard", "source")
+				}
 				for one in printing.letter_heads()
 			],
 			"company_logo": company.company_logo if company else None,
+			# What a letter head is written from: Workspace > General's On Documents.
+			"company": _on_documents(company),
 			"workspace_formats": printing.formats(),
 		}
 		if doctype:
@@ -1654,24 +1675,30 @@ def workspace_printing(
 def change_printing(
 	doctype: Annotated[str, "The kind of record whose default format changes, such as Sales Invoice."]
 	| None = None,
-	default_format: Annotated[str, "The format that kind prints with unless another is chosen: one of its formats."]
+	default_format: Annotated[
+		str, "The format that kind prints with unless another is chosen: one of its formats."
+	]
 	| None = None,
 	letter_head: Annotated[
 		dict,
 		"A letter head to make or change: {name} of an existing one, or {new_name} for a new one; {logo}, "
-		"'company' for the logo Workspace > General keeps or a file URL the workspace already has; "
-		"{default} true to make it the one printed unless another is chosen; {off} true to turn it off.",
+		"'company' for the logo Workspace > General keeps or a file URL the workspace already has; or "
+		"{top_html} and {foot_html}, the top and foot of the page written in plain HTML with inline styles "
+		"(no template tags, no scripts, pictures only from this workspace's files), from the company's "
+		"details workspace_printing gives; {default} true to make it the one printed unless another is "
+		"chosen; {off} true to turn it off.",
 	]
 	| None = None,
 	why: Annotated[str, "In a sentence, what the change is for."] | None = None,
 ) -> dict:
 	"""Suggest how documents are printed, as a card a workspace administrator
-	approves: which format a kind of record prints with by default, a new
-	letter head made from the workspace's logo, or which letter head is the
-	default. New formats are laid out in the print format builder, not here.
-	Read workspace_printing first. Nothing changes until they approve it.
+	approves: which format a kind of record prints with by default, a letter
+	head, made from the workspace's logo or designed in HTML from its details,
+	or which letter head is the default. A format's own layout is
+	design_print_format. Read workspace_printing first. The card shows the
+	page before it is approved; nothing changes until they approve it.
 	Workspace administrators only."""
-	from onedesk.one import printing, roles, settings
+	from onedesk.one import print_html, printing, roles, settings
 	from onedesk.one_ai import proposals
 
 	if not roles.administers():
@@ -1683,11 +1710,16 @@ def change_printing(
 				return {"error": "Say which kind of record prints with that format."}
 			printing._doctype(doctype)
 			if frappe.db.get_value("Print Format", default_format, "doc_type") != doctype:
-				return {"error": f"{default_format} is not a format of {doctype}; read workspace_printing for its formats."}
+				return {
+					"error": f"{default_format} is not a format of {doctype}; read workspace_printing for its formats."
+				}
 			was = frappe.get_meta(doctype).default_print_format
 			if was != default_format:
 				summary.append(
-					{"label": _("Prints With"), "value": _("{0} (was {1})").format(default_format, was or _("Standard"))}
+					{
+						"label": _("Prints With"),
+						"value": _("{0} (was {1})").format(default_format, was or _("Standard")),
+					}
 				)
 			else:
 				default_format = None
@@ -1701,15 +1733,25 @@ def change_printing(
 				logo = company.company_logo if company else None
 				if not logo:
 					return {"error": "Workspace > General has no logo yet; ask them to add one there first."}
-			if not name and not (letter_head.get("new_name") and logo):
-				return {"error": "A new letter head needs new_name and a logo."}
+			top, foot = letter_head.get("top_html"), letter_head.get("foot_html")
+			if not name and not (letter_head.get("new_name") and (logo or top)):
+				return {"error": "A new letter head needs new_name, and a logo or top_html."}
 			head = {"name": name}
 			if not name:
 				head["letter_head_name"] = letter_head["new_name"].strip()
 				summary.append({"label": _("New Letter Head"), "value": head["letter_head_name"]})
-			if logo:
+			if logo and not top:
+				head["source"] = "Image"
 				head["image"] = logo
 				summary.append({"label": _("Logo"), "value": logo.rsplit("/", 1)[-1].split("?")[0]})
+			if top:
+				head["source"] = "HTML"
+				head["content"] = print_html.letter_head_html(top, _("Top"))
+				summary.append({"label": _("Top"), "value": _("Designed in HTML")})
+			if foot:
+				head["footer_source"] = "HTML"
+				head["footer"] = print_html.letter_head_html(foot, _("Foot"))
+				summary.append({"label": _("Foot"), "value": _("Designed in HTML")})
 			if letter_head.get("default") is not None:
 				head["is_default"] = 1 if letter_head["default"] else 0
 				summary.append({"label": _("Default"), "value": _("Yes") if head["is_default"] else _("No")})
@@ -1720,7 +1762,9 @@ def change_printing(
 		frappe.clear_last_message()
 		return {"error": str(e)}
 	if not summary:
-		return {"error": "That is how it prints already, so there is nothing to change. Say it is right as it is."}
+		return {
+			"error": "That is how it prints already, so there is nothing to change. Say it is right as it is."
+		}
 	return {
 		"proposal": proposals.propose(
 			"Printing",
@@ -1734,6 +1778,242 @@ def change_printing(
 			why=why,
 		),
 		"state": "Proposed",
-		"next": "Tell them it applies once they approve it, and that Workspace › Printing shows it.",
+		"next": "Tell them See the Page on the card shows it before they approve it, that it applies once "
+		"they do, and that Workspace › Printing shows it.",
 	}
 
+
+def _on_documents(company) -> dict:
+	"""The company as a printed page shows it (Workspace > General > On Documents)."""
+	from onedesk.one import settings
+
+	if not company:
+		return {}
+	address = settings._company_address(company)
+	return {
+		"name": company.company_name,
+		"phone": company.phone_no,
+		"email": company.email,
+		"website": company.website,
+		"address": [
+			one
+			for one in (
+				*(address.get(key) for key in settings.ADDRESS),
+				company.country,
+			)
+			if one
+		]
+		if address
+		else [company.country],
+	}
+
+
+#: How a print format is written, for a model writing one.
+LAYOUT_HELP = (
+	"sections is a list of sections, top to bottom. A section is a list of columns side by side, or "
+	"{label, columns}. A column is a list of blocks, top to bottom. A block is a fieldname of the record "
+	"(printed as its label and value); '---' for a line; {table: fieldname, columns: ['item_name:50', "
+	"'qty:15', 'amount:35']} for a table with each column's share of the width; {text: '...'} for fixed "
+	"words; {space: 12} for room; {image: url} for a file of this workspace; or {html: '...'}, a Jinja "
+	"template of the record only: {{ doc.fieldname }}, {{ doc.get_formatted('grand_total') }}, "
+	"{% for row in doc.items %}...{% endfor %}, {% if %}, _('text') and plain filters; values are "
+	"escaped, and scripts, forms and outside pictures are taken out. An empty column is []. heading is "
+	"the title at the top in the same HTML, frappe's own when left out. css is the format's stylesheet, "
+	"with no imports or outside URLs."
+)
+
+
+def _block(one) -> dict:
+	"""One block as a model writes it, as the builder stores it."""
+	if isinstance(one, str):
+		return {"fieldtype": "Divider"} if one.strip("- ") == "" else {"fieldname": one.strip()}
+	if not isinstance(one, dict):
+		frappe.throw(_("A block is a fieldname, '---', or one of table, text, space, image or html."))
+	if one.get("table"):
+		columns = []
+		for column in one.get("columns") or []:
+			fieldname, _sep, width = str(column).partition(":")
+			columns.append({"fieldname": fieldname.strip(), **({"width": frappe.utils.cint(width)} if width else {})})
+		return {"fieldname": one["table"], "table_columns": columns}
+	if "html" in one:
+		return {"fieldtype": "HTML", "html": str(one["html"])}
+	if "text" in one:
+		return {"fieldtype": "Static Text", "text": str(one["text"])}
+	if "space" in one:
+		return {"fieldtype": "Spacer", "height": frappe.utils.cint(one["space"]) or 10}
+	if "image" in one:
+		return {"fieldtype": "Image", "image_url": str(one["image"])}
+	if one.get("fieldname"):
+		return {"fieldname": one["fieldname"]}
+	frappe.throw(_("A block is a fieldname, '---', or one of table, text, space, image or html."))
+
+
+def _built(sections, heading: str | None) -> dict:
+	"""The builder's layout from sections as a model writes them."""
+	from frappe.printing.doctype.print_format.classic_converter import DEFAULT_PRINT_HEADING
+
+	if isinstance(sections, str):
+		sections = frappe.parse_json(sections)
+	if not isinstance(sections, list) or not sections:
+		frappe.throw(_("sections is a list of sections, each a list of columns."))
+	built = []
+	for section in sections:
+		label = ""
+		if isinstance(section, dict):
+			label, section = section.get("label") or "", section.get("columns") or []
+		if not isinstance(section, list):
+			frappe.throw(_("A section is a list of columns, each a list of blocks."))
+		columns = [column if isinstance(column, list) else [column] for column in section]
+		built.append({"label": label, "columns": [{"label": "", "fields": [_block(b) for b in c]} for c in columns]})
+	top = heading or DEFAULT_PRINT_HEADING
+	return {
+		"header": {"columns": [{"label": "", "fields": [{"fieldtype": "HTML", "label": "", "html": top}]}]},
+		"sections": built,
+		"footer": {"columns": [{"label": "", "fields": []}]},
+	}
+
+
+def _written(layout) -> dict | None:
+	"""A builder layout as a model writes one (_built's inverse): its sections,
+	and its heading when it is not frappe's own."""
+	from frappe.printing.doctype.print_format.classic_converter import DEFAULT_PRINT_HEADING
+
+	if not isinstance(layout, dict):
+		return None
+
+	def block(one: dict):
+		kind = one.get("fieldtype")
+		if one.get("table_columns"):
+			return {
+				"table": one.get("fieldname"),
+				"columns": [
+					f"{c.get('fieldname')}:{c.get('width')}" if c.get("width") else c.get("fieldname")
+					for c in one["table_columns"]
+				],
+			}
+		if kind == "HTML":
+			return {"html": one.get("html") or ""}
+		if kind == "Static Text":
+			return {"text": one.get("text") or ""}
+		if kind == "Divider":
+			return "---"
+		if kind == "Spacer":
+			return {"space": one.get("height") or 10}
+		if kind == "Image":
+			return {"image": one.get("image_url") or ""}
+		return one.get("fieldname")
+
+	sections = []
+	for section in layout.get("sections") or []:
+		columns = [
+			[b for b in (block(one) for one in column.get("fields") or [] if isinstance(one, dict)) if b]
+			for column in section.get("columns") or []
+		]
+		if any(columns):
+			sections.append({"label": section["label"], "columns": columns} if section.get("label") else columns)
+	top = [
+		one.get("html")
+		for column in (layout.get("header") or {}).get("columns") or []
+		for one in column.get("fields") or []
+		if one.get("fieldtype") == "HTML"
+	]
+	heading = top[0] if top and top[0] != DEFAULT_PRINT_HEADING else None
+	return {"sections": sections, **({"heading": heading} if heading else {})}
+
+
+def print_layout(
+	doctype: Annotated[str, "The kind of record, such as Sales Invoice."],
+	print_format: Annotated[str, "A format of that kind to start from; its default when left out."] | None = None,
+) -> dict:
+	"""A kind of record's fields and one of its builder formats as sections, the
+	way design_print_format takes them: read it before designing one.
+	Workspace administrators only."""
+	from onedesk.one import printing, roles
+	from onedesk.one_ai import kind
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator designs how documents are printed."}
+	try:
+		printing._doctype(doctype)
+		meta = frappe.get_meta(doctype)
+		name = print_format or next(iter(printing.starts(doctype)), frappe._dict()).get("name")
+		held = frappe.db.get_value("Print Format", name, ["doc_type", "format_data", "css"], as_dict=True) if name else None
+		if held and held.doc_type != doctype:
+			return {"error": f"{name} is not a format of {doctype}."}
+		return {
+			"doctype": doctype,
+			"fields": kind.fields_of(meta, most=150),
+			"tables": {
+				table.fieldname: kind.fields_of(frappe.get_meta(table.options), most=30)
+				for table in meta.get_table_fields()
+			},
+			"format": name,
+			"written": _written(json.loads(held.format_data)) if held and held.format_data else None,
+			"css": held.css if held else None,
+			"how": LAYOUT_HELP,
+		}
+	except frappe.ValidationError as e:
+		frappe.clear_last_message()
+		return {"error": str(e)}
+
+
+def design_print_format(
+	doctype: Annotated[str, "The kind of record the format prints, such as Sales Invoice."],
+	name: Annotated[str, "The format's name: a new one, or one of the workspace's own formats to change."],
+	sections: Annotated[
+		str,
+		"The sections as JSON text, top to bottom: each a list of columns, each a list of blocks, as "
+		"print_layout's how says. Example: [[['customer_name'], ['posting_date', 'due_date']], "
+		"[[{\"table\": \"items\", \"columns\": [\"item_name:60\", \"qty:15\", \"amount:25\"]}]], [[], ['grand_total']]]",
+	],
+	heading: Annotated[str, "The title at the top, as an HTML template of the record; frappe's own if left out."]
+	| None = None,
+	css: Annotated[str, "The format's own stylesheet, if it needs one."] | None = None,
+	letter_head: Annotated[str, "The letter head it prints with, if not the default."] | None = None,
+	make_default: Annotated[bool, "True to make it the one this kind prints with."] | None = None,
+	why: Annotated[str, "In a sentence, what the design is for."] | None = None,
+) -> dict:
+	"""Suggest a print format for any kind of record, as a card a workspace
+	administrator approves: laid out as frappe's print format builder lays one
+	out, from sections of columns of blocks. Read print_layout first. It is
+	checked as the builder's own save checks it; the card shows the page on
+	the kind's latest record before it is approved, and the format then opens
+	in the builder like any other. Workspace administrators only."""
+	from onedesk.one import printing, roles
+	from onedesk.one_ai import proposals
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator designs how documents are printed."}
+	name = (name or "").strip()
+	if not name:
+		return {"error": "Give the format a name."}
+	try:
+		existing = frappe.db.get_value("Print Format", name, ["standard", "doc_type"], as_dict=True)
+		if existing and (existing.standard == "Yes" or existing.doc_type != doctype):
+			return {"error": f"{name} is not a format of {doctype} this workspace made; choose another name."}
+		doc = printing.format_doc(doctype, name, _built(sections, heading), css, letter_head)
+	except frappe.ValidationError as e:
+		frappe.clear_last_message()
+		return {"error": str(e)}
+	summary = [
+		{"label": _("Changed Format") if existing else _("New Format"), "value": name},
+		{"label": _("Sections"), "value": str(len(frappe.parse_json(doc.format_data).get("sections") or []))},
+	]
+	if make_default:
+		summary.append({"label": _("Prints With"), "value": name})
+	return {
+		"proposal": proposals.propose(
+			"Printing",
+			doctype,
+			changes={
+				"state": printing.state(doctype, name),
+				"format": {"doctype": doctype, "name": name, "format_data": doc.format_data, "css": doc.css},
+				"default_format": name if make_default else None,
+				"summary": summary,
+			},
+			why=why,
+		),
+		"state": "Proposed",
+		"next": "Tell them See the Page on the card shows it on their latest record, and that once approved "
+		"it opens in the print format builder from the record's Settings > Print Formats.",
+	}

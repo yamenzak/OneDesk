@@ -302,10 +302,15 @@ def _suggests(row: dict) -> dict:
 	if row.get("kind") in ("Customize", "Holidays", "Numbering", "Printing"):
 		# What approving it changes, one line each, as the tool said it: the
 		# page's whole state underneath is not a diff anybody reads.
+		head = changes.get("letter_head") or {}
 		return {
 			"doctype": doctype,
 			"name": (row.get("record") or "") if row.get("kind") == "Holidays" else "",
 			"title": "",
+			# A format or a letter head it draws is shown as the page, before Approve.
+			"page": row.get("kind") == "Printing"
+			and bool(changes.get("format") or head.get("content") or head.get("footer") or head.get("image")),
+			"format": (changes.get("format") or {}).get("name") or "",
 			"fields": [
 				{"label": str(one.get("label") or ""), "value": str(one.get("value") or "")}
 				for one in (changes.get("summary") or [])[: proposals.MOST_FIELDS]

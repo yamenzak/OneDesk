@@ -54,6 +54,10 @@
 			{{ unfolded ? __("Show fewer") : __("Show {0} more", [folded]) }}
 		</button>
 
+		<button v-if="record.page" class="one-ai-rec__more" @click="see_page">
+			{{ __("See the Page") }}
+		</button>
+
 		<div v-if="suggested" class="one-ai-rec__foot" :class="`one-ai-rec__foot--${(state || '').toLowerCase()}`">
 			<div v-if="suggested.why && state === 'Proposed'" class="one-ai-rec__why">{{ suggested.why }}</div>
 			<div v-if="state === 'Proposed'" class="one-ai-rec__doing">
@@ -164,6 +168,19 @@ const settled = computed(() => {
 	return card.state;
 });
 
+// A Printing card's page, drawn by the server as it would print, in a frame
+// that runs nothing (printing.proposal_preview).
+async function see_page() {
+	const html = await frappe.xcall("onedesk.one.printing.proposal_preview", { proposal: props.suggested.name });
+	const dialog = new frappe.ui.Dialog({ title: title.value, size: "extra-large" });
+	const frame = document.createElement("iframe");
+	frame.setAttribute("sandbox", "");
+	frame.className = "one-ai-page";
+	frame.srcdoc = html;
+	dialog.$body.append(frame);
+	dialog.show();
+}
+
 function open(name) {
 	// A customization was applied to a form, not to a record of it.
 	if (kind.value === "Customize") frappe.set_route("customize", doctype.value);
@@ -175,6 +192,8 @@ function open(name) {
 	else if (kind.value === "Reply") frappe.set_route("onemail");
 	// A kind of record's series are read, and changed by hand, in its Settings.
 	else if (kind.value === "Numbering") onedesk.doctype_settings.open(doctype.value, "naming");
+	// A format it designed opens in frappe's builder, to be changed there like any other.
+	else if (kind.value === "Printing" && props.record.format) frappe.set_route("print-format-builder", props.record.format);
 	// Letter heads and defaults are read, and changed by hand, on Workspace › Printing.
 	else if (kind.value === "Printing") frappe.set_route("workspace-settings", { section: "printing" });
 	else frappe.set_route("Form", doctype.value, name);

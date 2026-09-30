@@ -845,6 +845,7 @@ one_ai_reads = [
 	# How records are numbered, for the workspace's administrators. See one/numbering.py.
 	"onedesk.one.ai.workspace_numbering",
 	"onedesk.one.ai.workspace_printing",
+	"onedesk.one.ai.print_layout",
 	# How the person signs in, and where they are signed in. See one/signin.py.
 	"onedesk.one.ai.my_sign_in",
 	"onedesk.one.ai.my_memories",
@@ -929,6 +930,7 @@ one_ai_suggests = [
 	"onedesk.one.ai.draft_notification",
 	"onedesk.one.ai.change_numbering",
 	"onedesk.one.ai.change_printing",
+	"onedesk.one.ai.design_print_format",
 	"onedesk.one.ai.customize",
 	"onedesk.one.ai.sign_mailbox",
 	# Holidays and days off, as the Holidays settings would save them.
@@ -1058,3 +1060,7 @@ website_route_rules = [
 # for are added after. See one_storage/dav.py.
 before_request = ["onedesk.one_storage.dav.sign_in"]
 after_request = ["onedesk.one_storage.dav.headers"]
+
+# A workspace's HTML block prints through One's sandbox: onedesk's copy of frappe's
+# HTML block macro calls this for a block the workspace saved. See one/print_html.py.
+jinja = {"methods": ["onedesk.one.print_html.one_html_block"]}
