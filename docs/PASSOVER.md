@@ -4158,6 +4158,9 @@ required field still empty after validate, from the document only; what the
 document does not say stays empty and the record waits for a person. So a
 required field added on Customize no longer breaks Intake, and Intake is off
 `one_makes_records`: the list is now only code that has no model to ask.
+Checked live, two calls: a Task typed by name with a required description, made
+from the Stadtwerke invoice, was named `RE-2026-1100` and described "Pay invoice
+RE-2026-1100 from Stadtwerke Köln GmbH for 84.2 by 2026-09-15" (rolled back).
 
 ## OneLegal
 
