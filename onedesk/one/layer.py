@@ -187,13 +187,13 @@ def property_setter(doc, method=None) -> None:
 		and doc.property == frappe.flags.one_default
 	):
 		return
-	# How a Customer, Supplier, Item or Employee is named, applied by its app's own
-	# method from Numbering (one/numbering.py set_naming_by): the series and the name
-	# field shown or hidden, made optional or required.
+	# How a kind of record is named, from Numbering (one/numbering.py set_naming_by),
+	# which has checked the kind and the choice: by its series or a field, and the
+	# series and the name field shown or hidden, made optional or required.
 	if (
 		frappe.flags.one_named_by
 		and doc.doc_type == frappe.flags.one_named_by
-		and doc.property in ("hidden", "reqd")
+		and doc.property in ("hidden", "reqd", "autoname", "naming_rule")
 	):
 		return
 	if doc.property not in PROPERTIES:

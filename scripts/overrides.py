@@ -53,6 +53,27 @@ OVERRIDES = [
 		"def set_naming_series(self):",
 	),
 	(
+		"Numbering writes the global default a Customer, Supplier or Item reads when it names itself",
+		"their controllers read cust_master_name, supp_master_name and item_naming_by as global defaults, which their Settings' save writes; numbering.set_naming_by sets the field without that save, so it writes the default too",
+		"onedesk/one/numbering.py",
+		"erpnext/erpnext/selling/doctype/customer/customer.py",
+		'cust_master_name = frappe.defaults.get_global_default("cust_master_name")',
+	),
+	(
+		"Numbering names a Campaign through the default CRM Settings writes",
+		"a Campaign names itself by the campaign_naming_by global default, which CRM Settings writes on save; numbering.set_naming_by writes it directly",
+		"onedesk/one/numbering.py",
+		"erpnext/erpnext/crm/doctype/campaign/campaign.py",
+		'if frappe.defaults.get_global_default("campaign_naming_by") != "Naming Series":',
+	),
+	(
+		"Numbering names any other kind of record by a field",
+		"numbering.set_naming_by writes the doctype's autoname as field:<fieldname>, as Customize Form does, and frappe's naming reads it from the meta",
+		"onedesk/one/numbering.py",
+		"frappe/frappe/model/naming.py",
+		"def _field_autoname(autoname, doc, skip_slicing=None):",
+	),
+	(
 		"The Settings dialog gains an Automations tab beside Approvals",
 		"frappe's dialog has no tab for Automation Flow; doctype_settings.js registers one and adds it to the group that holds frappe's Workflow tab",
 		"onedesk/public/js/doctype_settings.js",

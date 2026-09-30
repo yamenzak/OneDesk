@@ -379,18 +379,18 @@ whether the notification is **Off**, whether its text was
 a new person starts with it on. **Mailed Outside** means it goes to an address
 outside the workspace, such as the mail a file request sends.
 
-What ERPNext and HRMS send is here too, under the app whose screens it belongs
-to, in one of three ways:
+What the products send by themselves is here too, under the product whose
+screens it belongs to, in one of three ways:
 
 - **Told by One**, like everything else: a leave or expense to approve, a
   birthday, an interview soon, a credit limit crossed, a material request
   raised by reordering. Their own switches in HR Settings and Stock Settings
   are gone, because **Send This** here decides.
-- **Told by One in their words**: the rules they ship, such as Training
+- **Told by One in the product's words**: the rules it ships, such as Training
   Scheduled or New Fiscal Year. Their channels can be changed; what they say
-  is theirs.
-- **Mailed by ERPNext** or **Mailed by HRMS**: a payslip, a campaign's mails,
-  a statement to a customer, and the reports their nightly jobs send when
+  is the product's.
+- **Mailed by OneHR**, **Mailed by OneBook** and so on: a payslip, a
+  campaign's mails, a statement to a customer, and the reports nightly jobs send when
   something fails. Listed so nothing the workspace sends is hidden. The
   payslip's Send This is the same switch as the one in Payroll Settings; the
   rest are sent whenever they happen.
@@ -481,11 +481,16 @@ share numbers. A series' number can be moved up, to start a new year at 1000,
 say, but never down, and never below the highest number a record already has:
 the edit window says what that is. Each move is kept in the record's history.
 
-A **Customer**, **Supplier**, **Item** or **Employee** can be named by what it
-is instead: **Name each new Customer by** at the top of its Numbering says
-Customer Name, Naming Series or Auto Name (an Item by its Item Code, an Employee
-by Full Name or Employee Number). Records already made keep their names, and
-the series are used only when it is named by Naming Series.
+**Name each new ... by**, at the top of Numbering, says whether a new record
+takes the next name in its series or is named by one of its own fields: pick
+**Field**, then which one. A project by its title, a vehicle by its plate. That
+field becomes required, and the name must be new each time, so pick a field no
+two records share; a second record with the same value is refused. A
+**Customer**, **Supplier**, **Item**, **Employee** or **Campaign** names itself,
+so there the choice is its own: Customer Name, Naming Series or Auto Name, an
+Item by its Item Code, an Employee by Full Name or Employee Number. Records
+already made keep their names, and the series are used only when it is named by
+Naming Series.
 
 **Rules** name a record by a prefix of their own when its fields match, before
 any series: returns as `RET-.YYYY.-`, a government customer as

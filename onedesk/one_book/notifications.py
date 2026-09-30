@@ -26,7 +26,7 @@ TYPES = [
 		"roles": ("Accounts Manager", "Accounts User"),
 		"about": _lt("When ERPNext makes next year's fiscal year on its own, so somebody checks it."),
 		"to": _lt("Accounts"),
-		"words": "ERPNext",
+		"words": True,
 		"rule": "Notification for new fiscal year",
 		"email_default": True,
 	},
@@ -36,7 +36,7 @@ TYPES = [
 		"app": "OneBook",
 		"about": _lt("On each statement run's schedule, in the words set on the run."),
 		"to": _lt("Each customer on the run"),
-		"mailed_by": "ERPNext",
+		"mailed_by": True,
 		"outside": True,
 	},
 ]

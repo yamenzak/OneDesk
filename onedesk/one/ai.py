@@ -517,7 +517,7 @@ def notification_type(
 					"email_for_new_people": bool(one.one_email_default),
 					"outside": bool(one.one_outside),
 					"words_of": notify.upstream(declared.get(one.name) or {}) or None,
-					"mailed_by": (declared.get(one.name) or {}).get("mailed_by"),
+					"mailed_by": one.one_app if (declared.get(one.name) or {}).get("mailed_by") else None,
 				}
 				for one in rows
 			]
@@ -546,14 +546,14 @@ def notification_type(
 
 
 def _whose(one: dict) -> dict:
-	"""For a type whose words are erpnext's or hrms's: whose, and what can be
+	"""For a type whose words are another product's: whose, and what can be
 	changed instead."""
 	from onedesk.one import notify
 
 	if one.get("mailed_by"):
 		return {
-			"mailed_by": one["mailed_by"],
-			"next": f"{one['mailed_by']} mails this itself; only whether it is sent can be changed, where it has a switch.",
+			"mailed_by": one["app"],
+			"next": f"{one['app']} mails this itself; only whether it is sent can be changed, where it has a switch.",
 		}
 	if notify.upstream(one):
 		return {
@@ -1467,15 +1467,17 @@ def change_numbering(
 	| None = None,
 	name_by: Annotated[
 		str,
-		"Only for a Customer, Supplier, Item or Employee: what a new one is named by, one of "
-		"workspace_numbering's named_by options, such as its name or Naming Series.",
+		"What a new one is named by: the `value` of one of workspace_numbering's named_by options, such as "
+		"Naming Series, field:<fieldname> for a field a person fills in (the name must then be unique, so "
+		"only a field no two records share), or, for a Customer, Supplier, Item, Employee or Campaign, its "
+		"app's own choice such as Customer Name.",
 	]
 	| None = None,
 	why: Annotated[str, "In a sentence, what the change is for."] | None = None,
 ) -> dict:
 	"""Suggest how a kind of record is numbered, as a card a workspace
-	administrator approves: a Customer, Supplier, Item or Employee named by
-	its name or by a series, its series added, changed, reordered (the first
+	administrator approves: a new record named by a series or by one of its
+	fields (a Customer by its name, a Project by its title), its series added, changed, reordered (the first
 	is the default) or removed, and a series' counter moved on, to start a new
 	year at 1000 or to carry on after records brought in from elsewhere. Read
 	workspace_numbering first, and check `used` before moving a counter.
@@ -1497,10 +1499,13 @@ def change_numbering(
 		if wanted != was:
 			summary.append({"label": _("Series"), "value": _("{0} (was {1})").format(", ".join(wanted), ", ".join(was))})
 		named = numbering.naming_by(doctype)
-		if name_by and (not named or name_by not in named["options"]):
-			return {"error": f"{doctype} cannot be named by {name_by}."}
+		labels = {one["value"]: one["label"] for one in (named or {}).get("options", [])}
+		if name_by and name_by not in labels:
+			return {"error": f"{doctype} cannot be named by {name_by}; the choices are {', '.join(labels) or 'none'}."}
 		if name_by and name_by != named["value"]:
-			summary.append({"label": _("Named By"), "value": _("{0} (was {1})").format(_(name_by), _(named["value"]))})
+			summary.append(
+				{"label": _("Named By"), "value": _("{0} (was {1})").format(labels[name_by], labels.get(named["value"], named["value"]))}
+			)
 		else:
 			name_by = None
 		rows = {row["series"]: row for row in now}

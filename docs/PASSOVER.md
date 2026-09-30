@@ -4075,6 +4075,18 @@ prefix of their own when its fields match, held to the kinds Numbering covers,
 a plain prefix and the record's ordinary fields. How a Series Is Written is
 One's own text, naming no product.
 
+Then: any kind of record can be named by one of its fields, not only the four.
+**Name each new ... by** says Naming Series or Field, and Field asks which one:
+frappe's `autoname` written as `field:<fieldname>`, as Customize Form writes
+it, with the series hidden and the field made required; a second record with
+the same value is refused by the name itself. The kinds that name themselves
+in code (Customer, Supplier, Item, Employee, and now Campaign) ignore that, so
+they keep their app's own choice. On the way: switching those four never took,
+because their code reads a global default the Settings' save writes and the
+switch did not; it writes it now. Workspace › Notifications says Mailed by
+OneHR, OneBook, OneInventory or OneCRM, read from the type's product rather
+than typed, instead of ERPNext or HRMS.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

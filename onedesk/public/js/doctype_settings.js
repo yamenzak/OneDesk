@@ -534,35 +534,60 @@ onedesk.numbering.help_html = () => {
 	</div>`;
 };
 
-// How a Customer, Supplier, Item or Employee is named: its app's own setting, changed
-// through one/numbering.py set_naming_by. Nothing is drawn for any other kind.
+// How a new record is named: by its series or by a field a person fills in, or, for a
+// kind that names itself (a Customer, an Item), by its app's own choice. Changed
+// through one/numbering.py set_naming_by. Nothing is drawn where there is no choice.
 onedesk.numbering.named_by = async ($wrapper, doctype) => {
-	const said = await frappe.xcall(onedesk.numbering.API + "naming_by", { doctype });
+	let said = await frappe.xcall(onedesk.numbering.API + "naming_by", { doctype });
 	if (!said) return;
-	const control = frappe.ui.form.make_control({
-		parent: $wrapper,
-		df: {
-			fieldtype: "Select",
-			fieldname: "named_by",
-			label: __("Name each new {0} by", [__(doctype)]),
-			options: said.options.map((one) => ({ label: __(one), value: one })),
-			description: __("The series below are used only when it is named by Naming Series. Records already made keep their names."),
-			change() {
-				const value = control.get_value();
-				if (!value || value === said.value) return;
-				frappe.confirm(
-					__("Name each new {0} by {1}? Records already made keep their names.", [__(doctype), __(value)]),
-					async () => {
-						Object.assign(said, await frappe.xcall(onedesk.numbering.API + "set_naming_by", { doctype, value }));
-						frappe.show_alert({ message: __("Naming updated"), indicator: "green" });
-					},
-					() => control.set_value(said.value)
-				);
+	const FIELD = "Field";
+	const fields = () => said.options.filter((one) => one.value.startsWith("field:"));
+	const others = () => said.options.filter((one) => !one.value.startsWith("field:"));
+	const by = (value) => (said.by_field && value.startsWith("field:") ? FIELD : value);
+	const group = new frappe.ui.FieldGroup({
+		body: $wrapper,
+		fields: [
+			{
+				fieldtype: "Select",
+				fieldname: "by",
+				label: __("Name each new {0} by", [__(doctype)]),
+				options: [...others(), ...(said.by_field && fields().length ? [{ label: __("Field"), value: FIELD }] : [])],
+				description: __("The series below are used only when it is named by Naming Series. Records already made keep their names."),
+				change: () => apply(),
 			},
-		},
-		render_input: true,
+			{ fieldtype: "Column Break" },
+			{
+				fieldtype: "Select",
+				fieldname: "field",
+				label: __("Field"),
+				options: fields(),
+				depends_on: `eval:doc.by === "${FIELD}"`,
+				description: __("It becomes required, and no two records may share its value."),
+				change: () => apply(),
+			},
+		],
 	});
-	control.set_value(said.value);
+	group.make();
+	const load = () => {
+		group.set_values({ by: by(said.value), field: said.value.startsWith("field:") ? said.value : "" });
+		group.refresh_dependency();
+	};
+	const apply = () => {
+		const values = group.get_values(true) || {};
+		const value = values.by === FIELD ? values.field : values.by;
+		if (!value || value === said.value) return;
+		const label = (said.options.find((one) => one.value === value) || {}).label || value;
+		frappe.confirm(
+			__("Name each new {0} by {1}? Records already made keep their names.", [__(doctype), label]),
+			async () => {
+				said = await frappe.xcall(onedesk.numbering.API + "set_naming_by", { doctype, value });
+				frappe.show_alert({ message: __("Naming updated"), indicator: "green" });
+				load();
+			},
+			load
+		);
+	};
+	load();
 };
 
 // Naming Rules: a record whose fields match is named by the rule's own prefix,

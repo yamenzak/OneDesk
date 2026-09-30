@@ -28,15 +28,21 @@ from onedesk.one.customize import REFUSED_MODULES
 
 SETTINGS = "Document Naming Settings"
 
-#: Kinds of record whose app decides how they are named, in one of its own
-#: settings: the Single, the field, and the method that applies a change
-#: (hides or shows the series and the name field as the choice needs).
+#: Kinds of record that name themselves in code, by one of their app's own
+#: settings: the Single, the field, the method that shows or hides the series
+#: and the name field to match (or None), and whether the code reads the
+#: setting as a global default, which the Single's save would have written.
 NAMED_BY = {
-	"Customer": ("Selling Settings", "cust_master_name", "update_customer_naming_settings"),
-	"Supplier": ("Buying Settings", "supp_master_name", "update_supplier_naming_settings"),
-	"Item": ("Stock Settings", "item_naming_by", "update_item_naming_settings"),
-	"Employee": ("HR Settings", "emp_created_by", "set_naming_series"),
+	"Customer": ("Selling Settings", "cust_master_name", "update_customer_naming_settings", True),
+	"Supplier": ("Buying Settings", "supp_master_name", "update_supplier_naming_settings", True),
+	"Item": ("Stock Settings", "item_naming_by", "update_item_naming_settings", True),
+	"Employee": ("HR Settings", "emp_created_by", "set_naming_series", False),
+	"Campaign": ("CRM Settings", "campaign_naming_by", None, True),
 }
+
+#: What any other kind may be named by: its series, or a field a person fills.
+SERIES = "Naming Series"
+FIELD_KINDS = ("Data", "Link", "Select", "Int")
 
 #: What a workspace administrator is given to write Naming Rules with.
 GRANTS = {"Document Naming Rule": ("read", "write", "create", "delete")}
@@ -255,46 +261,130 @@ def doctypes() -> list[dict]:
 # ------------------------------------------------------------------ named by
 
 
+def _names_itself(doctype: str) -> bool:
+	"""Whether a kind of record is named by its own code, which a changed
+	`autoname` would not reach."""
+	from frappe.model.base_document import get_controller
+
+	return hasattr(get_controller(doctype), "autoname")
+
+
+def _fields(meta) -> list[dict]:
+	"""The fields a new record could be named by: one a person fills in, on
+	the form, that every reader of the record may see."""
+	return [
+		{"value": f"field:{df.fieldname}", "label": _(df.label)}
+		for df in meta.fields
+		if df.fieldtype in FIELD_KINDS
+		and df.fieldname not in ("naming_series", "amended_from")
+		and df.label
+		and not df.hidden
+		and not df.permlevel
+		and not df.is_virtual
+		and (not df.read_only or df.fetch_from)
+	]
+
+
 @frappe.whitelist()
 def naming_by(doctype: Annotated[str, "The kind of record."]) -> dict | None:
-	"""How a Customer, Supplier, Item or Employee is named, as its app's own
-	setting holds it, and what else it may be named by; None for any other."""
-	_meta(doctype)
-	if doctype not in NAMED_BY:
+	"""How a new record of a kind is named, and what else it may be named by:
+	its app's own setting for the kinds that name themselves, else its series
+	or one of its fields. None where there is no choice."""
+	meta = _meta(doctype)
+	if doctype in NAMED_BY:
+		single, field, _method, _default = NAMED_BY[doctype]
+		df = frappe.get_meta(single).get_field(field)
+		return {
+			"value": frappe.db.get_single_value(single, field),
+			"options": [{"value": one, "label": _(one)} for one in (df.options or "").split("\n") if one],
+			"by_field": False,
+		}
+	if _names_itself(doctype):
 		return None
-	single, field, _method = NAMED_BY[doctype]
-	df = frappe.get_meta(single).get_field(field)
-	return {
-		"value": frappe.db.get_single_value(single, field),
-		"options": [one for one in (df.options or "").split("\n") if one],
-	}
+	autoname = meta.autoname or ""
+	options = [{"value": SERIES, "label": _(SERIES)}, *_fields(meta)]
+	value = SERIES if autoname.startswith("naming_series:") else autoname
+	if value not in [one["value"] for one in options]:
+		# Named some other way by its app (a fixed series, an expression): kept
+		# until something else is picked.
+		options.append({"value": value, "label": _("As {0} names it now").format(_(doctype))})
+	return {"value": value, "options": options, "by_field": True}
 
 
 @frappe.whitelist(methods=["POST"])
 def set_naming_by(
-	doctype: Annotated[str, "Customer, Supplier, Item or Employee."],
-	value: Annotated[str, "One of the choices naming_by lists."],
+	doctype: Annotated[str, "The kind of record."],
+	value: Annotated[
+		str, "One of the values naming_by lists: Naming Series, field:<fieldname>, or an app's choice."
+	],
 ) -> dict | None:
-	"""Change how a Customer, Supplier, Item or Employee is named: the app's
-	own setting, and the app's own method that shows or hides the series and
-	the name field to match, which writes property setters the workspace
-	layer would otherwise refuse (layer.property_setter)."""
+	"""Change how a new record of a kind is named. For the kinds that name
+	themselves, their app's own setting and its own method; for any other,
+	frappe's `autoname` as Customize Form writes it, with the series shown or
+	hidden and the field made required. Either way through property setters
+	the workspace layer would otherwise refuse (layer.property_setter)."""
 	said = naming_by(doctype)
-	if not said or value not in said["options"]:
+	if not said or value not in [one["value"] for one in said["options"]]:
 		frappe.throw(_("{0} cannot be named that way.").format(_(doctype)))
 	if value == said["value"]:
 		return said
-	single, field, method = NAMED_BY[doctype]
+	if not said["by_field"]:
+		_set_app(doctype, value)
+	elif value == SERIES or value.startswith("field:"):
+		_set_autoname(doctype, said["value"], value)
+	else:
+		frappe.throw(_("{0} cannot be named that way.").format(_(doctype)))
+	frappe.clear_cache(doctype=doctype)
+	return naming_by(doctype)
+
+
+def _set_app(doctype: str, value: str) -> None:
+	single, field, method, default = NAMED_BY[doctype]
 	settings = frappe.get_single(single)
 	settings.set(field, value)
 	frappe.flags.one_named_by = doctype
 	try:
-		getattr(settings, method)()
+		if method:
+			getattr(settings, method)()
 	finally:
 		frappe.flags.one_named_by = None
 	settings.db_set(field, value)
-	frappe.clear_cache(doctype=doctype)
-	return naming_by(doctype)
+	if default:
+		frappe.db.set_default(field, value)
+
+
+def _set_autoname(doctype: str, was: str, value: str) -> None:
+	from frappe.custom.doctype.property_setter.property_setter import make_property_setter
+
+	def put(field, prop, one, kind="Check"):
+		make_property_setter(
+			doctype,
+			field,
+			prop,
+			one,
+			kind,
+			for_doctype=not field,
+			validate_fields_for_doctype=False,
+			is_system_generated=False,
+		)
+
+	by_field = value.startswith("field:")
+	frappe.flags.one_named_by = doctype
+	try:
+		put(None, "autoname", "naming_series:" if not by_field else value, "Data")
+		put(None, "naming_rule", "By fieldname" if by_field else 'By "Naming Series" field', "Data")
+		put("naming_series", "hidden", 1 if by_field else 0)
+		put("naming_series", "reqd", 0 if by_field else 1)
+		if by_field:
+			put(value[6:], "reqd", 1)
+		if was.startswith("field:"):
+			# The field it was named by is as required as its app made it again.
+			frappe.db.delete(
+				"Property Setter",
+				{"doc_type": doctype, "field_name": was[6:], "property": "reqd", "is_system_generated": 0},
+			)
+	finally:
+		frappe.flags.one_named_by = None
 
 
 # ------------------------------------------------------------------ naming rules

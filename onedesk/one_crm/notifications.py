@@ -12,7 +12,7 @@ TYPES = [
 		"app": "OneCRM",
 		"about": _lt("On a campaign's schedule, in the templates it names."),
 		"to": _lt("The campaign's leads and contacts"),
-		"mailed_by": "ERPNext",
+		"mailed_by": True,
 		"outside": True,
 	},
 ]

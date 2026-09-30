@@ -110,9 +110,10 @@ def jinja(msgid) -> str:
 
 
 def upstream(one: dict) -> str:
-	"""Whose words a type is in when they are not ours: the app that mails it,
-	or the app whose rule or text it carries. Empty for our own."""
-	return one.get("mailed_by") or one.get("words") or ""
+	"""Whose words a type is in when they are not ours: the product that mails
+	it, or whose rule or text it carries, by the product's name. Empty for our
+	own."""
+	return one.get("app", "") if one.get("mailed_by") or one.get("words") else ""
 
 
 def slots(name: str) -> list[str]:
@@ -287,9 +288,7 @@ def validate(doc, method=None) -> None:
 		doc.one_allow_email = 0
 		if not one.get("switch") and not doc.enabled:
 			frappe.throw(
-				_("{0} sends this whenever it happens, and it cannot be turned off here.").format(
-					one["mailed_by"]
-				)
+				_("{0} sends this whenever it happens, and it cannot be turned off here.").format(one["app"])
 			)
 	if one.get("switch"):
 		doctype, field = one["switch"]

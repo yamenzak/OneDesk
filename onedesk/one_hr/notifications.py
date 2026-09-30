@@ -270,7 +270,7 @@ TYPES = [
 		"roles": ("Employee",),
 		"about": _lt("When a training event you attend is scheduled."),
 		"to": _lt("Everybody attending"),
-		"words": "HRMS",
+		"words": True,
 		"rule": "Training Scheduled",
 		"email_default": True,
 	},
@@ -280,7 +280,7 @@ TYPES = [
 		"roles": ("Employee",),
 		"about": _lt("The day before your exit interview."),
 		"to": _lt("The employee leaving"),
-		"words": "HRMS",
+		"words": True,
 		"rule": "Exit Interview Scheduled",
 		"email_default": True,
 	},
@@ -290,7 +290,7 @@ TYPES = [
 		"app": "OneHR",
 		"about": _lt("When a payslip is submitted, with the payslip as a PDF."),
 		"to": _lt("Its employee"),
-		"mailed_by": "HRMS",
+		"mailed_by": True,
 		"switch": ("Payroll Settings", "email_salary_slip_to_employee"),
 	},
 	{
@@ -298,7 +298,7 @@ TYPES = [
 		"app": "OneHR",
 		"about": _lt("When somebody is leaving, in the template HR Settings names."),
 		"to": _lt("The employee leaving"),
-		"mailed_by": "HRMS",
+		"mailed_by": True,
 		"outside": True,
 	},
 	{
@@ -306,6 +306,6 @@ TYPES = [
 		"app": "OneHR",
 		"about": _lt("When the nightly job cannot allocate earned leave."),
 		"to": _lt("HR managers"),
-		"mailed_by": "HRMS",
+		"mailed_by": True,
 	},
 ]
