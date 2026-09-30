@@ -180,8 +180,20 @@ def _layout(data, doctype: str | None, name: str) -> None:
 			frappe.throw(_("{0}: only a standard field template may be used.").format(where))
 		if kind == "Image" and block.get("image_url") and not print_html.IMAGE.match(str(block["image_url"])):
 			frappe.throw(_("{0}: a picture here is one uploaded to this workspace.").format(where))
-		for key in ("custom_style", "style", "label_color", "value_color"):
+		for key in (
+			"custom_style",
+			"style",
+			"label_color",
+			"value_color",
+			"table_header_bg",
+			"table_border_color",
+		):
 			_style(block.get(key), where)
+	# A section's own look is style too, and the builder keeps every key of it.
+	sections = (data.get("sections") or []) if isinstance(data, dict) else []
+	for section in (one for one in sections if isinstance(one, dict)):
+		for key in ("custom_style", "background", "border_color"):
+			_style(section.get(key), section.get("label") or name)
 
 
 def validate_snippet(doc, method=None) -> None:
@@ -542,6 +554,7 @@ def format_doc(
 	letter_head: str | None = None,
 	page_number: str | None = None,
 	font: str | None = None,
+	page: dict | None = None,
 ):
 	"""A builder format, unsaved, from a layout as the builder stores one: a
 	`header`, `sections` and a `footer`, each of columns of blocks. Every block
@@ -587,6 +600,14 @@ def format_doc(
 				column["fieldtype"] = row_field.fieldtype
 				if row_field.options:
 					column["options"] = row_field.options
+				# A line printed under the column's own takes its row field's
+				# type, which is how the renderer knows a picture from text.
+				for merged in column.get("merged_fields") or []:
+					merged_field = rows.get_field(merged.get("fieldname"))
+					if not merged_field:
+						unknown.append(f"{fieldname}.{merged.get('fieldname')}")
+						continue
+					merged["fieldtype"] = merged_field.fieldtype
 	if unknown:
 		frappe.throw(
 			_("{0} has no field {1}.").format(_(doctype), ", ".join(dict.fromkeys(unknown))),
@@ -601,9 +622,13 @@ def format_doc(
 	font = (font or "").strip()
 	if font and not FONT.fullmatch(font):
 		frappe.throw(_("A font is a Google Font's name, such as Playfair Display."))
+	from onedesk.one import print_props
+
+	settings = print_props.taken(page or {}, print_props.PAGE, _("The page"))
 	doc = frappe.new_doc("Print Format")
 	doc.update(
 		{
+			**settings,
 			**({"page_number": page_number} if page_number else {}),
 			**({"font": font} if font else {}),
 			"doc_type": doctype,
@@ -646,6 +671,7 @@ def save_format(values: dict) -> str:
 		values.get("css"),
 		page_number=values.get("page_number"),
 		font=values.get("font"),
+		page=values.get("page"),
 	)
 	if frappe.db.exists("Print Format", name):
 		held = frappe.get_doc("Print Format", name)

@@ -1933,7 +1933,10 @@ LAYOUT_HELP = (
 	"lined between rows unless bordered (boxed) or striped, its label printed above only with show_label, "
 	"each column a field of its rows with its share of the width (together at most 100) and, if it should "
 	"read differently, its heading; {text: '...', align, bold} for fixed words; {space: 12} for room; "
-	"{barcode: fieldname, format: QR|CODE128}; {image: url} for a file of this workspace; or {html: '...'}. "
+	"{barcode: fieldname or '' with value, format: QR|CODE128|CODE39}; {image: url} for a file of this "
+	"workspace; {linked: 'customer.customer_group'} for a field of the record a link field points at; "
+	"{repeater: 'items', repeater_columns: [{template: [{t: 'f', v: 'item_name'}, {t: 's', v: ' x '}], "
+	"width, align}]} for a table of rows written your own way; {divider: true}; or {html: '...'}. "
 	"An empty column is []. heading is the title at the top in the same HTML, frappe's own when left out. "
 	"An html block or heading is Jinja over this one record and nothing else: {{ doc.fieldname }}, "
 	"{{ doc.get('fieldname') }}, {{ doc.get_formatted('grand_total') }} (a value as the form shows it, "
@@ -1962,27 +1965,60 @@ LAYOUT_HELP = (
 	"builder's own blocks, which cover most of any page; then, for a part they cannot draw (a stamp, a "
 	"grid of terms, a figure worked out from the rows), one html block in its place among them; and "
 	"only for a page designed from end to end, one html block across the whole body, with css. Never "
-	"html for what a block already prints."
+	"html for what a block already prints. In an html block the record's own number is doc.name, never "
+	"its naming_series, and a figure, a date or a quantity is printed through get_formatted, never as "
+	"the raw value."
 )
 
-#: What a block may say about itself beyond what it is.
+
+def _how() -> str:
+	"""LAYOUT_HELP, with every property of frappe's builder a block, a table, a
+	section or the page may take by its own name, and the house's parts for
+	an html block."""
+	from onedesk.one import print_props, print_recipes
+
+	return (
+		f"{LAYOUT_HELP} {print_props.described()} Any of these may be set on the block, section, column or "
+		"table column they belong to, beside the shorter words above; frappe's builder shows every one "
+		"of them, so the person can go on changing them there. Whatever a property sets (a table's "
+		"header colour is table_header_bg, a field's colour value_color, a section's background "
+		"background) is set by the property, never by css, which frappe's own print style overrides. "
+		"An html block in the house style is "
+		f"built of the house's own classes and nothing else: {print_recipes.HOUSE_PARTS}. A look of "
+		"their own writes its own classes in css instead."
+	)
+
+#: What a block may say about itself beyond what it is, in the shorter words a
+#: model may write; any of frappe's own (print_props) may be written as well.
 FIELD_OPTIONS = ("label", "show_label", "align", "bold", "show_empty", "spread")
 ALIGN = ("left", "center", "right")
 
+#: The words a block is made of, rather than frappe's properties of it.
+SHORT = {"field", "fieldname", "table", "columns", "bordered", "striped", "html", "text", "space", "image"}
+SHORT |= {"barcode", "format", "spread", "linked", "repeater", "divider", "value"}
+
+NOT_A_BLOCK = (
+	"A block is a fieldname, '---', or one of table, text, space, barcode, image, linked, repeater, divider "
+	"or html."
+)
+
 
 def _block(one) -> dict:
-	"""One block as a model writes it, as the builder stores it."""
+	"""One block as a model writes it, as the builder stores it: the shorter
+	words below, and any of frappe's own properties of that kind of block by
+	their own names (print_props), each checked."""
+	from onedesk.one import print_props
+
 	if isinstance(one, str):
 		return {"fieldtype": "Divider"} if one.strip("- ") == "" else {"fieldname": one.strip()}
 	if not isinstance(one, dict):
-		frappe.throw(_("A block is a fieldname, '---', or one of table, text, space, barcode, image or html."))
-	if one.get("align") and one["align"] not in ALIGN:
-		frappe.throw(_("A block's align is left, center or right."))
+		frappe.throw(_(NOT_A_BLOCK))
 	if one.get("columns") and not one.get("table") and (one.get("field") or one.get("fieldname")):
 		# {field: 'items', columns: [...]} can only mean the table.
 		one = {**one, "table": one.get("field") or one.get("fieldname")}
 	if one.get("columns") and not one.get("table"):
 		frappe.throw(_("A table block names its table: {table: 'items', columns: ['item_name:45', 'qty:15']}."))
+	where = str(one.get("table") or one.get("field") or one.get("fieldname") or "")
 	if one.get("table"):
 		columns = []
 		for column in one.get("columns") or []:
@@ -1993,6 +2029,13 @@ def _block(one) -> dict:
 					"fieldname": fieldname.strip(),
 					**({"width": _share(width)} if _share(width) else {}),
 					**({"label": label.strip()} if label.strip() else {}),
+					**(
+						print_props.taken(
+							column, print_props.TABLE_COLUMN, f"{where}.{fieldname.strip()}", ours=SHORT
+						)
+						if isinstance(column, dict)
+						else {}
+					),
 				}
 			)
 		if not columns:
@@ -2006,43 +2049,63 @@ def _block(one) -> dict:
 			# unless told not to.
 			"table_bordered": 1 if one.get("bordered") else 0,
 			**({"table_style": "striped"} if one.get("striped") else {}),
+			**print_props.taken(
+				{key: value for key, value in one.items() if key != "show_label" or value in ("show", "hide")},
+				print_props.TABLE,
+				where,
+				ours=SHORT,
+			),
 		}
+	own = lambda kind: print_props.taken(one, print_props.BLOCKS[kind], kind, ours=SHORT)  # noqa: E731
 	if "html" in one:
-		return {"fieldtype": "HTML", "html": str(one["html"])}
+		return {"fieldtype": "HTML", "html": str(one["html"]), **own("HTML")}
 	if "text" in one:
-		return {
-			"fieldtype": "Static Text",
-			"text": str(one["text"]),
-			**{key: one[key] for key in ("align", "bold") if one.get(key)},
-		}
+		return {"fieldtype": "Static Text", "text": str(one["text"]), **own("Static Text")}
 	if "space" in one:
-		return {"fieldtype": "Spacer", "height": frappe.utils.cint(one["space"]) or 10}
+		return {"fieldtype": "Spacer", "height": frappe.utils.cint(one["space"]) or 10, **own("Spacer")}
+	if one.get("divider"):
+		return {"fieldtype": "Divider", **own("Divider")}
 	if "image" in one:
-		return {"fieldtype": "Image", "image_url": str(one["image"])}
-	if one.get("barcode"):
-		kind = str(one.get("format") or "CODE128").upper()
-		if kind not in ("QR", "CODE128"):
-			frappe.throw(_("A barcode's format is QR or CODE128."))
-		return {"fieldtype": "Barcode", "barcode_field": str(one["barcode"]), "barcode_format": kind}
+		return {"fieldtype": "Image", "image_url": str(one["image"]), **own("Image")}
+	if "barcode" in one:
+		kind = str(one.get("format") or one.get("barcode_format") or "CODE128").upper()
+		return {
+			"fieldtype": "Barcode",
+			"barcode_field": str(one.get("barcode") or ""),
+			**({"barcode_value": str(one["value"])} if one.get("value") else {}),
+			**own("Barcode"),
+			"barcode_format": print_props.taken({"barcode_format": kind}, print_props.BLOCKS["Barcode"], "barcode")[
+				"barcode_format"
+			],
+		}
+	if one.get("linked"):
+		return {"fieldtype": "Linked Field", "link_path": str(one["linked"]), **own("Linked Field")}
+	if one.get("repeater"):
+		return {"fieldtype": "Repeater", "source": str(one["repeater"]), **own("Repeater")}
 	fieldname = one.get("field") or one.get("fieldname")
 	if fieldname:
-		block = {"fieldname": str(fieldname).strip()}
-		for key in FIELD_OPTIONS:
-			if key in one and one[key] not in (None, ""):
-				block[key] = one[key]
-		if block.pop("spread", None):
+		name = str(fieldname).strip()
+		block = {
+			"fieldname": name,
+			**print_props.taken(
+				{key: value for key, value in one.items() if key not in ("show_label", "spread")},
+				print_props.FIELD,
+				name,
+				ours=SHORT,
+			),
+		}
+		if one.get("spread"):
 			# Label at the left edge and value at the right, in a section whose
 			# labels sit beside their values.
 			block["label_justify"] = "space-between"
-		if "show_label" in block:
-			# frappe's word for it: show, hide, or inline (beside the value).
-			said = block.pop("show_label")
-			if said == "inline":
-				block["show_label"] = "inline"
-			elif said in (False, 0, "hide", "false"):
-				block["show_label"] = "hide"
+		# frappe's word for it: show, hide, or inline (beside the value).
+		said = one.get("show_label")
+		if said in ("inline", "show"):
+			block["show_label"] = said
+		elif said in (False, 0, "hide", "false"):
+			block["show_label"] = "hide"
 		return block
-	frappe.throw(_("A block is a fieldname, '---', or one of table, text, space, barcode, image or html."))
+	frappe.throw(_(NOT_A_BLOCK))
 
 
 def _parsed(text: str):
@@ -2052,9 +2115,14 @@ def _parsed(text: str):
 		return json.loads(text)
 	except ValueError:
 		pass
+	# A line break written into a string as it is, and a backslash before a
+	# character JSON does not escape (an html block's own), are what a model
+	# writes by hand: taken as the characters it meant.
+	loose = json.JSONDecoder(strict=False)
+	text = re.sub(r"\\(.)", lambda m: m[0] if m[1] in '"\\/bfnrtu' else "\\\\" + m[1], text, flags=re.S)
 	try:
 		# The sections and then something after them: the sections.
-		return json.JSONDecoder().raw_decode(text.strip())[0]
+		return loose.raw_decode(text.strip())[0]
 	except ValueError:
 		pass
 	# Outside strings only: split on quoted runs and mend the pieces between.
@@ -2066,7 +2134,7 @@ def _parsed(text: str):
 		for n, part in enumerate(parts)
 	)
 	try:
-		return json.JSONDecoder().raw_decode(mended.strip())[0]
+		return loose.raw_decode(mended.strip())[0]
 	except ValueError as e:
 		frappe.throw(_("sections is not JSON: {0}.").format(str(e)))
 
@@ -2086,6 +2154,33 @@ def _column(column) -> str:
 	width = str(_share(column.get("width") or width) or "")
 	label = str(column.get("label") or label)
 	return ":".join((fieldname, width, label)).rstrip(":")
+
+
+def _linked(meta, path: str) -> list[str]:
+	"""What is wrong with a linked field's path: one hop, a Link of this kind
+	to a field of the kind it links to."""
+	link, _sep, target = path.partition(".")
+	field = meta.get_field(link)
+	if not field or field.fieldtype != "Link" or not target:
+		return [_("{0} is not a link field and one of its fields, such as customer.customer_group").format(path)]
+	if not frappe.get_meta(field.options).has_field(target):
+		return [_("{0} has no field {1}").format(field.options, target)]
+	return []
+
+
+def _repeated(meta, block: dict) -> list[str]:
+	"""What is wrong with a repeater: its source a table of this kind, and every
+	field its columns print a field of that table's rows."""
+	source = meta.get_field(block.get("source"))
+	if not source or source.fieldtype not in frappe.model.table_fields:
+		return [_("{0} is not a table to repeat").format(block.get("source"))]
+	rows = frappe.get_meta(source.options)
+	return [
+		_("{0} has no field {1}").format(source.options, part["v"])
+		for column in block.get("repeater_columns") or []
+		for part in column.get("template") or []
+		if part.get("t") == "f" and not rows.has_field(part["v"])
+	]
 
 
 def _paired(column: list) -> list:
@@ -2109,7 +2204,7 @@ def _built(sections, heading: str | None, doctype: str | None = None) -> dict:
 	field the kind does not have."""
 	from frappe.printing.doctype.print_format.classic_converter import DEFAULT_PRINT_HEADING
 
-	from onedesk.one import print_recipes
+	from onedesk.one import print_props, print_recipes
 
 	if isinstance(sections, str):
 		sections = _parsed(sections)
@@ -2119,12 +2214,18 @@ def _built(sections, heading: str | None, doctype: str | None = None) -> dict:
 	problems = []
 	built = []
 	for n, section in enumerate(sections, 1):
-		label, keep, beside = "", False, False
+		label, keep, beside, props = "", False, False, {}
 		if isinstance(section, dict):
 			label, keep, beside = (
 				section.get("label") or "",
 				section.get("keep_together"),
 				section.get("labels_beside"),
+			)
+			props = print_props.taken(
+				section,
+				print_props.SECTION,
+				_("section {0}").format(label or n),
+				ours={"label", "columns", "keep_together", "labels_beside"},
 			)
 			section = section.get("columns") or []
 		if not isinstance(section, list):
@@ -2133,6 +2234,7 @@ def _built(sections, heading: str | None, doctype: str | None = None) -> dict:
 		columns = []
 		for column in section:
 			if isinstance(column, dict) and "blocks" in column:
+				print_props.taken(column, print_props.COLUMN, _("a column"), ours={"blocks"})
 				widths.append(_share(column.get("width")))
 				column = column["blocks"]
 			else:
@@ -2156,13 +2258,23 @@ def _built(sections, heading: str | None, doctype: str | None = None) -> dict:
 					field = meta.get_field(block["fieldname"])
 					if field and field.fieldtype in frappe.model.table_fields:
 						problems.append(_("{0} is a table: give it its columns").format(block["fieldname"]))
-				if meta and block.get("fieldtype") == "Barcode" and not meta.has_field(block["barcode_field"]):
+				if (
+					meta
+					and block.get("fieldtype") == "Barcode"
+					and block.get("barcode_field") not in ("", "name")
+					and not meta.has_field(block["barcode_field"])
+				):
 					problems.append(_("there is no field {0} for the barcode").format(block["barcode_field"]))
+				if meta and block.get("fieldtype") == "Linked Field":
+					problems.extend(_linked(meta, block.get("link_path") or ""))
+				if meta and block.get("fieldtype") == "Repeater":
+					problems.extend(_repeated(meta, block))
 		built.append(
 			{
 				"label": label,
 				**({"keep_together": 1} if keep else {}),
 				**({"field_orientation": "left-right"} if beside else {}),
+				**props,
 				"columns": [
 					{"label": "", "fields": column, **({"width": width} if width else {})}
 					for column, width in zip(blocks, widths, strict=True)
@@ -2200,6 +2312,8 @@ def _written(layout, meta=None) -> dict | None:
 	if not isinstance(layout, dict):
 		return None
 
+	from onedesk.one import print_props
+
 	def block(one: dict):
 		kind = one.get("fieldtype")
 		if one.get("table_columns"):
@@ -2210,7 +2324,9 @@ def _written(layout, meta=None) -> dict | None:
 				own = rows.get_field(c.get("fieldname")) if rows else None
 				if c.get("label") and own and c["label"] != own.label:
 					said.append(c["label"])
-				return ":".join(said).rstrip(":")
+				written = ":".join(said).rstrip(":")
+				more = print_props.stored(c, print_props.TABLE_COLUMN, left=("label", "width"))
+				return {"field": written, **more} if more else written
 
 			return {
 				"table": one.get("fieldname"),
@@ -2218,25 +2334,34 @@ def _written(layout, meta=None) -> dict | None:
 				**({"bordered": True} if one.get("table_bordered") not in (0, False) else {}),
 				**({"striped": True} if one.get("table_style") == "striped" else {}),
 				**({"show_label": True} if one.get("show_label") not in (None, "hide") else {}),
+				**print_props.stored(
+					one, print_props.TABLE, left=("label", "show_label", "table_bordered", "table_style")
+				),
 			}
+		more = print_props.stored(one, print_props.BLOCKS.get(kind) or {})
 		if kind == "HTML":
-			return {"html": one.get("html") or ""}
+			return {"html": one.get("html") or "", **more}
 		if kind == "Static Text":
-			return {"text": one.get("text") or "", **{k: one[k] for k in ("align", "bold") if one.get(k)}}
+			return {"text": one.get("text") or "", **more}
 		if kind == "Divider":
-			return "---"
+			return {"divider": True, **more} if more else "---"
 		if kind == "Spacer":
-			return {"space": one.get("height") or 10}
+			return {"space": one.get("height") or 10, **print_props.stored(one, print_props.BLOCKS[kind], ("height",))}
 		if kind == "Image":
-			return {"image": one.get("image_url") or ""}
+			return {"image": one.get("image_url") or "", **more}
 		if kind == "Barcode":
-			return {"barcode": one.get("barcode_field"), "format": one.get("barcode_format") or "CODE128"}
+			return {
+				"barcode": one.get("barcode_field") or "",
+				"format": one.get("barcode_format") or "CODE128",
+				**({"value": one["barcode_value"]} if one.get("barcode_value") else {}),
+				**print_props.stored(one, print_props.BLOCKS[kind], ("barcode_format", "barcode_value")),
+			}
+		if kind == "Linked Field":
+			return {"linked": one.get("link_path") or "", **more}
+		if kind == "Repeater":
+			return {"repeater": one.get("source") or "", **more}
 		own = meta.get_field(one.get("fieldname")) if meta and one.get("fieldname") else None
-		options = {
-			key: one[key]
-			for key in FIELD_OPTIONS
-			if key not in ("label", "show_label", "spread") and one.get(key) not in (None, "")
-		}
+		options = print_props.stored(one, print_props.FIELD, left=("label", "show_label", "label_justify"))
 		if one.get("show_label") == "hide":
 			options["show_label"] = False
 		elif one.get("show_label") == "inline":
@@ -2245,6 +2370,8 @@ def _written(layout, meta=None) -> dict | None:
 			options["label"] = one["label"]
 		if one.get("label_justify") == "space-between":
 			options["spread"] = True
+		elif one.get("label_justify"):
+			options["label_justify"] = one["label_justify"]
 		return {"field": one.get("fieldname"), **options} if options else one.get("fieldname")
 
 	sections = []
@@ -2257,13 +2384,17 @@ def _written(layout, meta=None) -> dict | None:
 			columns.append({"width": column["width"], "blocks": said} if column.get("width") else said)
 		if any(one.get("blocks") if isinstance(one, dict) else one for one in columns):
 			beside = section.get("field_orientation") == "left-right"
-			if section.get("label") or section.get("keep_together") or beside:
+			more = print_props.stored(
+				section, print_props.SECTION, left=("label", "keep_together", "field_orientation")
+			)
+			if section.get("label") or section.get("keep_together") or beside or more:
 				sections.append(
 					{
 						"label": section.get("label") or "",
 						"columns": columns,
 						**({"keep_together": True} if section.get("keep_together") else {}),
 						**({"labels_beside": True} if beside else {}),
+						**more,
 					}
 				)
 			else:
@@ -2313,7 +2444,7 @@ def _redo(doctype: str, error: str) -> dict:
 		"layout as it is. When they asked for a look rather than a layout, leave sections out and send only "
 		"css (over the classes css names) and font.",
 		**({"starting_layout": start} if start else {}),
-		"how": LAYOUT_HELP,
+		"how": _how(),
 	}
 
 
@@ -2376,7 +2507,7 @@ def print_layout(
 			**(_style_of(held.css) if held else {"house_style": True, "css": None}),
 			"page_number": held.page_number if held else None,
 			"font": held.font if held else None,
-			"how": LAYOUT_HELP,
+			"how": _how(),
 		}
 	except (frappe.ValidationError, frappe.PermissionError) as e:
 		frappe.clear_last_message()
@@ -2410,6 +2541,13 @@ def design_print_format(
 		str,
 		"A Google Font the whole page prints in, by its name, such as Playfair Display or Lora, when they "
 		"ask for a typeface; frappe's own Inter when left out.",
+	]
+	| None = None,
+	page: Annotated[
+		dict,
+		"The page's own settings, when they ask: font_size (the body, in pixels), margin_top, "
+		"margin_bottom, margin_left, margin_right (in millimetres), show_label_colon, label_color and "
+		"value_color (#rrggbb). Leave out to keep them.",
 	]
 	| None = None,
 	house_style: Annotated[
@@ -2456,6 +2594,7 @@ def design_print_format(
 			letter_head,
 			page_number,
 			font,
+			page,
 		)
 	except (frappe.ValidationError, frappe.PermissionError) as e:
 		frappe.clear_last_message()
@@ -2479,6 +2618,7 @@ def design_print_format(
 					"css": doc.css,
 					**({"page_number": doc.page_number} if page_number else {}),
 					**({"font": doc.font} if font else {}),
+					**({"page": page} if page else {}),
 				},
 				"default_format": name if make_default else None,
 				"summary": summary,

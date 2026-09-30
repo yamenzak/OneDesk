@@ -630,9 +630,17 @@ on one line with the grand total set off above a rule, in frappe's own classes
 and greys. A look somebody asks for (a colour, a band behind the title, a
 typeface) replaces the house style entirely; the house style is never kept
 against their taste. A typeface is frappe's own Google Font setting on the
-format. It can set a field's label, hide it or put it beside the value, align
-and bold it, give columns their widths, add a barcode or QR code, and choose
-where the page number prints. An HTML block may use only the record: its
+format. It can set every property frappe's builder shows, by the builder's own
+name: a section's background, padding, margin, radius, grid borders, gap and
+when it prints (`visible_if`); a field's size, colours, label and colon; a
+table's style, header, cell padding, radius and colours, which rows print
+(`row_condition`), and each column's width, heading, merged lines and when it
+prints; a barcode, a picture, a linked record's field, a table of rows written
+its own way (a repeater); the page number, and the page's font size, margins,
+colons and colours. What it sets, the person can go on changing in the
+builder. An HTML block in the house style is built of the house's own parts (a
+card, a large figure, a status badge, a stamp, a table like the builder's,
+label and value rows), in frappe-ui's greys and colours. An HTML block may use only the record: its
 fields and rows, `get_formatted`, conditions, loops and plain filters, and
 nothing of frappe's beyond that. A layout that would print badly (an empty
 section, a table wider than the page, an invoice without its customer or its

@@ -53,6 +53,11 @@ HEADER = "cf-aig-authorization"
 #: Where the gateway's per-request log gets the workspace that caused the call.
 TAG = "cf-aig-metadata"
 
+#: Asks Cloudflare's gateway to call the model rather than answer from its
+#: cache. Measured: a blank answer is cached like any other, so the same call
+#: made again got the same blank back, with the same response id, every time.
+FRESH = "cf-aig-skip-cache"
+
 #: How each provider spells a text generation behind the gateway: where it
 #: lives, how a prompt goes in, and where the words come back.
 #:
@@ -131,8 +136,11 @@ def through(
 	whole: bool = False,
 	system: str | None = None,
 	tools: list[dict] | None = None,
+	fresh: bool = False,
 ):
 	"""One call. `whole` also hands back the body, which is what carries usage.
+	`fresh` asks past the gateway's cache, for a call made again because the
+	first answer was no answer.
 
 	`turns` is the whole conversation in our shape rather than one prompt: a
 	round where a model asked for a tool, was given the result and answers again
@@ -156,6 +164,8 @@ def through(
 		# So a bill somebody disputes can be read back in Cloudflare's own log
 		# rather than only in ours.
 		headers[TAG] = json.dumps({"tenant": tenant})
+	if fresh:
+		headers[FRESH] = "true"
 
 	try:
 		answer = requests.post(
@@ -298,7 +308,7 @@ def _said(
 ) -> tuple[str, list[dict], dict]:
 	"""The words, what it asked for, and the whole body — which carries the usage."""
 	most = int(caps.get("output_tokens") or MOST)
-	asking = lambda said=(): through(  # noqa: E731
+	asking = lambda said=(), fresh=False: through(  # noqa: E731
 		sold.provider,
 		sold.model,
 		[*turns, *said],
@@ -307,6 +317,7 @@ def _said(
 		whole=True,
 		system=system,
 		tools=tools,
+		fresh=fresh,
 	)
 	try:
 		return asking()
@@ -314,7 +325,7 @@ def _said(
 		# Measured: gemini-2.5-flash designing a print format writes its
 		# stylesheet and layout over many lines, and the call does not read.
 		# Told so, in a turn only it sees, it writes them on one line.
-		return asking(({"role": "user", "text": ONE_LINE, "calls": []},))
+		return asking(({"role": "user", "text": ONE_LINE, "calls": []},), fresh=True)
 	except faults.Blank as raised:
 		# Right after a tool answered, nothing is an answer: the model did what
 		# it was asked — a receipt became a card — and has nothing to add.
@@ -322,9 +333,10 @@ def _said(
 		# round after `claim_expense`. It is billed like any round.
 		if turns and (turns[-1] or {}).get("role") == "tool":
 			return "", [], raised.body
-		# Anywhere else it is a blip. Once more, straight away; a second blank
+		# Anywhere else it is a blip. Once more, straight away and past the
+		# gateway's cache, which would hand the same blank back; a second blank
 		# is said as "try again", which is what it is.
-		return asking()
+		return asking(fresh=True)
 
 
 def get(provider: str, path: str, timeout: int = TIMEOUT) -> dict:

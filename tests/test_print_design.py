@@ -196,3 +196,73 @@ def test_a_tool_call_the_provider_could_not_read_is_asked_again():
 	assert '"MALFORMED_FUNCTION_CALL"' in _body(gateway, "_malformed")
 	assert "except faults.Malformed:" in _body(gateway, "_said")
 	assert "ONE_LINE" in _body(gateway, "_said")
+
+
+PROPS = (tree.APP / "one" / "print_props.py").read_text()
+
+
+def test_every_property_the_builder_sets_is_ours_to_set():
+	"""A section, a column, a field, a table and its columns, each palette
+	block and the page each take frappe's own properties by frappe's own
+	names, checked for their shape, and a changed format keeps every one."""
+	for where in (
+		"SECTION = {",
+		"COLUMN = {",
+		"FIELD = {",
+		"TABLE = {",
+		"TABLE_COLUMN = {",
+		"BLOCKS = {",
+		"PAGE = {",
+	):
+		assert where in PROPS, where
+	for key in (
+		'"visible_if"',
+		'"row_condition"',
+		'"column_condition"',
+		'"merged_fields"',
+		'"table_header"',
+		'"field_borders"',
+		'"label_justify"',
+		'"repeater_columns"',
+		'"Linked Field"',
+		'"margin_top"',
+	):
+		assert key in PROPS, key
+	block = _body(AI, "_block")
+	assert "print_props.taken(" in block and "print_props.TABLE_COLUMN" in block
+	assert "print_props.SECTION" in _body(AI, "_built") and "print_props.stored(" in _body(AI, "_written")
+	# A style is a style wherever it is written, a condition is only grammar-checked
+	# here and run by frappe's own safe_eval.
+	assert "printing._style(str(value), where)" in PROPS and 'compile(str(value), key, "eval")' in PROPS
+	assert '("custom_style", "background", "border_color")' in PRINTING
+	assert "print_props.taken(page or {}, print_props.PAGE" in _body(PRINTING, "format_doc")
+
+
+def test_the_house_has_parts_for_an_html_block():
+	"""An html block in the house style is built of the house's classes, each
+	drawn in frappe-ui's greys and colours; the model is told them by name."""
+	house = RECIPES.split('HOUSE_CSS = """', 1)[1].split('"""', 1)[0]
+	parts = RECIPES.split("HOUSE_PARTS = (", 1)[1].split("\n)\n", 1)[0]
+	for part in ("one-card", "one-kv", "one-badge", "one-stamp", "one-table", "one-figure", "one-note"):
+		assert f".{part}" in house and part in parts, part
+	assert "print_recipes.HOUSE_PARTS" in _body(AI, "_how")
+	help_ = AI.split("LAYOUT_HELP = (", 1)[1].split("\n)\n", 1)[0]
+	assert "doc.name" in help_ and "naming_series" in help_
+
+
+def test_a_blank_is_asked_again_past_the_gateways_cache():
+	"""Cloudflare's gateway caches a blank answer like any other, so a retry
+	that is the same call gets the same blank back: it asks past the cache."""
+	gateway = (tree.APP / "one_admin" / "gateway.py").read_text()
+	assert 'FRESH = "cf-aig-skip-cache"' in gateway
+	assert "headers[FRESH]" in _body(gateway, "through")
+	assert "return asking(fresh=True)" in _body(gateway, "_said")
+
+
+def test_sections_written_by_hand_are_read_as_meant():
+	"""A raw line break in a string and a backslash before a character JSON
+	does not escape are what a model writes; they are read, not refused."""
+	parsed = _body(AI, "_parsed")
+	assert "json.JSONDecoder(strict=False)" in parsed
+	assert "'\"\\\\/bfnrtu'" in parsed
+	assert "never by css" in _body(AI, "_how")

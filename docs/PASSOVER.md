@@ -4472,6 +4472,46 @@ wrong on the last one: it printed the naming series where the receipt's number
 belongs, and the amount unformatted. Fixture action labels are not in the
 translation files, for any action.
 
+**Every property of the builder, and the house's parts for HTML. Fixed.**
+OneAI set about a third of what frappe's builder offers. `print_props.py` now
+holds every property the builder sets and its renderer reads (read from
+frappe's inspector and macros), for:
+- sections;
+- columns;
+- fields;
+- tables and their columns;
+- each palette block;
+- the page.
+
+OneAI writes them by frappe's own names and values.
+
+- **Checking.** Styles go through `printing._style`, conditions through a
+  grammar check (frappe runs them in its own `safe_eval`), and linked paths,
+  repeater fields and merged column lines against the kind.
+- **Round trip.** `_written` hands every property back, so a changed format
+  keeps what it had.
+- **Save guard.** It now checks a section's `custom_style`, `background` and
+  `border_color`, which it never read before.
+- **House parts for HTML.** `HOUSE_CSS` gains the house's parts for an HTML
+  block (`one-card`, `one-figure`, `one-badge--*`, `one-stamp`, `one-table`,
+  `one-kv` and the rest) in frappe-ui's greys and colours. The instructions
+  name them and add two rules: the record's number is `doc.name`, and a figure
+  or date prints through `get_formatted`.
+- **Blank answers.** A blank answer is asked again past Cloudflare's cache
+  (`cf-aig-skip-cache`): measured, the cache handed back the same blank, same
+  response id, on every retry.
+- **Sections written by hand.** They are read with raw line breaks and stray
+  backslashes in their strings.
+
+Live on Print Design:
+- **New format.** A new "Summary Invoice" (an amount-due card, a status badge,
+  then the items and totals) came out right on the first attempt.
+- **Changed format.** A change to an existing format kept every property it
+  had and added striped rows, a zero-quantity filter and the page at 13px with
+  10mm margins.
+- **Header colour.** It set the table header colour in CSS, which frappe's own
+  `!important` overrides. The instructions now say to use the property.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

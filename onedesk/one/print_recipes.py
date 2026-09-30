@@ -48,7 +48,47 @@ HOUSE_CSS = """\
 .print-format-doc .field[data-fieldname="grand_total"] { font-weight: 600; color: var(--gray-900); border-top: 1px solid var(--gray-300); padding-top: 0.5em; margin-top: 0.5em; }
 .print-format-doc .field[data-fieldname="rounded_total"] { font-weight: 600; }
 .print-format-doc .field[data-fieldname="grand_total"] .label, .print-format-doc .field[data-fieldname="rounded_total"] .label { color: var(--gray-900); }
+.print-format-doc .one-label { font-size: 0.85em; color: var(--gray-600); margin-bottom: 0.15em; }
+.print-format-doc .one-muted { font-size: 0.85em; color: var(--gray-600); }
+.print-format-doc .one-value { color: var(--gray-900); }
+.print-format-doc .one-figure { font-size: 1.75em; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2; color: var(--gray-900); }
+.print-format-doc .one-title { font-size: 1.15em; font-weight: 600; color: var(--gray-900); }
+.print-format-doc .one-card { border: 1px solid var(--gray-200); border-radius: var(--radius, 8px); padding: 0.9em 1em; }
+.print-format-doc .one-note { background: var(--gray-50); border-radius: var(--radius, 8px); padding: 0.75em 1em; color: var(--gray-700); }
+.print-format-doc .one-grid { display: flex; gap: 1.25em; }
+.print-format-doc .one-grid > * { flex: 1 1 0; min-width: 0; }
+.print-format-doc .one-kv { display: flex; justify-content: space-between; gap: 1em; padding: 0.35em 0; }
+.print-format-doc .one-kv + .one-kv { border-top: 1px solid var(--gray-100); }
+.print-format-doc .one-kv > :first-child { color: var(--gray-600); }
+.print-format-doc .one-rule { border-top: 1px solid var(--gray-200); margin: 1em 0; }
+.print-format-doc .one-badge { display: inline-block; padding: 0.15em 0.6em; border-radius: 9999px; font-size: 0.8em; font-weight: 500; background: var(--gray-100); color: var(--gray-700); }
+.print-format-doc .one-badge--green { background: var(--green-100); color: var(--green-700); }
+.print-format-doc .one-badge--red { background: var(--red-100); color: var(--red-700); }
+.print-format-doc .one-badge--orange { background: var(--orange-100); color: var(--orange-700); }
+.print-format-doc .one-badge--blue { background: var(--blue-100); color: var(--blue-700); }
+.print-format-doc .one-stamp { display: inline-block; border: 0.15em solid currentColor; border-radius: 0.3em; padding: 0.15em 0.6em; font-size: 1.6em; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; transform: rotate(-8deg); color: var(--red-600); opacity: 0.85; }
+.print-format-doc .one-stamp--green { color: var(--green-600); }
+.print-format-doc .one-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.9em; }
+.print-format-doc .one-table th { background: var(--gray-100); color: var(--gray-600); font-weight: 500; font-size: 0.85em; text-align: left; padding: 0.5em 0.65em; }
+.print-format-doc .one-table th:first-child { border-radius: 6px 0 0 6px; }
+.print-format-doc .one-table th:last-child { border-radius: 0 6px 6px 0; }
+.print-format-doc .one-table td { padding: 0.6em 0.65em; border-bottom: 1px solid var(--gray-200); vertical-align: top; }
+.print-format-doc .one-table tr:last-child td { border-bottom: none; }
+.print-format-doc .one-num, .print-format-doc .one-table .one-num { text-align: right; font-variant-numeric: tabular-nums; }
+.print-format-doc .one-center { text-align: center; }
+.print-format-doc .one-right { text-align: right; }
 """
+
+#: The house's own parts for an html block, as LAYOUT_HELP names them to a
+#: model: frappe-ui's look on paper, in the same greys and colours.
+HOUSE_PARTS = (
+	"one-title (a heading), one-label and one-value (a label above its value), one-muted (small grey "
+	"text), one-figure (a large amount), one-card (a bordered box), one-note (a grey callout), one-grid "
+	"(children side by side), one-kv (a row of label and value, the value at the right), one-rule (a "
+	"line), one-badge with one-badge--green, --red, --orange or --blue (a status), one-stamp or "
+	"one-stamp--green (a stamp such as PAID), one-table with one-num on figures (a table like the "
+	"builder's), one-center and one-right"
+)
 
 #: Who a document of trade is for, the first a kind has.
 PARTY = ("customer_name", "supplier_name", "party_name", "customer", "supplier")
