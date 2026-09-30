@@ -35,7 +35,7 @@
    "fieldname": "kind",
    "fieldtype": "Select",
    "label": "Kind",
-   "options": "Create\nEdit\nDelete\nMove\nCustomize\nSignature\nHolidays\nReply\nNumbering",
+   "options": "Create\nEdit\nDelete\nMove\nCustomize\nSignature\nHolidays\nReply\nNumbering\nPrinting",
    "reqd": 1,
    "read_only": 1,
    "in_standard_filter": 1

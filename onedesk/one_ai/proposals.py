@@ -46,7 +46,7 @@ MOST_ROWS = 20
 #: Kinds whose changes are the tool's own, checked by it, rather than a
 #: record's values: how a form looks, how a mailbox signs, the workspace's
 #: holidays, and a reply to a conversation.
-OWN_WORDS = ("Customize", "Signature", "Holidays", "Reply", "Numbering")
+OWN_WORDS = ("Customize", "Signature", "Holidays", "Reply", "Numbering", "Printing")
 
 
 def propose(
@@ -186,6 +186,25 @@ def apply(proposal: str) -> dict:
 				frappe.delete_doc("Document Naming Rule", one["name"])
 			else:
 				numbering.rule_doc(entry.for_doctype, one).save()
+		return _done(entry, entry.for_doctype)
+
+	if entry.kind == "Printing":
+		# Printing's own doors (one/printing.py), as the administrator who pressed
+		# Approve, and refused if the default or a letter head changed since.
+		from onedesk.one import printing
+
+		kind_of = entry.for_doctype if changes.get("default_format") else None
+		if changes.get("state") != printing.state(kind_of):
+			entry.db_set("state", "Stale")
+			frappe.db.commit()
+			frappe.throw(
+				frappe._("How documents print has changed since this was suggested, so it no longer applies.")
+			)
+		if changes.get("default_format"):
+			printing.set_default(entry.for_doctype, changes["default_format"])
+		if changes.get("letter_head"):
+			made = printing.save_letter_head(changes["letter_head"])
+			return _done(entry, (made or {}).get("name") or changes["letter_head"].get("name"))
 		return _done(entry, entry.for_doctype)
 
 	if entry.kind == "Create":
@@ -340,6 +359,13 @@ def _allowed(kind: str, doctype: str, record: str | None):
 
 		numbering._meta(doctype)
 		return None
+	if kind == "Printing":
+		from onedesk.one import printing, roles
+
+		roles.require()
+		if doctype != "Letter Head":
+			printing._doctype(doctype)
+		return None
 	if kind == "Reply":
 		# Whoever holds the mailbox the conversation is in; `record` is its
 		# last message.
@@ -462,6 +488,8 @@ def _said(kind: str, doctype: str, record: str | None, changes: dict) -> str:
 		return frappe._("Holidays in {0}").format(record)
 	if kind == "Numbering":
 		return frappe._("Numbering of {0}").format(frappe._(doctype))
+	if kind == "Printing":
+		return frappe._("Printing of {0}").format(frappe._(doctype))
 	if kind == "Reply":
 		return frappe._("A reply to {0}").format(changes.get("subject") or record)
 	if kind == "Delete":

@@ -303,10 +303,13 @@ administrators see it, and they save from the top right.
 
 - **Company** is what the workspace was made with: its name, the company,
   the country and the currency. They cannot be changed here, and the
-  currency cannot change at all once there are books. **Company Logo** goes
-  on invoices, quotes and orders, printed or sent; One itself keeps its own
-  mark. **Address in Mails** is printed at the foot of every mail the
-  workspace sends.
+  currency cannot change at all once there are books. **Address in Mails**
+  is printed at the foot of every mail the workspace sends.
+- **On Documents** is what invoices, quotes and orders show about the
+  company, printed or sent: **Company Logo** (One itself keeps its own mark),
+  **Phone**, **Email**, **Website** and the company's address. Fill these once
+  and printing an invoice never stops to ask for them. The address is kept as
+  the company's own, so a new invoice picks it up.
 - **Region and Formats**: the language and time zone for everybody who has
   not chosen their own in Profile, and how dates, times and numbers are
   written. The line under them shows how they will read before you save.
@@ -539,14 +542,19 @@ and so are the framework's own kinds and One's. Rules work on any of them.
 How the workspace's documents look on paper. **Letter Heads** are the logo
 printed at the top of a document and, if you like, a picture at its foot:
 **New Letter Head**, give it a name, attach the logo, and say how tall it
-prints and which side it sits on. **Default** prints it on every document
-unless another is chosen; **Off** keeps it without offering it. The letter
-heads that came with the workspace can be made the default or turned off.
+prints and which side it sits on; the window shows the top of a page as it
+will print, and a new letter head starts with the logo from General.
+**Default** prints it on every document unless another is chosen; **Off**
+keeps it without offering it. The letter heads that came with the workspace
+can be made the default or turned off.
 
 **Print Formats** lists the formats this workspace made. Opening one opens its
 kind of record's **Settings** on **Print Formats** (see A Form's Settings),
 where it is previewed, starred as the default, or opened in the builder. A new
-format is made there too, since a format belongs to one kind of record.
+format is made there too, since a format belongs to one kind of record: **New**
+asks for a name and what to **Start From**, a copy of one of the formats that
+kind already prints with or every one of its fields, and opens it in the
+builder. A printed record stays inside its app, with that app's sidebar.
 
 In the builder a format is laid out from the record's fields, tables, text,
 images, barcodes and the standard field templates. What is not offered here:
@@ -557,6 +565,12 @@ the people who run the platform.
 
 Only administrators of the workspace see this, and only formats for the kinds
 of record they can open.
+
+**OneAI on this page** offers **Make a letter head from our logo** and **Which
+format do invoices print with?**. It can suggest a new letter head from the
+workspace's logo, which letter head is the default, and which format a kind of
+record prints with, each as a card an administrator approves. It does not lay
+formats out; that is the builder's.
 
 ### Mail Templates, for the Workspace
 

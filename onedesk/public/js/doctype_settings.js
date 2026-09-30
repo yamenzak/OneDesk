@@ -72,6 +72,19 @@ onedesk.doctype_settings.adapt = () => {
 			item.condition = (doctype) => onedesk.doctype_settings.TABS.includes(item.id) && (shown ? shown(doctype) : true);
 		}
 	}
+	// Its New starts from a format the kind already prints with rather than from every
+	// field the kind has, internal switches included (one/printing.py new_format).
+	const print_formats = frappe.doctype_settings.builders["print-format"];
+	print_formats &&
+		frappe.doctype_settings.register("print-format", (panel, doctype) => {
+			const set_view = panel.set_view.bind(panel);
+			panel.set_view = (view) =>
+				set_view({
+					...view,
+					actions: (view.actions || []).map((one) => (one.label === __("New") ? { ...one, click: () => onedesk.printing.new_format(panel, doctype) } : one)),
+				});
+			return print_formats(panel, doctype);
+		});
 	// The Print Formats tab is frappe's own. Its star makes a format the default by
 	// writing a Property Setter, which the workspace layer refuses, so that one property
 	// goes through One's door (one/printing.py set_default), which is frappe's make_default.
@@ -552,6 +565,40 @@ onedesk.numbering.help_html = () => {
 		<p>${__("Only letters, digits, spaces and - / _ . # { } are allowed.")}</p>
 		<p>${__("Examples: {0}, {1}, {2}", ["<code>INV-.YYYY.-.#####</code>", "<code>SO/.YY./.####</code>", "<code>INV-.YYYY.-.MM.-.####</code>"])}</p>
 	</div>`;
+};
+
+// ------------------------------------------------------------------ printing
+
+frappe.provide("onedesk.printing");
+
+// A new print format: its name and the format it starts as a copy of, the one the kind
+// prints with first; or every field, as frappe's builder lays a new one out. Then the
+// builder, as frappe's own New opens it.
+onedesk.printing.new_format = async (panel, doctype) => {
+	const starts = await frappe.xcall("onedesk.one.printing.new_format_starts", { doctype });
+	const every = __("Every field of {0}", [__(doctype)]);
+	const dialog = new frappe.ui.Dialog({
+		title: __("New Print Format"),
+		fields: [
+			{ fieldtype: "Data", fieldname: "name", label: __("Name"), reqd: 1 },
+			{
+				fieldtype: "Select",
+				fieldname: "start_from",
+				label: __("Start From"),
+				options: [...starts.map((one) => ({ label: one.name, value: one.name })), { label: every, value: "" }],
+				default: starts.length ? starts[0].name : "",
+				description: __("A copy of a format {0} already prints with, changed in the builder.", [__(doctype)]),
+			},
+		],
+		primary_action_label: __("Create"),
+		primary_action: async ({ name, start_from }) => {
+			const made = await frappe.xcall("onedesk.one.printing.new_format", { doctype, name, start_from: start_from || null });
+			dialog.hide();
+			panel.dialog.hide();
+			frappe.set_route("print-format-builder", made);
+		},
+	});
+	dialog.show();
 };
 
 // Set Up Naming on Workspace > Numbering: any kind of record this administrator may

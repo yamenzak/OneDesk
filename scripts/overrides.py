@@ -123,6 +123,20 @@ OVERRIDES = [
 		'id: "workflow",',
 	),
 	(
+		"A printed record keeps its app's sidebar",
+		"frappe's sidebar finds the app by the route's doctype, and a print route names it second; desk.js reads print/<doctype>/<name> as that doctype, so an invoice prints inside OneBook",
+		"onedesk/public/js/desk.js",
+		"frappe/frappe/public/js/frappe/ui/sidebar/sidebar.js",
+		"entity_from_route(route) {",
+	),
+	(
+		"General asks once for what ERPNext asks at every print",
+		"ERPNext prompts for the company's logo, phone, email and address when a document prints without them; settings.py keeps those same Company fields and the company's own Address, so the prompt never comes",
+		"onedesk/one/settings.py",
+		"erpnext/erpnext/controllers/accounts_controller.py",
+		"def get_missing_company_details(doctype: str, docname: str):",
+	),
+	(
 		"A workspace's automation runs as whoever wrote it",
 		"the runner switches to the flow's automation_user, Administrator when none is set; automations.py sets it to the author on a flow the workspace writes",
 		"onedesk/one/automations.py",

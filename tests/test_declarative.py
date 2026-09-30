@@ -37,6 +37,8 @@ LAYERS = (
 	"onedesk/one/rules.py",
 	# A workspace's own fields and settings for a form, made on its Customize page.
 	"onedesk/one/customize.py",
+	# A workspace's own print formats, copied from one it prints with on a form's Settings.
+	"onedesk/one/printing.py",
 )
 
 _OPENS = r"frappe\.(get_doc|new_doc|_dict)\s*\(\s*[{'\"]?[^)]*?['\"]("

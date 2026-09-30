@@ -23,9 +23,22 @@ frappe.ui.Dock = class OneDock extends frappe.ui.Dock {
 // way back to a panel you dismissed. One is a product people work inside all
 // day rather than a desk they dip into, so the panel stays out and the rail is
 // for moving between products.
+//
+// A record being printed is still that record: frappe reads the print route as
+// its own page, which only the Printing sidebar links, and so left the record's
+// app for frappe's Print Format and Letter Head lists. It reads it as the
+// record's doctype instead, so an invoice prints inside OneBook.
 frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 	panel_can_close() {
 		return false;
+	}
+
+	entity_from_route(route) {
+		return route[0] === "print" && route[1] ? route[1] : super.entity_from_route(route);
+	}
+
+	link_type_from_route(route) {
+		return route[0] === "print" && route[1] ? "DocType" : super.link_type_from_route(route);
 	}
 };
 

@@ -4162,6 +4162,54 @@ Checked live, two calls: a Task typed by name with a required description, made
 from the Stadtwerke invoice, was named `RE-2026-1100` and described "Pay invoice
 RE-2026-1100 from Stadtwerke Köln GmbH for 84.2 by 2026-09-15" (rolled back).
 
+**Stage 3, Printing: done.** Seen as a workspace
+administrator: Workspace › Printing, the Print Formats tab, a letter head, the
+builder, and printing an invoice.
+
+1. Notifications: nothing is sent and nothing should be.
+2. OneAI: **finding.** Nothing. No suggestions on Workspace › Printing, no tool
+   that reads the formats, the defaults or the letter heads, and no card to set
+   a default format or letter head.
+3. Intake: nothing to take in here.
+4. Permissions: the held door (printing.py) and the builder through a Custom
+   Role hold. The print view's own checkboxes are per print, not saved.
+5. Cross-module: **finding.** Printing an invoice on the Modern formats or the
+   Company Letterhead opens ERPNext's "Enter Company Details" (logo, website,
+   phone, email, address) every time until the company has them, while
+   Workspace › General already asks for the logo and an address, in other words.
+   **Finding:** a new letter head does not start with General's logo.
+6. Bespoke UI: **findings.** The print view's sidebar is frappe's Printing
+   workspace (Print Format, Print Heading, Letter Head, Builder, Print Settings
+   lists), not the record's app. A new print format starts from every field the
+   kind has, internal switches included (Is Consolidated, Update Billed Amount
+   in Sales Order, Scan Barcode). The letter head window shows Height as
+   `40.000` and the logo as its storage address, and has no preview.
+7. Documented: the README's Printing section is current.
+8. Legal: a PDF is made on the workspace's own server; nothing leaves it.
+9. Built from frappe: frappe's builder, its tab and its dialogs.
+
+All five fixed:
+
+- General has an **On Documents** section: the logo, phone, email, website
+  and the company's address. They are the Company fields and the company's
+  own primary Address that ERPNext's prompt checks, so with them filled an
+  invoice prints with its logo, address and contacts and nothing asks.
+  (ERPNext reads the address with the printer's own Address permission,
+  which OneBook's User level carries.)
+- The print view keeps the record's app sidebar: `desk.js` reads
+  `print/<doctype>/<name>` as that doctype for frappe's sidebar lookup.
+- **New** on the Print Formats tab asks for a name and what to start from: a
+  copy of a format the kind already prints with (its default first, blocks
+  the builder would refuse left out), or every field. `printing.new_format`
+  copies with `frappe.copy_doc`.
+- The letter head window shows the top of a page as it will print, Height
+  as a whole number, the logo by its file name, and a new one starts with
+  General's logo.
+- OneAI reads the letter heads, formats and defaults (`workspace_printing`)
+  and suggests a letter head from the logo, the default letter head or a
+  kind's default format as a Printing card (`change_printing`); two page
+  suggestions on Workspace › Printing.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

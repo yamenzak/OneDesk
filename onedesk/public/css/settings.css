@@ -551,3 +551,26 @@
 .os-intake-list {
 	margin-bottom: var(--margin-lg);
 }
+
+/* A letter head as it will print: its top and foot on a sheet, the body between
+   them only as much space as says where the document goes. */
+.one-letter-head-sheet {
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-lg, 8px);
+	padding: calc(var(--spacing) * 4);
+	background: var(--surface-white);
+	margin-bottom: calc(var(--spacing) * 2);
+}
+
+.one-letter-head-body {
+	height: 48px;
+	margin: calc(var(--spacing) * 3) 0;
+	background: repeating-linear-gradient(
+		to bottom,
+		var(--surface-gray-2) 0,
+		var(--surface-gray-2) 6px,
+		transparent 6px,
+		transparent 14px
+	);
+	opacity: 0.6;
+}

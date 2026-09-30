@@ -299,7 +299,7 @@ def _suggests(row: dict) -> dict:
 	except Exception:
 		changes = {}
 
-	if row.get("kind") in ("Customize", "Holidays", "Numbering"):
+	if row.get("kind") in ("Customize", "Holidays", "Numbering", "Printing"):
 		# What approving it changes, one line each, as the tool said it: the
 		# page's whole state underneath is not a diff anybody reads.
 		return {

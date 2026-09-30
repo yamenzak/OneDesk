@@ -369,6 +369,118 @@ def set_default(
 	layer.set_default(doctype, "default_print_format", print_format)
 
 
+def _passes(check) -> bool:
+	muted = frappe.flags.mute_messages
+	frappe.flags.mute_messages = True
+	try:
+		check()
+		return True
+	except frappe.ValidationError:
+		frappe.clear_last_message()
+		return False
+	finally:
+		frappe.flags.mute_messages = muted
+
+
+def _hold_copy(doc) -> None:
+	"""A copy of a frappe format as the workspace may keep it: the blocks and
+	styles validate_format refuses (a standard format's own HTML block, say)
+	left out, and everything else as it was."""
+
+	def kept(data):
+		if isinstance(data, list):
+			return [
+				kept(one)
+				for one in data
+				if not (
+					isinstance(one, dict)
+					and one.get("fieldtype")
+					and not _passes(
+						lambda one=one: _layout(
+							[{k: v for k, v in one.items() if not isinstance(v, list | dict)}],
+							doc.doc_type,
+							doc.name,
+						)
+					)
+				)
+			]
+		if isinstance(data, dict):
+			return {key: kept(value) for key, value in data.items()}
+		return data
+
+	doc.format_data = json.dumps(kept(json.loads(doc.format_data or "[]")))
+	if not _passes(lambda: _style(doc.css, "")):
+		doc.css = None
+
+
+def starts(doctype: str) -> list[dict]:
+	"""The builder formats a new format of a kind may start as a copy of, the
+	one it prints with first: the frappe builder's own (Classic, Modern) and the
+	workspace's."""
+	_doctype(doctype)
+	default = frappe.get_meta(doctype).default_print_format
+	rows = frappe.get_all(
+		"Print Format",
+		filters={"doc_type": doctype, "print_format_builder_beta": 1, "disabled": 0},
+		fields=["name", "standard"],
+		order_by="name asc",
+	)
+	return sorted(rows, key=lambda one: (one.name != default, one.standard != "Yes", one.name))
+
+
+@frappe.whitelist()
+def new_format_starts(doctype: Annotated[str, "The kind of record."]) -> list[dict]:
+	"""What New in the Print Formats tab offers to start from."""
+	roles.require()
+	return starts(doctype)
+
+
+@frappe.whitelist(methods=["POST"])
+def new_format(
+	doctype: Annotated[str, "The kind of record."],
+	name: Annotated[str, "The new format's name."],
+	start_from: Annotated[str, "A builder format of the kind to copy, or empty for every field."]
+	| None = None,
+) -> str:
+	"""A new format, made as frappe's builder makes one: a copy of a format the
+	kind already prints with, as frappe's Duplicate copies it, or, from nothing,
+	a builder format frappe lays out from the kind's fields. Held by
+	validate_format like any other."""
+	roles.require()
+	_doctype(doctype)
+	name = (name or "").strip()
+	if not name:
+		frappe.throw(_("A print format needs a name."))
+	if start_from:
+		if start_from not in {one.name for one in starts(doctype)}:
+			frappe.throw(_("{0} is not a format {1} can start from.").format(start_from, _(doctype)))
+		doc = frappe.copy_doc(frappe.get_doc("Print Format", start_from))
+		doc.standard = "No"
+		doc.disabled = 0
+		if layer.held():
+			_hold_copy(doc)
+	else:
+		doc = frappe.new_doc("Print Format")
+		doc.update({"doc_type": doctype, "print_format_builder_beta": 1})
+	doc.set("__newname", name)
+	doc.insert()
+	return doc.name
+
+
+def state(doctype: str | None = None) -> str:
+	"""How printing stands now, so a card suggested against an older state is
+	refused: the kind's default format, and every letter head as it was."""
+	return frappe.as_json(
+		{
+			"default": frappe.get_meta(doctype).default_print_format if doctype else None,
+			"letter_heads": {
+				one.name: str(one.modified)
+				for one in frappe.get_all("Letter Head", fields=["name", "modified"], order_by="name asc")
+			},
+		}
+	)
+
+
 @frappe.whitelist()
 def default(doctype: Annotated[str, "The kind of record."]) -> str | None:
 	"""The format the doctype prints with unless another is chosen. frappe's tab

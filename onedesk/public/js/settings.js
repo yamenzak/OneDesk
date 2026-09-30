@@ -732,8 +732,14 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const rows = [
 			{ heading: __("Company"), note: __("Set when the workspace was made. The currency cannot change once there are books.") },
 			{ html: `<dl class="os-facts">${facts}</dl>` },
-			["company_logo", ""],
 			["email_footer_address", ""],
+			{ heading: __("On Documents"), note: __("What invoices, quotes and orders show about the company, printed or sent.") },
+			["company_logo", ""],
+			["phone_no", "email"],
+			["website", ""],
+			["address_line1", "address_line2"],
+			["city", "state"],
+			["pincode", ""],
 			{ heading: __("Region and Formats") },
 			["language", "time_zone"],
 			["date_format", "time_format"],
@@ -1540,8 +1546,9 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	// One the workspace did not make is only made the default or turned off here.
 	letter_head(one = null) {
 		const theirs = !!one && Settings.theirs(one);
-		const image = (fieldname, label) => ({ fieldtype: "Attach Image", fieldname, label, make_attachment_public: 1 });
-		const align = (fieldname) => ({ fieldtype: "Select", fieldname, label: __("Align"), options: ["Left", "Center", "Right"], default: "Left" });
+		const image = (fieldname, label) => ({ fieldtype: "Attach Image", fieldname, label, make_attachment_public: 1, change: () => shown() });
+		const height = (fieldname, label, description) => ({ fieldtype: "Float", fieldname, label, precision: "0", description, change: () => shown() });
+		const align = (fieldname) => ({ fieldtype: "Select", fieldname, label: __("Align"), options: ["Left", "Center", "Right"], default: "Left", change: () => shown() });
 		const dialog = new frappe.ui.Dialog({
 			title: one ? one.name : __("New Letter Head"),
 			fields: [
@@ -1550,15 +1557,16 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				...(theirs
 					? []
 					: [
+							{ fieldtype: "HTML", fieldname: "preview" },
 							{ fieldtype: "Section Break", label: __("Top") },
 							{ ...image("image", __("Logo")), reqd: 1 },
 							{ fieldtype: "Column Break" },
-							{ fieldtype: "Float", fieldname: "image_height", label: __("Height"), description: __("In pixels. Empty keeps the picture's own.") },
+							height("image_height", __("Height"), __("In pixels. Empty keeps the picture's own.")),
 							align("align"),
 							{ fieldtype: "Section Break", label: __("Foot"), collapsible: one && one.footer_image ? 0 : 1 },
 							image("footer_image", __("Picture")),
 							{ fieldtype: "Column Break" },
-							{ fieldtype: "Float", fieldname: "footer_image_height", label: __("Height") },
+							height("footer_image_height", __("Height")),
 							align("footer_align"),
 							{ fieldtype: "Section Break" },
 					  ]),
@@ -1575,7 +1583,37 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				this.refresh({ fresh: true });
 			},
 		});
+		// The page as it will print: the top and the foot as frappe's Letter Head draws
+		// them from these pictures, on a sheet's width. And each picture by its file's
+		// name rather than the address it is kept at.
+		const esc = frappe.utils.escape_html;
+		const named = async (fieldname) => {
+			const field = dialog.get_field(fieldname);
+			const url = field && field.get_value();
+			if (!url || !field.$value) return;
+			const file = await frappe.db.get_value("File", { file_url: url }, "file_name");
+			const called = file && file.message && file.message.file_name;
+			called && field.$value.find(".attached-file-link").text(called);
+		};
+		const shown = () => {
+			const field = dialog.get_field("preview");
+			if (!field) return;
+			const value = (fieldname) => dialog.get_value(fieldname);
+			const part = (url, h, where) =>
+				url
+					? `<div style="text-align:${esc((where || "Left").toLowerCase())}"><img src="${esc(url)}" style="max-width:100%;${h ? `height:${cint(h)}px;` : "max-height:80px;"}"></div>`
+					: "";
+			field.$wrapper.html(`<div class="one-letter-head-sheet">
+				${part(value("image"), value("image_height"), value("align")) || `<div class="text-muted small">${esc(__("The logo goes here."))}</div>`}
+				<div class="one-letter-head-body"></div>
+				${part(value("footer_image"), value("footer_image_height"), value("footer_align"))}
+			</div>`);
+			named("image");
+			named("footer_image");
+		};
 		if (one) dialog.set_values(one);
+		else if (this.data && this.data.company_logo) dialog.set_value("image", this.data.company_logo);
+		setTimeout(shown);
 		if (one && !theirs) {
 			dialog.set_secondary_action_label(__("Delete"));
 			dialog.set_secondary_action(() =>

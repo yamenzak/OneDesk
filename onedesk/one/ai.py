@@ -98,6 +98,18 @@ SUGGESTIONS = {
 			"expects": "change_numbering",
 		},
 	],
+	"page:workspace-settings/printing": [
+		{
+			"label": _lt("Make a letter head from our logo"),
+			"ask": _lt("Suggest a letter head with the logo from Workspace › General, as the default."),
+			"expects": "change_printing",
+		},
+		{
+			"label": _lt("Which format do invoices print with?"),
+			"ask": _lt("Which print format do Sales Invoices print with, and which others could they use?"),
+			"expects": "workspace_printing",
+		},
+	],
 	"page:workspace-settings/people": [
 		{
 			"label": _lt("Who has access to what?"),
@@ -1595,3 +1607,133 @@ def change_numbering(
 		"next": "Tell them it applies to records made after they approve it, that records already made keep "
 		"their names, and that the record's Settings › Numbering shows it.",
 	}
+
+
+# ------------------------------------------------------------------ printing
+
+
+def workspace_printing(
+	doctype: Annotated[str, "A kind of record, such as Sales Invoice, to also read its formats and default."]
+	| None = None,
+) -> dict:
+	"""How the workspace's documents look on paper, for its administrators:
+	its letter heads (which is the default, which are off), the logo Workspace
+	> General keeps, the print formats the workspace made, and for a kind of
+	record the formats it may print with and the one it prints with unless
+	another is chosen. Read it before suggesting a change."""
+	from onedesk.one import printing, roles, settings
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator sees how documents are printed."}
+	try:
+		company = settings._company()
+		said = {
+			"letter_heads": [
+				{key: one.get(key) for key in ("name", "is_default", "disabled", "image", "standard", "source")}
+				for one in printing.letter_heads()
+			],
+			"company_logo": company.company_logo if company else None,
+			"workspace_formats": printing.formats(),
+		}
+		if doctype:
+			printing._doctype(doctype)
+			said["doctype"] = doctype
+			said["default_format"] = frappe.get_meta(doctype).default_print_format
+			said["formats"] = frappe.get_all(
+				"Print Format",
+				filters={"doc_type": doctype, "disabled": 0},
+				fields=["name", "standard", "print_format_builder_beta as made_in_the_builder"],
+				order_by="name asc",
+			)
+		return said
+	except frappe.ValidationError as e:
+		frappe.clear_last_message()
+		return {"error": str(e)}
+
+
+def change_printing(
+	doctype: Annotated[str, "The kind of record whose default format changes, such as Sales Invoice."]
+	| None = None,
+	default_format: Annotated[str, "The format that kind prints with unless another is chosen: one of its formats."]
+	| None = None,
+	letter_head: Annotated[
+		dict,
+		"A letter head to make or change: {name} of an existing one, or {new_name} for a new one; {logo}, "
+		"'company' for the logo Workspace > General keeps or a file URL the workspace already has; "
+		"{default} true to make it the one printed unless another is chosen; {off} true to turn it off.",
+	]
+	| None = None,
+	why: Annotated[str, "In a sentence, what the change is for."] | None = None,
+) -> dict:
+	"""Suggest how documents are printed, as a card a workspace administrator
+	approves: which format a kind of record prints with by default, a new
+	letter head made from the workspace's logo, or which letter head is the
+	default. New formats are laid out in the print format builder, not here.
+	Read workspace_printing first. Nothing changes until they approve it.
+	Workspace administrators only."""
+	from onedesk.one import printing, roles, settings
+	from onedesk.one_ai import proposals
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator changes how documents are printed."}
+	summary, head = [], None
+	try:
+		if default_format:
+			if not doctype:
+				return {"error": "Say which kind of record prints with that format."}
+			printing._doctype(doctype)
+			if frappe.db.get_value("Print Format", default_format, "doc_type") != doctype:
+				return {"error": f"{default_format} is not a format of {doctype}; read workspace_printing for its formats."}
+			was = frappe.get_meta(doctype).default_print_format
+			if was != default_format:
+				summary.append(
+					{"label": _("Prints With"), "value": _("{0} (was {1})").format(default_format, was or _("Standard"))}
+				)
+			else:
+				default_format = None
+		if letter_head:
+			name = (letter_head.get("name") or "").strip() or None
+			if name and not frappe.db.exists("Letter Head", name):
+				return {"error": f"There is no letter head {name}; read workspace_printing for them."}
+			logo = letter_head.get("logo")
+			if logo == "company":
+				company = settings._company()
+				logo = company.company_logo if company else None
+				if not logo:
+					return {"error": "Workspace > General has no logo yet; ask them to add one there first."}
+			if not name and not (letter_head.get("new_name") and logo):
+				return {"error": "A new letter head needs new_name and a logo."}
+			head = {"name": name}
+			if not name:
+				head["letter_head_name"] = letter_head["new_name"].strip()
+				summary.append({"label": _("New Letter Head"), "value": head["letter_head_name"]})
+			if logo:
+				head["image"] = logo
+				summary.append({"label": _("Logo"), "value": logo.rsplit("/", 1)[-1].split("?")[0]})
+			if letter_head.get("default") is not None:
+				head["is_default"] = 1 if letter_head["default"] else 0
+				summary.append({"label": _("Default"), "value": _("Yes") if head["is_default"] else _("No")})
+			if letter_head.get("off") is not None:
+				head["disabled"] = 1 if letter_head["off"] else 0
+				summary.append({"label": _("Off"), "value": _("Yes") if head["disabled"] else _("No")})
+	except frappe.ValidationError as e:
+		frappe.clear_last_message()
+		return {"error": str(e)}
+	if not summary:
+		return {"error": "That is how it prints already, so there is nothing to change. Say it is right as it is."}
+	return {
+		"proposal": proposals.propose(
+			"Printing",
+			doctype if default_format else "Letter Head",
+			changes={
+				"state": printing.state(doctype if default_format else None),
+				"default_format": default_format,
+				"letter_head": head,
+				"summary": summary,
+			},
+			why=why,
+		),
+		"state": "Proposed",
+		"next": "Tell them it applies once they approve it, and that Workspace › Printing shows it.",
+	}
+

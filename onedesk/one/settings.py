@@ -110,7 +110,7 @@ EMERGENCY = ("person_to_be_contacted", "relation", "emergency_phone_number")
 
 #: Labels this page says in its own words, where frappe's read as a field
 #: name ("Mobile No").
-LABELS = {"mobile_no": _lt("Mobile")}
+LABELS = {"mobile_no": _lt("Mobile"), "phone_no": _lt("Phone"), "city": _lt("City"), "state": _lt("State or Region")}
 
 #: Said on both records. The employee's copy is the one HR reads, and erpnext
 #: copies it onto the login on every save of the employee, so a change here
@@ -717,7 +717,12 @@ def _general() -> dict:
 	company = _company()
 	system = frappe.get_single("System Settings")
 	account = frappe.get_single("Workspace Account")
-	fields = _fields("Company", ("company_logo",)) + _zones(_switches(_fields("System Settings", ("language", "time_zone", *SYSTEM, *SIGNING_IN, *FOOTER))))
+	address = _company_address(company)
+	fields = (
+		_fields("Company", ("company_logo", *ON_DOCUMENTS))
+		+ _fields("Address", ADDRESS)
+		+ _zones(_switches(_fields("System Settings", ("language", "time_zone", *SYSTEM, *SIGNING_IN, *FOOTER))))
+	)
 	return {
 		"name": account.workspace_name,
 		"company": company.company_name if company else None,
@@ -726,6 +731,8 @@ def _general() -> dict:
 		"fields": [{**one, **_said_on_general(one["fieldname"], system)} for one in fields] + _signing_in_fields() + _sharing_fields(),
 		"values": {
 			"company_logo": company.company_logo if company else None,
+			**{name: company.get(name) if company else None for name in ON_DOCUMENTS},
+			**{name: address.get(name) if address else None for name in ADDRESS},
 			"language": system.language,
 			"time_zone": system.time_zone,
 			**{name: system.get(name) for name in (*SYSTEM, *SIGNING_IN, *FOOTER)},
@@ -735,8 +742,65 @@ def _general() -> dict:
 			"one_two_factor": _two_factor(system),
 			"one_password": str(system.minimum_password_score or "") if system.enable_password_policy else "",
 		},
-		"opened": _opened(company, system),
+		"opened": _opened(company, system, address),
 	}
+
+
+#: What a printed or sent document shows about the company, beside its logo:
+#: the Company's own fields, and its address as ERPNext keeps a company's
+#: (an Address linked to it, marked as the company's own and primary). ERPNext
+#: asks for exactly these when an invoice is printed without them
+#: (erpnext/public/js/print.js), so they are asked here once instead.
+ON_DOCUMENTS = ("phone_no", "email", "website")
+ADDRESS = ("address_line1", "address_line2", "city", "state", "pincode")
+
+
+def _company_address(company):
+	"""The company's own primary address, as ERPNext finds it for a document."""
+	if not company:
+		return None
+	name = frappe.db.get_value(
+		"Address",
+		{"is_your_company_address": 1, "name": ["in", _linked_addresses(company.name)]},
+		"name",
+		order_by="is_primary_address desc, modified desc",
+	)
+	return frappe.get_doc("Address", name) if name else None
+
+
+def _linked_addresses(company: str) -> list[str]:
+	return frappe.get_all(
+		"Dynamic Link",
+		filters={"parenttype": "Address", "link_doctype": "Company", "link_name": company},
+		pluck="parent",
+	) or [""]
+
+
+def _save_company_address(company, values: dict) -> None:
+	wanted = {name: (values.get(name) or "").strip() for name in ADDRESS if name in values}
+	if not wanted:
+		return
+	address = _company_address(company)
+	if not address:
+		if not wanted.get("address_line1"):
+			return
+		address = frappe.new_doc("Address")
+		address.update(
+			{
+				"address_title": company.company_name,
+				"address_type": "Billing",
+				"country": company.country,
+				"is_your_company_address": 1,
+				"is_primary_address": 1,
+				"links": [{"link_doctype": "Company", "link_name": company.name}],
+			}
+		)
+	else:
+		_as_opened(address)
+	if all(address.get(name) == value for name, value in wanted.items()) and not address.is_new():
+		return
+	address.update(wanted)
+	address.save(ignore_permissions=True)
 
 
 #: How a person signs in to this workspace, as System Settings keeps it.
@@ -893,9 +957,16 @@ def _switches(fields: list) -> list:
 
 def _save_general(values: dict) -> None:
 	company = _company()
-	if company and "company_logo" in values and (values["company_logo"] or None) != (company.company_logo or None):
-		_as_opened(company).company_logo = values["company_logo"]
-		company.save(ignore_permissions=True)
+	if company:
+		changed = {
+			name: values[name] or None
+			for name in ("company_logo", *ON_DOCUMENTS)
+			if name in values and (values[name] or None) != (company.get(name) or None)
+		}
+		if changed:
+			_as_opened(company).update(changed)
+			company.save(ignore_permissions=True)
+		_save_company_address(company, values)
 	system = _as_opened(frappe.get_single("System Settings"))
 	system.update({name: values[name] for name in ("language", "time_zone", *SYSTEM, *SIGNING_IN, *FOOTER) if name in values})
 	if "one_record_sharing" in values:
@@ -1573,7 +1644,13 @@ def _printing() -> dict:
 	"""The workspace's letter heads and its own print formats (one/printing.py)."""
 	from onedesk.one import printing
 
-	return {"letter_heads": printing.letter_heads(), "formats": printing.formats()}
+	company = _company()
+	return {
+		"letter_heads": printing.letter_heads(),
+		"formats": printing.formats(),
+		# A new letter head starts with the logo Workspace > General keeps.
+		"company_logo": company.company_logo if company else None,
+	}
 
 
 # ------------------------------------------------------------------ notifications

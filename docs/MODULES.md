@@ -221,6 +221,8 @@ No doctypes yet.
 * `onedesk.one.numbering.set_naming_by`
 * `onedesk.one.printing.default`
 * `onedesk.one.printing.download_builder_preview_pdf`
+* `onedesk.one.printing.new_format`
+* `onedesk.one.printing.new_format_starts`
 * `onedesk.one.printing.render_builder_preview`
 * `onedesk.one.printing.render_jinja_template`
 * `onedesk.one.printing.save_letter_head`
