@@ -173,10 +173,17 @@ OVERRIDES = [
 	),
 	(
 		"A letter head's top is filtered by One, not by frappe's XSS filter",
-		"frappe's XSS filter takes an inline picture out of HTML, and a drawn top's icons are inline pictures; Letter Head's content carries ignore_xss_filter, and validate_letter_head filters it instead: print_html.clean for the workspace, frappe's own sanitize_html for any top not drawn by letter_heads",
+		"frappe's XSS filter takes an inline picture out of HTML, and a drawn top's or foot's icons are inline pictures; Letter Head's content and footer carry ignore_xss_filter, and validate_letter_head filters them instead: print_html.clean for the workspace, frappe's own sanitize_html for any top or foot not drawn by letter_heads",
 		"onedesk/one/custom/letter_head.json",
 		"frappe/frappe/model/base_document.py",
 		'df.get("ignore_xss_filter")',
+	),
+	(
+		"A drawn foot carries no page number",
+		"frappe's new print formats draw the page number themselves (Print Format's page_number) on every page, so letter_heads.draw_foot leaves it out rather than print it twice",
+		"onedesk/one/letter_heads.py",
+		"frappe/frappe/utils/print_format_generator.py",
+		'page_pos = (self.print_format.page_number or "").lower().replace(" ", "_")',
 	),
 	(
 		"A letter head's top is drawn from the company, as ERPNext's own reads it",

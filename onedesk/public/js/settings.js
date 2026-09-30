@@ -1541,11 +1541,12 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 	}
 
-	// A letter head: its name, its top, whether it is the default, whether it is off.
-	// The top is one of the presets letter_heads.py draws from Workspace > General,
-	// each shown as it prints with the company's own details, or one written by hand
-	// on frappe's print format builder (Write It Yourself). The foot, for now, is the
-	// builder's. One the workspace did not make is only made the default or turned off.
+	// A letter head: its name, its top and foot, whether it is the default, whether
+	// it is off. The top and the foot are each one of the presets letter_heads.py
+	// draws from Workspace > General, shown as they print with the company's own
+	// details, or written by hand on frappe's print format builder (Write It
+	// Yourself); a letter head may have no foot. One the workspace did not make is
+	// only made the default or turned off.
 	letter_head(one = null) {
 		const theirs = !!one && Settings.theirs(one);
 		const esc = frappe.utils.escape_html;
@@ -1553,6 +1554,10 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const kept = one && one.one_top ? frappe.utils.parse_json(one.one_top) : null;
 		let preset = one ? (kept && kept.preset) || null : "classic";
 		const shows = (kept && kept.show) || ["name", "address", "phone", "email", "website"];
+		// The foot's preset; null when it was written by hand, "none" when there is none.
+		const kept_foot = one && one.one_foot ? frappe.utils.parse_json(one.one_foot) : null;
+		let foot = one ? (kept_foot && kept_foot.preset) || (one.footer ? null : "none") : "centred";
+		const foot_shows = (kept_foot && kept_foot.show) || ["name", "address", "phone", "email", "website"];
 		const SHOWN = [
 			["name", __("Name")],
 			["address", __("Address")],
@@ -1601,6 +1606,21 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 							{ fieldtype: "Check", fieldname: "line", label: __("Brand Line"), description: __("A line in the Brand Colour under the top."), default: kept && kept.line === 0 ? 0 : 1, change: () => drawn() },
 							{ fieldtype: "Select", fieldname: "align", label: __("Logo Sits"), options: [{ value: "left", label: __("Left") }, { value: "center", label: __("Centre") }, { value: "right", label: __("Right") }], default: (kept && kept.align) || "left", change: () => drawn() },
 							{ fieldtype: "HTML", fieldname: "from_general", options: `<p class="text-muted small">${esc(__("The name, logo, address, contacts and colour come from Workspace › General, and the top is drawn again whenever they change there."))}</p>` },
+							{ fieldtype: "Section Break", label: __("Foot") },
+							{ fieldtype: "HTML", fieldname: "feet" },
+							{ fieldtype: "Section Break", fieldname: "foot_settings" },
+							{
+								fieldtype: "MultiCheck",
+								fieldname: "foot_show",
+								label: __("Shows"),
+								columns: 3,
+								sort_options: false,
+								options: SHOWN.map(([value, label]) => ({ value, label, checked: foot_shows.includes(value) ? 1 : 0 })),
+								on_change: () => drawn(),
+							},
+							{ fieldtype: "Data", fieldname: "foot_note", label: __("Note"), description: __("A line of your own, such as a thank-you."), default: (kept_foot && kept_foot.note) || "", change: () => drawn() },
+							{ fieldtype: "Column Break" },
+							{ fieldtype: "Check", fieldname: "foot_line", label: __("Brand Line"), description: __("A line in the Brand Colour over the foot."), default: kept_foot && kept_foot.line === 0 ? 0 : 1, change: () => drawn() },
 							{ fieldtype: "Section Break" },
 					  ]),
 				{ fieldtype: "Check", fieldname: "is_default", label: __("Default"), description: __("Printed on a document unless another is chosen.") },
@@ -1614,6 +1634,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 						is_default: values.is_default,
 						disabled: values.disabled,
 						...(preset && !theirs ? { one_top: settings() } : {}),
+						...(foot && !theirs ? (foot === "none" ? { one_foot: null, footer_source: "HTML", footer: "" } : { one_foot: foot_settings() }) : {}),
 						name: one ? one.name : null,
 						modified: one ? one.modified : null,
 					},
@@ -1630,13 +1651,25 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			align: dialog.get_value("align"),
 			line: dialog.get_value("line") ? 1 : 0,
 		});
+		const foot_settings = () => ({
+			preset: foot,
+			show: dialog.get_value("foot_show") || [],
+			note: dialog.get_value("foot_note") || "",
+			line: dialog.get_value("foot_line") ? 1 : 0,
+		});
+		const foot_html = () => {
+			if (foot === "none") return "";
+			const chosen = drawn_feet.find((d) => d.preset === foot);
+			return chosen ? chosen.html : (one && one.footer) || "";
+		};
 		const show_preview = (top) => {
 			const field = dialog.get_field("preview");
-			field.$wrapper.empty().append(frame(page(top, one ? one.footer || "" : "", 0.95), "one-letter-head-sheet"));
+			field.$wrapper.empty().append(frame(page(top, foot_html(), 0.95), "one-letter-head-sheet"));
 		};
 		// Every preset as it prints with the company's details, the chosen one
 		// marked; a top written by hand is shown as it is until one is chosen.
 		let drawn_with = [];
+		let drawn_feet = [];
 		const cards = () => {
 			const field = dialog.get_field("presets");
 			if (!field) return;
@@ -1658,16 +1691,45 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				: `<p class="text-muted small">${esc(__("Its top was written by hand. Choosing a preset replaces it."))}</p>`;
 			field.$wrapper.empty().append(note).append($grid);
 		};
+		// Every foot the same way, and None, since a letter head may have no foot.
+		const feet = () => {
+			const field = dialog.get_field("feet");
+			if (!field) return;
+			const $grid = $(`<div class="one-lh-presets one-lh-presets--feet"></div>`);
+			for (const one_foot of [...drawn_feet, { preset: "none", label: __("None"), html: "" }]) {
+				const $card = $(`<button type="button" class="one-lh-preset"></button>`)
+					.toggleClass("one-lh-preset--chosen", one_foot.preset === foot)
+					.append(frame(page(one_foot.html, null, 0.29), "one-lh-preset__page"))
+					.append(`<span class="one-lh-preset__label">${esc(one_foot.label)}</span>`)
+					.on("click", () => {
+						foot = one_foot.preset;
+						feet();
+						shown();
+					});
+				$grid.append($card);
+			}
+			const note = foot
+				? ""
+				: `<p class="text-muted small">${esc(__("Its foot was written by hand. Choosing a preset replaces it."))}</p>`;
+			field.$wrapper.empty().append(note).append($grid);
+		};
 		const shown = () => {
 			if (theirs) return show_preview(one.content);
 			dialog.set_df_property("align", "hidden", preset !== "logo");
+			for (const fieldname of ["foot_show", "foot_note", "foot_line"]) {
+				dialog.set_df_property(fieldname, "hidden", !foot || foot === "none");
+			}
 			const chosen = drawn_with.find((d) => d.preset === preset);
 			show_preview(chosen ? chosen.html : one && one.content);
 		};
 		const drawn = frappe.utils.debounce(async () => {
 			if (theirs) return shown();
-			drawn_with = await frappe.xcall("onedesk.one.letter_heads.presets", { settings_of: settings() });
+			[drawn_with, drawn_feet] = await Promise.all([
+				frappe.xcall("onedesk.one.letter_heads.presets", { settings_of: settings() }),
+				frappe.xcall("onedesk.one.letter_heads.presets", { settings_of: foot_settings(), part: "foot" }),
+			]);
 			cards();
+			feet();
 			shown();
 		}, 200);
 		if (one) dialog.set_values({ letter_head_name: one.letter_head_name || one.name, is_default: one.is_default, disabled: one.disabled });

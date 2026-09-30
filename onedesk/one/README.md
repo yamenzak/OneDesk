@@ -555,7 +555,17 @@ the top, on any preset. Change any of those in General, Brand Colour included, a
 drawn top is drawn again. **Write It Yourself** opens the letter head in the
 print format builder instead, where the top and the foot are each a picture or
 HTML; a top changed there stays as it was written, and choosing a preset
-again replaces it. The foot is the builder's for now. **Default** prints it on
+again replaces it.
+
+The **Foot** is chosen the same way, from three presets drawn from the same
+details: **Centred** (the company on one line, how to reach it on the next),
+**Two Sides** (the company and its address on the left, the contacts on the
+right) and **Band** (the details in a band of the Brand Colour), or **None**.
+Tick what it **Shows**, add a **Note** of your own ("Thank you for your
+business."), and leave out its **Brand Line** if you like. A new letter head
+starts with the Centred foot. The page number is not the foot's: it is the
+print format's own (Page Number, in the builder), which frappe prints on every
+page. **Default** prints it on
 every document unless another is chosen; **Off** keeps it without offering
 it. The letter heads that came with the workspace can be made the default or
 turned off.

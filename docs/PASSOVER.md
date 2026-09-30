@@ -4283,6 +4283,26 @@ ID on the right. The Brand Line, the line in the colour under the top, is a
 tick in the letter head window (`one_top.line`) and every preset leaves it out
 when it is off.
 
+**Letter heads, the foot. Fixed.**
+
+1. The foot was the builder's alone: a picture or HTML written by hand, with
+   nothing drawn from General, so the usual foot (the company and its
+   contacts, a thank-you) needed HTML nobody writes.
+2. frappe's XSS filter took the icons out of a foot as it did from the top.
+3. A foot that carried a page number would print it twice: frappe's new
+   print formats draw their own (Print Format's `page_number`) on every page,
+   and the browser's print preview repeats the foot on every page with no way
+   to count them.
+
+Fixed the way the top was: three feet (Centred, Two Sides, Band) that
+`letter_heads.draw_foot` draws from General, kept on the letter head as
+`one_foot`, drawn again when the company changes, and left alone once changed
+by hand in the builder. The window has a Foot section under the Top: the three
+and None as cards, Shows, a Note and the Brand Line. `footer` skips frappe's
+XSS filter as `content` does, and `validate_letter_head` filters any foot not
+drawn here with frappe's own `sanitize_html`. OneAI's `change_printing` takes a
+`foot`. Page numbers stay the print format's.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

@@ -53,7 +53,7 @@ def test_a_top_is_drawn_again_when_the_company_changes():
 
 def test_a_top_changed_by_hand_is_left_as_written():
 	apply = _body("apply")
-	assert "doc.one_top = None" in apply and 'before.get("one_top") == doc.one_top' in apply
+	assert "doc.set(field, None)" in apply and "before.get(field) == doc.get(field)" in apply
 
 
 def test_no_table_cells():
@@ -83,3 +83,31 @@ def test_the_brand_line_may_be_left_out_of_every_preset():
 	draw = _body("draw")
 	assert 'said["line"]' in draw
 	assert draw.count("rule") >= 6  # its definition, and every preset but Minimal, whose line is its border
+
+
+def test_every_foot_is_drawn_and_carries_no_page_number():
+	"""The page number is the print format's own (Print Format's page_number),
+	which frappe draws on every page; a foot that drew one too would print it twice."""
+	feet = _keys("FEET")
+	assert feet == ["centred", "split", "band"]
+	draw_foot = _body("draw_foot")
+	for preset in feet[1:]:
+		assert f'preset == "{preset}"' in draw_foot, preset
+	assert "escape_html" in draw_foot
+	assert 'class="page"' not in draw_foot and "topage" not in draw_foot
+	assert 'said["line"]' in draw_foot
+
+
+def test_the_foot_is_drawn_kept_and_filtered_as_the_top_is():
+	import json
+
+	parts = SOURCE.split("PARTS = (", 1)[1].split("\n)\n", 1)[0]
+	assert '"one_top"' in parts and '"one_foot"' in parts
+	assert "for field, source, html, image, read, drawn in PARTS" in _body("apply")
+	assert '"one_foot": ["is", "set"]' in _body("redraw")
+	custom = json.loads((tree.APP / "one" / "custom" / "letter_head.json").read_text())
+	assert {one["fieldname"] for one in custom["custom_fields"]} >= {"one_top", "one_foot"}
+	assert {one["field_name"] for one in custom["property_setters"]} >= {"content", "footer"}
+	printing = (tree.APP / "one" / "printing.py").read_text()
+	validate = printing.split("def validate_letter_head(", 1)[1].split("\ndef ", 1)[0]
+	assert "sanitize_html(doc.footer)" in validate and 'not doc.get("one_foot")' in validate

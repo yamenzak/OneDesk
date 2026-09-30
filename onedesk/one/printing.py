@@ -300,11 +300,13 @@ def validate_letter_head(doc, method=None) -> None:
 	letter_heads.apply(doc)
 	_stored_images(doc)
 	if not layer.held():
-		# The top is filtered here rather than by frappe's XSS filter, which takes out
-		# an inline picture (letter_heads draws its icons as one): a drawn top is
-		# ours and escaped, and any other gets frappe's own filter.
+		# The top and foot are filtered here rather than by frappe's XSS filter, which
+		# takes out an inline picture (letter_heads draws its icons as one): a drawn
+		# one is ours and escaped, and any other gets frappe's own filter.
 		if doc.content and not doc.one_top:
 			doc.content = sanitize_html(doc.content)
+		if doc.footer and not doc.get("one_foot"):
+			doc.footer = sanitize_html(doc.footer)
 		return
 	# One the workspace did not make, frappe's own or one that runs a script, may be
 	# made the default or turned off, and nothing else.
@@ -788,6 +790,7 @@ DRAWN = (
 LETTER_HEAD = (
 	"letter_head_name",
 	"one_top",
+	"one_foot",
 	"source",
 	"content",
 	"footer_source",
@@ -814,9 +817,10 @@ def letter_heads() -> list[dict]:
 
 
 def _start_letter_head(doc) -> None:
-	"""A new letter head starts as the Classic top, drawn from what Workspace >
-	General keeps (letter_heads.py)."""
+	"""A new letter head starts as the Classic top and the Centred foot, drawn
+	from what Workspace > General keeps (letter_heads.py)."""
 	doc.one_top = frappe.as_json({"preset": "classic"})
+	doc.one_foot = frappe.as_json({"preset": "centred"})
 
 
 @frappe.whitelist(methods=["POST"])

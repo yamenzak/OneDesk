@@ -1687,7 +1687,10 @@ def change_printing(
 		"A letter head to make or change: {name} of an existing one, or {new_name} for a new one; {preset}, "
 		"one of classic, centred, banner, minimal, details or logo, to draw its top from the company's details in "
 		"Workspace > General (with {show}, a list of name, address, phone, email, website, tax_id, and "
-		"{logo_height} in pixels, and {line} 0 to leave out the line in the Brand Colour under it), which is what to suggest first; or {logo}, "
+		"{logo_height} in pixels, and {line} 0 to leave out the line in the Brand Colour under it), which is what to suggest first; {foot}, "
+		"{preset} one of centred, split or band, to draw the foot from the same details (with {show}, "
+		"{note}, a short line of their own such as a thank-you, and {line}; the page number is the print "
+		"format's own); or {logo}, "
 		"'company' for the logo Workspace > General keeps or a file URL the workspace already has; or "
 		"{top_html} and {foot_html}, the top and foot of the page written in plain HTML with inline styles "
 		"(no template tags, no scripts, pictures only from this workspace's files), from the company's "
@@ -1743,6 +1746,9 @@ def change_printing(
 			preset = letter_head.get("preset")
 			if preset and preset not in letter_heads.PRESETS:
 				return {"error": f"{preset} is not a preset; they are {', '.join(letter_heads.PRESETS)}."}
+			foot_said = letter_head.get("foot") if isinstance(letter_head.get("foot"), dict) else None
+			if foot_said and foot_said.get("preset") not in letter_heads.FEET:
+				return {"error": f"The foot's preset is one of {', '.join(letter_heads.FEET)}."}
 			if not name and not (letter_head.get("new_name") and (logo or top or preset)):
 				return {"error": "A new letter head needs new_name, and a preset, a logo or top_html."}
 			head = {"name": name}
@@ -1764,7 +1770,12 @@ def change_printing(
 				head["source"] = "HTML"
 				head["content"] = print_html.letter_head_html(top, _("Top"))
 				summary.append({"label": _("Top"), "value": _("Designed in HTML")})
-			if foot:
+			if foot_said:
+				head["one_foot"] = letter_heads.foot_settings(foot_said)
+				head["footer_source"] = "HTML"
+				head["footer"] = letter_heads.draw_foot(head["one_foot"])
+				summary.append({"label": _("Foot"), "value": str(letter_heads.FEET[foot_said["preset"]])})
+			if foot and not foot_said:
 				head["footer_source"] = "HTML"
 				head["footer"] = print_html.letter_head_html(foot, _("Foot"))
 				summary.append({"label": _("Foot"), "value": _("Designed in HTML")})

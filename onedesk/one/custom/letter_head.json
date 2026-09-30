@@ -10,6 +10,18 @@
    "label": "Top Preset",
    "module": "One",
    "options": "JSON"
+  },
+  {
+   "description": "Which preset draws the foot from the company's details, and what it shows. It is drawn again whenever the company changes.",
+   "dt": "Letter Head",
+   "fieldname": "one_foot",
+   "fieldtype": "Code",
+   "hidden": 1,
+   "insert_after": "footer",
+   "label": "Foot Preset",
+   "module": "One",
+   "name": "Letter Head-one_foot",
+   "options": "JSON"
   }
  ],
  "doctype": "Letter Head",
@@ -19,6 +31,14 @@
    "doc_type": "Letter Head",
    "doctype_or_field": "DocField",
    "field_name": "content",
+   "property": "ignore_xss_filter",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Letter Head",
+   "doctype_or_field": "DocField",
+   "field_name": "footer",
    "property": "ignore_xss_filter",
    "property_type": "Check",
    "value": "1"
