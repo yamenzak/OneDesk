@@ -457,11 +457,16 @@ Their text is frappe's, so they have nothing to change here.
 ### Numbering, for the Workspace
 
 How each kind of record is named when it is made: an invoice
-`ACC-SINV-2026-00006`, a customer `CUST-2026-00001`. The list shows every kind
-of record numbered by a series that you can open, the series a new one starts
-with, and the exact name the next one will get. Opening one opens that kind of
-record's **Settings** on **Numbering** (see A Form's Settings), where its series
-are added, changed, made the default or deleted, and a series is moved on. While a series is typed, the window shows the name it would give next, or what is wrong with it.
+`ACC-SINV-2026-00006`, a customer by its name, a project by its title. The list
+shows every kind of record you can open that is numbered by a series, named
+some way the workspace chose, or has rules: what a new one is **Named By**, its
+**Series** (or expression), the exact name the **Next** one gets where that can
+be known, and how many **Rules** it has. Opening one opens that kind of
+record's **Settings** on **Numbering** (see A Form's Settings), which says the
+same things and is where they are changed; the list is read again when it is
+closed. **Set Up Naming** picks any other kind of record and opens it there.
+While a series or an expression is typed, the window shows the name it would
+give next, or what is wrong with it.
 
 A series is parts joined by dots, read left to right. Text stays as written
 (`INV-`, `SO/`). `YYYY` is the year (2026) and `YY` its last two digits (26),

@@ -23,12 +23,19 @@ onedesk.doctype_settings.offered = (meta) =>
 // `tab` opens it on one of its tabs, as Workspace › Numbering opens it on Naming.
 // The doctype's meta is loaded first: opened from Workspace › Numbering, no form of it
 // has been, and the tabs ask it which apply.
-onedesk.doctype_settings.open = (doctype, tab = null) =>
+// `closed` is called when the dialog is put away, so a page listing what it changes
+// can read it again.
+onedesk.doctype_settings.open = (doctype, tab = null, closed = null) =>
 	frappe.require("doctype_settings.bundle.js", () =>
 		frappe.model.with_doctype(doctype, () => {
 			onedesk.doctype_settings.adapt();
 			const opening = frappe.doctype_settings.open(doctype);
-			opening && tab && opening.then((dialog) => dialog && dialog.activate(tab));
+			opening &&
+				opening.then((dialog) => {
+					if (!dialog) return;
+					tab && dialog.activate(tab);
+					closed && dialog.$wrapper.one("hidden.bs.modal", closed);
+				});
 		})
 	);
 
@@ -545,6 +552,22 @@ onedesk.numbering.help_html = () => {
 		<p>${__("Only letters, digits, spaces and - / _ . # { } are allowed.")}</p>
 		<p>${__("Examples: {0}, {1}, {2}", ["<code>INV-.YYYY.-.#####</code>", "<code>SO/.YY./.####</code>", "<code>INV-.YYYY.-.MM.-.####</code>"])}</p>
 	</div>`;
+};
+
+// Set Up Naming on Workspace > Numbering: any kind of record this administrator may
+// set up, picked in frappe's own dialog, then opened in the Settings dialog.
+onedesk.numbering.set_up = async (naming) => {
+	const kinds = await frappe.xcall(onedesk.numbering.API + "kinds");
+	const dialog = new frappe.ui.Dialog({
+		title: __("Set Up Naming"),
+		fields: [{ fieldtype: "Autocomplete", fieldname: "doctype", label: __("Kind of Record"), options: kinds, reqd: 1 }],
+		primary_action_label: __("Open"),
+		primary_action: ({ doctype }) => {
+			dialog.hide();
+			naming(doctype);
+		},
+	});
+	dialog.show();
 };
 
 // How a new record is named, with frappe's own choices: its series, one of its fields

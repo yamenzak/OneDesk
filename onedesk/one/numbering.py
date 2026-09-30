@@ -250,9 +250,11 @@ def set_current(
 
 
 def doctypes() -> list[dict]:
-	"""Every kind of record this administrator may renumber, with the series
-	it uses by default and the name that would come next: Workspace >
-	Numbering."""
+	"""Every kind of record whose naming there is something to say about, for
+	Workspace > Numbering: numbered by a series, named some way the workspace
+	chose, or with naming rules. Each says what a new one is named by and,
+	where it can be known, the name it gets next; the Settings dialog's Naming
+	tab reads the same (naming_by), so the two cannot disagree."""
 	roles.require()
 	named = set(
 		frappe.get_all(
@@ -260,29 +262,83 @@ def doctypes() -> list[dict]:
 		)
 	)
 	named |= set(frappe.get_all("Custom Field", filters={"fieldname": "naming_series"}, pluck="dt"))
+	named |= set(
+		frappe.get_all(
+			"Property Setter", filters={"property": "autoname", "is_system_generated": 0}, pluck="doc_type"
+		)
+	)
+	rules = {}
+	for one in frappe.get_all("Document Naming Rule", filters={"disabled": 0}, pluck="document_type"):
+		rules[one] = rules.get(one, 0) + 1
+	named |= set(rules)
 	rows = []
 	for doctype in sorted(named):
+		if not frappe.db.exists("DocType", doctype):
+			continue
 		meta = frappe.get_meta(doctype)
 		if meta.istable or meta.issingle or meta.module in REFUSED_MODULES:
 			continue
 		if not frappe.has_permission(doctype, "read"):
 			continue
-		settings = _settings(doctype)
-		options = _options(settings)
-		if not options:
-			continue
-		first = _row(settings, options[0])
 		rows.append(
 			{
 				"doctype": doctype,
 				"label": _(doctype),
 				"module": meta.module,
-				"series": first["series"],
-				"next": first["next"],
-				"others": len(options) - 1,
+				"rules": rules.get(doctype, 0),
+				**_said(meta),
 			}
 		)
 	return sorted(rows, key=lambda one: one["label"])
+
+
+def _said(meta) -> dict:
+	"""What a new record of the kind is named by, as a person reads it, and
+	the name it gets next where that can be known: from a series or an
+	expression, never a field, a typed name or a random one."""
+	said = naming_by(meta.name)
+	by, value = (said["by"], said["value"]) if said else _by(meta)
+	series = said["series"] if said else by == SERIES
+	out = {"named_by": "", "series": "", "next": "", "others": 0}
+	if series:
+		settings = _settings(meta.name)
+		options = _options(settings)
+		if options:
+			first = _row(settings, options[0])
+			out.update(series=first["series"], next=first["next"], others=len(options) - 1)
+	elif by == EXPRESSION:
+		out.update(series=value, next=_row(_settings(meta.name), value)["next"])
+	if said and said["app"]:
+		out["named_by"] = _(value)
+	elif by == SERIES:
+		out["named_by"] = _(SERIES)
+	elif by == FIELD:
+		field = meta.get_field(value[6:])
+		out["named_by"] = _("{0} field").format(_(field.label) if field else value[6:])
+	elif by == EXPRESSION:
+		out["named_by"] = _(EXPRESSION)
+	elif by in WORDS:
+		out["named_by"] = _(WORDS[by])
+	else:
+		out["named_by"] = _("Its own way")
+	return out
+
+
+@frappe.whitelist()
+def kinds() -> list[dict]:
+	"""Every kind of record whose naming this administrator may set up, for
+	Set Up Naming on Workspace > Numbering."""
+	roles.require()
+	return sorted(
+		(
+			{"value": one.name, "label": _(one.name)}
+			for one in frappe.get_all(
+				"DocType", filters={"istable": 0, "issingle": 0}, fields=["name", "module"]
+			)
+			if one.module not in REFUSED_MODULES and frappe.has_permission(one.name, "read")
+		),
+		key=lambda one: one["label"],
+	)
 
 
 # ------------------------------------------------------------------ named by

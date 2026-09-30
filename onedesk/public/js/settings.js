@@ -1400,29 +1400,38 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
-	// Every kind of record numbered by a series that this administrator may open, with
-	// the series a new one starts with and the name it would get. Opening one opens that
-	// record's Settings on Numbering, where its series are changed (one/numbering.py).
+	// Every kind of record whose naming there is something to say about: numbered by a
+	// series, named some way the workspace chose, or with rules. Each row is read from
+	// what the Settings dialog's Naming tab reads (one/numbering.py naming_by), and opens
+	// it; Set Up Naming opens it on any other kind. The page is read again when the
+	// dialog is put away.
 	draw_numbering(data) {
 		const esc = frappe.utils.escape_html;
+		const again = () => this.key === "numbering" && this.open("numbering", { fresh: true });
+		const naming = (doctype) => onedesk.doctype_settings.open(doctype, "naming", again);
+		this.page.set_primary_action(__("Set Up Naming"), () => onedesk.numbering.set_up(naming), "plus");
 		this.$content.html(`<div class="one-shell-section" data-list="numbering"></div>`);
 		onedesk.shell.table(this.$content.find('[data-list="numbering"]'), {
 			title: __("Numbering"),
-			note: __("How each kind of record is named when it is made. Open one to change its series or move its number on."),
+			note: __("How each kind of record is named when it is made: by a series, a field, an expression, typed or random, and by its rules. Open one to change it."),
 			rows: data.rows || [],
 			page_size: 100,
 			icon: "hash",
-			empty: __("Nothing you can open is numbered by a series."),
+			empty: __("Nothing you can open is numbered yet. Set Up Naming picks a kind of record."),
 			none: __("Nothing numbered is called that."),
-			open: (one) => onedesk.doctype_settings.open(one.doctype, "naming"),
+			open: (one) => naming(one.doctype),
 			columns: [
 				{ label: __("Kind of Record"), fieldname: "label" },
+				{ label: __("Named By"), fieldname: "named_by" },
 				{
 					label: __("Series"),
 					render: (one) =>
-						esc(one.series) + (one.others ? " " + frappe.ui.badge.html({ label: __("+{0} more", [one.others]), theme: "gray" }) : ""),
+						one.series
+							? `<samp>${esc(one.series)}</samp>` + (one.others ? " " + frappe.ui.badge.html({ label: __("+{0} more", [one.others]), theme: "gray" }) : "")
+							: "",
 				},
-				{ label: __("Next"), render: (one) => `<samp>${esc(one.next || "")}</samp>` },
+				{ label: __("Next"), render: (one) => (one.next ? `<samp>${esc(one.next)}</samp>` : "") },
+				{ label: __("Rules"), render: (one) => (one.rules ? esc(String(one.rules)) : "") },
 			],
 		});
 	}

@@ -210,6 +210,7 @@ No doctypes yet.
 * `onedesk.one.invite.accept`
 * `onedesk.one.mail_templates.default`
 * `onedesk.one.mail_templates.set_default`
+* `onedesk.one.numbering.kinds`
 * `onedesk.one.numbering.naming_by`
 * `onedesk.one.numbering.preview`
 * `onedesk.one.numbering.preview_pattern`

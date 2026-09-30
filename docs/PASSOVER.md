@@ -4102,6 +4102,14 @@ suggests any naming choice and rules added, changed or removed, each checked as
 frappe checks a rule before the card is offered, and saved as frappe's own
 Document Naming Rule on approval. Nothing renames a record already made.
 
+Then Workspace › Numbering was brought into line with the dialog: it read only
+series, so a Customer named by its name showed a series' next name, and a kind
+named by a field or an expression was missing. Each row is now read from the
+dialog's own `naming_by`: Named By, Series or expression, Next only where it
+can be known, and Rules. It lists kinds with a series, kinds the workspace
+changed and kinds with rules; **Set Up Naming** opens any other; the list is
+read again when the dialog closes.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
