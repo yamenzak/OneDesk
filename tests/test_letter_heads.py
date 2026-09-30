@@ -163,3 +163,25 @@ def test_the_company_reads_as_three_lines_with_one_edge():
 	# Classic's logo cell is as wide as the logo, in pixels: frappe's print style
 	# holds letter head pictures to their cell.
 	assert "* (ratio or 1)) + 24}px" in draw
+
+
+def test_one_that_came_with_an_app_is_never_saved():
+	"""Made the default or turned off by frappe's own steps less the save, whose
+	export writes a standard letter head back into its app's files in developer mode."""
+	save = (
+		(tree.APP / "one" / "printing.py")
+		.read_text()
+		.split("def save_letter_head(", 1)[1]
+		.split("\ndef ", 1)[0]
+	)
+	theirs = save.split("if not ours:", 1)[1].split("doc.save()", 1)[0]
+	assert "set_as_default()" in theirs and "db_set(" in theirs and "return" in theirs
+
+
+def test_the_page_shows_each_as_it_prints():
+	"""The Printing page draws a letter head from its Jinja run, not its code."""
+	settings = (tree.APP / "one" / "settings.py").read_text()
+	assert "render_template" in settings.split("def _drawn(", 1)[1].split("\ndef ", 1)[0]
+	page = (tree.APP / "public" / "js" / "settings.js").read_text()
+	assert "one.drawn_top" in page and "dts-pf-card" in page
+	assert 'builders["print-format"](panel, doctype)' in page

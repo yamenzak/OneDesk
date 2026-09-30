@@ -577,10 +577,14 @@ every document unless another is chosen; **Off** keeps it without offering
 it. The letter heads that came with the workspace can be made the default or
 turned off.
 
-**Print Formats** lists the formats this workspace made. Opening one opens its
-kind of record's **Settings** on **Print Formats** (see A Form's Settings),
-where it is previewed, starred as the default, or opened in the builder. A new
-format is made there too, since a format belongs to one kind of record: **New**
+Each letter head is a card showing its whole page, the way it prints. The
+star makes one the default, and the card opens it.
+
+**Print Formats** shows the same cards as a record's **Settings** › **Print
+Formats** (see A Form's Settings), one group for each kind of record the
+workspace made a format for, with the other formats that kind prints with.
+Click a page to preview it, the star to make it the default, and the name to
+open it in the builder. A new format belongs to one kind of record: **New**
 asks for a name and what to **Start From**, a copy of one of the formats that
 kind already prints with or every one of its fields, and opens it in the
 builder. A printed record stays inside its app, with that app's sidebar.

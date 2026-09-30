@@ -4512,6 +4512,23 @@ Live on Print Design:
 - **Header colour.** It set the table header colour in CSS, which frappe's own
   `!important` overrides. The instructions now say to use the property.
 
+**Workspace › Printing drawn as the dialog draws it. Fixed.** The page listed
+letter heads and formats in two tables, where a record's Settings › Print
+Formats shows each format as a card with its page on it.
+- **Formats.** The page now runs frappe's own Print Formats tab, once for each
+  kind of record the workspace made a format for. Its cards, preview, default
+  star and New are frappe's, with One's New and default wiring.
+- **Letter heads.** Each is a card in the same classes, showing the whole page
+  with the top and the foot. The star makes it the default, the card opens
+  it, and badges show Standard and Off.
+- **Standard letter heads showed their code.** The ones that came with the
+  apps are Jinja templates. The page and the letter head window now show them
+  run for a record of the company, as frappe prints them.
+- **Making a standard letter head the default failed.** Frappe's save exports a
+  standard letter head back into its app's files in developer mode, and was
+  refused. It is now made the default or turned off by frappe's own
+  `set_as_default`, without the save.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

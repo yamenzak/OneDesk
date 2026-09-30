@@ -904,7 +904,15 @@ def save_letter_head(values: Annotated[str | dict, "The letter head's fields."])
 	doc.update(
 		{key: values.get(key) for key in keys if key in values and not (name and key == "letter_head_name")}
 	)
-	if ours:
-		doc.letter_head_for = "DocType"
+	if not ours:
+		# One that came with an app is only made the default or turned off, by frappe's
+		# own steps less the save, whose export would write it back into that app's
+		# files wherever developer mode is on.
+		doc.validate_disabled_and_default()
+		doc.db_set({"is_default": doc.is_default, "disabled": doc.disabled})
+		doc.set_as_default()
+		frappe.clear_cache()
+		return doc.as_dict()
+	doc.letter_head_for = "DocType"
 	doc.save()
 	return doc.as_dict()

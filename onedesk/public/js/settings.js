@@ -20,6 +20,25 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	// A letter head the workspace did not make: frappe's own, or written in HTML.
 	static theirs = (one) => one.standard === "Yes";
 
+	// A letter head's page as it prints, top and foot with lines between for the
+	// letter, at `scale` of its width. The markup is frappe's, shown in a sandbox,
+	// which runs nothing.
+	static SHEET = 794;
+	// `whole` draws the whole page, the letter filling it and the foot at the bottom.
+	static sheet = (top, foot, scale, whole = false) =>
+		`<!doctype html><html><head><style>html,body{margin:0;background:#fff;color:#111;font-family:sans-serif}` +
+		`body{padding:24px;width:746px;transform:scale(${scale});transform-origin:0 0}img{max-width:100%}` +
+		`.lines{height:48px;margin:16px 0;background:repeating-linear-gradient(to bottom,#e5e7eb 0,#e5e7eb 6px,transparent 6px,transparent 14px)}` +
+		(whole ? `body{box-sizing:border-box;height:1123px;display:flex;flex-direction:column}.lines{flex:1;height:auto;margin:32px 0;background:repeating-linear-gradient(to bottom,#f3f4f6 0,#f3f4f6 4px,transparent 4px,transparent 22px)}` : "") +
+		`</style></head><body>${top || ""}${foot === null ? "" : `<div class="lines"></div>${foot || ""}`}</body></html>`;
+	static frame = (html, className) => {
+		const it = document.createElement("iframe");
+		it.className = className;
+		it.setAttribute("sandbox", "");
+		it.srcdoc = html;
+		return it;
+	};
+
 	constructor(page, group) {
 		// Dirty, the warning on leaving, saving against `modified` and hearing
 		// another save are the shell's Editor, which is what a desk form does.
@@ -1498,47 +1517,92 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	}
 
 	// How the workspace's documents look on paper (one/printing.py): its letter heads,
-	// which are an image at the top and one at the foot, and the formats it made in
-	// frappe's print format builder. A format opens its record's Settings on Print
-	// Formats, where it is previewed, made the default, or opened in the builder.
+	// which are a top and a foot, and the formats it made in frappe's print format
+	// builder. Both are drawn as the Settings dialog's Print Formats tab draws a
+	// format, a card with the page on it: the letter heads by hand in its classes, and
+	// the formats by that tab itself, once for each kind of record the workspace made
+	// one for, so its preview, its star for the default and its New are frappe's.
 	draw_printing(data) {
 		const esc = frappe.utils.escape_html;
 		this.page.set_primary_action(__("New Letter Head"), () => this.letter_head(), "plus");
-		this.$content.html(`<div class="one-shell-section" data-list="heads"></div><div class="one-shell-section" data-list="formats"></div>`);
-		onedesk.shell.table(this.$content.find('[data-list="heads"]'), {
-			title: __("Letter Heads"),
-			note: __("The header and footer of a printed page: a logo, or a design of your own. Design opens it in the print format builder."),
-			rows: data.letter_heads || [],
-			icon: "image",
-			empty: __("No letter head yet."),
-			open: (one) => this.letter_head(one),
-			columns: [
-				{
-					label: __("Letter Head"),
-					render: (one) =>
-						esc(one.name) +
-						(one.is_default ? " " + frappe.ui.badge.html({ label: __("Default"), theme: "blue" }) : "") +
-						(Settings.theirs(one) ? " " + frappe.ui.badge.html({ label: __("Standard"), theme: "gray" }) : "") +
-						(one.disabled ? " " + frappe.ui.badge.html({ label: __("Off"), theme: "gray" }) : ""),
-				},
-				{ label: __("Changed"), render: (one) => frappe.datetime.comment_when(one.modified) },
-			],
+		const kinds = [...new Map((data.formats || []).map((one) => [one.doc_type, one.label])).entries()];
+		this.$content.html(
+			onedesk.shell.section(
+				__("Letter Heads"),
+				'<div class="one-print-heads"></div>',
+				__("The header and footer of a printed page: a logo, or a design of your own. The star makes one the default.")
+			) +
+				onedesk.shell.section(
+					__("Print Formats"),
+					'<div class="one-print-kinds"></div>',
+					__("Formats this workspace made, with the others each kind prints with. The star makes one the default; a name opens it in the builder.")
+				)
+		);
+		const $heads = this.$content.find(".one-print-heads");
+		const heads = data.letter_heads || [];
+		if (!heads.length) {
+			$heads.html(onedesk.shell.empty(__("No letter head yet."), null, { icon: "image" }));
+		} else {
+			const $grid = $('<div class="dts-pf-grid"></div>').appendTo($heads);
+			heads.forEach((one) => $grid.append(this.letter_head_card(one)));
+		}
+		const $kinds = this.$content.find(".one-print-kinds");
+		if (!kinds.length) {
+			$kinds.html(onedesk.shell.empty(__("No print format made here yet."), __("A new one is made from a record's Settings, under Print Formats."), { icon: "printer" }));
+			return;
+		}
+		frappe.require("doctype_settings.bundle.js", () => {
+			onedesk.doctype_settings.adapt();
+			for (const [doctype, label] of kinds) {
+				frappe.model.with_doctype(doctype, () => {
+					// The tab, in a panel of the dialog's own with no dialog around it: its
+					// title is the kind, and what it would close when it opens the builder
+					// is nothing.
+					const panel = new frappe.ui.SettingsDialogPanel({ hide() {} }, {});
+					const set_view = panel.set_view.bind(panel);
+					panel.set_view = (view) => set_view({ ...view, title: __(label), description: null });
+					panel.$el.appendTo($kinds);
+					frappe.doctype_settings.builders["print-format"](panel, doctype);
+				});
+			}
 		});
-		onedesk.shell.table(this.$content.find('[data-list="formats"]'), {
-			title: __("Print Formats"),
-			note: __("Formats this workspace made. A new one is made from a record's Settings, under Print Formats."),
-			rows: data.formats || [],
-			page_size: 100,
-			icon: "printer",
-			empty: __("No print format made here yet."),
-			none: __("No format is called that."),
-			open: (one) => onedesk.doctype_settings.open(one.doc_type, "print-format"),
-			columns: [
-				{ label: __("Format"), fieldname: "name" },
-				{ label: __("Kind of Record"), fieldname: "label" },
-				{ label: __("Changed"), render: (one) => frappe.datetime.comment_when(one.modified) },
-			],
+	}
+
+	// A letter head as a card of the Print Formats tab: its page, top and foot, and
+	// its name; the star makes it the default, and the page or the name opens it.
+	letter_head_card(one) {
+		const $card = $(`
+			<div class="dts-pf-card${one.is_default ? " is-default" : ""}">
+				<div class="dts-pf-preview">
+					<div class="dts-pf-badge one-print-badges">${[
+						Settings.theirs(one) ? frappe.ui.badge.html({ label: __("Standard"), theme: "gray" }) : "",
+						one.disabled ? frappe.ui.badge.html({ label: __("Off"), theme: "gray" }) : "",
+					].join("")}</div>
+					<button type="button" class="dts-pf-star" data-selected="${one.is_default ? "true" : "false"}">${frappe.utils.icon("star", "sm")}</button>
+					<div class="dts-pf-thumb"></div>
+				</div>
+				<div class="dts-pf-footer"><span class="dts-pf-name ellipsis"></span></div>
+			</div>`);
+		const $thumb = $card.find(".dts-pf-thumb");
+		$card.find(".dts-pf-name").text(one.name).on("click", () => this.letter_head(one));
+		$thumb.on("click", () => this.letter_head(one));
+		const $star = $card.find(".dts-pf-star");
+		if (one.is_default) {
+			$star.attr("title", __("Default"));
+		} else {
+			$star.attr("title", __("Set as default")).on("click", async (e) => {
+				e.stopPropagation();
+				await frappe.xcall("onedesk.one.printing.save_letter_head", { values: { name: one.name, modified: one.modified, is_default: 1 } });
+				frappe.show_alert({ message: __("Default updated"), indicator: "green" });
+				this.refresh({ fresh: true });
+			});
+		}
+		// Scaled to the card once it is on the page and has a width.
+		requestAnimationFrame(() => {
+			const scale = ($thumb.width() || 200) / Settings.SHEET;
+			$thumb.append(Settings.frame(Settings.sheet(one.drawn_top, one.drawn_foot || "", scale, true), "one-print-head-frame"));
 		});
+		return $card;
 	}
 
 	// A letter head: its name, its top and foot, whether it is the default, whether
@@ -1569,19 +1633,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			["website", __("Website")],
 			["tax_id", __("Tax ID")],
 		];
-		const page = (top, foot, scale) =>
-			`<!doctype html><html><head><style>html,body{margin:0;background:#fff;color:#111;font-family:sans-serif}` +
-			`body{padding:24px;width:746px;transform:scale(${scale});transform-origin:0 0}img{max-width:100%}` +
-			`.lines{height:48px;margin:16px 0;background:repeating-linear-gradient(to bottom,#e5e7eb 0,#e5e7eb 6px,transparent 6px,transparent 14px)}` +
-			`</style></head><body>${top || ""}${foot === null ? "" : `<div class="lines"></div>${foot || ""}`}</body></html>`;
-		const frame = (html, className) => {
-			const it = document.createElement("iframe");
-			it.className = className;
-			// The markup frappe prints, which runs nothing here.
-			it.setAttribute("sandbox", "");
-			it.srcdoc = html;
-			return it;
-		};
+		const page = Settings.sheet;
+		const frame = Settings.frame;
 		const dialog = new frappe.ui.Dialog({
 			title: one ? one.name : __("New Letter Head"),
 			size: theirs ? "" : "large",
@@ -1690,7 +1743,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const foot_html = () => {
 			if (foot === "none") return "";
 			const chosen = drawn_feet.find((d) => d.preset === foot);
-			return chosen ? chosen.html : (one && one.footer) || "";
+			return chosen ? chosen.html : (one && one.drawn_foot) || "";
 		};
 		const show_preview = (top) => {
 			const field = dialog.get_field("preview");
@@ -1744,13 +1797,13 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			field.$wrapper.empty().append(note).append($grid);
 		};
 		const shown = () => {
-			if (theirs) return show_preview(one.content);
+			if (theirs) return show_preview(one.drawn_top);
 			parts.set_df_property("align", "hidden", preset !== "logo");
 			for (const fieldname of ["foot_show", "foot_note", "foot_line"]) {
 				parts.set_df_property(fieldname, "hidden", !foot || foot === "none");
 			}
 			const chosen = drawn_with.find((d) => d.preset === preset);
-			show_preview(chosen ? chosen.html : one && one.content);
+			show_preview(chosen ? chosen.html : one && one.drawn_top);
 		};
 		const drawn = frappe.utils.debounce(async () => {
 			if (theirs) return shown();

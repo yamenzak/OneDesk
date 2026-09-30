@@ -606,3 +606,47 @@
 	font-size: var(--text-sm);
 	color: var(--ink-gray-8);
 }
+
+/* Workspace › Printing: the Settings dialog's Print Formats cards on the page. A
+   letter head's page fills its card's thumbnail; the formats are the dialog's own
+   panel, one per kind, sitting on the page rather than filling a dialog. */
+.one-print-head-frame {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	border: 0;
+	pointer-events: none;
+	background-color: var(--surface-base);
+}
+
+.one-print-badges {
+	display: flex;
+	gap: calc(var(--spacing) * 1);
+}
+
+.one-print-heads,
+.one-print-kinds {
+	margin-top: calc(var(--spacing) * 4);
+}
+
+.one-print-kinds .settings-dialog-panel {
+	height: auto;
+	padding: 0;
+	gap: calc(var(--spacing) * 3);
+}
+
+.one-print-kinds .settings-dialog-panel + .settings-dialog-panel {
+	margin-top: calc(var(--spacing) * 8);
+}
+
+.one-print-kinds .settings-dialog-panel-header,
+.one-print-kinds .settings-dialog-panel-body {
+	padding: 0;
+	overflow: visible;
+}
+
+.one-print-kinds .settings-dialog-panel-title {
+	font-size: var(--text-base);
+	align-items: center;
+}

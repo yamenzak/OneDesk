@@ -1649,12 +1649,27 @@ def _printing() -> dict:
 	from onedesk.one import printing
 
 	company = _company()
+	heads = printing.letter_heads()
+	# Each as frappe prints it, its Jinja run for a record of the company's, so
+	# the ones that came with the workspace show their page rather than their code.
+	doc = {"company": company.name if company else None}
+	for one in heads:
+		one["drawn_top"], one["drawn_foot"] = (_drawn(one.get(key), doc) for key in ("content", "footer"))
 	return {
-		"letter_heads": printing.letter_heads(),
+		"letter_heads": heads,
 		"formats": printing.formats(),
 		# A new letter head starts with the logo Workspace > General keeps.
 		"company_logo": company.company_logo if company else None,
 	}
+
+
+def _drawn(template: str | None, doc: dict) -> str:
+	if not template or "{" not in template:
+		return template or ""
+	try:
+		return frappe.utils.jinja.render_template(template, {"doc": frappe._dict(doc)})
+	except Exception:
+		return ""
 
 
 # ------------------------------------------------------------------ notifications
