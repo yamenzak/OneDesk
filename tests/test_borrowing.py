@@ -61,6 +61,12 @@ RULES = [
 		{".js", ".ts", ".vue", ".html", ".py"},
 	),
 	(
+		"tabs",
+		"frappe.ui.Tabs or frappe.ui.TabButtons, frappe-ui's Tabs and TabButtons as the desk ships them",
+		r"\.form-tabs\b|\.nav-link\b|role=[\"']tablist",
+		{".vue", ".css", ".scss", ".html"},
+	),
+	(
 		"permission checks",
 		"frappe.has_permission, frappe.only_for, doctype permissions",
 		r"\bif\s+frappe\.session\.user\s*(==|!=)\s*['\"](?!Guest)",
@@ -129,6 +135,7 @@ def test_every_rule_would_catch_its_own_example():
 		"per-user state": "localStorage.setItem('tab', tab)",
 		"colours and sizes": "color: #1a1a1a;",
 		"icons": '<svg viewBox="0 0 16 16"><path d="M4 4l8 8" /></svg>',
+		"tabs": ".one-window .form-tabs .nav-link.active { border: 0; }",
 		"permission checks": "if frappe.session.user == 'admin@example.com':",
 	}
 	for what, _instead, pattern, _suffixes in RULES:

@@ -1547,9 +1547,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	// details, or written by hand on frappe's print format builder (Write It
 	// Yourself); a letter head may have no foot. One the workspace did not make is
 	// only made the default or turned off.
-	// The page it makes is shown once, above a tab for the top and one for the foot:
-	// a FieldGroup of its own inside the dialog, since frappe puts every field of a
-	// dialog with tabs into a tab, and the page, Default and Off belong to neither.
+	// The page it makes is shown once, above frappe's Tabs, one for the top and one
+	// for the foot; the page, Default and Off belong to neither.
 	letter_head(one = null) {
 		const theirs = !!one && Settings.theirs(one);
 		const esc = frappe.utils.escape_html;
@@ -1612,48 +1611,69 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				this.refresh({ fresh: true });
 			},
 		});
-		// The top and the foot, each a tab of its own under the page they make.
+		// The top and the foot, each a FieldGroup in a tab of frappe's Tabs (frappe-ui's
+		// Tabs, as the desk ships it) under the page they make. Both are made at once,
+		// so a save reads the foot whether or not its tab was opened.
+		const group = (fields) => {
+			const made = new frappe.ui.FieldGroup({ body: document.createElement("div"), fields });
+			made.make();
+			return made;
+		};
+		const top_part = theirs
+			? null
+			: group([
+					{ fieldtype: "HTML", fieldname: "presets" },
+					{ fieldtype: "Section Break" },
+					{
+						fieldtype: "MultiCheck",
+						fieldname: "show",
+						label: __("Shows"),
+						columns: 3,
+						sort_options: false,
+						options: SHOWN.map(([value, label]) => ({ value, label, checked: shows.includes(value) ? 1 : 0 })),
+						on_change: () => drawn(),
+					},
+					{ fieldtype: "Int", fieldname: "logo_height", label: __("Logo Height"), description: __("In pixels."), default: (kept && kept.logo_height) || 60, change: () => drawn() },
+					{ fieldtype: "Column Break" },
+					{ fieldtype: "Check", fieldname: "line", label: __("Brand Line"), description: __("A line in the Brand Colour under the top."), default: kept && kept.line === 0 ? 0 : 1, change: () => drawn() },
+					{ fieldtype: "Select", fieldname: "align", label: __("Logo Sits"), options: [{ value: "left", label: __("Left") }, { value: "center", label: __("Centre") }, { value: "right", label: __("Right") }], default: (kept && kept.align) || "left", change: () => drawn() },
+					{ fieldtype: "HTML", fieldname: "from_general", options: `<p class="text-muted small">${esc(__("The name, logo, address, contacts and colour come from Workspace › General, and the top is drawn again whenever they change there."))}</p>` },
+				]);
+		const foot_part = theirs
+			? null
+			: group([
+					{ fieldtype: "HTML", fieldname: "feet" },
+					{ fieldtype: "Section Break", fieldname: "foot_settings" },
+					{
+						fieldtype: "MultiCheck",
+						fieldname: "foot_show",
+						label: __("Shows"),
+						columns: 3,
+						sort_options: false,
+						options: [["logo", __("Logo")], ...SHOWN].map(([value, label]) => ({ value, label, checked: foot_shows.includes(value) ? 1 : 0 })),
+						on_change: () => drawn(),
+					},
+					{ fieldtype: "Data", fieldname: "foot_note", label: __("Note"), description: __("A line of your own, such as a thank-you."), default: (kept_foot && kept_foot.note) || "", change: () => drawn() },
+					{ fieldtype: "Column Break" },
+					{ fieldtype: "Check", fieldname: "foot_line", label: __("Brand Line"), description: __("A line in the Brand Colour over the foot."), default: kept_foot && kept_foot.line === 0 ? 0 : 1, change: () => drawn() },
+				]);
+		const part = (fieldname) => (top_part.fields_dict[fieldname] ? top_part : foot_part);
 		const parts = theirs
 			? null
-			: new frappe.ui.FieldGroup({
-					body: dialog.get_field("parts").$wrapper,
-					fields: [
-						{ fieldtype: "Tab Break", fieldname: "top_tab", label: __("Top"), parent: "Letter Head", hidden: 0 },
-						{ fieldtype: "HTML", fieldname: "presets" },
-						{ fieldtype: "Section Break" },
-						{
-							fieldtype: "MultiCheck",
-							fieldname: "show",
-							label: __("Shows"),
-							columns: 3,
-							sort_options: false,
-							options: SHOWN.map(([value, label]) => ({ value, label, checked: shows.includes(value) ? 1 : 0 })),
-							on_change: () => drawn(),
-						},
-						{ fieldtype: "Int", fieldname: "logo_height", label: __("Logo Height"), description: __("In pixels."), default: (kept && kept.logo_height) || 60, change: () => drawn() },
-						{ fieldtype: "Column Break" },
-						{ fieldtype: "Check", fieldname: "line", label: __("Brand Line"), description: __("A line in the Brand Colour under the top."), default: kept && kept.line === 0 ? 0 : 1, change: () => drawn() },
-						{ fieldtype: "Select", fieldname: "align", label: __("Logo Sits"), options: [{ value: "left", label: __("Left") }, { value: "center", label: __("Centre") }, { value: "right", label: __("Right") }], default: (kept && kept.align) || "left", change: () => drawn() },
-						{ fieldtype: "HTML", fieldname: "from_general", options: `<p class="text-muted small">${esc(__("The name, logo, address, contacts and colour come from Workspace › General, and the top is drawn again whenever they change there."))}</p>` },
-						{ fieldtype: "Tab Break", fieldname: "foot_tab", label: __("Foot"), parent: "Letter Head" },
-						{ fieldtype: "HTML", fieldname: "feet" },
-						{ fieldtype: "Section Break", fieldname: "foot_settings" },
-						{
-							fieldtype: "MultiCheck",
-							fieldname: "foot_show",
-							label: __("Shows"),
-							columns: 3,
-							sort_options: false,
-							options: [["logo", __("Logo")], ...SHOWN].map(([value, label]) => ({ value, label, checked: foot_shows.includes(value) ? 1 : 0 })),
-							on_change: () => drawn(),
-						},
-						{ fieldtype: "Data", fieldname: "foot_note", label: __("Note"), description: __("A line of your own, such as a thank-you."), default: (kept_foot && kept_foot.note) || "", change: () => drawn() },
-						{ fieldtype: "Column Break" },
-						{ fieldtype: "Check", fieldname: "foot_line", label: __("Brand Line"), description: __("A line in the Brand Colour over the foot."), default: kept_foot && kept_foot.line === 0 ? 0 : 1, change: () => drawn() },
-					],
-			  });
-		parts && parts.make();
-		dialog.$wrapper.addClass("one-lh-window");
+			: {
+					get_value: (fieldname) => part(fieldname).get_value(fieldname),
+					get_field: (fieldname) => part(fieldname).get_field(fieldname),
+					set_df_property: (fieldname, property, value) => part(fieldname).set_df_property(fieldname, property, value),
+			  };
+		if (!theirs) {
+			const tabs = new frappe.ui.Tabs({
+				tabs: [
+					{ label: __("Top"), content: $(top_part.body)[0] },
+					{ label: __("Foot"), content: $(foot_part.body)[0] },
+				],
+			});
+			dialog.get_field("parts").$wrapper.empty().append(tabs.$el);
+		}
 		const settings = () => ({
 			preset,
 			show: parts.get_value("show") || [],

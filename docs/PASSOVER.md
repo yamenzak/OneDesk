@@ -4309,7 +4309,11 @@ the rest on the right, and the note sits under the line. Two more followed, Logo
 and Band, which had ignored it, takes the Brand Line like the others. The window,
 one long scroll by then, splits into a Top tab and a Foot tab under the page they
 make, with Default and Off below both (a FieldGroup inside the dialog, since a
-dialog with tabs puts every field in one).
+dialog with tabs puts every field in one). The tabs are frappe's own
+`frappe.ui.Tabs` (frappe-ui's Tabs as the desk ships them), a FieldGroup in
+each; the form's tab row restyled by hand is gone, and `test_borrowing` now
+refuses a stylesheet or template that draws tabs of its own (`.form-tabs`,
+`.nav-link`, `role="tablist"`).
 
 ## OneLegal
 
