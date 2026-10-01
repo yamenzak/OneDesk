@@ -222,3 +222,18 @@ clause(
 	""",
 	order=30,
 )
+
+# Announcements
+
+clause(
+	document="privacy",
+	section="modules",
+	key="announcements",
+	module=M,
+	body="""
+		When a workspace's administrators post an announcement, we record who has closed it after it was shown
+		to them, and show that list to the administrators, so they know who has read it. It is kept with the
+		announcement and deleted with it.
+	""",
+	order=30,
+)

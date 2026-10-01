@@ -66,6 +66,8 @@ after_migrate = [
 	"onedesk.one.audit.settle",
 	# Webhooks for the workspace administrator. See one/webhooks.py.
 	"onedesk.one.webhooks.settle",
+	# Announcements, by the workspace administrator. See one/announcements.py.
+	"onedesk.one.announcements.settle",
 	# Privacy requests for the workspace administrator. See one/privacy.py.
 	"onedesk.one.privacy.settle",
 	# frappe's own morning event mail stopped; Today's Events replaces it.
@@ -103,6 +105,8 @@ extend_bootinfo = [
 	"onedesk.one.boot.boot_session",
 	# OneAdmin's rail and Home are offered to operators only. See one_admin/site.py.
 	"onedesk.one_admin.site.offer",
+	# Unseen announcements, which frappe works out for Guest. See one/announcements.py.
+	"onedesk.one.announcements.boot",
 ]
 
 # A pattern is not visible from inside one request. See one_hr/healing.py.
@@ -239,6 +243,12 @@ doc_events = {
 	"Automation Flow": {"validate": "onedesk.one.automations.validate"},
 	# What a webhook the workspace writes may send, and where. See one/webhooks.py.
 	"Webhook": {"validate": "onedesk.one.webhooks.validate"},
+	# Only an administrator announces; everybody is told. See one/announcements.py.
+	"Note": {
+		"before_validate": "onedesk.one.announcements.before_validate",
+		"validate": "onedesk.one.announcements.validate",
+		"on_update": "onedesk.one.announcements.on_update",
+	},
 	"Document Naming Rule": {"validate": "onedesk.one.numbering.validate_rule"},
 	# A notification is pushed to the devices its person chose. See one/push.py.
 	"Notification Log": {
@@ -676,6 +686,8 @@ fixtures = [
 doctype_js = {
 	# What a workspace's webhook may not do is not offered. See one/webhooks.py.
 	"Webhook": "public/js/webhook.js",
+	# An announcement, as the administrator writes it. See one/announcements.py.
+	"Note": "public/js/note.js",
 	# Put back through One's restore, which a workspace may use. See one/recycle.py.
 	"Deleted Document": "public/js/deleted_document.js",
 	# Approve and Delete, or Hold, by a workspace administrator. See one/privacy.py.
@@ -944,6 +956,8 @@ one_ai_reads = [
 	"onedesk.one.ai.audit_log",
 	# The workspace's webhooks and how their calls went. See one/webhooks.py.
 	"onedesk.one.ai.webhooks",
+	# Announcements and who has read them. See one/announcements.py.
+	"onedesk.one.ai.announcements",
 	# What deleting somebody's account would do. See one/privacy.py.
 	"onedesk.one.ai.privacy_request",
 	# The plan and the credits, for the workspace's administrators.

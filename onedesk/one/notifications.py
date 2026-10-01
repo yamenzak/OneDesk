@@ -307,6 +307,15 @@ TYPES = [
 		"email": False,
 	},
 	{
+		"name": _lt("Announcement"),
+		"app": "One",
+		"about": _lt("When an administrator posts an announcement to everybody in the workspace."),
+		"to": _lt("Everybody in the workspace"),
+		"subject": _lt("{title}"),
+		"message": _lt("{by} announced: {text}"),
+		"email_default": True,
+	},
+	{
 		"name": _lt("Webhooks Failing"),
 		"app": "One",
 		"about": _lt("Every morning, the webhooks whose calls gave up the day before. Not sent when none did."),

@@ -146,8 +146,8 @@ DOCUMENTS = {
 		# 8: what the signup page keeps, and that it becomes a lead of ours.
 		# 9: the One account and mailed sign-in links. 10: the Recycle Bin.
 		# 11: the Audit Log. 12 to 14: your data copied or deleted, users or not.
-		# 15: webhooks send what an administrator chooses where they choose.
-		"revision": 15,
+		# 15: webhooks send what an administrator chooses; 16: who read an announcement.
+		"revision": 16,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {

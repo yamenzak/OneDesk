@@ -478,6 +478,23 @@ it only when you press **Approve**, as you, so it can make nothing you could
 not. Anybody may ask for a saved report of what they may read; dashboards,
 reports by mail and showing a report to everybody are for administrators.
 
+### Announcements
+
+**Announcements**, under Dashboards in the sidebar, is a message from the
+workspace's administrators to everybody in it: the office is closed on
+Monday, a new expense policy from the first of the month.
+
+An administrator presses **Add**, gives it a title and writes it. A new one
+is **Public** and **Shown When People Sign In** already. It pops up for each
+person the next time they open One, once, until **Show Until** (a week if
+left empty); tick **Every Time They Sign In** for one that should keep
+coming back. Everybody is also told at once, on the bell and by mail as
+each chose (**Announcement**).
+
+**Seen By** on an announcement lists who has closed it, for the
+administrators; OneAI answers **Who has not read it?** Everybody else reads
+announcements here and cannot post one: a note of theirs stays their own.
+
 ### Recycle Bin
 
 Everything deleted in the workspace is kept whole in One › **Recycle Bin**,

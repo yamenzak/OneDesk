@@ -5158,6 +5158,32 @@ customer made; the call went out through the guarded sender, Zapier
 answered 404 for the made-up hook, and the call reads Exhausted with what
 was sent; the morning note reached both administrators.
 
+**P3, Announcements.** frappe's Note, under Dashboards in the sidebar
+(`one/announcements.py`).
+
+1. Notifications: **Announcement**, to everybody but its writer, on the bell
+   and by mail, once, when it becomes public.
+2. OneAI: `announcements` answers what is up and who has not read it.
+3. Intake: nothing.
+4. Permissions: frappe holds public and shown-on-sign-in at a level only its
+   System Manager writes, so Rania's attempts to broadcast were quietly
+   made private; the administrator is given that level and the one that
+   shows who has seen it.
+5. Cross-module: none.
+6. UI: frappe's form; the administrator's starts public and shown on
+   sign-in, with plain labels; anybody else sees only a private note.
+7. Documented: "Announcements" in one/README.md.
+8. Legal: privacy 16, who has read an announcement is kept and shown to the
+   administrators.
+9. Built from frappe: its Note, its pop-up and its Seen By; ours is who may
+   post, the bell, and the fix below.
+
+**Finding, fixed:** frappe never showed anybody a note. It works out the
+unseen ones in `on_login`, which runs before the session exists, so it
+works them out for Guest. `extend_bootinfo` now works them out again for
+the person whenever frappe has cleared the list. Tried: Rania signed in and
+met it; closed, it stayed closed, and Seen By names her.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

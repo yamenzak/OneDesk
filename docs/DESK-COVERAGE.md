@@ -311,7 +311,7 @@ after saving.
 | Desk | List Filter | Underneath | runs under the product; no screen wanted |
 | Desk | List View Settings | Underneath | runs under the product; no screen wanted |
 | Desk | Module Onboarding | Not a customer's | the platform's or a developer's; only an operator |
-| Desk | Note | **Add, P3** | Announcements shown to everybody on sign-in |
+| Desk | Note | In One | Announcements (one/announcements.py) |
 | Desk | Notification Log | In One | the bell |
 | Desk | Notification Settings | In One | You › Notifications |
 | Desk | Notification Type | In One | Workspace › Notifications |

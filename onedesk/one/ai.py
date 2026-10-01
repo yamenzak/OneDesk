@@ -219,6 +219,13 @@ SUGGESTIONS = {
 			"expects": "privacy_request",
 		},
 	],
+	"Note": [
+		{
+			"label": _lt("Who has not read it?"),
+			"ask": _lt("Who has not seen the latest announcement yet?"),
+			"expects": "announcements",
+		},
+	],
 	"Webhook": [
 		{
 			"label": _lt("Are the webhooks working?"),
@@ -1200,6 +1207,52 @@ def recycle_bin(
 		],
 		"next": "Restore on a deleted record, or on several ticked in the list, puts them back; how is in One's "
 		"documentation under Recycle Bin (how_to).",
+	}
+
+
+def announcements(
+	title: Annotated[str, "Only the announcement with this title, or part of it."] | None = None,
+) -> dict:
+	"""The workspace's announcements, newest first: what each says, who
+	posted it, until when it shows on sign-in, and, for an administrator,
+	who has seen it and who has not."""
+	from onedesk.one import roles
+	from onedesk.one.settings import NOT_PEOPLE
+
+	filters = {"public": 1}
+	if title:
+		filters["title"] = ["like", f"%{title}%"]
+	rows = frappe.get_list(
+		"Note",
+		filters=filters,
+		fields=["name", "title", "content", "owner", "creation", "notify_on_login", "expire_notification_on"],
+		order_by="creation desc",
+		limit=10,
+	)
+	everybody = frappe.get_all(
+		"User",
+		filters={"enabled": 1, "user_type": "System User", "name": ["not in", list(NOT_PEOPLE)]},
+		pluck="name",
+	)
+	sees = roles.administers()
+	said = []
+	for one in rows:
+		item = {
+			"title": one.title,
+			"says": frappe.utils.strip_html(one.content or "")[:600],
+			"by": frappe.utils.get_fullname(one.owner),
+			"posted": str(one.creation),
+			"shown_on_sign_in_until": str(one.expire_notification_on) if one.notify_on_login else None,
+		}
+		if sees:
+			seen = set(frappe.get_all("Note Seen By", filters={"parent": one.name}, pluck="user"))
+			item["seen_by"] = len(seen & set(everybody))
+			item["not_seen_by"] = [frappe.utils.get_fullname(u) for u in everybody if u not in seen][:50]
+		said.append(item)
+	return {
+		"announcements": said,
+		"how": "Announcements in the sidebar. An administrator posts one; everybody is told on the bell and by "
+		"mail, and it pops up when they next sign in until the day it is shown until.",
 	}
 
 
