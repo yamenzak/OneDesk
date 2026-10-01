@@ -307,6 +307,42 @@ TYPES = [
 		"email": False,
 	},
 	{
+		"name": _lt("Full Download Ready"),
+		"app": "One",
+		"about": _lt("When the full download of the workspace you asked for is ready."),
+		"to": _lt("The person who pays for the workspace"),
+		"subject": _lt("The full download is ready"),
+		"message": _lt(
+			"Everything in the workspace, {size}, is ready to download from Plan and Credits: the database, "
+			"every record as a spreadsheet, and every file. {missing}"
+		),
+		"email_default": True,
+	},
+	{
+		"name": _lt("Workspace Closing"),
+		"app": "One",
+		"about": _lt("When the person who pays for the workspace asks for it to be closed. It cannot be turned off."),
+		"to": _lt("Everybody in the workspace"),
+		"subject": _lt("The workspace closes on {date}"),
+		"message": _lt(
+			"{by} asked for the workspace to be closed. It works as before until {date}; then nobody can sign "
+			"in, and on {deleted} everything in it is deleted for good. Take anything of yours you need before "
+			"then."
+		),
+		"email_default": True,
+		"required": True,
+	},
+	{
+		"name": _lt("Workspace Staying Open"),
+		"app": "One",
+		"about": _lt("When a workspace that was closing is kept open. It cannot be turned off."),
+		"to": _lt("Everybody in the workspace"),
+		"subject": _lt("The workspace is staying open"),
+		"message": _lt("{by} kept the workspace open. Nothing changes."),
+		"email_default": True,
+		"required": True,
+	},
+	{
 		"name": _lt("Payer Changed"),
 		"app": "One",
 		"about": _lt("When another administrator changes who pays for the workspace."),

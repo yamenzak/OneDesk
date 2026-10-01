@@ -39,6 +39,8 @@
   "add_ons",
   "column_break_billing",
   "archived_backup",
+  "closing_on",
+  "closing_asked_by",
   "limits_section",
   "seats",
   "press_plan",
@@ -269,6 +271,20 @@
    "description": "Name of the offsite backup Frappe Cloud held when the site was archived."
   },
   {
+   "fieldname": "closing_on",
+   "fieldtype": "Date",
+   "label": "Closing On",
+   "read_only": 1,
+   "description": "The day the workspace closes, because the person who pays for it asked. Empty when nobody has."
+  },
+  {
+   "fieldname": "closing_asked_by",
+   "fieldtype": "Data",
+   "label": "Closing Asked By",
+   "read_only": 1,
+   "depends_on": "closing_on"
+  },
+  {
    "fieldname": "limits_section",
    "fieldtype": "Section Break",
    "label": "Limits"
@@ -363,7 +379,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-29 20:00:00.000000",
+ "modified": "2026-10-01 22:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Tenant",

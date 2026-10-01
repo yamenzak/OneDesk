@@ -1346,7 +1346,7 @@ STALE = 60 * 60
 def _plan() -> dict:
 	"""The workspace's account, as the administrator last said it: asked again
 	first when that was over an hour ago, so a pack just paid for shows."""
-	from onedesk.one import account, heads
+	from onedesk.one import account, closing, heads
 
 	held = frappe.get_single("Workspace Account")
 	heard = held.last_heard
@@ -1372,6 +1372,8 @@ def _plan() -> dict:
 		"add_ons": [{"offering": one.offering, "label": one.label, "quantity": one.quantity, "amount": one.amount} for one in held.add_ons],
 		"ledger": account.ledger() if account.configured() else None,
 		"ledger_days": account.LEDGER_DAYS,
+		# Closing the workspace and the full download (one/closing.py).
+		"closing": closing.state(),
 	}
 
 

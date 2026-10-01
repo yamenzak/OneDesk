@@ -146,6 +146,7 @@ scheduler_events = {
 		"onedesk.one_admin.domains.nightly",
 		# One rung a workspace, one workspace at a time. See one_admin/ladder.py.
 		"onedesk.one_admin.lifecycle.nightly",
+		"onedesk.one_admin.closing.due",
 		# Providers ship models weekly and re-price them without an announcement.
 		"onedesk.one_admin.catalogue.nightly",
 		# Holds whose call never came back, which nothing else would let go.

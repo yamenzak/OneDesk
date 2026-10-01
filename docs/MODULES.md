@@ -15,7 +15,7 @@
 | Record Head Linked | 5 | child |
 | Record Head Sentence | 5 | child |
 | Record Head Verb | 4 | child |
-| Workspace Account | 37 | single |
+| Workspace Account | 45 | single |
 | Workspace Add-on | 4 | child |
 | Workspace Customization | 5 | document |
 | Workspace Domain | 5 | child |
@@ -60,7 +60,7 @@ No doctypes yet.
 | One Admin Settings | 64 | single |
 | Provisioning Job | 15 | document |
 | Stripe Webhook Event | 7 | document |
-| Tenant | 45 | document |
+| Tenant | 47 | document |
 | Tenant Add-on | 3 | child |
 | Tenant Domain | 10 | document |
 | Tenant Event | 9 | document |
@@ -201,6 +201,11 @@ No doctypes yet.
 * `onedesk.one.bills.invoices`
 * `onedesk.one.bills.payment_portal`
 * `onedesk.one.bills.to_books`
+* `onedesk.one.closing.close`
+* `onedesk.one.closing.download`
+* `onedesk.one.closing.keep`
+* `onedesk.one.closing.prepare`
+* `onedesk.one.closing.state`
 * `onedesk.one.customize.export`
 * `onedesk.one.customize.load`
 * `onedesk.one.customize.reset`
@@ -313,6 +318,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.billing_invoices`
 * `onedesk.one_admin.proxy.billing_portal`
 * `onedesk.one_admin.proxy.buy_credits`
+* `onedesk.one_admin.proxy.close`
 * `onedesk.one_admin.proxy.credit_packs`
 * `onedesk.one_admin.proxy.domain_add`
 * `onedesk.one_admin.proxy.domain_drop`
@@ -329,6 +335,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.storage_delete`
 * `onedesk.one_admin.proxy.storage_get`
 * `onedesk.one_admin.proxy.storage_put`
+* `onedesk.one_admin.proxy.withdraw_closing`
 * `onedesk.one_admin.report.plan_calculator.plan_calculator.needs_of`
 * `onedesk.one_admin.setup.set_up`
 * `onedesk.one_admin.signup.available`

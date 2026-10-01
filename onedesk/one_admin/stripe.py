@@ -402,6 +402,12 @@ def cancel(sub: str) -> None:
 		raise
 
 
+def at_period_end(sub: str, ends: bool) -> dict:
+	"""End a subscription when its period does, or let it renew again
+	(closing.py). Nothing is charged or refunded either way."""
+	return _post(f"subscriptions/{sub}", {"cancel_at_period_end": "true" if ends else "false"})
+
+
 def _delete(path: str, form: dict | None = None) -> dict:
 	return _call("delete", path, params=form or {})
 

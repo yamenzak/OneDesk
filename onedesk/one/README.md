@@ -1047,6 +1047,27 @@ full, all three also by mail; a week before credits expire; when credits
 arrive; and when another administrator changes the plan. When payment is
 overdue they are mailed the day the workspace will be suspended.
 
+**Closing the Workspace** is at the bottom, and only the person the
+workspace is billed to sees its buttons; every other administrator sees who
+that is.
+
+- **Full Download**: **Make the Download** builds one zip of everything in
+  the workspace in the background, and you are told when it is ready (Full
+  Download Ready). It holds the database as Frappe backs it up (any Frappe
+  site restores it), every kind of record as a CSV that opens in any
+  spreadsheet, and every file under its folder, with a README saying what
+  is in it and any file that could not be read. **Download** takes it;
+  **Make Again** replaces it with a fresh one.
+- **Close Workspace** asks for your password and that you understand. The
+  workspace keeps working for 14 days, and everybody in it is told the day
+  by bell and mail (Workspace Closing). The page head says Closing and the
+  page says the day it closes and the day it is deleted. Its subscription
+  ends with its period; what was paid for the current one is not refunded.
+- **Keep It Open** before the day undoes it, and everybody is told
+  (Workspace Staying Open). On the day nobody can sign in any more; it is
+  deleted 30 days later, and until then One can restore it if you reply to
+  the mail you get.
+
 **OneAI on this page** offers **Are we on the cheapest plan?**, **How long
 will our credits last?** and **What used the most credits this month?**
 

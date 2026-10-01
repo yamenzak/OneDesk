@@ -105,6 +105,17 @@ The owner is emailed when their workspace is suspended, when it is archived
 (with the day it will be deleted) and when it is restored. Being overdue is
 told on their own workspace, which still works then.
 
+**Closing, because they asked.** The person a workspace is billed to may
+close it from its Plan and Credits page (`closing.py`). Its **Closing On**
+is set 14 days out, its subscription is set to end with its period, the
+operators hear it (**Workspace Asked to Close**) and the Log says so. On
+that day the nightly run archives it, the same Archive job as above, and
+the owner is mailed **Workspace Closed** rather than Workspace Archived;
+from there it falls to deleted on the Archived clock. Until the day they
+can keep it open, which clears the date. After it, bringing it back is a
+restore from the backup, as for an archived workspace that pays. On their
+One account it shows as Closing, then Closed, with the day it is deleted.
+
 ## Jobs
 
 A **job** is the work that builds a workspace or moves it on the ladder, one

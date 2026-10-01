@@ -1628,6 +1628,9 @@ def workspace_plan() -> dict:
 		"last_30_days": cut,
 		# What came in and what went out each day, newest first.
 		"ledger": (said["ledger"] or [])[:40],
+		# Who may close the workspace or take everything, whether it is
+		# closing, and the full download (one/closing.py).
+		"closing": said["closing"],
 		"as_of": str(held["last_heard"]) if held["last_heard"] else None,
 		"next": "The plan's monthly credits expire at the end of the month and are used first; bought credits never expire. Credits "
 		"are bought from Buy Credits in the page head of Workspace › Plan and Credits.",

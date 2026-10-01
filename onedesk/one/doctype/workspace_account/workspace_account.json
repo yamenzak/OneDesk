@@ -41,7 +41,15 @@
   "last_error",
   "owing",
   "days_left",
-  "next_status"
+  "next_status",
+  "closing_section",
+  "closing_on",
+  "deleted_on",
+  "column_break_closing",
+  "export_status",
+  "export_on",
+  "export_size",
+  "export_file"
  ],
  "fields": [
   {
@@ -280,12 +288,62 @@
    "label": "Payer",
    "read_only": 1,
    "description": "The One account that holds this workspace, gets its invoices and hears about paying."
+  },
+  {
+   "fieldname": "closing_section",
+   "fieldtype": "Section Break",
+   "label": "Closing"
+  },
+  {
+   "fieldname": "closing_on",
+   "fieldtype": "Date",
+   "label": "Closing On",
+   "read_only": 1,
+   "description": "The day the workspace closes, because the person who pays for it asked."
+  },
+  {
+   "fieldname": "deleted_on",
+   "fieldtype": "Date",
+   "label": "Deleted On",
+   "read_only": 1,
+   "description": "The day it is deleted for good, once closed."
+  },
+  {
+   "fieldname": "column_break_closing",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "export_status",
+   "fieldtype": "Select",
+   "label": "Full Download",
+   "options": "\nPreparing\nReady\nFailed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "export_on",
+   "fieldtype": "Datetime",
+   "label": "Download Made On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "export_size",
+   "fieldtype": "Int",
+   "label": "Download Size",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "export_file",
+   "fieldtype": "Data",
+   "label": "Download File",
+   "read_only": 1,
+   "hidden": 1
   }
  ],
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-09-29 21:30:00.000000",
+ "modified": "2026-10-01 22:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "Workspace Account",

@@ -184,6 +184,16 @@ TYPES = [
 		"email_default": True,
 	},
 	{
+		"name": _lt("Workspace Asked to Close"),
+		"app": "OneAdmin",
+		"roles": ("One Operator",),
+		"about": _lt("When the person who pays for a workspace asks for it to be closed."),
+		"to": _lt("The operators"),
+		"subject": _lt("{workspace} closes on {date}"),
+		"message": _lt("{who} asked for it to be closed. It is archived on {date}, and deleted for good on {deleted}."),
+		"email_default": True,
+	},
+	{
 		"name": _lt("Workspace Owing"),
 		"app": "OneAdmin",
 		"roles": ("One Operator",),
@@ -245,6 +255,20 @@ TYPES = [
 			"files are where they were.<br><br>On {date} the workspace and its files are deleted, and that "
 			"cannot be undone. To have it restored before then, pay the invoice we sent you and reply to this "
 			"mail."
+		),
+		"outside": True,
+	},
+	{
+		"name": _lt("Workspace Closed"),
+		"app": "OneAdmin",
+		"roles": ("One Operator",),
+		"about": _lt("When a workspace closes on the day its payer asked for."),
+		"to": _lt("The workspace's owner"),
+		"subject": _lt("{workspace} is closed"),
+		"message": _lt(
+			"{workspace} is closed, as you asked, and its subscription is cancelled. A backup is kept, and "
+			"your files are where they were.<br><br>On {date} the workspace and its files are deleted, and "
+			"that cannot be undone. To have it back before then, reply to this mail."
 		),
 		"outside": True,
 	},

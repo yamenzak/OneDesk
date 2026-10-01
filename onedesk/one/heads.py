@@ -38,6 +38,9 @@ def size(count) -> str:
 def account_state(doc):
 	if not doc.get("status"):
 		return None
+	if doc.get("closing_on"):
+		# Its payer asked for it to be closed (one/closing.py).
+		return {"label": _("Closing"), "colour": "red"}
 	colour, word = SAYS.get(doc.status, ("grey", doc.status))
 	return {"label": str(word), "colour": colour}
 

@@ -385,11 +385,11 @@ def test_the_owner_is_mailed_as_their_workspace_falls_and_comes_back():
 	assert "was = tenant.status" in arrive and "tell.owner(tenant, rung, was)" in arrive
 	assert '"status_since": now_datetime()' in arrive and "notify=True" in arrive
 	tell = (ADMIN / "tell.py").read_text().split("def owner(", 1)[1].split("\n@", 1)[0]
-	for name in ("Workspace Suspended", "Workspace Archived", "Workspace Restored"):
+	for name in ("Workspace Suspended", "Workspace Archived", "Workspace Closed", "Workspace Restored"):
 		assert f'notify.mail("{name}"' in tell, name
 	types = (ADMIN / "notifications.py").read_text()
-	assert types.count('"outside": True') == 11, (
-		"Ready, Suspended, Archived, Restored, Delayed, Finish, Sign-in, Moved to, Moved away, Confirm, Changed"
+	assert types.count('"outside": True') == 12, (
+		"Ready, Suspended, Archived, Closed, Restored, Delayed, Finish, Sign-in, Moved to, Moved away, Confirm, Changed"
 	)
 
 

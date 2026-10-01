@@ -124,6 +124,8 @@ def refresh() -> dict:
 			"owing": 1 if standing.get("owing") else 0,
 			"days_left": standing.get("days_left"),
 			"next_status": standing.get("next"),
+			"closing_on": (said.get("closing") or {}).get("closing_on"),
+			"deleted_on": (said.get("closing") or {}).get("deleted_on"),
 			"last_heard": now_datetime(),
 			"last_error": None,
 		}

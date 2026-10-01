@@ -59,6 +59,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		frappe.realtime.on("one_privacy", () => this.key === "profile" && this.$content && this.$content.is(":visible") && this.refresh());
 		// An action's model or instructions changed (one_ai/run.py, _told).
 		frappe.realtime.on("one_oneai", () => this.key === "oneai" && this.$content && this.$content.is(":visible") && this.refresh());
+		// The full download was made, or the workspace is closing (one/closing.py).
+		frappe.realtime.on("one_closing", () => this.key === "plan" && this.$content && this.$content.is(":visible") && this.refresh());
 		// A domain started or stopped working (one/account.py, _tell_domains).
 		frappe.realtime.on("one_domains", () => this.key === "domains" && this.$content && this.$content.is(":visible") && this.refresh());
 	}
@@ -1512,7 +1514,15 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const expiring = account.credits_expiring
 			? esc(__("{0} on {1}", [number(account.credits_expiring), frappe.datetime.str_to_user(account.credits_expires_on)]))
 			: "";
+		const closing = data.closing || {};
+		const closes = closing.closing_on
+			? __("The workspace closes on {0}. On {1} everything in it is deleted for good.", [
+					frappe.datetime.str_to_user(closing.closing_on),
+					closing.deleted_on ? frappe.datetime.str_to_user(closing.deleted_on) : __("a later day"),
+			  ])
+			: "";
 		this.$content.html(
+			(closes ? `<div class="one-record-news">${frappe.ui.alert.html({ title: closes, theme: "red" })}</div>` : "") +
 			(data.said ? `<div class="one-record-news">${frappe.ui.alert.html({ title: data.said.text, theme: data.said.colour === "red" ? "red" : "yellow" })}</div>` : "") +
 				onedesk.shell.section(
 					__("Plan"),
@@ -1545,8 +1555,10 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					__("Ledger"),
 					data.ledger ? '<div data-list="ledger"></div>' : `<div class="one-shell-quiet">${esc(__("The account could not be reached for the ledger just now."))}</div>`,
 					__("The last {0} days: what came in, and what OneAI used each day. Click a day to see who and what used it.", [data.ledger_days])
-				)
+				) +
+				this.closing_section(closing)
 		);
+		this.$content.find("[data-closing]").on("click", (event) => this.closing_act($(event.currentTarget).attr("data-closing"), closing));
 		this.draw_invoices(this.$content.find('[data-list="invoices"]'));
 		// One at a time: 2 × 1 GB becomes 1 × 1 GB, the last one comes off.
 		this.$content.find("[data-add-on] [data-drop]").on("click", (event) => {
@@ -1581,6 +1593,108 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				open: (one) => one.day && frappe.set_route("query-report", "AI Credits", { from_date: one.day, to_date: one.day, by: "Person" }),
 			});
 		}
+	}
+
+	// Taking everything, and closing the workspace (one/closing.py): the
+	// person who pays may do both; everybody else is told who can.
+	closing_section(closing) {
+		const esc = frappe.utils.escape_html;
+		if (!closing.is_payer) {
+			return onedesk.shell.section(
+				__("Closing the Workspace"),
+				`<div class="one-shell-quiet">${esc(
+					__("Only {0}, who pays for the workspace, can take a full download of it or close it.", [closing.payer || __("its payer")])
+				)}</div>`
+			);
+		}
+		const kept = closing.export || {};
+		const download = {
+			Preparing: __("Being made. You are told when it is ready; a large workspace takes a while."),
+			Ready: __("Made {0}, {1}.", [frappe.datetime.prettyDate(kept.on), kept.size]),
+			Failed: __("It could not be made. Try again, and if it fails twice, reply to any mail from One."),
+		}[kept.status] || __("Everything in the workspace in one file: the database, every record as a spreadsheet, and every file.");
+		const download_actions =
+			kept.status === "Ready"
+				? onedesk.shell.button(__("Download"), { "data-closing": "download" }, "solid", "download") +
+				  onedesk.shell.button(__("Make Again"), { "data-closing": "prepare" }, "ghost")
+				: kept.status === "Preparing"
+				? ""
+				: onedesk.shell.button(__("Make the Download"), { "data-closing": "prepare" }, "subtle", "package");
+		const close = closing.closing_on
+			? onedesk.shell.row({
+					title: esc(__("Closing on {0}", [frappe.datetime.str_to_user(closing.closing_on)])),
+					sub: esc(__("Until then it works as before, and you can keep it open.")),
+					actions: onedesk.shell.button(__("Keep It Open"), { "data-closing": "keep" }, "subtle"),
+			  })
+			: onedesk.shell.row({
+					title: esc(__("Close the Workspace")),
+					sub: esc(
+						__("It keeps working for {0} days, and everybody in it is told the day. Then nobody can sign in, and it is deleted for good some weeks later.", [
+							closing.notice_days,
+						])
+					),
+					actions: onedesk.shell.button(__("Close Workspace"), { "data-closing": "close" }, "subtle", null, "red"),
+			  });
+		return onedesk.shell.section(
+			__("Closing the Workspace"),
+			onedesk.shell.row({ title: esc(__("Full Download")), sub: esc(download), actions: download_actions }) + close,
+			__("Only you, as the person who pays for the workspace, see this.")
+		);
+	}
+
+	async closing_act(what, closing) {
+		if (what === "download") {
+			window.open("/api/method/onedesk.one.closing.download");
+			return;
+		}
+		if (what === "prepare") {
+			await frappe.xcall("onedesk.one.closing.prepare");
+			frappe.show_alert({ message: __("The full download is being made. You are told when it is ready."), indicator: "blue" });
+			return this.refresh();
+		}
+		if (what === "keep") {
+			await frappe.xcall("onedesk.one.closing.keep");
+			frappe.show_alert({ message: __("The workspace stays open. Everybody in it is told."), indicator: "green" });
+			return this.refresh();
+		}
+		const kept = (closing.export || {}).status === "Ready";
+		const dialog = new frappe.ui.Dialog({
+			title: __("Close the Workspace"),
+			fields: [
+				{
+					fieldtype: "HTML",
+					fieldname: "said",
+					options: frappe.ui.alert.html({
+						title: kept ? __("You have a full download.") : __("You have not taken a full download."),
+						message: kept
+							? __("Make it again first if much has changed since.")
+							: __("Make one first: after the workspace closes, nothing in it can be taken out."),
+						theme: kept ? "blue" : "yellow",
+					}),
+				},
+				{
+					fieldtype: "HTML",
+					fieldname: "what",
+					options: `<p class="text-muted">${frappe.utils.escape_html(
+						__("It keeps working for {0} days, and everybody in it is told the day. On that day nobody can sign in any more and its subscription ends; what was paid for this month is not refunded. Some weeks later the workspace and its files are deleted for good. Until the day, you can keep it open from this page.", [
+							closing.notice_days,
+						])
+					)}</p>`,
+				},
+				{ fieldtype: "Password", fieldname: "password", label: __("Your Password"), reqd: 1 },
+				{ fieldtype: "Check", fieldname: "sure", label: __("I understand everything in it will be deleted"), reqd: 1 },
+			],
+			primary_action_label: __("Close Workspace"),
+			primary_action: async (values) => {
+				if (!values.sure) return frappe.msgprint(__("Tick that you understand first."));
+				await frappe.xcall("onedesk.one.closing.close", { password: values.password });
+				dialog.hide();
+				frappe.show_alert({ message: __("The workspace is closing. Everybody in it is told the day."), indicator: "orange" });
+				this.refresh();
+			},
+		});
+		dialog.get_primary_btn().removeClass("btn-primary").addClass("btn-danger");
+		dialog.show();
 	}
 
 	// The workspace's Stripe invoices, asked for after the page is drawn so

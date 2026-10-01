@@ -43,6 +43,10 @@ PAID = "Live"
 #: pay is much higher than the cost of carrying them a week.
 DAYS = {"Overdue": 7, "Suspended": 14, "Archived": 30}
 
+#: Days a workspace keeps working after the person who pays for it asks for
+#: it to be closed (closing.py); then it is Archived, and falls from there.
+NOTICE_DAYS = 14
+
 
 class Unreachable(ValueError):
 	"""A rung this workspace cannot get to from where it is."""

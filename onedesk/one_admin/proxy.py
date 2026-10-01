@@ -160,7 +160,7 @@ def hello(database_bytes: int | None = None) -> dict:
 		],
 		as_dict=True,
 	)
-	from onedesk.one_admin import billing, domains, ledger, lifecycle, offerings
+	from onedesk.one_admin import billing, closing, domains, ledger, lifecycle, offerings
 
 	plan = (
 		frappe.db.get_value("Offering", known.offering, ["label", "seats"], as_dict=True)
@@ -171,6 +171,8 @@ def hello(database_bytes: int | None = None) -> dict:
 		"tenant": tenant.name,
 		"status": tenant.status,
 		"standing": lifecycle.standing(_tenant_doc(tenant)),
+		# The day it closes and the day it is deleted, when its payer asked.
+		"closing": closing.when(_tenant_doc(tenant)),
 		"workspace": known.workspace_name,
 		# Who paid for it: made its first administrator and invited, once, by a
 		# workspace nobody administers yet (one/owner.py).
@@ -345,6 +347,25 @@ def billed_to(email: str, by: str | None = None) -> dict:
 	from onedesk.one_admin import accounts
 
 	return {"billed_to": accounts.move(caller().name, email, by)}
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def close(by: str) -> dict:
+	"""Close this workspace in a fortnight. The workspace asks only for the
+	person it is billed to, who confirmed with their password (one/closing.py)."""
+	from onedesk.one_admin import closing
+
+	return closing.ask(caller().name, by)
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def withdraw_closing(by: str) -> dict:
+	"""Withdraw the closing, before its day."""
+	from onedesk.one_admin import closing
+
+	return closing.keep(caller().name, by)
 
 
 @frappe.whitelist(allow_guest=True)

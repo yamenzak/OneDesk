@@ -5090,6 +5090,37 @@ account, so each workspace now has a public page, **/your-data**
   under an anonymous address.
 - Legal: the rights clause says how a non-user asks; privacy revision 14.
 
+**Close Workspace, with a full download** (on the user's question: can a
+customer leave and take everything). Workspace › Plan and Credits, section
+Closing the Workspace; `one/closing.py` and `one_admin/closing.py`.
+
+- Only the person the workspace is billed to sees the buttons; other
+  administrators see who that is. Everybody else cannot open the page.
+- **Full Download** builds one zip in the background: frappe's own
+  database backup (restores on any Frappe site), every kind of record as a
+  CSV, every file from OneCloud's store under its folder, and a README that
+  lists any file that could not be read. Written under a temporary name
+  and renamed, so a download never meets half a zip. Tried: 438 entries,
+  19 MB, every entry reads; the payer was told on the bell and by mail.
+- **Close Workspace** asks for the password and a tick. The account sets
+  Closing On 14 days out (`ladder.NOTICE_DAYS`), ends the subscription with
+  its period, logs it and tells the operators; everybody in the workspace
+  is told the day by bell and mail, which cannot be turned off. The page
+  head says Closing and a red line says both days. **Keep It Open** undoes
+  it before the day, and everybody is told. On the day the nightly run
+  starts the ladder's own Archive job; the owner is mailed Workspace Closed,
+  and it falls to deleted on the Archived clock. /account shows Closing,
+  then Closed, and never asks a closed workspace to pay.
+- **Finding, fixed before it shipped:** the nightly pass first read
+  `closing_on <= today`, and frappe reads a missing date as 0001-01-01, so
+  it picked six other workspaces that never asked. It now requires the
+  date to be set; the test says why.
+- **Finding, fixed:** two builds at once (a queued one and a direct one)
+  wrote the same zip and corrupted it; hence the temporary name.
+- OneAI's plan answer carries who may close, whether it is closing, and
+  the download. Legal: Terms 9 (closing yourself, the notice, no refund for
+  the period, deleted 30 days later, the full download) and DPA 2.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

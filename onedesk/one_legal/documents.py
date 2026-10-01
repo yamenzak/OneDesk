@@ -122,7 +122,8 @@ DOCUMENTS = {
 		"audience": "customer",
 		# 7: credits we give by hand, their expiry, and taking back a mistake.
 		# 8: first agreed on the signup page, before payment.
-		"revision": 8,
+		# 9: closing a workspace yourself, and the full download.
+		"revision": 9,
 		"summary": "The agreement between your organisation and Four Degree Labs for the use of One.",
 	},
 	"aup": {
@@ -158,7 +159,8 @@ DOCUMENTS = {
 	"dpa": {
 		"title": "Data Processing Addendum",
 		"audience": "customer",
-		"revision": 1,
+		# 2: the whole of the data in one download when the agreement ends.
+		"revision": 2,
 		"summary": "How we handle personal data your organisation is responsible for. Part of the Terms of Service.",
 	},
 	"subprocessors": {

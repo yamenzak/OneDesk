@@ -8,7 +8,8 @@ Our own drafting from what the product does, not a lawyer's. Ported from
 OneApp's `onelegal/legal.py` and corrected for what OneDesk actually does:
 - Intake writes without being asked each time, so "nothing is written without
   somebody asking" is gone.
-- There is no full backup from the settings yet, so none is promised.
+- The full download (one/closing.py) is offered to whoever pays, not
+  promised as a backup.
 - The lifecycle's periods are read from `one_admin/ladder.py` rather than
   typed here, so the Terms say what the code does.
 
@@ -17,7 +18,7 @@ The passover (docs/PASSOVER.md, point 8) adds each screen's lines as it reaches
 them.
 """
 
-from onedesk.one_admin.ladder import DAYS
+from onedesk.one_admin.ladder import DAYS, NOTICE_DAYS
 
 from .documents import PARTY
 from .registry import clause
@@ -118,8 +119,10 @@ say(
 	"content",
 	"export",
 	"""
-	While your workspace is live, files download as themselves and records export from their lists. Do
-	not rely on us to hold the only copy of anything you cannot lose.
+	While your workspace is live, files download as themselves and records export from their lists, and
+	the person who pays for it can take a full download of everything in it from Plan and Credits: the
+	database, every record as a spreadsheet, and every file. Do not rely on us to hold the only copy of
+	anything you cannot lose.
 """,
 	order=30,
 )
@@ -230,9 +233,12 @@ say(
 	"terms",
 	"suspension",
 	"you",
-	"""
-	You may cancel at any time. Cancelling stops the next renewal; it does not refund the current period.
-	Export what you need before the period ends.
+	f"""
+	You may close your workspace at any time: the person who pays for it does so from Plan and Credits,
+	with their password. It keeps working for {NOTICE_DAYS} days, everybody in it is told the day, and until
+	then it can be kept open. On that day it is archived as below and its subscription ends; what was paid
+	for the current period is not refunded. It is deleted {DAYS["Archived"]} days later, and can be restored
+	on request until then. Take the full download before it closes.
 """,
 )
 
@@ -752,8 +758,8 @@ say(
 	"deletion",
 	"end",
 	"""
-	When the agreement ends you can export your data, and the steps in the Terms of Service say how long
-	the workspace can still be restored. After that we delete it, including from backups as they expire.
+	When the agreement ends you can export your data, the whole of it in one download, and the steps in the
+	Terms of Service say how long the workspace can still be restored. After that we delete it, including from backups as they expire.
 	We confirm deletion in writing if you ask.
 """,
 )

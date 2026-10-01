@@ -175,7 +175,11 @@ def owner(tenant, rung: str, was: str | None) -> None:
 		notify.mail("Workspace Suspended", to, date=on, **said)
 	elif rung == "Archived":
 		on = formatdate(add_days(today(), days["Archived"]))
-		notify.mail("Workspace Archived", to, date=on, **said)
+		if tenant.get("closing_on"):
+			# Closed because they asked, not because they did not pay.
+			notify.mail("Workspace Closed", to, date=on, **said)
+		else:
+			notify.mail("Workspace Archived", to, date=on, **said)
 	elif rung == "Live" and was == "Suspended":
 		address = tenant.get("domain") or tenant.get("site") or tenant.name
 		notify.mail("Workspace Restored", to, address=address, **said)
@@ -259,4 +263,26 @@ def settings_changed(said: list[str]) -> None:
 		sender=frappe.session.user,
 		who=frappe.utils.get_fullname(frappe.session.user),
 		changes=Markup("<br>").join(said),
+	)
+
+
+@_quietly
+def closing(tenant) -> None:
+	"""Its payer asked for it to be closed (closing.ask). They and everybody in
+	the workspace are told there (one/closing.py); the operators here."""
+	from frappe.utils import formatdate
+
+	from onedesk.one_admin import closing as closing_
+
+	said = closing_.when(tenant)
+	notify.notify(
+		"Workspace Asked to Close",
+		operators(),
+		link=HOME,
+		sender="Administrator",
+		record=("Tenant", tenant.name),
+		workspace=tenant.workspace_name or tenant.name,
+		who=tenant.closing_asked_by or "",
+		date=formatdate(said.get("closing_on")),
+		deleted=formatdate(said.get("deleted_on")) if said.get("deleted_on") else _("never"),
 	)

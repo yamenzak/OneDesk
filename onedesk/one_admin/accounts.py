@@ -121,6 +121,8 @@ def workspaces(user: str) -> list[dict]:
 			"live_on",
 			"creation",
 			"stripe_customer",
+			"closing_on",
+			"closing_asked_by",
 		],
 		order_by="creation asc",
 	)
@@ -168,8 +170,26 @@ def _stands(one) -> dict:
 		if ends >= getdate(today()):
 			pill, tone = _lt("On trial"), "blue"
 			line = frappe._("{0}, free until {1}").format(plan.label, formatdate(ends))
-	owing = one.status in FALLS
-	if owing:
+	owing = one.status in FALLS and not one.get("closing_on")
+	if one.get("closing_on"):
+		# Closing because they asked, not because they did not pay (closing.py).
+		from onedesk.one_admin import closing
+
+		said = closing.when(one)
+		deleted = formatdate(said["deleted_on"]) if said.get("deleted_on") else None
+		if said.get("closed"):
+			pill, tone = _lt("Closed"), "gray"
+			line = (
+				frappe._("Closed at your request. Deleted for good on {0}; reply to our mail to have it back before then.").format(deleted)
+				if deleted and one.status == "Archived"
+				else frappe._("Closed at your request.")
+			)
+		else:
+			pill, tone = _lt("Closing"), "orange"
+			line = frappe._("Closes on {0}. Keep it open from its Plan and Credits page before then.").format(
+				formatdate(said["closing_on"])
+			)
+	elif owing:
 		left = lifecycle.standing(one).get("days_left")
 		line = (
 			str(FALLS[one.status]).format(left) if left is not None else frappe._("Pay to keep it running.")
