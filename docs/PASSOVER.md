@@ -4696,6 +4696,16 @@ Fixed:
   to a workspace's own flows, which are pointed at Tell People.
 - **One's rail.** desk.js reads the Automation Flow list and form as
   Workspace › Automations, as it does the approval builder.
+- **One's rail from anywhere** (after the pass, on the user's word that the
+  sidebar was still frappe's). A flow opened from a record's Settings ›
+  Automations in OneCRM kept OneCRM's sidebar, since frappe keeps the one on
+  screen, and `/desk/automation` was frappe's own Automation workspace with
+  its sidebar and rail. desk.js now takes One's sidebar for the builder and
+  every flow wherever it is opened from, gives the space it left back on the
+  next record One does not list, and `frappe.re_route` sends
+  `/desk/automation` to the flow list. One's Automations item carries
+  frappe's `is_default_module`, so frappe itself names One as the flows'
+  home.
 - **OneAI.** `workspace_automations` reads every flow and what a kind has
   (fields, dates, mail templates). `suggest_automation` builds a flow from
   when, only_when and set/tell/assign steps, checks it with frappe's own

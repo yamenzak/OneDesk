@@ -382,6 +382,13 @@ OVERRIDES = [
 		"entity_from_route(route) {",
 	),
 	(
+		"An automation opened from another space still opens in One's rail, and going back restores that space's",
+		"desk.js takes One's sidebar for the workflow builder and Automation Flow over the one on screen, which frappe's step 1 keeps, remembers the one it left, and hands it back to frappe for the next route One's sidebar does not link; frappe.re_route sends frappe's Automation workspace to the Automation Flow list",
+		"onedesk/public/js/desk.js",
+		"frappe/frappe/public/js/frappe/ui/sidebar/sidebar.js",
+		"resolve_sidebar_for(route, sticky, on_screen = false) {",
+	),
+	(
 		"The workflow builder hides frappe's mail settings and what a workspace approval may not do",
 		"desk.css hides the builder's fields by data-fieldname: its controls show a hidden field all the same, and Properties.vue names transition_tasks and draws every state field",
 		"onedesk/public/css/desk.css",

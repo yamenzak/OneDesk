@@ -213,7 +213,8 @@
    "link_type": "DocType",
    "icon": "zap",
    "child": 1,
-   "idx": 18
+   "idx": 18,
+   "is_default_module": 1
   },
   {
    "keep_closed": 0,
@@ -384,7 +385,7 @@
    "filters": "{\"section\": \"intake\"}"
   }
  ],
- "modified": "2026-10-11 10:00:00.000000",
+ "modified": "2026-10-14 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

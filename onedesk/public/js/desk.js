@@ -36,6 +36,23 @@ frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 	// The workflow builder and the automation list and form are where Workspace ›
 	// Approvals and Automations open, so they stay in One's rail rather than
 	// frappe's Workflow and Automation ones: read as the page they open from.
+	// They are workspace settings wherever they are opened from, a record's
+	// Settings dialog in OneCRM included, so One's sidebar is taken even over
+	// the one on screen, which frappe would otherwise keep (its step 1). The
+	// sidebar they were opened from is remembered, so going back to the
+	// customer puts OneCRM's back rather than keeping One's.
+	resolve_sidebar_for(route, sticky, on_screen) {
+		if (OneSidebar.workspace(route) && frappe.boot.module_sidebars?.One) {
+			if (sticky && sticky !== "One") this.one_left = sticky;
+			return { sidebar: "One", reason: "a workspace setting", provisional: false };
+		}
+		const left = this.one_left;
+		this.one_left = null;
+		if (left && sticky === "One" && !this.get_modules_linking(this.entity_from_route(route)).includes("One"))
+			return super.resolve_sidebar_for(route, left, on_screen);
+		return super.resolve_sidebar_for(route, sticky, on_screen);
+	}
+
 	entity_from_route(route) {
 		if (OneSidebar.workspace(route)) return "workspace-settings";
 		return route[0] === "print" && route[1] ? route[1] : super.entity_from_route(route);
@@ -50,6 +67,11 @@ frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 		return route[0] === "workflow-builder" || (["List", "Form"].includes(route[0]) && route[1] === "Automation Flow");
 	}
 };
+
+// Frappe's Automation workspace is a second home for the same flows, in
+// frappe's sidebar: /desk/automation goes to the list Workspace › Automations
+// opens instead.
+frappe.re_route["automation"] = "automation-flow";
 
 // Clocking in belongs in the rail rather than at the end of a route. It is the
 // one HR act that happens twice a day for everybody, and making it a
