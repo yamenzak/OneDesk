@@ -866,6 +866,8 @@ one_ai_reads = [
 	# How everybody signs in, for the workspace's administrators.
 	"onedesk.one.ai.workspace_sign_in",
 	"onedesk.one.ai.workspace_people",
+	# Levels, profiles, groups and who is held to which records. See one/access.py.
+	"onedesk.one.ai.workspace_access",
 	# The plan and the credits, for the workspace's administrators.
 	"onedesk.one.ai.workspace_plan",
 	# The addresses the workspace opens at, for its administrators.

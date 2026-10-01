@@ -59,7 +59,9 @@ TYPES = [
 	{
 		"name": _lt("Access Changed"),
 		"app": "One",
-		"about": _lt("When an administrator changes which apps you may use, or makes you an administrator."),
+		"about": _lt(
+			"When an administrator changes which apps you may use, your level or profile, the records you see, or makes you an administrator."
+		),
 		"to": _lt("The person whose access it is"),
 		"subject": _lt("What you can use in One changed"),
 		"message": _lt("{by} changed what you can use: {changes}."),

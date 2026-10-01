@@ -41,6 +41,8 @@ LAYERS = (
 	"onedesk/one/printing.py",
 	# A workspace's own approvals, suggested by OneAI and made when approved.
 	"onedesk/one/approvals.py",
+	# A workspace's own levels between an app's User and Manager, made on Access.
+	"onedesk/one/access.py",
 )
 
 _OPENS = r"frappe\.(get_doc|new_doc|_dict)\s*\(\s*[{'\"]?[^)]*?['\"]("

@@ -371,6 +371,48 @@ many seats are used.
 **OneAI on this page** offers **Who has access to what?** and **Who has not
 signed in lately?**
 
+### Access, for the Workspace
+
+People gives each person None, User or Manager on each of OneCRM, OneBook,
+OneInventory, OneProject and OneHR. **Access**, under Workspace, is for what
+falls between and around those.
+
+- **Levels.** A level sits between an app's User and its Manager, such as
+  Senior Sales for somebody who may also delete deals. **New Level** names it
+  and picks its app; on its page, **What It Adds** lists kinds of record with a
+  tick for each right it adds: read, edit, create, delete, submit, cancel,
+  export. Somebody at the level can do everything the app's users can, and
+  these too. A level can only add what the app's own managers may do on that
+  kind; anything more is refused when you save. Pick a level on a person's page,
+  in the app's list, between User and Manager. Changing what a level adds tells
+  everybody at it.
+- **Profiles.** A job's apps and levels in one, such as Accountant: OneBook
+  as a manager and OneInventory as a user. Pick it on a person's page under
+  **Profile** and every app is set at once; change the profile later and
+  everybody on it changes with it. Their administrator switch and anything
+  else they hold, such as HR's own, stay. Changing an app by hand takes a
+  person off their profile.
+- **Groups.** A team by name, such as Sales Gulf, with the people in it.
+  Assign a record to the whole group from its Assign to, or share it with
+  the group.
+- **What They See**, on a person's page. Hold somebody to a territory, a
+  customer group, a customer, a supplier, a department, a branch, a project
+  or a warehouse, and they see only the records of it, and those that name
+  none: everywhere, or only on one kind of record. **Take Away** lets them see everything their apps show
+  again. What HR holds people to itself, their own employee record, is not
+  shown and cannot be taken away here. They are told either way.
+
+A record's **Settings › Access** shows what each app's users, levels and
+managers may do with that kind of record, and opens a level to change it.
+
+Only administrators of the workspace see Access. A level's rights are written
+the way frappe's own Role Permissions Manager writes them, so a kind a level
+adds to keeps the permissions it had when the level was made, and an app
+update to that kind's standard permissions no longer reaches it.
+
+**OneAI on this page** offers **Who can do more than a user?** and **Who sees
+only part?**, and reads levels, profiles, groups and who is held to what.
+
 ### Notifications, for the Workspace
 
 Under **Workspace**, **Notifications** lists everything One tells people, by the

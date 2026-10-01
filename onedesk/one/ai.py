@@ -191,6 +191,18 @@ SUGGESTIONS = {
 			"expects": "workspace_automations",
 		},
 	],
+	"page:workspace-settings/access": [
+		{
+			"label": _lt("Who can do more than a user?"),
+			"ask": _lt("Which levels did we make, what does each add, and who is at each?"),
+			"expects": "workspace_access",
+		},
+		{
+			"label": _lt("Who sees only part?"),
+			"ask": _lt("Who is held to a territory, a department or another record, and to which?"),
+			"expects": "workspace_access",
+		},
+	],
 	"page:workspace-settings/people": [
 		{
 			"label": _lt("Who has access to what?"),
@@ -407,6 +419,13 @@ def page(said: dict) -> str | None:
 			"administers it, and when each was last active. workspace_people reads it all. They change a person "
 			"by clicking them, and turn off, sign out or send a password reset from there; how is in One's "
 			"documentation under People, for the Workspace (how_to)."
+		)
+	if said.get("page") == "workspace-settings" and said.get("section") == "access":
+		return (
+			"The reader administers this workspace and is on Workspace › Access: the levels made between an app's "
+			"user and manager and what each adds, the profiles (a job's apps and levels in one) and who is on each, "
+			"and the groups and who is in each. A person's page also holds what records they are held to. "
+			"workspace_access reads it all. How is in One's documentation under Access, for the Workspace (how_to)."
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "plan":
 		return (
@@ -977,6 +996,51 @@ def workspace_people() -> dict:
 		],
 		"next": "Everybody has One, OneCloud, OneMail, OneTask and OneCalendar anyway. Name people by name. "
 		"The administrator changes a person on Workspace › People by clicking them.",
+	}
+
+
+def workspace_access() -> dict:
+	"""Access, for this workspace's administrators: the levels made between an
+	app's user and manager with what each adds and who is at it, the profiles
+	with the levels they set and who is on them, the groups with their people,
+	and who is held to which records."""
+	from onedesk.one import access, roles
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator sees who may do what."}
+	levels = []
+	for app, names in access.all_levels().items():
+		for name in names:
+			one = access.level(name)
+			levels.append(
+				{
+					"level": name,
+					"app": app,
+					"adds": {row["doctype"]: [access.SAID[r] for r in access.RIGHTS if row.get(r)] for row in one["rows"]},
+					"people": one["people"],
+				}
+			)
+	holds = frappe.get_all(
+		"User Permission",
+		filters={"allow": ["in", access.RECORD_KINDS]},
+		fields=["user", "allow", "for_value", "applicable_for"],
+		limit=200,
+	)
+	return {
+		"levels": levels,
+		"profiles": [
+			{"profile": one["name"], "sets": {app: level for app, level in one["levels"].items() if level != "None"}, "people": one["people"]}
+			for one in access.profiles()
+		],
+		"groups": [
+			{"group": one["name"], "people": frappe.get_all("User Group Member", filters={"parent": one["name"], "parenttype": "User Group"}, pluck="user")}
+			for one in access.groups()
+		],
+		"held_to": [
+			{"person": one.user, "kind": one.allow, "record": one.for_value, "only_on": one.applicable_for or "everywhere"} for one in holds
+		],
+		"next": "A level adds only what the app's own managers may do. The administrator changes all of this on Workspace › Access, "
+		"and a person's level, profile and what they are held to on their page under People.",
 	}
 
 

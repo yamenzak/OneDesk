@@ -27,6 +27,7 @@ import frappe
 from frappe import _, _lt
 
 from onedesk.one import roles
+from onedesk.one.access import all_levels
 
 #: (key, label, icon, group). The icons are Lucide, from frappe's sprite.
 SECTIONS = [
@@ -39,6 +40,7 @@ SECTIONS = [
 	("agreements", _lt("Agreements"), "scale", "you"),
 	("general", _lt("General"), "building-2", "workspace"),
 	("people", _lt("People"), "users", "workspace"),
+	("access", _lt("Access"), "shield-check", "workspace"),
 	("notification_types", _lt("Notifications"), "bell-ring", "workspace"),
 	("numbering", _lt("Numbering"), "hash", "workspace"),
 	("printing", _lt("Printing"), "printer", "workspace"),
@@ -158,7 +160,7 @@ INTAKE = ("records", "most_pages", "floor", "audit", "keep_in_place", "quiet_min
 SYSTEM = ("date_format", "time_format", "number_format", "first_day_of_the_week", "one_calendar_links")
 
 #: Sections that list several records and open on one of them.
-ON_A_RECORD = ("notification_types", "people", "holidays")
+ON_A_RECORD = ("notification_types", "people", "holidays", "access")
 
 #: What an administrator sets on a notification type: whether it is sent, its
 #: text, and the channels people may choose for it.
@@ -204,6 +206,7 @@ def load(
 		"agreements": _agreements,
 		"general": _general,
 		"people": _people,
+		"access": _access,
 		"plan": _plan,
 		"domains": _domains,
 		"oneai": _oneai,
@@ -241,6 +244,7 @@ def save(
 		"holidays": _save_holidays,
 		"notification_types": _save_notification_type,
 		"people": _save_person,
+		"access": _save_access,
 	}
 	if section not in savers:
 		frappe.throw(_("There is nothing to save here."))
@@ -985,18 +989,33 @@ def _save_general(values: dict) -> None:
 		frappe.db.set_value("Role", EVERYBODY, "two_factor_auth", 1 if wanted == "everybody" else 0)
 
 
-def level_of(held: set, used: tuple, managed: tuple) -> str:
-	"""None, User or Manager, from the roles a person holds. Pure."""
+def level_of(held: set, used: tuple, managed: tuple, levels: tuple | list = ()) -> str:
+	"""None, User, one of the workspace's own levels of the app
+	(one/access.py), or Manager, from the roles a person holds. Pure."""
 	if held & set(managed):
 		return "Manager"
+	for one in levels:
+		if one in held:
+			return one
 	if held & set(used):
 		return "User"
 	return "None"
 
 
-def roles_for(level: str, used: tuple, managed: tuple) -> set:
-	"""The roles a level means: a manager uses the app as well. Pure."""
+def roles_for(level: str, used: tuple, managed: tuple, levels: tuple | list = ()) -> set:
+	"""The roles a level means: a manager uses the app as well, and a level of
+	the workspace's own is the app's User roles and itself. Pure."""
+	if level in levels:
+		return set(used) | {level}
 	return {"None": set(), "User": set(used), "Manager": set(used) | set(managed)}[level]
+
+
+def _levels(app: str, own: dict) -> list[dict]:
+	"""What People offers for one app: None, User, the workspace's own levels
+	between, and Manager."""
+	return [{"value": one, "label": _(one)} for one in ("None", "User")] + [
+		{"value": one, "label": one} for one in own.get(app, [])
+	] + [{"value": "Manager", "label": _("Manager")}]
 
 
 def _people(record: str | None = None) -> dict:
@@ -1015,14 +1034,18 @@ def _people(record: str | None = None) -> dict:
 		frappe.get_all("Employee", filters={"user_id": ["in", [one.name for one in users] or [""]]}, fields=["user_id", "name"], as_list=True)
 	)
 	account = frappe.get_single("Workspace Account")
+	own = all_levels()
 	return {
-		"apps": [{"name": name, "icon": icon} for name, icon, _used, _managed in APPS],
+		"apps": [{"name": name, "icon": icon, "levels": _levels(name, own)} for name, icon, _used, _managed in APPS],
 		"levels": [{"value": one, "label": _(one)} for one in LEVELS],
 		"people": [
 			{
 				**one,
 				"admin": roles.ADMINISTRATOR in held.get(one.name, set()),
-				"access": {name: level_of(held.get(one.name, set()), used, managed) for name, _icon, used, managed in APPS},
+				"access": {
+					name: level_of(held.get(one.name, set()), used, managed, own.get(name, ()))
+					for name, _icon, used, managed in APPS
+				},
 				"employee": employees.get(one.name),
 			}
 			for one in users
@@ -1050,16 +1073,27 @@ def _one_of_the_people(user: str):
 def _person_page(user: str) -> dict:
 	"""One person as an administrator sees them, as a form: a Select per app
 	and the Administrator switch, saved against the User as it was loaded;
-	where they are signed in and their last sign-ins (one/signin.py)."""
-	from onedesk.one import signin
+	where they are signed in and their last sign-ins (one/signin.py), and the
+	records they are held to (one/access.py)."""
+	from onedesk.one import access, signin
 
 	doc = _one_of_the_people(user)
 	held = {one.role for one in doc.roles}
-	levels = [{"value": one, "label": _(one)} for one in LEVELS]
+	own = all_levels()
 	fields = [
-		{"fieldname": f"app_{icon}", "fieldtype": "Select", "label": name, "options": levels, "description": str(APP_SAID[name])}
+		{"fieldname": f"app_{icon}", "fieldtype": "Select", "label": name, "options": _levels(name, own), "description": str(APP_SAID[name])}
 		for name, icon, _used, _managed in APPS
 	]
+	fields.insert(
+		0,
+		{
+			"fieldname": "profile",
+			"fieldtype": "Select",
+			"label": _("Profile"),
+			"options": [{"value": "", "label": _("None, set by hand")}] + [{"value": one["name"], "label": one["name"]} for one in access.profiles()],
+			"description": _("Sets every app below at once. Changing an app by hand takes them off it."),
+		},
+	)
 	fields.append(
 		{
 			"fieldname": "admin",
@@ -1081,34 +1115,54 @@ def _person_page(user: str) -> dict:
 			"sessions": [] if me else signin.sessions(doc.name),
 			"recent": signin.recent(doc.name),
 			"me": me,
+			"holds": access.record_access(doc.name),
+			"kinds": access.kinds_held(),
 		},
-		"apps": [{"name": name, "icon": icon} for name, icon, _used, _managed in APPS],
+		"profiles": {one["name"]: one["levels"] for one in access.profiles()},
+		"apps": [{"name": name, "icon": icon, "levels": _levels(name, own)} for name, icon, _used, _managed in APPS],
 		"fields": fields,
 		"values": {
-			**{f"app_{icon}": level_of(held, used, managed) for _name, icon, used, managed in APPS},
+			**{f"app_{icon}": level_of(held, used, managed, own.get(name, ())) for name, icon, used, managed in APPS},
 			"admin": 1 if roles.ADMINISTRATOR in held else 0,
+			"profile": doc.get("one_profile") or "",
 		},
 		"opened": _opened(doc),
 	}
 
 
 def _save_person(record: str, values: dict) -> None:
+	"""What a person may use. A profile picked sets every app at once; an app
+	changed by hand takes them off the profile they were on."""
+	from onedesk.one import access as profiles
+
 	doc = _as_opened(_one_of_the_people(record))
-	access = {name: values.get(f"app_{icon}") for name, icon, _used, _managed in APPS if values.get(f"app_{icon}")}
-	_set_access(doc, access, frappe.utils.cint(values.get("admin")))
+	chosen = {name: values.get(f"app_{icon}") for name, icon, _used, _managed in APPS if values.get(f"app_{icon}")}
+	admin = frappe.utils.cint(values.get("admin")) if "admin" in values else int(roles.ADMINISTRATOR in {one.role for one in doc.roles})
+	if values.get("profile") and values["profile"] != doc.get("one_profile"):
+		_set_access(doc, profiles.profile(values["profile"])["levels"], admin)
+		frappe.db.set_value("User", doc.name, "one_profile", values["profile"], update_modified=False)
+		return
+	_set_access(doc, chosen, admin)
+	on = values.get("profile", doc.get("one_profile"))
+	if on and any(level != profiles.profile(on)["levels"].get(name) for name, level in chosen.items()):
+		on = None
+	if (on or None) != (doc.get("one_profile") or None):
+		frappe.db.set_value("User", doc.name, "one_profile", on or None, update_modified=False)
 
 
 def _set_access(doc, access: dict, admin: int, told: bool = True) -> None:
 	"""What a person may use, as frappe's roles, in one save. They are told
 	what changed, and every administrator is told of a new administrator."""
-	if any(level not in LEVELS for level in access.values()):
+	own = all_levels()
+	if any(level not in LEVELS and level not in own.get(name, ()) for name, level in access.items()):
 		frappe.throw(_("That cannot be set."))
 	before = {one.role for one in doc.roles}
 	ours = {roles.ADMINISTRATOR}
 	wanted = set()
 	for name, _icon, used, managed in APPS:
-		ours |= set(used) | set(managed)
-		wanted |= roles_for(access.get(name) or level_of(before, used, managed), used, managed)
+		levels = own.get(name, ())
+		ours |= set(used) | set(managed) | set(levels)
+		wanted |= roles_for(access.get(name) or level_of(before, used, managed, levels), used, managed, levels)
 	if admin:
 		wanted.add(roles.ADMINISTRATOR)
 	elif roles.ADMINISTRATOR in before:
@@ -1135,10 +1189,13 @@ def _told_of_access(doc, before: set, after: set) -> None:
 	from onedesk.one import notify
 
 	said = []
+	own = all_levels()
 	for name, _icon, used, managed in APPS:
-		was, now = level_of(before, used, managed), level_of(after, used, managed)
+		levels = own.get(name, ())
+		was, now = level_of(before, used, managed, levels), level_of(after, used, managed, levels)
 		if was != now:
-			said.append({"None": _("no longer {0}"), "User": _("{0} as a user"), "Manager": _("{0} as a manager")}[now].format(name))
+			plain = {"None": _("no longer {0}"), "User": _("{0} as a user"), "Manager": _("{0} as a manager")}
+			said.append(plain[now].format(name) if now in plain else _("{0} as {1}").format(name, now))
 	if (roles.ADMINISTRATOR in after) != (roles.ADMINISTRATOR in before):
 		said.append(_("administrator of the workspace") if roles.ADMINISTRATOR in after else _("no longer an administrator"))
 	if said:
@@ -1237,7 +1294,11 @@ def invite(
 
 def _apps_said(access: dict) -> list[str]:
 	said = {"User": _("{0} as a user"), "Manager": _("{0} as a manager")}
-	return [said[level].format(name) for name, level in access.items() if level in said]
+	return [
+		said[level].format(name) if level in said else _("{0} as {1}").format(name, level)
+		for name, level in access.items()
+		if level and level != "None"
+	]
 
 
 @frappe.whitelist(methods=["POST"])
@@ -1250,7 +1311,10 @@ def invite_again(user: Annotated[str, "The person."]) -> None:
 	if doc.last_login:
 		frappe.throw(_("{0} has already joined. Send a password reset instead.").format(doc.full_name))
 	held = {one.role for one in doc.roles}
-	invitation.send(doc.name, _apps_said({name: level_of(held, used, managed) for name, _icon, used, managed in APPS}))
+	own = all_levels()
+	invitation.send(
+		doc.name, _apps_said({name: level_of(held, used, managed, own.get(name, ())) for name, _icon, used, managed in APPS})
+	)
 
 
 def seats_used() -> int:
@@ -1618,6 +1682,126 @@ def _save_holidays(record: str | None, values: dict) -> str:
 	if said:
 		holidays.told("; ".join(said), doc.name)
 	return doc.name
+
+
+# ------------------------------------------------------------------ access
+
+
+def _access(record: str | None = None) -> dict:
+	"""Workspace > Access: the workspace's own levels of each app; or one
+	level, as a form (one/access.py)."""
+	from onedesk.one import access
+
+	if record and record.startswith("level:"):
+		return _level_page(record.split(":", 1)[1])
+	if record and record.startswith("profile:"):
+		return _profile_page(record.split(":", 1)[1])
+	if record and record.startswith("group:"):
+		return _group_page(record.split(":", 1)[1])
+	own = all_levels()
+	rows = [
+		{
+			"name": one,
+			"app": name,
+			"icon": icon,
+			"kinds": frappe.db.count("Custom DocPerm", {"role": one, "permlevel": 0}),
+			"people": len(access.held_by(one)),
+		}
+		for name, icon, _used, _managed in APPS
+		for one in own.get(name, [])
+	]
+	return {
+		"apps": [{"name": name, "icon": icon} for name, icon, _used, _managed in APPS],
+		"levels": rows,
+		"profiles": access.profiles(),
+		"groups": access.groups(),
+	}
+
+
+def _profile_page(name: str) -> dict:
+	"""One profile as a form: its name and a level per app, as a person's page
+	sets them."""
+	from onedesk.one import access
+
+	said = access.profile(name)
+	own = all_levels()
+	fields = [{"fieldname": "title", "fieldtype": "Data", "label": _("Name"), "reqd": 1}] + [
+		{"fieldname": f"app_{icon}", "fieldtype": "Select", "label": app, "options": _levels(app, own), "description": str(APP_SAID[app])}
+		for app, icon, _used, _managed in APPS
+	]
+	return {
+		"profile": said,
+		"apps": [{"name": app, "icon": icon} for app, icon, _used, _managed in APPS],
+		"fields": fields,
+		"values": {"title": name, **{f"app_{icon}": said["levels"].get(app, "None") for app, icon, _used, _managed in APPS}},
+		"opened": _opened(frappe.get_doc("Role Profile", name)),
+	}
+
+
+def _group_page(name: str) -> dict:
+	"""One group as a form: its name and who is in it, in frappe's own
+	multi-pick of its members."""
+	doc = frappe.get_doc("User Group", name)
+	return {
+		"group": {"name": doc.name, "members": len(doc.user_group_members)},
+		"fields": [
+			{"fieldname": "title", "fieldtype": "Data", "label": _("Name"), "reqd": 1},
+			{"fieldname": "members", "fieldtype": "Table MultiSelect", "label": _("Who Is in It"), "options": "User Group Member"},
+		],
+		"values": {"title": doc.name, "members": [{"user": one.user} for one in doc.user_group_members]},
+		"opened": _opened(doc),
+	}
+
+
+def _level_page(name: str) -> dict:
+	"""One level as a form: its name, and what it adds on each kind of record,
+	in frappe's table, one tick per right."""
+	from onedesk.one import access
+
+	said = access.level(name)
+	kinds = access.kinds(said["app"])
+	options = sorted(({"value": one, "label": _(one)} for one in kinds), key=lambda one: one["label"])
+	table = {
+		"fieldname": "rows",
+		"fieldtype": "Table",
+		# Its heading says it; the table itself goes unlabelled.
+		"label": "",
+		"fields": [
+			{"fieldname": "doctype", "fieldtype": "Autocomplete", "label": _("Kind of Record"), "options": options, "in_list_view": 1, "reqd": 1, "columns": 3},
+			*[
+				{"fieldname": right, "fieldtype": "Check", "label": _(access.SAID[right]), "in_list_view": 1, "columns": 1}
+				for right in access.RIGHTS
+			],
+		],
+	}
+	# frappe's table control reads its rows from the field, not from a value.
+	table["data"] = [dict(one) for one in said["rows"]]
+	people = frappe.get_all("User", filters={"name": ["in", said["people"] or [""]]}, fields=["name", "full_name", "user_image"])
+	return {
+		"level": {**said, "people": people, "icon": next(icon for app, icon, _u, _m in APPS if app == said["app"])},
+		"fields": [{"fieldname": "title", "fieldtype": "Data", "label": _("Name"), "reqd": 1}, table],
+		"values": {"title": name, "rows": said["rows"]},
+		"opened": [{"doctype": "Role", "name": name, "modified": str(frappe.db.get_value("Role", name, "modified"))}],
+	}
+
+
+def _save_access(record: str | None, values: dict) -> str:
+	"""A level's name and what it adds, saved as one/access.py says it may be."""
+	from onedesk.one import access
+
+	kind, _sep, name = (record or "").partition(":")
+	if kind == "level":
+		rows = values["rows"] if "rows" in values else access.level(name)["rows"]
+		return "level:" + access.save_level(name, access.app_of(name), values.get("title") or name, rows)
+	if kind == "profile":
+		levels = access.profile(name)["levels"]
+		levels.update({app: values[f"app_{icon}"] for app, icon, _used, _managed in APPS if values.get(f"app_{icon}")})
+		return "profile:" + access.save_profile(name, values.get("title") or name, levels)
+	if kind == "group":
+		doc = frappe.get_doc("User Group", name)
+		members = [one.get("user") for one in values["members"]] if "members" in values else [one.user for one in doc.user_group_members]
+		return "group:" + access.save_group(name, values.get("title") or name, [one for one in members if one])
+	frappe.throw(_("There is nothing to save here."))
 
 
 # ------------------------------------------------------------------ numbering

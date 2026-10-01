@@ -148,13 +148,25 @@
   {
    "keep_closed": 0,
    "type": "Link",
+   "label": "Access",
+   "link_to": "workspace-settings",
+   "link_type": "Page",
+   "icon": "shield-check",
+   "child": 1,
+   "route_options": "{\"section\": \"access\"}",
+   "idx": 13,
+   "filters": "{\"section\": \"access\"}"
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
    "label": "Notifications",
    "link_to": "workspace-settings",
    "link_type": "Page",
    "icon": "bell-ring",
    "child": 1,
    "route_options": "{\"section\": \"notification_types\"}",
-   "idx": 13,
+   "idx": 14,
    "filters": "{\"section\": \"notification_types\"}"
   },
   {
@@ -167,7 +179,7 @@
    "child": 1,
    "route_options": "{\"section\": \"numbering\"}",
    "filters": "{\"section\": \"numbering\"}",
-   "idx": 14
+   "idx": 15
   },
   {
    "keep_closed": 0,
@@ -179,7 +191,7 @@
    "child": 1,
    "route_options": "{\"section\": \"printing\"}",
    "filters": "{\"section\": \"printing\"}",
-   "idx": 15
+   "idx": 16
   },
   {
    "keep_closed": 0,
@@ -191,7 +203,7 @@
    "child": 1,
    "route_options": "{\"section\": \"mail_templates\"}",
    "filters": "{\"section\": \"mail_templates\"}",
-   "idx": 16
+   "idx": 17
   },
   {
    "keep_closed": 0,
@@ -203,7 +215,7 @@
    "child": 1,
    "route_options": "{\"section\": \"approvals\"}",
    "filters": "{\"section\": \"approvals\"}",
-   "idx": 17
+   "idx": 18
   },
   {
    "keep_closed": 0,
@@ -213,7 +225,7 @@
    "link_type": "DocType",
    "icon": "zap",
    "child": 1,
-   "idx": 18,
+   "idx": 19,
    "is_default_module": 1
   },
   {
@@ -225,7 +237,7 @@
    "icon": "credit-card",
    "child": 1,
    "route_options": "{\"section\": \"plan\"}",
-   "idx": 19,
+   "idx": 20,
    "filters": "{\"section\": \"plan\"}"
   },
   {
@@ -237,7 +249,7 @@
    "icon": "globe",
    "child": 1,
    "route_options": "{\"section\": \"domains\"}",
-   "idx": 20,
+   "idx": 21,
    "filters": "{\"section\": \"domains\"}"
   },
   {
@@ -249,7 +261,7 @@
    "icon": "calendar-days",
    "child": 1,
    "route_options": "{\"section\": \"holidays\"}",
-   "idx": 21,
+   "idx": 22,
    "filters": "{\"section\": \"holidays\"}"
   },
   {
@@ -260,7 +272,7 @@
    "icon": "oneai",
    "indent": 0,
    "collapsible": 1,
-   "idx": 22
+   "idx": 23
   },
   {
    "keep_closed": 0,
@@ -271,7 +283,7 @@
    "icon": "oneai",
    "child": 1,
    "route_options": "{\"section\": \"oneai\"}",
-   "idx": 23,
+   "idx": 24,
    "filters": "{\"section\": \"oneai\"}"
   },
   {
@@ -283,7 +295,7 @@
    "link_type": "DocType",
    "icon": "book-open",
    "child": 1,
-   "idx": 24
+   "idx": 25
   },
   {
    "keep_closed": 0,
@@ -294,7 +306,7 @@
    "link_type": "Report",
    "icon": "chart-column",
    "child": 1,
-   "idx": 25
+   "idx": 26
   },
   {
    "keep_closed": 0,
@@ -305,7 +317,7 @@
    "link_type": "DocType",
    "icon": "messages-square",
    "child": 1,
-   "idx": 26
+   "idx": 27
   },
   {
    "keep_closed": 0,
@@ -316,7 +328,7 @@
    "link_type": "DocType",
    "icon": "lightbulb",
    "child": 1,
-   "idx": 27
+   "idx": 28
   },
   {
    "keep_closed": 0,
@@ -326,7 +338,7 @@
    "icon": "oneintake",
    "indent": 0,
    "collapsible": 1,
-   "idx": 28
+   "idx": 29
   },
   {
    "keep_closed": 0,
@@ -337,7 +349,7 @@
    "link_type": "Page",
    "link_to": "intake",
    "icon": "inbox",
-   "idx": 29
+   "idx": 30
   },
   {
    "keep_closed": 0,
@@ -348,7 +360,7 @@
    "link_type": "Page",
    "link_to": "ready-to-submit",
    "icon": "file-check",
-   "idx": 30
+   "idx": 31
   },
   {
    "keep_closed": 0,
@@ -359,7 +371,7 @@
    "link_type": "Report",
    "link_to": "Deadlines",
    "icon": "calendar-clock",
-   "idx": 31
+   "idx": 32
   },
   {
    "keep_closed": 0,
@@ -370,7 +382,7 @@
    "link_type": "Report",
    "link_to": "Spending",
    "icon": "wallet",
-   "idx": 32
+   "idx": 33
   },
   {
    "keep_closed": 0,
@@ -381,11 +393,11 @@
    "icon": "settings",
    "child": 1,
    "route_options": "{\"section\": \"intake\"}",
-   "idx": 33,
+   "idx": 34,
    "filters": "{\"section\": \"intake\"}"
   }
  ],
- "modified": "2026-10-14 10:00:00.000000",
+ "modified": "2026-10-15 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

@@ -4751,6 +4751,61 @@ Fixed:
   made the flow running as the administrator, and both Tell People steps,
   one with a template, arrived on the bell filled in ($ 9.00, 21-09-2026).
 
+**P2, Access: done.** Asked for on the user's word: "should we also introduce
+new custom roles builder like currently each app is either a user or manager
+but maybe for specific user we want somewhere in between". Seen as a
+workspace administrator: Workspace › Access, a level's, a profile's and a
+group's page, a person's page, and a record's Settings › Access.
+
+Before it, People set None, User or Manager per app and nothing else. Frappe
+has the rest underneath, each with no screen in One: Role and Custom DocPerm
+(what a role may do), User Permission (which records), Role Profile (roles by
+job) and User Group (a team to assign to).
+
+1. Notifications: what changes a person's access tells them, as Access
+   Changed, now including a level, a profile and what they are held to.
+   Changing what a level adds tells everybody at it.
+2. OneAI: `workspace_access` reads the levels, what each adds, who is at
+   each, the profiles, the groups and who is held to what; the page offers
+   "Who can do more than a user?" and "Who sees only part?".
+3. Intake: nothing here.
+4. Permissions: only workspace administrators see Access. A level adds only
+   what its app's own Manager roles may do on that kind (`save_level` refuses
+   the rest by name). Record access lists and changes only the eight kinds One
+   offers; HR's own holds (Employee, Company) are not shown and cannot be
+   taken away.
+5. Cross-module: a level is offered wherever an app's roles are, People's
+   app selects, the invite, and Approvals' "who approves" ("OneBook at the
+   level Senior Accountant"). A profile keeps HR's Employee role.
+6. Bespoke UI: Levels, Profiles and Groups as Numbering's tables; each page
+   is a desk record (dirty, leave warning, save against `modified`); a level's
+   rights are a frappe Table of Autocomplete and Check controls.
+7. Documented: "Access, for the Workspace" in `one/README.md`.
+8. Legal: nothing leaves the workspace; no clause.
+9. Built from frappe: Role with One's `one_app`, Custom DocPerm written as the
+   Role Permissions Manager writes it, User Permission, Role Profile and User
+   Group, all frappe's own.
+
+Fixed or built:
+- **Levels.** A level is a Role marked with its app (`Role.one_app`). Its
+  people hold the app's User roles and the level. `one/access.py`.
+- **Profiles** are frappe's Role Profile, applied by One (`put_on`) rather
+  than by frappe's own sync, which replaces every role a person has and would
+  take HR's away. `User.one_profile` says which profile a person's apps came
+  from; changing an app by hand takes them off it.
+- **Groups** are frappe's User Group, of workspace people only.
+- **What They See** on a person's page holds them to a record through User
+  Permission, everywhere or on one kind.
+- **Settings › Access** on any record shows its kind's users, levels and
+  managers side by side.
+- Tried: Senior Sales adding delete on Opportunity let Rania delete a deal
+  and not a lead; a level asking for more than OneCRM's manager was refused;
+  Accountant set OneBook and OneInventory and kept Employee, and changing it
+  changed her; held to the territory United Arab Emirates, she saw its
+  customers and not one in Rest Of The World. A customer with no territory
+  still shows, as frappe does unless System Settings asks for strict user
+  permissions.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

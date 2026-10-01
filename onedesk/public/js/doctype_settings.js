@@ -47,7 +47,7 @@ onedesk.doctype_settings.open = (doctype, tab = null, closed = null) =>
 // (docs/DESK-COVERAGE.md). Frappe shows a tab to whoever can read its doctype, and
 // reading an Email Template is everybody's; a tab is offered here once what it
 // opens can be used, and the rail beside it is One's.
-onedesk.doctype_settings.TABS = ["notifications", "naming", "print-format", "email-template", "workflow", "automations"];
+onedesk.doctype_settings.TABS = ["notifications", "naming", "print-format", "email-template", "workflow", "automations", "access"];
 
 onedesk.doctype_settings.adapt = () => {
 	if (onedesk.doctype_settings.adapted) return;
@@ -66,6 +66,9 @@ onedesk.doctype_settings.adapt = () => {
 			icon: "zap",
 			condition: () => frappe.model.can_read("Automation Flow"),
 		});
+	// Access is not one of frappe's tabs either: where frappe's Permissions tab would be,
+	// what each app's levels may do on the kind (one/access.py).
+	beside && beside.items.push({ id: "access", label: __("Access"), icon: "shield-check" });
 	for (const group of frappe.doctype_settings.groups) {
 		for (const item of group.items) {
 			// Frappe's own test for each tab; Naming's, read on Document Naming Rule, is
@@ -312,6 +315,41 @@ onedesk.doctype_settings.adapt = () => {
 			],
 		})
 	);
+	// Access: for each app whose people work with the kind, what its User, the workspace's
+	// own levels and its Manager may do on it. A level of the workspace's own opens on its
+	// page in Workspace › Access, where what it adds is changed.
+	frappe.doctype_settings.register("access", (panel, doctype) => {
+		const said = (right) =>
+			({ read: __("Read"), write: __("Edit"), create: __("Create"), delete: __("Delete"), submit: __("Submit"), cancel: __("Cancel"), export: __("Export") })[right];
+		const level = (name) => {
+			panel.dialog.hide();
+			frappe.app.sidebar && frappe.app.sidebar.select_module("One");
+			frappe.set_route("workspace-settings", name ? { section: "access", level: name } : { section: "access" });
+		};
+		table(panel, {
+			title: __("Access"),
+			description: __("What each app's people may do with a {0}: its users, the levels you made, and its managers.", [__(doctype)]),
+			add: { label: __("New Level"), click: () => level(null) },
+			icon: "shield-check",
+			empty: __("No app's people work with this kind of record."),
+			load: () =>
+				frappe
+					.xcall("onedesk.one.access.doctype_levels", { doctype })
+					.then((apps) => apps.flatMap((app) => app.rows.map((row) => ({ ...row, app: app.app })))),
+			open: (row) => row.own && level(row.level),
+			columns: [
+				{ label: __("App"), render: (row) => esc(row.app) },
+				{
+					label: __("Level"),
+					render: (row) => named(row.own ? row.level : __(row.level), row.own && { label: __("Yours"), theme: "purple" }),
+				},
+				{
+					label: __("May"),
+					render: (row) => row.rights.map((right) => frappe.ui.badge.html({ label: said(right), theme: "gray" })).join(" "),
+				},
+			],
+		});
+	});
 	// The dialog's Naming tab: the doctype's series, through One's guarded doors
 	// (one/numbering.py), since frappe's calls Document Naming Settings, which is not
 	// given. The shell's table, which is frappe's EmbeddedList, and frappe's dialog. Rules

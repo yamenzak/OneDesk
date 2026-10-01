@@ -70,7 +70,13 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		// a person ?person=, a holiday list other than today's ?list=.
 		// A new rule opened from a doctype's Settings dialog starts on that doctype (?for=).
 		this.for_doctype = params.rule === "new" ? params.for || null : null;
-		if (found) this.open(found.key, { record: params.type || params.person || params.list || (params.rule ? `rule:${params.rule}` : null) });
+		// A level of Access is ?level=.
+		if (found)
+			this.open(found.key, {
+				record: params.type || params.person || params.list || (params.rule ? `rule:${params.rule}` : null) || (params.level ? `level:${params.level}` : null) ||
+					(params.profile ? `profile:${params.profile}` : null) ||
+					(params.group ? `group:${params.group}` : null),
+			});
 	}
 
 	// `record` is the one record a section that lists several is open on, as a
@@ -819,16 +825,19 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				},
 				{
 					label: __("Apps"),
+					// A level of the workspace's own is said by its name, between User and Manager.
 					render: (one) => {
+						const said = (level) => levels[level] || level;
+						const theme = (level) => (level === "Manager" ? "blue" : level === "User" ? "gray" : "purple");
 						const held = new Set(data.apps.map((app) => one.access[app.name]));
-						if (held.size === 1 && !held.has("None")) {
+						if (held.size === 1 && !held.has("None") && levels[[...held][0]]) {
 							const [level] = held;
-							return frappe.ui.badge.html({ label: __("Every app · {0}", [levels[level]]), theme: level === "Manager" ? "blue" : "gray" });
+							return frappe.ui.badge.html({ label: __("Every app · {0}", [said(level)]), theme: theme(level) });
 						}
 						return (
 							data.apps
 								.filter((app) => one.access[app.name] !== "None")
-							.map((app) => frappe.ui.badge.html({ label: `${app.name} · ${levels[one.access[app.name]]}`, theme: one.access[app.name] === "Manager" ? "blue" : "gray" }))
+								.map((app) => frappe.ui.badge.html({ label: `${app.name} · ${said(one.access[app.name])}`, theme: theme(one.access[app.name]) }))
 								.join(" ") || `<span class="one-shell-quiet">${esc(__("The five everybody has"))}</span>`
 						);
 					},
@@ -937,8 +946,14 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const apps = data.apps.map((app) => `app_${app.icon}`);
 		const rows = [
 			{ heading: __("What They Can Use"), note: __("Everybody has One, OneCloud, OneMail, OneTask and OneCalendar. A manager also sets the app up and sees everything in it.") },
+			["profile", ""],
 			...Settings.pairs(apps),
 			{ stack: ["admin"] },
+			{
+				heading: __("What They See"),
+				note: __("Held to a territory, a department or a customer group, they see only its records. Nobody here: everything their apps show."),
+			},
+			{ html: '<div data-list="holds"></div>' },
 			{ heading: __("Where They Are Signed In") },
 			{
 				html: one.me
@@ -949,6 +964,14 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		];
 		const $card = this.form(data, { rows });
 		Settings.marks($card, data.apps);
+		// A profile picked sets each app to its level; saved from the page head with the rest.
+		const picked = this.group.get_field("profile");
+		picked &&
+			picked.$input.on("change", () => {
+				const levels = data.profiles[picked.get_value()];
+				if (levels) for (const app of data.apps) this.group.set_value(`app_${app.icon}`, levels[app.name] || "None");
+			});
+		this.draw_holds($card.find('[data-list="holds"]'), one);
 		// Frappe's table, as on the Sign-in page, under the record's own parts.
 		if (!one.me) {
 			onedesk.shell.table($card.find('[data-list="places"]'), {
@@ -960,6 +983,293 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			});
 		}
 		onedesk.shell.table($card.find('[data-list="recent"]'), { rows: one.recent, columns: Settings.signin_columns() });
+	}
+
+	// Access (one/access.py): the workspace's own levels of each app, between its User
+	// and its Manager. A level opens as a record (draw_level). Profiles and groups join
+	// it here.
+	draw_access(data) {
+		if (data.level) return this.draw_level(data);
+		if (data.profile) return this.draw_job_profile(data);
+		if (data.group) return this.draw_group(data);
+		const esc = frappe.utils.escape_html;
+		// A group starts with its people: frappe's group always has somebody in it.
+		const named = (title, method, key, more = []) => {
+			const dialog = new frappe.ui.Dialog({
+				title,
+				fields: [{ fieldname: "title", fieldtype: "Data", label: __("Name"), reqd: 1 }, ...more],
+				primary_action_label: __("Make"),
+				primary_action: async ({ title, members }) => {
+					const name = await frappe.xcall(`onedesk.one.access.${method}`, { title, ...(members ? { members } : {}) });
+					dialog.hide();
+					frappe.set_route("workspace-settings", { section: "access", [key]: name });
+				},
+			});
+			dialog.show();
+		};
+		this.page.set_primary_action(__("New Level"), () => this.new_level(data), "plus");
+		this.$content.html(
+			`<div class="one-shell-section" data-list="levels"></div><div class="one-shell-section" data-list="profiles"></div><div class="one-shell-section" data-list="groups"></div>`
+		);
+		const levels = Object.fromEntries(data.levels.map((one) => [one.name, one.name]));
+		const said = (level) => ({ None: null, User: __("User"), Manager: __("Manager") })[level] ?? levels[level] ?? level;
+		onedesk.shell.table(this.$content.find('[data-list="profiles"]'), {
+			title: __("Profiles"),
+			note: __("A job's apps and levels in one, picked on a person's page instead of each app. Change a profile and everybody on it changes with it."),
+			rows: data.profiles,
+			icon: "id-card",
+			empty: __("No profiles yet."),
+			actions: $(onedesk.shell.button(__("New Profile"), {}, "subtle", "plus")).on("click", () => named(__("New Profile"), "new_profile", "profile")),
+			open: (one) => frappe.set_route("workspace-settings", { section: "access", profile: one.name }),
+			columns: [
+				{ label: __("Profile"), render: (one) => esc(one.name) },
+				{
+					label: __("Apps"),
+					render: (one) =>
+						Object.entries(one.levels)
+							.filter(([, level]) => level !== "None")
+							.map(([app, level]) => frappe.ui.badge.html({ label: `${app} · ${said(level)}`, theme: level === "Manager" ? "blue" : level === "User" ? "gray" : "purple" }))
+							.join(" ") || `<span class="one-shell-quiet">${esc(__("The five everybody has"))}</span>`,
+				},
+				{ label: __("People"), render: (one) => esc(String(one.people)) },
+			],
+		});
+		onedesk.shell.table(this.$content.find('[data-list="groups"]'), {
+			title: __("Groups"),
+			note: __("A team by name, such as Sales Gulf: assign a record to the whole group, or share with it."),
+			rows: data.groups,
+			icon: "users-round",
+			empty: __("No groups yet."),
+			actions: $(onedesk.shell.button(__("New Group"), {}, "subtle", "plus")).on("click", () =>
+				frappe.model.with_doctype("User Group Member", () =>
+					named(__("New Group"), "new_group", "group", [
+						{ fieldname: "members", fieldtype: "Table MultiSelect", options: "User Group Member", label: __("Who Is in It"), reqd: 1 },
+					])
+				)),
+			open: (one) => frappe.set_route("workspace-settings", { section: "access", group: one.name }),
+			columns: [
+				{ label: __("Group"), render: (one) => esc(one.name) },
+				{ label: __("People"), render: (one) => esc(String(one.members)) },
+			],
+		});
+		onedesk.shell.table(this.$content.find('[data-list="levels"]'), {
+			title: __("Levels"),
+			note: __(
+				"People gives each person User or Manager on an app. A level sits between: it can do what the app's users can, and what you add to it from what its managers can."
+			),
+			rows: data.levels,
+			icon: "shield-check",
+			empty: __("No levels yet. Everybody is a user or a manager of each app."),
+			none: __("No level is called that."),
+			open: (one) => frappe.set_route("workspace-settings", { section: "access", level: one.name }),
+			columns: [
+				{ label: __("Level"), render: (one) => esc(one.name) },
+				{ label: __("App"), render: (one) => `<span class="os-app-mark">${frappe.utils.icon(one.icon, "sm")}</span>${esc(one.app)}` },
+				{ label: __("Adds To"), render: (one) => esc(one.kinds === 1 ? __("1 kind of record") : __("{0} kinds of record", [one.kinds])) },
+				{ label: __("People"), render: (one) => esc(String(one.people)) },
+			],
+		});
+	}
+
+	// A new level is named and given its app; what it adds is set on its page.
+	new_level(data) {
+		const dialog = new frappe.ui.Dialog({
+			title: __("New Level"),
+			fields: [
+				{ fieldname: "title", fieldtype: "Data", label: __("Name"), reqd: 1, description: __("As people would say it, such as Senior Sales.") },
+				{ fieldname: "app", fieldtype: "Select", label: __("App"), reqd: 1, options: data.apps.map((app) => app.name) },
+			],
+			primary_action_label: __("Make"),
+			primary_action: async ({ title, app }) => {
+				const name = await frappe.xcall("onedesk.one.access.new_level", { app, title });
+				dialog.hide();
+				frappe.set_route("workspace-settings", { section: "access", level: name });
+			},
+		});
+		dialog.show();
+	}
+
+	// One level, as a record: its name, and what it adds on each kind of record in
+	// frappe's table, saved from the page head; who is at it beside.
+	draw_level(data) {
+		const esc = frappe.utils.escape_html;
+		const level = data.level;
+		this.as_record({
+			parent: __("Access"),
+			route: "/desk/workspace-settings?section=access",
+			title: level.name,
+			status: { label: level.app, colour: "purple" },
+			side: onedesk.shell.side({
+				mark: level.icon,
+				title: level.name,
+				sub: esc(__("A level of {0}", [level.app])),
+				groups: [
+					{
+						label: __("At This Level"),
+						html: level.people.length
+							? level.people
+									.map((one) => `<a class="one-record-link" href="/desk/workspace-settings?section=people&person=${encodeURIComponent(one.name)}">${esc(one.full_name || one.name)}</a>`)
+									.join("")
+							: `<div class="one-shell-quiet">${esc(__("Nobody yet. Pick it on a person's page."))}</div>`,
+					},
+				],
+			}),
+			actions: [
+				{
+					label: __("Delete"),
+					group: __("Actions"),
+					action: () =>
+						frappe.confirm(__("Delete {0}? What it adds goes with it.", [esc(level.name)]), async () => {
+							await frappe.xcall("onedesk.one.access.remove_level", { name: level.name });
+							frappe.set_route("workspace-settings", { section: "access" });
+						}),
+				},
+			],
+		});
+		this.form(data, {
+			rows: [
+				{ stack: ["title"] },
+				{
+					heading: __("What It Adds"),
+					note: __(
+						"Somebody at this level can do whatever a {0} user can, and these too. Each is one {0}'s managers have: anything more is refused when you save.",
+						[level.app]
+					),
+				},
+				{ stack: ["rows"] },
+			],
+		});
+	}
+
+	// One profile, as a record: its name and a level per app, as a person's page
+	// sets them; who is on it beside.
+	draw_job_profile(data) {
+		const esc = frappe.utils.escape_html;
+		const one = data.profile;
+		this.as_record({
+			parent: __("Access"),
+			route: "/desk/workspace-settings?section=access",
+			title: one.name,
+			status: { label: __("Profile"), colour: "blue" },
+			side: onedesk.shell.side({
+				initials: frappe.get_abbr(one.name),
+				title: one.name,
+				groups: [
+					{
+						label: __("On This Profile"),
+						html: one.people.length
+							? one.people
+									.map((who) => `<a class="one-record-link" href="/desk/workspace-settings?section=people&person=${encodeURIComponent(who.name)}">${esc(who.full_name || who.name)}</a>`)
+									.join("")
+							: `<div class="one-shell-quiet">${esc(__("Nobody yet. Pick it on a person's page."))}</div>`,
+					},
+				],
+			}),
+			actions: [
+				{
+					label: __("Delete"),
+					group: __("Actions"),
+					action: () =>
+						frappe.confirm(__("Delete {0}? The people on it keep their apps.", [esc(one.name)]), async () => {
+							await frappe.xcall("onedesk.one.access.remove_profile", { name: one.name });
+							frappe.set_route("workspace-settings", { section: "access" });
+						}),
+				},
+			],
+		});
+		const $card = this.form(data, {
+			rows: [
+				{ stack: ["title"] },
+				{ heading: __("What It Gives"), note: __("Saved, it is set again on everybody on it. Their administrator switch and anything else they hold stay.") },
+				...Settings.pairs(data.apps.map((app) => `app_${app.icon}`)),
+			],
+		});
+		Settings.marks($card, data.apps);
+	}
+
+	// One group, as a record: its name and its people, in frappe's own multi-pick.
+	draw_group(data) {
+		const esc = frappe.utils.escape_html;
+		const one = data.group;
+		this.as_record({
+			parent: __("Access"),
+			route: "/desk/workspace-settings?section=access",
+			title: one.name,
+			status: { label: __("{0} people", [one.members]), colour: "gray" },
+			side: onedesk.shell.side({ initials: frappe.get_abbr(one.name), title: one.name, sub: esc(__("A group")) }),
+			actions: [
+				{
+					label: __("Delete"),
+					group: __("Actions"),
+					action: () =>
+						frappe.confirm(__("Delete {0}? Records assigned to it stay with the people who had them.", [esc(one.name)]), async () => {
+							await frappe.xcall("onedesk.one.access.remove_group", { name: one.name });
+							frappe.set_route("workspace-settings", { section: "access" });
+						}),
+				},
+			],
+		});
+		// frappe's multi-pick reads its member row's fields, so the row's doctype comes first.
+		frappe.model.with_doctype("User Group Member", () =>
+			this.form(data, {
+				rows: [
+					{ stack: ["title"] },
+					{ heading: __("Who Is in It"), note: __("Assign a record to the group from its Assign to, or share it with the group.") },
+					{ stack: ["members"] },
+				],
+			})
+		);
+	}
+
+	// What a person is held to (one/access.py): frappe's User Permission, a row a
+	// kind and a record, added and taken away at once, as signing out is.
+	draw_holds($into, one) {
+		const esc = frappe.utils.escape_html;
+		const again = () => this.refresh({ fresh: true });
+		const add = () => {
+			const dialog = new frappe.ui.Dialog({
+				title: __("Hold to a Record"),
+				fields: [
+					{ fieldname: "allow", fieldtype: "Select", label: __("Kind"), reqd: 1, options: one.kinds },
+					{ fieldname: "for_value", fieldtype: "Dynamic Link", options: "allow", label: __("Which One"), reqd: 1 },
+					{
+						fieldname: "applicable_for",
+						fieldtype: "Link",
+						options: "DocType",
+						label: __("Only On"),
+						description: __("Leave it empty to hold them to it everywhere."),
+					},
+				],
+				primary_action_label: __("Hold"),
+				primary_action: async (values) => {
+					await frappe.xcall("onedesk.one.access.hold", { user: one.name, ...values });
+					dialog.hide();
+					again();
+				},
+			});
+			dialog.show();
+		};
+		onedesk.shell.table($into, {
+			rows: one.holds,
+			icon: "eye",
+			empty: __("Not held to anything."),
+			actions: $(onedesk.shell.button(__("Hold to a Record"), {}, "subtle", "plus")).on("click", add),
+			columns: [
+				{ label: __("Kind"), render: (row) => esc(__(row.allow)) },
+				{ label: __("Record"), render: (row) => esc(row.for_value) },
+				{ label: __("Where"), render: (row) => esc(row.applicable_for ? __(row.applicable_for) : __("Everywhere")) },
+				{
+					type: "actions",
+					actions: [
+						{
+							label: __("Take Away"),
+							icon: "x",
+							action: (row) => frappe.xcall("onedesk.one.access.let_go", { name: row.name }).then(again),
+						},
+					],
+				},
+			],
+		});
 	}
 
 	// Each app's mark before its name, on a field that picks what somebody
@@ -986,7 +1296,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 
 	// A new person, with the apps they get, in one step.
 	invite_dialog(data) {
-		const levels = data.levels.map((level) => ({ value: level.value, label: level.label }));
 		const dialog = new frappe.ui.Dialog({
 			title: __("Invite Somebody"),
 			fields: [
@@ -995,7 +1304,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				{ fieldname: "first_name", fieldtype: "Data", label: __("First Name"), reqd: 1 },
 				{ fieldname: "last_name", fieldtype: "Data", label: __("Last Name") },
 				{ fieldtype: "Section Break", label: __("What They Can Use"), description: __("Everybody has One, OneCloud, OneMail, OneTask and OneCalendar.") },
-				...Settings.two_columns(data.apps, (app) => ({ fieldname: `app_${app.icon}`, fieldtype: "Select", label: app.name, options: levels, default: "None" })),
+				...Settings.two_columns(data.apps, (app) => ({ fieldname: `app_${app.icon}`, fieldtype: "Select", label: app.name, options: app.levels, default: "None" })),
 			],
 			primary_action_label: __("Invite"),
 			primary_action: async (values) => {

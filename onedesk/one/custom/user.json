@@ -1,0 +1,21 @@
+{
+ "custom_fields": [
+  {
+   "description": "The job profile this person's app levels were set from. Changing a level by hand takes them off it.",
+   "dt": "User",
+   "fieldname": "one_profile",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "insert_after": "role_profile_name",
+   "label": "One Profile",
+   "module": "One",
+   "name": "User-one_profile",
+   "options": "Role Profile",
+   "read_only": 1
+  }
+ ],
+ "doctype": "User",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}
