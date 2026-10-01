@@ -178,8 +178,8 @@ No doctypes yet.
 * `onedesk.one.access.doctype_levels`
 * `onedesk.one.access.hold`
 * `onedesk.one.access.let_go`
+* `onedesk.one.access.make_level`
 * `onedesk.one.access.new_group`
-* `onedesk.one.access.new_level`
 * `onedesk.one.access.new_profile`
 * `onedesk.one.access.remove_group`
 * `onedesk.one.access.remove_level`

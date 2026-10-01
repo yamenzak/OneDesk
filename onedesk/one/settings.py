@@ -27,7 +27,7 @@ import frappe
 from frappe import _, _lt
 
 from onedesk.one import roles
-from onedesk.one.access import all_levels
+from onedesk.one.access import all_levels, companion
 
 #: (key, label, icon, group). The icons are Lucide, from frappe's sprite.
 SECTIONS = [
@@ -251,12 +251,16 @@ def save(
 	if _group(section) == "workspace":
 		roles.require()
 	if section in ON_A_RECORD:
-		# A new record comes back under its own name.
+		# A new or renamed record comes back under its own name, which the
+		# page then opens.
 		record = savers[section](record, values) or record
 	else:
 		savers[section](values)
 	frappe.db.commit()
-	return load(section, record)
+	said = load(section, record)
+	if section in ON_A_RECORD and isinstance(said, dict):
+		said["record"] = record
+	return said
 
 
 def _as_opened(doc):
@@ -1002,12 +1006,14 @@ def level_of(held: set, used: tuple, managed: tuple, levels: tuple | list = ()) 
 	return "None"
 
 
-def roles_for(level: str, used: tuple, managed: tuple, levels: tuple | list = ()) -> set:
-	"""The roles a level means: a manager uses the app as well, and a level of
-	the workspace's own is the app's User roles and itself. Pure."""
+def roles_for(level: str, used: tuple, managed: tuple, levels: tuple | list = (), alone: tuple | list = ()) -> set:
+	"""The roles a level means: every level holds the app's User roles, a
+	plain user also the app's companion role (`alone`, one/access.py), a
+	manager the app's Manager roles, and a level of the workspace's own
+	itself. Pure."""
 	if level in levels:
 		return set(used) | {level}
-	return {"None": set(), "User": set(used), "Manager": set(used) | set(managed)}[level]
+	return {"None": set(), "User": set(used) | set(alone), "Manager": set(used) | set(managed)}[level]
 
 
 def _levels(app: str, own: dict) -> list[dict]:
@@ -1161,8 +1167,9 @@ def _set_access(doc, access: dict, admin: int, told: bool = True) -> None:
 	wanted = set()
 	for name, _icon, used, managed in APPS:
 		levels = own.get(name, ())
-		ours |= set(used) | set(managed) | set(levels)
-		wanted |= roles_for(access.get(name) or level_of(before, used, managed, levels), used, managed, levels)
+		alone = (companion(name),)
+		ours |= set(used) | set(managed) | set(levels) | set(alone)
+		wanted |= roles_for(access.get(name) or level_of(before, used, managed, levels), used, managed, levels, alone)
 	if admin:
 		wanted.add(roles.ADMINISTRATOR)
 	elif roles.ADMINISTRATOR in before:
@@ -1688,8 +1695,8 @@ def _save_holidays(record: str | None, values: dict) -> str:
 
 
 def _access(record: str | None = None) -> dict:
-	"""Workspace > Access: the workspace's own levels of each app; or one
-	level, as a form (one/access.py)."""
+	"""Workspace > Access: every level of each app, its User and Manager and
+	the workspace's own between; or one level, as a form (one/access.py)."""
 	from onedesk.one import access
 
 	if record and record.startswith("level:"):
@@ -1698,18 +1705,19 @@ def _access(record: str | None = None) -> dict:
 		return _profile_page(record.split(":", 1)[1])
 	if record and record.startswith("group:"):
 		return _group_page(record.split(":", 1)[1])
-	own = all_levels()
-	rows = [
-		{
-			"name": one,
-			"app": name,
-			"icon": icon,
-			"kinds": frappe.db.count("Custom DocPerm", {"role": one, "permlevel": 0}),
-			"people": len(access.held_by(one)),
-		}
-		for name, icon, _used, _managed in APPS
-		for one in own.get(name, [])
-	]
+	rows = []
+	for name, icon, _used, _managed in APPS:
+		for tier in access.tiers(name):
+			rows.append(
+				{
+					"key": access.key_of(name, tier),
+					"name": tier,
+					"own": int(tier not in access.BASE),
+					"app": name,
+					"icon": icon,
+					"people": len(access.people_at(name, tier)),
+				}
+			)
 	return {
 		"apps": [{"name": name, "icon": icon} for name, icon, _used, _managed in APPS],
 		"levels": rows,
@@ -1753,21 +1761,20 @@ def _group_page(name: str) -> dict:
 	}
 
 
-def _level_page(name: str) -> dict:
-	"""One level as a form: its name, and what it adds on each kind of record,
-	in frappe's table, one tick per right."""
+def _level_page(key: str) -> dict:
+	"""One level as a form: its name, and what it may do on each kind of
+	record, in frappe's table, one tick per right."""
 	from onedesk.one import access
 
-	said = access.level(name)
-	kinds = access.kinds(said["app"])
-	options = sorted(({"value": one, "label": _(one)} for one in kinds), key=lambda one: one["label"])
+	said = access.level(key)
+	options = sorted(({"value": one, "label": _(one)} for one in access.kinds(said["app"])), key=lambda one: one["label"])
 	table = {
 		"fieldname": "rows",
 		"fieldtype": "Table",
 		# Its heading says it; the table itself goes unlabelled.
 		"label": "",
 		"fields": [
-			{"fieldname": "doctype", "fieldtype": "Autocomplete", "label": _("Kind of Record"), "options": options, "in_list_view": 1, "reqd": 1, "columns": 3},
+			{"fieldname": "doctype", "fieldtype": "Autocomplete", "label": _("Kind of Record"), "options": options, "in_list_view": 1, "reqd": 1, "columns": 2},
 			*[
 				{"fieldname": right, "fieldtype": "Check", "label": _(access.SAID[right]), "in_list_view": 1, "columns": 1}
 				for right in access.RIGHTS
@@ -1777,22 +1784,27 @@ def _level_page(name: str) -> dict:
 	# frappe's table control reads its rows from the field, not from a value.
 	table["data"] = [dict(one) for one in said["rows"]]
 	people = frappe.get_all("User", filters={"name": ["in", said["people"] or [""]]}, fields=["name", "full_name", "user_image"])
+	fields = [table]
+	if said["own"]:
+		fields.insert(0, {"fieldname": "title", "fieldtype": "Data", "label": _("Name"), "reqd": 1})
+	carrier = said["name"] if said["own"] else None
 	return {
 		"level": {**said, "people": people, "icon": next(icon for app, icon, _u, _m in APPS if app == said["app"])},
-		"fields": [{"fieldname": "title", "fieldtype": "Data", "label": _("Name"), "reqd": 1}, table],
-		"values": {"title": name, "rows": said["rows"]},
-		"opened": [{"doctype": "Role", "name": name, "modified": str(frappe.db.get_value("Role", name, "modified"))}],
+		"fields": fields,
+		"values": {"title": said["name"], "rows": said["rows"]},
+		"opened": [{"doctype": "Role", "name": carrier, "modified": str(frappe.db.get_value("Role", carrier, "modified"))}] if carrier else [],
 	}
 
 
 def _save_access(record: str | None, values: dict) -> str:
-	"""A level's name and what it adds, saved as one/access.py says it may be."""
+	"""A level's name and what it may do, a profile or a group, saved as
+	one/access.py says it may be."""
 	from onedesk.one import access
 
 	kind, _sep, name = (record or "").partition(":")
 	if kind == "level":
 		rows = values["rows"] if "rows" in values else access.level(name)["rows"]
-		return "level:" + access.save_level(name, access.app_of(name), values.get("title") or name, rows)
+		return "level:" + access.save_level(name, values.get("title") or name, rows)
 	if kind == "profile":
 		levels = access.profile(name)["levels"]
 		levels.update({app: values[f"app_{icon}"] for app, icon, _used, _managed in APPS if values.get(f"app_{icon}")})

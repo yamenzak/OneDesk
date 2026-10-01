@@ -193,8 +193,8 @@ SUGGESTIONS = {
 	],
 	"page:workspace-settings/access": [
 		{
-			"label": _lt("Who can do more than a user?"),
-			"ask": _lt("Which levels did we make, what does each add, and who is at each?"),
+			"label": _lt("Who can do what?"),
+			"ask": _lt("What may each app's users, managers and our own levels do, and who is at each? Say anything that looks too wide."),
 			"expects": "workspace_access",
 		},
 		{
@@ -422,8 +422,8 @@ def page(said: dict) -> str | None:
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "access":
 		return (
-			"The reader administers this workspace and is on Workspace › Access: the levels made between an app's "
-			"user and manager and what each adds, the profiles (a job's apps and levels in one) and who is on each, "
+			"The reader administers this workspace and is on Workspace › Access: every level of each app, its user, "
+			"its manager and the ones made between, and what each may do, the profiles (a job's apps and levels in one) and who is on each, "
 			"and the groups and who is in each. A person's page also holds what records they are held to. "
 			"workspace_access reads it all. How is in One's documentation under Access, for the Workspace (how_to)."
 		)
@@ -1000,8 +1000,9 @@ def workspace_people() -> dict:
 
 
 def workspace_access() -> dict:
-	"""Access, for this workspace's administrators: the levels made between an
-	app's user and manager with what each adds and who is at it, the profiles
+	"""Access, for this workspace's administrators: every level of each app,
+	its user, manager and the ones made between, with what each may do and who
+	is at it, the profiles
 	with the levels they set and who is on them, the groups with their people,
 	and who is held to which records."""
 	from onedesk.one import access, roles
@@ -1010,13 +1011,14 @@ def workspace_access() -> dict:
 		return {"error": "Only a workspace administrator sees who may do what."}
 	levels = []
 	for app, names in access.all_levels().items():
-		for name in names:
-			one = access.level(name)
+		for tier in ["User", *names, "Manager"]:
+			one = access.level(access.key_of(app, tier))
 			levels.append(
 				{
-					"level": name,
+					"level": tier,
 					"app": app,
-					"adds": {row["doctype"]: [access.SAID[r] for r in access.RIGHTS if row.get(r)] for row in one["rows"]},
+					"made_by_the_workspace": bool(one["own"]),
+					"may": {row["doctype"]: [access.SAID[r] for r in access.RIGHTS if row.get(r)] for row in one["rows"]},
 					"people": one["people"],
 				}
 			)
@@ -1039,7 +1041,8 @@ def workspace_access() -> dict:
 		"held_to": [
 			{"person": one.user, "kind": one.allow, "record": one.for_value, "only_on": one.applicable_for or "everywhere"} for one in holds
 		],
-		"next": "A level adds only what the app's own managers may do. The administrator changes all of this on Workspace › Access, "
+		"next": "Every level, User and Manager too, may be given or have taken away anything on the kinds its app works with. "
+		"The administrator changes all of this on Workspace › Access, "
 		"and a person's level, profile and what they are held to on their page under People.",
 	}
 

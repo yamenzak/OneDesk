@@ -4806,6 +4806,39 @@ Fixed or built:
   still shows, as frappe does unless System Settings asks for strict user
   permissions.
 
+**Access, every level editable** (after the pass, on the user's word: "they
+can have the full control over what a user get to do or any custom roles in
+between or even a manager", and "for its link fields it must have the linked
+doctype at least at read"). A level could only add to the app's User, never
+past its Manager, and User and Manager could not be changed at all.
+
+- Every level opens alike: User, Manager and the workspace's own are rows in
+  Levels, each with a tick per right on every kind of record the app works
+  with, given or taken away. A level of the workspace's own **Starts As**
+  User, Manager or another level, and can go below User.
+- Every level still holds the app's User roles, because twenty-odd places in
+  One and erpnext ask for "HR User" or "Sales User" by name (who hears HR's
+  mails, who opens a report, who sees the workspace). So `_set` writes what
+  every level of the app shares on those roles, and each level's own on its
+  own roles: Manager's on the app's Manager roles, a level's on itself, and a
+  plain user's on a companion role only they hold (`OneCRM User`, made the
+  first time it is needed).
+- Smart on save: a right brings what it needs (Delete brings Read, Cancel
+  brings Submit and Edit, as frappe refuses otherwise), and a kind a level
+  may create or edit gives it Pick, frappe's `select`, on every kind its form
+  must name and somebody fills in, on it and on its tables, where it could
+  not already pick or read them. The page says which and why. Only mandatory
+  links, since each kind given a rule of the workspace's own stops following
+  the app's updates to its permissions.
+- Tried as wsadmin: Senior Sales reads leads and may not edit them while plain
+  users still may; Customer taken away from it came back as Pick for its sales
+  orders; Export of leads taken off Manager; Address edit ticked off and back
+  on from the page.
+- Found on the way: every record page under Settings (a person, a level, a
+  profile, a group, a rule) drew its side panel a second time after a save,
+  inside its own main column. A record now redraws from a fresh body, and one
+  saved under a new name opens under it.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

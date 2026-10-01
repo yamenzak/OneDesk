@@ -377,15 +377,18 @@ People gives each person None, User or Manager on each of OneCRM, OneBook,
 OneInventory, OneProject and OneHR. **Access**, under Workspace, is for what
 falls between and around those.
 
-- **Levels.** A level sits between an app's User and its Manager, such as
-  Senior Sales for somebody who may also delete deals. **New Level** names it
-  and picks its app; on its page, **What It Adds** lists kinds of record with a
-  tick for each right it adds: read, edit, create, delete, submit, cancel,
-  export. Somebody at the level can do everything the app's users can, and
-  these too. A level can only add what the app's own managers may do on that
-  kind; anything more is refused when you save. Pick a level on a person's page,
-  in the app's list, between User and Manager. Changing what a level adds tells
-  everybody at it.
+- **Levels.** Every app's **User** and **Manager** are listed here, and
+  open like any level. Tick to give, untick to take away, on any kind of
+  record the app works with: Pick, Read, Edit, Create, Delete, Submit,
+  Cancel, Export. Take Delete off a Manager, or a kind your users should
+  never see off User. **New Level** makes one of your own, such as Senior
+  Sales: name it, pick its app and the level it **Starts As**, then change
+  what it may do on its page. Pick it on a person's page, in the app's list,
+  between User and Manager. Two things happen by themselves when you save.
+  A right brings what it needs: Delete brings Read, Cancel brings Submit and
+  Edit. And a kind they may create or edit lets them pick from what it must
+  name, such as an invoice's customer, even where they may not open those
+  records; Pick is that. Changing a level tells everybody at it.
 - **Profiles.** A job's apps and levels in one, such as Accountant: OneBook
   as a manager and OneInventory as a user. Pick it on a person's page under
   **Profile** and every app is set at once; change the profile later and
@@ -403,15 +406,17 @@ falls between and around those.
   shown and cannot be taken away here. They are told either way.
 
 A record's **Settings › Access** shows what each app's users, levels and
-managers may do with that kind of record, and opens a level to change it.
+managers may do with that kind of record, and opens any of them to change it.
 
-Only administrators of the workspace see Access. A level's rights are written
-the way frappe's own Role Permissions Manager writes them, so a kind a level
-adds to keeps the permissions it had when the level was made, and an app
-update to that kind's standard permissions no longer reaches it.
+Only administrators of the workspace see Access. Rights are written the way
+frappe's own Role Permissions Manager writes them, so once a kind's rights are
+changed here an app update to that kind's standard permissions no longer
+reaches it. Everybody at any level of an app still counts as one of its
+people: they hear what its users hear and open its reports, which show only
+what their level may read.
 
-**OneAI on this page** offers **Who can do more than a user?** and **Who sees
-only part?**, and reads levels, profiles, groups and who is held to what.
+**OneAI on this page** offers **Who can do what?** and **Who sees only
+part?**, and reads levels, profiles, groups and who is held to what.
 
 ### Notifications, for the Workspace
 

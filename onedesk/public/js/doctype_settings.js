@@ -316,11 +316,11 @@ onedesk.doctype_settings.adapt = () => {
 		})
 	);
 	// Access: for each app whose people work with the kind, what its User, the workspace's
-	// own levels and its Manager may do on it. A level of the workspace's own opens on its
-	// page in Workspace › Access, where what it adds is changed.
+	// own levels and its Manager may do on it. Each opens on its page in Workspace › Access,
+	// where what it may do is changed.
 	frappe.doctype_settings.register("access", (panel, doctype) => {
 		const said = (right) =>
-			({ read: __("Read"), write: __("Edit"), create: __("Create"), delete: __("Delete"), submit: __("Submit"), cancel: __("Cancel"), export: __("Export") })[right];
+			({ select: __("Pick"), read: __("Read"), write: __("Edit"), create: __("Create"), delete: __("Delete"), submit: __("Submit"), cancel: __("Cancel"), export: __("Export") })[right];
 		const level = (name) => {
 			panel.dialog.hide();
 			frappe.app.sidebar && frappe.app.sidebar.select_module("One");
@@ -336,7 +336,7 @@ onedesk.doctype_settings.adapt = () => {
 				frappe
 					.xcall("onedesk.one.access.doctype_levels", { doctype })
 					.then((apps) => apps.flatMap((app) => app.rows.map((row) => ({ ...row, app: app.app })))),
-			open: (row) => row.own && level(row.level),
+			open: (row) => level(row.key),
 			columns: [
 				{ label: __("App"), render: (row) => esc(row.app) },
 				{

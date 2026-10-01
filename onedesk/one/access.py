@@ -32,11 +32,17 @@ from frappe.permissions import setup_custom_perms
 from onedesk.one import roles
 from onedesk.one.customize import REFUSED_MODULES
 
-#: The rights a level may add, as the level page offers them.
-RIGHTS = ("read", "write", "create", "delete", "submit", "cancel", "export")
+#: The rights a level's page shows, one tick each, in frappe's own names.
+RIGHTS = ("select", "read", "write", "create", "delete", "submit", "cancel", "export")
 
-#: How each right is said on screen.
+#: frappe's other rights, which follow the ones shown (`_wanted`).
+FOLLOW = ("amend", "report", "import", "print", "email", "share")
+
+ALL_RIGHTS = RIGHTS + FOLLOW
+
+#: How each shown right is said on screen.
 SAID = {
+	"select": "Pick",
 	"read": "Read",
 	"write": "Edit",
 	"create": "Create",
@@ -46,6 +52,34 @@ SAID = {
 	"export": "Export",
 }
 
+#: What a right cannot be had without: what frappe refuses a rule for lacking
+#: (doctype.py `check_permission_dependency`), and reading, which every other
+#: right is useless without.
+NEEDS = {
+	"write": {"read"},
+	"create": {"read"},
+	"delete": {"read"},
+	"submit": {"read", "write"},
+	"cancel": {"read", "write", "submit"},
+	"amend": {"read", "write", "create", "submit", "cancel"},
+	"export": {"read"},
+	"report": {"read"},
+	"import": {"read", "create"},
+	"print": {"read"},
+	"email": {"read"},
+	"share": {"read"},
+}
+
+#: Rights only a kind that is submitted has, and those a single kind cannot.
+SUBMITTED = {"submit", "cancel", "amend"}
+NOT_SINGLE = {"report", "import", "export"}
+
+#: The two levels every app has, as People sets them.
+BASE = ("User", "Manager")
+
+#: Roles everybody on the workspace holds, whatever their level.
+EVERYONE = ("All", "Desk User", "Guest")
+
 
 def _apps() -> dict:
 	"""{app: (used, managed)}, from People's own list."""
@@ -54,9 +88,34 @@ def _apps() -> dict:
 	return {name: (tuple(used), tuple(managed)) for name, _icon, used, managed in APPS}
 
 
+def companion(app: str) -> str:
+	"""The role only an app's plain users hold. It carries what they may do
+	and some other level of the app may not, since every level holds the
+	app's User roles."""
+	return f"{app} User"
+
+
+def _companion(app: str) -> str:
+	"""The companion role, made the first time it is needed and given to
+	everybody who is then a plain user of the app."""
+	name = companion(app)
+	if not frappe.db.exists("Role", name):
+		frappe.get_doc(
+			{"doctype": "Role", "role_name": name, "desk_access": 1, "is_custom": 1, "one_app": app}
+		).insert(ignore_permissions=True)
+		for user in people_at(app, "User"):
+			frappe.get_doc("User", user).add_roles(name)
+	return name
+
+
 def levels_of(app: str) -> list[str]:
 	"""The workspace's own levels of one app, by name."""
-	return frappe.get_all("Role", filters={"one_app": app, "disabled": 0}, pluck="name", order_by="name asc")
+	return frappe.get_all(
+		"Role",
+		filters={"one_app": app, "disabled": 0, "name": ["!=", companion(app)]},
+		pluck="name",
+		order_by="name asc",
+	)
 
 
 def all_levels() -> dict:
@@ -68,8 +127,30 @@ def all_levels() -> dict:
 		fields=["name", "one_app"],
 		order_by="name asc",
 	):
-		said.setdefault(row.one_app, []).append(row.name)
+		if row.name != companion(row.one_app):
+			said.setdefault(row.one_app, []).append(row.name)
 	return said
+
+
+def tiers(app: str) -> list[str]:
+	"""Every level of an app, lowest first: User, the workspace's own, Manager."""
+	return ["User", *levels_of(app), "Manager"]
+
+
+def _holds(app: str, tier: str) -> set:
+	"""The roles somebody at a level of an app holds."""
+	used, managed = _apps()[app]
+	if tier == "User":
+		return set(used) | {companion(app)}
+	if tier == "Manager":
+		return set(used) | set(managed)
+	return set(used) | {tier}
+
+
+def _carriers(app: str, tier: str) -> tuple:
+	"""The roles a level's own rights are written on, past what every level
+	of the app shares, which the app's User roles carry."""
+	return {"User": (companion(app),), "Manager": _apps()[app][1]}.get(tier, (tier,))
 
 
 def _rights(doctype: str, held: set) -> set:
@@ -79,153 +160,327 @@ def _rights(doctype: str, held: set) -> set:
 		right
 		for perm in frappe.get_meta(doctype).permissions
 		if perm.role in held and not (perm.permlevel or 0) and not perm.if_owner
-		for right in RIGHTS
+		for right in ALL_RIGHTS
 		if perm.get(right)
 	}
 
 
-def kinds(app: str) -> dict:
-	"""{doctype: the most a level of the app may do there}: every kind of
-	record the app's own roles may read, and what its User and Manager may do
-	on it between them."""
+def _close(doctype: str, rights: set) -> set:
+	"""Rights made whole: what each needs added, and what the kind cannot have
+	taken off."""
+	meta = frappe.get_meta(doctype)
+	said = set(rights)
+	if not meta.is_submittable:
+		said -= SUBMITTED
+	if meta.issingle:
+		said -= NOT_SINGLE
+	for right in list(said):
+		said |= NEEDS.get(right, set())
+	return said
+
+
+def _wanted(doctype: str, chosen: set, had: set) -> set:
+	"""What a level is to have on a kind: the rights ticked and what they need,
+	and frappe's others as they were, or as a new reader gets them, while what
+	they need is still there."""
+	shown = _close(doctype, chosen & set(RIGHTS))
+	follow = had & set(FOLLOW)
+	if "read" in shown and "read" not in had:
+		follow |= {"report", "print", "email"}
+	if "write" in shown and "write" not in had:
+		follow.add("share")
+	if "cancel" in shown and "cancel" not in had:
+		follow.add("amend")
+	return _close(doctype, shown | {one for one in follow if NEEDS[one] <= shown})
+
+
+def kinds(app: str) -> list[str]:
+	"""Every kind of record the app's own roles have a rule on, as it shipped
+	or as the workspace changed it: what a level of the app may be given."""
 	used, managed = _apps()[app]
-	held = set(used) | set(managed)
-	parents = set(
-		frappe.get_all("DocPerm", filters={"role": ["in", list(held)], "permlevel": 0}, pluck="parent")
-	)
-	parents |= set(
-		frappe.get_all("Custom DocPerm", filters={"role": ["in", list(held)], "permlevel": 0}, pluck="parent")
-	)
-	said = {}
+	held = list(set(used) | set(managed))
+	parents = set(frappe.get_all("DocPerm", filters={"role": ["in", held]}, pluck="parent"))
+	parents |= set(frappe.get_all("Custom DocPerm", filters={"role": ["in", held]}, pluck="parent"))
+	said = []
 	for doctype in sorted(parents):
 		if not frappe.db.exists("DocType", doctype):
 			continue
 		meta = frappe.get_meta(doctype)
 		if meta.istable or meta.module in REFUSED_MODULES:
 			continue
-		most = _rights(doctype, held)
-		if "read" in most:
-			said[doctype] = most
+		said.append(doctype)
 	return said
+
+
+def _written(roles_: tuple | set) -> set:
+	"""Every kind the given roles have a rule of the workspace's own on."""
+	return set(frappe.get_all("Custom DocPerm", filters={"role": ["in", list(roles_)]}, pluck="parent"))
+
+
+def _picks(doctype: str) -> set:
+	"""The kinds a new or changed record must name: the links somebody fills in
+	and cannot leave empty, on it and on its tables."""
+	meta = frappe.get_meta(doctype)
+	said = set()
+	for one in [meta, *(frappe.get_meta(df.options) for df in meta.get_table_fields())]:
+		for df in one.fields:
+			if df.fieldtype == "Link" and df.reqd and df.options and not df.hidden and not df.read_only:
+				said.add(df.options)
+	return {
+		one
+		for one in said - {doctype}
+		if frappe.db.exists("DocType", one)
+		and not frappe.get_meta(one).istable
+		and frappe.get_meta(one).module not in REFUSED_MODULES
+	}
 
 
 def app_of(level: str) -> str:
 	app = frappe.db.get_value("Role", level, "one_app")
-	if not app or app not in _apps():
+	if not app or app not in _apps() or level == companion(app):
 		frappe.throw(_("{0} is not one of the workspace's levels.").format(level))
 	return app
 
 
-def level(name: str) -> dict:
-	"""One level: its app, what it adds on each kind of record, and who is at it."""
-	roles.require()
-	app = app_of(name)
-	used, _managed = _apps()[app]
-	rows = []
-	for perm in frappe.get_all(
-		"Custom DocPerm",
-		filters={"role": name, "permlevel": 0},
-		fields=["parent", *RIGHTS],
-		order_by="parent asc",
+def tier_of(key: str) -> tuple[str, str]:
+	"""(app, level) from how a route names a level: `OneCRM:User`, or a level
+	of the workspace's own by its name."""
+	app, sep, tier = key.partition(":")
+	if sep:
+		if app not in _apps() or tier not in BASE:
+			frappe.throw(_("{0} is not one of the workspace's levels.").format(key))
+		return app, tier
+	return app_of(key), key
+
+
+def key_of(app: str, tier: str) -> str:
+	return f"{app}:{tier}" if tier in BASE else tier
+
+
+def people_at(app: str, tier: str) -> list[str]:
+	"""Everybody whose level of an app is this one."""
+	from onedesk.one.settings import NOT_PEOPLE, level_of
+
+	used, managed = _apps()[app]
+	own = levels_of(app)
+	held = {}
+	for row in frappe.get_all(
+		"Has Role",
+		filters={
+			"role": ["in", list(set(used) | set(managed) | set(own))],
+			"parenttype": "User",
+			"parent": ["not in", NOT_PEOPLE],
+		},
+		fields=["parent", "role"],
 	):
-		rows.append({"doctype": perm.parent, **{right: perm.get(right) or 0 for right in RIGHTS}})
+		held.setdefault(row.parent, set()).add(row.role)
+	return sorted(user for user, roles_ in held.items() if level_of(roles_, used, managed, own) == tier)
+
+
+def level(key: str) -> dict:
+	"""One level: its app, what it may do on each kind of record, and who is at it."""
+	roles.require()
+	app, tier = tier_of(key)
+	held = _holds(app, tier)
+	rows = []
+	for doctype in sorted(set(kinds(app)) | _written(_carriers(app, tier))):
+		has = _rights(doctype, held)
+		if has & set(RIGHTS):
+			rows.append({"doctype": doctype, **{right: int(right in has) for right in RIGHTS}})
 	return {
-		"name": name,
+		"key": key_of(app, tier),
+		"name": tier,
 		"app": app,
+		"own": int(tier not in BASE),
 		"rows": rows,
-		"people": held_by(name),
-		"user_has": {row["doctype"]: sorted(_rights(row["doctype"], set(used))) for row in rows},
+		"people": people_at(app, tier),
 	}
 
 
-def held_by(level: str) -> list[str]:
-	return frappe.get_all(
-		"Has Role",
-		filters={"role": level, "parenttype": "User", "parent": ["not in", ("Administrator", "Guest")]},
-		pluck="parent",
-	)
-
-
-def save_level(name: str | None, app: str, title: str, rows: list[dict]) -> str:
-	"""A level made or changed: `rows` are {doctype, right: 0/1, ...}, the
-	whole of what it adds. Each right is one the app's own roles have on that
-	kind; anything past them is refused."""
+def save_level(key: str, title: str | None, rows: list[dict]) -> str:
+	"""A level's name, for one of the workspace's own, and everything it may do:
+	`rows` are {doctype, right: 0/1, ...}, one per kind. What a right needs
+	comes with it, and a kind somebody at the level may make or change gives
+	them at least the kinds it must name to pick from."""
 	roles.require()
-	if app not in _apps():
-		frappe.throw(_("That cannot be set."))
-	title = (title or "").strip()
-	if not title:
-		frappe.throw(_("Give the level a name."))
-	allowed = kinds(app)
-	wanted = {}
+	app, tier = tier_of(key)
+	if tier not in BASE:
+		title = (title or "").strip()
+		if not title:
+			frappe.throw(_("Give the level a name."))
+		if ":" in title:
+			frappe.throw(_("A level's name cannot have a colon in it."))
+		if title != tier:
+			if frappe.db.exists("Role", title):
+				frappe.throw(_("There is already a role called {0}.").format(title))
+			frappe.rename_doc("Role", tier, title, force=True)
+			tier = title
+	held = _holds(app, tier)
+	allowed = set(kinds(app)) | _written(_carriers(app, tier))
+	chosen = {}
 	for row in rows or []:
 		doctype = row.get("doctype")
 		if not doctype:
 			continue
 		if doctype not in allowed:
 			frappe.throw(_("{0} is not a kind of record {1} works with.").format(_(doctype), app))
-		chosen = {right for right in RIGHTS if frappe.utils.cint(row.get(right))}
-		past = chosen - allowed[doctype]
-		if past:
-			frappe.throw(
-				_("{0}'s own roles may not {1} a {2}, so a level of it may not either.").format(
-					app, ", ".join(_(SAID[one]).lower() for one in sorted(past, key=RIGHTS.index)), _(doctype)
+		chosen[doctype] = {right for right in RIGHTS if frappe.utils.cint(row.get(right))}
+	had = {doctype: _rights(doctype, held) for doctype in allowed}
+	wanted = {
+		doctype: _wanted(doctype, chosen.get(doctype, set()), had.get(doctype, set()))
+		for doctype in allowed | set(chosen)
+	}
+	everyone = set(EVERYONE)
+	picked = {}
+	for doctype in sorted(wanted):
+		if not {"write", "create"} & wanted[doctype]:
+			continue
+		for target in sorted(_picks(doctype)):
+			if target in picked:
+				picked[target].append(doctype)
+				continue
+			has = wanted[target] if target in wanted else _rights(target, held)
+			if {"select", "read"} & (has | _rights(target, everyone)):
+				continue
+			wanted[target] = has | {"select"}
+			picked[target] = [doctype]
+	changed = [
+		doctype for doctype in sorted(wanted) if wanted[doctype] != had.get(doctype, _rights(doctype, held))
+	]
+	_set(app, tier, {doctype: wanted[doctype] for doctype in changed})
+	if changed:
+		for user in people_at(app, tier):
+			_told(user, _("what {0} can do in {1}").format(_(tier) if tier in BASE else tier, app))
+	if picked:
+		frappe.msgprint(
+			_("So they can fill those in, they may also pick from {0}.").format(
+				", ".join(
+					_("{0} (for {1})").format(_(one), ", ".join(_(why) for why in whys[:2]))
+					if len(whys) <= 2
+					else _("{0} (for {1} and {2} more)").format(
+						_(one), ", ".join(_(why) for why in whys[:2]), len(whys) - 2
+					)
+					for one, whys in picked.items()
 				)
 			)
-		if chosen:
-			wanted[doctype] = chosen | ({"read"} if chosen else set())
-	if name:
-		if app_of(name) != app:
-			frappe.throw(_("A level stays with its app."))
-		if title != name:
-			frappe.rename_doc("Role", name, title, force=True)
-			name = title
-	else:
-		if frappe.db.exists("Role", title):
-			frappe.throw(_("There is already a role called {0}.").format(title))
-		frappe.get_doc(
-			{"doctype": "Role", "role_name": title, "desk_access": 1, "is_custom": 1, "one_app": app}
-		).insert(ignore_permissions=True)
-		name = title
-	had = {row["doctype"]: {r for r in RIGHTS if row.get(r)} for row in level(name)["rows"]}
-	_write(name, wanted)
-	if had != wanted:
-		for user in held_by(name):
-			_told(user, _("what the level {0} adds in {1}").format(name, app))
-	return name
+		)
+	return key_of(app, tier)
 
 
-def _write(level: str, wanted: dict) -> None:
-	"""The level's Custom DocPerm rows made to say exactly `wanted`."""
+def _set(app: str, tier: str, wanted: dict) -> None:
+	"""One level given exactly `wanted` on each of those kinds, every other
+	level of the app keeping what it has: what all of them share is written
+	on the app's User roles, and each one's own on its own roles."""
 	from frappe.core.doctype.doctype.doctype import validate_permissions_for_doctype
 
-	had = frappe.get_all("Custom DocPerm", filters={"role": level, "permlevel": 0}, fields=["name", "parent"])
-	touched = {row.parent for row in had} | set(wanted)
-	for row in had:
-		if row.parent not in wanted:
-			frappe.delete_doc("Custom DocPerm", row.name, ignore_permissions=True, force=True)
+	if not wanted:
+		return
+	_companion(app)
+	used, _managed = _apps()[app]
+	every = tiers(app)
 	for doctype, rights in wanted.items():
+		have = {one: _rights(doctype, _holds(app, one)) for one in every}
+		have[tier] = set(rights)
+		shared = set.intersection(*have.values())
 		setup_custom_perms(doctype)
-		name = frappe.db.get_value(
-			"Custom DocPerm", {"parent": doctype, "role": level, "permlevel": 0, "if_owner": 0}
+		_put(doctype, used, shared)
+		for one in every:
+			_put(doctype, _carriers(app, one), have[one] - shared)
+		validate_permissions_for_doctype(doctype, alert=False)
+		frappe.clear_cache(doctype=doctype)
+
+
+def _put(doctype: str, carriers: tuple, rights: set) -> None:
+	"""Roles made to hold `rights` between them on a kind, at the first level:
+	each keeps what it had of them, and the first of them takes the rest."""
+	had = {role: _rights(doctype, {role}) for role in carriers}
+	now = {role: had[role] & rights for role in carriers}
+	rest = rights - set().union(*now.values())
+	if rest:
+		first = next((role for role in carriers if now[role]), carriers[0])
+		now[first] |= rest
+	for role in carriers:
+		said = _close(doctype, now[role])
+		if said != had[role]:
+			_row(doctype, role, said)
+
+
+def _row(doctype: str, role: str, rights: set) -> None:
+	"""A role's rule on a kind at the first level, made to say `rights`. With
+	none left it goes, unless the role has a rule on the kind's guarded
+	fields, which frappe keeps only over a first-level rule."""
+	where = {"parent": doctype, "role": role, "permlevel": 0, "if_owner": 0}
+	name = frappe.db.get_value("Custom DocPerm", where)
+	if not rights:
+		if not name:
+			return
+		if not frappe.db.exists("Custom DocPerm", {"parent": doctype, "role": role, "permlevel": [">", 0]}):
+			frappe.delete_doc("Custom DocPerm", name, ignore_permissions=True, force=True)
+			return
+		rights = {"select"}
+	doc = (
+		frappe.get_doc("Custom DocPerm", name)
+		if name
+		else frappe.get_doc(
+			{"doctype": "Custom DocPerm", "parenttype": "DocType", "parentfield": "permissions", **where}
 		)
-		doc = (
-			frappe.get_doc("Custom DocPerm", name)
-			if name
-			else frappe.get_doc(
-				{
-					"doctype": "Custom DocPerm",
-					"parent": doctype,
-					"parenttype": "DocType",
-					"parentfield": "permissions",
-					"role": level,
-					"permlevel": 0,
-				}
-			)
-		)
-		for right in RIGHTS:
-			doc.set(right, 1 if right in rights else 0)
-		doc.save(ignore_permissions=True)
+	)
+	for right in ALL_RIGHTS:
+		doc.set(right, 1 if right in rights else 0)
+	doc.save(ignore_permissions=True)
+
+
+def new_level(app: str, title: str, start: str = "User") -> str:
+	"""A level of one app that starts as one of its levels already is, to
+	change on its page."""
+	roles.require()
+	if app not in _apps() or start not in tiers(app):
+		frappe.throw(_("That cannot be set."))
+	title = (title or "").strip()
+	if not title:
+		frappe.throw(_("Give the level a name."))
+	if ":" in title:
+		frappe.throw(_("A level's name cannot have a colon in it."))
+	if frappe.db.exists("Role", title):
+		frappe.throw(_("There is already a role called {0}.").format(title))
+	frappe.get_doc(
+		{"doctype": "Role", "role_name": title, "desk_access": 1, "is_custom": 1, "one_app": app}
+	).insert(ignore_permissions=True)
+	held = _holds(app, start)
+	wanted = {}
+	for doctype in sorted(set(kinds(app)) | _written(_carriers(app, start))):
+		has = _rights(doctype, held)
+		if has != _rights(doctype, _holds(app, title)):
+			wanted[doctype] = has
+	_set(app, title, wanted)
+	_guarded(app, start, title)
+	return title
+
+
+def _guarded(app: str, start: str, level: str) -> None:
+	"""A new level given the rules on guarded fields that the level it started
+	from holds of its own, such as a manager's on pay."""
+	from frappe.core.doctype.doctype.doctype import validate_permissions_for_doctype
+
+	touched = set()
+	for row in frappe.get_all(
+		"Custom DocPerm",
+		filters={"role": ["in", list(_carriers(app, start))], "permlevel": [">", 0]},
+		fields=["parent", "permlevel", "if_owner", *ALL_RIGHTS],
+	):
+		where = {"parent": row.parent, "role": level, "permlevel": row.permlevel, "if_owner": row.if_owner}
+		if frappe.db.exists("Custom DocPerm", where):
+			continue
+		frappe.get_doc(
+			{
+				"doctype": "Custom DocPerm",
+				"parenttype": "DocType",
+				"parentfield": "permissions",
+				**where,
+				**{right: row.get(right) for right in ALL_RIGHTS},
+			}
+		).insert(ignore_permissions=True)
+		touched.add(row.parent)
 	for doctype in touched:
 		validate_permissions_for_doctype(doctype, alert=False)
 		frappe.clear_cache(doctype=doctype)
@@ -234,37 +489,43 @@ def _write(level: str, wanted: dict) -> None:
 def delete_level(name: str) -> None:
 	roles.require()
 	app_of(name)
-	people = held_by(name)
+	people = people_at(app_of(name), name)
 	if people:
 		frappe.throw(_("{0} people are at this level. Move them to another first.").format(len(people)))
-	_write(name, {})
+	from frappe.core.doctype.doctype.doctype import validate_permissions_for_doctype
+
+	touched = _written({name})
+	for row in frappe.get_all("Custom DocPerm", filters={"role": name}, pluck="name"):
+		frappe.delete_doc("Custom DocPerm", row, ignore_permissions=True, force=True)
+	for doctype in touched:
+		validate_permissions_for_doctype(doctype, alert=False)
+		frappe.clear_cache(doctype=doctype)
 	frappe.delete_doc("Role", name, ignore_permissions=True, force=True)
 
 
 def for_doctype(doctype: str) -> list[dict]:
-	"""What each app's levels may do on one kind of record, for the record's
-	Settings > Access: User, the workspace's own levels, Manager."""
+	"""What each level of each app may do on one kind of record, for the
+	record's Settings > Access: User, the workspace's own levels, Manager."""
 	roles.require()
 	said = []
-	for app, (used, managed) in _apps().items():
-		user = _rights(doctype, set(used))
-		manager = _rights(doctype, set(used) | set(managed))
-		if not manager:
-			continue
-		rows = [{"level": "User", "rights": sorted(user, key=RIGHTS.index), "own": 0}]
-		for one in levels_of(app):
-			rows.append(
-				{"level": one, "rights": sorted(user | _rights(doctype, {one}), key=RIGHTS.index), "own": 1}
-			)
-		rows.append({"level": "Manager", "rights": sorted(manager, key=RIGHTS.index), "own": 0})
-		said.append({"app": app, "rows": rows})
+	for app in _apps():
+		rows = [
+			{
+				"level": tier,
+				"key": key_of(app, tier),
+				"rights": sorted(_rights(doctype, _holds(app, tier)) & set(RIGHTS), key=RIGHTS.index),
+				"own": int(tier not in BASE),
+			}
+			for tier in tiers(app)
+		]
+		if any(row["rights"] for row in rows):
+			said.append({"app": app, "rows": rows})
 	return said
 
 
 @frappe.whitelist(methods=["POST"])
-def new_level(app: str, title: str) -> str:
-	"""A level of one app that adds nothing yet, to fill in on its page."""
-	return save_level(None, app, title, [])
+def make_level(app: str, title: str, start: str = "User") -> str:
+	return new_level(app, title, start)
 
 
 @frappe.whitelist(methods=["POST"])
@@ -426,7 +687,7 @@ def save_profile(name: str | None, title: str, levels: dict) -> str:
 		level = levels.get(app) or "None"
 		if level not in LEVELS and level not in own.get(app, ()):
 			frappe.throw(_("That cannot be set."))
-		wanted |= roles_for(level, used, managed, own.get(app, ()))
+		wanted |= roles_for(level, used, managed, own.get(app, ()), (companion(app),))
 	if name and title != name:
 		frappe.rename_doc("Role Profile", name, title, force=True)
 		frappe.db.set_value("Role Profile", title, "role_profile", title, update_modified=False)

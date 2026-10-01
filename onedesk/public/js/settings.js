@@ -126,7 +126,19 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		return { method: Settings.API + "save", args: { section: this.key, values, record: this.record } };
 	}
 
+	// A record draws itself around the section's body (as_record), so after a save it
+	// starts again from a fresh body with its buttons cleared, as when it was opened. A
+	// record saved under a new name, or made, is opened under that name, as a form is.
 	redraw(said) {
+		const [kind, name] = (said.record || "").split(/:(.*)/s);
+		if (said.record && said.record !== this.record && ["rule", "level", "profile", "group"].includes(kind)) {
+			frappe.set_route(this.route, { section: this.key, [kind]: name });
+			return;
+		}
+		if (this.trailed) {
+			this.unsaved();
+			this.$content = onedesk.shell.body(this.$section, { wide: Settings.WIDE.includes(this.key) });
+		}
 		this[`draw_${this.key}`](said);
 	}
 
@@ -985,9 +997,9 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		onedesk.shell.table($card.find('[data-list="recent"]'), { rows: one.recent, columns: Settings.signin_columns() });
 	}
 
-	// Access (one/access.py): the workspace's own levels of each app, between its User
-	// and its Manager. A level opens as a record (draw_level). Profiles and groups join
-	// it here.
+	// Access (one/access.py): every level of each app, its User and Manager and the
+	// workspace's own between. A level opens as a record (draw_level). Profiles and groups
+	// join it here.
 	draw_access(data) {
 		if (data.level) return this.draw_level(data);
 		if (data.profile) return this.draw_job_profile(data);
@@ -1052,36 +1064,65 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				{ label: __("People"), render: (one) => esc(String(one.members)) },
 			],
 		});
+		const tier = (one) => (one.own ? esc(one.name) : esc(__(one.name)));
 		onedesk.shell.table(this.$content.find('[data-list="levels"]'), {
 			title: __("Levels"),
 			note: __(
-				"People gives each person User or Manager on an app. A level sits between: it can do what the app's users can, and what you add to it from what its managers can."
+				"What each app's people may do, level by level. Open one to give or take away, on any kind of record the app works with. Levels you make sit between User and Manager."
 			),
 			rows: data.levels,
 			icon: "shield-check",
-			empty: __("No levels yet. Everybody is a user or a manager of each app."),
 			none: __("No level is called that."),
-			open: (one) => frappe.set_route("workspace-settings", { section: "access", level: one.name }),
+			open: (one) => frappe.set_route("workspace-settings", { section: "access", level: one.key }),
 			columns: [
-				{ label: __("Level"), render: (one) => esc(one.name) },
+				{
+					label: __("Level"),
+					render: (one) => tier(one) + (one.own ? " " + frappe.ui.badge.html({ label: __("Yours"), theme: "purple" }) : ""),
+				},
 				{ label: __("App"), render: (one) => `<span class="os-app-mark">${frappe.utils.icon(one.icon, "sm")}</span>${esc(one.app)}` },
-				{ label: __("Adds To"), render: (one) => esc(one.kinds === 1 ? __("1 kind of record") : __("{0} kinds of record", [one.kinds])) },
 				{ label: __("People"), render: (one) => esc(String(one.people)) },
 			],
 		});
 	}
 
-	// A new level is named and given its app; what it adds is set on its page.
+	// A new level is named, given its app and the level it starts as; what it may do
+	// is changed on its page.
 	new_level(data) {
+		const starts = (app) => [
+			{ value: "User", label: __("User") },
+			...data.levels.filter((one) => one.app === app && one.own).map((one) => ({ value: one.name, label: one.name })),
+			{ value: "Manager", label: __("Manager") },
+		];
 		const dialog = new frappe.ui.Dialog({
 			title: __("New Level"),
 			fields: [
 				{ fieldname: "title", fieldtype: "Data", label: __("Name"), reqd: 1, description: __("As people would say it, such as Senior Sales.") },
-				{ fieldname: "app", fieldtype: "Select", label: __("App"), reqd: 1, options: data.apps.map((app) => app.name) },
+				{
+					fieldname: "app",
+					fieldtype: "Select",
+					label: __("App"),
+					reqd: 1,
+					options: data.apps.map((app) => app.name),
+					change: () => {
+						const field = dialog.get_field("start");
+						field.df.options = starts(dialog.get_value("app"));
+						field.refresh();
+						dialog.set_value("start", "User");
+					},
+				},
+				{
+					fieldname: "start",
+					fieldtype: "Select",
+					label: __("Starts As"),
+					reqd: 1,
+					default: "User",
+					options: starts(data.apps[0].name),
+					description: __("It can do what this level does until you change it."),
+				},
 			],
 			primary_action_label: __("Make"),
-			primary_action: async ({ title, app }) => {
-				const name = await frappe.xcall("onedesk.one.access.new_level", { app, title });
+			primary_action: async ({ title, app, start }) => {
+				const name = await frappe.xcall("onedesk.one.access.make_level", { app, title, start });
 				dialog.hide();
 				frappe.set_route("workspace-settings", { section: "access", level: name });
 			},
@@ -1089,20 +1130,22 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		dialog.show();
 	}
 
-	// One level, as a record: its name, and what it adds on each kind of record in
-	// frappe's table, saved from the page head; who is at it beside.
+	// One level, as a record: its name if it is the workspace's own, and what it may do
+	// on each kind of record in frappe's table, saved from the page head; who is at it
+	// beside.
 	draw_level(data) {
 		const esc = frappe.utils.escape_html;
 		const level = data.level;
+		const title = level.own ? level.name : `${level.app} ${__(level.name)}`;
 		this.as_record({
 			parent: __("Access"),
 			route: "/desk/workspace-settings?section=access",
-			title: level.name,
+			title,
 			status: { label: level.app, colour: "purple" },
 			side: onedesk.shell.side({
 				mark: level.icon,
-				title: level.name,
-				sub: esc(__("A level of {0}", [level.app])),
+				title,
+				sub: esc(level.own ? __("A level of {0}", [level.app]) : level.name === "User" ? __("Everybody who uses {0}", [level.app]) : __("Everybody who manages {0}", [level.app])),
 				groups: [
 					{
 						label: __("At This Level"),
@@ -1114,26 +1157,27 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					},
 				],
 			}),
-			actions: [
-				{
-					label: __("Delete"),
-					group: __("Actions"),
-					action: () =>
-						frappe.confirm(__("Delete {0}? What it adds goes with it.", [esc(level.name)]), async () => {
-							await frappe.xcall("onedesk.one.access.remove_level", { name: level.name });
-							frappe.set_route("workspace-settings", { section: "access" });
-						}),
-				},
-			],
+			actions: level.own
+				? [
+						{
+							label: __("Delete"),
+							group: __("Actions"),
+							action: () =>
+								frappe.confirm(__("Delete {0}? What it may do goes with it.", [esc(level.name)]), async () => {
+									await frappe.xcall("onedesk.one.access.remove_level", { name: level.name });
+									frappe.set_route("workspace-settings", { section: "access" });
+								}),
+						},
+					]
+				: [],
 		});
 		this.form(data, {
 			rows: [
-				{ stack: ["title"] },
+				...(level.own ? [{ stack: ["title"] }] : []),
 				{
-					heading: __("What It Adds"),
+					heading: __("What They May Do"),
 					note: __(
-						"Somebody at this level can do whatever a {0} user can, and these too. Each is one {0}'s managers have: anything more is refused when you save.",
-						[level.app]
+						"Untick to take away, add a row to give a kind of record. Edit, Create and the rest bring Read with them, and a record they may make lets them pick what it must name, such as an invoice's customer."
 					),
 				},
 				{ stack: ["rows"] },
