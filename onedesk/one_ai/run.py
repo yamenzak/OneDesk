@@ -155,7 +155,7 @@ def ask(
 				mend = said["mend"]
 			elif want.get("tool") == mend and not answer.get("error"):
 				mend = None
-			tell({"tool": want.get("tool"), "args": want.get("args") or {}, "ran": bool(answer.get("ran"))})
+			tell({"tool": want.get("tool"), "args": surface.shown_args(want.get("tool"), want.get("args")), "ran": bool(answer.get("ran"))})
 			if card:
 				cards.append(card)
 			turns.append(

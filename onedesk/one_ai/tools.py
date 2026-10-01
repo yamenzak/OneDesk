@@ -493,6 +493,14 @@ def _every() -> tuple[tuple, tuple]:
 	return READS + KEEPS + reads, SUGGESTS + suggests
 
 
+def shown_args(tool: str | None, args: dict | None) -> dict:
+	"""A call's arguments as a person may see them and a chat keeps them: a
+	tool's `unshown` ones, such as an extension's code, left out."""
+	fn = next((one for one in sum(_every(), ()) if one.__name__ == tool), None)
+	hidden = getattr(fn, "unshown", ()) if fn else ()
+	return {key: ("…" if key in hidden else value) for key, value in (args or {}).items()}
+
+
 def declared() -> list[dict]:
 	"""Every tool, as a provider's function declaration."""
 	reads, suggests = _every()

@@ -1028,6 +1028,7 @@ one_ai_reads = [
 	"onedesk.one.ai.notification_type",
 	"onedesk.one.ai.my_notifications",
 	"onedesk.one.ai.my_mailboxes",
+	"onedesk.one_studio.ai.extensions_here",
 ]
 
 #: A sentence each about who is asking, added to what the model is told.
@@ -1074,6 +1075,7 @@ one_ai_suggests = [
 	# A task, and the steps of a task's checklist. See one_task/ai.py.
 	"onedesk.one_task.ai.plan_task",
 	"onedesk.one_task.ai.plan_steps",
+	"onedesk.one_studio.ai.write_extension",
 ]
 # One's own steps for frappe's automation engine: Tell People. See one/automation_steps.py.
 automation_actions = ["onedesk.one.automation_steps.TellPeople"]
@@ -1087,6 +1089,7 @@ one_ai_suggestions = [
 	"onedesk.one_calendar.ai.SUGGESTIONS",
 	"onedesk.one_task.ai.SUGGESTIONS",
 	"onedesk.one_admin.ai.SUGGESTIONS",
+	"onedesk.one_studio.ai.SUGGESTIONS",
 ]
 
 one_ai_page = [
@@ -1126,6 +1129,7 @@ one_record_heads = [
 	"onedesk.one.heads.HEADS",
 	"onedesk.one_admin.heads.HEADS",
 	"onedesk.one_ai.heads.HEADS",
+	"onedesk.one_studio.heads.HEADS",
 ]
 one_measures = [
 	"onedesk.one_inventory.heads.MEASURES",
@@ -1136,6 +1140,7 @@ one_measures = [
 	"onedesk.one.heads.MEASURES",
 	"onedesk.one_admin.heads.MEASURES",
 	"onedesk.one_ai.heads.MEASURES",
+	"onedesk.one_studio.heads.MEASURES",
 ]
 one_verbs = [
 	"onedesk.one_inventory.heads.VERBS",
@@ -1144,6 +1149,7 @@ one_verbs = [
 	"onedesk.one_hr.heads.VERBS",
 	"onedesk.one_admin.heads.VERBS",
 	"onedesk.one_ai.heads.VERBS",
+	"onedesk.one_studio.heads.VERBS",
 ]
 one_charts = [
 	"onedesk.one_inventory.heads.CHARTS",

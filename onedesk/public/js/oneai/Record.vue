@@ -128,7 +128,7 @@ const state = computed(() => props.suggested && props.suggested.state);
 const kind = computed(() => (props.suggested ? props.suggested.kind || "Create" : ""));
 
 // A Setup card's glyph is what it would set up (one/ai_setup.py).
-const SETUP = { report: "file-chart-column", dashboard: "layout-dashboard", mail: "mail-check", level: "shield-check", profile: "id-card", group: "users-round", hold: "eye" };
+const SETUP = { report: "file-chart-column", dashboard: "layout-dashboard", mail: "mail-check", level: "shield-check", profile: "id-card", group: "users-round", hold: "eye", extension: "puzzle" };
 
 // A record, a new one, a change, a deletion or how a form looks — Lucide's own.
 const glyph = computed(
@@ -163,7 +163,7 @@ const title = computed(() => {
 });
 
 // What a Setup card sets up, said instead of the doctype under it.
-const SETUP_SAID = { report: "Saved Report", dashboard: "Dashboard", mail: "Report by Mail", level: "Level", profile: "Profile", group: "Group", hold: "What They See" };
+const SETUP_SAID = { report: "Saved Report", dashboard: "Dashboard", mail: "Report by Mail", level: "Level", profile: "Profile", group: "Group", hold: "What They See", extension: "Extension" };
 
 const sub = computed(() => {
 	const type = kind.value === "Setup" && SETUP_SAID[props.record.what] ? __(SETUP_SAID[props.record.what]) : __(doctype.value);

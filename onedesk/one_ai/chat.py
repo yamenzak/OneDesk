@@ -984,6 +984,11 @@ def _turns(doc) -> list[dict]:
 
 
 def _keep(doc, turns: list[dict], spent: float) -> None:
+	from onedesk.one_ai import tools
+
+	for turn in turns:
+		for call in turn.get("calls") or []:
+			call["args"] = tools.shown_args(call.get("tool"), call.get("args"))
 	doc.turns = json.dumps(turns)
 	doc.last_said_on = now_datetime()
 	doc.spent = round((doc.spent or 0) + spent, 6)

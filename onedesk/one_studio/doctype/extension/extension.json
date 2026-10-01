@@ -38,7 +38,8 @@
    "fieldname": "enabled",
    "fieldtype": "Check",
    "label": "Enabled",
-   "in_standard_filter": 1
+   "in_standard_filter": 1,
+   "read_only": 1
   },
   {
    "fieldname": "runs",

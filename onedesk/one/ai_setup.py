@@ -802,6 +802,10 @@ def apply(changes: dict) -> str:
 		return access.save_group(
 			changes["name"] if changes.get("exists") else None, changes["name"], changes["members"]
 		)
+	if what == "extension":
+		from onedesk.one_studio import ai
+
+		return ai.turn_on(changes)
 	if what == "hold":
 		if changes.get("let_go"):
 			access.let_go(changes["hold"])
