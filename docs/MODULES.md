@@ -249,6 +249,9 @@ No doctypes yet.
 * `onedesk.one.privacy_copy.ask`
 * `onedesk.one.privacy_copy.review`
 * `onedesk.one.privacy_copy.send`
+* `onedesk.one.privacy_public.ask`
+* `onedesk.one.privacy_public.confirm`
+* `onedesk.one.privacy_public.download`
 * `onedesk.one.push.devices`
 * `onedesk.one.push.forget`
 * `onedesk.one.push.register`

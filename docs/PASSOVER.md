@@ -5061,6 +5061,35 @@ and not our own mail, and what a copy gives away).
 - Legal: the clause says a copy is reviewed and what may be left out;
   privacy revision 13.
 
+**Privacy Requests, third round: people who are not users.** A customer's
+contact, a supplier, a lead or an applicant has the same rights and no
+account, so each workspace now has a public page, **/your-data**
+(`www/your_data.py`, `one/privacy_public.py`).
+
+- They give their address and choose a copy or a deletion. One mails a
+  signed link that works for a day (Confirm Your Request), and nothing is
+  filed until it is opened. The page answers the same whatever the address,
+  and one network address may ask five times an hour.
+- Opened, the request lands in Data Copies or Account Deletions under their
+  address (a new Address column), for an administrator to decide as for a
+  user. Their copy holds contacts and the records with their address
+  (leads, deals, customers, suppliers, applications), which always go, and
+  mail, which may be withheld for a reason. It is mailed as a signed
+  download link good for a week (Your Data Is Ready to Download).
+- Deleting runs frappe's own redaction without the step that renames an
+  account they do not have; Job Applicant joins `user_data_fields`. They are
+  told when it is approved, or held and why.
+- **Findings, fixed:** `/your-data` 404'd (www routes are filenames; a route
+  rule now maps it); the copy said "Withheld: Mail…: why" twice over, now
+  only the reason; the "Never included" list spoke of printed pages and
+  reset keys to people who have neither, now one line for outsiders.
+- Tried: Maya, a lead and contact with mail, asked as a guest; the link
+  confirmed (opening it twice files one request), a tampered link refused;
+  her copy reviewed with mail withheld and downloaded as a guest; then
+  deleted: the lead reads [REDACTED], her mail and copies gone, the request
+  under an anonymous address.
+- Legal: the rights clause says how a non-user asks; privacy revision 14.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

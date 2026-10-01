@@ -128,3 +128,40 @@ def test_the_sidebar_and_the_profile_reach_it():
 	page = (tree.APP / "public" / "js" / "settings.js").read_text()
 	for method in ("privacy_copy.ask", "privacy.ask_to_delete", "privacy.withdraw"):
 		assert f"onedesk.one.{method}" in page, method
+
+
+PUBLIC = (tree.APP / "one" / "privacy_public.py").read_text()
+
+
+def test_somebody_who_is_not_a_user_asks_on_the_page_by_a_mailed_link():
+	assert '{"from_route": "/your-data", "to_route": "your_data"}' in HOOKS
+	ask = _body("ask", PUBLIC)
+	assert "@rate_limit(limit=ASKS_AN_HOUR" in PUBLIC.split("def ask(", 1)[0].rsplit("\n\n\n", 1)[1]
+	assert 'notify.mail(\n\t\t"Confirm Your Request"' in ask
+	assert 'return {"said": ' in ask and "exists(" not in ask, (
+		"the page answers the same whatever the address"
+	)
+	confirm = _body("confirm", PUBLIC)
+	assert "verify_request()" in confirm and "get_datetime(expires) < now_datetime()" in confirm
+	assert 'frappe.set_user("Guest")' in confirm.split("finally:", 1)[1]
+	assert "LINK_HOURS = 24" in PUBLIC
+
+
+def test_their_copy_is_what_is_about_them_and_reached_only_by_its_link():
+	assert 'OUTSIDER = ("contacts", "records", "mail")' in COPY
+	kinds = COPY.split("KINDS = (", 1)[1].split("\n)", 1)[0]
+	assert kinds.split('("records", ', 1)[1].split("\n", 1)[0].endswith("True),")
+	download = _body("download", PUBLIC)
+	assert "verify_request()" in download and "get_datetime(expires) < now_datetime()" in download
+	assert "DOWNLOAD_DAYS = 7" in PUBLIC
+	assert '"Your Data Is Ready to Download"' in _body("gather", COPY)
+
+
+def test_deleting_them_redacts_as_frappe_does_with_no_account_to_rename():
+	erase = _body("erase", PUBLIC)
+	assert "redact_full_match_data" in erase and "redact_partial_match_data" in erase
+	assert "_anonymize_data(" not in erase and "rename_doc" not in erase
+	assert '"status": "Deleted", "email": anon' in erase
+	assert "privacy_public.erase(doc)" in _body("erase")
+	approve = _body("approve")
+	assert '"Your Data Is Being Deleted"' in approve and "_is_user(doc.email)" in approve

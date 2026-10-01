@@ -183,6 +183,12 @@ clause(
 		and if they hold it you are told why. Once it is approved you are signed out, what only you used is
 		deleted, and your name and address are taken out of everything the workspace keeps, its Recycle Bin
 		and Audit Log included. An employee record is kept by your organisation's HR as the law requires.
+
+		If you are not a user, a customer's contact, a supplier or an applicant say, ask on the workspace's
+		own /your-data page: we mail a link to the address you give, and the request is filed only once you
+		open it. The page answers the same whatever the address. The administrators decide it the same way;
+		a copy is mailed to you as a link that works for a week, and deleting takes your name and address out
+		of everything the workspace keeps.
 	""",
 	order=5,
 )

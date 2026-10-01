@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-01 15:50+0000\n"
-"PO-Revision-Date: 2026-10-01 15:50+0000\n"
+"POT-Creation-Date: 2026-10-01 17:33+0000\n"
+"PO-Revision-Date: 2026-10-01 17:33+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -240,6 +240,10 @@ msgstr "يُطلب رمز بعد كلمة المرور ({0}). مساحة عمل�
 #: onedesk/public/js/doctype_settings.js:895
 msgid "A copy of a format {0} already prints with, changed in the builder."
 msgstr "نسخة من تنسيق يُطبع به {0} حاليًا، تُعدَّل في المصمم."
+
+#: onedesk/www/your_data.html:31
+msgid "A copy of what it holds about me"
+msgstr "نسخة مما تحتفظ به عني"
 
 #: onedesk/public/js/settings.js:211
 msgid "A copy of your data, or your account deleted. An administrator reviews both: a copy leaves out only what would show other people's or the company's confidential information, and you are told what and why."
@@ -1052,7 +1056,7 @@ msgstr ""
 msgid "Account"
 msgstr ""
 
-#: onedesk/one/notifications.py:233
+#: onedesk/one/notifications.py:278
 msgid "Account Deleted"
 msgstr "تم حذف الحساب"
 
@@ -1099,7 +1103,7 @@ msgstr ""
 
 #: onedesk/one_book/notifications.py:16 onedesk/one_book/notifications.py:28
 msgid "Accounts"
-msgstr ""
+msgstr "الحسابات"
 
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
@@ -1412,11 +1416,14 @@ msgstr "تمت الإضافة. سيعمل بعد بضع دقائق من ضبط �
 msgid "Additional Salary"
 msgstr ""
 
+#. Label of the one_email (Data) field in DocType 'Personal Data Download
+#. Request'
 #. Label of the slug (Data) field in DocType 'Account Request'
 #. Label of the address (Data) field in DocType 'Clock Attempt'
 #. Label of the address (Data) field in DocType 'Clock Network'
 #. Label of the address (Small Text) field in DocType 'Reading Party'
 #. Label of the url (Data) field in DocType 'Cloud Mount'
+#: onedesk/one/custom/personal_data_download_request.json
 #: onedesk/one/letter_heads.py:65
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -1692,7 +1699,7 @@ msgstr "أحد المسؤولين"
 msgid "An administrator approves it. Then you are signed out for good, and your conversations with OneAI, what it remembers, your notifications and devices are deleted. Invoices, tasks and other records the workspace keeps stay, with your name and address taken out. Your employee record, if you have one, is HR's."
 msgstr "يوافق عليه أحد المسؤولين. بعدها يُسجَّل خروجك نهائياً، وتُحذف محادثاتك مع OneAI وما يتذكّره وإشعاراتك وأجهزتك. أما الفواتير والمهام والسجلات الأخرى التي تحتفظ بها مساحة العمل فتبقى بعد إزالة اسمك وعنوانك. سجلّك الوظيفي، إن وُجد، يخص الموارد البشرية."
 
-#: onedesk/one/notifications.py:228
+#: onedesk/one/notifications.py:273
 msgid "An administrator is holding your request to delete your account, because: {why}"
 msgstr "يحتجز أحد المسؤولين طلبك لحذف حسابك، والسبب: {why}"
 
@@ -1771,7 +1778,7 @@ msgstr "تحديث بانتظار {0}"
 msgid "An urgent grievance was raised"
 msgstr "رُفعت شكوى عاجلة"
 
-#: onedesk/one/privacy.py:286
+#: onedesk/one/privacy.py:291
 msgid "Another administrator approves deleting your own account."
 msgstr "يوافق مسؤول آخر على حذف حسابك أنت."
 
@@ -2004,7 +2011,7 @@ msgstr "الطلب المعتمد"
 msgid "Approved by the auditor"
 msgstr "اعتمده المدقق"
 
-#: onedesk/one/privacy.py:295 onedesk/one/privacy_copy.py:321
+#: onedesk/one/privacy.py:304 onedesk/one/privacy_copy.py:362
 msgid "Approved by {0}"
 msgstr "وافق عليه {0}"
 
@@ -2181,6 +2188,11 @@ msgstr "اسأل عن هذه الصفحة، أو ابحث عن معلومة، أ
 #: onedesk/one/privacy.py:223
 msgid "Ask again from your profile if you still want your account deleted."
 msgstr "اطلب مجدداً من ملفك الشخصي إن كنت لا تزال تريد حذف حسابك."
+
+#: onedesk/one/privacy_public.py:92 onedesk/one/privacy_public.py:168
+#: onedesk/one/privacy_public.py:174
+msgid "Ask again on the workspace's Your Data page."
+msgstr "اطلب مجددًا من صفحة «بياناتك» في مساحة العمل."
 
 #: onedesk/public/js/settings.js:255
 msgid "Ask for a New Copy"
@@ -3940,7 +3952,7 @@ msgstr ""
 msgid "Commented on {0}"
 msgstr "علّق على {0}"
 
-#: onedesk/one/privacy_copy.py:44
+#: onedesk/one/privacy_copy.py:45
 msgid "Comments you wrote"
 msgstr "التعليقات التي كتبتها"
 
@@ -4010,7 +4022,7 @@ msgstr "حد الثقة الأدنى"
 msgid "Confirm"
 msgstr ""
 
-#: onedesk/one/notifications.py:184
+#: onedesk/one/notifications.py:229
 msgid "Confirm Deletion"
 msgstr "تأكيد الحذف"
 
@@ -4018,7 +4030,11 @@ msgstr "تأكيد الحذف"
 msgid "Confirm Your New Email"
 msgstr "أكّد بريدك الجديد"
 
-#: onedesk/one/notifications.py:188
+#: onedesk/one/notifications.py:171
+msgid "Confirm Your Request"
+msgstr "تأكيد طلبك"
+
+#: onedesk/one/notifications.py:233
 msgid "Confirm deleting your account"
 msgstr "أكّد حذف حسابك"
 
@@ -4038,6 +4054,10 @@ msgstr "أكّد موافقة المرشح لبدء التسجيل."
 msgid "Confirm your new address for One"
 msgstr "أكّد عنوانك الجديد في One"
 
+#: onedesk/one/notifications.py:175
+msgid "Confirm your request to {workspace}"
+msgstr "أكّد طلبك إلى {workspace}"
+
 #. Label of the one_learn_threshold (Int) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Confirmation Threshold"
@@ -4045,11 +4065,11 @@ msgstr "حد التأكيد"
 
 #. Option for the 'Status' (Select) field in DocType 'Clock Network'
 #. Option for the 'Status' (Select) field in DocType 'Clock Place'
-#: onedesk/one/privacy.py:231
+#: onedesk/one/privacy.py:231 onedesk/one/privacy_public.py:104
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 msgid "Confirmed"
-msgstr ""
+msgstr "تم التأكيد"
 
 #: onedesk/public/js/onecloud.js:1593 onedesk/public/js/onemail.js:865
 msgid "Connect"
@@ -4212,7 +4232,7 @@ msgstr "تم نسخ {0} عناصر"
 msgid "Copy"
 msgstr "نسخ"
 
-#: onedesk/one/notifications.py:171
+#: onedesk/one/notifications.py:216
 msgid "Copy Asked"
 msgstr "طُلبت نسخة"
 
@@ -4981,6 +5001,10 @@ msgstr "حذف هذه العناصر الـ {0} من الخادم؟ لا يمك�
 msgid "Delete this rule?"
 msgstr "حذف هذه القاعدة؟"
 
+#: onedesk/www/your_data.html:35
+msgid "Delete what it holds about me"
+msgstr "احذف ما تحتفظ به عني"
+
 #: onedesk/one_ai/proposals.py:547 onedesk/public/js/oneai/Record.vue:152
 msgid "Delete {0}"
 msgstr "حذف {0}"
@@ -5051,11 +5075,11 @@ msgstr "لم يتقدّم حذف ملفات {0}"
 msgid "Deleting your account is on hold: {0}"
 msgstr "حذف حسابك معلّق: {0}"
 
-#: onedesk/one/notifications.py:210
+#: onedesk/one/notifications.py:255
 msgid "Deletion Asked"
 msgstr "طُلب الحذف"
 
-#: onedesk/one/notifications.py:223
+#: onedesk/one/notifications.py:268
 msgid "Deletion On Hold"
 msgstr "الحذف معلّق"
 
@@ -5331,11 +5355,11 @@ msgstr "لا يُهلك"
 msgid "Domain"
 msgstr "النطاق"
 
-#: onedesk/one/notifications.py:299
+#: onedesk/one/notifications.py:344
 msgid "Domain Stopped Working"
 msgstr "توقف النطاق عن العمل"
 
-#: onedesk/one/notifications.py:286
+#: onedesk/one/notifications.py:331
 msgid "Domain Working"
 msgstr "النطاق يعمل"
 
@@ -6037,10 +6061,10 @@ msgstr ""
 
 #: onedesk/one/notifications.py:100 onedesk/one/notifications.py:113
 #: onedesk/one/notifications.py:127 onedesk/one/notifications.py:136
-#: onedesk/one/notifications.py:149 onedesk/one/notifications.py:174
-#: onedesk/one/notifications.py:200 onedesk/one/notifications.py:213
-#: onedesk/one/notifications.py:277 onedesk/one/notifications.py:289
-#: onedesk/one/notifications.py:302 onedesk/one/notifications.py:350
+#: onedesk/one/notifications.py:149 onedesk/one/notifications.py:219
+#: onedesk/one/notifications.py:245 onedesk/one/notifications.py:258
+#: onedesk/one/notifications.py:322 onedesk/one/notifications.py:334
+#: onedesk/one/notifications.py:347 onedesk/one/notifications.py:395
 msgid "Every administrator"
 msgstr "كل مسؤول"
 
@@ -6075,7 +6099,7 @@ msgstr "تُقيَّم كل عملية تسجيل حضور من 100 وتُحفظ
 msgid "Every day after an interview, until your feedback on it is in."
 msgstr "كل يوم بعد المقابلة، حتى تقدّم ملاحظاتك عليها."
 
-#: onedesk/one/notifications.py:199
+#: onedesk/one/notifications.py:244
 msgid "Every day while a privacy request has waited more than a week for a decision."
 msgstr "كل يوم ما دام طلب خصوصية ينتظر قراراً أكثر من أسبوع."
 
@@ -6123,10 +6147,10 @@ msgstr "كلها موجودة في القائمة بالفعل."
 msgid "Every one of these days in the list is a day off. Tick two for a weekend of two days."
 msgstr "كل يوم من هذه الأيام في القائمة يوم عطلة. اختر يومين لعطلة نهاية أسبوع من يومين."
 
-#: onedesk/one/notifications.py:74 onedesk/one/notifications.py:250
-#: onedesk/one/notifications.py:259 onedesk/one/notifications.py:268
-#: onedesk/one/notifications.py:315 onedesk/one/notifications.py:328
-#: onedesk/one/notifications.py:341 onedesk/one_intake/notifications.py:65
+#: onedesk/one/notifications.py:74 onedesk/one/notifications.py:295
+#: onedesk/one/notifications.py:304 onedesk/one/notifications.py:313
+#: onedesk/one/notifications.py:360 onedesk/one/notifications.py:373
+#: onedesk/one/notifications.py:386 onedesk/one_intake/notifications.py:65
 msgid "Every other administrator"
 msgstr "كل مسؤول آخر"
 
@@ -7217,6 +7241,10 @@ msgstr "أدخل موضوعًا أو قالب بريد"
 msgid "Give it a name."
 msgstr "أعطه اسمًا."
 
+#: onedesk/one/privacy_public.py:61
+msgid "Give the address the workspace knows you by."
+msgstr "أدخل العنوان الذي تعرفك به مساحة العمل."
+
 #: onedesk/one/access.py:760
 msgid "Give the group a name."
 msgstr "أعطِ المجموعة اسمًا."
@@ -7647,7 +7675,7 @@ msgstr "تذكيرات العطلات"
 msgid "Holidays"
 msgstr "العطلات"
 
-#: onedesk/one/notifications.py:338
+#: onedesk/one/notifications.py:383
 msgid "Holidays Changed"
 msgstr "تغيّرت العطلات"
 
@@ -7655,7 +7683,7 @@ msgstr "تغيّرت العطلات"
 msgid "Holidays Coming Up"
 msgstr "عطلات قادمة"
 
-#: onedesk/one/notifications.py:347
+#: onedesk/one/notifications.py:392
 msgid "Holidays Run Out Soon"
 msgstr "العطلات تنتهي قريبًا"
 
@@ -8047,11 +8075,19 @@ msgstr "إذا عُطِّل، لا يسجّل أي تسجيل حضور مصدر�
 msgid "If that address was invited, a code is on its way to it."
 msgstr "إذا كان هذا العنوان مدعوًا، فهناك رمز في طريقه إليه."
 
+#: onedesk/one/privacy_public.py:74
+msgid "If the workspace knows that address, a link to confirm is on its way to it."
+msgstr "إذا كانت مساحة العمل تعرف هذا العنوان، فرابط التأكيد في طريقه إليه."
+
 #. Description of the 'Refuse Check-in Without a Passkey' (Check) field in
 #. DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "If unchecked, a missing passkey is only flagged."
 msgstr "إذا لم يتم تحديده، يُكتفى بالإشارة إلى غياب مفتاح المرور."
+
+#: onedesk/www/your_data.html:16
+msgid "If {0} holds your details, as a customer, a supplier, a contact or an applicant, you can ask for a copy of them, or for them to be deleted."
+msgstr "إذا كانت {0} تحتفظ ببياناتك، بصفتك عميلًا أو مورّدًا أو جهة اتصال أو متقدّمًا لوظيفة، فيمكنك طلب نسخة منها أو طلب حذفها."
 
 #. Label of the reads_image (Check) field in DocType 'AI Model'
 #. Label of the image (Attach Image) field in DocType 'Face'
@@ -9292,6 +9328,10 @@ msgstr "العملاء المكسوبون (%)"
 msgid "Leads, deals, customers and quotes."
 msgstr "العملاء المحتملون والصفقات والعملاء وعروض الأسعار."
 
+#: onedesk/one/privacy_copy.py:41
+msgid "Leads, deals, customers, suppliers and applications with your address"
+msgstr "العملاء المحتملون والصفقات والعملاء والمورّدون وطلبات التوظيف التي تحمل عنوانك"
+
 #. Label of the one_learn_zones (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Learn New Locations"
@@ -10043,7 +10083,7 @@ msgstr "البريد الوارد إلى صندوق الوارد والمطاب�
 msgid "Mail to <b>{mailbox}</b> still arrives, but its attachments wait until there is room. Free some space or add storage in Plan and Credits, and they are saved within the hour."
 msgstr "ما زال البريد إلى <b>{mailbox}</b> يصل، لكن مرفقاته تنتظر حتى تتوفر مساحة. أفرغ بعض المساحة أو أضف تخزينًا من الخطة والأرصدة، فتُحفظ خلال ساعة."
 
-#: onedesk/one/privacy_copy.py:43
+#: onedesk/one/privacy_copy.py:44
 msgid "Mail you sent or received"
 msgstr "البريد الذي أرسلته أو استلمته"
 
@@ -10107,7 +10147,7 @@ msgstr ""
 msgid "Main Address"
 msgstr "العنوان الرئيسي"
 
-#: onedesk/one/notifications.py:312
+#: onedesk/one/notifications.py:357
 msgid "Main Address Changed"
 msgstr "تغيّر العنوان الرئيسي"
 
@@ -11877,7 +11917,7 @@ msgstr "لم يُسأل شيء."
 msgid "Nothing was charged"
 msgstr "لم يُخصم أي مبلغ"
 
-#: onedesk/one/privacy_copy.py:365
+#: onedesk/one/privacy_copy.py:403
 msgid "Nothing was withheld."
 msgstr "لم يُستبعد شيء."
 
@@ -11933,7 +11973,7 @@ msgstr "إشعار"
 msgid "Notifications"
 msgstr "الإشعارات"
 
-#: onedesk/one/privacy_copy.py:49
+#: onedesk/one/privacy_copy.py:50
 msgid "Notifications you got"
 msgstr "الإشعارات التي تلقيتها"
 
@@ -12376,7 +12416,7 @@ msgstr "إجراء OneAI"
 msgid "OneAI Actions"
 msgstr "إجراءات OneAI"
 
-#: onedesk/one/notifications.py:325
+#: onedesk/one/notifications.py:370
 msgid "OneAI Changed"
 msgstr "تغيّر OneAI"
 
@@ -12844,7 +12884,7 @@ msgstr "لا يقرر إن كان OneAI يقرأ {0} إلا من يحق له ت�
 msgid "Only the workspace's mailboxes are shared out. {0} belongs to one person."
 msgstr "لا تُشارك إلا صناديق بريد مساحة العمل. {0} يخص شخصًا واحدًا."
 
-#: onedesk/one/privacy_copy.py:310
+#: onedesk/one/privacy_copy.py:351
 msgid "Only what the person wrote or touched can be withheld; what is about them always goes."
 msgstr "لا يمكن استبعاد إلا ما كتبه الشخص أو تعامل معه؛ أما ما يخصه فيُعطى دائماً."
 
@@ -13563,7 +13603,7 @@ msgstr ""
 msgid "Payer"
 msgstr "الدافع"
 
-#: onedesk/one/notifications.py:265
+#: onedesk/one/notifications.py:310
 msgid "Payer Changed"
 msgstr "تغيّر الدافع"
 
@@ -13591,7 +13631,7 @@ msgstr "إشعار دفع"
 msgid "Payment Method"
 msgstr ""
 
-#: onedesk/one/notifications.py:274
+#: onedesk/one/notifications.py:319
 msgid "Payment Overdue"
 msgstr "الدفع متأخر"
 
@@ -13610,11 +13650,11 @@ msgstr ""
 msgid "Payment arrived, and {workspace} is open again at {address}. Thank you."
 msgstr "وصلت الدفعة، و{workspace} مفتوحة من جديد على {address}. شكرًا لك."
 
-#: onedesk/one/notifications.py:278
+#: onedesk/one/notifications.py:323
 msgid "Payment for the workspace is overdue"
 msgstr "دفع مساحة العمل متأخر"
 
-#: onedesk/one/notifications.py:279
+#: onedesk/one/notifications.py:324
 msgid "Payment for the workspace is overdue. Unless it is paid, the workspace is suspended on {date}."
 msgstr "دفع مساحة العمل متأخر. ما لم يُدفع، ستُعلَّق مساحة العمل في {date}."
 
@@ -13828,7 +13868,7 @@ msgstr "بداية الفترة"
 msgid "Person"
 msgstr "الشخص"
 
-#: onedesk/one/notifications.py:247
+#: onedesk/one/notifications.py:292
 msgid "Person Deleted"
 msgstr "تم حذف شخص"
 
@@ -13963,7 +14003,7 @@ msgid "Plan Change Pending"
 msgstr "تغيير الخطة معلّق"
 
 #. Option for the 'What' (Select) field in DocType 'Tenant Event'
-#: onedesk/one/notifications.py:256
+#: onedesk/one/notifications.py:301
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 msgid "Plan Changed"
 msgstr "تغيّرت الخطة"
@@ -14221,10 +14261,11 @@ msgid "Priority"
 msgstr ""
 
 #: onedesk/one_legal/gate.py:40 onedesk/www/start.html:74
+#: onedesk/www/your_data.html:49
 msgid "Privacy Policy"
 msgstr "سياسة الخصوصية"
 
-#: onedesk/one/notifications.py:197
+#: onedesk/one/notifications.py:242
 msgid "Privacy Requests Waiting"
 msgstr "طلبات خصوصية بالانتظار"
 
@@ -14502,7 +14543,7 @@ msgstr "قوالب ضريبة المشتريات"
 
 #: onedesk/one_inventory/notifications.py:17
 msgid "Purchasing"
-msgstr ""
+msgstr "المشتريات"
 
 #. Label of the purpose (Small Text) field in DocType 'Employee Letter'
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
@@ -15067,7 +15108,7 @@ msgstr "تحتفظ السجلات الموجودة بأسمائها. يُنشئ 
 msgid "Records of another form that link to this one, listed under Connections."
 msgstr "سجلات نموذج آخر ترتبط بهذا، تُعرض تحت الروابط."
 
-#: onedesk/one/privacy_copy.py:47
+#: onedesk/one/privacy_copy.py:48
 msgid "Records you changed, without the values"
 msgstr "السجلات التي غيّرتها، دون القيم"
 
@@ -15852,7 +15893,7 @@ msgstr "حدّد من يُبلَّغ"
 msgid "Say who the rule tells: a role, a person on the record, or its assignees."
 msgstr "حدّد من تُخبره القاعدة: دور، أو شخص في السجل، أو المكلَّفون به."
 
-#: onedesk/one/privacy_copy.py:314
+#: onedesk/one/privacy_copy.py:355
 msgid "Say why it is withheld, so they know."
 msgstr "اذكر سبب الاستبعاد ليعرفوه."
 
@@ -15860,7 +15901,7 @@ msgstr "اذكر سبب الاستبعاد ليعرفوه."
 msgid "Say why they are taken back."
 msgstr "اذكر سبب استردادها."
 
-#: onedesk/one/privacy.py:271
+#: onedesk/one/privacy.py:273
 msgid "Say why, so they know."
 msgstr "اذكر السبب ليعرفوه."
 
@@ -16045,6 +16086,10 @@ msgstr "الإرسال منه أيضًا"
 msgid "Send me a code"
 msgstr "أرسل لي رمزًا"
 
+#: onedesk/www/your_data.html:42
+msgid "Send me the link"
+msgstr "أرسل لي الرابط"
+
 #: onedesk/one_legal/gate.py:237
 msgid "Send the list of documents you are agreeing to."
 msgstr "أرسل قائمة المستندات التي توافق عليها."
@@ -16063,7 +16108,7 @@ msgstr "المرسل"
 msgid "Sender Email"
 msgstr ""
 
-#: onedesk/www/r.html:47 onedesk/www/s.html:107
+#: onedesk/www/r.html:47 onedesk/www/s.html:107 onedesk/www/your_data.html:42
 msgid "Sending…"
 msgstr "جارٍ الإرسال…"
 
@@ -17963,7 +18008,7 @@ msgstr "لم يتم ذلك."
 
 #: onedesk/templates/includes/one_account_pay.html:18
 #: onedesk/www/account_profile.html:57 onedesk/www/start.html:118
-#: onedesk/www/welcome.html:106
+#: onedesk/www/welcome.html:106 onedesk/www/your_data.html:83
 msgid "That did not work. Try again in a moment."
 msgstr "لم ينجح ذلك. حاول مرة أخرى بعد لحظة."
 
@@ -18179,6 +18224,10 @@ msgstr "تعذّر الوصول إلى الحساب الآن. حاول مرة أ
 msgid "The account holder"
 msgstr "صاحب الحساب"
 
+#: onedesk/one/notifications.py:174
+msgid "The address given on the page"
+msgstr "العنوان المُدخل في الصفحة"
+
 #. Description of the 'Address' (Data) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 msgid "The address of the WebDAV folder, as the server gives it."
@@ -18198,6 +18247,10 @@ msgstr "العنوان الذي تستخدمه مساحة العمل لنفسه�
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
 msgid "The address this workspace was given. It cannot be removed."
 msgstr "العنوان الممنوح لمساحة العمل هذه. لا يمكن إزالته."
+
+#: onedesk/www/your_data.html:25
+msgid "The address {0} knows you by. We mail a link to it, so only you can ask."
+msgstr "العنوان الذي تعرفك به {0}. نرسل إليه رابطًا، فلا يطلب إلا أنت."
 
 #: onedesk/one_legal/gate.py:37
 msgid "The agreement between your organisation and Four Degree Labs for the use of One."
@@ -18331,6 +18384,10 @@ msgstr "بصمة المحتوى، حتى يُقرأ الملف نفسه مرة �
 msgid "The copy of your data you asked for is ready to download from your profile. Withheld: {withheld}"
 msgstr "نسخة بياناتك التي طلبتها جاهزة للتنزيل من ملفك الشخصي. ما استُبعد: {withheld}"
 
+#: onedesk/one/notifications.py:188
+msgid "The copy of your data you asked for is ready: {url}<br><br>The link works for {days} days. Withheld: {withheld}"
+msgstr "نسخة بياناتك التي طلبتها جاهزة: {url}<br><br>يعمل الرابط لمدة {days} أيام. ما حُجب: {withheld}"
+
 #: onedesk/one_legal/page/legal/legal.js:46
 msgid "The current text"
 msgstr "النص الحالي"
@@ -18450,7 +18507,7 @@ msgstr "الدالة التي تنشئ السجل حين لا يكون إدرا�
 msgid "The header and footer of a printed page: a logo, or a design of your own. The star makes one the default."
 msgstr "رأس الصفحة المطبوعة وتذييلها: شعار، أو تصميم خاص بك. النجمة تجعل أحدها الافتراضي."
 
-#: onedesk/one/notifications.py:351
+#: onedesk/one/notifications.py:396
 msgid "The holiday list ends in {days} days"
 msgstr "تنتهي قائمة العطلات بعد {days} يومًا"
 
@@ -18703,8 +18760,9 @@ msgstr "الشخص الذي يقرأ له"
 msgid "The person it reads for, and whoever put the file there"
 msgstr "الشخص الذي يقرأ له، ومن وضع الملف هناك"
 
-#: onedesk/one/notifications.py:162 onedesk/one/notifications.py:187
-#: onedesk/one/notifications.py:226
+#: onedesk/one/notifications.py:162 onedesk/one/notifications.py:186
+#: onedesk/one/notifications.py:198 onedesk/one/notifications.py:207
+#: onedesk/one/notifications.py:232 onedesk/one/notifications.py:271
 msgid "The person who asked"
 msgstr "الشخص الذي طلب"
 
@@ -18721,7 +18779,7 @@ msgstr "الشخص الذي يمثل هذا المجلد ملفاته."
 msgid "The person whose access it is"
 msgstr "الشخص صاحب الوصول"
 
-#: onedesk/one/notifications.py:50 onedesk/one/notifications.py:236
+#: onedesk/one/notifications.py:50 onedesk/one/notifications.py:281
 msgid "The person whose account it is"
 msgstr "صاحب الحساب"
 
@@ -18996,6 +19054,10 @@ msgstr "العمل في المشاريع الفرعية."
 msgid "The workspace could not be built. Somebody has been told and will be in touch."
 msgstr "تعذّر إنشاء مساحة العمل. وقد أُبلغ أحدهم وسيتواصل معك."
 
+#: onedesk/www/your_data.html:49
+msgid "The workspace decides within a month, as the law requires. How One handles your data:"
+msgstr "تبتّ مساحة العمل في الطلب خلال شهر كما يقتضي القانون. كيف يتعامل One مع بياناتك:"
+
 #: onedesk/one/home.py:144
 msgid "The workspace does not open at it yet."
 msgstr "لا تفتح مساحة العمل عليه بعد."
@@ -19016,11 +19078,11 @@ msgstr "تُفوتَر مساحة العمل على هذا الحساب. انق�
 msgid "The workspace is ready. We have emailed you a link to choose your password."
 msgstr "مساحة العمل جاهزة. أرسلنا إليك بريدًا فيه رابط لاختيار كلمة المرور."
 
-#: onedesk/one/notifications.py:304
+#: onedesk/one/notifications.py:349
 msgid "The workspace no longer opens at {domain}. Check that its DNS still points at {target}, then press Check Again on Workspace › Domains."
 msgstr "لم تعد مساحة العمل تُفتح على {domain}. تحقق من أن DNS الخاص به لا يزال يشير إلى {target}، ثم اضغط تحقق مرة أخرى في مساحة العمل › النطاقات."
 
-#: onedesk/one/notifications.py:291
+#: onedesk/one/notifications.py:336
 msgid "The workspace now opens at {domain}. To have sign-in and links in mail use it, make it the main address on Workspace › Domains."
 msgstr "تُفتح مساحة العمل الآن على {domain}. ليستخدمه تسجيل الدخول والروابط في البريد، اجعله العنوان الرئيسي في مساحة العمل › النطاقات."
 
@@ -19357,6 +19419,10 @@ msgstr "لا يمكن تنفيذ هذا على {0} الآن."
 msgid "This cannot be moved on the calendar."
 msgstr "لا يمكن نقل هذا في التقويم."
 
+#: onedesk/one/privacy_public.py:174
+msgid "This copy is gone"
+msgstr "لم تعد هذه النسخة متاحة"
+
 #: onedesk/public/js/setup_wizard.js:73
 msgid "This day and your country's public holidays become this year's holiday list."
 msgstr "يصبح هذا اليوم والعطل الرسمية في بلدك قائمة عطلات هذا العام."
@@ -19441,7 +19507,8 @@ msgstr "هذا الرابط لا يفتح أي شيء"
 msgid "This link has been used or has expired. Ask for a new one from your account."
 msgstr "استُخدم هذا الرابط أو انتهت صلاحيته. اطلب رابطًا جديدًا من حسابك."
 
-#: onedesk/one/privacy.py:222
+#: onedesk/one/privacy.py:222 onedesk/one/privacy_public.py:92
+#: onedesk/one/privacy_public.py:168
 msgid "This link no longer works"
 msgstr "هذا الرابط لم يعد يعمل"
 
@@ -19501,7 +19568,7 @@ msgstr "انتهت صلاحية هذا الطلب. حاول مرة أخرى."
 msgid "This request is closed."
 msgstr "هذا الطلب مغلق."
 
-#: onedesk/one/privacy.py:251 onedesk/one/privacy_copy.py:305
+#: onedesk/one/privacy.py:253 onedesk/one/privacy_copy.py:346
 msgid "This request is not waiting for a decision."
 msgstr "هذا الطلب لا ينتظر قراراً."
 
@@ -19758,7 +19825,7 @@ msgstr "المسترد"
 msgid "To {0}"
 msgstr "إلى {0}"
 
-#: onedesk/one/privacy_copy.py:45
+#: onedesk/one/privacy_copy.py:46
 msgid "To-dos given to you"
 msgstr "المهام المسندة إليك"
 
@@ -19857,6 +19924,10 @@ msgstr "رسائل بريد كثيرة؟"
 #: onedesk/www/start.html:109
 msgid "Too many tries in a minute. Wait a moment and try again."
 msgstr "محاولات كثيرة خلال دقيقة. انتظر لحظة ثم حاول مرة أخرى."
+
+#: onedesk/www/your_data.html:74
+msgid "Too many tries. Wait an hour and try again."
+msgstr "محاولات كثيرة. انتظر ساعة وحاول مجددًا."
 
 #. Label of the one_top (Code) field in DocType 'Letter Head'
 #: onedesk/one/custom/letter_head.json
@@ -20913,7 +20984,7 @@ msgstr "ما قرأه OneAI في ملف أو رسالة. واحدة لكل مح�
 msgid "What OneAI remembers"
 msgstr "ما يتذكره OneAI"
 
-#: onedesk/one/privacy_copy.py:41
+#: onedesk/one/privacy_copy.py:42
 msgid "What OneAI remembers about you"
 msgstr "ما يتذكّره OneAI عنك"
 
@@ -21386,11 +21457,15 @@ msgstr "ماذا ستعطي نسخة بياناته هذه، نوعاً بنوع
 msgid "What would you like to do?"
 msgstr "ماذا تريد أن تفعل؟"
 
+#: onedesk/www/your_data.html:29
+msgid "What would you like?"
+msgstr "ماذا تريد؟"
+
 #: onedesk/www/legal.html:21
 msgid "What you agree to when you use One. The English text governs."
 msgstr "ما توافق عليه عند استخدام One. النص الإنجليزي هو المرجع."
 
-#: onedesk/one/privacy_copy.py:42
+#: onedesk/one/privacy_copy.py:43
 msgid "What you agreed to"
 msgstr "ما وافقت عليه"
 
@@ -21398,7 +21473,7 @@ msgstr "ما وافقت عليه"
 msgid "What you can use in One changed"
 msgstr "تغيّر ما يمكنك استخدامه في One"
 
-#: onedesk/one/privacy_copy.py:48
+#: onedesk/one/privacy_copy.py:49
 msgid "What you exported or printed, without the pages"
 msgstr "ما صدّرته أو طبعته، دون الصفحات"
 
@@ -21456,6 +21531,18 @@ msgstr "عندما يرى OneAI أن مستنداً احتيالي."
 #: onedesk/one_hr/notifications.py:59
 msgid "When a check-in looks wrong and waits for somebody to accept or reject it."
 msgstr "عندما يبدو تسجيل حضور خاطئاً وينتظر من يقبله أو يرفضه."
+
+#: onedesk/one/notifications.py:185
+msgid "When a copy asked for on the Your Data page is ready, with the link to download it."
+msgstr "عندما تجهز نسخة طُلبت من صفحة «بياناتك»، مع رابط تنزيلها."
+
+#: onedesk/one/notifications.py:197
+msgid "When a deletion asked for on the Your Data page has to wait, and why."
+msgstr "عندما يتعيّن انتظار حذف طُلب من صفحة «بياناتك»، ولماذا."
+
+#: onedesk/one/notifications.py:206
+msgid "When a deletion asked for on the Your Data page is approved."
+msgstr "عند الموافقة على حذف طُلب من صفحة «بياناتك»."
 
 #: onedesk/one_intake/notifications.py:43
 msgid "When a document arrives for a task you already closed. The task stays closed."
@@ -21570,7 +21657,7 @@ msgstr "عندما يطلب صاحب الحساب تغيير عنوانه. لا 
 msgid "When an account holder's address has changed. It cannot be turned off."
 msgstr "عندما يتغيّر عنوان صاحب الحساب. لا يمكن إيقافه."
 
-#: onedesk/one/notifications.py:235
+#: onedesk/one/notifications.py:280
 msgid "When an administrator approves deleting your account."
 msgstr "عندما يوافق مسؤول على حذف حسابك."
 
@@ -21578,7 +21665,7 @@ msgstr "عندما يوافق مسؤول على حذف حسابك."
 msgid "When an administrator changes which apps you may use, your level or profile, the records you see, or makes you an administrator."
 msgstr "عندما يغيّر مسؤول التطبيقات التي يمكنك استخدامها، أو مستواك أو ملفك الوظيفي، أو السجلات التي تراها، أو يجعلك مسؤولًا."
 
-#: onedesk/one/notifications.py:225
+#: onedesk/one/notifications.py:270
 msgid "When an administrator holds your request to delete your account, and why."
 msgstr "عندما يعلّق مسؤول طلبك لحذف حسابك، ولماذا."
 
@@ -21622,7 +21709,7 @@ msgstr "عند نقل مقابلة أنت فيها إلى وقت آخر."
 msgid "When an invited address opens a shared link. It cannot be turned off, or nobody could open one."
 msgstr "عندما يفتح عنوان مدعو رابطاً مشتركاً. لا يمكن إيقافه، وإلا لن يتمكن أحد من فتحه."
 
-#: onedesk/one/notifications.py:249
+#: onedesk/one/notifications.py:294
 msgid "When another administrator approves deleting somebody's account."
 msgstr "عندما يوافق مسؤول آخر على حذف حساب شخص ما."
 
@@ -21630,23 +21717,23 @@ msgstr "عندما يوافق مسؤول آخر على حذف حساب شخص م
 msgid "When another administrator changes how OneIntake treats money or checks itself: submitting e-invoices, household, the audit or the confidence floor."
 msgstr "عندما يغيّر مسؤول آخر كيفية تعامل OneIntake مع المال أو مراجعته لنفسه: اعتماد الفواتير الإلكترونية، أو المنزل، أو المراجعة، أو حد الثقة."
 
-#: onedesk/one/notifications.py:314
+#: onedesk/one/notifications.py:359
 msgid "When another administrator changes the address the workspace calls itself."
 msgstr "عندما يغيّر مسؤول آخر العنوان الذي تُعرف به مساحة العمل."
 
-#: onedesk/one/notifications.py:327
+#: onedesk/one/notifications.py:372
 msgid "When another administrator changes the model or the added instructions of one of OneAI's actions."
 msgstr "عندما يغيّر مسؤول آخر النموذج أو التعليمات المضافة لأحد إجراءات OneAI."
 
-#: onedesk/one/notifications.py:340
+#: onedesk/one/notifications.py:385
 msgid "When another administrator changes the workspace's holidays."
 msgstr "عندما يغيّر مسؤول آخر عطلات مساحة العمل."
 
-#: onedesk/one/notifications.py:258
+#: onedesk/one/notifications.py:303
 msgid "When another administrator changes the workspace's plan or its add-ons."
 msgstr "عندما يغيّر مسؤول آخر خطة مساحة العمل أو إضافاتها."
 
-#: onedesk/one/notifications.py:267
+#: onedesk/one/notifications.py:312
 msgid "When another administrator changes who pays for the workspace."
 msgstr "عندما يغيّر مسؤول آخر من يدفع لمساحة العمل."
 
@@ -21702,15 +21789,15 @@ msgstr "عند حفظ سجل"
 msgid "When one is submitted"
 msgstr "عند اعتماد سجل"
 
-#: onedesk/one/notifications.py:288
+#: onedesk/one/notifications.py:333
 msgid "When one of the workspace's own domains starts working."
 msgstr "عندما يبدأ أحد نطاقات مساحة العمل الخاصة بالعمل."
 
-#: onedesk/one/notifications.py:301
+#: onedesk/one/notifications.py:346
 msgid "When one of the workspace's own domains stops working."
 msgstr "عندما يتوقف أحد نطاقات مساحة العمل الخاصة عن العمل."
 
-#: onedesk/one/notifications.py:276
+#: onedesk/one/notifications.py:321
 msgid "When payment for the workspace is overdue, with the day it will be suspended."
 msgstr "عندما يتأخر دفع مساحة العمل، مع يوم تعليقها."
 
@@ -21730,7 +21817,7 @@ msgstr "حين يضيفك أحد إلى حدث."
 msgid "When somebody applies for leave."
 msgstr "عندما يتقدّم أحد بطلب إجازة."
 
-#: onedesk/one/notifications.py:173
+#: onedesk/one/notifications.py:218
 msgid "When somebody asks for a copy of their data, which an administrator reviews first."
 msgstr "عندما يطلب شخص نسخة من بياناته، يراجعها مسؤول أولاً."
 
@@ -21738,7 +21825,7 @@ msgstr "عندما يطلب شخص نسخة من بياناته، يراجعها
 msgid "When somebody asks for a shift."
 msgstr "عندما يطلب أحد مناوبة."
 
-#: onedesk/one/notifications.py:212
+#: onedesk/one/notifications.py:257
 msgid "When somebody asks for their account to be deleted, which an administrator decides."
 msgstr "عندما يطلب شخص حذف حسابه، وهو ما يقرّره مسؤول."
 
@@ -21822,6 +21909,10 @@ msgstr "عندما يشاركك أحد ملفاً أو مجلداً."
 msgid "When somebody shares a record with you."
 msgstr "عندما يشاركك أحد سجلاً."
 
+#: onedesk/one/notifications.py:173
+msgid "When somebody who is not a user asks on the workspace's Your Data page, with the link to confirm."
+msgstr "عندما يطلب شخص ليس مستخدمًا من صفحة «بياناتك» في مساحة العمل، مع رابط التأكيد."
+
 #: onedesk/one_inventory/notifications.py:46
 msgid "When stock values cannot be recalculated after a back-dated entry."
 msgstr "عندما يتعذّر إعادة حساب قيم المخزون بعد قيد بتاريخ سابق."
@@ -21846,7 +21937,7 @@ msgstr "عندما تصبح نسخة بياناتك التي طلبتها من �
 msgid "When the current status was set."
 msgstr "متى ضُبطت الحالة الحالية."
 
-#: onedesk/one/notifications.py:349
+#: onedesk/one/notifications.py:394
 msgid "When the holiday list ends in 60, 30 or 7 days with no list after it."
 msgstr "عندما تنتهي قائمة العطلات بعد 60 أو 30 أو 7 أيام دون قائمة تليها."
 
@@ -21902,7 +21993,7 @@ msgstr "عندما تتطابق قاعدتان، تُسمّي الأعلى من�
 msgid "When what your material request asked for is received."
 msgstr "عند استلام ما طلبه طلب المواد الخاص بك."
 
-#: onedesk/one/notifications.py:186
+#: onedesk/one/notifications.py:231
 msgid "When you ask for your account to be deleted and sign in without a password."
 msgstr "عندما تطلب حذف حسابك وأنت تسجّل الدخول دون كلمة مرور."
 
@@ -22269,6 +22360,12 @@ msgstr "من يديره. يراه دائمًا، سواء أُدرج في الم
 #: onedesk/one/ai.py:257
 msgid "Who sees only part?"
 msgstr "من يرى جزءًا فقط؟"
+
+#. Description of the 'Address' (Data) field in DocType 'Personal Data Download
+#. Request'
+#: onedesk/one/custom/personal_data_download_request.json
+msgid "Who the copy is for. Somebody who is not a user has only this."
+msgstr "لمن النسخة. من ليس مستخدمًا ليس له سوى هذا."
 
 #. Description of the 'Customer' (Link) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
@@ -22949,6 +23046,10 @@ msgstr "لست في أي مكتبة بعد. المكتبة مجلد يتشارك
 msgid "You are outside every location this shift may check in from."
 msgstr "أنت خارج جميع المواقع التي يجوز لهذه المناوبة تسجيل الحضور منها."
 
+#: onedesk/www/your_data.html:19
+msgid "You are signed in. Ask from your profile instead, under Your Data."
+msgstr "أنت مسجّل الدخول. اطلب من ملفك الشخصي بدلًا من ذلك، ضمن «بياناتك»."
+
 #: onedesk/one/privacy.py:145
 msgid "You are the workspace's only administrator. Make somebody else one first."
 msgstr "أنت المسؤول الوحيد عن مساحة العمل. اجعل شخصاً آخر مسؤولاً أولاً."
@@ -22957,7 +23058,7 @@ msgstr "أنت المسؤول الوحيد عن مساحة العمل. اجعل 
 msgid "You are {0} metres from the nearest location you may check in from."
 msgstr "أنت على بُعد {0} متر من أقرب موقع يجوز لك تسجيل الحضور منه."
 
-#: onedesk/one/notifications.py:189
+#: onedesk/one/notifications.py:234
 msgid "You asked for your account to be deleted. Open this link within {hours} hours to confirm, and your workspace's administrators will decide: {url}. If it was not you, do nothing and your account stays."
 msgstr "طلبت حذف حسابك. افتح هذا الرابط خلال {hours} ساعة للتأكيد، وسيقرّر مسؤولو مساحة العمل: {url}. إن لم تكن أنت، فلا تفعل شيئاً وسيبقى حسابك."
 
@@ -22968,6 +23069,10 @@ msgstr "طلبت نسخة {0}. يراجع أحد المسؤولين ما يُع�
 #: onedesk/public/js/settings.js:249
 msgid "You asked {0} for your account to be deleted. An administrator decides."
 msgstr "طلبت {0} حذف حسابك. يقرّر أحد المسؤولين."
+
+#: onedesk/one/notifications.py:176
+msgid "You asked {workspace} for {asked}. Open this link within {hours} hours to confirm, and it will decide within a month: {url}<br><br>If it was not you, do nothing."
+msgstr "طلبت من {workspace} {asked}. افتح هذا الرابط خلال {hours} ساعة للتأكيد، وستبتّ في الطلب خلال شهر: {url}<br><br>إن لم تكن أنت من طلب، فلا تفعل شيئًا."
 
 #: onedesk/public/js/setup_wizard.js:20
 msgid "You can change this later from your own settings."
@@ -23022,7 +23127,7 @@ msgstr "أنت لا تملك صندوق البريد {0}."
 msgid "You have asked already; an administrator decides."
 msgstr "لقد طلبت ذلك مسبقاً؛ يقرّر أحد المسؤولين."
 
-#: onedesk/one/privacy_copy.py:267
+#: onedesk/one/privacy_copy.py:306
 msgid "You have asked already; an administrator is reviewing it."
 msgstr "لقد طلبت ذلك مسبقاً؛ يراجعه أحد المسؤولين."
 
@@ -23111,9 +23216,17 @@ msgstr "تقويمك في تطبيقات أخرى"
 msgid "Your Data"
 msgstr "بياناتك"
 
+#: onedesk/one/notifications.py:204
+msgid "Your Data Is Being Deleted"
+msgstr "جارٍ حذف بياناتك"
+
 #: onedesk/one/notifications.py:159
 msgid "Your Data Is Ready"
 msgstr "بياناتك جاهزة"
+
+#: onedesk/one/notifications.py:183
+msgid "Your Data Is Ready to Download"
+msgstr "بياناتك جاهزة للتنزيل"
 
 #. Label of the extra_section (Section Break) field in DocType 'AI Action
 #. Setting'
@@ -23150,6 +23263,10 @@ msgstr "الخاصة بمؤسستك"
 msgid "Your Password"
 msgstr "كلمة مرورك"
 
+#: onedesk/one/notifications.py:195
+msgid "Your Request Is On Hold"
+msgstr "طلبك معلّق"
+
 #: onedesk/public/js/project.js:161
 msgid "Your Update"
 msgstr "تحديثك"
@@ -23162,11 +23279,11 @@ msgstr "حسابك"
 msgid "Your account and profile"
 msgstr "حسابك وملفك الشخصي"
 
-#: onedesk/one/notifications.py:237
+#: onedesk/one/notifications.py:282
 msgid "Your account is being deleted"
 msgstr "يجري حذف حسابك"
 
-#: onedesk/one/notifications.py:227
+#: onedesk/one/notifications.py:272
 msgid "Your account is not deleted yet"
 msgstr "لم يُحذف حسابك بعد"
 
@@ -23198,11 +23315,15 @@ msgstr "رمزك لـ {file}"
 msgid "Your code is <b>{code}</b>. It works for ten minutes."
 msgstr "رمزك هو <b>{code}</b>. يعمل لمدة عشر دقائق."
 
+#: onedesk/www/your_data.html:32
+msgid "Your contact details, the records with your address, and the mail with you, except what would show somebody else's or the company's confidential information. You are told what is left out and why."
+msgstr "بيانات الاتصال بك، والسجلات التي تحمل عنوانك، والمراسلات معك، باستثناء ما قد يكشف معلومات سرية لشخص آخر أو للشركة. تُبلَّغ بما استُبعد ولماذا."
+
 #: onedesk/public/js/oneai/Panel.vue:344
 msgid "Your conversations"
 msgstr "محادثاتك"
 
-#: onedesk/one/privacy_copy.py:46
+#: onedesk/one/privacy_copy.py:47
 msgid "Your conversations with OneAI"
 msgstr "محادثاتك مع OneAI"
 
@@ -23214,7 +23335,23 @@ msgstr "نسختك من {0} جاهزة."
 msgid "Your copy is being gathered; it comes to your bell and by mail."
 msgstr "يجري جمع نسختك؛ ستصلك على الجرس وبالبريد."
 
-#: onedesk/one/notifications.py:163
+#: onedesk/www/your_data.py:21
+msgid "Your data"
+msgstr "بياناتك"
+
+#: onedesk/www/your_data.html:15
+msgid "Your data at {0}"
+msgstr "بياناتك لدى {0}"
+
+#: onedesk/one/notifications.py:208
+msgid "Your data is being deleted"
+msgstr "جارٍ حذف بياناتك"
+
+#: onedesk/one/notifications.py:199
+msgid "Your data is not deleted yet"
+msgstr "لم تُحذف بياناتك بعد"
+
+#: onedesk/one/notifications.py:163 onedesk/one/notifications.py:187
 msgid "Your data is ready"
 msgstr "بياناتك جاهزة"
 
@@ -23230,7 +23367,7 @@ msgstr "نطاقك، مثل office.example.com"
 msgid "Your drive passwords"
 msgstr "كلمات مرور محركات الأقراص الخاصة بك"
 
-#: onedesk/www/s.html:62
+#: onedesk/www/s.html:62 onedesk/www/your_data.html:23
 msgid "Your email address"
 msgstr "عنوان بريدك الإلكتروني"
 
@@ -23262,6 +23399,10 @@ msgstr "نُقلت مقابلتك إلى {when}"
 msgid "Your interview is at {when}"
 msgstr "مقابلتك في {when}"
 
+#: onedesk/www/your_data.html:36
+msgid "Your name and address are taken out of its records. What the law makes it keep, such as invoices, stays; if it has to wait, you are told why."
+msgstr "يُزال اسمك وعنوانك من سجلاتها. ما يُلزمها القانون بالاحتفاظ به، كالفواتير، يبقى؛ وإن كان عليها الانتظار تُبلَّغ بالسبب."
+
 #: onedesk/one_hr/rules.py:44
 msgid "Your passkey has been reset twice within a month."
 msgstr "أُعيد تعيين مفتاح المرور الخاص بك مرتين خلال شهر."
@@ -23278,6 +23419,10 @@ msgstr "تم تغيير كلمة مرورك"
 msgid "Your password was changed on {when}, from {device} ({address}). If this was not you, reset it now from the sign-in page and tell your administrator."
 msgstr "تم تغيير كلمة مرورك في {when}، من {device} ({address}). إن لم تكن أنت، أعد تعيينها الآن من صفحة تسجيل الدخول وأخبر مسؤولك."
 
+#: onedesk/www/your_data.html:19
+msgid "Your profile"
+msgstr "ملفك الشخصي"
+
 #: onedesk/www/welcome.html:32
 msgid "Your reference is {0}. Reply to the mail we sent you and quote it."
 msgstr "رقمك المرجعي {0}. ردّ على الرسالة التي أرسلناها واذكره."
@@ -23290,9 +23435,21 @@ msgstr "طلبك لـ {shift} من {from_date}: {status}"
 msgid "Your request is with your workspace's administrators. You will hear when they decide."
 msgstr "طلبك لدى مسؤولي مساحة العمل. ستُبلَّغ حين يقرّرون."
 
-#: onedesk/one/notifications.py:238
+#: onedesk/one/privacy_public.py:105
+msgid "Your request is with {0}. They decide within a month, and you will hear by mail."
+msgstr "طلبك لدى {0}. سيبتّون فيه خلال شهر، وستصلك رسالة بالبريد."
+
+#: onedesk/one/notifications.py:200
+msgid "Your request to delete your data is on hold, because: {why}"
+msgstr "طلب حذف بياناتك معلّق، والسبب: {why}"
+
+#: onedesk/one/notifications.py:283
 msgid "Your request was approved. You are signed out, and your account and what only you used are being deleted now. What the workspace has to keep, such as invoices you raised, stays without your name and address. Your employee record, if you have one, is HR's."
 msgstr "تمت الموافقة على طلبك. سُجّل خروجك، ويجري الآن حذف حسابك وما كنت تستخدمه وحدك. ما يجب أن تحتفظ به مساحة العمل، كالفواتير التي أصدرتها، يبقى دون اسمك وعنوانك. سجلّك الوظيفي، إن وُجد، يخص الموارد البشرية."
+
+#: onedesk/one/notifications.py:209
+msgid "Your request was approved. Your name and address are being taken out of the workspace's records now. What the law makes it keep, such as invoices, stays."
+msgstr "تمت الموافقة على طلبك. يجري الآن إزالة اسمك وعنوانك من سجلات مساحة العمل. ما يُلزمها القانون بالاحتفاظ به، كالفواتير، يبقى."
 
 #: onedesk/public/js/onecloud.js:340
 msgid "Your role"
@@ -23408,6 +23565,10 @@ msgstr "لونًا مثل #0f766e أو var(--gray-100)"
 #: onedesk/one/ai.py:2643
 msgid "a column"
 msgstr "عمود"
+
+#: onedesk/one/privacy_public.py:68
+msgid "a copy of the data it holds about you"
+msgstr "نسخة من البيانات التي تحتفظ بها عنك"
 
 #: onedesk/one_crm/heads.py:41 onedesk/one_crm/heads.py:49
 msgid "a day"
@@ -24088,6 +24249,10 @@ msgstr "اختصار الشركة"
 #: onedesk/one_admin/heads.py:396
 msgid "the credit rate and markup"
 msgstr "سعر الرصيد والهامش"
+
+#: onedesk/one/privacy_public.py:70
+msgid "the data it holds about you deleted"
+msgstr "حذف البيانات التي تحتفظ بها عنك"
 
 #: onedesk/public/js/doctype_settings.js:862
 msgid "the day of the month"
@@ -25762,7 +25927,7 @@ msgstr "{addon} يكلف {price} شهريًا، بقدر الانتقال من {
 msgid "{big} costs more per unit than {small}."
 msgstr "{big} يكلف للوحدة أكثر من {small}."
 
-#: onedesk/one/notifications.py:252
+#: onedesk/one/notifications.py:297
 msgid "{by} approved deleting {person}'s account. It is turned off and being erased now."
 msgstr "وافق {by} على حذف حساب {person}. أُوقف الحساب ويجري محوه الآن."
 
@@ -25774,23 +25939,23 @@ msgstr "غيّر {by} إعدادات OneIntake: {what}. ينطبق ذلك على
 msgid "{by} changed OneIntake: {what}"
 msgstr "غيّر {by} ‏OneIntake: {what}"
 
-#: onedesk/one/notifications.py:342
+#: onedesk/one/notifications.py:387
 msgid "{by} changed the holidays"
 msgstr "{by} غيّر العطلات"
 
-#: onedesk/one/notifications.py:343
+#: onedesk/one/notifications.py:388
 msgid "{by} changed the holidays in {holiday_list}: {what}. Leave, attendance and deadlines count around them from now on."
 msgstr "{by} غيّر العطلات في {holiday_list}: {what}. تُحسب الإجازات والحضور والمواعيد النهائية حولها من الآن."
 
-#: onedesk/one/notifications.py:260
+#: onedesk/one/notifications.py:305
 msgid "{by} changed the plan to {plan}"
 msgstr "غيّر {by} الخطة إلى {plan}"
 
-#: onedesk/one/notifications.py:316
+#: onedesk/one/notifications.py:361
 msgid "{by} changed the workspace's address to {domain}"
 msgstr "غيّر {by} عنوان مساحة العمل إلى {domain}"
 
-#: onedesk/one/notifications.py:261
+#: onedesk/one/notifications.py:306
 msgid "{by} changed the workspace's plan to {plan}. It now costs {monthly} a month."
 msgstr "غيّر {by} خطة مساحة العمل إلى {plan}. تكلفتها الآن {monthly} شهريًا."
 
@@ -25798,19 +25963,19 @@ msgstr "غيّر {by} خطة مساحة العمل إلى {plan}. تكلفتها
 msgid "{by} changed what you can use: {changes}."
 msgstr "غيّر {by} ما يمكنك استخدامه: {changes}."
 
-#: onedesk/one/notifications.py:269
+#: onedesk/one/notifications.py:314
 msgid "{by} changed who pays for the workspace"
 msgstr "غيّر {by} من يدفع لمساحة العمل"
 
-#: onedesk/one/notifications.py:329
+#: onedesk/one/notifications.py:374
 msgid "{by} changed {action}"
 msgstr "غيّر {by} ‏{action}"
 
-#: onedesk/one/notifications.py:330
+#: onedesk/one/notifications.py:375
 msgid "{by} changed {what} for {action}. It applies to everybody's use of it from now on, and may change what it costs. See OneAI › Actions."
 msgstr "غيّر {by} {what} في {action}. ينطبق ذلك على استخدام الجميع له من الآن، وقد يغيّر تكلفته. راجع OneAI › الإجراءات."
 
-#: onedesk/one/notifications.py:251
+#: onedesk/one/notifications.py:296
 msgid "{by} deleted {person}'s account"
 msgstr "حذف {by} حساب {person}"
 
@@ -25822,11 +25987,11 @@ msgstr "جعل {by} شخصًا آخر هو من يدفع لـ {workspace}. لن 
 msgid "{by} made you the one who pays for {workspace}. Its invoices and notices about paying come to you from now on.<br><br><a href=\"{account}\">Open your One account</a> and sign in with this address. If this is a mistake, reply to this mail."
 msgstr "جعلك {by} من يدفع لـ {workspace}. تصلك فواتيرها وإشعارات الدفع من الآن.<br><br><a href=\"{account}\">افتح حسابك في One</a> وسجّل الدخول بهذا العنوان. إذا كان ذلك خطأ، فردّ على هذه الرسالة."
 
-#: onedesk/one/notifications.py:317
+#: onedesk/one/notifications.py:362
 msgid "{by} made {domain} the workspace's main address. Sign-in, invitations and every link in mail now use it."
 msgstr "جعل {by} ‏{domain} العنوان الرئيسي لمساحة العمل. يستخدمه الآن تسجيل الدخول والدعوات وكل رابط في البريد."
 
-#: onedesk/one/notifications.py:270
+#: onedesk/one/notifications.py:315
 msgid "{by} made {email} the one who pays. The workspace's invoices go to them from now on."
 msgstr "جعل {by} {email} هو من يدفع. تذهب فواتير مساحة العمل إليه من الآن."
 
@@ -25854,11 +26019,11 @@ msgstr "وصل {count} ملفات إلى {folder} عبر رابطك"
 msgid "{count} on your calendar today"
 msgstr "{count} في تقويمك اليوم"
 
-#: onedesk/one/notifications.py:201
+#: onedesk/one/notifications.py:246
 msgid "{count} privacy requests are waiting"
 msgstr "{count} طلبات خصوصية بالانتظار"
 
-#: onedesk/one/notifications.py:202
+#: onedesk/one/notifications.py:247
 msgid "{count} requests for a copy of somebody's data or to delete their account have waited more than a week. The law gives a month to answer."
 msgstr "{count} طلبات لنسخة من بيانات شخص أو لحذف حسابه انتظرت أكثر من أسبوع. يمنح القانون شهراً للرد."
 
@@ -25886,11 +26051,11 @@ msgstr "تجاوز {customer} حد الائتمان"
 msgid "{domains}"
 msgstr "{domains}"
 
-#: onedesk/one/notifications.py:303
+#: onedesk/one/notifications.py:348
 msgid "{domain} stopped working"
 msgstr "توقف {domain} عن العمل"
 
-#: onedesk/one/notifications.py:290
+#: onedesk/one/notifications.py:335
 msgid "{domain} works now"
 msgstr "{domain} يعمل الآن"
 
@@ -25950,7 +26115,7 @@ msgstr "يبدأ {event} الساعة {time}"
 msgid "{file} arrived in {folder} through your link"
 msgstr "وصل {file} إلى {folder} عبر رابطك"
 
-#: onedesk/one/notifications.py:352
+#: onedesk/one/notifications.py:397
 msgid "{holiday_list} ends on {last_day} and no list follows it. From {first_day} every day counts as a working day for leave and attendance. Make next year's list in Workspace › Holidays."
 msgstr "تنتهي {holiday_list} في {last_day} ولا تليها قائمة. من {first_day} يُحسب كل يوم يوم عمل في الإجازات والحضور. أنشئ قائمة العام القادم من مساحة العمل › العطلات."
 
@@ -25978,19 +26143,19 @@ msgstr "{message}"
 msgid "{models}<br><br>Workspaces that picked them now run on the default."
 msgstr "{models}<br><br>مساحات العمل التي اختارتها تعمل الآن على الافتراضي."
 
-#: onedesk/one/notifications.py:215
+#: onedesk/one/notifications.py:260
 msgid "{person} ({email}) asked for their account and what they left in the workspace to be deleted. Approve it, or hold it and say why, under Workspace › Privacy Requests."
 msgstr "طلب {person} ({email}) حذف حسابه وما تركه في مساحة العمل. وافق عليه، أو علّقه واذكر السبب، من مساحة العمل › طلبات الخصوصية."
 
-#: onedesk/one/notifications.py:175
+#: onedesk/one/notifications.py:220
 msgid "{person} asked for a copy of their data"
 msgstr "طلب {person} نسخة من بياناته"
 
-#: onedesk/one/notifications.py:176
+#: onedesk/one/notifications.py:221
 msgid "{person} asked for a copy of their data. Review what goes and send it under Workspace › Data Copies; the law gives a month to answer."
 msgstr "طلب {person} نسخة من بياناته. راجع ما يُعطى وأرسله من مساحة العمل › نسخ البيانات؛ يمنح القانون شهراً للرد."
 
-#: onedesk/one/notifications.py:214
+#: onedesk/one/notifications.py:259
 msgid "{person} asked for their account to be deleted"
 msgstr "طلب {person} حذف حسابه"
 

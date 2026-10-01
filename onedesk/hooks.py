@@ -1145,6 +1145,8 @@ website_route_rules = [
 	# A One account's invoices: www/account_invoices.py.
 	{"from_route": "/account/invoices", "to_route": "account_invoices"},
 	{"from_route": "/account/profile", "to_route": "account_profile"},
+	# Your Data, for somebody who is not a user: www/your_data.py.
+	{"from_route": "/your-data", "to_route": "your_data"},
 ]
 
 # OneCloud as a network drive: a drive password signs a person in on the
@@ -1165,4 +1167,8 @@ jinja = {"methods": ["onedesk.one.print_html.one_html_block"]}
 # it. See one/privacy.py.
 user_data_fields = [
 	{"doctype": doctype, "strict": True} for doctype in ("Deleted Document", "ToDo", "Notification Log")
+] + [
+	# An applicant who asks to be forgotten. A customer or supplier with the
+	# address stays: their invoices are kept by law.
+	{"doctype": "Job Applicant", "filter_by": "email_id", "redact_fields": ["applicant_name", "email_id", "phone_number"]},
 ]

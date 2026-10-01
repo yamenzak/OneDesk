@@ -246,7 +246,9 @@ def withdraw() -> dict:
 def _waiting(name: str):
 	roles.require()
 	doc = frappe.get_doc(DELETION, name)
-	approved = not frappe.db.get_value("User", doc.email, "enabled")
+	# An account turned off has been approved already; somebody who is not a
+	# user has no account to turn off.
+	approved = frappe.db.exists("User", doc.email) and not frappe.db.get_value("User", doc.email, "enabled")
 	if doc.status not in ("Pending Approval", "On Hold") or approved:
 		frappe.throw(_("This request is not waiting for a decision."))
 	return doc
@@ -273,7 +275,10 @@ def hold(name: str, why: str) -> None:
 	doc.add_comment("Info", why)
 	from onedesk.one import notify
 
-	notify.notify("Deletion On Hold", doc.email, link="/desk/settings?section=profile", why=why)
+	if _is_user(doc.email):
+		notify.notify("Deletion On Hold", doc.email, link="/desk/settings?section=profile", why=why)
+	else:
+		notify.mail("Your Request Is On Hold", doc.email, why=why)
 
 
 @frappe.whitelist(methods=["POST"])
@@ -287,14 +292,23 @@ def approve(name: str) -> None:
 	from onedesk.one import notify
 
 	person = frappe.utils.get_fullname(doc.email)
+	user = _is_user(doc.email)
 	# Told while there is still somebody to tell.
-	notify.notify("Account Deleted", doc.email)
+	if user:
+		notify.notify("Account Deleted", doc.email)
+	else:
+		notify.mail("Your Data Is Being Deleted", doc.email)
 	others = [one for one in _administrators() if one not in (frappe.session.user, doc.email)]
 	if others:
 		notify.notify("Person Deleted", others, by=frappe.utils.get_fullname(), person=person)
 	doc.add_comment("Info", _("Approved by {0}").format(frappe.utils.get_fullname()))
-	_turn_off(doc.email)
+	if user:
+		_turn_off(doc.email)
 	frappe.enqueue(erase, queue="long", timeout=3000, request=name, enqueue_after_commit=True)
+
+
+def _is_user(email: str) -> bool:
+	return bool(frappe.db.exists("User", email))
 
 
 def erase(request: str) -> None:
@@ -303,6 +317,10 @@ def erase(request: str) -> None:
 	system's to do, after an administrator approved it above)."""
 	frappe.set_user("Administrator")
 	doc = frappe.get_doc(DELETION, request)
+	if not _is_user(doc.email):
+		from onedesk.one import privacy_public
+
+		return privacy_public.erase(doc)
 	for doctype, field in ONLY_THEIRS.items():
 		if not frappe.db.exists("DocType", doctype):
 			continue

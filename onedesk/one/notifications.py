@@ -168,6 +168,51 @@ TYPES = [
 		"always_mailed": True,
 	},
 	{
+		"name": _lt("Confirm Your Request"),
+		"app": "One",
+		"about": _lt("When somebody who is not a user asks on the workspace's Your Data page, with the link to confirm."),
+		"to": _lt("The address given on the page"),
+		"subject": _lt("Confirm your request to {workspace}"),
+		"message": _lt(
+			"You asked {workspace} for {asked}. Open this link within {hours} hours to confirm, and it will "
+			"decide within a month: {url}<br><br>If it was not you, do nothing."
+		),
+		"outside": True,
+	},
+	{
+		"name": _lt("Your Data Is Ready to Download"),
+		"app": "One",
+		"about": _lt("When a copy asked for on the Your Data page is ready, with the link to download it."),
+		"to": _lt("The person who asked"),
+		"subject": _lt("Your data is ready"),
+		"message": _lt(
+			"The copy of your data you asked for is ready: {url}<br><br>The link works for {days} days. "
+			"Withheld: {withheld}"
+		),
+		"outside": True,
+	},
+	{
+		"name": _lt("Your Request Is On Hold"),
+		"app": "One",
+		"about": _lt("When a deletion asked for on the Your Data page has to wait, and why."),
+		"to": _lt("The person who asked"),
+		"subject": _lt("Your data is not deleted yet"),
+		"message": _lt("Your request to delete your data is on hold, because: {why}"),
+		"outside": True,
+	},
+	{
+		"name": _lt("Your Data Is Being Deleted"),
+		"app": "One",
+		"about": _lt("When a deletion asked for on the Your Data page is approved."),
+		"to": _lt("The person who asked"),
+		"subject": _lt("Your data is being deleted"),
+		"message": _lt(
+			"Your request was approved. Your name and address are being taken out of the workspace's records "
+			"now. What the law makes it keep, such as invoices, stays."
+		),
+		"outside": True,
+	},
+	{
 		"name": _lt("Copy Asked"),
 		"app": "One",
 		"about": _lt("When somebody asks for a copy of their data, which an administrator reviews first."),

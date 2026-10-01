@@ -38,6 +38,7 @@ KINDS = (
 	("account", _lt("Your account and profile"), True),
 	("signins", _lt("Your sign-ins"), True),
 	("contacts", _lt("Contacts and addresses with your address"), True),
+	("records", _lt("Leads, deals, customers, suppliers and applications with your address"), True),
 	("memory", _lt("What OneAI remembers about you"), True),
 	("agreements", _lt("What you agreed to"), True),
 	("mail", _lt("Mail you sent or received"), False),
@@ -49,6 +50,19 @@ KINDS = (
 	("notifications", _lt("Notifications you got"), False),
 )
 
+#: What a copy holds for somebody who is not a user: a customer's contact, a
+#: supplier, a lead, an applicant. The rest is about an account they do not have.
+OUTSIDER = ("contacts", "records", "mail")
+
+#: Records that name somebody by their address, as (doctype, field, fields shown).
+RECORDS = (
+	("Lead", "email_id", ["lead_name", "company_name", "status", "source", "creation"]),
+	("Opportunity", "contact_email", ["opportunity_from", "party_name", "status", "creation"]),
+	("Customer", "email_id", ["customer_name", "customer_group", "creation"]),
+	("Supplier", "email_id", ["supplier_name", "supplier_group", "creation"]),
+	("Job Applicant", "email_id", ["applicant_name", "job_title", "status", "creation"]),
+)
+
 #: What never goes, said in the copy so the person knows it exists.
 NEVER = (
 	"The contents of records you deleted",
@@ -56,6 +70,9 @@ NEVER = (
 	"Values in records you changed, which are the workspace's",
 	"Account secrets such as reset keys",
 )
+
+#: The same, for somebody who is not a user.
+NEVER_OUTSIDER = ("The rest of the records that name you, which are the workspace's",)
 
 #: The account's own fields that are about the person; never its keys.
 ACCOUNT = (
@@ -142,6 +159,20 @@ def gather_kind(key: str, user: str):
 				],
 			),
 		}
+	if key == "records":
+		said = {}
+		for doctype, field, fields in RECORDS:
+			if not frappe.db.exists("DocType", doctype):
+				continue
+			meta = frappe.get_meta(doctype)
+			if not meta.get_field(field):
+				continue
+			rows = _rows(
+				doctype, {field: user}, [one for one in fields if one == "creation" or meta.get_field(one)]
+			)
+			if rows:
+				said[doctype] = rows
+		return said
 	if key == "memory":
 		return _rows("AI Memory", {"owner": user}, ["fact", "about_doctype", "about_name", "creation"])
 	if key == "agreements":
@@ -210,14 +241,24 @@ def gather_kind(key: str, user: str):
 	raise KeyError(key)
 
 
+def kinds_for(address: str) -> tuple:
+	"""The kinds a copy has: all of them for a user, fewer for somebody who is
+	not one."""
+	if frappe.db.exists("User", address):
+		return KINDS
+	return tuple(one for one in KINDS if one[0] in OUTSIDER)
+
+
 def counts(user: str) -> list[dict]:
 	"""Each kind with how much of it there is: what the administrator reviews."""
 	out = []
-	for key, label, always in KINDS:
+	for key, label, always in kinds_for(user):
 		found = gather_kind(key, user)
 		size = len(found) if isinstance(found, list) else 1 if found else 0
 		if key == "contacts":
 			size = len(found["contacts"]) + len(found["addresses"])
+		if key == "records":
+			size = sum(len(rows) for rows in found.values())
 		out.append({"key": key, "label": str(label), "always": always, "count": size})
 	return out
 
@@ -271,6 +312,7 @@ def ask() -> dict:
 			"doctype": DOWNLOAD,
 			"user": user,
 			"user_name": frappe.utils.get_fullname(user),
+			"one_email": user,
 			"one_status": "Waiting",
 		}
 	)
@@ -292,7 +334,8 @@ def review(name: str) -> dict:
 	decide what goes."""
 	roles.require()
 	doc = frappe.get_doc(DOWNLOAD, name)
-	return {"person": doc.user_name or doc.user, "status": doc.one_status, "kinds": counts(doc.user)}
+	address = doc.user or doc.one_email
+	return {"person": doc.user_name or address, "status": doc.one_status, "kinds": counts(address)}
 
 
 @frappe.whitelist(methods=["POST"])
@@ -304,7 +347,7 @@ def send(name: str, withheld: str | list | None = None, why: str | None = None) 
 	if doc.one_status != "Waiting":
 		frappe.throw(_("This request is not waiting for a decision."))
 	withheld = [one for one in (frappe.parse_json(withheld) or []) if one]
-	optional = {key for key, _label, always in KINDS if not always}
+	optional = {key for key, _label, always in kinds_for(doc.user or doc.one_email) if not always}
 	if set(withheld) - optional:
 		frappe.throw(
 			_("Only what the person wrote or touched can be withheld; what is about them always goes.")
@@ -323,48 +366,74 @@ def send(name: str, withheld: str | list | None = None, why: str | None = None) 
 
 
 def gather(request: str, withheld: list | None = None) -> None:
-	"""The copy, as reviewed: a file only the person may open, and the news on
-	their bell and by mail."""
+	"""The copy, as reviewed. A user's is a file only they may open, kept on
+	their account and announced on their bell; somebody who is not a user is
+	mailed a link to download it that works for a week (one/privacy_public.py)."""
 	from onedesk.one import notify
 
 	doc = frappe.get_doc(DOWNLOAD, request)
+	address = doc.user or doc.one_email
 	withheld = set(withheld or [])
 	copy = {
-		"person": doc.user_name,
-		"address": doc.user,
+		"person": doc.user_name or address,
+		"address": address,
 		"asked_on": str(doc.creation),
 		"given_on": str(now_datetime()),
 		"workspace": frappe.utils.get_url(),
 	}
-	for key, label, _always in KINDS:
-		copy[str(label)] = (
-			gather_kind(key, doc.user) if key not in withheld else "Withheld: " + (doc.one_withheld or "")
-		)
-	copy["Never included"] = list(NEVER)
+	# What is kept is "<labels>: <why>"; under each label, only the why.
+	why = (doc.one_withheld or "").partition(": ")[2]
+	for key, label, _always in kinds_for(address):
+		copy[str(label)] = gather_kind(key, address) if key not in withheld else f"Withheld: {why}"
+	copy["Never included"] = list(NEVER if doc.user else NEVER_OUTSIDER)
+	where = _file_of(address, doc.name) if doc.user else _outsider_file(doc.name)
 	# Gathered again, it replaces the copy before it.
-	for old in frappe.get_all("File", filters=_file_of(doc.user, doc.name), pluck="name"):
+	for old in frappe.get_all("File", filters=where, pluck="name"):
 		frappe.delete_doc("File", old, ignore_permissions=True)
 	file = frappe.get_doc(
 		{
 			"doctype": "File",
 			"file_name": f"Personal-Data-{(doc.user_name or 'copy').replace(' ', '-')}-{doc.name}.json",
-			"attached_to_doctype": "User",
-			"attached_to_name": doc.user,
+			"attached_to_doctype": "User" if doc.user else DOWNLOAD,
+			"attached_to_name": doc.user or doc.name,
 			"content": json.dumps(copy, indent=2, default=str, ensure_ascii=False),
 			"is_private": 1,
 		}
 	)
 	file.flags.skip_file_size_check = True
 	file.save(ignore_permissions=True)
+	withheld_said = doc.one_withheld or _("Nothing was withheld.")
+	if not doc.user:
+		from onedesk.one import privacy_public
+
+		frappe.db.set_value(DOWNLOAD, doc.name, "one_status", "Ready", update_modified=False)
+		notify.mail(
+			"Your Data Is Ready to Download",
+			address,
+			url=privacy_public.download_link(doc.name),
+			days=privacy_public.DOWNLOAD_DAYS,
+			withheld=withheld_said,
+		)
+		return
 	frappe.db.set_value("File", file.name, "owner", doc.user, update_modified=False)
 	frappe.db.set_value(DOWNLOAD, doc.name, {"owner": doc.user, "one_status": "Ready"}, update_modified=False)
 	notify.notify(
 		"Your Data Is Ready",
 		doc.user,
 		link="/desk/settings?section=profile",
-		withheld=doc.one_withheld or _("Nothing was withheld."),
+		withheld=withheld_said,
 	)
 	frappe.publish_realtime("one_privacy", user=doc.user)
+
+
+def _outsider_file(request: str) -> dict:
+	"""A copy for somebody who is not a user: on the request, which only
+	administrators may open; they download it through a signed link."""
+	return {
+		"attached_to_doctype": DOWNLOAD,
+		"attached_to_name": request,
+		"file_name": ["like", "Personal-Data-%"],
+	}
 
 
 # ------------------------------------------------------------------ guards

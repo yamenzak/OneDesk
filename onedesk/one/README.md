@@ -527,7 +527,8 @@ may see it.
 
 ### Privacy Requests
 
-People ask on You › Profile › Your Data; workspace administrators answer
+People ask on You › Profile › Your Data, and anybody else on the
+workspace's /your-data page; workspace administrators answer
 under Workspace › **Data Copies** and **Account Deletions**, and hear of each
 request on the bell and by mail, and again each day one has waited a week.
 The law gives a month to answer.
@@ -565,6 +566,22 @@ with how much of it there is.
 - Nobody deletes the workspace's last administrator, or the person it is
   billed to: those are handed to somebody else first. Nobody approves their
   own.
+
+**Somebody who is not a user**, such as a customer's contact, a supplier,
+a lead or a job applicant, asks on the workspace's own **/your-data** page.
+They give their address and choose a copy or a deletion; One mails them a
+link that works for a day, and nothing is filed until they open it. The page
+answers the same whatever the address, so nobody can use it to find out who
+the workspace knows. Link it from your website or your mail footer.
+
+- Their request lands in the same two lists, under their address, and you
+  decide it the same way.
+- Their copy holds the contacts and the records with their address (leads,
+  deals, customers, suppliers, applications), which always go, and the mail
+  with them, which you may withhold for a reason. It is mailed to them as a
+  download link that works for a week.
+- Deleting takes their name and address out of everything the workspace
+  keeps, as for a user. There is no account to turn off or rename.
 
 **OneAI on a request** offers **What would this copy give?** and **What
 would deleting them remove?**: each kind and how much of it, or what is

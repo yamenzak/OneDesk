@@ -1,0 +1,109 @@
+{% extends "templates/web.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{%- block navbar -%}{%- endblock -%}
+{%- block footer -%}{%- endblock -%}
+{% block breadcrumbs %}{% endblock %}
+
+{% block page_content %}
+<div class="one-portal">
+	<a class="one-portal__mark" href="/">
+		<img src="/assets/onedesk/images/one.svg" alt="">
+		<span>One</span>
+	</a>
+
+	<h1>{{ _("Your data at {0}").format(workspace|e) }}</h1>
+	<p class="one-portal__lede">{{ _("If {0} holds your details, as a customer, a supplier, a contact or an applicant, you can ask for a copy of them, or for them to be deleted.").format(workspace|e) }}</p>
+
+	{% if signed_in %}
+	<p class="one-signed">{{ _("You are signed in. Ask from your profile instead, under Your Data.") }} <a href="/desk/settings?section=profile">{{ _("Your profile") }}</a></p>
+	{% else %}
+	<form id="one-your-data">
+		<label class="one-field" for="email">
+			<span>{{ _("Your email address") }}</span>
+			<input id="email" name="email" type="email" required autocomplete="email" autofocus>
+			<small class="one-note">{{ _("The address {0} knows you by. We mail a link to it, so only you can ask.").format(workspace|e) }}</small>
+		</label>
+
+		<fieldset>
+			<legend>{{ _("What would you like?") }}</legend>
+			<label class="one-choice">
+				<span class="one-choice__head"><span><input type="radio" name="kind" value="copy" checked>{{ _("A copy of what it holds about me") }}</span></span>
+				<small class="one-choice__about">{{ _("Your contact details, the records with your address, and the mail with you, except what would show somebody else's or the company's confidential information. You are told what is left out and why.") }}</small>
+			</label>
+			<label class="one-choice">
+				<span class="one-choice__head"><span><input type="radio" name="kind" value="delete">{{ _("Delete what it holds about me") }}</span></span>
+				<small class="one-choice__about">{{ _("Your name and address are taken out of its records. What the law makes it keep, such as invoices, stays; if it has to wait, you are told why.") }}</small>
+			</label>
+		</fieldset>
+
+		<button type="submit" class="one-go">
+			<span class="one-spin" aria-hidden="true"></span>
+			<span class="one-go__label" data-busy="{{ _('Sending…') }}">{{ _("Send me the link") }}</span>
+		</button>
+		<div class="one-alert" id="one-said" role="alert" hidden>
+			<svg class="one-alert__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+			<span></span>
+		</div>
+		<p class="one-portal__lede" id="one-done" hidden></p>
+		<small class="one-note">{{ _("The workspace decides within a month, as the law requires. How One handles your data:") }} <a href="/legal/privacy" target="_blank" rel="noopener">{{ _("Privacy Policy") }}</a></small>
+	</form>
+	{% endif %}
+</div>
+
+<script>
+(() => {
+	const form = document.getElementById("one-your-data");
+	if (!form) return;
+	const said = document.getElementById("one-said");
+	const done = document.getElementById("one-done");
+	const button = form.querySelector(".one-go");
+	const label = button.querySelector(".one-go__label");
+	const idle = label.textContent;
+
+	// frappe.call, answered as a promise, with the server's words on refusal
+	// rather than frappe's dialog: a guest page has one place to say things.
+	const ask = (method, args) =>
+		new Promise((resolve, reject) => {
+			frappe
+				.call({ method, args, statusCode: {}, error_msg: document.createElement("div") })
+				.done((r) => resolve(r.message))
+				.fail((xhr) => reject(refusal(xhr)));
+		});
+	const refusal = (xhr) => {
+		if (xhr.status === 429) return __("Too many tries. Wait an hour and try again.");
+		try {
+			const told = JSON.parse(xhr.responseJSON._server_messages).map((m) => JSON.parse(m).message);
+			const plain = document.createElement("div");
+			plain.innerHTML = told.join(" ");
+			if (plain.textContent.trim()) return plain.textContent.trim();
+		} catch (e) {
+			// Nothing said: the line below.
+		}
+		return __("That did not work. Try again in a moment.");
+	};
+	const busy = (on) => {
+		button.disabled = on;
+		button.classList.toggle("is-busy", on);
+		label.textContent = on ? label.dataset.busy : idle;
+	};
+
+	form.addEventListener("submit", async (event) => {
+		event.preventDefault();
+		said.hidden = true;
+		busy(true);
+		try {
+			const answer = await ask("onedesk.one.privacy_public.ask", { email: form.email.value, kind: form.kind.value });
+			done.textContent = answer.said;
+			done.hidden = false;
+			button.hidden = true;
+		} catch (refused) {
+			said.querySelector("span").textContent = refused;
+			said.hidden = false;
+		} finally {
+			busy(false);
+		}
+	});
+})();
+</script>
+{% endblock %}
