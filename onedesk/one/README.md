@@ -429,14 +429,19 @@ Three things, each frappe's own, kept in the app they belong to.
   in the sidebar of the app whose list it was, OneBook's for invoices,
   OneCRM's for customers. Saved by a workspace administrator, everybody who
   uses that app sees it; saved by anybody else, it is in their own sidebar
-  only. Deleted from the report's menu, it leaves the sidebar. A saved
-  report shows each person only the records they may read.
+  only. **Show In…** on the report's menu (also offered when it is saved)
+  moves it to another app, or nowhere, and lets an administrator choose
+  between just them and everybody who uses the app. Deleted from the
+  report's menu, it leaves the sidebar. A saved report shows each person
+  only the records they may read.
 - **Dashboards**, under One › **Dashboards**: a page of charts and number
   cards over any records, such as invoices by month and how many are
   unpaid. A workspace administrator makes them (**Add Dashboard**, then its
   charts and cards); everybody may open them, and each chart and card shows
   only to people who may read what it counts. A chart counts, sums or
-  averages records, groups them, or reads a report.
+  averages records, groups them, or reads a report. **Show In…** on a
+  dashboard's menu lists it in an app's sidebar too, under Dashboards, for
+  the administrator alone or for everybody who uses the app.
 - **Reports by mail**, under Workspace › **Reports by Mail**, or **Setup
   Auto Email** on any report's menu: a report mailed daily, weekly or
   monthly to the addresses you give. It is run as whoever set it up would

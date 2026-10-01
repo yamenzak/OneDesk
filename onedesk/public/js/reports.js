@@ -350,7 +350,108 @@ onedesk.reports.lists_too = () => {
 	}
 };
 
+// Where a saved report or a dashboard is listed: which app's sidebar, and for whom
+// (one/reports.py). Show In… on the Report view's menu and on a dashboard's, and
+// offered once a report is saved. Only an administrator shows one to everybody.
+onedesk.reports.show_in = async (kind, name) => {
+	const said = await frappe.xcall("onedesk.one.reports.where", { kind, name });
+	const dialog = new frappe.ui.Dialog({
+		title: __("Show In"),
+		fields: [
+			{
+				fieldname: "module",
+				fieldtype: "Select",
+				label: __("App"),
+				options: [{ value: "", label: __("Nowhere") }, ...said.places.map((one) => ({ value: one.module, label: one.label }))],
+				default: said.module || "",
+				description: __("{0} is listed in that app's sidebar, under {1}.", [name, kind === "Report" ? __("Saved Reports") : __("Dashboards")]),
+			},
+			{
+				fieldname: "everybody",
+				fieldtype: "Select",
+				label: __("Who Sees It There"),
+				options: [
+					{ value: "0", label: __("Just me") },
+					{ value: "1", label: __("Everybody who uses the app") },
+				],
+				default: String(said.everybody),
+				hidden: !said.administers,
+				depends_on: "eval:doc.module",
+			},
+		],
+		primary_action_label: __("Save"),
+		primary_action: async (values) => {
+			await frappe.xcall("onedesk.one.reports.place", {
+				kind,
+				name,
+				module: values.module || null,
+				everybody: cint(values.everybody),
+			});
+			dialog.hide();
+			frappe.show_alert({ message: __("Saved."), indicator: "green" });
+		},
+	});
+	dialog.show();
+};
+
+onedesk.reports.shown_in = () => {
+	const ReportView = frappe.views && frappe.views.ReportView;
+	if (ReportView && !ReportView.prototype.__one_show_in) {
+		ReportView.prototype.__one_show_in = true;
+		const theirs = ReportView.prototype.report_menu_items;
+		ReportView.prototype.report_menu_items = function () {
+			const items = theirs.call(this);
+			if (this.report_name) items.push({ label: __("Show In…"), action: () => onedesk.reports.show_in("Report", this.report_name) });
+			return items;
+		};
+	}
+	// frappe's dashboard page keeps its Dashboard class to itself and draws its
+	// menu after the dashboard loads, so the item is added to that menu once the
+	// first dashboard has been drawn.
+	frappe.router.on("change", () => {
+		const route = frappe.get_route();
+		if (route[0] !== "dashboard-view" || !frappe.user.has_role("Workspace Administrator")) return;
+		const wrap = (tries) => {
+			const shown = frappe.dashboard;
+			if (!shown || !shown.page) return tries && setTimeout(() => wrap(tries - 1), 200);
+			const proto = Object.getPrototypeOf(shown);
+			if (proto.__one_show_in) return;
+			proto.__one_show_in = true;
+			const add = (one) => one.page.add_menu_item(__("Show In…"), () => onedesk.reports.show_in("Dashboard", one.dashboard_name));
+			const theirs = proto.set_dropdown;
+			proto.set_dropdown = function () {
+				theirs.call(this);
+				add(this);
+			};
+			add(shown);
+		};
+		wrap(25);
+	});
+	// A report just saved says where it went, and offers to move it.
+	$(document).on("app_ready", () =>
+		frappe.realtime.on("one_report_placed", ({ report }) =>
+			frappe.show_alert(
+				{
+					message: __("Saved under Saved Reports in this app's sidebar."),
+					body: `<a class="one-link" data-action="show_in">${frappe.utils.escape_html(__("Show it somewhere else…"))}</a>`,
+					indicator: "green",
+				},
+				10,
+				{ show_in: () => onedesk.reports.show_in("Report", report) }
+			)
+		)
+	);
+};
+
+frappe.ui.form.on("Dashboard", {
+	refresh(frm) {
+		if (!frm.is_new() && !frm.doc.is_standard && frappe.user.has_role("Workspace Administrator"))
+			frm.add_custom_button(__("Show In…"), () => onedesk.reports.show_in("Dashboard", frm.doc.name));
+	},
+});
+
 frappe.after_ajax(() => {
+	onedesk.reports.shown_in();
 	onedesk.reports.one_company();
 	onedesk.reports.one_name();
 	onedesk.reports.a_payroll_month();

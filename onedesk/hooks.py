@@ -207,6 +207,7 @@ doc_events = {
 		"after_insert": "onedesk.one.reports.placed",
 		"on_trash": "onedesk.one.reports.removed",
 	},
+	"Dashboard": {"on_trash": "onedesk.one.reports.removed"},
 	"Dashboard Chart": {"validate": "onedesk.one.reports.chart_kept"},
 	"Number Card": {"validate": "onedesk.one.reports.chart_kept"},
 	"Auto Email Report": {"validate": "onedesk.one.reports.mail_kept"},

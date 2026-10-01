@@ -4898,6 +4898,17 @@ Fixed or built (`one/reports.py`):
   Administrator ran as wsadmin; the Money In dashboard drew its card and two
   charts.
 
+**Show In** (after the pass, on the user's word: where a report or dashboard
+shows should be chosen, not decided). **Show In…** on a saved report's menu
+and a dashboard's (and on a dashboard's form) asks which app's sidebar, or
+none, and, for an administrator, just me or everybody who uses the app. The
+list offers One and the apps the reader works in. A report just saved says
+where it went and offers the same choice. Only whoever saved a report, or
+an administrator, moves it; dashboards are an administrator's. Tried: Money
+In shown in OneBook for everybody from the dashboard's menu; Rania moved her
+My Items to OneBook for herself and was refused everybody, Money In and
+somebody else's report.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

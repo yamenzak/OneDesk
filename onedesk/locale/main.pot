@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-01 11:22+0000\n"
-"PO-Revision-Date: 2026-10-01 11:22+0000\n"
+"POT-Creation-Date: 2026-10-01 11:36+0000\n"
+"PO-Revision-Date: 2026-10-01 11:36+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -217,7 +217,7 @@ msgstr ""
 msgid "A chart a module registered by name. It works out its own figures, as the reader."
 msgstr ""
 
-#: onedesk/one/reports.py:87
+#: onedesk/one/reports.py:88
 msgid "A chart or a card here counts records, or reads a report."
 msgstr ""
 
@@ -687,7 +687,7 @@ msgstr ""
 msgid "A reply to {0}"
 msgstr ""
 
-#: onedesk/one/reports.py:77
+#: onedesk/one/reports.py:78
 msgid "A report saved here is a list's Report view, saved under a name."
 msgstr ""
 
@@ -1803,8 +1803,9 @@ msgstr ""
 
 #. Label of the one_app (Data) field in DocType 'Notification Type'
 #: onedesk/one/custom/notification_type.json
-#: onedesk/public/js/doctype_settings.js:341 onedesk/public/js/settings.js:1082
-#: onedesk/public/js/settings.js:1103 onedesk/public/js/settings.js:2874
+#: onedesk/public/js/doctype_settings.js:341 onedesk/public/js/reports.js:364
+#: onedesk/public/js/settings.js:1082 onedesk/public/js/settings.js:1103
+#: onedesk/public/js/settings.js:2874
 msgid "App"
 msgstr ""
 
@@ -6024,6 +6025,10 @@ msgstr ""
 msgid "Everybody who manages {0}"
 msgstr ""
 
+#: onedesk/public/js/reports.js:375
+msgid "Everybody who uses the app"
+msgstr ""
+
 #: onedesk/public/js/settings.js:1148
 msgid "Everybody who uses {0}"
 msgstr ""
@@ -8617,6 +8622,10 @@ msgstr ""
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Jurisdiction"
+msgstr ""
+
+#: onedesk/public/js/reports.js:374
+msgid "Just me"
 msgstr ""
 
 #: onedesk/public/js/onecloud.js:496 onedesk/public/js/onemail.js:303
@@ -11652,6 +11661,10 @@ msgstr ""
 msgid "Now it reads {0} {1}, and a number {2}."
 msgstr ""
 
+#: onedesk/public/js/reports.js:365
+msgid "Nowhere"
+msgstr ""
+
 #: onedesk/one_inventory/heads.py:138
 msgid "Nowhere yet"
 msgstr ""
@@ -12416,6 +12429,10 @@ msgstr ""
 msgid "Only a request still waiting can be turned down."
 msgstr ""
 
+#: onedesk/one/reports.py:248
+msgid "Only a saved report can be shown somewhere else."
+msgstr ""
+
 #: onedesk/one_ai/touch.py:213
 msgid "Only a suggested change can be applied in the form."
 msgstr ""
@@ -12434,6 +12451,10 @@ msgstr ""
 
 #: onedesk/one_hr/ai_grievance.py:192
 msgid "Only an HR Manager can mark a grievance as not sensitive."
+msgstr ""
+
+#: onedesk/one/reports.py:287
+msgid "Only an administrator can show it to everybody."
 msgstr ""
 
 #: onedesk/one/roles.py:55
@@ -12539,6 +12560,10 @@ msgstr ""
 
 #: onedesk/one_storage/mounts.py:484
 msgid "Only whoever connected {0} can remove it."
+msgstr ""
+
+#: onedesk/one/reports.py:251
+msgid "Only whoever saved a report, or an administrator, can move it."
 msgstr ""
 
 #: onedesk/public/js/settings.js:201
@@ -15410,9 +15435,9 @@ msgstr ""
 #: onedesk/public/js/crm_record.js:106 onedesk/public/js/next_step.js:31
 #: onedesk/public/js/onecloud.js:1593 onedesk/public/js/onemail.js:897
 #: onedesk/public/js/onemail.js:921 onedesk/public/js/project.js:96
-#: onedesk/public/js/settings.js:390 onedesk/public/js/settings.js:695
-#: onedesk/public/js/settings.js:2486 onedesk/public/js/shell.js:428
-#: onedesk/www/account_profile.html:29
+#: onedesk/public/js/reports.js:382 onedesk/public/js/settings.js:390
+#: onedesk/public/js/settings.js:695 onedesk/public/js/settings.js:2486
+#: onedesk/public/js/shell.js:428 onedesk/www/account_profile.html:29
 msgid "Save"
 msgstr ""
 
@@ -15432,12 +15457,17 @@ msgstr ""
 msgid "Saved to My Files."
 msgstr ""
 
+#: onedesk/public/js/reports.js:435
+msgid "Saved under Saved Reports in this app's sidebar."
+msgstr ""
+
 #: onedesk/public/js/settings.js:1227
 msgid "Saved, it is set again on everybody on it. Their administrator switch and anything else they hold stay."
 msgstr ""
 
-#: onedesk/public/js/settings.js:394 onedesk/public/js/settings.js:2495
-#: onedesk/public/js/shell.js:486 onedesk/www/account_profile.html:78
+#: onedesk/public/js/reports.js:391 onedesk/public/js/settings.js:394
+#: onedesk/public/js/settings.js:2495 onedesk/public/js/shell.js:486
+#: onedesk/www/account_profile.html:78
 msgid "Saved."
 msgstr ""
 
@@ -16124,12 +16154,25 @@ msgstr ""
 msgid "Shortly before an interview, as long before as HR Settings says."
 msgstr ""
 
+#: onedesk/public/js/reports.js:359
+msgid "Show In"
+msgstr ""
+
+#: onedesk/public/js/reports.js:404 onedesk/public/js/reports.js:420
+#: onedesk/public/js/reports.js:449
+msgid "Show In…"
+msgstr ""
+
 #: onedesk/public/js/settings.js:2373
 msgid "Show every action"
 msgstr ""
 
 #: onedesk/public/js/oneai/Record.vue:54
 msgid "Show fewer"
+msgstr ""
+
+#: onedesk/public/js/reports.js:436
+msgid "Show it somewhere else…"
 msgstr ""
 
 #: onedesk/public/js/onemail.js:360
@@ -17540,7 +17583,8 @@ msgstr ""
 
 #: onedesk/one/access.py:438 onedesk/one/access.py:563
 #: onedesk/one/access.py:600 onedesk/one/access.py:625
-#: onedesk/one/access.py:689 onedesk/one/settings.py:1075
+#: onedesk/one/access.py:689 onedesk/one/reports.py:257
+#: onedesk/one/reports.py:289 onedesk/one/settings.py:1075
 #: onedesk/one/settings.py:1164
 msgid "That cannot be set."
 msgstr ""
@@ -21634,6 +21678,10 @@ msgstr ""
 msgid "Who Pays"
 msgstr ""
 
+#: onedesk/public/js/reports.js:372
+msgid "Who Sees It There"
+msgstr ""
+
 #: onedesk/one_inventory/report/to_order/to_order.js:29
 msgid "Who Supplies the Rest?"
 msgstr ""
@@ -22398,8 +22446,8 @@ msgstr ""
 #: onedesk/one/approvals.py:82 onedesk/one/automations.py:77
 #: onedesk/one/customize.py:93 onedesk/one/mail_templates.py:145
 #: onedesk/one/numbering.py:74 onedesk/one/printing.py:99
-#: onedesk/one/reports.py:90 onedesk/one/reports.py:93
-#: onedesk/one/reports.py:103
+#: onedesk/one/reports.py:91 onedesk/one/reports.py:94
+#: onedesk/one/reports.py:104
 msgid "You cannot open {0}."
 msgstr ""
 
@@ -24089,6 +24137,10 @@ msgstr ""
 
 #: onedesk/one_ai/files.py:85
 msgid "{0} is larger than {1} MB, which is as much as one question may carry."
+msgstr ""
+
+#: onedesk/public/js/reports.js:367
+msgid "{0} is listed in that app's sidebar, under {1}."
 msgstr ""
 
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:47

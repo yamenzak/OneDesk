@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-01 11:22+0000\n"
-"PO-Revision-Date: 2026-10-01 11:22+0000\n"
+"POT-Creation-Date: 2026-10-01 11:36+0000\n"
+"PO-Revision-Date: 2026-10-01 11:36+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -219,7 +219,7 @@ msgstr "Eine Obergrenze, keine Prognose. Der Rest wird beim Abrechnen freigegebe
 msgid "A chart a module registered by name. It works out its own figures, as the reader."
 msgstr "Ein Diagramm, das ein Modul unter seinem Namen registriert hat. Es berechnet seine Zahlen selbst, mit den Rechten des Lesers."
 
-#: onedesk/one/reports.py:87
+#: onedesk/one/reports.py:88
 msgid "A chart or a card here counts records, or reads a report."
 msgstr "Ein Diagramm oder eine Karte zählt hier Datensätze oder liest einen Bericht."
 
@@ -689,7 +689,7 @@ msgstr "Ein wiederkehrender Termin wird auf seiner eigenen Seite verschoben, fü
 msgid "A reply to {0}"
 msgstr "Eine Antwort auf {0}"
 
-#: onedesk/one/reports.py:77
+#: onedesk/one/reports.py:78
 msgid "A report saved here is a list's Report view, saved under a name."
 msgstr "Ein hier gespeicherter Bericht ist die Berichtsansicht einer Liste, unter einem Namen gespeichert."
 
@@ -1805,8 +1805,9 @@ msgstr "Alles, was die entscheidende Person wissen muss."
 
 #. Label of the one_app (Data) field in DocType 'Notification Type'
 #: onedesk/one/custom/notification_type.json
-#: onedesk/public/js/doctype_settings.js:341 onedesk/public/js/settings.js:1082
-#: onedesk/public/js/settings.js:1103 onedesk/public/js/settings.js:2874
+#: onedesk/public/js/doctype_settings.js:341 onedesk/public/js/reports.js:364
+#: onedesk/public/js/settings.js:1082 onedesk/public/js/settings.js:1103
+#: onedesk/public/js/settings.js:2874
 msgid "App"
 msgstr "App"
 
@@ -6026,6 +6027,10 @@ msgstr "Alle, die es halten"
 msgid "Everybody who manages {0}"
 msgstr "Alle, die {0} verwalten"
 
+#: onedesk/public/js/reports.js:375
+msgid "Everybody who uses the app"
+msgstr "Alle, die die App nutzen"
+
 #: onedesk/public/js/settings.js:1148
 msgid "Everybody who uses {0}"
 msgstr "Alle, die {0} nutzen"
@@ -8619,6 +8624,10 @@ msgstr "Spam"
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Jurisdiction"
 msgstr "Rechtsraum"
+
+#: onedesk/public/js/reports.js:374
+msgid "Just me"
+msgstr "Nur ich"
 
 #: onedesk/public/js/onecloud.js:496 onedesk/public/js/onemail.js:303
 msgid "KB"
@@ -11652,6 +11661,10 @@ msgstr ""
 msgid "Now it reads {0} {1}, and a number {2}."
 msgstr "So sieht es jetzt aus: {0} {1}, und eine Zahl {2}."
 
+#: onedesk/public/js/reports.js:365
+msgid "Nowhere"
+msgstr "Nirgends"
+
 #: onedesk/one_inventory/heads.py:138
 msgid "Nowhere yet"
 msgstr "Noch nirgends"
@@ -12416,6 +12429,10 @@ msgstr "Nur ein Antrag, der noch offen ist, kann beantwortet werden."
 msgid "Only a request still waiting can be turned down."
 msgstr "Nur ein Antrag, der noch offen ist, kann abgelehnt werden."
 
+#: onedesk/one/reports.py:248
+msgid "Only a saved report can be shown somewhere else."
+msgstr "Nur ein gespeicherter Bericht kann woanders gezeigt werden."
+
 #: onedesk/one_ai/touch.py:213
 msgid "Only a suggested change can be applied in the form."
 msgstr "Nur eine vorgeschlagene Änderung kann im Formular übernommen werden."
@@ -12435,6 +12452,10 @@ msgstr "Nur HR-Manager können den Ton eines aufgezeichneten Gesprächs löschen
 #: onedesk/one_hr/ai_grievance.py:192
 msgid "Only an HR Manager can mark a grievance as not sensitive."
 msgstr "Nur HR-Manager können eine Beschwerde als nicht sensibel markieren."
+
+#: onedesk/one/reports.py:287
+msgid "Only an administrator can show it to everybody."
+msgstr "Nur ein Administrator kann es allen zeigen."
 
 #: onedesk/one/roles.py:55
 msgid "Only an administrator of this workspace can do this."
@@ -12540,6 +12561,10 @@ msgstr "Nur wer {0} verbunden hat, kann es ändern."
 #: onedesk/one_storage/mounts.py:484
 msgid "Only whoever connected {0} can remove it."
 msgstr "Nur wer {0} verbunden hat, kann es entfernen."
+
+#: onedesk/one/reports.py:251
+msgid "Only whoever saved a report, or an administrator, can move it."
+msgstr "Nur wer einen Bericht gespeichert hat oder ein Administrator kann ihn verschieben."
 
 #: onedesk/public/js/settings.js:201
 msgid "Only you and HR see these."
@@ -15410,9 +15435,9 @@ msgstr "Umsätze werden unter dem Emirat des Unternehmens gemeldet."
 #: onedesk/public/js/crm_record.js:106 onedesk/public/js/next_step.js:31
 #: onedesk/public/js/onecloud.js:1593 onedesk/public/js/onemail.js:897
 #: onedesk/public/js/onemail.js:921 onedesk/public/js/project.js:96
-#: onedesk/public/js/settings.js:390 onedesk/public/js/settings.js:695
-#: onedesk/public/js/settings.js:2486 onedesk/public/js/shell.js:428
-#: onedesk/www/account_profile.html:29
+#: onedesk/public/js/reports.js:382 onedesk/public/js/settings.js:390
+#: onedesk/public/js/settings.js:695 onedesk/public/js/settings.js:2486
+#: onedesk/public/js/shell.js:428 onedesk/www/account_profile.html:29
 msgid "Save"
 msgstr "Speichern"
 
@@ -15432,12 +15457,17 @@ msgstr "In Meinen Dateien speichern"
 msgid "Saved to My Files."
 msgstr "In Meinen Dateien gespeichert."
 
+#: onedesk/public/js/reports.js:435
+msgid "Saved under Saved Reports in this app's sidebar."
+msgstr "Unter „Gespeicherte Berichte“ in der Seitenleiste dieser App gespeichert."
+
 #: onedesk/public/js/settings.js:1227
 msgid "Saved, it is set again on everybody on it. Their administrator switch and anything else they hold stay."
 msgstr "Beim Speichern wird es erneut auf alle darauf angewendet. Ihr Administrator-Schalter und alles andere, was sie haben, bleibt."
 
-#: onedesk/public/js/settings.js:394 onedesk/public/js/settings.js:2495
-#: onedesk/public/js/shell.js:486 onedesk/www/account_profile.html:78
+#: onedesk/public/js/reports.js:391 onedesk/public/js/settings.js:394
+#: onedesk/public/js/settings.js:2495 onedesk/public/js/shell.js:486
+#: onedesk/www/account_profile.html:78
 msgid "Saved."
 msgstr "Gespeichert."
 
@@ -16124,6 +16154,15 @@ msgstr "Kurz vor einem Interview, an dem du teilnimmst, so lange vorher, wie die
 msgid "Shortly before an interview, as long before as HR Settings says."
 msgstr "Kurz vor einem Interview, so lange vorher, wie die HR-Einstellungen sagen."
 
+#: onedesk/public/js/reports.js:359
+msgid "Show In"
+msgstr "Zeigen in"
+
+#: onedesk/public/js/reports.js:404 onedesk/public/js/reports.js:420
+#: onedesk/public/js/reports.js:449
+msgid "Show In…"
+msgstr "Zeigen in…"
+
 #: onedesk/public/js/settings.js:2373
 msgid "Show every action"
 msgstr "Alle Aktionen anzeigen"
@@ -16131,6 +16170,10 @@ msgstr "Alle Aktionen anzeigen"
 #: onedesk/public/js/oneai/Record.vue:54
 msgid "Show fewer"
 msgstr "Weniger anzeigen"
+
+#: onedesk/public/js/reports.js:436
+msgid "Show it somewhere else…"
+msgstr "Woanders zeigen…"
 
 #: onedesk/public/js/onemail.js:360
 msgid "Show older"
@@ -17540,7 +17583,8 @@ msgstr "Diese Adresse hat bereits ein Konto. Melden Sie sich stattdessen damit a
 
 #: onedesk/one/access.py:438 onedesk/one/access.py:563
 #: onedesk/one/access.py:600 onedesk/one/access.py:625
-#: onedesk/one/access.py:689 onedesk/one/settings.py:1075
+#: onedesk/one/access.py:689 onedesk/one/reports.py:257
+#: onedesk/one/reports.py:289 onedesk/one/settings.py:1075
 #: onedesk/one/settings.py:1164
 msgid "That cannot be set."
 msgstr "Das kann nicht eingestellt werden."
@@ -21634,6 +21678,10 @@ msgstr "Wer dazugehört"
 msgid "Who Pays"
 msgstr "Wer zahlt"
 
+#: onedesk/public/js/reports.js:372
+msgid "Who Sees It There"
+msgstr "Wer es dort sieht"
+
 #: onedesk/one_inventory/report/to_order/to_order.js:29
 msgid "Who Supplies the Rest?"
 msgstr "Wer liefert den Rest?"
@@ -22398,8 +22446,8 @@ msgstr "Sie können {0} {1} nicht öffnen."
 #: onedesk/one/approvals.py:82 onedesk/one/automations.py:77
 #: onedesk/one/customize.py:93 onedesk/one/mail_templates.py:145
 #: onedesk/one/numbering.py:74 onedesk/one/printing.py:99
-#: onedesk/one/reports.py:90 onedesk/one/reports.py:93
-#: onedesk/one/reports.py:103
+#: onedesk/one/reports.py:91 onedesk/one/reports.py:94
+#: onedesk/one/reports.py:104
 msgid "You cannot open {0}."
 msgstr "Sie können {0} nicht öffnen."
 
@@ -24097,6 +24145,10 @@ msgstr "{0} liegt in den Dateien einer anderen Person. Kopieren Sie es stattdess
 #: onedesk/one_ai/files.py:85
 msgid "{0} is larger than {1} MB, which is as much as one question may carry."
 msgstr "{0} ist größer als {1} MB, und mehr darf eine Frage nicht tragen."
+
+#: onedesk/public/js/reports.js:367
+msgid "{0} is listed in that app's sidebar, under {1}."
+msgstr "{0} steht in der Seitenleiste dieser App unter {1}."
 
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:47
 msgid "{0} is listed twice under Servers."

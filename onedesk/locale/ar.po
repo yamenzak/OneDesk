@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-01 11:22+0000\n"
-"PO-Revision-Date: 2026-10-01 11:22+0000\n"
+"POT-Creation-Date: 2026-10-01 11:36+0000\n"
+"PO-Revision-Date: 2026-10-01 11:36+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -219,7 +219,7 @@ msgstr "سقف لا تقدير. ويُفرج عن الباقي عند التسو
 msgid "A chart a module registered by name. It works out its own figures, as the reader."
 msgstr "مخطط سجّلته وحدة باسمه. يحسب أرقامه بنفسه، بصلاحيات القارئ."
 
-#: onedesk/one/reports.py:87
+#: onedesk/one/reports.py:88
 msgid "A chart or a card here counts records, or reads a report."
 msgstr "المخطط أو البطاقة هنا تعدّ السجلات أو تقرأ تقريرًا."
 
@@ -689,7 +689,7 @@ msgstr "يُنقل الحدث المتكرر من صفحته، لكل مراته
 msgid "A reply to {0}"
 msgstr "ردّ على {0}"
 
-#: onedesk/one/reports.py:77
+#: onedesk/one/reports.py:78
 msgid "A report saved here is a list's Report view, saved under a name."
 msgstr "التقرير المحفوظ هنا هو عرض «تقرير» لقائمة، محفوظ باسم."
 
@@ -1805,8 +1805,9 @@ msgstr "كل ما يحتاج من يبتّ في الطلب إلى معرفته."
 
 #. Label of the one_app (Data) field in DocType 'Notification Type'
 #: onedesk/one/custom/notification_type.json
-#: onedesk/public/js/doctype_settings.js:341 onedesk/public/js/settings.js:1082
-#: onedesk/public/js/settings.js:1103 onedesk/public/js/settings.js:2874
+#: onedesk/public/js/doctype_settings.js:341 onedesk/public/js/reports.js:364
+#: onedesk/public/js/settings.js:1082 onedesk/public/js/settings.js:1103
+#: onedesk/public/js/settings.js:2874
 msgid "App"
 msgstr "التطبيق"
 
@@ -6026,6 +6027,10 @@ msgstr "كل من يملكه"
 msgid "Everybody who manages {0}"
 msgstr "كل من يدير {0}"
 
+#: onedesk/public/js/reports.js:375
+msgid "Everybody who uses the app"
+msgstr "كل من يستخدم التطبيق"
+
 #: onedesk/public/js/settings.js:1148
 msgid "Everybody who uses {0}"
 msgstr "كل من يستخدم {0}"
@@ -8619,6 +8624,10 @@ msgstr "البريد العشوائي"
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Jurisdiction"
 msgstr "النطاق القضائي"
+
+#: onedesk/public/js/reports.js:374
+msgid "Just me"
+msgstr "أنا فقط"
 
 #: onedesk/public/js/onecloud.js:496 onedesk/public/js/onemail.js:303
 msgid "KB"
@@ -11652,6 +11661,10 @@ msgstr ""
 msgid "Now it reads {0} {1}, and a number {2}."
 msgstr "يظهر الآن هكذا {0} {1}، والرقم {2}."
 
+#: onedesk/public/js/reports.js:365
+msgid "Nowhere"
+msgstr "لا مكان"
+
 #: onedesk/one_inventory/heads.py:138
 msgid "Nowhere yet"
 msgstr "لا مكان بعد"
@@ -12416,6 +12429,10 @@ msgstr "لا يُبتّ إلا في طلب ما زال قيد الانتظار."
 msgid "Only a request still waiting can be turned down."
 msgstr "لا يُرفض إلا طلب ما زال قيد الانتظار."
 
+#: onedesk/one/reports.py:248
+msgid "Only a saved report can be shown somewhere else."
+msgstr "يمكن عرض التقرير المحفوظ فقط في مكان آخر."
+
 #: onedesk/one_ai/touch.py:213
 msgid "Only a suggested change can be applied in the form."
 msgstr "لا يمكن تطبيق شيء في النموذج إلا التغيير المقترح."
@@ -12435,6 +12452,10 @@ msgstr "لا يمكن حذف صوت مقابلة مسجّلة إلا لمدير 
 #: onedesk/one_hr/ai_grievance.py:192
 msgid "Only an HR Manager can mark a grievance as not sensitive."
 msgstr "لا يمكن إلا لمدير الموارد البشرية إلغاء وسم الشكوى كحساسة."
+
+#: onedesk/one/reports.py:287
+msgid "Only an administrator can show it to everybody."
+msgstr "المسؤول فقط يمكنه عرضه للجميع."
 
 #: onedesk/one/roles.py:55
 msgid "Only an administrator of this workspace can do this."
@@ -12540,6 +12561,10 @@ msgstr "لا يمكن تغيير {0} إلا لمن أنشأ الاتصال."
 #: onedesk/one_storage/mounts.py:484
 msgid "Only whoever connected {0} can remove it."
 msgstr "لا يمكن إزالة {0} إلا لمن أنشأ الاتصال."
+
+#: onedesk/one/reports.py:251
+msgid "Only whoever saved a report, or an administrator, can move it."
+msgstr "لا ينقل التقرير إلا من حفظه أو مسؤول."
 
 #: onedesk/public/js/settings.js:201
 msgid "Only you and HR see these."
@@ -15410,9 +15435,9 @@ msgstr "تُسجّل المبيعات تحت إمارة الشركة."
 #: onedesk/public/js/crm_record.js:106 onedesk/public/js/next_step.js:31
 #: onedesk/public/js/onecloud.js:1593 onedesk/public/js/onemail.js:897
 #: onedesk/public/js/onemail.js:921 onedesk/public/js/project.js:96
-#: onedesk/public/js/settings.js:390 onedesk/public/js/settings.js:695
-#: onedesk/public/js/settings.js:2486 onedesk/public/js/shell.js:428
-#: onedesk/www/account_profile.html:29
+#: onedesk/public/js/reports.js:382 onedesk/public/js/settings.js:390
+#: onedesk/public/js/settings.js:695 onedesk/public/js/settings.js:2486
+#: onedesk/public/js/shell.js:428 onedesk/www/account_profile.html:29
 msgid "Save"
 msgstr "حفظ"
 
@@ -15432,12 +15457,17 @@ msgstr "حفظ في ملفاتي"
 msgid "Saved to My Files."
 msgstr "حُفظ في ملفاتي."
 
+#: onedesk/public/js/reports.js:435
+msgid "Saved under Saved Reports in this app's sidebar."
+msgstr "حُفظ تحت «التقارير المحفوظة» في الشريط الجانبي لهذا التطبيق."
+
 #: onedesk/public/js/settings.js:1227
 msgid "Saved, it is set again on everybody on it. Their administrator switch and anything else they hold stay."
 msgstr "عند الحفظ يُطبَّق من جديد على كل من عليه. يبقى مفتاح المسؤول لديهم وكل ما يملكونه غير ذلك."
 
-#: onedesk/public/js/settings.js:394 onedesk/public/js/settings.js:2495
-#: onedesk/public/js/shell.js:486 onedesk/www/account_profile.html:78
+#: onedesk/public/js/reports.js:391 onedesk/public/js/settings.js:394
+#: onedesk/public/js/settings.js:2495 onedesk/public/js/shell.js:486
+#: onedesk/www/account_profile.html:78
 msgid "Saved."
 msgstr "تم الحفظ."
 
@@ -16124,6 +16154,15 @@ msgstr "قبيل مقابلة أنت فيها، بالمدة التي تحدده
 msgid "Shortly before an interview, as long before as HR Settings says."
 msgstr "قبيل المقابلة، بالمدة التي تحددها إعدادات الموارد البشرية."
 
+#: onedesk/public/js/reports.js:359
+msgid "Show In"
+msgstr "عرض في"
+
+#: onedesk/public/js/reports.js:404 onedesk/public/js/reports.js:420
+#: onedesk/public/js/reports.js:449
+msgid "Show In…"
+msgstr "عرض في…"
+
 #: onedesk/public/js/settings.js:2373
 msgid "Show every action"
 msgstr "عرض كل الإجراءات"
@@ -16131,6 +16170,10 @@ msgstr "عرض كل الإجراءات"
 #: onedesk/public/js/oneai/Record.vue:54
 msgid "Show fewer"
 msgstr "عرض أقل"
+
+#: onedesk/public/js/reports.js:436
+msgid "Show it somewhere else…"
+msgstr "اعرضه في مكان آخر…"
 
 #: onedesk/public/js/onemail.js:360
 msgid "Show older"
@@ -17540,7 +17583,8 @@ msgstr "لهذا العنوان حساب بالفعل. سجّل الدخول ب�
 
 #: onedesk/one/access.py:438 onedesk/one/access.py:563
 #: onedesk/one/access.py:600 onedesk/one/access.py:625
-#: onedesk/one/access.py:689 onedesk/one/settings.py:1075
+#: onedesk/one/access.py:689 onedesk/one/reports.py:257
+#: onedesk/one/reports.py:289 onedesk/one/settings.py:1075
 #: onedesk/one/settings.py:1164
 msgid "That cannot be set."
 msgstr "لا يمكن ضبط ذلك."
@@ -21634,6 +21678,10 @@ msgstr "من فيها"
 msgid "Who Pays"
 msgstr "من يدفع"
 
+#: onedesk/public/js/reports.js:372
+msgid "Who Sees It There"
+msgstr "من يراه هناك"
+
 #: onedesk/one_inventory/report/to_order/to_order.js:29
 msgid "Who Supplies the Rest?"
 msgstr "من يورّد الباقي؟"
@@ -22398,8 +22446,8 @@ msgstr "لا يمكنك فتح {0} {1}."
 #: onedesk/one/approvals.py:82 onedesk/one/automations.py:77
 #: onedesk/one/customize.py:93 onedesk/one/mail_templates.py:145
 #: onedesk/one/numbering.py:74 onedesk/one/printing.py:99
-#: onedesk/one/reports.py:90 onedesk/one/reports.py:93
-#: onedesk/one/reports.py:103
+#: onedesk/one/reports.py:91 onedesk/one/reports.py:94
+#: onedesk/one/reports.py:104
 msgid "You cannot open {0}."
 msgstr "لا يمكنك فتح {0}."
 
@@ -24097,6 +24145,10 @@ msgstr "{0} ضمن ملفات شخص آخر. انسخه بدلًا من ذلك."
 #: onedesk/one_ai/files.py:85
 msgid "{0} is larger than {1} MB, which is as much as one question may carry."
 msgstr "{0} أكبر من {1} ميغابايت، وهذا أقصى ما يحمله سؤال واحد."
+
+#: onedesk/public/js/reports.js:367
+msgid "{0} is listed in that app's sidebar, under {1}."
+msgstr "يُدرج {0} في الشريط الجانبي لذلك التطبيق، تحت {1}."
 
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:47
 msgid "{0} is listed twice under Servers."

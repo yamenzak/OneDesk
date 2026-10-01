@@ -42,11 +42,22 @@ def test_a_report_by_mail_runs_as_whoever_set_it_up():
 
 def test_a_saved_report_goes_through_frappes_layers():
 	placed = _body("placed")
-	assert "_layer(module, user)" in placed and "roles.administers(doc.owner)" in placed
-	assert 'link_type == "Report" and row.link_to == doc.name' in _body("removed")
+	assert '_put("Report", doc.name, module, user)' in placed and "roles.administers(doc.owner)" in placed
+	assert "_layer(module, user)" in _body("_put")
+	assert "_take(doc.doctype, doc.name)" in _body("removed")
 	assert "build_entity_module_map" in _body("_module")
 
 
 def test_a_layers_report_link_is_drawn():
 	assert "reports.reported(" in (tree.APP / "one" / "boot.py").read_text()
 	assert 'delete_keys("user:*:has_role:Report")' in _body("_redrawn")
+
+
+def test_show_in_is_bounded():
+	place = _body("place")
+	assert "_kind(kind, name)" in place
+	assert "everybody and not roles.administers()" in place
+	assert 'module not in {one["module"] for one in places()}' in place
+	kind = _body("_kind")
+	assert "doc.owner != frappe.session.user and not roles.administers()" in kind
+	assert "roles.require()" in kind

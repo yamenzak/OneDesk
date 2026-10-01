@@ -139,27 +139,25 @@ def _layer(module: str, user: str | None):
 	return frappe.new_doc("Custom Sidebar").update({"module": module, "user": user or SITE_LAYER})
 
 
-def placed(doc, method=None) -> None:
-	"""Report.after_insert: a saved report put in its app's sidebar, under
-	Saved Reports; for everybody when an administrator saved it."""
-	if doc.report_type != "Report Builder" or doc.is_standard == "Yes" or not doc.ref_doctype:
-		return
-	module = _module(doc.ref_doctype)
-	if not module:
-		return
-	user = None if roles.administers(doc.owner) else doc.owner
+#: What each kind is listed under in a sidebar.
+SECTIONS = {"Report": (SECTION, "file-chart-column"), "Dashboard": ("Dashboards", "layout-dashboard")}
+
+
+def _put(link_type: str, name: str, module: str, user: str | None) -> None:
+	"""A report or a dashboard listed in one sidebar's layer, under its section."""
+	label, icon = SECTIONS[link_type]
 	layer = _layer(module, user)
-	if any(row.link_type == "Report" and row.link_to == doc.name for row in layer.sidebar_items):
+	if any(row.link_type == link_type and row.link_to == name for row in layer.sidebar_items):
 		return
 	if not any(
-		row.added and row.type == "Section Break" and row.label == SECTION for row in layer.sidebar_items
+		row.added and row.type == "Section Break" and row.label == label for row in layer.sidebar_items
 	):
 		layer.append(
 			"sidebar_items",
 			{
 				"type": "Section Break",
-				"label": SECTION,
-				"icon": "file-chart-column",
+				"label": label,
+				"icon": icon,
 				"indent": 1,
 				"collapsible": 1,
 				"added": 1,
@@ -167,48 +165,140 @@ def placed(doc, method=None) -> None:
 		)
 	layer.append(
 		"sidebar_items",
-		{
-			"type": "Link",
-			"label": doc.name,
-			"link_type": "Report",
-			"link_to": doc.name,
-			"child": 1,
-			"added": 1,
-		},
+		{"type": "Link", "label": name, "link_type": link_type, "link_to": name, "child": 1, "added": 1},
 	)
 	layer.save(ignore_permissions=True)
 	_redrawn(user)
 
 
-def removed(doc, method=None) -> None:
-	"""Report.on_trash: a saved report out of every sidebar it was in, and its
-	section with it when it was the last."""
-	for name in frappe.get_all(
+def _take(link_type: str, name: str, users: tuple | None = None) -> None:
+	"""A report or a dashboard taken out of the layers that list it: every
+	layer, or the site's and these people's. Its section goes with the last."""
+	label, _icon = SECTIONS[link_type]
+	for parent in frappe.get_all(
 		"Sidebar Item",
-		filters={"parenttype": "Custom Sidebar", "link_type": "Report", "link_to": doc.name},
+		filters={"parenttype": "Custom Sidebar", "link_type": link_type, "link_to": name},
 		pluck="parent",
 		distinct=True,
 	):
-		layer = frappe.get_doc("Custom Sidebar", name)
+		layer = frappe.get_doc("Custom Sidebar", parent)
+		if users is not None and layer.user and layer.user not in users:
+			continue
 		kept = [
-			row for row in layer.sidebar_items if not (row.link_type == "Report" and row.link_to == doc.name)
+			row for row in layer.sidebar_items if not (row.link_type == link_type and row.link_to == name)
 		]
-		if not any(row.added and row.link_type == "Report" for row in kept):
+		if not any(row.added and row.link_type == link_type for row in kept):
 			kept = [
-				row
-				for row in kept
-				if not (row.added and row.type == "Section Break" and row.label == SECTION)
+				row for row in kept if not (row.added and row.type == "Section Break" and row.label == label)
 			]
 		layer.set("sidebar_items", kept)
 		layer.save(ignore_permissions=True)
 		_redrawn(layer.user or None)
 
 
+def placed(doc, method=None) -> None:
+	"""Report.after_insert: a saved report put in its app's sidebar, under
+	Saved Reports; for everybody when an administrator saved it. Show In
+	moves it."""
+	if doc.report_type != "Report Builder" or doc.is_standard == "Yes" or not doc.ref_doctype:
+		return
+	module = _module(doc.ref_doctype)
+	if not module:
+		return
+	user = None if roles.administers(doc.owner) else doc.owner
+	_put("Report", doc.name, module, user)
+	frappe.publish_realtime("one_report_placed", {"report": doc.name}, user=doc.owner, after_commit=True)
+
+
+def removed(doc, method=None) -> None:
+	"""Report.on_trash and Dashboard.on_trash: out of every sidebar it was in."""
+	_take(doc.doctype, doc.name)
+
+
+# ------------------------------------------------------------------ Show In
+
+
+def places() -> list[dict]:
+	"""Where a report or a dashboard may be shown, as {module, label}: One, and
+	each app the reader works in (every app, for an administrator)."""
+	from frappe.boot import get_module_sidebars
+
+	from onedesk.one.access import all_levels
+	from onedesk.one.settings import APPS
+
+	seen = get_module_sidebars()
+	held = set(frappe.get_roles())
+	own = all_levels()
+	everything = roles.administers()
+	names = ["One"] + [
+		app
+		for app, _icon, used, managed in APPS
+		if everything or held & (set(used) | set(managed) | set(own.get(app, ())))
+	]
+	return [
+		{"module": seen[name]["module"], "label": name} for name in names if seen.get(name, {}).get("module")
+	]
+
+
+def _kind(kind: str, name: str) -> str:
+	"""The doctype a Show In names, refused to whoever may not move it."""
+	if kind == "Report":
+		doc = frappe.get_doc("Report", name)
+		if doc.report_type != "Report Builder" or doc.is_standard == "Yes":
+			frappe.throw(_("Only a saved report can be shown somewhere else."))
+		if doc.owner != frappe.session.user and not roles.administers():
+			frappe.throw(
+				_("Only whoever saved a report, or an administrator, can move it."), frappe.PermissionError
+			)
+	elif kind == "Dashboard":
+		roles.require()
+		frappe.get_doc("Dashboard", name)
+	else:
+		frappe.throw(_("That cannot be set."))
+	return kind
+
+
+@frappe.whitelist()
+def where(kind: str, name: str) -> dict:
+	"""Where a report or a dashboard is listed for the reader, and where it may go."""
+	_kind(kind, name)
+	user = frappe.session.user
+	now = {"module": None, "everybody": 0}
+	for row in frappe.get_all(
+		"Sidebar Item",
+		filters={"parenttype": "Custom Sidebar", "link_type": kind, "link_to": name},
+		fields=["parent"],
+	):
+		module, owner = frappe.db.get_value("Custom Sidebar", row.parent, ["module", "user"])
+		if not owner or owner == user:
+			now = {"module": module, "everybody": int(not owner)}
+			if not owner:
+				break
+	return {**now, "places": places(), "administers": int(roles.administers())}
+
+
+@frappe.whitelist(methods=["POST"])
+def place(kind: str, name: str, module: str | None = None, everybody: int = 0) -> None:
+	"""A report or a dashboard shown in one app's sidebar, for the reader or,
+	by an administrator, for everybody; or in none (no `module`)."""
+	_kind(kind, name)
+	everybody = frappe.utils.cint(everybody)
+	if everybody and not roles.administers():
+		frappe.throw(_("Only an administrator can show it to everybody."), frappe.PermissionError)
+	if module and module not in {one["module"] for one in places()}:
+		frappe.throw(_("That cannot be set."))
+	owner = frappe.db.get_value(kind, name, "owner")
+	_take(kind, name, (frappe.session.user, owner))
+	if module:
+		_put(kind, name, module, None if everybody else frappe.session.user)
+
+
 def _redrawn(user: str | None) -> None:
 	"""Whoever sees the changed sidebar is told to fetch it again. frappe keeps
-	each person's reports for an hour (`DeskViews`) and draws a sidebar's
-	report only from them, so those go first."""
+	each person's reports and dashboards for an hour (`DeskViews`) and draws a
+	sidebar's link to one only from them, so those go first."""
 	frappe.cache.delete_keys("user:*:has_role:Report")
+	frappe.cache.delete_keys("user:*:allowed_dashboards")
 	frappe.publish_realtime("one_sidebars", {}, user=user, after_commit=True)
 
 
