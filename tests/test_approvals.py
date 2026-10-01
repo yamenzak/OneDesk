@@ -92,4 +92,4 @@ def test_oneai_suggests_an_approval_as_a_card():
 
 def test_the_builder_stays_in_ones_rail():
 	desk = (tree.APP / "public" / "js" / "desk.js").read_text()
-	assert 'route[0] === "workflow-builder"' in desk
+	assert '["workflow-builder", "dashboard-view"].includes(route[0])' in desk

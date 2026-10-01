@@ -63,10 +63,37 @@ frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 		return route[0] === "print" && route[1] ? "DocType" : super.link_type_from_route(route);
 	}
 
+	// What One's sidebar keeps wherever it is opened from: the workflow builder,
+	// automations, and a workspace's dashboards, their charts and cards, and its
+	// reports by mail (one/reports.py).
+	static KEPT = ["Automation Flow", "Dashboard", "Dashboard Chart", "Number Card", "Auto Email Report"];
+
 	static workspace(route) {
-		return route[0] === "workflow-builder" || (["List", "Form"].includes(route[0]) && route[1] === "Automation Flow");
+		return (
+			["workflow-builder", "dashboard-view"].includes(route[0]) ||
+			(["List", "Form"].includes(route[0]) && OneSidebar.KEPT.includes(route[1]))
+		);
 	}
 };
+
+// A report saved from a list goes in its app's sidebar (one/reports.py); the
+// sidebar is fetched again and drawn in place, as frappe's own sidebar editor does.
+// frappe's realtime drops a handler added before its socket exists, so this waits
+// for the desk.
+$(document).on("app_ready", () =>
+	frappe.realtime.on("one_sidebars", async () => {
+		const payload = await frappe.xcall("onedesk.one.reports.sidebars");
+		frappe.boot.module_sidebars = payload.module_sidebars;
+		frappe.boot.entity_module = payload.entity_module;
+		const sidebar = frappe.app.sidebar;
+		if (!sidebar) return;
+		sidebar.all_sidebar_items = frappe.boot.module_sidebars;
+		if (frappe.boot.module_sidebars[sidebar.current_module]) {
+			sidebar.setup(sidebar.current_module);
+			sidebar.refresh();
+		}
+	})
+);
 
 // Frappe's Automation workspace is a second home for the same flows, in
 // frappe's sidebar: /desk/automation goes to the list Workspace › Automations

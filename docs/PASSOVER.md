@@ -4839,6 +4839,65 @@ past its Manager, and User and Manager could not be changed at all.
   inside its own main column. A record now redraws from a fresh body, and one
   saved under a new name opens under it.
 
+**P2, Reports and Dashboards: done.** Kept in One rather than a OneInsight,
+on the user's word: saved reports and reports by mail belong to their app,
+and only dashboards across apps have no app, so One holds them. Seen as a
+workspace administrator and as Rania: a list's Report view saved under a
+name, OneBook's and OneCRM's sidebars, One › Dashboards, a dashboard, and
+Workspace › Reports by Mail.
+
+Before it: frappe's Report view offered Save As to everybody and refused it
+to everybody but a Report Manager; nobody on a workspace could make a
+dashboard, a chart, a card or a report by mail; and a saved report went
+nowhere but the view switcher.
+
+1. Notifications: a report by mail is the workspace's own mail, sent by
+   frappe on its schedule from the workspace's outgoing account; One sends
+   nothing new.
+2. OneAI: `workspace_reports` reads every saved report, dashboard and report
+   by mail; the dashboards and report-mail lists offer one suggestion each.
+3. Intake: nothing here.
+4. Permissions: anybody may save a Report Builder report (frappe's own
+   `save_report` writes nothing else), and only its owner or an administrator
+   changes it. Administrators make dashboards, charts, cards and reports by
+   mail. Refused to a workspace: a report of any other type (a Custom Report
+   runs the report it copies with no check of who may open that one), a chart
+   or card of type Custom, and a report by mail run as somebody else. A chart
+   or card shows only to who may read what it counts, as frappe does.
+5. Cross-module: a saved report goes in the sidebar frappe opens its kind in
+   for whoever saved it (`build_entity_module_map`): invoices in OneBook,
+   customers in OneCRM.
+6. Bespoke UI: frappe's own Report view, dashboard view and lists, in One's
+   sidebar wherever opened (desk.js `OneSidebar.KEPT`); saved reports under a
+   Saved Reports section shaped like the app's own.
+7. Documented: "Reports and dashboards" in `one/README.md`.
+8. Legal: a report by mail sends records to addresses the workspace chooses,
+   through the mail it already sends with; no new processor and no clause.
+9. Built from frappe: Report, Dashboard, Dashboard Chart, Number Card, Auto
+   Email Report, and the sidebar's own site and user layers (`Custom
+   Sidebar`).
+
+Fixed or built (`one/reports.py`):
+- **Saved reports in the sidebar.** Saved by an administrator, into the site's
+  layer of the app's sidebar for everybody; by anybody else, into their own
+  layer. Deleted, out again, with the section when it was the last.
+- **Two frappe gaps, worked around without touching frappe.** A report link
+  a layer adds is never drawn, because frappe gives the report's type only to
+  an app's own rows: boot and the refresh fill it in (`reported`). And frappe
+  keeps each person's reports for an hour, so a new one stayed hidden until
+  then: the cache is dropped when a sidebar changes, and the sidebar is
+  fetched and redrawn over realtime, as frappe's own sidebar editor does. A
+  realtime handler added before frappe's socket exists is dropped silently,
+  so it waits for `app_ready`.
+- **One › Dashboards** lists the workspace's own; erpnext's module dashboards,
+  with a company on every chart, are left out.
+- Tried: Unpaid Invoices saved by wsadmin landed in OneBook for everybody;
+  Rania's My Items only in her OneInventory; Customers by Group, saved from
+  the Report view's Save As, appeared in OneCRM's sidebar without a reload; a
+  Custom Report and a Custom card were refused; a report by mail set to run as
+  Administrator ran as wsadmin; the Money In dashboard drew its card and two
+  charts.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

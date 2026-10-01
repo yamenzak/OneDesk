@@ -20,6 +20,11 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_titles"] = titles.for_boot()
 
+	# A saved report in a sidebar is drawn; see one/reports.py.
+	from onedesk.one import reports
+
+	reports.reported(bootinfo.get("module_sidebars"))
+
 	# The modules no workspace changes, for the Customize and Settings menu items.
 	from onedesk.one import customize
 

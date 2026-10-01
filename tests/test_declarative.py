@@ -43,6 +43,8 @@ LAYERS = (
 	"onedesk/one/approvals.py",
 	# A workspace's own levels between an app's User and Manager, made on Access.
 	"onedesk/one/access.py",
+	# Saved reports in an app's sidebar, the site's layer or a person's own.
+	"onedesk/one/reports.py",
 )
 
 _OPENS = r"frappe\.(get_doc|new_doc|_dict)\s*\(\s*[{'\"]?[^)]*?['\"]("

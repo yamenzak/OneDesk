@@ -21,12 +21,25 @@
   },
   {
    "keep_closed": 0,
+   "type": "Link",
+   "label": "Dashboards",
+   "link_to": "Dashboard",
+   "link_type": "DocType",
+   "icon": "layout-dashboard",
+   "child": 0,
+   "is_default_module": 1,
+   "route_options": null,
+   "filters": "[[\"Dashboard\", \"is_standard\", \"=\", 0]]",
+   "idx": 2
+  },
+  {
+   "keep_closed": 0,
    "type": "Section Break",
    "label": "You",
    "icon": "user",
    "indent": 0,
    "collapsible": 1,
-   "idx": 2
+   "idx": 3
   },
   {
    "keep_closed": 0,
@@ -37,7 +50,7 @@
    "icon": "user",
    "child": 1,
    "route_options": "{\"section\": \"profile\"}",
-   "idx": 3,
+   "idx": 4,
    "filters": "{\"section\": \"profile\"}"
   },
   {
@@ -49,7 +62,7 @@
    "icon": "bell",
    "child": 1,
    "route_options": "{\"section\": \"notifications\"}",
-   "idx": 4,
+   "idx": 5,
    "filters": "{\"section\": \"notifications\"}"
   },
   {
@@ -61,7 +74,7 @@
    "icon": "mail",
    "child": 1,
    "route_options": "{\"section\": \"mail\"}",
-   "idx": 5,
+   "idx": 6,
    "filters": "{\"section\": \"mail\"}"
   },
   {
@@ -73,7 +86,7 @@
    "icon": "calendar",
    "child": 1,
    "route_options": "{\"section\": \"calendar\"}",
-   "idx": 6,
+   "idx": 7,
    "filters": "{\"section\": \"calendar\"}"
   },
   {
@@ -85,7 +98,7 @@
    "icon": "key-round",
    "child": 1,
    "route_options": "{\"section\": \"signin\"}",
-   "idx": 7,
+   "idx": 8,
    "filters": "{\"section\": \"signin\"}"
   },
   {
@@ -97,7 +110,7 @@
    "icon": "brain",
    "child": 1,
    "route_options": "{\"section\": \"memory\"}",
-   "idx": 8,
+   "idx": 9,
    "filters": "{\"section\": \"memory\"}"
   },
   {
@@ -109,7 +122,7 @@
    "icon": "scale",
    "child": 1,
    "route_options": "{\"section\": \"agreements\"}",
-   "idx": 9,
+   "idx": 10,
    "filters": "{\"section\": \"agreements\"}"
   },
   {
@@ -119,7 +132,7 @@
    "icon": "building-2",
    "indent": 0,
    "collapsible": 1,
-   "idx": 10
+   "idx": 11
   },
   {
    "keep_closed": 0,
@@ -130,7 +143,7 @@
    "icon": "building-2",
    "child": 1,
    "route_options": "{\"section\": \"general\"}",
-   "idx": 11,
+   "idx": 12,
    "filters": "{\"section\": \"general\"}"
   },
   {
@@ -142,7 +155,7 @@
    "icon": "users",
    "child": 1,
    "route_options": "{\"section\": \"people\"}",
-   "idx": 12,
+   "idx": 13,
    "filters": "{\"section\": \"people\"}"
   },
   {
@@ -154,7 +167,7 @@
    "icon": "shield-check",
    "child": 1,
    "route_options": "{\"section\": \"access\"}",
-   "idx": 13,
+   "idx": 14,
    "filters": "{\"section\": \"access\"}"
   },
   {
@@ -166,7 +179,7 @@
    "icon": "bell-ring",
    "child": 1,
    "route_options": "{\"section\": \"notification_types\"}",
-   "idx": 14,
+   "idx": 15,
    "filters": "{\"section\": \"notification_types\"}"
   },
   {
@@ -179,7 +192,7 @@
    "child": 1,
    "route_options": "{\"section\": \"numbering\"}",
    "filters": "{\"section\": \"numbering\"}",
-   "idx": 15
+   "idx": 16
   },
   {
    "keep_closed": 0,
@@ -191,7 +204,7 @@
    "child": 1,
    "route_options": "{\"section\": \"printing\"}",
    "filters": "{\"section\": \"printing\"}",
-   "idx": 16
+   "idx": 17
   },
   {
    "keep_closed": 0,
@@ -203,7 +216,7 @@
    "child": 1,
    "route_options": "{\"section\": \"mail_templates\"}",
    "filters": "{\"section\": \"mail_templates\"}",
-   "idx": 17
+   "idx": 18
   },
   {
    "keep_closed": 0,
@@ -215,7 +228,7 @@
    "child": 1,
    "route_options": "{\"section\": \"approvals\"}",
    "filters": "{\"section\": \"approvals\"}",
-   "idx": 18
+   "idx": 19
   },
   {
    "keep_closed": 0,
@@ -225,8 +238,21 @@
    "link_type": "DocType",
    "icon": "zap",
    "child": 1,
-   "idx": 19,
+   "idx": 20,
    "is_default_module": 1
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "Reports by Mail",
+   "link_to": "Auto Email Report",
+   "link_type": "DocType",
+   "icon": "mail-check",
+   "child": 1,
+   "is_default_module": 1,
+   "route_options": null,
+   "filters": null,
+   "idx": 21
   },
   {
    "keep_closed": 0,
@@ -237,7 +263,7 @@
    "icon": "credit-card",
    "child": 1,
    "route_options": "{\"section\": \"plan\"}",
-   "idx": 20,
+   "idx": 22,
    "filters": "{\"section\": \"plan\"}"
   },
   {
@@ -249,7 +275,7 @@
    "icon": "globe",
    "child": 1,
    "route_options": "{\"section\": \"domains\"}",
-   "idx": 21,
+   "idx": 23,
    "filters": "{\"section\": \"domains\"}"
   },
   {
@@ -261,7 +287,7 @@
    "icon": "calendar-days",
    "child": 1,
    "route_options": "{\"section\": \"holidays\"}",
-   "idx": 22,
+   "idx": 24,
    "filters": "{\"section\": \"holidays\"}"
   },
   {
@@ -272,7 +298,7 @@
    "icon": "oneai",
    "indent": 0,
    "collapsible": 1,
-   "idx": 23
+   "idx": 25
   },
   {
    "keep_closed": 0,
@@ -283,7 +309,7 @@
    "icon": "oneai",
    "child": 1,
    "route_options": "{\"section\": \"oneai\"}",
-   "idx": 24,
+   "idx": 26,
    "filters": "{\"section\": \"oneai\"}"
   },
   {
@@ -295,7 +321,7 @@
    "link_type": "DocType",
    "icon": "book-open",
    "child": 1,
-   "idx": 25
+   "idx": 27
   },
   {
    "keep_closed": 0,
@@ -306,7 +332,7 @@
    "link_type": "Report",
    "icon": "chart-column",
    "child": 1,
-   "idx": 26
+   "idx": 28
   },
   {
    "keep_closed": 0,
@@ -317,7 +343,7 @@
    "link_type": "DocType",
    "icon": "messages-square",
    "child": 1,
-   "idx": 27
+   "idx": 29
   },
   {
    "keep_closed": 0,
@@ -328,7 +354,7 @@
    "link_type": "DocType",
    "icon": "lightbulb",
    "child": 1,
-   "idx": 28
+   "idx": 30
   },
   {
    "keep_closed": 0,
@@ -338,7 +364,7 @@
    "icon": "oneintake",
    "indent": 0,
    "collapsible": 1,
-   "idx": 29
+   "idx": 31
   },
   {
    "keep_closed": 0,
@@ -349,7 +375,7 @@
    "link_type": "Page",
    "link_to": "intake",
    "icon": "inbox",
-   "idx": 30
+   "idx": 32
   },
   {
    "keep_closed": 0,
@@ -360,7 +386,7 @@
    "link_type": "Page",
    "link_to": "ready-to-submit",
    "icon": "file-check",
-   "idx": 31
+   "idx": 33
   },
   {
    "keep_closed": 0,
@@ -371,7 +397,7 @@
    "link_type": "Report",
    "link_to": "Deadlines",
    "icon": "calendar-clock",
-   "idx": 32
+   "idx": 34
   },
   {
    "keep_closed": 0,
@@ -382,7 +408,7 @@
    "link_type": "Report",
    "link_to": "Spending",
    "icon": "wallet",
-   "idx": 33
+   "idx": 35
   },
   {
    "keep_closed": 0,
@@ -393,11 +419,11 @@
    "icon": "settings",
    "child": 1,
    "route_options": "{\"section\": \"intake\"}",
-   "idx": 34,
+   "idx": 36,
    "filters": "{\"section\": \"intake\"}"
   }
  ],
- "modified": "2026-10-15 10:00:00.000000",
+ "modified": "2026-10-16 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

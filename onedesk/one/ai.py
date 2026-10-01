@@ -191,6 +191,20 @@ SUGGESTIONS = {
 			"expects": "workspace_automations",
 		},
 	],
+	"Dashboard": [
+		{
+			"label": _lt("What do our dashboards show?"),
+			"ask": _lt("Which dashboards do we have, and what does each chart and card count?"),
+			"expects": "workspace_reports",
+		},
+	],
+	"Auto Email Report": [
+		{
+			"label": _lt("Which reports go out by mail?"),
+			"ask": _lt("Which reports are mailed, how often, and to whom?"),
+			"expects": "workspace_reports",
+		},
+	],
 	"page:workspace-settings/access": [
 		{
 			"label": _lt("Who can do what?"),
@@ -1044,6 +1058,60 @@ def workspace_access() -> dict:
 		"next": "Every level, User and Manager too, may be given or have taken away anything on the kinds its app works with. "
 		"The administrator changes all of this on Workspace › Access, "
 		"and a person's level, profile and what they are held to on their page under People.",
+	}
+
+
+def workspace_reports() -> dict:
+	"""Reports and dashboards: the reports saved from a list (each one's kind
+	of record, who saved it, and whether it is in everybody's sidebar), the
+	dashboards with what each chart and card counts, and, for the workspace's
+	administrators, the reports that go out by mail."""
+	from onedesk.one import roles
+
+	saved = frappe.get_list(
+		"Report",
+		filters={"report_type": "Report Builder", "is_standard": "No"},
+		fields=["name", "ref_doctype", "owner"],
+		limit=100,
+	)
+	placed = frappe.get_all(
+		"Sidebar Item",
+		filters={"parenttype": "Custom Sidebar", "link_type": "Report", "added": 1},
+		fields=["link_to", "parent"],
+	)
+	# The site's layer has no user: what is in it, everybody sees.
+	shared = {row.link_to for row in placed if not frappe.db.get_value("Custom Sidebar", row.parent, "user")}
+	dashboards = []
+	for name in frappe.get_list("Dashboard", filters={"is_standard": 0}, pluck="name", limit=50):
+		doc = frappe.get_doc("Dashboard", name)
+		said = {"dashboard": name, "charts": [], "cards": []}
+		for row in doc.charts:
+			chart = frappe.db.get_value(
+				"Dashboard Chart", row.chart, ["chart_type", "document_type", "report_name", "based_on", "value_based_on", "group_by_based_on"], as_dict=True
+			) or {}
+			said["charts"].append({"chart": row.chart, **{k: v for k, v in chart.items() if v}})
+		for row in doc.cards:
+			card = frappe.db.get_value("Number Card", row.card, ["type", "document_type", "function", "report_name"], as_dict=True) or {}
+			said["cards"].append({"card": row.card, **{k: v for k, v in card.items() if v}})
+		dashboards.append(said)
+	mailed = []
+	if roles.administers():
+		mailed = [
+			{"report": one.report, "how_often": one.frequency, "to": one.email_to, "on": bool(one.enabled), "runs_as": one.user}
+			for one in frappe.get_all(
+				"Auto Email Report", fields=["report", "frequency", "email_to", "enabled", "user"], limit=100
+			)
+		]
+	return {
+		"saved_reports": [
+			{"report": one.name, "of": one.ref_doctype, "saved_by": one.owner, "in_everybody's_sidebar": one.name in shared}
+			for one in saved
+		],
+		"dashboards": dashboards,
+		"reports_by_mail": mailed,
+		"next": "A list's Report view is saved from its menu (Save As) and lands under Saved Reports in its app. "
+		"Dashboards are under One › Dashboards; reports by mail under Workspace › Reports by Mail, set from a report's "
+		"menu (Setup Auto Email). How is in One's documentation under Reports and dashboards (how_to).",
 	}
 
 

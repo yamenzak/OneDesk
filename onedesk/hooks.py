@@ -58,6 +58,8 @@ after_migrate = [
 	"onedesk.one.approvals.settle",
 	"onedesk.one.automations.settle",
 	"onedesk.one.numbering.settle",
+	# Saved reports for everybody; dashboards and reports by mail for the administrator.
+	"onedesk.one.reports.settle",
 	# frappe's own morning event mail stopped; Today's Events replaces it.
 	"onedesk.one_calendar.tell.install",
 	# What each module's records say above their fields. See one/head.py.
@@ -198,6 +200,16 @@ doc_events = {
 	"Notification Type": {"validate": "onedesk.one.notify.validate", "on_update": "onedesk.one.notify.changed"},
 	# What the workspace may write into a print, a mail template, an approval or an automation: one/printing.py and beside it.
 	"Print Format": {"validate": "onedesk.one.printing.validate_format"},
+	# What a workspace keeps of its own reports and dashboards, and where a
+	# saved report shows. See one/reports.py.
+	"Report": {
+		"validate": "onedesk.one.reports.report_kept",
+		"after_insert": "onedesk.one.reports.placed",
+		"on_trash": "onedesk.one.reports.removed",
+	},
+	"Dashboard Chart": {"validate": "onedesk.one.reports.chart_kept"},
+	"Number Card": {"validate": "onedesk.one.reports.chart_kept"},
+	"Auto Email Report": {"validate": "onedesk.one.reports.mail_kept"},
 	"Letter Head": {"validate": "onedesk.one.printing.validate_letter_head"},
 	# A letter head's drawn top says what General says now (one/letter_heads.py).
 	"Company": {"on_update": "onedesk.one.letter_heads.redraw"},
@@ -868,6 +880,8 @@ one_ai_reads = [
 	"onedesk.one.ai.workspace_people",
 	# Levels, profiles, groups and who is held to which records. See one/access.py.
 	"onedesk.one.ai.workspace_access",
+	# Saved reports, dashboards and reports by mail. See one/reports.py.
+	"onedesk.one.ai.workspace_reports",
 	# The plan and the credits, for the workspace's administrators.
 	"onedesk.one.ai.workspace_plan",
 	# The addresses the workspace opens at, for its administrators.

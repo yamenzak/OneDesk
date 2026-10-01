@@ -419,6 +419,37 @@ what their level may read.
 **OneAI on this page** offers **Who can do what?** and **Who sees only
 part?**, and reads levels, profiles, groups and who is held to what.
 
+### Reports and dashboards
+
+Three things, each frappe's own, kept in the app they belong to.
+
+- **Saved reports.** Any list's **Report** view (the view switcher, top
+  right) can be arranged, with its columns, filters, grouping and totals,
+  and saved from its menu with **Save As**. It lands under **Saved Reports**
+  in the sidebar of the app whose list it was, OneBook's for invoices,
+  OneCRM's for customers. Saved by a workspace administrator, everybody who
+  uses that app sees it; saved by anybody else, it is in their own sidebar
+  only. Deleted from the report's menu, it leaves the sidebar. A saved
+  report shows each person only the records they may read.
+- **Dashboards**, under One › **Dashboards**: a page of charts and number
+  cards over any records, such as invoices by month and how many are
+  unpaid. A workspace administrator makes them (**Add Dashboard**, then its
+  charts and cards); everybody may open them, and each chart and card shows
+  only to people who may read what it counts. A chart counts, sums or
+  averages records, groups them, or reads a report.
+- **Reports by mail**, under Workspace › **Reports by Mail**, or **Setup
+  Auto Email** on any report's menu: a report mailed daily, weekly or
+  monthly to the addresses you give. It is run as whoever set it up would
+  see it.
+
+Only administrators make dashboards and reports by mail. What a workspace
+cannot make here is a report that runs code (a Script or Query report, or a
+copy of one) and a chart or card that runs code; those are the apps' own.
+
+**OneAI on these pages** offers **What do our dashboards show?** and
+**Which reports go out by mail?**, and reads every saved report, dashboard
+and report by mail.
+
 ### Notifications, for the Workspace
 
 Under **Workspace**, **Notifications** lists everything One tells people, by the
