@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-01 17:50+0000\n"
-"PO-Revision-Date: 2026-10-01 17:50+0000\n"
+"POT-Creation-Date: 2026-10-01 18:28+0000\n"
+"PO-Revision-Date: 2026-10-01 18:28+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -11815,7 +11815,7 @@ msgstr "لم يسجّل الحضور"
 msgid "Not checking in today"
 msgstr "لا تسجيل حضور اليوم"
 
-#: onedesk/one/closing.py:306 onedesk/one/closing.py:310
+#: onedesk/one/closing.py:314 onedesk/one/closing.py:318
 msgid "Not closed"
 msgstr "لم تُغلق"
 
@@ -14421,8 +14421,8 @@ msgstr "يُطبع بـ"
 msgid "Priority"
 msgstr ""
 
-#: onedesk/one_legal/gate.py:40 onedesk/www/start.html:74
-#: onedesk/www/your_data.html:49
+#: onedesk/one_legal/gate.py:40 onedesk/public/js/login.js:91
+#: onedesk/www/start.html:74 onedesk/www/your_data.html:49
 msgid "Privacy Policy"
 msgstr "سياسة الخصوصية"
 
@@ -16818,6 +16818,10 @@ msgstr "سجّل الدخول أولاً."
 msgid "Sign in to your One account first."
 msgstr "سجّل الدخول إلى حسابك في One أولًا."
 
+#: onedesk/public/js/login.js:70
+msgid "Sign in with a Passkey"
+msgstr "تسجيل الدخول بمفتاح المرور"
+
 #: onedesk/www/account.html:18
 msgid "Sign out"
 msgstr "تسجيل الخروج"
@@ -17332,7 +17336,7 @@ msgstr ""
 msgid "Still answering the last question."
 msgstr "ما زال يجيب عن السؤال السابق."
 
-#: onedesk/one/closing.py:328
+#: onedesk/one/closing.py:344
 msgid "Still closing"
 msgstr "ما زالت قيد الإغلاق"
 
@@ -18227,7 +18231,7 @@ msgstr "هذه ليست من ذكرياتك."
 msgid "That is not something on offer."
 msgstr "هذا ليس ضمن المعروض."
 
-#: onedesk/one/closing.py:306 onedesk/one/privacy.py:169
+#: onedesk/one/closing.py:314 onedesk/one/privacy.py:169
 msgid "That is not your password."
 msgstr "هذه ليست كلمة مرورك."
 
@@ -19438,7 +19442,7 @@ msgstr "لا يوجد ملف {0} يمكنك فتحه."
 msgid "There is no folder {0} you may open."
 msgstr "لا يوجد مجلد {0} يحق لك فتحه."
 
-#: onedesk/one/closing.py:290
+#: onedesk/one/closing.py:298
 msgid "There is no full download yet."
 msgstr "لا يوجد تنزيل كامل بعد."
 
@@ -23484,7 +23488,7 @@ msgstr "أنت. جلساتك في صفحة تسجيل الدخول الخاصة 
 msgid "Your Calendar in Other Apps"
 msgstr "تقويمك في تطبيقات أخرى"
 
-#: onedesk/public/js/settings.js:212
+#: onedesk/public/js/login.js:90 onedesk/public/js/settings.js:212
 msgid "Your Data"
 msgstr "بياناتك"
 
@@ -24143,11 +24147,11 @@ msgstr "لا يطبع {0}"
 msgid "it has been submitted"
 msgstr "تم اعتماده"
 
-#: onedesk/one/closing.py:76
+#: onedesk/one/closing.py:77
 msgid "its payer"
 msgstr "من يدفع لها"
 
-#: onedesk/one_admin/tell.py:227
+#: onedesk/one_admin/tell.py:230
 msgid "its price can no longer be read"
 msgstr "لم يعد ممكنًا قراءة سعره"
 
@@ -24163,7 +24167,7 @@ msgstr "الأكبر أولاً"
 msgid "late"
 msgstr "متأخر"
 
-#: onedesk/one/closing.py:316
+#: onedesk/one/closing.py:331
 msgid "later"
 msgstr "لاحقًا"
 
@@ -24213,7 +24217,7 @@ msgstr "المضي به"
 msgid "moved it from {0}"
 msgstr "نقله من {0}"
 
-#: onedesk/one_admin/tell.py:284
+#: onedesk/one_admin/tell.py:287
 msgid "never"
 msgstr "أبدًا"
 
@@ -24286,7 +24290,7 @@ msgstr "غير معروف بعد"
 msgid "nothing"
 msgstr "لا شيء"
 
-#: onedesk/one_admin/tell.py:236
+#: onedesk/one_admin/tell.py:239
 msgid "nothing can do {0} now"
 msgstr "لا شيء يستطيع {0} الآن"
 
@@ -24550,7 +24554,7 @@ msgstr "يوم السنة"
 msgid "the days off each week are now {0}"
 msgstr "أيام العطلة الأسبوعية الآن {0}"
 
-#: onedesk/one_admin/tell.py:234
+#: onedesk/one_admin/tell.py:237
 msgid "the default for {0} is now {1}"
 msgstr "الافتراضي لـ{0} الآن {1}"
 
@@ -24574,7 +24578,7 @@ msgstr "الشهر"
 msgid "the number, one # per digit; it starts again whenever the text before it changes"
 msgstr "الرقم، علامة # لكل خانة؛ ويبدأ من جديد كلما تغيّر النص الذي يسبقه"
 
-#: onedesk/one_admin/tell.py:227
+#: onedesk/one_admin/tell.py:230
 msgid "the provider withdrew it"
 msgstr "سحبه المزوّد"
 
@@ -25082,7 +25086,7 @@ msgstr "ملف {0}"
 msgid "{0} files are on the disk, which is where this workspace keeps them."
 msgstr "{0} ملفات على القرص، وهو المكان الذي تحفظ فيه مساحة العمل ملفاتها."
 
-#: onedesk/one/closing.py:162
+#: onedesk/one/closing.py:166
 msgid "{0} files could not be read and are listed in it."
 msgstr "تعذّرت قراءة {0} ملفات وهي مدرجة فيه."
 

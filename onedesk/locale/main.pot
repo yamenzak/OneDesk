@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-01 17:50+0000\n"
-"PO-Revision-Date: 2026-10-01 17:50+0000\n"
+"POT-Creation-Date: 2026-10-01 18:28+0000\n"
+"PO-Revision-Date: 2026-10-01 18:28+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -11815,7 +11815,7 @@ msgstr ""
 msgid "Not checking in today"
 msgstr ""
 
-#: onedesk/one/closing.py:306 onedesk/one/closing.py:310
+#: onedesk/one/closing.py:314 onedesk/one/closing.py:318
 msgid "Not closed"
 msgstr ""
 
@@ -14421,8 +14421,8 @@ msgstr ""
 msgid "Priority"
 msgstr ""
 
-#: onedesk/one_legal/gate.py:40 onedesk/www/start.html:74
-#: onedesk/www/your_data.html:49
+#: onedesk/one_legal/gate.py:40 onedesk/public/js/login.js:91
+#: onedesk/www/start.html:74 onedesk/www/your_data.html:49
 msgid "Privacy Policy"
 msgstr ""
 
@@ -16818,6 +16818,10 @@ msgstr ""
 msgid "Sign in to your One account first."
 msgstr ""
 
+#: onedesk/public/js/login.js:70
+msgid "Sign in with a Passkey"
+msgstr ""
+
 #: onedesk/www/account.html:18
 msgid "Sign out"
 msgstr ""
@@ -17332,7 +17336,7 @@ msgstr ""
 msgid "Still answering the last question."
 msgstr ""
 
-#: onedesk/one/closing.py:328
+#: onedesk/one/closing.py:344
 msgid "Still closing"
 msgstr ""
 
@@ -18227,7 +18231,7 @@ msgstr ""
 msgid "That is not something on offer."
 msgstr ""
 
-#: onedesk/one/closing.py:306 onedesk/one/privacy.py:169
+#: onedesk/one/closing.py:314 onedesk/one/privacy.py:169
 msgid "That is not your password."
 msgstr ""
 
@@ -19438,7 +19442,7 @@ msgstr ""
 msgid "There is no folder {0} you may open."
 msgstr ""
 
-#: onedesk/one/closing.py:290
+#: onedesk/one/closing.py:298
 msgid "There is no full download yet."
 msgstr ""
 
@@ -23484,7 +23488,7 @@ msgstr ""
 msgid "Your Calendar in Other Apps"
 msgstr ""
 
-#: onedesk/public/js/settings.js:212
+#: onedesk/public/js/login.js:90 onedesk/public/js/settings.js:212
 msgid "Your Data"
 msgstr ""
 
@@ -24143,11 +24147,11 @@ msgstr ""
 msgid "it has been submitted"
 msgstr ""
 
-#: onedesk/one/closing.py:76
+#: onedesk/one/closing.py:77
 msgid "its payer"
 msgstr ""
 
-#: onedesk/one_admin/tell.py:227
+#: onedesk/one_admin/tell.py:230
 msgid "its price can no longer be read"
 msgstr ""
 
@@ -24163,7 +24167,7 @@ msgstr ""
 msgid "late"
 msgstr ""
 
-#: onedesk/one/closing.py:316
+#: onedesk/one/closing.py:331
 msgid "later"
 msgstr ""
 
@@ -24213,7 +24217,7 @@ msgstr ""
 msgid "moved it from {0}"
 msgstr ""
 
-#: onedesk/one_admin/tell.py:284
+#: onedesk/one_admin/tell.py:287
 msgid "never"
 msgstr ""
 
@@ -24286,7 +24290,7 @@ msgstr ""
 msgid "nothing"
 msgstr ""
 
-#: onedesk/one_admin/tell.py:236
+#: onedesk/one_admin/tell.py:239
 msgid "nothing can do {0} now"
 msgstr ""
 
@@ -24550,7 +24554,7 @@ msgstr ""
 msgid "the days off each week are now {0}"
 msgstr ""
 
-#: onedesk/one_admin/tell.py:234
+#: onedesk/one_admin/tell.py:237
 msgid "the default for {0} is now {1}"
 msgstr ""
 
@@ -24574,7 +24578,7 @@ msgstr ""
 msgid "the number, one # per digit; it starts again whenever the text before it changes"
 msgstr ""
 
-#: onedesk/one_admin/tell.py:227
+#: onedesk/one_admin/tell.py:230
 msgid "the provider withdrew it"
 msgstr ""
 
@@ -25075,7 +25079,7 @@ msgstr ""
 msgid "{0} files are on the disk, which is where this workspace keeps them."
 msgstr ""
 
-#: onedesk/one/closing.py:162
+#: onedesk/one/closing.py:166
 msgid "{0} files could not be read and are listed in it."
 msgstr ""
 

@@ -165,3 +165,12 @@ def test_deleting_them_redacts_as_frappe_does_with_no_account_to_rename():
 	assert "privacy_public.erase(doc)" in _body("erase")
 	approve = _body("approve")
 	assert '"Your Data Is Being Deleted"' in approve and "_is_user(doc.email)" in approve
+
+
+def test_somebody_who_is_not_a_user_can_find_the_page():
+	brand = (tree.APP / "one" / "brand.py").read_text()
+	assert '{"label": "Your Data", "url": "/your-data"}' in brand
+	assert '"footer_powered": " "' in brand, "an empty one draws erpnext's line"
+	login = (tree.APP / "public" / "js" / "login.js").read_text()
+	assert '["/your-data", __("Your Data")]' in login and "frappe._translations_loaded" in login
+	assert "onedesk.one.patches.your_data_footer" in (tree.APP / "patches.txt").read_text()

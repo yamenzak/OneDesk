@@ -67,7 +67,7 @@ const draw = () => {
 		const $button = document.createElement("button");
 		$button.type = "button";
 		$button.className = "es-button w-full btn-login-option one-passkey-login";
-		$button.textContent = __ ? __("Sign in with a Passkey") : "Sign in with a Passkey";
+		$button.textContent = __("Sign in with a Passkey");
 		$button.addEventListener("click", () => signIn($button));
 		// After frappe's own alternative sign-in, not between the password box and
 		// the button that uses it.
@@ -77,5 +77,37 @@ const draw = () => {
 	});
 };
 
-if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", draw);
-else draw();
+// Your Data and the Privacy Policy under the sign-in card. frappe's login
+// stylesheet hides the site footer, where brand.py puts the same two links,
+// so somebody who is not a user would never see where to ask for their data
+// (one/privacy_public.py). frappe's own small line, as under its reset card.
+const footnote = () => {
+	const $card = document.querySelector(".for-login .login-content");
+	if (!$card || document.querySelector(".one-login-footnote")) return;
+	const $line = document.createElement("p");
+	$line.className = "one-login-footnote text-center text-p-sm text-ink-gray-6 mt-4 mb-0";
+	for (const [href, label] of [
+		["/your-data", __("Your Data")],
+		["/legal/privacy", __("Privacy Policy")],
+	]) {
+		if ($line.childNodes.length) $line.append(" · ");
+		const $a = document.createElement("a");
+		$a.href = href;
+		$a.className = "text-ink-gray-6";
+		$a.textContent = label;
+		$line.append($a);
+	}
+	$card.appendChild($line);
+};
+
+// After frappe's own fetch of the page's translations, or both would be
+// drawn in English on a page in Arabic.
+const start = () =>
+	Promise.resolve(window.frappe && frappe._translations_loaded)
+		.catch(() => null)
+		.then(() => {
+			footnote();
+			draw();
+		});
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+else start();

@@ -572,7 +572,9 @@ a lead or a job applicant, asks on the workspace's own **/your-data** page.
 They give their address and choose a copy or a deletion; One mails them a
 link that works for a day, and nothing is filed until they open it. The page
 answers the same whatever the address, so nobody can use it to find out who
-the workspace knows. Link it from your website or your mail footer.
+the workspace knows. It is linked under the sign-in card and at the foot of
+every public page, with the Privacy Policy (change those in Website
+Settings, Footer); link it from your own website or mail footer too.
 
 - Their request lands in the same two lists, under their address, and you
   decide it the same way.
