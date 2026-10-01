@@ -1,0 +1,16 @@
+{
+ "custom_fields": [],
+ "doctype": "Version",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Version",
+   "doctype_or_field": "DocField",
+   "field_name": "ref_doctype",
+   "property": "in_standard_filter",
+   "property_type": "Check",
+   "value": "1"
+  }
+ ],
+ "sync_on_migrate": 1
+}

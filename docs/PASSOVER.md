@@ -4959,6 +4959,41 @@ level changes before it is approved. Tried each through approval as the
 administrator, the refusals as Plain, and a level asked for in the panel in
 plain words.
 
+**P2, Audit Log: done.** One › Audit Log is three of frappe's own lists:
+**Changes** (Version), **Sign-ins** (Activity Log) and **Exports and Prints**
+(Access Log). Seen as the workspace administrator and as Rania.
+
+Before it: frappe writes all three, and reading them was its System
+Manager's, so nobody on a workspace could ask who changed a price.
+
+1. Notifications: nothing new. A sudden large export could tell the
+   administrators; not built, worth it once a workspace asks.
+2. OneAI: `audit_log` reads changes (each field from what to what), sign-ins
+   or exports, by kind, record, person and days; each list offers its
+   question (What changed today?, Any odd sign-ins?, What left as a file?).
+3. Intake: nothing here; what OneAI changes is written as OneAI and listed.
+4. Permissions: workspace administrators only, read only, nobody writes or
+   deletes a line. Changes and exports only of the kinds of record they may
+   read (plus people's accounts and levels), never frappe's machinery, the
+   platform's records or what the system did (Administrator, Guest, OneAI's
+   own user). **Finding:** a change carries every field's value, so a change
+   now shows only the fields its reader may read (`audit.seen`, on the form
+   and in OneAI's answer). Rania sees no Audit Log and is refused a change.
+5. Cross-module: every app's changes, exports and prints land here; one
+   record's changes stay on its own timeline for its readers.
+6. Bespoke UI: frappe's lists, headed as the sidebar names them, each row a
+   sentence ("Wren changed One", "You printed Grant Plastics Ltd.") with an
+   Open button to the record, no hash column, filters by kind, person and
+   whether a sign-in failed. The Recycle Bin is headed Recycle Bin too.
+7. Documented: "Audit Log" in `one/README.md`.
+8. Legal: **finding.** The privacy notice did not say every change is kept
+   with its values, or that exports and prints are logged, or who reads it.
+   A clause says so (`one/legal.py`, audit-log); privacy revision 11.
+9. Built from frappe: Version, Activity Log and Access Log as they are, with
+   frappe's list settings and property setters. Audit Trail (comparing a
+   submitted record's amendments) stays out: each record's timeline shows
+   every version already.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

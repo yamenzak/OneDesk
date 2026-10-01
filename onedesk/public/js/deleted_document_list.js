@@ -5,6 +5,7 @@ frappe.listview_settings["Deleted Document"] = {
 	add_fields: ["deleted_doctype", "deleted_name", "restored", "owner"],
 	get_indicator: (doc) => (doc.restored ? [__("Restored"), "green", "restored,=,1"] : [__("Deleted"), "red", "restored,=,0"]),
 	onload(list) {
+		list.page.set_title(__("Recycle Bin"));
 		list.page.add_actions_menu_item(__("Restore"), async () => {
 			const names = list.get_checked_items().map((one) => one.name);
 			if (!names.length) return;

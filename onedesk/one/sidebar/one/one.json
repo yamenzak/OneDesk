@@ -307,11 +307,60 @@
    "keep_closed": 0,
    "show_arrow": 0,
    "type": "Section Break",
+   "label": "Audit Log",
+   "icon": "scroll-text",
+   "indent": 0,
+   "collapsible": 1,
+   "idx": 26
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "Changes",
+   "link_to": "Version",
+   "link_type": "DocType",
+   "icon": "history",
+   "child": 1,
+   "is_default_module": 1,
+   "route_options": null,
+   "filters": null,
+   "idx": 27
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "Sign-ins",
+   "link_to": "Activity Log",
+   "link_type": "DocType",
+   "icon": "log-in",
+   "child": 1,
+   "is_default_module": 1,
+   "route_options": null,
+   "filters": null,
+   "idx": 28
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "Exports and Prints",
+   "link_to": "Access Log",
+   "link_type": "DocType",
+   "icon": "file-down",
+   "child": 1,
+   "is_default_module": 1,
+   "route_options": null,
+   "filters": null,
+   "idx": 29
+  },
+  {
+   "keep_closed": 0,
+   "show_arrow": 0,
+   "type": "Section Break",
    "label": "OneAI",
    "icon": "oneai",
    "indent": 0,
    "collapsible": 1,
-   "idx": 26
+   "idx": 30
   },
   {
    "keep_closed": 0,
@@ -322,7 +371,7 @@
    "icon": "oneai",
    "child": 1,
    "route_options": "{\"section\": \"oneai\"}",
-   "idx": 27,
+   "idx": 31,
    "filters": "{\"section\": \"oneai\"}"
   },
   {
@@ -334,7 +383,7 @@
    "link_type": "DocType",
    "icon": "book-open",
    "child": 1,
-   "idx": 28
+   "idx": 32
   },
   {
    "keep_closed": 0,
@@ -345,7 +394,7 @@
    "link_type": "Report",
    "icon": "chart-column",
    "child": 1,
-   "idx": 29
+   "idx": 33
   },
   {
    "keep_closed": 0,
@@ -356,7 +405,7 @@
    "link_type": "DocType",
    "icon": "messages-square",
    "child": 1,
-   "idx": 30
+   "idx": 34
   },
   {
    "keep_closed": 0,
@@ -367,7 +416,7 @@
    "link_type": "DocType",
    "icon": "lightbulb",
    "child": 1,
-   "idx": 31
+   "idx": 35
   },
   {
    "keep_closed": 0,
@@ -377,7 +426,7 @@
    "icon": "oneintake",
    "indent": 0,
    "collapsible": 1,
-   "idx": 32
+   "idx": 36
   },
   {
    "keep_closed": 0,
@@ -388,7 +437,7 @@
    "link_type": "Page",
    "link_to": "intake",
    "icon": "inbox",
-   "idx": 33
+   "idx": 37
   },
   {
    "keep_closed": 0,
@@ -399,7 +448,7 @@
    "link_type": "Page",
    "link_to": "ready-to-submit",
    "icon": "file-check",
-   "idx": 34
+   "idx": 38
   },
   {
    "keep_closed": 0,
@@ -410,7 +459,7 @@
    "link_type": "Report",
    "link_to": "Deadlines",
    "icon": "calendar-clock",
-   "idx": 35
+   "idx": 39
   },
   {
    "keep_closed": 0,
@@ -421,7 +470,7 @@
    "link_type": "Report",
    "link_to": "Spending",
    "icon": "wallet",
-   "idx": 36
+   "idx": 40
   },
   {
    "keep_closed": 0,
@@ -432,11 +481,11 @@
    "icon": "settings",
    "child": 1,
    "route_options": "{\"section\": \"intake\"}",
-   "idx": 37,
+   "idx": 41,
    "filters": "{\"section\": \"intake\"}"
   }
  ],
- "modified": "2026-10-16 10:00:00.000000",
+ "modified": "2026-10-17 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

@@ -62,6 +62,8 @@ after_migrate = [
 	"onedesk.one.reports.settle",
 	# The Recycle Bin for everybody's own deletions. See one/recycle.py.
 	"onedesk.one.recycle.settle",
+	# The Audit Log for the workspace administrator. See one/audit.py.
+	"onedesk.one.audit.settle",
 	# frappe's own morning event mail stopped; Today's Events replaces it.
 	"onedesk.one_calendar.tell.install",
 	# What each module's records say above their fields. See one/head.py.
@@ -184,6 +186,9 @@ scheduler_events = {
 override_email_send = "onedesk.one_mail.outbound.send"
 
 doc_events = {
+	# A change opened in the Audit Log shows only the fields its reader may read.
+	# See one/audit.py.
+	"Version": {"onload": "onedesk.one.audit.onload"},
 	# Our own books sell each offering as an Item. See one_admin/books.py.
 	"Offering": {"on_update": ["onedesk.one_admin.books.synced", "onedesk.one_admin.offerings.warn"]},
 	"One Admin Settings": {"on_update": "onedesk.one_admin.offerings.warn"},
@@ -561,6 +566,10 @@ has_permission = {
 	# The Recycle Bin: one's own deletions, and an administrator's readable kinds.
 	# See one/recycle.py.
 	"Deleted Document": "onedesk.one.recycle.has_permission",
+	# The Audit Log: an administrator's, of what they may read. See one/audit.py.
+	"Version": "onedesk.one.audit.has_permission",
+	"Activity Log": "onedesk.one.audit.has_permission",
+	"Access Log": "onedesk.one.audit.has_permission",
 	# What OneAI did is seen by whom it acted for. See one_intake/act.py.
 	"Intake Action": "onedesk.one_intake.act.has_permission",
 	# A message opens for its mailbox's holders and its record's readers.
@@ -592,6 +601,9 @@ has_permission = {
 # left get_list wide open — measured, not assumed.
 permission_query_conditions = {
 	"Deleted Document": "onedesk.one.recycle.query",
+	"Version": "onedesk.one.audit.version_query",
+	"Activity Log": "onedesk.one.audit.activity_query",
+	"Access Log": "onedesk.one.audit.access_query",
 	"Intake Action": "onedesk.one_intake.act.query",
 	"Mail Rule": "onedesk.one_mail.rules.rule_query",
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.query",
@@ -684,6 +696,10 @@ doctype_js = {
 # Loaded after the doctype's own list script, so ours has the last word.
 doctype_list_js = {
 	"Deleted Document": "public/js/deleted_document_list.js",
+	# The Audit Log's three lists, as One's sidebar names them. See one/audit.py.
+	"Version": "public/js/audit_list.js",
+	"Activity Log": "public/js/audit_list.js",
+	"Access Log": "public/js/audit_list.js",
 	# Nothing on the catalogue is typed; its only verb is to sync it now.
 	"AI Model": "public/js/ai_model_list.js",
 	# Which way each row moved money, which is all a ledger list is for.
@@ -894,6 +910,8 @@ one_ai_reads = [
 	"onedesk.one.ai.workspace_reports",
 	# What was deleted, as the reader may see it. See one/recycle.py.
 	"onedesk.one.ai.recycle_bin",
+	# Who changed, signed in and exported what. See one/audit.py.
+	"onedesk.one.ai.audit_log",
 	# The plan and the credits, for the workspace's administrators.
 	"onedesk.one.ai.workspace_plan",
 	# The addresses the workspace opens at, for its administrators.

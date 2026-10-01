@@ -40,7 +40,7 @@ def test_a_template_is_filled_in_as_the_email_window_fills_it():
 
 def test_the_list_and_form_keep_ones_rail():
 	desk = (tree.APP / "public" / "js" / "desk.js").read_text()
-	assert 'static KEPT = ["Automation Flow"' in desk and "OneSidebar.KEPT.includes(route[1])" in desk
+	assert 'static KEPT = [\n\t\t"Automation Flow"' in desk and "OneSidebar.KEPT.includes(route[1])" in desk
 
 
 def test_oneai_suggests_an_automation_as_a_card():

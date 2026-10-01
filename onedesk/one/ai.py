@@ -205,6 +205,27 @@ SUGGESTIONS = {
 			"expects": "workspace_reports",
 		},
 	],
+	"Version": [
+		{
+			"label": _lt("What changed today?"),
+			"ask": _lt("What was changed today, by whom, and does anything look out of place?"),
+			"expects": "audit_log",
+		},
+	],
+	"Activity Log": [
+		{
+			"label": _lt("Any odd sign-ins?"),
+			"ask": _lt("In the last week, which sign-ins failed, and did anybody sign in from somewhere new?"),
+			"expects": "audit_log",
+		},
+	],
+	"Access Log": [
+		{
+			"label": _lt("What left as a file?"),
+			"ask": _lt("What was exported or printed in the last week, by whom, and was any of it large?"),
+			"expects": "audit_log",
+		},
+	],
 	"Deleted Document": [
 		{
 			"label": _lt("What was deleted lately?"),
@@ -1151,6 +1172,110 @@ def recycle_bin(
 		],
 		"next": "Restore on a deleted record, or on several ticked in the list, puts them back; how is in One's "
 		"documentation under Recycle Bin (how_to).",
+	}
+
+
+def audit_log(
+	what: Annotated[str, "changes, sign-ins or exports; changes if not said."] = "changes",
+	kind: Annotated[str, "Only changes to, or exports of, this kind of record, such as Item."] | None = None,
+	record: Annotated[str, "Only changes to this one record, by its name; give kind too."] | None = None,
+	person: Annotated[str, "Only what this person did, by their address."] | None = None,
+	days: Annotated[int, "How many days back to look, 7 if not said."] = 7,
+) -> dict:
+	"""The Audit Log, for a workspace administrator: who changed which record
+	and each field from what to what, who signed in from where and whether it
+	failed, or who exported or printed what. Only of the kinds of record the
+	reader may read, never the system's own."""
+	from onedesk.one import audit, roles
+
+	if not roles.administers():
+		return {
+			"error": "Only a workspace administrator reads the Audit Log; a record's own timeline shows "
+			"its changes."
+		}
+	since = frappe.utils.add_days(frappe.utils.now_datetime(), -max(1, min(int(days or 7), 365)))
+	filters = {"creation": [">=", since]}
+	if what == "sign-ins":
+		if person:
+			filters["user"] = person
+		rows = frappe.get_list(
+			"Activity Log",
+			filters=filters,
+			fields=["user", "operation", "status", "ip_address", "creation"],
+			order_by="creation desc",
+			limit=100,
+		)
+		said = [
+			{
+				"who": one.user,
+				"did": one.operation,
+				"failed": one.status != "Success",
+				"from": one.ip_address,
+				"when": str(one.creation),
+			}
+			for one in rows
+		]
+		return {"sign_ins": said, "open": "/desk/activity-log"}
+	if what == "exports":
+		if person:
+			filters["user"] = person
+		if kind:
+			filters["export_from"] = kind
+		rows = frappe.get_list(
+			"Access Log",
+			filters=filters,
+			fields=["user", "export_from", "reference_document", "report_name", "file_type", "creation"],
+			order_by="creation desc",
+			limit=100,
+		)
+		said = [
+			{
+				"who": one.user,
+				"kind": one.export_from,
+				"record": one.reference_document,
+				"report": one.report_name,
+				"as": one.file_type,
+				"when": str(one.creation),
+			}
+			for one in rows
+		]
+		return {"exports": said, "open": "/desk/access-log"}
+	if person:
+		filters["owner"] = person
+	if kind:
+		filters["ref_doctype"] = kind
+	if record:
+		filters["docname"] = record
+	rows = frappe.get_list(
+		"Version",
+		filters=filters,
+		fields=["name", "owner", "ref_doctype", "docname", "data", "creation"],
+		order_by="creation desc",
+		limit=60,
+	)
+	changes = []
+	for one in rows:
+		data = audit.seen(one.data, one.ref_doctype)
+		meta = frappe.get_meta(one.ref_doctype)
+		changes.append(
+			{
+				"who": one.owner,
+				"kind": one.ref_doctype,
+				"record": one.docname,
+				"when": str(one.creation),
+				"fields": [
+					{"field": meta.get_label(f) or f, "from": o, "to": n}
+					for f, o, n in (data.get("changed") or [])[:12]
+				],
+				"rows_added": len(data.get("added") or []),
+				"rows_removed": len(data.get("removed") or []),
+				"rows_changed": len(data.get("row_changed") or []),
+				"open": f"/desk/version/{one.name}",
+			}
+		)
+	return {
+		"changes": changes,
+		"next": "A change opens with every field it changed; Open on its row goes to the record.",
 	}
 
 

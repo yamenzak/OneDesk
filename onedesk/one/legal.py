@@ -149,3 +149,20 @@ clause(
 		administrator empties it, so deleting personal data for good means emptying it from the bin too.
 	""",
 )
+
+# One > Audit Log
+
+clause(
+	document="privacy",
+	section="modules",
+	key="audit-log",
+	module=M,
+	body="""
+		Your workspace keeps an audit log: every change to a record, with who made it, when, and each value
+		before and after; every sign-in and sign-out, failed ones included, with the network address it came
+		from; and every export, printed PDF and private file downloaded, with who took it. Your workspace's
+		administrators can read it, for the kinds of record they may read. Sign-ins are kept for 90 days;
+		changes and exports are kept with the workspace.
+	""",
+	order=9,
+)

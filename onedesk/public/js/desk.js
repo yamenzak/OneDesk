@@ -65,8 +65,19 @@ frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 
 	// What One's sidebar keeps wherever it is opened from: the workflow builder,
 	// automations, a workspace's dashboards, their charts and cards, and its
-	// reports by mail (one/reports.py), and the Recycle Bin (one/recycle.py).
-	static KEPT = ["Automation Flow", "Dashboard", "Dashboard Chart", "Number Card", "Auto Email Report", "Deleted Document"];
+	// reports by mail (one/reports.py), the Recycle Bin (one/recycle.py) and the
+	// Audit Log (one/audit.py).
+	static KEPT = [
+		"Automation Flow",
+		"Dashboard",
+		"Dashboard Chart",
+		"Number Card",
+		"Auto Email Report",
+		"Deleted Document",
+		"Version",
+		"Activity Log",
+		"Access Log",
+	];
 
 	static workspace(route) {
 		return (

@@ -491,6 +491,32 @@ frappe's own machinery such as permission rows, and the platform's records.
 **OneAI on this page** offers **What was deleted lately?** and reads the bin
 as the reader may see it.
 
+### Audit Log
+
+Who did what in the workspace, under One › **Audit Log**, for workspace
+administrators only. Nobody writes to it and nobody can change or delete a
+line of it: frappe writes each one as it happens.
+
+- **Changes**: every change to a record, as "Wren changed One". Open one to
+  see each field it changed, from what to what; **Open** on its row goes to
+  the record. Filter by kind of record, or by who made it.
+- **Sign-ins**: every sign-in and sign-out, failed ones included, with the
+  network address it came from. Filter by person or by whether it failed.
+- **Exports and Prints**: every list or report exported to a spreadsheet,
+  every record printed to PDF and every private file downloaded, with who
+  took it.
+
+An administrator sees the changes to, and exports of, the kinds of record
+they may read, plus people's accounts and what they may do; a change shows
+only the fields they may read. What the system did (a scheduled job, an
+update, the platform's own support) is not listed. Sign-ins are kept for 90
+days; changes and exports stay. One record's own changes are also on its
+timeline, for everybody who may read it.
+
+**OneAI on these pages** offers **What changed today?**, **Any odd
+sign-ins?** and **What left as a file?**, and reads the log as the reader
+may see it.
+
 ### Notifications, for the Workspace
 
 Under **Workspace**, **Notifications** lists everything One tells people, by the

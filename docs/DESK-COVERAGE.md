@@ -214,9 +214,9 @@ after saving.
 | Contacts | Gender | **Add, P3** | as Address Template |
 | Contacts | Salutation | **Add, P3** | as Address Template |
 | Core | API Request Log | Underneath | runs under the product; no screen wanted |
-| Core | Access Log | **Add, P2** | Audit log: who exported or printed what |
-| Core | Activity Log | **Add, P2** | Audit log: sign-ins and actions |
-| Core | Audit Trail | **Add, P2** | Audit log: a record compared across dates |
+| Core | Access Log | In One | One › Audit Log › Exports and Prints (one/audit.py) |
+| Core | Activity Log | In One | One › Audit Log › Sign-ins (one/audit.py) |
+| Core | Audit Trail | Underneath | compares a submitted record's amendments; each record's timeline already shows every version |
 | Core | Background Task | Underneath | runs under the product; no screen wanted |
 | Core | Comment | In One | every record's timeline |
 | Core | Communication | In One | OneMail and every timeline |
@@ -226,7 +226,7 @@ after saving.
 | Core | Data Export | **Add, P1** | with Data Import: a list out to a spreadsheet |
 | Core | Data Import | **Add, P1** | Bringing customers, items, employees and balances in from a spreadsheet. The first thing a new workspace needs. |
 | Core | Data Import Log | Underneath | runs under the product; no screen wanted |
-| Core | Deleted Document | **Add, P2** | A recycle bin with Restore. Frappe keeps every deleted record; nobody can get one back. |
+| Core | Deleted Document | In One | One › Recycle Bin (one/recycle.py) |
 | Core | DocShare | Underneath | runs under the product; no screen wanted |
 | Core | DocType | Not a customer's | the platform's or a developer's; only an operator |
 | Core | DocType Layout | Not a customer's | the platform's or a developer's; only an operator |
@@ -280,7 +280,7 @@ after saving.
 | Core | User Invitation | Underneath | One sends its own invite |
 | Core | User Permission | **Add, P2** | Access by record: a salesperson sees only their territory, a manager only their department |
 | Core | User Type | Not a customer's | the platform's or a developer's; only an operator |
-| Core | Version | **Add, P2** | Audit log: who changed what, across the workspace, for administrators |
+| Core | Version | In One | One › Audit Log › Changes (one/audit.py) |
 | Core | View Log | Underneath | runs under the product; no screen wanted |
 | Custom | Client Script | Not a customer's | the platform's or a developer's; only an operator |
 | Custom | Custom Field | In One | Customize page |
