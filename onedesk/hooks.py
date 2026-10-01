@@ -131,6 +131,8 @@ scheduler_events = {
 		"40 6 * * *": ["onedesk.one_task.tell.today"],
 	},
 	"daily": [
+		# Privacy requests nobody decided in a week. See one/privacy.py.
+		"onedesk.one.privacy.remind",
 		# Task steps that waited for a day. See one_intake/steps.py.
 		"onedesk.one_intake.steps.daily",
 		# The company field follows the holiday list in force; a list about to end is told.
@@ -575,6 +577,7 @@ has_permission = {
 	# Deleting somebody's account is decided by an administrator, never by
 	# editing the request. See one/privacy.py.
 	"Personal Data Deletion Request": "onedesk.one.privacy.has_permission",
+	"Personal Data Download Request": "onedesk.one.privacy_copy.has_permission",
 	# What OneAI did is seen by whom it acted for. See one_intake/act.py.
 	"Intake Action": "onedesk.one_intake.act.has_permission",
 	# A message opens for its mailbox's holders and its record's readers.
@@ -610,6 +613,7 @@ permission_query_conditions = {
 	"Activity Log": "onedesk.one.audit.activity_query",
 	"Access Log": "onedesk.one.audit.access_query",
 	"Personal Data Deletion Request": "onedesk.one.privacy.query",
+	"Personal Data Download Request": "onedesk.one.privacy_copy.query",
 	"Intake Action": "onedesk.one_intake.act.query",
 	"Mail Rule": "onedesk.one_mail.rules.rule_query",
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.query",
@@ -662,6 +666,8 @@ doctype_js = {
 	"Deleted Document": "public/js/deleted_document.js",
 	# Approve and Delete, or Hold, by a workspace administrator. See one/privacy.py.
 	"Personal Data Deletion Request": "public/js/privacy_request.js",
+	# Review a copy of somebody's data, kind by kind, then send it. See one/privacy_copy.py.
+	"Personal Data Download Request": "public/js/privacy_copy.js",
 	# A workspace is read-only and carries verbs instead; see one_admin/operator.py.
 	# A workspace reads its own account and manages its addresses; the account
 	# itself lives on the administrator. See one/account.py.
@@ -709,6 +715,7 @@ doctype_list_js = {
 	"Activity Log": "public/js/audit_list.js",
 	"Access Log": "public/js/audit_list.js",
 	"Personal Data Deletion Request": "public/js/privacy_request_list.js",
+	"Personal Data Download Request": "public/js/privacy_copy_list.js",
 	# Nothing on the catalogue is typed; its only verb is to sync it now.
 	"AI Model": "public/js/ai_model_list.js",
 	# Which way each row moved money, which is all a ledger list is for.

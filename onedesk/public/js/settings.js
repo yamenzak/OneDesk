@@ -208,7 +208,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		rows.push(
 			{
 				heading: __("Your Data"),
-				note: __("A copy of everything you left in the workspace, or your account deleted. Deleting is decided by an administrator, and what the workspace has to keep stays without your name."),
+				note: __("A copy of your data, or your account deleted. An administrator reviews both: a copy leaves out only what would show other people's or the company's confidential information, and you are told what and why."),
 			},
 			{ html: this.your_data(data.privacy) }
 		);
@@ -238,17 +238,21 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	// was asked and where it stands, and the buttons that ask.
 	your_data(state) {
 		const when = (on) => frappe.datetime.comment_when(on);
+		const esc = frappe.utils.escape_html;
+		const copy = state.copy;
 		const lines = [];
-		if (state.copy && state.copy.ready) lines.push(__("Your copy from {0} is ready.", [when(state.copy.on)]));
-		else if (state.copy) lines.push(__("Your copy is being gathered; it comes to your bell and by mail."));
-		if (state.deletion && state.deletion.status === "On Hold")
-			lines.push(__("Deleting your account is on hold: {0}", [frappe.utils.escape_html(state.deletion.why || "")]));
+		if (copy && copy.status === "Waiting") lines.push(__("You asked {0} for a copy. An administrator reviews what goes, then it comes to your bell and by mail.", [when(copy.on)]));
+		else if (copy && copy.status === "Gathering") lines.push(__("Your copy is being gathered; it comes to your bell and by mail."));
+		else if (copy && copy.ready) lines.push(__("Your copy from {0} is ready.", [when(copy.on)]) + (copy.withheld ? " " + __("Withheld: {0}", [esc(copy.withheld)]) : ""));
+		if (state.deletion && state.deletion.status === "On Hold") lines.push(__("Deleting your account is on hold: {0}", [esc(state.deletion.why || "")]));
+		else if (state.deletion && state.deletion.status === "Pending Verification") lines.push(__("Open the link we mailed you to confirm deleting your account."));
 		else if (state.deletion) lines.push(__("You asked {0} for your account to be deleted. An administrator decides.", [when(state.deletion.on)]));
+		const asking = copy && ["Waiting", "Gathering"].includes(copy.status);
 		const buttons = [
-			state.copy && state.copy.ready
-				? `<a class="btn btn-default btn-sm" href="${encodeURI(state.copy.url)}" download>${frappe.utils.icon("download", "sm")} ${__("Download My Data")}</a>`
+			copy && copy.ready
+				? `<a class="btn btn-default btn-sm" href="${encodeURI(copy.url)}" download>${frappe.utils.icon("download", "sm")} ${__("Download My Data")}</a>`
 				: "",
-			onedesk.shell.button(state.copy && state.copy.ready ? __("Gather a New Copy") : __("Get a Copy of My Data"), { "data-copy": "1" }, "subtle", "file-down"),
+			asking ? "" : onedesk.shell.button(copy && copy.ready ? __("Ask for a New Copy") : __("Get a Copy of My Data"), { "data-copy": "1" }, "subtle", "file-down"),
 			state.deletion
 				? onedesk.shell.button(__("Keep My Account"), { "data-withdraw": "1" }, "ghost", "undo-2")
 				: onedesk.shell.button(__("Delete My Account"), { "data-delete": "1" }, "ghost", "user-x"),
@@ -258,8 +262,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 
 	your_data_actions($card, state) {
 		$card.find("[data-copy]").on("click", async () => {
-			await frappe.xcall("onedesk.one.privacy.ask_for_copy");
-			frappe.show_alert({ message: __("Gathering your data. It comes to your bell and by mail."), indicator: "green" });
+			await frappe.xcall("onedesk.one.privacy_copy.ask");
+			frappe.show_alert({ message: __("Asked. An administrator reviews it, then it comes to your bell and by mail."), indicator: "green" });
 			this.refresh();
 		});
 		$card.find("[data-withdraw]").on("click", async () => {
@@ -275,13 +279,18 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 						fieldtype: "HTML",
 						options: `<p>${__("An administrator approves it. Then you are signed out for good, and your conversations with OneAI, what it remembers, your notifications and devices are deleted. Invoices, tasks and other records the workspace keeps stay, with your name and address taken out. Your employee record, if you have one, is HR's.")}</p><p>${__("It cannot be undone. Get a copy of your data first if you want one.")}</p>`,
 					},
-					{ fieldname: "password", fieldtype: "Password", label: __("Your Password"), reqd: 1 },
+					state.password
+						? { fieldname: "password", fieldtype: "Password", label: __("Your Password"), reqd: 1 }
+						: { fieldtype: "HTML", options: `<p>${__("You sign in without a password, so we mail you a link to confirm it is you.")}</p>` },
 				],
 				primary_action_label: __("Ask to Delete"),
 				primary_action: async ({ password }) => {
 					await frappe.xcall("onedesk.one.privacy.ask_to_delete", { password });
 					dialog.hide();
-					frappe.show_alert({ message: __("Asked. An administrator decides, and you will hear."), indicator: "orange" });
+					frappe.show_alert({
+						message: state.password ? __("Asked. An administrator decides, and you will hear.") : __("Check your mail to confirm."),
+						indicator: "orange",
+					});
 					this.refresh();
 				},
 			});

@@ -145,8 +145,8 @@ DOCUMENTS = {
 		# 8: what the signup page keeps, and that it becomes a lead of ours.
 		# 9: the One account, what it keeps, and signing in by mailed link.
 		# 10: a deleted record is kept in the Recycle Bin until emptied.
-		# 11: the Audit Log. 12: your data copied, or your account deleted.
-		"revision": 12,
+		# 11: the Audit Log. 12 and 13: your data copied, or your account deleted.
+		"revision": 13,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {

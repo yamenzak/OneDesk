@@ -12,11 +12,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 SOURCE = (tree.APP / "one" / "privacy.py").read_text()
+COPY = (tree.APP / "one" / "privacy_copy.py").read_text()
 HOOKS = (tree.APP / "hooks.py").read_text()
 
 
-def _body(name: str) -> str:
-	return SOURCE.split(f"def {name}(", 1)[1].split("\ndef ", 1)[0]
+def _body(name: str, source: str = SOURCE) -> str:
+	return source.split(f"def {name}(", 1)[1].split("\ndef ", 1)[0]
 
 
 def test_the_request_is_guarded_and_decided_only_through_one():
@@ -28,11 +29,22 @@ def test_the_request_is_guarded_and_decided_only_through_one():
 	assert "write" not in SOURCE.split("GRANTS = ", 1)[1].split("\n", 1)[0]
 
 
-def test_only_the_person_asks_and_with_their_password():
+def test_only_the_person_asks_and_proves_it_is_them():
 	asked = _body("ask_to_delete")
-	assert "check_password(user, password)" in asked and "_mine()" in asked
-	assert "_mine()" in _body("ask_for_copy") and "_mine()" in _body("withdraw")
-	assert "AGAIN_AFTER_MINUTES" in _body("ask_for_copy")
+	assert "check_password(user, password" in asked and "_mine()" in asked
+	assert "mailed = not _has_password(user)" in asked and "_mail_confirmation(doc)" in asked
+	assert "_mine()" in _body("ask", COPY) and "_mine()" in _body("withdraw")
+
+
+def test_a_mailed_link_is_signed_and_lasts_a_day():
+	assert "get_signed_params(" in _body("_mail_confirmation")
+	confirm = _body("confirm")
+	assert "verify_request()" in confirm
+	assert (
+		'doc.status != "Pending Verification"' in confirm
+		and "get_datetime(expires) < now_datetime()" in confirm
+	)
+	assert "LINK_HOURS = 24" in SOURCE
 
 
 def test_nobody_removes_the_last_administrator_or_the_payer_or_themselves():
@@ -61,10 +73,35 @@ def test_the_bin_and_the_logs_lose_the_name_too():
 		assert f'"{doctype}"' in fields, doctype
 
 
-def test_the_copy_is_frappes_gathering_and_only_theirs():
-	gather = _body("gather")
-	assert "get_user_data(doc.user)" in gather and '"is_private": 1' in gather
-	assert 'notify.notify("Your Data Is Ready", doc.user' in gather
+def test_what_is_about_them_always_goes_and_the_rest_is_reviewed():
+	kinds = COPY.split("KINDS = (", 1)[1].split("\n)", 1)[0]
+	for key in ("account", "signins", "contacts", "memory", "agreements"):
+		line = kinds.split(f'("{key}", ', 1)[1].split("\n", 1)[0]
+		assert line.endswith("True),"), key
+	send = _body("send", COPY)
+	assert "roles.require()" in send
+	assert "set(withheld) - optional" in send and "withheld and not why" in send
+	assert '"one_withheld": said' in send
+
+
+def test_the_copy_never_carries_the_workspaces_values():
+	gather = _body("gather_kind", COPY)
+	assert "reset_password_key" not in COPY and "api_key" not in COPY
+	assert '"page"' not in gather and "Deleted Document" not in gather
+	assert 'one["fields"] = [label(change[0])' in gather
+	assert "import get_user_data" not in COPY and "get_user_data(" not in COPY
+
+
+def test_the_copy_is_the_persons_alone():
+	gather = _body("gather", COPY)
+	assert '"is_private": 1' in gather and '"owner", doc.user' in gather
+	assert 'notify.notify(\n\t\t"Your Data Is Ready"' in gather or '"Your Data Is Ready"' in gather
+	assert 'ptype in ("read", "report", None) and roles.administers(user)' in _body("has_permission", COPY)
+	assert '"attached_to_doctype": "User"' in _body("_file_of", COPY) and '"attached_to_name": user' in _body(
+		"_file_of", COPY
+	)
+	assert '"file_name": ["like", "Personal-Data-%"]' in _body("erase")
+	assert '"role": "All"' in _body("settle")
 
 
 def test_everybody_concerned_is_told():
@@ -77,14 +114,17 @@ def test_everybody_concerned_is_told():
 		"Person Deleted",
 	):
 		assert f'_lt("{name}")' in types, name
-	assert '"Deletion Asked"' in _body("ask_to_delete")
+	assert '"Deletion Asked"' in _body("_ask_administrators")
+	assert '"Copy Asked"' in _body("ask", COPY)
+	assert '"onedesk.one.privacy.remind"' in HOOKS
 	assert '"Deletion On Hold"' in _body("hold")
 
 
 def test_the_sidebar_and_the_profile_reach_it():
 	sidebar = json.loads((tree.APP / "one" / "sidebar" / "one" / "one.json").read_text())
 	links = {one["link_to"]: one["label"] for one in sidebar["items"] if one.get("link_type") == "DocType"}
-	assert links["Personal Data Deletion Request"] == "Privacy Requests"
+	assert links["Personal Data Deletion Request"] == "Account Deletions"
+	assert links["Personal Data Download Request"] == "Data Copies"
 	page = (tree.APP / "public" / "js" / "settings.js").read_text()
-	for method in ("ask_for_copy", "ask_to_delete", "withdraw"):
-		assert f"onedesk.one.privacy.{method}" in page, method
+	for method in ("privacy_copy.ask", "privacy.ask_to_delete", "privacy.withdraw"):
+		assert f"onedesk.one.{method}" in page, method

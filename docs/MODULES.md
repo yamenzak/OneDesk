@@ -242,10 +242,13 @@ No doctypes yet.
 * `onedesk.one.printing.save_letter_head`
 * `onedesk.one.printing.set_default`
 * `onedesk.one.privacy.approve`
-* `onedesk.one.privacy.ask_for_copy`
 * `onedesk.one.privacy.ask_to_delete`
+* `onedesk.one.privacy.confirm`
 * `onedesk.one.privacy.hold`
 * `onedesk.one.privacy.withdraw`
+* `onedesk.one.privacy_copy.ask`
+* `onedesk.one.privacy_copy.review`
+* `onedesk.one.privacy_copy.send`
 * `onedesk.one.push.devices`
 * `onedesk.one.push.forget`
 * `onedesk.one.push.register`

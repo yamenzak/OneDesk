@@ -175,10 +175,12 @@ clause(
 	key="privacy-requests",
 	module=M,
 	body="""
-		In a workspace you can do two of these yourself, under You › Profile › Your Data: get a copy of
-		everything you left in it, in one file, and ask for your account to be deleted. Your workspace's
-		administrators decide on a deletion, because the workspace may have to keep some of what you left by
-		law; if they hold it, you are told why. Once it is approved you are signed out, what only you used is
+		In a workspace you can do two of these yourself, under You › Profile › Your Data. You can ask for a
+		copy of your data: an administrator reviews it and may leave out only what would show other people's
+		or the organisation's confidential information, and you are told what was left out and why. You can
+		ask for your account to be deleted, confirmed with your password or a link mailed to you: the
+		workspace's administrators decide, because the workspace may have to keep some of what you left by law,
+		and if they hold it you are told why. Once it is approved you are signed out, what only you used is
 		deleted, and your name and address are taken out of everything the workspace keeps, its Recycle Bin
 		and Audit Log included. An employee record is kept by your organisation's HR as the law requires.
 	""",

@@ -5039,6 +5039,28 @@ went to System Managers no workspace has, and its mails read "Dear User".
    skipped because the password typed confirms who asks; frappe's mailed
    link is for somebody not signed in.
 
+**Privacy Requests, second round** (on the user's questions: why a password
+and not our own mail, and what a copy gives away).
+
+- Deleting is confirmed with the password, or, for somebody who signs in by
+  mailed link or passkey and has none, by a signed link in One's own mail
+  that works for a day (Confirm Deletion). Tried: the link confirmed once,
+  was refused the second time, and refused when altered.
+- **Finding:** frappe's copy (`get_user_data`) gave every row the person's
+  address appears in, whole: deleted records, printed pages, other people's
+  values in their changes, a reset key. The copy is now One's own
+  (`one/privacy_copy.py`), kind by kind, and an administrator reviews it
+  first under Workspace › Data Copies. What is about the person always goes
+  (account and profile, sign-ins, contacts, OneAI's memories, agreements);
+  mail, comments, to-dos, OneAI conversations, changes (field names only),
+  exports (no pages) and notifications go unless withheld, with a reason
+  the person is told (GDPR article 15(4)); deleted records, printed pages,
+  values and secrets never go. Tried: Rania's copy with her mail and chats
+  withheld; withholding her account, or without a reason, refused.
+- Administrators are reminded each day a request has waited a week.
+- Legal: the clause says a copy is reviewed and what may be left out;
+  privacy revision 13.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

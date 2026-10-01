@@ -205,6 +205,13 @@ SUGGESTIONS = {
 			"expects": "workspace_reports",
 		},
 	],
+	"Personal Data Download Request": [
+		{
+			"label": _lt("What would this copy give?"),
+			"ask": _lt("What would this copy of their data give, kind by kind, and is any of it other people's or the company's confidential information I should withhold?"),
+			"expects": "privacy_request",
+		},
+	],
 	"Personal Data Deletion Request": [
 		{
 			"label": _lt("What would deleting them remove?"),
@@ -1287,10 +1294,11 @@ def audit_log(
 
 
 def privacy_request(
-	name: Annotated[str, "The request, by its name, such as deleted-user-0001@example.com."],
+	name: Annotated[str, "The request, by its name: a copy's id, or a deletion such as deleted-user-0001@example.com."],
 ) -> dict:
-	"""For a workspace administrator: what approving a request to delete
-	somebody's account would do, without doing it. What is deleted outright,
+	"""For a workspace administrator: what a privacy request would give or do,
+	without doing it. For a copy, each kind of data and how much of it. For a
+	deletion, what approving it would do. What is deleted outright,
 	where their name and address are taken out, what is still assigned to
 	them, whether they have an employee record (HR's, which stays), and
 	anything that stops it (the last administrator, the person billed)."""
@@ -1298,6 +1306,15 @@ def privacy_request(
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator decides privacy requests."}
+	if frappe.db.exists(privacy.DOWNLOAD, name):
+		from onedesk.one import privacy_copy
+
+		return {
+			**privacy_copy.review(name),
+			"next": "Review and Send on the request: what is about the person always goes; mail, comments, "
+			"to-dos, conversations, changes, exports and notifications may be withheld only to protect other "
+			"people or the company's confidential information, with a reason the person is told.",
+		}
 	if not frappe.db.exists(privacy.DELETION, name):
 		return {"error": f"There is no request {name}."}
 	return {

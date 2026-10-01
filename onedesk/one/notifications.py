@@ -162,10 +162,49 @@ TYPES = [
 		"to": _lt("The person who asked"),
 		"subject": _lt("Your data is ready"),
 		"message": _lt(
-			"The copy of your data you asked for is ready: everything you left in the workspace, in one file. "
-			"Download it from your profile, or here: {url}"
+			"The copy of your data you asked for is ready to download from your profile. Withheld: {withheld}"
 		),
-		"email": True,
+		"email": False,
+		"always_mailed": True,
+	},
+	{
+		"name": _lt("Copy Asked"),
+		"app": "One",
+		"about": _lt("When somebody asks for a copy of their data, which an administrator reviews first."),
+		"to": _lt("Every administrator"),
+		"subject": _lt("{person} asked for a copy of their data"),
+		"message": _lt(
+			"{person} asked for a copy of their data. Review what goes and send it under Workspace › Data "
+			"Copies; the law gives a month to answer."
+		),
+		"email": False,
+		"always_mailed": True,
+	},
+	{
+		"name": _lt("Confirm Deletion"),
+		"app": "One",
+		"about": _lt("When you ask for your account to be deleted and sign in without a password."),
+		"to": _lt("The person who asked"),
+		"subject": _lt("Confirm deleting your account"),
+		"message": _lt(
+			"You asked for your account to be deleted. Open this link within {hours} hours to confirm, and your "
+			"workspace's administrators will decide: {url}. If it was not you, do nothing and your account stays."
+		),
+		"email": False,
+		"always_mailed": True,
+	},
+	{
+		"name": _lt("Privacy Requests Waiting"),
+		"app": "One",
+		"about": _lt("Every day while a privacy request has waited more than a week for a decision."),
+		"to": _lt("Every administrator"),
+		"subject": _lt("{count} privacy requests are waiting"),
+		"message": _lt(
+			"{count} requests for a copy of somebody's data or to delete their account have waited more than a "
+			"week. The law gives a month to answer."
+		),
+		"email": False,
+		"always_mailed": True,
 	},
 	{
 		"name": _lt("Deletion Asked"),

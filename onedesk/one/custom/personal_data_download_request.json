@@ -1,0 +1,51 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Personal Data Download Request",
+   "fieldname": "one_status",
+   "fieldtype": "Select",
+   "label": "Where It Stands",
+   "insert_after": "user_name",
+   "module": "One",
+   "name": "Personal Data Download Request-one_status",
+   "read_only": 1,
+   "options": "Waiting\nGathering\nReady",
+   "in_standard_filter": 1,
+   "description": "Waiting for an administrator to review it, being gathered, or ready for the person to download."
+  },
+  {
+   "dt": "Personal Data Download Request",
+   "fieldname": "one_withheld",
+   "fieldtype": "Small Text",
+   "label": "Withheld",
+   "insert_after": "one_status",
+   "module": "One",
+   "name": "Personal Data Download Request-one_withheld",
+   "read_only": 1,
+   "description": "What an administrator kept out of the copy, and why. The person is told."
+  },
+  {
+   "dt": "Personal Data Download Request",
+   "fieldname": "one_decided_by",
+   "fieldtype": "Link",
+   "label": "Decided By",
+   "insert_after": "one_withheld",
+   "module": "One",
+   "name": "Personal Data Download Request-one_decided_by",
+   "read_only": 1,
+   "options": "User"
+  }
+ ],
+ "doctype": "Personal Data Download Request",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Personal Data Download Request",
+   "doctype_or_field": "DocType",
+   "property": "title_field",
+   "property_type": "Data",
+   "value": "user"
+  }
+ ],
+ "sync_on_migrate": 1
+}

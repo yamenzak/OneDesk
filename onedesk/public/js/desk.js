@@ -78,6 +78,7 @@ frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 		"Activity Log",
 		"Access Log",
 		"Personal Data Deletion Request",
+		"Personal Data Download Request",
 	];
 
 	static workspace(route) {

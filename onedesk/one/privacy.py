@@ -8,9 +8,10 @@ those records, disables the account and renames it to an anonymous one. Both
 are driven by its System Manager and its own mails ("Dear User"), and nobody
 on a workspace is either. Here:
 
-- anybody asks from You > Profile: a copy of their data, which arrives on
-  their bell and by mail; or their account deleted, confirmed with their
-  password, because it cannot be undone;
+- anybody asks from You > Profile: a copy of their data, which an
+  administrator reviews first (one/privacy_copy.py); or their account
+  deleted, confirmed with their password, or by a link One mails them when
+  they sign in without one, because it cannot be undone;
 - a workspace administrator decides on a deletion under Workspace > Privacy
   Requests: approve it, or hold it with a reason the person is told (an open
   payroll, a dispute: what the law makes the workspace keep);
@@ -27,17 +28,15 @@ to: both have to be handed to somebody else first.
 
 import frappe
 from frappe import _
-from frappe.utils import add_to_date, now_datetime
-from frappe.website.doctype.personal_data_download_request.personal_data_download_request import (
-	get_user_data,
-)
+from frappe.utils import add_days, add_to_date, get_datetime, now_datetime
+from frappe.utils.verified_command import get_signed_params, verify_request
 
 from onedesk.one import roles
 
 DOWNLOAD = "Personal Data Download Request"
 DELETION = "Personal Data Deletion Request"
 
-GRANTS = {DELETION: ("read", "report")}
+GRANTS = {DELETION: ("read", "report"), DOWNLOAD: ("read", "report")}
 
 #: What is only the person's and of no use to the workspace once they are
 #: gone: deleted outright before frappe's erasure, as {doctype: field}.
@@ -48,16 +47,31 @@ ONLY_THEIRS = {
 	"Push Device": "user",
 	"Calendar Feed": "user",
 	"Cloud Drive Password": "user",
-	# The copies of their data they asked for, with the files.
+	# The copies of their data they asked for (the files go too, below).
 	"Personal Data Download Request": "user",
 }
 
-#: How long after one copy another may be asked for.
-AGAIN_AFTER_MINUTES = 60
+#: How long a mailed confirmation link works.
+LINK_HOURS = 24
+
+#: After how many days a request nobody decided reminds the administrators.
+REMIND_AFTER_DAYS = 7
+
+#: Where a deletion waits: confirmed, or for the person's mailed link.
+OPEN = ("Pending Verification", "Pending Approval", "On Hold")
 
 
 def settle() -> None:
+	"""The administrator's read on both kinds of request. Frappe also lets
+	everybody read their own copy requests, which put Data Copies in every
+	person's sidebar; the person sees theirs on their profile instead."""
+	from frappe.permissions import setup_custom_perms
+
 	roles.grant(GRANTS)
+	setup_custom_perms(DOWNLOAD)
+	for name in frappe.get_all("Custom DocPerm", filters={"parent": DOWNLOAD, "role": "All"}, pluck="name"):
+		frappe.delete_doc("Custom DocPerm", name, ignore_permissions=True)
+		frappe.clear_cache(doctype=DOWNLOAD)
 
 
 def _administrators() -> list[str]:
@@ -77,31 +91,20 @@ def _mine(user: str | None = None) -> str:
 
 
 def state(user: str | None = None) -> dict:
-	"""What the Profile page shows: the last copy asked for, and a deletion
-	asked for and not yet done."""
+	"""What the Profile page shows: the last copy asked for, a deletion asked
+	for and not yet done, and whether deleting is confirmed with a password."""
+	from onedesk.one import privacy_copy
+
 	user = user or frappe.session.user
-	copy = frappe.get_all(
-		DOWNLOAD, filters={"user": user}, fields=["name", "creation"], order_by="creation desc", limit=1
-	)
-	file = None
-	if copy:
-		file = frappe.db.get_value(
-			"File",
-			{"attached_to_doctype": DOWNLOAD, "attached_to_name": copy[0].name},
-			["file_url", "file_size"],
-			as_dict=True,
-		)
 	deletion = frappe.get_all(
 		DELETION,
-		filters={"email": user, "status": ["in", ["Pending Approval", "On Hold"]]},
+		filters={"email": user, "status": ["in", list(OPEN)]},
 		fields=["name", "status", "creation"],
 		limit=1,
 	)
 	held = deletion and deletion[0].status == "On Hold"
 	return {
-		"copy": {"on": copy[0].creation, "url": file and file.file_url, "ready": bool(file)}
-		if copy
-		else None,
+		"copy": privacy_copy.last(user),
 		"deletion": {
 			"status": deletion[0].status,
 			"on": deletion[0].creation,
@@ -109,7 +112,18 @@ def state(user: str | None = None) -> dict:
 		}
 		if deletion
 		else None,
+		"password": _has_password(user),
 	}
+
+
+def _has_password(user: str) -> bool:
+	"""Whether the person signs in with a password at all: somebody who signs
+	in by mailed link or passkey confirms by mail instead."""
+	return bool(
+		frappe.db.sql(
+			"select 1 from `__Auth` where doctype='User' and name=%s and fieldname='password' limit 1", user
+		)
+	)
 
 
 def _held_because(name: str) -> str | None:
@@ -119,52 +133,6 @@ def _held_because(name: str) -> str | None:
 		"content",
 		order_by="creation desc",
 	)
-
-
-# ------------------------------------------------------------------ a copy
-
-
-@frappe.whitelist(methods=["POST"])
-def ask_for_copy() -> dict:
-	"""A copy of everything the person left in the workspace, gathered in the
-	background and handed to them on their bell and by mail."""
-	user = _mine()
-	since = add_to_date(now_datetime(), minutes=-AGAIN_AFTER_MINUTES)
-	if frappe.db.exists(DOWNLOAD, {"user": user, "creation": [">", since]}):
-		frappe.throw(_("You asked for a copy less than an hour ago; it is on its way."))
-	# frappe's insert would gather it and mail its own message; One gathers it
-	# below and says so through the hub, so the record is written as it is.
-	doc = frappe.get_doc({"doctype": DOWNLOAD, "user": user, "user_name": frappe.utils.get_fullname(user)})
-	doc.set_new_name()
-	doc.set_user_and_timestamp()
-	doc.db_insert()
-	frappe.enqueue(gather, queue="short", request=doc.name, enqueue_after_commit=True)
-	return state(user)
-
-
-def gather(request: str) -> None:
-	"""frappe's own gathering (get_user_data, as its download request does), a
-	file only the person may open, and the news on their bell."""
-	doc = frappe.get_doc(DOWNLOAD, request)
-	data = get_user_data(doc.user)
-	file = frappe.get_doc(
-		{
-			"doctype": "File",
-			"file_name": f"Personal-Data-{doc.user_name.replace(' ', '-')}-{doc.name}.json",
-			"attached_to_doctype": DOWNLOAD,
-			"attached_to_name": doc.name,
-			"content": data,
-			"is_private": 1,
-		}
-	)
-	file.flags.skip_file_size_check = True
-	file.save(ignore_permissions=True)
-	frappe.db.set_value("File", file.name, "owner", doc.user, update_modified=False)
-	frappe.db.set_value(DOWNLOAD, doc.name, "owner", doc.user, update_modified=False)
-	from onedesk.one import notify
-
-	notify.notify("Your Data Is Ready", doc.user, link="/desk/settings?section=profile", url=file.file_url)
-	frappe.publish_realtime("one_privacy", user=doc.user)
 
 
 # ------------------------------------------------------------------ deletion
@@ -183,44 +151,94 @@ def _guard(user: str) -> None:
 
 
 @frappe.whitelist(methods=["POST"])
-def ask_to_delete(password: str) -> dict:
-	"""The person's own account to be deleted, confirmed with their password,
-	and the workspace's administrators asked to approve it."""
+def ask_to_delete(password: str | None = None) -> dict:
+	"""The person's own account to be deleted. Confirmed with their password,
+	or, when they sign in without one, by a link One mails them; then the
+	workspace's administrators are asked to approve it."""
 	from frappe.utils.password import check_password
 
 	user = _mine()
-	try:
-		check_password(user, password)
-	except frappe.AuthenticationError:
-		frappe.throw(_("That is not your password."), title=_("Not deleted"))
 	_guard(user)
-	if frappe.db.exists(DELETION, {"email": user, "status": ["in", ["Pending Approval", "On Hold"]]}):
+	if frappe.db.exists(DELETION, {"email": user, "status": ["in", list(OPEN)]}):
 		frappe.throw(_("You have asked already; an administrator decides."))
-	# Confirmed by the password just typed, so frappe's mailed confirmation
-	# link, written for somebody not signed in, is not needed.
-	doc = frappe.get_doc({"doctype": DELETION, "email": user, "status": "Pending Approval"})
+	mailed = not _has_password(user)
+	if not mailed:
+		try:
+			check_password(user, password or "")
+		except frappe.AuthenticationError:
+			frappe.throw(_("That is not your password."), title=_("Not deleted"))
+	# frappe's insert mails its own confirmation, written for somebody not
+	# signed in; One confirms with the password just typed, or its own mail.
+	doc = frappe.get_doc(
+		{
+			"doctype": DELETION,
+			"email": user,
+			"status": "Pending Verification" if mailed else "Pending Approval",
+		}
+	)
 	doc.set_new_name()
 	doc.set_user_and_timestamp()
 	doc.db_insert()
+	if mailed:
+		_mail_confirmation(doc)
+	else:
+		_ask_administrators(doc)
+	return state(user)
+
+
+def _mail_confirmation(doc) -> None:
+	from onedesk.one import notify
+
+	expires = add_to_date(now_datetime(), hours=LINK_HOURS).strftime("%Y-%m-%d %H:%M:%S")
+	url = (
+		frappe.utils.get_url("/api/method/onedesk.one.privacy.confirm")
+		+ "?"
+		+ get_signed_params({"name": doc.name, "expires": expires})
+	)
+	notify.notify("Confirm Deletion", doc.email, url=url, hours=LINK_HOURS)
+
+
+def _ask_administrators(doc) -> None:
 	from onedesk.one import notify
 
 	notify.notify(
 		"Deletion Asked",
 		_administrators(),
 		record=(DELETION, doc.name),
-		person=frappe.utils.get_fullname(user),
-		email=user,
+		person=frappe.utils.get_fullname(doc.email),
+		email=doc.email,
 	)
-	return state(user)
+
+
+@frappe.whitelist(allow_guest=True, methods=["GET"])
+def confirm(name: str, expires: str) -> None:
+	"""The link One mailed: the request goes to the administrators. Signed,
+	so it cannot be made up, and good for a day."""
+	if not verify_request():
+		return
+	doc = frappe.get_doc(DELETION, name) if frappe.db.exists(DELETION, name) else None
+	if not doc or doc.status != "Pending Verification" or get_datetime(expires) < now_datetime():
+		frappe.respond_as_web_page(
+			_("This link no longer works"),
+			_("Ask again from your profile if you still want your account deleted."),
+			indicator_color="red",
+		)
+		return
+	doc.db_set("status", "Pending Approval")
+	_ask_administrators(doc)
+	frappe.db.commit()
+	frappe.respond_as_web_page(
+		_("Confirmed"),
+		_("Your request is with your workspace's administrators. You will hear when they decide."),
+		indicator_color="green",
+	)
 
 
 @frappe.whitelist(methods=["POST"])
 def withdraw() -> dict:
 	"""The person changed their mind before it was approved."""
 	user = _mine()
-	for name in frappe.get_all(
-		DELETION, filters={"email": user, "status": ["in", ["Pending Approval", "On Hold"]]}, pluck="name"
-	):
+	for name in frappe.get_all(DELETION, filters={"email": user, "status": ["in", list(OPEN)]}, pluck="name"):
 		frappe.delete_doc(DELETION, name, ignore_permissions=True)
 	return state(user)
 
@@ -290,12 +308,40 @@ def erase(request: str) -> None:
 			continue
 		for name in frappe.get_all(doctype, filters={field: doc.email}, pluck="name"):
 			frappe.delete_doc(doctype, name, ignore_permissions=True, force=True, delete_permanently=True)
+	# The copies of their data, kept on their account.
+	for name in frappe.get_all(
+		"File",
+		filters={
+			"attached_to_doctype": "User",
+			"attached_to_name": doc.email,
+			"file_name": ["like", "Personal-Data-%"],
+		},
+		pluck="name",
+	):
+		frappe.delete_doc("File", name, ignore_permissions=True, force=True, delete_permanently=True)
 	frappe.db.commit()
 	doc._anonymize_data(commit=True)
 	# The request itself is the record that it was done, kept under the
 	# anonymous name like everything else.
 	frappe.db.set_value(DELETION, request, "email", request, update_modified=False)
 	frappe.db.commit()
+
+
+def remind() -> None:
+	"""scheduler_events daily: requests nobody has decided after a week, said
+	again to the administrators. The law gives a month to answer."""
+	from onedesk.one import notify
+
+	since = add_days(now_datetime(), -REMIND_AFTER_DAYS)
+	waiting = frappe.db.count(DELETION, {"status": "Pending Approval", "creation": ["<", since]})
+	waiting += frappe.db.count(DOWNLOAD, {"one_status": "Waiting", "creation": ["<", since]})
+	if waiting:
+		notify.notify(
+			"Privacy Requests Waiting",
+			_administrators(),
+			link="/desk/personal-data-download-request",
+			count=waiting,
+		)
 
 
 # ------------------------------------------------------------------ guards
