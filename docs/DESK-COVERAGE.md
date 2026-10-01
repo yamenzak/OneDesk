@@ -184,6 +184,9 @@ One's sidebar, as lists.
 Then P2, each its own screen: Access (where the Permissions tab would have
 been), Reports and Dashboards, Recycle Bin, Audit Log, Privacy Requests and
 Integrations. Each stage runs the nine points like any screen in the pass.
+Integrations is webhooks only (Workspace › Webhooks); signing in with Google
+or Microsoft, another app acting for a person (OAuth Client) and One
+reaching into an outside service (Connected App) are later, marked so below.
 
 ## What was missing, grouped into what a person would call it
 
@@ -338,7 +341,7 @@ after saving.
 | Email | Unhandled Email | Underneath | OneMail |
 | Geo | Country | In One | picked on records |
 | Geo | Currency | In One | picked on records |
-| Integrations | Connected App | **Add, P2** | Integrations: connect an outside API with OAuth |
+| Integrations | Connected App | Later | One reaching into an outside service with OAuth; not built (decided 2026-10) |
 | Integrations | Geolocation Settings | Underneath | runs under the product; no screen wanted |
 | Integrations | Google Calendar | In One | OneCalendar |
 | Integrations | Google Contacts | Underneath | not offered |
@@ -347,15 +350,15 @@ after saving.
 | Integrations | LDAP Settings | **Add, P3** | Enterprise sign-in; later |
 | Integrations | OAuth Authorization Code | Underneath | runs under the product; no screen wanted |
 | Integrations | OAuth Bearer Token | Underneath | runs under the product; no screen wanted |
-| Integrations | OAuth Client | **Add, P2** | Integrations: let another app act for a person |
-| Integrations | OAuth Provider Settings | **Add, P2** | with OAuth Client |
-| Integrations | OAuth Settings | **Add, P2** | with OAuth Client |
+| Integrations | OAuth Client | Later | another app acting for a person, with their consent; not built (decided 2026-10) |
+| Integrations | OAuth Provider Settings | Later | with OAuth Client |
+| Integrations | OAuth Settings | Later | with OAuth Client |
 | Integrations | Push Notification Settings | Underneath | One's own push |
 | Integrations | Slack Webhook URL | **Add, P3** | Notifications into a Slack channel |
-| Integrations | Social Login Key | **Add, P2** | Sign in with Google or Microsoft for the workspace's people |
+| Integrations | Social Login Key | Later | sign in with Google or Microsoft; not built (decided 2026-10) |
 | Integrations | Token Cache | Underneath | runs under the product; no screen wanted |
-| Integrations | Webhook | **Add, P2** | Integrations: tell another system when a record changes (Zapier, Make, their own) |
-| Integrations | Webhook Request Log | **Add, P2** | with Webhook |
+| Integrations | Webhook | In One | Workspace › Webhooks (one/webhooks.py) |
+| Integrations | Webhook Request Log | In One | Workspace › Webhook Calls |
 | Printing | Letter Head | **Add, P1** | with Print Format: the logo and address at the top of every printed page |
 | Printing | Network Printer Settings | Underneath | runs under the product; no screen wanted |
 | Printing | Print Format | **Add, P1** | How an invoice, quote or letter prints. Only OneHR's employee letter is ours; a workspace cannot brand its own documents. |

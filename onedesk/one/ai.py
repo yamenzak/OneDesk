@@ -219,6 +219,20 @@ SUGGESTIONS = {
 			"expects": "privacy_request",
 		},
 	],
+	"Webhook": [
+		{
+			"label": _lt("Are the webhooks working?"),
+			"ask": _lt("How did the webhooks' calls go this week, and why did any give up?"),
+			"expects": "webhooks",
+		},
+	],
+	"Webhook Request Log": [
+		{
+			"label": _lt("Why did these fail?"),
+			"ask": _lt("Which webhook calls gave up this week, and what did the other system answer?"),
+			"expects": "webhooks",
+		},
+	],
 	"Version": [
 		{
 			"label": _lt("What changed today?"),
@@ -1186,6 +1200,63 @@ def recycle_bin(
 		],
 		"next": "Restore on a deleted record, or on several ticked in the list, puts them back; how is in One's "
 		"documentation under Recycle Bin (how_to).",
+	}
+
+
+def webhooks(
+	days: Annotated[int, "How many days of calls to look at, 7 if not said."] = 7,
+) -> dict:
+	"""The workspace's webhooks, for an administrator: each one's kind of
+	record, event, where it sends (the host only), whether it is on, and how
+	its calls went: delivered, failed and to be tried again, or given up,
+	with what the other system answered the last few times it gave up."""
+	from urllib.parse import urlparse
+
+	from onedesk.one import roles
+	from onedesk.one import webhooks as hooks
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator sees the webhooks."}
+	since = frappe.utils.add_days(frappe.utils.now_datetime(), -max(1, min(int(days or 7), 90)))
+	said = []
+	for one in frappe.get_list(
+		hooks.WEBHOOK,
+		fields=["name", "webhook_doctype", "webhook_docevent", "request_url", "enabled", "max_retries"],
+		limit=50,
+	):
+		calls = frappe.get_list(
+			hooks.LOG,
+			filters={"webhook": one.name, "creation": [">=", since]},
+			fields=["status", {"COUNT": "*", "as": "calls"}],
+			group_by="status",
+		)
+		gave_up = frappe.get_list(
+			hooks.LOG,
+			filters={"webhook": one.name, "status": "Exhausted", "creation": [">=", since]},
+			fields=["reference_document", "response", "creation"],
+			order_by="creation desc",
+			limit=3,
+		)
+		said.append(
+			{
+				"webhook": one.name,
+				"kind": one.webhook_doctype,
+				"when": one.webhook_docevent,
+				"sends_to": urlparse(one.request_url or "").hostname or "",
+				"on": bool(one.enabled),
+				"tries_again": one.max_retries or 0,
+				"calls": {row.status or "Sending": row.calls for row in calls},
+				"last_given_up": [
+					{"record": row.reference_document, "answer": (row.response or "")[:300], "at": str(row.creation)}
+					for row in gave_up
+				],
+			}
+		)
+	return {
+		"days": days,
+		"webhooks": said,
+		"how": "Workspace > Webhooks. A webhook sends every record of its kind on its event; to send only some, "
+		"use an automation with a Call Webhook step. It goes over https to a public address.",
 	}
 
 

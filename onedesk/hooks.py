@@ -64,6 +64,8 @@ after_migrate = [
 	"onedesk.one.recycle.settle",
 	# The Audit Log for the workspace administrator. See one/audit.py.
 	"onedesk.one.audit.settle",
+	# Webhooks for the workspace administrator. See one/webhooks.py.
+	"onedesk.one.webhooks.settle",
 	# Privacy requests for the workspace administrator. See one/privacy.py.
 	"onedesk.one.privacy.settle",
 	# frappe's own morning event mail stopped; Today's Events replaces it.
@@ -147,6 +149,8 @@ scheduler_events = {
 		# One rung a workspace, one workspace at a time. See one_admin/ladder.py.
 		"onedesk.one_admin.lifecycle.nightly",
 		"onedesk.one_admin.closing.due",
+		# Webhooks whose calls gave up yesterday. See one/webhooks.py.
+		"onedesk.one.webhooks.failing",
 		# Providers ship models weekly and re-price them without an announcement.
 		"onedesk.one_admin.catalogue.nightly",
 		# Holds whose call never came back, which nothing else would let go.
@@ -233,6 +237,8 @@ doc_events = {
 	# Whoever a step of an approval waits on is told through the hub. See one/approvals.py.
 	"Workflow Action": {"after_insert": "onedesk.one.approvals.waiting"},
 	"Automation Flow": {"validate": "onedesk.one.automations.validate"},
+	# What a webhook the workspace writes may send, and where. See one/webhooks.py.
+	"Webhook": {"validate": "onedesk.one.webhooks.validate"},
 	"Document Naming Rule": {"validate": "onedesk.one.numbering.validate_rule"},
 	# A notification is pushed to the devices its person chose. See one/push.py.
 	"Notification Log": {
@@ -575,6 +581,9 @@ has_permission = {
 	"Version": "onedesk.one.audit.has_permission",
 	"Activity Log": "onedesk.one.audit.has_permission",
 	"Access Log": "onedesk.one.audit.has_permission",
+	# Webhooks, on the kinds the administrator may read. See one/webhooks.py.
+	"Webhook": "onedesk.one.webhooks.has_permission",
+	"Webhook Request Log": "onedesk.one.webhooks.has_permission",
 	# Deleting somebody's account is decided by an administrator, never by
 	# editing the request. See one/privacy.py.
 	"Personal Data Deletion Request": "onedesk.one.privacy.has_permission",
@@ -613,6 +622,8 @@ permission_query_conditions = {
 	"Version": "onedesk.one.audit.version_query",
 	"Activity Log": "onedesk.one.audit.activity_query",
 	"Access Log": "onedesk.one.audit.access_query",
+	"Webhook": "onedesk.one.webhooks.query",
+	"Webhook Request Log": "onedesk.one.webhooks.log_query",
 	"Personal Data Deletion Request": "onedesk.one.privacy.query",
 	"Personal Data Download Request": "onedesk.one.privacy_copy.query",
 	"Intake Action": "onedesk.one_intake.act.query",
@@ -663,6 +674,8 @@ fixtures = [
 
 # A record answers before it offers links; see `onedesk/one_hr/employee.py`.
 doctype_js = {
+	# What a workspace's webhook may not do is not offered. See one/webhooks.py.
+	"Webhook": "public/js/webhook.js",
 	# Put back through One's restore, which a workspace may use. See one/recycle.py.
 	"Deleted Document": "public/js/deleted_document.js",
 	# Approve and Delete, or Hold, by a workspace administrator. See one/privacy.py.
@@ -929,6 +942,8 @@ one_ai_reads = [
 	"onedesk.one.ai.recycle_bin",
 	# Who changed, signed in and exported what. See one/audit.py.
 	"onedesk.one.ai.audit_log",
+	# The workspace's webhooks and how their calls went. See one/webhooks.py.
+	"onedesk.one.ai.webhooks",
 	# What deleting somebody's account would do. See one/privacy.py.
 	"onedesk.one.ai.privacy_request",
 	# The plan and the credits, for the workspace's administrators.
@@ -1154,7 +1169,10 @@ website_route_rules = [
 # drive's address before Frappe's API-key check would refuse it, and Frappe
 # answers OPTIONS before any method runs, so the headers a WebDAV client looks
 # for are added after. See one_storage/dav.py.
-before_request = ["onedesk.one_storage.dav.sign_in"]
+# frappe's webhook sender, guarded against internal addresses and redirects
+# to them, wherever a webhook may be sent from. See one/webhooks.py.
+before_request = ["onedesk.one_storage.dav.sign_in", "onedesk.one.webhooks.install"]
+before_job = ["onedesk.one.webhooks.install"]
 after_request = ["onedesk.one_storage.dav.headers"]
 
 # A workspace's HTML block prints through One's sandbox: onedesk's copy of frappe's

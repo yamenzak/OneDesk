@@ -144,10 +144,10 @@ DOCUMENTS = {
 		#    Google Calendar connection.
 		# 7: OneAI reads an organisation's account for the people who run One.
 		# 8: what the signup page keeps, and that it becomes a lead of ours.
-		# 9: the One account, what it keeps, and signing in by mailed link.
-		# 10: a deleted record is kept in the Recycle Bin until emptied.
+		# 9: the One account and mailed sign-in links. 10: the Recycle Bin.
 		# 11: the Audit Log. 12 to 14: your data copied or deleted, users or not.
-		"revision": 14,
+		# 15: webhooks send what an administrator chooses where they choose.
+		"revision": 15,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {
@@ -160,7 +160,8 @@ DOCUMENTS = {
 		"title": "Data Processing Addendum",
 		"audience": "customer",
 		# 2: the whole of the data in one download when the agreement ends.
-		"revision": 2,
+		# 3: a webhook is the organisation's instruction; its recipient is theirs.
+		"revision": 3,
 		"summary": "How we handle personal data your organisation is responsible for. Part of the Terms of Service.",
 	},
 	"subprocessors": {

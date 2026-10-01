@@ -192,3 +192,33 @@ clause(
 	""",
 	order=5,
 )
+
+# Workspace > Webhooks
+
+clause(
+	document="privacy",
+	section="sharing",
+	key="webhooks",
+	module=M,
+	body="""
+		A workspace's administrators can set up webhooks: when a record of a kind they choose is made or
+		changed, its fields that they choose are sent to an address they give, such as an automation service
+		or their own system. That is your organisation's instruction, and whoever receives it is your
+		organisation's choice, not one of our suppliers. A webhook sends only what the administrator who set
+		it up may read, only over an encrypted connection, and every call is logged in the workspace.
+	""",
+	order=30,
+)
+
+clause(
+	document="dpa",
+	section="instructions",
+	key="webhooks",
+	module=M,
+	body="""
+		A webhook your administrators set up is your instruction to send the fields they chose, of the
+		records they chose, to the address they gave. We send them as instructed and log each call; the
+		recipient is not our subprocessor, and what it does with the data is between you and it.
+	""",
+	order=30,
+)

@@ -444,7 +444,7 @@ def test_a_drive_password_is_read_from_basic_auth_and_nothing_else():
 
 
 def test_a_drive_password_opens_the_drive_and_nothing_else():
-	assert 'before_request = ["onedesk.one_storage.dav.sign_in"]' in HOOKS
+	assert 'before_request = ["onedesk.one_storage.dav.sign_in", ' in HOOKS, "it signs in first"
 	body = _body(DAV, "sign_in")
 	assert "request.path.startswith(MOUNT)" in body, "anywhere else it is only a wrong API key"
 	assert "'@' not in found[0]" in body, "an email, which an API key never is"

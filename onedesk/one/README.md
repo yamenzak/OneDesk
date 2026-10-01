@@ -984,6 +984,44 @@ itself?**. It reads every automation and what a kind of record has (its
 fields, its dates, its mail templates), and suggests one, new or changed, as
 a card you approve; it runs as you once you do.
 
+### Webhooks, for the Workspace
+
+A webhook tells another system when a record is made or changed: Zapier,
+Make, n8n, or your own server. Workspace › **Webhooks** lists them, and
+**Webhook Calls** lists every call each one made. Only administrators see
+either.
+
+**Adding one.** Choose the kind of record and the event (made, changed,
+submitted, cancelled, deleted), give the address the other system gave you,
+and say what to send:
+
+- as JSON, written with the record's fields, such as
+  `{"customer": "{{ doc.customer_name }}", "id": "{{ doc.name }}"}`; or
+- as a list of fields, each under the name the other system expects.
+
+Add a header if the other system wants a key, and turn on **Enable
+Security** to sign each call with a secret it can check. **Max Retries**
+tries a failed call again, up to five times, waiting longer each time.
+
+**What a webhook here may do.**
+
+- It is on a kind of record you can open, and sends only fields you may
+  read: a salary above your level cannot be sent by you.
+- It sends every record of its kind on its event. To send only some, such
+  as deals that are won, use an automation with a Call Webhook step.
+- What it sends names the record's fields, `{{ doc.field }}`, and nothing
+  else.
+- It goes over https to an address on the public internet; never an
+  internal one, even by a redirect.
+
+**Webhook Calls** shows each call: the record, what was sent, what came
+back, and whether it was **Delivered**, **Failed** (and will be tried
+again) or **Exhausted** (it gave up). Every morning the administrators are
+told of any that gave up the day before (**Webhooks Failing**).
+
+**OneAI here** offers **Are the webhooks working?** and, on the calls,
+**Why did these fail?**
+
 ### Plan and Credits, for the Workspace
 
 Under **Workspace**, **Plan and Credits** is the workspace's account: its

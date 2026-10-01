@@ -307,6 +307,18 @@ TYPES = [
 		"email": False,
 	},
 	{
+		"name": _lt("Webhooks Failing"),
+		"app": "One",
+		"about": _lt("Every morning, the webhooks whose calls gave up the day before. Not sent when none did."),
+		"to": _lt("Every administrator"),
+		"subject": _lt("Webhooks could not deliver yesterday"),
+		"message": _lt(
+			"These webhooks could not deliver after every try: {webhooks}. Open each call to see what the "
+			"other system answered."
+		),
+		"email_default": True,
+	},
+	{
 		"name": _lt("Full Download Ready"),
 		"app": "One",
 		"about": _lt("When the full download of the workspace you asked for is ready."),

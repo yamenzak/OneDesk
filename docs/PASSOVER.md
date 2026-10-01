@@ -5121,6 +5121,43 @@ Closing the Workspace; `one/closing.py` and `one_admin/closing.py`.
   the download. Legal: Terms 9 (closing yourself, the notice, no refund for
   the period, deleted 30 days later, the full download) and DPA 2.
 
+**P2, Integrations: webhooks only** (the user's call: sign-in with Google
+or Microsoft, OAuth clients and connected apps are later, marked so in
+docs/DESK-COVERAGE.md). Workspace › **Webhooks** and **Webhook Calls**,
+frappe's own Webhook and Webhook Request Log, given to the administrator
+(`one/webhooks.py`).
+
+1. Notifications: **Webhooks Failing**, each morning, the webhooks whose
+   calls gave up the day before, to the administrators; none when none did.
+2. OneAI: `webhooks` answers how each one's calls went and what the other
+   system said when they gave up; offered on both lists.
+3. Intake: nothing reaches here.
+4. Permissions: administrators only, on the kinds of record they may read;
+   the calls are read only. **Finding, fixed:** frappe's plain sender
+   follows redirects and resolves the name only when it calls, so a public
+   address could hand a call to an internal one. Every request and job now
+   sends through frappe's own guarded sender from its automation engine,
+   which checks each hop. At save: https only, a public address, no
+   template address, no code condition, `{{ doc.field }}` only, and no
+   field above the writer's level. Tried as wsadmin: loopback, localhost
+   and the metadata address refused, http refused, a code tag refused, a
+   kind they cannot read refused; Rania refused outright.
+5. Cross-module: any kind of record; an automation's Call Webhook step is
+   the way to send only some.
+6. UI: frappe's list and form on One's rail; the form hides what would be
+   refused. **Finding, fixed:** the calls list opened in frappe's own
+   Integrations sidebar (Connected App, Google); it is in One's now.
+7. Documented: "Webhooks, for the Workspace" in one/README.md.
+8. Legal: privacy (sharing) 15 and DPA (instructions) 3: a webhook is the
+   organisation's instruction, and its recipient is theirs, not ours.
+9. Built from frappe: its Webhook, its log, its retries, its guarded
+   sender; ours is the guard and the morning note.
+
+Tried end to end: a webhook on new customers to a Zapier address; a
+customer made; the call went out through the guarded sender, Zapier
+answered 404 for the made-up hook, and the call reads Exhausted with what
+was sent; the morning note reached both administrators.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
