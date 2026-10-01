@@ -396,8 +396,9 @@ falls between and around those.
   else they hold, such as HR's own, stay. Changing an app by hand takes a
   person off their profile.
 - **Groups.** A team by name, such as Sales Gulf, with the people in it.
-  Assign a record to the whole group from its Assign to, or share it with
-  the group.
+  Assign a record to everybody in it at once from its Assign To, or
+  @mention the group in a comment to tell them all. A group grants nothing
+  by itself.
 - **What They See**, on a person's page. Hold somebody to a territory, a
   customer group, a customer, a supplier, a department, a branch, a project
   or a warehouse, and they see only the records of it, and those that name

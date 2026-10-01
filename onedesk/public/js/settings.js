@@ -1048,7 +1048,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		});
 		onedesk.shell.table(this.$content.find('[data-list="groups"]'), {
 			title: __("Groups"),
-			note: __("A team by name, such as Sales Gulf: assign a record to the whole group, or share with it."),
+			note: __("A team by name, such as Sales Gulf: assign a record to all of them at once, or @mention the group in a comment to tell them all."),
 			rows: data.groups,
 			icon: "users-round",
 			empty: __("No groups yet."),
@@ -1258,7 +1258,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			this.form(data, {
 				rows: [
 					{ stack: ["title"] },
-					{ heading: __("Who Is in It"), note: __("Assign a record to the group from its Assign to, or share it with the group.") },
+					{ heading: __("Who Is in It"), note: __("Assign a record to everybody in it from Assign To, or @mention the group in a comment to tell them all.") },
 					{ stack: ["members"] },
 				],
 			})
