@@ -124,22 +124,52 @@ onedesk.doctype_settings.adapt = () => {
 			return r;
 		});
 	};
-	// The dialog's Email Templates tab: frappe's list, with a template opened in One's
-	// editor (onedesk.mail_templates.edit) rather than frappe's form, whose rail is
-	// frappe's, and made the default through One's door (one/mail_templates.py).
+	// The dialog's lists are drawn as Numbering's are: the panel's own heading with its
+	// button, over the shell's table, which is frappe's EmbeddedList. Frappe draws its
+	// Workflow, Email Templates and Notifications tabs in its flatter list panel, and
+	// Naming in EmbeddedList; One draws them all one way.
+	const table = (panel, { title, description, add, load, columns, open, icon, empty, actions = [] }) => {
+		let $into;
+		const draw = async () => {
+			const rows = await load();
+			$into.empty();
+			onedesk.shell.table($into, {
+				rows,
+				icon,
+				empty,
+				open: open && ((row) => open(row, draw)),
+				columns: [
+					...columns,
+					...(actions.length
+						? [{ type: "actions", actions: actions.map((one) => ({ ...one, action: (row) => one.action(row, draw) })) }]
+						: []),
+				],
+			});
+		};
+		panel.set_view({
+			title,
+			description,
+			actions: add ? [{ label: add.label, icon: "plus", click: () => add.click(draw) }] : [],
+			render: (p) => {
+				$into = $("<div></div>").appendTo(p.body.empty());
+				draw();
+			},
+		});
+	};
+	const esc = frappe.utils.escape_html;
+	const named = (label, badge) => esc(label) + (badge ? " " + frappe.ui.badge.html(badge) : "");
+	// Mail Templates: a template opened in One's editor (onedesk.mail_templates.edit)
+	// rather than frappe's form, whose rail is frappe's, and made the default through
+	// One's door (one/mail_templates.py).
 	frappe.doctype_settings.register("email-template", (panel, doctype) => {
 		let current = null;
-		const edit = (name, list) => onedesk.mail_templates.edit(name, { doctype, done: () => list && list.reload() });
-		const set_default = (name, list) =>
-			frappe.xcall(onedesk.mail_templates.API + "set_default", { doctype, template: name }).then(() => {
-				frappe.show_alert({ message: __("Default updated"), indicator: "green" });
-				list.reload();
-			});
-		frappe.doctype_settings.render_list(panel, {
+		const edit = (name, draw) => onedesk.mail_templates.edit(name, { doctype, done: draw });
+		table(panel, {
 			title: __("Mail Templates"),
 			description: __("Words to start a mail about a {0} with, picked in the composer.", [__(doctype)]),
-			show_header: true,
-			primary_action: { label: __("New"), icon: "plus", onclick: (list) => edit(null, list) },
+			add: { label: __("New Template"), click: (draw) => edit(null, draw) },
+			icon: "mail",
+			empty: __("No mail templates yet."),
 			load: () =>
 				Promise.all([
 					frappe.doctype_settings.get_list("Email Template", {
@@ -153,40 +183,44 @@ onedesk.doctype_settings.adapt = () => {
 					current = value;
 					return rows;
 				}),
-			title_column: {
-				label: __("Template"),
-				primary: (row) => row.name,
-				secondary: (row) => row.subject,
-				onclick: (row, list) => edit(row.name, list),
-				tags: (row) => (row.name === current ? [{ label: __("Default"), color: "green" }] : []),
-			},
-			actions: (row) => [
-				...(row.name === current ? [] : [{ label: __("Set as Default"), icon: "star", onclick: (list) => set_default(row.name, list) }]),
-				{ label: __("Edit"), icon: "pencil", onclick: (list) => edit(row.name, list) },
+			open: (row, draw) => edit(row.name, draw),
+			columns: [
+				{ label: __("Template"), render: (row) => named(row.name, row.name === current && { label: __("Default"), theme: "blue" }) },
+				{ label: __("Subject"), fieldname: "subject" },
 			],
-			empty_state: {
-				title: __("No mail templates yet"),
-				description: __("A template is the words a mail about a {0} starts with.", [__(doctype)]),
-				action: { label: __("New Template"), onclick: (list) => edit(null, list) },
-			},
+			actions: [
+				{
+					label: __("Set as Default"),
+					icon: "star",
+					action: (row, draw) =>
+						frappe.xcall(onedesk.mail_templates.API + "set_default", { doctype, template: row.name }).then(() => {
+							frappe.show_alert({ message: __("Default updated"), indicator: "green" });
+							draw();
+						}),
+				},
+			],
 		});
 	});
-	// The dialog's Workflow tab, as frappe's, but a new one is made in frappe's workflow
-	// builder, set to this doctype, rather than frappe's Workflow form (one/approvals.py).
+	// Approvals, as frappe's Workflow tab lists them, but a new one is made in frappe's
+	// workflow builder, set to this doctype, rather than frappe's Workflow form
+	// (one/approvals.py).
 	frappe.doctype_settings.register("workflow", (panel, doctype) => {
 		const open = (name) => {
 			panel.dialog.hide();
 			frappe.set_route("workflow-builder", name);
 		};
-		const create = () => {
-			panel.dialog.hide();
-			onedesk.approvals.create(doctype);
-		};
-		frappe.doctype_settings.render_list(panel, {
+		table(panel, {
 			title: __("Approvals"),
 			description: __("The states a {0} moves through, and who moves it.", [__(doctype)]),
-			show_header: true,
-			primary_action: { label: __("New"), icon: "plus", onclick: create },
+			add: {
+				label: __("New Approval"),
+				click: () => {
+					panel.dialog.hide();
+					onedesk.approvals.create(doctype);
+				},
+			},
+			icon: "route",
+			empty: __("No approvals yet."),
 			load: () =>
 				frappe.doctype_settings.get_list("Workflow", {
 					filters: { document_type: doctype },
@@ -194,29 +228,23 @@ onedesk.doctype_settings.adapt = () => {
 					order_by: "name asc",
 					limit: 0,
 				}),
-			title_column: {
-				label: __("Approval"),
-				primary: (row) => row.workflow_name || row.name,
-				onclick: (row) => open(row.name),
-				tags: (row) => (row.is_active ? [{ label: __("On"), color: "green" }] : []),
-			},
-			actions: (row) => [
+			open: (row) => open(row.name),
+			columns: [
 				{
-					label: row.is_active ? __("Turn Off") : __("Turn On"),
-					icon: row.is_active ? "ban" : "circle-check",
-					onclick: (list) =>
-						frappe.db.set_value("Workflow", row.name, { is_active: row.is_active ? 0 : 1 }).then(() => list.reload()),
+					label: __("Approval"),
+					render: (row) => named(row.workflow_name || row.name, { label: row.is_active ? __("On") : __("Off"), theme: row.is_active ? "green" : "gray" }),
 				},
-				{ label: __("Edit"), icon: "pencil", onclick: () => open(row.name) },
 			],
-			empty_state: {
-				title: __("No approvals yet"),
-				description: __("An approval moves a {0} through states, each action taken by a role.", [__(doctype)]),
-				action: { label: __("New Approval"), onclick: create },
-			},
+			actions: [
+				{
+					label: __("Turn On or Off"),
+					icon: "power",
+					action: (row, draw) => frappe.db.set_value("Workflow", row.name, { is_active: row.is_active ? 0 : 1 }).then(draw),
+				},
+			],
 		});
 	});
-	// The Automations tab: the doctype's Automation Flows, each opened in frappe's own form,
+	// Automations: the doctype's Automation Flows, each opened in frappe's own form,
 	// which One's sidebar lists, so the rail stays One's.
 	frappe.doctype_settings.register("automations", (panel, doctype) => {
 		const form = (name) => {
@@ -224,11 +252,12 @@ onedesk.doctype_settings.adapt = () => {
 			frappe.app.sidebar && frappe.app.sidebar.select_module("One");
 			name ? frappe.set_route("Form", "Automation Flow", name) : frappe.new_doc("Automation Flow", { document_type: doctype });
 		};
-		frappe.doctype_settings.render_list(panel, {
+		table(panel, {
 			title: __("Automations"),
 			description: __("What happens by itself when a {0} is made, changed or reaches a date.", [__(doctype)]),
-			show_header: true,
-			primary_action: { label: __("New"), icon: "plus", onclick: () => form(null) },
+			add: { label: __("New Automation"), click: () => form(null) },
+			icon: "zap",
+			empty: __("No automations yet."),
 			load: () =>
 				frappe.doctype_settings.get_list("Automation Flow", {
 					filters: { document_type: doctype },
@@ -236,41 +265,39 @@ onedesk.doctype_settings.adapt = () => {
 					order_by: "title asc",
 					limit: 0,
 				}),
-			title_column: {
-				label: __("Automation"),
-				primary: (row) => row.title || row.name,
-				onclick: (row) => form(row.name),
-				tags: (row) => (row.enabled ? [{ label: __("On"), color: "green" }] : []),
-			},
-			columns: [{ label: __("When"), value: (row) => onedesk.automations.when(row, doctype) }],
-			actions: (row) => [
+			open: (row) => form(row.name),
+			columns: [
 				{
-					label: row.enabled ? __("Turn Off") : __("Turn On"),
-					icon: row.enabled ? "ban" : "circle-check",
-					onclick: (list) => frappe.db.set_value("Automation Flow", row.name, { enabled: row.enabled ? 0 : 1 }).then(() => list.reload()),
+					label: __("Automation"),
+					render: (row) => named(row.title || row.name, { label: row.enabled ? __("On") : __("Off"), theme: row.enabled ? "green" : "gray" }),
 				},
-				{ label: __("Edit"), icon: "pencil", onclick: () => form(row.name) },
+				{ label: __("When"), render: (row) => esc(onedesk.automations.when(row, doctype)) },
 			],
-			empty_state: {
-				title: __("No automations yet"),
-				description: __("An automation sets a field, makes a record or tells somebody, by itself, when a {0} changes.", [__(doctype)]),
-				action: { label: __("New Automation"), onclick: () => form(null) },
-			},
+			actions: [
+				{
+					label: __("Turn On or Off"),
+					icon: "power",
+					action: (row, draw) => frappe.db.set_value("Automation Flow", row.name, { enabled: row.enabled ? 0 : 1 }).then(draw),
+				},
+			],
 		});
 	});
-	// Frappe keeps the sidebar on screen for a page of the same app, and every One sidebar is
-	// one app, so the rule would open inside OneCRM's; One's is selected as a dock row would.
+	// Notifications: the workspace's own rules on the doctype, each opened in Workspace ›
+	// Notifications, the one place a rule is written (one/rules.py). Frappe keeps the
+	// sidebar on screen for a page of the same app, and every One sidebar is one app, so
+	// the rule would open inside OneCRM's; One's is selected as a dock row would.
 	const go = (panel, args) => {
 		panel.dialog.hide();
 		frappe.app.sidebar && frappe.app.sidebar.select_module("One");
 		frappe.set_route("workspace-settings", { section: "notification_types", ...args });
 	};
 	frappe.doctype_settings.register("notifications", (panel, doctype) =>
-		frappe.doctype_settings.render_list(panel, {
+		table(panel, {
 			title: __("Notifications"),
 			description: __("The workspace's own rules on any {0}: when something happens to one, tell somebody.", [__(doctype)]),
-			show_header: true,
-			primary_action: { label: __("New Rule"), icon: "plus", onclick: () => go(panel, { rule: "new", for: doctype }) },
+			add: { label: __("New Rule"), click: () => go(panel, { rule: "new", for: doctype }) },
+			icon: "bell",
+			empty: __("No rules yet."),
 			load: () =>
 				frappe.doctype_settings.get_list("Notification", {
 					filters: { document_type: doctype, one_rule: 1 },
@@ -278,18 +305,11 @@ onedesk.doctype_settings.adapt = () => {
 					order_by: "name asc",
 					limit: 0,
 				}),
-			title_column: {
-				label: __("Rule"),
-				primary: (row) => row.name,
-				onclick: (row) => go(panel, { rule: row.name }),
-				tags: (row) => (row.enabled ? [] : [{ label: __("Off"), color: "gray" }]),
-			},
-			columns: [{ label: __("When"), badge: (row) => (row.event ? { label: __(row.event), color: "gray" } : null) }],
-			empty_state: {
-				title: __("No rules yet"),
-				description: __("A rule tells somebody when something happens to a {0}.", [__(doctype)]),
-				action: { label: __("New Rule"), onclick: () => go(panel, { rule: "new", for: doctype }) },
-			},
+			open: (row) => go(panel, { rule: row.name }),
+			columns: [
+				{ label: __("Rule"), render: (row) => named(row.name, !row.enabled && { label: __("Off"), theme: "gray" }) },
+				{ label: __("When"), render: (row) => esc(row.event ? __(row.event) : "") },
+			],
 		})
 	);
 	// The dialog's Naming tab: the doctype's series, through One's guarded doors

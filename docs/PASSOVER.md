@@ -4718,6 +4718,14 @@ Fixed:
   (frappe's step assigns users only). Run again: handed over, one card, Tell
   People to whoever made it, and a plain answer that assigning to them cannot
   be done; approved, it runs as the administrator.
+- **One table in the dialog** (after the pass, on the user's word that
+  Approvals and Automations did not look like Numbering). Frappe draws its
+  Naming tab in EmbeddedList and its Workflow, Email Templates and
+  Notifications tabs in an older, flatter list panel, and ours had followed
+  each. Approvals, Automations, Mail Templates and Notifications are now drawn
+  as Numbering is: the panel's own heading and button over the shell's table
+  (frappe's EmbeddedList), On, Off and Default as badges by the name, and one
+  button on the row (turn on or off, make the default).
 - **The Settings dialog** (after the pass). Automations sits under Approvals
   rather than after Print Formats, which is Printing as in Workspace ›
   Printing; its When column says "When Status changes to Paid" rather than
