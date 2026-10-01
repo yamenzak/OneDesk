@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-01 06:53+0000\n"
-"PO-Revision-Date: 2026-10-01 06:53+0000\n"
+"POT-Creation-Date: 2026-10-01 07:36+0000\n"
+"PO-Revision-Date: 2026-10-01 07:36+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -10647,7 +10647,7 @@ msgstr "تُنشأ السنة التالية قبل ثلاثة أيام من ن�
 msgid "Next: {0}"
 msgstr "التالي: {0}"
 
-#: onedesk/one/ai.py:1906 onedesk/one/ai.py:1909 onedesk/one/ai.py:2919
+#: onedesk/one/ai.py:1906 onedesk/one/ai.py:1909 onedesk/one/ai.py:2939
 #: onedesk/one_ai/chat.py:639 onedesk/public/js/onecloud.js:702
 msgid "No"
 msgstr ""
@@ -11521,7 +11521,7 @@ msgstr "العرض"
 msgid "Offerings"
 msgstr "العروض"
 
-#: onedesk/one/ai.py:2919 onedesk/one_ai/chat.py:638
+#: onedesk/one/ai.py:2939 onedesk/one_ai/chat.py:638
 #: onedesk/public/js/doctype_settings.js:189
 #: onedesk/public/js/doctype_settings.js:231 onedesk/public/js/settings.js:479
 #: onedesk/public/js/settings.js:1482 onedesk/public/js/settings.js:2607
@@ -16302,7 +16302,7 @@ msgstr "كشف الحساب"
 msgid "Statements"
 msgstr "كشوف الحساب"
 
-#: onedesk/one/ai.py:2918
+#: onedesk/one/ai.py:2938
 msgid "States"
 msgstr ""
 
@@ -21806,7 +21806,7 @@ msgstr ""
 msgid "Year-end close of {0}"
 msgstr "إقفال نهاية السنة {0}"
 
-#: onedesk/one/ai.py:1906 onedesk/one/ai.py:1909 onedesk/one/ai.py:2919
+#: onedesk/one/ai.py:1906 onedesk/one/ai.py:1909 onedesk/one/ai.py:2939
 #: onedesk/one_ai/chat.py:639 onedesk/public/js/onecloud.js:702
 msgid "Yes"
 msgstr ""
@@ -22987,6 +22987,10 @@ msgstr "{0} + {1} إضافات"
 msgid "{0} AI credits a month"
 msgstr "{0} رصيد ذكاء اصطناعي شهرياً"
 
+#: onedesk/one/ai.py:2874
+msgid "{0} Approval"
+msgstr "موافقة {0}"
+
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:116
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:119
 #: onedesk/public/js/settings.js:1254
@@ -24017,7 +24021,7 @@ msgstr "من {0} إلى {1}"
 msgid "{0} to {1}%"
 msgstr "{0} إلى {1}%"
 
-#: onedesk/one/ai.py:2914
+#: onedesk/one/ai.py:2932
 msgid "{0} to {1}, by {2}"
 msgstr "من {0} إلى {1}، بواسطة {2}"
 

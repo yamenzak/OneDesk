@@ -4650,6 +4650,19 @@ Still as frappe has it: records already made keep the state they are in when
 a different approval is turned on for their kind, which may be a state the
 new one does not have.
 
+**Live, through the chat.** On flash-lite the chat never made a card: it
+wrote `doc.amount` and a role called Manager, made the first state submitted,
+and repeated the same call when told what was wrong (its tools' refusals did
+not ask to be mended yet; now every one does). `suggest_approval` now hands
+the conversation to **Workspace Setup**, gemini-2.5-flash, as Print Design
+does. On it, "an invoice over 10,000 needs an accounts manager" read the
+approvals and the kind first and made a card on the first call (about 25 to
+45 credits); approving it made the approval, on and laid out. Its design left
+a gap: an invoice of 10,000 or less reached Pending Approval with no way out
+but Reject. The instructions now say every record must be able to finish, and
+the card is what a person reads before approving. A suggestion identical to
+the approval already there is refused rather than carded.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

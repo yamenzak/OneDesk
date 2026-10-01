@@ -447,3 +447,19 @@ def described() -> list[dict]:
 			}
 		)
 	return said
+
+
+def unchanged(name: str, states: list[dict], transitions: list[dict], on: bool) -> bool:
+	"""Whether an approval already has exactly these states, steps and switch."""
+	held = frappe.get_doc("Workflow", name)
+	state_keys = ("state", "doc_status", "allow_edit", "update_field", "update_value")
+	step_keys = ("state", "action", "next_state", "allowed", "condition")
+
+	def rows(given, keys):
+		return [tuple(str(one.get(key) or "") for key in keys) for one in given]
+
+	return (rows(held.states, state_keys), rows(held.transitions, step_keys), bool(held.is_active)) == (
+		rows(states, state_keys),
+		rows(transitions, step_keys),
+		bool(on),
+	)

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-01 06:53+0000\n"
-"PO-Revision-Date: 2026-10-01 06:53+0000\n"
+"POT-Creation-Date: 2026-10-01 07:36+0000\n"
+"PO-Revision-Date: 2026-10-01 07:36+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -10647,7 +10647,7 @@ msgstr ""
 msgid "Next: {0}"
 msgstr ""
 
-#: onedesk/one/ai.py:1906 onedesk/one/ai.py:1909 onedesk/one/ai.py:2919
+#: onedesk/one/ai.py:1906 onedesk/one/ai.py:1909 onedesk/one/ai.py:2939
 #: onedesk/one_ai/chat.py:639 onedesk/public/js/onecloud.js:702
 msgid "No"
 msgstr ""
@@ -11521,7 +11521,7 @@ msgstr ""
 msgid "Offerings"
 msgstr ""
 
-#: onedesk/one/ai.py:2919 onedesk/one_ai/chat.py:638
+#: onedesk/one/ai.py:2939 onedesk/one_ai/chat.py:638
 #: onedesk/public/js/doctype_settings.js:189
 #: onedesk/public/js/doctype_settings.js:231 onedesk/public/js/settings.js:479
 #: onedesk/public/js/settings.js:1482 onedesk/public/js/settings.js:2607
@@ -16302,7 +16302,7 @@ msgstr ""
 msgid "Statements"
 msgstr ""
 
-#: onedesk/one/ai.py:2918
+#: onedesk/one/ai.py:2938
 msgid "States"
 msgstr ""
 
@@ -21806,7 +21806,7 @@ msgstr ""
 msgid "Year-end close of {0}"
 msgstr ""
 
-#: onedesk/one/ai.py:1906 onedesk/one/ai.py:1909 onedesk/one/ai.py:2919
+#: onedesk/one/ai.py:1906 onedesk/one/ai.py:1909 onedesk/one/ai.py:2939
 #: onedesk/one_ai/chat.py:639 onedesk/public/js/onecloud.js:702
 msgid "Yes"
 msgstr ""
@@ -22987,6 +22987,10 @@ msgstr ""
 msgid "{0} AI credits a month"
 msgstr ""
 
+#: onedesk/one/ai.py:2874
+msgid "{0} Approval"
+msgstr ""
+
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:116
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:119
 #: onedesk/public/js/settings.js:1254
@@ -24010,7 +24014,7 @@ msgstr ""
 msgid "{0} to {1}%"
 msgstr ""
 
-#: onedesk/one/ai.py:2914
+#: onedesk/one/ai.py:2932
 msgid "{0} to {1}, by {2}"
 msgstr ""
 

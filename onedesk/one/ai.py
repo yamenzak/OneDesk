@@ -2746,32 +2746,32 @@ def write_mail_template(
 	from onedesk.one_ai import proposals
 
 	if not roles.administers():
-		return {"error": "Only a workspace administrator writes mail templates."}
+		return {"mend": "write_mail_template", "error": "Only a workspace administrator writes mail templates."}
 	if bool(name) == bool(new_name):
-		return {"error": "Give name to change a template, or new_name for a new one."}
+		return {"mend": "write_mail_template", "error": "Give name to change a template, or new_name for a new one."}
 	held = frappe.get_doc("Email Template", name) if name and frappe.db.exists("Email Template", name) else None
 	if name and not held:
-		return {"error": f"There is no template {name}; read workspace_mail_templates for them."}
+		return {"mend": "write_mail_template", "error": f"There is no template {name}; read workspace_mail_templates for them."}
 	if new_name and frappe.db.exists("Email Template", new_name.strip()):
-		return {"error": f"{new_name} is already a template; change it by its name instead."}
+		return {"mend": "write_mail_template", "error": f"{new_name} is already a template; change it by its name instead."}
 	kind = (for_doctype or "").strip() or (held.reference_doctype if held else None) or None
 	try:
 		if kind:
 			mail_templates._doctype(kind)
 	except frappe.ValidationError as e:
 		frappe.clear_last_message()
-		return {"error": str(e)}
+		return {"mend": "write_mail_template", "error": str(e)}
 	# Notification rules name a field as {{ doc.x }}; a template names it bare, and
 	# the one is the other, so it is written the way that works.
 	subject, message = (re.sub(r"\{\{-?\s*doc\.(\w+)\s*-?\}\}", r"{{ \1 }}", text or "") for text in (subject, message))
 	if not kind and mail_templates.FIELD.search(subject + message):
-		return {"error": "A template that names fields is for one kind of record: give for_doctype, such as Sales Invoice."}
+		return {"mend": "write_mail_template", "error": "A template that names fields is for one kind of record: give for_doctype, such as Sales Invoice."}
 	kept = mail_templates._tags(held)
 	for text in (subject, message):
 		wrong = mail_templates.check(kind, text, kept)
 		if wrong:
 			fields = f" Read workspace_mail_templates with doctype {kind} for the fields it may name." if kind else ""
-			return {"error": wrong + fields}
+			return {"mend": "write_mail_template", "error": wrong + fields}
 	paragraphs = [one.strip() for one in re.split(r"\n\s*\n", message or "") if one.strip()]
 	html = "".join(f"<p>{frappe.utils.escape_html(one).replace(chr(10), '<br>')}</p>" for one in paragraphs)
 	changes = {"subject": subject.strip(), "reference_doctype": kind}
@@ -2805,7 +2805,9 @@ APPROVAL_HELP = (
 	"with plain values, as doc.grand_total > 5000 (and, or, not, ==, !=, <, >, <=, >=, in). Two steps "
 	"with the same action and different when split by amount: Approve by the user role when "
 	"doc.grand_total <= 5000, by the manager role when doc.grand_total > 5000. One approval is on per kind "
-	"of record. Roles are named by role, as roles gives them."
+	"of record. Roles are named by role, as roles gives them. Every record must be able to finish whatever "
+	"its values: where a condition splits a step by amount, every amount needs a step out of that state, "
+	"and a small record should not be sent to a state only a large one can leave."
 )
 
 
@@ -2864,40 +2866,49 @@ def suggest_approval(
 	from onedesk.one_ai import proposals
 
 	if not roles.administers():
-		return {"error": "Only a workspace administrator sets approvals."}
-	if bool(name) == bool(new_name):
-		return {"error": "Give name to change an approval, or new_name for a new one."}
+		return {"mend": "suggest_approval", "error": "Only a workspace administrator sets approvals."}
+	# A name that is no approval of the kind is the new one's name.
+	if name and not new_name and frappe.db.get_value("Workflow", name, "document_type") != doctype:
+		name, new_name = None, name
+	if not name and not new_name:
+		new_name = _("{0} Approval").format(_(doctype))
+	if name and new_name:
+		return {"mend": "suggest_approval", "error": "Give name to change an approval, or new_name for a new one, not both."}
 	try:
 		meta = approvals._doctype(doctype)
 	except frappe.ValidationError as e:
 		frappe.clear_last_message()
-		return {"error": str(e)}
-	if name and frappe.db.get_value("Workflow", name, "document_type") != doctype:
-		return {"error": f"There is no approval {name} of {doctype}; read workspace_approvals."}
+		return {"mend": "suggest_approval", "error": str(e)}
 	if new_name and frappe.db.exists("Workflow", new_name.strip()):
-		return {"error": f"{new_name} is already an approval; change it by its name instead."}
-	known = {one["role"] for one in approvals.roles_offered()} | set(frappe.get_all("Role", pluck="name"))
+		return {"mend": "suggest_approval", "error": f"{new_name} is already an approval; change it by its name instead."}
+	offered = [one["role"] for one in approvals.roles_offered()]
+	known = set(offered) | set(frappe.get_all("Role", pluck="name"))
+	numbers = [
+		df.fieldname for df in meta.fields if df.fieldtype in ("Currency", "Float", "Int", "Percent") and not df.permlevel
+	][:20]
 	rows, said = [], []
 	for one in states or []:
 		state = str(one.get("state") or "").strip()
 		if not state:
-			return {"error": "Every state needs a name."}
+			return {"mend": "suggest_approval", "error": "Every state needs a name."}
 		submitted = bool(one.get("submitted"))
 		if submitted and not meta.is_submittable:
-			return {"error": f"{doctype} is not submitted, so no state submits it."}
+			return {"mend": "suggest_approval", "error": f"{doctype} is not submitted, so no state submits it."}
 		role = one.get("editable_by") or roles.ADMINISTRATOR
 		if role not in known:
-			return {"error": f"{role} is not a role; read workspace_approvals for them."}
+			return {"mend": "suggest_approval", "error": f"{role} is not a role; a state is editable by one of {', '.join(offered)}."}
+		if submitted and not rows:
+			return {"mend": "suggest_approval", "error": f"{state} is the first state, where a record starts as a draft; a later state submits it."}
 		row = {"state": state, "doc_status": "1" if submitted else "0", "allow_edit": role}
 		sets = one.get("sets") or {}
 		if sets.get("field"):
 			df = meta.get_field(sets["field"])
 			if not df or df.permlevel or df.fieldtype in no_value_fields or sets["field"] in approvals.BOOKKEEPING:
-				return {"error": f"{state} cannot set {sets['field']}."}
+				return {"mend": "suggest_approval", "error": f"{state} cannot set {sets['field']}."}
 			row.update({"update_field": sets["field"], "update_value": str(sets.get("value") or "")})
 		rows.append(row)
 	if not rows:
-		return {"error": "An approval needs at least one state."}
+		return {"mend": "suggest_approval", "error": "An approval needs at least one state."}
 	names = {row["state"] for row in rows}
 	moves = []
 	for one in steps or []:
@@ -2905,15 +2916,24 @@ def suggest_approval(
 		role = one.get("by")
 		when = str(one.get("when") or "").strip()
 		if start not in names or end not in names:
-			return {"error": f"{start} to {end}: both must be among the states."}
+			return {"mend": "suggest_approval", "error": f"{start} to {end}: both must be among the states."}
 		if not action or role not in known:
-			return {"error": f"{start} to {end}: give an action and a role it is for (read workspace_approvals)."}
+			return {"mend": "suggest_approval", "error": f"{start} to {end}: give an action and the role it is for, one of {', '.join(offered)}."}
 		if not approvals.plain_condition(meta, when):
-			return {"error": f"{start} to {end}: when compares the record's own fields with plain values, as doc.grand_total > 5000."}
+			return {
+				"mend": "suggest_approval",
+				"error": f"{start} to {end}: when compares the record's own fields with plain values, as "
+				f"doc.grand_total > 5000; its number fields are {', '.join(numbers)}."
+			}
+		submits = {row["state"]: row["doc_status"] == "1" for row in rows}
+		if submits[start] and not submits[end]:
+			return {"mend": "suggest_approval", "error": f"{start} is submitted, so no step goes from it back to {end}, a draft; take {end} from an earlier state."}
 		moves.append({"state": start, "action": action, "next_state": end, "allowed": role, "condition": when, "allow_self_approval": 1})
 		said.append({"label": _(action), "value": _("{0} to {1}, by {2}").format(_(start), _(end), _(role)) + (f" ({when})" if when else "")})
 	if not moves:
-		return {"error": "An approval needs at least one step."}
+		return {"mend": "suggest_approval", "error": "An approval needs at least one step."}
+	if name and approvals.unchanged(name, rows, moves, turn_on):
+		return {"error": f"{name} is already set up exactly so; tell them it is right as it is and nothing changes."}
 	called = [row["state"] for row in rows]
 	summary = [{"label": _("States"), "value": ", ".join(_(one) for one in called)}, *said]
 	summary.append({"label": _("On"), "value": _("Yes") if turn_on else _("No")})
@@ -2943,3 +2963,8 @@ def suggest_approval(
 # small model lays a page out wrong, so the chat hands the conversation over
 # the moment it reaches for one (one_ai/run.py, tools.action_of).
 print_layout.action = design_print_format.action = "print_design"
+
+# An approval is suggested by Workspace Setup, on a stronger model, for the same
+# reason: its states, steps, roles and conditions have to fit together, and a small
+# model sent back to mend one repeats it.
+suggest_approval.action = "workspace_setup"

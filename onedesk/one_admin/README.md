@@ -389,7 +389,9 @@ What is yours to decide:
   because laying a page out is one long, exact answer that the chat's small
   model gets wrong. The chat hands a conversation to Print Design the moment
   it reaches for `print_layout` or `design_print_format`, and those rounds are
-  charged to Print Design.
+  charged to Print Design. **Workspace Setup** runs on the same model for
+  `suggest_approval`: an approval's states, steps, roles and conditions have to
+  fit together, and the small model, sent back to mend one, repeated it.
 - **Markup**: empty uses the default in Settings.
 - **Priced by Hand**: for a model whose price page cannot be read. **Needs
   review** says what the page said that could not be read; price it by hand,
