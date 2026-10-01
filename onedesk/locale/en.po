@@ -18,6 +18,9 @@ msgstr ""
 msgid "One Admin"
 msgstr "OneAdmin"
 
+msgid "One Studio"
+msgstr "OneStudio"
+
 msgid "One Admin Settings"
 msgstr "OneAdmin Settings"
 

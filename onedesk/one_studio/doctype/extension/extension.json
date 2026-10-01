@@ -1,0 +1,191 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-10-01 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "enabled",
+  "runs",
+  "record_doctype",
+  "view",
+  "event",
+  "column_break_where",
+  "explanation",
+  "section_asked",
+  "asked",
+  "asked_by",
+  "column_break_review",
+  "review",
+  "review_note",
+  "section_code",
+  "code",
+  "reviewed",
+  "script"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "reqd": 1,
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "runs",
+   "fieldtype": "Select",
+   "label": "Runs",
+   "options": "On Screen\nOn Server",
+   "reqd": 1,
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "On Screen runs in the browser of whoever opens the record. On Server runs when the record is saved, whoever saves it."
+  },
+  {
+   "fieldname": "record_doctype",
+   "fieldtype": "Link",
+   "label": "Record",
+   "options": "DocType",
+   "reqd": 1,
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "depends_on": "eval:doc.runs=='On Screen'",
+   "fieldname": "view",
+   "fieldtype": "Select",
+   "label": "View",
+   "options": "Form\nList",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.runs=='On Server'",
+   "fieldname": "event",
+   "fieldtype": "Select",
+   "label": "When",
+   "options": "Before Insert\nBefore Validate\nBefore Save\nAfter Insert\nAfter Save\nBefore Submit\nAfter Submit\nBefore Cancel\nAfter Cancel\nBefore Delete",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_where",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "explanation",
+   "fieldtype": "Small Text",
+   "label": "Explanation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_asked",
+   "fieldtype": "Section Break",
+   "label": "Asked and Reviewed"
+  },
+  {
+   "fieldname": "asked",
+   "fieldtype": "Small Text",
+   "label": "Request",
+   "read_only": 1
+  },
+  {
+   "fieldname": "asked_by",
+   "fieldtype": "Link",
+   "label": "Asked By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_review",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "review",
+   "fieldtype": "Select",
+   "label": "Review",
+   "options": "\nPassed\nRefused",
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "review_note",
+   "fieldtype": "Small Text",
+   "label": "Review Note",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_code",
+   "fieldtype": "Section Break",
+   "label": "Code",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "code",
+   "fieldtype": "Code",
+   "label": "Code",
+   "permlevel": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "reviewed",
+   "fieldtype": "Data",
+   "label": "Reviewed Code",
+   "permlevel": 1,
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "script",
+   "fieldtype": "Data",
+   "label": "Script",
+   "permlevel": 1,
+   "read_only": 1,
+   "hidden": 1
+  }
+ ],
+ "in_create": 1,
+ "links": [],
+ "modified": "2026-10-01 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Studio",
+ "name": "Extension",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "delete": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Workspace Administrator",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title",
+ "show_title_field_in_link": 1,
+ "track_changes": 0
+}

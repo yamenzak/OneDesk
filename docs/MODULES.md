@@ -167,10 +167,18 @@ No doctypes yet.
 | Legal Acceptance | 9 | document |
 | Legal Document Version | 8 | document |
 
+## One Studio
+
+`onedesk/one_studio`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Extension | 18 | document |
+
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
-* **sidebar** — one, one_admin, onebook, onecalendar, onecloud, onecrm, onehr, oneinventory, onemail, oneproject, onetask
+* **sidebar** — one, one_admin, onebook, onecalendar, onecloud, onecrm, onehr, oneinventory, onemail, oneproject, onestudio, onetask
 * **workspace** — one, one_admin, onebook, onecrm, onehr, onehr_setup
 
 ## Whitelisted methods

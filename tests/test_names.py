@@ -10,7 +10,7 @@ import tree
 
 LOCALE = tree.APP / "locale"
 SPACED = re.compile(
-	r"\bOne (AI|Admin|Book|Calendar|Cloud|CRM|HR|Intake|Inventory|Legal|Mail|Project|Task|Writer|Workbook|Desk)\b"
+	r"\bOne (AI|Admin|Book|Calendar|Cloud|CRM|HR|Intake|Inventory|Legal|Mail|Project|Task|Writer|Workbook|Desk|Studio)\b"
 )
 ENTRY = re.compile(r'^msgid "(.*)"\nmsgstr "(.*)"', re.M)
 

@@ -80,13 +80,21 @@
   {
    "added": 0,
    "hidden": 0,
+   "icon": "onestudio",
+   "link_to": "OneStudio",
+   "link_type": "Sidebar",
+   "title": "OneStudio"
+  },
+  {
+   "added": 0,
+   "hidden": 0,
    "icon": "oneadmin",
    "link_to": "One Admin",
    "link_type": "Sidebar",
    "title": "OneAdmin"
   }
  ],
- "modified": "2026-09-29 03:00:00.000000",
+ "modified": "2026-10-01 12:00:00.000000",
  "modified_by": "Administrator",
  "name": "onedesk",
  "owner": "Administrator",

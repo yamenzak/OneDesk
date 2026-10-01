@@ -163,6 +163,7 @@ scheduler_events = {
 		"onedesk.one_admin.closing.due",
 		# Webhooks whose calls gave up yesterday. See one/webhooks.py.
 		"onedesk.one.webhooks.failing",
+		"onedesk.one_studio.extensions.failing",
 		# Providers ship models weekly and re-price them without an announcement.
 		"onedesk.one_admin.catalogue.nightly",
 		# Holds whose call never came back, which nothing else would let go.
@@ -1111,6 +1112,7 @@ one_notification_types = [
 	"onedesk.one_inventory.notifications.TYPES",
 	"onedesk.one_crm.notifications.TYPES",
 	"onedesk.one_mail.notifications.TYPES",
+	"onedesk.one_studio.notifications.TYPES",
 ]
 
 # What a record's form says above its fields, as rows: each module's heads,

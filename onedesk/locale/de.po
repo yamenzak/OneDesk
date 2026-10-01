@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-01 19:32+0000\n"
-"PO-Revision-Date: 2026-10-01 19:32+0000\n"
+"POT-Creation-Date: 2026-10-01 20:46+0000\n"
+"PO-Revision-Date: 2026-10-01 20:46+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -1502,6 +1502,26 @@ msgstr "Werbung"
 msgid "After"
 msgstr "Danach"
 
+#. Option for the 'When' (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "After Cancel"
+msgstr ""
+
+#. Option for the 'When' (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "After Insert"
+msgstr ""
+
+#. Option for the 'When' (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "After Save"
+msgstr ""
+
+#. Option for the 'When' (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "After Submit"
+msgstr ""
+
 #: onedesk/public/js/settings.js:2923
 msgid "After that, every day counts as a working day for leave and attendance, until another list starts."
 msgstr "Danach zählt jeder Tag für Urlaub und Anwesenheit als Arbeitstag, bis eine andere Liste beginnt."
@@ -1768,6 +1788,18 @@ msgstr "Ein Mitarbeiter ist die Person hinter dem Konto: Rolle, Abteilung und Ve
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "An employee who never checks out gets an OUT written at the shift end, marked Closed Automatically."
 msgstr "Für einen Mitarbeiter, der sich nie auscheckt, wird zum Schichtende ein AUS geschrieben und als automatisch geschlossen markiert."
+
+#: onedesk/one_studio/extensions.py:88
+msgid "An extension on the screen runs on a form or a list."
+msgstr "Eine Erweiterung auf dem Bildschirm läuft in einem Formular oder einer Liste."
+
+#: onedesk/one_studio/extensions.py:91
+msgid "An extension on the server runs when a record is saved, submitted, cancelled or deleted."
+msgstr "Eine Erweiterung auf dem Server läuft, wenn ein Datensatz gespeichert, gebucht, storniert oder gelöscht wird."
+
+#: onedesk/one_studio/extensions.py:86
+msgid "An extension runs on the screen or on the server."
+msgstr "Eine Erweiterung läuft auf dem Bildschirm oder auf dem Server."
 
 #: onedesk/public/js/webhook.js:13
 msgid "An https address on the public internet. Every record of this kind is sent on the event; to send only some, use an automation with a Call Webhook step."
@@ -2287,7 +2319,9 @@ msgid "Ask {1} for invoice {0}"
 msgstr "Bei {1} die Rechnung {0} anfordern"
 
 #. Label of the asked_by (Link) field in DocType 'AI Proposal'
+#. Label of the asked_by (Link) field in DocType 'Extension'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+#: onedesk/one_studio/doctype/extension/extension.json
 msgid "Asked By"
 msgstr "Angefragt von"
 
@@ -2300,6 +2334,11 @@ msgstr "Beantragt am"
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
 msgid "Asked On"
 msgstr "Angefragt am"
+
+#. Label of the section_asked (Section Break) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "Asked and Reviewed"
+msgstr "Angefragt und geprüft"
 
 #. Description of the 'Reason' (Link) field in DocType 'Employee Checkin'
 #: onedesk/one_hr/custom/employee_checkin.json
@@ -2806,6 +2845,36 @@ msgstr "Wird"
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 msgid "Before"
 msgstr "Davor"
+
+#. Option for the 'When' (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "Before Cancel"
+msgstr ""
+
+#. Option for the 'When' (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "Before Delete"
+msgstr ""
+
+#. Option for the 'When' (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "Before Insert"
+msgstr ""
+
+#. Option for the 'When' (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "Before Save"
+msgstr ""
+
+#. Option for the 'When' (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "Before Submit"
+msgstr ""
+
+#. Option for the 'When' (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "Before Validate"
+msgstr ""
 
 #: onedesk/one_storage/notifications.py:74
 msgid "Before a file request is due, or when its owner sends a reminder."
@@ -3995,6 +4064,9 @@ msgstr "Die letzte Antwort von Cloudflare zu diesem Namen, wie sie kam."
 msgid "Cluster"
 msgstr "Cluster"
 
+#. Label of the section_code (Section Break) field in DocType 'Extension'
+#. Label of the code (Code) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/onecloud.js:45
 msgid "Code"
 msgstr "Code"
@@ -6067,6 +6139,7 @@ msgstr "Leer verwendet das Modell, das das Konto dafür als Standard gesetzt hat
 #. Label of the enabled (Check) field in DocType 'Attendance Reason'
 #. Label of the enabled (Check) field in DocType 'Clock Reason'
 #. Label of the enabled (Check) field in DocType 'Mail Rule'
+#. Label of the enabled (Check) field in DocType 'Extension'
 #: onedesk/one/doctype/record_head/record_head.json
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
@@ -6074,6 +6147,7 @@ msgstr "Leer verwendet das Modell, das das Konto dafür als Standard gesetzt hat
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+#: onedesk/one_studio/doctype/extension/extension.json
 msgid "Enabled"
 msgstr "Aktiviert"
 
@@ -6178,7 +6252,7 @@ msgstr "Bei jeder Anmeldung"
 #: onedesk/one/notifications.py:245 onedesk/one/notifications.py:258
 #: onedesk/one/notifications.py:322 onedesk/one/notifications.py:379
 #: onedesk/one/notifications.py:391 onedesk/one/notifications.py:404
-#: onedesk/one/notifications.py:452
+#: onedesk/one/notifications.py:452 onedesk/one_studio/notifications.py:17
 msgid "Every administrator"
 msgstr "Jede Administratorin und jeder Administrator"
 
@@ -6240,6 +6314,10 @@ msgstr "Jede Zeile muss passen. Keine bedeutet immer."
 #: onedesk/one_admin/notifications.py:210
 msgid "Every morning, the domains that have waited a day for their DNS or stopped working. Not sent when there are none."
 msgstr "Jeden Morgen die Domains, die einen Tag auf ihr DNS gewartet haben oder nicht mehr funktionieren. Nicht gesendet, wenn es keine gibt."
+
+#: onedesk/one_studio/notifications.py:14
+msgid "Every morning, the extensions that ran into a mistake the day before. Not sent when none did."
+msgstr "Jeden Morgen die Erweiterungen, bei denen am Vortag ein Fehler auftrat. Wird nicht gesendet, wenn keiner auftrat."
 
 #: onedesk/one/notifications.py:321
 msgid "Every morning, the webhooks whose calls gave up the day before. Not sent when none did."
@@ -6559,6 +6637,11 @@ msgstr "Erneut erklären"
 msgid "Explained"
 msgstr "Erklärt"
 
+#. Label of the explanation (Small Text) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "Explanation"
+msgstr "Erklärung"
+
 #: onedesk/public/js/customize.js:195 onedesk/public/js/doctype_settings.js:323
 msgid "Export"
 msgstr ""
@@ -6572,11 +6655,29 @@ msgstr "Exporte und Drucke"
 msgid "Expression"
 msgstr ""
 
+#. Name of a DocType
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "Extension"
+msgstr "Erweiterung"
+
+#. Label of a Sidebar Item
+#: onedesk/one_studio/sidebar/onestudio/onestudio.json
+msgid "Extensions"
+msgstr "Erweiterungen"
+
+#: onedesk/one_studio/notifications.py:11
+msgid "Extensions Failing"
+msgstr "Fehlerhafte Erweiterungen"
+
 #. Description of the 'File Types' (Data) field in DocType 'Cloud File Request
 #. Item'
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
 msgid "Extensions it may be, like pdf, jpg. Any kind when empty."
 msgstr "Erlaubte Endungen, etwa pdf, jpg. Leer bedeutet jede Art."
+
+#: onedesk/one_studio/notifications.py:18
+msgid "Extensions ran into mistakes yesterday"
+msgstr "Bei Erweiterungen sind gestern Fehler aufgetreten"
 
 #. Name of a DocType
 #: onedesk/one_mail/doctype/face/face.json
@@ -7129,6 +7230,8 @@ msgstr "Alles vergessen, was OneAI über dich weiß?"
 msgid "Forgotten"
 msgstr "Vergessen"
 
+#. Option for the 'View' (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/customize.js:153
 msgid "Form"
 msgstr ""
@@ -9870,7 +9973,9 @@ msgstr "Links zu {0}"
 msgid "Linux"
 msgstr "Linux"
 
+#. Option for the 'View' (Select) field in DocType 'Extension'
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:237
+#: onedesk/one_studio/doctype/extension/extension.json
 msgid "List"
 msgstr ""
 
@@ -12360,6 +12465,21 @@ msgstr "Bestellt"
 msgid "On Sale"
 msgstr "Im Angebot"
 
+#. Option for the 'Runs' (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "On Screen"
+msgstr "Auf dem Bildschirm"
+
+#. Description of the 'Runs' (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "On Screen runs in the browser of whoever opens the record. On Server runs when the record is saved, whoever saves it."
+msgstr "„Auf dem Bildschirm“ läuft im Browser dessen, der den Datensatz öffnet. „Auf dem Server“ läuft beim Speichern, egal wer speichert."
+
+#. Option for the 'Runs' (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "On Server"
+msgstr "Auf dem Server"
+
 #: onedesk/public/js/settings.js:1279
 msgid "On This Profile"
 msgstr "Mit diesem Profil"
@@ -12847,6 +12967,11 @@ msgstr "OneMail"
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "OneProject"
 msgstr "OneProject"
+
+#. Title of a Sidebar
+#: onedesk/one_studio/sidebar/onestudio/onestudio.json
+msgid "OneStudio"
+msgstr "OneStudio"
 
 #. Title of a Sidebar
 #: onedesk/one_task/page/my_tasks/my_tasks.js:14
@@ -13685,6 +13810,11 @@ msgstr "Partei"
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Party Type"
 msgstr "Parteityp"
+
+#. Option for the 'Review' (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "Passed"
+msgstr ""
 
 #. Label of the passkey_section (Section Break) field in DocType 'Clock
 #. Attempt'
@@ -15145,6 +15275,7 @@ msgstr "{0} neu verbinden"
 #. Label of the target_name (Dynamic Link) field in DocType 'Intake Action'
 #. Label of the reference_name (Dynamic Link) field in DocType 'Cloud File
 #. Request'
+#. Label of the record_doctype (Link) field in DocType 'Extension'
 #: onedesk/one/doctype/record_head/record_head.json
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
@@ -15153,6 +15284,7 @@ msgstr "{0} neu verbinden"
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/report/deadlines/deadlines.py:43
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
+#: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/hiring.js:11 onedesk/public/js/onecloud.js:485
 #: onedesk/public/js/onecloud.js:654 onedesk/public/js/onemail.js:475
 #: onedesk/public/js/overtime.js:50 onedesk/public/js/settings.js:769
@@ -15399,10 +15531,12 @@ msgstr "Einchecken ohne Passkey ablehnen"
 #. Option for the 'Outcome' (Select) field in DocType 'Clock Attempt'
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
 #. Option for the 'Outcome' (Select) field in DocType 'Intake Action'
+#. Option for the 'Review' (Select) field in DocType 'Extension'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_ai/heads.py:19
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
+#: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/ai_proposal_list.js:11
 msgid "Refused"
 msgstr "Abgelehnt"
@@ -15658,8 +15792,10 @@ msgstr "Neubuchung fehlgeschlagen"
 
 #. Label of the wants_section (Section Break) field in DocType 'Account
 #. Request'
+#. Label of the asked (Small Text) field in DocType 'Extension'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_inventory/report/to_order/to_order.py:22
+#: onedesk/one_studio/doctype/extension/extension.json
 msgid "Request"
 msgstr "Anfrage"
 
@@ -15790,9 +15926,16 @@ msgid "Return {0} ({1})"
 msgstr "{0} zurückgeben ({1})"
 
 #. Label of the review_section (Section Break) field in DocType 'Clock Attempt'
+#. Label of the review (Select) field in DocType 'Extension'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+#: onedesk/one_studio/doctype/extension/extension.json
 msgid "Review"
 msgstr ""
+
+#. Label of the review_note (Small Text) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "Review Note"
+msgstr "Prüfvermerk"
 
 #: onedesk/public/js/privacy_copy.js:19
 msgid "Review and Send"
@@ -15806,6 +15949,11 @@ msgstr "Geprüft"
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 msgid "Reviewed By"
 msgstr "Geprüft von"
+
+#. Label of the reviewed (Data) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "Reviewed Code"
+msgstr "Geprüfter Code"
 
 #. Label of the reviewed_on (Datetime) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -15901,6 +16049,11 @@ msgstr "{0} erneut ausführen, ab dem Schritt, bei dem es stehen blieb?"
 #: onedesk/public/js/settings.js:2692
 msgid "Run {0} on the default model with nothing added?"
 msgstr "{0} mit dem Standardmodell und ohne Zusätze ausführen?"
+
+#. Label of the runs (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "Runs"
+msgstr "Läuft"
 
 #. Label of the default_model (Data) field in DocType 'AI Action'
 #: onedesk/one_ai/doctype/ai_action/ai_action.json
@@ -16167,6 +16320,11 @@ msgstr "Geprüft am"
 #: onedesk/one_hr/custom/job_opening.json
 msgid "Screening Criteria"
 msgstr "Auswahlkriterien"
+
+#. Label of the script (Data) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "Script"
+msgstr ""
 
 #. Label of the one_search (Data) field in DocType 'Employee Attendance Tool'
 #: onedesk/one_hr/custom/employee_attendance_tool.json
@@ -17866,6 +18024,7 @@ msgstr "Systemanweisung"
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
+#: onedesk/one_studio/doctype/extension/extension.json
 msgid "System Manager"
 msgstr ""
 
@@ -19610,6 +19769,10 @@ msgstr "Diese Tage liegen über dem Tagesmaximum der Überstundenart. Vergütet 
 msgid "These days will be marked as worked."
 msgstr "Diese Tage werden als gearbeitet erfasst."
 
+#: onedesk/one_studio/notifications.py:19
+msgid "These extensions ran into a mistake, and the records still saved: {extensions}. Ask OneAI in OneStudio to look at one and mend it, or turn it off."
+msgstr "Bei diesen Erweiterungen trat ein Fehler auf, die Datensätze wurden trotzdem gespeichert: {extensions}. Bitten Sie OneAI in OneStudio, eine davon zu prüfen und zu reparieren, oder schalten Sie sie aus."
+
 #: onedesk/one/notifications.py:324
 msgid "These webhooks could not deliver after every try: {webhooks}. Open each call to see what the other system answered."
 msgstr "Diese Webhooks konnten nach allen Versuchen nicht zustellen: {webhooks}. Öffnen Sie jeden Aufruf, um zu sehen, was das andere System geantwortet hat."
@@ -19726,6 +19889,10 @@ msgstr "Dieser Mitarbeiter hat bereits einen Passkey. Die Personalabteilung muss
 #: onedesk/one_hr/passkey.py:59
 msgid "This employee's passkey is blocked. HR must reset it before another can be registered."
 msgstr "Der Passkey dieses Mitarbeiters ist gesperrt. Die Personalabteilung muss ihn zurücksetzen, bevor ein neuer registriert werden kann."
+
+#: onedesk/one_studio/extensions.py:149
+msgid "This extension has not passed its review, so it cannot be turned on. Ask OneAI to change it."
+msgstr "Diese Erweiterung hat ihre Prüfung nicht bestanden und kann daher nicht eingeschaltet werden. Bitten Sie OneAI, sie zu ändern."
 
 #: onedesk/public/js/onecloud.js:1317
 msgid "This file is attached to a record, and goes to whoever may open the record."
@@ -19920,6 +20087,10 @@ msgstr "Dieser Arbeitsbereich kann noch keine E-Mails senden, geben Sie die Link
 msgid "This workspace does not record interviews. HR Settings says whether it does."
 msgstr "Dieser Arbeitsbereich zeichnet keine Gespräche auf. Das legen die HR-Einstellungen fest."
 
+#: onedesk/one_studio/extensions.py:152
+msgid "This workspace does not run extensions on the server yet. Ask us to turn them on."
+msgstr "Dieser Arbeitsbereich führt noch keine Erweiterungen auf dem Server aus. Bitten Sie uns, sie einzuschalten."
+
 #: onedesk/one_legal/gate.py:265
 msgid "This workspace has agreements outstanding. Agree to them, then try again."
 msgstr "In diesem Arbeitsbereich stehen noch Zustimmungen aus. Stimme ihnen zu und versuche es erneut."
@@ -20038,12 +20209,14 @@ msgstr ""
 #. Label of the title (Data) field in DocType 'Reading'
 #. Label of the title (Data) field in DocType 'Legal Document Version'
 #. Label of the title (Data) field in DocType 'Cloud File Request'
+#. Label of the title (Data) field in DocType 'Extension'
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/one_intake/bundle.py:83
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
+#: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/settings.js:754
 msgid "Title"
 msgstr "Titel"
@@ -20961,6 +21134,8 @@ msgstr "Video"
 msgid "Video Generation"
 msgstr "Videoerzeugung"
 
+#. Label of the view (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/onecloud.js:158 onedesk/public/js/onecloud.js:1287
 #: onedesk/public/js/project.js:13 onedesk/public/js/project.js:23
 #: onedesk/www/account_invoices.html:39
@@ -21798,10 +21973,12 @@ msgstr "Was {0} sieht"
 #. Label of the one_when (Data) field in DocType 'Timesheet Detail'
 #. Label of the accepted_on (Datetime) field in DocType 'Legal Acceptance'
 #. Label of the section_when (Section Break) field in DocType 'Mail Rule'
+#. Label of the event (Select) field in DocType 'Extension'
 #: onedesk/one/ai.py:3617 onedesk/one/settings.py:2055
 #: onedesk/one_hr/custom/timesheet_detail.json
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
+#: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/doctype_settings.js:277
 #: onedesk/public/js/doctype_settings.js:314
 #: onedesk/public/js/doctype_settings.js:1076
@@ -23058,6 +23235,7 @@ msgstr "Arbeitsbereichs-Zusatzpaket"
 #: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
+#: onedesk/one_studio/doctype/extension/extension.json
 msgid "Workspace Administrator"
 msgstr "Arbeitsbereich-Administrator"
 
@@ -24828,7 +25006,8 @@ msgstr "{0} (keine)"
 msgid "{0} (was {1})"
 msgstr "{0} (war {1})"
 
-#: onedesk/one/webhooks.py:200 onedesk/public/js/privacy_copy.js:27
+#: onedesk/one/webhooks.py:200 onedesk/one_studio/extensions.py:226
+#: onedesk/public/js/privacy_copy.js:27
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
 
