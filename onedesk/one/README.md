@@ -737,6 +737,11 @@ number, make another record, tell people, assign it to somebody, call a web
 address, or wait. A value can name a field of the record, as
 `{{ doc.customer_name }}`.
 
+**Add row** under Actions adds a step; open it to say what it does. Pick the
+**Action Type** and its own fields appear under it: who to tell and what to
+say, which field to set and to what, how long to wait. Whoever made the record
+and whoever it is assigned to are offered alongside the team.
+
 **Tell People** tells whoever it names (people, whoever made the record, or
 whoever it is assigned to) on the bell, and by mail as each of them chose,
 as Automation Notice on Workspace › Notifications. Give it a subject and a

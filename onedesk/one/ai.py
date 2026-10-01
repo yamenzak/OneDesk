@@ -750,8 +750,11 @@ def draft_notification(
 ) -> dict:
 	"""Suggest a notification rule for the workspace, as a card the
 	administrator applies: when something happens to a kind of record, tell
-	somebody. Only people who can open the record are ever told. Nothing is
-	made until they approve it. Workspace administrators only."""
+	somebody, and nothing else. Telling together with anything else (assign
+	it, set a field, make a record, wait), or anything asked on the
+	automations list, is an automation: suggest_automation. Only people who
+	can open the record are ever told. Nothing is made until they approve it.
+	Workspace administrators only."""
 	from onedesk.one import roles as workspace
 	from onedesk.one import rules
 	from onedesk.one_ai import proposals
@@ -759,18 +762,24 @@ def draft_notification(
 	if not workspace.administers():
 		return {"error": "Only a workspace administrator makes notification rules."}
 	if when not in rules.EVENTS:
-		return {"error": f"When must be one of: {', '.join(rules.EVENTS)}."}
+		return {"error": f"When must be one of: {', '.join(rules.EVENTS)}.", "mend": "draft_notification"}
 	if not frappe.db.exists("DocType", watches):
-		return {"error": f"There is no kind of record called {watches}."}
+		return {"error": f"There is no kind of record called {watches}.", "mend": "draft_notification"}
 	for text in (subject, message):
 		wrong = rules.check_text(watches, text)
 		if wrong:
-			return {"error": f"{wrong} The fields it may use: {', '.join(rules.readable(watches))}."}
+			return {
+				"error": f"{wrong} The fields it may use: {', '.join(rules.readable(watches))}.",
+				"mend": "draft_notification",
+			}
 	recipients = [{"receiver_by_role": one} for one in roles or [] if one]
 	if person:
 		recipients.append({"receiver_by_document_field": person})
 	if not recipients and not assignees:
-		return {"error": "Say who is told: roles, a person on the record, or its assignees."}
+		return {
+			"error": "Say who is told: roles, a person on the record, or its assignees.",
+			"mend": "draft_notification",
+		}
 	changes = {
 		"name": (name or "").strip(),
 		"enabled": 1,
@@ -2986,7 +2995,7 @@ AUTOMATION_HELP = (
 	"value] with operator one of = != > < >= <= like in. Steps run in order, each one of: {do: set, field, "
 	"value} sets a field of the record; {do: tell, who, subject, message} or {do: tell, who, template} tells "
 	"people on the bell and by mail, who being users' emails and @owner (who made the record) or @assignees; "
-	"{do: assign, who, note} assigns the record to users. In subject, message and value, name a field of the "
+	"{do: assign, who, note} assigns the record to users named by email, never @owner. In subject, message and value, name a field of the "
 	"record as {{ doc.fieldname }}. A template names fields itself, as the mail templates are written. It "
 	"runs as whoever approves it, so each step can do only what they could do by hand."
 )
@@ -3057,7 +3066,8 @@ def suggest_automation(
 ) -> dict:
 	"""Suggest an automation, new or changed, as a card a workspace
 	administrator approves: something done by itself when a record is made,
-	changed or reaches a date. Read workspace_automations first, with the kind.
+	changed or reaches a date: telling people, assigning, setting a field, in
+	any mix. Read workspace_automations first, with the kind.
 	Nothing is made until they approve it, and it runs as them. Workspace
 	administrators only."""
 	from onedesk.one import automations, roles
@@ -3111,6 +3121,14 @@ def suggest_automation(
 			rows.append({"step_type": "Action", "action_type": "TellPeople", "params": json.dumps(params)})
 			said.append({"label": _("Tell"), "value": ", ".join(who) + ": " + (one.get("template") or one.get("subject") or "")})
 		elif do == "assign":
+			# frappe's step assigns users by name; whoever made the record is a
+			# stand-in only Tell People reads.
+			if any(str(one_who).startswith("@") for one_who in who):
+				return {
+					**mend,
+					"error": "Assign names people by their user, such as a@b.com; it cannot assign whoever made the "
+					"record. Tell them instead, or name the people.",
+				}
 			rows.append({"step_type": "Action", "action_type": "AssignToUser", "params": json.dumps({"assign_to": who, "description": one.get("note") or ""})})
 			said.append({"label": _("Assign"), "value": ", ".join(who)})
 		else:
@@ -3148,5 +3166,7 @@ print_layout.action = design_print_format.action = "print_design"
 
 # An approval is suggested by Workspace Setup, on a stronger model, for the same
 # reason: its states, steps, roles and conditions have to fit together, and a small
-# model sent back to mend one repeats it.
-suggest_approval.action = suggest_automation.action = "workspace_setup"
+# model sent back to mend one repeats it. A notification rule goes the same way,
+# since a small model asked to tell somebody and assign the record reached for
+# the rule, which cannot assign, rather than the automation.
+suggest_approval.action = suggest_automation.action = draft_notification.action = "workspace_setup"

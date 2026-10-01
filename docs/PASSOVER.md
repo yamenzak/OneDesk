@@ -4696,6 +4696,34 @@ Fixed:
   to a workspace's own flows, which are pointed at Tell People.
 - **One's rail.** desk.js reads the Automation Flow list and form as
   Workspace › Automations, as it does the approval builder.
+- **The step editor** (after the pass: the browser view the pass had
+  skipped). Frappe's form left Action Type with no choices and a step's
+  settings as a JSON box, upstream too (Automation Flow is marked beta there),
+  so nobody could make a step by hand. Frappe's engine says what each step
+  takes (`params_schema`, `get_automation_capabilities`), so a step's row
+  now draws that as frappe's own controls in a FieldGroup and writes the JSON
+  back: Action Type offers what the workspace may keep (Send Notification is
+  gone from it, not just refused on save), people are picked from frappe's own
+  `get_param_options` (whoever made the record, its assignees, the team),
+  Mail Template offers the kind's own templates as the composer does, and a
+  Wait asks how long. The engine's own labels are translated (`steps`,
+  `WORDS`). `one/automations.py` `steps`, `doctype_settings.js`.
+- **OneAI, live** (after the pass). Asked on the automations list to tell
+  whoever made a paid invoice and assign it to them, the chat's small model
+  reached for the notification rule three times, which cannot assign, and
+  answered with its argument error. The rule now says that telling with
+  anything else is an automation, its refusals ask to be mended, and it is
+  run by Workspace Setup as approvals and automations are, whose instruction
+  now tells a rule from an automation. A token in an assign step is refused
+  (frappe's step assigns users only). Run again: handed over, one card, Tell
+  People to whoever made it, and a plain answer that assigning to them cannot
+  be done; approved, it runs as the administrator.
+- **The Settings dialog** (after the pass). Automations sits under Approvals
+  rather than after Print Formats, which is Printing as in Workspace ›
+  Printing; its When column says "When Status changes to Paid" rather than
+  frappe's trigger name. Printing drew erpnext's disabled Italian eInvoice,
+  whose preview failed on a field this workspace lacks; the tab lists the
+  enabled formats only, as the print view does.
 - **One's rail from anywhere** (after the pass, on the user's word that the
   sidebar was still frappe's). A flow opened from a record's Settings ›
   Automations in OneCRM kept OneCRM's sidebar, since frappe keeps the one on

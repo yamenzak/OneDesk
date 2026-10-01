@@ -38,6 +38,7 @@ import re
 
 import frappe
 from frappe import _
+from frappe.utils.translations import N_
 
 from onedesk.one import layer, roles
 from onedesk.one.customize import REFUSED_MODULES
@@ -141,6 +142,76 @@ def validate(doc, method=None) -> None:
 			url = ((frappe.parse_json(row.params) or {}).get("url") or "").strip() if row.params else ""
 			if not url.lower().startswith("https://"):
 				frappe.throw(_("{0}: a webhook is sent over https.").format(where))
+
+
+#: The engine's own words for its steps, which it sends untranslated; named
+#: here so they are translated, and `steps` sends them in the reader's language.
+WORDS = (
+	N_("Set Field Value"),
+	N_("Set value of document fields."),
+	N_("Create Document"),
+	N_("Create a new document."),
+	N_("Increment Field Value"),
+	N_("Add a number to a field on the target document."),
+	N_("Assign to User"),
+	N_("Assign the document to user(s)."),
+	N_("Call Webhook"),
+	N_("Send an HTTP request to an external URL."),
+	N_("Field"),
+	N_("Value"),
+	N_("Field Values"),
+	N_("Document Type"),
+	N_("Amount"),
+	N_("Assign To"),
+	N_("Description"),
+	N_("URL"),
+	N_("Method"),
+	N_("Headers"),
+	N_("Payload"),
+	N_("Timeout (seconds)"),
+	N_("Document owner"),
+	N_("Assignees"),
+)
+
+
+def _said(action: dict) -> dict:
+	"""A step as the editor shows it, in the reader's language. A copy: the
+	schema is the action class's own."""
+	label, about = action["label"], action["description"] or ""
+	return {
+		**action,
+		"label": _(label),
+		"description": _(about),
+		"params_schema": [
+			{**one, "label": _(said)} for one in action["params_schema"] for said in [one["label"]]
+		],
+	}
+
+
+@frappe.whitelist()
+def steps(doctype: str | None = None, trigger_type: str | None = None) -> dict:
+	"""What a flow's step editor offers: frappe's own steps and what each takes
+	(frappe.automation_engine.api, whose permission check this keeps), less
+	Send Notification, which Tell People stands in for, and, for a flow the
+	workspace writes, only what validate lets it keep. Waiting for an event is
+	offered only when an app has said which events there are."""
+	from frappe.automation_engine.api import get_automation_capabilities
+
+	said = get_automation_capabilities(doctype or None, trigger_type or None)
+	held = layer.held()
+	return {
+		"actions": [
+			_said(one)
+			for one in said["actions"]
+			if one["action_type"] != "SendNotification" and (not held or one["action_type"] in ACTIONS)
+		],
+		"steps": [
+			kind
+			for kind in ("Action", "Wait", "WaitForEvent", "If")
+			if (not held or kind in STEPS) and (kind != "WaitForEvent" or said["custom_events"])
+		],
+		"events": said["custom_events"],
+	}
 
 
 def described() -> list[dict]:

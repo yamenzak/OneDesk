@@ -382,6 +382,13 @@ OVERRIDES = [
 		"entity_from_route(route) {",
 	),
 	(
+		"A step of an automation is drawn from what the engine says it takes",
+		"doctype_settings.js draws a row's params_schema, from one/automations.py steps over frappe's get_automation_capabilities, as a FieldGroup in the Automation Action row form and writes the JSON back; frappe's form gives Action Type no choices and params a JSON box",
+		"onedesk/public/js/doctype_settings.js",
+		"frappe/frappe/automation_engine/api.py",
+		"def get_automation_capabilities(doctype: str | None = None, trigger_type: str | None = None) -> dict:",
+	),
+	(
 		"An automation opened from another space still opens in One's rail, and going back restores that space's",
 		"desk.js takes One's sidebar for the workflow builder and Automation Flow over the one on screen, which frappe's step 1 keeps, remembers the one it left, and hands it back to frappe for the next route One's sidebar does not link; frappe.re_route sends frappe's Automation workspace to the Automation Flow list",
 		"onedesk/public/js/desk.js",

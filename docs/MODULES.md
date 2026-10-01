@@ -188,6 +188,7 @@ No doctypes yet.
 * `onedesk.one.account.plans_quote`
 * `onedesk.one.account.plans_take`
 * `onedesk.one.account.wake`
+* `onedesk.one.automations.steps`
 * `onedesk.one.bills.invoices`
 * `onedesk.one.bills.payment_portal`
 * `onedesk.one.bills.to_books`

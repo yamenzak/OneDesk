@@ -60,7 +60,12 @@ onedesk.doctype_settings.adapt = () => {
 	// Automations is not one of frappe's tabs; it goes beside Approvals (one/automations.py).
 	const beside = frappe.doctype_settings.groups.find((group) => group.items.some((item) => item.id === "workflow"));
 	beside &&
-		beside.items.push({ id: "automations", label: __("Automations"), icon: "zap", condition: () => frappe.model.can_read("Automation Flow") });
+		beside.items.splice(beside.items.findIndex((item) => item.id === "workflow") + 1, 0, {
+			id: "automations",
+			label: __("Automations"),
+			icon: "zap",
+			condition: () => frappe.model.can_read("Automation Flow"),
+		});
 	for (const group of frappe.doctype_settings.groups) {
 		for (const item of group.items) {
 			// Frappe's own test for each tab; Naming's, read on Document Naming Rule, is
@@ -69,6 +74,7 @@ onedesk.doctype_settings.adapt = () => {
 			if (item.id === "naming") item.label = __("Numbering");
 			if (item.id === "email-template") item.label = __("Mail Templates");
 			if (item.id === "workflow") item.label = __("Approvals");
+			if (item.id === "print-format") item.label = __("Printing");
 			item.condition = (doctype) => onedesk.doctype_settings.TABS.includes(item.id) && (shown ? shown(doctype) : true);
 		}
 	}
@@ -85,6 +91,12 @@ onedesk.doctype_settings.adapt = () => {
 				});
 			return print_formats(panel, doctype);
 		});
+	// The tab draws every format of the kind, a disabled one too, whose preview may need
+	// fields this workspace does not have (erpnext's Italian eInvoice); the print view
+	// offers only the enabled, and so does the tab.
+	const get_list = frappe.doctype_settings.get_list;
+	frappe.doctype_settings.get_list = (doctype, args = {}) =>
+		get_list(doctype, doctype === "Print Format" ? { ...args, filters: { ...(args.filters || {}), disabled: 0 } } : args);
 	// The Print Formats tab is frappe's own. Its star makes a format the default by
 	// writing a Property Setter, which the workspace layer refuses, so that one property
 	// goes through One's door (one/printing.py set_default), which is frappe's make_default.
@@ -220,7 +232,7 @@ onedesk.doctype_settings.adapt = () => {
 			load: () =>
 				frappe.doctype_settings.get_list("Automation Flow", {
 					filters: { document_type: doctype },
-					fields: ["name", "title", "trigger_type", "enabled"],
+					fields: ["name", "title", "trigger_type", "trigger_field", "to_value", "date_field", "date_offset", "date_direction", "enabled"],
 					order_by: "title asc",
 					limit: 0,
 				}),
@@ -230,7 +242,7 @@ onedesk.doctype_settings.adapt = () => {
 				onclick: (row) => form(row.name),
 				tags: (row) => (row.enabled ? [{ label: __("On"), color: "green" }] : []),
 			},
-			columns: [{ label: __("When"), badge: (row) => (row.trigger_type ? { label: __(row.trigger_type), color: "gray" } : null) }],
+			columns: [{ label: __("When"), value: (row) => onedesk.automations.when(row, doctype) }],
 			actions: (row) => [
 				{
 					label: row.enabled ? __("Turn Off") : __("Turn On"),
@@ -527,11 +539,246 @@ onedesk.mail_templates.edit = async (name, { doctype = null, done = null } = {})
 // (one/automations.py), so its form does not offer the code condition or who it runs as.
 frappe.ui.form.on("Automation Flow", {
 	refresh(frm) {
+		onedesk.automations.offer(frm);
 		if (frappe.model.can_create("Custom Field")) return;
 		for (const fieldname of ["advanced_condition_section", "condition", "run_as", "automation_user"]) {
 			frm.toggle_display(fieldname, false);
 		}
 	},
+	document_type: (frm) => onedesk.automations.offer(frm),
+	trigger_type: (frm) => onedesk.automations.offer(frm),
+});
+
+// What a step does. Frappe keeps it as JSON in `params` and gives Action Type
+// no choices: its engine says what each step takes (params_schema, read through
+// one/automations.py `steps`), and nothing in frappe draws that yet. So a
+// step's row draws it as frappe's own controls in a FieldGroup and writes the
+// JSON back, and the people a step names are picked from frappe's own list
+// (get_param_options). The engine's plumbing (step key, target, alias, code
+// conditions) stays for whoever frappe lets customize.
+frappe.provide("onedesk.automations");
+
+onedesk.automations.PLUMBING = ["step_key", "target", "output_alias", "step_condition", "related_condition", "parent_step", "branch"];
+
+onedesk.automations.held = () => !frappe.model.can_create("Custom Field");
+
+onedesk.automations.steps = (frm) => {
+	const key = `${frm.doc.document_type || ""}|${frm.doc.trigger_type || ""}`;
+	if (frm.one_steps?.key !== key) {
+		const ready = frappe
+			.xcall("onedesk.one.automations.steps", {
+				doctype: frm.doc.document_type || null,
+				trigger_type: frm.doc.trigger_type || null,
+			})
+			.catch(() => ({ actions: [], steps: ["Action"], events: [] }));
+		frm.one_steps = { key, ready };
+	}
+	return frm.one_steps.ready;
+};
+
+onedesk.automations.STEP_LABELS = () => ({
+	Action: __("Action"),
+	Wait: __("Wait"),
+	WaitForEvent: __("Wait for an Event"),
+	If: __("If"),
+});
+
+// When a flow runs, as a sentence about the record rather than frappe's trigger name.
+onedesk.automations.when = (row, doctype) => {
+	const label = (fieldname) => (fieldname && __(frappe.meta.get_label(doctype, fieldname) || fieldname, null, doctype)) || "";
+	switch (row.trigger_type) {
+		case "Doc Created":
+			return __("When one is made");
+		case "Doc Updated":
+			return __("When one is saved");
+		case "Doc Submitted":
+			return __("When one is submitted");
+		case "Doc Cancelled":
+			return __("When one is cancelled");
+		case "Doc Deleted":
+			return __("When one is deleted");
+		case "Field Value Changed":
+			return row.to_value
+				? __("When {0} changes to {1}", [label(row.trigger_field), __(row.to_value)])
+				: __("When {0} changes", [label(row.trigger_field)]);
+		case "Date Based":
+			return row.date_direction === "Before"
+				? __("{0} days before {1}", [row.date_offset || 0, label(row.date_field)])
+				: __("{0} days after {1}", [row.date_offset || 0, label(row.date_field)]);
+		case "Scheduled":
+			return __("On a schedule");
+		default:
+			return row.trigger_type ? __(row.trigger_type) : "";
+	}
+};
+
+// The choices, on the grid and on every row, and how the list names them.
+onedesk.automations.offer = (frm) =>
+	onedesk.automations.steps(frm).then((said) => {
+		const grid = frm.fields_dict.actions?.grid;
+		// Once per kind and trigger: redrawing the grid under an open row loses its form.
+		if (!grid || grid.one_offered === frm.one_steps.key) return said;
+		grid.one_offered = frm.one_steps.key;
+		const kinds = onedesk.automations.STEP_LABELS();
+		const labels = Object.fromEntries(said.actions.map((one) => [one.action_type, one.label]));
+		grid.update_docfield_property("step_type", "fieldtype", "Select");
+		grid.update_docfield_property(
+			"step_type",
+			"options",
+			said.steps.map((kind) => ({ value: kind, label: kinds[kind] }))
+		);
+		grid.update_docfield_property("action_type", "options", [
+			{ value: "", label: "" },
+			...said.actions.map((one) => ({ value: one.action_type, label: labels[one.action_type] })),
+		]);
+		grid.set_column_disp_in_list_view("params", false);
+		const map = frappe.meta.docfield_map["Automation Action"] || {};
+		if (map.action_type) map.action_type.formatter = (value) => labels[value] || value;
+		if (map.step_type) map.step_type.formatter = (value) => kinds[value] || value;
+		grid.refresh();
+		return said;
+	});
+
+// A Wait is frappe's own step with its own params, which no schema describes.
+onedesk.automations.waits = (said) => {
+	const units = ["Minutes", "Hours", "Days"].map((unit) => ({ value: unit, label: __(unit) }));
+	return {
+		Wait: [
+			{ fieldname: "value", label: __("How Long"), fieldtype: "Int", reqd: 1 },
+			{ fieldname: "unit", label: __("Unit"), fieldtype: "Select", options: units, default: "Minutes" },
+		],
+		WaitForEvent: [
+			{
+				fieldname: "event_name",
+				label: __("Event"),
+				fieldtype: "Select",
+				reqd: 1,
+				options: said.events.map((one) => ({ value: one.name, label: __(one.label || one.name) })),
+			},
+			{ fieldname: "correlation_key", label: __("Matched By"), fieldtype: "Data", reqd: 1 },
+			{ fieldname: "timeout_value", label: __("Give Up After"), fieldtype: "Int", reqd: 1 },
+			{ fieldname: "timeout_unit", label: __("Unit"), fieldtype: "Select", options: units, default: "Days" },
+		],
+	};
+};
+
+// One param of a step as frappe's own control.
+onedesk.automations.field = async (one, frm, action_type) => {
+	const df = {
+		fieldname: one.fieldname,
+		label: one.label,
+		fieldtype: one.fieldtype,
+		options: one.options,
+		reqd: one.reqd,
+		default: one.default,
+	};
+	if (one.control === "users") {
+		const options = (txt) =>
+			frappe
+				.xcall("frappe.automation_engine.api.get_param_options", {
+					action_type,
+					fieldname: one.fieldname,
+					doctype: frm.doc.document_type || "",
+					search_text: txt || "",
+				})
+				.then((rows) =>
+					rows.map((row) => ({ value: row.name, label: row.full_name || row.name, description: row.name }))
+				);
+		Object.assign(df, { fieldtype: "MultiSelectPills", get_data: options, one_options: await options() });
+	} else if (one.options_source === "doc_fields") {
+		const doctype = frm.doc.document_type;
+		if (doctype) await frappe.model.with_doctype(doctype);
+		const fields = doctype ? frappe.get_meta(doctype).fields : [];
+		df.fieldtype = "Select";
+		df.options = [
+			{ value: "", label: "" },
+			...fields
+				.filter((field) => field.label && !frappe.model.no_value_type.includes(field.fieldtype))
+				.map((field) => ({ value: field.fieldname, label: __(field.label, null, doctype) })),
+		];
+	} else if (one.fieldtype === "JSON") {
+		Object.assign(df, { fieldtype: "Code", options: "JSON" });
+	}
+	if (one.link_filters) df.get_query = () => ({ filters: one.link_filters });
+	// The templates for this kind of record, as the composer offers them (mail_compose.js).
+	if (one.options === "Email Template")
+		df.get_query = () => ({
+			query: "frappe.email.doctype.email_template.email_template.get_email_templates",
+			filters: { reference_doctype: frm.doc.document_type || "" },
+		});
+	if (one.templatable) df.description = __("Can name a field of the record, as {0}.", ["{{ doc.customer_name }}"]);
+	return df;
+};
+
+// Draws the row's step: its params as controls, in place of the JSON box.
+onedesk.automations.draw = async (frm, cdn, changed = false) => {
+	const row = locals["Automation Action"]?.[cdn];
+	const form = frm.fields_dict.actions?.grid.grid_rows_by_docname[cdn]?.grid_form;
+	if (!row || !form?.fields_dict.params) return;
+	const said = await onedesk.automations.offer(frm);
+	const kind = row.step_type || "Action";
+	const action = kind === "Action" ? said.actions.find((one) => one.action_type === row.action_type) : null;
+	const schema = action ? action.params_schema : onedesk.automations.waits(said)[kind];
+	const fields = form.fields_dict;
+	if (onedesk.automations.held())
+		for (const fieldname of onedesk.automations.PLUMBING) fields[fieldname]?.$wrapper.toggle(false);
+	fields.action_type?.$wrapper.toggle(kind === "Action");
+	form.one_step?.$wrapper.remove();
+	form.one_step = null;
+	fields.params.$wrapper.toggle(!schema && !onedesk.automations.held());
+	if (!schema) return;
+
+	// A different step starts from nothing: another step's params mean nothing to it.
+	if (changed) await frappe.model.set_value(row.doctype, row.name, "params", "");
+	let values = {};
+	try {
+		values = JSON.parse(row.params || "{}") || {};
+	} catch {
+		values = {};
+	}
+
+	const dfs = action ? await Promise.all(schema.map((one) => onedesk.automations.field(one, frm, row.action_type))) : schema;
+	const $wrapper = $(`<div class="one-step-fields"></div>`).insertBefore(fields.params.$wrapper);
+	if (action?.description) $(`<p class="text-muted small"></p>`).text(action.description).appendTo($wrapper);
+	const group = new frappe.ui.FieldGroup({
+		fields: dfs.map((df) => ({ ...df, onchange: () => group.one_ready && write() })),
+		body: $("<div>").appendTo($wrapper),
+	});
+	group.make();
+	const write = () => {
+		const said = {};
+		for (const df of dfs) {
+			let value = group.get_value(df.fieldname);
+			if (value == null || value === "" || (Array.isArray(value) && !value.length)) continue;
+			if (df.fieldtype === "Text Editor" && !frappe.utils.html2text(value).trim()) continue;
+			if (df.fieldtype === "Code") {
+				try {
+					value = JSON.parse(value);
+				} catch {
+					// Kept as written; frappe's validate says what is wrong with it.
+				}
+			}
+			said[df.fieldname] = value;
+		}
+		frappe.model.set_value(row.doctype, row.name, "params", Object.keys(said).length ? JSON.stringify(said) : "");
+	};
+	for (const df of dfs) {
+		const control = group.get_field(df.fieldname);
+		if (df.one_options) control.set_data(df.one_options);
+		let value = values[df.fieldname];
+		if (value === undefined) continue;
+		if (df.fieldtype === "Code" && typeof value !== "string") value = JSON.stringify(value, null, 2);
+		await group.set_value(df.fieldname, value);
+	}
+	group.one_ready = true;
+	if (changed) write();
+	form.one_step = { $wrapper, group };
+};
+
+frappe.ui.form.on("Automation Action", {
+	form_render: (frm, cdt, cdn) => onedesk.automations.draw(frm, cdn),
+	step_type: (frm, cdt, cdn) => onedesk.automations.draw(frm, cdn, true),
+	action_type: (frm, cdt, cdn) => onedesk.automations.draw(frm, cdn, true),
 });
 
 // ------------------------------------------------------------------ approvals

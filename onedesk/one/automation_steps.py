@@ -13,6 +13,7 @@ from typing import ClassVar
 
 import frappe
 from frappe import _
+from frappe.utils.translations import N_
 from frappe.automation_engine.actions.base import (
 	USER_CONTROL,
 	AutomationAction,
@@ -24,12 +25,12 @@ from frappe.automation_engine.actions.core import _as_list, resolve_recipients
 
 class TellPeople(AutomationAction):
 	action_type = "TellPeople"
-	label = "Tell People"
-	description = "Tell people on the bell, and by mail as each chose, through One's notifications."
+	label = N_("Tell People")
+	description = N_("Tell people on the bell, and by mail as each chose, through One's notifications.")
 	params_schema: ClassVar[list] = [
 		{
 			"fieldname": "recipients",
-			"label": "Who",
+			"label": N_("Who"),
 			"fieldtype": "JSON",
 			"reqd": 1,
 			"control": USER_CONTROL,
@@ -37,12 +38,12 @@ class TellPeople(AutomationAction):
 		},
 		{
 			"fieldname": "email_template",
-			"label": "Mail Template",
+			"label": N_("Mail Template"),
 			"fieldtype": "Link",
 			"options": "Email Template",
 		},
-		{"fieldname": "subject", "label": "Subject", "fieldtype": "Data", "templatable": True},
-		{"fieldname": "message", "label": "Message", "fieldtype": "Text Editor", "templatable": True},
+		{"fieldname": "subject", "label": N_("Subject"), "fieldtype": "Data", "templatable": True},
+		{"fieldname": "message", "label": N_("Message"), "fieldtype": "Text Editor", "templatable": True},
 	]
 
 	def validate(self, params, doctype):

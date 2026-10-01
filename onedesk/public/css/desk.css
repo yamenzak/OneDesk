@@ -656,3 +656,11 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="transit
 body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluate_as_expression"]) {
 	display: none;
 }
+
+/* A step of an automation draws its params in a FieldGroup inside the row's
+   own form (doctype_settings.js); its section lines up with the row's fields
+   rather than indenting as a second form would. */
+.one-step-fields .form-section {
+	padding: 0;
+	border: 0;
+}
