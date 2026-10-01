@@ -157,6 +157,16 @@ counted over the quantities and submit: the difference is written off or found,
 and the books match the shelf. The first count of a new warehouse is how you
 enter opening stock — set **Purpose** to **Opening Stock**.
 
+## Who may do what
+
+A **Stock User** reads the equipment register and does its upkeep:
+maintenance, its log and teams, repairs and quality inspections. A **Stock
+Manager** runs all of it, value adjustments and capitalization included.
+Whoever manages items, stock or buying keeps the item prices; whoever uses
+stock or buying reads them. ERPNext gives these to accounts, quality and
+manufacturing roles nobody in a small business is given, so One gives them
+to the roles People hands out (`access.py`).
+
 ## What is kept where
 
 OneCRM keeps customers, quotations and the sales order a won deal becomes;

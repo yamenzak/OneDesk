@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-01 19:06+0000\n"
-"PO-Revision-Date: 2026-10-01 19:06+0000\n"
+"POT-Creation-Date: 2026-10-01 19:32+0000\n"
+"PO-Revision-Date: 2026-10-01 19:32+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -734,6 +734,10 @@ msgstr "تعمل القاعدة عند إنشاء سجل أو حفظه أو اع
 #: onedesk/public/js/settings.js:3216
 msgid "A rule of the workspace's"
 msgstr "قاعدة من قواعد مساحة العمل"
+
+#: onedesk/one_crm/access.py:139
+msgid "A rule of yours shares out leads or deals."
+msgstr "القاعدة التي تضعها توزّع العملاء المحتملين أو الصفقات فقط."
 
 #: onedesk/one/rules.py:181
 msgid "A rule tells people by role, by a person on the record, or its assignees, and nobody else."
@@ -8362,11 +8366,6 @@ msgstr "البريد الوارد"
 msgid "Inbox User"
 msgstr "مستخدم صندوق الوارد"
 
-#. Label of a Sidebar Item
-#: onedesk/one_crm/sidebar/onecrm/onecrm.json
-msgid "Inboxes"
-msgstr "صناديق البريد"
-
 #: onedesk/public/js/hiring.js:56
 msgid "Include Audio From Another Tab"
 msgstr "تضمين الصوت من علامة تبويب أخرى"
@@ -11290,9 +11289,7 @@ msgstr "{0} جديد"
 msgid "New {0}: {1}"
 msgstr "{0} جديد: {1}"
 
-#. Label of a Sidebar Item
 #. Option for the 'First Look' (Select) field in DocType 'Reading'
-#: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Newsletter"
 msgstr "النشرة البريدية"
@@ -12978,7 +12975,7 @@ msgstr "المسؤول فقط يمكنه عرضه للجميع."
 msgid "Only an administrator of this workspace can do this."
 msgstr "لا يستطيع ذلك إلا مسؤول مساحة العمل هذه."
 
-#: onedesk/one/announcements.py:70
+#: onedesk/one/announcements.py:72
 msgid "Only an administrator posts an announcement. Your notes stay your own."
 msgstr "لا ينشر الإعلانات إلا المسؤول. تبقى ملاحظاتك خاصة بك."
 
@@ -25749,6 +25746,10 @@ msgstr "مديرو {0}"
 #: onedesk/one_intake/act.py:177
 msgid "{0} may not do this themselves."
 msgstr "لا يحق لـ {0} فعل هذا بنفسه."
+
+#: onedesk/one_crm/access.py:144
+msgid "{0} may only compare the record's fields with plain values, such as {1}."
+msgstr "لا يجوز أن تقارن {0} إلا حقول السجل بقيم بسيطة، مثل {1}."
 
 #: onedesk/public/js/ai_model_list.js:68
 msgid "{0} models, {1} priced, {2} need review."

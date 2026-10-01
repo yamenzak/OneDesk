@@ -5184,6 +5184,43 @@ works them out for Guest. `extend_bootinfo` now works them out again for
 the person whenever frappe has cleared the list. Tried: Rania signed in and
 met it; closed, it stayed closed, and Seen By names her.
 
+**The second audit: is frappe now wired to One?** Every one of frappe's 194
+non-child doctypes has its row in docs/DESK-COVERAGE.md; none was missing
+and none is gone. The table had gone stale, so its answers were read again:
+P1 and P2 are all In One now, bar Import and Export (Later), and a few that
+were down as Add are underneath or a developer's (Document Naming Settings,
+Module Profile, Print Style, Workflow Transition Tasks). What is left went
+into **docs/BACKLOG.md**, with the deferred P2, the stages not finished and
+what was noticed along the way.
+
+**Finding, fixed: thirty rail links opened for nobody they were for.** A
+space's rail links to erpnext's and hrms's kinds, and each kind decides who
+may open it. Read against the roles People hands out (settings.APPS), 30
+refused every one of them:
+
+- OneBook: Bank, Bank Statement Import, Opening Invoices and Purchase Tax
+  Templates. The workspace administrator, an Accounts Manager, met "not
+  permitted" on Bank.
+- OneInventory: the whole equipment register (assets, categories,
+  maintenance and its log and teams, repairs, value adjustments,
+  capitalization), item prices and quality inspections.
+- OneHR: Travel Request, Purpose of Travel, Employee Advance, Vehicle Log.
+- OneProject: Projects Settings.
+- OneCRM: Email Campaign, Email Group, Lead Source, Lead Assignment and
+  Inboxes, and a link to Newsletter, which frappe no longer ships.
+
+Each space's `access.py` now gives them to its own roles through
+`roles.give`, once, leaving a role that reads already alone. The Newsletter
+link is gone, and so is Inboxes: a workspace's mailboxes are Settings ›
+Mail, and an enquiry by mail becomes a lead through OneIntake. A Sales
+Manager's Assignment Rule is held to leads and deals, and to a condition
+that compares the record's fields with plain values; frappe evaluates it
+with its globals, which read any record. Tried: Bank opens for the
+administrator; Lead Assignment opens for a Sales Manager, a rule on tasks
+and one with a call in it are refused, `utm_source in ("Website", "Email")`
+saves. `one/reach.py` is the check, run with `bench execute`, and finds
+none now.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

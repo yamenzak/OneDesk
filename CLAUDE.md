@@ -111,6 +111,13 @@ break each other's imports on sites that carry only one of them.
   because OneAI's `how_to` tool reads it to answer them; the rest is for us.
   A module keeps one README rather than plans and audits in `docs/`: git keeps
   the history.
+- **`docs/BACKLOG.md` is what waits**: the P3 frappe doctypes, what was
+  decided against for now, unfinished stages and what the passover noticed.
+  Something built leaves it; something put off goes in it.
+- **A space's rail opens for its own roles.** erpnext and hrms keep some of
+  what a rail links to for their System Manager; the space's `access.py`
+  gives it to the roles People hands out, and
+  `bench execute onedesk.one.reach.check` lists any link that still refuses.
 - **`docs/ACCOUNTS.md` is where a company's accounts come from**, and why
   onboarding must not default to the country's chart of accounts. Read it
   before touching company setup; the instinct it warns about is the obvious

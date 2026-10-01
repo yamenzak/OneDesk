@@ -12,13 +12,20 @@ sidebars, settings pages and code, then read one by one.
 
 | Answer | What it means | Count |
 |---|---|--:|
-| In One | a sidebar entry, a settings section or a record part reaches it | 36 |
-| **Add, P1** | a workspace will need it in its first month | 17 |
-| **Add, P2** | a growing workspace asks for it | 22 |
-| **Add, P3** | small, or for some customers | 16 |
-| Underneath | logs, queues, caches and settings the product runs on | 57 |
-| Not a customer's | the platform's or a developer's: schema, scripts, the desk's own furniture | 31 |
+| In One | a sidebar entry, a settings section or a record part reaches it | 61 |
+| **Add, P3** | small, or for some customers; in docs/BACKLOG.md | 16 |
+| Later | decided against for now; in docs/BACKLOG.md | 7 |
+| Underneath | logs, queues, caches and settings the product runs on | 60 |
+| Not a customer's | the platform's or a developer's: schema, scripts, the desk's own furniture | 35 |
 | Website, out | frappe's website builder; One is not one | 15 |
+
+P1 and P2 are done, bar Import and Export, which is its own feature. What is
+left is in `docs/BACKLOG.md`. Reaching a kind is half of it: the people a
+rail is for must be allowed to open it, and erpnext and hrms keep some of
+what the rails link to for their System Manager. `one/reach.py` reads every
+space's rail against the roles People hands out for it, and each space's
+`access.py` gives what is missing; on 2026-10-01 it found 30 such links, and
+finds none now.
 
 ## The plan: Frappe's Settings dialog is the door
 
@@ -202,10 +209,10 @@ after saving.
 
 | Module | Doctype | Answer | Why, or where |
 |---|---|---|---|
-| Automation | Assignment Rule | In One | OneCRM › Assignment Rules |
+| Automation | Assignment Rule | In One | OneCRM › Setup › Lead Assignment, the Sales Manager's, on leads and deals (one_crm/access.py) |
 | Automation | Auto Repeat | In One | OneBook › Repeating |
 | Automation | Automation Event Subscription | Underneath | runs under the product; no screen wanted |
-| Automation | Automation Flow | **Add, P1** | Automations: when a record changes, on a date or on a schedule, do set a field, create a record, notify, assign or call a webhook. Frappe's new builder; nothing in One reaches it. |
+| Automation | Automation Flow | In One | Workspace › Automations and the Settings dialog's tab (one/automations.py) |
 | Automation | Automation Settings | Underneath | runs under the product; no screen wanted |
 | Automation | Automation Trigger Queue | Underneath | runs under the product; no screen wanted |
 | Automation | Milestone | Underneath | written by Milestone Tracker |
@@ -223,19 +230,19 @@ after saving.
 | Core | Background Task | Underneath | runs under the product; no screen wanted |
 | Core | Comment | In One | every record's timeline |
 | Core | Communication | In One | OneMail and every timeline |
-| Core | Custom DocPerm | **Add, P2** | what each role may read, write, submit per doctype (the Role Permissions Manager) |
+| Core | Custom DocPerm | In One | Workspace › Access › Levels: a level's rights, as Custom DocPerm rows (one/access.py) |
 | Core | Custom Icon | In One | the dock |
 | Core | Custom Role | Underneath | roles for a page or report; One's app levels decide |
-| Core | Data Export | **Add, P1** | with Data Import: a list out to a spreadsheet |
-| Core | Data Import | **Add, P1** | Bringing customers, items, employees and balances in from a spreadsheet. The first thing a new workspace needs. |
+| Core | Data Export | Later | with Data Import (docs/BACKLOG.md) |
+| Core | Data Import | Later | Bringing customers, items, employees and balances in from a spreadsheet; its own feature (docs/BACKLOG.md) |
 | Core | Data Import Log | Underneath | runs under the product; no screen wanted |
 | Core | Deleted Document | In One | One › Recycle Bin (one/recycle.py) |
 | Core | DocShare | Underneath | runs under the product; no screen wanted |
 | Core | DocType | Not a customer's | the platform's or a developer's; only an operator |
 | Core | DocType Layout | Not a customer's | the platform's or a developer's; only an operator |
 | Core | DocType Settings Map | Not a customer's | the platform's or a developer's; only an operator |
-| Core | Document Naming Rule | **Add, P1** | with Document Naming Settings; today only OneProject writes one, for tasks |
-| Core | Document Naming Settings | **Add, P1** | Number series: INV-2026-0001 and so on. Accountants ask on day one. |
+| Core | Document Naming Rule | In One | Workspace › Numbering and the Settings dialog's Naming tab (one/numbering.py) |
+| Core | Document Naming Settings | Underneath | not granted: its methods change any kind's series; one/numbering.py is the door |
 | Core | Document Share Key | Underneath | runs under the product; no screen wanted |
 | Core | Domain | Underneath | runs under the product; no screen wanted |
 | Core | Domain Settings | Underneath | runs under the product; no screen wanted |
@@ -248,7 +255,7 @@ after saving.
 | Core | MapReduce Job | Underneath | runs under the product; no screen wanted |
 | Core | MapReduce Task | Underneath | runs under the product; no screen wanted |
 | Core | Module Def | Not a customer's | the platform's or a developer's; only an operator |
-| Core | Module Profile | **Add, P2** | with Role Profile |
+| Core | Module Profile | Underneath | which modules a person sees; One's app levels decide |
 | Core | Navbar Settings | Not a customer's | the platform's or a developer's; only an operator |
 | Core | Package | Not a customer's | the platform's or a developer's; only an operator |
 | Core | Package Import | Not a customer's | the platform's or a developer's; only an operator |
@@ -265,7 +272,7 @@ after saving.
 | Core | Report | In One | each app's reports in its sidebar |
 | Core | Role | In One | Workspace › People, as app levels |
 | Core | Role Permission for Page and Report | Not a customer's | the platform's or a developer's; only an operator |
-| Core | Role Profile | **Add, P2** | Access finer than an app level: a bundle of roles to hand out by job |
+| Core | Role Profile | In One | Workspace › Access › Profiles (one/access.py) |
 | Core | SMS Log | **Add, P3** | with SMS Settings |
 | Core | SMS Settings | **Add, P3** | Notifications by SMS, which some markets expect |
 | Core | Scheduled Job Log | Underneath | runs under the product; no screen wanted |
@@ -279,9 +286,9 @@ after saving.
 | Core | System Settings | In One | Workspace › General and Sign-in |
 | Core | Translation | **Add, P3** | A workspace's own words for ours (call a Lead a Prospect) |
 | Core | User | In One | Workspace › People, You › Profile |
-| Core | User Group | **Add, P2** | a named group to assign to, share with and notify |
+| Core | User Group | In One | Workspace › Access › Groups (one/access.py) |
 | Core | User Invitation | Underneath | One sends its own invite |
-| Core | User Permission | **Add, P2** | Access by record: a salesperson sees only their territory, a manager only their department |
+| Core | User Permission | In One | a person's page › Record access (one/access.py) |
 | Core | User Type | Not a customer's | the platform's or a developer's; only an operator |
 | Core | Version | In One | One › Audit Log › Changes (one/audit.py) |
 | Core | View Log | Underneath | runs under the product; no screen wanted |
@@ -295,9 +302,9 @@ after saving.
 | Desk | Custom HTML Block | Not a customer's | the platform's or a developer's; only an operator |
 | Desk | Custom Sidebar | Not a customer's | the platform's or a developer's; only an operator |
 | Desk | Custom Workspace | Not a customer's | the platform's or a developer's; only an operator |
-| Desk | Dashboard | **Add, P2** | A workspace's own dashboards of charts and number cards |
+| Desk | Dashboard | In One | each app's Dashboards (one/reports.py) |
 | Desk | Dashboard Chart | In One | record heads |
-| Desk | Dashboard Chart Source | **Add, P2** | with Dashboard |
+| Desk | Dashboard Chart Source | Not a customer's | a chart's source is code; a developer's |
 | Desk | Dashboard Settings | Underneath | runs under the product; no screen wanted |
 | Desk | Desktop Icon | Not a customer's | the platform's or a developer's; only an operator |
 | Desk | Desktop Layout | Underneath | runs under the product; no screen wanted |
@@ -326,16 +333,16 @@ after saving.
 | Desk | ToDo | In One | OneTask and My Tasks |
 | Desk | Workspace | Not a customer's | the platform's or a developer's; only an operator |
 | Desk | Workspace Sidebar | Not a customer's | the platform's or a developer's; only an operator |
-| Email | Auto Email Report | **Add, P2** | Mail a report every Monday to whoever needs it |
+| Email | Auto Email Report | In One | a saved report's Send by Mail (one/reports.py) |
 | Email | Document Follow | **Add, P3** | Follow a record and get a digest of its changes |
 | Email | Email Account | In One | You › Mail, OneMail |
 | Email | Email Domain | Underneath | OneMail |
 | Email | Email Flag Queue | Underneath | runs under the product; no screen wanted |
-| Email | Email Group | In One | OneCRM |
+| Email | Email Group | In One | OneCRM › Campaigns, the Sales Manager's (one_crm/access.py) |
 | Email | Email Group Member | In One | OneCRM, with Email Group |
 | Email | Email Queue | Underneath | runs under the product; no screen wanted |
 | Email | Email Rule | Underneath | OneMail |
-| Email | Email Template | **Add, P1** | Saved mails for OneMail replies and for notifications. HR Settings already points at them and nobody can write one. |
+| Email | Email Template | In One | Workspace › Mail Templates and OneMail's composer (one/mail_templates.py) |
 | Email | Email Unsubscribe | Underneath | runs under the product; no screen wanted |
 | Email | Notification | In One | Workspace › Notifications |
 | Email | Unhandled Email | Underneath | OneMail |
@@ -359,14 +366,14 @@ after saving.
 | Integrations | Token Cache | Underneath | runs under the product; no screen wanted |
 | Integrations | Webhook | In One | Workspace › Webhooks (one/webhooks.py) |
 | Integrations | Webhook Request Log | In One | Workspace › Webhook Calls |
-| Printing | Letter Head | **Add, P1** | with Print Format: the logo and address at the top of every printed page |
+| Printing | Letter Head | In One | Workspace › Printing (one/printing.py) |
 | Printing | Network Printer Settings | Underneath | runs under the product; no screen wanted |
-| Printing | Print Format | **Add, P1** | How an invoice, quote or letter prints. Only OneHR's employee letter is ours; a workspace cannot brand its own documents. |
-| Printing | Print Format Field Template | **Add, P1** | with Print Format |
+| Printing | Print Format | In One | Workspace › Printing and frappe's print format builder (one/printing.py) |
+| Printing | Print Format Field Template | Not a customer's | a field's own Jinja; a workspace's format is the builder's escaped blocks (one/printing.py) |
 | Printing | Print Format Snippet | Not a customer's | the platform's or a developer's; only an operator |
-| Printing | Print Heading | **Add, P1** | with Print Format |
-| Printing | Print Settings | **Add, P1** | with Print Format: paper size, PDF, the default letter head |
-| Printing | Print Style | **Add, P1** | with Print Format |
+| Printing | Print Heading | **Add, P3** | the heading a printed invoice can carry (Tax Invoice, Proforma); a small list, with the Lists page |
+| Printing | Print Settings | In One | read by the print builder; changing it stays frappe's (one/printing.py) |
+| Printing | Print Style | Not a customer's | a stylesheet; a workspace's styles go through the builder, checked (one/printing.py) |
 | Website | About Us Settings | Website, out | One is not a website builder |
 | Website | Color | Underneath | runs under the product; no screen wanted |
 | Website | Contact Us Settings | Website, out | One is not a website builder |
@@ -379,7 +386,7 @@ after saving.
 | Website | Portal Settings | Website, out | One is not a website builder |
 | Website | UTM Campaign | **Add, P3** | OneCRM has Sources but not Campaigns or Mediums |
 | Website | UTM Medium | **Add, P3** | with UTM Campaign |
-| Website | UTM Source | In One | OneCRM |
+| Website | UTM Source | In One | OneCRM › Setup › Lead Source, the Sales Manager's (one_crm/access.py) |
 | Website | Web Form | In One | OneCRM › Get in Touch |
 | Website | Web Form Request | **Add, P3** | with Web Form, a form sent to one person |
 | Website | Web Page | Website, out | One is not a website builder |
@@ -391,8 +398,8 @@ after saving.
 | Website | Website Sidebar | Website, out | One is not a website builder |
 | Website | Website Slideshow | Website, out | One is not a website builder |
 | Website | Website Theme | Website, out | One is not a website builder |
-| Workflow | Workflow | **Add, P1** | Approvals: who approves what, in what order. One honours a workflow on a record but nobody can build one. |
-| Workflow | Workflow Action | **Add, P1** | the Waiting on Me inbox of approvals, which nobody reads today |
-| Workflow | Workflow Action Master | **Add, P1** | with Workflow |
-| Workflow | Workflow State | **Add, P1** | with Workflow |
-| Workflow | Workflow Transition Tasks | **Add, P1** | with Workflow |
+| Workflow | Workflow | In One | Workspace › Approvals and frappe's workflow builder (one/approvals.py) |
+| Workflow | Workflow Action | In One | Home › Approvals, Waiting on Me |
+| Workflow | Workflow Action Master | In One | with Workflow |
+| Workflow | Workflow State | In One | with Workflow |
+| Workflow | Workflow Transition Tasks | Not a customer's | runs code on a step; refused on a workspace's approval (one/approvals.py) |

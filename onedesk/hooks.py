@@ -40,6 +40,10 @@ after_install = [
 	"onedesk.one_crm.record.settle",
 	"onedesk.one_crm.capture.defaults",
 	"onedesk.one_crm.access.settle",
+	"onedesk.one_book.access.settle",
+	"onedesk.one_inventory.access.settle",
+	"onedesk.one_project.access.settle",
+	"onedesk.one_hr.access.settle",
 	"onedesk.one_task.access.settle",
 	"onedesk.one_project.board.settle",
 	"onedesk.one_project.templates.settle",
@@ -95,6 +99,10 @@ after_migrate = [
 	"onedesk.one_crm.next.settle",
 	"onedesk.one_crm.record.settle",
 	"onedesk.one_crm.access.settle",
+	"onedesk.one_book.access.settle",
+	"onedesk.one_inventory.access.settle",
+	"onedesk.one_project.access.settle",
+	"onedesk.one_hr.access.settle",
 	"onedesk.one_task.access.settle",
 	"onedesk.one_project.board.settle",
 	"onedesk.one_project.templates.settle",
@@ -243,6 +251,7 @@ doc_events = {
 	"Automation Flow": {"validate": "onedesk.one.automations.validate"},
 	# What a webhook the workspace writes may send, and where. See one/webhooks.py.
 	"Webhook": {"validate": "onedesk.one.webhooks.validate"},
+	"Assignment Rule": {"validate": "onedesk.one_crm.access.assignment_rule"},
 	# Only an administrator announces; everybody is told. See one/announcements.py.
 	"Note": {
 		"before_validate": "onedesk.one.announcements.before_validate",
@@ -593,6 +602,7 @@ has_permission = {
 	"Access Log": "onedesk.one.audit.has_permission",
 	# Webhooks, on the kinds the administrator may read. See one/webhooks.py.
 	"Webhook": "onedesk.one.webhooks.has_permission",
+	"Assignment Rule": "onedesk.one_crm.access.has_permission",
 	"Webhook Request Log": "onedesk.one.webhooks.has_permission",
 	# Deleting somebody's account is decided by an administrator, never by
 	# editing the request. See one/privacy.py.
@@ -633,6 +643,7 @@ permission_query_conditions = {
 	"Activity Log": "onedesk.one.audit.activity_query",
 	"Access Log": "onedesk.one.audit.access_query",
 	"Webhook": "onedesk.one.webhooks.query",
+	"Assignment Rule": "onedesk.one_crm.access.query",
 	"Webhook Request Log": "onedesk.one.webhooks.log_query",
 	"Personal Data Deletion Request": "onedesk.one.privacy.query",
 	"Personal Data Download Request": "onedesk.one.privacy_copy.query",

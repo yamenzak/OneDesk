@@ -27,7 +27,8 @@ well as on the project's board.
 - **Tasks** — every task, in projects and out of them (OneTask's list).
 - **Timesheet** — the time people have logged.
 - Under **Setup**, **Project Template**, **Project Type**, **Activity Type**,
-  **Activity Cost** and **Projects Settings**.
+  **Activity Cost** and **Projects Settings**. Projects Settings is the
+  Projects Manager's: ERPNext keeps it for its System Manager (`access.py`).
 
 ## A project at a glance
 

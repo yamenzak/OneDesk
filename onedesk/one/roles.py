@@ -72,6 +72,45 @@ def grant(grants: dict) -> None:
 			update_permission_property(doctype, ADMINISTRATOR, 0, ptype, 1, validate=False)
 
 
+#: What a space's roles are given where erpnext gives only its System
+#: Manager (give): to look, to do the work, to run it.
+USE = ("read", "report", "print")
+WORK = (*USE, "write", "create", "submit")
+MANAGE = (*WORK, "delete", "cancel", "amend", "export")
+
+#: Rights only a submittable kind has.
+SUBMITTING = ("submit", "cancel", "amend")
+
+
+def give(grants: dict) -> None:
+	"""What a space's own roles are given, {doctype: {role: (ptype, ...)}}:
+	a role that reads there already, by erpnext's rules or the workspace's,
+	keeps what it has, and one that does not is given these. A kind or role
+	the site does not have is skipped, and so is submitting where nothing is."""
+	from frappe.permissions import add_permission, setup_custom_perms, update_permission_property
+
+	for doctype, by_role in grants.items():
+		if not frappe.db.exists("DocType", doctype):
+			continue
+		submits = frappe.get_meta(doctype).is_submittable
+		for role, ptypes in by_role.items():
+			if not frappe.db.exists("Role", role):
+				continue
+			where = {"parent": doctype, "role": role, "permlevel": 0, "read": 1}
+			if frappe.db.exists("Custom DocPerm", where) or (
+				not frappe.db.exists("Custom DocPerm", {"parent": doctype})
+				and frappe.db.exists("DocPerm", where)
+			):
+				continue
+			setup_custom_perms(doctype)
+			if not frappe.db.exists("Custom DocPerm", {"parent": doctype, "role": role, "permlevel": 0}):
+				add_permission(doctype, role, 0)
+			for ptype in ptypes:
+				if ptype in SUBMITTING and not submits:
+					continue
+				update_permission_property(doctype, role, 0, ptype, 1, validate=False)
+
+
 def open_page(page: str) -> None:
 	"""A frappe page opened to the role, through frappe's Custom Role. A Custom
 	Role replaces the page's roles, so it keeps the page's own too."""

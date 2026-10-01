@@ -272,6 +272,12 @@ approval step.
 **Vehicle Log** says the distance and the fuel: *770 on the odometer since the
 last log, on 58.00 Litre costing AED 179.80*.
 
+**Who handles them.** An **HR User** makes and submits advances, travel
+requests and vehicle logs, and an **HR Manager** also cancels them and keeps
+the list of purposes of travel. HRMS gives these to roles nobody is given in
+One (System Manager, Expense Approver, Fleet Manager), so One gives them to
+HR (`access.py`). What an employee sees of their own is unchanged.
+
 **Reports:** **Unpaid Expense Claim** and **Vehicle Expenses**, which opens on
 this year.
 

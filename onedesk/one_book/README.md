@@ -34,6 +34,12 @@ amount, a customer's balance, an employee's expense claim.
 - **Setup** — the chart of accounts, cost centers, bank accounts, taxes,
   payment terms, modes of payment and fiscal years.
 
+Everything here is for whoever People gives OneBook. An **Accounts User**
+matches the bank and imports a statement; an **Accounts Manager** also
+enters the opening invoices and keeps the purchase tax templates. ERPNext
+gives those four only to its System Manager or to buying, so One gives them
+to accounts (`access.py`).
+
 ## Home
 
 The top row is what needs doing: **Draft Invoices** not yet issued,

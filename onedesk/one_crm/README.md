@@ -55,14 +55,17 @@ A lead can be made three ways:
   name, business, email, mobile and a message, and makes a lead with its
   source set to Website and the message kept on it. Change the form under
   **Setup › Get in Touch Form**; link to it from your own website.
-- **From an inbox.** Set up an **Email Account** under **Setup › Inboxes**,
-  with *Append To* set to Lead, and every mail to it makes a lead. Mail from
-  somebody who is already a lead is added to their lead instead.
+- **From an inbox.** OneIntake reads the workspace's mail, and an enquiry
+  from somebody new comes with a lead ready to make. Mail from somebody who
+  is already a lead is linked to their lead instead.
 
 A lead from the website or an inbox belongs to nobody at first. It waits on
 Home under **Unclaimed Leads** until somebody presses **Take This Lead**, or an
 **Assignment Rule** shares it out: set one up under **Setup › Lead Assignment**
-(round robin or by load) and the person it picks becomes the Lead Owner.
+(round robin or by load) and the person it picks becomes the Lead Owner. A
+Sales Manager keeps these rules. A rule of theirs is on a lead or a deal, and
+says which ones it takes by comparing the record's fields with plain values,
+`utm_source == "Website"`, never by code.
 
 **Somebody who is already a lead is not made twice.** At the desk, a second
 lead with the same email is refused with a link to the first. From the website
@@ -266,10 +269,13 @@ the last contact and times the first reply. Anybody in sales may approve one.
 ## Setup
 
 **Territory**, **Customer Group**, **Sales Person**, **Sales Stage**, **Lead
-Source**, **Lead Assignment**, **Get in Touch Form**, **Inboxes** and **CRM
-Settings** are in the Setup group. **Campaigns** has Campaign, Email Campaign,
-Email Group, **Newsletter** (one mail to a whole Email Group) and Campaign
-Efficiency.
+Source**, **Lead Assignment**, **Get in Touch Form** and **CRM Settings** are
+in the Setup group. **Campaigns** has Campaign, Email Campaign, Email Group
+and Campaign Efficiency. The workspace's mailboxes are in Settings › Mail.
+
+A Sales Manager runs Email Campaign, Email Group, Lead Source and Lead
+Assignment, and a Sales User reads them. ERPNext gives them only to its
+System Manager and a Newsletter Manager nobody is given here (`access.py`).
 
 **Forms carry what a small business fills in.** A lead asks for a name, job
 title, email and phone numbers, the business, its industry and territory, and
