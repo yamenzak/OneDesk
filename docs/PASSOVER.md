@@ -4589,6 +4589,67 @@ time, the first being refused (`{{ doc.name }}`, then `{{ amount }}`, which
 is not a field). Still wrong: the model signs off with a name ("One Team")
 though the mailbox signs, which the card shows before it is approved.
 
+**Stage 5, Approvals: done.** Seen as a workspace administrator: Workspace ›
+Approvals, a record's Settings › Approvals, frappe's workflow builder, a bill
+under an approval, OneIntake's Ready to Submit and the bell. Checked with a
+Bill Approval on Purchase Invoice: Pending, then Approved by an accounts user
+up to 5,000 or a manager above it, or Rejected by a manager.
+
+1. Notifications: **finding.** Whoever a step waits on was told only by
+   frappe's own mail (Send Email Alert), in frappe's words, and not listed on
+   Workspace › Notifications.
+2. OneAI: **finding.** Nothing: no suggestions, no read, no way to suggest an
+   approval.
+3. Intake: **findings.**
+   - With an approval on bills, Ready to Submit still listed OneIntake's
+     drafts as ready, and Submit All failed on each with an empty error,
+     since frappe refuses a submit that skips the approval.
+   - With e-invoices set to submit themselves, OneAI would have submitted a
+     bill past its approval.
+4. Permissions: held. An approval is on a kind the administrator can open; a
+   kind they cannot open is refused (Purchase Order, without OneInventory).
+   **Finding:** any condition on a step was refused, so the commonest
+   approval, a bill over an amount to a manager, could not be made at all.
+5. Cross-module: Approvals Waiting on Home counts the steps; OneBook's bills
+   and OneIntake's drafts are where it shows (point 3).
+6. Bespoke UI: **findings.**
+   - The builder opened under frappe's own Workflow sidebar, out of One.
+   - Its controls show every field, hidden or not, so a workspace
+     administrator was offered tasks and worked-out values that saving
+     refuses, and frappe's mail settings.
+   - An approval made without the builder had every step drawn on one spot.
+7. Documented: the README said a condition could not be set, and nothing of
+   OneIntake, the bell or OneAI.
+8. Legal: nothing new.
+9. Built from frappe: frappe's Workflow, its builder, its Workflow Action and
+   `apply_workflow`.
+
+Fixed:
+- **Conditions that compare fields.** `plain_condition` allows a
+  condition made only of the record's own fields (first permission level),
+  plain values, comparisons, `and`, `or` and `not`, read with Python's own
+  parser. Anything else is still refused.
+- **Told through the hub.** `send_email_alert` is off on every approval, and
+  a new type, **Approval Waiting**, tells whoever holds a role the step is for
+  and may open the record, on the bell and by mail as they chose.
+- **OneIntake.** A draft under an approval says it waits for it ("It waits for
+  its approval: it is Pending"). Submit All takes the approval's own step to a
+  submitted state when the reader may (`apply_workflow`), and the e-invoice
+  auto-submit leaves any bill under an approval alone.
+- **The builder.** It opens in One's rail. Frappe's mail settings are hidden
+  for everybody, and tasks and worked-out values for a workspace
+  administrator. An approval saved without a layout is given one: states in
+  columns by distance from the first, each state's steps stacked beside it.
+- **OneAI.** `workspace_approvals` reads every approval, the roles in One's
+  words and the fields a kind may use. `suggest_approval` suggests one, new
+  or changed, as an Approval card, checked as the guard checks it; approving
+  it makes any new state or action word first (frappe checks they exist before
+  anything else), then saves the approval. The page offers two suggestions.
+
+Still as frappe has it: records already made keep the state they are in when
+a different approval is turned on for their kind, which may be a state the
+new one does not have.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

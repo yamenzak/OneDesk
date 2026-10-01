@@ -375,6 +375,27 @@ OVERRIDES = [
 		'"name": _("Exit Questionnaire Notification"),',
 	),
 	(
+		"The workflow builder opens in One's rail",
+		"desk.js answers frappe's sidebar lookup for the workflow-builder route as workspace-settings, the page Workspace › Approvals opens it from, rather than frappe's Workflow sidebar",
+		"onedesk/public/js/desk.js",
+		"frappe/frappe/public/js/frappe/ui/sidebar/sidebar.js",
+		"entity_from_route(route) {",
+	),
+	(
+		"The workflow builder hides frappe's mail settings and what a workspace approval may not do",
+		"desk.css hides the builder's fields by data-fieldname: its controls show a hidden field all the same, and Properties.vue names transition_tasks and draws every state field",
+		"onedesk/public/css/desk.css",
+		"frappe/frappe/public/js/workflow_builder/components/Properties.vue",
+		'["action", "allowed", "allow_self_approval", "condition", "transition_tasks"].includes(',
+	),
+	(
+		"A step of an approval is told through the hub, not frappe's mail",
+		"approvals.validate turns send_email_alert off on every Workflow and approvals.waiting, on Workflow Action after_insert, tells whoever holds a role the step is for; frappe creates the action in process_workflow_actions",
+		"onedesk/one/approvals.py",
+		"frappe/frappe/workflow/doctype/workflow_action/workflow_action.py",
+		"create_workflow_actions_for_roles(roles, doc)",
+	),
+	(
 		"Mail sent from here is not signed again on save",
 		"Communication.before_save appends the sender's or the default account's signature after the composer closed; file_sent sets skip_add_signature",
 		"onedesk/one_mail/outbound.py",

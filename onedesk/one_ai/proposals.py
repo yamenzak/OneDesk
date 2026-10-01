@@ -46,7 +46,7 @@ MOST_ROWS = 20
 #: Kinds whose changes are the tool's own, checked by it, rather than a
 #: record's values: how a form looks, how a mailbox signs, the workspace's
 #: holidays, and a reply to a conversation.
-OWN_WORDS = ("Customize", "Signature", "Holidays", "Reply", "Numbering", "Printing")
+OWN_WORDS = ("Customize", "Signature", "Holidays", "Reply", "Numbering", "Printing", "Approval")
 
 
 def propose(
@@ -212,6 +212,21 @@ def apply(proposal: str) -> dict:
 			return _done(entry, (made or {}).get("name") or changes["letter_head"].get("name"))
 		return _done(entry, entry.for_doctype)
 
+	if entry.kind == "Approval":
+		# Approvals' own door (one/approvals.py), as the administrator who pressed
+		# Approve, and refused if an approval on the kind changed since.
+		from onedesk.one import approvals
+
+		if changes.get("state") != approvals.state(entry.for_doctype):
+			entry.db_set("state", "Stale")
+			frappe.db.commit()
+			frappe.throw(
+				frappe._("The approvals on {0} have changed since this was suggested, so it no longer applies.").format(
+					frappe._(entry.for_doctype)
+				)
+			)
+		return _done(entry, approvals.make(entry.for_doctype, changes["workflow"]))
+
 	if entry.kind == "Create":
 		made = frappe.get_doc({"doctype": entry.for_doctype, **changes})
 		if entry.for_doctype == "File":
@@ -364,6 +379,12 @@ def _allowed(kind: str, doctype: str, record: str | None):
 
 		numbering._meta(doctype)
 		return None
+	if kind == "Approval":
+		from onedesk.one import approvals, roles
+
+		roles.require()
+		approvals._doctype(doctype)
+		return None
 	if kind == "Printing":
 		from onedesk.one import printing, roles
 
@@ -497,6 +518,8 @@ def _said(kind: str, doctype: str, record: str | None, changes: dict) -> str:
 		return frappe._("Numbering of {0}").format(frappe._(doctype))
 	if kind == "Printing":
 		return frappe._("Printing of {0}").format(frappe._(doctype))
+	if kind == "Approval":
+		return frappe._("Approval of {0}").format(frappe._(doctype))
 	if kind == "Reply":
 		return frappe._("A reply to {0}").format(changes.get("subject") or record)
 	if kind == "Delete":

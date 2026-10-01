@@ -701,12 +701,28 @@ record to a value, for example Status to Approved. **Save**, then turn the
 approval **On**; one approval is on for a kind of record at a time.
 
 Whoever holds the role sees the action on the record, and each step waiting
-on one of their roles counts in **Approvals Waiting** on their Home.
+on one of their roles counts in **Approvals Waiting** on their Home. They are
+told, too, on the bell and by mail as they chose (Approval Waiting, on
+Workspace › Notifications), whenever a record reaches a step they take.
 
-An action here is always taken by a role. What cannot be set here, since it
-would run as whoever takes the action: a condition written as code on an
-action, a value worked out rather than typed, or a task an action runs. A
-state sets only a field anybody who may edit the record may set.
+An action may have a **Condition** that compares the record's own fields with
+plain values, so the same action can go to different people by amount:
+**Approve** by an accounts user when `doc.grand_total <= 5000`, and by an
+accounts manager when `doc.grand_total > 5000`. Write a field as `doc.` and
+its name; compare with `==`, `!=`, `<`, `>`, `<=`, `>=` or `in`, and join
+with `and`, `or` and `not`. Nothing else can be set here, since it would run
+as whoever takes the action: a condition that does more, a value worked out
+rather than typed, or a task an action runs. A state sets only a field anybody
+who may edit the record may set.
+
+A bill OneIntake drafted waits for its approval on **Ready to Submit**:
+**Submit All** takes the approval's own step when yours is the role it waits
+on, and otherwise says whom it waits for. OneAI never takes a step itself.
+
+**OneAI on this page** offers **Approve bills by amount** and **Who approves
+what?**. It reads every approval and what an approval of a kind may use, and
+suggests one, new or changed, as a card you approve; it opens in the builder
+after, laid out, to change there like any other.
 
 Only administrators of the workspace see this, and only for the kinds of
 record they can open; frappe's own and One's own records take no approval.

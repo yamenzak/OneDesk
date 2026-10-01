@@ -205,6 +205,8 @@ doc_events = {
 	"Print Format Snippet": {"validate": "onedesk.one.printing.validate_snippet"},
 	"Email Template": {"validate": "onedesk.one.mail_templates.validate"},
 	"Workflow": {"validate": "onedesk.one.approvals.validate"},
+	# Whoever a step of an approval waits on is told through the hub. See one/approvals.py.
+	"Workflow Action": {"after_insert": "onedesk.one.approvals.waiting"},
 	"Automation Flow": {"validate": "onedesk.one.automations.validate"},
 	"Document Naming Rule": {"validate": "onedesk.one.numbering.validate_rule"},
 	# A notification is pushed to the devices its person chose. See one/push.py.
@@ -853,6 +855,8 @@ one_ai_reads = [
 	"onedesk.one.ai.workspace_printing",
 	# The mail templates, what each is for and which setting sends it. See one/mail_templates.py.
 	"onedesk.one.ai.workspace_mail_templates",
+	# The approvals, their states and steps, and what an approval may use. See one/approvals.py.
+	"onedesk.one.ai.workspace_approvals",
 	"onedesk.one.ai.print_layout",
 	# How the person signs in, and where they are signed in. See one/signin.py.
 	"onedesk.one.ai.my_sign_in",
@@ -940,6 +944,7 @@ one_ai_suggests = [
 	"onedesk.one.ai.change_printing",
 	"onedesk.one.ai.design_print_format",
 	"onedesk.one.ai.write_mail_template",
+	"onedesk.one.ai.suggest_approval",
 	"onedesk.one.ai.customize",
 	"onedesk.one.ai.sign_mailbox",
 	# Holidays and days off, as the Holidays settings would save them.

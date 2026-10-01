@@ -19,6 +19,8 @@ import frappe
 from frappe import _
 from frappe.utils import flt
 
+from onedesk.one import approvals
+
 DOCTYPES = ("Purchase Invoice", "Purchase Receipt", "Sales Order", "Supplier Quotation", "Payment Entry")
 
 #: How far a draft's total may be from the document's before it is red.
@@ -106,7 +108,8 @@ def listed() -> dict:
 			continue
 		doc = frappe.get_doc(row.target_doctype, row.target_name)
 		reading = frappe.get_doc("Reading", row.reading) if row.reading and frappe.db.exists("Reading", row.reading) else None
-		why = red(doc, reading)
+		waits = _waiting(doc)
+		why = red(doc, reading) + ([waits] if waits else [])
 		said = {
 			"doctype": doc.doctype,
 			"name": doc.name,
@@ -138,9 +141,19 @@ def submit_all(names) -> dict:
 		if red(doc, frappe.get_doc("Reading", reading) if reading and frappe.db.exists("Reading", reading) else None):
 			failed.append({"name": name, "why": _("It is not ready any more.")})
 			continue
+		waits = approvals.submitting(doc)
+		if waits and not waits["action"]:
+			failed.append({"name": name, "why": _waiting(doc)})
+			continue
 		try:
 			doc.check_permission("submit")
-			doc.submit()
+			if waits:
+				# Its approval's own step to a submitted state, as its button would take it.
+				from frappe.model.workflow import apply_workflow
+
+				apply_workflow(doc, waits["action"])
+			else:
+				doc.submit()
 			frappe.db.commit()
 			done.append(name)
 		except Exception as raised:
@@ -161,9 +174,23 @@ def maybe_submit(reading) -> None:
 	doc = frappe.get_doc("Purchase Invoice", made)
 	if doc.docstatus != 0 or not any(row.po_detail for row in doc.items) or red(doc, reading):
 		return
+	# A bill under an approval waits for whoever the approval names; OneAI never
+	# takes a step of one.
+	if approvals.submitting(doc):
+		return
 	from onedesk.one_intake import act
 
 	with act.as_oneai(reading.on_behalf_of):
 		if frappe.has_permission("Purchase Invoice", "submit", doc.name):
 			doc.submit()
 			frappe.db.commit()
+
+
+def _waiting(doc) -> str | None:
+	"""Why a draft waits on its approval rather than on the reader: its kind has
+	an approval on, and no step the reader may take submits it."""
+	waits = approvals.submitting(doc)
+	if waits and not waits["action"]:
+		state = waits["state"] or ""
+		return _("It waits for its approval: it is {0}.").format(_(state))
+	return None

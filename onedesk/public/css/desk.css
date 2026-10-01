@@ -645,3 +645,14 @@ a.one-chart-head:hover .one-stat-label {
 	display: flex;
 	gap: calc(var(--spacing) * 1);
 }
+
+/* frappe's workflow builder: its mail settings, which One's hub replaces, and for
+   somebody frappe does not let customize what an approval of theirs may not do
+   (desk.js, one/approvals.py). */
+#page-workflow-builder .field:has(> [data-fieldname="send_email_alert"]),
+#page-workflow-builder .field:has(> [data-fieldname="send_email"]),
+#page-workflow-builder .field:has(> [data-fieldname="next_action_email_template"]),
+body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="transition_tasks"]),
+body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluate_as_expression"]) {
+	display: none;
+}

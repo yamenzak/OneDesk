@@ -39,6 +39,8 @@ LAYERS = (
 	"onedesk/one/customize.py",
 	# A workspace's own print formats, copied from one it prints with on a form's Settings.
 	"onedesk/one/printing.py",
+	# A workspace's own approvals, suggested by OneAI and made when approved.
+	"onedesk/one/approvals.py",
 )
 
 _OPENS = r"frappe\.(get_doc|new_doc|_dict)\s*\(\s*[{'\"]?[^)]*?['\"]("

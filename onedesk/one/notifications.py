@@ -15,6 +15,14 @@ from frappe import _lt
 
 TYPES = [
 	{
+		"name": _lt("Approval Waiting"),
+		"app": "One",
+		"about": _lt("When a record reaches a step of an approval that one of your roles takes."),
+		"to": _lt("Whoever holds the role the step is for and may open the record"),
+		"subject": _lt("{kind} {record_name} is waiting for you"),
+		"message": _lt("The {kind} {record_name} is {state}. Open it to {actions}."),
+	},
+	{
 		"name": _lt("Password Changed"),
 		"app": "One",
 		"about": _lt("When your password is changed, here or through a reset link."),

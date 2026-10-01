@@ -33,7 +33,10 @@ frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 		return false;
 	}
 
+	// The workflow builder is where Workspace › Approvals opens an approval, so it
+	// stays in One's rail rather than frappe's Workflow one.
 	entity_from_route(route) {
+		if (route[0] === "workflow-builder") return "workspace-settings";
 		return route[0] === "print" && route[1] ? route[1] : super.entity_from_route(route);
 	}
 
@@ -206,3 +209,12 @@ onedesk.tenant.size = (bytes) => {
 	}
 	return `${left >= 10 || at === 0 ? Math.round(left) : left.toFixed(1)} ${units[at]}`;
 };
+
+// Frappe's workflow builder draws every field of a step, and its controls show a
+// hidden one all the same. An approval tells whoever it waits on through One's hub
+// (one/approvals.py), so frappe's own mail settings are not offered; and to
+// somebody frappe does not let customize, neither is what an approval the
+// workspace writes may not do: tasks a step runs, a value worked out by code.
+$(document).on("startup", () => {
+	document.body.toggleAttribute("data-one-held", !frappe.model.can_create("Custom Field"));
+});
