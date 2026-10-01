@@ -32,7 +32,7 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 		this.unsaved();
 		this.$content = onedesk.shell.body(this.$section, { wide: true });
 		if (!this.doctype) {
-			this.$content.html(onedesk.shell.empty(__("Open a form, then Customize from its menu."), "", { icon: "settings-2" }));
+			this.forms();
 			return;
 		}
 		try {
@@ -43,6 +43,43 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 		}
 		this.$content.empty();
 		this.draw(this.data);
+	}
+
+	// No form named: every form the administrator may customize, the ones
+	// the workspace has changed first, then by app (one_studio/forms.py).
+	async forms() {
+		this.data = null;
+		this.$content = onedesk.shell.body(this.$section);
+		this.page.set_title(__("Forms"));
+		onedesk.shell.trail(__("OneStudio"), "/desk/extension", __("Forms"));
+		const rows = await frappe.xcall("onedesk.one_studio.forms.forms");
+		this.$content.empty();
+		const $search = onedesk.shell.search(this.$content, { placeholder: __("Find a form") });
+		const $list = $("<div>").appendTo(this.$content);
+		const badge = (count, label) => (count ? frappe.ui.badge.html({ label, theme: "blue" }) : "");
+		const row = (one, app = false) =>
+			onedesk.shell.row({
+				title: frappe.utils.escape_html(one.label),
+				sub: app ? frappe.utils.escape_html(one.app) : "",
+				meta:
+					badge(one.changes, one.changes === 1 ? __("1 change") : __("{0} changes", [one.changes])) +
+					" " +
+					badge(one.extensions, one.extensions === 1 ? __("1 extension") : __("{0} extensions", [one.extensions])),
+				href: `/desk/customize/${encodeURIComponent(one.doctype)}`,
+			});
+		const draw = () => {
+			const words = ($search.val() || "").toLowerCase().trim();
+			const found = rows.filter((one) => !words || `${one.label} ${one.doctype} ${one.app}`.toLowerCase().includes(words));
+			const changed = found.filter((one) => one.changes || one.extensions);
+			const by_app = {};
+			for (const one of found.filter((one) => !one.changes && !one.extensions)) (by_app[one.app] = by_app[one.app] || []).push(one);
+			const sections = [];
+			if (changed.length) sections.push(onedesk.shell.section(__("Changed Here"), onedesk.shell.list(changed.map((one) => row(one, true)).join(""))));
+			for (const [app, ones] of Object.entries(by_app)) sections.push(onedesk.shell.section(app, onedesk.shell.list(ones.map((one) => row(one)).join(""))));
+			$list.html(sections.join("") || onedesk.shell.empty(__("No form by that name."), "", { icon: "search" }));
+		};
+		$search.on("input", frappe.utils.debounce(draw, 150));
+		draw();
 	}
 
 	saver(values) {

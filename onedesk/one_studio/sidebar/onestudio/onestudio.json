@@ -5,7 +5,7 @@
  "doctype": "Sidebar",
  "header_icon": "onestudio",
  "idx": 0,
- "modified": "2026-10-01 12:00:00.000000",
+ "modified": "2026-10-01 14:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Studio",
  "name": "OneStudio",
@@ -25,6 +25,19 @@
    "type": "Link",
    "link_to": "Extension",
    "icon": "puzzle"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Forms",
+   "link_type": "Page",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "customize",
+   "icon": "layout-template"
   }
  ]
 }

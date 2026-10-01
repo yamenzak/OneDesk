@@ -579,6 +579,7 @@ No doctypes yet.
 * `onedesk.one_storage.upload.begin`
 * `onedesk.one_storage.upload.done`
 * `onedesk.one_storage.upload.here`
+* `onedesk.one_studio.forms.forms`
 * `onedesk.one_task.mine.counts`
 * `onedesk.one_task.mine.tasks`
 * `onedesk.one_task.timer.running`
