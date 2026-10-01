@@ -241,6 +241,11 @@ No doctypes yet.
 * `onedesk.one.printing.render_jinja_template`
 * `onedesk.one.printing.save_letter_head`
 * `onedesk.one.printing.set_default`
+* `onedesk.one.privacy.approve`
+* `onedesk.one.privacy.ask_for_copy`
+* `onedesk.one.privacy.ask_to_delete`
+* `onedesk.one.privacy.hold`
+* `onedesk.one.privacy.withdraw`
 * `onedesk.one.push.devices`
 * `onedesk.one.push.forget`
 * `onedesk.one.push.register`

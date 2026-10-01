@@ -371,8 +371,8 @@ after saving.
 | Website | Discussion Topic | Website, out | One is not a website builder |
 | Website | Help Article | Website, out | One is not a website builder |
 | Website | Help Category | Website, out | One is not a website builder |
-| Website | Personal Data Deletion Request | **Add, P2** | GDPR self-service: a person asks to be erased |
-| Website | Personal Data Download Request | **Add, P2** | GDPR self-service: a person asks for their data |
+| Website | Personal Data Deletion Request | In One | Workspace › Privacy Requests (one/privacy.py) |
+| Website | Personal Data Download Request | In One | You › Profile › Your Data (one/privacy.py) |
 | Website | Portal Settings | Website, out | One is not a website builder |
 | Website | UTM Campaign | **Add, P3** | OneCRM has Sources but not Campaigns or Mediums |
 | Website | UTM Medium | **Add, P3** | with UTM Campaign |

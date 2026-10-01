@@ -64,6 +64,8 @@ after_migrate = [
 	"onedesk.one.recycle.settle",
 	# The Audit Log for the workspace administrator. See one/audit.py.
 	"onedesk.one.audit.settle",
+	# Privacy requests for the workspace administrator. See one/privacy.py.
+	"onedesk.one.privacy.settle",
 	# frappe's own morning event mail stopped; Today's Events replaces it.
 	"onedesk.one_calendar.tell.install",
 	# What each module's records say above their fields. See one/head.py.
@@ -570,6 +572,9 @@ has_permission = {
 	"Version": "onedesk.one.audit.has_permission",
 	"Activity Log": "onedesk.one.audit.has_permission",
 	"Access Log": "onedesk.one.audit.has_permission",
+	# Deleting somebody's account is decided by an administrator, never by
+	# editing the request. See one/privacy.py.
+	"Personal Data Deletion Request": "onedesk.one.privacy.has_permission",
 	# What OneAI did is seen by whom it acted for. See one_intake/act.py.
 	"Intake Action": "onedesk.one_intake.act.has_permission",
 	# A message opens for its mailbox's holders and its record's readers.
@@ -604,6 +609,7 @@ permission_query_conditions = {
 	"Version": "onedesk.one.audit.version_query",
 	"Activity Log": "onedesk.one.audit.activity_query",
 	"Access Log": "onedesk.one.audit.access_query",
+	"Personal Data Deletion Request": "onedesk.one.privacy.query",
 	"Intake Action": "onedesk.one_intake.act.query",
 	"Mail Rule": "onedesk.one_mail.rules.rule_query",
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.query",
@@ -654,6 +660,8 @@ fixtures = [
 doctype_js = {
 	# Put back through One's restore, which a workspace may use. See one/recycle.py.
 	"Deleted Document": "public/js/deleted_document.js",
+	# Approve and Delete, or Hold, by a workspace administrator. See one/privacy.py.
+	"Personal Data Deletion Request": "public/js/privacy_request.js",
 	# A workspace is read-only and carries verbs instead; see one_admin/operator.py.
 	# A workspace reads its own account and manages its addresses; the account
 	# itself lives on the administrator. See one/account.py.
@@ -700,6 +708,7 @@ doctype_list_js = {
 	"Version": "public/js/audit_list.js",
 	"Activity Log": "public/js/audit_list.js",
 	"Access Log": "public/js/audit_list.js",
+	"Personal Data Deletion Request": "public/js/privacy_request_list.js",
 	# Nothing on the catalogue is typed; its only verb is to sync it now.
 	"AI Model": "public/js/ai_model_list.js",
 	# Which way each row moved money, which is all a ledger list is for.
@@ -912,6 +921,8 @@ one_ai_reads = [
 	"onedesk.one.ai.recycle_bin",
 	# Who changed, signed in and exported what. See one/audit.py.
 	"onedesk.one.ai.audit_log",
+	# What deleting somebody's account would do. See one/privacy.py.
+	"onedesk.one.ai.privacy_request",
 	# The plan and the credits, for the workspace's administrators.
 	"onedesk.one.ai.workspace_plan",
 	# The addresses the workspace opens at, for its administrators.
@@ -1139,3 +1150,12 @@ after_request = ["onedesk.one_storage.dav.headers"]
 # A workspace's HTML block prints through One's sandbox: onedesk's copy of frappe's
 # HTML block macro calls this for a block the workspace saved. See one/print_html.py.
 jinja = {"methods": ["onedesk.one.print_html.one_html_block"]}
+
+
+# What frappe's erasure redacts beyond its own list, the person's name and
+# address replaced wherever they are written: the Recycle Bin keeps deleted
+# records whole, a to-do names who to call, and a notification names who did
+# it. See one/privacy.py.
+user_data_fields = [
+	{"doctype": doctype, "strict": True} for doctype in ("Deleted Document", "ToDo", "Notification Log")
+]

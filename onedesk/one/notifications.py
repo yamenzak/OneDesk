@@ -156,6 +156,64 @@ TYPES = [
 		"always_mailed": True,
 	},
 	{
+		"name": _lt("Your Data Is Ready"),
+		"app": "One",
+		"about": _lt("When the copy of your data you asked for on your profile is ready."),
+		"to": _lt("The person who asked"),
+		"subject": _lt("Your data is ready"),
+		"message": _lt(
+			"The copy of your data you asked for is ready: everything you left in the workspace, in one file. "
+			"Download it from your profile, or here: {url}"
+		),
+		"email": True,
+	},
+	{
+		"name": _lt("Deletion Asked"),
+		"app": "One",
+		"about": _lt("When somebody asks for their account to be deleted, which an administrator decides."),
+		"to": _lt("Every administrator"),
+		"subject": _lt("{person} asked for their account to be deleted"),
+		"message": _lt(
+			"{person} ({email}) asked for their account and what they left in the workspace to be deleted. "
+			"Approve it, or hold it and say why, under Workspace › Privacy Requests."
+		),
+		"email": False,
+		"always_mailed": True,
+	},
+	{
+		"name": _lt("Deletion On Hold"),
+		"app": "One",
+		"about": _lt("When an administrator holds your request to delete your account, and why."),
+		"to": _lt("The person who asked"),
+		"subject": _lt("Your account is not deleted yet"),
+		"message": _lt("An administrator is holding your request to delete your account, because: {why}"),
+		"email": False,
+		"always_mailed": True,
+	},
+	{
+		"name": _lt("Account Deleted"),
+		"app": "One",
+		"about": _lt("When an administrator approves deleting your account."),
+		"to": _lt("The person whose account it is"),
+		"subject": _lt("Your account is being deleted"),
+		"message": _lt(
+			"Your request was approved. You are signed out, and your account and what only you used are being "
+			"deleted now. What the workspace has to keep, such as invoices you raised, stays without your name "
+			"and address. Your employee record, if you have one, is HR's."
+		),
+		"email": False,
+		"always_mailed": True,
+	},
+	{
+		"name": _lt("Person Deleted"),
+		"app": "One",
+		"about": _lt("When another administrator approves deleting somebody's account."),
+		"to": _lt("Every other administrator"),
+		"subject": _lt("{by} deleted {person}'s account"),
+		"message": _lt("{by} approved deleting {person}'s account. It is turned off and being erased now."),
+		"email": False,
+	},
+	{
 		"name": _lt("Plan Changed"),
 		"app": "One",
 		"about": _lt("When another administrator changes the workspace's plan or its add-ons."),

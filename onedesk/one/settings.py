@@ -319,6 +319,9 @@ def _profile() -> dict:
 	}
 	employee = _employee()
 	said["opened"] = _opened(user, employee)
+	from onedesk.one import privacy
+
+	said["privacy"] = privacy.state()
 	if employee:
 		said["values"].update({mine: employee.get(theirs) or said["values"].get(mine) for mine, theirs in SHARED.items()})
 		said["values"].update({name: employee.get(name) for name in EMPLOYEE_OWN})

@@ -1,0 +1,31 @@
+{
+ "custom_fields": [],
+ "doctype": "Personal Data Deletion Request",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Personal Data Deletion Request",
+   "doctype_or_field": "DocField",
+   "field_name": "anonymization_matrix",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Personal Data Deletion Request",
+   "doctype_or_field": "DocField",
+   "field_name": "email",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Personal Data Deletion Request",
+   "doctype_or_field": "DocType",
+   "property": "title_field",
+   "property_type": "Data",
+   "value": "email"
+  }
+ ],
+ "sync_on_migrate": 1
+}

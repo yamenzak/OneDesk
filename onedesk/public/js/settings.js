@@ -55,6 +55,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		frappe.realtime.on("one_mailbox", () => this.key === "mail" && this.$content && this.$content.is(":visible") && this.refresh());
 		// A memory was kept or forgotten, here, in the panel or in another tab.
 		frappe.realtime.on("one_memory", () => this.key === "memory" && this.$content && this.$content.is(":visible") && this.refresh());
+		// A copy of your data gathered (one/privacy.py).
+		frappe.realtime.on("one_privacy", () => this.key === "profile" && this.$content && this.$content.is(":visible") && this.refresh());
 		// An action's model or instructions changed (one_ai/run.py, _told).
 		frappe.realtime.on("one_oneai", () => this.key === "oneai" && this.$content && this.$content.is(":visible") && this.refresh());
 		// A domain started or stopped working (one/account.py, _tell_domains).
@@ -203,6 +205,13 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			);
 			if (employee.bank.length) rows.push({ heading: __("Where Your Pay Goes"), note: __("Only HR can change this.") }, { html: facts(employee.bank) });
 		}
+		rows.push(
+			{
+				heading: __("Your Data"),
+				note: __("A copy of everything you left in the workspace, or your account deleted. Deleting is decided by an administrator, and what the workspace has to keep stays without your name."),
+			},
+			{ html: this.your_data(data.privacy) }
+		);
 		const $card = this.form(
 			{ ...data, fields: [...data.fields.filter((one) => one.fieldname !== "user_image"), ...(employee ? employee.fields : [])] },
 			{ before: who, rows }
@@ -222,6 +231,62 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			});
 		});
 		$card.find("[data-unphoto]").on("click", () => photo(""));
+		this.your_data_actions($card, data.privacy);
+	}
+
+	// A copy of your data and deleting your account (one/privacy.py): what
+	// was asked and where it stands, and the buttons that ask.
+	your_data(state) {
+		const when = (on) => frappe.datetime.comment_when(on);
+		const lines = [];
+		if (state.copy && state.copy.ready) lines.push(__("Your copy from {0} is ready.", [when(state.copy.on)]));
+		else if (state.copy) lines.push(__("Your copy is being gathered; it comes to your bell and by mail."));
+		if (state.deletion && state.deletion.status === "On Hold")
+			lines.push(__("Deleting your account is on hold: {0}", [frappe.utils.escape_html(state.deletion.why || "")]));
+		else if (state.deletion) lines.push(__("You asked {0} for your account to be deleted. An administrator decides.", [when(state.deletion.on)]));
+		const buttons = [
+			state.copy && state.copy.ready
+				? `<a class="btn btn-default btn-sm" href="${encodeURI(state.copy.url)}" download>${frappe.utils.icon("download", "sm")} ${__("Download My Data")}</a>`
+				: "",
+			onedesk.shell.button(state.copy && state.copy.ready ? __("Gather a New Copy") : __("Get a Copy of My Data"), { "data-copy": "1" }, "subtle", "file-down"),
+			state.deletion
+				? onedesk.shell.button(__("Keep My Account"), { "data-withdraw": "1" }, "ghost", "undo-2")
+				: onedesk.shell.button(__("Delete My Account"), { "data-delete": "1" }, "ghost", "user-x"),
+		];
+		return `${lines.map((one) => `<p class="one-shell-quiet">${one}</p>`).join("")}<div class="one-shell-actions">${buttons.join("")}</div>`;
+	}
+
+	your_data_actions($card, state) {
+		$card.find("[data-copy]").on("click", async () => {
+			await frappe.xcall("onedesk.one.privacy.ask_for_copy");
+			frappe.show_alert({ message: __("Gathering your data. It comes to your bell and by mail."), indicator: "green" });
+			this.refresh();
+		});
+		$card.find("[data-withdraw]").on("click", async () => {
+			await frappe.xcall("onedesk.one.privacy.withdraw");
+			frappe.show_alert({ message: __("Your account stays."), indicator: "green" });
+			this.refresh();
+		});
+		$card.find("[data-delete]").on("click", () => {
+			const dialog = new frappe.ui.Dialog({
+				title: __("Delete My Account"),
+				fields: [
+					{
+						fieldtype: "HTML",
+						options: `<p>${__("An administrator approves it. Then you are signed out for good, and your conversations with OneAI, what it remembers, your notifications and devices are deleted. Invoices, tasks and other records the workspace keeps stay, with your name and address taken out. Your employee record, if you have one, is HR's.")}</p><p>${__("It cannot be undone. Get a copy of your data first if you want one.")}</p>`,
+					},
+					{ fieldname: "password", fieldtype: "Password", label: __("Your Password"), reqd: 1 },
+				],
+				primary_action_label: __("Ask to Delete"),
+				primary_action: async ({ password }) => {
+					await frappe.xcall("onedesk.one.privacy.ask_to_delete", { password });
+					dialog.hide();
+					frappe.show_alert({ message: __("Asked. An administrator decides, and you will hear."), indicator: "orange" });
+					this.refresh();
+				},
+			});
+			dialog.show();
+		});
 	}
 
 	// Everything One can tell you reaches the bell. What is also mailed, and

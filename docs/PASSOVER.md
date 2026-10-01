@@ -4994,6 +4994,51 @@ Manager's, so nobody on a workspace could ask who changed a price.
    submitted record's amendments) stays out: each record's timeline shows
    every version already.
 
+**P2, Privacy Requests: done.** You › Profile › **Your Data** and Workspace ›
+**Privacy Requests**, on frappe's Personal Data Download and Deletion
+Requests. Seen as Rania (her profile, the delete dialog) and the workspace
+administrator (the list, a waiting request); the whole flow tried on three
+throwaway people, two of them erased.
+
+Before it: both doctypes were System Manager's, the deletion's approval mail
+went to System Managers no workspace has, and its mails read "Dear User".
+
+1. Notifications: five of One's own types instead of frappe's mails. Your
+   Data Is Ready (the person), Deletion Asked (every administrator, always
+   mailed), Deletion On Hold with the reason (the person, always mailed),
+   Account Deleted (the person, before they are signed out) and Person
+   Deleted (the other administrators).
+2. OneAI: `privacy_request` says what approving would do (deleted outright,
+   name taken out, still assigned to them, an employee record, anything
+   that blocks it); the request offers "What would deleting them remove?".
+3. Intake: nothing here. A mail asking to be forgotten is for an
+   administrator to answer.
+4. Permissions: anybody asks for their own copy (once an hour) and their own
+   deletion, with their password. Only administrators see requests and
+   decide them, through Approve and Delete or Hold, never by editing. Nobody
+   deletes the last administrator, the person billed, or approves their own.
+   Rania is refused the list and the approval.
+5. Cross-module: approving deletes OneAI conversations and memories,
+   notifications, devices, calendar feeds and drive passwords, then runs
+   frappe's erasure: contacts, mail, comments, the Audit Log, and (added in
+   `user_data_fields`) the Recycle Bin, to-dos and notifications lose the
+   name and address; every owner and modified-by becomes the anonymous
+   account. **Finding:** frappe left the name in to-dos and the bin. An
+   employee record is HR's and stays.
+6. Bespoke UI: Your Data at the foot of the profile, three buttons, a
+   password dialog with a red button. The requests list says who asked and
+   "Waiting for You"; a request is headed by the person, with Approve and
+   Delete in the page head and Hold beside it.
+7. Documented: "Your Data" under Profile and "Privacy Requests" in
+   `one/README.md`.
+8. Legal: **finding.** The privacy notice said to write to us; a clause says
+   what a person can do themselves in a workspace and what deletion keeps
+   (`one/legal.py`, privacy-requests). Privacy revision 12.
+9. Built from frappe: its two doctypes, its gathering (`get_user_data`) and
+   its erasure (`_anonymize_data`) as they are. The insert-time mails are
+   skipped because the password typed confirms who asks; frappe's mailed
+   link is for somebody not signed in.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

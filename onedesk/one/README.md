@@ -99,6 +99,12 @@ well. Changing them here changes both.
 **HR is told** when you change your addresses or your emergency contact, on
 their bell, with what changed, so what they have on file stays right.
 
+**Your Data**, at the foot of the page: **Get a Copy of My Data** gathers
+everything you left in the workspace into one file, which comes to your bell
+and by mail and stays on this page to download. **Delete My Account** asks
+for your account to be deleted, with your password; an administrator decides
+(see Privacy Requests), and until then **Keep My Account** takes it back.
+
 **OneAI on this page** offers, in its panel and as the **Check My Profile**
 button under your name:
 
@@ -516,6 +522,33 @@ timeline, for everybody who may read it.
 **OneAI on these pages** offers **What changed today?**, **Any odd
 sign-ins?** and **What left as a file?**, and reads the log as the reader
 may see it.
+
+### Privacy Requests
+
+Under Workspace › **Privacy Requests**, for workspace administrators: who
+asked for their account to be deleted (on You › Profile › Your Data, with
+their password), and where each stands. Administrators hear of each request
+on the bell and by mail.
+
+- **Approve and Delete** signs the person out at once and turns the account
+  off. Then, in the background: their conversations with OneAI, what it
+  remembers about them, their notifications, devices and calendar feeds are
+  deleted; their name and address are taken out of everything the workspace
+  keeps (contacts, mail, comments, to-dos, the Recycle Bin, the Audit Log);
+  and the account is renamed to an anonymous one. Records they made stay, as
+  made by a deleted user. Their employee record, if they have one, is HR's
+  and stays as the law requires.
+- **Hold** keeps it waiting for a reason they are told, such as a payroll
+  that has to close first. Approve it later.
+- Nobody deletes the workspace's last administrator, or the person it is
+  billed to: those are handed to somebody else first. Nobody approves their
+  own.
+
+A copy of somebody's data is theirs to ask for and needs nobody's approval.
+
+**OneAI on a request** offers **What would deleting them remove?**: what is
+deleted, what is kept without their name, and what is still assigned to them
+that somebody should take over first.
 
 ### Notifications, for the Workspace
 
