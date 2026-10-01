@@ -976,6 +976,15 @@ one_ai_suggests = [
 	"onedesk.one.ai.write_mail_template",
 	"onedesk.one.ai.suggest_approval",
 	"onedesk.one.ai.suggest_automation",
+	# Saved reports, dashboards, reports by mail, levels, profiles, groups and
+	# what a person sees, each a card. See one/ai_setup.py.
+	"onedesk.one.ai_setup.suggest_saved_report",
+	"onedesk.one.ai_setup.suggest_dashboard",
+	"onedesk.one.ai_setup.suggest_report_mail",
+	"onedesk.one.ai_setup.suggest_level",
+	"onedesk.one.ai_setup.suggest_profile",
+	"onedesk.one.ai_setup.suggest_group",
+	"onedesk.one.ai_setup.suggest_hold",
 	"onedesk.one.ai.customize",
 	"onedesk.one.ai.sign_mailbox",
 	# Holidays and days off, as the Holidays settings would save them.

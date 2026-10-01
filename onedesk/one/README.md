@@ -419,6 +419,14 @@ what their level may read.
 **OneAI on this page** offers **Who can do what?** and **Who sees only
 part?**, and reads levels, profiles, groups and who is held to what.
 
+**Ask OneAI** to set any of it up: "a level of OneCRM that may not delete
+quotations", "a profile for bookkeepers", "a group of the Gulf sales team",
+"hold Rania to the UAE territory", or to let somebody go. It answers with a
+card naming every right it would give or take away, every person it would add
+or remove, and who is told; nothing changes until a workspace administrator
+presses **Approve**. If the level changed since the card was written, the card
+says so and does nothing.
+
 ### Reports and dashboards
 
 Three things, each frappe's own, kept in the app they belong to.
@@ -454,6 +462,13 @@ copy of one) and a chart or card that runs code; those are the apps' own.
 **OneAI on these pages** offers **What do our dashboards show?** and
 **Which reports go out by mail?**, and reads every saved report, dashboard
 and report by mail.
+
+**Ask OneAI** for a saved report ("unpaid invoices over a thousand, largest
+first, in OneBook"), a dashboard of charts and cards, or a report by mail. It
+answers with a card of the columns, filters, charts and recipients, and makes
+it only when you press **Approve**, as you, so it can make nothing you could
+not. Anybody may ask for a saved report of what they may read; dashboards,
+reports by mail and showing a report to everybody are for administrators.
 
 ### Recycle Bin
 

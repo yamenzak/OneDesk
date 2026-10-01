@@ -46,7 +46,7 @@ MOST_ROWS = 20
 #: Kinds whose changes are the tool's own, checked by it, rather than a
 #: record's values: how a form looks, how a mailbox signs, the workspace's
 #: holidays, and a reply to a conversation.
-OWN_WORDS = ("Customize", "Signature", "Holidays", "Reply", "Numbering", "Printing", "Approval")
+OWN_WORDS = ("Customize", "Signature", "Holidays", "Reply", "Numbering", "Printing", "Approval", "Setup")
 
 
 def propose(
@@ -227,6 +227,21 @@ def apply(proposal: str) -> dict:
 			)
 		return _done(entry, approvals.make(entry.for_doctype, changes["workflow"]))
 
+	if entry.kind == "Setup":
+		# A report, a dashboard, a report by mail, a level, a profile, a group or
+		# what a person sees, made by the page's own code (one/ai_setup.py) as the
+		# person who pressed Approve.
+		from onedesk.one import ai_setup
+
+		try:
+			made = ai_setup.apply(changes)
+		except frappe.ValidationError as e:
+			if "no longer applies" in str(e):
+				entry.db_set("state", "Stale")
+				frappe.db.commit()
+			raise
+		return _done(entry, made)
+
 	if entry.kind == "Create":
 		made = frappe.get_doc({"doctype": entry.for_doctype, **changes})
 		if entry.for_doctype == "File":
@@ -379,6 +394,10 @@ def _allowed(kind: str, doctype: str, record: str | None):
 
 		numbering._meta(doctype)
 		return None
+	if kind == "Setup":
+		# Checked by the tool that wrote it (one/ai_setup.py), against the same
+		# rules as the page, and again by the page's own code when approved.
+		return None
 	if kind == "Approval":
 		from onedesk.one import approvals, roles
 
@@ -520,6 +539,8 @@ def _said(kind: str, doctype: str, record: str | None, changes: dict) -> str:
 		return frappe._("Printing of {0}").format(frappe._(doctype))
 	if kind == "Approval":
 		return frappe._("Approval of {0}").format(frappe._(doctype))
+	if kind == "Setup":
+		return changes.get("title") or doctype
 	if kind == "Reply":
 		return frappe._("A reply to {0}").format(changes.get("subject") or record)
 	if kind == "Delete":

@@ -127,10 +127,16 @@ const state = computed(() => props.suggested && props.suggested.state);
 
 const kind = computed(() => (props.suggested ? props.suggested.kind || "Create" : ""));
 
+// A Setup card's glyph is what it would set up (one/ai_setup.py).
+const SETUP = { report: "file-chart-column", dashboard: "layout-dashboard", mail: "mail-check", level: "shield-check", profile: "id-card", group: "users-round", hold: "eye" };
+
 // A record, a new one, a change, a deletion or how a form looks — Lucide's own.
 const glyph = computed(
-	() => ({ Create: "file-plus", Edit: "file-pen", Delete: "trash-2", Customize: "settings-2", Signature: "pen-line", Holidays: "calendar-days", Reply: "reply", Numbering: "hash", Printing: "printer", Approval: "route" })[kind.value] || "file"
+	() => ({ Create: "file-plus", Edit: "file-pen", Delete: "trash-2", Customize: "settings-2", Signature: "pen-line", Holidays: "calendar-days", Reply: "reply", Numbering: "hash", Printing: "printer", Approval: "route" })[kind.value] ||
+		SETUP[props.record.what] ||
+		"file"
 );
+
 
 const doctype = computed(() => props.record.doctype || (props.suggested && props.suggested.for_doctype) || "");
 
@@ -151,11 +157,16 @@ const title = computed(() => {
 	if (kind.value === "Printing") return __("Printing of {0}", [__(doctype.value)]);
 	if (kind.value === "Approval") return __("Approval of {0}", [__(doctype.value)]);
 	if (kind.value === "Reply") return __("A reply to {0}", [name]);
+	// A Setup card says itself, already translated (one/ai_setup.py).
+	if (kind.value === "Setup") return props.record.title || __(doctype.value);
 	return name || __(doctype.value);
 });
 
+// What a Setup card sets up, said instead of the doctype under it.
+const SETUP_SAID = { report: "Saved Report", dashboard: "Dashboard", mail: "Report by Mail", level: "Level", profile: "Profile", group: "Group", hold: "What They See" };
+
 const sub = computed(() => {
-	const type = __(doctype.value);
+	const type = kind.value === "Setup" && SETUP_SAID[props.record.what] ? __(SETUP_SAID[props.record.what]) : __(doctype.value);
 	if (props.suggested) return state.value === "Proposed" ? __("{0} · waiting for you", [type]) : type;
 	const { name, title: called } = props.record;
 	return called && name && called !== name ? `${type} · ${name}` : type;
@@ -199,6 +210,8 @@ function open(name) {
 	else if (kind.value === "Printing") frappe.set_route("workspace-settings", { section: "printing" });
 	// An approval it made opens in frappe's workflow builder, to be changed there.
 	else if (kind.value === "Approval") frappe.set_route("workflow-builder", name);
+	// What it set up opens where it is kept: a report, a level's page, Show In's place.
+	else if (kind.value === "Setup" && props.record.route) frappe.set_route(...props.record.route);
 	else frappe.set_route("Form", doctype.value, name);
 }
 

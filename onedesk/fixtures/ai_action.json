@@ -78,10 +78,10 @@
   "capability": "Text Generation",
   "enabled": 1,
   "may_use_tools": 1,
-  "instruction": "Set up what was asked. A notification rule only tells people; telling together with anything else, such as assigning the record or setting a field, is an automation. For an approval or an automation, read workspace_approvals or workspace_automations for the kind of record first, and use only the roles, fields and templates it gives. Then make the card at once, without asking first: the card is where they look it over and approve it. When the card is made, say in one sentence what it does.",
+  "instruction": "Set up what was asked. A notification rule only tells people; telling together with anything else, such as assigning the record or setting a field, is an automation. For an approval or an automation, read workspace_approvals or workspace_automations for the kind of record first, and use only the roles, fields and templates it gives. For a saved report, a dashboard or a chart, read describe_type for each kind of record and use only its fields; for a report by mail, read workspace_reports. For a level, a profile, a group or what a person sees, read workspace_access first, and give or take away only the rights asked for. Then make the card at once, without asking first: the card is where they look it over and approve it. When the card is made, say in one sentence what it does.",
   "max_output_tokens": 4000,
   "max_input_tokens": 0,
-  "about": "Suggests approvals, automations and notification rules when the chat is asked for one. It runs on a stronger model than the chat, because their states, steps, roles, conditions and fields have to fit together exactly, and a small model does not mend them when told what is wrong.",
+  "about": "Suggests approvals, automations, notification rules, saved reports, dashboards, reports by mail, levels, profiles, groups and what a person sees when the chat is asked for one. It runs on a stronger model than the chat, because their states, steps, roles, rights, conditions and fields have to fit together exactly, and a small model does not mend them when told what is wrong.",
   "product": "OneAI",
   "default_model": "google-ai-studio:gemini-2.5-flash"
  },

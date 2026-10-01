@@ -299,14 +299,17 @@ def _suggests(row: dict) -> dict:
 	except Exception:
 		changes = {}
 
-	if row.get("kind") in ("Customize", "Holidays", "Numbering", "Printing", "Approval"):
+	if row.get("kind") in ("Customize", "Holidays", "Numbering", "Printing", "Approval", "Setup"):
 		# What approving it changes, one line each, as the tool said it: the
 		# page's whole state underneath is not a diff anybody reads.
 		head = changes.get("letter_head") or {}
 		return {
 			"doctype": doctype,
 			"name": (row.get("record") or "") if row.get("kind") == "Holidays" else "",
-			"title": "",
+			"title": changes.get("title") or "" if row.get("kind") == "Setup" else "",
+			# Where a Setup card's report, dashboard, level or person opens once approved.
+			"route": changes.get("route") if row.get("kind") == "Setup" else None,
+			"what": changes.get("what") if row.get("kind") == "Setup" else None,
 			# A format or a letter head it draws is shown as the page, before Approve.
 			"page": row.get("kind") == "Printing"
 			and bool(changes.get("format") or head.get("content") or head.get("footer") or head.get("image")),

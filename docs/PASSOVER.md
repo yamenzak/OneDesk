@@ -4946,6 +4946,19 @@ administrator saw a task a person deleted and a supplier OneAI deleted, not
 the hundreds of setup rows and test cleanups; Net 45, a payment term the
 administrator deleted, put back from its page in the browser.
 
+**OneAI sets it up: done** (after the Recycle Bin, on the user's word). The
+chat drafts seven things as cards, each made only when somebody presses
+**Approve**, by the page's own code and as them (`one/ai_setup.py`, on
+Workspace Setup): a saved report (columns, filters, sort, and Show In), a
+dashboard (charts and cards, then Show In), a report by mail, a level (made,
+or rights given and taken away), a profile, a group, and what a person sees
+(a hold, or letting one go). The checks are the page's: a report or chart
+only of what the reader may read, everything else for administrators. A
+level's card names only the rights that would change and goes Stale if the
+level changes before it is approved. Tried each through approval as the
+administrator, the refusals as Plain, and a level asked for in the panel in
+plain words.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass
