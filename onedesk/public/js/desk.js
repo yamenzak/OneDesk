@@ -33,15 +33,21 @@ frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 		return false;
 	}
 
-	// The workflow builder is where Workspace › Approvals opens an approval, so it
-	// stays in One's rail rather than frappe's Workflow one.
+	// The workflow builder and the automation list and form are where Workspace ›
+	// Approvals and Automations open, so they stay in One's rail rather than
+	// frappe's Workflow and Automation ones: read as the page they open from.
 	entity_from_route(route) {
-		if (route[0] === "workflow-builder") return "workspace-settings";
+		if (OneSidebar.workspace(route)) return "workspace-settings";
 		return route[0] === "print" && route[1] ? route[1] : super.entity_from_route(route);
 	}
 
 	link_type_from_route(route) {
+		if (OneSidebar.workspace(route)) return "Page";
 		return route[0] === "print" && route[1] ? "DocType" : super.link_type_from_route(route);
+	}
+
+	static workspace(route) {
+		return route[0] === "workflow-builder" || (["List", "Form"].includes(route[0]) && route[1] === "Automation Flow");
 	}
 };
 

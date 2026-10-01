@@ -375,8 +375,8 @@ OVERRIDES = [
 		'"name": _("Exit Questionnaire Notification"),',
 	),
 	(
-		"The workflow builder opens in One's rail",
-		"desk.js answers frappe's sidebar lookup for the workflow-builder route as workspace-settings, the page Workspace › Approvals opens it from, rather than frappe's Workflow sidebar",
+		"The workflow builder and Automation Flow open in One's rail",
+		"desk.js answers frappe's sidebar lookup for the workflow-builder route and the Automation Flow list and form as workspace-settings, the page Workspace › Approvals and Automations open from, rather than frappe's Workflow and Automation sidebars",
 		"onedesk/public/js/desk.js",
 		"frappe/frappe/public/js/frappe/ui/sidebar/sidebar.js",
 		"entity_from_route(route) {",
@@ -394,6 +394,13 @@ OVERRIDES = [
 		"onedesk/one/approvals.py",
 		"frappe/frappe/workflow/doctype/workflow_action/workflow_action.py",
 		"create_workflow_actions_for_roles(roles, doc)",
+	),
+	(
+		"Tell People is a step of frappe's automation engine",
+		"hooks automation_actions adds one/automation_steps.TellPeople, which the engine instantiates beside its own; frappe's Send Notification mails past the hub and renders a template with only doc, so it is refused to a workspace's own flows",
+		"onedesk/one/automation_steps.py",
+		"frappe/frappe/automation_engine/actions/base.py",
+		'for path in frappe.get_hooks("automation_actions"):',
 	),
 	(
 		"Mail sent from here is not signed again on save",

@@ -733,9 +733,15 @@ What happens by itself: when a record is made, changed, submitted or deleted,
 when a field changes to a value, on a date before or after one of its dates,
 or on a schedule. An automation matches the records it is for by their fields
 (**Match Fields**), then takes its steps in order: set a field, add to a
-number, make another record, notify or mail somebody, assign it to somebody,
-call a web address, or wait. A value can name a field of the record, as
-`{{ doc.customer_name }}`. **Test Run** runs it against one record and undoes
+number, make another record, tell people, assign it to somebody, call a web
+address, or wait. A value can name a field of the record, as
+`{{ doc.customer_name }}`.
+
+**Tell People** tells whoever it names (people, whoever made the record, or
+whoever it is assigned to) on the bell, and by mail as each of them chose,
+as Automation Notice on Workspace › Notifications. Give it a subject and a
+message, or a **Mail Template**, which it fills in from the record as the
+email window does: amounts and dates as the record shows them. **Test Run** runs it against one record and undoes
 everything it did, so you can see what it would do. Turn it **On** once it has
 at least one step. **Automations** under Workspace lists them all.
 
@@ -748,6 +754,11 @@ Only administrators of the workspace see this, and only for the kinds of
 record they can open; frappe's own and One's own records take no automation.
 How often automations may run, and switching them all off, stays with the
 people who run the platform.
+
+**OneAI on this list** offers **Thank customers who pay** and **What runs by
+itself?**. It reads every automation and what a kind of record has (its
+fields, its dates, its mail templates), and suggests one, new or changed, as
+a card you approve; it runs as you once you do.
 
 ### Plan and Credits, for the Workspace
 

@@ -4663,6 +4663,48 @@ but Reject. The instructions now say every record must be able to finish, and
 the card is what a person reads before approving. A suggestion identical to
 the approval already there is refused rather than carded.
 
+**Stage 6, Automations: done.** Seen as a workspace administrator: the
+Automation Flow list and form, a record's Settings › Automations, and a flow
+that tells somebody when an invoice is paid.
+
+1. Notifications: **findings.**
+   - Frappe's Send Notification mails past One's hub, so what an automation
+     sends was on no list and could not be turned off.
+   - It renders a mail template with only `doc`, while a template names the
+     record's fields bare (the email window, the leave mails and the salary
+     slip need it so). A template sent by an automation printed its tags.
+2. OneAI: **finding.** Nothing.
+3. Intake: nothing here; OneIntake's own work is not an automation.
+4. Permissions: held. A workspace's flow runs as whoever saved it, decides by
+   its field rules, runs no script, names only fields in its values, sends a
+   webhook over https, and is on a kind they can open.
+5. Cross-module: Mail Templates (point 1).
+6. Bespoke UI: **finding.** The list and form opened under frappe's own
+   Automation sidebar, though the code said they kept One's rail.
+7. Documented: the README listed "notify or mail somebody", the step that
+   went past the hub.
+8. Legal: a webhook sends a record's data to the address the workspace
+   gives, as the workspace's own choice; nothing new for One to declare.
+9. Built from frappe: frappe's automation engine, its form and its steps,
+   with One's step added through the engine's own `automation_actions` hook.
+
+Fixed:
+- **Tell People.** One's own step (`one/automation_steps.py`) tells
+  whoever it names through the hub, as Automation Notice, and fills a mail
+  template in as the email window does (`mail_templates.filled`), with
+  amounts and dates as the record shows them. Send Notification is refused
+  to a workspace's own flows, which are pointed at Tell People.
+- **One's rail.** desk.js reads the Automation Flow list and form as
+  Workspace › Automations, as it does the approval builder.
+- **OneAI.** `workspace_automations` reads every flow and what a kind has
+  (fields, dates, mail templates). `suggest_automation` builds a flow from
+  when, only_when and set/tell/assign steps, checks it with frappe's own
+  validate and the workspace's, and suggests it as a card; it runs on
+  Workspace Setup. Two suggestions on the list. Tried directly: "when an
+  invoice's status changes to Paid, tell its owner" made a card, approving it
+  made the flow running as the administrator, and both Tell People steps,
+  one with a template, arrived on the bell filled in ($ 9.00, 21-09-2026).
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

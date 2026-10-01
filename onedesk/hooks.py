@@ -857,6 +857,8 @@ one_ai_reads = [
 	"onedesk.one.ai.workspace_mail_templates",
 	# The approvals, their states and steps, and what an approval may use. See one/approvals.py.
 	"onedesk.one.ai.workspace_approvals",
+	# The automations, what starts each and what it does. See one/automations.py.
+	"onedesk.one.ai.workspace_automations",
 	"onedesk.one.ai.print_layout",
 	# How the person signs in, and where they are signed in. See one/signin.py.
 	"onedesk.one.ai.my_sign_in",
@@ -945,6 +947,7 @@ one_ai_suggests = [
 	"onedesk.one.ai.design_print_format",
 	"onedesk.one.ai.write_mail_template",
 	"onedesk.one.ai.suggest_approval",
+	"onedesk.one.ai.suggest_automation",
 	"onedesk.one.ai.customize",
 	"onedesk.one.ai.sign_mailbox",
 	# Holidays and days off, as the Holidays settings would save them.
@@ -957,6 +960,9 @@ one_ai_suggests = [
 	"onedesk.one_task.ai.plan_task",
 	"onedesk.one_task.ai.plan_steps",
 ]
+# One's own steps for frappe's automation engine: Tell People. See one/automation_steps.py.
+automation_actions = ["onedesk.one.automation_steps.TellPeople"]
+
 one_ai_suggestions = [
 	"onedesk.one_hr.ai.SUGGESTIONS",
 	"onedesk.one_crm.ai.SUGGESTIONS",

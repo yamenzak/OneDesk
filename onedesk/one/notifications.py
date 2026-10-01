@@ -15,6 +15,14 @@ from frappe import _lt
 
 TYPES = [
 	{
+		"name": _lt("Automation Notice"),
+		"app": "One",
+		"about": _lt("When an automation the workspace set up tells somebody, in its own words."),
+		"to": _lt("Whoever the automation names"),
+		"subject": _lt("{subject}"),
+		"message": _lt("{message}"),
+	},
+	{
 		"name": _lt("Approval Waiting"),
 		"app": "One",
 		"about": _lt("When a record reaches a step of an approval that one of your roles takes."),

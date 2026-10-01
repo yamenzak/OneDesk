@@ -239,3 +239,10 @@ def _shown(template, doc: dict) -> dict:
 			if held.meta.has_field(one.group(1))
 		},
 	}
+
+
+def filled(template_name: str, doc) -> dict:
+	"""A template's subject and message filled in from a record, as the composer
+	fills it in: for one sent by an automation (one/automations.py)."""
+	template = frappe.get_doc("Email Template", template_name)
+	return template.get_formatted_email(frappe._dict(_shown(template, doc.as_dict() if doc else {})))

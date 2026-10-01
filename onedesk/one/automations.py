@@ -23,6 +23,14 @@ let customize (layer.held) is held to this:
 - it is on a kind of record they can open, never frappe's own or One's.
 
 Automation Settings stays the operator's.
+
+**Tell People** (`TellPeople`, one/automation_steps.py) is One's own step,
+added through frappe's `automation_actions` hook: it tells people through the hub (one/notify.py),
+on the bell and by mail as each chose, as Automation Notice, and fills a mail
+template in as the composer does (one/mail_templates.py), from the record's
+own fields. Frappe's Send Notification mails past the hub and renders a
+template with only `doc`, so a template named by its fields prints its tags;
+it is not offered to a workspace's own flows.
 """
 
 import json
@@ -41,7 +49,7 @@ ACTIONS = (
 	"SetFieldValue",
 	"CreateDocument",
 	"IncrementFieldValue",
-	"SendNotification",
+	"TellPeople",
 	"AssignToUser",
 	"CallWebhook",
 )
@@ -117,6 +125,10 @@ def validate(doc, method=None) -> None:
 		where = _("Step {0}").format(row.idx)
 		if (row.step_type or "Action") not in STEPS or (row.step_condition or "").strip():
 			frappe.throw(_("{0}: an automation here decides by its field rules, not by code.").format(where))
+		if (row.step_type or "Action") == "Action" and row.action_type == "SendNotification":
+			frappe.throw(
+				_("{0}: tell people with Tell People, which goes through One's notifications.").format(where)
+			)
 		if (row.step_type or "Action") == "Action" and row.action_type not in ACTIONS:
 			frappe.throw(_("{0}: an automation here runs no script.").format(where))
 		_plain(row.params, where)
@@ -129,3 +141,35 @@ def validate(doc, method=None) -> None:
 			url = ((frappe.parse_json(row.params) or {}).get("url") or "").strip() if row.params else ""
 			if not url.lower().startswith("https://"):
 				frappe.throw(_("{0}: a webhook is sent over https.").format(where))
+
+
+def described() -> list[dict]:
+	"""Every automation as OneAI reads it: its kind, when it runs, what it
+	narrows to, whether it is on, and its steps."""
+	said = []
+	for row in frappe.get_all("Automation Flow", fields=["name"], order_by="modified desc", limit=50):
+		doc = frappe.get_doc("Automation Flow", row.name)
+		said.append(
+			{
+				"name": doc.name,
+				"title": doc.title,
+				"for": doc.document_type,
+				"when": doc.trigger_type,
+				**({"field": doc.trigger_field} if doc.trigger_field else {}),
+				**(
+					{"date_field": doc.date_field, "days": doc.date_offset, "direction": doc.date_direction}
+					if doc.date_field
+					else {}
+				),
+				"only_when": frappe.parse_json(doc.filters) if doc.filters else [],
+				"on": bool(doc.enabled),
+				"steps": [
+					{
+						"do": one.action_type or one.step_type,
+						"params": frappe.parse_json(one.params) if one.params else {},
+					}
+					for one in doc.actions
+				],
+			}
+		)
+	return said

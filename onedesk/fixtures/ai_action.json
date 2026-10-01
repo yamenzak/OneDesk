@@ -78,10 +78,10 @@
   "capability": "Text Generation",
   "enabled": 1,
   "may_use_tools": 1,
-  "instruction": "Set up what was asked. Read workspace_approvals for the kind of record first, and use only the roles and fields it gives. Then make the card at once, without asking first: the card is where they look it over and approve it. When the card is made, say in one sentence what it does.",
+  "instruction": "Set up what was asked. Read workspace_approvals or workspace_automations for the kind of record first, and use only the roles, fields and templates it gives. Then make the card at once, without asking first: the card is where they look it over and approve it. When the card is made, say in one sentence what it does.",
   "max_output_tokens": 4000,
   "max_input_tokens": 0,
-  "about": "Suggests approvals when the chat is asked for one. It runs on a stronger model than the chat, because an approval's states, steps, roles and conditions have to fit together exactly, and a small model does not mend them when told what is wrong.",
+  "about": "Suggests approvals and automations when the chat is asked for one. It runs on a stronger model than the chat, because their states, steps, roles, conditions and fields have to fit together exactly, and a small model does not mend them when told what is wrong.",
   "product": "OneAI",
   "default_model": "google-ai-studio:gemini-2.5-flash"
  },
