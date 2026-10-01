@@ -455,6 +455,27 @@ copy of one) and a chart or card that runs code; those are the apps' own.
 **Which reports go out by mail?**, and reads every saved report, dashboard
 and report by mail.
 
+### Recycle Bin
+
+Everything deleted in the workspace is kept whole in One › **Recycle Bin**,
+and can be put back as it was, under its own name where that is still free.
+
+- **Everybody** sees what they deleted themselves.
+- **Workspace administrators** also see what anybody else, or OneAI, deleted,
+  of the kinds of record they may read; never the system's own cleanups.
+- **Restore** on a deleted record, or on several ticked in the list (Actions
+  › Restore), puts it back. It needs the right to make that kind of record;
+  a cancelled one comes back as a draft.
+- Only an administrator empties the bin for good (Delete on a deleted
+  record). Until then a deleted record is still kept, which matters for
+  personal data: deleting it for good means emptying it from the bin too.
+
+What the bin leaves out is not a record anybody made: tables inside records,
+frappe's own machinery such as permission rows, and the platform's records.
+
+**OneAI on this page** offers **What was deleted lately?** and reads the bin
+as the reader may see it.
+
 ### Notifications, for the Workspace
 
 Under **Workspace**, **Notifications** lists everything One tells people, by the

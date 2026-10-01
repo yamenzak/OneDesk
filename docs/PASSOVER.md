@@ -4909,6 +4909,43 @@ In shown in OneBook for everybody from the dashboard's menu; Rania moved her
 My Items to OneBook for herself and was refused everybody, Money In and
 somebody else's report.
 
+**P2, Recycle Bin: done.** One › Recycle Bin is frappe's Deleted Document.
+Seen as a workspace administrator and as Rania: the list, a deleted record,
+Restore from both, and the privacy notice asked again.
+
+Before it: frappe keeps every deleted record whole, but showing them and
+putting one back were its System Manager's, so nobody on a workspace could
+undo a deletion.
+
+1. Notifications: nothing new; a record put back carries a comment saying
+   what it was restored from.
+2. OneAI: `recycle_bin` reads what the reader may see was deleted lately;
+   the list offers "What was deleted lately?".
+3. Intake: nothing here.
+4. Permissions: everybody sees what they deleted; an administrator also what
+   any person or OneAI deleted of the kinds they may read, never the
+   system's own cleanups (deleted as Administrator); only an administrator
+   empties it for good. Tables, frappe's Core and Custom machinery and the
+   platform's records stay out. Putting back keeps frappe's checks: whoever
+   restores must be able to make and read that kind of record.
+5. Cross-module: every app's deletions land here.
+6. Bespoke UI: frappe's own list and form, in One's sidebar; Deleted and
+   Restored as the list's indicator; Restore as the form's primary button
+   and a list action.
+7. Documented: "Recycle Bin" in `one/README.md`.
+8. Legal: **finding.** The privacy notice said content stays until you
+   delete it; a deleted record is in fact kept until the bin is emptied. A
+   clause says so (`one/legal.py`, recycle-bin), and the privacy notice is
+   at revision 10, so everybody agrees again.
+9. Built from frappe: Deleted Document, and frappe's restore, followed line
+   for line in `one/recycle.py` because frappe's own refuses anybody but a
+   System Manager.
+
+Tried: Rania deleted a to-do and found it, and only it, and put it back; the
+administrator saw a task a person deleted and a supplier OneAI deleted, not
+the hundreds of setup rows and test cleanups; Net 45, a payment term the
+administrator deleted, put back from its page in the browser.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

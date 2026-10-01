@@ -144,7 +144,8 @@ DOCUMENTS = {
 		# 7: OneAI reads an organisation's account for the people who run One.
 		# 8: what the signup page keeps, and that it becomes a lead of ours.
 		# 9: the One account, what it keeps, and signing in by mailed link.
-		"revision": 9,
+		# 10: a deleted record is kept in the Recycle Bin until emptied.
+		"revision": 10,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {

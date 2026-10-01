@@ -135,3 +135,17 @@ subprocessor(
 	safeguard="Standard Contractual Clauses and Google's data processing terms",
 	url="https://developers.google.com/fonts/faq/privacy",
 )
+
+# One > Recycle Bin
+
+clause(
+	document="privacy",
+	section="keeping",
+	key="recycle-bin",
+	module=M,
+	body="""
+		A record deleted in a workspace is kept whole in its Recycle Bin, where whoever deleted it, and the
+		workspace's administrators for what they may read, can put it back. It stays there until an
+		administrator empties it, so deleting personal data for good means emptying it from the bin too.
+	""",
+)

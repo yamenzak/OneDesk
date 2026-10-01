@@ -60,6 +60,8 @@ after_migrate = [
 	"onedesk.one.numbering.settle",
 	# Saved reports for everybody; dashboards and reports by mail for the administrator.
 	"onedesk.one.reports.settle",
+	# The Recycle Bin for everybody's own deletions. See one/recycle.py.
+	"onedesk.one.recycle.settle",
 	# frappe's own morning event mail stopped; Today's Events replaces it.
 	"onedesk.one_calendar.tell.install",
 	# What each module's records say above their fields. See one/head.py.
@@ -556,6 +558,9 @@ override_whitelisted_methods = {
 ignore_links_on_delete = ["Intake Action", "Intake Lesson", "Reading", "Reading Party"]
 
 has_permission = {
+	# The Recycle Bin: one's own deletions, and an administrator's readable kinds.
+	# See one/recycle.py.
+	"Deleted Document": "onedesk.one.recycle.has_permission",
 	# What OneAI did is seen by whom it acted for. See one_intake/act.py.
 	"Intake Action": "onedesk.one_intake.act.has_permission",
 	# A message opens for its mailbox's holders and its record's readers.
@@ -586,6 +591,7 @@ has_permission = {
 # only called when there is a document, so on its own it guarded the form and
 # left get_list wide open — measured, not assumed.
 permission_query_conditions = {
+	"Deleted Document": "onedesk.one.recycle.query",
 	"Intake Action": "onedesk.one_intake.act.query",
 	"Mail Rule": "onedesk.one_mail.rules.rule_query",
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.query",
@@ -634,6 +640,8 @@ fixtures = [
 
 # A record answers before it offers links; see `onedesk/one_hr/employee.py`.
 doctype_js = {
+	# Put back through One's restore, which a workspace may use. See one/recycle.py.
+	"Deleted Document": "public/js/deleted_document.js",
 	# A workspace is read-only and carries verbs instead; see one_admin/operator.py.
 	# A workspace reads its own account and manages its addresses; the account
 	# itself lives on the administrator. See one/account.py.
@@ -675,6 +683,7 @@ doctype_js = {
 
 # Loaded after the doctype's own list script, so ours has the last word.
 doctype_list_js = {
+	"Deleted Document": "public/js/deleted_document_list.js",
 	# Nothing on the catalogue is typed; its only verb is to sync it now.
 	"AI Model": "public/js/ai_model_list.js",
 	# Which way each row moved money, which is all a ledger list is for.
@@ -883,6 +892,8 @@ one_ai_reads = [
 	"onedesk.one.ai.workspace_access",
 	# Saved reports, dashboards and reports by mail. See one/reports.py.
 	"onedesk.one.ai.workspace_reports",
+	# What was deleted, as the reader may see it. See one/recycle.py.
+	"onedesk.one.ai.recycle_bin",
 	# The plan and the credits, for the workspace's administrators.
 	"onedesk.one.ai.workspace_plan",
 	# The addresses the workspace opens at, for its administrators.

@@ -246,6 +246,8 @@ No doctypes yet.
 * `onedesk.one.push.register`
 * `onedesk.one.push.test`
 * `onedesk.one.push.worker`
+* `onedesk.one.recycle.bulk_restore`
+* `onedesk.one.recycle.restore`
 * `onedesk.one.reports.place`
 * `onedesk.one.reports.sidebars`
 * `onedesk.one.reports.where`

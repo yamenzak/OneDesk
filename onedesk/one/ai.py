@@ -205,6 +205,13 @@ SUGGESTIONS = {
 			"expects": "workspace_reports",
 		},
 	],
+	"Deleted Document": [
+		{
+			"label": _lt("What was deleted lately?"),
+			"ask": _lt("What was deleted in the last week, by whom, and is any of it worth putting back?"),
+			"expects": "recycle_bin",
+		},
+	],
 	"page:workspace-settings/access": [
 		{
 			"label": _lt("Who can do what?"),
@@ -1112,6 +1119,38 @@ def workspace_reports() -> dict:
 		"next": "A list's Report view is saved from its menu (Save As) and lands under Saved Reports in its app. "
 		"Dashboards are under One › Dashboards; reports by mail under Workspace › Reports by Mail, set from a report's "
 		"menu (Setup Auto Email). How is in One's documentation under Reports and dashboards (how_to).",
+	}
+
+
+def recycle_bin(
+	days: Annotated[int, "How many days back to look, 30 if not said."] = 30,
+) -> dict:
+	"""The Recycle Bin as the reader sees it: what was deleted in the last days,
+	of which kind, by whom and when, and whether it has been put back. Everybody
+	sees what they deleted; an administrator also what others deleted, of what
+	they may read."""
+	since = frappe.utils.add_days(frappe.utils.now_datetime(), -max(1, min(int(days or 30), 365)))
+	rows = frappe.get_list(
+		"Deleted Document",
+		filters={"creation": [">=", since]},
+		fields=["name", "deleted_doctype", "deleted_name", "owner", "creation", "restored", "new_name"],
+		order_by="creation desc",
+		limit=100,
+	)
+	return {
+		"deleted": [
+			{
+				"kind": one.deleted_doctype,
+				"record": one.deleted_name,
+				"deleted_by": one.owner,
+				"when": str(one.creation),
+				"put_back_as": one.new_name if one.restored else None,
+				"open": f"/desk/deleted-document/{one.name}",
+			}
+			for one in rows
+		],
+		"next": "Restore on a deleted record, or on several ticked in the list, puts them back; how is in One's "
+		"documentation under Recycle Bin (how_to).",
 	}
 
 
