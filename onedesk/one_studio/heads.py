@@ -5,6 +5,7 @@ into mistakes lately; its one verb turns it on or off, which is the only
 thing anybody here changes on it.
 """
 
+import frappe
 from frappe import _, _lt
 
 from onedesk.one_studio import ai, extensions
@@ -48,7 +49,24 @@ def _switch(doc, on: bool):
 	return _("Turned on.") if on else _("Turned off.")
 
 
+def record_type_said(doc):
+	if doc.is_new() or not doc.description:
+		return None
+	return {"text": doc.description, "colour": "blue"}
+
+
+def record_type_records(doc):
+	if doc.is_new() or not frappe.db.exists("DocType", doc.record_doctype):
+		return None
+	return {
+		"value": str(frappe.db.count(doc.record_doctype)),
+		"route": f"/desk/{frappe.scrub(doc.record_doctype).replace('_', '-')}",
+	}
+
+
 MEASURES = {
+	"record_type.said": record_type_said,
+	"record_type.records": record_type_records,
 	"extension.state": extension_state,
 	"extension.said": extension_said,
 	"extension.mistakes": extension_mistakes,
@@ -70,6 +88,11 @@ VERBS = {
 }
 
 HEADS = [
+	{
+		"doctype": "Record Type",
+		"sentences": [{"measure": "record_type.said"}],
+		"band": [{"label": _lt("Records"), "source": "Measure", "measure": "record_type.records"}],
+	},
 	{
 		"doctype": extensions.EXTENSION,
 		"indicators": [{"label": _lt("State"), "measure": "extension.state"}],

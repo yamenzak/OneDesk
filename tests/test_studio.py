@@ -135,7 +135,10 @@ def test_the_reviewer_sees_nothing_of_the_conversation_and_reads_unreadable_as_r
 
 def test_the_code_never_reaches_the_conversation():
 	ai = (STUDIO / "ai.py").read_text()
-	assert 'write_extension.unshown = ("code",)' in ai and 'write_extension.action = "studio"' in ai
+	assert (
+		'write_extension.unshown = ("code",)' in ai
+		and 'write_extension.action = design_record_type.action = "studio"' in ai
+	)
 	assert "def extension_code" not in ai
 	tools = (tree.APP / "one_ai" / "tools.py").read_text()
 	assert "def shown_args(" in tools
@@ -156,3 +159,35 @@ def test_it_is_wired():
 	assert 'if what == "extension":' in (tree.APP / "one" / "ai_setup.py").read_text()
 	dock = json.loads((tree.APP / "dock" / "onedesk" / "onedesk.json").read_text())
 	assert [one["link_to"] for one in dock["items"]][-2:] == ["OneStudio", "One Admin"]
+
+
+def test_a_record_type_is_plain_fields_and_runs_nothing():
+	source = (STUDIO / "record_types.py").read_text()
+	fieldtypes = source.split("FIELDTYPES = (", 1)[1].split(")", 1)[0]
+	for never in ('"Code"', '"HTML"', '"Button"', '"Table"', '"Read Only"', '"Password"'):
+		assert never not in fieldtypes, never
+	assert 'FIELD_KEYS = ("label", "fieldtype", "options", "reqd", "in_list_view", "description")' in source
+	check = source.split("def check(", 1)[1].split("\ndef ", 1)[0]
+	assert "roles.require()" in check and 'frappe.db.exists("DocType", title)' in check
+	assert 'fieldtype == "Link" and options not in kinds' in check
+	make = source.split("def make(", 1)[1].split("\ndef ", 1)[0]
+	assert '"custom": 1' in make and '"module": MODULE' in make and "check(" in make
+
+
+def test_a_record_type_with_records_is_never_deleted_and_a_field_with_data_is_never_dropped():
+	source = (STUDIO / "record_types.py").read_text()
+	remove = source.split("def remove(", 1)[1].split("\ndef ", 1)[0]
+	assert "frappe.db.count(doc.record_doctype)" in remove and "frappe.throw(" in remove
+	change = source.split("def change(", 1)[1].split("\ndef ", 1)[0]
+	assert "left.hidden = 1" in change
+	assert '"delete": 0} for role in spec["users"]' in source, "frappe grants delete unless told not to"
+
+
+def test_record_types_are_wired():
+	assert '"onedesk.one_studio.ai.design_record_type"' in HOOKS
+	assert '"onedesk.one_studio.ai.record_types_here"' in HOOKS
+	assert 'if what == "record_type":' in (tree.APP / "one" / "ai_setup.py").read_text()
+	assert '"DocType": ("Your Records", "table-2")' in (tree.APP / "one" / "reports.py").read_text()
+	spec = json.loads((STUDIO / "doctype" / "record_type" / "record_type.json").read_text())
+	theirs = [p for p in spec["permissions"] if p["role"] == "Workspace Administrator"]
+	assert theirs and not any(p.get("create") or p.get("write") for p in theirs)

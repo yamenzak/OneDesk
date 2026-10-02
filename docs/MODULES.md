@@ -174,6 +174,7 @@ No doctypes yet.
 | Doctype | Fields | Kind |
 |---|--:|---|
 | Extension | 18 | document |
+| Record Type | 6 | document |
 
 ## Desk records shipped as fixtures
 

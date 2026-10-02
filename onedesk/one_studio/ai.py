@@ -21,9 +21,25 @@ import frappe
 from frappe import _, _lt
 
 from onedesk.one import roles
-from onedesk.one_studio import extensions, guard, review
+from onedesk.one_studio import extensions, guard, record_types, review
 
 SUGGESTIONS = {
+	"Record Type": [
+		{
+			# The reader says what is kept; the model designs the fields.
+			"label": _lt("Make a record type…"),
+			"ask": _lt("Make a record type for "),
+			"fill": True,
+			"expects": "design_record_type",
+		},
+		{
+			"label": _lt("Add a field to this one…"),
+			"ask": _lt("Add a field to this record type: "),
+			"fill": True,
+			"view": "Form",
+			"expects": "design_record_type",
+		},
+	],
 	"Extension": [
 		{
 			# The reader says what; the model writes it.
@@ -183,5 +199,92 @@ def turn_on(changes: dict) -> str:
 	return doc.name
 
 
-write_extension.action = "studio"
+def design_record_type(
+	title: Annotated[str, "Its name, a singular noun in Title Case, such as Membership."],
+	app: Annotated[
+		str,
+		"The app it belongs to, whose people use it: One, OneCRM, OneBook, OneInventory, OneProject or OneHR.",
+	],
+	description: Annotated[str, "What one of these records is, in one plain sentence."],
+	fields: Annotated[
+		list[dict],
+		"Its fields, in order: each {label, fieldtype, options?, reqd?, in_list_view?, description?}. fieldtype is one of "
+		+ ", ".join(record_types.FIELDTYPES)
+		+ ". options is the kind of record for a Link, the choices one a line for a Select. The first Data field is its title.",
+	],
+	asked: Annotated[str, "What the person asked for, in their words."],
+	record_type: Annotated[str, "To change a record type the workspace already has: its name."] | None = None,
+) -> dict:
+	"""Design a kind of record the workspace keeps of its own, such as
+	memberships or vehicles, or change one it has: its fields, the app it
+	belongs to, and what it is. Nothing is made until the person approves
+	the card."""
+	if not roles.administers():
+		return {"error": "Only a workspace administrator may have a record type made."}
+	try:
+		record_types.check(title, app, fields, record_type=record_type)
+	except record_types.Refused as refused:
+		return {"mend": "design_record_type", "error": str(refused)}
+	from onedesk.one_ai import proposals
+
+	shown = [one.get("label") for one in fields if one.get("label")]
+	changes = {
+		"what": "record_type",
+		"title": title if not record_type else record_type,
+		"app": app,
+		"description": description,
+		"fields": fields,
+		"asked": asked,
+		"record_type": record_type,
+		"summary": [
+			{"label": _("App"), "value": _(app)},
+			{"label": _("Description"), "value": description},
+			{"label": _("Fields"), "value": ", ".join(shown)},
+		],
+		"route": ["List", title] if not record_type else ["Form", record_types.RECORD_TYPE, record_type],
+	}
+	return {
+		"proposal": proposals.propose("Setup", record_types.RECORD_TYPE, changes=changes, why=asked),
+		"state": "Proposed",
+		"next": "Say in one sentence what it is and where it will be. Nothing is made until they approve it.",
+	}
+
+
+def record_types_here() -> dict:
+	"""The record types the workspace keeps of its own: each one's app, what
+	it is, its fields and how many records it has. Read it before designing
+	or changing one."""
+	if not roles.administers():
+		return {"error": "Only a workspace administrator sees the record types."}
+	out = []
+	for row in frappe.get_list(
+		record_types.RECORD_TYPE, fields=["name", "record_doctype", "app", "description"], limit=100
+	):
+		meta = frappe.get_meta(row.record_doctype)
+		row["fields"] = [
+			f"{df.label} ({df.fieldtype}{', ' + df.options if df.options else ''})"
+			for df in meta.fields
+			if df.label and not df.hidden
+		]
+		row["records"] = frappe.db.count(row.record_doctype)
+		out.append(row)
+	return {"record_types": out, "apps": list(record_types._apps())}
+
+
+def make_record_type(changes: dict) -> str:
+	"""A Setup card for a record type approved, as whoever pressed Approve."""
+	if changes.get("record_type"):
+		return record_types.change(
+			changes["record_type"],
+			changes["app"],
+			changes["description"],
+			changes["fields"],
+			changes["asked"],
+		)
+	return record_types.make(
+		changes["title"], changes["app"], changes["description"], changes["fields"], changes["asked"]
+	)
+
+
+write_extension.action = design_record_type.action = "studio"
 write_extension.unshown = ("code",)

@@ -806,6 +806,10 @@ def apply(changes: dict) -> str:
 		from onedesk.one_studio import ai
 
 		return ai.turn_on(changes)
+	if what == "record_type":
+		from onedesk.one_studio import ai
+
+		return ai.make_record_type(changes)
 	if what == "hold":
 		if changes.get("let_go"):
 			access.let_go(changes["hold"])

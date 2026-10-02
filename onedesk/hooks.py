@@ -1029,6 +1029,7 @@ one_ai_reads = [
 	"onedesk.one.ai.my_notifications",
 	"onedesk.one.ai.my_mailboxes",
 	"onedesk.one_studio.ai.extensions_here",
+	"onedesk.one_studio.ai.record_types_here",
 ]
 
 #: A sentence each about who is asking, added to what the model is told.
@@ -1076,6 +1077,7 @@ one_ai_suggests = [
 	"onedesk.one_task.ai.plan_task",
 	"onedesk.one_task.ai.plan_steps",
 	"onedesk.one_studio.ai.write_extension",
+	"onedesk.one_studio.ai.design_record_type",
 ]
 # One's own steps for frappe's automation engine: Tell People. See one/automation_steps.py.
 automation_actions = ["onedesk.one.automation_steps.TellPeople"]

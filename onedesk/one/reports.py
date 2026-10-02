@@ -140,7 +140,12 @@ def _layer(module: str, user: str | None):
 
 
 #: What each kind is listed under in a sidebar.
-SECTIONS = {"Report": (SECTION, "file-chart-column"), "Dashboard": ("Dashboards", "layout-dashboard")}
+SECTIONS = {
+	"Report": (SECTION, "file-chart-column"),
+	"Dashboard": ("Dashboards", "layout-dashboard"),
+	# A workspace's own record types (one_studio/record_types.py).
+	"DocType": ("Your Records", "table-2"),
+}
 
 
 def _put(link_type: str, name: str, module: str, user: str | None) -> None:

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-01 21:01+0000\n"
-"PO-Revision-Date: 2026-10-01 21:01+0000\n"
+"POT-Creation-Date: 2026-10-02 05:55+0000\n"
+"PO-Revision-Date: 2026-10-02 05:55+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -346,6 +346,10 @@ msgstr ""
 msgid "A field of this record. The section goes at the end of its tab, or of the first tab when empty."
 msgstr ""
 
+#: onedesk/one_studio/record_types.py:113
+msgid "A field says only its label, kind, choices, whether it is required and whether it is in the list."
+msgstr ""
+
 #. Description of a DocType
 #: onedesk/one_intake/doctype/file_link/file_link.json
 msgid "A file that belongs to a record as well as to where it is kept."
@@ -681,6 +685,18 @@ msgstr ""
 #. Description of a DocType
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 msgid "A record of something that happened to a workspace."
+msgstr ""
+
+#: onedesk/one_studio/record_types.py:105
+msgid "A record type has at most {0} fields."
+msgstr ""
+
+#: onedesk/one_studio/record_types.py:103
+msgid "A record type needs at least one field."
+msgstr ""
+
+#: onedesk/one_studio/record_types.py:99
+msgid "A record type's name is words and spaces, three to sixty letters long."
 msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:1063
@@ -1275,6 +1291,14 @@ msgstr ""
 
 #: onedesk/one/ai.py:440
 msgid "Add a field"
+msgstr ""
+
+#: onedesk/one_studio/ai.py:36
+msgid "Add a field to this one…"
+msgstr ""
+
+#: onedesk/one_studio/ai.py:37
+msgid "Add a field to this record type: "
 msgstr ""
 
 #: onedesk/one_crm/ai.py:113
@@ -1916,7 +1940,9 @@ msgid "Anything the person deciding would need to know."
 msgstr ""
 
 #. Label of the one_app (Data) field in DocType 'Notification Type'
-#: onedesk/one/custom/notification_type.json
+#. Label of the app (Data) field in DocType 'Record Type'
+#: onedesk/one/custom/notification_type.json onedesk/one_studio/ai.py:240
+#: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/public/js/doctype_settings.js:341 onedesk/public/js/reports.js:364
 #: onedesk/public/js/settings.js:1158 onedesk/public/js/settings.js:1179
 #: onedesk/public/js/settings.js:3062
@@ -2326,8 +2352,10 @@ msgstr ""
 
 #. Label of the asked_by (Link) field in DocType 'AI Proposal'
 #. Label of the asked_by (Link) field in DocType 'Extension'
+#. Label of the asked_by (Link) field in DocType 'Record Type'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_studio/doctype/extension/extension.json
+#: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "Asked By"
 msgstr ""
 
@@ -3387,7 +3415,7 @@ msgstr ""
 msgid "Candidate Consented to Recording"
 msgstr ""
 
-#: onedesk/one_studio/heads.py:21
+#: onedesk/one_studio/heads.py:22
 msgid "Cannot Run Here"
 msgstr ""
 
@@ -5321,11 +5349,14 @@ msgstr ""
 #. Label of the description (Small Text) field in DocType 'Offering'
 #. Label of the description (Small Text) field in DocType 'Attendance Reason'
 #. Label of the description (Small Text) field in DocType 'Clock Reason'
+#. Label of the description (Small Text) field in DocType 'Record Type'
 #: onedesk/one/automations.py:166
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:457
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
+#: onedesk/one_studio/ai.py:241
+#: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "Description"
 msgstr ""
 
@@ -6305,6 +6336,10 @@ msgstr ""
 msgid "Every day while a privacy request has waited more than a week for a decision."
 msgstr ""
 
+#: onedesk/one_studio/record_types.py:122
+msgid "Every field needs a label."
+msgstr ""
+
 #: onedesk/public/js/doctype_settings.js:884
 msgid "Every field of {0}"
 msgstr ""
@@ -6652,7 +6687,7 @@ msgid "Explained"
 msgstr ""
 
 #. Label of the explanation (Small Text) field in DocType 'Extension'
-#: onedesk/one_studio/ai.py:159
+#: onedesk/one_studio/ai.py:175
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Explanation"
 msgstr ""
@@ -6814,7 +6849,8 @@ msgstr ""
 
 #. Label of the fields (Small Text) field in DocType 'Record Head Linked'
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json
-#: onedesk/public/js/customize.js:112 onedesk/public/js/customize.js:180
+#: onedesk/one_studio/ai.py:242 onedesk/public/js/customize.js:112
+#: onedesk/public/js/customize.js:180
 msgid "Fields"
 msgstr ""
 
@@ -10499,6 +10535,14 @@ msgstr ""
 msgid "Make a password"
 msgstr ""
 
+#: onedesk/one_studio/ai.py:31
+msgid "Make a record type for "
+msgstr ""
+
+#: onedesk/one_studio/ai.py:30
+msgid "Make a record type…"
+msgstr ""
+
 #: onedesk/one/ai.py:468
 msgid "Make a rule"
 msgstr ""
@@ -10850,7 +10894,7 @@ msgstr ""
 msgid "Minimal"
 msgstr ""
 
-#: onedesk/one_studio/heads.py:77
+#: onedesk/one_studio/heads.py:100
 msgid "Mistakes This Week"
 msgstr ""
 
@@ -12382,7 +12426,7 @@ msgid "Of Whom"
 msgstr ""
 
 #: onedesk/one/ai.py:2404 onedesk/one/settings.py:910
-#: onedesk/one_ai/chat.py:641 onedesk/one_studio/heads.py:22
+#: onedesk/one_ai/chat.py:641 onedesk/one_studio/heads.py:23
 #: onedesk/public/js/doctype_settings.js:238
 #: onedesk/public/js/doctype_settings.js:275
 #: onedesk/public/js/doctype_settings.js:313
@@ -12455,7 +12499,7 @@ msgid "Offerings"
 msgstr ""
 
 #: onedesk/one/ai.py:3434 onedesk/one/ai.py:3621 onedesk/one_ai/chat.py:641
-#: onedesk/one_studio/heads.py:17 onedesk/public/js/doctype_settings.js:238
+#: onedesk/one_studio/heads.py:18 onedesk/public/js/doctype_settings.js:238
 #: onedesk/public/js/doctype_settings.js:275 onedesk/public/js/settings.js:573
 #: onedesk/public/js/settings.js:2023 onedesk/public/js/settings.js:3148
 #: onedesk/public/js/settings.js:3212
@@ -13105,7 +13149,7 @@ msgstr ""
 msgid "Only a request still waiting can be turned down."
 msgstr ""
 
-#: onedesk/one/reports.py:248
+#: onedesk/one/reports.py:253
 msgid "Only a saved report can be shown somewhere else."
 msgstr ""
 
@@ -13129,7 +13173,7 @@ msgstr ""
 msgid "Only an HR Manager can mark a grievance as not sensitive."
 msgstr ""
 
-#: onedesk/one/reports.py:287
+#: onedesk/one/reports.py:292
 msgid "Only an administrator can show it to everybody."
 msgstr ""
 
@@ -13246,7 +13290,7 @@ msgstr ""
 msgid "Only whoever connected {0} can remove it."
 msgstr ""
 
-#: onedesk/one/reports.py:251
+#: onedesk/one/reports.py:256
 msgid "Only whoever saved a report, or an administrator, can move it."
 msgstr ""
 
@@ -13492,7 +13536,7 @@ msgstr ""
 msgid "Other Facts"
 msgstr ""
 
-#: onedesk/one_studio/forms.py:60
+#: onedesk/one_studio/forms.py:62
 msgid "Other Forms"
 msgstr ""
 
@@ -15313,6 +15357,7 @@ msgstr ""
 #. Label of the reference_name (Dynamic Link) field in DocType 'Cloud File
 #. Request'
 #. Label of the record_doctype (Link) field in DocType 'Extension'
+#. Label of the record_doctype (Link) field in DocType 'Record Type'
 #: onedesk/one/doctype/record_head/record_head.json
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
@@ -15321,8 +15366,9 @@ msgstr ""
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/report/deadlines/deadlines.py:43
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
-#: onedesk/one_studio/ai.py:158
+#: onedesk/one_studio/ai.py:174
 #: onedesk/one_studio/doctype/extension/extension.json
+#: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/public/js/hiring.js:11 onedesk/public/js/onecloud.js:485
 #: onedesk/public/js/onecloud.js:654 onedesk/public/js/onemail.js:475
 #: onedesk/public/js/overtime.js:50 onedesk/public/js/settings.js:769
@@ -15393,11 +15439,18 @@ msgstr ""
 #. Label of the target_doctype (Link) field in DocType 'Intake Action'
 #. Label of the target_doctype (Link) field in DocType 'Intake Lesson'
 #. Label of the reference_doctype (Link) field in DocType 'Cloud File Request'
+#. Name of a DocType
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
+#: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "Record Type"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one_studio/sidebar/onestudio/onestudio.json
+msgid "Record Types"
 msgstr ""
 
 #. Label of the applied_doc (Data) field in DocType 'AI Proposal'
@@ -15470,6 +15523,7 @@ msgid "Recording…"
 msgstr ""
 
 #: onedesk/one_storage/namespace.py:390 onedesk/one_storage/namespace.py:777
+#: onedesk/one_studio/heads.py:94
 msgid "Records"
 msgstr ""
 
@@ -15579,7 +15633,7 @@ msgstr ""
 msgid "Refused"
 msgstr ""
 
-#: onedesk/one_studio/heads.py:19
+#: onedesk/one_studio/heads.py:20
 msgid "Refused by Review"
 msgstr ""
 
@@ -15835,9 +15889,11 @@ msgstr ""
 #. Label of the wants_section (Section Break) field in DocType 'Account
 #. Request'
 #. Label of the asked (Small Text) field in DocType 'Extension'
+#. Label of the asked (Small Text) field in DocType 'Record Type'
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_inventory/report/to_order/to_order.py:22
 #: onedesk/one_studio/doctype/extension/extension.json
+#: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "Request"
 msgstr ""
 
@@ -15970,7 +16026,7 @@ msgstr ""
 #. Label of the review_section (Section Break) field in DocType 'Clock Attempt'
 #. Label of the review (Select) field in DocType 'Extension'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
-#: onedesk/one_studio/ai.py:160
+#: onedesk/one_studio/ai.py:176
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Review"
 msgstr ""
@@ -16094,7 +16150,7 @@ msgid "Run {0} on the default model with nothing added?"
 msgstr ""
 
 #. Label of the runs (Select) field in DocType 'Extension'
-#: onedesk/one_studio/ai.py:157
+#: onedesk/one_studio/ai.py:173
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Runs"
 msgstr ""
@@ -17506,7 +17562,7 @@ msgstr ""
 #: onedesk/one_hr/heads.py:748 onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/one_studio/heads.py:75
+#: onedesk/one_studio/heads.py:98
 msgid "State"
 msgstr ""
 
@@ -18070,6 +18126,7 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
 #: onedesk/one_studio/doctype/extension/extension.json
+#: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "System Manager"
 msgstr ""
 
@@ -18423,8 +18480,8 @@ msgstr ""
 
 #: onedesk/one/access.py:438 onedesk/one/access.py:563
 #: onedesk/one/access.py:600 onedesk/one/access.py:625
-#: onedesk/one/access.py:689 onedesk/one/ai_setup.py:815
-#: onedesk/one/reports.py:257 onedesk/one/reports.py:289
+#: onedesk/one/access.py:689 onedesk/one/ai_setup.py:819
+#: onedesk/one/reports.py:262 onedesk/one/reports.py:294
 #: onedesk/one/settings.py:1078 onedesk/one/settings.py:1167
 msgid "That cannot be set."
 msgstr ""
@@ -19359,7 +19416,7 @@ msgstr ""
 msgid "The request is closed and nobody is assigned anything."
 msgstr ""
 
-#: onedesk/one_studio/heads.py:29
+#: onedesk/one_studio/heads.py:30
 msgid "The review refused it: {0}"
 msgstr ""
 
@@ -20136,7 +20193,7 @@ msgstr ""
 msgid "This workspace does not record interviews. HR Settings says whether it does."
 msgstr ""
 
-#: onedesk/one_studio/extensions.py:152 onedesk/one_studio/heads.py:32
+#: onedesk/one_studio/extensions.py:152 onedesk/one_studio/heads.py:33
 msgid "This workspace does not run extensions on the server yet. Ask us to turn them on."
 msgstr ""
 
@@ -20619,12 +20676,12 @@ msgstr ""
 msgid "Try {0}"
 msgstr ""
 
-#: onedesk/one_studio/heads.py:66 onedesk/public/js/settings.js:364
+#: onedesk/one_studio/heads.py:84 onedesk/public/js/settings.js:364
 #: onedesk/public/js/settings.js:989
 msgid "Turn Off"
 msgstr ""
 
-#: onedesk/one_studio/heads.py:60 onedesk/public/js/settings.js:998
+#: onedesk/one_studio/heads.py:78 onedesk/public/js/settings.js:998
 msgid "Turn On"
 msgstr ""
 
@@ -20653,11 +20710,11 @@ msgstr ""
 msgid "Turned down."
 msgstr ""
 
-#: onedesk/one_studio/heads.py:48
+#: onedesk/one_studio/heads.py:49
 msgid "Turned off."
 msgstr ""
 
-#: onedesk/one_studio/heads.py:48
+#: onedesk/one_studio/heads.py:49
 msgid "Turned on."
 msgstr ""
 
@@ -21623,7 +21680,7 @@ msgstr ""
 msgid "What do our dashboards show?"
 msgstr ""
 
-#: onedesk/one_studio/ai.py:36
+#: onedesk/one_studio/ai.py:52
 msgid "What do our extensions do?"
 msgstr ""
 
@@ -22749,7 +22806,7 @@ msgstr ""
 msgid "Which device?"
 msgstr ""
 
-#: onedesk/one_studio/ai.py:37
+#: onedesk/one_studio/ai.py:53
 msgid "Which extensions does this workspace have, what does each do, and is any of them failing?"
 msgstr ""
 
@@ -23091,7 +23148,7 @@ msgstr ""
 msgid "Why is our domain not working?"
 msgstr ""
 
-#: onedesk/one_studio/ai.py:45
+#: onedesk/one_studio/ai.py:61
 msgid "Why is this extension off, and what would it take to turn it on?"
 msgstr ""
 
@@ -23103,7 +23160,7 @@ msgstr ""
 msgid "Why is this job waiting? Say which step it is on, what it is waiting for, how many times it has tried, and whether anything is wrong."
 msgstr ""
 
-#: onedesk/one_studio/ai.py:44
+#: onedesk/one_studio/ai.py:60
 msgid "Why is this one off?"
 msgstr ""
 
@@ -23310,6 +23367,7 @@ msgstr ""
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 #: onedesk/one_studio/doctype/extension/extension.json
+#: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "Workspace Administrator"
 msgstr ""
 
@@ -23510,11 +23568,11 @@ msgstr ""
 msgid "Write a signature for the mailbox I send from, from my name, my job and how to reach me. Keep it short, and suggest it as a card I can approve."
 msgstr ""
 
-#: onedesk/one_studio/ai.py:31
+#: onedesk/one_studio/ai.py:47
 msgid "Write an extension that "
 msgstr ""
 
-#: onedesk/one_studio/ai.py:30
+#: onedesk/one_studio/ai.py:46
 msgid "Write an extension…"
 msgstr ""
 
@@ -25503,7 +25561,7 @@ msgid "{0} has already joined. Send a password reset instead."
 msgstr ""
 
 #: onedesk/one/ai_setup.py:791 onedesk/one_ai/proposals.py:157
-#: onedesk/one_ai/proposals.py:263 onedesk/one_studio/ai.py:179
+#: onedesk/one_ai/proposals.py:263 onedesk/one_studio/ai.py:195
 msgid "{0} has changed since this was suggested, so it no longer applies."
 msgstr ""
 
@@ -25610,6 +25668,10 @@ msgstr ""
 
 #: onedesk/one_book/ready.py:142
 msgid "{0} is added unless somebody picks another."
+msgstr ""
+
+#: onedesk/one_studio/record_types.py:101
+msgid "{0} is already a kind of record here; choose another name."
 msgstr ""
 
 #: onedesk/one_crm/capture.py:54
@@ -25752,6 +25814,10 @@ msgstr ""
 msgid "{0} is not a job."
 msgstr ""
 
+#: onedesk/one_studio/record_types.py:119
+msgid "{0} is not a kind of field a record type may have."
+msgstr ""
+
 #: onedesk/public/js/onecloud_picker.js:48
 msgid "{0} is not a kind of file this takes."
 msgstr ""
@@ -25818,6 +25884,10 @@ msgstr ""
 
 #: onedesk/one_admin/billing.py:159
 msgid "{0} is not an add-on on sale."
+msgstr ""
+
+#: onedesk/one_studio/record_types.py:96
+msgid "{0} is not an app this record type can belong to."
 msgstr ""
 
 #: onedesk/one/home.py:124
@@ -25957,6 +26027,10 @@ msgstr ""
 msgid "{0} is the main address: sign-in, invitations and every link in mail use it."
 msgstr ""
 
+#: onedesk/one_studio/record_types.py:125
+msgid "{0} is there twice, or is a name frappe keeps for itself."
+msgstr ""
+
 #: onedesk/public/js/privacy_request.js:33
 msgid "{0} is told this, for example that payroll for the month has to close first."
 msgstr ""
@@ -25987,6 +26061,10 @@ msgstr ""
 
 #: onedesk/one/home.py:153
 msgid "{0} left, about three days at the rate the workspace uses them."
+msgstr ""
+
+#: onedesk/one_studio/record_types.py:130
+msgid "{0} links to {1}, which is not a kind of record you may open."
 msgstr ""
 
 #: onedesk/public/js/oneai.js:55
@@ -26032,6 +26110,10 @@ msgstr ""
 #: onedesk/one/head.py:142 onedesk/one/head.py:184 onedesk/one/linked.py:163
 #: onedesk/one/linked.py:174
 msgid "{0} names {1}, which {2} does not have."
+msgstr ""
+
+#: onedesk/one_studio/record_types.py:133
+msgid "{0} needs its choices, one a line."
 msgstr ""
 
 #: onedesk/public/js/intake.js:346
@@ -26215,6 +26297,10 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:2934
 msgid "{0} starts on {1}"
+msgstr ""
+
+#: onedesk/one_studio/record_types.py:243
+msgid "{0} still has records. Delete them first; deleting it would delete them too."
 msgstr ""
 
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:68
@@ -26448,7 +26534,7 @@ msgstr ""
 msgid "{0}, when {1}"
 msgstr ""
 
-#: onedesk/one/ai_setup.py:339 onedesk/one_studio/ai.py:148
+#: onedesk/one/ai_setup.py:339 onedesk/one_studio/ai.py:164
 msgid "{0}, {1}"
 msgstr ""
 
