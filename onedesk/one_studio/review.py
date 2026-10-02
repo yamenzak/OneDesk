@@ -10,8 +10,8 @@ already refused what no explanation could excuse; this catches code that is
 allowed but is not what it says: a check that also copies a field elsewhere,
 a button that does more than its label.
 
-An extension that has not passed, or whose code has changed since it passed,
-cannot be turned on (extension.py).
+An extension that has not passed, or whose code, record, view or event has
+changed since it passed, cannot be turned on (extensions.py).
 """
 
 import hashlib
@@ -27,9 +27,12 @@ VERDICTS = ("Pass", "Refuse")
 MOST_CODE = 20_000
 
 
-def fingerprint(code: str) -> str:
-	"""What the review was of: a change to the code needs a new one. Pure."""
-	return hashlib.sha256((code or "").encode()).hexdigest()
+def fingerprint(code: str, runs: str, doctype: str, when: str) -> str:
+	"""What the review was of: the code, and where and when it runs. The guard
+	and the reviewer read the code for one kind of record at one moment, so a
+	change to any of the four needs a new review. Pure."""
+	of = json.dumps([code or "", runs or "", doctype or "", when or ""], ensure_ascii=False)
+	return hashlib.sha256(of.encode()).hexdigest()
 
 
 def prompt(runs: str, doctype: str, when: str, explanation: str, code: str) -> str:

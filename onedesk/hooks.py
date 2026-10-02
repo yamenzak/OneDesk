@@ -115,6 +115,8 @@ extend_bootinfo = [
 	"onedesk.one_admin.site.offer",
 	# Unseen announcements, which frappe works out for Guest. See one/announcements.py.
 	"onedesk.one.announcements.boot",
+	# Whether server extensions run here, for the Extensions list. See one_studio/extensions.py.
+	"onedesk.one_studio.extensions.boot",
 ]
 
 # A pattern is not visible from inside one request. See one_hr/healing.py.
@@ -1029,6 +1031,7 @@ one_ai_reads = [
 	"onedesk.one.ai.my_notifications",
 	"onedesk.one.ai.my_mailboxes",
 	"onedesk.one_studio.ai.extensions_here",
+	"onedesk.one_studio.ai.extension_mistakes",
 	"onedesk.one_studio.ai.record_types_here",
 ]
 

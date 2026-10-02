@@ -566,7 +566,7 @@ def test_every_record_has_a_files_tab_on_its_own_room():
 	for kept_out in ("meta.istable", "meta.issingle", "layout.is_child_table"):
 		assert kept_out in tabs, kept_out
 	namespace = (tree.APP / "one_storage" / "namespace.py").read_text()
-	assert '"name": "files"' in namespace and '"leaves_out": ("File",)' in namespace
+	assert '"name": "files"' in namespace and '"leaves_out": ("File", "Extension")' in namespace
 	assert '"onedesk.one_storage.namespace.TABS"' in HOOKS
 	assert "`@records/${frm.doctype}/${frm.doc.name}`" in js
 	assert 'onedesk.record_tabs.register("files"' in js

@@ -116,7 +116,7 @@ def test_the_code_is_above_the_administrators_level_and_nobody_creates_one_by_ha
 def test_on_only_when_reviewed_and_only_the_code_that_passed():
 	source = (STUDIO / "extensions.py").read_text()
 	validate = source.split("def validate(", 1)[1].split("\ndef ", 1)[0]
-	assert 'doc.review != "Passed" or doc.reviewed != review.fingerprint(doc.code)' in validate
+	assert 'doc.review != "Passed" or doc.reviewed != reviewed_as(doc)' in validate
 	assert "runs_server_scripts()" in validate
 	write = source.split("def write(", 1)[1].split("\ndef ", 1)[0]
 	assert "roles.require()" in write and "check(" in write and '"enabled": 0' in write
@@ -191,3 +191,74 @@ def test_record_types_are_wired():
 	spec = json.loads((STUDIO / "doctype" / "record_type" / "record_type.json").read_text())
 	theirs = [p for p in spec["permissions"] if p["role"] == "Workspace Administrator"]
 	assert theirs and not any(p.get("create") or p.get("write") for p in theirs)
+
+
+def _review():
+	spec = importlib.util.spec_from_file_location("studio_review", STUDIO / "review.py")
+	module = importlib.util.module_from_spec(spec)
+	sys.modules.setdefault("frappe", type(sys)("frappe"))
+	spec.loader.exec_module(module)
+	return module
+
+
+def test_the_review_is_of_where_and_when_as_well_as_the_code():
+	fingerprint = _review().fingerprint
+	reviewed = fingerprint("frappe.throw('x')", "On Server", "Customer", "Before Save")
+	assert reviewed == fingerprint("frappe.throw('x')", "On Server", "Customer", "Before Save")
+	for moved in (
+		("frappe.throw('y')", "On Server", "Customer", "Before Save"),
+		("frappe.throw('x')", "On Server", "Supplier", "Before Save"),
+		("frappe.throw('x')", "On Server", "Customer", "Before Delete"),
+		("frappe.throw('x')", "On Screen", "Customer", "Form"),
+	):
+		assert fingerprint(*moved) != reviewed, moved
+
+
+def test_nothing_oneai_wrote_changes_by_hand_not_even_through_the_api():
+	source = (STUDIO / "extensions.py").read_text()
+	written = source.split("WRITTEN = (", 1)[1].split(")", 1)[0]
+	for field in ("runs", "record_doctype", "view", "event", "explanation", "review", "review_note"):
+		assert f'"{field}"' in written, field
+	assert '"enabled"' not in written, "turning it on and off is the administrator's"
+	validate = source.split("def validate(", 1)[1].split("\ndef ", 1)[0]
+	assert "doc.flags.written" in validate and "doc.has_value_changed(f) for f in WRITTEN" in validate
+	write = source.split("def write(", 1)[1].split("\ndef ", 1)[0]
+	assert "doc.flags.written = True" in write and "reviewed_as(doc)" in write
+
+
+def test_a_screen_extension_runs_wrapped_and_a_meant_throw_still_stops_the_save():
+	wrapped = guard.wrapped_on_screen('x"; alert(1); "', 'frappe.ui.form.on("Customer", {})')
+	assert 'const extension = "x\\"; alert(1); \\"";' in wrapped, "its name cannot break out"
+	assert "if (error && error.one_studio_meant) throw error;" in wrapped
+	assert "onedesk.one_studio.extensions.tripped" in wrapped
+	assert '\t\t\tfrappe.ui.form.on("Customer", {})' in wrapped
+	source = (STUDIO / "extensions.py").read_text()
+	assert "guard.wrapped_on_screen(doc.name, doc.code)" in source
+	tripped = source.split("def tripped(", 1)[0].rsplit("\n\n", 1)[1]
+	assert '@frappe.whitelist(methods=["POST"])' in tripped and "@rate_limit(" in tripped
+	body = source.split("def tripped(", 1)[1].split("\ndef ", 1)[0]
+	assert "runs != ON_SCREEN or not enabled" in body
+
+
+def test_the_other_administrators_hear_of_one_turned_on_off_or_deleted():
+	names = (STUDIO / "notifications.py").read_text()
+	for name in ("Extension Turned On", "Extension Turned Off", "Extension Deleted"):
+		assert f'_lt("{name}")' in names, name
+	source = (STUDIO / "extensions.py").read_text()
+	assert 'notify.notify("Extension Deleted", roles.administrators()' in source
+	assert "before and before.enabled != doc.enabled" in source
+
+
+def test_an_extension_is_nobody_elses_to_share_attach_or_save():
+	spec = json.loads((STUDIO / "doctype" / "extension" / "extension.json").read_text())
+	theirs = [p for p in spec["permissions"] if p["role"] == "Workspace Administrator"]
+	assert theirs and all(p.get("share") == 0 for p in theirs)
+	form = (STUDIO / "doctype" / "extension" / "extension.js").read_text()
+	assert "frm.disable_save();" in form and ".form-shared" in form and ".form-attachments" in form
+	listed = (STUDIO / "doctype" / "extension" / "extension_list.js").read_text()
+	assert "hide_name_column: true" in listed and "hide_name_filter: true" in listed
+	files = (tree.APP / "one_storage" / "namespace.py").read_text()
+	assert '"leaves_out": ("File", "Extension")' in files
+	ai = (STUDIO / "ai.py").read_text()
+	assert '"expects": "extension_mistakes"' in ai and '_lt("Change this one…")' in ai
+	assert '"onedesk.one_studio.ai.extension_mistakes"' in HOOKS

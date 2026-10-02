@@ -13,21 +13,25 @@ nobody else's to change.
   guard.py has read the code and review.py has had a second model read it
   against what it says it does. Nothing it writes is on until somebody turns
   it on.
-- **On only when reviewed.** An extension turns on only if its review passed
-  and the code is the code that passed. One on the server turns on only
+- **On only as reviewed.** An extension turns on only if its review passed
+  and its code, record, view and event are the ones that passed
+  (`reviewed_as`). Nothing OneAI wrote changes by hand (`WRITTEN`). One on the server turns on only
   where the bench runs server scripts at all.
 - **Off and deleted by the administrator.** Off disables frappe's script;
   deleting the extension deletes it.
-- **A mistake does not stop the work.** A server extension runs wrapped
-  (guard.wrapped): what it means to stop a save with still stops it, and
-  anything else it trips on is written to the error log under its name and
-  the record saves. `failing` tells the administrators each morning.
+- **A mistake does not stop the work.** Every extension runs wrapped
+  (guard.wrapped on the server, guard.wrapped_on_screen in the browser): what
+  it means to stop a save with still stops it, and anything else it trips on
+  is written to the error log under its name (in the browser through
+  `tripped`) and the work goes on. `failing` tells the administrators each
+  morning.
 """
 
 from contextlib import contextmanager
 
 import frappe
 from frappe import _
+from frappe.rate_limiter import rate_limit
 
 from onedesk.one import roles
 from onedesk.one_studio import guard, review
@@ -40,6 +44,14 @@ SCRIPTS = {ON_SCREEN: ("Client Script", "enabled"), ON_SERVER: ("Server Script",
 
 #: frappe's scripts made from extensions are named after them.
 PREFIX = "OneStudio "
+
+#: What OneAI writes and the review reads. `read_only` keeps these only in the
+#: form, so validate keeps them on the server: an administrator turns an
+#: extension on and off, and nothing else.
+WRITTEN = (
+	"title", "runs", "record_doctype", "view", "event", "explanation", "asked", "asked_by", "review",
+	"review_note",
+)  # fmt: skip
 
 
 @contextmanager
@@ -78,6 +90,20 @@ def runs_server_scripts() -> bool:
 	from frappe.utils.safe_exec import is_safe_exec_enabled
 
 	return is_safe_exec_enabled()
+
+
+def reviewed_as(doc) -> str:
+	"""The fingerprint of an extension as it stands: its code, and where and
+	when it runs."""
+	when = doc.event if doc.runs == ON_SERVER else doc.view
+	return review.fingerprint(doc.code, doc.runs, doc.record_doctype, when)
+
+
+def boot(bootinfo) -> None:
+	"""extend_bootinfo: whether this bench runs server extensions, for the
+	Extensions list to say Cannot Run Here as the head does."""
+	if roles.administers():
+		bootinfo.one_studio_server = runs_server_scripts()
 
 
 def check(runs: str, doctype: str, view: str | None, event: str | None, code: str) -> None:
@@ -131,20 +157,26 @@ def write(
 			"code": code,
 			"review": "Passed" if passed else "Refused",
 			"review_note": said["why"],
-			"reviewed": review.fingerprint(code) if passed else None,
 		}
 	)
+	doc.reviewed = reviewed_as(doc) if passed else None
 	# The code is above the administrator's level, so frappe would drop it.
 	doc.flags.ignore_permissions = True
+	doc.flags.written = True
 	doc.save()
 	return {"extension": doc.name, "review": doc.review, "why": doc.review_note}
 
 
 def validate(doc, method=None) -> None:
-	"""Extension validate: on only when reviewed, and only where it can run."""
+	"""Extension validate: written only by OneAI, on only as reviewed, and
+	only where it can run."""
+	if not doc.flags.written and (doc.is_new() or any(doc.has_value_changed(f) for f in WRITTEN)):
+		frappe.throw(
+			_("Only OneAI writes an extension. Ask it to change this one; turning it on or off is yours.")
+		)
 	if not doc.enabled:
 		return
-	if doc.review != "Passed" or doc.reviewed != review.fingerprint(doc.code):
+	if doc.review != "Passed" or doc.reviewed != reviewed_as(doc):
 		frappe.throw(
 			_("This extension has not passed its review, so it cannot be turned on. Ask OneAI to change it.")
 		)
@@ -167,7 +199,7 @@ def sync(doc, method=None) -> None:
 				{
 					"dt": doc.record_doctype,
 					"view": doc.view or "Form",
-					"script": doc.code,
+					"script": guard.wrapped_on_screen(doc.name, doc.code),
 					"enabled": int(doc.enabled),
 				}
 			)
@@ -188,15 +220,58 @@ def sync(doc, method=None) -> None:
 			script.save(ignore_permissions=True)
 	if doc.script != name:
 		doc.db_set("script", name, update_modified=False)
+	before = doc.get_doc_before_save()
+	if before and before.enabled != doc.enabled:
+		from onedesk.one import notify
+
+		if doc.enabled:
+			notify.notify("Extension Turned On", roles.administrators(), **_told(doc))
+		else:
+			notify.notify("Extension Turned Off", roles.administrators(), **_told(doc))
 	frappe.publish_realtime("list_update", {"doctype": EXTENSION, "name": doc.name}, after_commit=True)
 
 
+def _told(doc, link: bool = True) -> dict:
+	"""What the other administrators hear of an extension turned on, off or
+	deleted (notifications.py): from that moment it runs on everybody's work,
+	or no longer does."""
+	when = doc.event if doc.runs == ON_SERVER else doc.view
+	return {
+		"link": f"/desk/extension/{doc.name}" if link else None,
+		"who": frappe.utils.get_fullname(frappe.session.user),
+		"title": doc.title,
+		"where": _("{0}, {1}").format(_(doc.runs), _(when) if when else ""),
+		"kind": _(doc.record_doctype),
+		"explanation": doc.explanation or "",
+	}
+
+
 def remove(doc, method=None) -> None:
-	"""Extension on_trash: frappe's script goes with it."""
+	"""Extension on_trash: frappe's script goes with it, and the other
+	administrators hear of it."""
+	from onedesk.one import notify
+
+	notify.notify("Extension Deleted", roles.administrators(), **_told(doc, link=False))
 	with _as_administrator():
 		for doctype, _field in SCRIPTS.values():
 			if doc.script and frappe.db.exists(doctype, doc.script):
 				frappe.delete_doc(doctype, doc.script, ignore_permissions=True, force=True)
+
+
+@frappe.whitelist(methods=["POST"])
+@rate_limit(limit=30, seconds=60 * 60)
+def tripped(extension: str, message: str | None = None) -> None:
+	"""A screen extension ran into a mistake in somebody's browser
+	(guard.WRAPPED_ON_SCREEN): written down under its name, as a server one's
+	is, for Mistakes This Week and `failing`. Anybody who opens the form runs
+	it, so anybody signed in may say so, and only of an extension that is on
+	and on the screen."""
+	if frappe.session.user == "Guest":
+		raise frappe.PermissionError
+	runs, enabled = frappe.db.get_value(EXTENSION, extension, ["runs", "enabled"]) or (None, 0)
+	if runs != ON_SCREEN or not enabled:
+		return
+	frappe.log_error(title=f"{guard.TITLE}{extension}", message=(message or "")[:500])
 
 
 def failing() -> None:

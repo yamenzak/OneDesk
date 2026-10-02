@@ -844,7 +844,11 @@ def _brief(doctype: str, name: str) -> str:
 	try:
 		if not frappe.has_permission(doctype, "read", doc=name):
 			return ""
-		row = frappe.get_doc(doctype, name).as_dict()
+		doc = frappe.get_doc(doctype, name)
+		# A field above the reader's level is not theirs to be told about,
+		# here any more than on the form.
+		doc.apply_fieldlevel_read_permissions()
+		row = doc.as_dict()
 	except Exception:
 		return ""
 	drawn = _drawn(doctype, row, most=BRIEF_FIELDS)

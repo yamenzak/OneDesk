@@ -29,15 +29,27 @@ def extension_said(doc):
 	if doc.review == "Refused":
 		return {"text": _("The review refused it: {0}").format(doc.review_note or ""), "colour": "red"}
 	if doc.runs == extensions.ON_SERVER and not extensions.runs_server_scripts():
+		# What it does still comes first: the form leaves the explanation to
+		# the head unless the review refused it.
 		return {
-			"text": _("This workspace does not run extensions on the server yet. Ask us to turn them on."),
+			"text": " ".join(
+				filter(
+					None,
+					[
+						doc.explanation,
+						_(
+							"It cannot run here yet: this workspace does not run extensions on the server. Ask us to turn them on."
+						),
+					],
+				)
+			),
 			"colour": "orange",
 		}
 	return {"text": doc.explanation, "colour": "blue"} if doc.explanation else None
 
 
 def extension_mistakes(doc):
-	if doc.is_new() or doc.runs != extensions.ON_SERVER:
+	if doc.is_new():
 		return None
 	count = ai._recent_mistakes(doc.name)
 	return {"value": str(count), "tone": "alarm" if count else None}

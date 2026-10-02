@@ -38,21 +38,27 @@ something. On the **server**, it runs whenever the record is saved, submitted,
 cancelled or deleted, whoever does it and however: the form, an import,
 OneAI, another app. Use the server for a rule that must always hold.
 
-**What you see, and what you do not.** Each extension shows its title, what it
-does, when it runs, what was asked and by whom, and its review. You do not
-see its code, and nobody in your workspace writes or changes it by hand: OneAI
-writes it, and to change one you ask OneAI ("make it apply only to new
-customers"), which writes it again and has it reviewed again.
+**What you see, and what you do not.** Each extension opens on whether it is
+**On** or **Off** (or **Refused by Review**, or **Cannot Run Here**) and what
+it does, then when it runs, what was asked and by whom, and its review. You do
+not see its code, and nobody in your workspace writes or changes it by hand,
+so there is nothing to type and no Save: OneAI writes it, and to change one you
+press **Change this one…** on it and say what ("make it apply only to new
+customers"). OneAI writes it again, it is reviewed again, and it stays off
+until you approve it. Changing where or when it runs counts as changing it.
 
 **Turning one on and off.** **Turn On** and **Turn Off** at the top of the
 extension. One the review refused cannot be turned on; ask OneAI to change
-it. Deleting an extension takes it away for good.
+it. Deleting an extension (**…** at the top) takes it away for good. The other
+administrators are told when one is turned on, turned off or deleted, and by
+whom: from that moment it runs on everybody's work, or no longer does.
 
-**When one goes wrong.** An extension on the server that runs into a mistake
-does not stop anybody's work: the record still saves, the mistake is written
-down, **Mistakes This Week** counts it, and every morning the administrators
-hear of the extensions that ran into one. Ask OneAI to look at it and mend it,
-or turn it off. A message an extension means to stop a save with, such as "A
+**When one goes wrong.** An extension that runs into a mistake does not stop
+anybody's work: on the server the record still saves, on the screen the form
+goes on working. The mistake is written down, **Mistakes This Week** counts
+it, and every morning the administrators hear of the extensions that ran into
+one. Press **Has this one run into mistakes?** on it to hear what went wrong,
+then ask OneAI to mend it, or turn it off. A message an extension means to stop a save with, such as "A
 customer needs a mobile number", is not a mistake: it stops the save, as it
 says.
 
@@ -101,11 +107,27 @@ changes how its form looks, as for any other form.
 **Deleting one.** Delete its records first: a record type that still has
 records cannot be deleted.
 
+## Being told
+
+Every administrator is told, on the bell and by mail unless they chose
+otherwise in their notifications:
+
+- **Extensions Failing**, each morning, the extensions that ran into a
+  mistake the day before. Not sent when none did.
+- **Extension Turned On**, when another administrator turns one on: what it
+  does, where and when it runs.
+- **Extension Turned Off** and **Extension Deleted**, on the bell only unless
+  you ask for mail.
+
+Nobody is told of their own change.
+
 ## Asking OneAI
 
 On Extensions: **Write an extension…**, and **What do our extensions do?**,
-which says what each does and whether any is failing. On an extension that is
-off: **Why is this one off?** On Record Types: **Make a record type…**, and on
+which says what each does and whether any is failing. On an extension:
+**Change this one…**; when it is on, **Has this one run into mistakes?**, which
+reads what went wrong and on which record (never its code); when it is off,
+**Why is this one off?** On Record Types: **Make a record type…**, and on
 one: **Add a field to this one…**
 
 ## Under the hood
@@ -119,8 +141,8 @@ one: **Add a field to this one…**
 | `review.py` | The second reading, `studio_review`: a separate call shown the code and its explanation, nothing of the chat. |
 | `record_types.py` | A record type's rules, and frappe's custom DocType made, changed and deleted from it. |
 | `forms.py` | The Forms list. The Customize page is `page/customize` and `../public/js/customize.js`. |
-| `ai.py` | `write_extension`, `extensions_here`, `design_record_type`, `record_types_here`, on the `studio` action. |
-| `heads.py`, `notifications.py`, `legal.py` | The record heads, Extensions Failing, and what the Terms and the AI Addendum say. |
+| `ai.py` | `write_extension`, `extensions_here`, `extension_mistakes`, `design_record_type`, `record_types_here`, on the `studio` action. |
+| `heads.py`, `notifications.py`, `legal.py` | The record heads; Extensions Failing and an extension turned on, off or deleted; and what the Terms and the AI Addendum say. |
 
 ### How it is made
 
@@ -144,13 +166,24 @@ is sent to the browser that runs it, so it is not secret from somebody who
 opens their browser's tools; it is only nobody's to change.
 
 **On only as reviewed.** An extension turns on only if its review passed and
-its code is the code that passed (`review.fingerprint`), and a server one
-only where the bench runs server scripts (`server_script_enabled` in
+its code, record, view and event are the ones that passed
+(`review.fingerprint`, `extensions.reviewed_as`): the guard and the reviewer
+read the code for one kind of record at one moment. `read_only` keeps a field
+only in the form, so `extensions.validate` keeps what OneAI wrote (`WRITTEN`)
+on the server too: through the API as anywhere else, an administrator turns
+an extension on and off and nothing more. A server one turns on only where the
+bench runs server scripts (`server_script_enabled` in
 `common_site_config.json`, set on our benches when they are made).
 
-**Wrapped on the server.** frappe's script is the code inside `try`:
-`frappe.ValidationError` (a `frappe.throw`) passes, anything else is logged
-under `OneStudio: <name>`, and the save goes on. `failing` counts those.
+**Wrapped, on the server and on the screen.** frappe's Server Script is the
+code inside `try`: `frappe.ValidationError` (a `frappe.throw`) passes,
+anything else is logged under `OneStudio: <name>`, and the save goes on.
+frappe's Client Script is the code given its own `frappe`
+(`guard.WRAPPED_ON_SCREEN`), whose `ui.form.on` runs each handler inside a
+`try` and whose `throw` is marked as meant: a meant throw still stops the
+save, anything else is sent to `extensions.tripped` (rate-limited, only for an
+extension that is on and on the screen) and logged under the same name.
+`failing` and Mistakes This Week count both.
 
 **Record types are frappe's.** A custom DocType in module One Studio, made as
 Administrator, with permissions written for the app's roles, and a place in

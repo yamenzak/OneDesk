@@ -21,7 +21,7 @@ import frappe
 from frappe import _, _lt
 
 from onedesk.one import roles
-from onedesk.one_studio import extensions, guard, record_types, review
+from onedesk.one_studio import extensions, guard, record_types
 
 SUGGESTIONS = {
 	"Record Type": [
@@ -55,6 +55,21 @@ SUGGESTIONS = {
 			),
 			"expects": "extensions_here",
 			"view": "List",
+		},
+		{
+			# Changing one is writing it again: reviewed again, off until approved.
+			"label": _lt("Change this one…"),
+			"ask": _lt("Change this extension so that "),
+			"fill": True,
+			"view": "Form",
+			"expects": "write_extension",
+		},
+		{
+			"label": _lt("Has this one run into mistakes?"),
+			"ask": _lt("Has this extension run into mistakes lately, and what went wrong?"),
+			"view": "Form",
+			"expects": "extension_mistakes",
+			"when": {"enabled": [1]},
 		},
 		{
 			"label": _lt("Why is this one off?"),
@@ -108,6 +123,45 @@ def extensions_here(
 	return {
 		"extensions": rows,
 		"server_extensions_run_here": extensions.runs_server_scripts(),
+	}
+
+
+def extension_mistakes(
+	extension: Annotated[str, "The extension's name, as it is in the address of its page."],
+) -> dict:
+	"""For a workspace administrator: the mistakes one extension ran into in
+	the last two weeks, newest first, each with when, on which record, and what
+	went wrong in one line. Never its code. Read it before saying why an
+	extension is failing or how to mend it."""
+	from frappe.utils import add_days, now_datetime
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator sees the extensions."}
+	if not frappe.db.exists(extensions.EXTENSION, extension):
+		return {"error": f"There is no extension {extension}."}
+	rows = frappe.get_all(
+		"Error Log",
+		filters={
+			"method": f"{guard.TITLE}{extension}",
+			"creation": [">=", add_days(now_datetime(), -14)],
+		},
+		fields=["creation", "reference_doctype", "reference_name", "error"],
+		order_by="creation desc",
+		limit=10,
+	)
+	return {
+		"extension": extension,
+		"title": frappe.db.get_value(extensions.EXTENSION, extension, "title"),
+		"mistakes": [
+			{
+				"when": str(row.creation),
+				"record": " ".join(filter(None, [row.reference_doctype, row.reference_name])) or None,
+				# The last line of a traceback is what went wrong; the lines
+				# above it are where, and may quote the code.
+				"what": (row.error or "").strip().splitlines()[-1][:300] if row.error else None,
+			}
+			for row in rows
+		],
 	}
 
 
@@ -167,7 +221,7 @@ def write_extension(
 	changes = {
 		"what": "extension",
 		"extension": doc.name,
-		"state": review.fingerprint(frappe.db.get_value(extensions.EXTENSION, doc.name, "code")),
+		"state": extensions.reviewed_as(doc),
 		"title": doc.title,
 		"summary": [
 			{"label": _("Runs"), "value": where},
@@ -188,9 +242,7 @@ def turn_on(changes: dict) -> str:
 	"""A Setup card for an extension approved: turned on, as whoever pressed
 	Approve, if it is still the code that was shown."""
 	doc = frappe.get_doc(extensions.EXTENSION, changes["extension"])
-	if review.fingerprint(frappe.db.get_value(extensions.EXTENSION, doc.name, "code")) != changes.get(
-		"state"
-	):
+	if extensions.reviewed_as(doc) != changes.get("state"):
 		raise frappe.ValidationError(
 			_("{0} has changed since this was suggested, so it no longer applies.").format(doc.title)
 		)

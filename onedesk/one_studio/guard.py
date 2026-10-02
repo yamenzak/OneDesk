@@ -26,6 +26,7 @@ person; it may not call the server, store or send anything, or write markup.
 """
 
 import ast
+import json
 import re
 from dataclasses import dataclass, field
 
@@ -283,3 +284,67 @@ except Exception:
 def wrapped(name: str, code: str) -> str:
 	body = "\n".join(f"\t{line}" if line.strip() else "" for line in (code or "pass").splitlines())
 	return WRAPPED.format(title=repr(f"{TITLE}{name}"), body=body or "\tpass")
+
+
+#: How every screen extension is run, the same as on the server: each handler
+#: it gives `frappe.ui.form.on` runs inside a `try`, a `frappe.throw` it means
+#: still stops the save, and anything else it trips on is written down
+#: (extensions.tripped) and the form goes on. Its `frappe` is frappe's own,
+#: with those two wrapped; everything else is frappe's.
+WRAPPED_ON_SCREEN = """// Written by OneAI in OneStudio. Change it by asking OneAI.
+(function () {{
+	const extension = {name};
+	const tripped = (error) => {{
+		if (error && error.one_studio_meant) throw error;
+		console.error(error);
+		frappe
+			.xcall("onedesk.one_studio.extensions.tripped", {{
+				extension,
+				message: String((error && error.message) || error).slice(0, 500),
+			}})
+			.catch(() => {{}});
+	}};
+	const guarded = (handler) => (...args) => {{
+		try {{
+			const out = handler(...args);
+			if (out && typeof out.catch === "function") out.catch(tripped);
+			return out;
+		}} catch (error) {{
+			tripped(error);
+		}}
+	}};
+	const form = Object.create(frappe.ui.form);
+	form.on = form.on_change = (doctype, fieldname, handler) => {{
+		if (typeof handler === "function") return frappe.ui.form.on(doctype, fieldname, guarded(handler));
+		const handlers = {{}};
+		for (const [key, one] of Object.entries(fieldname || {{}}))
+			handlers[key] = typeof one === "function" ? guarded(one) : one;
+		return frappe.ui.form.on(doctype, handlers);
+	}};
+	const ui = Object.create(frappe.ui);
+	ui.form = form;
+	const scoped = Object.create(frappe);
+	scoped.ui = ui;
+	scoped.throw = (...args) => {{
+		try {{
+			frappe.throw(...args);
+		}} catch (error) {{
+			error.one_studio_meant = true;
+			throw error;
+		}}
+	}};
+	(function (frappe) {{
+		try {{
+{body}
+		}} catch (error) {{
+			tripped(error);
+		}}
+	}})(scoped);
+}})();
+"""
+
+
+def wrapped_on_screen(name: str, code: str) -> str:
+	"""A screen extension as frappe's Client Script runs it. Pure."""
+	body = "\n".join(f"\t\t\t{line}" if line.strip() else "" for line in (code or "").splitlines())
+	return WRAPPED_ON_SCREEN.format(name=json.dumps(name), body=body)

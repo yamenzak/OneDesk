@@ -16,6 +16,7 @@
   "section_asked",
   "asked",
   "asked_by",
+  "asked_by_name",
   "column_break_review",
   "review",
   "review_note",
@@ -38,8 +39,8 @@
    "fieldname": "enabled",
    "fieldtype": "Check",
    "label": "Enabled",
-   "in_standard_filter": 1,
-   "read_only": 1
+   "read_only": 1,
+   "hidden": 1
   },
   {
    "fieldname": "runs",
@@ -48,7 +49,6 @@
    "options": "On Screen\nOn Server",
    "reqd": 1,
    "read_only": 1,
-   "in_list_view": 1,
    "in_standard_filter": 1,
    "description": "On Screen runs in the browser of whoever opens the record. On Server runs when the record is saved, whoever saves it."
   },
@@ -76,7 +76,8 @@
    "fieldtype": "Select",
    "label": "When",
    "options": "Before Insert\nBefore Validate\nBefore Save\nAfter Insert\nAfter Save\nBefore Submit\nAfter Submit\nBefore Cancel\nAfter Cancel\nBefore Delete",
-   "read_only": 1
+   "read_only": 1,
+   "in_list_view": 1
   },
   {
    "fieldname": "column_break_where",
@@ -86,7 +87,8 @@
    "fieldname": "explanation",
    "fieldtype": "Small Text",
    "label": "Explanation",
-   "read_only": 1
+   "read_only": 1,
+   "depends_on": "eval:doc.review=='Refused'"
   },
   {
    "fieldname": "section_asked",
@@ -104,7 +106,15 @@
    "fieldtype": "Link",
    "label": "Asked By",
    "options": "User",
-   "read_only": 1
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "asked_by_name",
+   "fieldtype": "Data",
+   "label": "Asked By",
+   "read_only": 1,
+   "fetch_from": "asked_by.full_name"
   },
   {
    "fieldname": "column_break_review",
@@ -156,7 +166,7 @@
  ],
  "in_create": 1,
  "links": [],
- "modified": "2026-10-01 12:00:00.000000",
+ "modified": "2026-10-02 08:30:00.000000",
  "modified_by": "Administrator",
  "module": "One Studio",
  "name": "Extension",
@@ -180,7 +190,8 @@
    "read": 1,
    "report": 1,
    "role": "Workspace Administrator",
-   "write": 1
+   "write": 1,
+   "share": 0
   }
  ],
  "sort_field": "modified",

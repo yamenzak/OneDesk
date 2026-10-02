@@ -146,7 +146,8 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | OneCalendar | done |
 | Products | OneTask | done |
 | Products | OneAdmin › Home | done |
-| Products | OneStudio (Extensions, Forms, Record Types) | built during the pass, nine points below |
+| Products | OneStudio › Extensions | done |
+| Products | OneStudio › Forms, Record Types | next, one at a time |
 | Products | OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin | each screen listed here once we reach it |
 
 Noticed along the way, for the screen it belongs to:
@@ -5282,6 +5283,131 @@ broken extension, the customer saved and the mistake logged.
 `server_script_enabled` in `common_site_config.json`; it is on the dev bench,
 and it is a step when a bench is made. Without it an extension on the server
 says Cannot Run Here.
+
+### OneStudio › Extensions
+
+The first screen of the pass over OneStudio. Extensions is frappe's list of
+the Extension doctype, and an extension opens on frappe's form with a head:
+its state (On, Off, Refused by Review, Cannot Run Here), what it does,
+Mistakes This Week, and Turn On or Turn Off. On the dev site there is one,
+Customer Mobile Number Required, on the server, on. Looked at as wsadmin
+(Workspace Administrator) and as rania (not one: refused).
+
+1. **Notifications**: only **Extensions Failing**, each morning. Turning an
+   extension on or off, or deleting one, tells nobody, though a server one
+   runs on everybody's saves from that moment. Recommended: **Extension
+   Turned On** to the other administrators, naming who turned on what, where
+   it runs and what it does; the same when one is turned off or deleted.
+2. **OneAI**:
+   - The panel has no sentence for OneStudio: `one_ai_page` has no
+     `one_studio.ai.page`, so OneAI does not know it is on the Extensions
+     list or on one extension.
+   - There is no **Change this one…** on an extension, though changing one is
+     asking OneAI. Recommended: on the form, filled in, expecting
+     `write_extension`, which writes this one again, has it reviewed again
+     and leaves it off until it is approved.
+   - Nothing answers "what went wrong" when Mistakes This Week is not 0.
+     Recommended: **What went wrong?** on an extension with mistakes, reading
+     the last few mistakes' messages for it (never a line of its code).
+3. **Intake**: nothing OneIntake reads lands here, and nothing should: an
+   extension is only ever an administrator's own ask. Holds.
+4. **Permissions**:
+   - **A reviewed extension can be pointed somewhere else.** Where it runs,
+     on which record, in which view and on which event are `read_only`, and
+     frappe keeps `read_only` only in the form. Tried as wsadmin through
+     `frappe.client.set_value` (rolled back): the Customer extension moved
+     to Supplier, Before Delete, and frappe's Server Script moved with it,
+     still on. The guard and the review were of Customer, Before Save.
+     Recommended: the review's fingerprint covers the code *and* where and
+     when it runs, so any change to those turns it off until it is written
+     and reviewed again; and the Extension refuses a change to them that
+     does not come from `write_extension`.
+   - **Share** is on: sharing an extension lets somebody who is not an
+     administrator read what it does and what was asked. Recommended: off,
+     with Assign.
+   - Who sees it holds: Workspace Administrator only, the code at level 1;
+     rania gets frappe's refusal.
+5. **Cross-module**: an extension runs on another app's record, and Forms
+   counts the extensions on each form. A message an extension stops a save
+   with shows on that record. Holds.
+6. **UI and UX**:
+   - a. **One state, three words**: the list's Status says Enabled and its
+     filter is an Enabled tick, the head says On, the button Turn Off.
+     Recommended: On and Off everywhere; the list's indicator is the head's
+     state (On, Off, Refused by Review, Cannot Run Here).
+   - b. **The list** shows the ID, a random name, as a column and a filter,
+     and cuts the title off. Recommended: no ID; Title, state, Runs, Record
+     and When.
+   - c. **The form says the explanation twice**, in the head and as a field,
+     and shows the Enabled tick under the head that already says On.
+     Recommended: both off the form.
+   - d. **Save sits in the head with nothing to type**: every field is
+     OneAI's or the review's. Recommended: no Save.
+   - e. **Files** (a tab and in the sidebar), **Assign** and **Tags** on a
+     record that has nothing to attach or hand to anybody. Recommended: off.
+   - f. **Asked By** shows the email, not the person.
+   - g. **Mistakes This Week** is shown only for a server extension, because
+     a screen extension's mistakes are never written down (9).
+7. **Documented**: `one_studio/README.md` has Extensions and Asking OneAI
+   above Under the hood. The panel does not know the screen (2).
+8. **Legal**: nothing new goes anywhere. If 9 is built, a screen extension's
+   mistake is written to the workspace's own error log, as a server one's
+   is. Holds.
+9. **Built from frappe**: the list, the form and the head are frappe's, the
+   scripts are frappe's Client and Server Script. One part is not yet the
+   same as its server half: **a screen extension runs unwrapped**. A mistake
+   in it breaks that form's other scripts for whoever opens it, and is
+   recorded nowhere, so neither Mistakes This Week nor Extensions Failing
+   ever counts one. Recommended: each handler it gives `frappe.ui.form.on`
+   runs inside a `try`, as the server's code does; a mistake is logged under
+   `OneStudio: <name>` through one rate-limited method, and the form goes on.
+
+Your word: all of them.
+
+Done:
+
+- **The review is of where and when, not only the code.** `review.fingerprint`
+  takes the code, where it runs, the record and the event or view; an
+  extension turns on only if all four are what passed
+  (`extensions.reviewed_as`). `extensions.validate` refuses any change to what
+  OneAI wrote (`WRITTEN`) that does not come through `write`, so through the
+  API an administrator turns one on and off and nothing more. Tried as wsadmin
+  again: moving it to Supplier, Before Delete, and setting its review by hand
+  are both refused; Turn Off still works. A patch re-fingerprints the
+  extensions that passed.
+- **Screen extensions run wrapped** (`guard.WRAPPED_ON_SCREEN`): each handler
+  inside a `try`, a `frappe.throw` it means still stops the save, anything
+  else goes to `extensions.tripped` (rate-limited, only for an extension that
+  is on and on the screen) and is logged under its name. Tried on a customer
+  with a deliberately broken one: its line showed, the mistake was logged
+  ("frm.boom is not a function"), the form worked, and Mistakes This Week
+  read 1. Mistakes This Week and Extensions Failing now count both kinds.
+- **Notifications**: Extension Turned On (by mail), Extension Turned Off and
+  Extension Deleted (on the bell), to the other administrators, naming who,
+  where and when it runs, and what it does. Tried: admin@example.com heard
+  "Wren turned on Customer Mobile Number Required"; Wren did not.
+- **OneAI**: **Change this one…** on an extension, and **Has this one run
+  into mistakes?** on one that is on, reading `extension_mistakes` (when, on
+  which record, the last line of what went wrong; never the code). The panel
+  already names the Extensions list and the record by their doctype;
+  `one_ai_page` is for desk pages, which is Forms, next.
+- **Share off** (and Assign, Files, Tags gone from the sidebar); no Files tab.
+- **One word**: On, Off, Refused by Review, Cannot Run Here, in the list as in
+  the head (the bench's server-script switch is in the boot for it).
+- **The list**: no ID column or filter; Title, state, Record and When (the
+  event, or Form or List on the screen).
+- **The form**: no Save; the explanation and the Enabled tick off the form
+  (the head says both; the explanation shows when the review refused it);
+  Asked By is the person's name.
+- README: what you see, changing one, Being told, what goes wrong, Asking
+  OneAI, and Under the hood on the fingerprint, `WRITTEN` and the screen
+  wrapper.
+
+**Found on the way:** the panel's brief of the record being looked at was
+drawn from the whole record, levels the reader cannot read included.
+`chat._brief` now applies frappe's `apply_fieldlevel_read_permissions` first.
+Nothing of an extension's code reached it (a Code field is never on a card),
+but a level-1 field on another record could have.
 
 ## OneLegal
 
