@@ -5499,6 +5499,15 @@ under it marked **Fixed**; and the review, with its badge. The fields stay
 on the doctype for the list, the filters and OneAI, and are only hidden on
 the form.
 
+**Changing one edits it.** OneAI used to change an extension by writing it
+again from its explanation, since nothing gave it the code. `extension_code`
+now hands the code to the run, and its answer's code is `unshown` like
+`write_extension`'s argument: `chat._keep` keeps "…" in its place, so the
+code is still in the extension alone. Tried: "make the limit 75,000 instead
+of 50,000" changed the number and nothing else, passed the review, and made a
+card. On the way, Gemma sent the new code with no event; a change that
+leaves out where or when now keeps what the extension has.
+
 **Found on the way:** the panel's brief of the record being looked at was
 drawn from the whole record, levels the reader cannot read included.
 `chat._brief` now applies frappe's `apply_fieldlevel_read_permissions` first.

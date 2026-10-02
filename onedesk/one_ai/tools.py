@@ -493,12 +493,25 @@ def _every() -> tuple[tuple, tuple]:
 	return READS + KEEPS + reads, SUGGESTS + suggests
 
 
+def _unshown(tool: str | None) -> tuple:
+	fn = next((one for one in sum(_every(), ()) if one.__name__ == tool), None)
+	return getattr(fn, "unshown", ()) if fn else ()
+
+
 def shown_args(tool: str | None, args: dict | None) -> dict:
 	"""A call's arguments as a person may see them and a chat keeps them: a
 	tool's `unshown` ones, such as an extension's code, left out."""
-	fn = next((one for one in sum(_every(), ()) if one.__name__ == tool), None)
-	hidden = getattr(fn, "unshown", ()) if fn else ()
+	hidden = _unshown(tool)
 	return {key: ("…" if key in hidden else value) for key, value in (args or {}).items()}
+
+
+def shown_result(tool: str | None, result):
+	"""What a tool answered, as a chat keeps it: the same `unshown` keys left
+	out, so code a tool hands the model is read in the run and kept nowhere."""
+	hidden = _unshown(tool)
+	if not hidden or not isinstance(result, dict):
+		return result
+	return {key: ("…" if key in hidden else value) for key, value in result.items()}
 
 
 def declared() -> list[dict]:

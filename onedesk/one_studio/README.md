@@ -44,7 +44,8 @@ it does, then when it runs, what was asked and by whom, and its review. You do
 not see its code, and nobody in your workspace writes or changes it by hand,
 so there is nothing to type and no Save: OneAI writes it, and to change one you
 press **Change this one…** on it and say what ("make it apply only to new
-customers"). OneAI writes it again, it is reviewed again, and it stays off
+customers"). OneAI reads the code it has now and changes only what you
+asked, keeping the rest as it was; it is reviewed again, and it stays off
 until you approve it. Changing where or when it runs counts as changing it.
 
 **Turning one on and off.** **Turn On** and **Turn Off** at the top of the

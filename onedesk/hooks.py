@@ -1033,6 +1033,7 @@ one_ai_reads = [
 	"onedesk.one.ai.my_mailboxes",
 	"onedesk.one_studio.ai.extensions_here",
 	"onedesk.one_studio.ai.extension_mistakes",
+	"onedesk.one_studio.ai.extension_code",
 	"onedesk.one_studio.ai.record_types_here",
 ]
 

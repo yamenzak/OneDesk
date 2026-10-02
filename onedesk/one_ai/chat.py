@@ -1008,6 +1008,8 @@ def _keep(doc, turns: list[dict], spent: float) -> None:
 	for turn in turns:
 		for call in turn.get("calls") or []:
 			call["args"] = tools.shown_args(call.get("tool"), call.get("args"))
+		if turn.get("role") == "tool":
+			turn["result"] = tools.shown_result(turn.get("tool"), turn.get("result"))
 	doc.turns = json.dumps(turns)
 	doc.last_said_on = now_datetime()
 	doc.spent = round((doc.spent or 0) + spent, 6)

@@ -134,15 +134,19 @@ def test_the_reviewer_sees_nothing_of_the_conversation_and_reads_unreadable_as_r
 
 
 def test_the_code_never_reaches_the_conversation():
+	"""The code is in the extension alone. A run may hand it to the model to
+	change (extension_code), but neither what the model wrote nor what the tool
+	answered is kept in the conversation with it."""
 	ai = (STUDIO / "ai.py").read_text()
+	assert 'write_extension.unshown = extension_code.unshown = ("code",)' in ai
 	assert (
-		'write_extension.unshown = ("code",)' in ai
-		and 'write_extension.action = mend_extension.action = design_record_type.action = "studio"' in ai
+		'write_extension.action = mend_extension.action = design_record_type.action = extension_code.action = "studio"'
+		in ai
 	)
-	assert "def extension_code" not in ai
 	tools = (tree.APP / "one_ai" / "tools.py").read_text()
-	assert "def shown_args(" in tools
-	assert "tools.shown_args(" in (tree.APP / "one_ai" / "chat.py").read_text()
+	assert "def shown_args(" in tools and "def shown_result(" in tools
+	chat = (tree.APP / "one_ai" / "chat.py").read_text()
+	assert "tools.shown_args(" in chat and "tools.shown_result(" in chat
 	assert "surface.shown_args(" in (tree.APP / "one_ai" / "run.py").read_text()
 
 
@@ -150,6 +154,7 @@ def test_it_is_wired():
 	for hook in (
 		'"onedesk.one_studio.ai.extensions_here"',
 		'"onedesk.one_studio.ai.write_extension"',
+		'"onedesk.one_studio.ai.extension_code"',
 		'"onedesk.one_studio.ai.SUGGESTIONS"',
 		'"onedesk.one_studio.extensions.failing"',
 		'"onedesk.one_studio.notifications.TYPES"',
@@ -336,7 +341,9 @@ def test_a_name_the_sandbox_does_not_have_is_refused_before_every_save_runs_into
 	"""Measured, Gemma 4 on After Insert: add_days(today(), 3), bare. frappe's
 	sandbox has them only as frappe.utils.add_days and frappe.utils.today."""
 	with pytest.raises(guard.Refused, match=r"frappe\.utils\.add_days"):
-		guard.on_server('task = frappe.new_doc("Task")\ntask.exp_end_date = add_days(today(), 3)', "Customer", SITE)
+		guard.on_server(
+			'task = frappe.new_doc("Task")\ntask.exp_end_date = add_days(today(), 3)', "Customer", SITE
+		)
 	with pytest.raises(guard.Refused, match="not set by the code"):
 		guard.on_server("x = customer_total + 1", "Customer", SITE)
 	fine = (
@@ -357,3 +364,15 @@ def test_is_new_after_the_save_is_refused():
 	with pytest.raises(guard.Refused, match="is_new"):
 		guard.on_server(code, "Customer", SITE, "After Insert")
 	assert guard.on_server(code, "Customer", SITE, "Before Save") == {"Customer"}
+
+
+def test_a_change_keeps_where_and_when():
+	"""Measured: asked to change a limit, Gemma read the code with
+	extension_code, changed only the number, and sent no event. A change that
+	leaves out where or when keeps what the extension has."""
+	write = (STUDIO / "ai.py").read_text().split("def write_extension(", 1)[1].split("\ndef ", 1)[0]
+	assert "view, event = view or was.view, event or was.event" in write
+	instruction = {a["name"]: a for a in json.loads((tree.APP / "fixtures" / "ai_action.json").read_text())}[
+		"studio"
+	]["instruction"]
+	assert "read it with extension_code first, change only what was asked" in instruction

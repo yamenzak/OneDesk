@@ -9,7 +9,10 @@ thing that does.
   administrator would do in the list. A refused review comes back to the
   model to mend, under the same extension. The code it wrote is left out of
   the conversation as it is kept and shown (`unshown`), so it is in the
-  extension alone; changing one is writing it again from what it does.
+  extension alone.
+- `extension_code` hands OneAI the code it is changing, so a change edits it
+  rather than rewriting it from the explanation. Its answer's code is
+  `unshown` too: the run reads it, the kept conversation does not.
 
 Both run on OneStudio Extensions (`studio`), a stronger model than the
 chat's, which is told what an extension may do.
@@ -161,6 +164,32 @@ def extension_mistakes(
 	}
 
 
+def extension_code(
+	extension: Annotated[str, "The extension's name, as it is in the address of its page, or its title."],
+) -> dict:
+	"""Before changing an extension: what it is now, its code included, to
+	change rather than write again from its explanation. For OneAI alone: the
+	code is left out of the conversation as it is kept and shown, and is never
+	said to the person."""
+	if not roles.administers():
+		return {"error": "Only a workspace administrator may have an extension changed."}
+	extension = _named(extension)
+	if not frappe.db.exists(extensions.EXTENSION, extension):
+		return {"error": f"There is no extension {extension}."}
+	doc = frappe.get_doc(extensions.EXTENSION, extension)
+	return {
+		"extension": doc.name,
+		"title": doc.title,
+		"runs": doc.runs,
+		"record": doc.record_doctype,
+		"view": doc.view if doc.runs == extensions.ON_SCREEN else None,
+		"event": doc.event if doc.runs == extensions.ON_SERVER else None,
+		"explanation": doc.explanation,
+		"code": doc.code,
+		"next": "Change what was asked and keep the rest as it is, then call write_extension with the whole code and extension set to its name. Never show the code.",
+	}
+
+
 def mend_extension(
 	extension: Annotated[str, "The extension's name, as it is in the address of its page, or its title."],
 	problem: Annotated[
@@ -222,6 +251,11 @@ def write_extension(
 	if not roles.administers():
 		return {"error": "Only a workspace administrator may have an extension written."}
 	extension = _named(extension)
+	if extension and frappe.db.exists(extensions.EXTENSION, extension):
+		# A change that leaves out where or when keeps what it has: measured,
+		# Gemma changing a limit sent the code and no event, and was refused.
+		was = frappe.db.get_value(extensions.EXTENSION, extension, ["view", "event"], as_dict=True)
+		view, event = view or was.view, event or was.event
 	try:
 		kept = extensions.write(
 			title=title,
@@ -377,5 +411,5 @@ def make_record_type(changes: dict) -> str:
 	)
 
 
-write_extension.action = mend_extension.action = design_record_type.action = "studio"
-write_extension.unshown = ("code",)
+write_extension.action = mend_extension.action = design_record_type.action = extension_code.action = "studio"
+write_extension.unshown = extension_code.unshown = ("code",)
