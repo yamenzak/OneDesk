@@ -68,3 +68,21 @@ def test_reach_reads_the_rails_against_the_roles_people_hands_out():
 	reach = (tree.APP / "one" / "reach.py").read_text()
 	assert "from onedesk.one.settings import APPS" in reach
 	assert "{*users, *managers, *EVERYBODY}" in reach
+
+
+def test_a_rail_address_into_a_kind_follows_who_may_read_it():
+	"""OneCRM's Pipeline is an address, not a DocType link, so frappe shows it
+	to whoever sees the rail; the boot leaves it out for somebody who may not
+	read Opportunity, as frappe does its own links."""
+	import re
+
+	reach = (tree.APP / "one" / "reach.py").read_text()
+	into = re.compile(re.search(r'_INTO = re\.compile\(r"(.+?)"\)', reach).group(1))
+	assert into.match("/desk/opportunity/view/kanban/Pipeline").group(1) == "opportunity"
+	assert into.match("/desk/sales-invoice?status=Unpaid").group(1) == "sales-invoice"
+	assert 'frappe.has_permission(kind, "read")' in reach
+	boot = (tree.APP / "one" / "boot.py").read_text()
+	assert 'reach.unopened(bootinfo.get("module_sidebars"))' in boot
+	rail = json.loads((tree.APP / "one_crm" / "sidebar" / "onecrm" / "onecrm.json").read_text())
+	pipeline = next(item for item in rail["items"] if item.get("label") == "Pipeline")
+	assert into.match(pipeline["url"]), "the Pipeline is read as an address into Opportunity"

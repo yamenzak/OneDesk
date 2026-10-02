@@ -25,6 +25,12 @@ def boot_session(bootinfo) -> None:
 
 	reports.reported(bootinfo.get("module_sidebars"))
 
+	# A rail link written as an address follows what its kind lets the
+	# person read, as frappe's own links do. See one/reach.py.
+	from onedesk.one import reach
+
+	reach.unopened(bootinfo.get("module_sidebars"))
+
 	# The modules no workspace changes, for the Customize and Settings menu items.
 	from onedesk.one import customize
 

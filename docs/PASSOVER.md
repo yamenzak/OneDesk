@@ -5719,10 +5719,16 @@ code:
   covered by levels, record access and groups (ACCESS 1 to 6), which OneAI
   drafts.
 
-**Found on the way, not fixed**: OneCRM's sidebar shows **Pipeline** to a
-workspace administrator without a sales role, and opening it ends in "No
+**Found on the way, then fixed**: OneCRM's sidebar showed **Pipeline** to a
+workspace administrator without a sales role, and opening it ended in "No
 permission for Page" (frappe's router, not finding Opportunity in what they
-may read, asks for a page of that name). Before this work too.
+may read, asks for a page of that name). frappe leaves out a DocType link a
+person cannot read but takes an address link as it is; `reach.unopened`, at
+boot, now leaves out an address into a kind's views (`/desk/<kind>/…`) for
+somebody who may not read that kind. Tried: wsadmin's OneCRM rail has no
+Pipeline; a user with a sales role keeps it. Still open: OneCRM's home shows
+its "My Day" and "The Pipeline" headings with nothing under them to such an
+administrator.
 
 ## OneLegal
 

@@ -16,6 +16,7 @@ prints what does not open, and nothing else when everything does.
 import glob
 import json
 import os
+import re
 
 import frappe
 
@@ -62,3 +63,37 @@ def unreachable() -> list[dict]:
 def check() -> None:
 	for one in unreachable():
 		print(f"{one['app']} › {one['link']} ({one['doctype']}): {one['why']}")
+
+
+#: A rail link written as an address into a kind of record's views, such as
+#: OneCRM's Pipeline, /desk/opportunity/view/kanban/Pipeline.
+_INTO = re.compile(r"^/desk/([a-z0-9-]+)(?:/|$|\?)")
+
+
+def kind_of(url: str | None) -> str | None:
+	"""The kind of record a rail address opens, or None for a page. Reads the
+	database."""
+	found = _INTO.match(url or "")
+	if not found:
+		return None
+	return frappe.db.get_value("DocType", {"name": found.group(1).replace("-", " ")}, "name", cache=True)
+
+
+def unopened(sidebars: dict | None) -> None:
+	"""Boot: a rail link written as an address is not in the rail of somebody
+	who may not read the kind it opens. frappe leaves out a DocType link a
+	person cannot read, but takes an address as it is: OneCRM's Pipeline,
+	shown to an administrator with no sales role, opened on "No permission for
+	Page" (frappe's router, not finding Opportunity among what they may read,
+	asks for a page of that name)."""
+	for sidebar in (sidebars or {}).values():
+		items = sidebar.get("items")
+		if not items:
+			continue
+		kept = []
+		for item in items:
+			kind = kind_of(item.get("url")) if item.get("link_type") == "URL" else None
+			if kind and not frappe.has_permission(kind, "read"):
+				continue
+			kept.append(item)
+		sidebar["items"] = kept
