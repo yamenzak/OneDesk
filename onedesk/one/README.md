@@ -1380,6 +1380,10 @@ conversation is kept, and the arrow at the top left lists them.
   Chat action. The menu shows each model's maker; what each costs is in
   Workspace › OneAI › Actions. If the work moves to another part of OneAI,
   such as designing a print format, your pick goes with it.
+- **What it read.** The answer comes first. Under it, the records OneAI
+  read: one record as a card, several as one list with a line each. The list
+  shows three; **Show more** shows the rest, and **Open List** opens them in
+  their own list.
 - **The name.** After its first answer, OneAI names a conversation in a few
   words. Press the name at the top to change it; OneAI then leaves it alone.
 - **What it can use.** OneAI is given the tools that fit the question and

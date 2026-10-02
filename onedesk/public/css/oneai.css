@@ -310,6 +310,100 @@
  * is doing the same thing either way. No gradient edge: the colour is on the
  * launcher, where it is the mark. */
 
+/* Several records read at once: one list, a line each (Found.vue). */
+.one-ai-found {
+	margin: 8px 0 10px;
+	border: 1px solid var(--border-color);
+	border-radius: 12px;
+	background: var(--card-bg, var(--fg-color));
+	overflow: hidden;
+	font-size: var(--text-sm);
+}
+
+.one-ai-found__head {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 8px 10px 8px 12px;
+	color: var(--text-muted);
+}
+
+.one-ai-found__type {
+	font-weight: 600;
+	color: var(--text-color);
+}
+
+.one-ai-found__count {
+	padding: 0 6px;
+	border-radius: 999px;
+	background: var(--surface-gray-2);
+	font-size: var(--text-xs);
+	line-height: 18px;
+}
+
+.one-ai-found__open {
+	margin-inline-start: auto;
+	border: 0;
+	background: none;
+	padding: 2px 4px;
+	font-size: var(--text-xs);
+	color: var(--text-muted);
+	cursor: pointer;
+}
+
+.one-ai-found__open:hover {
+	color: var(--text-color);
+}
+
+.one-ai-found__row {
+	display: flex;
+	align-items: baseline;
+	gap: 12px;
+	width: 100%;
+	padding: 7px 12px;
+	border: 0;
+	border-top: 1px solid var(--border-color);
+	background: none;
+	text-align: start;
+	color: var(--text-color);
+	cursor: pointer;
+}
+
+.one-ai-found__row:hover {
+	background: var(--surface-gray-1, var(--subtle-fg));
+}
+
+.one-ai-found__title {
+	flex: 1 1 auto;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.one-ai-found__meta {
+	flex: 0 1 45%;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	text-align: end;
+	color: var(--text-muted);
+}
+
+.one-ai-found__more {
+	display: block;
+	width: 100%;
+	padding: 6px 12px 8px;
+	border: 0;
+	border-top: 1px solid var(--border-color);
+	background: none;
+	text-align: start;
+	font-size: var(--text-xs);
+	color: var(--text-muted);
+	cursor: pointer;
+}
+
 .one-ai-rec {
 	margin: 0 0 10px;
 	border: 1px solid var(--border-color);
@@ -936,6 +1030,9 @@ button.one-ai-model:hover {
 		height: calc(100vh - 96px);
 	}
 	.one-ai-dial { right: 16px; bottom: 16px; }
+	/* The open panel fills the phone and has its own close; the dial on top
+	 * of it covered the send button. */
+	body:has(.one-ai-panel) .one-ai-dial { display: none; }
 }
 
 

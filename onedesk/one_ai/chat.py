@@ -536,7 +536,41 @@ def shown(turns: list[dict]) -> list[dict]:
 				+ list(one.get("cards") or []),
 			}
 		)
-	return said
+	return _answer_first(said)
+
+
+def _answer_first(said: list[dict]) -> list[dict]:
+	"""What a turn looked up, moved under the answer it led to.
+
+	A model asks for a tool in one turn and answers in the next, so drawn as
+	stored the records came first and the answer below them, off the bottom
+	of a phone. The answer is what was asked for; what it read is the
+	evidence, underneath."""
+	out: list[dict] = []
+	carried: dict | None = None
+	for one in said:
+		if one["role"] != "model":
+			if carried:
+				out.append(carried)
+			carried = None
+			out.append(one)
+			continue
+		if carried:
+			one = {
+				**one,
+				"looked": carried["looked"] + one["looked"],
+				"remembered": carried["remembered"] + one["remembered"],
+				"cards": carried["cards"] + one["cards"],
+				"files": carried["files"] + one["files"],
+			}
+			carried = None
+		if not one["text"] and (one["looked"] or one["remembered"] or one["cards"]):
+			carried = one
+			continue
+		out.append(one)
+	if carried:
+		out.append(carried)
+	return out
 
 
 def _remembered(turn: dict, after: list[dict]) -> list[dict]:
@@ -570,6 +604,9 @@ def _looked(call: dict, result: dict | None) -> dict:
 	said = result or {}
 	answered = said.get("result")
 	rows, more = _records(call, answered)
+	found = _found(call, answered)
+	if found:
+		rows, more = [], 0
 	return {
 		"tool": call.get("tool"),
 		"args": call.get("args") or {},
@@ -578,6 +615,7 @@ def _looked(call: dict, result: dict | None) -> dict:
 		"card": said.get("card"),
 		"records": rows,
 		"more": more,
+		"found": found,
 		"count": answered if isinstance(answered, int) else None,
 	}
 
@@ -615,6 +653,41 @@ def _records(call: dict, answered) -> tuple[list[dict], int]:
 	# drawn at full height is a list the answer sits below the bottom of.
 	most = FIELDS if len(found) == 1 else BRIEF
 	return [_drawn(doctype, row, most) for row in found[:CARDS]], max(len(found) - CARDS, 0)
+
+
+#: How many records a list of them carries. The panel shows three and the rest
+#: behind "Show more"; past this, the list itself is the place to read them.
+LISTED = 10
+
+
+def _found(call: dict, answered) -> dict | None:
+	"""Several records read at once, as one list: a line each with what it is
+	called and the one value that tells it apart, rather than a card each.
+
+	Measured on a phone: four customers drawn as four cards filled the panel
+	twice over and pushed the answer below them. A list reads at a glance and
+	leaves the answer in sight; one record still gets its card."""
+	doctype = ((call.get("args") or {}).get("doctype") or "").strip()
+	if not isinstance(answered, list) or not doctype or not frappe.db.exists("DocType", doctype):
+		return None
+	found = [row for row in answered if isinstance(row, dict) and row.get("name")]
+	if len(found) < 2:
+		return None
+	rows = []
+	for row in found[:LISTED]:
+		drawn = _drawn(doctype, row, 1)
+		told = (drawn["fields"] or [{}])[0]
+		rows.append(
+			{"name": drawn["name"], "title": drawn["title"], "meta": told.get("value"), "meta_label": told.get("label")}
+		)
+	filters = (call.get("args") or {}).get("filters")
+	return {
+		"doctype": doctype,
+		"total": len(found),
+		"rows": rows,
+		# A list it read with filters opens on the same filters.
+		"filters": filters if isinstance(filters, dict) else None,
+	}
 
 
 def _drawn(doctype: str, row: dict, most: int = FIELDS) -> dict:

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-02 16:39+0000\n"
-"PO-Revision-Date: 2026-10-02 16:39+0000\n"
+"POT-Creation-Date: 2026-10-02 17:56+0000\n"
+"PO-Revision-Date: 2026-10-02 17:56+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: onedesk/one_ai/run.py:536
+#: onedesk/one_ai/run.py:544
 msgid " and "
 msgstr ""
 
@@ -1930,7 +1930,7 @@ msgstr ""
 msgid "Answered"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:357
+#: onedesk/public/js/oneai/Panel.vue:359
 msgid "Answers from your own records"
 msgstr ""
 
@@ -2385,7 +2385,7 @@ msgid "Ask whoever sent it for a new one."
 msgstr ""
 
 #: onedesk/public/js/oneai.js:129 onedesk/public/js/oneai.js:130
-#: onedesk/public/js/oneai/Panel.vue:179
+#: onedesk/public/js/oneai/Panel.vue:180
 msgid "Ask {0}"
 msgstr ""
 
@@ -2594,7 +2594,7 @@ msgstr ""
 msgid "Attach"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:185
+#: onedesk/public/js/oneai/Panel.vue:186
 msgid "Attach a file"
 msgstr ""
 
@@ -2758,7 +2758,7 @@ msgstr ""
 msgid "Auto Repeat"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:194 onedesk/public/js/oneai/Panel.vue:551
+#: onedesk/public/js/oneai/Panel.vue:195 onedesk/public/js/oneai/Panel.vue:553
 msgid "Automatic"
 msgstr ""
 
@@ -3909,7 +3909,7 @@ msgstr ""
 msgid "Choose the kind of record first."
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:192
+#: onedesk/public/js/oneai/Panel.vue:193
 msgid "Choose the model"
 msgstr ""
 
@@ -5216,7 +5216,7 @@ msgstr ""
 msgid "Default for {0}"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:197
+#: onedesk/public/js/oneai/Panel.vue:198
 msgid "Default model"
 msgstr ""
 
@@ -7288,7 +7288,7 @@ msgstr ""
 msgid "Fix With OneAI"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:300 onedesk/public/js/oneai/Panel.vue:307
+#: onedesk/public/js/oneai/Panel.vue:302 onedesk/public/js/oneai/Panel.vue:309
 msgid "Fix spelling and grammar"
 msgstr ""
 
@@ -7421,7 +7421,7 @@ msgstr ""
 msgid "Forget everything OneAI remembers about you?"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:119
+#: onedesk/public/js/oneai/Panel.vue:120
 msgid "Forgotten"
 msgstr ""
 
@@ -8571,7 +8571,7 @@ msgstr ""
 msgid "Image Generation"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:300 onedesk/public/js/oneai/Panel.vue:302
+#: onedesk/public/js/oneai/Panel.vue:302 onedesk/public/js/oneai/Panel.vue:304
 msgid "Improve it"
 msgstr ""
 
@@ -9449,7 +9449,7 @@ msgstr ""
 
 #. Option for the 'Audit' (Select) field in DocType 'Intake Action'
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
-#: onedesk/public/js/oneai/Panel.vue:357 onedesk/public/js/settings.js:731
+#: onedesk/public/js/oneai/Panel.vue:359 onedesk/public/js/settings.js:731
 msgid "Kept"
 msgstr ""
 
@@ -9535,7 +9535,7 @@ msgstr ""
 msgid "Knowledge"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:156
+#: onedesk/public/js/oneai/Panel.vue:157
 msgid "Knows about"
 msgstr ""
 
@@ -10416,11 +10416,11 @@ msgstr ""
 msgid "Looked For On"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:788
+#: onedesk/public/js/oneai/Panel.vue:796
 msgid "Looked at {0}"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:788
+#: onedesk/public/js/oneai/Panel.vue:796
 msgid "Looked something up"
 msgstr ""
 
@@ -10734,27 +10734,27 @@ msgstr ""
 msgid "Make it again first if much has changed since."
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:328
+#: onedesk/public/js/oneai/Panel.vue:330
 msgid "Make it bigger"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:306
+#: onedesk/public/js/oneai/Panel.vue:308
 msgid "Make it friendlier"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:304
+#: onedesk/public/js/oneai/Panel.vue:306
 msgid "Make it longer"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:305
+#: onedesk/public/js/oneai/Panel.vue:307
 msgid "Make it more formal"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:300 onedesk/public/js/oneai/Panel.vue:303
+#: onedesk/public/js/oneai/Panel.vue:302 onedesk/public/js/oneai/Panel.vue:305
 msgid "Make it shorter"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:328
+#: onedesk/public/js/oneai/Panel.vue:330
 msgid "Make it smaller"
 msgstr ""
 
@@ -11104,7 +11104,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 #: onedesk/one_intake/doctype/reading/reading.json
-#: onedesk/public/js/oneai/Panel.vue:559 onedesk/public/js/settings.js:2582
+#: onedesk/public/js/oneai/Panel.vue:561 onedesk/public/js/settings.js:2582
 #: onedesk/public/js/settings.js:2661
 msgid "Model"
 msgstr ""
@@ -11113,7 +11113,7 @@ msgstr ""
 msgid "Model Withdrawn"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:564
+#: onedesk/public/js/oneai/Panel.vue:566
 msgid "Model for Everybody…"
 msgstr ""
 
@@ -11345,7 +11345,7 @@ msgstr ""
 #: onedesk/public/js/customize.js:128 onedesk/public/js/doctype_settings.js:544
 #: onedesk/public/js/doctype_settings.js:888
 #: onedesk/public/js/leave_control_panel.js:34
-#: onedesk/public/js/oneai/Panel.vue:608 onedesk/public/js/onecloud.js:143
+#: onedesk/public/js/oneai/Panel.vue:610 onedesk/public/js/onecloud.js:143
 #: onedesk/public/js/onecloud.js:1552 onedesk/public/js/settings.js:1088
 #: onedesk/public/js/settings.js:1175 onedesk/public/js/settings.js:2170
 #: onedesk/public/js/settings.js:2184 onedesk/public/js/settings.js:2494
@@ -11747,7 +11747,7 @@ msgid "Next: {0}"
 msgstr ""
 
 #: onedesk/one/ai.py:2401 onedesk/one/ai.py:2404 onedesk/one/ai.py:3434
-#: onedesk/one/ai.py:3621 onedesk/one_ai/chat.py:667
+#: onedesk/one/ai.py:3621 onedesk/one_ai/chat.py:740
 #: onedesk/public/js/onecloud.js:702
 msgid "No"
 msgstr ""
@@ -12219,7 +12219,7 @@ msgstr ""
 msgid "Not built yet"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:1062
+#: onedesk/one_ai/chat.py:1135
 msgid "Not changed"
 msgstr ""
 
@@ -12619,7 +12619,7 @@ msgid "Of Whom"
 msgstr ""
 
 #: onedesk/one/ai.py:2404 onedesk/one/settings.py:910
-#: onedesk/one_ai/chat.py:666
+#: onedesk/one_ai/chat.py:739
 #: onedesk/one_studio/doctype/extension/extension_list.js:13
 #: onedesk/one_studio/heads.py:23 onedesk/public/js/doctype_settings.js:238
 #: onedesk/public/js/doctype_settings.js:275
@@ -12692,7 +12692,7 @@ msgstr ""
 msgid "Offerings"
 msgstr ""
 
-#: onedesk/one/ai.py:3434 onedesk/one/ai.py:3621 onedesk/one_ai/chat.py:666
+#: onedesk/one/ai.py:3434 onedesk/one/ai.py:3621 onedesk/one_ai/chat.py:739
 #: onedesk/one_studio/doctype/extension/extension_list.js:9
 #: onedesk/one_studio/heads.py:18 onedesk/public/js/doctype_settings.js:238
 #: onedesk/public/js/doctype_settings.js:275 onedesk/public/js/settings.js:573
@@ -13417,7 +13417,7 @@ msgstr ""
 msgid "Only an administrator of this workspace can do this."
 msgstr ""
 
-#: onedesk/one_ai/chat.py:1059
+#: onedesk/one_ai/chat.py:1132
 msgid "Only an administrator picks the model here."
 msgstr ""
 
@@ -13581,6 +13581,10 @@ msgstr ""
 
 #: onedesk/one_crm/report/deal_forecast/deal_forecast.py:65
 msgid "Open Deals"
+msgstr ""
+
+#: onedesk/public/js/oneai/Found.vue:13
+msgid "Open List"
 msgstr ""
 
 #: onedesk/one_book/heads.py:354 onedesk/one_book/heads.py:376
@@ -13768,7 +13772,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/reading_reference/reading_reference.json
 #: onedesk/one_intake/report/spending/spending.py:26
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
-#: onedesk/public/js/oneai/Panel.vue:581
+#: onedesk/public/js/oneai/Panel.vue:583
 msgid "Other"
 msgstr ""
 
@@ -15500,7 +15504,7 @@ msgstr ""
 msgid "Reading the check-ins"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:721
+#: onedesk/public/js/oneai/Panel.vue:723
 msgid "Reading what it found…"
 msgstr ""
 
@@ -15972,7 +15976,7 @@ msgstr ""
 msgid "Remembered"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:119
+#: onedesk/public/js/oneai/Panel.vue:120
 msgid "Remembered: {0}"
 msgstr ""
 
@@ -15998,7 +16002,7 @@ msgstr ""
 msgid "Reminder: {who} asks you for files: {request}"
 msgstr ""
 
-#: onedesk/one/ai.py:1589 onedesk/public/js/oneai/Panel.vue:171
+#: onedesk/one/ai.py:1589 onedesk/public/js/oneai/Panel.vue:172
 #: onedesk/public/js/onecloud.js:1312 onedesk/public/js/onecloud.js:1358
 #: onedesk/public/js/onecloud.js:1505 onedesk/public/js/onecloud.js:1792
 #: onedesk/public/js/settings.js:377 onedesk/public/js/settings.js:1510
@@ -16035,12 +16039,12 @@ msgstr ""
 #: onedesk/one/ai.py:1579
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
-#: onedesk/public/js/oneai/Panel.vue:23 onedesk/public/js/oneai/Panel.vue:614
+#: onedesk/public/js/oneai/Panel.vue:23 onedesk/public/js/oneai/Panel.vue:616
 #: onedesk/public/js/onecloud.js:102 onedesk/public/js/onecloud.js:1915
 msgid "Rename"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:613
+#: onedesk/public/js/oneai/Panel.vue:615
 msgid "Rename Conversation"
 msgstr ""
 
@@ -16116,7 +16120,7 @@ msgstr ""
 msgid "Reply all"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:297
+#: onedesk/public/js/oneai/Panel.vue:299
 msgid "Reply saying…"
 msgstr ""
 
@@ -16772,7 +16776,7 @@ msgstr ""
 
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
-#: onedesk/public/js/oneai/Panel.vue:213 onedesk/public/js/privacy_copy.js:52
+#: onedesk/public/js/oneai/Panel.vue:214 onedesk/public/js/privacy_copy.js:52
 #: onedesk/www/r.html:47 onedesk/www/s.html:107
 msgid "Send"
 msgstr ""
@@ -16821,7 +16825,7 @@ msgstr ""
 msgid "Send the list of documents you are agreeing to."
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:160
+#: onedesk/public/js/oneai/Panel.vue:161
 msgid "Send this again"
 msgstr ""
 
@@ -17298,7 +17302,7 @@ msgstr ""
 msgid "Show every action"
 msgstr ""
 
-#: onedesk/public/js/oneai/Record.vue:54
+#: onedesk/public/js/oneai/Found.vue:20 onedesk/public/js/oneai/Record.vue:54
 msgid "Show fewer"
 msgstr ""
 
@@ -17314,7 +17318,7 @@ msgstr ""
 msgid "Show pictures"
 msgstr ""
 
-#: onedesk/public/js/oneai/Record.vue:54
+#: onedesk/public/js/oneai/Found.vue:20 onedesk/public/js/oneai/Record.vue:54
 msgid "Show {0} more"
 msgstr ""
 
@@ -17649,7 +17653,7 @@ msgstr ""
 msgid "Spam"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:203
+#: onedesk/public/js/oneai/Panel.vue:204
 msgid "Speak"
 msgstr ""
 
@@ -18002,7 +18006,7 @@ msgstr ""
 msgid "Stop Timer (since {0})"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:203
+#: onedesk/public/js/oneai/Panel.vue:204
 msgid "Stop listening"
 msgstr ""
 
@@ -18018,11 +18022,11 @@ msgstr ""
 msgid "Stop reading with OneAI"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:160
+#: onedesk/public/js/oneai/Panel.vue:161
 msgid "Stop sending this"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:152
+#: onedesk/public/js/oneai/Panel.vue:153
 msgid "Stop writing this field"
 msgstr ""
 
@@ -18248,11 +18252,11 @@ msgstr ""
 msgid "Suggested"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:787
+#: onedesk/public/js/oneai/Panel.vue:795
 msgid "Suggested a change"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:787
+#: onedesk/public/js/oneai/Panel.vue:795
 msgid "Suggested a change to {0}"
 msgstr ""
 
@@ -18763,7 +18767,7 @@ msgstr ""
 msgid "That code is not right, or it has run out."
 msgstr ""
 
-#: onedesk/one_ai/chat.py:219 onedesk/public/js/oneai/Panel.vue:766
+#: onedesk/one_ai/chat.py:219 onedesk/public/js/oneai/Panel.vue:768
 msgid "That did not go through."
 msgstr ""
 
@@ -18829,7 +18833,7 @@ msgstr ""
 msgid "That kind of file is not what was asked for."
 msgstr ""
 
-#: onedesk/one_ai/chat.py:1062
+#: onedesk/one_ai/chat.py:1135
 msgid "That model is not offered."
 msgstr ""
 
@@ -20195,8 +20199,8 @@ msgstr ""
 msgid "They owe {outstanding} against a limit of {limit}."
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:402 onedesk/public/js/oneai/Panel.vue:665
-#: onedesk/public/js/oneai/Panel.vue:721
+#: onedesk/public/js/oneai/Panel.vue:404 onedesk/public/js/oneai/Panel.vue:667
+#: onedesk/public/js/oneai/Panel.vue:723
 msgid "Thinking…"
 msgstr ""
 
@@ -20901,11 +20905,11 @@ msgstr ""
 msgid "Transfer"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:308
+#: onedesk/public/js/oneai/Panel.vue:310
 msgid "Translate it into "
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:308
+#: onedesk/public/js/oneai/Panel.vue:310
 msgid "Translate…"
 msgstr ""
 
@@ -20957,7 +20961,7 @@ msgstr ""
 msgid "Try It"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:142
+#: onedesk/public/js/oneai/Panel.vue:143
 msgid "Try again"
 msgstr ""
 
@@ -21101,7 +21105,7 @@ msgstr ""
 
 #: onedesk/one_intake/doctype/intake_action/intake_action.js:11
 #: onedesk/one_intake/page/intake/intake.js:194 onedesk/public/js/intake.js:235
-#: onedesk/public/js/intake.js:363 onedesk/public/js/oneai/Panel.vue:120
+#: onedesk/public/js/intake.js:363 onedesk/public/js/oneai/Panel.vue:121
 #: onedesk/public/js/onemail.js:652
 msgid "Undo"
 msgstr ""
@@ -22235,11 +22239,11 @@ msgstr ""
 msgid "What the suggestion was made from. Attached to the record it makes."
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:553
+#: onedesk/public/js/oneai/Panel.vue:555
 msgid "What the workspace set"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:553
+#: onedesk/public/js/oneai/Panel.vue:555
 msgid "What the workspace set: {0}"
 msgstr ""
 
@@ -23667,7 +23671,7 @@ msgstr ""
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.js:7
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_mail/cloud.py:47 onedesk/public/js/ai_model.js:38
-#: onedesk/public/js/oneai/Panel.vue:562 onedesk/public/js/onemail.js:232
+#: onedesk/public/js/oneai/Panel.vue:564 onedesk/public/js/onemail.js:232
 #: onedesk/public/js/settings.js:414 onedesk/public/js/settings.js:837
 msgid "Workspace"
 msgstr ""
@@ -23865,7 +23869,7 @@ msgstr ""
 msgid "Write It Yourself"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:297 onedesk/public/js/oneai/Panel.vue:298
+#: onedesk/public/js/oneai/Panel.vue:299 onedesk/public/js/oneai/Panel.vue:300
 msgid "Write a first draft"
 msgstr ""
 
@@ -23889,7 +23893,7 @@ msgstr ""
 msgid "Write a polite mail template for Sales Invoice reminding the customer that an invoice is due, with its number, amount and due date."
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:297
+#: onedesk/public/js/oneai/Panel.vue:299
 msgid "Write a reply that says: "
 msgstr ""
 
@@ -23966,7 +23970,7 @@ msgstr ""
 msgid "Write {0} on a new {1}"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:149
+#: onedesk/public/js/oneai/Panel.vue:150
 msgid "Writing"
 msgstr ""
 
@@ -24054,7 +24058,7 @@ msgid "Year-end close of {0}"
 msgstr ""
 
 #: onedesk/one/ai.py:2401 onedesk/one/ai.py:2404 onedesk/one/ai.py:3434
-#: onedesk/one/ai.py:3621 onedesk/one_ai/chat.py:667
+#: onedesk/one/ai.py:3621 onedesk/one_ai/chat.py:740
 #: onedesk/public/js/onecloud.js:702
 msgid "Yes"
 msgstr ""
@@ -24361,7 +24365,7 @@ msgstr ""
 msgid "Your contact details, the records with your address, and the mail with you, except what would show somebody else's or the company's confidential information. You are told what is left out and why."
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:356
+#: onedesk/public/js/oneai/Panel.vue:358
 msgid "Your conversations"
 msgstr ""
 
@@ -24695,7 +24699,7 @@ msgid "an operator"
 msgstr ""
 
 #: onedesk/one/settings.py:1696 onedesk/one_admin/heads.py:570
-#: onedesk/public/js/oneai/Panel.vue:113 onedesk/public/js/onecloud.js:2121
+#: onedesk/public/js/oneai/Panel.vue:114 onedesk/public/js/onecloud.js:2121
 msgid "and {0} more"
 msgstr ""
 
@@ -25284,11 +25288,11 @@ msgstr ""
 msgid "the AI Gateway"
 msgstr ""
 
-#: onedesk/one_ai/run.py:519
+#: onedesk/one_ai/run.py:527
 msgid "the added instructions"
 msgstr ""
 
-#: onedesk/one_ai/run.py:519
+#: onedesk/one_ai/run.py:527
 msgid "the added instructions, to none"
 msgstr ""
 
@@ -25328,11 +25332,11 @@ msgstr ""
 msgid "the fiscal year, and .TFY. its short form"
 msgstr ""
 
-#: onedesk/one_ai/run.py:516
+#: onedesk/one_ai/run.py:524
 msgid "the model back to the default"
 msgstr ""
 
-#: onedesk/one_ai/run.py:516
+#: onedesk/one_ai/run.py:524
 msgid "the model to {0}"
 msgstr ""
 
@@ -25444,11 +25448,11 @@ msgstr ""
 msgid "what {0} can do in {1}"
 msgstr ""
 
-#: onedesk/one_ai/run.py:524
+#: onedesk/one_ai/run.py:532
 msgid "who picks the model, to administrators only"
 msgstr ""
 
-#: onedesk/one_ai/run.py:522
+#: onedesk/one_ai/run.py:530
 msgid "who picks the model, to everybody"
 msgstr ""
 
@@ -25724,7 +25728,7 @@ msgstr ""
 msgid "{0} changed in this save. Save it first, then edit what it links to."
 msgstr ""
 
-#: onedesk/one_ai/run.py:473
+#: onedesk/one_ai/run.py:481
 msgid "{0} changed this since you opened it. Close it and open it again."
 msgstr ""
 
@@ -25769,7 +25773,7 @@ msgstr ""
 msgid "{0} credits a month"
 msgstr ""
 
-#: onedesk/public/js/oneai/Panel.vue:222
+#: onedesk/public/js/oneai/Panel.vue:223
 msgid "{0} credits in this conversation"
 msgstr ""
 

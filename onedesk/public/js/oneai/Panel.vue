@@ -101,12 +101,13 @@
 					</div>
 
 					<template v-for="(look, i) in said.looked" :key="i">
-						<div v-if="look.error || (!look.records.length && !look.card)" class="one-ai-looked"
+						<div v-if="look.error || (!look.records.length && !look.card && !look.found && !drew(said))" class="one-ai-looked"
 							:class="{ 'one-ai-looked--refused': look.error }">
 							<span class="one-ai-looked__dot"></span>
 							<span>{{ look.error || told(look) }}</span>
 						</div>
 
+						<Found v-if="look.found" :found="look.found" />
 						<Record v-for="rec in look.records" :key="rec.name" :record="rec" />
 						<div v-if="look.more" class="one-ai-looked">
 							<span class="one-ai-looked__dot"></span>
@@ -228,6 +229,7 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, ref, watch } from "vue";
 
+import Found from "./Found.vue";
 import Record from "./Record.vue";
 import Icon from "./Icon.vue";
 
@@ -782,6 +784,12 @@ async function answered() {
 // What it did, not which function it called. A write says it suggested rather
 // than that it looked, because "looked at ToDo" above a card that would create
 // one is the one sentence in the panel that could be read as "it did it".
+// An answer that drew what it read says nothing more about having looked:
+// "Looked at Customer" above the list of customers is the list twice.
+function drew(said) {
+	return (said.looked || []).some((look) => look.found || (look.records || []).length);
+}
+
 function told(look) {
 	const what = (look.args && (look.args.doctype || look.args.name)) || "";
 	if (!look.ran) return what ? __("Suggested a change to {0}", [what]) : __("Suggested a change");

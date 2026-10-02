@@ -197,3 +197,13 @@ def test_a_chat_started_by_the_paperclip_is_named_by_its_first_question():
 	"""`start` saves a placeholder title; the first thing asked replaces it."""
 	said = spoken(CHAT, "say")
 	assert "doc.title = text[:TITLE]" in said
+
+
+def test_several_records_are_one_list_under_the_answer():
+	"""Four customers drawn as four cards filled a phone twice over and put
+	the answer below them. Several records read at once are one list, and what
+	a turn read is moved under the answer it led to."""
+	assert "if len(found) < 2" in spoken(CHAT, "_found")
+	assert "return _answer_first(said)" in spoken(CHAT, "shown")
+	panel = PANEL.read_text(encoding="utf-8")
+	assert '<Found v-if="look.found"' in panel
