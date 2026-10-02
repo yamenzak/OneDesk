@@ -5490,6 +5490,15 @@ run against real records:
   The Request field now skips that filter (`ignore_xss_filter`). The form
   escapes it when it shows it, so it is still never read as HTML.
 
+**The form reads as a page.** Every field on an extension is OneAI's or the
+review's, so the column of greyed-out inputs became one Summary field
+(`extension.js`, drawn with `onedesk.shell` sections and rows and frappe's
+badge): where it runs, as a sentence ("After a new Customer is saved for the
+first time"); what was asked, by whom and when, with each fix OneAI made
+under it marked **Fixed**; and the review, with its badge. The fields stay
+on the doctype for the list, the filters and OneAI, and are only hidden on
+the form.
+
 **Found on the way:** the panel's brief of the record being looked at was
 drawn from the whole record, levels the reader cannot read included.
 `chat._brief` now applies frappe's `apply_fieldlevel_read_permissions` first.

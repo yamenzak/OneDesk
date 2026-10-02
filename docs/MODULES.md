@@ -173,7 +173,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Extension | 20 | document |
+| Extension | 19 | document |
 | Record Type | 6 | document |
 
 ## Desk records shipped as fixtures

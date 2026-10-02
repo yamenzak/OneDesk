@@ -556,3 +556,28 @@ a.one-shell-row:hover {
 .one-shell-search .form-control::-webkit-search-cancel-button {
 	cursor: pointer;
 }
+
+/* An extension's Summary (extension.js): what OneAI and the review wrote, as
+   it was written, in the weight of reading rather than of a title. The form's
+   own padding is the page's, so the sections sit on it unindented. */
+.one-extension .one-shell-section {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.one-extension .one-shell-section:first-child {
+	padding-top: calc(var(--spacing) * 2);
+}
+
+.one-extension .one-shell-section > .one-extension-text {
+	margin-top: calc(var(--spacing) * 2);
+}
+
+.one-extension-text {
+	flex: 1 1 100%;
+	min-width: 0;
+	white-space: pre-line;
+	font-weight: var(--font-weight-regular);
+	color: var(--ink-gray-8);
+	line-height: 1.5;
+}

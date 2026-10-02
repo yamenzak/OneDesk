@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-02 10:02+0000\n"
-"PO-Revision-Date: 2026-10-02 10:02+0000\n"
+"POT-Creation-Date: 2026-10-02 10:21+0000\n"
+"PO-Revision-Date: 2026-10-02 10:21+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1564,6 +1564,30 @@ msgstr ""
 msgid "After Submit"
 msgstr ""
 
+#: onedesk/one_studio/doctype/extension/extension.js:28
+msgid "After a new {0} is saved for the first time"
+msgstr "بعد حفظ {0} جديد لأول مرة"
+
+#: onedesk/one_studio/doctype/extension/extension.js:35
+msgid "After a submitted {0} is changed and saved"
+msgstr "بعد تغيير {0} مُعتمد وحفظه"
+
+#: onedesk/one_studio/doctype/extension/extension.js:33
+msgid "After a {0} is cancelled"
+msgstr "بعد إلغاء {0}"
+
+#: onedesk/one_studio/doctype/extension/extension.js:37
+msgid "After a {0} is deleted"
+msgstr "بعد حذف {0}"
+
+#: onedesk/one_studio/doctype/extension/extension.js:29
+msgid "After a {0} is saved"
+msgstr "بعد حفظ {0}"
+
+#: onedesk/one_studio/doctype/extension/extension.js:31
+msgid "After a {0} is submitted"
+msgstr "بعد اعتماد {0}"
+
 #: onedesk/public/js/settings.js:2923
 msgid "After that, every day counts as a working day for leave and attendance, until another list starts."
 msgstr "بعد ذلك يُحسب كل يوم يوم عمل في الإجازات والحضور، حتى تبدأ قائمة أخرى."
@@ -1831,15 +1855,15 @@ msgstr "الموظف هو الشخص صاحب الحساب: دوره وقسمه 
 msgid "An employee who never checks out gets an OUT written at the shift end, marked Closed Automatically."
 msgstr "الموظف الذي لا يسجّل انصرافه يُكتب له سجل انصراف عند نهاية المناوبة، ويُعلَّم بأنه أُغلق تلقائياً."
 
-#: onedesk/one_studio/extensions.py:126
+#: onedesk/one_studio/extensions.py:124
 msgid "An extension on the screen runs on a form or a list."
 msgstr "الإضافة على الشاشة تعمل في نموذج أو قائمة."
 
-#: onedesk/one_studio/extensions.py:129
+#: onedesk/one_studio/extensions.py:127
 msgid "An extension on the server runs when a record is saved, submitted, cancelled or deleted."
 msgstr "الإضافة على الخادم تعمل عند حفظ سجل أو اعتماده أو إلغائه أو حذفه."
 
-#: onedesk/one_studio/extensions.py:124
+#: onedesk/one_studio/extensions.py:122
 msgid "An extension runs on the screen or on the server."
 msgstr "تعمل الإضافة على الشاشة أو على الخادم."
 
@@ -2361,6 +2385,10 @@ msgstr "اسأل {0} عن هذا"
 #: onedesk/one_intake/planning.py:141
 msgid "Ask {1} for invoice {0}"
 msgstr "اطلب من {1} الفاتورة {0}"
+
+#: onedesk/one_studio/doctype/extension/extension.js:103
+msgid "Asked"
+msgstr "الطلب"
 
 #. Label of the asked_by (Link) field in DocType 'AI Proposal'
 #. Label of the asked_by (Link) field in DocType 'Extension'
@@ -2931,6 +2959,26 @@ msgstr ""
 #: onedesk/one_storage/notifications.py:74
 msgid "Before a file request is due, or when its owner sends a reminder."
 msgstr "قبل موعد طلب الملفات، أو عندما يرسل صاحبه تذكيراً."
+
+#: onedesk/one_studio/doctype/extension/extension.js:25
+msgid "Before a new {0} is saved for the first time"
+msgstr "قبل حفظ {0} جديد لأول مرة"
+
+#: onedesk/one_studio/doctype/extension/extension.js:34
+msgid "Before a submitted {0} is changed and saved"
+msgstr "قبل تغيير {0} مُعتمد وحفظه"
+
+#: onedesk/one_studio/doctype/extension/extension.js:32
+msgid "Before a {0} is cancelled"
+msgstr "قبل إلغاء {0}"
+
+#: onedesk/one_studio/doctype/extension/extension.js:36
+msgid "Before a {0} is deleted"
+msgstr "قبل حذف {0}"
+
+#: onedesk/one_studio/doctype/extension/extension.js:30
+msgid "Before a {0} is submitted"
+msgstr "قبل اعتماد {0}"
 
 #: onedesk/one/notifications.py:112
 msgid "Before some of the workspace's OneAI credits expire, a week ahead."
@@ -5905,6 +5953,14 @@ msgstr "يتلقى كل مرسل ردًا واحدًا كل أربعة أيام.
 msgid "Each thing OneAI does, and the model it runs on. Default is what One picked. Click one to change it."
 msgstr "كل ما يفعله OneAI، والنموذج الذي يعمل عليه. الافتراضي هو ما اختاره One. انقر على أحدها لتغييره."
 
+#: onedesk/one_studio/doctype/extension/extension.js:26
+msgid "Each time a {0} is saved, before it is checked"
+msgstr "في كل مرة يُحفظ فيها {0}، قبل التحقق منه"
+
+#: onedesk/one_studio/doctype/extension/extension.js:27
+msgid "Each time a {0} is saved, before it is written"
+msgstr "في كل مرة يُحفظ فيها {0}، قبل كتابته"
+
 #: onedesk/www/account_invoices.html:51
 msgid "Each workspace is billed on its own, so each has its own card."
 msgstr "تُفوتر كل مساحة عمل على حدة، ولذلك لكل منها بطاقتها."
@@ -7214,6 +7270,10 @@ msgstr "أصلحها مع OneAI"
 #: onedesk/public/js/oneai/Panel.vue:288 onedesk/public/js/oneai/Panel.vue:295
 msgid "Fix spelling and grammar"
 msgstr "صحّح الإملاء والنحو"
+
+#: onedesk/one_studio/doctype/extension/extension.js:100
+msgid "Fixed"
+msgstr "تم الإصلاح"
 
 #: onedesk/public/js/check.js:31
 msgid "Fixed."
@@ -12676,6 +12736,14 @@ msgstr "في إجازة"
 msgid "On the Mail Domain"
 msgstr "على نطاق البريد"
 
+#: onedesk/one_studio/doctype/extension/extension.js:79
+msgid "On the Screen"
+msgstr "على الشاشة"
+
+#: onedesk/one_studio/doctype/extension/extension.js:79
+msgid "On the Server"
+msgstr "على الخادم"
+
 #: onedesk/one_hr/notifications.py:182
 msgid "On the morning of a colleague's birthday."
 msgstr "صباح عيد ميلاد زميل."
@@ -12683,6 +12751,14 @@ msgstr "صباح عيد ميلاد زميل."
 #: onedesk/one_hr/notifications.py:193
 msgid "On the morning of a colleague's work anniversary."
 msgstr "صباح ذكرى عمل زميل."
+
+#: onedesk/one_studio/doctype/extension/extension.js:66
+msgid "On the {0} form, in the browser of whoever opens it"
+msgstr "في نموذج {0}، في متصفح من يفتحه"
+
+#: onedesk/one_studio/doctype/extension/extension.js:65
+msgid "On the {0} list, in the browser of whoever opens it"
+msgstr "في قائمة {0}، في متصفح من يفتحها"
 
 #: onedesk/one_admin/accounts.py:171
 msgid "On trial"
@@ -13182,7 +13258,7 @@ msgstr "مراجعة تسجيل الحضور من صلاحية الموارد ا
 msgid "Only On"
 msgstr "فقط في"
 
-#: onedesk/one_studio/extensions.py:191
+#: onedesk/one_studio/extensions.py:186
 msgid "Only OneAI writes an extension. Ask it to change this one; turning it on or off is yours."
 msgstr "OneAI وحده يكتب الإضافات. اطلب منه تغيير هذه؛ أما تشغيلها أو إيقافها فهو قرارك."
 
@@ -16129,9 +16205,10 @@ msgstr "إرجاع {0} ({1})"
 #. Label of the review (Select) field in DocType 'Extension'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_studio/ai.py:270
+#: onedesk/one_studio/doctype/extension/extension.js:111
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Review"
-msgstr ""
+msgstr "المراجعة"
 
 #. Label of the review_note (Small Text) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
@@ -18131,8 +18208,10 @@ msgstr "لخّص هذا السجل في بضعة أسطر."
 
 #. Label of the said (Data) field in DocType 'AI Proposal'
 #. Label of the summary (Small Text) field in DocType 'Reading'
+#. Label of the summary (HTML) field in DocType 'Extension'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/reading/reading.json
+#: onedesk/one_studio/doctype/extension/extension.json
 msgid "Summary"
 msgstr "الملخص"
 
@@ -20108,7 +20187,7 @@ msgstr "لدى هذا الموظف مفتاح مرور بالفعل. على ال
 msgid "This employee's passkey is blocked. HR must reset it before another can be registered."
 msgstr "مفتاح مرور هذا الموظف محظور. على الموارد البشرية إعادة تعيينه قبل تسجيل مفتاح آخر."
 
-#: onedesk/one_studio/extensions.py:197
+#: onedesk/one_studio/extensions.py:192
 msgid "This extension has not passed its review, so it cannot be turned on. Ask OneAI to change it."
 msgstr "لم تجتز هذه الإضافة مراجعتها، لذا لا يمكن تشغيلها. اطلب من OneAI تعديلها."
 
@@ -20305,7 +20384,7 @@ msgstr "لا يمكن لمساحة العمل هذه إرسال البريد ب�
 msgid "This workspace does not record interviews. HR Settings says whether it does."
 msgstr "مساحة العمل هذه لا تسجّل المقابلات. تحدد إعدادات الموارد البشرية ذلك."
 
-#: onedesk/one_studio/extensions.py:200
+#: onedesk/one_studio/extensions.py:195
 msgid "This workspace does not run extensions on the server yet. Ask us to turn them on."
 msgstr "مساحة العمل هذه لا تشغّل الإضافات على الخادم بعد. اطلب منا تفعيلها."
 
@@ -21617,6 +21696,7 @@ msgstr "ماذا تعرف عني؟"
 msgid "What Is Read"
 msgstr "ما يُقرأ"
 
+#: onedesk/one_studio/doctype/extension/extension.js:72
 #: onedesk/public/js/settings.js:3042 onedesk/public/js/settings.js:3217
 msgid "What It Does"
 msgstr "ما تفعله"
@@ -22799,6 +22879,10 @@ msgstr "عندما يتغير {0} إلى {1}"
 #: onedesk/public/js/settings.js:1380
 msgid "Where"
 msgstr "الموقع"
+
+#: onedesk/one_studio/doctype/extension/extension.js:76
+msgid "Where It Runs"
+msgstr "أين يعمل"
 
 #. Label of the one_status (Select) field in DocType 'Personal Data Download
 #. Request'
@@ -25285,7 +25369,7 @@ msgstr "{0} (لا شيء)"
 msgid "{0} (was {1})"
 msgstr "{0} (كان {1})"
 
-#: onedesk/one/webhooks.py:200 onedesk/one_studio/extensions.py:333
+#: onedesk/one/webhooks.py:200 onedesk/one_studio/extensions.py:328
 #: onedesk/public/js/privacy_copy.js:27
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
@@ -26693,7 +26777,7 @@ msgid "{0}, when {1}"
 msgstr "{0}، عندما {1}"
 
 #: onedesk/one/ai_setup.py:339 onedesk/one_studio/ai.py:258
-#: onedesk/one_studio/extensions.py:261
+#: onedesk/one_studio/extensions.py:256
 msgid "{0}, {1}"
 msgstr "{0}، {1}"
 
