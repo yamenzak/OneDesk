@@ -1,7 +1,7 @@
 """What OneStudio's records say above their fields. See one/head.py.
 
 An extension opens on whether it is on, what it does, and whether it has run
-into mistakes lately; its one verb turns it on or off, which is the only
+into errors lately; its one verb turns it on or off, which is the only
 thing anybody here changes on it.
 """
 
@@ -61,6 +61,12 @@ def _switch(doc, on: bool):
 	return _("Turned on.") if on else _("Turned off.")
 
 
+def _mended(doc):
+	from onedesk.one_studio import mend
+
+	return mend.start(doc)
+
+
 def record_type_said(doc):
 	if doc.is_new() or not doc.description:
 		return None
@@ -91,6 +97,12 @@ VERBS = {
 		"when": lambda doc: not doc.is_new() and not doc.enabled and doc.review == "Passed",
 		"run": lambda doc, **_values: _switch(doc, True),
 	},
+	"extension.mend": {
+		"doctypes": [extensions.EXTENSION],
+		"label": lambda doc: _("Mend With OneAI"),
+		"when": lambda doc: not doc.is_new() and ai._recent_mistakes(doc.name) > 0,
+		"run": lambda doc, **_values: _mended(doc),
+	},
 	"extension.off": {
 		"doctypes": [extensions.EXTENSION],
 		"label": lambda doc: _("Turn Off"),
@@ -109,7 +121,13 @@ HEADS = [
 		"doctype": extensions.EXTENSION,
 		"indicators": [{"label": _lt("State"), "measure": "extension.state"}],
 		"sentences": [{"measure": "extension.said"}],
-		"band": [{"label": _lt("Mistakes This Week"), "source": "Measure", "measure": "extension.mistakes"}],
-		"verbs": [{"verb": "extension.on", "primary": 1}, {"verb": "extension.off"}],
+		"band": [
+			{"label": _lt("Errors in the Last 7 Days"), "source": "Measure", "measure": "extension.mistakes"}
+		],
+		"verbs": [
+			{"verb": "extension.on", "primary": 1},
+			{"verb": "extension.off"},
+			{"verb": "extension.mend"},
+		],
 	},
 ]

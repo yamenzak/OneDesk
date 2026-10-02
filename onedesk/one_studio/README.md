@@ -53,14 +53,18 @@ it. Deleting an extension (**…** at the top) takes it away for good. The other
 administrators are told when one is turned on, turned off or deleted, and by
 whom: from that moment it runs on everybody's work, or no longer does.
 
-**When one goes wrong.** An extension that runs into a mistake does not stop
+**When one goes wrong.** An extension that runs into an error does not stop
 anybody's work: on the server the record still saves, on the screen the form
-goes on working. The mistake is written down, **Mistakes This Week** counts
+goes on working. The error is written down, **Errors in the Last 7 Days** counts
 it, and every morning the administrators hear of the extensions that ran into
-one. Press **Has this one run into mistakes?** on it to hear what went wrong,
-then ask OneAI to mend it, or turn it off. A message an extension means to stop a save with, such as "A
-customer needs a mobile number", is not a mistake: it stops the save, as it
-says.
+one. The extension's **Errors** tab lists them: when, on which record, and what
+went wrong in one line, since OneAI last wrote it. Press **Mend With OneAI**
+at the top of the extension: OneAI reads the code and its errors, and a few
+minutes later tells you what went wrong and that it has written it again,
+reviewed and off until you turn it on. Or ask **Has this one run into errors?**
+in OneAI, or turn it off. A message an extension means to stop a save with,
+such as "A customer needs a mobile number", is not an error: it stops the
+save, as it says.
 
 **What an extension may not do.** Read or change what you could not; reach
 outside your workspace (no mail, no calls to other services); change
@@ -113,7 +117,7 @@ Every administrator is told, on the bell and by mail unless they chose
 otherwise in their notifications:
 
 - **Extensions Failing**, each morning, the extensions that ran into a
-  mistake the day before. Not sent when none did.
+  error the day before. Not sent when none did.
 - **Extension Turned On**, when another administrator turns one on: what it
   does, where and when it runs.
 - **Extension Turned Off** and **Extension Deleted**, on the bell only unless
@@ -125,7 +129,7 @@ Nobody is told of their own change.
 
 On Extensions: **Write an extension…**, and **What do our extensions do?**,
 which says what each does and whether any is failing. On an extension:
-**Change this one…**; when it is on, **Has this one run into mistakes?**, which
+**Change this one…**; when it is on, **Has this one run into errors?**, which
 reads what went wrong and on which record (never its code); when it is off,
 **Why is this one off?** On Record Types: **Make a record type…**, and on
 one: **Add a field to this one…**
@@ -141,7 +145,8 @@ one: **Add a field to this one…**
 | `review.py` | The second reading, `studio_review`: a separate call shown the code and its explanation, nothing of the chat. |
 | `record_types.py` | A record type's rules, and frappe's custom DocType made, changed and deleted from it. |
 | `forms.py` | The Forms list. The Customize page is `page/customize` and `../public/js/customize.js`. |
-| `ai.py` | `write_extension`, `extensions_here`, `extension_mistakes`, `design_record_type`, `record_types_here`, on the `studio` action. |
+| `ai.py` | `write_extension`, `mend_extension`, `extensions_here`, `extension_mistakes`, `design_record_type`, `record_types_here`, on the `studio` action. |
+| `mend.py` | An extension's errors, the Errors tab, and mending one from them (`studio_mend`). |
 | `heads.py`, `notifications.py`, `legal.py` | The record heads; Extensions Failing and an extension turned on, off or deleted; and what the Terms and the AI Addendum say. |
 
 ### How it is made
@@ -183,7 +188,19 @@ frappe's Client Script is the code given its own `frappe`
 `try` and whose `throw` is marked as meant: a meant throw still stops the
 save, anything else is sent to `extensions.tripped` (rate-limited, only for an
 extension that is on and on the screen) and logged under the same name.
-`failing` and Mistakes This Week count both.
+`failing`, the Errors tab and the count on the extension cover both.
+
+**Mending without reading.** `mend.py` is a separate call, its own action
+(`studio_mend`), made on the server with the extension's code and its last
+five errors (a server error's whole traceback, a screen error's message and
+the browser's stack). It answers what went wrong in plain words and the code
+mended; the code goes through `extensions.write` like anything OneAI writes,
+and only the diagnosis comes back to the form or the chat. The button runs it
+as a job (`mend.start`, two model calls are minutes, more than a request may
+take) and tells whoever pressed it when it is done. Errors count from
+`written_on`, when OneAI last wrote it: older ones are about other code. The Errors tab and
+`extension_mistakes` show only the line of each error a person can read
+(`mend.what_went_wrong`). A screen error carries the record it was open on.
 
 **Record types are frappe's.** A custom DocType in module One Studio, made as
 Administrator, with permissions written for the app's roles, and a place in

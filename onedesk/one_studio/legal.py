@@ -44,7 +44,9 @@ clause(
 		from what they describe. The code of an extension is read a second time by a separate model,
 		shown the code and what it says it does and nothing of the conversation, and an extension it
 		does not pass cannot be turned on. Neither runs until an administrator approves it. OneAI can
-		write code that is wrong; an extension that runs into a mistake is written down and the record
-		still saves, and your administrators are told.
+		write code that is wrong; an extension that runs into an error is written down, the work goes
+		on, and your administrators are told. When an administrator asks OneAI to mend one, a separate
+		model is shown its code and its recent errors, which can include what was in the records it
+		ran on, and writes it again, read a second time and kept off like any other.
 	""",
 )

@@ -5403,6 +5403,32 @@ Done:
   OneAI, and Under the hood on the fingerprint, `WRITTEN` and the screen
   wrapper.
 
+**Then, on your questions:** "Mistakes This Week" is now **Errors in the Last
+7 Days**: the times this version of the extension crashed (a message it means
+to show is not one), counted from when OneAI last wrote it (`written_on`), so
+errors about older code drop out.
+
+- **An Errors tab** on the extension (frappe's EmbeddedList through
+  `onedesk.shell.table`, a record tab declared in `mend.TABS`): when, which
+  record (a link), and the one line of what went wrong, never the code. A
+  screen error now carries the record it was open on.
+- **Mend With OneAI** at the top of an extension with errors, and
+  `mend_extension` in the chat: a separate call (`studio_mend`, the AI
+  Addendum's revision 9) shown the code and its last five errors on the
+  server, which says what went wrong in plain words and writes it again
+  through `extensions.write`, so the guard and the review read it and it is
+  kept off. The button runs it as a job and tells whoever pressed it.
+- Tried live, twice. The first mended version made an empty mobile number
+  stop the save and did not say so; the review refused it, rightly. The
+  mender is now told to keep behaviour, to choose what stops nobody's work
+  for a case the explanation does not cover, and to say it in the
+  explanation. The second: answered in 3 seconds, told in 11 — "The script
+  stopped saving a customer when their mobile number was left blank because
+  it tried to check the first digit of an empty number. The mended version
+  checks if a mobile number is entered before looking at its first digit" —
+  review passed, explanation updated, off until turned on. The first run
+  took 185 seconds inside a request, which is why it is a job now.
+
 **Found on the way:** the panel's brief of the record being looked at was
 drawn from the whole record, levels the reader cannot read included.
 `chat._brief` now applies frappe's `apply_fieldlevel_read_permissions` first.

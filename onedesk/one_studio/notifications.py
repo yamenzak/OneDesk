@@ -14,13 +14,13 @@ TYPES = [
 		"app": "OneStudio",
 		"roles": ("Workspace Administrator",),
 		"about": _lt(
-			"Every morning, the extensions that ran into a mistake the day before. Not sent when none did."
+			"Every morning, the extensions that ran into errors the day before. Not sent when none did."
 		),
 		"to": _lt("Every administrator"),
-		"subject": _lt("Extensions ran into mistakes yesterday"),
+		"subject": _lt("Extensions ran into errors yesterday"),
 		"message": _lt(
-			"These extensions ran into a mistake, and the records still saved: {extensions}. Ask OneAI in "
-			"OneStudio to look at one and mend it, or turn it off."
+			"These extensions ran into errors, and the work went on: {extensions}. Open one and press "
+			"Mend With OneAI, or turn it off."
 		),
 		"email_default": True,
 	},

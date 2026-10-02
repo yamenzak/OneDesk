@@ -266,10 +266,10 @@ def _fields(words: set, touched: set, site: Site) -> None:
 			raise Refused(f"It reads {', '.join(hidden)} on {doctype}, which you may not read.")
 
 
-#: What an extension's mistakes are written down under, then its name.
+#: What an extension's errors are written down under, then its name.
 TITLE = "OneStudio: "
 
-#: How every server extension is run: a mistake in it is written down and the
+#: How every server extension is run: an error in it is written down and the
 #: record still saves, while a message it means to stop the save with still does.
 WRAPPED = """# Written by OneAI in OneStudio. Change it by asking OneAI.
 try:
@@ -294,23 +294,25 @@ def wrapped(name: str, code: str) -> str:
 WRAPPED_ON_SCREEN = """// Written by OneAI in OneStudio. Change it by asking OneAI.
 (function () {{
 	const extension = {name};
-	const tripped = (error) => {{
+	const tripped = (error, frm) => {{
 		if (error && error.one_studio_meant) throw error;
 		console.error(error);
 		frappe
 			.xcall("onedesk.one_studio.extensions.tripped", {{
 				extension,
+				record: (frm && frm.docname) || null,
 				message: String((error && error.message) || error).slice(0, 500),
+				stack: String((error && error.stack) || "").slice(0, 2000),
 			}})
 			.catch(() => {{}});
 	}};
 	const guarded = (handler) => (...args) => {{
 		try {{
 			const out = handler(...args);
-			if (out && typeof out.catch === "function") out.catch(tripped);
+			if (out && typeof out.catch === "function") out.catch((error) => tripped(error, args[0]));
 			return out;
 		}} catch (error) {{
-			tripped(error);
+			tripped(error, args[0]);
 		}}
 	}};
 	const form = Object.create(frappe.ui.form);

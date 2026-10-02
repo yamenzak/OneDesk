@@ -19,7 +19,7 @@ nobody else's to change.
   where the bench runs server scripts at all.
 - **Off and deleted by the administrator.** Off disables frappe's script;
   deleting the extension deletes it.
-- **A mistake does not stop the work.** Every extension runs wrapped
+- **An error does not stop the work.** Every extension runs wrapped
   (guard.wrapped on the server, guard.wrapped_on_screen in the browser): what
   it means to stop a save with still stops it, and anything else it trips on
   is written to the error log under its name (in the browser through
@@ -50,7 +50,7 @@ PREFIX = "OneStudio "
 #: extension on and off, and nothing else.
 WRITTEN = (
 	"title", "runs", "record_doctype", "view", "event", "explanation", "asked", "asked_by", "review",
-	"review_note",
+	"review_note", "written_on",
 )  # fmt: skip
 
 
@@ -104,6 +104,16 @@ def boot(bootinfo) -> None:
 	Extensions list to say Cannot Run Here as the head does."""
 	if roles.administers():
 		bootinfo.one_studio_server = runs_server_scripts()
+
+
+def since(name: str, days: int) -> object:
+	"""Where an extension's errors that are about its present code begin:
+	`days` ago, or when OneAI last wrote it if that is later."""
+	from frappe.utils import add_days, get_datetime, now_datetime
+
+	start = add_days(now_datetime(), -days)
+	written = frappe.db.get_value(EXTENSION, name, "written_on")
+	return max(start, get_datetime(written)) if written else start
 
 
 def check(runs: str, doctype: str, view: str | None, event: str | None, code: str) -> None:
@@ -160,6 +170,7 @@ def write(
 		}
 	)
 	doc.reviewed = reviewed_as(doc) if passed else None
+	doc.written_on = frappe.utils.now_datetime()
 	# The code is above the administrator's level, so frappe would drop it.
 	doc.flags.ignore_permissions = True
 	doc.flags.written = True
@@ -221,7 +232,9 @@ def sync(doc, method=None) -> None:
 	if doc.script != name:
 		doc.db_set("script", name, update_modified=False)
 	before = doc.get_doc_before_save()
-	if before and before.enabled != doc.enabled:
+	# Written again by OneAI, it is off until somebody turns it on, which is
+	# when the others hear.
+	if before and before.enabled != doc.enabled and not doc.flags.written:
 		from onedesk.one import notify
 
 		if doc.enabled:
@@ -260,18 +273,32 @@ def remove(doc, method=None) -> None:
 
 @frappe.whitelist(methods=["POST"])
 @rate_limit(limit=30, seconds=60 * 60)
-def tripped(extension: str, message: str | None = None) -> None:
-	"""A screen extension ran into a mistake in somebody's browser
+def tripped(
+	extension: str, message: str | None = None, stack: str | None = None, record: str | None = None
+) -> None:
+	"""A screen extension ran into an error in somebody's browser
 	(guard.WRAPPED_ON_SCREEN): written down under its name, as a server one's
-	is, for Mistakes This Week and `failing`. Anybody who opens the form runs
+	is, for its Errors tab, its count and `failing`. Anybody who opens the form runs
 	it, so anybody signed in may say so, and only of an extension that is on
 	and on the screen."""
 	if frappe.session.user == "Guest":
 		raise frappe.PermissionError
-	runs, enabled = frappe.db.get_value(EXTENSION, extension, ["runs", "enabled"]) or (None, 0)
+	runs, enabled, doctype = frappe.db.get_value(
+		EXTENSION, extension, ["runs", "enabled", "record_doctype"]
+	) or (None, 0, None)
 	if runs != ON_SCREEN or not enabled:
 		return
-	frappe.log_error(title=f"{guard.TITLE}{extension}", message=(message or "")[:500])
+	# The message first, which is what the Errors tab shows; the browser's
+	# stack after it, for mending.
+	said = "\n".join(filter(None, [(message or "")[:500], (stack or "")[:2000]]))
+	# Which record it was open on, if that is one: the Errors tab links to it.
+	named = record if record and frappe.db.exists(doctype, record) else None
+	frappe.log_error(
+		title=f"{guard.TITLE}{extension}",
+		message=said,
+		reference_doctype=doctype if named else None,
+		reference_name=named,
+	)
 
 
 def failing() -> None:

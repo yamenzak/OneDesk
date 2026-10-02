@@ -180,7 +180,8 @@ DOCUMENTS = {
 		# 6: OneAI reads your calendar, and colleagues' busy times.
 		# 7: OneAI reads your tasks, and suggests tasks and their steps.
 		# 8: OneAI writes extensions, read a second time, and designs record types.
-		"revision": 8,
+		# 9: OneAI mends an extension from its errors, which can carry record data.
+		"revision": 9,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {

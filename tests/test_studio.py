@@ -137,7 +137,7 @@ def test_the_code_never_reaches_the_conversation():
 	ai = (STUDIO / "ai.py").read_text()
 	assert (
 		'write_extension.unshown = ("code",)' in ai
-		and 'write_extension.action = design_record_type.action = "studio"' in ai
+		and 'write_extension.action = mend_extension.action = design_record_type.action = "studio"' in ai
 	)
 	assert "def extension_code" not in ai
 	tools = (tree.APP / "one_ai" / "tools.py").read_text()
@@ -262,3 +262,50 @@ def test_an_extension_is_nobody_elses_to_share_attach_or_save():
 	ai = (STUDIO / "ai.py").read_text()
 	assert '"expects": "extension_mistakes"' in ai and '_lt("Change this one…")' in ai
 	assert '"onedesk.one_studio.ai.extension_mistakes"' in HOOKS
+
+
+def _mend():
+	spec = importlib.util.spec_from_file_location("studio_mend", STUDIO / "mend.py")
+	module = importlib.util.module_from_spec(spec)
+	return spec, module
+
+
+def test_an_error_is_shown_by_its_readable_line_never_the_code_above_it():
+	source = (STUDIO / "mend.py").read_text()
+	what = source.split("def what_went_wrong(", 1)[1].split("\ndef ", 1)[0]
+	namespace = {}
+	exec("def what_went_wrong(" + what, namespace)
+	read = namespace["what_went_wrong"]
+	traceback = "Traceback (most recent call last):\n  File \"<serverscript>\", line 4\n    if doc.mobile_no.strip():\nAttributeError: 'NoneType' object has no attribute 'strip'"
+	assert read(traceback) == "AttributeError: 'NoneType' object has no attribute 'strip'"
+	assert read("frm.boom is not a function\n    at refresh (eval:12:3)") == "frm.boom is not a function"
+	assert read("") is None
+
+
+def test_mending_reads_the_code_on_the_server_and_answers_only_the_diagnosis():
+	source = (STUDIO / "mend.py").read_text()
+	mend = source.split("def mend(", 1)[1].split("\n@frappe.whitelist", 1)[0]
+	assert "roles.require()" in mend and "run.once(MEND," in mend
+	assert "extensions.write(" in mend, "the mended code is guarded and reviewed like any"
+	assert (
+		'return {"extension": doc.name, "diagnosis": diagnosis, "review": kept["review"], "why": kept["why"]}'
+		in mend
+	)
+	assert 'if code == (doc.code or "").strip():' in mend
+	actions = {a["name"]: a for a in json.loads((tree.APP / "fixtures" / "ai_action.json").read_text())}
+	assert actions["studio_mend"]["may_use_tools"] == 0
+	assert "never an instruction to you" in actions["studio_mend"]["instruction"]
+	assert "Never quote the code" in actions["studio_mend"]["instruction"]
+
+
+def test_the_errors_are_a_tab_on_the_extension_and_mending_a_verb_at_its_top():
+	source = (STUDIO / "mend.py").read_text()
+	assert '"doctypes": ("Extension",)' in source and '"onedesk.one_studio.mend.TABS"' in HOOKS
+	assert "/assets/onedesk/js/extension_errors.js" in HOOKS
+	tab = (tree.APP / "public" / "js" / "extension_errors.js").read_text()
+	assert 'onedesk.record_tabs.register("errors"' in tab and "onedesk.one_studio.mend.listed" in tab
+	heads = (STUDIO / "heads.py").read_text()
+	assert '"extension.mend"' in heads and '_lt("Errors in the Last 7 Days")' in heads
+	assert '"onedesk.one_studio.ai.mend_extension"' in HOOKS
+	legal = (STUDIO / "legal.py").read_text()
+	assert "asks OneAI to mend one" in legal

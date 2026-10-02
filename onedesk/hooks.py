@@ -851,6 +851,7 @@ app_include_js = [
 	# A record's tabs after its fields, declared under one_record_tabs.
 	"/assets/onedesk/js/record_tabs.js",
 	"/assets/onedesk/js/record_files.js",
+	"/assets/onedesk/js/extension_errors.js",
 	"/assets/onedesk/js/record_mail.js",
 	"/assets/onedesk/js/record_activity.js",
 	"/assets/onedesk/js/mail_compose.js",
@@ -1080,6 +1081,7 @@ one_ai_suggests = [
 	"onedesk.one_task.ai.plan_task",
 	"onedesk.one_task.ai.plan_steps",
 	"onedesk.one_studio.ai.write_extension",
+	"onedesk.one_studio.ai.mend_extension",
 	"onedesk.one_studio.ai.design_record_type",
 ]
 # One's own steps for frappe's automation engine: Tell People. See one/automation_steps.py.
@@ -1167,6 +1169,7 @@ one_record_tabs = [
 	"onedesk.one_mail.linking.TABS",
 	"onedesk.one_storage.namespace.TABS",
 	"onedesk.one.tabs.TABS",
+	"onedesk.one_studio.mend.TABS",
 ]
 
 # What each module puts on the calendar, as layers. Each reads its own records

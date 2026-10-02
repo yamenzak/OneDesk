@@ -3,7 +3,7 @@ thing that does.
 
 - `extensions_here` reads what the workspace has: each extension, where and
   when it runs, whether it is on, its review, and whether it ran into a
-  mistake lately. No code.
+  error lately. No code.
 - `write_extension` keeps what OneAI wrote, off, after the guard and the
   review (extensions.write), and makes a card whose Turn On does what the
   administrator would do in the list. A refused review comes back to the
@@ -65,8 +65,8 @@ SUGGESTIONS = {
 			"expects": "write_extension",
 		},
 		{
-			"label": _lt("Has this one run into mistakes?"),
-			"ask": _lt("Has this extension run into mistakes lately, and what went wrong?"),
+			"label": _lt("Has this one run into errors?"),
+			"ask": _lt("Has this extension run into errors lately, and what went wrong?"),
 			"view": "Form",
 			"expects": "extension_mistakes",
 			"when": {"enabled": [1]},
@@ -82,11 +82,9 @@ SUGGESTIONS = {
 
 
 def _recent_mistakes(name: str) -> int:
-	from frappe.utils import add_days, now_datetime
-
 	return frappe.db.count(
 		"Error Log",
-		{"method": f"{guard.TITLE}{name}", "creation": [">=", add_days(now_datetime(), -7)]},
+		{"method": f"{guard.TITLE}{name}", "creation": [">=", extensions.since(name, 7)]},
 	)
 
 
@@ -95,7 +93,7 @@ def extensions_here(
 ) -> dict:
 	"""The workspace's extensions, for its administrators: each one's title,
 	where and when it runs, whether it is on, what it does, its review, and
-	how often it ran into a mistake in the last week. Read it before writing
+	how often it ran into an error in the last week. Read it before writing
 	or changing one."""
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees the extensions."}
@@ -129,39 +127,49 @@ def extensions_here(
 def extension_mistakes(
 	extension: Annotated[str, "The extension's name, as it is in the address of its page."],
 ) -> dict:
-	"""For a workspace administrator: the mistakes one extension ran into in
-	the last two weeks, newest first, each with when, on which record, and what
+	"""For a workspace administrator: the errors one extension ran into in the
+	last two weeks, newest first, each with when, on which record, and what
 	went wrong in one line. Never its code. Read it before saying why an
-	extension is failing or how to mend it."""
-	from frappe.utils import add_days, now_datetime
+	extension is failing; mend_extension mends it."""
+	from onedesk.one_studio import mend
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees the extensions."}
 	if not frappe.db.exists(extensions.EXTENSION, extension):
 		return {"error": f"There is no extension {extension}."}
-	rows = frappe.get_all(
-		"Error Log",
-		filters={
-			"method": f"{guard.TITLE}{extension}",
-			"creation": [">=", add_days(now_datetime(), -14)],
-		},
-		fields=["creation", "reference_doctype", "reference_name", "error"],
-		order_by="creation desc",
-		limit=10,
-	)
 	return {
 		"extension": extension,
 		"title": frappe.db.get_value(extensions.EXTENSION, extension, "title"),
-		"mistakes": [
-			{
-				"when": str(row.creation),
-				"record": " ".join(filter(None, [row.reference_doctype, row.reference_name])) or None,
-				# The last line of a traceback is what went wrong; the lines
-				# above it are where, and may quote the code.
-				"what": (row.error or "").strip().splitlines()[-1][:300] if row.error else None,
-			}
-			for row in rows
-		],
+		"errors": mend.errors(extension, limit=10),
+	}
+
+
+def mend_extension(
+	extension: Annotated[str, "The extension's name, as it is in the address of its page."],
+) -> dict:
+	"""Mend an extension that has run into errors: a separate reading of its
+	code and its errors says what went wrong and writes it again, reviewed and
+	kept off. Answers what went wrong, never the code; the card turns the
+	mended version on when the person approves it."""
+	from onedesk.one_studio import mend
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator may have an extension mended."}
+	try:
+		mended = mend.mend(extension)
+	except frappe.ValidationError as e:
+		frappe.clear_last_message()
+		return {"error": str(e)}
+	if mended["review"] != "Passed":
+		return {
+			"diagnosis": mended["diagnosis"],
+			"error": f"The mended version was kept off: the review refused it. {mended['why']}",
+		}
+	doc = frappe.get_doc(extensions.EXTENSION, extension)
+	return {
+		"diagnosis": mended["diagnosis"],
+		**_proposed(doc, _("Mended: {0}").format(mended["diagnosis"])),
+		"next": "Say in plain words what went wrong and that approving turns the mended version on. Do not show the code.",
 	}
 
 
@@ -212,9 +220,17 @@ def write_extension(
 			"mend": "write_extension",
 			"error": f"Kept off: the review refused it. {kept['why']} Write it again with extension={kept['extension']}.",
 		}
+	doc = frappe.get_doc(extensions.EXTENSION, kept["extension"])
+	return {
+		**_proposed(doc, asked),
+		"next": "Say in one sentence what it does, and that approving turns it on. Do not show the code.",
+	}
+
+
+def _proposed(doc, why: str) -> dict:
+	"""The card that turns an extension on, as it stands, when approved."""
 	from onedesk.one_ai import proposals
 
-	doc = frappe.get_doc(extensions.EXTENSION, kept["extension"])
 	where = _("{0}, {1}").format(
 		_(doc.runs), _(doc.event) if doc.runs == extensions.ON_SERVER else _(doc.view)
 	)
@@ -232,9 +248,8 @@ def write_extension(
 		"route": ["Form", extensions.EXTENSION, doc.name],
 	}
 	return {
-		"proposal": proposals.propose("Setup", extensions.EXTENSION, changes=changes, why=asked),
+		"proposal": proposals.propose("Setup", extensions.EXTENSION, changes=changes, why=why),
 		"state": "Proposed",
-		"next": "Say in one sentence what it does, and that approving turns it on. Do not show the code.",
 	}
 
 
@@ -338,5 +353,5 @@ def make_record_type(changes: dict) -> str:
 	)
 
 
-write_extension.action = design_record_type.action = "studio"
+write_extension.action = mend_extension.action = design_record_type.action = "studio"
 write_extension.unshown = ("code",)

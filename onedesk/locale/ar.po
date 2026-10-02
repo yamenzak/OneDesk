@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-02 07:19+0000\n"
-"PO-Revision-Date: 2026-10-02 07:19+0000\n"
+"POT-Creation-Date: 2026-10-02 08:20+0000\n"
+"PO-Revision-Date: 2026-10-02 08:20+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1821,15 +1821,15 @@ msgstr "الموظف هو الشخص صاحب الحساب: دوره وقسمه 
 msgid "An employee who never checks out gets an OUT written at the shift end, marked Closed Automatically."
 msgstr "الموظف الذي لا يسجّل انصرافه يُكتب له سجل انصراف عند نهاية المناوبة، ويُعلَّم بأنه أُغلق تلقائياً."
 
-#: onedesk/one_studio/extensions.py:114
+#: onedesk/one_studio/extensions.py:124
 msgid "An extension on the screen runs on a form or a list."
 msgstr "الإضافة على الشاشة تعمل في نموذج أو قائمة."
 
-#: onedesk/one_studio/extensions.py:117
+#: onedesk/one_studio/extensions.py:127
 msgid "An extension on the server runs when a record is saved, submitted, cancelled or deleted."
 msgstr "الإضافة على الخادم تعمل عند حفظ سجل أو اعتماده أو إلغائه أو حذفه."
 
-#: onedesk/one_studio/extensions.py:112
+#: onedesk/one_studio/extensions.py:122
 msgid "An extension runs on the screen or on the server."
 msgstr "تعمل الإضافة على الشاشة أو على الخادم."
 
@@ -1943,7 +1943,7 @@ msgstr "كل ما يحتاج من يبتّ في الطلب إلى معرفته."
 
 #. Label of the one_app (Data) field in DocType 'Notification Type'
 #. Label of the app (Data) field in DocType 'Record Type'
-#: onedesk/one/custom/notification_type.json onedesk/one_studio/ai.py:292
+#: onedesk/one/custom/notification_type.json onedesk/one_studio/ai.py:307
 #: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/public/js/doctype_settings.js:341 onedesk/public/js/reports.js:364
 #: onedesk/public/js/settings.js:1158 onedesk/public/js/settings.js:1179
@@ -5367,7 +5367,7 @@ msgstr "الإهلاك يُرحَّل تلقائيًا"
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:457
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
-#: onedesk/one_studio/ai.py:293
+#: onedesk/one_studio/ai.py:308
 #: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "Description"
 msgstr ""
@@ -6268,6 +6268,14 @@ msgstr "المعدات التي تحتاج صيانة لها جدول"
 msgid "Error"
 msgstr ""
 
+#: onedesk/one_studio/mend.py:26
+msgid "Errors"
+msgstr "الأخطاء"
+
+#: onedesk/one_studio/heads.py:124
+msgid "Errors in the Last 7 Days"
+msgstr "الأخطاء في آخر 7 أيام"
+
 #: onedesk/one_project/report/project_tree/project_tree.py:56
 msgid "Estimated Cost"
 msgstr ""
@@ -6377,8 +6385,8 @@ msgid "Every morning, the domains that have waited a day for their DNS or stoppe
 msgstr "كل صباح، النطاقات التي انتظرت يوماً لإعداد DNS أو توقفت عن العمل. لا يُرسل إن لم يكن هناك أي منها."
 
 #: onedesk/one_studio/notifications.py:16
-msgid "Every morning, the extensions that ran into a mistake the day before. Not sent when none did."
-msgstr "كل صباح، الإضافات التي واجهت خطأ في اليوم السابق. لا يُرسل إن لم يحدث ذلك."
+msgid "Every morning, the extensions that ran into errors the day before. Not sent when none did."
+msgstr "كل صباح، الإضافات التي وقعت في أخطاء في اليوم السابق. لا يُرسل إن لم يقع أي منها."
 
 #: onedesk/one/notifications.py:321
 msgid "Every morning, the webhooks whose calls gave up the day before. Not sent when none did."
@@ -6699,7 +6707,7 @@ msgid "Explained"
 msgstr "الشرح"
 
 #. Label of the explanation (Small Text) field in DocType 'Extension'
-#: onedesk/one_studio/ai.py:229
+#: onedesk/one_studio/ai.py:245
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Explanation"
 msgstr "الشرح"
@@ -6722,11 +6730,11 @@ msgstr ""
 msgid "Extension"
 msgstr "إضافة"
 
-#: onedesk/one_studio/notifications.py:48
+#: onedesk/one_studio/notifications.py:50
 msgid "Extension Deleted"
 msgstr "حُذفت إضافة"
 
-#: onedesk/one_studio/notifications.py:38
+#: onedesk/one_studio/notifications.py:40
 msgid "Extension Turned Off"
 msgstr "أُوقفت إضافة"
 
@@ -6750,8 +6758,8 @@ msgid "Extensions it may be, like pdf, jpg. Any kind when empty."
 msgstr "الامتدادات المسموح بها، مثل pdf وjpg. أي نوع إن تُرك فارغًا."
 
 #: onedesk/one_studio/notifications.py:20
-msgid "Extensions ran into mistakes yesterday"
-msgstr "واجهت إضافات أخطاء بالأمس"
+msgid "Extensions ran into errors yesterday"
+msgstr "وقعت إضافات في أخطاء أمس"
 
 #. Name of a DocType
 #: onedesk/one_mail/doctype/face/face.json
@@ -6873,7 +6881,7 @@ msgstr "قيم الحقول"
 
 #. Label of the fields (Small Text) field in DocType 'Record Head Linked'
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json
-#: onedesk/one_studio/ai.py:294 onedesk/public/js/customize.js:112
+#: onedesk/one_studio/ai.py:309 onedesk/public/js/customize.js:112
 #: onedesk/public/js/customize.js:180
 msgid "Fields"
 msgstr ""
@@ -7854,11 +7862,11 @@ msgid "Has not joined yet"
 msgstr "لم ينضم بعد"
 
 #: onedesk/one_studio/ai.py:69
-msgid "Has this extension run into mistakes lately, and what went wrong?"
+msgid "Has this extension run into errors lately, and what went wrong?"
 msgstr "هل وقعت هذه الإضافة في أخطاء مؤخرًا، وما الذي حدث؟"
 
 #: onedesk/one_studio/ai.py:68
-msgid "Has this one run into mistakes?"
+msgid "Has this one run into errors?"
 msgstr "هل وقعت هذه في أخطاء؟"
 
 #: onedesk/www/start.html:25
@@ -9001,6 +9009,10 @@ msgstr "لا يوجد لها صنف بعد."
 msgid "It has no asset category."
 msgstr "ليس له فئة أصول."
 
+#: onedesk/public/js/extension_errors.js:17
+msgid "It has run into no errors since OneAI last wrote it."
+msgstr "لم تقع في أي خطأ منذ أن كتبها OneAI آخر مرة."
+
 #: onedesk/www/welcome.html:48
 msgid "It is also in your One account, with your invoices."
 msgstr "وهي أيضًا في حسابك في One، مع فواتيرك."
@@ -9049,8 +9061,8 @@ msgstr "ربما انتهت صلاحيته أو تم إيقافه. اطلب را
 msgid "It needs a CNAME record from {0} to {1}."
 msgstr "يحتاج إلى سجل CNAME من {0} إلى {1}."
 
-#: onedesk/one_studio/notifications.py:44
-#: onedesk/one_studio/notifications.py:54
+#: onedesk/one_studio/notifications.py:46
+#: onedesk/one_studio/notifications.py:56
 msgid "It no longer runs on {kind}. {explanation}"
 msgstr "لم تعد تعمل على {kind}. {explanation}"
 
@@ -10879,6 +10891,18 @@ msgstr "أعضاء {0}"
 msgid "Memory"
 msgstr "الذاكرة"
 
+#: onedesk/one_studio/heads.py:102
+msgid "Mend With OneAI"
+msgstr "أصلحها مع OneAI"
+
+#: onedesk/one_studio/ai.py:171 onedesk/one_studio/mend.py:111
+msgid "Mended: {0}"
+msgstr "أُصلحت: {0}"
+
+#: onedesk/one_studio/mend.py:174
+msgid "Mending {0}"
+msgstr "إصلاح {0}"
+
 #. Option for the 'Role' (Select) field in DocType 'Reading Party'
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 msgid "Mentioned"
@@ -10932,10 +10956,6 @@ msgstr "المراحل الرئيسية"
 #: onedesk/one/letter_heads.py:33
 msgid "Minimal"
 msgstr "بسيط"
-
-#: onedesk/one_studio/heads.py:110
-msgid "Mistakes This Week"
-msgstr "الأخطاء هذا الأسبوع"
 
 #: onedesk/one/settings.py:115
 msgid "Mobile"
@@ -12890,6 +12910,14 @@ msgstr "تعذّر الوصول إلى OneAI الآن. والسؤال ما زا�
 msgid "OneAI could not explain this document just now. Try again in a moment."
 msgstr "تعذّر على OneAI شرح هذا المستند الآن. حاول مرة أخرى بعد قليل."
 
+#: onedesk/one_studio/mend.py:110
+msgid "OneAI could not mend {0}: {1}"
+msgstr "لم يتمكن OneAI من إصلاح {0}: {1}"
+
+#: onedesk/one_studio/mend.py:108
+msgid "OneAI could not work out what went wrong with {0}. Try again later."
+msgstr "لم يتمكن OneAI من معرفة ما الخطأ في {0}. حاول لاحقًا."
+
 #: onedesk/one/home.py:152 onedesk/one/notifications.py:101
 msgid "OneAI credits are running low"
 msgstr "أرصدة OneAI توشك على النفاد"
@@ -12924,6 +12952,10 @@ msgstr "عالج OneAI ‏{0} من {1} مستندًا هذا الشهر؛ واح
 #: onedesk/one_intake/digest.py:51
 msgid "OneAI has read nothing yet this month."
 msgstr "لم يقرأ OneAI شيئًا بعد هذا الشهر."
+
+#: onedesk/one_studio/mend.py:152
+msgid "OneAI is mending it. It takes a few minutes; you will be told when it is done."
+msgstr "يصلحها OneAI الآن. يستغرق ذلك بضع دقائق، وستُبلَّغ عند الانتهاء."
 
 #: onedesk/one_intake/act.py:120
 msgid "OneAI is not sure enough."
@@ -12996,6 +13028,10 @@ msgstr "سيقرأ OneAI البريد الجديد في {0} ومرفقاته، �
 #: onedesk/public/js/onecloud.js:1830
 msgid "OneAI will read {0}, file it and act on it on your behalf. A scan or a photo is read with OneAI credits."
 msgstr "سيقرأ OneAI الملف {0} ويحفظه في مكانه ويتصرف بناءً عليه نيابةً عنك. تُقرأ الصورة الممسوحة أو الصورة الفوتوغرافية بأرصدة OneAI."
+
+#: onedesk/one_studio/mend.py:125
+msgid "OneAI's mended version was not kept: {0}"
+msgstr "لم تُحفظ النسخة التي أصلحها OneAI: {0}"
 
 #. Title of a Sidebar
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
@@ -13127,7 +13163,7 @@ msgstr "مراجعة تسجيل الحضور من صلاحية الموارد ا
 msgid "Only On"
 msgstr "فقط في"
 
-#: onedesk/one_studio/extensions.py:175
+#: onedesk/one_studio/extensions.py:186
 msgid "Only OneAI writes an extension. Ask it to change this one; turning it on or off is yours."
 msgstr "OneAI وحده يكتب الإضافات. اطلب منه تغيير هذه؛ أما تشغيلها أو إيقافها فهو قرارك."
 
@@ -15412,13 +15448,13 @@ msgstr "إعادة الاتصال بـ {0}"
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/report/deadlines/deadlines.py:43
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
-#: onedesk/one_studio/ai.py:228
+#: onedesk/one_studio/ai.py:244
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
-#: onedesk/public/js/hiring.js:11 onedesk/public/js/onecloud.js:485
-#: onedesk/public/js/onecloud.js:654 onedesk/public/js/onemail.js:475
-#: onedesk/public/js/overtime.js:50 onedesk/public/js/settings.js:769
-#: onedesk/public/js/settings.js:1379
+#: onedesk/public/js/extension_errors.js:21 onedesk/public/js/hiring.js:11
+#: onedesk/public/js/onecloud.js:485 onedesk/public/js/onecloud.js:654
+#: onedesk/public/js/onemail.js:475 onedesk/public/js/overtime.js:50
+#: onedesk/public/js/settings.js:769 onedesk/public/js/settings.js:1379
 msgid "Record"
 msgstr "تسجيل"
 
@@ -15569,7 +15605,7 @@ msgid "Recording…"
 msgstr "جارٍ التسجيل…"
 
 #: onedesk/one_storage/namespace.py:391 onedesk/one_storage/namespace.py:778
-#: onedesk/one_studio/heads.py:104
+#: onedesk/one_studio/heads.py:118
 msgid "Records"
 msgstr "السجلات"
 
@@ -16073,7 +16109,7 @@ msgstr "إرجاع {0} ({1})"
 #. Label of the review_section (Section Break) field in DocType 'Clock Attempt'
 #. Label of the review (Select) field in DocType 'Extension'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
-#: onedesk/one_studio/ai.py:230
+#: onedesk/one_studio/ai.py:246
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Review"
 msgstr ""
@@ -16197,7 +16233,7 @@ msgid "Run {0} on the default model with nothing added?"
 msgstr "هل تشغّل {0} على النموذج الافتراضي دون أي إضافة؟"
 
 #. Label of the runs (Select) field in DocType 'Extension'
-#: onedesk/one_studio/ai.py:227
+#: onedesk/one_studio/ai.py:243
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Runs"
 msgstr "تعمل"
@@ -17290,6 +17326,10 @@ msgstr "اشتراك لم يُنشأ"
 msgid "Signups"
 msgstr "التسجيلات"
 
+#: onedesk/public/js/extension_errors.js:14
+msgid "Since OneAI last wrote it, and at most two weeks back. Each is one time it ran into an error; the record still saved, or the form went on working."
+msgstr "منذ أن كتبها OneAI آخر مرة، ولمدة أسبوعين على الأكثر. كل سطر مرة وقعت فيها في خطأ؛ وقد حُفظ السجل رغم ذلك، أو استمر النموذج في العمل."
+
 #: onedesk/one_task/page/my_tasks/my_tasks.js:186
 msgid "Since {0}"
 msgstr "منذ {0}"
@@ -17609,7 +17649,7 @@ msgstr "يبدأ عند التسجيل"
 #: onedesk/one_hr/heads.py:748 onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
-#: onedesk/one_studio/heads.py:108
+#: onedesk/one_studio/heads.py:122
 msgid "State"
 msgstr "الحالة"
 
@@ -19267,9 +19307,9 @@ msgstr "الكلمة الواحدة الدالة عليه. وما يمكن أن 
 msgid "The operators"
 msgstr "المشغّلون"
 
-#: onedesk/one_studio/notifications.py:32
-#: onedesk/one_studio/notifications.py:42
-#: onedesk/one_studio/notifications.py:52
+#: onedesk/one_studio/notifications.py:34
+#: onedesk/one_studio/notifications.py:44
+#: onedesk/one_studio/notifications.py:54
 msgid "The other administrators"
 msgstr "المسؤولون الآخرون"
 
@@ -19929,8 +19969,8 @@ msgid "These days will be marked as worked."
 msgstr "ستُسجَّل هذه الأيام أيام عمل."
 
 #: onedesk/one_studio/notifications.py:21
-msgid "These extensions ran into a mistake, and the records still saved: {extensions}. Ask OneAI in OneStudio to look at one and mend it, or turn it off."
-msgstr "واجهت هذه الإضافات خطأ، وحُفظت السجلات مع ذلك: {extensions}. اطلب من OneAI في OneStudio أن يفحص إحداها ويصلحها، أو أوقفها."
+msgid "These extensions ran into errors, and the work went on: {extensions}. Open one and press Mend With OneAI, or turn it off."
+msgstr "وقعت هذه الإضافات في أخطاء، واستمر العمل: {extensions}. افتح إحداها واضغط «أصلحها مع OneAI»، أو أوقفها."
 
 #: onedesk/one/notifications.py:324
 msgid "These webhooks could not deliver after every try: {webhooks}. Open each call to see what the other system answered."
@@ -20049,7 +20089,7 @@ msgstr "لدى هذا الموظف مفتاح مرور بالفعل. على ال
 msgid "This employee's passkey is blocked. HR must reset it before another can be registered."
 msgstr "مفتاح مرور هذا الموظف محظور. على الموارد البشرية إعادة تعيينه قبل تسجيل مفتاح آخر."
 
-#: onedesk/one_studio/extensions.py:181
+#: onedesk/one_studio/extensions.py:192
 msgid "This extension has not passed its review, so it cannot be turned on. Ask OneAI to change it."
 msgstr "لم تجتز هذه الإضافة مراجعتها، لذا لا يمكن تشغيلها. اطلب من OneAI تعديلها."
 
@@ -20246,7 +20286,7 @@ msgstr "لا يمكن لمساحة العمل هذه إرسال البريد ب�
 msgid "This workspace does not record interviews. HR Settings says whether it does."
 msgstr "مساحة العمل هذه لا تسجّل المقابلات. تحدد إعدادات الموارد البشرية ذلك."
 
-#: onedesk/one_studio/extensions.py:184
+#: onedesk/one_studio/extensions.py:195
 msgid "This workspace does not run extensions on the server yet. Ask us to turn them on."
 msgstr "مساحة العمل هذه لا تشغّل الإضافات على الخادم بعد. اطلب منا تفعيلها."
 
@@ -20729,12 +20769,12 @@ msgstr "جرّب البوابة"
 msgid "Try {0}"
 msgstr "جرّب {0}"
 
-#: onedesk/one_studio/heads.py:94 onedesk/public/js/settings.js:364
+#: onedesk/one_studio/heads.py:108 onedesk/public/js/settings.js:364
 #: onedesk/public/js/settings.js:989
 msgid "Turn Off"
 msgstr "إيقاف"
 
-#: onedesk/one_studio/heads.py:88 onedesk/public/js/settings.js:998
+#: onedesk/one_studio/heads.py:96 onedesk/public/js/settings.js:998
 msgid "Turn On"
 msgstr "تشغيل"
 
@@ -20763,11 +20803,11 @@ msgstr "رفضه {0}."
 msgid "Turned down."
 msgstr "مرفوض."
 
-#: onedesk/one_studio/heads.py:59
+#: onedesk/one_studio/heads.py:61
 msgid "Turned off."
 msgstr "أُوقفت."
 
-#: onedesk/one_studio/heads.py:59
+#: onedesk/one_studio/heads.py:61
 msgid "Turned on."
 msgstr "شُغّلت."
 
@@ -21666,6 +21706,10 @@ msgstr "ما الذي استهلك الأرصدة"
 msgid "What Was Said"
 msgstr "ما قيل"
 
+#: onedesk/public/js/extension_errors.js:27
+msgid "What Went Wrong"
+msgstr "ما الخطأ"
+
 #: onedesk/public/js/settings.js:2420
 msgid "What a domain of your own needs, where its DNS is kept."
 msgstr "ما يحتاجه نطاقك الخاص حيث يُدار DNS الخاص به."
@@ -22154,7 +22198,8 @@ msgstr "ما يراه {0}"
 #: onedesk/public/js/doctype_settings.js:277
 #: onedesk/public/js/doctype_settings.js:314
 #: onedesk/public/js/doctype_settings.js:1076
-#: onedesk/public/js/doctype_settings.js:1103 onedesk/public/js/intake.js:107
+#: onedesk/public/js/doctype_settings.js:1103
+#: onedesk/public/js/extension_errors.js:19 onedesk/public/js/intake.js:107
 #: onedesk/public/js/settings.js:678 onedesk/public/js/settings.js:3154
 msgid "When"
 msgstr "المدة"
@@ -22170,6 +22215,11 @@ msgstr "عندما يضيف One شبكة أو مكاناً يسجّل منه ا�
 #: onedesk/one/notifications.py:124
 msgid "When OneAI credits arrive: a pack paid for, the plan's monthly credits, or credits One gives, with its note."
 msgstr "عند وصول أرصدة OneAI: حزمة مدفوعة، أو أرصدة الخطة الشهرية، أو أرصدة يمنحها One مع ملاحظته."
+
+#. Description of the 'Written On' (Datetime) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "When OneAI last wrote it. Errors from before are about other code."
+msgstr "متى كتبها OneAI آخر مرة. الأخطاء السابقة تخص شيفرة أخرى."
 
 #: onedesk/one_intake/notifications.py:21
 msgid "When OneAI reads a document for you and one thing in it needs you."
@@ -22412,11 +22462,11 @@ msgstr "عندما يغيّر مسؤول آخر خطة مساحة العمل أ�
 msgid "When another administrator changes who pays for the workspace."
 msgstr "عندما يغيّر مسؤول آخر من يدفع لمساحة العمل."
 
-#: onedesk/one_studio/notifications.py:51
+#: onedesk/one_studio/notifications.py:53
 msgid "When another administrator deletes an extension."
 msgstr "عندما يحذف مسؤول آخر إضافة."
 
-#: onedesk/one_studio/notifications.py:41
+#: onedesk/one_studio/notifications.py:43
 msgid "When another administrator turns an extension off."
 msgstr "عندما يوقف مسؤول آخر إضافة."
 
@@ -23705,6 +23755,11 @@ msgstr "أفرّغه كتابيًا من جديد. سيتبع النص وتعل�
 #: onedesk/one_inventory/heads.py:355
 msgid "Written Off"
 msgstr "المُهلك"
+
+#. Label of the written_on (Datetime) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "Written On"
+msgstr "كُتبت في"
 
 #. Label of the value_section (Section Break) field in DocType 'AI Touch'
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
@@ -25211,7 +25266,7 @@ msgstr "{0} (لا شيء)"
 msgid "{0} (was {1})"
 msgstr "{0} (كان {1})"
 
-#: onedesk/one/webhooks.py:200 onedesk/one_studio/extensions.py:301
+#: onedesk/one/webhooks.py:200 onedesk/one_studio/extensions.py:328
 #: onedesk/public/js/privacy_copy.js:27
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
@@ -25245,6 +25300,14 @@ msgstr "{0} غيغابايت قاعدة بيانات"
 #: onedesk/one_admin/doctype/offering/offering.py:88 onedesk/www/start.py:128
 msgid "{0} GB storage"
 msgstr "{0} غيغابايت تخزين"
+
+#: onedesk/one_studio/mend.py:165
+msgid "{0} The mended version is off until you turn it on."
+msgstr "{0} النسخة المُصلحة متوقفة حتى تشغّلها."
+
+#: onedesk/one_studio/mend.py:168
+msgid "{0} The mended version was kept off: the review refused it. {1}"
+msgstr "{0} أُبقيت النسخة المُصلحة متوقفة: رفضتها المراجعة. {1}"
 
 #: onedesk/one_admin/doctype/offering/offering_list.js:23
 #: onedesk/public/js/settings.js:1509 onedesk/www/start.py:110
@@ -25633,7 +25696,7 @@ msgid "{0} has already joined. Send a password reset instead."
 msgstr "انضم {0} بالفعل. أرسل إعادة تعيين كلمة المرور بدلًا من ذلك."
 
 #: onedesk/one/ai_setup.py:791 onedesk/one_ai/proposals.py:157
-#: onedesk/one_ai/proposals.py:263 onedesk/one_studio/ai.py:247
+#: onedesk/one_ai/proposals.py:263 onedesk/one_studio/ai.py:262
 msgid "{0} has changed since this was suggested, so it no longer applies."
 msgstr "تغيّر {0} منذ اقتراح هذا، فلم يعد ينطبق."
 
@@ -25684,6 +25747,10 @@ msgstr "{0} لم تفشل."
 #: onedesk/one/numbering.py:242
 msgid "{0} has reached {1}. It can only go up: a lower number would repeat a name already used."
 msgstr "وصلت {0} إلى {1}. لا يمكن إلا أن تزيد: الرقم الأقل سيكرر اسمًا مستخدمًا."
+
+#: onedesk/one_studio/mend.py:103
+msgid "{0} has run into no errors, so there is nothing to mend."
+msgstr "لم تقع {0} في أي خطأ، فلا شيء لإصلاحه."
 
 #: onedesk/public/js/tenant.js:60
 msgid "{0} has {1} credits, {2} of them promised to calls in flight."
@@ -26606,8 +26673,8 @@ msgstr "{0}، بلا حد"
 msgid "{0}, when {1}"
 msgstr "{0}، عندما {1}"
 
-#: onedesk/one/ai_setup.py:339 onedesk/one_studio/ai.py:218
-#: onedesk/one_studio/extensions.py:243
+#: onedesk/one/ai_setup.py:339 onedesk/one_studio/ai.py:234
+#: onedesk/one_studio/extensions.py:256
 msgid "{0}, {1}"
 msgstr "{0}، {1}"
 
@@ -27047,7 +27114,7 @@ msgstr "{upper} يوفر {saves}% فقط مقارنة بـ {lower} مع الإض
 msgid "{what}"
 msgstr "{what}"
 
-#: onedesk/one_studio/notifications.py:34
+#: onedesk/one_studio/notifications.py:36
 msgid "{where}, on {kind}. {explanation}"
 msgstr "{where}، على {kind}. {explanation}"
 
@@ -27079,7 +27146,7 @@ msgstr "غيّر {who} إعدادات OneAdmin"
 msgid "{who} completed {task}"
 msgstr "أكمل {who} {task}"
 
-#: onedesk/one_studio/notifications.py:53
+#: onedesk/one_studio/notifications.py:55
 msgid "{who} deleted {title}"
 msgstr "حذف {who} {title}"
 
@@ -27100,11 +27167,11 @@ msgstr "شارك {who} ‏{file} معك"
 msgid "{who} shared {file} with you.<br><br><a href=\"{link}\">Open it</a><br><br>You will be asked for a code, which is sent to this address."
 msgstr "شارك {who} ‏{file} معك.<br><br><a href=\"{link}\">افتحه</a><br><br>سيُطلب منك رمز يُرسل إلى هذا العنوان."
 
-#: onedesk/one_studio/notifications.py:43
+#: onedesk/one_studio/notifications.py:45
 msgid "{who} turned off {title}"
 msgstr "أوقف {who} {title}"
 
-#: onedesk/one_studio/notifications.py:33
+#: onedesk/one_studio/notifications.py:35
 msgid "{who} turned on {title}"
 msgstr "شغّل {who} {title}"
 
