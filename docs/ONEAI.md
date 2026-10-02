@@ -207,6 +207,49 @@ Reading the whole of Frappe this way is the point — `get_list`, `get_doc`,
 `get_value`, the report endpoints — because the alternative is a hand-written
 tool per doctype that is out of date the week somebody adds a field.
 
+## A request is given the tools it looks like it needs
+
+OneAI has some 120 tools. Declared all at once they cost some 20,000 tokens a
+round, and a small model handed all of them reaches for the wrong one:
+measured, Gemma 4 used `search_everywhere` to find an extension and the
+operator's `ai_usage` to answer a workspace's credits.
+
+So the tools are grouped (`one_ai/groups.py`). Every request gets `CORE`, the
+reads and writes every record has, plus the `you` group. On top of that it
+gets the group of the page it was asked from, the groups the conversation
+already used, and the groups whose words the question uses (English, German,
+Arabic). None of that is a wall: `more_tools` names every group and what it
+is for, and a group asked for is declared from the next round on. A guess
+that misses costs one round, never an answer.
+
+The order is fixed: core first, then the groups in the order given. So a
+follow-up declares what the last question declared and the provider's prompt
+cache holds. `console` is only ever given on One's own console.
+
+## The person picks the model, the workspace pays
+
+The model a conversation runs on is, in order: what its person picked in the
+panel (`AI Chat.chosen_model`), what the workspace set for the chat action,
+then the action's own default. A person may pick when they administer the
+workspace or the Chat action's **People Choose the Model** is on. The list
+they pick from is the account's own catalogue, and the account checks the
+pick again when the call is made. A pick is `pinned` through `run.ask` and
+kept through a handover, so somebody who picked a model is not moved off it
+halfway.
+
+A conversation is named after its first answer by `chat_title`, a 30-token
+action with no tools. A name its person gave (`rename`) sets `titled`, and
+OneAI never names it again.
+
+## Measured, not guessed
+
+`one_ai/evals.py` is the test bench: about thirty real requests, each asked
+the way the panel asks them, and the tools and cards a right answer must
+have made. It is run on demand, never by the test suite, because every case
+is charged. A change to the prompts, the tools or the groups is run against
+it before it ships, and every run is appended to
+`private/oneai_evals.json` on the site.
+
 ## Watched, not waited out
 
 A generation takes between two and forty seconds. A gunicorn worker held open

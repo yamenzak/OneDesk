@@ -73,8 +73,8 @@ No doctypes yet.
 | Doctype | Fields | Kind |
 |---|--:|---|
 | AI Action | 16 | document |
-| AI Action Setting | 6 | document |
-| AI Chat | 7 | document |
+| AI Action Setting | 7 | document |
+| AI Chat | 9 | document |
 | AI Knowledge | 6 | document |
 | AI Memory | 5 | document |
 | AI Proposal | 20 | document |
@@ -354,7 +354,9 @@ No doctypes yet.
 * `onedesk.one_admin.stripe.webhook`
 * `onedesk.one_ai.chat.cards`
 * `onedesk.one_ai.chat.chats`
+* `onedesk.one_ai.chat.choose_model`
 * `onedesk.one_ai.chat.forget`
+* `onedesk.one_ai.chat.models`
 * `onedesk.one_ai.chat.opened`
 * `onedesk.one_ai.chat.progress`
 * `onedesk.one_ai.chat.rename`

@@ -1411,7 +1411,9 @@ def _oneai() -> dict:
 
 	chosen = {
 		one.action: one
-		for one in frappe.get_all("AI Action Setting", fields=["name", "action", "model", "extra", "modified"])
+		for one in frappe.get_all(
+			"AI Action Setting", fields=["name", "action", "model", "extra", "people_choose", "modified"]
+		)
 	}
 	actions = frappe.get_all(
 		"AI Action",
@@ -1445,6 +1447,7 @@ def _oneai() -> dict:
 				"default_model": one.default_model,
 				"model": held.get("model"),
 				"extra": held.get("extra"),
+				"people_choose": bool(held.get("people_choose")),
 				"setting": held.get("name"),
 				"modified": str(held.get("modified")) if held.get("modified") else None,
 				"credits": round(float(spent.get("credits") or 0), 2),

@@ -20,6 +20,7 @@ model call for a customer goes through.
 """
 
 import json
+import re
 
 import frappe
 import requests
@@ -386,6 +387,8 @@ def _answered(model: str, spoken: dict, answer, whole: bool = False):
 
 	words = spoken["said"](body)
 	wants = spoken["calls"](body)
+	if not wants and words and LEAKED in words:
+		wants, words = _leaked(words)
 	if words is None and not wants and _blank(body):
 		empty = faults.Blank(f"{model} answered with nothing in it", 200, json.dumps(body)[: faults.KEPT])
 		empty.body = body
@@ -401,6 +404,40 @@ def _answered(model: str, spoken: dict, answer, whole: bool = False):
 		# returning blanks to customers.
 		raise Refused(f"{model} answered 200 with nothing in it", 200, json.dumps(body)[: faults.KEPT])
 	return (words or "", wants, body) if whole else (words or "")
+
+
+#: How Gemma 4 marks a tool call in its own tokens. Measured: Workers AI now
+#: and then passes one through as the answer's text instead of reading it into
+#: `tool_calls`, and the person is shown `<|tool_call>:waiting_for_answer{...}`.
+LEAKED = "<|tool_call>"
+_CALL = re.compile(r"<\|tool_call>\s*(?:call)?\s*:?\s*([A-Za-z_]\w*)\s*(\{.*?\})\s*<tool_call\|>", re.S)
+_QUOTED = re.compile(r'<\|"\|>(.*?)<\|"\|>', re.S)
+_KEY = re.compile(r"([{,]\s*)([A-Za-z_]\w*)\s*:")
+
+
+def _leaked(words: str) -> tuple[list[dict], str]:
+	"""The calls Gemma wrote in its own tool-call tokens, and what it said
+	around them. Only that syntax, which is a call and nothing else: free-form
+	text is never read as one. A call whose arguments do not read is left in
+	the words, and nothing is invented."""
+	found = []
+
+	def read(match) -> str:
+		# The strings are set aside first, so a comma and a colon in one are
+		# not read as the next key.
+		held = []
+		body = _QUOTED.sub(lambda q: held.append(json.dumps(q.group(1))) or f"\x00{len(held) - 1}\x00", match.group(2))
+		body = _KEY.sub(lambda k: f'{k.group(1)}"{k.group(2)}":', body)
+		body = re.sub(r"\x00(\d+)\x00", lambda n: held[int(n.group(1))], body)
+		try:
+			args = json.loads(body)
+		except ValueError:
+			return match.group(0)
+		found.append({"id": f"{match.group(1)}-leaked-{len(found)}", "tool": match.group(1), "args": args if isinstance(args, dict) else {}})
+		return ""
+
+	rest = _CALL.sub(read, words).strip()
+	return found, rest if found else words
 
 
 def _malformed(body) -> bool:
@@ -535,6 +572,7 @@ def _workers_ai_said(body: dict | None) -> str | None:
 #: and QwQ put the whole of it inside `content`, fenced, rather than in a field
 #: of its own — so it cannot be ignored the way `reasoning` is, it has to be cut.
 THINKING = "</think>"
+CHANNEL = "<channel|>"
 
 
 def _without_thinking(said: str) -> str:
@@ -544,7 +582,14 @@ def _without_thinking(said: str) -> str:
 	that never opened one is left exactly as it wrote.
 	"""
 	at = said.rfind(THINKING)
-	return said[at + len(THINKING) :].strip() if at != -1 else said
+	said = said[at + len(THINKING) :].strip() if at != -1 else said
+	# Gemma 4 marks its thinking as a channel. Measured on Workers AI: the
+	# marker now and then reaches the answer, as `<|channel>thought ...
+	# <channel|>` or as a bare `:thought` line the person was shown.
+	at = said.rfind(CHANNEL)
+	if at != -1:
+		return said[at + len(CHANNEL) :].strip()
+	return re.sub(r"\A\s*(?:<\|channel>)?:?thought[ \t]*\n", "", said)
 
 
 def _openai_calls(body: dict | None) -> list[dict]:

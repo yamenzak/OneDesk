@@ -112,7 +112,9 @@ def start() -> dict:
 	that exists — so the row is made when the paperclip is pressed rather than
 	when the question is sent.
 	"""
-	doc = frappe.get_doc({"doctype": "AI Chat", "title": frappe._("New conversation")}).insert()
+	doc = frappe.get_doc(
+		{"doctype": "AI Chat", "title": frappe._("New conversation"), "chosen_model": _usual()}
+	).insert()
 	return {"name": doc.name, "title": doc.title, "said": [], "spent": 0.0, **_model(doc)}
 
 
@@ -166,6 +168,7 @@ def say(
 		text=text,
 		field=writing,
 		run_id=run_id,
+		page=page,
 	)
 
 	return {
@@ -178,7 +181,7 @@ def say(
 	}
 
 
-def answer(chat: str, text: str, field: dict | None, run_id: str) -> None:
+def answer(chat: str, text: str, field: dict | None, run_id: str, page: dict | str | None = None) -> None:
 	"""The run, in the background, as the person who asked.
 
 	frappe starts a job as whoever enqueued it, so every tool the model calls
@@ -191,13 +194,14 @@ def answer(chat: str, text: str, field: dict | None, run_id: str) -> None:
 	turns = _turns(doc)
 	heard = lambda step: _tell(run_id, chat, step)  # noqa: E731
 	try:
-		out = _ran(doc, text, turns, heard)
+		out = _ran(doc, text, turns, heard, page)
 		turns = turns[: -min(KEPT, len(turns))] + list(out.get("turns") or [])
 		if field:
 			_field_card(field, turns, doc.name)
 		doc.model = out.get("model") or doc.model
 		_keep(doc, turns, spent=float(out.get("credits") or 0))
 		_tell(run_id, chat, {"done": True, "credits": out.get("credits"), "rounds": out.get("rounds")})
+		_title(doc, turns)
 	except frappe.ValidationError as raised:
 		# `_ran` has already put a fault into words somebody can act on, unless
 		# it is the provider's own, which is written for us, not for them.
@@ -407,7 +411,7 @@ def _suggests(row: dict) -> dict:
 	}
 
 
-def _ran(doc, text: str, turns: list[dict], heard=None) -> dict:
+def _ran(doc, text: str, turns: list[dict], heard=None, page: dict | str | None = None) -> dict:
 	"""The run, with the failure said in words somebody can act on.
 
 	A fault out of the account carries an endpoint and a status, which is the
@@ -430,8 +434,10 @@ def _ran(doc, text: str, turns: list[dict], heard=None) -> dict:
 		)
 		frappe.flags.one_ai_files = [one["url"] for one in newest.get("files") or [] if one.get("url")]
 		frappe.flags.one_ai_chat = doc.name  # so searching past chats skips this one
-		from onedesk.one_ai import suggest
+		from onedesk.one_ai import groups, suggest
 
+		if isinstance(page, str):
+			page = frappe.parse_json(page) if page.strip() else None
 		return run.ask(
 			CHAT,
 			text,
@@ -439,6 +445,8 @@ def _ran(doc, text: str, turns: list[dict], heard=None) -> dict:
 			turns=carrying.carried(turns[-KEPT:]),
 			heard=heard,
 			expects=suggest.expected(text) or _expects_edit(turns),
+			groups=groups.chosen(text, page, turns),
+			pinned=_pinned(doc),
 		)
 	except faults.Again:
 		frappe.throw(
@@ -454,6 +462,8 @@ def rename(chat: str, title: str) -> dict:
 	doc = frappe.get_doc("AI Chat", chat)
 	doc.check_permission("write")
 	doc.title = (title or "").strip()[:TITLE] or doc.title
+	# Named by its person, so OneAI does not name it again.
+	doc.titled = 1
 	doc.save()
 	return {"name": doc.name, "title": doc.title}
 
@@ -939,7 +949,7 @@ def _chat(chat: str | None, text: str):
 		doc = frappe.get_doc("AI Chat", chat)
 		doc.check_permission("write")
 		return doc
-	return frappe.get_doc({"doctype": "AI Chat", "title": text[:TITLE]}).insert()
+	return frappe.get_doc({"doctype": "AI Chat", "title": text[:TITLE], "chosen_model": _usual()}).insert()
 
 
 def _field_card(field: dict, turns: list[dict], chat: str) -> list[str]:
@@ -968,29 +978,141 @@ def _field_card(field: dict, turns: list[dict], chat: str) -> list[str]:
 
 
 def _model(doc=None) -> dict:
-	"""Which model answers here, and where somebody allowed to could change it.
+	"""Which model answers here, whether the reader may pick another, and where
+	an administrator changes what everybody gets.
 
-	The one the last answer came from, if there was one; then what the workspace
-	picked for the chat action; then nothing, and the panel says the default is
-	answering. It is shown and not chosen, because the model is the workspace's
-	choice per action — so for whoever administers the workspace it opens that
-	setting, and for everybody else it is a label.
+	The one the last answer came from, if there was one; then the one the
+	person picked; then what the workspace picked for the chat action; then
+	nothing, and the panel says the default is answering.
 	"""
-	said = (doc and doc.get("model")) or run.mine(CHAT).get("model") or ""
 	from onedesk.one import roles
 
+	chosen = (doc and doc.get("chosen_model")) or (None if doc else _usual())
+	said = (doc and doc.get("model")) or chosen or run.mine(CHAT).get("model") or ""
 	settable = roles.administers() and frappe.db.exists("AI Action Setting", CHAT)
-	return {"model": named(said), "model_at": CHAT if settable else None}
+	return {
+		"model": named(said),
+		"model_id": said,
+		"chosen_model": chosen or "",
+		"may_choose": may_choose(),
+		"model_at": CHAT if settable else None,
+	}
 
 
 def named(model: str) -> str:
-	"""A catalogue id as a person reads it.
+	"""A catalogue id as a person reads it: `google-ai-studio:gemini-2.5-flash`
+	as Gemini 2.5 Flash."""
+	return run._model_name(model) if model else ""
 
-	The account files a model under its provider, a colon, and for Workers AI a
-	path; the last piece is the model's own name, and the only part that fits a
-	pill.
-	"""
-	return re.split(r"[:/]", model or "")[-1]
+
+#: How long the models a panel offers are kept. The account's catalogue
+#: changes when a provider adds or withdraws one, which is rare.
+MODELS_KEPT = 600
+
+
+def may_choose() -> bool:
+	"""Whether the reader may pick the model for their own conversations:
+	administrators always, everybody else when the workspace lets them."""
+	from onedesk.one import roles
+
+	return bool(roles.administers() or frappe.db.get_value("AI Action Setting", {"action": CHAT}, "people_choose"))
+
+
+@frappe.whitelist()
+def models() -> dict:
+	"""The models the reader may pick for the panel, and which they picked.
+
+	Only the names, their makers and their logos: what a model costs is the
+	administrator's to weigh, in the workspace's OneAI settings. Kept for ten minutes per
+	workspace, because the panel asks whenever its menu opens."""
+	from onedesk.one import account
+	from onedesk.one_ai import logos
+
+	if not may_choose():
+		return {"models": [], "chosen": "", "usual": ""}
+	key = "one_ai_chat_models"
+	offered = frappe.cache.get_value(key)
+	if offered is None:
+		needs = frappe.db.get_value("AI Action", CHAT, "capability") or "Text Generation"
+		said = account.ask("onedesk.one_admin.proxy.ai_models_for", needs=[needs]) or {}
+		offered = [
+			{
+				"name": one["name"],
+				"label": one.get("label") or named(one["name"]),
+				"maker": one.get("maker") or "",
+				"logo": logos.url(one.get("logo_domain")),
+				"default": bool(one.get("default")),
+			}
+			for one in said.get(needs) or []
+		]
+		frappe.cache.set_value(key, offered, expires_in_sec=MODELS_KEPT)
+	workspace = run.mine(CHAT).get("model") or next((one["name"] for one in offered if one["default"]), "")
+	return {"models": offered, "chosen": _usual(), "usual": workspace}
+
+
+@frappe.whitelist(methods=["POST"])
+def choose_model(model: str | None = None, chat: str | None = None) -> dict:
+	"""Pick the model for a conversation, and for the reader's next ones;
+	nothing goes back to the workspace's own choice. Refused for somebody the
+	workspace does not let choose, and for a model it does not offer."""
+	if not may_choose():
+		frappe.throw(frappe._("Only an administrator picks the model here."), frappe.PermissionError)
+	model = (model or "").strip()
+	if model and model not in {one["name"] for one in models()["models"]}:
+		frappe.throw(frappe._("That model is not offered."), title=frappe._("Not changed"))
+	frappe.defaults.set_default(USUAL, model, frappe.session.user)
+	if not chat:
+		return _model()
+	doc = frappe.get_doc("AI Chat", chat)
+	doc.check_permission("write")
+	doc.chosen_model = model or None
+	# The pill says what answers next, not what answered last.
+	doc.model = model or None
+	doc.save()
+	return _model(doc)
+
+
+#: The reader's default for where they keep their pick.
+USUAL = "one_ai_chat_model"
+
+
+def _usual() -> str:
+	"""The model the reader picked last, for a conversation they start; empty
+	for the workspace's own choice, or when they may no longer choose."""
+	return (frappe.defaults.get_user_default(USUAL) or "") if may_choose() else ""
+
+
+def _pinned(doc) -> str | None:
+	"""The model this conversation runs on, when its person picked one and
+	still may."""
+	return (doc.get("chosen_model") or None) if may_choose() else None
+
+
+def _title(doc, turns: list[dict]) -> None:
+	"""Name a conversation after its first answer, as a person would name a
+	folder, unless its person already named it. Said to the panel as it lands.
+	A title that fails leaves the first words of the question, which is what
+	the conversation was called before."""
+	if doc.get("titled"):
+		return
+	asked = [one for one in turns if one.get("role") == "user" and not one.get("context")]
+	if len(asked) != 1:
+		return
+	answered = next((one.get("text") for one in reversed(turns) if one.get("role") == "model" and one.get("text")), "")
+	try:
+		said = run.once(CHAT_TITLE, f"{asked[0].get('text') or ''}\n\n{(answered or '')[:600]}", reference=doc.name)
+	except Exception:
+		frappe.log_error(title="OneAI could not title a conversation", reference_doctype="AI Chat", reference_name=doc.name)
+		return
+	title = re.sub(r"\s+", " ", strip_html_tags(said or "")).strip().strip("\"'.").strip()[:TITLE]
+	if not title:
+		return
+	frappe.db.set_value("AI Chat", doc.name, {"title": title, "titled": 1}, update_modified=False)
+	frappe.publish_realtime("one_ai_title", {"chat": doc.name, "title": title}, user=doc.owner, after_commit=True)
+
+
+#: The action that names a conversation (fixtures/ai_action.json).
+CHAT_TITLE = "chat_title"
 
 
 def _turns(doc) -> list[dict]:

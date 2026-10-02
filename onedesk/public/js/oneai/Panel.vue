@@ -17,7 +17,15 @@
 			<img v-else class="one-ai-head__mark" :src="mark" alt="" />
 
 			<div class="one-ai-head__title">
-				{{ view === "chat" ? chat.title || __("New conversation") : ONEAI }}
+				<button
+					v-if="view === 'chat' && chat.name"
+					class="one-ai-head__name"
+					:title="__('Rename')"
+					@click="rename"
+				>
+					{{ chat.title || __("New conversation") }}
+				</button>
+				<template v-else>{{ view === "chat" ? __("New conversation") : ONEAI }}</template>
 				<span class="one-ai-head__sub">{{ subtitle }}</span>
 			</div>
 
@@ -178,12 +186,13 @@
 						<Icon name="plus" />
 					</button>
 					<button
-						v-if="chat.model_at"
+						v-if="chat.may_choose || chat.model_at"
+						ref="pill"
 						class="one-ai-model"
-						:title="__('Change the model')"
-						@click="toModel"
+						:title="__('Choose the model')"
 					>
-						{{ chat.model || __("Default model") }}
+						<span class="one-ai-model__name">{{ chat.chosen_model ? chat.model : __("Automatic") }}</span>
+						<Icon name="chevron-down" size="xs" />
 					</button>
 					<span v-else class="one-ai-model">{{ chat.model || __("Default model") }}</span>
 
@@ -268,8 +277,11 @@ watch(
 const POLL = 5000;
 let watching = null;
 frappe.realtime.on("one_ai_run", heard);
+frappe.realtime.on("one_ai_title", titled);
 onBeforeUnmount(() => {
 	frappe.realtime.off("one_ai_run", heard);
+	frappe.realtime.off("one_ai_title", titled);
+	menu && menu.destroy();
 	stop();
 });
 
@@ -519,11 +531,94 @@ function latest() {
 	return { subject: dialog.get_value("subject") || "", to: dialog.get_value("recipients") || "" };
 }
 
-// The model is the workspace's choice for the chat action, so changing it is
-// that setting and not a picker here — one person switching it would switch it
-// for everybody.
+// The model this conversation runs on, in frappe's own menu on the pill.
+// Automatic is what the workspace set for the chat; a pick is this person's,
+// for this conversation and their next ones, and never anybody else's.
+// Whoever administers the workspace also finds the setting everybody gets.
+const pill = ref(null);
+let menu = null;
+watch(pill, (el) => {
+	menu && menu.destroy();
+	menu = el ? new frappe.ui.Dropdown({ trigger: el, side: "top", options: models }) : null;
+});
+
+async function models() {
+	const said = chat.value.may_choose ? await frappe.xcall("onedesk.one_ai.chat.models") : { models: [] };
+	const chosen = chat.value.chosen_model || "";
+	const usual = said.models.find((one) => one.name === said.usual);
+	const rows = [
+		{
+			label: __("Automatic"),
+			icon: "sparkles",
+			description: usual ? __("What the workspace set: {0}", [usual.label]) : __("What the workspace set"),
+			selected: !chosen,
+			onclick: () => choose(""),
+		},
+		...byMaker(said.models, chosen),
+	];
+	const menus = [{ group: __("Model"), hide_label: true, options: rows }];
+	if (chat.value.model_at) {
+		menus.push({
+			group: __("Workspace"),
+			hide_label: true,
+			options: [{ label: __("Model for Everybody…"), icon: "settings", onclick: toModel }],
+		});
+	}
+	return chat.value.may_choose ? menus : menus.slice(1);
+}
+
+// One row per maker, its models beside it: thirty models in one column is
+// a list to scroll, not a menu.
+function byMaker(models, chosen) {
+	const makers = new Map();
+	for (const one of models) {
+		if (!makers.has(one.maker)) makers.set(one.maker, []);
+		makers.get(one.maker).push(one);
+	}
+	return [...makers].map(([maker, mine]) => {
+		const picked = mine.find((one) => one.name === chosen);
+		return {
+			label: maker || __("Other"),
+			image: mine[0].logo || undefined,
+			description: picked ? picked.label : undefined,
+			selected: !!picked,
+			submenu: mine.map((one) => ({
+				label: one.label,
+				selected: one.name === chosen,
+				onclick: () => choose(one.name),
+			})),
+		};
+	});
+}
+
+async function choose(model) {
+	const now = await frappe.xcall("onedesk.one_ai.chat.choose_model", { model, chat: chat.value.name });
+	chat.value = { ...chat.value, ...now };
+}
+
 function toModel() {
-	frappe.set_route("Form", "AI Action Setting", chat.value.model_at);
+	frappe.set_route("workspace-settings", { section: "oneai", action: chat.value.model_at });
+}
+
+// A conversation is named by OneAI after its first answer; its person can
+// rename it, and OneAI then leaves the name alone.
+function rename() {
+	const named = chat.value.name;
+	frappe.prompt(
+		{ fieldname: "title", fieldtype: "Data", label: __("Name"), default: chat.value.title, reqd: 1 },
+		async ({ title }) => {
+			const now = await frappe.xcall("onedesk.one_ai.chat.rename", { chat: named, title });
+			titled(now.name === named ? { chat: named, title: now.title } : {});
+		},
+		__("Rename Conversation"),
+		__("Rename"),
+	);
+}
+
+function titled(said) {
+	if (!said || !said.chat) return;
+	if (chat.value.name === said.chat) chat.value = { ...chat.value, title: said.title };
+	threads.value = threads.value.map((one) => (one.name === said.chat ? { ...one, title: said.title } : one));
 }
 
 // The page as sent for one question about one field, then forgotten.

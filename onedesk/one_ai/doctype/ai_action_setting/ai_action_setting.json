@@ -12,6 +12,7 @@
   "action_label",
   "column_break_what",
   "model",
+  "people_choose",
   "extra_section",
   "extra"
  ],
@@ -47,6 +48,12 @@
    "options": ""
   },
   {
+   "fieldname": "people_choose",
+   "fieldtype": "Check",
+   "label": "People Choose the Model",
+   "description": "Anybody may pick another model for their own conversations in the OneAI panel. Off, only administrators can."
+  },
+  {
    "fieldname": "extra_section",
    "fieldtype": "Section Break",
    "label": "Your Instructions"
@@ -60,7 +67,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-22 23:00:00.000000",
+ "modified": "2026-10-03 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "One AI",
  "name": "AI Action Setting",

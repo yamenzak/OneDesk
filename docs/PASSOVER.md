@@ -1519,6 +1519,81 @@ Done:
 Not done: `one_ai/` still has no README of its own; that is the OneAI
 product's screen, when the pass reaches it.
 
+### OneAI › The Agent and the Panel
+
+Not a screen of its own but what every screen's OneAI panel runs on: how
+a question is answered, on which model, and what the panel lets a person
+choose. Measured before and after on `one_ai/evals.py`, about thirty real
+requests asked the way the panel asks them, on Gemma 4 (the workspace
+default):
+
+| | Passed | Credits | Credits a simple question |
+|---|---|---|---|
+| Before (every tool, every round) | 21 of 32 | 313 | about 9 |
+| After | 29 of 32 (the last run 27, three of them connections the dev server dropped while it reloaded) | 202 to 209 | about 3 |
+
+1. **Notifications**: changing who may pick the model is an OneAI change
+   like any other, so **OneAI Changed** now names it to the other
+   administrators ("who picks the model, to everybody"). A conversation
+   being named tells only its own panel, live (`one_ai_title`).
+2. **OneAI**: the findings were in the agent itself.
+   - Every request was sent all 120 tools, some 20,000 tokens a round, and
+     a small model handed all of them picked badly (the operator's
+     `ai_usage` for a workspace's credits). Now a request gets the core
+     tools, the person's own, and the groups its page, its words and the
+     conversation point to (`one_ai/groups.py`); `more_tools` names every
+     group so the model asks for one it was not given.
+   - Gemma stated figures it never looked up (41 customers; there are
+     4), said it had suggested a lead and called nothing, wrote a tool
+     call as text (`<|tool_call>…`), sent extension code on one line with
+     `\n` written out, and leaked a `:thought` line. Each is now caught:
+     a figure with nothing looked up is looked up, a claimed card with no
+     card is asked for, the leaked call is read as a call, the code is read
+     as its lines, the marker is cut.
+   - A long run ended in the account's refusal ("gone 5 rounds"). The last
+     round the account takes now asks the model to answer with what it has.
+   - A list asked for one column showed cards called "Customer";
+     `list_records` now always returns the record's name and title.
+3. **Intake**: nothing on this; OneIntake's own actions are not chat.
+4. **Permissions**: the model menu is for administrators always, and for
+   everybody when the Chat action's **People Choose the Model** is on.
+   `choose_model` refuses anybody else and any model the account does not
+   offer, and the account checks the pick again on every call. A pick
+   stops counting the moment the person may no longer choose. The menu
+   shows makers, never prices.
+5. **Cross-module**: a pick goes with the conversation when another part
+   of OneAI takes it over (Studio writing an extension, Print Design). The
+   workspace's own choice per action is unchanged and is what Automatic
+   means.
+6. **Bespoke UI**: the pill under the box opens frappe's own
+   `frappe.ui.Dropdown`: Automatic (saying what the workspace set), then
+   one row per maker with its logo and its models beside it, and for an
+   administrator **Model for Everybody…**. The conversation's name in the
+   head renames it (frappe's prompt). Settings' Chat action gains the
+   checkbox, and "Cloudflare, Inc.." lost its second full stop.
+7. **Documented**: "Asking OneAI" in `one/README.md` says what the pill,
+   the name and the tool groups do; the OneAI Actions section names the
+   checkbox; `docs/ONEAI.md` has the groups, the pick and the test bench.
+8. **Legal**: nothing new is sent anywhere; the models are the
+   catalogue's, from companies the Subprocessors agreement names.
+9. **Built from frappe**: `frappe.ui.Dropdown` (with `image`,
+   `description`, `selected`, `submenu`), `frappe.prompt`,
+   `frappe.realtime`, `frappe.defaults` for the person's pick,
+   `frappe.cache` for the list.
+
+**Done.** Measured on Gemini 2.5 Flash too: 24 of 32, 260 credits, in
+151 seconds against Gemma's 399. Faster, not smarter. Open:
+
+- Gemini 2.5 Flash answered blank on four first rounds within two seconds,
+  and the gateway's one retry was blank too. The body is not logged, so the
+  next step is logging Gemini's `finishReason` for a blank before changing
+  anything.
+- Gemma now and then reads an extension's code, then stops without writing
+  the change (passed in two runs of three), and once named a report that
+  does not exist rather than build one. Both are what a stronger model for
+  Studio and Workspace Setup is for, and those actions already hand over
+  to one.
+
 ### OneIntake › Settings (was Workspace › OneIntake)
 
 Moved on your word before the findings: the One sidebar has a **OneIntake**

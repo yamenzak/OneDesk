@@ -69,6 +69,12 @@ def list_records(
 	`permission_query_conditions` hook apply exactly as they do in the browser.
 	"""
 	_known(doctype, filters, fields, order_by)
+	if fields and all(isinstance(one, str) and one.isidentifier() for one in fields):
+		# Asked for one column, a row still says which record it is: measured,
+		# Gemini asked for `territory` alone and the panel showed four cards
+		# called "Customer".
+		title = frappe.get_meta(doctype).title_field
+		fields = list(dict.fromkeys(["name", *([title] if title else []), *fields]))
 	return frappe.get_list(
 		doctype,
 		filters=filters or {},
@@ -443,6 +449,26 @@ def _column(one) -> str:
 	return str(one)
 
 
+def more_tools(
+	groups: Annotated[list[str], "The groups to be given, by name, from the list in this tool's description."],
+) -> dict:
+	"""Be given more tools: what you have are those for the page the person is
+	on and for what they asked. If what they ask needs something else One
+	does, ask for its group here, and its tools are yours from the next step.
+	Never say something cannot be done before asking for the group it would
+	be in. The groups:"""
+	from onedesk.one_ai import groups as grouped
+
+	wanted = [str(one).strip().lower() for one in groups or []]
+	known = [one for one in wanted if one in grouped.GROUPS and (one != "console" or grouped._console())]
+	unknown = [one for one in wanted if one not in known]
+	return {
+		"given": known,
+		"tools": [tool for one in known for tool in grouped.GROUPS[one]["tools"]],
+		**({"unknown": unknown, "error": "There are no groups called " + ", ".join(unknown)} if unknown else {}),
+	}
+
+
 READS = (
 	list_records,
 	read_record,
@@ -459,6 +485,7 @@ READS = (
 	memory.search_my_chats,
 	# How One itself works, from each module's README; see one_ai/guide.py.
 	guide.how_to,
+	more_tools,
 )
 
 #: What becomes a card instead. Named separately rather than flagged, because a
@@ -514,10 +541,25 @@ def shown_result(tool: str | None, result):
 	return {key: ("…" if key in hidden else value) for key, value in result.items()}
 
 
-def declared() -> list[dict]:
-	"""Every tool, as a provider's function declaration."""
+def declared(given: list[str] | None = None) -> list[dict]:
+	"""The tools a request is given, as a provider's function declarations:
+	every one, or the core and the groups `given` (one_ai/groups.py), in a
+	fixed order so a provider's cache keeps what it has, with `more_tools`
+	saying what else there is."""
+	from onedesk.one_ai import groups
+
 	reads, suggests = _every()
-	return [schema.of(fn) for fn in reads + suggests]
+	every = reads + suggests
+	if given is None:
+		return [schema.of(fn) for fn in every if fn is not more_tools]
+	order = {name: at for at, name in enumerate(given)}
+	kept = [fn for fn in every if fn.__name__ in groups.CORE or groups.of(fn.__name__) in order]
+	kept.sort(key=lambda fn: -1 if fn.__name__ in groups.CORE else order[groups.of(fn.__name__)])
+	out = [schema.of(fn) for fn in kept]
+	for one in out:
+		if one["name"] == "more_tools":
+			one["description"] += "\n" + groups.catalogue(given)
+	return out
 
 
 def action_of(name: str | None) -> str | None:

@@ -264,3 +264,90 @@ def test_an_empty_answer_is_asked_again_tool_or_no_tool():
 	answered = {"turns": [*blank["turns"][:1], {"role": "model", "text": "Done."}]}
 	assert not room["_silent"](answered, [])
 	assert not room["_silent"](blank, ["PROP-1"]), "a card is an answer"
+
+
+def _lifted(where: Path, names: tuple, room: dict) -> dict:
+	"""Named top-level functions and assignments out of a module, run alone."""
+	body = ast.parse(where.read_text(encoding="utf-8"))
+	wanted = [
+		n
+		for n in body.body
+		if (isinstance(n, ast.FunctionDef) and n.name in names)
+		or (isinstance(n, ast.Assign) and any(getattr(t, "id", None) in names for t in n.targets))
+	]
+	exec(compile(ast.Module(body=wanted, type_ignores=[]), str(where), "exec"), room)
+	return room
+
+
+def test_a_call_gemma_wrote_as_text_is_read_as_a_call():
+	"""Measured on Gemma 4: Workers AI now and then hands its tool-call tokens
+	back as the answer, and the person was shown `<|tool_call>:waiting_for_answer{...}`."""
+	import re
+
+	room = _lifted(GATEWAY, ("LEAKED", "_CALL", "_QUOTED", "_KEY", "_leaked"), {"re": re, "json": json})
+	said = '<|tool_call>call:waiting_for_answer{account:<|"|>me@x.test<|"|>,folder:<|"|>Inbox, then: more<|"|>,most:5}<tool_call|>'
+	wants, words = room["_leaked"](said)
+	assert wants == [
+		{
+			"id": "waiting_for_answer-leaked-0",
+			"tool": "waiting_for_answer",
+			"args": {"account": "me@x.test", "folder": "Inbox, then: more", "most": 5},
+		}
+	]
+	assert words == ""
+	# Words around it stay words; a call that does not read is left alone.
+	assert room["_leaked"]("Looking. <|tool_call>call:my_day{}<tool_call|>")[1] == "Looking."
+	broken = "<|tool_call>call:my_day{a:<tool_call|>"
+	assert room["_leaked"](broken) == ([], broken)
+	# Only that syntax: free-form text is never read as a call.
+	assert room["_leaked"]("call my_day {}") == ([], "call my_day {}")
+	assert "LEAKED in words" in spoken(GATEWAY, "_answered")
+
+
+def test_the_last_round_the_account_takes_is_told_to_answer():
+	"""The account refuses a sixth model turn, and a run that reached it ended
+	in that refusal. The fifth is told to answer with what it has."""
+	room = _lifted(RUN, ("_spoken",), {})
+	asked = [{"role": "user", "text": "q"}]
+	looked = [{"role": "model", "calls": [{}]}, {"role": "tool"}]
+	assert room["_spoken"](asked + looked * 4) == 4
+	# A nudge is not the person speaking, and does not start the count again.
+	assert room["_spoken"](asked + looked * 2 + [{"role": "user", "context": True}] + looked) == 3
+	said = spoken(RUN, "ask")
+	assert "_spoken(turns) >= ROUNDS - 1" in said
+	assert "or last" in said
+
+
+def test_a_model_the_person_picked_holds_through_a_handover():
+	said = spoken(RUN, "ask")
+	assert "if pinned:" in said
+	assert "{**mine(action), **({'model': pinned} if pinned else {})}" in said
+
+
+def test_gemmas_thinking_marker_never_reaches_the_person():
+	"""Measured on Gemma 4: an answer began `:thought` on a line of its own."""
+	import re
+
+	room = _lifted(GATEWAY, ("THINKING", "CHANNEL", "_without_thinking"), {"re": re})
+	clean = room["_without_thinking"]
+	assert clean(":thought\nI could not add it.") == "I could not add it."
+	assert clean("<|channel>thought\nweighing it<channel|>The answer.") == "The answer."
+	assert clean("I thought about it.\nYes.") == "I thought about it.\nYes."
+
+
+def test_extension_code_sent_on_one_line_is_read_as_its_lines():
+	"""Measured on Gemma 4: a whole extension came with its line breaks
+	written out as `\\n`, and the review refused it as not Python."""
+	room = _lifted(tree.APP / "one_studio" / "ai.py", ("_unescaped",), {})
+	assert room["_unescaped"]('if doc.x:\\n\\tfrappe.throw(\\"No\\")') == 'if doc.x:\n\tfrappe.throw("No")'
+	kept = 'a = 1\nb = "x\\ny"'
+	assert room["_unescaped"](kept) == kept, "code with real lines is left as written"
+	assert "code=_unescaped(code)" in spoken(tree.APP / "one_studio" / "ai.py", "write_extension")
+
+
+def test_an_action_with_no_tools_is_never_told_to_look_something_up():
+	"""A summary carries figures and has nothing to look them up with."""
+	said = spoken(RUN, "ask")
+	assert "tooled and (not cards) and (not doubted)" in said
+	assert "tooled and (not called) and (not doubted)" in said
+	assert "tooled = _tooled(action)" in said

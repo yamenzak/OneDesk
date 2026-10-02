@@ -2647,7 +2647,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					? __("About {0} credits per 1,000 words it reads, and {1} per 1,000 it writes.", [format_number(m.read, null, 2), format_number(m.written, null, 2)])
 					: __("Priced per use rather than per word.");
 			return `<div class="os-ai-picked">${Settings.model_html({ ...m, chosen: true })}<div class="one-shell-quiet">${esc(
-				__("Made by {0}, run by {1}.", [m.maker, m.company])
+				// A company's name may end in its own full stop: "Cloudflare, Inc."
+				__("Made by {0}, run by {1}.", [m.maker, String(m.company || "").replace(/\.$/, "")])
 			)} ${esc(cost)}</div></div>`;
 		};
 		const dialog = new frappe.ui.Dialog({
@@ -2663,6 +2664,18 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					onchange: () => dialog.fields_dict.picked.$wrapper.html(describe(dialog.get_value("model"))),
 				},
 				{ fieldname: "picked", fieldtype: "HTML" },
+				// Only the chat has a panel to pick in.
+				...(one.name === "chat"
+					? [
+							{
+								fieldname: "people_choose",
+								fieldtype: "Check",
+								label: __("People Choose the Model"),
+								default: one.people_choose ? 1 : 0,
+								description: __("Anybody may pick another model for their own conversations in the OneAI panel. Off, only administrators can."),
+							},
+						]
+					: []),
 				{
 					fieldname: "extra",
 					fieldtype: "Small Text",
@@ -2677,6 +2690,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					action: one.name,
 					model: values.model || "",
 					extra: values.extra || "",
+					people_choose: values.people_choose ? 1 : 0,
 					modified: one.modified || "",
 				});
 				dialog.hide();

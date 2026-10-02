@@ -32,8 +32,15 @@ def ask(
 	heard=None,
 	expects: str | None = None,
 	chose: dict | None = None,
+	groups: list[str] | None = None,
+	pinned: str | None = None,
 ) -> dict:
 	"""Run one action, looking things up for the model where it asks.
+
+	`pinned` is the model the person picked in the panel for this
+	conversation. It wins over what the workspace chose, and goes with the
+	conversation when another action takes it over: somebody who picked a
+	model was asked by nobody to have it swapped for them halfway.
 
 	`heard` is told each thing as it happens — a round starting, a tool it ran
 	— so a panel watching a background run can say what it is doing rather
@@ -54,13 +61,21 @@ def ask(
 	# What the workspace saved, unless a settings screen is trying something
 	# it has not saved yet.
 	chose = chose if chose is not None else mine(action)
-	offered = surface.declared()
+	if pinned:
+		chose = {**chose, "model": pinned}
+	# The groups of tools it is given (one_ai/groups.py); every tool when
+	# nobody chose, as a settings screen trying an action does.
+	given = list(groups) if groups is not None else None
+	offered = surface.declared(given)
 	# A conversation carried in from a panel arrives with the new turn already
 	# on the end of it; a bare `text` is the first thing anybody said.
 	turns = list(turns) if turns else None
 	spent, rounds, cards = 0.0, 0, []
 	asked: dict[str, dict] = {}
-	nudged = reminded = pressed = mended = handed = False
+	nudged = reminded = pressed = mended = handed = doubted = False
+	# Whether the action may look things up at all: an answer from one that
+	# may not, a summary, is never asked to.
+	tooled = _tooled(action)
 	# A tool that sends a call back to be mended names itself here, until a
 	# later call to it holds.
 	mend = None
@@ -70,6 +85,12 @@ def ask(
 
 	while True:
 		tell({"thinking": rounds})
+		# The account takes ROUNDS model turns a question and refuses the next
+		# (one_admin/actions.py). The last one it takes is told to answer with
+		# what it has, so a long run ends in a sentence rather than a refusal.
+		last = turns is not None and _spoken(turns) >= ROUNDS - 1
+		if last:
+			turns = [*turns, {"role": "user", "text": LAST, "calls": [], "context": True}]
 		out = account.ask(
 			"onedesk.one_admin.proxy.ai_run",
 			action=action,
@@ -81,6 +102,9 @@ def ask(
 			tools=offered,
 		)
 		spent += float(out.get("credits") or 0)
+		# Room for a nudge: each one adds the model's turn to the conversation,
+		# and after the last round the account takes, that is a refusal.
+		more = rounds < ROUNDS and not last
 		wanted = {surface.action_of(want.get("tool")) for want in out.get("wants") or []} - {None, action}
 		if wanted and not handed and rounds < ROUNDS:
 			# The model reached for a tool that another action runs, on a model
@@ -90,11 +114,12 @@ def ask(
 			# run; its calls are charged to it.
 			handed = True
 			action = sorted(wanted)[0]
-			chose = mine(action)
+			chose = {**mine(action), **({"model": pinned} if pinned else {})}
+			tooled = _tooled(action)
 			tell({"handed": action})
 			rounds += 1
 			continue
-		if out.get("done") and not reminded and _unkept(text, called) and rounds < ROUNDS:
+		if out.get("done") and not reminded and _unkept(text, called) and more:
 			# "I will remember that" with no call behind it is a promise a
 			# small model makes and does not keep. Asked for the call, it makes it.
 			reminded = True
@@ -107,7 +132,7 @@ def ask(
 			and expects not in called
 			and not pressed
 			and not _asks(out)
-			and rounds < ROUNDS
+			and more
 		):
 			# A suggestion that exists to make a card — "Draft my feedback" —
 			# answered with the draft in the chat and no card. Asked for the
@@ -118,21 +143,37 @@ def ask(
 			turns = [*out["turns"], {"role": "user", "text": CALL_IT.format(expects), "calls": [], "context": True}]
 			rounds += 1
 			continue
-		if out.get("done") and mend and not mended and rounds < ROUNDS:
+		if out.get("done") and mend and not mended and more:
 			# A small model handed "mend this and call again" apologises to the
 			# person instead. Asked once more, it makes the call.
 			mended = True
 			turns = [*_unsaid(out["turns"]), {"role": "user", "text": MEND_IT.format(mend), "calls": [], "context": True}]
 			rounds += 1
 			continue
-		if out.get("done") and mend and mended and not nudged and rounds < ROUNDS:
+		if out.get("done") and mend and mended and not nudged and more:
 			# Asked to mend it and it still did not hold: told to answer, a small
 			# model says the thing was made. It was not, and it says that.
 			nudged = True
 			turns = [*_unsaid(out["turns"]), {"role": "user", "text": GAVE_UP.format(mend), "calls": [], "context": True}]
 			rounds += 1
 			continue
-		if out.get("done") and _silent(out, cards) and not nudged and rounds < ROUNDS:
+		if out.get("done") and tooled and not cards and not doubted and more and _claimed(out):
+			# Measured on Gemma 4: asked to add a lead, it answered "I have
+			# suggested creating a new Lead" and called nothing. Told so, it
+			# makes the card or says that nothing was made.
+			doubted = True
+			turns = [*out["turns"], {"role": "user", "text": CLAIMED, "calls": [], "context": True}]
+			rounds += 1
+			continue
+		if out.get("done") and tooled and not called and not doubted and more and _figured(out) and not _asks(out):
+			# Measured on Gemma 4: asked how many customers there are, it
+			# answered 41 without looking. There were four. A figure nothing
+			# was looked up for is looked up.
+			doubted = True
+			turns = [*out["turns"], {"role": "user", "text": LOOK, "calls": [], "context": True}]
+			rounds += 1
+			continue
+		if out.get("done") and _silent(out, cards) and not nudged and more:
 			# Gemini answers the round after a tool result with nothing, which
 			# is "done" when a card said it and a blank panel when none did.
 			# Asked once, in a turn the reader never sees, it says the answer.
@@ -141,8 +182,14 @@ def ask(
 			turns = [*out["turns"], {"role": "user", "text": said, "calls": [], "context": True}]
 			rounds += 1
 			continue
-		if out.get("done") or rounds >= ROUNDS:
-			return {**out, "credits": round(spent, 6), "rounds": rounds + 1, "proposals": cards}
+		if out.get("done") or rounds >= ROUNDS or last:
+			return {
+				**out,
+				"credits": round(spent, 6),
+				"rounds": rounds + 1,
+				"proposals": cards,
+				"groups": given,
+			}
 
 		turns = out["turns"]
 		for want in out.get("wants") or []:
@@ -161,6 +208,11 @@ def ask(
 				answer = asked[key] = _tried(want)
 			card = _card(answer)
 			said = answer.get("answer")
+			if given is not None and want.get("tool") == "more_tools" and isinstance(said, dict):
+				# Asked for more: given from the next round, after what it had,
+				# so what the provider cached of the tools still holds.
+				given += [one for one in said.get("given") or [] if one not in given]
+				offered = surface.declared(given)
 			if isinstance(said, dict) and said.get("mend"):
 				mend = said["mend"]
 			elif want.get("tool") == mend and not answer.get("error"):
@@ -222,6 +274,22 @@ NUDGE = "Now answer the question in one or two sentences from what the tools ret
 #: once in four tries of the same request): asked again, it calls the tool.
 ANSWER = "Answer the person: do what they asked with a tool, or say why it cannot be done."
 
+#: Said to a model on the last round the account will take.
+LAST = (
+	"This is the last step. Do not call another tool: answer the person now with what you have, "
+	"and say plainly what is not done."
+)
+
+
+def _spoken(turns: list[dict]) -> int:
+	"""The model's turns since the person last said something, counted as the
+	account counts them."""
+	asked = max(
+		(at for at, one in enumerate(turns) if one.get("role") == "user" and not one.get("context")),
+		default=-1,
+	)
+	return sum(1 for one in turns[asked + 1 :] if one.get("role") == "model")
+
 
 #: Said to a model that answered a suggestion without making its card.
 CALL_IT = "Now call {0} with what you just wrote. Do not answer in the chat."
@@ -264,6 +332,46 @@ def _unsaid(turns: list[dict]) -> list[dict]:
 def _unkept(text: str | None, called: set[str]) -> bool:
 	"""Asked to remember, and nothing was kept."""
 	return bool(text and REMEMBER.search(text)) and "remember" not in called
+
+
+#: Said to a model that said it made a suggestion and made none.
+CLAIMED = (
+	"You described something to make, but you did not call the tool that makes it, so nothing has been "
+	"suggested. If the person asked for it, call that tool now. Otherwise say plainly that nothing was made."
+)
+
+#: Said to a model that answered with a figure it did not look up.
+LOOK = (
+	"You answered with a figure without looking anything up. Look it up with a tool, "
+	"then answer from what the tool returns."
+)
+
+#: What saying a card was made sounds like, in the panel's three languages.
+_SUGGESTED = re.compile(
+	r"\b(i(?:'ve| have| can| will|'ll)? (?:suggest(?:ed)?|propose[sd]?|drafted|added|created|made|written|wrote)"
+	r"|approv\w* (?:the|this) card|the card)\b|```|vorgeschlagen|\bkarte\b|اقترحت|البطاقة",
+	re.I,
+)
+_DIGIT = re.compile(r"[0-9\u0660-\u0669\u06f0-\u06f9]")
+
+
+def _tooled(action: str) -> bool:
+	return bool(frappe.db.get_value("AI Action", action, "may_use_tools"))
+
+
+def _last_words(out: dict) -> str:
+	said = [one for one in out.get("turns") or [] if one.get("role") == "model"]
+	return (said[-1].get("text") or "") if said else ""
+
+
+def _claimed(out: dict) -> bool:
+	"""The model's answer says a card was made."""
+	return bool(_SUGGESTED.search(_last_words(out)))
+
+
+def _figured(out: dict) -> bool:
+	"""The model's answer carries a figure."""
+	return bool(_DIGIT.search(_last_words(out)))
 
 
 def _asks(out: dict) -> bool:
@@ -356,7 +464,13 @@ def models_for(needs: str | list) -> dict:
 
 
 @frappe.whitelist(methods=["POST"])
-def set_action(action: str, model: str | None = None, extra: str | None = None, modified: str | None = None) -> dict:
+def set_action(
+	action: str,
+	model: str | None = None,
+	extra: str | None = None,
+	modified: str | None = None,
+	people_choose: int | str | None = None,
+) -> dict:
 	"""What one action runs on and what is added to it, saved as the desk would
 	save it: refused when somebody else changed it since it was opened."""
 	roles.require()
@@ -369,12 +483,14 @@ def set_action(action: str, model: str | None = None, extra: str | None = None, 
 			),
 			frappe.TimestampMismatchError,
 		)
-	was = {"model": held.model or "", "extra": held.extra or ""}
+	was = {"model": held.model or "", "extra": held.extra or "", "people_choose": bool(held.people_choose)}
 	held.action = action
 	held.model = model or None
 	held.extra = extra or ""
+	if people_choose is not None:
+		held.people_choose = frappe.utils.cint(people_choose)
 	held.save() if name else held.insert()
-	_told(action, was, {"model": held.model or "", "extra": held.extra or ""})
+	_told(action, was, {"model": held.model or "", "extra": held.extra or "", "people_choose": bool(held.people_choose)})
 	return {"name": held.name, "modified": str(held.modified)}
 
 
@@ -386,7 +502,7 @@ def reset_action(action: str) -> dict:
 	if not name:
 		return {}
 	held = frappe.get_doc("AI Action Setting", name)
-	was = {"model": held.model or "", "extra": held.extra or ""}
+	was = {"model": held.model or "", "extra": held.extra or "", "people_choose": bool(held.people_choose)}
 	held.delete()
 	_told(action, was, {"model": "", "extra": ""})
 	return {}
@@ -409,6 +525,12 @@ def _told(action: str, was: dict, now: dict) -> None:
 		)
 	if was["extra"] != now["extra"]:
 		changed.append(frappe._("the added instructions") if now["extra"] else frappe._("the added instructions, to none"))
+	if was.get("people_choose", False) != now.get("people_choose", False):
+		changed.append(
+			frappe._("who picks the model, to everybody")
+			if now.get("people_choose")
+			else frappe._("who picks the model, to administrators only")
+		)
 	others = [one for one in people if one != frappe.session.user]
 	if not changed or not others:
 		return

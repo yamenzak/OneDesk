@@ -13,6 +13,8 @@
   "last_said_on",
   "spent",
   "model",
+  "chosen_model",
+  "titled",
   "said_section",
   "turns"
  ],
@@ -51,6 +53,20 @@
    "description": "The model the last answer came from."
   },
   {
+   "fieldname": "chosen_model",
+   "fieldtype": "Data",
+   "label": "Chosen Model",
+   "read_only": 1,
+   "description": "The model the person picked for this conversation. When it is empty, OneAI picks."
+  },
+  {
+   "fieldname": "titled",
+   "fieldtype": "Check",
+   "label": "Titled",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
    "fieldname": "said_section",
    "fieldtype": "Section Break",
    "label": "Conversation"
@@ -66,7 +82,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-30 20:30:00.000000",
+ "modified": "2026-10-03 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "One AI",
  "name": "AI Chat",

@@ -9,6 +9,7 @@ key and without a bill.
 
 import ast
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -42,7 +43,7 @@ def readers():
 	wanted = [n for n in body.body if isinstance(n, ast.FunctionDef) and n.name in LIFTED]
 	assert len(wanted) == len(LIFTED), "a reader was renamed and this guard was not"
 	# `_workers_ai_said` reads a constant its own module defines.
-	room: dict = {"json": json, "THINKING": "</think>"}
+	room: dict = {"json": json, "re": re, "THINKING": "</think>", "CHANNEL": "<channel|>"}
 	exec(compile(ast.Module(body=wanted, type_ignores=[]), str(GATEWAY), "exec"), room)
 	return room
 

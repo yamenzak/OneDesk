@@ -129,6 +129,27 @@
 	text-overflow: ellipsis;
 }
 
+/* The conversation's name, which renames it when pressed. */
+.one-ai-head__name {
+	display: block;
+	max-width: 100%;
+	padding: 0;
+	border: 0;
+	background: none;
+	font: inherit;
+	color: inherit;
+	text-align: start;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	cursor: text;
+}
+
+.one-ai-head__name:hover {
+	text-decoration: underline dotted var(--text-muted);
+	text-underline-offset: 3px;
+}
+
 .one-ai-head__sub {
 	display: block;
 	font-size: var(--text-xs);
@@ -741,6 +762,13 @@
 
 button.one-ai-model {
 	cursor: pointer;
+	gap: 4px;
+}
+
+.one-ai-model__name {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .one-ai-round:hover:not(:disabled),

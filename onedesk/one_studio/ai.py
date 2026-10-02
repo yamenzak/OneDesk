@@ -223,6 +223,16 @@ def mend_extension(
 	}
 
 
+def _unescaped(code: str | None) -> str | None:
+	"""Code with its line breaks written out as `\\n`, read as the lines it
+	meant. Measured: Gemma 4 sent a whole extension on one line that way, and
+	the review refused it as not Python. Only code with no line break of its
+	own, so code that means a `\\n` inside a string keeps it."""
+	if code and "\n" not in code and "\\n" in code:
+		return code.replace("\\r\\n", "\n").replace("\\n", "\n").replace("\\t", "\t").replace('\\"', '"')
+	return code
+
+
 def write_extension(
 	title: Annotated[
 		str, "What it is called, a name in Title Case, such as A Customer Needs a Mobile Number."
@@ -262,7 +272,7 @@ def write_extension(
 			runs=runs,
 			doctype=record,
 			explanation=explanation,
-			code=code,
+			code=_unescaped(code),
 			asked=asked,
 			view=view,
 			event=event,

@@ -1186,6 +1186,10 @@ change it.
 - **Use the Default** puts the action back on One's model with nothing added.
 - **Save** refuses if another administrator changed the action since you
   opened it; close it and open it again.
+- The **Chat** action also has **People Choose the Model**. When it is on,
+  anybody can pick a model for their own conversations in the OneAI panel.
+  When it is off, only administrators can. What a person picks is never
+  anybody else's.
 - **What Used the Credits** opens the AI Credits report by action.
 - OneIntake's settings page has **Models**, which opens this list showing
   OneIntake's actions only.
@@ -1365,6 +1369,23 @@ Each part appears once the workspace may use it:
 they have no Customize.
 
 ## Asking OneAI
+
+The OneAI panel opens from the dial at the bottom of every page. Each
+conversation is kept, and the arrow at the top left lists them.
+
+- **The model.** The pill under the box says which model answers. Press it
+  to pick another for this conversation and your next ones; **Automatic** is
+  whatever the workspace set for the chat. Only administrators can pick,
+  unless an administrator turns on **People Choose the Model** for the
+  Chat action. The menu shows each model's maker; what each costs is in
+  Workspace › OneAI › Actions. If the work moves to another part of OneAI,
+  such as designing a print format, your pick goes with it.
+- **The name.** After its first answer, OneAI names a conversation in a few
+  words. Press the name at the top to change it; OneAI then leaves it alone.
+- **What it can use.** OneAI is given the tools that fit the question and
+  the page you are on. When it needs something else, such as mail or
+  workspace settings, it asks for those tools itself. You do not choose
+  them.
 
 Ask OneAI how anything in One works, in your own words and your own language.
 It answers from this page and the other modules' own pages like it, and says

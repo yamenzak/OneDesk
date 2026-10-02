@@ -176,32 +176,21 @@ def test_the_panel_asks_the_launcher_where_the_reader_is():
 # ------------------------------------------------------------- the composer
 
 
-@pytest.mark.parametrize(
-	"stored, shown",
-	[
-		("google-ai-studio:gemini-2.5-flash-lite", "gemini-2.5-flash-lite"),
-		("workers-ai:@cf/google/gemma-4-26b-a4b-it", "gemma-4-26b-a4b-it"),
-		("", ""),
-	],
-)
-def test_the_pill_names_a_model_the_way_a_person_reads_it(stored, shown):
-	"""The catalogue's id carries its provider and path; the pill shows the name."""
-	space = {}
-	exec("import re\n" + spoken(CHAT, "named"), space)
-	assert space["named"](stored) == shown
+def test_the_pill_names_a_model_the_way_a_person_reads_it():
+	"""The catalogue's id carries its provider and path; the pill shows the
+	name the settings screen and the bell use for it."""
+	assert "run._model_name(model)" in spoken(CHAT, "named")
 
 
-def test_the_panel_shows_the_model_and_never_picks_one():
-	"""The model is the workspace's choice per action, so the panel sends none.
-
-	One person switching it from a pill would switch it for everybody who asks
-	after them — which is why the pill opens the setting instead.
-	"""
+def test_the_panel_sends_no_model_with_a_question():
+	"""A question carries no model: the pick is kept on the conversation by
+	`choose_model`, which checks the person may pick and that it is offered."""
 	panel = PANEL.read_text(encoding="utf-8")
 	said = panel[panel.index('"onedesk.one_ai.chat.say"'):]
 	said = said[: said.index("});")]
 	assert "model" not in said
-	assert '"AI Action Setting"' in panel
+	assert '"onedesk.one_ai.chat.choose_model"' in panel
+	assert "new frappe.ui.Dropdown" in panel
 
 
 def test_a_chat_started_by_the_paperclip_is_named_by_its_first_question():
