@@ -5429,6 +5429,13 @@ errors about older code drop out.
   review passed, explanation updated, off until turned on. The first run
   took 185 seconds inside a request, which is why it is a job now.
 
+**Asking back.** Asked for "a warning on a customer's form when it has no
+email address", OneAI rightly asked which field (a customer's email is on its
+Contact), and the panel pressed it at once to "call write_extension with what
+you just wrote", which it refused. `run._asks`: a reply that ends by asking the
+person something is not pressed for the card; they answer, and the card comes
+after. Not yet tried live: to test with that same request.
+
 **Found on the way:** the panel's brief of the record being looked at was
 drawn from the whole record, levels the reader cannot read included.
 `chat._brief` now applies frappe's `apply_fieldlevel_read_permissions` first.

@@ -210,6 +210,7 @@ def test_a_suggestion_that_exists_to_make_a_card_is_asked_for_it():
 	""""Draft my feedback" answered with the draft in the chat and no card."""
 	run = (tree.APP / "one_ai" / "run.py").read_text()
 	assert "expects not in called" in run and "CALL_IT.format(expects)" in run
+	assert "and not _asks(out)" in run, "a question to the person is theirs to answer first"
 	assert "expects=suggest.expected(text)" in (tree.APP / "one_ai" / "chat.py").read_text()
 	hr = (tree.APP / "one_hr" / "ai.py").read_text()
 	for tool in ("claim_expense", "add_applicant", "draft_feedback"):
@@ -221,3 +222,22 @@ def test_why_people_leave_is_read_as_the_reader_and_counts_each_person_once():
 	assert "frappe.get_all" not in said and "ignore_permissions" not in said
 	assert "one.name not in heard" in said, "an interviewed leaver is not counted twice"
 	assert '"onedesk.one_hr.ai.why_people_leave"' in HOOKS.read_text()
+
+
+def test_a_model_that_asks_the_person_something_is_not_pressed_for_the_card():
+	"""OneStudio, asked for an extension on a customer's email: the email is on
+	the Contact, so it asked which one was meant, and was pressed to write
+	anyway."""
+	run = (tree.APP / "one_ai" / "run.py").read_text()
+	namespace = {}
+	exec("def _asks(" + run.split("def _asks(", 1)[1].split("\ndef ", 1)[0], namespace)
+	asks = namespace["_asks"]
+
+	def said(text):
+		return {"turns": [{"role": "user", "text": "x"}, {"role": "model", "text": text}]}
+
+	assert asks(said("Customer has no email field. Which field do you mean?"))
+	assert asks(said("Do you mean the **primary contact's email?**"))
+	assert not asks(said("Here is your feedback: you did well."))
+	assert not asks(said(""))
+	assert not asks({"turns": []})

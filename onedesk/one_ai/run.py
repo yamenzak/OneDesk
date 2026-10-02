@@ -101,10 +101,19 @@ def ask(
 			turns = [*out["turns"], {"role": "user", "text": KEEP_IT.format(text), "calls": [], "context": True}]
 			rounds += 1
 			continue
-		if out.get("done") and expects and expects not in called and not pressed and rounds < ROUNDS:
+		if (
+			out.get("done")
+			and expects
+			and expects not in called
+			and not pressed
+			and not _asks(out)
+			and rounds < ROUNDS
+		):
 			# A suggestion that exists to make a card — "Draft my feedback" —
 			# answered with the draft in the chat and no card. Asked for the
-			# call it was for, with what it just wrote.
+			# call it was for, with what it just wrote. Not when it ended by
+			# asking the person something: that is theirs to answer, and the
+			# card comes after.
 			pressed = True
 			turns = [*out["turns"], {"role": "user", "text": CALL_IT.format(expects), "calls": [], "context": True}]
 			rounds += 1
@@ -250,6 +259,15 @@ def _unsaid(turns: list[dict]) -> list[dict]:
 def _unkept(text: str | None, called: set[str]) -> bool:
 	"""Asked to remember, and nothing was kept."""
 	return bool(text and REMEMBER.search(text)) and "remember" not in called
+
+
+def _asks(out: dict) -> bool:
+	"""The model's last words end by asking the person something: "Which
+	field do you mean?" A question is the end of a sentence, so the last one
+	is enough."""
+	said = [one for one in out.get("turns") or [] if one.get("role") == "model"]
+	text = (said[-1].get("text") or "").strip() if said else ""
+	return bool(text) and text.rstrip(" *_)\"'").endswith("?")
 
 
 def _silent(out: dict, cards: list) -> bool:
