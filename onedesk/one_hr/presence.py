@@ -47,8 +47,8 @@ GRACE = 10 * 60
 #: entry point here answers `unknown` rather than raising: a record page that
 #: 500s because an app is missing is worse than one that says it does not know.
 
-#: Taken from OneApp's `oneapp/onehr/presence.py`, which is the same repository
-#: under the same licence. The reasoning has not changed; only the app it sits
+#: Taken from the retired OneApp's `oneapp/onehr/presence.py`, ours and under
+#: the same licence. The reasoning has not changed; only the app it sits
 #: in has.
 NEEDED = ("Employee Checkin", "Attendance", "Leave Application")
 

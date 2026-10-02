@@ -3,6 +3,33 @@
 One, built **on** the Frappe desk rather than beside it. One app, one module per
 product, enabled per site.
 
+## How to answer me
+
+I am the only person reading this and I already know what we are building.
+
+* **Lead with the answer.** One or two sentences that would satisfy me if I read
+  nothing else.
+* **Under 150 words.** 300 if it is genuinely long.
+* **No headers, no bold-label lists, no tables** unless I asked for a comparison
+  or there are three-plus parallel items.
+* **Say the thing, not the shape of the thing.** "The bell writes a
+  `Document Follow` row" — not "**The control.** A bell beside the heart…".
+* **Plain words, the way you would say them out loud.** Write it like you are
+  explaining it to me at my desk. No aphorisms. No "it is not X, it is Y". No
+  sentence that is there because it sounds good. If I have to read a line twice
+  to get it, it failed — and a whole answer of clever lines is unreadable even
+  when every fact in it is right.
+* **The concrete thing first, the principle after** — and only if I need it.
+  Name the file, the field, the button. "The photo has no GPS in it" beats
+  "the photo answers who, never where".
+* **One caveat, not five.** The one that would change what I do.
+* **Do not restate work I just watched you do.** A commit hash and one line is a
+  complete report.
+* **Never re-explain a decision I already agreed to.**
+
+Long form goes in commit messages, `docs/` and code comments. `/bro` means it
+did not land — re-explain it simply.
+
 ## The rule everything else follows
 
 **If the framework ships it, use it. Do not write our own.**
@@ -137,11 +164,26 @@ break each other's imports on sites that carry only one of them.
   remember its last rule: rewording is also a translation change, so the POT and
   `locale/ar.po` and `de.po` move in the same commit.
 
+## Names and the licence
+
+* **The product is One.** OneApp, OneSpace and the old OneAdmin control app
+  were earlier names and earlier code; none of them is product-facing.
+* **An id is not a name.** A module's directory, its Frappe module name and a
+  doctype's name are ids, and they do not change when a product is renamed.
+* **This repo is AGPL-3.0, and so are `frappe/crm`, `frappe/drive`,
+  `frappe/sheets` and `frappe/helpdesk`.** Code may be taken from them, and
+  taking it means keeping Frappe's copyright notice, saying at the top of the
+  file what it was derived from, and never moving that file to a permissive
+  licence. Anything that is really a frappe-ui component still comes from
+  frappe-ui (MIT).
+
 ## The site
 
-`onedesk.localhost` carries frappe, erpnext, hrms and onedesk, and nothing of
-OneApp. OneApp is a separate repo on `space.localhost` and is not this app's
-concern.
+`onedesk.localhost` carries frappe, erpnext, hrms and onedesk, and nothing else.
+OneApp and its control app, the product before OneDesk, are retired: their
+repository is emptied and their sites are gone. Some module READMEs and
+docstrings still say a piece was first written there; that is history, not a
+dependency.
 
 ## The guards
 
