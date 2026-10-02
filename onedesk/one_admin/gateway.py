@@ -301,8 +301,12 @@ def _unpriced(spent: pricing.Bill) -> str:
 
 
 #: Said to a model whose tool call its provider could not read.
+#: Said to a model that answered with nothing, in a turn only it sees.
+SAY_IT = "Answer the question above now, in its language. Call a tool if you need one."
+
 ONE_LINE = (
-	"Your last tool call could not be read. Make it again with every argument on one line: plain JSON "
+	"A tool call you just wrote could not be read, so it is not shown here. Write it again from the start "
+	"with every argument on one line: plain JSON "
 	"strings with \\n for a line break, no triple quotes and no code around the call."
 )
 
@@ -337,10 +341,13 @@ def _said(
 		# round after `claim_expense`. It is billed like any round.
 		if turns and (turns[-1] or {}).get("role") == "tool":
 			return "", [], raised.body
-		# Anywhere else it is a blip. Once more, straight away and past the
+		# Anywhere else, asked again with a turn only it sees. Measured:
+		# gemini-2.5-flash answered an Arabic question with tools declared with
+		# an empty STOP every time, the same request again blank too; told to
+		# answer, it called the tool three times out of three. Past the
 		# gateway's cache, which would hand the same blank back; a second blank
 		# is said as "try again", which is what it is.
-		return asking(fresh=True)
+		return asking(({"role": "user", "text": SAY_IT, "calls": []},), fresh=True)
 
 
 def get(provider: str, path: str, timeout: int = TIMEOUT) -> dict:

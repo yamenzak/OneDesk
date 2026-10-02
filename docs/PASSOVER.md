@@ -1530,7 +1530,7 @@ default):
 | | Passed | Credits | Credits a simple question |
 |---|---|---|---|
 | Before (every tool, every round) | 21 of 32 | 313 | about 9 |
-| After | 29 of 32 (the last run 27, three of them connections the dev server dropped while it reloaded) | 202 to 209 | about 3 |
+| After | 31 of 32 | 179 | about 3 |
 
 1. **Notifications**: changing who may pick the model is an OneAI change
    like any other, so **OneAI Changed** now names it to the other
@@ -1581,18 +1581,25 @@ default):
    `frappe.realtime`, `frappe.defaults` for the person's pick,
    `frappe.cache` for the list.
 
-**Done.** Measured on Gemini 2.5 Flash too: 24 of 32, 260 credits, in
-151 seconds against Gemma's 399. Faster, not smarter. Open:
+**Done.** The one case left is booking leave on the dev site, where nobody
+approves that employee's leave and OneAI says so, which is right. The sales
+and people cases are asked as a dev user who holds those roles, so they make
+real cards.
 
-- Gemini 2.5 Flash answered blank on four first rounds within two seconds,
-  and the gateway's one retry was blank too. The body is not logged, so the
-  next step is logging Gemini's `finishReason` for a blank before changing
-  anything.
-- Gemma now and then reads an extension's code, then stops without writing
-  the change (passed in two runs of three), and once named a report that
-  does not exist rather than build one. Both are what a stronger model for
-  Studio and Workspace Setup is for, and those actions already hand over
-  to one.
+Gemini 2.5 Flash: 27 of 32, 276 credits, in 211 seconds against Gemma's
+299. Faster, not smarter.
+
+- Its empty answers were an empty STOP with no output, every time, on an
+  Arabic question with tools declared; the plain retry was blank too.
+  Fixed: the retry now carries a turn only the model sees, "answer the
+  question above now", and it called the tool three times out of three.
+- After a tool call it could not write, it was told "make your last call
+  again", could not see that call, and asked the person for it. The turn
+  now says the call is not shown and to write it from the start.
+- What is left is its own choice: it asks which mailbox, and builds a saved
+  report where a report by mail was asked for.
+- The bench now pins the model it is given through a handover, as the panel
+  does, so a run names one model from end to end.
 
 ### OneIntake › Settings (was Workspace › OneIntake)
 

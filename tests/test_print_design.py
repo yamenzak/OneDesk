@@ -256,7 +256,7 @@ def test_a_blank_is_asked_again_past_the_gateways_cache():
 	gateway = (tree.APP / "one_admin" / "gateway.py").read_text()
 	assert 'FRESH = "cf-aig-skip-cache"' in gateway
 	assert "headers[FRESH]" in _body(gateway, "through")
-	assert "return asking(fresh=True)" in _body(gateway, "_said")
+	assert 'return asking(({"role": "user", "text": SAY_IT, "calls": []},), fresh=True)' in _body(gateway, "_said")
 
 
 def test_sections_written_by_hand_are_read_as_meant():

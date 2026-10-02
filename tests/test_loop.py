@@ -351,3 +351,11 @@ def test_an_action_with_no_tools_is_never_told_to_look_something_up():
 	assert "tooled and (not cards) and (not doubted)" in said
 	assert "tooled and (not called) and (not doubted)" in said
 	assert "tooled = _tooled(action)" in said
+
+
+def test_a_blank_answer_is_asked_again_with_a_turn_only_the_model_sees():
+	"""Measured on gemini-2.5-flash: an Arabic question with tools declared
+	came back as an empty STOP every time, the same request again blank too;
+	told to answer, it called the tool three times out of three."""
+	source = GATEWAY.read_text(encoding="utf-8")
+	assert 'asking(({"role": "user", "text": SAY_IT, "calls": []},), fresh=True)' in source

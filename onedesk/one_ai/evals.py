@@ -28,8 +28,13 @@ def _on(doctype: str, view: str | None = None, name: str | None = None) -> dict:
 	return {key: value for key, value in (("doctype", doctype), ("view", view), ("name", name)) if value}
 
 
-#: The workspace's administrator on the dev site, who may do everything a case asks.
+#: The workspace's administrator on the dev site, who asks most cases.
 USER = "wsadmin@one.test"
+
+#: Who asks the sales and people cases on the dev site: somebody with the sales
+#: and HR roles and an employee record, so those cases make a card rather than
+#: being refused.
+PEOPLE = "admin@example.com"
 
 CASES = [
 	# Reading: the answer comes from the right tool.
@@ -51,7 +56,7 @@ CASES = [
 		"ask": "What's on my plate today?",
 		"tools": ("my_day", "my_tasks", "my_calendar"),
 	},
-	{"id": "my-leave", "page": {}, "ask": "How much annual leave do I have left?", "tools": ("my_leave",)},
+	{"id": "my-leave", "page": {}, "ask": "How much annual leave do I have left?", "tools": ("my_leave",), "user": PEOPLE},
 	{
 		"id": "how-extension",
 		"page": {},
@@ -75,8 +80,9 @@ CASES = [
 		"page": _on("Opportunity", "List"),
 		"ask": "Which deals have gone quiet?",
 		"tools": ("gone_quiet",),
+		"user": PEOPLE,
 	},
-	{"id": "why-lose", "page": {}, "ask": "Why do we lose deals?", "tools": ("why_we_lose",)},
+	{"id": "why-lose", "page": {}, "ask": "Why do we lose deals?", "tools": ("why_we_lose",), "user": PEOPLE},
 	{
 		"id": "free-time",
 		"page": {},
@@ -145,22 +151,25 @@ CASES = [
 		"page": {},
 		"ask": "Add a lead: Sara Khan from Nimbus Ltd, sara@nimbus.example.",
 		"tools": ("add_lead", "create_record"),
-		# No card on the dev site: nobody there may make a lead, and the tool says so.
+		"card": True,
+		"user": PEOPLE,
 	},
 	{
 		"id": "de-lead",
 		"page": {},
 		"ask": "Lege einen Lead an: Jonas Weber, Firma Alpenholz, jonas@alpenholz.example.",
 		"tools": ("add_lead", "create_record"),
-		# No card on the dev site: nobody there may make a lead, and the tool says so.
+		"card": True,
+		"user": PEOPLE,
 	},
 	{
 		"id": "book-leave",
 		"page": {},
 		"ask": "Book me annual leave next Monday.",
-		# No card on the dev site: its administrator is nobody's employee, and
+		# No card on the dev site: nobody approves that employee's leave, and
 		# the tool says so.
 		"tools": ("book_leave",),
+		"user": PEOPLE,
 	},
 	{
 		"id": "extension-write",
@@ -172,7 +181,7 @@ CASES = [
 	{
 		"id": "extension-change",
 		"page": {},
-		"ask": "Change the extension Mobile Numbers Start With Zero so it also accepts numbers that start with 00971.",
+		"ask": "Change the extension Mobile Numbers Start With Zero so it also accepts numbers that start with +44.",
 		"tools": ("write_extension",),
 		"card": True,
 	},
@@ -207,9 +216,10 @@ CASES = [
 	{
 		"id": "approval",
 		"page": {},
-		"ask": "Sales invoices over 50,000 should need a manager's approval.",
+		"ask": "Expense claims over 1,000 should need a manager's approval.",
 		"tools": ("suggest_approval",),
 		"card": True,
+		"user": PEOPLE,
 	},
 	{
 		"id": "record-type",
@@ -245,12 +255,13 @@ def run(model: str | None = None, only: str | None = None, every: bool = False) 
 	from onedesk.one_ai import chat, groups, suggest
 	from onedesk.one_ai import run as runner
 
-	frappe.set_user(USER)
 	chose = {**runner.mine(chat.CHAT), **({"model": model} if model else {})}
 	out = []
 	for case in CASES:
 		if only and only not in case["id"]:
 			continue
+		asker = case.get("user") or USER
+		frappe.set_user(asker)
 		started = frappe.utils.now_datetime()
 		turns = chat._asked(case["ask"], case.get("page") or {})
 		at = time.monotonic()
@@ -262,6 +273,9 @@ def run(model: str | None = None, only: str | None = None, every: bool = False) 
 				expects=suggest.expected(case["ask"]),
 				chose=chose,
 				groups=None if every else groups.chosen(case["ask"], case.get("page") or {}, turns),
+				# A model named here is the person's pick in the panel, and
+				# holds through a handover, so the whole run is on it.
+				pinned=model,
 			)
 		except Exception as e:
 			frappe.db.rollback()
@@ -289,7 +303,7 @@ def run(model: str | None = None, only: str | None = None, every: bool = False) 
 			],
 		}
 		out.append(result)
-		_tidy(started)
+		_tidy(started, asker)
 		print(
 			f"{'PASS' if result['passed'] else 'FAIL'}  {case['id']:18} {seconds:5}s  "
 			f"{result['credits'] or 0:7.3f}cr  {','.join(called) or '-':40} {result['why']}"
@@ -310,10 +324,10 @@ def run(model: str | None = None, only: str | None = None, every: bool = False) 
 	return out
 
 
-def _tidy(since) -> None:
+def _tidy(since, user: str = USER) -> None:
 	"""Take away what a case made: its cards, the extensions it wrote, and what
 	it was told to remember."""
 	for doctype in ("AI Proposal", "AI Memory", "Extension"):
-		for name in frappe.get_all(doctype, filters={"owner": USER, "creation": [">=", since]}, pluck="name"):
+		for name in frappe.get_all(doctype, filters={"owner": user, "creation": [">=", since]}, pluck="name"):
 			frappe.delete_doc(doctype, name, ignore_permissions=True, force=True)
 	frappe.db.commit()
