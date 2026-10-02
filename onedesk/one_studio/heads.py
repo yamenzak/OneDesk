@@ -99,7 +99,7 @@ VERBS = {
 	},
 	"extension.mend": {
 		"doctypes": [extensions.EXTENSION],
-		"label": lambda doc: _("Mend With OneAI"),
+		"label": lambda doc: _("Fix With OneAI"),
 		"when": lambda doc: not doc.is_new() and ai._recent_mistakes(doc.name) > 0,
 		"run": lambda doc, **_values: _mended(doc),
 	},

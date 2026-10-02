@@ -168,7 +168,7 @@ def mend_extension(
 	doc = frappe.get_doc(extensions.EXTENSION, extension)
 	return {
 		"diagnosis": mended["diagnosis"],
-		**_proposed(doc, _("Mended: {0}").format(mended["diagnosis"])),
+		**_proposed(doc, _("Fixed: {0}").format(mended["diagnosis"])),
 		"next": "Say in plain words what went wrong and that approving turns the mended version on. Do not show the code.",
 	}
 

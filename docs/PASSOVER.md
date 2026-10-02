@@ -5412,7 +5412,7 @@ errors about older code drop out.
   `onedesk.shell.table`, a record tab declared in `mend.TABS`): when, which
   record (a link), and the one line of what went wrong, never the code. A
   screen error now carries the record it was open on.
-- **Mend With OneAI** at the top of an extension with errors, and
+- **Fix With OneAI** at the top of an extension with errors, and
   `mend_extension` in the chat: a separate call (`studio_mend`, the AI
   Addendum's revision 9) shown the code and its last five errors on the
   server, which says what went wrong in plain words and writes it again

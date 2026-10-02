@@ -58,10 +58,10 @@ anybody's work: on the server the record still saves, on the screen the form
 goes on working. The error is written down, **Errors in the Last 7 Days** counts
 it, and every morning the administrators hear of the extensions that ran into
 one. The extension's **Errors** tab lists them: when, on which record, and what
-went wrong in one line, since OneAI last wrote it. Press **Mend With OneAI**
+went wrong in one line, since OneAI last wrote it. Press **Fix With OneAI**
 at the top of the extension: OneAI reads the code and its errors, and a few
-minutes later tells you what went wrong and that it has written it again,
-reviewed and off until you turn it on. Or ask **Has this one run into errors?**
+minutes later tells you what went wrong and that it has written a fixed
+version, reviewed and off until you turn it on. Or ask **Has this one run into errors?**
 in OneAI, or turn it off. A message an extension means to stop a save with,
 such as "A customer needs a mobile number", is not an error: it stops the
 save, as it says.

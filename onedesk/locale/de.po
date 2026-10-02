@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-02 08:20+0000\n"
-"PO-Revision-Date: 2026-10-02 08:20+0000\n"
+"POT-Creation-Date: 2026-10-02 08:24+0000\n"
+"PO-Revision-Date: 2026-10-02 08:24+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -6272,7 +6272,7 @@ msgstr ""
 msgid "Errors"
 msgstr "Fehler"
 
-#: onedesk/one_studio/heads.py:124
+#: onedesk/one_studio/heads.py:125
 msgid "Errors in the Last 7 Days"
 msgstr "Fehler in den letzten 7 Tagen"
 
@@ -7192,6 +7192,10 @@ msgstr "Geschäftsjahre"
 msgid "Fix"
 msgstr "Beheben"
 
+#: onedesk/one_studio/heads.py:102
+msgid "Fix With OneAI"
+msgstr "Mit OneAI beheben"
+
 #: onedesk/public/js/oneai/Panel.vue:288 onedesk/public/js/oneai/Panel.vue:295
 msgid "Fix spelling and grammar"
 msgstr "Rechtschreibung und Grammatik korrigieren"
@@ -7199,6 +7203,14 @@ msgstr "Rechtschreibung und Grammatik korrigieren"
 #: onedesk/public/js/check.js:31
 msgid "Fixed."
 msgstr "Behoben."
+
+#: onedesk/one_studio/ai.py:171 onedesk/one_studio/mend.py:112
+msgid "Fixed: {0}"
+msgstr "Behoben: {0}"
+
+#: onedesk/one_studio/mend.py:175
+msgid "Fixing {0}"
+msgstr "{0} wird behoben"
 
 #. Label of the one_flag_below (Int) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -10891,18 +10903,6 @@ msgstr "Mitglieder von {0}"
 msgid "Memory"
 msgstr "Gedächtnis"
 
-#: onedesk/one_studio/heads.py:102
-msgid "Mend With OneAI"
-msgstr "Mit OneAI reparieren"
-
-#: onedesk/one_studio/ai.py:171 onedesk/one_studio/mend.py:111
-msgid "Mended: {0}"
-msgstr "Repariert: {0}"
-
-#: onedesk/one_studio/mend.py:174
-msgid "Mending {0}"
-msgstr "{0} wird repariert"
-
 #. Option for the 'Role' (Select) field in DocType 'Reading Party'
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 msgid "Mentioned"
@@ -12910,9 +12910,9 @@ msgstr "OneAI war gerade nicht erreichbar. Die Frage steht noch da — versuchen
 msgid "OneAI could not explain this document just now. Try again in a moment."
 msgstr "OneAI konnte dieses Dokument gerade nicht erklären. Versuchen Sie es gleich noch einmal."
 
-#: onedesk/one_studio/mend.py:110
-msgid "OneAI could not mend {0}: {1}"
-msgstr "OneAI konnte {0} nicht reparieren: {1}"
+#: onedesk/one_studio/mend.py:111
+msgid "OneAI could not fix {0}: {1}"
+msgstr "OneAI konnte {0} nicht beheben: {1}"
 
 #: onedesk/one_studio/mend.py:108
 msgid "OneAI could not work out what went wrong with {0}. Try again later."
@@ -12953,9 +12953,9 @@ msgstr "OneAI hat diesen Monat {0} von {1} Dokumenten erledigt; {2} brauchten ei
 msgid "OneAI has read nothing yet this month."
 msgstr "OneAI hat diesen Monat noch nichts gelesen."
 
-#: onedesk/one_studio/mend.py:152
-msgid "OneAI is mending it. It takes a few minutes; you will be told when it is done."
-msgstr "OneAI repariert sie. Das dauert ein paar Minuten; du wirst benachrichtigt, wenn es fertig ist."
+#: onedesk/one_studio/mend.py:153
+msgid "OneAI is fixing it. It takes a few minutes; you will be told when it is done."
+msgstr "OneAI behebt den Fehler. Das dauert ein paar Minuten; du wirst benachrichtigt, wenn es fertig ist."
 
 #: onedesk/one_intake/act.py:120
 msgid "OneAI is not sure enough."
@@ -13029,9 +13029,9 @@ msgstr "OneAI liest neue Mails in {0} und ihre Anhänge, legt sie ab und bearbei
 msgid "OneAI will read {0}, file it and act on it on your behalf. A scan or a photo is read with OneAI credits."
 msgstr "OneAI liest {0}, legt es ab und handelt in Ihrem Namen danach. Ein Scan oder Foto wird mit OneAI-Guthaben gelesen."
 
-#: onedesk/one_studio/mend.py:125
-msgid "OneAI's mended version was not kept: {0}"
-msgstr "Die von OneAI reparierte Fassung wurde nicht übernommen: {0}"
+#: onedesk/one_studio/mend.py:126
+msgid "OneAI's fixed version was not kept: {0}"
+msgstr "Die von OneAI behobene Fassung wurde nicht übernommen: {0}"
 
 #. Title of a Sidebar
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
@@ -19969,8 +19969,8 @@ msgid "These days will be marked as worked."
 msgstr "Diese Tage werden als gearbeitet erfasst."
 
 #: onedesk/one_studio/notifications.py:21
-msgid "These extensions ran into errors, and the work went on: {extensions}. Open one and press Mend With OneAI, or turn it off."
-msgstr "Bei diesen Erweiterungen sind Fehler aufgetreten, die Arbeit ging weiter: {extensions}. Öffne eine und klicke auf „Mit OneAI reparieren“, oder schalte sie aus."
+msgid "These extensions ran into errors, and the work went on: {extensions}. Open one and press Fix With OneAI, or turn it off."
+msgstr "Bei diesen Erweiterungen sind Fehler aufgetreten, die Arbeit ging weiter: {extensions}. Öffne eine und klicke auf „Mit OneAI beheben“, oder schalte sie aus."
 
 #: onedesk/one/notifications.py:324
 msgid "These webhooks could not deliver after every try: {webhooks}. Open each call to see what the other system answered."
@@ -25301,13 +25301,13 @@ msgstr "{0} GB Datenbank"
 msgid "{0} GB storage"
 msgstr "{0} GB Speicher"
 
-#: onedesk/one_studio/mend.py:165
-msgid "{0} The mended version is off until you turn it on."
-msgstr "{0} Die reparierte Fassung ist aus, bis du sie einschaltest."
+#: onedesk/one_studio/mend.py:166
+msgid "{0} The fixed version is off until you turn it on."
+msgstr "{0} Die behobene Fassung ist aus, bis du sie einschaltest."
 
-#: onedesk/one_studio/mend.py:168
-msgid "{0} The mended version was kept off: the review refused it. {1}"
-msgstr "{0} Die reparierte Fassung bleibt aus: Die Prüfung hat sie abgelehnt. {1}"
+#: onedesk/one_studio/mend.py:169
+msgid "{0} The fixed version was kept off: the review refused it. {1}"
+msgstr "{0} Die behobene Fassung bleibt aus: Die Prüfung hat sie abgelehnt. {1}"
 
 #: onedesk/one_admin/doctype/offering/offering_list.js:23
 #: onedesk/public/js/settings.js:1509 onedesk/www/start.py:110
@@ -25748,9 +25748,9 @@ msgstr "{0} ist nicht gescheitert."
 msgid "{0} has reached {1}. It can only go up: a lower number would repeat a name already used."
 msgstr "{0} hat {1} erreicht. Sie kann nur steigen: eine niedrigere Nummer würde einen bereits verwendeten Namen wiederholen."
 
-#: onedesk/one_studio/mend.py:103
-msgid "{0} has run into no errors, so there is nothing to mend."
-msgstr "Bei {0} sind keine Fehler aufgetreten, es gibt also nichts zu reparieren."
+#: onedesk/one_studio/mend.py:102
+msgid "{0} has run into no errors, so there is nothing to fix."
+msgstr "Bei {0} sind keine Fehler aufgetreten, es gibt also nichts zu beheben."
 
 #: onedesk/public/js/tenant.js:60
 msgid "{0} has {1} credits, {2} of them promised to calls in flight."

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-02 08:20+0000\n"
-"PO-Revision-Date: 2026-10-02 08:20+0000\n"
+"POT-Creation-Date: 2026-10-02 08:24+0000\n"
+"PO-Revision-Date: 2026-10-02 08:24+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -6270,7 +6270,7 @@ msgstr ""
 msgid "Errors"
 msgstr ""
 
-#: onedesk/one_studio/heads.py:124
+#: onedesk/one_studio/heads.py:125
 msgid "Errors in the Last 7 Days"
 msgstr ""
 
@@ -7191,12 +7191,24 @@ msgstr ""
 msgid "Fix"
 msgstr ""
 
+#: onedesk/one_studio/heads.py:102
+msgid "Fix With OneAI"
+msgstr ""
+
 #: onedesk/public/js/oneai/Panel.vue:288 onedesk/public/js/oneai/Panel.vue:295
 msgid "Fix spelling and grammar"
 msgstr ""
 
 #: onedesk/public/js/check.js:31
 msgid "Fixed."
+msgstr ""
+
+#: onedesk/one_studio/ai.py:171 onedesk/one_studio/mend.py:112
+msgid "Fixed: {0}"
+msgstr ""
+
+#: onedesk/one_studio/mend.py:175
+msgid "Fixing {0}"
 msgstr ""
 
 #. Label of the one_flag_below (Int) field in DocType 'HR Settings'
@@ -10891,18 +10903,6 @@ msgstr ""
 msgid "Memory"
 msgstr ""
 
-#: onedesk/one_studio/heads.py:102
-msgid "Mend With OneAI"
-msgstr ""
-
-#: onedesk/one_studio/ai.py:171 onedesk/one_studio/mend.py:111
-msgid "Mended: {0}"
-msgstr ""
-
-#: onedesk/one_studio/mend.py:174
-msgid "Mending {0}"
-msgstr ""
-
 #. Option for the 'Role' (Select) field in DocType 'Reading Party'
 #: onedesk/one_intake/doctype/reading_party/reading_party.json
 msgid "Mentioned"
@@ -12910,8 +12910,8 @@ msgstr ""
 msgid "OneAI could not explain this document just now. Try again in a moment."
 msgstr ""
 
-#: onedesk/one_studio/mend.py:110
-msgid "OneAI could not mend {0}: {1}"
+#: onedesk/one_studio/mend.py:111
+msgid "OneAI could not fix {0}: {1}"
 msgstr ""
 
 #: onedesk/one_studio/mend.py:108
@@ -12953,8 +12953,8 @@ msgstr ""
 msgid "OneAI has read nothing yet this month."
 msgstr ""
 
-#: onedesk/one_studio/mend.py:152
-msgid "OneAI is mending it. It takes a few minutes; you will be told when it is done."
+#: onedesk/one_studio/mend.py:153
+msgid "OneAI is fixing it. It takes a few minutes; you will be told when it is done."
 msgstr ""
 
 #: onedesk/one_intake/act.py:120
@@ -13029,8 +13029,8 @@ msgstr ""
 msgid "OneAI will read {0}, file it and act on it on your behalf. A scan or a photo is read with OneAI credits."
 msgstr ""
 
-#: onedesk/one_studio/mend.py:125
-msgid "OneAI's mended version was not kept: {0}"
+#: onedesk/one_studio/mend.py:126
+msgid "OneAI's fixed version was not kept: {0}"
 msgstr ""
 
 #. Title of a Sidebar
@@ -19969,7 +19969,7 @@ msgid "These days will be marked as worked."
 msgstr ""
 
 #: onedesk/one_studio/notifications.py:21
-msgid "These extensions ran into errors, and the work went on: {extensions}. Open one and press Mend With OneAI, or turn it off."
+msgid "These extensions ran into errors, and the work went on: {extensions}. Open one and press Fix With OneAI, or turn it off."
 msgstr ""
 
 #: onedesk/one/notifications.py:324
@@ -25301,12 +25301,12 @@ msgstr ""
 msgid "{0} GB storage"
 msgstr ""
 
-#: onedesk/one_studio/mend.py:165
-msgid "{0} The mended version is off until you turn it on."
+#: onedesk/one_studio/mend.py:166
+msgid "{0} The fixed version is off until you turn it on."
 msgstr ""
 
-#: onedesk/one_studio/mend.py:168
-msgid "{0} The mended version was kept off: the review refused it. {1}"
+#: onedesk/one_studio/mend.py:169
+msgid "{0} The fixed version was kept off: the review refused it. {1}"
 msgstr ""
 
 #: onedesk/one_admin/doctype/offering/offering_list.js:23
@@ -25741,8 +25741,8 @@ msgstr ""
 msgid "{0} has reached {1}. It can only go up: a lower number would repeat a name already used."
 msgstr ""
 
-#: onedesk/one_studio/mend.py:103
-msgid "{0} has run into no errors, so there is nothing to mend."
+#: onedesk/one_studio/mend.py:102
+msgid "{0} has run into no errors, so there is nothing to fix."
 msgstr ""
 
 #: onedesk/public/js/tenant.js:60

@@ -99,7 +99,7 @@ def mend(extension: str) -> dict:
 		limit=ERRORS,
 	)
 	if not logged:
-		frappe.throw(_("{0} has run into no errors, so there is nothing to mend.").format(doc.title))
+		frappe.throw(_("{0} has run into no errors, so there is nothing to fix.").format(doc.title))
 	said = read(run.once(MEND, prompt(doc, [(one or "")[-EACH:] for one in logged]))) or {}
 	diagnosis = str(said.get("diagnosis") or "").strip()[:600]
 	code = str(said.get("code") or "").strip()
@@ -108,8 +108,8 @@ def mend(extension: str) -> dict:
 			_("OneAI could not work out what went wrong with {0}. Try again later.").format(doc.title)
 		)
 	if code == (doc.code or "").strip():
-		frappe.throw(_("OneAI could not mend {0}: {1}").format(doc.title, diagnosis))
-	asked = "\n\n".join(filter(None, [doc.asked, _("Mended: {0}").format(diagnosis)]))
+		frappe.throw(_("OneAI could not fix {0}: {1}").format(doc.title, diagnosis))
+	asked = "\n\n".join(filter(None, [doc.asked, _("Fixed: {0}").format(diagnosis)]))
 	try:
 		kept = extensions.write(
 			title=doc.title,
@@ -123,7 +123,7 @@ def mend(extension: str) -> dict:
 			extension=doc.name,
 		)
 	except guard.Refused as refused:
-		frappe.throw(_("OneAI's mended version was not kept: {0}").format(refused))
+		frappe.throw(_("OneAI's fixed version was not kept: {0}").format(refused))
 	return {"extension": doc.name, "diagnosis": diagnosis, "review": kept["review"], "why": kept["why"]}
 
 
@@ -136,7 +136,7 @@ def listed(extension: str) -> list[dict]:
 
 
 def start(doc) -> str:
-	"""The Mend With OneAI button: mending reads and writes with two model
+	"""The Fix With OneAI button: mending reads and writes with two model
 	calls, minutes rather than seconds, so it is a job, and the person who
 	pressed it is told when it is done."""
 	roles.require()
@@ -150,7 +150,7 @@ def start(doc) -> str:
 		extension=doc.name,
 		told=frappe.session.user,
 	)
-	return _("OneAI is mending it. It takes a few minutes; you will be told when it is done.")
+	return _("OneAI is fixing it. It takes a few minutes; you will be told when it is done.")
 
 
 def in_background(extension: str, told: str) -> None:
@@ -163,16 +163,16 @@ def in_background(extension: str, told: str) -> None:
 		message, indicator = str(e), "red"
 	else:
 		if said["review"] == "Passed":
-			message = _("{0} The mended version is off until you turn it on.").format(said["diagnosis"])
+			message = _("{0} The fixed version is off until you turn it on.").format(said["diagnosis"])
 			indicator = "green"
 		else:
-			message = _("{0} The mended version was kept off: the review refused it. {1}").format(
+			message = _("{0} The fixed version was kept off: the review refused it. {1}").format(
 				said["diagnosis"], said["why"]
 			)
 			indicator = "orange"
 	frappe.publish_realtime(
 		"msgprint",
-		{"title": _("Mending {0}").format(title), "message": message, "indicator": indicator},
+		{"title": _("Fixing {0}").format(title), "message": message, "indicator": indicator},
 		user=told,
 		after_commit=True,
 	)

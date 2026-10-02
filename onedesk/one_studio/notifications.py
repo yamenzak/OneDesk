@@ -20,7 +20,7 @@ TYPES = [
 		"subject": _lt("Extensions ran into errors yesterday"),
 		"message": _lt(
 			"These extensions ran into errors, and the work went on: {extensions}. Open one and press "
-			"Mend With OneAI, or turn it off."
+			"Fix With OneAI, or turn it off."
 		),
 		"email_default": True,
 	},
