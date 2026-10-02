@@ -129,6 +129,8 @@ def mend(extension: str, problem: str | None = None) -> dict:
 			view=doc.view,
 			event=doc.event,
 			extension=doc.name,
+			place=doc.get("place"),
+			cron=doc.get("cron"),
 		)
 	except guard.Refused as refused:
 		frappe.throw(_("OneAI's fixed version was not kept: {0}").format(refused))

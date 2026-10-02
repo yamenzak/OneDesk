@@ -39,9 +39,10 @@ def configured() -> bool:
 
 
 #: How long an AI run may take on admin: the account waits on the provider for
-#: up to its own sixty seconds, so a caller giving up at ten gave up on answers
-#: that were on their way — a drafted appraisal is longer than a lookup.
-PATIENCE_FOR = {"onedesk.one_admin.proxy.ai_run": 75}
+#: up to its own sixty seconds, or 110 for a call that thinks
+#: (gateway.THOUGHT), so a caller giving up at ten gave up on answers that
+#: were on their way — a drafted appraisal is longer than a lookup.
+PATIENCE_FOR = {"onedesk.one_admin.proxy.ai_run": 120}
 
 
 def ask(endpoint: str, **params):

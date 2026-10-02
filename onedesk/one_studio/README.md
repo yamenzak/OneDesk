@@ -41,8 +41,8 @@ would, but never change one from the screen. On the **server**, it runs whenever
 cancelled or deleted, whoever does it and however: the form, an import,
 OneAI, another app. Use the server for a rule that must always hold.
 
-**On One's own pages.** An extension can also run on three of One's pages,
-each with its own few things it may do:
+**On One's own pages.** An extension can also run on One's own pages, each
+with its own few things it may do:
 
 - **OneMail**, when a conversation is opened: show a note under it ("A key
   customer"), or add a button beside Reply. And whenever a message is
@@ -53,12 +53,36 @@ each with its own few things it may do:
   note under it. Only on the kind of record you name.
 - **OneCalendar**, when an event's card is opened: show a note on it, or add
   a button.
+- **OneTask**, each time a view of your tasks is shown: a note or a button
+  under its name ("4 of your tasks are overdue").
+- **OneCloud**, when a file is chosen: a note or a button under its preview.
+- **OneIntake**, when a document is opened in the inbox: a note or a button
+  under its head.
+- **The pipeline board**, each time what a stage is worth changes: a note
+  above the board.
+- **Every space's home** (One, OneCRM, OneHR, OneBook and the rest): a note or
+  a button above its blocks.
 
 Ask for one the same way: "When I open a conversation from anyone at
 acmeco.example, show a note that they are a key customer." It is reviewed,
 off until you approve it, and its errors are written down, the same as any
 other. It never sees more of the page than what it is given, and it starts
 running for each person the next time they load One.
+
+**On a schedule.** An extension on the server can also run on its own,
+every hour, day, week or month, or on a schedule you give ("each weekday at
+eight"), at most once an hour: "every morning, add a comment to each open task
+whose end date has passed." It works on the records it finds, not on one being
+saved, and only on kinds of record you may open yourself.
+
+**Checked before you see it.** Before an extension is kept, OneAI's code is
+checked for what would make it fail: every field it names must be one the
+record has, every form event one frappe calls, the screen code must read as
+JavaScript, and it must be one change, not a hundred lines of them. Code for
+the server is also run once on one of your records and undone straight away,
+so an error shows now rather than on someone's next save, and OneAI is told
+what it did ("it stopped the save, saying…"). Whatever is wrong goes back to
+OneAI, which mends it before anything reaches you.
 
 **What you see, and what you do not.** Each extension opens on whether it is
 **On** or **Off** (or **Refused by Review**, or **Cannot Run Here**) and what
@@ -168,7 +192,9 @@ one: **Add a field to this one…**
 |---|---|
 | `extensions.py` | The Extension record's rules, and frappe's Client Script or Server Script made from it as Administrator. |
 | `guard.py` | Pure. Reads an extension's code before it is kept and refuses what reaches past the administrator. |
-| `places.py` | One's own pages an extension can run on (OneMail, a record's head, OneCalendar): each one's events, what it gives, and what it may do. `../public/js/places.js` runs them. |
+| `places.py` | One's own pages an extension can run on (OneMail, OneCalendar, OneTask, OneCloud, OneIntake, the pipeline board, every space's home, a record's head): each one's events, what it gives, and what it may do. `../public/js/places.js` runs them. |
+| `checks.py` | Pure. Whether an extension's code would work: the field and handler names it uses against the record's own, and its length. |
+| `trial.py` | Tries an extension before it is kept: node parses screen code; server code runs once on a real record, undone after. |
 | `review.py` | The second reading, `studio_review`: a separate call shown the code and its explanation, nothing of the chat. |
 | `record_types.py` | A record type's rules, and frappe's custom DocType made, changed and deleted from it. |
 | `forms.py` | The Forms list. The Customize page is `page/customize` and `../public/js/customize.js`. |
@@ -229,7 +255,30 @@ sent to `extensions.tripped` under its name. `guard.on_page` refuses code that
 listens for an event its page does not have. Screen code may look a record up
 as the person (`guard.LOOKUPS`: `frappe.db.get_value`, `get_list`, `count`,
 `exists`), and frappe answers with that person's permissions; anything else on
-`frappe.db` is refused.
+`frappe.db` is refused. Text passed to `__()` is words on the screen, never
+read as the kind of record of that name. A space's home is frappe's own
+Workspace page: `places.js` wraps `Workspace.show_page` rather than editing it,
+and lends a spot above its blocks (`onedesk.places.spot`).
+
+**On a schedule.** A scheduled extension (`event` Every Hour, Every Day, Every
+Week, Every Month, or On a Schedule with `cron`, at most hourly by
+`extensions.cron_refused`) is a Server Script of type Scheduler Event; frappe
+makes its Scheduled Job Type, and stops it when the script goes. It runs as
+Administrator with no `doc`, so `guard.on_server` refuses one that reads `doc`,
+and its kinds are still held to what the administrator may open. Its wrapper
+(`guard.WRAPPED_SCHEDULED`) logs an error under its name with no record.
+
+**Checked before it is kept.** After the guard, `checks.py` (pure) reads the
+code for what would not work: a field it names on `doc`, `frm.doc`,
+`frm.set_value`, `toggle_*`, `set_df_property`, a lookup's fields and filters,
+that the kind does not have (with the nearest that it does, by `difflib`); a
+form handler frappe never calls; and code longer than `checks.LONGEST` lines.
+`trial.py` then has node parse screen code (`node --check`, nothing run) and
+runs server code once on the newest record of its kind the person may read,
+inside a savepoint that is rolled back: an error refuses it, and what it did
+(stopped the save with a message, changed these fields, nothing) is handed to
+OneAI as `tried`. All of it comes before the review, so a refusal costs no
+second reading, and goes back to the model as `mend`.
 
 **Mending without reading.** `mend.py` is a separate call, its own action
 (`studio_mend`), made on the server with the extension's code and its last

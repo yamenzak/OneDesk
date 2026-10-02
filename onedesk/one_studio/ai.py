@@ -236,7 +236,8 @@ def _unescaped(code: str | None) -> str | None:
 
 def extension_places() -> dict:
 	"""One's own pages an extension can run on, beyond frappe's forms and
-	lists: OneMail, OneCalendar and a record's head. For each: when it runs,
+	lists: OneMail, OneCalendar, OneTask, OneCloud, OneIntake, the pipeline
+	board, every space's home and a record's head. For each: when it runs,
 	what the extension is told, and the few things it may do there. Read it
 	before writing an extension for one of them."""
 	from onedesk.one_studio import places
@@ -267,7 +268,10 @@ def write_extension(
 	| None = None,
 	event: Annotated[
 		str,
-		"On Server only: Before Insert, Before Validate, Before Save, After Insert, After Save, Before Submit, After Submit, Before Cancel, After Cancel, Before Save (Submitted Document), After Save (Submitted Document), Before Delete or After Delete.",
+		"On Server only. On a record's event: Before Insert, Before Validate, Before Save, After Insert, After Save, "
+		"Before Submit, After Submit, Before Cancel, After Cancel, Before Save (Submitted Document), "
+		"After Save (Submitted Document), Before Delete or After Delete. On its own, with no doc: Every Hour, "
+		"Every Day, Every Week, Every Month, or On a Schedule (give cron).",
 	]
 	| None = None,
 	extension: Annotated[
@@ -279,6 +283,10 @@ def write_extension(
 		"On one of One's pages only: where and when, as extension_places names it, such as onemail.conversation.",
 	]
 	| None = None,
+	cron: Annotated[
+		str, "On a Schedule only: when, as a cron line, at most hourly, such as 0 8 * * 1-5 for 8:00 each weekday."
+	]
+	| None = None,
 ) -> dict:
 	"""Write an extension: code that runs on the screen or on the server for
 	one kind of record. It is kept off, read by a second reviewer, and turned
@@ -286,11 +294,19 @@ def write_extension(
 	if not roles.administers():
 		return {"error": "Only a workspace administrator may have an extension written."}
 	extension = _named(extension)
-	if extension and frappe.db.exists(extensions.EXTENSION, extension):
+	if extension and not frappe.db.exists(extensions.EXTENSION, extension):
+		# Measured on Gemma 4: refused by the guard, so never kept, then
+		# mended "with extension=" its own title. There is nothing to change:
+		# it is a new one.
+		extension = None
+	if extension:
 		# A change that leaves out where or when keeps what it has: measured,
 		# Gemma changing a limit sent the code and no event, and was refused.
-		was = frappe.db.get_value(extensions.EXTENSION, extension, ["view", "event", "place"], as_dict=True)
+		was = frappe.db.get_value(
+			extensions.EXTENSION, extension, ["view", "event", "place", "cron"], as_dict=True
+		)
 		view, event, place = view or was.view, event or was.event, place or was.place
+		cron = cron or was.cron
 	try:
 		kept = extensions.write(
 			title=title,
@@ -303,6 +319,7 @@ def write_extension(
 			event=event,
 			extension=extension,
 			place=place,
+			cron=cron,
 		)
 	except guard.Refused as refused:
 		return {"mend": "write_extension", "error": f"Not kept: {refused}"}
@@ -313,11 +330,15 @@ def write_extension(
 		return {
 			"mend": "write_extension",
 			"error": f"Kept off: the review refused it. {kept['why']} Write it again with extension={kept['extension']}.",
+			"tried": kept["tried"],
 		}
 	doc = frappe.get_doc(extensions.EXTENSION, kept["extension"])
 	return {
 		**_proposed(doc, asked),
-		"next": "Say in one sentence what it does, and that approving turns it on. Do not show the code.",
+		"tried": kept["tried"],
+		"next": "If what it did when tried is not what was asked, write it again with "
+		f"extension={doc.name}. Otherwise say in one sentence what it does, and that approving turns it on. "
+		"Do not show the code.",
 	}
 
 
@@ -328,7 +349,12 @@ def _proposed(doc, why: str) -> dict:
 	where = (
 		extensions._place_said(doc)
 		if doc.view == extensions.PAGE
-		else _("{0}, {1}").format(_(doc.runs), _(doc.event) if doc.runs == extensions.ON_SERVER else _(doc.view))
+		else _("{0}, {1}").format(
+			_(doc.runs),
+			(f"{_(doc.event)} ({doc.cron})" if doc.get("cron") else _(doc.event))
+			if doc.runs == extensions.ON_SERVER
+			else _(doc.view),
+		)
 	)
 	changes = {
 		"what": "extension",

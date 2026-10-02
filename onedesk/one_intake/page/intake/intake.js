@@ -143,7 +143,29 @@ onedesk.IntakeInbox = class IntakeInbox {
 		if (one) one.unread = false;
 		this.$read.html(this.pane(said));
 		this.bind(said);
+		this.extended(said);
 		this.counts();
+	}
+
+	// The workspace's extensions on OneIntake (one_studio/places.py), told a
+	// document is open with what OneAI did with it, and lent a note and a
+	// button under its head.
+	extended(said) {
+		if (!onedesk.places || !onedesk.places.listening("intake.reading")) return;
+		const powers = onedesk.places.spot(($spot) => $spot.insertAfter(this.$read.find(".oi-read-head")));
+		onedesk.places.emit(
+			"intake.reading",
+			{
+				name: said.name,
+				title: said.title || "",
+				kind: said.kind || "",
+				person: said.person || "",
+				summary: said.summary || "",
+				route: said.route || "",
+				actions: (said.actions || []).map((act) => ({ said: act.said, level: act.level, record: act.record || null })),
+			},
+			powers
+		);
 	}
 
 	pane(said) {

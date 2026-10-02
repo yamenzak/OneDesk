@@ -662,6 +662,28 @@ onedesk.OneCloud = class OneCloud {
 		if (this.filed(item)) this.draw_history(item);
 		// What OneAI read in it (intake.js).
 		if (this.filed(item) && !item.folder) onedesk.intake.panel(this.$preview.find(".oc-intake-panel"), { file: item.id });
+		this.extended(item);
+	}
+
+	// The workspace's extensions on OneCloud (one_studio/places.py), told a
+	// file is chosen with what its preview shows, and lent a note and a button
+	// under its name. Not in a picker, which only chooses.
+	extended(item) {
+		if (item.folder || this.picker || !onedesk.places || !onedesk.places.listening("onecloud.file")) return;
+		const powers = onedesk.places.spot(($spot) => $spot.insertAfter(this.$preview.find(".oc-preview-name")));
+		onedesk.places.emit(
+			"onecloud.file",
+			{
+				name: item.name,
+				type: this.type_of(item),
+				size: item.size || 0,
+				modified: item.modified || null,
+				folder: item.where || "",
+				owner: item.owner || "",
+				record: item.record || null,
+			},
+			powers
+		);
 	}
 
 	// With nothing chosen, the folder itself: what is in it, who can see it,

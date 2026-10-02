@@ -199,6 +199,11 @@ EVENTS = (
 	"After Delete",
 )
 
+#: When a scheduled server extension runs: frappe's scheduler, which has no
+#: record of its own to hand it, as Administrator. "On a Schedule" takes a
+#: cron line (extensions.cron_refused).
+SCHEDULED = ("Every Hour", "Every Day", "Every Week", "Every Month", "On a Schedule")
+
 #: The views a screen extension may run on.
 VIEWS = ("Form", "List")
 
@@ -270,7 +275,23 @@ def on_server(code: str, doctype: str, site: Site, event: str | None = None) -> 
 		raise Refused(f"It is not Python: {error.msg} on line {error.lineno}.") from None
 	touched = {doctype}
 	words = set()
+	# doc.add_comment("Comment", …) names a comment's type, not the kind.
+	said = {
+		id(node.args[0])
+		for node in ast.walk(tree)
+		if isinstance(node, ast.Call)
+		and isinstance(node.func, ast.Attribute)
+		and node.func.attr == "add_comment"
+		and node.args
+	}
 	_defined(tree)
+	if event in SCHEDULED and any(
+		isinstance(node, ast.Name) and node.id == "doc" for node in ast.walk(tree)
+	):
+		raise Refused(
+			"It uses doc, which a scheduled extension does not have: it runs on its own, so find the "
+			f'records it works on with frappe.get_list("{doctype}", filters=…, pluck="name") and frappe.get_doc.'
+		)
 	for node in ast.walk(tree):
 		if isinstance(node, (ast.Import, ast.ImportFrom)):
 			raise Refused("It imports a module.")
@@ -295,7 +316,7 @@ def on_server(code: str, doctype: str, site: Site, event: str | None = None) -> 
 			words.add(node.id)
 		if isinstance(node, ast.keyword) and node.arg in REFUSED_KEYWORDS:
 			raise Refused(f"It sets {node.arg}, which no extension may.")
-		if isinstance(node, ast.Constant) and isinstance(node.value, str):
+		if isinstance(node, ast.Constant) and isinstance(node.value, str) and id(node) not in said:
 			words.add(node.value)
 			if node.value in site.doctypes:
 				touched.add(node.value)
@@ -397,10 +418,20 @@ except Exception:
 	frappe.log_error(title={title}, reference_doctype=doc.doctype, reference_name=doc.name)
 """
 
+#: A scheduled one has no record: its error is written down under its name
+#: alone, and a message it means stops only that run.
+WRAPPED_SCHEDULED = """# Written by OneAI in OneStudio. Change it by asking OneAI.
+try:
+{body}
+except Exception:
+	frappe.log_error(title={title})
+"""
 
-def wrapped(name: str, code: str) -> str:
+
+def wrapped(name: str, code: str, scheduled: bool = False) -> str:
 	body = "\n".join(f"\t{line}" if line.strip() else "" for line in (code or "pass").splitlines())
-	return WRAPPED.format(title=repr(f"{TITLE}{name}"), body=body or "\tpass")
+	held = WRAPPED_SCHEDULED if scheduled else WRAPPED
+	return held.format(title=repr(f"{TITLE}{name}"), body=body or "\tpass")
 
 
 #: How every screen extension is run, the same as on the server: each handler

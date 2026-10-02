@@ -215,6 +215,29 @@ CASES = [
 		"card": True,
 	},
 	{
+		"id": "screen-schedule",
+		"page": _on("Task", "List"),
+		"ask": "Every weekday at 8 in the morning, add a comment to every open task whose expected end date has passed, saying it is overdue.",
+		"tools": ("write_extension",),
+		"card": True,
+	},
+	{
+		"id": "screen-tasks",
+		"page": _on("Task", "List"),
+		"ask": "In OneTask, show me a red note when more than three of my tasks are overdue.",
+		"tools": ("write_extension",),
+		"card": True,
+	},
+	{
+		# The field is tax_id; a guess at "tax_number" is refused by checks.py
+		# with the right name, and mended.
+		"id": "screen-field",
+		"page": _on("Customer", "List"),
+		"ask": "On the customer form, make the tax number required when the customer type is Company.",
+		"tools": ("write_extension", "customize"),
+		"card": True,
+	},
+	{
 		"id": "mail-words",
 		"page": _on("Customer", "List"),
 		"ask": "In my inbox wren.4dl@m.4dl.app, move any email with the word invoice into an Invoices folder.",

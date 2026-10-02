@@ -21,13 +21,13 @@ from onedesk.one_legal import assemble, documents, registry  # noqa: E402
 #: document's `revision` in one_legal/documents.py, so everybody agrees again;
 #: if it is a typo, write the new hash here.
 VERSIONS = {
-	"terms": "10.68f6415c",
+	"terms": "11.4bddfa06",
 	"aup": "1.cc05bbc3",
 	"privacy": "16.c5a93c2e",
 	"cookies": "1.32b1addc",
 	"dpa": "3.84d7ac96",
 	"subprocessors": "4.609e7a2d",
-	"ai": "9.ab686105",
+	"ai": "10.1c435819",
 	"licences": "1.c71daf62",
 }
 

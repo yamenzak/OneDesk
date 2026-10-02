@@ -131,6 +131,7 @@ onedesk.MyTasks = class MyTasks {
 		this.draw_views(counts || {});
 		this.$name.text(view.label);
 		this.$list.empty();
+		this.extended(groups);
 		if (!groups.length) {
 			this.$list.html(onedesk.shell.empty(view.empty, view.hint, { icon: view.icon }));
 			return;
@@ -155,6 +156,30 @@ onedesk.MyTasks = class MyTasks {
 				],
 			});
 		}
+	}
+
+	// The workspace's extensions on OneTask (one_studio/places.py), told which
+	// view is open and what it lists, and lent a note and a button under its
+	// name. Drawn again with the view, so nothing they add is there twice.
+	extended(groups) {
+		this.$name.siblings(".one-place-spot").remove();
+		if (!onedesk.places || !onedesk.places.listening("onetask.listed")) return;
+		const powers = onedesk.places.spot(($spot) => $spot.insertAfter(this.$name));
+		const tasks = (group) =>
+			group.tasks.map((one) => ({
+				name: one.name,
+				subject: one.subject,
+				priority: one.priority,
+				due: one.due,
+				project: one.project,
+				project_title: one.project_title,
+				is_milestone: !!one.is_milestone,
+			}));
+		onedesk.places.emit(
+			"onetask.listed",
+			{ view: this.view, groups: groups.map((group) => ({ key: group.key, label: group.label, tasks: tasks(group) })) },
+			powers
+		);
 	}
 
 	// The column's views, each with how many it holds; My Tasks says how many

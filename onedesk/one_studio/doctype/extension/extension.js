@@ -14,6 +14,7 @@ const DRAWN = [
 	"view",
 	"place",
 	"event",
+	"cron",
 	"explanation",
 	"asked",
 	"asked_by_name",
@@ -38,6 +39,12 @@ const WHEN = {
 		__("After a submitted {0} is changed and saved", [kind]),
 	"Before Delete": (kind) => __("Before a {0} is deleted", [kind]),
 	"After Delete": (kind) => __("After a {0} is deleted", [kind]),
+	// Scheduled: on its own, over the records it finds.
+	"Every Hour": () => __("Once an hour, on its own"),
+	"Every Day": () => __("Once a day, on its own"),
+	"Every Week": () => __("Once a week, on its own"),
+	"Every Month": () => __("Once a month, on its own"),
+	"On a Schedule": (kind, cron) => __("On its own, on the schedule {0}", [cron || ""]),
 };
 
 // Where a page extension runs, said of its place (one_studio/places.py).
@@ -71,7 +78,7 @@ frappe.ui.form.on("Extension", {
 		const text = (words) => `<div class="one-extension-text">${esc(words)}</div>`;
 		const where =
 			doc.runs === "On Server"
-				? (WHEN[doc.event] || (() => __(doc.event || "")))(kind)
+				? (WHEN[doc.event] || (() => __(doc.event || "")))(kind, doc.cron)
 				: doc.view === "Page"
 				? (PLACES[doc.place] || (() => doc.place || ""))(kind)
 				: doc.view === "List"

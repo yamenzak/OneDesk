@@ -15,7 +15,7 @@
 	new MutationObserver((changes) => {
 		const [view, doctype, kind] = frappe.get_route();
 		if (view !== "List" || doctype !== "Opportunity" || kind !== "Kanban") return;
-		if (changes.some((change) => !change.target.closest?.(".one-stage-worth"))) paint();
+		if (changes.some((change) => !change.target.closest?.(".one-stage-worth, .one-place-spot"))) paint();
 	}).observe(document.body, { childList: true, subtree: true, characterData: true });
 
 	async function worth() {
@@ -40,5 +40,20 @@
 			}
 			if ($worth.html() !== said) $worth.html(said);
 		});
+		extended(listview, currency, stages);
+	}
+
+	// The workspace's extensions on the board (one_studio/places.py), told
+	// what each stage is worth, and lent a note above the board: only when
+	// that changes, since the board is painted on every change to the page.
+	let told = null;
+	function extended(listview, currency, stages) {
+		if (!onedesk.places || !onedesk.places.listening("onecrm.board")) return;
+		const key = JSON.stringify([currency, stages]);
+		if (key === told && listview.$result.find(".one-place-spot").length) return;
+		told = key;
+		listview.$result.find(".one-place-spot").remove();
+		const powers = onedesk.places.spot(($spot) => listview.$result.prepend($spot));
+		onedesk.places.emit("onecrm.board", { currency, stages }, powers);
 	}
 })();

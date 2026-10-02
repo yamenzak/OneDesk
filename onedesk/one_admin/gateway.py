@@ -43,6 +43,13 @@ URL = "https://gateway.ai.cloudflare.com/v1"
 #: paid for and threw away. AI 9 moves this off the web worker entirely.
 TIMEOUT = 60
 
+#: For a call allowed to think (`THINKS` tokens or more), which writes code:
+#: measured on Gemma 4 writing a scheduled extension, past 60 seconds three
+#: times out of three, and each was billed and thrown away. Under the 120
+#: seconds a Frappe Cloud web worker is given (its bench `http_timeout`), as
+#: this runs inside the account's request.
+THOUGHT = 110
+
 #: The gateway's own authorization header.
 #:
 #: Deliberately not `Authorization`. That header is the *provider's*, and the
@@ -176,7 +183,7 @@ def through(
 			where,
 			headers=headers,
 			data=json.dumps(spoken["talk"](model, system, turns, tools, most)),
-			timeout=TIMEOUT,
+			timeout=THOUGHT if most >= THINKS else TIMEOUT,
 		)
 	except requests.Timeout as raised:
 		raise Again(f"{model} timed out") from raised

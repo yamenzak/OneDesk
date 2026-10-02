@@ -124,7 +124,8 @@ DOCUMENTS = {
 		# 8: first agreed on the signup page, before payment.
 		# 9: closing a workspace yourself, and the full download.
 		# 10: extensions OneAI writes and an administrator turns on; record types.
-		"revision": 10,
+		# 11: extensions on One's own pages and on a schedule, tried once before they are kept.
+		"revision": 11,
 		"summary": "The agreement between your organisation and Four Degree Labs for the use of One.",
 	},
 	"aup": {
@@ -181,7 +182,8 @@ DOCUMENTS = {
 		# 7: OneAI reads your tasks, and suggests tasks and their steps.
 		# 8: OneAI writes extensions, read a second time, and designs record types.
 		# 9: OneAI mends an extension from its errors, which can carry record data.
-		"revision": 9,
+		# 10: an extension tried once on a record, and what happened told to OneAI.
+		"revision": 10,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {

@@ -13,6 +13,7 @@
   "view",
   "place",
   "event",
+  "cron",
   "explanation",
   "section_asked",
   "asked",
@@ -89,9 +90,17 @@
    "fieldname": "event",
    "fieldtype": "Select",
    "label": "When",
-   "options": "Before Insert\nBefore Validate\nBefore Save\nAfter Insert\nAfter Save\nBefore Submit\nAfter Submit\nBefore Cancel\nAfter Cancel\nBefore Save (Submitted Document)\nAfter Save (Submitted Document)\nBefore Delete\nAfter Delete",
+   "options": "Before Insert\nBefore Validate\nBefore Save\nAfter Insert\nAfter Save\nBefore Submit\nAfter Submit\nBefore Cancel\nAfter Cancel\nBefore Save (Submitted Document)\nAfter Save (Submitted Document)\nBefore Delete\nAfter Delete\nEvery Hour\nEvery Day\nEvery Week\nEvery Month\nOn a Schedule",
    "read_only": 1,
    "in_list_view": 1
+  },
+  {
+   "fieldname": "cron",
+   "fieldtype": "Data",
+   "label": "Schedule",
+   "read_only": 1,
+   "depends_on": "eval:doc.event=='On a Schedule'",
+   "description": "When it runs, as a cron line, such as 0 8 * * 1-5 for eight each weekday morning."
   },
   {
    "fieldname": "explanation",
@@ -181,7 +190,7 @@
  ],
  "in_create": 1,
  "links": [],
- "modified": "2026-10-04 10:00:00.000000",
+ "modified": "2026-10-04 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Studio",
  "name": "Extension",

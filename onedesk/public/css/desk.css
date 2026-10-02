@@ -691,3 +691,16 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 .one-place-note--green { background: var(--bg-green); color: var(--text-on-green); }
 .one-place-note--orange { background: var(--bg-orange); color: var(--text-on-orange); }
 .one-place-note--red { background: var(--bg-red); color: var(--text-on-red); }
+
+/* Buttons an extension adds beside its notes, in a page's spot for them. */
+.one-place-actions:empty,
+.one-place-spot:has(> .one-place-notes:empty):has(> .one-place-actions:empty) {
+	display: none;
+}
+
+.one-place-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 0 0 8px;
+}

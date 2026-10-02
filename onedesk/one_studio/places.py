@@ -1,8 +1,9 @@
 """The pages of One an extension may run on, beyond frappe's forms and lists.
 
 A frappe Client Script reaches a kind of record's form and its list, and
-nothing else: OneMail, OneCalendar and the head of a record are One's own,
-drawn by One's code. So each of those says here, once, what happens on it
+nothing else: OneMail, OneCalendar, OneTask, OneCloud, OneIntake, the pipeline
+board, every space's home and the head of a record are One's own, drawn by
+One's code. So each of those says here, once, what happens on it
 that an extension may hear (its events), what each event tells the
 extension (`gives`), and the few things the extension may do there (`may`).
 
@@ -34,7 +35,7 @@ PLACES = {
 		"label": "OneMail",
 		# The kind of record what happens here is about, for the list, the
 		# review and the guard's permission check.
-		"doctype": "Communication",
+		"record": "Communication",
 		"events": {
 			"conversation": {
 				"about": _lt("A conversation is opened in OneMail's reading pane."),
@@ -55,7 +56,7 @@ PLACES = {
 	"record_head": {
 		"label": _lt("Record Head"),
 		# The kind of record is the extension's own: it runs on that kind's head.
-		"doctype": None,
+		"record": None,
 		"events": {
 			"drawn": {
 				"about": _lt("A record's head is drawn on its form: each time the record is opened or saved."),
@@ -64,9 +65,74 @@ PLACES = {
 			},
 		},
 	},
+	"onetask": {
+		"label": "OneTask",
+		"record": "Task",
+		"events": {
+			"listed": {
+				"about": _lt("OneTask shows one of its views of the reader's tasks."),
+				"gives": (
+					"tasks.view (mine or inbox); tasks.groups, each with key (overdue, today, week, later, someday), "
+					"label and tasks, each with name, subject, priority, due, project, project_title, is_milestone"
+				),
+				"may": ("note", "action"),
+			},
+		},
+	},
+	"onecloud": {
+		"label": "OneCloud",
+		"record": "File",
+		"events": {
+			"file": {
+				"about": _lt("A file is chosen in OneCloud and its preview is shown."),
+				"gives": (
+					"file.name, file.type, file.size (bytes), file.modified, file.folder (where it is), file.owner, "
+					"file.record ([doctype, name] it is filed on, or null)"
+				),
+				"may": ("note", "action"),
+			},
+		},
+	},
+	"intake": {
+		"label": "OneIntake",
+		"record": "Reading",
+		"events": {
+			"reading": {
+				"about": _lt("A document is opened in OneIntake's inbox."),
+				"gives": (
+					"reading.name, reading.title, reading.kind, reading.person, reading.summary, reading.route, "
+					"reading.actions, each with said, level (Done, Proposed or Refused) and record ([doctype, name] or null)"
+				),
+				"may": ("note", "action"),
+			},
+		},
+	},
+	"onecrm": {
+		"label": "OneCRM",
+		"record": "Opportunity",
+		"events": {
+			"board": {
+				"about": _lt("The pipeline board is drawn, and each time what a stage is worth changes."),
+				"gives": "board.currency; board.stages, by stage name, each with value and weighted",
+				"may": ("note",),
+			},
+		},
+	},
+	"space": {
+		"label": _lt("Space Home"),
+		# A space's home is a frappe Workspace; nothing of it is a record.
+		"record": "Workspace",
+		"events": {
+			"home": {
+				"about": _lt("A space's home page is opened: One, OneCRM, OneHR, OneBook and every other."),
+				"gives": "space.name (the Workspace, such as OneHR), space.title",
+				"may": ("note", "action"),
+			},
+		},
+	},
 	"onecalendar": {
 		"label": "OneCalendar",
-		"doctype": "Event",
+		"record": "Event",
 		"events": {
 			"event": {
 				"about": _lt("An event's card is opened in OneCalendar."),
@@ -101,7 +167,7 @@ def doctype_for(key: str, chosen: str | None) -> str | None:
 	found = place_of(key)
 	if not found:
 		return None
-	return PLACES[found[0]]["doctype"] or chosen
+	return PLACES[found[0]]["record"] or chosen
 
 
 def described() -> list[dict]:
@@ -113,7 +179,7 @@ def described() -> list[dict]:
 			"when": said["about"],
 			"gives": said["gives"],
 			"may": [POWERS[power] for power in said["may"]],
-			"record": one["doctype"] or "the kind of record you name",
+			"record": one["record"] or "the kind of record you name",
 		}
 		for place, one in PLACES.items()
 		for event, said in one["events"].items()

@@ -34,7 +34,7 @@ from frappe import _
 from frappe.rate_limiter import rate_limit
 
 from onedesk.one import roles
-from onedesk.one_studio import guard, review
+from onedesk.one_studio import checks, guard, review, trial
 
 EXTENSION = "Extension"
 ON_SCREEN, ON_SERVER = "On Screen", "On Server"
@@ -47,6 +47,20 @@ SCRIPTS = {ON_SCREEN: ("Client Script", "enabled"), ON_SERVER: ("Server Script",
 #: on the extension itself and runs it there (public/js/places.js).
 PAGE = "Page"
 
+#: A scheduled extension's event as frappe's scheduler names it.
+FREQUENCY = {
+	"Every Hour": "Hourly",
+	"Every Day": "Daily",
+	"Every Week": "Weekly",
+	"Every Month": "Monthly",
+	"On a Schedule": "Cron",
+}
+ON_A_SCHEDULE = "On a Schedule"
+
+#: The least time between two runs of one: a scheduled extension runs over
+#: every record of its kind, as Administrator, so not more often than hourly.
+LEAST_BETWEEN = 60 * 60
+
 #: frappe's scripts made from extensions are named after them.
 PREFIX = "OneStudio "
 
@@ -54,7 +68,7 @@ PREFIX = "OneStudio "
 #: form, so validate keeps them on the server: an administrator turns an
 #: extension on and off, and nothing else.
 WRITTEN = (
-	"title", "runs", "record_doctype", "view", "place", "event", "explanation", "asked", "asked_by",
+	"title", "runs", "record_doctype", "view", "place", "event", "cron", "explanation", "asked", "asked_by",
 	"review", "review_note", "written_on",
 )  # fmt: skip
 
@@ -107,7 +121,7 @@ def _when(doc) -> str | None:
 	"""Where and when it runs, as the review read it: the event on the
 	server, the view on the screen, the page and its event on a page."""
 	if doc.runs == ON_SERVER:
-		return doc.event
+		return f"{doc.event} {doc.cron}" if doc.event == ON_A_SCHEDULE and doc.get("cron") else doc.event
 	return doc.get("place") if doc.view == PAGE else doc.view
 
 
@@ -148,8 +162,29 @@ def since(name: str, days: int) -> object:
 	return max(start, get_datetime(written)) if written else start
 
 
+def cron_refused(cron: str | None) -> str | None:
+	"""Why a schedule cannot be kept, or None: a cron line frappe's scheduler
+	reads, at most hourly."""
+	from croniter import croniter
+	from frappe.utils import now_datetime
+
+	if not cron or not croniter.is_valid(cron):
+		return _("Say when it runs as a cron line, such as 0 8 * * 1-5 for eight each weekday morning.")
+	runs = croniter(cron, now_datetime())
+	first, second, third = runs.get_next(float), runs.get_next(float), runs.get_next(float)
+	if min(second - first, third - second) < LEAST_BETWEEN:
+		return _("A scheduled extension runs at most once an hour.")
+	return None
+
+
 def check(
-	runs: str, doctype: str, view: str | None, event: str | None, code: str, place: str | None = None
+	runs: str,
+	doctype: str,
+	view: str | None,
+	event: str | None,
+	code: str,
+	place: str | None = None,
+	cron: str | None = None,
 ) -> None:
 	"""Refuse what no extension may be, before anything is kept."""
 	if runs not in SCRIPTS:
@@ -163,20 +198,39 @@ def check(
 		page = places.PLACES[found[0]]
 		# The head's kind is the one the extension names, and is checked; a
 		# page's own kind (Communication, Event) is the page's, not opened.
-		named = None if page["doctype"] else doctype
+		named = None if page["record"] else doctype
 		guard.on_page(code, page["label"], set(page["events"]), named, site())
+		checks.length(code)
+		trial.parsed(code)
 		return
 	if runs == ON_SCREEN and view not in guard.VIEWS:
 		raise guard.Refused(_("An extension on the screen runs on a form, a list or one of One's pages."))
-	if runs == ON_SERVER and event not in guard.EVENTS:
+	if runs == ON_SERVER and event not in guard.EVENTS + guard.SCHEDULED:
 		raise guard.Refused(
-			_("An extension on the server runs when a record is saved, submitted, cancelled or deleted.")
+			_(
+				"An extension on the server runs when a record is saved, submitted, cancelled or deleted, "
+				"or on a schedule."
+			)
 		)
+	if event == ON_A_SCHEDULE and (refused := cron_refused(cron)):
+		raise guard.Refused(refused)
 	known = site()
 	if runs == ON_SERVER:
 		guard.on_server(code, doctype, known, event)
+		# A scheduled one has no doc; what it looks up is still read.
+		checks.on_server(code, None if event in guard.SCHEDULED else doctype, fields_of)
 	else:
 		guard.on_screen(code, doctype, known)
+		checks.on_screen(code, doctype, view, fields_of)
+		trial.parsed(code)
+
+
+def fields_of(doctype: str | None) -> set | None:
+	"""The field names a kind of record has, for checks.py; None for a kind
+	there is not."""
+	if not doctype or not frappe.db.exists("DocType", doctype):
+		return None
+	return {one.fieldname for one in frappe.get_meta(doctype).fields if one.fieldname}
 
 
 def write(
@@ -190,6 +244,7 @@ def write(
 	event: str | None = None,
 	extension: str | None = None,
 	place: str | None = None,
+	cron: str | None = None,
 ) -> dict:
 	"""Keep an extension OneAI wrote, off, with its review: a new one, or a
 	new version of `extension`. Refuses what guard.py refuses."""
@@ -202,8 +257,13 @@ def write(
 		doctype = places.doctype_for(place, doctype)
 		if not doctype:
 			raise guard.Refused(_("Say which kind of record's head it runs on."))
-	check(runs, doctype, view, event, code, place)
-	said = review.ask(runs, doctype, place if paged else (event or view), explanation, code)
+	cron = (cron or "").strip() if event == ON_A_SCHEDULE else None
+	check(runs, doctype, view, event, code, place, cron)
+	# Run once on a real record and undone, so a mistake is found now and
+	# what it did is told to OneAI (trial.py).
+	tried = trial.ran(code, doctype, event) if runs == ON_SERVER else ""
+	when = place if paged else (f"{event} {cron}" if cron else (event or view))
+	said = review.ask(runs, doctype, when, explanation, code)
 	doc = frappe.get_doc(EXTENSION, extension) if extension else frappe.new_doc(EXTENSION)
 	if extension:
 		doc.check_permission("write")
@@ -216,6 +276,7 @@ def write(
 			"view": view if runs == ON_SCREEN else None,
 			"place": place if paged else None,
 			"event": event if runs == ON_SERVER else None,
+			"cron": cron,
 			"explanation": explanation,
 			"asked": asked,
 			"asked_by": frappe.session.user,
@@ -231,7 +292,7 @@ def write(
 	doc.flags.ignore_permissions = True
 	doc.flags.written = True
 	doc.save()
-	return {"extension": doc.name, "review": doc.review, "why": doc.review_note}
+	return {"extension": doc.name, "review": doc.review, "why": doc.review_note, "tried": tried}
 
 
 def validate(doc, method=None) -> None:
@@ -277,6 +338,19 @@ def sync(doc, method=None) -> None:
 					"view": doc.view or "Form",
 					"script": guard.wrapped_on_screen(doc.name, doc.code),
 					"enabled": int(doc.enabled),
+				}
+			)
+		elif doc.event in guard.SCHEDULED:
+			script.update(
+				{
+					"script_type": "Scheduler Event",
+					"reference_doctype": None,
+					"doctype_event": None,
+					"event_frequency": FREQUENCY[doc.event],
+					"cron_format": doc.cron if doc.event == ON_A_SCHEDULE else None,
+					"script": guard.wrapped(doc.name, doc.code, scheduled=True),
+					"disabled": int(not doc.enabled),
+					"allow_guest": 0,
 				}
 			)
 		else:

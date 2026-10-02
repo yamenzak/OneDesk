@@ -148,5 +148,5 @@ def test_keeping_a_memory_is_not_drawn_in_the_conversation():
 
 def test_an_ai_run_is_waited_on_as_long_as_the_account_waits_on_the_provider():
 	account = (tree.APP / "one" / "account.py").read_text()
-	assert '"onedesk.one_admin.proxy.ai_run": 75' in account
+	assert '"onedesk.one_admin.proxy.ai_run": 120' in account
 	assert "PATIENCE_FOR.get(endpoint, PATIENCE)" in account

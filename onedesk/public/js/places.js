@@ -1,4 +1,5 @@
-// Extensions on One's own pages: OneMail, OneCalendar and a record's head
+// Extensions on One's own pages: OneMail, OneCalendar, OneTask, OneCloud,
+// OneIntake, the pipeline board, every space's home and a record's head
 // (one_studio/places.py says what each page has).
 //
 // frappe runs a Client Script on a form or a list; nothing runs one on a page
@@ -98,4 +99,44 @@ onedesk.places.note = (text, tone) => {
 	return $(`<div class="one-place-note one-place-note--${kind}"></div>`).text(String(text || ""));
 };
 
-$(document).on("app_ready", () => onedesk.places.load());
+// Whether any extension listens for `key`, so a page draws nothing for one
+// that none does.
+onedesk.places.listening = (key) => !!(onedesk.places.heard[key] || []).length;
+
+// A place on a page for what its extensions add: their notes, then their
+// buttons. `put` puts it on the page; the page removes the last one first.
+onedesk.places.spot = (put) => {
+	const $spot = $(
+		'<div class="one-place-spot"><div class="one-place-notes"></div><div class="one-place-actions"></div></div>'
+	);
+	put($spot);
+	return {
+		note: (text, tone) => $spot.find(".one-place-notes").append(onedesk.places.note(text, tone)),
+		action: (label, handler) =>
+			frappe.ui
+				.button({ label: String(label || ""), variant: "subtle", onclick: () => handler() })
+				.appendTo($spot.find(".one-place-actions")),
+	};
+};
+
+// A space's home is frappe's Workspace page, drawn by frappe: told each time
+// one is shown, with its name, and lent a spot above its blocks.
+onedesk.places.homes = () => {
+	const Workspace = frappe.views && frappe.views.Workspace;
+	if (!Workspace || Workspace.prototype.one_placed) return;
+	Workspace.prototype.one_placed = true;
+	const shown = Workspace.prototype.show_page;
+	Workspace.prototype.show_page = async function (page) {
+		const out = await shown.call(this, page);
+		this.body.find(".one-place-spot").remove();
+		if (!onedesk.places.listening("space.home") || !this._page) return out;
+		const powers = onedesk.places.spot(($spot) => this.body.find(".editor-js-container").prepend($spot));
+		onedesk.places.emit("space.home", { name: this._page.name, title: __(this._page.title) }, powers);
+		return out;
+	};
+};
+
+$(document).on("app_ready", () => {
+	onedesk.places.load();
+	onedesk.places.homes();
+});

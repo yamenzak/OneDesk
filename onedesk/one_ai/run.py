@@ -72,7 +72,7 @@ def ask(
 	turns = list(turns) if turns else None
 	spent, rounds, cards = 0.0, 0, []
 	asked: dict[str, dict] = {}
-	nudged = reminded = pressed = mended = handed = doubted = False
+	nudged = reminded = pressed = mended = handed = doubted = looked = False
 	# Whether the action may look things up at all: an answer from one that
 	# may not, a summary, is never asked to.
 	tooled = _tooled(action)
@@ -162,7 +162,28 @@ def ask(
 			# suggested creating a new Lead" and called nothing. Told so, it
 			# makes the card or says that nothing was made.
 			doubted = True
-			turns = [*out["turns"], {"role": "user", "text": CLAIMED, "calls": [], "context": True}]
+			# Told "call it, or say nothing was made", a model that offered
+			# took the second; an offer is answered as the ask it was.
+			said = OFFERED if _offered(out) else CLAIMED
+			turns = [*out["turns"], {"role": "user", "text": said, "calls": [], "context": True}]
+			rounds += 1
+			continue
+		if (
+			out.get("done")
+			and tooled
+			and not looked
+			and not cards
+			and "more_tools" not in called
+			and more
+			and _cannot(out)
+			and not _asks(out)
+		):
+			# Measured on Gemma 4: asked for a scheduled extension with only
+			# the reader's own tools given, it answered "I do not have a tool
+			# for that, but I can write an extension with write_extension".
+			# Before saying it cannot, it looks at every tool there is.
+			looked = True
+			turns = [*out["turns"], {"role": "user", "text": SEEK, "calls": [], "context": True}]
 			rounds += 1
 			continue
 		if out.get("done") and tooled and not called and not doubted and more and _figured(out) and not _asks(out):
@@ -343,6 +364,31 @@ CLAIMED = (
 	"suggested. If the person asked for it, call that tool now. Otherwise say plainly that nothing was made."
 )
 
+#: Said to a model that offered to make what was asked instead of making it.
+OFFERED = (
+	"You offered to make it instead of making it. The person asked for it, so make it now with the tool "
+	"that makes it: nothing runs until they approve the card. Only if it cannot be made, say why."
+)
+
+#: Said to a model that said it cannot, before looking at every tool.
+SEEK = (
+	"You said you cannot, without looking at every tool there is. Call more_tools to see every group, "
+	"take the one that fits and do what was asked with it. Only if none fits, say plainly what cannot be done."
+)
+
+#: What saying it cannot do something sounds like, in the panel's three languages.
+_CANNOT = re.compile(
+	r"\b(i (?:cannot|can't|can ?not|am unable|am not able)|i do(?:n't| not) have (?:a|the|any) tool"
+	r"|there is no tool|no tool (?:to|for|that))\b|kann ich nicht|nicht möglich|لا أستطيع|لا يمكنني",
+	re.IGNORECASE,
+)
+
+
+def _cannot(out: dict) -> bool:
+	"""The model's answer says it cannot do what was asked."""
+	return bool(_CANNOT.search(_last_words(out)))
+
+
 #: Said to a model that answered with a figure it did not look up.
 LOOK = (
 	"You answered with a figure without looking anything up. Look it up with a tool, "
@@ -368,8 +414,21 @@ def _last_words(out: dict) -> str:
 
 
 def _claimed(out: dict) -> bool:
-	"""The model's answer says a card was made."""
-	return bool(_SUGGESTED.search(_last_words(out)))
+	"""The model's answer says a card was made, or offers to make one."""
+	return bool(_SUGGESTED.search(_last_words(out))) or _offered(out)
+
+
+#: An offer to make what was asked: "I can, however, write an extension
+#: that…" (measured on Gemma 4, with write_extension given and not called).
+_OFFERS = re.compile(
+	r"\bi (?:can|could)(?:,? however,?)? (?:write|create|make|set up|build|add|suggest|propose) (?:an?|the) \w",
+	re.I,
+)
+
+
+def _offered(out: dict) -> bool:
+	"""The model's answer offers to make something rather than making it."""
+	return bool(_OFFERS.search(_last_words(out)))
 
 
 def _figured(out: dict) -> bool:

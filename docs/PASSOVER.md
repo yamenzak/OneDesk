@@ -5655,6 +5655,75 @@ within a contract:
   Reply still opens. The notes use the desk's own tone pairs, the same as
   frappe's form dashboard draws its note in.
 
+**Closing the gaps, and OneAI checking its own work.** Asked to make
+everything customizable and to keep OneAI from writing bloated or failing
+code:
+
+- **Checked before it is kept** (`checks.py`, pure; `trial.py`). Every field
+  the code names, on `doc`, `frm.doc`, `frm.set_value`, `toggle_*`,
+  `set_df_property` or in a lookup's fields and filters, must be one the
+  kind has; the refusal gives the nearest ("Did you mean mobile_no?"). A form
+  handler must be a field or an event frappe calls (`refesh` is refused).
+  More than 120 lines is refused as more than one change. Node parses screen
+  code (a missing bracket comes back with its line). Server code is run once
+  on the newest record the person may read, in a savepoint rolled back: an
+  error refuses it, and what it did comes back to OneAI as `tried` ("it
+  stopped the save, saying…", "it changed customer_name"). All before the
+  review, so a refusal costs no second reading. Tried on dev: each refusal as
+  above, and the customer it ran on was untouched after.
+- **Scheduled extensions**: Every Hour, Day, Week, Month, or On a Schedule
+  with a cron line, at most hourly (`*/5` is refused). A Server Script of
+  type Scheduler Event; frappe makes the job and stops it when the script
+  goes. No `doc` (the guard refuses one that reads it); its kinds are still
+  held to the administrator's. Tried: written, reviewed, turned on, frappe's
+  Scheduled Job Type made at `0 8 * * 1-5`; deleted, the job stopped.
+- **Five more pages** for page extensions: OneTask (the view listed),
+  OneCloud (a file chosen), OneIntake (a document opened), the pipeline
+  board (what each stage is worth), and every space's home (frappe's
+  Workspace page, wrapped from places.js, not edited). Tried on dev: OneTask
+  showed "1 of your tasks are overdue", OneCloud a file's owner, a space home
+  a note and a My Tasks button, OneIntake fired its event.
+- **The guard** no longer reads `add_comment("Comment", …)` as touching the
+  Comment kind.
+- **OneAI**: the studio instruction teaches schedules, the pages, the checks
+  and "the shortest code that does it"; the mender no longer says screen code
+  may not look things up. Three new eval cases (schedule, OneTask, a field
+  name). Two habits caught in the run (`run.py`): saying "I cannot" before
+  looking at every tool is answered with `more_tools` (`SEEK`), and offering
+  ("I can write an extension that…") is answered "you were asked, make it"
+  (`OFFERED`). A refused extension mended "with extension=" its own title is
+  written as new. Measured: the schedule case wrote code that read `doc`, was
+  refused, mended it, and made the card. Last full run 5 of 7, then the two
+  failing alone both passed; Gemma varies run to run.
+- **Timeouts**: a call allowed to think waits 110 seconds, not 60
+  (`gateway.THOUGHT`); the schedule case timed out three times out of three,
+  each billed. The tenant waits 120.
+- **The reviewer's budget** (studio_review) stays at 4000 tokens.
+- **Legal**: Terms 11 and the AI Addendum 10 say extensions also run on One's
+  pages and on a schedule, and are tried once on a record first, what
+  happened being told to OneAI.
+- **The mender kept no place**: `mend.py` dropped a page extension's place
+  when writing it again, so Fix With OneAI could not mend one. It keeps the
+  place and the schedule now.
+
+**Left for you to decide**:
+
+- **Server scripts on every workspace.** frappe runs a server extension only
+  where the bench's config allows it. Setting that key on Frappe Cloud bench
+  groups from `steps.place_it` was refused by the session's safety check as
+  opening a code-execution surface, so it is not done. It is one key per
+  bench group (Frappe Cloud, Bench Group, Config: `server_script_enabled`).
+- **API-endpoint and record-visibility (permission query) extensions** were
+  not built: an AI-written HTTP endpoint, and AI-written SQL deciding who
+  sees which records, are the same kind of surface. Who sees what is already
+  covered by levels, record access and groups (ACCESS 1 to 6), which OneAI
+  drafts.
+
+**Found on the way, not fixed**: OneCRM's sidebar shows **Pipeline** to a
+workspace administrator without a sales role, and opening it ends in "No
+permission for Page" (frappe's router, not finding Opportunity in what they
+may read, asks for a page of that name). Before this work too.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

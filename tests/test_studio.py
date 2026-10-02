@@ -332,7 +332,7 @@ def test_the_submitted_record_and_after_delete_events_are_offered():
 		assert event in guard.EVENTS, event
 	spec = json.loads((STUDIO / "doctype" / "extension" / "extension.json").read_text())
 	options = next(f for f in spec["fields"] if f["fieldname"] == "event")["options"].split("\n")
-	assert options == list(guard.EVENTS), "the form offers what the guard allows"
+	assert options == list(guard.EVENTS + guard.SCHEDULED), "the form offers what the guard allows"
 	actions = {a["name"]: a for a in json.loads((tree.APP / "fixtures" / "ai_action.json").read_text())}
 	told = actions["studio"]["instruction"]
 	for fact in ("str.format", "In an After event", "doc.has_value_changed", "any import"):
@@ -428,6 +428,11 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		"onemail.compose": (public / "mail_compose.js").read_text(),
 		"record_head.drawn": (public / "head.js").read_text(),
 		"onecalendar.event": (tree.APP / "one_calendar" / "page" / "onecalendar" / "onecalendar.js").read_text(),
+		"onetask.listed": (tree.APP / "one_task" / "page" / "my_tasks" / "my_tasks.js").read_text(),
+		"onecloud.file": (public / "onecloud.js").read_text(),
+		"intake.reading": (tree.APP / "one_intake" / "page" / "intake" / "intake.js").read_text(),
+		"onecrm.board": (public / "opportunity_list.js").read_text(),
+		"space.home": (public / "places.js").read_text(),
 	}
 	assert set(fired) == set(places.keys())
 	for key, source in fired.items():
@@ -452,3 +457,14 @@ def test_a_label_shown_to_the_person_is_not_a_kind_touched():
 	looked_up = 'one.on("drawn", (record, page) => frappe.db.get_value("User", record.owner, "full_name"));'
 	with pytest.raises(guard.Refused):
 		guard.on_page(looked_up, "Record Head", {"drawn"}, "Customer", SITE)
+
+
+def test_a_scheduled_extension_has_no_record_to_use():
+	"""frappe's scheduler hands a Scheduler Event script no doc: code that
+	reads one would run into a NameError each time."""
+	looks = 'for name in frappe.get_list("Customer", pluck="name"):\n\tc = frappe.get_doc("Customer", name)'
+	assert guard.on_server(looks, "Customer", SITE, "Every Day") == {"Customer"}
+	with pytest.raises(guard.Refused, match="does not have"):
+		guard.on_server("x = doc.name", "Customer", SITE, "Every Day")
+	said = guard.wrapped("ext1", "pass", scheduled=True)
+	assert "reference_doctype" not in said and "doc." not in said
