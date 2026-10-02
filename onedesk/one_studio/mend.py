@@ -63,7 +63,7 @@ def what_went_wrong(error: str | None) -> str | None:
 	return said[:300]
 
 
-def prompt(doc, errors: list[str]) -> str:
+def prompt(doc, errors: list[str], problem: str | None = None) -> str:
 	"""What the mender is shown. Pure but for the document it reads."""
 	when = doc.event if doc.runs == extensions.ON_SERVER else doc.view
 	header = (
@@ -75,16 +75,23 @@ def prompt(doc, errors: list[str]) -> str:
 		f"Where it runs: {doc.runs}, {when}, on {doc.record_doctype}.\n\n"
 		f"What the administrator is told it does:\n{doc.explanation or ''}\n\n"
 		f"The code:\n{doc.code or ''}\n\n"
-		f"Its latest errors. Each was caught: the record still saved, or the form went on working. "
-		f"Line numbers count {header} added before the code:\n\n" + "\n\n---\n\n".join(errors)
+		+ (f"What the administrator says goes wrong:\n{problem}\n\n" if problem else "")
+		+ (
+			f"Its latest errors. Each was caught: the record still saved, or the form went on working. "
+			f"Line numbers count {header} added before the code:\n\n" + "\n\n---\n\n".join(errors)
+			if errors
+			else "It has logged no errors."
+		)
 	)
 
 
 @frappe.whitelist(methods=["POST"])
-def mend(extension: str) -> dict:
+def mend(extension: str, problem: str | None = None) -> dict:
 	"""Ask the mender what went wrong with an extension and have it mended,
 	kept off. Answers the diagnosis, and whether the mended version passed its
-	review; never the code."""
+	review; never the code. `problem` is what the person says it does wrong,
+	for an extension that fails without an error: one that never does its
+	work logs nothing."""
 	from onedesk.one_ai import run
 	from onedesk.one_hr.hiring import read
 
@@ -98,9 +105,10 @@ def mend(extension: str) -> dict:
 		order_by="creation desc",
 		limit=ERRORS,
 	)
-	if not logged:
+	problem = (problem or "").strip()[:EACH]
+	if not logged and not problem:
 		frappe.throw(_("{0} has run into no errors, so there is nothing to fix.").format(doc.title))
-	said = read(run.once(MEND, prompt(doc, [(one or "")[-EACH:] for one in logged]))) or {}
+	said = read(run.once(MEND, prompt(doc, [(one or "")[-EACH:] for one in logged], problem))) or {}
 	diagnosis = str(said.get("diagnosis") or "").strip()[:600]
 	code = str(said.get("code") or "").strip()
 	if not diagnosis or not code:
@@ -135,10 +143,10 @@ def listed(extension: str) -> list[dict]:
 	return errors(extension)
 
 
-def start(doc) -> str:
-	"""The Fix With OneAI button: mending reads and writes with two model
-	calls, minutes rather than seconds, so it is a job, and the person who
-	pressed it is told when it is done."""
+def start(doc, problem: str | None = None) -> str:
+	"""The Fix With OneAI button, and OneAI asked to fix one: mending reads
+	and writes with two model calls, close to a minute, so it is a job, and the
+	person who asked is told when it is done."""
 	roles.require()
 	frappe.enqueue(
 		"onedesk.one_studio.mend.in_background",
@@ -149,15 +157,16 @@ def start(doc) -> str:
 		enqueue_after_commit=True,
 		extension=doc.name,
 		told=frappe.session.user,
+		problem=problem,
 	)
 	return _("OneAI is fixing it. It takes a few minutes; you will be told when it is done.")
 
 
-def in_background(extension: str, told: str) -> None:
+def in_background(extension: str, told: str, problem: str | None = None) -> None:
 	"""The job behind the button, run as whoever pressed it."""
 	title = frappe.db.get_value(extensions.EXTENSION, extension, "title") or extension
 	try:
-		said = mend(extension)
+		said = mend(extension, problem)
 	except frappe.ValidationError as e:
 		frappe.clear_last_message()
 		message, indicator = str(e), "red"

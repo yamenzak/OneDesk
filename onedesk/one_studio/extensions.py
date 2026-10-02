@@ -128,7 +128,7 @@ def check(runs: str, doctype: str, view: str | None, event: str | None, code: st
 		)
 	known = site()
 	if runs == ON_SERVER:
-		guard.on_server(code, doctype, known)
+		guard.on_server(code, doctype, known, event)
 	else:
 		guard.on_screen(code, doctype, known)
 

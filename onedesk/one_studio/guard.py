@@ -80,6 +80,32 @@ REFUSED_ATTRIBUTES = frozenset(
 #: than at the first save.
 UNSAFE_IN_FRAPPE = frozenset({"format", "format_map"})
 
+#: The names a server extension's code finds already there: frappe's
+#: safe_exec globals and RestrictedPython's builtins, as get_safe_globals()
+#: answered on frappe develop (Oct 2026), and print, which RestrictedPython
+#: turns into its own collector. Anything else the code reads it must have
+#: set itself, or it runs into a NameError on every save.
+IN_THE_SANDBOX = frozenset(
+	"""
+	ArithmeticError AssertionError AttributeError BaseException Exception IndexError KeyError
+	LookupError NameError NotImplementedError OverflowError RuntimeError StopIteration TypeError
+	ValueError ZeroDivisionError Ellipsis False None True _ abs all any as_json bool bytes callable
+	chr complex dict divmod enumerate float frappe hash hex id int isinstance issubclass json len
+	list log max min oct ord orjson pow print range repr round scrub set slice sorted str sum tuple
+	zip doc
+	""".split()
+)
+
+#: frappe.utils' own, which a writer reaches for bare: what to say instead.
+UTILS = frozenset(
+	"""
+	add_days add_months add_to_date add_years cint cstr date_diff flt fmt_money format_date
+	format_datetime getdate get_datetime get_first_day get_last_day month_diff now now_datetime
+	nowdate nowtime today time_diff time_diff_in_hours time_diff_in_seconds rounded money_in_words
+	in_words get_time pretty_date strip_html escape_html
+	""".split()
+)
+
 #: Names an extension never uses on the server.
 REFUSED_NAMES = frozenset(
 	{
@@ -205,7 +231,38 @@ def _dotted(node) -> str:
 	return ".".join(reversed(parts))
 
 
-def on_server(code: str, doctype: str, site: Site) -> set:
+def _defined(tree) -> None:
+	"""Refuse a name the code reads that neither the sandbox nor the code
+	itself gives it, before it runs into a NameError on every save."""
+	own = set()
+	for node in ast.walk(tree):
+		if isinstance(node, ast.Name) and isinstance(node.ctx, (ast.Store, ast.Del)):
+			own.add(node.id)
+		elif isinstance(node, (ast.FunctionDef, ast.Lambda)):
+			if isinstance(node, ast.FunctionDef):
+				own.add(node.name)
+			arguments = node.args
+			for arg in arguments.posonlyargs + arguments.args + arguments.kwonlyargs:
+				own.add(arg.arg)
+			for arg in (arguments.vararg, arguments.kwarg):
+				if arg:
+					own.add(arg.arg)
+		elif isinstance(node, ast.ExceptHandler) and node.name:
+			own.add(node.name)
+	for node in ast.walk(tree):
+		if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Load):
+			if node.id in own or node.id in IN_THE_SANDBOX:
+				continue
+			if node.id in UTILS:
+				raise Refused(
+					f"It uses {node.id} on its own, which is not there: write frappe.utils.{node.id}."
+				)
+			raise Refused(
+				f"It uses {node.id}, which is not there in a server extension and is not set by the code."
+			)
+
+
+def on_server(code: str, doctype: str, site: Site, event: str | None = None) -> set:
 	"""Refuse server code that reaches past what it may; return every kind of
 	record it names, the record's own included."""
 	try:
@@ -214,6 +271,7 @@ def on_server(code: str, doctype: str, site: Site) -> set:
 		raise Refused(f"It is not Python: {error.msg} on line {error.lineno}.") from None
 	touched = {doctype}
 	words = set()
+	_defined(tree)
 	for node in ast.walk(tree):
 		if isinstance(node, (ast.Import, ast.ImportFrom)):
 			raise Refused("It imports a module.")
@@ -224,6 +282,13 @@ def on_server(code: str, doctype: str, site: Site) -> set:
 				)
 			if node.attr in REFUSED_ATTRIBUTES or node.attr.startswith("_"):
 				raise Refused(f"It uses {node.attr}, which no extension may.")
+			if node.attr == "is_new" and (event or "").startswith("After"):
+				# Measured: frappe has saved the record by After Insert, so
+				# is_new() is already false there and the code under it never ran.
+				raise Refused(
+					f"It asks doc.is_new() {event}, when the record is already saved and it is never true: "
+					"After Insert runs only for a new record, so it needs no check."
+				)
 			words.add(node.attr)
 		if isinstance(node, ast.Name):
 			if node.id in REFUSED_NAMES or (node.id.startswith("_") and node.id != "_"):

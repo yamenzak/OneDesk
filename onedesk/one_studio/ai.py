@@ -132,8 +132,16 @@ def extensions_here(
 	}
 
 
+def _named(extension: str | None) -> str | None:
+	"""An extension's name, given its name or its title: a model asked about
+	"Create Call Task" passes the title it read (measured, Gemma 4)."""
+	if not extension or frappe.db.exists(extensions.EXTENSION, extension):
+		return extension
+	return frappe.db.get_value(extensions.EXTENSION, {"title": extension}, "name") or extension
+
+
 def extension_mistakes(
-	extension: Annotated[str, "The extension's name, as it is in the address of its page."],
+	extension: Annotated[str, "The extension's name, as it is in the address of its page, or its title."],
 ) -> dict:
 	"""For a workspace administrator: the errors one extension ran into in the
 	last two weeks, newest first, each with when, on which record, and what
@@ -143,6 +151,7 @@ def extension_mistakes(
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees the extensions."}
+	extension = _named(extension)
 	if not frappe.db.exists(extensions.EXTENSION, extension):
 		return {"error": f"There is no extension {extension}."}
 	return {
@@ -153,31 +162,35 @@ def extension_mistakes(
 
 
 def mend_extension(
-	extension: Annotated[str, "The extension's name, as it is in the address of its page."],
+	extension: Annotated[str, "The extension's name, as it is in the address of its page, or its title."],
+	problem: Annotated[
+		str,
+		"What the person says it does wrong, in their words. Needed when it has run into no errors, such as one that never does its work.",
+	]
+	| None = None,
 ) -> dict:
-	"""Mend an extension that has run into errors: a separate reading of its
-	code and its errors says what went wrong and writes it again, reviewed and
-	kept off. Answers what went wrong, never the code; the card turns the
-	mended version on when the person approves it."""
+	"""Fix an extension that has run into errors, or that the person says
+	does not do what it should: a separate reading of its code, its errors and
+	what they say works out what went wrong and writes it again, reviewed and
+	kept off. It takes about a minute, so it runs on its own and the person is
+	told when it is done; they turn the fixed version on from its page."""
 	from onedesk.one_studio import mend
 
 	if not roles.administers():
-		return {"error": "Only a workspace administrator may have an extension mended."}
-	try:
-		mended = mend.mend(extension)
-	except frappe.ValidationError as e:
-		frappe.clear_last_message()
-		return {"error": str(e)}
-	if mended["review"] != "Passed":
-		return {
-			"diagnosis": mended["diagnosis"],
-			"error": f"The mended version was kept off: the review refused it. {mended['why']}",
-		}
+		return {"error": "Only a workspace administrator may have an extension fixed."}
+	extension = _named(extension)
+	if not frappe.db.exists(extensions.EXTENSION, extension):
+		return {"error": f"There is no extension {extension}."}
 	doc = frappe.get_doc(extensions.EXTENSION, extension)
+	if not problem and not _recent_mistakes(doc.name):
+		return {
+			"error": f"{doc.title} has run into no errors. Ask the person what it does wrong and call again with problem."
+		}
 	return {
-		"diagnosis": mended["diagnosis"],
-		**_proposed(doc, _("Fixed: {0}").format(mended["diagnosis"])),
-		"next": "Say in plain words what went wrong and that approving turns the mended version on. Do not show the code.",
+		"extension": doc.name,
+		"title": doc.title,
+		"started": mend.start(doc, problem),
+		"next": "Say that OneAI is fixing it, that it takes about a minute and they will be told what went wrong, and that the fixed version stays off until they turn it on from its page.",
 	}
 
 
@@ -198,7 +211,9 @@ def write_extension(
 		"On Server only: Before Insert, Before Validate, Before Save, After Insert, After Save, Before Submit, After Submit, Before Cancel, After Cancel, Before Save (Submitted Document), After Save (Submitted Document), Before Delete or After Delete.",
 	]
 	| None = None,
-	extension: Annotated[str, "To change an extension, or to mend one the review refused: its name."]
+	extension: Annotated[
+		str, "To change an extension, or to mend one the review refused: its name, or its title."
+	]
 	| None = None,
 ) -> dict:
 	"""Write an extension: code that runs on the screen or on the server for
@@ -206,6 +221,7 @@ def write_extension(
 	on only when the person approves the card."""
 	if not roles.administers():
 		return {"error": "Only a workspace administrator may have an extension written."}
+	extension = _named(extension)
 	try:
 		kept = extensions.write(
 			title=title,

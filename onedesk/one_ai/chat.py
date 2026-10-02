@@ -199,13 +199,28 @@ def answer(chat: str, text: str, field: dict | None, run_id: str) -> None:
 		_keep(doc, turns, spent=float(out.get("credits") or 0))
 		_tell(run_id, chat, {"done": True, "credits": out.get("credits"), "rounds": out.get("rounds")})
 	except frappe.ValidationError as raised:
-		# `_ran` has already put a fault into words somebody can act on.
+		# `_ran` has already put a fault into words somebody can act on, unless
+		# it is the provider's own, which is written for us, not for them.
 		frappe.db.rollback()
-		_tell(run_id, chat, {"failed": frappe.utils.strip_html(str(raised))})
+		said = frappe.utils.strip_html(str(raised))
+		if _providers(said):
+			frappe.log_error(
+				title="OneAI provider refused", message=said, reference_doctype="AI Chat", reference_name=chat
+			)
+			said = frappe._("OneAI could not answer just now. Try again in a moment.")
+		_tell(run_id, chat, {"failed": said})
 	except Exception:
 		frappe.db.rollback()
 		frappe.log_error(title="OneAI run failed", reference_doctype="AI Chat", reference_name=chat)
 		_tell(run_id, chat, {"failed": frappe._("That did not go through.")})
+
+
+def _providers(said: str) -> bool:
+	"""A provider's own error, passed back through the account: its JSON, its
+	validation messages, the gateway's call named in it. Pure."""
+	return any(
+		mark in (said or "") for mark in ("AiError", "proxy.ai_run", '"object":"error"', "validation error")
+	)
 
 
 @frappe.whitelist()

@@ -31,6 +31,7 @@ LIFTED = (
 	"_workers_ai_said",
 	"_without_thinking",
 	"_openai_calls",
+	"_arguments",
 	"_gemini_calls",
 	"_gemini_turn",
 )
@@ -131,6 +132,20 @@ def test_arguments_encoded_twice_are_read_twice():
 	assert readers()["_openai_calls"](body) == [
 		{"id": "c1", "tool": "count_records", "args": {"doctype": "ToDo"}}
 	]
+
+
+def test_two_calls_run_together_are_two_calls():
+	"""Measured on Gemma 4: two describe_type calls at once arrive as one call
+	with both argument objects in one string. Read as none, the tool failed and
+	the model wandered until the round limit ended the run."""
+	glued = '{"doctype": "Customer"}{"doctype": "Sales Invoice"}'
+	body = {"choices": [{"message": {"tool_calls": [
+		{"id": "c1", "function": {"name": "describe_type", "arguments": glued}}]}}]}
+	assert readers()["_openai_calls"](body) == [
+		{"id": "c1", "tool": "describe_type", "args": {"doctype": "Customer"}},
+		{"id": "c1-1", "tool": "describe_type", "args": {"doctype": "Sales Invoice"}},
+	]
+	assert readers()["_arguments"]("not json") == [{}]
 
 
 def test_the_gateway_answers_without_a_result_wrapper():

@@ -330,3 +330,30 @@ def test_the_submitted_record_and_after_delete_events_are_offered():
 	told = actions["studio"]["instruction"]
 	for fact in ("str.format", "In an After event", "doc.has_value_changed", "any import"):
 		assert fact in told, fact
+
+
+def test_a_name_the_sandbox_does_not_have_is_refused_before_every_save_runs_into_it():
+	"""Measured, Gemma 4 on After Insert: add_days(today(), 3), bare. frappe's
+	sandbox has them only as frappe.utils.add_days and frappe.utils.today."""
+	with pytest.raises(guard.Refused, match=r"frappe\.utils\.add_days"):
+		guard.on_server('task = frappe.new_doc("Task")\ntask.exp_end_date = add_days(today(), 3)', "Customer", SITE)
+	with pytest.raises(guard.Refused, match="not set by the code"):
+		guard.on_server("x = customer_total + 1", "Customer", SITE)
+	fine = (
+		"name = doc.customer_name.strip()\n"
+		"rows = [row.idx for row in doc.get('companies') or []]\n"
+		"def twice(n):\n\treturn n * 2\n"
+		"try:\n\tx = twice(len(rows))\nexcept Exception as error:\n\tx = str(error)\n"
+		"due = frappe.utils.add_days(frappe.utils.today(), 3)"
+	)
+	assert guard.on_server(fine, "Customer", SITE) == {"Customer"}
+
+
+def test_is_new_after_the_save_is_refused():
+	"""Measured: OneAI wrote `if doc.is_new():` around an After Insert task. By
+	then frappe has saved the record, is_new() is false, and the task was never
+	made, with no error to say so."""
+	code = 'if doc.is_new():\n\tfrappe.msgprint(_("New"))'
+	with pytest.raises(guard.Refused, match="is_new"):
+		guard.on_server(code, "Customer", SITE, "After Insert")
+	assert guard.on_server(code, "Customer", SITE, "Before Save") == {"Customer"}

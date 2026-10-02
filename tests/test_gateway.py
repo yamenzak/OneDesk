@@ -119,3 +119,11 @@ def test_a_two_hundred_with_nothing_in_it_is_not_an_empty_answer():
 	"""
 	assert "answered 200 with nothing in it" in source()
 	assert "words is None and (not wants)" in code()
+
+
+def test_a_small_budget_is_not_spent_thinking():
+	"""Measured: Gemma 4 on the chat's 800 tokens thought until "length" and
+	said nothing, twice in a row. Below `THINKS` a Workers AI model is told not
+	to think."""
+	assert "THINKS = " in source()
+	assert "if most >= THINKS else {'chat_template_kwargs': {'enable_thinking': False}}" in code()

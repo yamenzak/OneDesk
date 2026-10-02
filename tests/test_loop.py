@@ -31,6 +31,7 @@ LIFTED = (
 	"said",
 	"_openai_turn",
 	"_openai_calls",
+	"_arguments",
 	"_gemini_turn",
 	"_gemini_calls",
 	"_first_part",
@@ -46,6 +47,12 @@ def turns():
 		if isinstance(node, ast.FunctionDef) and node.name in LIFTED
 	]
 	assert len(wanted) == len(LIFTED), "a translator was renamed and this guard was not"
+	# `_openai_turn` reads the roles its own module names.
+	wanted += [
+		node
+		for node in body.body
+		if isinstance(node, ast.Assign) and any(getattr(t, "id", None) == "OPENAI_ROLES" for t in node.targets)
+	]
 	room: dict = {"json": json}
 	exec(compile(ast.Module(body=wanted, type_ignores=[]), str(GATEWAY), "exec"), room)
 	return room
@@ -232,3 +239,12 @@ def test_the_loop_stops_on_done_rather_than_on_a_guess():
 	said = spoken(RUN, "ask")
 	assert "out.get('done')" in said
 	assert "rounds >= ROUNDS" in said
+
+
+def test_a_model_turn_is_the_assistant_in_openais_dialect():
+	"""Measured on Gemma 4: Workers AI refuses a conversation with a "model"
+	turn in it, and any chat where the model spoke before a tool failed."""
+	assert turns()["_openai_turn"]({"role": "model", "text": "Let me look."}) == {
+		"role": "assistant",
+		"content": "Let me look.",
+	}

@@ -5455,6 +5455,41 @@ and on the second reading of extension code. Tried: "What do our extensions
 do?" on Gemma first answered "none", having narrowed to the kind "Extension";
 `extensions_here` now ignores that, and it answers all three, in 11 seconds.
 
+**Tried on six hooks** (Before Validate, Before Insert, Before Save, After
+Insert, Before Delete, Before Submit), each asked for in the panel and then
+run against real records:
+
+- **Code quality.** Five of six were right first time and short:
+  `has_value_changed("customer_name")` for a name that may not change,
+  `frappe.db.count` for "how many invoices", a Before Submit check on
+  `grand_total` and `remarks`. Messages go through `_()`. Where a value goes
+  into a message it uses `.replace("{0}", …)`, clumsy but what the sandbox
+  allows.
+- **The sixth, After Insert, made no task and logged nothing.** It wrapped
+  the work in `if doc.is_new():`, which frappe has already made false by
+  After Insert, and used bare `add_days(today(), 3)`. The guard now refuses
+  `is_new()` in any After event (as it does bare `frappe.utils` names), and
+  the writer and the mender are told why. It was fixed through OneAI with
+  the person's words ("it never makes the task"): the mender now takes what
+  the person says goes wrong when there is no error to read. Asked in the
+  chat, the fix runs as a job, like **Fix With OneAI**, because it takes
+  about a minute. The tools take an extension's title as well as its name,
+  since that is what a model passes. Measured afterwards: the task is made,
+  due three days on.
+- **Two requests answered nothing.** Gemma spent all 800 of the chat's
+  tokens thinking (`finish_reason: length`, empty `content`). The gateway
+  now tells a Workers AI model not to think below 2000 tokens (`THINKS`);
+  the writer, at 8000, still thinks. The other failure: Gemma asking for
+  two tools at once comes back as one call with
+  `{"doctype": "Customer"}{"doctype": "Sales Invoice"}` as its arguments.
+  We read that as no arguments, the tool failed, and the model wandered until
+  the round limit. `gateway._arguments` splits it into two calls. Both
+  requests now give a card first time.
+- **The request lost words.** "make a task called 'Call <customer name>'" was
+  stored as "'Call '": frappe's sanitiser took `<customer name>` for a tag.
+  The Request field now skips that filter (`ignore_xss_filter`). The form
+  escapes it when it shows it, so it is still never read as HTML.
+
 **Found on the way:** the panel's brief of the record being looked at was
 drawn from the whole record, levels the reader cannot read included.
 `chat._brief` now applies frappe's `apply_fieldlevel_read_permissions` first.

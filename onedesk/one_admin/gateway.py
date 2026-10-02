@@ -79,11 +79,8 @@ PROVIDERS = {
 				+ [_openai_turn(one) for one in turns]
 			),
 			"max_tokens": most,
-			**(
-				{"tools": [{"type": "function", "function": one} for one in tools]}
-				if tools
-				else {}
-			),
+			**({} if most >= THINKS else {"chat_template_kwargs": {"enable_thinking": False}}),
+			**({"tools": [{"type": "function", "function": one} for one in tools]} if tools else {}),
 		},
 		"said": lambda body: _workers_ai_said(body),
 		"calls": lambda body: _openai_calls(body),
@@ -104,6 +101,12 @@ PROVIDERS = {
 		"calls": lambda body: _gemini_calls(body),
 	},
 }
+
+#: The least budget a Workers AI model is let think in. Measured: Gemma 4 given
+#: the chat's 800 tokens spends every one on `reasoning_content`, stops at
+#: "length" and answers nothing; told not to think, it answers in twenty. A
+#: model that does not think ignores the switch.
+THINKS = 2000
 
 #: How many times a model may ask for a tool before the loop stops. Each round
 #: is a call and is billed, so this is a cost ceiling as much as it is a guard
@@ -355,9 +358,7 @@ def get(provider: str, path: str, timeout: int = TIMEOUT) -> dict:
 	settings = _settings()
 	where = f"{settings['url'].rstrip('/')}/{settings['account']}/{settings['gateway']}/{provider}/{path.lstrip('/')}"
 	try:
-		answer = requests.get(
-			where, headers={HEADER: f"Bearer {settings['token']}"}, timeout=timeout
-		)
+		answer = requests.get(where, headers={HEADER: f"Bearer {settings['token']}"}, timeout=timeout)
 	except requests.Timeout as raised:
 		raise Again(f"{provider} timed out listing {path}") from raised
 	except requests.RequestException as raised:
@@ -390,7 +391,9 @@ def _answered(model: str, spoken: dict, answer, whole: bool = False):
 		empty.body = body
 		raise empty
 	if words is None and not wants and _malformed(body):
-		raise faults.Malformed(f"{model} wrote a tool call it could not read", 200, json.dumps(body)[: faults.KEPT])
+		raise faults.Malformed(
+			f"{model} wrote a tool call it could not read", 200, json.dumps(body)[: faults.KEPT]
+		)
 	if words is None and not wants:
 		# A 200 with neither words nor a tool call in it is not an empty answer,
 		# it is a shape we do not understand — and treating it as an empty
@@ -403,8 +406,10 @@ def _answered(model: str, spoken: dict, answer, whole: bool = False):
 def _malformed(body) -> bool:
 	"""Gemini's own word for a tool call it wrote and could not read."""
 	candidates = (body or {}).get("candidates") if isinstance(body, dict) else None
-	return bool(candidates) and isinstance(candidates[0], dict) and (
-		candidates[0].get("finishReason") == "MALFORMED_FUNCTION_CALL"
+	return (
+		bool(candidates)
+		and isinstance(candidates[0], dict)
+		and (candidates[0].get("finishReason") == "MALFORMED_FUNCTION_CALL")
 	)
 
 
@@ -436,6 +441,13 @@ def said(text: str, role: str = "user", files: list[dict] | None = None) -> dict
 	return {"role": role, "text": text or "", "calls": [], "files": files or []}
 
 
+#: Our turns name the model's own words "model", as Gemini does; OpenAI's
+#: dialect calls them "assistant" and refuses anything else (measured: Gemma 4
+#: on Workers AI, on any conversation where the model had said something
+#: before it called a tool).
+OPENAI_ROLES = {"model": "assistant"}
+
+
 def _openai_turn(one: dict) -> dict:
 	"""Workers AI speaks OpenAI's dialect, where a tool result is its own role."""
 	if one.get("role") == "tool":
@@ -459,15 +471,16 @@ def _openai_turn(one: dict) -> dict:
 		}
 	said = one.get("text") or ""
 	shown = [one for one in (one.get("files") or []) if one.get("data")]
+	role = OPENAI_ROLES.get(one.get("role"), one.get("role") or "user")
 	if not shown:
-		return {"role": one.get("role") or "user", "content": said}
+		return {"role": role, "content": said}
 
 	# OpenAI's dialect carries a picture as a data URL beside the words, and
 	# carries nothing else at all — a model that reads sound or video through
 	# this endpoint is not something either provider offers, and `files.readable`
 	# has already refused anything it could not send.
 	return {
-		"role": one.get("role") or "user",
+		"role": role,
 		"content": [{"type": "text", "text": said}]
 		+ [
 			{"type": "image_url", "image_url": {"url": f"data:{file['type']};base64,{file['data']}"}}
@@ -553,23 +566,40 @@ def _openai_calls(body: dict | None) -> list[dict]:
 	found = []
 	for call in asked:
 		named = call.get("function") or call
-		args = named.get("arguments")
-		# Twice, because granite-4.0 answers with a JSON string *of* a JSON
-		# string and one pass leaves another string behind — which then reaches
-		# a tool as a string where a dict was expected.
-		for _ in range(2):
-			if not isinstance(args, str):
-				break
-			try:
-				args = json.loads(args)
-			except ValueError:
-				args = {}
-		if not isinstance(args, dict):
-			args = {}
-		found.append(
-			{"id": call.get("id") or named.get("name"), "tool": named.get("name"), "args": args or {}}
-		)
+		called = call.get("id") or named.get("name")
+		every = _arguments(named.get("arguments"))
+		for n, args in enumerate(every):
+			found.append({"id": f"{called}-{n}" if n else called, "tool": named.get("name"), "args": args})
 	return [one for one in found if one["tool"]]
+
+
+def _arguments(args) -> list[dict]:
+	"""One call's arguments, or several calls' run together.
+
+	Measured: Gemma 4 asking for two tools of the same name at once comes back
+	as one call whose arguments are `{"doctype": "Customer"}{"doctype": "Sales
+	Invoice"}`, which `json.loads` refuses, and a tool handed nothing fails.
+	"""
+	# Twice, because granite-4.0 answers with a JSON string *of* a JSON
+	# string and one pass leaves another string behind — which then reaches
+	# a tool as a string where a dict was expected.
+	for _ in range(2):
+		if not isinstance(args, str):
+			break
+		every, at, text = [], 0, args.strip()
+		while at < len(text):
+			try:
+				one, at = json.JSONDecoder().raw_decode(text, at)
+			except ValueError:
+				every = []
+				break
+			every.append(one)
+			while at < len(text) and text[at].isspace():
+				at += 1
+		if len(every) > 1:
+			return [one for one in every if isinstance(one, dict)] or [{}]
+		args = every[0] if every else {}
+	return [args if isinstance(args, dict) else {}]
 
 
 def _gemini_turn(one: dict) -> dict:
@@ -613,8 +643,8 @@ def _gemini_calls(body: dict | None) -> list[dict]:
 	why 2.5 works without one and 3.x does not.
 	"""
 	found = []
-	for candidate in ((body or {}).get("candidates") or []):
-		for part in ((candidate.get("content") or {}).get("parts") or []):
+	for candidate in (body or {}).get("candidates") or []:
+		for part in (candidate.get("content") or {}).get("parts") or []:
 			call = part.get("functionCall")
 			if call and call.get("name"):
 				found.append(
@@ -630,8 +660,8 @@ def _gemini_calls(body: dict | None) -> list[dict]:
 
 def _first_part(body: dict | None) -> str | None:
 	"""Gemini's answer, which is nested four deep and may legitimately be empty."""
-	for candidate in ((body or {}).get("candidates") or []):
-		for part in ((candidate.get("content") or {}).get("parts") or []):
+	for candidate in (body or {}).get("candidates") or []:
+		for part in (candidate.get("content") or {}).get("parts") or []:
 			if "text" in part:
 				return part["text"]
 	return None
@@ -663,7 +693,6 @@ def _settings() -> dict:
 	missing = [key for key, value in found.items() if not value]
 	if missing:
 		raise Refused(
-			f"The AI gateway is not configured: {', '.join(sorted(missing))}. "
-			"Set it in OneAdmin Settings."
+			f"The AI gateway is not configured: {', '.join(sorted(missing))}. Set it in OneAdmin Settings."
 		)
 	return found

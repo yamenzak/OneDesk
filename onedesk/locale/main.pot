@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-02 08:24+0000\n"
-"PO-Revision-Date: 2026-10-02 08:24+0000\n"
+"POT-Creation-Date: 2026-10-02 10:02+0000\n"
+"PO-Revision-Date: 2026-10-02 10:02+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: onedesk/one_ai/run.py:395
+#: onedesk/one_ai/run.py:413
 msgid " and "
 msgstr ""
 
@@ -1539,12 +1539,22 @@ msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
+msgid "After Delete"
+msgstr ""
+
+#. Option for the 'When' (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
 msgid "After Insert"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "After Save"
+msgstr ""
+
+#. Option for the 'When' (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "After Save (Submitted Document)"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
@@ -1819,15 +1829,15 @@ msgstr ""
 msgid "An employee who never checks out gets an OUT written at the shift end, marked Closed Automatically."
 msgstr ""
 
-#: onedesk/one_studio/extensions.py:124
+#: onedesk/one_studio/extensions.py:126
 msgid "An extension on the screen runs on a form or a list."
 msgstr ""
 
-#: onedesk/one_studio/extensions.py:127
+#: onedesk/one_studio/extensions.py:129
 msgid "An extension on the server runs when a record is saved, submitted, cancelled or deleted."
 msgstr ""
 
-#: onedesk/one_studio/extensions.py:122
+#: onedesk/one_studio/extensions.py:124
 msgid "An extension runs on the screen or on the server."
 msgstr ""
 
@@ -1941,7 +1951,7 @@ msgstr ""
 
 #. Label of the one_app (Data) field in DocType 'Notification Type'
 #. Label of the app (Data) field in DocType 'Record Type'
-#: onedesk/one/custom/notification_type.json onedesk/one_studio/ai.py:307
+#: onedesk/one/custom/notification_type.json onedesk/one_studio/ai.py:331
 #: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/public/js/doctype_settings.js:341 onedesk/public/js/reports.js:364
 #: onedesk/public/js/settings.js:1158 onedesk/public/js/settings.js:1179
@@ -2899,6 +2909,11 @@ msgstr ""
 #. Option for the 'When' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Before Save"
+msgstr ""
+
+#. Option for the 'When' (Select) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "Before Save (Submitted Document)"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
@@ -5365,7 +5380,7 @@ msgstr ""
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:457
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
-#: onedesk/one_studio/ai.py:308
+#: onedesk/one_studio/ai.py:332
 #: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "Description"
 msgstr ""
@@ -6705,7 +6720,7 @@ msgid "Explained"
 msgstr ""
 
 #. Label of the explanation (Small Text) field in DocType 'Extension'
-#: onedesk/one_studio/ai.py:245
+#: onedesk/one_studio/ai.py:269
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Explanation"
 msgstr ""
@@ -6879,7 +6894,7 @@ msgstr ""
 
 #. Label of the fields (Small Text) field in DocType 'Record Head Linked'
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json
-#: onedesk/one_studio/ai.py:309 onedesk/public/js/customize.js:112
+#: onedesk/one_studio/ai.py:333 onedesk/public/js/customize.js:112
 #: onedesk/public/js/customize.js:180
 msgid "Fields"
 msgstr ""
@@ -7203,11 +7218,11 @@ msgstr ""
 msgid "Fixed."
 msgstr ""
 
-#: onedesk/one_studio/ai.py:171 onedesk/one_studio/mend.py:112
+#: onedesk/one_studio/mend.py:120
 msgid "Fixed: {0}"
 msgstr ""
 
-#: onedesk/one_studio/mend.py:175
+#: onedesk/one_studio/mend.py:184
 msgid "Fixing {0}"
 msgstr ""
 
@@ -11618,7 +11633,7 @@ msgid "Next: {0}"
 msgstr ""
 
 #: onedesk/one/ai.py:2401 onedesk/one/ai.py:2404 onedesk/one/ai.py:3434
-#: onedesk/one/ai.py:3621 onedesk/one_ai/chat.py:642
+#: onedesk/one/ai.py:3621 onedesk/one_ai/chat.py:657
 #: onedesk/public/js/onecloud.js:702
 msgid "No"
 msgstr ""
@@ -12073,7 +12088,7 @@ msgstr ""
 msgid "Not allowed"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:431 onedesk/one_ai/chat.py:434
+#: onedesk/one_ai/chat.py:446 onedesk/one_ai/chat.py:449
 msgid "Not answered"
 msgstr ""
 
@@ -12485,7 +12500,7 @@ msgid "Of Whom"
 msgstr ""
 
 #: onedesk/one/ai.py:2404 onedesk/one/settings.py:910
-#: onedesk/one_ai/chat.py:641
+#: onedesk/one_ai/chat.py:656
 #: onedesk/one_studio/doctype/extension/extension_list.js:13
 #: onedesk/one_studio/heads.py:23 onedesk/public/js/doctype_settings.js:238
 #: onedesk/public/js/doctype_settings.js:275
@@ -12558,7 +12573,7 @@ msgstr ""
 msgid "Offerings"
 msgstr ""
 
-#: onedesk/one/ai.py:3434 onedesk/one/ai.py:3621 onedesk/one_ai/chat.py:641
+#: onedesk/one/ai.py:3434 onedesk/one/ai.py:3621 onedesk/one_ai/chat.py:656
 #: onedesk/one_studio/doctype/extension/extension_list.js:9
 #: onedesk/one_studio/heads.py:18 onedesk/public/js/doctype_settings.js:238
 #: onedesk/public/js/doctype_settings.js:275 onedesk/public/js/settings.js:573
@@ -12902,7 +12917,11 @@ msgstr ""
 msgid "OneAI cannot answer"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:430
+#: onedesk/one_ai/chat.py:210
+msgid "OneAI could not answer just now. Try again in a moment."
+msgstr ""
+
+#: onedesk/one_ai/chat.py:445
 msgid "OneAI could not be reached just now. The question is still here — try again."
 msgstr ""
 
@@ -12910,11 +12929,11 @@ msgstr ""
 msgid "OneAI could not explain this document just now. Try again in a moment."
 msgstr ""
 
-#: onedesk/one_studio/mend.py:111
+#: onedesk/one_studio/mend.py:119
 msgid "OneAI could not fix {0}: {1}"
 msgstr ""
 
-#: onedesk/one_studio/mend.py:108
+#: onedesk/one_studio/mend.py:116
 msgid "OneAI could not work out what went wrong with {0}. Try again later."
 msgstr ""
 
@@ -12953,7 +12972,7 @@ msgstr ""
 msgid "OneAI has read nothing yet this month."
 msgstr ""
 
-#: onedesk/one_studio/mend.py:153
+#: onedesk/one_studio/mend.py:162
 msgid "OneAI is fixing it. It takes a few minutes; you will be told when it is done."
 msgstr ""
 
@@ -13029,7 +13048,7 @@ msgstr ""
 msgid "OneAI will read {0}, file it and act on it on your behalf. A scan or a photo is read with OneAI credits."
 msgstr ""
 
-#: onedesk/one_studio/mend.py:126
+#: onedesk/one_studio/mend.py:134
 msgid "OneAI's fixed version was not kept: {0}"
 msgstr ""
 
@@ -13163,7 +13182,7 @@ msgstr ""
 msgid "Only On"
 msgstr ""
 
-#: onedesk/one_studio/extensions.py:186
+#: onedesk/one_studio/extensions.py:191
 msgid "Only OneAI writes an extension. Ask it to change this one; turning it on or off is yours."
 msgstr ""
 
@@ -15448,7 +15467,7 @@ msgstr ""
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/report/deadlines/deadlines.py:43
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
-#: onedesk/one_studio/ai.py:244
+#: onedesk/one_studio/ai.py:268
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/public/js/extension_errors.js:21 onedesk/public/js/hiring.js:11
@@ -15931,7 +15950,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
-#: onedesk/one_ai/chat.py:330
+#: onedesk/one_ai/chat.py:345
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_intake/doctype/reading_ask/reading_ask.json
 #: onedesk/public/js/onemail.js:432
@@ -16109,7 +16128,7 @@ msgstr ""
 #. Label of the review_section (Section Break) field in DocType 'Clock Attempt'
 #. Label of the review (Select) field in DocType 'Extension'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
-#: onedesk/one_studio/ai.py:246
+#: onedesk/one_studio/ai.py:270
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Review"
 msgstr ""
@@ -16233,7 +16252,7 @@ msgid "Run {0} on the default model with nothing added?"
 msgstr ""
 
 #. Label of the runs (Select) field in DocType 'Extension'
-#: onedesk/one_studio/ai.py:243
+#: onedesk/one_studio/ai.py:267
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Runs"
 msgstr ""
@@ -17256,7 +17275,7 @@ msgid "Sign-ins"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
-#: onedesk/one_ai/chat.py:342
+#: onedesk/one_ai/chat.py:357
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/public/js/onemail.js:916 onedesk/public/js/onemail.js:1014
 #: onedesk/public/js/settings.js:428 onedesk/public/js/settings.js:461
@@ -18577,7 +18596,7 @@ msgstr ""
 msgid "That code is not right, or it has run out."
 msgstr ""
 
-#: onedesk/one_ai/chat.py:208 onedesk/public/js/oneai/Panel.vue:671
+#: onedesk/one_ai/chat.py:215 onedesk/public/js/oneai/Panel.vue:671
 msgid "That did not go through."
 msgstr ""
 
@@ -20089,7 +20108,7 @@ msgstr ""
 msgid "This employee's passkey is blocked. HR must reset it before another can be registered."
 msgstr ""
 
-#: onedesk/one_studio/extensions.py:192
+#: onedesk/one_studio/extensions.py:197
 msgid "This extension has not passed its review, so it cannot be turned on. Ask OneAI to change it."
 msgstr ""
 
@@ -20286,7 +20305,7 @@ msgstr ""
 msgid "This workspace does not record interviews. HR Settings says whether it does."
 msgstr ""
 
-#: onedesk/one_studio/extensions.py:195
+#: onedesk/one_studio/extensions.py:200
 msgid "This workspace does not run extensions on the server yet. Ask us to turn them on."
 msgstr ""
 
@@ -23832,7 +23851,7 @@ msgid "Year-end close of {0}"
 msgstr ""
 
 #: onedesk/one/ai.py:2401 onedesk/one/ai.py:2404 onedesk/one/ai.py:3434
-#: onedesk/one/ai.py:3621 onedesk/one_ai/chat.py:642
+#: onedesk/one/ai.py:3621 onedesk/one_ai/chat.py:657
 #: onedesk/public/js/onecloud.js:702
 msgid "Yes"
 msgstr ""
@@ -25062,11 +25081,11 @@ msgstr ""
 msgid "the AI Gateway"
 msgstr ""
 
-#: onedesk/one_ai/run.py:384
+#: onedesk/one_ai/run.py:402
 msgid "the added instructions"
 msgstr ""
 
-#: onedesk/one_ai/run.py:384
+#: onedesk/one_ai/run.py:402
 msgid "the added instructions, to none"
 msgstr ""
 
@@ -25106,11 +25125,11 @@ msgstr ""
 msgid "the fiscal year, and .TFY. its short form"
 msgstr ""
 
-#: onedesk/one_ai/run.py:381
+#: onedesk/one_ai/run.py:399
 msgid "the model back to the default"
 msgstr ""
 
-#: onedesk/one_ai/run.py:381
+#: onedesk/one_ai/run.py:399
 msgid "the model to {0}"
 msgstr ""
 
@@ -25266,7 +25285,7 @@ msgstr ""
 msgid "{0} (was {1})"
 msgstr ""
 
-#: onedesk/one/webhooks.py:200 onedesk/one_studio/extensions.py:328
+#: onedesk/one/webhooks.py:200 onedesk/one_studio/extensions.py:333
 #: onedesk/public/js/privacy_copy.js:27
 msgid "{0} ({1})"
 msgstr ""
@@ -25301,11 +25320,11 @@ msgstr ""
 msgid "{0} GB storage"
 msgstr ""
 
-#: onedesk/one_studio/mend.py:166
+#: onedesk/one_studio/mend.py:175
 msgid "{0} The fixed version is off until you turn it on."
 msgstr ""
 
-#: onedesk/one_studio/mend.py:169
+#: onedesk/one_studio/mend.py:178
 msgid "{0} The fixed version was kept off: the review refused it. {1}"
 msgstr ""
 
@@ -25494,7 +25513,7 @@ msgstr ""
 msgid "{0} changed in this save. Save it first, then edit what it links to."
 msgstr ""
 
-#: onedesk/one_ai/run.py:340
+#: onedesk/one_ai/run.py:358
 msgid "{0} changed this since you opened it. Close it and open it again."
 msgstr ""
 
@@ -25689,7 +25708,7 @@ msgid "{0} has already joined. Send a password reset instead."
 msgstr ""
 
 #: onedesk/one/ai_setup.py:791 onedesk/one_ai/proposals.py:157
-#: onedesk/one_ai/proposals.py:263 onedesk/one_studio/ai.py:262
+#: onedesk/one_ai/proposals.py:263 onedesk/one_studio/ai.py:286
 msgid "{0} has changed since this was suggested, so it no longer applies."
 msgstr ""
 
@@ -25741,7 +25760,7 @@ msgstr ""
 msgid "{0} has reached {1}. It can only go up: a lower number would repeat a name already used."
 msgstr ""
 
-#: onedesk/one_studio/mend.py:102
+#: onedesk/one_studio/mend.py:110
 msgid "{0} has run into no errors, so there is nothing to fix."
 msgstr ""
 
@@ -26666,8 +26685,8 @@ msgstr ""
 msgid "{0}, when {1}"
 msgstr ""
 
-#: onedesk/one/ai_setup.py:339 onedesk/one_studio/ai.py:234
-#: onedesk/one_studio/extensions.py:256
+#: onedesk/one/ai_setup.py:339 onedesk/one_studio/ai.py:258
+#: onedesk/one_studio/extensions.py:261
 msgid "{0}, {1}"
 msgstr ""
 

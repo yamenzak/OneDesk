@@ -62,7 +62,10 @@ went wrong in one line, since OneAI last wrote it. Press **Fix With OneAI**
 at the top of the extension: OneAI reads the code and its errors, and a few
 minutes later tells you what went wrong and that it has written a fixed
 version, reviewed and off until you turn it on. Or ask **Has this one run into errors?**
-in OneAI, or turn it off. A message an extension means to stop a save with,
+in OneAI, or turn it off. An extension can also go wrong without an error:
+one that never does its work logs nothing. Tell OneAI what it does wrong,
+such as "Create Call Task never makes the task", and it fixes it the same
+way. A message an extension means to stop a save with,
 such as "A customer needs a mobile number", is not an error: it stops the
 save, as it says.
 
