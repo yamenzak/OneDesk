@@ -5508,6 +5508,30 @@ of 50,000" changed the number and nothing else, passed the review, and made a
 card. On the way, Gemma sent the new code with no event; a change that
 leaves out where or when now keeps what the extension has.
 
+**Sorting mail, asked from any screen.** Two requests from the Customer
+list: a CocaCola folder for mail with the word cola, then a Beverages folder
+for anything about soft drinks. At first OneAI said it could not, calling no
+tool and giving a made-up reason; there was nothing it could call. Now:
+
+- Mail Rule has **Subject or Text Contains** and **About** (plain words).
+  An About rule waits for OneAI: Intake's first look, already made for each
+  new message where OneAI reads the mailbox, is also asked which of the
+  mailbox's topics it is about, so it costs no extra call.
+- `one_mail.ai.suggest_mail_rule` is a card. Approving it makes the folder,
+  switches OneAI reading on for an About rule, makes the rule, and can sort
+  what is in the Inbox now.
+- The chat is told to look for a tool and read `how_to` before saying
+  something cannot be done, and an empty answer is asked for once more
+  even when no tool was called (Gemma once answered nothing at all).
+
+Tried end to end: both cards made and approved; the two cola mails already in
+the Inbox moved; a new "Coca-Cola Zero" reply went to CocaCola as it
+arrived; a Sprite and Fanta price list, which never says cola, went to
+Beverages once OneAI read it; the rent reminder stayed in the Inbox. On the
+way, the dev site's workspace mailbox was missing and every mailbox read
+tried to make it and failed on the old `probe9x` addresses; it was made once
+by hand.
+
 **Found on the way:** the panel's brief of the record being looked at was
 drawn from the whole record, levels the reader cannot read included.
 `chat._brief` now applies frappe's `apply_fieldlevel_read_permissions` first.

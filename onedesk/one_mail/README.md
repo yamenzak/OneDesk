@@ -68,9 +68,22 @@ undone for a few seconds after sending, and filed on a record.
 
 **Rules**, in a mailbox's ⋯ menu, sort new mail as it arrives in the Inbox:
 move it to a folder, mark it read or star it, by who it is from or to, its
-subject, or whether it has attachments. On a connected mailbox the server
-does it too, so your phone agrees. Rules never touch mail that was already
-there when the mailbox was connected.
+subject, a word anywhere in it (**Subject or Text Contains**), whether it has
+attachments, or what it is about (**About**, in plain words such as "soft
+drinks"). On a connected mailbox the server does it too, so your phone
+agrees. Rules never touch mail that was already there when the mailbox was
+connected.
+
+A rule **About** something needs OneAI to read the mailbox (**Read with
+OneAI…** in its menu): OneAI reads each new message for it as it arrives,
+and moves it a moment later. Spam and phishing go to Junk whatever they are
+about.
+
+You can also ask OneAI: "move any mail with the word cola into a CocaCola
+folder", or "put mail about soft drinks in Beverages". It suggests the rule
+on a card, and approving it makes the folder if there is none, starts OneAI
+reading the mailbox if the rule is about meaning, and makes the rule. It can
+sort what is in the Inbox now as well, for a rule by words.
 
 **Out of office** answers each sender once in four days while you are away,
 until the date you set. Mailing lists, newsletters, other auto-replies and
@@ -393,6 +406,14 @@ Stage 9, rules, out-of-office and bounces, is built.
   kinds of mailbox. `Arrival.fresh` says whether a message is new. A first
   read and history read in the background are not, so connecting a mailbox
   does not re-sort or answer years of mail.
+- A rule with an **About** is not run on arrival: `rules_of(by_meaning=True)`
+  hands its topics to Intake's first look (`one_intake/understand.py`), the
+  one model call every new message already has where OneAI reads, which
+  answers which topics the message is about; `by_meaning` runs those rules
+  on it if it is still in the Inbox. A rule that moved it on arrival wins.
+- `ai.suggest_mail_rule` is the card; `ai.make_rule`, run by `ai_setup.apply`
+  as whoever approved it, makes the folder, switches Intake on and makes the
+  rule, all behind `actions.require`.
 - `Mail Rule` is a mailbox's, and is seen and changed by its holders only
   (a has_permission hook and a query condition). It matches all or any of
   from, to or cc, subject and attachments, then moves, marks read and stars

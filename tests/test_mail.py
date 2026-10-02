@@ -508,6 +508,19 @@ def test_a_rule_matches_all_or_any_of_what_it_names():
 	assert not matches({}, message), "a rule that names nothing matches nothing"
 
 
+def test_a_rule_finds_words_in_the_text_and_waits_for_oneai_on_what_mail_is_about():
+	matches = _rules()["matches"]
+	message = {"sender": "a@b.example", "subject": "Order", "text": "Two crates of Coca-Cola, please."}
+	assert matches({"body_contains": "cola"}, message), "the text, whatever its case"
+	assert matches({"body_contains": "order"}, message), "and the subject"
+	assert not matches({"body_contains": "pepsi"}, message)
+	about = {"name": "R1", "about": "soft drinks"}
+	assert not matches(about, message), "on arrival an About rule waits for OneAI"
+	assert matches(about, message, {"R1"})
+	assert not matches(about, message, {"R2"})
+	assert not matches({**about, "from_contains": "nobody"}, message, {"R1"}), "all, by default"
+
+
 def test_nothing_automatic_gets_an_away_reply():
 	automatic = _rules()["automatic"]
 	assert not automatic({}, "rana@supplier.example")
@@ -604,3 +617,17 @@ def test_a_mailbox_that_breaks_is_told_once_and_can_be_given_its_password_again(
 	# Tried where it already is, by a holder, and the workspace's by an administrator.
 	assert "actions.require(account)" in again and "frappe.only_for(roles.ADMINISTRATOR)" in again
 	assert "reach(doc.email_id, password, login, {key: doc.get(key) for key in WHERE})" in again
+
+
+def test_oneai_suggests_a_mail_rule_as_a_card():
+	"""Asked to sort mail into a folder, OneAI writes a rule card: the folder
+	is made, and Intake switched on for a rule about meaning, only when a
+	holder of the mailbox approves it."""
+	hooks = (MAIL.parent / "hooks.py").read_text()
+	assert '"onedesk.one_mail.ai.suggest_mail_rule"' in hooks
+	ai = (MAIL / "ai.py").read_text()
+	make = ai.split("def make_rule(", 1)[1]
+	assert "actions.require(account)" in make and "actions.create_folder(" in make
+	assert "switches.set_mailbox(account, 1)" in make
+	setup = (MAIL.parent / "one" / "ai_setup.py").read_text()
+	assert 'if what == "mail_rule":' in setup and "ai.make_rule(changes)" in setup

@@ -9,7 +9,22 @@ class MailRule(Document):
 	def validate(self):
 		if self.move_to and frappe.db.get_value("Mail Folder", self.move_to, "account") != self.account:
 			frappe.throw(_("A rule can only move mail to a folder of its own mailbox."))
-		if not any((self.from_contains, self.to_contains, self.subject_contains, self.has_attachment)):
+		if not any(
+			(
+				self.from_contains,
+				self.to_contains,
+				self.subject_contains,
+				self.body_contains,
+				self.has_attachment,
+				self.about,
+			)
+		):
 			frappe.throw(_("Say which mail the rule is for."))
+		if self.about and not frappe.db.get_value("Email Account", self.account, "one_intake"):
+			frappe.throw(
+				_(
+					"A rule about what mail says needs OneAI to read this mailbox. Turn it on in the mailbox's menu first."
+				)
+			)
 		if not any((self.move_to, self.mark_read, self.star)):
 			frappe.throw(_("Say what the rule does."))

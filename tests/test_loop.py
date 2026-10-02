@@ -248,3 +248,19 @@ def test_a_model_turn_is_the_assistant_in_openais_dialect():
 		"role": "assistant",
 		"content": "Let me look.",
 	}
+
+
+def test_an_empty_answer_is_asked_again_tool_or_no_tool():
+	"""Measured on Gemma 4: asked to sort mail, it once answered nothing and
+	called nothing, and the panel stayed blank. An empty answer is asked for
+	again whether or not a tool was called."""
+	source = (GATEWAY.parent.parent / "one_ai" / "run.py").read_text(encoding="utf-8")
+	body = ast.parse(source)
+	wanted = [n for n in body.body if isinstance(n, ast.FunctionDef) and n.name in ("_silent", "_used")]
+	room: dict = {}
+	exec(compile(ast.Module(body=wanted, type_ignores=[]), "run.py", "exec"), room)
+	blank = {"turns": [{"role": "user", "text": "sort my mail"}, {"role": "model", "text": "", "calls": []}]}
+	assert room["_silent"](blank, []) and not room["_used"](blank)
+	answered = {"turns": [*blank["turns"][:1], {"role": "model", "text": "Done."}]}
+	assert not room["_silent"](answered, [])
+	assert not room["_silent"](blank, ["PROP-1"]), "a card is an answer"

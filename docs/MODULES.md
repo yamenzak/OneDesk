@@ -138,7 +138,7 @@ No doctypes yet.
 |---|--:|---|
 | Face | 5 | document |
 | Mail Folder | 15 | document |
-| Mail Rule | 15 | document |
+| Mail Rule | 17 | document |
 
 ## One Intake
 

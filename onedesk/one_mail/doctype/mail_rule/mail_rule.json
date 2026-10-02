@@ -17,7 +17,9 @@
   "from_contains",
   "to_contains",
   "subject_contains",
+  "body_contains",
   "has_attachment",
+  "about",
   "section_then",
   "move_to",
   "mark_read",
@@ -82,9 +84,21 @@
    "in_list_view": 1
   },
   {
+   "fieldname": "body_contains",
+   "fieldtype": "Data",
+   "label": "Subject or Text Contains",
+   "description": "In the subject or anywhere in the message."
+  },
+  {
    "fieldname": "has_attachment",
    "fieldtype": "Check",
    "label": "Has an Attachment"
+  },
+  {
+   "fieldname": "about",
+   "fieldtype": "Small Text",
+   "label": "About",
+   "description": "What the mail is about, in plain words, such as soft drinks. OneAI reads each new mail for it."
   },
   {
    "fieldname": "section_then",
@@ -117,7 +131,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-25 12:00:00.000000",
+ "modified": "2026-10-02 20:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Mail",
  "name": "Mail Rule",

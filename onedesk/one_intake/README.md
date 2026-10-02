@@ -97,6 +97,9 @@ understood:
 - **a message** is linked to every record it is about, so it is on their
   timelines. A mail attachment is copied onto the record, under its new
   name, and the mail keeps it too;
+- **a message a mailbox's rule is about** (a OneMail rule with an **About**,
+  such as "soft drinks") goes to that rule's folder: the first look that
+  sorts junk also says which of those topics a new message is about;
 - **junk** that came straight to a mailbox leaves the Inbox: spam and phishing
   to Junk, advertising and newsletters to a Newsletters folder. Junk that
   came through a scanner or a forward is set aside in an Advertising folder,

@@ -810,6 +810,10 @@ def apply(changes: dict) -> str:
 		from onedesk.one_studio import ai
 
 		return ai.make_record_type(changes)
+	if what == "mail_rule":
+		from onedesk.one_mail import ai
+
+		return ai.make_rule(changes)
 	if what == "hold":
 		if changes.get("let_go"):
 			access.let_go(changes["hold"])

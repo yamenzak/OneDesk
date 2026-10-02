@@ -197,3 +197,14 @@ def test_the_mark_is_taken_down_by_a_person_and_nothing_else():
 	source = (ROOT / "mark.py").read_text()
 	assert "one_intake_writing" in source and "in_import" in source, "OneAI's own writes and imports do not count as looking"
 	assert '"Intake Action": "onedesk.one_intake.act.query"' in hooks and '"Intake Action": "onedesk.one_intake.act.has_permission"' in hooks
+
+
+def test_a_first_look_names_the_rules_a_message_is_about():
+	"""The first look answers with topic numbers; anything else is no topic."""
+	about_of = _load(ROOT / "understand.py", {}, {"about_of"})["about_of"]
+	topics = [("RULE-1", "soft drinks"), ("RULE-2", "invoices")]
+	assert about_of([1], topics) == {"RULE-1"}
+	assert about_of(["2", 1], topics) == {"RULE-1", "RULE-2"}
+	assert about_of([0, 3, "x", None], topics) == set(), "out of range or not a number"
+	assert about_of("1", topics) == set(), "a list, or nothing"
+	assert about_of(None, []) == set()

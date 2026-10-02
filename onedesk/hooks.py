@@ -1076,6 +1076,8 @@ one_ai_suggests = [
 	"onedesk.one.ai.change_holidays",
 	# A reply, written as the reader asked, opened in the email window to send.
 	"onedesk.one_mail.ai.draft_reply",
+	# A rule that sorts a mailbox's new mail into a folder. See one_mail/rules.py.
+	"onedesk.one_mail.ai.suggest_mail_rule",
 	# An event, with the people on it, made when the reader approves.
 	"onedesk.one_calendar.ai.plan_event",
 	# A task, and the steps of a task's checklist. See one_task/ai.py.

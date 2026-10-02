@@ -137,7 +137,8 @@ def ask(
 			# is "done" when a card said it and a blank panel when none did.
 			# Asked once, in a turn the reader never sees, it says the answer.
 			nudged = True
-			turns = [*out["turns"], {"role": "user", "text": NUDGE, "calls": [], "context": True}]
+			said = NUDGE if _used(out) else ANSWER
+			turns = [*out["turns"], {"role": "user", "text": said, "calls": [], "context": True}]
 			rounds += 1
 			continue
 		if out.get("done") or rounds >= ROUNDS:
@@ -217,6 +218,10 @@ def _card(answer: dict) -> str | None:
 #: Said to a model that looked things up and then said nothing.
 NUDGE = "Now answer the question in one or two sentences from what the tools returned."
 
+#: An empty answer to a question no tool was called for (measured, Gemma 4,
+#: once in four tries of the same request): asked again, it calls the tool.
+ANSWER = "Answer the person: do what they asked with a tool, or say why it cannot be done."
+
 
 #: Said to a model that answered a suggestion without making its card.
 CALL_IT = "Now call {0} with what you just wrote. Do not answer in the chat."
@@ -275,8 +280,12 @@ def _silent(out: dict, cards: list) -> bool:
 	if cards:
 		return False
 	said = [one for one in out.get("turns") or [] if one.get("role") == "model"]
-	used = any(one.get("role") == "tool" for one in out.get("turns") or [])
-	return used and not (said and (said[-1].get("text") or "").strip())
+	return not (said and (said[-1].get("text") or "").strip())
+
+
+def _used(out: dict) -> bool:
+	"""Whether the run called a tool."""
+	return any(one.get("role") == "tool" for one in out.get("turns") or [])
 
 
 def _tried(want: dict) -> dict:

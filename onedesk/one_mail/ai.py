@@ -18,7 +18,7 @@ from html import unescape
 from typing import Annotated
 
 import frappe
-from frappe import _lt
+from frappe import _, _lt
 from frappe.utils import strip_html
 
 #: Characters of one message's text given to the model.
@@ -193,3 +193,164 @@ def draft_reply(
 		"next": "Tell them Approve opens the reply in the email window to read, change and send; it is not sent "
 		"until they send it.",
 	}
+
+
+#: How many of the Inbox's newest messages a new rule sorts at once, when it
+#: is asked to sort what is there now as well.
+MOST_NOW = 500
+
+
+def suggest_mail_rule(
+	folder: Annotated[
+		str, "The folder to move the mail to, by its name, such as CocaCola. Made if the mailbox has none."
+	],
+	mailbox: Annotated[
+		str, "The mailbox's address, one the person holds (my_mailboxes). Left out when they hold one."
+	]
+	| None = None,
+	text_contains: Annotated[str, "A word or words found in the subject or anywhere in the message."]
+	| None = None,
+	from_contains: Annotated[str, "Part of the sender's address or name."] | None = None,
+	subject_contains: Annotated[str, "Found in the subject only."] | None = None,
+	about: Annotated[
+		str,
+		"What the mail is about, in plain words, such as soft drinks, when it is a matter of meaning "
+		"rather than of a word. OneAI reads each new mail for it.",
+	]
+	| None = None,
+	sort_inbox_now: Annotated[
+		bool, "Also move the mail in the Inbox now that the words match (not for about)."
+	] = False,
+	why: Annotated[str, "In a sentence, what the rule does."] | None = None,
+) -> dict:
+	"""Suggest a rule that sorts a mailbox's new mail into a folder, as a card
+	the person approves: by words in it, its sender or subject, or by what it
+	is about. The folder is made if it is missing, and for a rule about what
+	mail says, OneAI starts reading the mailbox. Only for a mailbox the person
+	holds."""
+	from onedesk.one_ai import proposals
+	from onedesk.one_mail import holders
+
+	held = holders.mailboxes()
+	box = next(
+		(
+			one
+			for one in held
+			if mailbox and mailbox.strip().lower() in (one["name"].lower(), (one["email"] or "").lower())
+		),
+		held[0] if len(held) == 1 and not mailbox else None,
+	)
+	if not box:
+		return {
+			"mend": "suggest_mail_rule",
+			"error": "Name one of the mailboxes the person holds: "
+			+ ", ".join(one["email"] or one["name"] for one in held),
+		}
+	label = (folder or "").strip()
+	words = {
+		key: (value or "").strip()
+		for key, value in (
+			("body_contains", text_contains),
+			("from_contains", from_contains),
+			("subject_contains", subject_contains),
+		)
+	}
+	about = (about or "").strip()
+	if not label:
+		return {"mend": "suggest_mail_rule", "error": "Say which folder the mail goes to."}
+	if not any(words.values()) and not about:
+		return {
+			"mend": "suggest_mail_rule",
+			"error": "Say which mail: words in it, its sender, its subject, or what it is about.",
+		}
+	existing = next(
+		(one["name"] for one in box["folders"] if (one["label"] or "").lower() == label.lower()), None
+	)
+	read = bool(about) and not box["intake"]
+	when = [
+		_('Its subject or text has "{0}"').format(words["body_contains"]) if words["body_contains"] else "",
+		_('From has "{0}"').format(words["from_contains"]) if words["from_contains"] else "",
+		_('Its subject has "{0}"').format(words["subject_contains"]) if words["subject_contains"] else "",
+		_("It is about {0}").format(about) if about else "",
+	]
+	summary = [
+		{"label": _("Mailbox"), "value": box["email"] or box["name"]},
+		{"label": _("New Mail"), "value": "; ".join(filter(None, when))},
+		{
+			"label": _("Moved To"),
+			"value": label if existing else _("{0}, a new folder").format(label),
+		},
+	]
+	if read:
+		summary.append(
+			{"label": _("OneAI"), "value": _("Reads this mailbox from now on, to know what mail is about")}
+		)
+	if sort_inbox_now and any(words.values()):
+		summary.append({"label": _("Now"), "value": _("What is in the Inbox and matches is moved too")})
+	changes = {
+		"what": "mail_rule",
+		"account": box["name"],
+		"folder": existing,
+		"label": label,
+		**words,
+		"about": about,
+		"read": int(read),
+		"now": int(bool(sort_inbox_now) and any(words.values())),
+		"title": _("Sort mail into {0}").format(label),
+		"summary": summary,
+		"route": ["List", "Mail Rule", {"account": box["name"]}],
+	}
+	return {
+		"proposal": proposals.propose("Setup", "Mail Rule", changes=changes, why=why),
+		"state": "Proposed",
+		"next": "Say in one sentence what the rule does once approved. Nothing changes until they approve it.",
+	}
+
+
+def make_rule(changes: dict) -> str:
+	"""A mail rule's card approved, by a holder of its mailbox: the folder
+	made if it is missing, OneAI switched on to read the mailbox if the rule
+	is about what mail says, the rule, and what is in the Inbox now sorted
+	if that was asked."""
+	from onedesk.one_intake import switches
+	from onedesk.one_mail import actions, rules
+
+	account = changes["account"]
+	actions.require(account)
+	folder = changes.get("folder") or frappe.db.get_value(
+		"Mail Folder", {"account": account, "label": changes["label"]}, "name"
+	)
+	if not folder:
+		folder = actions.create_folder(account, changes["label"])
+	if changes.get("read"):
+		switches.set_mailbox(account, 1)
+	rule = frappe.get_doc(
+		{
+			"doctype": "Mail Rule",
+			"account": account,
+			"from_contains": changes.get("from_contains") or None,
+			"subject_contains": changes.get("subject_contains") or None,
+			"body_contains": changes.get("body_contains") or None,
+			"about": changes.get("about") or None,
+			"move_to": folder,
+		}
+	).insert()
+	if changes.get("now"):
+		found = []
+		for one in frappe.get_all(
+			"Communication",
+			filters={
+				"email_account": account,
+				"one_folder": actions.folder_of(account, "Inbox"),
+				"sent_or_received": "Received",
+			},
+			fields=["name", "sender", "recipients", "cc", "subject", "has_attachment", "content"],
+			order_by="communication_date desc",
+			limit=MOST_NOW,
+		):
+			one["text"] = strip_html(one.pop("content") or "")
+			if rules.matches(rule.as_dict(), one):
+				found.append(one.name)
+		if found:
+			actions.move(found, folder)
+	return rule.name

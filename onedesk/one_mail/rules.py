@@ -39,8 +39,14 @@ MACHINES = re.compile(
 # ------------------------------------------------------------------ pure
 
 
-def matches(rule: dict, message: dict) -> bool:
-	"""Whether a message is one a rule is for. Pure."""
+def matches(rule: dict, message: dict, about: set | None = None) -> bool:
+	"""Whether a message is one a rule is for. Pure.
+
+	`about` is the rules OneAI read the message to be about. A rule with an
+	About is not for the arrival at all (`about` None): it waits for OneAI,
+	which reads the message a moment later (`by_meaning`)."""
+	if rule.get("about") and about is None:
+		return False
 	tests = []
 	if rule.get("from_contains"):
 		tests.append(rule["from_contains"].lower() in (message.get("sender") or "").lower())
@@ -49,8 +55,13 @@ def matches(rule: dict, message: dict) -> bool:
 		tests.append(rule["to_contains"].lower() in people)
 	if rule.get("subject_contains"):
 		tests.append(rule["subject_contains"].lower() in (message.get("subject") or "").lower())
+	if rule.get("body_contains"):
+		said = f"{message.get('subject') or ''} {message.get('text') or ''}".lower()
+		tests.append(rule["body_contains"].lower() in said)
 	if rule.get("has_attachment"):
 		tests.append(bool(message.get("has_attachment")))
+	if rule.get("about"):
+		tests.append(rule.get("name") in about)
 	if not tests:
 		return False
 	return any(tests) if (rule.get("match") or "").startswith("Any") else all(tests)
@@ -138,24 +149,22 @@ def _in_inbox(made) -> bool:
 	return kind == "Inbox" or made.one_folder == "INBOX"
 
 
-def run_rules(made) -> list[str]:
-	"""The rules of a message's mailbox, in order, until one says stop."""
+def run_rules(made, about: set | None = None) -> list[str]:
+	"""The rules of a message's mailbox, in order, until one says stop. On
+	arrival `about` is None and only the rules without an About run; OneAI's
+	reading runs those with one (`by_meaning`)."""
 	from onedesk.one_mail import actions
 
 	done = []
 	message = frappe.db.get_value(
 		"Communication",
 		made.name,
-		["name", "sender", "recipients", "cc", "subject", "has_attachment"],
+		["name", "sender", "recipients", "cc", "subject", "has_attachment", "content"],
 		as_dict=True,
 	)
-	for rule in frappe.get_all(
-		"Mail Rule",
-		filters={"account": made.email_account, "enabled": 1},
-		fields=["*"],
-		order_by="priority asc, creation asc",
-	):
-		if not matches(rule, message):
+	message["text"] = frappe.utils.strip_html_tags(message.pop("content") or "")
+	for rule in rules_of(made.email_account, about is not None):
+		if not matches(rule, message, about):
 			continue
 		frappe.flags.one_mail_rules = True
 		try:
@@ -171,6 +180,31 @@ def run_rules(made) -> list[str]:
 		if rule.stop:
 			break
 	return done
+
+
+def rules_of(account: str, by_meaning: bool = False) -> list:
+	"""A mailbox's rules that are on, in order: those without an About, or
+	only those with one."""
+	return [
+		rule
+		for rule in frappe.get_all(
+			"Mail Rule",
+			filters={"account": account, "enabled": 1},
+			fields=["*"],
+			order_by="priority asc, creation asc",
+		)
+		if bool(rule.about) == by_meaning
+	]
+
+
+def by_meaning(message: str, about: set) -> list[str]:
+	"""The About rules OneAI read a new message to be about, run once it has
+	read it (one_intake/understand.py), on a message still in the Inbox:
+	a rule that already moved it on arrival wins."""
+	made = frappe.get_doc("Communication", message)
+	if not about or not _in_inbox(made):
+		return []
+	return run_rules(made, about)
 
 
 def bounce(made, message) -> list[str]:
