@@ -344,6 +344,12 @@ img.om-face {
 	background: var(--surface-base);
 }
 
+/* What the workspace's extensions say about the conversation
+ * (public/js/places.js), set in as far as the conversation is. */
+.om-conv-head + .one-place-notes {
+	margin: 0 calc(var(--spacing) * 6) calc(var(--spacing) * 2);
+}
+
 .om-conv-subject {
 	flex: 1 1 320px;
 	min-width: 0;

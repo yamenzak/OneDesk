@@ -315,7 +315,10 @@ KEEP_IT = (
 
 #: How a person asks to be remembered, in the languages a workspace reads.
 REMEMBER = re.compile(
-	r"\b(remember|keep in mind|don'?t forget|do not forget|make a note|note that|merk|vergiss nicht)\b|تذك|احفظ|لا تنس",
+	# "note that" only opening a sentence: "show a note that they are a key
+	# customer" asks for an extension, not to be remembered (measured).
+	r"\b(remember|keep in mind|don'?t forget|do not forget|make a note|merk|vergiss nicht)\b"
+	r"|(?:^|[.!?]\s+)note that\b|تذك|احفظ|لا تنس",
 	re.IGNORECASE,
 )
 

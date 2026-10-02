@@ -12,6 +12,7 @@ const DRAWN = [
 	"runs",
 	"record_doctype",
 	"view",
+	"place",
 	"event",
 	"explanation",
 	"asked",
@@ -39,6 +40,14 @@ const WHEN = {
 	"After Delete": (kind) => __("After a {0} is deleted", [kind]),
 };
 
+// Where a page extension runs, said of its place (one_studio/places.py).
+const PLACES = {
+	"onemail.conversation": () => __("In OneMail, each time a conversation is opened"),
+	"onemail.compose": () => __("Each time a message is written, anywhere in One"),
+	"record_head.drawn": (kind) => __("On the head of each {0}, each time it is opened or saved", [kind]),
+	"onecalendar.event": () => __("In OneCalendar, each time an event's card is opened"),
+};
+
 // How mend.py marks each fix it adds to the request.
 const FIXED = "Fixed: ";
 
@@ -63,6 +72,8 @@ frappe.ui.form.on("Extension", {
 		const where =
 			doc.runs === "On Server"
 				? (WHEN[doc.event] || (() => __(doc.event || "")))(kind)
+				: doc.view === "Page"
+				? (PLACES[doc.place] || (() => doc.place || ""))(kind)
 				: doc.view === "List"
 					? __("On the {0} list, in the browser of whoever opens it", [kind])
 					: __("On the {0} form, in the browser of whoever opens it", [kind]);

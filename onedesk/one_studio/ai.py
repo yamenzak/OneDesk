@@ -118,6 +118,7 @@ def extensions_here(
 			"runs",
 			"record_doctype",
 			"view",
+			"place",
 			"event",
 			"enabled",
 			"explanation",
@@ -233,6 +234,22 @@ def _unescaped(code: str | None) -> str | None:
 	return code
 
 
+def extension_places() -> dict:
+	"""One's own pages an extension can run on, beyond frappe's forms and
+	lists: OneMail, OneCalendar and a record's head. For each: when it runs,
+	what the extension is told, and the few things it may do there. Read it
+	before writing an extension for one of them."""
+	from onedesk.one_studio import places
+
+	if not roles.administers():
+		return {"error": "Only a workspace administrator has extensions written."}
+	return {
+		"places": places.described(),
+		"how": 'one.on("<event>", (data, page) => { ... }): data is what the place gives, page has only what it may do. '
+		"Write every word a person reads in __().",
+	}
+
+
 def write_extension(
 	title: Annotated[
 		str, "What it is called, a name in Title Case, such as A Customer Needs a Mobile Number."
@@ -244,7 +261,10 @@ def write_extension(
 	],
 	code: Annotated[str, "The code: JavaScript for On Screen, restricted Python for On Server."],
 	asked: Annotated[str, "What the person asked for, in their words."],
-	view: Annotated[Literal["Form", "List"], "On Screen only: the form or the list."] | None = None,
+	view: Annotated[
+		Literal["Form", "List", "Page"], "On Screen only: the form, the list, or one of One's pages (give place)."
+	]
+	| None = None,
 	event: Annotated[
 		str,
 		"On Server only: Before Insert, Before Validate, Before Save, After Insert, After Save, Before Submit, After Submit, Before Cancel, After Cancel, Before Save (Submitted Document), After Save (Submitted Document), Before Delete or After Delete.",
@@ -252,6 +272,11 @@ def write_extension(
 	| None = None,
 	extension: Annotated[
 		str, "To change an extension, or to mend one the review refused: its name, or its title."
+	]
+	| None = None,
+	place: Annotated[
+		str,
+		"On one of One's pages only: where and when, as extension_places names it, such as onemail.conversation.",
 	]
 	| None = None,
 ) -> dict:
@@ -264,8 +289,8 @@ def write_extension(
 	if extension and frappe.db.exists(extensions.EXTENSION, extension):
 		# A change that leaves out where or when keeps what it has: measured,
 		# Gemma changing a limit sent the code and no event, and was refused.
-		was = frappe.db.get_value(extensions.EXTENSION, extension, ["view", "event"], as_dict=True)
-		view, event = view or was.view, event or was.event
+		was = frappe.db.get_value(extensions.EXTENSION, extension, ["view", "event", "place"], as_dict=True)
+		view, event, place = view or was.view, event or was.event, place or was.place
 	try:
 		kept = extensions.write(
 			title=title,
@@ -277,6 +302,7 @@ def write_extension(
 			view=view,
 			event=event,
 			extension=extension,
+			place=place,
 		)
 	except guard.Refused as refused:
 		return {"mend": "write_extension", "error": f"Not kept: {refused}"}
@@ -299,8 +325,10 @@ def _proposed(doc, why: str) -> dict:
 	"""The card that turns an extension on, as it stands, when approved."""
 	from onedesk.one_ai import proposals
 
-	where = _("{0}, {1}").format(
-		_(doc.runs), _(doc.event) if doc.runs == extensions.ON_SERVER else _(doc.view)
+	where = (
+		extensions._place_said(doc)
+		if doc.view == extensions.PAGE
+		else _("{0}, {1}").format(_(doc.runs), _(doc.event) if doc.runs == extensions.ON_SERVER else _(doc.view))
 	)
 	changes = {
 		"what": "extension",
@@ -422,4 +450,5 @@ def make_record_type(changes: dict) -> str:
 
 
 write_extension.action = mend_extension.action = design_record_type.action = extension_code.action = "studio"
+extension_places.action = "studio"
 write_extension.unshown = extension_code.unshown = ("code",)

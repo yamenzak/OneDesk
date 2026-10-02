@@ -33,10 +33,32 @@ it wrote against what it says it does, and you get a card saying what it
 does. **Approve** turns it on. Nothing runs before that.
 
 **Where it runs.** On the **screen**, it runs in the browser of whoever opens
-the form: it can show, hide, fill in or require a field, and tell the person
-something. On the **server**, it runs whenever the record is saved, submitted,
+the page, with their own permissions. On a **form** it can show, hide, fill in
+or require a field, add a button, and tell the person something. On a
+**list** it can label records (a red **Overdue**), change how a column reads,
+and add a button. It can also look up another record to do it, as the person
+would, but never change one from the screen. On the **server**, it runs whenever the record is saved, submitted,
 cancelled or deleted, whoever does it and however: the form, an import,
 OneAI, another app. Use the server for a rule that must always hold.
+
+**On One's own pages.** An extension can also run on three of One's pages,
+each with its own few things it may do:
+
+- **OneMail**, when a conversation is opened: show a note under it ("A key
+  customer"), or add a button beside Reply. And whenever a message is
+  written, anywhere in One: show a note above it, or fill in its subject, cc
+  or bcc.
+- **A record's head**, each time the record is opened or saved: add a button
+  beside the head's own, a figure in its band ("Sales Invoices: 12"), or a
+  note under it. Only on the kind of record you name.
+- **OneCalendar**, when an event's card is opened: show a note on it, or add
+  a button.
+
+Ask for one the same way: "When I open a conversation from anyone at
+acmeco.example, show a note that they are a key customer." It is reviewed,
+off until you approve it, and its errors are written down, the same as any
+other. It never sees more of the page than what it is given, and it starts
+running for each person the next time they load One.
 
 **What you see, and what you do not.** Each extension opens on whether it is
 **On** or **Off** (or **Refused by Review**, or **Cannot Run Here**) and what
@@ -146,10 +168,11 @@ one: **Add a field to this one…**
 |---|---|
 | `extensions.py` | The Extension record's rules, and frappe's Client Script or Server Script made from it as Administrator. |
 | `guard.py` | Pure. Reads an extension's code before it is kept and refuses what reaches past the administrator. |
+| `places.py` | One's own pages an extension can run on (OneMail, a record's head, OneCalendar): each one's events, what it gives, and what it may do. `../public/js/places.js` runs them. |
 | `review.py` | The second reading, `studio_review`: a separate call shown the code and its explanation, nothing of the chat. |
 | `record_types.py` | A record type's rules, and frappe's custom DocType made, changed and deleted from it. |
 | `forms.py` | The Forms list. The Customize page is `page/customize` and `../public/js/customize.js`. |
-| `ai.py` | `write_extension`, `mend_extension`, `extensions_here`, `extension_mistakes`, `design_record_type`, `record_types_here`, on the `studio` action. |
+| `ai.py` | `write_extension`, `mend_extension`, `extensions_here`, `extension_code`, `extension_places`, `extension_mistakes`, `design_record_type`, `record_types_here`, on the `studio` action. |
 | `mend.py` | An extension's errors, the Errors tab, and mending one from them (`studio_mend`). |
 | `heads.py`, `notifications.py`, `legal.py` | The record heads; Extensions Failing and an extension turned on, off or deleted; and what the Terms and the AI Addendum say. |
 
@@ -193,6 +216,20 @@ frappe's Client Script is the code given its own `frappe`
 save, anything else is sent to `extensions.tripped` (rate-limited, only for an
 extension that is on and on the screen) and logged under the same name.
 `failing`, the Errors tab and the count on the extension cover both.
+
+**On One's pages.** frappe has no script for a page of One's, so a page
+extension (`view` Page, `place` such as `onemail.conversation`) is no Client
+Script: the extensions that are on, and still as reviewed, come with the boot
+(`extensions.boot`, `one_page_extensions`), and `places.js` runs each once,
+keeping what it listens for with `one.on`. A page says what happened
+(`onedesk.places.emit`) with a copy of what it shows and its own functions
+for what places.py lets that event do; the extension is lent only those, its
+handlers and any function it hands back run inside a `try`, and what trips is
+sent to `extensions.tripped` under its name. `guard.on_page` refuses code that
+listens for an event its page does not have. Screen code may look a record up
+as the person (`guard.LOOKUPS`: `frappe.db.get_value`, `get_list`, `count`,
+`exists`), and frappe answers with that person's permissions; anything else on
+`frappe.db` is refused.
 
 **Mending without reading.** `mend.py` is a separate call, its own action
 (`studio_mend`), made on the server with the extension's code and its last

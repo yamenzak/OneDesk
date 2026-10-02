@@ -857,9 +857,11 @@ app_include_js = [
 	"/assets/onedesk/js/mail_compose.js",
 	"/assets/onedesk/js/onecloud_picker.js",
 	"/assets/onedesk/js/band.js",
-	# Every record's head, from its Record Head. See one/head.py.
 	# Frappe's Settings dialog for a doctype, for a workspace administrator.
 	"/assets/onedesk/js/doctype_settings.js",
+	# Extensions on One's own pages: OneMail, OneCalendar, a record's head. See one_studio/places.py.
+	"/assets/onedesk/js/places.js",
+	# Every record's head, from its Record Head. See one/head.py.
 	"/assets/onedesk/js/head.js",
 	"/assets/onedesk/js/crm_record.js",
 	"/assets/onedesk/js/reports.js",
@@ -1034,6 +1036,7 @@ one_ai_reads = [
 	"onedesk.one_studio.ai.extensions_here",
 	"onedesk.one_studio.ai.extension_mistakes",
 	"onedesk.one_studio.ai.extension_code",
+	"onedesk.one_studio.ai.extension_places",
 	"onedesk.one_studio.ai.record_types_here",
 ]
 

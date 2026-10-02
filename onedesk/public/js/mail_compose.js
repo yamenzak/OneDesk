@@ -45,3 +45,36 @@
 	};
 	Composer.prototype.one_templated = true;
 })();
+
+// The workspace's extensions on writing a message (one_studio/places.py),
+// wherever in One it is written: told what it is to and about, and lent a
+// note above it and the subject, cc and bcc to fill in.
+(() => {
+	const Composer = frappe.views && frappe.views.CommunicationComposer;
+	if (!Composer || Composer.prototype.one_extended) return;
+	const make = Composer.prototype.make;
+	const FILLED = ["subject", "cc", "bcc"];
+	Composer.prototype.make = function () {
+		const made = make.apply(this, arguments);
+		if (!onedesk.places) return made;
+		const dialog = this.dialog;
+		const doc = this.doc || (this.frm && this.frm.doc) || {};
+		onedesk.places.emit(
+			"onemail.compose",
+			{
+				recipients: this.recipients || "",
+				cc: this.cc || "",
+				subject: this.subject || "",
+				reply: !!this.is_a_reply,
+				reference_doctype: doc.doctype || null,
+				reference_name: doc.name || null,
+			},
+			{
+				note: (text, tone) => dialog.$body.prepend(onedesk.places.note(text, tone)),
+				set: (field, value) => FILLED.includes(field) && dialog.set_value(field, String(value || "")),
+			}
+		);
+		return made;
+	};
+	Composer.prototype.one_extended = true;
+})();

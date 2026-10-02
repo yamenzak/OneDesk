@@ -390,6 +390,29 @@ onedesk.OneCalendar = class OneCalendar {
 							}),
 					})
 					.appendTo($foot);
+			// The workspace's extensions on OneCalendar (one_studio/places.py),
+			// told this event's card is open with a copy of what it shows, and
+			// lent a note above its buttons and a button among them.
+			onedesk.places &&
+				onedesk.places.emit(
+					"onecalendar.event",
+					{
+						name: one.name,
+						subject: one.subject,
+						starts_on: starts,
+						ends_on: ends,
+						all_day: !!one.all_day,
+						location: one.location || "",
+						description: one.description || "",
+						people: one.people || [],
+						about: one.about || null,
+					},
+					{
+						note: (text, tone) => onedesk.places.note(text, tone).insertBefore($foot),
+						action: (label, handler) =>
+							frappe.ui.button({ label: String(label || ""), variant: "subtle", onclick: () => handler() }).appendTo($foot),
+					}
+				);
 		});
 		return $card[0];
 	}

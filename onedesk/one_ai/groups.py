@@ -128,11 +128,12 @@ GROUPS = {
 		),
 	},
 	"studio": {
-		"about": "OneStudio: extensions (code that runs on a record), changing or fixing one, their errors, the workspace's own record types, changing a form",
+		"about": "OneStudio: extensions (code that runs on a record, a list, OneMail, OneCalendar or a record's head), changing or fixing one, their errors, the workspace's own record types, changing a form",
 		"tools": (
 			"extensions_here",
 			"extension_mistakes",
 			"extension_code",
+			"extension_places",
 			"record_types_here",
 			"write_extension",
 			"mend_extension",
@@ -141,7 +142,8 @@ GROUPS = {
 		),
 		"words": (
 			"extension", "script", "record type", "custom field", "form", "erweiterung", "datensatztyp", "formular",
-			"إضافة", "برمجة", "نموذج",
+			"إضافة", "برمجة", "نموذج", "hide", "button", "head", "on the list", "when i open", "label", "highlight",
+			"warn", "ausblenden", "schaltfläche", "إخفاء", "زر",
 		),
 	},
 	"automate": {

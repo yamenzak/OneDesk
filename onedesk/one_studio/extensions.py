@@ -42,6 +42,11 @@ ON_SCREEN, ON_SERVER = "On Screen", "On Server"
 #: frappe's script each kind of extension is, and the field that turns it off.
 SCRIPTS = {ON_SCREEN: ("Client Script", "enabled"), ON_SERVER: ("Server Script", "disabled")}
 
+#: A screen extension for one of One's own pages (places.py) rather than a
+#: frappe form or list. frappe has no script for those, so One keeps the code
+#: on the extension itself and runs it there (public/js/places.js).
+PAGE = "Page"
+
 #: frappe's scripts made from extensions are named after them.
 PREFIX = "OneStudio "
 
@@ -49,8 +54,8 @@ PREFIX = "OneStudio "
 #: form, so validate keeps them on the server: an administrator turns an
 #: extension on and off, and nothing else.
 WRITTEN = (
-	"title", "runs", "record_doctype", "view", "event", "explanation", "asked", "asked_by", "review",
-	"review_note", "written_on",
+	"title", "runs", "record_doctype", "view", "place", "event", "explanation", "asked", "asked_by",
+	"review", "review_note", "written_on",
 )  # fmt: skip
 
 
@@ -95,15 +100,42 @@ def runs_server_scripts() -> bool:
 def reviewed_as(doc) -> str:
 	"""The fingerprint of an extension as it stands: its code, and where and
 	when it runs."""
-	when = doc.event if doc.runs == ON_SERVER else doc.view
-	return review.fingerprint(doc.code, doc.runs, doc.record_doctype, when)
+	return review.fingerprint(doc.code, doc.runs, doc.record_doctype, _when(doc))
+
+
+def _when(doc) -> str | None:
+	"""Where and when it runs, as the review read it: the event on the
+	server, the view on the screen, the page and its event on a page."""
+	if doc.runs == ON_SERVER:
+		return doc.event
+	return doc.get("place") if doc.view == PAGE else doc.view
 
 
 def boot(bootinfo) -> None:
 	"""extend_bootinfo: whether this bench runs server extensions, for the
-	Extensions list to say Cannot Run Here as the head does."""
+	Extensions list to say Cannot Run Here as the head does; and for
+	everybody, the page extensions that are on, which run in their browser as
+	a Client Script would (places.js)."""
+	from onedesk.one_studio import places
+
 	if roles.administers():
 		bootinfo.one_studio_server = runs_server_scripts()
+	bootinfo.one_places = places.for_boot()
+	bootinfo.one_page_extensions = [
+		one
+		for one in frappe.get_all(
+			EXTENSION,
+			filters={"enabled": 1, "runs": ON_SCREEN, "view": PAGE},
+			fields=["name", "place", "record_doctype as doctype", "code", "review", "reviewed", "runs", "view"],
+			ignore_permissions=True,
+		)
+		# Only as reviewed: an extension changed since its review does not run.
+		if one.review == "Passed"
+		and one.reviewed == review.fingerprint(one.code, one.runs, one.doctype, one.place)
+	]
+	for one in bootinfo.one_page_extensions:
+		for kept in ("review", "reviewed", "runs", "view"):
+			one.pop(kept, None)
 
 
 def since(name: str, days: int) -> object:
@@ -116,12 +148,26 @@ def since(name: str, days: int) -> object:
 	return max(start, get_datetime(written)) if written else start
 
 
-def check(runs: str, doctype: str, view: str | None, event: str | None, code: str) -> None:
+def check(
+	runs: str, doctype: str, view: str | None, event: str | None, code: str, place: str | None = None
+) -> None:
 	"""Refuse what no extension may be, before anything is kept."""
 	if runs not in SCRIPTS:
 		raise guard.Refused(_("An extension runs on the screen or on the server."))
+	if runs == ON_SCREEN and view == PAGE:
+		from onedesk.one_studio import places
+
+		found = places.place_of(place)
+		if not found:
+			raise guard.Refused(_("{0} is not a page an extension can run on.").format(place))
+		page = places.PLACES[found[0]]
+		# The head's kind is the one the extension names, and is checked; a
+		# page's own kind (Communication, Event) is the page's, not opened.
+		named = None if page["doctype"] else doctype
+		guard.on_page(code, page["label"], set(page["events"]), named, site())
+		return
 	if runs == ON_SCREEN and view not in guard.VIEWS:
-		raise guard.Refused(_("An extension on the screen runs on a form or a list."))
+		raise guard.Refused(_("An extension on the screen runs on a form, a list or one of One's pages."))
 	if runs == ON_SERVER and event not in guard.EVENTS:
 		raise guard.Refused(
 			_("An extension on the server runs when a record is saved, submitted, cancelled or deleted.")
@@ -143,12 +189,21 @@ def write(
 	view: str | None = None,
 	event: str | None = None,
 	extension: str | None = None,
+	place: str | None = None,
 ) -> dict:
 	"""Keep an extension OneAI wrote, off, with its review: a new one, or a
 	new version of `extension`. Refuses what guard.py refuses."""
+	from onedesk.one_studio import places
+
 	roles.require()
-	check(runs, doctype, view, event, code)
-	said = review.ask(runs, doctype, event or view, explanation, code)
+	paged = runs == ON_SCREEN and (view == PAGE or bool(place))
+	if paged:
+		view = PAGE
+		doctype = places.doctype_for(place, doctype)
+		if not doctype:
+			raise guard.Refused(_("Say which kind of record's head it runs on."))
+	check(runs, doctype, view, event, code, place)
+	said = review.ask(runs, doctype, place if paged else (event or view), explanation, code)
 	doc = frappe.get_doc(EXTENSION, extension) if extension else frappe.new_doc(EXTENSION)
 	if extension:
 		doc.check_permission("write")
@@ -159,6 +214,7 @@ def write(
 			"runs": runs,
 			"record_doctype": doctype,
 			"view": view if runs == ON_SCREEN else None,
+			"place": place if paged else None,
 			"event": event if runs == ON_SERVER else None,
 			"explanation": explanation,
 			"asked": asked,
@@ -197,7 +253,16 @@ def validate(doc, method=None) -> None:
 
 def sync(doc, method=None) -> None:
 	"""Extension on_update: frappe's script made, changed, or turned off to
-	match."""
+	match. A page extension has none: it runs from the extension itself."""
+	if doc.runs == ON_SCREEN and doc.view == PAGE:
+		with _as_administrator():
+			for kind, _field in SCRIPTS.values():
+				if doc.script and frappe.db.exists(kind, doc.script):
+					frappe.delete_doc(kind, doc.script, ignore_permissions=True, force=True)
+		if doc.script:
+			doc.db_set("script", None, update_modified=False)
+		_heard(doc)
+		return
 	doctype, _switch = SCRIPTS[doc.runs]
 	name = doc.script or f"{PREFIX}{doc.name}"
 	other = next(kind for kind, _field in SCRIPTS.values() if kind != doctype)
@@ -231,6 +296,11 @@ def sync(doc, method=None) -> None:
 			script.save(ignore_permissions=True)
 	if doc.script != name:
 		doc.db_set("script", name, update_modified=False)
+	_heard(doc)
+
+
+def _heard(doc) -> None:
+	"""Turned on or off by a person, the other administrators hear."""
 	before = doc.get_doc_before_save()
 	# Written again by OneAI, it is off until somebody turns it on, which is
 	# when the others hear.
@@ -248,7 +318,7 @@ def _told(doc, link: bool = True) -> dict:
 	"""What the other administrators hear of an extension turned on, off or
 	deleted (notifications.py): from that moment it runs on everybody's work,
 	or no longer does."""
-	when = doc.event if doc.runs == ON_SERVER else doc.view
+	when = _place_said(doc) if doc.view == PAGE else _when(doc)
 	return {
 		"link": f"/desk/extension/{doc.name}" if link else None,
 		"who": frappe.utils.get_fullname(frappe.session.user),
@@ -257,6 +327,22 @@ def _told(doc, link: bool = True) -> dict:
 		"kind": _(doc.record_doctype),
 		"explanation": doc.explanation or "",
 	}
+
+
+def _place_said(doc) -> str:
+	"""A page extension's place as a person reads it: OneMail, a conversation
+	opened."""
+	from onedesk.one_studio import places
+
+	found = places.place_of(doc.get("place"))
+	if not found:
+		return doc.get("place") or ""
+	page, event = found
+	# A product's name is a name; the head's is words. Both are marked where
+	# places.py writes them, so they are looked up before they are said.
+	label = places.PLACES[page]["label"]
+	about = places.PLACES[page]["events"][event]["about"]
+	return _("{0}: {1}").format(_(label), _(about))
 
 
 def remove(doc, method=None) -> None:

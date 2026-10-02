@@ -664,3 +664,30 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	padding: 0;
 	border: 0;
 }
+
+/* A line an extension shows on one of One's pages (public/js/places.js),
+ * in the tone it asked for: the desk's own pairs, the same frappe's form
+ * dashboard draws its notes in, so a head note and a page note match. */
+.one-place-notes:empty {
+	display: none;
+}
+
+.one-place-notes {
+	display: grid;
+	gap: 6px;
+	margin: 8px 0;
+}
+
+.one-place-note {
+	padding: 6px 10px;
+	border-radius: 8px;
+	font-size: var(--text-sm);
+	line-height: 1.4;
+	background: var(--bg-gray);
+	color: var(--text-on-gray);
+}
+
+.one-place-note--blue { background: var(--bg-blue); color: var(--text-on-blue); }
+.one-place-note--green { background: var(--bg-green); color: var(--text-on-green); }
+.one-place-note--orange { background: var(--bg-orange); color: var(--text-on-orange); }
+.one-place-note--red { background: var(--bg-red); color: var(--text-on-red); }

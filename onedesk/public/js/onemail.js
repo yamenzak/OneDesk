@@ -437,9 +437,44 @@ onedesk.OneMail = class OneMail {
 		// What OneAI read in each open message (intake.js).
 		this.$read.find(".om-intake").each((_, el) => onedesk.intake.panel($(el), { message: el.dataset.intake }));
 		this.draw_records();
+		this.extended();
 		this.$read.scrollTop(0);
 		const open = this.$read.find(".om-message:not(.om-folded)").first()[0];
 		if (open && this.messages.length > 1) open.scrollIntoView({ block: "start" });
+	}
+
+	// The workspace's extensions on OneMail (one_studio/places.py), told a
+	// conversation is open with a copy of it, and lent a note under its head
+	// and a button beside Reply. Drawn again with the conversation, so what
+	// they add is never there twice.
+	extended() {
+		const $notes = $('<div class="one-place-notes"></div>').insertAfter(this.$read.find(".om-conv-head"));
+		const $answer = this.$read.find(".om-answer");
+		onedesk.places.emit(
+			"onemail.conversation",
+			{
+				subject: (this.messages[0] || {}).subject || "",
+				mailbox: (this.box && this.box.email) || "",
+				folder: (this.folder && this.folder.kind) || "",
+				messages: this.messages.map((one) => ({
+					sender: one.sender,
+					sender_full_name: one.sender_full_name,
+					recipients: one.recipients,
+					cc: one.cc,
+					subject: one.subject,
+					date: one.communication_date,
+					sent_or_received: one.sent_or_received,
+					has_attachment: !!one.has_attachment,
+					reference_doctype: one.reference_doctype,
+					reference_name: one.reference_name,
+				})),
+			},
+			{
+				note: (text, tone) => $notes.append(onedesk.places.note(text, tone)),
+				action: (label, handler) =>
+					frappe.ui.button({ label: String(label || ""), variant: "subtle", onclick: () => handler() }).appendTo($answer),
+			}
+		);
 	}
 
 	// The records the conversation is filed on, but its contacts, each with

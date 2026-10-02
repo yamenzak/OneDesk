@@ -18,6 +18,7 @@ frappe.ui.form.on("*", {
 	},
 	refresh(frm) {
 		onedesk.head.draw(frm);
+		onedesk.head.extended(frm);
 		onedesk.head.linked(frm);
 		// A workspace administrator customizes the form from its own menu
 		// (one/customize.py). Frappe's own Customize is its System Managers'.
@@ -31,6 +32,37 @@ frappe.ui.form.on("*", {
 		}
 	},
 });
+
+// The workspace's extensions on a record's head (one_studio/places.py), told
+// the record is drawn with a copy of its fields, and lent a verb beside the
+// head's own, a figure in its band, and a note under it. Only a saved record
+// with a head, and only extensions written for its kind of record.
+onedesk.head.extended = (frm) => {
+	if (frm.is_new() || !frm.one_headed || !onedesk.places) return;
+	const head = (frm.doc.__onload && frm.doc.__onload.one_head) || {};
+	const figures = [];
+	const record = {};
+	for (const [key, value] of Object.entries(frm.doc)) if (!key.startsWith("__")) record[key] = value;
+	const TONE = { gray: "gray", blue: "blue", green: "green", orange: "orange", red: "red" };
+	onedesk.places.emit(
+		"record_head.drawn",
+		record,
+		{
+			verb: (label, handler) => frm.add_custom_button(String(label || ""), () => handler()),
+			figure: (label, value) => figures.push({ label: String(label || ""), value: String(value ?? "") }),
+			note: (text, tone) =>
+				frm.dashboard.add_comment(frappe.utils.escape_html(String(text || "")), TONE[tone] || "gray", true),
+		},
+		frm.doctype
+	);
+	if (!figures.length) return;
+	// Its figures join the head's own in one band, after them.
+	onedesk.band.show(
+		frm,
+		[...(head.band || []), ...figures].map((one) => onedesk.band.stat(one.label, one.value, one.route, one.tone, one)),
+		head.charts || []
+	);
+};
 
 onedesk.head.draw = (frm, drawn = null) => {
 	frm.one_primary_verb = null;

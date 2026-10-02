@@ -156,7 +156,6 @@ REFUSED_ON_SCREEN = (
 	("$.post", "calls the network"),
 	("frappe.call", "calls the server"),
 	("frappe.xcall", "calls the server"),
-	("frappe.db.", "calls the server"),
 	("frappe.client", "calls the server"),
 	("frappe.model.with_doc", "calls the server"),
 	("eval(", "runs text as code"),
@@ -312,22 +311,63 @@ def on_server(code: str, doctype: str, site: Site, event: str | None = None) -> 
 	return touched
 
 
+#: What screen code may ask the server, all of it reading, all of it as the
+#: person whose screen it is: frappe answers these with that person's own
+#: permissions, so a lookup shows them nothing they could not open.
+LOOKUPS = ("get_value", "get_list", "count", "exists")
+
+_DB = re.compile(r"frappe\.db\.([A-Za-z_]+)")
+
+#: Text the person is shown, __("Domain"): a label, not the kind of that name.
+_SAID = re.compile(r"""\b__\(\s*(["'`])[^"'`\n]*\1""")
+
+
 def on_screen(code: str, doctype: str, site: Site) -> set:
-	"""Refuse screen code that does more than change the form and speak to
-	the person; return the kinds it names."""
+	"""Refuse screen code that does more than change the form, look things up
+	as the person, and speak to them; return the kinds it names."""
 	text = code or ""
 	for needle, why in REFUSED_ON_SCREEN:
 		if needle in text:
 			raise Refused(f"It {why} ({needle.rstrip('(')}), which an extension on the screen may not.")
-	touched = {doctype}
+	for called in _DB.findall(text):
+		if called not in LOOKUPS:
+			raise Refused(
+				f"It calls frappe.db.{called}, which changes or reaches past what the person sees; "
+				f"on the screen only {', '.join('frappe.db.' + one for one in LOOKUPS)} may be used."
+			)
+	# A page extension on OneMail or OneCalendar names no kind of its own: it
+	# sees only what its page hands it.
+	touched = {doctype} if doctype else set()
 	words = set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", text))
-	for quoted in re.findall(r"""["'`]([^"'`\n]{1,140})["'`]""", text):
+	for quoted in re.findall(r"""["'`]([^"'`\n]{1,140})["'`]""", _SAID.sub("__(", text)):
 		words.add(quoted)
 		if quoted in site.doctypes:
 			touched.add(quoted)
 	_kinds(touched, site)
 	_fields(words, touched, site)
 	return touched
+
+
+#: What it listens for: an event, or the place and its event as
+#: places.py names them ("conversation" or "onemail.conversation").
+_LISTENS = re.compile(r"""\bone\.on\(\s*["'`]([A-Za-z_.]+)["'`]""")
+
+
+def on_page(code: str, page: str, events: set, doctype: str, site: Site) -> set:
+	"""Refuse page code that listens for what its page does not have
+	(`events`, from places.py), and everything screen code may not do.
+	Return the kinds it names."""
+	heard = {one.rsplit(".", 1)[-1] for one in _LISTENS.findall(code or "")}
+	if not heard:
+		first = sorted(events)[0] if events else "<event>"
+		raise Refused(
+			f'It does not listen for anything: write one.on("{first}", (data, page) => {{ ... }}), '
+			f"with one of {page}'s events: {', '.join(sorted(events))}."
+		)
+	strange = sorted(heard - set(events))
+	if strange:
+		raise Refused(f"It listens for {', '.join(strange)}, which {page} does not have; it has {', '.join(sorted(events))}.")
+	return on_screen(code, doctype, site)
 
 
 def _kinds(touched: set, site: Site) -> None:

@@ -68,7 +68,9 @@ def test_what_reaches_past_the_administrator_is_refused_on_the_server(code):
 	[
 		'frappe.call({method: "x"})',
 		'frappe.xcall("x")',
-		'frappe.db.get_value("Customer", "x", "y")',
+		'frappe.db.set_value("Customer", "x", "y", 1)',
+		'frappe.db.insert({doctype: "Customer"})',
+		'frappe.db.get_value("Salary Slip", "x", "net_pay")',
 		'fetch("https://example.com")',
 		"document.cookie",
 		'localStorage.setItem("a", 1)',
@@ -371,8 +373,82 @@ def test_a_change_keeps_where_and_when():
 	extension_code, changed only the number, and sent no event. A change that
 	leaves out where or when keeps what the extension has."""
 	write = (STUDIO / "ai.py").read_text().split("def write_extension(", 1)[1].split("\ndef ", 1)[0]
-	assert "view, event = view or was.view, event or was.event" in write
+	assert "view, event, place = view or was.view, event or was.event, place or was.place" in write
 	instruction = {a["name"]: a for a in json.loads((tree.APP / "fixtures" / "ai_action.json").read_text())}[
 		"studio"
 	]["instruction"]
 	assert "read it with extension_code first, change only what was asked" in instruction
+
+
+def test_a_screen_extension_may_look_a_record_up_as_the_person():
+	"""Read-only lookups run with the viewer's own permissions; changing a
+	record from the screen is still refused."""
+	code = 'frappe.db.get_value("Customer", frm.doc.customer, "territory").then((r) => frm.set_intro(r.message.territory));'
+	assert guard.on_screen(code, "Customer", SITE) == {"Customer"}
+	assert set(guard.LOOKUPS) == {"get_value", "get_list", "count", "exists"}
+
+
+def test_a_page_extension_listens_only_for_what_its_page_has():
+	events = {"conversation", "compose"}
+	good = 'one.on("conversation", (mail, page) => { page.note(__("A key customer"), "blue"); });'
+	assert guard.on_page(good, "OneMail", events, "Customer", SITE) == {"Customer"}
+	with pytest.raises(guard.Refused, match="does not have"):
+		guard.on_page('one.on("deleted", () => {});', "OneMail", events, "Customer", SITE)
+	with pytest.raises(guard.Refused, match="does not listen"):
+		guard.on_page("page.note('x')", "OneMail", events, "Customer", SITE)
+	with pytest.raises(guard.Refused):
+		guard.on_page('one.on("conversation", () => frappe.xcall("x"));', "OneMail", events, "Customer", SITE)
+
+
+def _places():
+	spec = importlib.util.spec_from_file_location("studio_places", STUDIO / "places.py")
+	module = importlib.util.module_from_spec(spec)
+	spec.loader.exec_module(module)
+	return module
+
+
+def test_every_page_says_what_it_gives_and_lends_only_known_powers():
+	places = _places()
+	for key in places.keys():
+		page, event = places.place_of(key)
+		said = places.PLACES[page]["events"][event]
+		assert said["about"] and said["gives"]
+		assert set(said["may"]) <= set(places.POWERS), key
+	assert places.place_of("onemail.nothing") is None
+	assert places.doctype_for("onemail.conversation", "Customer") == "Communication"
+	assert places.doctype_for("record_head.drawn", "Customer") == "Customer"
+
+
+def test_each_page_fires_its_events_with_only_its_powers():
+	"""What places.py lists is what the pages fire, and nothing else."""
+	places = _places()
+	public = tree.APP / "public" / "js"
+	fired = {
+		"onemail.conversation": (public / "onemail.js").read_text(),
+		"onemail.compose": (public / "mail_compose.js").read_text(),
+		"record_head.drawn": (public / "head.js").read_text(),
+		"onecalendar.event": (tree.APP / "one_calendar" / "page" / "onecalendar" / "onecalendar.js").read_text(),
+	}
+	assert set(fired) == set(places.keys())
+	for key, source in fired.items():
+		assert f'"{key}"' in source, key
+	runtime = (public / "places.js").read_text()
+	assert "JSON.parse(JSON.stringify(data" in runtime, "an extension sees a copy, never the page's own"
+	assert "onedesk.places.tripped" in runtime
+	assert "/assets/onedesk/js/places.js" in HOOKS
+
+
+def test_a_page_extension_on_onemail_is_not_held_to_opening_mail_records():
+	"""It sees only what OneMail hands it, so Communication, which the
+	administrator may not open as records, is not checked."""
+	code = 'one.on("onemail.conversation", (mail, page) => page.note(__("A key customer"), "blue"));'
+	assert guard.on_page(code, "OneMail", {"conversation", "compose"}, None, SITE) == set()
+
+
+def test_a_label_shown_to_the_person_is_not_a_kind_touched():
+	"""__("User") is words on the screen; "User" on its own names the kind."""
+	shown = 'one.on("drawn", (record, page) => page.figure(__("User"), record.owner));'
+	assert guard.on_page(shown, "Record Head", {"drawn"}, "Customer", SITE) == {"Customer"}
+	looked_up = 'one.on("drawn", (record, page) => frappe.db.get_value("User", record.owner, "full_name"));'
+	with pytest.raises(guard.Refused):
+		guard.on_page(looked_up, "Record Head", {"drawn"}, "Customer", SITE)

@@ -5620,6 +5620,41 @@ drawn from the whole record, levels the reader cannot read included.
 Nothing of an extension's code reached it (a Code field is never on a card),
 but a level-1 field on another record could have.
 
+**On One's own pages.** A Client Script reaches a kind of record's form and
+its list and nothing else, so OneMail, OneCalendar and a record's head, all
+drawn by One's own code, could not be changed by any extension. Now they can,
+within a contract:
+
+- `one_studio/places.py` is the one list of pages, what happens on each that
+  an extension may hear, what it is told (a copy), and the few things it may
+  do there: OneMail when a conversation is opened (a note, a button beside
+  Reply) and when a message is being written anywhere (a note, fill subject,
+  cc or bcc); the head of a record each time it is drawn (a verb, a figure in
+  the band, a note); OneCalendar when an event's card is opened (a note, a
+  button).
+- An extension says `one.on("conversation", (mail, page) => …)`. It comes
+  with the boot only once it has passed the review, runs once
+  (`public/js/places.js`), and each handler is guarded: what it trips on is
+  logged under its name as a form's are, and the page goes on. The guard
+  refuses an event the page does not have; the review reads the place.
+- Screen code may now look records up as the person (`frappe.db.get_value`,
+  `get_list`, `count`, `exists`; frappe answers with their permissions);
+  every other `frappe.db` call is still refused. A label passed to `__()` is
+  words on the screen, not the kind of that name (`__("Domain")` was refused
+  as the Domain doctype).
+- OneAI reads the list through `extension_places`, and the studio
+  instruction now teaches the form's events, child tables, frm's methods, the
+  list's settings and the pages. Four new cases in the eval suite (form,
+  list, OneMail, head): 4 of 4 pass on Gemma.
+- The reviewer (Gemini 2.5 Flash) answered with cut-off JSON, read as a
+  refusal: its thinking shared an 800-token budget. Now 4000, as the other
+  two Gemini actions have.
+- Tried on dev with three extensions, each turned on: a OneMail note
+  counting the messages, a Customer head figure (the email's domain) and
+  note, and a OneCalendar note on an event with no place. All three drawn;
+  Reply still opens. The notes use the desk's own tone pairs, the same as
+  frappe's form dashboard draws its note in.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

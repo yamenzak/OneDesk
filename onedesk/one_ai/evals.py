@@ -186,6 +186,35 @@ CASES = [
 		"card": True,
 	},
 	{
+		"id": "screen-form",
+		"page": _on("Customer", "List"),
+		"ask": "On the customer form, hide the Website field unless the customer type is Company.",
+		# A form customization's "show when" does it without code, which is as right.
+		"tools": ("write_extension", "customize"),
+		"card": True,
+	},
+	{
+		"id": "screen-list",
+		"page": _on("Customer", "List"),
+		"ask": "On the customer list, mark customers with no territory with a red No Territory label.",
+		"tools": ("write_extension",),
+		"card": True,
+	},
+	{
+		"id": "screen-mail",
+		"page": {},
+		"ask": "When I open a conversation in OneMail from anyone at acmeco.example, show a note that they are a key customer.",
+		"tools": ("write_extension",),
+		"card": True,
+	},
+	{
+		"id": "screen-head",
+		"page": _on("Customer", "List"),
+		"ask": "On each customer's head, show how many sales invoices they have.",
+		"tools": ("write_extension",),
+		"card": True,
+	},
+	{
 		"id": "mail-words",
 		"page": _on("Customer", "List"),
 		"ask": "In my inbox wren.4dl@m.4dl.app, move any email with the word invoice into an Invoices folder.",
