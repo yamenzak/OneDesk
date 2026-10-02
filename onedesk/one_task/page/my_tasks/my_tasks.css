@@ -116,6 +116,16 @@
 	color: var(--ink-gray-9);
 }
 
+/* What the workspace's extensions add under the view's name (places.js),
+ * set in as far as the name and the quick add are. */
+.one-tasks-main > .one-place-spot {
+	padding: calc(var(--spacing) * 3) calc(var(--spacing) * 4) 0;
+}
+
+.one-tasks-main > .one-place-spot .one-place-notes {
+	margin: 0;
+}
+
 .one-tasks-add {
 	display: flex;
 	gap: calc(var(--spacing) * 2);
