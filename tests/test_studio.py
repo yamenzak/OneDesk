@@ -309,3 +309,24 @@ def test_the_errors_are_a_tab_on_the_extension_and_mending_a_verb_at_its_top():
 	assert '"onedesk.one_studio.ai.mend_extension"' in HOOKS
 	legal = (STUDIO / "legal.py").read_text()
 	assert "asks OneAI to mend one" in legal
+
+
+def test_what_frappes_sandbox_refuses_is_refused_before_it_runs():
+	"""str.format is in frappe's UNSAFE_ATTRIBUTES: an extension using it would
+	run into an error on every save."""
+	with pytest.raises(guard.Refused, match="f-string"):
+		guard.on_server('frappe.throw(_("No {0}").format(doc.name))', "Customer", SITE)
+	assert guard.on_server('frappe.throw(_("No mobile") + ": " + doc.name)', "Customer", SITE) == {"Customer"}
+	assert guard.on_server('x = f"Hi {doc.name}"', "Customer", SITE) == {"Customer"}
+
+
+def test_the_submitted_record_and_after_delete_events_are_offered():
+	for event in ("Before Save (Submitted Document)", "After Save (Submitted Document)", "After Delete"):
+		assert event in guard.EVENTS, event
+	spec = json.loads((STUDIO / "doctype" / "extension" / "extension.json").read_text())
+	options = next(f for f in spec["fields"] if f["fieldname"] == "event")["options"].split("\n")
+	assert options == list(guard.EVENTS), "the form offers what the guard allows"
+	actions = {a["name"]: a for a in json.loads((tree.APP / "fixtures" / "ai_action.json").read_text())}
+	told = actions["studio"]["instruction"]
+	for fact in ("str.format", "In an After event", "doc.has_value_changed", "any import"):
+		assert fact in told, fact

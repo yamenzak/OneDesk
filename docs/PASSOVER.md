@@ -5436,6 +5436,25 @@ you just wrote", which it refused. `run._asks`: a reply that ends by asking the
 person something is not pressed for the card; they answer, and the card comes
 after. Not yet tried live: to test with that same request.
 
+**Server extensions taught frappe's sandbox.** Read against frappe's own
+`safe_exec` and probed on the site: no import, no underscore names but `_()`,
+and `str.format` refused (`UNSAFE_ATTRIBUTES`), so `_("…{0}").format(x)` would
+have run into an error on every save; f-strings, `+`, `%`, `try`, `def`,
+`doc.is_new()`, `doc.has_value_changed()`, child tables and `frappe.utils` all
+work. The writer is now told which event does what (a Before event's changes
+are saved, an After event's are not, and a throw there undoes the save), what
+there is and what fails; the guard refuses `.format` with what to do instead;
+the mender and the reviewer know it too. Three more events: Before and After
+Save (Submitted Document), and After Delete.
+
+**Gemma 4 for testing.** `patches/gemma_default.py`: text runs on Gemma 4
+(`gemma-4-26b-a4b-it`, Workers AI, 200/600 credits a million against Gemini
+2.5 Flash's 600/5000), and OneStudio's writer and mender with it. Gemini 2.5
+Flash stays where it was measured to be needed (Print Design, Workspace Setup)
+and on the second reading of extension code. Tried: "What do our extensions
+do?" on Gemma first answered "none", having narrowed to the kind "Extension";
+`extensions_here` now ignores that, and it answers all three, in 11 seconds.
+
 **Found on the way:** the panel's brief of the record being looked at was
 drawn from the whole record, levels the reader cannot read included.
 `chat._brief` now applies frappe's `apply_fieldlevel_read_permissions` first.

@@ -89,7 +89,11 @@ def _recent_mistakes(name: str) -> int:
 
 
 def extensions_here(
-	record: Annotated[str, "A kind of record, such as Customer, to read only its extensions."] | None = None,
+	record: Annotated[
+		str,
+		"Only to narrow to one kind of record the extensions run on, such as Customer. Leave it out to read them all.",
+	]
+	| None = None,
 ) -> dict:
 	"""The workspace's extensions, for its administrators: each one's title,
 	where and when it runs, whether it is on, what it does, its review, and
@@ -97,6 +101,10 @@ def extensions_here(
 	or changing one."""
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees the extensions."}
+	# A model on the Extensions list reads "Extension" as the kind to narrow
+	# to, and was told there were none (measured, Gemma 4).
+	if record == extensions.EXTENSION:
+		record = None
 	filters = {"record_doctype": record} if record else {}
 	rows = frappe.get_list(
 		extensions.EXTENSION,
@@ -187,7 +195,7 @@ def write_extension(
 	view: Annotated[Literal["Form", "List"], "On Screen only: the form or the list."] | None = None,
 	event: Annotated[
 		str,
-		"On Server only: Before Insert, Before Validate, Before Save, After Insert, After Save, Before Submit, After Submit, Before Cancel, After Cancel or Before Delete.",
+		"On Server only: Before Insert, Before Validate, Before Save, After Insert, After Save, Before Submit, After Submit, Before Cancel, After Cancel, Before Save (Submitted Document), After Save (Submitted Document), Before Delete or After Delete.",
 	]
 	| None = None,
 	extension: Annotated[str, "To change an extension, or to mend one the review refused: its name."]

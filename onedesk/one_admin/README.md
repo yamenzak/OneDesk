@@ -389,8 +389,11 @@ What is yours to decide:
 - **Offered**: workspaces may pick it. **Offer** and **Stop offering** are on
   each row.
 - **Default For**: what an action needing that runs on when a workspace picked
-  nothing. Gemini is the default: the owner's call is that it is better at
-  everything OneAI does. When nothing is the default for what an action needs
+  nothing. Gemma 4 (`gemma-4-26b-a4b-it`, the one on sale) is the default for
+  text, the owner's call for testing at a fraction of Gemini's price; Gemini
+  2.5 Flash stays on what was measured to need it (Print Design, Workspace
+  Setup) and on the second reading of an extension's code (Review an
+  Extension). When nothing is the default for what an action needs
   (reading a scan, transcribing a recording), it runs on the default for
   something else that can do it, else the cheapest offered model from the
   **Preferred Provider** in Settings (Google). A workspace whose own pick is
@@ -649,7 +652,7 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   `actions.default_model` is what an action runs on when nobody picked, and
   what a withdrawn pick falls back to; `tell.models_gone` is Model Withdrawn;
   `home._unmodelled` the Needs You row. `patches/gemini_default.py` made
-  Gemini 2.5 Flash the default. `ai.model_facts` is the catalogue for OneAI.
+  Gemini 2.5 Flash the default, and `patches/gemma_default.py` Gemma 4. `ai.model_facts` is the catalogue for OneAI.
 - **Credits** (`ledger.py`, over `credits.py`, which has no frappe in it):
   a balance is a sum; `left_of` is one grant's rest; `take_back` writes a
   spend of it (source Operator); `last_gift` travels in `proxy.hello` so the

@@ -75,6 +75,11 @@ REFUSED_ATTRIBUTES = frozenset(
 	}
 )
 
+#: Attributes frappe's own sandbox refuses (safe_exec.UNSAFE_ATTRIBUTES) that
+#: a writer reaches for anyway: caught here, with what to do instead, rather
+#: than at the first save.
+UNSAFE_IN_FRAPPE = frozenset({"format", "format_map"})
+
 #: Names an extension never uses on the server.
 REFUSED_NAMES = frozenset(
 	{
@@ -163,7 +168,10 @@ EVENTS = (
 	"After Submit",
 	"Before Cancel",
 	"After Cancel",
+	"Before Save (Submitted Document)",
+	"After Save (Submitted Document)",
 	"Before Delete",
+	"After Delete",
 )
 
 #: The views a screen extension may run on.
@@ -210,6 +218,10 @@ def on_server(code: str, doctype: str, site: Site) -> set:
 		if isinstance(node, (ast.Import, ast.ImportFrom)):
 			raise Refused("It imports a module.")
 		if isinstance(node, ast.Attribute):
+			if node.attr in UNSAFE_IN_FRAPPE:
+				raise Refused(
+					f"It uses {node.attr}, which frappe's sandbox refuses: build the text with an f-string or + instead."
+				)
 			if node.attr in REFUSED_ATTRIBUTES or node.attr.startswith("_"):
 				raise Refused(f"It uses {node.attr}, which no extension may.")
 			words.add(node.attr)
