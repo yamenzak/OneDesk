@@ -47,6 +47,10 @@ same in a line.
 
 Webhooks are the integration One offers today (Workspace › Webhooks).
 
+- **OneStudio, not yet**: an extension on a schedule (an Automation's
+  schedule does it), an extension behind an API call, a table inside a
+  record type, and a record type's own numbering.
+
 ## Stages not finished
 
 - **The phone answer** (stage 7 of the window shell): what the dock and the

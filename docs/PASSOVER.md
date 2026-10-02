@@ -146,6 +146,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | OneCalendar | done |
 | Products | OneTask | done |
 | Products | OneAdmin › Home | done |
+| Products | OneStudio (Extensions, Forms, Record Types) | built during the pass, nine points below |
 | Products | OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin | each screen listed here once we reach it |
 
 Noticed along the way, for the screen it belongs to:
@@ -5220,6 +5221,67 @@ administrator; Lead Assignment opens for a Sales Manager, a rule on tasks
 and one with a call in it are refused, `utm_source in ("Website", "Email")`
 saves. `one/reach.py` is the check, run with `bench execute`, and finds
 none now.
+
+### OneStudio
+
+Built during the pass, on the user's call: Client and Server Scripts, which
+the frappe audit had marked "not a customer's", are offered after all, but
+strictly: OneAI writes them, nobody on the workspace reads or writes the
+code, and an administrator turns each on. Beside them, the Customize page
+moved in as Forms, and a workspace can keep kinds of record of its own,
+Record Types. One module, One Studio, for workspace administrators only;
+its own mark, a row in the dock before OneAdmin.
+
+1. Notifications: **Extensions Failing**, each morning, the extensions that
+   ran into a mistake the day before, to the administrators. Nothing else is
+   sent; an extension's own messages are shown where it runs.
+2. OneAI: `write_extension` and `design_record_type` make cards, on their
+   own action (OneStudio), a stronger model told what each may be;
+   `extensions_here` and `record_types_here` read what there is. A second
+   action, Review an Extension, reads the code against its explanation with
+   none of the conversation, and an extension it does not pass cannot be
+   turned on. Suggestions on both lists and forms. Tried live: an extension
+   stopping a customer saved without a mobile number, and a Company Van
+   record type, each from one sentence, each made by approving its card.
+3. Intake: nothing reaches here, and nothing here is ever written from what
+   OneAI read in a mail or a file: only on an administrator's own ask.
+4. Permissions: workspace administrators only. The code is at permission
+   level 1, which only frappe's System Manager reaches, so it is in no form,
+   list or API answer; `write_extension.unshown` keeps it out of the chat as
+   it is streamed and kept. The guard refuses what reaches past the
+   administrator (SQL, get_all, db_set, ignore_permissions, flags, mail,
+   requests, jobs, unseen kinds and fields; on the screen the server, the
+   network, markup and storage). frappe's scripts and DocTypes are made as
+   Administrator, since frappe keeps both to its managers. A record type's
+   fields run nothing, and its users may not delete.
+5. Cross-module: an extension runs on any app's records the administrator
+   may open; a record type belongs to one app, whose roles use it, and is in
+   that app's rail under Your Records; Forms lists every app's forms.
+6. UI: frappe's own list and form for Extensions and Record Types, with
+   heads (On, Off, Refused by Review, Cannot Run Here; what it does;
+   mistakes this week; Turn On and Turn Off; records with a link to them).
+   Forms is the Customize page with no form named: a search, the changed
+   ones first, then by app.
+7. Documented: one_studio/README.md, Extensions, Forms, Record Types and
+   Asking OneAI above Under the hood.
+8. Legal: Terms 10 (OneAI writes extensions, an administrator turns them
+   on, they are the customer's responsibility; record types are customer
+   content) and AI Addendum 8 (the writer, the second reading, nothing runs
+   unapproved).
+9. Built from frappe: its Client Script and Server Script, its custom
+   DocType, its list, form, Link and Data controls, its sidebar layers; ours
+   is the guard, the review, the record of what was asked, and the rules.
+
+**Found on the way:** a server script that trips on a mistake stops the
+save of whoever triggered it. Every extension's code runs wrapped: a
+`frappe.throw` still stops the save as meant, anything else is logged
+under the extension's name and the record saves. Tried: a deliberately
+broken extension, the customer saved and the mistake logged.
+
+**For the operator:** server extensions run only where the bench has
+`server_script_enabled` in `common_site_config.json`; it is on the dev bench,
+and it is a step when a bench is made. Without it an extension on the server
+says Cannot Run Here.
 
 ## OneLegal
 

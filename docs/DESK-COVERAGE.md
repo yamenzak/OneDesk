@@ -12,11 +12,11 @@ sidebars, settings pages and code, then read one by one.
 
 | Answer | What it means | Count |
 |---|---|--:|
-| In One | a sidebar entry, a settings section or a record part reaches it | 61 |
+| In One | a sidebar entry, a settings section or a record part reaches it | 63 |
 | **Add, P3** | small, or for some customers; in docs/BACKLOG.md | 16 |
 | Later | decided against for now; in docs/BACKLOG.md | 7 |
 | Underneath | logs, queues, caches and settings the product runs on | 60 |
-| Not a customer's | the platform's or a developer's: schema, scripts, the desk's own furniture | 35 |
+| Not a customer's | the platform's or a developer's: schema, scripts, the desk's own furniture | 33 |
 | Website, out | frappe's website builder; One is not one | 15 |
 
 P1 and P2 are done, bar Import and Export, which is its own feature. What is
@@ -238,7 +238,7 @@ after saving.
 | Core | Data Import Log | Underneath | runs under the product; no screen wanted |
 | Core | Deleted Document | In One | One › Recycle Bin (one/recycle.py) |
 | Core | DocShare | Underneath | runs under the product; no screen wanted |
-| Core | DocType | Not a customer's | the platform's or a developer's; only an operator |
+| Core | DocType | Not a customer's | the platform's or a developer's; a workspace's own custom ones are OneStudio › Record Types (one_studio/record_types.py) |
 | Core | DocType Layout | Not a customer's | the platform's or a developer's; only an operator |
 | Core | DocType Settings Map | Not a customer's | the platform's or a developer's; only an operator |
 | Core | Document Naming Rule | In One | Workspace › Numbering and the Settings dialog's Naming tab (one/numbering.py) |
@@ -279,7 +279,7 @@ after saving.
 | Core | Scheduled Job Type | Underneath | runs under the product; no screen wanted |
 | Core | Scheduler Event | Underneath | runs under the product; no screen wanted |
 | Core | Security Settings | Underneath | One's Sign-in section writes the parts that matter |
-| Core | Server Script | Not a customer's | the platform's or a developer's; only an operator |
+| Core | Server Script | In One | OneStudio › Extensions: written by OneAI only, reviewed, on a record event (one_studio/extensions.py) |
 | Core | Session Default Settings | **Add, P3** | Defaults a person works under, such as their company |
 | Core | Submission Queue | Underneath | runs under the product; no screen wanted |
 | Core | Success Action | **Add, P3** | What a person sees after saving a record |
@@ -292,7 +292,7 @@ after saving.
 | Core | User Type | Not a customer's | the platform's or a developer's; only an operator |
 | Core | Version | In One | One › Audit Log › Changes (one/audit.py) |
 | Core | View Log | Underneath | runs under the product; no screen wanted |
-| Custom | Client Script | Not a customer's | the platform's or a developer's; only an operator |
+| Custom | Client Script | In One | OneStudio › Extensions: written by OneAI only, reviewed (one_studio/extensions.py) |
 | Custom | Custom Field | In One | Customize page |
 | Custom | Customize Form | In One | replaced by the Customize page |
 | Custom | Property Setter | In One | Customize page |

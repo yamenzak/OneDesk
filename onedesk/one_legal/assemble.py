@@ -22,7 +22,7 @@ from .registry import clauses_for, subprocessor_rows
 
 #: Every module that declares clauses. Imported for the side effect, in a fixed
 #: order so the registry is the same on every process — the hash depends on it.
-MODULES = ("one", "one_admin", "one_ai", "one_storage", "one_mail", "one_intake", "one_hr", "one_calendar", "one_task")
+MODULES = ("one", "one_admin", "one_ai", "one_storage", "one_mail", "one_intake", "one_hr", "one_calendar", "one_task", "one_studio")
 
 _loaded = False
 

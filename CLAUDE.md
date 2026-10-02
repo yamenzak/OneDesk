@@ -118,6 +118,12 @@ break each other's imports on sites that carry only one of them.
   what a rail links to for their System Manager; the space's `access.py`
   gives it to the roles People hands out, and
   `bench execute onedesk.one.reach.check` lists any link that still refuses.
+- **Code a workspace runs is code OneAI wrote** (OneStudio). Nothing an
+  administrator writes runs; an extension is kept off until guard.py has read
+  it and a second model has passed it, its code is at a level only System
+  Manager reads, and a tool's code argument is `unshown`. Read
+  `one_studio/README.md` before touching scripts, DocTypes or what OneAI may
+  write.
 - **`docs/ACCOUNTS.md` is where a company's accounts come from**, and why
   onboarding must not default to the country's chart of accounts. Read it
   before touching company setup; the instinct it warns about is the obvious

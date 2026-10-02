@@ -255,7 +255,11 @@ Frappe trusts whoever writes these, because only its System Managers can. A
 workspace administrator is not that, so a row they save is **held**, as a
 workspace notification rule already is (`one/rules.py`):
 
-- **Nothing that runs.** No Client Script, no Server Script, no virtual field
+- **Nothing that runs.** (Since 2026-10, code does run, but only code OneAI
+  writes in OneStudio, read by a guard and a second model, kept where no
+  administrator reads or changes it, and turned on by one: see
+  `one_studio/README.md`. Nothing an administrator writes runs.) No Client
+  Script, no Server Script, no virtual field
   (its options are Python), no Custom HTML Block script. A `depends_on` must
   be a field name or a comparison of fields and values, parsed by a grammar
   rather than evaluated. The desk runs `eval:` strings as JavaScript, and a
@@ -600,7 +604,8 @@ some people. It was the desk's message; the other two it refused. Now:
   - A condition is read by `plain`, a grammar of the record's fields, plain
     values and comparisons, and is never run: `eval:doc.status != 'Closed'`
     passes, `eval:doc.x()` and `eval:frappe.call(...)` do not.
-  - Client and Server Scripts are refused outright from the page.
+  - Client and Server Scripts are refused outright from the page; OneAI
+    writes them in OneStudio (one_studio/extensions.py).
 - **Only business forms**: not a child table, not a single, and not the
   framework's or One's own modules; only a form the administrator can read.
 - **Checked before written.** Adding a field alters the table, which the

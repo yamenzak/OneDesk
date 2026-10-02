@@ -123,7 +123,8 @@ DOCUMENTS = {
 		# 7: credits we give by hand, their expiry, and taking back a mistake.
 		# 8: first agreed on the signup page, before payment.
 		# 9: closing a workspace yourself, and the full download.
-		"revision": 9,
+		# 10: extensions OneAI writes and an administrator turns on; record types.
+		"revision": 10,
 		"summary": "The agreement between your organisation and Four Degree Labs for the use of One.",
 	},
 	"aup": {
@@ -178,7 +179,8 @@ DOCUMENTS = {
 		# 5: OneAI reads a file in OneCloud when asked.
 		# 6: OneAI reads your calendar, and colleagues' busy times.
 		# 7: OneAI reads your tasks, and suggests tasks and their steps.
-		"revision": 7,
+		# 8: OneAI writes extensions, read a second time, and designs record types.
+		"revision": 8,
 		"summary": "How OneAI works, which models run, and what happens to what you send it.",
 	},
 	"licences": {

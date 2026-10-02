@@ -210,6 +210,14 @@ throwaway names and claimed at signup; the customer never sees the underlying
 name because they reach their workspace at `<slug>.t.4dl.app`. With the Host
 rewrite, a claim is as fast as a config push.
 
+**The bench runs server scripts.** OneStudio's extensions on the server are
+frappe Server Scripts, which run only where `server_script_enabled` is set in
+the bench's `common_site_config.json` (Frappe Cloud: the bench group's config).
+It is set once, when a bench group is made, never per site; a workspace on a
+bench without it says Cannot Run Here on its server extensions, and the rest
+of One is untouched. Who may write one is OneStudio's rule
+(one_studio/README.md), not the flag's.
+
 **Nothing unwinds.** A failure marks the request failed with a reason, an operator
 resumes it, and the customer is told something true. Unwinding a half-provisioned
 site is how you end up having taken money and deleted the thing it bought.
