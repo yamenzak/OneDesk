@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-02 19:44+0000\n"
-"PO-Revision-Date: 2026-10-02 19:44+0000\n"
+"POT-Creation-Date: 2026-10-02 20:07+0000\n"
+"PO-Revision-Date: 2026-10-02 20:07+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -12468,6 +12468,10 @@ msgstr "لم يصل شيء بعد."
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr "لم يحدث شيء بعد. ويُفحص مقابل صلاحياتك أنت عند تطبيقه."
 
+#: onedesk/public/js/desk.js:332
+msgid "Nothing here for you yet"
+msgstr "لا يوجد هنا ما يخصك بعد"
+
 #: onedesk/public/js/onemail.js:336
 msgid "Nothing here."
 msgstr "لا شيء هنا."
@@ -20442,6 +20446,10 @@ msgstr "لا يمكن تخصيص هذا النموذج هنا."
 #: onedesk/public/js/head.js:386 onedesk/public/js/shell.js:310
 msgid "This form has been modified after you have loaded it"
 msgstr "تم تعديل هذا النموذج بعد أن فتحته"
+
+#: onedesk/public/js/desk.js:333
+msgid "This home shows what your roles let you open. The links beside it are yours to use, and an administrator can give you more."
+msgstr "تعرض هذه الصفحة الرئيسية ما تتيح لك أدوارك فتحه. الروابط بجانبها متاحة لك، ويمكن لأحد المسؤولين منحك المزيد."
 
 #: onedesk/one/invite.py:81
 msgid "This invitation has expired"

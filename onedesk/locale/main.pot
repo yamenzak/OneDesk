@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-02 19:44+0000\n"
-"PO-Revision-Date: 2026-10-02 19:44+0000\n"
+"POT-Creation-Date: 2026-10-02 20:07+0000\n"
+"PO-Revision-Date: 2026-10-02 20:07+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -12468,6 +12468,10 @@ msgstr ""
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr ""
 
+#: onedesk/public/js/desk.js:332
+msgid "Nothing here for you yet"
+msgstr ""
+
 #: onedesk/public/js/onemail.js:336
 msgid "Nothing here."
 msgstr ""
@@ -20441,6 +20445,10 @@ msgstr ""
 
 #: onedesk/public/js/head.js:386 onedesk/public/js/shell.js:310
 msgid "This form has been modified after you have loaded it"
+msgstr ""
+
+#: onedesk/public/js/desk.js:333
+msgid "This home shows what your roles let you open. The links beside it are yours to use, and an administrator can give you more."
 msgstr ""
 
 #: onedesk/one/invite.py:81

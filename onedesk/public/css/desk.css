@@ -707,6 +707,11 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 
 /* A space home's empty blocks and the headings over nothing (desk.js
  * tidy_home), shown again while the page is edited. */
-.layout-main-section:not(.edit-mode) .one-block-empty {
+.layout-main-section:not(.edit-mode) .one-block-empty,
+.layout-main-section.edit-mode .one-home-empty {
 	display: none !important;
+}
+
+.one-home-empty {
+	padding-top: calc(var(--spacing, 4px) * 16);
 }

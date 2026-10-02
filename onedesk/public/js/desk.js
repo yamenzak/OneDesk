@@ -323,6 +323,18 @@ onedesk.tidy_home = ($body) => {
 		if (is === "heading" || run.length) run.push(block);
 	}
 	close();
+	// Nothing at all shown: frappe's empty state says so, rather than a blank
+	// page, and goes as soon as a block draws.
+	$body.find(".one-home-empty").remove();
+	if (blocks.length && !blocks.some((block) => kind(block) === "shown")) {
+		$(
+			`<div class="one-home-empty">${onedesk.shell.empty(
+				__("Nothing here for you yet"),
+				__("This home shows what your roles let you open. The links beside it are yours to use, and an administrator can give you more."),
+				{ icon: "layout-grid" }
+			)}</div>`
+		).insertBefore($body.find("#editorjs"));
+	}
 };
 
 $(document).on("app_ready", () => {

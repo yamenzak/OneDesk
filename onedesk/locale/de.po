@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-02 19:44+0000\n"
-"PO-Revision-Date: 2026-10-02 19:44+0000\n"
+"POT-Creation-Date: 2026-10-02 20:07+0000\n"
+"PO-Revision-Date: 2026-10-02 20:07+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
 "Language-Team: hello@4dl.app\n"
@@ -12468,6 +12468,10 @@ msgstr "Noch ist nichts eingetroffen."
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr "Noch ist nichts geschehen. Beim Anwenden wird es gegen Ihre eigenen Berechtigungen geprüft."
 
+#: onedesk/public/js/desk.js:332
+msgid "Nothing here for you yet"
+msgstr "Hier ist noch nichts für dich"
+
 #: onedesk/public/js/onemail.js:336
 msgid "Nothing here."
 msgstr "Hier ist nichts."
@@ -20442,6 +20446,10 @@ msgstr "Dieses Formular kann hier nicht angepasst werden."
 #: onedesk/public/js/head.js:386 onedesk/public/js/shell.js:310
 msgid "This form has been modified after you have loaded it"
 msgstr "Dieses Formular wurde geändert, nachdem du es geöffnet hast"
+
+#: onedesk/public/js/desk.js:333
+msgid "This home shows what your roles let you open. The links beside it are yours to use, and an administrator can give you more."
+msgstr "Diese Startseite zeigt, was deine Rollen dich öffnen lassen. Die Links daneben kannst du nutzen, und ein Administrator kann dir mehr freigeben."
 
 #: onedesk/one/invite.py:81
 msgid "This invitation has expired"

@@ -5736,6 +5736,10 @@ the spacers between; desk.css hides them except in Edit. A custom block that
 hides itself (One Needs You, when nothing needs you) counts as nothing.
 Tried: wsadmin's OneCRM ("My Day", "The Pipeline"), OneHR and One ("Today")
 are gone; Rania's OneHR keeps "Today" and all its blocks; OneBook's cards stay.
+A home with nothing shown at all says so, in frappe's empty state ("Nothing
+here for you yet", that the links beside it are theirs and an administrator
+can give more), and the empty state goes as soon as a block draws; not in
+Edit. Tried: on wsadmin's OneCRM and One; not on OneBook, nor Rania's OneHR.
 
 ## OneLegal
 
