@@ -5726,9 +5726,16 @@ may read, asks for a page of that name). frappe leaves out a DocType link a
 person cannot read but takes an address link as it is; `reach.unopened`, at
 boot, now leaves out an address into a kind's views (`/desk/<kind>/…`) for
 somebody who may not read that kind. Tried: wsadmin's OneCRM rail has no
-Pipeline; a user with a sales role keeps it. Still open: OneCRM's home shows
-its "My Day" and "The Pipeline" headings with nothing under them to such an
-administrator.
+Pipeline; a user with a sales role keeps it.
+
+**Headings over nothing**: frappe leaves a space home's block empty for
+somebody who may not see what it holds, and keeps its headings. `desk.js`
+`tidy_home`, run after frappe's `Workspace.show_page` and as its blocks draw,
+marks an empty block, and a heading with nothing shown before the next with
+the spacers between; desk.css hides them except in Edit. A custom block that
+hides itself (One Needs You, when nothing needs you) counts as nothing.
+Tried: wsadmin's OneCRM ("My Day", "The Pipeline"), OneHR and One ("Today")
+are gone; Rania's OneHR keeps "Today" and all its blocks; OneBook's cards stay.
 
 ## OneLegal
 

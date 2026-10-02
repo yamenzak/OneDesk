@@ -286,3 +286,62 @@ onedesk.tenant.size = (bytes) => {
 $(document).on("startup", () => {
 	document.body.toggleAttribute("data-one-held", !frappe.model.can_create("Custom Field"));
 });
+
+// A space's home is frappe's Workspace page, whose blocks frappe leaves empty
+// for somebody who may not see what they hold (a chart, a card, a number), and
+// whose headings it keeps all the same: an administrator with no sales role saw
+// OneCRM's "My Day" and "The Pipeline" over nothing. An empty block is marked,
+// and so is a heading with nothing shown under it before the next, with the
+// spacers between; desk.css hides them, except while the page is being edited.
+onedesk.tidy_home = ($body) => {
+	const blocks = [...$body.find("#editorjs .ce-block")];
+	// A custom block that has nothing to say hides its own block (One Needs
+	// You, when nothing does): that is not shown either.
+	const shown = (block) => {
+		const held = block.querySelector(".ce-block__content > *");
+		if (!held || block.style.display === "none") return false;
+		return held.children.length > 0 || held.textContent.trim() !== "";
+	};
+	const kind = (block) => {
+		const held = block.querySelector(".ce-block__content > *");
+		if (!held) return "empty";
+		if (held.classList.contains("ce-header")) return "heading";
+		if (held.classList.contains("spacer")) return "spacer";
+		if (block.style.display === "none") return "gone";
+		return shown(block) ? "shown" : "empty";
+	};
+	let run = [];
+	const close = () => {
+		if (run.length && !run.some((block) => kind(block) === "shown")) run.forEach((block) => block.classList.add("one-block-empty"));
+		run = [];
+	};
+	for (const block of blocks) {
+		block.classList.remove("one-block-empty");
+		const is = kind(block);
+		if (is === "heading") close();
+		if (is === "empty") block.classList.add("one-block-empty");
+		if (is === "heading" || run.length) run.push(block);
+	}
+	close();
+};
+
+$(document).on("app_ready", () => {
+	const Workspace = frappe.views && frappe.views.Workspace;
+	if (!Workspace || Workspace.prototype.one_tidied) return;
+	Workspace.prototype.one_tidied = true;
+	const shown = Workspace.prototype.show_page;
+	Workspace.prototype.show_page = async function (page) {
+		const out = await shown.call(this, page);
+		// Blocks draw, and hide themselves, after the page does: tidied again
+		// as they change, for the first few seconds.
+		const body = this.body;
+		onedesk.tidy_home(body);
+		const again = frappe.utils.debounce(() => onedesk.tidy_home(body), 150);
+		const watching = new MutationObserver((changes) => {
+			if (changes.some((one) => !(one.attributeName === "class" && one.target.classList.contains("ce-block")))) again();
+		});
+		watching.observe(body[0], { childList: true, subtree: true, attributes: true, attributeFilter: ["style", "class"] });
+		setTimeout(() => watching.disconnect(), 5000);
+		return out;
+	};
+});

@@ -704,3 +704,9 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	gap: 6px;
 	margin: 0 0 8px;
 }
+
+/* A space home's empty blocks and the headings over nothing (desk.js
+ * tidy_home), shown again while the page is edited. */
+.layout-main-section:not(.edit-mode) .one-block-empty {
+	display: none !important;
+}
