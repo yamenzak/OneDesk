@@ -15,9 +15,18 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 		// administrator, or a OneAI card approved. Untouched, the page
 		// reloads; with changes in it, it says so and keeps them.
 		frappe.realtime.on("one_customized", (data) => {
+			if (!this.doctype) return this.listed();
 			if (!this.data || data.doctype !== this.doctype || data.token === this.data.token || this.saving) return;
 			if (this.dirty) this.conflict();
 			else if (this.$content && this.$content.is(":visible")) this.refresh();
+		});
+		// An extension made, turned on or off, or deleted: the list's counts
+		// and the form's Extensions change with it, edits kept.
+		frappe.realtime.on("list_update", async (data) => {
+			if (data.doctype !== "Extension" || !this.$content || !this.$content.is(":visible")) return;
+			if (!this.doctype) return this.listed();
+			this.extensions = await frappe.xcall("onedesk.one_studio.forms.extensions", { doctype: this.doctype });
+			this.$content.find(".one-customize-extensions").replaceWith(this.ran(this.data));
 		});
 	}
 
@@ -36,13 +45,23 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 			return;
 		}
 		try {
-			this.data = await frappe.xcall(Customize.API + "load", { doctype: this.doctype });
+			[this.data, this.extensions] = await Promise.all([
+				frappe.xcall(Customize.API + "load", { doctype: this.doctype }),
+				frappe.xcall("onedesk.one_studio.forms.extensions", { doctype: this.doctype }),
+			]);
 		} catch (e) {
 			this.$content.html(frappe.ui.alert.html({ title: __("This form cannot be customized here."), theme: "red" }));
 			return;
 		}
 		this.$content.empty();
 		this.draw(this.data);
+	}
+
+	// The list again, as it was searched, when it is the one showing.
+	listed() {
+		if (this.doctype || !this.$content || !this.$content.is(":visible")) return;
+		const query = this.$content.find(".one-shell-search input").val();
+		this.forms().then(() => query && this.$content.find(".one-shell-search input").val(query).trigger("input"));
 	}
 
 	// No form named: every form the administrator may customize, the ones
@@ -221,8 +240,41 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 					{ heading: __("Connections and Buttons") },
 					{ stack: ["links"] },
 					{ stack: ["actions"] },
+					{ heading: __("Extensions"), note: __("What runs on this form, written by OneAI and turned on in OneStudio › Extensions. Read here; changed there.") },
+					{ html: this.ran(data) },
 				],
 			}
+		);
+	}
+
+	// The extensions on this form (one_studio/forms.py), each a row to its
+	// own page: what it does, and whether it is on.
+	ran(data) {
+		const esc = frappe.utils.escape_html;
+		const ones = this.extensions || [];
+		return `<div class="one-customize-extensions">${this.rows(data, ones, esc)}</div>`;
+	}
+
+	rows(data, ones, esc) {
+		if (!ones.length) {
+			return onedesk.shell.empty(
+				__("Nothing runs on {0}", [data.label]),
+				__("Ask OneAI in OneStudio › Extensions to write one."),
+				{ icon: "code" }
+			);
+		}
+		return onedesk.shell.list(
+			ones
+				.map((one) =>
+					onedesk.shell.row({
+						title: esc(one.title),
+						sub: esc(one.explanation || ""),
+						quiet: esc([__(one.runs), one.event ? __(one.event) : "", one.view ? __(one.view) : ""].filter(Boolean).join(" · ")),
+						meta: frappe.ui.badge.html({ label: one.enabled ? __("On") : __("Off"), theme: one.enabled ? "green" : "gray" }),
+						href: `/desk/extension/${encodeURIComponent(one.name)}`,
+					})
+				)
+				.join("")
 		);
 	}
 

@@ -147,7 +147,8 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | OneTask | done |
 | Products | OneAdmin › Home | done |
 | Products | OneStudio › Extensions | done |
-| Products | OneStudio › Forms, Record Types | next, one at a time |
+| Products | OneStudio › Forms | done |
+| Products | OneStudio › Record Types | next |
 | Products | OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin | each screen listed here once we reach it |
 
 Noticed along the way, for the screen it belongs to:
@@ -5740,6 +5741,56 @@ A home with nothing shown at all says so, in frappe's empty state ("Nothing
 here for you yet", that the links beside it are theirs and an administrator
 can give more), and the empty state goes as soon as a block draws; not in
 Edit. Tried: on wsadmin's OneCRM and One; not on OneBook, nor Rania's OneHR.
+
+### OneStudio › Forms
+
+The list of every form a workspace administrator may change, and each form's
+Customize page (frappe's controls and grids on the shell's Editor: dirty
+against what loaded, Save in the head, a save refused against a newer one,
+`one_customized` realtime).
+
+1. Notifications: nothing was sent when a form changed for everybody. Now
+   **Form Customized** (OneStudio), on the bell, to the other
+   administrators: "Wren changed Supplier", and that its Customize page shows
+   how it is now. Sent on Save, on Reset and on an approved OneAI card, since
+   all three go through `customize.save` or `reset`. Tried: wsadmin saved
+   Supplier; admin@example.com and Administrator were told, wsadmin was not.
+2. OneAI: the page's suggestions were all about one form, so on the list
+   (no form open) it offered "Suggest changes to this form" with no form. A
+   suggestion may now say `record: True` or `False` (`suggest.for_page`),
+   and the list offers **Which forms have we changed?** and **Change a
+   form…**; a form adds **What have we changed here?**. A new read,
+   `forms_here`, answers both: the changed forms with their counts, or on
+   one form each field added and each property changed, and its extensions.
+   The page's sentence for the list says what it is, not "no form is open".
+3. Intake: nothing reaches here. A field added here is a field of the
+   record, so Intake's describe and ready read it as any other.
+4. Permissions: workspace administrators only (`roles.require`,
+   `customize.may`). The list holds only forms they may read (119 for
+   wsadmin, of 382); Lead, which wsadmin may not read, is refused when
+   opened by its address. The extensions on a form are read through `may`
+   too.
+5. Cross-module: 256 of 382 forms were under **Other Forms**, because only a
+   form some rail links to had an app. The app now falls back on the
+   form's module (Accounts to OneBook, Stock and Buying to OneInventory, HR
+   and Payroll to OneHR, Selling and Support to OneCRM, Projects to
+   OneProject) and on One's own modules (Reading under OneIntake); 29 shared
+   forms (Address, Department, Country) stay under Other Forms. "Changed
+   Here" counted only fields and their changes; it now counts the head's,
+   the connections' and the buttons' rows the workspace added too. A form's
+   Customize page ends with **Extensions**: what runs on it, on or off, each
+   leading to its own page.
+6. UI: sections on the page, rows as the shell's list, frappe's badge and
+   empty state; Save in the head. The list and a form's Extensions now keep
+   up as forms are saved and extensions change (`one_customized`,
+   `list_update`), keeping what was searched.
+7. Documented: one_studio/README.md, Forms (what it lists, who sees and
+   changes what, the notification, OneAI on it); One's Customizing a Form
+   names Extensions and who is told.
+8. Legal: nothing new. Customizing is the customer's own configuration;
+   what OneAI suggests is already in the AI Addendum.
+9. Built from frappe: FieldGroup and its grids, frappe's badge, empty
+   state, `xcall` and `realtime`; ours is the list's grouping and counts.
 
 ## OneLegal
 

@@ -435,11 +435,32 @@ SUGGESTIONS = {
 				"one change I can apply."
 			),
 			"expects": "customize",
+			"record": True,
 		},
 		{
 			"label": _lt("Add a field"),
 			"ask": _lt("Help me add a field to this form. Ask me what it holds, then suggest it."),
 			"expects": "customize",
+			"record": True,
+		},
+		{
+			"label": _lt("What have we changed here?"),
+			"ask": _lt("What has the workspace changed on this form, and which extensions run on it?"),
+			"expects": "forms_here",
+			"record": True,
+		},
+		{
+			"label": _lt("Which forms have we changed?"),
+			"ask": _lt("Which forms has the workspace changed, how, and which have extensions running on them?"),
+			"expects": "forms_here",
+			"record": False,
+		},
+		{
+			"label": _lt("Change a form…"),
+			"ask": _lt("Change the form "),
+			"fill": True,
+			"expects": "customize",
+			"record": False,
 		},
 		{
 			"label": _lt("How does customizing work?"),
@@ -649,7 +670,9 @@ def _customize_page(doctype: str | None) -> str:
 		f" They have {doctype} open: its fields, the numbers under its title, its buttons, its linked "
 		"sections and its connections. describe_type lists the form's fields."
 		if doctype and frappe.db.exists("DocType", doctype)
-		else " No form is open on it yet."
+		else " No form is open: it is OneStudio › Forms, every form they may change by app, the changed ones "
+		"first with how many changes and extensions each has. forms_here reads which forms were changed "
+		"and how."
 	)
 	return (
 		"The reader is on the Customize page, where a workspace administrator changes how a form looks "

@@ -128,11 +128,31 @@ extension says **Cannot Run Here**, ask us.
 ## Forms
 
 **Forms** lists every form you may change. The ones your workspace has
-changed, or has extensions on, come first, with how many; then every other
-form, by the app it belongs to. Search by name. Open one to change it on the
-**Customize** page: a field's label, whether it is hidden, required or in the
-list, their order, fields of your own, and what the top of the form shows.
-**Customize** in a form's own menu opens the same page.
+changed, or has extensions on, come first under **Changed Here**, with how
+many changes and extensions each has; then every other form, under the app it
+belongs to (OneBook, OneCRM, OneHR, OneInventory and the rest), and the forms
+every app shares (an address, a department) under **Other Forms**. Search by
+name or by app. The list keeps up as forms are changed and extensions made.
+
+Open one to change it on its **Customize** page: a field's label, whether it
+is hidden, required or in the list, their order, fields of your own, what the
+top of the form shows, its connections and its buttons. **Customize** in a
+form's own menu opens the same page. How each part is filled in, and
+**Save**, **Export** and **Reset**, are under Customizing a Form in One's
+documentation.
+
+At the foot, **Extensions** lists what runs on the form, on or off, each
+leading to its own page; they are read here and changed in Extensions.
+
+**Who sees and changes it.** Workspace administrators only, on the forms they
+may open; never the framework's own forms, nor One's. A change applies to
+everybody who opens the form. The other administrators are told who changed
+which form (**Form Customized**, on the bell).
+
+**OneAI** on the list says which forms were changed and how, or changes the
+one you name. On a form it suggests changes as one card, adds a field, says
+what was changed and which extensions run on it, or explains how customizing
+works.
 
 ## Record Types
 
@@ -172,6 +192,8 @@ otherwise in their notifications:
   does, where and when it runs.
 - **Extension Turned Off** and **Extension Deleted**, on the bell only unless
   you ask for mail.
+- **Form Customized**, when another administrator saves a form's Customize
+  page or resets it, on the bell only unless you ask for mail.
 
 Nobody is told of their own change.
 
@@ -182,7 +204,10 @@ which says what each does and whether any is failing. On an extension:
 **Change this one…**; when it is on, **Has this one run into errors?**, which
 reads what went wrong and on which record (never its code); when it is off,
 **Why is this one off?** On Record Types: **Make a record type…**, and on
-one: **Add a field to this one…**
+one: **Add a field to this one…** On Forms: **Which forms have we changed?**
+and **Change a form…**; on a form's Customize page: **Suggest changes to this
+form**, **Add a field**, **What have we changed here?** and **How does
+customizing work?**
 
 ## Under the hood
 
@@ -197,7 +222,7 @@ one: **Add a field to this one…**
 | `trial.py` | Tries an extension before it is kept: node parses screen code; server code runs once on a real record, undone after. |
 | `review.py` | The second reading, `studio_review`: a separate call shown the code and its explanation, nothing of the chat. |
 | `record_types.py` | A record type's rules, and frappe's custom DocType made, changed and deleted from it. |
-| `forms.py` | The Forms list. The Customize page is `page/customize` and `../public/js/customize.js`. |
+| `forms.py` | The Forms list, each form's app and counts, and the extensions on one form. The Customize page is `page/customize` and `../public/js/customize.js`; what it saves is `../one/customize.py`. |
 | `ai.py` | `write_extension`, `mend_extension`, `extensions_here`, `extension_code`, `extension_places`, `extension_mistakes`, `design_record_type`, `record_types_here`, on the `studio` action. |
 | `mend.py` | An extension's errors, the Errors tab, and mending one from them (`studio_mend`). |
 | `heads.py`, `notifications.py`, `legal.py` | The record heads; Extensions Failing and an extension turned on, off or deleted; and what the Terms and the AI Addendum say. |

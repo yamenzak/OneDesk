@@ -1038,6 +1038,7 @@ one_ai_reads = [
 	"onedesk.one_studio.ai.extension_code",
 	"onedesk.one_studio.ai.extension_places",
 	"onedesk.one_studio.ai.record_types_here",
+	"onedesk.one_studio.ai.forms_here",
 ]
 
 #: A sentence each about who is asking, added to what the model is told.

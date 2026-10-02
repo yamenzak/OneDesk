@@ -263,7 +263,8 @@ def write_extension(
 	code: Annotated[str, "The code: JavaScript for On Screen, restricted Python for On Server."],
 	asked: Annotated[str, "What the person asked for, in their words."],
 	view: Annotated[
-		Literal["Form", "List", "Page"], "On Screen only: the form, the list, or one of One's pages (give place)."
+		Literal["Form", "List", "Page"],
+		"On Screen only: the form, the list, or one of One's pages (give place).",
 	]
 	| None = None,
 	event: Annotated[
@@ -284,7 +285,8 @@ def write_extension(
 	]
 	| None = None,
 	cron: Annotated[
-		str, "On a Schedule only: when, as a cron line, at most hourly, such as 0 8 * * 1-5 for 8:00 each weekday."
+		str,
+		"On a Schedule only: when, as a cron line, at most hourly, such as 0 8 * * 1-5 for 8:00 each weekday.",
 	]
 	| None = None,
 ) -> dict:
@@ -458,6 +460,54 @@ def record_types_here() -> dict:
 		row["records"] = frappe.db.count(row.record_doctype)
 		out.append(row)
 	return {"record_types": out, "apps": list(record_types._apps())}
+
+
+def forms_here(
+	record: Annotated[
+		str,
+		"Only to read what was changed on one form, such as Customer. Leave it out for every changed form.",
+	]
+	| None = None,
+) -> dict:
+	"""The forms the workspace has changed (OneStudio, Forms): each with how
+	many of its customizations are the workspace's and how many extensions run
+	on it, or, for one form, each change itself: a field added, hidden,
+	renamed, required or in the list, the head's own rows, and its
+	extensions. Read it before suggesting a change to a form."""
+	if not roles.administers():
+		return {"error": "Only a workspace administrator sees how forms were changed."}
+	from onedesk.one_studio import forms
+
+	if not record:
+		changed = [one for one in forms.forms() if one["changes"] or one["extensions"]]
+		return {"changed_forms": changed, "forms_that_may_be_changed": len(forms.forms())}
+	if not frappe.db.exists("DocType", record):
+		return {"error": f"{record} is not a form here."}
+	ledger = frappe.get_all(
+		"Workspace Customization", filters={"record_doctype": record}, fields=["kind", "row"]
+	)
+	added = [one.row for one in ledger if one.kind == "Custom Field"]
+	changes = [
+		{"field": row.field_name, "property": row.property, "value": row.value}
+		for row in frappe.get_all(
+			"Property Setter",
+			filters={"name": ["in", [one.row for one in ledger if one.kind == "Property Setter"] or [""]]},
+			fields=["field_name", "property", "value"],
+		)
+	]
+	return {
+		"form": record,
+		"fields_added": [
+			{"field": row.fieldname, "label": row.label, "type": row.fieldtype}
+			for row in frappe.get_all(
+				"Custom Field",
+				filters={"name": ["in", added or [""]]},
+				fields=["fieldname", "label", "fieldtype"],
+			)
+		],
+		"fields_changed": changes,
+		"extensions": forms.extensions(record),
+	}
 
 
 def make_record_type(changes: dict) -> str:

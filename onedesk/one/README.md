@@ -1323,10 +1323,14 @@ everybody who opens it; nothing typed there is code.
 **Save** in the page head saves it all at once. If another administrator
 changed the same form meanwhile, the page says so and saves nothing.
 **Export** on the menu downloads what this workspace changed; **Reset** takes
-it all back, and leaves what the form came with.
+it all back, and leaves what the form came with. Either way the other
+administrators are told who changed which form.
+
+**Extensions**, at the foot, lists what runs on the form, on or off, each
+leading to its own page in OneStudio › Extensions, where it is changed.
 
 **OneAI** on this page offers to suggest changes to the form, to add a field,
-or to explain how customizing works. Whatever it suggests comes as one card
+to say what the workspace changed on it, or to explain how customizing works. Whatever it suggests comes as one card
 listing each change; nothing changes until you press Approve, and then it is
 saved exactly as Save would save it, with the same limits. A card made before
 somebody else changed the form no longer applies and says so.

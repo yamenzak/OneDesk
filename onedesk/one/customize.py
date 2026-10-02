@@ -244,7 +244,22 @@ def save(doctype: str, values: str | dict, token: str) -> dict:
 	finally:
 		frappe.flags.one_workspace_layer = False
 	_changed(doctype)
+	_told(doctype)
 	return load(doctype)
+
+
+def _told(doctype: str) -> None:
+	"""The other administrators hear that a form changed for everybody: who,
+	and which (OneStudio's Form Customized)."""
+	from onedesk.one import notify
+
+	notify.notify(
+		"Form Customized",
+		roles.administrators(),
+		link=f"/desk/customize/{doctype}",
+		who=frappe.utils.get_fullname(),
+		form=_(doctype),
+	)
 
 
 def _changed(doctype: str) -> None:
@@ -522,6 +537,7 @@ def reset(doctype: str) -> dict:
 	frappe.db.delete("DocType Link", {"parent": doctype, "custom": 1})
 	frappe.db.delete("DocType Action", {"parent": doctype, "custom": 1})
 	_changed(doctype)
+	_told(doctype)
 	return load(doctype)
 
 

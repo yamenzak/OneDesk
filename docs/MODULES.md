@@ -583,6 +583,7 @@ No doctypes yet.
 * `onedesk.one_storage.upload.done`
 * `onedesk.one_storage.upload.here`
 * `onedesk.one_studio.extensions.tripped`
+* `onedesk.one_studio.forms.extensions`
 * `onedesk.one_studio.forms.forms`
 * `onedesk.one_studio.mend.listed`
 * `onedesk.one_studio.mend.mend`

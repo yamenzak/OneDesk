@@ -135,6 +135,7 @@ GROUPS = {
 			"extension_code",
 			"extension_places",
 			"record_types_here",
+			"forms_here",
 			"write_extension",
 			"mend_extension",
 			"design_record_type",

@@ -468,3 +468,20 @@ def test_a_scheduled_extension_has_no_record_to_use():
 		guard.on_server("x = doc.name", "Customer", SITE, "Every Day")
 	said = guard.wrapped("ext1", "pass", scheduled=True)
 	assert "reference_doctype" not in said and "doc." not in said
+
+
+def test_forms_tell_the_others_and_offer_only_what_fits_the_page():
+	"""A form changed for everybody is told to the other administrators, from
+	Save and Reset alike; the Forms list offers nothing about one form."""
+	assert '_lt("Form Customized")' in (STUDIO / "notifications.py").read_text()
+	customize = (tree.APP / "one" / "customize.py").read_text()
+	assert customize.count("\t_told(doctype)\n") == 2
+	assert '"Form Customized",\n\t\troles.administrators()' in customize
+	suggest = (tree.APP / "one_ai" / "suggest.py").read_text()
+	assert 'bool((page.get("record") or "").strip()) != one["record"]' in suggest
+	assert '"onedesk.one_studio.ai.forms_here"' in HOOKS
+	assert '"forms_here"' in (tree.APP / "one_ai" / "groups.py").read_text()
+	forms = (STUDIO / "forms.py").read_text()
+	# Every form has an app by its module where no rail links to it, and the
+	# extensions on one are read only where the form may be customized.
+	assert "module in MODULES" in forms and "\tmay(doctype)\n" in forms
