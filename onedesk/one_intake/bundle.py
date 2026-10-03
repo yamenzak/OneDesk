@@ -80,7 +80,7 @@ def packed(year: int, rows: list[dict]) -> bytes:
 	taken: set[str] = set()
 	index = io.StringIO()
 	writer = csv.writer(index)
-	writer.writerow([_("Date"), _("Kind"), _("From"), _("Number"), _("Amount"), _("Currency"), _("Title"), _("File")])
+	writer.writerow([_("Date"), _("Type"), _("From"), _("Number"), _("Amount"), _("Currency"), _("Title"), _("File")])
 	with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED) as out:
 		for row in rows:
 			said = row["kind"]

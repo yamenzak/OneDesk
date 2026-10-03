@@ -133,7 +133,7 @@ def reach(address: str, password: str, login: str | None = None, where: dict | N
 			# server: trying the next guess would only hide why.
 			if isinstance(error, imaplib.IMAP4.error):
 				break
-	frappe.throw(imap.refused(last) if last else _("No mail server was found for {0}.").format(address))
+	frappe.throw(imap.refused(last) if last else _("Couldn't find a mail server for {0}.").format(address))
 
 
 @frappe.whitelist(methods=["POST"])
@@ -232,7 +232,7 @@ def reconnect(account: str, password: str, login: str | None = None) -> str:
 	actions.require(account)
 	doc = frappe.get_doc("Email Account", account)
 	if not doc.one_connected:
-		frappe.throw(_("Only a mailbox connected from another provider has a password to give again."))
+		frappe.throw(_("Only a connected mailbox has a password to update."))
 	if doc.one_shared:
 		frappe.only_for(roles.ADMINISTRATOR)
 	login = (login or "").strip() or (doc.login_id if doc.login_id_is_different else None)

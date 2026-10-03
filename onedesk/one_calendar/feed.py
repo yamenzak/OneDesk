@@ -53,7 +53,7 @@ def allowed() -> bool:
 
 def _allowed() -> None:
 	if not allowed():
-		frappe.throw(_("Your workspace does not allow calendar links."), frappe.PermissionError)
+		frappe.throw(_("Calendar links are turned off for this workspace."), frappe.PermissionError)
 
 
 def switched(doc, _method=None) -> None:
@@ -86,7 +86,7 @@ def renew() -> dict:
 
 def _new(user: str) -> str:
 	if user == "Guest":
-		frappe.throw(_("Log in to make a calendar link."), frappe.PermissionError)
+		frappe.throw(_("Log in to create a calendar link."), frappe.PermissionError)
 	token = secrets.token_urlsafe(24)
 	doc = frappe.get_doc("Calendar Feed", user) if frappe.db.exists("Calendar Feed", user) else frappe.new_doc("Calendar Feed")
 	doc.update({"user": user, "token": token, "token_hash": _hash(token), "made_on": now_datetime(), "last_read": None})
@@ -127,7 +127,7 @@ def ics(token: str) -> None:
 	"""The calendar behind a link, as the person it belongs to."""
 	user = frappe.db.get_value("Calendar Feed", {"token_hash": _hash(token or "")}, "user")
 	if not user or not allowed() or not frappe.db.get_value("User", user, "enabled"):
-		frappe.throw(_("This calendar link does not work any more."), frappe.PermissionError)
+		frappe.throw(_("This calendar link no longer works."), frappe.PermissionError)
 	frappe.db.set_value("Calendar Feed", user, "last_read", now_datetime(), update_modified=False)
 	with _as(user):
 		keys = [one["key"] for one in layers.offered() if one["on"]]

@@ -44,15 +44,13 @@ SUGGESTIONS = {
 		{
 			"label": _lt("Summarise this file"),
 			"ask": _lt(
-				"Summarise this file in a few lines: what it is, who it is from or for, and anything in it that needs doing."
+				"Summarise this file in a few lines. Who is it from or for, and does anything in it need doing?"
 			),
 			"expects": "open_file",
 		},
 		{
 			"label": _lt("Who can see this?"),
-			"ask": _lt(
-				"Who can see this file, and how: shared with them, through a folder, or through a link?"
-			),
+			"ask": _lt("Who can see this file, and how?"),
 			"expects": "who_can_see",
 		},
 		{

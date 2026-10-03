@@ -79,14 +79,14 @@ def accept(key: str):
 	if not user or get_datetime(found[0].defvalue.split("|", 1)[1]) < now_datetime():
 		return frappe.respond_as_web_page(
 			_("This invitation has expired"),
-			_("Ask whoever invited you to send it again, from Workspace, People."),
+			_("Ask the person who invited you to send it again."),
 			http_status_code=410,
 			indicator_color="orange",
 		)
 	doc = frappe.get_doc("User", user)
 	if not doc.enabled:
 		return frappe.respond_as_web_page(
-			_("This invitation was withdrawn"), _("Ask whoever invited you."), http_status_code=410
+			_("This invitation was withdrawn"), _("Ask the person who invited you."), http_status_code=410
 		)
 	link = doc._reset_password()
 	# A GET is not committed on its own, and the new reset key must be kept.

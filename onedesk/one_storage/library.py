@@ -39,7 +39,7 @@ def _library(node: str) -> dict:
 def make(name: str) -> dict:
 	"""A new library, with its maker as its owner."""
 	if not ns._staff(frappe.session.user):
-		frappe.throw(_("Only people on the team can make a library."), frappe.PermissionError)
+		frappe.throw(_("Only people on the team can create a library."), frappe.PermissionError)
 	name = api._clean(name)
 	if not name:
 		frappe.throw(_("A library needs a name."))
@@ -72,7 +72,7 @@ def _give(library: str, user: str, role: str) -> None:
 def members(node: str) -> dict:
 	item = _library(node)
 	if not ns.may(item):
-		frappe.throw(_("That is no longer here."), frappe.DoesNotExistError)
+		frappe.throw(_("This item no longer exists."), frappe.DoesNotExistError)
 	rows = frappe.get_all(
 		"DocShare",
 		filters={"share_doctype": "File", "share_name": item.name, "everyone": 0},
@@ -96,9 +96,9 @@ def members(node: str) -> dict:
 def add(node: str, users: str | list, role: str = "Member") -> int:
 	item = _library(node)
 	if not _manages(item.name):
-		frappe.throw(_("Only an owner of {0} can say who is in it.").format(item.file_name), frappe.PermissionError)
+		frappe.throw(_("Only owners of {0} can manage its members.").format(item.file_name), frappe.PermissionError)
 	if role not in ns.ROLES:
-		frappe.throw(_("A member is a Reader, a Member or an Owner."))
+		frappe.throw(_("Role must be Reader, Member or Owner."))
 	users = frappe.parse_json(users) if isinstance(users, str) else users
 	staff = frappe.get_all(
 		"User", filters={"name": ["in", users], "enabled": 1, "user_type": "System User"}, pluck="name"
@@ -115,12 +115,12 @@ def remove(node: str, user: str) -> None:
 	"""Take somebody out. Anybody may leave; a library keeps one owner."""
 	item = _library(node)
 	if user != frappe.session.user and not _manages(item.name):
-		frappe.throw(_("Only an owner of {0} can say who is in it.").format(item.file_name), frappe.PermissionError)
+		frappe.throw(_("Only owners of {0} can manage its members.").format(item.file_name), frappe.PermissionError)
 	owners = frappe.get_all(
 		"DocShare", filters={"share_doctype": "File", "share_name": item.name, "share": 1}, pluck="user"
 	)
 	if owners == [user]:
-		frappe.throw(_("{0} is the last owner of {1}. Make somebody else an owner first.").format(
+		frappe.throw(_("{0} is the last owner of {1}. Make someone else an owner first.").format(
 			get_fullname(user), item.file_name
 		))
 	frappe.share.remove("File", item.name, user, flags={"ignore_permissions": True})

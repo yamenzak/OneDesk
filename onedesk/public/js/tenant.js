@@ -56,7 +56,7 @@ onedesk.tenant.give = (frm) => {
 			fields: [
 				{
 					fieldtype: "HTML",
-					options: `<p class="text-muted">${__("{0} has {1} credits, {2} of them promised to calls in flight.", [
+					options: `<p class="text-muted">${__("{0} has {1} credits ({2} on hold).", [
 						frappe.utils.escape_html(frm.doc.workspace_name || frm.doc.name),
 						now.balance,
 						now.held,
@@ -67,11 +67,11 @@ onedesk.tenant.give = (frm) => {
 					fieldname: "expires_on",
 					fieldtype: "Date",
 					label: __("Expires On"),
-					description: __("Leave empty for credit that never expires."),
+					description: __("Leave empty for no expiry."),
 				},
 				{ fieldname: "why", fieldtype: "Small Text", label: __("Note"), reqd: 1 },
 			],
-			primary_action_label: __("Give"),
+			primary_action_label: __("Give Credits"),
 			primary_action(values) {
 				frappe
 					.xcall("onedesk.one_admin.operator.give_credits", {
@@ -83,7 +83,7 @@ onedesk.tenant.give = (frm) => {
 					.then((answer) => {
 						asking.hide();
 						frappe.show_alert({
-							message: __("{0} credits now.", [answer.standing.balance]),
+							message: __("{0} credits left", [answer.standing.balance]),
 							indicator: "green",
 						});
 					});
@@ -114,7 +114,7 @@ onedesk.tenant.said = (frm) => {
 	];
 	if (pending) {
 		lines.push(
-			__("{0} signed for and not yet counted.", [onedesk.tenant.size(pending)]),
+			__("{0} pending", [onedesk.tenant.size(pending)]),
 		);
 	}
 	field.$wrapper.html(

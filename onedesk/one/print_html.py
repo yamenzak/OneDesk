@@ -167,7 +167,7 @@ def check_template(text: str, where: str) -> None:
 	try:
 		tree = SANDBOX.parse(text or "")
 	except TemplateError as e:
-		frappe.throw(_("{0}: the template does not read: {1}").format(where, str(e)))
+		frappe.throw(_("{0} has a template error ({1}).").format(where, str(e)))
 	named = set(NAMES) | {one.name for one in tree.find_all(nodes.Name) if one.ctx in ("store", "param")}
 	for node in _walk(tree):
 		refused = _refused(node, named)

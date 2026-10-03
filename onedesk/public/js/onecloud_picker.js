@@ -45,7 +45,7 @@ onedesk.pick_from_onecloud = ({ dialog, uploader, doctype, docname, fieldname })
 		if (!items.length) return frappe.show_alert({ message: __("Choose a file first."), indicator: "orange" });
 		const refused = items.filter((one) => !fits(one));
 		if (refused.length) {
-			return frappe.msgprint(__("{0} is not a kind of file this takes.", [refused.map((one) => one.name).join(", ")]));
+			return frappe.msgprint(__("{0} isn't an allowed file type.", [refused.map((one) => one.name).join(", ")]));
 		}
 		if (!several) items = items.slice(0, 1);
 		const files = await frappe.xcall("onedesk.one_storage.api.attach", {

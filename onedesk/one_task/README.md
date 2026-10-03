@@ -1,165 +1,165 @@
 # OneTask
 
-Written by hand. What OneTask does and how to use it. Everything above
-**Under the hood** is written for the people who use it, and OneAI reads it to
-answer "how do I…" questions. Under the hood is for the people who build it.
+OneTask is where all your work is kept. Every piece of work is a **task**: a
+personal to-do, a project step, a sub-task or a milestone.
 
-OneTask is where all work is kept, and all of it is a **task**: a to-do of your
-own, a step in a project, a part of a bigger task, a milestone. There is no
-second list somewhere else. A deal's next step, a leave application waiting on
-you and a meeting are not tasks — they are the deal's, the application's and
-the calendar's — but everything you have to *do* is here.
+A deal's next step, a leave application waiting for you and a meeting aren't
+tasks. They belong to the deal, the application and the calendar. Everything
+else you have to do is here.
 
 ## Finding your way
 
-**OneTask** in the dock opens it, on **My Tasks**. Its column on the left is
-all there is to find your way by:
+**OneTask** in the dock opens **My Tasks**. The left column has:
 
-- **Add Task** on top, which opens a new task.
-- **My Tasks**: everything assigned to you and still to do, by when it is
-  due. The red number beside it is how many are late, the other how many
-  there are.
-- **Inbox**: your own tasks that are in no project, still to do. A quick
-  note to yourself lands here.
-- At the foot, **All Tasks** (every task you may see, in projects and out of
-  them, as a list) and **Setup** (Task Type), for whoever may change it.
+- **Add Task** at the top, to create a task.
+- **My Tasks**: everything assigned to you that's still open, by due date.
+  The red number is how many are overdue, the other how many there are.
+- **Inbox**: your own open tasks with no project. Quick notes to yourself
+  go here.
+- **All Tasks** at the bottom: every task you can see, as a list.
+- **Setup** (Task Type), for those with access.
 
-The page keeps itself up to date: a task somebody gives you, or one ticked
-off elsewhere, shows without reloading.
+The page updates on its own. A task assigned to you, or completed elsewhere,
+appears without reloading.
 
-OneTask is your own work, from everywhere. Projects, with their boards,
-calendars and money, are **OneProject**'s, over the same tasks. A project's
-task given to you is on My Tasks like any other, and its project's name
-opens the project in OneProject.
+Projects, with their boards, calendars and budgets, are in **OneProject** and
+use the same tasks. A project task assigned to you shows on My Tasks like any
+other, and its project name opens the project.
 
 ## My Tasks
 
-Your work, in groups: **Overdue**, **Today**, **Tomorrow**, **Next 7 Days**,
-**Later** and **No Due Date**. Within a day the most pressing comes first, and
-Urgent and High say so. A task in a project names the project; a task in no
-project that is about something (one OneIntake made about a supplier, say)
-names what it is about, and opens it. A late task says how long ago it was
-due.
+Tasks are grouped into **Overdue**, **Today**, **Tomorrow**, **Next 7 Days**,
+**Later** and **No Due Date**. Within a day, the most pressing come first,
+with Urgent and High marked.
 
-**Tick a task to complete it.** It stays on the list, struck through, until you
-next open the page, so a tick made by mistake is undone by ticking it again.
-Completing a task takes it off everybody's list, not only yours.
+- A project task shows its project.
+- A task with no project that's about a record, such as one Intake made for
+  a supplier, shows that record and opens it.
+- An overdue task shows how long ago it was due.
 
-**Type a task at the top and press Enter** to add it, with a **Due** date if it
-has one. It is yours, in no project, and lands in its group straight away.
+**To complete a task**, tick it. It stays on the list, struck through, until
+you reload, so you can untick it if it was a mistake. Completing a task
+removes it from everyone's list.
 
-A task is due on its **Expected End Date**, or on its **Expected Start Date**
-when it has no end.
+**To add a task**, type it at the top and press Enter. Add a **Due** date if
+it has one. It's assigned to you, has no project, and appears in its group
+right away.
+
+A task is due on its **Expected End Date**, or its **Expected Start Date** if
+it has no end date.
 
 ## Adding a task
 
-**Add Task** asks for the subject, the project if it belongs to
-one, and the **Expected End Date**, which is when it is due. That is all a
-to-do needs; everything else is on the task's own page.
+**Add Task** asks for the subject, the project if there is one, and the
+**Expected End Date** (the due date). Everything else is on the task's page.
 
-A task you make with no project and nobody on it is **assigned to you**, so it
-is on your calendar and in every list of your work.
+A task you create with no project and no one assigned is **assigned to you**,
+so it shows on your calendar and in your lists.
 
-**A to-do is a task.** Anything that makes a to-do with nothing it is about —
-the To Do form, a reminder to yourself — makes a task, assigned to whoever the
-to-do was for.
+**To-dos are tasks.** Anything that creates a to-do without a record, such as
+the To Do form or a reminder to yourself, creates a task assigned to that
+person instead.
 
 ## A task's page
 
-**Details** has what the task is and its project, then **Timeline**, open,
-with when it starts and when it is due, how long it should take, how far it
-has got, and its weight. **Is Template**, the issue it came from and its
-colour follow. The description and the checklist are under **Details**.
+**Details** has the task and its project, followed by **Timeline**, open,
+with the start and due dates, expected time, progress and weight. Then come
+**Is Template**, the issue it came from, and its color. The description and
+checklist are under **Details**.
 
 ## On the calendar
 
-Your tasks are on **OneCalendar** under **My Tasks**, on the day each is due.
-**Drag one to another day** to move it: its due date goes there, and its start
-date moves by as many days, so the task keeps its length.
+Your tasks show on **OneCalendar** under **My Tasks**, on their due date.
+**Drag a task to another day** to move it. The due date changes, and the
+start date moves by the same number of days, so the task keeps its length.
 
-A project's own calendar is OneProject's.
+A project's calendar is in OneProject.
 
 ## Timing a task
 
-**Start Timer** on a task's page, or the ▷ beside it on My Tasks, starts timing
-it; **Stop Timer** stops it and says how long went on your timesheet. Only one
-timer runs at a time — starting another stops the first — and a task being
-timed says since when on My Tasks.
+**Start Timer** on a task's page, or ▷ next to it on My Tasks, starts timing
+it. **Stop Timer** stops it and shows how much time was added to your
+timesheet.
 
-The time goes on **your timesheet for the week**, made for you if you have
-none, with the task and its project filled in and the activity you used last.
-Change the activity there if it was something else, and submit the timesheet
-at the end of the week as usual; the task's **Actual Time** counts it from
-then. A timer stopped within a minute of starting adds nothing.
+- Only one timer runs at a time. Starting another stops the first.
+- My Tasks shows when the running timer started.
+- A timer stopped within a minute adds nothing.
 
-Timing is for people who keep a timesheet; somebody who cannot make one does
-not see the timer.
+The time goes on **your timesheet for the week**, created if you don't have
+one, with the task, its project and your last activity type. Change the
+activity there if needed, and submit the timesheet at the end of the week as
+usual. The task's **Actual Time** counts it once submitted.
+
+Only people who can create timesheets see the timer.
 
 ## Sub-tasks and checklists
 
-**Sub-tasks** at the top of a task's page lists the tasks under it, and **+**
-adds one. A sub-task is a whole task — its own people, date and board card —
-in the same project as the task it is under.
+**Sub-tasks** at the top of a task's page lists the tasks under it. **+**
+adds one. A sub-task is a full task, with its own people, dates and board
+card, in the same project as its parent.
 
-**Checklist** on a task's page is for the steps on the way to finishing it,
-which nobody else has to be given. Tick **Done** as you go; the task's
-**Progress** follows, and so does the project's when it counts progress.
+**Checklist** is for steps toward finishing a task that don't need to be
+assigned to anyone. Tick **Done** as you go. The task's **Progress** updates,
+and so does the project's if it tracks progress.
 
 ## Repeating tasks
 
-**Repeat** in a task's menu (the **⋯** at the top) makes it repeat — daily,
-weekly, monthly and so on — and a new task is made each time. Each one is due
-on the day it repeats, is still to do with its checklist unticked, and is
-given to the same people as the task it repeats. Stop it from the same place.
+**Repeat**, in the task's **⋯** menu, sets a task to repeat daily, weekly,
+monthly and so on. Each time, a new task is created:
+
+- due on the day it repeats
+- open, with its checklist unticked
+- assigned to the same people
+
+Stop repeating from the same menu.
 
 ## Who is on a task
 
-**Assign** on a task's page gives it to somebody. They see it, it is on their
-calendar on the day it is due, and they are told. A task can be assigned to
-more than one person.
+**Assign** on a task's page assigns it to someone. They can see it, it shows
+on their calendar on its due date, and they're notified. A task can be
+assigned to several people.
 
-- **Completing a task** takes it off everybody's list.
-- **Ticking off your assignment** on a task in no project completes the task,
-  since you were the one doing it. On a task in a project it only takes it off
-  your list; the task is done when it is completed.
+- **Completing a task** removes it from everyone's list.
+- **Closing your assignment** on a task with no project completes the task.
+  On a project task, it only removes the task from your list. The task stays
+  open until it's completed.
 
-## Being told
+## Notifications
 
-- **Task Given**: when somebody gives you a task, the bell says who, the
-  task, when it is due and its project, and you are mailed it if you chose
-  to be.
-- **Task Done**: when somebody else completes a task you gave them, or one
-  you made, you are told.
-- **Today's Tasks**: each morning, what is due that day and what is late,
-  if anything is.
+- **Task Given**: someone assigns you a task. Shows who, the task, its due
+  date and project. Also sent by email if you turned that on.
+- **Task Done**: someone completes a task you assigned to them, or one you
+  created.
+- **Today's Tasks**: each morning, what's due today and what's overdue, if
+  anything.
 
-Each can be turned off, or changed, under **Settings › Notifications**.
+Each can be turned off or changed under **Settings › Notifications**.
 
 ## Asking OneAI
 
-On My Tasks, OneAI offers **What should I do first?** and **Add a task…**.
-It reads your tasks as you see them. A task it suggests comes as a card:
-with a due date, a project, a checklist, and a colleague to give it to if
-you asked for one. Nothing is added until you approve the card, and the
-colleague is told then.
+On My Tasks, OneAI offers **What should I do first?** and **Add a task…**. It
+reads your tasks as you see them. A suggested task comes on a card, with a
+due date, project, checklist and, if you asked, a colleague to assign it to.
+Nothing is added until you approve the card, and the colleague is notified
+then.
 
-On a task's page, **Break this into steps** suggests the steps of its
-checklist, kept after the ones it has. They are added when you approve.
+On a task's page, **Break this into steps** suggests checklist steps, added
+after any existing ones when you approve.
 
 ## Who sees a task
 
-- **Your own tasks** — ones you made, or that are assigned to you — are yours
-  to see and change, and nobody else's unless you assign or share them.
-- **A task in a project** is also seen by whoever may see the project — its
-  members, or everybody who works in projects when it lists nobody (see
+- **Your own tasks**, ones you created or are assigned to, are yours to see
+  and change. No one else sees them unless you assign or share them.
+- **A project task** is also seen by anyone who can see the project. That's
+  its members, or everyone who works in projects if it has no members (see
   OneProject).
-- **A template task** — one marked **Is Template**, which a project template
-  is made of — is seen by everybody who works in projects, and is nobody's
-  work: it is not assigned, and not on My Tasks or the calendar.
-- **Share** on a task's page lets somebody see one task without giving it to
+- **A template task**, marked **Is Template** and used by project templates,
+  is seen by everyone who works in projects. It isn't assigned to anyone and
+  doesn't show on My Tasks or the calendar.
+- **Share** on a task's page lets someone see a task without assigning it to
   them.
 
-A task you were given by somebody else is yours to do, not yours to delete.
+You can work on a task someone else assigned to you, but you can't delete it.
 
 ## Under the hood
 

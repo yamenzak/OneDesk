@@ -4,277 +4,312 @@ Written by hand. What OneCloud does and how to use it. Everything above
 **Under the hood** is written for the people who use it, and OneAI reads it to
 answer "how do I…" questions. Under the hood is for the people who build it.
 
-OneCloud is where the company's files are: the ones you keep for yourself,
-the ones a team shares, and every file attached to a record anywhere in One —
-an invoice's PDF, an employee's passport scan, a project's drawings — in one
-place that works like the file explorer on your computer. Files are kept in
-cloud storage, not on the server, so there is room for all of them.
+OneCloud holds the company's files in one place: your own files, files your
+team shares, and every file attached to a record in One, such as an
+invoice's PDF or an employee's passport scan. It works like the file
+explorer on your computer. Files are kept in cloud storage, not on the
+server.
 
 ## Finding your way
 
-**OneCloud** in the dock opens the explorer, full width: its own folder tree
-is the navigation, so the side panel starts closed. A workspace
-administrator finds **Storage Check** — whether files are going to cloud
-storage, and moving the ones still on the server — by right-clicking an
-empty space in the explorer.
+**OneCloud** in the dock opens the explorer at full width. The folder tree on
+the left is the navigation, so the side panel starts closed.
+
+Workspace administrators can open **Storage Check** by right-clicking an
+empty space in the explorer. It shows whether files are going to cloud
+storage and moves any still on the server.
 
 ## What is in OneCloud
 
-- **My Files** — your own folders and files. Nobody else sees them unless you
+- **My Files**: your own folders and files. No one else sees them unless you
   share them.
-- **Recent** — what you opened or added lately, newest first.
-- **Starred** — what you starred (right-click › **Star**), to find it again.
-- **Shared with Me** — what other people have shared with you.
-- **Libraries** — your team's shared folders (below).
-- **Company** — folders everybody in the company can open and add to. What
-  you put there, you (or a workspace administrator) can rename, move and
-  delete.
-- **Records** — a folder for every kind of record that has files (Sales
-  Invoice, Employee, Project…), and inside it a folder for each record, with
-  the files attached to it. You see the records you may open, and nothing
-  else. Dropping a file on a record's folder attaches it to the record.
-- **Network** — SFTP and WebDAV servers you connected, as folders (below).
-- **Requests** — the files you asked people for, and how far each has got
-  (below).
-- **Recycle Bin** — what you deleted, for thirty days. **Restore** puts it back
-  where it was.
+- **Recent**: files you opened or added lately, newest first.
+- **Starred**: files and folders you starred (right-click › **Star**).
+- **Shared with Me**: what other people shared with you.
+- **Libraries**: folders shared by a team (see below).
+- **Company**: folders everyone in the company can open and add to. You can
+  rename, move and delete what you added. So can a workspace administrator.
+- **Records**: a folder for each record type that has files (Sales Invoice,
+  Employee, Project…), with a folder for each record inside it. You only see
+  records you can open. Dropping a file on a record's folder attaches it to
+  that record.
+- **Network**: SFTP and WebDAV servers you connected (see below).
+- **Requests**: files you requested from people, and their progress (see
+  below).
+- **Recycle Bin**: deleted items, kept for 30 days. **Restore** puts an item
+  back where it was.
 
-Every record in One — an invoice, an employee, a task — has a **Files** tab
-at the end of its form, with the number of files beside it. It is this
-explorer, opened on that record's folder: drop files in, preview, rename,
-share, ask for files with **New › File request**, or click the path to open
-the record in OneCloud. It appears once the record is saved. In the side
-panel, **Files** with the same number opens the tab.
+### Files on a record
 
-The upload dialog — behind every attach button, a picture in the text
-editor, a comment's attachment — offers **OneCloud** beside My Device, Link
-and Camera. It opens this explorer to choose a file from anywhere you may
-open: double-click it, or select several and press **Attach**. The file is
-attached without being uploaded again. A file uploaded through the dialog
-that belongs to no record goes to your My Files.
+Every record in One has a **Files** tab at the end of its form, with the
+number of files beside it. The tab is this explorer, opened on the record's
+folder. You can drop files in, preview, rename, share and request files
+with **New › File request**. Click the path to open the record's folder in
+OneCloud. The tab appears once the record is saved. **Files** in the side
+panel opens the same tab.
 
-Dragging a file between a record and one of your folders copies it — the
-invoice keeps its PDF and your folder gets one too. Moving between your own
-folders moves it. Two things with the same name in one folder are kept apart
-as *Report (2).pdf*, the way your computer does.
+### Attaching from OneCloud
+
+The upload dialog (any attach button, an image in the text editor, a
+comment's attachment) has a **OneCloud** option next to My Device, Link and
+Camera.
+
+1. Choose **OneCloud**.
+2. Double-click a file, or select several and press **Attach**.
+
+The file is attached without uploading it again. A file uploaded through the
+dialog that isn't attached to a record goes to your My Files.
+
+### Copying and moving
+
+- Dragging a file between a record and one of your folders copies it. The
+  record keeps its file and your folder gets a copy.
+- Dragging between your own folders moves it.
+- Two items with the same name in one folder are kept as *Report.pdf* and
+  *Report (2).pdf*.
 
 ## Using the explorer
 
-It works the way the file explorer on your computer does.
+- **Folder tree**: click a folder to open it, or the arrow to expand it.
+- **Address bar**: back, forward and up, then the current path. Click part of
+  the path to go there, or click the empty space, type a path such as
+  `My Files/Projects/2026` and press Enter.
+- **Search**: searches the current folder and its subfolders. **Search
+  everywhere** widens it to every file you can open: My Files, Company,
+  Shared with Me, your libraries and the files of every record you can see.
+  At the top level of OneCloud it searches everywhere by default.
+  Right-click a result for **Open file location**. Servers under Network
+  aren't searched.
+- **New**: create a folder, or upload files or a whole folder. You can also
+  drag files or folders from your computer onto the page or onto a folder.
+- **Details** and **Tiles** switch the view. Click a column heading to sort
+  by it.
+- **Preview pane**: shows the selected file (images, PDFs, text, video and
+  audio) with its size, date and owner.
+- **Right-click** an item to open, download, copy a link, cut, copy, paste,
+  rename or delete it.
+- **Drag** items onto a folder to move them. Hold Ctrl to copy instead.
 
-- **The folder tree** on the left: click a folder to open it, the arrow to
-  unfold it.
-- **The address bar**: back, forward and up, then where you are. Click a
-  part of it to go there, or click the empty space and type a path —
-  `My Files/Projects/2026` — and press Enter. The search box looks through
-  the folder you are in and every folder inside it; **Search everywhere**
-  above the results widens it to every file you may open — My Files,
-  Company, what is shared with you, your libraries and the files of every
-  record you can see. At the top of OneCloud it searches everywhere to
-  begin with. Right-click a result for **Open file location**. Servers
-  under Network are not searched.
-- **New** makes a folder (you name it straight away) or uploads files or a
-  whole folder. Dragging files or folders from your computer onto the page,
-  or onto a folder, uploads them there.
-- **Details** and **Tiles** switch the view; click a column heading to sort
-  by it. The **preview pane** shows the file you selected — pictures, PDFs,
-  text, video and sound — with its size, date and owner.
-- **Right-click** anything for what you can do with it: open, download, copy
-  a link, cut, copy, paste, rename, delete.
-- **Drag** files onto a folder to move them; hold Ctrl to copy instead.
+Changes other people make appear in the open folder without refreshing.
 
-What somebody else adds, moves or deletes shows up in the folder you have
-open without refreshing, as it does in any list in One.
+**Keyboard shortcuts**
 
-The keys you already know work: Enter opens, Backspace goes back, F2
-renames, Delete deletes (Shift+Delete deletes for good), Ctrl+A selects
-everything, Ctrl+X, Ctrl+C and Ctrl+V cut, copy and paste, Ctrl+Shift+N
-makes a folder, Ctrl+F searches, Ctrl+Shift+F searches everywhere and F5
-refreshes. Click, Ctrl+click and
-Shift+click select one, a few or a run of files.
+| Key | Action |
+| --- | --- |
+| Enter | Open |
+| Backspace | Back |
+| F2 | Rename |
+| Delete | Move to Recycle Bin |
+| Shift+Delete | Delete permanently |
+| Ctrl+A | Select all |
+| Ctrl+X, Ctrl+C, Ctrl+V | Cut, copy, paste |
+| Ctrl+Shift+N | New folder |
+| Ctrl+F | Search |
+| Ctrl+Shift+F | Search everywhere |
+| F5 | Refresh |
 
-Where you are is in the page's address, so the browser's own back button
-works and a link you send somebody opens the same folder for them, if they
-may open it.
+Click, Ctrl+click and Shift+click select one item, several items or a range.
+
+The current folder is in the page's address, so the browser's back button
+works. A link you send to someone opens the same folder for them, if they
+have access to it.
 
 ## Sharing with the team
 
-Select a file or folder and press **Share** (or right-click › **Share…**).
-Pick people, choose whether they can **view** or **edit**, and press Share.
-They get a notification that opens it.
+1. Select a file or folder and press **Share** (or right-click › **Share…**).
+2. Add people and choose **View** or **Edit**.
+3. Press **Share**. They get a notification that opens it.
 
-- Sharing a folder shares everything in it, including what is put there
-  later.
-- Someone who can edit can add, rename, move and delete inside it, and share
-  it with others. Someone who can view can open and download.
-- What was shared with you is in **Shared with Me**, with who shared it. You
-  can copy things out of it into your own folders; moving them out is
-  refused, since they are still the owner's.
-- The Share dialog lists everyone who has it, and lets you change what they
-  can do or take them off. Anybody can take themselves off.
+- Sharing a folder shares everything in it, including what's added later.
+- People who can edit can add, rename, move and delete inside it, and share
+  it with others. People who can view can open and download.
+- **Shared with Me** lists what was shared with you and who shared it. You
+  can copy items from it into your own folders, but not move them, since
+  they still belong to the owner.
+- The Share dialog lists everyone with access. You can change their access
+  or remove them. Anyone can remove themselves.
 - A file attached to a record is shared by sharing the record.
-- Only people on the team can be given something here. For anybody else,
-  make a link (below).
+- Only people on the team can be added. For anyone else, create a link.
 
 ## Sharing outside the team
 
-In the Share dialog, **Create link** makes a link for people who are not on
-the team — a customer, a supplier, an accountant. It is copied for you to
-paste into an email or a chat. You choose:
+In the Share dialog, **Create link** makes a link for people outside the
+team, such as a customer, supplier or accountant. The link is copied so you
+can paste it into an email or chat. You choose:
 
-- **Who can open it**: anyone who has the link, or only people you invite by
-  email. An invited person is emailed the link, and when they open it they
-  type their address and are sent a code, so a forwarded link opens nothing
-  for anybody else.
-- **What they can do**: view; download; and for a folder, upload — a folder
-  somebody can send you files into without an account. You are told when
-  files arrive.
-- **Until when**, and a **password** for an anyone-link.
+- **Who can open it**: anyone with the link, or only invited people. Each
+  invited person is emailed the link. When they open it, they enter their
+  email address and get a code, so a forwarded link doesn't work for anyone
+  else.
+- **What they can do**: view, download, and for a folder, upload. With
+  upload on, people can send you files without an account. You're notified
+  when files arrive.
+- **Expires on**, and a **Password** for a link anyone can open.
 
-The page they see shows the file, or the folder and everything in it now
-(something you add later is there; something you delete is not). The links
-on a file are listed in its Share dialog, with how often each was opened;
-the cross takes one away at once. A link to a record's file can be made by
-whoever may change the record.
+People with the link see the file, or the folder and its current contents.
+Files you add later appear, and files you delete don't.
 
+A file's Share dialog lists its links and how often each was opened. The
+cross removes a link at once. Anyone who can edit a record can create a link
+to its files.
 
 ## Libraries
 
-A library is a folder a team shares — a department's documents, a project's
-files — with its own members. **Libraries › New › Library** makes one, and
-you are its owner. **Members** (the button at the top when you are in one)
-adds people as:
+A library is a folder shared by a team, such as a department's documents or
+a project's files, with its own members.
 
-- **Reader** — opens and downloads.
-- **Member** — also adds, changes and deletes what is in it.
-- **Owner** — also renames the library and says who is in it.
+1. Go to **Libraries** and choose **New › Library**. You're its owner.
+2. Inside the library, press **Members** to add people with a role:
+   - **Reader**: can view and download.
+   - **Member**: can also add, change and delete files.
+   - **Owner**: can also rename the library and manage members.
 
-Only its members see a library, and leaving it (or being taken off) closes
-it, even to what you put there yourself. A library always has an owner; a
-workspace administrator can open every library, so none is ever lost.
+Only members see a library. If you leave or are removed, you lose access,
+including to files you added. A library always has at least one owner.
+Workspace administrators can open every library.
 
 ## Versions and activity
 
-Uploading a file with a name already in the folder asks whether to
-**Replace** it or **Keep both**. Replacing keeps what it held as an earlier
-version, and so does **Upload new version** (right-click a file). The
-preview pane shows a file's versions — open any of them, or **Restore** one,
-which keeps the current one as a version in turn — and its activity: who
-made it, renamed it, moved it, shared it, made a link to it or replaced it.
-A replaced file keeps its shares and its links.
+When you upload a file with the same name as one in the folder, you can
+**Replace** it or **Keep both**. Replacing keeps the old file as an earlier
+version. So does **Upload new version** (right-click a file).
+
+The preview pane shows a file's versions. You can open any of them, or
+**Restore** one, which keeps the current file as a version. It also shows the
+file's activity: who created, renamed, moved, shared, linked or replaced it.
+A replaced file keeps its shares and links.
 
 ## As a drive on your computer
 
-Right-click a folder and choose **Connect as a drive…** (or right-click an
-empty space for the folder you are in). The dialog gives its address and
-how to add it — Windows *Map network drive*, macOS *Connect to Server*,
-Linux *Other Locations*. You sign in with your email and a drive password:
-**Make a password** makes one for a computer (say which), shown once. Make
-one per computer; each is listed with when it was last used, and the cross
-takes one away without touching the others. A drive password opens your
-drive and nothing else — not One in a browser, not the API.
+You can open a OneCloud folder as a network drive on your computer.
 
-The drive then works like any other: open, save, drag in, rename, make
-folders, delete. It holds exactly what you can open here and nothing else;
-saving over a file keeps what it held as a version, and deleting sends it to
-the Recycle Bin.
+1. Right-click a folder and choose **Connect as a drive…** (or right-click an
+   empty space for the current folder).
+2. Copy the address and add it as a drive: *Map network drive* on Windows,
+   *Connect to Server* on macOS, *Other Locations* on Linux.
+3. Sign in with your email and a drive password. Press **Create password**,
+   name the computer, and copy the password. It's shown only once.
+
+Create one password per computer. Each is listed with when it was last used,
+and the cross removes one without affecting the others. A drive password
+only opens your drive. It doesn't work for One in a browser or for the API.
+
+The drive works like any other: open, save, drag in, rename, create folders
+and delete. It shows exactly what you can open in OneCloud. Saving over a
+file keeps the old one as a version, and deleting moves it to the Recycle
+Bin.
 
 ## Servers as folders
 
-**Network › New › Server connection** connects an SFTP or WebDAV server — a
-supplier's upload folder, an old file server, a NAS — and shows it as a
-folder. Give it a name, the server and the sign-in (a password, or a private
-key for SFTP), and optionally which folder on the server to start from. Its
-files are read live from the server each time you open it; open, preview and
-download them, make folders, rename and delete there, and drag files between
-the server and your folders, which copies them. Deleting on a server deletes
-on the server — there is no Recycle Bin there.
+**Network › New › Server connection** connects an SFTP or WebDAV server, such
+as a supplier's upload folder, an old file server or a NAS, and shows it as a
+folder.
 
-A connection is yours alone unless a workspace administrator ticks
-*Everyone on the team*. Right-click it for **Edit connection…** and
-**Disconnect**, which leaves the server as it was. OneCloud does not connect
-to addresses on a private network.
+1. Enter a name and the server.
+2. Enter the user name and a password, or a private key for SFTP.
+3. Optionally set the folder on the server to start from.
+
+Files are read live from the server each time you open the folder. You can
+open, preview and download them, create folders, rename and delete, and drag
+files between the server and your folders, which copies them. Deleting on a
+server deletes the file on the server. There's no Recycle Bin there.
+
+A connection is private to you unless a workspace administrator ticks
+**Share with everyone on the team**. Right-click it for **Edit connection…**
+or **Disconnect**, which leaves the server unchanged. OneCloud doesn't
+connect to addresses on a private network.
 
 ## Asking for files
 
-**New › File request** in any folder or record asks people — a supplier, a
-new hire, a customer — for particular files by name: *Trade licence*, *Bank
-letters*, *Passport*. Each person gets their own link by email (or, when the
-workspace cannot send email yet, you copy each link and pass it on). The
-link opens a page listing what is asked for; they send each file there
-without an account, and can replace one they got wrong.
+A file request asks people, such as a supplier, new hire or customer, for
+specific files by name: *Trade licence*, *Bank letters*, *Passport*.
 
-For each file you say:
+1. In any folder or record, choose **New › File request**.
+2. Enter a title, the recipients' email addresses, and optionally a due date
+   and a message.
+3. Add each file you need (see below) and press **Send request**.
 
-- **File** — its name, as they will see it. What they send is saved under
-  that name, so *Photo.jpg* rather than *IMG_4418.jpg*.
-- **Required** — whether the request is finished without it.
-- **Several** — whether they may send more than one.
-- **File Types** — which kinds it may be, like `pdf, jpg`; anything else is
-  refused on the page. Empty means any kind.
-- **Record Field** — on a record, a field the file fills. Asking a new hire
-  for *Photo* with the field *Image* sets the employee's photo when it
-  arrives. A request that fills fields goes to one person.
+Each person gets their own link by email. If the workspace can't send email
+yet, copy each link and send it yourself. The link opens a page listing the
+files. They upload each one there without an account, and can replace a file
+they got wrong.
 
-Asked from a folder, files land in a folder of their own inside it, named
-after the request, with a folder per person, by name, when you ask several
-people. Asked from a record, they are attached to the record. Asked from
-**Requests**, the request's folder is made in My Files.
+For each file:
 
-**Requests** shows each request and how many people have sent everything.
-Opening one shows what has arrived and from whom; right-click › **Progress…**
-shows each person against each file, with their link to copy, **Remind**,
-and **Close request**, after which the links take nothing more. You are told
-as each file arrives. People who have not finished are reminded by email
-three days and one day before the due date, and on it.
+- **File**: its name, as they'll see it. What they send is saved under this
+  name, so *Photo.jpg* rather than *IMG_4418.jpg*.
+- **Required**: whether the request is complete without it.
+- **Multiple**: whether they can send more than one.
+- **File Types**: allowed types, like `pdf, jpg`. Other types are refused.
+  Leave empty to allow any type.
+- **Record Field**: on a record, a field the file fills. For example, asking
+  a new hire for *Photo* with the field *Image* sets the employee's photo
+  when it arrives. A request that fills fields can go to one person only.
+
+Where files go:
+
+- From a folder: a new folder inside it, named after the request, with a
+  folder for each person when you ask several people.
+- From a record: attached to the record.
+- From **Requests**: a new folder in My Files.
+
+**Requests** lists each request and how many people have sent everything.
+Open one to see what arrived and from whom. Right-click › **Progress…** shows
+each person against each file, with their link to copy, **Remind** and
+**Close request**. Once closed, the links no longer accept files.
+
+You're notified as each file arrives. People who haven't finished get an
+email reminder three days and one day before the due date, and on the day.
 
 ## Where files are kept
 
-Every file uploaded anywhere in One — attached to an invoice, dropped in a
-chat, added to OneCloud — goes to cloud storage. Opening one fetches it
-straight from there, so a large file never slows the workspace down. Nothing
-changes in how you attach or open a file.
+Every file uploaded anywhere in One goes to cloud storage, whether it's
+attached to an invoice, dropped in a chat or added to OneCloud. Files open
+straight from cloud storage, so large files don't slow the workspace down.
+Attaching and opening files works the same as before.
 
-Files added before cloud storage was switched on stay on the server until
-they are moved: **Setup › Storage Check › Fix** moves them all.
+Files added before cloud storage was turned on stay on the server until
+they're moved. **Setup › Storage Check › Fix** moves them all.
 
 ## How big a file can be
 
-Up to 5 GB, the most R2 takes in one upload, however it arrives — the
-explorer, the attach button on a record, a drive, a link. What limits a
-workspace is its storage, not the size of a file: an upload there is no
-room for is refused.
+Up to 5 GB per file, the most R2 accepts in one upload. This applies however
+the file arrives: the explorer, a record's attach button, a drive or a link.
+The real limit is the workspace's storage. An upload is refused when there
+isn't room for it.
 
 ## Opening a file
 
-Clicking a file anywhere in One opens it from cloud storage in a new tab, or
-saves it under its own name when you download it. A file only you may see
-opens only for you and for people allowed to see the record it is attached
-to; a link to it passed to anybody else shows them nothing. Public files —
-a logo on a web page, a picture in an email — open for anybody.
+Clicking a file anywhere in One opens it from cloud storage in a new tab.
+Downloading saves it under its own name.
+
+A private file opens only for you and for people who can see the record it's
+attached to. Anyone else who gets the link sees nothing. Public files, such
+as a logo on a web page or an image in an email, open for anyone.
 
 ## Asking OneAI
 
-The OneAI panel in OneCloud knows the folder you have open and the file
-you have chosen. With a file chosen it offers **Summarise this file**, **Who
-can see this?** and **Find a file…**; with none, **Find a file…** and
-**What is taking the space?**. **Find a file…** puts "Find the file that" in
-the box for you to finish ("…has our trade licence in it") and searches
-what the files say, not only their names. **What is taking the space?**
-lists your own largest files and how full the workspace's storage is.
+The OneAI panel in OneCloud knows the open folder and the selected file.
 
-OneAI reads only a file you may open, and only when you ask; nothing in
-OneCloud is changed by it. Sharing, moving and deleting stay yours, in the
-explorer.
+- With a file selected: **Summarise this file**, **Who can see this?** and
+  **Find a file…**
+- With nothing selected: **Find a file…** and **What is taking the space?**
 
-**Read with OneAI** on a file's menu has OneAI read that one file now, file
-it and act on it as it would in a folder it reads. On a folder, **Read with
-OneAI…** has it read every new file that arrives there. A scan or a photo
-is read with OneAI credits.
+**Find a file…** starts the question "Find the file that" for you to finish,
+for example "…has our trade licence in it". It searches the contents of
+files, not just their names. **What is taking the space?** lists your largest
+files and how full the workspace's storage is.
 
-With nothing chosen, the pane on the right shows the folder itself: how
-many folders and files it holds and their size, and for a folder of yours,
-who can see it and whether OneAI reads it.
+OneAI only reads files you can open, and only when you ask. It doesn't change
+anything in OneCloud. Sharing, moving and deleting are done in the explorer.
+
+**Read with OneAI** on a file's menu has OneAI read that file now, file it
+and act on it. On a folder, **Read with OneAI…** reads every new file that
+arrives there. Scans and photos use OneAI credits.
+
+With nothing selected, the preview pane shows the folder: how many folders
+and files it holds and their total size. For your own folders, it also shows
+who can see the folder and whether OneAI reads it.
 
 ## Under the hood
 

@@ -13,7 +13,7 @@ frappe.ui.form.on("Offering", {
 		// An add-on's workspaces carry it in a table, which the connections
 		// cannot count: this lists them.
 		if (frm.doc.kind === "Add-on") {
-			frm.add_custom_button(__("Workspaces With It"), () =>
+			frm.add_custom_button(__("View Workspaces"), () =>
 				frappe.xcall("onedesk.one_admin.operator.sold", { offering: frm.doc.name }).then((sold) =>
 					frappe.set_route("List", "Tenant", { name: ["in", sold.workspaces.length ? sold.workspaces : [""]] }),
 				),
@@ -22,9 +22,9 @@ frappe.ui.form.on("Offering", {
 		if (frappe.model.can_read("Item")) {
 			// Its Item's code is `books.item_code`: ONE- and the key.
 			const item = `ONE-${frm.doc.name}`.toUpperCase();
-			frm.add_custom_button(__("Item in Books"), () =>
+			frm.add_custom_button(__("View Item"), () =>
 				frappe.db.exists("Item", item).then((there) =>
-					there ? frappe.set_route("Form", "Item", item) : frappe.show_alert(__("It has no Item yet.")),
+					there ? frappe.set_route("Form", "Item", item) : frappe.show_alert(__("No item yet")),
 				),
 			);
 		}
@@ -35,7 +35,7 @@ frappe.ui.form.on("Offering", {
 	enabled(frm) {
 		if (frm.doc.enabled || frm.is_new()) return;
 		frappe.show_alert({
-			message: __("Existing workspaces keep what they bought. This only stops new signups."),
+			message: __("Existing workspaces keep it. New signups can't pick it."),
 			indicator: "blue",
 		});
 	},
@@ -47,6 +47,6 @@ frappe.provide("onedesk.offering");
 // add-on it is simply not what the add-on adds.
 onedesk.offering.say = (frm) => {
 	const plan = frm.doc.kind === "Plan";
-	const zero = plan ? __("Zero means unlimited.") : __("Set only what this add-on adds. Leave the rest at zero.");
+	const zero = plan ? __("Zero means unlimited.") : __("Set only what this add-on adds.");
 	["storage_gb", "database_gb", "seats"].forEach((field) => frm.set_df_property(field, "description", zero));
 };

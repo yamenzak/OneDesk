@@ -186,7 +186,7 @@ def _hold(doc) -> None:
 			frappe.throw(_("{0} is not a person on the record.").format(row.receiver_by_document_field))
 	told = any(row.receiver_by_role or row.receiver_by_document_field for row in doc.recipients or [])
 	if not (told or doc.send_to_all_assignees):
-		frappe.throw(_("Say who the rule tells: a role, a person on the record, or its assignees."))
+		frappe.throw(_("Choose who to notify, such as a role, a person on the record or its assignees."))
 	doc.notification_type = doc.name
 
 
@@ -236,7 +236,7 @@ def check_text(doctype: str | None, text: str | None) -> str | None:
 	try:
 		tree = SandboxedEnvironment().parse(text)
 	except TemplateSyntaxError as e:
-		return _("This does not read as a template: {0}").format(e.message)
+		return _("Template error: {0}").format(e.message)
 	allowed = set(readable(doctype)) if doctype else set()
 	for node in tree.find_all(nodes.Node):
 		if isinstance(node, (nodes.Template, nodes.Output, nodes.TemplateData)):

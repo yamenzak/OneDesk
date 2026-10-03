@@ -358,11 +358,11 @@ def refused(error: Exception) -> str:
 	"""What to tell a person about a failure, without a traceback."""
 	text = str(error)
 	if isinstance(error, (socket.timeout, TimeoutError)):
-		return frappe._("The server did not answer in time.")
+		return frappe._("The server didn't respond in time.")
 	if isinstance(error, ssl.SSLError):
-		return frappe._("The server's certificate could not be checked.")
+		return frappe._("Couldn't verify the server's certificate.")
 	if isinstance(error, ConnectionRefusedError | socket.gaierror):
-		return frappe._("The server could not be reached.")
+		return frappe._("Couldn't reach the server.")
 	if "AUTHENTICATIONFAILED" in text.upper() or "LOGIN" in text.upper():
-		return frappe._("The server did not accept the address and password.")
+		return frappe._("The server rejected the email address or password.")
 	return text[:300]

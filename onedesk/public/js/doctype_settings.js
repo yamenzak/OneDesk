@@ -169,10 +169,9 @@ onedesk.doctype_settings.adapt = () => {
 		const edit = (name, draw) => onedesk.mail_templates.edit(name, { doctype, done: draw });
 		table(panel, {
 			title: __("Mail Templates"),
-			description: __("Words to start a mail about a {0} with, picked in the composer.", [__(doctype)]),
 			add: { label: __("New Template"), click: (draw) => edit(null, draw) },
 			icon: "mail",
-			empty: __("No mail templates yet."),
+			empty: __("No mail templates"),
 			load: () =>
 				Promise.all([
 					frappe.doctype_settings.get_list("Email Template", {
@@ -214,7 +213,6 @@ onedesk.doctype_settings.adapt = () => {
 		};
 		table(panel, {
 			title: __("Approvals"),
-			description: __("The states a {0} moves through, and who moves it.", [__(doctype)]),
 			add: {
 				label: __("New Approval"),
 				click: () => {
@@ -223,7 +221,7 @@ onedesk.doctype_settings.adapt = () => {
 				},
 			},
 			icon: "route",
-			empty: __("No approvals yet."),
+			empty: __("No approvals"),
 			load: () =>
 				frappe.doctype_settings.get_list("Workflow", {
 					filters: { document_type: doctype },
@@ -257,10 +255,9 @@ onedesk.doctype_settings.adapt = () => {
 		};
 		table(panel, {
 			title: __("Automations"),
-			description: __("What happens by itself when a {0} is made, changed or reaches a date.", [__(doctype)]),
 			add: { label: __("New Automation"), click: () => form(null) },
 			icon: "zap",
-			empty: __("No automations yet."),
+			empty: __("No automations"),
 			load: () =>
 				frappe.doctype_settings.get_list("Automation Flow", {
 					filters: { document_type: doctype },
@@ -297,10 +294,9 @@ onedesk.doctype_settings.adapt = () => {
 	frappe.doctype_settings.register("notifications", (panel, doctype) =>
 		table(panel, {
 			title: __("Notifications"),
-			description: __("The workspace's own rules on any {0}: when something happens to one, tell somebody.", [__(doctype)]),
 			add: { label: __("New Rule"), click: () => go(panel, { rule: "new", for: doctype }) },
 			icon: "bell",
-			empty: __("No rules yet."),
+			empty: __("No rules"),
 			load: () =>
 				frappe.doctype_settings.get_list("Notification", {
 					filters: { document_type: doctype, one_rule: 1 },
@@ -320,7 +316,7 @@ onedesk.doctype_settings.adapt = () => {
 	// where what it may do is changed.
 	frappe.doctype_settings.register("access", (panel, doctype) => {
 		const said = (right) =>
-			({ select: __("Pick"), read: __("Read"), write: __("Edit"), create: __("Create"), delete: __("Delete"), submit: __("Submit"), cancel: __("Cancel"), export: __("Export") })[right];
+			({ select: __("Select"), read: __("Read"), write: __("Edit"), create: __("Create"), delete: __("Delete"), submit: __("Submit"), cancel: __("Cancel"), export: __("Export") })[right];
 		const level = (name) => {
 			panel.dialog.hide();
 			frappe.app.sidebar && frappe.app.sidebar.select_module("One");
@@ -328,10 +324,9 @@ onedesk.doctype_settings.adapt = () => {
 		};
 		table(panel, {
 			title: __("Access"),
-			description: __("What each app's people may do with a {0}: its users, the levels you made, and its managers.", [__(doctype)]),
 			add: { label: __("New Level"), click: () => level(null) },
 			icon: "shield-check",
-			empty: __("No app's people work with this kind of record."),
+			empty: __("No access levels"),
 			load: () =>
 				frappe
 					.xcall("onedesk.one.access.doctype_levels", { doctype })
@@ -341,10 +336,10 @@ onedesk.doctype_settings.adapt = () => {
 				{ label: __("App"), render: (row) => esc(row.app) },
 				{
 					label: __("Level"),
-					render: (row) => named(row.own ? row.level : __(row.level), row.own && { label: __("Yours"), theme: "purple" }),
+					render: (row) => named(row.own ? row.level : __(row.level), row.own && { label: __("Custom"), theme: "purple" }),
 				},
 				{
-					label: __("May"),
+					label: __("Permissions"),
 					render: (row) => row.rights.map((right) => frappe.ui.badge.html({ label: said(right), theme: "gray" })).join(" "),
 				},
 			],
@@ -358,9 +353,6 @@ onedesk.doctype_settings.adapt = () => {
 		let list;
 		const head = (series) => ({
 			title: __("Numbering"),
-			description: series
-				? __("How a new {0} is named. The first series is the one a new record starts with.", [__(doctype)])
-				: __("How a new {0} is named.", [__(doctype)]),
 			actions: series ? [{ label: __("Add Series"), icon: "plus", click: () => onedesk.numbering.add(doctype, () => list.refresh()) }] : [],
 		});
 		panel.set_view({
@@ -429,7 +421,7 @@ onedesk.numbering.add = (doctype, done) => {
 				onchange: () => onedesk.numbering.preview(doctype, dialog, "series", true),
 			},
 			{ fieldtype: "Check", fieldname: "first", label: __("Default"), description: __("A new record starts with this series.") },
-			{ fieldtype: "Section Break", label: __("How a Series Is Written"), collapsible: 1 },
+			{ fieldtype: "Section Break", label: __("Series Format"), collapsible: 1 },
 			{ fieldtype: "HTML", fieldname: "help", options: onedesk.numbering.help_html() },
 		],
 		primary_action_label: __("Add"),
@@ -489,13 +481,13 @@ onedesk.numbering.edit = (doctype, row, rows, done) => {
 			{
 				fieldtype: "Int",
 				fieldname: "current",
-				label: __("Reached"),
+				label: __("Current Value"),
 				default: row.current,
 				description: row.last_name
-					? __("The next name continues after this number. It can only go up, and not below {0}, the highest a {1} already has ({2}).", [row.used, __(doctype), row.last_name])
-					: __("The next name continues after this number. It can only go up."),
+					? __("Can only go up, and not below {0}, used by {1} {2}.", [row.used, __(doctype), row.last_name])
+					: __("Can only go up."),
 			},
-			{ fieldtype: "Section Break", label: __("How a Series Is Written"), collapsible: 1 },
+			{ fieldtype: "Section Break", label: __("Series Format"), collapsible: 1 },
 			{ fieldtype: "HTML", fieldname: "help", options: onedesk.numbering.help_html() },
 		],
 		primary_action_label: __("Update"),
@@ -549,7 +541,7 @@ onedesk.mail_templates.edit = async (name, { doctype = null, done = null } = {})
 				label: __("For"),
 				options: "DocType",
 				get_query: () => ({ query: "onedesk.one.rules.watchable" }),
-				description: __("Empty offers it on any kind of record."),
+				description: __("Leave empty to use it for any record type."),
 			},
 			{ fieldtype: "Check", fieldname: "use_html", label: __("Write in HTML") },
 			{ fieldtype: "Text Editor", fieldname: "response", label: __("Message"), depends_on: "eval:!doc.use_html" },
@@ -557,7 +549,7 @@ onedesk.mail_templates.edit = async (name, { doctype = null, done = null } = {})
 			{
 				fieldtype: "HTML",
 				fieldname: "help",
-				options: `<p class="text-muted small">${__("Name a field of the record in double braces, as {0}, and it is filled in when the mail is written.", ["<code>{{ customer_name }}</code>"])}</p>`,
+				options: `<p class="text-muted small">${__("Use {0} to insert a field of the record.", ["<code>{{ customer_name }}</code>"])}</p>`,
 			},
 		],
 		primary_action_label: name ? __("Update") : __("Create"),
@@ -572,7 +564,7 @@ onedesk.mail_templates.edit = async (name, { doctype = null, done = null } = {})
 			if (doc) await frappe.xcall("frappe.client.save", { doc: { ...doc, ...fields } });
 			else await frappe.db.insert({ doctype: "Email Template", name: values.template_name.trim(), ...fields });
 			dialog.hide();
-			frappe.show_alert({ message: name ? __("Template updated") : __("Template made"), indicator: "green" });
+			frappe.show_alert({ message: name ? __("Template updated") : __("Template created"), indicator: "green" });
 			done && done();
 		},
 	});
@@ -764,7 +756,7 @@ onedesk.automations.field = async (one, frm, action_type) => {
 			query: "frappe.email.doctype.email_template.email_template.get_email_templates",
 			filters: { reference_doctype: frm.doc.document_type || "" },
 		});
-	if (one.templatable) df.description = __("Can name a field of the record, as {0}.", ["{{ doc.customer_name }}"]);
+	if (one.templatable) df.description = __("Can include a field of the record, such as {0}.", ["{{ doc.customer_name }}"]);
 	return df;
 };
 
@@ -862,7 +854,7 @@ onedesk.numbering.help_html = () => {
 			${part(".DD.", __("the day of the month"))}
 			${part(".JJJ.", __("the day of the year"))}
 			${part(".WW.", __("the week of the year"))}
-			${part(".FY.", __("the fiscal year, and .TFY. its short form"))}
+			${part(".FY.", __("the fiscal year (.TFY. for the short form)"))}
 			${part(".ABBR.", __("the company's abbreviation"))}
 			${part(".{fieldname}.", __("a field of the record, such as .{branch}."))}
 			${part(".#####", __("the counter, one # per digit. It restarts when the text before it changes"))}
@@ -892,7 +884,7 @@ onedesk.printing.new_format = async (panel, doctype) => {
 				label: __("Start From"),
 				options: [...starts.map((one) => ({ label: one.name, value: one.name })), { label: every, value: "" }],
 				default: starts.length ? starts[0].name : "",
-				description: __("A copy of a format {0} already prints with, changed in the builder.", [__(doctype)]),
+				description: __("The format to copy. It opens in the builder.", [__(doctype)]),
 			},
 		],
 		primary_action_label: __("Create"),
@@ -912,7 +904,7 @@ onedesk.numbering.set_up = async (naming) => {
 	const kinds = await frappe.xcall(onedesk.numbering.API + "kinds");
 	const dialog = new frappe.ui.Dialog({
 		title: __("Set Up Naming"),
-		fields: [{ fieldtype: "Autocomplete", fieldname: "doctype", label: __("Kind of Record"), options: kinds, reqd: 1 }],
+		fields: [{ fieldtype: "Autocomplete", fieldname: "doctype", label: __("Record Type"), options: kinds, reqd: 1 }],
 		primary_action_label: __("Open"),
 		primary_action: ({ doctype }) => {
 			dialog.hide();
@@ -944,7 +936,7 @@ onedesk.numbering.named_by = async ($wrapper, doctype, shown = () => {}) => {
 				options: said.kinds,
 				description: said.made
 					? __("Existing records keep their names. Only required fields are listed.")
-					: __("Records already made keep their names."),
+					: __("Existing records keep their names."),
 				change: () => group.get_value("by") !== EXPRESSION && apply(),
 			},
 			{ fieldtype: "Column Break" },
@@ -954,7 +946,7 @@ onedesk.numbering.named_by = async ($wrapper, doctype, shown = () => {}) => {
 				label: __("Field"),
 				options: said.fields,
 				depends_on: `eval:doc.by === "${FIELD}"`,
-				description: __("It becomes required, and no two records may share its value."),
+				description: __("It becomes required and unique."),
 				change: () => apply(),
 			},
 			{
@@ -963,7 +955,7 @@ onedesk.numbering.named_by = async ($wrapper, doctype, shown = () => {}) => {
 				label: __("Expression"),
 				depends_on: `eval:doc.by === "${EXPRESSION}"`,
 				placeholder: "PRJ-.YYYY.-.####",
-				description: __("Written as a series is."),
+				description: __("Same format as a series."),
 				input_class: "font-mono",
 			},
 			{
@@ -992,7 +984,7 @@ onedesk.numbering.named_by = async ($wrapper, doctype, shown = () => {}) => {
 					? `<span class="text-danger">${frappe.utils.escape_html(row.error)}</span>`
 					: row.next
 						? __("Next: {0}", [`<samp>${frappe.utils.escape_html(row.next)}</samp>`])
-						: __("Written as a series is.")
+						: __("Same format as a series.")
 			);
 		}, 300)
 	);
@@ -1017,7 +1009,7 @@ onedesk.numbering.named_by = async ($wrapper, doctype, shown = () => {}) => {
 		if (!value || value === said.value) return;
 		const label = [...said.kinds, ...said.fields].find((one) => one.value === value)?.label || value;
 		frappe.confirm(
-			__("Name each new {0} by {1}? Records already made keep their names.", [__(doctype), frappe.utils.escape_html(label)]),
+			__("Name each new {0} by {1}? Existing records keep their names.", [__(doctype), frappe.utils.escape_html(label)]),
 			async () => {
 				said = await frappe.xcall(API + "set_naming_by", { doctype, value });
 				frappe.show_alert({ message: __("Naming updated"), indicator: "green" });
@@ -1101,7 +1093,7 @@ onedesk.numbering.rule = async (doctype, name, done) => {
 				fieldtype: "Table",
 				fieldname: "conditions",
 				label: __("When"),
-				description: __("Every line must match. None means always."),
+				description: __("All conditions must match. Leave empty to always apply."),
 				cannot_add_rows: false,
 				in_place_edit: true,
 				fields: [
@@ -1110,9 +1102,9 @@ onedesk.numbering.rule = async (doctype, name, done) => {
 					{ fieldtype: "Data", fieldname: "value", label: __("Value"), in_list_view: 1 },
 				],
 			},
-			{ fieldtype: "Int", fieldname: "priority", label: __("Priority"), description: __("When two rules match, the higher one names the record.") },
-			{ fieldtype: "Check", fieldname: "disabled", label: __("Off") },
-			{ fieldtype: "Section Break", label: __("How a Series Is Written"), collapsible: 1 },
+			{ fieldtype: "Int", fieldname: "priority", label: __("Priority"), description: __("If two rules match, the higher priority wins.") },
+			{ fieldtype: "Check", fieldname: "disabled", label: __("Disabled") },
+			{ fieldtype: "Section Break", label: __("Series Format"), collapsible: 1 },
 			{ fieldtype: "HTML", fieldname: "help", options: onedesk.numbering.help_html() },
 		],
 		primary_action_label: name ? __("Update") : __("Add"),

@@ -49,7 +49,7 @@ def of_file(doc) -> str | None:
 def folder_state(folder: str) -> dict:
 	item = ns.row(folder)
 	if not item or not item.get("is_folder") or not ns.may(item):
-		frappe.throw(_("There is no folder {0} you may open.").format(folder))
+		frappe.throw(_("Folder {0} not found").format(folder))
 	covering, person = of_folder(folder)
 	return {
 		"on": bool(covering),
@@ -69,7 +69,7 @@ def read_now(file: str) -> None:
 	with its mailbox, and a folder is switched on instead."""
 	item = ns.row(file)
 	if not item or item.get("is_folder") or item.get("one_deleted") or not ns.may(item):
-		frappe.throw(_("There is no file {0} you may open.").format(file), frappe.PermissionError)
+		frappe.throw(_("File {0} not found").format(file), frappe.PermissionError)
 	if item.get("attached_to_doctype") == "Communication":
 		frappe.throw(_("A message's attachments are read with its mailbox."))
 	from onedesk.one_intake import pipeline
@@ -85,7 +85,7 @@ def set_folder(folder: str, on: int) -> dict:
 	stopping = not on and _administers()
 	if not item or not item.get("is_folder") or not (stopping or _may_switch(item)):
 		frappe.throw(
-			_("Only somebody who may change {0} can say whether OneAI reads it.").format(
+			_("Only someone who can edit {0} can change this.").format(
 				(item or {}).get("file_name") or folder
 			),
 			frappe.PermissionError,

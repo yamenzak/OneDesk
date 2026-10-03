@@ -238,7 +238,7 @@ onedesk.oneai.explain = function (frm, field) {
 			event.stopPropagation(); // a check box's label would toggle it
 			onedesk.oneai.open({
 				about: df.fieldname,
-				ask: __('What is "{0}" in {1} for, and what should it be set to here? If it should change, suggest the change.', [
+				ask: __('What is "{0}" in {1} for? Suggest a value.', [
 					__(df.label || df.fieldname),
 					__(frm.doctype),
 				]),
@@ -299,13 +299,13 @@ onedesk.oneai.badge = function (frm, fieldname) {
 		.toggleClass("one-ai-write--wrote", still)
 		.attr(
 			"title",
-			still ? __("Written by {0}. Press to write it again.", [ONEAI]) : __("Write with {0}", [ONEAI]),
+			still ? __("Rewrite with {0}", [ONEAI]) : __("Write with {0}", [ONEAI]),
 		);
 
 	const mark = top.find(".one-ai-touched");
 	if (still && !button.length && !mark.length) {
 		$(`<img class="one-ai-touched" src="${MARK}" alt="${ONEAI}"
-				title="${__("Written by {0}. Goes once somebody edits it.", [ONEAI])}">`).appendTo(top);
+				title="${__("Written by {0}", [ONEAI])}">`).appendTo(top);
 	} else if (!still || button.length) {
 		mark.remove();
 	}

@@ -66,7 +66,7 @@ def _meta(doctype: str):
 	"""The doctype, if how it is named is this workspace's to change."""
 	roles.require()
 	if not doctype or not frappe.db.exists("DocType", doctype):
-		frappe.throw(_("There is no such kind of record."))
+		frappe.throw(_("This record type doesn't exist."))
 	meta = frappe.get_meta(doctype)
 	if meta.istable or meta.issingle or meta.module in REFUSED_MODULES:
 		frappe.throw(_("{0} is not named in a way this workspace sets.").format(_(doctype)))
@@ -205,7 +205,7 @@ def save(
 	_series_meta(doctype)
 	wanted = [one.strip() for one in (frappe.parse_json(options) or []) if one and one.strip()]
 	if not wanted:
-		frappe.throw(_("A kind of record numbered by a series needs at least one."))
+		frappe.throw(_("A record type named by series needs at least one series."))
 	settings = _settings(doctype)
 	settings.naming_series_options = "\n".join(wanted)
 	frappe.flags.one_numbering = True

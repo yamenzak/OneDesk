@@ -305,7 +305,7 @@ def ask() -> dict:
 
 	user = privacy._mine()
 	if frappe.db.exists(DOWNLOAD, {"user": user, "one_status": ["in", ["Waiting", "Gathering"]]}):
-		frappe.throw(_("You have asked already; an administrator is reviewing it."))
+		frappe.throw(_("You've already asked. An administrator is reviewing it."))
 	# frappe's insert would gather everything at once and mail its own message.
 	doc = frappe.get_doc(
 		{
@@ -350,7 +350,7 @@ def send(name: str, withheld: str | list | None = None, why: str | None = None) 
 	optional = {key for key, _label, always in kinds_for(doc.user or doc.one_email) if not always}
 	if set(withheld) - optional:
 		frappe.throw(
-			_("Only what the person wrote or touched can be withheld; what is about them always goes.")
+			_("Only data the person created or edited can be withheld. Data about them is always included.")
 		)
 	why = (why or "").strip()
 	if withheld and not why:

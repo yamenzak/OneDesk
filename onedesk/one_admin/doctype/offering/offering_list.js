@@ -8,7 +8,7 @@ frappe.listview_settings["Offering"] = {
 	hide_name_filter: true,
 
 	onload(listview) {
-		listview.page.add_menu_item(__("See the Signup Page"), () => window.open("/start", "_blank"));
+		listview.page.add_menu_item(__("View Signup Page"), () => window.open("/start", "_blank"));
 	},
 
 	get_indicator(doc) {

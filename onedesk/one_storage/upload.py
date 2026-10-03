@@ -53,7 +53,7 @@ def begin(node: str, files: str | list) -> dict:
 	"""Tickets for putting `files` ([{name, size}]) into `node`."""
 	files = json.loads(files) if isinstance(files, str) else files
 	if not files or len(files) > AT_ONCE:
-		frappe.throw(_("Send between one and {0} files at a time.").format(AT_ONCE))
+		frappe.throw(_("Upload up to {0} files at a time.").format(AT_ONCE))
 	where = api._target(node)
 	# Names already in the folder, so the browser can ask once whether to
 	# replace them (keeping what they held as versions) or keep both.
@@ -91,11 +91,11 @@ def done(token: str, path: str | None = None, replace: int = 0, version_of: str 
 	"""The browser's PUT finished: check the object is there, and file it."""
 	held = frappe.cache.get_value(_held(token))
 	if not held or held.get("user") != frappe.session.user:
-		frappe.throw(_("That upload has expired. Try it again."))
+		frappe.throw(_("This upload expired. Try again."))
 	frappe.cache.delete_value(_held(token))
 	arrived = requests.get(store.signed(held["key"]), headers={"Range": "bytes=0-0"}, timeout=store.PATIENCE)
 	if arrived.status_code not in (200, 206):
-		frappe.throw(_("{0} did not arrive. Try it again.").format(held["name"]))
+		frappe.throw(_("{0} didn't upload. Try again.").format(held["name"]))
 	return _place(
 		held["node"],
 		path,
@@ -111,7 +111,7 @@ def here(node: str, path: str | None = None, replace: int = 0, version_of: str |
 	to send it to R2 with (or the browser could not reach R2)."""
 	sent = frappe.request.files.get("file")
 	if not sent:
-		frappe.throw(_("No file was sent."))
+		frappe.throw(_("No file was uploaded."))
 	content = sent.stream.read()
 	from onedesk.one_storage import mounts
 

@@ -92,7 +92,7 @@ def settle() -> None:
 
 def _doctype(doctype: str) -> None:
 	if not doctype or not frappe.db.exists("DocType", doctype):
-		frappe.throw(_("There is no such kind of record."))
+		frappe.throw(_("This record type doesn't exist."))
 	if frappe.get_meta(doctype).module in REFUSED_MODULES:
 		frappe.throw(_("{0} is not printed from formats this workspace sets.").format(_(doctype)))
 	if not frappe.has_permission(doctype, "read"):
@@ -126,7 +126,7 @@ def validate_format(doc, method=None) -> None:
 	if not layer.held():
 		return
 	if doc.print_format_for != "DocType" or doc.standard == "Yes":
-		frappe.throw(_("A workspace makes print formats for its own kinds of record."))
+		frappe.throw(_("Print formats can only be made for this workspace's record types."))
 	_doctype(doc.doc_type)
 	doc.print_format_builder_beta = 1
 	_content(doc)
@@ -160,7 +160,7 @@ def _layout(data, doctype: str | None, name: str) -> None:
 			)
 		if kind in UNSAFE_BLOCKS:
 			frappe.throw(
-				_("{0}: an {1} block is not the workspace's to add; it prints as it is written.").format(
+				_("{0}: {1} blocks can't be added.").format(
 					where, kind
 				)
 			)
@@ -202,7 +202,7 @@ def validate_snippet(doc, method=None) -> None:
 	if not layer.held():
 		return
 	if doc.standard:
-		frappe.throw(_("A workspace makes print formats for its own kinds of record."))
+		frappe.throw(_("Print formats can only be made for this workspace's record types."))
 	if doc.document_type:
 		_doctype(doc.document_type)
 	try:
@@ -326,7 +326,7 @@ def validate_letter_head(doc, method=None) -> None:
 	if before and (before.standard == "Yes" or before.header_script or before.footer_script):
 		if any(doc.get(key) != before.get(key) for key in DRAWN):
 			frappe.throw(
-				_("{0} is not the workspace's to change; it can be made the default or turned off.").format(
+				_("{0} is a standard format. It can only be set as default or turned off.").format(
 					doc.name
 				)
 			)
@@ -618,7 +618,7 @@ def format_doc(
 			frappe.throw(_("There is no letter head {0}.").format(letter_head))
 		layout["letter_head"] = letter_head
 	if page_number and page_number not in PAGE_NUMBER:
-		frappe.throw(_("The page number prints at one of: {0}.").format(", ".join(PAGE_NUMBER)))
+		frappe.throw(_("The page number position must be one of {0}.").format(", ".join(PAGE_NUMBER)))
 	font = (font or "").strip()
 	if font and not FONT.fullmatch(font):
 		frappe.throw(_("A font is a Google Font's name, such as Playfair Display."))
@@ -756,7 +756,7 @@ def design_letter_head(letter_head: Annotated[str, "The letter head to design."]
 	frappe.has_permission("Letter Head", "write", doc=letter_head, throw=True)
 	if frappe.db.get_value("Letter Head", letter_head, "standard") == "Yes":
 		frappe.throw(
-			_("{0} is not the workspace's to change; it can be made the default or turned off.").format(
+			_("{0} is a standard format. It can only be set as default or turned off.").format(
 				letter_head
 			)
 		)
@@ -772,7 +772,7 @@ def design_letter_head(letter_head: Annotated[str, "The letter head to design."]
 			None,
 		)
 		if not doctype:
-			frappe.throw(_("There is no kind of record here to lay a letter head out on."))
+			frappe.throw(_("No record type to preview the letter head on."))
 		first = starts(doctype)
 		new_format(doctype, DESIGNER, first[0].name if first else None)
 	doc = frappe.get_doc("Print Format", DESIGNER)
@@ -895,7 +895,7 @@ def save_letter_head(values: Annotated[str | dict, "The letter head's fields."])
 	doc = frappe.get_doc("Letter Head", name) if name else frappe.new_doc("Letter Head")
 	if name and values.get("modified") and str(doc.modified) != str(values["modified"]):
 		frappe.throw(
-			_("Somebody changed {0} after you opened it.").format(name), frappe.TimestampMismatchError
+			_("Someone changed {0} after you opened it.").format(name), frappe.TimestampMismatchError
 		)
 	ours = not name or not (doc.standard == "Yes" or doc.header_script or doc.footer_script)
 	if not name and not values.get("image") and not values.get("content") and not values.get("one_top"):

@@ -48,8 +48,8 @@ def this_month() -> dict:
 def said(month: dict) -> str:
 	"""The monthly number in words."""
 	if not month["arrived"]:
-		return _("OneAI has read nothing yet this month.")
-	return _("OneAI handled {0} of {1} documents this month; {2} needed a person.").format(month["handled"], month["arrived"], month["needed"])
+		return _("No documents this month")
+	return _("OneAI handled {0} of {1} documents this month. {2} needed review.").format(month["handled"], month["arrived"], month["needed"])
 
 
 def weekly() -> None:
@@ -102,12 +102,12 @@ def send(person: str, since, until) -> None:
 
 def body(week: dict, waiting: list, due: list) -> str:
 	esc = frappe.utils.escape_html
-	parts = [f"<p>{esc(_('This week {0} documents arrived for you, and OneAI dealt with {1} of them itself.').format(week['arrived'], week['handled']))}</p>"]
+	parts = [f"<p>{esc(_('{0} documents arrived for you this week. OneAI handled {1}.').format(week['arrived'], week['handled']))}</p>"]
 	if waiting:
 		parts.append(f"<p><b>{esc(_('Waiting for you'))}</b></p><ul>" + "".join(f"<li>{esc(one.title or '')}</li>" for one in waiting) + "</ul>")
 	if due:
 		parts.append(
-			f"<p><b>{esc(_('Due in the next seven days'))}</b></p><ul>"
+			f"<p><b>{esc(_('Due in the next 7 days'))}</b></p><ul>"
 			+ "".join(f"<li>{esc(frappe.format(getdate(one['date']), 'Date'))} · {esc(one['title'])}</li>" for one in due)
 			+ "</ul>"
 		)

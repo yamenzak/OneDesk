@@ -14,18 +14,18 @@
 	</a>
 
 	{% if gone %}
-		<h1>{{ _("This link does not open anything") }}</h1>
-		<p class="one-portal__lede">{{ _("Ask whoever sent it for a new one.") }}</p>
+		<h1>{{ _("This link isn't valid") }}</h1>
+		<p class="one-portal__lede">{{ _("Ask the sender for a new one.") }}</p>
 	{% else %}
 		<h1>{{ doc.title }}</h1>
 		<p class="one-portal__lede">
-			{{ _("{0} asks you for these files.").format(by) }}
+			{{ _("{0} is requesting these files.").format(by) }}
 			{% if doc.due_date %}<br>{{ _("Due {0}.").format(frappe.format(doc.due_date, {"fieldtype": "Date"})) }}{% endif %}
 		</p>
 		{% if doc.message %}<p class="one-share__note">{{ doc.message }}</p>{% endif %}
 		{% if said %}<p class="{{ 'one-said' if said_wrong else 'one-share__ok' }}">{{ said }}</p>{% endif %}
 		{% if closed %}<p class="one-said">{{ _("This request is closed.") }}</p>
-		{% elif complete %}<p class="one-share__ok">{{ _("You have sent everything that was asked for. You can still replace a file.") }}</p>{% endif %}
+		{% elif complete %}<p class="one-share__ok">{{ _("You've sent everything. You can still replace a file.") }}</p>{% endif %}
 
 		<ul class="one-ask">
 			{% for one in items %}
@@ -36,7 +36,7 @@
 						{% if one.required %}<small class="one-ask__need">{{ _("Required") }}</small>{% endif %}
 					</div>
 					{% if one.description %}<p class="one-note">{{ one.description }}</p>{% endif %}
-					{% if one.kinds and not closed %}<p class="one-ask__kinds">{{ _("As {0}").format(one.kinds) }}</p>{% endif %}
+					{% if one.kinds and not closed %}<p class="one-ask__kinds">{{ _("File types: {0}").format(one.kinds) }}</p>{% endif %}
 					{% if one.sent %}<p class="one-ask__sent">{{ _("Sent: {0}").format(", ".join(one.sent)) }}</p>{% endif %}
 					{% if not closed %}
 					<form method="post" enctype="multipart/form-data" action="/api/method/onedesk.one_storage.file_requests.send">

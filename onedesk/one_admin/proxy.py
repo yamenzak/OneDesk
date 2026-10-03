@@ -107,7 +107,7 @@ def _refuse():
 	logging one is a way for anybody who can reach this site to fill the error
 	log at no cost to themselves.
 	"""
-	raise frappe.AuthenticationError(frappe._("Not a workspace this site administers."))
+	raise frappe.AuthenticationError(frappe._("This site doesn't manage this workspace."))
 
 
 @frappe.whitelist(allow_guest=True)
@@ -528,7 +528,7 @@ def mail_names(names: str | list) -> list[str]:
 	names = frappe.parse_json(names) if isinstance(names, str) else names
 	wanted = sorted({str(one).strip().lower() for one in names or []})
 	if not wanted or not all(addresses.is_workspace_name(one, tenant.slug) for one in wanted):
-		frappe.throw(frappe._("Those are not this workspace's addresses."), frappe.PermissionError)
+		frappe.throw(frappe._("Those addresses aren't on this workspace."), frappe.PermissionError)
 	record = cloudflare.mail_record(tenant.slug)
 	if not record:
 		frappe.throw(frappe._("This workspace has no mail route yet."))

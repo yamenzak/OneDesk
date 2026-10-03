@@ -79,7 +79,7 @@ def _about(doctype: str | None, name: str | None) -> tuple | None:
 		return None
 	if not frappe.has_permission(doctype, "read", doc=name):
 		frappe.throw(
-			frappe._("You cannot open {0} {1}.").format(frappe._(doctype), name), frappe.PermissionError
+			frappe._("You don't have access to {0} {1}.").format(frappe._(doctype), name), frappe.PermissionError
 		)
 	return (doctype, name)
 
@@ -170,7 +170,7 @@ def move(
 	"""An entry dragged to another time, handed to the layer it is on."""
 	layer = next((one for one in every() if one["key"] == key), None)
 	if not layer or not layer.get("move"):
-		frappe.throw(frappe._("This cannot be moved on the calendar."))
+		frappe.throw(frappe._("This can't be moved on the calendar."))
 	frappe.get_attr(layer["move"])(name, start, end, all_day)
 
 

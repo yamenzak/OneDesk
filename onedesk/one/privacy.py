@@ -142,11 +142,11 @@ def _guard(user: str) -> None:
 	"""The last administrator and the person billed for the workspace hand
 	those on before they go."""
 	if roles.administers(user) and not [one for one in _administrators() if one != user]:
-		frappe.throw(_("You are the workspace's only administrator. Make somebody else one first."))
+		frappe.throw(_("You're the only administrator. Make someone else an administrator first."))
 	billed_to = frappe.db.get_single_value("Workspace Account", "billed_to")
 	if billed_to and billed_to.lower() == user.lower():
 		frappe.throw(
-			_("The workspace is billed to this account. Move who pays on Workspace › Plan and Credits first.")
+			_("The workspace is billed to this account. Change who pays in Workspace › Plan and Credits first.")
 		)
 
 
@@ -160,7 +160,7 @@ def ask_to_delete(password: str | None = None) -> dict:
 	user = _mine()
 	_guard(user)
 	if frappe.db.exists(DELETION, {"email": user, "status": ["in", list(OPEN)]}):
-		frappe.throw(_("You have asked already; an administrator decides."))
+		frappe.throw(_("You've already asked. An administrator will decide."))
 	mailed = not _has_password(user)
 	if not mailed:
 		try:

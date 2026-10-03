@@ -253,7 +253,7 @@ def _kind(kind: str, name: str) -> str:
 			frappe.throw(_("Only a saved report can be shown somewhere else."))
 		if doc.owner != frappe.session.user and not roles.administers():
 			frappe.throw(
-				_("Only whoever saved a report, or an administrator, can move it."), frappe.PermissionError
+				_("Only the person who saved a report, or an administrator, can move it."), frappe.PermissionError
 			)
 	elif kind == "Dashboard":
 		roles.require()
@@ -289,7 +289,7 @@ def place(kind: str, name: str, module: str | None = None, everybody: int = 0) -
 	_kind(kind, name)
 	everybody = frappe.utils.cint(everybody)
 	if everybody and not roles.administers():
-		frappe.throw(_("Only an administrator can show it to everybody."), frappe.PermissionError)
+		frappe.throw(_("Only an administrator can show it to everyone."), frappe.PermissionError)
 	if module and module not in {one["module"] for one in places()}:
 		frappe.throw(_("That cannot be set."))
 	owner = frappe.db.get_value(kind, name, "owner")

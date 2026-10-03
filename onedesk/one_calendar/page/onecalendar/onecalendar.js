@@ -137,7 +137,7 @@ onedesk.OneCalendar = class OneCalendar {
 			initialDate: frappe.utils.get_query_params().date || undefined,
 			headerToolbar: false,
 			allDayText: __("All Day"),
-			noEventsText: __("Nothing on these days."),
+			noEventsText: __("No events"),
 			firstDay: frappe.datetime.get_first_day_of_the_week_index(),
 			direction: frappe.utils.is_rtl() ? "rtl" : "ltr",
 			height: "100%",
@@ -383,7 +383,7 @@ onedesk.OneCalendar = class OneCalendar {
 						variant: "ghost",
 						theme: "red",
 						onclick: () =>
-							frappe.confirm(__("Delete {0}? Everybody on it is told it is cancelled.", [`<b>${esc(one.subject)}</b>`]), async () => {
+							frappe.confirm(__("Delete {0}? Everyone invited is notified that it's cancelled.", [`<b>${esc(one.subject)}</b>`]), async () => {
 								await frappe.xcall("frappe.client.delete", { doctype: "Event", name: one.name });
 								$(document.body).trigger("click");
 								this.refetch();
@@ -474,14 +474,14 @@ onedesk.OneCalendar = class OneCalendar {
 					fieldtype: "Data",
 					fieldname: "guests",
 					label: __("Guests"),
-					description: __("Email addresses of people outside the workspace. Each is mailed an invitation for their own calendar."),
+					description: __("Email addresses outside the workspace. Each gets an email invitation."),
 				},
 				{ fieldtype: "Section Break", label: __("More"), collapsible: 1 },
 				{ fieldtype: "Small Text", fieldname: "description", label: __("Description") },
 				{
 					fieldtype: "Check",
 					fieldname: "public",
-					label: __("On Everybody's Calendar"),
+					label: __("On Everyone's Calendar"),
 					hidden: may_publish ? 0 : 1,
 				},
 			],

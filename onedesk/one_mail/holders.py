@@ -165,12 +165,12 @@ def set_holders(account: str, users) -> list[str]:
 	_admin()
 	if not frappe.db.get_value("Email Account", account, "one_shared"):
 		frappe.throw(
-			_("Only the workspace's mailboxes are shared out. {0} belongs to one person.").format(account)
+			_("{0} is a personal mailbox and can't be shared.").format(account)
 		)
 	wanted = set(json.loads(users) if isinstance(users, str) else users or [])
 	for user in wanted:
 		if not frappe.db.get_value("User", {"name": user, "enabled": 1, "user_type": "System User"}):
-			frappe.throw(_("{0} is not somebody who works here.").format(user))
+			frappe.throw(_("{0} isn't in this workspace.").format(user))
 	now = set(frappe.get_all("User Email", filters={"email_account": account}, pluck="parent"))
 	for user in wanted - now:
 		addresses.hold(account, user)
@@ -186,11 +186,11 @@ def replace(account: str, sends: int = 1) -> str:
 	_admin()
 	doc = frappe.get_doc("Email Account", account)
 	if not (doc.one_shared and doc.one_connected):
-		frappe.throw(_("Only a mailbox connected for the workspace can be the workspace's."))
+		frappe.throw(_("Only a shared mailbox can be the workspace mailbox."))
 	if int(sends):
 		if not doc.enable_outgoing:
 			frappe.throw(
-				_("{0} was connected without sending, so it cannot send for the workspace.").format(
+				_("{0} was connected without Enable Outgoing, so it can't send.").format(
 					doc.email_id
 				)
 			)
@@ -234,7 +234,7 @@ def set_signature(account: str, signature: str | None = None) -> None:
 	actions.require(account)
 	if not may_sign(account):
 		frappe.throw(
-			_("Only a workspace administrator changes how {0} signs.").format(account),
+			_("Only a Workspace Administrator can change the signature of {0}.").format(account),
 			frappe.PermissionError,
 		)
 	frappe.db.set_value(

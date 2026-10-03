@@ -30,7 +30,7 @@ def readable(name: str):
 	doc = frappe.get_doc("Reading", name)
 	root = search.root_of(doc.as_dict())
 	if not (search.files_of(root) or search.messages_of(root)):
-		frappe.throw(_("That is no longer here."), frappe.DoesNotExistError)
+		frappe.throw(_("Document not found"), frappe.DoesNotExistError)
 	return doc
 
 
@@ -47,7 +47,7 @@ def explain(reading: str, cancel: int = 0, again: int = 0) -> dict:
 		return held[key]
 	said = _ask(doc, language, purpose)
 	if not said:
-		frappe.throw(_("OneAI could not explain this document just now. Try again in a moment."))
+		frappe.throw(_("Couldn't explain this document. Try again."))
 	said = shaped(said)
 	held[key] = said
 	doc.db_set("explained", json.dumps(held, ensure_ascii=False), update_modified=False)

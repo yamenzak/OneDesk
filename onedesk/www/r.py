@@ -13,8 +13,8 @@ from onedesk.one_storage import file_requests
 no_cache = 1
 
 SAID = {
-	"sent": lambda: _("Thank you. It has arrived."),
-	"kind": lambda: _("That kind of file is not what was asked for."),
+	"sent": lambda: _("File received. Thank you."),
+	"kind": lambda: _("This file type isn't accepted."),
 	"nothing": lambda: _("Choose a file first."),
 	"closed": lambda: _("This request is closed."),
 }

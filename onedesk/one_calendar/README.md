@@ -1,135 +1,163 @@
 # OneCalendar
 
-Written by hand. What OneCalendar does and how to use it. Everything above
-**Under the hood** is written for the people who use it, and OneAI reads it to
-answer "how do I…" questions. Under the hood is for the people who build it.
+OneCalendar shows everything dated in One on one calendar: your meetings,
+tasks, deals' next steps, leave, interviews, the company's holidays and who's
+off. Each kind is a **layer** you can switch on and off.
 
-OneCalendar is one calendar with everything dated in One on it: your meetings,
-your to-dos, your deals' next steps, your leave, your interviews, the
-company's holidays and who is off. Each is a **layer** you switch on and off.
-Nothing is copied into the calendar — a deal's next step is the deal's, and it
-moves when the deal does.
+Nothing is copied into the calendar. A deal's next step belongs to the deal,
+and moves when the deal changes.
 
 ## Finding your way
 
-**OneCalendar** in the dock opens the calendar, with one column on the left
-as OneMail has: **New Event** at the top, the layers, and at the foot **All
-Events** (every event as a list), **Deadlines**, **Subscribe**, and for
-those who may, **Setup** with **Google Calendar** and **Calendar Links**.
+**OneCalendar** in the dock opens the calendar. The left column has:
 
-The calendar shows a **Month**, a **Week**, a **Day** or a **List**; the
-arrows move it and **Today** brings it back. It opens on the view you used
-last, with the layers you left on, on any computer you log in from. The
-workspace's days off are shaded: its weekly days off lightly, and its
-holidays in red with their names. What changes elsewhere, somebody's new
-event or a task moved, appears without reloading.
+- **New Event** at the top
+- the layers
+- **All Events** (every event as a list), **Deadlines** and **Subscribe** at
+  the bottom
+- **Setup**, with **Google Calendar** and **Calendar Links**, for those with
+  access
+
+Switch between **Month**, **Week**, **Day** and **List**. The arrows move
+back and forward, and **Today** returns to today. The calendar opens on your
+last view and layers, on any computer.
+
+The workspace's weekly days off are lightly shaded, and holidays show in red
+with their names. Changes made elsewhere, like a new event or a moved task,
+appear without reloading.
 
 ## Layers
 
-On the left, in two groups:
+**Mine:**
 
-- **Mine** — what is yours: **My Events** (ones you made, were invited to or
-  were shared with you), **My Tasks** (assigned to you, on the day they are
-  due), **Assigned to Me** (anything else you were given, a deal or a leave
-  application, on the day it is due), **Deal Next Steps**
-  and **Lead Next Steps** (on your own open deals and leads, at the time
-  due), **My Leave** and **My Interviews** (the ones you are on the panel for).
-- **Workspace** — what everybody shares: **Company Events**, **Holidays** (the
-  company's holiday list, without the weekly days off) and **Who's Off**
-  (approved leave; off until you switch it on).
+- **My Events**: events you created, were invited to or that were shared
+  with you
+- **My Tasks**: tasks assigned to you, on their due date
+- **Assigned to Me**: anything else assigned to you, such as a deal or a
+  leave application, on its due date
+- **Deal Next Steps** and **Lead Next Steps**: on your own open deals and
+  leads, at the time due
+- **My Leave**
+- **My Interviews**: interviews where you're on the panel
 
-**You only see what you may open.** Each layer reads its own records with your
-permissions: somebody who cannot read leave has no Who's Off, and an employee
-limited to their own record sees only their own leave there.
+**Workspace:**
 
-Clicking anything opens it: an event opens the event, a next step opens the
-deal or lead, a task opens the task, and an assignment opens the record it is about.
+- **Company Events**
+- **Holidays**: the company's holiday list, without weekly days off
+- **Who's Off**: approved leave, off by default
+
+**You only see what you have access to.** Each layer uses your permissions.
+Someone who can't read leave doesn't see Who's Off, and an employee limited
+to their own record only sees their own leave.
+
+Click anything to open it. A next step opens the deal or lead, a task opens
+the task, and an assignment opens its record.
 
 ## Events
 
-**New Event**, or drag across the hours you want, asks for a subject, when,
-where, who and a description. **Invite** takes people in the workspace by
-name; **Guests** takes the email addresses of people outside it, each of whom
-is mailed the event as an invitation for their own calendar (and mailed again
-if it moves or is cancelled).
+**New Event**, or dragging across the hours, opens a form with the subject,
+time, location, people and description.
 
-Clicking an event opens its card beside it: when, where, who made it, who is
-on it and whether they said yes, and what it says, with **Join** when it has
-a video call, **Open** for its own page, and **Delete** for whoever may.
-Anything else on the calendar, a task or a deal's next step, opens its
-record. Drag an event you made to move it, or its bottom edge
-to make it longer; drag a task to move it to another day; a repeating event is changed from its own page, for all its
-times at once. Everything else about an event — who is invited, reminders,
-repeating, a video call link — is on the event's own page.
+- **Invite** adds people in the workspace.
+- **Guests** takes email addresses of people outside the workspace. Each gets
+  an email invitation for their own calendar, and another if the event moves
+  or is cancelled.
+
+Clicking an event shows its details: time, location, organizer, who's
+invited and their replies, and the description. It has **Join** for a video
+call, **Open** for the event's page, and **Delete** if you're allowed.
+
+**Moving events:**
+
+- Drag an event you created to move it, or drag its bottom edge to change
+  its length.
+- Drag a task to another day to change its due date.
+- A repeating event can only be changed from its own page, for all
+  occurrences.
+
+Invitees, reminders, repeats and video call links are set on the event's
+page.
 
 **Who sees an event:**
 
-- a **private** event is seen by whoever made it, the people invited to it,
-  and anybody it is shared with;
-- an event **about a record** — its Reference, a link or an invited contact
-  names a deal, a lead, an employee — is also seen, on Company Events, by
-  everybody who may open that record. Clicking it opens the record; editing
-  the event stays with whoever made it;
-- a **public** event, **On Everybody's Calendar**, is seen by everybody. Only
-  a Workspace Administrator or an HR Manager may make one; anybody else makes
-  it private and invites the people it is for.
+- A **private** event is seen by its creator, invitees and anyone it's shared
+  with.
+- An event **about a record**, such as a deal, lead or employee named in its
+  Reference, a link or an invited contact, also shows under Company Events
+  for everyone who can open that record. Clicking it opens the record. Only
+  the creator can edit the event.
+- A **public** event, with **On Everyone's Calendar** ticked, is seen by
+  everyone. Only a Workspace Administrator or HR Manager can create one.
+  Everyone else creates a private event and invites people.
 
-## Being told
+## Notifications
 
-- **Invited to an Event** when somebody adds you to one.
-- **Event Changed** when the time or the place of an event you are on
-  changes, and **Event Cancelled** when it is cancelled or deleted. Whoever
-  made the change is not told.
-- **Starting Soon** as an event's reminders say (on its own page), or ten
-  minutes before when it has none.
-- **Today's Events** each morning, with what is on your calendar that day,
-  and nothing on a day with nothing on it.
+- **Invited to an Event**: someone adds you to an event.
+- **Event Changed**: the time or location of an event you're on changes.
+- **Event Cancelled**: an event you're on is cancelled or deleted.
+- **Starting Soon**: at the event's reminder times, or 10 minutes before if
+  it has none.
+- **Today's Events**: each morning, your events for the day. Not sent on a
+  day with no events.
 
-Each comes to the bell, and by email or push as you choose under Settings ›
-Notifications.
+The person who made a change isn't notified of it. Each notification
+appears in One, and by email or push as set in Settings › Notifications.
 
 ## Asking OneAI
 
-The OneAI panel on the calendar offers **What is on this week?**, **Find a
-time to meet…** and **Plan my day**. **Find a time to meet…** puts "Find a
-time this week to meet" in the box for you to finish with who. OneAI reads
-your calendar as you see it and, for a meeting, only when colleagues are
-busy, never what their events are. It suggests the event as a card:
-**Approve** puts it on your calendar and invites the people on it; nothing
-is made or sent before.
+The OneAI panel on the calendar offers:
+
+- **What is on this week?**
+- **Find a time to meet…**: finish the sentence with who to meet.
+- **Plan my day**
+
+OneAI reads your calendar as you see it. When finding a time, it only sees
+when colleagues are busy, not what their events are. It suggests the event
+on a card. **Approve** adds it to your calendar and sends the invitations.
+Nothing is created or sent before that.
 
 ## A record's own calendar
 
-**Calendar** on a project, a deal, a lead or an employee opens the calendar of
-that one record: every event about it, including ones you could not otherwise
-open (they open the record instead), and what it has with a date on it —
+**Calendar** on a project, deal, lead or employee opens a calendar for that
+record. It shows every event about the record, including ones you can't
+otherwise open (these open the record instead), and its dated items:
 
-- a **project**: its tasks still to do, whoever is on them;
-- a **deal** or a **lead**: its next step, whoever owns it;
-- an **employee**: their leave, if you may see it.
+- **Project**: its open tasks, whoever they're assigned to
+- **Deal** or **Lead**: its next step, whoever owns it
+- **Employee**: their leave, if you can see it
 
-**New Event** there makes an event about the record. Nothing you switch off
-there changes your own calendar.
+**New Event** there creates an event about the record. Layers you switch off
+there don't affect your own calendar.
 
 ## In Google, Apple or Outlook
 
-**Subscribe** adds your calendar to another app: **Google Calendar**, **Apple
-Calendar** or **Outlook** opens that app ready to add it, and **Copy Link** is for anything
-else — a personal Outlook account pastes it under *Add calendar › Subscribe
-from web*. It carries what the calendar shows before you switch any layer off,
-from two months ago to a year ahead. How often the other app reads it again is
-up to that app: Apple Calendar as often as you set in its settings, Outlook
-every few hours, and Google a few times a day, on its own schedule. It only goes one way: an event you add in Google stays in Google.
+**Subscribe** adds your calendar to another app:
 
-**Anyone with the link can read your calendar.** **New Link** switches the old
-one off, and **Switch Off** ends it. A Workspace Administrator can switch
-anybody's off under **Setup › Calendar Links**, which shows when each was made
-and last read. To stop them altogether, **Calendar Links** under Workspace ›
-General switches them off: every link is deleted, nobody can make one, and
-Subscribe is gone. Switching it on again brings none of the old links back.
+- **Google Calendar**, **Apple Calendar** or **Outlook** opens that app,
+  ready to add it.
+- **Copy Link** is for any other app. In a personal Outlook account, paste it
+  under *Add calendar › Subscribe from web*.
 
-For events that go both ways with Google, frappe's own **Google Calendar**
-connection is under Setup; it needs a Google API key in Google Settings first.
+The link includes everything on your calendar with all layers on, from two
+months ago to a year ahead. It only goes one way. An event added in Google
+stays in Google.
+
+How often the other app refreshes is up to the app. Apple Calendar uses its
+own setting, Outlook refreshes every few hours, and Google a few times a
+day.
+
+**Anyone with the link can see your calendar.**
+
+- **New Link** replaces the link and turns off the old one.
+- **Switch Off** turns the link off.
+- A Workspace Administrator can switch off anyone's link under **Setup ›
+  Calendar Links**, which also shows when each was created and last synced.
+- To turn links off for everyone, switch off **Calendar Links** under
+  Workspace › General. All links are deleted, no one can create one, and
+  Subscribe disappears. Switching it back on doesn't restore old links.
+
+For two-way sync with Google, use frappe's **Google Calendar** connection
+under Setup. It needs a Google API key in Google Settings first.
 
 ## Under the hood
 

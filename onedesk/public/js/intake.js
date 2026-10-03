@@ -59,7 +59,7 @@ onedesk.intake.slim = (said) => {
 		${status}
 		<div class="oi-buttons oi-folds">${pay}
 			<button class="btn btn-xs btn-default" data-explain="0" data-again="${said.explained ? 1 : 0}">${said.explained ? __("Explain Again") : __("Explain")}</button>
-			${said.may_cancel ? `<button class="btn btn-xs btn-default" data-explain="1">${__("Write the Cancellation")}</button>` : ""}
+			${said.may_cancel ? `<button class="btn btn-xs btn-default" data-explain="1">${__("Write Cancellation")}</button>` : ""}
 			${toggle("details", __("Details"))}
 		</div>
 		<div class="oi-fold hide" data-fold-body="pay">${onedesk.intake.pay(said.pay)}</div>
@@ -112,7 +112,7 @@ onedesk.intake.html = (said) => {
 		(said.asks || []).map((one) => `<li><b>${esc(one.what)}</b>${one.detail ? ` · ${esc(one.detail)}` : ""}${one.by ? ` · ${__("by {0}", [date(one.by)])}` : ""}</li>`)
 	);
 	const parts = list(
-		__("Documents in it"),
+		__("Documents"),
 		(said.parts || []).map((one) => `<li><span class="one-shell-quiet">${esc(one.part || "")}</span> ${esc(__(one.kind || ""))} · ${esc(one.title || "")}</li>`)
 	);
 	const attached = list(
@@ -170,7 +170,7 @@ onedesk.intake.pay = (pay) => {
 onedesk.intake.explained = (said) => {
 	const buttons = `<span class="oi-buttons">
 		<button class="btn btn-xs btn-default" data-explain="0" data-again="${said.explained ? 1 : 0}">${said.explained ? __("Explain Again") : __("Explain")}</button>
-		${said.may_cancel ? `<button class="btn btn-xs btn-default" data-explain="1">${__("Write the Cancellation")}</button>` : ""}</span>`;
+		${said.may_cancel ? `<button class="btn btn-xs btn-default" data-explain="1">${__("Write Cancellation")}</button>` : ""}</span>`;
 	return `<div class="oi-explain">${buttons}<div class="oi-explained">${said.explained ? onedesk.intake.explanation(said.explained) : ""}</div></div>`;
 };
 
@@ -221,7 +221,7 @@ onedesk.intake.actions = (said) => {
 				<button class="btn btn-xs btn-default" data-settle="${esc(one.name)}" data-take="0">${__("Dismiss")}</button></span>`
 				: "";
 		const chip = waits
-			? `${frappe.ui.badge.html({ label: __("Needs a look"), theme: "orange", size: "sm" })} `
+			? `${frappe.ui.badge.html({ label: __("Needs Review"), theme: "orange", size: "sm" })} `
 			: one.level === "Refused"
 			? `${frappe.ui.badge.html({ label: __("Not allowed"), theme: "gray", size: "sm" })} `
 			: "";
@@ -250,7 +250,7 @@ onedesk.intake.bind = ($el, which, reading) => {
 		const cancel = $button.attr("data-explain") === "1";
 		$el.find("[data-explain]").prop("disabled", true);
 		const $out = $el.find(".oi-explained");
-		$out.html(`<div class="one-shell-quiet">${__("OneAI is reading it…")}</div>`);
+		$out.html(`<div class="one-shell-quiet">${cancel ? __("Writing…") : __("Explaining…")}</div>`);
 		try {
 			const said = await frappe.xcall("onedesk.one_intake.explain.explain", {
 				reading,
@@ -272,7 +272,7 @@ onedesk.intake.bind = ($el, which, reading) => {
 		onedesk.intake.panel($el, which);
 	});
 	$el.find("[data-undo]").on("click", () => {
-		frappe.confirm(__("Take back everything OneAI did with this document?"), async () => {
+		frappe.confirm(__("Undo everything OneAI did with this document?"), async () => {
 			const said = await frappe.xcall("onedesk.one_intake.act.undo", { reading });
 			onedesk.intake.undone(said);
 			onedesk.intake.panel($el, which);
@@ -283,11 +283,11 @@ onedesk.intake.bind = ($el, which, reading) => {
 onedesk.intake.undone = (said) => {
 	const esc = frappe.utils.escape_html;
 	if (!(said.kept || []).length) {
-		frappe.show_alert({ message: __("Undone."), indicator: "green" });
+		frappe.show_alert({ message: __("Undone"), indicator: "green" });
 		return;
 	}
 	frappe.msgprint({
-		title: __("Some of it stays"),
+		title: __("Some Changes Kept"),
 		message: `<ul>${said.kept.map((one) => `<li>${esc(one.target.join(" "))}: ${esc(one.why)}</li>`).join("")}</ul>`,
 	});
 };
@@ -309,7 +309,7 @@ onedesk.intake.undone = (said) => {
 		img.className = "one-intake-mark";
 		img.src = onedesk.intake.MARK;
 		img.alt = __("Made by OneAI");
-		img.title = __("Made by OneAI. Nobody has checked it yet.");
+		img.title = __("Made by OneAI. Not checked yet.");
 		return img;
 	};
 
@@ -343,7 +343,7 @@ onedesk.intake.unchecked_button = (list, said) => {
 	if (list.one_unchecked_label) list.page.remove_inner_button(list.one_unchecked_label);
 	list.one_unchecked_label = null;
 	if (!said.total) return;
-	const label = said.total === 1 ? __("1 not checked by a person") : __("{0} not checked by a person", [said.total]);
+	const label = said.total === 1 ? __("1 not checked") : __("{0} not checked", [said.total]);
 	list.one_unchecked_label = label;
 	list.page.add_inner_button(label, () => list.filter_area.add([[list.doctype, "name", "in", said.all]]));
 };
@@ -358,8 +358,8 @@ $(document).on("form-refresh", (event, frm) => {
 	const from = doc.route ? `<a href="${esc(doc.route)}">${esc(doc.label || "")}</a>` : esc(doc.label || "");
 	frm.set_intro(
 		`<div class="oi-banner"><img src="${onedesk.intake.MARK}" alt="">
-		<span>${from ? __("OneAI made this from {0}. Nobody has checked it yet.", [from]) : __("OneAI made this. Nobody has checked it yet.")}</span>
-		<span class="oi-buttons"><button class="btn btn-xs btn-default" data-looks-right>${__("Looks right")}</button>
+		<span>${from ? __("Made by OneAI from {0}. Not checked yet.", [from]) : __("Made by OneAI. Not checked yet.")}</span>
+		<span class="oi-buttons"><button class="btn btn-xs btn-default" data-looks-right>${__("Mark as Checked")}</button>
 		${held.action ? `<button class="btn btn-xs btn-default" data-undo-one>${__("Undo")}</button>` : ""}</span></div>`,
 		"blue"
 	);
@@ -368,16 +368,16 @@ $(document).on("form-refresh", (event, frm) => {
 		await frappe.xcall("onedesk.one_intake.mark.looks_right", { doctype: frm.doctype, name: frm.docname });
 		delete frm.doc.__onload.one_intake_mark;
 		frm.set_intro();
-		frappe.show_alert({ message: __("Marked as checked."), indicator: "green" });
+		frappe.show_alert({ message: __("Marked as checked"), indicator: "green" });
 	});
 	$banner.find("[data-undo-one]").on("click", () => {
-		frappe.confirm(__("Take back what OneAI made here?"), async () => {
+		frappe.confirm(__("Undo what OneAI did here?"), async () => {
 			const said = await frappe.xcall("onedesk.one_intake.act.undo_one", { action: held.action });
 			if (said.why) {
 				frappe.msgprint(said.why);
 				return;
 			}
-			frappe.show_alert({ message: __("Undone."), indicator: "green" });
+			frappe.show_alert({ message: __("Undone"), indicator: "green" });
 			frappe.set_route("List", frm.doctype);
 		});
 	});

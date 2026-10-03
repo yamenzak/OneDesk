@@ -15,7 +15,7 @@ frappe.listview_settings["Tenant"] = {
 
 	get_indicator(doc) {
 		// Our own workspace (house.py): nobody bills it, so it has no standing.
-		if (doc.is_house) return [__("Ours"), "blue", "is_house,=,1"];
+		if (doc.is_house) return [__("Internal"), "blue", "is_house,=,1"];
 		const says = {
 			Requested: ["orange", __("Waiting to be built")],
 			Provisioning: ["blue", __("Being built")],

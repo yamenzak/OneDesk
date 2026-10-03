@@ -11,10 +11,10 @@ onedesk.record_tabs.register("errors", {
 		const esc = frappe.utils.escape_html;
 		field.$wrapper.empty();
 		onedesk.shell.table(field.$wrapper, {
-			note: __("Last two weeks."),
+			note: __("Last 14 days"),
 			rows,
 			icon: "circle-check",
-			empty: __("It has run into no errors since OneAI last wrote it."),
+			empty: __("No errors"),
 			columns: [
 				{ label: __("When"), render: (one) => esc(frappe.datetime.str_to_user(one.on)) },
 				{
@@ -24,7 +24,7 @@ onedesk.record_tabs.register("errors", {
 							? `<a href="/desk/${frappe.router.slug(one.record_doctype)}/${encodeURIComponent(one.record_name)}">${esc(__(one.record_doctype))} ${esc(one.record_name)}</a>`
 							: esc(__(one.record_doctype || "")),
 				},
-				{ label: __("What Went Wrong"), render: (one) => esc(one.what || "") },
+				{ label: __("Error"), render: (one) => esc(one.what || "") },
 			],
 		});
 	},

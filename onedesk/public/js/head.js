@@ -363,7 +363,7 @@ onedesk.head.updated = (data) => {
 	if (!frm.is_dirty()) return frm.debounced_reload_doc();
 	onedesk.head.warn(
 		frm,
-		__("{0} {1} was changed by somebody else after you opened this. Refresh to see it.", [__(one.doctype), one.title]),
+		__("{0} {1} was changed by someone else. Refresh to see the latest.", [__(one.doctype), one.title]),
 	);
 };
 

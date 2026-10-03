@@ -11,7 +11,7 @@ frappe.query_reports["Price Check"] = {
 		},
 	],
 	onload(report) {
-		report.page.add_menu_item(__("Costs in Settings"), () => frappe.set_route("Form", "One Admin Settings"));
+		report.page.add_menu_item(__("Edit Costs"), () => frappe.set_route("Form", "One Admin Settings"));
 	},
 	formatter(value, row, column, data, default_formatter) {
 		const shown = default_formatter(value, row, column, data);

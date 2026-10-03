@@ -1,577 +1,636 @@
 # OneAdmin
 
-Written by hand. What OneAdmin does and how to use it. Everything above
-**Under the hood** is written for the operators who use it, and OneAI reads it
-to answer "how do I…" questions. Under the hood is for the people who build it.
+Written by hand. Everything above **Under the hood** is for the operators who
+use OneAdmin, and OneAI reads it to answer "how do I…" questions. Under the
+hood is for the people who build it.
 
-OneAdmin is the console One is run from: the workspaces customers pay for,
-the jobs that build and wind them down, their domains, the price list, the
-signups and the credits, and OneAI's models. It is only on the admin site,
-and only for **One Operator**. Nobody on a customer's workspace can open it,
-whatever roles they hold there.
+OneAdmin is the console One is run from. It holds the workspaces customers pay
+for, the jobs that build and close them, their domains, the price list,
+signups, credits and OneAI's models.
+
+It's only on the admin site, and only for **One Operator**. No one on a
+customer's workspace can open it, whatever roles they hold there.
 
 ## Our own workspace
 
-The admin site is **Four Degree Labs**' own workspace of One (`4dl`): it
-uses One as a customer does, OneAI included. It is a workspace on the list,
-marked **Ours**, and three things are true of it that are true of no
-customer: nobody bills it (no plan, no Stripe, so it never falls overdue);
-its OneAI is never refused for credits, however many it has; and what its AI
-costs is our cost, not a sale, so AI Usage charges nothing for it (its cost
-is **Own Use**) and Home does not count it as a live customer. It was made
-once, and the admin site linked to it, by `house.ensure`.
+The admin site is **Four Degree Labs**' own workspace of One (`4dl`). It uses
+One as a customer does, OneAI included, and is marked **Internal** on the
+Workspaces list.
+
+It differs from a customer's workspace in three ways:
+
+- It isn't billed. It has no plan and no Stripe subscription, so it never
+  becomes overdue.
+- Its OneAI is never refused for lack of credits.
+- Its AI cost is an internal cost, not a sale. AI Usage shows it as
+  **Internal Use** and charges nothing for it, and Home doesn't count it as a
+  live customer.
+
+It was created once, and the admin site linked to it, by `house.ensure`.
 
 ## Home
 
-**OneAdmin** in the dock opens it on **Home**.
+**OneAdmin** in the dock opens **Home**.
 
-Along the top are five numbers, frappe's number cards. Each opens the list
-it counts:
+The number cards at the top each open the list they count:
 
 - **Live**: workspaces serving their customers.
-- **Building**: workspaces whose job is still being built.
-- **Owing**: workspaces overdue or suspended for not paying.
+- **Building**: workspaces still being built.
+- **Owing**: workspaces overdue or suspended for non-payment.
 - **Failed**: jobs that stopped on a step.
-- **Paid, Not Built**: signups somebody paid for that have no workspace.
+- **Paid, Not Built**: paid signups with no workspace.
 
-Under them, **Needs You** lists what needs an operator, the most pressing
-first. Each row says what it is, why, and since when, and has its one
-action:
+**Needs You** lists what needs an operator, most pressing first. Each row says
+what it is, why, and since when, with one action:
 
-- **A job that failed** says what it was doing, the step it stopped at and
-  the error. **Resume** runs it again from that step. Every step is safe to
-  run twice, so this never builds a second site.
-- **A signup paid for and not built** says whose it is and why it stopped.
-  **Build It** makes the workspace, as paying would have.
-- **A workspace owing** says whether its payment is overdue or it is
-  suspended, and since when. Open it to see its standing and act on it.
-- **A domain** that has waited a day for its DNS, or has stopped working.
-  **Check Again** asks Cloudflare where it has got to.
-- **A build taking hours**: a new workspace still waiting on Frappe Cloud
-  after three hours. Waiting never fails a job, so this is where a build
-  that will never finish is seen. Look at the site in Frappe Cloud.
-- **A workspace over its database**: it holds more than it bought. Frappe
-  Cloud sets no limit on our own servers, so this is where it is watched.
-- **A server filling up**: four-fifths of its Most Workspaces, or full,
-  or no open server left for new or EU workspaces. Buy the next one before
-  a signup fails to be placed.
-- **An update waiting** for the bench group new workspaces go on, with the
-  apps that have one. Deploying it is done in Frappe Cloud, and updates
-  every workspace on it at once.
+- **Failed job**: what it was doing, the step it stopped at and the error.
+  **Resume** runs it again from that step. Every step is safe to run twice,
+  so this never builds a second site.
+- **Paid signup with no workspace**: whose it is and why it stopped.
+  **Build Workspace** creates the workspace, as paying would have.
+- **Workspace owing**: overdue or suspended, and since when. Open it to act.
+- **Domain**: waiting over a day for DNS, or not working. **Check Again**
+  asks Cloudflare for its status.
+- **Slow build**: a new workspace still waiting on Frappe Cloud after three
+  hours. Waiting never fails a job, so this is where a stuck build shows up.
+  Check the site in Frappe Cloud.
+- **Stalled job**: due but not run for fifteen minutes, with **Run Now**.
+- **Over database**: a workspace holds more than it bought. Frappe Cloud sets
+  no limit on dedicated servers, so OneAdmin watches it.
+- **Server filling up**: at four-fifths of its **Most Workspaces**, full, or
+  no open server left for new or EU workspaces. Buy the next one before a
+  signup fails.
+- **Update available**: for the bench group new workspaces use, with the apps
+  that have one. Deploy it in Frappe Cloud. It updates every workspace on
+  that bench group at once.
+- **Wrong price**: a problem Price Check found.
+- **No model**: an AI action no offered model can run.
 
-Clicking a row opens the record. Home keeps itself up to date: a job that
-fails, a signup that arrives or a domain that comes up changes it without
-reloading. When nothing needs you, it says so.
+Click a row to open the record. Home updates live, without reloading.
 
 ## Workspaces
 
-**Workspaces** lists every customer's workspace: its name with its slug
-after it (two companies can share a name), its status, plan, owner and
-storage against what its plan allows, in red when over. Filter by status,
-plan, jurisdiction or account. Its **Account** is whose One account holds it
-(see Your One account).
+**Workspaces** lists every customer workspace with its name and slug, status,
+plan, owner and storage against its plan's limit (red when over). Filter by
+status, plan, jurisdiction or account. **Account** is the One account that
+holds it (see Your One account).
 
-A workspace is read-only. Nothing on it is typed; it is the record of what
-happened to it. At the top it says its address, and how soon it falls if it
-owes, then its **Plan**, **Storage**, **Credits** left and what it has
-**Used This Month** on OneAI. Placement and Site are folded away: open them
-when something breaks.
+A workspace is read-only. It's the record of what happened to it. The top
+shows its address and, if it owes, when it moves to the next status. Below
+that are its **Plan**, **Storage**, **Credits** left and OneAI **Used This
+Month**. Placement and Site are collapsed. Open them when something breaks.
 
-**Where it stands.** A workspace is built, then **Live**. When a payment
-fails it is **Payment overdue** and carries on as before for 7 days, then
-**Suspended** for 14 (nobody can sign in, nothing is touched), then
-**Archived** for 30 (the site is taken down after a backup; the files stay),
-then its files are deleted. It falls one rung a night, and the periods are
-set in **Settings**. Paying before the files go brings it back: from
-overdue at once, from suspended by a job that serves the site again.
+### Statuses
 
-**The buttons** move it by hand, one rung at a time, and each asks first:
+A workspace is built, then **Live**. When a payment fails:
 
-- **Mark Overdue**, **Suspend**, **Archive** and **Delete Files** send it
-  down the next rung now rather than when the clock says. Archiving and
-  deleting files cannot be undone.
-- **Restore** brings an overdue or suspended workspace back.
-- **Refresh** measures its storage again, or asks Cloudflare about its
-  domains.
-- **Billing**: its **Invoices** in our books, **Give Credits** (goodwill,
-  a correction, a trial extended, with a note and an expiry), its **Credit
-  Ledger**, and its **AI Usage** by model.
+1. **Payment overdue** for 7 days. It keeps working.
+2. **Suspended** for 14 days. No one can sign in, and nothing is changed.
+3. **Archived** for 30 days. The site is deleted after a backup. Files stay.
+4. Then its files are deleted.
 
-Below the fields are its **Jobs** and **Log**, its **Domains**, and on the
-billing side the **Customer** it is in our books and the **Signup** that
-paid for it.
+It moves one step a night. The periods are set in **Settings**. Paying before
+the files are deleted brings it back: at once from overdue, and from
+suspended by a job that serves the site again.
 
-The owner is emailed when their workspace is suspended, when it is archived
-(with the day it will be deleted) and when it is restored. Being overdue is
-told on their own workspace, which still works then.
+### Buttons
 
-**Closing, because they asked.** The person a workspace is billed to may
-close it from its Plan and Credits page (`closing.py`). Its **Closing On**
-is set 14 days out, its subscription is set to end with its period, the
-operators hear it (**Workspace Asked to Close**) and the Log says so. On
-that day the nightly run archives it, the same Archive job as above, and
-the owner is mailed **Workspace Closed** rather than Workspace Archived;
-from there it falls to deleted on the Archived clock. Until the day they
-can keep it open, which clears the date. After it, bringing it back is a
-restore from the backup, as for an archived workspace that pays. On their
-One account it shows as Closing, then Closed, with the day it is deleted.
+Each button moves the workspace one step and asks first.
+
+- **Mark Overdue**, **Suspend**, **Archive** and **Delete Files** move it to
+  the next status now. Archiving and deleting files can't be undone.
+- **Restore** brings back an overdue or suspended workspace.
+- **Refresh** › **Measure Storage** or **Refresh Domains**.
+- **Billing** › **Invoices**, **Give Credits** (with a note and an optional
+  expiry), **Credit Ledger** and **AI Usage** by model.
+
+Below the fields are its **Jobs**, **Log** and **Domains**, its **Customer**
+in the books and the **Signup** that paid for it.
+
+The owner is emailed when the workspace is suspended, archived (with the
+deletion date) and restored. Overdue notices show on their own workspace,
+which still works then.
+
+### Closing on request
+
+The workspace's billing contact can close it from its Plan and Credits page
+(`closing.py`).
+
+- **Closing On** is set 14 days out, and the subscription ends with its
+  period.
+- Operators get **Workspace Asked to Close**, and the Log records it.
+- On that day the nightly run archives it with the usual Archive job, and the
+  owner gets **Workspace Closed** instead of Workspace Archived. It's then
+  deleted on the Archived schedule.
+- Until that day, they can keep it open, which clears the date. After it,
+  bringing it back means restoring from the backup.
+
+Their One account shows it as Closing, then Closed, with the deletion date.
 
 ## Jobs
 
-A **job** is the work that builds a workspace or moves it on the ladder, one
-step at a time. There are five kinds:
+A **job** builds a workspace or moves it to another status, one step at a
+time. There are five types:
 
-- **Provision** builds a new workspace: chooses the server it goes on,
-  checks the name is free, asks Frappe Cloud for the site, waits for it to
-  be built, puts it on our own name, tells the site who it is, invites the
-  owner, and marks it live. The server is chosen from Settings › Servers
-  (the emptiest open one, an EU one for an EU workspace), and a bench group
-  missing erpnext, hrms or onedesk is refused at the first step, saying
-  which to add. The workspace's **Server** is on its record.
-- **Archive** also cancels the workspace's subscription in Stripe, so a
-  workspace that is gone is not invoiced, and takes its mail route down
-  with its address.
-- **Suspend**, **Restore**, **Archive** and **Drop** move a workspace down
-  or back up the ladder (see Workspaces).
+- **Provision** builds a new workspace. It chooses a server, checks the name
+  is free, creates the site in Frappe Cloud, waits for it, sets up the
+  address, configures the site, invites the owner and marks it live.
+- **Suspend** and **Restore** stop and restart the site.
+- **Archive** deletes the site after a backup, cancels the Stripe
+  subscription so it isn't invoiced again, and removes its mail route.
+- **Drop** deletes the files.
 
-Jobs run by themselves every two minutes. **Jobs** lists the ones not done:
-the workspace, the kind, where it is, the step it is on, and when it last
-moved. A failed job has its error under its step.
+The server is the emptiest open one in Settings › Servers (an EU one for an
+EU workspace), and is shown on the workspace as **Server**. A bench group
+missing erpnext, hrms or onedesk fails the first step, naming what to add.
 
-A job is **Waiting to run** when its next step is due, and **Waiting on
-Frappe Cloud** while a step waits for somebody else, such as a site being
-built. Waiting is checked every minute and never counts against the job: a
-slow build is put on Home after three hours, not failed. A step that errors
-is tried again, less often each time, and after twelve tries the job
-**Fails** and the operators are told.
+**Jobs** lists the ones not done, with the workspace, type, status, current
+step and last update. Jobs run every two minutes.
 
-Open a job to see its walk: every step in words, the ones done ticked, the
-one it is on marked, and a failed step's error under it. **Resume** runs a
-failed job again from the step it stopped on. Every step is safe to run
-twice, so this never builds a second site or suspends a workspace twice.
+- **Waiting to run**: its next step is due.
+- **Waiting on Frappe Cloud**: a step waits on Frappe Cloud, such as a site
+  being built. This is checked every minute and never fails the job. A slow
+  build shows on Home after three hours.
+- **Failed**: a step that errors is retried, less often each time. After
+  twelve tries the job fails and operators are notified.
 
-A job that was due and has not run for fifteen minutes is on Home, under
-Needs You, with **Run Now**: the scheduler has stopped, or a worker died
-holding it. Run Now runs its next step at once.
+Open a job to see every step, with done steps ticked, the current one marked
+and a failed step's error under it. **Resume** runs a failed job again from
+the step it stopped on. Every step is safe to run twice.
 
-**The owner of a new workspace** is invited by the job, at its **Inviting the
-owner** step: the new site makes whoever paid its first administrator and
-emails them a link to choose their password, good for a week. When the job
-finishes they are emailed **Workspace Ready**, with its address.
+A job that was due and hasn't run for fifteen minutes shows on Home with
+**Run Now**, which runs its next step at once. Usually the scheduler has
+stopped, or a worker died while holding it.
+
+**The new owner** is invited at the **Inviting the owner** step. The site
+makes whoever paid its first administrator and emails them a link to choose
+a password, valid for a week. When the job finishes they get **Workspace
+Ready** with the address.
 
 ## Price List
 
-**Price List** is everything One sells, and the one OneAdmin screen an
-operator writes in. The signup page, a customer's Plan and Credits screen,
-the Plan Calculator and Price Check all read it, and each offering is an
-Item in our books. Plans come first, then add-ons, then credit packs, each
-by price, with what it costs and what it gives in one line.
+**Price List** is everything One sells. It's the one OneAdmin screen
+operators edit. The signup page, a customer's Plan and Credits page, Plan
+Calculator and Price Check all read it, and each offering is an Item in the
+books. The list shows plans, then add-ons, then credit packs, each by price.
 
-There are three kinds:
+There are three types:
 
-- A **Plan** is what a workspace is on: its price a month (or once), a free
-  trial if it has one, and its quotas: storage, database, seats and credits
-  a month. Nought means unlimited.
-- An **Add-on** adds one thing, in one size, to a plan, and is paid monthly
-  with it: 50 GB of storage, 5 seats. Fill in the one thing it adds.
-- A **Credit Pack** is bought once, for OneAI credits that do not expire at
-  the month's end.
+- **Plan**: what a workspace is on. It has a monthly (or one-time) price, an
+  optional free trial, and quotas for storage, database, seats and monthly
+  credits. Zero means unlimited.
+- **Add-on**: adds one thing, in one size, to a plan, paid monthly with it.
+  For example 50 GB of storage or 5 seats.
+- **Credit Pack**: bought once, for OneAI credits that don't expire at the
+  end of the month.
 
-**Changing one** reaches customers in two different ways. The price never
-does: Stripe keeps each subscriber on the price they signed up at, and the
-next sale makes a new Stripe price. The quotas do, the next time the
-customer changes their plan or add-ons, when they are copied from here
-again. The top of each offering says how many workspaces have it.
+**Changing an offering**:
 
-**Disabling one** takes it off the signup page and the customer's choices;
-the workspaces already on it keep it. An offering a workspace has cannot be
-deleted. **See the Signup Page** in the list's menu opens it as a customer
-sees it.
+- Prices never change for existing customers. Stripe keeps each subscriber
+  on the price they signed up at, and the next sale creates a new Stripe
+  price.
+- Quotas apply the next time the customer changes their plan or add-ons.
+- The top of each offering shows how many workspaces have it.
+
+**Disabling an offering** removes it from the signup page and customers'
+choices. Workspaces already on it keep it. An offering a workspace has can't
+be deleted. **View Signup Page** in the list's menu opens the page as a
+customer sees it.
 
 ## Price Check
 
-**Price Check** says whether the price list makes sense. For every enabled
-offering it shows what it gives, its price, what it costs us a month, its
-**Margin** (how many times its cost it sells for) and, for a plan, how much
-it **Saves** over the plan below bought as add-ons. Anything that does not
-hold comes first: **Wrong** in red, a **Close Call** in orange.
+**Price Check** shows whether the price list makes sense. For every enabled
+offering it shows what it **Includes**, its **Price**, its monthly **Cost**,
+its **Margin** (price as a multiple of cost) and, for a plan, how much it
+**Saves** over the plan below plus add-ons. Problems come first: **Wrong** in
+red, **Close Calls** in orange.
 
-It checks five things:
+It checks that:
 
-- every price covers its cost with the **Margin Wanted** (2× unless
-  Settings says otherwise);
-- each plan up gives at least as much of everything, for more;
-- moving up a plan is cheaper than buying the difference as add-ons, or
-  nobody moves up;
-- the smallest add-on is cheaper than moving up, or nobody buys it;
-- a bigger size of the same add-on is no dearer per unit.
+- every price covers its cost with the **Target Margin** (2× unless Settings
+  says otherwise)
+- each higher plan gives at least as much of everything, for more
+- moving up a plan is cheaper than buying the difference as add-ons
+- the smallest add-on is cheaper than moving up a plan
+- a bigger size of an add-on costs no more per unit
 
-What each thing costs us (a workspace, a seat, a GB of storage and of
-database, the backups kept, a credit) and the margin wanted are set in
-**Settings**; **Costs in Settings** in the report's menu opens them.
-**Include Disabled** checks withdrawn offerings too.
+Costs (per workspace, seat, GB of storage and database, backups and credit)
+and the target margin are set in **Settings**. **Edit Costs** in the
+report's menu opens them. **Include Disabled** checks withdrawn offerings
+too.
 
-You are also told without opening it: saving an offering, or the costs,
-shows at once what the price list now gets wrong, and anything Wrong is on
-Home, under Needs You, until it is fixed. On the report, OneAI answers **What
-should we change?**.
+Saving an offering or the costs shows any new problems right away, and
+anything Wrong stays on Home until it's fixed. OneAI answers **What should
+we change?** on the report.
 
 ## Plan Calculator
 
-**Plan Calculator** answers what a customer should buy. Say how many
-**Seats**, how much **Storage** and **Database** in GB, and how many OneAI
-**Credits a Month** they need, and it lists every plan with the add-ons that
-bring it up to that, cheapest first: what the plan **Gives**, the add-ons,
-what it comes to **A Month**, what it **Costs** us, its **Margin**, and how
-much **Dearer** it is than the cheapest. The summary says the needs back and
-the cheapest answer. It is the same sum a workspace's own Plan and Credits
-screen does when its administrator adds to their plan, so what it says is
-what they will be offered. Credit packs are not in it: they are bought once,
-not monthly.
+**Plan Calculator** shows what a customer should buy. Enter the **Seats**,
+**Storage (GB)**, **Database (GB)** and **Credits a Month** they need. It
+lists every plan with the add-ons that reach those needs, cheapest first,
+showing what the plan **Includes**, the **Add-ons**, the **Monthly** price,
+the **Cost**, the **Margin** and the **Difference** from the cheapest. Credit
+packs aren't included because they're bought once.
 
-For a customer you already have, pick the **Workspace**: the needs fill in
-from what it has now (the seats it pays for, the storage and database it
-uses, and its credits a month or this month's spend, whichever is more), the
-summary says what it **Pays Now**, and the row of its plan says **Their
-plan**. Change any need from there to ask "and with ten more people?".
+It's the same calculation a workspace's Plan and Credits page uses when an
+administrator adds to their plan, so the result matches what they'll be
+offered.
 
-Only an operator of One sees it, and it changes nothing. On the report,
-OneAI answers **What should they buy?**, for needs said in words or a
-workspace by name.
+For an existing customer, pick the **Workspace**. The needs fill in from what
+it has now: paid seats, used storage and database, and the higher of its
+monthly credits or this month's spend. The summary shows what it **Pays
+Now**, and its plan's row says **Current plan**. Change any need to compare,
+for example ten more seats.
+
+Only operators see it, and it changes nothing. OneAI answers **What should
+they buy?** for needs in words or a workspace by name.
 
 ## The signup page
 
-**/start** on this site is where a customer asks for a workspace, before they
-have any account. They type the workspace's name and see its address as they
-type (`acme.t.4dl.app`, from Tenant Domain in Settings), give the email the
-first account and the receipt go to, pick where files are kept, and pick a
-plan. Continue takes them to Stripe; above it they are told that continuing
-agrees to the Terms of Service and the Privacy Policy, each linked to
-**/legal**, where every agreement can be read without signing in.
+**/start** on this site is where a customer asks for a workspace, before
+they have an account. They:
 
-- **Where files are kept** is offered only when the EU bucket is set in
-  Settings. Choosing the European Union keeps the workspace's files in the EU;
-  the workspace itself runs where the one cluster is. It cannot be changed
-  later.
-- **The plans** are the enabled plans in Price List, cheapest first, each with
-  its trial, its description and what it gives: storage, database, people and
-  credits a month. Changing a plan there changes this page.
-- **Signed in to a One account**, the page asks no email: it says who is
-  signed in, and the workspace joins that account. Not signed in, it offers
-  **Sign in** for somebody who has an account, and the email typed becomes
-  the account (an address that already has one joins it).
+1. Enter the workspace name and see its address as they type
+   (`acme.t.4dl.app`, from Tenant Domain in Settings).
+2. Enter the email for the first account and the receipt.
+3. Pick where files are kept.
+4. Pick a plan.
+5. Click **Continue** to pay in Stripe.
 
-Stripe sends them back to **/welcome**, which says where their workspace
-stands. While it is built the page asks again every ten seconds without
-reloading, and after fifteen minutes says it is taking longer than usual
-rather than "a few minutes". Ready shows the workspace's own name, the day
-a trial's free period ends, and **Open it**, which goes to the workspace's
-own domain when it has one, straight to its sign-in. A build that failed
-gives its reference to quote. Paid, being built or ready, it says the
-workspace is in their One account, with **Sign in**. Closing Stripe's page
-lets the name go at once, and **Start again** comes back to the form with
-the name and plan they had chosen. The welcome page only opens with the key in the link Stripe and our
-mails carry; a request's name alone shows nothing.
+Above Continue, the page says that continuing accepts the Terms of Service
+and Privacy Policy, both linked to **/legal**, where every agreement can be
+read without signing in.
 
-Somebody who filled the page and never paid is mailed **Finish Signing Up**
-once, a day later, with a link that takes them back to payment. Nobody signs
-in to use either page, and neither changes anything but the signup itself.
+- **Where files are kept** shows only when the EU bucket is set in Settings.
+  The European Union keeps the workspace's files in the EU. The workspace
+  itself runs on the main cluster. This can't be changed later.
+- **Plans** are the enabled plans in Price List, cheapest first, each with its
+  trial, description, storage, database, people and monthly credits.
+- **Signed in to a One account**, the page doesn't ask for an email. It shows
+  who's signed in, and the workspace joins that account. Otherwise it offers
+  **Sign in**, and the email entered becomes the account (or joins an
+  existing one).
+
+Stripe returns them to **/welcome**, which shows the workspace's status:
+
+- While it's being built, the page checks every ten seconds. After fifteen
+  minutes it says it's taking longer than usual.
+- When ready, it shows the workspace name, the trial end date and **Open it**,
+  which goes to the workspace's sign-in on its own domain if it has one.
+- A failed build shows a reference to quote.
+- Once paid, it says the workspace is in their One account, with **Sign in**.
+- Closing Stripe's page frees the name at once. **Start again** returns to
+  the form with the name and plan filled in.
+
+The welcome page opens only with the key in the link from Stripe and One's
+emails. A request name alone shows nothing.
+
+Someone who filled in the page but never paid gets **Finish Signing Up**
+once, a day later, with a link back to payment. Neither page needs a sign-in,
+and neither changes anything but the signup.
 
 ## Your One account
 
-Whoever pays for a workspace has a **One account** on this site, under the
-email they paid with. It is made when the payment lands, and it holds the
-workspace. Somebody who pays for a second workspace with the same email has
-both in one account.
+Whoever pays for a workspace gets a **One account** on this site under the
+email they paid with. It's created when the payment lands and holds the
+workspace. Paying for a second workspace with the same email adds it to the
+same account.
 
-An account signs in at **/login** with **Login with Email Link**: One mails a
-link that works once, for a few minutes (**Sign-in Link**). There is no
-password. Signed in, it lands on **/account**, which lists its workspaces
-and where each stands: **Being built**, **Live**, **On trial** with the day it
-ends, **Payment overdue**, **Suspended** or **Archived**. One that owes comes
-first and says how many days are left before it falls further, with **Pay**,
-which opens Stripe's page for its invoice and card. One that runs has
-**Open**, to that workspace's own sign-in. **Start another workspace** is at
-the foot. Workspace Ready links the account too.
+Accounts sign in at **/login** with **Login with Email Link**. One emails a
+link that works once, for a few minutes (**Sign-in Link**). There's no
+password. Only customer accounts can sign in this way. An operator asking for
+a link gets nothing, the same as an unknown address, and signs in with their
+password.
 
-**Profile**, the third tab, has the account holder's name, and their
-address. A new address is mailed a link that works for an hour; the account
-moves to it only when the link is followed, and the old address is told
-(**Confirm Your New Email**, **Account Email Changed**).
+The account has three tabs:
 
-A workspace's administrator can make somebody else the one who pays, from
-the workspace's own Plan and Credits (**Who Pays**). The workspace moves to
-that email's One account, made if needed; they are mailed **Workspace Moved
-to You** and the previous holder **Workspace Moved Away**, and the log says
-**Account Moved**. From then on the suspension, archive and restore mails go
-to them rather than to the address the workspace was bought with.
+- **/account** lists its workspaces and their status: **Being built**,
+  **Live**, **On trial** (with the end date), **Payment overdue**,
+  **Suspended** or **Archived**. One that owes comes first, says how many
+  days are left before the next status, and has **Pay**, which opens Stripe's
+  page for its invoice and card. One that's running has **Open**, to its own
+  sign-in. **Start another workspace** is at the bottom. Workspace Ready
+  links here too.
+- **Invoices** lists every invoice across its workspaces, newest first, with
+  the date, workspace, number, amount and status (**Paid**, **Due**,
+  **Unpaid** or **Cancelled**). Each has **View** and **PDF**, and a due one
+  has **Pay**, all Stripe's own pages. **Card and billing details** has
+  **Update card** per workspace, since each workspace is billed separately.
+- **Profile** has the account holder's name and email. A new email gets a
+  link valid for an hour. The account switches only once it's followed, and
+  the old address is notified (**Confirm Your New Email**, **Account Email
+  Changed**).
 
-**Invoices**, the account's second tab, lists every invoice across its
-workspaces, newest first: the date, the workspace, the invoice number, the
-amount and whether it is **Paid**, **Due**, **Unpaid** or **Cancelled**, with
-**Pay** on one that is due and **View** and **PDF** on each, all Stripe's own
-pages. Under them, **Card and billing details** has **Update card** for each
-workspace: each workspace is billed on its own, so each has its own card.
-The account is not a sign-in to any workspace, and it has no desk.
+The account doesn't sign in to any workspace, and it has no desk.
 
-Only a customer's account can sign in by mailed link here. An operator of One
-asking for one gets nothing, the same as an address nobody holds, and signs in
-with their password.
+### Changing who pays
+
+A workspace administrator can make someone else the billing contact from the
+workspace's Plan and Credits page (**Who Pays**).
+
+- The workspace moves to that email's One account, created if needed.
+- The new holder gets **Workspace Moved to You**, and the previous one
+  **Workspace Moved Away**. The log records **Account Moved**.
+- From then on, suspension, archive and restore emails go to the new holder.
 
 ## Signups
 
 **Signups** are the people who asked for a workspace on the signup page,
-before and after they paid. Nobody types one in: the page writes it, and
-Stripe's word that the payment went through builds the workspace. Each says
-where it stands:
+before and after paying. The page creates them, and Stripe's payment
+confirmation builds the workspace. Each has a status:
 
-- **Not paid**: they filled in the page and never paid. **At checkout**:
-  they are, or were, at Stripe.
-- **Paid, not built**: the money arrived and the workspace was not made.
-  **Paid, build failed**: making it stopped, and the red line on the
-  signup says why.
-- **Being built**: its workspace's job is running (the workspace has the
-  job). **Built**: the workspace went live.
-- **Abandoned**: not paid within seven days, or closed at Stripe, so the
-  name they asked for is free for somebody else. If they pay after all, the workspace is still
-  built, unless the name was taken in the meantime.
+- **Not paid**: filled in the page but never paid.
+- **At checkout**: at Stripe now, or was.
+- **Paid, not built**: paid, but the workspace wasn't created.
+- **Paid, build failed**: building stopped. The note at the top says why.
+- **Being built**: the workspace's job is running.
+- **Built**: the workspace is live.
+- **Abandoned**: not paid within seven days, or closed at Stripe. The name is
+  free again. If they pay later, the workspace is still built unless the
+  name was taken in the meantime.
 
-A paid signup with no workspace is the worst state there is, so it is on
-Home under Needs You, and **Build Workspace** on it tries again. Look at why
-it stopped first: a name taken since, or a Frappe Cloud refusal, will stop it
-again. Its **Workspace** is linked once there is one, with **Open
-Workspace**; **Open in Stripe** in the menu finds its payment; and our own
-lead and deal for it are under Outcome.
+A paid signup with no workspace is the most urgent case, so it shows on Home.
+**Build Workspace** on it tries again. Check why it stopped first. A name
+taken since, or a Frappe Cloud refusal, will stop it again.
 
-Only an operator of One sees signups, and nobody edits them. On one that was
-paid and not built, OneAI answers **Why wasn't this built?**.
+Once there's a workspace, it's linked with **Open Workspace**. **Open in
+Stripe** in the menu finds the payment, and the lead and deal for it are
+under Outcome.
+
+Only operators see signups, and no one edits them. On a paid signup with no
+workspace, OneAI answers **Why wasn't this built?**.
 
 ## Credits
 
-**Credits** is every movement of every workspace's OneAI credits, one row
-each, written once and never edited. A workspace's balance is the sum of its
-rows; nobody types a balance anywhere.
+**Credits** is every change to every workspace's OneAI credits, one row each,
+never edited. A workspace's balance is the sum of its rows.
 
-- A **Grant** adds credits: the plan's monthly credits (they expire at the
-  month's end), a credit pack they bought (never expires), or credits an
-  operator gave with **Give Credits** on the workspace (with a note, and an
-  expiry if one was set).
-- A **Spend** is one OneAI call, drawn from the grant that expires soonest.
-  It names the **Model** it ran on. A spend beyond what the workspace had is
-  owed, and belongs to no grant.
-- A **Refund** gives back an over-charge.
+- **Grant** adds credits: a plan's monthly credits (expire at month end), a
+  credit pack (never expire), or credits an operator gave with **Give
+  Credits** (with a note and an optional expiry).
+- **Spend** is one OneAI call, taken from the grant that expires soonest. It
+  shows the **Model** used. A spend beyond the balance is owed and has no
+  grant.
+- **Refund** returns an overcharge.
 
-The list opens on everything but calls: grants, refunds and credits taken
-back. A call's spends, hundreds a day, are one filter away, and **AI Usage** sums them by workspace and model. A grant says what is
-left of it and until when; a spend says which grant it came out of.
+The list shows grants, refunds and revoked credits by default. Individual
+calls, hundreds a day, are one filter away, and **AI Usage** totals them by
+workspace and model. A grant shows what's left and until when. A spend shows
+which grant it came from.
 
-**Take Back** on credits an operator gave takes back what is left of them,
-with a note saying why. It writes a spend of the rest rather than deleting the
-grant, so what was already spent stays spent. Credits a plan or a pack gave
-cannot be taken back: they were paid for.
+**Revoke Credits** on credits an operator gave removes what's left, with a
+reason. It adds a spend for the rest rather than deleting the grant, so
+what was spent stays spent. Credits from a plan or pack can't be revoked
+because they were paid for.
 
-When an operator gives credits, the workspace's administrators are told
-**Credits Added** with the operator's note and when they expire. Only an
-operator of One sees the ledger. On an entry, OneAI answers **Where did the
-credits go?**.
+When an operator gives credits, the workspace's administrators get **Credits
+Added** with the note and expiry. Only operators see the ledger. On an entry,
+OneAI answers **Where did the credits go?**.
 
 ## Models
 
-**Models** is every OneAI model the two providers offer, Cloudflare Workers AI
-and Google AI Studio. Nobody types one in: each night the list is read from
-each provider, and each price from the page the provider publishes. The sync
-decides two things on its own, and tells the operators when either touches a
-model on sale (**Model Withdrawn**): a model the provider stops listing is
-**Withdrawn**, and one whose price can no longer be read comes off sale.
+**Models** lists every OneAI model from the two providers, Cloudflare Workers
+AI and Google AI Studio. The list syncs nightly from each provider, with
+prices from each provider's published pricing page.
 
-What is yours to decide:
+The sync does two things on its own:
 
-- **Offered**: workspaces may pick it. **Offer** and **Stop offering** are on
+- A model the provider stops listing becomes **Withdrawn**.
+- A model whose price can't be read is taken off sale.
+
+When either affects an offered model, operators get **Model Withdrawn**.
+
+What operators set:
+
+- **Offered**: workspaces may pick it. **Offer** and **Stop Offering** are on
   each row.
-- **Default For**: what an action needing that runs on when a workspace picked
-  nothing. Gemma 4 (`gemma-4-26b-a4b-it`, the one on sale) is the default for
-  text, the owner's call for testing at a fraction of Gemini's price; Gemini
-  2.5 Flash stays on what was measured to need it (Print Design, Workspace
-  Setup) and on the second reading of an extension's code (Review an
-  Extension). When nothing is the default for what an action needs
-  (reading a scan, transcribing a recording), it runs on the default for
-  something else that can do it, else the cheapest offered model from the
-  **Preferred Provider** in Settings (Google). A workspace whose own pick is
-  withdrawn falls back the same way rather than failing. An action nothing can
-  run is on Home, under Needs You. An action may name its own model instead
-  (**Runs On** on the AI Action): **Print Design** runs on gemini-2.5-flash,
-  because laying a page out is one long, exact answer that the chat's small
-  model gets wrong. The chat hands a conversation to Print Design the moment
-  it reaches for `print_layout` or `design_print_format`, and those rounds are
-  charged to Print Design. **Workspace Setup** runs on the same model for
-  `suggest_approval`: an approval's states, steps, roles and conditions have to
-  fit together, and the small model, sent back to mend one, repeated it.
+- **Default For**: what an action runs on when the workspace picked nothing.
 - **Markup**: empty uses the default in Settings.
-- **Priced by Hand**: for a model whose price page cannot be read. **Needs
-  review** says what the page said that could not be read; price it by hand,
-  or leave it off sale.
+- **Priced by Hand**: for a model whose price page can't be read. **Needs
+  review** shows what couldn't be read. Price it by hand or leave it off sale.
 
-The list opens on what is offered, then priced, then needing review, then
-withdrawn. A model's head says its markup, which actions run on it for
-workspaces that picked nothing, and how many workspaces called it this month.
-**Price a call** makes one real call against a workspace's credits and shows
-what it cost: it is charged. OneAI answers **Is this model worth offering?**
-on a model and **Which actions have no model?** on the list.
+### Defaults
+
+- Gemma 4 (`gemma-4-26b-a4b-it`, the one on sale) is the default for text, at
+  a fraction of Gemini's price.
+- Gemini 2.5 Flash stays on the actions that need it: Print Design, Workspace
+  Setup, and the second review of an extension's code (Review an Extension).
+- An action can name its own model (**Runs On** on the AI Action).
+  **Print Design** runs on gemini-2.5-flash because a page layout is one long,
+  exact answer the small model gets wrong. The chat hands a conversation to
+  Print Design when it calls `print_layout` or `design_print_format`, and
+  those rounds are charged to Print Design. **Workspace Setup** uses the same
+  model for `suggest_approval`, because an approval's states, steps, roles
+  and conditions must fit together and the small model repeated its mistakes.
+- With no default for what an action needs (reading a scan, transcribing a
+  recording), it uses the default for something else that can do it, then
+  the cheapest offered model from the **Preferred Provider** in Settings
+  (Google).
+- A workspace whose own pick is withdrawn falls back the same way instead of
+  failing. An action nothing can run shows on Home.
+
+The list sorts offered first, then priced, then needing review, then
+withdrawn. A model's page shows its markup, which actions use it by default
+and how many workspaces called it this month. **Test Call** makes one real
+call against a workspace's credits and shows the cost. It's charged.
+
+OneAI answers **Is this model worth offering?** on a model and **Which
+actions have no model?** on the list.
 
 ## AI Usage
 
-**AI Usage** says who spent what on OneAI, on what, and whether we made money
-on it. Pick the dates (this month unless you say) and cut it **By**
-Workspace, Model, Action (which of OneAI's features made the calls: Chat,
-Summarise, Read Scans, the intake readings), or a workspace by model or by
-action. Each row has its **Calls**, the **Credits** charged, what those are
-**Charged** in dollars (at the smallest credit pack's price a credit), what
-the provider charged us (**Cost**) and the **Margin** between them; the
-summary says the same for the whole period, green when OneAI made money.
+**AI Usage** shows who spent what on OneAI, on what, and the margin. Pick the
+dates (this month by default) and group **By** Workspace, Model, Action
+(the OneAI feature that made the calls, such as Chat, Summarise, Read Scans
+or Intake), or a workspace by model or action.
 
-Charged is the credits' list price: a plan's monthly credits and packs sold
-at a discount earn less. Calls made before the action and the cost were kept
-say "Not recorded" and carry a cost worked back from their markup. Only an
-operator of One sees it. OneAI answers **Who is spending the most?**.
+Each row shows:
+
+- **Calls**
+- **Credits** charged
+- **Charged**: those credits in dollars, at the smallest credit pack's price
+  per credit
+- **Cost**: what the provider charged
+- **Margin** between them
+
+The summary shows the same for the whole period, green when OneAI made money.
+
+Charged is the list price of the credits. A plan's monthly credits and
+discounted packs earn less. Calls from before actions and costs were recorded
+show "Not recorded", with a cost estimated from their markup. Only operators
+see it. OneAI answers **Who is spending the most?**.
 
 ## Domains
 
-**Domains** lists every name customers have put on their workspaces, such
-as `crm.acme.com`: the workspace, whether it is **Working**, **Waiting** or
-**Not working**, Cloudflare's reason when it does not work, and which is the
-workspace's **Main** address. Every workspace also has the name One gave it
-(`acme.t.4dl.app`), which always works and is not listed here.
+**Domains** lists every custom domain on customer workspaces, such as
+`crm.acme.com`, with the workspace, status (**Working**, **Waiting** or **Not
+working**), Cloudflare's reason when it isn't working, and which is the
+**Main** address. Every workspace also has its One address
+(`acme.t.4dl.app`), which always works and isn't listed here.
 
-The customer does all of it from their own workspace, under **Workspace ›
-Domains**: they add a name, make one CNAME record in their DNS from it to
-the name One gave them, and choose which is the main address, the one links
-and mail use. An operator cannot add, remove or make a name main for them:
-it is their DNS, and only they can change it.
+Customers manage domains on their own workspace, under **Workspace ›
+Domains**. They add a domain, create one CNAME record in their DNS pointing
+to their One address, and choose the main address used in links and emails.
+Operators can't add, remove or set the main domain for them, because it's
+the customer's DNS.
 
-A name **Waits** until its DNS record is right; Cloudflare keeps checking by
-itself and issues its certificate once it is. One asks Cloudflare where each
-waiting name has got to every night, and **Check Again** asks now. Open a
-domain to see what it needs: the CNAME record it must have, what Cloudflare
-says is wrong, and since when it has waited. A name **Not at Cloudflare**
-has been lost there; the customer can remove it and add it again.
+A domain stays **Waiting** until its DNS record is right. Cloudflare keeps
+checking and issues the certificate once it is. One checks each waiting
+domain nightly, and **Check Again** checks now. A domain's page shows the
+CNAME record it needs, Cloudflare's error and how long it has waited. A
+domain **Not at Cloudflare** has been lost there, and the customer can remove
+and re-add it.
 
-A name that has waited a day, or stopped working, is on Home under Needs
-You, and in the morning's **Domains Waiting**. The customer's
-administrators are told on their own site when a name starts or stops
-working.
+A domain waiting over a day, or not working, shows on Home and in the
+morning's **Domains Waiting**. The customer's administrators are notified on
+their own site when a domain starts or stops working.
 
 ## Log
 
-**Log** is what happened to each workspace, newest first, written by One as
-it happens. Nobody types in it. Each row says the workspace, what happened,
-in words, who did it, and when:
+**Log** is what happened to each workspace, newest first, recorded
+automatically. No one edits it. Each row shows the workspace, what happened,
+who did it and when.
 
-- **Overdue**, **Suspended**, **Archived**, **Dropped** and **Restored**:
-  it reached a rung, and why: a payment failed, its time on the last rung
-  ran out, it was paid, it was moved by hand, or what Frappe Cloud did.
+- **Overdue**, **Suspended**, **Archived**, **Dropped** and **Restored**: the
+  new status and why (a failed payment, the grace period ending, a payment,
+  an operator, or Frappe Cloud).
 - **Plan Changed** and **Add-on Changed**: the customer changed their plan
-  from their own workspace, by name.
+  on their workspace.
 - **Over Storage**: it holds more than its plan allows, with both sizes.
-  Written when it goes over, and again only when it moves by a gigabyte or
-  a month has passed. It is also on Home until it is back under.
+  Recorded when it goes over, then again only after it grows by a gigabyte or
+  a month passes. It also shows on Home until it's back under.
 
-**By** is **the customer**, from their own workspace, **an operator** by
-name, for a button they pressed or a job they started, or **One**, for the
-clock, a payment or a nightly measure. A row written by a job links it.
+**By** is **Customer** (from their workspace), an operator by name (for a
+button or a job they started), or **One** (the schedule, a payment or a
+nightly measurement). A row from a job links to it.
 
-A row opens its workspace. A workspace's **Activity** shows its own log
-beside its changes, and a job lists what it wrote.
+Click a row to open its workspace. A workspace's **Activity** shows its log
+next to its changes, and a job lists the rows it wrote.
 
 ## Settings
 
-**Settings** is what OneAdmin runs on, in four tabs:
+**Settings** is what OneAdmin runs on, in four tabs.
 
-- **Connections**: the Frappe Cloud account the sites are built on (the
-  servers are ours, rented from Frappe Cloud; customers never see it): the
-  one **Bench Group** every workspace runs on, the **Site Plan** each site
-  takes, one of Frappe Cloud's free Unlimited plans, which only sets its CPU
-  time a day, and **Servers** (see below),
-  Cloudflare (one token; **Set Up Cloudflare** finds or makes the rest and
-  says what it did under Last Setup), the R2 buckets and keys, Stripe's keys,
-  and the AI Gateway. Keys are shown as dots and never read back. **Sender
-  Email** (noreply@4dl.app) is where One's own mails come from: sign-in links,
-  signups and notices to customers. Set Up Cloudflare turns on sending for
-  its domain and makes it this site's outgoing account, and those mails go
-  straight to Cloudflare; workspaces' mail still comes from their own
+**Connections**
+
+- **Frappe Cloud**: the account the sites are built on. The servers are
+  rented from Frappe Cloud, and customers never see it. Includes the **Bench
+  Group** every workspace runs on, the **Site Plan** for each site (one of
+  Frappe Cloud's free Unlimited plans, which only sets daily CPU time), and
+  **Servers** (below).
+- **Cloudflare**: one token. **Set Up Cloudflare** finds or creates the rest
+  and shows the result under **Last Setup**.
+- The R2 buckets and keys, Stripe's keys and the AI Gateway.
+- **Sender Email** (noreply@4dl.app): where One's own emails come from, such
+  as sign-in links, signups and customer notices. Set Up Cloudflare turns on
+  sending for its domain and makes it this site's outgoing account, so those
+  emails go straight through Cloudflare. Workspaces still send from their own
   addresses on the mail domain.
-- **Money**: Credits per Dollar (what a dollar of provider cost becomes, not
-  what a credit sells for, which is the credit packs' price) and the default
-  markup, which together price every AI call; and what each thing costs us
-  and the least margin, which Price Check and the Plan Calculator use.
-- **OneAI**: the Preferred Provider (Google), whose cheapest model runs an
-  action nothing is the default for, and the persona said to the model
-  before every action.
-- **Grace Periods**: the days a workspace spends overdue, suspended and
-  archived before the next step.
 
-**Servers** lists the servers new workspaces are built on. To add one, buy
-it in Frappe Cloud, add it to the bench group there and deploy, then add a
-row here with its name; its **Region** is read back from Frappe Cloud when
-you save. Tick **EU** for a server in the EU: a workspace that asked for its
-data to stay in the EU only goes on one of those. Untick **Open** to stop a
-server taking new workspaces, and set **Most Workspaces** to say when it is
-full (0 is no limit). A new workspace goes on the emptiest open server that
-may take it, has room and carries the bench group. When none does its job
-fails saying what to buy or add, and **Resume** places it once there is one;
-Home warns before that, when a server is four-fifths full.
+Keys show as dots and are never read back.
 
-The line at the top says what is not filled in and what that stops (no
-Stripe webhook secret: every payment is refused). **Try the Gateway** makes
-one real call. Saving tells the other operators what changed and who changed
-it (**Settings Changed**); a key is only said to have changed. OneAI answers
-**Is everything set up?**. Only an operator of One sees this page.
+**Money**
 
-## Being told
+- **Credits per Dollar**: what a dollar of provider cost becomes in credits.
+  This isn't the sale price of a credit, which is set by the credit packs.
+- **Default markup**. With Credits per Dollar, it prices every AI call.
+- What each thing costs and the target margin, used by Price Check and Plan
+  Calculator.
 
-Operators are told without opening Home:
+**OneAI**
 
-- **Job Failed**: a job stopped on a step, with the step and the error.
-- **Signup Not Built**: somebody paid and their workspace could not be made,
-  with why it stopped.
-- **New Signup**: somebody paid for a new workspace.
-- **Workspace Owing**: a workspace fell overdue, or was suspended.
-- **Settings Changed**: another operator saved Settings, and what changed.
-- **Model Withdrawn**: the nightly sync took an offered model off sale, and
-  what now runs instead.
-- **Domains Waiting**: each morning, the domains that have waited a day or
-  stopped working.
-- **Paid While Archived**: a payment arrived for a workspace whose site is
-  already archived or dropped. The payment is kept; rebuilding it from its
-  backup or refunding it in Stripe is the operator's call.
+- **Preferred Provider** (Google), whose cheapest model runs an action with
+  no default.
+- The persona sent to the model before every action.
 
-An account holder asking to sign in is mailed **Sign-in Link**, which cannot
-be turned off, and one changing their address **Confirm Your New Email**
-and, once changed, **Account Email Changed** at the old one. A workspace
-moved to another account mails **Workspace Moved to You** and **Workspace
-Moved Away**. The person who signed up is mailed **Workspace Delayed** once if it could not
-be made, so a payment is never followed by silence, and **Finish Signing Up**
-once, a day after, if they never paid. The workspace's owner is
-mailed **Workspace Ready** when it is built (see Jobs), and **Workspace Suspended**, **Workspace Archived** and **Workspace
-Restored** (see Workspaces).
+**Grace Periods**
 
-Each can be turned off or changed under **Settings › Notifications**, and
-none of them is offered to anybody who is not an operator.
+- The days a workspace spends overdue, suspended and archived before the next
+  step.
+
+### Servers
+
+**Servers** lists the servers new workspaces are built on. To add one:
+
+1. Buy it in Frappe Cloud, add it to the bench group and deploy.
+2. Add a row here with its name. Its **Region** fills in from Frappe Cloud on
+   save.
+3. Tick **EU** for a server in the EU. Workspaces that asked to keep data in
+   the EU only go on those.
+
+Untick **Open** to stop a server taking new workspaces. **Most Workspaces**
+sets when it's full (0 is no limit). A new workspace goes on the emptiest
+open server that allows it, has room and has the bench group. If none does,
+its job fails saying what to buy or add, and **Resume** places it once
+there is one. Home warns when a server is four-fifths full.
+
+The note at the top lists what's missing and what that stops (for example,
+without the Stripe webhook secret every payment is refused). **Test Gateway**
+makes one real call. Saving notifies the other operators what changed and
+who changed it (**Settings Changed**). Keys show only as changed. OneAI
+answers **Is everything set up?**. Only operators see this page.
+
+## Notifications
+
+Operators are notified of:
+
+- **Job Failed**: a job stopped, with the step and error.
+- **Signup Not Built**: someone paid and their workspace couldn't be built,
+  with the reason.
+- **New Signup**: someone paid for a new workspace.
+- **Workspace Owing**: a workspace became overdue or was suspended.
+- **Workspace Asked to Close**: a billing contact asked to close a workspace.
+- **Settings Changed**: another operator saved Settings, with what changed.
+- **Model Withdrawn**: the nightly sync took an offered model off sale, with
+  what runs instead.
+- **Domains Waiting**: each morning, domains waiting over a day or not
+  working.
+- **Paid While Archived**: a payment arrived for a workspace that's already
+  archived or dropped. The payment is kept. Rebuild it from its backup or
+  refund it in Stripe.
+
+Customers are emailed:
+
+- **Sign-in Link**: when an account holder asks to sign in. Can't be turned
+  off.
+- **Confirm Your New Email** and **Account Email Changed** (to the old
+  address): when an account holder changes their email.
+- **Workspace Moved to You** and **Workspace Moved Away**: when billing moves
+  to another account.
+- **Workspace Delayed**: once, if a paid workspace couldn't be built, so a
+  payment is never followed by silence.
+- **Finish Signing Up**: once, a day later, if they never paid.
+- **Workspace Ready**: when it's built (see Jobs).
+- **Workspace Suspended**, **Workspace Archived**, **Workspace Closed** and
+  **Workspace Restored** (see Workspaces).
+
+Each can be turned off or reworded under **Settings › Notifications**. Only
+operators are offered them.
 
 ## Asking OneAI
 
-On Home, OneAI offers **What needs me today?**. It reads the same list Home
-shows, with each item's reason, and changes nothing: resuming, building and
-checking again are Home's buttons. On a job, **Why did this job fail?**
-explains where it stopped and what the error means, and on one waiting, **Why
-is this job waiting?** says what it is waiting for. On a domain that does not
-work, **Why isn't this domain working?** says what the customer has to change.
-On the price list, **How do our plans compare?**, and on a plan or add-on,
-**Who has this?**. On Price Check, **What should we change?**, and on Plan
-Calculator, **What should they buy?**. On a signup paid and not built,
-**Why wasn't this built?**. On a credit entry, **Where did the credits go?**. On AI Usage, **Who is spending
-the most?**. On Settings, **Is everything set up?**. On a model, **Is this model worth offering?**, and on the list, **Which actions have no model?**. On a workspace, **How is
-this workspace doing?** reads its standing, plan, storage, credits, domains,
-last jobs and log, and says whether anything is wrong.
+OneAI offers these questions. It reads what the screen shows and changes
+nothing.
+
+| Where | Question |
+| --- | --- |
+| Home | **What needs me today?** |
+| A workspace | **How is this workspace doing?** (standing, plan, storage, credits, domains, recent jobs and log) |
+| A failed job | **Why did this job fail?** |
+| A waiting job | **Why is this job waiting?** |
+| A domain not working | **Why isn't this domain working?** (what the customer has to change) |
+| Price List | **How do our plans compare?** |
+| A plan or add-on | **Who has this?** |
+| Price Check | **What should we change?** |
+| Plan Calculator | **What should they buy?** |
+| A paid signup with no workspace | **Why wasn't this built?** |
+| A credit entry | **Where did the credits go?** |
+| AI Usage | **Who is spending the most?** |
+| Settings | **Is everything set up?** |
+| A model | **Is this model worth offering?** |
+| Models | **Which actions have no model?** |
+
+Resuming, building and checking again are Home's buttons, not OneAI's.
 
 ## Under the hood
 

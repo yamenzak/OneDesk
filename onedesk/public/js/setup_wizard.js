@@ -17,7 +17,7 @@ onedesk.setup.slides = [
 	{
 		name: "onedesk_look",
 		title: __("How should One look?"),
-		help: __("You can change this later from your own settings."),
+		help: __("You can change this later in your settings."),
 		fields: [
 			{
 				fieldname: "onedesk_theme",
@@ -37,7 +37,7 @@ onedesk.setup.slides = [
 	{
 		name: "onedesk_working_day",
 		title: __("When do people work?"),
-		help: __("One shift and one holiday list to start with. Both can be changed, and more added, later."),
+		help: __("Sets your first shift and holiday list. You can change both later."),
 		fields: [
 			{
 				fieldname: "onedesk_day_starts",
@@ -70,9 +70,7 @@ onedesk.setup.slides = [
 				].join("\n"),
 				default: "Sunday",
 				reqd: 1,
-				description: __(
-					"This day and your country's public holidays become this year's holiday list."
-				),
+				description: __("Added to this year's holiday list with your country's public holidays."),
 			},
 		],
 	},

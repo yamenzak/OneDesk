@@ -113,11 +113,11 @@ def waits(why: str, fields: list, doctype: str) -> str:
 	"""Why an action waits for a person, in their words."""
 	if why == "overwrite":
 		meta = frappe.get_meta(doctype)
-		return _("It would change what {0} already says.").format(", ".join(_(meta.get_label(one)) for one in fields))
+		return _("It would overwrite {0}.").format(", ".join(_(meta.get_label(one)) for one in fields))
 	return {
-		"employment": _("It would end somebody's employment."),
+		"employment": _("It would end someone's employment."),
 		"decide": _("This is for a person to decide."),
-		"unsure": _("OneAI is not sure enough."),
+		"unsure": _("Below the confidence floor."),
 	}.get(why, "")
 
 
@@ -174,7 +174,7 @@ def apply(action: Action, reading) -> str | None:
 	)
 	if not allowed(action, person):
 		row.level = "Refused"
-		row.why = _join(row.why, _("{0} may not do this themselves.").format(person))
+		row.why = _join(row.why, _("{0} doesn't have permission for this.").format(person))
 		return _insert(row)
 
 	before = _before(action)
@@ -468,7 +468,7 @@ def _may_decide(row) -> None:
 	from onedesk.one.roles import administers
 
 	if frappe.session.user != row.on_behalf_of and not administers():
-		frappe.throw(_("Only {0} or an administrator of this workspace can decide this.").format(row.on_behalf_of), frappe.PermissionError)
+		frappe.throw(_("Only {0} or an administrator can decide this.").format(row.on_behalf_of), frappe.PermissionError)
 
 
 @frappe.whitelist(methods=["POST"])
@@ -488,7 +488,7 @@ def settle(action: str, take: int = 1) -> dict:
 		return {"level": "Dismissed"}
 	planned = planned_of(row)
 	if not allowed(planned, frappe.session.user):
-		frappe.throw(_("You may not do this yourself."), frappe.PermissionError)
+		frappe.throw(_("You don't have permission for this."), frappe.PermissionError)
 	before = _before(planned)
 	frappe.flags.one_intake_writing = True
 	try:
@@ -594,7 +594,7 @@ def take_back(row) -> str | None:
 		with as_oneai():
 			why = UNDO[row.kind](row, before, after)
 	except frappe.LinkExistsError:
-		why = _("something else uses it now")
+		why = _("it's in use elsewhere")
 	if not why:
 		from onedesk.one_intake import lessons
 
@@ -608,7 +608,7 @@ def _undo_create(row, before, after) -> str | None:
 		return None
 	doc = frappe.get_doc(row.target_doctype, row.target_name)
 	if not mark.is_marked(row.target_doctype, row.target_name):
-		return _("a person has checked it since")
+		return _("someone has checked it since")
 	if cint(doc.get("docstatus")) != 0:
 		return _("it has been submitted")
 	frappe.delete_doc(row.target_doctype, row.target_name, ignore_permissions=True)
@@ -623,7 +623,7 @@ def _undo_update(row, before, after) -> str | None:
 		return _("it has been submitted")
 	back = {key: before.get(key) for key, value in after.items() if key != "name" and _same(doc.get(key), value)}
 	if not back:
-		return _("a person has changed it since")
+		return _("someone has changed it since")
 	doc.update(back)
 	doc.flags.ignore_permissions = True
 	doc.save()
@@ -662,7 +662,7 @@ def _undo_attach(row, before, after) -> str | None:
 		return None
 	doc = frappe.get_doc("File", name)
 	if (doc.attached_to_doctype, doc.attached_to_name) != (row.target_doctype, row.target_name):
-		return _("a person has moved it since")
+		return _("someone has moved it since")
 	doc.update({"attached_to_doctype": before.get("attached_to_doctype"), "attached_to_name": before.get("attached_to_name"), "attached_to_field": before.get("attached_to_field"), "folder": before.get("folder") or doc.folder})
 	doc.flags.ignore_permissions = True
 	doc.save()
@@ -671,7 +671,7 @@ def _undo_attach(row, before, after) -> str | None:
 
 def _undo_rename(row, before, after) -> str | None:
 	if frappe.db.get_value("File", row.target_name, "file_name") != after.get("file_name"):
-		return _("a person has renamed it since")
+		return _("someone has renamed it since")
 	frappe.db.set_value("File", row.target_name, "file_name", before.get("file_name"))
 	return None
 
@@ -680,7 +680,7 @@ def _undo_move(row, before, after) -> str | None:
 	if row.target_doctype == "File":
 		doc = frappe.get_doc("File", row.target_name)
 		if doc.folder != after.get("folder"):
-			return _("a person has moved it since")
+			return _("someone has moved it since")
 		doc.folder = before.get("folder")
 		doc.flags.ignore_permissions = True
 		doc.save()

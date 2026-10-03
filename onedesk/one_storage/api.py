@@ -30,13 +30,13 @@ KEPT_DAYS = 30
 def _item(node_id: str) -> dict:
 	item = ns.row(node_id)
 	if not item:
-		frappe.throw(_("That is no longer here."), frappe.DoesNotExistError)
+		frappe.throw(_("This item no longer exists."), frappe.DoesNotExistError)
 	return item
 
 
 def _need(item: dict, ptype: str) -> None:
 	if not ns.may(item, ptype):
-		frappe.throw(_("You may not change {0}.").format(item.get("file_name")), frappe.PermissionError)
+		frappe.throw(_("You can't change {0}.").format(item.get("file_name")), frappe.PermissionError)
 
 
 def _target(node_id: str) -> tuple:
@@ -47,13 +47,13 @@ def _target(node_id: str) -> tuple:
 	kind = ns.parse(node_id)
 	if kind[0] == ns.RECORDS and len(kind) == 3:
 		if not frappe.has_permission(kind[1], "write", kind[2]):
-			frappe.throw(_("You may not add files to {0}.").format(kind[2]), frappe.PermissionError)
+			frappe.throw(_("You can't add files to {0}.").format(kind[2]), frappe.PermissionError)
 		return ("record", kind[1], kind[2])
 	folder = ns.folder_of(node_id)
 	if not folder:
-		frappe.throw(_("Nothing can be put here."))
+		frappe.throw(_("You can't add items here."))
 	if not ns.may(_item(folder), "add"):
-		frappe.throw(_("You may not add to this folder."), frappe.PermissionError)
+		frappe.throw(_("You can't add to this folder."), frappe.PermissionError)
 	return ("folder", folder)
 
 
@@ -88,7 +88,7 @@ def listing(node: str = ns.ROOT, search: str | None = None, everywhere: int = 0)
 	if kind[0] == "file":
 		item = _item(node)
 		if not item.is_folder or not ns.may(item):
-			frappe.throw(_("That is no longer here."), frappe.DoesNotExistError)
+			frappe.throw(_("This item no longer exists."), frappe.DoesNotExistError)
 	can_add = False
 	if kind[0] in (ns.MY, ns.COMPANY, "file"):
 		can_add = ns.may(_item(ns.folder_of(node)), "add")
@@ -146,7 +146,7 @@ def make_folder(parent: str, name: str) -> dict:
 		return mounts.make_folder(parent, _clean(name) or _("New folder"))
 	where = _target(parent)
 	if where[0] != "folder":
-		frappe.throw(_("A record holds files, not folders."))
+		frappe.throw(_("Records can't contain folders."))
 	name = _clean(name) or _("New folder")
 	doc = frappe.get_doc(
 		{"doctype": "File", "is_folder": 1, "file_name": ns.unique_name(name, _taken(where[1])), "folder": where[1]}
@@ -166,7 +166,7 @@ def rename(node: str, name: str) -> dict:
 		frappe.throw(_("My Files cannot be renamed."))
 	name = _clean(name)
 	if not name:
-		frappe.throw(_("Give it a name."))
+		frappe.throw(_("Name is required."))
 	if name == item.file_name:
 		return ns.node(item)
 	name = ns.unique_name(name, _taken(item.folder, but=node) if item.folder else set())
@@ -214,11 +214,11 @@ def move(nodes: str | list, target: str) -> list[str]:
 		if item.one_home_of:
 			frappe.throw(_("My Files cannot be moved."))
 		if _leaves_its_owner(item, where[1]):
-			frappe.throw(_("{0} is in somebody else's files. Copy it instead.").format(item.file_name))
+			frappe.throw(_("{0} is in someone else's files. Copy it instead.").format(item.file_name))
 		if item.folder == where[1]:
 			continue
 		if item.is_folder and ns.would_loop(node_id, ns.ancestors(where[1]), where[1]):
-			frappe.throw(_("A folder cannot go inside itself."))
+			frappe.throw(_("A folder can't be moved into itself."))
 		name = ns.unique_name(item.file_name, _taken(where[1]))
 		if name != item.file_name:
 			frappe.db.set_value("File", node_id, "file_name", name)
@@ -250,7 +250,7 @@ def copy(nodes: str | list, target: str) -> list[str]:
 	for node_id in nodes:
 		item = _item(node_id)
 		if not ns.may(item):
-			frappe.throw(_("You may not open {0}.").format(item.file_name), frappe.PermissionError)
+			frappe.throw(_("You can't open {0}.").format(item.file_name), frappe.PermissionError)
 		made.append(_copy(item, where))
 	return made
 
@@ -271,7 +271,7 @@ def attach(nodes: str | list, doctype: str | None = None, docname: str | None = 
 		if item.is_folder:
 			frappe.throw(_("{0} is a folder. Choose the files in it.").format(item.file_name))
 		if not ns.may(item):
-			frappe.throw(_("You may not open {0}.").format(item.file_name), frappe.PermissionError)
+			frappe.throw(_("You can't open {0}.").format(item.file_name), frappe.PermissionError)
 		if not doctype:
 			# Nothing to attach it to: a new message in OneMail, whose sending
 			# copies it onto the message. A row of its own would only be a stray
@@ -316,9 +316,9 @@ def _across(nodes: list, target: str, move: bool) -> list[str] | None:
 		else:
 			item = _item(node)
 			if not ns.may(item):
-				frappe.throw(_("You may not open {0}.").format(item.file_name), frappe.PermissionError)
+				frappe.throw(_("You can't open {0}.").format(item.file_name), frappe.PermissionError)
 			if item.is_folder:
-				frappe.throw(_("Copy the files in {0}, not the folder, to or from a server.").format(item.file_name))
+				frappe.throw(_("Folders can't be copied to or from a server. Copy the files in {0} instead.").format(item.file_name))
 			content = frappe.get_doc("File", item.name).get_content()
 			name, content = item.file_name, content if isinstance(content, bytes) else content.encode()
 		if mounts.is_mount(target):
@@ -331,9 +331,9 @@ def _across(nodes: list, target: str, move: bool) -> list[str] | None:
 def _copy(item: dict, where: tuple) -> str:
 	if item.is_folder:
 		if where[0] == "record":
-			frappe.throw(_("A record holds files, not folders."))
+			frappe.throw(_("Records can't contain folders."))
 		if ns.would_loop(item.name, ns.ancestors(where[1]), where[1]):
-			frappe.throw(_("A folder cannot go inside itself."))
+			frappe.throw(_("A folder can't be moved into itself."))
 		folder = frappe.get_doc(
 			{
 				"doctype": "File",
@@ -422,7 +422,7 @@ def restore(nodes: str | list) -> list[str]:
 		)
 		live.announce(item, folders=[folder])
 		back.append(_rename_folder(node_id) if item.is_folder and folder != item.folder else node_id)
-		_note(back[-1], _("put it back from the Recycle Bin"))
+		_note(back[-1], _("restored it from the Recycle Bin"))
 	return back
 
 

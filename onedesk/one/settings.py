@@ -143,11 +143,11 @@ NOTIFY = (
 NOTIFY_SAID = {
 	"enabled": (
 		_lt("Notifications"),
-		_lt("Everything One tells you reaches your bell. Turn it off and you are told nothing."),
+		_lt("Turn off to stop all notifications."),
 	),
 	"enable_email_notifications": (
 		_lt("Also by Email"),
-		_lt("Mails you what you switch on for email below. Turn it off and nothing is mailed."),
+		_lt("Emails you the notifications turned on for email below."),
 	),
 	"enable_email_threads_on_assigned_document": (
 		_lt("Mail About What Is Assigned to You"),
@@ -844,12 +844,12 @@ EXPIRY = (
 #: What the page says under a field, where the doctype's own words are not
 #: what an administrator here needs to know.
 GENERAL_SAID = {
-	"company_logo": _lt("On invoices, quotes and orders, printed or sent. One itself keeps its own mark."),
-	"one_brand_colour": _lt("The colour a letter head carries, in the company's name, its lines and a banner's band."),
-	"language": _lt("For everybody who has not chosen their own in Profile."),
-	"time_zone": _lt("For everybody who has not chosen their own in Profile."),
+	"company_logo": _lt("On printed and sent invoices, quotes and orders."),
+	"one_brand_colour": _lt("Used for the company name, lines and banner in letter heads."),
+	"language": _lt("For everyone who hasn't chosen their own in Profile."),
+	"time_zone": _lt("For everyone who hasn't chosen their own in Profile."),
 	"one_login_with_passkey": _lt("People sign in with the passkey on their own device, without a password."),
-	"session_expiry": _lt("How long One keeps somebody signed in when they do not use it."),
+	"session_expiry": _lt("How long someone stays signed in while inactive."),
 	"two_factor_method": _lt("An authenticator app on their phone, or a code by email."),
 	"email_footer_address": _lt("At the foot of every mail the workspace sends. Leave it empty for none."),
 	"login_with_email_link": _lt("People can sign in with a link sent to their email instead of a password."),
@@ -909,7 +909,7 @@ def _signing_in_fields() -> list:
 			"options": [
 				{"value": "off", "label": _("Off")},
 				{"value": "admins", "label": _("Administrators")},
-				{"value": "everybody", "label": _("Everybody")},
+				{"value": "everybody", "label": _("Everyone")},
 			],
 			"description": _("A code after the password. Each person sets it up the next time they sign in."),
 		},
@@ -923,7 +923,7 @@ def _signing_in_fields() -> list:
 				{"value": "3", "label": _("Very hard to guess")},
 				{"value": "4", "label": _("Strongest")},
 			],
-			"description": _("Checked whenever somebody sets or changes their password."),
+			"description": _("Checked when someone sets or changes their password."),
 		},
 	]
 
@@ -935,7 +935,7 @@ def _sharing_fields() -> list:
 			"fieldname": "one_record_sharing",
 			"fieldtype": "Switch",
 			"label": _("Record Sharing"),
-			"description": _("People can share a record with somebody who could not otherwise open it. Off, nobody can."),
+			"description": _("Lets people share a record with someone who can't otherwise open it."),
 		}
 	]
 
@@ -1100,7 +1100,7 @@ def _person_page(user: str) -> dict:
 			"fieldtype": "Select",
 			"label": _("Profile"),
 			"options": [{"value": "", "label": _("None, set by hand")}] + [{"value": one["name"], "label": one["name"]} for one in access.profiles()],
-			"description": _("Sets every app below at once. Changing an app by hand takes them off it."),
+			"description": _("Sets every app below. Changing an app by hand removes the profile."),
 		},
 	)
 	fields.append(
@@ -1108,7 +1108,7 @@ def _person_page(user: str) -> dict:
 			"fieldname": "admin",
 			"fieldtype": "Switch",
 			"label": _("Administrator"),
-			"description": _("Opens Workspace settings: people, the plan, domains and OneAI. The other administrators are told."),
+			"description": _("Can manage people, the plan, domains and OneAI. Other administrators are notified."),
 		}
 	)
 	me = doc.name == frappe.session.user
@@ -1336,7 +1336,7 @@ def _seat_left() -> None:
 	seats = frappe.get_single("Workspace Account").seats or 0
 	used = seats_used()
 	if seats and used >= seats:
-		frappe.throw(_("All {0} seats are taken. Turn somebody off, or add seats to the plan.").format(seats))
+		frappe.throw(_("All {0} seats are in use. Disable someone or add seats to the plan.").format(seats))
 
 
 #: How old the copy of the account may be before opening the page asks again.
@@ -1762,7 +1762,7 @@ def _group_page(name: str) -> dict:
 		"group": {"name": doc.name, "members": len(doc.user_group_members)},
 		"fields": [
 			{"fieldname": "title", "fieldtype": "Data", "label": _("Name"), "reqd": 1},
-			{"fieldname": "members", "fieldtype": "Table MultiSelect", "label": _("Who Is in It"), "options": "User Group Member"},
+			{"fieldname": "members", "fieldtype": "Table MultiSelect", "label": _("Members"), "options": "User Group Member"},
 		],
 		"values": {"title": doc.name, "members": [{"user": one.user} for one in doc.user_group_members]},
 		"opened": _opened(doc),
@@ -1782,7 +1782,7 @@ def _level_page(key: str) -> dict:
 		# Its heading says it; the table itself goes unlabelled.
 		"label": "",
 		"fields": [
-			{"fieldname": "doctype", "fieldtype": "Autocomplete", "label": _("Kind of Record"), "options": options, "in_list_view": 1, "reqd": 1, "columns": 2},
+			{"fieldname": "doctype", "fieldtype": "Autocomplete", "label": _("Record Type"), "options": options, "in_list_view": 1, "reqd": 1, "columns": 2},
 			*[
 				{"fieldname": right, "fieldtype": "Check", "label": _(access.SAID[right]), "in_list_view": 1, "columns": 1}
 				for right in access.RIGHTS
@@ -2054,14 +2054,14 @@ def _rule(name: str) -> dict:
 	fields = _fields("Notification", RULE)
 	said = {
 		"enabled": (_("Send This"), None),
-		"document_type": (_("Kind of Record"), _("Only kinds you can open yourself.")),
+		"document_type": (_("Record Type"), _("Only record types you can open.")),
 		"event": (_("When"), None),
 		"date_changed": (_("The Date"), None),
 		"days_in_advance": (_("Days"), None),
 		"value_changed": (_("The Field"), None),
 		"subject": (_("Subject"), _("One line. {{ doc.field }} puts a field of the record in.")),
-		"message": (_("Message"), _("The detail under the bell, and the body of the mail. It may be empty.")),
-		"send_to_all_assignees": (_("Whoever It Is Assigned To"), None),
+		"message": (_("Message"), _("The notification detail and the email body. Optional.")),
+		"send_to_all_assignees": (_("Assignees"), None),
 	}
 	for field in fields:
 		label, description = said.get(field["fieldname"], (None, None))

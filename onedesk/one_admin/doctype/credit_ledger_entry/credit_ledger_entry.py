@@ -28,19 +28,19 @@ class CreditLedgerEntry(Document):
 	def validate(self) -> None:
 		site.require_admin()
 		if not self.credits:
-			frappe.throw(frappe._("A ledger entry of zero credits records nothing."))
+			frappe.throw(frappe._("Credits can't be zero."))
 
 		want = POINTS[self.kind]
 		if (self.credits > 0) != (want > 0):
 			frappe.throw(
-				frappe._("A {0} of {1} credits points the wrong way.").format(
+				frappe._("A {0} can't be {1} credits.").format(
 					self.kind, self.credits
 				)
 			)
 
 		if self.kind == STARTS_A_BUCKET:
 			if self.against:
-				frappe.throw(frappe._("A grant is not drawn from anything."))
+				frappe.throw(frappe._("A grant can't be drawn from another entry."))
 			return
 
 		self.expires_on = None

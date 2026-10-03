@@ -372,7 +372,7 @@ It stops and asks only for these:
 - **ending somebody's employment**: a resignation or a termination letter is
   proposed;
 - **being unsure**: below the confidence floor, a party matched by name only,
-  or a reading whose facts failed the check. These go to **Needs a look**, one
+  or a reading whose facts failed the check. These go to **Needs Review**, one
   list, so nothing waits unseen.
 
 ### 4.2 The OneAI mark, everywhere, until a person looks
@@ -385,7 +385,7 @@ mark until a person has looked at it**:
 - **in every list**, the report view and Kanban cards: the mark beside the
   title, and a sidebar filter, **Not checked by a person**;
 - **on the form**: a banner saying what made it and from which document,
-  with **Looks right**, **Undo** and the document itself;
+  with **Mark as Checked**, **Undo** and the document itself;
 - **in OneCloud** on the file's row, and **in OneMail** on the message, with
   the reading's chips (kind, party, amount, due);
 - **on tasks and calendar events** OneAI made;
@@ -395,7 +395,7 @@ mark until a person has looked at it**:
 
 It is one row per record in `AI Touch`, with no field name, meaning "OneAI
 made this and no person has checked it". **What clears it**: a person saving
-a change, submitting, cancelling, pressing Looks right, Submit all, or merging
+a change, submitting, cancelling, pressing Mark as Checked, Submit all, or merging
 another record into it. **What does not**: opening it, ERPNext updating it in
 the background (`db_set` does not run save hooks), or another OneAI action.
 So the mark means exactly "nobody has looked at this".
@@ -558,7 +558,7 @@ within a day do not wait.
 
 **When unsure, the cost decides.** A second draft or payment is expensive, so
 when unsure it never makes one: the message goes to the likely matter and to
-Needs a look. A missed request is expensive too, and a second task is cheap,
+Needs Review. A missed request is expensive too, and a second task is cheap,
 so when unsure it makes the task, marked "may be the same as …", with Merge
 beside it.
 
@@ -882,12 +882,12 @@ Grouped by where they bite. Each says what happens.
 ### 12.1 Reading
 
 - **Password-protected PDFs** (banks, insurers, payslips): the document goes
-  to Needs a look asking for the password. A person enters it once, and it is
+  to Needs Review asking for the password. A person enters it once, and it is
   kept for that sender in a Password field and used again.
 - **Encrypted mail** (S/MIME, PGP): not readable. Filed and linked by its
   headers, and nothing more.
 - **Handwriting, faded thermal receipts, crumpled photos**: read by the vision
-  model with lower confidence, so more of them land in Needs a look.
+  model with lower confidence, so more of them land in Needs Review.
 - **Rotated or upside-down pages**: turned before reading, and the stored scan
   is turned too, as a new version.
 - **Huge files** (a 400-page catalogue): the first look reads the first pages.
@@ -1045,7 +1045,7 @@ New doctypes, all in `one_intake`:
 - **Intake Action**: every action, with its key, kind, target, the values
   before and after, confidence, why, state (done, proposed, unsure, undone),
   and the document and matter it came from. This one table is the
-  idempotency, Undo, Needs a look and the audit;
+  idempotency, Undo, Needs Review and the audit;
 - **Intake Lesson** (§10);
 - **Reading Chunk**: text chunks and their embeddings (stage 9);
 - **Intake Settings**: one Single for the floors, lead times, folder pattern
@@ -1166,7 +1166,7 @@ with its expected reading and its expected actions.
    the switches, the gate, and the Intake panel showing what was read.
    *Nothing is done yet. Checkpoint: the readings are right on the test set.*
 4. **The one door.** Intake Action, `act.apply`, on whose behalf, the OneAI
-   mark in lists and forms, Looks right, Undo, and Needs a look. Then filing:
+   mark in lists and forms, Mark as Checked, Undo, and Needs Review. Then filing:
    attach, File Link, names, folders, versions, tags, and junk sorted by §8.
 5. **Matters.** Placing, what changed, quiet time, keys across copies, the
    table of §5.4, and lessons.

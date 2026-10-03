@@ -456,7 +456,7 @@ def _fields(doctype: str, rows: list) -> None:
 	gone = [df for name, df in current.items() if name not in kept and custom.get(name) not in mine]
 	if gone:
 		frappe.throw(
-			_("{0} came with the record, so it cannot be taken away. Hide it instead.").format(
+			_("{0} is a standard field and can't be deleted. Hide it instead.").format(
 				", ".join(_(df.label or df.fieldname) for df in gone)
 			)
 		)
@@ -551,7 +551,7 @@ def _carry(doctype: str, carried: list[dict]) -> None:
 	for row in carried:
 		source = next((df for df in meta.fields if df.label == row["label"]), None)
 		if not source:
-			frappe.throw(_("{0} has no new field called {1} to carry.").format(_(doctype), row["label"]))
+			frappe.throw(_("{0} has no custom field called {1}.").format(_(doctype), row["label"]))
 		through = row.get("through")
 		field = frappe.get_doc(
 			{
@@ -596,7 +596,7 @@ def _check(doctype: str, values: dict) -> None:
 				kind = row.get("fieldtype")
 				if kind and kind not in layer.KINDS:
 					frappe.throw(
-						_("{0}: a workspace cannot add a field of the kind {1}.").format(label, _(kind))
+						_("{0}: fields of type {1} can't be added.").format(label, _(kind))
 					)
 			elif "reqd" in row and not cint(row["reqd"]) and cint(df.reqd):
 				if frappe.db.get_value("DocField", {"parent": doctype, "fieldname": name}, "reqd"):
@@ -605,14 +605,14 @@ def _check(doctype: str, values: dict) -> None:
 		kind = row.get("fieldtype") or "Data"
 		if kind not in layer.KINDS:
 			frappe.throw(
-				_("{0}: a workspace cannot add a field of the kind {1}.").format(label or "?", _(kind))
+				_("{0}: fields of type {1} can't be added.").format(label or "?", _(kind))
 			)
 		if kind not in ("Column Break", "Section Break", "Tab Break") and not row.get("label"):
 			frappe.throw(_("A new field needs a label."))
 	gone = [df for name, df in current.items() if name not in seen and custom.get(name) not in mine]
 	if gone:
 		frappe.throw(
-			_("{0} came with the record, so it cannot be taken away. Hide it instead.").format(
+			_("{0} is a standard field and can't be deleted. Hide it instead.").format(
 				", ".join(_(df.label or df.fieldname) for df in gone)
 			)
 		)
@@ -633,7 +633,7 @@ def _check(doctype: str, values: dict) -> None:
 	for row in values.get("actions") or []:
 		if not row.get("label") or not ROUTE.fullmatch((row.get("action") or "").strip()):
 			frappe.throw(
-				_("Buttons: {0} needs a label and a place in the desk to go.").format(row.get("label") or "?")
+				_("Buttons: {0} needs a label and a route.").format(row.get("label") or "?")
 			)
 
 
@@ -691,7 +691,7 @@ def _actions(doctype: str, rows: list) -> None:
 		route = (row.get("action") or "").strip()
 		if not row.get("label") or not ROUTE.fullmatch(route):
 			frappe.throw(
-				_("Buttons: {0} needs a label and a place in the desk to go.").format(row.get("label") or "?")
+				_("Buttons: {0} needs a label and a route.").format(row.get("label") or "?")
 			)
 		frappe.get_doc(
 			{

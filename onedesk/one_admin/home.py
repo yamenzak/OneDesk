@@ -33,11 +33,11 @@ STALLED_MINUTES = 15
 
 #: A job that has not moved, said by what it is doing.
 STALLED = {
-	"Provision": _lt("Building {0} has not moved"),
-	"Suspend": _lt("Suspending {0} has not moved"),
-	"Restore": _lt("Restoring {0} has not moved"),
-	"Archive": _lt("Archiving {0} has not moved"),
-	"Drop": _lt("Deleting the files of {0} has not moved"),
+	"Provision": _lt("Building {0} is stalled"),
+	"Suspend": _lt("Suspending {0} is stalled"),
+	"Restore": _lt("Restoring {0} is stalled"),
+	"Archive": _lt("Archiving {0} is stalled"),
+	"Drop": _lt("Deleting files of {0} is stalled"),
 }
 
 #: A failed job, said by what it was doing.
@@ -46,7 +46,7 @@ FAILED = {
 	"Suspend": _lt("Suspending {0} failed"),
 	"Restore": _lt("Restoring {0} failed"),
 	"Archive": _lt("Archiving {0} failed"),
-	"Drop": _lt("Deleting the files of {0} failed"),
+	"Drop": _lt("Deleting files of {0} failed"),
 }
 
 
@@ -167,7 +167,7 @@ def _stalled_jobs() -> list[dict]:
 			"title": str(STALLED.get(one.kind, STALLED["Provision"])).format(_workspace(one.tenant)),
 			"why": _("Next: {0}").format(str(steps.SAID.get(one.step, one.step))) if one.step else "",
 			"detail": "",
-			"badge": _("Not Moving"),
+			"badge": _("Stalled"),
 			"since": str(one.next_run_at),
 			"action": {
 				"label": _("Run Now"),
@@ -197,7 +197,7 @@ def _unbuilt_signups() -> list[dict]:
 			"detail": (one.failed_reason or "").strip()[:200],
 			"since": str(one.modified),
 			"action": {
-				"label": _("Build It"),
+				"label": _("Build Workspace"),
 				"method": "onedesk.one_admin.operator.retry_signup",
 				"args": {"request": one.name},
 			},
@@ -214,7 +214,7 @@ def _owing() -> list[dict]:
 		order_by="status_since asc",
 		limit=MOST,
 	)
-	said = {"Overdue": _("Payment overdue"), "Suspended": _("Suspended for not paying")}
+	said = {"Overdue": _("Payment overdue"), "Suspended": _("Suspended for non-payment")}
 	return [
 		{
 			"kind": "owing",
@@ -316,7 +316,7 @@ def _slow_builds() -> list[dict]:
 			"name": one.name,
 			"title": _("Building {0} is taking hours").format(_workspace(one.tenant)),
 			"why": _("At: {0}").format(str(steps.SAID.get(one.step, one.step))) if one.step else "",
-			"detail": _("Look at the site in Frappe Cloud."),
+			"detail": _("Check the site in Frappe Cloud."),
 			"badge": _("Slow"),
 			"since": str(one.creation),
 			"action": None,
@@ -372,7 +372,7 @@ def _filling() -> list[dict]:
 					"name": "One Admin Settings",
 					"title": title,
 					"why": "",
-					"detail": _("A new one fails to be built until a server is listed under Servers."),
+					"detail": _("New workspaces can't be built until a server is added."),
 					"since": "",
 					"badge": _("Full"),
 					"action": None,
@@ -402,9 +402,9 @@ def _updates() -> list[dict]:
 			"kind": "update",
 			"doctype": "One Admin Settings",
 			"name": "One Admin Settings",
-			"title": _("An update is waiting for {0}").format(bench),
+			"title": _("Update available for {0}").format(bench),
 			"why": ", ".join(waiting),
-			"detail": _("Deploy it in Frappe Cloud; every workspace on it is updated."),
+			"detail": _("Deploying it in Frappe Cloud updates every workspace on it."),
 			"since": "",
 			"badge": _("Update"),
 			"action": None,
@@ -480,7 +480,7 @@ def _domains() -> list[dict]:
 			"doctype": "Tenant Domain",
 			"name": one.name,
 			"title": one.domain,
-			"why": _("Not working") if one.status == "Broken" else _("Waiting for its DNS"),
+			"why": _("Not working") if one.status == "Broken" else _("Waiting for DNS"),
 			"detail": (one.problem or "").strip()[:200] or _workspace(one.tenant),
 			"since": str(one.asked_on) if one.asked_on else "",
 			"action": {

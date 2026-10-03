@@ -97,7 +97,7 @@ def fall(tenant, rung: str | None = None, why: str | None = None) -> str | None:
 		return None
 	if rung != ladder.below(tenant.status):
 		frappe.throw(
-			frappe._("{0} is on {1} and the rung below it is not {2}.").format(
+			frappe._("{0} is {1} and can't move to {2}.").format(
 				tenant.name, tenant.status, rung
 			)
 		)

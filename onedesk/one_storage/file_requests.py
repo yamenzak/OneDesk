@@ -76,7 +76,7 @@ def make(node: str, values: str | dict) -> dict:
 	"""A request for files into `node`: a folder, a record, or neither."""
 	values = frappe.parse_json(values) if isinstance(values, str) else values
 	if not ns._staff(frappe.session.user):
-		frappe.throw(_("Only people on the team can ask for files."), frappe.PermissionError)
+		frappe.throw(_("Only people on the team can request files."), frappe.PermissionError)
 	where = _where(node, values.get("title"))
 	doc = frappe.get_doc(
 		{
@@ -120,7 +120,7 @@ def _where(node: str, title: str | None) -> dict:
 	kind = ns.parse(node)
 	if kind[0] == ns.RECORDS and len(kind) == 3:
 		if not frappe.has_permission(kind[1], "write", kind[2]):
-			frappe.throw(_("You may not add files to {0}.").format(kind[2]), frappe.PermissionError)
+			frappe.throw(_("You can't add files to {0}.").format(kind[2]), frappe.PermissionError)
 		return {"reference_doctype": kind[1], "reference_name": kind[2]}
 	folder = ns.folder_of(node) if kind[0] in (ns.MY, ns.COMPANY, "file") else None
 	if folder:
@@ -168,7 +168,7 @@ def _mine(name: str):
 	doc = frappe.get_doc("Cloud File Request", name)
 	user = frappe.session.user
 	if doc.owner != user and user != "Administrator" and roles.ADMINISTRATOR not in frappe.get_roles():
-		frappe.throw(_("That is no longer here."), frappe.DoesNotExistError)
+		frappe.throw(_("This item no longer exists."), frappe.DoesNotExistError)
 	return doc
 
 

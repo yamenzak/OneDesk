@@ -84,7 +84,7 @@ def refused(df) -> str | None:
 	if df.fieldtype in REFUSED:
 		return _("{0} is not a field to edit.").format(label)
 	if df.get("is_virtual") or df.get("fetch_from") or df.get("read_only"):
-		return _("{0} is worked out, not typed.").format(label)
+		return _("{0} can't be edited.").format(label)
 	return None
 
 

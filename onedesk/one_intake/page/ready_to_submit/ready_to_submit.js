@@ -46,10 +46,10 @@ onedesk.ReadyToSubmit = class ReadyToSubmit {
 		this.$body.html(
 			onedesk.shell.section(
 				__("Ready"),
-				ready.length ? table(ready, "ready") : onedesk.shell.empty(__("Nothing is waiting to be submitted."), null, { icon: "check-check" }),
-				__("Drafts OneAI made whose facts checked out, whose party is known and whose totals match the document, and the order and receipt where there are some."),
+				ready.length ? table(ready, "ready") : onedesk.shell.empty(__("No drafts to submit"), null, { icon: "check-check" }),
+				__("Checked against the document and order"),
 				ready.length ? count(ready.length) : ""
-			) + (red.length ? onedesk.shell.section(__("Needs a Look First"), table(red, "red"), null, count(red.length)) : "")
+			) + (red.length ? onedesk.shell.section(__("Needs Review"), table(red, "red"), null, count(red.length)) : "")
 		);
 		this.page.btn_primary.prop("disabled", !ready.length);
 	}
@@ -61,11 +61,11 @@ onedesk.ReadyToSubmit = class ReadyToSubmit {
 			const said = await frappe.xcall("onedesk.one_intake.drafts.submit_all", { names });
 			if (said.failed.length) {
 				frappe.msgprint({
-					title: __("Some were not submitted"),
+					title: __("Some Drafts Not Submitted"),
 					message: said.failed.map((one) => `<div>${frappe.utils.escape_html(one.name)}: ${frappe.utils.escape_html(one.why)}</div>`).join(""),
 				});
 			} else {
-				frappe.show_alert({ message: __("{0} submitted.", [said.done.length]), indicator: "green" });
+				frappe.show_alert({ message: __("{0} submitted", [said.done.length]), indicator: "green" });
 			}
 			this.load();
 		});

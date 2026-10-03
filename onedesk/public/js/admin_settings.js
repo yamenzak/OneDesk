@@ -6,14 +6,14 @@
 // so it gets one now: type a prompt, see the words back, know the token works.
 frappe.ui.form.on("One Admin Settings", {
 	refresh(frm) {
-		frm.add_custom_button(__("Try the Gateway"), () => onedesk.admin.tryGateway());
+		frm.add_custom_button(__("Test Gateway"), () => onedesk.admin.tryGateway());
 		// Only operators read these, so sharing them gives nobody anything.
 		frm.sidebar.sidebar.find(".form-shared").addClass("hidden");
 		onedesk.admin.drawSetup(frm);
 	},
 	// One token, and everything else found or made from it (one_admin/setup.py).
 	set_up_cloudflare(frm) {
-		if (frm.is_dirty()) return frappe.msgprint(__("Save first, so the token you entered is the one used."));
+		if (frm.is_dirty()) return frappe.msgprint(__("Save before setting up Cloudflare."));
 		frappe.dom.freeze(__("Setting up Cloudflare…"));
 		frappe
 			.xcall("onedesk.one_admin.setup.set_up")
@@ -41,7 +41,7 @@ onedesk.admin.drawSetup = (frm) => {
 	field.$wrapper.html(
 		said.length
 			? `<div class="control-label">${__("Last Setup")}</div>${onedesk.admin.setupTable(said)}`
-			: `<p class="text-muted small">${__("Set Up Cloudflare has not been pressed yet.")}</p>`,
+			: `<p class="text-muted small">${__("Not set up yet")}</p>`,
 	);
 };
 
@@ -52,7 +52,7 @@ onedesk.admin.showSetup = (said) => {
 onedesk.admin.setupTable = (said) => {
 	const esc = frappe.utils.escape_html;
 	const colour = { ours: "green", created: "blue", theirs: "gray", failed: "red", "needs attention": "orange" };
-	const states = { ours: __("In place"), created: __("Created"), theirs: __("Left as it is"), failed: __("Failed"), "needs attention": __("Needs attention") };
+	const states = { ours: __("Exists"), created: __("Created"), theirs: __("Unchanged"), failed: __("Failed"), "needs attention": __("Needs Attention") };
 	const rows = said
 		.map(
 			(one) => `<tr><td>${esc(one.step)}</td>
@@ -67,7 +67,7 @@ frappe.provide("onedesk.admin");
 
 onedesk.admin.tryGateway = () => {
 	const asking = new frappe.ui.Dialog({
-		title: __("Try the Gateway"),
+		title: __("Test Gateway"),
 		fields: [
 			{
 				fieldname: "prompt",
@@ -78,7 +78,7 @@ onedesk.admin.tryGateway = () => {
 			},
 			{ fieldname: "said", fieldtype: "HTML" },
 		],
-		primary_action_label: __("Ask"),
+		primary_action_label: __("Send Prompt"),
 		primary_action(values) {
 			const where = asking.fields_dict.said.$wrapper;
 			where.html(`<p class="text-muted">${__("Asking…")}</p>`);

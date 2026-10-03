@@ -74,10 +74,10 @@ def settle() -> None:
 
 def _doctype(doctype: str):
 	if not doctype or not frappe.db.exists("DocType", doctype):
-		frappe.throw(_("There is no such kind of record."))
+		frappe.throw(_("This record type doesn't exist."))
 	meta = frappe.get_meta(doctype)
 	if meta.istable or meta.issingle or meta.module in REFUSED_MODULES:
-		frappe.throw(_("{0} does not take an approval this workspace sets.").format(_(doctype)))
+		frappe.throw(_("{0} doesn't support workspace approvals.").format(_(doctype)))
 	if not frappe.has_permission(doctype, "read"):
 		frappe.throw(_("You cannot open {0}.").format(_(doctype)), frappe.PermissionError)
 	return meta
@@ -100,12 +100,12 @@ def validate(doc, method=None) -> None:
 			)
 		if row.transition_tasks:
 			frappe.throw(
-				_("{0} to {1}: an action here runs nothing.").format(_(row.state), _(row.next_state))
+				_("The action from {0} to {1} doesn't run anything.").format(_(row.state), _(row.next_state))
 			)
 	for row in doc.states or []:
 		if row.evaluate_as_expression:
 			frappe.throw(
-				_("{0}: a state sets a field to a plain value, not one worked out.").format(_(row.state))
+				_("{0}: a state can only set a field to a fixed value.").format(_(row.state))
 			)
 		if row.update_field:
 			_settable(meta, row.update_field, doc.workflow_state_field, row.state)

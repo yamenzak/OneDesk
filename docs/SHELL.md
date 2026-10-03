@@ -368,7 +368,7 @@ product by product.
   project and the day on the right, the timer as its action.
 - **Legal**: the document in the shell's column; the name through
   `shell.name`.
-- **Ready to Submit**: the wide body, a Ready section and a Needs a Look First
+- **Ready to Submit**: the wide body, a Ready section and a Needs Review
   section, each counted; frappe's empty state when nothing is ready.
 - **Intake**: panes, the list with frappe's `TabButtons` for Waiting and Done
   (the count a badge) in its head, each document a shell row, and the one

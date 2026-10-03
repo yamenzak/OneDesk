@@ -64,7 +64,7 @@ def of(doc) -> dict | None:
 	if supplier:
 		known = [one.replace(" ", "").upper() for one in frappe.get_all("Bank Account", filters={"party_type": "Supplier", "party": supplier}, pluck="iban") if one]
 		if known and iban.replace(" ", "").upper() not in known:
-			out["warn"] = _("This IBAN is not one we have for {0}. Ask them on a number you already know before paying anything.").format(supplier)
+			out["warn"] = _("This IBAN isn't on file for {0}. Confirm it by phone before paying.").format(supplier)
 			return out
 	if (doc.currency or "EUR") == "EUR":
 		text = epc(name, iban, doc.gross, out["reference"])

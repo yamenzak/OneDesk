@@ -237,7 +237,7 @@ def use(holiday_list: str) -> str:
 	if not frappe.db.exists("Holiday List", holiday_list):
 		frappe.throw(_("There is no holiday list {0}.").format(holiday_list))
 	if assign(holiday_list):
-		told(_("put {0} in force for everybody").format(holiday_list), holiday_list)
+		told(_("made {0} the holiday list for everyone").format(holiday_list), holiday_list)
 	return holiday_list
 
 

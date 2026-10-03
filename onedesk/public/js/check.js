@@ -28,7 +28,7 @@ onedesk.check.report = ({ method, ask }) => ({
 			const key = $(e.currentTarget).attr("data-one-fix");
 			const call = (values) =>
 				frappe.xcall(method, { key, ...values }).then(() => {
-					frappe.ui.toast({ message: __("Fixed."), type: "success" });
+					frappe.ui.toast({ message: __("Fixed"), type: "success" });
 					report.refresh();
 				});
 			if (!(ask && ask(key, call))) call({});

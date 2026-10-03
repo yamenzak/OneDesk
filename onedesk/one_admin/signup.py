@@ -103,7 +103,7 @@ def _still_free(asked) -> None:
 		"Account Request", {"slug": asked.slug, "status": ["in", HOLDING], "name": ["!=", asked.name]}
 	):
 		frappe.throw(
-			frappe._("{0} was taken by somebody else after this signup was abandoned.").format(asked.slug)
+			frappe._("{0} was taken by someone else after this signup was abandoned.").format(asked.slug)
 		)
 
 
@@ -325,7 +325,7 @@ def start(workspace_name: str, offering: str, jurisdiction: str = "Global", emai
 		frappe.throw(frappe._("An email address is needed."))
 	sold = frappe.db.get_value("Offering", offering, ["name", "enabled"], as_dict=True)
 	if not sold or not sold.enabled:
-		frappe.throw(frappe._("That is not something on offer."))
+		frappe.throw(frappe._("That isn't on offer."))
 
 	asked = frappe.get_doc(
 		{

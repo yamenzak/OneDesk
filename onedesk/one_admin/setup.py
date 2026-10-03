@@ -122,7 +122,7 @@ class Setup:
 		found = next((one for one in accounts if one["id"] == wanted), None) if wanted else None
 		if not found:
 			if len(accounts) != 1:
-				raise Refused(_("The key reaches {0} accounts. Enter the Account ID to choose one.").format(len(accounts)))
+				raise Refused(_("The token has access to {0} accounts. Enter the Account ID.").format(len(accounts)))
 			found = accounts[0]
 		self.account = found["id"]
 		self.keep("cloudflare_account", self.account)
@@ -136,9 +136,9 @@ class Setup:
 		zones = self.call("GET", "/zones", params={"per_page": 50})["result"]
 		zone = next((one for one in zones if domain.endswith("." + one["name"]) or domain == one["name"]), None)
 		if not zone:
-			raise Refused(_("None of the key's zones holds {0}.").format(domain))
+			raise Refused(_("The token has no zone for {0}.").format(domain))
 		if not (mail.endswith("." + zone["name"]) or mail == zone["name"]):
-			raise Refused(_("{0} and {1} are not in one zone.").format(domain, mail))
+			raise Refused(_("{0} and {1} aren't in the same zone.").format(domain, mail))
 		self.zone = zone
 		self.keep("cloudflare_zone", zone["id"])
 		self.keep("tenant_domain", domain)
@@ -249,7 +249,7 @@ class Setup:
 			f"/zones/{zone}/email/routing/rules/catch_all",
 			json={"matchers": [{"type": "all"}], "actions": [{"type": "worker", "value": [MAILER]}], "enabled": True},
 		)
-		self.note("catch-all", MADE, _("{0}, in place of what it held").format(MAILER))
+		self.note("catch-all", MADE, _("{0}, replacing the previous rule").format(MAILER))
 
 	def mail_sending(self) -> None:
 		mail = self.settings.mail_domain
@@ -347,7 +347,7 @@ class Setup:
 			)
 			return self.note(f"dns {name}", MADE)
 		mine = any(one["type"] == kind and one["content"] == content and one.get("proxied") for one in held)
-		self.note(f"dns {name}", OURS if mine else THEIRS, "" if mine else _("left as it is"))
+		self.note(f"dns {name}", OURS if mine else THEIRS, "" if mine else _("unchanged"))
 
 	def route(self, pattern: str, script: str) -> None:
 		zone = self.zone["id"]

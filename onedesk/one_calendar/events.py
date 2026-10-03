@@ -256,7 +256,7 @@ def move(event: str, start: str, end: str | None = None, all_day: int | None = N
 	doc = frappe.get_doc("Event", event)
 	doc.check_permission("write")
 	if doc.repeat_this_event:
-		frappe.throw(frappe._("A repeating event is moved from its own page, for all its times at once."))
+		frappe.throw(frappe._("A repeating event can only be moved from its own page."))
 	doc.starts_on = get_datetime(start)
 	doc.ends_on = get_datetime(end) if end else None
 	if all_day is not None:
@@ -280,7 +280,7 @@ def validate(doc, method=None) -> None:
 	if not set(PUBLISHERS) & set(frappe.get_roles()):
 		frappe.throw(
 			frappe._(
-				"Only an administrator puts an event on everybody's calendar. Make it private and add the people it is for."
+				"Only a Workspace Administrator or HR Manager can put an event on everyone's calendar."
 			),
 			frappe.PermissionError,
 		)

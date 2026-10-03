@@ -32,7 +32,7 @@ def _linked() -> dict:
 def _answers() -> dict:
 	check = _("Cloud storage answers")
 	if not store.enabled():
-		return _row("answers", check, TO_DO, _("Nothing to ask until the workspace is linked to an account."))
+		return _row("answers", check, TO_DO, _("Not checked until the workspace is linked to an account."))
 	try:
 		store.put("files/check/ping.txt", b"ping")
 		store.get("files/check/ping.txt")
@@ -56,6 +56,6 @@ def fix(key: str, **values) -> None:
 	frappe.only_for(FIXERS)
 	if key == "move":
 		frappe.enqueue("onedesk.one_storage.store.move", queue="long", timeout=3600, limit=5000, job_id="onestorage-move", deduplicate=True)
-		frappe.msgprint(_("Moving them now. This page says how many are left when you open it again."), alert=True)
+		frappe.msgprint(_("Moving files to cloud storage"), alert=True)
 	else:
 		frappe.throw(_("Nothing to fix for {0}.").format(key))

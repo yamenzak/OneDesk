@@ -22,11 +22,11 @@ from onedesk.one_admin import site
 SAID = {
 	"owed": _lt("A payment failed"),
 	"paid": _lt("Paid"),
-	"clock": _lt("Its time on the last rung ran out"),
-	"by_hand": _lt("Moved by hand"),
+	"clock": _lt("Grace period ended"),
+	"by_hand": _lt("Set by an operator"),
 	"stopped": _lt("Frappe Cloud stopped serving the site"),
-	"archived": _lt("The site was deleted and a backup kept; the files were kept"),
-	"dropped": _lt("The files were deleted"),
+	"archived": _lt("Site deleted after a backup. Files kept."),
+	"dropped": _lt("Files deleted"),
 }
 
 #: Over storage is written again only when it has grown or shrunk this much,

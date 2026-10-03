@@ -278,7 +278,7 @@ def test_everyone_gets_an_address_named_by_whoever_adds_them():
 	assert "onedesk.one_mail.addresses.for_person" in HOOKS
 	custom = (MAIL / "custom" / "user.json").read_text()
 	assert '"one_mail_name"' in custom
-	assert "and it stays" in (MAIL / "addresses.py").read_text(), "an address, once given, is not renamed"
+	assert "It can't be changed" in (MAIL / "addresses.py").read_text(), "an address, once given, is not renamed"
 
 
 def test_only_the_workspaces_mailboxes_are_shared_out():

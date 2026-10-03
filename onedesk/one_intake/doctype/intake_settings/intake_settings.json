@@ -36,7 +36,7 @@
    "fieldtype": "Percent",
    "label": "Confidence Floor",
    "default": "70",
-   "description": "Below this, what OneAI would make or change waits in Needs a Look."
+   "description": "Below this, OneAI's changes wait in Needs Review."
   },
   {
    "fieldname": "audit",

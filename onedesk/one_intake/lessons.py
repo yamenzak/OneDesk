@@ -133,5 +133,5 @@ def rule_says(reading, action) -> str | None:
 	back often enough."""
 	count = times(reading, action)
 	if count >= RULE:
-		return _("People took this back {0} times before for this party.").format(count)
+		return _("Undone {0} times before for this party.").format(count)
 	return None

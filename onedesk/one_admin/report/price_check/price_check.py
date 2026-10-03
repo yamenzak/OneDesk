@@ -49,7 +49,7 @@ def execute(filters=None):
 			{
 				"currency": currency,
 				"offering": offer.key,
-				"says": " ".join(offerings.said(one) for one in mine) or _("Makes sense."),
+				"says": " ".join(offerings.said(one) for one in mine) or _("OK"),
 				"kind": _(offer.kind),
 				"gives": gives.get(offer.key) or "",
 				"price": offer.price,
@@ -77,7 +77,7 @@ def execute(filters=None):
 			"datatype": "Int",
 			"indicator": "Orange" if any(one.level == "orange" for one in found) else "Green",
 		},
-		{"label": _("Margin Wanted"), "value": f"{costs.margin:g}×", "datatype": "Data"},
+		{"label": _("Target Margin"), "value": f"{costs.margin:g}×", "datatype": "Data"},
 	]
 	return _columns(), rows, None, None, summary
 
@@ -98,9 +98,9 @@ def _columns() -> list[dict]:
 			"options": "Offering",
 			"width": 140,
 		},
-		{"fieldname": "says", "label": _("Says"), "fieldtype": "Data", "width": 280},
-		{"fieldname": "kind", "label": _("Kind"), "fieldtype": "Data", "width": 105},
-		{"fieldname": "gives", "label": _("Gives"), "fieldtype": "Data", "width": 185},
+		{"fieldname": "says", "label": _("Result"), "fieldtype": "Data", "width": 280},
+		{"fieldname": "kind", "label": _("Type"), "fieldtype": "Data", "width": 105},
+		{"fieldname": "gives", "label": _("Includes"), "fieldtype": "Data", "width": 185},
 		{
 			"fieldname": "price",
 			"label": _("Price"),

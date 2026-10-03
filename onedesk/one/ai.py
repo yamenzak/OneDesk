@@ -409,10 +409,7 @@ SUGGESTIONS = {
 	"page:settings/calendar": [
 		{
 			"label": _lt("How do I add it?"),
-			"ask": _lt(
-				"How do I add my calendar link to Google Calendar, Apple Calendar or Outlook, on my computer "
-				"and my phone, and what does it carry?"
-			),
+			"ask": _lt("How do I add my calendar to Google Calendar, Apple Calendar or Outlook?"),
 			"expects": "how_to",
 		},
 	],
@@ -581,8 +578,8 @@ def page(said: dict) -> str | None:
 			"it works for, the model it runs on (chosen here, or the default One picked) and the credits it used "
 			"in the last thirty days. workspace_oneai reads it all, with the models on offer for each and what "
 			"they cost per thousand words read and written. They change an action by clicking it: a model, "
-			"instructions added to it (added, never replacing what it does), Try It, which runs it once and "
-			"uses credits, and Use the Default; how is in One's documentation under OneAI Actions, for the "
+			"Extra Instructions (added, never replacing what it does), Try It, which runs it once and "
+			"uses credits, and Reset to Default; how is in One's documentation under OneAI Actions, for the "
 			"Workspace (how_to)."
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "domains":
@@ -1121,7 +1118,7 @@ def customize(
 					"error": f"{row['label'] or name} came with {doctype}; it can be hidden, not taken away."
 				}
 			fields.remove(row)
-			summary.append({"label": _("Taken away"), "value": row["label"] or name})
+			summary.append({"label": _("Removed"), "value": row["label"] or name})
 
 		for one in add or []:
 			kind = one.get("kind") or "Data"
@@ -1872,7 +1869,7 @@ def change_holidays(
 		found = holidays.covering(day)
 		if not found:
 			return {
-				"error": f"No holiday list holds {day}. Next year's list is made with Make Next Year's List on "
+				"error": f"No holiday list holds {day}. Next year's list is made with Create Next Year's List on "
 				"Workspace › Holidays; suggest this once it is there."
 			}
 		covering.add(found)
@@ -2184,7 +2181,7 @@ def workspace_sign_in() -> dict:
 		],
 		"next": "Say plainly what is fine and what to change, most important first. Two-factor for everybody, "
 		"or at least administrators, is the usual advice; failed sign-ins from one address are worth naming. "
-		"They change the rules themselves under Workspace › General › Signing In.",
+		"They change the rules themselves under Workspace › General › Sign-in.",
 	}
 
 
@@ -2565,7 +2562,7 @@ def workspace_printing(
 				"footer_shows": [*letter_heads.FOOT_SHOWN, *letter_heads.SHOWN],
 			},
 			"company_logo": company.company_logo if company else None,
-			# What a letter head is written from: Workspace > General's On Documents.
+			# What a letter head is written from: Workspace > General's Contact and Branding.
 			"company": _on_documents(company),
 			"workspace_formats": printing.formats(),
 		}
@@ -2790,7 +2787,7 @@ def change_printing(
 
 
 def _on_documents(company) -> dict:
-	"""The company as a printed page shows it (Workspace > General > On Documents)."""
+	"""The company as a printed page shows it (Workspace > General > Contact and Branding)."""
 	from onedesk.one import settings
 
 	if not company:
@@ -4065,7 +4062,7 @@ def suggest_automation(
 			rows.append({"step_type": "Action", "action_type": "TellPeople", "params": json.dumps(params)})
 			said.append(
 				{
-					"label": _("Tell"),
+					"label": _("Notify"),
 					"value": ", ".join(who) + ": " + (one.get("template") or one.get("subject") or ""),
 				}
 			)
@@ -4108,7 +4105,7 @@ def suggest_automation(
 	]
 	if only_when:
 		summary.append(
-			{"label": _("Only When"), "value": "; ".join(" ".join(str(x) for x in one) for one in only_when)}
+			{"label": _("Conditions"), "value": "; ".join(" ".join(str(x) for x in one) for one in only_when)}
 		)
 	summary += said
 	summary.append({"label": _("On"), "value": _("Yes") if turn_on else _("No")})

@@ -21,7 +21,7 @@ class CloudLink(Document):
 	def validate(self):
 		item = frappe.db.get_value("File", self.file, ["file_name", "is_folder"], as_dict=True)
 		if not item:
-			frappe.throw(_("That is no longer here."))
+			frappe.throw(_("This item no longer exists."))
 		self.file_name, self.is_folder = item.file_name, item.is_folder
 		if not self.is_folder:
 			self.allow_upload = 0
@@ -33,4 +33,4 @@ class CloudLink(Document):
 				kept.append(one)
 		self.invitees = kept
 		if self.audience == "Invited people" and not self.invitees:
-			frappe.throw(_("Add the email address of at least one person to invite."))
+			frappe.throw(_("Add at least one email address."))

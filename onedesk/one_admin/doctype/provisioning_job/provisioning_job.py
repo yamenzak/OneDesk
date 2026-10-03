@@ -19,7 +19,7 @@ class ProvisioningJob(Document):
 		# Made by the machinery, never typed, so none of these is starred on
 		# the form; a job for nobody is still refused.
 		if not self.tenant:
-			frappe.throw(_("A job is for a workspace."))
+			frappe.throw(_("A job needs a workspace."))
 		self.kind = self.kind or "Provision"
 		self.status = self.status or "Pending"
 		if not self.step and self.status in ("Pending", "Waiting"):

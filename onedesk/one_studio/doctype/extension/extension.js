@@ -40,18 +40,18 @@ const WHEN = {
 	"Before Delete": (kind) => __("Before a {0} is deleted", [kind]),
 	"After Delete": (kind) => __("After a {0} is deleted", [kind]),
 	// Scheduled: on its own, over the records it finds.
-	"Every Hour": () => __("Once an hour, on its own"),
-	"Every Day": () => __("Once a day, on its own"),
-	"Every Week": () => __("Once a week, on its own"),
-	"Every Month": () => __("Once a month, on its own"),
-	"On a Schedule": (kind, cron) => __("On its own, on the schedule {0}", [cron || ""]),
+	"Every Hour": () => __("Every hour"),
+	"Every Day": () => __("Every day"),
+	"Every Week": () => __("Every week"),
+	"Every Month": () => __("Every month"),
+	"On a Schedule": (kind, cron) => __("On the schedule {0}", [cron || ""]),
 };
 
 // Where a page extension runs, said of its place (one_studio/places.py).
 const PLACES = {
 	"onemail.conversation": () => __("In OneMail, each time a conversation is opened"),
 	"onemail.compose": () => __("Each time a message is written, anywhere in One"),
-	"record_head.drawn": (kind) => __("On the head of each {0}, each time it is opened or saved", [kind]),
+	"record_head.drawn": (kind) => __("In the header of each {0}, when it is opened or saved", [kind]),
 	"onecalendar.event": () => __("In OneCalendar, each time an event's card is opened"),
 };
 
@@ -82,8 +82,8 @@ frappe.ui.form.on("Extension", {
 				: doc.view === "Page"
 				? (PLACES[doc.place] || (() => doc.place || ""))(kind)
 				: doc.view === "List"
-					? __("On the {0} list, in the browser of whoever opens it", [kind])
-					: __("On the {0} form, in the browser of whoever opens it", [kind]);
+					? __("On the {0} list, in the browser", [kind])
+					: __("On the {0} form, in the browser", [kind]);
 
 		const sections = [];
 		// The head says what it does, unless the review refused it: then the

@@ -302,9 +302,9 @@ def fold(doctype: str, name: str, into: str) -> str:
 def merge(doctype: str, name: str, into: str) -> str:
 	"""Merge a possible duplicate into the record it duplicates."""
 	if doctype not in FLAGGED:
-		frappe.throw(_("Only a contact, a customer or a supplier is merged here."))
+		frappe.throw(_("Only contacts, customers and suppliers can be merged."))
 	if name == into:
-		frappe.throw(_("A record cannot be merged into itself."))
+		frappe.throw(_("A record can't be merged into itself."))
 	for one in (name, into):
 		frappe.get_doc(doctype, one).check_permission("write")
 	frappe.get_doc(doctype, name).check_permission("delete")
@@ -314,7 +314,7 @@ def merge(doctype: str, name: str, into: str) -> str:
 @frappe.whitelist(methods=["POST"])
 def not_duplicate(doctype: str, name: str) -> None:
 	if doctype not in FLAGGED:
-		frappe.throw(_("Only a contact, a customer or a supplier is marked here."))
+		frappe.throw(_("Only contacts, customers and suppliers can be marked."))
 	doc = frappe.get_doc(doctype, name)
 	doc.check_permission("write")
 	doc.db_set({"one_duplicate_type": None, "one_duplicate_of": None, "one_duplicate_on": None})

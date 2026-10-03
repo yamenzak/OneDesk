@@ -178,5 +178,5 @@ def _summary(whole) -> list[dict]:
 			"indicator": "Green" if whole.charged > whole.cost_us - whole.own_cost else "Red",
 		},
 		{"label": frappe._("Workspaces"), "value": whole.workspaces, "datatype": "Int"},
-		{"label": frappe._("Own Use"), "value": whole.own_cost, **money},
+		{"label": frappe._("Internal Use"), "value": whole.own_cost, **money},
 	]

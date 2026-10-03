@@ -316,7 +316,7 @@ def passwords() -> list[dict]:
 def drop_password(name: str) -> None:
 	"""Take one away: that computer is asked to sign in again."""
 	if frappe.db.get_value("Cloud Drive Password", name, "user") != frappe.session.user:
-		frappe.throw(_("That is no longer here."), frappe.DoesNotExistError)
+		frappe.throw(_("This item no longer exists."), frappe.DoesNotExistError)
 	frappe.delete_doc("Cloud Drive Password", name, ignore_permissions=True)
 
 

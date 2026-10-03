@@ -17,9 +17,9 @@ def hashed(token: str) -> str:
 class CloudFileRequest(Document):
 	def validate(self):
 		if self.reference_doctype and not frappe.db.exists(self.reference_doctype, self.reference_name):
-			frappe.throw(_("{0} {1} is not there.").format(_(self.reference_doctype), self.reference_name))
+			frappe.throw(_("{0} {1} not found").format(_(self.reference_doctype), self.reference_name))
 		if self.folder and not frappe.db.get_value("File", self.folder, "is_folder"):
-			frappe.throw(_("Files land in a folder, and {0} is not one.").format(self.folder))
+			frappe.throw(_("{0} is not a folder.").format(self.folder))
 		self._items()
 		self._people()
 
@@ -32,14 +32,14 @@ class CloudFileRequest(Document):
 		for one in self.items:
 			one.label = " ".join((one.label or "").replace("/", " ").split())
 			if one.label.lower() in seen:
-				frappe.throw(_("{0} is asked for twice.").format(one.label))
+				frappe.throw(_("{0} is listed twice.").format(one.label))
 			seen.add(one.label.lower())
 			one.accept = ", ".join(
 				ext.strip().lstrip(".").lower() for ext in (one.accept or "").replace(";", ",").split(",") if ext.strip()
 			)
 			if one.fieldname:
 				if not self.reference_doctype:
-					frappe.throw(_("{0} fills a record's field, so the request needs a record.").format(one.label))
+					frappe.throw(_("{0} fills a record field, so the request must be on a record.").format(one.label))
 				if one.fieldname not in fields:
 					frappe.throw(_("{0} has no attachment field called {1}.").format(_(self.reference_doctype), one.fieldname))
 				one.several = 0
@@ -53,7 +53,7 @@ class CloudFileRequest(Document):
 				kept.append(one)
 		self.recipients = kept
 		if len(kept) > 1 and any(one.fieldname for one in self.items):
-			frappe.throw(_("A request that fills a record's fields goes to one person."))
+			frappe.throw(_("A request that fills record fields can go to one person only."))
 		self.flags.tokens = self.flags.tokens or {}
 		for one in self.recipients:
 			if not one.token_hash:

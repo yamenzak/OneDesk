@@ -56,7 +56,7 @@ def require(account: str) -> None:
 	if frappe.flags.one_mail_rules:
 		return
 	if not holds(account):
-		raise frappe.PermissionError(_("You do not hold the mailbox {0}.").format(account))
+		raise frappe.PermissionError(_("You don't have access to the mailbox {0}.").format(account))
 
 
 # ------------------------------------------------------------------ helpers
@@ -76,7 +76,7 @@ def _rows(names) -> list[dict]:
 	)
 	for account in {row.email_account for row in rows}:
 		if not account:
-			frappe.throw(_("A message that belongs to no mailbox cannot be changed here."))
+			frappe.throw(_("This message isn't in a mailbox."))
 		require(account)
 	return rows
 
@@ -192,7 +192,7 @@ def move(names, folder: str) -> dict:
 	was = _was([row for row in rows if row.one_folder != target.path])
 	for (account, path), group in _grouped(rows).items():
 		if account != target.account:
-			frappe.throw(_("A message can only move to a folder of its own mailbox."))
+			frappe.throw(_("The folder must be in the message's mailbox."))
 		if path == target.path:
 			continue
 		_move(account, path, group, target.path)
@@ -289,7 +289,7 @@ def linked(row) -> bool:
 def _path(account: str, label: str, parent: str | None) -> tuple[str, str]:
 	label = (label or "").strip()
 	if not label or len(label) > 100:
-		frappe.throw(_("A folder needs a name of up to 100 characters."))
+		frappe.throw(_("Folder name must be 1 to 100 characters."))
 	delimiter = "/"
 	if parent:
 		delimiter = frappe.db.get_value("Mail Folder", parent, "delimiter") or "/"
@@ -299,7 +299,7 @@ def _path(account: str, label: str, parent: str | None) -> tuple[str, str]:
 			or "/"
 		)
 	if delimiter in label:
-		frappe.throw(_("A folder's name cannot hold {0}.").format(delimiter))
+		frappe.throw(_("Folder name can't contain {0}.").format(delimiter))
 	parent_path = frappe.db.get_value("Mail Folder", parent, "path") if parent else None
 	path = imap.encode(label)
 	return (f"{parent_path}{delimiter}{path}" if parent_path else path), delimiter
@@ -310,7 +310,7 @@ def create_folder(account: str, label: str, parent: str | None = None) -> str:
 	require(account)
 	path, delimiter = _path(account, label, parent)
 	if frappe.db.exists("Mail Folder", {"account": account, "path": path}):
-		frappe.throw(_("There is already a folder called {0}.").format(label))
+		frappe.throw(_("A folder named {0} already exists.").format(label))
 	if _connected(account):
 		with imap.Session(frappe.get_doc("Email Account", account)) as session:
 			session.create(path)
@@ -334,7 +334,7 @@ def _own(folder: str):
 	require(doc.account)
 	if doc.kind in FIXED:
 		frappe.throw(
-			_("{0} is one of the mailbox's own folders and stays as it is.").format(doc.label or doc.path)
+			_("{0} is a standard folder and can't be changed.").format(doc.label or doc.path)
 		)
 	return doc
 

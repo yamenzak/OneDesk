@@ -25,8 +25,8 @@ onedesk.MyTasks = class MyTasks {
 	// The views, in the column's order: the key is `?section=`, which is also
 	// how OneAI knows which is open (oneai.js `where`).
 	static VIEWS = [
-		{ key: "mine", label: __("My Tasks"), icon: "list-checks", empty: __("Nothing is assigned to you."), hint: __("Add a task above, or ask for one to be assigned to you.") },
-		{ key: "inbox", label: __("Inbox"), icon: "inbox", empty: __("Your inbox is empty."), hint: __("A task of your own that is in no project lands here.") },
+		{ key: "mine", label: __("My Tasks"), icon: "list-checks", empty: __("No tasks assigned to you"), hint: "" },
+		{ key: "inbox", label: __("Inbox"), icon: "inbox", empty: __("No tasks in Inbox"), hint: __("Your own tasks with no project") },
 	];
 
 	constructor(page) {
@@ -56,7 +56,7 @@ onedesk.MyTasks = class MyTasks {
 		this.subject = control(".one-tasks-subject", {
 			fieldtype: "Data",
 			fieldname: "subject",
-			placeholder: __("Add a task and press Enter"),
+			placeholder: __("Add a task"),
 			length: 140,
 		});
 		this.due = control(".one-tasks-due", { fieldtype: "Date", fieldname: "due", placeholder: __("Due") });

@@ -129,19 +129,19 @@ def _words(language: str) -> dict:
 		"sick_note": _("From a sick note that arrived by mail.", lang=language),
 		"arrived": _("A document arrived", lang=language),
 		"arrived_for": _("A document arrived for {0}", lang=language),
-		"nudged": _("A reminder arrived: {0}", lang=language),
+		"nudged": _("Reminder: {0}", lang=language),
 		"appointment": _("Appointment", lang=language),
 		"asks": {one: _(one, lang=language) for one in ("Pay", "Sign", "Reply", "Attend", "Send", "Cancel", "Decide", "Other")},
-		"moved": _("Dated after the books locked up to {0}.", lang=language),
+		"moved": _("Dated after the books closed on {0}.", lang=language),
 		"direct_debit": _("Paid by direct debit.", lang=language),
 		"paid": _("Already paid.", lang=language),
 		"no_original": _("The invoice this credits was not found.", lang=language),
 		"unmatched": _("Some lines match no item.", lang=language),
 		"see_document": _("See the attached document.", lang=language),
 		"ask_for_invoice": _("Ask {1} for invoice {0}", lang=language),
-		"maybe_fraud": _("A reminder for an invoice nobody here has. Ask for the invoice before paying anything.", lang=language),
+		"maybe_fraud": _("Reminder for an unknown invoice. Ask for the invoice before paying.", lang=language),
 		"decide_cancel": _("Decide whether to cancel the contract with {0} (last day {1})", lang=language),
-		"unordered": _("Check the delivery from {0}: no order of ours was found for it", lang=language),
+		"unordered": _("Check the unordered delivery from {0}", lang=language),
 	}
 
 
@@ -390,7 +390,7 @@ def _hold_iban(reading) -> None:
 		return
 	made = frappe.db.get_value("Intake Action", {"reading": reading.name, "kind": "Create", "target_doctype": "Purchase Invoice", "level": "Done"}, "name")
 	if made:
-		why = _("It asks to be paid to an IBAN we do not have for {0}. Check with them by phone before paying.").format(reading.party_name)
+		why = _("The IBAN isn't on file for {0}. Confirm it by phone before paying.").format(reading.party_name)
 		frappe.db.set_value("Intake Action", made, {"audit": "Wrong", "audit_why": why}, update_modified=False)
 
 

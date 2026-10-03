@@ -323,9 +323,9 @@ def take_back(grant: str, why: str) -> dict:
 	site.require_admin()
 	held = frappe.get_doc("Credit Ledger Entry", grant)
 	if held.kind != "Grant" or held.source != "Operator" or held.docstatus != 1:
-		frappe.throw(frappe._("Only credits an operator gave can be taken back."))
+		frappe.throw(frappe._("Only credits given by an operator can be revoked."))
 	if not (why or "").strip():
-		frappe.throw(frappe._("Say why they are taken back."))
+		frappe.throw(frappe._("Add a reason."))
 	_lock(held.tenant)
 	left = left_of(grant)
 	if left <= 0:
@@ -479,7 +479,7 @@ def _lock(tenant: str) -> None:
 def _amount(amount: float) -> float:
 	amount = round(float(amount or 0), credits.PLACES)
 	if amount <= 0:
-		frappe.throw(frappe._("Credits have to be more than nothing."))
+		frappe.throw(frappe._("Credits must be more than zero."))
 	return amount
 
 

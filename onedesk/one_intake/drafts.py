@@ -34,11 +34,11 @@ def red(doc, reading) -> list[str]:
 	"""Why a draft is not ready, in the reader's words; empty when it is."""
 	why = []
 	if reading and reading.unsure:
-		why.append(_("Some of what OneAI read is not in the document."))
+		why.append(_("Some values aren't in the document."))
 	if not doc.get(PARTY[doc.doctype]):
-		why.append(_("The party is not known."))
+		why.append(_("Unknown party."))
 	if reading and reading.gross and doc.doctype in ("Purchase Invoice", "Sales Order") and abs(flt(doc.get(TOTAL[doc.doctype])) - flt(reading.gross)) > TOLERANCE:
-		why.append(_("The total is {0}, the document says {1}.").format(frappe.format_value(doc.get(TOTAL[doc.doctype]), {"fieldtype": "Currency"}, doc), frappe.format_value(reading.gross, {"fieldtype": "Currency"}, doc)))
+		why.append(_("The total is {0}, but the document says {1}.").format(frappe.format_value(doc.get(TOTAL[doc.doctype]), {"fieldtype": "Currency"}, doc), frappe.format_value(reading.gross, {"fieldtype": "Currency"}, doc)))
 	if doc.doctype == "Purchase Invoice":
 		why += _three_way(doc)
 		why += _iban(doc, reading)
@@ -55,7 +55,7 @@ def _twice(doc) -> list[str]:
 	found = frappe.get_all("Purchase Invoice", filters=[*same, ["bill_no", "=", doc.bill_no]], pluck="name", limit=1) if doc.bill_no else []
 	if not found and doc.bill_date:
 		found = frappe.get_all("Purchase Invoice", filters=[*same, ["bill_date", "=", doc.bill_date], ["grand_total", "=", doc.grand_total]], pluck="name", limit=1)
-	return [_("It may be the same bill as {0}: same supplier, and the same number or the same total on the same day.").format(found[0])] if found else []
+	return [_("Possible duplicate of {0}.").format(found[0])] if found else []
 
 
 def _three_way(doc) -> list[str]:
@@ -82,7 +82,7 @@ def _iban(doc, reading) -> list[str]:
 	known = frappe.get_all("Bank Account", filters={"party_type": "Supplier", "party": doc.supplier}, pluck="iban")
 	known = [one.replace(" ", "").upper() for one in known if one]
 	if known and reading.iban.replace(" ", "").upper() not in known:
-		return [_("The invoice asks to be paid to an IBAN we do not have for {0}.").format(doc.supplier)]
+		return [_("The invoice IBAN isn't on file for {0}.").format(doc.supplier)]
 	return []
 
 
@@ -139,7 +139,7 @@ def submit_all(names) -> dict:
 			continue
 		reading = frappe.db.get_value("Intake Action", {"target_doctype": doctype, "target_name": name, "kind": "Create"}, "reading")
 		if red(doc, frappe.get_doc("Reading", reading) if reading and frappe.db.exists("Reading", reading) else None):
-			failed.append({"name": name, "why": _("It is not ready any more.")})
+			failed.append({"name": name, "why": _("No longer ready.")})
 			continue
 		waits = approvals.submitting(doc)
 		if waits and not waits["action"]:
@@ -192,5 +192,5 @@ def _waiting(doc) -> str | None:
 	waits = approvals.submitting(doc)
 	if waits and not waits["action"]:
 		state = waits["state"] or ""
-		return _("It waits for its approval: it is {0}.").format(_(state))
+		return _("Awaiting approval ({0}).").format(_(state))
 	return None

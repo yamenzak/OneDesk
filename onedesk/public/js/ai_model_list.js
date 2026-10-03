@@ -29,9 +29,9 @@ frappe.listview_settings["AI Model"] = {
 
 	button: {
 		show: (doc) => doc.status === "Priced",
-		get_label: (doc) => (doc.offered ? __("Stop offering") : __("Offer")),
+		get_label: (doc) => (doc.offered ? __("Stop Offering") : __("Offer")),
 		get_description: (doc) =>
-			doc.offered ? __("Workspaces can no longer pick this model") : __("Let workspaces pick this model"),
+			doc.offered ? __("Stop workspaces from picking this model") : __("Let workspaces pick this model"),
 		action(doc) {
 			// The model's own save, so every rule on it still applies — a default
 			// cannot stop being offered while it is the default.
@@ -60,7 +60,7 @@ frappe.provide("onedesk.models");
 // The count back rather than the rows: the list is about to redraw anyway, and
 // the one thing worth a sentence is how many need a person to look at them.
 onedesk.models.sync = (provider, list) => {
-	frappe.show_alert({ message: __("Asking {0}…", [provider]), indicator: "blue" });
+	frappe.show_alert({ message: __("Syncing {0}…", [provider]), indicator: "blue" });
 	frappe
 		.xcall("onedesk.one_admin.operator.sync_catalogue", { provider })
 		.then((count) => {

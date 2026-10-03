@@ -156,7 +156,7 @@ def test() -> dict:
 		frappe.session.user,
 		{
 			"title": _("Push works"),
-			"body": _("This is how One tells you something on this device."),
+			"body": _("Notifications from One will appear like this on this device."),
 			"url": "/app/settings?section=notifications",
 		},
 	)

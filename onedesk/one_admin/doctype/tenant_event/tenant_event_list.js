@@ -36,7 +36,7 @@ frappe.listview_settings["Tenant Event"] = {
 		},
 		by(value, df, doc) {
 			if (value === "Operator" && doc.by_user) return frappe.utils.escape_html(frappe.user.full_name(doc.by_user));
-			return value === "Customer" ? __("The customer") : __("One");
+			return value === "Customer" ? __("Customer") : __("One");
 		},
 	},
 };

@@ -6,15 +6,15 @@ frappe.ui.form.on("Personal Data Deletion Request", {
 		const who = frappe.user.full_name(frm.doc.email) || frm.doc.email;
 		frm.set_intro(
 			{
-				"Pending Approval": __("{0} asked to delete their account. Approving signs them out and erases their data. Kept records lose their name and address.", [who]),
-				"On Hold": __("Held. {0} was told why. Approve it when what the workspace has to keep is settled.", [who]),
-				Deleted: __("Deleted. The account is turned off and renamed, and its name and address are gone from what the workspace kept."),
+				"Pending Approval": __("{0} asked to delete their account. Approving signs them out and erases their data. Kept records are anonymised.", [who]),
+				"On Hold": __("On hold. {0} was notified of the reason.", [who]),
+				Deleted: __("Deleted. The account is disabled and its personal data erased."),
 			}[frm.doc.status] || "",
 			frm.doc.status === "Deleted" ? "green" : "blue"
 		);
 		if (!["Pending Approval", "On Hold"].includes(frm.doc.status) || !onedesk.privacy.decides()) return;
 		frm.page.set_primary_action(__("Approve and Delete"), () =>
-			frappe.confirm(__("Delete {0}'s account? This cannot be undone.", [who]), async () => {
+			frappe.confirm(__("Delete {0}'s account? This can't be undone.", [who]), async () => {
 				await frappe.xcall("onedesk.one.privacy.approve", { name: frm.doc.name });
 				frappe.show_alert({ message: __("{0} is signed out. Their data is being erased.", [who]), indicator: "green" });
 				frm.reload_doc();
@@ -23,14 +23,14 @@ frappe.ui.form.on("Personal Data Deletion Request", {
 		if (frm.doc.status === "Pending Approval") {
 			frm.add_custom_button(__("Hold"), () => {
 				const dialog = new frappe.ui.Dialog({
-					title: __("Hold the Request"),
+					title: __("Hold Request"),
 					fields: [
 						{
 							fieldname: "why",
 							fieldtype: "Small Text",
-							label: __("Why"),
+							label: __("Reason"),
 							reqd: 1,
-							description: __("{0} is told this, for example that payroll for the month has to close first.", [who]),
+							description: __("Sent to {0}. For example, payroll for the month has to close first.", [who]),
 						},
 					],
 					primary_action_label: __("Hold"),

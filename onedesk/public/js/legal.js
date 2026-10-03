@@ -50,24 +50,24 @@ onedesk.legal.ask = function (said) {
 			fieldname: "list",
 			options: `<p class="ol-ask-intro">${esc(
 				said.may_bind
-					? __("As an administrator of this workspace, you agree to some of these for your organisation, and to the rest for yourself.")
-					: __("These are about you, so only you can agree to them.")
+					? __("As a workspace administrator, you agree to some of these for your organisation.")
+					: __("Only you can agree to these.")
 			)}</p><ul class="ol-ask">${listed}</ul>`,
 		});
-		fields.push({ fieldtype: "Check", fieldname: "agreed", label: __("I have read these and I agree to them") });
+		fields.push({ fieldtype: "Check", fieldname: "agreed", label: __("I have read and agree to these") });
 	}
 	if (waiting) {
 		fields.push({
 			fieldtype: "HTML",
 			fieldname: "waiting",
 			options: `<p class="ol-ask-intro">${esc(
-				__("Your workspace's administrator has not yet agreed to {0} for your organisation. One opens once they have.", [waiting])
+				__("One opens once your workspace administrator agrees to {0}.", [waiting])
 			)}</p>`,
 		});
 	}
 
 	const dialog = new frappe.ui.Dialog({
-		title: __("Before you carry on"),
+		title: __("Before You Continue"),
 		static: true,
 		fields,
 		primary_action_label: keys.length ? __("Agree") : __("Check Again"),
@@ -82,7 +82,7 @@ onedesk.legal.ask = function (said) {
 			if (next.ok) {
 				dialog.hide();
 				onedesk.legal.dialog = null;
-				frappe.show_alert({ message: __("Thank you."), indicator: "green" });
+				frappe.show_alert({ message: __("Thank you"), indicator: "green" });
 				$(document).trigger("legal-agreed");
 				return;
 			}

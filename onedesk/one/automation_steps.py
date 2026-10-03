@@ -26,7 +26,7 @@ from frappe.automation_engine.actions.core import _as_list, resolve_recipients
 class TellPeople(AutomationAction):
 	action_type = "TellPeople"
 	label = N_("Tell People")
-	description = N_("Tell people on the bell, and by mail as each chose, through One's notifications.")
+	description = N_("Notifies people in One and by email, as each person prefers.")
 	params_schema: ClassVar[list] = [
 		{
 			"fieldname": "recipients",
@@ -48,7 +48,7 @@ class TellPeople(AutomationAction):
 
 	def validate(self, params, doctype):
 		if not _as_list(params.get("recipients")):
-			raise AutomationParamError(_("Say who is told"), fieldname="recipients")
+			raise AutomationParamError(_("Choose who to notify"), fieldname="recipients")
 		template = params.get("email_template")
 		if template and not frappe.db.exists("Email Template", template):
 			raise AutomationParamError(
@@ -64,7 +64,7 @@ class TellPeople(AutomationAction):
 
 		people = resolve_recipients(_as_list(params.get("recipients")), doc)
 		if not people:
-			return _("Nobody to tell")
+			return _("No one to notify")
 		if params.get("email_template"):
 			said = mail_templates.filled(params["email_template"], doc)
 			subject, message = said["subject"], said["message"]
@@ -79,4 +79,4 @@ class TellPeople(AutomationAction):
 			# The message is the flow's own, or a checked template's: HTML, cleaned.
 			message=Markup(frappe.utils.sanitize_html(message or "")),
 		)
-		return _("Told {0}").format(", ".join(people))
+		return _("Notified {0}").format(", ".join(people))

@@ -119,10 +119,10 @@ def _give(user: str, name: str, holder=None) -> str:
 	"""`holder` is the User being saved, when this runs inside its save."""
 	name = (name or "").strip().lower()
 	if not is_name(name):
-		frappe.throw(_("{0} cannot be a name in an address. Use letters, digits, - and _.").format(name))
+		frappe.throw(_("{0} can't be used in an address. Use letters, digits, - and _.").format(name))
 	address = person_address(name)
 	if frappe.db.exists("Email Account", {"email_id": address}):
-		frappe.throw(_("{0} is already somebody's.").format(address))
+		frappe.throw(_("{0} is already taken.").format(address))
 	made = _make(address, sends=False)
 	if holder is not None:
 		holder.append("user_emails", {"email_account": made})
@@ -193,7 +193,7 @@ def for_person(doc, method=None) -> None:
 		# Set once: the address is what people already write to.
 		name = held[0].split("@")[0].rsplit(".", 1)[0]
 		if doc.one_mail_name and doc.one_mail_name != name:
-			frappe.throw(_("{0} already has the address {1}, and it stays.").format(doc.name, held[0]))
+			frappe.throw(_("{0} already has the address {1}. It can't be changed.").format(doc.name, held[0]))
 		doc.one_mail_name = name
 		return
 	name = (doc.one_mail_name or "").strip().lower() or free(suggested(doc.first_name, doc.email))

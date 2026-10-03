@@ -17,16 +17,16 @@ TYPES = [
 	{
 		"name": _lt("Automation Notice"),
 		"app": "One",
-		"about": _lt("When an automation the workspace set up tells somebody, in its own words."),
-		"to": _lt("Whoever the automation names"),
+		"about": _lt("When an automation sends a notification."),
+		"to": _lt("The people the automation names"),
 		"subject": _lt("{subject}"),
 		"message": _lt("{message}"),
 	},
 	{
 		"name": _lt("Approval Waiting"),
 		"app": "One",
-		"about": _lt("When a record reaches a step of an approval that one of your roles takes."),
-		"to": _lt("Whoever holds the role the step is for and may open the record"),
+		"about": _lt("When a record reaches an approval step for one of your roles."),
+		"to": _lt("People with the step's role who can open the record"),
 		"subject": _lt("{kind} {record_name} is waiting for you"),
 		"message": _lt("The {kind} {record_name} is {state}. Open it to {actions}."),
 	},
@@ -70,7 +70,7 @@ TYPES = [
 	{
 		"name": _lt("Administrator Added"),
 		"app": "One",
-		"about": _lt("When somebody is made an administrator of the workspace."),
+		"about": _lt("When someone is made a workspace administrator."),
 		"to": _lt("Every other administrator"),
 		"subject": _lt("{person} is now an administrator"),
 		"message": _lt(
@@ -83,7 +83,7 @@ TYPES = [
 	{
 		"name": _lt("Invitation"),
 		"app": "One",
-		"about": _lt("When an administrator invites somebody to the workspace, with the link to join."),
+		"about": _lt("When an administrator invites someone to the workspace."),
 		"to": _lt("The person invited"),
 		"subject": _lt("{inviter} invited you to {workspace}"),
 		"message": _lt(
@@ -96,7 +96,7 @@ TYPES = [
 	{
 		"name": _lt("Credits Running Low"),
 		"app": "One",
-		"about": _lt("When the workspace's OneAI credits fall under about three days of what it uses."),
+		"about": _lt("When OneAI credits will run out in about three days."),
 		"to": _lt("Every administrator"),
 		"subject": _lt("OneAI credits are running low"),
 		"message": _lt(
@@ -121,9 +121,7 @@ TYPES = [
 	{
 		"name": _lt("Credits Added"),
 		"app": "One",
-		"about": _lt(
-			"When OneAI credits arrive: a pack paid for, the plan's monthly credits, or credits One gives, with its note."
-		),
+		"about": _lt("When OneAI credits are added, from a pack, the monthly plan or One."),
 		"to": _lt("Every administrator"),
 		"subject": _lt("OneAI credits were added"),
 		"message": _lt("OneAI credits were added. The workspace now has {balance}.{note}"),
@@ -132,7 +130,7 @@ TYPES = [
 	{
 		"name": _lt("Storage Nearly Full"),
 		"app": "One",
-		"about": _lt("When the workspace's files take nine tenths of the storage its plan allows."),
+		"about": _lt("When files use 90% of the plan's storage."),
 		"to": _lt("Every administrator"),
 		"subject": _lt("Storage is nearly full"),
 		"message": _lt(
@@ -145,7 +143,7 @@ TYPES = [
 	{
 		"name": _lt("Database Nearly Full"),
 		"app": "One",
-		"about": _lt("When the workspace's database takes nine tenths of what its plan allows."),
+		"about": _lt("When the database uses 90% of the plan's limit."),
 		"to": _lt("Every administrator"),
 		"subject": _lt("The database is nearly full"),
 		"message": _lt(
@@ -170,7 +168,7 @@ TYPES = [
 	{
 		"name": _lt("Confirm Your Request"),
 		"app": "One",
-		"about": _lt("When somebody who is not a user asks on the workspace's Your Data page, with the link to confirm."),
+		"about": _lt("When someone who isn't a user makes a request on the Your Data page."),
 		"to": _lt("The address given on the page"),
 		"subject": _lt("Confirm your request to {workspace}"),
 		"message": _lt(
@@ -215,12 +213,12 @@ TYPES = [
 	{
 		"name": _lt("Copy Asked"),
 		"app": "One",
-		"about": _lt("When somebody asks for a copy of their data, which an administrator reviews first."),
+		"about": _lt("When someone asks for a copy of their data."),
 		"to": _lt("Every administrator"),
 		"subject": _lt("{person} asked for a copy of their data"),
 		"message": _lt(
-			"{person} asked for a copy of their data. Review what goes and send it under Workspace › Data "
-			"Copies; the law gives a month to answer."
+			"{person} asked for a copy of their data. Review and send it in Workspace › Data Copies within "
+			"one month."
 		),
 		"email": False,
 		"always_mailed": True,
@@ -245,8 +243,7 @@ TYPES = [
 		"to": _lt("Every administrator"),
 		"subject": _lt("{count} privacy requests are waiting"),
 		"message": _lt(
-			"{count} requests for a copy of somebody's data or to delete their account have waited more than a "
-			"week. The law gives a month to answer."
+			"{count} privacy requests have waited more than a week. The law allows one month to respond."
 		),
 		"email": False,
 		"always_mailed": True,
@@ -254,7 +251,7 @@ TYPES = [
 	{
 		"name": _lt("Deletion Asked"),
 		"app": "One",
-		"about": _lt("When somebody asks for their account to be deleted, which an administrator decides."),
+		"about": _lt("When someone asks for their account to be deleted."),
 		"to": _lt("Every administrator"),
 		"subject": _lt("{person} asked for their account to be deleted"),
 		"message": _lt(
@@ -291,7 +288,7 @@ TYPES = [
 	{
 		"name": _lt("Person Deleted"),
 		"app": "One",
-		"about": _lt("When another administrator approves deleting somebody's account."),
+		"about": _lt("When another administrator approves an account deletion."),
 		"to": _lt("Every other administrator"),
 		"subject": _lt("{by} deleted {person}'s account"),
 		"message": _lt("{by} approved deleting {person}'s account. It is turned off and being erased now."),
@@ -309,8 +306,8 @@ TYPES = [
 	{
 		"name": _lt("Announcement"),
 		"app": "One",
-		"about": _lt("When an administrator posts an announcement to everybody in the workspace."),
-		"to": _lt("Everybody in the workspace"),
+		"about": _lt("When an administrator posts an announcement."),
+		"to": _lt("Everyone in the workspace"),
 		"subject": _lt("{title}"),
 		"message": _lt("{by} announced: {text}"),
 		"email_default": True,
@@ -318,7 +315,7 @@ TYPES = [
 	{
 		"name": _lt("Webhooks Failing"),
 		"app": "One",
-		"about": _lt("Every morning, the webhooks whose calls gave up the day before. Not sent when none did."),
+		"about": _lt("Every morning, if webhooks failed to deliver the day before."),
 		"to": _lt("Every administrator"),
 		"subject": _lt("Webhooks could not deliver yesterday"),
 		"message": _lt(
@@ -343,12 +340,12 @@ TYPES = [
 		"name": _lt("Workspace Closing"),
 		"app": "One",
 		"about": _lt("When the person who pays for the workspace asks for it to be closed. It cannot be turned off."),
-		"to": _lt("Everybody in the workspace"),
+		"to": _lt("Everyone in the workspace"),
 		"subject": _lt("The workspace closes on {date}"),
 		"message": _lt(
-			"{by} asked for the workspace to be closed. It works as before until {date}; then nobody can sign "
-			"in, and on {deleted} everything in it is deleted for good. Take anything of yours you need before "
-			"then."
+			"{by} asked for the workspace to be closed. It works as usual until {date}. After that no one can "
+			"sign in, and on {deleted} everything in it is permanently deleted. Download anything you need "
+			"before then."
 		),
 		"email_default": True,
 		"required": True,
@@ -357,7 +354,7 @@ TYPES = [
 		"name": _lt("Workspace Staying Open"),
 		"app": "One",
 		"about": _lt("When a workspace that was closing is kept open. It cannot be turned off."),
-		"to": _lt("Everybody in the workspace"),
+		"to": _lt("Everyone in the workspace"),
 		"subject": _lt("The workspace is staying open"),
 		"message": _lt("{by} kept the workspace open. Nothing changes."),
 		"email_default": True,
@@ -413,7 +410,7 @@ TYPES = [
 	{
 		"name": _lt("Main Address Changed"),
 		"app": "One",
-		"about": _lt("When another administrator changes the address the workspace calls itself."),
+		"about": _lt("When another administrator changes the workspace's main address."),
 		"to": _lt("Every other administrator"),
 		"subject": _lt("{by} changed the workspace's address to {domain}"),
 		"message": _lt(
@@ -430,8 +427,8 @@ TYPES = [
 		"to": _lt("Every other administrator"),
 		"subject": _lt("{by} changed {action}"),
 		"message": _lt(
-			"{by} changed {what} for {action}. It applies to everybody's use of it from now on, and may change "
-			"what it costs. See OneAI › Actions."
+			"{by} changed {what} for {action}. This applies to everyone and may change its cost. See "
+			"OneAI › Actions."
 		),
 		"email": False,
 	},

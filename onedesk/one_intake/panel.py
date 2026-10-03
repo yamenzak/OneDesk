@@ -21,7 +21,7 @@ FACTS = ("number", "issued_on", "gross", "paid_how", "iban", "payment_reference"
 def for_file(name: str) -> dict | None:
 	item = ns.row(name)
 	if not item or item.get("is_folder") or not ns.may(item):
-		frappe.throw(_("That is no longer here."), frappe.DoesNotExistError)
+		frappe.throw(_("Document not found"), frappe.DoesNotExistError)
 	key, own = frappe.db.get_value("File", name, ["content_hash", "one_reading"])
 	held = own or (frappe.db.get_value("Reading", {"key": key}, "name") if key else None)
 	return described(held) if held else None
@@ -136,7 +136,7 @@ def quick(doc, pay: dict | None) -> list[dict]:
 		add(_("Net"), doc.net if doc.tax else None, "currency")
 		add(_("Tax"), doc.tax, "currency")
 		add(_("Total"), doc.gross, "currency")
-	add(_("Paid How"), _(doc.paid_how) if doc.paid_how and doc.paid_how != "Transfer" else None)
+	add(_("Payment Method"), _(doc.paid_how) if doc.paid_how and doc.paid_how != "Transfer" else None)
 	for row in doc.dates:
 		if row.what in ("Due", "Deadline", "Appointment") and row.date:
 			add(_(row.what), row.date, "date")
@@ -220,13 +220,13 @@ def said_of(row) -> str:
 	if row.kind == "Attach":
 		return _("Filed with {0}").format(record)
 	if row.kind == "Rename":
-		return _("Named it {0}").format(after.get("file_name") or "")
+		return _("Renamed to {0}").format(after.get("file_name") or "")
 	if row.kind == "Move":
 		if row.target_doctype == "File":
-			return _("Moved it to {0}").format(" / ".join(_folder_path(after.get("folder"))))
-		return _("Moved it to {0}").format(frappe.db.get_value("Mail Folder", after.get("mail_folder"), "label") or "")
+			return _("Moved to {0}").format(" / ".join(_folder_path(after.get("folder"))))
+		return _("Moved to {0}").format(frappe.db.get_value("Mail Folder", after.get("mail_folder"), "label") or "")
 	if row.kind == "Tag":
-		return _("Tagged it {0}").format(", ".join(after.get("tags") or [])) if after.get("tags") else ""
+		return _("Tagged {0}").format(", ".join(after.get("tags") or [])) if after.get("tags") else ""
 	if row.kind == "Comment":
 		return _("Commented on {0}").format(record)
 	return ""

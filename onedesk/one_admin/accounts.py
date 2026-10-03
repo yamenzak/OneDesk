@@ -145,9 +145,9 @@ STANDS = {
 
 #: The sentence under an owing workspace: what happens next, and when.
 FALLS = {
-	"Overdue": _lt("Pay within {0} days, or it is suspended."),
-	"Suspended": _lt("Pay within {0} days, or it is archived."),
-	"Archived": _lt("Pay within {0} days, or it is closed for good."),
+	"Overdue": _lt("Pay within {0} days to avoid suspension."),
+	"Suspended": _lt("Pay within {0} days to avoid archiving."),
+	"Archived": _lt("Pay within {0} days to avoid deletion."),
 }
 
 
@@ -180,13 +180,13 @@ def _stands(one) -> dict:
 		if said.get("closed"):
 			pill, tone = _lt("Closed"), "gray"
 			line = (
-				frappe._("Closed at your request. Deleted for good on {0}; reply to our mail to have it back before then.").format(deleted)
+				frappe._("Closed at your request. It will be deleted on {0}. Reply to our email to keep it.").format(deleted)
 				if deleted and one.status == "Archived"
 				else frappe._("Closed at your request.")
 			)
 		else:
 			pill, tone = _lt("Closing"), "orange"
-			line = frappe._("Closes on {0}. Keep it open from its Plan and Credits page before then.").format(
+			line = frappe._("Closes on {0}. You can keep it open from Plan and Credits.").format(
 				formatdate(said["closing_on"])
 			)
 	elif owing:
@@ -195,9 +195,9 @@ def _stands(one) -> dict:
 			str(FALLS[one.status]).format(left) if left is not None else frappe._("Pay to keep it running.")
 		)
 	elif one.status in ("Requested", "Provisioning"):
-		line = frappe._("This takes a few minutes. We will mail you when it is ready.")
+		line = frappe._("This takes a few minutes. You'll get an email when it's ready.")
 	elif one.status == "Failed":
-		line = frappe._("Setting it up hit a problem on our side, and we are on it.")
+		line = frappe._("Setup hit a problem on our side. We're working on it.")
 	return {
 		"at": one.primary_domain or one.domain,
 		"pill": str(pill),
@@ -345,7 +345,7 @@ def ask_email_change(email: str) -> dict:
 	me = _me()
 	email = (validate_email_address((email or "").strip().lower(), throw=True) or "").strip().lower()
 	if email == me:
-		frappe.throw(frappe._("That is already this account's address."))
+		frappe.throw(frappe._("That's already your account's email."))
 	if frappe.db.exists("User", email):
 		frappe.throw(frappe._("That address already has an account. Sign in with it instead."))
 	key = frappe.generate_hash(length=32)

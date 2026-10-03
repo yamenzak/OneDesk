@@ -323,7 +323,7 @@ def save_level(key: str, title: str | None, rows: list[dict]) -> str:
 		if not doctype:
 			continue
 		if doctype not in allowed:
-			frappe.throw(_("{0} is not a kind of record {1} works with.").format(_(doctype), app))
+			frappe.throw(_("{0} is not a record type {1} uses.").format(_(doctype), app))
 		chosen[doctype] = {right for right in RIGHTS if frappe.utils.cint(row.get(right))}
 	had = {doctype: _rights(doctype, held) for doctype in allowed}
 	wanted = {
@@ -764,7 +764,7 @@ def save_group(name: str | None, title: str, members: list[str]) -> str:
 		)
 	)
 	if not members:
-		frappe.throw(_("A group needs somebody in it."))
+		frappe.throw(_("Add at least one person to the group."))
 	if set(members) - people:
 		frappe.throw(_("A group holds people of the workspace."))
 	if name and title != name:

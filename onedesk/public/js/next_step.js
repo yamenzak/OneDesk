@@ -44,7 +44,7 @@ onedesk.next_step.ask = (frm) => {
 		dialog.set_df_property(
 			"next_step",
 			"description",
-			__("{0} is marked done on the timeline. Leave empty if nothing comes next.", [
+			__("{0} is marked done. Leave empty if nothing comes next.", [
 				frappe.utils.escape_html(frm.doc.one_next_step),
 			]),
 		);

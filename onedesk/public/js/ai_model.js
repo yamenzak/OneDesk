@@ -7,7 +7,7 @@ frappe.ui.form.on("AI Model", {
 		frm.sidebar.sidebar.find(".form-shared").addClass("hidden");
 		onedesk.model.markup(frm);
 		if (frm.is_new() || !frm.doc.offered) return;
-		frm.add_custom_button(__("Price a call"), () => onedesk.model.price(frm));
+		frm.add_custom_button(__("Test Call"), () => onedesk.model.price(frm));
 	},
 });
 
@@ -30,7 +30,7 @@ onedesk.model.markup = (frm) => {
 // bill. The call is made and charged; that is the point of it.
 onedesk.model.price = (frm) => {
 	const asking = new frappe.ui.Dialog({
-		title: __("Price a call"),
+		title: __("Test Call"),
 		fields: [
 			{
 				fieldname: "tenant",
@@ -38,7 +38,7 @@ onedesk.model.price = (frm) => {
 				label: __("Workspace"),
 				options: "Tenant",
 				reqd: 1,
-				description: __("The call is really made and really charged."),
+				description: __("The call is real and charged to this workspace."),
 			},
 			{
 				fieldname: "prompt",
@@ -52,11 +52,10 @@ onedesk.model.price = (frm) => {
 				fieldtype: "Int",
 				label: __("Output Tokens"),
 				default: 256,
-				description: __("What the hold is priced from. The settle replaces it."),
 			},
 			{ fieldname: "said", fieldtype: "HTML" },
 		],
-		primary_action_label: __("Call"),
+		primary_action_label: __("Send Prompt"),
 		primary_action(values) {
 			const where = asking.fields_dict.said.$wrapper;
 			where.html(`<p class="text-muted">${__("Asking…")}</p>`);
@@ -78,7 +77,7 @@ onedesk.model.said = (out) => {
 	const lines = (out.used || [])
 		.map((u) =>
 			__("{0} {1} of {2} {3}", [u.count, u.unit, u.kind, u.modality]) +
-			(u.asked ? " " + __("(from what was asked for)") : ""),
+			(u.asked ? " " + __("(estimated)") : ""),
 		)
 		.join("<br>");
 	const how = out.metered

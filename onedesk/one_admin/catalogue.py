@@ -195,7 +195,7 @@ def _matched(
 		why = "; ".join(stopped.get(prices.fold(name), []))
 		rates = prices.in_effect(read.rates.get(name) or [], date.today())
 		if not rates and not why:
-			why = frappe._("The page lists this model and no price in effect today.")
+			why = frappe._("The page lists this model with no current price.")
 		found[one["model"]] = (rates, why)
 	return found
 
@@ -226,7 +226,7 @@ def _write(
 		# Lyria's are per song. The sync leaves those rows alone rather than
 		# deleting a decision every night, and still refreshes everything else.
 		model.status = "Priced" if model.rates else "Needs Review"
-		model.why = None if model.rates else frappe._("Priced by hand, and no rate has been added.")
+		model.why = None if model.rates else frappe._("Priced by hand with no rates.")
 	else:
 		model.status = "Priced" if rates and not why else "Needs Review"
 		model.why = why or None

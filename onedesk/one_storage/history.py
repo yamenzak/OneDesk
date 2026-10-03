@@ -73,7 +73,7 @@ def replace(item: dict, new: str) -> str:
 def versions(node: str) -> list[dict]:
 	item = api._item(node)
 	if not ns.may(item):
-		frappe.throw(_("That is no longer here."), frappe.DoesNotExistError)
+		frappe.throw(_("This item no longer exists."), frappe.DoesNotExistError)
 	rows = frappe.get_all(
 		"Cloud File Version",
 		filters={"file": item.name},
@@ -100,7 +100,7 @@ def restore(node: str, version: str) -> None:
 	api._need(item, "write")
 	old = frappe.get_doc("Cloud File Version", version)
 	if old.file != item.name:
-		frappe.throw(_("That version is not one of {0}'s.").format(item.file_name))
+		frappe.throw(_("This version doesn't belong to {0}.").format(item.file_name))
 	keep(item)
 	frappe.db.set_value(
 		"File",
@@ -241,7 +241,7 @@ def activity(node: str) -> dict:
 	to it, and whether the reader starred it."""
 	item = api._item(node)
 	if not ns.may(item):
-		frappe.throw(_("That is no longer here."), frappe.DoesNotExistError)
+		frappe.throw(_("This item no longer exists."), frappe.DoesNotExistError)
 	done = frappe.get_all(
 		"Comment",
 		filters={"reference_doctype": "File", "reference_name": item.name, "comment_type": "Info"},

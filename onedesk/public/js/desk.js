@@ -212,7 +212,7 @@ onedesk.dock.punch = async () => {
 		const done = await onedesk.clock.punch(ready, reason);
 		onedesk.dock.told(done, ready);
 	} catch (e) {
-		frappe.show_alert({ message: __("The check-in could not be recorded."), indicator: "red" });
+		frappe.show_alert({ message: __("Couldn't record the check-in."), indicator: "red" });
 	} finally {
 		frappe.dom.unfreeze();
 		onedesk.dock.refresh();
@@ -329,8 +329,8 @@ onedesk.tidy_home = ($body) => {
 	if (blocks.length && !blocks.some((block) => kind(block) === "shown")) {
 		$(
 			`<div class="one-home-empty">${onedesk.shell.empty(
-				__("Nothing here for you yet"),
-				__("This home shows what your roles let you open. The links beside it are yours to use, and an administrator can give you more."),
+				__("Nothing here yet"),
+				__("Ask an administrator for access."),
 				{ icon: "layout-grid" }
 			)}</div>`
 		).insertBefore($body.find("#editorjs"));

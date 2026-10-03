@@ -245,7 +245,7 @@ def suggest_saved_report(
 		summary.append(
 			{
 				"label": _("Shown in"),
-				"value": f"{place['label']} ({_('everybody') if place['everybody'] else _('just you')})",
+				"value": f"{place['label']} ({_('everyone') if place['everybody'] else _('just you')})",
 			}
 		)
 	route = ["List", doctype, "Report", name]
@@ -370,7 +370,7 @@ def suggest_dashboard(
 		summary.append(
 			{
 				"label": _("Shown in"),
-				"value": f"{place['label']} ({_('everybody') if place['everybody'] else _('just you')})",
+				"value": f"{place['label']} ({_('everyone') if place['everybody'] else _('just you')})",
 			}
 		)
 	payload = {"name": name, "charts": made_charts, "cards": made_cards, "place": place}
@@ -555,7 +555,7 @@ def suggest_level(
 		summary.append(
 			{
 				"label": _("Who it changes"),
-				"value": _("{0} people at this level, who are told").format(people),
+				"value": _("{0} people at this level, who are notified").format(people),
 			}
 		)
 	payload = {
@@ -611,10 +611,10 @@ def suggest_profile(
 		said[app] = level
 	exists = bool(frappe.db.exists("Role Profile", name))
 	summary = [{"label": app, "value": _(level)} for app, level in said.items() if level != "None"] or [
-		{"label": _("Apps"), "value": _("None beyond the five everybody has")}
+		{"label": _("Apps"), "value": _("Only the five everyone has")}
 	]
 	if exists:
-		summary.append({"label": _("Who it changes"), "value": _("Everybody on {0}").format(name)})
+		summary.append({"label": _("Who it changes"), "value": _("Everyone on {0}").format(name)})
 	route = ["workspace-settings", {"section": "access", "profile": name}]
 	return _card(
 		"profile",
@@ -716,7 +716,7 @@ def suggest_hold(
 		if let_go
 		else _("only the records of {0} {1}, {2}").format(_(kind), record, where)
 	)
-	summary = [{"label": who, "value": value}, {"label": _("Told"), "value": _("Yes, on their bell")}]
+	summary = [{"label": who, "value": value}, {"label": _("Notified"), "value": _("Yes, in their notifications")}]
 	payload = {
 		"user": user,
 		"kind": kind,

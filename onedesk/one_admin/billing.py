@@ -81,7 +81,7 @@ def take(tenant: str, plan: str, extras: dict, seats_used: int = 0) -> dict:
 	_check_sold(plan, extras)
 	_check_room(held, plan, extras, seats_used)
 	if not held.stripe_subscription:
-		raise Refused(_("This workspace has no subscription to change. Ask us to set one up."))
+		raise Refused(_("This workspace has no subscription. Contact support to set one up."))
 
 	was = held.offering
 	# Each change is written as Stripe accepts it, so a card declined half way
@@ -166,11 +166,11 @@ def _check_room(held, plan: str, extras: dict, seats_used: int) -> None:
 	used = _used(held, seats_used)
 	over = []
 	if after["seats"] is not None and used["seats"] > after["seats"]:
-		over.append(_("{0} people have seats and it allows {1}. Turn somebody off first.").format(used["seats"], after["seats"]))
+		over.append(_("{0} people have seats and the plan allows {1}. Deactivate someone first.").format(used["seats"], after["seats"]))
 	if after["storage_gb"] is not None and used["storage_gb"] > after["storage_gb"]:
-		over.append(_("Files take {0} GB and it allows {1} GB.").format(round(used["storage_gb"], 1), after["storage_gb"]))
+		over.append(_("Files use {0} GB and the plan allows {1} GB.").format(round(used["storage_gb"], 1), after["storage_gb"]))
 	if after["database_gb"] is not None and used["database_gb"] > after["database_gb"]:
-		over.append(_("The database takes {0} GB and it allows {1} GB.").format(round(used["database_gb"], 1), after["database_gb"]))
+		over.append(_("The database uses {0} GB and the plan allows {1} GB.").format(round(used["database_gb"], 1), after["database_gb"]))
 	if over:
 		raise Refused(" ".join(over))
 

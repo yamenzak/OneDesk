@@ -268,25 +268,25 @@ def suggest_mail_rule(
 	)
 	read = bool(about) and not box["intake"]
 	when = [
-		_('Its subject or text has "{0}"').format(words["body_contains"]) if words["body_contains"] else "",
-		_('From has "{0}"').format(words["from_contains"]) if words["from_contains"] else "",
-		_('Its subject has "{0}"').format(words["subject_contains"]) if words["subject_contains"] else "",
-		_("It is about {0}").format(about) if about else "",
+		_('Subject or text contains "{0}"').format(words["body_contains"]) if words["body_contains"] else "",
+		_('From contains "{0}"').format(words["from_contains"]) if words["from_contains"] else "",
+		_('Subject contains "{0}"').format(words["subject_contains"]) if words["subject_contains"] else "",
+		_("About {0}").format(about) if about else "",
 	]
 	summary = [
 		{"label": _("Mailbox"), "value": box["email"] or box["name"]},
-		{"label": _("New Mail"), "value": "; ".join(filter(None, when))},
+		{"label": _("When"), "value": "; ".join(filter(None, when))},
 		{
-			"label": _("Moved To"),
-			"value": label if existing else _("{0}, a new folder").format(label),
+			"label": _("Move To"),
+			"value": label if existing else _("{0} (new folder)").format(label),
 		},
 	]
 	if read:
 		summary.append(
-			{"label": _("OneAI"), "value": _("Reads this mailbox from now on, to know what mail is about")}
+			{"label": _("Read with OneAI"), "value": _("Turned on for this mailbox")}
 		)
 	if sort_inbox_now and any(words.values()):
-		summary.append({"label": _("Now"), "value": _("What is in the Inbox and matches is moved too")})
+		summary.append({"label": _("Inbox"), "value": _("Matching mail is moved too")})
 	changes = {
 		"what": "mail_rule",
 		"account": box["name"],

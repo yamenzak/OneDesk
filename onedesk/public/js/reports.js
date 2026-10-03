@@ -364,15 +364,15 @@ onedesk.reports.show_in = async (kind, name) => {
 				label: __("App"),
 				options: [{ value: "", label: __("Nowhere") }, ...said.places.map((one) => ({ value: one.module, label: one.label }))],
 				default: said.module || "",
-				description: __("{0} is listed in that app's sidebar, under {1}.", [name, kind === "Report" ? __("Saved Reports") : __("Dashboards")]),
+				description: __("{0} appears in the app's sidebar under {1}.", [name, kind === "Report" ? __("Saved Reports") : __("Dashboards")]),
 			},
 			{
 				fieldname: "everybody",
 				fieldtype: "Select",
-				label: __("Who Sees It There"),
+				label: __("Visible To"),
 				options: [
-					{ value: "0", label: __("Just me") },
-					{ value: "1", label: __("Everybody who uses the app") },
+					{ value: "0", label: __("Only me") },
+					{ value: "1", label: __("Everyone who uses the app") },
 				],
 				default: String(said.everybody),
 				hidden: !said.administers,
@@ -388,7 +388,7 @@ onedesk.reports.show_in = async (kind, name) => {
 				everybody: cint(values.everybody),
 			});
 			dialog.hide();
-			frappe.show_alert({ message: __("Saved."), indicator: "green" });
+			frappe.show_alert({ message: __("Saved"), indicator: "green" });
 		},
 	});
 	dialog.show();
@@ -433,7 +433,7 @@ onedesk.reports.shown_in = () => {
 			frappe.show_alert(
 				{
 					message: __("Saved under Saved Reports in this app's sidebar."),
-					body: `<a class="one-link" data-action="show_in">${frappe.utils.escape_html(__("Show it somewhere else…"))}</a>`,
+					body: `<a class="one-link" data-action="show_in">${frappe.utils.escape_html(__("Show In…"))}</a>`,
 					indicator: "green",
 				},
 				10,

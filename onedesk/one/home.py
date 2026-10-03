@@ -172,8 +172,8 @@ def _account() -> list[dict]:
 	if seats and settings.seats_used() >= seats:
 		said.append(
 			{
-				"what": _("Every seat is taken"),
-				"detail": _("Nobody else can be invited until somebody is turned off or seats are added."),
+				"what": _("All seats are in use"),
+				"detail": _("Disable someone or add seats to invite more people."),
 				"route": "/desk/workspace-settings?section=plan",
 			}
 		)

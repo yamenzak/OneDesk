@@ -85,7 +85,7 @@ def require_admin() -> None:
 	helped by being told which endpoint exists.
 	"""
 	if not is_admin():
-		raise frappe.PermissionError(frappe._("This site does not administer workspaces."))
+		raise frappe.PermissionError(frappe._("This site doesn't manage workspaces."))
 
 
 def apply(*_args) -> None:

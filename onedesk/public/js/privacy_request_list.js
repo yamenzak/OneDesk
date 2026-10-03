@@ -6,7 +6,7 @@ frappe.listview_settings["Personal Data Deletion Request"] = {
 	add_fields: ["email", "status"],
 	get_indicator: (doc) =>
 		({
-			"Pending Verification": [__("Not Confirmed Yet"), "gray", "status,=,Pending Verification"],
+			"Pending Verification": [__("Unconfirmed"), "gray", "status,=,Pending Verification"],
 			"Pending Approval": [__("Waiting for You"), "orange", "status,=,Pending Approval"],
 			"On Hold": [__("On Hold"), "blue", "status,=,On Hold"],
 			Deleted: [__("Deleted"), "gray", "status,=,Deleted"],

@@ -24,11 +24,11 @@ onedesk.OneMail = class OneMail {
 	static ACT = "onedesk.one_mail.actions.";
 	// How a conversation came to be on a record (one_mail/linking.py).
 	static FILED_BY = {
-		contact: __("Filed by its contact"),
-		address: __("Filed by address"),
-		thread: __("Filed with its conversation"),
-		text: __("Named in the message"),
-		manual: __("Filed by hand"),
+		contact: __("Linked by contact"),
+		address: __("Linked by email address"),
+		thread: __("Linked by conversation"),
+		text: __("Mentioned in the message"),
+		manual: __("Linked manually"),
 	};
 	static KINDS = {
 		Inbox: ["inbox", __("Inbox")],
@@ -79,16 +79,16 @@ onedesk.OneMail = class OneMail {
 		]);
 		this.$root = this.page.$shell.find(".one-shell-panes").addClass("om").attr("tabindex", "-1");
 		panes.boxes.attr({ role: "navigation", "aria-label": __("Mailboxes") }).html(`<div class="om-side">
-			<button class="es-button om-write" data-variant="solid" data-act="write">${icon("pencil")}<span class="es-button__label">${__("Write")}</span></button>
+			<button class="es-button om-write" data-variant="solid" data-act="write">${icon("pencil")}<span class="es-button__label">${__("New Email")}</span></button>
 			<div class="om-boxes"></div>
-			<button class="es-button om-connect" data-variant="ghost" data-act="connect">${icon("plug")}<span class="es-button__label">${__("Connect a mailbox")}</span></button>
+			<button class="es-button om-connect" data-variant="ghost" data-act="connect">${icon("plug")}<span class="es-button__label">${__("Connect Mailbox")}</span></button>
 		</div>`);
 		panes.list.attr({ role: "region", "aria-label": __("Conversations") }).html(`<div class="om-folder-name"></div>
 			<div class="om-items" tabindex="0" role="listbox" aria-multiselectable="true"></div>`);
 		onedesk.shell.pane_head(
 			panes.list,
 			`<div class="om-list-head">
-				<label class="om-search">${icon("search")}<input type="search" spellcheck="false" placeholder="${__("Search this mailbox")}" title="${__("Also from:, to:, subject:, has:attachment, is:unread and is:starred")}"></label>
+				<label class="om-search">${icon("search")}<input type="search" spellcheck="false" placeholder="${__("Search")}" title="${__("Supports from:, to:, subject:, has:attachment, is:unread and is:starred")}"></label>
 				${bare("box-menu", "ellipsis", __("This mailbox"))}
 				${bare("refresh", "refresh-cw", __("Refresh"))}
 			</div>
@@ -221,7 +221,7 @@ onedesk.OneMail = class OneMail {
 				</div>`;
 			})
 			.join("");
-		this.$boxes.html(html || onedesk.shell.quiet(__("You hold no mailbox yet.")));
+		this.$boxes.html(html || onedesk.shell.quiet(__("No mailboxes")));
 		// A person's own address that only receives cannot be written from.
 		this.$root.find("[data-act=write]").prop("disabled", !this.sender());
 	}
@@ -250,7 +250,7 @@ onedesk.OneMail = class OneMail {
 	draw_nothing() {
 		this.$items.empty();
 		this.$root.find(".om-folder-name").empty();
-		this.$read.html(onedesk.shell.empty(__("No mailbox yet"), __("Connect a mailbox to read and write your mail here."), { icon: "mail" }));
+		this.$read.html(onedesk.shell.empty(__("No mailboxes"), "", { icon: "mail" }));
 	}
 
 	choose(boxname, foldername) {
@@ -333,7 +333,7 @@ onedesk.OneMail = class OneMail {
 		const title = this.search ? __("Results for {0}", [this.search]) : this.folder ? this.folder_label(this.folder) : "";
 		this.$root.find(".om-folder-name").text(title);
 		if (!this.items.length) {
-			this.$items.html(onedesk.shell.empty(this.search ? __("Nothing matches.") : __("Nothing here.")));
+			this.$items.html(onedesk.shell.empty(this.search ? __("No results") : __("No conversations")));
 			return this.draw_picked();
 		}
 		const rows = this.items
@@ -357,7 +357,7 @@ onedesk.OneMail = class OneMail {
 				});
 			})
 			.join("");
-		const more = this.more ? `<button class="es-button om-more" data-variant="subtle" data-act="more">${__("Show older")}</button>` : "";
+		const more = this.more ? `<button class="es-button om-more" data-variant="subtle" data-act="more">${__("Load More")}</button>` : "";
 		this.$items.html(onedesk.shell.list(rows) + more);
 		this.draw_picked();
 	}
@@ -373,7 +373,7 @@ onedesk.OneMail = class OneMail {
 
 	draw_reading() {
 		if (this.thread) return;
-		this.$read.html(onedesk.shell.empty(__("Choose a conversation to read it."), "", { icon: "mail-open" }));
+		this.$read.html(onedesk.shell.empty(__("No conversation selected"), "", { icon: "mail-open" }));
 	}
 
 	async open(thread, { quiet = false } = {}) {
@@ -423,7 +423,7 @@ onedesk.OneMail = class OneMail {
 					${bare("conv-archive", "archive", __("Archive"))}
 					${bare("conv-delete", "trash-2", __("Delete"))}
 					<span class="om-sep"></span>
-					${bare("file-on", "link", __("File on a record"))}
+					${bare("file-on", "link", __("Link to Record"))}
 				</div>
 				<div class="om-records"></div>
 			</div>
@@ -489,7 +489,7 @@ onedesk.OneMail = class OneMail {
 				.map(
 					(row) => `<span class="om-record-chip" title="${esc([row.link_title, OneMail.FILED_BY[row.one_linked_by || "contact"]].filter(Boolean).join(" · "))}">
 						<a href="/app/${frappe.router.slug(row.link_doctype)}/${encodeURIComponent(row.link_name)}">${esc(__(row.link_doctype))} ${esc(row.link_name)}</a>
-						<button data-act="unfile" data-doctype="${esc(row.link_doctype)}" data-name="${esc(row.link_name)}" title="${__("Take off this record")}" aria-label="${__("Take off this record")}">${frappe.utils.icon("x", "xs")}</button>
+						<button data-act="unfile" data-doctype="${esc(row.link_doctype)}" data-name="${esc(row.link_name)}" title="${__("Unlink")}" aria-label="${__("Unlink")}">${frappe.utils.icon("x", "xs")}</button>
 					</span>`
 				)
 				.join("")
@@ -498,18 +498,18 @@ onedesk.OneMail = class OneMail {
 
 	file_on() {
 		const dialog = new frappe.ui.Dialog({
-			title: __("File on a record"),
+			title: __("Link to Record"),
 			fields: [
 				{
 					fieldname: "doctype",
 					fieldtype: "Autocomplete",
-					label: __("Kind of record"),
+					label: __("Record Type"),
 					reqd: 1,
 					options: (onedesk.record_mail ? onedesk.record_mail.doctypes() : ["Customer", "Supplier", "Lead"]).map((one) => ({ value: one, label: __(one) })),
 				},
 				{ fieldname: "docname", fieldtype: "Dynamic Link", options: "doctype", label: __("Record"), reqd: 1 },
 			],
-			primary_action_label: __("File"),
+			primary_action_label: __("Link"),
 			primary_action: async (values) => {
 				await frappe.xcall("onedesk.one_mail.linking.file", {
 					names: this.messages.map((one) => one.name),
@@ -551,7 +551,7 @@ onedesk.OneMail = class OneMail {
 		// room (one_mail/room.py).
 		const waiting = (message.unsaved || [])
 			.map(
-				(file) => `<span class="om-file om-file-waiting" title="${esc(__("Not saved yet because storage is full. It's saved within an hour once there's space."))}">
+				(file) => `<span class="om-file om-file-waiting" title="${esc(__("Storage is full. Saved automatically once there's space."))}">
 					${frappe.utils.icon("hard-drive", "sm")}<span class="om-file-name">${esc(file.file_name)}</span>
 					<span class="om-file-size">${esc(__("Not saved, storage is full"))}</span>
 				</span>`
@@ -568,7 +568,7 @@ onedesk.OneMail = class OneMail {
 				<span class="om-when" title="${esc(this.when(message.communication_date, true))}">${esc(this.when(message.communication_date))}</span>
 			</div>
 			<div class="om-pictures" hidden>
-				${frappe.utils.icon("image-off", "sm")}<span>${__("Pictures from elsewhere are not shown, so the sender cannot tell you opened this.")}</span>
+				${frappe.utils.icon("image-off", "sm")}<span>${__("Remote pictures are hidden.")}</span>
 				<button class="es-button" data-variant="subtle" data-act="pictures">${__("Show pictures")}</button>
 			</div>
 			<iframe class="om-body" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin" referrerpolicy="no-referrer" title="${__("Message")}"></iframe>
@@ -659,7 +659,7 @@ onedesk.OneMail = class OneMail {
 			else if (what === "star" || what === "unstar") await this.act("star", { flagged: what === "star" ? 1 : 0 }, threads);
 			else if (what === "archive") {
 				const archive = folder_of("Archive");
-				if (!archive) return frappe.show_alert({ message: __("This mailbox has no Archive folder."), indicator: "orange" });
+				if (!archive) return frappe.show_alert({ message: __("No Archive folder in this mailbox"), indicator: "orange" });
 				was = await this.move_to(threads, archive.name);
 			} else if (what === "delete") was = await this.delete(threads);
 			else if (what.startsWith("move:")) was = await this.move_to(threads, what.slice(5));
@@ -679,7 +679,7 @@ onedesk.OneMail = class OneMail {
 
 	// Moved, archived or put in Trash: a moment to take it back.
 	offer_undo(was, what) {
-		const said = { archive: __("Archived."), delete: __("Moved to Trash.") }[what] || __("Moved.");
+		const said = { archive: __("Archived"), delete: __("Moved to Trash") }[what] || __("Moved");
 		const toast = frappe.ui.toast({
 			message: said,
 			duration: 8000,
@@ -705,7 +705,7 @@ onedesk.OneMail = class OneMail {
 		if (!names.length) return null;
 		if (this.folder && this.folder.kind === "Trash" && !this.search) {
 			const sure = await new Promise((yes) =>
-				frappe.confirm(__("Delete these messages for good? This cannot be undone."), () => yes(true), () => yes(false))
+				frappe.confirm(__("Permanently delete these messages? This can't be undone."), () => yes(true), () => yes(false))
 			);
 			if (!sure) return null;
 		}
@@ -742,11 +742,11 @@ onedesk.OneMail = class OneMail {
 		const set = async () => {
 			const state = await frappe.xcall("onedesk.one_intake.switches.set_mailbox", { account: box.name, on: on ? 1 : 0 });
 			box.intake = state.on;
-			frappe.show_alert({ message: on ? __("OneAI reads new mail in {0}.", [box.email]) : __("OneAI no longer reads {0}.", [box.email]), indicator: "green" });
+			frappe.show_alert({ message: on ? __("OneAI is reading {0}", [box.email]) : __("OneAI stopped reading {0}", [box.email]), indicator: "green" });
 		};
 		if (!on) return set();
 		frappe.confirm(
-			__("OneAI will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos are read with OneAI credits.", [
+			__("Read {0} with OneAI? OneAI reads new mail and attachments, links them to records and acts on them. Scans use OneAI credits.", [
 				`<b>${frappe.utils.escape_html(box.email)}</b>`,
 			]),
 			set
@@ -790,10 +790,10 @@ onedesk.OneMail = class OneMail {
 
 	write({ reply = false, all = false, forward = false } = {}) {
 		const sender = this.sender();
-		if (!sender) return frappe.msgprint(__("None of your mailboxes can send. Connect one that does."));
+		if (!sender) return frappe.msgprint(__("None of your mailboxes can send email"));
 		const done = () => setTimeout(() => this.refresh(), 1500);
 		if (!reply && !forward) {
-			const composer = new frappe.views.CommunicationComposer({ sender, title: __("New message") });
+			const composer = new frappe.views.CommunicationComposer({ sender, title: __("New Email") });
 			composer.dialog.$wrapper.on("hidden.bs.modal", done);
 			return;
 		}
@@ -863,39 +863,39 @@ onedesk.OneMail = class OneMail {
 		const box = boxes.find((one) => one.name === account);
 		const sends = boxes.filter((one) => one.sends);
 		const pick = (box && box.sends && box) || sends.find((one) => one.workspace) || sends[0];
-		if (!pick) return frappe.msgprint(__("None of your mailboxes can send. Connect one that does."));
+		if (!pick) return frappe.msgprint(__("None of your mailboxes can send email"));
 		return OneMail.replying(boxes, said.messages, pick.email, { text });
 	}
 
 	connect() {
 		const admin = frappe.user.has_role("Workspace Administrator");
 		const dialog = new frappe.ui.Dialog({
-			title: __("Connect a mailbox"),
+			title: __("Connect Mailbox"),
 			fields: [
-				{ fieldname: "email", fieldtype: "Data", options: "Email", label: __("Address"), reqd: 1 },
+				{ fieldname: "email", fieldtype: "Data", options: "Email", label: __("Email Address"), reqd: 1 },
 				{
 					fieldname: "password",
 					fieldtype: "Password",
 					label: __("Password"),
 					reqd: 1,
-					description: __("Gmail and Outlook want an app password here, made in the account's security settings."),
+					description: __("Gmail and Outlook need an app password."),
 				},
-				{ fieldname: "sends", fieldtype: "Check", label: __("Send from it too"), default: 1 },
+				{ fieldname: "sends", fieldtype: "Check", label: __("Enable Outgoing"), default: 1 },
 				{
 					fieldname: "shared",
 					fieldtype: "Check",
-					label: __("For the workspace"),
+					label: __("Shared Mailbox"),
 					hidden: !admin,
-					description: __("A mailbox such as sales@ that belongs to the workspace. You choose who holds it."),
+					description: __("A workspace address such as sales@. You choose who has access."),
 				},
 				{ fieldtype: "Section Break", label: __("Server"), collapsible: 1 },
-				{ fieldname: "login", fieldtype: "Data", label: __("Login, if not the address") },
-				{ fieldname: "email_server", fieldtype: "Data", label: __("IMAP server") },
-				{ fieldname: "incoming_port", fieldtype: "Int", label: __("IMAP port") },
-				{ fieldname: "use_ssl", fieldtype: "Check", label: __("SSL"), default: 1 },
+				{ fieldname: "login", fieldtype: "Data", label: __("Login ID"), description: __("If different from the email address") },
+				{ fieldname: "email_server", fieldtype: "Data", label: __("IMAP Server") },
+				{ fieldname: "incoming_port", fieldtype: "Int", label: __("IMAP Port") },
+				{ fieldname: "use_ssl", fieldtype: "Check", label: __("Use SSL"), default: 1 },
 				{ fieldtype: "Column Break" },
-				{ fieldname: "smtp_server", fieldtype: "Data", label: __("SMTP server") },
-				{ fieldname: "smtp_port", fieldtype: "Int", label: __("SMTP port") },
+				{ fieldname: "smtp_server", fieldtype: "Data", label: __("SMTP Server") },
+				{ fieldname: "smtp_port", fieldtype: "Int", label: __("SMTP Port") },
 			],
 			primary_action_label: __("Connect"),
 			primary_action: async (values) => {
@@ -903,7 +903,7 @@ onedesk.OneMail = class OneMail {
 				try {
 					const account = await frappe.xcall("onedesk.one_mail.connect.connect", values);
 					dialog.hide();
-					frappe.show_alert({ message: __("Connected. Its mail is on its way."), indicator: "green" });
+					frappe.show_alert({ message: __("Mailbox connected"), indicator: "green" });
 					await this.load_to(account);
 				} finally {
 					dialog.get_primary_btn().prop("disabled", false);
@@ -922,9 +922,9 @@ onedesk.OneMail = class OneMail {
 				{
 					fieldname: "away",
 					fieldtype: "Check",
-					label: __("Reply that I am away"),
+					label: __("Enable Auto Reply"),
 					default: now.one_away,
-					description: __("Each sender gets one reply in four days. Mailing lists and automatic mail get none."),
+					description: __("Each sender gets one reply every four days. Mailing lists get none."),
 				},
 				{ fieldname: "until", fieldtype: "Date", label: __("Until"), default: now.one_away_until, depends_on: "away" },
 				{ fieldname: "message", fieldtype: "Small Text", label: __("Message"), default: now.one_away_message, depends_on: "away" },
@@ -933,7 +933,7 @@ onedesk.OneMail = class OneMail {
 			primary_action: async (values) => {
 				await frappe.xcall("onedesk.one_mail.rules.set_away", { account: this.box.name, ...values });
 				dialog.hide();
-				frappe.show_alert({ message: values.away ? __("Away replies are on.") : __("Away replies are off."), indicator: "green" });
+				frappe.show_alert({ message: values.away ? __("Auto reply on") : __("Auto reply off"), indicator: "green" });
 			},
 		});
 		dialog.show();
@@ -950,14 +950,14 @@ onedesk.OneMail = class OneMail {
 					fieldtype: "Text Editor",
 					label: __("Signature"),
 					default: now || "",
-					description: __("Added to every message written from this address, whoever writes it. Leave it empty for none."),
+					description: __("Added to every email sent from this address."),
 				},
 			],
 			primary_action_label: __("Save"),
 			primary_action: async (values) => {
 				await frappe.xcall("onedesk.one_mail.holders.set_signature", { account: this.box.name, signature: values.signature });
 				dialog.hide();
-				frappe.show_alert({ message: __("Signature saved."), indicator: "green" });
+				frappe.show_alert({ message: __("Signature saved"), indicator: "green" });
 			},
 		});
 		dialog.show();
@@ -1037,13 +1037,13 @@ onedesk.OneMail = class OneMail {
 				},
 				"save-file": async () => {
 					await frappe.xcall("onedesk.one_storage.api.copy", { nodes: [e.currentTarget.dataset.file], target: "@my" });
-					frappe.show_alert({ message: __("Saved to My Files."), indicator: "green" });
+					frappe.show_alert({ message: __("Saved to My Files"), indicator: "green" });
 				},
 				"box-menu": () =>
 					this.menu(e.currentTarget, [
 						["paperclip", __("Attachments in OneCloud"), () => frappe.set_route("onecloud", { node: `@mail/${this.box.name}` })],
 						["list-filter", __("Rules"), () => frappe.set_route("List", "Mail Rule", { account: this.box.name })],
-						["plane", __("Out of office"), () => this.away()],
+						["plane", __("Out of Office"), () => this.away()],
 						// A mailbox that sends, and a workspace one only for its
 						// administrators (holders.may_sign).
 						this.box.may_sign ? ["signature", __("Signature"), () => this.signature()] : null,

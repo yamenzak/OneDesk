@@ -57,9 +57,9 @@ def url_of(token: str) -> str:
 def _mine(node: str) -> dict:
 	item = api._item(node)
 	if item.one_home_of:
-		frappe.throw(_("Share the folders in My Files, not My Files itself."))
+		frappe.throw(_("My Files can't be shared. Share the folders in it instead."))
 	if not ns.may(item, "write"):
-		frappe.throw(_("You may not share {0}.").format(item.file_name), frappe.PermissionError)
+		frappe.throw(_("You can't share {0}.").format(item.file_name), frappe.PermissionError)
 	return item
 
 
@@ -103,7 +103,7 @@ def make(
 	item = _mine(node)
 	invitees = frappe.parse_json(invitees) if isinstance(invitees, str) else (invitees or [])
 	if audience == INVITED and not can_mail():
-		frappe.throw(_("An invitation is sent by email, and this workspace has no outgoing email account yet."))
+		frappe.throw(_("Set up an outgoing email account to send invitations."))
 	link = frappe.get_doc(
 		{
 			"doctype": "Cloud Link",
@@ -123,7 +123,7 @@ def make(
 
 	history.note(
 		item.name,
-		_("made a link for {0}").format(", ".join(invitees)) if link.audience == INVITED else _("made a link for anyone who has it"),
+		_("created a link for {0}").format(", ".join(invitees)) if link.audience == INVITED else _("created a public link"),
 	)
 	if link.audience == INVITED:
 		_invite(link, [one.email for one in link.invitees], link.flags.token)

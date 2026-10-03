@@ -6,10 +6,10 @@ frappe.listview_settings["AI Proposal"] = {
 
 	get_indicator(doc) {
 		const says = {
-			Proposed: [__("Waiting for you"), "orange"],
-			Applied: [__("Done"), "green"],
+			Proposed: [__("Pending"), "orange"],
+			Applied: [__("Applied"), "green"],
 			Refused: [__("Refused"), "grey"],
-			Stale: [__("Out of date"), "red"],
+			Stale: [__("Outdated"), "red"],
 		};
 		const [word, colour] = says[doc.state] || [doc.state, "grey"];
 		return [word, colour, `state,=,${doc.state}`];

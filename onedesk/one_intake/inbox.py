@@ -144,7 +144,7 @@ def _readable(name: str):
 	doc = frappe.get_doc("Reading", name)
 	mine = doc.on_behalf_of == frappe.session.user
 	if not mine and not (administers() and (doc.sensitivity or "") not in PRIVATE):
-		frappe.throw(_("That is no longer here."), frappe.DoesNotExistError)
+		frappe.throw(_("Document not found"), frappe.DoesNotExistError)
 	return doc
 
 

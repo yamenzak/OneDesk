@@ -495,8 +495,8 @@ def test_a_request_link_is_kept_only_as_its_hash():
 
 def test_a_field_item_needs_a_record_and_one_person():
 	people = REQUEST.read_text(encoding="utf-8")
-	assert "fills a record's field, so the request needs a record" in people
-	assert "goes to one person" in people
+	assert "fills a record field, so the request must be on a record" in people
+	assert "can go to one person only" in people
 	assert "one.several = 0" in people
 	assert 'ATTACH = ("Attach", "Attach Image")' in people
 

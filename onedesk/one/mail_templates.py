@@ -138,7 +138,7 @@ def validate(doc, method=None) -> None:
 
 def _doctype(doctype: str) -> None:
 	if not doctype or not frappe.db.exists("DocType", doctype):
-		frappe.throw(_("There is no such kind of record."))
+		frappe.throw(_("This record type doesn't exist."))
 	if frappe.get_meta(doctype).module in REFUSED_MODULES:
 		frappe.throw(_("{0} is not mailed from templates this workspace sets.").format(_(doctype)))
 	if not frappe.has_permission(doctype, "read"):

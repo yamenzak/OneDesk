@@ -1,426 +1,485 @@
 # Intake
 
-Written by hand. Stages 1 to 9 of eleven are built: every file and message
-is read into text and found by what is written in it, every record's
-identifiers are kept in one registry, and where OneAI is switched on, each
-document is understood (what it is, who it is from and about, its dates,
-money and what it asks), placed with the documents it follows, filed
-where it belongs, and turned into the people, tasks and requests it is about,
-through one door that writes down everything it does so it
-can be undone. The plan for
-the rest is `docs/INTAKE.md`. The part above **Under the hood** is the
-manual; below it are the decisions and what is still to come.
+Written by hand. Stages 1 to 9 of 11 are built. The plan for the rest is in
+`docs/INTAKE.md`. The part above **Under the hood** is the manual. Below it
+are the design decisions and what is still to come.
 
-Intake is OneAI handling what arrives. A supplier's invoice, an employee's
-passport, a customer's order, a scan of the day's post or a letter from the
-tax office goes to a mailbox, a scanner or a folder, and One reads it, files
-it where it belongs and does what it asks.
+OneIntake reads what arrives and acts on it. Send a supplier invoice, an
+employee's passport, a customer order, a scan of the day's post or a tax
+office letter to a mailbox, a scanner or a folder. OneAI reads it, files it
+with the right record and creates what it asks for. Everything it does is
+logged and can be undone.
 
 ## What is read
 
-Every document in OneCloud and every message in OneMail is read for its words:
-PDFs, Word and PowerPoint files, spreadsheets and CSV files, e-invoices
-(XRechnung, ZUGFeRD and Factur-X), bank statements (CAMT and MT940), contact
-cards and calendar invitations, messages saved as files, and zip files. That
-costs nothing and needs no switch.
+Every document in OneCloud and every message in OneMail is read for its text,
+at no cost and with nothing to switch on. This covers:
+
+- PDF, Word, PowerPoint, spreadsheet and CSV files
+- E-invoices (XRechnung, ZUGFeRD and Factur-X)
+- Bank statements (CAMT and MT940)
+- Contact cards and calendar invitations
+- Saved messages and zip files
 
 ## Finding a document by what it says
 
-Search finds a document by what is written in it, not only by its name:
+Search finds documents by their content, not only by name.
 
-- **Ctrl+K** shows documents and messages whose words match, under
-  **In documents** and **In mail**, with the line they were found by;
-- **OneCloud's** search box finds files by their contents as well as their
-  names, and shows the matching words beside each;
-- **OneMail's** search finds a message by what its attachments say.
+- **Ctrl+K** shows matching documents and messages under **In documents** and
+  **In mail**, with the matching line.
+- **OneCloud** search matches file contents as well as names, and shows the
+  matching words.
+- **OneMail** search matches the text of attachments.
+- **OneAI chat** finds documents from a description, such as "invoices from
+  Stadtwerke this year" or "what did we pay Rheinwerk in September". It
+  searches the text in the document's language and yours, plus the document
+  type, party and dates. Each answer gives the document type, amount and a
+  link. Totals are added up from the invoices.
+- **Asking OneAI about a record**, such as "what do we have on Stadtwerke?",
+  includes the documents filed with it, what each says and what is still
+  open.
 
-- **OneAI's chat** finds documents too: "the letter about the heating bill",
-  "invoices from Stadtwerke this year", "what did we pay Rheinwerk in
-  September". It searches the words (in the document's language as well as
-  yours), the kind, the party and the dates, answers with what each document
-  is, its amount and a link, and adds amounts up from the invoices rather
-  than quoting a passage;
-- **asking OneAI about a record** ("what do we have on Stadtwerke?") now
-  includes its documents: every letter and invoice filed with it, what each
-  said and what it still asks.
-
-You only ever find what you may open yourself.
+You only find documents you have permission to open.
 
 ## Letting OneAI read a folder or a mailbox
 
-Right-click a folder in OneCloud and choose **Read with OneAI…**, or open a
-mailbox's **⋯** menu in OneMail and choose the same. New files and mail there
-are then read by OneAI too, which means scans and photos of documents are
-read as well, and recordings are written down. A scan of the day's post is
-cut into its letters. This is read with OneAI credits.
+1. In OneCloud, right-click a folder. In OneMail, open a mailbox's **⋯** menu.
+2. Choose **Read with OneAI…**.
 
-OneAI does there only what you may do yourself, because you switched it on.
-Your My Files and your own mailbox can only be switched on by you. A folder
-OneAI reads shows the OneAI mark, and so does every folder inside it.
+New files and mail there are then read by OneAI as well. Scans and photos
+are read, recordings are transcribed and a scan of the day's post is split
+into separate letters. This uses OneAI credits.
 
-**Stop reading with OneAI** in the same menu turns it off. Nothing already
-read is forgotten.
+- OneAI only does what the person who switched it on has permission to do.
+- Only you can switch it on for your My Files and your own mailbox.
+- A folder OneAI reads, and every folder inside it, shows the OneAI mark.
+
+To turn it off, choose **Stop reading with OneAI** in the same menu. What was
+already read is kept.
 
 ## What OneAI understood
 
-Open a file in OneCloud, or a message in OneMail, and **Read by OneAI** shows
-beside it what it is (an invoice, a reminder, an order, a sick note), a
-line saying what it asks, its number, date, total and where to pay, who it is
-from and about (linked to the customer, supplier or person it is, where One
-knows them), its dates and what it asks somebody to do.
+Open a file in OneCloud or a message in OneMail. **Read by OneAI** shows:
 
-Every amount, date, IBAN and number OneAI reads is checked against the
-document's own words. Anything it said that the document does not say is
-left out and listed under **Not in the document**, and the reading is marked
-**Unsure**. An e-invoice, a bank statement, a contact card and an invitation
-are understood from their own data, with no OneAI credits used at all.
+- The document type, such as invoice, reminder, order or sick note
+- A one-line summary of what it asks
+- Number, date, total and payment details
+- Who it is from and about, linked to the customer, supplier or person where
+  they're known
+- Its dates and any requests
 
-Junk is only looked at, never read in full: spam, phishing, advertising,
-newsletters and automatic notifications are named as such and cost almost
+Every amount, date, IBAN and number is checked against the document's text.
+Anything not found in the document is left out and listed under **Not in
+the document**, and the reading is marked **Unsure**.
+
+E-invoices, bank statements, contact cards and invitations are read from
+their own data, with no OneAI credits used.
+
+Spam, phishing, advertising, newsletters and automatic notifications are
+recognized from a quick look and never read in full, so they cost almost
 nothing.
 
 ## Where a document goes
 
-Where OneAI reads a folder or a mailbox, each document is filed once it is
-understood:
+In a folder or mailbox OneAI reads, each document is filed once it's
+understood.
 
-- **it belongs to a record** (a supplier's invoice, an employee's passport):
-  it is attached to that record, so it is in the record's **Files** tab, and
-  it shows in the Files tab of every other record it is about too;
-- **it belongs to no record yet**: it goes to a folder for its kind and year
-  inside the folder OneAI reads, for example `Post/Invoice/2026`. Intake
-  Settings' **Leave Unmatched Files in Place** keeps it where it arrived;
-- **it is named** `2026-09-24 Stadtwerke Köln – Reminder Electricity.pdf`, in
-  the workspace's language, and tagged with its kind, its year and OneAI;
-- **a scan of the day's post** is cut into one file per letter, next to the
-  scan, and each letter is filed on its own. The scan is kept as it came;
-- **a message** is linked to every record it is about, so it is on their
-  timelines. A mail attachment is copied onto the record, under its new
-  name, and the mail keeps it too;
-- **a message a mailbox's rule is about** (a OneMail rule with an **About**,
-  such as "soft drinks") goes to that rule's folder: the first look that
-  sorts junk also says which of those topics a new message is about;
-- **junk** that came straight to a mailbox leaves the Inbox: spam and phishing
-  to Junk, advertising and newsletters to a Newsletters folder. Junk that
-  came through a scanner or a forward is set aside in an Advertising folder,
-  never deleted. Phishing is said to whoever OneAI reads for, and to whoever
-  put the file there.
+- **Belongs to a record**, such as a supplier invoice or an employee's
+  passport. It's attached to that record and appears in its **Files** tab,
+  and in the Files tab of every other record it's about.
+- **Belongs to no record yet.** It goes to a folder for its type and year
+  inside the folder OneAI reads, for example `Post/Invoice/2026`. Turn on
+  **Leave Unmatched Files in Place** in Intake Settings to keep it where it
+  arrived.
+- **Naming.** It's renamed like
+  `2026-09-24 Stadtwerke Köln – Reminder Electricity.pdf`, in the workspace
+  language, and tagged with its type, year and OneAI.
+- **A scan of the day's post** is split into one file per letter, saved next
+  to the scan. Each letter is filed separately and the original scan is kept.
+- **A message** is linked to every record it's about and shows on their
+  timelines. Attachments are copied to the record under their new name and
+  stay on the message too.
+- **A message matching a mailbox rule** with an **About** topic, such as
+  "soft drinks", goes to that rule's folder.
+- **Junk** sent straight to a mailbox leaves the Inbox. Spam and phishing go
+  to Junk, advertising and newsletters to a Newsletters folder. Junk from a
+  scanner or a forward goes to an Advertising folder and is never deleted.
+  Phishing is reported to the person OneAI reads for and to whoever added
+  the file.
 
-A file in your own My Files is never moved or renamed, only linked and
-tagged, and a file a person attached to a record stays on that record.
-A medical, pay, personal or legal document is attached only to the person it
-is about; anywhere else it is only linked, and a link never lets anybody open
-what they could not open before.
+Files in your own My Files are never moved or renamed, only linked and
+tagged. A file someone attached to a record stays on that record.
 
-## One matter, many documents
+Medical, pay, personal and legal documents are attached only to the person
+they're about. Elsewhere they're only linked, and a link never gives anyone
+access they didn't already have.
 
-A reminder, a corrected invoice, "did you get our invoice?", the scan of a
-letter that also came by mail: most of what arrives is about something that
-arrived before. The panel says so: **About Stadtwerke Köln RE-2026-0042**,
-with what it changes there (**Nudge**, **Update**, **Answer**, **Closing**,
-**Nothing New**), or **A copy of …**. A later document is filed with the
-records its matter's first document went to, so a reminder that names only
-an invoice number lands on the supplier the invoice did. A copy is only
-linked there, never filed a second time.
+## Related documents
 
-OneAI waits a few minutes after the last message of a matter before it acts,
-so a burst of three mails is handled once (Intake Settings' **Quiet
-Minutes**). Search finds a message at once all the same. Phishing, and money
-or deadlines due within a day, do not wait.
+Most of what arrives is about something that arrived before, such as a
+reminder, a corrected invoice or a letter that also came by mail. The panel
+shows this as **About Stadtwerke Köln RE-2026-0042**, with what changes:
+**Nudge**, **Update**, **Answer**, **Closing** or **Nothing New**. A duplicate
+shows **A copy of …**.
 
-## Who it is from, and what it asks
+- A later document is filed with the same records as the first one. A
+  reminder that only gives an invoice number goes to that invoice's supplier.
+- A copy is only linked, never filed again.
+- OneAI waits a few minutes after the last message on a matter before acting,
+  so three quick emails are handled once. Set this with **Quiet Minutes** in
+  Intake Settings. Search finds new messages right away.
+- Phishing, and money or deadlines due within a day, are handled without
+  waiting.
 
-Where OneAI reads, a document makes what it is about:
+## Records and tasks from documents
 
-- **an invoice from somebody new** with a VAT id, tax number, IBAN or register
-  number makes the **Supplier**, and is filed with it. A name alone makes
-  nobody, and a company a document only mentions is never made;
-- **an order** makes the **Customer**, through ERPNext's own conversion when
-  the sender is already a lead; **a first inquiry** makes a **Lead**; **a CV**
-  makes a **Job Applicant**, with an opening only if the mail named one;
-- **the person who wrote** gets a **Contact**, linked to their company.
-  Frappe's own habit of making a bare contact for every address on every
-  message is turned off for a mailbox OneAI reads; one it made before is
-  completed, never duplicated;
-- **an employee's own documents** go on their Employee: a passport or permit
-  as a row in their identity documents, with a task for HR before it runs out
-  (ninety days for a residence permit, sixty for a passport, thirty for a
-  driving licence); a certificate as an education row; a sick note as a leave
-  application for their approver; a receipt they paid as their expense claim.
-  A resignation, and making an employee from a signed offer, are only
-  proposed;
-- **what it asks** becomes **one task** per matter, with a step per ask,
-  assigned to whoever OneAI reads for (unless an Assignment Rule shares tasks
-  out). A reply ticks its step when it goes out in the same thread, an
-  appointment's step ticks the day after, and when every step is done the
-  task is. A reminder raises the task's priority and moves its date; "paid,
-  thanks" closes it. A task a person closed stays closed, and they are told
-  the matter moved;
-- **an appointment** is an event on that person's calendar;
-- **our own mail** is read too: what it promises ("the offer by Friday")
+In a folder or mailbox OneAI reads, documents create the records they're
+about.
+
+- **An invoice from a new sender** with a VAT ID, tax number, IBAN or
+  register number creates the **Supplier** and is filed with it. A name alone
+  creates nothing, and a company only mentioned in a document is never
+  created.
+- **An order** creates the **Customer**, using ERPNext's own conversion if
+  the sender is already a lead.
+- **A first inquiry** creates a **Lead**.
+- **A CV** creates a **Job Applicant**, linked to an opening only if the
+  email named one.
+- **The sender** gets a **Contact**, linked to their company. Frappe's
+  automatic contact for every email address is turned off for mailboxes
+  OneAI reads. Contacts it already made are completed, not duplicated.
+- **An employee's own documents** go on their Employee record:
+  - A passport or permit is added to their identity documents, with a task
+    for HR before it expires (90 days ahead for a residence permit, 60 for a
+    passport, 30 for a driving licence).
+  - A certificate is added as an education row.
+  - A sick note becomes a leave application for their approver.
+  - A receipt they paid becomes their expense claim.
+  - A resignation, or creating an employee from a signed offer, is only
+    proposed.
+- **Requests** become one task per matter, with a step for each request,
+  assigned to the person OneAI reads for unless an Assignment Rule assigns
+  it.
+  - A reply sent in the same thread completes its step. An appointment's
+    step completes the day after. The task completes when every step is
+    done.
+  - A reminder raises the task's priority and moves its due date. A "paid,
+    thanks" closes it.
+  - A task someone closed stays closed, and they're notified that the matter
+    changed.
+- **An appointment** becomes an event on that person's calendar.
+- **Outgoing mail** is read too. A promise such as "the offer by Friday"
   becomes a task for whoever wrote it.
 
-A sensitive document's task says only "A document arrived for …", and its
-event has no description.
+A task from a sensitive document only says "A document arrived for …", and
+its event has no description.
 
-**Somebody we knew before.** When a supplier, customer, lead, contact,
-employee or applicant is made, the documents that named its email, VAT id,
-IBAN or document number before it existed are linked to it.
+**Earlier documents.** When a supplier, customer, lead, contact, employee or
+applicant is created, earlier documents with its email, VAT ID, IBAN or
+document number are linked to it.
 
-**An application by mail, then by the form.** Maria mails her CV and OneAI
-makes her application. When she then applies through the form, OneAI's is
-folded into the form's, which keeps its own values; one HR had worked on is
-only flagged.
+**Applying by email, then by form.** If someone emails a CV and then applies
+through the form, OneAI's application is merged into the form's, which keeps
+its own values. If HR already worked on OneAI's application, it's flagged
+instead.
 
 ## Money and goods
 
-A company keeps books, so what arrives becomes a **draft** that a person
-posts:
+For a company that keeps books, documents become **drafts** for a person to
+submit.
 
-- **an invoice from a supplier** is a draft bill with its lines. A supplier
-  seen for the first time is made from the name and tax ID on the invoice
-  first; a receipt the company paid is the same, and one a colleague
-  forwards is their expense claim. A line
-  is booked to the item it is (the supplier's own code for it, or an item of
-  that name), else in its own words to the account this supplier's bills
-  went to last time. An invoice naming one of our purchase orders is billed
-  from the order, so it is matched to it. A bill somebody already booked
-  gets the document and nothing new;
-- **a credit note** is a return against the bill it credits, or a proposal
-  when that bill is not found; **a receipt the company paid** is a draft bill
-  that asks nobody to pay; **a supplier's delivery note** is a draft receipt
-  against the order; **a supplier's quote** a Supplier Quotation;
-- **an order from a customer** is a draft Sales Order, or a proposal when a
-  line matches no item; **a customer's payment advice** a draft payment
-  against our invoice it names;
-- **a bank statement's lines** are Bank Transactions on our account, ready
-  for reconciliation (a bank line is not a posting);
-- **a contract** is ERPNext's Contract with the party;
-- **a reminder for an invoice nobody here has** is a task to ask for it,
-  with a warning, since that is also how fraud begins.
+- **Supplier invoice**: a draft Purchase Invoice with its lines.
+  - A new supplier is created first from the name and tax ID on the invoice.
+  - Each line is matched to an item by the supplier's item code or the item
+    name. Otherwise it's booked, in its own words, to the account this
+    supplier's last bill used.
+  - An invoice that names one of your purchase orders is billed from that
+    order, so it's matched to it.
+  - If the bill is already booked, the document is attached and nothing new
+    is created.
+- **Receipt the company paid**: a draft bill marked as not to be paid. One a
+  colleague forwards becomes their expense claim.
+- **Credit note**: a return against the bill it credits, or a proposal if
+  that bill isn't found.
+- **Supplier delivery note**: a draft Purchase Receipt against the order.
+- **Supplier quote**: a Supplier Quotation.
+- **Customer order**: a draft Sales Order, or a proposal if a line matches no
+  item.
+- **Customer payment advice**: a draft Payment Entry against the invoice it
+  names.
+- **Bank statement**: Bank Transactions on your account, ready for
+  reconciliation. A bank line is not a posting.
+- **Contract**: an ERPNext Contract with the party.
+- **Reminder for an invoice you don't have**: a task to ask for the invoice,
+  with a warning, since this is a common start of fraud.
 
-The pay step of the matter's task ticks itself when the bill is submitted and
-paid in full, by a payment or a journal entry, and opens again if the payment
-is cancelled. An invoice paid by direct debit, or already paid, asks nobody
-to pay. A draft dated inside books locked by OneBook is dated on the first
-open day, and says so. A bill in a currency the workspace has no exchange
-rate for is proposed with ERPNext's reason; OneAI never makes up a rate.
+Paying and dates:
 
-**Ready to Submit** (in OneBook) lists every draft OneAI made that you may
-post: those whose facts checked out, whose party is known, whose total is
-the document's and, billed from an order, whose quantities and prices are
-the order's. **Submit All** posts them as you. A draft asking to be paid to an
-IBAN we do not have for the supplier, or failing any other check, is listed
-apart in red with why, and stays out until somebody opens it. A workspace may
-let OneAI submit an e-invoice from a known supplier that is billed from an
-order and ready (Intake Settings, off by default).
+- The pay step of the matter's task completes when the bill is submitted and
+  fully paid by a payment or journal entry. It reopens if the payment is
+  cancelled.
+- An invoice paid by direct debit, or already paid, asks no one to pay.
+- A draft dated in a period OneBook has closed is dated on the first open
+  day, with a note.
+- A bill in a currency with no exchange rate is only proposed, with
+  ERPNext's reason. OneAI never makes up a rate.
 
-**Spending** (in OneBook's reports) adds up what was bought, from the
-receipts and invoices themselves: by category, shop, person or month, one
-currency at a time. Each line's category is learned per shop, so a shop's
-lines soon need no model. A **household** (Intake Settings) keeps no books:
-no drafts are made at all, and Spending is how it sees where the money went.
+### Ready to Submit
+
+**Ready to Submit** in OneBook lists the drafts OneAI made that you have
+permission to submit, where:
+
+- the facts checked out and the party is known
+- the total matches the document
+- for a bill from an order, quantities and prices match the order
+
+**Submit All** submits them as you. Drafts that fail a check, including a bill
+with an IBAN that isn't on file for the supplier, are listed in red under
+**Needs Review** with the reason, and stay there until someone opens them.
+
+A workspace can let OneAI submit e-invoices from known suppliers that are
+billed from an order and ready (**Submit Matching E-Invoices** in Intake
+Settings, off by default).
+
+### Spending
+
+**Spending** in OneBook's reports totals what was bought, from the receipts
+and invoices themselves, by category, shop, person or month, one currency at
+a time. Categories are learned per shop, so lines from a known shop soon
+need no model.
+
+A **Household** (Intake Settings) keeps no books. No drafts are made, and
+Spending shows where the money went.
 
 ## Deadlines
 
-A letter rarely gives a date. It says "within one month of receipt", so
-OneAI copies the period as written and **the counting is done here, by the
-law's rules**, never by the model: a German authority's posted letter counts
-as received four days after it was posted (§ 122 AO), a month ends on the
-same day of the later month or its last day (§ 188 BGB), and a weekend or a
-public holiday on the workspace's Holiday List moves the end to the next
-working day (§ 193 BGB). Each counted date keeps the day it was counted from
-and the rule, in words, so a person can check it.
+Letters usually give a period, such as "within one month of receipt", rather
+than a date. OneAI copies the period as written and One calculates the date
+by the legal rules, never the model.
 
-**A contract** with a notice period gets its **last day to cancel** (Cancel By
-on ERPNext's Contract) and a task, a month before it, to decide whether to
-cancel.
+- A German authority's letter sent by post counts as received four days
+  after posting (§ 122 AO).
+- A month ends on the same day of the later month, or its last day (§ 188
+  BGB).
+- A deadline on a weekend or a public holiday in the workspace's Holiday List
+  moves to the next working day (§ 193 BGB).
 
-**Deadlines** (in OneCalendar) lists every date something must be done by:
-what was read for you, contracts' last days to cancel, and employees'
-documents expiring, each for whoever may read its record, with the days left
-in red inside a week. An administrator of the workspace sees what was read
-for anybody. The calendar has the same three as layers. A deadline goes
-once nothing is left to do: its matter is closed, the task OneAI made is
-done, or the invoice it booked is paid. A copy of a document has none of its
-own, and a sick note's "valid until" is not a deadline.
+Each calculated date shows the start date and the rule used, so anyone can
+check it.
 
-## Explaining it, and paying it
+**Contracts** with a notice period get a **Cancel By** date on the ERPNext
+Contract, and a task a month before to decide whether to cancel.
 
-**Explain** in the panel asks OneAI what the document means in plain words in
-your language, what you have to do and by when, and writes the reply in the
-letter's own language, ready to copy. It is the one Intake call a person
-starts, and it is kept: the same document explained again in the same
-language costs nothing unless you ask again. A contract with a last day to
-cancel also offers **Write the Cancellation**, a letter that must arrive by
-that day.
+### The Deadlines report
 
-A bill to pay by transfer shows **Pay**: whom, the IBAN, the amount and the
-reference, each copied with a click, and a GiroCode any European banking
-app scans into a filled-in transfer. Nothing is paid from One. When the payee
-is a supplier whose bank accounts we hold and the bill's IBAN is none of
-them, there is no code, only a red line saying to ask them on a number you
-already know.
+**Deadlines** in OneCalendar lists every due date: from documents read for
+you, contract cancellation dates and expiring employee documents. Each
+shows to whoever can read its record, with the days left in red within a
+week. Workspace administrators see deadlines for everyone. The calendar has
+the same three as layers.
 
-## Twice, and never ordered
+A deadline disappears once there's nothing left to do: its matter is
+closed, OneAI's task is done or the invoice is paid. A copy of a document
+has no deadlines of its own, and a sick note's "valid until" isn't a
+deadline.
 
-A draft bill with the same number as another bill from that supplier, or the
-same total on the same day, is red in Ready to Submit, naming the other one.
-A delivery note from a known supplier that no order of ours matches is a task
-to check it before anybody signs for it or pays.
+## Explain and Pay
 
-## The tax year, the week and the month
+**Explain** in the panel asks OneAI what the document means, in your
+language, what you need to do and by when. It also drafts a reply in the
+letter's language, ready to copy. This is the only Intake call a person
+starts. The result is saved, so explaining the same document in the same
+language again costs nothing unless you choose **Explain Again**.
 
-**Documents for the Tax Year** (on Spending) downloads the year's invoices,
-receipts, payslips, bank statements, tax office letters, contracts and
-certificates as a zip, a folder per kind, with an index a spreadsheet opens.
-You get what was read for you; an administrator gets the workspace's.
+For a contract with a cancellation date, **Write Cancellation** drafts a
+letter that must arrive by that date.
 
-Each week everybody OneAI read for gets one notification, mailed too when
-they take mail for notifications: how many documents arrived, how many OneAI
-dealt with itself, what waits for them, and what falls due in the next seven
-days. **Intake Settings** says the month in one line: "OneAI handled 24 of 38
-documents this month; 14 needed a person". A document needed a person when
-OneAI was unsure of it, proposed something or was not allowed to act.
+**Pay** appears on a bill paid by transfer. It shows the payee, IBAN, amount
+and reference, each copied with a click, and a GiroCode that any European
+banking app can scan. Nothing is paid from One. If the supplier's bank
+accounts are on file and the bill's IBAN isn't one of them, there's no code,
+only a red warning to confirm the IBAN on a number you already know.
+
+## Duplicates and unordered deliveries
+
+- A draft bill with the same number as another bill from that supplier, or
+  the same total on the same day, shows in red in Ready to Submit with the
+  other bill named.
+- A delivery note from a known supplier that matches none of your orders
+  becomes a task to check it before anyone signs for it or pays.
+
+## Tax year download and summaries
+
+**Documents for the Tax Year** on the Spending report downloads the year's
+invoices, receipts, payslips, bank statements, tax office letters, contracts
+and certificates as a zip. There's a folder per type and an index that opens
+in a spreadsheet. You get documents read for you. Administrators get the
+whole workspace's.
+
+**Weekly summary.** Each week, everyone OneAI read for gets one notification,
+also emailed if they get notifications by email. It shows how many documents
+arrived, how many OneAI handled, what's waiting and what's due in the next
+seven days.
+
+**Monthly summary.** **Intake Settings** shows the month in one line, for
+example "OneAI handled 24 of 38 documents this month. 14 needed review." A
+document needed review when OneAI was unsure, proposed something or wasn't
+allowed to act.
 
 ## Kept by law
 
-A business must keep its papers for years: in Germany invoices, receipts and
-bank statements eight (§ 147 AO), business letters, orders, delivery notes
-and contracts six, payroll six; in the Emirates the books and their papers
-five. Each reading carries its **Keep Until**, the end of the year it is
-dated in plus those years. A file that is the only copy of such a document
-may go to the Recycle Bin but is not deleted for good before that day, by
-anyone, and emptying the bin leaves it there. A household keeps no books and
-has no keeping periods, and neither has a country not listed yet.
+Businesses must keep their records for a set number of years:
 
-## What a document teaches
+| Country | Records | Years |
+|---|---|---|
+| Germany | Invoices, receipts, bank statements (§ 147 AO) | 8 |
+| Germany | Business letters, orders, delivery notes, contracts, payroll | 6 |
+| United Arab Emirates | Books and their records | 5 |
 
-Every document teaches its parties something: a VAT id, a website, a phone
-number. An empty field on the supplier, customer or lead is filled and gets
-the OneAI badge; one that already says something else keeps it, and the new
-value is proposed beside it. A phone the writer's contact does not have yet
-is added. A known supplier's document asking to be paid to an IBAN we do not
-have for them is what invoice fraud looks like: you are told at once, the
-draft is red in Ready to Submit, and our IBAN is never changed from a
-document. A supplier who bills one thing a month has it booked to what it was
-booked to last time.
+Each reading has a **Keep Until** date: the end of the year it's dated in,
+plus those years. A file that is the only copy of such a document can go to
+the Recycle Bin but can't be permanently deleted before that date, by
+anyone. Emptying the bin leaves it there.
 
-## Intake, the inbox
+Households, and countries not listed yet, have no retention periods.
 
-**Intake** sits in the rail under the bell and the clock, with a number when
-something waits for you. It opens two boxes that work like a mailbox, one line
-per document, bold until you open it:
+## Filling in party details
 
-- **Waiting**: what a person has to decide. A proposal the auditor was unsure
-  of or could not apply (ERPNext's reason is under it), or something done
-  that the auditor thinks is wrong, to undo or keep.
-- **Done**: everything OneAI dealt with, each document with what it made and
-  changed, field by field, and **Undo** beside each.
+Documents fill in details on their parties, such as a VAT ID, website or
+phone number.
 
-Who opened what is Frappe's own `track_seen`, per person: a document is unread
-for you until you open it, and unread again when OneAI does something new
-with it. You see what was read for you; an administrator can tick
-**Everybody's**, which still leaves out what is medical, about pay or
-personal.
+- An empty field on the supplier, customer or lead is filled in and shows the
+  OneAI badge.
+- A field that already has a different value keeps it, and the new value is
+  proposed next to it.
+- A phone number the sender's contact doesn't have is added.
+- A supplier who bills the same thing every month has it booked like last time.
 
-Beside a file or above a message the panel leads with the facts a person
-looks for first, whatever the document is: who it is from and their tax
-numbers, its numbers and references, dates, amounts, what it asks, and
-anything else OneAI noted as worth having at hand, under its own label: a
-booking code, a flight, a meter reading, a plate. Such a fact is kept only
-when its value is written in the document, and never makes it unsure.
+A known supplier asking to be paid to an IBAN that isn't on file is a common
+sign of invoice fraud. You're notified at once, the draft shows in red in
+Ready to Submit, and the supplier's IBAN is never changed from a document.
 
-The panel is otherwise short: what it is, one line
-about it, the amount and due date, "OneAI did 4 things with it" opening it in
-Intake, and **Pay**, **Explain** and **Details** behind a button each.
+## The Intake inbox
+
+**Intake** is in the side rail below Notifications and the clock, with a count
+when something is waiting for you. It has two boxes that work like a
+mailbox, one line per document, bold until you open it.
+
+- **Waiting**: what needs a decision. This includes proposals the auditor was
+  unsure of or couldn't apply (with ERPNext's reason), and actions the
+  auditor thinks are wrong, to undo or keep.
+- **Done**: everything OneAI handled, each document with what it created and
+  changed, field by field, and **Undo** next to each.
+
+Read status uses Frappe's `track_seen`, per person. A document is unread
+until you open it, and unread again when OneAI does something new with it.
+
+You see documents read for you. Administrators can tick **Everyone's**,
+which still excludes medical, pay and personal documents.
+
+### The panel
+
+The panel next to a file or above a message shows first what people look
+for: the sender and their tax numbers, document numbers and references,
+dates, amounts and requests. It also shows other useful details OneAI found,
+such as a booking code, flight, meter reading or license plate, each under
+its own label. These are only kept when the value appears in the document,
+and never mark the reading as unsure.
+
+Below that it's short: the document type, a one-line summary, the amount and
+due date, a link such as "OneAI did 4 things with it" that opens it in
+Intake, and **Pay**, **Explain** and **Details** buttons.
 
 ## The auditor
 
-The point is full automation, so a person should be asked only when a person
-is needed. Once a document has been acted on, a second agent, the auditor, is
-shown the document and everything done and proposed because of it, and says
-of each whether the document supports it. It is its own AI action
-(`intake_audit`), so a workspace can give it a different model from the one
-that did the work.
+The aim is full automation, so a person is asked only when needed. After a
+document is acted on, a second agent, the auditor, reviews the document and
+everything done or proposed for it, and decides whether the document
+supports each one. It's a separate AI action (`intake_audit`), so a
+workspace can give it a different model.
 
-A proposal it finds right is applied for the person, under their permission,
-and carries the OneAI mark; one it finds wrong is dismissed; one it cannot
-tell waits. Something done that it finds wrong stays done and goes to
-Waiting with its reason: undoing on its word alone would let one model's
-mistake erase another's work. It never decides what ends somebody's
-employment. A document that was only filed is not audited, since there is
-little to get wrong and a call to pay for; Intake Settings can turn the
-auditor off.
+- **A proposal it finds right** is applied for the person, with their
+  permissions, and shows the OneAI mark.
+- **A proposal it finds wrong** is dismissed.
+- **A proposal it can't judge** waits for a person.
+- **An action it finds wrong** stays done and goes to **Waiting** with the
+  reason, so one model's mistake can't erase another's work.
 
-Two things no longer make OneAI wait. A fact the check found missing from the
-document is dropped and never used, so it no longer holds up everything else
-read from that document; and a zero tax is how a receipt without VAT reads.
-What still waits is mostly what no approval fixes: somebody without
-permission to post to an account, a currency without an exchange rate.
+The auditor never decides anything that ends someone's employment. Documents
+that were only filed aren't audited, since there's little to get wrong. Turn
+the auditor off with **Audit What OneAI Does** in Intake Settings.
+
+A value missing from the document is dropped and doesn't hold up the rest of
+the reading, and a zero tax on a receipt without VAT is accepted. What still
+waits is mostly something no approval can fix, such as someone without
+permission to post to an account, or a currency without an exchange rate.
 
 ## Fields your workspace requires
 
-A record OneAI makes from a document is filled with what it knows that kind of
-record by: a task's subject and dates, a bill's supplier and lines. When your
-workspace requires more, a field made required on the Customize page, or a
-kind named by one of its fields or by a name somebody types (**Numbering**),
-OneAI reads the document again for exactly those, before the record is saved.
-What the document does not say is left empty, and the record then waits for
-you rather than being made with a guess.
+A record OneAI creates is filled with the fields that record type needs,
+such as a task's subject and dates or a bill's supplier and lines. If your
+workspace requires more, through a field made required on the Customize page
+or a field used in the naming (**Numbering**), OneAI reads the document again
+for those fields before saving. Anything the document doesn't say is left
+empty, and the record waits for you instead of being filled with a guess.
 
-## What OneAI did, and taking it back
+## Undo
 
-The panel beside a document ends with **What OneAI did**: made this record,
-filed it with that supplier, named it, moved it, tagged it. **Undo** takes
-all of it back: files go back where they were with their old names, tags come
-off, links go, and a record it made is deleted. What a person has since
-checked, changed or submitted stays, and Undo says which and why.
+The panel next to a document ends with **What OneAI did**: records created,
+filing, renaming, moving and tagging. **Undo** reverses all of it. Files go
+back to their old folders and names, tags and links are removed, and records
+OneAI created are deleted. Anything someone has since checked, changed or
+submitted stays, and Undo lists what stayed and why.
 
-Some things wait for you instead, marked **Needs a look**, with **Apply** and
+Some actions wait for you instead, marked **Needs Review**, with **Apply** and
 **Dismiss**:
 
-- changing a value a record already has (a different tax number, an IBAN);
-- ending somebody's employment;
-- anything OneAI is not sure enough of (below Intake Settings' **Confidence
-  Floor**), or read from a document whose facts did not all check out.
+- Changing a value a record already has, such as a tax number or IBAN
+- Ending someone's employment
+- Anything below the **Confidence Floor** in Intake Settings, or read from a
+  document whose facts didn't all check out
 
-You are told once per document when something waits, and not at all for a
-document that changes nothing.
+You're notified once per document when something is waiting, and not at all
+for a document that changes nothing.
 
-OneAI learns from being taken back. Undoing what it did, dismissing what it
-proposed, deleting a record it made or moving a file it filed somewhere else
-is remembered for that party, and the next document from them is read with
-it. Three times the same, and OneAI asks instead of doing it. The **Intake
-Lesson** list shows what it learned; deleting a lesson lets it act again. Nothing is ever
-submitted, posted or sent by OneAI: whatever it makes that could post stays a
-draft. OneAI does only what the person who switched it on may do; what they
-may not is written down as **Not allowed** and not done.
+### What OneAI learns
+
+Undoing an action, dismissing a proposal, deleting a record OneAI created or
+moving a file it filed is remembered for that party, and the next document
+from them is read with that in mind. After the same correction three times,
+OneAI asks instead of acting. The **Intake Lesson** list shows what it
+learned. Delete a lesson to let it act again.
+
+OneAI never submits, posts or sends anything. Whatever it creates that could
+post stays a draft. OneAI only does what the person who switched it on has
+permission to do. Anything else is logged as **Not allowed** and not done.
 
 ## The OneAI mark on a record
 
-A record OneAI made carries the OneAI mark beside its title in every list,
-and a **N not checked by a person** button above the list shows only those.
-Its form says **OneAI made this from …**, with the document, **Looks right**
-and **Undo**. The mark stays until a person looks: saving a change,
-submitting, cancelling, pressing Looks right or merging another record into
-it. Opening it does not, and neither does OneAI changing it again. Every
-record, version and comment OneAI writes says OneAI wrote it.
+Records OneAI created show the OneAI mark next to their title in every list.
+A **{n} not checked** button above the list filters to those. The form shows
+**Made by OneAI from …** with the document, **Mark as Checked** and **Undo**.
 
-## The same customer twice
+The mark stays until someone saves a change, submits, cancels, clicks **Mark
+as Checked** or merges another record into it. Opening the record doesn't
+clear it, and neither does OneAI changing it again. Every record, version and
+comment OneAI writes is attributed to OneAI.
 
-A new contact, customer or supplier that has the email address, VAT id, tax
-number, IBAN or register number of one already there says so at the top of
-its form, with **Merge Into …** and **Not a Duplicate**. Merging moves
-everything on it (mail, files, comments, links) to the one it duplicates,
-fills that one's empty fields from it, and deletes it. The one you keep never
-loses a value it had.
+## Duplicate records
+
+A new contact, customer or supplier with the same email address, VAT ID, tax
+number, IBAN or register number as an existing one shows a notice at the top
+of its form, with **Merge Into …** and **Not a Duplicate**. Merging moves
+everything on it (mail, files, comments, links) to the existing record, fills
+that record's empty fields and deletes the duplicate. The record you keep
+never loses a value it had.
 
 ## OneIntake Settings
 
-What OneIntake may do in a workspace is set under **OneIntake** in the
-sidebar, **Settings**. Each setting, its default and who changes it is in
-One's documentation, OneIntake Settings, for the Workspace.
+Set what OneIntake may do under **OneIntake** › **Settings** in the
+sidebar. Each setting, its default and who can change it
+is described in One's documentation under OneIntake Settings, for the
+Workspace.
 
 ## Under the hood
 
@@ -475,7 +534,7 @@ One's documentation, OneIntake Settings, for the Workspace.
   a person dismissed or undid), then whether the person OneAI acts for may do
   it themselves, then its level (`level` is pure), then writes as the OneAI
   user inside a savepoint and keeps what was there before. Every action is an
-  **Intake Action** row: the idempotency, Undo, Needs a look and the audit in
+  **Intake Action** row: the idempotency, Undo, Needs Review and the audit in
   one table. A person sees the rows done on their behalf, an administrator
   all of them. `settle` applies a proposal as the person who pressed Apply,
   under their own permission, with no mark, since a person decided.

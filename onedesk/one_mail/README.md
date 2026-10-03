@@ -1,168 +1,201 @@
 # OneMail
 
-Written by hand. All nine stages are built: addresses on the mail domain,
-sending, connected mailboxes, holders, the page, mail in OneCloud, faces and
-logos, mail on records, and rules, out-of-office and bounces. What waits is
-real inbound mail from outside, which needs the Cloudflare
-key's Zone Settings: Edit. The part above
-**Under the hood** is the manual; below it are the decisions and the stages
-still to come.
+OneMail is where your company's email lives. Every workspace and every person
+in it has an address. You can also connect existing mailboxes, such as Gmail,
+Outlook or your hosting provider's, and work on them here with their folders.
+Attachments are saved in OneCloud, and messages can be linked to customers,
+suppliers, employees and other records.
 
-OneMail is where a company's email lives. Every workspace has an address of
-its own, and every person in it has one too. The company's existing mailboxes
-— its Gmail, its Outlook, its hosting provider's mail — can be connected as
-well, with their folders, and worked on here instead. Attachments are in
-OneCloud and senders show with their faces and logos. A message can belong to
-a customer, a supplier or an employee as well as to a mailbox.
+Not built yet: mail from outside arriving at the workspace's own address. It
+needs a Cloudflare key with Zone Settings: Edit.
 
 ## Your addresses
 
-Every workspace gets `acme@m.4dl.app`. It is where the workspace's mail comes
-in and goes out from, until a workspace administrator connects the company's
-own mailbox to use instead. Every person gets `name.acme@m.4dl.app` when
-they are added, with the name whoever adds them chooses, or their first name.
-It only receives: it is where a supplier, a site or a newsletter can reach
-them without their private address.
+- **The workspace's address** is `acme@m.4dl.app`. The workspace sends and
+  receives from it until a Workspace Administrator connects the company's own
+  mailbox instead.
+- **Your own address** is `name.acme@m.4dl.app`, made when you're added to
+  the workspace. The name is chosen by whoever adds you, or is your first
+  name. It only receives mail, so you can give it to suppliers, sites and
+  newsletters instead of your private address. Once given, it can't be
+  changed.
 
 ## Connecting a mailbox
 
-Any mailbox that speaks IMAP can be connected: Gmail and Outlook with an app
-password, and any hosting provider's. Its folders come with it, including
-Sent, Junk, Drafts and those made elsewhere. What you do here happens there:
-reading, starring, moving, deleting and making folders. A phone on the same
-account agrees with OneMail.
+You can connect any mailbox that supports IMAP. Gmail and Outlook need an app
+password, made in the account's security settings.
 
-A workspace administrator can connect the company's mailbox and make it the
-workspace's own, for receiving, sending or both. They can also connect shared
-addresses such as `sales@theircompany.com` and choose who holds each. Anyone
-can connect their own, and nobody else sees into it, administrators included.
+1. Click **Connect Mailbox**.
+2. Enter the **Email Address** and **Password**.
+3. Leave **Enable Outgoing** on to send from it too.
+4. Open **Server** only if the server isn't found on its own, or the login
+   differs from the email address.
+
+All of its folders appear, including Sent, Junk, Drafts and your own. Changes
+you make here, such as reading, starring, moving, deleting and new folders,
+happen on the mail server too, so your phone stays in sync.
+
+**Who can connect what:**
+
+- Anyone can connect their own mailbox. No one else can see into it, not
+  even administrators.
+- A Workspace Administrator can tick **Shared Mailbox** to connect a
+  workspace address such as `sales@yourcompany.com` and choose who has
+  access to it. They can also make the company's mailbox the workspace's
+  own, for receiving, sending or both.
 
 ## Reading and writing
 
-**Mail** in the rail opens every mailbox you hold: the workspace's first,
-then the shared ones, then your own, each with its folders. A folder lists
-its conversations, newest first. Opening one shows all of its messages,
-your replies from Sent included, with older ones folded to a line. Pictures
-from elsewhere are not shown until you ask, because loading one tells the
-sender you opened the message.
+**OneMail** in the dock opens every mailbox you have access to, the
+workspace's first, then shared ones, then your own. Folders list
+conversations newest first. A conversation shows all its messages, including
+your replies, with older ones collapsed.
 
-Select several with their boxes, or with Shift and Ctrl, to mark them read,
-star, move, archive or delete them together. Deleting from Trash is for good.
-The keys are the usual ones: `j` and `k` to move, `e` to archive, `#` to
-delete, `r`, `a` and `f` to reply, reply to all and forward, `s` to star,
-`u` to mark unread, `c` to write and `/` to search. A move, an archive or a
-delete to Trash can be taken back with **Undo** for a few seconds after.
+Remote pictures are hidden until you click **Show pictures**, because loading
+them tells the sender you opened the message.
 
-Search takes `from:`, `to:`, `subject:`, `has:attachment`, `is:unread`,
-`is:read` and `is:starred`, and anything else is looked for anywhere in the
-message. `from:ana subject:"price list" is:unread` means all three.
+**Working with several conversations:** select them with their checkboxes,
+or with Shift and Ctrl, then mark read, star, move, archive or delete them.
+Moving, archiving and deleting can be undone with **Undo** for a few seconds.
+Deleting from Trash is permanent.
 
-A message is signed as the address it is sent from, whoever writes it: the
-mailbox's ⋯ menu sets its signature, and the email window puts it
-in where it can be seen and changed before sending.
+**Keyboard shortcuts:**
 
-Writing uses the desk's own email window, so a message can be scheduled,
-undone for a few seconds after sending, and filed on a record.
+| Key | Action |
+| --- | --- |
+| `j` / `k` | Next / previous conversation |
+| `e` | Archive |
+| `#` | Delete |
+| `r` / `a` / `f` | Reply / Reply all / Forward |
+| `s` | Star |
+| `u` | Mark as unread |
+| `c` | New email |
+| `/` | Search |
 
-## Rules and being away
+**Search** supports `from:`, `to:`, `subject:`, `has:attachment`,
+`is:unread`, `is:read` and `is:starred`. Other words are searched anywhere in
+the message. For example, `from:ana subject:"price list" is:unread` finds
+unread mail from Ana with "price list" in the subject.
 
-**Rules**, in a mailbox's ⋯ menu, sort new mail as it arrives in the Inbox:
-move it to a folder, mark it read or star it, by who it is from or to, its
-subject, a word anywhere in it (**Subject or Text Contains**), whether it has
-attachments, or what it is about (**About**, in plain words such as "soft
-drinks"). On a connected mailbox the server does it too, so your phone
-agrees. Rules never touch mail that was already there when the mailbox was
-connected.
+**Writing** uses frappe's email window, so you can schedule a message, undo
+it for a few seconds after sending, and link it to a record.
 
-A rule **About** something needs OneAI to read the mailbox (**Read with
-OneAI…** in its menu): OneAI reads each new message for it as it arrives,
-and moves it a moment later. Spam and phishing go to Junk whatever they are
-about.
+**Signatures** belong to the address, not the person. Set one under
+**Signature** in the mailbox's **⋯** menu. It's added to every email sent
+from that address, and you can edit it before sending. Only a Workspace
+Administrator can change the signature of a workspace mailbox.
 
-You can also ask OneAI: "move any mail with the word cola into a CocaCola
-folder", or "put mail about soft drinks in Beverages". It suggests the rule
-on a card, and approving it makes the folder if there is none, starts OneAI
-reading the mailbox if the rule is about meaning, and makes the rule. It can
-sort what is in the Inbox now as well, for a rule by words.
+## Rules and out of office
 
-**Out of office** answers each sender once in four days while you are away,
-until the date you set. Mailing lists, newsletters, other auto-replies and
-no-reply senders get nothing.
+**Rules**, in a mailbox's **⋯** menu, sort new mail as it arrives in the
+Inbox. A rule can move mail to a folder, mark it as read or star it.
 
-When mail to an address bounces for good, the address is not written to
-again, and the message that bounced says so.
+It can match mail by:
+
+- who it's from or to
+- the subject
+- a word anywhere in it (**Subject or Text Contains**)
+- whether it has attachments
+- what it's about (**About**, in plain words such as "soft drinks")
+
+On a connected mailbox, the rule is also set up on the mail server, so your
+phone matches. Rules only apply to new mail, not to mail that was there when
+the mailbox was connected.
+
+**About rules** need **Read with OneAI…** turned on in the mailbox's menu.
+OneAI reads each new message and moves it a moment later. Spam and phishing
+always go to Junk.
+
+You can also ask OneAI, for example "move any mail with the word cola into a
+CocaCola folder" or "put mail about soft drinks in Beverages". It suggests
+the rule on a card. When you approve it:
+
+- the folder is created if it doesn't exist
+- **Read with OneAI** is turned on, for an About rule
+- the rule is created
+- for a rule by words, matching mail already in the Inbox can be moved too
+
+**Out of Office**, in the same menu, sends an automatic reply until the date
+you set. Each sender gets one reply every four days. Mailing lists,
+newsletters, other automatic replies and no-reply addresses get none.
+
+**Bounces:** when mail to an address bounces permanently, OneMail stops
+sending to it and marks the message that bounced.
 
 ## Mail on records
 
-A message is filed on the records it is about as it arrives: the customer or
-supplier of the contact who wrote, an employee or lead with the address, the
-records its conversation is already on, and any invoice, order or other
-document it names by its number. The reading pane shows those records, each
-with a cross to take the message off, and the link button files it on
-another. A customer, supplier, lead, employee or document has a **Mail** tab
-beside Files with its conversations and a Write button.
+Incoming messages are linked automatically to the records they're about:
 
-The email window's **Email Template** offers the templates for the record a
-conversation is filed on, filled in from it, or those for any record in a new
-message (see Mail Templates, for the Workspace, in One's documentation).
+- the customer or supplier of the contact who sent it
+- an employee or lead with the sender's address
+- records the conversation is already linked to
+- any invoice, order or other document named by its number
 
-Filing a message on a record never shows it to anybody new. The Mail tab and
-the record's activity list only the messages you could already open.
+The reading pane shows the linked records. **Unlink** (the ×) removes one,
+and **Link to Record** adds another.
 
-## Attachments and faces
+Customers, suppliers, leads, employees and documents have a **Mail** tab next
+to Files, with their conversations and a **New Email** button.
 
-Every attachment is in OneCloud, under **Mail**, in a folder per mailbox,
-seen only by the people who hold it. The mailbox's ⋯ menu opens that
-folder. An attachment's folder button saves a copy
-to My Files, and a file from OneCloud can be attached when writing. A file
-too large to send from the workspace's address goes as a link that works
-for thirty days.
+**Email Template** in the email window offers the templates for the record a
+conversation is linked to, filled in from it. In a new message it offers
+templates for any record. See Mail Templates in the Workspace settings.
 
-When the workspace's storage is full, mail still arrives. Its attachments
-are not saved: the message shows each one as **Not saved, storage is full**,
-and administrators and the mailbox's holders get **Attachments Not Saved**,
-once a day at most. Every hour the workspace tries again, reading the
-message from where it was kept, and saves each attachment once there is
-room. Free some space or add storage in Plan and Credits.
+Linking a message to a record never shows it to anyone new. The Mail tab and
+the record's activity only list messages you could already open.
 
-People who write to you show with their contact picture, or their photo from
-Gravatar, or their organisation's logo. A contact, lead, customer, supplier
-or bank without a picture gets one the same way, trying a face and a logo in
-whichever order fits it. Every picture is fetched once by
-the workspace, never by your browser, and kept in Company › Logos, so
-opening a message tells nobody anything.
+## Attachments and pictures
+
+Every attachment is saved in OneCloud, under **Mail**, in a folder for each
+mailbox. Only people with access to the mailbox can see it.
+
+- **Attachments in OneCloud** in the mailbox's **⋯** menu opens the folder.
+- The folder button on an attachment saves a copy to My Files.
+- When writing, you can attach a file from OneCloud.
+- A file too large to send from the workspace's address is sent as a link
+  that works for 30 days.
+
+**When storage is full**, mail still arrives but its attachments aren't
+saved. Each shows **Not saved, storage is full**. Administrators and the
+people with access to the mailbox get **Attachments Not Saved**, at most once
+a day. OneMail tries again every hour and saves them once there's space. Free
+up space or add storage in Plan and Credits.
+
+**Sender pictures:** people who write to you show with their contact
+picture, their Gravatar photo or their organization's logo. Contacts, leads,
+customers, suppliers and banks without a picture get one the same way.
+Pictures are fetched once by the workspace, never by your browser, and kept
+in Company › Logos, so opening a message reveals nothing to the sender.
 
 ## Asking OneAI
 
-The OneAI panel in OneMail knows the mailbox, the folder and the
-conversation you have open, and offers three things:
+In OneMail, the OneAI panel knows the mailbox, folder and conversation you
+have open. It offers:
 
-- **Summarise this conversation**: who wants what, what was agreed, and
-  what is still open.
-- **Draft a reply**: puts "Draft a reply to this conversation that says:"
-  in the panel's box for you to finish with what the reply should say,
-  such as "turn down their offer" or "we agree only if they deliver by the
-  10th". OneAI writes the whole reply in the conversation's language and
-  shows it as a card. **Approve** opens it in the email window, addressed
-  and quoted as Reply would, for you to read, change and send. OneAI never
-  sends it.
-- **What needs an answer?**: the conversations in the folder whose last
+- **Summarise this conversation**: who wants what, what was agreed and what's
+  still open.
+- **Draft a reply**: finish the sentence with what the reply should say, such
+  as "turn down their offer". OneAI writes the reply in the conversation's
+  language and shows it on a card. **Approve** opens it in the email window,
+  ready to edit and send. OneAI never sends it.
+- **What needs an answer?**: conversations in the folder where the last
   message came to you, oldest first.
 
-In the email window, the OneAI mark beside **Message** helps with what you
-are writing. It offers **Improve it**, **Make it shorter**, **Make it
-longer**, **Make it more formal**, **Make it friendlier**, **Fix spelling
-and grammar** and **Translate…** (you finish it with the language), or you
-say what you want in your own words. With nothing written yet in a reply,
-it offers **Write a first draft** and **Reply saying…**. OneAI reads what
-you have written, the subject, who it is to and the message you are
-replying to, and never your signature. The suggestion comes back as a card.
-**Approve** puts it in the window in place of what you wrote, with your
-signature and the quoted message left as they were, for you to read and
-send.
+**In the email window**, the OneAI button next to **Message** helps with what
+you're writing:
 
-OneAI reads only a conversation in a mailbox you hold, and only when you
-ask; each question uses OneAI credits.
+- **Improve it**, **Make it shorter**, **Make it longer**, **Make it more
+  formal**, **Make it friendlier**, **Fix spelling and grammar**
+- **Translate…**, followed by the language
+- **Write a first draft** and **Reply saying…**, in an empty reply
+- or anything in your own words
+
+OneAI reads your text, the subject, the recipients and the message you're
+replying to, but not your signature. **Approve** replaces your text with the
+suggestion and keeps your signature and the quoted message.
+
+OneAI only reads conversations in mailboxes you have access to, and only when
+you ask. Each question uses OneAI credits.
 
 ## Under the hood
 

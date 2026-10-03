@@ -170,12 +170,12 @@ def custom_field(doc, method=None) -> None:
 	where = doc.label or doc.fieldname
 	if doc.fieldtype not in KINDS:
 		frappe.throw(
-			_("{0}: a workspace cannot add a field of the kind {1}.").format(where, _(doc.fieldtype))
+			_("{0}: fields of type {1} can't be added.").format(where, _(doc.fieldtype))
 		)
 	if doc.get("is_virtual"):
-		frappe.throw(_("{0}: a field worked out by code is not the workspace's to add.").format(where))
+		frappe.throw(_("{0}: computed fields can't be added.").format(where))
 	if doc.get("permlevel") or doc.get("ignore_user_permissions"):
-		frappe.throw(_("{0}: who may see a field is set by the roles, not here.").format(where))
+		frappe.throw(_("{0}: who can see a field is set by roles.").format(where))
 	if doc.fieldtype == "Data" and (doc.options or "") not in DATA_OPTIONS:
 		frappe.throw(
 			_(
@@ -200,7 +200,7 @@ def _fetched(doc, where: str) -> None:
 	there = frappe.get_meta(through.options).get_field(field)
 	if not there or there.permlevel or there.fieldtype in ("Password", "Code", "HTML", "Button"):
 		frappe.throw(
-			_("{0}: {1} has no field {2} that everybody who reads it may see.").format(
+			_("{0}: {1} has no field {2} visible to everyone who can read it.").format(
 				where, _(through.options), field
 			)
 		)
@@ -220,7 +220,7 @@ def set_default(doctype: str, prop: str, value: str) -> None:
 	from frappe.custom.doctype.property_setter.property_setter import make_property_setter
 
 	if prop not in DEFAULTS:
-		frappe.throw(_("{0} is not the workspace's to change.").format(prop))
+		frappe.throw(_("{0} can't be changed in a workspace.").format(prop))
 	frappe.flags.one_default = prop
 	try:
 		make_property_setter(doctype, None, prop, value, "Data", for_doctype=True, is_system_generated=False)
@@ -262,7 +262,7 @@ def property_setter(doc, method=None) -> None:
 	):
 		return
 	if doc.property not in PROPERTIES:
-		frappe.throw(_("{0}: {1} is not the workspace's to change.").format(where, doc.property))
+		frappe.throw(_("{0}: {1} can't be changed in a workspace.").format(where, doc.property))
 	if doc.property in ("depends_on", "mandatory_depends_on", "read_only_depends_on") and not plain(
 		doc.value
 	):

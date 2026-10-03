@@ -55,7 +55,7 @@ def execute(filters=None):
 				# Not columns: what the formatter colours Dearer By by.
 				"cheapest": at == 0 and not option["unmet"],
 				"short": bool(option["unmet"]),
-				"theirs": _("Their plan") if held and option["plan"].key == held.offering else "",
+				"theirs": _("Current plan") if held and option["plan"].key == held.offering else "",
 			}
 		)
 	return _columns(bool(held)), rows, None, None, _summary(needs, options, currency, held)
@@ -135,7 +135,7 @@ def _summary(needs: dict, options: list[dict], currency: str, held) -> list[dict
 		)
 	else:
 		said.append(
-			{"label": _("Cheapest"), "value": _("No plan reaches it"), "datatype": "Data", "indicator": "Red"}
+			{"label": _("Cheapest"), "value": _("No plan fits"), "datatype": "Data", "indicator": "Red"}
 		)
 	if held:
 		said.append(
@@ -158,11 +158,11 @@ def _columns(workspace: bool) -> list[dict]:
 			"hidden": 1,
 		},
 		{"fieldname": "plan", "label": _("Plan"), "fieldtype": "Link", "options": "Offering", "width": 90},
-		{"fieldname": "gives", "label": _("Gives"), "fieldtype": "Data", "width": 240},
+		{"fieldname": "gives", "label": _("Includes"), "fieldtype": "Data", "width": 240},
 		{"fieldname": "extras", "label": _("Add-ons"), "fieldtype": "Data", "width": 240},
 		{
 			"fieldname": "monthly",
-			"label": _("A Month"),
+			"label": _("Monthly"),
 			"fieldtype": "Currency",
 			"options": "currency",
 			"width": 95,
@@ -175,7 +175,7 @@ def _columns(workspace: bool) -> list[dict]:
 			"width": 90,
 		},
 		{"fieldname": "margin", "label": _("Margin"), "fieldtype": "Data", "width": 75},
-		{"fieldname": "dearer_by", "label": _("Dearer By"), "fieldtype": "Data", "width": 125},
+		{"fieldname": "dearer_by", "label": _("Difference"), "fieldtype": "Data", "width": 125},
 	]
 	if workspace:
 		columns.append({"fieldname": "theirs", "label": _("Now"), "fieldtype": "Data", "width": 105})

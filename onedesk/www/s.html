@@ -32,8 +32,8 @@
 	</a>
 
 	{% if gone %}
-		<h1>{{ _("This link does not open anything") }}</h1>
-		<p class="one-portal__lede">{{ _("It may have run out or been turned off. Ask whoever sent it for a new one.") }}</p>
+		<h1>{{ _("This link isn't valid") }}</h1>
+		<p class="one-portal__lede">{{ _("It may have expired or been removed. Ask the sender for a new one.") }}</p>
 
 	{% elif ask %}
 		<h1>{{ link.file_name }}</h1>
@@ -51,7 +51,7 @@
 			<form method="post" action="/api/method/onedesk.one_storage.links.enter_code">
 				{{ csrf() }}
 				<input type="hidden" name="token" value="{{ token }}">
-				<label class="one-field"><span>{{ _("The code sent to {0}").format(asked_email) }}</span>
+				<label class="one-field"><span>{{ _("Code sent to {0}").format(asked_email) }}</span>
 					<input type="text" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" autofocus required></label>
 				<button class="one-go" type="submit">{{ _("Open") }}</button>
 			</form>
@@ -61,8 +61,8 @@
 				<input type="hidden" name="token" value="{{ token }}">
 				<label class="one-field"><span>{{ _("Your email address") }}</span>
 					<input type="email" name="email" autocomplete="email" autofocus required>
-					<small class="one-note">{{ _("This was shared with particular people. We will send a code to the address it was shared with.") }}</small></label>
-				<button class="one-go" type="submit">{{ _("Send me a code") }}</button>
+					<small class="one-note">{{ _("This was shared with specific people. Enter your email to get a code.") }}</small></label>
+				<button class="one-go" type="submit">{{ _("Send code") }}</button>
 			</form>
 		{% endif %}
 

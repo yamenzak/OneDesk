@@ -135,7 +135,7 @@ def paid_while_archived(tenant) -> None:
 @_quietly
 def owing(tenant, rung: str, why: str) -> None:
 	"""A workspace arrived on Overdue or Suspended (steps._arrive)."""
-	said = {"Overdue": _("Payment overdue"), "Suspended": _("Suspended for not paying")}
+	said = {"Overdue": _("Payment overdue"), "Suspended": _("Suspended for non-payment")}
 	if rung not in said:
 		return
 	notify.notify(

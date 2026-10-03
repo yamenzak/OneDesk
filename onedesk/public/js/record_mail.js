@@ -40,9 +40,9 @@ onedesk.record_mail.open = async (frm) => {
 		.join("");
 	field.$wrapper.html(`<div class="om-record">
 		<div class="om-record-head">
-			<button class="es-button" data-variant="subtle" data-act="write">${frappe.utils.icon("pencil", "sm")}<span class="es-button__label">${__("Write")}</span></button>
+			<button class="es-button" data-variant="subtle" data-act="write">${frappe.utils.icon("pencil", "sm")}<span class="es-button__label">${__("New Email")}</span></button>
 		</div>
-		${list ? onedesk.shell.list(list) : onedesk.shell.empty(__("No mail is filed on this yet."), __("Mail from its people is filed here as it arrives."), { icon: "mail" })}
+		${list ? onedesk.shell.list(list) : onedesk.shell.empty(__("No emails"), "", { icon: "mail" })}
 	</div>`);
 	field.$wrapper.find("[data-act=write]").on("click", () => {
 		const composer = new frappe.views.CommunicationComposer({ frm, doc: frm.doc });

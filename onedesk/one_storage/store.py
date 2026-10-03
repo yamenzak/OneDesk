@@ -91,7 +91,7 @@ def put(key: str, content: bytes) -> None:
 		signed = account.put_url(key, len(content))
 	except faults.Refused as refused:
 		if refused.said == "NoRoom":
-			raise NoRoom(_("The workspace's storage is full, so this file was not saved.")) from refused
+			raise NoRoom(_("Storage is full. This file wasn't saved.")) from refused
 		raise
 	kind = mimetypes.guess_type(key)[0] or "application/octet-stream"
 	answer = requests.put(signed["url"], data=content, headers={"Content-Type": kind}, timeout=PATIENCE)
@@ -210,7 +210,7 @@ def fetch(key: str, download: int = 0):
 		item = namespace.row(version.file)
 		if item and namespace.may(item):
 			return redirect(signed(key, filename=item.file_name, inline=not int(download)), 302)
-	raise NotFound(_("There is no such file."))
+	raise NotFound(_("File not found"))
 
 
 # ------------------------------------------------------ files on the disk

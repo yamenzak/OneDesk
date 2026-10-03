@@ -337,7 +337,7 @@ onedesk.OneCloud = class OneCloud {
 		this.draw_scope(here);
 		this.$root.attr("data-kind", this.kind());
 		// Search results say which folder each is in; Shared with Me says who from.
-		const where_head = { shared: __("Shared by"), libraries: __("Your role"), recent: __("Folder"), starred: __("Folder"), network: __("Kind"), requests: __("Progress"), request: __("File · From") }[this.kind()];
+		const where_head = { shared: __("Shared by"), libraries: __("Your role"), recent: __("Folder"), starred: __("Folder"), network: __("Type"), requests: __("Progress"), request: __("File · From") }[this.kind()];
 		this.$root.toggleClass("oc-searching", !!this.search || !!where_head);
 		this.$root.find(".oc-head .oc-col-where").text(where_head && !this.search ? where_head : __("Folder"));
 		if (this.kind() === "libraries") this.items.forEach((one) => (one.where = one.role ? __(one.role) : ""));
@@ -372,23 +372,21 @@ onedesk.OneCloud = class OneCloud {
 	}
 
 	empty_text() {
-		if (this.search) return __("No items match your search.");
+		if (this.search) return __("No results");
 		const text = {
-			bin: __("The Recycle Bin is empty."),
-			shared: __("Files and folders people share with you will appear here."),
-			records: __("No record has files yet."),
-			recent: __("Files you open or add will appear here."),
-			network: __("Connect an SFTP or WebDAV server to open its files here. Use New."),
-			requests: __("Ask people for files by name, each landing in a folder or on a record. Use New › File request in any folder or record."),
-			request: __("Nothing has arrived yet."),
-			starred: __("Star a file or folder to find it here. Right-click it and choose Star."),
-			libraries: __("You are not in any library yet. A library is a folder a team shares, with members who can read or edit it. Use New to make one."),
+			bin: __("No deleted items"),
+			shared: __("Nothing shared with you"),
+			records: __("No records with files"),
+			recent: __("No recent files"),
+			network: __("No server connections"),
+			requests: __("No file requests"),
+			request: __("No files yet"),
+			starred: __("No starred items"),
+			libraries: __("No libraries"),
 			root: "",
 		}[this.kind()];
 		if (text !== undefined) return text;
-		return this.can_add
-			? __("This folder is empty. Drop files here, or use New.")
-			: __("This folder is empty.");
+		return __("This folder is empty");
 	}
 
 	draw_crumbs() {
@@ -484,7 +482,7 @@ onedesk.OneCloud = class OneCloud {
 		if (item.virtual && item.doctype) return __("Record type");
 		if (item.record && item.folder) return __("Record");
 		if (String(item.id).startsWith("@request/")) return __("File request");
-		if (item.folder) return __("File folder");
+		if (item.folder) return __("Folder");
 		const ext = this.extension(item);
 		const found = OneCloud.KINDS.find(([exts]) => exts.includes(ext));
 		if (found) return found[2];
@@ -719,7 +717,7 @@ onedesk.OneCloud = class OneCloud {
 			if (people) {
 				const seen = [...people.people, ...people.inherited];
 				more.push([__("Owner"), people.owner.name]);
-				more.push([__("Shared with"), seen.length ? seen.map((one) => one.name).join(", ") : __("Nobody else")]);
+				more.push([__("Shared with"), seen.length ? seen.map((one) => one.name).join(", ") : __("No one else")]);
 			}
 			if (reading) more.push([__("Read by OneAI"), reading.on ? __("Yes") : __("No")]);
 			this.$preview.find(".oc-folder-facts").append(more.map(([name, value]) => `<dt>${name}</dt><dd>${esc(value)}</dd>`).join(""));
@@ -1051,7 +1049,7 @@ onedesk.OneCloud = class OneCloud {
 			case "mount-edit":
 				return this.mount_dialog(chosen[0]);
 			case "mount-drop":
-				return frappe.confirm(__("Disconnect {0}? Nothing on the server is touched.", [chosen[0].name]), async () => {
+				return frappe.confirm(__("Disconnect {0}? Files on the server stay as they are.", [chosen[0].name]), async () => {
 					await frappe.xcall("onedesk.one_storage.mounts.disconnect", { node: chosen[0].id });
 					this.forget_tree("@mounts");
 					this.refresh();
@@ -1134,8 +1132,8 @@ onedesk.OneCloud = class OneCloud {
 				if (!ids.length) return;
 				return frappe.confirm(
 					ids.length === 1
-						? __("Delete {0} for good? This cannot be undone.", [chosen[0].name])
-						: __("Delete these {0} items for good? This cannot be undone.", [ids.length]),
+						? __("Delete {0} permanently? This can't be undone.", [chosen[0].name])
+						: __("Delete {0} items permanently? This can't be undone.", [ids.length]),
 					async () => {
 						await call("purge", { nodes: ids });
 						this.forget_tree();
@@ -1143,7 +1141,7 @@ onedesk.OneCloud = class OneCloud {
 					}
 				);
 			case "empty-bin":
-				return frappe.confirm(__("Delete everything in the Recycle Bin for good? This cannot be undone."), async () => {
+				return frappe.confirm(__("Empty Recycle Bin? Everything in it is deleted permanently."), async () => {
 					await call("empty_bin");
 					this.refresh();
 				});
@@ -1247,15 +1245,15 @@ onedesk.OneCloud = class OneCloud {
 		if (attached.some((one) => one.remote)) {
 			return frappe.confirm(
 				attached.length === 1
-					? __("Delete {0} from the server? This cannot be undone.", [attached[0].name])
-					: __("Delete these {0} items from the server? This cannot be undone.", [attached.length]),
+					? __("Delete {0} from the server? This can't be undone.", [attached[0].name])
+					: __("Delete {0} items from the server? This can't be undone.", [attached.length]),
 				go
 			);
 		}
 		frappe.confirm(
 			attached.length === 1
-				? __("Remove {0} from its record? This cannot be undone.", [attached[0].name])
-				: __("Remove these {0} files from their records? This cannot be undone.", [attached.length]),
+				? __("Remove {0} from its record? This can't be undone.", [attached[0].name])
+				: __("Remove {0} files from their records? This can't be undone.", [attached.length]),
 			go
 		);
 	}
@@ -1304,7 +1302,7 @@ onedesk.OneCloud = class OneCloud {
 				{
 					fieldtype: "Select",
 					fieldname: "access",
-					label: __("They can"),
+					label: __("Access"),
 					options: [
 						{ value: "view", label: __("View") },
 						{ value: "edit", label: __("Edit") },
@@ -1336,7 +1334,7 @@ onedesk.OneCloud = class OneCloud {
 			const inherited = (person) => `<span class="oc-person-right">${person.edit ? __("Can edit") : __("Can view")} · ${esc(__("from {0}", [person.from]))}</span>`;
 			const owner_note = __("Owner");
 			const people_head = who.can_share || who.people.length ? __("People with access") : "";
-			const record_note = item.record && !item.folder ? __("This file is attached to a record, and goes to whoever may open the record.") : "";
+			const record_note = item.record && !item.folder ? __("Anyone who can open the record can open this file.") : "";
 			const found = who.can_link ? await frappe.xcall("onedesk.one_storage.links.links", { node: item.id }) : [];
 			$people.html(`
 				${people_head ? `<div class="oc-people-head">${people_head}</div>` : ""}
@@ -1383,7 +1381,7 @@ onedesk.OneCloud = class OneCloud {
 				const said = [
 					one.audience === "Invited people" ? __("Only {0}", [one.invitees.join(", ")]) : __("Anyone with the link"),
 					one.allow_upload ? __("can upload") : one.allow_download ? __("can download") : __("can view"),
-					one.expires_on ? (one.expired ? __("ran out {0}", [this.date_text(one.expires_on)]) : __("until {0}", [this.date_text(one.expires_on)])) : "",
+					one.expires_on ? (one.expired ? __("expired {0}", [this.date_text(one.expires_on)]) : __("until {0}", [this.date_text(one.expires_on)])) : "",
 					one.has_password ? __("password") : "",
 					one.opened ? __("opened {0} times", [one.opened]) : "",
 				].filter(Boolean);
@@ -1410,7 +1408,7 @@ onedesk.OneCloud = class OneCloud {
 					label: __("Who can open it"),
 					options: [
 						{ value: "Anyone with the link", label: __("Anyone with the link") },
-						{ value: "Invited people", label: __("Only people I invite by email") },
+						{ value: "Invited people", label: __("Only invited people") },
 					],
 					default: "Anyone with the link",
 				},
@@ -1418,7 +1416,7 @@ onedesk.OneCloud = class OneCloud {
 					fieldtype: "Small Text",
 					fieldname: "invitees",
 					label: __("Email addresses"),
-					description: __("One per line. Each is sent the link, and a code when they open it."),
+					description: __("One per line. Each gets the link and a sign-in code."),
 					depends_on: "eval:doc.audience=='Invited people'",
 					mandatory_depends_on: "eval:doc.audience=='Invited people'",
 				},
@@ -1427,7 +1425,7 @@ onedesk.OneCloud = class OneCloud {
 				{ fieldtype: "Section Break" },
 				{ fieldtype: "Check", fieldname: "allow_download", label: __("Can download"), default: 1 },
 				{ fieldtype: "Column Break" },
-				{ fieldtype: "Check", fieldname: "allow_upload", label: __("Can upload files into it"), default: 0, hidden: item.folder ? 0 : 1 },
+				{ fieldtype: "Check", fieldname: "allow_upload", label: __("Can upload"), default: 0, hidden: item.folder ? 0 : 1 },
 				{ fieldtype: "Section Break" },
 				{ fieldtype: "Datetime", fieldname: "expires_on", label: __("Expires on") },
 				{ fieldtype: "Column Break" },
@@ -1501,10 +1499,10 @@ onedesk.OneCloud = class OneCloud {
 				{
 					fieldtype: "Select",
 					fieldname: "role",
-					label: __("As"),
+					label: __("Role"),
 					options: roles,
 					default: "Member",
-					description: __("Readers open and download. Members also add, change and delete. Owners also rename the library and say who is in it."),
+					description: __("Readers can view and download. Members can also add, change and delete. Owners can also manage members."),
 				},
 				{ fieldtype: "HTML", fieldname: "people" },
 			],
@@ -1565,7 +1563,7 @@ onedesk.OneCloud = class OneCloud {
 		const values = (found && found.values) || {};
 		const admin = frappe.user.has_role("Workspace Administrator");
 		const dialog = new frappe.ui.Dialog({
-			title: item ? __("Edit {0}", [item.name]) : __("Connect a server"),
+			title: item ? __("Edit {0}", [item.name]) : __("Connect server"),
 			fields: [
 				// Name and kind with the server under them, then how to sign in:
 				// frappe's own sections, two columns where two things belong
@@ -1574,7 +1572,7 @@ onedesk.OneCloud = class OneCloud {
 				{ fieldtype: "Data", fieldname: "title", label: __("Name"), reqd: 1, default: values.title },
 				{ fieldtype: "Data", fieldname: "host", label: __("Server"), default: values.host, depends_on: "eval:doc.protocol=='SFTP'" },
 				{ fieldtype: "Column Break" },
-				{ fieldtype: "Select", fieldname: "protocol", label: __("Kind"), options: ["SFTP", "WebDAV"], default: values.protocol || "SFTP" },
+				{ fieldtype: "Select", fieldname: "protocol", label: __("Type"), options: ["SFTP", "WebDAV"], default: values.protocol || "SFTP" },
 				{ fieldtype: "Int", fieldname: "port", label: __("Port"), default: values.port || 22, depends_on: "eval:doc.protocol=='SFTP'" },
 				{ fieldtype: "Section Break" },
 				{
@@ -1583,7 +1581,7 @@ onedesk.OneCloud = class OneCloud {
 					label: __("Address"),
 					default: values.url,
 					depends_on: "eval:doc.protocol=='WebDAV'",
-					description: __("The WebDAV address, starting https://."),
+					description: __("Starts with https://"),
 				},
 				{ fieldtype: "Data", fieldname: "root_path", label: __("Folder on the Server"), default: values.root_path || "/" },
 				{ fieldtype: "Section Break", label: __("Sign In") },
@@ -1593,7 +1591,7 @@ onedesk.OneCloud = class OneCloud {
 					fieldtype: "Password",
 					fieldname: "password",
 					label: __("Password"),
-					description: item ? __("Leave it empty to keep the one saved.") : "",
+					description: item ? __("Leave empty to keep the saved password.") : "",
 				},
 				{ fieldtype: "Section Break", label: __("Sign In With a Key"), collapsible: 1 },
 				{
@@ -1601,13 +1599,13 @@ onedesk.OneCloud = class OneCloud {
 					fieldname: "private_key",
 					label: __("Private Key"),
 					// Not conditional: frappe hides a section whose only field is.
-					description: __("Instead of a password, for an SFTP server that signs in with a key."),
+					description: __("SFTP only. Used instead of a password."),
 				},
 				{ fieldtype: "Section Break" },
 				{
 					fieldtype: "Check",
 					fieldname: "shared",
-					label: __("Everyone on the team can open it"),
+					label: __("Share with everyone on the team"),
 					default: values.shared || 0,
 					hidden: admin ? 0 : 1,
 				},
@@ -1634,11 +1632,11 @@ onedesk.OneCloud = class OneCloud {
 		const by_label = Object.fromEntries(fields.map((one) => [one.label, one.value]));
 		const here = this.trail[this.trail.length - 1];
 		const dialog = new frappe.ui.Dialog({
-			title: __("Ask for files"),
+			title: __("New file request"),
 			size: "large",
 			fields: [
-				{ fieldtype: "Data", fieldname: "title", label: __("What they are for"), reqd: 1 },
-				{ fieldtype: "Small Text", fieldname: "recipients", label: __("People to ask"), reqd: 1, description: __("Email addresses, one per line.") },
+				{ fieldtype: "Data", fieldname: "title", label: __("Title"), reqd: 1 },
+				{ fieldtype: "Small Text", fieldname: "recipients", label: __("Recipients"), reqd: 1, description: __("Email addresses, one per line.") },
 				{ fieldtype: "Column Break" },
 				{ fieldtype: "Date", fieldname: "due_date", label: __("Due Date") },
 				{ fieldtype: "Small Text", fieldname: "message", label: __("Message") },
@@ -1646,14 +1644,14 @@ onedesk.OneCloud = class OneCloud {
 				{
 					fieldtype: "Table",
 					fieldname: "items",
-					label: __("Files to ask for"),
+					label: __("Files"),
 					cannot_add_rows: false,
 					in_place_edit: true,
 					data: [{ required: 1 }],
 					fields: [
 						{ fieldtype: "Data", fieldname: "label", label: __("File"), in_list_view: 1, reqd: 1, columns: 3 },
 						{ fieldtype: "Check", fieldname: "required", label: __("Required"), in_list_view: 1, default: 1, columns: 1 },
-						{ fieldtype: "Check", fieldname: "several", label: __("Several"), in_list_view: 1, columns: 1 },
+						{ fieldtype: "Check", fieldname: "several", label: __("Multiple"), in_list_view: 1, columns: 1 },
 						{ fieldtype: "Data", fieldname: "accept", label: __("File Types"), in_list_view: 1, columns: 2 },
 						{
 							fieldtype: "Select",
@@ -1671,12 +1669,12 @@ onedesk.OneCloud = class OneCloud {
 					fieldname: "where",
 					options: `<p class="oc-people-note">${frappe.utils.escape_html(
 						record
-							? __("Files land on {0}; one with a record field fills that field.", [here ? here.name : ""])
-							: __("Files land in a folder of their own in {0}, named after the request, with a folder per person when you ask several.", [here ? here.name : __("My Files")])
+							? __("Files are attached to {0}.", [here ? here.name : ""])
+							: __("Files are saved to a new folder in {0}.", [here ? here.name : __("My Files")])
 					)}</p>`,
 				},
 			],
-			primary_action_label: __("Ask"),
+			primary_action_label: __("Send request"),
 			primary_action: async (values) => {
 				const items = (values.items || []).map((one) => ({ ...one, fieldname: by_label[one.field] || null }));
 				const made = await frappe.xcall("onedesk.one_storage.file_requests.make", {
@@ -1686,7 +1684,7 @@ onedesk.OneCloud = class OneCloud {
 				dialog.hide();
 				this.forget_tree("@requests");
 				if (!made.mailed) this.request_links(made.links);
-				else frappe.show_alert({ message: __("Asked. Each person has their link by email."), indicator: "green" });
+				else frappe.show_alert({ message: __("Request sent"), indicator: "green" });
 				this.go(made.node);
 			},
 		});
@@ -1697,12 +1695,12 @@ onedesk.OneCloud = class OneCloud {
 		const esc = frappe.utils.escape_html;
 		const copy = __("Copy");
 		const dialog = new frappe.ui.Dialog({
-			title: __("Send each person their link"),
+			title: __("Request links"),
 			fields: [
 				{
 					fieldtype: "HTML",
 					fieldname: "links",
-					options: `<p class="oc-people-note">${esc(__("This workspace cannot send email yet, so pass each link on yourself. Each link is that person's own."))}</p>
+					options: `<p class="oc-people-note">${esc(__("Email isn't set up, so these links weren't sent."))}</p>
 						${links
 							.map(
 								(one) => `<div class="oc-drive-row"><span>${esc(one.email)}</span><code>${esc(one.url)}</code>${frappe.ui.button.html({ variant: "ghost", size: "sm", label: copy, attrs: { "data-copy": one.url } })}</div>`
@@ -1738,13 +1736,13 @@ onedesk.OneCloud = class OneCloud {
 					fieldtype: "HTML",
 					fieldname: "table",
 					options: `<div class="oc-progress"><table><thead><tr><th></th>${head}<th></th></tr></thead><tbody>${rows}</tbody></table></div>
-						<p class="oc-people-note">${esc(closed ? __("Closed. The links take nothing more.") : __("* required"))}</p>`,
+						<p class="oc-people-note">${esc(closed ? __("This request is closed.") : __("* required"))}</p>`,
 				},
 			],
 			primary_action_label: __("Remind"),
 			primary_action: async () => {
 				const sent = await call("remind", { name });
-				frappe.show_alert({ message: sent ? __("Reminded {0} people", [sent]) : __("Nobody to remind, or no email to remind them with"), indicator: "blue" });
+				frappe.show_alert({ message: sent ? __("Reminder sent to {0} people", [sent]) : __("No reminders sent"), indicator: "blue" });
 			},
 			secondary_action_label: closed ? __("Reopen") : __("Close request"),
 			secondary_action: async () => {
@@ -1769,9 +1767,9 @@ onedesk.OneCloud = class OneCloud {
 		});
 		const esc = frappe.utils.escape_html;
 		const steps = [
-			[__("Windows"), __("In File Explorer, right-click This PC and choose Map network drive. Paste the address as the folder.")],
+			[__("Windows"), __("In File Explorer, right-click This PC, choose Map network drive and paste the address.")],
 			[__("macOS"), __("In Finder, choose Go › Connect to Server and paste the address.")],
-			[__("Linux"), __("In Files, choose Other Locations and paste the address after davs:// in place of https://.")],
+			[__("Linux"), __("In Files, choose Other Locations and paste the address with davs:// in place of https://.")],
 		];
 		const dialog = new frappe.ui.Dialog({
 			title: __("Connect {0} as a drive", [name]),
@@ -1782,26 +1780,26 @@ onedesk.OneCloud = class OneCloud {
 					fieldtype: "HTML",
 					fieldname: "how",
 					options: `<dl class="oc-drive-steps">${steps.map(([os, text]) => `<dt>${esc(os)}</dt><dd>${esc(text)}</dd>`).join("")}</dl>
-						<p class="oc-people-note">${esc(__("When asked for a password, create one below for each computer. It opens only your drive, with the same access you have here."))}</p>
+						<p class="oc-people-note">${esc(__("Sign in with a drive password, not your One password."))}</p>
 						<div class="oc-drive-key"></div><div class="oc-drive-list"></div>`,
 				},
 			],
-			primary_action_label: __("Make a password"),
+			primary_action_label: __("Create password"),
 			primary_action: () => {
 				frappe.prompt(
-					{ fieldtype: "Data", fieldname: "label", label: __("Which computer is it for?"), reqd: 1 },
+					{ fieldtype: "Data", fieldname: "label", label: __("Computer"), reqd: 1 },
 					async ({ label }) => {
 						const made = await frappe.xcall("onedesk.one_storage.dav.make_password", { label });
 						const copy = __("Copy");
 						const $how = dialog.fields_dict.how.$wrapper;
 						$how.find(".oc-drive-key").html(`
-							<div class="oc-people-head">${esc(__("Shown once. Keep it somewhere safe."))}</div>
+							<div class="oc-people-head">${esc(__("Copy it now. It won't be shown again."))}</div>
 							<div class="oc-drive-row"><span>${esc(__("Password"))}</span><code>${esc(made.password)}</code>${frappe.ui.button.html({ variant: "ghost", size: "sm", label: copy, attrs: { "data-copy": made.password } })}</div>`);
 						$how.find("[data-copy]").on("click", (e) => frappe.utils.copy_to_clipboard(e.currentTarget.dataset.copy));
 						list();
 					},
 					__("New drive password"),
-					__("Make")
+					__("Create")
 				);
 			},
 		});
@@ -1809,7 +1807,7 @@ onedesk.OneCloud = class OneCloud {
 			const found = await frappe.xcall("onedesk.one_storage.dav.passwords");
 			const $list = dialog.fields_dict.how.$wrapper.find(".oc-drive-list");
 			if (!found.length) return $list.empty();
-			const head = __("Your drive passwords");
+			const head = __("Drive passwords");
 			const never = __("Never used");
 			const remove = __("Remove");
 			$list.html(`<div class="oc-people-head">${head}</div>${found
@@ -1834,12 +1832,12 @@ onedesk.OneCloud = class OneCloud {
 	intake(item, on) {
 		const set = async () => {
 			await frappe.xcall("onedesk.one_intake.switches.set_folder", { folder: item.id, on: on ? 1 : 0 });
-			frappe.show_alert({ message: on ? __("OneAI reads new files in {0}.", [item.name]) : __("OneAI no longer reads {0}.", [item.name]), indicator: "green" });
+			frappe.show_alert({ message: on ? __("OneAI will read new files in {0}.", [item.name]) : __("OneAI no longer reads {0}.", [item.name]), indicator: "green" });
 			this.refresh();
 		};
 		if (!on) return set();
 		frappe.confirm(
-			__("OneAI will read, file and act on new files in {0} and its subfolders. Scans and photos use OneAI credits.", [
+			__("Read new files in {0} and its subfolders with OneAI? OneAI files them and acts on them. Scans and photos use credits.", [
 				`<b>${frappe.utils.escape_html(item.name)}</b>`,
 			]),
 			set
@@ -1849,7 +1847,7 @@ onedesk.OneCloud = class OneCloud {
 	// One file read now, as the person asking, where no folder of it is read.
 	read_file(item) {
 		frappe.confirm(
-			__("OneAI will read {0}, file it and act on it on your behalf. A scan or a photo is read with OneAI credits.", [
+			__("Read {0} with OneAI? OneAI files it and acts on it. Scans and photos use credits.", [
 				`<b>${frappe.utils.escape_html(item.name)}</b>`,
 			]),
 			async () => {
@@ -1903,7 +1901,7 @@ onedesk.OneCloud = class OneCloud {
 			return [
 				[
 					["restore", "rotate-ccw", __("Restore"), true],
-					["purge", "trash-2", __("Delete for good"), true, "Shift+Del", "red"],
+					["purge", "trash-2", __("Delete permanently"), true, "Shift+Del", "red"],
 				],
 			];
 		}
@@ -1942,7 +1940,7 @@ onedesk.OneCloud = class OneCloud {
 
 	space_menu() {
 		if (this.kind() === "libraries") return [[["new-library", "library-big", __("New library"), this.can_make_library]], [["refresh", "refresh-cw", __("Refresh"), true, "F5"]]];
-		if (this.kind() === "network") return [[["new-mount", "server", __("Connect a server"), this.can_make_mount]], [["refresh", "refresh-cw", __("Refresh"), true, "F5"]]];
+		if (this.kind() === "network") return [[["new-mount", "server", __("Connect server"), this.can_make_mount]], [["refresh", "refresh-cw", __("Refresh"), true, "F5"]]];
 		return [
 			[
 				["new-folder", "folder-plus", __("New folder"), this.can_make_folder, "Ctrl+Shift+N"],
@@ -2143,7 +2141,7 @@ onedesk.OneCloud = class OneCloud {
 			const more = clash.length > 5 ? `<br>${__("and {0} more", [clash.length - 5])}` : "";
 			const dialog = new frappe.ui.Dialog({
 				title: clash.length === 1 ? __("A file with this name is already here") : __("{0} files with these names are already here", [clash.length]),
-				fields: [{ fieldtype: "HTML", options: `<p>${names}${more}</p><p class="text-muted">${__("Replacing keeps what they hold now as an earlier version.")}</p>` }],
+				fields: [{ fieldtype: "HTML", options: `<p>${names}${more}</p><p class="text-muted">${__("Replaced files are kept as earlier versions.")}</p>` }],
 				primary_action_label: __("Replace"),
 				// Answered before hiding: hiding answers "keep both" for a
 				// dialog closed with its cross.

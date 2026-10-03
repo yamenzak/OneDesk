@@ -27,8 +27,8 @@ from onedesk.one_admin import lifecycle, runner, site
 #: get it wrong in only one place.
 BY_HAND = {
 	"Overdue": "",
-	"Suspended": "The site stops serving. Nobody can sign in until it is restored.",
-	"Archived": "Frappe Cloud deletes the site after taking a backup. Restoring it is not automatic.",
+	"Suspended": "The site stops. No one can sign in until it's restored.",
+	"Archived": "The site is deleted after a backup. Restoring it is manual.",
 	"Dropped": "Every file this workspace stored is deleted permanently.",
 }
 
@@ -77,7 +77,7 @@ def fall(tenant: str, rung: str) -> dict:
 	"""
 	_may()
 	if rung not in BY_HAND:
-		frappe.throw(frappe._("{0} is not a rung an operator sets.").format(rung))
+		frappe.throw(frappe._("Operators can't set {0}.").format(rung))
 	held = frappe.get_doc("Tenant", tenant)
 	from onedesk.one_admin import log
 
@@ -207,7 +207,7 @@ def retry_signup(request: str) -> dict:
 
 	asked = frappe.get_doc("Account Request", request)
 	if asked.status not in ("Paid", "Failed"):
-		frappe.throw(frappe._("{0} has not been paid, so there is nothing to build.").format(request))
+		frappe.throw(frappe._("{0} hasn't been paid.").format(request))
 	if asked.tenant:
 		# `accept` hands back the workspace it already made rather than making a
 		# second one, so retrying here would report success and do nothing. The

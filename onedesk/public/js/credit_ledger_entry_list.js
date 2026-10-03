@@ -20,7 +20,7 @@ frappe.listview_settings["Credit Ledger Entry"] = {
 				: [__("Granted"), "green", "kind,=,Grant"];
 		}
 		if (doc.kind === "Refund") return [__("Refunded"), "blue", "kind,=,Refund"];
-		if (doc.source === "Operator") return [__("Taken back"), "red", "kind,=,Spend"];
+		if (doc.source === "Operator") return [__("Revoked"), "red", "kind,=,Spend"];
 		return [__("Spent"), "orange", "kind,=,Spend"];
 	},
 

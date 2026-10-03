@@ -134,8 +134,8 @@ $.extend(onedesk.shell, {
 			show_search: rows.length > 5,
 			page_size,
 			empty_icon: icon,
-			empty_message: empty || __("Nothing yet."),
-			no_match_message: none || __("Nothing matches that."),
+			empty_message: empty || __("Nothing to show"),
+			no_match_message: none || __("No matches"),
 			get_data: () => Promise.resolve(rows),
 			on_row_click: open,
 			columns,
@@ -513,7 +513,7 @@ onedesk.shell.Editor = class Editor {
 		).finally(() => (this.saving = false));
 		if (!said) return;
 		this.data = said;
-		frappe.show_alert({ message: __("Saved."), indicator: "green" });
+		frappe.show_alert({ message: __("Saved"), indicator: "green" });
 		this.set_dirty(false);
 		this.$content.empty();
 		this.hear(said.opened);

@@ -154,4 +154,4 @@ def looks_right(doctype: str, name: str) -> None:
 	"""A person has checked a record OneAI made and says it is right."""
 	frappe.get_doc(doctype, name).check_permission("write")
 	if not clear(doctype, name):
-		frappe.throw(_("Nobody needs to check {0} any more.").format(name))
+		frappe.throw(_("{0} is already checked.").format(name))

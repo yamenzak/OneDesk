@@ -33,9 +33,9 @@ def _shareable(node_id: str) -> dict:
 			item.file_name, _(item.attached_to_doctype), item.attached_to_name
 		))
 	if item.one_home_of:
-		frappe.throw(_("Share the folders in My Files, not My Files itself."))
+		frappe.throw(_("My Files can't be shared. Share the folders in it instead."))
 	if not ns.may(item, "write"):
-		frappe.throw(_("You may not share {0}.").format(item.file_name), frappe.PermissionError)
+		frappe.throw(_("You can't share {0}.").format(item.file_name), frappe.PermissionError)
 	return item
 
 
@@ -45,7 +45,7 @@ def people(node: str) -> dict:
 	"""Who has this, and whether the reader may change that."""
 	item = api._item(node)
 	if not ns.may(item):
-		frappe.throw(_("That is no longer here."), frappe.DoesNotExistError)
+		frappe.throw(_("This item no longer exists."), frappe.DoesNotExistError)
 	rows = frappe.get_all(
 		"DocShare",
 		filters={"share_doctype": "File", "share_name": item.name, "everyone": 0},
@@ -97,7 +97,7 @@ def share(nodes: str | list, users: str | list, edit: int = 0) -> int:
 	)
 	refused = [user for user in users if user not in staff]
 	if refused:
-		frappe.throw(_("Only people on the team can be given a file here: {0}.").format(", ".join(refused)))
+		frappe.throw(_("Only people on the team can be added. Create a link for {0} instead.").format(", ".join(refused)))
 	given = 0
 	for node_id in nodes:
 		item = _shareable(node_id)
@@ -140,7 +140,7 @@ def unshare(node: str, user: str) -> None:
 def set_edit(node: str, user: str, edit: int = 0) -> None:
 	item = _shareable(node)
 	if not frappe.db.exists("DocShare", {"share_doctype": "File", "share_name": item.name, "user": user}):
-		frappe.throw(_("{0} does not have {1}.").format(get_fullname(user), item.file_name))
+		frappe.throw(_("{0} doesn't have access to {1}.").format(get_fullname(user), item.file_name))
 	frappe.share.add_docshare(
 		"File", item.name, user, read=1, write=int(edit), share=int(edit), flags={"ignore_share_permission": True}
 	)

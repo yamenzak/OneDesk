@@ -98,9 +98,9 @@ def validate(doc, method=None) -> None:
 		return
 	doctype = doc.webhook_doctype
 	if not doctype or doctype not in _kinds():
-		frappe.throw(_("A webhook here is on a kind of record you can open."))
+		frappe.throw(_("A webhook can only be on a record type you can open."))
 	if frappe.get_meta(doctype).module in REFUSED_MODULES:
-		frappe.throw(_("{0} is not the workspace's to send.").format(_(doctype)))
+		frappe.throw(_("{0} can't be sent by a webhook.").format(_(doctype)))
 	if (doc.condition or "").strip():
 		frappe.throw(
 			_(

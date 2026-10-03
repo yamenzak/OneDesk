@@ -190,11 +190,10 @@ def credit_price() -> float:
 #: frappe-free and keeps its English for tests and logs, so a screen says a
 #: finding by its `rule`, with its `slots`.
 RULES = {
-	"margin": _lt("{label} sells for {price} and costs {cost} to run, under the {margin}× margin ({least})."),
+	"margin": _lt("{label} sells for {price} and costs {cost}, below the {margin}× margin ({least})."),
 	"fewer": _lt("{upper} costs more than {lower} and gives less {what}."),
 	"no_upgrade": _lt(
-		"Moving from {lower} to {upper} costs {step} more a month, and buying the difference as add-ons "
-		"costs {alone}, so nobody would move up."
+		"Moving from {lower} to {upper} costs {step} more a month, but the same as add-ons costs {alone}."
 	),
 	"thin_upgrade": _lt("{upper} saves only {saves}% over {lower} with add-ons."),
 	"addon_dear": _lt("{addon} costs {price} a month, as much as moving from {lower} to {upper}."),
@@ -245,6 +244,6 @@ def warn(doc, method=None) -> None:
 		return
 	frappe.msgprint(
 		"<br>".join(frappe.utils.escape_html(one["said"]) for one in found),
-		title=frappe._("The price list does not hold"),
+		title=frappe._("Price List Problems"),
 		indicator="red" if any(one["level"] == "red" for one in found) else "orange",
 	)

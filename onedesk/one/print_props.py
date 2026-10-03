@@ -149,7 +149,7 @@ def taken(given: dict, allowed: dict, where: str, ours=()) -> dict:
 			continue
 		if key not in allowed:
 			frappe.throw(
-				_("{0} has no property {1}; it takes {2}.").format(where, key, ", ".join(sorted(allowed)))
+				_("{0} has no property {1}. It takes {2}.").format(where, key, ", ".join(sorted(allowed)))
 			)
 		if value is None or value == "":
 			continue

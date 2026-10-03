@@ -382,7 +382,7 @@ def _mine(names) -> list[str]:
 	)
 	for account in accounts:
 		if not account:
-			frappe.throw(_("A message that belongs to no mailbox cannot be filed here."))
+			frappe.throw(_("This message isn't in a mailbox."))
 		actions.require(account)
 	return names
 

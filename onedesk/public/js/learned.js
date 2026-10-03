@@ -18,7 +18,7 @@ function settle(frm) {
 			ask(
 				frm,
 				"reject",
-				__("Check-ins from {0} will be refused, and it will not be proposed again.", [
+				__("Check-ins from {0} will be refused and it won't be suggested again.", [
 					frm.doc.address || frm.doc.label,
 				]),
 			),

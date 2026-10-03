@@ -396,7 +396,7 @@ def rule(result: dict) -> str:
 	units = {"days": _("{0} days"), "weeks": _("{0} weeks"), "months": _("{0} months"), "years": _("{0} years")}
 	one = {"days": _("one day"), "weeks": _("one week"), "months": _("one month"), "years": _("one year")}
 	period = one[result["unit"]] if result["number"] == 1 else units[result["unit"]].format(result["number"])
-	start = _("Posted, so received four days later (§ 122 AO)") if result["posted"] else _("From the day it arrived")
+	start = _("Received 4 days after posting (§ 122 AO)") if result["posted"] else _("From the day received")
 	said = _("{0}, plus {1}").format(start, period)
 	return _("{0}, moved to the next working day").format(said) if result["moved"] else said
 

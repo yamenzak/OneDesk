@@ -79,7 +79,7 @@ def join(root: str, path: str) -> str:
 
 def _mount(name: str):
 	if not frappe.db.exists("Cloud Mount", name):
-		frappe.throw(_("That is no longer here."), frappe.DoesNotExistError)
+		frappe.throw(_("This item no longer exists."), frappe.DoesNotExistError)
 	return frappe.get_doc("Cloud Mount", name)
 
 
@@ -99,7 +99,7 @@ def _need(node: str):
 	mount, path = split(node)
 	doc = _mount(mount)
 	if not may(doc):
-		frappe.throw(_("That is no longer here."), frappe.DoesNotExistError)
+		frappe.throw(_("This item no longer exists."), frappe.DoesNotExistError)
 	return doc, path
 
 
@@ -110,11 +110,11 @@ def reachable(host: str) -> None:
 	try:
 		found = {info[4][0] for info in socket.getaddrinfo(host, None)}
 	except socket.gaierror:
-		frappe.throw(_("There is no server called {0}.").format(host))
+		frappe.throw(_("Server {0} not found.").format(host))
 	for address in found:
 		ip = ipaddress.ip_address(address.split("%")[0])
 		if ip.is_private or ip.is_loopback or ip.is_link_local or ip.is_reserved or ip.is_multicast or ip.is_unspecified:
-			frappe.throw(_("{0} is on a private network, which OneCloud does not connect to.").format(host))
+			frappe.throw(_("{0} is on a private network. OneCloud can't connect to it.").format(host))
 
 
 # ------------------------------------------------------------ the servers
@@ -186,7 +186,7 @@ def _private_key(text: str):
 			return kind.from_private_key(io.StringIO(text))
 		except Exception:
 			continue
-	frappe.throw(_("That private key could not be read."))
+	frappe.throw(_("Invalid private key."))
 
 
 class WebDAV:
@@ -210,7 +210,7 @@ class WebDAV:
 	def _ask(self, method: str, path: str, **kw):
 		answer = self.session.request(method, self._url(path), timeout=PATIENCE, **kw)
 		if answer.status_code >= 400:
-			frappe.throw(_("The server said {0}.").format(f"{answer.status_code} {answer.reason}"))
+			frappe.throw(_("Server error: {0}").format(f"{answer.status_code} {answer.reason}"))
 		return answer
 
 	def list(self, path: str) -> list[dict]:
@@ -451,7 +451,7 @@ def save(values: str | dict, name: str | None = None) -> dict:
 		frappe.throw(_("Only people on the team can connect a server."), frappe.PermissionError)
 	doc = frappe.get_doc("Cloud Mount", name) if name else frappe.new_doc("Cloud Mount")
 	if name and not _manages(doc):
-		frappe.throw(_("Only whoever connected {0} can change it.").format(doc.title), frappe.PermissionError)
+		frappe.throw(_("Only the person who connected {0} can change it.").format(doc.title), frappe.PermissionError)
 	for field in ("title", "protocol", "host", "port", "url", "username", "root_path", "shared"):
 		if field in values:
 			doc.set(field, values.get(field))
@@ -481,6 +481,6 @@ def settings(node: str) -> dict:
 def disconnect(node: str) -> None:
 	doc, _path = _need(node)
 	if not _manages(doc):
-		frappe.throw(_("Only whoever connected {0} can remove it.").format(doc.title), frappe.PermissionError)
+		frappe.throw(_("Only the person who connected {0} can remove it.").format(doc.title), frappe.PermissionError)
 	frappe.delete_doc("Cloud Mount", doc.name, ignore_permissions=True)
 

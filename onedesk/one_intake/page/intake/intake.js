@@ -40,7 +40,7 @@ onedesk.IntakeInbox = class IntakeInbox {
 			this.$everyone = this.page.add_field({
 				fieldname: "everyone",
 				fieldtype: "Check",
-				label: __("Everybody's"),
+				label: __("Everyone's"),
 				change: () => {
 					this.everyone = this.$everyone.get_value() ? 1 : 0;
 					this.load();
@@ -51,7 +51,7 @@ onedesk.IntakeInbox = class IntakeInbox {
 	}
 
 	nothing_open() {
-		return onedesk.shell.empty(__("Pick a document to see what OneAI did with it."), null, { icon: "inbox" });
+		return onedesk.shell.empty(__("No document selected"), null, { icon: "inbox" });
 	}
 
 	show() {
@@ -97,8 +97,8 @@ onedesk.IntakeInbox = class IntakeInbox {
 		if (!this.items.length) {
 			this.$rows.html(
 				this.box === "waiting"
-					? onedesk.shell.empty(__("Nothing waits for you."), __("OneAI and its auditor dealt with everything."), { icon: "check-check" })
-					: onedesk.shell.empty(__("Nothing yet."), null, { icon: "inbox" })
+					? onedesk.shell.empty(__("Nothing waiting"), null, { icon: "check-check" })
+					: onedesk.shell.empty(__("No documents"), null, { icon: "inbox" })
 			);
 			return;
 		}
@@ -136,7 +136,7 @@ onedesk.IntakeInbox = class IntakeInbox {
 		try {
 			said = await frappe.xcall("onedesk.one_intake.inbox.item", { name: reading });
 		} catch (e) {
-			this.$read.html(onedesk.shell.empty(__("That is no longer here."), null, { icon: "inbox" }));
+			this.$read.html(onedesk.shell.empty(__("Document not found"), null, { icon: "inbox" }));
 			return;
 		}
 		const one = this.items.find((row) => row.name === reading);
@@ -170,7 +170,7 @@ onedesk.IntakeInbox = class IntakeInbox {
 
 	pane(said) {
 		const esc = frappe.utils.escape_html;
-		const open = said.route ? `<a href="${esc(said.route)}">${__("Open the Document")}</a>` : "";
+		const open = said.route ? `<a href="${esc(said.route)}">${__("Open Document")}</a>` : "";
 		const rest = { ...said, actions: [], may_decide: false };
 		return `<div class="oi-read">
 			<div class="oi-read-head">
@@ -179,8 +179,8 @@ onedesk.IntakeInbox = class IntakeInbox {
 			</div>
 			${said.summary ? `<div class="oi-summary">${esc(said.summary)}</div>` : ""}
 			<div class="oi-title">${__("What OneAI did")}</div>
-			<ul class="oi-acts">${(said.actions || []).map((act) => this.act(act, said.may_decide)).join("") || `<li class="one-shell-quiet">${__("Nothing.")}</li>`}</ul>
-			<details class="oi-more"><summary>${__("Everything OneAI read")}</summary><div class="oi-more-body">${onedesk.intake.html(rest)}</div></details>
+			<ul class="oi-acts">${(said.actions || []).map((act) => this.act(act, said.may_decide)).join("") || `<li class="one-shell-quiet">${__("Nothing")}</li>`}</ul>
+			<details class="oi-more"><summary>${__("All Details")}</summary><div class="oi-more-body">${onedesk.intake.html(rest)}</div></details>
 		</div>`;
 	}
 
@@ -192,13 +192,13 @@ onedesk.IntakeInbox = class IntakeInbox {
 		const doubted = act.level === "Done" && act.audit === "Wrong";
 		const badge = (label, theme) => frappe.ui.badge.html({ label, theme, size: "sm" });
 		const chip = doubted
-			? badge(__("The auditor doubts this"), "red")
+			? badge(__("Auditor Disagrees"), "red")
 			: act.level === "Proposed"
-				? badge(__("Needs a look"), "orange")
+				? badge(__("Needs Review"), "orange")
 				: act.level === "Refused"
 					? badge(__("Not allowed"), "gray")
 					: act.by_auditor
-						? badge(__("Approved by the auditor"), "green")
+						? badge(__("Auditor Approved"), "green")
 						: "";
 		const change = (act.change || [])
 			.map((it) => `<div class="oi-change">${esc(it.field)}: <s>${esc(String(it.from))}</s> → ${esc(String(it.to))}</div>`)
@@ -235,10 +235,10 @@ onedesk.IntakeInbox = class IntakeInbox {
 		});
 		this.$read.find("[data-undo-one]").on("click", (event) => {
 			const action = $(event.currentTarget).attr("data-undo-one");
-			frappe.confirm(__("Take this back?"), async () => {
+			frappe.confirm(__("Undo this?"), async () => {
 				const done = await frappe.xcall("onedesk.one_intake.act.undo_one", { action });
 				if (done.why) frappe.msgprint(done.why);
-				else frappe.show_alert({ message: __("Undone."), indicator: "green" });
+				else frappe.show_alert({ message: __("Undone"), indicator: "green" });
 				again();
 			});
 		});

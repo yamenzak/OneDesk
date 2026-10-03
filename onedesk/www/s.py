@@ -16,9 +16,9 @@ from onedesk.one_storage import namespace as ns
 no_cache = 1
 
 SAID = {
-	"wrong": lambda: _("That password is not right."),
-	"wrong_code": lambda: _("That code is not right, or it has run out."),
-	"sent": lambda: _("If that address was invited, a code is on its way to it."),
+	"wrong": lambda: _("Incorrect password."),
+	"wrong_code": lambda: _("This code is incorrect or has expired."),
+	"sent": lambda: _("If this address was invited, a code has been sent to it."),
 }
 
 

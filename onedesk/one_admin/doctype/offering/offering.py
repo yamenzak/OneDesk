@@ -44,21 +44,21 @@ class Offering(Document):
 		for field in ("storage_gb", "database_gb", "seats", "credits", "credits_a_month"):
 			if self.get(field) and field not in CARRIES[self.kind]:
 				frappe.throw(
-					frappe._("A {0} does not carry {1}.").format(
+					frappe._("A {0} can't have {1}.").format(
 						self.kind, self.meta.get_label(field)
 					)
 				)
 		if self.kind == "Credit Pack":
 			if self.recurring:
-				frappe.throw(frappe._("A credit pack is bought once, so it does not recur."))
+				frappe.throw(frappe._("A credit pack can't be recurring."))
 			if not self.credits:
-				frappe.throw(frappe._("A credit pack with no credits in it sells nothing."))
+				frappe.throw(frappe._("A credit pack needs credits."))
 		if self.kind == "Add-on":
 			held = [one for one in CARRIES["Add-on"] if self.get(one)]
 			if len(held) != 1:
-				frappe.throw(frappe._("An add-on adds one thing, in one size."))
+				frappe.throw(frappe._("An add-on adds exactly one thing."))
 			if not self.recurring:
-				frappe.throw(frappe._("An add-on is paid for monthly with the plan, so it recurs."))
+				frappe.throw(frappe._("An add-on must be recurring."))
 		if not self.is_new() and (self.has_value_changed("amount") or self.has_value_changed("currency") or self.has_value_changed("recurring")):
 			# A Stripe price cannot be changed, so the next sale makes a new one
 			# (stripe.price_for). Customers already on the old one keep it.

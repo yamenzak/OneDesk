@@ -65,7 +65,7 @@ SUGGESTIONS = {
 		},
 		{
 			"label": _lt("Who has this?"),
-			"ask": _lt("Which workspaces have this, how many of them are live, and what they pay for it."),
+			"ask": _lt("Which workspaces have this, how many are live, and what do they pay?"),
 			"can": "read",
 			"view": "Form",
 			"when": {"kind": ["Plan", "Add-on"]},
@@ -193,7 +193,7 @@ def page(said: dict) -> str | None:
 	return (
 		"The reader is an operator of One, on OneAdmin's Home: how many workspaces are live, being built, "
 		"owing, failed, or paid for and not built, and a list of what needs them. console_today reads that "
-		"list with each item's reason. Nothing is changed from the panel: Resume, Build It and Check Again "
+		"list with each item's reason. Nothing is changed from the panel: Resume, Build Workspace and Check Again "
 		"are buttons on Home. How the console works is in OneAdmin's documentation (how_to)."
 	)
 

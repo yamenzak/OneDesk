@@ -22,20 +22,20 @@ class AIModel(Document):
 		site.require_admin()
 		if self.offered and self.status != "Priced":
 			frappe.throw(
-				frappe._("{0} is {1}, so it cannot be offered.").format(self.model, self.status)
+				frappe._("{0} is {1}, so it can't be offered.").format(self.model, self.status)
 			)
 		if self.priced_by_hand and not self.rates:
 			frappe.throw(
-				frappe._("A model priced by hand needs at least one rate on it.")
+				frappe._("Add at least one rate to a model priced by hand.")
 			)
 		if self.default_for:
 			if not self.offered:
 				frappe.throw(
-					frappe._("{0} is not offered, so nothing can default to it.").format(self.model)
+					frappe._("{0} isn't offered, so it can't be a default.").format(self.model)
 				)
 			if not capability.able(self.capability, self.default_for):
 				frappe.throw(
-					frappe._("A {0} model cannot be the default for {1}.").format(
+					frappe._("A {0} model can't be the default for {1}.").format(
 						self.capability, self.default_for
 					)
 				)
@@ -57,11 +57,11 @@ class AIModel(Document):
 					frappe._("{0} is already the default for {1}.").format(held, self.default_for)
 				)
 		if self.markup is not None and self.markup < 0:
-			frappe.throw(frappe._("A markup below nothing would pay somebody to call the model."))
+			frappe.throw(frappe._("Markup can't be negative."))
 		for rate in self.rates or []:
 			if not rate.unit or not rate.per or rate.usd is None:
 				frappe.throw(
-					frappe._("A rate needs a unit, how many of them, and what they cost.")
+					frappe._("Each rate needs a unit, a quantity and a price.")
 				)
 		# Zero where there is no token price. The column cannot hold nothing, so
 		# the list and the form both read zero as "not priced in tokens".

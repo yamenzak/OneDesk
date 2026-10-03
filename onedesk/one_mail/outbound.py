@@ -50,9 +50,9 @@ def send(queue, sender: str, recipient: str, message) -> None:
 	raw = with_references(raw)
 	account = _account(queue, sender)
 	if not account:
-		frappe.throw(frappe._("No mail account can send as {0}.").format(sender))
+		frappe.throw(frappe._("No mailbox can send as {0}.").format(sender))
 	if account.get("one_hosted"):
-		raw = shrink(raw, _linker(queue), heading=frappe._("Too large to attach, so sent as links:"))
+		raw = shrink(raw, _linker(queue), heading=frappe._("Too large to attach, shared as links:"))
 	deliver(account, recipient, raw, sender=parseaddr(sender)[1])
 	if account.get("one_connected") and account.append_emails_to_sent_folder and _last(queue, recipient):
 		file_copy(account, raw)

@@ -7,7 +7,7 @@ frappe.listview_settings["Personal Data Download Request"] = {
 	get_indicator: (doc) =>
 		({
 			Waiting: [__("Waiting for You"), "orange", "one_status,=,Waiting"],
-			Gathering: [__("Being Gathered"), "blue", "one_status,=,Gathering"],
+			Gathering: [__("Preparing"), "blue", "one_status,=,Gathering"],
 		})[doc.one_status] || [__("Sent"), "green", "one_status,=,Ready"],
 	onload(list) {
 		list.page.set_title(__("Data Copies"));

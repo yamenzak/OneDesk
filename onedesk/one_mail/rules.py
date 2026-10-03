@@ -252,7 +252,7 @@ def away(made, message) -> bool:
 	if made.message_id:
 		reply["In-Reply-To"] = f"<{made.message_id.strip('<>')}>"
 		reply["References"] = f"<{made.message_id.strip('<>')}>"
-	reply.set_content(account.get("one_away_message") or _("I am away and will answer when I am back."))
+	reply.set_content(account.get("one_away_message") or _("I'm away and will reply when I'm back."))
 	from onedesk.one_mail import outbound
 
 	outbound.deliver(account, sender, reply.as_bytes())

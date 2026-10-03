@@ -5891,6 +5891,26 @@ tenth point.
   rewritten (Settings, OneCloud, OneMail, privacy, webhooks, numbering and
   the rest), so the guard holds the whole desk with no exceptions.
 
+**Your word, after: the tenth point on everything already passed.** One,
+OneAdmin, OneMail, OneCalendar, OneTask, OneCloud and OneIntake had their
+nine points done. Point 10, plain words, is now done on all seven.
+
+- **READMEs.** Each product's README, above Under the hood, is rewritten as
+  plain help docs: what the screen is for, numbered steps, short bullets,
+  who sees and changes it. The facts are kept and the machinery talk is cut.
+- **Screens.** About 1,000 strings rewritten across the seven products' JS
+  and the Python text that shows on screen: notes removed or cut to one
+  fact, frappe's words (Record Type, Restore, Disable, Link), verb + noun
+  buttons, short empty states, confirmations that ask and say the effect,
+  no somebody/bell/is told/kind of record. Notification descriptions and
+  mails read the same way.
+- **Names that changed**, with the READMEs and OneAI's page texts following:
+  Needs a Look → Needs Review, Take Back → Revoke Credits, Build It → Build
+  Workspace, File → Link (OneMail), Signing In → Sign-in, On Documents →
+  Contact and Branding, What They See → User Permissions, Only When →
+  Conditions, Who Is Told → Recipients, and the rest.
+- ar and de for all of it.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

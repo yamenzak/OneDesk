@@ -88,7 +88,7 @@ def test_a_pack_with_nothing_in_it_is_refused():
 	controller = (
 		tree.APP / "one_admin" / "doctype" / "offering" / "offering.py"
 	).read_text(encoding="utf-8")
-	assert "sells nothing" in controller
+	assert "A credit pack needs credits." in controller
 
 
 def test_an_overdue_workspace_still_gets_its_allowance():

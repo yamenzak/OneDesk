@@ -58,8 +58,8 @@ def guard(doc, method=None) -> None:
 	kept = held(doc)
 	if kept:
 		frappe.throw(
-			_("{0} must be kept until {1} by law, and cannot be deleted before then.").format(doc.file_name, frappe.format(getdate(kept), "Date")),
-			title=_("Kept by law"),
+			_("{0} must be kept by law until {1}.").format(doc.file_name, frappe.format(getdate(kept), "Date")),
+			title=_("Kept by Law"),
 		)
 
 

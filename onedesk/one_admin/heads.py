@@ -116,9 +116,9 @@ def tenant_address(doc):
 		below = where["next"]
 		rung = _(below)
 		said.append(
-			_("Falls to {0} tonight.").format(rung)
+			_("{0} tonight.").format(rung)
 			if where["days_left"] == 0
-			else _("Falls to {0} in {1} days.").format(rung, where["days_left"])
+			else _("{0} in {1} days.").format(rung, where["days_left"])
 		)
 	colour = (
 		"red"
@@ -197,7 +197,7 @@ def tenant_rung(doc):
 	left, below = where["days_left"], where["next"]
 	days = where.get("days") or left
 	return {
-		"label": _("Falls to {0}").format(_(below)),
+		"label": _("Becomes {0}").format(_(below)),
 		"value": _("Tonight") if left == 0 else _("In {0} days").format(left),
 		"tone": "alarm" if left <= 2 else "waiting",
 		"meter": {"value": days - left, "of": days} if days else None,
@@ -244,7 +244,7 @@ def job_steps(doc):
 		return None
 	meter = {"value": walk["of"] if walk["status"] == "Done" else walk["at"], "of": walk["of"]}
 	if walk["status"] == "Done":
-		return {"label": _("Steps"), "value": _("Finished all {0}").format(walk["of"]), "meter": meter}
+		return {"label": _("Steps"), "value": _("All {0} done").format(walk["of"]), "meter": meter}
 	now = walk["steps"][walk["at"]] if walk["at"] < len(walk["steps"]) else None
 	label = (_("Failed at Step {0} of {1}") if walk["status"] == "Failed" else _("Step {0} of {1}")).format(
 		walk["at"] + 1, walk["of"]
@@ -274,15 +274,15 @@ def request_said(doc):
 		return None
 	if doc.status == "Failed":
 		return {
-			"text": _("Paid, and making the workspace stopped: {0}").format(doc.failed_reason)
+			"text": _("Paid, but the build failed. {0}").format(doc.failed_reason)
 			if doc.get("failed_reason")
-			else _("Paid, and making the workspace stopped before it was created."),
+			else _("Paid, but the build failed before the workspace was created."),
 			"colour": "red",
 		}
 	if doc.status == "Paid" and not doc.get("tenant"):
-		return {"text": _("Paid, and no workspace was created. Build it."), "colour": "orange"}
+		return {"text": _("Paid, but no workspace was created."), "colour": "orange"}
 	if doc.status == "Provisioning":
-		return {"text": _("The workspace is being built. Its job has the detail."), "colour": "blue"}
+		return {"text": _("The workspace is being built."), "colour": "blue"}
 	if doc.status == "Abandoned":
 		return {
 			"text": _("Not paid within {0} days, so its name is free again.").format(signup_days()),
@@ -318,19 +318,19 @@ def credit_said(doc):
 		gone = doc.expires_on and getdate(doc.expires_on) < getdate(today())
 		taken = ledger.taken_back(doc.name)
 		if taken:
-			text = _("{0} of its {1} credits were taken back.").format(_n(taken), _n(doc.credits))
+			text = _("{0} of its {1} credits were revoked.").format(_n(taken), _n(doc.credits))
 		elif left <= 0:
-			text = _("All {0} credits of it are used.").format(_n(doc.credits))
+			text = _("All {0} credits used.").format(_n(doc.credits))
 		elif gone:
 			text = _("It expired on {0} with {1} of {2} credits unused.").format(
 				formatdate(doc.expires_on), _n(left), _n(doc.credits)
 			)
 		elif doc.expires_on:
-			text = _("{0} of {1} credits left, until {2}.").format(
+			text = _("{0} of {1} credits left, expires {2}.").format(
 				_n(left), _n(doc.credits), formatdate(doc.expires_on)
 			)
 		else:
-			text = _("{0} of {1} credits left, and they never expire.").format(_n(left), _n(doc.credits))
+			text = _("{0} of {1} credits left. No expiry.").format(_n(left), _n(doc.credits))
 		came = {
 			"Plan": _("The plan's monthly credits."),
 			"Purchase": _("A credit pack they bought."),
@@ -344,11 +344,11 @@ def credit_said(doc):
 		}
 	if doc.source == "Operator":
 		return {
-			"text": _("Taken back by {0}: {1}").format(get_fullname(doc.reference), doc.why or ""),
+			"text": _("Revoked by {0}: {1}").format(get_fullname(doc.reference), doc.why or ""),
 			"colour": "orange",
 		}
 	if not doc.against:
-		return {"text": _("Spent beyond what the workspace had, so it is owed."), "colour": "orange"}
+		return {"text": _("Spent beyond the balance, so it's owed."), "colour": "orange"}
 	grant = ledger.said_of(doc.against)
 	return {
 		"text": _("Drawn from {0}: {1}").format(doc.against, grant.get("why") or grant.get("source") or ""),
@@ -368,10 +368,10 @@ def _may_take_back(doc) -> bool:
 def _take_back_fields(doc) -> list[dict]:
 	return [
 		*_confirm(
-			_("Take back the {0} credits left of this?").format(_n(ledger.left_of(doc.name))),
-			_("What was already spent from it stays spent."),
+			_("Revoke the remaining {0} credits?").format(_n(ledger.left_of(doc.name))),
+			_("Credits already spent aren't affected."),
 		),
-		{"fieldtype": "Small Text", "fieldname": "why", "label": _("Why"), "reqd": 1},
+		{"fieldtype": "Small Text", "fieldname": "why", "label": _("Reason"), "reqd": 1},
 	]
 
 
@@ -388,7 +388,7 @@ NEEDED = (
 	),
 	(("tenant_domain",), _lt("the workspace domain"), _lt("no workspace has an address")),
 	(("bucket_global", "r2_key_id", "r2_secret"), _lt("storage"), _lt("no file can be kept")),
-	(("stripe_secret_key",), _lt("Stripe's secret key"), _lt("nobody can pay")),
+	(("stripe_secret_key",), _lt("Stripe's secret key"), _lt("no one can pay")),
 	(("stripe_webhook_secret",), _lt("Stripe's webhook secret"), _lt("every payment is refused")),
 	(("ai_gateway", "ai_gateway_token"), _lt("the AI Gateway"), _lt("OneAI cannot answer")),
 	(
@@ -422,9 +422,9 @@ def _held(doc, fieldname: str) -> bool:
 def settings_said(doc):
 	missing = settings_missing(doc)
 	if not missing:
-		return {"text": _("Everything OneAdmin runs on is filled in."), "colour": "green"}
-	said = "; ".join(_("{0} is not set, so {1}").format(one["what"], one["stops"]) for one in missing)
-	return {"text": said[0].upper() + said[1:] + ".", "colour": "red"}
+		return {"text": _("All settings are filled in."), "colour": "green"}
+	said = [_("{0} isn't set, so {1}.").format(one["what"], one["stops"]) for one in missing]
+	return {"text": " ".join(one[0].upper() + one[1:] for one in said), "colour": "red"}
 
 
 # ------------------------------------------------------------------ a domain
@@ -479,7 +479,7 @@ def offering_sold(doc):
 		return None
 	if doc.kind == "Credit Pack":
 		return {
-			"text": _("A pack is bought once and used up. Changing it changes only the next one sold."),
+			"text": _("Changes apply only to packs sold from now on."),
 			"colour": "blue",
 		}
 	count = operator.sold(doc.name)
@@ -499,7 +499,7 @@ def offering_sold(doc):
 		"text": on
 		+ " "
 		+ _(
-			"They keep the price they pay. A changed quota reaches them the next time they change their plan or add-ons."
+			"They keep their price. Quota changes apply the next time they change their plan or add-ons."
 		),
 		"colour": "orange",
 	}
@@ -523,22 +523,22 @@ def model_markup(doc):
 		return None
 	if doc.status == "Withdrawn":
 		return {
-			"text": _("The provider no longer lists this model, so nobody can pick it."),
+			"text": _("The provider no longer lists this model."),
 			"colour": "grey",
 		}
 	if doc.status != "Priced":
 		then = _(
-			"Price it by hand (tick Priced by Hand and add its rates from the provider's page), or leave it off sale."
+			"To offer it, set Priced by Hand and add its rates."
 		)
 		why = (doc.get("why") or "").strip().rstrip(".")
 		return {"text": f"{why}. {then}" if why else then, "colour": "orange"}
 	markup = flt(doc.get("markup")) or flt(frappe.db.get_single_value("One Admin Settings", "default_markup"))
 	if not markup:
-		return {"text": _("No markup is set, so this model cannot be called."), "colour": "red"}
+		return {"text": _("No markup is set, so this model can't be called."), "colour": "red"}
 	times = str(int(markup)) if markup.is_integer() else str(markup)
-	text = _("Charged at {0}× what the provider charges.").format(times)
+	text = _("Charged at {0}× the provider's price.").format(times)
 	if not flt(doc.get("markup")):
-		text += " " + _("From the default.")
+		text += " " + _("Default markup.")
 	used = model_used(doc)
 	if used:
 		text += " " + used["text"]
@@ -568,7 +568,7 @@ def model_used(doc):
 	said = []
 	if runs:
 		shown = ", ".join(runs[:4]) + (" " + _("and {0} more").format(len(runs) - 4) if len(runs) > 4 else "")
-		said.append(_("Runs {0} for every workspace that picked nothing.").format(shown))
+		said.append(_("Default for {0}.").format(shown))
 	calls = sum(one.calls for one in month)
 	said.append(
 		_("No workspace called it this month.")
@@ -620,14 +620,14 @@ VERBS = {
 	# somebody else's service.
 	"tenant.measure": {
 		"doctypes": ["Tenant"],
-		"label": lambda doc: _("Measure storage"),
+		"label": lambda doc: _("Measure Storage"),
 		"group": lambda doc: _("Refresh"),
 		"when": lambda doc: not doc.is_new(),
 		"run": lambda doc, **_values: operator.measure(doc.name) and None,
 	},
 	"tenant.refresh_domains": {
 		"doctypes": ["Tenant"],
-		"label": lambda doc: _("Refresh domains"),
+		"label": lambda doc: _("Refresh Domains"),
 		"group": lambda doc: _("Refresh"),
 		"when": lambda doc: not doc.is_new(),
 		"run": lambda doc, **_values: operator.refresh_domains(doc.name) and None,
@@ -636,7 +636,7 @@ VERBS = {
 		"doctypes": ["Provisioning Job"],
 		"label": lambda doc: _("Resume"),
 		"when": lambda doc: not doc.is_new() and doc.status == "Failed",
-		"fields": lambda doc: _confirm(_("Run {0} again, from the step it stopped on?").format(doc.name)),
+		"fields": lambda doc: _confirm(_("Resume {0} from the step it stopped on?").format(doc.name)),
 		"run": lambda doc, **_values: operator.resume(doc.name) and None,
 	},
 	# Money taken and nothing given: until this, the only way to finish it was
@@ -645,12 +645,12 @@ VERBS = {
 		"doctypes": ["Account Request"],
 		"label": lambda doc: _("Build Workspace"),
 		"when": lambda doc: not doc.is_new() and not doc.get("tenant") and doc.status in ("Paid", "Failed"),
-		"fields": lambda doc: _confirm(_("Create {0} for {1} now?").format(doc.slug, doc.email)),
+		"fields": lambda doc: _confirm(_("Build {0} for {1}?").format(doc.slug, doc.email)),
 		"run": lambda doc, **_values: operator.retry_signup(doc.name) and None,
 	},
 	"credit.take_back": {
 		"doctypes": [ledger.ENTRY],
-		"label": lambda doc: _("Take Back"),
+		"label": lambda doc: _("Revoke Credits"),
 		"when": _may_take_back,
 		"fields": _take_back_fields,
 		"run": lambda doc, why=None, **_values: operator.take_back_credits(doc.name, why) and None,
@@ -667,13 +667,13 @@ VERBS = {
 HEADS = [
 	{
 		"doctype": "Tenant",
-		"indicators": [{"label": _lt("Standing"), "measure": "tenant.state"}],
+		"indicators": [{"label": _lt("Status"), "measure": "tenant.state"}],
 		"sentences": [{"measure": "tenant.address"}],
 		"band": [
 			{"label": _lt("Plan"), "source": "Measure", "measure": "tenant.plan"},
 			{"label": _lt("Storage"), "source": "Measure", "measure": "tenant.storage"},
 			{"label": _lt("Credits"), "source": "Measure", "measure": "tenant.credits"},
-			{"label": _lt("Falls"), "source": "Measure", "measure": "tenant.rung"},
+			{"label": _lt("Next Status"), "source": "Measure", "measure": "tenant.rung"},
 		],
 		"verbs": [
 			{"verb": "tenant.fall"},

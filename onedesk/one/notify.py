@@ -281,14 +281,14 @@ def validate(doc, method=None) -> None:
 	if not one:
 		return
 	if one.get("required") and not doc.enabled:
-		frappe.throw(_("{0} cannot be turned off, or nobody could open a shared link.").format(_(doc.name)))
+		frappe.throw(_("{0} can't be turned off. Shared links depend on it.").format(_(doc.name)))
 	if one.get("outside") or one.get("mailed_by"):
 		doc.one_allow_push = doc.one_push_default = 0
 	if one.get("mailed_by"):
 		doc.one_allow_email = 0
 		if not one.get("switch") and not doc.enabled:
 			frappe.throw(
-				_("{0} sends this whenever it happens, and it cannot be turned off here.").format(one["app"])
+				_("{0} always sends this. It can't be turned off.").format(one["app"])
 			)
 	if one.get("switch"):
 		doctype, field = one["switch"]
@@ -373,7 +373,7 @@ def check(name: str, text: str | None) -> str | None:
 	try:
 		named = meta.find_undeclared_variables(_sandbox().parse(text))
 	except TemplateSyntaxError as e:
-		return _("This does not read as a template: {0}").format(e.message)
+		return _("Template error: {0}").format(e.message)
 	unknown = sorted(named - set(slots(name)))
 	if unknown:
 		have = ", ".join(f"{{{{ {one} }}}}" for one in slots(name)) or _("nothing")
@@ -404,9 +404,9 @@ class _Slots(dict):
 #: Frappe's own kinds, said as a person would. Its "Alert" never mails, and
 #: energy points left frappe with gamification, so neither is offered.
 FRAPPE_KINDS = {
-	"Mention": _lt("When somebody mentions you in a comment."),
-	"Assignment": _lt("When somebody gives you something to do, or it changes."),
-	"Share": _lt("When somebody shares a record with you."),
+	"Mention": _lt("When someone mentions you in a comment."),
+	"Assignment": _lt("When someone assigns you something, or it changes."),
+	"Share": _lt("When someone shares a record with you."),
 }
 
 

@@ -69,10 +69,10 @@ def settle() -> None:
 
 def _doctype(doctype: str) -> None:
 	if not frappe.db.exists("DocType", doctype):
-		frappe.throw(_("There is no such kind of record."))
+		frappe.throw(_("This record type doesn't exist."))
 	meta = frappe.get_meta(doctype)
 	if meta.istable or meta.module in REFUSED_MODULES:
-		frappe.throw(_("{0} does not take an automation this workspace sets.").format(_(doctype)))
+		frappe.throw(_("{0} doesn't support workspace automations.").format(_(doctype)))
 	if not frappe.has_permission(doctype, "read"):
 		frappe.throw(_("You cannot open {0}.").format(_(doctype)), frappe.PermissionError)
 
@@ -128,7 +128,7 @@ def validate(doc, method=None) -> None:
 			frappe.throw(_("{0}: an automation here decides by its field rules, not by code.").format(where))
 		if (row.step_type or "Action") == "Action" and row.action_type == "SendNotification":
 			frappe.throw(
-				_("{0}: tell people with Tell People, which goes through One's notifications.").format(where)
+				_("{0}: use a Tell People step to notify people.").format(where)
 			)
 		if (row.step_type or "Action") == "Action" and row.action_type not in ACTIONS:
 			frappe.throw(_("{0}: an automation here runs no script.").format(where))
@@ -137,7 +137,7 @@ def validate(doc, method=None) -> None:
 		if row.action_type == "CreateDocument":
 			made = (frappe.parse_json(row.params) or {}).get("doctype") if row.params else None
 			if made and frappe.db.exists("DocType", made) and frappe.get_meta(made).module in REFUSED_MODULES:
-				frappe.throw(_("{0}: {1} is not the workspace's to make.").format(where, _(made)))
+				frappe.throw(_("{0}: {1} can't be created here.").format(where, _(made)))
 		if row.action_type == "CallWebhook":
 			url = ((frappe.parse_json(row.params) or {}).get("url") or "").strip() if row.params else ""
 			if not url.lower().startswith("https://"):

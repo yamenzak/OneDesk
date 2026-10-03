@@ -404,7 +404,7 @@ parameter we sent, and it says which — `asked` is on the row. A reported line
 always beats one we asked for; what we sent is used only for the parts a
 provider does not report, which for Workers AI is pictures and speech.
 
-The operator gets `Price a call` on a model: a real call against a real
+The operator gets `Test Call` on a model: a real call against a real
 workspace's real credits, because a number worked out any other way is a number
 nobody can check against a bill.
 

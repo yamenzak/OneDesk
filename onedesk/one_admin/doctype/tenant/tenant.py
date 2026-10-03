@@ -16,7 +16,7 @@ class Tenant(Document):
 		site.require_admin()
 		self.slug = (self.slug or "").strip().lower()
 		if not self.slug.replace("-", "").isalnum():
-			frappe.throw(frappe._("A slug is letters, digits and hyphens: {0}").format(self.slug))
+			frappe.throw(frappe._("{0} isn't a valid slug. Use letters, digits and hyphens.").format(self.slug))
 		if not self.domain and self.slug:
 			self.domain = f"{self.slug}.{_tenant_domain()}"
 

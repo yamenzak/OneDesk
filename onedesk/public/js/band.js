@@ -38,7 +38,7 @@ onedesk.band.delta = (delta) => {
 	if (!change) return "";
 	const up = change > 0;
 	const good = delta.better === "down" ? !up : up;
-	const size = Math.abs(change) >= 1000 ? __("over 999") : format_number(Math.abs(change), null, 0);
+	const size = Math.abs(change) >= 1000 ? __("999+") : format_number(Math.abs(change), null, 0);
 	return (
 		`<span class="one-stat-delta ${good ? "green-stat" : "red-stat"}">` +
 		`<span class="indicator-pill-round ${good ? "green" : "red"}">${frappe.utils.icon(up ? "arrow-up-right" : "arrow-down-right", "xs")}</span>` +

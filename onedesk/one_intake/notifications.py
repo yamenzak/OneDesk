@@ -10,29 +10,27 @@ TYPES = [
 	{
 		"name": _lt("Intake Waiting"),
 		"app": "OneIntake",
-		"about": _lt("When OneAI reads a document for you and something in it needs you."),
+		"about": _lt("When a document read for you needs review."),
 		"to": _lt("The person it reads for"),
-		"subject": _lt("{count} things OneAI read in {title} need a look."),
+		"subject": _lt("{count} items in {title} need review."),
 		"push_default": True,
 	},
 	{
 		"name": _lt("Intake Waiting, One Thing"),
 		"app": "OneIntake",
-		"about": _lt("When OneAI reads a document for you and one thing in it needs you."),
+		"about": _lt("When a document read for you has one item to review."),
 		"to": _lt("The person it reads for"),
 		"follows": "Intake Waiting",
-		"subject": _lt("One thing OneAI read in {title} needs a look."),
+		"subject": _lt("1 item in {title} needs review."),
 		"push_default": True,
 	},
 	# digest: the week, on Mondays.
 	{
 		"name": _lt("Intake Weekly"),
 		"app": "OneIntake",
-		"about": _lt("Once a week, what arrived for you, what OneAI dealt with, and what still waits."),
+		"about": _lt("Once a week, with what arrived, what OneAI handled and what's waiting."),
 		"to": _lt("The person it reads for"),
-		"subject": _lt(
-			"Your week with OneAI: {arrived} documents, {handled} handled, {waiting} wait for you"
-		),
+		"subject": _lt("{arrived} documents this week, {handled} handled, {waiting} waiting"),
 		"message": "{week}",
 		"email_default": True,
 	},
@@ -48,9 +46,9 @@ TYPES = [
 	{
 		"name": _lt("Phishing"),
 		"app": "OneIntake",
-		"about": _lt("When OneAI thinks a document is phishing."),
+		"about": _lt("When a document looks like phishing."),
 		"to": _lt("The person it reads for, and whoever put the file there"),
-		"subject": _lt("OneAI thinks {title} is phishing. Do not pay, answer or open links in it."),
+		"subject": _lt("{title} may be phishing. Don't pay, reply or open its links."),
 		"email_default": True,
 		"push_default": True,
 	},
@@ -58,12 +56,9 @@ TYPES = [
 	{
 		"name": _lt("OneIntake Changed"),
 		"app": "OneIntake",
-		"about": _lt(
-			"When another administrator changes how OneIntake treats money or checks itself: submitting "
-			"e-invoices, household, the audit or the confidence floor."
-		),
+		"about": _lt("When another administrator changes e-invoice submission, household, the auditor or the confidence floor."),
 		"to": _lt("Every other administrator"),
 		"subject": _lt("{by} changed OneIntake: {what}"),
-		"message": _lt("{by} changed OneIntake's settings: {what}. It applies to every document from now on."),
+		"message": _lt("{by} changed OneIntake settings ({what}). This applies to all new documents."),
 	},
 ]

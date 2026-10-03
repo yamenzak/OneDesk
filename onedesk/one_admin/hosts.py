@@ -83,7 +83,7 @@ def tidy(raw: str) -> str:
 	else is refused rather than repaired.
 	"""
 	if not isinstance(raw, str):
-		raise Unclaimable(_("Type a domain, such as office.example.com."))
+		raise Unclaimable(_("Enter a domain, such as office.example.com."))
 	name = raw.strip().lower()
 	for scheme in ("https://", "http://"):
 		if name.startswith(scheme):
@@ -91,11 +91,11 @@ def tidy(raw: str) -> str:
 	name = name.split("/", 1)[0].split("?", 1)[0]
 	name = name.rstrip(".")
 	if not name:
-		raise Unclaimable(_("Type a domain, such as office.example.com."))
+		raise Unclaimable(_("Enter a domain, such as office.example.com."))
 	if len(name) > LONGEST:
 		raise Unclaimable(_("A domain is at most {0} characters."), LONGEST)
 	if ":" in name:
-		raise Unclaimable(_("A domain does not have a port. Leave out the colon and what follows it."))
+		raise Unclaimable(_("Remove the port from the domain."))
 	labels = name.split(".")
 	if len(labels) < FEWEST_LABELS:
 		raise Unclaimable(_("{0} is not a domain."), name)
@@ -135,7 +135,7 @@ def claimable(raw: str, *served) -> str:
 	"""
 	name = tidy(raw)
 	if ours(name, *served):
-		raise Unclaimable(_("{0} is an address One gives out, so it cannot be added as your own."), name)
+		raise Unclaimable(_("{0} is a One address and can't be added."), name)
 	return name
 
 
