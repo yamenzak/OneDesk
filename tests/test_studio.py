@@ -561,3 +561,17 @@ def test_a_collection_is_made_and_changed_only_by_asking_oneai():
 	assert "Record Type" not in (STUDIO / "heads.py").read_text()
 	rail = json.loads((STUDIO / "sidebar" / "onestudio" / "onestudio.json").read_text())
 	assert any(one["label"] == "Custom Collections" and one["link_to"] == "Record Type" for one in rail["items"])
+
+
+def test_a_collections_records_are_numbered_from_its_initials():
+	source = (STUDIO / "record_types.py").read_text()
+	series = source.split("def series(", 1)[1].split("\ndef ", 1)[0]
+	assert 'f"{prefix.upper()}-.#####"' in series and "numbering.check_pattern(" in series
+	assert '"autoname": series(title)' in source.split("def make(", 1)[1].split("\ndef ", 1)[0]
+	change = source.split("def change(", 1)[1].split("\ndef ", 1)[0]
+	assert 'if doctype.autoname == "hash":' in change and "series(doctype.name, doctype.name)" in change
+	assert "onedesk.one_studio.patches.number_collections" in (tree.APP / "patches.txt").read_text()
+	numbering = (tree.APP / "one" / "numbering.py").read_text()
+	assert 'named |= set(frappe.get_all("Record Type", pluck="record_doctype"))' in numbering
+	ai = (STUDIO / "ai.py").read_text()
+	assert "Int for whole numbers" in ai.split("def design_record_type(", 1)[1].split('"""', 1)[0]

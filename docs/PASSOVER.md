@@ -155,8 +155,8 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | OneAdmin › Home | done |
 | Products | OneStudio › Extensions | done |
 | Products | OneStudio › Forms | done |
+| Products | OneStudio › Custom Collections | done, second pass |
 | Outside the desk | The portal, and the public Your Data page | done (Portals 1 to 8) |
-| Products | OneStudio › Record Types | next |
 | Products | OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin | each screen listed here once we reach it |
 
 Noticed along the way, for the screen it belongs to:
@@ -6020,6 +6020,38 @@ Deleted extensions showed in the bin by their random ID. Now every entry
 keeps its record's title (a `one_title` field on Deleted Document, set as the
 record is deleted and backfilled after migrate), so an extension reads "No
 Territory Indicator".
+
+### OneStudio › Custom Collections, second pass
+
+Looked at again as a workspace administrator with a Company Van collection:
+the Custom Collections list, the vans' list in One's rail, a new van and a
+saved one.
+
+1. **Notifications**: unchanged. Collection Added, Changed and Deleted reach
+   the other administrators.
+2. **OneAI**: it chose a decimal number for mileage, so a van read "48,210.000
+   km". Its design tool now says whole numbers (counts, mileage, seats) are
+   whole, and decimals are only for a measure that has them.
+3. **Intake**: nothing reads into a collection yet.
+4. **Permissions**: unchanged, and checked: the list is the administrators',
+   the records are the app's people's.
+5. **Cross-module**: a collection's numbering is now in Workspace ›
+   **Numbering** beside every other kind of record, where it can be changed.
+6. **Bespoke UI**: every record showed a random ID ("4g34bmn19o") in the
+   list's ID column, its ID filter and the record's sidebar. Records are now
+   numbered from the collection's initials, CV-00001 for a Company Van, as
+   the workspace's documents are (`record_types.series`). Collections made
+   before keep their records' IDs and number new ones
+   (`patches/number_collections`); changing one does the same.
+7. **Documented**: the README's Custom Collections section says how records
+   are numbered and where to change it.
+8. **Legal**: the terms and the AI terms said "record type". They say
+   "custom collection" now. The meaning is the same, so the new versions are
+   recorded rather than the revisions bumped.
+9. **From frappe**: the numbering is frappe's own naming expression, checked
+   by Numbering's `check_pattern` so no other kind of record shares the
+   prefix.
+10. **Plain words**: nothing new on screen.
 
 ### The desk around the doctypes (gaps 1 to 4)
 

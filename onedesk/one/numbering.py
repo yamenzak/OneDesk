@@ -267,6 +267,8 @@ def doctypes() -> list[dict]:
 			"Property Setter", filters={"property": "autoname", "is_system_generated": 0}, pluck="doc_type"
 		)
 	)
+	# The workspace's custom collections, numbered from their initials.
+	named |= set(frappe.get_all("Record Type", pluck="record_doctype"))
 	rules = {}
 	for one in frappe.get_all("Document Naming Rule", filters={"disabled": 0}, pluck="document_type"):
 		rules[one] = rules.get(one, 0) + 1

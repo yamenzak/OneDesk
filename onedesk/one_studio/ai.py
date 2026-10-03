@@ -425,7 +425,8 @@ def design_record_type(
 		list[dict],
 		"Its fields, in order: each {label, fieldtype, options?, reqd?, in_list_view?, description?}. fieldtype is one of "
 		+ ", ".join(record_types.FIELDTYPES)
-		+ ". options is the kind of record for a Link, the choices one a line for a Select. The first Data field is its title.",
+		+ ". options is the kind of record for a Link, the choices one a line for a Select. The first Data field is its title. "
+		"Int for whole numbers such as counts, mileage or seats; Float only for a measure with decimals.",
 	],
 	asked: Annotated[str, "What the person asked for, in their words."],
 	record_type: Annotated[str, "To change a custom collection (record type) the workspace already has: its name."] | None = None,

@@ -19,6 +19,10 @@ What a workspace's record type may be, whoever asks:
   managers delete them, and it is listed in that app's rail under Your
   Records. One is everybody's.
 
+Each record is numbered from the collection's initials, CV-00001 for a
+Company Van, as the workspace's documents are, so the number a person sees
+beside its title means something; Workspace > Numbering changes it.
+
 Changing one adds fields, renames them and changes their choices; a field
 already holding data is never dropped, only hidden. Deleting one deletes its
 records, so it is refused while it has any.
@@ -158,6 +162,25 @@ def _permissions(app: str) -> list[dict]:
 	return rows
 
 
+def series(title: str, doctype: str | None = None) -> str:
+	"""How a collection's records are numbered: its initials, or the first
+	three letters of a one-word name, CV-.##### for Company Van; more of its
+	letters while another kind of record has the prefix."""
+	from onedesk.one import numbering
+
+	words = [one for one in re.split(r"\s+", title.strip()) if one]
+	initials = "".join(one[0] for one in words) if len(words) > 1 else words[0][:3]
+	letters = re.sub(r"[^A-Za-z]", "", "".join(words))
+	for prefix in [initials] + [letters[:n] for n in range(len(initials) + 1, len(letters) + 1)]:
+		pattern = f"{prefix.upper()}-.#####"
+		try:
+			numbering.check_pattern(doctype or title, pattern)
+			return pattern
+		except frappe.ValidationError:
+			frappe.clear_messages()
+	return "hash"
+
+
 def make(title: str, app: str, description: str, fields: list, asked: str) -> str:
 	"""A new record type: frappe's DocType, ours beside it, and a place in its
 	app's rail."""
@@ -170,7 +193,7 @@ def make(title: str, app: str, description: str, fields: list, asked: str) -> st
 				"name": title,
 				"module": MODULE,
 				"custom": 1,
-				"autoname": "hash",
+				"autoname": series(title),
 				"title_field": title_field,
 				"show_title_field_in_link": int(bool(title_field)),
 				"search_fields": title_field,
@@ -215,6 +238,10 @@ def change(record_type: str, app: str, description: str, fields: list, asked: st
 			rows.append(left)
 		doctype.set("fields", rows)
 		doctype.description = description
+		if doctype.autoname == "hash":
+			# Made before collections were numbered: its records so far keep
+			# their IDs, and new ones are numbered.
+			doctype.autoname = series(doctype.name, doctype.name)
 		doctype.set("permissions", _permissions(app))
 		doctype.save(ignore_permissions=True)
 	if ours.app != app:

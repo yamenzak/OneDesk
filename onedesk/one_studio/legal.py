@@ -1,6 +1,6 @@
 """What OneStudio adds to the agreements: OneAI writes code that runs in a
 workspace, an administrator decides whether it runs, and a workspace's own
-record types are its content. See one_studio/README.md and
+custom collections are its content. See one_studio/README.md and
 one_legal/README.md."""
 
 from onedesk.one_legal.registry import clause
@@ -31,8 +31,8 @@ clause(
 	key="onestudio-record-types",
 	module=M,
 	body="""
-		A record type your administrators make in OneStudio, and every record of it, is your content,
-		under the same terms as any other record in your workspace, and is in the full download.
+		A custom collection your administrators make in OneStudio, and every record in it, is your
+		content, under the same terms as any other record in your workspace, and is in the full download.
 	""",
 )
 
@@ -42,8 +42,8 @@ clause(
 	key="onestudio-asks",
 	module=M,
 	body="""
-		In OneStudio, when an administrator asks, OneAI writes an extension, or designs a record type
-		from what they describe. The code of an extension is read a second time by a separate model,
+		In OneStudio, when an administrator asks, OneAI writes an extension, or designs a custom
+		collection from what they describe. The code of an extension is read a second time by a separate model,
 		shown the code and what it says it does and nothing of the conversation, and an extension it
 		does not pass cannot be turned on. Before it is kept, the code is tried once on one of your
 		records and undone, and what happened, which can include that record's name and a message it

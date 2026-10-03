@@ -175,6 +175,9 @@ selects, phone numbers, ratings, durations, files and images, and links to
 records you can open or to another collection. The first text field is each
 record's title.
 
+**Numbering.** Each record gets a number from the collection's initials, such
+as CV-00001 for a Company Van. Change it in Workspace › **Numbering**.
+
 **Changing one.** Tick it and click **Actions › Change**, or ask OneAI, for
 example "Add a colour to Company Van." A removed field is hidden, not deleted, so no
 data is lost.
