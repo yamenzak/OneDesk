@@ -74,7 +74,8 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 	// (one_studio/forms.py). A row opens the form's Customize page.
 	async forms() {
 		this.data = null;
-		this.$content = onedesk.shell.body(this.$section);
+		// A table: the wide body, not the form's column (docs/SHELL.md, bodies).
+		this.$content = onedesk.shell.body(this.$section, { wide: true });
 		this.page.set_title(__("Forms"));
 		onedesk.shell.trail(__("OneStudio"), "/desk/extension", __("Forms"));
 		const rows = await frappe.xcall("onedesk.one_studio.forms.forms");
