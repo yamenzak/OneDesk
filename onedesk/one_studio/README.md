@@ -130,18 +130,18 @@ extension says **Cannot Run Here**, ask us.
 **Custom Fields** lists every field your workspace added to a form or changed
 on it: the field, its form, its type, and the other forms it was also added
 to. **Added** marks a field the workspace made, **Changed** a standard field
-it changed. Filter by form, status or app, or search by name.
+it changed. Filter by form, status or app, or search by name. **Custom
+Fields** on a form's own menu opens the list filtered to that form.
 
-To add a field, click **Add Field** and tell OneAI what you need. It asks a
-few questions, recommends the field type and properties, suggests related
-forms that need the field too (for example Item fields on invoice and order
-items), and makes one card to approve.
+- **Add a field**: click **Add Field** and tell OneAI what you need. It asks a
+  few questions, recommends the field type and properties, suggests related
+  forms that need the field too (for example Item fields on invoice and order
+  items), and makes one card to approve.
+- **Change a field**: click it. OneAI asks what to change.
+- **Export or Reset**: tick fields, then choose from **Actions**. Reset
+  removes everything the workspace changed on those forms.
 
-Click a field to open its form's **Customize** page: custom fields, changed
-fields, the form header, connections and buttons, and extensions.
-**Customize** on a form's own menu opens the same page. You don't edit
-anything there. Ask OneAI to change or remove a field. See Customizing a Form
-in One's documentation.
+See Customizing a Form in One's documentation.
 
 **Who sees and changes it.** Workspace administrators only, on the forms they
 can open, and never the framework's own forms or One's. A change applies to
@@ -205,9 +205,7 @@ which says what each does and whether any is failing. On an extension:
 reads what went wrong and on which record (never its code); when it is off,
 **Why is this one off?** On Record Types: **Make a record type…**, and on
 one: **Add a field to this one…** On Custom Fields: **Add a field…**, **Which forms
-have we changed?** and **How does customizing work?**; on a form's Customize page: **Suggest changes to this
-form**, **Add a field**, **What have we changed here?** and **How does
-customizing work?**
+have we changed?** and **How does customizing work?**
 
 ## Under the hood
 
@@ -223,7 +221,7 @@ customizing work?**
 | `review.py` | The second reading, `studio_review`: a separate call shown the code and its explanation, nothing of the chat. |
 | `record_types.py` | A record type's rules, and frappe's custom DocType made, changed and deleted from it. |
 | `doctype/workspace_field` | Custom Fields: a virtual doctype read from the workspace's ledger, frappe's own list. |
-| `forms.py` | Each form's app and counts, for OneAI, and the extensions on one form. The Customize page is `page/customize` and `../public/js/customize.js`; what it saves is `../one/customize.py`. |
+| `forms.py` | Each form's app and counts, and the extensions on one form, for OneAI. What OneAI's card saves is `../one/customize.py`. |
 | `ai.py` | `write_extension`, `mend_extension`, `extensions_here`, `extension_code`, `extension_places`, `extension_mistakes`, `design_record_type`, `record_types_here`, on the `studio` action. |
 | `mend.py` | An extension's errors, the Errors tab, and mending one from them (`studio_mend`). |
 | `heads.py`, `notifications.py`, `legal.py` | The record heads; Extensions Failing and an extension turned on, off or deleted; and what the Terms and the AI Addendum say. |

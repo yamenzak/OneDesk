@@ -83,7 +83,7 @@ def for_page(page: dict | None) -> list[dict]:
 		if one.get("view") and one["view"] != view:
 			continue
 		# And a page open on a record or not: "add a field to this form" on
-		# the Customize page with no form open has no form to add it to.
+		# a page with no form open has no form to add it to.
 		if "record" in one and bool((page.get("record") or "").strip()) != one["record"]:
 			continue
 		# And for a record in one state only: "why did this job fail?" on a

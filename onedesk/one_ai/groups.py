@@ -253,9 +253,6 @@ PAGES = {
 	"onecloud": "files",
 	"workspace-settings": "workspace",
 	"one-admin": "console",
-	# The Customize page and the Custom Fields list are OneStudio's: a form is changed
-	# by customize, after form_relations.
-	"customize": "studio",
 }
 
 

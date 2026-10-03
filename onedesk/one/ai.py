@@ -435,35 +435,6 @@ SUGGESTIONS = {
 			"expects": "how_to",
 		},
 	],
-	"page:customize": [
-		{
-			"label": _lt("Suggest changes to this form"),
-			"ask": _lt(
-				"Look at the form I am customizing. What would make it quicker to fill in and to read: fields "
-				"to hide, rename, require or move, and numbers worth showing under the title? Suggest them as "
-				"one change I can apply."
-			),
-			"expects": "customize",
-			"record": True,
-		},
-		{
-			# Asked about first, step by step: nothing is expected of the first turn.
-			"label": _lt("Add a field"),
-			"ask": _lt("I want to add a field to this form."),
-			"record": True,
-		},
-		{
-			"label": _lt("What have we changed here?"),
-			"ask": _lt("What has the workspace changed on this form, and which extensions run on it?"),
-			"expects": "forms_here",
-			"record": True,
-		},
-		{
-			"label": _lt("How does customizing work?"),
-			"ask": _lt("How does customizing a form work in One, and what can and cannot be changed?"),
-			"expects": "how_to",
-		},
-	],
 	"page:workspace-settings/notification_types": [
 		{
 			"label": _lt("Rewrite this notification"),
@@ -504,8 +475,6 @@ def page(said: dict) -> str | None:
 	on the server rather than taken from the browser."""
 	if said.get("page") == "workspace-settings" and said.get("section") == "notification_types":
 		return _notifications_page(said.get("record"))
-	if said.get("page") == "customize":
-		return _customize_page(said.get("record"))
 	if said.get("page") == "workspace-settings" and said.get("section") == "people":
 		return (
 			"The reader administers this workspace and is on Workspace › People: everybody on it, which of "
@@ -658,25 +627,6 @@ def page(said: dict) -> str | None:
 			else "."
 		)
 		+ " How to use the page is in One's documentation under Settings › Profile (how_to)."
-	)
-
-
-def _customize_page(doctype: str | None) -> str:
-	opened = (
-		f" They have {doctype} open: its fields, the numbers under its title, its buttons, its linked "
-		"sections and its connections. describe_type lists the form's fields."
-		if doctype and frappe.db.exists("DocType", doctype)
-		else " No form is open. OneStudio › Custom Fields lists every field the workspace added or changed. "
-		"forms_here reads which forms were changed and how."
-	)
-	return (
-		"The reader is on the Customize page, where a workspace administrator sees what the workspace "
-		"changed about a form, and changes it only through you." + opened + " customize suggests a change "
-		"as a card they approve: fields added (asked about step by step, after form_relations, and carried "
-		"to the forms that should have them), changed, hidden or taken away, and what shows above the "
-		"fields. It never writes code, never removes a field the form came with, and never changes who may "
-		"see a field; a check no field property can say is an extension. How it works is in One's "
-		"documentation under One › Customizing a Form (how_to)."
 	)
 
 
@@ -1244,7 +1194,7 @@ def customize(
 		),
 		"state": "Proposed",
 		"next": "Say in a sentence what the card changes. It changes the form for everybody once they approve "
-		"it, and Reset on its Customize page takes it back. If a check was asked for that no property says, "
+		"it, and Reset in OneStudio › Custom Fields takes it back. If a check was asked for that no property says, "
 		"offer an extension for it.",
 	}
 

@@ -418,7 +418,7 @@ permission to post to an account, or a currency without an exchange rate.
 
 A record OneAI creates is filled with the fields that record type needs,
 such as a task's subject and dates or a bill's supplier and lines. If your
-workspace requires more, through a field made required on the Customize page
+workspace requires more, through a field made required with OneAI
 or a field used in the naming (**Numbering**), OneAI reads the document again
 for those fields before saving. Anything the document doesn't say is left
 empty, and the record waits for you instead of being filled with a guess.

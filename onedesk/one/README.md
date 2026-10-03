@@ -1476,24 +1476,18 @@ OneAI offers **Are our holidays ready for next year?**
 
 ## Customizing a Form
 
-**Customize** on a form's menu opens its customization page. Only
-administrators can open it. The page lists what this workspace changed on the
-form. You don't edit anything on the page itself. Ask OneAI instead, and
-approve the card it makes. Changes apply to everyone who uses the form.
+Every field your workspace added or changed is listed in **OneStudio ›
+Custom Fields**. **Custom Fields** on a form's menu opens the same list,
+filtered to that form. Only administrators can open it. You don't edit
+anything on the list. Ask OneAI instead, and approve the card it makes.
+Changes apply to everyone who uses the form.
 
-The page has these tables. A table with no rows is hidden, except Custom
-Fields.
-
-- **Custom Fields**: fields added in this workspace, with their type,
-  properties and the other forms they were also added to.
-- **Changed Fields**: standard fields that were renamed, hidden, made
-  required or shown in list view.
-- **Form Header**: numbers, buttons, charts and linked sections shown above
-  the fields.
-- **Connections and Buttons**: records from other forms listed under
-  Connections, and shortcut buttons.
-- **Extensions**: scripts that run on the form. Each one opens in OneStudio ›
-  Extensions.
+The list shows each field's form, type, status and the other forms it was
+also added to. **Added** is a field the workspace made, **Changed** a standard
+field it changed (renamed, hidden, made required, shown in list view).
+Numbers, buttons, charts and linked sections above a form's fields, and
+connections, are changed through OneAI too. Extensions are in OneStudio ›
+Extensions.
 
 ### Adding a field
 
@@ -1515,14 +1509,15 @@ already has.
 
 ### Changing a field
 
-Click a field, or tell OneAI what to change. You can rename, hide, require,
+Click a field in the list, or tell OneAI what to change. You can rename, hide, require,
 move or remove a custom field. Standard fields can be hidden but not removed,
 and fields the form needs stay required.
 
 ### Export and Reset
 
-**Export** on the menu downloads this workspace's changes. **Reset** removes
-them all, including fields added to related forms. If someone changes the
+Tick fields in the list, then choose **Export** or **Reset** from
+**Actions**. Export downloads this workspace's changes to their forms. Reset
+removes them all, including fields added to related forms. If someone changes the
 form after OneAI made a card, the card can't be applied and says so.
 
 ## A Form's Settings
@@ -1606,7 +1601,7 @@ For the people who build One. OneAI does not read past this heading.
 | `head.py`, `figures.py`, `doctype/record_head*`, `../public/js/head.js`, `../public/js/band.js` | What a record's form says above its fields, as rows, and the band that draws its numbers and charts: see below |
 | `linked.py` | Fields of a linked record, edited on the form and saved in its save |
 | `tabs.py`, `../public/js/record_tabs.js`, `../public/js/record_activity.js` | The tabs after a record's fields (Mail, Files, Activity), each declared by its module under `one_record_tabs` and added to the form in one place; Activity is One's own |
-| `customize.py`, `layer.py`, `../one_studio/page/customize`, `doctype/workspace_customization`, `../public/js/customize.js` | The Customize page, and the holds on what a workspace writes |
+| `customize.py`, `layer.py`, `doctype/workspace_customization`, `../one_studio/doctype/workspace_field` | What a workspace changes on a form (written by OneAI's card), the holds on it, and the Custom Fields list |
 
 **A record's head is rows.** The pill beside a form's title, the sentence
 under it, the band of numbers and the verbs a person presses are a **Record
@@ -1630,7 +1625,7 @@ Progress). `figures.py` is the month and week arithmetic every chart
 shares. A condition is frappe's filters, and a template names only
 `{{ doc.field }}`, so no row can run anything. Each module declares its heads
 (`one_record_heads`) and `head.install` writes them on every migrate. Nobody
-edits a Record Head row by row; the Customize page (below) places a
+edits a Record Head row by row; OneAI (Customizing a Form, below) places a
 workspace's own numbers, charts, verbs and linked sections.
 
 **A linked section** puts fields of the record a form links to (the

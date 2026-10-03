@@ -5931,6 +5931,21 @@ page look much cleaner than forms, and can we rename forms to Custom Fields."
 - OneAI's Custom Fields suggestions, the page text, the Form Customized
   message and the OneStudio README follow the new name.
 
+**Your word, after: the inner view goes.** "The inner view in custom
+fields is weird and pointless."
+
+- The Customize page is removed (its page, `public/js/customize.js`, and a
+  patch deleting the Page record). Custom Fields is the one screen.
+- A row asks OneAI to change that field. Add Field asks OneAI to add one.
+  Actions on ticked rows are only **Export** and **Reset**, per form.
+- **Custom Fields** on a form's menu (was Customize) opens the list filtered
+  to that form, as does an applied OneAI card and the Form Customized
+  notification.
+- OneAI's page text and suggestions for the old page are gone; the list's
+  own suggestions stay. OneAI calls a list what the rail calls it (Custom
+  Fields, not "Workspace Field list").
+- One's Customizing a Form and OneStudio's Custom Fields docs say the same.
+
 ## OneLegal
 
 Founded during the pass, so that each screen can add its lines as the pass

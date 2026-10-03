@@ -195,7 +195,7 @@ async function see_page() {
 
 function open(name) {
 	// A customization was applied to a form, not to a record of it.
-	if (kind.value === "Customize") frappe.set_route("customize", doctype.value);
+	if (kind.value === "Customize") frappe.set_route("List", "Workspace Field", { form: doctype.value });
 	// A mailbox's signature is set, and seen, in Settings › Mail.
 	else if (kind.value === "Signature") frappe.set_route("settings", { section: "mail" });
 	// The holidays are read, and changed by hand, on Workspace › Holidays.

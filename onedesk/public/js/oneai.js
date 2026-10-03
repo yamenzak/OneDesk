@@ -52,7 +52,11 @@ onedesk.oneai = {
 				name: "",
 				view: route[2] || "List",
 				filters: filters && filters.length ? filters : null,
-				label: __("{0} list", [__(route[1])]),
+				// A list the rail names (Workspace Field is Custom Fields) is
+				// called what the rail calls it.
+				label: ((frappe.boot.one_titles || {}).DocType || {})[route[1]]
+					? __(frappe.boot.one_titles.DocType[route[1]])
+					: __("{0} list", [__(route[1])]),
 			};
 		}
 		if (kind === "query-report" && route[1]) {
@@ -65,8 +69,7 @@ onedesk.oneai = {
 			// OneCloud names its open folder and the file chosen in it; with a
 			// file chosen its section is `file`, which is what it offers on.
 			const cloud = onedesk.OneCloud && onedesk.OneCloud.here ? onedesk.OneCloud.here() : null;
-			// A section that lists several records may be open on one of them, and
-			// a page about one form (Customize) names it in its route.
+			// A section that lists several records may be open on one of them.
 			// OneMail names its open mailbox, folder and conversation the same way.
 			return {
 				doctype: "",

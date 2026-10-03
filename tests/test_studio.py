@@ -490,13 +490,9 @@ def test_forms_tell_the_others_and_offer_only_what_fits_the_page():
 
 
 def test_a_form_is_changed_only_through_oneai_and_a_field_goes_where_it_belongs():
-	"""The Customize page reads, OneAI changes: its card adds a field with
-	everything about it and carries it to the forms that should have it,
-	filled through their link or copied as one is made from the other."""
-	page = (tree.APP / "public" / "js" / "customize.js").read_text()
-	# Nothing is edited by hand on the page: no FieldGroup, no Save.
-	assert "this.form(" not in page and "saver(" not in page
-	assert 'onedesk.oneai.button(__("Add Field")' in page
+	"""OneAI changes a form: its card adds a field with everything about it
+	and carries it to the forms that should have it, filled through their
+	link or copied as one is made from the other."""
 	customize = (tree.APP / "one" / "customize.py").read_text()
 	# Every carry checked before anything is written; each noted in the
 	# form's own ledger, so its Reset takes it back.
@@ -512,7 +508,6 @@ def test_a_form_is_changed_only_through_oneai_and_a_field_goes_where_it_belongs(
 	studio = (STUDIO / "ai.py").read_text()
 	assert 'form_relations.action = "studio"' in studio
 	assert '"onedesk.one_studio.ai.form_relations"' in HOOKS
-	assert '"customize": "studio"' in (tree.APP / "one_ai" / "groups.py").read_text()
 	actions = json.loads((tree.APP / "fixtures" / "ai_action.json").read_text())
 	said = {one["name"]: one["instruction"] for one in actions}
 	assert "step by step" in said["chat"] and "For a form:" in said["studio"]
@@ -521,7 +516,8 @@ def test_a_form_is_changed_only_through_oneai_and_a_field_goes_where_it_belongs(
 def test_custom_fields_is_frappes_list_of_what_the_ledger_holds():
 	"""OneStudio's Custom Fields is frappe's own list: a virtual doctype read
 	from the workspace's ledger, for its administrators only. A row opens its
-	form's Customize page, and Add Field asks OneAI rather than making one."""
+	OneAI to change the field, Add Field asks OneAI, and Export and Reset are
+	the list's only actions. There is no page of a form's own any more."""
 	folder = STUDIO / "doctype" / "workspace_field"
 	spec = json.loads((folder / "workspace_field.json").read_text())
 	assert spec["is_virtual"] == 1 and spec["module"] == "One Studio"
@@ -532,11 +528,14 @@ def test_custom_fields_is_frappes_list_of_what_the_ledger_holds():
 	for verb in ("db_insert", "db_update", "delete"):
 		assert f"def {verb}(" in controller
 	listed = (folder / "workspace_field_list.js").read_text()
-	assert "/desk/customize/" in listed and "onedesk.oneai.open(" in listed
+	assert "onedesk.oneai.open(" in listed and "I want to change the field {0} on {1}." in listed
+	assert "onedesk.one.customize.reset" in listed and "onedesk.one.customize.export" in listed
+	assert not (STUDIO / "page" / "customize").exists()
+	assert not (tree.APP / "public" / "js" / "customize.js").exists()
 	assert '"one_customized"' in listed
 	rail = json.loads((STUDIO / "sidebar" / "onestudio" / "onestudio.json").read_text())
 	assert {"label": "Custom Fields", "link_to": "Workspace Field"}.items() <= next(
 		one for one in rail["items"] if one["link_to"] == "Workspace Field"
 	).items()
-	page = (tree.APP / "public" / "js" / "customize.js").read_text()
-	assert 'frappe.set_route("List", "Workspace Field")' in page
+	head = (tree.APP / "public" / "js" / "head.js").read_text()
+	assert 'frappe.set_route("List", "Workspace Field", { form: frm.doctype })' in head

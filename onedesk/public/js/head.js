@@ -20,10 +20,15 @@ frappe.ui.form.on("*", {
 		onedesk.head.draw(frm);
 		onedesk.head.extended(frm);
 		onedesk.head.linked(frm);
-		// A workspace administrator customizes the form from its own menu
-		// (one/customize.py). Frappe's own Customize is its System Managers'.
+		// A workspace administrator sees the form's custom fields from its own
+		// menu (OneStudio's Custom Fields). Frappe's own Customize is its
+		// System Managers'.
 		if (!frm.meta.istable && !frm.meta.issingle && frappe.user.has_role("Workspace Administrator")) {
-			frm.page.add_menu_item(__("Customize"), () => frappe.set_route("customize", frm.doctype), true);
+			frm.page.add_menu_item(
+				__("Custom Fields"),
+				() => frappe.set_route("List", "Workspace Field", { form: frm.doctype }),
+				true,
+			);
 		}
 		// And frappe's Settings dialog for the doctype, which frappe offers only to its
 		// System Managers (public/js/doctype_settings.js).

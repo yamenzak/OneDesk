@@ -5,8 +5,7 @@
 one row a field, as frappe's own list draws it.
 
 A virtual doctype: nothing is stored. Each row is read from the workspace's
-ledger (one/customize.py), so the list is what the Customize pages show, and
-a field is changed only through OneAI there.
+ledger (one/customize.py). A field is changed only through OneAI.
 """
 
 import frappe

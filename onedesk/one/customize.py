@@ -342,7 +342,7 @@ def _told(doctype: str) -> None:
 	notify.notify(
 		"Form Customized",
 		roles.administrators(),
-		link=f"/desk/customize/{doctype}",
+		link=f"/desk/workspace-field?form={doctype}",
 		who=frappe.utils.get_fullname(),
 		form=_(doctype),
 	)

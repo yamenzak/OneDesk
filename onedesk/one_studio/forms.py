@@ -1,7 +1,7 @@
 """Every form a workspace administrator may customize: its app, how many of
 its customizations are the workspace's, and how many extensions run on it.
 OneAI reads it (forms_here); people see OneStudio's Custom Fields list
-(doctype/workspace_field) and each form's Customize page (one/customize.py).
+(doctype/workspace_field).
 """
 
 import frappe
@@ -130,7 +130,7 @@ def forms() -> list[dict]:
 
 @frappe.whitelist()
 def extensions(doctype: str) -> list[dict]:
-	"""The extensions that run on a form, for its Customize page: what each
+	"""The extensions that run on a form, for OneAI: what each
 	does, where and when, and whether it is on. No code."""
 	from onedesk.one.customize import may
 	from onedesk.one_studio import extensions as kept
