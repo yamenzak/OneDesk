@@ -53,11 +53,16 @@ def test_a_customers_or_suppliers_contact_is_a_portal_user():
 def test_the_portal_is_drawn_as_frappe_ui_draws_it():
 	"""Each part as frappe-ui draws it, on espresso's tokens: the head's Avatar
 	and Dropdown, TabButtons with frappe's Lucide icons, ListView's head row,
-	Badge; and close to the edge on a phone."""
+	Badge; on a wide screen Sidebar and PageHeader in place of the head and
+	the tabs; and close to the edge on a phone."""
 	head = (INCLUDES / "one_portal_head.html").read_text()
 	assert 'class="one-avatar"' in head and 'href="/logout"' in head
 	assert 'class="one-tab-buttons"' in head and '<use href="#icon-{{ tab.icon }}">' in head
+	side = (INCLUDES / "one_portal_sidebar.html").read_text()
+	assert 'class="one-sidebar__trigger"' in side and 'href="/logout"' in side and "me.party" in side
+	assert '<use href="#icon-{{ tab.icon }}">' in side
 	page = (tree.APP / "www" / "portal.html").read_text()
+	assert "one_portal_sidebar.html" in page and "set full_width = True" in page
 	assert "one_portal_columns(row_template)" in page and 'class="one-search"' in page
 	css = (tree.APP / "public" / "css" / "portal.css").read_text()
 	block = css.split("/* The portal a workspace's customers and suppliers sign in to (one/portal.py),", 1)[1]
@@ -66,5 +71,6 @@ def test_the_portal_is_drawn_as_frappe_ui_draws_it():
 	assert "#" not in "".join(
 		line for line in block.splitlines() if "color:" in line or "background:" in line
 	)
-	assert "padding: 1rem 0 3rem;" in block
+	assert "padding: 1rem 1rem 3rem;" in block
+	assert "width: 15rem;" in block and "var(--surface-sidebar" in block
 	assert "ICONS = {" in SOURCE and "COLUMNS = {" in SOURCE

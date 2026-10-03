@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 17:13+0000\n"
-"PO-Revision-Date: 2026-10-03 17:13+0000\n"
+"POT-Creation-Date: 2026-10-03 17:30+0000\n"
+"PO-Revision-Date: 2026-10-03 17:30+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -8309,6 +8309,7 @@ msgstr "العطلات في {0}"
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/templates/includes/one_portal_sidebar.html:28
 msgid "Home"
 msgstr "الرئيسية"
 
@@ -12529,8 +12530,8 @@ msgstr "بعدها لا يمكن لأحد إدخال أو تعديل أو إلغ
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr "لم يحدث شيء بعد. ويُفحص مقابل صلاحياتك أنت عند تطبيقه."
 
-#: onedesk/public/js/desk.js:339 onedesk/www/portal.html:31
-#: onedesk/www/portal.html:61
+#: onedesk/public/js/desk.js:339 onedesk/www/portal.html:36
+#: onedesk/www/portal.html:68
 msgid "Nothing here yet"
 msgstr "لا شيء هنا بعد"
 
@@ -12542,7 +12543,7 @@ msgstr "لم يُخطَّط شيء بعد."
 msgid "Nothing is spent and no attendance is marked."
 msgstr "لا يُخصم رصيد ولا يُسجَّل حضور."
 
-#: onedesk/www/portal.html:59
+#: onedesk/www/portal.html:66
 msgid "Nothing matches"
 msgstr "لا توجد نتائج مطابقة"
 
@@ -14887,7 +14888,9 @@ msgstr "رقم الوثيقة"
 msgid "Port"
 msgstr "المنفذ"
 
-#: onedesk/templates/includes/one_portal_head.html:25 onedesk/www/portal.html:4
+#: onedesk/templates/includes/one_portal_head.html:25
+#: onedesk/templates/includes/one_portal_sidebar.html:26
+#: onedesk/www/portal.html:6
 msgid "Portal"
 msgstr ""
 
@@ -16996,7 +16999,7 @@ msgstr ""
 
 #. Label of the one_search (Data) field in DocType 'Employee Attendance Tool'
 #: onedesk/one_hr/custom/employee_attendance_tool.json
-#: onedesk/public/js/onemail.js:91 onedesk/www/portal.html:40
+#: onedesk/public/js/onemail.js:91 onedesk/www/portal.html:46
 msgid "Search"
 msgstr ""
 
@@ -17647,7 +17650,7 @@ msgstr "عرض في"
 msgid "Show In…"
 msgstr "عرض في…"
 
-#: onedesk/www/portal.html:56
+#: onedesk/www/portal.html:63
 msgid "Show More"
 msgstr "عرض المزيد"
 
@@ -17754,6 +17757,7 @@ msgid "Sign in with a drive password, not your One password."
 msgstr "سجّل الدخول بكلمة مرور محرك الأقراص، لا بكلمة مرور One."
 
 #: onedesk/templates/includes/one_portal_head.html:18
+#: onedesk/templates/includes/one_portal_sidebar.html:22
 #: onedesk/www/account.html:18 onedesk/www/me.html:15
 msgid "Sign out"
 msgstr "تسجيل الخروج"
@@ -22053,7 +22057,7 @@ msgstr "خط المبيعات المرجّح"
 msgid "Weighted Value"
 msgstr "القيمة المرجّحة"
 
-#: onedesk/www/portal.html:16
+#: onedesk/www/portal.html:20
 msgid "Welcome"
 msgstr ""
 

@@ -1,0 +1,36 @@
+{#- The portal's sidebar on a wide screen (one/portal.py), as frappe-ui's
+    Sidebar draws it: SidebarHeader names the customer or supplier and opens a
+    Dropdown, then a SidebarItem for home and for each tab, its icon from
+    frappe's Lucide sprite. A phone has the head and tabs instead. -#}
+{%- set me = one_portal_me() %}
+<aside class="one-sidebar">
+	<details class="one-menu one-sidebar__header">
+		<summary class="one-sidebar__trigger">
+			<img src="/assets/onedesk/images/one.svg" alt="">
+			<span class="one-sidebar__titles">
+				<span>{{ (me.party or "One")|e }}</span>
+				<small>{{ me.name|e }}</small>
+			</span>
+			<svg class="one-icon" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
+		</summary>
+		<div class="one-menu__panel" role="menu">
+			<div class="one-menu__who">
+				<span>{{ me.name|e }}</span>
+				<small>{{ me.email|e }}</small>
+			</div>
+			<a class="one-menu__item" role="menuitem" href="/logout">
+				<svg class="one-icon" aria-hidden="true"><use href="#icon-log-out"></use></svg>{{ _("Sign out") }}
+			</a>
+		</div>
+	</details>
+	<nav class="one-sidebar__items" aria-label="{{ _('Portal') }}">
+		<a href="/portal" {% if not doctype %}aria-current="page"{% endif %}>
+			<svg class="one-icon" aria-hidden="true"><use href="#icon-house"></use></svg>{{ _("Home") }}
+		</a>
+		{%- for tab in one_portal_tabs() %}
+		<a href="{{ tab.route }}" {% if tab.current %}aria-current="page"{% endif %}>
+			<svg class="one-icon" aria-hidden="true"><use href="#icon-{{ tab.icon }}"></use></svg>{{ tab.title }}
+		</a>
+		{%- endfor %}
+	</nav>
+</aside>

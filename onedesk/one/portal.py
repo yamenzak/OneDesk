@@ -83,10 +83,23 @@ def one_portal_tabs() -> list[dict]:
 
 
 def one_portal_me() -> dict:
-	"""Who is signed in, for the head's avatar and its menu."""
+	"""Who is signed in, for the head's avatar and its menu, and the customer
+	or supplier they sign in for, which the sidebar's header names."""
 	user = frappe.session.user
 	name = frappe.utils.get_fullname(user) or user
-	return {"name": name, "email": user, "initials": "".join(w[0] for w in name.split()[:2]).upper()}
+	party = frappe.db.get_value(
+		"Portal User", {"user": user, "parenttype": ("in", PARTIES)}, ["parenttype", "parent"], as_dict=True
+	)
+	title = ""
+	if party:
+		field = "customer_name" if party.parenttype == "Customer" else "supplier_name"
+		title = frappe.db.get_value(party.parenttype, party.parent, field) or party.parent
+	return {
+		"name": name,
+		"email": user,
+		"initials": "".join(w[0] for w in name.split()[:2]).upper(),
+		"party": title,
+	}
 
 
 def one_portal_columns(row_template: str | None) -> list[str]:

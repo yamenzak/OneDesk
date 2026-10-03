@@ -1,6 +1,8 @@
 {% extends "templates/web.html" %}
 {#- frappe's list context asks for its sidebar; the tabs are the portal's menu. -#}
 {%- set show_sidebar = False -%}
+{#- The portal draws its own sidebar, edge to edge. -#}
+{%- set full_width = True -%}
 {% block title %}{{ (title or _(doctype)) if doctype else _("Portal") }}{% endblock %}
 
 {%- block navbar -%}{%- endblock -%}
@@ -9,12 +11,15 @@
 
 {% block page_content %}
 <div class="one-portal one-portal--wide one-portal--app">
+	{% include "templates/includes/one_portal_sidebar.html" %}
+	<div class="one-portal__page">
 	{% include "templates/includes/one_portal_head.html" %}
 
 	{% if not doctype %}
 	<div class="one-page-head">
 		<h1>{{ _("Welcome") }}</h1>
 	</div>
+	<div class="one-portal__body">
 	{%- set have = one_portal_home() %}
 	{% if have %}
 	<div class="one-items">
@@ -30,6 +35,7 @@
 	{% else %}
 	<p class="one-empty">{{ _("Nothing here yet") }}</p>
 	{% endif %}
+	</div>
 
 	{% else %}
 	{%- set here = one_portal_tabs() | selectattr("current") | first %}
@@ -40,6 +46,7 @@
 			<input type="search" name="txt" value="{{ (txt or '')|e }}" placeholder="{{ _('Search') }}" aria-label="{{ _('Search') }}">
 		</form>
 	</div>
+	<div class="one-portal__body">
 	{% if introduction %}<p class="one-portal__lede">{{ introduction }}</p>{% endif %}
 
 	{% if result %}
@@ -60,6 +67,8 @@
 	{% else %}
 	<p class="one-empty">{{ _("Nothing here yet") }}</p>
 	{% endif %}
+	</div>
 	{% endif %}
+	</div>
 </div>
 {% endblock %}

@@ -1570,8 +1570,10 @@ password, and land on the portal.
   their purchase orders and purchase invoices.
 
 Each sees only the records of their own customer or supplier. Home says how
-many of each they have, and how many invoices are waiting to be paid. Which
-tabs show is set in frappe's Portal Settings.
+many of each they have, and how many invoices are waiting to be paid. On a
+computer the tabs are in a sidebar under their company's name; on a phone
+they scroll across the top. Which tabs show is set in frappe's Portal
+Settings.
 
 ## Asking OneAI
 

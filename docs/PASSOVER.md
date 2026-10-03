@@ -6214,6 +6214,12 @@ frappe ui components and it seems on mobile its thick in padding".
   components are not in onedesk's build, so these are its look in HTML.
 - **Fixed**: on a phone the page sits 16px from the edge, the tabs scroll in
   one line with the one being read in view, and the search spans the width.
+- **Fixed** (1c): on a wide screen the tabs are frappe-ui's Sidebar instead.
+  SidebarHeader names the customer or supplier with the person under it and
+  opens the Dropdown (Sign out); a SidebarItem for Home and each tab; the
+  title row is PageHeader (48px, a hairline, the search on the right), which
+  stays as the page scrolls. The page is edge to edge (`full_width`). A phone
+  keeps the head and the scrolling tabs.
 
 Next: a record's page (an order, an invoice, a quote).
 
