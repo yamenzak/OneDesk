@@ -3,6 +3,7 @@
     Dropdown, then a SidebarItem for home and for each tab, its icon from
     frappe's Lucide sprite. A phone has the head and tabs instead. -#}
 {%- set me = one_portal_me() %}
+{%- set tabs = one_portal_tabs() %}
 <aside class="one-sidebar">
 	<details class="one-menu one-sidebar__header">
 		<summary class="one-sidebar__trigger">
@@ -24,10 +25,10 @@
 		</div>
 	</details>
 	<nav class="one-sidebar__items" aria-label="{{ _('Portal') }}">
-		<a href="/portal" {% if not doctype %}aria-current="page"{% endif %}>
+		<a href="/portal" {% if not tabs | selectattr("current") | list %}aria-current="page"{% endif %}>
 			<svg class="one-icon" aria-hidden="true"><use href="#icon-house"></use></svg>{{ _("Home") }}
 		</a>
-		{%- for tab in one_portal_tabs() %}
+		{%- for tab in tabs %}
 		<a href="{{ tab.route }}" {% if tab.current %}aria-current="page"{% endif %}>
 			<svg class="one-icon" aria-hidden="true"><use href="#icon-{{ tab.icon }}"></use></svg>{{ tab.title }}
 		</a>

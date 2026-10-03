@@ -1,0 +1,108 @@
+{% extends "templates/web.html" %}
+{#- erpnext's record page, in One's portal (one/portal.py): the same shell as
+    the lists, PageHeader with Breadcrumbs, the Badge and the buttons, then the
+    record's facts, its items as frappe-ui's ListView, and its totals. -#}
+{%- set show_sidebar = False -%}
+{%- set full_width = True -%}
+{% block title %}{{ doc.name }}{% endblock %}
+
+{%- block navbar -%}{%- endblock -%}
+{%- block footer -%}{%- endblock -%}
+{% block breadcrumbs %}{% endblock %}
+
+{% block page_content %}
+{%- set here = one_portal_tabs() | selectattr("current") | first %}
+{%- set one = one_portal_record(doc) %}
+<div class="one-portal one-portal--wide one-portal--app">
+	{% include "templates/includes/one_portal_sidebar.html" %}
+	<div class="one-portal__page">
+	{% include "templates/includes/one_portal_head.html" %}
+
+	<div class="one-page-head">
+		<h1 class="one-crumbs">
+			{% if here %}<a href="{{ here.route }}">{{ here.title }}</a><span aria-hidden="true">/</span>{% endif %}
+			<span>{{ doc.name | e }}</span>
+			<span class="one-badge one-badge--{{ one.tone }}">{{ one.status }}</span>
+		</h1>
+		<div class="one-actions">
+			{% if doc.docstatus == 1 %}
+			<a class="one-btn" href="/api/method/frappe.utils.print_format.download_pdf?doctype={{ doc.doctype | urlencode }}&name={{ doc.name | urlencode }}&format={{ print_format | urlencode }}">
+				<svg class="one-icon" aria-hidden="true"><use href="#icon-download"></use></svg>{{ _("Download PDF") }}
+			</a>
+			{% endif %}
+			{% if doc.doctype == "Purchase Order" and show_make_pi_button %}
+			<a class="one-btn" href="/api/method/erpnext.buying.doctype.purchase_order.mapper.make_purchase_invoice_from_portal?purchase_order_name={{ doc.name | urlencode }}">{{ _("Create Invoice") }}</a>
+			{% endif %}
+			{% if show_pay_button %}
+			<a class="one-btn one-btn--solid" href="/api/method/erpnext.accounts.doctype.payment_request.payment_request.make_payment_request?dn={{ doc.name | urlencode }}&dt={{ doc.doctype | urlencode }}&submit_doc=1&order_type=Shopping Cart">{{ _("Pay {0}").format(pay_amount) }}</a>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="one-portal__body">
+		{% if one.facts %}
+		<dl class="one-facts">
+			{% for fact in one.facts %}
+			<div>
+				<dt>{{ fact.label }}</dt>
+				<dd{% if fact.lines %} class="one-facts__lines"{% endif %}>{{ fact.value | e }}</dd>
+			</div>
+			{% endfor %}
+		</dl>
+		{% endif %}
+
+		<div class="one-list-view one-items-view">
+			<div class="one-list-view__head" aria-hidden="true">
+				<span>{{ _("Item") }}</span>
+				<span>{{ _("Quantity") }}</span>
+				<span>{{ _("Rate") }}</span>
+				<span>{{ _("Amount") }}</span>
+			</div>
+			{% for d in doc.items %}
+			{%- set about = html2text(d.description or "") | trim %}
+			<div class="one-list__row">
+				<span class="one-list__what">
+					<span>{{ (d.item_name or d.item_code) | e }}</span>
+					{% if about and about != d.item_name %}<small>{{ about | truncate(140) | e }}</small>{% endif %}
+					<small class="one-items-view__each">{{ d.get_formatted("qty") }} {{ _(d.uom or "") }} × {{ d.get_formatted("rate") }}</small>
+				</span>
+				<span class="one-items-view__qty">{{ d.get_formatted("qty") }} <small>{{ _(d.uom or "") }}</small></span>
+				<span class="one-items-view__rate">{{ d.get_formatted("rate") }}</span>
+				<span class="one-list__amount">{{ d.get_formatted("amount") }}</span>
+			</div>
+			{% endfor %}
+		</div>
+
+		<dl class="one-totals">
+			{% for row in one.totals %}
+			<div{% if row.strong %} class="one-totals__strong"{% endif %}>
+				<dt>{{ row.label | e }}</dt>
+				<dd>{{ row.value }}</dd>
+			</div>
+			{% endfor %}
+		</dl>
+
+		{% if attachments %}
+		<section class="one-section">
+			<h2>{{ _("Attachments") }}</h2>
+			<div class="one-items">
+				{% for file in attachments %}
+				<a class="one-item" href="{{ file.file_url | e }}" target="_blank" rel="noopener">
+					<svg class="one-icon" aria-hidden="true"><use href="#icon-paperclip"></use></svg>
+					<span class="one-item__label">{{ file.file_name | e }}</span>
+				</a>
+				{% endfor %}
+			</div>
+		</section>
+		{% endif %}
+
+		{% if one.terms %}
+		<section class="one-section">
+			<h2>{{ _("Terms") }}</h2>
+			<div class="one-terms">{{ one.terms }}</div>
+		</section>
+		{% endif %}
+	</div>
+	</div>
+</div>
+{% endblock %}

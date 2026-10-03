@@ -1431,6 +1431,163 @@ a.one-portal__row:hover {
 	text-align: center;
 }
 
+/* A record's page (www/order.html). Breadcrumbs as frappe-ui draws them: the
+ * parent ink-gray-5, a "/" at ink-gray-4, the record ink-gray-9; then its
+ * Badge. Buttons sit on the right. */
+.one-portal--app .one-crumbs {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	min-width: 0;
+}
+
+.one-portal--app .one-crumbs a {
+	color: var(--ink-gray-5);
+	text-decoration: none;
+}
+
+.one-portal--app .one-crumbs a:hover {
+	color: var(--ink-gray-7);
+}
+
+.one-portal--app .one-crumbs > span[aria-hidden] {
+	color: var(--ink-gray-4);
+	font-weight: 400;
+}
+
+.one-portal--app .one-crumbs > span:not([aria-hidden]):not(.one-badge) {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.one-portal--app .one-crumbs .one-badge {
+	margin-left: 4px;
+	font-weight: 400;
+	letter-spacing: 0;
+}
+
+.one-actions {
+	display: flex;
+	flex: none;
+	gap: 8px;
+}
+
+.one-portal--app .one-btn {
+	gap: 6px;
+	white-space: nowrap;
+}
+
+/* frappe-ui's Button, solid. */
+.one-portal--app .one-btn.one-btn--solid {
+	background: var(--surface-gray-10, var(--gray-900));
+	color: var(--ink-base, var(--white));
+}
+
+.one-portal--app .one-btn.one-btn--solid:hover {
+	background: var(--surface-gray-9, var(--gray-800));
+}
+
+/* The record's facts: a label at ink-gray-5 over its value. */
+.one-facts {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px 40px;
+	margin: 0 0 24px;
+	padding: 0 8px;
+}
+
+.one-facts dt {
+	margin-bottom: 2px;
+	color: var(--ink-gray-5);
+	font-size: 13px;
+	font-weight: 400;
+}
+
+.one-facts dd {
+	margin: 0;
+	color: var(--ink-gray-8);
+	font-size: 14px;
+}
+
+.one-facts .one-facts__lines {
+	white-space: pre-line;
+}
+
+/* Its items, as the lists draw a row, four columns. */
+.one-items-view .one-list-view__head,
+.one-items-view .one-list__row {
+	grid-template-columns: minmax(0, 1fr) 7rem 8rem 9rem;
+}
+
+.one-items-view .one-list-view__head > :nth-child(n + 2),
+.one-items-view__qty,
+.one-items-view__rate {
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+}
+
+.one-items-view__qty small {
+	color: var(--ink-gray-5);
+	font-size: 12px;
+}
+
+.one-items-view .one-list__what small.one-items-view__each {
+	display: none;
+}
+
+/* The totals, under the amounts: the total and what is left to pay at
+ * ink-gray-9, the rest at ink-gray-6. */
+.one-totals {
+	width: min(100%, 20rem);
+	margin: 0 0 24px auto;
+	padding: 8px 8px 0;
+	border-top: 1px solid var(--outline-gray-1);
+}
+
+.one-totals > div {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 4px 0;
+	color: var(--ink-gray-6);
+	font-size: 14px;
+}
+
+.one-totals dt {
+	font-weight: 400;
+}
+
+.one-totals dd {
+	margin: 0;
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+.one-totals .one-totals__strong {
+	color: var(--ink-gray-9);
+	font-weight: 600;
+}
+
+/* A section under the record: its heading at text-base, medium. */
+.one-section {
+	margin-top: 24px;
+}
+
+.one-portal--app .one-section h2 {
+	margin: 0 0 8px;
+	padding: 0 8px;
+	color: var(--ink-gray-8);
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.one-terms {
+	padding: 0 8px;
+	color: var(--ink-gray-6);
+	font-size: 13px;
+}
+
 /* frappe-ui's Sidebar, 15rem on the sidebar surface: SidebarHeader's 48px
  * region with its 40px Dropdown trigger (the logo at 28px, a title and a
  * subtitle, a chevron), then SidebarItem rows, 28px, rounded-4, the current
@@ -1631,5 +1788,29 @@ a.one-portal__row:hover {
 	.one-list-view .one-list__amount {
 		grid-column: 2;
 		grid-row: 1;
+	}
+	.one-page-head:has(.one-crumbs) {
+		flex-direction: column;
+		align-items: stretch;
+	}
+	.one-portal--app .one-crumbs {
+		flex-wrap: wrap;
+		font-size: 18px;
+	}
+	.one-items-view .one-list__row {
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+	.one-items-view__qty,
+	.one-items-view__rate {
+		display: none;
+	}
+	.one-items-view .one-list__what small.one-items-view__each {
+		display: block;
+	}
+	.one-facts {
+		gap: 12px 24px;
+	}
+	.one-totals {
+		width: 100%;
 	}
 }

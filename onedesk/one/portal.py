@@ -13,6 +13,8 @@ ListPage asks for frappe's module by name), so what the template needs beyond
 frappe's context comes from the Jinja methods here.
 """
 
+import re
+
 import frappe
 from frappe import _, _lt
 from frappe.website.utils import get_portal_sidebar_items
@@ -146,6 +148,77 @@ def one_portal_home() -> list[dict]:
 			}
 		)
 	return rows
+
+
+#: A record page's facts, in order: the field, and how the page names it.
+#: Only those the record has are said.
+FACTS = (
+	("transaction_date", _lt("Date")),
+	("posting_date", _lt("Date")),
+	("valid_till", _lt("Valid until")),
+	("delivery_date", _lt("Delivery")),
+	("schedule_date", _lt("Delivery")),
+	("due_date", _lt("Due")),
+	("po_no", _lt("Your reference")),
+	("bill_no", _lt("Your reference")),
+)
+
+#: Kinds a reader pays: once part is paid, their page says what is paid and
+#: what is left.
+OWED = ("Sales Invoice", "Purchase Invoice")
+
+
+def one_portal_record(doc) -> dict:
+	"""What a record's page shows beyond its items (www/order.html): its
+	status as a Badge, its facts (FACTS), where it goes, its totals and its
+	terms."""
+	from frappe.utils import fmt_money, global_date_format, sanitize_html, strip_html
+
+	said, facts = set(), []
+	for field, label in FACTS:
+		value = doc.get(field)
+		if not value or str(label) in said:
+			continue
+		said.add(str(label))
+		dated = doc.meta.get_field(field) and doc.meta.get_field(field).fieldtype == "Date"
+		facts.append({"label": str(label), "value": global_date_format(value) if dated else str(value)})
+	address = doc.get("shipping_address") or doc.get("address_display")
+	if address and doc.doctype in ("Sales Order", "Delivery Note", "Quotation"):
+		lines = re.sub(r"<br\s*/?>", "\n", address)
+		facts.append({"label": _("Ship to"), "value": strip_html(lines).strip(), "lines": True})
+
+	totals = []
+	if doc.get("taxes") or doc.get("discount_amount"):
+		totals.append({"label": _("Subtotal"), "value": doc.get_formatted("total")})
+	if doc.get("discount_amount"):
+		totals.append(
+			{"label": _("Discount"), "value": fmt_money(-doc.discount_amount, currency=doc.currency)}
+		)
+	for tax in doc.get("taxes") or []:
+		if tax.tax_amount:
+			totals.append({"label": tax.description, "value": tax.get_formatted("tax_amount")})
+	total = (
+		"rounded_total"
+		if doc.get("rounded_total") and not doc.get("disable_rounded_total")
+		else "grand_total"
+	)
+	totals.append({"label": _("Total"), "value": doc.get_formatted(total), "strong": True})
+	if doc.doctype in OWED and doc.docstatus == 1:
+		left = doc.get("outstanding_amount") or 0
+		paid = (doc.get(total) or 0) - left
+		if paid and left:
+			totals.append({"label": _("Paid"), "value": fmt_money(paid, currency=doc.currency)})
+			totals.append(
+				{"label": _("To pay"), "value": doc.get_formatted("outstanding_amount"), "strong": True}
+			)
+
+	return {
+		"tone": one_portal_tone(doc.get("indicator_color") or ("blue" if doc.docstatus == 1 else "gray")),
+		"status": _(doc.get("indicator_title") or doc.get("status") or "Submitted"),
+		"facts": facts,
+		"totals": totals,
+		"terms": sanitize_html(doc.terms) if doc.get("terms") else "",
+	}
 
 
 #: Who a contact's login may be a portal user of.

@@ -1241,6 +1241,7 @@ jinja = {
 		"onedesk.one.portal.one_portal_tabs",
 		"onedesk.one.portal.one_portal_tone",
 		"onedesk.one.portal.one_portal_home",
+		"onedesk.one.portal.one_portal_record",
 		"onedesk.one.portal.one_portal_me",
 		"onedesk.one.portal.one_portal_columns",
 	]

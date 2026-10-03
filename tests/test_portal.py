@@ -74,3 +74,20 @@ def test_the_portal_is_drawn_as_frappe_ui_draws_it():
 	assert "padding: 1rem 1rem 3rem;" in block
 	assert "width: 15rem;" in block and "var(--surface-sidebar" in block
 	assert "ICONS = {" in SOURCE and "COLUMNS = {" in SOURCE
+
+
+def test_a_record_page_is_the_portals():
+	"""erpnext's record page for the seven kinds, in the portal's shell: its
+	own context first (the reader's permission, Pay), then Breadcrumbs, the
+	Badge, Download PDF, the facts, the items as ListView and the totals."""
+	py = (tree.APP / "www" / "order.py").read_text()
+	assert "order.get_context(context)" in py
+	page = (tree.APP / "www" / "order.html").read_text()
+	assert "one_portal_sidebar.html" in page and "one_portal_head.html" in page
+	assert 'class="one-crumbs"' in page and "one_portal_record(doc)" in page
+	assert "frappe.utils.print_format.download_pdf" in page and "show_pay_button" in page
+	assert "{% if doc.docstatus == 1 %}" in page
+	assert "FACTS = (" in SOURCE and "OWED = (" in SOURCE
+	assert '"terms": sanitize_html(doc.terms)' in SOURCE
+	side = (INCLUDES / "one_portal_sidebar.html").read_text()
+	assert 'selectattr("current")' in side

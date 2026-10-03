@@ -14,12 +14,14 @@
 	{%- elif code|length == 3 and code[1] == "0" %}{% set lost_code, lost_core = code, "empty" %}
 	{%- else %}{% set lost_code, lost_core = "", "one" %}{% endif %}
 	{% include "templates/includes/one_lost.html" %}
-	{#- frappe's own not-permitted page, in the desk's words. A block sees only
-	    the context, so the block below asks the same question again. -#}
-	{%- set denied = title == _("Not Permitted") and not message %}
+	{#- frappe's own not-permitted page, in the desk's words, also when the
+	    refusal repeats the title as its message (erpnext's record pages). A
+	    block sees only the context, so the block below asks the same question
+	    again. -#}
+	{%- set denied = title == _("Not Permitted") and (not message or message == title) %}
 	{% if title %}<h1>{{ _("No access") if denied else title }}</h1>{% endif %}
 	{% block message_body %}
-	{%- if title == _("Not Permitted") and not message %}
+	{%- if title == _("Not Permitted") and (not message or message == title) %}
 	{%- set guest = frappe.session.user == "Guest" %}
 	{%- set message = _("Sign in to see this page.") if guest else _("Ask an administrator for access.") %}
 	{%- set primary_label = _("Sign In") if guest else _("Go Home") %}

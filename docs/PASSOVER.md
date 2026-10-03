@@ -6221,7 +6221,38 @@ frappe ui components and it seems on mobile its thick in padding".
   stays as the page scrolls. The page is edge to edge (`full_width`). A phone
   keeps the head and the scrolling tabs.
 
-Next: a record's page (an order, an invoice, a quote).
+### Portals 2: a record's page
+
+The seven kinds (quotation, order, invoice, shipment; quote, purchase order,
+purchase invoice) share erpnext's `order` page.
+
+1. **Notifications**: none from the page. erpnext's own mails link here.
+2. **OneAI**: none; the portal reader is not a desk user.
+3. **Intake**: nothing lands here.
+4. **Permissions**: erpnext's context checks `has_website_permission` first.
+   Another party's record is 403. **Fixed**: the refusal repeated "Not
+   Permitted" as its message, so frappe's wording showed; it now says "No
+   access" like every other refusal.
+5. **Cross-module**: the invoice's totals come from OneBook's ledger
+   (outstanding amount), the shipment from OneInventory's delivery note.
+6. **Bespoke UI**, **Fixed**: the portal's shell (sidebar, PageHeader) with
+   Breadcrumbs ("Invoices / ACC-SINV-…"), the status Badge and Download PDF in
+   the head; the record's facts (date, due, valid until, delivery, their own
+   reference, ship to); its items as ListView (item, quantity with its unit,
+   rate, amount; on a phone the quantity and rate go under the item); the
+   totals (subtotal, discount, each tax, total; paid and to pay once part is
+   paid); attachments and terms. Before, erpnext's Bootstrap grid, Print
+   behind an Actions menu, no dates, and totals that wrapped.
+   **Fixed**: Home was lit beside the current tab on a record page.
+7. **Documented**: the README's Portal section says what a record shows.
+8. **Legal**: covered by the DPA's portal clause.
+9. **From frappe**: erpnext's context unchanged (order.py runs it); the PDF is
+   frappe's `download_pdf`, which lets a portal reader print their own record.
+   Pay stays erpnext's, shown only when a payment gateway (the payments app)
+   is set up, which One does not install.
+10. **Plain words**: "Download PDF", "To pay", "Your reference".
+
+Next: a supplier answering a quote request.
 
 ## OneLegal
 

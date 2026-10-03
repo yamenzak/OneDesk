@@ -1575,6 +1575,10 @@ computer the tabs are in a sidebar under their company's name; on a phone
 they scroll across the top. Which tabs show is set in frappe's Portal
 Settings.
 
+Opening a record shows its dates, items and totals, and **Download PDF**
+gives the printed copy. An invoice that is partly paid also shows what is
+paid and what is left to pay. Each sees only their own records.
+
 ## Asking OneAI
 
 The OneAI button at the bottom of every page opens the OneAI panel. Every

@@ -375,6 +375,13 @@ OVERRIDES = [
 		'<div>{{ _("Welcome to the Portal") }}</div>',
 	),
 	(
+		"A quotation, order, invoice, shipment or purchase document on the portal is One's page",
+		"erpnext draws the seven kinds through its templates/pages/order page, a Bootstrap grid with Print in an Actions menu; onedesk/www/order.html is found first, and its order.py runs erpnext's own context (the reader's permission, Pay, the print format), so the record is drawn in the portal's shell with its facts, items, totals and Download PDF",
+		"onedesk/www/order.html",
+		"erpnext/erpnext/templates/pages/order.html",
+		'<span class="font-md">{{ _(\'Actions\') }}</span>',
+	),
+	(
 		"A quotation, order or invoice on the portal's list is One's row",
 		"erpnext draws each with Bootstrap's grid and a hidden link; onedesk's template of the same path is found first and draws the row frappe-ui's ListView draws",
 		"onedesk/templates/includes/transaction_row.html",

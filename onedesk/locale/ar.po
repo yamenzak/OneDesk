@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-03 17:30+0000\n"
-"PO-Revision-Date: 2026-10-03 17:30+0000\n"
+"POT-Creation-Date: 2026-10-03 17:46+0000\n"
+"PO-Revision-Date: 2026-10-03 17:46+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
 "Language-Team: hello@4dl.app\n"
@@ -1731,6 +1731,7 @@ msgstr ""
 #: onedesk/one_book/heads.py:272 onedesk/one_intake/bundle.py:83
 #: onedesk/one_intake/doctype/reading_line/reading_line.json
 #: onedesk/public/js/intake.js:161 onedesk/public/js/settings.js:1753
+#: onedesk/www/order.html:59
 msgid "Amount"
 msgstr "المبلغ"
 
@@ -2298,7 +2299,7 @@ msgid "Ask again on the workspace's Your Data page."
 msgstr "اطلب مجددًا من صفحة «بياناتك» في مساحة العمل."
 
 #: onedesk/public/js/desk.js:340 onedesk/public/js/outside.js:262
-#: onedesk/www/message.html:24
+#: onedesk/www/message.html:26
 msgid "Ask an administrator for access."
 msgstr "اطلب الوصول من أحد المسؤولين."
 
@@ -2506,7 +2507,7 @@ msgstr "إرفاق {0} ملفات"
 msgid "Attachment"
 msgstr "مرفق"
 
-#: onedesk/public/js/intake.js:119
+#: onedesk/public/js/intake.js:119 onedesk/www/order.html:87
 msgid "Attachments"
 msgstr "المرفقات"
 
@@ -4692,6 +4693,10 @@ msgstr "إنشاء سجل"
 msgid "Create Download"
 msgstr "إنشاء التنزيل"
 
+#: onedesk/www/order.html:34
+msgid "Create Invoice"
+msgstr "إنشاء فاتورة"
+
 #: onedesk/public/js/settings.js:554
 msgid "Create Link"
 msgstr ""
@@ -5073,6 +5078,7 @@ msgid "Database Used"
 msgstr "قاعدة البيانات المستخدمة"
 
 #. Label of the date (Date) field in DocType 'Reading Date'
+#: onedesk/one/portal.py:156 onedesk/one/portal.py:157
 #: onedesk/one/settings.py:1622
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:152
 #: onedesk/one_intake/bundle.py:83
@@ -5508,6 +5514,10 @@ msgstr "التسليمات"
 msgid "Deliveries received from Stripe, used to ignore repeats."
 msgstr "التسليمات الواردة من Stripe، وتُستعمل لتجاهل المكرَّر."
 
+#: onedesk/one/portal.py:159 onedesk/one/portal.py:160
+msgid "Delivery"
+msgstr ""
+
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
 msgid "Delivery Note"
@@ -5683,6 +5693,10 @@ msgstr "فصل {0}؟ تبقى الملفات على الخادم كما هي."
 #: onedesk/public/js/settings.js:466
 msgid "Disconnected"
 msgstr "غير متصل"
+
+#: onedesk/one/portal.py:195
+msgid "Discount"
+msgstr ""
 
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
 #: onedesk/one_hr/custom/employee_grievance.json
@@ -5882,6 +5896,10 @@ msgstr "تاريخ إعداد التنزيل"
 msgid "Download My Data"
 msgstr "تنزيل بياناتي"
 
+#: onedesk/www/order.html:30
+msgid "Download PDF"
+msgstr ""
+
 #. Label of the export_size (Int) field in DocType 'Workspace Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 msgid "Download Size"
@@ -5995,7 +6013,8 @@ msgid "Dropped"
 msgstr "أُسقط"
 
 #. Option for the 'What' (Select) field in DocType 'Reading Date'
-#: onedesk/one_admin/accounts.py:230 onedesk/one_book/heads.py:314
+#: onedesk/one/portal.py:161 onedesk/one_admin/accounts.py:230
+#: onedesk/one_book/heads.py:314
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_project/heads.py:169
 #: onedesk/one_task/page/my_tasks/my_tasks.js:62
@@ -7931,8 +7950,8 @@ msgid "Go Back"
 msgstr ""
 
 #: onedesk/public/js/outside.js:242 onedesk/www/404.html:19
-#: onedesk/www/error.html:21 onedesk/www/message.html:25
-#: onedesk/www/message.html:29
+#: onedesk/www/error.html:21 onedesk/www/message.html:27
+#: onedesk/www/message.html:31
 msgid "Go Home"
 msgstr "الذهاب إلى الرئيسية"
 
@@ -8309,12 +8328,12 @@ msgstr "العطلات في {0}"
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
-#: onedesk/templates/includes/one_portal_sidebar.html:28
+#: onedesk/templates/includes/one_portal_sidebar.html:29
 msgid "Home"
 msgstr "الرئيسية"
 
 #. Label of the one_when (Data) field in DocType 'Shift Request'
-#: onedesk/one/portal.py:55 onedesk/one_hr/custom/shift_request.json
+#: onedesk/one/portal.py:57 onedesk/one_hr/custom/shift_request.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:164
 msgid "Hours"
 msgstr ""
@@ -9339,7 +9358,7 @@ msgid "It would overwrite {0}."
 msgstr "سيؤدي ذلك إلى استبدال {0}."
 
 #: onedesk/one_inventory/report/to_order/to_order.py:15
-#: onedesk/public/js/project.js:122
+#: onedesk/public/js/project.js:122 onedesk/www/order.html:56
 msgid "Item"
 msgstr "الصنف"
 
@@ -11836,7 +11855,7 @@ msgstr "شهادة عدم ممانعة"
 msgid "No Shift"
 msgstr "بلا مناوبة"
 
-#: onedesk/public/js/outside.js:261 onedesk/www/message.html:20
+#: onedesk/public/js/outside.js:261 onedesk/www/message.html:22
 msgid "No access"
 msgstr "لا يوجد وصول"
 
@@ -12295,8 +12314,8 @@ msgstr "غير مُقدَّرة"
 msgid "Not Found"
 msgstr ""
 
-#: onedesk/www/message.html:11 onedesk/www/message.html:19
-#: onedesk/www/message.html:22
+#: onedesk/www/message.html:11 onedesk/www/message.html:21
+#: onedesk/www/message.html:24
 msgid "Not Permitted"
 msgstr ""
 
@@ -12674,7 +12693,7 @@ msgid "Nudge"
 msgstr "تذكير"
 
 #. Label of the number (Data) field in DocType 'Employee Document'
-#: onedesk/one/portal.py:53
+#: onedesk/one/portal.py:55
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 #: onedesk/one_intake/bundle.py:83 onedesk/one_intake/panel.py:130
 #: onedesk/public/js/settings.js:1752
@@ -14165,7 +14184,7 @@ msgid "Pages"
 msgstr "الصفحات"
 
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
-#: onedesk/one_admin/accounts.py:229
+#: onedesk/one/portal.py:206 onedesk/one_admin/accounts.py:229
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/log.py:24 onedesk/one_book/heads.py:315
 #: onedesk/public/js/settings.js:1744 onedesk/www/projects.html:90
@@ -14413,6 +14432,10 @@ msgstr "ادفع خلال {0} يوم لتجنب الحذف."
 #: onedesk/one_admin/accounts.py:148
 msgid "Pay within {0} days to avoid suspension."
 msgstr "ادفع خلال {0} يوم لتجنب الإيقاف."
+
+#: onedesk/www/order.html:37
+msgid "Pay {0}"
+msgstr "ادفع {0}"
 
 #. Label of a Sidebar Item
 #: onedesk/one_book/sidebar/onebook/onebook.json
@@ -14889,7 +14912,7 @@ msgid "Port"
 msgstr "المنفذ"
 
 #: onedesk/templates/includes/one_portal_head.html:25
-#: onedesk/templates/includes/one_portal_sidebar.html:26
+#: onedesk/templates/includes/one_portal_sidebar.html:27
 #: onedesk/www/portal.html:6
 msgid "Portal"
 msgstr ""
@@ -15183,7 +15206,7 @@ msgstr "ربح هذا الشهر"
 msgid "Profit and Loss"
 msgstr ""
 
-#: onedesk/one/portal.py:54 onedesk/public/js/onecloud.js:340
+#: onedesk/one/portal.py:56 onedesk/public/js/onecloud.js:340
 #: onedesk/public/js/onecloud.js:650 onedesk/www/projects.html:23
 msgid "Progress"
 msgstr ""
@@ -15192,7 +15215,7 @@ msgstr ""
 msgid "Progress…"
 msgstr "التقدم…"
 
-#: onedesk/one/portal.py:54
+#: onedesk/one/portal.py:56
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:25
 #: onedesk/one_project/report/project_tree/project_tree.py:49
 #: onedesk/one_project/report/workload/workload.js:7
@@ -15465,7 +15488,7 @@ msgstr ""
 #: onedesk/one/doctype/workspace_add_on/workspace_add_on.json
 #: onedesk/one_admin/doctype/tenant_add_on/tenant_add_on.json
 #: onedesk/one_intake/doctype/reading_line/reading_line.json
-#: onedesk/public/js/settings.js:1902
+#: onedesk/public/js/settings.js:1902 onedesk/www/order.html:57
 msgid "Quantity"
 msgstr "الكمية"
 
@@ -15493,11 +15516,11 @@ msgstr "الحصص"
 msgid "Quotation"
 msgstr ""
 
-#: onedesk/one/portal.py:30
+#: onedesk/one/portal.py:32
 msgid "Quote Requests"
 msgstr "طلبات عروض الأسعار"
 
-#: onedesk/one/portal.py:30
+#: onedesk/one/portal.py:32
 msgid "Quotes"
 msgstr "عروض الأسعار"
 
@@ -15543,6 +15566,10 @@ msgstr "الترتيب بين المتقدمين للوظيفة نفسها، م�
 #: onedesk/one_hr/ai.py:65
 msgid "Rank the applicants again"
 msgstr "إعادة ترتيب المتقدمين"
+
+#: onedesk/www/order.html:58
+msgid "Rate"
+msgstr ""
 
 #: onedesk/one_book/report/vat_return/vat_return.py:43
 msgid "Rate (%)"
@@ -17617,6 +17644,10 @@ msgstr ""
 msgid "Shifts"
 msgstr ""
 
+#: onedesk/one/portal.py:188
+msgid "Ship to"
+msgstr "الشحن إلى"
+
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:50
 msgid "Short of {0}"
 msgstr "ينقصها {0}"
@@ -17712,7 +17743,7 @@ msgstr "التوقيع"
 msgid "Sign Count"
 msgstr "عدد مرات التوقيع"
 
-#: onedesk/public/js/onecloud.js:1587 onedesk/www/message.html:25
+#: onedesk/public/js/onecloud.js:1587 onedesk/www/message.html:27
 msgid "Sign In"
 msgstr "تسجيل الدخول"
 
@@ -17740,7 +17771,7 @@ msgstr "تسجيل الدخول"
 msgid "Sign in first."
 msgstr "سجّل الدخول أولاً."
 
-#: onedesk/www/message.html:24
+#: onedesk/www/message.html:26
 msgid "Sign in to see this page."
 msgstr "سجّل الدخول لرؤية هذه الصفحة."
 
@@ -17757,7 +17788,7 @@ msgid "Sign in with a drive password, not your One password."
 msgstr "سجّل الدخول بكلمة مرور محرك الأقراص، لا بكلمة مرور One."
 
 #: onedesk/templates/includes/one_portal_head.html:18
-#: onedesk/templates/includes/one_portal_sidebar.html:22
+#: onedesk/templates/includes/one_portal_sidebar.html:23
 #: onedesk/www/account.html:18 onedesk/www/me.html:15
 msgid "Sign out"
 msgstr "تسجيل الخروج"
@@ -18236,7 +18267,7 @@ msgstr ""
 #. Label of the status (Select) field in DocType 'Workspace Field'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
 #: onedesk/one/doctype/workspace_domain/workspace_domain.json
-#: onedesk/one/portal.py:53 onedesk/one/portal.py:54 onedesk/one/portal.py:55
+#: onedesk/one/portal.py:55 onedesk/one/portal.py:56 onedesk/one/portal.py:57
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/ai_model/ai_model.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
@@ -18591,6 +18622,10 @@ msgstr "اعتماد الفواتير الإلكترونية المطابقة"
 msgid "Submit {0} drafts?"
 msgstr "اعتماد {0} مسودات؟"
 
+#: onedesk/one/portal.py:213
+msgid "Submitted"
+msgstr ""
+
 #: onedesk/one_hr/heads.py:492
 msgid "Submitting this pays {0} for {1} hours."
 msgstr "باعتماد هذا يُدفع {0} مقابل {1} ساعة."
@@ -18607,6 +18642,10 @@ msgstr "المعالِجون الفرعيون"
 #: onedesk/public/js/calendar_link.js:70
 msgid "Subscribe"
 msgstr "اشترك"
+
+#: onedesk/one/portal.py:192
+msgid "Subtotal"
+msgstr "المجموع الفرعي"
 
 #: onedesk/one/ai.py:104
 msgid "Suggest a letter head"
@@ -19033,7 +19072,7 @@ msgstr "نطاق مساحة عمل"
 msgid "Tenant Event"
 msgstr "حدث مساحة عمل"
 
-#: onedesk/one/print_recipes.py:202
+#: onedesk/one/print_recipes.py:202 onedesk/www/order.html:101
 msgid "Terms"
 msgstr "الشروط"
 
@@ -20813,7 +20852,7 @@ msgid "Times opened"
 msgstr "مرات الفتح"
 
 #. Label of a Sidebar Item
-#: onedesk/one/portal.py:55 onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one/portal.py:57 onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_project/sidebar/oneproject/oneproject.json
 msgid "Timesheet"
 msgstr ""
@@ -20895,6 +20934,7 @@ msgstr "لعرضه، فعّل مسعّر يدويًا وأضف أسعاره."
 msgid "To or Cc Contains"
 msgstr "إلى أو نسخة يحتوي"
 
+#: onedesk/one/portal.py:208
 #: onedesk/one_book/report/vat_return/vat_return.py:81
 msgid "To pay"
 msgstr "المستحق دفعه"
@@ -21008,7 +21048,8 @@ msgid "Top Preset"
 msgstr "نمط الأعلى"
 
 #. Label of the gross (Float) field in DocType 'Reading'
-#: onedesk/one/portal.py:53 onedesk/one_admin/report/ai_usage/ai_usage.py:56
+#: onedesk/one/portal.py:55 onedesk/one/portal.py:201
+#: onedesk/one_admin/report/ai_usage/ai_usage.py:56
 #: onedesk/one_book/heads.py:316
 #: onedesk/one_intake/doctype/reading/reading.json
 #: onedesk/one_intake/page/ready_to_submit/ready_to_submit.js:43
@@ -21721,6 +21762,10 @@ msgstr "صالح من"
 #: onedesk/one_intake/doctype/reading_date/reading_date.json
 #: onedesk/one_intake/panel.py:145
 msgid "Valid Until"
+msgstr "صالح حتى"
+
+#: onedesk/one/portal.py:158
+msgid "Valid until"
 msgstr "صالح حتى"
 
 #. Label of the source (Select) field in DocType 'Record Head Band'
@@ -24548,6 +24593,10 @@ msgstr "تم تغيير كلمة مرورك في {when}، من {device} ({addres
 msgid "Your profile"
 msgstr "ملفك الشخصي"
 
+#: onedesk/one/portal.py:162 onedesk/one/portal.py:163
+msgid "Your reference"
+msgstr "مرجعك"
+
 #: onedesk/www/welcome.html:32
 msgid "Your reference is {0}. Reply to the mail we sent you and quote it."
 msgstr "رقمك المرجعي {0}. ردّ على الرسالة التي أرسلناها واذكره."
@@ -26794,11 +26843,11 @@ msgstr "{0} لا يأخذ قيمته من أي مصدر."
 msgid "{0} to decide"
 msgstr "{0} للبتّ"
 
-#: onedesk/one/portal.py:64
+#: onedesk/one/portal.py:66
 msgid "{0} to deliver"
 msgstr "{0} للتسليم"
 
-#: onedesk/one/portal.py:63
+#: onedesk/one/portal.py:65
 msgid "{0} to pay"
 msgstr "{0} للدفع"
 
