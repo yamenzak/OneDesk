@@ -164,9 +164,15 @@ example "the vans we keep: registration, make, mileage, the date we bought it
 and whether it is in use." OneAI designs its fields and shows a card with its
 name, app and fields. **Approve** creates it.
 
-**Where it is.** In the rail of the app it belongs to, under **Your Records**.
-People who use that app create and edit its records, and its managers delete
-them. A collection in **One** is for everyone.
+**Where it is.** In the rail of the app it belongs to, in the group you choose:
+one the rail already has, such as **Sales** in OneCRM, or a new one. Without a
+choice it goes under **Your Records**. People who use that app create and edit
+its records, and its managers delete them. A collection in **One** is for
+everyone.
+
+**Moving one.** Tick it and click **Actions › Move**, then choose the app and
+the group. Its records stay as they are, and the people who use them follow
+the app.
 
 **Opening one** opens its records.
 

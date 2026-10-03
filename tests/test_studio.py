@@ -560,7 +560,9 @@ def test_a_collection_is_made_and_changed_only_by_asking_oneai():
 	assert 'frappe.set_route("List", frm.doc.record_doctype)' in page
 	assert "Record Type" not in (STUDIO / "heads.py").read_text()
 	rail = json.loads((STUDIO / "sidebar" / "onestudio" / "onestudio.json").read_text())
-	assert any(one["label"] == "Custom Collections" and one["link_to"] == "Record Type" for one in rail["items"])
+	assert any(
+		one["label"] == "Custom Collections" and one["link_to"] == "Record Type" for one in rail["items"]
+	)
 
 
 def test_a_collections_records_are_numbered_from_its_initials():
@@ -575,3 +577,25 @@ def test_a_collections_records_are_numbered_from_its_initials():
 	assert 'named |= set(frappe.get_all("Record Type", pluck="record_doctype"))' in numbering
 	ai = (STUDIO / "ai.py").read_text()
 	assert "Int for whole numbers" in ai.split("def design_record_type(", 1)[1].split('"""', 1)[0]
+
+
+def test_a_collection_sits_in_the_group_of_its_apps_rail_that_was_chosen():
+	source = (STUDIO / "record_types.py").read_text()
+	place = source.split("def _place(", 1)[1].split("\ndef ", 1)[0]
+	# frappe's own arrangement and save, as its sidebar editor writes one.
+	assert (
+		"layer_arrangement(module, None)" in place and "_save_customization(module, rows, user=None)" in place
+	)
+	assert "_unplace(doctype)" in place and "rows.insert(end, link)" in place
+	assert "reports._take" not in source, "a group of ours left empty goes with the collection"
+	move = source.split("def move(", 1)[1].split("\ndef ", 1)[0]
+	assert "roles.require()" in move and "check_group(app, group)" in move and "_permissions(app)" in move
+	assert '@frappe.whitelist(methods=["POST"])\ndef move(' in source
+	spec = json.loads((STUDIO / "doctype" / "record_type" / "record_type.json").read_text())
+	assert "rail_group" in spec["field_order"]
+	listed = (STUDIO / "doctype" / "record_type" / "record_type_list.js").read_text()
+	assert '__("Move")' in listed and "new frappe.ui.Dialog(" in listed and "record_types.groups_of" in listed
+	ai = (STUDIO / "ai.py").read_text()
+	design = ai.split("def design_record_type(", 1)[1].split('"""', 1)[0]
+	assert "group:" in design and '"groups": {app: record_types.groups(app)' in ai
+	assert "onedesk.one_studio.patches.collection_groups" in (tree.APP / "patches.txt").read_text()

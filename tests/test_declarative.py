@@ -45,6 +45,9 @@ LAYERS = (
 	"onedesk/one/access.py",
 	# Saved reports in an app's sidebar, the site's layer or a person's own.
 	"onedesk/one/reports.py",
+	# A custom collection in the group of its app's rail an administrator chose.
+	"onedesk/one_studio/record_types.py",
+	"onedesk/one_studio/patches/collection_groups.py",
 )
 
 _OPENS = r"frappe\.(get_doc|new_doc|_dict)\s*\(\s*[{'\"]?[^)]*?['\"]("

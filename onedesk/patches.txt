@@ -34,6 +34,7 @@ onedesk.one_studio.patches.review_covers_where
 onedesk.one_admin.patches.gemma_default
 onedesk.one_studio.patches.no_customize_page
 onedesk.one_studio.patches.number_collections
+onedesk.one_studio.patches.collection_groups
 onedesk.one.patches.portal_settle
 onedesk.one.patches.portal_address_button
 onedesk.one.patches.portal_account_forms

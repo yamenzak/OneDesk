@@ -16,7 +16,8 @@ What a workspace's record type may be, whoever asks:
   no code, no HTML block, no button, no condition on another field;
 - a name that is not taken, by frappe, an app, or another record type;
 - belonging to one app: its users make and change records of it, its
-  managers delete them, and it is listed in that app's rail under Your
+  managers delete them, and it is listed in that app's rail, in the group
+  the administrator chose (one the rail has, or a new one), else under Your
   Records. One is everybody's.
 
 Each record is numbered from the collection's initials, CV-00001 for a
@@ -74,6 +75,12 @@ NAME = re.compile(r"^[A-Za-z][A-Za-z0-9 ]{2,60}$")
 #: The most fields one may have.
 MOST_FIELDS = 60
 
+#: The group of an app's rail a collection sits in when none is chosen.
+YOUR_RECORDS = "Your Records"
+
+#: A group's name, as a person writes one.
+GROUP = re.compile(r"^[A-Za-z][A-Za-z0-9 &]{1,39}$")
+
 
 class Refused(Exception):
 	"""Not what a workspace's record type may be. Its text says why."""
@@ -93,12 +100,15 @@ def _apps() -> dict:
 	return out
 
 
-def check(title: str, app: str, fields: list, record_type: str | None = None) -> list[dict]:
+def check(
+	title: str, app: str, fields: list, record_type: str | None = None, group: str | None = None
+) -> list[dict]:
 	"""Refuse what a workspace's record type may not be; return its fields as
 	frappe keeps them."""
 	roles.require()
 	if app not in _apps():
 		raise Refused(_("{0} is not an app a collection can belong to.").format(app))
+	check_group(app, group)
 	if not record_type:
 		if not NAME.match(title or ""):
 			raise Refused(_("A collection's name is 3 to 60 letters, numbers and spaces."))
@@ -152,6 +162,47 @@ def check(title: str, app: str, fields: list, record_type: str | None = None) ->
 	return out
 
 
+def groups(app: str) -> list[str]:
+	"""The groups of an app's rail, as the site arranges it, that a collection
+	may sit in: not the ones saved reports and dashboards are listed under."""
+	from frappe.desk.doctype.custom_sidebar.custom_sidebar import layer_arrangement
+
+	from onedesk.one import reports
+
+	module = _apps()[app]["module"]
+	kept = {reports.SECTIONS["Report"][0], reports.SECTIONS["Dashboard"][0]}
+	out = [
+		row["label"]
+		for row in layer_arrangement(module, None)
+		if row.get("type") == "Section Break" and row.get("label") and not row.get("hidden")
+	]
+	return [one for one in dict.fromkeys(out) if one not in kept]
+
+
+@frappe.whitelist()
+def groups_of(app: str) -> list[str]:
+	"""The groups the Move dialog offers for an app."""
+	roles.require()
+	if app not in _apps():
+		return []
+	have = groups(app)
+	return have if YOUR_RECORDS in have else [*have, YOUR_RECORDS]
+
+
+def check_group(app: str, group: str | None) -> None:
+	"""A group a collection may sit in: one the app's rail has, or a new name."""
+	if not group or group == YOUR_RECORDS or group in groups(app):
+		return
+	from onedesk.one import reports
+
+	if group in (reports.SECTIONS["Report"][0], reports.SECTIONS["Dashboard"][0]):
+		raise Refused(
+			_("{0} is kept for saved reports and dashboards. Choose another group.").format(_(group))
+		)
+	if not GROUP.match(group):
+		raise Refused(_("A group's name is 2 to 40 letters, numbers and spaces."))
+
+
 def _permissions(app: str) -> list[dict]:
 	every = {"read": 1, "write": 1, "create": 1, "report": 1, "export": 1, "print": 1, "email": 1, "share": 1}
 	spec = _apps()[app]
@@ -181,10 +232,10 @@ def series(title: str, doctype: str | None = None) -> str:
 	return "hash"
 
 
-def make(title: str, app: str, description: str, fields: list, asked: str) -> str:
+def make(title: str, app: str, description: str, fields: list, asked: str, group: str | None = None) -> str:
 	"""A new record type: frappe's DocType, ours beside it, and a place in its
 	app's rail."""
-	kept = check(title, app, fields)
+	kept = check(title, app, fields, group=group)
 	title_field = next((one["fieldname"] for one in kept if one["fieldtype"] == "Data"), None)
 	with extensions._as_administrator():
 		doctype = frappe.get_doc(
@@ -210,22 +261,26 @@ def make(title: str, app: str, description: str, fields: list, asked: str) -> st
 			"doctype": RECORD_TYPE,
 			"record_doctype": doctype.name,
 			"app": app,
+			"rail_group": group or YOUR_RECORDS,
 			"description": description,
 			"asked": asked,
 			"asked_by": frappe.session.user,
 		}
 	).insert(ignore_permissions=True)
-	_place(doctype.name, app)
+	_place(doctype.name, app, group)
 	notify.notify("Collection Added", roles.administrators(), **_told(doctype.name, app, description))
 	return doctype.name
 
 
-def change(record_type: str, app: str, description: str, fields: list, asked: str) -> str:
+def change(
+	record_type: str, app: str, description: str, fields: list, asked: str, group: str | None = None
+) -> str:
 	"""A record type changed: its fields added, relabelled or given new
 	choices, in the order given; one left out is hidden, never dropped."""
 	ours = frappe.get_doc(RECORD_TYPE, record_type)
 	ours.check_permission("read")
-	kept = check(ours.record_doctype, app, fields, record_type=record_type)
+	group = group or ours.rail_group or YOUR_RECORDS
+	kept = check(ours.record_doctype, app, fields, record_type=record_type, group=group)
 	with extensions._as_administrator():
 		doctype = frappe.get_doc("DocType", ours.record_doctype)
 		had = {row.fieldname: row for row in doctype.fields}
@@ -244,12 +299,17 @@ def change(record_type: str, app: str, description: str, fields: list, asked: st
 			doctype.autoname = series(doctype.name, doctype.name)
 		doctype.set("permissions", _permissions(app))
 		doctype.save(ignore_permissions=True)
-	if ours.app != app:
-		from onedesk.one import reports
-
-		reports._take("DocType", ours.record_doctype)
-		_place(ours.record_doctype, app)
-	ours.update({"app": app, "description": description, "asked": asked, "asked_by": frappe.session.user})
+	if (ours.app, ours.rail_group or YOUR_RECORDS) != (app, group):
+		_place(ours.record_doctype, app, group)
+	ours.update(
+		{
+			"app": app,
+			"rail_group": group,
+			"description": description,
+			"asked": asked,
+			"asked_by": frappe.session.user,
+		}
+	)
 	ours.save(ignore_permissions=True)
 	notify.notify(
 		"Collection Changed", roles.administrators(), **_told(ours.record_doctype, app, description)
@@ -276,12 +336,113 @@ def _told(doctype: str, app: str, description: str | None, link: bool = True) ->
 	}
 
 
-def _place(doctype: str, app: str) -> None:
+def _place(doctype: str, app: str, group: str | None = None) -> None:
+	"""A collection listed in its app's rail, at the end of its group, for
+	everybody: written into the site's layer as a whole arrangement, the way
+	frappe's own sidebar editor saves one, so the link can sit inside a group
+	the app ships. A new group goes at the end of the rail."""
+	from frappe.desk.doctype.custom_sidebar.custom_sidebar import _save_customization, layer_arrangement
+
 	from onedesk.one import reports
 
+	_unplace(doctype)
 	module = _apps()[app]["module"]
-	if module:
-		reports._put("DocType", doctype, module, None)
+	if not module:
+		return
+	group = group or YOUR_RECORDS
+	rows = [row for row in layer_arrangement(module, None) if row.get("link_to") != doctype]
+	link = {
+		"type": "Link",
+		"label": doctype,
+		"link_type": "DocType",
+		"link_to": doctype,
+		"child": 1,
+		"added": 1,
+	}
+	at = next(
+		(i for i, row in enumerate(rows) if row.get("type") == "Section Break" and row.get("label") == group),
+		None,
+	)
+	if at is None:
+		rows += [
+			{
+				"type": "Section Break",
+				"label": group,
+				"icon": reports.SECTIONS["DocType"][1],
+				"indent": 1,
+				"collapsible": 1,
+				"added": 1,
+			},
+			link,
+		]
+	else:
+		end = at + 1
+		while end < len(rows) and rows[end].get("child") and rows[end].get("type") != "Section Break":
+			end += 1
+		rows.insert(end, link)
+	_save_customization(module, rows, user=None)
+	reports._redrawn(None)
+
+
+def _unplace(doctype: str) -> None:
+	"""A collection taken out of every rail it is listed in, and a group of
+	ours left with nothing in it."""
+	from onedesk.one import reports
+
+	for parent in frappe.get_all(
+		"Sidebar Item",
+		filters={"parenttype": "Custom Sidebar", "link_type": "DocType", "link_to": doctype},
+		pluck="parent",
+		distinct=True,
+	):
+		layer = frappe.get_doc("Custom Sidebar", parent)
+		layer.set(
+			"sidebar_items",
+			_without_empty_groups([row for row in layer.sidebar_items if row.link_to != doctype]),
+		)
+		layer.save(ignore_permissions=True)
+		reports._redrawn(layer.user or None)
+
+
+def _without_empty_groups(rows: list) -> list:
+	"""Rows without a group a layer added that has nothing under it."""
+	kept = []
+	for i, row in enumerate(rows):
+		after = rows[i + 1] if i + 1 < len(rows) else None
+		empty = not after or not after.get("child") or after.get("type") == "Section Break"
+		if row.get("added") and row.get("type") == "Section Break" and empty:
+			continue
+		kept.append(row)
+	return kept
+
+
+@frappe.whitelist(methods=["POST"])
+def move(record_type: str, app: str, group: str | None = None) -> str:
+	"""A collection moved to another app or another group of its rail. Its
+	records stay as they are; who uses them follows the app."""
+	roles.require()
+	ours = frappe.get_doc(RECORD_TYPE, record_type)
+	if app not in _apps():
+		frappe.throw(_("{0} is not an app a collection can belong to.").format(app))
+	try:
+		check_group(app, group)
+	except Refused as refused:
+		frappe.throw(str(refused))
+	group = group or YOUR_RECORDS
+	if ours.app != app:
+		with extensions._as_administrator():
+			doctype = frappe.get_doc("DocType", ours.record_doctype)
+			doctype.set("permissions", _permissions(app))
+			doctype.save(ignore_permissions=True)
+	_place(ours.record_doctype, app, group)
+	moved_app = ours.app != app
+	ours.update({"app": app, "rail_group": group})
+	ours.save(ignore_permissions=True)
+	if moved_app:
+		notify.notify(
+			"Collection Changed", roles.administrators(), **_told(ours.record_doctype, app, ours.description)
+		)
+	return f"{_(app)} › {_(group)}"
 
 
 def restored(ours) -> str:
@@ -308,7 +469,7 @@ def restored(ours) -> str:
 		)
 	ours.flags.from_restore = True
 	ours.insert(ignore_permissions=True)
-	_place(ours.record_doctype, ours.app)
+	_place(ours.record_doctype, ours.app, ours.rail_group)
 	return ours.name
 
 
@@ -318,18 +479,12 @@ def remove(doc, method=None) -> None:
 	if not frappe.db.exists("DocType", doc.record_doctype):
 		return
 	if frappe.db.count(doc.record_doctype):
-		frappe.throw(
-			_("{0} still has records. Delete them first.").format(
-				doc.record_doctype
-			)
-		)
-	from onedesk.one import reports
-
+		frappe.throw(_("{0} still has records. Delete them first.").format(doc.record_doctype))
 	notify.notify(
 		"Collection Deleted",
 		roles.administrators(),
 		**_told(doc.record_doctype, doc.app, doc.description, link=False),
 	)
-	reports._take("DocType", doc.record_doctype)
+	_unplace(doc.record_doctype)
 	with extensions._as_administrator():
 		frappe.delete_doc("DocType", doc.record_doctype, ignore_permissions=True, force=True)

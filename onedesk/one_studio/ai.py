@@ -429,7 +429,16 @@ def design_record_type(
 		"Int for whole numbers such as counts, mileage or seats; Float only for a measure with decimals.",
 	],
 	asked: Annotated[str, "What the person asked for, in their words."],
-	record_type: Annotated[str, "To change a custom collection (record type) the workspace already has: its name."] | None = None,
+	record_type: Annotated[
+		str, "To change a custom collection (record type) the workspace already has: its name."
+	]
+	| None = None,
+	group: Annotated[
+		str,
+		"The group of the app's rail it is listed in: one record_types_here lists for that app, such as Sales "
+		"in OneCRM, or a new group's name. Leave it out for Your Records.",
+	]
+	| None = None,
 ) -> dict:
 	"""Design a kind of record the workspace keeps of its own, such as
 	memberships or vehicles, or change one it has: its fields, the app it
@@ -438,9 +447,10 @@ def design_record_type(
 	if not roles.administers():
 		return {"error": "Only a workspace administrator may have a collection made."}
 	try:
-		record_types.check(title, app, fields, record_type=record_type)
+		record_types.check(title, app, fields, record_type=record_type, group=group)
 	except record_types.Refused as refused:
 		return {"mend": "design_record_type", "error": str(refused)}
+	group = group or record_types.YOUR_RECORDS
 	from onedesk.one_ai import proposals
 
 	shown = [one.get("label") for one in fields if one.get("label")]
@@ -452,8 +462,9 @@ def design_record_type(
 		"fields": fields,
 		"asked": asked,
 		"record_type": record_type,
+		"group": group,
 		"summary": [
-			{"label": _("App"), "value": _(app)},
+			{"label": _("Where"), "value": f"{_(app)} › {_(group)}"},
 			{"label": _("Description"), "value": description},
 			{"label": _("Fields"), "value": ", ".join(shown)},
 		],
@@ -474,7 +485,9 @@ def record_types_here() -> dict:
 		return {"error": "Only a workspace administrator sees the collections."}
 	out = []
 	for row in frappe.get_list(
-		record_types.RECORD_TYPE, fields=["name", "record_doctype", "app", "description"], limit=100
+		record_types.RECORD_TYPE,
+		fields=["name", "record_doctype", "app", "rail_group", "description"],
+		limit=100,
 	):
 		meta = frappe.get_meta(row.record_doctype)
 		row["fields"] = [
@@ -484,7 +497,11 @@ def record_types_here() -> dict:
 		]
 		row["records"] = frappe.db.count(row.record_doctype)
 		out.append(row)
-	return {"record_types": out, "apps": list(record_types._apps())}
+	return {
+		"record_types": out,
+		"apps": list(record_types._apps()),
+		"groups": {app: record_types.groups(app) for app in record_types._apps()},
+	}
 
 
 def forms_here(
@@ -618,9 +635,15 @@ def make_record_type(changes: dict) -> str:
 			changes["description"],
 			changes["fields"],
 			changes["asked"],
+			changes.get("group"),
 		)
 	return record_types.make(
-		changes["title"], changes["app"], changes["description"], changes["fields"], changes["asked"]
+		changes["title"],
+		changes["app"],
+		changes["description"],
+		changes["fields"],
+		changes["asked"],
+		changes.get("group"),
 	)
 
 

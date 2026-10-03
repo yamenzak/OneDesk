@@ -1,7 +1,7 @@
 // Custom Collections: what the workspace keeps of its own. A collection is
 // made and changed by asking OneAI, and a click on one opens its records.
 frappe.listview_settings["Record Type"] = {
-	add_fields: ["record_doctype"],
+	add_fields: ["record_doctype", "app", "rail_group"],
 	hide_name_column: true,
 	hide_name_filter: true,
 	formatters: {
@@ -25,6 +25,7 @@ frappe.listview_settings["Record Type"] = {
 				const names = list.get_checked_items().map((doc) => __(doc.record_doctype));
 				onedesk.oneai.open({ ask: __("I want to change {0}.", [names.join(", ")]) });
 			}, false);
+			list.page.add_actions_menu_item(__("Move"), () => move(list), false);
 			// frappe's own Delete, with its confirmation.
 			const remove = list.get_actions_menu_items().find((item) => item.label === __("Delete"));
 			if (remove) list.page.add_actions_menu_item(remove.label, remove.action, remove.standard);
@@ -52,3 +53,43 @@ frappe.listview_settings["Record Type"] = {
 		}
 	},
 };
+
+// Where a collection is listed: its app, and a group of that app's rail, one
+// the rail has or a new one. frappe's dialog and controls; the groups come
+// from the app chosen.
+function move(list) {
+	const [doc] = list.get_checked_items();
+	if (!doc || list.get_checked_items().length > 1) {
+		frappe.show_alert({ message: __("Select one collection"), indicator: "orange" });
+		return;
+	}
+	const dialog = new frappe.ui.Dialog({
+		title: __("Move {0}", [__(doc.record_doctype)]),
+		fields: [
+			{
+				fieldname: "app",
+				fieldtype: "Select",
+				label: __("App"),
+				options: frappe.meta.get_docfield("Record Type", "app").options,
+				default: doc.app,
+				reqd: 1,
+				change: () => groups(dialog.get_value("app")),
+			},
+			{ fieldname: "group", fieldtype: "Autocomplete", label: __("Group"), default: doc.rail_group || __("Your Records") },
+		],
+		primary_action_label: __("Move"),
+		primary_action: async ({ app, group }) => {
+			const where = await frappe.xcall("onedesk.one_studio.record_types.move", { record_type: doc.name, app, group });
+			dialog.hide();
+			frappe.show_alert({ message: __("Moved to {0}", [where]), indicator: "green" });
+			list.refresh();
+		},
+	});
+	const groups = async (app) => {
+		const have = await frappe.xcall("onedesk.one_studio.record_types.groups_of", { app });
+		dialog.set_df_property("group", "options", have);
+		dialog.fields_dict.group.set_data(have);
+	};
+	groups(doc.app);
+	dialog.show();
+}

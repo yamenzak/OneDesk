@@ -59,7 +59,7 @@ def test_a_custom_field_and_a_collection_come_back_whole():
 	assert "may(field.dt)" in customize and '_note(field.dt, "Custom Field", field.name)' in customize
 	studio = (tree.APP / "one_studio" / "record_types.py").read_text().split("def restored(", 1)[1].split("\ndef ", 1)[0]
 	assert "roles.require()" in studio and '"deleted_doctype": "DocType"' in studio
-	assert "_place(ours.record_doctype, ours.app)" in studio
+	assert "_place(ours.record_doctype, ours.app, ours.rail_group)" in studio
 
 
 def test_the_bin_lists_a_record_by_its_title():

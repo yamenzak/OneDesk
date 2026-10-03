@@ -49,8 +49,12 @@ One, runs underneath, or is the platform's.
 
 Webhooks are the integration One offers today (Workspace › Webhooks).
 
-- **OneStudio, not yet**: an extension behind an API call, a table inside a
-  custom collection, and a collection's own numbering.
+- **OneStudio, not yet**: an extension behind an API call, and a table inside
+  a custom collection.
+- **Custom apps**: a workspace's own app in the dock, with its own icon, rail
+  and Home, holding its custom collections (a Fleet app for vans, drivers and
+  trips). Needs its own roles, a place in People and in the switcher. Today a
+  collection sits in a group of one of One's apps.
 
 ## Stages not finished
 

@@ -174,7 +174,7 @@ No doctypes yet.
 | Doctype | Fields | Kind |
 |---|--:|---|
 | Extension | 21 | document |
-| Record Type | 5 | document |
+| Record Type | 6 | document |
 | Workspace Field | 7 | document |
 
 ## Desk records shipped as fixtures
@@ -595,6 +595,8 @@ No doctypes yet.
 * `onedesk.one_studio.forms.forms`
 * `onedesk.one_studio.mend.listed`
 * `onedesk.one_studio.mend.mend`
+* `onedesk.one_studio.record_types.groups_of`
+* `onedesk.one_studio.record_types.move`
 * `onedesk.one_task.mine.counts`
 * `onedesk.one_task.mine.tasks`
 * `onedesk.one_task.timer.running`

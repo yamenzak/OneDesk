@@ -6053,6 +6053,27 @@ saved one.
    prefix.
 10. **Plain words**: nothing new on screen.
 
+**Where a collection sits.** Your question: "does custom collections now show
+wherever the user wants it, like under an app or a custom app in the rail?"
+It went to one app, always under a Your Records group at the bottom. Now a
+collection sits in the group of its app's rail an administrator chooses, one
+the rail already has (OneInventory › Assets) or a new one:
+
+- **Actions › Move** on Custom Collections: frappe's dialog with the app and
+  the group, the group offering that app's own groups. Its records stay as
+  they are; who uses them follows the app.
+- OneAI's card says where it will be ("OneInventory › Assets"), and OneAI
+  knows each app's groups.
+- The link is written into the app's site layer as a whole arrangement, as
+  frappe's own sidebar editor saves one, so it can sit inside a group the app
+  ships. A group of ours left empty goes, which also cleared an empty Your
+  Records OneCRM had kept.
+- The list has a Group column. Saved Reports and Dashboards are kept for
+  their own.
+
+Custom apps of a workspace's own, with their own icon and rail in the dock,
+are in `docs/BACKLOG.md`.
+
 ### The desk around the doctypes (gaps 1 to 4)
 
 Your word: "Yes", to starting with the four that came from the same place.
