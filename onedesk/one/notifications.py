@@ -185,8 +185,9 @@ TYPES = [
 		"to": _lt("The address given on the page"),
 		"subject": _lt("Confirm your request to {workspace}"),
 		"message": _lt(
-			"You asked {workspace} for {asked}. Open this link within {hours} hours to confirm, and it will "
-			"decide within a month: {url}<br><br>If it was not you, do nothing."
+			"You asked <b>{workspace}</b> for {asked}.<br><br>"
+			'<a href="{url}">Confirm Request</a><br><br>'
+			"The link works for {hours} hours. If you didn't ask, ignore this email."
 		),
 		"outside": True,
 	},
@@ -197,8 +198,9 @@ TYPES = [
 		"to": _lt("The person who asked"),
 		"subject": _lt("Your data is ready"),
 		"message": _lt(
-			"The copy of your data you asked for is ready: {url}<br><br>The link works for {days} days. "
-			"Withheld: {withheld}"
+			"The copy of your data you asked for is ready.<br><br>"
+			'<a href="{url}">Download Your Data</a><br><br>'
+			"The link works for {days} days.<br>Withheld: {withheld}"
 		),
 		"outside": True,
 	},
@@ -208,7 +210,7 @@ TYPES = [
 		"about": _lt("When a deletion asked for on the Your Data page has to wait, and why."),
 		"to": _lt("The person who asked"),
 		"subject": _lt("Your data is not deleted yet"),
-		"message": _lt("Your request to delete your data is on hold, because: {why}"),
+		"message": _lt("Your request to delete your data is on hold.<br><br>{why}"),
 		"outside": True,
 	},
 	{
@@ -218,8 +220,8 @@ TYPES = [
 		"to": _lt("The person who asked"),
 		"subject": _lt("Your data is being deleted"),
 		"message": _lt(
-			"Your request was approved. Your name and address are being taken out of the workspace's records "
-			"now. What the law makes it keep, such as invoices, stays."
+			"Your request was approved. Your name and address are being removed from the workspace's "
+			"records. Records the law requires it to keep, such as invoices, stay without them."
 		),
 		"outside": True,
 	},
@@ -243,8 +245,9 @@ TYPES = [
 		"to": _lt("The person who asked"),
 		"subject": _lt("Confirm deleting your account"),
 		"message": _lt(
-			"You asked for your account to be deleted. Open this link within {hours} hours to confirm, and your "
-			"workspace's administrators will decide: {url}. If it was not you, do nothing and your account stays."
+			"You asked for your account to be deleted.<br><br>"
+			'<a href="{url}">Confirm Deletion</a><br><br>'
+			"The link works for {hours} hours. If you didn't ask, ignore this email and your account stays."
 		),
 		"email": False,
 		"always_mailed": True,

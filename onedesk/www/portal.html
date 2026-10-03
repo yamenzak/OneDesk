@@ -3,7 +3,7 @@
 {%- set show_sidebar = False -%}
 {#- The portal draws its own sidebar, edge to edge. -#}
 {%- set full_width = True -%}
-{% block title %}{{ (title or _(doctype)) if doctype else _("Portal") }}{% endblock %}
+{% block title %}{{ (title or _(doctype)) if doctype else _("Home") }}{% endblock %}
 
 {%- block navbar -%}{%- endblock -%}
 {%- block footer -%}{%- endblock -%}
@@ -17,7 +17,7 @@
 
 	{% if not doctype %}
 	<div class="one-page-head">
-		<h1>{{ _("Welcome") }}</h1>
+		<h1>{{ _("Home") }}</h1>
 	</div>
 	<div class="one-portal__body">
 	{%- set have = one_portal_home() %}
@@ -55,7 +55,7 @@
 
 	{% if result %}
 	<div class="one-list-view">
-		{%- set heads = one_portal_columns(row_template) %}
+		{%- set heads = one_portal_columns(row_template, doctype) %}
 		{% if heads %}
 		<div class="one-list-view__head" aria-hidden="true">
 			{% for one in heads %}<span>{{ one }}</span>{% endfor %}

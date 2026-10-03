@@ -2323,3 +2323,20 @@ body:has(.one-portal) .modal .frappe-control .tooltip-content {
 body:has(.one-portal) .modal .modal-footer {
 	justify-content: flex-end;
 }
+
+/* A Check's label as frappe-ui's Checkbox draws it: 14px, regular weight. */
+.one-portal--form .web-form .frappe-control[data-fieldtype="Check"] .label-area {
+	color: var(--ink-gray-8);
+	font-size: 14px;
+	font-weight: 400;
+}
+
+/* Your Data for a guest: the choice spans the card. */
+.one-your-data .one-kind .es-tab-buttons {
+	display: flex;
+	width: 100%;
+}
+
+.one-your-data .one-kind .es-pill {
+	flex: 1;
+}

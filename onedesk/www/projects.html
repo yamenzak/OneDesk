@@ -74,13 +74,15 @@
 						{% if one.expected_end_date %}<small>{{ _("Ends {0}").format(frappe.format_date(one.expected_end_date)) }}</small>{% endif %}
 					</span>
 					<span><span class="one-badge one-badge--{{ 'green' if one.status == 'Completed' else 'blue' }}">{{ _(one.status) }}</span></span>
-					<span class="one-list__amount">{{ frappe.utils.cint(one.percent_complete) }}%</span>
+					<span class="one-list__amount">{{ one_portal_progress(one.name) }}%</span>
 				</a>
 				{% endfor %}
 			</div>
 		</section>
 		{% endif %}
 
+		{#- A project whose work is all in its sub-projects has no Tasks of its own. -#}
+		{% if tasks or not projects %}
 		<section class="one-section">
 			<h2>{{ _("Tasks") }}</h2>
 			{% if tasks %}
@@ -93,12 +95,11 @@
 				</div>
 				{% endfor %}
 			</div>
-			{% elif projects %}
-			<p class="one-empty">{{ _("The work is in the sub-projects.") }}</p>
 			{% else %}
-			<p class="one-empty">{{ _("Nothing is planned yet.") }}</p>
+			<p class="one-empty">{{ _("No tasks yet") }}</p>
 			{% endif %}
 		</section>
+		{% endif %}
 
 		{% if order or invoices %}
 		<section class="one-section">

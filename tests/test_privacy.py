@@ -174,3 +174,23 @@ def test_somebody_who_is_not_a_user_can_find_the_page():
 	login = (tree.APP / "public" / "js" / "login.js").read_text()
 	assert '["/your-data", __("Your Data")]' in login and "frappe._translations_loaded" in login
 	assert "onedesk.one.patches.your_data_footer" in (tree.APP / "patches.txt").read_text()
+
+
+def test_the_public_page_is_frappes_sign_in_card():
+	page = (tree.APP / "www" / "your_data.html").read_text()
+	guest = page.split("{%- else %}", 1)[1]
+	assert 'include_style("login.bundle.css")' in page and "import alert_banner" in page
+	assert '<section class="for-login one-your-data">' in guest and 'class="login-content page-card' in guest
+	assert 'alert_banner("success")' in guest and 'alert_banner("error")' in guest
+	assert "new frappe.ui.TabButtons(" in guest and 'class="es-button w-full" data-variant="solid"' in guest
+	for hand_drawn in ("one-go", "one-choice", "one-field", "<fieldset"):
+		assert hand_drawn not in guest, hand_drawn
+	login = (tree.APP / "public" / "js" / "login.js").read_text()
+	assert login.count(".for-login:not(.one-your-data)") == 2, "the passkey and the footnote stay on sign-in"
+	context = (tree.APP / "www" / "your_data.py").read_text()
+	assert "raise frappe.Redirect" in context and "privacy.where(frappe.session.user)" in context
+
+
+def test_a_mailed_link_that_no_longer_works_offers_to_ask_again():
+	page = _body("_page", PUBLIC)
+	assert 'primary_action="/" if ok else "/your-data"' in page and '_("Ask Again")' in page

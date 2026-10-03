@@ -9,6 +9,6 @@
 		<small>{{ sheet.projects | e }}{% if sheet.activities %} · {{ sheet.activities | e }}{% endif %}</small>
 	</span>
 	<span><span class="one-badge one-badge--{{ 'green' if doc.status == 'Billed' else 'red' if doc.status == 'Cancelled' else 'blue' if doc.status == 'Submitted' else 'gray' }}">{{ _(doc.status) }}</span></span>
-	<span class="one-list__amount">{{ _("{0} h").format(frappe.utils.flt(sheet.hours, 2)) }}</span>
+	<span class="one-list__amount">{{ _("{0} h").format(one_portal_number(sheet.hours)) }}</span>
 </{{ 'a' if sheet.project else 'div' }}>
 {%- endif -%}

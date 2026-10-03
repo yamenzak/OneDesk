@@ -58,20 +58,18 @@ def ask(email: str, kind: str) -> dict:
 	"""Mail a link to confirm a request. Says the same whatever the address."""
 	email = (email or "").strip().lower()
 	if kind not in KINDS or not validate_email_address(email):
-		frappe.throw(_("Give the address the workspace knows you by."))
+		frappe.throw(_("Enter a valid email address."))
 	expires = add_to_date(now_datetime(), hours=LINK_HOURS).strftime("%Y-%m-%d %H:%M:%S")
 	notify.mail(
 		"Confirm Your Request",
 		email,
 		now=False,
 		workspace=_workspace(),
-		asked=_("a copy of the data it holds about you")
-		if kind == "copy"
-		else _("the data it holds about you deleted"),
+		asked=_("a copy of your data") if kind == "copy" else _("your data to be deleted"),
 		hours=LINK_HOURS,
 		url=_signed("confirm", email=email, kind=kind, expires=expires),
 	)
-	return {"said": _("If the workspace knows that address, a link to confirm is on its way to it.")}
+	return {"said": _("If {0} knows this address, a link to confirm is on its way.").format(_workspace())}
 
 
 def _workspace() -> str:
@@ -79,7 +77,13 @@ def _workspace() -> str:
 
 
 def _page(title: str, text: str, ok: bool = True) -> None:
-	frappe.respond_as_web_page(title, text, indicator_color="green" if ok else "red")
+	frappe.respond_as_web_page(
+		title,
+		text,
+		indicator_color="green" if ok else "red",
+		primary_action="/" if ok else "/your-data",
+		primary_label=None if ok else _("Ask Again"),
+	)
 
 
 @frappe.whitelist(allow_guest=True, methods=["GET"])
@@ -89,7 +93,7 @@ def confirm(email: str, kind: str, expires: str) -> None:
 		return
 	if get_datetime(expires) < now_datetime() or kind not in KINDS:
 		return _page(
-			_("This link no longer works"), _("Ask again on the workspace's Your Data page."), ok=False
+			_("This link no longer works"), _("Links work for {0} hours.").format(LINK_HOURS), ok=False
 		)
 	frappe.set_user("Administrator")
 	try:
@@ -101,10 +105,8 @@ def confirm(email: str, kind: str, expires: str) -> None:
 		frappe.set_user("Guest")
 	frappe.db.commit()
 	_page(
-		_("Confirmed"),
-		_("Your request is with {0}. They decide within a month, and you will hear by mail.").format(
-			_workspace()
-		),
+		_("Request Confirmed"),
+		_("{0} will answer by email within a month.").format(_workspace()),
 	)
 
 
@@ -165,13 +167,13 @@ def download(request: str, expires: str) -> None:
 		return
 	if get_datetime(expires) < now_datetime():
 		return _page(
-			_("This link no longer works"), _("Ask again on the workspace's Your Data page."), ok=False
+			_("This link no longer works"), _("Links work for {0} days.").format(DOWNLOAD_DAYS), ok=False
 		)
 	from onedesk.one import privacy_copy
 
 	name = frappe.db.get_value("File", privacy_copy._outsider_file(request), "name")
 	if not name:
-		return _page(_("This copy is gone"), _("Ask again on the workspace's Your Data page."), ok=False)
+		return _page(_("This copy is gone"), _("It was deleted."), ok=False)
 	file = frappe.get_doc("File", name)
 	frappe.local.response.filename = file.file_name
 	frappe.local.response.filecontent = file.get_content()

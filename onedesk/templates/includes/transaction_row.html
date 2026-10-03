@@ -14,5 +14,9 @@
 	{%- set state = one_portal_status(doc.doctype, doc.status, doc.docstatus, doc.indicator_color) %}
 	<span><span class="one-badge one-badge--{{ state[0] }}">{{ state[1] }}</span></span>
 	{%- endif %}
+	{%- if doc.doctype == "Request for Quotation" %}
+	<span class="one-list__amount">{% if doc.get("schedule_date") %}{{ frappe.format_date(doc.schedule_date) }}{% endif %}</span>
+	{%- else %}
 	<span class="one-list__amount">{% if doc.get(total) %}{{ doc.get_formatted(total) }}{% endif %}</span>
+	{%- endif %}
 </a>

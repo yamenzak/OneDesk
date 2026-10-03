@@ -155,6 +155,7 @@ shell (`docs/SHELL.md`), which is how One looks now and what the pass enforces:
 | Products | OneAdmin › Home | done |
 | Products | OneStudio › Extensions | done |
 | Products | OneStudio › Forms | done |
+| Outside the desk | The portal, and the public Your Data page | done (Portals 1 to 8) |
 | Products | OneStudio › Record Types | next |
 | Products | OneProject, OneCRM, OneBook, OneInventory, OneHR, OneAI, OneIntake, the rest of OneAdmin | each screen listed here once we reach it |
 
@@ -6468,6 +6469,77 @@ so a workspace's own server script on Customer could block it.
    Portal User row and role, added as erpnext would add them.
 10. **Plain words**: "Invite to Portal", "Invite Again", "Revoke Access",
     "Restore Access", "Invitation sent".
+
+### Portals 8: the portal again, and the public Your Data page
+
+Every portal screen was looked at again as a customer (Karim Mansour) and a
+supplier (Sara, Gulf Office), on a desktop and a phone.
+
+**What was still wrong, and is fixed**
+
+- Home was headed "Welcome"; it is **Home**, as its tab is.
+- A project read 0% in the list and 17% on its page. Both now count the
+  same way (`one_project.portal.progress`).
+- A project whose work is all in sub-projects showed an empty Tasks section
+  with a note. The section shows only when there are tasks or no
+  sub-projects, and is empty as "No tasks yet".
+- Statuses were the seller's: an order "To Deliver and Bill", a purchase
+  order "To Receive and Bill". The reader sees **Confirmed**, **Delivered**
+  and **To deliver** (`SAID_TO_READER`), and a quotation reads the same in
+  its list and on its page.
+- Tax lines read "VAT 5% @ 5.0"; the rate erpnext appends is dropped.
+- Quantities and hours read "10.00 Nos" and "9.0 h"; whole numbers show
+  whole (`one_portal_number`).
+- Home counted three timesheets where the list had one; a row is counted
+  once.
+- Quote requests had an empty Total column; their columns are Number, Status
+  and Needed by. Your Quotes shows each quote's total.
+- An address opened as "Not Saved". The badge now compares with what was
+  loaded, as a desk form does, and clears when a change is undone.
+- Checkbox labels on the address form were bold; they read as frappe-ui's
+  Checkbox.
+
+**The public Your Data page** (`/your-data`, for someone without an account)
+
+1. **Notifications**: Confirm Your Request, Your Data Is Ready to Download,
+   Your Request Is On Hold and Your Data Is Being Deleted, and the users'
+   Confirm Deletion. Each mail was a sentence with a bare URL after a colon.
+   They now link a button-like line (**Confirm Request**, **Download Your
+   Data**, **Confirm Deletion**) and say how long it works.
+2. **OneAI**: none on the page. The two answers on a request (What would
+   this copy give? What would deleting them remove?) are the
+   administrator's.
+3. **Intake**: none. The copy includes the records Intake filed under the
+   address.
+4. **Permissions**: anyone. The answer is the same for any address, five
+   tries an hour per network address. A portal reader gets Your Data in the
+   portal; someone with a desk is now taken to their profile instead of a
+   note telling them to go there.
+5. **Cross-module**: requests land in Workspace › Data Copies and Account
+   Deletions, the same as a user's.
+6. **Bespoke UI**: it was a hand-drawn form with radio cards, a long lede
+   and two notes. It is now frappe's own sign-in card (`login.bundle.css`,
+   the same head, field, alert banner and solid button), since the sign-in
+   page links to it: Email, a **Request** choice between **Copy of My Data**
+   and **Delete My Data**, one line on what that choice leaves out or
+   keeps, and **Send Link**. The answer shows in the card's green banner; a
+   refusal in its red one. **Back to sign in · Privacy Policy** sit where
+   the sign-in card's links do. The passkey button and footnote the sign-in
+   page adds stay off it.
+   - A link that no longer works says how long links work and offers **Ask
+     Again**. An opened link says **Request Confirmed** and when the
+     workspace will answer.
+7. **Documented**: the README's Privacy Requests section, with where signed-in
+   customers and desk users ask.
+8. **Legal**: unchanged. The Privacy Policy already says how a person who is
+   not a user asks.
+9. **From frappe**: frappe's sign-in card and styles, `alert_banner`,
+   espresso's TabButtons for the choice, `frappe.call`, frappe's message
+   page for the link pages.
+10. **Plain words**: "Your Data", "Ask Four Degree Labs for a copy of your
+    data, or to delete it.", "Send Link", "If Four Degree Labs knows this
+    address, a link to confirm is on its way.", "Enter a valid email
+    address."
 
 ## OneLegal
 

@@ -12,8 +12,8 @@
 // the body but the login card is drawn by a block above it, and reading for a
 // card that is not there yet is how the button quietly never appears.
 const draw = () => {
-	// The sign-in card only: Set Password draws the same card.
-	const $card = document.querySelector(".for-login .page-card-body");
+	// The sign-in card only: Set Password and Your Data draw the same card.
+	const $card = document.querySelector(".for-login:not(.one-your-data) .page-card-body");
 	if (!$card) return;
 	if (!(window.PublicKeyCredential && navigator.credentials && window.isSecureContext)) return;
 
@@ -83,7 +83,7 @@ const draw = () => {
 // so somebody who is not a user would never see where to ask for their data
 // (one/privacy_public.py). frappe's own small line, as under its reset card.
 const footnote = () => {
-	const $card = document.querySelector(".for-login .login-content");
+	const $card = document.querySelector(".for-login:not(.one-your-data) .login-content");
 	if (!$card || document.querySelector(".one-login-footnote")) return;
 	const $line = document.createElement("p");
 	$line.className = "one-login-footnote text-center text-p-sm text-ink-gray-6 mt-4 mb-0";

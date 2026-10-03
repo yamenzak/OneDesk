@@ -64,9 +64,9 @@
 				<span class="one-list__what">
 					<span>{{ (d.item_name or d.item_code) | e }}</span>
 					{% if about and about != d.item_name %}<small>{{ about | truncate(140) | e }}</small>{% endif %}
-					<small class="one-items-view__each">{{ d.get_formatted("qty") }} {{ _(d.uom or "") }} × {{ d.get_formatted("rate") }}</small>
+					<small class="one-items-view__each">{{ one_portal_number(d.qty) }} {{ _(d.uom or "") }} × {{ d.get_formatted("rate") }}</small>
 				</span>
-				<span class="one-items-view__qty">{{ d.get_formatted("qty") }} <small>{{ _(d.uom or "") }}</small></span>
+				<span class="one-items-view__qty">{{ one_portal_number(d.qty) }} <small>{{ _(d.uom or "") }}</small></span>
 				<span class="one-items-view__rate">{{ d.get_formatted("rate") }}</span>
 				<span class="one-list__amount">{{ d.get_formatted("amount") }}</span>
 			</div>

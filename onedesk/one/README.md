@@ -668,6 +668,8 @@ Customers' contacts, suppliers, leads and job applicants use the workspace's
   link that works for a day, and nothing is filed until they open it.
 - The page responds the same way for any address, so no one can use it to find
   out who the workspace knows.
+- Signed-in customers and suppliers ask from **Your Data** in the portal.
+  Someone with a desk account is taken to their profile.
 - It's linked under the sign-in form and in the footer of every public page,
   next to the Privacy Policy. Change those links in Website Settings › Footer.
   You can also link it from your own website or email footer.

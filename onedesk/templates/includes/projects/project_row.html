@@ -1,5 +1,5 @@
 {#- A project on the portal's list, opening One's project page (www/projects.py). -#}
-{%- set done = frappe.utils.cint(doc.percent_complete) -%}
+{%- set done = one_portal_progress(doc.name) -%}
 <a class="one-list__row" href="/projects?project={{ doc.name | urlencode }}">
 	<span class="one-list__what">
 		<span>{{ (doc.project_name or doc.name) | e }}</span>

@@ -53,13 +53,7 @@ def view(project: str) -> dict:
 		order_by="lft asc",
 	)
 	of = tree.parents()
-	theirs = [
-		one
-		for one in tree.below({project}, of)
-		if one == project or frappe.db.get_value("Project", one, "customer") == doc.customer
-	]
-	counted = frappe.get_all("Task", filters={"project": ["in", theirs], "status": ["in", list(SHOWN)]}, pluck="status")
-	done = sum(1 for one in counted if one == "Completed")
+	share, done, total = progress(doc, of)
 	for one in tasks:
 		label, one.colour = SHOWN[one.status]
 		one.shown = label()
@@ -71,9 +65,9 @@ def view(project: str) -> dict:
 		"parent": frappe.db.get_value("Project", doc.get(tree.PARENT), ["name", "project_name"], as_dict=True)
 		if doc.get(tree.PARENT) and may_see(frappe.get_doc("Project", doc.get(tree.PARENT)))
 		else None,
-		"share": overview.share(done, len(counted)) if counted else round(flt(doc.percent_complete)),
+		"share": share,
 		"done": done,
-		"total": len(counted),
+		"total": total,
 		"days_left": overview.days_left(doc.expected_end_date, nowdate(), doc.status == "Completed"),
 		"milestones": [one for one in tasks if one.is_milestone],
 		"tasks": [one for one in tasks if not one.is_milestone],
@@ -100,6 +94,31 @@ def view(project: str) -> dict:
 			order_by="posting_date desc",
 		),
 	}
+
+
+def progress(doc, of: dict | None = None) -> tuple[int, int, int]:
+	"""How far along a project is for its customer, as its page and the list
+	both say it: the tasks done of all the tasks in it and the sub-projects of
+	the same customer; erpnext's own percentage where there are no tasks."""
+	of = of if of is not None else tree.parents()
+	theirs = [
+		one
+		for one in tree.below({doc.name}, of)
+		if one == doc.name or frappe.db.get_value("Project", one, "customer") == doc.customer
+	]
+	counted = frappe.get_all("Task", filters={"project": ["in", theirs], "status": ["in", list(SHOWN)]}, pluck="status")
+	done = sum(1 for one in counted if one == "Completed")
+	share = overview.share(done, len(counted)) if counted else round(flt(doc.percent_complete))
+	return share, done, len(counted)
+
+
+def one_portal_progress(project: str) -> int:
+	"""A project's progress on the portal's list and a project's sub-project
+	rows (Jinja): the same share its own page shows."""
+	doc = frappe.get_doc("Project", project)
+	if not may_see(doc):
+		return 0
+	return progress(doc)[0]
 
 
 def may_see(doc) -> bool:

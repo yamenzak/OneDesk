@@ -100,7 +100,10 @@ def test_frappes_error_pages_are_ones():
 	me = (www / "me.py").read_text()
 	assert '"/desk/settings?section=profile"' in me and '"/account"' in me and "/update-profile/" in me
 	# The passkey button is the sign-in card's, not Set Password's.
-	assert '".for-login .page-card-body"' in (tree.APP / "public" / "js" / "login.js").read_text()
+	assert (
+		'".for-login:not(.one-your-data) .page-card-body"'
+		in (tree.APP / "public" / "js" / "login.js").read_text()
+	)
 
 
 def test_addresses_and_contacts_is_in_onecrm():

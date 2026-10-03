@@ -1255,6 +1255,8 @@ jinja = {
 		"onedesk.one.portal.one_portal_add",
 		"onedesk.one.portal.one_portal_timesheet",
 		"onedesk.one.portal.one_portal_title",
+		"onedesk.one.portal.one_portal_number",
+		"onedesk.one_project.portal.one_portal_progress",
 		"onedesk.one.portal.one_portal_here",
 		"onedesk.one.portal.one_portal_account",
 		"onedesk.one.portal.one_portal_at_home",

@@ -63,7 +63,7 @@ def test_the_portal_is_drawn_as_frappe_ui_draws_it():
 	assert '<use href="#icon-{{ tab.icon }}">' in side
 	page = (tree.APP / "www" / "portal.html").read_text()
 	assert "one_portal_sidebar.html" in page and "set full_width = True" in page
-	assert "one_portal_columns(row_template)" in page and 'class="one-search"' in page
+	assert "one_portal_columns(row_template, doctype)" in page and 'class="one-search"' in page
 	css = (tree.APP / "public" / "css" / "portal.css").read_text()
 	block = css.split("/* The portal a workspace's customers and suppliers sign in to (one/portal.py),", 1)[1]
 	for token in ("var(--surface-gray-2)", "var(--ink-gray-5)", "var(--surface-amber-2)"):
@@ -188,3 +188,16 @@ def test_a_contact_is_invited_to_the_portal_by_one():
 	assert '"Contact": "public/js/contact.js"' in (tree.APP / "hooks.py").read_text()
 	home = (tree.APP / "one_admin" / "accounts.py").read_text()
 	assert 'return "portal" if website else None' in home
+
+
+def test_the_portal_says_what_the_reader_sees_once_and_plainly():
+	for said in ('("Sales Order", "To Bill"): ("green", _lt("Delivered"))', '("Purchase Order", "To Receive"): ("amber", _lt("To deliver"))'):
+		assert said in SOURCE, said
+	assert 're.sub(r"\\s*@\\s*[\\d.]+\\s*$", "", tax.description' in SOURCE, "VAT 5% @ 5.0"
+	assert "def one_portal_number(" in SOURCE and "onedesk.one.portal.one_portal_number" in HOOKS
+	assert "one_portal_number(d.qty)" in (tree.APP / "www" / "order.html").read_text()
+	assert "one_portal_number(sheet.hours)" in (INCLUDES / "timesheet" / "timesheet_row.html").read_text()
+	project = (tree.APP / "one_project" / "portal.py").read_text()
+	assert "def progress(" in project and "def one_portal_progress(" in project
+	assert "one_portal_progress(doc.name)" in (INCLUDES / "projects" / "project_row.html").read_text()
+	assert "{_field(one, \"name\"): one for one in found}" in SOURCE, "a row counted once on Home"

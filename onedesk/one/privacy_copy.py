@@ -402,7 +402,7 @@ def gather(request: str, withheld: list | None = None) -> None:
 	)
 	file.flags.skip_file_size_check = True
 	file.save(ignore_permissions=True)
-	withheld_said = doc.one_withheld or _("Nothing was withheld.")
+	withheld_said = doc.one_withheld or _("Nothing")
 	if not doc.user:
 		from onedesk.one import privacy_public
 

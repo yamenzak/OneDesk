@@ -168,10 +168,16 @@ def one_portal_me() -> dict:
 	}
 
 
-def one_portal_columns(row_template: str | None) -> list[str]:
-	"""A list's column heads (COLUMNS), or none for a kind One has no row of
-	its own for."""
-	return [str(one) for one in COLUMNS.get(row_template or "", ())]
+#: A kind whose list heads differ from its row template's: a quote request
+#: has no total, and says when the goods are needed by instead.
+COLUMNS_OF = {"Request for Quotation": (_lt("Number"), _lt("Status"), _lt("Needed by"))}
+
+
+def one_portal_columns(row_template: str | None, doctype: str | None = None) -> list[str]:
+	"""A list's column heads (COLUMNS_OF, COLUMNS), or none for a kind One has
+	no row of its own for."""
+	heads = COLUMNS_OF.get(doctype or "") or COLUMNS.get(row_template or "", ())
+	return [str(one) for one in heads]
 
 
 def one_portal_add(doctype: str | None) -> dict | None:
@@ -235,7 +241,21 @@ def one_portal_tone(colour: str | None) -> str:
 #: How a state reads to the portal's reader where erpnext's word is written
 #: for the workspace: a supplier's quote the buyer has yet to take up is, to
 #: the supplier, sent.
-SAID_TO_READER = {("Supplier Quotation", "Draft"): ("blue", _lt("Sent"))}
+SAID_TO_READER = {
+	("Supplier Quotation", "Draft"): ("blue", _lt("Sent")),
+	# A customer's order and shipment, as the customer sees them: erpnext names
+	# them by what the workspace still has to do (deliver, bill).
+	("Sales Order", "To Deliver and Bill"): ("blue", _lt("Confirmed")),
+	("Sales Order", "To Deliver"): ("blue", _lt("Confirmed")),
+	("Sales Order", "To Bill"): ("green", _lt("Delivered")),
+	("Delivery Note", "To Bill"): ("green", _lt("Delivered")),
+	("Delivery Note", "Completed"): ("green", _lt("Delivered")),
+	# A supplier's purchase order, as the supplier sees it: what they still
+	# have to deliver.
+	("Purchase Order", "To Receive and Bill"): ("amber", _lt("To deliver")),
+	("Purchase Order", "To Receive"): ("amber", _lt("To deliver")),
+	("Purchase Order", "To Bill"): ("green", _lt("Delivered")),
+}
 
 
 def one_portal_status(doctype: str, status: str | None, docstatus: int = 1, colour: str | None = None):
@@ -264,6 +284,21 @@ def one_portal_quoted(rfq: str) -> bool:
 	)
 
 
+def _field(row, field: str):
+	return row.get(field) if isinstance(row, dict) else getattr(row, field, None)
+
+
+def one_portal_number(value) -> str:
+	"""A quantity or hours as a person writes them: 10, not 10.00; 2.5, not
+	2.500. In the workspace's number format."""
+	from frappe.utils import flt, fmt_money
+
+	value = flt(value, 3)
+	if value == int(value):
+		return fmt_money(value, precision=0)
+	return fmt_money(value, precision=len(f"{value}".split(".")[1]))
+
+
 def one_portal_home() -> list[dict]:
 	"""What the reader has, a row a tab with anything in it: how many of each
 	kind are theirs, read the way the tab's own list reads them, and how many
@@ -281,12 +316,10 @@ def one_portal_home() -> list[dict]:
 			continue
 		if not found:
 			continue
+		# erpnext lists a timesheet once per time entry: each record once.
+		found = list({_field(one, "name"): one for one in found}.values())
 		states, say = WAITING.get(doctype, ((), None))
-		waiting = sum(
-			1
-			for one in found
-			if (one.get("status") if isinstance(one, dict) else getattr(one, "status", None)) in states
-		)
+		waiting = sum(1 for one in found if _field(one, "status") in states)
 		rows.append(
 			{
 				"title": _(item.get("title")),
@@ -345,7 +378,9 @@ def one_portal_record(doc) -> dict:
 		)
 	for tax in doc.get("taxes") or []:
 		if tax.tax_amount:
-			totals.append({"label": tax.description, "value": tax.get_formatted("tax_amount")})
+			# erpnext writes "VAT 5% @ 5.0" where the account names its rate.
+			label = re.sub(r"\s*@\s*[\d.]+\s*$", "", tax.description or "") or _("Tax")
+			totals.append({"label": label, "value": tax.get_formatted("tax_amount")})
 	total = (
 		"rounded_total"
 		if doc.get("rounded_total") and not doc.get("disable_rounded_total")
@@ -361,9 +396,11 @@ def one_portal_record(doc) -> dict:
 				{"label": _("To pay"), "value": doc.get_formatted("outstanding_amount"), "strong": True}
 			)
 
+	# The record's own status, as its list says it, before erpnext's page's
+	# indicator, which says Submitted of an ordered quotation.
 	tone, status = one_portal_status(
 		doc.doctype,
-		doc.get("indicator_title") or doc.get("status"),
+		doc.get("status") or doc.get("indicator_title"),
 		doc.docstatus,
 		doc.get("indicator_color"),
 	)
@@ -386,7 +423,10 @@ def one_portal_rfq(doc) -> dict:
 	quotes = []
 	for one in doc.get("rfq_links") or []:
 		quote = frappe.db.get_value(
-			"Supplier Quotation", one.name, ["transaction_date", "status", "docstatus"], as_dict=True
+			"Supplier Quotation",
+			one.name,
+			["transaction_date", "status", "docstatus", "grand_total", "currency"],
+			as_dict=True,
 		)
 		tone, status = one_portal_status("Supplier Quotation", quote.status, quote.docstatus)
 		quotes.append(
@@ -395,6 +435,7 @@ def one_portal_rfq(doc) -> dict:
 				"date": global_date_format(quote.transaction_date),
 				"status": status,
 				"tone": tone,
+				"total": fmt_money(quote.grand_total, currency=quote.currency),
 			}
 		)
 	facts = [{"label": _("Date"), "value": global_date_format(doc.transaction_date)}]
@@ -412,7 +453,7 @@ def one_portal_rfq(doc) -> dict:
 				"item": row.item_name or row.item_code,
 				"about": about if about and about != (row.item_name or row.item_code) else "",
 				"qty": int(row.qty) if row.qty == int(row.qty) else row.qty,
-				"qty_said": frappe.format_value(row.qty, {"fieldtype": "Float"}),
+				"qty_said": one_portal_number(row.qty),
 				"uom": _(row.uom or ""),
 				"needed_by": global_date_format(row.schedule_date)
 				if row.schedule_date and row.schedule_date != doc.get("schedule_date")

@@ -63,6 +63,42 @@
 	{%- endif %}
 	// Saved into a portal list: back to it at once, not after frappe's
 	// five-second page.
+	// Not Saved only when a value differs from the record as loaded, as a desk
+	// form judges it: frappe's web form marks itself dirty on any change, and
+	// a control setting its own value while the form loads is one.
+	const unsaved = document.getElementById("not-saved-badge");
+	const plain = (value) => (value === null || value === undefined || value === 0 ? "" : String(value));
+	// The record as loaded: frappe's controls write each change into the
+	// form's own doc, so that cannot be what a change is judged against.
+	let loaded = null;
+	const settle = () => {
+		const form = frappe.web_form;
+		// Only a record that exists has values to be judged against.
+		if (!form || !(form.doc && form.doc.name) || unsaved.classList.contains("hide")) return;
+		loaded = loaded || { ...form.doc };
+		const now = form.get_values(true) || {};
+		const fields = form.fields.filter((df) => df.fieldname && !frappe.model.no_value_type.includes(df.fieldtype));
+		if (fields.some((df) => plain(loaded[df.fieldname]) !== plain(now[df.fieldname]))) return;
+		frappe.form_dirty = false;
+		unsaved.classList.add("hide");
+	};
+	// Judged as the form finishes setting its own values, and again after
+	// every change, so a value put back clears it.
+	let watched = false;
+	const watch = () => {
+		const form = frappe.web_form;
+		if (form && !watched) {
+			watched = true;
+			loaded = form.doc && form.doc.name ? { ...form.doc } : null;
+			const make = form.make_form_dirty.bind(form);
+			form.make_form_dirty = () => {
+				make();
+				setTimeout(settle, 0);
+			};
+		}
+		[300, 1000, 2500].forEach((wait) => setTimeout(settle, wait));
+	};
+	unsaved && new MutationObserver(watch).observe(unsaved, { attributes: true, attributeFilter: ["class"] });
 	const saved = document.querySelector(".success-page");
 	{%- if here and here.account %}
 	// An Account page stays where it is once saved, as a desk form does, and
