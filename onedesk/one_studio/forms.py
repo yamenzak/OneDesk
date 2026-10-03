@@ -102,8 +102,14 @@ def forms() -> list[dict]:
 	it. The changed ones first."""
 	roles.require()
 	from onedesk.one import audit
+	from onedesk.one.settings import _mark
 
 	apps = _apps()
+	# Each app's mark, as Settings draws it (one/settings.py): the product's
+	# name, OneCloud for One Storage, One's own for the forms every app shares.
+	products = dict(
+		frappe.get_all("Sidebar", filters={"app": "onedesk"}, fields=["module", "name"], as_list=True)
+	)
 	changed = _changed()
 	extended = _counts("Extension", "record_doctype")
 	out = []
@@ -117,6 +123,7 @@ def forms() -> list[dict]:
 				"doctype": doctype,
 				"label": _(doctype),
 				"app": _(module) if module else _("Other Forms"),
+				"mark": _mark(products.get(module) or (module or "").replace(" ", "")),
 				"changes": changed.get(doctype, 0),
 				"extensions": extended.get(doctype, 0),
 			}

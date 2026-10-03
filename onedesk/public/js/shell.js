@@ -241,6 +241,13 @@ $.extend(onedesk.shell, {
 		</${tag}>`;
 	},
 
+	// An app's name with its mark before it, in a table cell or a line: the
+	// mark is a Custom Icon (scripts/icons.py), none for what is no app's.
+	app(label, mark) {
+		const esc = frappe.utils.escape_html;
+		return `<span class="one-shell-app">${mark ? `<span class="one-shell-app-mark">${frappe.utils.icon(mark, "sm")}</span>` : ""}${esc(label)}</span>`;
+	},
+
 	// Rows, as one list.
 	list(rows) {
 		return `<div class="one-shell-list">${rows}</div>`;

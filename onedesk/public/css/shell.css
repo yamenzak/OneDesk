@@ -596,3 +596,21 @@ a.one-shell-row:hover {
 .one-shell-choose {
 	width: 180px;
 }
+
+/* An app's name with its mark before it (shell.app), in a table cell. */
+.one-shell-app {
+	display: inline-flex;
+	align-items: center;
+	white-space: nowrap;
+}
+
+.one-shell-app-mark {
+	display: inline-flex;
+	vertical-align: -3px;
+	margin-inline-end: calc(var(--spacing) * 1.5);
+}
+
+.one-shell-app-mark .icon {
+	width: 16px;
+	height: 16px;
+}

@@ -1189,7 +1189,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					label: __("Level"),
 					render: (one) => tier(one) + (one.own ? " " + frappe.ui.badge.html({ label: __("Yours"), theme: "purple" }) : ""),
 				},
-				{ label: __("App"), render: (one) => `<span class="os-app-mark">${frappe.utils.icon(one.icon, "sm")}</span>${esc(one.app)}` },
+				{ label: __("App"), render: (one) => onedesk.shell.app(one.app, one.icon) },
 				{ label: __("People"), render: (one) => esc(String(one.people)) },
 			],
 		});
@@ -1430,7 +1430,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	// may do in it.
 	static marks($wrapper, apps) {
 		for (const app of apps) {
-			$wrapper.find(`.frappe-control[data-fieldname="app_${app.icon}"] .control-label`).first().prepend(`<span class="os-app-mark">${frappe.utils.icon(app.icon, "sm")}</span>`);
+			$wrapper.find(`.frappe-control[data-fieldname="app_${app.icon}"] .control-label`).first().prepend(`<span class="one-shell-app-mark">${frappe.utils.icon(app.icon, "sm")}</span>`);
 		}
 	}
 
@@ -3121,7 +3121,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 				},
 				{
 					label: __("App"),
-					render: (one) => `<span class="os-app">${one.mark ? `<span class="os-app-mark">${frappe.utils.icon(one.mark, "sm")}</span>` : ""}${esc(one.app)}</span>`,
+					render: (one) => onedesk.shell.app(one.app, one.mark),
 				},
 				{ label: __("Channels"), render: channels },
 				{ label: "", render: state },

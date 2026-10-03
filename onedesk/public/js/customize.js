@@ -95,7 +95,7 @@ onedesk.Customize = class Customize extends onedesk.shell.Editor {
 			open: (one) => frappe.set_route("customize", one.doctype),
 			columns: [
 				{ label: __("Form"), render: (one) => esc(one.label) },
-				{ label: __("App"), render: (one) => esc(one.app) },
+				{ label: __("App"), render: (one) => onedesk.shell.app(one.app, one.mark) },
 				{ label: __("Changes"), render: (one) => count(one.changes, one.changes === 1 ? __("1 change") : __("{0} changes", [one.changes])) },
 				{ label: __("Extensions"), render: (one) => count(one.extensions, one.extensions === 1 ? __("1 extension") : __("{0} extensions", [one.extensions])) },
 			],
